@@ -1,0 +1,30 @@
+{
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "Ærlige {name}s Varer"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "{name}s Handelshus"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "{name}s Varehus"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "{name}s Varehandel"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "{name} Varer"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "{name} & Sønner"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Velkommen til"
+   }
+}

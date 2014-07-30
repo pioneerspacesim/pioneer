@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUATABLE_H
@@ -10,6 +10,7 @@
 #include "lua/lua.hpp"
 #include "LuaRef.h"
 #include "LuaPushPull.h"
+#include "LuaUtils.h"
 
 /*
  * The LuaTable class is a wrapper around a table present on the stack. There
@@ -105,14 +106,38 @@ public:
 	~LuaTable() {}
 
 	const LuaTable & operator=(const LuaTable & ref) { m_lua = ref.m_lua; m_index = ref.m_index; return *this;}
-	template <class Key> void PushValueToStack(const Key & key) const;
+	template <class Key> LuaTable PushValueToStack(const Key & key) const;
 	template <class Value, class Key> Value Get(const Key & key) const;
 	template <class Key> LuaTable Sub(const Key & key) const; // Does not clean up the stack.
 	template <class Value, class Key> Value Get(const Key & key, Value default_value) const;
-	template <class Value, class Key> void Set(const Key & key, const Value & value) const;
+	template <class Value, class Key> LuaTable Set(const Key & key, const Value & value) const;
 
-	template <class PairIterator> void LoadMap(PairIterator beg, PairIterator end) const;
-	template <class ValueIterator> void LoadVector(ValueIterator beg, ValueIterator end) const;
+	template <class Ret, class Key, class ...Args>
+	Ret Call(const Key & key, const Args &... args) const;
+	template <class Key, class ...Args>
+	void Call(const Key & key, const Args &... args) const {
+		Call<bool>(key, args...);
+	}
+	template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
+	std::tuple<Ret1, Ret2, Ret...> Call(const Key & key, const Args &... args) const;
+
+	template <class Key, class ...Args>
+	void CallMethod(const Key & key, const Args &... args) const {
+		Call<bool>(key, *this, args...);
+	}
+	template <class Ret, class Key, class ...Args>
+	Ret CallMethod(const Key & key, const Args &... args) const {
+		return Call<Ret>(key, *this, args...);
+	}
+	template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
+	std::tuple<Ret1, Ret2, Ret...> CallMethod(const Key & key, const Args &... args) const {
+		return Call<Ret1, Ret2, Ret...>(key, *this, args...);
+	}
+
+	template <class PairIterator> LuaTable LoadMap(PairIterator beg, PairIterator end) const;
+	template <class ValueIterator> LuaTable LoadVector(ValueIterator beg, ValueIterator end) const;
+
+	template <class Key, class Value> std::map<Key, Value> GetMap() const;
 
 	lua_State * GetLua() const { return m_lua; }
 	int GetIndex() const { return m_index; }
@@ -188,9 +213,10 @@ public:
 	}
 };
 
-template <class Key> void LuaTable::PushValueToStack(const Key & key) const {
+template <class Key> LuaTable LuaTable::PushValueToStack(const Key & key) const {
 	pi_lua_generic_push(m_lua, key);
 	lua_gettable(m_lua, m_index);
+	return *this;
 }
 
 template <class Key> LuaTable LuaTable::Sub(const Key & key) const {
@@ -214,23 +240,72 @@ template <class Value, class Key> Value LuaTable::Get(const Key & key, Value def
 	return default_value;
 }
 
-template <class Value, class Key> void LuaTable::Set(const Key & key, const Value & value) const {
+template <class Value, class Key> LuaTable LuaTable::Set(const Key & key, const Value & value) const {
 	pi_lua_generic_push(m_lua, key);
 	pi_lua_generic_push(m_lua, value);
 	lua_settable(m_lua, m_index);
+	return *this;
 }
 
-template <class PairIterator> void LuaTable::LoadMap(PairIterator beg, PairIterator end) const {
+template <class Key, class Value> std::map<Key, Value> LuaTable::GetMap() const {
+	LUA_DEBUG_START(m_lua);
+	std::map<Key, Value> ret;
+	lua_pushnil(m_lua);
+	while(lua_next(m_lua, m_index)) {
+		Key k;
+		Value v;
+		if (pi_lua_strict_pull(m_lua, -2, k) && pi_lua_strict_pull(m_lua, -1, v)) {
+			ret[k] = v;
+		} else {
+			// XXX we should probably emit some kind of warning here somehow
+		}
+		lua_pop(m_lua, 1);
+	}
+	LUA_DEBUG_END(m_lua, 0);
+	return ret;
+}
+
+template <class PairIterator> LuaTable LuaTable::LoadMap(PairIterator beg, PairIterator end) const {
 	for (PairIterator it = beg; it != end ; ++it)
 		Set(it->first, it->second);
+	return *this;
 }
 
-template <class ValueIterator> void LuaTable::LoadVector(ValueIterator beg, ValueIterator end) const {
+template <class ValueIterator> LuaTable LuaTable::LoadVector(ValueIterator beg, ValueIterator end) const {
 	lua_len(m_lua, m_index);
 	int i = lua_tointeger(m_lua, -1) + 1;
 	lua_pop(m_lua, 1);
 	for (ValueIterator it = beg;  it != end ; ++it, ++i)
 		Set(i, *it);
+	return *this;
+}
+
+template <class Ret, class Key, class ...Args>
+Ret LuaTable::Call(const Key & key, const Args &... args) const {
+	LUA_DEBUG_START(m_lua);
+	Ret return_value;
+
+	lua_checkstack(m_lua, sizeof...(args)+3);
+	PushValueToStack(key);
+	pi_lua_multiple_push(m_lua, args...);
+	pi_lua_protected_call(m_lua, sizeof...(args), 1);
+	pi_lua_generic_pull(m_lua, -1, return_value);
+	lua_pop(m_lua, 1);
+	LUA_DEBUG_END(m_lua, 0);
+	return return_value;
+}
+
+template <class Ret1, class Ret2, class ...Ret, class Key, class ...Args>
+std::tuple<Ret1, Ret2, Ret...> LuaTable::Call(const Key & key, const Args &... args) const {
+	LUA_DEBUG_START(m_lua);
+	lua_checkstack(m_lua, sizeof...(args)+3);
+	PushValueToStack(key);
+	pi_lua_multiple_push(m_lua, args...);
+	pi_lua_protected_call(m_lua, sizeof...(args), sizeof...(Ret)+2);
+	auto return_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(m_lua, -static_cast<int>(sizeof...(Ret))-2);
+	lua_pop(m_lua, static_cast<int>(sizeof...(Ret))+2);
+	LUA_DEBUG_END(m_lua, 0);
+	return return_values;
 }
 
 template <> inline void LuaTable::VecIter<LuaTable>::LoadCache() {
@@ -244,5 +319,9 @@ template <> inline void LuaTable::VecIter<LuaTable>::CleanCache() {
 		lua_remove(m_cache.GetLua(), m_cache.GetIndex());
 	}
 	m_dirtyCache = true;
+}
+
+inline void pi_lua_generic_push(lua_State* l, const LuaTable & value) {
+	lua_pushvalue(l, value.GetIndex());
 }
 #endif

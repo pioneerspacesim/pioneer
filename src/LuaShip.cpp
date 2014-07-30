@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -21,7 +21,7 @@
 /*
  * Class: Ship
  *
- * Class representing a ship. Inherits from <Body>.
+ * Class representing a ship. Inherits from <ModelBody>.
  */
 
 /*
@@ -92,8 +92,7 @@ static int l_ship_set_type(lua_State *l)
 		luaL_error(l, "Unknown ship type '%s'", type);
 
 	s->SetShipType(type);
-	s->m_equipment.Set(Equip::SLOT_ENGINE, 0, ShipType::types[type].hyperdrive);
-	s->UpdateStats();
+	s->UpdateEquipStats();
 
 	LUA_DEBUG_END(l, 0);
 
@@ -275,313 +274,6 @@ static int l_ship_set_label(lua_State *l)
 }
 
 /*
- * Method: GetEquipSlotCapacity
- *
- * Get the maximum number of a particular type of equipment this ship can
- * hold. This is the number of items that can be held, not the mass.
- * <AddEquip> will take care of ensuring the hull capacity is not exceeded.
- *
- * > capacity = shiptype:GetEquipSlotCapacity(slot)
- *
- * Parameters:
- *
- *   slot - a <Constants.EquipSlot> string for the wanted equipment type
- *
- * Returns:
- *
- *   capacity - the maximum capacity of the equipment slot
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_get_equip_slot_capacity(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
-	lua_pushinteger(l, s->m_equipment.GetSlotSize(slot));
-	return 1;
-}
-
-/*
- * Method: GetEquip
- *
- * Get a list of equipment in a given equipment slot
- *
- * > equip = ship:GetEquip(slot, index)
- * > equiplist = ship:GetEquip(slot)
- *
- * Parameters:
- *
- *   slot - a <Constants.EquipSlot> string for the wanted equipment type
- *
- *   index - optional. The equipment position in the slot to fetch. If
- *           specified the item at that position in the slot will be returned,
- *           otherwise a table containing all items in the slot will be
- *           returned instead.
- *
- * Return:
- *
- *   equip - when index is specified, a <Constants.EquipType> string for the
- *           item
- *
- *   equiplist - when index is not specified, a table of zero or more
- *               <Constants.EquipType> strings for all the items in the slot
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_get_equip(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	const char *slotName = luaL_checkstring(l, 2);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", slotName));
-
-	int size = s->m_equipment.GetSlotSize(slot);
-
-	if (lua_isnumber(l, 3)) {
-		// 2-argument version; returns the item in the specified slot index
-		int idx = lua_tointeger(l, 3) - 1;
-		if (idx >= size || idx < 0) {
-			pi_lua_warn(l,
-				"argument out of range: Ship{%s}:GetEquip('%s', %d)",
-				s->GetLabel().c_str(), slotName, idx+1);
-		}
-		Equip::Type e = (idx >= 0) ? s->m_equipment.Get(slot, idx) : Equip::NONE;
-		lua_pushstring(l, EnumStrings::GetString("EquipType", e));
-		return 1;
-	} else {
-		// 1-argument version; returns table of equipment items
-		lua_newtable(l);
-
-		for (int idx = 0; idx < size; idx++) {
-			lua_pushinteger(l, idx+1);
-			lua_pushstring(l, EnumStrings::GetString("EquipType", s->m_equipment.Get(slot, idx)));
-			lua_rawset(l, -3);
-		}
-
-		return 1;
-	}
-}
-
-/*
- * Method: SetEquip
- *
- * Overwrite a single item of equipment in a given equipment slot
- *
- * > ship:SetEquip(slot, index, equip)
- *
- * Parameters:
- *
- *   slot - a <Constants.EquipSlot> string for the equipment slot
- *
- *   index - the position to store the item in
- *
- *   equip - a <Constants.EquipType> string for the item
- *
- * Example:
- *
- * > -- add a laser to the rear laser mount
- * > ship:SetEquip("LASER", 1, "PULSECANNON_1MW")
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_set_equip(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	const char *slotName = luaL_checkstring(l, 2);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstant(l, "EquipSlot", slotName));
-	int idx = luaL_checkinteger(l, 3) - 1;
-	const char *typeName = luaL_checkstring(l, 4);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", typeName));
-
-	// XXX should go through a Ship::SetEquip() wrapper method that checks mass constraints
-
-	if (idx < 0 || idx >= s->m_equipment.GetSlotSize(slot)) {
-		pi_lua_warn(l,
-			"argument out of range: Ship{%s}:SetEquip('%s', %d, '%s')",
-			s->GetLabel().c_str(), slotName, idx+1, typeName);
-		return 0;
-	}
-
-	s->m_equipment.Set(slot, idx, e);
-	s->UpdateEquipStats();
-	return 0;
-}
-
-/*
- * Method: AddEquip
- *
- * Add an equipment or cargo item to its appropriate equipment slot
- *
- * > num_added = ship:AddEquip(item, count)
- *
- * Parameters:
- *
- *   item - a <Constants.EquipType> string for the item
- *
- *   count - optional. The number of this item to add. Defaults to 1.
- *
- * Return:
- *
- *   num_added - the number of items added. Can be less than count if there
- *               was not enough room.
- *
- * Example:
- *
- * > ship:AddEquip("ANIMAL_MEAT", 10)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   experimental
- */
-static int l_ship_add_equip(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
-
-	int num = luaL_optinteger(l, 3, 1);
-	if (num < 0)
-		return luaL_error(l, "Can't add a negative number of equipment items.");
-
-	const shipstats_t &stats = s->GetStats();
-	if (Equip::types[e].mass != 0)
-		num = std::min(stats.free_capacity / (Equip::types[e].mass), num);
-
-	lua_pushinteger(l, s->m_equipment.Add(e, num));
-	s->UpdateEquipStats();
-	return 1;
-}
-
-/*
- * Method: RemoveEquip
- *
- * Remove one or more of a given equipment type from its appropriate cargo slot
- *
- * > num_removed = ship:RemoveEquip(item, count)
- *
- * Parameters:
- *
- *   item - a <Constants.EquipType> string for the item
- *
- *   count - optional. The number of this item to remove. Defaults to 1.
- *
- * Return:
- *
- *   num_removed - the number of items removed
- *
- * Example:
- *
- * > ship:RemoveEquip("DRIVE_CLASS1")
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_remove_equip(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2));
-
-	int num = luaL_optinteger(l, 3, 1);
-	if (num < 0)
-		return luaL_error(l, "Can't remove a negative number of equipment items.");
-
-	lua_pushinteger(l, s->m_equipment.Remove(e, num));
-	s->UpdateEquipStats();
-	return 1;
-}
-
-/*
- * Method: GetEquipCount
- *
- * Get the number of a given equipment or cargo item in a given equipment slot
- *
- * > count = ship:GetEquipCount(slot, item)
- *
- * Parameters:
- *
- *   slot - a <Constants.EquipSlot> string for the slot
- *
- *   item - a <Constants.EquipType> string for the item
- *
- * Return:
- *
- *   count - the number of the given item in the slot
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_get_equip_count(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
-	Equip::Type e = static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 3));
-	lua_pushinteger(l, s->m_equipment.Count(slot, e));
-	return 1;
-}
-
-/*
- * Method: GetEquipFree
- *
- * Get the amount of free space in a given equipment slot
- *
- * > free = ship:GetEquipFree(slot)
- *
- * Parameters:
- *
- *   slot - a <Constants.EquipSlot> string for the slot to check
- *
- * Return:
- *
- *   free - the number of item spaces left in this slot
- *
- * Availability:
- *
- *  alpha 10
- *
- * Status:
- *
- *  experimental
- */
-static int l_ship_get_equip_free(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	Equip::Slot slot = static_cast<Equip::Slot>(LuaConstants::GetConstantFromArg(l, "EquipSlot", 2));
-
-	lua_pushinteger(l, s->m_equipment.FreeSpace(slot));
-	return 1;
-}
-
-/*
  * Method: SpawnCargo
  *
  * Spawns a container right next to the ship.
@@ -606,9 +298,13 @@ static int l_ship_get_equip_free(lua_State *l)
  */
 static int l_ship_spawn_cargo(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	CargoBody * c_body = new CargoBody(static_cast<Equip::Type>(LuaConstants::GetConstantFromArg(l, "EquipType", 2)));
-    lua_pushboolean(l, s->SpawnCargo(c_body));
-    return 1;
+	if (!lua_istable(l, 2)) {
+		lua_pushboolean(l, false);
+	} else {
+		CargoBody * c_body = new CargoBody(LuaRef(l, 2));
+		lua_pushboolean(l, s->SpawnCargo(c_body));
+	}
+	return 1;
 }
 
 /*
@@ -676,7 +372,7 @@ static int l_ship_undock(lua_State *l)
  * Spawn a missile near the ship.
  *
  * > missile = ship:SpawnMissile(type, target, power)
- * 
+ *
  * Parameters:
  *
  *   shiptype - a string for the missile type. specifying an
@@ -720,160 +416,96 @@ static int l_ship_spawn_missile(lua_State *l)
 	return 1;
 }
 
+/* Method: UseECM
+ *
+ * Activates ECM of ship, destroying nearby missile with probability
+ * proportional to proximity.
+ *
+ * > ship:UseECM()
+ *
+ * Availability:
+ *
+ *   2014 July
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_use_ecm(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:UseECM() cannot be called on a ship in hyperspace");
+	s->UseECM();
+	return 0;
+}
+
 /*
- * Method: CheckHyperspaceTo
+ * Method: InitiateHyperjumpTo
  *
- * Determine is a ship is able to hyperspace to a given system
+ *   Ready the ship to jump to the given system.
  *
- * > status, fuel, duration = ship:CheckHyperspaceTo(path)
- *
- * The result is based on distance, range, available fuel, ship mass and other
- * factors. If this returns a status of 'OK' then the jump is valid right now.
+ * > status = ship:InitiateHyperjumpTo(path, warmup, duration, checks)
  *
  * Parameters:
  *
  *   path - a <SystemPath> for the destination system
+ *
+ *   warmup - the time, in seconds, needed for the engines to warm up.
+ *
+ *   duration - travel time, in seconds.
+ *
+ *   checks - optional. A function that doesn't take any parameter and returns
+ *            true as long as all the conditions for hyperspace are met.
  *
  * Result:
  *
  *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
  *            hyperspace and if not, describes the reason
  *
- *   fuel - if status is 'OK', contains the amount of fuel required to make
- *          the jump (tonnes)
- *
- *   duration - if status is 'OK', contains the time that the jump will take
- *				(seconds)
- *
  * Availability:
  *
- *   alpha 10
+ *   February 2014
  *
  * Status:
  *
- *   stable
+ *   experimental
  */
-static int l_ship_check_hyperspace_to(lua_State *l)
+static int l_ship_initiate_hyperjump_to(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
+	int warmup_time = lua_tointeger(l, 3);
+	int duration = lua_tointeger(l, 4);
+	LuaRef checks;
+	if (lua_gettop(l) >= 5)
+		checks = LuaRef(l, 5);
 
-	int fuel;
-	double duration;
-	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
+	Ship::HyperjumpStatus status = s->InitiateHyperjumpTo(*dest, warmup_time, duration, checks);
 
 	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
-	if (status == Ship::HYPERJUMP_OK) {
-		lua_pushinteger(l, fuel);
-		lua_pushnumber(l, duration);
-		return 3;
-	}
 	return 1;
 }
 
 /*
- * Method: GetHyperspaceDetails
+ * Method: AbortHyperjump
  *
- * Compute the fuel requirement and duration of a jump.
+ *   Abort the upcoming hyperjump
  *
- * > status, fuel, duration = ship:GetHyperspaceDetails(path)
- *
- * The result is based on distance, range, available fuel, ship mass and other
- * factors. It does not check flight state (that is, it can return 'OK' even if
- * the ship is docked, docking or landed, in which case an actual jump would fail).
- *
- * Parameters:
- *
- *   path - a <SystemPath> for the destination system
- *
- * Result:
- *
- *   status - a <Constants.ShipJumpStatus> string that tells if the ship can
- *            hyperspace and if not, describes the reason
- *
- *   fuel - if status is 'OK', contains the amount of fuel required to make
- *          the jump (tonnes)
- *
- *   duration - if status is 'OK', contains the time that the jump will take
- *				(seconds)
+ * > ship:AbortHyperjump()
  *
  * Availability:
  *
- *   alpha 21
+ *   February 2014
  *
  * Status:
  *
- *   stable
+ *   experimental
  */
-static int l_ship_get_hyperspace_details(lua_State *l)
+static int l_ship_abort_hyperjump(lua_State *l)
 {
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
-
-	int fuel;
-	double duration;
-	Ship::HyperjumpStatus status = s->GetHyperspaceDetails(*dest, fuel, duration);
-
-	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
-	if (status == Ship::HYPERJUMP_OK) {
-		lua_pushinteger(l, fuel);
-		lua_pushnumber(l, duration);
-		return 3;
-	}
-	return 1;
-}
-
-/*
- * Method: HyperspaceTo
- *
- * Initiate hyperspace jump to a given system
- *
- * > status = ship:HyperspaceTo(path)
- *
- * If the status returned is "OK", then a hyperspace departure cloud will be
- * created where the ship was and the <Event.onLeaveSystem> event will be
- * triggered.
- *
- * Parameters:
- *
- *   path - a <SystemPath> for the destination system
- *
- * Result:
- *
- *   status - a <Constants.ShipJumpStatus> string for the result of the jump
- *            attempt
- *
- *   fuel - if status is 'OK', contains the amount of fuel required to make
- *          the jump (tonnes)
- *
- *   duration - if status is 'OK', contains the time that the jump will take
- *              (seconds)
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
- */
-static int l_ship_hyperspace_to(lua_State *l)
-{
-	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	SystemPath *dest = LuaObject<SystemPath>::CheckFromLua(2);
-
-	int fuel;
-	double duration;
-	Ship::HyperjumpStatus status = s->CheckHyperspaceTo(*dest, fuel, duration);
-
-	lua_pushstring(l, EnumStrings::GetString("ShipJumpStatus", status));
-	if (status != Ship::HYPERJUMP_OK)
-		return 1;
-
-	s->StartHyperspaceCountdown(*dest);
-	lua_pushinteger(l, fuel);
-	lua_pushnumber(l, duration);
-	return 3;
+	LuaObject<Ship>::CheckFromLua(1)->AbortHyperjump();
+	return 0;
 }
 
 /*
@@ -1187,11 +819,33 @@ static int l_ship_cancel_ai(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: UpdateEquipStats
+ *
+ * Update the ship's statistics with regards to equipment changes
+ *
+ * > ship:UpdateEquipStats()
+ *
+ * Availability:
+ *
+ *  June 2014
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_update_equip_stats(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->UpdateLuaStats();
+	return 0;
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
 {
-	static const char *l_parent = "Body";
+	static const char *l_parent = "ModelBody";
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
@@ -1204,17 +858,11 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetSkin",    l_ship_set_skin    },
 		{ "SetLabel",   l_ship_set_label   },
 
-		{ "GetEquipSlotCapacity", l_ship_get_equip_slot_capacity },
-		{ "GetEquip",         l_ship_get_equip           },
-		{ "SetEquip",         l_ship_set_equip           },
-		{ "AddEquip",         l_ship_add_equip           },
-		{ "RemoveEquip",      l_ship_remove_equip        },
-		{ "GetEquipCount",    l_ship_get_equip_count     },
-		{ "GetEquipFree",     l_ship_get_equip_free      },
-
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
+
+		{ "UseECM", l_ship_use_ecm },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },
@@ -1230,12 +878,13 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "AIEnterHighOrbit",   l_ship_ai_enter_high_orbit   },
 		{ "CancelAI",           l_ship_cancel_ai             },
 
-		{ "CheckHyperspaceTo", l_ship_check_hyperspace_to },
-		{ "GetHyperspaceDetails", l_ship_get_hyperspace_details },
-		{ "HyperspaceTo",    l_ship_hyperspace_to     },
+		{ "InitiateHyperjumpTo",    l_ship_initiate_hyperjump_to     },
+		{ "AbortHyperjump",    l_ship_abort_hyperjump     },
 
 		{ "GetInvulnerable", l_ship_get_invulnerable },
 		{ "SetInvulnerable", l_ship_set_invulnerable },
+
+		{ "UpdateEquipStats", l_ship_update_equip_stats },
 
 		{ 0, 0 }
 	};

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -54,7 +54,6 @@ void Image::Draw()
 	GetSize(allocSize);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	m_quad->Draw(r, vector2f(0.0f), vector2f(allocSize[0],allocSize[1]), m_color);
 }
 

@@ -1,3 +1,6 @@
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include <cstdlib>
 #include "SDL.h"
 #include "FileSystem.h"
@@ -15,7 +18,7 @@ int main(int argc, char **argv)
 	FileSystem::Init();
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		fprintf(stderr, "sdl init failed: %s\n", SDL_GetError());
+		Output("sdl init failed: %s\n", SDL_GetError());
 		exit(-1);
 	}
 
@@ -23,6 +26,7 @@ int main(int argc, char **argv)
 	videoSettings.width = WIDTH;
 	videoSettings.height = HEIGHT;
 	videoSettings.fullscreen = false;
+	videoSettings.hidden = false;
 	videoSettings.requestedSamples = 0;
 	videoSettings.vsync = false;
 	videoSettings.useTextureCompression = false;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OBJECTVIEWERVIEW_H
@@ -6,13 +6,13 @@
 
 #include "libs.h"
 #include "gui/Gui.h"
-#include "View.h"
+#include "UIView.h"
 
 #if WITH_OBJECTVIEWER
 
 class Body;
 
-class ObjectViewerView: public View {
+class ObjectViewerView: public UIView {
 public:
 	ObjectViewerView();
 	virtual void Update();

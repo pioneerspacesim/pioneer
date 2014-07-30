@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CameraController.h"
@@ -7,7 +7,7 @@
 #include "Pi.h"
 #include "Game.h"
 
-CameraController::CameraController(Camera *camera, const Ship *ship) :
+CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	m_camera(camera),
 	m_ship(ship),
 	m_pos(0.0),
@@ -32,7 +32,8 @@ void CameraController::Update()
 	m_camera->SetPosition(m * m_pos + m_ship->GetInterpPosition());
 }
 
-InternalCameraController::InternalCameraController(Camera *camera, const Ship *ship) :
+
+InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	CameraController(camera, ship),
 	m_mode(MODE_FRONT)
 {
@@ -136,7 +137,7 @@ void InternalCameraController::Load(Serializer::Reader &rd)
 }
 
 
-ExternalCameraController::ExternalCameraController(Camera *camera, const Ship *ship) :
+ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	MoveableCameraController(camera, ship),
 	m_dist(200), m_distTo(m_dist),
 	m_rotX(0),
@@ -235,7 +236,7 @@ void ExternalCameraController::Load(Serializer::Reader &rd)
 }
 
 
-SiderealCameraController::SiderealCameraController(Camera *camera, const Ship *ship) :
+SiderealCameraController::SiderealCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	MoveableCameraController(camera, ship),
 	m_dist(200), m_distTo(m_dist),
 	m_sidOrient(matrix3x3d::Identity())

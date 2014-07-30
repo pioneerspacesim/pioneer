@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Icon.h"
@@ -89,9 +89,10 @@ void Icon::Draw()
 	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(s_texScale.x*(m_texPos.x+48), s_texScale.y*(m_texPos.y+48)));
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
 	s_material->diffuse = m_color;
-	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
+	s_material->diffuse = Color(m_color.r, m_color.g, m_color.b, GetContext()->GetOpacity()*m_color.a);
+	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+	r->DrawTriangles(&va, renderState, s_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
 }

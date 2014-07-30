@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelViewer.h"
@@ -7,8 +7,10 @@
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
 #include "graphics/Drawables.h"
+#include "graphics/VertexArray.h"
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
+#include "scenegraph/BinaryConverter.h"
 #include "OS.h"
 #include "Pi.h"
 #include "StringF.h"
@@ -21,6 +23,8 @@ ModelViewer::Options::Options()
 , showTags(false)
 , showDockingLocators(false)
 , showCollMesh(false)
+, showAabb(false)
+, showShields(false)
 , showGrid(false)
 , showLandingPad(false)
 , showUI(true)
@@ -82,7 +86,9 @@ namespace {
 ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 : m_done(false)
 , m_screenshotQueued(false)
-, m_frameTime(0.f)
+, m_shieldIsHit(false)
+, m_shieldHitPan(-1.48f)
+, m_frameTime(0.0)
 , m_renderer(r)
 , m_decalTexture(0)
 , m_rotX(0), m_rotY(0), m_zoom(0)
@@ -92,12 +98,14 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_model(0)
 , m_modelName("")
 {
-	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), "en"));
+	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	m_ui->SetMousePointer("icons/cursors/mouse_cursor_2.png", UI::Point(15, 8));
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_SMALLEST);
+	
 	m_logScroller.Reset(m_ui->Scroller());
-	m_logScroller->SetInnerWidget(m_log);
+	m_logScroller->SetInnerWidget(m_ui->ColorBackground(Color(0x0,0x0,0x0,0x40))->SetInnerWidget(m_log));
 
 	std::fill(m_mouseButton, m_mouseButton + COUNTOF(m_mouseButton), false);
 	std::fill(m_mouseMotion, m_mouseMotion + 2, 0);
@@ -106,6 +114,12 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 	animSlider = 0;
 
 	onModelChanged.connect(sigc::mem_fun(*this, &ModelViewer::SetupUI));
+
+	//for grid, background
+	Graphics::RenderStateDesc rsd;
+	rsd.depthWrite = false;
+	rsd.cullMode = Graphics::CULL_NONE;
+	m_bgState = m_renderer->CreateRenderState(rsd);
 }
 
 ModelViewer::~ModelViewer()
@@ -117,14 +131,12 @@ void ModelViewer::Run(const std::string &modelName)
 {
 	std::unique_ptr<GameConfig> config(new GameConfig);
 
-	Graphics::Renderer *renderer;
-	ModelViewer *viewer;
-
 	//init components
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		OS::Error("SDL initialization failed: %s\n", SDL_GetError());
+		Error("SDL initialization failed: %s\n", SDL_GetError());
+
 	Lua::Init();
 
 	ModManager::Init();
@@ -134,24 +146,28 @@ void ModelViewer::Run(const std::string &modelName)
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
+	videoSettings.hidden = false;
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Model viewer";
-	renderer = Graphics::Init(videoSettings);
+	Graphics::Renderer *renderer = Graphics::Init(videoSettings);
 
 	NavLights::Init(renderer);
+	Shields::Init(renderer);
 
 	//run main loop until quit
-	viewer = new ModelViewer(renderer, Lua::manager);
+	ModelViewer *viewer = new ModelViewer(renderer, Lua::manager);
 	viewer->SetModel(modelName);
+	viewer->ResetCamera();
 	viewer->MainLoop();
 
 	//uninit components
 	delete viewer;
 	Lua::Uninit();
 	delete renderer;
+	Shields::Uninit();
 	NavLights::Uninit();
 	Graphics::Uninit();
 	FileSystem::Uninit();
@@ -161,6 +177,7 @@ void ModelViewer::Run(const std::string &modelName)
 bool ModelViewer::OnPickModel(UI::List *list)
 {
 	SetModel(list->GetSelectedOption());
+	ResetCamera();
 	return true;
 }
 
@@ -174,7 +191,7 @@ bool ModelViewer::OnReloadModel(UI::Widget *w)
 {
 	//camera is not reset, it would be annoying when
 	//tweaking materials
-	SetModel(m_modelName, false);
+	SetModel(m_modelName);
 	return true;
 }
 
@@ -182,7 +199,14 @@ bool ModelViewer::OnToggleCollMesh(UI::CheckBox *w)
 {
 	m_options.showDockingLocators = !m_options.showDockingLocators;
 	m_options.showCollMesh = !m_options.showCollMesh;
+	m_options.showAabb = m_options.showCollMesh;
 	return m_options.showCollMesh;
+}
+
+bool ModelViewer::OnToggleShowShields(UI::CheckBox *w)
+{
+	m_options.showShields = !m_options.showShields;
+	return m_options.showShields;
 }
 
 bool ModelViewer::OnToggleGrid(UI::Widget *)
@@ -233,11 +257,52 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 	return true;
 }
 
+void ModelViewer::UpdateShield()
+{
+	if (m_shieldIsHit) {
+		m_shieldHitPan += 0.05f;
+	}
+	if (m_shieldHitPan > 0.34f) {
+		m_shieldHitPan = -1.48f;
+		m_shieldIsHit = false;
+	}
+}
+
+bool ModelViewer::OnHitIt(UI::Widget*)
+{
+	HitImpl();
+	return true;
+}
+
+void ModelViewer::HitImpl()
+{
+	if(m_model) {
+		assert(m_shields.get());
+		// pick a point on the shield to serve as the point of impact.
+		SceneGraph::StaticGeometry* sg = m_shields->GetFirstShieldMesh();
+		if(sg) {
+			SceneGraph::StaticGeometry::Mesh &mesh = sg->GetMeshAt(0);
+
+			// Please don't do this in game, no speed guarantee
+			const Uint32 posOffs = mesh.vertexBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
+			const Uint32 stride  = mesh.vertexBuffer->GetDesc().stride;
+			const Uint32 vtxIdx = m_rng.Int32() % mesh.vertexBuffer->GetVertexCount();
+
+			const Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
+			const vector3f pos = *reinterpret_cast<const vector3f*>(vtxPtr + vtxIdx * stride + posOffs);
+			mesh.vertexBuffer->Unmap();
+			m_shields->AddHit(vector3d(pos));
+		}
+	}
+	m_shieldHitPan = -1.48f;
+	m_shieldIsHit = true;
+}
+
 void ModelViewer::AddLog(const std::string &line)
 {
 	m_log->AppendText(line+"\n");
 	m_logScroller->SetScrollPosition(1.0f);
-	printf("%s\n", line.c_str());
+	Output("%s\n", line.c_str());
 }
 
 void ModelViewer::ChangeCameraPreset(SDL_Keycode key, SDL_Keymod mod)
@@ -330,14 +395,12 @@ void ModelViewer::CreateTestResources()
 		m = loader.LoadModel("scale");
 		m_scaleModel.reset(m);
 	} catch (SceneGraph::LoadingError &) {
-		AddLog("Could not load test_gun model");
+		AddLog("Could not load test_gun or scale model");
 	}
 }
 
 void ModelViewer::DrawBackground()
 {
-	m_renderer->SetDepthWrite(false);
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
@@ -353,79 +416,7 @@ void ModelViewer::DrawBackground()
 	va.Add(vector3f(1.f, 1.f, 0.f), top);
 	va.Add(vector3f(0.f, 1.f, 0.f), top);
 
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
-}
-
-void AddAxisIndicators(const SceneGraph::Model::TVecMT &mts, std::vector<Graphics::Drawables::Line3D> &lines)
-{
-	for (SceneGraph::Model::TVecMT::const_iterator i = mts.begin(); i != mts.end(); ++i) {
-		const matrix4x4f &trans = (*i)->GetTransform();
-		const vector3f pos = trans.GetTranslate();
-		const matrix3x3f &orient = trans.GetOrient();
-		const vector3f x = orient.VectorX().Normalized();
-		const vector3f y = orient.VectorY().Normalized();
-		const vector3f z = orient.VectorZ().Normalized();
-
-		Graphics::Drawables::Line3D lineX;
-		lineX.SetStart(pos);
-		lineX.SetEnd(pos+x);
-		lineX.SetColor(Color::RED);
-
-		Graphics::Drawables::Line3D lineY;
-		lineY.SetStart(pos);
-		lineY.SetEnd(pos+y);
-		lineY.SetColor(Color::GREEN);
-
-		Graphics::Drawables::Line3D lineZ;
-		lineZ.SetStart(pos);
-		lineZ.SetEnd(pos+z);
-		lineZ.SetColor(Color::BLUE);
-
-		lines.push_back(lineX);
-		lines.push_back(lineY);
-		lines.push_back(lineZ);
-	}
-}
-
-void ModelViewer::DrawDockingLocators()
-{
-	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_dockingPoints.begin(); i != m_dockingPoints.end(); ++i)
-		(*i).Draw(m_renderer);
-}
-
-void ModelViewer::DrawTags()
-{
-	for(std::vector<Graphics::Drawables::Line3D>::iterator i = m_tagPoints.begin(); i != m_tagPoints.end(); ++i)
-		(*i).Draw(m_renderer);
-}
-
-// Draw collision mesh as a wireframe overlay
-void ModelViewer::DrawCollisionMesh()
-{
-	RefCountedPtr<CollMesh> mesh = m_model->GetCollisionMesh();
-	if (!mesh) return;
-
-	const vector3f *vertices = reinterpret_cast<const vector3f*>(mesh->GetGeomTree()->GetVertices());
-	const Uint16 *indices = mesh->GetGeomTree()->GetIndices();
-	const unsigned int *triFlags = mesh->GetGeomTree()->GetTriFlags();
-	const unsigned int numIndices = mesh->GetGeomTree()->GetNumTris() * 3;
-
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
-	int trindex = -1;
-	for(unsigned int i = 0; i < numIndices; i++) {
-		if (i % 3 == 0)
-			trindex++;
-		const unsigned int flag = triFlags[trindex];
-		//show special geomflags in red
-		va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
-	}
-
-	//might want to add some offset
-	m_renderer->SetWireFrameMode(true);
-	Graphics::vtxColorMaterial->twoSided = true;
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial);
-	Graphics::vtxColorMaterial->twoSided = false;
-	m_renderer->SetWireFrameMode(false);
+	m_renderer->DrawTriangles(&va, m_bgState, Graphics::vtxColorMaterial);
 }
 
 //Draw grid and axes
@@ -458,7 +449,7 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	}
 
 	m_renderer->SetTransform(trans);
-	m_renderer->DrawLines(points.size(), &points[0], Color(128));//Color(0.0f,0.2f,0.0f,1.0f));
+	m_renderer->DrawLines(points.size(), &points[0], Color(128), m_bgState);//Color(0.0f,0.2f,0.0f,1.0f));
 
 	//industry-standard red/green/blue XYZ axis indiactor
 	const int numAxVerts = 6;
@@ -486,15 +477,12 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 		Color(0, 255, 0)
 	};
 
-	m_renderer->SetDepthTest(true);
-	m_renderer->SetDepthWrite(true);
-	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0]);
+	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0], m_bgState);
 }
 
 void ModelViewer::DrawModel()
 {
 	assert(m_model);
-	m_renderer->SetBlendMode(Graphics::BLEND_SOLID);
 
 	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
@@ -511,38 +499,25 @@ void ModelViewer::DrawModel()
 		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
 	}
 
-	if (m_options.showGrid)
-		DrawGrid(mv, m_model->GetDrawClipRadius());
-
-	m_renderer->SetDepthTest(true);
-	m_renderer->SetDepthWrite(true);
-
 	m_model->UpdateAnimations();
-	if (m_options.wireframe)
-		m_renderer->SetWireFrameMode(true);
+
+	m_model->SetDebugFlags(
+		(m_options.showAabb            ? SceneGraph::Model::DEBUG_BBOX      : 0x0) |
+		(m_options.showCollMesh        ? SceneGraph::Model::DEBUG_COLLMESH  : 0x0) |
+		(m_options.showTags            ? SceneGraph::Model::DEBUG_TAGS      : 0x0) |
+		(m_options.showDockingLocators ? SceneGraph::Model::DEBUG_DOCKING   : 0x0) |
+		(m_options.wireframe           ? SceneGraph::Model::DEBUG_WIREFRAME : 0x0)
+	);
+
 	m_model->Render(mv);
+
 	if (m_options.showLandingPad) {
 		if (!m_scaleModel) CreateTestResources();
-		const float landingPadOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
-		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, landingPadOffset, 0.f));
-	}
-	if (m_options.wireframe)
-		m_renderer->SetWireFrameMode(false);
-
-	if (m_options.showCollMesh) {
-		m_renderer->SetTransform(mv);
-		DrawCollisionMesh();
+		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
 	}
 
-	if (m_options.showDockingLocators) {
-		m_renderer->SetTransform(mv);
-		DrawDockingLocators();
-	}
-
-	if (m_options.showTags) {
-		m_renderer->SetTransform(mv);
-		DrawTags();
-	}
+	if (m_options.showGrid)
+		DrawGrid(mv, m_model->GetDrawClipRadius());
 }
 
 void ModelViewer::MainLoop()
@@ -558,12 +533,22 @@ void ModelViewer::MainLoop()
 
 		PollEvents();
 		UpdateCamera();
+		UpdateShield();
 
 		DrawBackground();
 
 		//update animations, draw model etc.
 		if (m_model) {
 			m_navLights->Update(m_frameTime);
+			m_shields->SetEnabled(m_options.showShields || m_shieldIsHit);
+
+			//Calculate the impact's radius dependant on time
+			float dif1 = 0.34 - (-1.48f);
+			float dif2 = m_shieldHitPan - (-1.48f);
+			//Range from start (0.0) to end (1.0)
+			float dif = dif2 / (dif1 * 1.0f);
+
+			m_shields->Update(m_options.showShields ? 1.0f : (1.0f - dif), 1.0f);
 			DrawModel();
 		}
 
@@ -677,7 +662,8 @@ void ModelViewer::PollEvents()
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		//ui gets all events
-		m_ui->DispatchSDLEvent(event);
+		if (m_options.showUI && m_ui->DispatchSDLEvent(event))
+			continue;
 
 		switch (event.type)
 		{
@@ -705,6 +691,7 @@ void ModelViewer::PollEvents()
 				if (m_model) {
 					ClearModel();
 					onModelChanged.emit();
+					PopulateFilePicker();
 				} else {
 					m_done = true;
 				}
@@ -730,6 +717,9 @@ void ModelViewer::PollEvents()
 				break;
 			case SDLK_f:
 				ToggleViewControlMode();
+				break;
+			case SDLK_F6:
+				SaveModelToBinary();
 				break;
 			case SDLK_F11:
 				if (event.key.keysym.mod & KMOD_SHIFT)
@@ -768,6 +758,36 @@ void ModelViewer::PollEvents()
 	}
 }
 
+static void collect_models(std::vector<std::string> &list)
+{
+	const std::string basepath("models");
+	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
+	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
+	{
+		const FileSystem::FileInfo &info = files.Current();
+		const std::string &fpath = info.GetPath();
+
+		//check it's the expected type
+		if (info.IsFile()) {
+			if (ends_with_ci(fpath, ".model"))
+				list.push_back(info.GetName().substr(0, info.GetName().size()-6));
+			else if (ends_with_ci(fpath, ".sgm"))
+				list.push_back(info.GetName());
+		}
+	}
+}
+
+void ModelViewer::PopulateFilePicker()
+{
+	m_fileList->Clear();
+
+	std::vector<std::string> models;
+	collect_models(models);
+
+	for (const auto& it : models)
+		m_fileList->AddOption(it);
+}
+
 void ModelViewer::ResetCamera()
 {
 	m_baseDistance = m_model ? m_model->GetDrawClipRadius() * 1.5f : 100.f;
@@ -794,102 +814,114 @@ void ModelViewer::Screenshot()
 	AddLog(stringf("Screenshot %0 saved", buf));
 }
 
-void ModelViewer::SetModel(const std::string &filename, bool resetCamera /* true */)
+void ModelViewer::SaveModelToBinary()
+{
+	if (!m_model)
+		return AddLog("No current model to binarize");
+
+	//load the current model in a pristine state (no navlights, shields...)
+	//and then save it into binary
+
+	std::unique_ptr<SceneGraph::Model> model;
+	try {
+		SceneGraph::Loader ld(m_renderer);
+		model.reset(ld.LoadModel(m_modelName));
+	} catch (...) {
+		//minimal error handling, this is not expected to happen since we got this far.
+		AddLog("Could not load model");
+		return;
+	}
+
+	try {
+		SceneGraph::BinaryConverter bc(m_renderer);
+		bc.Save(m_modelName, model.get());
+		AddLog("Saved binary model file");
+	} catch (const CouldNotOpenFileException&) {
+		AddLog("Could not open file or directory for writing");
+	} catch (const CouldNotWriteToFileException&) {
+		AddLog("Error while writing to file");
+	}
+}
+
+void ModelViewer::SetModel(const std::string &filename)
 {
 	AddLog(stringf("Loading model %0...", filename));
 
+	//this is necessary to reload textures
 	m_renderer->RemoveAllCachedTextures();
+
 	ClearModel();
 
 	try {
-		m_modelName = filename;
-		SceneGraph::Loader loader(m_renderer, true);
-		m_model = loader.LoadModel(filename);
+		if (ends_with_ci(filename, ".sgm")) {
+			//binary loader expects extension-less name. Might want to change this.
+			m_modelName = filename.substr(0, filename.size()-4);
+			SceneGraph::BinaryConverter bc(m_renderer);
+			m_model = bc.Load(m_modelName);
+		} else {
+			m_modelName = filename;
+			SceneGraph::Loader loader(m_renderer, true);
+			m_model = loader.LoadModel(filename);
+
+			//dump warnings
+			for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
+				it != loader.GetLogMessages().end(); ++it)
+			{
+				AddLog(*it);
+			}
+		}
+
+		Shields::ReparentShieldNodes(m_model);
 
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
 		OnDecalChanged(0, "pioneer");
 
-		//dump warnings
-		for (std::vector<std::string>::const_iterator it = loader.GetLogMessages().begin();
-			it != loader.GetLogMessages().end(); ++it)
-		{
-			AddLog(*it);
-		}
-
 		SceneGraph::DumpVisitor d(m_model);
 		m_model->GetRoot()->Accept(d);
 		AddLog(d.GetModelStatistics());
+
+		// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
+		const SceneGraph::MatrixTransform *mt = m_model->FindTagByName("tag_landing");
+		if (mt)
+			m_landingMinOffset = mt->GetTransform().GetTranslate().y;
+		else if (m_model->GetCollisionMesh())
+			m_landingMinOffset = m_model->GetCollisionMesh()->GetAabb().min.y;
+		else
+			m_landingMinOffset = 0.0f;
 
 		//note: stations won't demonstrate full docking light logic in MV
 		m_navLights.reset(new NavLights(m_model));
 		m_navLights->SetEnabled(true);
 
-		{
-			SceneGraph::Model::TVecMT mts;
-
-			m_dockingPoints.clear();
-			m_model->FindTagsByStartOfName("approach_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
-			m_model->FindTagsByStartOfName("docking_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
-			m_model->FindTagsByStartOfName("leaving_", mts);
-			AddAxisIndicators(mts, m_dockingPoints);
-
-			m_tagPoints.clear();
-			m_model->FindTagsByStartOfName("tag_", mts);
-			AddAxisIndicators(mts, m_tagPoints);
-		}
+		m_shields.reset(new Shields(m_model));
 	} catch (SceneGraph::LoadingError &err) {
 		// report the error and show model picker.
 		m_model = 0;
 		AddLog(stringf("Could not load model %0: %1", filename, err.what()));
 	}
 
-	if (resetCamera)
-		ResetCamera();
-
 	onModelChanged.emit();
-}
-
-static void collect_models(std::vector<std::string> &list)
-{
-	const std::string basepath("models");
-	FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
-	for (FileSystem::FileEnumerator files(fileSource, basepath, FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
-	{
-		const FileSystem::FileInfo &info = files.Current();
-		const std::string &fpath = info.GetPath();
-
-		//check it's the expected type
-		if (info.IsFile() && ends_with_ci(fpath, ".model")) {
-			list.push_back(info.GetName().substr(0, info.GetName().size()-6));
-		}
-	}
 }
 
 void ModelViewer::SetupFilePicker()
 {
 	UI::Context *c = m_ui.Get();
 
-	UI::List *list = c->List();
+	m_fileList = c->List();
 	UI::Button *quitButton = c->Button();
 	UI::Button *loadButton = c->Button();
 	quitButton->SetInnerWidget(c->Label("Quit"));
 	loadButton->SetInnerWidget(c->Label("Load"));
 
-	std::vector<std::string> models;
-	collect_models(models);
+	PopulateFilePicker();
 
-	for (std::vector<std::string>::const_iterator it = models.begin(); it != models.end(); ++it) {
-		list->AddOption(*it);
-	}
 	UI::Widget *fp =
 	c->Grid(UI::CellSpec(1,3,1), UI::CellSpec(1,3,1))
 		->SetCell(1,1,
 			c->VBox(10)
 				->PackEnd(c->Label("Select a model"))
-				->PackEnd(c->Expand(UI::Expand::BOTH)->SetInnerWidget(c->Scroller()->SetInnerWidget(list)))
+				->PackEnd(c->Expand(UI::Expand::BOTH)->SetInnerWidget(c->Scroller()->SetInnerWidget(m_fileList)))
 				->PackEnd(c->Grid(2,1)->SetRow(0, UI::WidgetSet(
 					c->Align(UI::Align::LEFT)->SetInnerWidget(loadButton),
 					c->Align(UI::Align::RIGHT)->SetInnerWidget(quitButton)
@@ -904,7 +936,7 @@ void ModelViewer::SetupFilePicker()
 	c->Layout();
 	m_logScroller->SetScrollPosition(1.f);
 
-	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), list));
+	loadButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnPickModel), m_fileList));
 	quitButton->onClick.connect(sigc::mem_fun(*this, &ModelViewer::OnQuit));
 }
 
@@ -926,10 +958,12 @@ void ModelViewer::SetupUI()
 
 	const int spacing = 5;
 
-	UI::SmallButton *reloadButton;
-	UI::SmallButton *toggleGridButton;
-	UI::CheckBox *collMeshCheck;
-	UI::CheckBox *gunsCheck;
+	UI::SmallButton *reloadButton = nullptr;
+	UI::SmallButton *toggleGridButton = nullptr;
+	UI::SmallButton *hitItButton = nullptr;
+	UI::CheckBox *collMeshCheck = nullptr;
+	UI::CheckBox *showShieldsCheck = nullptr;
+	UI::CheckBox *gunsCheck = nullptr;
 
 	UI::VBox* outerBox = c->VBox();
 
@@ -962,6 +996,12 @@ void ModelViewer::SetupUI()
 
 	add_pair(c, mainBox, toggleGridButton = c->SmallButton(), "Grid mode");
 	add_pair(c, mainBox, collMeshCheck = c->CheckBox(), "Collision mesh");
+	// not everything has a shield
+	if( m_shields.get() && m_shields->GetFirstShieldMesh() ) {
+		add_pair(c, mainBox, showShieldsCheck = c->CheckBox(), "Show Shields");
+		add_pair(c, mainBox, hitItButton = c->SmallButton(), "Hit it!");
+		hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
+	}
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {
@@ -1102,6 +1142,7 @@ void ModelViewer::SetupUI()
 
 	//event handlers
 	collMeshCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleCollMesh), collMeshCheck));
+	if( m_shields.get() && showShieldsCheck ) { showShieldsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleShowShields), showShieldsCheck)); }
 	gunsCheck->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGuns), gunsCheck));
 	lightSelector->onOptionSelected.connect(sigc::mem_fun(*this, &ModelViewer::OnLightPresetChanged));
 	toggleGridButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnToggleGrid), toggleGridButton));

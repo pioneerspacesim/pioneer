@@ -1,0 +1,74 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Aplique para tornar-se membro."
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Comece a comercializar."
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Cooperativa de Combustível de Pilotos Interestelares"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Você pode comprar combustível e descartes de {radioativos} aqui."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{nome do clube} é uma organização independente dedicada a proporcionar descontos no combustível de naves estelares para seus membros. Divisões podem ser encontradas pela galáxia. Os benefícios de ser membro incluem:"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Benvindo a {nome do clube}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Volte"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligamento."
+   },
+   "LIST_BENEFITS_DISPOSAL" : {
+      "description" : "",
+      "message" : "{radioativos}, descarte gratuito (as condições de aplicam)"
+   },
+   "LIST_BENEFITS_FUEL" : {
+      "description" : "",
+      "message" : "{combustível} com desconto."
+   },
+   "LIST_BENEFITS_FUEL_INTRO" : {
+      "description" : "",
+      "message" : "Nossos próprios estoques de combustível, independente do mercado geral."
+   },
+   "LIST_BENEFITS_FUEL_TANK" : {
+      "description" : "",
+      "message" : "Preenchimento do tanque de combustível, onde for necessário"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Junte-se agora! Anuidade custa somente {taxa_anuidade}"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Vamos descartar as mesmas toneladas de {radioativos} quanto as toneladas que você comprou de {combustível_militar} de nós."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Que condições se aplicam a descarte de {radioativos}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Sua aplicação para membro foi recusada."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Agora você é um membro. Seu cadastro vai expirar em {data_vencimento}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Você deve comprar nosso {combustível_militar} antes que peguemos seus {radioativos}"
+   }
+}

@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = import("Game")
@@ -8,7 +8,7 @@ local ShipDef = import("ShipDef")
 local Lang = import("Lang")
 local Event = import("Event")
 
-local TabGroup = import("ui/TabGroup")
+local TabView = import("ui/TabView")
 local InfoGauge = import("ui/InfoGauge")
 
 local l = Lang.GetResource("ui-core")
@@ -30,7 +30,7 @@ ui.templates.StationView = function (args)
 		return tabGroup.widget
 	end
 
-	tabGroup = TabGroup.New()
+	tabGroup = TabView.New()
 
 	local player = Game.player
 
@@ -38,29 +38,30 @@ ui.templates.StationView = function (args)
 	cashLabel:Bind("value", player, "cash")
 
 	local cargoGauge = ui:Gauge()
-	local cargoUsedLabel = ui:NumberLabel("INTEGER")
-	local cargoTotalLabel = ui:NumberLabel("MASS_TONNES")
+	local cargoUsedLabel = ui:Label("")
+	local cargoFreeLabel = ui:Label("")
 	local function cargoUpdate ()
 		cargoGauge:SetUpperValue(player.totalCargo)
 		cargoGauge:SetValue(player.usedCargo)
-		cargoUsedLabel:SetValue(player.usedCargo)
-		cargoTotalLabel:SetValue(player.totalCargo)
+		cargoUsedLabel:SetText(string.interp(l.CARGO_T_USED, { amount = player.usedCargo }))
+		cargoFreeLabel:SetText(string.interp(l.CARGO_T_FREE, { amount = player.totalCargo-player.usedCargo }))
 	end
 	player:Connect("usedCargo", cargoUpdate)
 	player:Connect("totalCargo", cargoUpdate)
 	cargoUpdate()
 
 	local cabinGauge = ui:Gauge()
-	local cabinUsedLabel = ui:NumberLabel("INTEGER")
-	local cabinTotalLabel = ui:NumberLabel("INTEGER")
+	local cabinUsedLabel = ui:Label("")
+	local cabinFreeLabel = ui:Label("")
 	local function cabinUpdate ()
-		cabinGauge:SetUpperValue(player.totalCabins)
-		cabinGauge:SetValue(player.usedCabins)
-		cabinUsedLabel:SetValue(player.usedCabins)
-		cabinTotalLabel:SetValue(player.totalCabins)
+        local cap = player.cabin_cap or 0
+        local count = player:GetEquipCountOccupied("cabin")
+		cabinGauge:SetUpperValue(count)
+		cabinGauge:SetValue(count-cap)
+		cabinUsedLabel:SetText(string.interp(l.CABIN_USED, { amount = count-cap }))
+		cabinFreeLabel:SetText(string.interp(l.CABIN_FREE, { amount = cap}))
 	end
-	player:Connect("usedCabins", cabinUpdate)
-	player:Connect("totalCabins", cabinUpdate)
+	player:Connect("cabin_cap", cabinUpdate)
 	cabinUpdate()
 
 	local footer =
@@ -75,24 +76,30 @@ ui.templates.StationView = function (args)
 					),
 					ui:Margin(10, "HORIZONTAL",
 						ui:HBox(10):PackEnd({
-							l.CARGO..":",
-							cargoGauge,
-							ui:HBox():PackEnd({
+							ui:Align("MIDDLE",
+								ui:HBox(10):PackEnd({
+									l.CARGO..":",
+									cargoGauge,
+								})
+							),
+							ui:VBox():PackEnd({
 								cargoUsedLabel,
-								"/",
-								cargoTotalLabel,
-							}),
+								cargoFreeLabel,
+							}):SetFont("XSMALL"),
 						})
 					),
 					ui:Margin(10, "HORIZONTAL",
 						ui:HBox(10):PackEnd({
-							l.CABINS..":",
-							cabinGauge,
-							ui:HBox():PackEnd({
+							ui:Align("MIDDLE",
+								ui:HBox(10):PackEnd({
+									l.CABINS..":",
+									cabinGauge,
+								})
+							),
+							ui:VBox():PackEnd({
 								cabinUsedLabel,
-								"/",
-								cabinTotalLabel,
-							}),
+								cabinFreeLabel,
+							}):SetFont("XSMALL"),
 						})
 					),
 					ui:Margin(10, "HORIZONTAL",
@@ -104,13 +111,13 @@ ui.templates.StationView = function (args)
 			)
 		)
 
-	tabGroup:AddTab({ id = "lobby",           title = l.LOBBY,            icon = "Info",      template = lobby           })
-	tabGroup:AddTab({ id = "bulletinBoard",   title = l.BULLETIN_BOARD,   icon = "Clipboard", template = bulletinBoard   })
-	tabGroup:AddTab({ id = "commodityMarket", title = l.COMMODITY_MARKET, icon = "Cart",      template = commodityMarket })
-	tabGroup:AddTab({ id = "shipMarket",      title = l.SHIP_MARKET,      icon = "Car",       template = shipMarket      })
-	tabGroup:AddTab({ id = "equipmentMarket", title = l.EQUIPMENT_MARKET, icon = "Radio",     template = equipmentMarket })
-	tabGroup:AddTab({ id = "shipRepairs",     title = l.SHIP_REPAIRS,     icon = "Tools",     template = shipRepairs     })
-	tabGroup:AddTab({ id = "police",          title = l.POLICE,           icon = "Shield",    template = police          })
+	tabGroup:AddTab({ id = "lobby",           title = l.LOBBY,            icon = "Info",       template = lobby           })
+	tabGroup:AddTab({ id = "bulletinBoard",   title = l.BULLETIN_BOARD,   icon = "Clipboard",  template = bulletinBoard   })
+	tabGroup:AddTab({ id = "commodityMarket", title = l.COMMODITY_MARKET, icon = "Cart",       template = commodityMarket })
+	tabGroup:AddTab({ id = "shipMarket",      title = l.SHIP_MARKET,      icon = "Rocketship", template = shipMarket      })
+	tabGroup:AddTab({ id = "equipmentMarket", title = l.EQUIPMENT_MARKET, icon = "Radio",      template = equipmentMarket })
+	tabGroup:AddTab({ id = "shipRepairs",     title = l.SHIP_REPAIRS,     icon = "Tools",      template = shipRepairs     })
+	tabGroup:AddTab({ id = "police",          title = l.POLICE,           icon = "Shield",     template = police          })
 
 	tabGroup:SetFooter(footer)
 

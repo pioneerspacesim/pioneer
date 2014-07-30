@@ -1,0 +1,18 @@
+{
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Piloto Automático"
+   },
+   "CANNOT_COMPENSATE_FOR_LOCAL_GRAVITY" : {
+      "description" : "",
+      "message" : "Não é possível compensar gravidade local"
+   },
+   "CANNOT_COMPUTE_ORBIT_PARAMETERS" : {
+      "description" : "",
+      "message" : "Não é possível computadorizar parâmetros orbitais"
+   },
+   "STARPORT_REFUSED_DOCKING_PERMISSION" : {
+      "description" : "",
+      "message" : "Estação estelar negou permissão para atracação"
+   }
+}

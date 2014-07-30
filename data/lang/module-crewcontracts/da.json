@@ -1,0 +1,110 @@
+{
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "Bed kandidat om at tage en test"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage}/uge)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "Undersøgelsesresultat:\n\nGenerel besætningskompetence: {general}%\nTeknik og vedligeholdelse: {engineering}%\nFlyvning: {piloting}%\nNavigation og kurslægning: {navigation}%\nSensorer og forsvar: {sensors}%\nSamlet score: {overall}%"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "Ledige besætningsmedlemmer"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Gå tilbage"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Afbryd linjen."
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "Beklager, jeg vil ikke gå lavere end dét."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "Beklager, dit tilbud tiltaler mig ikke."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "Tilbyd en stilling på skibet for angivet beløb"
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "Minimal tid tjent ombord"
+   },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigatør"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "Ingen erfaring"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "OK, det er vel i orden."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "Potentielle besætningsmedlemmer er registreret som jobsøgende på {station}:"
+   },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensorer og forsvar"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Skibets mekaniker"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "Udelukkende simulator-træning"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "En smule erfaring i kontrollerede miljøer"
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "Foreslå ny ugentlig løn på {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "Tak, jeg går om bord med det samme."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "Det er virkelig generøst af dig!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "Det får bestemt tilbuddet til at se bedre ud!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "Der er ikke plads nok til mig om bord"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Besætningsmedlems tjent tid"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "Veteran, tid tjent som besætningsmedlem"
+   }
+}

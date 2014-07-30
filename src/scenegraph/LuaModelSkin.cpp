@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSkin.h"
@@ -13,15 +13,6 @@ public:
 	{
 		ModelSkin skin;
 		LuaObject<ModelSkin>::PushToLua(skin);
-		return 1;
-	}
-
-	static int l_set_pattern(lua_State *l)
-	{
-		ModelSkin *skin = LuaObject<ModelSkin>::CheckFromLua(1);
-		unsigned int index = luaL_checkinteger(l, 2);
-		skin->SetPattern(index);
-		lua_pushvalue(l, 1);
 		return 1;
 	}
 
@@ -110,7 +101,6 @@ template <> void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "New",             LuaModelSkin::l_new               },
-		{ "SetPattern",      LuaModelSkin::l_set_pattern       },
 		{ "SetColors",       LuaModelSkin::l_set_colors        },
 		{ "SetRandomColors", LuaModelSkin::l_set_random_colors },
 		{ "SetDecal",        LuaModelSkin::l_set_decal         },

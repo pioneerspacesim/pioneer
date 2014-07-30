@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GeoSphereMaterial.h"
@@ -105,8 +105,8 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 		srad[j] = it->srad;
 		lrad[j] = it->lrad;
 		sdivlrad[j] = it->srad / it->lrad;
-		it++;
-		j++;
+		++it;
+		++j;
 	}
 	p->shadows.Set(j);
 	p->occultedLight.Set(occultedLight);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "utils.h"
@@ -10,12 +10,43 @@
 #include "FileSystem.h"
 #include "PngWriter.h"
 #include <sstream>
+#include <cmath>
+#include <cstdio>
 
-std::string format_money(Sint64 money)
-{
-	char buf[32];
-	snprintf(buf, sizeof(buf), "$%.2f", 0.01*double(money));
-	return std::string(buf);
+std::string format_money(double cents, bool showCents){
+	char *end;                                   // for  error checking
+	size_t groupDigits = strtol(Lang::NUMBER_GROUP_NUM, &end, 10);
+	assert(*end == 0);
+
+	double money = showCents ? 0.01*cents : roundf(0.01*cents);
+
+	const char *format = (money < 0) ? "-$%.2f" : "$%.2f";
+	char buf[64];
+	snprintf(buf, sizeof(buf), format, std::abs(money));
+	std::string result(buf);
+
+	size_t pos = result.find_first_of('.');      // pos to decimal point
+
+	if(showCents)                                // replace decimal point
+		result.replace(pos, 1, Lang::NUMBER_DECIMAL_POINT);
+	else                                         // or just remove frac. part
+		result.erase(result.begin() + pos, result.end());
+
+	size_t groupMin = strtol(Lang::NUMBER_GROUP_MIN, &end, 10);
+	assert(*end == 0);
+
+	if(groupDigits != 0 && std::abs(money) >= groupMin){
+
+		std::string groupSep = std::string(Lang::NUMBER_GROUP_SEP) == " " ?
+			"\u00a0" : Lang::NUMBER_GROUP_SEP;     // space should be fixed space
+
+		size_t skip = (money < 0) ? 2 : 1;        // compensate for "$" or "-$"
+		while(pos - skip > groupDigits){          // insert thousand seperator
+			pos = pos - groupDigits;
+			result.insert(pos, groupSep);
+		}
+	}
+	return result;
 }
 
 class timedate {
@@ -126,9 +157,34 @@ void Error(const char *format, ...)
 	va_start(ap, format);
 	vsnprintf(buf, sizeof(buf), format, ap);
 	va_end(ap);
-	fprintf(stderr, "Error: %s\n", buf);
-	Gui::Screen::ShowBadError((std::string("Error: ") + buf).c_str());
-	abort();
+
+	Output("error: %s\n", buf);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Pioneer error", buf, 0);
+
+	exit(1);
+}
+
+void Warning(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	Output("warning: %s\n", buf);
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Pioneer warning", buf, 0);
+}
+
+void Output(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	fputs(buf, stderr);
 }
 
 std::string format_distance(double dist, int precision)
@@ -167,7 +223,7 @@ void Screendump(const char* destFile, const int width, const int height)
 
 	write_png(FileSystem::userFiles, fname, &pixel_data[0], width, height, stride, 3);
 
-	printf("Screenshot %s saved\n", fname.c_str());
+	Output("Screenshot %s saved\n", fname.c_str());
 }
 
 // strcasestr() adapted from gnulib
@@ -212,25 +268,25 @@ void hexdump(const unsigned char *buf, int len)
 	int count;
 
 	for (int i = 0; i < len; i += HEXDUMP_CHUNK) {
-		fprintf(stderr, "0x%06x  ", i);
+		Output("0x%06x  ", i);
 
 		count = ((len-i) > HEXDUMP_CHUNK ? HEXDUMP_CHUNK : len-i);
 
 		for (int j = 0; j < count; j++) {
-			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
-			fprintf(stderr, "%02x ", buf[i+j]);
+			if (j == HEXDUMP_CHUNK/2) Output(" ");
+			Output("%02x ", buf[i+j]);
 		}
 
 		for (int j = count; j < HEXDUMP_CHUNK; j++) {
-			if (j == HEXDUMP_CHUNK/2) fputc(' ', stderr);
-			fprintf(stderr, "   ");
+			if (j == HEXDUMP_CHUNK/2) Output(" ");
+			Output("   ");
 		}
 
-		fputc(' ', stderr);
+		Output(" ");
 
 		for (int j = 0; j < count; j++)
-			fprintf(stderr, "%c", isprint(buf[i+j]) ? buf[i+j] : '.');
+			Output("%c", isprint(buf[i+j]) ? buf[i+j] : '.');
 
-		fputc('\n', stderr);
+		Output("\n");
 	}
 }

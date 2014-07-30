@@ -59,6 +59,38 @@
       "description" : "",
       "message" : "Scadenza:"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Mi dispiace, ma non penso di poterle affidarle la mia sicurezza."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Ritorni quando avrà qualche qualifica."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Non credo che tu sia il pilota che siamo cercando."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Non ha l'aria di qualcuno in grado di trasportare delle persone."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Non è il genere di pilota che sto cercando."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Sembra troppo inesperto per poter gestire un trasporto di questa importanza."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Non ho mai sentito parlare di te. Ho bisogno di qualcuno con dell'esperienza, per questo viaggio."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Non ho intenzione di rischiare la mia vita con qualcuno senza qualifiche come lei."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distanza:"
@@ -109,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "Sei un pilota dilettante. Non verrai pagato."
+      "message" : "Sei un pilota davvero dilettante. Non ho intenzione di pagare per questo."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -137,11 +169,11 @@
    },
    "FLAVOUR_11_DANGER" : {
       "description" : "",
-      "message" : "Talvolta alla gente non piace non piacciono le ispezioni."
+      "message" : "Talvolta alla gente non piacciono le ispezioni."
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "Perderò il lavoro a causa della sua incompetenza. Avrò più bisogno io di quei soldi."
+      "message" : "Perderò il lavoro a causa della sua incompetenza. Questi soldi serviranno più a me che a lei."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",

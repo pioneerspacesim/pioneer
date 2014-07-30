@@ -9,6 +9,10 @@
       <Configuration>PreRelease</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile|Win32">
+      <Configuration>Profile</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -33,6 +37,13 @@
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -48,6 +59,11 @@
     <Import Project="..\Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+    <Import Project="..\Release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\common.props" />
     <Import Project="..\Release.props" />
@@ -79,6 +95,17 @@
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
+    <ClCompile />
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
     <ClCompile />
     <Link>
@@ -92,7 +119,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\scenegraph\Animation.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\BaseLoader.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Billboard.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\BinaryConverter.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\CollisionGeometry.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\CollisionVisitor.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\ColorMap.cpp" />
@@ -103,6 +132,7 @@
     <ClCompile Include="..\..\..\src\scenegraph\Loader.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LOD.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Lua.cpp" />
+    <ClCompile Include="..\..\..\src\scenegraph\LuaModel.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\LuaModelSkin.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\MatrixTransform.cpp" />
     <ClCompile Include="..\..\..\src\scenegraph\Model.cpp" />
@@ -118,13 +148,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\scenegraph\Animation.h" />
     <ClInclude Include="..\..\..\src\scenegraph\AnimationChannel.h" />
     <ClInclude Include="..\..\..\src\scenegraph\AnimationKey.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\BaseLoader.h" />
     <ClInclude Include="..\..\..\src\scenegraph\Billboard.h" />
+    <ClInclude Include="..\..\..\src\scenegraph\BinaryConverter.h" />
     <ClInclude Include="..\..\..\src\scenegraph\CollisionGeometry.h" />
     <ClInclude Include="..\..\..\src\scenegraph\CollisionVisitor.h" />
     <ClInclude Include="..\..\..\src\scenegraph\ColorMap.h" />

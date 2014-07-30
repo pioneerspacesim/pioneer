@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "This is {station}. You do not have enough for your docking fee of {fee}. Your fuel has been witheld."
+      "message" : "Dit is {station}. Je hebt niet genoeg geld om de kosten te betalen voor het aanleggen van {fee}. Je brandstof is ingehouden."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Welcome aboard {station}. Your docking and fuelling fee of {fee} has been deducted."
+      "message" : "Welkom aanboord {station}. De kosten voor het aanleggen en tanken zijn {fee} en zijn in rekening gebracht."
    }
 }

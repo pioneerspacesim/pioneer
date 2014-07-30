@@ -73,8 +73,7 @@ must be close enough for your ship. F7 will start the hyperdrive.
 To fly to a station, press F4, and select one from the right. You can turn on
 the autopilot with the buttons on the left.
 
-Trade is hard. Deliveries are fun, but can be hard. You can cheat extra money by
-pressing Ctrl+M.
+Trade is hard. Deliveries are fun, but can be hard.
 
 Press Escape while in-game (not the main menu) to open the settings screen.
 Here you can change screen res/fullscreen mode, language, controls and other

@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "DOFINANSUJ! Ocal nasz gatunek. Stop rzezi na nowo skolonizowanych światach."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Wyzwól swój statek! Prosimy wybrać kwotę datku. Życzymy udanego hackingu."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "WSPOMÓŻ WOLNOŚĆ! Stop wielkim niesprawiedliwościom od oprogramowania nadzorującego sterowanie twoim statkiem."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Rozłącz się."

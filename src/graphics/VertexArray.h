@@ -1,25 +1,13 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VERTEXARRAY_H
 #define _VERTEXARRAY_H
 
 #include "libs.h"
+#include "graphics/Types.h"
 
 namespace Graphics {
-
-//allowed minimum of GL_MAX_VERTEX_ATTRIBS is 8 on ES2
-//XXX could implement separate position2D, position3D
-enum VertexAttrib {
-	ATTRIB_POSITION  = (1u << 0),
-	ATTRIB_NORMAL    = (1u << 1),
-	ATTRIB_DIFFUSE   = (1u << 2),
-	ATTRIB_UV0       = (1u << 3),
-	//ATTRIB_UV1       = (1u << 4),
-	//ATTRIB_TANGENT   = (1u << 5),
-	//ATTRIB_BITANGENT = (1u << 6),
-	//ATTRIB_CUSTOM?
-};
 
 typedef unsigned int AttributeSet;
 

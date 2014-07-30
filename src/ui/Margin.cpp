@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Margin.h"
@@ -33,7 +33,7 @@ void Margin::Layout()
 {
 	if (!GetInnerWidget()) return;
 
-	const Point size = GetSize();
+	const Point &size = GetSize();
 
 	Point innerPos, innerSize;
 	switch (m_direction) {

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RingMaterial.h"
@@ -21,9 +21,6 @@ Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void RingMaterial::Apply()
 {
-	//setting cull mode here just to demonstrate materials are allowed control over this sort of thing
-	glPushAttrib(GL_ENABLE_BIT);
-	glDisable(GL_CULL_FACE);
 	m_program->Use();
 	m_program->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	assert(this->texture0);
@@ -34,8 +31,6 @@ void RingMaterial::Apply()
 void RingMaterial::Unapply()
 {
 	static_cast<TextureGL*>(texture0)->Unbind();
-	m_program->Unuse();
-	glPopAttrib();
 }
 
 }

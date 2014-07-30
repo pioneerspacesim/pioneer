@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "DOE! Salve a nossa espécie. Pare a carnificina dos mundos recém estabelecidos."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Liberta a tua nave! Escolhe o montante a doar. Happy hacking."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "SUPORTA A LIBERDADE! Stop à grande injustiça do software proprietário controlar a tua nave."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Desligar."

@@ -1,0 +1,27 @@
+material Body_Hi-material
+
+tex_diff ac33.dds
+tex_spec ac33_spec.dds
+tex_glow ac33_glow.dds
+
+use_patterns
+
+collision ac33_collision.obj
+
+#LOD
+lod 1000
+mesh ac33.dae
+mesh ac33_shield.dae
+
+lod 350
+mesh ac33_high.dae
+
+lod 50
+mesh ac33_med.dae
+
+lod 5
+mesh ac33_low.dae
+
+# Animations
+anim gear_down 0 72	
+

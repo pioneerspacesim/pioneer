@@ -1,0 +1,74 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Søk om medlemskap"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Begynn handel"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Interplanetariske Piloters Drivstoffsamarbeid"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Du kan kjøpe drivstoff og kvitte deg med {radioactives} her."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Velkomen til {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Gå tilbake"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Legg på."
+   },
+   "LIST_BENEFITS_DISPOSAL" : {
+      "description" : "",
+      "message" : "{radioactives}, free disposal (conditions apply)"
+   },
+   "LIST_BENEFITS_FUEL" : {
+      "description" : "",
+      "message" : "{fuel} at discount prices"
+   },
+   "LIST_BENEFITS_FUEL_INTRO" : {
+      "description" : "",
+      "message" : "Our own stocks of fuel, independent of the general market"
+   },
+   "LIST_BENEFITS_FUEL_TANK" : {
+      "description" : "",
+      "message" : "Fuel tank refilling, where necessary"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Join now! Annual membership costs only {membership_fee}"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Vi vil bare ta imot like mange tonn av {radioactives} som du har kjøpt av {military_fuel} fra oss."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Hvilke muligheter er det for å bli kvitt {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Din søknad om medlemskap har blitt avslått."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Du har nå blitt medlem. Ditt medlemskap er gyldig til {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Du må kjøpe vår {military_fuel} før vi vil ta imot {radioactives} fra deg."
+   }
+}

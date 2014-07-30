@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -14,7 +14,7 @@ namespace
 	void LoadImage(const std::string &filename, std::vector<SDLSurfacePtr> &vec) {
 		SDLSurfacePtr pSurf = LoadSurfaceFromFile(filename);
 		if(!pSurf)
-			printf("Failed to load image %s\n", filename.c_str());
+			Output("Failed to load image %s\n", filename.c_str());
 		vec.push_back(pSurf);
 	}
 
@@ -42,7 +42,7 @@ namespace
 		SDL_BlitSurface(is.Get(), 0, s.Get(), &destrec);
 	}
 
-	Sint32 GetNumMatching(const std::string match, const std::vector<FileSystem::FileInfo>& fileList) {
+	Sint32 GetNumMatching(const std::string &match, const std::vector<FileSystem::FileInfo>& fileList) {
 		Sint32 num_matching = 0;
 		for (std::vector<FileSystem::FileInfo>::const_iterator it = fileList.begin(), itEnd = fileList.end(); it!=itEnd; ++it) {
 			if (starts_with((*it).GetName(), match)) {
@@ -318,7 +318,7 @@ void FaceGenManager::Init()
 		m_species.push_back(new Species(index));
 	}
 
-	printf("Face Generation source images loaded.\n");
+	Output("Face Generation source images loaded.\n");
 }
 
 //static

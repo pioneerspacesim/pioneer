@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Załoga do wynajęcia\n\nNazwisko: {name}\nDoświadczenie: {experience}\nOczekiwana stawka: {wage} na tydzień\n\n{response}\n"
+      "message" : "Nazwisko: {name}\nDoświadczenie: {experience}\nOczekiwana stawka: {wage} na tydzień\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",

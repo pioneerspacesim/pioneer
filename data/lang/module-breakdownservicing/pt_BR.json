@@ -1,0 +1,130 @@
+{
+   "FLAVOUR_0_INTRO" : {
+      "description" : "",
+      "message" : "Evite a inconveniência de uma máquina de hiperespaço quebrada. Adquira sua manutenção hoje, pela, oficialmente endossada Companhia de Manutenção de Máquinas {nome}.%s\n%s\nMáquina: {drive}%s\nManutenção: {preço}%s\nGarantia: 18 meses%s\n{últimavez}"
+   },
+   "FLAVOUR_0_RESPONSE" : {
+      "description" : "",
+      "message" : "Sua máquina recebeu manutenção."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "Companhia de Manutenção de Máquinas {nome}"
+   },
+   "FLAVOUR_0_YESPLEASE" : {
+      "description" : "",
+      "message" : "Máquina de manutenção do hiperespaço"
+   },
+   "FLAVOUR_1_INTRO" : {
+      "description" : "",
+      "message" : "Sou {proprietário}. Posso reparar seu {drive}, garantindo pelo menos um ano de desempenho sem problemas. O custo para este serviço será de {preço}%s\n{última vez}"
+   },
+   "FLAVOUR_1_RESPONSE" : {
+      "description" : "",
+      "message" : "Realizei a manutenção no seu hiperdrive."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "{proprietário}: Especialista em manutenção de hiperdrive"
+   },
+   "FLAVOUR_1_YESPLEASE" : {
+      "description" : "",
+      "message" : "Manutenção no meu drive"
+   },
+   "FLAVOUR_2_INTRO" : {
+      "description" : "",
+      "message" : "Olá. Nós da {proprietário} & Cia marcamos nossa reputação em nosso trabalho.%s\n%s\n{últimavez}%s\nPodemos regular {drive} da sua nave, garantindo 12 meses de operação sem problemas, pela soma de {preço}. Eu mesmo estarei supervisionando o trabalho, então pode ter certeza de que um bom trabalho será feito."
+   },
+   "FLAVOUR_2_RESPONSE" : {
+      "description" : "",
+      "message" : "Serviço completo. Obrigado pela preferência."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "HiperMecânica {proprietário} & Cia"
+   },
+   "FLAVOUR_2_YESPLEASE" : {
+      "description" : "",
+      "message" : "Por favor regule meu drive no preço cotado"
+   },
+   "FLAVOUR_3_INTRO" : {
+      "description" : "",
+      "message" : "Benvindo Manutenção SuperConserto.%s\n%s\n{últimavez}%s\nTempo para sua manutenção bianual? Deixe-nos SuperConsertar seu hyperdrive!%s\nPodemos regular seu {drive} por apenas {preço}. Ninguém é mais barato!"
+   },
+   "FLAVOUR_3_RESPONSE" : {
+      "description" : "",
+      "message" : "Seu serviço de SuperConserto está completo, com garantia SuperConserto!"
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "Manutenção SuperConserto ({nome} divisão)"
+   },
+   "FLAVOUR_3_YESPLEASE" : {
+      "description" : "",
+      "message" : "Me super conserte!"
+   },
+   "FLAVOUR_4_INTRO" : {
+      "description" : "",
+      "message" : "Benvindo a Tempo e Espaço.%s\n%s\nSomos especializados em máquinas interestelares. Todo trabalho de manutenção tem garantia de dois anos.%s\n{últimavez}%s\nManutenção no seu {drive} custará {preço}. Gostaria de continuar?"
+   },
+   "FLAVOUR_4_RESPONSE" : {
+      "description" : "",
+      "message" : "Terminamos o trabalho no seu hiperdrive."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "Máquinas Tempo e Espaço S/A."
+   },
+   "FLAVOUR_4_YESPLEASE" : {
+      "description" : "",
+      "message" : "Sim, por favor proceda"
+   },
+   "FLAVOUR_5_INTRO" : {
+      "description" : "",
+      "message" : "Evite a inconveniência de uma máquina de hiperespaço quebrada. Adquira sua manutenção hoje.%s\n%s\nMáquina: {drive}%s\nManutenção: {preço}%s\n{íultimavez}"
+   },
+   "FLAVOUR_5_RESPONSE" : {
+      "description" : "",
+      "message" : "Sua máquina recebeu manutenção."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "Companhia de Manutenção de Máquinas {proprietário}"
+   },
+   "FLAVOUR_5_YESPLEASE" : {
+      "description" : "",
+      "message" : "Máquina de manutenção do hiperespaço"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligamento."
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Não tenho dinheiro suficiente"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Consertei o hiperdrive antes de ele quebrar."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "O hiperdrive da nave foi destruído por uma avaria."
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "Seu drive não recebeu manutenção desde que foi instalado em {data}"
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "A última manutenção no seu drive foi em {data} por {companhia}"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "Você não tem um drive para fazer manutenção!"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Você consertou o hiperdrive antes de ele quebrar."
+   }
+}

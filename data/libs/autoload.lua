@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- this is the only library automatically loaded at startup
@@ -8,10 +8,17 @@ math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))
 end
 
-debug.deprecated = function()
+debug.deprecated = function(name)
 	local deprecated_function = debug.getinfo(2)
 	local caller = debug.getinfo(3)
-	print("The use of the function \""..deprecated_function.name.."\" as done at <"..caller.source..":"..caller.currentline.."> is deprecated")
+	local ending = ""
+	if caller then
+		ending = "The call originated at <"..caller.source..":"..caller.currentline..">."
+	else
+		ending = "It is not possible to retrace the caller."
+	end
+	print("The function \""..(name or deprecated_function.name or "[unknown]").."\" has changed its interface or is deprecated. "..ending)
+
 	print("Please check the changelogs and/or get in touch with the development team.")
 end
 

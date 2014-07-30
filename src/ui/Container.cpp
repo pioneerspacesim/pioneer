@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Container.h"
@@ -139,14 +139,13 @@ Widget *Container::GetWidgetAt(const Point &pos)
 {
 	if (!Contains(pos)) return 0;
 
-	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
-		Widget *widget = (*i).Get();
+	for (RefCountedPtr<Widget> widget : GetWidgets()) {
 		const Point relpos = pos - widget->GetPosition() - widget->GetDrawOffset();
 		if (widget->IsContainer()) {
-			Widget* w = static_cast<Container*>(widget)->GetWidgetAt(relpos);
+			Widget* w = static_cast<Container*>(widget.Get())->GetWidgetAt(relpos);
 			if (w) return w;
 		} else if (widget->Contains(relpos))
-			return widget;
+			return widget.Get();
 	}
 
 	return this;
@@ -161,15 +160,14 @@ void Container::CollectShortcuts(std::map<KeySym,Widget*> &shortcuts)
 			shortcuts[*j] = this;
 	}
 
-	for (WidgetIterator i = WidgetsBegin(); i != WidgetsEnd(); ++i) {
-		Widget *widget = (*i).Get();
+	for (RefCountedPtr<Widget> widget : GetWidgets()) {
 		if (widget->IsContainer())
-			static_cast<Container*>(widget)->CollectShortcuts(shortcuts);
+			static_cast<Container*>(widget.Get())->CollectShortcuts(shortcuts);
 		else {
 			const std::set<KeySym> &widgetShortcuts = widget->GetShortcuts();
 			if (!widgetShortcuts.empty())
 				for (std::set<KeySym>::const_iterator j = widgetShortcuts.begin(); j != widgetShortcuts.end(); ++j)
-					shortcuts[*j] = widget;
+					shortcuts[*j] = widget.Get();
 		}
 	}
 }

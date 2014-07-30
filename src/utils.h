@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _UTILS_H
@@ -23,13 +23,36 @@
 #define RETURN_ZERO_NONGNU_ONLY
 #endif
 
+// align x to a. taken from the Linux kernel
+#define ALIGN(x,a)              __ALIGN_MASK(x,(a-1))
+#define __ALIGN_MASK(x,mask)    (((x)+(mask))&~(mask))
+
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
+void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
+void Output(const char *format, ...)  __attribute((format(printf,1,2)));
+
+// Helper for timing functions with multiple stages
+// Used on a branch to help time loading.
+struct MsgTimer {
+	MsgTimer() { mTimer.Start(); }
+	~MsgTimer() {}
+
+	void Mark(const char *identifier) {
+		mTimer.SoftStop();
+		const double lastTiming = mTimer.millicycles();
+		mTimer.SoftReset();
+		Output("(%lf) millicycles in %s\n", lastTiming, identifier);
+	}
+protected:
+	Profiler::Timer mTimer;
+};
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist, int precision = 2);
-std::string format_money(Sint64 money);
+std::string format_money(double cents, bool showCents=true);
+
 
 static inline Sint64 isqrt(Sint64 a)
 {
@@ -105,7 +128,7 @@ inline bool ends_with_ci(const std::string &s, const std::string &t) {
 }
 
 // add a few things that MSVC is missing
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && (_MSC_VER < 1800)
 
 // round & roundf. taken from http://cgit.freedesktop.org/mesa/mesa/tree/src/gallium/auxiliary/util/u_math.h
 static inline double round(double x)
@@ -117,7 +140,7 @@ static inline float roundf(float x)
 {
    return x >= 0.0f ? floorf(x + 0.5f) : ceilf(x - 0.5f);
 }
-#endif /* _MSC_VER */
+#endif /* _MSC_VER < 1800 */
 
 static inline Uint32 ceil_pow2(Uint32 v)
 {

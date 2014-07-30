@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -12,15 +12,16 @@ local NameGen = import("NameGen")
 local Format = import("Format")
 local Serializer = import("Serializer")
 local Character = import("Character")
-local EquipDef = import("EquipDef")
 local ShipDef = import("ShipDef")
 local Ship = import("Ship")
+local eq = import("Equipment")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
+
 -- Get the UI class
 local ui = Engine.ui
 
@@ -36,10 +37,11 @@ local max_group = 10
 
 local num_corporations = 12
 local num_pirate_taunts = 4
+local num_deny = 8
 
 local flavours = {
 	{
-		single = 0,
+		single = false,  -- flavour 0-2 are for groups
 		urgency = 0,
 		risk = 0.001,
 	}, {
@@ -51,7 +53,7 @@ local flavours = {
 		urgency = 0,
 		risk = 0,
 	}, {
-		single = true,
+		single = true,  -- flavour 3- are for single persons
 		urgency = 0.13,
 		risk = 0.73,
 	}, {
@@ -111,15 +113,23 @@ local missions = {}
 local passengers = 0
 
 local add_passengers = function (group)
-	Game.player:RemoveEquip('UNOCCUPIED_CABIN', group)
-	Game.player:AddEquip('PASSENGER_CABIN', group)
+	Game.player:RemoveEquip(eq.misc.cabin,  group)
+	Game.player:AddEquip(eq.misc.cabin_occupied, group)
 	passengers = passengers + group
 end
 
 local remove_passengers = function (group)
-	Game.player:RemoveEquip('PASSENGER_CABIN', group)
-	Game.player:AddEquip('UNOCCUPIED_CABIN', group)
+	Game.player:RemoveEquip(eq.misc.cabin_occupied,  group)
+	Game.player:AddEquip(eq.misc.cabin, group)
 	passengers = passengers - group
+end
+
+local isQualifiedFor = function(reputation, ad)
+	return reputation >= 16 or
+		(ad.risk <  0.002 and ad.urgency < 0.3 and reputation >= 0) or
+		(ad.risk <  0.2   and ad.urgency < 0.5 and reputation >= 4) or
+		(ad.risk <= 0.6   and ad.urgency < 0.6 and reputation >= 8) or
+		false
 end
 
 local onChat = function (form, ref, option)
@@ -132,9 +142,17 @@ local onChat = function (form, ref, option)
 		return
 	end
 
-	if option == 0 then
-		form:SetFace(ad.client)
+	local qualified = isQualifiedFor(Character.persistent.player.reputation, ad)
 
+	form:SetFace(ad.client)
+
+	if not qualified then
+		local introtext = l["DENY_"..Engine.rand:Integer(1,num_deny)-1]
+		form:SetMessage(introtext)
+		return
+	end
+
+	if option == 0 then
 		local sys   = ad.location:GetStarSystem()
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
@@ -165,8 +183,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmany)
 
 	elseif option == 3 then
-		local capacity = ShipDef[Game.player.shipId].equipSlotCapacity.CABIN
-		if capacity < ad.group or Game.player:GetEquipCount('CABIN', 'UNOCCUPIED_CABIN') < ad.group then
+		if not Game.player.cabin_cap or Game.player.cabin_cap < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
 			return
 		end
@@ -195,7 +212,7 @@ local onChat = function (form, ref, option)
 
 		return
 	elseif option == 4 then
-		if flavours[ad.flavour].single == 1 then
+		if flavours[ad.flavour].single then
 			form:SetMessage(l.I_MUST_BE_THERE_BEFORE..Format.Date(ad.due))
 		else
 			form:SetMessage(l.WE_WANT_TO_BE_THERE_BEFORE..Format.Date(ad.due))
@@ -217,6 +234,10 @@ local onDelete = function (ref)
 	ads[ref] = nil
 end
 
+local isEnabled = function (ref)
+	return isQualifiedFor(Character.persistent.player.reputation, ads[ref])
+end
+
 local nearbysystems
 local makeAdvert = function (station)
 	local reward, due, location
@@ -225,7 +246,7 @@ local makeAdvert = function (station)
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 	local group = 1
-	if flavours[flavour].single == 0 then
+	if not flavours[flavour].single then
 		group = Engine.rand:Integer(2,max_group)
 	end
 
@@ -258,7 +279,12 @@ local makeAdvert = function (station)
 		cash	= Format.Money(ad.reward),
 	})
 
-	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
+	local ref = station:AddAdvert({
+		description = ad.desc,
+		icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled})
 	ads[ref] = ad
 end
 
@@ -286,7 +312,8 @@ local onEnterSystem = function (player)
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
-		if not mission.status and mission.location:IsSameSystem(syspath) then
+		if mission.status == "ACTIVE" and mission.location:IsSameSystem(syspath) then
+
 			local risk = flavours[mission.flavour].risk
 			local ships = 0
 
@@ -299,7 +326,8 @@ local onEnterSystem = function (player)
 			if ships < 1 and risk > 0 and Engine.rand:Integer(math.ceil(1/risk)) == 1 then ships = 1 end
 
 			-- XXX hull mass is a bad way to determine suitability for role
-			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass > 10 and def.hullMass <= 200 end, pairs(ShipDef)))
+			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
+				and def.hyperdriveClass > 0 and def.hullMass > 10 and def.hullMass <= 200 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local ship
@@ -309,25 +337,25 @@ local onEnterSystem = function (player)
 
 				if Engine.rand:Number(1) <= risk then
 					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-					local default_drive = shipdef.defaultHyperdrive
+					local default_drive = eq.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
 
-					local max_laser_size = shipdef.capacity - EquipDef[default_drive].mass
+					local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
 					local laserdefs = utils.build_array(utils.filter(
-                        function (k,def) return def.slot == 'LASER' and def.mass <= max_laser_size and string.sub(def.id,0,11) == 'PULSECANNON' end,
-                        pairs(EquipDef)
-                    ))
+						function (k,l) return l:IsValidSlot('laser_front') and l.capabilities.mass <= max_laser_size and l.l10n_key:find("PULSECANNON") end,
+						pairs(eq.laser)
+					))
 					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
 					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
 					ship:SetLabel(Ship.MakeRandomLabel())
 					ship:AddEquip(default_drive)
-					ship:AddEquip(laserdef.id)
-					ship:AddEquip('SHIELD_GENERATOR', math.ceil(risk * 3))
+					ship:AddEquip(laserdef)
+					ship:AddEquip(eq.misc.shield_generator, math.ceil(risk * 3))
 					if Engine.rand:Number(2) <= risk then
-						ship:AddEquip('LASER_COOLING_BOOSTER')
+						ship:AddEquip(eq.misc.laser_cooling_booster)
 					end
 					if Engine.rand:Number(3) <= risk then
-						ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+						ship:AddEquip(eq.misc.shield_energy_booster)
 					end
 					ship:AIKill(Game.player)
 				end
@@ -339,7 +367,7 @@ local onEnterSystem = function (player)
 			end
 		end
 
-		if not mission.status and Game.time > mission.due then
+		if mission.status == "ACTIVE" and Game.time > mission.due then
 			mission.status = 'FAILED'
 			Comms.ImportantMessage(flavours[mission.flavour].wherearewe, mission.client.name)
 		end
@@ -357,12 +385,17 @@ local onShipDocked = function (player, station)
 
 	for ref,mission in pairs(missions) do
 		if mission.location == Game.system.path or Game.time > mission.due then
+			local oldReputation = Character.persistent.player.reputation
 			if Game.time > mission.due then
 				Comms.ImportantMessage(flavours[mission.flavour].failuremsg, mission.client.name)
+				Character.persistent.player.reputation = Character.persistent.player.reputation - 2
 			else
 				Comms.ImportantMessage(flavours[mission.flavour].successmsg, mission.client.name)
 				player:AddMoney(mission.reward)
+				Character.persistent.player.reputation = Character.persistent.player.reputation + 2
 			end
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+				Character.persistent.player.reputation, Character.persistent.player.killcount)
 
 			remove_passengers(mission.group)
 
@@ -374,7 +407,7 @@ end
 
 local onShipUndocked = function (player, station)
 	if not player:IsPlayer() then return end
-	local current_passengers = Game.player:GetEquipCount('CABIN', 'PASSENGER_CABIN')
+	local current_passengers = Game.player:GetEquipCountOccupied("cabin")-(Game.player.cabin_cap or 0)
 	if current_passengers >= passengers then return end -- nothing changed, good
 
 	for ref,mission in pairs(missions) do
@@ -383,6 +416,15 @@ local onShipUndocked = function (player, station)
 		Comms.ImportantMessage(l.HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS, mission.client.name)
 		mission:Remove()
 		missions[ref] = nil
+	end
+end
+
+local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
+	for ref,ad in pairs(ads) do
+		local oldQualified = isQualifiedFor(oldRep, ad)
+		if isQualifiedFor(newRep, ad) ~= oldQualified then
+			Event.Queue("onAdvertChanged", ad.station, ref);
+		end
 	end
 end
 
@@ -396,7 +438,12 @@ local onGameStart = function ()
 	if not loaded_data then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.desc,
+			icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
+			onChat      = onChat,
+			onDelete    = onDelete,
+			isEnabled   = isEnabled})
 		ads[ref] = ad
 	end
 
@@ -512,6 +559,7 @@ Event.Register("onShipUndocked", onShipUndocked)
 Event.Register("onShipDocked", onShipDocked)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
+Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Taxi',l.TAXI,onClick)
 

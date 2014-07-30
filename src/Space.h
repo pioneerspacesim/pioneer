@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACE_H
@@ -9,8 +9,10 @@
 #include "vector3.h"
 #include "Serializer.h"
 #include "RefCounted.h"
+#include "galaxy/GalaxyCache.h"
 #include "galaxy/StarSystem.h"
 #include "Background.h"
+#include "IterationProxy.h"
 
 class Body;
 class Frame;
@@ -27,7 +29,7 @@ public:
 	Space(Game *game, const SystemPath &path);
 
 	// initialise from save file
-	Space(Game *game, Serializer::Reader &rd);
+	Space(Game *game, Serializer::Reader &rd, double at_time);
 
 	virtual ~Space();
 
@@ -53,16 +55,19 @@ public:
 
 	void TimeStep(float step);
 
-	vector3d GetHyperspaceExitPoint(const SystemPath &source) const;
+	vector3d GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const;
+	vector3d GetHyperspaceExitPoint(const SystemPath &source) const {
+		return GetHyperspaceExitPoint(source, m_starSystem->GetPath());
+	}
 
 	Body *FindNearestTo(const Body *b, Object::Type t) const;
 	Body *FindBodyForPath(const SystemPath *path) const;
 
-	typedef std::list<Body*>::const_iterator BodyIterator;
-	const BodyIterator BodiesBegin() const { return m_bodies.begin(); }
-	const BodyIterator BodiesEnd() const { return m_bodies.end(); }
+	unsigned GetNumBodies() const { return m_bodies.size(); }
+	IterationProxy<std::list<Body*> > GetBodies() { return MakeIterationProxy(m_bodies); }
+	const IterationProxy<const std::list<Body*> > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
-	Background::Container& GetBackground() { return m_background; }
+	Background::Container *GetBackground() { return m_background.get(); }
 
 	// body finder delegates
 	typedef std::vector<Body*> BodyNearList;
@@ -76,7 +81,9 @@ public:
 
 
 private:
-	void GenBody(SystemBody *b, Frame *f);
+	void GenSectorCache(const SystemPath* here);
+	void UpdateStarSystemCache(const SystemPath* here);
+	void GenBody(double at_time, SystemBody *b, Frame *f);
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
 
@@ -85,6 +92,8 @@ private:
 	void CollideFrame(Frame *f);
 
 	std::unique_ptr<Frame> m_rootFrame;
+
+	RefCountedPtr<SectorCache::Slave> m_sectorCache;
 
 	RefCountedPtr<StarSystem> m_starSystem;
 
@@ -111,7 +120,7 @@ private:
 
 	//background (elements that are infinitely far away,
 	//e.g. starfield and milky way)
-	Background::Container m_background;
+	std::unique_ptr<Background::Container> m_background;
 
 	class BodyNearFinder {
 	public:

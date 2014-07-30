@@ -1,25 +1,35 @@
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifdef TEXTURE0
 uniform sampler2D texture0; //diffuse
 uniform sampler2D texture1; //specular
 uniform sampler2D texture2; //glow
-uniform sampler2D texture3; //pattern
-uniform sampler2D texture4; //color
+uniform sampler2D texture3; //ambient
+uniform sampler2D texture4; //pattern
+uniform sampler2D texture5; //color
 varying vec2 texCoord0;
 #endif
+
 #ifdef VERTEXCOLOR
 varying vec4 vertexColor;
 #endif
 #if (NUM_LIGHTS > 0)
 varying vec3 eyePos;
 varying vec3 normal;
-#endif
+	#ifdef HEAT_COLOURING
+		uniform sampler2D heatGradient;
+		uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
+		varying vec3 heatingDir;
+	#endif // HEAT_COLOURING
+#endif // (NUM_LIGHTS > 0)
 
 uniform Scene scene;
 uniform Material material;
 
 #if (NUM_LIGHTS > 0)
 //ambient, diffuse, specular
-//would be a good idead to make specular optional
+//would be a good idea to make specular optional
 void ads(in int lightNum, in vec3 pos, in vec3 n, inout vec4 light, inout vec4 specular)
 {
 	vec3 s = normalize(vec3(gl_LightSource[lightNum].position)); //directional light
@@ -48,8 +58,8 @@ void main(void)
 #endif
 //patterns - simple lookup
 #ifdef MAP_COLOR
-	vec4 pat = texture2D(texture3, texCoord0);
-	vec4 mapColor = texture2D(texture4, vec2(pat.r, 0.0));
+	vec4 pat = texture2D(texture4, texCoord0);
+	vec4 mapColor = texture2D(texture5, vec2(pat.r, 0.0));
 	vec4 tint = mix(vec4(1.0),mapColor,pat.a);
 	color *= tint;
 #endif
@@ -61,21 +71,44 @@ void main(void)
 
 //directional lighting
 #if (NUM_LIGHTS > 0)
-	vec4 light = scene.ambient +
-//ambient and emissive only make sense with lighting
-#ifdef MAP_EMISSIVE
-		texture2D(texture2, texCoord0); //glow map
-#else
-		material.emission; //just emissive parameter
-#endif
+	//ambient only make sense with lighting
+	vec4 light = scene.ambient;
 	vec4 specular = vec4(0.0);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 		ads(i, eyePos, normal, light, specular);
 	}
+
+#ifdef MAP_AMBIENT
+	// this is crude "baked ambient occulsion" - basically multiply everything by the ambient texture
+	// scaling whatever we've decided the lighting contribution is by 0.0 to 1.0 to account for sheltered/hidden surfaces
+	light *= texture2D(texture3, texCoord0);
+#endif
+
+	//emissive only make sense with lighting
+#ifdef MAP_EMISSIVE
+	light += texture2D(texture2, texCoord0); //glow map
+#else
+	light += material.emission; //just emissive parameter
+#endif
 #endif //NUM_LIGHTS
 
 #if (NUM_LIGHTS > 0)
-	gl_FragColor = color * light + specular;
+	#ifdef HEAT_COLOURING
+		if (heatingAmount > 0.0)
+		{
+			float dphNn = clamp(dot(heatingDir, normal), 0.0, 1.0);
+			float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
+			vec4 heatColour = texture2D(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
+			gl_FragColor = color * light + specular;
+			gl_FragColor.rgb = gl_FragColor.rgb + heatColour.rgb;
+		}
+		else
+		{
+			gl_FragColor = color * light + specular;
+		}
+	#else
+		gl_FragColor = color * light + specular;
+	#endif // HEAT_COLOURING
 #else
 	gl_FragColor = color;
 #endif

@@ -1,0 +1,30 @@
+{
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "Empório Honesto de {nome}"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "Casa de Comércio de {nome}"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "Depósito de {nome}"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "Troca de Bens de {nome}"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "Propriedades de {nome}"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "{nome} e Filhos"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Benvindo a"
+   }
+}

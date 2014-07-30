@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_COLLISIONGEOMETRY_H
@@ -19,12 +19,13 @@ class Geom;
 namespace SceneGraph {
 class CollisionGeometry : public Node {
 public:
-	CollisionGeometry(Graphics::Renderer *r, Graphics::Surface*, unsigned int flag);
 	CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f>&, const std::vector<unsigned short>&, unsigned int flag);
 	CollisionGeometry(const CollisionGeometry&, NodeCopyCache *cache = 0);
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual const char *GetTypeName() const { return "CollisionGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
+	virtual void Save(NodeDatabase&) override;
+	static CollisionGeometry *Load(NodeDatabase&);
 
 	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
 	const std::vector<Uint16> &GetIndices() const { return m_indices; }

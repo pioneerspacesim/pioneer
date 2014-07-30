@@ -1,0 +1,294 @@
+{
+   "FLAVOUR_0_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Mor v celém systému {system}. Počet obětí stoupá."
+   },
+   "FLAVOUR_0_NEWSBODY" : {
+      "description" : "Imply high demand for MEDICINE commodity.",
+      "message" : "Mor devastuje životy v systému {system} ({sectorx}, {sectory}, {sectorz}). Oficiální místa žádají lékařskou pomoc."
+   },
+   "FLAVOUR_10_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Firma bojuje o přežití v systému {system}."
+   },
+   "FLAVOUR_10_NEWSBODY" : {
+      "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
+      "message" : "Prekall Inc. se snaží o monopol na vzduch napříč systémem {system} ({sectorx}, {sectory}, {sectorz}). Zhluboka se nadechněte, může to být poslední doušek vzduchu zdarma."
+   },
+   "FLAVOUR_11_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Záhadná zmizení skotu v systému {system}."
+   },
+   "FLAVOUR_11_NEWSBODY" : {
+      "description" : "Imply high demand of ANIMAL_MEAT.",
+      "message" : "Jakoby zásahem vyšší moci, farmáři v systému {system} ({sectorx}, {sectory}, {sectorz}) našli po ránu prázdné stodoly. Policie hlásí, že jde o \"krádež skotu století\"."
+   },
+   "FLAVOUR_12_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Zhroucení infrastruktury při poruše počítačů v systému {system}."
+   },
+   "FLAVOUR_12_NEWSBODY" : {
+      "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
+      "message" : "Zlomyslný virus způsobil, že na všech počítačích firmy Nachosoft v systému {system} ({sectorx}, {sectory}, {sectorz}) kompletně zkolabovaly pevné disky. Počítačoví odborníci říkají, že z vadných jednotek jsou výborná těžítka."
+   },
+   "FLAVOUR_13_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Povstání robotů v systému {system}."
+   },
+   "FLAVOUR_13_NEWSBODY" : {
+      "description" : "Imply that nobody wants to buy ROBOTS anymore.",
+      "message" : "Teď je to \"muž proti stroji\" v systému {system} ({sectorx}, {sectory}, {sectorz}), když \"porucha chování\" způsobila, že domácí uživatelé ztratili víru v své robotické služebníky."
+   },
+   "FLAVOUR_14_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Sluneční erupce v systému {system} způsobila největší výpadek proudu za celé milénium."
+   },
+   "FLAVOUR_14_NEWSBODY" : {
+      "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
+      "message" : "Rozsáhlý výpadek proudu způsobuje učiněný blázinec v celém systému {system} ({sectorx}, {sectory}, {sectorz}). Spotřebitelé stojí ve frontách, aby mohli nakoupit poslední zásoby plastových kontejnerů, které nahrazují jejich ledničky, protože výrobce nemá základní výrobní materiál."
+   },
+   "FLAVOUR_15_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Policie rozbila zločinecký syndikát v systému {system}, klíčový představitelé zatčeni."
+   },
+   "FLAVOUR_15_NEWSBODY" : {
+      "description" : "imply high demand of NARCOTICS.",
+      "message" : "Vláda v systému {system} ({sectorx}, {sectory}, {sectorz}) doufá, že zatčením několika gangsterů se kriminalita sníží, když jsou teď drogy nedostupné."
+   },
+   "FLAVOUR_16_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Vážná nehoda v systému {system} během výročního Velkého Veletrhu Páry."
+   },
+   "FLAVOUR_16_NEWSBODY" : {
+      "description" : "Imply high demand of FARM_MACHINERY.",
+      "message" : "Během Velkého Veletrhu Páry v systému {system} ({sectorx}, {sectory}, {sectorz}) skončil pokus o galaktický rekord v největší soutěži traktorových tahačů naprostým chaosem, když jeden ze soutěžících ztratil kontrolu nad svým \"výmyslem\" a zničil tak stroje všech ostatních účastníků. Vláda říká, že by to mohlo znamenat zkázu pro místní zemědělce."
+   },
+   "FLAVOUR_17_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Nově nalezené bohatství v systému {system}."
+   },
+   "FLAVOUR_17_NEWSBODY" : {
+      "description" : "Imply vast abundance of METAL_ORE.",
+      "message" : "Horníci v systému {system} ({sectorx}, {sectory}, {sectorz}) objevili obrovské ložisko rudy dosud nevídaných rozměrů."
+   },
+   "FLAVOUR_18_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Velký úspěch ekonomické reformy v systému {system}."
+   },
+   "FLAVOUR_18_NEWSBODY" : {
+      "description" : "Imply vast demand of CONSUMER_GOODS.",
+      "message" : "\"Kola\" se v systému {system} ({sectorx}, {sectory}, {sectorz}) točí stále rychleji, když teď mají zákaznící víc peněz k utrácení."
+   },
+   "FLAVOUR_19_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: V systému {system} \"prší zlato\"."
+   },
+   "FLAVOUR_19_NEWSBODY" : {
+      "description" : "Imply vast abundance of PRECIOUS_METALS.",
+      "message" : "Muž v systému {system} ({sectorx}, {sectory}, {sectorz}) zdědil vynález od svého zesnulého strýce, který mu umožňuje přeměnit jakýkoliv nerost na zlato a platinu. Ekonomové očekávají destabilizaci ekonomiky v systému, pokud se stroj brzy neporouchá."
+   },
+   "FLAVOUR_1_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Konflikt v systému {system} se stupňuje."
+   },
+   "FLAVOUR_1_NEWSBODY" : {
+      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+      "message" : "Dlouhotrvající konflikt v systému {system} ({sectorx}, {sectory}, {sectorz}) se vystupňoval, když se armády plně zapojily do otevřeného boje."
+   },
+   "FLAVOUR_20_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Sklizeň řasy v plynném obru systému {system} stanovila nový rekord."
+   },
+   "FLAVOUR_20_NEWSBODY" : {
+      "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
+      "message" : "Jak systém {system} ({sectorx}, {sectory}, {sectorz}) vstupuje do fáze příznivé pro žluté řasy nalezené v atmosféře místního plynného obra, sklizeň má být výjimečně dobrá pro produkci hnojiva společnosti Soylent Yellow Inc."
+   },
+   "FLAVOUR_21_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Smlouva za více \"humánní\" válčení podepsána v systému {systému}."
+   },
+   "FLAVOUR_21_NEWSBODY" : {
+      "description" : "Imply vast abundance of NERVE_GAS.",
+      "message" : "Přestože konfliktní strany v systému {systém} ({sectorx}, {sectory}, {sectorz}) nepodepsaly oficiální příměří, dohodly se přestat používat chemické zbraně."
+   },
+   "FLAVOUR_22_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Stávka policie v systému {system}. Občané se o sebe musí postarat sami."
+   },
+   "FLAVOUR_22_NEWSBODY" : {
+      "description" : "Imply high demand of HAND_WEAPONS.",
+      "message" : "Na protest proti nedostatkům v systému {system} ({sectorx}, {sectory}, {sectorz}) policie odmítá pracovat. Civilisté mezitím tvoří skupiny domobrany a vyzbrojují se vidlemi a střelnými zbraněmi v připravách na nejhorší."
+   },
+   "FLAVOUR_23_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Slavnostní otevření nové továrny v systému {system}."
+   },
+   "FLAVOUR_23_NEWSBODY" : {
+      "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
+      "message" : "Nová továrna Amissionox v systému {system} ({sectorx}, {sectory}, {sectorz}) je v provozu a běží. Bude vyrábět vysoce kvalitní nože schopné proříznout i vesmírné holínky; nicméně, z důvodu nízkých zásob materiálů nutných pro výrobu čepelí, dosud nedosáhla plného produkčního potenciálu."
+   },
+   "FLAVOUR_2_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Sucho v systému {system}. Úroda zničena."
+   },
+   "FLAVOUR_2_NEWSBODY" : {
+      "description" : "Hint there will be high demand of GRAIN.",
+      "message" : "Kruté sucho zničilo úrodu v systému {system} ({sectorx}, {sectory}, {sectorz}). V rámci celého systému jsou obavy z hladomoru."
+   },
+   "FLAVOUR_3_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Veganský životní styl získává následovníky v systému {system}."
+   },
+   "FLAVOUR_3_NEWSBODY" : {
+      "description" : "Imply high demand of FRUIT_AND_VEG.",
+      "message" : "Vláda v systému {system} ({sectorx}, {sectory}, {sectorz}) usiluje o zvýšení dovozu všech \"zelených\" věcí k uspokojení stoupající poptávky."
+   },
+   "FLAVOUR_4_HEADLINE" : {
+      "description" : "About mob rivals competing for selling drugs",
+      "message" : "ZPRÁVY {date}: Drogová válka v systému {system}. Strážci zákona se snaží znovu získat nad situací kontrolu."
+   },
+   "FLAVOUR_4_NEWSBODY" : {
+      "description" : "Imply high abundance of NARCOTICS.",
+      "message" : "Trh v systému {system} ({sectorx}, {sectory}, {sectorz}) byl zaplaven levnými drogami, když mezi sebou začali drogový magnáti soupeřit s cílem zvýšit svou konkurenceschopnost."
+   },
+   "FLAVOUR_5_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Povstání otroků v systému {system}. Zemědělský průmysl se zastavil."
+   },
+   "FLAVOUR_5_NEWSBODY" : {
+      "description" : "Imply high demand of SLAVES.",
+      "message" : "Dělníci v systému {system} ({sectorx}, {sectory}, {sectorz}) se zbavili svých řetězů ve vzpouře, když odmítli pracovat na lotosových polích. Ekonomika se zastavila, když nebylo možno nalézt levnou pracovní sílu."
+   },
+   "FLAVOUR_6_HEADLINE" : {
+      "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
+      "message" : "ZPRÁVY {date}: Radostný festival slovíčkaření v systému {system}."
+   },
+   "FLAVOUR_6_NEWSBODY" : {
+      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
+      "message" : "Opilecké oslavy v systému {system} ({sectorx}, {sectory}, {sectorz}) budou pokračovat, z důvodu uctívání malé chlupaté příšerky."
+   },
+   "FLAVOUR_7_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Průmysl se se skřípěním zastavil v systému {system}."
+   },
+   "FLAVOUR_7_NEWSBODY" : {
+      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
+      "message" : "Dlouhodobé zanedbávání údržby strojů způsobilo zastavení průmyslu v systému {system} ({sectorx}, {sectory}, {sectorz})."
+   },
+   "FLAVOUR_8_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Důlní nehoda oznámena v systému {system}."
+   },
+   "FLAVOUR_8_NEWSBODY" : {
+      "description" : "Imply high demand of MINING_MACHINERY.",
+      "message" : "Zhroucení dolu v systému {system} ({sectorx}, {sectory}, {sectorz}), zabity stovky dělníků a zničeno strojové vybavení životně důležité pro tamní ekonomiku."
+   },
+   "FLAVOUR_9_HEADLINE" : {
+      "description" : "",
+      "message" : "ZPRÁVY {date}: Módní šílenství v systému {system}."
+   },
+   "FLAVOUR_9_NEWSBODY" : {
+      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
+      "message" : "Posledním trendem v systému {system} ({sectorx}, {sectory}, {sectorz}) jsou skutečně živá domácí zvířata."
+   },
+   "GRATEFUL_GREETING_0" : {
+      "description" : "",
+      "message" : "Vítej obchodníku! Dáme ti dobrou cenu za tvůj náklad {cargo}."
+   },
+   "GRATEFUL_GREETING_1" : {
+      "description" : "",
+      "message" : "Tvůj přílet je velmi je velmi vítán, stejně jako tvůj náklad {cargo}!"
+   },
+   "GRATEFUL_GREETING_2" : {
+      "description" : "",
+      "message" : "Zdravím a pozdravuji! Neměl by být žádný problém prodat zde {cargo}."
+   },
+   "GRATEFUL_GREETING_3" : {
+      "description" : "",
+      "message" : "Vítej! Konečně {cargo}."
+   },
+   "GRATEFUL_GREETING_4" : {
+      "description" : "",
+      "message" : "Jak jsme jen toužili po {cargo}."
+   },
+   "GRATEFUL_GREETING_5" : {
+      "description" : "",
+      "message" : "Vítej! Tvoje zásilka {cargo} se tu bude prodávat rychle."
+   },
+   "NEWSPAPER_CIW" : {
+      "description" : "",
+      "message" : "The Confederate Chronicle"
+   },
+   "NEWSPAPER_FED" : {
+      "description" : "",
+      "message" : "The Federal Times"
+   },
+   "NEWSPAPER_IMP" : {
+      "description" : "",
+      "message" : "The Imperial Herald"
+   },
+   "NEWSPAPER_IND_0" : {
+      "description" : "",
+      "message" : "The Pioneer Courier"
+   },
+   "NEWSPAPER_IND_1" : {
+      "description" : "",
+      "message" : "The Independent Tribune"
+   },
+   "NEWSPAPER_IND_10" : {
+      "description" : "",
+      "message" : "The Orbital Observer"
+   },
+   "NEWSPAPER_IND_2" : {
+      "description" : "",
+      "message" : "The Galactic Post"
+   },
+   "NEWSPAPER_IND_3" : {
+      "description" : "",
+      "message" : "The Universal Sun"
+   },
+   "NEWSPAPER_IND_4" : {
+      "description" : "",
+      "message" : "The Planetary Press"
+   },
+   "NEWSPAPER_IND_5" : {
+      "description" : "",
+      "message" : "The Royal Gazette"
+   },
+   "NEWSPAPER_IND_6" : {
+      "description" : "",
+      "message" : "The Universal Mail"
+   },
+   "NEWSPAPER_IND_7" : {
+      "description" : "",
+      "message" : "The Daily Express"
+   },
+   "NEWSPAPER_IND_8" : {
+      "description" : "",
+      "message" : "The Tellurian Telegraph"
+   },
+   "NEWSPAPER_IND_9" : {
+      "description" : "",
+      "message" : "The Satellite Journal"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Čerstvé zprávy od {newspaper}"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Zprávy od {newspaper}"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Reportáž od {newspaper}"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "To nejnovější od {newspaper}"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Poznámky od {newspaper}"
+   }
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Button.h"
@@ -21,27 +21,36 @@ Point Button::PreferredSize()
 	// grow to minimum size if necessary
 	growToMinimum(preferredSize, GetContext()->GetSkin().ButtonMinInnerSize());
 
-	// add borders
-	return SizeAdd(preferredSize, Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
+	// add padding
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().ButtonNormal());
+	preferredSize = SizeAdd(preferredSize, Point(elem.paddingX*2, elem.paddingY*2));
+
+	// grow to border size if necessary
+	preferredSize.x = std::max(preferredSize.x, int(elem.borderWidth*2));
+	preferredSize.y = std::max(preferredSize.y, int(elem.borderHeight*2));
+
+	return preferredSize;
 }
 
 void Button::Layout()
 {
 	Widget *innerWidget = GetInnerWidget();
 
+	const Skin::BorderedRectElement &elem(GetContext()->GetSkin().ButtonNormal());
+
 	if (!innerWidget) {
-		SetActiveArea(Point(GetContext()->GetSkin().ButtonMinInnerSize()) + Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
+		SetActiveArea(PreferredSize());
 		return;
 	}
 
-	const Point innerSize = GetSize() - Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2);
-	SetWidgetDimensions(innerWidget, Point(GetContext()->GetSkin().ButtonNormal().borderWidth), innerWidget->CalcSize(innerSize));
+	const Point innerSize = GetSize() - Point(elem.paddingX*2, elem.paddingY*2);
+	SetWidgetDimensions(innerWidget, Point(elem.paddingX, elem.paddingY), innerWidget->CalcSize(innerSize));
 	innerWidget->Layout();
 
 	Point innerActiveArea(innerWidget->GetActiveArea());
 	growToMinimum(innerActiveArea, GetContext()->GetSkin().ButtonMinInnerSize());
 
-	SetActiveArea(innerActiveArea + Point(GetContext()->GetSkin().ButtonNormal().borderWidth*2));
+	SetActiveArea(innerActiveArea + Point(elem.paddingX*2, elem.paddingY*2));
 }
 
 void Button::Draw()

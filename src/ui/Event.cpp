@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Event.h"
@@ -144,13 +144,13 @@ KeySym KeySym::FromString(const std::string &spec)
 
 		else {
 			if (sym != SDLK_UNKNOWN)
-				fprintf(stderr, "key spec '%s' has multiple keys, ignoring '%s'\n", spec.c_str(), token.c_str());
+				Output("key spec '%s' has multiple keys, ignoring '%s'\n", spec.c_str(), token.c_str());
 			else {
 				for (const KeyMap *map = keymap; map->name; map++)
 					if (token == map->name)
 						sym = map->sym;
 				if (sym == SDLK_UNKNOWN)
-					fprintf(stderr, "key spec '%s' has unkown token '%s', ignoring it\n", spec.c_str(), token.c_str());
+					Output("key spec '%s' has unkown token '%s', ignoring it\n", spec.c_str(), token.c_str());
 			}
 		}
 	}
@@ -173,8 +173,8 @@ void KeyboardEvent::ToLuaTable(lua_State *l) const
 {
 	lua_newtable(l);
 	pi_lua_settable(l, "type", EnumStrings::GetString("UIEventType", type));
-
 	pi_lua_settable(l, "action", EnumStrings::GetString("UIKeyboardAction", action));
+	pi_lua_settable(l, "repeat", repeat);
 
 	// XXX expose sym and mod constants
 }

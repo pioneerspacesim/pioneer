@@ -51,9 +51,21 @@
       "description" : "",
       "message" : "Buy Ship"
    },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Buy"
+   },
    "CABINS" : {
       "description" : "",
       "message" : "Cabins"
+   },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} free"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} used"
    },
    "CANCEL" : {
       "description" : "",
@@ -74,6 +86,14 @@
    "CARGO_SPACE" : {
       "description" : "",
       "message" : "Cargo space"
+   },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t free"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t used"
    },
    "CASH" : {
       "description" : "",
@@ -139,6 +159,10 @@
       "description" : "",
       "message" : "Constable"
    },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
+   },
    "CONTROLS" : {
       "description" : "",
       "message" : "Controls"
@@ -150,6 +174,10 @@
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
       "message" : "Could not load game: "
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credible"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -175,6 +203,18 @@
       "description" : "",
       "message" : "Delta-v"
    },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (empty)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (full)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
       "message" : "Descent-to-ground speed:"
@@ -186,6 +226,10 @@
    "DISMISS" : {
       "description" : "",
       "message" : "Dismiss"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Display HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -223,13 +267,17 @@
       "description" : "",
       "message" : "Employment"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Enable cockpit (EXPERIMENTAL)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Enable joystick"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -254,6 +302,14 @@
    "EXIT_THIS_GAME" : {
       "description" : "",
       "message" : "Exit this game"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
    },
    "FAILED" : {
       "description" : "",
@@ -280,7 +336,7 @@
       "message" : "Fractal detail"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "free"
    },
    "FRONT_WEAPON" : {
@@ -387,9 +443,21 @@
       "description" : "",
       "message" : "Inactive"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexperienced"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Invert Mouse Y"
+   },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -422,6 +490,18 @@
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
       "message" : "Language (restart game to apply)"
+   },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Permission to launch denied: docking bay busy."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Permission to launch denied: not enough crew too handle this ship."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Permission to launch denied: you have outstanding fines."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -492,12 +572,20 @@
       "message" : "Mass"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
       "message" : "max"
+   },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
    },
    "MEDIUM" : {
       "description" : "",
@@ -539,6 +627,10 @@
       "description" : "",
       "message" : "Minimum crew"
    },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Missile mounts"
+   },
    "MISSIONS" : {
       "description" : "",
       "message" : "Missions"
@@ -571,8 +663,12 @@
       "description" : "",
       "message" : "Mute"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Name"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Name"
    },
    "NAVIGATION" : {
@@ -587,6 +683,10 @@
       "description" : "",
       "message" : "Next paid"
    },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nobody"
+   },
    "NONE" : {
       "description" : "",
       "message" : "None"
@@ -598,6 +698,14 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Not enough {alloy} to attempt a repair"
+   },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} is not supported on this ship model"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -695,6 +803,10 @@
       "description" : "",
       "message" : "Price"
    },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professional"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualification scores"
@@ -719,13 +831,29 @@
       "description" : "",
       "message" : "Refuel"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Refuel full"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Repair {damage}% hull damage for {price}"
    },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
+   },
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Request Launch"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -763,6 +891,10 @@
       "description" : "",
       "message" : "Select game to load..."
    },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Sell"
+   },
    "SENSORS" : {
       "description" : "",
       "message" : "Sensors:"
@@ -778,6 +910,10 @@
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
       "message" : "Your ship is in perfect working condition."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Your ship is fully equipped."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -835,6 +971,10 @@
       "description" : "",
       "message" : "Toggle male/female"
    },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "Ship is too small for the current crew."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Total: "
@@ -847,6 +987,10 @@
       "description" : "",
       "message" : "Trading illegal goods"
    },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Trustworthy"
+   },
    "TYPE" : {
       "description" : "",
       "message" : "Type"
@@ -854,6 +998,10 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Unlawful weapons discharge"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -889,7 +1037,7 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty:"
+      "message" : "Weight empty"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
@@ -902,6 +1050,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
       "message" : "We have no business with you at the moment."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Yes"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",

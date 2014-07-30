@@ -1,0 +1,594 @@
+{
+   "CORPORATIONS_0" : {
+      "description" : "",
+      "message" : "Sirius"
+   },
+   "CORPORATIONS_1" : {
+      "description" : "",
+      "message" : "ACME"
+   },
+   "CORPORATIONS_10" : {
+      "description" : "",
+      "message" : "Navio de Carga"
+   },
+   "CORPORATIONS_11" : {
+      "description" : "",
+      "message" : "Aerodinâmica Arment"
+   },
+   "CORPORATIONS_2" : {
+      "description" : "",
+      "message" : "Cola Fresca"
+   },
+   "CORPORATIONS_3" : {
+      "description" : "",
+      "message" : "Taranis"
+   },
+   "CORPORATIONS_4" : {
+      "description" : "",
+      "message" : "Construção de Nave Aquariana"
+   },
+   "CORPORATIONS_5" : {
+      "description" : "",
+      "message" : "Rockforth"
+   },
+   "CORPORATIONS_6" : {
+      "description" : "",
+      "message" : "Amaliel"
+   },
+   "CORPORATIONS_7" : {
+      "description" : "",
+      "message" : "Marett Space"
+   },
+   "CORPORATIONS_8" : {
+      "description" : "",
+      "message" : "Vega Line"
+   },
+   "CORPORATIONS_9" : {
+      "description" : "",
+      "message" : "Digital"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Poderia repetir a requisição original?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Perigo:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Prazo:"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Desculpe, mas não creio que eu poderia confiar minha segurança a você."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Volte quando você tiver algumas qualificações."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Não acho que você seja o piloto que eu estou procurando."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Você não parece alguém capaz de transportar pessoas."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Você não é o tipo de piloto que eu estou procurando."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Você parece muito inexperiente para lidar com um transporte de tamanha importância."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nunca ouvi falar de você. Preciso de alguém com experiência para esta jornada."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Não estou disposto a arriscar minha vida com alguém desqualificado como você."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distância:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Excelente."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE: Passagem para grupo pequeno de {sistema} sistema. Paga-se {dinheiro}"
+   },
+   "FLAVOUR_0_DANGER" : {
+      "description" : "",
+      "message" : "Não."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inaceitável! Você demorou uma eternidade. Não estamos dispostos a lhe pagar."
+   },
+   "FLAVOUR_0_HOWMANY" : {
+      "description" : "",
+      "message" : "Há {grupo} de nós."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, sou {nome} e preciso de passagem para um pequeno grupo para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
+   },
+   "FLAVOUR_0_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperamos o bastante - nos leve até a estação mais próxima AGORA!"
+   },
+   "FLAVOUR_0_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Estamos visitando um amigo."
+   },
+   "FLAVOUR_10_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE NAVE: Passagem para uma nave rápida para {sistema} sistema."
+   },
+   "FLAVOUR_10_DANGER" : {
+      "description" : "",
+      "message" : "Acho que alguém está me seguindo."
+   },
+   "FLAVOUR_10_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Você é um piloto tão inexperiente. Não vou pagar por isso."
+   },
+   "FLAVOUR_10_HOWMANY" : {
+      "description" : "",
+      "message" : "Só um."
+   },
+   "FLAVOUR_10_INTROTEXT" : {
+      "description" : "",
+      "message" : "Meu nome é {nome}. Quero uma passagem rápida para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagamento em {dinheiro}."
+   },
+   "FLAVOUR_10_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
+   },
+   "FLAVOUR_10_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_10_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Preferia que ninguém tivesse me achado."
+   },
+   "FLAVOUR_11_ADTEXT" : {
+      "description" : "",
+      "message" : "NAVE RÁPIDA: Passagem numa nave rápida para o sistema {sistema}."
+   },
+   "FLAVOUR_11_DANGER" : {
+      "description" : "",
+      "message" : "Às vezes as pessoas não querem ser inspecionadas."
+   },
+   "FLAVOUR_11_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Vou perder meu emprego por causa da sua incompetência. Então eu preciso daquele dinheiro mais do que você."
+   },
+   "FLAVOUR_11_HOWMANY" : {
+      "description" : "",
+      "message" : "Só um. "
+   },
+   "FLAVOUR_11_INTROTEXT" : {
+      "description" : "",
+      "message" : "Meu nome é {nome}. Preciso de uma passagem rápida para {sistema} ({setorx}, {setory}, {setorz}) sistema, numa distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_11_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
+   },
+   "FLAVOUR_11_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_11_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Sou um inspetor de fábricas fazendo minhas rondas."
+   },
+   "FLAVOUR_12_ADTEXT" : {
+      "description" : "",
+      "message" : "NAVE REQUERIDA: Passagem para o sistema {sistema}."
+   },
+   "FLAVOUR_12_DANGER" : {
+      "description" : "",
+      "message" : "Alguém está me perseguindo."
+   },
+   "FLAVOUR_12_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Não tenho dinheiro suficiente. Desculpe."
+   },
+   "FLAVOUR_12_HOWMANY" : {
+      "description" : "",
+      "message" : "Só um."
+   },
+   "FLAVOUR_12_INTROTEXT" : {
+      "description" : "",
+      "message" : "Meu nome é {nome}. Preciso de passagem para {sistema}  ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz. Pagarei {dinheiro}."
+   },
+   "FLAVOUR_12_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela carona. Você foi integralmente pago."
+   },
+   "FLAVOUR_12_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_12_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Eu devo dinheiro para algumas pessoas, e elas estão atrás de mim."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE: Passagem para grupo pequeno de {sistema} sistema. Paga-se {dinheiro}"
+   },
+   "FLAVOUR_1_DANGER" : {
+      "description" : "",
+      "message" : "Não."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inaceitável! Você demorou uma eternidade. Não estamos dispostos a lhe pagar."
+   },
+   "FLAVOUR_1_HOWMANY" : {
+      "description" : "",
+      "message" : "Há {grupo} de nós."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, sou {nome} e preciso de passagem para um pequeno grupo para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
+   },
+   "FLAVOUR_1_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperamos o bastante - nos leve até a estação mais próxima AGORA!"
+   },
+   "FLAVOUR_1_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Trabalhamos para a corporação {corporação} e eles estão pagando."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE: Passagem para grupo pequeno de {sistema} sistema. Paga-se {dinheiro}."
+   },
+   "FLAVOUR_2_DANGER" : {
+      "description" : "",
+      "message" : "Não."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inaceitável! Você demorou uma eternidade. Não estamos dispostos a lhe pagar."
+   },
+   "FLAVOUR_2_HOWMANY" : {
+      "description" : "",
+      "message" : "Há {grupo} de nós."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá,  sou {nome} e preciso de passagens para um pequeno grupo para {sistema} ({setorx}, {setory}, {Setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado por nos trazer aqui. Agora pagamos integralmente. Boa Sorte!"
+   },
+   "FLAVOUR_2_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperamos o bastante - nos leve até a estação mais próxima AGORA!"
+   },
+   "FLAVOUR_2_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "É uma viagem de negócios normal."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "NAVE REQUERIDA: Passagem para o sistema {sistema}. Paga-se em {dinheiro}."
+   },
+   "FLAVOUR_3_DANGER" : {
+      "description" : "",
+      "message" : "Acho que tem um assassino na minha trilha, e eles podem vir atrás de você."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inaceitável! Você demorou uma eternidade. Não estou disposto a lhe pagar."
+   },
+   "FLAVOUR_3_HOWMANY" : {
+      "description" : "",
+      "message" : "Sou só eu."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, sou {nome} e preciso de uma passagem para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
+   },
+   "FLAVOUR_3_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_3_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Um velho rival está tentando me matar."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE NAVE: Passagem para {sistema} sistema. Pagamento em {dinheiro}."
+   },
+   "FLAVOUR_4_DANGER" : {
+      "description" : "",
+      "message" : "Não."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nem peça pagamento! Estou te reportando para as autoridades."
+   },
+   "FLAVOUR_4_HOWMANY" : {
+      "description" : "",
+      "message" : "Só eu."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, sou {nome} e preciso de uma passagem para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado por me trazer aqui. Paguei integralmente. Boa Sorte!"
+   },
+   "FLAVOUR_4_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_4_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Sou um vendedor itinerante."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE: Passagem para {sistema}. Paga-se em {dinheiro}."
+   },
+   "FLAVOUR_5_DANGER" : {
+      "description" : "",
+      "message" : "Você deve despertar algum interesse na imprensa. Apenas ignore-os."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "O que foi que você fez! Estragou minha turnê e perdi metade dos meus fãs."
+   },
+   "FLAVOUR_5_HOWMANY" : {
+      "description" : "",
+      "message" : "Sou só eu."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, sou {nome} e preciso de uma passagem para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
+   },
+   "FLAVOUR_5_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_5_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Você não sabia - Sou uma famosa estrela dos sonhos."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE NAVE: Passagem para {sistema} sistema. Pagamento em {dinheiro}."
+   },
+   "FLAVOUR_6_DANGER" : {
+      "description" : "",
+      "message" : "Não."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inaceitável! Você demorou uma eternidade. Não estou disposto a lhe pagar."
+   },
+   "FLAVOUR_6_HOWMANY" : {
+      "description" : "",
+      "message" : "Sou só eu."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, sou {nome} e preciso de uma passagem para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela ótima viagem. Você foi integralmente pago."
+   },
+   "FLAVOUR_6_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_6_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Sou jornalista independente."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE NAVE: Passagem segura para o sistema {sistema}. Pagamento em {dinheiro}."
+   },
+   "FLAVOUR_7_DANGER" : {
+      "description" : "",
+      "message" : "A Máfia não trata gentilmente pessoas que ajudam seus inimigos."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inaceitável! Você demorou uma eternidade. Não estou disposto a lhe pagar."
+   },
+   "FLAVOUR_7_HOWMANY" : {
+      "description" : "",
+      "message" : "Eu e mais ninguém."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, meu nome é {nome} e preciso de uma passagem segura para {sistema} ({setorx}, {setory}, {setorz}) sistema, a uma distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado por me trazer aqui em segurança. Paguei integralmente. Boa Sorte!"
+   },
+   "FLAVOUR_7_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_7_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "A Máfia me quer morto."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE NAVE: Passagem para uma nave rápida para {sistema} sistema."
+   },
+   "FLAVOUR_8_DANGER" : {
+      "description" : "",
+      "message" : "Não."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inaceitável! Você demorou uma eternidade. Não estou disposto a lhe pagar."
+   },
+   "FLAVOUR_8_HOWMANY" : {
+      "description" : "",
+      "message" : "Só eu."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "Meu nome é {nome}. Preciso de uma passagem rápida para {sistema} ({setorx}, {setory}, {setorz}) sistema, numa distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
+   },
+   "FLAVOUR_8_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_8_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Estou visitando um parente doente."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE NAVE: Passagem para uma nave rápida para {sistema} sistema."
+   },
+   "FLAVOUR_9_DANGER" : {
+      "description" : "",
+      "message" : "A Polícia pode tentar te parar."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Inútil! Você levou uma eternidade. Não estou disposto a lhe pagar."
+   },
+   "FLAVOUR_9_HOWMANY" : {
+      "description" : "",
+      "message" : "Só eu."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Meu nome é {nome}. Preciso de uma passagem rápida para {sistema} ({setorx}, {setory}, {setorz}) sistema, numa distância de {distância}. Pagarei em {dinheiro}."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Obrigado pela carona rápida. Você foi integralmente pago."
+   },
+   "FLAVOUR_9_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Onde estamos? Já esperei o bastante - me leve à estação mais próxima AGORA!"
+   },
+   "FLAVOUR_9_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "A polícia quer que eu ajude nas suas investigações."
+   },
+   "FROM" : {
+      "description" : "",
+      "message" : "De:"
+   },
+   "GROUP_DETAILS" : {
+      "description" : "",
+      "message" : "Detalhes do grupo:"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligamento."
+   },
+   "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
+      "description" : "",
+      "message" : "Ei!?! Você vai pagar por isso!!!"
+   },
+   "HOW_MANY_OF_YOU_ARE_THERE" : {
+      "description" : "",
+      "message" : "Quantos de vocês estão aí?"
+   },
+   "HOW_SOON_YOU_MUST_BE_THERE" : {
+      "description" : "",
+      "message" : "Quando você deve chegar lá?"
+   },
+   "I_MUST_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Eu devo estar lá antes"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "Ano-luz"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ok, de acordo."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Você vai se arrepender de {cliente}"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Você tem {cliente} a bordo? Essa foi uma má ideia."
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Hoje não é o seu dia de sorte! Prepare-se para morrer."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Você não vai à doca hoje!"
+   },
+   "TAXI" : {
+      "description" : "",
+      "message" : "Táxi"
+   },
+   "TO" : {
+      "description" : "",
+      "message" : "Para:"
+   },
+   "WE_WANT_TO_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Queremos estar lá antes"
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Por que tanto dinheiro?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "Vou correr algum risco?"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "Você não tem espaço suficiente na cabine da sua nave."
+   }
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_FresnelColourMaterial_H
@@ -23,7 +23,6 @@ namespace Graphics {
 		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
-			virtual void Unapply();
 		};
 	}
 }

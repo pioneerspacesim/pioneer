@@ -1,0 +1,130 @@
+{
+   "FLAVOUR_0_INTRO" : {
+      "description" : "",
+      "message" : "Undvik problemet med en förstörd hyperrymdsmotor. Få din service idag, av det officielt godkända {name} Motorserviceföretaget.\n\nMotor: {drive}\nService: {price}\nGaranti: 18 månader\n{lasttime}"
+   },
+   "FLAVOUR_0_RESPONSE" : {
+      "description" : "",
+      "message" : "Din motor har blivit servad."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "{name} Motorserviceföretag"
+   },
+   "FLAVOUR_0_YESPLEASE" : {
+      "description" : "",
+      "message" : "Serva hyperrymdsmotor"
+   },
+   "FLAVOUR_1_INTRO" : {
+      "description" : "",
+      "message" : "Jag är {proprietor}. Jag kan serva din {drive} och garantera åtminstone ett år av problemfri användning. Kostnaden för denna server kommer att vara {price}\n{lasttime}"
+   },
+   "FLAVOUR_1_RESPONSE" : {
+      "description" : "",
+      "message" : "Jag har servat din hyperdrive."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor}: Hyperdrive underhållsspecialist"
+   },
+   "FLAVOUR_1_YESPLEASE" : {
+      "description" : "",
+      "message" : "Serva min motor"
+   },
+   "FLAVOUR_2_INTRO" : {
+      "description" : "",
+      "message" : "Hej. Vi på {proprietor} & Co satsar vårt rykte på vårt arbete.\n\n{lasttime}\nVi kan finjustera ditt skepps {drive} och garantera 12 månaders problemfri drift för summan {price}. Jag kommer att övervaka jobbet själv, så du kan vara säker på att det blir ett bra jobb gjort."
+   },
+   "FLAVOUR_2_RESPONSE" : {
+      "description" : "",
+      "message" : "Service slutförd. Tack för din beställning."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} & Co HyperMekaniker"
+   },
+   "FLAVOUR_2_YESPLEASE" : {
+      "description" : "",
+      "message" : "Var snäll att ställa in min motor till det kvoterade priset"
+   },
+   "FLAVOUR_3_INTRO" : {
+      "description" : "",
+      "message" : "Välkommen till SuperFix Underhåll.\n\n{lasttime}\nDags för din tvåårsservice? Låt oss SuperFixa din hyperdrive!\nVi kan finjustera din {drive} för bara {price}. Det finns ingen billigare!"
+   },
+   "FLAVOUR_3_RESPONSE" : {
+      "description" : "",
+      "message" : "Din SuperFix service är slutförd, med SuperFix garanti!"
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "SuperFixa Underhåll ({name} avdelning)"
+   },
+   "FLAVOUR_3_YESPLEASE" : {
+      "description" : "",
+      "message" : "SuperFixa mig!"
+   },
+   "FLAVOUR_4_INTRO" : {
+      "description" : "",
+      "message" : "Välkommen till Tid och Rum.\n\nVi specialiserar oss på interstellära motorer. Allt underhållsarbete är garanterat i två år.\n{lasttime}\nAtt serva din {drive} kommer att kosta {price}. Vill du fortsätta?"
+   },
+   "FLAVOUR_4_RESPONSE" : {
+      "description" : "",
+      "message" : "Vi har slutfört arbetet på din hyperdrive."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "Tid och Rum Motorer, Inc."
+   },
+   "FLAVOUR_4_YESPLEASE" : {
+      "description" : "",
+      "message" : "Ja tack, fortsätt"
+   },
+   "FLAVOUR_5_INTRO" : {
+      "description" : "",
+      "message" : "Undvik besväret med trasig hyperrymdsmotor. Få din servad idag.\n\nMotor: {drive}\nService: {price}\n{lasttime}"
+   },
+   "FLAVOUR_5_RESPONSE" : {
+      "description" : "",
+      "message" : "Din motor har blivit servad."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "{proprietor} Motorserviceföretaget"
+   },
+   "FLAVOUR_5_YESPLEASE" : {
+      "description" : "",
+      "message" : "Serva hyperrymdmotor"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Lägg på."
+   },
+   "I_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Jag har inte tillräckligt med pengar"
+   },
+   "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Jag fixade hyperdriven innan den gick sönder."
+   },
+   "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
+      "description" : "",
+      "message" : "Skeppets hyperdrive har blivit förstörd av ett fel"
+   },
+   "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
+      "description" : "",
+      "message" : "Din motor har inte blivit servad sen den blev installerad {date}"
+   },
+   "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
+      "description" : "",
+      "message" : "Din motor blev senast servad {date} av {company}"
+   },
+   "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
+      "description" : "",
+      "message" : "Du har ingen motor att serva!"
+   },
+   "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
+      "description" : "",
+      "message" : "Du fixade hyperdriven innan den gick sönder."
+   }
+}

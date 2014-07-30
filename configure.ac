@@ -1,4 +1,4 @@
-dnl Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+dnl Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
 
 dnl Process this file with autoconf to create configure.
@@ -45,7 +45,7 @@ AC_DEFUN([MXE_SETUP], [
 
 MXE_SETUP
 
-AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip])
+AM_INIT_AUTOMAKE([1.9 foreign dist-bzip2 dist-xz dist-zip subdir-objects])
 
 AC_CANONICAL_HOST
 
@@ -59,7 +59,8 @@ AC_PROG_STRIP
 
 #AC_PROG_LIBTOOL
 
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES])
+dnl Silent compilation by default
+AM_SILENT_RULES([yes])
 
 dnl ###########################################################################
 dnl Flags and options
@@ -314,7 +315,7 @@ case "$host" in
   i686-pc-mingw32|x86_64-pc-mingw64)
 	;;
   *)
-	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX"
+	LUA_CFLAGS="$LUA_CFLAGS -DLUA_USE_POSIX -DLUA_USE_APICHECK"
 esac
 
 dnl Check for OpenGL libs

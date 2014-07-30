@@ -1,0 +1,30 @@
+{
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "童叟无欺 {name} 货物商场"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "{name} jiao'yi'zhi'jia"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "{name} 的货栈"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "{name} 的货物交易"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "{name} 债券"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "{name} & 圣子"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "欢迎来到"
+   }
+}

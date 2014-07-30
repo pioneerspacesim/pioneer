@@ -5,7 +5,7 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Dangereux"
    },
    "DEADLINE" : {
       "description" : "",
@@ -14,6 +14,38 @@
    "DELIVERY" : {
       "description" : "",
       "message" : "Livraison"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Désolé, mais je ne pense pas pouvoir vous faire confiance pour cette livraison."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Revenez quand vous aurez quelques qualifications."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Je ne pense pas que vous soyez le pilote que je recherche."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Vous n'avez pas l'air de quelqu'un a qui je peux faire confiance pour cette livraison."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Vous n'êtes pas le type de pilote que je recherche."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Vous avez l'air trop peu expérimenté pour une tâche de cette envergure."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Je n'ai jamais entendu parler de vous. J'ai besoin de quelqu'un expérimenté pour cette livraison."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Je ne vais pas risquer cette livraison avec quelqu'un sans qualifications tel que vous."
    },
    "DISTANCE" : {
       "description" : "",

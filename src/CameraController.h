@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef CAMERACONTROLLER_H
@@ -8,9 +8,9 @@
 #include "matrix4x4.h"
 #include "Lang.h"
 #include "Serializer.h"
+#include "Camera.h"
 
 class Ship;
-class Camera;
 
 class CameraController
 {
@@ -21,7 +21,7 @@ public:
 		SIDEREAL
 	};
 
-	CameraController(Camera *camera, const Ship *ship);
+	CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 	virtual ~CameraController() {}
 
 	virtual void Reset();
@@ -45,11 +45,12 @@ public:
 	const Ship *GetShip() const { return m_ship; }
 
 private:
-	Camera *m_camera;
+	RefCountedPtr<CameraContext> m_camera;
 	const Ship *m_ship;
 	vector3d m_pos;
 	matrix3x3d m_orient;
 };
+
 
 class InternalCameraController : public CameraController {
 public:
@@ -62,7 +63,7 @@ public:
 		MODE_BOTTOM
 	};
 
-	InternalCameraController(Camera *camera, const Ship *ship);
+	InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 	virtual void Reset();
 
 	Type GetType() const { return INTERNAL; }
@@ -84,9 +85,10 @@ private:
 	vector3d m_bottomPos; matrix3x3d m_bottomOrient;
 };
 
+
 class MoveableCameraController : public CameraController {
 public:
-	MoveableCameraController(Camera *camera, const Ship *ship) :
+	MoveableCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 		CameraController(camera, ship) {}
 	virtual void Reset() { }
 
@@ -107,10 +109,11 @@ public:
 	virtual void ZoomEventUpdate(float frameTime) { }
 };
 
+
 // Zoomable, rotatable orbit camera, always looks at the ship
 class ExternalCameraController : public MoveableCameraController {
 public:
-	ExternalCameraController(Camera *camera, const Ship *ship);
+	ExternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 
 	Type GetType() const { return EXTERNAL; }
 	const char *GetName() const { return Lang::EXTERNAL_VIEW; }
@@ -142,10 +145,11 @@ private:
 	matrix3x3d m_extOrient;
 };
 
+
 // Much like external camera, but does not turn when the ship turns
 class SiderealCameraController : public MoveableCameraController {
 public:
-	SiderealCameraController(Camera *camera, const Ship *ship);
+	SiderealCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
 
 	Type GetType() const { return SIDEREAL; }
 	const char *GetName() const { return Lang::SIDEREAL_VIEW; }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTUREBUILDER_H
@@ -17,7 +17,7 @@ namespace Graphics {
 class TextureBuilder {
 public:
 	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true);
-	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true);
+	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, TextureType textureType = TEXTURE_2D);
 	~TextureBuilder();
 
 	// convenience constructors for common texture types
@@ -32,6 +32,9 @@ public:
 	}
 	static TextureBuilder Decal(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true);
+	}
+	static TextureBuilder Cube(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, TEXTURE_CUBE_MAP);
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
@@ -59,6 +62,7 @@ public:
 
 private:
 	SDLSurfacePtr m_surface;
+	std::vector<SDLSurfacePtr> m_cubemap;
 	PicoDDS::DDSImage m_dds;
 	std::string m_filename;
 
@@ -68,6 +72,7 @@ private:
 	bool m_potExtend;
 	bool m_forceRGBA;
 	bool m_compressTextures;
+	TextureType m_textureType;
 
 	TextureDescriptor m_descriptor;
 

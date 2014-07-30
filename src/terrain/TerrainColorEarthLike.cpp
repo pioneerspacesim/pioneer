@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
@@ -32,7 +32,7 @@ vector3d TerrainColorFractal<TerrainColorEarthLike>::GetColor(const vector3d &p,
 	vector3d col, tex1, tex2;
 
 	// ice on mountains
-	//printf("flatness : %d", flatness);
+	//Output("flatness : %d", flatness);
 	if (flatness > 0.6/Clamp(n*m_icyness+(m_icyness*0.5)+(fabs(p.y*p.y*p.y*0.38)), 0.1, 1.0)) {
 		if (textures) {
 			col = interpolate_color(terrain_colournoise_rock, color_cliffs, m_rockColor[5]);

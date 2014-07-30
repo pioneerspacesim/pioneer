@@ -1,0 +1,66 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Vennligst velg en sum å donere til Kirken Det Himmelske Flyvende Spagettimonster"
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DONERE! Kirken Det Himmelske Flyvende Spagettimonster trenger DINE penger for å spre guds ord."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Fred være med deg broder. Vennligst velg en sum å donere til Vokterene av den Frie Ånd."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DONERE. Vokterene av den Frie Ånd ber ydmykt om din veldedighet for å støtte våre kloster."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Vennligs velg en sum å donere til Krigs Hjemløses støtteforening, og gjør slutt på barns lidelse over hele galaksen."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "FØLER DU DEG GENERØS? Krigs Hjemløses støtteforening trenger din hjelp til å fortsette sitt viktige arbeid."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Vennligs velg en sum å donere til GreenWatch, og hjelp oss å gjøre slutt på forurensingen av galaksen."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "BIDRA. Venner av Galaksens 'Forby Millitære Motorer' kampanje trenger din støtte."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Vennligst velg en sum å donere."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DONERE! Redd din rase. Stopp blodbadet på nye bosatte verdner."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Frigjør ditt skip! Vennligst velg en sum å donere. Lykke til med hackingen."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "STØTT FRIHET! Stopp den store urettferdigheten med proprietær programvare som kontrollerer skipet ditt."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Legg på."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Tusen takk. Alle donasjoner er hjertelig mottatt."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Wow! Det var veldig generøst."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Du har ikke nok penger."
+   }
+}

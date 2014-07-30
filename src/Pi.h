@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
@@ -20,6 +20,7 @@
 
 class DeathView;
 class GalacticView;
+class Galaxy;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
@@ -32,6 +33,7 @@ class SpaceStation;
 class StarSystem;
 class SystemInfoView;
 class SystemView;
+class TransferPlanner;
 class UIView;
 class View;
 class WorldView;
@@ -57,7 +59,7 @@ class Game;
 
 class Pi {
 public:
-	static void Init();
+	static void Init(const std::map<std::string,std::string> &options, bool no_gui = false);
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
@@ -66,7 +68,6 @@ public:
 	static void MainLoop();
 	static void TombStoneLoop();
 	static void OnChangeDetailLevel();
-	static void ToggleLuaConsole();
 	static void Quit() __attribute((noreturn));
 	static float GetFrameTime() { return frameTime; }
 	static float GetGameTickAlpha() { return gameTickAlpha; }
@@ -78,12 +79,16 @@ public:
 	static float JoystickAxisState(int joystick, int axis);
 	static bool IsJoystickEnabled() { return joystickEnabled; }
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
-    static void SetMouseYInvert(bool state) { mouseYInvert = state; }
-    static bool IsMouseYInvert() { return mouseYInvert; }
+	static void SetMouseYInvert(bool state) { mouseYInvert = state; }
+	static bool IsMouseYInvert() { return mouseYInvert; }
+	static void SetCompactScanner(bool state) { compactScanner = state; }
+	static bool IsScannerCompact() { return compactScanner; }
 	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
 	static void SetSpeedLinesDisplayed(bool state) { speedLinesDisplayed = state; }
+	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
+	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
 	/// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
 	/// This is a default value only, centralized here to promote uniform user expericience.
@@ -92,13 +97,15 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void SetMouseGrab(bool on);
+	static void FlushCaches();
 	static void BoinkNoise();
-	static float CalcHyperspaceRangeMax(int hyperclass, int total_mass_in_tonnes);
-	static float CalcHyperspaceRange(int hyperclass, float total_mass_in_tonnes, int fuel);
-	static float CalcHyperspaceDuration(int hyperclass, int total_mass_in_tonnes, float dist);
-	static float CalcHyperspaceFuelOut(int hyperclass, float dist, float hyperspace_range_max);
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
+
+	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
+	static void DrawRenderTarget();
+	static void BeginRenderTarget();
+	static void EndRenderTarget();
 
 	static const char SAVE_DIR_NAME[];
 
@@ -109,8 +116,6 @@ public:
 	static sigc::signal<void, bool> onMouseWheel;
 	static sigc::signal<void> onPlayerChangeTarget; // navigation or combat
 	static sigc::signal<void> onPlayerChangeFlightControlState;
-	static sigc::signal<void> onPlayerChangeEquipment;
-	static sigc::signal<void, const SpaceStation*> onDockingClearanceExpired;
 
 	static LuaSerializer *luaSerializer;
 	static LuaTimer *luaTimer;
@@ -140,6 +145,7 @@ public:
 	static UIView *settingsView;
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
+	static TransferPlanner *planner;
 	static WorldView *worldView;
 	static DeathView *deathView;
 	static UIView *spaceStationView;
@@ -161,7 +167,10 @@ public:
 	static struct DetailLevel detail;
 	static GameConfig *config;
 
-	static JobQueue *Jobs() { return jobQueue.get();}
+	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
+	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
+
+	static Galaxy* GetGalaxy() { return s_galaxy; }
 
 	static bool DrawGUI;
 
@@ -169,8 +178,11 @@ private:
 	static void HandleEvents();
 	static void InitJoysticks();
 
-	static std::unique_ptr<JobQueue> jobQueue;
+	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
+	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
+	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
+	static Galaxy* s_galaxy;
 	static bool menuDone;
 
 	static View *currentView;
@@ -180,9 +192,6 @@ private:
 	  * factor between one physics tick and another [0.0-1.0]
 	  */
 	static float gameTickAlpha;
-	static int timeAccelIdx;
-	static int requestedTimeAccelIdx;
-	static bool forceTimeAccel;
 	static float frameTime;
 	static std::map<SDL_Keycode,bool> keyState;
 	static int keyModState;
@@ -191,10 +200,10 @@ private:
 	static bool doingMouseGrab;
 	static bool warpAfterMouseGrab;
 	static int mouseGrabWarpPos[2];
-	static const float timeAccelRates[];
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;
+	static bool compactScanner;
 	struct JoystickState {
 		SDL_Joystick *joystick;
 		std::vector<bool> buttons;
@@ -206,8 +215,14 @@ private:
 
 	static bool navTunnelDisplayed;
 	static bool speedLinesDisplayed;
+	static bool hudTrailsDisplayed;
 
 	static Gui::Fixed *menu;
+
+	static Graphics::RenderTarget *renderTarget;
+	static RefCountedPtr<Graphics::Texture> renderTexture;
+	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
+	static Graphics::RenderState *quadRenderState;
 };
 
 #endif /* _PI_H */

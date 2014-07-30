@@ -1,18 +1,18 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
 #include "Pi.h"
 #include "Polit.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/Economy.h"
 #include "Factions.h"
 #include "Space.h"
 #include "Ship.h"
 #include "ShipCpanel.h"
 #include "SpaceStation.h"
-#include "EquipType.h"
 #include "PersistSystemData.h"
 #include "Lang.h"
 #include "StringF.h"
@@ -85,7 +85,7 @@ void Init()
 	s_outstandingFine.Clear();
 
 	// setup the per faction criminal records
-	const Uint32 numFactions = Faction::GetNumFactions();
+	const Uint32 numFactions = Pi::GetGalaxy()->GetFactions()->GetNumFactions();
 	s_playerPerBlocCrimeRecord.clear();
 	s_playerPerBlocCrimeRecord.resize( numFactions );
 }
@@ -186,19 +186,19 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 	}
 }
 
-void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit)
+void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness, SysPolit &outSysPolit)
 {
 	SystemPath path = s->GetPath();
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
-	const Sector* sec = Sector::cache.GetCached(path);
+	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
 
 	GovType a = GOV_INVALID;
 
 	/* from custom system definition */
-	if (sec->m_systems[path.systemIndex].customSys) {
-		Polit::GovType t = sec->m_systems[path.systemIndex].customSys->govType;
+	if (sec->m_systems[path.systemIndex].GetCustomSystem()) {
+		Polit::GovType t = sec->m_systems[path.systemIndex].GetCustomSystem()->govType;
 		a = t;
 	}
 	if (a == GOV_INVALID) {
@@ -221,7 +221,7 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, 
 	outSysPolit.lawlessness = s_govDesc[a].baseLawlessness * rand.Fixed();
 }
 
-bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
+bool IsCommodityLegal(const StarSystem *s, const GalacticEconomy::Commodity t)
 {
 	SystemPath path = s->GetPath();
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
@@ -231,8 +231,8 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 	if (a == GOV_NONE) return true;
 
 	if(s->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
-		Faction::EquipProbMap::const_iterator iter = s->GetFaction()->equip_legality.find(t);
-		if( iter != s->GetFaction()->equip_legality.end() ) {
+		Faction::CommodityProbMap::const_iterator iter = s->GetFaction()->commodity_legality.find(t);
+		if( iter != s->GetFaction()->commodity_legality.end() ) {
 			const Uint32 per = (*iter).second;
 			return (rand.Int32(100) >= per);
 		}
@@ -241,15 +241,15 @@ bool IsCommodityLegal(const StarSystem *s, const Equip::Type t)
 	{
 		// this is a non-faction system - do some hardcoded test
 		switch (t) {
-			case Equip::HAND_WEAPONS:
+			case GalacticEconomy::Commodity::HAND_WEAPONS:
 				return rand.Int32(2) == 0;
-			case Equip::BATTLE_WEAPONS:
+			case GalacticEconomy::Commodity::BATTLE_WEAPONS:
 				return rand.Int32(3) == 0;
-			case Equip::NERVE_GAS:
+			case GalacticEconomy::Commodity::NERVE_GAS:
 				return rand.Int32(10) == 0;
-			case Equip::NARCOTICS:
+			case GalacticEconomy::Commodity::NARCOTICS:
 				return rand.Int32(2) == 0;
-			case Equip::SLAVES:
+			case GalacticEconomy::Commodity::SLAVES:
 				return rand.Int32(16) == 0;
 			default: return true;
 		}

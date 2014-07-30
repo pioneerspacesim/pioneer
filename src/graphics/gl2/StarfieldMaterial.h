@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_STARFIELD_MATERIAL_H
@@ -28,7 +28,6 @@ namespace Graphics {
 
 			virtual void Unapply() {
 				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
-				m_program->Unuse();
 			}
 		};
 	}

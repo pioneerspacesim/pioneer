@@ -84,8 +84,9 @@ local scheduleWages = function (crewMember)
 		else
 			contract.outstanding = contract.outstanding + contract.wage
 			crewMember.playerRelationship = crewMember.playerRelationship - 1
+			Character.persistent.player.reputation = Character.persistent.player.reputation - 0.5
 		end
-		
+
 		-- Attempt to pay off any arrears
 		local arrears = math.min(Game.player:GetMoney(),contract.outstanding)
 		Game.player:AddMoney(0 - arrears)
@@ -204,11 +205,12 @@ local onChat = function (form,ref,option)
 			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 		end
 
-		form:SetTitle(l.CREW_FOR_HIRE)
+		form:ClearFace()
 		form:Clear()
-		form:SetMessage(l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
+		form:SetTitle(l.CREW_FOR_HIRE)
+		form:SetMessage("\n"..l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = c.estimatedWage}),k)
+			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = Format.Money(c.estimatedWage)}),k)
 		end
 	end
 
@@ -222,9 +224,11 @@ local onChat = function (form,ref,option)
 			l.NO_EXPERIENCE
 		form:SetFace(candidate)
 		form:Clear()
+		form:SetTitle(candidate.name)
 		candidate:PrintStats()
 		print("Attitude: ",candidate.playerRelationship)
 		print("Aspiration: ",candidate.estimatedWage)
+		if response == "" then response = "\r" end
 		form:SetMessage(l.CREWDETAILSHEETBB:interp({
 			name = candidate.name,
 			experience = experience,
@@ -232,14 +236,14 @@ local onChat = function (form,ref,option)
 			response = response,
 		}))
 		form:AddOption(l.MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT,1)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer*2))}),2)
+		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+10))}),2)
 		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer+5))}),3)
 		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-5))}),4)
-		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(math.floor(offer/2)))}),5)
+		form:AddOption(l.SUGGEST_NEW_WEEKLY_WAGE_OF_N:interp({newAmount=Format.Money(checkOffer(offer-10))}),5)
 		form:AddOption(l.ASK_CANDIDATE_TO_SIT_A_TEST,6)
 		form:AddOption(l.GO_BACK, 0)
 	end
-	
+
 	if option > 0 then
 
 		if not candidate then
@@ -254,6 +258,7 @@ local onChat = function (form,ref,option)
 		if option == 1 then
 			-- Offer of employment
 			form:Clear()
+			form:SetTitle(candidate.name)
 			if candidate:TestRoll('playerRelationship',15) then
 				-- Boosting roll by 15, because they want to work
 				if Game.player:Enroll(candidate) then
@@ -275,16 +280,15 @@ local onChat = function (form,ref,option)
 			else
 				form:SetMessage(l.IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME)
 				form:AddOption(l.GO_BACK, 0)
-				form:AddOption(l.HANG_UP, -1)
 			end
 			offer = nil
 			candidate = nil
 		end
 
 		if option == 2 then
-			-- Player suggested doubling the offer
-			candidate.playerRelationship = candidate.playerRelationship + 5
-			offer = checkOffer(offer * 2)
+			-- Player suggested to increase the offer with $10
+			candidate.playerRelationship = candidate.playerRelationship + 2
+			offer = checkOffer(offer + 10)
 			candidate.estimatedWage = offer -- They'll now re-evaluate themself
 			showCandidateDetails(l.THATS_EXTREMELY_GENEROUS_OF_YOU)
 		end
@@ -309,10 +313,10 @@ local onChat = function (form,ref,option)
 		end
 
 		if option == 5 then
-			-- Player suggested halving the offer
-			candidate.playerRelationship = candidate.playerRelationship - 5
+			-- Player suggested lowering the offer with $10
+			candidate.playerRelationship = candidate.playerRelationship - 2
 			if candidate:TestRoll('playerRelationship') then
-				offer = checkOffer(math.floor(offer / 2))
+				offer = checkOffer(offer - 10)
 				showCandidateDetails(l.OK_I_SUPPOSE_THATS_ALL_RIGHT)
 			else
 				showCandidateDetails(l.IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER)
@@ -322,6 +326,7 @@ local onChat = function (form,ref,option)
 		if option == 6 then
 			-- Player asks candidate to perform a test
 			form:Clear()
+			form:SetTitle(candidate.name)
 			local general,engineering,piloting,navigation,sensors = 0,0,0,0,0
 			for i = 1,10 do
 				if candidate:TestRoll('intelligence') then general = general + 10 end
@@ -357,7 +362,10 @@ local onCreateBB = function (station)
 	nonPersistentCharactersForCrew[station] = {}
 
 	-- Only one crew hiring thingy per station
-	stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
+	stationsWithAdverts[station:AddAdvert({
+		description = l.CREW_FOR_HIRE,
+		icon        = "crew_contracts",
+		onChat      = onChat})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
@@ -398,7 +406,10 @@ Event.Register("onGameStart", function()
 	if loaded_data then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
 		for k,station in ipairs(loaded_data.stationsWithAdverts) do
-			stationsWithAdverts[station:AddAdvert(l.CREW_FOR_HIRE, onChat)] = station
+		stationsWithAdverts[station:AddAdvert({
+			description = l.CREW_FOR_HIRE,
+			icon        = "crew_contracts",
+			onChat      = onChat})] = station
 		end
 		loaded_data = nil
 	end

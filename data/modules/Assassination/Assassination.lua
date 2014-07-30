@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -14,7 +14,7 @@ local NameGen = import("NameGen")
 local Character = import("Character")
 local Format = import("Format")
 local Serializer = import("Serializer")
-local EquipDef = import("EquipDef")
+local Equipment = import("Equipment")
 local ShipDef = import("ShipDef")
 local Ship = import("Ship")
 local utils = import("utils")
@@ -40,12 +40,25 @@ for i = 0,5 do
 	})
 end
 local num_titles = 25
+local num_deny = 8
 
 local ads = {}
 local missions = {}
 
+local isQualifiedFor = function(reputation, kills, ad)
+	return reputation >= 16 and
+		(kills >= 16 or
+		 kills >=  4 and ad.danger <= 1 or
+		 kills >=  8 and ad.danger <  4 or
+		 false)
+end
+
 local onDelete = function (ref)
 	ads[ref] = nil
+end
+
+local isEnabled = function (ref)
+	return isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ads[ref])
 end
 
 local onChat = function (form, ref, option)
@@ -56,8 +69,19 @@ local onChat = function (form, ref, option)
 	if option == -1 then
 		form:Close()
 		return
-	elseif option == 0 then
-		form:SetFace(ad.client)
+	end
+
+	local qualified = isQualifiedFor(Character.persistent.player.reputation, Character.persistent.player.killcount, ad)
+
+	form:SetFace(ad.client)
+
+	if not qualified then
+		local introtext = l["DENY_"..Engine.rand:Integer(1,num_deny)-1]
+		form:SetMessage(introtext)
+		return
+	end
+
+	if option == 0 then
 		local sys = ad.location:GetStarSystem()
 
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
@@ -154,7 +178,7 @@ local makeAdvert = function (station)
 
 	-- XXX hull mass is a bad way to determine suitability for role
 	--local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hullMass >= (danger * 17) and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
-	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.defaultHyperdrive ~= 'NONE' and def.equipSlotCapacity.ATMOSHIELD > 0 end, pairs(ShipDef)))
+	local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP' and def.hyperdriveClass > 0 and def.equipSlotCapacity.atmo_shield > 0 end, pairs(ShipDef)))
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local shipid = shipdef.id
 	local shipname = shipdef.name
@@ -180,7 +204,12 @@ local makeAdvert = function (station)
 		target	= ad.target,
 		system	= nearbysystem.name,
 	})
-	local ref = station:AddAdvert(ad.desc, onChat, onDelete)
+	local ref = station:AddAdvert({
+		description = ad.desc,
+		icon        = "assassination",
+		onChat      = onChat,
+		onDelete    = onDelete,
+		isEnabled   = isEnabled})
 	ads[ref] = ad
 end
 
@@ -247,26 +276,28 @@ local onEnterSystem = function (ship)
 					if mission.location:IsSameSystem(syspath) then -- spawn our target ship
 						local station = Space.GetBody(mission.location.bodyIndex)
 						local shiptype = ShipDef[mission.shipid]
-						local default_drive = shiptype.defaultHyperdrive
-						local laserdefs = utils.build_array(utils.filter(function (k,def) return def.slot == 'LASER' end, pairs(EquipDef)))
+						local default_drive = shiptype.hyperdriveClass
+						local laserdefs = utils.build_array(pairs(Equipment.laser))
+						table.sort(laserdefs, function (l1, l2) return l1.price < l2.price end)
 						local laserdef = laserdefs[mission.danger]
-						local count = tonumber(string.sub(default_drive, -1)) ^ 2
+						local count = default_drive ^ 2
 
 						mission.ship = Space.SpawnShipDocked(mission.shipid, station)
 						if mission.ship == nil then
 							return -- TODO
 						end
 						mission.ship:SetLabel(mission.shipregid)
-						mission.ship:AddEquip('ATMOSPHERIC_SHIELDING')
-						mission.ship:AddEquip(default_drive)
-						mission.ship:AddEquip(laserdef.id)
-						mission.ship:AddEquip('SHIELD_GENERATOR', mission.danger)
-						mission.ship:AddEquip('HYDROGEN', count)
+						mission.ship:AddEquip(Equipment.misc.atmospheric_shielding)
+						local engine = Equipment.hyperspace['hyperdrive_'..tostring(default_drive)]
+						mission.ship:AddEquip(engine)
+						mission.ship:AddEquip(laserdef)
+						mission.ship:AddEquip(Equipment.misc.shield_generator, mission.danger)
+						mission.ship:AddEquip(Equipment.cargo.hydrogen, count)
 						if mission.danger > 2 then
-							mission.ship:AddEquip('SHIELD_ENERGY_BOOSTER')
+							mission.ship:AddEquip(Equipment.misc.shield_energy_booster)
 						end
 						if mission.danger > 3 then
-							mission.ship:AddEquip('LASER_COOLING_BOOSTER')
+							mission.ship:AddEquip(Equipment.misc.laser_cooling_booster)
 						end
 						_setupHooksForMission(mission)
 						mission.shipstate = 'docked'
@@ -296,6 +327,7 @@ end
 local onShipDocked = function (ship, station)
 	for ref,mission in pairs(missions) do
 		if ship:IsPlayer() then
+			local oldReputation = Character.persistent.player.reputation
 			if mission.status == 'COMPLETED' and
 			   mission.backstation == station.path then
 				local text = string.interp(flavours[mission.flavour].successmsg, {
@@ -304,6 +336,7 @@ local onShipDocked = function (ship, station)
 				})
 				Comms.ImportantMessage(text, mission.client.name)
 				ship:AddMoney(mission.reward)
+				Character.persistent.player.reputation = Character.persistent.player.reputation + 8
 				mission:Remove()
 				missions[ref] = nil
 			elseif mission.status == 'FAILED' then
@@ -318,15 +351,17 @@ local onShipDocked = function (ship, station)
 					})
 				end
 				Comms.ImportantMessage(text, mission.client.name)
+				Character.persistent.player.reputation = Character.persistent.player.reputation - 8
 				mission:Remove()
 				missions[ref] = nil
 			end
+			Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+				Character.persistent.player.reputation, Character.persistent.player.killcount)
 		else
 			if mission.ship == ship then
 				mission.status = 'FAILED'
 			end
 		end
-		return
 	end
 end
 
@@ -363,7 +398,7 @@ local onAICompleted = function (ship, ai_error)
 				local system = systems[Engine.rand:Integer(1,#systems)]
 
 				mission.shipstate = 'inbound'
-				ship:HyperspaceTo(system.path)
+				ship:HyperjumpTo(system.path)
 			-- the only other states are flying and inbound, and there is no AI to complete for inbound
 			elseif ai_error == 'NONE' then
 				Timer:CallAt(Game.time + 60 * 60 * 8, function ()
@@ -402,6 +437,15 @@ local onUpdateBB = function (station)
 	end
 end
 
+local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
+	for ref,ad in pairs(ads) do
+		local oldQualified = isQualifiedFor(oldRep, oldKills, ad)
+		if isQualifiedFor(newRep, newKills, ad) ~= oldQualified then
+			Event.Queue("onAdvertChanged", ad.station, ref);
+		end
+	end
+end
+
 local loaded_data
 
 local onGameStart = function ()
@@ -411,7 +455,12 @@ local onGameStart = function ()
 	if not loaded_data then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.desc, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.desc,
+		    icon        = "assassination",
+			onChat      = onChat,
+			onDelete    = onDelete,
+			isEnabled   = isEnabled})
 		ads[ref] = ad
 	end
 
@@ -546,6 +595,7 @@ Event.Register("onShipDocked", onShipDocked)
 Event.Register("onShipHit", onShipHit)
 Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onGameEnd", onGameEnd)
+Event.Register("onReputationChanged", onReputationChanged)
 
 Mission.RegisterType('Assassination',l.ASSASSINATION,onClick)
 

@@ -1,10 +1,11 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
 #include "IniConfig.h"
 #include "FileSystem.h"
 #include "StringRange.h"
+#include "utils.h"
 #include <cstdlib>
 #include <sstream>
 
@@ -98,7 +99,7 @@ void IniConfig::Read(const FileSystem::FileData &data)
 		const char *kend = line.FindChar('=');
 		// if there's no '=' sign, skip the line
 		if (kend == line.end) {
-			fprintf(stderr, "WARNING: ignoring invalid line in config file:\n   '%.*s'\n", int(line.Size()), line.begin);
+			Output("WARNING: ignoring invalid line in config file:\n   '%.*s'\n", int(line.Size()), line.begin);
 			continue;
 		}
 
@@ -119,7 +120,7 @@ bool IniConfig::Write(FileSystem::FileSourceFS &fs, const std::string &path)
 {
 	FILE *f = fs.OpenWriteStream(path, FileSystem::FileSourceFS::WRITE_TEXT);
 	if (!f) {
-		fprintf(stderr, "Could not write config file '%s'\n", FileSystem::JoinPath(fs.GetRoot(), path).c_str());
+		Output("Could not write config file '%s'\n", FileSystem::JoinPath(fs.GetRoot(), path).c_str());
 		return false;
 	}
 	for (SectionMapType::const_iterator secIt = m_map.begin(); secIt != m_map.end(); ++secIt) {

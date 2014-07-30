@@ -1,17 +1,19 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local Comms = import("Comms")
+local Character = import("Character")
 local Event = import("Event")
 local Serializer = import("Serializer")
+local Format = import("Format")
 
 local l = Lang.GetResource("module-donatetocranks")
 
 local flavours = {}
-for i = 0,4 do
+for i = 0,5 do
 	table.insert(flavours, {
 		title     = l["FLAVOUR_" .. i .. "_TITLE"],
 		message   = l["FLAVOUR_" .. i .. "_MESSAGE"],
@@ -19,6 +21,21 @@ for i = 0,4 do
 end
 
 local ads = {}
+
+
+local addReputation = function (money)
+	local curRep = Character.persistent.player.reputation
+	local newRep
+
+	if curRep >= 1 then
+		local exp = math.log(money)/math.log(10) - (math.log(curRep)/math.log(2) - 1)
+		newRep = curRep + 2^exp
+	else
+		newRep = curRep + 2^(math.log(money)/math.log(10))
+	end
+	Character.persistent.player.reputation = newRep
+end
+
 
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
@@ -30,12 +47,12 @@ local onChat = function (form, ref, option)
 		form:SetFace({ seed = ad.faceseed })
 		form:SetMessage(ad.message)
 
-		form:AddOption("$1", 1)
-		form:AddOption("$10", 10)
-		form:AddOption("$100", 100)
-		form:AddOption("$1000", 1000)
-		form:AddOption("$10000", 10000)
-		form:AddOption("$100000", 100000)
+		form:AddOption(Format.Money(1,false), 1)
+		form:AddOption(Format.Money(10,false), 10)
+		form:AddOption(Format.Money(100,false), 100)
+		form:AddOption(Format.Money(1000,false), 1000)
+		form:AddOption(Format.Money(10000,false), 10000)
+		form:AddOption(Format.Money(100000,false), 100000)
 
 		return
 	end
@@ -54,6 +71,7 @@ local onChat = function (form, ref, option)
 			Comms.Message(l.THANK_YOU_ALL_DONATIONS_ARE_WELCOME)
 		end
 		Game.player:AddMoney(-option)
+		addReputation(option)
 	end
 end
 
@@ -71,7 +89,11 @@ local onCreateBB = function (station)
 		faceseed = Engine.rand:Integer()
 	}
 
-	local ref = station:AddAdvert(ad.title, onChat, onDelete)
+	local ref = station:AddAdvert({
+		description = ad.title,
+		icon        = "donate_to_cranks",
+		onChat      = onChat,
+		onDelete    = onDelete})
 	ads[ref] = ad
 end
 
@@ -83,7 +105,11 @@ local onGameStart = function ()
 	if not loaded_data then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.title,
+			icon        = "donate_to_cranks",
+			onChat      = onChat,
+			onDelete    = onDelete})
 		ads[ref] = ad
 	end
 

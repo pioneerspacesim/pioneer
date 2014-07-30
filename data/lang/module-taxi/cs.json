@@ -9,7 +9,7 @@
    },
    "CORPORATIONS_10" : {
       "description" : "",
-      "message" : "Bulk Ships"
+      "message" : "Velké lodě"
    },
    "CORPORATIONS_11" : {
       "description" : "",
@@ -58,6 +58,38 @@
    "DEADLINE" : {
       "description" : "",
       "message" : "Termín:"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Promiň, ale nemyslím že ti můžu věřit ohledně mé bezpečnosti."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Vrať se, až budeš mít nějakou kvalifikaci."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Nemyslím, že jsi pilot kterého hledám."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Nevypadáš jako někdo kdo je schopný přepravovat lidi."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Nejsi druh pilota kterého hledám."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Vypadáš příliš nezkušeně než abys zvládl transport takové důležitosti."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nikdy jsem o tobě neslyšel(a). Potřebuju na tuhle výpravu někoho zkušeného."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Nechci riskovat svůj život s někým tak nezkušeným jako jsi ty."
    },
    "DISTANCE" : {
       "description" : "",
@@ -109,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "Jsi opravdu nezkušený pilot. Za tohle nezaplatím!"
+      "message" : "Jsi tak nezkušený pilot. Za tohle nezaplatím!"
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -141,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "Jsi opravdu nekompetentní a já jsem teď bez práce! Takže ty peníze potřebuju víc než ty."
+      "message" : "Příjdu o práci kvůli tvé neschopnosti. Takže ty peníze potřebuju víc než ty."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",

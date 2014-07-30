@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SERIALIZE_H
@@ -6,6 +6,7 @@
 
 #include "utils.h"
 #include "Quaternion.h"
+#include "ByteRange.h"
 #include <vector>
 
 class Frame;
@@ -33,8 +34,10 @@ namespace Serializer {
 		void Double(double f);
 		void String(const char* s);
 		void String(const std::string &s);
+		void Vector3f(vector3f vec);
 		void Vector3d(vector3d vec);
 		void WrQuaternionf(const Quaternionf &q);
+		void Color4UB(const Color&);
 		void WrSection(const std::string &section_label, const std::string &section_data) {
 			String(section_label);
 			String(section_data);
@@ -50,9 +53,9 @@ namespace Serializer {
 
 	class Reader {
 	public:
-		Reader();
-		Reader(const std::string &data);
-		Reader(FILE *fptr);
+		Reader(): m_at(nullptr), m_streamVersion(-1) {}
+		explicit Reader(const ByteRange &data);
+
 		bool AtEnd();
 		void Seek(int pos);
 		Uint8 Byte();
@@ -63,13 +66,16 @@ namespace Serializer {
 		float Float ();
 		double Double ();
 		std::string String();
+		ByteRange Blob();
+		vector3f Vector3f();
 		vector3d Vector3d();
 		Quaternionf RdQuaternionf();
+		Color Color4UB();
 		Reader RdSection(const std::string &section_label_expected) {
 			if (section_label_expected != String()) {
 				throw SavedGameCorruptException();
 			}
-			Reader section = Reader(String());
+			Reader section = Reader(Blob());
 			section.SetStreamVersion(StreamVersion());
 			return section;
 		}
@@ -80,9 +86,10 @@ namespace Serializer {
 		void Auto(double *x) { *x = Double(); }
 		int StreamVersion() const { return m_streamVersion; }
 		void SetStreamVersion(int x) { m_streamVersion = x; }
+
 	private:
-		std::string m_data;
-		size_t m_pos;
+		ByteRange m_data;
+		const char *m_at;
 		int m_streamVersion;
 	};
 

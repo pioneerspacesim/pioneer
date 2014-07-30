@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "SectorView.h"
 #include "EnumStrings.h"
+#include "galaxy/Galaxy.h"
 
 /*
  * Class: Player
@@ -62,8 +63,8 @@ static int l_player_get_crime(lua_State *l)
 	Polit::GetCrime(&crimeBitset, &fine);
 
 	lua_newtable(l);
-	for (int i = 0; i < 4; i++) { // hardcoding 4 possible Polit::Crime flags
-		if (crimeBitset & (1<<i)) {
+	for (Sint64 i = 0; i < 4; i++) { // hardcoding 4 possible Polit::Crime flags
+		if (crimeBitset & (Sint64(1)<<i)) {
 			lua_pushstring(l, EnumStrings::GetString("PolitCrime", 1<<i));
 			lua_rawseti(l, -2, lua_rawlen(l, -2)+1);
 		}
@@ -221,7 +222,6 @@ static int l_get_hyperspace_target(lua_State *l)
 		target = Pi::sectorView->GetHyperspaceTarget();
 	else
 		target = player->GetHyperspaceDest();
-	assert(target.IsSystemPath());
 	LuaObject<SystemPath>::PushToLua(target);
 	return 1;
 }
@@ -235,7 +235,7 @@ static int l_get_hyperspace_target(lua_State *l)
  *
  * Parameters:
  *
- *   target - a <SystemPath> to which to set the hyperspace target
+ *   target - a <SystemPath> to which to set the hyperspace target. Must be a system path or the path of a star.
  *
  * Availability:
  *
@@ -250,10 +250,20 @@ static int l_set_hyperspace_target(lua_State *l)
 {
 	LuaObject<Player>::CheckFromLua(1);
 	if (Pi::game->IsNormalSpace()) {
-		const SystemPath sys = *LuaObject<SystemPath>::CheckFromLua(2);
-		if (!sys.IsSystemPath())
-			return luaL_error(l, "Player:SetHyperspaceTarget() -- second parameter is not a system path");
-		Pi::sectorView->SetHyperspaceTarget(sys);
+		const SystemPath path = *LuaObject<SystemPath>::CheckFromLua(2);
+		if (!path.IsSystemPath()) {
+			if (!path.IsBodyPath()) {
+				return luaL_error(l, "Player:SetHyperspaceTarget() -- second parameter is not a system path or the path of a star");
+			}
+			RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(path);
+			// Lua should never be able to get an invalid SystemPath
+			// (note: this may change if it becomes possible to remove systems during the game)
+			assert(path.bodyIndex < sys->GetNumBodies());
+			SystemBody *sbody = sys->GetBodyByPath(path);
+			if (!sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+				return luaL_error(l, "Player:SetHyperspaceTarget() -- second parameter is not a system path or the path of a star");
+		}
+		Pi::sectorView->SetHyperspaceTarget(path);
 		return 0;
 	} else
 		return luaL_error(l, "Player:SetHyperspaceTarget() cannot be used while in hyperspace");

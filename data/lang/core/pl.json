@@ -12,8 +12,8 @@
       "message" : "Przynależność:"
    },
    "ALT" : {
-      "description" : "",
-      "message" : "\"Alt \""
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
    },
    "ALT_IN_KM" : {
       "description" : "",
@@ -29,11 +29,11 @@
    },
    "AND_INDIGENOUS_MICROBIAL_LIFE" : {
       "description" : "",
-      "message" : "\" i lokalne mikroorganizmy.\""
+      "message" : "\" i lokalne mikroorganizmy.\""
    },
    "AND_INDIGENOUS_PLANT_LIFE" : {
       "description" : "",
-      "message" : "\" i lokalna roślinność.\""
+      "message" : "\" i lokalna roślinność.\""
    },
    "ANIMAL_MEAT" : {
       "description" : "",
@@ -57,7 +57,11 @@
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Osłaniają statek przy wejściu w atmosferę."
+      "message" : "Osłaniają statek przy wejściu w atmosferę."
+   },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatyczny wybór systemu"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -147,9 +151,13 @@
       "description" : "",
       "message" : "Górna kamera"
    },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Nie można zapisać grę po śmierci gracza"
+   },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Nie można zapisać gry w czasie skoku"
+      "message" : "Nie można zapisać gry będąc w nadprzestrzeni"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -169,7 +177,7 @@
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Czujniki wykryły krytyczny poziom podtrzymywania życia w ładowni."
+      "message" : "Czujniki wykryły krytyczny poziom podtrzymywania życia w ładowni."
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
@@ -177,7 +185,7 @@
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Umożliwia transport ludzi i zwierząt."
+      "message" : "Umożliwia transport ludzi i zwierząt."
    },
    "CARGO_N" : {
       "description" : "",
@@ -189,7 +197,11 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Wystrzelono harpun towarowy. Pozyskano 1 tonę: %item."
+      "message" : "Aktywowano harpun towarowy. Pozyskano 1 tonę: %item."
+   },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Próba przechwycenia ładunku. Brak miejsca w ładowni."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -205,7 +217,7 @@
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
-      "message" : "Brak zgody. Brak wolnych miejsc w dokach."
+      "message" : "Brak zgody. Brak wolnych miejsc w dokach."
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
@@ -218,6 +230,18 @@
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
       "message" : ", silnie wulkaniczna"
+   },
+   "COMMODITY_NONE" : {
+      "description" : "When no commodities exist",
+      "message" : "Brak"
+   },
+   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
+      "description" : "",
+      "message" : "Analiza handlu towarem pomiędzy systemem #ff0%selected_system#fff (wskazany) a #ff0%current_system#fff (obecny):"
+   },
+   "COMMODITY_TRADE_ANALYSIS_SELF" : {
+      "description" : "",
+      "message" : "Analiza handlu towarem w systemie #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -268,8 +292,8 @@
       "message" : "\" atmosfera oparta na tlenku węgla\""
    },
    "CTRL" : {
-      "description" : "",
-      "message" : "\"Ctrl \""
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -303,10 +327,6 @@
       "description" : "",
       "message" : "\" Dir \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Centrowanie widoku na wskazywanym systemie - wyłączone."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Odległość statku od celu"
@@ -334,6 +354,10 @@
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
       "message" : "Nazwy nieosiągalnych systemów"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Nazwy niezamieszkanych systemów"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -431,10 +455,6 @@
       "description" : "",
       "message" : "Ekonomia:"
    },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Centrowanie widoku na wskazywanym systemie - włączone."
-   },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
       "message" : "Stosunek średnicy równikowej do międzybiegunowej"
@@ -505,7 +525,7 @@
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Pozwala czerpać paliwo wodorowe z gazowych olbrzymów."
+      "message" : "Pozwala czerpać paliwo wodorowe z gazowych olbrzymów."
    },
    "GALACTIC_VIEW" : {
       "description" : "",
@@ -517,7 +537,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny..."
+      "message" : "Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -525,7 +545,7 @@
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "Ten zapis gry nie może zostać załadowany, ponieważ pochodzi z innej wersji gry Pioneer."
+      "message" : "Ten zapis gry nie może zostać załadowany, ponieważ pochodzi z innej wersji gry Pioneer."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
@@ -533,7 +553,11 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "Nie można zapisać gry z powodu błędu systemu."
+      "message" : "Nie można zapisać gry z powodu błędu systemowego."
+   },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Sterowanie w widoku ogólnym"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -555,13 +579,33 @@
       "description" : "",
       "message" : "\" Hat\""
    },
+   "HEADING_LOCK_ANTINORMAL" : {
+      "description" : "",
+      "message" : "Pozycja anormalnie"
+   },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Utrzymaj pozycję (tył)"
+      "message" : "Pozycja tyłem"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Utrzymaj pozycję (przód)"
+      "message" : "Pozycja przodem"
+   },
+   "HEADING_LOCK_KILLROT" : {
+      "description" : "",
+      "message" : "Stłum rotację"
+   },
+   "HEADING_LOCK_NORMAL" : {
+      "description" : "",
+      "message" : "Pozycja normalnie"
+   },
+   "HEADING_LOCK_RADIALLY_INWARD" : {
+      "description" : "",
+      "message" : "Pozycja dośrodkowo"
+   },
+   "HEADING_LOCK_RADIALLY_OUTWARD" : {
+      "description" : "",
+      "message" : "Pozycja odśrodkowo"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -577,7 +621,7 @@
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Zewnętrzny świat o wysokim zaludnieniu."
+      "message" : "Zewnętrzny świat o wysokim zaludnieniu."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
@@ -585,7 +629,7 @@
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
-      "message" : "Automatycznie naprawia kadłub statku w przypadku uszkodzenia."
+      "message" : "Automatycznie naprawia kadłub statku w przypadku uszkodzenia."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -613,7 +657,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Skok w nadprzestrzeń"
+      "message" : "Nadprzestrzeń"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -650,6 +694,10 @@
    "ICE_WORLD" : {
       "description" : "",
       "message" : "\" lodowa planeta\""
+   },
+   "ILLEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Nielegalne (obecny system):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -716,7 +764,7 @@
       "message" : "Wylądował"
    },
    "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
       "message" : "Polski"
    },
    "LARGE" : {
@@ -743,9 +791,9 @@
       "description" : "",
       "message" : "Statek pod ostrzałem!"
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Brak pozwolenia na lądowanie: doki zajęte."
+   "LEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Legalne (obecny system):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -757,7 +805,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Tlen jest wymagany dla systemów podtrzymywania życia i niektórych procesów przemysłowych"
+      "message" : "Tlen jest wymagany dla systemów podtrzymywania życia i niektórych procesów przemysłowych"
    },
    "LIQUOR" : {
       "description" : "",
@@ -775,9 +823,17 @@
       "description" : "",
       "message" : "Główny Eksport:"
    },
+   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Główny eksport (obecny system):"
+   },
    "MAJOR_IMPORTS" : {
       "description" : "",
       "message" : "Główny Import:"
+   },
+   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Główny import (obecny system):"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -786,6 +842,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Tryb sterowania ręcznego"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Zablokuj cel nadprzestrzenny"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Widok panelu informacyjnego"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Centrowanie na wskazywany system"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Obrót widoku w dół"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Obrót widoku w lewo"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Obrót widoku w prawo"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Obrót widoku w górę"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w tył"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w dół"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w przód"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w lewo"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w prawo"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Przesunięcie widoku w górę"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp do aktualnego systemu"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Warp do celu nadprzestrzennego"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp do wskazanego systemu"
    },
    "MASS" : {
       "description" : "",
@@ -812,8 +932,8 @@
       "message" : "Wiadomość od %sender:"
    },
    "META" : {
-      "description" : "",
-      "message" : "\"meta \""
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -837,7 +957,7 @@
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Służy do kruszenia planetoid bogatych w minerały."
+      "message" : "Służy do kruszenia planetoid bogatych w minerały."
    },
    "MINING_COLONY" : {
       "description" : "",
@@ -851,9 +971,17 @@
       "description" : "",
       "message" : "Drugorzędny Eksport:"
    },
+   "MINOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Drugorzędny eksport (obecny system):"
+   },
    "MINOR_IMPORTS" : {
       "description" : "",
       "message" : "Drugorzędny Import:"
+   },
+   "MINOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Drugorzędny import (obecny system):"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -939,9 +1067,13 @@
       "description" : "",
       "message" : "%speed{f.0} m/s względem: %frame"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
       "message" : "Nazwa"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Nazwisko"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -960,7 +1092,7 @@
       "message" : "Gaz paraliżujący"
    },
    "NONE" : {
-      "description" : "",
+      "description" : "used for no allegiance, and no rank, and no missions",
       "message" : "Brak"
    },
    "NORMA_ARM" : {
@@ -1003,9 +1135,25 @@
       "description" : "",
       "message" : "%days{f.0} dni"
    },
+   "NUMBER_DECIMAL_POINT" : {
+      "description" : "Decimal delimiter used in numbers.",
+      "message" : ","
+   },
    "NUMBER_G" : {
       "description" : "",
       "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_GROUP_MIN" : {
+      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+      "message" : "10000"
+   },
+   "NUMBER_GROUP_NUM" : {
+      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+      "message" : "3"
+   },
+   "NUMBER_GROUP_SEP" : {
+      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+      "message" : "\" \""
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1143,6 +1291,22 @@
       "description" : "",
       "message" : "Gospodarka centralnie planowana"
    },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "",
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "",
+      "message" : "Normal delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "",
+      "message" : "Prograde delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "",
+      "message" : "Radial delta-v. Click to reset to zero."
+   },
    "PLASTICS" : {
       "description" : "",
       "message" : "Tworzywa sztuczne"
@@ -1209,7 +1373,7 @@
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków."
+      "message" : "Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1230,6 +1394,10 @@
    "RESET" : {
       "description" : "",
       "message" : "Reset"
+   },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reset orientacji i zbliżenia"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1315,9 +1483,17 @@
       "description" : "",
       "message" : "Szukaj"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Szukaj na mapie"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Koordynaty sektora:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Widok mapy sektorowej"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1341,7 +1517,7 @@
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Ustawiono cel skoku na %system"
+      "message" : "Ustawiono cel nadprzestrzenny na %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
@@ -1384,8 +1560,8 @@
       "message" : "Siła osłon: %shields{f.2}"
    },
    "SHIFT" : {
-      "description" : "",
-      "message" : "\"Shift \""
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
    },
    "SHIP" : {
       "description" : "",
@@ -1473,7 +1649,7 @@
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}."
+      "message" : "Stabilny system z %bodycount %{body(s)} i %portcount %{starport(s)}."
    },
    "STARPORT" : {
       "description" : "",
@@ -1721,11 +1897,11 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
-      "message" : "SPOCZYWAJ W POKOJU"
+      "message" : "SPOCZYWAJ W POKOJU STARY PIERNIKU"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Przemyt"
+      "message" : "Obrót nielegalnymi towarami"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1741,7 +1917,7 @@
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "System niezbadany. Informacje o gwieździe uzyskano przez teleskop, brak danych o planetach."
+      "message" : "System niezbadany. Informacje o gwieździe uzyskano przez teleskop, brak danych o planetach."
    },
    "UNKNOWN" : {
       "description" : "",

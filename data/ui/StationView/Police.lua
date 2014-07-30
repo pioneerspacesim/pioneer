@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -7,11 +7,11 @@ local Game = import("Game")
 local Rand = import("Rand")
 local Character = import("Character")
 local Format = import("Format")
-local Comms = import("Comms")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
+local MessageBox = import("ui/MessageBox")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
@@ -59,7 +59,7 @@ local police = function (tab)
 		actionBox:PackEnd(b)
 		b.button.onClick:Connect(function ()
 			if Game.player:GetMoney() < fine then
-				Comms.Message(l.YOU_NOT_ENOUGH_MONEY)
+				MessageBox.Message(l.YOU_NOT_ENOUGH_MONEY)
 				return
 			end
 
@@ -71,11 +71,11 @@ local police = function (tab)
 	end
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				infoBox
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				face.widget
 			})
 end

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_LABEL_H
@@ -9,6 +9,7 @@
 #include "Node.h"
 #include "text/DistanceFieldFont.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 
 namespace Graphics {
 	class Renderer;
@@ -30,6 +31,7 @@ private:
 	RefCountedPtr<Graphics::Material> m_material;
 	std::unique_ptr<Graphics::VertexArray> m_geometry;
 	RefCountedPtr<Text::DistanceFieldFont> m_font;
+	Graphics::RenderState *m_renderState;
 };
 
 }

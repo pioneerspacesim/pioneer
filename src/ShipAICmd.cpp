@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -198,6 +198,7 @@ static void LaunchShip(Ship *ship)
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
 	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
@@ -235,6 +236,7 @@ bool AICmdKamikaze::TimeStepUpdate()
 
 bool AICmdKill::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
@@ -252,7 +254,7 @@ bool AICmdKill::TimeStepUpdate()
 	vector3d leaddir = m_ship->AIGetLeadDir(m_target, targaccel, 0);
 
 	if (targpos.Length() >= VICINITY_MIN+1000.0) {	// if really far from target, intercept
-//		printf("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
+//		Output("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
 		m_child = new AICmdFlyTo(m_ship, m_target);
 		ProcessChild(); return false;
 	}
@@ -636,6 +638,10 @@ static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &targpos, 
 		double sdist = ship->GetPositionRelTo(frame).Length();
 		if (sdist < frame->GetRadius()) break;					// ship inside frame, stop
 
+		// we should always be inside the root frame, so if we're not inside 'frame'
+		// then it must not be the root frame (ie, it must have a parent)
+		assert(frame->GetParent());
+
 		frame = frame->GetParent()->GetNonRotFrame();			// check next frame down
 	}
 	if (!body) return false;
@@ -687,18 +693,22 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 }
 
 // Specified pos, endvel should be > 0
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent)
-	: AICommand(ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent) :
+	AICommand(ship, CMD_FLYTO),
+	m_target(nullptr),
+	m_targframe(targframe),
+	m_posoff(posoff),
+	m_endvel(endvel),
+	m_tangent(tangent),
+	m_state(-6),
+	m_lockhead(true),
+	m_frame(nullptr)
 {
-	m_targframe = targframe; m_target = 0;
-	m_posoff = posoff;
-	m_endvel = endvel;
-	m_tangent = tangent;
-	m_frame = 0; m_state = -6; m_lockhead = true;
 }
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target && !m_targframe) return true;			// deleted object
 
 	// sort out gear, launching
@@ -725,7 +735,7 @@ bool AICmdFlyTo::TimeStepUpdate()
 
 #ifdef DEBUG_AUTOPILOT
 if (m_ship->IsType(Object::PLAYER))
-printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
+Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().z, m_state);
 #endif
 
@@ -833,7 +843,9 @@ printf("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	// work out which way to head 
 	vector3d head = reldir;
 	if (!m_state && sdiff < -1.2*maxdecel*timestep) m_state = 1;
-	if (m_state && sdiff < maxdecel*timestep*60) head = -head;
+	// if we're not coasting due to fuel constraints, and we're in the deceleration phase
+	// then flip the ship so we can use our main thrusters to decelerate
+	if (m_state && !is_zero_exact(sdiff) && sdiff < maxdecel*timestep*60) head = -head;
 	if (!m_state && decel) sidefactor = -sidefactor;
 	head = head*maxdecel + perpdir*sidefactor;
 
@@ -870,6 +882,7 @@ AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOC
 
 bool AICmdDock::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
 	if (m_state == eDockFlyToStart) IncrementState();				// finished moving into dock start pos
@@ -965,7 +978,7 @@ bool AICmdDock::TimeStepUpdate()
 	}
 
 #ifdef DEBUG_AUTOPILOT
-printf("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
+Output("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
 	targdist, relvel.Length(), m_ship->GetThrusterState().y, m_state);
 #endif
 
@@ -1021,6 +1034,7 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 
 bool AICmdFlyAround::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 
 	// Not necessary unless it's a tier 1 AI
@@ -1089,15 +1103,16 @@ bool AICmdFlyAround::TimeStepUpdate()
 	return false;
 }
 
-AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff)
-	: AICommand(ship, CMD_FORMATION)
+AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff) :
+	AICommand(ship, CMD_FORMATION),
+	m_target(target),
+	m_posoff(posoff)
 {
-	m_target = target;
-	m_posoff = posoff;
 }
 
 bool AICmdFormation::TimeStepUpdate()
 {
+	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target) return true;
 	if (!ProcessChild()) return false;		// In case we're doing an intercept
 

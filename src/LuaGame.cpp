@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -11,6 +11,8 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "WorldView.h"
+#include "DeathView.h"
+#include "galaxy/Galaxy.h"
 
 /*
  * Interface: Game
@@ -25,13 +27,16 @@
  *
  * Start a new game.
  *
- * > Game.StartGame(system_path)
+ * > Game.StartGame(system_path, start_time)
  *
  * Parameters:
  *
  *   system_path - A SystemBody to start at. If this is a starport, the player
  *                 will begin docked here; otherwise the player will begin in
  *                 orbit around the specified body.
+ *
+ *   start_time - optional, default 0. Time to start at in seconds from the
+ *                Pioneer epoch (i.e. from 3200-01-01 00:00 UTC).
  *
  * Availability:
  *
@@ -49,14 +54,14 @@ static int l_game_start_game(lua_State *l)
 	}
 
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	const double start_time = luaL_optnumber(l, 2, 0.0);
 
-	RefCountedPtr<StarSystem> system(StarSystem::GetCached(*path));
+	RefCountedPtr<StarSystem> system(Pi::GetGalaxy()->GetStarSystem(*path));
 	SystemBody *sbody = system->GetBodyByPath(path);
-
 	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
-		Pi::game = new Game(*path);
+		Pi::game = new Game(*path, start_time);
 	else
-		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0));
+		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0), start_time);
 
 	return 0;
 }
@@ -136,10 +141,6 @@ static int l_game_save_game(lua_State *l)
 		return luaL_error(l, "can't save when no game is running");
 	}
 
-	if (Pi::game->IsHyperspace()) {
-		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
-	}
-
 	const std::string filename(luaL_checkstring(l, 1));
 	const std::string path = FileSystem::JoinPathBelow(Pi::GetSaveDir(), filename);
 
@@ -147,6 +148,12 @@ static int l_game_save_game(lua_State *l)
 		Game::SaveGame(filename, Pi::game);
 		lua_pushlstring(l, path.c_str(), path.size());
 		return 1;
+	}
+	catch (CannotSaveInHyperspace) {
+		return luaL_error(l, "%s", Lang::CANT_SAVE_IN_HYPERSPACE);
+	}
+	catch (CannotSaveDeadPlayer) {
+		return luaL_error(l, "%s", Lang::CANT_SAVE_DEAD_PLAYER);
 	}
 	catch (CouldNotOpenFileException) {
 		const std::string message = stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path));
@@ -249,11 +256,14 @@ static int l_game_attr_time(lua_State *l)
 
 // XXX temporary to support StationView "Launch" button
 // remove once WorldView has been converted to the new UI
-static int l_game_switch_to_world_view(lua_State *l)
+static int l_game_switch_view(lua_State *l)
 {
 	if (!Pi::game)
 		return luaL_error(l, "can't switch view when no game is running");
-	Pi::SetView(Pi::worldView);
+	if (Pi::player->IsDead())
+		Pi::SetView(Pi::deathView);
+	else
+		Pi::SetView(Pi::worldView);
 	return 0;
 }
 
@@ -269,7 +279,7 @@ void LuaGame::Register()
 		{ "SaveGame",  l_game_save_game  },
 		{ "EndGame",   l_game_end_game   },
 
-		{ "SwitchToWorldView", l_game_switch_to_world_view },
+		{ "SwitchView", l_game_switch_view },
 
 		{ 0, 0 }
 	};

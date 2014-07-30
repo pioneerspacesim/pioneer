@@ -1,0 +1,10 @@
+{
+   "PIONEERING_PILOTS_GUILD" : {
+      "description" : "",
+      "message" : "Associação dos Pilotos Pioneiros"
+   },
+   "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
+      "description" : "",
+      "message" : "Muito bem comandante! Sua taxa de combate foi incrementada!"
+   }
+}

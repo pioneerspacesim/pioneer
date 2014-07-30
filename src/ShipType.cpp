@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipType.h"
@@ -19,8 +19,6 @@ std::map<ShipType::Id, ShipType> ShipType::types;
 std::vector<ShipType::Id> ShipType::player_ships;
 std::vector<ShipType::Id> ShipType::static_ships;
 std::vector<ShipType::Id> ShipType::missile_ships;
-
-std::vector<ShipType::Id> ShipType::playable_atmospheric_ships;
 
 std::string ShipType::POLICE				= "kanara";
 std::string ShipType::MISSILE_GUIDED		= "missile_guided";
@@ -61,10 +59,11 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	LuaTable t(L, -1);
 
 	s.name = t.Get("name", "");
-	s.shipClass = t.Get("ship_class", "");
-	s.manufacturer = t.Get("manufacturer", "");
+	s.shipClass = t.Get("ship_class", "unknown");
+	s.manufacturer = t.Get("manufacturer", "unknown");
 	s.modelName = t.Get("model", "");
 
+	s.cockpitName = t.Get("cockpit", "");
 	s.linThrust[ShipType::THRUSTER_REVERSE] = t.Get("reverse_thrust", 0.0f);
 	s.linThrust[ShipType::THRUSTER_FORWARD] = t.Get("forward_thrust", 0.0f);
 	s.linThrust[ShipType::THRUSTER_UP] = t.Get("up_thrust", 0.0f);
@@ -82,33 +81,24 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	lua_pushstring(L, "camera_offset");
 	lua_gettable(L, -2);
 	if (!lua_isnil(L, -1))
-		fprintf(stderr, "ship definition for '%s' has deprecated 'camera_offset' field\n", s.id.c_str());
+		Output("ship definition for '%s' has deprecated 'camera_offset' field\n", s.id.c_str());
 	lua_pop(L, 1);
 	s.cameraOffset = t.Get("camera_offset", vector3d(0.0));
-
-	for (int i=0; i<Equip::SLOT_MAX; i++) s.equipSlotCapacity[i] = 0;
-	s.equipSlotCapacity[Equip::SLOT_CARGO] = t.Get("max_cargo", 0);
-	s.equipSlotCapacity[Equip::SLOT_ENGINE] = t.Get("max_engine", 1);
-	s.equipSlotCapacity[Equip::SLOT_LASER] = t.Get("max_laser", 1);
-	s.equipSlotCapacity[Equip::SLOT_MISSILE] = t.Get("max_missile", 0);
-	s.equipSlotCapacity[Equip::SLOT_ECM] = t.Get("max_ecm", 1);
-	s.equipSlotCapacity[Equip::SLOT_SCANNER] = t.Get("max_scanner", 1);
-	s.equipSlotCapacity[Equip::SLOT_RADARMAPPER] = t.Get("max_radarmapper", 1);
-	s.equipSlotCapacity[Equip::SLOT_HYPERCLOUD] = t.Get("max_hypercloud", 1);
-	s.equipSlotCapacity[Equip::SLOT_HULLAUTOREPAIR] = t.Get("max_hullautorepair", 1);
-	s.equipSlotCapacity[Equip::SLOT_ENERGYBOOSTER] = t.Get("max_energybooster", 1);
-	s.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] = t.Get("max_atmoshield", 1);
-	s.equipSlotCapacity[Equip::SLOT_CABIN] = t.Get("max_cabin", 50);
-	s.equipSlotCapacity[Equip::SLOT_SHIELD] = t.Get("max_shield", 9999);
-	s.equipSlotCapacity[Equip::SLOT_FUELSCOOP] = t.Get("max_fuelscoop", 1);
-	s.equipSlotCapacity[Equip::SLOT_CARGOSCOOP] = t.Get("max_cargoscoop", 1);
-	s.equipSlotCapacity[Equip::SLOT_LASERCOOLER] = t.Get("max_lasercooler", 1);
-	s.equipSlotCapacity[Equip::SLOT_CARGOLIFESUPPORT] = t.Get("max_cargolifesupport", 1);
-	s.equipSlotCapacity[Equip::SLOT_AUTOPILOT] = t.Get("max_autopilot", 1);
 
 	s.capacity = t.Get("capacity", 0);
 	s.hullMass = t.Get("hull_mass", 100);
 	s.fuelTankMass = t.Get("fuel_tank_mass", 5);
+
+	LuaTable slot_table = t.Sub("slots");
+	if (slot_table.GetLua()) {
+		s.slots = slot_table.GetMap<std::string, int>();
+	}
+	lua_pop(L, 1);
+
+	{
+		const auto it = s.slots.find("engine");
+		if (it != s.slots.end()) { it->second = Clamp(it->second, 0, 1); }
+	}
 
 	// fuel_use_rate can be given in two ways
 	float thruster_fuel_use = 0;
@@ -122,7 +112,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		s.effectiveExhaustVelocity = GetEffectiveExhaustVelocity(s.fuelTankMass, thruster_fuel_use, s.linThrust[ShipType::THRUSTER_FORWARD]);
 	} else {
 		if(thruster_fuel_use >= 0)
-			printf("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
+			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
 	}
 
 	s.baseprice = t.Get("price", 0);
@@ -131,17 +121,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	s.minCrew = t.Get("min_crew", 1);
 	s.maxCrew = t.Get("max_crew", 1);
 
-	s.equipSlotCapacity[Equip::SLOT_ENGINE] = Clamp(s.equipSlotCapacity[Equip::SLOT_ENGINE], 0, 1);
-
-	{
-		int hyperclass;
-		hyperclass = t.Get("hyperdrive_class", 1);
-		if (!hyperclass) {
-			s.hyperdrive = Equip::NONE;
-		} else {
-			s.hyperdrive = Equip::Type(Equip::DRIVE_CLASS1+hyperclass-1);
-		}
-	}
+	s.hyperdriveClass = t.Get("hyperdrive_class", 1);
 
 	for (int i = 0; i < ShipType::GUNMOUNT_MAX; i++) {
 		s.gunMount[i].pos = vector3f(0,0,0);
@@ -153,7 +133,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	lua_pushstring(L, "gun_mounts");
 	lua_gettable(L, -2);
 	if (lua_istable(L, -1)) {
-		fprintf(stderr, "ship definition for '%s' has deprecated 'gun_mounts' field\n", s.id.c_str());
+		Output("ship definition for '%s' has deprecated 'gun_mounts' field\n", s.id.c_str());
 		for (unsigned int i=0; i<lua_rawlen(L,-1); i++) {
 			lua_pushinteger(L, i+1);
 			lua_gettable(L, -2);
@@ -278,16 +258,5 @@ void ShipType::Init()
 
 	if (ShipType::player_ships.empty())
 		Error("No playable ships have been defined! The game cannot run.");
-
-	//collect ships that can fit atmospheric shields
-	for (std::vector<ShipType::Id>::const_iterator it = ShipType::player_ships.begin();
-		it != ShipType::player_ships.end(); ++it) {
-		const ShipType &ship = ShipType::types[*it];
-		if (ship.equipSlotCapacity[Equip::SLOT_ATMOSHIELD] != 0)
-			ShipType::playable_atmospheric_ships.push_back(*it);
-	}
-
-	if (ShipType::playable_atmospheric_ships.empty())
-		Error("No ships can fit atmospheric shields! The game cannot run.");
 }
 

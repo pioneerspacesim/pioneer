@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -15,6 +15,7 @@
 #include "graphics/Graphics.h"
 #include "scenegraph/Model.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 #include <set>
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
@@ -177,27 +178,26 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 	{
 		std::vector<std::string> filenames;
 		enumerateNewBuildings(filenames);
-		for (std::vector<std::string>::const_iterator it = filenames.begin();
-			it != filenames.end(); ++it)
+		for(auto it = filenames.begin(), itEnd = filenames.end(); it != itEnd; ++it)
 		{
 			Model *model = Pi::modelCache->FindModel(*it);
 			models.push_back(model);
 		}
 	}
 	assert(!models.empty());
-	//printf("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	//Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
 	int i = 0;
-	for (std::vector<Model*>::iterator m = models.begin(); m != models.end(); ++m, i++) {
+	for (auto m = models.begin(), itEnd = models.end(); m != itEnd; ++m, i++) {
 		list->buildings[i].resolvedModel = *m;
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
 		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
-		//printf("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
+		//Output("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
 	}
 }
 
@@ -250,8 +250,8 @@ void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
 		SceneGraph::Model *m = (*it);
 		if (!m->SupportsPatterns()) continue;
 		skin.SetRandomColors(rand);
-		skin.SetPattern(rand.Int32(0, m->GetNumPatterns()));
 		skin.Apply(m);
+		m->SetPattern(rand.Int32(0, m->GetNumPatterns()));
 	}
 }
 
@@ -351,11 +351,10 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	AddStaticGeomsToCollisionSpace();
 }
 
-void CityOnPlanet::Render(Graphics::Renderer *r, const Camera *camera, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustum, const SpaceStation *station, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
 	// Early frustum test of whole city.
 	const vector3d stationPos = viewTransform * (station->GetPosition() + m_realCentre);
-	const Graphics::Frustum frustum = camera->GetFrustum();
 	//modelview seems to be always identity
 	if (!frustum.TestPoint(stationPos, m_clipRadius))
 		return;

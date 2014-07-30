@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStationType.h"
@@ -8,6 +8,7 @@
 #include "LuaVector.h"
 #include "LuaTable.h"
 #include "Pi.h"
+#include "MathUtil.h"
 #include "Ship.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
@@ -75,33 +76,33 @@ void SpaceStationType::OnSetupComplete()
 			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
 		}
 
-		assert(m_ports.size() > 0);
+		assert(!m_ports.empty());
 		assert(numDockingStages > 0);
 		assert(numUndockStages > 0);
 
 		for (PortMap::const_iterator pIt = m_ports.begin(), pItEnd = m_ports.end(); pIt!=pItEnd; ++pIt)
 		{
 			if (Uint32(numDockingStages-1) < pIt->second.m_docking.size()) {
-				OS::Error(
+				Error(
 					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n"
 					"Must have at least the same number of entries as the number of docking stages "
 					"PLUS the docking timeout at the start of the array.",
 					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
 
 			} else if (Uint32(numDockingStages-1) != pIt->second.m_docking.size()) {
-				OS::Warning(
+				Warning(
 					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n",
 					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
 			}
 
 			if (0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) < pIt->second.m_leaving.size()) {
-				OS::Error(
+				Error(
 					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n"
 					"Must have at least the same number of entries as the number of leaving stages.",
 					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
 
 			} else if(0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) != pIt->second.m_leaving.size()) {
-				OS::Warning(
+				Warning(
 					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n",
 					modelName.c_str(), numUndockStages, pIt->second.m_leaving.size());
 			}
@@ -170,14 +171,8 @@ double SpaceStationType::GetUndockAnimStageDuration(const int stage) const
 	return undockAnimStageDuration[stage];
 }
 
-//for station waypoint interpolation
-vector3d vlerp(const double t, const vector3d& v1, const vector3d& v2)
-{
-	return t*v2 + (1.0-t)*v1;
-}
-
 static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from,
-				  SpaceStationType::positionOrient_t &outPosOrient, const Ship *ship)
+				  SpaceStationType::positionOrient_t &outPosOrient)
 {
 	bool gotOrient = false;
 
@@ -197,7 +192,7 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
 
 	if (gotOrient)
 	{
-		vector3d pos		= vlerp(t, from, toPos);
+		vector3d pos		= MathUtil::mix<vector3d, double>(from, toPos, t);
 		outPosOrient.pos	= pos;
 	}
 
@@ -210,6 +205,7 @@ static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int
  * ship has been released and is under player control again */
 bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const
 {
+	assert(ship);
 	if (stage < -shipLaunchStage) { stage = -shipLaunchStage; t = 1.0; }
 	if (stage > numDockingStages || !stage) { stage = numDockingStages; t = 1.0; }
 	// note case for stageless launch (shipLaunchStage==0)
@@ -218,15 +214,14 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 
 	assert(port<=m_ports.size());
 	const Port &rPort = m_ports.at(port+1);
-	const Aabb &aabb = ship->GetAabb();
 	if (stage<0) {
 		const int leavingStage = (-1*stage);
-		gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient, ship);
-		const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+		gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient);
+		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	} else if (stage>0) {
-		gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient, ship);
-		const vector3d up = outPosOrient.yaxis.Normalized() * aabb.min.y;
+		gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient);
+		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	}
 

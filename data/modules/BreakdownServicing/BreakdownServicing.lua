@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -10,7 +10,7 @@ local Rand = import("Rand")
 local NameGen = import("NameGen")
 local Format = import("Format")
 local Serializer = import("Serializer")
-local EquipDef = import("EquipDef")
+local Equipment = import("Equipment")
 
 local l = Lang.GetResource("module-breakdownservicing")
 
@@ -67,7 +67,7 @@ local service_history = {
 local lastServiceMessage = function (hyperdrive)
 	-- Fill in the blanks tokens on the {lasttime} string from service_history
 	local message
-	if hyperdrive == 'NONE' then
+	if hyperdrive == nil then
 		message = l.YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE
 	elseif not service_history.company then
 		message = l.YOUR_DRIVE_HAS_NOT_BEEN_SERVICED
@@ -80,11 +80,11 @@ end
 local onChat = function (form, ref, option)
 	local ad = ads[ref]
 
-	local hyperdrive = Game.player:GetEquip('ENGINE',1)
+	local hyperdrive = Game.player:GetEquip('engine',1)
 
 	-- Tariff!  ad.baseprice is from 2 to 10
 	local price = ad.baseprice
-	price = price * (({
+	price = hyperdrive and (price * (({
 		NONE = 0,
 		DRIVE_CLASS1 = 1.0,
 		DRIVE_CLASS2 = 1.2,
@@ -99,14 +99,14 @@ local onChat = function (form, ref, option)
 		DRIVE_MIL2 = 1.6,
 		DRIVE_MIL3 = 2.8,
 		DRIVE_MIL4 = 4.0,
-	})[hyperdrive] or 10)
+	})[hyperdrive.l10n_key] or 10)) or 0
 
 	-- Now make it bigger (-:
 	price = price * 10
 
 	-- Replace those tokens into ad's intro text that can change during play
 	message = string.interp(ad.intro, {
-		drive = EquipDef[hyperdrive].name,
+		drive = hyperdrive and hyperdrive:GetName() or "None",
 		price = Format.Money(price),
 	})
 
@@ -118,13 +118,14 @@ local onChat = function (form, ref, option)
 
 	if option == 0 then
 		-- Initial proposal
+		form:SetTitle(ad.title)
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
 		-- Replace token with details of last service (which might have
 		-- been seconds ago)
 		form:SetMessage(string.interp(message, {
 			lasttime = lastServiceMessage(hyperdrive),
 		}))
-		if hyperdrive == 'NONE' then
+		if not hyperdrive then
 			-- er, do nothing, I suppose.
 		elseif Game.player:GetMoney() < price then
 			form:AddOption(l.I_DONT_HAVE_ENOUGH_MONEY, -1)
@@ -137,6 +138,7 @@ local onChat = function (form, ref, option)
 	if option == 1 then
 		-- Yes please, service my engine
 		form:Clear()
+		form:SetTitle(ad.title)
 		form:SetFace({ female = ad.isfemale, seed = ad.faceseed, name = ad.name })
 		if Game.player:GetMoney() >= price then -- We did check earlier, but...
 			-- Say thanks
@@ -162,7 +164,7 @@ local onShipTypeChanged = function (ship)
 end
 
 local onShipEquipmentChanged = function (ship, equipment)
-	if ship:IsPlayer() and (EquipDef[equipment].slot == 'ENGINE') then
+	if ship:IsPlayer() and equipment and equipment:IsValidSlot("engine", ship) then
 		service_history.company = nil
 		service_history.lastdate = Game.time
 		service_history.service_period = oneyear
@@ -196,7 +198,11 @@ local onCreateBB = function (station)
 		baseprice = flavours[n].baseprice *rand:Number(0.8,1.2), -- A little per-station flavouring
 	}
 
-	local ref = station:AddAdvert(ad.title, onChat, onDelete)
+	local ref = station:AddAdvert({
+		description = ad.title,
+		icon        = "breakdown_servicing",
+		onChat      = onChat,
+		onDelete    = onDelete})
 	ads[ref] = ad
 end
 
@@ -214,7 +220,11 @@ local onGameStart = function ()
 		}
 	else
 		for k,ad in pairs(loaded_data.ads) do
-			local ref = ad.station:AddAdvert(ad.title, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.title,
+			icon        = "breakdown_servicing",
+			onChat      = onChat,
+			onDelete    = onDelete})
 			ads[ref] = ad
 		end
 
@@ -242,9 +252,9 @@ local onEnterSystem = function (ship)
 		service_history.jumpcount = service_history.jumpcount + 1
 		if (service_history.jumpcount > max_jumps_unserviced) or (Engine.rand:Integer(max_jumps_unserviced - service_history.jumpcount) == 0) then
 			-- Destroy the engine
-			local engine = ship:GetEquip('ENGINE',1)
+			local engine = ship:GetEquip('engine',1)
 			ship:RemoveEquip(engine)
-			ship:AddEquip('RUBBISH',EquipDef[engine].mass)
+			ship:AddEquip(Equipment.cargo.rubbish, engine.capabilities.mass)
 			Comms.Message(l.THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION)
 		end
 	end

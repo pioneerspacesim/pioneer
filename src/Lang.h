@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LANG_H
@@ -7,6 +7,8 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <SDL_stdinc.h>
+#include "IterationProxy.h"
 
 namespace Lang {
 
@@ -26,10 +28,8 @@ public:
 
 	static std::vector<std::string> GetAvailableLanguages(const std::string &resourceName);
 
-	typedef std::map<std::string,std::string>::const_iterator StringIterator;
-	StringIterator Begin() const { return m_strings.begin(); }
-	StringIterator End() const { return m_strings.end(); }
-
+	IterationProxy<std::map<std::string,std::string> > GetStrings() { return MakeIterationProxy(m_strings); }
+	const IterationProxy<const std::map<std::string,std::string> > GetStrings() const { return MakeIterationProxy(m_strings); }
 
 private:
 	std::string m_name;

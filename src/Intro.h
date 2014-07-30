@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _INTRO_H
@@ -7,6 +7,7 @@
 #include "Cutscene.h"
 #include "Background.h"
 #include "ShipType.h"
+#include "scenegraph/ModelSkin.h"
 
 class Intro : public Cutscene {
 public:
@@ -15,15 +16,12 @@ public:
 	virtual void Draw(float time);
 
 private:
-	std::vector<SceneGraph::Model*> m_models;
+	void Reset(float time);
+	bool m_needReset;
 
-	enum State {
-		STATE_SELECT,
-		STATE_ZOOM_IN,
-		STATE_WAIT,
-		STATE_ZOOM_OUT
-	};
-	State m_state;
+	std::vector<SceneGraph::Model*> m_models;
+	SceneGraph::ModelSkin m_skin;
+
 	float m_startTime;
 
 	unsigned int m_modelIndex;
@@ -31,6 +29,10 @@ private:
 	float m_dist;
 
 	std::unique_ptr<Background::Container> m_background;
+
+	int m_spinnerLeft;
+	int m_spinnerWidth;
+	float m_spinnerRatio;
 };
 
 #endif

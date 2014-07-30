@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -31,6 +31,27 @@ static int l_faction_attr_name(lua_State *l)
 {
 	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	lua_pushlstring(l, faction->name.c_str(), faction->name.size());
+	return 1;
+}
+
+/*
+ * Attribute: id
+ *
+ * A unique identification number of the faction
+ *
+ * Availability:
+ *
+ *  2014-06
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_faction_attr_id(lua_State *l)
+{
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
+	lua_pushnumber(l, faction->idx);
+
 	return 1;
 }
 
@@ -201,7 +222,7 @@ static int l_faction_attr_military_name(lua_State *l)
 /*
  * Attribute: policeName
  *
- * The military name used by the faction
+ * The name of the law enforcing agency in the faction
  *
  * Availability:
  *
@@ -252,6 +273,7 @@ template <> void LuaObject<Faction>::RegisterClass()
 {
 	static const luaL_Reg l_attrs[] = {
 		{ "name",               l_faction_attr_name               },
+		{ "id",                 l_faction_attr_id                 },
 		{ "descriptionShort",   l_faction_attr_description_short  },
 		{ "description",        l_faction_attr_description        },
 		{ "hasHomeworld",       l_faction_attr_has_homeworld      },

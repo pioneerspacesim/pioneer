@@ -1,0 +1,10 @@
+{
+   "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
+      "description" : "",
+      "message" : "Esta é {estação}. Você não tem o bastante para a sua taxa de atracação {taxa}. A taxa do seu combustível foi retida na fonte."
+   },
+   "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
+      "description" : "",
+      "message" : "Benvindo a bordo {estação}. Sua taxa de atracação e abastecimento foi {taxa} foi deduzida."
+   }
+}

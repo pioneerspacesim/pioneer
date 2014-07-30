@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
@@ -40,6 +40,8 @@ void Init()
 	LuaObject<UI::HSlider>::RegisterClass();
 	LuaObject<UI::VSlider>::RegisterClass();
 	LuaObject<UI::Widget>::RegisterClass();
+
+	LuaObject<UI::Animation>::RegisterClass();
 }
 
 UI::Widget *GetWidget(UI::Context *c, lua_State *l, int idx)

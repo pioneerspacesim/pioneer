@@ -1,8 +1,9 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "PngWriter.h"
 #include "FileSystem.h"
+#include "utils.h"
 
 #define PNG_SKIP_SETJMP_CHECK
 #include <png.h>
@@ -10,28 +11,28 @@
 void write_png(FileSystem::FileSourceFS &fs, const std::string &path, const Uint8 *bytes, int width, int height, int stride, int bytes_per_pixel) {
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
 	if (!png_ptr) {
-		fprintf(stderr, "Couldn't create png_write_struct\n");
+		Output("Couldn't create png_write_struct\n");
 		return;
 	}
 
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr) {
 		png_destroy_write_struct(&png_ptr, 0);
-		fprintf(stderr, "Couldn't create png_info_struct\n");
+		Output("Couldn't create png_info_struct\n");
 		return;
 	}
 
 	//http://www.libpng.org/pub/png/libpng-1.2.5-manual.html#section-3.1
 	if (setjmp(png_jmpbuf(png_ptr))) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
-		fprintf(stderr, "Couldn't set png jump buffer\n");
+		Output("Couldn't set png jump buffer\n");
 		return;
 	}
 
 	FILE *out = fs.OpenWriteStream(path);
 	if (!out) {
 		png_destroy_write_struct(&png_ptr, &info_ptr);
-		fprintf(stderr, "Couldn't open '%s/%s' for writing\n", fs.GetRoot().c_str(), path.c_str());
+		Output("Couldn't open '%s/%s' for writing\n", fs.GetRoot().c_str(), path.c_str());
 		return;
 	}
 

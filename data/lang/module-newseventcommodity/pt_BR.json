@@ -1,0 +1,294 @@
+{
+   "FLAVOUR_0_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Praga espalhada no sistema {sistema}. Número de mortos cresce."
+   },
+   "FLAVOUR_0_NEWSBODY" : {
+      "description" : "Imply high demand for MEDICINE commodity.",
+      "message" : "Pragas de colheita vivem no sistema {sistema} ({setorx}, {setory}, {setorz}). Oficiais clamam por ajuda médica."
+   },
+   "FLAVOUR_10_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: A sobrevivência contínua e ameaçadora da companhia no sistema {sistema}."
+   },
+   "FLAVOUR_10_NEWSBODY" : {
+      "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
+      "message" : "Prekall Inc. quer monopolizar o ar através de {sistema} ({setorx}, {setory}, {setorz}). Respire fundo, pode ser a última vez que você faz isso de graça."
+   },
+   "FLAVOUR_11_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Desaparecimento misterioso de gado no sistema {sistema}."
+   },
+   "FLAVOUR_11_NEWSBODY" : {
+      "description" : "Imply high demand of ANIMAL_MEAT.",
+      "message" : "Como num passe de mágica, os fazendeiros no sistema {sistema} ({setorx}, {setory}, {setorz}), acordaram com os estábulos vazios. \"É o maior roubo de gado do século\", reportou a polícia."
+   },
+   "FLAVOUR_12_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Queda na infraestrutura devido a avaria dos computadores no sistema {sistema}."
+   },
+   "FLAVOUR_12_NEWSBODY" : {
+      "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
+      "message" : "Um asqueroso vírus fez com que os HDs de todos os computadores da Nachosoft no sistema {sistema} ({setorx}, {setory}, {setorz}) derretessem. As unidades defeituosas servem como excelentes pesos de papel, dizem os cientistas tecnológicos."
+   },
+   "FLAVOUR_13_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Revolta de robôs no sistema {sistema}."
+   },
+   "FLAVOUR_13_NEWSBODY" : {
+      "description" : "Imply that nobody wants to buy ROBOTS anymore.",
+      "message" : "Agora é homem contra máquina no sistema {sistema} ({setorx}, {setory}, {setorz}), já que uma \"avaria comportamental\" fez com que consumidores domésticos perdessem a fé em empregados robôs."
+   },
+   "FLAVOUR_14_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Explosão solar causa o maior apagão do milênio no sistema {sistema}."
+   },
+   "FLAVOUR_14_NEWSBODY" : {
+      "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
+      "message" : "A interrupção de energia do sistema causa destruição no sistema {sistema} ({setorx}, {setory}, {setorz}). Consumidores fazem fila para comprar o último Trapperware para substituir suas geladeiras, já que os produtores sofriam com a falta de matéria prima."
+   },
+   "FLAVOUR_15_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Polícia invade sindicato criminoso no sistema {sistema}, principais líderes presos."
+   },
+   "FLAVOUR_15_NEWSBODY" : {
+      "description" : "imply high demand of NARCOTICS.",
+      "message" : "O administrador no sistema {sistema} ({setorx}, {setory}, {setorz}) espera diminuição no crime, já que as drogas não estão mais disponíveis, desde a prisão de diversos mafiosos."
+   },
+   "FLAVOUR_16_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Acidente sério durante a {sistema} Grande Feira Anual do Vapor."
+   },
+   "FLAVOUR_16_NEWSBODY" : {
+      "description" : "Imply high demand of FARM_MACHINERY.",
+      "message" : "Durante a Grande Feira do Vapor no sistema {sistema} ({setorx}, {setory}, {setorz}) uma tentativa de atingir o recorde galáctico no maior concurso de puxar trator terminou em desordem quando um dos competidores perdeu o controle de sua engenhoca, destruindo as máquinas de todos os outros participantes.A administração diz que isso poderia ser o fim para os fazendeiros locais."
+   },
+   "FLAVOUR_17_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Novos ricos encontrados no sistema {sistema}."
+   },
+   "FLAVOUR_17_NEWSBODY" : {
+      "description" : "Imply vast abundance of METAL_ORE.",
+      "message" : "Mineiros no sistema {sistema} ({setorx}, {setory}, {setorz}) descobriram um vasto depósito de minério de proporções nunca antes vistas."
+   },
+   "FLAVOUR_18_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Reforma econômica no sistema {sistema} foi um grande sucesso."
+   },
+   "FLAVOUR_18_NEWSBODY" : {
+      "description" : "Imply vast demand of CONSUMER_GOODS.",
+      "message" : "Os volantes estão girando ainda mais rápido no sistema {sistema} ({setorx}, {setory}, {setorz}), pois os consumidores têm mais dinheiro para gastar."
+   },
+   "FLAVOUR_19_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Está chovendo ouro no sistema {sistema}."
+   },
+   "FLAVOUR_19_NEWSBODY" : {
+      "description" : "Imply vast abundance of PRECIOUS_METALS.",
+      "message" : "Um homem no sistema {sistema} ({setorx}, {setory}, {setorz}) herdou uma invenção de seu tio falecido, permitindo-lhe transformar qualquer sólido em ouro e platina. Economistas esperam uma desestabilização da economia no sistema, a não ser que a máquina quebre logo."
+   },
+   "FLAVOUR_1_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Conflito aumenta no sistema {sistema}."
+   },
+   "FLAVOUR_1_NEWSBODY" : {
+      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+      "message" : "O interminável conflito no sistema {sistema} ({setorx}, {setory}, {setorz}) aumenta conforme os exércitos se empenham no combate aberto completo."
+   },
+   "FLAVOUR_20_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: A colheita de algas gigantes no sistema {sistema} bate novo recorde."
+   },
+   "FLAVOUR_20_NEWSBODY" : {
+      "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
+      "message" : "Como o {sistema} ({setorx}, {setory}, {setorz}) entra numa fase favorável para as algas amarelas encontradas na atmosfera de um gigante local, a colheita foi excepcionalmente boa para a empresa de fertilizantes Soylent Yellow Inc."
+   },
+   "FLAVOUR_21_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Tratado assinado no sistema {sistema} para mais conflitos \"humanos\"."
+   },
+   "FLAVOUR_21_NEWSBODY" : {
+      "description" : "Imply vast abundance of NERVE_GAS.",
+      "message" : "Apesar de que as partes conflitantes no sistema {sistema} ({setorx}, {setory}, {setorz}) não assinaram um cessar fogo oficial, elas concordaram em parar de usar armas químicas."
+   },
+   "FLAVOUR_22_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {datas}: Polícia em greve no sistema {sistema}. Cidadãos deixados para se defender sozinhos."
+   },
+   "FLAVOUR_22_NEWSBODY" : {
+      "description" : "Imply high demand of HAND_WEAPONS.",
+      "message" : "Em um protesto contra a diminuição de pessoal no sistema {sistema} ({setorx}, {setory}, {setorz}) a polícia se recusou a trabalhar. Enquanto isso, civis formam grupo vigilante e armam-se com forcados e armas de fogo, preparando-se para o pior."
+   },
+   "FLAVOUR_23_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Grande abertura da nova fábrica no sistema {sistema}."
+   },
+   "FLAVOUR_23_NEWSBODY" : {
+      "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
+      "message" : "A nova fábrica Amissionox no sistema {sistema} ({setorx}, {setory}, {setorz}) está agora ativa e produtiva. Ela produzirá facas de alta qualidade capazes de cortar através de uma bota de astronauta; no entanto, devido a um baixo suprimento de recursos necessários para as lâminas, ainda não foi atingido o potencial máximo de produção."
+   },
+   "FLAVOUR_2_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Seca em {sistema}. Plantação arruinada."
+   },
+   "FLAVOUR_2_NEWSBODY" : {
+      "description" : "Hint there will be high demand of GRAIN.",
+      "message" : "Seca severa arruinou a plantação no sistema {sistema} ({setorx}, {setory}, {setorz}). Teme-se a inanição no sistema."
+   },
+   "FLAVOUR_3_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Estilo de vida vegano ganha seguidores no sistema {sistema}."
+   },
+   "FLAVOUR_3_NEWSBODY" : {
+      "description" : "Imply high demand of FRUIT_AND_VEG.",
+      "message" : "Administração do sistema {sistema} ({setorx}, {setory}, {setorz}) quer aumentar importação para aproveitar a demanda que surge por tudo que é verde."
+   },
+   "FLAVOUR_4_HEADLINE" : {
+      "description" : "About mob rivals competing for selling drugs",
+      "message" : "NOTÍCIAS {data}: Guerra contra as drogas no sistema {sistema}. Mandantes da lei lutam para reaver o controle."
+   },
+   "FLAVOUR_4_NEWSBODY" : {
+      "description" : "Imply high abundance of NARCOTICS.",
+      "message" : "O mercado foi inundado pelas drogas baratas no sistema {sistema} ({setorx}, {setory}, {setorz}), enquanto os senhores da droga rivais competem para aumentar seu poder."
+   },
+   "FLAVOUR_5_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Rebelião de escravos no sistema {sistema}. A agricultura estagna."
+   },
+   "FLAVOUR_5_NEWSBODY" : {
+      "description" : "Imply high demand of SLAVES.",
+      "message" : "Trabalhadores do sistema {sistema} ({setorx}, {setory}, {setorz}) se livraram das correntes na rebelião e se recusaram a trabalhar nos campos Lotus. A Economia está parada, uma vez que não é possível encontrar trabalhadores baratos."
+   },
+   "FLAVOUR_6_HEADLINE" : {
+      "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
+      "message" : "NOTÍCIA {data}: Festival Alegre das Bagatelas no sistema {sistema}."
+   },
+   "FLAVOUR_6_NEWSBODY" : {
+      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
+      "message" : "As celebrações alcoólicas no sistema {sistema} ({setorx}, {setory}, {setorz}) vão continuar, pois eles honram a criaturinha peluda."
+   },
+   "FLAVOUR_7_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: A indústria está estagnada no sistema {sistema}."
+   },
+   "FLAVOUR_7_NEWSBODY" : {
+      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
+      "message" : "Antiga negligência na manutenção das máquinas causa paralisação industrial no sistema {sistema} ({setorx}, {setory}, {setorz})."
+   },
+   "FLAVOUR_8_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Acidente em mina reportado desde o sistema {sistema}."
+   },
+   "FLAVOUR_8_NEWSBODY" : {
+      "description" : "Imply high demand of MINING_MACHINERY.",
+      "message" : "Uma mina desmoronou no sistema {sistema} ({setorx}, {setory}, {setorz}), matando centenas de trabalhadores e destruindo maquinário vital para a economia."
+   },
+   "FLAVOUR_9_HEADLINE" : {
+      "description" : "",
+      "message" : "NOTÍCIAS {data}: Mania de moda no sistema {sistema}."
+   },
+   "FLAVOUR_9_NEWSBODY" : {
+      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
+      "message" : "A última tendência no sistema {sistema} ({setorx}, {setory}, {setorz}) reza que animais de estimação reais e vivos são a última moda."
+   },
+   "GRATEFUL_GREETING_0" : {
+      "description" : "",
+      "message" : "Benvindo comerciante! Lhe daremos um bom preço por seu {carga}."
+   },
+   "GRATEFUL_GREETING_1" : {
+      "description" : "",
+      "message" : "Sua chegada é tão benvinda quanto o seu carregamento de {carga}."
+   },
+   "GRATEFUL_GREETING_2" : {
+      "description" : "",
+      "message" : "Saudações e boas vindas! Você não deve encontrar problemas para vender {carga} aqui."
+   },
+   "GRATEFUL_GREETING_3" : {
+      "description" : "",
+      "message" : "Benvindo! Finalmente um pouco de {carga}."
+   },
+   "GRATEFUL_GREETING_4" : {
+      "description" : "",
+      "message" : "Como nós esperamos por um pouco de {carga}."
+   },
+   "GRATEFUL_GREETING_5" : {
+      "description" : "",
+      "message" : "Benvindo! Seu carregamento de {carga} vai ser vendido rapidamente aqui."
+   },
+   "NEWSPAPER_CIW" : {
+      "description" : "",
+      "message" : "O Confederate Chronicle."
+   },
+   "NEWSPAPER_FED" : {
+      "description" : "",
+      "message" : "O Federal Times."
+   },
+   "NEWSPAPER_IMP" : {
+      "description" : "",
+      "message" : "O Imperial Herald."
+   },
+   "NEWSPAPER_IND_0" : {
+      "description" : "",
+      "message" : "O Pioneer Courier."
+   },
+   "NEWSPAPER_IND_1" : {
+      "description" : "",
+      "message" : "O Independent Tribune."
+   },
+   "NEWSPAPER_IND_10" : {
+      "description" : "",
+      "message" : "O Orbital Observer"
+   },
+   "NEWSPAPER_IND_2" : {
+      "description" : "",
+      "message" : "O Galactic Post"
+   },
+   "NEWSPAPER_IND_3" : {
+      "description" : "",
+      "message" : "O Universal Sun"
+   },
+   "NEWSPAPER_IND_4" : {
+      "description" : "",
+      "message" : "O Planetary Press"
+   },
+   "NEWSPAPER_IND_5" : {
+      "description" : "",
+      "message" : "O Royal Gazette"
+   },
+   "NEWSPAPER_IND_6" : {
+      "description" : "",
+      "message" : "O Universal Mail"
+   },
+   "NEWSPAPER_IND_7" : {
+      "description" : "",
+      "message" : "O Daily Express"
+   },
+   "NEWSPAPER_IND_8" : {
+      "description" : "",
+      "message" : "O Tellurian Telegraph"
+   },
+   "NEWSPAPER_IND_9" : {
+      "description" : "",
+      "message" : "O Satellite Journal"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Relato recente de {jornal}."
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Notícias de {jornal}."
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Relato de {jornal}."
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "As últimas de {jornal}."
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Notas de {jornal}."
+   }
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -85,6 +85,7 @@ void ModelBody::Save(Serializer::Writer &wr, Space *space)
 	wr.Bool(m_colliding);
 	wr.String(m_modelName);
 	m_model->Save(wr);
+	m_shields->Save(wr);
 }
 
 void ModelBody::Load(Serializer::Reader &rd, Space *space)
@@ -94,6 +95,7 @@ void ModelBody::Load(Serializer::Reader &rd, Space *space)
 	m_colliding = rd.Bool();
 	SetModel(rd.String().c_str());
 	m_model->Load(rd);
+	m_shields->Load(rd);
 }
 
 void ModelBody::SetStatic(bool isStatic)
@@ -127,12 +129,14 @@ void ModelBody::RebuildCollisionMesh()
 	}
 
 	m_collMesh = m_model->GetCollisionMesh();
-	SetPhysRadius(m_collMesh->GetAabb().GetRadius());
+	double maxRadius= m_collMesh->GetAabb().GetRadius();
 
 	//static geom
 	m_geom = new Geom(m_collMesh->GetGeomTree());
 	m_geom->SetUserData(static_cast<void*>(this));
 	m_geom->MoveTo(GetOrient(), GetPosition());
+
+	SetPhysRadius(maxRadius);
 
 	//have to figure out which collision geometries are responsible for which geomtrees
 	DynGeomFinder dgf;
@@ -166,6 +170,8 @@ void ModelBody::SetModel(const char *modelName)
 	m_idleAnimation = m_model->FindAnimation("idle");
 
 	SetClipRadius(m_model->GetDrawClipRadius());
+
+	m_shields.reset(new Shields(m_model));
 
 	RebuildCollisionMesh();
 }
@@ -214,10 +220,11 @@ void ModelBody::AddGeomsToFrame(Frame *f)
 
 	m_geom->SetGroup(group);
 
-	if (m_isStatic)
+	if(m_isStatic) {
 		f->AddStaticGeom(m_geom);
-	else
+	} else {
 		f->AddGeom(m_geom);
+	}
 
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
 		(*it)->SetGroup(group);
@@ -227,10 +234,11 @@ void ModelBody::AddGeomsToFrame(Frame *f)
 
 void ModelBody::RemoveGeomsFromFrame(Frame *f)
 {
-	if (m_isStatic)
+	if(m_isStatic) {
 		GetFrame()->RemoveStaticGeom(m_geom);
-	else
+	} else {
 		GetFrame()->RemoveGeom(m_geom);
+	}
 
 	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
 		GetFrame()->RemoveGeom(*it);

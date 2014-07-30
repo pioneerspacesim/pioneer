@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "Beszámítás után"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Mennyiség"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Kínálat"
    },
    "AVERAGE" : {
       "description" : "",
@@ -45,15 +45,27 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Hirdetőtábla"
+   },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Vesz"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Megvesz"
    },
    "CABINS" : {
       "description" : "",
       "message" : "Utaskabin"
+   },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} szabad"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} foglalt"
    },
    "CANCEL" : {
       "description" : "",
@@ -61,7 +73,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Kapacitás"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -75,13 +87,21 @@
       "description" : "",
       "message" : "Raktér kapacitás"
    },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t szabad"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t foglalt"
+   },
    "CASH" : {
       "description" : "",
       "message" : "Pénz"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Pénz: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -89,7 +109,7 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Vezető szerelő"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -101,7 +121,7 @@
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Tiszta"
    },
    "CLEAR" : {
       "description" : "",
@@ -121,7 +141,7 @@
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Árupiac"
    },
    "COMPETENT" : {
       "description" : "",
@@ -137,7 +157,11 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Főtörzs"
+   },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Játék folytatása"
    },
    "CONTROLS" : {
       "description" : "",
@@ -151,6 +175,10 @@
       "description" : "",
       "message" : "Mentés nem tölthető be:"
    },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Szavahihető"
+   },
    "CREW_CABINS" : {
       "description" : "",
       "message" : "Legénységi kabin"
@@ -161,7 +189,7 @@
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Criminal record"
+      "message" : "Bűnügyi nyilvántartás"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -175,6 +203,18 @@
       "description" : "",
       "message" : "Delta-V"
    },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (üres)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (tele)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
       "message" : "Sebesség ereszkedéshez:"
@@ -186,6 +226,10 @@
    "DISMISS" : {
       "description" : "",
       "message" : "Elbocsájt"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "HUD nyomvonalak"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -223,13 +267,17 @@
       "description" : "",
       "message" : "Alkalmazás"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Kabin bekapcsolása (KISÉRLETI)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Joystick irányítás engedélyezése"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Gépészet"
+      "message" : "Gépészet:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -237,11 +285,11 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Felszerelés piac"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Felszerelve"
    },
    "ERROR" : {
       "description" : "",
@@ -254,6 +302,14 @@
    "EXIT_THIS_GAME" : {
       "description" : "",
       "message" : "Kilépés"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Tapasztalt"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Szakértő"
    },
    "FAILED" : {
       "description" : "",
@@ -269,18 +325,18 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Gyorsulás előre (üresen)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Gyorsulás előre (tele)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
       "message" : "Fraktál részletesség"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "szabad"
    },
    "FRONT_WEAPON" : {
@@ -317,7 +373,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Kapcsolat megszakítása."
    },
    "HARMLESS" : {
       "description" : "",
@@ -325,27 +381,27 @@
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Nehéz tehersikló"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Nehéz futár"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Nehéz vadász"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Nehéz teherszállító"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Nehéz személysikló"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Nehéz személyszállító"
    },
    "HIGH" : {
       "description" : "",
@@ -357,7 +413,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Hajóintegritás"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -373,7 +429,7 @@
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Felszerelt hipermotor:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -387,21 +443,29 @@
       "description" : "",
       "message" : "Inaktív"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Alkalmatlan"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Tapasztalatlan"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Egér Y tengely megfordítása"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "Raktérben"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "Készlet"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Ez az áru most nincs raktáron."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -423,33 +487,45 @@
       "description" : "",
       "message" : "Nyelv (újraindítás szükséges)"
    },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Leszállási engedély megtagadva: leszállóöböl foglalt."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Nem teljes a létszám a hajón, a felszállási engedélyt nem adom meg."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Kifizetetlen bírságai vannak, a felszállási engedélyt nem adom meg."
+   },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Törvényesség"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Könnyű tehersikló"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Könnyű futár"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Könnyű vadász"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Könnyű teherszállító"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Könnyű személysikló"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Könnyű személyszállító"
    },
    "LOAD" : {
       "description" : "",
@@ -461,7 +537,7 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Lobby"
+      "message" : "Előcsarnok"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -489,15 +565,23 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Tömeg"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Mester"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Fő hangerő:"
    },
    "MAX" : {
       "description" : "",
       "message" : "max"
+   },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum legénység"
    },
    "MEDIUM" : {
       "description" : "",
@@ -505,27 +589,27 @@
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium cargo shuttle"
+      "message" : "Közepes tehersikló"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Közepes futár"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Közepes vadász"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Medium freighter"
+      "message" : "Közepes teherszállító"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium passenger shuttle"
+      "message" : "Közepes személysikló"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Medium passenger transport"
+      "message" : "Közepes személyszállító"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -538,6 +622,10 @@
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Minimális legénység"
+   },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Rakéta kapacitás"
    },
    "MISSIONS" : {
       "description" : "",
@@ -561,7 +649,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Gyilkosság"
    },
    "MUSIC" : {
       "description" : "",
@@ -571,8 +659,12 @@
       "description" : "",
       "message" : "Némít"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Név"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Név"
    },
    "NAVIGATION" : {
@@ -587,6 +679,14 @@
       "description" : "",
       "message" : "Következő kifizetés"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "Nincs"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Senki"
+   },
    "NONE" : {
       "description" : "",
       "message" : "Nincs"
@@ -598,6 +698,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Nincs elegendő {alloy} a javításhoz."
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "Ezen a típuson nincs {equipment} foglalat."
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -649,7 +753,7 @@
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "{amount} büntetés befizetése"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -665,7 +769,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Kalózkodás"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -677,7 +781,7 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "Rendőrség"
    },
    "POOR" : {
       "description" : "",
@@ -693,7 +797,11 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Ár"
+   },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Szakértő"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -719,13 +827,29 @@
       "description" : "",
       "message" : "Újratölt"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Teletölt"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Megbízható"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Repair {damage}% hull damage for {price}"
+      "message" : "{damage}% hajótest sérülés javíttatása {price} -ért"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Hírnév"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Felszállási engedély kérése"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Vissza"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -733,11 +857,11 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Gyorsulás hátra (üresen)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Gyorsulás hátra (tele)"
    },
    "REWARD" : {
       "description" : "",
@@ -763,13 +887,17 @@
       "description" : "",
       "message" : "Válassz betöltendö mentést..."
    },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Elad"
+   },
    "SENSORS" : {
       "description" : "",
       "message" : "Érzékelők:"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Hajó"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -777,23 +905,27 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "A hajó tökéletes állapotban van."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "A hajód teljesen fel van szerelve"
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "A hajód teljesen tele van."
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Űrhajó-piac"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Űrhajó szervíz"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "Ez a hajó már elkelt."
    },
    "SOUND" : {
       "description" : "",
@@ -813,7 +945,7 @@
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Station manager"
+      "message" : "Diszpécser"
    },
    "STATUS" : {
       "description" : "",
@@ -821,7 +953,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Köszönjük a vásárlást. Ne felejtsd el felszerelni, és megtankolni távozás előtt."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -835,17 +967,25 @@
       "description" : "",
       "message" : "Férfi/Nő"
    },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "Túl kicsi a hajó a legénységnek."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Összesen:"
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Teljes tömeg"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Illegális termékek kereskedelme"
+   },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Felelős"
    },
    "TYPE" : {
       "description" : "",
@@ -853,7 +993,11 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Törvénytelen fegyverhasználat"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Megbízhatatlan"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -889,11 +1033,11 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Üres tömeg:"
+      "message" : "Üres súly"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Súlya teljes terhelésnél"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
@@ -901,7 +1045,11 @@
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Jelenleg nincs veled semmi dolgunk."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Van"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -909,11 +1057,11 @@
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Your hull is at {value}% integrity."
+      "message" : "A hajótest integritása {value}%."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "You don't have enough money for that option."
+      "message" : "Nincs elég pénzed ehhez az összeállításhoz."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -933,6 +1081,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Nincs elég pénzed"
    }
 }

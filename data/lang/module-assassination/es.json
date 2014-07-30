@@ -7,6 +7,38 @@
       "description" : "",
       "message" : "¿Podría repetir la petición?"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Lo siento, pero no confío en usted."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Vuelva cuando disponga de cierta cualificación."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Creo que usted no es lo estoy buscando."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "No parece ser alguien capaz de hacer lo que se debe."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Claramente no es el adecuado para este trabajo."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "No parece tener la experiencia suficiente para hacerse cargo de un contrato de esta importancia."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nunca he oído de usted. Necesito a alguien con experiencia para este encargo."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "No pienso poner en riesgo este contrato por encargarselo a alguien con tan poca experiencia."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distancia:"

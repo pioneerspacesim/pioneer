@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "DONNEZ ! Sauvez nos especes. Stop au carnage des nouveaux mondes colonisés."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Libérez vote vaisseau ! S'il vous plait, choisissez la somme à donner. Joyeux piratage !"
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "SOUTENEZ LA LIBERTE! Stoppez la grande injustice des logiciels propriétaires contrôlant votre vaisseau."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Raccrochez."

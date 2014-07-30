@@ -1,0 +1,74 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "Ansök om medlemskap"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "Börja handla"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "Interstellära piloters bränslesamfund"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "Du får köpa bränsle och göra dig av med {radioactives} här."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} är en oberoende organisation vars mål är att förse sina medlemars rymdskepp med rabatterad bränsle. Avdelningar kan hittas genom galaxen. Fördelar av medlemskap inkluderar:"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "Välkommen till {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Tillbaka"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Lägg på."
+   },
+   "LIST_BENEFITS_DISPOSAL" : {
+      "description" : "",
+      "message" : "{radioactives}, gratis undanröjning (villkor gäller)"
+   },
+   "LIST_BENEFITS_FUEL" : {
+      "description" : "",
+      "message" : "{fuel} till rabatterade priser"
+   },
+   "LIST_BENEFITS_FUEL_INTRO" : {
+      "description" : "",
+      "message" : "Vårt eget lager med bränsle, oberoende av den allmänna marknaden"
+   },
+   "LIST_BENEFITS_FUEL_TANK" : {
+      "description" : "",
+      "message" : "Påfyllning av bränsle vid behov"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Gå med nu! Årligt medlemskap kostar endast {membership_fee}"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "Vi kommer bara att göra oss av med så många ton {radioactives} som du har köpt {military_fuel} av oss."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "Vilka förhållanden gäller för avyttring av {radioactives}?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "Din medlemsansökan har blivit nekad."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "Du är nu en medlem. Ditt medlemskap går ut {expiry_date}."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "Du måste köpa vår {military_fuel} innan vi tar dina {radioactives}"
+   }
+}

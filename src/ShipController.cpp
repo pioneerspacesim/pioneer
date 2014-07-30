@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipController.h"
@@ -89,10 +89,27 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	vector3d v;
 	matrix4x4d m;
 
+	int mouseMotion[2];
+	SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
+
+	// external camera mouselook
+	if (Pi::MouseButtonState(SDL_BUTTON_MIDDLE)) {
+		// not internal camera
+		if (Pi::worldView->GetCamType() != Pi::worldView->CAM_INTERNAL) {
+			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::worldView->GetCameraController());
+			const double accel = 0.01; // XXX configurable?
+			mcc->RotateLeft(mouseMotion[0] * accel);
+			mcc->RotateUp(  mouseMotion[1] * accel);
+			// only mouselook if the player presses both mmb and rmb
+			mouseMotion[0] = 0;
+			mouseMotion[1] = 0;
+		}
+	}
+
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
 		case CONTROL_FIXSPEED:
-			PollControls(timeStep, true);
+			PollControls(timeStep, true, mouseMotion);
 			if (IsAnyLinearThrusterKeyDown()) break;
 			v = -m_ship->GetOrient().VectorZ() * m_setSpeed;
 			if (m_setSpeedTarget) {
@@ -102,15 +119,34 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 			break;
 		case CONTROL_FIXHEADING_FORWARD:
 		case CONTROL_FIXHEADING_BACKWARD:
-			PollControls(timeStep, true);
+		case CONTROL_FIXHEADING_NORMAL:
+		case CONTROL_FIXHEADING_ANTINORMAL:
+		case CONTROL_FIXHEADING_RADIALLY_INWARD:
+		case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
+		case CONTROL_FIXHEADING_KILLROT:
+			PollControls(timeStep, true, mouseMotion);
 			if (IsAnyAngularThrusterKeyDown()) break;
 			v = m_ship->GetVelocity().NormalizedSafe();
-			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD)
+			if (m_flightControlState == CONTROL_FIXHEADING_BACKWARD ||
+			    m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
 				v = -v;
+			if (m_flightControlState == CONTROL_FIXHEADING_NORMAL ||
+			    m_flightControlState == CONTROL_FIXHEADING_ANTINORMAL)
+				v = v.Cross(m_ship->GetPosition().NormalizedSafe());
+			if (m_flightControlState == CONTROL_FIXHEADING_RADIALLY_INWARD)
+				v = -m_ship->GetPosition().NormalizedSafe();
+			if (m_flightControlState == CONTROL_FIXHEADING_RADIALLY_OUTWARD)
+				v = m_ship->GetPosition().NormalizedSafe();
+			if (m_flightControlState == CONTROL_FIXHEADING_KILLROT) {
+				v = -m_ship->GetOrient().VectorZ();
+				if (m_ship->GetAngVelocity().Length() < 0.0001) // fixme magic number
+					SetFlightControlState(CONTROL_MANUAL);
+			}
+
 			m_ship->AIFaceDirection(v);
 			break;
 		case CONTROL_MANUAL:
-			PollControls(timeStep, false);
+			PollControls(timeStep, false, mouseMotion);
 			break;
 		case CONTROL_AUTOPILOT:
 			if (m_ship->AIIsActive()) break;
@@ -151,10 +187,9 @@ static double clipmouse(double cur, double inp)
 	return inp;
 }
 
-void PlayerShipController::PollControls(const float timeStep, const bool force_rotation_damping)
+void PlayerShipController::PollControls(const float timeStep, const bool force_rotation_damping, int *mouseMotion)
 {
 	static bool stickySpeedKey = false;
-
 	CheckControlsLock();
 	if (m_controlsLocked) return;
 
@@ -170,8 +205,6 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		const float linearThrustPower = (KeyBindings::thrustLowPower.IsActive() ? m_lowThrustPower : 1.0f);
 
 		// have to use this function. SDL mouse position event is bugged in windows
-		int mouseMotion[2];
-		SDL_GetRelativeMouseState (mouseMotion+0, mouseMotion+1);	// call to flush
 		if (Pi::MouseButtonState(SDL_BUTTON_RIGHT))
 		{
 			const matrix3x3d &rot = m_ship->GetOrient();
@@ -244,6 +277,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		if (KeyBindings::pitchUp.IsActive()) wantAngVel.x += 1.0;
 		if (KeyBindings::rollLeft.IsActive()) wantAngVel.z += 1.0;
 		if (KeyBindings::rollRight.IsActive()) wantAngVel.z -= 1.0;
+		if (KeyBindings::killRot.IsActive()) SetFlightControlState(CONTROL_FIXHEADING_KILLROT);
 
 		if (KeyBindings::thrustLowPower.IsActive())
 			angThrustSoftness = 50.0;
@@ -273,7 +307,6 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		}
 
 		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
-
 	}
 }
 
@@ -347,17 +380,7 @@ void PlayerShipController::FireMissile()
 {
 	if (!Pi::player->GetCombatTarget())
 		return;
-
-	lua_State *l = Lua::manager->GetLuaState();
-	int pristine_stack = lua_gettop(l);
-	LuaObject<Ship>::PushToLua(Pi::player);
-	lua_pushstring(l, "FireMissileAt");
-	lua_gettable(l, -2);
-	lua_pushvalue(l, -2);
-	lua_pushstring(l, "any");
-	LuaObject<Ship>::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
-	lua_call(l, 3, 1);
-	lua_settop(l, pristine_stack);
+	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", "any", static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
 Body *PlayerShipController::GetCombatTarget() const

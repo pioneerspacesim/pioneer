@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUIVSCROLLBAR
@@ -30,17 +30,6 @@ namespace Gui {
 	class VScrollBar: public ScrollBar {
 	public:
 		VScrollBar(): ScrollBar(false) {}
-	};
-
-	class HScrollBar: public ScrollBar {
-	public:
-		HScrollBar(): ScrollBar(true) {}
-	};
-
-	class HScale: public ScrollBar {
-	public:
-		HScale(): ScrollBar(true) {}
-		virtual void Draw();
 	};
 }
 

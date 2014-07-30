@@ -1,10 +1,10 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _POLIT_H
 #define _POLIT_H
 
-#include "EquipType.h"
+#include "galaxy/Economy.h"
 #include "Serializer.h"
 
 class StarSystem;
@@ -52,8 +52,8 @@ namespace Polit {
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
-	void GetSysPolitStarSystem(const StarSystem *s, const fixed human_infestedness, SysPolit &outSysPolit);
-	bool IsCommodityLegal(const StarSystem *s, const Equip::Type t);
+	void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness, SysPolit &outSysPolit);
+	bool IsCommodityLegal(const StarSystem *s, const GalacticEconomy::Commodity t);
 	void Init();
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);
@@ -65,6 +65,8 @@ namespace Polit {
 
 class SysPolit {
 public:
+	SysPolit() : govType(Polit::GOV_INVALID) { }
+
 	const char *GetGovernmentDesc() const;
 	const char *GetEconomicDesc() const;
 

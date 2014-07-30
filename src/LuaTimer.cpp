@@ -1,10 +1,18 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaTimer.h"
 #include "LuaUtils.h"
 #include "Game.h"
 #include "Pi.h"
+
+void LuaTimer::RemoveAll()
+{
+    lua_State *l = Lua::manager->GetLuaState();
+
+    lua_pushnil(l);
+    lua_setfield(l, LUA_REGISTRYINDEX, "PiTimerCallbacks");
+}
 
 void LuaTimer::Tick()
 {
@@ -151,8 +159,10 @@ static void _finish_timer_create(lua_State *l)
  */
 static int l_timer_call_at(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
+		return 0;
+	}
 
 	double at = luaL_checknumber(l, 2);
 	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function
@@ -200,7 +210,7 @@ static int l_timer_call_at(lua_State *l)
  *
  * > -- dump fuel every two seconds until none left
  * > Timer:CallEvery(2, function ()
- * >     local did_dump = Game.player:Jettison(Equip.Type.HYDROGEN)
+ * >     local did_dump = Game.player:Jettison(Equipment.cargo.hydrogen)
  * >     return not did_dump
  * > end)
  *
@@ -214,8 +224,10 @@ static int l_timer_call_at(lua_State *l)
  */
 static int l_timer_call_every(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
+		return 0;
+	}
 
 	double every = luaL_checknumber(l, 2);
 	luaL_checktype(l, 3, LUA_TFUNCTION); // any type of function

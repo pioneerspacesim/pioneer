@@ -1,0 +1,34 @@
+{
+   "name" : "UIFont",
+   "faces" : [
+      {
+         "fontFile" : "TitilliumText22L004.otf",
+         "pixelWidth" : 20,
+         "pixelHeight" : 20
+      },
+      {
+         "fontFile" : "DejaVuSans.ttf",
+         "pixelWidth" : 14,
+         "pixelHeight" : 14,
+         "ranges" : [
+            [ "0x0400", "0x04FF" ],
+            [ "0x0500", "0x0527" ],
+            [ "0x2DE0", "0x2DFF" ],
+            [ "0xA640", "0xA697" ],
+            [ "0xA69F", "0xA69F" ]
+         ]
+      },
+      {
+        "fontFile" : "wqy-microhei.ttc",
+        "pixelWidth" : 20,
+        "pixelHeight" : 20,
+        "ranges" : [
+            [ "0x4E00",  "0x9FFF"  ],
+            [ "0x3400",  "0x4DFF"  ],
+            [ "0x20000", "0x2A6DF" ],
+            [ "0xF900",  "0xFAFF"  ],
+            [ "0x2F800", "0x2FA1F" ]
+        ]
+      }
+   ]
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
@@ -7,15 +7,17 @@
 #include "libs.h"
 #include "Camera.h"
 #include "DynamicBody.h"
-#include "EquipSet.h"
 #include "galaxy/SystemPath.h"
 #include "NavLights.h"
 #include "Planet.h"
+#include "Sensors.h"
 #include "Serializer.h"
 #include "ShipType.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
+#include "LuaTable.h"
 #include <list>
+#include <unordered_map>
 
 class SpaceStation;
 class HyperspaceCloud;
@@ -24,6 +26,12 @@ class ShipController;
 class CargoBody;
 class Missile;
 namespace Graphics { class Renderer; }
+
+struct HeatGradientParameters_t {
+	matrix3x3f heatingMatrix;
+	vector3f heatingNormal; // normalised
+	float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
+};
 
 struct shipstats_t {
 	int used_capacity;
@@ -38,12 +46,6 @@ struct shipstats_t {
 	float fuel_tank_mass_left;
 };
 
-class SerializableEquipSet: public EquipSet {
-public:
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
-};
-
 class Ship: public DynamicBody {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
@@ -52,6 +54,8 @@ public:
 	Ship(ShipType::Id shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
+
+	virtual void SetFrame(Frame *f);
 
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
@@ -83,9 +87,9 @@ public:
 	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
+	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
-	void UpdateStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
@@ -103,13 +107,14 @@ public:
 
 	virtual void NotifyRemoved(const Body* const removedBody);
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
-	virtual bool OnDamage(Object *attacker, float kgDamage);
+	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)
 		DOCKING,    // in docking animation
 		DOCKED,     // docked with station
 		LANDED,     // rough landed (not docked)
+		JUMPING,    // between space and hyperspace ;)
 		HYPERSPACE, // in hyperspace
 	};
 
@@ -118,6 +123,8 @@ public:
 	float GetWheelState() const { return m_wheelState; }
 	int GetWheelTransition() const { return m_wheelTransition; }
 	bool SpawnCargo(CargoBody * c_body) const;
+
+	LuaRef GetEquipSet() const { return m_equipSet; }
 
 	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
 
@@ -129,31 +136,19 @@ public:
 		HYPERJUMP_OK,
 		HYPERJUMP_CURRENT_SYSTEM,
 		HYPERJUMP_NO_DRIVE,
+		HYPERJUMP_INITIATED,
 		HYPERJUMP_DRIVE_ACTIVE,
 		HYPERJUMP_OUT_OF_RANGE,
 		HYPERJUMP_INSUFFICIENT_FUEL,
 		HYPERJUMP_SAFETY_LOCKOUT
 	};
 
-	HyperjumpStatus GetHyperspaceDetails(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
-	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest, int &outFuelRequired, double &outDurationSecs);
-	HyperjumpStatus CheckHyperspaceTo(const SystemPath &dest) {
-		int unusedFuel;
-		double unusedDuration;
-		return CheckHyperspaceTo(dest, unusedFuel, unusedDuration);
-	}
-	bool CanHyperspaceTo(const SystemPath &dest, HyperjumpStatus &status) {
-		status = CheckHyperspaceTo(dest);
-		return (status == HYPERJUMP_OK);
-	}
-	bool CanHyperspaceTo(const SystemPath &dest) { return (CheckHyperspaceTo(dest) == HYPERJUMP_OK); }
-
-	virtual Ship::HyperjumpStatus StartHyperspaceCountdown(const SystemPath &dest);
+	Ship::HyperjumpStatus CheckHyperjumpCapability() const;
+	virtual Ship::HyperjumpStatus InitiateHyperjumpTo(const SystemPath &dest, int warmup_time, double duration, LuaRef checks);
+	virtual void AbortHyperjump();
 	float GetHyperspaceCountdown() const { return m_hyperspace.countdown; }
 	bool IsHyperspaceActive() const { return (m_hyperspace.countdown > 0.0); }
-	virtual void ResetHyperspaceCountdown();
 
-	Equip::Type GetHyperdriveFuelType() const;
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
 	void UseECM();
@@ -176,9 +171,9 @@ public:
 	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel);
 
 	// old stuff, deprecated
-	void AIAccelToModelRelativeVelocity(const vector3d v);
-	void AIModelCoordsMatchAngVel(vector3d desiredAngVel, double softness);
-	void AIModelCoordsMatchSpeedRelTo(const vector3d v, const Ship *);
+	void AIAccelToModelRelativeVelocity(const vector3d &v);
+	void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness);
+	void AIModelCoordsMatchSpeedRelTo(const vector3d &v, const Ship *);
 
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
@@ -202,12 +197,10 @@ public:
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
-	SerializableEquipSet m_equipment;			// shouldn't be public?...
-
 	virtual void PostLoadFixup(Space *space);
 
 	const ShipType *GetShipType() const { return m_type; }
-	void SetShipType(const ShipType::Id &shipId);
+	virtual void SetShipType(const ShipType::Id &shipId);
 
 	const SceneGraph::ModelSkin &GetSkin() const { return m_skin; }
 	void SetSkin(const SceneGraph::ModelSkin &skin);
@@ -249,6 +242,13 @@ public:
 	bool IsInvulnerable() const { return m_invulnerable; }
 	void SetInvulnerable(bool b) { m_invulnerable = b; }
 
+	Sensors *GetSensors() const { return m_sensors.get(); }
+
+	Uint8 GetRelations(Body *other) const; //0=hostile, 50=neutral, 100=ally
+	void SetRelations(Body *other, Uint8 percent);
+
+	double GetLandingPosOffset() const { return m_landingMinOffset; }
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -277,6 +277,8 @@ protected:
 
 	ShipController *m_controller;
 
+	LuaRef m_equipSet;
+
 private:
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
@@ -286,13 +288,16 @@ private:
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
-    void SetShipId(const ShipType::Id &shipId);
-	void OnEquipmentChange(Equip::Type e);
+	void SetShipId(const ShipType::Id &shipId);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);
+	void InitMaterials();
+	void InitEquipSet();
 
 	bool m_invulnerable;
 
+	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
+	float m_shieldCooldown;
 	shipstats_t m_stats;
 	const ShipType *m_type;
 	SceneGraph::ModelSkin m_skin;
@@ -315,6 +320,7 @@ private:
 		float countdown;
 		bool now;
 		double duration;
+		LuaRef checks; // A Lua function to check all the conditions before the jump
 	} m_hyperspace;
 	HyperspaceCloud *m_hyperspaceCloud;
 
@@ -325,10 +331,17 @@ private:
 	double m_thrusterFuel; 	// remaining fuel 0.0-1.0
 	double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 
+	double m_landingMinOffset;	// offset from the centre of the ship used during docking
+
 	int m_dockedWithIndex; // deserialisation
 
 	SceneGraph::Animation *m_landingGearAnimation;
 	std::unique_ptr<NavLights> m_navLights;
+
+	static HeatGradientParameters_t s_heatGradientParams;
+
+	std::unique_ptr<Sensors> m_sensors;
+	std::unordered_map<Body*, Uint8> m_relationsMap;
 };
 
 

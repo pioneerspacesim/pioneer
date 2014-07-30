@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_TABLE_H
@@ -26,40 +26,60 @@ public:
 	Table *SetRowSpacing(int spacing);
 	Table *SetColumnSpacing(int spacing);
 
-	enum RowAlignDirection { // <enum scope='UI::Table' name=UITableRowAlignDirection public>
-		TOP,
-		CENTER,
-		BOTTOM
+	enum RowAlignDirection { // <enum scope='UI::Table' name=UITableRowAlignDirection prefix=ROW_ public>
+		ROW_TOP,
+		ROW_CENTER,
+		ROW_BOTTOM
+	};
+
+	enum ColumnAlignDirection { // <enum scope='UI::Table' name=UITableColumnAlignDirection prefix=COLUMN_ public>
+		COLUMN_LEFT,
+		COLUMN_CENTER,
+		COLUMN_RIGHT,
+		COLUMN_JUSTIFY
 	};
 
 	Table *SetRowAlignment(RowAlignDirection dir);
+	Table *SetColumnAlignment(ColumnAlignDirection dir);
 
 	Table *SetHeadingFont(Font font);
 
 	Table *SetMouseEnabled(bool enabled);
 
+	void SetScrollPosition(float v);
+
 	sigc::signal<void,unsigned int> onRowClicked;
+
+protected:
+	virtual void HandleInvisible();
 
 private:
 
 	class LayoutAccumulator {
 	public:
-		LayoutAccumulator() : m_columnSpacing(0) {}
+		LayoutAccumulator() : m_columnSpacing(0), m_preferredWidth(0), m_columnAlignment(COLUMN_LEFT) {}
 
 		void AddRow(const std::vector<Widget*> &widgets);
 		void Clear();
 
-		void SetColumnSpacing(int spacing);
+		bool Empty() const { return m_columnWidth.empty(); }
+
+		void SetColumnSpacing(int spacing) { m_columnSpacing = spacing; }
+		void SetColumnAlignment(ColumnAlignDirection dir) { m_columnAlignment = dir; }
+
+		void ComputeForWidth(int availWidth);
+
+		int GetPreferredWidth() const { return m_preferredWidth; }
 
 		const std::vector<int> &ColumnWidth() const { return m_columnWidth; }
 		const std::vector<int> &ColumnLeft() const { return m_columnLeft; }
 
 	private:
 		std::vector<int> m_columnWidth;
-
-		void UpdateColumns();
 		std::vector<int> m_columnLeft;
 		int m_columnSpacing;
+		int m_preferredWidth;
+		ColumnAlignDirection m_columnAlignment;
 	};
 
 

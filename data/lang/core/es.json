@@ -12,8 +12,8 @@
       "message" : "Alianza:"
    },
    "ALT" : {
-      "description" : "",
-      "message" : "\"alt \""
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
    },
    "ALT_IN_KM" : {
       "description" : "",
@@ -58,6 +58,10 @@
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
       "message" : "Protege su nave de las altas temperaturas durante la reentrada atmosférica."
+   },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Selección automática de sistema"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -121,7 +125,7 @@
    },
    "BUTTON" : {
       "description" : "",
-      "message" : "\" Button \""
+      "message" : "\" Botón \""
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -146,6 +150,10 @@
    "CAMERA_TOP_VIEW" : {
       "description" : "",
       "message" : "Vista superior"
+   },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "No es posible salvar el juego tras la muerte del jugador"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -191,6 +199,10 @@
       "description" : "",
       "message" : "Recogedor de carga activo. Recogida 1 ton de %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Intento de recogida de carga. No hay espacio suficiente en la bahía de carga."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Permite la recogida de carga en el espacio."
@@ -218,6 +230,18 @@
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
       "message" : ", altamente volcánico"
+   },
+   "COMMODITY_NONE" : {
+      "description" : "When no commodities exist",
+      "message" : "No"
+   },
+   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+   },
+   "COMMODITY_TRADE_ANALYSIS_SELF" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -268,8 +292,8 @@
       "message" : "\" Atmósfera de monóxido de carbono\""
    },
    "CTRL" : {
-      "description" : "",
-      "message" : "\"ctrl \""
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -303,10 +327,6 @@
       "description" : "",
       "message" : "\" Dir \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Selección automática de sistema desconectado."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Distancia desde la nave al objetivo de navegación"
@@ -334,6 +354,10 @@
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
       "message" : "Mostrar sistemas fuera de rango"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Etiquetar sistemas deshabitados"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -430,10 +454,6 @@
    "ECONOMY_TYPE" : {
       "description" : "",
       "message" : "Sistema económico:"
-   },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Selección automática de sistema encendido."
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
@@ -535,6 +555,10 @@
       "description" : "",
       "message" : "No se puede escribir en este juego salvado por un error del sistema."
    },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Vista General de los Controles"
+   },
    "GOVERNMENT_TYPE" : {
       "description" : "",
       "message" : "Sistema de gobierno:"
@@ -555,13 +579,33 @@
       "description" : "",
       "message" : "\" Hat\""
    },
+   "HEADING_LOCK_ANTINORMAL" : {
+      "description" : "",
+      "message" : "Mantener antinormal"
+   },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Bloqueo direcc. (retro)"
+      "message" : "Mantener retrogrado"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Bloqueo direcc. (pro)"
+      "message" : "Mantener progrado"
+   },
+   "HEADING_LOCK_KILLROT" : {
+      "description" : "",
+      "message" : "Neutralizar rotación"
+   },
+   "HEADING_LOCK_NORMAL" : {
+      "description" : "",
+      "message" : "Mantener normal"
+   },
+   "HEADING_LOCK_RADIALLY_INWARD" : {
+      "description" : "",
+      "message" : "Mantener radialmente"
+   },
+   "HEADING_LOCK_RADIALLY_OUTWARD" : {
+      "description" : "",
+      "message" : "Mantener radialmente hacia fuera"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -651,6 +695,10 @@
       "description" : "",
       "message" : "\" Mundo helado\""
    },
+   "ILLEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Illegal (current system):"
+   },
    "ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Mercancías ilegales:"
@@ -713,10 +761,10 @@
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Posado"
+      "message" : "En tierra"
    },
    "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
       "message" : "Español"
    },
    "LARGE" : {
@@ -743,9 +791,9 @@
       "description" : "",
       "message" : "Descarga de láser detectada."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Permiso para despegar denegado: Bahía de atraque ocupada."
+   "LEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Legal (current system):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -775,9 +823,17 @@
       "description" : "",
       "message" : "Exportaciones principales:"
    },
+   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major export (current system)"
+   },
    "MAJOR_IMPORTS" : {
       "description" : "",
       "message" : "Importaciones principales:"
+   },
+   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major import (current system)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -786,6 +842,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Control manual"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Bloquear Objetivo Hiperespacial"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Alternar Panel de Información"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Alternar Vista de Seguimiento"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Rotar Vista abajo"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Rotar Vista izquierda"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Rotar Vista derecha"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Rotar Vista arriba"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia atrás"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia abajo"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia adelante"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Desplazar la Vista hacia la izquierda"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Desplazar la vista hacia la derecha"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Desplazar la Vista arriba"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Viajar al sistema actual"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Viajar al objetivo hiperespacial"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Viajar al sistema seleccionado"
    },
    "MASS" : {
       "description" : "",
@@ -812,8 +932,8 @@
       "message" : "Mensaje de %sender:"
    },
    "META" : {
-      "description" : "",
-      "message" : "\"meta \""
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -821,7 +941,7 @@
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Metales (mena)"
+      "message" : "Minerales metálicos"
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
@@ -851,9 +971,17 @@
       "description" : "",
       "message" : "Exportaciones secundarias:"
    },
+   "MINOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor export (current system)"
+   },
    "MINOR_IMPORTS" : {
       "description" : "",
       "message" : "Importaciones secundarias:"
+   },
+   "MINOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor import (current system)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -939,8 +1067,12 @@
       "description" : "",
       "message" : "%speed{f.0} m/s relativa a %frame"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Nombre"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Nombre"
    },
    "NARCOTICS" : {
@@ -960,7 +1092,7 @@
       "message" : "Gas nervioso"
    },
    "NONE" : {
-      "description" : "",
+      "description" : "used for no allegiance, and no rank, and no missions",
       "message" : "Nada"
    },
    "NORMA_ARM" : {
@@ -1003,13 +1135,29 @@
       "description" : "",
       "message" : "%days{f.0} días"
    },
+   "NUMBER_DECIMAL_POINT" : {
+      "description" : "Decimal delimiter used in numbers.",
+      "message" : ","
+   },
    "NUMBER_G" : {
       "description" : "",
       "message" : "%acceleration{f.1} G"
    },
+   "NUMBER_GROUP_MIN" : {
+      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+      "message" : "1000"
+   },
+   "NUMBER_GROUP_NUM" : {
+      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+      "message" : "3"
+   },
+   "NUMBER_GROUP_SEP" : {
+      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+      "message" : "."
+   },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs"
+      "message" : "%hours{f.1} hrs "
    },
    "NUMBER_LY" : {
       "description" : "",
@@ -1143,6 +1291,22 @@
       "description" : "",
       "message" : "Economía centralizada"
    },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "",
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "",
+      "message" : "Normal delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "",
+      "message" : "Prograde delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "",
+      "message" : "Radial delta-v. Click to reset to zero."
+   },
    "PLASTICS" : {
       "description" : "",
       "message" : "Plásticos"
@@ -1231,6 +1395,10 @@
       "description" : "",
       "message" : "Reset"
    },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reiniciar orientación y zoom"
+   },
    "ROBOTS" : {
       "description" : "",
       "message" : "Robots"
@@ -1315,9 +1483,17 @@
       "description" : "",
       "message" : "Buscar"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Mapa de Búsqueda"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Coordenadas de sector:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Vista Mapa de Sector"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1384,8 +1560,8 @@
       "message" : "Resistencia del escudo: %shields{f.2}"
    },
    "SHIFT" : {
-      "description" : "",
-      "message" : "\"shift \""
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
    },
    "SHIP" : {
       "description" : "",

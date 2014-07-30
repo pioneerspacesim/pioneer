@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Image.h"
@@ -28,6 +28,15 @@ Point Image::PreferredSize()
 	return m_initialSize;
 }
 
+Image *Image::SetHeightLines(Uint32 lines)
+{
+	const Text::TextureFont *font = GetContext()->GetFont(GetFont()).Get();
+	const float height = font->GetHeight() * lines;
+	m_initialSize = UI::Point(height * float(m_initialSize.x) / float(m_initialSize.y), height);
+	GetContext()->RequestLayout();
+	return this;
+}
+
 void Image::Draw()
 {
 	const Point &offset = GetActiveOffset();
@@ -47,8 +56,9 @@ void Image::Draw()
 	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(texSize.x, texSize.y));
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	r->SetBlendMode(Graphics::BLEND_ALPHA);
-	r->DrawTriangles(&va, m_material.Get(), Graphics::TRIANGLE_STRIP);
+	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+	m_material->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, GetContext()->GetOpacity()*Color::WHITE.a);
+	r->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
 }

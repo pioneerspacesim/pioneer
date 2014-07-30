@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_WIDGET_H
@@ -161,6 +161,8 @@ public:
 
 	bool IsMouseOver() const { return m_mouseOver; }
 
+	bool IsOnTopLayer() const;
+
 	// register a key that, when pressed and not handled by any other widget,
 	// will cause a click event to be sent to this widget
 	void AddShortcut(const KeySym &keysym) { m_shortcuts.insert(keysym); }
@@ -182,6 +184,12 @@ public:
 		FONT_HEADING_LARGE,
 		FONT_HEADING_XLARGE,
 
+		FONT_MONO_XSMALL,
+		FONT_MONO_SMALL,
+		FONT_MONO_NORMAL,
+		FONT_MONO_LARGE,
+		FONT_MONO_XLARGE,
+
 		FONT_MAX,                 // <enum skip>
 
 		FONT_INHERIT,
@@ -190,14 +198,12 @@ public:
 		FONT_LARGEST          = FONT_XLARGE,         // <enum skip>
 		FONT_HEADING_SMALLEST = FONT_HEADING_XSMALL, // <enum skip>
 		FONT_HEADING_LARGEST  = FONT_HEADING_XLARGE, // <enum skip>
+		FONT_MONO_SMALLEST    = FONT_MONO_XSMALL,    // <enum skip>
+		FONT_MONO_LARGEST     = FONT_MONO_XLARGE,    // <enum skip>
 	};
 
 	virtual Widget *SetFont(Font font);
 	Font GetFont() const;
-
-	// widget id. used for queries/searches
-	const std::string &GetId() const { return m_id; }
-	Widget *SetId(const std::string &id) { m_id = id; return this; }
 
 	// bind an object property to a widget bind point
 	void Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName);
@@ -323,6 +329,11 @@ protected:
 
 	void RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method);
 
+
+	float GetAnimatedOpacity() const { return m_animatedOpacity; }
+	float GetAnimatedPositionX() const { return m_animatedPositionX; }
+	float GetAnimatedPositionY() const { return m_animatedPositionY; }
+
 private:
 
 	// EventDispatcher needs to give us events
@@ -330,31 +341,31 @@ private:
 
 	// event triggers. when called:
 	//  - calls the corresponding Handle* method on this widget (always)
-	//  - fires the corresponding on* signal on this widget (iff emit is true)
-	//  - calls the container Trigger* method with the new emit value returned
+	//  - fires the corresponding on* signal on this widget (iff handled is false)
+	//  - calls the container Trigger* method with the new handled value returned
 	//    by the on* signal
 	//
 	// what this means in practic is that Handle* will be called for every
 	// widget from here to the root, whereas signals will only be fired as
 	// long as the signals continue to return false (unhandled).
-	bool TriggerKeyDown(const KeyboardEvent &event, bool emit = true);
-	bool TriggerKeyUp(const KeyboardEvent &event, bool emit = true);
-	bool TriggerTextInput(const TextInputEvent &event, bool emit = true);
-	bool TriggerMouseDown(const MouseButtonEvent &event, bool emit = true);
-	bool TriggerMouseUp(const MouseButtonEvent &event, bool emit = true);
-	bool TriggerMouseMove(const MouseMotionEvent &event, bool emit = true);
-	bool TriggerMouseWheel(const MouseWheelEvent &event, bool emit = true);
+	bool TriggerKeyDown(const KeyboardEvent &event, bool handled = false);
+	bool TriggerKeyUp(const KeyboardEvent &event, bool handled = false);
+	bool TriggerTextInput(const TextInputEvent &event, bool handled = false);
+	bool TriggerMouseDown(const MouseButtonEvent &event, bool handled = false);
+	bool TriggerMouseUp(const MouseButtonEvent &event, bool handled = false);
+	bool TriggerMouseMove(const MouseMotionEvent &event, bool handled = false);
+	bool TriggerMouseWheel(const MouseWheelEvent &event, bool handled = false);
 
-	bool TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool emit = true);
-	bool TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool emit = true);
-	bool TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool emit = true);
-	bool TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool emit = true);
+	bool TriggerJoystickButtonDown(const JoystickButtonEvent &event, bool handled = false);
+	bool TriggerJoystickButtonUp(const JoystickButtonEvent &event, bool handled = false);
+	bool TriggerJoystickAxisMove(const JoystickAxisMotionEvent &event, bool handled = false);
+	bool TriggerJoystickHatMove(const JoystickHatMotionEvent &event, bool handled = false);
 
-	bool TriggerClick(bool emit = true);
+	bool TriggerClick(bool handled = false);
 
 	// stop is used during disable/enable to stop delivery at the given widget
-	bool TriggerMouseOver(const Point &pos, bool emit = true, Widget *stop = 0);
-	bool TriggerMouseOut(const Point &pos, bool emit = true, Widget *stop = 0);
+	bool TriggerMouseOver(const Point &pos, bool handled = false, Widget *stop = 0);
+	bool TriggerMouseOut(const Point &pos, bool handled = false, Widget *stop = 0);
 
 	void TriggerMouseActivate();
 	void TriggerMouseDeactivate();
@@ -383,6 +394,15 @@ private:
 	friend class Context;
 	void SetSize(const Point &size) { m_size = size; SetActiveArea(size); }
 
+
+	// Animation needs to change our animation attributes
+	friend class Animation;
+
+	void SetAnimatedOpacity(float opacity) { m_animatedOpacity = opacity; }
+	void SetAnimatedPositionX(float pos) { m_animatedPositionX = pos; }
+	void SetAnimatedPositionY(float pos) { m_animatedPositionY = pos; }
+
+
 	Context *m_context;
 	Container *m_container;
 
@@ -405,10 +425,12 @@ private:
 
 	std::set<KeySym> m_shortcuts;
 
-	std::string m_id;
-
 	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> > m_bindPoints;
 	std::map< std::string,sigc::connection > m_binds;
+
+	float m_animatedOpacity;
+	float m_animatedPositionX;
+	float m_animatedPositionY;
 };
 
 }

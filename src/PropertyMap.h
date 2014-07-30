@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef PROPERTYMAP_H
@@ -7,6 +7,7 @@
 #include "LuaManager.h"
 #include "LuaRef.h"
 #include "LuaTable.h"
+#include "Serializer.h"
 #include "libs.h"
 
 struct lua_State;
@@ -29,6 +30,13 @@ public:
 	sigc::connection Connect(const std::string &k, const sigc::slot<void,PropertyMap &,const std::string &> &fn) {
 		return m_signals[k].connect(fn);
 	}
+
+    void Save(Serializer::Writer &wr) {
+        m_table.Save(wr);
+    }
+    void Load(Serializer::Reader &rd) {
+        m_table.Load(rd);
+    }
 
 private:
 	LuaRef m_table;

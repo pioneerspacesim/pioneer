@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "KeyBindings.h"
@@ -37,12 +37,18 @@ bool KeyBinding::IsActive() const
 	if (type == BINDING_DISABLED) {
 		return false;
 	} else if (type == KEYBOARD_KEY) {
-		// 0xfff filters out numlock, capslock and other shit
-		if (u.keyboard.mod != 0)
-			return Pi::KeyState(u.keyboard.key) && ((Pi::KeyModState()&0xfff) == u.keyboard.mod);
-
-		return Pi::KeyState(u.keyboard.key) != 0;
-
+		if (!Pi::KeyState(u.keyboard.key))
+			return false;
+		if (u.keyboard.mod == KMOD_NONE)
+			return true;
+		else {
+			int mod = Pi::KeyModState();
+			if (mod & KMOD_CTRL) { mod |= KMOD_CTRL; }
+			if (mod & KMOD_SHIFT) { mod |= KMOD_SHIFT; }
+			if (mod & KMOD_ALT) { mod |= KMOD_ALT; }
+			if (mod & KMOD_GUI) { mod |= KMOD_GUI; }
+			return ((mod & u.keyboard.mod) == u.keyboard.mod);
+		}
 	} else if (type == JOYSTICK_BUTTON) {
 		return Pi::JoystickButtonState(u.joystickButton.joystick, u.joystickButton.button) != 0;
 	} else if (type == JOYSTICK_HAT) {
@@ -54,10 +60,15 @@ bool KeyBinding::IsActive() const
 }
 
 bool KeyBinding::Matches(const SDL_Keysym *sym) const {
+	int mod = sym->mod;
+	if (mod & KMOD_CTRL) { mod |= KMOD_CTRL; }
+	if (mod & KMOD_SHIFT) { mod |= KMOD_SHIFT; }
+	if (mod & KMOD_ALT) { mod |= KMOD_ALT; }
+	if (mod & KMOD_GUI) { mod |= KMOD_GUI; }
 	return
 		(type == KEYBOARD_KEY) &&
 		(sym->sym == u.keyboard.key) &&
-		((sym->mod & 0xfff) == u.keyboard.mod);
+		((mod & u.keyboard.mod) == u.keyboard.mod);
 }
 
 bool KeyBinding::Matches(const SDL_JoyButtonEvent *joy) const {
@@ -81,10 +92,10 @@ std::string KeyBinding::Description() const {
 	if (type == BINDING_DISABLED) {
 		// blank
 	} else if (type == KEYBOARD_KEY) {
-		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT;
-		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL;
-		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT;
-		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META;
+		if (u.keyboard.mod & KMOD_SHIFT) oss << Lang::SHIFT << " + ";
+		if (u.keyboard.mod & KMOD_CTRL) oss << Lang::CTRL << " + ";
+		if (u.keyboard.mod & KMOD_ALT) oss << Lang::ALT << " + ";
+		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META << " + ";
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
 		oss << Lang::JOY << int(u.joystickButton.joystick);
@@ -109,8 +120,9 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 {
 	const char *digits = "1234567890";
 	const char *p = str;
-
-	if (strncmp(p, "Key", 3) == 0) {
+	if (strcmp(p, "disabled") == 0) {
+		kb.Clear();
+	} else if (strncmp(p, "Key", 3) == 0) {
 		kb.type = KEYBOARD_KEY;
 		p += 3;
 
@@ -160,10 +172,10 @@ KeyBinding KeyBinding::FromString(const char *str) {
 	return kb;
 }
 
-static std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
+std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 {
 	if (kb.type == BINDING_DISABLED) {
-		// blank
+		oss << "disabled";
 	} else if (kb.type == KEYBOARD_KEY) {
 		oss << "Key" << int(kb.u.keyboard.key);
 		if (kb.u.keyboard.mod != 0) {
@@ -188,13 +200,37 @@ std::string KeyBinding::ToString() const {
 	return oss.str();
 }
 
-KeyBinding KeyBinding::keyboardBinding(SDL_Keycode key, SDL_Keymod mod) {
+KeyBinding KeyBinding::FromKeyMod(SDL_Keycode key, SDL_Keymod mod)
+{
 	KeyBinding kb;
-
 	kb.type = KEYBOARD_KEY;
-	kb.u.keyboard.key  = key;
-	kb.u.keyboard.mod  = mod;
+	kb.u.keyboard.key = key;
+	// expand the modifier to cover both left & right variants
+	int imod = mod;
+	if (imod & KMOD_CTRL) { imod |= KMOD_CTRL; }
+	if (imod & KMOD_SHIFT) { imod |= KMOD_SHIFT; }
+	if (imod & KMOD_ALT) { imod |= KMOD_ALT; }
+	if (imod & KMOD_GUI) { imod |= KMOD_GUI; }
+	kb.u.keyboard.mod = static_cast<SDL_Keymod>(imod);
+	return kb;
+}
 
+KeyBinding KeyBinding::FromJoystickButton(Uint8 joystick, Uint8 button)
+{
+	KeyBinding kb;
+	kb.type = JOYSTICK_BUTTON;
+	kb.u.joystickButton.joystick = joystick;
+	kb.u.joystickButton.button = button;
+	return kb;
+}
+
+KeyBinding KeyBinding::FromJoystickHat(Uint8 joystick, Uint8 hat, Uint8 direction)
+{
+	KeyBinding kb;
+	kb.type = JOYSTICK_HAT;
+	kb.u.joystickHat.joystick = joystick;
+	kb.u.joystickHat.hat = hat;
+	kb.u.joystickHat.direction = direction;
 	return kb;
 }
 
@@ -202,14 +238,14 @@ void KeyAction::SetFromString(const char *str)
 {
 	const size_t BUF_SIZE = 64;
 	const size_t len = strlen(str);
-	char buf[BUF_SIZE];
 	if (len >= BUF_SIZE) {
-		fprintf(stderr, "invalid KeyAction string\n");
+		Output("invalid KeyAction string\n");
 		binding1 = KeyBinding::FromString(str);
 		binding2.Clear();
 	} else {
 		const char *sep = strchr(str, ',');
 		if (sep) {
+			char buf[BUF_SIZE];
 			const size_t len1 = sep - str;
 			const size_t len2 = len - len1 - 1;
 			memcpy(buf, str, len1);
@@ -228,14 +264,14 @@ void KeyAction::SetFromString(const char *str)
 std::string KeyAction::ToString() const
 {
 	std::ostringstream oss;
-	if ((binding1.type != BINDING_DISABLED) && (binding2.type != BINDING_DISABLED)) {
+	if (binding1.Enabled() && binding2.Enabled()) {
 		oss << binding1 << "," << binding2;
-	} else if (binding1.type != BINDING_DISABLED) {
+	} else if (binding1.Enabled()) {
 		oss << binding1;
-	} else if (binding2.type != BINDING_DISABLED) {
+	} else if (binding2.Enabled()) {
 		oss << binding2;
 	} else {
-		// blank
+		oss << "disabled";
 	}
 	return oss.str();
 }
@@ -264,7 +300,7 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 		case SDL_JOYBUTTONDOWN:
 		case SDL_JOYBUTTONUP:
 		{
-			if (binding1.Matches(&event->jbutton) || binding1.Matches(&event->jbutton)) {
+			if (binding1.Matches(&event->jbutton) || binding2.Matches(&event->jbutton)) {
 				if (event->jbutton.state == SDL_PRESSED)
 					onPress.emit();
 				else if (event->jbutton.state == SDL_RELEASED)
@@ -286,7 +322,7 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 }
 
 AxisBinding::AxisBinding() {
-	this->joystick = 0;
+	this->joystick = JOYSTICK_DISABLED;
 	this->axis = 0;
 	this->direction = POSITIVE;
 }
@@ -298,6 +334,8 @@ AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_)
 }
 
 float AxisBinding::GetValue() {
+	if (!Enabled()) return 0.0f;
+
 	float value = Pi::JoystickAxisState(joystick, axis);
 
 	if (direction == POSITIVE)
@@ -307,6 +345,8 @@ float AxisBinding::GetValue() {
 }
 
 std::string AxisBinding::Description() const {
+	if (!Enabled()) return std::string();
+
 	const char *axis_names[] = {Lang::X, Lang::Y, Lang::Z};
 	std::ostringstream ossaxisnum;
 	ossaxisnum << int(axis);
@@ -320,6 +360,11 @@ std::string AxisBinding::Description() const {
 }
 
 bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
+	if (strcmp(str, "disabled") == 0) {
+		ab.Clear();
+		return true;
+	}
+
 	const char *digits = "1234567890";
 	const char *p = str;
 
@@ -355,15 +400,17 @@ AxisBinding AxisBinding::FromString(const char *str) {
 
 std::string AxisBinding::ToString() const {
 	std::ostringstream oss;
+	if (Enabled()) {
+		if (direction == NEGATIVE)
+			oss << '-';
 
-	if (direction == NEGATIVE)
-		oss << '-';
-
-	oss << "Joy";
-	oss << int(joystick);
-	oss << "Axis";
-	oss << int(axis);
-
+		oss << "Joy";
+		oss << int(joystick);
+		oss << "Axis";
+		oss << int(axis);
+	} else {
+		oss << "disabled";
+	}
 	return oss.str();
 }
 
@@ -409,7 +456,7 @@ void InitAxisBinding(AxisBinding &ab, const std::string &bindName, const std::st
 
 	// set the binding from the configured or default value
 	if (!AxisBinding::FromString(axisName.c_str(), ab)) {
-		fprintf(stderr, "invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
+		Output("invalid axis binding '%s' in config file for %s\n", axisName.c_str(), bindName.c_str());
 		ab.Clear();
 	}
 }

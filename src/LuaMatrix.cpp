@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -92,7 +92,7 @@ static int l_matrix_new_scale(lua_State *L)
 static int l_matrix_print(lua_State *L)
 {
 	matrix4x4f *v = checkMatrix(L, 1);
-	printf("[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n\n",
+	Output("[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n[%f,%f,%f,%f]\n\n",
 			(*v)[0], (*v)[1], (*v)[2], (*v)[3],
 			(*v)[4], (*v)[5], (*v)[6], (*v)[7],
 			(*v)[8], (*v)[9], (*v)[10], (*v)[11],

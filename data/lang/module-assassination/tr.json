@@ -1,155 +1,187 @@
 {
    "ASSASSINATION" : {
       "description" : "",
-      "message" : "Assassination"
+      "message" : "Suikast"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "İlk isteğinizi tekrarlar mısınız?"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Üzgünüm, fakat size güvenmiyorum."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Bazı vasıflar edindikden sonra geri gel."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Aradığım kişinin siz olduğunu düşünmüyorum."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Yapılması gerekeni yapacak beceriye sahip biri gibi görünmüyorsunuz."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Açık olarak bu iş için uygun değilsiniz."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Bu önemde bir sözleşmeyle baş edebilmek için çok fazla deneyimsiz görünüyorsunuz."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Sizi hiç duymadım. Bu sözleşme için deneyimli birine ihtiyacım var."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Bu sözleşmeyi sizin kadar deneyimsiz birine vererek tehlikeye atmak istemiyorum."
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Uzaklık:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Mükemmel."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Removal of {target} from the {system} system."
+      "message" : "ARANIYOR: {system} sisteminden {target}'ın ortadan kaldırılması."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+      "message" : "{target}'ın hala hayatta olduğunu öğrenmekten hiç hoşnut değilim. Tabii ki hiç ödeme alamayacaksınız."
    },
    "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target}'s removal was not done by you. No payment this time."
+      "message" : "{target} sizin tarafınızdan ortadan kaldırılmadı. Bu sefer ödeme yok."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+      "message" : "Merhaba, ben {name}.  Sana {target}dan kurtulman için {cash} ödeyecegim."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "News of {target}'s long vacation gratefully received. Well done, I have initiated your full payment."
+      "message" : "{target}'ın uzun yolculuk haberi memnuniyerle karşılandı. Tebrikler, tam ödemenizi başlattım."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Someone to kill {target} from the {system} system."
+      "message" : "ARANIYOR: {system} sisteminden {target}'ı öldürecek biri."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I hear that {target} is in good health. This pains me."
+      "message" : "{target}'ın sağlığının iyi olduğunu duydum. Bu bana acı veriyor."
    },
    "FLAVOUR_1_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target}'s demise was not caused by you, so do not ask for payment."
+      "message" : "{target}'ın acı sonuna sen neden olmadın, bu yüzden ödeme isteme."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+      "message" : " {target}'ın resimden çıkartılmasına ihtiyacım var. Bunun için {cash} ödeyeceğim."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "I am most sad to hear of {target}'s demise. You have been paid in full."
+      "message" : "{target}'ın acı sonuna çok üzüldüm. Tam ödeme yapıldı."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "REMOVAL: {target} is no longer wanted in the {system} system."
+      "message" : "ORTADAN KALDIRMA: {system} sistemindeki {target} artık istenmiyor."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract."
+      "message" : "{target}'ın hala hayatta ve iyi olması çok üzücü. Sözleşmenizi tamamlamadığınızdan hiç ödeme alamayacaksınız."
    },
    "FLAVOUR_2_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Contract was completed by someone else. Be faster next time!"
+      "message" : "Sözleşme başka biri tarafından tamamlandı. Bir dahaki sefere daha hızlı ol!"
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "I am {name}, and I will pay you {cash} to terminate {target}."
+      "message" : "Ben {name}, ve {target}'ın yok edilmesi için {cash} ödeyeceğim."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "You have been paid in full for the completion of that important contract."
+      "message" : "Bu önemli sözleşme tamamlandığı için tam ödeme yapıldı."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "TERMINATION: Someone to eliminate {target}."
+      "message" : "YOK ETME:  {target}'ı yok edecek biri."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "You will pay for not eliminating {target}!"
+      "message" : "{target}'ı yok etmemenin bedelini ödeyeceksin!"
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Are you asking money for job done by someone else? Get lost."
+      "message" : "Başka biri tarafından yapılan bir iş için mi para istiyorsun? Kaybol."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+      "message" : "{target} uzay tozuna indirgenmeli. Bunu yapman için seni {cash} ile ödüllendireceğim."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "{target} is dead. Here is your award."
+      "message" : "{target} öldü. Ödülünüzü buyrun."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "RETIREMENT: Someone to retire {target}."
+      "message" : "EMEKLİLİK: {target} için emekliye ayıracak birisi."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "{target} is still breathing and I'm not giving money to you."
+      "message" : "{target} hala nefes alıyor ve sana para vermeyeceğim."
    },
    "FLAVOUR_4_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Retirement of {target} was done by someone else."
+      "message" : "{target}'ın emekliliği başka birisi tarafından gerçekleştirildi."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "For {cash} we wish to encourage {target} to stop work permanently."
+      "message" : "{cash} için {target}'ın çalışmayı kalıcı olarak bırakmasını teşvik etmek istiyoruz."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "News of {target}'s retirement delightfully obtained. Here is your money."
+      "message" : "{target} hakkında çıkan emeklilik haberi zevkle alındı. Buyrun paranız."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "BIOGRAPHICAL: Some admirers wish {target} dead."
+      "message" : "BİYOGRAFİK: Bazı hayranları {target}ın ölü olmasını diliyor. "
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "We found out that {target} is nonetheless operative. This saddens us."
+      "message" : "{target}'ın herşeye rağmen işinde olduğunu öğrendik. Bu bizi üzüyor."
    },
    "FLAVOUR_5_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target} was neutralized by someone else."
+      "message" : "{target} başka birisi tarafından etkisiz hale getirildi"
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "We wish {target} to have a fitting career end in the {system} system for {cash}."
+      "message" : "{system} sistemindeki {target}'ın kariyerinin {cash} karşılığında uygun biçimde sonlanmasını diliyoruz."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Message of {target}'s ending career happily acquired. Here is your {cash}."
+      "message" : "{target}'ın kariyerinin sonlama haberi mutlulukla karşılandı. {cash} burada"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
-      "message" : "How soon must it be done?"
+      "message" : "En yakın ne zaman yapılması gerekiyor?"
    },
    "HOW_WILL_I_BE_PAID" : {
       "description" : "",
-      "message" : "How will I be paid?"
+      "message" : "Bana nasıl ödeme yapılacak?"
    },
    "IT_MUST_BE_DONE_AFTER" : {
       "description" : "",
-      "message" : "It must be done after {target} leaves {spaceport}. Do not miss this opportunity."
+      "message" : "{target} {spaceport}ndan ayrıldıktan sonra yapılmalı. Bu fırsatı kaçırma"
    },
    "LY" : {
       "description" : "",
@@ -157,47 +189,47 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Tamam, anlaştık."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
-      "message" : "Return here on the completion of the contract and you will be paid."
+      "message" : "Sözleşme tamalandığında buraya dön ve ödemen yapılacak."
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship:"
+      "message" : "Gemi:"
    },
    "SHIP_ID" : {
       "description" : "",
-      "message" : "Ship ID:"
+      "message" : "Gemi No:"
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Yıldız Limanı:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistem:"
    },
    "TARGET_NAME" : {
       "description" : "",
-      "message" : "Target name:"
+      "message" : "Hedef ismi"
    },
    "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
       "description" : "",
-      "message" : "Target will be leaving spaceport at:"
+      "message" : "Hedef şu tarihte yıldız limanını terkedecek:"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Admiral"
+      "message" : "Amiral"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "Ambassador"
+      "message" : "Büyük elçi"
    },
    "TITLE_10" : {
       "description" : "",
-      "message" : "Ensign"
+      "message" : "Asteğmen"
    },
    "TITLE_11" : {
       "description" : "",
@@ -205,94 +237,94 @@
    },
    "TITLE_12" : {
       "description" : "",
-      "message" : "Judge"
+      "message" : "Hakim"
    },
    "TITLE_13" : {
       "description" : "",
-      "message" : "Lawyer"
+      "message" : "Avukat"
    },
    "TITLE_14" : {
       "description" : "",
-      "message" : "Lieutenant"
+      "message" : "Teğmen"
    },
    "TITLE_15" : {
       "description" : "",
-      "message" : "Marshal"
+      "message" : "Mareşal"
    },
    "TITLE_16" : {
       "description" : "",
-      "message" : "Merchant"
+      "message" : "Tüccar"
    },
    "TITLE_17" : {
       "description" : "",
-      "message" : "Officer"
+      "message" : "Subay"
    },
    "TITLE_18" : {
       "description" : "",
-      "message" : "Private"
+      "message" : "Er"
    },
    "TITLE_19" : {
       "description" : "",
-      "message" : "Professor"
+      "message" : "Profesör"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Brigadier"
+      "message" : "Tuğgeneral"
    },
    "TITLE_20" : {
       "description" : "",
-      "message" : "Prosecutor"
+      "message" : "Savcı"
    },
    "TITLE_21" : {
       "description" : "",
-      "message" : "Provost"
+      "message" : "Subay"
    },
    "TITLE_22" : {
       "description" : "",
-      "message" : "Seaman"
+      "message" : "Denizci"
    },
    "TITLE_23" : {
       "description" : "",
-      "message" : "Senator"
+      "message" : "Senatör"
    },
    "TITLE_24" : {
       "description" : "",
-      "message" : "Sergeant"
+      "message" : "Çavuş"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "Cadet"
+      "message" : "Askeri öğrenci"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Captain"
+      "message" : "Yüzbaşı"
    },
    "TITLE_5" : {
       "description" : "",
-      "message" : "Cardinal"
+      "message" : "Kardinal"
    },
    "TITLE_6" : {
       "description" : "",
-      "message" : "Colonel"
+      "message" : "Albay"
    },
    "TITLE_7" : {
       "description" : "",
-      "message" : "Commandant"
+      "message" : "Kumandan"
    },
    "TITLE_8" : {
       "description" : "",
-      "message" : "Commodore"
+      "message" : "Komodor"
    },
    "TITLE_9" : {
       "description" : "",
-      "message" : "Corporal"
+      "message" : "Onbaşı"
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",
-      "message" : "Where can I find {target}?"
+      "message" : "{target} nerede bulunabilir?"
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+      "message" : "{dist} Iy uzaklıktaki {system} system ({sectorX}, {sectorY}, {sectorZ}) sistemindeki {spaceport} limanından {date} tarihinde ayrılıyor olacak. Gemi {shipname} ve kayıt numarası {shipregid}."
    }
 }

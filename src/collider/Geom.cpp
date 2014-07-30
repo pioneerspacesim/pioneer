@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include <float.h>
@@ -9,15 +9,15 @@
 
 static const unsigned int MAX_CONTACTS = 8;
 
-Geom::Geom(const GeomTree *geomtree)
+Geom::Geom(const GeomTree *geomtree) :
+	m_mailboxIndex(0),
+	m_orient(matrix4x4d::Identity()),
+	m_invOrient(matrix4x4d::Identity()),
+	m_active(true),
+	m_geomtree(geomtree),
+	m_data(nullptr),
+	m_group(0)
 {
-	m_geomtree = geomtree;
-	m_orient = matrix4x4d::Identity();
-	m_invOrient = matrix4x4d::Identity();
-	m_active = true;
-	m_data = 0;
-	m_mailboxIndex = 0;
-	m_group = 0;
 }
 
 matrix4x4d Geom::GetRotation() const
@@ -90,7 +90,7 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 
 //	t = SDL_GetTicks() - t;
 //	int numEdges = GetGeomTree()->GetNumEdges() + b->GetGeomTree()->GetNumEdges();
-//	printf("%d 'rays' in %dms (%f rps)\n", numEdges, t, 1000.0*numEdges / (double)t);
+//	Output("%d 'rays' in %dms (%f rps)\n", numEdges, t, 1000.0*numEdges / (double)t);
 }
 
 static bool rotatedAabbIsectsNormalOne(Aabb &a, const matrix4x4d &transA, Aabb &b)

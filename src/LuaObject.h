@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAOBJECT_H
@@ -6,10 +6,13 @@
 
 #include "Lua.h"
 #include "LuaRef.h"
+#include "LuaPushPull.h"
+#include "LuaUtils.h"
 #include "LuaWrappable.h"
 #include "RefCounted.h"
 #include "DeleteEmitter.h"
 #include <typeinfo>
+#include <tuple>
 
 //
 // LuaObject provides proxy objects and tracking facilities to safely get
@@ -25,7 +28,7 @@
 //   LuaObject<Ship>::PushToLua(s);
 //
 //   // RefCounted, Lua will take a reference
-//   StarSystem *s = StarSystem::GetCached(SystemPath(0,0,0,0));
+//   StarSystem *s = Pi::GetGalaxy()->GetStarSystem(SystemPath(0,0,0,0));
 //   LuaObject<StarSystem>::PushToLua(s);
 //
 //   // Heap-allocated, Lua will get a copy
@@ -145,6 +148,12 @@ private:
 	// lua method to set a property on a propertied object
 	static int l_setprop(lua_State *l);
 
+	// lua method to unset a property on a propertied object
+	static int l_unsetprop(lua_State *l);
+
+	// lua method to check the existence of a specific property on an object
+	static int l_hasprop(lua_State *l);
+
 	// the lua object "destructor" that gets called by the garbage collector.
 	static int l_gc(lua_State *l);
 
@@ -176,6 +185,16 @@ public:
 	static inline void PushToLua(DeleteEmitter *o); // LuaCoreObject
 	static inline void PushToLua(RefCounted *o);    // LuaSharedObject
 	static inline void PushToLua(const T &o);       // LuaCopyObject
+
+	template <typename Ret, typename Key, typename ...Args>
+		static inline Ret CallMethod(T* o, const Key &key, const Args &...args);
+	template <typename Key, typename ...Args>
+		static inline void CallMethod(T* o, const Key &key, const Args &...args) {
+			CallMethod<bool>(o, key, args...);
+		}
+
+	template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename ...Args>
+		static inline std::tuple<Ret1, Ret2, Ret...> CallMethod(T* o, const Key &key, const Args &...args);
 
 	// pull an object off the stack, unwrap and return it
 	// if not found or doesn't match the type, throws a lua exception
@@ -296,8 +315,69 @@ template <typename T> inline void LuaObject<T>::PushToLua(const T &o) {
 	Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<T>))) LuaCopyObject<T>(o));
 }
 
+template <typename T>
+template <typename Ret, typename Key, typename ...Args>
+inline Ret LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
+	lua_State *l = Lua::manager->GetLuaState();
+	LUA_DEBUG_START(l);
+	Ret return_value;
+
+	lua_checkstack(l, sizeof...(args)+5);
+	PushToLua(o);
+	pi_lua_generic_push(l, key);
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_remove(l, -3);
+	pi_lua_multiple_push(l, args...);
+	pi_lua_protected_call(l, sizeof...(args)+1, 1);
+	pi_lua_generic_pull(l, -1, return_value);
+	lua_pop(l, 1);
+	LUA_DEBUG_END(l, 0);
+	return return_value;
+}
+
+template <typename T>
+template <typename Ret1, typename Ret2, typename ...Ret, typename Key, typename ...Args>
+inline std::tuple<Ret1, Ret2, Ret...> LuaObject<T>::CallMethod(T* o, const Key &key, const Args &...args) {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+	lua_checkstack(l, sizeof...(args)+5);
+	PushToLua(o);
+	pi_lua_generic_push(l, key);
+	lua_gettable(l, -2);
+	lua_pushvalue(l, -2);
+	lua_remove(l, -3);
+	pi_lua_multiple_push(l, args...);
+	pi_lua_protected_call(l, sizeof...(args)+1, 2+sizeof...(Ret));
+	auto ret_values = pi_lua_multiple_pull<Ret1, Ret2, Ret...>(l, -2-static_cast<int>(sizeof...(Ret)));
+	lua_pop(l, 2+static_cast<int>(sizeof...(Ret)));
+	LUA_DEBUG_END(l, 0);
+	return ret_values;
+}
+
 // specialise for SystemPath, which needs custom machinery to deduplicate system paths
 class SystemPath;
 template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o);
+
+// LuaPushPull stuff.
+template <class T> void pi_lua_generic_pull(lua_State * l, int index, T* & out) {
+	assert(l == Lua::manager->GetLuaState());
+	out = LuaObject<T>::CheckFromLua(index);
+}
+
+template <class T> bool pi_lua_strict_pull(lua_State * l, int index, T* & out) {
+	assert(l == Lua::manager->GetLuaState());
+	out = LuaObject<T>::GetFromLua(index);
+	return out != 0;
+}
+
+template <class T> void pi_lua_generic_push(lua_State * l, T* value) {
+	assert(l == Lua::manager->GetLuaState());
+	if (value)
+		LuaObject<T>::PushToLua(value);
+	else
+		lua_pushnil(l);
+}
 
 #endif

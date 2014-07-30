@@ -1,32 +1,29 @@
 material hoopHull-material
-tex_diff hull.png
-tex_spec hull_spec.png
+tex_diff hull.dds
+tex_spec hull_spec.dds
 specular 0.7 0.7 0.7
 diffuse 1.0 1.0 1.0
 shininess 15
 
 material hoopHullLit-material
-tex_diff hull.png
-tex_spec hull_spec.png
+tex_diff hull.dds
+tex_spec hull_spec.dds
 specular 0.5 0.5 0.5
 diffuse 0.7 0.7 0.7
 shininess 15
 unlit
 
 material hoopDecal-material
-tex_diff decal.png
-tex_spec decal_spec.png
+tex_diff decal.dds
+tex_spec decal_spec.dds
 specular 0.7 0.7 0.7
 diffuse 1.0 1.0 1.0
 shininess 5
 
-mesh connections.dae
-mesh mainhoop.dae
-mesh doors.dae
+mesh hoop_mesh.dae
 mesh hoop_docking.dae
-mesh dockingbay.dae
-mesh dockingpads.dae
+mesh doors_collision.dae
 
-collision collision.obj
+collision collision.dae
 
 anim doors 1 121

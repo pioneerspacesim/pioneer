@@ -1,0 +1,66 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor selecione uma quantia para doar à Igreja do Monstro Celestial de Espaguete Voador."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DOE! A Igreja do Monstro Celestial de Espaguete Voador precisa do SEU dinheiro para espalhar a palavra de deus."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Que a paz esteja com você, irmão. Por favor selecione uma quantia para doar aos Guardiães do Espírito Livre."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DOAÇÃO: Os Guardiães do Espírito Livre humildemente pedem sua caridade para sustentar nossos mosteiros."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor selecione uma quantia para doar ao Suporte aos Órfãos de Guerra, e acabe com o sofrimento de crianças por toda a galáxia."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "SENTINDO-SE GENEROSO? Suporte aos Órfãos de Guerra precisa da sua ajuda para manter seu trabalho essencial."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor selecione uma quantia para doar ao ObservatórioVerde, e termine com a poluição da nossa galáxia."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "CONTRIBUA. A campanha \"Banimento das Ofensivas Militares\" dos Amigos da Galáxia precisa de dinheiro."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Por favor selecione uma quantia para doar."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DOE! Salve sua espécie. Pare a matança em mundos recém estabelecidos."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Libere sua nave! Por favor escolha um valor para doar. Feliz acesso ilegal."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "APOIE A LIBERDADE! Pare a grande injustiça da propriedade de software controlando a sua nave."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligar."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Obrigado. Todas as doações são benvindas."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Uau! Isso foi muito generoso."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Você não tem dinheiro suficiente."
+   }
+}

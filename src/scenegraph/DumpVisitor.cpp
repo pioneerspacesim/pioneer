@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DumpVisitor.h"
@@ -15,8 +15,8 @@ DumpVisitor::DumpVisitor(const Model *m)
 : m_level(0)
 , m_stats()
 {
-	//model statistics that cannot be visited
-	m_modelStats.collTriCount = m->GetCollisionMesh()->GetNumTriangles();
+	//model statistics that cannot be visited)
+	m_modelStats.collTriCount = m->GetCollisionMesh() ? m->GetCollisionMesh()->GetNumTriangles() : 0;
 	m_modelStats.materialCount = m->GetNumMaterials();
 }
 
@@ -87,7 +87,7 @@ void DumpVisitor::ApplyStaticGeometry(StaticGeometry &g)
 		m_stats.opaqueGeomCount++;
 
 	for (unsigned int i = 0; i < g.GetNumMeshes(); i++)
-		m_stats.triangles += g.GetMesh(i)->GetNumIndices() / 3;
+		m_stats.triangles += g.GetMeshAt(i).indexBuffer->GetSize() / 3;
 
 	ApplyNode(static_cast<Node&>(g));
 }
@@ -95,14 +95,14 @@ void DumpVisitor::ApplyStaticGeometry(StaticGeometry &g)
 void DumpVisitor::PutIndent() const
 {
 	for (unsigned int i = 0; i < m_level; i++)
-		std::cout << "  ";
+		Output("  ");
 }
 
 void DumpVisitor::PutNodeName(const Node &g) const
 {
 	if (g.GetName().empty())
-		std::cout << g.GetTypeName() << std::endl;
+		Output("%s\n", g.GetTypeName());
 	else
-		std::cout << g.GetTypeName() << " - " << g.GetName() << std::endl;
+		Output("%s - %s\n", g.GetTypeName(), g.GetName().c_str());
 }
 }

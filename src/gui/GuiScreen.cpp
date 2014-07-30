@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -27,6 +27,8 @@ std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
 RefCountedPtr<Text::TextureFont>Screen::s_defaultFont;
 
 Graphics::Renderer *Screen::s_renderer;
+Graphics::RenderState *Screen::alphaBlendState = nullptr;
+Graphics::Material *Screen::flatColorMaterial = nullptr;
 
 void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height)
 {
@@ -49,12 +51,21 @@ void Screen::Init(Graphics::Renderer *renderer, int real_width, int real_height,
 	Screen::baseContainer = new Gui::Fixed();
 	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
 	Screen::baseContainer->Show();
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	alphaBlendState = renderer->CreateRenderState(rsd);
+
+	Graphics::MaterialDescriptor mdesc;
+	flatColorMaterial = renderer->CreateMaterial(mdesc);
 }
 
 void Screen::Uninit()
 {
 	Screen::baseContainer->RemoveAllChildren();		// children deleted elsewhere?
 	delete Screen::baseContainer;
+	delete flatColorMaterial;
 }
 
 static sigc::connection _focusedWidgetOnDelete;
@@ -77,42 +88,6 @@ void Screen::ClearFocus()
 	if (!focusedWidget) return;
 	_focusedWidgetOnDelete.disconnect();
 	focusedWidget = 0;
-}
-
-void Screen::ShowBadError(const char *msg)
-{
-	// to make things simple for ourselves, we want to hide all the existing widgets
-	// however, if we do it through baseContainer->HideChildren() then we lose track of
-	// which widgets should be shown again when the red-screen is cleared.
-	// So to avoid this problem we don't hide anything, we just temporarily swap to
-	// a different base container which is just used for this red-screen
-
-	Gui::Fixed *oldBaseContainer = Screen::baseContainer;
-	Screen::baseContainer = new Gui::Fixed();
-	Screen::baseContainer->SetSize(float(Screen::width), float(Screen::height));
-	Screen::baseContainer->Show();
-
-	Gui::Fixed *f = new Gui::Fixed(6*GetWidth()/8.0f, 6*GetHeight()/8.0f);
-	Gui::Screen::AddBaseWidget(f, GetWidth()/8, GetHeight()/8);
-	f->SetTransparency(false);
-	f->SetBgColor(Color(96,0,0,255));
-	f->Add(new Gui::Label(msg, TextLayout::ColourMarkupNone), 10, 10);
-
-	Gui::Button *okButton = new Gui::LabelButton(new Gui::Label("Ok"));
-	okButton->SetShortcut(SDLK_RETURN, KMOD_NONE);
-	f->Add(okButton, 10.0f, 6*GetHeight()/8.0f - 32);
-	f->ShowAll();
-	f->Show();
-
-	do {
-		Gui::MainLoopIteration();
-		SDL_Delay(10);
-	} while (!okButton->IsPressed());
-
-	Gui::Screen::RemoveBaseWidget(f);
-	delete f;
-	delete Screen::baseContainer;
-	Screen::baseContainer = oldBaseContainer;
 }
 
 bool Screen::Project(const vector3d &in, vector3d &out)
@@ -167,11 +142,6 @@ void Screen::EnterOrtho()
 	r->GetCurrentViewport(&viewport[0]);
 	r->SetOrthographicProjection(0, width, height, 0, -1, 1);
 	r->SetTransform(matrix4x4f::Identity());
-
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 }
 
 void Screen::LeaveOrtho()
@@ -182,9 +152,6 @@ void Screen::LeaveOrtho()
 
 	r->SetProjection(projMatrix);
 	r->SetTransform(modelMatrix);
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_DEPTH_TEST);
 }
 
 void Screen::Draw()

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CUTSCENE_H
@@ -9,6 +9,7 @@
 #include "graphics/Light.h"
 
 namespace SceneGraph { class Model; }
+class Shields;
 
 class Cutscene {
 public:
@@ -26,6 +27,7 @@ protected:
 	float m_aspectRatio;
 	Graphics::Renderer *m_renderer;
 	SceneGraph::Model *m_model;
+	Shields *m_shield;
 	std::vector<Graphics::Light> m_lights;
 };
 

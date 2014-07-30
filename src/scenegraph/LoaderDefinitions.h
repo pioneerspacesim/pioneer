@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LOADERDEFINITIONS_H_
@@ -15,6 +15,7 @@ struct MaterialDefinition {
 		tex_diff(""),
 		tex_spec(""),
 		tex_glow(""),
+		tex_ambi(""),
 		diffuse(Color(255)),
 		specular(Color(255)),
 		ambient(Color(0)),
@@ -22,7 +23,6 @@ struct MaterialDefinition {
 		shininess(100),
 		opacity(100),
 		alpha_test(false),
-		two_sided(false),
 		unlit(false),
 		use_pattern(false)
 	{ }
@@ -30,6 +30,7 @@ struct MaterialDefinition {
 	std::string tex_diff;
 	std::string tex_spec;
 	std::string tex_glow;
+	std::string tex_ambi;
 	Color diffuse;
 	Color specular;
 	Color ambient;
@@ -37,7 +38,6 @@ struct MaterialDefinition {
 	unsigned int shininess; //specular power, 0-128
 	unsigned int opacity; //0-100
 	bool alpha_test;
-	bool two_sided;
 	bool unlit;
 	bool use_pattern;
 };

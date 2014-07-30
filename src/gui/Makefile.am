@@ -4,7 +4,7 @@ AM_CFLAGS += $(WARN_CFLAGS)
 AM_CPPFLAGS += $(WARN_CPPFLAGS)
 AM_CXXFLAGS += $(STD_CXXFLAGS) $(WARN_CXXFLAGS)
 
-INCLUDES = -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
+AM_CPPFLAGS += -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 
 noinst_LIBRARIES = libgui.a
 noinst_HEADERS = \
@@ -15,7 +15,6 @@ noinst_HEADERS = \
 	GuiContainer.h \
 	GuiEvents.h \
 	GuiFixed.h \
-	GuiGradient.h \
 	GuiISelectable.h \
 	GuiImage.h \
 	GuiImageButton.h \
@@ -26,7 +25,6 @@ noinst_HEADERS = \
 	GuiMultiStateImageButton.h \
 	GuiRadioButton.h \
 	GuiRadioGroup.h \
-	GuiRepeaterButton.h \
 	GuiScreen.h \
 	GuiStack.h \
 	GuiTabbed.h \
@@ -45,7 +43,6 @@ libgui_a_SOURCES = \
 	GuiButton.cpp \
 	GuiContainer.cpp \
 	GuiFixed.cpp \
-	GuiGradient.cpp \
 	GuiImage.cpp \
 	GuiImageButton.cpp \
 	GuiImageRadioButton.cpp \
@@ -55,7 +52,6 @@ libgui_a_SOURCES = \
 	GuiMultiStateImageButton.cpp \
 	GuiRadioButton.cpp \
 	GuiRadioGroup.cpp \
-	GuiRepeaterButton.cpp \
 	GuiScreen.cpp \
 	GuiStack.cpp \
 	GuiTabbed.cpp \

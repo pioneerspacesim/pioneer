@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCpanelMultiFuncDisplays.h"
@@ -26,7 +26,8 @@ using namespace Graphics;
 static const float SCANNER_RANGE_MAX = 100000.0f;
 static const float SCANNER_RANGE_MIN = 1000.0f;
 static const float SCANNER_SCALE     = 0.00001f;
-static const float SCANNER_YSHRINK   = 0.75f;
+//static const float SCANNER_YSHRINK   = 0.95f;
+//static const float SCANNER_XSHRINK   = 4.0f;
 static const float A_BIT             = 1.1f;
 static const unsigned int SCANNER_STEPS = 100;
 
@@ -64,9 +65,18 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
 
 void ScannerWidget::InitObject()
 {
+	InitScaling();
+
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 	m_lastRange = SCANNER_RANGE_MAX * 100.0f;		// force regen
+
 	GenerateBaseGeometry();
+
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthWrite = false;
+	rsd.depthTest = false;
+	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
 ScannerWidget::~ScannerWidget()
@@ -90,11 +100,13 @@ void ScannerWidget::ToggleMode()
 
 void ScannerWidget::Draw()
 {
-	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) return;
+	int scanner_cap = 0;
+	Pi::player->Properties().Get("scanner_cap", scanner_cap);
+	if (scanner_cap <= 0) return;
 
 	float size[2];
 	GetSize(size);
-	m_x = size[0] * 0.5f;
+	m_x = size[0] / (SCANNER_XSHRINK * 2);
 	m_y = size[1] * 0.5f;
 
 	SetScissor(true);
@@ -109,22 +121,21 @@ void ScannerWidget::Draw()
 	if (!m_contacts.empty()) DrawBlobs(true);
 
 	// disc
-	m_renderer->SetBlendMode(BLEND_ALPHA);
 	Color green(0, 255, 0, 26);
 
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
-	va.Add(vector3f(m_x, m_y, 0.f), green);
+	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y, 0.f), green);
 	for (float a = 0; a < 2 * float(M_PI); a += float(M_PI) * 0.02f) {
-		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
+		va.Add(vector3f(SCANNER_XSHRINK * m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
-	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
-	m_renderer->DrawTriangles(&va, Graphics::vtxColorMaterial, TRIANGLE_FAN);
+	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
+	m_renderer->DrawTriangles(&va, m_renderState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
 	{
 		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
-		m_renderer->Translate(m_x, m_y, 0);
+		m_renderer->Translate(SCANNER_XSHRINK * m_x, m_y, 0);
 		m_renderer->Scale(m_x, m_y, 1.0f);
 		DrawRingsAndSpokes(false);
 	}
@@ -132,18 +143,36 @@ void ScannerWidget::Draw()
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
 
-	m_renderer->SetBlendMode(BLEND_SOLID);
-
 	glLineWidth(1.f);
 
 	SetScissor(false);
 }
 
+void ScannerWidget::InitScaling(void) {
+	isCompact = Pi::IsScannerCompact();
+	if(isCompact) {
+		SCANNER_XSHRINK = 4.0f;
+		SCANNER_YSHRINK = 0.95f;
+	} else {
+		// original values
+		SCANNER_XSHRINK = 1.0f;
+		SCANNER_YSHRINK = 0.75f;
+	}
+}
+
 void ScannerWidget::Update()
 {
+	if(Pi::IsScannerCompact() != isCompact) {
+		InitScaling();
+		GenerateBaseGeometry();
+		GenerateRingsAndSpokes();
+	}
+
 	m_contacts.clear();
 
-	if (Pi::player->m_equipment.Get(Equip::SLOT_SCANNER) != Equip::SCANNER) {
+	int scanner_cap = 0;
+	Pi::player->Properties().Get("scanner_cap", scanner_cap);
+	if (scanner_cap <= 0) {
 		m_mode = SCANNER_MODE_AUTO;
 		m_currentRange = m_manualRange = m_targetRange = SCANNER_RANGE_MIN;
 		return;
@@ -328,15 +357,19 @@ void ScannerWidget::DrawBlobs(bool below)
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
 
-		const float x = m_x + m_x * float(pos.x) * m_scale;
+		const float x = SCANNER_XSHRINK * m_x + m_x * float(pos.x) * m_scale;
+		// x scanner widget bound check
+		if (x < SCANNER_XSHRINK * m_x - m_x) continue;
+		if (x > SCANNER_XSHRINK * m_x + m_x) continue;
+
 		const float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
 		const vector3f verts[] = { vector3f(x, y_base, 0.f), vector3f(x, y_blob, 0.f) };
-		m_renderer->DrawLines(2, &verts[0], *color);
+		m_renderer->DrawLines(2, &verts[0], *color, m_renderState);
 
 		vector3f blob(x, y_blob, 0.f);
-		m_renderer->DrawPoints(1, &blob, color, pointSize);
+		m_renderer->DrawPoints(1, &blob, color, m_renderState, pointSize);
 	}
 }
 
@@ -415,8 +448,8 @@ void ScannerWidget::GenerateRingsAndSpokes()
 void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
 	Color col(0, 102, 0, 128);
-	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col);
-	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
+	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col, m_renderState);
+	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0], m_renderState);
 }
 
 void ScannerWidget::TimeStepUpdate(float step)
@@ -442,7 +475,7 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 
 UseEquipWidget::UseEquipWidget(): Gui::Fixed(400,100)
 {
-	m_onPlayerEquipChangedCon = Pi::onPlayerChangeEquipment.connect(sigc::mem_fun(this, &UseEquipWidget::UpdateEquip));
+	m_onPlayerEquipChangedCon = Pi::player->onChangeEquipment.connect(sigc::mem_fun(this, &UseEquipWidget::UpdateEquip));
 	UpdateEquip();
 }
 
@@ -463,72 +496,40 @@ void UseEquipWidget::FireMissile(int idx)
 		Pi::game->log->Add(Lang::SELECT_A_TARGET);
 		return;
 	}
-
-	lua_State *l = Lua::manager->GetLuaState();
-	int pristine_stack = lua_gettop(l);
-	LuaObject<Ship>::PushToLua(Pi::player);
-	lua_pushstring(l, "FireMissileAt");
-	lua_gettable(l, -2);
-	lua_pushvalue(l, -2);
-	lua_pushinteger(l, idx+1);
-	LuaObject<Ship>::PushToLua(static_cast<Ship*>(Pi::player->GetCombatTarget()));
-	lua_call(l, 3, 1);
-	lua_settop(l, pristine_stack);
+	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", idx+1, static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
 	lua_State *l = Lua::manager->GetLuaState();
-	int pristine_stack = lua_gettop(l);
-	LuaObject<Ship>::PushToLua(Pi::player);
-	lua_pushstring(l, "GetEquip");
-	lua_gettable(l, -2);
-	lua_pushvalue(l, -2);
-	lua_pushstring(l, "MISSILE");
-	lua_call(l, 2, 1);
-	LuaTable table(l, -1);
-	std::vector<std::string> missiles(table.Begin<std::string>(), table.End<std::string>());
-	lua_settop(l, pristine_stack);
-	int numSlots = missiles.size();
+	LuaObject<Ship>::CallMethod<LuaRef>(Pi::player, "GetEquip", "missile").PushCopyToStack();
+	int numSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "missile");
 
 	if (numSlots) {
 		float spacing = 380.0f / numSlots;
-
-		for (int i = 0; i < numSlots; ++i) {
-			const Equip::Type t = static_cast<Equip::Type>(LuaConstants::GetConstant(l, "EquipType", missiles[i].c_str()));
-			if (t == Equip::NONE) continue;
-
-			Gui::ImageButton *b;
-			switch (t) {
-				case Equip::MISSILE_UNGUIDED:
-					b = new Gui::ImageButton("icons/missile_unguided.png");
-					break;
-				case Equip::MISSILE_GUIDED:
-					b = new Gui::ImageButton("icons/missile_guided.png");
-					break;
-				case Equip::MISSILE_SMART:
-					b = new Gui::ImageButton("icons/missile_smart.png");
-					break;
-				default:
-				case Equip::MISSILE_NAVAL:
-					b = new Gui::ImageButton("icons/missile_naval.png");
-					break;
+		lua_pushnil(l);
+		while(lua_next(l, -2)) {
+			if (lua_type(l, -2) == LUA_TNUMBER) {
+				int i = lua_tointeger(l, -2);
+				LuaTable missile(l, -1);
+				Gui::ImageButton *b = new Gui::ImageButton((std::string("icons/")+missile.Get<std::string>("icon_name", "")+".png").c_str());
+				Add(b, spacing*i, 40);
+				b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i-1));
+				b->SetToolTip(missile.CallMethod<std::string>("GetName"));
+				b->SetRenderDimensions(16, 16);
 			}
-			Add(b, spacing * i, 40);
-			b->onClick.connect(sigc::bind(sigc::mem_fun(this, &UseEquipWidget::FireMissile), i));
-			b->SetToolTip(Equip::types[t].name);
-			b->SetRenderDimensions(16, 16);
+			lua_pop(l, 1);
 		}
 	}
 
 	{
-		const Equip::Type t = Pi::player->m_equipment.Get(Equip::SLOT_ECM);
-		if (t != Equip::NONE) {
+		int ecm_power_cap = 0;
+		Pi::player->Properties().Get("ecm_power_cap", ecm_power_cap);
+		if (ecm_power_cap > 0) {
 			Gui::ImageButton *b = 0;
-			if (t == Equip::ECM_BASIC) b = new Gui::ImageButton("icons/ecm_basic.png");
-			else if (t == Equip::ECM_ADVANCED) b = new Gui::ImageButton("icons/ecm_advanced.png");
-			assert(b);
+			if (ecm_power_cap == 3) b = new Gui::ImageButton("icons/ecm_basic.png");
+			else b = new Gui::ImageButton("icons/ecm_advanced.png");
 
 			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
 			b->SetRenderDimensions(32, 32);

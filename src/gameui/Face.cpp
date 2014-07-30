@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Face.h"
@@ -77,7 +77,8 @@ void Face::Draw()
 
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	s_material->texture0 = m_texture.get();
-	r->DrawTriangles(&va, s_material.Get(), Graphics::TRIANGLE_STRIP);
+	auto state = GetContext()->GetSkin().GetAlphaBlendState();
+	r->DrawTriangles(&va, state, s_material.Get(), Graphics::TRIANGLE_STRIP);
 
 	Single::Draw();
 }

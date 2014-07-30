@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TERRAINNOISE_H
@@ -164,7 +164,7 @@ namespace TerrainNoise {
 		return start*(1.0-nClamped) + end*nClamped;
 	}
 
-};
+}
 
 // common colours for earthlike worlds
 // XXX better way to do this?

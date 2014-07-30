@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WORLDVIEW_H
@@ -7,11 +7,11 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "gui/GuiWidget.h"
-#include "View.h"
+#include "UIView.h"
 #include "Serializer.h"
 #include "SpeedLines.h"
 #include "Background.h"
-#include "EquipType.h"
+#include "Camera.h"
 #include "CameraController.h"
 
 class Body;
@@ -19,9 +19,16 @@ class Frame;
 class LabelSet;
 class Ship;
 class NavTunnelWidget;
+
+enum VelIconType {
+	V_PROGRADE,
+	V_RETROGRADE,
+	V_BURN
+};
+
 namespace Gui { class TexturedQuad; }
 
-class WorldView: public View {
+class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
 	WorldView();
@@ -89,12 +96,12 @@ private:
 	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
-	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
+	void DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
-	Gui::Button *AddCommsOption(const std::string msg, int ypos, int optnum);
-	void AddCommsNavOption(const std::string msg, Body *target);
+	Gui::Button *AddCommsOption(const std::string &msg, int ypos, int xoffset, int optnum);
+	void AddCommsNavOption(const std::string &msg, Body *target);
 	void OnClickCommsNavOption(Body *target);
 	void BuildCommsNavOptions();
 
@@ -152,6 +159,7 @@ private:
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
+	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
 	std::unique_ptr<InternalCameraController> m_internalCameraController;
 	std::unique_ptr<ExternalCameraController> m_externalCameraController;
@@ -160,24 +168,35 @@ private:
 
 	Indicator m_velIndicator;
 	Indicator m_navVelIndicator;
+	Indicator m_burnIndicator;
+	Indicator m_retroVelIndicator;
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
 
 	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
+	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;
+	std::unique_ptr<Gui::TexturedQuad> m_rearCrosshair;
+	std::unique_ptr<Gui::TexturedQuad> m_progradeIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_retrogradeIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_burnIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_targetIcon;
 	vector2f m_indicatorMousedirSize;
+
+	Graphics::RenderState *m_blendState;
 };
 
 class NavTunnelWidget: public Gui::Widget {
 public:
-	NavTunnelWidget(WorldView *worldView);
+	NavTunnelWidget(WorldView *worldView, Graphics::RenderState*);
 	virtual void Draw();
 	virtual void GetSizeRequested(float size[2]);
 	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
 
 private:
 	WorldView *m_worldView;
+	Graphics::RenderState *m_renderState;
 };
 
 #endif /* _WORLDVIEW_H */

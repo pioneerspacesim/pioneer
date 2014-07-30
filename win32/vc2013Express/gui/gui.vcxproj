@@ -9,6 +9,10 @@
       <Configuration>PreRelease</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile|Win32">
+      <Configuration>Profile</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -32,6 +36,13 @@
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -47,6 +58,11 @@
     <Import Project="..\Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\common.props" />
+    <Import Project="..\Release.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\common.props" />
     <Import Project="..\Release.props" />
@@ -79,6 +95,18 @@
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
+    <ClCompile />
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <ClCompile />
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
     <ClCompile />
     <Link>
@@ -96,7 +124,6 @@
     <ClCompile Include="..\..\..\src\gui\GuiButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiContainer.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiFixed.cpp" />
-    <ClCompile Include="..\..\..\src\gui\GuiGradient.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiImage.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiImageButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiImageRadioButton.cpp" />
@@ -106,7 +133,6 @@
     <ClCompile Include="..\..\..\src\gui\GuiMultiStateImageButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiRadioButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiRadioGroup.cpp" />
-    <ClCompile Include="..\..\..\src\gui\GuiRepeaterButton.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiScreen.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiStack.cpp" />
     <ClCompile Include="..\..\..\src\gui\GuiTabbed.cpp" />
@@ -122,6 +148,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +159,6 @@
     <ClInclude Include="..\..\..\src\gui\GuiContainer.h" />
     <ClInclude Include="..\..\..\src\gui\GuiEvents.h" />
     <ClInclude Include="..\..\..\src\gui\GuiFixed.h" />
-    <ClInclude Include="..\..\..\src\gui\GuiGradient.h" />
     <ClInclude Include="..\..\..\src\gui\GuiImage.h" />
     <ClInclude Include="..\..\..\src\gui\GuiImageButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiImageRadioButton.h" />
@@ -143,7 +169,6 @@
     <ClInclude Include="..\..\..\src\gui\GuiMultiStateImageButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiRadioButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiRadioGroup.h" />
-    <ClInclude Include="..\..\..\src\gui\GuiRepeaterButton.h" />
     <ClInclude Include="..\..\..\src\gui\GuiScreen.h" />
     <ClInclude Include="..\..\..\src\gui\GuiStack.h" />
     <ClInclude Include="..\..\..\src\gui\GuiTabbed.h" />

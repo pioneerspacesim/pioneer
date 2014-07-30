@@ -1,10 +1,11 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STAR_H
 #define _STAR_H
 
 #include "TerrainBody.h"
+#include "graphics/RenderState.h"
 
 namespace Graphics { class Renderer; }
 
@@ -19,6 +20,8 @@ public:
 protected:
 	void InitStar();
 	virtual void Load(Serializer::Reader &rd, Space *space);
+
+	Graphics::RenderState *m_haloState;
 };
 
 #endif /* _STAR_H */

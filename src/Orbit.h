@@ -1,9 +1,10 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef ORBIT_H
 #define ORBIT_H
 
+#include "libs.h"
 #include "vector3.h"
 #include "matrix3x3.h"
 
@@ -22,7 +23,12 @@ public:
 
 	void SetShapeAroundBarycentre(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);
 	void SetShapeAroundPrimary(double semiMajorAxis, double totalMass, double eccentricity);
-	void SetPlane(const matrix3x3d &orient) { m_orient = orient; }
+	void SetPlane(const matrix3x3d &orient) {
+		m_orient = orient;
+		assert(!std::isnan(m_orient[0]) && !std::isnan(m_orient[1]) && !std::isnan(m_orient[2]));
+		assert(!std::isnan(m_orient[3]) && !std::isnan(m_orient[4]) && !std::isnan(m_orient[5]));
+		assert(!std::isnan(m_orient[6]) && !std::isnan(m_orient[7]) && !std::isnan(m_orient[8]));
+	}
 	void SetPhase(double orbitalPhaseAtStart) { m_orbitalPhaseAtStart = orbitalPhaseAtStart; }
 
 	vector3d OrbitalPosAtTime(double t) const;

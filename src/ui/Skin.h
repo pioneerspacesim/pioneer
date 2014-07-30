@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_SKIN_H
@@ -8,6 +8,7 @@
 #include "SmartPtr.h"
 #include "graphics/Renderer.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 #include "Point.h"
 
 #include <SDL_stdinc.h>
@@ -17,6 +18,8 @@ namespace UI {
 class Skin {
 public:
 	Skin(const std::string &filename, Graphics::Renderer *renderer, float scale);
+
+	void SetOpacity(float o) { m_opacity = o; }
 
 	void DrawBackgroundNormal(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(m_backgroundNormal, pos, size);
@@ -141,14 +144,20 @@ public:
 	};
 
 	struct BorderedRectElement : public RectElement {
-		BorderedRectElement() : borderWidth(0) {}
-		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _borderWidth) : RectElement(x, y, w, h), borderWidth(_borderWidth) {}
+		BorderedRectElement() : borderWidth(0), borderHeight(0), paddingX(0), paddingY(0) {}
+		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h,
+				            unsigned int _borderWidth, unsigned int _borderHeight, unsigned int _paddingX, unsigned int _paddingY) :
+			RectElement(x, y, w, h), borderWidth(_borderWidth), borderHeight(_borderHeight), paddingX(_paddingX), paddingY(_paddingY) {}
 		unsigned int borderWidth;
+		unsigned int borderHeight;
+		unsigned int paddingX;
+		unsigned int paddingY;
 	};
 
 	struct EdgedRectElement : public RectElement {
 		EdgedRectElement() : edgeWidth(0) {}
-		EdgedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _edgeWidth) : RectElement(x, y, w, h), edgeWidth(_edgeWidth) {}
+		EdgedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h, unsigned int _edgeWidth) :
+			RectElement(x, y, w, h), edgeWidth(_edgeWidth) {}
 		unsigned int edgeWidth;
 	};
 
@@ -199,6 +208,9 @@ public:
 	Uint8 AlphaSelect_ub() const { return m_alphaSelect * 255; }
 	Uint8 AlphaHover_ub()  const { return m_alphaHover * 255; }
 
+	Graphics::RenderState *GetAlphaBlendState() const { return m_alphaBlendState; }
+	Graphics::RenderState *GetRenderState(Graphics::BlendMode) const;
+
 private:
 	Graphics::Renderer *m_renderer;
 
@@ -207,6 +219,12 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_textureMaterial;
 	RefCountedPtr<Graphics::Material> m_colorMaterial;
+
+	float m_opacity;
+
+	Graphics::RenderState *m_alphaBlendState;
+	Graphics::RenderState *m_alphaSetState;
+	Graphics::RenderState *m_alphaMaskState;
 
 	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;

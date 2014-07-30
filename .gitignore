@@ -3,6 +3,7 @@ bin/
 lib/
 Debug/
 PreRelease/
+Profile/
 Release/
 ipch/
 src/data
@@ -12,6 +13,8 @@ debian/*.debhelper.log
 debian/*.substvars
 debian/pioneer*/
 autom4te.cache/
+codedoc/
+nd/Data/
 *.vcxproj.user
 *.user
 *.ncb
@@ -34,6 +37,8 @@ pioneer
 pioneer.exe
 modelviewer
 modelviewer.exe
+modelcompiler
+modelcompiler.exe
 aclocal.m4
 config.guess
 config.log
@@ -43,6 +48,8 @@ configure
 depcomp
 install-sh
 missing
+compile
+test-driver
 stamp-h1
 *~
 *.orig
@@ -52,3 +59,4 @@ Thumbs.db
 gmon.out
 .project
 .cproject
+.dirstamp

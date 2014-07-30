@@ -7,6 +7,38 @@
       "description" : "",
       "message" : "Può ripetere la richiesta iniziale?"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Mi dispiace, ma non mi fido di lei."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Ritorni quando avrà qualche qualifica."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Non penso lei sia la persona che sto cercando."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Lei non sembra essere qualcuno in grado di svolgere ciò che andrà fatto."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Chiaramente, lei non è la persona giusta per questo lavoro."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Lei sembra essere troppo inesperto per portare a termine un contratto di tale importanza."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Non ho mai sentito parlare di te. Ho bisogno di qualcuno con dell'esperienza, per questo contratto."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Non ho intenzione di rischiare questo contratto affidandolo a qualcuno senza qualifiche come lei."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distanza:"

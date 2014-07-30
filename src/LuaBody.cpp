@@ -1,13 +1,16 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
 #include "EnumStrings.h"
 #include "Body.h"
 #include "galaxy/StarSystem.h"
 #include "Frame.h"
 #include "TerrainBody.h"
+#include "Pi.h"
+#include "Game.h"
 
 /*
  * Class: Body
@@ -58,7 +61,7 @@ static int l_body_attr_seed(lua_State *l)
 	const SystemBody *sbody = b->GetSystemBody();
 	assert(sbody);
 
-	lua_pushinteger(l, sbody->seed);
+	lua_pushinteger(l, sbody->GetSeed());
 	return 1;
 }
 
@@ -88,7 +91,7 @@ static int l_body_attr_path(lua_State *l)
 		return 1;
 	}
 
-	const SystemPath path(sbody->path);
+	const SystemPath path(sbody->GetPath());
 	LuaObject<SystemPath>::PushToLua(path);
 
 	return 1;
@@ -118,7 +121,7 @@ static int l_body_attr_type(lua_State *l)
 		return 1;
 	}
 
-	lua_pushstring(l, EnumStrings::GetString("BodyType", sbody->type));
+	lua_pushstring(l, EnumStrings::GetString("BodyType", sbody->GetType()));
 	return 1;
 }
 
@@ -341,6 +344,47 @@ static int l_body_get_ground_position(lua_State *l)
 	return 3;
 }
 
+/*
+ * Method: FindNearestTo
+ *
+ * Find the nearest object of a <Constants.PhysicsObjectType> type
+ *
+ * > closestObject = body:FindNearestTo(physicsObjectType)
+ *
+ * Parameters:
+ *
+ *   physicsObjectType - The closest object of <Constants.PhysicsObjectType> type
+ *
+ * Returns:
+ *
+ *   closestObject - The object closest to the body of specified type
+ *
+ * Examples:
+ *
+ * > -- Get closest object to player of type:
+ * > closestStar = Game.player:FindNearestTo("STAR")
+ * > closestStation = Game.player:FindNearestTo("SPACESTATION")
+ * > closestPlanet = Game.player:FindNearestTo("PLANET")
+ *
+ * Availability:
+ *
+ *   2014 April
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_body_find_nearest_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	Object::Type type = static_cast<Object::Type>(LuaConstants::GetConstantFromArg(l, "PhysicsObjectType", 2));
+
+	Body *near = Pi::game->GetSpace()->FindNearestTo(b, type);
+	LuaObject<Body>::PushToLua(near);
+
+	return 1;
+}
+
 template <> const char *LuaObject<Body>::s_type = "Body";
 
 template <> void LuaObject<Body>::RegisterClass()
@@ -351,6 +395,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "IsDynamic",  l_body_is_dynamic  },
 		{ "DistanceTo", l_body_distance_to },
 		{ "GetGroundPosition", l_body_get_ground_position },
+		{ "FindNearestTo", l_body_find_nearest_to },
 		{ 0, 0 }
 	};
 

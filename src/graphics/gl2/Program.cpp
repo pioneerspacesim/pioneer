@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Program.h"
@@ -13,6 +13,7 @@ namespace Graphics {
 namespace GL2 {
 
 static const char *s_glslVersion = "#version 110\n";
+GLuint Program::s_curProgram = 0;
 
 // Check and warn about compile & link errors
 static bool check_glsl_errors(const char *filename, GLuint obj)
@@ -35,7 +36,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		glGetProgramiv(obj, GL_LINK_STATUS, &status);
 
 	if (status == GL_FALSE) {
-		OS::Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+		Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
 			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 		return false;
 	}
@@ -46,7 +47,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 #ifndef NDEBUG
 	if (infologLength > 0) {
 		if (pi_strcasestr("infoLog", "warning"))
-			fprintf(stderr, "%s: %s", filename, infoLog);
+			Output("%s: %s", filename, infoLog);
 	}
 #endif
 
@@ -58,7 +59,7 @@ struct Shader {
 		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
 
 		if (!code)
-			OS::Error("Could not load %s", filename.c_str());
+			Error("Could not load %s", filename.c_str());
 
 		// Load some common code
 		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
@@ -75,10 +76,26 @@ struct Shader {
 		AppendSource(logzCode->AsStringRange().StripUTF8BOM());
 		AppendSource(libsCode->AsStringRange().StripUTF8BOM());
 		AppendSource(code->AsStringRange().StripUTF8BOM());
+#if 0
+		static bool s_bDumpShaderSource = true;
+		if (s_bDumpShaderSource) {
+			const char SHADER_OUT_DIR_NAME[] = "shaders";
+			const char SHADER_GL2_OUT_DIR_NAME[] = "shaders/gl2";
+			FileSystem::userFiles.MakeDirectory(SHADER_OUT_DIR_NAME);
+			FileSystem::userFiles.MakeDirectory(SHADER_GL2_OUT_DIR_NAME);
+			const std::string outFilename(FileSystem::GetUserDir() + "/" + filename);
+			FILE *tmp = fopen(outFilename.c_str(), "w+");
+			Output("%s", filename);
+			for( Uint32 i=0; i<blocks.size(); i++ ) {
+				fprintf(tmp, "%.*s", block_sizes[i], blocks[i]);
+			}
+			fclose(tmp);
+		}
+#endif
 		shader = glCreateShader(type);
 		Compile(shader);
 
-		// CheckGLSL may use OS::Warning instead of OS::Error so the game may still (attempt to) run
+		// CheckGLSL may use OS::Warning instead of Error so the game may still (attempt to) run
 		if (!check_glsl_errors(filename.c_str(), shader))
 			throw ShaderException();
 	};
@@ -144,12 +161,15 @@ void Program::Reload()
 
 void Program::Use()
 {
-	glUseProgram(m_program);
+	if (s_curProgram != m_program)
+		glUseProgram(m_program);
+	s_curProgram = m_program;
 }
 
 void Program::Unuse()
 {
 	glUseProgram(0);
+	s_curProgram = 0;
 }
 
 //load, compile and link
@@ -185,6 +205,11 @@ void Program::InitUniforms()
 	texture2.Init("texture2", m_program);
 	texture3.Init("texture3", m_program);
 	texture4.Init("texture4", m_program);
+	texture5.Init("texture5", m_program);
+	heatGradient.Init("heatGradient", m_program);
+	heatingMatrix.Init("heatingMatrix", m_program);
+	heatingNormal.Init("heatingNormal", m_program);
+	heatingAmount.Init("heatingAmount", m_program);
 	sceneAmbient.Init("scene.ambient", m_program);
 }
 

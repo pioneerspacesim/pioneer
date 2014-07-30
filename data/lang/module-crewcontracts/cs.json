@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Najmout posádku\n\nJméno: {name}\nZkušenosti: {experience}\nPožadovaný plat: {wage} za týden\n\n{response}\n"
+      "message" : "Jméno: {name}\nZkušenosti: {experience}\nPožadovaný plat: {wage} týdně\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LOD.h"
@@ -51,6 +51,24 @@ void LOD::Render(const matrix4x4f &trans, const RenderData *rd)
 		if (pixrad < m_pixelSizes[i-1]) lod = i-1;
 	}
 	m_children[lod]->Render(trans, rd);
+}
+
+void LOD::Save(NodeDatabase &db)
+{
+    Group::Save(db);
+    //same number as children
+    db.wr->Int32(m_pixelSizes.size());
+    for (auto i : m_pixelSizes)
+		db.wr->Int32(i);
+}
+
+LOD* LOD::Load(NodeDatabase &db)
+{
+    LOD* lod = new LOD(db.renderer);
+	const Uint32 numLevels = db.rd->Int32();
+	for (Uint32 i = 0; i < numLevels; i++)
+		lod->m_pixelSizes.push_back(db.rd->Int32());
+    return lod;
 }
 
 }

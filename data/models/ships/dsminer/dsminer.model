@@ -1,15 +1,15 @@
 material fuselage-material
-tex_diff dsminer_diff.png
-tex_spec dsminer_spec.png
-tex_glow dsminer_glow.png
+tex_diff dsminer_diff.dds
+tex_spec dsminer_spec.dds
+tex_glow dsminer_glow.dds
 diffuse 1.0 1.0 1.0
 specular 1.0 1.0 1.0
 shininess 80
 
 
-
 lod 1000
 mesh dsminer_hi.dae
+mesh dsminer_shield.dae
 
 lod 100
 mesh dsminer_med.dae

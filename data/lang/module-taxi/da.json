@@ -1,0 +1,594 @@
+{
+   "CORPORATIONS_0" : {
+      "description" : "",
+      "message" : "Sirius"
+   },
+   "CORPORATIONS_1" : {
+      "description" : "",
+      "message" : "ACME"
+   },
+   "CORPORATIONS_10" : {
+      "description" : "",
+      "message" : "Bulk Ships"
+   },
+   "CORPORATIONS_11" : {
+      "description" : "",
+      "message" : "Arment Aerodynamics"
+   },
+   "CORPORATIONS_2" : {
+      "description" : "",
+      "message" : "Cool Cola"
+   },
+   "CORPORATIONS_3" : {
+      "description" : "",
+      "message" : "Taranis"
+   },
+   "CORPORATIONS_4" : {
+      "description" : "",
+      "message" : "Aquarian Shipbuilding"
+   },
+   "CORPORATIONS_5" : {
+      "description" : "",
+      "message" : "Rockforth"
+   },
+   "CORPORATIONS_6" : {
+      "description" : "",
+      "message" : "Amaliel"
+   },
+   "CORPORATIONS_7" : {
+      "description" : "",
+      "message" : "Marett Space"
+   },
+   "CORPORATIONS_8" : {
+      "description" : "",
+      "message" : "Vega Line"
+   },
+   "CORPORATIONS_9" : {
+      "description" : "",
+      "message" : "Digital"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Vil du gentage den oprindelige anmodning?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "Fare:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Deadline:"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Beklager, men jeg tror ikke jeg kan overlade min sikkerhed til dig."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Kom tilbage når du er kvalificeret."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Jeg tror ikke lige du er den rette pilot..."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Du ligner ikke én, der kan håndtere at transportere folk."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Du er ikke den slags pilot jeg søger."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Du virker alt for uerfaren til at håndtere en transportopgave af denne vigtighed."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Jeg har aldrig hørt om dig. Jeg har brug for én med erfaring til denne rejse."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Jeg tør ikke risikere mit liv på grund af en nybegynder som dig."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Afstand:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Fremragende."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "SØGER: Passage for en lille gruppe til systemet {system}. Betaler {cash}."
+   },
+   "FLAVOUR_0_DANGER" : {
+      "description" : "",
+      "message" : "Nej."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt. Det tog dig en evighed! Vi vil ikke betale dig!"
+   },
+   "FLAVOUR_0_HOWMANY" : {
+      "description" : "",
+      "message" : "Der er {group} af os."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name} og jeg har brug for transport til en lille gruppe til systemet {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly. Jeg betaler {cash}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for en behagelig tur. Her er din betaling."
+   },
+   "FLAVOUR_0_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Vi har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_0_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Vi skal besøge en ven."
+   },
+   "FLAVOUR_10_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIP SØGES: Lift med et hurtigt skib til systemet {system}."
+   },
+   "FLAVOUR_10_DANGER" : {
+      "description" : "",
+      "message" : "Jeg tror der en nogen, der følger efter mig."
+   },
+   "FLAVOUR_10_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Du er en virkelig dårlig pilot. Jeg nægter at betale for det her."
+   },
+   "FLAVOUR_10_HOWMANY" : {
+      "description" : "",
+      "message" : "Kun én."
+   },
+   "FLAVOUR_10_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mit navn er {name}. Jeg søger hurtig transport til systemet {system} ({sectorX}, {sectorY}, {sectorZ}), en afstand på {dist} ly. Betaler {cash}."
+   },
+   "FLAVOUR_10_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for det hurtige lift. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_10_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_10_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Jeg ville foretrække hvis 'nogen' ikke fandt mig."
+   },
+   "FLAVOUR_11_ADTEXT" : {
+      "description" : "",
+      "message" : "HURTIGT SKIB: Transport på et hurtigt skib til systemet {system}."
+   },
+   "FLAVOUR_11_DANGER" : {
+      "description" : "",
+      "message" : "Nogle gange ønsker folk ikke at blive inspiceret."
+   },
+   "FLAVOUR_11_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jeg kommer til at miste mit job på grund af din inkompetence. Så jeg har mere brug for pengene end du har."
+   },
+   "FLAVOUR_11_HOWMANY" : {
+      "description" : "",
+      "message" : "Kun én."
+   },
+   "FLAVOUR_11_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorX}, {sectorY}, {sectorZ}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
+   },
+   "FLAVOUR_11_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for det hurtige lift. Du er blevet betalt."
+   },
+   "FLAVOUR_11_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_11_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Jeg er en fabriksinspektør, på vej på kontrolrunde."
+   },
+   "FLAVOUR_12_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIB SØGES: Transport til systemet {system}."
+   },
+   "FLAVOUR_12_DANGER" : {
+      "description" : "",
+      "message" : "Der er nogen efter mig."
+   },
+   "FLAVOUR_12_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Jeg har ingen penge. Beklager."
+   },
+   "FLAVOUR_12_HOWMANY" : {
+      "description" : "",
+      "message" : "Kun én."
+   },
+   "FLAVOUR_12_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg har brug for et lift til {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly. Jeg betaler {cash}."
+   },
+   "FLAVOUR_12_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for liftet. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_12_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_12_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Jeg skylden nogen lidt penge og de er efter mig."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "SØGER: Passage for en lille gruppe til systemet {system}. Betaler {cash}."
+   },
+   "FLAVOUR_1_DANGER" : {
+      "description" : "",
+      "message" : "Nej."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt. Det tog dig en evighed! Vi vil ikke betale dig!"
+   },
+   "FLAVOUR_1_HOWMANY" : {
+      "description" : "",
+      "message" : "Der er {group} af os."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name} og jeg har brug for et lift til en lille gruppe til systemet {system} ({sectorX}, {sectorY}, {sectorZ}), en afstand på {dist} ly. Betaler {cash}."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for en behagelig tur. Her er din betaling."
+   },
+   "FLAVOUR_1_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Vi har ventet længe nok - sæt os af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_1_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Vi arbejder for virksomheden {corp} og de betaler."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "SØGER: Passage for en lille gruppe til systemet {system}. Betaler {cash}."
+   },
+   "FLAVOUR_2_DANGER" : {
+      "description" : "",
+      "message" : "Nej."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt. Det tog dig en evighed! Vi vil ikke betale dig!"
+   },
+   "FLAVOUR_2_HOWMANY" : {
+      "description" : "",
+      "message" : "Der er {group} af os."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name} og jeg har brug for transport til en lille gruppe til systemet {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly. Jeg betaler {cash}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for at bringe os herhen. Vi har overført pengene. Held og lykke!"
+   },
+   "FLAVOUR_2_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Vi har ventet længe nok - sæt os af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_2_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Det er en almindelig forretningsrejse."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIB SØGES: Transport til systemet {system}. Betaler {cash}."
+   },
+   "FLAVOUR_3_DANGER" : {
+      "description" : "",
+      "message" : "Jeg tror der er en lejemorder efter mig, og de kommer måske også efter dig."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt. Det tog dig en evighed! Jeg vil ikke betale dig!"
+   },
+   "FLAVOUR_3_HOWMANY" : {
+      "description" : "",
+      "message" : "Det er kun mig."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg har brug for et lift til {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly. Jeg betaler {cash}."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for en behagelig tur. Her er din betaling."
+   },
+   "FLAVOUR_3_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_3_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "En gammel rival prøver at slå mig ihjel."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIB SØGES: Transport til systemet {system}. Betaler {cash}."
+   },
+   "FLAVOUR_4_DANGER" : {
+      "description" : "",
+      "message" : "Nej."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Du kan lige vove at bede om betaling! Jeg melder dig til myndighederne."
+   },
+   "FLAVOUR_4_HOWMANY" : {
+      "description" : "",
+      "message" : "Kun mig."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg har brug for et lift til {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly. Jeg betaler {cash}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for at bringe mig herhen. Her er din betaling. Held og lykke!"
+   },
+   "FLAVOUR_4_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_4_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Jeg er en rejsende forretningsmand."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "SØGER: Passage til systemet {system}. Betaler {cash}."
+   },
+   "FLAVOUR_5_DANGER" : {
+      "description" : "",
+      "message" : "Du får muligvis noget interesse fra pressen. Bare ignorér dem."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Hvad har du gjort? Min tour er spoleret og jeg har mistet mange af mine fans."
+   },
+   "FLAVOUR_5_HOWMANY" : {
+      "description" : "",
+      "message" : "Det er kun mig."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej, jeg hedder {name}. Jeg har brug for et lift til systemet {system} ({sectorx}, {sectory}, {sectorz}), en afstand på {dist} ly. Betaler {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for en behagelig tur. Her er din betaling."
+   },
+   "FLAVOUR_5_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_5_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Ved du ikke, at jeg er en kendt drømmestjerne?"
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIB SØGES: Transport til systemet {system}. Betaler {cash}."
+   },
+   "FLAVOUR_6_DANGER" : {
+      "description" : "",
+      "message" : "Nej."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt. Det tog dig en evighed! Jeg vil ikke betale dig!"
+   },
+   "FLAVOUR_6_HOWMANY" : {
+      "description" : "",
+      "message" : "Det er kun mig."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej, jeg hedder {name} og jeg har brug for et lift til {system} ({sectorx}, {sectory}, {sectorz}), en afstand på {dist} ly. Jeg vil betale dig {cash}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for en behagelig tur. Her er din betaling."
+   },
+   "FLAVOUR_6_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_6_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Jeg er freelance journalist."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIB SØGES: Sikker passage til systemet {system}. Kan betale {cash}."
+   },
+   "FLAVOUR_7_DANGER" : {
+      "description" : "",
+      "message" : "Mafiaen værdsætter ikke folk, der hjælper deres fjender."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt. Det tog dig en evighed! Jeg vil ikke betale dig!"
+   },
+   "FLAVOUR_7_HOWMANY" : {
+      "description" : "",
+      "message" : "Mig og ingen andre."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Hej. Jeg hedder {name}. Jeg har brug for et sikkert lift til systemet {system} ({sectorx}, {sectory}, {sectorz}), med en afstand på {dist} ly. Jeg betaler {cash}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for at bringe mig sikkert herhen. Her er din betaling. Held og lykke!"
+   },
+   "FLAVOUR_7_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_7_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Mafiaen ønsker mig død."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIP SØGES: Lift med et hurtigt skib til systemet {system}."
+   },
+   "FLAVOUR_8_DANGER" : {
+      "description" : "",
+      "message" : "Nej."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Uacceptabelt. Det tog dig en evighed! Jeg vil ikke betale dig!"
+   },
+   "FLAVOUR_8_HOWMANY" : {
+      "description" : "",
+      "message" : "Kun mig."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorX}, {sectorY}, {sectorZ}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for det hurtige lift. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_8_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_8_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Jeg skal besøge min alvorligt syge slægtning."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "SKIP SØGES: Lift med et hurtigt skib til systemet {system}."
+   },
+   "FLAVOUR_9_DANGER" : {
+      "description" : "",
+      "message" : "Politiet vil måske forsøge at stoppe dig."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Udueligt! Det tog dig en evighed. Jeg vil ikke betale dig."
+   },
+   "FLAVOUR_9_HOWMANY" : {
+      "description" : "",
+      "message" : "Kun mig."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mit navn er {name}. Jeg har brug for hurtig transport til {system} ({sectorX}, {sectorY}, {sectorZ}), på en afstand af {dist} ly. Jeg vil betale dig {cash}."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tak for det hurtige lift. Du har modtaget fuld betaling."
+   },
+   "FLAVOUR_9_WHEREAREWE" : {
+      "description" : "",
+      "message" : "Hvor er vi? Jeg har ventet længe nok - sæt mig af på den nærmeste station, NU!"
+   },
+   "FLAVOUR_9_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "Politiet vil have mig til at hjælpe dem med deres undersøgelser."
+   },
+   "FROM" : {
+      "description" : "",
+      "message" : "Fra:"
+   },
+   "GROUP_DETAILS" : {
+      "description" : "",
+      "message" : "Gruppedetaljer:"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Afbryd linjen."
+   },
+   "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
+      "description" : "",
+      "message" : "Hey!!! Du skal du få betalt!!!"
+   },
+   "HOW_MANY_OF_YOU_ARE_THERE" : {
+      "description" : "",
+      "message" : "Hvor mange er I?"
+   },
+   "HOW_SOON_YOU_MUST_BE_THERE" : {
+      "description" : "",
+      "message" : "Hvornår skal du være der?"
+   },
+   "I_MUST_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Jeg skal være der før"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "OK, det er en aftale."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "Du kommer til at fortryde at du arbejdede med {client}"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "Du har {client} om bord? Det var dumt."
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Det er ikke din dag i dag! Forbered dig på at dø."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Du kommer ikke til at tilkoble i dag!"
+   },
+   "TAXI" : {
+      "description" : "",
+      "message" : "Taxi"
+   },
+   "TO" : {
+      "description" : "",
+      "message" : "Til:"
+   },
+   "WE_WANT_TO_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "Vi vil gerne være der før"
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Hvorfor så mange penge?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "Vil jeg komme i fare?"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "Du har ikke nok kabineplads på dit skib."
+   }
+}

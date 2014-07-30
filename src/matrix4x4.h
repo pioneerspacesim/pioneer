@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIX4X4_H
@@ -370,7 +370,7 @@ class matrix4x4 {
 	}
 	void Print () const {
 		for (int i=0; i<4; i++) {
-			printf ("%.2f %.2f %.2f %.2f\n", cell[i], cell[i+4], cell[i+8], cell[i+12]);
+			printf ("%.12f %.12f %.12f %.12f\n", cell[i], cell[i+4], cell[i+8], cell[i+12]);
 		}
 		printf ("\n");
 	}

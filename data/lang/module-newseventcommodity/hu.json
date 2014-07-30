@@ -1,0 +1,294 @@
+{
+   "FLAVOUR_0_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK: {date}: {system} rendszerben járvány szedi áldozatait. Halottak száma nő."
+   },
+   "FLAVOUR_0_NEWSBODY" : {
+      "description" : "Imply high demand for MEDICINE commodity.",
+      "message" : "Gyorsan terjedő járvány tizedeli {system} ({sectorx}, {sectory}, {sectorz}) lakosságát. A kormány rendszerközi segítséget sürget."
+   },
+   "FLAVOUR_10_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Nagyvállat veszélyezteti {system} létét."
+   },
+   "FLAVOUR_10_NEWSBODY" : {
+      "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
+      "message" : "A Prekall Inc. versenyelőnyével visszaélve monopolhelyzetre törekszik a levegőellátás területén {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A lakosság lélegzetvisszafolytva várja a fejleményeket."
+   },
+   "FLAVOUR_11_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Rejtélyes szarvasmarhaeltűnések {system} rendszerben."
+   },
+   "FLAVOUR_11_NEWSBODY" : {
+      "description" : "Imply high demand of ANIMAL_MEAT.",
+      "message" : "A gazdák tanácstalanul állnak az üres ólaknál. A rendőrség szerint \"Az évszázad marhalopása\" történt {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
+   },
+   "FLAVOUR_12_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: {system} informatikai hálózat meghibásodott, az infrastruktúrája összeomlott."
+   },
+   "FLAVOUR_12_NEWSBODY" : {
+      "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
+      "message" : "Vírustámadás gyűrte maga alá az összes Nachosoft számítógépet {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A szakemberek szerint a gépekből fel kell lendíteni a papírnehezék-ipart."
+   },
+   "FLAVOUR_13_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Robotfelkelés {system} rendszerben."
+   },
+   "FLAVOUR_13_NEWSBODY" : {
+      "description" : "Imply that nobody wants to buy ROBOTS anymore.",
+      "message" : "\"Viselkedési rendellenességek\" csökkenti a bizalmat gépek és emberek között  {system} rendszerben. ({sectorx}, {sectory}, {sectorz}). Csökken a kereslet a háztartási robotok iránt."
+   },
+   "FLAVOUR_14_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Napkitörés okozta az évszázad áramszünetét {system} rendszerben."
+   },
+   "FLAVOUR_14_NEWSBODY" : {
+      "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
+      "message" : "Rendszerszintű áramszünet söpört végig {system rendszeren ({sectorx}, {sectory}, {sectorz}). Hosszú sorok kígyóznak a Trapperware szaküzletek előtt, melyek nem képesek tartani a lépést hűtőgépek meghibásodása miatt a tárolóedények iránt megnövekedett kereslettel. A nyersanyaghiány egyre nagyobb problémákat okoz a piacon."
+   },
+   "FLAVOUR_15_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Rendőrségi rajtaütés {system} szervezett bűnözői csoportjain. Több vezetőt letartóztattak."
+   },
+   "FLAVOUR_15_NEWSBODY" : {
+      "description" : "imply high demand of NARCOTICS.",
+      "message" : "A hatóságok a drogkartellek vezéreinek letartóztatásától azt remélik, hogy {system} rendszerben ({sectorx}, {sectory}, {sectorz}) jelentősen csökkenni fog a bűnözés."
+   },
+   "FLAVOUR_16_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Súlyos baleset {system} Mezőgazdasági Seregszemléjén."
+   },
+   "FLAVOUR_16_NEWSBODY" : {
+      "description" : "Imply high demand of FARM_MACHINERY.",
+      "message" : "Az idei {system}-i Nagy Mezőgazdasági Seregszemlén a Traktoros kötélhúzás galaktikus rekordkísérlete hatalmas rombolásba torkollott. Az egyik résztvevő elvesztette az uralmat a járműve felett és a keletkező káoszban az összes résztvevő gépe tönkrement. A hatóságok a mezőgazdaság súlyos visszaesésétől tartanak."
+   },
+   "FLAVOUR_17_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Új lelőhelyeket tártak fel {system} rendszerben."
+   },
+   "FLAVOUR_17_NEWSBODY" : {
+      "description" : "Imply vast abundance of METAL_ORE.",
+      "message" : "Példátlan kiterjedésű érctelérre bukkantak bányászok {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
+   },
+   "FLAVOUR_18_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date} Sikeres gazdasági reformok {system} rendszerben."
+   },
+   "FLAVOUR_18_NEWSBODY" : {
+      "description" : "Imply vast demand of CONSUMER_GOODS.",
+      "message" : "Gyorsabban forognak {system} ({sectorx}, {sectory}, {sectorz})rendszer gazdaságának kerekei, nőttek a bérek, így a vásárlási kedv is."
+   },
+   "FLAVOUR_19_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date} Aranyeső {system} rendszerben."
+   },
+   "FLAVOUR_19_NEWSBODY" : {
+      "description" : "Imply vast abundance of PRECIOUS_METALS.",
+      "message" : "Feltaláló nagybátjától örökölt csodagépet egy polgár {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A gépezet segítségével bármit arannyá és platinává lehet változtatni. Gazdasági szakemberek a rendszer gazdasági öszeomlásától tartanak, ha a gép nem megy tönkre hamarosan."
+   },
+   "FLAVOUR_1_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK: {date}: Eszkalálódó konfliktus {system} rendszerben."
+   },
+   "FLAVOUR_1_NEWSBODY" : {
+      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+      "message" : "Régóta tartó feszült helyzet mérgesedett nyílt fegyveres konfliktussá {system} rendszerben ({sectorx}, {sectory}, {sectorz})."
+   },
+   "FLAVOUR_20_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Rekord gazdagságú algatermést arattak {system} rendszer gázóriásának légköréből."
+   },
+   "FLAVOUR_20_NEWSBODY" : {
+      "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
+      "message" : "A helyi gázóriás sárgaalgáknak kedvező évszakba lépésével rekord bőségű termés várhatóan fellendíti a  {system} rendszeri ({sectorx}, {sectory}, {sectorz})a Sárga Szója trágyatermelő vállalat termelési utatóit."
+   },
+   "FLAVOUR_21_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date} \"Humánusabb\" hadviselésről szóló egyezményt írtak alá {system} rendszer kormányai."
+   },
+   "FLAVOUR_21_NEWSBODY" : {
+      "description" : "Imply vast abundance of NERVE_GAS.",
+      "message" : "Bár {system} rendszer ({sectorx}, {sectory}, {sectorz}) harcoló országai továbbra sem kötnek fegyverszünetet, abban megegyeztek, hogy vegy fegyvereket ezentúl nem vetnek be."
+   },
+   "FLAVOUR_22_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Rendőrségi sztárjk {system} rendszerben. A polgárok magukra maradtak."
+   },
+   "FLAVOUR_22_NEWSBODY" : {
+      "description" : "Imply high demand of HAND_WEAPONS.",
+      "message" : "Az elégtelen létszám ellen munkabeszüntetéssel tiltakoznak {system} rendszer ({sectorx}, {sectory}, {sectorz}) rendőrei. Eközben a civilek polgárőrségeket alapítanak és szerszámokkal; kaszákkal és lőfegyverekkel felszerelkezve készülnek a legrosszabbra."
+   },
+   "FLAVOUR_23_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Ünnepélyes üzemavatás {system} rendszerben."
+   },
+   "FLAVOUR_23_NEWSBODY" : {
+      "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
+      "message" : "Új Győzőinox üzemet avattak {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A cég kiválló  minőségű bugylibicskáiról ismert, melyek az űrruha bakancsának a talpát is képesek átvágni. Az új üzem azonban nyersanyaghiány miatt még még nem érte el teljes gyártókapacitását."
+   },
+   "FLAVOUR_2_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Aszály pusztítja a termést {system} rendszerben."
+   },
+   "FLAVOUR_2_NEWSBODY" : {
+      "description" : "Hint there will be high demand of GRAIN.",
+      "message" : "Az elhúzódó szárazság tönkretette a termést a {system} rendszerben ({sectorx}, {sectory}, {sectorz}). A hatóságok rendszerszintű éhinségtől tartanak."
+   },
+   "FLAVOUR_3_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Egyre többen választják a vegán életmódot {system} rendszerben."
+   },
+   "FLAVOUR_3_NEWSBODY" : {
+      "description" : "Imply high demand of FRUIT_AND_VEG.",
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) kereskedelmi hatóságai a megnövekedett kereslet kielégítésére keresik a lehetőségeket a növényi élelmiszerek importjának kiterjesztésére."
+   },
+   "FLAVOUR_4_HEADLINE" : {
+      "description" : "About mob rivals competing for selling drugs",
+      "message" : "HÍREK {date}: Drogháború {system} rendszerben. A rendőrség próbál úrrá lenni a helyzeten."
+   },
+   "FLAVOUR_4_NEWSBODY" : {
+      "description" : "Imply high abundance of NARCOTICS.",
+      "message" : "Olcsó kábítószerekkel árasztoták el a piacot {system} rendszer ({sectorx}, {sectory}, {sectorz}) egymásnak feszülő drogbárói."
+   },
+   "FLAVOUR_5_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Rabszolgafelkelés {system} rendszerben. Összeomlás szélén a meőgazdaság."
+   },
+   "FLAVOUR_5_NEWSBODY" : {
+      "description" : "Imply high demand of SLAVES.",
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) rabszolgái megtagadták a munkát a földeken, szervezett lázadásba kezdtek. A gazdaság az olcsó munkaerő hiányában megbénult."
+   },
+   "FLAVOUR_6_HEADLINE" : {
+      "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
+      "message" : "HÍREK {date}: {system} Tavaszi Fesztivál "
+   },
+   "FLAVOUR_6_NEWSBODY" : {
+      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
+      "message" : "A kemény tél elmúltát egy hosszú hét vidám ivászattal és zenéléssel ünneplik {system}  ({sectorx}, {sectory}, {sectorz}) hagyományos Tavaszi Fesztiválján."
+   },
+   "FLAVOUR_7_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Összeomlott {system} nehézipara."
+   },
+   "FLAVOUR_7_NEWSBODY" : {
+      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
+      "message" : "{system} ({sectorx}, {sectory}, {sectorz}) nehézipara a rossz munkakörülmények miatt sztrájkoló TMK brigádok áldozatául esett, a termelés szinte mindenhol leállt."
+   },
+   "FLAVOUR_8_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Súlyos katasztrófa {system} egyik bányájában."
+   },
+   "FLAVOUR_8_NEWSBODY" : {
+      "description" : "Imply high demand of MINING_MACHINERY.",
+      "message" : "Több száz bányász lelte halálát egy bányaomlásban {system} ({sectorx}, {sectory}, {sectorz}) rendszerben. A munkások és a bányászati berendezések elvesztése elhúzódó gazdasági válságot hozhat."
+   },
+   "FLAVOUR_9_HEADLINE" : {
+      "description" : "",
+      "message" : "HÍREK {date}: Új őrület {system} rendszerben."
+   },
+   "FLAVOUR_9_NEWSBODY" : {
+      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
+      "message" : "Újra divatba jöttek az élő házikedvencek {system} rendszerben  ({sectorx}, {sectory}, {sectorz}). Már a hízósertés is hiánycikk."
+   },
+   "GRATEFUL_GREETING_0" : {
+      "description" : "",
+      "message" : "Üdvözöljük kereskedő! Nálunk jó áron túladhat {cargo} rakományán."
+   },
+   "GRATEFUL_GREETING_1" : {
+      "description" : "",
+      "message" : "Örömmel vesszük érkezését, és a rakterében lévő {cargo}-t is."
+   },
+   "GRATEFUL_GREETING_2" : {
+      "description" : "",
+      "message" : "Isten hozta! Nem fogja megbánni, hogy a szállítmánya {cargo}."
+   },
+   "GRATEFUL_GREETING_3" : {
+      "description" : "",
+      "message" : "Üdv! Végre {cargo} érkezett."
+   },
+   "GRATEFUL_GREETING_4" : {
+      "description" : "",
+      "message" : "Már vártuk, hogy valakinél {cargo} legyen."
+   },
+   "GRATEFUL_GREETING_5" : {
+      "description" : "",
+      "message" : "Üdvözlet! {cargo} jó üzlet manapság mifelénk."
+   },
+   "NEWSPAPER_CIW" : {
+      "description" : "",
+      "message" : "A Szövetségi Kurír"
+   },
+   "NEWSPAPER_FED" : {
+      "description" : "",
+      "message" : "A Föderációs Hírlap"
+   },
+   "NEWSPAPER_IMP" : {
+      "description" : "",
+      "message" : "A Nemzetközösségi Hírmondó"
+   },
+   "NEWSPAPER_IND_0" : {
+      "description" : "",
+      "message" : "Az Úttörő Újság"
+   },
+   "NEWSPAPER_IND_1" : {
+      "description" : "",
+      "message" : "A Független Harsona"
+   },
+   "NEWSPAPER_IND_10" : {
+      "description" : "",
+      "message" : "Az Orbitális Figyelő"
+   },
+   "NEWSPAPER_IND_2" : {
+      "description" : "",
+      "message" : "A Galaktikus Hírlap"
+   },
+   "NEWSPAPER_IND_3" : {
+      "description" : "",
+      "message" : "A Napi Univerzum"
+   },
+   "NEWSPAPER_IND_4" : {
+      "description" : "",
+      "message" : "A Bolygószava"
+   },
+   "NEWSPAPER_IND_5" : {
+      "description" : "",
+      "message" : "A Heti Csillag Gazdaság"
+   },
+   "NEWSPAPER_IND_6" : {
+      "description" : "",
+      "message" : "Az Univerzális lap"
+   },
+   "NEWSPAPER_IND_7" : {
+      "description" : "",
+      "message" : "A Napi friss"
+   },
+   "NEWSPAPER_IND_8" : {
+      "description" : "",
+      "message" : "Tellúr Távirati Iroda"
+   },
+   "NEWSPAPER_IND_9" : {
+      "description" : "",
+      "message" : "A Szatelit Napló"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "{newspaper} jelenti"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "{newspaper} hírei"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "{newspaper} új információi"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "{newspaper} friss hírei"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "{newspaper} cikke"
+   }
+}

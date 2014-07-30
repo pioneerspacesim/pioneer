@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextLayout.h"
@@ -55,7 +55,7 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 	if (layoutSize == m_lastRequested)
 		return m_lastSize;
 
-	int spaceWidth = ceilf(m_font->GetGlyph(' ').advx);
+	int spaceWidth = ceilf(m_font->GetGlyph(' ').advX);
 	int lineHeight = ceilf(m_font->GetHeight());
 
 	Point pos;
@@ -105,7 +105,7 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 	return bounds;
 }
 
-void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize)
+void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color)
 {
 	ComputeSize(layoutSize);
 
@@ -114,7 +114,7 @@ void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point
 
 	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
 		if ((*i).pos.y >= top && (*i).pos.y < bottom)
-			m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, Color::WHITE);
+			m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, color);
 	}
 }
 

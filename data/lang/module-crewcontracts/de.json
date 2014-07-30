@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Crew for hire\n\nName: {name}\nErfahrung: {experience}\nLohnforderung: {wage} pro Woche\n\n{response}\n"
+      "message" : "Name: {name}\nErfahrung: {experience}\nLohnforderung: {wage} per week\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -13,11 +13,11 @@
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Examination results:\n\nGenerelle Crew-Kompetenzen: {general}%\nTechnik und Reperatur: {engineering}%\nSteuern und Raumflug: {piloting}%\nNavigation und Auswertung: {navigation}%\nSensoren und Abwehr: {sensors}%\nInsgesamtes Testergebnis: {overall}%"
+      "message" : "Testergebnisse:\n\nGenerelle Crew-Kompetenzen: {general}%\nTechnik und Reperatur: {engineering}%\nSteuern und Raumflug: {piloting}%\nNavigation und Auswertung: {navigation}%\nSensoren und Abwehr: {sensors}%\nInsgesamtes Testergebnis: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "Suche Anstellung"
+      "message" : "Anstellung gesucht"
    },
    "GO_BACK" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
-      "message" : "Potenzielle Crewmitglieder sind als Arbeitssuchend registriert bei {station}:"
+      "message" : "Die folgenden potentiellen Crewmitglieder sind bei {station} als arbeitssuchend registriert:"
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Neuen wöchentlichen Lohn von {newAmount} vorschlagen"
+      "message" : "Neuen Wochenlohn von {newAmount} vorschlagen"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
@@ -105,6 +105,6 @@
    },
    "VETERAN_TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Veteran, langzeitiges Crewmitflied"
+      "message" : "Veteran, langzeitiges Crewmitglied"
    }
 }

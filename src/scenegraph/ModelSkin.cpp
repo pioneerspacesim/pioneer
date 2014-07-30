@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSkin.h"
@@ -10,14 +10,12 @@
 namespace SceneGraph {
 
 ModelSkin::ModelSkin() :
-	m_patternIndex(0),
     m_colors(3)
 {
 }
 
 void ModelSkin::Apply(Model *model) const
 {
-	model->SetPattern(m_patternIndex);
 	model->SetColors(m_colors);
 	for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++) {
 		if (m_decals[i].empty())
@@ -26,11 +24,6 @@ void ModelSkin::Apply(Model *model) const
 			model->SetDecalTexture(Graphics::TextureBuilder::Decal(stringf("textures/decals/%0.png", m_decals[i])).GetOrCreateTexture(model->GetRenderer(), "decal"), i);
 	}
 	model->SetLabel(m_label);
-}
-
-void ModelSkin::SetPattern(unsigned int index)
-{
-	m_patternIndex = index;
 }
 
 void ModelSkin::SetColors(const std::vector<Color> &colors)
@@ -95,7 +88,6 @@ void ModelSkin::SetLabel(const std::string &label)
 
 void ModelSkin::Load(Serializer::Reader &rd)
 {
-	m_patternIndex = rd.Int32();
 	for (unsigned int i = 0; i < 3; i++) {
 		m_colors[i].r = rd.Byte();
 		m_colors[i].g = rd.Byte();
@@ -108,7 +100,6 @@ void ModelSkin::Load(Serializer::Reader &rd)
 
 void ModelSkin::Save(Serializer::Writer &wr) const
 {
-	wr.Int32(m_patternIndex);
 	for (unsigned int i = 0; i < 3; i++) {
 		wr.Byte(m_colors[i].r);
 		wr.Byte(m_colors[i].g);

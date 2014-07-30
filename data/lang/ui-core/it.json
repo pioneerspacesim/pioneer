@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "Dopo la permuta"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Quantità"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Acquistabile"
    },
    "AVERAGE" : {
       "description" : "",
@@ -45,15 +45,27 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Bacheca Annunci"
+   },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Compra"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Compra Astronave"
    },
    "CABINS" : {
       "description" : "",
       "message" : "Alloggi"
+   },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} liberi"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} occupati"
    },
    "CANCEL" : {
       "description" : "",
@@ -61,7 +73,7 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Capacità"
    },
    "CAPACITY_USED" : {
       "description" : "",
@@ -75,13 +87,21 @@
       "description" : "",
       "message" : "Capacità di carico"
    },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t disponibili"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t occupate"
+   },
    "CASH" : {
       "description" : "",
       "message" : "Crediti"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Denaro: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -89,7 +109,7 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Capo Meccanico"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -101,7 +121,7 @@
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Pulito"
    },
    "CLEAR" : {
       "description" : "",
@@ -121,7 +141,7 @@
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Mercato dei beni di scambio"
    },
    "COMPETENT" : {
       "description" : "",
@@ -137,7 +157,11 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Conestabile"
+   },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continua partita"
    },
    "CONTROLS" : {
       "description" : "",
@@ -151,6 +175,10 @@
       "description" : "",
       "message" : "Impossibile caricare la partita:"
    },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credibile"
+   },
    "CREW_CABINS" : {
       "description" : "",
       "message" : "Alloggi equipaggio"
@@ -161,7 +189,7 @@
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Criminal record"
+      "message" : "Fedina penale"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -175,6 +203,18 @@
       "description" : "",
       "message" : "Delta-V"
    },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (vuoto)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (pieno)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
       "message" : "Velocità di discesa-a-terra:"
@@ -186,6 +226,10 @@
    "DISMISS" : {
       "description" : "",
       "message" : "Licenzia"
+   },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Mostra scie nel HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -223,13 +267,17 @@
       "description" : "",
       "message" : "Impiego"
    },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Abilita abitacolo (SPERIMENTALE)"
+   },
    "ENABLE_JOYSTICK" : {
       "description" : "",
       "message" : "Abilita Joystick"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Ingegneria"
+      "message" : "Ingegneria:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -237,11 +285,11 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Mercato delle apparecchiature"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Montato a bordo"
    },
    "ERROR" : {
       "description" : "",
@@ -254,6 +302,14 @@
    "EXIT_THIS_GAME" : {
       "description" : "",
       "message" : "Esci dalla partita"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Competente"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Esperto"
    },
    "FAILED" : {
       "description" : "",
@@ -269,18 +325,18 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Accelerazione (vuoto)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Accelerazione (carico)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
       "message" : "Dettaglo frattali"
    },
    "FREE" : {
-      "description" : "",
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
       "message" : "liberi"
    },
    "FRONT_WEAPON" : {
@@ -317,7 +373,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Riaggancia."
    },
    "HARMLESS" : {
       "description" : "",
@@ -325,27 +381,27 @@
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Navetta da cargo pesante"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Corriere pesante"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Caccia pesante"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Mercantile pesante"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Navetta passeggeri pesante"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Trasporto passeggeri pesante"
    },
    "HIGH" : {
       "description" : "",
@@ -357,7 +413,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Integrità scafo"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -373,7 +429,7 @@
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Ipermotore montato:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
@@ -387,21 +443,29 @@
       "description" : "",
       "message" : "Inattivo"
    },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetente"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inesperto"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Inverti Mouse Y"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "In stiva"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "Giacenza"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Quest'articolo è esaurito."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -423,33 +487,45 @@
       "description" : "",
       "message" : "Lingua (riavvia il gioco per applicare)"
    },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Autorizzazione al lancio negata: attracco occupato."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Permesso di lancio negato: equipaggio insufficiente per poter pilotare questa astronave."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Permesso di lancio negato: lei ha delle multe pendenti."
+   },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Stato giuridico"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Navetta da cargo leggera"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Correre leggero"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Caccia leggero"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Mercantile leggero"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Navetta passeggeri leggera"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Trasporto passeggeri pesante"
    },
    "LOAD" : {
       "description" : "",
@@ -461,7 +537,7 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Lobby"
+      "message" : "Anticamera"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -489,15 +565,23 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Massa"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Maestro"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Principale:"
    },
    "MAX" : {
       "description" : "",
       "message" : "massimo"
+   },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Equipaggio massimo"
    },
    "MEDIUM" : {
       "description" : "",
@@ -505,27 +589,27 @@
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium cargo shuttle"
+      "message" : "Navetta da carico media"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Corriere medio"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Caccia medio"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Medium freighter"
+      "message" : "Mercantile medio"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium passenger shuttle"
+      "message" : "Navetta passeggeri media"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Medium passenger transport"
+      "message" : "Trasporto passeggeri medio"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -538,6 +622,10 @@
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Equipaggio minimo"
+   },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Supporti per missili"
    },
    "MISSIONS" : {
       "description" : "",
@@ -561,7 +649,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Omicidio"
    },
    "MUSIC" : {
       "description" : "",
@@ -571,8 +659,12 @@
       "description" : "",
       "message" : "Muto"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Nome"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Nome"
    },
    "NAVIGATION" : {
@@ -587,6 +679,14 @@
       "description" : "",
       "message" : "Prossima paga"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nessuno"
+   },
    "NONE" : {
       "description" : "",
       "message" : "Vuoto"
@@ -598,6 +698,10 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Non ci sono abbastanza {alloy} per tentare la riparazione"
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} non è supportato da questo modello di astronave."
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -649,7 +753,7 @@
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "Paga multa di {amount}"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -665,7 +769,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Pirateria"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -677,7 +781,7 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "Polizia"
    },
    "POOR" : {
       "description" : "",
@@ -693,7 +797,11 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Prezzo"
+   },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professionista"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -719,13 +827,29 @@
       "description" : "",
       "message" : "Rifornimento"
    },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Rifornimento completo"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Affidabile"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Repair {damage}% hull damage for {price}"
+      "message" : "Ripara il {damage}% dei danni allo scafo per {price}"
+   },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputazione"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Richiesta autorizzazione al lancio"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Torna al gioco"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
@@ -733,11 +857,11 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Decelerazione (vuoto)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Decelerazione (carico)"
    },
    "REWARD" : {
       "description" : "",
@@ -763,13 +887,17 @@
       "description" : "",
       "message" : "Seleziona la partita da caricare..."
    },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Vendi"
+   },
    "SENSORS" : {
       "description" : "",
       "message" : "Sensori:"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Astronave"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -777,23 +905,27 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Al momento la Sua nave non necessita di manutenzione."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "La tua astronave completamente equipaggiata."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "L'astronave è a pieno carico."
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Mercato delle Astronavi"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Riparazione Astronavi"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "L'astronave che stavi guardando è stata venduta"
    },
    "SOUND" : {
       "description" : "",
@@ -813,7 +945,7 @@
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Station manager"
+      "message" : "Amministratore della stazione"
    },
    "STATUS" : {
       "description" : "",
@@ -821,7 +953,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Nel ringraziarLa per il Suo acquisto Le consigliamo di passare al Reparto Equipaggiamento ... e non dimentichi di rifornirsi di carburante PRIMA del lancio."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -835,17 +967,25 @@
       "description" : "",
       "message" : "Cambia maschio/femmina"
    },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "L'astronave è troppo piccola per questo equipaggio."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Totale:"
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Massa totale"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Commercio di merci Illegali"
+   },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Fidato"
    },
    "TYPE" : {
       "description" : "",
@@ -853,7 +993,11 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Scaricare illecitamente le proprie armi"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Inaffidabile"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -889,11 +1033,11 @@
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Peso a vuoto:"
+      "message" : "Peso a vuoto"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Peso a pieno carico"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
@@ -901,7 +1045,11 @@
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Al momento non ha pendenze con la Polizia."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Sì"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
@@ -909,11 +1057,11 @@
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Your hull is at {value}% integrity."
+      "message" : "Il tuo scafo è al {value}% dell'integrità."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "You don't have enough money for that option."
+      "message" : "Non ha abbastanza crediti per questa opzione."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -933,6 +1081,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Crediti insufficienti"
    }
 }

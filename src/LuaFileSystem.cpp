@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaFileSystem.h"
@@ -49,7 +49,7 @@ static int l_filesystem_read_dir(lua_State *l)
 	if (lua_gettop(l) > 1)
 		path = luaL_checkstring(l, 2);
 
-	FileSystem::FileSource *fs = 0;
+	FileSystem::FileSource *fs = nullptr;
 	switch (root) {
 		case LuaFileSystem::ROOT_USER:
 			fs = &FileSystem::userFiles;
@@ -58,7 +58,13 @@ static int l_filesystem_read_dir(lua_State *l)
 		case LuaFileSystem::ROOT_DATA:
 			fs = &FileSystem::gameDataFiles;
 			break;
+
+		default:
+			assert(0); // can't happen
+			return 0;
 	}
+
+	assert(fs);
 
 	{
 		try {

@@ -264,7 +264,7 @@ class EnumData:
             if item.skip:
                 continue
             id = item.name if item.name is not None else item.identifier
-            fl.write('\t{ "' + id + '", ' + scope_prefix + item.identifier + ' },\n')
+            fl.write('\t{ "' + id + '", int(' + scope_prefix + item.identifier + ') },\n')
         fl.write('\t{ 0, 0 },\n')
         fl.write('};\n')
 
@@ -301,11 +301,26 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         tag.append(preceding_comment)
     toktype, toktext = collect_comments(tokens, tag)
 
+    if toktype == 'keyword' and toktext in ['struct', 'class']:
+        # C++11 'enum class' (strongly typed enum) declaration
+        toktype, toktext = collect_comments(tokens, tag)
+
     if toktype == 'identifier':
         identifier = toktext
         toktype, toktext = collect_comments(tokens, tag)
     else:
         identifier = ''
+
+    if toktype == 'punctuation' and toktext == ':':
+        # C++11 enum with fixed underlying type
+        # FIXME: look up correct grammar for enum underlying type
+        # currently this should match any valid underlying type, but also matches various invalid things
+        # that's ok, because exact syntactic semantic checking is the compiler's job, not the job of scan_enums
+        toktype, toktext = collect_comments(tokens, tag)
+        while toktype == 'keyword' and toktext in ['signed','unsigned','long','short','int','char']:
+            toktype, toktext = collect_comments(tokens, tag)
+        if toktype == 'identifier':
+            toktype, toktext = collect_comments(tokens, tag)
 
     if toktype == 'punctuation' and toktext == '{':
         # comments become part of the enum tag right up until
@@ -345,7 +360,7 @@ def parse_enum(toktype, toktext, tokens, preceding_comment=None):
         return None
 
 def write_license_header(fl):
-    fl.write('/* Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details */\n')
+    fl.write('/* Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details */\n')
     fl.write('/* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */\n')
     fl.write('\n')
 

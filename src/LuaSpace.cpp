@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -564,8 +564,10 @@ static int l_space_spawn_ship_landed_near(lua_State *l)
  */
 static int l_space_get_body(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
+		return 0;
+	}
 
 	int id = luaL_checkinteger(l, 1);
 
@@ -617,8 +619,10 @@ static int l_space_get_body(lua_State *l)
  */
 static int l_space_get_bodies(lua_State *l)
 {
-	if (!Pi::game)
+	if (!Pi::game) {
 		luaL_error(l, "Game is not started");
+		return 0;
+	}
 
 	LUA_DEBUG_START(l);
 
@@ -630,9 +634,7 @@ static int l_space_get_bodies(lua_State *l)
 
 	lua_newtable(l);
 
-	for (Space::BodyIterator i = Pi::game->GetSpace()->BodiesBegin(); i != Pi::game->GetSpace()->BodiesEnd(); ++i) {
-		Body *b = *i;
-
+	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
 		if (filter) {
 			lua_pushvalue(l, 1);
 			LuaObject<Body>::PushToLua(b);

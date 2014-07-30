@@ -15,6 +15,38 @@
       "description" : "",
       "message" : "Consegna"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Sono spiacente, ma non penso di potermi fidare di lei per questa consegna."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Ritorni quando avrà qualche qualifica."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Non credo che lei sia il pilota che io sto cercando."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Non sembra essere qualcuno di cui mi possa fidare per questa consegna."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Lei non è il genere di pilota che sto cercando."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Lei sembra troppo inesperto per gestire un compito di questa importanza."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Non ho mai sentito parlare di lei. Ho bisogno di qualcuno con dell'esperienza per questa consegna."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Non ho intenzione di rischiare questa consegna a causa di qualcuno senza qualifiche come lei."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distanza:"
@@ -177,7 +209,7 @@
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Eccellente, abbiamo acceditaro i fondi sul suo conto."
+      "message" : "Eccellente, abbiamo accreditato i fondi sul suo conto."
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",

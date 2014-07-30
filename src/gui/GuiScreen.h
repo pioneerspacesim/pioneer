@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUISCREEN_H
@@ -7,6 +7,7 @@
 #include "Gui.h"
 #include "FontCache.h"
 #include "text/TextureFont.h"
+#include "graphics/RenderState.h"
 #include <list>
 #include <stack>
 
@@ -18,7 +19,6 @@ namespace Gui {
 		static void Init(Graphics::Renderer *renderer, int real_width, int real_height, int ui_width, int ui_height);
 		static void Uninit();
 		static void Draw();
-		static void ShowBadError(const char *msg);
 		static void AddBaseWidget(Widget *w, int x, int y);
 		static void RemoveBaseWidget(Widget *w);
 		static void OnMouseMotion(SDL_MouseMotionEvent *e);
@@ -62,6 +62,9 @@ namespace Gui {
 		static void RenderMarkup(const std::string &s, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
+
+		static Graphics::RenderState *alphaBlendState;
+		static Graphics::Material* flatColorMaterial;
 
 	private:
 		static void AddShortcutWidget(Widget *w);

@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Lang = import("Lang")
@@ -8,6 +8,7 @@ local Event = import("Event")
 local NameGen = import("NameGen")
 local Rand = import("Rand")
 local Serializer = import("Serializer")
+local Equipment = import("Equipment")
 
 local l = Lang.GetResource("module-goodstrader")
 
@@ -86,7 +87,7 @@ end
 
 local onCreateBB = function (station)
 	local has_illegal_goods = false
-	for i,e in pairs(Constants.EquipType) do
+	for i,e in pairs(Equipment.cargo) do
 		if not Game.system:IsCommodityLegal(e) then
 			has_illegal_goods = true
 		end
@@ -109,7 +110,7 @@ local onCreateBB = function (station)
 
 		ad.stock = {}
 		ad.price = {}
-		for i,e in pairs(Constants.EquipType) do
+		for _,e in pairs(Equipment.cargo) do
 			if not Game.system:IsCommodityLegal(e) then
 				ad.stock[e] = Engine.rand:Integer(1,50)
 				-- going rate on the black market will be twice normal
@@ -117,7 +118,11 @@ local onCreateBB = function (station)
 			end
 		end
 
-		local ref = station:AddAdvert(ad.flavour, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.flavour,
+			icon        = "goods_trader",
+			onChat      = onChat,
+			onDelete    = onDelete})
 		ads[ref] = ad
 	end
 end
@@ -130,7 +135,11 @@ local onGameStart = function ()
 	if not loaded_data then return end
 
 	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert(ad.flavour, onChat, onDelete)
+		local ref = ad.station:AddAdvert({
+			description = ad.flavour,
+			icon        = "goods_trader",
+			onChat      = onChat,
+			onDelete    = onDelete})
 		ads[ref] = ad
 	end
 

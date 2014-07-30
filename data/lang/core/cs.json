@@ -1,7 +1,7 @@
 {
    "AIR_PROCESSORS" : {
       "description" : "",
-      "message" : "Klimatizace"
+      "message" : "Výrobník vzduchu"
    },
    "ALERT_CANCELLED" : {
       "description" : "",
@@ -12,8 +12,8 @@
       "message" : "Příslušnost:"
    },
    "ALT" : {
-      "description" : "",
-      "message" : "\"alt \""
+      "description" : "Alt key on keyboard",
+      "message" : "Alt"
    },
    "ALT_IN_KM" : {
       "description" : "",
@@ -58,6 +58,10 @@
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
       "message" : "Chrání vaši loď před žárem při průletu atmosférou"
+   },
+   "AUTOMATIC_SYSTEM_SELECTION" : {
+      "description" : "",
+      "message" : "Automatický výběr systému"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -125,7 +129,7 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Pohled dolů"
+      "message" : "Pohled zdola"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
@@ -145,7 +149,11 @@
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Pohled nahoru"
+      "message" : "Pohled shora"
+   },
+   "CANT_SAVE_DEAD_PLAYER" : {
+      "description" : "",
+      "message" : "Can't save game after the player has died"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -191,6 +199,10 @@
       "description" : "",
       "message" : "Sběrač nákladu aktivní. Naložena 1 t %item."
    },
+   "CARGO_SCOOP_ATTEMPTED" : {
+      "description" : "",
+      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+   },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Umožňuje sbírat nákladové kontejnery ve vesmíru"
@@ -218,6 +230,18 @@
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
       "message" : ", vysoce vulkanická"
+   },
+   "COMMODITY_NONE" : {
+      "description" : "When no commodities exist",
+      "message" : "Nic"
+   },
+   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+   },
+   "COMMODITY_TRADE_ANALYSIS_SELF" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -257,7 +281,7 @@
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
-      "message" : "\" (%surfacecount on surface)\""
+      "message" : "\" (%surfacecount na povrchu)\""
    },
    "COUNT_STARPORTS" : {
       "description" : "",
@@ -268,8 +292,8 @@
       "message" : "\" oxido-uhelnatou atmosférou\""
    },
    "CTRL" : {
-      "description" : "",
-      "message" : "\"ctrl \""
+      "description" : "Ctrl key on keyboard",
+      "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
       "description" : "",
@@ -303,10 +327,6 @@
       "description" : "",
       "message" : "\" směr \""
    },
-   "DISABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Vypnut automatický výběr systému."
-   },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
       "message" : "Vzdálenost ke zvolenému cíli"
@@ -334,6 +354,10 @@
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
       "message" : "Zobrazit systémy mimo dosah"
+   },
+   "DRAW_UNINHABITED_LABELS" : {
+      "description" : "",
+      "message" : "Zobrazit neobydlené systémy"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -431,10 +455,6 @@
       "description" : "",
       "message" : "Druh ekonomiky:"
    },
-   "ENABLED_AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Zapnut automatický výběr systému."
-   },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
       "message" : "Poměr poloměrů (rovníkový/polární)"
@@ -453,7 +473,7 @@
    },
    "EXTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Pohled zvenku (kamera)"
+      "message" : "Pohled zvenku"
    },
    "FARM_MACHINERY" : {
       "description" : "",
@@ -535,6 +555,10 @@
       "description" : "",
       "message" : "Tento soubor nelze zapsat z důvodu systémové chyby."
    },
+   "GENERAL_VIEW_CONTROLS" : {
+      "description" : "",
+      "message" : "Ovládací prvky celkového pohledu"
+   },
    "GOVERNMENT_TYPE" : {
       "description" : "",
       "message" : "Druh vlády:"
@@ -555,13 +579,33 @@
       "description" : "",
       "message" : "\" klobouk\""
    },
+   "HEADING_LOCK_ANTINORMAL" : {
+      "description" : "",
+      "message" : "Hold anti-normal"
+   },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Kurs zamknut (vzad)"
+      "message" : "Hold retrograde"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Kurs zamknut (vpřed)"
+      "message" : "Hold prograde"
+   },
+   "HEADING_LOCK_KILLROT" : {
+      "description" : "",
+      "message" : "Kill rotation"
+   },
+   "HEADING_LOCK_NORMAL" : {
+      "description" : "",
+      "message" : "Hold normal"
+   },
+   "HEADING_LOCK_RADIALLY_INWARD" : {
+      "description" : "",
+      "message" : "Hold radially in"
+   },
+   "HEADING_LOCK_RADIALLY_OUTWARD" : {
+      "description" : "",
+      "message" : "Hold radially out"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -581,7 +625,7 @@
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Systém auto-opravy trupu"
+      "message" : "Automatická oprava trupu"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -651,6 +695,10 @@
       "description" : "",
       "message" : "\" ledová planeta\""
    },
+   "ILLEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Illegal (current system):"
+   },
    "ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Nelegální zboží:"
@@ -716,8 +764,8 @@
       "message" : "Landed"
    },
    "LANG_NAME" : {
-      "description" : "The name that native speakers use for this language. This will be used in the language selection screen. For obscure reasons this currently must only use Latin-1 characters.",
-      "message" : "Čeština"
+      "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
+      "message" : "Česky"
    },
    "LARGE" : {
       "description" : "",
@@ -743,9 +791,9 @@
       "description" : "",
       "message" : "Detekována střelba z laseru."
    },
-   "LAUNCH_PERMISSION_DENIED_BUSY" : {
-      "description" : "",
-      "message" : "Povolení ke startu zamítnuto: dokovací prostor je obsazen."
+   "LEGAL_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
+      "message" : "Legal (current system):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -775,9 +823,17 @@
       "description" : "",
       "message" : "Hlavní export:"
    },
+   "MAJOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major export (current system)"
+   },
    "MAJOR_IMPORTS" : {
       "description" : "",
       "message" : "Hlavní import:"
+   },
+   "MAJOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Major import (current system)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -786,6 +842,70 @@
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
       "message" : "Manuální ovládání"
+   },
+   "MAP_LOCK_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Zaměřit hyperprostorový cíl"
+   },
+   "MAP_TOGGLE_INFO_PANEL" : {
+      "description" : "",
+      "message" : "Info panel"
+   },
+   "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
+      "description" : "",
+      "message" : "Výběr následuje pohled"
+   },
+   "MAP_VIEW_ROTATE_DOWN" : {
+      "description" : "",
+      "message" : "Otáčet pohled dolů"
+   },
+   "MAP_VIEW_ROTATE_LEFT" : {
+      "description" : "",
+      "message" : "Otáčet pohled doleva"
+   },
+   "MAP_VIEW_ROTATE_RIGHT" : {
+      "description" : "",
+      "message" : "Otáčet pohled doprava"
+   },
+   "MAP_VIEW_ROTATE_UP" : {
+      "description" : "",
+      "message" : "Otáčet pohled nahoru"
+   },
+   "MAP_VIEW_SHIFT_BACKWARD" : {
+      "description" : "",
+      "message" : "Posouvat pohled vzad"
+   },
+   "MAP_VIEW_SHIFT_DOWN" : {
+      "description" : "",
+      "message" : "Posouvat pohled dolů"
+   },
+   "MAP_VIEW_SHIFT_FORWARD" : {
+      "description" : "",
+      "message" : "Posouvat pohled vpřed"
+   },
+   "MAP_VIEW_SHIFT_LEFT" : {
+      "description" : "",
+      "message" : "Posouvat pohled doleva"
+   },
+   "MAP_VIEW_SHIFT_RIGHT" : {
+      "description" : "",
+      "message" : "Posouvat pohled doprava"
+   },
+   "MAP_VIEW_SHIFT_UP" : {
+      "description" : "",
+      "message" : "Posouvat pohled nahoru"
+   },
+   "MAP_WARP_TO_CURRENT_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp do aktuálního systému"
+   },
+   "MAP_WARP_TO_HYPERSPACE_TARGET" : {
+      "description" : "",
+      "message" : "Warp do hyperprostorového cíle"
+   },
+   "MAP_WARP_TO_SELECTED_SYSTEM" : {
+      "description" : "",
+      "message" : "Warp do zvoleného systému"
    },
    "MASS" : {
       "description" : "",
@@ -812,8 +932,8 @@
       "message" : "Zpráva od %sender:"
    },
    "META" : {
-      "description" : "",
-      "message" : "\"meta \""
+      "description" : "'Meta' key on keyboard",
+      "message" : "Meta"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -851,9 +971,17 @@
       "description" : "",
       "message" : "Drobný export:"
    },
+   "MINOR_EXPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor export (current system)"
+   },
    "MINOR_IMPORTS" : {
       "description" : "",
       "message" : "Drobný import:"
+   },
+   "MINOR_IMPORT_CURRENT_SYSTEM" : {
+      "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
+      "message" : "Minor import (current system)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -939,9 +1067,13 @@
       "description" : "",
       "message" : "%speed{f.0} m/s relativně k %frame"
    },
-   "NAME" : {
-      "description" : "",
-      "message" : "Název"
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Jméno"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
+      "message" : "Jméno"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -960,7 +1092,7 @@
       "message" : "Nervový plyn"
    },
    "NONE" : {
-      "description" : "",
+      "description" : "used for no allegiance, and no rank, and no missions",
       "message" : "Nic"
    },
    "NORMA_ARM" : {
@@ -997,15 +1129,31 @@
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Počítač: Cíl není zvolen"
+      "message" : "Počítač: Není označen cíl"
    },
    "NUMBER_DAYS" : {
       "description" : "",
       "message" : "%days{f.0} dnů"
    },
+   "NUMBER_DECIMAL_POINT" : {
+      "description" : "Decimal delimiter used in numbers.",
+      "message" : "."
+   },
    "NUMBER_G" : {
       "description" : "",
       "message" : "%acceleration{f.1} G"
+   },
+   "NUMBER_GROUP_MIN" : {
+      "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
+      "message" : "1000"
+   },
+   "NUMBER_GROUP_NUM" : {
+      "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
+      "message" : "3"
+   },
+   "NUMBER_GROUP_SEP" : {
+      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+      "message" : ","
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1093,7 +1241,7 @@
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "Pauza"
+      "message" : "PAUZA"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1142,6 +1290,22 @@
    "PLANNED_ECONOMY" : {
       "description" : "",
       "message" : "Plánované hospodářství"
+   },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "",
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "",
+      "message" : "Normal delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "",
+      "message" : "Prograde delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "",
+      "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1231,6 +1395,10 @@
       "description" : "",
       "message" : "Reset"
    },
+   "RESET_ORIENTATION_AND_ZOOM" : {
+      "description" : "",
+      "message" : "Reset orientace a zoomu"
+   },
    "ROBOTS" : {
       "description" : "",
       "message" : "Roboti"
@@ -1245,19 +1413,19 @@
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Otáčení (kolem osy)"
+      "message" : "Klonění"
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Otočit po směru h."
+      "message" : "Klonit doleva"
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Otočit proti směru h."
+      "message" : "Klonit doprava"
    },
    "ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Otáčet dolů"
+      "message" : "Klopit dolů"
    },
    "ROTATE_LEFT" : {
       "description" : "",
@@ -1269,7 +1437,7 @@
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Otáčet nahoru"
+      "message" : "Klopit nahoru"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1301,7 +1469,7 @@
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Zobrazuje 3D mapu lodí/objektů ve vaší blízkosti"
+      "message" : "Zobrazuje 3D mapu lodí ve vaší blízkosti."
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1315,9 +1483,17 @@
       "description" : "",
       "message" : "Najít"
    },
+   "SEARCH_MAP" : {
+      "description" : "",
+      "message" : "Prohledat mapu"
+   },
    "SECTOR_COORDINATES" : {
       "description" : "",
       "message" : "Souřadnice sektoru:"
+   },
+   "SECTOR_MAP_VIEW" : {
+      "description" : "",
+      "message" : "Mapa sektorů"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1365,7 +1541,7 @@
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Zrychluje regeneraci štítů"
+      "message" : "Zrychluje regeneraci štítů."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -1384,8 +1560,8 @@
       "message" : "Síla štítů: %shields{f.2}"
    },
    "SHIFT" : {
-      "description" : "",
-      "message" : "\"shift \""
+      "description" : "Shift key on keyboard",
+      "message" : "Shift"
    },
    "SHIP" : {
       "description" : "",
@@ -1421,7 +1597,7 @@
    },
    "SIDEREAL_VIEW" : {
       "description" : "",
-      "message" : "Pohled (hvězdný)"
+      "message" : "Pohled hvězdný"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
@@ -1649,7 +1825,7 @@
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
-      "message" : "Zaměřit objekt v zaměřovači"
+      "message" : "Označit cíl v zaměřovači"
    },
    "TENUOUS" : {
       "description" : "",
@@ -1717,7 +1893,7 @@
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
-      "message" : "Změnit mód"
+      "message" : "Mód radaru"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
@@ -1841,11 +2017,11 @@
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Doleva"
+      "message" : "Zatočit doleva"
    },
    "YAW_RIGHT" : {
       "description" : "",
-      "message" : "Doprava"
+      "message" : "Zatočit doprava"
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",

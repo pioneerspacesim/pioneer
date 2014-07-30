@@ -1,0 +1,66 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Venligst vælg hvor meget du vil donere til Kirken for Det Flyvende Spaghettimonster."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "DONÉR! Kirken for Det Flyvende Spaghettimonster har brug for DINE penge for at sprede guds budsskab."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Fred være med dig, broder. Venligst vælg en sum, du vil donere til Beskytterne af den Frie Ånd."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "DONÉR: Beskytterne af den Frie Ånd beder ydmygt om din velgørenhed for at støtte vores klostre."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Vælg venligst hvor meget du vil donere til Forældreløse Af Krig og hjælp de lidende børn fra hele galaksen."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "FØLER DU DIG GENERØS? Forældreløse Af Krig beder om din hjælp for at fortsætte det essentielle arbejde."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Vælg venligst hvor meget du vil donere til GreenWatch og hjælp i kampen mod forurening af vores galakse."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "BIDRAG. Venner til Galaksens 'Bandlys Militærdrev' kampagnen har brug for dine penge."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Vælg venligst hvor meget du vil donere."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "DONÉR! Red vores arter! Stop blodbadet i nyligt bosatte verdener."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Befri dit skib! Vælg hvor meget du vil donere. God hacking."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "STØT FRIHED! Stop uretfærdigheden i proprietær software, der styrer dit skib."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Afbryd linjen."
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "Tak. Alle donationer er velkomne."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "Hold da op! Det er meget generøst."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Du har ikke nok penge."
+   }
+}

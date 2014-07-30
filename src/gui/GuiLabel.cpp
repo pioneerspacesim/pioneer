@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -73,13 +73,6 @@ void Label::Draw()
 	PROFILE_SCOPED()
 	if (!m_layout) UpdateLayout();
 	float size[2]; GetSize(size);
-/*	glColor3f(1,0,0);
-	glBegin(GL_QUADS);
-		glVertex2f(0, size[1]);
-		glVertex2f(size[0], size[1]);
-		glVertex2f(size[0], 0);
-		glVertex2f(0, 0);
-	glEnd();*/
 	if (m_shadow) {
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 		r->Translate(1,1,0);

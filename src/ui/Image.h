@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_IMAGE_H
@@ -15,6 +15,8 @@ class Image: public Widget {
 public:
 	virtual Point PreferredSize();
 	virtual void Draw();
+
+	Image *SetHeightLines(Uint32 lines);
 
 protected:
 	friend class Context;

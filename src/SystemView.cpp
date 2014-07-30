@@ -1,9 +1,10 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemView.h"
 #include "Pi.h"
 #include "SectorView.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "Lang.h"
 #include "StringF.h"
@@ -26,9 +27,79 @@ static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user set
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
-SystemView::SystemView()
+
+TransferPlanner::TransferPlanner() {
+	m_dvPrograde = 0.0;
+	m_dvNormal = 0.0;
+	m_dvRadial = 0.0;
+	m_factor = 1;
+}
+
+vector3d TransferPlanner::GetVel() { return Pi::player->GetVelocity() + GetOffsetVel(); }
+
+vector3d TransferPlanner::GetOffsetVel() {
+	const vector3d pPos    = Pi::player->GetPosition();
+	const vector3d pVel    = Pi::player->GetVelocity();
+	const vector3d pNormal = pPos.Cross(pVel);
+
+	return m_dvPrograde * pVel.Normalized()    +
+	       m_dvNormal   * pNormal.Normalized() +
+	       m_dvRadial   * pPos.Normalized();
+}
+
+void TransferPlanner::AddDv(BurnDirection d, double dv) {
+	switch (d) {
+	case PROGRADE: m_dvPrograde += m_factor * dv; break;
+	case NORMAL:   m_dvNormal   += m_factor * dv; break;
+	case RADIAL:   m_dvRadial   += m_factor * dv; break;
+	}
+}
+
+void TransferPlanner::ResetDv(BurnDirection d) {
+	switch (d) {
+	case PROGRADE: m_dvPrograde = 0; break;
+	case NORMAL:   m_dvNormal   = 0; break;
+	case RADIAL:   m_dvRadial   = 0; break;
+	}
+}
+
+std::string TransferPlanner::printDv(BurnDirection d) {
+	double dv = 0;
+	char buf[10];
+
+	switch(d) {
+	case PROGRADE: dv = m_dvPrograde; break;
+	case NORMAL:   dv = m_dvNormal;   break;
+	case RADIAL:   dv = m_dvRadial;   break;
+	}
+
+	snprintf(buf, sizeof(buf), "%6.0fm/s", dv);
+	return std::string(buf);
+}
+
+void TransferPlanner::IncreaseFactor(void) {
+	if(m_factor > 1000) return;
+	m_factor *= m_factorFactor;
+}
+void TransferPlanner::ResetFactor(void) { m_factor = 1; }
+
+void TransferPlanner::DecreaseFactor(void) {
+	if(m_factor < 0.0002) return;
+	m_factor /= m_factorFactor;
+}
+
+std::string TransferPlanner::printFactor(void) {
+	char buf[10];
+	snprintf(buf, sizeof(buf), "%6gx", 10 * m_factor);
+	return std::string(buf);
+}
+
+SystemView::SystemView() : UIView()
 {
 	SetTransparency(true);
+
+	Graphics::RenderStateDesc rsd;
+	m_lineState = Pi::renderer->CreateRenderState(rsd); //m_renderer not set yet
 
 	m_realtime = true;
 
@@ -55,6 +126,77 @@ SystemView::SystemView()
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
+
+	// orbital transfer planner UI
+        int dx = 670;
+	int dy = 40;
+
+	m_plannerIncreaseFactorButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerIncreaseFactorButton->SetRenderDimensions(18, 18);
+	m_plannerIncreaseFactorButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnIncreaseFactorButtonClick));
+	Add(m_plannerIncreaseFactorButton, dx + 40, dy);
+
+	m_plannerResetFactorButton = new Gui::ImageButton("icons/orbit_factor_big.png");
+	m_plannerResetFactorButton->SetRenderDimensions(18, 18);
+	m_plannerResetFactorButton->SetToolTip(Lang::PLANNER_RESET_FACTOR);
+	m_plannerResetFactorButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnResetFactorButtonClick));
+	Add(m_plannerResetFactorButton, dx + 20, dy);
+
+	m_plannerDecreaseFactorButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerDecreaseFactorButton->SetRenderDimensions(18, 18);
+	m_plannerDecreaseFactorButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnDecreaseFactorButtonClick));
+	Add(m_plannerDecreaseFactorButton, dx, dy);
+
+	m_plannerFactorText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerFactorText, dx + 60 + 7, dy);
+
+	m_plannerAddProgradeVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerAddProgradeVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddProgradeVelButton, dx + 40, dy + 20);
+
+	m_plannerZeroProgradeVelButton = new Gui::ImageButton("icons/orbit_proretro_big.png");
+	m_plannerZeroProgradeVelButton->SetRenderDimensions(18, 18);
+	m_plannerZeroProgradeVelButton->SetToolTip(Lang::PLANNER_RESET_PROGRADE);
+	Add(m_plannerZeroProgradeVelButton, dx + 20, dy + 20);
+
+	m_plannerAddRetrogradeVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerAddRetrogradeVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddRetrogradeVelButton, dx, dy + 20);
+
+	m_plannerProgradeDvText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerProgradeDvText, dx + 60, dy + 20);
+
+	m_plannerAddNormalVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerAddNormalVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddNormalVelButton, dx + 40, dy + 40);
+
+	m_plannerZeroNormalVelButton = new Gui::ImageButton("icons/orbit_normal_big.png");
+	m_plannerZeroNormalVelButton->SetRenderDimensions(18, 18);
+	m_plannerZeroNormalVelButton->SetToolTip(Lang::PLANNER_RESET_NORMAL);
+	Add(m_plannerZeroNormalVelButton, dx + 20, dy + 40);
+
+	m_plannerAddAntiNormalVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerAddAntiNormalVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddAntiNormalVelButton, dx, dy + 40);
+
+	m_plannerNormalDvText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerNormalDvText, dx + 60, dy + 40);
+
+	m_plannerAddRadiallyInVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerAddRadiallyInVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddRadiallyInVelButton, dx + 40, dy + 60);
+
+	m_plannerZeroRadialVelButton = new Gui::ImageButton("icons/orbit_radial_big.png");
+	m_plannerZeroRadialVelButton->SetRenderDimensions(18, 18);
+	m_plannerZeroRadialVelButton->SetToolTip(Lang::PLANNER_RESET_RADIAL);
+	Add(m_plannerZeroRadialVelButton, dx + 20, dy + 60);
+
+	m_plannerAddRadiallyOutVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerAddRadiallyOutVelButton->SetRenderDimensions(18, 18);
+	Add(m_plannerAddRadiallyOutVelButton, dx, dy + 60);
+
+	m_plannerRadialDvText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerRadialDvText, dx + 60, dy + 60);
 
 	const int time_controls_left = Gui::Screen::GetWidth() - 150;
 	const int time_controls_top = Gui::Screen::GetHeight() - 86;
@@ -104,6 +246,8 @@ SystemView::SystemView()
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
 
 	ResetViewpoint();
+
+	m_planner = Pi::planner;
 }
 
 SystemView::~SystemView()
@@ -116,6 +260,10 @@ void SystemView::OnClickAccel(float step)
 	m_realtime = false;
 	m_timeStep = step;
 }
+
+void SystemView::OnIncreaseFactorButtonClick(void) { m_planner->IncreaseFactor(); }
+void SystemView::OnResetFactorButtonClick(void)    { m_planner->ResetFactor(); }
+void SystemView::OnDecreaseFactorButtonClick(void) { m_planner->DecreaseFactor(); }
 
 void SystemView::OnClickRealt()
 {
@@ -149,9 +297,9 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	if (num_vertices > 1) {
 		// don't close the loop for hyperbolas and parabolas and crashed ellipses
 		if ((orbit->GetEccentricity() > 1.0) || (num_vertices < int(COUNTOF(vts))))
-			m_renderer->DrawLines(num_vertices, vts, color, LINE_STRIP);
+			m_renderer->DrawLines(num_vertices, vts, color, m_lineState, LINE_STRIP);
 		else
-			m_renderer->DrawLines(num_vertices, vts, color, LINE_LOOP);
+			m_renderer->DrawLines(num_vertices, vts, color, m_lineState, LINE_LOOP);
 	}
 }
 
@@ -161,27 +309,27 @@ void SystemView::OnClickObject(const SystemBody *b)
 	std::string desc;
 	std::string data;
 
-	desc += std::string(Lang::NAME);
+	desc += std::string(Lang::NAME_OBJECT);
 	desc += ":\n";
-	data += b->name+"\n";
+	data += b->GetName()+"\n";
 
 	desc += std::string(Lang::DAY_LENGTH);
 	desc += std::string(Lang::ROTATIONAL_PERIOD);
 	desc += ":\n";
-	data += stringf(Lang::N_DAYS, formatarg("days", b->rotationPeriod.ToFloat())) + "\n";
+	data += stringf(Lang::N_DAYS, formatarg("days", b->GetRotationPeriodInDays())) + "\n";
 
 	desc += std::string(Lang::RADIUS);
 	desc += ":\n";
 	data += format_distance(b->GetRadius())+"\n";
 
-	if (b->parent) {
+	if (b->GetParent()) {
 		desc += std::string(Lang::SEMI_MAJOR_AXIS);
 	desc += ":\n";
-		data += format_distance(b->orbit.GetSemiMajorAxis())+"\n";
+		data += format_distance(b->GetOrbit().GetSemiMajorAxis())+"\n";
 
 		desc += std::string(Lang::ORBITAL_PERIOD);
 	desc += ":\n";
-		data += stringf(Lang::N_DAYS, formatarg("days", b->orbit.Period() / (24*60*60))) + "\n";
+		data += stringf(Lang::N_DAYS, formatarg("days", b->GetOrbit().Period() / (24*60*60))) + "\n";
 	}
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
@@ -203,20 +351,21 @@ void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 	vector3d pos;
 	if (Gui::Screen::Project(offset, pos)) {
 		// libsigc++ is a beautiful thing
-		m_objectLabels->Add(b->name, sigc::bind(sigc::mem_fun(this, &SystemView::OnClickObject), b), pos.x, pos.y);
+		m_objectLabels->Add(b->GetName(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickObject), b), pos.x, pos.y);
 	}
 
 	Gui::Screen::LeaveOrtho();
-	glDisable(GL_LIGHTING);
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
 {
-	if (b->type == SystemBody::TYPE_STARPORT_SURFACE) return;
-	if (b->type != SystemBody::TYPE_GRAVPOINT) {
+	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE) return;
+	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
 
 		if (!m_bodyIcon) {
-			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, Color::WHITE, 1.0f));
+			Graphics::RenderStateDesc rsd;
+			auto solidState = m_renderer->CreateRenderState(rsd);
+			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, solidState, Color::WHITE, 1.0f));
 		}
 
 		const double radius = b->GetRadius() * m_zoom;
@@ -241,22 +390,29 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
 		const double t0 = Pi::game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
+
+		Orbit plannedOrbit = Orbit::FromBodyState(Pi::player->GetPosition(),
+		//Orbit plannedOrbit = Orbit::FromBodyState(playerOrbit.OrbitalPosAtTime(m_time - t0),
+							  m_planner->GetVel(),
+							  frame->GetSystemBody()->GetMass());
+
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
+		PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
-	if (b->children.size()) {
-		for(std::vector<SystemBody*>::const_iterator kid = b->children.begin(); kid != b->children.end(); ++kid) {
-			if (is_zero_general((*kid)->orbit.GetSemiMajorAxis())) continue;
-			if ((*kid)->orbit.GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
-				PutOrbit(&((*kid)->orbit), offset, Color(0, 255, 0, 255));
+	if (b->HasChildren()) {
+		for(const SystemBody* kid : b->GetChildren()) {
+			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) continue;
+			if (kid->GetOrbit().GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
+				PutOrbit(&(kid->GetOrbit()), offset, Color(0, 255, 0, 255));
 			}
 
 			// not using current time yet
-			vector3d pos = (*kid)->orbit.OrbitalPosAtTime(m_time);
+			vector3d pos = kid->GetOrbit().OrbitalPosAtTime(m_time);
 			pos *= double(m_zoom);
 
-			PutBody(*kid, offset + pos, trans);
+			PutBody(kid, offset + pos, trans);
 		}
 	}
 }
@@ -265,15 +421,15 @@ void SystemView::PutSelectionBox(const SystemBody *b, const vector3d &rootPos, c
 {
 	// surface starports just show the planet as being selected,
 	// because SystemView doesn't render terrains anyway
-	if (b->type == SystemBody::TYPE_STARPORT_SURFACE)
-		b = b->parent;
+	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE)
+		b = b->GetParent();
 	assert(b);
 
 	vector3d pos = rootPos;
 	// while (b->parent), not while (b) because the root SystemBody is defined to be at (0,0,0)
-	while (b->parent) {
-		pos += b->orbit.OrbitalPosAtTime(m_time) * double(m_zoom);
-		b = b->parent;
+	while (b->GetParent()) {
+		pos += b->GetOrbit().OrbitalPosAtTime(m_time) * double(m_zoom);
+		b = b->GetParent();
 	}
 
 	PutSelectionBox(pos, col);
@@ -297,7 +453,7 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
                 vector3f(x2, y2, 0.f),
                 vector3f(x1, y2, 0.f)
         };
-		m_renderer->DrawLines(4, &verts[0], col, Graphics::LINE_LOOP);
+		m_renderer->DrawLines(4, &verts[0], col, m_lineState, Graphics::LINE_LOOP);
 	}
 
 	Gui::Screen::LeaveOrtho();
@@ -308,9 +464,9 @@ static const GLfloat fogColor[4] = { 0,0,0,1.0f };
 
 void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 {
-	if (b->parent) {
-		GetTransformTo(b->parent, pos);
-		pos -= double(m_zoom) * b->orbit.OrbitalPosAtTime(m_time);
+	if (b->GetParent()) {
+		GetTransformTo(b->GetParent(), pos);
+		pos -= double(m_zoom) * b->GetOrbit().OrbitalPosAtTime(m_time);
 	}
 }
 
@@ -318,10 +474,9 @@ void SystemView::Draw3D()
 {
 	PROFILE_SCOPED()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
-	m_renderer->SetDepthWrite(true);
 	m_renderer->ClearScreen();
 
-	SystemPath path = Pi::sectorView->GetSelectedSystem();
+	SystemPath path = Pi::sectorView->GetSelected().SystemOnly();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
@@ -338,15 +493,7 @@ void SystemView::Draw3D()
 	std::string t = Lang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
-	if (!m_system) m_system = StarSystem::GetCached(path);
-
-	// XXX fog is not going to be supported in renderer likely -
-	// fade the circles some other way
-	glEnable(GL_FOG);
-	glFogi(GL_FOG_MODE, GL_EXP2);
-	glFogfv(GL_FOG_COLOR, fogColor);
-	glFogf(GL_FOG_DENSITY, fogDensity);
-	glHint(GL_FOG_HINT, GL_NICEST);
+	if (!m_system) m_system = Pi::GetGalaxy()->GetStarSystem(path);
 
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
@@ -360,8 +507,8 @@ void SystemView::Draw3D()
 	m_objectLabels->Clear();
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
-	else if (m_system->rootBody) {
-		PutBody(m_system->rootBody.Get(), pos, trans);
+	else if (m_system->GetRootBody()) {
+		PutBody(m_system->GetRootBody().Get(), pos, trans);
 		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;
@@ -370,7 +517,7 @@ void SystemView::Draw3D()
 		}
 	}
 
-	glDisable(GL_FOG);
+	UIView::Draw3D();
 }
 
 void SystemView::Update()
@@ -384,6 +531,23 @@ void SystemView::Update()
 		if (Pi::KeyState(SDLK_MINUS) ||
 			m_zoomOutButton->IsPressed())
 				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
+
+		// transfer planner buttons
+		if (m_plannerAddProgradeVelButton->IsPressed())    { m_planner->AddDv(PROGRADE,  10.0); }
+		if (m_plannerAddRetrogradeVelButton->IsPressed())  { m_planner->AddDv(PROGRADE, -10.0); }
+		if (m_plannerAddNormalVelButton->IsPressed())      { m_planner->AddDv(NORMAL,    10.0); }
+		if (m_plannerAddAntiNormalVelButton->IsPressed())  { m_planner->AddDv(NORMAL,   -10.0); }
+		if (m_plannerAddRadiallyInVelButton->IsPressed())  { m_planner->AddDv(RADIAL,    10.0); }
+		if (m_plannerAddRadiallyOutVelButton->IsPressed()) { m_planner->AddDv(RADIAL,   -10.0); }
+		if (m_plannerZeroProgradeVelButton->IsPressed())   { m_planner->ResetDv(PROGRADE); }
+		if (m_plannerZeroNormalVelButton->IsPressed())     { m_planner->ResetDv(NORMAL);   }
+		if (m_plannerZeroRadialVelButton->IsPressed())     { m_planner->ResetDv(RADIAL);   }
+
+		m_plannerFactorText->SetText(m_planner->printFactor());
+		m_plannerProgradeDvText->SetText(m_planner->printDv(PROGRADE));
+		m_plannerNormalDvText->SetText(m_planner->printDv(NORMAL));
+		m_plannerRadialDvText->SetText(m_planner->printDv(RADIAL));
+
 	}
 	// TODO: add "true" lower/upper bounds to m_zoomTo / m_zoom
 	m_zoomTo = Clamp(m_zoomTo, MIN_ZOOM, MAX_ZOOM);
@@ -396,6 +560,8 @@ void SystemView::Update()
 		m_rot_x += motion[1]*20*ft;
 		m_rot_z += motion[0]*20*ft;
 	}
+
+	UIView::Update();
 }
 
 void SystemView::MouseWheel(bool up)

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -12,6 +12,7 @@
 #include <functional>
 #include "Pi.h"
 #include "Player.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
 #include "SpaceStation.h"
 #include "Serializer.h"
@@ -20,7 +21,6 @@
 #include "HyperspaceCloud.h"
 #include "graphics/Graphics.h"
 #include "WorldView.h"
-#include "galaxy/SectorCache.h"
 #include "SectorView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -31,8 +31,8 @@ void Space::BodyNearFinder::Prepare()
 {
 	m_bodyDist.clear();
 
-	for (Space::BodyIterator i = m_space->BodiesBegin(); i != m_space->BodiesEnd(); ++i)
-		m_bodyDist.push_back(BodyDist((*i), (*i)->GetPositionRelTo(m_space->GetRootFrame()).Length()));
+	for (Body* b : m_space->GetBodies())
+		m_bodyDist.push_back(BodyDist(b, b->GetPositionRelTo(m_space->GetRootFrame()).Length()));
 
 	std::sort(m_bodyDist.begin(), m_bodyDist.end());
 }
@@ -62,14 +62,17 @@ Space::Space(Game *game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(Pi::renderer, UNIVERSE_SEED)
 	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
 {
+	m_background.reset(new Background::Container(Pi::renderer, Pi::rng));
+
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
+
+	GenSectorCache(&game->GetHyperspaceDest());
 }
 
 Space::Space(Game *game, const SystemPath &path)
@@ -77,14 +80,16 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(Pi::renderer)
 	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::GetCached(path);
-	m_background.Refresh(m_starSystem->GetSeed());
+	m_starSystem = Pi::GetGalaxy()->GetStarSystem(path);
+
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
@@ -92,31 +97,37 @@ Space::Space(Game *game, const SystemPath &path)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_starSystem->rootBody.Get(), m_rootFrame.get());
+	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
+
+	GenSectorCache(&path);
 
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, Serializer::Reader &rd)
+Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	: m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
-	, m_background(Pi::renderer)
 	, m_bodyNearFinder(this)
 #ifndef NDEBUG
 	, m_processingFinalizationQueue(false)
 #endif
 {
 	m_starSystem = StarSystem::Unserialize(rd);
-	m_background.Refresh(m_starSystem->GetSeed());
+
+	const SystemPath &path = m_starSystem->GetPath();
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
+
 	RebuildSystemBodyIndex();
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
 	Serializer::Reader section = rd.RdSection("Frames");
-	m_rootFrame.reset(Frame::Unserialize(section, this, 0));
+	m_rootFrame.reset(Frame::Unserialize(section, this, 0, at_time));
 	RebuildFrameIndex();
 
 	Uint32 nbodies = rd.Int32();
@@ -125,8 +136,10 @@ Space::Space(Game *game, Serializer::Reader &rd)
 	RebuildBodyIndex();
 
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->PostLoadFixup(this);
+	for (Body* b : m_bodies)
+		b->PostLoadFixup(this);
+
+	GenSectorCache(&path);
 }
 
 Space::~Space()
@@ -150,8 +163,8 @@ void Space::Serialize(Serializer::Writer &wr)
 	wr.WrSection("Frames", section.GetData());
 
 	wr.Int32(m_bodies.size());
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->Serialize(wr, this);
+	for (Body* b : m_bodies)
+		b->Serialize(wr, this);
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx) const
@@ -206,16 +219,16 @@ void Space::AddFrameToIndex(Frame *frame)
 {
 	assert(frame);
 	m_frameIndex.push_back(frame);
-	for (Frame::ChildIterator it = frame->BeginChildren(); it != frame->EndChildren(); ++it)
-		AddFrameToIndex(*it);
+	for (Frame* kid : frame->GetChildren())
+		AddFrameToIndex(kid);
 }
 
 void Space::AddSystemBodyToIndex(SystemBody *sbody)
 {
 	assert(sbody);
 	m_sbodyIndex.push_back(sbody);
-	for (Uint32 i = 0; i < sbody->children.size(); i++)
-		AddSystemBodyToIndex(sbody->children[i]);
+	for (Uint32 i = 0; i < sbody->GetNumChildren(); i++)
+		AddSystemBodyToIndex(sbody->GetChildren()[i]);
 }
 
 void Space::RebuildFrameIndex()
@@ -234,13 +247,13 @@ void Space::RebuildBodyIndex()
 	m_bodyIndex.clear();
 	m_bodyIndex.push_back(0);
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		m_bodyIndex.push_back(*i);
+	for (Body* b : m_bodies) {
+		m_bodyIndex.push_back(b);
 		// also index ships inside clouds
 		// XXX we should not have to know about this. move indexing grunt work
 		// down into the bodies?
-		if ((*i)->IsType(Object::HYPERSPACECLOUD)) {
-			Ship *s = static_cast<HyperspaceCloud*>(*i)->GetShip();
+		if (b->IsType(Object::HYPERSPACECLOUD)) {
+			Ship *s = static_cast<HyperspaceCloud*>(b)->GetShip();
 			if (s) m_bodyIndex.push_back(s);
 		}
 	}
@@ -254,7 +267,7 @@ void Space::RebuildSystemBodyIndex()
 	m_sbodyIndex.push_back(0);
 
 	if (m_starSystem)
-		AddSystemBodyToIndex(m_starSystem->rootBody.Get());
+		AddSystemBodyToIndex(m_starSystem->GetRootBody().Get());
 
 	m_sbodyIndexValid = true;
 }
@@ -291,29 +304,39 @@ void Space::KillBody(Body* b)
 	}
 }
 
-vector3d Space::GetHyperspaceExitPoint(const SystemPath &source) const
+vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPath &dest) const
 {
 	assert(m_starSystem);
 	assert(source.IsSystemPath());
 
-	const SystemPath &dest = m_starSystem->GetPath();
+	assert(dest.IsSameSystem(m_starSystem->GetPath()));
 
-	const Sector* source_sec = Sector::cache.GetCached(source);
-	const Sector* dest_sec = Sector::cache.GetCached(dest);
+	RefCountedPtr<const Sector> source_sec = m_sectorCache->GetCached(source);
+	RefCountedPtr<const Sector> dest_sec = m_sectorCache->GetCached(dest);
 
 	Sector::System source_sys = source_sec->m_systems[source.systemIndex];
 	Sector::System dest_sys = dest_sec->m_systems[dest.systemIndex];
 
-	const vector3d sourcePos = vector3d(source_sys.p) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
-	const vector3d destPos = vector3d(dest_sys.p) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
+	const vector3d sourcePos = vector3d(source_sys.GetPosition()) + vector3d(source.sectorX, source.sectorY, source.sectorZ);
+	const vector3d destPos = vector3d(dest_sys.GetPosition()) + vector3d(dest.sectorX, dest.sectorY, dest.sectorZ);
 
-	// find the first non-gravpoint. should be the primary star
 	Body *primary = 0;
-	for (BodyIterator i = BodiesBegin(); i != BodiesEnd(); ++i)
-		if ((*i)->GetSystemBody()->type != SystemBody::TYPE_GRAVPOINT) {
-			primary = *i;
-			break;
+	if (dest.IsBodyPath()) {
+		assert(dest.bodyIndex < m_starSystem->GetNumBodies());
+		primary = FindBodyForPath(&dest);
+		while (primary && primary->GetSystemBody()->GetSuperType() != SystemBody::SUPERTYPE_STAR) {
+			SystemBody* parent = primary->GetSystemBody()->GetParent();
+			primary = parent ? FindBodyForPath(&parent->GetPath()) : 0;
 		}
+	}
+	if (!primary) {
+		// find the first non-gravpoint. should be the primary star
+		for (Body* b : GetBodies())
+			if (b->GetSystemBody()->GetType() != SystemBody::TYPE_GRAVPOINT) {
+				primary = b;
+				break;
+			}
+	}
 	assert(primary);
 
 	// point along the line between source and dest, a reasonable distance
@@ -348,8 +371,8 @@ Body *Space::FindBodyForPath(const SystemPath *path) const
 
 	if (!body) return 0;
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		if ((*i)->GetSystemBody() == body) return *i;
+	for (Body* b : m_bodies) {
+		if (b->GetSystemBody() == body) return b;
 	}
 	return 0;
 }
@@ -358,8 +381,8 @@ static Frame *find_frame_with_sbody(Frame *f, const SystemBody *b)
 {
 	if (f->GetSystemBody() == b) return f;
 	else {
-		for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it) {
-			Frame *found = find_frame_with_sbody(*it, b);
+		for (Frame* kid : f->GetChildren()) {
+			Frame *found = find_frame_with_sbody(kid, b);
 			if (found) return found;
 		}
 	}
@@ -376,7 +399,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	const double radius = planet->GetSystemBody()->GetRadius();
 
 	// suggested position
-	rot = sbody->orbit.GetPlane();
+	rot = sbody->GetOrbit().GetPlane();
 	pos = rot * vector3d(0,1,0);
 
 	// Check if height varies too much around the starport center
@@ -388,9 +411,9 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	matrix3x3d rotNotUnderwaterWithLeastVariation = rot;
 	vector3d posNotUnderwaterWithLeastVariation = pos;
 	const double heightVariationCheckThreshold = 0.008; // max variation to radius radius ratio to check for local slope, ganymede is around 0.01
-	const double terrainHeightVariation = planet->GetGeoSphere()->GetMaxFeatureHeight(); //in radii
+	const double terrainHeightVariation = planet->GetMaxFeatureRadius(); //in radii
 
-	//printf("%s: terrain height variation %f\n", sbody->name.c_str(), terrainHeightVariation);
+	//Output("%s: terrain height variation %f\n", sbody->name.c_str(), terrainHeightVariation);
 
 	// 6 points are sampled around the starport center by adding/subtracting delta to to coords
 	// points must stay within max height variation to be accepted
@@ -403,15 +426,15 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	matrix3x3d rot_ = rot;
 	vector3d pos_ = pos;
 
-	bool manualRelocationIsEasy = !(planet->GetSystemBody()->type == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
+	bool manualRelocationIsEasy = !(planet->GetSystemBody()->GetType() == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
 
 	// warn and leave it up to the user to relocate custom starports when it's easy to relocate manually, i.e. not on asteroids and other planets which are likely to have high variation in a lot of places
-	const bool isRelocatableIfBuried = !(sbody->isCustomBody && manualRelocationIsEasy);
+	const bool isRelocatableIfBuried = !(sbody->IsCustomBody() && manualRelocationIsEasy);
 
 	bool isInitiallyUnderwater = false;
 	bool initialVariationTooHigh = false;
 
-	Random r(sbody->seed);
+	Random r(sbody->GetSeed());
 
 	for (int tries = 0; tries < 200; tries++) {
 		variationWithinLimits = true;
@@ -439,7 +462,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 		// check if underwater
 		const bool starportUnderwater = (height <= 0.0);
 
-		//printf("%s: try no: %i, Match found: %i, best variation in previous results %f, variationMax this try: %f, maxHeightVariation: %f, Starport is underwater: %i\n",
+		//Output("%s: try no: %i, Match found: %i, best variation in previous results %f, variationMax this try: %f, maxHeightVariation: %f, Starport is underwater: %i\n",
 		//	sbody->name.c_str(), tries, (variationWithinLimits && !starportUnderwater), bestVariation, variationMax, maxHeightVariation, starportUnderwater);
 
 		if  (tries == 0) {
@@ -468,34 +491,34 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 		rot = rotNotUnderwaterWithLeastVariation;
 	}
 
-	if (sbody->isCustomBody) {
-		SystemPath &p = sbody->path;
+	if (sbody->IsCustomBody()) {
+		const SystemPath &p = sbody->GetPath();
 		if (initialVariationTooHigh) {
 			if (isRelocatableIfBuried) {
-				printf("Warning: Lua custom Systems definition: Surface starport has been automatically relocated. This is in order to place it on flatter ground to reduce the chance of landing pads being buried. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
-					sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+				Output("Warning: Lua custom Systems definition: Surface starport has been automatically relocated. This is in order to place it on flatter ground to reduce the chance of landing pads being buried. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
+					sbody->GetName().c_str(), sbody->GetParent()->GetName().c_str(), p.sectorX, p.sectorY, p.sectorZ);
 			} else {
-				printf("Warning: Lua custom Systems definition: Surface starport may have landing pads buried. The surface starport has not been automatically relocated as the planet appears smooth enough to manually relocate easily. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
-					sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+				Output("Warning: Lua custom Systems definition: Surface starport may have landing pads buried. The surface starport has not been automatically relocated as the planet appears smooth enough to manually relocate easily. This is not an error as such and you may attempt to move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
+					sbody->GetName().c_str(), sbody->GetParent()->GetName().c_str(), p.sectorX, p.sectorY, p.sectorZ);
 			}
 		}
 		if (isInitiallyUnderwater) {
-			fprintf(stderr, "Error: Lua custom Systems definition: Surface starport is underwater (height not greater than 0.0) and has been automatically relocated. Please move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
-				sbody->name.c_str(), sbody->parent->name.c_str(), p.sectorX, p.sectorY, p.sectorZ);
+			Output("Error: Lua custom Systems definition: Surface starport is underwater (height not greater than 0.0) and has been automatically relocated. Please move the starport to another location by changing latitude and longitude fields.\n      Surface starport name: %s, Body name: %s, In sector: x = %i, y = %i, z = %i.\n",
+				sbody->GetName().c_str(), sbody->GetParent()->GetName().c_str(), p.sectorX, p.sectorY, p.sectorZ);
 		}
 	}
 }
 
-static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
+static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 {
-	if (!sbody->parent) {
+	if (!sbody->GetParent()) {
 		if (b) b->SetFrame(f);
 		f->SetBodies(sbody, b);
 		return f;
 	}
 
-	if (sbody->type == SystemBody::TYPE_GRAVPOINT) {
-		Frame *orbFrame = new Frame(f, sbody->name.c_str());
+	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(sbody->GetMaxChildOrbitalDistance()*1.1);
 		return orbFrame;
@@ -508,27 +531,27 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		// for planets we want an non-rotating frame for a few radii
 		// and a rotating frame with no radius to contain attached objects
 		double frameRadius = std::max(4.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.05);
-		Frame *orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 		orbFrame->SetRadius(frameRadius);
-		//printf("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
+		//Output("\t\t\t%s has frame size %.0fkm, body radius %.0fkm\n", sbody->name.c_str(),
 		//	(frameRadius ? frameRadius : 10*sbody->GetRadius())*0.001f,
 		//	sbody->GetRadius()*0.001f);
 
-		assert(sbody->rotationPeriod != 0);
-		Frame *rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
+		assert(sbody->IsRotating() != 0);
+		Frame *rotFrame = new Frame(orbFrame, sbody->GetName().c_str(), Frame::FLAG_ROTATING);
 		rotFrame->SetBodies(sbody, b);
 
 		// rotating frame has atmosphere radius or feature height, whichever is larger
 		rotFrame->SetRadius(b->GetPhysRadius());
 
-		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->axialTilt.ToDouble());
+		matrix3x3d rotMatrix = matrix3x3d::RotateX(sbody->GetAxialTilt());
 		double angSpeed = 2.0*M_PI/sbody->GetRotationPeriod();
 		rotFrame->SetAngSpeed(angSpeed);
 
-		if (sbody->rotationalPhaseAtStart != fixed(0))
-			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->rotationalPhaseAtStart.ToDouble());
-		rotFrame->SetOrient(rotMatrix);
+		if (sbody->HasRotationPhase())
+			rotMatrix = rotMatrix * matrix3x3d::RotateY(sbody->GetRotationPhaseAtStart());
+		rotFrame->SetInitialOrient(rotMatrix, at_time);
 
 		b->SetFrame(rotFrame);
 		return orbFrame;
@@ -537,21 +560,21 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		// stars want a single small non-rotating frame
 		// bigger than it's furtherest orbiting body.
 		// if there are no orbiting bodies use a frame of several radii.
-		Frame *orbFrame = new Frame(f, sbody->name.c_str());
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 		double frameRadius = std::max(10.0*sbody->GetRadius(), sbody->GetMaxChildOrbitalDistance()*1.1);
 		// Respect the frame of other stars in the multi-star system. We still make sure that the frame ends outside
 		// the body. For a minimum separation of 1.236 radii, nothing will overlap (see StarSystem::StarSystem()).
-		if (sbody->parent && frameRadius > AU * 0.11 * sbody->orbMin.ToDouble())
-			frameRadius = std::max(1.1*sbody->GetRadius(), AU * 0.11 * sbody->orbMin.ToDouble());
+		if (sbody->GetParent() && frameRadius > AU * 0.11 * sbody->GetOrbMin())
+			frameRadius = std::max(1.1*sbody->GetRadius(), AU * 0.11 * sbody->GetOrbMin());
 		orbFrame->SetRadius(frameRadius);
 		b->SetFrame(orbFrame);
 		return orbFrame;
 	}
-	else if (sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) {
+	else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		// and a zero-size rotating frame
-		Frame *orbFrame = new Frame(f, sbody->name.c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
 		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(20000.0);				// 4x standard parking radius
@@ -565,7 +588,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 //		rotFrame->SetAngVelocity(vector3d(0.0,double(static_cast<SpaceStation*>(b)->GetDesiredAngVel()),0.0));
 //		b->SetFrame(rotFrame);
 
-	} else if (sbody->type == SystemBody::TYPE_STARPORT_SURFACE) {
+	} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame
 		// (because collisions only happen between objects in same frame,
 		// and we want collisions on starport and on planet itself)
@@ -577,7 +600,7 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 		vector3d pos;
 		Planet *planet = static_cast<Planet*>(rotFrame->GetBody());
 		RelocateStarportIfUnderwaterOrBuried(sbody, rotFrame, planet, pos, rot);
-		sbody->orbit.SetPlane(rot);
+		sbody->SetOrbitPlane(rot);
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetOrient(rot);
 		return rotFrame;
@@ -587,30 +610,145 @@ static Frame *MakeFrameFor(SystemBody *sbody, Body *b, Frame *f)
 	return 0;
 }
 
-void Space::GenBody(SystemBody *sbody, Frame *f)
+// used to define a cube centred on your current location
+static const int sectorRadius = 5;
+
+// sort using a custom function object
+class SectorDistanceSort {
+public:
+	bool operator()(const SystemPath &a, const SystemPath &b)
+	{
+		const float dist_a = vector3f(here.sectorX - a.sectorX, here.sectorY - a.sectorY, here.sectorZ - a.sectorZ).LengthSqr();
+		const float dist_b = vector3f(here.sectorX - b.sectorX, here.sectorY - b.sectorY, here.sectorZ - b.sectorZ).LengthSqr();
+		return dist_a < dist_b;
+	}
+	SectorDistanceSort( const SystemPath* centre )
+		: here(centre)
+	{}
+private:
+	SectorDistanceSort() {}
+	SystemPath here;
+};
+
+void Space::GenSectorCache(const SystemPath* here)
+{
+	PROFILE_SCOPED()
+
+	// current location
+	if (!here) {
+		if (!m_starSystem.Valid())
+			return;
+		here = &m_starSystem->GetPath();
+	}
+	const int here_x = here->sectorX;
+	const int here_y = here->sectorY;
+	const int here_z = here->sectorZ;
+
+	SectorCache::PathVector paths;
+	// build all of the possible paths we'll need to build sectors for
+	for (int x = here_x-sectorRadius; x <= here_x+sectorRadius; x++) {
+		for (int y = here_y-sectorRadius; y <= here_y+sectorRadius; y++) {
+			for (int z = here_z-sectorRadius; z <= here_z+sectorRadius; z++) {
+				SystemPath path(x, y, z);
+				paths.push_back(path);
+			}
+		}
+	}
+	// sort them so that those closest to the "here" path are processed first
+	SectorDistanceSort SDS(here);
+	std::sort(paths.begin(), paths.end(), SDS);
+	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
+	const SystemPath& center(*here);
+	m_sectorCache->FillCache(paths, [this,center]() { UpdateStarSystemCache(&center); });
+}
+
+static bool WithinBox(const SystemPath &here, const int Xmin, const int Xmax, const int Ymin, const int Ymax, const int Zmin, const int Zmax) {
+	PROFILE_SCOPED()
+	if(here.sectorX >= Xmin && here.sectorX <= Xmax) {
+		if(here.sectorY >= Ymin && here.sectorY <= Ymax) {
+			if(here.sectorZ >= Zmin && here.sectorZ <= Zmax) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void Space::UpdateStarSystemCache(const SystemPath* here)
+{
+	PROFILE_SCOPED()
+
+	// current location
+	if (!here) {
+		if (!m_starSystem.Valid())
+			return;
+		here = &m_starSystem->GetPath();
+	}
+	const int here_x = here->sectorX;
+	const int here_y = here->sectorY;
+	const int here_z = here->sectorZ;
+
+	// we're going to use these to determine if our StarSystems are within a range that we'll keep for later use
+	static const int survivorRadius = sectorRadius*3;
+
+	// min/max box limits
+	const int xmin = here->sectorX-survivorRadius;
+	const int xmax = here->sectorX+survivorRadius;
+	const int ymin = here->sectorY-survivorRadius;
+	const int ymax = here->sectorY+survivorRadius;
+	const int zmin = here->sectorZ-survivorRadius;
+	const int zmax = here->sectorZ+survivorRadius;
+
+	RefCountedPtr<StarSystemCache::Slave> cache = Pi::GetGalaxy()->GetStarSystemCache();
+	StarSystemCache::CacheMap::const_iterator i = cache->Begin();
+	while (i != cache->End()) {
+		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax))
+			cache->Erase(i++);
+		else
+			++i;
+	}
+
+	SectorCache::PathVector paths;
+	// build all of the possible paths we'll need to build star systems for
+	for (int x = here_x-sectorRadius; x <= here_x+sectorRadius; x++) {
+		for (int y = here_y-sectorRadius; y <= here_y+sectorRadius; y++) {
+			for (int z = here_z-sectorRadius; z <= here_z+sectorRadius; z++) {
+				SystemPath path(x, y, z);
+				RefCountedPtr<Sector> sec(m_sectorCache->GetIfCached(path));
+				assert(sec);
+				for (const Sector::System& ss : sec->m_systems)
+					paths.push_back(SystemPath(ss.sx, ss.sy, ss.sz, ss.idx));
+			}
+		}
+	}
+
+	cache->FillCache(paths);
+}
+
+void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
 {
 	Body *b = 0;
 
-	if (sbody->type != SystemBody::TYPE_GRAVPOINT) {
+	if (sbody->GetType() != SystemBody::TYPE_GRAVPOINT) {
 		if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR) {
 			Star *star = new Star(sbody);
 			b = star;
-		} else if ((sbody->type == SystemBody::TYPE_STARPORT_ORBITAL) ||
-		           (sbody->type == SystemBody::TYPE_STARPORT_SURFACE)) {
+		} else if ((sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) ||
+		           (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE)) {
 			SpaceStation *ss = new SpaceStation(sbody);
 			b = ss;
 		} else {
 			Planet *planet = new Planet(sbody);
 			b = planet;
 		}
-		b->SetLabel(sbody->name.c_str());
+		b->SetLabel(sbody->GetName().c_str());
 		b->SetPosition(vector3d(0,0,0));
 		AddBody(b);
 	}
-	f = MakeFrameFor(sbody, b, f);
+	f = MakeFrameFor(at_time, sbody, b, f);
 
-	for (std::vector<SystemBody*>::iterator i = sbody->children.begin(); i != sbody->children.end(); ++i) {
-		GenBody(*i, f);
+	for (SystemBody* kid : sbody->GetChildren()) {
+		GenBody(at_time, kid, f);
 	}
 }
 
@@ -630,7 +768,7 @@ static bool OnCollision(Object *o1, Object *o2, CollisionContact *c, double rela
 
 static void hitCallback(CollisionContact *c)
 {
-	//printf("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
+	//Output("OUCH! %x (depth %f)\n", SDL_GetTicks(), c->depth);
 
 	Object *po1 = static_cast<Object*>(c->userData1);
 	Object *po2 = static_cast<Object*>(c->userData2);
@@ -748,8 +886,8 @@ static void CollideWithTerrain(Body *body)
 void Space::CollideFrame(Frame *f)
 {
 	f->GetCollisionSpace()->Collide(&hitCallback);
-	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		CollideFrame(*it);
+	for (Frame* kid : f->GetChildren())
+		CollideFrame(kid);
 }
 
 void Space::TimeStep(float step)
@@ -759,31 +897,24 @@ void Space::TimeStep(float step)
 
 	// XXX does not need to be done this often
 	CollideFrame(m_rootFrame.get());
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		CollideWithTerrain(*i);
+	for (Body* b : m_bodies)
+		CollideWithTerrain(b);
 
 	// update frames of reference
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->UpdateFrame();
+	for (Body* b : m_bodies)
+		b->UpdateFrame();
 
 	// AI acts here, then move all bodies and frames
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->StaticUpdate(step);
+	for (Body* b : m_bodies)
+		b->StaticUpdate(step);
 
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		(*i)->TimeStepUpdate(step);
+	for (Body* b : m_bodies)
+		b->TimeStepUpdate(step);
 
-	// XXX don't emit events in hyperspace. this is mostly to maintain the
-	// status quo. in particular without this onEnterSystem will fire in the
-	// frame immediately before the player leaves hyperspace and the system is
-	// invalid when Lua goes and queries for it. we need to consider whether
-	// there's anything useful that can be done with events in hyperspace
-	if (m_starSystem) {
-		LuaEvent::Emit();
-		Pi::luaTimer->Tick();
-	}
+	LuaEvent::Emit();
+	Pi::luaTimer->Tick();
 
 	UpdateBodies();
 
@@ -796,19 +927,19 @@ void Space::UpdateBodies()
 	m_processingFinalizationQueue = true;
 #endif
 
-	for (BodyIterator b = m_removeBodies.begin(); b != m_removeBodies.end(); ++b) {
-		(*b)->SetFrame(0);
-		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-			(*i)->NotifyRemoved(*b);
-		m_bodies.remove(*b);
+	for (Body* rmb : m_removeBodies) {
+		rmb->SetFrame(0);
+		for (Body* b : m_bodies)
+			b->NotifyRemoved(rmb);
+		m_bodies.remove(rmb);
 	}
 	m_removeBodies.clear();
 
-	for (BodyIterator b = m_killBodies.begin(); b != m_killBodies.end(); ++b) {
-		for (BodyIterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-			(*i)->NotifyRemoved(*b);
-		m_bodies.remove(*b);
-		delete *b;
+	for (Body* killb : m_killBodies) {
+		for (Body* b : m_bodies)
+			b->NotifyRemoved(killb);
+		m_bodies.remove(killb);
+		delete killb;
 	}
 	m_killBodies.clear();
 
@@ -821,24 +952,24 @@ static char space[256];
 
 static void DebugDumpFrame(Frame *f, unsigned int indent)
 {
-	printf("%.*s%p (%s)", indent, space, f, f->GetLabel().c_str());
+	Output("%.*s%p (%s)", indent, space, static_cast<void*>(f), f->GetLabel().c_str());
 	if (f->GetParent())
-		printf(" parent %p (%s)", f->GetParent(), f->GetParent()->GetLabel().c_str());
+		Output(" parent %p (%s)", static_cast<void*>(f->GetParent()), f->GetParent()->GetLabel().c_str());
 	if (f->GetBody())
-		printf(" body %p (%s)", f->GetBody(), f->GetBody()->GetLabel().c_str());
+		Output(" body %p (%s)", static_cast<void*>(f->GetBody()), f->GetBody()->GetLabel().c_str());
 	if (Body *b = f->GetBody())
-		printf(" bodyFor %p (%s)", b, b->GetLabel().c_str());
-	printf(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
-	printf("%s\n", f->IsRotFrame() ? " [rotating]" : "");
+		Output(" bodyFor %p (%s)", static_cast<void*>(b), b->GetLabel().c_str());
+	Output(" distance %f radius %f", f->GetPosition().Length(), f->GetRadius());
+	Output("%s\n", f->IsRotFrame() ? " [rotating]" : "");
 
-	for (Frame::ChildIterator it = f->BeginChildren(); it != f->EndChildren(); ++it)
-		DebugDumpFrame(*it, indent+2);
+	for (Frame* kid : f->GetChildren())
+		DebugDumpFrame(kid, indent+2);
 }
 
 void Space::DebugDumpFrames()
 {
 	memset(space, ' ', sizeof(space));
 
-	printf("Frame structure for '%s':\n", m_starSystem->GetName().c_str());
+	Output("Frame structure for '%s':\n", m_starSystem->GetName().c_str());
 	DebugDumpFrame(m_rootFrame.get(), 2);
 }

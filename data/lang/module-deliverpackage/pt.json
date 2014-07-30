@@ -1,7 +1,7 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Você pode refazer o pedido?"
    },
    "DANGER" : {
       "description" : "",
@@ -14,6 +14,38 @@
    "DELIVERY" : {
       "description" : "",
       "message" : "Delivery"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Volte quando você tiver qualificações."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Eu não acho que você seja o piloto que estou procurando."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "You don't look like someone I can trust with this delivery."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Você não é o tipo de piloto que estou procurando."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "You seem much too inexperienced to handle a task of this importance."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "I have never heard of you. I need someone experienced for this delivery."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
    },
    "DISTANCE" : {
       "description" : "",
@@ -257,7 +289,7 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Irás-te arrepender de negociar com {cliente}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -297,11 +329,11 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Porto espacial:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistema:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",

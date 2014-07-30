@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Tombstone.h"
@@ -17,22 +17,25 @@ Tombstone::Tombstone(Graphics::Renderer *r, int width, int height)
 
 	m_model = Pi::FindModel("tombstone");
 	m_model->SetLabel(Lang::TOMBSTONE_EPITAPH);
+	const Uint32 numMats = m_model->GetNumMaterials();
+	for( Uint32 m=0; m<numMats; m++ ) {
+		RefCountedPtr<Graphics::Material> mat = m_model->GetMaterialByIndex(m);
+		mat->specialParameter0 = nullptr;
+	}
 }
 
 void Tombstone::Draw(float _time)
 {
+	m_renderer->SetClearColor(Color::BLACK);
+	m_renderer->ClearScreen();
+
 	m_renderer->SetPerspectiveProjection(75, m_aspectRatio, 1.f, 10000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
-
-	const Color oldSceneAmbientColor = m_renderer->GetAmbientColor();
 	m_renderer->SetAmbientColor(m_ambientColor);
 	m_renderer->SetLights(m_lights.size(), &m_lights[0]);
 
 	matrix4x4f rot = matrix4x4f::RotateYMatrix(_time*2);
 	rot[14] = -std::max(150.0f - 30.0f*_time, 30.0f);
 	m_model->Render(rot);
-	glPopAttrib();
-	m_renderer->SetAmbientColor(oldSceneAmbientColor);
 }

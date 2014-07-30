@@ -1,18 +1,20 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STARSYSTEM_H
 #define _STARSYSTEM_H
 
 #include "libs.h"
-#include "EquipType.h"
+#include "galaxy/Economy.h"
 #include "Polit.h"
 #include "Serializer.h"
 #include <vector>
 #include <string>
 #include "RefCounted.h"
 #include "galaxy/SystemPath.h"
+#include "galaxy/GalaxyCache.h"
 #include "Orbit.h"
+#include "IterationProxy.h"
 #include "gameconsts.h"
 #include <SDL_stdinc.h>
 
@@ -22,12 +24,6 @@ class SystemBody;
 
 // doubles - all masses in Kg, all lengths in meters
 // fixed - any mad scheme
-
-enum EconType { // <enum name=EconType prefix=ECON_ public>
-	ECON_MINING = 1<<0,
-	ECON_AGRICULTURE = 1<<1,
-	ECON_INDUSTRY = 1<<2,
-};
 
 class StarSystem;
 class Faction;
@@ -42,11 +38,9 @@ struct RingStyle {
 
 class SystemBody : public RefCounted {
 public:
-	SystemBody();
+	SystemBody(const SystemPath& path, StarSystem *system);
 	void PickPlanetType(Random &rand);
-	const SystemBody *FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax);
-	SystemBody *parent;                // these are only valid if the StarSystem
-	std::vector<SystemBody*> children; // that create them still exists
+	const SystemBody* FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax) const;
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
@@ -106,44 +100,102 @@ public:
 		SUPERTYPE_STARPORT = 4,
 	};
 
+	const SystemPath& GetPath() const { return m_path; }
+	SystemBody* GetParent() const { return m_parent; }
+
+	bool HasChildren() const { return !m_children.empty(); }
+	unsigned GetNumChildren() const { return m_children.size(); }
+	IterationProxy<std::vector<SystemBody*> > GetChildren() { return MakeIterationProxy(m_children); }
+	const IterationProxy<const std::vector<SystemBody*> > GetChildren() const { return MakeIterationProxy(m_children); }
+
+	std::string GetName() const { return m_name; }
 	std::string GetAstroDescription() const;
 	const char *GetIcon() const;
+	BodyType GetType() const { return m_type; }
 	BodySuperType GetSuperType() const;
+	bool IsCustomBody() const { return m_isCustomBody; }
+	bool IsCoOrbitalWith(const SystemBody* other) const;	//this and other form a binary pair
+	bool IsCoOrbital() const;								//is part of any binary pair
+	fixed GetRadiusAsFixed() const { return m_radius; }
 	double GetRadius() const { // polar radius
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return (radius.ToDouble() / aspectRatio.ToDouble()) * SOL_RADIUS;
+			return (m_radius.ToDouble() / m_aspectRatio.ToDouble()) * SOL_RADIUS;
 		else
-			return radius.ToDouble() * EARTH_RADIUS;
+			return m_radius.ToDouble() * EARTH_RADIUS;
 	}
+	double GetAspectRatio() const { return m_aspectRatio.ToDouble(); }
+	fixed GetMassAsFixed() const { return m_mass; }
 	double GetMass() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return mass.ToDouble() * SOL_MASS;
+			return m_mass.ToDouble() * SOL_MASS;
 		else
-			return mass.ToDouble() * EARTH_MASS;
+			return m_mass.ToDouble() * EARTH_MASS;
 	}
 	fixed GetMassInEarths() const {
 		if (GetSuperType() <= SUPERTYPE_STAR)
-			return mass * 332998;
+			return m_mass * 332998;
 		else
-			return mass;
+			return m_mass;
 	}
+	bool IsRotating() const { return m_rotationPeriod != fixed(0); }
 	// returned in seconds
+	double GetRotationPeriodInDays() const { return m_rotationPeriod.ToDouble(); }
 	double GetRotationPeriod() const {
-		return rotationPeriod.ToDouble()*60*60*24;
+		return m_rotationPeriod.ToDouble()*60*60*24;
 	}
+	bool HasRotationPhase() const { return m_rotationalPhaseAtStart != fixed(0); }
+	double GetRotationPhaseAtStart() const { return m_rotationalPhaseAtStart.ToDouble(); }
+	double GetAxialTilt() const { return m_axialTilt.ToDouble(); }
+
+	const Orbit& GetOrbit() const { return m_orbit; }
+	double GetEccentricity() const { return m_eccentricity.ToDouble(); }
+	double GetOrbMin() const { return m_orbMin.ToDouble(); }
+	double GetOrbMax() const { return m_orbMax.ToDouble(); }
+	fixed GetOrbMinAsFixed() const { return m_orbMin; }
+	fixed GetOrbMaxAsFixed() const { return m_orbMax; }
+	double GetSemiMajorAxis() const { return m_semiMajorAxis.ToDouble(); }
+	fixed GetSemiMajorAxisAsFixed() const { return m_semiMajorAxis; }
+	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
+
+	int GetAverageTemp() const { return m_averageTemp; }
+	std::string GetHeightMapFilename() const { return m_heightMapFilename; }
+	unsigned int GetHeightMapFractal() const { return m_heightMapFractal; }
+
+	Uint32 GetSeed() const { return m_seed; }
+
+	fixed GetMetallicity() const { return m_metallicity; }
+	fixed GetVolatileGas() const { return m_volatileGas; }
+	fixed GetVolatileLiquid() const { return m_volatileLiquid; }
+	fixed GetVolatileIces() const { return m_volatileIces; }
+	fixed GetVolcanicity() const { return m_volcanicity; }
+	fixed GetAtmosOxidizing() const { return m_atmosOxidizing; }
+	fixed GetLife() const { return m_life; }
+
+	double GetPopulation() const { return m_population.ToDouble(); }
+
 	fixed CalcHillRadius() const;
+	static int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);
 	double CalcSurfaceGravity() const;
 
 	double GetMaxChildOrbitalDistance() const;
+	void PositionSettlementOnPlanet();
 	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
 	void PopulateAddStations(StarSystem *system);
 
 	bool HasRings() const { return bool(m_rings.maxRadius.v); }
+	const RingStyle& GetRings() const { return m_rings; }
 	void PickRings(bool forceRings = false);
 
 
 	// XXX merge all this atmosphere stuff
 	bool HasAtmosphere() const;
+
+	Color GetAlbedo() const {
+		// XXX suggestions about how to determine a sensible albedo colour would be welcome
+		// Currently (2014-03-24) this is just used as the colour for the body billboard
+		// which is rendered when the body has a small screen size
+		return Color(200,200,200,255);
+	}
 
 	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
@@ -163,31 +215,41 @@ public:
 
 	AtmosphereParameters CalcAtmosphereParams() const;
 
-
 	bool IsScoopable() const;
 
-	Uint32 id; // index into starsystem->m_bodies
-	SystemPath path;
-	int tmp;
-	Orbit orbit;
-	Uint32 seed; // Planet.cpp can use to generate terrain
-	std::string name;
-	fixed radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
-	fixed aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
-	fixed mass; // earth masses if planet, solar masses if star
-	fixed orbMin, orbMax; // periapsism, apoapsis in AUs
-	fixed rotationPeriod; // in days
-	fixed rotationalPhaseAtStart; // 0 to 2 pi
-	fixed humanActivity; // 0 - 1
-	fixed semiMajorAxis; // in AUs
-	fixed eccentricity;
-	fixed orbitalOffset;
-	fixed orbitalPhaseAtStart; // 0 to 2 pi
-	fixed axialTilt; // in radians
-	fixed inclination; // in radians, for surface bodies = latitude
-	int averageTemp;
-	BodyType type;
-	bool isCustomBody;
+	void Dump(FILE* file, const char* indent = "") const;
+
+	StarSystem* GetStarSystem() const { return m_system; }
+
+private:
+	friend class StarSystem;
+	friend class ObjectViewerView;
+
+	void ClearParentAndChildPointers();
+
+	SystemBody *m_parent;                // these are only valid if the StarSystem
+	std::vector<SystemBody*> m_children; // that create them still exists
+
+	SystemPath m_path;
+	Orbit m_orbit;
+	Uint32 m_seed; // Planet.cpp can use to generate terrain
+	std::string m_name;
+	fixed m_radius; // in earth radii for planets, sol radii for stars. equatorial radius in case of bodies which are flattened at the poles
+	fixed m_aspectRatio; // ratio between equatorial and polar radius for bodies with eqatorial bulges
+	fixed m_mass; // earth masses if planet, solar masses if star
+	fixed m_orbMin, m_orbMax; // periapsism, apoapsis in AUs
+	fixed m_rotationPeriod; // in days
+	fixed m_rotationalPhaseAtStart; // 0 to 2 pi
+	fixed m_humanActivity; // 0 - 1
+	fixed m_semiMajorAxis; // in AUs
+	fixed m_eccentricity;
+	fixed m_orbitalOffset;
+	fixed m_orbitalPhaseAtStart; // 0 to 2 pi
+	fixed m_axialTilt; // in radians
+	fixed m_inclination; // in radians, for surface bodies = latitude
+	int m_averageTemp;
+	BodyType m_type;
+	bool m_isCustomBody;
 
 	/* composition */
 	fixed m_metallicity; // (crust) 0.0 = light (Al, SiO2, etc), 1.0 = heavy (Fe, heavy metals)
@@ -204,19 +266,20 @@ public:
 	fixed m_population;
 	fixed m_agricultural;
 
-	const char *heightMapFilename;
-	unsigned int heightMapFractal;
-private:
+	std::string m_heightMapFilename;
+	unsigned int m_heightMapFractal;
+
 	Color m_atmosColor;
 	double m_atmosDensity;
+
+	StarSystem *m_system;
 };
 
 class StarSystem : public RefCounted {
 public:
 	friend class SystemBody;
+	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 
-	static RefCountedPtr<StarSystem> GetCached(const SystemPath &path);
-	static void ShrinkCache();
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
@@ -224,47 +287,51 @@ public:
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
 	static RefCountedPtr<StarSystem> Unserialize(Serializer::Reader &rd);
-	void Dump();
 	const SystemPath &GetPath() const { return m_path; }
 	const char *GetShortDescription() const { return m_shortDesc.c_str(); }
 	const char *GetLongDescription() const { return m_longDesc.c_str(); }
-	int GetNumStars() const { return m_numStars; }
+	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static Uint8 starColors[][3];
-	static Uint8 starRealColors[][3];
-	static double starLuminosities[];
-	static float starScale[];
-	static fixed starMetallicities[];
+	static const Uint8 starColors[][3];
+	static const Uint8 starRealColors[][3];
+	static const double starLuminosities[];
+	static const float starScale[];
+	static const fixed starMetallicities[];
 
-	RefCountedPtr<SystemBody> rootBody;
-	std::vector<SystemBody*> m_spaceStations;
-	// index into this will be the SystemBody ID used by SystemPath
-	std::vector< RefCountedPtr<SystemBody> > m_bodies;
+	RefCountedPtr<const SystemBody> GetRootBody() const { return m_rootBody; }
+	RefCountedPtr<SystemBody> GetRootBody() { return m_rootBody; }
+	bool HasSpaceStations() const { return !m_spaceStations.empty(); }
+	unsigned GetNumSpaceStations() const { return m_spaceStations.size(); }
+	IterationProxy<std::vector<SystemBody*> > GetSpaceStations() { return MakeIterationProxy(m_spaceStations); }
+	const IterationProxy<const std::vector<SystemBody*> > GetSpaceStations() const { return MakeIterationProxy(m_spaceStations); }
+	IterationProxy<std::vector<SystemBody*> > GetStars() { return MakeIterationProxy(m_stars); }
+	const IterationProxy<const std::vector<SystemBody*> > GetStars() const { return MakeIterationProxy(m_stars); }
+	unsigned GetNumBodies() const { return m_bodies.size(); }
+	IterationProxy<std::vector<RefCountedPtr<SystemBody> > > GetBodies() { return MakeIterationProxy(m_bodies); }
+	const IterationProxy<const std::vector<RefCountedPtr<SystemBody> > > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
-	int GetCommodityBasePriceModPercent(int t) {
-		return m_tradeLevel[t];
+	int GetCommodityBasePriceModPercent(GalacticEconomy::Commodity t) {
+		return m_tradeLevel[int(t)];
 	}
 
 	Faction* GetFaction() const  { return m_faction; }
 	bool GetUnexplored() const { return m_unexplored; }
 	fixed GetMetallicity() const { return m_metallicity; }
-	fixed GetIndustrial() const { return m_industrial; }
-	int GetEconType() const { return m_econType; }
 	int GetSeed() const { return m_seed; }
-	const int* GetTradeLevel() const { return m_tradeLevel; }
-	fixed GetAgricultural() const { return m_agricultural; }
 	fixed GetHumanProx() const { return m_humanProx; }
 	fixed GetTotalPop() const { return m_totalPop; }
 
+	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
+
 private:
-	StarSystem(const SystemPath &path);
+	StarSystem(const SystemPath &path, StarSystemCache* cache);
 	~StarSystem();
 
+	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
+
 	SystemBody *NewBody() {
-		SystemBody *body = new SystemBody;
-		body->path = m_path;
-		body->path.bodyIndex = m_bodies.size();
+		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()), this);
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
@@ -281,7 +348,7 @@ private:
 	std::string GetStarTypes(SystemBody *body);
 
 	SystemPath m_path;
-	int m_numStars;
+	unsigned m_numStars;
 	std::string m_name;
 	std::string m_shortDesc, m_longDesc;
 	SysPolit m_polit;
@@ -297,11 +364,19 @@ private:
 	int m_seed;
 
 	// percent price alteration
-	int m_tradeLevel[Equip::TYPE_MAX];
+	int m_tradeLevel[GalacticEconomy::COMMODITY_COUNT];
 
 	fixed m_agricultural;
 	fixed m_humanProx;
 	fixed m_totalPop;
+
+	RefCountedPtr<SystemBody> m_rootBody;
+	// index into this will be the SystemBody ID used by SystemPath
+	std::vector< RefCountedPtr<SystemBody> > m_bodies;
+	std::vector<SystemBody*> m_spaceStations;
+	std::vector<SystemBody*> m_stars;
+
+	StarSystemCache* m_cache;
 };
 
 #endif /* _STARSYSTEM_H */

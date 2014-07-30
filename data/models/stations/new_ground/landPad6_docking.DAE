@@ -1,296 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.0">
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
   <asset>
     <contributor>
-      <author></author>
-      <authoring_tool>FBX COLLADA exporter</authoring_tool>
-      <comments></comments>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.70.0 commit date:2014-04-10, commit time:11:49, hash:f93bc76</authoring_tool>
     </contributor>
-    <created>2013-04-22T07:33:57Z</created>
-    <modified>2013-04-22T07:33:57Z</modified>
-    <revision></revision>
-    <title></title>
-    <subject></subject>
-    <keywords></keywords>
-    <unit meter="1.000000"/>
-    <up_axis>Y_UP</up_axis>
+    <created>2014-06-16T15:52:43</created>
+    <modified>2014-06-16T15:52:43</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
   </asset>
-  <library_materials>
-    <material id="Pad_material" name="Pad_material">
-      <instance_effect url="#Pad_material-fx"/>
-    </material>
-  </library_materials>
+  <library_images/>
   <library_effects>
-    <effect id="Pad_material-fx" name="Pad_material">
+    <effect id="Pad_material-effect">
       <profile_COMMON>
-        <technique sid="standard">
+        <technique sid="common">
           <phong>
             <emission>
-              <color sid="emission">0.000000  0.000000 0.000000 1.000000</color>
+              <color sid="emission">0 0 0 1</color>
             </emission>
             <ambient>
-              <color sid="ambient">0.800000  0.800000 0.800000 1.000000</color>
+              <color sid="ambient">0 0 0 1</color>
             </ambient>
             <diffuse>
-              <color sid="diffuse">0.800000  0.800000 0.800000 1.000000</color>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
             </diffuse>
             <specular>
-              <color sid="specular">0.500000  0.500000 0.500000 1.000000</color>
+              <color sid="specular">0.25 0.25 0.25 1</color>
             </specular>
             <shininess>
-              <float sid="shininess">32.000000</float>
+              <float sid="shininess">32</float>
             </shininess>
-            <reflective>
-              <color sid="reflective">0.000000  0.000000 0.000000 1.000000</color>
-            </reflective>
-            <reflectivity>
-              <float sid="reflectivity">1.000000</float>
-            </reflectivity>
-            <transparent>
-              <color sid="transparent">1.000000  1.000000 1.000000 1.000000</color>
-            </transparent>
-            <transparency>
-              <float sid="transparency">0.000000</float>
-            </transparency>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="m0c_b_metall1_001-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.512 0.512 0.512 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0 0 0 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">1</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
           </phong>
         </technique>
       </profile_COMMON>
     </effect>
   </library_effects>
+  <library_materials>
+    <material id="Pad_material-material" name="Pad_material">
+      <instance_effect url="#Pad_material-effect"/>
+    </material>
+    <material id="m0c_b_metall1_001-material" name="m0c_b_metall1_001">
+      <instance_effect url="#m0c_b_metall1_001-effect"/>
+    </material>
+  </library_materials>
   <library_geometries>
-    <geometry id="DummyGeomToExport-lib" name="DummyGeomToExportMesh">
+    <geometry id="DummyGeomToExportMesh-mesh" name="DummyGeomToExportMesh">
       <mesh>
-        <source id="DummyGeomToExport-lib-Position">
-          <float_array id="DummyGeomToExport-lib-Position-array" count="9">
--182.367996 15.793396 3.531800
--188.156006 17.135641 -10.791100
--188.156006 -0.561339 -10.791100
-</float_array>
+        <source id="DummyGeomToExportMesh-mesh-positions">
+          <float_array id="DummyGeomToExportMesh-mesh-positions-array" count="9">-182.368 15.7934 3.5318 -188.156 17.13564 -10.7911 -188.156 -0.561339 -10.7911</float_array>
           <technique_common>
-            <accessor source="#DummyGeomToExport-lib-Position-array" count="3" stride="3">
+            <accessor source="#DummyGeomToExportMesh-mesh-positions-array" count="3" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="DummyGeomToExport-lib-Normal0">
-          <float_array id="DummyGeomToExport-lib-Normal0-array" count="9">
--0.927157 0.000000 0.374672
--0.927157 0.000000 0.374672
--0.927157 0.000000 0.374672
-</float_array>
+        <source id="DummyGeomToExportMesh-mesh-normals">
+          <float_array id="DummyGeomToExportMesh-mesh-normals-array" count="3">-0.9271573 0 0.3746724</float_array>
           <technique_common>
-            <accessor source="#DummyGeomToExport-lib-Normal0-array" count="3" stride="3">
+            <accessor source="#DummyGeomToExportMesh-mesh-normals-array" count="1" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="DummyGeomToExport-lib-UV0">
-          <float_array id="DummyGeomToExport-lib-UV0-array" count="6">
-0.323333 0.676667
-0.010000 0.676667
-0.010000 0.823333
-</float_array>
+        <source id="DummyGeomToExportMesh-mesh-map-0">
+          <float_array id="DummyGeomToExportMesh-mesh-map-0-array" count="6">0.323333 0.676667 0.00999999 0.676667 0.00999999 0.823333</float_array>
           <technique_common>
-            <accessor source="#DummyGeomToExport-lib-UV0-array" count="3" stride="2">
+            <accessor source="#DummyGeomToExportMesh-mesh-map-0-array" count="3" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="DummyGeomToExport-lib-Vertex">
-          <input semantic="POSITION" source="#DummyGeomToExport-lib-Position"/>
+        <vertices id="DummyGeomToExportMesh-mesh-vertices">
+          <input semantic="POSITION" source="#DummyGeomToExportMesh-mesh-positions"/>
         </vertices>
-        <polygons material="Pad_material" count="1">
-          <input semantic="VERTEX" offset="0" source="#DummyGeomToExport-lib-Vertex"/>
-          <input semantic="NORMAL" offset="1" source="#DummyGeomToExport-lib-Normal0"/>
-          <input semantic="TEXCOORD" offset="2" set="0" source="#DummyGeomToExport-lib-UV0"/>
-          <p>0 0 0 1 1 1 2 2 2</p>
-        </polygons>
+        <polylist material="Pad_material-material" count="1">
+          <input semantic="VERTEX" source="#DummyGeomToExportMesh-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DummyGeomToExportMesh-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#DummyGeomToExportMesh-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 </vcount>
+          <p>0 0 0 1 0 1 2 0 2</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="meshId0_name_001-mesh" name="meshId0_name.001">
+      <mesh>
+        <source id="meshId0_name_001-mesh-positions">
+          <float_array id="meshId0_name_001-mesh-positions-array" count="108">29.8231 40.1699 0 -29.8231 40.1699 0 -29.8231 -40.1699 0 -29.8231 -40.1699 0 29.8231 -40.1699 0 29.8231 40.1699 0 10.8404 14.6014 10.95543 10.8404 -14.6014 10.95543 -10.8404 -14.6014 10.95543 -10.8404 -14.6014 10.95543 -10.8404 14.6014 10.95543 10.8404 14.6014 10.95543 10.8404 -14.6014 10.95543 29.8231 -40.1699 0 -29.8231 -40.1699 0 -29.8231 -40.1699 0 -10.8404 -14.6014 10.95543 10.8404 -14.6014 10.95543 10.8404 14.6014 10.95543 29.8231 40.1699 0 29.8231 -40.1699 0 29.8231 -40.1699 0 10.8404 -14.6014 10.95543 10.8404 14.6014 10.95543 -10.8404 14.6014 10.95543 -29.8231 40.1699 0 29.8231 40.1699 0 29.8231 40.1699 0 10.8404 14.6014 10.95543 -10.8404 14.6014 10.95543 -10.8404 -14.6014 10.95543 -29.8231 -40.1699 0 -29.8231 40.1699 0 -29.8231 40.1699 0 -10.8404 14.6014 10.95543 -10.8404 -14.6014 10.95543</float_array>
+          <technique_common>
+            <accessor source="#meshId0_name_001-mesh-positions-array" count="36" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="meshId0_name_001-mesh-normals">
+          <float_array id="meshId0_name_001-mesh-normals-array" count="36">0 0 -1 0 0 -1 0 0 1 0 0 1 0 -0.3938434 0.9191777 0 -0.3938434 0.9191776 0.499855 0 0.8661091 0.499855 0 0.8661091 0 0.3938434 0.9191777 0 0.3938434 0.9191776 -0.499855 0 0.8661091 -0.499855 0 0.8661091</float_array>
+          <technique_common>
+            <accessor source="#meshId0_name_001-mesh-normals-array" count="12" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="meshId0_name_001-mesh-map-0">
+          <float_array id="meshId0_name_001-mesh-map-0-array" count="72">1 0 1 1 0 1 0 1 0 0 1 0 0 0 1 0 1 1 1 1 0 1 0 0 0 0 1 0 1 1 1 1 0 1 0 0 0 0 1 0 1 1 1 1 0 1 0 0 0 0 1 0 1 1 1 1 0 1 0 0 0 0 1 0 1 1 1 1 0 1 0 0</float_array>
+          <technique_common>
+            <accessor source="#meshId0_name_001-mesh-map-0-array" count="36" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="meshId0_name_001-mesh-vertices">
+          <input semantic="POSITION" source="#meshId0_name_001-mesh-positions"/>
+        </vertices>
+        <polylist material="m0c_b_metall1_001-material" count="12">
+          <input semantic="VERTEX" source="#meshId0_name_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#meshId0_name_001-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#meshId0_name_001-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>2 0 0 1 0 1 0 0 2 5 1 3 4 1 4 3 1 5 8 2 6 7 2 7 6 2 8 11 3 9 10 3 10 9 3 11 14 4 12 13 4 13 12 4 14 17 5 15 16 5 16 15 5 17 20 6 18 19 6 19 18 6 20 23 7 21 22 7 22 21 7 23 26 8 24 25 8 25 24 8 26 29 9 27 28 9 28 27 9 29 32 10 30 31 10 31 30 10 32 35 11 33 34 11 34 33 11 35</p>
+        </polylist>
       </mesh>
     </geometry>
   </library_geometries>
   <library_visual_scenes>
-    <visual_scene id="RootNode" name="RootNode">
-      <node id="DummyGeomToExport" name="DummyGeomToExport">
-        <matrix sid="matrix">0.021278 0.000000 0.000000 149.999985 0.000000 0.000000 0.025400 0.000000 0.000000 -0.021278 0.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-        <instance_geometry url="#DummyGeomToExport-lib">
+    <visual_scene id="Scene" name="Scene">
+      <node id="DummyGeomToExport" name="DummyGeomToExport" type="NODE">
+        <matrix sid="transform">0.021278 0 0 150 0 0.021278 -1.11027e-9 300 0 9.30091e-10 0.0254 1.31134e-5 0 0 0 1</matrix>
+        <instance_geometry url="#DummyGeomToExportMesh-mesh">
           <bind_material>
             <technique_common>
-              <instance_material symbol="Pad_material" target="#Pad_material"/>
+              <instance_material symbol="Pad_material-material" target="#Pad_material-material"/>
             </technique_common>
           </bind_material>
         </instance_geometry>
       </node>
-      <node id="docking_stage1_bay1" name="docking_stage1_bay1">
-        <matrix sid="matrix">0.254000 0.000000 0.000000 149.999985 0.000000 0.254000 -0.000000 73.000000 0.000000 0.000000 0.254000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="docking_stage1_bay1" name="docking_stage1_bay1" type="NODE">
+        <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 72.99976 0 -1.81675e-7 0.254 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay1" name="approach_stage2_bay1">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 1.000000 -0.000000 73.000000 0.000000 0.000000 1.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage2_bay1" name="approach_stage2_bay1" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 72.99976 2.22045e-16 -7.15256e-7 1 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage1_bay1" name="approach_stage1_bay1">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 1.000000 -0.000000 500.000031 0.000000 0.000000 1.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage1_bay1" name="approach_stage1_bay1" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 499.9998 2.22045e-16 -7.15256e-7 1 -300.0004 0 0 0 1</matrix>
       </node>
-      <node id="navlight_red" name="navlight_red">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 250.942062 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 -332.875885 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="docking_stage1_bay02" name="docking_stage1_bay02" type="NODE">
+        <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 72.99976 0 -1.81675e-7 0.254 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="navlight_green" name="navlight_green">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 49.019501 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 -267.588654 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage2_bay02" name="approach_stage2_bay02" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 72.99976 2.22045e-16 -7.15256e-7 1 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad1_01" name="navlight_pad1_01">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 180.010101 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -340.011108 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage1_bay02" name="approach_stage1_bay02" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 499.9998 2.22045e-16 -7.15256e-7 1 -300.0004 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad1_02" name="navlight_pad1_02">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 120.237885 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -340.011108 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="docking_stage1_bay03" name="docking_stage1_bay03" type="NODE">
+        <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 73 0 -1.81675e-7 0.254 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad1_03" name="navlight_pad1_03">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 120.237885 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -259.928894 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage2_bay03" name="approach_stage2_bay03" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 73 2.22045e-16 -7.15256e-7 1 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad1_04" name="navlight_pad1_04">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 179.759521 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -259.928894 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage1_bay03" name="approach_stage1_bay03" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 500 2.22045e-16 -7.15256e-7 1 -4.27246e-4 0 0 0 1</matrix>
       </node>
-      <node id="docking_stage1_bay02" name="docking_stage1_bay02">
-        <matrix sid="matrix">0.254000 0.000000 0.000000 -150.000015 0.000000 0.254000 -0.000000 73.000000 0.000000 0.000000 0.254000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="docking_stage1_bay04" name="docking_stage1_bay04" type="NODE">
+        <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 73 0 -1.81675e-7 0.254 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage2_bay02" name="approach_stage2_bay02">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 1.000000 -0.000000 73.000000 0.000000 0.000000 1.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage2_bay04" name="approach_stage2_bay04" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 73 2.22045e-16 -7.15256e-7 1 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="approach_stage1_bay02" name="approach_stage1_bay02">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 1.000000 -0.000000 500.000031 0.000000 0.000000 1.000000 -300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage1_bay04" name="approach_stage1_bay04" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 500 2.22045e-16 -7.15256e-7 1 -4.27246e-4 0 0 0 1</matrix>
       </node>
-      <node id="navlight_red01" name="navlight_red01">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -49.057938 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 -332.875885 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="docking_stage1_bay05" name="docking_stage1_bay05" type="NODE">
+        <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 73.00024 0 -1.81675e-7 0.254 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="navlight_green01" name="navlight_green01">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -250.980499 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 -267.588654 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage2_bay05" name="approach_stage2_bay05" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 73.00024 2.22045e-16 -7.15256e-7 1 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad2_01" name="navlight_pad2_01">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -119.989899 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -340.011108 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage1_bay05" name="approach_stage1_bay05" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 500.0003 2.22045e-16 -7.15256e-7 1 299.9996 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad2_06" name="navlight_pad2_06">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -179.762115 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -340.011108 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="docking_stage1_bay06" name="docking_stage1_bay06" type="NODE">
+        <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 73.00024 0 -1.81675e-7 0.254 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad2_07" name="navlight_pad2_07">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -179.762115 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -259.928894 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage2_bay06" name="approach_stage2_bay06" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 73.00024 2.22045e-16 -7.15256e-7 1 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="navlight_pad2_08" name="navlight_pad2_08">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -120.240479 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -259.928894 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="approach_stage1_bay06" name="approach_stage1_bay06" type="NODE">
+        <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 500.0003 2.22045e-16 -7.15256e-7 1 299.9996 0 0 0 1</matrix>
       </node>
-      <node id="docking_stage1_bay03" name="docking_stage1_bay03">
-        <matrix sid="matrix">0.254000 0.000000 0.000000 149.999985 0.000000 0.254000 -0.000000 73.000000 0.000000 0.000000 0.254000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad1" name="collision_pad1" type="NODE">
+        <matrix sid="transform">1 0 0 150 0 1 0 300 0 0 1 72.83775 0 0 0 1</matrix>
+        <instance_geometry url="#meshId0_name_001-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
       </node>
-      <node id="approach_stage2_bay03" name="approach_stage2_bay03">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 1.000000 -0.000000 73.000000 0.000000 0.000000 1.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad02" name="collision_pad02" type="NODE">
+        <matrix sid="transform">1 0 0 -150 0 1 0 300 0 0 1 72.83775 0 0 0 1</matrix>
+        <instance_geometry url="#meshId0_name_001-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
       </node>
-      <node id="approach_stage1_bay03" name="approach_stage1_bay03">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 1.000000 -0.000000 500.000031 0.000000 0.000000 1.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad03" name="collision_pad03" type="NODE">
+        <matrix sid="transform">1 0 0 150 0 1 0 -3.86677e-6 0 0 1 72.8377 0 0 0 1</matrix>
+        <instance_geometry url="#meshId0_name_001-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
       </node>
-      <node id="navlight_red02" name="navlight_red02">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 250.942062 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 -32.875885 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad04" name="collision_pad04" type="NODE">
+        <matrix sid="transform">1 0 0 -150 0 1 0 -3.86677e-6 0 0 1 72.8377 0 0 0 1</matrix>
+        <instance_geometry url="#meshId0_name_001-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
       </node>
-      <node id="navlight_green02" name="navlight_green02">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 49.019501 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 32.411335 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad05" name="collision_pad05" type="NODE">
+        <matrix sid="transform">1 0 0 150 0 1 0 -300 0 0 1 72.83765 0 0 0 1</matrix>
+        <instance_geometry url="#meshId0_name_001-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
       </node>
-      <node id="navlight_pad3_03" name="navlight_pad3_03">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 180.010101 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -40.011120 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad3_01" name="navlight_pad3_01">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 120.237885 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -40.011120 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad3_02" name="navlight_pad3_02">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 120.237885 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 40.071110 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad3_04" name="navlight_pad3_04">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 179.759521 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 40.071110 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="docking_stage1_bay04" name="docking_stage1_bay04">
-        <matrix sid="matrix">0.254000 0.000000 0.000000 -150.000015 0.000000 0.254000 -0.000000 73.000000 0.000000 0.000000 0.254000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="approach_stage2_bay04" name="approach_stage2_bay04">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 1.000000 -0.000000 73.000000 0.000000 0.000000 1.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="approach_stage1_bay04" name="approach_stage1_bay04">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 1.000000 -0.000000 500.000031 0.000000 0.000000 1.000000 -0.000008 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_red03" name="navlight_red03">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -49.057938 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 -32.875885 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_green03" name="navlight_green03">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -250.980499 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 32.411335 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad4_00" name="navlight_pad4_00">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -119.989899 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -40.011120 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad4_0001" name="navlight_pad4_0001">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -179.762115 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 -40.011120 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad4_0002" name="navlight_pad4_0002">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -179.762115 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 40.071110 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad4_0003" name="navlight_pad4_0003">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -120.240479 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 40.071110 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad5_01" name="navlight_pad5_01">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 179.759521 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 340.071106 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="docking_stage1_bay05" name="docking_stage1_bay05">
-        <matrix sid="matrix">0.254000 0.000000 0.000000 149.999985 0.000000 0.254000 -0.000000 73.000000 0.000000 0.000000 0.254000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="approach_stage2_bay05" name="approach_stage2_bay05">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 1.000000 -0.000000 73.000000 0.000000 0.000000 1.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="approach_stage1_bay05" name="approach_stage1_bay05">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 149.999985 0.000000 1.000000 -0.000000 500.000031 0.000000 0.000000 1.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_red04" name="navlight_red04">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 250.942062 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 267.124115 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_green04" name="navlight_green04">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 49.019501 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 332.411346 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad5_0101" name="navlight_pad5_0101">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 180.010101 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 259.988892 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad5_0102" name="navlight_pad5_0102">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 120.237885 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 259.988892 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad5_0103" name="navlight_pad5_0103">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 120.237885 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 340.071106 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad6_00" name="navlight_pad6_00">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -120.240479 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 340.071106 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="docking_stage1_bay06" name="docking_stage1_bay06">
-        <matrix sid="matrix">0.254000 0.000000 0.000000 -150.000015 0.000000 0.254000 -0.000000 73.000000 0.000000 0.000000 0.254000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="approach_stage2_bay06" name="approach_stage2_bay06">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 1.000000 -0.000000 73.000000 0.000000 0.000000 1.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="approach_stage1_bay06" name="approach_stage1_bay06">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -150.000015 0.000000 1.000000 -0.000000 500.000031 0.000000 0.000000 1.000000 300.000000 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_red05" name="navlight_red05">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -49.057938 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 267.124115 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_green05" name="navlight_green05">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -250.980499 0.000000 0.000000 1.000000 101.471191 0.000000 -1.000000 0.000000 332.411346 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad6_0001" name="navlight_pad6_0001">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -119.989899 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 259.988892 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad6_0002" name="navlight_pad6_0002">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -179.762115 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 259.988892 0.000000 0.000000 0.000000 1.000000</matrix>
-      </node>
-      <node id="navlight_pad6_0003" name="navlight_pad6_0003">
-        <matrix sid="matrix">1.000000 0.000000 0.000000 -179.762115 0.000000 0.000000 1.000000 73.000000 0.000000 -1.000000 0.000000 340.071106 0.000000 0.000000 0.000000 1.000000</matrix>
+      <node id="collision_pad06" name="collision_pad06" type="NODE">
+        <matrix sid="transform">1 0 0 -150 0 1 0 -300 0 0 1 72.83765 0 0 0 1</matrix>
+        <instance_geometry url="#meshId0_name_001-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
       </node>
     </visual_scene>
   </library_visual_scenes>
   <scene>
-    <instance_visual_scene url="#RootNode"/>
+    <instance_visual_scene url="#Scene"/>
   </scene>
 </COLLADA>
-

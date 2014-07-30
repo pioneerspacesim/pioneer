@@ -39,6 +39,14 @@
       "description" : "",
       "message" : "¡CONTRIBUYA! Protejamos nuestras especies. Acabemos con la matanza en los nuevos mundos colonizados."
    },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "¡Libere su nave! Por favor, elija la cantidad para donar. Feliz pirateo."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "¡APOYE LA LIBERTAD! Acabe con la gran injusticia de que software propietario controle su nave."
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Colgar."

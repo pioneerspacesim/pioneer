@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_CONTEXT_H
@@ -8,6 +8,7 @@
 #include "text/TextureFont.h"
 
 #include "EventDispatcher.h"
+#include "Animation.h"
 #include "Skin.h"
 
 #include "Widget.h"
@@ -38,6 +39,8 @@
 #include "Gauge.h"
 #include "Table.h"
 
+#include "MousePointer.h"
+
 #include "Lua.h"
 #include "LuaTable.h"
 
@@ -67,7 +70,7 @@ namespace UI {
 
 class Context : public Container {
 public:
-	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, const std::string &lang);
+	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height);
 
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
@@ -120,6 +123,9 @@ public:
 
 	Point GetMousePos() const { return m_eventDispatcher.GetMousePos(); }
 
+	void SetMousePointer(const std::string &filename, const Point &hotspot);
+	void SetMousePointerEnabled(bool enabled) { m_mousePointerEnabled = enabled; }
+
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }
 	bool DispatchSDLEvent(const SDL_Event &event) { return m_eventDispatcher.DispatchSDLEvent(event); }
@@ -136,6 +142,8 @@ public:
 	virtual void Update();
 	virtual void Draw();
 
+	void Animate(Animation *animation) { m_animationController.Add(animation); }
+
 	LuaRef GetTemplateStore() const { return m_templateStore; }
 	Widget *CallTemplate(const char *name, const LuaTable &args);
 	Widget *CallTemplate(const char *name);
@@ -149,6 +157,7 @@ public:
 	RefCountedPtr<Text::TextureFont> GetFont(Widget::Font font) const { return m_font[font]; }
 
 	const Point &GetScissor() const { return m_scissorStack.top().second; }
+	const float &GetOpacity() const { return m_opacityStack.top(); }
 
 private:
 	virtual Point PreferredSize() { return Point(); }
@@ -163,7 +172,11 @@ private:
 
 	std::vector<Layer*> m_layers;
 
+	MousePointer *m_mousePointer;
+	bool m_mousePointerEnabled;
+
 	EventDispatcher m_eventDispatcher;
+	AnimationController m_animationController;
 	Skin m_skin;
 
 	LuaManager *m_lua;
@@ -180,6 +193,7 @@ private:
 	// support for DrawWidget()
 	Point m_drawWidgetPosition;
 	std::stack< std::pair<Point,Point> > m_scissorStack;
+	std::stack<float> m_opacityStack;
 };
 
 }

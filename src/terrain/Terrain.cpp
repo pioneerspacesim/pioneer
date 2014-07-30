@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Terrain.h"
@@ -14,20 +14,20 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 	// XXX this is terrible but will do for now until we get a unified
 	// heightmap setup. if you add another height fractal, remember to change
 	// the check in CustomSystem::l_height_map
-	if (body->heightMapFilename) {
+	if (!body->GetHeightMapFilename().empty()) {
 		const GeneratorInstancer choices[] = {
 			InstanceGenerator<TerrainHeightMapped,TerrainColorEarthLikeHeightmapped>,
 			InstanceGenerator<TerrainHeightMapped2,TerrainColorRock2>
 		};
-		assert(body->heightMapFractal < COUNTOF(choices));
-		return choices[body->heightMapFractal](body);
+		assert(body->GetHeightMapFractal() < COUNTOF(choices));
+		return choices[body->GetHeightMapFractal()](body);
 	}
 
-	Random rand(body->seed);
+	Random rand(body->GetSeed());
 
 	GeneratorInstancer gi = 0;
 
-	switch (body->type) {
+	switch (body->GetType()) {
 
 		case SystemBody::TYPE_BROWN_DWARF:
 			gi = InstanceGenerator<TerrainHeightEllipsoid,TerrainColorStarBrownDwarf>;
@@ -133,10 +133,10 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			//break;
 			// Earth-like world
 
-			if ((body->m_life > fixed(7,10)) && (body->m_volatileGas > fixed(2,10))) {
+			if ((body->GetLife() > fixed(7,10)) && (body->GetVolatileGas() > fixed(2,10))) {
 				// There would be no life on the surface without atmosphere
 
-				if (body->averageTemp > 240) {
+				if (body->GetAverageTemp() > 240) {
 					const GeneratorInstancer choices[] = {
 						InstanceGenerator<TerrainHeightHillsRidged,TerrainColorEarthLike>,
 						InstanceGenerator<TerrainHeightHillsRivers,TerrainColorEarthLike>,
@@ -169,9 +169,9 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Harsh, habitable world
-			if ((body->m_volatileGas > fixed(2,10)) && (body->m_life > fixed(4,10)) ) {
+			if ((body->GetVolatileGas() > fixed(2,10)) && (body->GetLife() > fixed(4,10)) ) {
 
-				if (body->averageTemp > 240) {
+				if (body->GetAverageTemp() > 240) {
 					const GeneratorInstancer choices[] = {
 						InstanceGenerator<TerrainHeightHillsRidged,TerrainColorTFGood>,
 						InstanceGenerator<TerrainHeightHillsRivers,TerrainColorTFGood>,
@@ -211,9 +211,9 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Marginally habitable world/ verging on mars like :)
-			else if ((body->m_volatileGas > fixed(1,10)) && (body->m_life > fixed(1,10)) ) {
+			else if ((body->GetVolatileGas() > fixed(1,10)) && (body->GetLife() > fixed(1,10)) ) {
 
-				if (body->averageTemp > 240) {
+				if (body->GetAverageTemp() > 240) {
 					const GeneratorInstancer choices[] = {
 						InstanceGenerator<TerrainHeightHillsRidged,TerrainColorTFPoor>,
 						InstanceGenerator<TerrainHeightHillsRivers,TerrainColorTFPoor>,
@@ -253,7 +253,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Desert-like world, Mars -like.
-			if ((body->m_volatileLiquid < fixed(1,10)) && (body->m_volatileGas > fixed(1,5))) {
+			if ((body->GetVolatileLiquid() < fixed(1,10)) && (body->GetVolatileGas() > fixed(1,5))) {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorDesert>,
@@ -269,7 +269,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Frozen world
-			if ((body->m_volatileIces > fixed(8,10)) &&  (body->averageTemp < 250)) {
+			if ((body->GetVolatileIces() > fixed(8,10)) &&  (body->GetAverageTemp() < 250)) {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightHillsCraters,TerrainColorIce>,
@@ -286,11 +286,11 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Volcanic world
-			if (body->m_volcanicity > fixed(7,10)) {
+			if (body->GetVolcanicity() > fixed(7,10)) {
 
-				if (body->m_life > fixed(5,10))	// life on a volcanic world ;)
+				if (body->GetLife() > fixed(5,10))	// life on a volcanic world ;)
 					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFGood>;
-				else if (body->m_life > fixed(2,10))
+				else if (body->GetLife() > fixed(2,10))
 					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFPoor>;
 				else
 					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorVolcanic>;
@@ -299,7 +299,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 
 			//Below might not be needed.
 			//Alien life world:
-			if (body->m_life > fixed(1,10))  {
+			if (body->GetLife() > fixed(1,10))  {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorTFPoor>,
 					InstanceGenerator<TerrainHeightHillsRidged,TerrainColorTFPoor>,
@@ -320,7 +320,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				break;
 			};
 
-			if (body->m_volatileGas > fixed(1,10)) {
+			if (body->GetVolatileGas() > fixed(1,10)) {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsNormal,TerrainColorRock>,
 					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorRock>,
@@ -354,7 +354,7 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 {
 	size_t read_count = buf.read(static_cast<char*>(ptr), size, nmemb);
 	if (read_count < nmemb) {
-		fprintf(stderr, "Error: failed to read file (truncated)\n");
+		Output("Error: failed to read file (truncated)\n");
 		abort();
 	}
 	return read_count;
@@ -371,13 +371,13 @@ static size_t bufread_or_die(void *ptr, size_t size, size_t nmemb, ByteRange &bu
 # define UINT16_MAX  (65535)
 #endif
 
-Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_rand(body->seed), m_heightScaling(0), m_minh(0) {
+Terrain::Terrain(const SystemBody *body) : m_seed(body->GetSeed()), m_rand(body->GetSeed()), m_heightScaling(0), m_minh(0), m_minBody(body) {
 
 	// load the heightmap
-	if (m_body->heightMapFilename) {
-		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(m_body->heightMapFilename);
+	if (!body->GetHeightMapFilename().empty()) {
+		RefCountedPtr<FileSystem::FileData> fdata = FileSystem::gameDataFiles.ReadFile(body->GetHeightMapFilename());
 		if (!fdata) {
-			fprintf(stderr, "Error: could not open file '%s'\n", m_body->heightMapFilename);
+			Output("Error: could not open file '%s'\n", body->GetHeightMapFilename().c_str());
 			abort();
 		}
 
@@ -387,7 +387,7 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		Uint16 minHMapScld = UINT16_MAX, maxHMapScld = 0;
 
 		// XXX unify heightmap types
-		switch (m_body->heightMapFractal) {
+		switch (body->GetHeightMapFractal()) {
 			case 0: {
 				Uint16 v;
 				bufread_or_die(&v, 2, 1, databuf); m_heightMapSizeX = v;
@@ -406,8 +406,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
-				//printf("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
+				assert(pHeightMap == &m_heightMap[heightmapPixelArea]);
+				//Output("minHMap = (%hd), maxHMap = (%hd)\n", minHMap, maxHMap);
 				break;
 			}
 
@@ -437,8 +437,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 					(*pHeightMap) = val;
 					++pHeightMap;
 				}
-				assert(is_equal_general(*pHeightMap, m_heightMap[heightmapPixelArea]));
-				//printf("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
+				assert(pHeightMap == &m_heightMap[heightmapPixelArea]);
+				//Output("minHMapScld = (%hu), maxHMapScld = (%hu)\n", minHMapScld, maxHMapScld);
 				break;
 			}
 
@@ -465,24 +465,24 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		case 4: m_fracmult = 0.1;break;
 	}
 
-	m_sealevel = Clamp(m_body->m_volatileLiquid.ToDouble(), 0.0, 1.0);
-	m_icyness = Clamp(m_body->m_volatileIces.ToDouble(), 0.0, 1.0);
-	m_volcanic = Clamp(m_body->m_volcanicity.ToDouble(), 0.0, 1.0); // height scales with volcanicity as well
+	m_sealevel = Clamp(body->GetVolatileLiquid().ToDouble(), 0.0, 1.0);
+	m_icyness  = Clamp(body->GetVolatileIces().ToDouble(), 0.0, 1.0);
+	m_volcanic = Clamp(body->GetVolcanicity().ToDouble(), 0.0, 1.0); // height scales with volcanicity as well
 	m_surfaceEffects = 0;
 
-	const double rad = m_body->GetRadius();
+	const double rad = m_minBody.m_radius;
 
 	// calculate max height
-	if ((m_body->heightMapFilename) && m_body->heightMapFractal > 1){ // if scaled heightmap
+	if (!body->GetHeightMapFilename().empty() && body->GetHeightMapFractal() > 1){ // if scaled heightmap
 		m_maxHeightInMeters = 1.1*pow(2.0, 16.0)*m_heightScaling; // no min height required as it's added to radius in lua
 	}else {
-		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (m_body->GetMass() * 6.64e-12));
+		m_maxHeightInMeters = std::max(100.0, (9000.0*rad*rad*(m_volcanic+0.5)) / (body->GetMass() * 6.64e-12));
 		if (!is_finite(m_maxHeightInMeters)) m_maxHeightInMeters = rad * 0.5;
 		//             ^^^^ max mountain height for earth-like planet (same mass, radius)
 		// and then in sphere normalized jizz
 	}
 	m_maxHeight = std::min(1.0, m_maxHeightInMeters / rad);
-	//printf("%s: max terrain height: %fm [%f]\n", m_body->name.c_str(), m_maxHeightInMeters, m_maxHeight);
+	//Output("%s: max terrain height: %fm [%f]\n", m_minBody.name.c_str(), m_maxHeightInMeters, m_maxHeight);
 	m_invMaxHeight = 1.0 / m_maxHeight;
 	m_planetRadius = rad;
 	m_planetEarthRadii = rad / EARTH_RADIUS;
@@ -494,8 +494,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		r = m_rand.Double(0.3, 1.0);
 		g = m_rand.Double(0.3, r);
 		b = m_rand.Double(0.3, g);
-		r = std::max(b, r * m_body->m_metallicity.ToFloat());
-		g = std::max(b, g * m_body->m_metallicity.ToFloat());
+		r = std::max(b, r * body->GetMetallicity().ToFloat());
+		g = std::max(b, g * body->GetMetallicity().ToFloat());
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 
@@ -506,8 +506,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		r = m_rand.Double(0.05, 0.3);
 		g = m_rand.Double(0.05, r);
 		b = m_rand.Double(0.05, g);
-		r = std::max(b, r * m_body->m_metallicity.ToFloat());
-		g = std::max(b, g * m_body->m_metallicity.ToFloat());
+		r = std::max(b, r * body->GetMetallicity().ToFloat());
+		g = std::max(b, g * body->GetMetallicity().ToFloat());
 		m_darkrockColor[i] = vector3d(r, g, b);
 	}
 
@@ -527,8 +527,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		g = m_rand.Double(0.3, 1.0);
 		r = m_rand.Double(0.3, g);
 		b = m_rand.Double(0.2, r);
-		g = std::max(r, g * m_body->m_life.ToFloat());
-		b *= (1.0-m_body->m_life.ToFloat());
+		g = std::max(r, g * body->GetLife().ToFloat());
+		b *= (1.0-body->GetLife().ToFloat());
 		m_plantColor[i] = vector3d(r, g, b);
 	}
 
@@ -540,8 +540,8 @@ Terrain::Terrain(const SystemBody *body) : m_body(body), m_seed(body->seed), m_r
 		g = m_rand.Double(0.05, 0.3);
 		r = m_rand.Double(0.00, g);
 		b = m_rand.Double(0.00, r);
-		g = std::max(r, g * m_body->m_life.ToFloat());
-		b *= (1.0-m_body->m_life.ToFloat());
+		g = std::max(r, g * body->GetLife().ToFloat());
+		b *= (1.0-body->GetLife().ToFloat());
 		m_darkplantColor[i] = vector3d(r, g, b);
 	}
 
@@ -628,21 +628,21 @@ void Terrain::SetFracDef(const unsigned int index, const double featureHeightMet
 	m_fracdef[index].frequency = m_planetRadius / featureWidthMeters;
 	m_fracdef[index].octaves = std::max(1, int(ceil(log(featureWidthMeters / smallestOctaveMeters) / log(2.0))));
 	m_fracdef[index].lacunarity = 2.0;
-	//printf("%d octaves\n", m_fracdef[index].octaves); //print
+	//Output("%d octaves\n", m_fracdef[index].octaves); //print
 }
 
 void Terrain::DebugDump() const
 {
-	fprintf(stderr, "Terrain state dump:\n");
-	fprintf(stderr, "  Height fractal: %s\n", GetHeightFractalName());
-	fprintf(stderr, "  Color fractal: %s\n", GetColorFractalName());
-	fprintf(stderr, "  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
-	fprintf(stderr, "  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
-	fprintf(stderr, "  Seed: %d\n", m_seed);
-	fprintf(stderr, "  Body: %s [%d,%d,%d,%u,%u]\n", m_body->name.c_str(), m_body->path.sectorX, m_body->path.sectorY, m_body->path.sectorZ, m_body->path.systemIndex, m_body->path.bodyIndex);
-	fprintf(stderr, "  Aspect Ratio: %g\n", m_body->aspectRatio.ToDouble());
-	fprintf(stderr, "  Fracdefs:\n");
+	Output("Terrain state dump:\n");
+	Output("  Height fractal: %s\n", GetHeightFractalName());
+	Output("  Color fractal: %s\n", GetColorFractalName());
+	Output("  Detail: fracnum %d  fracmult %f  textures %s\n", m_fracnum, m_fracmult, textures ? "true" : "false");
+	Output("  Config: DetailPlanets %d   FractalMultiple %d  Textures  %d\n", Pi::config->Int("DetailPlanets"), Pi::config->Int("FractalMultiple"), Pi::config->Int("Textures"));
+	Output("  Seed: %d\n", m_seed);
+	Output("  Body: %s [%d,%d,%d,%u,%u]\n", m_minBody.m_name.c_str(), m_minBody.m_path.sectorX, m_minBody.m_path.sectorY, m_minBody.m_path.sectorZ, m_minBody.m_path.systemIndex, m_minBody.m_path.bodyIndex);
+	Output("  Aspect Ratio: %g\n", m_minBody.m_aspectRatio);
+	Output("  Fracdefs:\n");
 	for (int i = 0; i < 10; i++) {
-		fprintf(stderr, "    %d: amp %f  freq %f  lac %f  oct %d\n", i, m_fracdef[i].amplitude, m_fracdef[i].frequency, m_fracdef[i].lacunarity, m_fracdef[i].octaves);
+		Output("    %d: amp %f  freq %f  lac %f  oct %d\n", i, m_fracdef[i].amplitude, m_fracdef[i].frequency, m_fracdef[i].lacunarity, m_fracdef[i].octaves);
 	}
 }

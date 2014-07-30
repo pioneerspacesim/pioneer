@@ -1,12 +1,14 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "Pi.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
 #include "galaxy/StarSystem.h"
 #include "galaxy/Sector.h"
-#include "galaxy/SectorCache.h"
+#include "galaxy/GalaxyCache.h"
 
 /*
  * Class: SystemPath
@@ -29,6 +31,45 @@
  * components are the same. If you want to see if two paths correspond to the
  * same system without reference to their body indexes, use <IsSameSystem>.
  */
+
+template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o) {
+	lua_State *l = Lua::manager->GetLuaState();
+
+	// get the system path object cache
+	if (!luaL_getsubtable(l, LUA_REGISTRYINDEX, "SystemPaths")) {
+		lua_createtable(l, 0, 1);
+		lua_pushliteral(l, "v");
+		lua_setfield(l, -2, "__mode");
+		lua_setmetatable(l, -2);
+	}
+
+	// stack: [SystemPaths]
+
+	// push the system path as a blob to use as a key to look up the actual SystemPath object
+	char key_blob[SystemPath::SizeAsBlob];
+	o.SerializeToBlob(key_blob);
+
+	lua_pushlstring(l, key_blob, sizeof(key_blob)); // [SystemPaths key]
+	lua_pushvalue(l, -1); // [SystemPaths key key]
+	lua_rawget(l, -3); // [SystemPaths key value/nil]
+	if (lua_isnil(l, -1)) {
+		// [SystemPaths key nil]
+		lua_pop(l, 1);
+
+		// push a new Lua SystemPath object
+		Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<SystemPath>))) LuaCopyObject<SystemPath>(o));
+
+		// store it in the SystemPaths cache, but keep a copy on the stack
+		lua_pushvalue(l, -1); // [SystemPaths  key  value  value]
+		lua_insert(l, -4); // [value SystemPaths key value]
+		lua_rawset(l, -3); // [value SystemPaths]
+		lua_pop(l, 1); // [value]
+	} else {
+		// [SystemPaths key value]
+		lua_insert(l, -3); // [value SystemPaths key]
+		lua_pop(l, 2); // [value]
+	}
+}
 
 /*
  * Function: New
@@ -71,7 +112,7 @@ static int l_sbodypath_new(lua_State *l)
 		path.systemIndex = luaL_checkinteger(l, 4);
 
 		// if this is a system path, then check that the system exists
-		const Sector* s = Sector::cache.GetCached(path);
+		RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(path);
 		if (size_t(path.systemIndex) >= s->m_systems.size())
 			luaL_error(l, "System %d in sector <%d,%d,%d> does not exist", path.systemIndex, sector_x, sector_y, sector_z);
 
@@ -79,8 +120,8 @@ static int l_sbodypath_new(lua_State *l)
 			path.bodyIndex = luaL_checkinteger(l, 5);
 
 			// and if it's a body path, check that the body exists
-			RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
-			if (size_t(path.bodyIndex) >= sys->m_bodies.size()) {
+			RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(path);
+			if (path.bodyIndex >= sys->GetNumBodies()) {
 				luaL_error(l, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist",
 					path.bodyIndex, sector_x, sector_y, sector_z, path.systemIndex, sys->GetName().c_str());
 			}
@@ -117,6 +158,11 @@ static int l_sbodypath_is_same_system(lua_State *l)
 {
 	SystemPath *a = LuaObject<SystemPath>::CheckFromLua(1);
 	SystemPath *b = LuaObject<SystemPath>::CheckFromLua(2);
+
+	if (!a->HasValidSystem())
+		return luaL_error(l, "SystemPath:IsSameSystem() self argument does not refer to a system");
+	if (!b->HasValidSystem())
+		return luaL_error(l, "SystemPath:IsSameSystem() argument #1 does not refer to a system");
 
 	lua_pushboolean(l, a->IsSameSystem(b));
 	return 1;
@@ -176,6 +222,9 @@ static int l_sbodypath_is_same_sector(lua_State *l)
 static int l_sbodypath_system_only(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	if (!path->HasValidSystem())
+		return luaL_error(l, "SystemPath:SystemOnly() self argument does not refer to a system");
+	if (path->IsSystemPath()) { return 1; }
 	const SystemPath sysOnly(path->SystemOnly());
 	LuaObject<SystemPath>::PushToLua(sysOnly);
 	return 1;
@@ -203,6 +252,7 @@ static int l_sbodypath_system_only(lua_State *l)
 static int l_sbodypath_sector_only(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
+	if (path->IsSectorPath()) { return 1; }
 	LuaObject<SystemPath>::PushToLua(path->SectorOnly());
 	return 1;
 }
@@ -240,10 +290,16 @@ static int l_sbodypath_distance_to(lua_State *l)
 	if (!loc2) {
 		StarSystem *s2 = LuaObject<StarSystem>::CheckFromLua(2);
 		loc2 = &(s2->GetPath());
+		assert(loc2->HasValidSystem());
 	}
 
-	const Sector* sec1 = Sector::cache.GetCached(*loc1);
-	const Sector* sec2 = Sector::cache.GetCached(*loc2);
+	if (!loc1->HasValidSystem())
+		return luaL_error(l, "SystemPath:DistanceTo() self argument does not refer to a system");
+	if (!loc2->HasValidSystem())
+		return luaL_error(l, "SystemPath:DistanceTo() argument #1 does not refer to a system");
+
+	RefCountedPtr<const Sector> sec1 = Pi::GetGalaxy()->GetSector(*loc1);
+	RefCountedPtr<const Sector> sec2 = Pi::GetGalaxy()->GetSector(*loc2);
 
 	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 
@@ -275,7 +331,11 @@ static int l_sbodypath_distance_to(lua_State *l)
 static int l_sbodypath_get_star_system(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	RefCountedPtr<StarSystem> s = StarSystem::GetCached(path);
+
+	if (path->IsSectorPath())
+		return luaL_error(l, "SystemPath:GetStarSystem() self argument does not refer to a system");
+
+	RefCountedPtr<StarSystem> s = Pi::GetGalaxy()->GetStarSystem(path);
 	// LuaObject<StarSystem> shares ownership of the StarSystem,
 	// because LuaAcquirer<LuaObject<StarSystem>> uses IncRefCount and DecRefCount
 	LuaObject<StarSystem>::PushToLua(s.Get());
@@ -310,7 +370,7 @@ static int l_sbodypath_get_system_body(lua_State *l)
 		return 0;
 	}
 
-	RefCountedPtr<StarSystem> sys = StarSystem::GetCached(path);
+	RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(path);
 	if (path->IsSystemPath()) {
 		luaL_error(l, "Path <%d,%d,%d : %d ('%s')> does not name a body", path->sectorX, path->sectorY, path->sectorZ, path->systemIndex, sys->GetName().c_str());
 		return 0;
@@ -318,7 +378,7 @@ static int l_sbodypath_get_system_body(lua_State *l)
 
 	// Lua should never be able to get an invalid SystemPath
 	// (note: this may change if it becomes possible to remove systems during the game)
-	assert(size_t(path->bodyIndex) < sys->m_bodies.size());
+	assert(path->bodyIndex < sys->GetNumBodies());
 
 	SystemBody *sbody = sys->GetBodyByPath(path);
 	LuaObject<SystemBody>::PushToLua(sbody);
@@ -405,7 +465,7 @@ static int l_sbodypath_attr_sector_z(lua_State *l)
 static int l_sbodypath_attr_system_index(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	if (!path->IsSectorPath())
+	if (path->HasValidSystem())
 		lua_pushinteger(l, path->systemIndex);
 	else
 		lua_pushnil(l);
@@ -429,7 +489,7 @@ static int l_sbodypath_attr_system_index(lua_State *l)
 static int l_sbodypath_attr_body_index(lua_State *l)
 {
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
-	if (path->IsBodyPath())
+	if (path->HasValidBody())
 		lua_pushinteger(l, path->bodyIndex);
 	else
 		lua_pushnil(l);
@@ -452,45 +512,6 @@ static int l_sbodypath_meta_tostring(lua_State *l)
 			path->systemIndex, path->bodyIndex);
 	}
 	return 1;
-}
-
-template <> void LuaObject<SystemPath>::PushToLua(const SystemPath &o) {
-	lua_State *l = Lua::manager->GetLuaState();
-
-	// get the system path object cache
-	if (!luaL_getsubtable(l, LUA_REGISTRYINDEX, "SystemPaths")) {
-		lua_createtable(l, 0, 1);
-		lua_pushliteral(l, "v");
-		lua_setfield(l, -2, "__mode");
-		lua_setmetatable(l, -2);
-	}
-
-	// stack: [SystemPaths]
-
-	// push the system path as a blob to use as a key to look up the actual SystemPath object
-	char key_blob[SystemPath::SizeAsBlob];
-	o.SerializeToBlob(key_blob);
-
-	lua_pushlstring(l, key_blob, sizeof(key_blob)); // [SystemPaths key]
-	lua_pushvalue(l, -1); // [SystemPaths key key]
-	lua_rawget(l, -3); // [SystemPaths key value/nil]
-	if (lua_isnil(l, -1)) {
-		// [SystemPaths key nil]
-		lua_pop(l, 1);
-
-		// push a new Lua SystemPath object
-		Register(new (LuaObjectBase::Allocate(sizeof(LuaCopyObject<SystemPath>))) LuaCopyObject<SystemPath>(o));
-
-		// store it in the SystemPaths cache, but keep a copy on the stack
-		lua_pushvalue(l, -1); // [SystemPaths  key  value  value]
-		lua_insert(l, -4); // [value SystemPaths key value]
-		lua_rawset(l, -3); // [value SystemPaths]
-		lua_pop(l, 1); // [value]
-	} else {
-		// [SystemPaths key value]
-		lua_insert(l, -3); // [value SystemPaths key]
-		lua_pop(l, 2); // [value]
-	}
 }
 
 template <> const char *LuaObject<SystemPath>::s_type = "SystemPath";

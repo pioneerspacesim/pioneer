@@ -1,12 +1,10 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local ShipDef = import("ShipDef")
-local EquipDef = import("EquipDef")
-local Comms = import("Comms")
 
 local EquipmentTableWidgets = import("EquipmentTableWidgets")
 
@@ -21,14 +19,14 @@ local commodityMarket = function (args)
 	})
 
 	return
-		ui:Grid(2,1)
+		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:VBox():PackEnd({
 					ui:Label(l.AVAILABLE_FOR_PURCHASE):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(stationTable),
 				})
 			})
-			:SetColumn(1, {
+			:SetColumn(2, {
 				ui:VBox():PackEnd({
 					ui:Label(l.IN_CARGO_HOLD):SetFont("HEADING_LARGE"),
 					ui:Expand():SetInnerWidget(shipTable),

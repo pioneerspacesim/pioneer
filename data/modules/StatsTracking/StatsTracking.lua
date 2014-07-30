@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Event = import("Event")
@@ -31,6 +31,8 @@ local onShipDestroyed = function (ship, attacker)
 			-- kill thereafter
 			Comms.Message(l.WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED,l.PIONEERING_PILOTS_GUILD)
 		end
+		Event.Queue("onReputationChanged", Character.persistent.player.reputation, Character.persistent.player.killcount - 1,
+			Character.persistent.player.reputation, Character.persistent.player.killcount)
 	elseif PlayerDamagedShips[ship] then
 		Character.persistent.player.assistcount = Character.persistent.player.assistcount + 1
 	end

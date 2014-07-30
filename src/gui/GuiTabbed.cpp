@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -155,13 +155,7 @@ void Tabbed::Draw()
 	float xpos = 0;
 	unsigned int index = 0;
 
-	glColor4ubv(Theme::Colors::bgShadow);
-	glBegin(GL_QUADS);
-		glVertex2f(0, TAB_BAR_HEIGHT);
-		glVertex2f(size[0], TAB_BAR_HEIGHT);
-		glVertex2f(size[0], 0);
-		glVertex2f(0, 0);
-	glEnd();
+	Theme::DrawRect(vector2f(0.f), vector2f(size[0], TAB_BAR_HEIGHT), Theme::Colors::bgShadow, Screen::alphaBlendState);
 
 	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end();
 			++i, index++) {
@@ -169,13 +163,7 @@ void Tabbed::Draw()
 		(*i).first->GetSize(csize);
 		csize[0] += 2*LABEL_PADDING;
 		if (index == m_page) {
-			glColor4ubv(Theme::Colors::bg);
-			glBegin(GL_QUADS);
-				glVertex2f(xpos, TAB_BAR_HEIGHT);
-				glVertex2f(xpos+csize[0], TAB_BAR_HEIGHT);
-				glVertex2f(xpos+csize[0], 0);
-				glVertex2f(xpos, 0);
-			glEnd();
+			Theme::DrawRect(vector2f(xpos, 0.f), vector2f(xpos+csize[0], TAB_BAR_HEIGHT), Theme::Colors::bg, Screen::alphaBlendState);
 		}
 		xpos += csize[0];
 	}

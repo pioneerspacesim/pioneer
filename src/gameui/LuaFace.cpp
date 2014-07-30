@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Face.h"
@@ -37,7 +37,7 @@ public:
 
 		Uint32 seed = 0;
 
-		if (lua_gettop(l) > 2)
+		if (lua_gettop(l) > 2 && !lua_isnil(l, 3))
 			seed = luaL_checkinteger(l, 3);
 
 		LuaObject<Face>::PushToLua(new Face(c, flags, seed));

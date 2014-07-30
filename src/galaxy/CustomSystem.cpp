@@ -1,22 +1,21 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CustomSystem.h"
+#include "Galaxy.h"
 #include "SystemPath.h"
 
 #include "LuaUtils.h"
 #include "LuaVector.h"
 #include "LuaFixed.h"
 #include "LuaConstants.h"
+#include "Pi.h"
 #include "Polit.h"
 #include "Factions.h"
 #include "FileSystem.h"
 #include <map>
 
-typedef std::map<SystemPath, CustomSystem::SystemList> SectorMap;
-
-static SectorMap s_sectorMap;
-static const CustomSystem::SystemList s_emptySystemList; // see: Null Object pattern
+const CustomSystemsDatabase::SystemList CustomSystemsDatabase::s_emptySystemList; // see: Null Object pattern
 
 // ------- CustomSystemBody --------
 
@@ -253,12 +252,12 @@ static CustomSystem **l_csys_check_ptr(lua_State *L, int idx) {
 static CustomSystem *l_csys_check(lua_State *L, int idx)
 { return *l_csys_check_ptr(L, idx); }
 
-static int interpret_star_types(int *starTypes, lua_State *L, int idx)
+static unsigned interpret_star_types(int *starTypes, lua_State *L, int idx)
 {
 	LUA_DEBUG_START(L);
 	luaL_checktype(L, idx, LUA_TTABLE);
 	lua_pushvalue(L, idx);
-	int i;
+	unsigned i;
 	for (i = 0; i < 4; ++i) {
 		int ty = SystemBody::TYPE_GRAVPOINT;
 		lua_rawgeti(L, -1, i + 1);
@@ -287,7 +286,7 @@ static int l_csys_new(lua_State *L)
 {
 	const char *name = luaL_checkstring(L, 2);
 	int starTypes[4];
-	int numStars = interpret_star_types(starTypes, L, 3);
+	unsigned numStars = interpret_star_types(starTypes, L, 3);
 
 	CustomSystem **csptr = static_cast<CustomSystem**>(
 			lua_newuserdata(L, sizeof(CustomSystem*)));
@@ -297,7 +296,7 @@ static int l_csys_new(lua_State *L)
 	(*csptr)->name = name;
 	(*csptr)->numStars = numStars;
 	assert(numStars <= 4);
-	for (int i = 0; i < numStars; ++i)
+	for (unsigned i = 0; i < numStars; ++i)
 		(*csptr)->primaryType[i] = static_cast<SystemBody::BodyType>(starTypes[i]);
 	return 1;
 }
@@ -340,7 +339,13 @@ static int l_csys_faction(lua_State *L)
 	CustomSystem *cs = l_csys_check(L, 1);
 
 	std::string factionName = luaL_checkstring(L, 2);
-	cs->faction = Faction::GetFaction(factionName);
+	if (!Pi::GetGalaxy()->GetFactions()->IsInitialized()) {
+		Pi::GetGalaxy()->GetFactions()->RegisterCustomSystem(cs, factionName);
+		lua_settop(L, 1);
+		return 1;
+	}
+
+	cs->faction = Pi::GetGalaxy()->GetFactions()->GetFaction(factionName);
 	if (cs->faction->idx == Faction::BAD_FACTION_IDX) {
 		luaL_argerror(L, 2, "Faction not found");
 	}
@@ -389,12 +394,24 @@ static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
 		lua_pop(L, 1);
 		LUA_DEBUG_CHECK(L, 0);
 
-		//printf("add-children-to-body adding %s to %s\n", kid->name.c_str(), sbody->name.c_str());
+		//Output("add-children-to-body adding %s to %s\n", kid->name.c_str(), sbody->name.c_str());
 
 		sbody->children.push_back(kid);
 	}
-	//printf("add-children-to-body done for %s\n", sbody->name.c_str());
+	//Output("add-children-to-body done for %s\n", sbody->name.c_str());
 	LUA_DEBUG_END(L, 0);
+}
+
+static unsigned count_stars(CustomSystemBody* csb)
+{
+	if (!csb)
+		return 0;
+	unsigned count = 0;
+	if (csb->type >= SystemBody::TYPE_STAR_MIN && csb->type <= SystemBody::TYPE_STAR_MAX)
+		++count;
+	for (CustomSystemBody* child : csb->children)
+		count += count_stars(child);
+	return count;
 }
 
 static int l_csys_bodies(lua_State *L)
@@ -416,6 +433,13 @@ static int l_csys_bodies(lua_State *L)
 
 	cs->sBody = *primary_ptr;
 	*primary_ptr = 0;
+	if (cs->sBody) {
+		unsigned star_count = count_stars(cs->sBody);
+		if (star_count != cs->numStars)
+			return luaL_error(L, "expected %u star(s) in system %s, but found %u (did you forget star types in CustomSystem:new?)",
+				cs->numStars, cs->name.c_str(), star_count);
+		// XXX Someday, we should check the other star types as well, but we do not use them anyway now.
+	}
 
 	lua_settop(L, 1);
 	return 1;
@@ -435,9 +459,9 @@ static int l_csys_add_to_sector(lua_State *L)
 	(*csptr)->sectorZ = z;
 	(*csptr)->pos = vector3f(*v);
 
-	//printf("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
+	//Output("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
 
-	s_sectorMap[SystemPath(x, y, z)].push_back(*csptr);
+	Pi::GetGalaxy()->GetCustomSystems()->AddCustomSystem(SystemPath(x, y, z), *csptr);
 	*csptr = 0;
 	return 0;
 }
@@ -489,7 +513,7 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 	register_class(L, LuaCustomSystemBody_TypeName, LuaCustomSystemBody_meta);
 }
 
-void CustomSystem::Init()
+void CustomSystemsDatabase::Init()
 {
 	PROFILE_SCOPED()
 	lua_State *L = luaL_newstate();
@@ -526,24 +550,30 @@ void CustomSystem::Init()
 	lua_close(L);
 }
 
-void CustomSystem::Uninit()
+CustomSystemsDatabase::~CustomSystemsDatabase()
 {
 	PROFILE_SCOPED()
-	for (SectorMap::iterator secIt = s_sectorMap.begin(); secIt != s_sectorMap.end(); ++secIt) {
-		for (CustomSystem::SystemList::iterator
+	for (SectorMap::iterator secIt = m_sectorMap.begin(); secIt != m_sectorMap.end(); ++secIt) {
+		for (CustomSystemsDatabase::SystemList::iterator
 				sysIt = secIt->second.begin(); sysIt != secIt->second.end(); ++sysIt) {
 			delete *sysIt;
 		}
 	}
-	s_sectorMap.clear();
+	m_sectorMap.clear();
 }
 
-const CustomSystem::SystemList &CustomSystem::GetCustomSystemsForSector(int x, int y, int z)
+const CustomSystemsDatabase::SystemList &CustomSystemsDatabase::GetCustomSystemsForSector(int x, int y, int z) const
 {
 	PROFILE_SCOPED()
 	SystemPath path(x,y,z);
-	SectorMap::const_iterator it = s_sectorMap.find(path);
-	return (it != s_sectorMap.end()) ? it->second : s_emptySystemList;
+	SectorMap::const_iterator it = m_sectorMap.find(path);
+	return (it != m_sectorMap.end()) ? it->second : s_emptySystemList;
+}
+
+void CustomSystemsDatabase::AddCustomSystem(const SystemPath& path, CustomSystem* csys)
+{
+	m_sectorMap[path].push_back(csys);
+
 }
 
 CustomSystem::CustomSystem():

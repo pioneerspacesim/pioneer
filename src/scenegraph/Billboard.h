@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_BILLBOARD_H
@@ -8,6 +8,7 @@
  */
 #include "Node.h"
 #include "graphics/Material.h"
+#include "graphics/RenderState.h"
 
 namespace SceneGraph {
 
@@ -24,6 +25,7 @@ public:
 private:
 	float m_size;
 	RefCountedPtr<Graphics::Material> m_material;
+	Graphics::RenderState *m_renderState;
 	vector3f m_offset;
 };
 

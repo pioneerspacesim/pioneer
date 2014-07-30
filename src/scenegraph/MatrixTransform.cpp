@@ -1,9 +1,10 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MatrixTransform.h"
 #include "NodeVisitor.h"
 #include "NodeCopyCache.h"
+#include "BaseLoader.h"
 #include "graphics/Renderer.h"
 namespace SceneGraph {
 
@@ -35,6 +36,22 @@ void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)
 	//renderer->SetTransform(t);
 	//DrawAxes();
 	RenderChildren(t, rd);
+}
+
+void MatrixTransform::Save(NodeDatabase &db)
+{
+	Group::Save(db);
+	for (Uint32 i = 0; i < 16; i++)
+		db.wr->Float(m_transform[i]);
+}
+
+MatrixTransform *MatrixTransform::Load(NodeDatabase &db)
+{
+	matrix4x4f matrix;
+	for (Uint32 i = 0; i < 16; i++)
+		matrix[i] = db.rd->Float();
+	MatrixTransform *mt = new MatrixTransform(db.loader->GetRenderer(), matrix);
+	return mt;
 }
 
 }

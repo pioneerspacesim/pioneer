@@ -203,12 +203,4 @@ namespace Profiler {
 	};
 }; // namespace Profiler
 
-
-struct ScopedTimer {
-	ScopedTimer( Profiler::Timer &t ) : mTimer(t) { mTimer.Start(); }
-	~ScopedTimer() { mTimer.Stop(); }
-protected:
-	Profiler::Timer &mTimer;
-};
-
 #endif // __PROFILER_H__

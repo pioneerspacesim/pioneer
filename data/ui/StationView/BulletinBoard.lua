@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -14,21 +14,23 @@ local tabGroup
 
 local rowRef = {}
 
-local bbTable = ui:Table():SetMouseEnabled(true)
+local bbTable = ui:Table()
+	:SetRowSpacing(5)
+	:SetColumnSpacing(10)
+	:SetRowAlignment("CENTER")
+	:SetMouseEnabled(true)
+
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
-
 	local ref = rowRef[station][row+1]
-
-	local onChat = SpaceStation.adverts[station][ref][2]
-	local onDelete = SpaceStation.adverts[station][ref][3]
+	local ad = SpaceStation.adverts[station][ref]
 
 	local chatFunc = function (form, option)
-		return onChat(form, ref, option)
+		return ad.onChat(form, ref, option)
 	end
-	local removeFunc = onDelete and function ()
+	local removeFunc = function ()
 		station:RemoveAdvert(ref)
-	end or nil
+	end
 
 	local form = ChatForm.New(chatFunc, removeFunc, ref, tabGroup)
 	ui:NewLayer(form:BuildWidget())
@@ -44,7 +46,15 @@ local updateTable = function (station)
 
 	local rows = {}
 	for ref,ad in pairs(adverts) do
-		table.insert(rows, ad[1])
+		local icon = ad.icon or "default"
+		local label = ui:Label(ad.description)
+		if type(ad.isEnabled) == "function" and not ad.isEnabled(ref) then
+			label:SetColor({ r = 0.4, g = 0.4, b = 0.4 })
+		end
+		table.insert(rows, {
+			ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
+			label,
+		})
 	end
 
 	bbTable:AddRows(rows)
@@ -66,6 +76,7 @@ end
 
 Event.Register("onAdvertAdded", updateRowRefs)
 Event.Register("onAdvertRemoved", updateRowRefs) -- XXX close form if open
+Event.Register("onAdvertChanged", updateTable)
 
 local bulletinBoard = function (args, tg)
 	tabGroup = tg

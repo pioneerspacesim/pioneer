@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} je nezávislá organizace, která si klade za cíl poskytovat svým členům cenově zvýhodněné palivo pro jejich lodě. Její pobočky lze nalézt po celé galaxii. Členské výhody zahrnují:\n\n\t* Naše vlastní, na trhu nezávislé, zásoby paliva\n\t* {hydrogen} za slevněné ceny\n\t* {military_fuel} za slevněné ceny\n\t* {water} za slevněné ceny\n\t* {radioactives}, likvidace zdarma (viz podmínky)\n\t* Fuel tank refilling, where necessary\n\t* Doplnění paliva, kde je potřeba\n\nPřidej se k nám! Roční členství stojí pouhých {membership_fee}"
+      "message" : "{clubname} je nezávislá organizace určená k poskytování slevněného paliva jejím členům. Pobočky lze najít po celé galaxii. Výhody pro členy zahrnují:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -31,21 +31,25 @@
       "description" : "",
       "message" : "Konec"
    },
-   "HYDROGEN" : {
+   "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "Vodík"
+      "message" : "{radioactives}, likvidace zdarma (za určitých podmínek)"
    },
-   "MILITARY_FUEL" : {
+   "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "Vojenské palivo"
+      "message" : "{fuel} za slevněné ceny"
    },
-   "RADIOACTIVES" : {
+   "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Radioaktivní odpad"
+      "message" : "Naše vlastní zásoby paliva, nezávislé na obecném trhu"
    },
-   "WATER" : {
+   "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Voda"
+      "message" : "Doplnění paliva, v případě potřeby"
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "Vstupte ihned! Roční náklady na členství pouze {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

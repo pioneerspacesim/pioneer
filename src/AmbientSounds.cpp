@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -102,7 +102,7 @@ void AmbientSounds::Update()
 		if (!s_stationNoise.IsPlaying()) {
 			// just use a random station noise until we have a
 			// concept of 'station size'
-			s_stationNoise.Play(s_stationNoiseSounds[Pi::player->GetDockedWith()->GetSystemBody()->seed % NUM_STATION_SOUNDS],
+			s_stationNoise.Play(s_stationNoiseSounds[Pi::player->GetDockedWith()->GetSystemBody()->GetSeed() % NUM_STATION_SOUNDS],
 					0.3f*v_env, 0.3f*v_env, Sound::OP_REPEAT);
 		}
 	} else if (Pi::player->GetFlightState() == Ship::LANDED) {
@@ -134,13 +134,13 @@ void AmbientSounds::Update()
 			assert(sbody);
 			const char *sample = 0;
 
-			if (sbody->m_life > fixed(1,5)) {
-				sample = s_surfaceLifeSounds[sbody->seed % NUM_SURFACE_LIFE_SOUNDS];
+			if (sbody->GetLife() > fixed(1,5)) {
+				sample = s_surfaceLifeSounds[sbody->GetSeed() % NUM_SURFACE_LIFE_SOUNDS];
 			}
-			else if (sbody->m_volatileGas > fixed(1,2)) {
-				sample = s_surfaceSounds[sbody->seed % NUM_SURFACE_DEAD_SOUNDS];
+			else if (sbody->GetVolatileGas() > fixed(1,2)) {
+				sample = s_surfaceSounds[sbody->GetSeed() % NUM_SURFACE_DEAD_SOUNDS];
 			}
-			else if (sbody->m_volatileGas > fixed(1,10)) {
+			else if (sbody->GetVolatileGas() > fixed(1,10)) {
 				sample = "Wind";
 			}
 
@@ -191,7 +191,7 @@ void AmbientSounds::Update()
 			const SystemBody *sbody = f->GetSystemBody();
 			const char *sample = 0;
 			for (; sbody && !sample; sbody = f->GetSystemBody()) {
-				switch (sbody->type) {
+				switch (sbody->GetType()) {
 					case SystemBody::TYPE_BROWN_DWARF: sample = "Brown_Dwarf_Substellar_Object"; break;
 					case SystemBody::TYPE_STAR_M: sample = "M_Red_Star"; break;
 					case SystemBody::TYPE_STAR_K: sample = "K_Star"; break;
@@ -202,11 +202,11 @@ void AmbientSounds::Update()
 					case SystemBody::TYPE_STAR_B: sample = "B_Hot_Blue_STAR"; break;
 					case SystemBody::TYPE_STAR_O: sample = "Blue_Super_Giant"; break;
 					case SystemBody::TYPE_PLANET_GAS_GIANT: {
-							if (sbody->mass > fixed(400,1)) {
+							if (sbody->GetMassAsFixed() > fixed(400,1)) {
 								sample = "Very_Large_Gas_Giant";
-							} else if (sbody->mass > fixed(80,1)) {
+							} else if (sbody->GetMassAsFixed() > fixed(80,1)) {
 								sample = "Large_Gas_Giant";
-							} else if (sbody->mass > fixed(20,1)) {
+							} else if (sbody->GetMassAsFixed() > fixed(20,1)) {
 								sample = "Medium_Gas_Giant";
 							} else {
 								sample = "Small_Gas_Giant";

@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MultiLineText.h"
@@ -23,7 +23,7 @@ Point MultiLineText::PreferredSize()
 	// we'll compute a size for about 75 chars wide. container may choose to
 	// override us, but if it gives us what we ask for this will make sure we
 	// get something readable
-	return m_layout->ComputeSize(Point(GetContext()->GetFont(GetFont())->GetGlyph(' ').advx * 75, 0));
+	return m_layout->ComputeSize(Point(GetContext()->GetFont(GetFont())->GetGlyph(' ').advX * 75, 0));
 }
 
 void MultiLineText::Layout()
@@ -36,12 +36,13 @@ void MultiLineText::Layout()
 
 void MultiLineText::Draw()
 {
-	m_layout->Draw(GetSize(), GetDrawOffset(), GetContext()->GetScissor());
+	m_layout->Draw(GetSize(), GetDrawOffset(), GetContext()->GetScissor(), Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, Color::WHITE.a*GetContext()->GetOpacity()));
 }
 
 Widget *MultiLineText::SetFont(Font font) {
 	Widget::SetFont(font);
 	m_layout.reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+	m_preferredSize = Point();
 	return this;
 }
 
@@ -49,6 +50,7 @@ MultiLineText *MultiLineText::SetText(const std::string &text)
 {
 	m_text = text;
 	m_layout.reset(new TextLayout(GetContext()->GetFont(GetFont()), m_text));
+	m_preferredSize = Point();
 	GetContext()->RequestLayout();
 	return this;
 }

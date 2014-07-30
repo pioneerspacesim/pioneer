@@ -1,7 +1,8 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Single.h"
+#include "Context.h"
 
 namespace UI {
 
@@ -27,6 +28,8 @@ Single *Single::SetInnerWidget(Widget *widget)
 	AddWidget(widget);
 	m_innerWidget = widget;
 
+	GetContext()->RequestLayout();
+
 	return this;
 }
 
@@ -35,6 +38,7 @@ void Single::RemoveInnerWidget()
 	if (m_innerWidget) {
 		Container::RemoveWidget(m_innerWidget);
 		m_innerWidget = 0;
+		GetContext()->RequestLayout();
 	}
 }
 

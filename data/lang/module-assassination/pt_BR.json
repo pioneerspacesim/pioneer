@@ -1,0 +1,330 @@
+{
+   "ASSASSINATION" : {
+      "description" : "",
+      "message" : "Assassinato"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Poderia repetir a requisição original?"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "Desculpe, mas não confio em você."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Volte quando você tiver algumas qualificações."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Não acho que você seja quem eu procuro."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Você não parece alguém capaz de fazer o que precisa ser feito."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Você claramente não é a pessoa para este trabalho."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Você parece inexperiente demais para lidar com um contrato de tamanha importância."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Nunca ouvi falar de você. Preciso de alguém experiente para este contrato."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "Não estou disposto a arriscar este contrato entregando-o a alguém tão inexperiente como você."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distância:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "Excelente."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "PRECISA-SE: Remoção de {alvo} do sistema {sistema}."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Estou muito insatisfeito por saber que {alvo} ainda está vivo. Desnecessário dizer que você não será pago."
+   },
+   "FLAVOUR_0_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Remoção de {alvo} não foi feita por você. Sem pagamento desta vez."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "Olá, sou {nome}. Lhe pagarei {dinheiro}} para se livrar de {alvo}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Muito gratos pelo recebimento da notícia das longas férias de {alvo}. Muito bem, já inicieiseu pagamento completo."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "PROCURA-SE: Alguém para matar {alvo} desde o sistema {sistema}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ouvi que {alvo} tem ótima saúde. Isso acaba comigo."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "O falecimento de {alvo} não foi causado por você, então não peça pagamento."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Preciso que {alvo} saia de cena. Lhe pagarei {dinheiro} por isso."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Estou muito triste por ouvir sobre o falecimento de {alvo}. Você foi integralmente pago."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "REMOÇÃO: {alvo} não é mais aceito no sistema {sistema}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "é lastimável que {alvo} ainda esteja vivo e bem. Você não será pago até que cumpra seu contrato."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "O contrato foi concluído por outra pessoa. Seja mais rápido da próxima vez!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Sou {nome}, e lhe pagarei {dinheiro} para eliminar {alvo}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Você foi integralmente pago por completar um contrato de tamanha importância."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "EXTERMÍNIO: Alguém para eliminar {alvo}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Você pagará por não ter eliminado {alvo}!"
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "Você está pedindo dinheiro por um trabalho que foi realizado por outra pessoa? Suma daqui."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "O {alvo} deve ser reduzido a poeira espacial. Vou te recompensar {dinheiro} por isso."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{alvo} está morto. Aqui está o seu prêmio."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "APOSENTADORIA: Alguém para aposentar {alvo}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{alvo} ainda respira e eu não vou te dar nenhum dinheiro."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "A aposentadoria de {alvo} foi feita por outra pessoa."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Por {dinheiro} desejamos encorajar {alvo} a parar de trabalhar permanentemente."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Notícias da aposentadoria de {alvo} deliciosamente recebidas. Aqui está seu dinheiro."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "BIOGRÁFICO: Alguns admiradores querem {alvo} morto."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Descobrimos que {alvo} ainda está operante. Isso nos entristece."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{alvo} foi neutralizado por outra pessoa."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Desejamos que {alvo} tenha um fim de carreira adequado no sistema {sistema} por {dinheiro}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mensagem do fim da carreira de {alvo} felizmente recebida. Aqui está seu {dinheiro}."
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Desligamento."
+   },
+   "HOW_SOON_MUST_IT_BE_DONE" : {
+      "description" : "",
+      "message" : "Quando será feito?"
+   },
+   "HOW_WILL_I_BE_PAID" : {
+      "description" : "",
+      "message" : "Como serei pago?"
+   },
+   "IT_MUST_BE_DONE_AFTER" : {
+      "description" : "",
+      "message" : "Será feito depois que {alvo} deixar {base de lançamento}. Não perca a oportunidade."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "Ano-luz"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ok, de acordo."
+   },
+   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
+      "description" : "",
+      "message" : "Volte aqui na conclusão do contrato e você será pago."
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "Nave:"
+   },
+   "SHIP_ID" : {
+      "description" : "",
+      "message" : "Identificação da Nave:"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Base de Lançamento:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Sistema:"
+   },
+   "TARGET_NAME" : {
+      "description" : "",
+      "message" : "Nome do alvo:"
+   },
+   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
+      "description" : "",
+      "message" : "O alvo deixará a base de lançamento em:"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Almirante"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "Embaixador"
+   },
+   "TITLE_10" : {
+      "description" : "",
+      "message" : "Bandeira"
+   },
+   "TITLE_11" : {
+      "description" : "",
+      "message" : "General"
+   },
+   "TITLE_12" : {
+      "description" : "",
+      "message" : "Juiz"
+   },
+   "TITLE_13" : {
+      "description" : "",
+      "message" : "Advogado"
+   },
+   "TITLE_14" : {
+      "description" : "",
+      "message" : "Tenente"
+   },
+   "TITLE_15" : {
+      "description" : "",
+      "message" : "Marechal"
+   },
+   "TITLE_16" : {
+      "description" : "",
+      "message" : "Comerciante"
+   },
+   "TITLE_17" : {
+      "description" : "",
+      "message" : "Oficial"
+   },
+   "TITLE_18" : {
+      "description" : "",
+      "message" : "Privado"
+   },
+   "TITLE_19" : {
+      "description" : "",
+      "message" : "Professor"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Brigadeiro"
+   },
+   "TITLE_20" : {
+      "description" : "",
+      "message" : "Promotor"
+   },
+   "TITLE_21" : {
+      "description" : "",
+      "message" : "Reitor"
+   },
+   "TITLE_22" : {
+      "description" : "",
+      "message" : "Marinheiro"
+   },
+   "TITLE_23" : {
+      "description" : "",
+      "message" : "Senador"
+   },
+   "TITLE_24" : {
+      "description" : "",
+      "message" : "Sargento"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "Cadete"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Capitão"
+   },
+   "TITLE_5" : {
+      "description" : "",
+      "message" : "Cardeal"
+   },
+   "TITLE_6" : {
+      "description" : "",
+      "message" : "Coronel"
+   },
+   "TITLE_7" : {
+      "description" : "",
+      "message" : "Comandante"
+   },
+   "TITLE_8" : {
+      "description" : "",
+      "message" : "Comodoro"
+   },
+   "TITLE_9" : {
+      "description" : "",
+      "message" : "Cabo"
+   },
+   "WHERE_CAN_I_FIND_X" : {
+      "description" : "",
+      "message" : "Onde posso encontrar {alvo}?"
+   },
+   "X_WILL_BE_LEAVING" : {
+      "description" : "",
+      "message" : "{alvo} deixará {base de lançamento} no sistema {sistema} ({setorx}, {setory}, {setorz}), a uma distância de {distância} anos-luz em {data}. A nave é a {nome da nave} e tem o número de registro  {registro da nave}."
+   }
+}

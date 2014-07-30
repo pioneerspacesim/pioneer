@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BVHTree.h"
@@ -36,7 +36,7 @@ void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPt
 
 	node->numTris = numTris;
 	node->triIndicesStart = &m_objPtrAlloc[m_objPtrAllocPos];
-	//if (objs.size()>3) printf("fat node %d\n", objs.size());
+	//if (objs.size()>3) Output("fat node %d\n", objs.size());
 
 	// copy tri indices to the stinking flat array
 	for (int i=numTris-1; i>=0; i--) {

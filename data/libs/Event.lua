@@ -1,4 +1,4 @@
--- Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -74,7 +74,7 @@ Event = {
 	--
 	-- Status:
 	--
-	--   stable  
+	--   stable
 	--
 	Register = function (name, cb)
 		if not callbacks[name] then callbacks[name] = {} end
@@ -112,7 +112,7 @@ Event = {
 		callbacks[name][cb] = nil
 	end,
 
-    --
+	--
 	-- Function: Queue
 	--
 	-- Add an event to the queue of pending events. The event will be
@@ -358,6 +358,27 @@ Event = {
 -- Status:
 --
 --   stable
+--
+
+--
+-- Event: onShipFiring
+--
+-- Triggered when a ship is firing its weapons.
+--
+-- > local onShipFiring = function (ship) ... end
+-- > Event.Register("onShipFiring", onShipFiring)
+--
+-- Parameters:
+--
+--   ship - the <Ship> that is firing its weapons
+--
+-- Availability:
+--
+--   2014 May
+--
+-- Status:
+--
+--   experimental
 --
 
 --
@@ -671,8 +692,8 @@ Event = {
 --
 --   ship - the <Ship> whose equipment just changed
 --
---   equipType - the string ID of the <EquipType> that was added or removed,
---   or 'NONE' if the change involved multiple types of equipment
+--   equipType - The <EquipType> item that was added or removed,
+--   or nil if the change involved multiple types of equipment
 --
 -- Availability:
 --
@@ -705,7 +726,5 @@ Event = {
 --
 --   experimental
 --
-
--- XXX document SongFinished
 
 return Event

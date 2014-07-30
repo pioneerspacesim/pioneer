@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ObjectViewerView.h"
@@ -7,7 +7,6 @@
 #include "Frame.h"
 #include "Player.h"
 #include "Space.h"
-#include "GeoSphere.h"
 #include "terrain/Terrain.h"
 #include "Planet.h"
 #include "graphics/Light.h"
@@ -16,7 +15,7 @@
 
 #if WITH_OBJECTVIEWER
 
-ObjectViewerView::ObjectViewerView(): View()
+ObjectViewerView::ObjectViewerView(): UIView()
 {
 	SetTransparency(true);
 	viewingDist = 1000.0f;
@@ -115,11 +114,14 @@ void ObjectViewerView::Draw3D()
 
 		body->Render(m_renderer, 0, vector3d(0,0,-viewingDist), m_camRot);
 	}
+
+	UIView::Draw3D();
 }
 
 void ObjectViewerView::OnSwitchTo()
 {
 	m_camRot = matrix4x4d::Identity();
+	UIView::OnSwitchTo();
 }
 
 void ObjectViewerView::Update()
@@ -138,15 +140,15 @@ void ObjectViewerView::Update()
 		if (body->IsType(Object::TERRAINBODY)) {
 			TerrainBody *tbody = static_cast<TerrainBody*>(body);
 			const SystemBody *sbody = tbody->GetSystemBody();
-			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->m_volatileGas.ToFloat()));
-			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->m_volatileLiquid.ToFloat()));
-			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->m_volatileIces.ToFloat()));
-			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->m_life.ToFloat()));
-			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->m_volcanicity.ToFloat()));
-			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->m_metallicity.ToFloat()));
-			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->seed)));
-			m_sbodyMass->SetText(stringf("%0{f}", sbody->mass.ToFloat()));
-			m_sbodyRadius->SetText(stringf("%0{f}", sbody->radius.ToFloat()));
+			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->GetVolatileGas().ToFloat()));
+			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->GetVolatileLiquid().ToFloat()));
+			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->GetVolatileIces().ToFloat()));
+			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->GetLife().ToFloat()));
+			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->GetVolcanicity().ToFloat()));
+			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->GetMetallicity().ToFloat()));
+			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->GetSeed())));
+			m_sbodyMass->SetText(stringf("%0{f}", sbody->GetMassAsFixed().ToFloat()));
+			m_sbodyRadius->SetText(stringf("%0{f}", sbody->GetRadiusAsFixed().ToFloat()));
 		}
 	}
 	snprintf(buf, sizeof(buf), "View dist: %s     Object: %s", format_distance(viewingDist).c_str(), (body ? body->GetLabel().c_str() : "<none>"));
@@ -154,6 +156,8 @@ void ObjectViewerView::Update()
 
 	if (body && body->IsType(Object::TERRAINBODY)) m_vbox->ShowAll();
 	else m_vbox->HideAll();
+
+	UIView::Update();
 }
 
 void ObjectViewerView::OnChangeTerrain()
@@ -174,9 +178,9 @@ void ObjectViewerView::OnChangeTerrain()
 	Body *body = Pi::player->GetNavTarget();
 	SystemBody *sbody = const_cast<SystemBody*>(body->GetSystemBody());
 
-	sbody->seed = atoi(m_sbodySeed->GetText().c_str());
-	sbody->radius = radius;
-	sbody->mass = mass;
+	sbody->m_seed = atoi(m_sbodySeed->GetText().c_str());
+	sbody->m_radius = radius;
+	sbody->m_mass = mass;
 	sbody->m_metallicity = metallicity;
 	sbody->m_volatileGas = volatileGas;
 	sbody->m_volatileLiquid = volatileLiquid;
@@ -185,7 +189,7 @@ void ObjectViewerView::OnChangeTerrain()
 	sbody->m_life = life;
 
 	// force reload
-	static_cast<TerrainBody*>(body)->GetGeoSphere()->OnChangeDetailLevel();
+	TerrainBody::OnChangeDetailLevel();
 }
 
 void ObjectViewerView::OnRandomSeed()

@@ -59,6 +59,38 @@
       "description" : "",
       "message" : "Deadline:"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "I'm sorry, but I don't think I could trust you with my safety."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Come back when you have some qualifications."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "I don't think you're the pilot I'm looking for."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "You don't look like someone capable of transporting people."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "You're not the kind of pilot I'm looking for."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "You seem much too inexperienced to handle a transport of this importance."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "I have never heard of you. I need someone experienced for this journey."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "I'm not willing to risk my life on someone without any qualifications like you."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distance:"
@@ -109,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "You are so inexperienced pilot. Not going to pay for this."
+      "message" : "You are such an inexperienced pilot. I'm not going to pay for this."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -141,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm going to lost my job because of your incompetence. So I need that money more than you."
+      "message" : "I'm going to lose my job because of your incompetence. So I need that money more than you."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",

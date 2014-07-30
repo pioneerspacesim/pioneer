@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -9,7 +9,7 @@
 /*
  * Class: SpaceStation
  *
- * Class representing a space station. Inherits from <Body>
+ * Class representing a space station. Inherits from <ModelBody>
  */
 
 /*
@@ -75,6 +75,26 @@ static int l_spacestation_attr_num_docks(lua_State *l)
 }
 
 /*
+ * Attribute: numShipsDocked
+ *
+ * The number of ships docked at spacestation
+ *
+ * Availability:
+ *
+ *   201404
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_spacestation_attr_num_ships_docked(lua_State *l)
+{
+	SpaceStation *s = LuaObject<SpaceStation>::CheckFromLua(1);
+	lua_pushinteger(l, s->NumShipsDocked());
+	return 1;
+}
+
+/*
  * Attribute: isGroundStation
  *
  * true if station is on the ground, false if its an orbital
@@ -98,7 +118,7 @@ template <> const char *LuaObject<SpaceStation>::s_type = "SpaceStation";
 
 template <> void LuaObject<SpaceStation>::RegisterClass()
 {
-	const char *l_parent = "Body";
+	const char *l_parent = "ModelBody";
 
 	static const luaL_Reg l_methods[] = {
 		{ "GetGroundPosition",  l_spacestation_get_ground_position },
@@ -109,6 +129,7 @@ template <> void LuaObject<SpaceStation>::RegisterClass()
 	static luaL_Reg l_attrs[] = {
 		{ "numDocks",        l_spacestation_attr_num_docks         },
 		{ "isGroundStation", l_spacestation_attr_is_ground_station },
+		{ "numShipsDocked",  l_spacestation_attr_num_ships_docked  },
 
 		{ 0, 0 }
 	};

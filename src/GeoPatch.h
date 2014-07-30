@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GEOPATCH_H
@@ -18,7 +18,6 @@
 
 namespace Graphics { class Renderer; class Frustum; }
 class SystemBody;
-class GeoPatch;
 class GeoPatchContext;
 class GeoSphere;
 class BasePatchJob;
@@ -35,7 +34,7 @@ public:
 	std::unique_ptr<double[]> heights;
 	std::unique_ptr<vector3f[]> normals;
 	std::unique_ptr<Color3ub[]> colors;
-	GLuint m_vbo;
+	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<GeoPatch> kids[NUM_KIDS];
 	GeoPatch *parent;
 	GeoPatch *edgeFriend[NUM_EDGES]; // [0]=v01, [1]=v12, [2]=v20
@@ -43,10 +42,11 @@ public:
 	double m_roughLength;
 	vector3d clipCentroid, centroid;
 	double clipRadius;
-	int m_depth;
+	Sint32 m_depth;
 	bool m_needUpdateVBOs;
 
 	const GeoPatchID mPatchID;
+	Job::Handle m_job;
 	bool mHasJobRequest;
 
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs,
@@ -59,7 +59,7 @@ public:
 		m_needUpdateVBOs = (nullptr != heights);
 	}
 
-	void _UpdateVBOs();
+	void _UpdateVBOs(Graphics::Renderer *renderer);
 
 	inline int GetEdgeIdxOf(const GeoPatch *e) const {
 		for (int i=0; i<NUM_KIDS; i++) {if (edgeFriend[i] == e) {return i;}}

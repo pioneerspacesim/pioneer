@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BODY_H
@@ -16,6 +16,7 @@ class ObjMesh;
 class Space;
 class Camera;
 namespace Graphics { class Renderer; }
+struct CollisionContact;
 
 class Body: public Object, public PropertiedObject {
 public:
@@ -42,7 +43,7 @@ public:
 	// return true if to do collision response and apply damage
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) { return false; }
 	// Attacker may be null
-	virtual bool OnDamage(Object *attacker, float kgDamage) { return false; }
+	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) { return false; }
 	// Override to clear any pointers you hold to the body
 	virtual void NotifyRemoved(const Body* const removedBody) {}
 

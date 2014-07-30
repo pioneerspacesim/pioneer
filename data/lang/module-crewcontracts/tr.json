@@ -1,59 +1,59 @@
 {
    "ASK_CANDIDATE_TO_SIT_A_TEST" : {
       "description" : "",
-      "message" : "Ask candidate to sit a test"
+      "message" : "Adaydan bir test almasını iste."
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Crew for hire\n\nName: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "İsim: {name}\nDeneyim: {experience}\nİstenen Ücret: {wage} haftalık\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/wk)"
+      "message" : "{potentialCrewMember} ({wage}/hafta)"
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+      "message" : "Sınav sonuçları:\n\nGenel mürettebat yeterliliği: %{general}\nMühendislik ve tamir: %{engineering}\nPilotluk ve uzay uçuşu: %{piloting}\nNavigasyon ve çizim: %{navigation}\nAlgılayıcılar ve savunma: %{sensors}\nGenel sınav puanı: %{overall}"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "Crew for hire"
+      "message" : "Boşta mürettebat"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
+      "message" : "Geri"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Bekle."
    },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
-      "message" : "I'm sorry, I'm not prepared to go any lower."
+      "message" : "Üzgünüm, daha aşağı inmeyi düşünmüyordum."
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "I'm sorry, your offer isn't attractive to me."
+      "message" : "Üzgünüm, teklifiniz bana cazip gelmedi."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
-      "message" : "Make offer of position on ship for stated amount"
+      "message" : "Gemideki konum için belirtilen miktardan teklif yap."
    },
    "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
       "description" : "",
-      "message" : "Minimal time served aboard ship"
+      "message" : "Gemi güvertesinde çok az süre hizmet"
    },
    "NAVIGATOR" : {
       "description" : "",
-      "message" : "Navigator"
+      "message" : "Dümenci"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "No experience"
+      "message" : "Deneyimsiz"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "OK, I suppose that's all right."
+      "message" : "Tamam, sanırım bu iyi."
    },
    "PILOT" : {
       "description" : "",
@@ -61,50 +61,50 @@
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
-      "message" : "Potential crew members are registered as seeking employment at {station}:"
+      "message" : "{station} üstünde iş arıyor olarak kaydolan potansiyel mürettebat üyeleri:"
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "Sensors and defence"
+      "message" : "Algılayıcılar ve savunma"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "Ship's Engineer"
+      "message" : "Gemi Mühendisi"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "Simulator training only"
+      "message" : "Sadece simulatör eğitimi"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "Some experience in controlled environments"
+      "message" : "Kotrollü ortamda biraz deneyim"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Suggest new weekly wage of {newAmount}"
+      "message" : "Yeni haftalık ücret olarak {newAmount} teklif et."
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
-      "message" : "Thanks, I'll get settled on board immediately."
+      "message" : "Teşekkürler, güvertede yerimi hemen alacağım."
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",
-      "message" : "That's extremely generous of you!"
+      "message" : "Gerçekten çok cömertsiniz"
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "That certainly makes this offer look better!"
+      "message" : "Bu teklif gerçekten daha iyi görünüyor!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",
-      "message" : "There doesn't seem to be space for me on board!"
+      "message" : "Güvertede benim için yeteri kadar yer yok gibi gözüküyor!"
    },
    "TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Time served crew member"
+      "message" : "Deneyimli mürettebat"
    },
    "VETERAN_TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Veteran, time served crew member"
+      "message" : "Kıdemli, deneyimli mürettebat"
    }
 }

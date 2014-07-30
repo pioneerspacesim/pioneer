@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CargoBody.h"
@@ -8,20 +8,22 @@
 #include "Sfx.h"
 #include "Space.h"
 #include "EnumStrings.h"
+#include "LuaTable.h"
 #include "collider/collider.h"
 #include "scenegraph/SceneGraph.h"
+#include "scenegraph/ModelSkin.h"
 
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
-	wr.Int32(static_cast<int>(m_type));
+	m_cargo.Save(wr);
 	wr.Float(m_hitpoints);
 }
 
 void CargoBody::Load(Serializer::Reader &rd, Space *space)
 {
 	DynamicBody::Load(rd, space);
-	m_type = static_cast<Equip::Type>(rd.Int32());
+	m_cargo.Load(rd);
 	Init();
 	m_hitpoints = rd.Float();
 }
@@ -29,7 +31,7 @@ void CargoBody::Load(Serializer::Reader &rd, Space *space)
 void CargoBody::Init()
 {
 	m_hitpoints = 1.0f;
-	SetLabel(Equip::types[m_type].name);
+	SetLabel(ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 	SetMassDistributionFromModel();
 
 	std::vector<Color> colors;
@@ -37,20 +39,24 @@ void CargoBody::Init()
 	colors.push_back(Color(255, 198, 64));
 	colors.push_back(Color(0, 222, 255));
 	colors.push_back(Color(255, 255, 255));
+
+	SceneGraph::ModelSkin skin;
+	skin.SetColors(colors);
+	skin.SetDecal("pioneer");
+	skin.Apply(GetModel());
 	GetModel()->SetColors(colors);
 
-	Properties().Set("type", EnumStrings::GetString("EquipType", m_type));
+	Properties().Set("type", ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 }
 
-CargoBody::CargoBody(Equip::Type t)
+CargoBody::CargoBody(const LuaRef& cargo): m_cargo(cargo)
 {
-	m_type = t;
 	SetModel("cargo");
 	Init();
 	SetMass(1.0);
 }
 
-bool CargoBody::OnDamage(Object *attacker, float kgDamage)
+bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
 {
 	m_hitpoints -= kgDamage*0.001f;
 	if (m_hitpoints < 0) {
@@ -73,6 +79,12 @@ bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 
 void CargoBody::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
-	GetModel()->SetLabel(Equip::types[m_type].name);
 	RenderModel(r, camera, viewCoords, viewTransform);
+}
+
+void CargoBody::SetLabel(const std::string &label)
+{
+	assert(GetModel());
+	GetModel()->SetLabel(label);
+	Body::SetLabel(label);
 }

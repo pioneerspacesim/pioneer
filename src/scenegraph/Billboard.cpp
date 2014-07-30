@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Billboard.h"
@@ -15,12 +15,17 @@ Billboard::Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> ma
 , m_material(mat)
 , m_offset(offset)
 {
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ADDITIVE;
+	rsd.depthWrite = false;
+	m_renderState = r->CreateRenderState(rsd);
 }
 
 Billboard::Billboard(const Billboard &billboard, NodeCopyCache *cache)
 : Node(billboard, cache)
 , m_size(billboard.m_size)
 , m_material(billboard.m_material)
+, m_renderState(billboard.m_renderState)
 , m_offset(billboard.m_offset)
 {
 }
@@ -58,11 +63,7 @@ void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 	va.Add(m_offset+rotv1, vector2f(1.f, 1.f)); //bottom right
 
 	r->SetTransform(trans);
-	r->SetBlendMode(Graphics::BLEND_ADDITIVE);
-	r->SetDepthWrite(false);
-	r->DrawTriangles(&va, m_material.Get());
-	r->SetBlendMode(Graphics::BLEND_SOLID);
-	r->SetDepthWrite(true);
+	r->DrawTriangles(&va, m_renderState, m_material.Get());
 }
 
 }

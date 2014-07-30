@@ -5,7 +5,7 @@
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Active"
+      "message" : "Activat"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -25,11 +25,11 @@
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "An error has occurred"
+      "message" : "A survenit o eroare"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Attempt to repair hull"
+      "message" : "Încercarea de a repara corpul navei"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "Mediu"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
@@ -45,7 +45,11 @@
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bulletin Board"
+      "message" : "Avizier"
+   },
+   "BUY" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Cumpără"
    },
    "BUY_SHIP" : {
       "description" : "",
@@ -53,7 +57,15 @@
    },
    "CABINS" : {
       "description" : "",
-      "message" : "Cabins"
+      "message" : "Cabine"
+   },
+   "CABIN_FREE" : {
+      "description" : "",
+      "message" : "{amount} free"
+   },
+   "CABIN_USED" : {
+      "description" : "",
+      "message" : "{amount} used"
    },
    "CANCEL" : {
       "description" : "",
@@ -61,11 +73,11 @@
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "Capacity"
+      "message" : "Capacitate"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Capacity used"
+      "message" : "Capacitatea uzată"
    },
    "CARGO" : {
       "description" : "",
@@ -74,6 +86,14 @@
    "CARGO_SPACE" : {
       "description" : "",
       "message" : "Spaţiu depozit"
+   },
+   "CARGO_T_FREE" : {
+      "description" : "",
+      "message" : "{amount}t free"
+   },
+   "CARGO_T_USED" : {
+      "description" : "",
+      "message" : "{amount}t used"
    },
    "CASH" : {
       "description" : "",
@@ -85,7 +105,7 @@
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "Change Binding"
+      "message" : "Înlocuire tastă"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
@@ -93,15 +113,15 @@
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Circular orbit speed"
+      "message" : "Viteza orbitei circulare"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "City detail level"
+      "message" : "Nivelul detaliilor oraşelor"
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "Clean"
+      "message" : "Curat"
    },
    "CLEAR" : {
       "description" : "",
@@ -113,11 +133,11 @@
    },
    "COMBAT" : {
       "description" : "",
-      "message" : "Combat"
+      "message" : "Statistici de luptă"
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commander"
+      "message" : "Comandant"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
@@ -129,15 +149,19 @@
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Completed"
+      "message" : "Terminat"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "Compress Textures"
+      "message" : "Comprimarea Texturelor"
    },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Constable"
+   },
+   "CONTINUE_GAME" : {
+      "description" : "",
+      "message" : "Continue game"
    },
    "CONTROLS" : {
       "description" : "",
@@ -145,15 +169,19 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Control Options"
+      "message" : "Opţiuni de control"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Nu pot încărca jocul:"
+   },
+   "CREDIBLE" : {
+      "description" : "For player reputation",
+      "message" : "Credible"
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Crew cabins"
+      "message" : "Cabine echipajului"
    },
    "CREW_ROSTER" : {
       "description" : "",
@@ -165,31 +193,47 @@
    },
    "DANGEROUS" : {
       "description" : "",
-      "message" : "Dangerous"
+      "message" : "Periculos"
    },
    "DEADLY" : {
       "description" : "",
-      "message" : "Deadly"
+      "message" : "Mortal"
    },
    "DELTA_V" : {
       "description" : "",
       "message" : "Delta-v"
    },
+   "DELTA_V_EMPTY" : {
+      "description" : "Delta-v capacity of a ship with no cargo or upgrades",
+      "message" : "Delta-v (empty)"
+   },
+   "DELTA_V_FULL" : {
+      "description" : "Delta-v capacity of a ship with maximum cargo",
+      "message" : "Delta-v (full)"
+   },
+   "DELTA_V_MAX" : {
+      "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
+      "message" : "Delta-v (max)"
+   },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Descent-to-ground speed:"
+      "message" : "Viteză verticală:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Distruge navă inamică"
    },
    "DISMISS" : {
       "description" : "",
       "message" : "Dismiss"
    },
+   "DISPLAY_HUD_TRAILS" : {
+      "description" : "",
+      "message" : "Display HUD trails"
+   },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Display nav tunnels"
+      "message" : "Afişarea tunelului de navigaţie"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
@@ -197,23 +241,23 @@
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Dock at current target"
+      "message" : "Docarea la ţintă curentă"
    },
    "DUE" : {
       "description" : "",
-      "message" : "Due"
+      "message" : "Termen"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Days left: %d"
+      "message" : "Zile rămase: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economy & Trade"
+      "message" : "Economia şi Comerţul"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effects:"
+      "message" : "Efecte:"
    },
    "ELITE" : {
       "description" : "",
@@ -221,19 +265,23 @@
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Employment"
+      "message" : "Ocuparea"
+   },
+   "ENABLE_COCKPIT" : {
+      "description" : "",
+      "message" : "Enable cockpit (EXPERIMENTAL)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Enable joystick"
+      "message" : "Activare jozstick"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipment"
+      "message" : "Echipament navă"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
@@ -245,19 +293,27 @@
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Error"
+      "message" : "Eroare"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Escape speed:"
+      "message" : "Viteză de evadare:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Exit this game"
+      "message" : "Părăsire acestui joc"
+   },
+   "EXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Experienced"
+   },
+   "EXPERT" : {
+      "description" : "For player reputation",
+      "message" : "Expert"
    },
    "FAILED" : {
       "description" : "",
-      "message" : "Failed"
+      "message" : "Eșuat"
    },
    "FEMALE" : {
       "description" : "",
@@ -269,7 +325,7 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Forward accel (empty)"
+      "message" : "Viteza de acceleraţie (golită)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
@@ -277,15 +333,15 @@
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Fractal detail"
+      "message" : "Detalizarea fractală"
    },
    "FREE" : {
-      "description" : "",
-      "message" : "free"
+      "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
+      "message" : "liber"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Front weapon"
+      "message" : "Turelă frontală"
    },
    "FUEL" : {
       "description" : "",
@@ -293,35 +349,35 @@
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Fuel tank full."
+      "message" : "Rezervorul de combustibil plin."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Greutatea combustibilului"
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "Full screen"
+      "message" : "Ecran complet"
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Echipajul general"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Give orders to crew"
+      "message" : "Ordonează echipajului"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Good riddance to you, too."
+      "message" : "Asemenea bucuros, că am scăpat de tine."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Închide."
    },
    "HARMLESS" : {
       "description" : "",
-      "message" : "Harmless"
+      "message" : "Inofensiv"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
@@ -353,11 +409,11 @@
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Hull does not require repair."
+      "message" : "Corpul navei este reparat."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Consistenţă fuzelaj"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -365,31 +421,39 @@
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Hull repair attempt failed. Hull suffered minor damage."
+      "message" : "Încercarea de a repara corpul navei a eșuat. Corpul navei a suferit pagube minore."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperdrive"
+      "message" : "Hiperpropulsor"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Hyperdrive fitted:"
+      "message" : "Motor superluminic instalat:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Raza în hiperspaţiu"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
+      "message" : "Am obosit să lucrez pentru nimic. Nu cunoaşteţi ce înseamnă contract?"
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactive"
+      "message" : "Inactiv"
+   },
+   "INCOMPETENT" : {
+      "description" : "For player reputation",
+      "message" : "Incompetent"
+   },
+   "INEXPERIENCED" : {
+      "description" : "For player reputation",
+      "message" : "Inexperienced"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Invert Mouse Y"
+      "message" : "Mouse Y inversat"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -401,31 +465,43 @@
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "This item is out of stock."
+      "message" : "Nu mai există acest obiect în stoc."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "It's been great working for you. If you need me again, I'll be here a while."
+      "message" : "Am avut plăcere să vă servesc. Dacă veţi mai avea nevoie de mine, voi fi pe aici o vreme."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Jettison"
+      "message" : "Discarcă"
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Kills:"
+      "message" : "Ucideri:"
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Limba"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "Limbă (restartează jocul p/u aplicare)"
+   },
+   "LAUNCH_PERMISSION_DENIED_BUSY" : {
+      "description" : "",
+      "message" : "Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate."
+   },
+   "LAUNCH_PERMISSION_DENIED_CREW" : {
+      "description" : "",
+      "message" : "Permission to launch denied: not enough crew too handle this ship."
+   },
+   "LAUNCH_PERMISSION_DENIED_FINED" : {
+      "description" : "",
+      "message" : "Permission to launch denied: you have outstanding fines."
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "Legal status"
+      "message" : "Starea legală"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -453,7 +529,7 @@
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Load"
+      "message" : "Încarcă"
    },
    "LOAD_GAME" : {
       "description" : "",
@@ -465,15 +541,15 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Located {distance}km from the centre of {name}:"
+      "message" : "Situat la {distance}km de la centru {name}:"
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location"
+      "message" : "Situare"
    },
    "LOW" : {
       "description" : "",
-      "message" : "Low"
+      "message" : "Scăzut"
    },
    "LY" : {
       "description" : "",
@@ -481,27 +557,35 @@
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Make new face"
+      "message" : "Faţă nouă"
    },
    "MALE" : {
       "description" : "",
-      "message" : "Male"
+      "message" : "Masculin"
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Masă"
    },
    "MASTER" : {
-      "description" : "",
+      "description" : "For player reputation",
+      "message" : "Master"
+   },
+   "MASTER_VOL" : {
+      "description" : "Master sound in settings option",
       "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
       "message" : "max"
    },
+   "MAXIMUM_CREW" : {
+      "description" : "",
+      "message" : "Maximum crew"
+   },
    "MEDIUM" : {
       "description" : "",
-      "message" : "Medium"
+      "message" : "Mediu"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
@@ -533,11 +617,15 @@
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Military"
+      "message" : "Militar"
    },
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Minimum crew"
+   },
+   "MISSILE_MOUNTS" : {
+      "description" : "",
+      "message" : "Missile mounts"
    },
    "MISSIONS" : {
       "description" : "",
@@ -545,11 +633,11 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Mission Details"
+      "message" : "Detalii despre Misiune."
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "More info..."
+      "message" : "Detaliat..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
@@ -561,7 +649,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Crimă"
    },
    "MUSIC" : {
       "description" : "",
@@ -569,15 +657,19 @@
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Muţit"
    },
-   "NAME" : {
-      "description" : "",
+   "NAME_OBJECT" : {
+      "description" : "For an item or object",
+      "message" : "Nume"
+   },
+   "NAME_PERSON" : {
+      "description" : "For a person",
       "message" : "Nume"
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Navigation:"
+      "message" : "Navigaţiune:"
    },
    "NEGOTIATE" : {
       "description" : "",
@@ -587,37 +679,49 @@
       "description" : "",
       "message" : "Next paid"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
+   },
+   "NOBODY" : {
+      "description" : "For player reputation",
+      "message" : "Nobody"
+   },
    "NONE" : {
       "description" : "",
       "message" : "Nimic"
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Note:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Not enough {alloy} to attempt a repair"
+      "message" : "Insuficient cu {alloy} pentru a repara."
+   },
+   "NOT_SUPPORTED_ON_THIS_SHIP" : {
+      "description" : "",
+      "message" : "{equipment} is not supported on this ship model"
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "No missions."
+      "message" : "Lipsă misiuni."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} light years ({maxRange} max)"
+      "message" : "{range} ani lumină (max. {maxRange})"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Occupied Passenger Cabins"
+      "message" : "{quantity} Cabine p/u Pasageri ocupate"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Shield Generators"
+      "message" : "{quantity} Generatoare de Scut"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Unoccupied Passenger Cabins"
+      "message" : "{quantity} Cabine p/u Pasageri libere"
    },
    "OFF" : {
       "description" : "",
@@ -637,7 +741,7 @@
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Orbital Analysis"
+      "message" : "Analiza Orbitală"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
@@ -645,7 +749,7 @@
    },
    "OWED" : {
       "description" : "",
-      "message" : "Owed"
+      "message" : "Datorat"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
@@ -653,27 +757,27 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Personal Information"
+      "message" : "Informaţii Personale"
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Piloting:"
+      "message" : "Pilotare:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "Pilot seat is now occupied by {name}"
+      "message" : "Fotoliu de pilot este ocupat de {name}"
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Piraterie"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Planet detail distance"
+      "message" : "Detalizarea planetelor la distanţă"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Planet textures"
+      "message" : "Texturi planetare"
    },
    "POLICE" : {
       "description" : "",
@@ -681,11 +785,11 @@
    },
    "POOR" : {
       "description" : "",
-      "message" : "Poor"
+      "message" : "Slab"
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Position"
+      "message" : "Poziţia"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -693,19 +797,23 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Price"
+      "message" : "Preţ"
+   },
+   "PROFESSIONAL" : {
+      "description" : "For player reputation",
+      "message" : "Professional"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification scores"
+      "message" : "Scor de calificare"
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Quit"
+      "message" : "Ieşire"
    },
    "RANK" : {
       "description" : "",
-      "message" : "Rank:"
+      "message" : "Clasament:"
    },
    "RATING" : {
       "description" : "",
@@ -717,23 +825,39 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Reaprovizionare"
+   },
+   "REFUEL_FULL" : {
+      "description" : "",
+      "message" : "Refuel full"
+   },
+   "RELIABLE" : {
+      "description" : "For player reputation",
+      "message" : "Reliable"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Repair {damage}% hull damage for {price}"
    },
+   "REPUTATION" : {
+      "description" : "",
+      "message" : "Reputation"
+   },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Request Launch"
+      "message" : "Solicitare lansare"
+   },
+   "RETURN_TO_GAME" : {
+      "description" : "",
+      "message" : "Return to game"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Înapoi spre meniu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Reverse accel (empty)"
+      "message" : "Acceleraţie înapoi (golită)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
@@ -741,15 +865,15 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward"
+      "message" : "Recompensă"
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Save"
+      "message" : "Salvează"
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Select"
+      "message" : "Selectează"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
@@ -761,27 +885,35 @@
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Select game to load..."
+      "message" : "Selectează jocul pentru încărcare..."
+   },
+   "SELL" : {
+      "description" : "Commodities and equipment prices",
+      "message" : "Vinde"
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "Sensors:"
+      "message" : "Detectoare:"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "Nava"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship Information"
+      "message" : "Informaţii navă"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Your ship is in perfect working condition."
+      "message" : "Nava dumneavoastră este în condiţie perfectă de funcţionare."
+   },
+   "SHIP_IS_FULLY_EQUIPPED" : {
+      "description" : "",
+      "message" : "Your ship is fully equipped."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "Your ship is fully laden."
+      "message" : "Nava dumneavoastră e încărcată la maxim."
    },
    "SHIP_MARKET" : {
       "description" : "",
@@ -797,7 +929,7 @@
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Sunet"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -805,11 +937,11 @@
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Start at Earth"
+      "message" : "Start la Terra."
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Start at New Hope"
+      "message" : "Start la New Hope"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -817,27 +949,31 @@
    },
    "STATUS" : {
       "description" : "",
-      "message" : "Status"
+      "message" : "Statut"
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
+      "message" : "Vă mulţumim pentru achiziţia dumneavoastră. Nu uitaţi să instalaţi echipament şi să cumparaţi combustibil înainte de a pleca."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "There is nobody else on board able to fly this ship."
+      "message" : "Mai mult nu există nimeni cine ar putea să conducă această navă."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "The ship is under station control, Commander."
+      "message" : "Nava este sub controlul staţiei, Comandante."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "Toggle male/female"
+      "message" : "Comutare sex masculin/femenin"
+   },
+   "TOO_SMALL_FOR_CURRENT_CREW" : {
+      "description" : "",
+      "message" : "Ship is too small for the current crew."
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total: "
+      "message" : "Total:"
    },
    "TOTAL_MASS" : {
       "description" : "",
@@ -845,15 +981,23 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Se negociază bunurile ilegale"
+   },
+   "TRUSTWORTHY" : {
+      "description" : "For player reputation",
+      "message" : "Trustworthy"
    },
    "TYPE" : {
       "description" : "",
-      "message" : "Type"
+      "message" : "Tip"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Foc de armă nepermis"
+   },
+   "UNRELIABLE" : {
+      "description" : "",
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -869,7 +1013,7 @@
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "Very low"
+      "message" : "Foarte scăzută"
    },
    "VIDEO" : {
       "description" : "",
@@ -877,35 +1021,39 @@
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Configurări video (restartează jocul p/u aplicare)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Video resolution"
+      "message" : "Rezoluţie video"
    },
    "WAGE" : {
       "description" : "",
-      "message" : "Wage"
+      "message" : "Salariu"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Weight empty:"
+      "message" : "Greutate goală"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "Weight fully loaded"
+      "message" : "Greutate incărcată la maxim"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "We are in hyperspace, Commander."
+      "message" : "Suntem în hiperspaţiu, Comandante."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "We have no business with you at the moment."
+      "message" : "Nu avem nici o treabă cu dumneavoastră pentru moment."
+   },
+   "YES" : {
+      "description" : "Positive answer to a question",
+      "message" : "Yes"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "You're going to regret sacking me!"
+      "message" : "Veţi regreta că m-aţi concediat."
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
@@ -917,15 +1065,15 @@
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a combat target, Commander."
+      "message" : "Mai întâi trebuie selectată o țintă de luptă, Comandante."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a suitable navigation target, Commander."
+      "message" : "Mai întâi trebuie selectată o țintă de navigație adecvată, Comandante."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must launch first, Commander."
+      "message" : "În primul rând trebuie să lansaţi, Comandante."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
@@ -933,6 +1081,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money"
+      "message" : "Nu aveţi destui bani"
    }
 }

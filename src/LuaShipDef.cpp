@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
@@ -6,7 +6,6 @@
 #include "LuaUtils.h"
 #include "EnumStrings.h"
 #include "ShipType.h"
-#include "EquipType.h"
 
 /*
  * Class: ShipDef
@@ -117,16 +116,15 @@
  */
 
 /*
- * Attribute: defaultHyperdrive
+ * Attribute: hyperdriveClass
  *
- * The default hyperdrive this ship receives. This is a <Constants.EquipType>
- * string corresponding to the appropriate drive. Not that this value is only
- * used when the player purchases a ship. Scripts using <Space.SpawnShip> etc
- * must manually add a hyperdrive to the ship; it does not get one by default.
+ * An integer representing the power of the hyperdrive usually installed on
+ * those ships. If zero, it means the ship usually isn't equipped with one,
+ * although this does not necessarily mean one cannot be installed.
  *
  * Availability:
  *
- *   alpha 10
+ *   April 2014
  *
  * Status:
  *
@@ -210,6 +208,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "shipClass",         st.shipClass.c_str());
 		pi_lua_settable(l, "manufacturer",      st.manufacturer.c_str());
 		pi_lua_settable(l, "modelName",         st.modelName.c_str());
+		pi_lua_settable(l, "cockpitName",		st.cockpitName.c_str());
 		pi_lua_settable(l, "tag",               EnumStrings::GetString("ShipTypeTag", st.tag));
 		pi_lua_settable(l, "angularThrust",     st.angThrust);
 		pi_lua_settable(l, "capacity",          st.capacity);
@@ -218,7 +217,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "basePrice",         double(st.baseprice)*0.01);
 		pi_lua_settable(l, "minCrew",           st.minCrew);
 		pi_lua_settable(l, "maxCrew",           st.maxCrew);
-		pi_lua_settable(l, "defaultHyperdrive", EnumStrings::GetString("EquipType", st.hyperdrive));
+		pi_lua_settable(l, "hyperdriveClass",   st.hyperdriveClass);
 		pi_lua_settable(l, "effectiveExhaustVelocity", st.effectiveExhaustVelocity);
 		pi_lua_settable(l, "thrusterFuelUse",   st.GetFuelUseRate());
 
@@ -230,9 +229,20 @@ void LuaShipDef::Register()
 		lua_pop(l, 1);
 
 		lua_newtable(l);
-		for (int slot = Equip::SLOT_CARGO; slot < Equip::SLOT_MAX; slot++)
-			pi_lua_settable(l, EnumStrings::GetString("EquipSlot", slot), st.equipSlotCapacity[slot]);
+		for (auto it = st.slots.cbegin(); it != st.slots.cend(); ++it) {
+			pi_lua_settable(l, it->first.c_str(), it->second);
+		}
 		pi_lua_readonly_table_proxy(l, -1);
+		luaL_getmetafield(l, -1, "__index");
+		if (!lua_getmetatable(l, -1)) {
+			lua_newtable(l);
+		}
+		pi_lua_import(l, "EquipSet");
+		luaL_getsubtable(l, -1, "default");
+		lua_setfield(l, -3, "__index");
+		lua_pop(l, 1);
+		lua_setmetatable(l, -2);
+		lua_pop(l, 1);
 		lua_setfield(l, -3, "equipSlotCapacity");
 		lua_pop(l, 1);
 

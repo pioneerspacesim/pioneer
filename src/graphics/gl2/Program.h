@@ -1,4 +1,4 @@
-// Copyright © 2008-2013 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GRAPHICS_GL2PROGRAM_H
@@ -37,10 +37,17 @@ namespace Graphics {
 			Uniform texture2;
 			Uniform texture3;
 			Uniform texture4;
+			Uniform texture5;
+			Uniform heatGradient;
+			Uniform heatingMatrix;
+			Uniform heatingNormal;
+			Uniform heatingAmount;
 
 			Uniform sceneAmbient;
 
 		protected:
+			static GLuint s_curProgram;
+
 			void LoadShaders(const std::string&, const std::string &defines);
 			virtual void InitUniforms();
 			std::string m_name;
