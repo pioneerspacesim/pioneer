@@ -694,6 +694,23 @@ static int l_engine_set_mouse_y_inverted(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_compact_scanner(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("CompactScanner") != 0);
+	return 1;
+}
+
+static int l_engine_set_compact_scanner(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetCompactScanner takes one boolean argument");
+	const bool shrunk = lua_toboolean(l, 1);
+	Pi::config->SetInt("CompactScanner", (shrunk ? 1 : 0));
+	Pi::config->Save();
+	Pi::SetCompactScanner(shrunk);
+	return 0;
+}
+
 static int l_engine_get_joystick_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("EnableJoystick") != 0);
@@ -760,6 +777,9 @@ void LuaEngine::Register()
 
 		{ "GetDisplayHudTrails", l_engine_get_display_hud_trails },
 		{ "SetDisplayHudTrails", l_engine_set_display_hud_trails },
+
+		{ "GetCompactScanner", l_engine_get_compact_scanner },
+		{ "SetCompactScanner", l_engine_set_compact_scanner },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },

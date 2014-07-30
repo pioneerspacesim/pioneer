@@ -26,7 +26,8 @@ using namespace Graphics;
 static const float SCANNER_RANGE_MAX = 100000.0f;
 static const float SCANNER_RANGE_MIN = 1000.0f;
 static const float SCANNER_SCALE     = 0.00001f;
-static const float SCANNER_YSHRINK   = 0.75f;
+//static const float SCANNER_YSHRINK   = 0.95f;
+//static const float SCANNER_XSHRINK   = 4.0f;
 static const float A_BIT             = 1.1f;
 static const unsigned int SCANNER_STEPS = 100;
 
@@ -137,8 +138,11 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
 
 void ScannerWidget::InitObject()
 {
+	InitScaling();
+
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 	m_lastRange = SCANNER_RANGE_MAX * 100.0f;		// force regen
+
 	GenerateBaseGeometry();
 
 	Graphics::RenderStateDesc rsd;
@@ -175,7 +179,7 @@ void ScannerWidget::Draw()
 
 	float size[2];
 	GetSize(size);
-	m_x = size[0] * 0.5f;
+	m_x = size[0] / (SCANNER_XSHRINK * 2);
 	m_y = size[1] * 0.5f;
 
 	SetScissor(true);
@@ -194,17 +198,17 @@ void ScannerWidget::Draw()
 
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
-	va.Add(vector3f(m_x, m_y, 0.f), green);
+	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y, 0.f), green);
 	for (float a = 0; a < 2 * float(M_PI); a += float(M_PI) * 0.02f) {
-		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
+		va.Add(vector3f(SCANNER_XSHRINK * m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
-	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
+	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
 	m_renderer->DrawTriangles(&va, m_renderState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
 	{
 		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
-		m_renderer->Translate(m_x, m_y, 0);
+		m_renderer->Translate(SCANNER_XSHRINK * m_x, m_y, 0);
 		m_renderer->Scale(m_x, m_y, 1.0f);
 		DrawRingsAndSpokes(false);
 	}
@@ -215,8 +219,26 @@ void ScannerWidget::Draw()
 	SetScissor(false);
 }
 
+void ScannerWidget::InitScaling(void) {
+	isCompact = Pi::IsScannerCompact();
+	if(isCompact) {
+		SCANNER_XSHRINK = 4.0f;
+		SCANNER_YSHRINK = 0.95f;
+	} else {
+		// original values
+		SCANNER_XSHRINK = 1.0f;
+		SCANNER_YSHRINK = 0.75f;
+	}
+}
+
 void ScannerWidget::Update()
 {
+	if(Pi::IsScannerCompact() != isCompact) {
+		InitScaling();
+		GenerateBaseGeometry();
+		GenerateRingsAndSpokes();
+	}
+
 	m_contacts.clear();
 
 	int scanner_cap = 0;
@@ -406,7 +428,11 @@ void ScannerWidget::DrawBlobs(bool below)
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
 
-		const float x = m_x + m_x * float(pos.x) * m_scale;
+		const float x = SCANNER_XSHRINK * m_x + m_x * float(pos.x) * m_scale;
+		// x scanner widget bound check
+		if (x < SCANNER_XSHRINK * m_x - m_x) continue;
+		if (x > SCANNER_XSHRINK * m_x + m_x) continue;
+
 		const float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 

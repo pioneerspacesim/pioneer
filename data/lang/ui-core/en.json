@@ -455,6 +455,10 @@
       "description" : "",
       "message" : "Invert Mouse Y"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
+   },
    "IN_CARGO_HOLD" : {
       "description" : "",
       "message" : "In cargo hold"

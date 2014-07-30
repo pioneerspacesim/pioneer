@@ -95,6 +95,10 @@ ui.templates.Settings = function (args)
 			Engine.GetDisplayNavTunnels, Engine.SetDisplayNavTunnels,
 			l.DISPLAY_NAV_TUNNELS)
 
+		local compactScannerCheckBox = optionCheckBox(
+			Engine.GetCompactScanner, Engine.SetCompactScanner,
+			l.COMPACT_SCANNER)
+
 		local speedLinesCheckBox = optionCheckBox(
 			Engine.GetDisplaySpeedLines, Engine.SetDisplaySpeedLines,
 			l.DISPLAY_SPEED_LINES)
@@ -127,6 +131,7 @@ ui.templates.Settings = function (args)
 				speedLinesCheckBox,
 				hudTrailsCheckBox,
 				cockpitCheckBox,
+				compactScannerCheckBox,
 			})))
 	end
 
