@@ -414,7 +414,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 		if (LuaObject<Ship>::CallMethod<int>(this, "AddEquip", item) > 0) { // try to add it to the ship cargo.
 			Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 			if (this->IsType(Object::PLAYER))
-				Pi::Message(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", ScopedTable(item).CallMethod<std::string>("GetName"))));
+				Pi::game->log->Add(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", ScopedTable(item).CallMethod<std::string>("GetName"))));
 			// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
 			UpdateEquipStats();
 			return true;
