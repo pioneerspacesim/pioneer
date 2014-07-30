@@ -211,13 +211,23 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 			{
 				//go through all lights to calculate something resembling light intensity
 				float angle = 0.f;
-				for(std::vector<LightSource>::const_iterator it = m_lightSources.begin();
-					it != m_lightSources.end(); ++it) {
-					const vector3f lightDir(it->GetLight().GetPosition().Normalized());
-					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it->GetLight().GetDiffuse().GetLuminance() / 255.0f);
+				for(auto &it : m_lightSources) 
+				{
+					const vector3f lightDir(it.GetLight().GetPosition().Normalized());
+					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it.GetLight().GetDiffuse().GetLuminance() / 255.0f);
 				}
+
+				// get the total intensity of any shadowing bodies
+				float intensity = 0.0f;
+				const Player* pBody = Pi::game->GetPlayer();
+				for( Uint32 i=0; i<m_lightSources.size() ; i++ ) 
+				{
+					intensity += ShadowedIntensity(i, pBody);
+				}
+				intensity /= float(m_lightSources.size());
+
 				//calculate background intensity with some hand-tweaked fuzz applied
-				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
+				bgIntensity = (1.0f - intensity) + Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
 			}
 		}
 	}
