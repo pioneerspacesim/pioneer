@@ -237,11 +237,11 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+      "message" : "Varuhandelsanalys av #ff0%selected_system#fff (valt) mot #ff0%current_system#fff (nuvarande):"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "Varuhandelsanalys av #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -697,7 +697,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Olaglig (nuvarande system)"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -793,7 +793,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Laglig (nuvarande system)"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "Storskalig export (nuvarande system)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -833,7 +833,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "Storskalig import (nuvarande system)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -973,7 +973,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "Småskalig export (nuvarande system)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -981,7 +981,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "Småskalig import (nuvarande system)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1290,6 +1290,22 @@
    "PLANNED_ECONOMY" : {
       "description" : "",
       "message" : "Centralt planerad ekonomi"
+   },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "",
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "",
+      "message" : "Normal delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "",
+      "message" : "Prograde delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "",
+      "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLASTICS" : {
       "description" : "",
