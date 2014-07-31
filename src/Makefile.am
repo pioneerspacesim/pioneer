@@ -432,6 +432,7 @@ modelcompiler_SOURCES = \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
+	GameLog.cpp \
 	GasGiant.cpp \
 	GeoPatch.cpp \
 	GeoPatchContext.cpp \
