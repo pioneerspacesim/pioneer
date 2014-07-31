@@ -418,6 +418,7 @@ modelcompiler_SOURCES = \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
+	Colors.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DeathView.cpp \
