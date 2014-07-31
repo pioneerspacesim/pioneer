@@ -115,6 +115,7 @@ void SpaceStationType::OnSetupComplete()
 			m_ports[bay].m_docking[4] = locIter->GetTransform(); // final (docked)
 			numDockingStages = 4;
 
+			// leaving locators ...
 			matrix4x4f orient = locIter->GetTransform().GetOrient(), EndOrient;
 			if( exit_mts.empty() )
 			{
