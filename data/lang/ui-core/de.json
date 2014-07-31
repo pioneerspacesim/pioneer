@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Warenbörse"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Kompetent"

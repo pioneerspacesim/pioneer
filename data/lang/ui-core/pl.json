@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Giełda towarów"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Skaner kompaktowy"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Fachowiec"

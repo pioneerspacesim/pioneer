@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Obchod s komoditami"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Schopný"

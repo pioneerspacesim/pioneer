@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Mercato dei beni di scambio"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Competente"

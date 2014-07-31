@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Ticari Mal Pazarı"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Mücadeleci"
