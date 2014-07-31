@@ -52,7 +52,12 @@ my %archives;
 for my $platform (keys %{PLATFORM()}) {
     my $build_dir = build($platform);
     my $copy_dir = copy($platform, $build_dir);
-    $archives{$platform} = archive($platform, $copy_dir);
+    if (check($platform, $copy_dir)) {
+        $archives{$platform} = archive($platform, $copy_dir);
+    } else {
+        # should notify someone somehow...?
+        say ">>> build $platform failed";
+    }
 }
 
 upload(values %archives);
@@ -143,6 +148,19 @@ sub copy {
     system "find $copy_dir/data '(' -name .gitignore -o -name Makefile\\\* ')' -delete";
 
 	return $copy_dir;
+}
+
+sub check {
+	my ($platform, $binary_dir) = @_;
+
+	say ">>> $platform: checking";
+
+	my $suffix = PLATFORM->{$platform}->{suffix};
+
+	if (! -x "$binary_dir/pioneer$suffix") { return 0; }
+	if (! -x "$binary_dir/modelviewer$suffix") { return 0; }
+
+	return 1;
 }
 
 sub archive {
