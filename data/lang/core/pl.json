@@ -581,7 +581,7 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "",
-      "message" : "Pozycja anormalnie"
+      "message" : "Pozycja anormalna"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
@@ -597,7 +597,7 @@
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
-      "message" : "Pozycja normalnie"
+      "message" : "Pozycja normalna"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "",
@@ -1293,19 +1293,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Tempo wzrostu wartości delta-v. Kliknij, aby przywrócić domyślne."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji normalnej. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji przodem. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji radialnej. Kliknij, aby wyzerować."
    },
    "PLASTICS" : {
       "description" : "",
