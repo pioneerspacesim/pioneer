@@ -491,6 +491,8 @@ void Model::SetDebugFlags(Uint32 flags) {
 		AddAxisIndicators(mts, m_dockingPoints);
 		FindTagsByStartOfName("loc_", mts);
 		AddAxisIndicators(mts, m_dockingPoints);
+		FindTagsByStartOfName("exit_", mts);
+		AddAxisIndicators(mts, m_dockingPoints);
     }
 }
 

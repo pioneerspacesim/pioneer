@@ -34,7 +34,7 @@ SpaceStationType::SpaceStationType()
 , parkingDistance(0)
 , parkingGapSize(0)
 {}
-
+#pragma optimize("",off)
 void SpaceStationType::OnSetupComplete()
 {
 	// ground stations have a "special-fucking-case" 0 stage launch process
@@ -43,8 +43,10 @@ void SpaceStationType::OnSetupComplete()
 	// gather the tags
 	SceneGraph::Model::TVecMT entrance_mts;
 	SceneGraph::Model::TVecMT locator_mts;
+	SceneGraph::Model::TVecMT exit_mts;
 	model->FindTagsByStartOfName("entrance_", entrance_mts);
 	model->FindTagsByStartOfName("loc_", locator_mts);
+	model->FindTagsByStartOfName("exit_", exit_mts);
 
 	// Add the partially initialised groups/ports
 	SBayGroup newGroup;
@@ -113,13 +115,34 @@ void SpaceStationType::OnSetupComplete()
 			m_ports[bay].m_docking[4] = locIter->GetTransform(); // final (docked)
 			numDockingStages = 4;
 
-			// leaving locators need to face in the opposite direction
-			matrix4x4f orient = locIter->GetTransform().GetOrient();
-			const matrix4x4f rot = matrix3x3f::Rotate(DEG2RAD(180.0f), orient.Back());
-			orient = orient * rot;
-			orient.SetTranslate( locIter->GetTransform().GetTranslate() );
-			matrix4x4f EndOrient = approach2;
-			EndOrient.SetRotationOnly(orient);
+			matrix4x4f orient = locIter->GetTransform().GetOrient(), EndOrient;
+			if( exit_mts.empty() )
+			{
+				// leaving locators need to face in the opposite direction
+				const matrix4x4f rot = matrix3x3f::Rotate(DEG2RAD(180.0f), orient.Back());
+				orient = orient * rot;
+				orient.SetTranslate( locIter->GetTransform().GetTranslate() );
+				EndOrient = approach2;
+				EndOrient.SetRotationOnly(orient);
+			}
+			else
+			{
+				// leaving locators, what direction should they face in?
+				orient.SetTranslate( locIter->GetTransform().GetTranslate() );
+				int exitport = 0;
+				for( auto &exitIt : exit_mts ) {
+					PiVerify(1 == sscanf( exitIt->GetName().c_str(), "exit_port%d", &exitport ));
+					if( exitport == port )
+					{
+						EndOrient = exitIt->GetTransform();
+						break;
+					}
+				}
+				if( exitport == 0 )
+				{
+					EndOrient = approach2;
+				}
+			}
 
 			// create the leaving locators
 			m_ports[bay].m_leaving[1] = orient; // start

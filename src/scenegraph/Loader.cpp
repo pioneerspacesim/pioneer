@@ -797,6 +797,8 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		} else if (starts_with(nodename, "loc_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
+		}else if (starts_with(nodename, "exit_")) {
+			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		}
 		return;
 	}
