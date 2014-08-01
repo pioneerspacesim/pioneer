@@ -30,6 +30,7 @@ noinst_HEADERS = \
 	Colors.h \
 	Cutscene.h \
 	CRC32.h \
+	DateTime.h \
 	DeathView.h \
 	DeleteEmitter.h \
 	DynamicBody.h \
@@ -162,6 +163,7 @@ pioneer_SOURCES	= \
 	Colors.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
+	DateTime.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
@@ -421,6 +423,7 @@ modelcompiler_SOURCES = \
 	Colors.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
+	DateTime.cpp \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
