@@ -24,13 +24,13 @@ use constant PLATFORM => {
 	linux64 => {
 		suffix => "",
 		configure_opts => "",
-        builder => \&build_chroot,
+	builder => \&build_chroot,
 		archiver => \&archive_bz2,
 	},
 	linux32 => {
 		suffix => "",
 		configure_opts => "",
-        builder => \&build_chroot,
+	builder => \&build_chroot,
 		archiver => \&archive_bz2,
 	},
 	win32 => {
@@ -41,8 +41,8 @@ use constant PLATFORM => {
 		builder => \&build_local,
 		archiver => \&archive_7z,
 	},
-    #osx => {
-    #},
+	#osx => {
+	#},
 };
 
 my $branch = shift @ARGV || "master";
@@ -118,13 +118,13 @@ sub build_local {
 }
 
 sub build_chroot {
-    my ($platform, $configure_opts) = @_;
+	my ($platform, $configure_opts) = @_;
 
-    say STDERR ">>> chroot build";
+	say STDERR ">>> chroot build";
 
-    system sprintf("sudo rsync -av --delete --exclude=pioneer/.git %s %s/%s", SOURCE_DIR, CHROOT_DIR, $platform);
+	system sprintf("sudo rsync -av --delete --exclude=pioneer/.git %s %s/%s", SOURCE_DIR, CHROOT_DIR, $platform);
 
-    $configure_opts .= " --with-thirdparty=/pioneer-thirdparty";
+	$configure_opts .= " --with-thirdparty=/pioneer-thirdparty";
 	system sprintf("sudo chroot %s/%s sh -c 'cd pioneer && ./configure $configure_opts && make distclean && ./configure %s && make %s'", CHROOT_DIR, $platform, $configure_opts, MAKE_OPTS);
 
 	return sprintf("%s/%s/pioneer", CHROOT_DIR, $platform);
@@ -162,13 +162,13 @@ sub copy {
 	my $suffix = PLATFORM->{$platform}->{suffix};
 
 	system "cp -v src/pioneer$suffix $copy_dir";
-    system "cp -v src/pioneer.map $copy_dir" if $platform eq 'win32';
+	system "cp -v src/pioneer.map $copy_dir" if $platform eq 'win32';
 	system "cp -v *.txt $copy_dir";
 	system "cp -rv licenses $copy_dir/licenses";
 	system "cp -rv data $copy_dir/data";
 
-    system "find $copy_dir/data/lang -name cmn.json -delete";
-    system "find $copy_dir/data '(' -name .gitignore -o -name Makefile\\\* ')' -delete";
+	system "find $copy_dir/data/lang -name cmn.json -delete";
+	system "find $copy_dir/data '(' -name .gitignore -o -name Makefile\\\* ')' -delete";
 
 	return $copy_dir;
 }
@@ -182,7 +182,7 @@ sub archive {
 
 	my $archive = PLATFORM->{$platform}->{archiver}($platform);
 
-    system "rm -rf $source_dir";
+	system "rm -rf $source_dir";
 
 	return $archive;
 }
@@ -193,7 +193,7 @@ sub archive_bz2 {
 	my $base = filename_base($platform);
 	my $out = OUT_DIR."/$base.tar";
 
-    system "tar cvf $out $base";
+	system "tar cvf $out $base";
 	system "bzip2 $out";
 
 	my $arc = "$base.tar.bz2";
@@ -217,7 +217,7 @@ sub archive_7z {
 sub upload {
 	my @files = @_;
 
-    chdir OUT_DIR;
+	chdir OUT_DIR;
 
 	say STDERR ">>> uploading ", join(' ', @files);
 	system join(' ', "scp", @files, UPLOAD_PATH);
