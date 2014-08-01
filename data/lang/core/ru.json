@@ -201,7 +201,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Неудачная попытка сбора. Не достаточно места в грузовом отсеке."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
