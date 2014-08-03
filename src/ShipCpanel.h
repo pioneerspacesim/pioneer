@@ -23,7 +23,6 @@ public:
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
-	MsgLogWidget *MsgLog() { return m_msglog; }
 	void SetAlertState(Ship::AlertState as);
 
 	void TimeStepUpdate(float step);
@@ -68,7 +67,6 @@ private:
 
 	MultiFuncSelectorWidget *m_mfsel;
 	ScannerWidget *m_scanner;
-	MsgLogWidget *m_msglog;
 	UseEquipWidget *m_useEquipWidget;
 	Gui::MultiStateImageButton *m_camButton;
 	Gui::RadioGroup *m_leftButtonGroup, *m_rightButtonGroup;

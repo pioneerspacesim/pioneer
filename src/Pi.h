@@ -54,11 +54,6 @@ struct DetailLevel {
 	int cities;
 };
 
-enum MsgLevel {
-	MSG_NORMAL,
-	MSG_IMPORTANT
-};
-
 class Frame;
 class Game;
 
@@ -104,7 +99,6 @@ public:
 	static void SetMouseGrab(bool on);
 	static void FlushCaches();
 	static void BoinkNoise();
-	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
 
@@ -159,7 +153,7 @@ public:
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
-	static Graphics::Renderer *renderer; // blargh
+	static Graphics::Renderer *renderer;
 	static ModelCache *modelCache;
 	static Intro *intro;
 	static SDLGraphics *sdl;

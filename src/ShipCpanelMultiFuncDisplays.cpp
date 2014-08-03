@@ -43,79 +43,6 @@ static const Color scannerPlayerMissileColour = Color( 243, 237, 29  );
 static const Color scannerCargoColour         = Color( 166, 166, 166 );
 static const Color scannerCloudColour         = Color( 128, 128, 255 );
 
-MsgLogWidget::MsgLogWidget()
-{
-	m_msgAge = 0;
-	m_msgLabel = new Gui::Label("");
-	m_curMsgType = NONE;
-	Add(m_msgLabel, 0, 4);
-}
-
-void MsgLogWidget::Update()
-{
-	if (m_curMsgType != NONE) {
-		// has it expired?
-		bool expired = (SDL_GetTicks() - m_msgAge > 5000);
-
-		if (expired || ((m_curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
-			ShowNext();
-		}
-	} else {
-		ShowNext();
-	}
-}
-
-void MsgLogWidget::ShowNext()
-{
-    if (m_msgQueue.empty()) {
-		// current message expired and queue empty
-		m_msgLabel->SetText("");
-		m_msgAge = 0;
-		onUngrabFocus.emit();
-	} else {
-		// current message expired and more in queue
-		Pi::BoinkNoise();
-		// cancel time acceleration (but don't unpause)
-		if (Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
-			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-			Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
-		}
-		message_t msg("","",NONE);
-		// use MUST_SEE messages first
-		for (std::list<message_t>::iterator i = m_msgQueue.begin();
-				i != m_msgQueue.end(); ++i) {
-			if ((*i).type == MUST_SEE) {
-				msg = *i;
-				m_msgQueue.erase(i);
-				break;
-			}
-		}
-		if (msg.type == NONE) {
-			msg = m_msgQueue.front();
-			m_msgQueue.pop_front();
-		}
-
-		if (msg.sender == "") {
-			m_msgLabel->SetText("#0f0" + msg.message);
-		} else {
-			m_msgLabel->SetText(
-				std::string("#ca0") + stringf(Lang::MESSAGE_FROM_X, formatarg("sender", msg.sender)) +
-				std::string("\n#0f0") + msg.message);
-		}
-		m_msgAge = SDL_GetTicks();
-		m_curMsgType = msg.type;
-		onGrabFocus.emit();
-	}
-}
-
-void MsgLogWidget::GetSizeRequested(float size[2])
-{
-	size[0] = 400;
-	size[1] = 64;
-}
-
-/////////////////////////////////
-
 ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
 	m_renderer(r)
 {
@@ -215,6 +142,8 @@ void ScannerWidget::Draw()
 
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
+
+	glLineWidth(1.f);
 
 	SetScissor(false);
 }
@@ -564,7 +493,7 @@ void UseEquipWidget::GetSizeRequested(float size[2])
 void UseEquipWidget::FireMissile(int idx)
 {
 	if (!Pi::player->GetCombatTarget()) {
-		Pi::cpan->MsgLog()->Message("", Lang::SELECT_A_TARGET);
+		Pi::game->log->Add(Lang::SELECT_A_TARGET);
 		return;
 	}
 	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", idx+1, static_cast<Ship*>(Pi::player->GetCombatTarget()));
@@ -628,11 +557,6 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
 	m_buttons[1]->SetShortcut(SDLK_F10, KMOD_NONE);
 	m_buttons[1]->SetRenderDimensions(34, 17);
-
-	m_buttons[2] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_msglog.png", "icons/multifunc_msglog_on.png");
-	m_buttons[2]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_MSGLOG));
-	m_buttons[2]->SetShortcut(SDLK_F11, KMOD_NONE);
-	m_buttons[2]->SetRenderDimensions(34, 17);
 
 	UpdateButtons();
 
