@@ -131,9 +131,10 @@ namespace FileSystem {
 	{
 	}
 
-	FileInfo::FileInfo(FileSource *source, const std::string &path, FileType type):
+	FileInfo::FileInfo(FileSource *source, const std::string &path, FileType type, Time::DateTime modTime):
 		m_source(source),
 		m_path(path),
+		m_modTime(modTime),
 		m_dirLen(0),
 		m_type(type)
 	{
@@ -146,9 +147,14 @@ namespace FileSystem {
 		}
 	}
 
+	FileInfo FileSource::MakeFileInfo(const std::string &path, FileInfo::FileType fileType, Time::DateTime modTime)
+	{
+		return FileInfo(this, path, fileType, modTime);
+	}
+
 	FileInfo FileSource::MakeFileInfo(const std::string &path, FileInfo::FileType fileType)
 	{
-		return FileInfo(this, path, fileType);
+		return MakeFileInfo(path, fileType, Time::DateTime());
 	}
 
 	FileSourceUnion::FileSourceUnion(): FileSource(":union:") {}
