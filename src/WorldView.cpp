@@ -2128,7 +2128,7 @@ static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
 
 	// construct a frame of reference aligned with the ground plane
 	// and with lines of longitude and latitude
-	const vector3d up = Pi::player->GetPosition().NormalizedSafe();
+	const vector3d up = Pi::player->GetPositionRelTo(frame).NormalizedSafe();
 	const vector3d north = projectVecOntoPlane(vector3d(0,1,0), up).NormalizedSafe();
 	const vector3d east = north.Cross(up);
 
