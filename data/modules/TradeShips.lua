@@ -241,7 +241,7 @@ local getSystem = function (ship)
 		min_range = 7.5
 	end
 	local systems_in_range = Game.system:GetNearbySystems(min_range)
-	if #systems_in_range == 0 then 
+	if #systems_in_range == 0 then
 		systems_in_range = Game.system:GetNearbySystems(max_range)
 	end
 	if #systems_in_range == 0 then return nil end
@@ -483,8 +483,8 @@ local spawnInitialShips = function (game_start)
 			if fuel_added and fuel_added > 0 then
 				ship:RemoveEquip(e.cargo.hydrogen, Engine.rand:Integer(1, fuel_added))
 			end
-			if trader.status == 'inbound' then 
-				ship:AIDockWith(trader.starport) 
+			if trader.status == 'inbound' then
+				ship:AIDockWith(trader.starport)
 			end
 		end
 	end
@@ -569,16 +569,17 @@ local onEnterSystem = function (ship)
 	if trade_ships[ship] ~= nil then
 		local trader = trade_ships[ship]
 		print(ship.label..' '..trader.ship_name..' entered '..Game.system.name..' from '..trader.from_path:GetStarSystem().name)
-		if #starports == 0 then
-			-- this only happens if player has followed ship to empty system
 
-			getSystemAndJump(ship)
-			-- if we couldn't reach any systems wait for player to attack
-		else
-			local starport = getNearestStarport(ship)
+		local starport = getNearestStarport(ship)
+		if starport then
 			ship:AIDockWith(starport)
 			trade_ships[ship]['starport'] = starport
 			trade_ships[ship]['status'] = 'inbound'
+		else
+			-- starport == nil happens if player has followed ship to empty system, or
+			-- no suitable port found (e.g. all stations atmospheric for ship without atmoshield)
+			getSystemAndJump(ship)
+			-- if we couldn't reach any systems wait for player to attack
 		end
 	end
 end
