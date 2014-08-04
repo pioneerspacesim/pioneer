@@ -193,6 +193,11 @@ void WorldView::InitObject()
 	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudTargetInfo, 0, 85.0f);
 
+	m_headingInfo = (new Gui::Label(""))->Color(s_hudTextColor);
+	Add(m_headingInfo, 388, 4);
+	m_pitchInfo = (new Gui::Label(""))->Color(s_hudTextColor);
+	Add(m_pitchInfo, 775, 290);
+
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(255, 255, 255, 230));
@@ -491,6 +496,8 @@ void WorldView::RefreshHyperspaceButton() {
 		m_hyperspaceButton->Hide();
 }
 
+static std::pair<double, double> calculateHeadingPitch(void);
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	assert(Pi::game);
@@ -720,6 +727,18 @@ void WorldView::RefreshButtonStateAndVisibility()
 					vector3d velocity = (frame == Pi::player->GetFrame() ? vel : Pi::player->GetVelocityRelTo(frame));
 					double vspeed = velocity.Dot(surface_pos);
 					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+					// heading and pitch
+					auto headingPitch = calculateHeadingPitch();
+					char buf[6];
+					// \xC2\xB0 is the UTF-8 degree symbol
+					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
+					m_headingInfo->SetText(buf);
+					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
+					m_pitchInfo->SetText(buf);
+					m_headingInfo->Show();
+					m_pitchInfo->Show();
+
 					if (altitude < 0) altitude = 0;
 					if (altitude >= 100000.0)
 						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
@@ -729,6 +748,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 							formatarg("vspeed", vspeed)));
 				} else {
 					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+					m_headingInfo->Hide();
+					m_pitchInfo->Hide();
 				}
 			} else {
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
@@ -2035,4 +2056,43 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
 	size[0] = Gui::Screen::GetWidth();
 	size[1] = Gui::Screen::GetHeight();
+}
+
+// project vector vec onto plane (normal must be normalized)
+static vector3d projectVecOntoPlane(const vector3d &vec, const vector3d &normal) {
+	return (vec - vec.Dot(normal)*normal);
+}
+
+static double wrapAngleToPositive(const double theta) {
+	return (theta >= 0.0 ? theta : M_PI*2 + theta);
+}
+
+/*
+  heading range: 0 - 359 deg
+  heading  0 - north
+  heading 90 - east
+  pitch range: -90 - +90 deg
+  pitch  0 - level with surface
+  pitch 90 - up
+*/
+static std::pair<double, double> calculateHeadingPitch(void) {
+	// construct a frame of reference aligned with the ground plane
+	// and with lines of longitude and latitude
+	const vector3d up = Pi::player->GetPosition().NormalizedSafe();
+	const vector3d north = projectVecOntoPlane(vector3d(0,1,0), up).NormalizedSafe();
+	const vector3d east = north.Cross(up);
+
+	// find the direction that the ship is facing
+	const auto frame  = Pi::player->GetFrame();
+	const auto shpRot = Pi::player->GetOrientRelTo(frame);
+	const vector3d hed = -shpRot.VectorZ();
+	const vector3d groundHed = projectVecOntoPlane(hed, up).NormalizedSafe();
+
+	const double pitch = asin(up.Dot(hed));
+
+	const double hedNorth = groundHed.Dot(north);
+	const double hedEast = groundHed.Dot(east);
+	const double heading = wrapAngleToPositive(atan2(hedEast, hedNorth));
+
+	return std::make_pair(heading, pitch);
 }
