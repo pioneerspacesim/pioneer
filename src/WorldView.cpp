@@ -195,9 +195,15 @@ void WorldView::InitObject()
 
 	// create new-ui HUD widgets (note: these are not actually inserted
 	// into the HUD layout until they're needed)
-	m_headingInfo.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
-	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
+	m_headingLabel.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
 	m_headingPlane.Reset(Pi::ui->Label("headingPlane")->SetColor(s_hudTextColor));
+	m_headingInfo.Reset(
+		Pi::ui->VBox(2)
+			->PackEnd(m_headingLabel.Get())
+			->PackEnd(m_headingPlane.Get()));
+	m_headingInfo->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
+
+	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
 	m_curPlane = ECL;
 
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -757,17 +763,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 					char buf[6];
 					// \xC2\xB0 is the UTF-8 degree symbol
 					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
-					m_headingInfo->SetText(buf);
+					m_headingLabel->SetText(buf);
 					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
 					m_pitchInfo->SetText(buf);
 					m_headingPlane->SetText(m_curPlane == EQL ? "EQL" : "ECL");
-					m_headingPlane->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
 
-					UI::Widget *h = Pi::ui->VBox(2)
-						->PackEnd(m_headingInfo.Get())
-						->PackEnd(m_headingPlane.Get());
-
-					m_hudDockTop->SetInnerWidget(h);
+					m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
 					m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
 
 					if (altitude < 0) altitude = 0;

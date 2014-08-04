@@ -168,7 +168,8 @@ private:
 	RefCountedPtr<UI::Single> m_hudDockBottom;
 	RefCountedPtr<UI::Single> m_hudDockCentre;
 	// new-ui HUD components
-	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo, m_headingPlane;
+	RefCountedPtr<UI::Widget> m_headingInfo;
+	RefCountedPtr<UI::Label> m_headingLabel, m_pitchInfo, m_headingPlane;
 
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
 		   *m_hudHyperspaceInfo, *m_hudTargetInfo;
