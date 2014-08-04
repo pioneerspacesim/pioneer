@@ -602,11 +602,12 @@ float Ship::GetECMRechargeTime()
 	return ecm_recharge_cap;
 }
 
-void Ship::UseECM()
+
+Ship::ECMResult Ship::UseECM()
 {
 	int ecm_power_cap = 0;
 	Properties().Get("ecm_power_cap", ecm_power_cap);
-	if (m_ecmRecharge > 0.0f) return;
+	if (m_ecmRecharge > 0.0f) return ECM_RECHARGING;
 
 	if (ecm_power_cap > 0) {
 		Sound::BodyMakeNoise(this, "ECM", 1.0f);
@@ -629,7 +630,9 @@ void Ship::UseECM()
 				}
 			}
 		}
+		return ECM_ACTIVATED;
 	}
+	else return ECM_NOT_INSTALLED;
 }
 
 Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
