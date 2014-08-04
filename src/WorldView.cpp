@@ -24,6 +24,9 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "ui/Context.h"
+#include "ui/Align.h"
+#include "ui/Label.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
@@ -171,6 +174,30 @@ void WorldView::InitObject()
 	Gui::Screen::PopFont();
 #endif
 
+	// set up anchored docking positions for new-ui HUD widgets
+	m_hudDockTop.Reset(Pi::ui->Align(UI::Align::TOP));
+	m_hudDockRight.Reset(Pi::ui->Align(UI::Align::RIGHT));
+	m_hudDockLeft.Reset(Pi::ui->Align(UI::Align::LEFT));
+	m_hudDockBottom.Reset(Pi::ui->Align(UI::Align::BOTTOM));
+	m_hudDockCentre.Reset(Pi::ui->Align(UI::Align::MIDDLE));
+
+	// It's not ideal to use a nested VBox/HBox set for this, but it's
+	// probably adequate for now and we can easily replace it later
+	UI::VBox *hud_root = Pi::ui->VBox();
+	hud_root->PackEnd(m_hudDockTop.Get());
+	hud_root->PackEnd(Pi::ui->HBox()->
+		PackEnd(m_hudDockLeft.Get())->
+		PackEnd(Pi::ui->Expand()->SetInnerWidget(m_hudDockCentre.Get()))->
+		PackEnd(m_hudDockRight.Get()));
+	hud_root->PackEnd(m_hudDockBottom.Get());
+
+	m_hudRoot.Reset(hud_root);
+
+	// create new-ui HUD widgets (note: these are not actually inserted
+	// into the HUD layout until they're needed)
+	m_headingInfo.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
+	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
+
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
@@ -192,11 +219,6 @@ void WorldView::InitObject()
 
 	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudTargetInfo, 0, 85.0f);
-
-	m_headingInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_headingInfo, 388, 4);
-	m_pitchInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_pitchInfo, 775, 290);
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
@@ -736,8 +758,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 					m_headingInfo->SetText(buf);
 					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
 					m_pitchInfo->SetText(buf);
-					m_headingInfo->Show();
-					m_pitchInfo->Show();
+
+					m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
+					m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
 
 					if (altitude < 0) altitude = 0;
 					if (altitude >= 100000.0)
@@ -748,8 +771,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 							formatarg("vspeed", vspeed)));
 				} else {
 					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-					m_headingInfo->Hide();
-					m_pitchInfo->Hide();
+
+					m_hudDockTop->RemoveInnerWidget();
+					m_hudDockRight->RemoveInnerWidget();
 				}
 			} else {
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
@@ -1032,6 +1056,11 @@ void WorldView::Update()
 	}
 
 	UIView::Update();
+}
+
+void WorldView::BuildUI(UI::Single *container)
+{
+	container->SetInnerWidget(m_hudRoot.Get());
 }
 
 void WorldView::OnSwitchTo()

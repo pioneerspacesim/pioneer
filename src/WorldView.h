@@ -28,6 +28,12 @@ enum VelIconType {
 
 namespace Gui { class TexturedQuad; }
 
+namespace UI {
+	class Widget;
+	class Single;
+	class Label;
+}
+
 class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
@@ -57,6 +63,7 @@ public:
 	sigc::signal<void> onChangeCamType;
 
 protected:
+	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
 	virtual void OnSwitchFrom();
 private:
@@ -146,8 +153,18 @@ private:
 	Gui::Label *m_debugInfo;
 #endif
 
+	// useful docking locations for new-ui widgets in the HUD
+	RefCountedPtr<UI::Widget> m_hudRoot;
+	RefCountedPtr<UI::Single> m_hudDockTop;
+	RefCountedPtr<UI::Single> m_hudDockLeft;
+	RefCountedPtr<UI::Single> m_hudDockRight;
+	RefCountedPtr<UI::Single> m_hudDockBottom;
+	RefCountedPtr<UI::Single> m_hudDockCentre;
+	// new-ui HUD components
+	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
+
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
-		   *m_hudHyperspaceInfo, *m_hudTargetInfo, *m_headingInfo, *m_pitchInfo;
+		   *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 	Gui::MeterBar *m_hudFuelGauge;
