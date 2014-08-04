@@ -26,6 +26,11 @@ enum VelIconType {
 	V_BURN
 };
 
+enum PlaneType {
+	EQL,
+	ECL
+};
+
 namespace Gui { class TexturedQuad; }
 
 namespace UI {
@@ -127,7 +132,9 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseWheel(bool up);
+	bool OnClickHeadingLabel(void);
 
+	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
@@ -161,7 +168,7 @@ private:
 	RefCountedPtr<UI::Single> m_hudDockBottom;
 	RefCountedPtr<UI::Single> m_hudDockCentre;
 	// new-ui HUD components
-	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
+	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo, m_headingPlane;
 
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
 		   *m_hudHyperspaceInfo, *m_hudTargetInfo;

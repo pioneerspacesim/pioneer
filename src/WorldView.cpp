@@ -197,6 +197,8 @@ void WorldView::InitObject()
 	// into the HUD layout until they're needed)
 	m_headingInfo.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
 	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
+	m_headingPlane.Reset(Pi::ui->Label("headingPlane")->SetColor(s_hudTextColor));
+	m_curPlane = ECL;
 
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
@@ -518,7 +520,7 @@ void WorldView::RefreshHyperspaceButton() {
 		m_hyperspaceButton->Hide();
 }
 
-static std::pair<double, double> calculateHeadingPitch(void);
+static std::pair<double, double> calculateHeadingPitch(enum PlaneType);
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
@@ -751,15 +753,21 @@ void WorldView::RefreshButtonStateAndVisibility()
 					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
 
 					// heading and pitch
-					auto headingPitch = calculateHeadingPitch();
+					auto headingPitch = calculateHeadingPitch(m_curPlane);
 					char buf[6];
 					// \xC2\xB0 is the UTF-8 degree symbol
 					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
 					m_headingInfo->SetText(buf);
 					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
 					m_pitchInfo->SetText(buf);
+					m_headingPlane->SetText(m_curPlane == EQL ? "EQL" : "ECL");
+					m_headingPlane->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
 
-					m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
+					UI::Widget *h = Pi::ui->VBox(2)
+						->PackEnd(m_headingInfo.Get())
+						->PackEnd(m_headingPlane.Get());
+
+					m_hudDockTop->SetInnerWidget(h);
 					m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
 
 					if (altitude < 0) altitude = 0;
@@ -947,6 +955,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 	} else {
 		m_hudHyperspaceInfo->Hide();
 	}
+}
+
+bool WorldView::OnClickHeadingLabel(void) {
+	printf("click\n");
+	m_curPlane = m_curPlane == EQL ? ECL : EQL;
+	return true;
 }
 
 void WorldView::Update()
@@ -2104,7 +2118,14 @@ static double wrapAngleToPositive(const double theta) {
   pitch  0 - level with surface
   pitch 90 - up
 */
-static std::pair<double, double> calculateHeadingPitch(void) {
+static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
+	auto frame  = Pi::player->GetFrame();
+
+	if(pt == EQL)
+		frame = frame->GetRotFrame();
+	else if (pt == ECL)
+		frame = frame->GetNonRotFrame();
+
 	// construct a frame of reference aligned with the ground plane
 	// and with lines of longitude and latitude
 	const vector3d up = Pi::player->GetPosition().NormalizedSafe();
@@ -2112,7 +2133,6 @@ static std::pair<double, double> calculateHeadingPitch(void) {
 	const vector3d east = north.Cross(up);
 
 	// find the direction that the ship is facing
-	const auto frame  = Pi::player->GetFrame();
 	const auto shpRot = Pi::player->GetOrientRelTo(frame);
 	const vector3d hed = -shpRot.VectorZ();
 	const vector3d groundHed = projectVecOntoPlane(hed, up).NormalizedSafe();
