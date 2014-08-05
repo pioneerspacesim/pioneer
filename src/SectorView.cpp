@@ -141,18 +141,18 @@ void SectorView::InitObject()
 	m_distanceLabel = new Gui::Label("");
 	Add(m_distanceLabel, 2, Gui::Screen::GetHeight()-Gui::Screen::GetFontHeight()-66);
 
-	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
-	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
-	m_zoomInButton->SetRenderDimensions(30, 22);
-	Add(m_zoomInButton, 700, 5);
+	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
+	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
+	m_zoomOutButton->SetRenderDimensions(30, 22);
+	Add(m_zoomOutButton, 700, 5);
 
 	m_zoomLevelLabel = (new Gui::Label(""))->Color(69, 219, 235);
 	Add(m_zoomLevelLabel, 640, 5);
 
-	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
-	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
-	m_zoomOutButton->SetRenderDimensions(30, 22);
-	Add(m_zoomOutButton, 732, 5);
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
+	Add(m_zoomInButton, 732, 5);
 
 	Gui::Screen::PushFont("OverlayFont");
 
