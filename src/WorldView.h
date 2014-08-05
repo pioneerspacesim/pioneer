@@ -27,7 +27,8 @@ enum VelIconType {
 };
 
 enum PlaneType {
-	EQL,
+	NONE,
+	EQU,
 	ECL
 };
 
@@ -133,6 +134,7 @@ private:
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseWheel(bool up);
 	bool OnClickHeadingLabel(void);
+	void RefreshHeadingPitch(void);
 
 	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;

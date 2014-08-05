@@ -2054,5 +2054,12 @@
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "",
       "message" : "Switch between ship display modes."
+   "EQU" : {
+      "description" : "Equatorial plane",
+      "message" : "EQU"
+   },
+   "ECL" : {
+      "description" : "Ecliptic plane",
+      "message" : "ECL"
    }
 }

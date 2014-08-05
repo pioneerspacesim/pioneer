@@ -173,6 +173,9 @@ void WorldView::InitObject()
 	Add(m_debugInfo, 10, 200);
 	Gui::Screen::PopFont();
 #endif
+	/*
+	  NEW UI
+	*/
 
 	// set up anchored docking positions for new-ui HUD widgets
 	m_hudDockTop.Reset(Pi::ui->Align(UI::Align::TOP));
@@ -204,7 +207,9 @@ void WorldView::InitObject()
 	m_headingInfo->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
 
 	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
-	m_curPlane = ECL;
+	m_curPlane = NONE;
+
+	// --
 
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
@@ -528,6 +533,23 @@ void WorldView::RefreshHyperspaceButton() {
 
 static std::pair<double, double> calculateHeadingPitch(enum PlaneType);
 
+void WorldView::RefreshHeadingPitch(void) {
+	if(m_curPlane == NONE) {
+		m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
+		m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
+		m_curPlane = EQU;
+	}
+	// heading and pitch
+	auto headingPitch = calculateHeadingPitch(m_curPlane);
+	char buf[6];
+	// \xC2\xB0 is the UTF-8 degree symbol
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
+	m_headingLabel->SetText(buf);
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
+	m_pitchInfo->SetText(buf);
+	m_headingPlane->SetText(m_curPlane == EQU ? Lang::EQU : Lang::ECL);
+}
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	assert(Pi::game);
@@ -758,18 +780,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					double vspeed = velocity.Dot(surface_pos);
 					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
 
-					// heading and pitch
-					auto headingPitch = calculateHeadingPitch(m_curPlane);
-					char buf[6];
-					// \xC2\xB0 is the UTF-8 degree symbol
-					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
-					m_headingLabel->SetText(buf);
-					snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
-					m_pitchInfo->SetText(buf);
-					m_headingPlane->SetText(m_curPlane == EQL ? "EQL" : "ECL");
-
-					m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
-					m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
+					RefreshHeadingPitch();
 
 					if (altitude < 0) altitude = 0;
 					if (altitude >= 100000.0)
@@ -779,13 +790,21 @@ void WorldView::RefreshButtonStateAndVisibility()
 						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
 				} else {
+					// XXX does this need to be repeated 3 times?
 					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-
-					m_hudDockTop->RemoveInnerWidget();
-					m_hudDockRight->RemoveInnerWidget();
+					if(m_curPlane != NONE) {
+						m_curPlane = NONE;
+						m_hudDockTop->RemoveInnerWidget();
+						m_hudDockRight->RemoveInnerWidget();
+					}
 				}
 			} else {
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+				if(m_curPlane != NONE) {
+					m_curPlane = NONE;
+					m_hudDockTop->RemoveInnerWidget();
+					m_hudDockRight->RemoveInnerWidget();
+				}
 			}
 
 			if (astro->IsType(Object::PLANET)) {
@@ -809,6 +828,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 			m_hudHullTemp->Hide();
+			if(m_curPlane != NONE) {
+				m_curPlane = NONE;
+				m_hudDockTop->RemoveInnerWidget();
+				m_hudDockRight->RemoveInnerWidget();
+			}
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
@@ -959,8 +983,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 }
 
 bool WorldView::OnClickHeadingLabel(void) {
-	printf("click\n");
-	m_curPlane = m_curPlane == EQL ? ECL : EQL;
+	m_curPlane = m_curPlane == EQU ? ECL : EQU;
 	return true;
 }
 
@@ -2122,7 +2145,7 @@ static double wrapAngleToPositive(const double theta) {
 static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
 	auto frame  = Pi::player->GetFrame();
 
-	if(pt == EQL)
+	if(pt == EQU)
 		frame = frame->GetRotFrame();
 	else if (pt == ECL)
 		frame = frame->GetNonRotFrame();
