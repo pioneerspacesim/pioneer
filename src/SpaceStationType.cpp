@@ -34,9 +34,19 @@ SpaceStationType::SpaceStationType()
 , parkingDistance(0)
 , parkingGapSize(0)
 {}
-#pragma optimize("",off)
+
 void SpaceStationType::OnSetupComplete()
 {
+	// Since the model contains (almost) all of the docking information we have to extract that
+	// and then generate any additional locators and information the station will need from it.
+
+	// First we gather the MatrixTransforms that contain the location and orientation of the docking
+	// locators/waypoints. We store some information within the name of these which needs parsing too.
+
+	// Next we build the additional information required for docking ships with SPACE stations
+	// on autopilot - this is the only option for docking with SPACE stations currently.
+	// This mostly means offsetting from one locator to create the next in the sequence.
+
 	// ground stations have a "special-fucking-case" 0 stage launch process
 	shipLaunchStage = ((SURFACE==dockMethod) ? 0 : 3);
 
@@ -77,7 +87,7 @@ void SpaceStationType::OnSetupComplete()
 		int bay, port;
 		int minSize, maxSize;
 		char padname[8];
-		//loc_A001_p01_s0_500_b01
+		// eg:loc_A001_p01_s0_500_b01
 		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname, &port, &minSize, &maxSize, &bay));
 		PiVerify(bay>0 && port>0);
 
@@ -128,7 +138,7 @@ void SpaceStationType::OnSetupComplete()
 			}
 			else
 			{
-				// leaving locators, what direction should they face in?
+				// leaving locators, use whatever orientation they have
 				orient.SetTranslate( locIter->GetTransform().GetTranslate() );
 				int exitport = 0;
 				for( auto &exitIt : exit_mts ) {
