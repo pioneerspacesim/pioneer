@@ -1301,6 +1301,7 @@ void WorldView::UpdateCommsOptions()
 			if (!cloud->IsArrival()) {
 				button = AddCommsOption(Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE, ypos, 0, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_target_hypercloud), cloud));
+				ypos += 32;
 			}
 		}
 	}
