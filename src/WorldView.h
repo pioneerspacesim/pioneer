@@ -28,8 +28,8 @@ enum VelIconType {
 
 enum PlaneType {
 	NONE,
-	EQU,
-	ECL
+	ROTATIONAL,
+	PARENT
 };
 
 namespace Gui { class TexturedQuad; }
@@ -170,8 +170,7 @@ private:
 	RefCountedPtr<UI::Single> m_hudDockBottom;
 	RefCountedPtr<UI::Single> m_hudDockCentre;
 	// new-ui HUD components
-	RefCountedPtr<UI::Widget> m_headingInfo;
-	RefCountedPtr<UI::Label> m_headingLabel, m_pitchInfo, m_headingPlane;
+	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
 
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
 		   *m_hudHyperspaceInfo, *m_hudTargetInfo;

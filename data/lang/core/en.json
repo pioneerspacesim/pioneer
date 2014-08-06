@@ -2054,12 +2054,13 @@
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "",
       "message" : "Switch between ship display modes."
-   "EQU" : {
-      "description" : "Equatorial plane",
-      "message" : "EQU"
    },
-   "ECL" : {
-      "description" : "Ecliptic plane",
-      "message" : "ECL"
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "",
+      "message" : "Switched heading display to rotational frame."
+   },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "",
+      "message" : "Switched heading display to parent frame."
    }
 }

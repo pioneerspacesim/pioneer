@@ -196,17 +196,9 @@ void WorldView::InitObject()
 
 	m_hudRoot.Reset(hud_root);
 
-	// create new-ui HUD widgets (note: these are not actually inserted
-	// into the HUD layout until they're needed)
-	m_headingLabel.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
-	m_headingPlane.Reset(Pi::ui->Label("headingPlane")->SetColor(s_hudTextColor));
-	m_headingInfo.Reset(
-		Pi::ui->VBox(2)
-			->PackEnd(m_headingLabel.Get())
-			->PackEnd(m_headingPlane.Get()));
-	m_headingInfo->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
-
+	m_headingInfo.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
 	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
+	m_headingInfo->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
 	m_curPlane = NONE;
 
 	// --
@@ -537,17 +529,16 @@ void WorldView::RefreshHeadingPitch(void) {
 	if(m_curPlane == NONE) {
 		m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
 		m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
-		m_curPlane = EQU;
+		m_curPlane = ROTATIONAL;
 	}
 	// heading and pitch
 	auto headingPitch = calculateHeadingPitch(m_curPlane);
 	char buf[6];
 	// \xC2\xB0 is the UTF-8 degree symbol
 	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
-	m_headingLabel->SetText(buf);
+	m_headingInfo->SetText(buf);
 	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
 	m_pitchInfo->SetText(buf);
-	m_headingPlane->SetText(m_curPlane == EQU ? Lang::EQU : Lang::ECL);
 }
 
 void WorldView::RefreshButtonStateAndVisibility()
@@ -983,7 +974,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 }
 
 bool WorldView::OnClickHeadingLabel(void) {
-	m_curPlane = m_curPlane == EQU ? ECL : EQU;
+	m_curPlane = m_curPlane == ROTATIONAL ? PARENT : ROTATIONAL;
+	Pi::game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
 	return true;
 }
 
@@ -2145,9 +2137,9 @@ static double wrapAngleToPositive(const double theta) {
 static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
 	auto frame  = Pi::player->GetFrame();
 
-	if(pt == EQU)
+	if(pt == ROTATIONAL)
 		frame = frame->GetRotFrame();
-	else if (pt == ECL)
+	else if (pt == PARENT)
 		frame = frame->GetNonRotFrame();
 
 	// construct a frame of reference aligned with the ground plane
