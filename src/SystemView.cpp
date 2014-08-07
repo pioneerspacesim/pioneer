@@ -130,7 +130,7 @@ SystemView::SystemView() : UIView()
 	Add(m_zoomOutButton, 732, 5);
 
 	m_toggleShipsButton = new Gui::ImageButton("icons/toggle_ships_display.png");
-	m_toggleShipsButton->SetToolTip("Toggle displaying ships");
+	m_toggleShipsButton->SetToolTip(Lang::SHIPS_DISPLAY_MODE_TOGGLE);
 	m_toggleShipsButton->SetRenderDimensions(30, 22);
 	m_toggleShipsButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleShipsButtonClick));
 	Add(m_toggleShipsButton, 660, 5);
@@ -387,7 +387,14 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset) {
 }
 
 void SystemView::OnClickShipLabel(Ship *s) {
-	Pi::player->SetNavTarget(s);
+	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
+	if(Pi::player->GetNavTarget() == s) {
+		Pi::player->SetNavTarget(0); // remove current
+		Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+	} else {
+		Pi::player->SetNavTarget(s);
+		Pi::game->log->Add(Lang::SET_NAVTARGET_TO + s->GetLabel());
+	}
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
@@ -537,6 +544,7 @@ void SystemView::Draw3D()
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
+	glLineWidth(2);
 	m_objectLabels->Clear();
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
@@ -549,6 +557,7 @@ void SystemView::Draw3D()
 				PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
 		}
 	}
+	glLineWidth(1);
 
 	if(m_shipDrawing != OFF) {
 		if(SDL_GetTicks() - m_lastShipListUpdate > SHIP_ORBIT_UPDATE_TICKS)
@@ -633,9 +642,10 @@ void SystemView::DrawShips(const double t, const vector3d &offset) {
 	m_shipLabels->Clear();
 	for(auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
 		const vector3d pos = offset + (*s).second.OrbitalPosAtTime(t) * double(m_zoom);
-		PutSelectionBox(pos, Color::BLUE);
+		const bool isNavTarget = Pi::player->GetNavTarget() == (*s).first;
+		PutSelectionBox(pos, isNavTarget ? Color::GREEN : Color::BLUE);
 		LabelShip((*s).first, pos);
 		if(m_shipDrawing == ORBITS)
-			PutOrbit(&(*s).second, offset, Color::BLUE, 0);
+			PutOrbit(&(*s).second, offset, isNavTarget ? Color::GREEN : Color::BLUE, 0);
 	}
 }
