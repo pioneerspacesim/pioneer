@@ -67,11 +67,14 @@ private:
 	void MouseWheel(bool up);
 	void RefreshShips(void);
 	void DrawShips(const double t, const vector3d &offset);
+	void LabelShip(Ship *s, const vector3d &offset);
+	void OnClickShipLabel(Ship *s);
 
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
 	TransferPlanner *m_planner;
 	std::list<std::pair<Ship*, Orbit>> m_contacts;
+	Gui::LabelSet *m_shipLabels;
 	ShipDrawing m_shipDrawing;
 	Uint32 m_lastShipListUpdate;
 	float m_rot_x, m_rot_z;

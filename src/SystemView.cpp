@@ -106,6 +106,8 @@ SystemView::SystemView() : UIView()
 	Gui::Screen::PushFont("OverlayFont");
 	m_objectLabels = new Gui::LabelSet();
 	Add(m_objectLabels, 0, 0);
+	m_shipLabels = new Gui::LabelSet();
+	Add(m_shipLabels, 0, 0);
 	Gui::Screen::PopFont();
 
 	m_timePoint = (new Gui::Label(""))->Color(178, 178, 178);
@@ -277,7 +279,7 @@ void SystemView::OnToggleShipsButtonClick(void) {
 	switch(m_shipDrawing) {
 	case OFF:    m_shipDrawing = BOXES;  RefreshShips(); break;
 	case BOXES:  m_shipDrawing = ORBITS; RefreshShips(); break;
-	case ORBITS: m_shipDrawing = OFF; break;
+	case ORBITS: m_shipDrawing = OFF; m_shipLabels->Clear(); break;
 	}
 }
 
@@ -371,6 +373,21 @@ void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 	}
 
 	Gui::Screen::LeaveOrtho();
+}
+
+void SystemView::LabelShip(Ship *s, const vector3d &offset) {
+	Gui::Screen::EnterOrtho();
+
+	vector3d pos;
+	if (Gui::Screen::Project(offset, pos)) {
+		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShipLabel), s), pos.x, pos.y);
+	}
+
+	Gui::Screen::LeaveOrtho();
+}
+
+void SystemView::OnClickShipLabel(Ship *s) {
+	Pi::player->SetNavTarget(s);
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
@@ -613,9 +630,12 @@ void SystemView::RefreshShips(void) {
 }
 
 void SystemView::DrawShips(const double t, const vector3d &offset) {
+	m_shipLabels->Clear();
 	for(auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
-		PutSelectionBox(offset + (*s).second.OrbitalPosAtTime(t) * double(m_zoom), Color::DARKBLUE);
+		const vector3d pos = offset + (*s).second.OrbitalPosAtTime(t) * double(m_zoom);
+		PutSelectionBox(pos, Color::BLUE);
+		LabelShip((*s).first, pos);
 		if(m_shipDrawing == ORBITS)
-			PutOrbit(&(*s).second, offset, Color::DARKBLUE, 0);
+			PutOrbit(&(*s).second, offset, Color::BLUE, 0);
 	}
 }
