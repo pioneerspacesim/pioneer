@@ -26,7 +26,7 @@ static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user settings.
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
-
+static const Uint32 SHIP_ORBIT_UPDATE_TICKS = 1000;
 
 TransferPlanner::TransferPlanner() {
 	m_dvPrograde = 0.0;
@@ -127,6 +127,11 @@ SystemView::SystemView() : UIView()
 	m_zoomOutButton->SetRenderDimensions(30, 22);
 	Add(m_zoomOutButton, 732, 5);
 
+	m_toggleShipsButton = new Gui::ImageButton("icons/toggle_ships_display.png");
+	m_toggleShipsButton->SetToolTip("Toggle displaying ships");
+	m_toggleShipsButton->SetRenderDimensions(30, 22);
+	m_toggleShipsButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleShipsButtonClick));
+	Add(m_toggleShipsButton, 660, 5);
 	// orbital transfer planner UI
         int dx = 670;
 	int dy = 40;
@@ -247,11 +252,14 @@ SystemView::SystemView() : UIView()
 
 	ResetViewpoint();
 
+	RefreshShips();
+	m_shipDrawing = OFF;
 	m_planner = Pi::planner;
 }
 
 SystemView::~SystemView()
 {
+	m_contacts.clear();
 	m_onMouseWheelCon.disconnect();
 }
 
@@ -264,6 +272,14 @@ void SystemView::OnClickAccel(float step)
 void SystemView::OnIncreaseFactorButtonClick(void) { m_planner->IncreaseFactor(); }
 void SystemView::OnResetFactorButtonClick(void)    { m_planner->ResetFactor(); }
 void SystemView::OnDecreaseFactorButtonClick(void) { m_planner->DecreaseFactor(); }
+
+void SystemView::OnToggleShipsButtonClick(void) {
+	switch(m_shipDrawing) {
+	case OFF:    m_shipDrawing = BOXES;  RefreshShips(); break;
+	case BOXES:  m_shipDrawing = ORBITS; RefreshShips(); break;
+	case ORBITS: m_shipDrawing = OFF; break;
+	}
+}
 
 void SystemView::OnClickRealt()
 {
@@ -517,6 +533,13 @@ void SystemView::Draw3D()
 		}
 	}
 
+	if(m_shipDrawing != OFF) {
+		if(SDL_GetTicks() - m_lastShipListUpdate > SHIP_ORBIT_UPDATE_TICKS)
+			RefreshShips();
+
+		DrawShips(m_time - Pi::game->GetTime(), pos);
+	}
+
 	UIView::Draw3D();
 }
 
@@ -571,5 +594,28 @@ void SystemView::MouseWheel(bool up)
 			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
 		else
 			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
+	}
+}
+
+void SystemView::RefreshShips(void) {
+	m_contacts.clear();
+	auto bs = Pi::game->GetSpace()->GetBodies();
+	for(auto s = bs.begin(); s != bs.end(); s++) {
+		if((*s) != Pi::player &&
+		   (*s)->GetType() == Object::SHIP) {
+
+			const auto c = static_cast<Ship*>(*s);
+			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+
+		}
+	}
+	m_lastShipListUpdate = SDL_GetTicks();
+}
+
+void SystemView::DrawShips(const double t, const vector3d &offset) {
+	for(auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
+		PutSelectionBox(offset + (*s).second.OrbitalPosAtTime(t) * double(m_zoom), Color::DARKBLUE);
+		if(m_shipDrawing == ORBITS)
+			PutOrbit(&(*s).second, offset, Color::DARKBLUE, 0);
 	}
 }
