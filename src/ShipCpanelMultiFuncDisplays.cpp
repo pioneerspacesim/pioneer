@@ -499,6 +499,11 @@ void UseEquipWidget::FireMissile(int idx)
 	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", idx+1, static_cast<Ship*>(Pi::player->GetCombatTarget()));
 }
 
+static void FireECM()
+{
+	Pi::player->UseECM();
+}
+
 void UseEquipWidget::UpdateEquip()
 {
 	DeleteAllChildren();
@@ -531,7 +536,8 @@ void UseEquipWidget::UpdateEquip()
 			if (ecm_power_cap == 3) b = new Gui::ImageButton("icons/ecm_basic.png");
 			else b = new Gui::ImageButton("icons/ecm_advanced.png");
 
-			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
+			// Note, FireECM() is a wrapper around Ship::UseECM() and is only used here
+			b->onClick.connect(sigc::ptr_fun(&FireECM));
 			b->SetRenderDimensions(32, 32);
 
 			Add(b, 32, 0);
