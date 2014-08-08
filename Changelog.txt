@@ -2,6 +2,7 @@ August 2014
 
    * New features
      * Bring Luomu's game msg log over from the SSP fork (#2527)
+     * Display ships in system view (#3115)
 
    * Fixes
      * Fix trade ship without atmoshield causing crash in system with only
