@@ -1527,6 +1527,10 @@
       "description" : "",
       "message" : "Set low thrust power level to %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Postavi brzinu: %speed{f.2} km/s"
@@ -1566,6 +1570,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Brod"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "",
+      "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1934,6 +1942,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Unset navigation target."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

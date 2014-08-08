@@ -1527,6 +1527,10 @@
       "description" : "",
       "message" : "Imposta livello di spinta ridotta a %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Imposta destinazione di navigazione verso:"
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "V: %speed{f.2} km/s"
@@ -1566,6 +1570,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Astronave"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "",
+      "message" : "Commuta fra i modi di visualizzazione delle astronavi."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1934,6 +1942,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Richiesta per il trasporto di un singolo passeggero"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Togli destinazione di navigazione."
    },
    "USE_LOW_THRUST" : {
       "description" : "",
