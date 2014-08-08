@@ -9,6 +9,7 @@ August 2014
        stations on worlds with atmosphere (#3107)
      * Fix crash when clicking a view change button (F1-F4) while a new-ui
        message box is being displayed (#3111, #3110)
+     * Zoom out button before zoom in in system,sector,galactic view (#3112)
 
 July 2014
 
