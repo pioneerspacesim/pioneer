@@ -625,6 +625,9 @@ void SystemView::MouseWheel(bool up)
 
 void SystemView::RefreshShips(void) {
 	m_contacts.clear();
+	if(!Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::sectorView->GetSelected()))
+		return;
+
 	auto bs = Pi::game->GetSpace()->GetBodies();
 	for(auto s = bs.begin(); s != bs.end(); s++) {
 		if((*s) != Pi::player &&
