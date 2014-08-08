@@ -142,6 +142,7 @@ Graphics::RenderTarget *Pi::renderTarget;
 RefCountedPtr<Graphics::Texture> Pi::renderTexture;
 std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 Graphics::RenderState *Pi::quadRenderState = nullptr;
+bool Pi::bRequestEndGame = false;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -1031,6 +1032,8 @@ void Pi::StartGame()
 
 void Pi::Start()
 {
+	Pi::bRequestEndGame = false;
+
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	ui->DropAllLayers();
@@ -1090,8 +1093,17 @@ void Pi::Start()
 	MainLoop();
 }
 
+// request that the game is ended as soon as safely possible
+void Pi::RequestEndGame()
+{
+	Pi::bRequestEndGame = true;
+}
+
 void Pi::EndGame()
 {
+	// always reset this, otherwise we can never play again
+	Pi::bRequestEndGame = false;
+
 	Pi::SetMouseGrab(false);
 
 	Pi::musicPlayer.Stop();
@@ -1219,6 +1231,9 @@ void Pi::MainLoop()
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
 		// detected. Gui::Draw wipes memory of label positions.
 		Pi::HandleEvents();
+		if( Pi::bRequestEndGame ) {
+			Pi::EndGame();
+		}
 		// hide cursor for ship control.
 
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));

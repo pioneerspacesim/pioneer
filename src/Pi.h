@@ -63,6 +63,7 @@ public:
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
+	static void RequestEndGame(); // request that the game is ended as soon as safely possible
 	static void EndGame();
 	static void Start();
 	static void MainLoop();
@@ -223,6 +224,8 @@ private:
 	static RefCountedPtr<Graphics::Texture> renderTexture;
 	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
 	static Graphics::RenderState *quadRenderState;
+
+	static bool bRequestEndGame;
 };
 
 #endif /* _PI_H */
