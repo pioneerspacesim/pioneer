@@ -1251,7 +1251,7 @@ void Pi::MainLoop()
 		// wrong, because we shouldn't this when the HUD is disabled, but
 		// probably sure draw it if they switch to eg infoview while the HUD is
 		// disabled so we need much smarter control for all this rubbish
-		if (Pi::GetView() != Pi::deathView) {
+		if ((Pi::GetView() != Pi::deathView) && DrawGUI) {
 			Pi::ui->Update();
 			Pi::ui->Draw();
 		}

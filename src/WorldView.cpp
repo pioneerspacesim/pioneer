@@ -24,6 +24,9 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "ui/Context.h"
+#include "ui/Align.h"
+#include "ui/Label.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
@@ -170,6 +173,35 @@ void WorldView::InitObject()
 	Add(m_debugInfo, 10, 200);
 	Gui::Screen::PopFont();
 #endif
+	/*
+	  NEW UI
+	*/
+
+	// set up anchored docking positions for new-ui HUD widgets
+	m_hudDockTop.Reset(Pi::ui->Align(UI::Align::TOP));
+	m_hudDockRight.Reset(Pi::ui->Align(UI::Align::RIGHT));
+	m_hudDockLeft.Reset(Pi::ui->Align(UI::Align::LEFT));
+	m_hudDockBottom.Reset(Pi::ui->Align(UI::Align::BOTTOM));
+	m_hudDockCentre.Reset(Pi::ui->Align(UI::Align::MIDDLE));
+
+	// It's not ideal to use a nested VBox/HBox set for this, but it's
+	// probably adequate for now and we can easily replace it later
+	UI::VBox *hud_root = Pi::ui->VBox();
+	hud_root->PackEnd(m_hudDockTop.Get());
+	hud_root->PackEnd(Pi::ui->HBox()->
+		PackEnd(m_hudDockLeft.Get())->
+		PackEnd(Pi::ui->Expand()->SetInnerWidget(m_hudDockCentre.Get()))->
+		PackEnd(m_hudDockRight.Get()));
+	hud_root->PackEnd(m_hudDockBottom.Get());
+
+	m_hudRoot.Reset(hud_root);
+
+	m_headingInfo.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
+	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
+	m_headingInfo->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
+	m_curPlane = NONE;
+
+	// --
 
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
@@ -491,6 +523,24 @@ void WorldView::RefreshHyperspaceButton() {
 		m_hyperspaceButton->Hide();
 }
 
+static std::pair<double, double> calculateHeadingPitch(enum PlaneType);
+
+void WorldView::RefreshHeadingPitch(void) {
+	if(m_curPlane == NONE) {
+		m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
+		m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
+		m_curPlane = ROTATIONAL;
+	}
+	// heading and pitch
+	auto headingPitch = calculateHeadingPitch(m_curPlane);
+	char buf[6];
+	// \xC2\xB0 is the UTF-8 degree symbol
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
+	m_headingInfo->SetText(buf);
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
+	m_pitchInfo->SetText(buf);
+}
+
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	assert(Pi::game);
@@ -720,6 +770,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 					vector3d velocity = (frame == Pi::player->GetFrame() ? vel : Pi::player->GetVelocityRelTo(frame));
 					double vspeed = velocity.Dot(surface_pos);
 					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+					RefreshHeadingPitch();
+
 					if (altitude < 0) altitude = 0;
 					if (altitude >= 100000.0)
 						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
@@ -728,10 +781,21 @@ void WorldView::RefreshButtonStateAndVisibility()
 						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
 				} else {
+					// XXX does this need to be repeated 3 times?
 					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+					if(m_curPlane != NONE) {
+						m_curPlane = NONE;
+						m_hudDockTop->RemoveInnerWidget();
+						m_hudDockRight->RemoveInnerWidget();
+					}
 				}
 			} else {
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+				if(m_curPlane != NONE) {
+					m_curPlane = NONE;
+					m_hudDockTop->RemoveInnerWidget();
+					m_hudDockRight->RemoveInnerWidget();
+				}
 			}
 
 			if (astro->IsType(Object::PLANET)) {
@@ -755,6 +819,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 			m_hudHullTemp->Hide();
+			if(m_curPlane != NONE) {
+				m_curPlane = NONE;
+				m_hudDockTop->RemoveInnerWidget();
+				m_hudDockRight->RemoveInnerWidget();
+			}
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
@@ -904,6 +973,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 	}
 }
 
+bool WorldView::OnClickHeadingLabel(void) {
+	m_curPlane = m_curPlane == ROTATIONAL ? PARENT : ROTATIONAL;
+	Pi::game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
+	return true;
+}
+
 void WorldView::Update()
 {
 	PROFILE_SCOPED()
@@ -1011,6 +1086,11 @@ void WorldView::Update()
 	}
 
 	UIView::Update();
+}
+
+void WorldView::BuildUI(UI::Single *container)
+{
+	container->SetInnerWidget(m_hudRoot.Get());
 }
 
 void WorldView::OnSwitchTo()
@@ -2035,4 +2115,49 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
 	size[0] = Gui::Screen::GetWidth();
 	size[1] = Gui::Screen::GetHeight();
+}
+
+// project vector vec onto plane (normal must be normalized)
+static vector3d projectVecOntoPlane(const vector3d &vec, const vector3d &normal) {
+	return (vec - vec.Dot(normal)*normal);
+}
+
+static double wrapAngleToPositive(const double theta) {
+	return (theta >= 0.0 ? theta : M_PI*2 + theta);
+}
+
+/*
+  heading range: 0 - 359 deg
+  heading  0 - north
+  heading 90 - east
+  pitch range: -90 - +90 deg
+  pitch  0 - level with surface
+  pitch 90 - up
+*/
+static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
+	auto frame  = Pi::player->GetFrame();
+
+	if(pt == ROTATIONAL)
+		frame = frame->GetRotFrame();
+	else if (pt == PARENT)
+		frame = frame->GetNonRotFrame();
+
+	// construct a frame of reference aligned with the ground plane
+	// and with lines of longitude and latitude
+	const vector3d up = Pi::player->GetPositionRelTo(frame).NormalizedSafe();
+	const vector3d north = projectVecOntoPlane(vector3d(0,1,0), up).NormalizedSafe();
+	const vector3d east = north.Cross(up);
+
+	// find the direction that the ship is facing
+	const auto shpRot = Pi::player->GetOrientRelTo(frame);
+	const vector3d hed = -shpRot.VectorZ();
+	const vector3d groundHed = projectVecOntoPlane(hed, up).NormalizedSafe();
+
+	const double pitch = asin(up.Dot(hed));
+
+	const double hedNorth = groundHed.Dot(north);
+	const double hedEast = groundHed.Dot(east);
+	const double heading = wrapAngleToPositive(atan2(hedEast, hedNorth));
+
+	return std::make_pair(heading, pitch);
 }
