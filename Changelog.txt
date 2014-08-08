@@ -12,6 +12,7 @@ August 2014
        message box is being displayed (#3111, #3110)
      * Zoom out button before zoom in in system,sector,galactic view (#3112)
      * Fix an Exit Game widget crash. (#3106)
+     * Fix bad faction colour only being applied to uninhabited (#3116)
 
 July 2014
 
