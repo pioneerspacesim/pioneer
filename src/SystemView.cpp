@@ -119,15 +119,15 @@ SystemView::SystemView() : UIView()
 	m_infoText = (new Gui::Label(""))->Color(178, 178, 178);
 	Add(m_infoText, 200, 0);
 
-	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
-	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
-	m_zoomInButton->SetRenderDimensions(30, 22);
-	Add(m_zoomInButton, 700, 5);
-
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	m_zoomOutButton->SetRenderDimensions(30, 22);
-	Add(m_zoomOutButton, 732, 5);
+	Add(m_zoomOutButton, 700, 5);
+
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
+	Add(m_zoomInButton, 732, 5);
 
 	m_toggleShipsButton = new Gui::ImageButton("icons/toggle_ships_display.png");
 	m_toggleShipsButton->SetToolTip(Lang::SHIPS_DISPLAY_MODE_TOGGLE);
@@ -135,7 +135,7 @@ SystemView::SystemView() : UIView()
 	m_toggleShipsButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleShipsButtonClick));
 	Add(m_toggleShipsButton, 660, 5);
 	// orbital transfer planner UI
-        int dx = 670;
+	int dx = 670;
 	int dy = 40;
 
 	m_plannerIncreaseFactorButton = new Gui::ImageButton("icons/orbit_increase_big.png");
