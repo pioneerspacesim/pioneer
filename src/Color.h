@@ -87,6 +87,7 @@ struct Color3ub {
 	static const Color3ub GREEN;
 	static const Color3ub BLUE;
 	static const Color3ub YELLOW;
+	static const Color3ub STEELBLUE;
 };
 
 typedef Color4ub Color;

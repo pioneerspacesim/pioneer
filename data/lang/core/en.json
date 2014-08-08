@@ -2042,5 +2042,17 @@
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
       "message" : "Radial delta-v. Click to reset to zero."
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Unset navigation target."
+   },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "",
+      "message" : "Switch between ship display modes."
    }
 }
