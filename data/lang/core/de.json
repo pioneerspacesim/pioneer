@@ -581,15 +581,15 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "",
-      "message" : "Hold anti-normal"
+      "message" : "Anti-Normal halten."
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Hold retrograde"
+      "message" : "Rückläufig halten."
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Hold prograde"
+      "message" : "Rechtläufig halten."
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
@@ -597,15 +597,15 @@
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
-      "message" : "Hold normal"
+      "message" : "Normal halten."
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "",
-      "message" : "Hold radially in"
+      "message" : "Radial nach innen halten."
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "",
-      "message" : "Hold radially out"
+      "message" : "Radial nach außen halten."
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -1293,19 +1293,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Wachstumsrate der delta-v-Werte. Klicken um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Normales delta-v. Klicken um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Rechtläufiges delta-v. Klicken um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Radiales delta-v. Klicken um auf Null zurückzusetzen."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1529,7 +1529,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Navigationsziel setzen auf:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1573,7 +1573,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "",
-      "message" : "Switch between ship display modes."
+      "message" : "Zwischen Anzeigemodi des Schiffes umschalten."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1807,6 +1807,14 @@
       "description" : "",
       "message" : "Oberflächentemperatur"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "",
+      "message" : "Switched heading display to parent frame."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "",
+      "message" : "Switched heading display to rotational frame."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "System"
@@ -1945,7 +1953,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "Navigationsziel zurücksetzen."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

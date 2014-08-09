@@ -1807,6 +1807,14 @@
       "description" : "",
       "message" : "Suhu permukaan"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "",
+      "message" : "Switched heading display to parent frame."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "",
+      "message" : "Switched heading display to rotational frame."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "System"
