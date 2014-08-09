@@ -2056,11 +2056,11 @@
       "message" : "Switch between ship display modes."
    },
    "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates, heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to rotational frame."
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Switched heading display to planetary coordinates."
    },
    "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading in system-wide coordinates, heading is on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to parent frame."
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Switched heading display to system-wide coordinates."
    }
 }
