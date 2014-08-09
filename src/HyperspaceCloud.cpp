@@ -97,7 +97,7 @@ void HyperspaceCloud::PostLoadFixup(Space *space)
 	Body::PostLoadFixup(space);
 	if (m_ship) m_ship->PostLoadFixup(space);
 }
-#pragma optimize("",off)
+
 void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 {
 	if( m_isBeingKilled )
@@ -123,9 +123,10 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		m_ship = 0;
 	}
 
-	// cloud expire test
+	// cloud expiration
 	if( m_birthdate + HYPERCLOUD_DURATION <= Pi::game->GetTime() )
 	{
+		Pi::game->RemoveHyperspaceCloud(this);
 		Pi::game->GetSpace()->KillBody(this);
 		m_isBeingKilled = true;
 	}
