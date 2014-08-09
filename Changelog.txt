@@ -1,3 +1,22 @@
+August 2014
+
+   * New features
+     * Bring Luomu's game msg log over from the SSP fork (#2527)
+     * Display ships in system view (#3115)
+     * Display ship heading and pitch (#3108)
+
+   * Script and UI API changes
+     * Ship:UseECM() returns recharge time and success state.
+
+   * Fixes
+     * Fix trade ship without atmoshield causing crash in system with only
+       stations on worlds with atmosphere (#3107)
+     * Fix crash when clicking a view change button (F1-F4) while a new-ui
+       message box is being displayed (#3111, #3110)
+     * Zoom out button before zoom in in system,sector,galactic view (#3112)
+     * Fix an Exit Game widget crash. (#3106)
+     * Fix bad faction colour only being applied to uninhabited (#3116)
+
 July 2014
 
    * New features

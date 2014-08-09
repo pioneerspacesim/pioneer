@@ -27,6 +27,7 @@ noinst_HEADERS = \
 	CargoBody.h \
 	CityOnPlanet.h \
 	Color.h \
+	Colors.h \
 	Cutscene.h \
 	CRC32.h \
 	DeathView.h \
@@ -43,6 +44,7 @@ noinst_HEADERS = \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
+	GameLog.h \
 	GasGiant.h \
 	GeoSphere.h \
 	HudTrail.h \
@@ -157,6 +159,7 @@ pioneer_SOURCES	= \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
+	Colors.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DeathView.cpp \
@@ -171,6 +174,7 @@ pioneer_SOURCES	= \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
+	GameLog.cpp \
 	GasGiant.cpp \
 	GeoPatch.cpp \
 	GeoPatchContext.cpp \
@@ -414,6 +418,7 @@ modelcompiler_SOURCES = \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
+	Colors.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DeathView.cpp \
@@ -428,6 +433,7 @@ modelcompiler_SOURCES = \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
+	GameLog.cpp \
 	GasGiant.cpp \
 	GeoPatch.cpp \
 	GeoPatchContext.cpp \

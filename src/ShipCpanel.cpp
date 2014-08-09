@@ -45,17 +45,14 @@ void ShipCpanel::InitObject()
 
 	m_currentMapView = MAP_SECTOR;
 	m_useEquipWidget = new UseEquipWidget();
-	m_msglog = new MsgLogWidget();
 
 	m_userSelectedMfuncWidget = MFUNC_SCANNER;
 
 	m_scanner->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_SCANNER));
 	m_useEquipWidget->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_EQUIPMENT));
-	m_msglog->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_MSGLOG));
 
 	m_scanner->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_SCANNER));
 	m_useEquipWidget->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_EQUIPMENT));
-	m_msglog->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_MSGLOG));
 
 	// where the scanner is
 	m_mfsel = new MultiFuncSelectorWidget();
@@ -223,11 +220,9 @@ ShipCpanel::~ShipCpanel()
 	delete m_rightButtonGroup;
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
-	Remove(m_msglog);
 	Remove(m_mfsel);
 	delete m_scanner;
 	delete m_useEquipWidget;
-	delete m_msglog;
 	delete m_mfsel;
 	m_connOnRotationDampingChanged.disconnect();
 }
@@ -243,11 +238,9 @@ void ShipCpanel::ChangeMultiFunctionDisplay(multifuncfunc_t f)
 	Gui::Widget *selected = 0;
 	if (f == MFUNC_SCANNER) selected = m_scanner;
 	if (f == MFUNC_EQUIPMENT) selected = m_useEquipWidget;
-	if (f == MFUNC_MSGLOG) selected = m_msglog;
 
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
-	Remove(m_msglog);
 	if (selected) {
 		m_mfsel->SetSelected(f);
 		Add(selected, 200, 18);
@@ -281,7 +274,6 @@ void ShipCpanel::Update()
 
 	m_scanner->Update();
 	m_useEquipWidget->Update();
-	m_msglog->Update();
 }
 
 void ShipCpanel::Draw()

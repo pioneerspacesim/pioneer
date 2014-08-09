@@ -1293,19 +1293,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Ökningshastighet av delta-v värden. Klicka för att återställa till standard."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Normal delta-v. Klicka för att återställa till noll."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Prograd delta-v. Klicka för att återställa till noll."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Radiell delta-v. Klicka för att återställa till noll."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1527,6 +1527,10 @@
       "description" : "",
       "message" : "Sätt lägsta gaspåslagsnivå till %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Sätt hastighet: %speed{f.2} km/s"
@@ -1566,6 +1570,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Skepp"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "",
+      "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1799,6 +1807,14 @@
       "description" : "",
       "message" : "Yttemperatur"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "",
+      "message" : "Switched heading display to parent frame."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "",
+      "message" : "Switched heading display to rotational frame."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "System"
@@ -1934,6 +1950,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Krävs för transport av en ensam passagerare"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Unset navigation target."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

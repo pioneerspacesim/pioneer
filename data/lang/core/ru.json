@@ -201,7 +201,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Неудачная попытка сбора. Не достаточно места в грузовом отсеке."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -1527,6 +1527,10 @@
       "description" : "",
       "message" : "Зафиксировать тягу на уровне %power%%."
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Скорость: %speed{f.2} км/с"
@@ -1566,6 +1570,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Корабль"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "",
+      "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1799,6 +1807,14 @@
       "description" : "",
       "message" : "Температура на поверхности"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "",
+      "message" : "Switched heading display to parent frame."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "",
+      "message" : "Switched heading display to rotational frame."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "Система"
@@ -1934,6 +1950,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Для перевозки каждого дополнительного пассажира требуется отдельная каюта."
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Unset navigation target."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

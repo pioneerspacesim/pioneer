@@ -97,7 +97,7 @@
    },
    "AXIAL_TILT" : {
       "description" : "",
-      "message" : "Axial tilt"
+      "message" : "Claonadh aisealach"
    },
    "A_FEW_THOUSAND" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "BATTLE_WEAPONS" : {
       "description" : "",
-      "message" : "Battle weapons"
+      "message" : "Airm catha"
    },
    "BINARY_SYSTEM" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Class 4 Military drive"
+      "message" : "Draibh an airm clas 4"
    },
    "EARTH" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "ECCENTRICITY" : {
       "description" : "",
-      "message" : "Eccentricity"
+      "message" : "Neo-mheadhanachd"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "HYPERCLOUD_ANALYZER" : {
       "description" : "",
-      "message" : "Hypercloud Analyzer"
+      "message" : "Sgrùdair os-neul"
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}Joy%joynum %axis Axis"
+      "message" : "%{sign}Joy%joynum Aiseal %axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
-      "message" : "No established order"
+      "message" : "Gun rian stèidhichte"
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "",
-      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
+      "message" : "%radius{f.3} %units rèideas (%radkm{f.0} km)"
    },
    "N_YEARS" : {
       "description" : "",
@@ -1289,7 +1289,7 @@
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
-      "message" : "Centrally planned economy"
+      "message" : "Àrd-riaghaltas le plana-eaconamaidh "
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
@@ -1337,31 +1337,31 @@
    },
    "PULSECANNON_10MW" : {
       "description" : "",
-      "message" : "10MW pulse cannon"
+      "message" : "Canan buille-chuisle 100MW"
    },
    "PULSECANNON_1MW" : {
       "description" : "",
-      "message" : "1MW pulse cannon"
+      "message" : "Canan buille-chuisle 1MW"
    },
    "PULSECANNON_20MW" : {
       "description" : "",
-      "message" : "20MW pulse cannon"
+      "message" : "Canan buille-chuisle 20MW"
    },
    "PULSECANNON_2MW" : {
       "description" : "",
-      "message" : "2MW pulse cannon"
+      "message" : "Canan buille-chuisle 2MW"
    },
    "PULSECANNON_4MW" : {
       "description" : "",
-      "message" : "4MW pulse cannon"
+      "message" : "Canan buille-chuisle 4MW"
    },
    "PULSECANNON_DUAL_1MW" : {
       "description" : "",
-      "message" : "1MW dual-fire pulse cannon"
+      "message" : "Canan buille-chuisle dùbailte 1MW"
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
-      "message" : "2MW rapid-fire pulse cannon"
+      "message" : "Canan buille-chuisle luaith 2MW"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
@@ -1377,7 +1377,7 @@
    },
    "RADIOACTIVES" : {
       "description" : "",
-      "message" : "Radioactive waste"
+      "message" : "Sgudal rèidio-beò"
    },
    "RADIUS" : {
       "description" : "",
@@ -1527,6 +1527,10 @@
       "description" : "",
       "message" : "Suidhidh lùths ìosal a' phutaidh air %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Set speed: %speed{f.2} km/s"
@@ -1566,6 +1570,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Soitheach"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "",
+      "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1799,6 +1807,14 @@
       "description" : "",
       "message" : "Teothachd an uachdair"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "",
+      "message" : "Switched heading display to parent frame."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "",
+      "message" : "Switched heading display to rotational frame."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "Siostam"
@@ -1921,7 +1937,7 @@
    },
    "UNKNOWN" : {
       "description" : "",
-      "message" : "<unknown>"
+      "message" : "<chan eil fhios>"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
@@ -1934,6 +1950,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Riatanach airson còmhdhail aon taistealaich"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Unset navigation target."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

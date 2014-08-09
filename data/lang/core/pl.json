@@ -1527,6 +1527,10 @@
       "description" : "",
       "message" : "Siła ciągu w trybie precyzyjnym %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Ustawiono cel nawigacyjny na:"
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Prędkość: %speed{f.2} km/s"
@@ -1566,6 +1570,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Statek"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "",
+      "message" : "Przełącz pomiędzy trybami wyświetlania statków."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1799,6 +1807,14 @@
       "description" : "",
       "message" : "Średnia temperatura"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "",
+      "message" : "Switched heading display to parent frame."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "",
+      "message" : "Switched heading display to rotational frame."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "System"
@@ -1934,6 +1950,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Umożliwia przewiezienie jednego pasażera"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Usunięto cel nawigacyjny."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

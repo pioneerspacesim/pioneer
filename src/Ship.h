@@ -131,6 +131,7 @@ public:
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
 	double GetHyperspaceDuration() const { return m_hyperspace.duration; }
+	double GetECMRechargeRemain() const { return m_ecmRecharge; }
 
 	enum HyperjumpStatus { // <enum scope='Ship' name=ShipJumpStatus prefix=HYPERJUMP_ public>
 		HYPERJUMP_OK,
@@ -151,7 +152,15 @@ public:
 
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
-	void UseECM();
+
+	enum ECMResult {
+		ECM_NOT_INSTALLED,
+		ECM_ACTIVATED,
+		ECM_RECHARGING,
+	};
+
+	ECMResult UseECM();
+
 	virtual Missile * SpawnMissile(ShipType::Id missile_type, int power=-1);
 
 	enum AlertState { // <enum scope='Ship' name=ShipAlertStatus prefix=ALERT_ public>
@@ -347,5 +356,3 @@ private:
 
 
 #endif /* _SHIP_H */
-
-
