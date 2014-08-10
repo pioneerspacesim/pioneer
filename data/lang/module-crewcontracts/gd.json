@@ -5,11 +5,11 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Ainm: {name}\nEòlas: {experience}\nTuarastal: {wage} gach seachdain\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/wk)"
+      "message" : "{potentialCrewMember} ({wage}/seachd)"
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "I'm sorry, your offer isn't attractive to me."
+      "message" : "Tha mi duilich ach chan eil ur tairgse tarraingeach dhomh."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
@@ -45,19 +45,19 @@
    },
    "NAVIGATOR" : {
       "description" : "",
-      "message" : "Navigator"
+      "message" : "Seòladair"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "No experience"
+      "message" : "Gun eòlas sam bith"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "OK, I suppose that's all right."
+      "message" : "Ceart gu leòr ma-thà."
    },
    "PILOT" : {
       "description" : "",
-      "message" : "Pilot"
+      "message" : "Paidhleat"
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
@@ -65,23 +65,23 @@
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "Sensors and defence"
+      "message" : "Mothaichearan 's dìon"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "Ship's Engineer"
+      "message" : "Innleadair luinge"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "Simulator training only"
+      "message" : "Trèanadh ann an inneal-atharrais a-mhàin"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "Some experience in controlled environments"
+      "message" : "Beagan eòlais ann an àrainneachd stiùirichte"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Suggest new weekly wage of {newAmount}"
+      "message" : "Tairg tuarastal seachdaineil ùr de {newAmount}"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "That certainly makes this offer look better!"
+      "message" : "Tha coltas nas fhearr air ur tairgse a-nis!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",
