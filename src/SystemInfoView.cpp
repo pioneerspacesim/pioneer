@@ -490,6 +490,14 @@ void SystemInfoView::Draw3D()
 	UIView::Draw3D();
 }
 
+static bool IsShownInInfoView(const SystemBody* sb)
+{
+	SystemBody::BodySuperType superType = sb->GetSuperType();
+	return superType == SystemBody::SUPERTYPE_STAR || superType == SystemBody::SUPERTYPE_GAS_GIANT ||
+		superType == SystemBody::SUPERTYPE_ROCKY_PLANET ||
+		sb->GetType() == SystemBody::TYPE_STARPORT_ORBITAL;
+}
+
 SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 {
 	if (!m_system || !Pi::sectorView->GetSelected().IsSameSystem(m_system->GetPath()))
@@ -501,11 +509,19 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
 	if (!currentSys || currentSys->GetPath() != m_system->GetPath()) {
 		// We are not currently in the selected system
-		if (Pi::sectorView->GetSelected() != m_selectedBodyPath)
-			return REFRESH_SELECTED;
+		if (m_selectedBodyPath.IsBodyPath()) {
+			// Some body was selected
+			if (Pi::sectorView->GetSelected() != m_selectedBodyPath)
+				return REFRESH_SELECTED; // but now we want a different body (or none at all)
+		} else {
+			// No body was selected
+			if (Pi::sectorView->GetSelected().IsBodyPath())
+				return REFRESH_SELECTED; // but now we want one, this can only be a star,
+										  // so no check for IsShownInInfoView() needed
+		}
 	} else {
 		Body *navTarget = Pi::player->GetNavTarget();
-		if (navTarget && navTarget->GetSystemBody()->GetType() != SystemBody::TYPE_STARPORT_SURFACE) {
+		if (navTarget && IsShownInInfoView(navTarget->GetSystemBody())) {
 			// Navigation target is something we show in the info view
 			if (navTarget->GetSystemBody()->GetPath() != m_selectedBodyPath)
 				return REFRESH_SELECTED; // and wasn't selected, yet
