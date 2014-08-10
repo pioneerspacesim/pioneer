@@ -512,11 +512,11 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 		if (m_selectedBodyPath.IsBodyPath()) {
 			// Some body was selected
 			if (Pi::sectorView->GetSelected() != m_selectedBodyPath)
-				return REFRESH_SELECTED; // but now we want a different body (or none at all)
+				return REFRESH_SELECTED_BODY; // but now we want a different body (or none at all)
 		} else {
 			// No body was selected
 			if (Pi::sectorView->GetSelected().IsBodyPath())
-				return REFRESH_SELECTED; // but now we want one, this can only be a star,
+				return REFRESH_SELECTED_BODY; // but now we want one, this can only be a star,
 										  // so no check for IsShownInInfoView() needed
 		}
 	} else {
@@ -524,11 +524,11 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 		if (navTarget && IsShownInInfoView(navTarget->GetSystemBody())) {
 			// Navigation target is something we show in the info view
 			if (navTarget->GetSystemBody()->GetPath() != m_selectedBodyPath)
-				return REFRESH_SELECTED; // and wasn't selected, yet
+				return REFRESH_SELECTED_BODY; // and wasn't selected, yet
 		} else {
 			// nothing to be selected
 			if (m_selectedBodyPath.IsBodyPath())
-				return REFRESH_SELECTED; // but there was something selected
+				return REFRESH_SELECTED_BODY; // but there was something selected
 		}
 	}
 
@@ -543,7 +543,7 @@ void SystemInfoView::Update()
 			m_refresh = REFRESH_NONE;
 			assert(NeedsRefresh() == REFRESH_NONE);
 			break;
-		case REFRESH_SELECTED:
+		case REFRESH_SELECTED_BODY:
 			UpdateIconSelections();
 			UpdateEconomyTab();     //update price analysis after hyper jump
 			m_refresh = REFRESH_NONE;
