@@ -858,19 +858,19 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (b) {
 		if (b->IsType(Object::SHIP)) {
 			int prop_var = 0;
-			Pi::player->Properties().Get("radar_mapper_cap", prop_var);
+			Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
 			if (prop_var > 0) {
 				assert(b->IsType(Object::SHIP));
 				Ship *s = static_cast<Ship*>(b);
 
 				const shipstats_t &stats = s->GetStats();
 
+				float sShields = 0;
 				float sHull = s->GetPercentHull();
 				m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
 				m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
 				m_hudTargetHullIntegrity->Show();
 
-				float sShields = 0;
 				prop_var = 0;
 				s->Properties().Get("shield_cap", prop_var);
 				if (prop_var > 0) {
