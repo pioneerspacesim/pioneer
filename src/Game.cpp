@@ -381,6 +381,11 @@ double Game::GetHyperspaceArrivalProbability() const
 	return scale * (1.0 - exp(-fudge * progress));
 }
 
+void Game::RemoveHyperspaceCloud(HyperspaceCloud* cloud)
+{
+	m_hyperspaceClouds.remove(cloud);
+}
+
 void Game::SwitchToHyperspace()
 {
 	PROFILE_SCOPED()
