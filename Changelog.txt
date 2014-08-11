@@ -16,6 +16,9 @@ August 2014
      * Zoom out button before zoom in in system,sector,galactic view (#3112)
      * Fix an Exit Game widget crash. (#3106)
      * Fix bad faction colour only being applied to uninhabited (#3116)
+     * Destroy Hyperspace clouds after 2 days of ingame time (#3118)
+     * Fix system view ship crash (#3119)
+     * Fix refreshing assertion in SystemInfoView (#3120)
 
 July 2014
 
