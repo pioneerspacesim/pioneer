@@ -26,7 +26,6 @@ static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user settings.
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
-static const Uint32 SHIP_ORBIT_UPDATE_TICKS = 1000;
 
 TransferPlanner::TransferPlanner() {
 	m_dvPrograde = 0.0;
@@ -560,9 +559,7 @@ void SystemView::Draw3D()
 	glLineWidth(1);
 
 	if(m_shipDrawing != OFF) {
-		if(SDL_GetTicks() - m_lastShipListUpdate > SHIP_ORBIT_UPDATE_TICKS)
-			RefreshShips();
-
+		RefreshShips();
 		DrawShips(m_time - Pi::game->GetTime(), pos);
 	}
 
@@ -638,7 +635,6 @@ void SystemView::RefreshShips(void) {
 
 		}
 	}
-	m_lastShipListUpdate = SDL_GetTicks();
 }
 
 void SystemView::DrawShips(const double t, const vector3d &offset) {

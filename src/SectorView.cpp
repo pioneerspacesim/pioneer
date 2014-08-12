@@ -59,11 +59,11 @@ SectorView::SectorView() : UIView()
 
 	m_inSystem = true;
 
-	m_current = Pi::game->GetSpace()->GetStarSystem()->GetPath();
+	RefCountedPtr<StarSystem> system = Pi::game->GetSpace()->GetStarSystem();
+	m_current = system->GetPath();
 	assert(!m_current.IsSectorPath());
 	m_current = m_current.SystemOnly();
-
-	m_selected = m_hyperspaceTarget = m_current;
+	m_selected = m_hyperspaceTarget = system->GetStars()[0]->GetPath(); // XXX This always selects the first star of the system
 
 	GotoSystem(m_current);
 	m_pos = m_posMovingTo;

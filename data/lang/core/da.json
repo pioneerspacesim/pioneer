@@ -1572,7 +1572,7 @@
       "message" : "Skib"
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "",
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
       "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
@@ -1808,12 +1808,12 @@
       "message" : "Overfladetemperatur"
    },
    "SWITCHED_TO_PARENT" : {
-      "description" : "",
-      "message" : "Switched heading display to parent frame."
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Switched heading display to system-wide coordinates."
    },
    "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "",
-      "message" : "Switched heading display to rotational frame."
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Switched heading display to planetary coordinates."
    },
    "SYSTEM" : {
       "description" : "",

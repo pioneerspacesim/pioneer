@@ -41,7 +41,7 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Astar:"
    },
    "EXCELLENT" : {
       "description" : "",
@@ -205,11 +205,11 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Port-fhànais:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Siostam:"
    },
    "TARGET_NAME" : {
       "description" : "",

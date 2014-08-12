@@ -40,7 +40,7 @@ private:
 
 	enum RefreshType {
 		REFRESH_NONE,
-		REFRESH_SELECTED,
+		REFRESH_SELECTED_BODY,
 		REFRESH_ALL
 	};
 

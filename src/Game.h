@@ -66,6 +66,7 @@ public:
 	double GetHyperspaceArrivalProbability() const;
 	const SystemPath& GetHyperspaceDest() const { return m_hyperspaceDest; }
 	const SystemPath& GetHyperspaceSource() const { return m_hyperspaceSource; }
+	void RemoveHyperspaceCloud(HyperspaceCloud*);
 
 	enum TimeAccel {
 		TIMEACCEL_PAUSED,

@@ -76,7 +76,6 @@ private:
 	std::list<std::pair<Ship*, Orbit>> m_contacts;
 	Gui::LabelSet *m_shipLabels;
 	ShipDrawing m_shipDrawing;
-	Uint32 m_lastShipListUpdate;
 	float m_rot_x, m_rot_z;
 	float m_zoom, m_zoomTo;
 	double m_time;
