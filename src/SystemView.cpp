@@ -387,13 +387,13 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset) {
 
 	vector3d pos;
 	if (Gui::Screen::Project(offset, pos)) {
-		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShipLabel), s), pos.x, pos.y);
+		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShip), s), pos.x, pos.y);
 	}
 
 	Gui::Screen::LeaveOrtho();
 }
 
-void SystemView::OnClickShipLabel(Ship *s) {
+void SystemView::OnClickShip(Ship *s) {
 	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
 	if(Pi::player->GetNavTarget() == s) {
 		Pi::player->SetNavTarget(0); // remove current

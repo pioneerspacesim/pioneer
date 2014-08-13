@@ -68,7 +68,7 @@ private:
 	void RefreshShips(void);
 	void DrawShips(const double t, const vector3d &offset);
 	void LabelShip(Ship *s, const vector3d &offset);
-	void OnClickShipLabel(Ship *s);
+	void OnClickShip(Ship *s);
 
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
