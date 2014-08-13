@@ -351,12 +351,20 @@ void SystemView::OnClickObject(const SystemBody *b)
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
 
-	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-		SystemPath path = m_system->GetPathOf(b);
-		if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
-			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
-			if (body != 0)
+	// click on object (in same system) sets it as nav target
+	SystemPath path = m_system->GetPathOf(b);
+	if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+		if (body != 0) {
+			if(Pi::player->GetNavTarget() == body) {
 				Pi::player->SetNavTarget(body);
+				Pi::player->SetNavTarget(0);
+				Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+			}
+			else {
+				Pi::player->SetNavTarget(body);
+				Pi::game->log->Add(Lang::SET_NAVTARGET_TO + body->GetLabel());
+			}
 		}
 	}
 }
