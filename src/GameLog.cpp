@@ -32,7 +32,10 @@ void GameLog::Add(const std::string &msg)
 
 void GameLog::Add(const std::string &from, const std::string &msg)
 {
-	Add(stringf("%0: %1", from, msg));
+	if(from.empty())
+		Add(msg);
+	else
+		Add(stringf("%0: %1", from, msg));
 }
 
 void GameLog::Update(bool paused)
