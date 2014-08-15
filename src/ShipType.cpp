@@ -41,7 +41,7 @@ static double GetEffectiveExhaustVelocity(double fuelTankMass, double thrusterFu
 static bool ShipIsUnbuyable(const ShipType::Id &id)
 {
 	const ShipType &t = ShipType::types[id];
-	return (t.baseprice == 0);
+	return is_zero_exact(t.baseprice);
 }
 
 static std::string s_currentShipFile;
@@ -115,8 +115,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", s.modelName.c_str());
 	}
 
-	s.baseprice = t.Get("price", 0);
-	s.baseprice *= 100; // in hundredths of credits
+	s.baseprice = t.Get("price", 0.0);
 
 	s.minCrew = t.Get("min_crew", 1);
 	s.maxCrew = t.Get("max_crew", 1);
