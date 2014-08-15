@@ -20,6 +20,7 @@ August 2014
      * Destroy Hyperspace clouds after 2 days of ingame time (#3118)
      * Fix system view ship crash (#3119)
      * Fix refreshing assertion in SystemInfoView (#3120)
+     * Fix unnecessary limit on ship base price (#3129, #3130)
 
 July 2014
 

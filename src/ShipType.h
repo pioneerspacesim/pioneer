@@ -59,7 +59,11 @@ struct ShipType {
 	int hullMass;
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines
 	int fuelTankMass; //full fuel tank mass, on top of hullMass
-	int baseprice;
+
+	// storing money as a double is weird, but the value is a double on the Lua side anyway,
+	// so we don't lose anything by storing it as a double here too
+	double baseprice;
+
 	int hyperdriveClass;
 	vector3d cameraOffset;
 	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
