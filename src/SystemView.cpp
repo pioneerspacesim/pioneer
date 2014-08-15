@@ -387,12 +387,51 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset) {
 
 void SystemView::OnClickShipLabel(Ship *s) {
 	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
-	if(Pi::player->GetNavTarget() == s) {
+	if(Pi::player->GetNavTarget() == s) { //un-select ship if already selected
 		Pi::player->SetNavTarget(0); // remove current
 		Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+		m_infoLabel->SetText("");    // remove lingering text
+		m_infoText->SetText("");
 	} else {
 		Pi::player->SetNavTarget(s);
 		Pi::game->log->Add(Lang::SET_NAVTARGET_TO + s->GetLabel());
+
+		// always show label of selected ship...
+		std::string text;
+		text += s->GetLabel();
+		text += "\n";
+
+		// ...if we have adv. radar mapper, show some extra info on selected ship
+		int prop_var = 0;
+		Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
+		if (prop_var > 1) {  // advanced radar mapper
+			const shipstats_t &stats = s->GetStats();
+
+			text += s->GetShipType()->name;
+			text += "\n";
+
+			lua_State * l = Lua::manager->GetLuaState();
+			int clean_stack = lua_gettop(l);
+
+			LuaObject<Ship>::CallMethod<LuaRef>(s, "GetEquip", "engine").PushCopyToStack();
+			lua_rawgeti(l, -1, 1);
+			if (lua_isnil(l, -1)) {
+				text += Lang::NO_HYPERDRIVE;
+			} else {
+				text += LuaTable(l, -1).CallMethod<std::string>("GetName");
+			}
+			lua_settop(l, clean_stack);
+
+			text += "\n";
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+			text += "\n";
+			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
+			text += "\n";
+		}
+
+		m_infoLabel->SetText(text);
+		m_infoText->SetText("");  // clear lingering info from body being selected
+
 	}
 }
 
