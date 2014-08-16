@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Fejlett Radartérképező"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Nagy hatótávú Radar térképező rendszerszintű lefedettséggel."
    },
    "AIR_PROCESSORS" : {
       "description" : "",
