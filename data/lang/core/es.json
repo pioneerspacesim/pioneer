@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Trazador avanzado de radar"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Trazador de radar de largo alcance con cobertura completa del sistema."
    },
    "AIR_PROCESSORS" : {
       "description" : "",
