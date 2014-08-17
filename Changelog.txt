@@ -21,6 +21,7 @@ August 2014
      * Fix system view ship crash (#3119)
      * Fix refreshing assertion in SystemInfoView (#3120)
      * Fix unnecessary limit on ship base price (#3129, #3130)
+     * Fix crash from TradeShips trying to serialize dead ships (#3126, #3123)
 
 July 2014
 

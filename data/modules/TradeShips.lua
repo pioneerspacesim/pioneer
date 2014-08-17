@@ -943,6 +943,21 @@ Event.Register("onGameEnd", onGameEnd)
 
 local serialize = function ()
 	-- all we need to save is trade_ships, the rest can be rebuilt on load
+
+	-- The serializer will crash if we try to serialize dead objects (issue #3123)
+	-- also, trade_ships may be nil, because it is cleared in 'onGameEnd', and this may
+	-- happen before the autosave module creates its '_exit' save
+	if trade_ships ~= nil then
+		local count = 0
+		for k,v in pairs(trade_ships) do
+			if type(k) == 'userdata' and not k:exists() then
+				count = count + 1
+				-- according to the Lua manual, removing items during iteration with pairs() or next() is ok
+				trade_ships[k] = nil
+			end
+		end
+		print('TradeShips: Removed ' .. count .. ' ships before serialization')
+	end
 	return trade_ships
 end
 
