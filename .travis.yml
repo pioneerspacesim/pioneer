@@ -3,3 +3,6 @@ compiler:
   - gcc
   - clang
 script: ./bootstrap && ./configure && make
+before_install:
+     - sudo apt-get update -qq
+     - sudo apt-get install -qq libsql2-dev libsdl2-image-dev libassimp-dev libfreetype6-dev libfreeimage-dev libglew-dev libsigc++-2.0-dev libvorbis-dev
