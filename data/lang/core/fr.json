@@ -1537,7 +1537,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Régler la destination sur : "
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1961,7 +1961,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "Aucune destination définie."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

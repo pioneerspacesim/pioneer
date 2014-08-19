@@ -9,15 +9,15 @@
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "NEWS {date}: Une société menace la survie du système {system}."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "La société Prekall Inc. a l'intention de monopoliser l'air de tout le système {system} ({sectorx}, {sectory}, {sectorz}). Dépêchez-vous de prendre un bon bol d'air! Ce sera sans doute le dernier que vous prendrez gratuitement."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "NEWS {date}: Disparition mystérieuse de bétail dans le système {system}."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
@@ -25,7 +25,7 @@
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "NEWS {date}: Un dysfonctionnement des systèmes informatiques entraîne l'effondrement de l'infrastructure du système {system}."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "NEWS {date}: Une éruption solaire entraîne le blackout du millénaire, dans le système {system} system."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
@@ -81,11 +81,11 @@
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "NEWS {date}: Il pleut de l'or dans le système {system}."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Une personne de {system} ({sectorx}, {sectory}, {sectorz}) vient d'hériter d'une machine de son grand oncle, lui permettant de transmuter n'importe quel matériau en or et platine. Les experts craignent une déstabilisation de l'économie de tout le système, à moins d'une panne de la machine."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Les travailleurs du système {system} ({sectorx}, {sectory}, {sectorz}) sont entrés en rebellion et ont brisé leurs chaînes, refusant de travailler dans les champs Lotus. Ne parvenant pas à recruter d'autres travailleurs bon marché, toute l'économie est à l'arrêt total."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
