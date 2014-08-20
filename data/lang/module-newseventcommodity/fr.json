@@ -49,15 +49,15 @@
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "NEWS {date}: La police s'attaque au syndicat du crime, dans le système {system}, Les principaux leaders sont sous les verrous."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "Suite à l'arrestation de plusieurs dealers, l'administration du système {system} ({sectorx}, {sectory}, {sectorz}) espère que la pénurie de drogue entraînera une baisse de la criminalité."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "NEWS {date}: Grave accident pendant la Grande Fête Annuelle de la Vapeur, sur le système {system}."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "NEWS {date}: Large succès de la réforme économique du système {system}."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
@@ -113,7 +113,7 @@
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "NEWS {date}: Grève de la police sur {system}. Les citoyens sont livrés à eux-même."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
