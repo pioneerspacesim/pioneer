@@ -351,12 +351,20 @@ void SystemView::OnClickObject(const SystemBody *b)
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
 
-	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-		SystemPath path = m_system->GetPathOf(b);
-		if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
-			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
-			if (body != 0)
+	// click on object (in same system) sets/unsets it as nav target
+	SystemPath path = m_system->GetPathOf(b);
+	if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+		if (body != 0) {
+			if(Pi::player->GetNavTarget() == body) {
 				Pi::player->SetNavTarget(body);
+				Pi::player->SetNavTarget(0);
+				Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+			}
+			else {
+				Pi::player->SetNavTarget(body);
+				Pi::game->log->Add(Lang::SET_NAVTARGET_TO + body->GetLabel());
+			}
 		}
 	}
 }
@@ -379,13 +387,13 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset) {
 
 	vector3d pos;
 	if (Gui::Screen::Project(offset, pos)) {
-		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShipLabel), s), pos.x, pos.y);
+		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShip), s), pos.x, pos.y);
 	}
 
 	Gui::Screen::LeaveOrtho();
 }
 
-void SystemView::OnClickShipLabel(Ship *s) {
+void SystemView::OnClickShip(Ship *s) {
 	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
 	if(Pi::player->GetNavTarget() == s) { //un-select ship if already selected
 		Pi::player->SetNavTarget(0); // remove current
