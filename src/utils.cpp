@@ -8,6 +8,7 @@
 #include "gui/Gui.h"
 #include "Lang.h"
 #include "FileSystem.h"
+#include "DateTime.h"
 #include "PngWriter.h"
 #include <sstream>
 #include <cmath>
@@ -49,21 +50,7 @@ std::string format_money(double cents, bool showCents){
 	return result;
 }
 
-class timedate {
-public:
-	timedate() : hour(0), minute(0), second(0), day(0), month(0), year(3200) {}
-	timedate(int stamp) { *this = stamp; }
-	timedate &operator=(int stamp);
-	std::string fmt_time_date();
-	std::string fmt_date();
-private:
-	int hour, minute, second, day, month, year;
-
-	static const char * const months[12];
-	static const unsigned char days[2][12];
-};
-
-const char * const timedate::months[] = {
+static const char * const MONTH_NAMES[] = {
 	Lang::MONTH_JAN,
 	Lang::MONTH_FEB,
 	Lang::MONTH_MAR,
@@ -78,63 +65,32 @@ const char * const timedate::months[] = {
 	Lang::MONTH_DEC
 };
 
-const unsigned char timedate::days[2][12] = {
-	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
-	{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
-};
-
-timedate &timedate::operator=(int stamp)
-{
-	int i = int(stamp) % 86400;
-
-	hour   = (i / 3600 + 24)%24; i %= 3600;
-	minute = (i /   60 + 60)%60; i %=   60;
-	second = (i+60)%60;
-
-	i = int(stamp) / 86400 + 1168410 - ((stamp < 0)?1:0); // days since "year 0"
-
-	int n400 = i / 146097; i %= 146097;
-	int n100 = i /  36524; i %=  36524;
-	int n4   = i /   1461; i %=   1461;
-	int n1   = i /    365;
-
-	year = n1 + n4 * 4 + n100 * 100 + n400 * 400 + !(n100 == 4 || n1 == 4);
-	day = i % 365 + (n100 == 4 || n1 == 4) * 365;
-	int leap = (year % 4 == 0 && year % 100) || (year % 400 == 0);
-
-	month = 0;
-	while (day >= days[leap][month])
-		day -= days[leap][month++];
-
-	return *this;
-}
-
-std::string timedate::fmt_time_date()
-{
-	char buf[32];
-	snprintf(buf, sizeof (buf), "%02d:%02d:%02d %d %s %d",
-	         hour, minute, second, day + 1, months[month], year);
-	return buf;
-}
-
-std::string timedate::fmt_date()
-{
-	char buf[16];
-	snprintf(buf, sizeof (buf), "%d %s %d",
-	         day + 1, months[month], year);
-	return buf;
+static Time::DateTime game_time_to_datetime(double t) {
+	return Time::DateTime(3200,1,1,0,0,0) + Time::TimeDelta(t, Time::Second);
 }
 
 std::string format_date(double t)
 {
-	timedate stamp = int(t);
-	return stamp.fmt_time_date();
+	const Time::DateTime dt = game_time_to_datetime(t);
+	int year, month, day, hour, minute, second;
+	dt.GetDateParts(&year, &month, &day);
+	dt.GetTimeParts(&hour, &minute, &second);
+
+	char buf[32];
+	snprintf(buf, sizeof (buf), "%02d:%02d:%02d %d %s %d",
+	         hour, minute, second, day, MONTH_NAMES[month - 1], year);
+	return buf;
 }
 
 std::string format_date_only(double t)
 {
-	timedate stamp = int(t);
-	return stamp.fmt_date();
+	const Time::DateTime dt = game_time_to_datetime(t);
+	int year, month, day;
+	dt.GetDateParts(&year, &month, &day);
+
+	char buf[16];
+	snprintf(buf, sizeof (buf), "%d %s %d", day, MONTH_NAMES[month - 1], year);
+	return buf;
 }
 
 std::string string_join(std::vector<std::string> &v, std::string sep)
