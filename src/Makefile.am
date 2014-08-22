@@ -323,13 +323,12 @@ endif
 check_PROGRAMS = tests uitest textstress
 tests_SOURCES = \
 	StringF.cpp \
+	DateTime.cpp \
 	tests.cpp \
 	test_Frame.cpp \
 	test_StringF.cpp \
-	FileSystem.cpp \
-	FileSourceZip.cpp \
-	test_FileSystem.cpp \
-	test_Random.cpp
+	test_Random.cpp \
+	test_DateTime.cpp
 TESTS = tests
 tests_LDADD = \
 	collider/libcollider.a \
