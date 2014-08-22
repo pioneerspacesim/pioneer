@@ -4,6 +4,7 @@
 local Engine = import("Engine")
 local Lang = import("Lang")
 local FileSystem = import("FileSystem")
+local Format = import("Format")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -23,8 +24,15 @@ ui.templates.FileDialog = function (args)
 		files = {}
 	end
 
+	-- sort by modification time (most recent first)
+	table.sort(files, function (a, b)
+		return (a.mtime.timestamp > b.mtime.timestamp)
+	end)
+
 	local list = ui:List()
-	for i = 1,#files do list:AddOption(files[i]) end
+	for i = 1,#files do
+		list:AddOption(files[i].name)
+	end
 
 	local selectButton = ui:Button(ui:Label(selectLabel):SetFont("HEADING_NORMAL"))
 	local cancelButton = ui:Button(ui:Label(cancelLabel):SetFont("HEADING_NORMAL"))
@@ -41,7 +49,7 @@ ui.templates.FileDialog = function (args)
 	if args.allowNewFile then
 		fileEntry = ui:TextEntry()
 		if #files > 0 then
-			fileEntry:SetText(files[1])
+			fileEntry:SetText(files[1].name)
 		end
 		fileEntry.onChange:Connect(function (fileName)
 			fileName = util.trim(fileName)
