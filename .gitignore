@@ -15,6 +15,8 @@ debian/pioneer*/
 autom4te.cache/
 codedoc/
 nd/Data/
+doxygen/html
+doxygen/latex
 *.vcxproj.user
 *.user
 *.ncb
