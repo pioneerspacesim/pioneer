@@ -415,17 +415,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	videoSettings.title = "Pioneer";
 
 	Pi::renderer = Graphics::Init(videoSettings);
-	{
-		std::ostringstream buf;
-		renderer->PrintDebugInfo(buf);
-
-		FILE *f = FileSystem::userFiles.OpenWriteStream("opengl.txt", FileSystem::FileSourceFS::WRITE_TEXT);
-		if (!f)
-			Output("Could not open 'opengl.txt'\n");
-		const std::string &s = buf.str();
-		fwrite(s.c_str(), 1, s.size(), f);
-		fclose(f);
-	}
 
 	Pi::CreateRenderTarget(videoSettings.width, videoSettings.height);
 	Pi::rng.IncRefCount(); // so nothing tries to free it
