@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Identificatore Radar Avanzato"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Identificatore radar a lungo raggio che copre l'intero sistema."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Purificatori d'aria"
@@ -1529,7 +1537,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Imposta destinazione di navigazione verso:"
+      "message" : "Impostata destinazione di navigazione verso: "
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1953,7 +1961,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Togli destinazione di navigazione."
+      "message" : "Rimossa destinazione di navigazione."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

@@ -351,12 +351,20 @@ void SystemView::OnClickObject(const SystemBody *b)
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
 
-	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-		SystemPath path = m_system->GetPathOf(b);
-		if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
-			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
-			if (body != 0)
+	// click on object (in same system) sets/unsets it as nav target
+	SystemPath path = m_system->GetPathOf(b);
+	if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+		if (body != 0) {
+			if(Pi::player->GetNavTarget() == body) {
 				Pi::player->SetNavTarget(body);
+				Pi::player->SetNavTarget(0);
+				Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+			}
+			else {
+				Pi::player->SetNavTarget(body);
+				Pi::game->log->Add(Lang::SET_NAVTARGET_TO + body->GetLabel());
+			}
 		}
 	}
 }
@@ -379,20 +387,59 @@ void SystemView::LabelShip(Ship *s, const vector3d &offset) {
 
 	vector3d pos;
 	if (Gui::Screen::Project(offset, pos)) {
-		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShipLabel), s), pos.x, pos.y);
+		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShip), s), pos.x, pos.y);
 	}
 
 	Gui::Screen::LeaveOrtho();
 }
 
-void SystemView::OnClickShipLabel(Ship *s) {
+void SystemView::OnClickShip(Ship *s) {
 	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
-	if(Pi::player->GetNavTarget() == s) {
+	if(Pi::player->GetNavTarget() == s) { //un-select ship if already selected
 		Pi::player->SetNavTarget(0); // remove current
 		Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+		m_infoLabel->SetText("");    // remove lingering text
+		m_infoText->SetText("");
 	} else {
 		Pi::player->SetNavTarget(s);
 		Pi::game->log->Add(Lang::SET_NAVTARGET_TO + s->GetLabel());
+
+		// always show label of selected ship...
+		std::string text;
+		text += s->GetLabel();
+		text += "\n";
+
+		// ...if we have adv. radar mapper, show some extra info on selected ship
+		int prop_var = 0;
+		Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
+		if (prop_var > 1) {  // advanced radar mapper
+			const shipstats_t &stats = s->GetStats();
+
+			text += s->GetShipType()->name;
+			text += "\n";
+
+			lua_State * l = Lua::manager->GetLuaState();
+			int clean_stack = lua_gettop(l);
+
+			LuaObject<Ship>::CallMethod<LuaRef>(s, "GetEquip", "engine").PushCopyToStack();
+			lua_rawgeti(l, -1, 1);
+			if (lua_isnil(l, -1)) {
+				text += Lang::NO_HYPERDRIVE;
+			} else {
+				text += LuaTable(l, -1).CallMethod<std::string>("GetName");
+			}
+			lua_settop(l, clean_stack);
+
+			text += "\n";
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+			text += "\n";
+			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
+			text += "\n";
+		}
+
+		m_infoLabel->SetText(text);
+		m_infoText->SetText("");  // clear lingering info from body being selected
+
 	}
 }
 

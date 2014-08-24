@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Processeurs d'air"
@@ -61,7 +69,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Sélection automatique de système"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -153,7 +161,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Impossible de sauvegarder une fois que le joueur est mort."
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -237,11 +245,11 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+      "message" : "Comparaison des marchés des systèmes #ff0%selected_system#fff (sélectionné) et #ff0%current_system#fff (actuel):"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "Analyse du marché du système #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -1529,7 +1537,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Régler la destination sur : "
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1953,7 +1961,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "Aucune destination définie."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

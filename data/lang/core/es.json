@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Trazador avanzado de radar"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Trazador de radar de largo alcance con cobertura completa del sistema."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Procesadores de aire"
@@ -237,11 +245,11 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+      "message" : "Análisis de bienes de comercio de #ff0%selected_system#fff (seleccionado) y #ff0%current_system#fff (actual):"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "Análisis de bienes de comercio de #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -697,7 +705,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Ilegal (sistema actual):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -793,7 +801,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Legal (sistema actual):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -825,7 +833,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "Exportación principal (sistema actual)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -833,7 +841,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "Importación principal (sistema actual)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -973,7 +981,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "Exportación menor (sistema actual)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -981,7 +989,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "Importación menor (sistema actual)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1293,19 +1301,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Tasa de incremento de valores delta-v. Click para restablecer valores."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Delta-v normal. Click para restablecer a cero."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Delta-v progrado. Click para restablecer a cero."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Delta-v radial. Click para restablecer a cero."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1529,7 +1537,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Establecer objetivo de navegación a:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1573,7 +1581,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
+      "message" : "Cambiar entre modos de pantalla."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1809,11 +1817,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "Conmutada la dirección a las coordenadas de todo el sistema."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "Conmutada la dirección a las coordenadas planetarias."
    },
    "SYSTEM" : {
       "description" : "",
@@ -1953,7 +1961,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "Deseleccionar objetivo de navegación."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

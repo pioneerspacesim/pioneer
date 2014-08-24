@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Расширенный радарный топограф"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : " Радарный топограф дальнего действия с системой широкой зоны покрытия."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Воздушные процессоры"
@@ -1529,7 +1537,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Установка навигационной цели:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1573,7 +1581,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
+      "message" : "Переключение между режимами отображения корабля."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1953,7 +1961,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "Сброс навигационной цели."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Fejlett Radartérképező"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Nagy hatótávú Radar térképező rendszerszintű lefedettséggel."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Levegőfeldolgozók"

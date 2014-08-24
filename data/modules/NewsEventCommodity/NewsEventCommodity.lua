@@ -357,7 +357,7 @@ local onShipDocked = function (ship, station)
 			if ship:CountEquip(n.cargo, cargo) > 0 and n.demand > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
 					{cargo = n.cargo:GetName()})
-				Comms.Message(greeting, ship.label)
+				Comms.Message(greeting)
 			end
 
 			local price = station:GetEquipmentPrice(n.cargo)

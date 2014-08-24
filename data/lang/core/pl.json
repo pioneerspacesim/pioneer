@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Zaawansowany maper radarowy"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Maper radarowy dalekiego zasięgu z pokryciem na cały system."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Klimatyzacja"
