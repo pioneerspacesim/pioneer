@@ -1389,8 +1389,8 @@ int Pi::JoystickFromGUID(SDL_JoystickGUID guid) {
 	const int guidLength = 16; // as defined
 	for (std::map<SDL_JoystickID, JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
 		JoystickState &state = stick->second;
-		if (0 == memcmp(state.guid.data, guid.data, 16)) {
-			return (int)stick->first;
+		if (0 == memcmp(state.guid.data, guid.data, guidLength)) {
+			return static_cast<int>(stick->first);
 		}
 	}
 	return -1;

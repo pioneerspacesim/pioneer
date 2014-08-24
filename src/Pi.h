@@ -84,9 +84,9 @@ public:
 	static std::string JoystickName(int joystick);
 	static std::string JoystickGUIDString(int joystick);
 	// reverse map a JoystickGUID to the actual internal ID.
-	static int Pi::JoystickFromGUID(SDL_JoystickGUID guid);
+	static int JoystickFromGUID(SDL_JoystickGUID guid);
 	// fetch the GUID for the named joystick
-	static SDL_JoystickGUID Pi::JoystickGUID(int joystick);
+	static SDL_JoystickGUID JoystickGUID(int joystick);
 	static void SetMouseYInvert(bool state) { mouseYInvert = state; }
 	static bool IsMouseYInvert() { return mouseYInvert; }
 	static void SetCompactScanner(bool state) { compactScanner = state; }
