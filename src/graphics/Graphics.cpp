@@ -6,6 +6,7 @@
 #include "Material.h"
 #include "RendererGL2.h"
 #include "OS.h"
+#include "StringF.h"
 #include <sstream>
 #include <iterator>
 
@@ -41,6 +42,33 @@ void SetFov(float fov)
 float GetFovFactor()
 {
 	return g_fovFactor;
+}
+
+static const char *gl_error_to_string(GLenum err)
+{
+	switch (err) {
+		case GL_NO_ERROR: return "(no error)";
+		case GL_INVALID_ENUM: return "invalid enum";
+		case GL_INVALID_VALUE: return "invalid value";
+		case GL_INVALID_OPERATION: return "invalid operation";
+		case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
+		case GL_OUT_OF_MEMORY: return "out of memory";
+		case GL_STACK_UNDERFLOW: return "stack underflow";
+		case GL_STACK_OVERFLOW: return "stack overflow";
+		default: return "(unknown error)";
+	}
+}
+
+static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = GL_NO_ERROR)
+{
+	GLenum err = ((first_error == GL_NO_ERROR) ? glGetError() : first_error);
+	if (err != GL_NO_ERROR) {
+		out << "errors: ";
+		do {
+			out << gl_error_to_string(err) << " ";
+			err = glGetError();
+		} while (err != GL_NO_ERROR);
+	}
 }
 
 static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
@@ -97,7 +125,7 @@ static void write_opengl_info(std::ostream &out)
 	out << "\nImplementation Limits:\n";
 
 	// first, clear all OpenGL error flags
-	while (glGetError() != GL_NO_ERROR) {}
+	dump_and_clear_opengl_errors(out);
 
 #define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
@@ -145,6 +173,34 @@ static void write_opengl_info(std::ostream &out)
 
 #undef DUMP_GL_VALUE
 #undef DUMP_GL_VALUE2
+
+	// enumerate compressed texture formats
+	{
+		dump_and_clear_opengl_errors(out);
+		out << "\nCompressed texture formats:\n";
+
+		GLint nformats;
+		GLint formats[128]; // XXX 128 should be enough, right?
+
+		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
+		GLenum err = glGetError();
+		if (err != GL_NO_ERROR) {
+			out << "Get NUM_COMPRESSED_TEXTURE_FORMATS failed\n";
+			dump_and_clear_opengl_errors(out, err);
+		} else {
+			assert(nformats >= 0 && nformats < int(COUNTOF(formats)));
+			glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
+			err = glGetError();
+			if (err != GL_NO_ERROR) {
+				out << "Get COMPRESSED_TEXTURE_FORMATS failed\n";
+				dump_and_clear_opengl_errors(out, err);
+			} else {
+				for (int i = 0; i < nformats; ++i) {
+					out << stringf("  %0{x#}\n", unsigned(formats[i]));
+				}
+			}
+		}
+	}
 }
 
 Renderer* Init(Settings vs)
