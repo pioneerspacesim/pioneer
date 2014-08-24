@@ -157,11 +157,8 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 		// skip over the '/'.
 		p++;
 
-		// now, map the GUID to an SDL device number.
-		SDL_JoystickGUID joyUUID = SDL_JoystickGetGUIDFromString(joyUUIDBuf);
-
 		// now, locate the internal ID.		
-		int joy = Pi::JoystickFromGUID(joyUUID);
+		int joy = Pi::JoystickFromGUIDString(std::string(joyUUIDBuf));
 		if (joy == -1) {
 			return false;
 		}
@@ -198,9 +195,6 @@ KeyBinding KeyBinding::FromString(const char *str) {
 
 std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 {
-	const int JoyUUIDLength = 33;
-	char joyUUIDBuf[JoyUUIDLength];
-
 	if (kb.type == BINDING_DISABLED) {
 		oss << "disabled";
 	} else if (kb.type == KEYBOARD_KEY) {
@@ -209,12 +203,10 @@ std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 			oss << "Mod" << int(kb.u.keyboard.mod);
 		}
 	} else if (kb.type == JOYSTICK_BUTTON) {
-		SDL_JoystickGetGUIDString(Pi::JoystickGUID(kb.u.joystickButton.joystick), joyUUIDBuf, JoyUUIDLength);		
-		oss << "Joy" << joyUUIDBuf;
+		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick);
 		oss << "/Button" << int(kb.u.joystickButton.button);
 	} else if (kb.type == JOYSTICK_HAT) {
-		SDL_JoystickGetGUIDString(Pi::JoystickGUID(kb.u.joystickButton.joystick), joyUUIDBuf, JoyUUIDLength);
-		oss << "Joy" << joyUUIDBuf;
+		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick); 
 		oss << "/Hat" << int(kb.u.joystickHat.hat);
 		oss << "Dir" << int(kb.u.joystickHat.direction);
 	} else {
@@ -425,10 +417,8 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	}
 	// skip over the '/'.
 	p++;
-	// now, map the GUID to an SDL device number.
-	SDL_JoystickGUID joyUUID = SDL_JoystickGetGUIDFromString(joyUUIDBuf);
-
-	ab.joystick = Pi::JoystickFromGUID(joyUUID);
+	// now, map the GUID to a joystick number
+	ab.joystick = Pi::JoystickFromGUIDString(std::string(joyUUIDBuf));
 	if (ab.joystick == -1) {
 		return false;
 	}
@@ -458,9 +448,8 @@ std::string AxisBinding::ToString() const {
 		if (direction == NEGATIVE)
 			oss << '-';
 
-		SDL_JoystickGetGUIDString(Pi::JoystickGUID(joystick), joyUUIDBuf, JoyUUIDLength);
 		oss << "Joy";
-		oss << joyUUIDBuf;
+		oss << Pi::JoystickGUIDString(joystick);
 		oss << "/Axis";
 		oss << int(axis);
 	} else {

@@ -1383,6 +1383,16 @@ std::string Pi::JoystickGUIDString(int joystick) {
 	return std::string(guidBuffer);
 }
 
+// conveniance version of JoystickFromGUID below that handles the string mangling.
+int Pi::JoystickFromGUIDString(const std::string &guid) {
+	return Pi::JoystickFromGUIDString(guid.c_str());
+}
+
+// conveniance version of JoystickFromGUID below that handles the string mangling.
+int Pi::JoystickFromGUIDString(const char *guid) {
+	return Pi::JoystickFromGUID(SDL_JoystickGetGUIDFromString(guid));
+}
+
 // return the internal ID of the stated joystick guid.
 // returns -1 if we couldn't find the joystick in question.
 int Pi::JoystickFromGUID(SDL_JoystickGUID guid) {

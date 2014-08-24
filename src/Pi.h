@@ -84,6 +84,8 @@ public:
 	static std::string JoystickName(int joystick);
 	static std::string JoystickGUIDString(int joystick);
 	// reverse map a JoystickGUID to the actual internal ID.
+	static int JoystickFromGUIDString(const std::string &guid);
+	static int JoystickFromGUIDString(const char *guid);
 	static int JoystickFromGUID(SDL_JoystickGUID guid);
 	// fetch the GUID for the named joystick
 	static SDL_JoystickGUID JoystickGUID(int joystick);
