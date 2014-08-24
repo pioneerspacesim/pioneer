@@ -100,6 +100,8 @@ private:
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_periapsisIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_apoapsisIcon;
 	Graphics::RenderState *m_lineState;
 };
 
