@@ -165,7 +165,9 @@ Renderer* Init(Settings vs)
 	width = window->GetWidth();
 	height = window->GetHeight();
 
-	glewInit();
+	GLenum glew_err;
+	if ((glew_err = glewInit()) != GLEW_OK)
+		Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
 
 	{
 		std::ostringstream buf;
