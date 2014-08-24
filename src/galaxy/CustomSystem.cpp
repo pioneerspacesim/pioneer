@@ -17,6 +17,8 @@
 
 const CustomSystemsDatabase::SystemList CustomSystemsDatabase::s_emptySystemList; // see: Null Object pattern
 
+static CustomSystemsDatabase* s_activeCustomSystemsDatabase = nullptr;
+
 // ------- CustomSystemBody --------
 
 static const char LuaCustomSystemBody_TypeName[] = "CustomSystemBody";
@@ -339,13 +341,13 @@ static int l_csys_faction(lua_State *L)
 	CustomSystem *cs = l_csys_check(L, 1);
 
 	std::string factionName = luaL_checkstring(L, 2);
-	if (!Pi::GetGalaxy()->GetFactions()->IsInitialized()) {
-		Pi::GetGalaxy()->GetFactions()->RegisterCustomSystem(cs, factionName);
+	if (!s_activeCustomSystemsDatabase->GetGalaxy()->GetFactions()->IsInitialized()) {
+		s_activeCustomSystemsDatabase->GetGalaxy()->GetFactions()->RegisterCustomSystem(cs, factionName);
 		lua_settop(L, 1);
 		return 1;
 	}
 
-	cs->faction = Pi::GetGalaxy()->GetFactions()->GetFaction(factionName);
+	cs->faction = s_activeCustomSystemsDatabase->GetGalaxy()->GetFactions()->GetFaction(factionName);
 	if (cs->faction->idx == Faction::BAD_FACTION_IDX) {
 		luaL_argerror(L, 2, "Faction not found");
 	}
@@ -471,7 +473,7 @@ static int l_csys_add_to_sector(lua_State *L)
 
 	//Output("l_csys_add_to_sector: %s added to %d, %d, %d\n", (*csptr)->name.c_str(), x, y, z);
 
-	Pi::GetGalaxy()->GetCustomSystems()->AddCustomSystem(SystemPath(x, y, z), *csptr);
+	s_activeCustomSystemsDatabase->AddCustomSystem(SystemPath(x, y, z), *csptr);
 	*csptr = 0;
 	return 0;
 }
@@ -527,6 +529,8 @@ static void RegisterCustomSystemsAPI(lua_State *L)
 void CustomSystemsDatabase::Init()
 {
 	PROFILE_SCOPED()
+	assert(!s_activeCustomSystemsDatabase);
+	s_activeCustomSystemsDatabase = this;
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 
@@ -559,6 +563,7 @@ void CustomSystemsDatabase::Init()
 
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);
+	s_activeCustomSystemsDatabase = nullptr;
 }
 
 CustomSystemsDatabase::~CustomSystemsDatabase()
