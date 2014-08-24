@@ -10,8 +10,8 @@
 #include "FileSystem.h"
 
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator) : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0),
-	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(galaxyGenerator), m_starSystemCache(galaxyGenerator),
-	m_factions(this), m_customSystems(this)
+	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(this, galaxyGenerator),
+	m_starSystemCache(this, galaxyGenerator), m_factions(this), m_customSystems(this)
 {
 	// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
 	static const std::string filename("galaxy_dense.bmp");
@@ -120,6 +120,11 @@ void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Si
 			m_starSystemCache.ClearCache();
 		}
 	}
+}
+
+RefCountedPtr<GalaxyGenerator> Galaxy::GetGenerator() const
+{
+	return m_galaxyGenerator;
 }
 
 const std::string& Galaxy::GetGeneratorName() const

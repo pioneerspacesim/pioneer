@@ -42,12 +42,12 @@ public:
 	void FlushCaches();
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
-	const GalaxyGenerator& GetGenerator() const { return *m_galaxyGenerator.Get(); }
+	RefCountedPtr<GalaxyGenerator> GetGenerator() const;
 	const std::string& GetGeneratorName() const;
 	int GetGeneratorVersion() const;
 
 private:
-	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
+	const RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	std::unique_ptr<float[]> m_galaxyMap;
 	Sint32 m_mapWidth, m_mapHeight;
 	SectorCache m_sectorCache;

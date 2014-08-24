@@ -38,7 +38,7 @@ public:
 
 	// Templated for the template cache class.
 	template <typename T, typename Cache>
-	RefCountedPtr<T> Generate(const SystemPath& path, Cache* cache);
+	RefCountedPtr<T> Generate(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, Cache* cache);
 
 	GalaxyGenerator* AddSectorStage(SectorGeneratorStage* sectorGenerator);
 	GalaxyGenerator* AddStarSystemStage(StarSystemGeneratorStage* starSystemGenerator);
@@ -58,8 +58,8 @@ public:
 private:
 	GalaxyGenerator(const std::string& name, Version version = LAST_VERSION) : m_name(name), m_version(version) { }
 
-	virtual RefCountedPtr<Sector> GenerateSector(const SystemPath& path, SectorCache* cache);
-	virtual RefCountedPtr<StarSystem> GenerateStarSystem(const SystemPath& path, StarSystemCache* cache);
+	virtual RefCountedPtr<Sector> GenerateSector(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, SectorCache* cache);
+	virtual RefCountedPtr<StarSystem> GenerateStarSystem(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, StarSystemCache* cache);
 
 	const std::string m_name;
 	const Version m_version;
@@ -72,13 +72,13 @@ private:
 };
 
 template <>
-inline RefCountedPtr<Sector> GalaxyGenerator::Generate<Sector,SectorCache>(const SystemPath& path, SectorCache* cache) {
-	return GenerateSector(path, cache);
+inline RefCountedPtr<Sector> GalaxyGenerator::Generate<Sector,SectorCache>(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, SectorCache* cache) {
+	return GenerateSector(galaxy, path, cache);
 }
 
 template <>
-inline RefCountedPtr<StarSystem> GalaxyGenerator::Generate<StarSystem,StarSystemCache>(const SystemPath& path, StarSystemCache* cache) {
-	return GenerateStarSystem(path, cache);
+inline RefCountedPtr<StarSystem> GalaxyGenerator::Generate<StarSystem,StarSystemCache>(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, StarSystemCache* cache) {
+	return GenerateStarSystem(galaxy, path, cache);
 }
 
 class GalaxyGeneratorStage {
@@ -98,14 +98,14 @@ class SectorGeneratorStage : public GalaxyGeneratorStage {
 public:
 	virtual ~SectorGeneratorStage() { }
 
-	virtual bool Apply(Random& rng, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config) = 0;
+	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config) = 0;
 };
 
 class StarSystemGeneratorStage : public GalaxyGeneratorStage {
 public:
 	virtual ~StarSystemGeneratorStage() { }
 
-	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config) = 0;
+	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config) = 0;
 };
 
 #endif

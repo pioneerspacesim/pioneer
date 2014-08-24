@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 
@@ -57,7 +58,7 @@ RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::GetCached(const SystemPath& path
 	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
 		++m_cacheMisses;
-		s = m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(path, this);
+		s = m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(RefCountedPtr<Galaxy>(m_galaxy), path, this);
 		m_attic.insert( std::make_pair(path, s.Get()));
 	} else {
 		++m_cacheHits;
@@ -97,12 +98,12 @@ void GalaxyObjectCache<T,CompareT>::OutputCacheStatistics(bool reset)
 template <typename T, typename CompareT>
 RefCountedPtr<typename GalaxyObjectCache<T,CompareT>::Slave> GalaxyObjectCache<T,CompareT>::NewSlaveCache()
 {
-	return RefCountedPtr<Slave>(new Slave(this, m_galaxyGenerator, Pi::GetAsyncJobQueue()));
+	return RefCountedPtr<Slave>(new Slave(this, RefCountedPtr<Galaxy>(m_galaxy), Pi::GetAsyncJobQueue()));
 }
 
 template <typename T, typename CompareT>
-GalaxyObjectCache<T,CompareT>::Slave::Slave(GalaxyObjectCache<T,CompareT>* master, RefCountedPtr<GalaxyGenerator> galaxyGen, JobQueue* jobQueue)
-	: m_master(master), m_galaxyGenerator(galaxyGen), m_jobs(Pi::GetAsyncJobQueue())
+GalaxyObjectCache<T,CompareT>::Slave::Slave(GalaxyObjectCache<T,CompareT>* master, RefCountedPtr<Galaxy> galaxy, JobQueue* jobQueue)
+	: m_master(master), m_galaxy(galaxy), m_galaxyGenerator(galaxy->GetGenerator()), m_jobs(Pi::GetAsyncJobQueue())
 {
 	m_master->m_slaves.insert(this);
 }
@@ -231,16 +232,16 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 	} else {
 		// now add the batched jobs
 		for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-			m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxyGenerator, callback));
+			m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxy, callback));
 	}
 }
 
 
 template <typename T, typename CompareT>
 GalaxyObjectCache<T,CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<SystemPath> > path,
-	typename GalaxyObjectCache<T,CompareT>::Slave* slaveCache, RefCountedPtr<GalaxyGenerator> galaxyGen,
+	typename GalaxyObjectCache<T,CompareT>::Slave* slaveCache, RefCountedPtr<Galaxy> galaxy,
 	typename GalaxyObjectCache<T,CompareT>::CacheFilledCallback callback)
-	: Job(), m_paths(std::move(path)), m_slaveCache(slaveCache), m_galaxyGenerator(galaxyGen), m_callback(callback)
+	: Job(), m_paths(std::move(path)), m_slaveCache(slaveCache), m_galaxy(galaxy), m_galaxyGenerator(galaxy->GetGenerator()), m_callback(callback)
 {
 	m_objects.reserve(m_paths->size());
 }
@@ -250,7 +251,7 @@ template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::CacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
 	for (auto it = m_paths->begin(), itEnd = m_paths->end(); it != itEnd; ++it)
-		m_objects.push_back(m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(*it, nullptr));
+		m_objects.push_back(m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(m_galaxy, *it, nullptr));
 }
 
 //virtual
@@ -271,8 +272,8 @@ template class GalaxyObjectCache<Sector,SystemPath::LessSectorOnly>;
 /****** StarSystemCache ******/
 
 template <>
-GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>* master, RefCountedPtr<GalaxyGenerator> galaxyGen, JobQueue* jobQueue)
-	: m_master(master), m_galaxyGenerator(galaxyGen), m_jobs(Pi::GetSyncJobQueue())
+GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>* master, RefCountedPtr<Galaxy> galaxy, JobQueue* jobQueue)
+	: m_master(master), m_galaxy(galaxy), m_galaxyGenerator(galaxy->GetGenerator()), m_jobs(Pi::GetSyncJobQueue())
 {
 	m_master->m_slaves.insert(this);
 }

@@ -71,21 +71,21 @@ GalaxyGenerator* GalaxyGenerator::AddStarSystemStage(StarSystemGeneratorStage* s
 	return this;
 }
 
-RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(const SystemPath& path, SectorCache* cache)
+RefCountedPtr<Sector> GalaxyGenerator::GenerateSector(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, SectorCache* cache)
 {
 	const Uint32 _init[4] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rng(_init, 4);
 	SectorConfig config;
 	RefCountedPtr<Sector> sector(new Sector(path, cache));
 	for (SectorGeneratorStage* secgen : m_sectorStage)
-		if (!secgen->Apply(rng, sector, &config))
+		if (!secgen->Apply(rng, galaxy, sector, &config))
 			break;
 	return sector;
 }
 
-RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(const SystemPath& path, StarSystemCache* cache)
+RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, StarSystemCache* cache)
 {
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
 	assert(path.systemIndex >= 0 && path.systemIndex < sec->m_systems.size());
 	Uint32 seed = sec->m_systems[path.systemIndex].GetSeed();
 	std::string name = sec->m_systems[path.systemIndex].GetName();
@@ -94,7 +94,7 @@ RefCountedPtr<StarSystem> GalaxyGenerator::GenerateStarSystem(const SystemPath& 
 	StarSystemConfig config;
 	RefCountedPtr<StarSystem::GeneratorAPI> system(new StarSystem::GeneratorAPI(path, cache, rng));
 	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
-		if (!sysgen->Apply(rng, system, &config))
+		if (!sysgen->Apply(rng, galaxy, system, &config))
 			break;
 	return system;
 }

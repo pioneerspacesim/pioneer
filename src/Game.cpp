@@ -40,7 +40,7 @@ Game::Game(const SystemPath &path, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
-	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
+	if (!Pi::GetGalaxy()->GetGenerator()->IsDefault())
 		Pi::CreateGalaxy();
 
 	m_space.reset(new Space(this, path));
@@ -69,7 +69,7 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
-	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
+	if (!Pi::GetGalaxy()->GetGenerator()->IsDefault())
 		Pi::CreateGalaxy();
 
 	m_space.reset(new Space(this, path));
