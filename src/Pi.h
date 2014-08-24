@@ -80,6 +80,13 @@ public:
 	static float JoystickAxisState(int joystick, int axis);
 	static bool IsJoystickEnabled() { return joystickEnabled; }
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
+	// User display name for the joystick from the API/OS.
+	static std::string JoystickName(int joystick);
+	static std::string JoystickGUIDString(int joystick);
+	// reverse map a JoystickGUID to the actual internal ID.
+	static int Pi::JoystickFromGUID(SDL_JoystickGUID guid);
+	// fetch the GUID for the named joystick
+	static SDL_JoystickGUID Pi::JoystickGUID(int joystick);
 	static void SetMouseYInvert(bool state) { mouseYInvert = state; }
 	static bool IsMouseYInvert() { return mouseYInvert; }
 	static void SetCompactScanner(bool state) { compactScanner = state; }
@@ -207,6 +214,7 @@ private:
 	static bool compactScanner;
 	struct JoystickState {
 		SDL_Joystick *joystick;
+		SDL_JoystickGUID guid;
 		std::vector<bool> buttons;
 		std::vector<int> hats;
 		std::vector<float> axes;

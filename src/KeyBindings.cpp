@@ -98,10 +98,10 @@ std::string KeyBinding::Description() const {
 		if (u.keyboard.mod & KMOD_GUI) oss << Lang::META << " + ";
 		oss << SDL_GetKeyName(u.keyboard.key);
 	} else if (type == JOYSTICK_BUTTON) {
-		oss << Lang::JOY << int(u.joystickButton.joystick);
+		oss << Pi::JoystickName(u.joystickButton.joystick);
 		oss << Lang::BUTTON << int(u.joystickButton.button);
 	} else if (type == JOYSTICK_HAT) {
-		oss << Lang::JOY << int(u.joystickHat.joystick);
+		oss << Pi::JoystickName(u.joystickHat.joystick);
 		oss << Lang::HAT << int(u.joystickHat.hat);
 		oss << Lang::DIRECTION << int(u.joystickHat.direction);
 	} else
@@ -113,13 +113,17 @@ std::string KeyBinding::Description() const {
 /**
  * Exampe strings:
  *   Key55
- *   Joy0Button2
- *   Joy0Hat0Dir3
+ *   Joy{uuid}/Button2
+ *   Joy{uuid}/Hat0Dir3
  */
+
 bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 {
 	const char *digits = "1234567890";
 	const char *p = str;
+	const int JoyUUIDLength = 33;
+	char joyUUIDBuf[JoyUUIDLength];
+
 	if (strcmp(p, "disabled") == 0) {
 		kb.Clear();
 	} else if (strncmp(p, "Key", 3) == 0) {
@@ -138,9 +142,29 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 	} else if (strncmp(p, "Joy", 3) == 0) {
 		p += 3;
 
-		int joy = atoi(p);
-		p += strspn(p, digits);
+		// flush the UUID buffer.
+		memset(joyUUIDBuf, 0, JoyUUIDLength);
+		// copy to the UUID buffer.
+		for (int idx = 0; idx < JoyUUIDLength; idx++) {
+			if (*p == '\0' || *p == '/') {
+				break;
+			}
+			joyUUIDBuf[idx] = *(p++);
+		}
+		if (*p == '\0') {
+			return false;
+		}
+		// skip over the '/'.
+		p++;
 
+		// now, map the GUID to an SDL device number.
+		SDL_JoystickGUID joyUUID = SDL_JoystickGetGUIDFromString(joyUUIDBuf);
+
+		// now, locate the internal ID.		
+		int joy = Pi::JoystickFromGUID(joyUUID);
+		if (joy == -1) {
+			return false;
+		}
 		if (strncmp(p, "Button", 6) == 0) {
 			p += 6;
 			kb.type = JOYSTICK_BUTTON;
@@ -174,6 +198,9 @@ KeyBinding KeyBinding::FromString(const char *str) {
 
 std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 {
+	const int JoyUUIDLength = 33;
+	char joyUUIDBuf[JoyUUIDLength];
+
 	if (kb.type == BINDING_DISABLED) {
 		oss << "disabled";
 	} else if (kb.type == KEYBOARD_KEY) {
@@ -182,11 +209,13 @@ std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 			oss << "Mod" << int(kb.u.keyboard.mod);
 		}
 	} else if (kb.type == JOYSTICK_BUTTON) {
-		oss << "Joy" << int(kb.u.joystickButton.joystick);
-		oss << "Button" << int(kb.u.joystickButton.button);
+		SDL_JoystickGetGUIDString(Pi::JoystickGUID(kb.u.joystickButton.joystick), joyUUIDBuf, JoyUUIDLength);		
+		oss << "Joy" << joyUUIDBuf;
+		oss << "/Button" << int(kb.u.joystickButton.button);
 	} else if (kb.type == JOYSTICK_HAT) {
-		oss << "Joy" << int(kb.u.joystickHat.joystick);
-		oss << "Hat" << int(kb.u.joystickHat.hat);
+		SDL_JoystickGetGUIDString(Pi::JoystickGUID(kb.u.joystickButton.joystick), joyUUIDBuf, JoyUUIDLength);
+		oss << "Joy" << joyUUIDBuf;
+		oss << "/Hat" << int(kb.u.joystickHat.hat);
 		oss << "Dir" << int(kb.u.joystickHat.direction);
 	} else {
 		assert(0 && "KeyBinding type field is invalid");
@@ -355,6 +384,7 @@ std::string AxisBinding::Description() const {
 		formatarg("sign", direction == KeyBindings::NEGATIVE ? "-" : ""), // no + sign if positive
 		formatarg("signp", direction == KeyBindings::NEGATIVE ? "-" : "+"), // optional with + sign
 		formatarg("joynum", joystick),
+		formatarg("joyname", Pi::JoystickName(joystick)),
 		formatarg("axis", axis >= 0 && axis < 3 ? axis_names[axis] : ossaxisnum.str())
 	);
 }
@@ -365,7 +395,6 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 		return true;
 	}
 
-	const char *digits = "1234567890";
 	const char *p = str;
 
 	if (p[0] == '-') {
@@ -377,10 +406,32 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 
 	if (strncmp(p, "Joy", 3) != 0)
 		return false;
-
 	p += 3;
-	ab.joystick = atoi(p);
-	p += strspn(p, digits);
+
+	const int JoyUUIDLength = 33;
+	char joyUUIDBuf[JoyUUIDLength];
+
+	// flush the UUID buffer.
+	memset(joyUUIDBuf, 0, JoyUUIDLength);
+	// copy to the UUID buffer.
+	for (int idx = 0; idx < JoyUUIDLength; idx++) {
+		if (*p == '\0' || *p == '/') {
+			break;
+		}
+		joyUUIDBuf[idx] = *(p++);
+	}
+	if (*p == '\0') {
+		return false;
+	}
+	// skip over the '/'.
+	p++;
+	// now, map the GUID to an SDL device number.
+	SDL_JoystickGUID joyUUID = SDL_JoystickGetGUIDFromString(joyUUIDBuf);
+
+	ab.joystick = Pi::JoystickFromGUID(joyUUID);
+	if (ab.joystick == -1) {
+		return false;
+	}
 
 	if (strncmp(p, "Axis", 4) != 0)
 		return false;
@@ -399,14 +450,18 @@ AxisBinding AxisBinding::FromString(const char *str) {
 }
 
 std::string AxisBinding::ToString() const {
+	const int JoyUUIDLength = 33;
+	char joyUUIDBuf[JoyUUIDLength];
+
 	std::ostringstream oss;
 	if (Enabled()) {
 		if (direction == NEGATIVE)
 			oss << '-';
 
+		SDL_JoystickGetGUIDString(Pi::JoystickGUID(joystick), joyUUIDBuf, JoyUUIDLength);
 		oss << "Joy";
-		oss << int(joystick);
-		oss << "Axis";
+		oss << joyUUIDBuf;
+		oss << "/Axis";
 		oss << int(axis);
 	} else {
 		oss << "disabled";
