@@ -15,6 +15,7 @@
 #include "AnimationCurves.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
 
@@ -251,6 +252,11 @@ SystemView::SystemView() : UIView()
 	m_onMouseWheelCon =
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
 
+	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/periapsis.png");
+	m_periapsisIcon.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder b2 = Graphics::TextureBuilder::UI("icons/apoapsis.png");
+	m_apoapsisIcon.reset(new Gui::TexturedQuad(b2.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
 	ResetViewpoint();
 
 	RefreshShips();
@@ -318,6 +324,14 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 		else
 			m_renderer->DrawLines(num_vertices, vts, color, m_lineState, LINE_LOOP);
 	}
+
+	Gui::Screen::EnterOrtho();
+	vector3d pos;
+	if(Gui::Screen::Project(offset + orbit->Perigeum() * double(m_zoom), pos))
+		m_periapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
+	if(Gui::Screen::Project(offset + orbit->Apogeum() * double(m_zoom), pos))
+		m_apoapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
+	Gui::Screen::LeaveOrtho();
 }
 
 void SystemView::OnClickObject(const SystemBody *b)
@@ -477,13 +491,15 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		const double t0 = Pi::game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
 
-		Orbit plannedOrbit = Orbit::FromBodyState(Pi::player->GetPosition(),
-		//Orbit plannedOrbit = Orbit::FromBodyState(playerOrbit.OrbitalPosAtTime(m_time - t0),
-							  m_planner->GetVel(),
-							  frame->GetSystemBody()->GetMass());
-
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
-		PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
+
+		if(!m_planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
+			Orbit plannedOrbit = Orbit::FromBodyState(Pi::player->GetPosition(),
+								  m_planner->GetVel(),
+								  frame->GetSystemBody()->GetMass());
+			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
+		}
+
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
