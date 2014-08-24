@@ -121,8 +121,6 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 {
 	const char *digits = "1234567890";
 	const char *p = str;
-	const int JoyUUIDLength = 33;
-	char joyUUIDBuf[JoyUUIDLength];
 
 	if (strcmp(p, "disabled") == 0) {
 		kb.Clear();
@@ -142,6 +140,9 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 	} else if (strncmp(p, "Joy", 3) == 0) {
 		p += 3;
 
+		const int JoyUUIDLength = 33;
+		char joyUUIDBuf[JoyUUIDLength];
+
 		// flush the UUID buffer.
 		memset(joyUUIDBuf, 0, JoyUUIDLength);
 		// copy to the UUID buffer.
@@ -158,7 +159,7 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 		p++;
 
 		// now, locate the internal ID.		
-		int joy = Pi::JoystickFromGUIDString(std::string(joyUUIDBuf));
+		int joy = Pi::JoystickFromGUIDString(joyUUIDBuf);
 		if (joy == -1) {
 			return false;
 		}
@@ -418,7 +419,7 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	// skip over the '/'.
 	p++;
 	// now, map the GUID to a joystick number
-	ab.joystick = Pi::JoystickFromGUIDString(std::string(joyUUIDBuf));
+	ab.joystick = Pi::JoystickFromGUIDString(joyUUIDBuf);
 	if (ab.joystick == -1) {
 		return false;
 	}
@@ -440,9 +441,6 @@ AxisBinding AxisBinding::FromString(const char *str) {
 }
 
 std::string AxisBinding::ToString() const {
-	const int JoyUUIDLength = 33;
-	char joyUUIDBuf[JoyUUIDLength];
-
 	std::ostringstream oss;
 	if (Enabled()) {
 		if (direction == NEGATIVE)
