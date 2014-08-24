@@ -117,9 +117,6 @@ public:
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
 	void RemoveAllCachedTextures();
 
-	// output human-readable debug info to the given stream
-	virtual bool PrintDebugInfo(std::ostream &out) { return false; }
-
 	virtual bool ReloadShaders() { return false; }
 
 	// our own matrix stack
