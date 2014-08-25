@@ -246,12 +246,10 @@ Renderer* Init(Settings vs)
 	if (!glewIsSupported("GL_EXT_texture_compression_s3tc"))
 		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 
-	if (glewIsSupported("GL_ARB_texture_compression")) {
-		GLint intv[4];
-		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &intv[0]);
-		if( intv[0] == 0 )
-			Error("GL_NUM_COMPRESSED_TEXTURE_FORMATS is zero.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
-	}
+	// We deliberately ignore the value from GL_NUM_COMPRESSED_TEXTURE_FORMATS, because some drivers
+	// choose not to list any formats (despite supporting texture compression). See issue #3132.
+	// This is (probably) allowed by the spec, which states that only formats which are "suitable
+	// for general-purpose usage" should be enumerated.
 
 	Renderer *renderer = new RendererGL2(window, vs);
 
