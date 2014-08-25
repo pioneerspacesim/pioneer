@@ -414,7 +414,8 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 		}
 		joyUUIDBuf[idx] = *(p++);
 	}
-	if (*p == '\0') {
+	// check to see if we've run over the length of the bind def, or if we've overflowed our UUID buffer.
+	if (*p == '\0' || joyUUIDBuf[JoyUUIDLength - 1] != '\0') {
 		return false;
 	}
 	// skip over the '/'.
