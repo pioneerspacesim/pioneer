@@ -110,13 +110,40 @@ std::string KeyBinding::Description() const {
 	return oss.str();
 }
 
+
 /**
- * Exampe strings:
+ * In a C string pointed to by the string pointer pointed to by p, scan for
+ * the character token tok, copying the bytes on the way to bufOut which is at most buflen long.
+ *
+ * returns true on success, returns false if the end of the input string was reached,
+ *   or the buffer would be overfilled without encountering the token.
+ *
+ * upon return, the pointer pointed to by p will refer to the character AFTER the tok.
+ */
+static bool ReadToTok(char tok, const char **p, char *bufOut, size_t buflen) {
+	int idx;
+	for (idx = 0; idx < buflen; idx++) {
+		if (**p == '\0' || **p == tok) {
+			break;
+		}
+		bufOut[idx] = *((*p)++);
+	}
+	// if, after that, we're not pointing at the tok, we must have hit 
+	// the terminal or run out of buffer.
+	if (**p != tok) {
+		return false;
+	}
+	// otherwise, skip over the tok.
+	(*p)++;
+	return true;
+}
+
+/**
+ * Example strings:
  *   Key55
  *   Joy{uuid}/Button2
  *   Joy{uuid}/Hat0Dir3
  */
-
 bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 {
 	const char *digits = "1234567890";
@@ -143,22 +170,10 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 		const int JoyUUIDLength = 33;
 		char joyUUIDBuf[JoyUUIDLength];
 
-		// flush the UUID buffer.
-		memset(joyUUIDBuf, '\0', JoyUUIDLength);
-		// copy to the UUID buffer.
-		for (int idx = 0; idx < JoyUUIDLength; idx++) {
-			if (*p == '\0' || *p == '/') {
-				break;
-			}
-			joyUUIDBuf[idx] = *(p++);
-		}
-		// check to see if we've run over the length of the bind def, or if we've overflowed our UUID buffer.
-		if (*p == '\0' || joyUUIDBuf[JoyUUIDLength-1] != '\0') {
+		// read the UUID
+		if (!ReadToTok('/', &p, joyUUIDBuf, JoyUUIDLength)) {
 			return false;
 		}
-		// skip over the '/'.
-		p++;
-
 		// now, locate the internal ID.		
 		int joy = Pi::JoystickFromGUIDString(joyUUIDBuf);
 		if (joy == -1) {
@@ -405,21 +420,10 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	const int JoyUUIDLength = 33;
 	char joyUUIDBuf[JoyUUIDLength];
 
-	// flush the UUID buffer.
-	memset(joyUUIDBuf, 0, JoyUUIDLength);
-	// copy to the UUID buffer.
-	for (int idx = 0; idx < JoyUUIDLength; idx++) {
-		if (*p == '\0' || *p == '/') {
-			break;
-		}
-		joyUUIDBuf[idx] = *(p++);
-	}
-	// check to see if we've run over the length of the bind def, or if we've overflowed our UUID buffer.
-	if (*p == '\0' || joyUUIDBuf[JoyUUIDLength - 1] != '\0') {
+	// read the UUID
+	if (!ReadToTok('/', &p, joyUUIDBuf, JoyUUIDLength)) {
 		return false;
 	}
-	// skip over the '/'.
-	p++;
 	// now, map the GUID to a joystick number
 	ab.joystick = Pi::JoystickFromGUIDString(joyUUIDBuf);
 	if (ab.joystick == -1) {
