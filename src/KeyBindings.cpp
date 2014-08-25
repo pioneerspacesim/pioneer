@@ -144,7 +144,7 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 		char joyUUIDBuf[JoyUUIDLength];
 
 		// flush the UUID buffer.
-		memset(joyUUIDBuf, 0, JoyUUIDLength);
+		memset(joyUUIDBuf, '\0', JoyUUIDLength);
 		// copy to the UUID buffer.
 		for (int idx = 0; idx < JoyUUIDLength; idx++) {
 			if (*p == '\0' || *p == '/') {
@@ -152,7 +152,8 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 			}
 			joyUUIDBuf[idx] = *(p++);
 		}
-		if (*p == '\0') {
+		// check to see if we've run over the length of the bind def, or if we've overflowed our UUID buffer.
+		if (*p == '\0' || joyUUIDBuf[JoyUUIDLength-1] != '\0') {
 			return false;
 		}
 		// skip over the '/'.
