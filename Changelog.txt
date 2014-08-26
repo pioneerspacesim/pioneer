@@ -14,6 +14,7 @@ August 2014
 
    * Script and UI API changes
      * Ship:UseECM() returns recharge time and success state.
+     * Update COMPILING.txt, and add Doxygen support (#3136)
 
    * Fixes
      * Fix trade ship without atmoshield causing crash in system with only

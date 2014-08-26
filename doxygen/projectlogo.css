@@ -1,0 +1,8 @@
+/* This extra style sheet is needed to make the pioneer badge be not so huge */
+#projectlogo img
+{
+    width: 103px;
+    height: 103px;
+    background-repeat: no-repeat;
+    background-position: 0% 50%;
+}
