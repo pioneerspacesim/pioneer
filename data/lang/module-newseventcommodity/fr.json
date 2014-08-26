@@ -65,11 +65,11 @@
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "NEWS {date}: Nouvelles richesses découvertes sur {system}."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Les mineurs du système {system} ({sectorx}, {sectory}, {sectorz}) viennent de découvrir le gisement de minerai le plus important observé à ce jour."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
@@ -105,11 +105,11 @@
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "NEWS {date}: Signature d'un accord pour une guerre plus \"humaine\", dans le système {system}."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Bien que les adversaires du système {system} ({sectorx}, {sectory}, {sectorz}) n'aient pas encore signé de cessez-le-feu, ils sont tombés d'accord pour stopper l'utilisation d'armes chimiques."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Des années de négligence dans la maintenance du matériel industriel vient d'entraîner l'effondrement de l'industrie du système {system} ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
