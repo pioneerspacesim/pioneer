@@ -667,7 +667,7 @@ void Game::CreateViews()
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
-		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_SMALLEST),
+		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_NORMAL),
 		vector2f(scrSize.x, scrSize.y));
 }
 
@@ -712,7 +712,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
-		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_SMALLEST),
+		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_NORMAL),
 		vector2f(scrSize.x, scrSize.y));
 }
 
