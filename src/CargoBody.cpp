@@ -1,6 +1,7 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Ship.h"
 #include "CargoBody.h"
 #include "Game.h"
 #include "Pi.h"
@@ -69,9 +70,11 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContac
 bool CargoBody::OnCollision(Object *b, Uint32 flags, double relVel)
 {
 	// ignore collision if its about to be scooped
-	// XXX this is wrong. should only ignore if its actually going to be scooped. see Ship::OnCollision
 	if (b->IsType(Object::SHIP)) {
-		return true;
+		int cargoscoop_cap = 0;
+		static_cast<Ship*>(b)->Properties().Get("cargo_scoop_cap", cargoscoop_cap);
+		if (cargoscoop_cap > 0)
+			return true;
 	}
 
 	return DynamicBody::OnCollision(b, flags, relVel);
