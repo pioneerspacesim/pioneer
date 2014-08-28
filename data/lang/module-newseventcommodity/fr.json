@@ -117,7 +117,7 @@
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "En protestation contre leur sous effectif, la police du système {system} ({sectorx}, {sectory}, {sectorz}) est entrée en grève. Se préparant au pire, les civils se regroupent et forment des milices, armés de fourches et d'armes à feu."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
@@ -193,15 +193,15 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Bienvenue cher marchand ! Nous vous offrirons un bon prix pour votre cargaison de {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Votre arrivée (et celle de votre cargaison de {cargo}) sont les bienvenues!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Bien le bonjour et bienvenue! Vous ne devriez pas avoir de mal à écouler votre cargaison de [cargo] sur notre système."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "La Chronique Confédérée"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "NEWSPAPER_IND_10" : {
       "description" : "",
-      "message" : "The Orbital Observer"
+      "message" : "L'Observateur Orbital"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
@@ -273,22 +273,22 @@
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Rapport récent de {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Nouvelles de {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Rapport de {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Dernières nouvelles de {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Notes de {newspaper}"
    }
 }
