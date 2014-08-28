@@ -121,7 +121,7 @@ std::string KeyBinding::Description() const {
  * upon return, the pointer pointed to by p will refer to the character AFTER the tok.
  */
 static bool ReadToTok(char tok, const char **p, char *bufOut, size_t buflen) {
-	int idx;
+	unsigned int idx;
 	for (idx = 0; idx < buflen; idx++) {
 		if (**p == '\0' || **p == tok) {
 			break;
@@ -135,6 +135,10 @@ static bool ReadToTok(char tok, const char **p, char *bufOut, size_t buflen) {
 	}
 	// otherwise, skip over the tok.
 	(*p)++;
+	// if there is sufficient space in the buffer, NUL terminate.
+	if (idx < buflen) {
+		bufOut[idx] = '\0';
+	}
 	return true;
 }
 
@@ -174,6 +178,8 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 		if (!ReadToTok('/', &p, joyUUIDBuf, JoyUUIDLength)) {
 			return false;
 		}
+		// force terminate
+		joyUUIDBuf[JoyUUIDLength-1] = '\0';
 		// now, locate the internal ID.		
 		int joy = Pi::JoystickFromGUIDString(joyUUIDBuf);
 		if (joy == -1) {
@@ -424,6 +430,8 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	if (!ReadToTok('/', &p, joyUUIDBuf, JoyUUIDLength)) {
 		return false;
 	}
+	// force terminate
+	joyUUIDBuf[JoyUUIDLength-1] = '\0';
 	// now, map the GUID to a joystick number
 	ab.joystick = Pi::JoystickFromGUIDString(joyUUIDBuf);
 	if (ab.joystick == -1) {
