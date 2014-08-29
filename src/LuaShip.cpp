@@ -278,15 +278,23 @@ static int l_ship_set_label(lua_State *l)
  *
  * Spawns a container right next to the ship.
  *
- * > success = ship:SpawnCargo(item)
+ * > success = ship:SpawnCargo(item, lifeTime)
  *
  * Parameters:
  *
  *  item - the item to put in the container.
  *
+ *  lifeTime - optional. time in seconds until self destruct. Setting
+ *             to 0 sec means no self destruct while player is in system.
+ *
  * Result:
  *
  *   success: true if the container was spawned, false otherwise.
+ *
+ * Example:
+ *
+ * > Game.player:SpawnCargo(Equipment.cargo.hydrogen, 0)
+ * > Game.player:SpawnCargo(Equipment.cargo.hydrogen)
  *
  * Availability:
  *
@@ -300,10 +308,19 @@ static int l_ship_spawn_cargo(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	if (!lua_istable(l, 2)) {
 		lua_pushboolean(l, false);
-	} else {
-		CargoBody * c_body = new CargoBody(LuaRef(l, 2));
-		lua_pushboolean(l, s->SpawnCargo(c_body));
 	}
+
+	CargoBody * c_body;
+
+	if (lua_gettop(l) >= 3){
+		size_t lifeTime = lua_tointeger(l, 3);
+		c_body = new CargoBody(LuaRef(l, 2), lifeTime);
+	}
+	else
+		c_body = new CargoBody(LuaRef(l, 2));
+
+	lua_pushboolean(l, s->SpawnCargo(c_body));
+
 	return 1;
 }
 
