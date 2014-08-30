@@ -6,6 +6,7 @@ August 2014
      * Display ship heading and pitch (#3108)
      * Advanced radar mapper works in system orbital view (#3122)
      * Draw periapsis/apoapsis as icons on system view orbits (#3133)
+     * Improved Joystick Binding (#3141)
 
    * Minor changes and tweaks
      * Consistent set nav target on click in SystemView (#3125)
