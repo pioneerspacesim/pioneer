@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Air processors"
@@ -1527,6 +1535,10 @@
       "description" : "",
       "message" : "Set low thrust power level to %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Set speed: %speed{f.2} km/s"
@@ -1566,6 +1578,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Ship"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1799,6 +1815,14 @@
       "description" : "",
       "message" : "Surface temperature"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Switched heading display to system-wide coordinates."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Switched heading display to planetary coordinates."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "System"
@@ -1934,6 +1958,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Unset navigation target."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

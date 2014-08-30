@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Commodity Market"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Competente"

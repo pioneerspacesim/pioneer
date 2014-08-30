@@ -46,9 +46,14 @@ local onEnterSystem = function (player)
 		ship:AddEquip(default_drive)
 		ship:AddEquip(laserdef)
 
+		-- pirates know how big cargo hold the ship model has
 		local playerCargoCapacity = ShipDef[player.shipId].capacity
-		local probabilityPirateIsInterested = playerCargoCapacity/100.0
-		if Engine.rand:Number(1) < probabilityPirateIsInterested then
+
+		-- Pirate attack probability proportional to how fully loaded cargo hold is.
+		local discount = 2 		-- discount on 2t for small ships.
+		local probabilityPirateIsInterested = math.floor(player.usedCargo - discount) / math.max(1,  playerCargoCapacity - discount)
+
+		if Engine.rand:Number(1) <= probabilityPirateIsInterested then
 			ship:AIKill(Game.player)
 		end
 	end

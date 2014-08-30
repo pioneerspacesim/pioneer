@@ -31,15 +31,15 @@ GalacticView::GalacticView() : UIView(),
 	m_zoom = 1.0f;
 	m_zoomTo = m_zoom;
 
-	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
-	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
-	m_zoomInButton->SetRenderDimensions(30, 22);
-	Add(m_zoomInButton, 700, 5);
-
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	m_zoomOutButton->SetRenderDimensions(30, 22);
-	Add(m_zoomOutButton, 732, 5);
+	Add(m_zoomOutButton, 700, 5);
+
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
+	Add(m_zoomInButton, 732, 5);
 
 	m_scaleReadout = new Gui::Label("");
 	Add(m_scaleReadout, 500.0f, 10.0f);
@@ -173,4 +173,3 @@ void GalacticView::MouseWheel(bool up)
 			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
 	}
 }
-

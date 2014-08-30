@@ -1,30 +1,30 @@
 {
    "GOODS_TRADER_0" : {
       "description" : "",
-      "message" : "Honest {name}'s Goods Emporium"
+      "message" : "gun taigh-bhathair onarach aig {name}"
    },
    "GOODS_TRADER_1" : {
       "description" : "",
-      "message" : "{name}'s Trading House"
+      "message" : "gun taigh-mhalairt aig {name}"
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}'s Warehouse"
+      "message" : "gun taigh-bhathair aig {name}"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
-      "message" : "{name}'s Goods Exchange"
+      "message" : "gun ionad malairt aig {name}"
    },
    "GOODS_TRADER_4" : {
       "description" : "",
-      "message" : "{name} Holdings"
+      "message" : "batharnach {name}"
    },
    "GOODS_TRADER_5" : {
       "description" : "",
-      "message" : "{name} & Sons"
+      "message" : "{name} ⁊ a mhac"
    },
    "WELCOME_TO" : {
       "description" : "",
-      "message" : "Welcome to "
+      "message" : "Fàilte"
    }
 }

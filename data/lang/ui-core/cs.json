@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Obchod s komoditami"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Kompaktní radar"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Schopný"

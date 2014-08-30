@@ -31,7 +31,13 @@ local function setupLayerAnim (clickWidget)
 			easing = "LINEAR",
 			target = "OPACITY",
 			duration = 0.1,
-			callback = function () ui:DropLayer() end,
+			callback = function ()
+				-- XXX mostly a hack to fix #3110
+				-- something may have dropped our messagebox layer before we get here
+				if ui.layer == layer then
+					ui:DropLayer()
+				end
+			end,
 		})
 	end)
 end

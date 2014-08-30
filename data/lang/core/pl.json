@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Zaawansowany maper radarowy"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Maper radarowy dalekiego zasięgu z pokryciem na cały system."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Klimatyzacja"
@@ -581,7 +589,7 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "",
-      "message" : "Pozycja anormalnie"
+      "message" : "Pozycja anormalna"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
@@ -597,7 +605,7 @@
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
-      "message" : "Pozycja normalnie"
+      "message" : "Pozycja normalna"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "",
@@ -1293,19 +1301,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Tempo wzrostu wartości delta-v. Kliknij, aby przywrócić domyślne."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji normalnej. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji przodem. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji radialnej. Kliknij, aby wyzerować."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1527,6 +1535,10 @@
       "description" : "",
       "message" : "Siła ciągu w trybie precyzyjnym %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Ustawiono cel nawigacyjny na:"
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Prędkość: %speed{f.2} km/s"
@@ -1566,6 +1578,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Statek"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Przełącz pomiędzy trybami wyświetlania statków."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1799,6 +1815,14 @@
       "description" : "",
       "message" : "Średnia temperatura"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Wyświetlanie pozycji przełączono na koordynaty całego systemu."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Wyświetlanie pozycji przełączono na koordynaty planetarne."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "System"
@@ -1934,6 +1958,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Umożliwia przewiezienie jednego pasażera"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Usunięto cel nawigacyjny."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

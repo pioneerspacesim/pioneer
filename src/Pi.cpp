@@ -142,6 +142,7 @@ Graphics::RenderTarget *Pi::renderTarget;
 RefCountedPtr<Graphics::Texture> Pi::renderTexture;
 std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 Graphics::RenderState *Pi::quadRenderState = nullptr;
+bool Pi::bRequestEndGame = false;
 
 #if WITH_OBJECTVIEWER
 ObjectViewerView *Pi::objectViewerView;
@@ -365,8 +366,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 #endif
 
 	Pi::config = new GameConfig(options);
-	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
-		KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
@@ -414,23 +413,17 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	videoSettings.title = "Pioneer";
 
 	Pi::renderer = Graphics::Init(videoSettings);
-	{
-		std::ostringstream buf;
-		renderer->PrintDebugInfo(buf);
-
-		FILE *f = FileSystem::userFiles.OpenWriteStream("opengl.txt", FileSystem::FileSourceFS::WRITE_TEXT);
-		if (!f)
-			Output("Could not open 'opengl.txt'\n");
-		const std::string &s = buf.str();
-		fwrite(s.c_str(), 1, s.size(), f);
-		fclose(f);
-	}
 
 	Pi::CreateRenderTarget(videoSettings.width, videoSettings.height);
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
 	InitJoysticks();
+	
+	// we can only do bindings once joysticks are initialised.
+	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
+		KeyBindings::InitBindings();
+
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 	compactScanner = (config->Int("CompactScanner")) ? true : false;
@@ -885,19 +878,19 @@ void Pi::HandleEvents()
 						{
 							if(Pi::game) {
 								if (Pi::game->IsHyperspace())
-									Pi::cpan->MsgLog()->Message("", Lang::CANT_SAVE_IN_HYPERSPACE);
+									Pi::game->log->Add(Lang::CANT_SAVE_IN_HYPERSPACE);
 
 								else {
 									const std::string name = "_quicksave";
 									const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
 									try {
 										Game::SaveGame(name, Pi::game);
-										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVED_TO + path);
+										Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
 									} catch (CouldNotOpenFileException) {
-										Pi::cpan->MsgLog()->Message("", stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
+										Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
 									}
 									catch (CouldNotWriteToFileException) {
-										Pi::cpan->MsgLog()->Message("", Lang::GAME_SAVE_CANNOT_WRITE);
+										Pi::game->log->Add(Lang::GAME_SAVE_CANNOT_WRITE);
 									}
 								}
 							}
@@ -1031,6 +1024,8 @@ void Pi::StartGame()
 
 void Pi::Start()
 {
+	Pi::bRequestEndGame = false;
+
 	Pi::intro = new Intro(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 
 	ui->DropAllLayers();
@@ -1090,8 +1085,17 @@ void Pi::Start()
 	MainLoop();
 }
 
+// request that the game is ended as soon as safely possible
+void Pi::RequestEndGame()
+{
+	Pi::bRequestEndGame = true;
+}
+
 void Pi::EndGame()
 {
+	// always reset this, otherwise we can never play again
+	Pi::bRequestEndGame = false;
+
 	Pi::SetMouseGrab(false);
 
 	Pi::musicPlayer.Stop();
@@ -1219,6 +1223,9 @@ void Pi::MainLoop()
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
 		// detected. Gui::Draw wipes memory of label positions.
 		Pi::HandleEvents();
+		if( Pi::bRequestEndGame ) {
+			Pi::EndGame();
+		}
 		// hide cursor for ship control.
 
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
@@ -1226,6 +1233,8 @@ void Pi::MainLoop()
 		Pi::renderer->EndFrame();
 		if( DrawGUI ) {
 			Gui::Draw();
+			if (game)
+				game->log->DrawHudMessages(renderer);
 		} else if (game && game->IsNormalSpace()) {
 			if (config->Int("DisableScreenshotInfo")==0) {
 				const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();
@@ -1249,7 +1258,7 @@ void Pi::MainLoop()
 		// wrong, because we shouldn't this when the HUD is disabled, but
 		// probably sure draw it if they switch to eg infoview while the HUD is
 		// disabled so we need much smarter control for all this rubbish
-		if (Pi::GetView() != Pi::deathView) {
+		if ((Pi::GetView() != Pi::deathView) && DrawGUI) {
 			Pi::ui->Update();
 			Pi::ui->Draw();
 		}
@@ -1331,15 +1340,6 @@ void Pi::MainLoop()
 	}
 }
 
-void Pi::Message(const std::string &message, const std::string &from, enum MsgLevel level)
-{
-	if (level == MSG_IMPORTANT) {
-		Pi::cpan->MsgLog()->ImportantMessage(from, message);
-	} else {
-		Pi::cpan->MsgLog()->Message(from, message);
-	}
-}
-
 void Pi::InitJoysticks() {
 	int joy_count = SDL_NumJoysticks();
 	for (int n = 0; n < joy_count; n++) {
@@ -1350,6 +1350,7 @@ void Pi::InitJoysticks() {
 			Output("SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}
+		state.guid = SDL_JoystickGetGUID(state.joystick);
 		state.axes.resize(SDL_JoystickNumAxes(state.joystick));
 		state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
 		state.hats.resize(SDL_JoystickNumHats(state.joystick));
@@ -1357,6 +1358,45 @@ void Pi::InitJoysticks() {
 		SDL_JoystickID joyID = SDL_JoystickInstanceID(state.joystick);
 		joysticks[joyID] = state;
 	}
+}
+
+std::string Pi::JoystickName(int joystick) {
+	return std::string(SDL_JoystickName(joysticks[joystick].joystick));
+}
+
+std::string Pi::JoystickGUIDString(int joystick) {
+	const int guidBufferLen = 33; // as documented by SDL
+	char	guidBuffer[guidBufferLen]; 
+
+	SDL_JoystickGetGUIDString(joysticks[joystick].guid, guidBuffer, guidBufferLen);
+	return std::string(guidBuffer);
+}
+
+// conveniance version of JoystickFromGUID below that handles the string mangling.
+int Pi::JoystickFromGUIDString(const std::string &guid) {
+	return Pi::JoystickFromGUIDString(guid.c_str());
+}
+
+// conveniance version of JoystickFromGUID below that handles the string mangling.
+int Pi::JoystickFromGUIDString(const char *guid) {
+	return Pi::JoystickFromGUID(SDL_JoystickGetGUIDFromString(guid));
+}
+
+// return the internal ID of the stated joystick guid.
+// returns -1 if we couldn't find the joystick in question.
+int Pi::JoystickFromGUID(SDL_JoystickGUID guid) {
+	const int guidLength = 16; // as defined
+	for (std::map<SDL_JoystickID, JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
+		JoystickState &state = stick->second;
+		if (0 == memcmp(state.guid.data, guid.data, guidLength)) {
+			return static_cast<int>(stick->first);
+		}
+	}
+	return -1;
+}
+
+SDL_JoystickGUID Pi::JoystickGUID(int joystick) {
+	return joysticks[joystick].guid;
 }
 
 int Pi::JoystickButtonState(int joystick, int button) {

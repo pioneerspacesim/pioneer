@@ -183,7 +183,9 @@ static int l_game_save_game(lua_State *l)
 static int l_game_end_game(lua_State *l)
 {
 	if (Pi::game) {
-		Pi::EndGame();
+		// Request to end the game as soon as possible.
+		// Previously could be called from Lua UI and delete the object doing the calling causing a crash.
+		Pi::RequestEndGame();
 	}
 	return 0;
 }

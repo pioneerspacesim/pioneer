@@ -19,6 +19,7 @@ The Pioneer Developers are:
 * Brian Ronald
 * C de Craen
 * Chip Richards
+* Chris Collins
 * Chris Dennett
 * Connor Findlay
 * Craig Thomson

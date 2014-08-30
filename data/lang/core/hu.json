@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Fejlett Radartérképező"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Nagy hatótávú Radar térképező rendszerszintű lefedettséggel."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Levegőfeldolgozók"
@@ -1293,19 +1301,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Delta-V lépték. Vissza alapértékre."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Normálirányú delta-v. Vissza alapértékre."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Prográd delta-v. Vissza alapértékre."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Sugárirányú delta-v. Vissza alapértékre."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1527,6 +1535,10 @@
       "description" : "",
       "message" : "Tolóerő korlátozása %power%%-ra."
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Navigációs cél:"
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Seb: %speed{f.2} km/s"
@@ -1566,6 +1578,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Hajó"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Hajó kijelzési mód váltása."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1799,6 +1815,14 @@
       "description" : "",
       "message" : "Felszíni hőmérséklet"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Irányszög kijelző a rendszer koordinátarendszeréhez állítva."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Irányszög kijelző a bolygó koordinátarendszeréhez állítva."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "Rendszer"
@@ -1934,6 +1958,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Szükséges egy személy szállításához"
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Navigációs cél törlése"
    },
    "USE_LOW_THRUST" : {
       "description" : "",

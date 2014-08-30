@@ -1,3 +1,36 @@
+August 2014
+
+   * New features
+     * Bring Luomu's game msg log over from the SSP fork (#2527)
+     * Display ships in system view (#3115)
+     * Display ship heading and pitch (#3108)
+     * Advanced radar mapper works in system orbital view (#3122)
+     * Draw periapsis/apoapsis as icons on system view orbits (#3133)
+     * Improved Joystick Binding (#3141)
+
+   * Minor changes and tweaks
+     * Consistent set nav target on click in SystemView (#3125)
+     * Write opengl.txt earlier to help debugging (#3138, #3137, #3132)
+     * Bigger font for msg log (3143)
+
+   * Script and UI API changes
+     * Ship:UseECM() returns recharge time and success state.
+     * Update COMPILING.txt, and add Doxygen support (#3136)
+
+   * Fixes
+     * Fix trade ship without atmoshield causing crash in system with only
+       stations on worlds with atmosphere (#3107)
+     * Fix crash when clicking a view change button (F1-F4) while a new-ui
+       message box is being displayed (#3111, #3110)
+     * Zoom out button before zoom in in system,sector,galactic view (#3112)
+     * Fix an Exit Game widget crash. (#3106)
+     * Fix bad faction colour only being applied to uninhabited (#3116)
+     * Destroy Hyperspace clouds after 2 days of ingame time (#3118)
+     * Fix system view ship crash (#3119)
+     * Fix refreshing assertion in SystemInfoView (#3120)
+     * Fix unnecessary limit on ship base price (#3129, #3130)
+     * Fix crash from TradeShips trying to serialize dead ships (#3126, #3123)
+
 July 2014
 
    * New features

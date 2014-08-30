@@ -88,8 +88,6 @@ public:
 
 	virtual bool ReloadShaders();
 
-	virtual bool PrintDebugInfo(std::ostream &out);
-
 	virtual const matrix4x4f& GetCurrentModelView() const { return m_modelViewStack.top(); }
 	virtual const matrix4x4f& GetCurrentProjection() const { return m_projectionStack.top(); }
 	virtual void GetCurrentViewport(Sint32 *vp) const {

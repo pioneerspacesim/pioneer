@@ -53,11 +53,11 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Cunnart:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Ceann-là:"
    },
    "DENY_0" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Astar:"
    },
    "EXCELLENT" : {
       "description" : "",
@@ -581,11 +581,11 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Carson a gheibhear torr airgid?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Am bi mi fo chunnart?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

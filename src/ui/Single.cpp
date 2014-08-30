@@ -23,6 +23,9 @@ Single *Single::SetInnerWidget(Widget *widget)
 {
 	assert(widget);
 
+	if (m_innerWidget == widget)
+		return this;
+
 	RemoveAllWidgets();
 
 	AddWidget(widget);

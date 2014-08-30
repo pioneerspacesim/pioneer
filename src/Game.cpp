@@ -24,6 +24,7 @@
 #include "ObjectViewerView.h"
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
+#include "ui/Context.h"
 
 static const int  s_saveVersion   = 75;
 static const char s_saveStart[]   = "PIONEER";
@@ -267,6 +268,7 @@ void Game::TimeStep(float step)
 	// XXX ui updates, not sure if they belong here
 	Pi::cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
+	log->Update(m_timeAccel == Game::TIMEACCEL_PAUSED);
 
 	if (m_state == STATE_HYPERSPACE) {
 		if (Pi::game->GetTime() >= m_hyperspaceEndTime) {
@@ -377,6 +379,11 @@ double Game::GetHyperspaceArrivalProbability() const
 	const double fudge = 4.0;
 	const double scale = 1.0 / (1.0 - exp(-fudge));
 	return scale * (1.0 - exp(-fudge * progress));
+}
+
+void Game::RemoveHyperspaceCloud(HyperspaceCloud* cloud)
+{
+	m_hyperspaceClouds.remove(cloud);
 }
 
 void Game::SwitchToHyperspace()
@@ -657,6 +664,11 @@ void Game::CreateViews()
 	Pi::objectViewerView = new ObjectViewerView();
 	Pi::objectViewerView->SetRenderer(Pi::renderer);
 #endif
+
+	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
+	log = new GameLog(
+		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_NORMAL),
+		vector2f(scrSize.x, scrSize.y));
 }
 
 // XXX mostly a copy of CreateViews
@@ -697,6 +709,11 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::systemView->SetRenderer(Pi::renderer);
 	Pi::worldView->SetRenderer(Pi::renderer);
 	Pi::deathView->SetRenderer(Pi::renderer);
+
+	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
+	log = new GameLog(
+		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_NORMAL),
+		vector2f(scrSize.x, scrSize.y));
 }
 
 void Game::DestroyViews()
@@ -717,6 +734,7 @@ void Game::DestroyViews()
 	delete Pi::worldView;
 	delete Pi::sectorView;
 	delete Pi::cpan;
+	delete log;
 
 	Pi::objectViewerView = 0;
 	Pi::settingsView = 0;
@@ -729,6 +747,7 @@ void Game::DestroyViews()
 	Pi::worldView = 0;
 	Pi::sectorView = 0;
 	Pi::cpan = 0;
+	log = 0;
 }
 
 Game *Game::LoadGame(const std::string &filename)

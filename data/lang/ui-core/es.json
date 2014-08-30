@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Mercado de Productos"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Escáner compacto"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Competente"
