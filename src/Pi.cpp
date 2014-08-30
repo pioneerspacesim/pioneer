@@ -366,8 +366,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 #endif
 
 	Pi::config = new GameConfig(options);
-	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
-		KeyBindings::InitBindings();
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
@@ -421,6 +419,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Pi::rng.seed(time(0));
 
 	InitJoysticks();
+	
+	// we can only do bindings once joysticks are initialised.
+	if (!no_gui) // This re-saves the config file. With no GUI we want to allow multiple instances in parallel.
+		KeyBindings::InitBindings();
+
 	joystickEnabled = (config->Int("EnableJoystick")) ? true : false;
 	mouseYInvert = (config->Int("InvertMouseY")) ? true : false;
 	compactScanner = (config->Int("CompactScanner")) ? true : false;
@@ -1347,6 +1350,7 @@ void Pi::InitJoysticks() {
 			Output("SDL_JoystickOpen(%i): %s\n", n, SDL_GetError());
 			continue;
 		}
+		state.guid = SDL_JoystickGetGUID(state.joystick);
 		state.axes.resize(SDL_JoystickNumAxes(state.joystick));
 		state.buttons.resize(SDL_JoystickNumButtons(state.joystick));
 		state.hats.resize(SDL_JoystickNumHats(state.joystick));
@@ -1354,6 +1358,45 @@ void Pi::InitJoysticks() {
 		SDL_JoystickID joyID = SDL_JoystickInstanceID(state.joystick);
 		joysticks[joyID] = state;
 	}
+}
+
+std::string Pi::JoystickName(int joystick) {
+	return std::string(SDL_JoystickName(joysticks[joystick].joystick));
+}
+
+std::string Pi::JoystickGUIDString(int joystick) {
+	const int guidBufferLen = 33; // as documented by SDL
+	char	guidBuffer[guidBufferLen]; 
+
+	SDL_JoystickGetGUIDString(joysticks[joystick].guid, guidBuffer, guidBufferLen);
+	return std::string(guidBuffer);
+}
+
+// conveniance version of JoystickFromGUID below that handles the string mangling.
+int Pi::JoystickFromGUIDString(const std::string &guid) {
+	return Pi::JoystickFromGUIDString(guid.c_str());
+}
+
+// conveniance version of JoystickFromGUID below that handles the string mangling.
+int Pi::JoystickFromGUIDString(const char *guid) {
+	return Pi::JoystickFromGUID(SDL_JoystickGetGUIDFromString(guid));
+}
+
+// return the internal ID of the stated joystick guid.
+// returns -1 if we couldn't find the joystick in question.
+int Pi::JoystickFromGUID(SDL_JoystickGUID guid) {
+	const int guidLength = 16; // as defined
+	for (std::map<SDL_JoystickID, JoystickState>::iterator stick = joysticks.begin(); stick != joysticks.end(); ++stick) {
+		JoystickState &state = stick->second;
+		if (0 == memcmp(state.guid.data, guid.data, guidLength)) {
+			return static_cast<int>(stick->first);
+		}
+	}
+	return -1;
+}
+
+SDL_JoystickGUID Pi::JoystickGUID(int joystick) {
+	return joysticks[joystick].guid;
 }
 
 int Pi::JoystickButtonState(int joystick, int button) {
