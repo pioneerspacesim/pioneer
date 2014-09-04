@@ -338,17 +338,19 @@ public:
 
 	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
 
-private:
+protected:
 	StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand);
 	virtual ~StarSystem();
-
-	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
 
 	SystemBody *NewBody() {
 		SystemBody *body = new SystemBody(SystemPath(m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex, m_bodies.size()), this);
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
+
+private:
+	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
+
 	std::string ExportBodyToLua(FILE *f, SystemBody *body);
 	std::string GetStarTypes(SystemBody *body);
 
