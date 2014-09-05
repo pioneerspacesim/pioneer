@@ -40,8 +40,8 @@ Game::Game(const SystemPath &path, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
-	if (Pi::GetGalaxy()->GetGeneratorName() != "legacy" || Pi::GetGalaxy()->GetGeneratorVersion() != GalaxyGenerator::LAST_VERSION_LEGACY)
-		Pi::CreateGalaxy("legacy");
+	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
+		Pi::CreateGalaxy();
 
 	m_space.reset(new Space(this, path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
@@ -68,8 +68,8 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
-	if (Pi::GetGalaxy()->GetGeneratorName() != "legacy" || Pi::GetGalaxy()->GetGeneratorVersion() != GalaxyGenerator::LAST_VERSION_LEGACY)
-		Pi::CreateGalaxy("legacy");
+	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
+		Pi::CreateGalaxy();
 
 	m_space.reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
@@ -144,7 +144,7 @@ Game::Game(Serializer::Reader &rd) :
 	section = rd.RdSection("GalaxyGen");
 	std::string genName = section.String();
 	GalaxyGenerator::Version genVersion = section.Int32();
-	if (genName != Pi::GetGalaxy()->GetGeneratorName() || genVersion > Pi::GetGalaxy()->GetGeneratorVersion()) {
+	if (genName != Pi::GetGalaxy()->GetGeneratorName() || genVersion != Pi::GetGalaxy()->GetGeneratorVersion()) {
 		if (!Pi::CreateGalaxy(genName, genVersion)) {
 			Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
 			throw SavedGameWrongVersionException();

@@ -342,6 +342,17 @@ SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 
 const char Pi::SAVE_DIR_NAME[] = "savefiles";
 
+bool Pi::CreateGalaxy()
+{
+	s_galaxy->FlushCaches();
+	s_galaxy = GalaxyGenerator::Create();
+	if (s_galaxy) {
+		s_galaxy->Init();
+		return true;
+	}
+	return false;
+}
+
 bool Pi::CreateGalaxy(const std::string& genName, GalaxyGenerator::Version genVersion)
 {
 	s_galaxy->FlushCaches();
@@ -488,7 +499,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.1f);
 
-	s_galaxy = GalaxyGenerator::Create("legacy");
+	if (config->HasEntry("GalaxyGenerator"))
+		GalaxyGenerator::SetDefaultGenerator(config->String("GalaxyGenerator"),
+			config->Int("GalaxyGeneratorVersion", GalaxyGenerator::LAST_VERSION));
+	s_galaxy = GalaxyGenerator::Create();
 
 	draw_progress(gauge, label, 0.2f);
 

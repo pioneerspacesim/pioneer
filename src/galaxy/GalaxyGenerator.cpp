@@ -9,12 +9,30 @@
 
 static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 0;
 
+std::string GalaxyGenerator::s_defaultGenerator = "legacy";
+GalaxyGenerator::Version GalaxyGenerator::s_defaultVersion = LAST_VERSION_LEGACY;
+
+//static
+GalaxyGenerator::Version GalaxyGenerator::GetLastVersion(const std::string& name)
+{
+	if (name == "legacy")
+		return LAST_VERSION_LEGACY;
+	else
+		return LAST_VERSION;
+}
+
+//static
+void GalaxyGenerator::SetDefaultGenerator(const std::string& name, Version version) {
+	s_defaultGenerator = name;
+	s_defaultVersion = (version == LAST_VERSION) ? GetLastVersion(name) : version;
+}
+
 // static
 RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version version)
 {
+	if (version == LAST_VERSION)
+		version = GetLastVersion(name);
 	if (name == "legacy") {
-		if (version == LAST_VERSION)
-			version = LAST_VERSION_LEGACY;
 		Output("Creating new galaxy with generator '%s' version %d\n", name.c_str(), version);
 		if (version == 0) {
 			return RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(

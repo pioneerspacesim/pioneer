@@ -43,6 +43,7 @@ public:
 	void FlushCaches();
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
+	const GalaxyGenerator& GetGenerator() const { return *m_galaxyGenerator.Get(); }
 	const std::string& GetGeneratorName() const;
 	int GetGeneratorVersion() const;
 

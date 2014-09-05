@@ -18,13 +18,23 @@ class GalaxyGenerator : public RefCounted {
 public:
 	typedef int Version;
 	static const Version LAST_VERSION = -1;
-	static const Version LAST_VERSION_LEGACY = 0;
 
 	static RefCountedPtr<Galaxy> Create(const std::string& name, Version version = LAST_VERSION);
+	static RefCountedPtr<Galaxy> Create() {
+		return Create(s_defaultGenerator, s_defaultVersion);
+	}
+
+	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }
+	static Version GetDefaultGeneratorVersion() { return s_defaultVersion; }
+	static Version GetLastVersion(const std::string& name);
+	static void SetDefaultGenerator(const std::string& name, Version version = LAST_VERSION);
+
 	virtual ~GalaxyGenerator();
 
 	const std::string& GetName() const { return m_name; }
 	Version GetVersion() const { return m_version; }
+
+	bool IsDefault() const { return m_name == s_defaultGenerator && m_version == s_defaultVersion; }
 
 	// Templated for the template cache class.
 	template <typename T, typename Cache>
@@ -56,6 +66,9 @@ private:
 
 	std::list<SectorGeneratorStage*> m_sectorStage;
 	std::list<StarSystemGeneratorStage*> m_starSystemStage;
+
+	static std::string s_defaultGenerator;
+	static Version s_defaultVersion;
 };
 
 template <>
