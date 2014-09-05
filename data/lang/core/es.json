@@ -761,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "Eje %{sign}%joyname %axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
