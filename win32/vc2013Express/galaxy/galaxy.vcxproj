@@ -123,8 +123,11 @@
     <ClCompile Include="..\..\..\src\galaxy\Economy.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\Galaxy.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\GalaxyCache.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\GalaxyGenerator.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\Sector.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\SectorGenerator.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\StarSystem.cpp" />
+    <ClCompile Include="..\..\..\src\galaxy\StarSystemGenerator.cpp" />
     <ClCompile Include="..\..\..\src\galaxy\SystemPath.cpp" />
     <ClCompile Include="..\..\..\src\win32\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -138,8 +141,11 @@
     <ClInclude Include="..\..\..\src\galaxy\Economy.h" />
     <ClInclude Include="..\..\..\src\galaxy\Galaxy.h" />
     <ClInclude Include="..\..\..\src\galaxy\GalaxyCache.h" />
+    <ClInclude Include="..\..\..\src\galaxy\GalaxyGenerator.h" />
     <ClInclude Include="..\..\..\src\galaxy\Sector.h" />
+    <ClInclude Include="..\..\..\src\galaxy\SectorGenerator.h" />
     <ClInclude Include="..\..\..\src\galaxy\StarSystem.h" />
+    <ClInclude Include="..\..\..\src\galaxy\StarSystemGenerator.h" />
     <ClInclude Include="..\..\..\src\galaxy\SystemPath.h" />
     <ClInclude Include="..\..\..\src\win32\pch.h" />
   </ItemGroup>

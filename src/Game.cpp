@@ -25,8 +25,9 @@
 #include "FileSystem.h"
 #include "graphics/Renderer.h"
 #include "ui/Context.h"
+#include "galaxy/GalaxyGenerator.h"
 
-static const int  s_saveVersion   = 75;
+static const int  s_saveVersion   = 76;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -39,6 +40,8 @@ Game::Game(const SystemPath &path, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
+	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
+		Pi::CreateGalaxy();
 
 	m_space.reset(new Space(this, path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
@@ -65,6 +68,8 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
+	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
+		Pi::CreateGalaxy();
 
 	m_space.reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
@@ -135,6 +140,17 @@ Game::Game(Serializer::Reader &rd) :
 	LuaRef::InitLoad();
 	Pi::luaSerializer->InitTableRefs();
 
+	// galaxy generator
+	section = rd.RdSection("GalaxyGen");
+	std::string genName = section.String();
+	GalaxyGenerator::Version genVersion = section.Int32();
+	if (genName != Pi::GetGalaxy()->GetGeneratorName() || genVersion != Pi::GetGalaxy()->GetGeneratorVersion()) {
+		if (!Pi::CreateGalaxy(genName, genVersion)) {
+			Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
+			throw SavedGameWrongVersionException();
+		}
+	}
+
 	// game state
 	section = rd.RdSection("Game");
 	m_time = section.Double();
@@ -192,6 +208,11 @@ void Game::Serialize(Serializer::Writer &wr)
 	wr.Int32(s_saveVersion);
 
 	Serializer::Writer section;
+
+	// galaxy generator
+	section.String(Pi::GetGalaxy()->GetGeneratorName());
+	section.Int32(Pi::GetGalaxy()->GetGeneratorVersion());
+	wr.WrSection("GalaxyGen", section.GetData());
 
 	// game state
 	section.Double(m_time);

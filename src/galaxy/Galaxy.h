@@ -5,20 +5,25 @@
 #define _GALAXY_H
 
 #include <cstdio>
+#include "RefCounted.h"
 #include "Factions.h"
 #include "CustomSystem.h"
 #include "GalaxyCache.h"
 
 struct SDL_Surface;
+class GalaxyGenerator;
 
-class Galaxy {
+class Galaxy : public RefCounted {
+private:
+	friend class GalaxyGenerator;
+	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator);
+
 public:
 	// lightyears
 	const float GALAXY_RADIUS;
 	const float SOL_OFFSET_X;
 	const float SOL_OFFSET_Y;
 
-	Galaxy();
 	~Galaxy();
 
 	void Init();
@@ -38,7 +43,12 @@ public:
 	void FlushCaches();
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
+	const GalaxyGenerator& GetGenerator() const { return *m_galaxyGenerator.Get(); }
+	const std::string& GetGeneratorName() const;
+	int GetGeneratorVersion() const;
+
 private:
+	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	std::unique_ptr<float[]> m_galaxyMap;
 	Sint32 m_mapWidth, m_mapHeight;
 	SectorCache m_sectorCache;

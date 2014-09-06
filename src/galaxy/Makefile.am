@@ -12,18 +12,24 @@ endif
 noinst_LIBRARIES = libgalaxy.a
 noinst_HEADERS = \
 	CustomSystem.h \
+	Economy.h \
 	Galaxy.h \
 	GalaxyCache.h \
+	GalaxyGenerator.h \
 	Sector.h \
-	Economy.h \
+	SectorGenerator.h \
 	StarSystem.h \
+	StarSystemGenerator.h \
 	SystemPath.h
 
 libgalaxy_a_SOURCES = \
 	CustomSystem.cpp \
+	Economy.cpp \
 	Galaxy.cpp \
 	GalaxyCache.cpp \
+	GalaxyGenerator.cpp \
 	Sector.cpp \
-	Economy.cpp \
+	SectorGenerator.cpp \
 	StarSystem.cpp \
+	StarSystemGenerator.cpp \
 	SystemPath.cpp
