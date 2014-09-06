@@ -24,7 +24,7 @@ static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
 GalacticView::GalacticView() : UIView(),
-	m_quad(Graphics::TextureBuilder::UI("galaxy.bmp").CreateTexture(Gui::Screen::GetRenderer()))
+	m_quad(Graphics::TextureBuilder::UI("galaxy_colour.png").CreateTexture(Gui::Screen::GetRenderer()))
 {
 
 	SetTransparency(true);
