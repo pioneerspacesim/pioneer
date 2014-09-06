@@ -12,6 +12,7 @@ August 2014
      * Consistent set nav target on click in SystemView (#3125)
      * Write opengl.txt earlier to help debugging (#3138, #3137, #3132)
      * Bigger font for msg log (3143)
+     * Add support for patterns to space stations (#3151)
 
    * Script and UI API changes
      * Ship:UseECM() returns recharge time and success state.
