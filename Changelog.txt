@@ -6,6 +6,9 @@ September 2014
    * Internal Changes
      * Improve galaxy image handling (#3154)
 
+   * Fixes
+     * Fix wrong reinitialization of random generator (#3156)
+
 August 2014
 
    * New features
