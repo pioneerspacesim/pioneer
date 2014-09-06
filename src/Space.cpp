@@ -574,7 +574,7 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 	else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
 		// and a zero-size rotating frame
-		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(20000.0);				// 4x standard parking radius
