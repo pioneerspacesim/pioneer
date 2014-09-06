@@ -1,5 +1,8 @@
 September 2014
 
+   * Minor changes and tweaks
+     * Show buy and sell prices in commodity market (#3153)
+
    * Internal Changes
      * Improve galaxy image handling (#3154)
 
