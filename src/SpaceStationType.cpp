@@ -59,15 +59,15 @@ void SpaceStationType::OnSetupComplete()
 	model->FindTagsByStartOfName("exit_", exit_mts);
 
 	// Add the partially initialised groups/ports
-	SBayGroup newGroup;
+	SPort newGroup;
 	for (auto apprIter : entrance_mts)
 	{
-		int port;
-		PiVerify(1 == sscanf(apprIter->GetName().c_str(), "entrance_port%d", &port));
-		PiVerify(port>0);
+		int portId;
+		PiVerify(1 == sscanf(apprIter->GetName().c_str(), "entrance_port%d", &portId));
+		PiVerify(portId>0);
 
-		SBayGroup group;
-		group.port = port;
+		SPort group;
+		group.portId = portId;
 		group.name = apprIter->GetName();
 		if(SURFACE==dockMethod) {
 			const vector3f offDir = apprIter->GetTransform().Up().Normalized();
@@ -79,23 +79,23 @@ void SpaceStationType::OnSetupComplete()
 			group.m_approach[1].SetTranslate( apprIter->GetTransform().GetTranslate() + (offDir * 1500.0f) );
 		}
 		group.m_approach[2] = apprIter->GetTransform();
-		bayGroups.push_back( group );
+		m_ports.push_back( group );
 	}
 
 	for (auto locIter : locator_mts)
 	{
-		int bay, port;
+		int bay, portId;
 		int minSize, maxSize;
 		char padname[8];
 		// eg:loc_A001_p01_s0_500_b01
-		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname, &port, &minSize, &maxSize, &bay));
-		PiVerify(bay>0 && port>0);
+		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname, &portId, &minSize, &maxSize, &bay));
+		PiVerify(bay>0 && portId>0);
 
 		// find the port and setup the rest of it's information
 		bool bFoundGroup = false;
 		matrix4x4f approach2;
-		for(auto &group : bayGroups) {
-			if(group.port == port) {
+		for(auto &group : m_ports) {
+			if(group.portId == portId) {
 				group.minShipSize = std::min(minSize,group.minShipSize);
 				group.maxShipSize = std::max(maxSize,group.maxShipSize);
 				group.bayIDs.push_back( std::make_pair(bay-1, padname) );
@@ -110,7 +110,7 @@ void SpaceStationType::OnSetupComplete()
 		if( SURFACE == dockMethod )
 		{
 			// ground stations don't have leaving waypoints.
-			m_ports[bay].m_docking[2] = locIter->GetTransform(); // final (docked)
+			m_portPaths[bay].m_docking[2] = locIter->GetTransform(); // final (docked)
 			numDockingStages = 2;
 			numUndockStages = 1;
 		}
@@ -119,10 +119,10 @@ void SpaceStationType::OnSetupComplete()
 			const vector3f offDir = -locIter->GetTransform().Up().Normalized() * padOffset;
 
 			// create the docking locators
-			m_ports[bay].m_docking[2] = approach2; // start
-			m_ports[bay].m_docking[3] = locIter->GetTransform(); // above the pad
-			m_ports[bay].m_docking[3].SetTranslate( locIter->GetTransform().GetTranslate() + offDir );
-			m_ports[bay].m_docking[4] = locIter->GetTransform(); // final (docked)
+			m_portPaths[bay].m_docking[2] = approach2; // start
+			m_portPaths[bay].m_docking[3] = locIter->GetTransform(); // above the pad
+			m_portPaths[bay].m_docking[3].SetTranslate( locIter->GetTransform().GetTranslate() + offDir );
+			m_portPaths[bay].m_docking[4] = locIter->GetTransform(); // final (docked)
 			numDockingStages = 4;
 
 			// leaving locators ...
@@ -143,7 +143,7 @@ void SpaceStationType::OnSetupComplete()
 				int exitport = 0;
 				for( auto &exitIt : exit_mts ) {
 					PiVerify(1 == sscanf( exitIt->GetName().c_str(), "exit_port%d", &exitport ));
-					if( exitport == port )
+					if( exitport == portId )
 					{
 						EndOrient = exitIt->GetTransform();
 						break;
@@ -156,23 +156,23 @@ void SpaceStationType::OnSetupComplete()
 			}
 
 			// create the leaving locators
-			m_ports[bay].m_leaving[1] = orient; // start
-			m_ports[bay].m_leaving[2] = orient; // above the pad
-			m_ports[bay].m_leaving[2].SetTranslate( orient.GetTranslate() + offDir );
-			m_ports[bay].m_leaving[3] = EndOrient; // end (on manual after here)
+			m_portPaths[bay].m_leaving[1] = orient; // start
+			m_portPaths[bay].m_leaving[2] = orient; // above the pad
+			m_portPaths[bay].m_leaving[2].SetTranslate( orient.GetTranslate() + offDir );
+			m_portPaths[bay].m_leaving[3] = EndOrient; // end (on manual after here)
 			numUndockStages = 3;
 		}
 	}
 	
-	numDockingPorts = m_ports.size();
+	numDockingPorts = m_portPaths.size();
 
 	// sanity
-	assert(!m_ports.empty());
+	assert(!m_portPaths.empty());
 	assert(numDockingStages > 0);
 	assert(numUndockStages > 0);
 
 	// insanity
-	for (PortMap::const_iterator pIt = m_ports.begin(), pItEnd = m_ports.end(); pIt!=pItEnd; ++pIt)
+	for (PortPathMap::const_iterator pIt = m_portPaths.begin(), pItEnd = m_portPaths.end(); pIt!=pItEnd; ++pIt)
 	{
 		if (Uint32(numDockingStages-1) < pIt->second.m_docking.size()) {
 			Error(
@@ -202,9 +202,9 @@ void SpaceStationType::OnSetupComplete()
 	}
 }
 
-const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int zeroBaseBayID) const
+const SpaceStationType::SPort* SpaceStationType::FindPortByBay(const int zeroBaseBayID) const
 {
-	for (TBayGroups::const_iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
+	for (TPorts::const_iterator bayIter = m_ports.begin(), grpEnd=m_ports.end(); bayIter!=grpEnd ; ++bayIter ) {
 		for (auto idIter : (*bayIter).bayIDs ) {
 			if (idIter.first==zeroBaseBayID) {
 				return &(*bayIter);
@@ -215,9 +215,9 @@ const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int ze
 	return 0;
 }
 
-SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseBayID)
+SpaceStationType::SPort* SpaceStationType::GetPortByBay(const int zeroBaseBayID)
 {
-	for (TBayGroups::iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
+	for (TPorts::iterator bayIter = m_ports.begin(), grpEnd=m_ports.end(); bayIter!=grpEnd ; ++bayIter ) {
 		for (auto idIter : (*bayIter).bayIDs ) {
 			if (idIter.first==zeroBaseBayID) {
 				return &(*bayIter);
@@ -232,7 +232,7 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 {
 	bool gotOrient = false;
 
-	const SBayGroup* pGroup = FindGroupByBay(port);
+	const SPort* pGroup = FindPortByBay(port);
 	if (pGroup && stage>0) {
 		TMapBayIDMat::const_iterator stageDataIt = pGroup->m_approach.find(stage);
 		if (stageDataIt != pGroup->m_approach.end()) {
@@ -301,15 +301,15 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 
 	bool gotOrient = false;
 
-	assert(port<=m_ports.size());
-	const Port &rPort = m_ports.at(port+1);
+	assert(port<=m_portPaths.size());
+	const PortPath &rPortPath = m_portPaths.at(port+1);
 	if (stage<0) {
 		const int leavingStage = (-1*stage);
-		gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient);
+		gotOrient = GetPosOrient(rPortPath.m_leaving, leavingStage, t, from, outPosOrient);
 		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	} else if (stage>0) {
-		gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient);
+		gotOrient = GetPosOrient(rPortPath.m_docking, stage, t, from, outPosOrient);
 		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	}

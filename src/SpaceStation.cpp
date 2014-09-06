@@ -46,16 +46,16 @@ void SpaceStation::Save(Serializer::Writer &wr, Space *space)
 		wr.Vector3d(m_shipDocking[i].fromPos);
 		wr.WrQuaternionf(m_shipDocking[i].fromRot);
 	}
-	// store each of the bay groupings
-	wr.Int32(mBayGroups.size());
-	for (Uint32 i=0; i<mBayGroups.size(); i++) {
-		wr.Int32(mBayGroups[i].minShipSize);
-		wr.Int32(mBayGroups[i].maxShipSize);
-		wr.Bool(mBayGroups[i].inUse);
-		wr.Int32(mBayGroups[i].bayIDs.size());
-		for (Uint32 j=0; j<mBayGroups[i].bayIDs.size(); j++) {
-			wr.Int32(mBayGroups[i].bayIDs[j].first);
-			wr.String(mBayGroups[i].bayIDs[j].second);
+	// store each of the port details and bay IDs
+	wr.Int32(m_ports.size());
+	for (Uint32 i=0; i<m_ports.size(); i++) {
+		wr.Int32(m_ports[i].minShipSize);
+		wr.Int32(m_ports[i].maxShipSize);
+		wr.Bool(m_ports[i].inUse);
+		wr.Int32(m_ports[i].bayIDs.size());
+		for (Uint32 j=0; j<m_ports[i].bayIDs.size(); j++) {
+			wr.Int32(m_ports[i].bayIDs[j].first);
+			wr.String(m_ports[i].bayIDs[j].second);
 		}
 	}
 
@@ -87,21 +87,21 @@ void SpaceStation::Load(Serializer::Reader &rd, Space *space)
 		sd.fromPos = rd.Vector3d();
 		sd.fromRot = rd.RdQuaternionf();
 	}
-	// retrieve each of the bay groupings
+	// retrieve each of the port details and bay IDs
 	const Uint32 numBays = rd.Int32();
-	mBayGroups.reserve(numBays);
+	m_ports.reserve(numBays);
 	for (Uint32 i=0; i<numBays; i++) {
-		mBayGroups.push_back(SpaceStationType::SBayGroup());
-		SpaceStationType::SBayGroup &bay = mBayGroups.back();
-		bay.minShipSize = rd.Int32();
-		bay.maxShipSize = rd.Int32();
-		bay.inUse = rd.Bool();
+		m_ports.push_back(SpaceStationType::SPort());
+		SpaceStationType::SPort &port = m_ports.back();
+		port.minShipSize = rd.Int32();
+		port.maxShipSize = rd.Int32();
+		port.inUse = rd.Bool();
 		const Uint32 numBayIds = rd.Int32();
-		bay.bayIDs.reserve(numBayIds);
+		port.bayIDs.reserve(numBayIds);
 		for (Uint32 j=0; j<numBayIds; j++) {
 			const Uint32 ID = rd.Int32();
 			const std::string name = rd.String();
-			bay.bayIDs.push_back( std::make_pair(ID,name) );
+			port.bayIDs.push_back( std::make_pair(ID,name) );
 		}
 	}
 
@@ -159,7 +159,7 @@ void SpaceStation::InitStation()
 	assert(m_shipDocking.size() == m_type->numDockingPorts);
 
 	// This SpaceStation's bay groups is an instance of...
-	mBayGroups = m_type->bayGroups;
+	m_ports = m_type->m_ports;
 
 	SetStatic(ground);			// orbital stations are dynamic now
 
@@ -232,7 +232,7 @@ int SpaceStation::GetFreeDockingPort(const Ship *s) const
 			if (m_shipDocking[i].ship != 0) continue;
 
 			// size-of-ship vs size-of-bay check
-			const SpaceStationType::SBayGroup *const pBayGroup = m_type->FindGroupByBay(i);
+			const SpaceStationType::SPort *const pBayGroup = m_type->FindPortByBay(i);
 			if( !pBayGroup ) continue;
 
 			const Aabb &bbox = s->GetAabb();
@@ -313,7 +313,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		if (m_shipDocking[i].ship != 0) continue;
 
 		// size-of-ship vs size-of-bay check
-		const SpaceStationType::SBayGroup *const pBayGroup = m_type->FindGroupByBay(i);
+		const SpaceStationType::SPort *const pBayGroup = m_type->FindPortByBay(i);
 		if( !pBayGroup ) continue;
 
 		const Aabb &bbox = s->GetAabb();
@@ -677,7 +677,7 @@ void SpaceStation::DoLawAndOrder(const double timeStep)
 
 bool SpaceStation::IsPortLocked(const int bay) const
 {
-	for (auto &bayIter : mBayGroups ) {
+	for (auto &bayIter : m_ports ) {
 		for ( auto &idIter : bayIter.bayIDs ) {
 			if (idIter.first==bay) {
 				return bayIter.inUse;
@@ -690,7 +690,7 @@ bool SpaceStation::IsPortLocked(const int bay) const
 
 void SpaceStation::LockPort(const int bay, const bool lockIt)
 {
-	for (auto &bayIter : mBayGroups ) {
+	for (auto &bayIter : m_ports ) {
 		for ( auto &idIter : bayIter.bayIDs ) {
 			if (idIter.first==bay) {
 				bayIter.inUse = lockIt;

@@ -103,7 +103,7 @@ private:
 	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
 	std::vector<shipDocking_t> m_shipDocking;
 
-	SpaceStationType::TBayGroups mBayGroups;
+	SpaceStationType::TPorts m_ports;
 
 	double m_oldAngDisplacement;
 
