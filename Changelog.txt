@@ -32,6 +32,7 @@ August 2014
      * Fix unnecessary limit on ship base price (#3129, #3130)
      * Fix crash from TradeShips trying to serialize dead ships (#3126, #3123)
      * Fix Fuel club discount not being applied (#3140)
+     * Fix system information updating during hyperjump (#3150)
 
 July 2014
 
