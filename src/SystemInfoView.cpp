@@ -149,7 +149,10 @@ void SystemInfoView::UpdateEconomyTab()
 
 	/* imports and exports */
 	const RefCountedPtr<StarSystem> hs = Pi::game->GetSpace()->GetStarSystem();
-	const SystemPath &hspath = hs->GetPath();   // current system (path)
+
+	// If current system is defined and not equal to selected we will compare them
+	const bool compareSelectedWithCurrent =
+			(hs && !m_system->GetPath().IsSameSystem(hs->GetPath()));
 
 	const std::string meh       = "#999";
 	const std::string ok        = "#fff";
@@ -157,18 +160,22 @@ void SystemInfoView::UpdateEconomyTab()
 	const std::string awesome   = "#7f7";
 	const std::string illegal   = "#744";
 
-	const std::string COMM_SELF = stringf(Lang::COMMODITY_TRADE_ANALYSIS_SELF,
-													  formatarg("system", m_system->GetName().c_str()));
-	const std::string COMM_COMP = stringf(Lang::COMMODITY_TRADE_ANALYSIS_COMPARE,
-													  formatarg("selected_system", m_system->GetName().c_str()),
-													  formatarg("current_system", hs->GetName().c_str()));
+	if (compareSelectedWithCurrent){
+		// different system selected
 
-	if (hs && (!m_system->GetPath().IsSameSystem(hspath)))
-		//different system selected
+		const std::string COMM_COMP = stringf(Lang::COMMODITY_TRADE_ANALYSIS_COMPARE,
+				formatarg("selected_system", m_system->GetName().c_str()),
+				formatarg("current_system", hs->GetName().c_str()));
+
 		m_commodityTradeLabel->SetText(COMM_COMP.c_str());
-	else
+	} else {
 		// same system as current selected
+
+		const std::string COMM_SELF = stringf(Lang::COMMODITY_TRADE_ANALYSIS_SELF,
+				formatarg("system", m_system->GetName().c_str()));
+
 		m_commodityTradeLabel->SetText(COMM_SELF.c_str());
+	}
 
 	const int rowsep = 18;
 
@@ -188,7 +195,7 @@ void SystemInfoView::UpdateEconomyTab()
 				std::string extra = meh;              // default color
 				std::string tooltip = "";             // no tooltip for default
 				if (hs){
-					if (!m_system->GetPath().IsSameSystem(hspath)){
+					if (compareSelectedWithCurrent){
 						if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
 							extra = colorInInterval;     // change color
 							tooltip = toolTipInInterval; // describe trade status in current system
@@ -244,8 +251,8 @@ void SystemInfoView::UpdateEconomyTab()
 		if (!Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i))) {
 			std::string extra = illegal;
 			std::string tooltip = "";
-			if (!m_system->GetPath().IsSameSystem(hspath))
-				if (hs && Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i))) {
+			if (compareSelectedWithCurrent)
+				if (Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i))) {
 					extra = meh;
 					tooltip = std::string(Lang::LEGAL_CURRENT_SYSTEM);
 				}
