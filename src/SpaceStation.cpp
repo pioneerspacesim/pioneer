@@ -155,7 +155,7 @@ void SpaceStation::InitStation()
 	}
 	assert(m_shipDocking.size() == m_type->numDockingPorts);
 
-	// This SpaceStation's bay groups is an instance of...
+	// This SpaceStation's bay ports are an instance of...
 	m_ports = m_type->m_ports;
 
 	SetStatic(ground);			// orbital stations are dynamic now
@@ -229,13 +229,13 @@ int SpaceStation::GetFreeDockingPort(const Ship *s) const
 			if (m_shipDocking[i].ship != 0) continue;
 
 			// size-of-ship vs size-of-bay check
-			const SpaceStationType::SPort *const pBayGroup = m_type->FindPortByBay(i);
-			if( !pBayGroup ) continue;
+			const SpaceStationType::SPort *const pPort = m_type->FindPortByBay(i);
+			if( !pPort ) continue;
 
 			const Aabb &bbox = s->GetAabb();
 			const double bboxRad = bbox.GetRadius();
 
-			if( pBayGroup->minShipSize < bboxRad && bboxRad < pBayGroup->maxShipSize ) {
+			if( pPort->minShipSize < bboxRad && bboxRad < pPort->maxShipSize ) {
 				return i;
 			}
 		}
@@ -310,13 +310,13 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		if (m_shipDocking[i].ship != 0) continue;
 
 		// size-of-ship vs size-of-bay check
-		const SpaceStationType::SPort *const pBayGroup = m_type->FindPortByBay(i);
-		if( !pBayGroup ) continue;
+		const SpaceStationType::SPort *const pPort = m_type->FindPortByBay(i);
+		if( !pPort ) continue;
 
 		const Aabb &bbox = s->GetAabb();
 		const double bboxRad = bbox.GetRadius();
 
-		if( pBayGroup->minShipSize < bboxRad && bboxRad < pBayGroup->maxShipSize ) {
+		if( pPort->minShipSize < bboxRad && bboxRad < pPort->maxShipSize ) {
 			shipDocking_t &sd = m_shipDocking[i];
 			sd.ship = s;
 			sd.stage = 1;

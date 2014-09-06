@@ -58,28 +58,27 @@ void SpaceStationType::OnSetupComplete()
 	model->FindTagsByStartOfName("loc_", locator_mts);
 	model->FindTagsByStartOfName("exit_", exit_mts);
 
-	// Add the partially initialised groups/ports
-	SPort newGroup;
+	// Add the partially initialised ports
 	for (auto apprIter : entrance_mts)
 	{
 		int portId;
 		PiVerify(1 == sscanf(apprIter->GetName().c_str(), "entrance_port%d", &portId));
 		PiVerify(portId>0);
 
-		SPort group;
-		group.portId = portId;
-		group.name = apprIter->GetName();
+		SPort new_port;
+		new_port.portId = portId;
+		new_port.name = apprIter->GetName();
 		if(SURFACE==dockMethod) {
 			const vector3f offDir = apprIter->GetTransform().Up().Normalized();
-			group.m_approach[1] = apprIter->GetTransform();
-			group.m_approach[1].SetTranslate( apprIter->GetTransform().GetTranslate() + (offDir * 500.0f) );
+			new_port.m_approach[1] = apprIter->GetTransform();
+			new_port.m_approach[1].SetTranslate( apprIter->GetTransform().GetTranslate() + (offDir * 500.0f) );
 		} else {
 			const vector3f offDir = -apprIter->GetTransform().Back().Normalized();
-			group.m_approach[1] = apprIter->GetTransform();
-			group.m_approach[1].SetTranslate( apprIter->GetTransform().GetTranslate() + (offDir * 1500.0f) );
+			new_port.m_approach[1] = apprIter->GetTransform();
+			new_port.m_approach[1].SetTranslate( apprIter->GetTransform().GetTranslate() + (offDir * 1500.0f) );
 		}
-		group.m_approach[2] = apprIter->GetTransform();
-		m_ports.push_back( group );
+		new_port.m_approach[2] = apprIter->GetTransform();
+		m_ports.push_back( new_port );
 	}
 
 	for (auto locIter : locator_mts)
@@ -92,19 +91,19 @@ void SpaceStationType::OnSetupComplete()
 		PiVerify(bay>0 && portId>0);
 
 		// find the port and setup the rest of it's information
-		bool bFoundGroup = false;
+		bool bFoundPort = false;
 		matrix4x4f approach2;
-		for(auto &group : m_ports) {
-			if(group.portId == portId) {
-				group.minShipSize = std::min(minSize,group.minShipSize);
-				group.maxShipSize = std::max(maxSize,group.maxShipSize);
-				group.bayIDs.push_back( std::make_pair(bay-1, padname) );
-				bFoundGroup = true;
-				approach2 = group.m_approach[2];
+		for(auto &rPort : m_ports) {
+			if(rPort.portId == portId) {
+				rPort.minShipSize = std::min(minSize,rPort.minShipSize);
+				rPort.maxShipSize = std::max(maxSize,rPort.maxShipSize);
+				rPort.bayIDs.push_back( std::make_pair(bay-1, padname) );
+				bFoundPort = true;
+				approach2 = rPort.m_approach[2];
 				break;
 			}
 		}
-		assert(bFoundGroup);
+		assert(bFoundPort);
 
 		// now build the docking/leaving waypoints
 		if( SURFACE == dockMethod )
@@ -232,11 +231,11 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 {
 	bool gotOrient = false;
 
-	const SPort* pGroup = FindPortByBay(port);
-	if (pGroup && stage>0) {
-		TMapBayIDMat::const_iterator stageDataIt = pGroup->m_approach.find(stage);
-		if (stageDataIt != pGroup->m_approach.end()) {
-			const matrix4x4f &mt = pGroup->m_approach.at(stage);
+	const SPort* pPort = FindPortByBay(port);
+	if (pPort && stage>0) {
+		TMapBayIDMat::const_iterator stageDataIt = pPort->m_approach.find(stage);
+		if (stageDataIt != pPort->m_approach.end()) {
+			const matrix4x4f &mt = pPort->m_approach.at(stage);
 			outPosOrient.pos	= vector3d(mt.GetTranslate());
 			outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX());
 			outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY());
