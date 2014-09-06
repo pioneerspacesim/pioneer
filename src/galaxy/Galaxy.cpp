@@ -8,9 +8,10 @@
 #include "Pi.h"
 #include "FileSystem.h"
 
-Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_galaxybmp(nullptr), m_factions(this), m_customSystems(this)
+Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_mapWidth(0), m_mapHeight(0), m_factions(this), m_customSystems(this)
 {
-	static const std::string filename("galaxy.bmp");
+	// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
+	static const std::string filename("galaxy_dense.bmp");
 
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!filedata) {
@@ -19,50 +20,81 @@ Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0
 	}
 
 	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	m_galaxybmp = SDL_LoadBMP_RW(datastream, 1);
-	if (!m_galaxybmp) {
+	SDL_Surface *galaxyImg = SDL_LoadBMP_RW(datastream, 1);
+	if (!galaxyImg) {
 		Output("Galaxy: couldn't load: %s (%s)\n", filename.c_str(), SDL_GetError());
 		Pi::Quit();
 	}
+
+	// now that we have our raw image loaded
+	// allocate the space for our processed representation
+	m_galaxyMap.reset( new float[(galaxyImg->w * galaxyImg->h)] );
+	// lock the image once so we can read from it
+	SDL_LockSurface(galaxyImg);
+	// setup our map dimensions for later
+	m_mapWidth = galaxyImg->w;
+	m_mapHeight = galaxyImg->h;
+	// copy every pixel value from the red channel (image is greyscale, channel is irrelevant)
+	for( int x=0; x<galaxyImg->w; x++ ) {
+		for( int y=0; y<galaxyImg->h; y++ ) {
+			const float val = float(static_cast<unsigned char*>(galaxyImg->pixels)[x + y*galaxyImg->pitch]);
+			m_galaxyMap.get()[x + y*m_mapWidth] = val;
+		}
+	}
+	// unlock the surface and then release it
+	SDL_UnlockSurface(galaxyImg);
+	if(galaxyImg) 
+		SDL_FreeSurface(galaxyImg);
 
 	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
 }
 
 Galaxy::~Galaxy()
 {
-	if(m_galaxybmp) SDL_FreeSurface(m_galaxybmp);
 }
 
 void Galaxy::Init()
 {
 	m_customSystems.Init();
 	m_factions.Init();
+
+#if 0
+	{
+		Profiler::Timer timer;
+		timer.Start();
+		Uint32 totalVal = 0;
+		const static int s_count = 64;
+		for( int sx=-s_count; sx<s_count; sx++ ) {
+			for( int sy=-s_count; sy<s_count; sy++ ) {
+				for( int sz=-s_count; sz<s_count; sz++ ) {
+					totalVal += GetSectorDensity( sx, sy, sz );
+				}
+			}
+		}
+		timer.Stop();
+		Output("\nGalaxy test took: %lf milliseconds, totalVal (%u)\n", timer.millicycles(), totalVal);
+	}
+#endif
 }
 
-SDL_Surface* Galaxy::GetGalaxyBitmap()
+static const float one_over_256(1.0f / 256.0f);
+Uint8 Galaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 {
-	return m_galaxybmp;
-}
+	// -1.0 to 1.0 then limited to 0.0 to 1.0
+	const float offset_x = (((sx*Sector::SIZE + SOL_OFFSET_X)/GALAXY_RADIUS) + 1.0f)*0.5f;
+	const float offset_y = (((-sy*Sector::SIZE + SOL_OFFSET_Y)/GALAXY_RADIUS) + 1.0f)*0.5f;
 
-Uint8 Galaxy::GetSectorDensity(int sx, int sy, int sz)
-{
-	// -1.0 to 1.0
-	float offset_x = (sx*Sector::SIZE + SOL_OFFSET_X)/GALAXY_RADIUS;
-	float offset_y = (-sy*Sector::SIZE + SOL_OFFSET_Y)/GALAXY_RADIUS;
-	// 0.0 to 1.0
-	offset_x = Clamp((offset_x + 1.0)*0.5, 0.0, 1.0);
-	offset_y = Clamp((offset_y + 1.0)*0.5, 0.0, 1.0);
+	const int x = int(floor(offset_x * (m_mapWidth - 1)));
+	const int y = int(floor(offset_y * (m_mapHeight - 1)));
 
-	int x = int(floor(offset_x * (m_galaxybmp->w - 1)));
-	int y = int(floor(offset_y * (m_galaxybmp->h - 1)));
+	float val = m_galaxyMap.get()[x + y*m_mapWidth];
 
-	SDL_LockSurface(m_galaxybmp);
-	int val = static_cast<unsigned char*>(m_galaxybmp->pixels)[x + y*m_galaxybmp->pitch];
-	SDL_UnlockSurface(m_galaxybmp);
 	// crappy unrealistic but currently adequate density dropoff with sector z
-	val = val * (256 - std::min(abs(sz),256)) / 256;
+	val = val * (256.0f - std::min(float(abs(sz)),256.0f)) * one_over_256;
+
 	// reduce density somewhat to match real (gliese) density
-	val /= 2;
+	val *= 0.5f;
+
 	return Uint8(val);
 }
 
