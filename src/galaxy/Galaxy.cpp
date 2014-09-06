@@ -10,6 +10,7 @@
 
 Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_mapWidth(0), m_mapHeight(0), m_factions(this), m_customSystems(this)
 {
+	// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
 	static const std::string filename("galaxy_dense.bmp");
 
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
@@ -19,7 +20,7 @@ Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0
 	}
 
 	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
-	SDL_Surface *galaxyImg = IMG_Load_RW(datastream, 1);
+	SDL_Surface *galaxyImg = SDL_LoadBMP_RW(datastream, 1);
 	if (!galaxyImg) {
 		Output("Galaxy: couldn't load: %s (%s)\n", filename.c_str(), SDL_GetError());
 		Pi::Quit();
