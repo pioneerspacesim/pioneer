@@ -177,7 +177,6 @@ void SpaceStation::InitStation()
 	skin.Apply(model);
 
 	if (model->SupportsPatterns()) {
-		Random rand(m_sbody->GetSeed());
 		skin.SetRandomColors(rand);
 		skin.Apply(model);
 		model->SetPattern(rand.Int32(0, model->GetNumPatterns()));
