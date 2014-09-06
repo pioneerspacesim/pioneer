@@ -39,7 +39,7 @@ public:
 	void Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
 
 private:
-	std::unique_ptr<float> m_galaxyMap;
+	std::unique_ptr<float[]> m_galaxyMap;
 	Sint32 m_mapWidth, m_mapHeight;
 	SectorCache m_sectorCache;
 	StarSystemCache m_starSystemAttic;
