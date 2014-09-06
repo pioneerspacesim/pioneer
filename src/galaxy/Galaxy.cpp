@@ -10,7 +10,7 @@
 
 Galaxy::Galaxy() : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0), m_mapWidth(0), m_mapHeight(0), m_factions(this), m_customSystems(this)
 {
-	static const std::string filename("galaxy_dense.png");
+	static const std::string filename("galaxy_dense.bmp");
 
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
 	if (!filedata) {
