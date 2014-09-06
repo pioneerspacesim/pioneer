@@ -2,6 +2,7 @@ September 2014
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
+     * Add new author's names to name generator (#3155)
 
    * Internal Changes
      * Improve galaxy image handling (#3154)
