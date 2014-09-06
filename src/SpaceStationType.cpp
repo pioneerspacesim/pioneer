@@ -119,6 +119,7 @@ void SpaceStationType::OnSetupComplete()
 
 			// create the docking locators
 			m_portPaths[bay].m_docking[2] = approach2; // start
+			m_portPaths[bay].m_docking[2].SetRotationOnly( locIter->GetTransform().GetOrient() );
 			m_portPaths[bay].m_docking[3] = locIter->GetTransform(); // above the pad
 			m_portPaths[bay].m_docking[3].SetTranslate( locIter->GetTransform().GetTranslate() + offDir );
 			m_portPaths[bay].m_docking[4] = locIter->GetTransform(); // final (docked)
