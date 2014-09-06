@@ -29,6 +29,7 @@ const Color3ub Color3ub::RED     = Color3ub(255, 0, 0);
 const Color3ub Color3ub::GREEN   = Color3ub(0, 255, 0);
 const Color3ub Color3ub::BLUE    = Color3ub(0, 0, 255);
 const Color3ub Color3ub::YELLOW  = Color3ub(255, 255, 0);
+const Color3ub Color3ub::STEELBLUE = Color3ub(68, 130, 181);
 
 float Color4f::GetLuminance() const
 {

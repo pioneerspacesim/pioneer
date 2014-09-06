@@ -1,11 +1,11 @@
 {
    "APPLY_FOR_MEMBERSHIP" : {
       "description" : "",
-      "message" : "Apply for membership"
+      "message" : "Iarr ballrachd"
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "Begin trade"
+      "message" : "Tòisich air malart"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "You may purhase fuel and dispose of {radioactives} here."
+      "message" : "Faodaidh sibh connadh a cheannach is cuidhteas fhaighinn de {radioactives} an-seo."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Welcome to {clubname}"
+      "message" : "Fàilte gu {clubname}"
    },
    "GO_BACK" : {
       "description" : "",
@@ -49,26 +49,26 @@
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "Gabhaibh ballrachd an-dràsta! Chan eil ballrachd bliadhnail ach {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
+      "message" : "Cha ghabh sinn cùram air an uiread de {radioactives} ach na cheannaich sibh de {military_fuel} uainn."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "What conditions apply to {radioactives} disposal?"
+      "message" : "Dè na cumhaichean ach an gabh sibh cùram de {radioactives}?"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Your membership application has been declined."
+      "message" : "Chaidh do bhallrachd a dhiùltadh."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "You are now a member. Your membership will expire on {expiry_date}."
+      "message" : "Tha thu 'nad bhall a-nis. Falbhaidh an ùine air do bhallrachd {expiry_date}."
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "You must buy our {military_fuel} before we will take your {radioactives}"
+      "message" : "Feumaidh sibh {military_fuel} a cheannach uainn mus gabh sinn ri ur {radioactives}"
    }
 }

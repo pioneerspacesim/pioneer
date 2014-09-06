@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Торговый центр"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Компактный сканер"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Квалифицированный"

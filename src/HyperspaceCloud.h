@@ -15,9 +15,6 @@ namespace Graphics {
 	class RenderState;
 }
 
-/** XXX TODO XXX Not applied to yet... */
-#define HYPERCLOUD_DURATION (60.0*60.0*24.0*2.0)
-
 class HyperspaceCloud: public Body {
 public:
 	OBJDEF(HyperspaceCloud, Body, HYPERSPACECLOUD);
@@ -47,6 +44,7 @@ private:
 	double m_birthdate;
 	double m_due;
 	bool m_isArrival;
+	bool m_isBeingKilled;
 
 	struct Graphic {
 		std::unique_ptr<Graphics::VertexArray> vertices;

@@ -12,11 +12,18 @@
 class StarSystem;
 class SystemBody;
 class Orbit;
+class Ship;
 
 enum BurnDirection {
 	PROGRADE,
 	NORMAL,
 	RADIAL,
+};
+
+enum ShipDrawing {
+	BOXES,
+	ORBITS,
+	OFF
 };
 
 class TransferPlanner {
@@ -55,12 +62,20 @@ private:
 	void OnClickAccel(float step);
 	void OnClickRealt();
 	void OnIncreaseFactorButtonClick(void), OnResetFactorButtonClick(void), OnDecreaseFactorButtonClick(void);
+	void OnToggleShipsButtonClick(void);
 	void ResetViewpoint();
 	void MouseWheel(bool up);
+	void RefreshShips(void);
+	void DrawShips(const double t, const vector3d &offset);
+	void LabelShip(Ship *s, const vector3d &offset);
+	void OnClickShip(Ship *s);
 
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
 	TransferPlanner *m_planner;
+	std::list<std::pair<Ship*, Orbit>> m_contacts;
+	Gui::LabelSet *m_shipLabels;
+	ShipDrawing m_shipDrawing;
 	float m_rot_x, m_rot_z;
 	float m_zoom, m_zoomTo;
 	double m_time;
@@ -68,6 +83,7 @@ private:
 	double m_timeStep;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
+	Gui::ImageButton *m_toggleShipsButton;
 	Gui::ImageButton *m_plannerIncreaseFactorButton, *m_plannerResetFactorButton, *m_plannerDecreaseFactorButton;
 	Gui::ImageButton *m_plannerAddProgradeVelButton;
 	Gui::ImageButton *m_plannerAddRetrogradeVelButton;
@@ -84,6 +100,8 @@ private:
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_periapsisIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_apoapsisIcon;
 	Graphics::RenderState *m_lineState;
 };
 

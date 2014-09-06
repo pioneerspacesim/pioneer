@@ -38,6 +38,7 @@ void Label::Draw()
 
 Label *Label::SetText(const std::string &text)
 {
+	if (text == m_text) return this;
 	m_text = text;
 	GetContext()->RequestLayout();
 	return this;

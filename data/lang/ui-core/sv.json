@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Råvarumarknad"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Kompakt skanner"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Kompetent"

@@ -24,6 +24,9 @@
 #include "Lang.h"
 #include "StringF.h"
 #include "Game.h"
+#include "ui/Context.h"
+#include "ui/Align.h"
+#include "ui/Label.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
@@ -40,8 +43,7 @@ const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
 static const Color s_hudTextColor(0,255,0,230);
 static const float ZOOM_SPEED = 1.f;
 static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
-
-static const float HUD_CROSSHAIR_SIZE = 24.0f;
+static const float HUD_CROSSHAIR_SIZE = 8.0f;
 static const Uint8 HUD_ALPHA          = 87;
 
 WorldView::WorldView(): UIView()
@@ -171,6 +173,35 @@ void WorldView::InitObject()
 	Add(m_debugInfo, 10, 200);
 	Gui::Screen::PopFont();
 #endif
+	/*
+	  NEW UI
+	*/
+
+	// set up anchored docking positions for new-ui HUD widgets
+	m_hudDockTop.Reset(Pi::ui->Align(UI::Align::TOP));
+	m_hudDockRight.Reset(Pi::ui->Align(UI::Align::RIGHT));
+	m_hudDockLeft.Reset(Pi::ui->Align(UI::Align::LEFT));
+	m_hudDockBottom.Reset(Pi::ui->Align(UI::Align::BOTTOM));
+	m_hudDockCentre.Reset(Pi::ui->Align(UI::Align::MIDDLE));
+
+	// It's not ideal to use a nested VBox/HBox set for this, but it's
+	// probably adequate for now and we can easily replace it later
+	UI::VBox *hud_root = Pi::ui->VBox();
+	hud_root->PackEnd(m_hudDockTop.Get());
+	hud_root->PackEnd(Pi::ui->HBox()->
+		PackEnd(m_hudDockLeft.Get())->
+		PackEnd(Pi::ui->Expand()->SetInnerWidget(m_hudDockCentre.Get()))->
+		PackEnd(m_hudDockRight.Get()));
+	hud_root->PackEnd(m_hudDockBottom.Get());
+
+	m_hudRoot.Reset(hud_root);
+
+	m_headingInfo.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
+	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
+	m_headingInfo->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
+	m_curPlane = NONE;
+
+	// --
 
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
@@ -219,13 +250,37 @@ void WorldView::InitObject()
 	Add(m_targetLeadIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
-	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
-	m_indicatorMousedir.reset(new Gui::TexturedQuad(b.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
+	m_indicatorMousedir.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
-	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
+	const Graphics::TextureDescriptor &descriptor = b1.GetDescriptor();
 	m_indicatorMousedirSize = vector2f(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
 
-    m_speedLines.reset(new SpeedLines(Pi::player));
+	// front crosshair
+	Graphics::TextureBuilder b2 = Graphics::TextureBuilder::UI("icons/front_crosshair.png");
+	m_frontCrosshair.reset(new Gui::TexturedQuad(b2.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// rear crosshair
+	Graphics::TextureBuilder b3 = Graphics::TextureBuilder::UI("icons/rear_crosshair.png");
+	m_rearCrosshair.reset(new Gui::TexturedQuad(b3.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// prograde icon
+	Graphics::TextureBuilder b4 = Graphics::TextureBuilder::UI("icons/prograde_icon.png");
+	m_progradeIcon.reset(new Gui::TexturedQuad(b4.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// retrograde icon
+	Graphics::TextureBuilder b5 = Graphics::TextureBuilder::UI("icons/retrograde_icon.png");
+	m_retrogradeIcon.reset(new Gui::TexturedQuad(b5.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// burn icon
+	Graphics::TextureBuilder b6 = Graphics::TextureBuilder::UI("icons/burn_icon.png");
+	m_burnIcon.reset(new Gui::TexturedQuad(b6.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	// target icon
+	Graphics::TextureBuilder b7 = Graphics::TextureBuilder::UI("icons/target_icon.png");
+	m_targetIcon.reset(new Gui::TexturedQuad(b7.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
+	m_speedLines.reset(new SpeedLines(Pi::player));
 
 	//get near & far clipping distances
 	//XXX m_renderer not set yet
@@ -387,7 +442,7 @@ void WorldView::OnClickHyperspace()
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
 		Pi::player->AbortHyperjump();
-		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
+		Pi::game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
 	} else {
 		// Initiate hyperspace drive
 		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
@@ -466,6 +521,24 @@ void WorldView::RefreshHyperspaceButton() {
 		m_hyperspaceButton->Show();
 	else
 		m_hyperspaceButton->Hide();
+}
+
+static std::pair<double, double> calculateHeadingPitch(enum PlaneType);
+
+void WorldView::RefreshHeadingPitch(void) {
+	if(m_curPlane == NONE) {
+		m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
+		m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
+		m_curPlane = ROTATIONAL;
+	}
+	// heading and pitch
+	auto headingPitch = calculateHeadingPitch(m_curPlane);
+	char buf[6];
+	// \xC2\xB0 is the UTF-8 degree symbol
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
+	m_headingInfo->SetText(buf);
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
+	m_pitchInfo->SetText(buf);
 }
 
 void WorldView::RefreshButtonStateAndVisibility()
@@ -697,6 +770,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 					vector3d velocity = (frame == Pi::player->GetFrame() ? vel : Pi::player->GetVelocityRelTo(frame));
 					double vspeed = velocity.Dot(surface_pos);
 					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+					RefreshHeadingPitch();
+
 					if (altitude < 0) altitude = 0;
 					if (altitude >= 100000.0)
 						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
@@ -705,10 +781,21 @@ void WorldView::RefreshButtonStateAndVisibility()
 						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
 				} else {
+					// XXX does this need to be repeated 3 times?
 					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+					if(m_curPlane != NONE) {
+						m_curPlane = NONE;
+						m_hudDockTop->RemoveInnerWidget();
+						m_hudDockRight->RemoveInnerWidget();
+					}
 				}
 			} else {
 				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+				if(m_curPlane != NONE) {
+					m_curPlane = NONE;
+					m_hudDockTop->RemoveInnerWidget();
+					m_hudDockRight->RemoveInnerWidget();
+				}
 			}
 
 			if (astro->IsType(Object::PLANET)) {
@@ -732,6 +819,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 			m_hudHullTemp->Hide();
+			if(m_curPlane != NONE) {
+				m_curPlane = NONE;
+				m_hudDockTop->RemoveInnerWidget();
+				m_hudDockRight->RemoveInnerWidget();
+			}
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
@@ -766,19 +858,19 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (b) {
 		if (b->IsType(Object::SHIP)) {
 			int prop_var = 0;
-			Pi::player->Properties().Get("radar_mapper_cap", prop_var);
+			Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
 			if (prop_var > 0) {
 				assert(b->IsType(Object::SHIP));
 				Ship *s = static_cast<Ship*>(b);
 
 				const shipstats_t &stats = s->GetStats();
 
+				float sShields = 0;
 				float sHull = s->GetPercentHull();
 				m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
 				m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
 				m_hudTargetHullIntegrity->Show();
 
-				float sShields = 0;
 				prop_var = 0;
 				s->Properties().Get("shield_cap", prop_var);
 				if (prop_var > 0) {
@@ -879,6 +971,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 	} else {
 		m_hudHyperspaceInfo->Hide();
 	}
+}
+
+bool WorldView::OnClickHeadingLabel(void) {
+	m_curPlane = m_curPlane == ROTATIONAL ? PARENT : ROTATIONAL;
+	Pi::game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
+	return true;
 }
 
 void WorldView::Update()
@@ -988,6 +1086,11 @@ void WorldView::Update()
 	}
 
 	UIView::Update();
+}
+
+void WorldView::BuildUI(UI::Single *container)
+{
+	container->SetInnerWidget(m_hudRoot.Get());
 }
 
 void WorldView::OnSwitchTo()
@@ -1112,7 +1215,7 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 {
 	std::string msg;
 	s->GetDockingClearance(Pi::player, msg);
-	Pi::cpan->MsgLog()->ImportantMessage(s->GetLabel(), msg);
+	Pi::game->log->Add(s->GetLabel(), msg);
 }
 
 // XXX paying fine remotely can't really be done until crime and
@@ -1124,18 +1227,18 @@ static void PlayerPayFine()
 	Sint64 crime, fine;
 	Polit::GetCrime(&crime, &fine);
 	if (Pi::player->GetMoney() == 0) {
-		Pi::cpan->MsgLog()->Message("", Lang::YOU_NO_MONEY);
+		Pi::game->log->Add(Lang::YOU_NO_MONEY);
 	} else if (fine > Pi::player->GetMoney()) {
 		Polit::AddCrime(0, -Pi::player->GetMoney());
 		Polit::GetCrime(&crime, &fine);
-		Pi::cpan->MsgLog()->Message("", stringf(
+		Pi::game->log->Add(stringf(
 			Lang::FINE_PAID_N_BUT_N_REMAINING,
 				formatarg("paid", format_money(Pi::player->GetMoney())),
 				formatarg("fine", format_money(fine))));
 		Pi::player->SetMoney(0);
 	} else {
 		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		Pi::cpan->MsgLog()->Message("", stringf(Lang::FINE_PAID_N,
+		Pi::game->log->Add(stringf(Lang::FINE_PAID_N,
 				formatarg("fine", format_money(fine))));
 		Polit::AddCrime(0, -fine);
 	}
@@ -1147,7 +1250,7 @@ void WorldView::OnHyperspaceTargetChanged()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		Pi::player->AbortHyperjump();
-		Pi::cpan->MsgLog()->Message("", Lang::HYPERSPACE_JUMP_ABORTED);
+		Pi::game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
 	}
 }
 
@@ -1278,6 +1381,7 @@ void WorldView::UpdateCommsOptions()
 			if (!cloud->IsArrival()) {
 				button = AddCommsOption(Lang::SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE, ypos, 0, optnum++);
 				button->onClick.connect(sigc::bind(sigc::ptr_fun(player_target_hypercloud), cloud));
+				ypos += 32;
 			}
 		}
 	}
@@ -1395,9 +1499,20 @@ void WorldView::UpdateProjectedObjects()
 		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
 
 			// only show labels on large or nearby bodies
-			if (b->IsType(Object::PLANET) || b->IsType(Object::STAR) || b->IsType(Object::SPACESTATION) || Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
-				m_bodyLabels->Add(b->GetLabel(), sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true), float(pos.x), float(pos.y));
-
+			if (b->IsType(Object::PLANET) ||
+			    b->IsType(Object::STAR) ||
+			    b->IsType(Object::SPACESTATION) ||
+			    Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+			{
+				std::string bodyName = b->GetLabel();
+				// offset the label so it doesn't intersect with the icon drawn around the
+				// navtarget. XXX this probably isn't the most elegant solution
+				if(b == Pi::player->GetNavTarget()) { bodyName = "    " + bodyName; }
+				m_bodyLabels->Add(bodyName,
+						  sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true),
+						  float(pos.x),
+						  float(pos.y));
+			}
 			m_projectedPos[b] = pos;
 		}
 	}
@@ -1737,16 +1852,19 @@ void WorldView::Draw()
 	Color yellow(230, 230, 77, 255);
 	Color red(255, 0, 0, 128);
 
+	Color retroIconColor;
+	if(Pi::player->GetNavTarget()) { retroIconColor = green; } else { retroIconColor = white; }
+
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
 
 	glLineWidth(1.0f);
 
 	// velocity indicators
-	DrawVelocityIndicator(m_velIndicator, white);
-	DrawVelocityIndicator(m_retroVelIndicator, yellow);
-	DrawVelocityIndicator(m_navVelIndicator, green);
-	DrawVelocityIndicator(m_burnIndicator, Color::STEELBLUE);
+	DrawVelocityIndicator(m_velIndicator, V_PROGRADE, white);
+	DrawVelocityIndicator(m_retroVelIndicator, V_RETROGRADE, retroIconColor);
+	DrawVelocityIndicator(m_navVelIndicator, V_PROGRADE, green);
+	DrawVelocityIndicator(m_burnIndicator, V_BURN, Color::STEELBLUE);
 
 	glLineWidth(2.0f);
 
@@ -1759,12 +1877,16 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
+		const vector2f center        = vector2f(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0f;
+		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f;
+		const vector2f crosshairPos  = center - crosshairSize / 2.0f;
+
 		switch (m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT:
-				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
+				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
 				break;
 			case InternalCameraController::MODE_REAR:
-				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
+				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
 				break;
 			default:
 				break;
@@ -1846,43 +1968,32 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 	if (marker.side != INDICATOR_ONSCREEN)
 		DrawEdgeMarker(marker, c);
 
-	// if the square is off-screen, draw a little square at the edge
-	const float sz = (marker.side == INDICATOR_ONSCREEN)
-		? float(WorldView::PICK_OBJECT_RECT_SIZE * 0.5) : 3.0f;
-
-	const float x1 = float(marker.pos.x - sz);
-	const float x2 = float(marker.pos.x + sz);
-	const float y1 = float(marker.pos.y - sz);
-	const float y2 = float(marker.pos.y + sz);
-
-	const vector2f vts[] = {
-		vector2f(x1, y1),
-		vector2f(x2, y1),
-		vector2f(x2, y2),
-		vector2f(x1, y2)
-	};
-	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState, Graphics::LINE_LOOP);
+	m_targetIcon->Draw(Pi::renderer,
+			   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
+				    marker.pos.y - HUD_CROSSHAIR_SIZE),
+			   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
 }
 
-void WorldView::DrawVelocityIndicator(const Indicator &marker, const Color &c)
+void WorldView::DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c)
 {
 	if (marker.side == INDICATOR_HIDDEN) return;
-
-	const float sz = HUD_CROSSHAIR_SIZE;
 	if (marker.side == INDICATOR_ONSCREEN) {
 		const float posx = marker.pos.x;
 		const float posy = marker.pos.y;
-		const vector2f vts[] = {
-			vector2f(posx-sz, posy-sz),
-			vector2f(posx-0.5f*sz, posy-0.5f*sz),
-			vector2f(posx+sz, posy-sz),
-			vector2f(posx+0.5f*sz, posy-0.5f*sz),
-			vector2f(posx+sz, posy+sz),
-			vector2f(posx+0.5f*sz, posy+0.5f*sz),
-			vector2f(posx-sz, posy+sz),
-			vector2f(posx-0.5f*sz, posy+0.5f*sz)
-		};
-		m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState);
+		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2;
+		const vector2f crosshairPos  = vector2f(posx - HUD_CROSSHAIR_SIZE, posy - HUD_CROSSHAIR_SIZE);
+
+		switch(d) {
+		case V_PROGRADE:
+			m_progradeIcon->Draw(Pi::renderer, crosshairPos, crosshairSize, c);
+			break;
+		case V_RETROGRADE:
+			m_retrogradeIcon->Draw(Pi::renderer, crosshairPos, crosshairSize, c);
+			break;
+		case V_BURN:
+			m_burnIcon->Draw(Pi::renderer, crosshairPos, crosshairSize, c);
+			break;
+		}
 	} else
 		DrawEdgeMarker(marker, c);
 
@@ -2004,4 +2115,49 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
 	size[0] = Gui::Screen::GetWidth();
 	size[1] = Gui::Screen::GetHeight();
+}
+
+// project vector vec onto plane (normal must be normalized)
+static vector3d projectVecOntoPlane(const vector3d &vec, const vector3d &normal) {
+	return (vec - vec.Dot(normal)*normal);
+}
+
+static double wrapAngleToPositive(const double theta) {
+	return (theta >= 0.0 ? theta : M_PI*2 + theta);
+}
+
+/*
+  heading range: 0 - 359 deg
+  heading  0 - north
+  heading 90 - east
+  pitch range: -90 - +90 deg
+  pitch  0 - level with surface
+  pitch 90 - up
+*/
+static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
+	auto frame  = Pi::player->GetFrame();
+
+	if(pt == ROTATIONAL)
+		frame = frame->GetRotFrame();
+	else if (pt == PARENT)
+		frame = frame->GetNonRotFrame();
+
+	// construct a frame of reference aligned with the ground plane
+	// and with lines of longitude and latitude
+	const vector3d up = Pi::player->GetPositionRelTo(frame).NormalizedSafe();
+	const vector3d north = projectVecOntoPlane(vector3d(0,1,0), up).NormalizedSafe();
+	const vector3d east = north.Cross(up);
+
+	// find the direction that the ship is facing
+	const auto shpRot = Pi::player->GetOrientRelTo(frame);
+	const vector3d hed = -shpRot.VectorZ();
+	const vector3d groundHed = projectVecOntoPlane(hed, up).NormalizedSafe();
+
+	const double pitch = asin(up.Dot(hed));
+
+	const double hedNorth = groundHed.Dot(north);
+	const double hedEast = groundHed.Dot(east);
+	const double heading = wrapAngleToPositive(atan2(hedEast, hedNorth));
+
+	return std::make_pair(heading, pitch);
 }

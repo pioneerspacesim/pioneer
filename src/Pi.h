@@ -54,11 +54,6 @@ struct DetailLevel {
 	int cities;
 };
 
-enum MsgLevel {
-	MSG_NORMAL,
-	MSG_IMPORTANT
-};
-
 class Frame;
 class Game;
 
@@ -68,6 +63,7 @@ public:
 	static void InitGame();
 	static void StarportStart(Uint32 starport);
 	static void StartGame();
+	static void RequestEndGame(); // request that the game is ended as soon as safely possible
 	static void EndGame();
 	static void Start();
 	static void MainLoop();
@@ -84,8 +80,19 @@ public:
 	static float JoystickAxisState(int joystick, int axis);
 	static bool IsJoystickEnabled() { return joystickEnabled; }
 	static void SetJoystickEnabled(bool state) { joystickEnabled = state; }
-    static void SetMouseYInvert(bool state) { mouseYInvert = state; }
-    static bool IsMouseYInvert() { return mouseYInvert; }
+	// User display name for the joystick from the API/OS.
+	static std::string JoystickName(int joystick);
+	static std::string JoystickGUIDString(int joystick);
+	// reverse map a JoystickGUID to the actual internal ID.
+	static int JoystickFromGUIDString(const std::string &guid);
+	static int JoystickFromGUIDString(const char *guid);
+	static int JoystickFromGUID(SDL_JoystickGUID guid);
+	// fetch the GUID for the named joystick
+	static SDL_JoystickGUID JoystickGUID(int joystick);
+	static void SetMouseYInvert(bool state) { mouseYInvert = state; }
+	static bool IsMouseYInvert() { return mouseYInvert; }
+	static void SetCompactScanner(bool state) { compactScanner = state; }
+	static bool IsScannerCompact() { return compactScanner; }
 	static bool IsNavTunnelDisplayed() { return navTunnelDisplayed; }
 	static void SetNavTunnelDisplayed(bool state) { navTunnelDisplayed = state; }
 	static bool AreSpeedLinesDisplayed() { return speedLinesDisplayed; }
@@ -102,7 +109,6 @@ public:
 	static void SetMouseGrab(bool on);
 	static void FlushCaches();
 	static void BoinkNoise();
-	static void Message(const std::string &message, const std::string &from = "", enum MsgLevel level = MSG_NORMAL);
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
 
@@ -157,7 +163,7 @@ public:
 	static LuaConsole *luaConsole;
 	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
-	static Graphics::Renderer *renderer; // blargh
+	static Graphics::Renderer *renderer;
 	static ModelCache *modelCache;
 	static Intro *intro;
 	static SDLGraphics *sdl;
@@ -207,8 +213,10 @@ private:
 
 	static bool joystickEnabled;
 	static bool mouseYInvert;
+	static bool compactScanner;
 	struct JoystickState {
 		SDL_Joystick *joystick;
+		SDL_JoystickGUID guid;
 		std::vector<bool> buttons;
 		std::vector<int> hats;
 		std::vector<float> axes;
@@ -226,6 +234,8 @@ private:
 	static RefCountedPtr<Graphics::Texture> renderTexture;
 	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
 	static Graphics::RenderState *quadRenderState;
+
+	static bool bRequestEndGame;
 };
 
 #endif /* _PI_H */

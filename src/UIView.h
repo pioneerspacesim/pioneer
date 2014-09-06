@@ -6,6 +6,11 @@
 
 #include "View.h"
 
+namespace UI {
+	class Widget;
+	class Single;
+}
+
 // wrapper to allow new UI to be switched to by the existing view system
 // remove this once all existing views are ported to the new UI
 class UIView : public View {
@@ -17,8 +22,11 @@ public:
 	virtual void Draw3D() {}
 
 protected:
+	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
 	virtual void OnSwitchFrom();
+
+	UI::Widget *BuildTemplateUI();
 
 private:
 	const char *m_templateName;

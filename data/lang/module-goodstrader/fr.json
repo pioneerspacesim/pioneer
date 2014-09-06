@@ -5,15 +5,15 @@
    },
    "GOODS_TRADER_1" : {
       "description" : "",
-      "message" : "à la chambre de commerce {name}"
+      "message" : "à la chambre de commerce de {name}"
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "à l'entrepôt {name}"
+      "message" : "à l'entrepôt de {name}"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
-      "message" : "au marché {name}"
+      "message" : "au marché de {name}"
    },
    "GOODS_TRADER_4" : {
       "description" : "",
@@ -25,6 +25,6 @@
    },
    "WELCOME_TO" : {
       "description" : "",
-      "message" : "Bienvenue"
+      "message" : "Bienvenue à "
    }
 }

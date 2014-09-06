@@ -19,7 +19,10 @@
 
 using namespace Graphics;
 
-HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
+/** How long does a hyperspace cloud last for? 2 Days? */
+#define HYPERCLOUD_DURATION (60.0*60.0*24.0*2.0)
+
+HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival) : m_isBeingKilled(false)
 {
 	m_flags = Body::FLAG_CAN_MOVE_FRAME |
 		  Body::FLAG_LABEL_HIDDEN;
@@ -33,7 +36,7 @@ HyperspaceCloud::HyperspaceCloud(Ship *s, double dueDate, bool isArrival)
 	InitGraphics();
 }
 
-HyperspaceCloud::HyperspaceCloud()
+HyperspaceCloud::HyperspaceCloud() : m_isBeingKilled(false)
 {
 	m_ship = 0;
 	SetPhysRadius(0.0);
@@ -97,6 +100,9 @@ void HyperspaceCloud::PostLoadFixup(Space *space)
 
 void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 {
+	if( m_isBeingKilled )
+		return;
+
 	SetPosition(GetPosition() + m_vel * timeStep);
 
 	if (m_isArrival && m_ship && (m_due < Pi::game->GetTime())) {
@@ -115,6 +121,14 @@ void HyperspaceCloud::TimeStepUpdate(const float timeStep)
 		m_ship->EnterSystem();
 
 		m_ship = 0;
+	}
+
+	// cloud expiration
+	if( m_birthdate + HYPERCLOUD_DURATION <= Pi::game->GetTime() )
+	{
+		Pi::game->RemoveHyperspaceCloud(this);
+		Pi::game->GetSpace()->KillBody(this);
+		m_isBeingKilled = true;
 	}
 }
 
@@ -143,6 +157,9 @@ void HyperspaceCloud::UpdateInterpTransform(double alpha)
 
 void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	if( m_isBeingKilled )
+		return;
+
 	matrix4x4d trans = matrix4x4d::Identity();
 	trans.Translate(float(viewCoords.x), float(viewCoords.y), float(viewCoords.z));
 

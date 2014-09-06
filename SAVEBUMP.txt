@@ -9,8 +9,4 @@ list if you are bumping the save format version.
 
 ALSO please grep for 'SAVEBUMP' to find relevant todo notes in the source.
 
-* SpaceStation::Save/Load has an unused field which used to store the
-  Equip::TYPE_MAX value.  This should be removed. (#3058)
-
-* SystemBody::PopulateStage1 has a bug that it skips the last commodity
-  when it's determining the planet's population and trade levels. (#3058)
+[ There is nothing we know we need to do at the next savebump. ]

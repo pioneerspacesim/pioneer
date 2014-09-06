@@ -26,7 +26,8 @@ using namespace Graphics;
 static const float SCANNER_RANGE_MAX = 100000.0f;
 static const float SCANNER_RANGE_MIN = 1000.0f;
 static const float SCANNER_SCALE     = 0.00001f;
-static const float SCANNER_YSHRINK   = 0.75f;
+//static const float SCANNER_YSHRINK   = 0.95f;
+//static const float SCANNER_XSHRINK   = 4.0f;
 static const float A_BIT             = 1.1f;
 static const unsigned int SCANNER_STEPS = 100;
 
@@ -41,79 +42,6 @@ static const Color scannerMissileColour       = Color( 240, 38,  50  );
 static const Color scannerPlayerMissileColour = Color( 243, 237, 29  );
 static const Color scannerCargoColour         = Color( 166, 166, 166 );
 static const Color scannerCloudColour         = Color( 128, 128, 255 );
-
-MsgLogWidget::MsgLogWidget()
-{
-	m_msgAge = 0;
-	m_msgLabel = new Gui::Label("");
-	m_curMsgType = NONE;
-	Add(m_msgLabel, 0, 4);
-}
-
-void MsgLogWidget::Update()
-{
-	if (m_curMsgType != NONE) {
-		// has it expired?
-		bool expired = (SDL_GetTicks() - m_msgAge > 5000);
-
-		if (expired || ((m_curMsgType == NOT_IMPORTANT) && !m_msgQueue.empty())) {
-			ShowNext();
-		}
-	} else {
-		ShowNext();
-	}
-}
-
-void MsgLogWidget::ShowNext()
-{
-    if (m_msgQueue.empty()) {
-		// current message expired and queue empty
-		m_msgLabel->SetText("");
-		m_msgAge = 0;
-		onUngrabFocus.emit();
-	} else {
-		// current message expired and more in queue
-		Pi::BoinkNoise();
-		// cancel time acceleration (but don't unpause)
-		if (Pi::game->GetTimeAccel() != Game::TIMEACCEL_PAUSED) {
-			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-			Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
-		}
-		message_t msg("","",NONE);
-		// use MUST_SEE messages first
-		for (std::list<message_t>::iterator i = m_msgQueue.begin();
-				i != m_msgQueue.end(); ++i) {
-			if ((*i).type == MUST_SEE) {
-				msg = *i;
-				m_msgQueue.erase(i);
-				break;
-			}
-		}
-		if (msg.type == NONE) {
-			msg = m_msgQueue.front();
-			m_msgQueue.pop_front();
-		}
-
-		if (msg.sender == "") {
-			m_msgLabel->SetText("#0f0" + msg.message);
-		} else {
-			m_msgLabel->SetText(
-				std::string("#ca0") + stringf(Lang::MESSAGE_FROM_X, formatarg("sender", msg.sender)) +
-				std::string("\n#0f0") + msg.message);
-		}
-		m_msgAge = SDL_GetTicks();
-		m_curMsgType = msg.type;
-		onGrabFocus.emit();
-	}
-}
-
-void MsgLogWidget::GetSizeRequested(float size[2])
-{
-	size[0] = 400;
-	size[1] = 64;
-}
-
-/////////////////////////////////
 
 ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
 	m_renderer(r)
@@ -137,8 +65,11 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
 
 void ScannerWidget::InitObject()
 {
+	InitScaling();
+
 	m_toggleScanModeConnection = KeyBindings::toggleScanMode.onPress.connect(sigc::mem_fun(this, &ScannerWidget::ToggleMode));
 	m_lastRange = SCANNER_RANGE_MAX * 100.0f;		// force regen
+
 	GenerateBaseGeometry();
 
 	Graphics::RenderStateDesc rsd;
@@ -175,7 +106,7 @@ void ScannerWidget::Draw()
 
 	float size[2];
 	GetSize(size);
-	m_x = size[0] * 0.5f;
+	m_x = size[0] / (SCANNER_XSHRINK * 2);
 	m_y = size[1] * 0.5f;
 
 	SetScissor(true);
@@ -194,17 +125,17 @@ void ScannerWidget::Draw()
 
 	// XXX 2d vertices
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE, 128); //reserve some space for positions & colors
-	va.Add(vector3f(m_x, m_y, 0.f), green);
+	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y, 0.f), green);
 	for (float a = 0; a < 2 * float(M_PI); a += float(M_PI) * 0.02f) {
-		va.Add(vector3f(m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
+		va.Add(vector3f(SCANNER_XSHRINK * m_x + m_x * sin(a), m_y + SCANNER_YSHRINK * m_y * cos(a), 0.f), green);
 	}
-	va.Add(vector3f(m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
+	va.Add(vector3f(SCANNER_XSHRINK * m_x, m_y + SCANNER_YSHRINK * m_y, 0.f), green);
 	m_renderer->DrawTriangles(&va, m_renderState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	// circles and spokes
 	{
 		Graphics::Renderer::MatrixTicket ticket(m_renderer, Graphics::MatrixMode::MODELVIEW);
-		m_renderer->Translate(m_x, m_y, 0);
+		m_renderer->Translate(SCANNER_XSHRINK * m_x, m_y, 0);
 		m_renderer->Scale(m_x, m_y, 1.0f);
 		DrawRingsAndSpokes(false);
 	}
@@ -212,11 +143,31 @@ void ScannerWidget::Draw()
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
 
+	glLineWidth(1.f);
+
 	SetScissor(false);
+}
+
+void ScannerWidget::InitScaling(void) {
+	isCompact = Pi::IsScannerCompact();
+	if(isCompact) {
+		SCANNER_XSHRINK = 4.0f;
+		SCANNER_YSHRINK = 0.95f;
+	} else {
+		// original values
+		SCANNER_XSHRINK = 1.0f;
+		SCANNER_YSHRINK = 0.75f;
+	}
 }
 
 void ScannerWidget::Update()
 {
+	if(Pi::IsScannerCompact() != isCompact) {
+		InitScaling();
+		GenerateBaseGeometry();
+		GenerateRingsAndSpokes();
+	}
+
 	m_contacts.clear();
 
 	int scanner_cap = 0;
@@ -406,7 +357,11 @@ void ScannerWidget::DrawBlobs(bool below)
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
 
-		const float x = m_x + m_x * float(pos.x) * m_scale;
+		const float x = SCANNER_XSHRINK * m_x + m_x * float(pos.x) * m_scale;
+		// x scanner widget bound check
+		if (x < SCANNER_XSHRINK * m_x - m_x) continue;
+		if (x > SCANNER_XSHRINK * m_x + m_x) continue;
+
 		const float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
@@ -538,10 +493,15 @@ void UseEquipWidget::GetSizeRequested(float size[2])
 void UseEquipWidget::FireMissile(int idx)
 {
 	if (!Pi::player->GetCombatTarget()) {
-		Pi::cpan->MsgLog()->Message("", Lang::SELECT_A_TARGET);
+		Pi::game->log->Add(Lang::SELECT_A_TARGET);
 		return;
 	}
 	LuaObject<Ship>::CallMethod(Pi::player, "FireMissileAt", idx+1, static_cast<Ship*>(Pi::player->GetCombatTarget()));
+}
+
+static void FireECM()
+{
+	Pi::player->UseECM();
 }
 
 void UseEquipWidget::UpdateEquip()
@@ -576,7 +536,8 @@ void UseEquipWidget::UpdateEquip()
 			if (ecm_power_cap == 3) b = new Gui::ImageButton("icons/ecm_basic.png");
 			else b = new Gui::ImageButton("icons/ecm_advanced.png");
 
-			b->onClick.connect(sigc::mem_fun(Pi::player, &Ship::UseECM));
+			// Note, FireECM() is a wrapper around Ship::UseECM() and is only used here
+			b->onClick.connect(sigc::ptr_fun(&FireECM));
 			b->SetRenderDimensions(32, 32);
 
 			Add(b, 32, 0);
@@ -602,11 +563,6 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
 	m_buttons[1]->SetShortcut(SDLK_F10, KMOD_NONE);
 	m_buttons[1]->SetRenderDimensions(34, 17);
-
-	m_buttons[2] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_msglog.png", "icons/multifunc_msglog_on.png");
-	m_buttons[2]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_MSGLOG));
-	m_buttons[2]->SetShortcut(SDLK_F11, KMOD_NONE);
-	m_buttons[2]->SetRenderDimensions(34, 17);
 
 	UpdateButtons();
 

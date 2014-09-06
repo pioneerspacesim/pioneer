@@ -17,7 +17,7 @@
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "{clubname} est une organisation indépendante dont le but est de fournir à ses membre du carburant au meilleur prix. Elle possède des succursales dans toute la galaxie. Les membres bénéficient des avantages suivants :"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -37,11 +37,11 @@
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{fuel} à prix cassés"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Nos propres réserves de carburant, en dehors du marché officiel."
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "Inscrivez-vous! Notre cotisation annuelle ne revient qu'à {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

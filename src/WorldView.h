@@ -19,7 +19,26 @@ class Frame;
 class LabelSet;
 class Ship;
 class NavTunnelWidget;
+
+enum VelIconType {
+	V_PROGRADE,
+	V_RETROGRADE,
+	V_BURN
+};
+
+enum PlaneType {
+	NONE,
+	ROTATIONAL,
+	PARENT
+};
+
 namespace Gui { class TexturedQuad; }
+
+namespace UI {
+	class Widget;
+	class Single;
+	class Label;
+}
 
 class WorldView: public UIView {
 public:
@@ -50,6 +69,7 @@ public:
 	sigc::signal<void> onChangeCamType;
 
 protected:
+	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
 	virtual void OnSwitchFrom();
 private:
@@ -89,7 +109,7 @@ private:
 	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
-	void DrawVelocityIndicator(const Indicator &marker, const Color &c);
+	void DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c);
 	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
 	void DrawEdgeMarker(const Indicator &marker, const Color &c);
 
@@ -113,7 +133,10 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseWheel(bool up);
+	bool OnClickHeadingLabel(void);
+	void RefreshHeadingPitch(void);
 
+	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
@@ -139,7 +162,18 @@ private:
 	Gui::Label *m_debugInfo;
 #endif
 
-	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudHyperspaceInfo, *m_hudTargetInfo;
+	// useful docking locations for new-ui widgets in the HUD
+	RefCountedPtr<UI::Widget> m_hudRoot;
+	RefCountedPtr<UI::Single> m_hudDockTop;
+	RefCountedPtr<UI::Single> m_hudDockLeft;
+	RefCountedPtr<UI::Single> m_hudDockRight;
+	RefCountedPtr<UI::Single> m_hudDockBottom;
+	RefCountedPtr<UI::Single> m_hudDockCentre;
+	// new-ui HUD components
+	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
+
+	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
+		   *m_hudHyperspaceInfo, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 	Gui::MeterBar *m_hudFuelGauge;
@@ -169,6 +203,12 @@ private:
 	Indicator m_mouseDirIndicator;
 
 	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
+	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;
+	std::unique_ptr<Gui::TexturedQuad> m_rearCrosshair;
+	std::unique_ptr<Gui::TexturedQuad> m_progradeIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_retrogradeIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_burnIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_targetIcon;
 	vector2f m_indicatorMousedirSize;
 
 	Graphics::RenderState *m_blendState;

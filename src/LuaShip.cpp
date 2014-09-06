@@ -372,7 +372,7 @@ static int l_ship_undock(lua_State *l)
  * Spawn a missile near the ship.
  *
  * > missile = ship:SpawnMissile(type, target, power)
- * 
+ *
  * Parameters:
  *
  *   shiptype - a string for the missile type. specifying an
@@ -414,6 +414,57 @@ static int l_ship_spawn_missile(lua_State *l)
 	else
 		lua_pushnil(l);
 	return 1;
+}
+
+/* Method: UseECM
+ *
+ * Activates ECM of ship, destroying nearby missile with probability
+ * proportional to proximity.
+ *
+ * > success, recharge_wait = Ship:UseECM()
+ *
+ * Return:
+ *
+ *   success - is true or false depending on if the ECM was activated
+ *             or not. False indicating wither it is not fully
+ *             recharged, or there is no ECM to activate.
+ *
+ *   recharge_wait - time left to recharge.
+ *
+ * Availability:
+ *
+ *   2014 July
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_ship_use_ecm(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if (s->GetFlightState() == Ship::HYPERSPACE)
+		return luaL_error(l, "Ship:UseECM() cannot be called on a ship in hyperspace");
+
+	Ship::ECMResult result = s->UseECM();
+
+	float recharge;
+
+	if(result == Ship::ECMResult::ECM_ACTIVATED) {
+		recharge = s->GetECMRechargeRemain();
+		lua_pushboolean(l, true);
+		lua_pushnumber(l, recharge);
+	}
+	else if(result == Ship::ECMResult::ECM_RECHARGING) {
+		recharge = s->GetECMRechargeRemain();
+		lua_pushboolean(l, false);
+		lua_pushnumber(l, recharge);
+	}
+	else if(result == Ship::ECMResult::ECM_NOT_INSTALLED) {
+		lua_pushboolean(l, false);
+		lua_pushnil(l);
+	}
+
+	return 2;
 }
 
 /*
@@ -837,6 +888,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
+
+		{ "UseECM", l_ship_use_ecm },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "Undock",        l_ship_undock          },

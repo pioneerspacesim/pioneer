@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Processeurs d'air"
@@ -61,7 +69,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Sélection automatique de système"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -153,7 +161,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Impossible de sauvegarder une fois que le joueur est mort."
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -237,11 +245,11 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+      "message" : "Comparaison des marchés des systèmes #ff0%selected_system#fff (sélectionné) et #ff0%current_system#fff (actuel):"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "Analyse du marché du système #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -753,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}Joy%joynum %axis Axe"
+      "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1291,6 +1299,22 @@
       "description" : "",
       "message" : "Économie planifiée et centralisée"
    },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "",
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "",
+      "message" : "Normal delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "",
+      "message" : "Prograde delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "",
+      "message" : "Radial delta-v. Click to reset to zero."
+   },
    "PLASTICS" : {
       "description" : "",
       "message" : "Plastiques"
@@ -1511,6 +1535,10 @@
       "description" : "",
       "message" : "Regl. vitesse mini sur  %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Régler la destination sur : "
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Vit. ét.: %speed{f.2} km/s"
@@ -1550,6 +1578,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Vaisseau"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1783,6 +1815,14 @@
       "description" : "",
       "message" : "Température de surface"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Switched heading display to system-wide coordinates."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Switched heading display to planetary coordinates."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "Système"
@@ -1881,7 +1921,7 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
-      "message" : "Paix à ton âme!"
+      "message" : "Reposes en paix, vieille carcasse !"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1918,6 +1958,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Requis pour le transport d'un passager."
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Aucune destination définie."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

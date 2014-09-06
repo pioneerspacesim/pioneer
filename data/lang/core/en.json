@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Air processors"
@@ -753,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}Joy%joynum %axis Axis"
+      "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -2042,5 +2050,25 @@
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
       "message" : "Radial delta-v. Click to reset to zero."
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Unset navigation target."
+   },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Switch between ship display modes."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Switched heading display to planetary coordinates."
+   },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Switched heading display to system-wide coordinates."
    }
 }

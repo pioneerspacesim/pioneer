@@ -143,6 +143,10 @@
       "description" : "",
       "message" : "Margaid bathair-àmh"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Sganair teannta"
+   },
    "COMPETENT" : {
       "description" : "",
       "message" : "Comasach"
@@ -961,7 +965,7 @@
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "Tha an saoitheach fo smachd an stèisein, a Chomandair."
+      "message" : "Tha an soitheach fo smachd an stèisein, a Chomandair."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",

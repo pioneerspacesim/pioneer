@@ -15,6 +15,7 @@
 #include "AnimationCurves.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
+#include "graphics/TextureBuilder.h"
 
 using namespace Graphics;
 
@@ -26,7 +27,6 @@ static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user settings.
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
-
 
 TransferPlanner::TransferPlanner() {
 	m_dvPrograde = 0.0;
@@ -64,7 +64,7 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 }
 
 std::string TransferPlanner::printDv(BurnDirection d) {
-	double dv;
+	double dv = 0;
 	char buf[10];
 
 	switch(d) {
@@ -106,6 +106,8 @@ SystemView::SystemView() : UIView()
 	Gui::Screen::PushFont("OverlayFont");
 	m_objectLabels = new Gui::LabelSet();
 	Add(m_objectLabels, 0, 0);
+	m_shipLabels = new Gui::LabelSet();
+	Add(m_shipLabels, 0, 0);
 	Gui::Screen::PopFont();
 
 	m_timePoint = (new Gui::Label(""))->Color(178, 178, 178);
@@ -117,18 +119,23 @@ SystemView::SystemView() : UIView()
 	m_infoText = (new Gui::Label(""))->Color(178, 178, 178);
 	Add(m_infoText, 200, 0);
 
-	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
-	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
-	m_zoomInButton->SetRenderDimensions(30, 22);
-	Add(m_zoomInButton, 700, 5);
-
 	m_zoomOutButton = new Gui::ImageButton("icons/zoom_out.png");
 	m_zoomOutButton->SetToolTip(Lang::ZOOM_OUT);
 	m_zoomOutButton->SetRenderDimensions(30, 22);
-	Add(m_zoomOutButton, 732, 5);
+	Add(m_zoomOutButton, 700, 5);
 
+	m_zoomInButton = new Gui::ImageButton("icons/zoom_in.png");
+	m_zoomInButton->SetToolTip(Lang::ZOOM_IN);
+	m_zoomInButton->SetRenderDimensions(30, 22);
+	Add(m_zoomInButton, 732, 5);
+
+	m_toggleShipsButton = new Gui::ImageButton("icons/toggle_ships_display.png");
+	m_toggleShipsButton->SetToolTip(Lang::SHIPS_DISPLAY_MODE_TOGGLE);
+	m_toggleShipsButton->SetRenderDimensions(30, 22);
+	m_toggleShipsButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleShipsButtonClick));
+	Add(m_toggleShipsButton, 660, 5);
 	// orbital transfer planner UI
-        int dx = 670;
+	int dx = 670;
 	int dy = 40;
 
 	m_plannerIncreaseFactorButton = new Gui::ImageButton("icons/orbit_increase_big.png");
@@ -245,13 +252,21 @@ SystemView::SystemView() : UIView()
 	m_onMouseWheelCon =
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &SystemView::MouseWheel));
 
+	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/periapsis.png");
+	m_periapsisIcon.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder b2 = Graphics::TextureBuilder::UI("icons/apoapsis.png");
+	m_apoapsisIcon.reset(new Gui::TexturedQuad(b2.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
 	ResetViewpoint();
 
+	RefreshShips();
+	m_shipDrawing = OFF;
 	m_planner = Pi::planner;
 }
 
 SystemView::~SystemView()
 {
+	m_contacts.clear();
 	m_onMouseWheelCon.disconnect();
 }
 
@@ -264,6 +279,14 @@ void SystemView::OnClickAccel(float step)
 void SystemView::OnIncreaseFactorButtonClick(void) { m_planner->IncreaseFactor(); }
 void SystemView::OnResetFactorButtonClick(void)    { m_planner->ResetFactor(); }
 void SystemView::OnDecreaseFactorButtonClick(void) { m_planner->DecreaseFactor(); }
+
+void SystemView::OnToggleShipsButtonClick(void) {
+	switch(m_shipDrawing) {
+	case OFF:    m_shipDrawing = BOXES;  RefreshShips(); break;
+	case BOXES:  m_shipDrawing = ORBITS; RefreshShips(); break;
+	case ORBITS: m_shipDrawing = OFF; m_shipLabels->Clear(); break;
+	}
+}
 
 void SystemView::OnClickRealt()
 {
@@ -301,6 +324,14 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 		else
 			m_renderer->DrawLines(num_vertices, vts, color, m_lineState, LINE_LOOP);
 	}
+
+	Gui::Screen::EnterOrtho();
+	vector3d pos;
+	if(Gui::Screen::Project(offset + orbit->Perigeum() * double(m_zoom), pos))
+		m_periapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
+	if(Gui::Screen::Project(offset + orbit->Apogeum() * double(m_zoom), pos))
+		m_apoapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
+	Gui::Screen::LeaveOrtho();
 }
 
 void SystemView::OnClickObject(const SystemBody *b)
@@ -334,12 +365,20 @@ void SystemView::OnClickObject(const SystemBody *b)
 	m_infoLabel->SetText(desc);
 	m_infoText->SetText(data);
 
-	if (Pi::KeyState(SDLK_LSHIFT) || Pi::KeyState(SDLK_RSHIFT)) {
-		SystemPath path = m_system->GetPathOf(b);
-		if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
-			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
-			if (body != 0)
+	// click on object (in same system) sets/unsets it as nav target
+	SystemPath path = m_system->GetPathOf(b);
+	if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+		if (body != 0) {
+			if(Pi::player->GetNavTarget() == body) {
 				Pi::player->SetNavTarget(body);
+				Pi::player->SetNavTarget(0);
+				Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+			}
+			else {
+				Pi::player->SetNavTarget(body);
+				Pi::game->log->Add(Lang::SET_NAVTARGET_TO + body->GetLabel());
+			}
 		}
 	}
 }
@@ -355,6 +394,67 @@ void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
 	}
 
 	Gui::Screen::LeaveOrtho();
+}
+
+void SystemView::LabelShip(Ship *s, const vector3d &offset) {
+	Gui::Screen::EnterOrtho();
+
+	vector3d pos;
+	if (Gui::Screen::Project(offset, pos)) {
+		m_shipLabels->Add(s->GetLabel(), sigc::bind(sigc::mem_fun(this, &SystemView::OnClickShip), s), pos.x, pos.y);
+	}
+
+	Gui::Screen::LeaveOrtho();
+}
+
+void SystemView::OnClickShip(Ship *s) {
+	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
+	if(Pi::player->GetNavTarget() == s) { //un-select ship if already selected
+		Pi::player->SetNavTarget(0); // remove current
+		Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+		m_infoLabel->SetText("");    // remove lingering text
+		m_infoText->SetText("");
+	} else {
+		Pi::player->SetNavTarget(s);
+		Pi::game->log->Add(Lang::SET_NAVTARGET_TO + s->GetLabel());
+
+		// always show label of selected ship...
+		std::string text;
+		text += s->GetLabel();
+		text += "\n";
+
+		// ...if we have adv. radar mapper, show some extra info on selected ship
+		int prop_var = 0;
+		Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
+		if (prop_var > 1) {  // advanced radar mapper
+			const shipstats_t &stats = s->GetStats();
+
+			text += s->GetShipType()->name;
+			text += "\n";
+
+			lua_State * l = Lua::manager->GetLuaState();
+			int clean_stack = lua_gettop(l);
+
+			LuaObject<Ship>::CallMethod<LuaRef>(s, "GetEquip", "engine").PushCopyToStack();
+			lua_rawgeti(l, -1, 1);
+			if (lua_isnil(l, -1)) {
+				text += Lang::NO_HYPERDRIVE;
+			} else {
+				text += LuaTable(l, -1).CallMethod<std::string>("GetName");
+			}
+			lua_settop(l, clean_stack);
+
+			text += "\n";
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+			text += "\n";
+			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
+			text += "\n";
+		}
+
+		m_infoLabel->SetText(text);
+		m_infoText->SetText("");  // clear lingering info from body being selected
+
+	}
 }
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
@@ -391,13 +491,15 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		const double t0 = Pi::game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
 
-		Orbit plannedOrbit = Orbit::FromBodyState(Pi::player->GetPosition(),
-		//Orbit plannedOrbit = Orbit::FromBodyState(playerOrbit.OrbitalPosAtTime(m_time - t0),
-							  m_planner->GetVel(),
-							  frame->GetSystemBody()->GetMass());
-
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
-		PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
+
+		if(!m_planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
+			Orbit plannedOrbit = Orbit::FromBodyState(Pi::player->GetPosition(),
+								  m_planner->GetVel(),
+								  frame->GetSystemBody()->GetMass());
+			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
+		}
+
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
@@ -504,6 +606,7 @@ void SystemView::Draw3D()
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
+	glLineWidth(2);
 	m_objectLabels->Clear();
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
@@ -515,6 +618,12 @@ void SystemView::Draw3D()
 			if (navTargetSystemBody)
 				PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
 		}
+	}
+	glLineWidth(1);
+
+	if(m_shipDrawing != OFF) {
+		RefreshShips();
+		DrawShips(m_time - Pi::game->GetTime(), pos);
 	}
 
 	UIView::Draw3D();
@@ -571,5 +680,34 @@ void SystemView::MouseWheel(bool up)
 			m_zoomTo *= ((ZOOM_OUT_SPEED-1) * WHEEL_SENSITIVITY+1) / Pi::GetMoveSpeedShiftModifier();
 		else
 			m_zoomTo *= ((ZOOM_IN_SPEED-1) * WHEEL_SENSITIVITY+1) * Pi::GetMoveSpeedShiftModifier();
+	}
+}
+
+void SystemView::RefreshShips(void) {
+	m_contacts.clear();
+	if(!Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::sectorView->GetSelected()))
+		return;
+
+	auto bs = Pi::game->GetSpace()->GetBodies();
+	for(auto s = bs.begin(); s != bs.end(); s++) {
+		if((*s) != Pi::player &&
+		   (*s)->GetType() == Object::SHIP) {
+
+			const auto c = static_cast<Ship*>(*s);
+			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+
+		}
+	}
+}
+
+void SystemView::DrawShips(const double t, const vector3d &offset) {
+	m_shipLabels->Clear();
+	for(auto s = m_contacts.begin(); s != m_contacts.end(); s++) {
+		const vector3d pos = offset + (*s).second.OrbitalPosAtTime(t) * double(m_zoom);
+		const bool isNavTarget = Pi::player->GetNavTarget() == (*s).first;
+		PutSelectionBox(pos, isNavTarget ? Color::GREEN : Color::BLUE);
+		LabelShip((*s).first, pos);
+		if(m_shipDrawing == ORBITS)
+			PutOrbit(&(*s).second, offset, isNavTarget ? Color::GREEN : Color::BLUE, 0);
 	}
 }

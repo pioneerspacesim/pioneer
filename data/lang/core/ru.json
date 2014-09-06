@@ -1,4 +1,12 @@
 {
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Расширенный радарный топограф"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : " Радарный топограф дальнего действия с системой широкой зоны покрытия."
+   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Воздушные процессоры"
@@ -201,7 +209,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Неудачная попытка сбора. Не достаточно места в грузовом отсеке."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -753,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}Joy%joynum %axis Ось"
+      "message" : "%{sign}%joyname %axis Ось"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1291,6 +1299,22 @@
       "description" : "",
       "message" : "Централизованная плановая экономика"
    },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "",
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "",
+      "message" : "Normal delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "",
+      "message" : "Prograde delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "",
+      "message" : "Radial delta-v. Click to reset to zero."
+   },
    "PLASTICS" : {
       "description" : "",
       "message" : "Пластики"
@@ -1511,6 +1535,10 @@
       "description" : "",
       "message" : "Зафиксировать тягу на уровне %power%%."
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Установка навигационной цели:"
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Скорость: %speed{f.2} км/с"
@@ -1550,6 +1578,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Корабль"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Переключение между режимами отображения корабля."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1783,6 +1815,14 @@
       "description" : "",
       "message" : "Температура на поверхности"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Switched heading display to system-wide coordinates."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Switched heading display to planetary coordinates."
+   },
    "SYSTEM" : {
       "description" : "",
       "message" : "Система"
@@ -1918,6 +1958,10 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Для перевозки каждого дополнительного пассажира требуется отдельная каюта."
+   },
+   "UNSET_NAVTARGET" : {
+      "description" : "",
+      "message" : "Сброс навигационной цели."
    },
    "USE_LOW_THRUST" : {
       "description" : "",
