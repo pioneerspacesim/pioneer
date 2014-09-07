@@ -120,7 +120,7 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		kid->m_orbMin = csbody->semiMajorAxis - csbody->eccentricity*csbody->semiMajorAxis;
 		kid->m_orbMax = 2*csbody->semiMajorAxis - kid->m_orbMin;
 
-		kid->PickAtmosphere();
+		PickAtmosphere(kid);
 
 		// pick or specify rings
 		switch (csbody->ringStatus) {
@@ -129,10 +129,10 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 				kid->m_rings.maxRadius = fixed();
 				break;
 			case CustomSystemBody::WANT_RINGS:
-				kid->PickRings(true);
+				PickRings(kid, true);
 				break;
 			case CustomSystemBody::WANT_RANDOM_RINGS:
-				kid->PickRings(false);
+				PickRings(kid, false);
 				break;
 			case CustomSystemBody::WANT_CUSTOM_RINGS:
 				kid->m_rings.minRadius = csbody->ringInnerRadius;
@@ -275,7 +275,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		/* use hill radius to find max size of moon system. for stars botch it.
 		   And use planets orbit around its primary as a scaler to a moon's orbit*/
 		discMax = std::min(discMax, fixed(1,20)*
-			primary->CalcHillRadius()*primary->m_orbMin*fixed(1,10));
+			CalcHillRadius(primary)*primary->m_orbMin*fixed(1,10));
 
 		discDensity = rand.Fixed() * get_disc_density(primary, discMin, discMax, fixed(1,500));
 	}
@@ -355,7 +355,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 			snprintf(buf, sizeof(buf), " %d", 1+idx);
 		}
 		(*i)->m_name = primary->GetName()+buf;
-		(*i)->PickPlanetType(rand);
+		PickPlanetType(*i, rand);
 		if (make_moons) MakePlanetsAround(system, *i, rand);
 		idx++;
 	}
@@ -366,7 +366,7 @@ void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::Bo
 	PROFILE_SCOPED()
 	sbody->m_type = type;
 	sbody->m_seed = rand.Int32();
-	sbody->m_radius = fixed(rand.Int32(StarSystem::starTypeInfo[type].radius[0], StarSystem::starTypeInfo[type].radius[1]), 100);
+	sbody->m_radius = fixed(rand.Int32(starTypeInfo[type].radius[0], starTypeInfo[type].radius[1]), 100);
 
 	// Assign aspect ratios caused by equatorial bulges due to rotation. See terrain code for details.
 	// XXX to do: determine aspect ratio distributions for dimmer stars. Make aspect ratios consistent with rotation speeds/stability restrictions.
@@ -406,8 +406,8 @@ void StarSystemRandomGenerator::MakeStarOfType(SystemBody *sbody, SystemBody::Bo
 		default:
 			break;
 	}
-	sbody->m_mass = fixed(rand.Int32(StarSystem::starTypeInfo[type].mass[0], StarSystem::starTypeInfo[type].mass[1]), 100);
-	sbody->m_averageTemp = rand.Int32(StarSystem::starTypeInfo[type].tempMin, StarSystem::starTypeInfo[type].tempMax);
+	sbody->m_mass = fixed(rand.Int32(starTypeInfo[type].mass[0], starTypeInfo[type].mass[1]), 100);
+	sbody->m_averageTemp = rand.Int32(starTypeInfo[type].tempMin, starTypeInfo[type].tempMax);
 }
 
 void StarSystemRandomGenerator::MakeRandomStar(SystemBody *sbody, Random &rand)
@@ -581,7 +581,7 @@ try_that_again_guvnah:
 
 	// used in MakeShortDescription
 	// XXX except this does not reflect the actual mining happening in this system
-	system->SetMetallicity(StarSystem::starMetallicities[system->GetRootBody()->GetType()]);
+	system->SetMetallicity(starMetallicities[system->GetRootBody()->GetType()]);
 
 	// store all of the stars first ...
 	for (unsigned i=0; i<system->GetNumStars(); i++) {
@@ -676,7 +676,7 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 
 	/* system attributes */
 	fixed totalPop = fixed();
-	system->GetRootBody()->PopulateStage1(system.Get(), totalPop);
+	PopulateStage1(system->GetRootBody().Get(), system.Get(), totalPop);
 	system->SetTotalPop(totalPop);
 
 //	Output("Trading rates:\n");
@@ -704,7 +704,7 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 	system->SetSysPolit(sysPolit);
 
 	if (addSpaceStations) {
-		system->GetRootBody()->PopulateAddStations(system.Get());
+		PopulateAddStations(system->GetRootBody().Get(), system.Get());
 	}
 
 	if (!system->GetShortDescription().size())

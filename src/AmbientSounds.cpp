@@ -134,13 +134,13 @@ void AmbientSounds::Update()
 			assert(sbody);
 			const char *sample = 0;
 
-			if (sbody->GetLife() > fixed(1,5)) {
+			if (sbody->GetLifeAsFixed() > fixed(1,5)) {
 				sample = s_surfaceLifeSounds[sbody->GetSeed() % NUM_SURFACE_LIFE_SOUNDS];
 			}
-			else if (sbody->GetVolatileGas() > fixed(1,2)) {
+			else if (sbody->GetVolatileGasAsFixed() > fixed(1,2)) {
 				sample = s_surfaceSounds[sbody->GetSeed() % NUM_SURFACE_DEAD_SOUNDS];
 			}
-			else if (sbody->GetVolatileGas() > fixed(1,10)) {
+			else if (sbody->GetVolatileGasAsFixed() > fixed(1,10)) {
 				sample = "Wind";
 			}
 

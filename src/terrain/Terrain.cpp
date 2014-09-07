@@ -133,7 +133,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			//break;
 			// Earth-like world
 
-			if ((body->GetLife() > fixed(7,10)) && (body->GetVolatileGas() > fixed(2,10))) {
+			if ((body->GetLifeAsFixed() > fixed(7,10)) && (body->GetVolatileGasAsFixed() > fixed(2,10))) {
 				// There would be no life on the surface without atmosphere
 
 				if (body->GetAverageTemp() > 240) {
@@ -169,7 +169,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Harsh, habitable world
-			if ((body->GetVolatileGas() > fixed(2,10)) && (body->GetLife() > fixed(4,10)) ) {
+			if ((body->GetVolatileGasAsFixed() > fixed(2,10)) && (body->GetLifeAsFixed() > fixed(4,10)) ) {
 
 				if (body->GetAverageTemp() > 240) {
 					const GeneratorInstancer choices[] = {
@@ -211,7 +211,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Marginally habitable world/ verging on mars like :)
-			else if ((body->GetVolatileGas() > fixed(1,10)) && (body->GetLife() > fixed(1,10)) ) {
+			else if ((body->GetVolatileGasAsFixed() > fixed(1,10)) && (body->GetLifeAsFixed() > fixed(1,10)) ) {
 
 				if (body->GetAverageTemp() > 240) {
 					const GeneratorInstancer choices[] = {
@@ -253,7 +253,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Desert-like world, Mars -like.
-			if ((body->GetVolatileLiquid() < fixed(1,10)) && (body->GetVolatileGas() > fixed(1,5))) {
+			if ((body->GetVolatileLiquidAsFixed() < fixed(1,10)) && (body->GetVolatileGasAsFixed() > fixed(1,5))) {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorDesert>,
 					InstanceGenerator<TerrainHeightWaterSolid,TerrainColorDesert>,
@@ -269,7 +269,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Frozen world
-			if ((body->GetVolatileIces() > fixed(8,10)) &&  (body->GetAverageTemp() < 250)) {
+			if ((body->GetVolatileIcesAsFixed() > fixed(8,10)) &&  (body->GetAverageTemp() < 250)) {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorIce>,
 					InstanceGenerator<TerrainHeightHillsCraters,TerrainColorIce>,
@@ -286,11 +286,11 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 			}
 
 			// Volcanic world
-			if (body->GetVolcanicity() > fixed(7,10)) {
+			if (body->GetVolcanicityAsFixed() > fixed(7,10)) {
 
-				if (body->GetLife() > fixed(5,10))	// life on a volcanic world ;)
+				if (body->GetLifeAsFixed() > fixed(5,10))	// life on a volcanic world ;)
 					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFGood>;
-				else if (body->GetLife() > fixed(2,10))
+				else if (body->GetLifeAsFixed() > fixed(2,10))
 					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorTFPoor>;
 				else
 					gi = InstanceGenerator<TerrainHeightRuggedLava,TerrainColorVolcanic>;
@@ -299,7 +299,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 
 			//Below might not be needed.
 			//Alien life world:
-			if (body->GetLife() > fixed(1,10))  {
+			if (body->GetLifeAsFixed() > fixed(1,10))  {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsDunes,TerrainColorTFPoor>,
 					InstanceGenerator<TerrainHeightHillsRidged,TerrainColorTFPoor>,
@@ -320,7 +320,7 @@ Terrain *Terrain::InstanceTerrain(const SystemBody *body)
 				break;
 			};
 
-			if (body->GetVolatileGas() > fixed(1,10)) {
+			if (body->GetVolatileGasAsFixed() > fixed(1,10)) {
 				const GeneratorInstancer choices[] = {
 					InstanceGenerator<TerrainHeightHillsNormal,TerrainColorRock>,
 					InstanceGenerator<TerrainHeightMountainsNormal,TerrainColorRock>,
@@ -465,9 +465,9 @@ Terrain::Terrain(const SystemBody *body) : m_seed(body->GetSeed()), m_rand(body-
 		case 4: m_fracmult = 0.1;break;
 	}
 
-	m_sealevel = Clamp(body->GetVolatileLiquid().ToDouble(), 0.0, 1.0);
-	m_icyness  = Clamp(body->GetVolatileIces().ToDouble(), 0.0, 1.0);
-	m_volcanic = Clamp(body->GetVolcanicity().ToDouble(), 0.0, 1.0); // height scales with volcanicity as well
+	m_sealevel = Clamp(body->GetVolatileLiquid(), 0.0, 1.0);
+	m_icyness  = Clamp(body->GetVolatileIces(), 0.0, 1.0);
+	m_volcanic = Clamp(body->GetVolcanicity(), 0.0, 1.0); // height scales with volcanicity as well
 	m_surfaceEffects = 0;
 
 	const double rad = m_minBody.m_radius;
@@ -494,8 +494,8 @@ Terrain::Terrain(const SystemBody *body) : m_seed(body->GetSeed()), m_rand(body-
 		r = m_rand.Double(0.3, 1.0);
 		g = m_rand.Double(0.3, r);
 		b = m_rand.Double(0.3, g);
-		r = std::max(b, r * body->GetMetallicity().ToFloat());
-		g = std::max(b, g * body->GetMetallicity().ToFloat());
+		r = std::max(b, r * body->GetMetallicity());
+		g = std::max(b, g * body->GetMetallicity());
 		m_rockColor[i] = vector3d(r, g, b);
 	}
 
@@ -506,8 +506,8 @@ Terrain::Terrain(const SystemBody *body) : m_seed(body->GetSeed()), m_rand(body-
 		r = m_rand.Double(0.05, 0.3);
 		g = m_rand.Double(0.05, r);
 		b = m_rand.Double(0.05, g);
-		r = std::max(b, r * body->GetMetallicity().ToFloat());
-		g = std::max(b, g * body->GetMetallicity().ToFloat());
+		r = std::max(b, r * body->GetMetallicity());
+		g = std::max(b, g * body->GetMetallicity());
 		m_darkrockColor[i] = vector3d(r, g, b);
 	}
 
@@ -527,8 +527,8 @@ Terrain::Terrain(const SystemBody *body) : m_seed(body->GetSeed()), m_rand(body-
 		g = m_rand.Double(0.3, 1.0);
 		r = m_rand.Double(0.3, g);
 		b = m_rand.Double(0.2, r);
-		g = std::max(r, g * body->GetLife().ToFloat());
-		b *= (1.0-body->GetLife().ToFloat());
+		g = std::max(r, g * body->GetLife());
+		b *= (1.0-body->GetLife());
 		m_plantColor[i] = vector3d(r, g, b);
 	}
 
@@ -540,8 +540,8 @@ Terrain::Terrain(const SystemBody *body) : m_seed(body->GetSeed()), m_rand(body-
 		g = m_rand.Double(0.05, 0.3);
 		r = m_rand.Double(0.00, g);
 		b = m_rand.Double(0.00, r);
-		g = std::max(r, g * body->GetLife().ToFloat());
-		b *= (1.0-body->GetLife().ToFloat());
+		g = std::max(r, g * body->GetLife());
+		b *= (1.0-body->GetLife());
 		m_darkplantColor[i] = vector3d(r, g, b);
 	}
 

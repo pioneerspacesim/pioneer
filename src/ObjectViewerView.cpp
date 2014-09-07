@@ -140,12 +140,12 @@ void ObjectViewerView::Update()
 		if (body->IsType(Object::TERRAINBODY)) {
 			TerrainBody *tbody = static_cast<TerrainBody*>(body);
 			const SystemBody *sbody = tbody->GetSystemBody();
-			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->GetVolatileGas().ToFloat()));
-			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->GetVolatileLiquid().ToFloat()));
-			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->GetVolatileIces().ToFloat()));
-			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->GetLife().ToFloat()));
-			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->GetVolcanicity().ToFloat()));
-			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->GetMetallicity().ToFloat()));
+			m_sbodyVolatileGas->SetText(stringf("%0{f.3}", sbody->GetVolatileGas()));
+			m_sbodyVolatileLiquid->SetText(stringf("%0{f.3}", sbody->GetVolatileLiquid()));
+			m_sbodyVolatileIces->SetText(stringf("%0{f.3}", sbody->GetVolatileIces()));
+			m_sbodyLife->SetText(stringf("%0{f.3}", sbody->GetLife()));
+			m_sbodyVolcanicity->SetText(stringf("%0{f.3}", sbody->GetVolcanicity()));
+			m_sbodyMetallicity->SetText(stringf("%0{f.3}", sbody->GetMetallicity()));
 			m_sbodySeed->SetText(stringf("%0{i}", int(sbody->GetSeed())));
 			m_sbodyMass->SetText(stringf("%0{f}", sbody->GetMassAsFixed().ToFloat()));
 			m_sbodyRadius->SetText(stringf("%0{f}", sbody->GetRadiusAsFixed().ToFloat()));

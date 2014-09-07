@@ -6,6 +6,7 @@
 #include "Galaxy.h"
 #include "GalaxyCache.h"
 #include "GalaxyGenerator.h"
+#include "StarSystemGenerator.h"
 #include "Factions.h"
 
 #include "Serializer.h"
@@ -200,7 +201,7 @@ const float StarSystem::starScale[] = {  // Used in sector view
 	4.0f  // Supermassive blackhole
 };
 
-const fixed StarSystem::starMetallicities[] = {
+const fixed StarSystemLegacyGeneratorBase::starMetallicities[] = {
 	fixed(1,1), // GRAVPOINT - for planets that orbit them
 	fixed(9,10), // brown dwarf
 	fixed(5,10), // white dwarf
@@ -240,7 +241,7 @@ const fixed StarSystem::starMetallicities[] = {
 	fixed(1,1)  // SM BH	may be mining hotspots. FUN :)
 };
 
-const StarSystem::StarTypeInfo StarSystem::starTypeInfo[] = {
+const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase::starTypeInfo[] = {
 	{
 		SystemBody::SUPERTYPE_NONE, {}, {},
         0, 0
@@ -781,19 +782,19 @@ const char *SystemBody::GetIcon() const
  * Position a surface starport anywhere. Space.cpp::MakeFrameFor() ensures it
  * is on dry land (discarding this position if necessary)
  */
-void SystemBody::PositionSettlementOnPlanet()
+void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody* sbody)
 {
 	PROFILE_SCOPED()
-	Random r(m_seed);
+	Random r(sbody->GetSeed());
 	// used for orientation on planet surface
 	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 	double r1 = r.Double();		// can't put two rands in the same expression
-	m_orbit.SetPlane(matrix3x3d::RotateZ(2*M_PI*r1) * matrix3x3d::RotateY(2*M_PI*r2));
+	sbody->m_orbit.SetPlane(matrix3x3d::RotateZ(2*M_PI*r1) * matrix3x3d::RotateY(2*M_PI*r2));
 
 	// store latitude and longitude to equivalent orbital parameters to
 	// be accessible easier
-	m_inclination = fixed(r1*10000,10000) + FIXED_PI/2;	// latitide
-	m_orbitalOffset = FIXED_PI/2;							// longitude
+	sbody->m_inclination = fixed(r1*10000,10000) + FIXED_PI/2;	// latitide
+	sbody->m_orbitalOffset = FIXED_PI/2;						// longitude
 
 }
 
@@ -875,8 +876,7 @@ static void getPathToRoot(const SystemBody* body, std::vector<const SystemBody*>
 	}
 }
 
-//static
-int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
+int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse)
 {
 	PROFILE_SCOPED()
 
@@ -884,8 +884,7 @@ int SystemBody::CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, 
 	fixed energy_per_meter2 = calcEnergyPerUnitAreaAtDist(primary->m_radius, primary->m_averageTemp, distToPrimary);
 	fixed dist;
 	// find the other stars which aren't our parent star
-	IterationProxy<std::vector<SystemBody*> > proxy = primary->GetStarSystem()->GetStars();
-	for( auto s : proxy )
+	for( auto s : primary->GetStarSystem()->GetStars())
 	{
 		if(s != primary)
 		{
@@ -985,7 +984,7 @@ bool SystemBody::IsScoopable() const
 	return (GetSuperType() == SUPERTYPE_GAS_GIANT);
 }
 
-void SystemBody::PickAtmosphere()
+void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody* sbody)
 {
 	PROFILE_SCOPED()
 	/* Alpha value isn't real alpha. in the shader fog depth is determined
@@ -995,21 +994,21 @@ void SystemBody::PickAtmosphere()
 	  These are our atmosphere colours, for terrestrial planets we use m_atmosOxidizing
 	  for some variation to atmosphere colours
 	 */
-	switch (m_type) {
+	switch (sbody->GetType()) {
 		case SystemBody::TYPE_PLANET_GAS_GIANT:
 
-			m_atmosColor = Color(255, 255, 255, 3);
-			m_atmosDensity = 14.0;
+			sbody->m_atmosColor = Color(255, 255, 255, 3);
+			sbody->m_atmosDensity = 14.0;
 			break;
 		case SystemBody::TYPE_PLANET_ASTEROID:
-			m_atmosColor = Color(0);
-			m_atmosDensity = 0.0;
+			sbody->m_atmosColor = Color(0);
+			sbody->m_atmosDensity = 0.0;
 			break;
 		default:
 		case SystemBody::TYPE_PLANET_TERRESTRIAL:
 			double r = 0, g = 0, b = 0;
-			double atmo = m_atmosOxidizing.ToDouble();
-			if (m_volatileGas.ToDouble() > 0.001) {
+			double atmo = sbody->GetAtmosOxidizing();
+			if (sbody->GetVolatileGas() > 0.001) {
 				if (atmo > 0.95) {
 					// o2
 					r = 1.0f + ((0.95f-atmo)*15.0f);
@@ -1056,17 +1055,17 @@ void SystemBody::PickAtmosphere()
 					g = 1.0f;
 					b = 1.0f;
 				}
-				m_atmosColor = Color(r*255, g*255, b*255, 255);
+				sbody->m_atmosColor = Color(r*255, g*255, b*255, 255);
 			} else {
-				m_atmosColor = Color(0);
+				sbody->m_atmosColor = Color(0);
 			}
-			m_atmosDensity = m_volatileGas.ToDouble();
+			sbody->m_atmosDensity = sbody->GetVolatileGas();
 			//Output("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
 			//Output("-------------------------------\n");
 			break;
 		/*default:
-			m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
-			m_atmosDensity = m_body->m_volatileGas.ToDouble();
+			sbody->m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
+			sbody->m_atmosDensity = m_body->m_volatileGas.ToDouble();
 			break;*/
 	}
 }
@@ -1079,25 +1078,25 @@ static const unsigned char RANDOM_RING_COLORS[][4] = {
 	{ 207, 122,  98, 217 }  // brown dwarf-like
 };
 
-void SystemBody::PickRings(bool forceRings)
+void StarSystemLegacyGeneratorBase::PickRings(SystemBody* sbody, bool forceRings)
 {
 	PROFILE_SCOPED()
-	m_rings.minRadius = fixed();
-	m_rings.maxRadius = fixed();
-	m_rings.baseColor = Color(255,255,255,255);
+	sbody->m_rings.minRadius = fixed();
+	sbody->m_rings.maxRadius = fixed();
+	sbody->m_rings.baseColor = Color(255,255,255,255);
 
-	if (m_type == SystemBody::TYPE_PLANET_GAS_GIANT) {
-		Random ringRng(m_seed + 965467);
+	if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT) {
+		Random ringRng(sbody->GetSeed() + 965467);
 
 		// today's forecast: 50% chance of rings
 		double rings_die = ringRng.Double();
 		if (forceRings || (rings_die < 0.5)) {
 			const unsigned char * const baseCol
 				= RANDOM_RING_COLORS[ringRng.Int32(COUNTOF(RANDOM_RING_COLORS))];
-			m_rings.baseColor.r = Clamp(baseCol[0] + ringRng.Int32(-20,20), 0, 255);
-			m_rings.baseColor.g = Clamp(baseCol[1] + ringRng.Int32(-20,20), 0, 255);
-			m_rings.baseColor.b = Clamp(baseCol[2] + ringRng.Int32(-20,10), 0, 255);
-			m_rings.baseColor.a = Clamp(baseCol[3] + ringRng.Int32(-5,5), 0, 255);
+			sbody->m_rings.baseColor.r = Clamp(baseCol[0] + ringRng.Int32(-20,20), 0, 255);
+			sbody->m_rings.baseColor.g = Clamp(baseCol[1] + ringRng.Int32(-20,20), 0, 255);
+			sbody->m_rings.baseColor.b = Clamp(baseCol[2] + ringRng.Int32(-20,10), 0, 255);
+			sbody->m_rings.baseColor.a = Clamp(baseCol[3] + ringRng.Int32(-5,5), 0, 255);
 
 			// from wikipedia: http://en.wikipedia.org/wiki/Roche_limit
 			// basic Roche limit calculation assuming a rigid satellite
@@ -1119,8 +1118,8 @@ void SystemBody::PickRings(bool forceRings)
 			fixed outerMin = fixed(150, 100);
 			fixed outerMax = fixed(168642, 100000);
 
-			m_rings.minRadius = innerMin + (innerMax - innerMin)*ringRng.Fixed();
-			m_rings.maxRadius = outerMin + (outerMax - outerMin)*ringRng.Fixed();
+			sbody->m_rings.minRadius = innerMin + (innerMax - innerMin)*ringRng.Fixed();
+			sbody->m_rings.maxRadius = outerMin + (outerMax - outerMin)*ringRng.Fixed();
 		}
 	}
 }
@@ -1260,22 +1259,22 @@ void StarSystem::Dump()
 /*
  * http://en.wikipedia.org/wiki/Hill_sphere
  */
-fixed SystemBody::CalcHillRadius() const
+fixed StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody* sbody) const
 {
 	PROFILE_SCOPED()
-	if (GetSuperType() <= SUPERTYPE_STAR) {
+	if (sbody->GetSuperType() <= SystemBody::SUPERTYPE_STAR) {
 		return fixed();
 	} else {
 		// playing with precision since these numbers get small
 		// masses in earth masses
-		fixedf<32> mprimary = m_parent->GetMassInEarths();
+		fixedf<32> mprimary = sbody->GetParent()->GetMassInEarths();
 
-		fixedf<48> a = m_semiMajorAxis;
-		fixedf<48> e = m_eccentricity;
+		fixedf<48> a = sbody->GetSemiMajorAxisAsFixed();
+		fixedf<48> e = sbody->GetEccentricityAsFixed();
 
 		return fixed(a * (fixedf<48>(1,1)-e) *
 				fixedf<48>::CubeRootOf(fixedf<48>(
-						m_mass / (fixedf<32>(3,1)*mprimary))));
+						sbody->GetMassAsFixed() / (fixedf<32>(3,1)*mprimary))));
 
 		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
 		//  fixedcuberoot(mass / (3*mprimary));
@@ -1285,39 +1284,38 @@ fixed SystemBody::CalcHillRadius() const
 /*
  * For moons distance from star is not orbMin, orbMax.
  */
-const SystemBody* SystemBody::FindStarAndTrueOrbitalRange(fixed &orbMin_, fixed &orbMax_) const
+const SystemBody* StarSystemRandomGenerator::FindStarAndTrueOrbitalRange(const SystemBody *planet, fixed &orbMin_, fixed &orbMax_) const
 {
 	PROFILE_SCOPED()
-	const SystemBody *planet = this;
-	const SystemBody *star = this->m_parent;
+	const SystemBody *star = planet->GetParent();
 
 	assert(star);
 
 	/* while not found star yet.. */
 	while (star->GetSuperType() > SystemBody::SUPERTYPE_STAR) {
 		planet = star;
-		star = star->m_parent;
+		star = star->GetParent();
 	}
 
-	orbMin_ = planet->m_orbMin;
-	orbMax_ = planet->m_orbMax;
+	orbMin_ = planet->GetOrbMinAsFixed();
+	orbMax_ = planet->GetOrbMaxAsFixed();
 	return star;
 }
 
-void SystemBody::PickPlanetType(Random &rand)
+void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 {
 	PROFILE_SCOPED()
 	fixed albedo;
 	fixed greenhouse;
 
 	fixed minDistToStar, maxDistToStar, averageDistToStar;
-	const SystemBody* star = FindStarAndTrueOrbitalRange(minDistToStar, maxDistToStar);
+	const SystemBody* star = FindStarAndTrueOrbitalRange(sbody, minDistToStar, maxDistToStar);
 	averageDistToStar = (minDistToStar+maxDistToStar)>>1;
 
 	/* first calculate blackbody temp (no greenhouse effect, zero albedo) */
 	int bbody_temp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
 
-	m_averageTemp = bbody_temp;
+	sbody->m_averageTemp = bbody_temp;
 
 	static const fixed ONEEUMASS = fixed::FromDouble(1);
 	static const fixed TWOHUNDREDEUMASSES = fixed::FromDouble(200.0);
@@ -1326,72 +1324,72 @@ void SystemBody::PickPlanetType(Random &rand)
 	// AndyC - Updated to use the empirically gathered data from this site:
 	// http://phl.upr.edu/library/notes/standardmass-radiusrelationforexoplanets
 	// but we still limit at the lowest end
-	if (m_mass <= fixed(1,1)) {
-		m_radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(m_mass)));
-	} else if( m_mass < ONEEUMASS ) {
+	if (sbody->GetMassAsFixed() <= fixed(1,1)) {
+		sbody->m_radius = fixed(fixedf<48>::CubeRootOf(fixedf<48>(sbody->GetMassAsFixed())));
+	} else if( sbody->GetMassAsFixed() < ONEEUMASS ) {
 		// smaller than 1 Earth mass is almost certainly a rocky body
-		m_radius = fixed::FromDouble(pow( m_mass.ToDouble(), 0.3 ));
-	} else if( m_mass < TWOHUNDREDEUMASSES ) {
+		sbody->m_radius = fixed::FromDouble(pow( sbody->GetMassAsFixed().ToDouble(), 0.3 ));
+	} else if( sbody->GetMassAsFixed() < TWOHUNDREDEUMASSES ) {
 		// from 1 EU to 200 they transition from Earth-like rocky bodies, through Ocean worlds and on to Gas Giants
-		m_radius = fixed::FromDouble(pow( m_mass.ToDouble(), 0.5 ));
+		sbody->m_radius = fixed::FromDouble(pow( sbody->GetMassAsFixed().ToDouble(), 0.5 ));
 	} else {
 		// Anything bigger than 200 EU masses is a Gas Giant or bigger but the density changes to decrease from here on up...
-		m_radius = fixed::FromDouble( 22.6 * (1.0/pow(m_mass.ToDouble(), double(0.0886))) );
+		sbody->m_radius = fixed::FromDouble( 22.6 * (1.0/pow(sbody->GetMassAsFixed().ToDouble(), double(0.0886))) );
 	}
 	// enforce minimum size of 10km
-	m_radius = std::max(m_radius, fixed(1,630));
+	sbody->m_radius = std::max(sbody->GetRadiusAsFixed(), fixed(1,630));
 
-	if (m_parent->m_type <= TYPE_STAR_MAX) {
+	if (sbody->GetParent()->GetType() <= SystemBody::TYPE_STAR_MAX) {
 		// get it from the table now rather than setting it on stars/gravpoints as
 		// currently nothing else needs them to have metallicity
-		m_metallicity = StarSystem::starMetallicities[m_parent->m_type] * rand.Fixed();
+		sbody->m_metallicity = starMetallicities[sbody->GetParent()->GetType()] * rand.Fixed();
 	} else {
 		// this assumes the parent's parent is a star/gravpoint, which is currently always true
-		m_metallicity = StarSystem::starMetallicities[m_parent->m_parent->m_type] * rand.Fixed();
+		sbody->m_metallicity = starMetallicities[sbody->GetParent()->GetParent()->GetType()] * rand.Fixed();
 	}
 
 	// harder to be volcanic when you are tiny (you cool down)
-	m_volcanicity = std::min(fixed(1,1), m_mass) * rand.Fixed();
-	m_atmosOxidizing = rand.Fixed();
-	m_life = fixed();
-	m_volatileGas = fixed();
-	m_volatileLiquid = fixed();
-	m_volatileIces = fixed();
+	sbody->m_volcanicity = std::min(fixed(1,1), sbody->GetMassAsFixed()) * rand.Fixed();
+	sbody->m_atmosOxidizing = rand.Fixed();
+	sbody->m_life = fixed();
+	sbody->m_volatileGas = fixed();
+	sbody->m_volatileLiquid = fixed();
+	sbody->m_volatileIces = fixed();
 
 	// pick body type
-	if (m_mass > 317*13) {
+	if (sbody->GetMassAsFixed() > 317*13) {
 		// more than 13 jupiter masses can fuse deuterium - is a brown dwarf
-		m_type = SystemBody::TYPE_BROWN_DWARF;
-		m_averageTemp = m_averageTemp + rand.Int32(StarSystem::starTypeInfo[m_type].tempMin, StarSystem::starTypeInfo[m_type].tempMax);
+		sbody->m_type = SystemBody::TYPE_BROWN_DWARF;
+		sbody->m_averageTemp = sbody->GetAverageTemp() + rand.Int32(starTypeInfo[sbody->GetType()].tempMin, starTypeInfo[sbody->GetType()].tempMax);
 		// prevent mass exceeding 65 jupiter masses or so, when it becomes a star
 		// XXX since TYPE_BROWN_DWARF is supertype star, mass is now in
 		// solar masses. what a fucking mess
-		m_mass = std::min(m_mass, fixed(317*65, 1)) / SUN_MASS_TO_EARTH_MASS;
+		sbody->m_mass = std::min(sbody->GetMassAsFixed(), fixed(317*65, 1)) / SUN_MASS_TO_EARTH_MASS;
 		//Radius is too high as it now uses the planetary calculations to work out radius (Cube root of mass)
 		// So tell it to use the star data instead:
-		m_radius = fixed(rand.Int32(StarSystem::starTypeInfo[m_type].radius[0], StarSystem::starTypeInfo[m_type].radius[1]), 100);
-	} else if (m_mass > 6) {
-		m_type = SystemBody::TYPE_PLANET_GAS_GIANT;
-	} else if (m_mass > fixed(1, 15000)) {
-		m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
+		sbody->m_radius = fixed(rand.Int32(starTypeInfo[sbody->GetType()].radius[0], starTypeInfo[sbody->GetType()].radius[1]), 100);
+	} else if (sbody->GetMassAsFixed() > 6) {
+		sbody->m_type = SystemBody::TYPE_PLANET_GAS_GIANT;
+	} else if (sbody->GetMassAsFixed() > fixed(1, 15000)) {
+		sbody->m_type = SystemBody::TYPE_PLANET_TERRESTRIAL;
 
 		fixed amount_volatiles = fixed(2,1)*rand.Fixed();
-		if (rand.Int32(3)) amount_volatiles *= m_mass;
+		if (rand.Int32(3)) amount_volatiles *= sbody->GetMassAsFixed();
 		// total atmosphere loss
-		if (rand.Fixed() > m_mass) amount_volatiles = fixed();
+		if (rand.Fixed() > sbody->GetMassAsFixed()) amount_volatiles = fixed();
 
 		//Output("Amount volatiles: %f\n", amount_volatiles.ToFloat());
 		// fudge how much of the volatiles are in which state
 		greenhouse = fixed();
 		albedo = fixed();
 		// CO2 sublimation
-		if (m_averageTemp > 195) greenhouse += amount_volatiles * fixed(1,3);
+		if (sbody->GetAverageTemp() > 195) greenhouse += amount_volatiles * fixed(1,3);
 		else albedo += fixed(2,6);
 		// H2O liquid
-		if (m_averageTemp > 273) greenhouse += amount_volatiles * fixed(1,5);
+		if (sbody->GetAverageTemp() > 273) greenhouse += amount_volatiles * fixed(1,5);
 		else albedo += fixed(3,6);
 		// H2O boils
-		if (m_averageTemp > 373) greenhouse += amount_volatiles * fixed(1,3);
+		if (sbody->GetAverageTemp() > 373) greenhouse += amount_volatiles * fixed(1,3);
 
 		if(greenhouse > fixed(7,10)) { // never reach 1, but 1/(1-greenhouse) still grows
 			greenhouse *= greenhouse;
@@ -1399,23 +1397,23 @@ void SystemBody::PickPlanetType(Random &rand)
 			greenhouse = greenhouse / (greenhouse + fixed(32,311));
 		}
 
-		m_averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
+		sbody->m_averageTemp = CalcSurfaceTemp(star, averageDistToStar, albedo, greenhouse);
 
-		const fixed proportion_gas = m_averageTemp / (fixed(100,1) + m_averageTemp);
-		m_volatileGas = proportion_gas * amount_volatiles;
+		const fixed proportion_gas = sbody->GetAverageTemp() / (fixed(100,1) + sbody->GetAverageTemp());
+		sbody->m_volatileGas = proportion_gas * amount_volatiles;
 
-		const fixed proportion_liquid = (fixed(1,1)-proportion_gas) * (m_averageTemp / (fixed(50,1) + m_averageTemp));
-		m_volatileLiquid = proportion_liquid * amount_volatiles;
+		const fixed proportion_liquid = (fixed(1,1)-proportion_gas) * (sbody->GetAverageTemp() / (fixed(50,1) + sbody->GetAverageTemp()));
+		sbody->m_volatileLiquid = proportion_liquid * amount_volatiles;
 
 		const fixed proportion_ices = fixed(1,1) - (proportion_gas + proportion_liquid);
-		m_volatileIces = proportion_ices * amount_volatiles;
+		sbody->m_volatileIces = proportion_ices * amount_volatiles;
 
 		//Output("temp %dK, gas:liquid:ices %f:%f:%f\n", averageTemp, proportion_gas.ToFloat(),
 		//		proportion_liquid.ToFloat(), proportion_ices.ToFloat());
 
-		if ((m_volatileLiquid > fixed()) &&
-		    (m_averageTemp > CELSIUS-60) &&
-		    (m_averageTemp < CELSIUS+200)) 
+		if ((sbody->GetVolatileLiquidAsFixed() > fixed()) &&
+		    (sbody->GetAverageTemp() > CELSIUS-60) &&
+		    (sbody->GetAverageTemp() < CELSIUS+200))
 		{
 			// try for life
 			int minTemp = CalcSurfaceTemp(star, maxDistToStar, albedo, greenhouse);
@@ -1426,18 +1424,17 @@ void SystemBody::PickPlanetType(Random &rand)
 			{
 			    fixed maxMass, lifeMult, allowedMass(1,2);
 			    allowedMass += 2;
-				IterationProxy<std::vector<SystemBody*> > proxy = this->GetStarSystem()->GetStars();	//instead see if the system could have existed long enough for life to form
-				for( auto s : proxy ) {	//find the most massive star, mass is tied to lifespan
+				for( auto s : sbody->GetStarSystem()->GetStars() ) {	//find the most massive star, mass is tied to lifespan
 					maxMass = maxMass < s->GetMassAsFixed() ? s->GetMassAsFixed() : maxMass;	//this automagically eliminates O, B and so on from consideration
 				}	//handy calculator: http://www.asc-csa.gc.ca/eng/educators/resources/astronomy/module2/calculator.asp
 				if(maxMass < allowedMass) {	//system could have existed long enough for life to form (based on Sol)
 					lifeMult = allowedMass - maxMass;
 				}
-				m_life = lifeMult * rand.Fixed();
+				sbody->m_life = lifeMult * rand.Fixed();
 			}
 		}
 	} else {
-		m_type = SystemBody::TYPE_PLANET_ASTEROID;
+		sbody->m_type = SystemBody::TYPE_PLANET_ASTEROID;
 	}
 
 	// Tidal lock for planets close to their parents:
@@ -1450,64 +1447,64 @@ void SystemBody::PickPlanetType(Random &rand)
 	fixed invTidalLockTime = fixed(1,1);
 
 	// fine-tuned not to give overflows, order of evaluation matters!
-	if (m_parent->m_type <= TYPE_STAR_MAX) {
-		invTidalLockTime /= (m_semiMajorAxis * m_semiMajorAxis);
-		invTidalLockTime *= m_mass;
-		invTidalLockTime /= (m_semiMajorAxis * m_semiMajorAxis);
-		invTidalLockTime *= m_parent->GetMassAsFixed()*m_parent->GetMassAsFixed();
-		invTidalLockTime /= m_radius;
-		invTidalLockTime /= (m_semiMajorAxis * m_semiMajorAxis)*MOON_TIDAL_LOCK;
+	if (sbody->GetParent()->GetType() <= SystemBody::TYPE_STAR_MAX) {
+		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed());
+		invTidalLockTime *= sbody->GetMassAsFixed();
+		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed());
+		invTidalLockTime *= sbody->GetParent()->GetMassAsFixed()*sbody->GetParent()->GetMassAsFixed();
+		invTidalLockTime /= sbody->GetRadiusAsFixed();
+		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed())*MOON_TIDAL_LOCK;
 	} else {
-		invTidalLockTime /= (m_semiMajorAxis * m_semiMajorAxis)*SUN_MASS_TO_EARTH_MASS;
-		invTidalLockTime *= m_mass;
-		invTidalLockTime /= (m_semiMajorAxis * m_semiMajorAxis)*SUN_MASS_TO_EARTH_MASS;
-		invTidalLockTime *= m_parent->GetMassAsFixed()*m_parent->GetMassAsFixed();
-		invTidalLockTime /= m_radius;
-		invTidalLockTime /= (m_semiMajorAxis * m_semiMajorAxis)*MOON_TIDAL_LOCK;
+		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed())*SUN_MASS_TO_EARTH_MASS;
+		invTidalLockTime *= sbody->GetMassAsFixed();
+		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed())*SUN_MASS_TO_EARTH_MASS;
+		invTidalLockTime *= sbody->GetParent()->GetMassAsFixed()*sbody->GetParent()->GetMassAsFixed();
+		invTidalLockTime /= sbody->GetRadiusAsFixed();
+		invTidalLockTime /= (sbody->GetSemiMajorAxisAsFixed() * sbody->GetSemiMajorAxisAsFixed())*MOON_TIDAL_LOCK;
 	}
 	//Output("tidal lock of %s: %.5f, a %.5f R %.4f mp %.3f ms %.3f\n", name.c_str(),
 	//		invTidalLockTime.ToFloat(), semiMajorAxis.ToFloat(), radius.ToFloat(), parent->mass.ToFloat(), mass.ToFloat());
 
 	if(invTidalLockTime > 10) { // 10x faster than Moon, no chance not to be tidal-locked
-		m_rotationPeriod = fixed(int(round(m_orbit.Period())),3600*24);
-		m_axialTilt = m_inclination;
+		sbody->m_rotationPeriod = fixed(int(round(sbody->GetOrbit().Period())),3600*24);
+		sbody->m_axialTilt = sbody->GetInclinationAsFixed();
 	} else if(invTidalLockTime > fixed(1,100)) { // rotation speed changed in favour of tidal lock
 		// XXX: there should be some chance the satellite was captured only recenly and ignore this
 		//		I'm ommiting that now, I do not want to change the Universe by additional rand call.
 
 		fixed lambda = invTidalLockTime/(fixed(1,20)+invTidalLockTime);
-		m_rotationPeriod = (1-lambda)*m_rotationPeriod + lambda*m_orbit.Period()/3600/24;
-		m_axialTilt = (1-lambda)*m_axialTilt + lambda*m_inclination;
+		sbody->m_rotationPeriod = (1-lambda)*sbody->GetRotationPeriodAsFixed()+ lambda*sbody->GetOrbit().Period()/3600/24;
+		sbody->m_axialTilt = (1-lambda)*sbody->GetAxialTiltAsFixed() + lambda*sbody->GetInclinationAsFixed();
 	} // else .. nothing happens to the satellite
 
-    PickAtmosphere();
-	PickRings();
+    PickAtmosphere(sbody);
+	PickRings(sbody);
 }
 
 /*
  * Set natural resources, tech level, industry strengths and population levels
  */
-void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
+void PopulateStarSystemGenerator::PopulateStage1(SystemBody* sbody, StarSystem::GeneratorAPI *system, fixed &outTotalPop)
 {
 	PROFILE_SCOPED()
-	for (unsigned int i=0; i<m_children.size(); i++) {
-		m_children[i]->PopulateStage1(system, outTotalPop);
+	for (auto child : sbody->GetChildren()) {
+		PopulateStage1(child, system, outTotalPop);
 	}
 
 	// unexplored systems have no population (that we know about)
-	if (system->m_unexplored) {
-		m_population = outTotalPop = fixed();
+	if (system->GetUnexplored()) {
+		sbody->m_population = outTotalPop = fixed();
 		return;
 	}
 
 	// grav-points have no population themselves
-	if (m_type == SystemBody::TYPE_GRAVPOINT) {
-		m_population = fixed();
+	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
+		sbody->m_population = fixed();
 		return;
 	}
 
-	Uint32 _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
-			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), UNIVERSE_SEED, Uint32(this->m_seed) };
+	Uint32 _init[6] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX),
+			Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), UNIVERSE_SEED, Uint32(sbody->GetSeed()) };
 
 	Random rand;
 	rand.seed(_init, 6);
@@ -1515,33 +1512,33 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 	RefCountedPtr<Random> namerand(new Random);
 	namerand->seed(_init, 6);
 
-	m_population = fixed();
+	sbody->m_population = fixed();
 
 	/* Bad type of planet for settlement */
-	if ((m_averageTemp > CELSIUS+100) || (m_averageTemp < 100) ||
-	    (m_type != SystemBody::TYPE_PLANET_TERRESTRIAL && m_type != SystemBody::TYPE_PLANET_ASTEROID)) {
+	if ((sbody->GetAverageTemp() > CELSIUS+100) || (sbody->GetAverageTemp() < 100) ||
+	    (sbody->GetType() != SystemBody::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != SystemBody::TYPE_PLANET_ASTEROID)) {
 
         // orbital starports should carry a small amount of population
-        if (m_type == SystemBody::TYPE_STARPORT_ORBITAL) {
-			m_population = fixed(1,100000);
-			outTotalPop += m_population;
+        if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
+			sbody->m_population = fixed(1,100000);
+			outTotalPop += sbody->m_population;
         }
 
 		return;
 	}
 
-	m_agricultural = fixed();
+	sbody->m_agricultural = fixed();
 
-	if (m_life > fixed(9,10)) {
-		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+25-m_averageTemp, 40), fixed(), fixed(1,1));
-		system->m_agricultural += 2*m_agricultural;
-	} else if (m_life > fixed(1,2)) {
-		m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+30-m_averageTemp, 50), fixed(), fixed(1,1));
-		system->m_agricultural += 1*m_agricultural;
+	if (sbody->GetLifeAsFixed() > fixed(9,10)) {
+		sbody->m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+25-sbody->GetAverageTemp(), 40), fixed(), fixed(1,1));
+		system->SetAgricultural(system->GetAgricultural() + 2*sbody->m_agricultural);
+	} else if (sbody->GetLifeAsFixed() > fixed(1,2)) {
+		sbody->m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+30-sbody->GetAverageTemp(), 50), fixed(), fixed(1,1));
+		system->SetAgricultural(system->GetAgricultural() + 1*sbody->m_agricultural);
 	} else {
 		// don't bother populating crap planets
-		if (m_metallicity < fixed(5,10) &&
-			m_metallicity < (fixed(1,1) - system->m_humanProx)) return;
+		if (sbody->GetMetallicityAsFixed() < fixed(5,10) &&
+			sbody->GetMetallicityAsFixed() < (fixed(1,1) - system->GetHumanProx())) return;
 	}
 
 	const int NUM_CONSUMABLES = 10;
@@ -1565,12 +1562,12 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 
 		fixed affinity = fixed(1,1);
 		if (info.econType & GalacticEconomy::ECON_AGRICULTURE) {
-			affinity *= 2*m_agricultural;
+			affinity *= 2*sbody->GetAgriculturalAsFixed();
 		}
-		if (info.econType & GalacticEconomy::ECON_INDUSTRY) affinity *= system->m_industrial;
+		if (info.econType & GalacticEconomy::ECON_INDUSTRY) affinity *= system->GetIndustrial();
 		// make industry after we see if agriculture and mining are viable
 		if (info.econType & GalacticEconomy::ECON_MINING) {
-			affinity *= m_metallicity;
+			affinity *= sbody->GetMetallicityAsFixed();
 		}
 		affinity *= rand.Fixed();
 		// producing consumables is wise
@@ -1582,24 +1579,24 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 		}
 		assert(affinity >= 0);
 		/* workforce... */
-		m_population += affinity * system->m_humanProx;
+		sbody->m_population += affinity * system->GetHumanProx();
 
 		int howmuch = (affinity * 256).ToInt32();
 
-		system->m_tradeLevel[i] += -2*howmuch;
+		system->AddTradeLevel(GalacticEconomy::Commodity(i), -2*howmuch);
 		for (int j=0; j < GalacticEconomy::CommodityInfo::MAX_ECON_INPUTS; ++j) {
 			if (info.inputs[j] == GalacticEconomy::Commodity::NONE) continue;
-			system->m_tradeLevel[int(info.inputs[j])] += howmuch;
+			system->AddTradeLevel(GalacticEconomy::Commodity(info.inputs[j]), howmuch);
 		}
 	}
 
-	if (!system->m_hasCustomBodies && m_population > 0)
-		m_name = Pi::luaNameGen->BodyName(this, namerand);
+	if (!system->HasCustomBodies() && sbody->GetPopulationAsFixed() > 0)
+		sbody->m_name = Pi::luaNameGen->BodyName(sbody, namerand);
 
 	// Add a bunch of things people consume
 	for (int i=0; i<NUM_CONSUMABLES; i++) {
 		GalacticEconomy::Commodity t = consumables[i];
-		if (m_life > fixed(1,2)) {
+		if (sbody->GetLifeAsFixed() > fixed(1,2)) {
 			// life planets can make this jizz probably
 			if ((t == GalacticEconomy::Commodity::AIR_PROCESSORS) ||
 			    (t == GalacticEconomy::Commodity::LIQUID_OXYGEN) ||
@@ -1609,14 +1606,14 @@ void SystemBody::PopulateStage1(StarSystem *system, fixed &outTotalPop)
 				continue;
 			}
 		}
-		system->m_tradeLevel[int(t)] += rand.Int32(32,128);
+		system->AddTradeLevel(GalacticEconomy::Commodity(t), rand.Int32(32,128));
 	}
 	// well, outdoor worlds should have way more people
-	m_population = fixed(1,10)*m_population + m_population*m_agricultural;
+	sbody->m_population = fixed(1,10)*sbody->m_population + sbody->m_population*sbody->GetAgriculturalAsFixed();
 
-//	Output("%s: pop %.3f billion\n", name.c_str(), m_population.ToFloat());
+//	Output("%s: pop %.3f billion\n", name.c_str(), sbody->m_population.ToFloat());
 
-	outTotalPop += m_population;
+	outTotalPop += sbody->GetPopulationAsFixed();
 }
 
 static bool check_unique_station_name(const std::string & name, const StarSystem * system) {
@@ -1639,15 +1636,14 @@ static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *sys
 	return name;
 }
 
-void SystemBody::PopulateAddStations(StarSystem *system)
+void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSystem::GeneratorAPI *system)
 {
 	PROFILE_SCOPED()
-	for (unsigned int i=0; i<m_children.size(); i++) {
-		m_children[i]->PopulateAddStations(system);
-	}
+	for (auto child : sbody->GetChildren())
+		PopulateAddStations(child, system);
 
-	Uint32 _init[6] = { system->m_path.systemIndex, Uint32(system->m_path.sectorX),
-			Uint32(system->m_path.sectorY), Uint32(system->m_path.sectorZ), this->m_seed, UNIVERSE_SEED };
+	Uint32 _init[6] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX),
+			Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), sbody->GetSeed(), UNIVERSE_SEED };
 
 	Random rand;
 	rand.seed(_init, 6);
@@ -1655,14 +1651,14 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 	RefCountedPtr<Random> namerand(new Random);
 	namerand->seed(_init, 6);
 
-	if (m_population < fixed(1,1000)) return;
+	if (sbody->GetPopulationAsFixed() < fixed(1,1000)) return;
 
-	fixed orbMaxS = fixed(1,4)*this->CalcHillRadius();
-	fixed orbMinS = 4 * this->m_radius * AU_EARTH_RADIUS;
-	if (m_children.size()) orbMaxS = std::min(orbMaxS, fixed(1,2) * m_children[0]->m_orbMin);
+	fixed orbMaxS = fixed(1,4)*CalcHillRadius(sbody);
+	fixed orbMinS = 4 * sbody->GetRadiusAsFixed() * AU_EARTH_RADIUS;
+	if (sbody->GetNumChildren()) orbMaxS = std::min(orbMaxS, fixed(1,2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
 
 	// starports - orbital
-	fixed pop = m_population + rand.Fixed();
+	fixed pop = sbody->GetPopulationAsFixed() + rand.Fixed();
 	if( orbMinS < orbMaxS )
 	{
 		pop -= rand.Fixed();
@@ -1675,9 +1671,9 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			SystemBody *sp = system->NewBody();
 			sp->m_type = SystemBody::TYPE_STARPORT_ORBITAL;
 			sp->m_seed = rand.Int32();
-			sp->m_parent = this;
+			sp->m_parent = sbody;
 			sp->m_rotationPeriod = fixed(1,3600);
-			sp->m_averageTemp = this->m_averageTemp;
+			sp->m_averageTemp = sbody->GetAverageTemp();
 			sp->m_mass = 0;
 
 			// place stations between min and max orbits to reduce the number of extremely close/fast orbits
@@ -1685,7 +1681,7 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			sp->m_eccentricity = fixed();
 			sp->m_axialTilt = fixed();
 
-			sp->m_orbit.SetShapeAroundPrimary(sp->m_semiMajorAxis.ToDouble()*AU, this->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
+			sp->m_orbit.SetShapeAroundPrimary(sp->GetSemiMajorAxisAsFixed().ToDouble()*AU, sbody->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
 			if (NumToMake > 1) {
 				sp->m_orbit.SetPlane(matrix3x3d::RotateZ(double(i) * (M_PI / double(NumToMake-1))));
 			} else {
@@ -1693,17 +1689,17 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 			}
 
 			sp->m_inclination = fixed();
-			m_children.insert(m_children.begin(), sp);
-			system->m_spaceStations.push_back(sp);
-			sp->m_orbMin = sp->m_semiMajorAxis;
-			sp->m_orbMax = sp->m_semiMajorAxis;
+			sbody->m_children.insert(sbody->m_children.begin(), sp);
+			system->AddSpaceStation(sp);
+			sp->m_orbMin = sp->GetSemiMajorAxisAsFixed();
+			sp->m_orbMax = sp->GetSemiMajorAxisAsFixed();
 
 			sp->m_name = gen_unique_station_name(sp, system, namerand);
 		}
 	}
 	// starports - surface
 	// give it a fighting chance of having a decent number of starports (*3)
-	pop = m_population + (rand.Fixed() * 3);
+	pop = sbody->GetPopulationAsFixed() + (rand.Fixed() * 3);
 	int max = 6;
 	while (max-- > 0) {
 		pop -= rand.Fixed();
@@ -1712,30 +1708,30 @@ void SystemBody::PopulateAddStations(StarSystem *system)
 		SystemBody *sp = system->NewBody();
 		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
 		sp->m_seed = rand.Int32();
-		sp->m_parent = this;
-		sp->m_averageTemp = this->m_averageTemp;
+		sp->m_parent = sbody;
+		sp->m_averageTemp = sbody->GetAverageTemp();
 		sp->m_mass = 0;
 		sp->m_name = gen_unique_station_name(sp, system, namerand);
 		memset(&sp->m_orbit, 0, sizeof(Orbit));
-		sp->PositionSettlementOnPlanet();
-		m_children.insert(m_children.begin(), sp);
-		system->m_spaceStations.push_back(sp);
+		PositionSettlementOnPlanet(sp);
+		sbody->m_children.insert(sbody->m_children.begin(), sp);
+		system->AddSpaceStation(sp);
 	}
 
 	// garuantee that there is always a star port on a populated world
-	if( system->m_spaceStations.empty() )
+	if( !system->HasSpaceStations() )
 	{
 		SystemBody *sp = system->NewBody();
 		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
 		sp->m_seed = rand.Int32();
-		sp->m_parent = this;
-		sp->m_averageTemp = this->m_averageTemp;
+		sp->m_parent = sbody;
+		sp->m_averageTemp = sbody->m_averageTemp;
 		sp->m_mass = 0;
 		sp->m_name = gen_unique_station_name(sp, system, namerand);
 		memset(&sp->m_orbit, 0, sizeof(Orbit));
-		sp->PositionSettlementOnPlanet();
-		m_children.insert(m_children.begin(), sp);
-		system->m_spaceStations.push_back(sp);
+		PositionSettlementOnPlanet(sp);
+		sbody->m_children.insert(sbody->m_children.begin(), sp);
+		system->AddSpaceStation(sp);
 	}
 }
 
@@ -1902,13 +1898,13 @@ std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
 					"\t:ocean_cover(f(%d,%d))\n"
 					"\t:ice_cover(f(%d,%d))\n"
 					"\t:life(f(%d,%d))\n",
-				int(round(body->GetMetallicity().ToDouble()*multiplier)), multiplier,
-				int(round(body->GetVolcanicity().ToDouble()*multiplier)), multiplier,
-				int(round(body->GetVolatileGas().ToDouble()*multiplier)), multiplier,
-				int(round(body->GetAtmosOxidizing().ToDouble()*multiplier)), multiplier,
-				int(round(body->GetVolatileLiquid().ToDouble()*multiplier)), multiplier,
-				int(round(body->GetVolatileIces().ToDouble()*multiplier)), multiplier,
-				int(round(body->GetLife().ToDouble()*multiplier)), multiplier
+				int(round(body->GetMetallicity()*multiplier)), multiplier,
+				int(round(body->GetVolcanicity()*multiplier)), multiplier,
+				int(round(body->GetVolatileGas()*multiplier)), multiplier,
+				int(round(body->GetAtmosOxidizing()*multiplier)), multiplier,
+				int(round(body->GetVolatileLiquid()*multiplier)), multiplier,
+				int(round(body->GetVolatileIces()*multiplier)), multiplier,
+				int(round(body->GetLife()*multiplier)), multiplier
 			);
 	}
 

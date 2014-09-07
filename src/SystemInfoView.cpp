@@ -29,7 +29,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 {
 	{
 		Output("\n");
-		Output("Gas, liquid, ice: %f, %f, %f\n", b->GetVolatileGas().ToFloat(), b->GetVolatileLiquid().ToFloat(), b->GetVolatileIces().ToFloat());
+		Output("Gas, liquid, ice: %f, %f, %f\n", b->GetVolatileGas(), b->GetVolatileLiquid(), b->GetVolatileIces());
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
