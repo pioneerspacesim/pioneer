@@ -23,17 +23,6 @@
 
 //#define DEBUG_DUMP
 
-// minimum moon mass a little under Europa's
-static const fixed MIN_MOON_MASS = fixed(1,30000); // earth masses
-static const fixed MIN_MOON_DIST = fixed(15,10000); // AUs
-static const fixed MAX_MOON_DIST = fixed(2, 100); // AUs
-static const fixed PLANET_MIN_SEPARATION = fixed(135,100);
-
-// very crudely
-static const fixed AU_EARTH_RADIUS = fixed(3, 65536);
-
-static const fixed FIXED_PI = fixed(103993,33102);
-
 // indexed by enum type turd
 const Uint8 StarSystem::starColors[][3] = {
 	{ 0, 0, 0 }, // gravpoint
