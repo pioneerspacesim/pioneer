@@ -55,13 +55,6 @@ class TimeDelta {
 		Sint64 GetTotalMilliseconds() const { return (m_delta / Millisecond); }
 		Sint64 GetTotalMicroseconds() const { return (m_delta / Microsecond); }
 
-		Sint32 GetWeeks() const { return GetTotalWeeks(); }
-		Sint32 GetDays() const { return (GetTotalDays() % 7); }
-		Sint32 GetHours() const { return (GetTotalHours() % 24); }
-		Sint32 GetMinutes() const { return (GetTotalMinutes() % 60); }
-		Sint32 GetSeconds() const { return (GetTotalSeconds() % 60); }
-		Sint32 GetMicroseconds() const { return (GetTotalMicroseconds() % 1000000); }
-
 		TimeDelta &operator+=(const TimeDelta &x) { m_delta += x.m_delta; return *this; }
 		TimeDelta &operator-=(const TimeDelta &x) { m_delta -= x.m_delta; return *this; }
 
