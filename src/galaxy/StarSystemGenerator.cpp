@@ -291,6 +291,172 @@ bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<StarSystem:
 }
 
 
+void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody* sbody)
+{
+	PROFILE_SCOPED()
+	/* Alpha value isn't real alpha. in the shader fog depth is determined
+	 * by density*alpha, so that we can have very dense atmospheres
+	 * without having them a big stinking solid color obscuring everything
+
+	  These are our atmosphere colours, for terrestrial planets we use m_atmosOxidizing
+	  for some variation to atmosphere colours
+	 */
+	switch (sbody->GetType()) {
+		case SystemBody::TYPE_PLANET_GAS_GIANT:
+
+			sbody->m_atmosColor = Color(255, 255, 255, 3);
+			sbody->m_atmosDensity = 14.0;
+			break;
+		case SystemBody::TYPE_PLANET_ASTEROID:
+			sbody->m_atmosColor = Color(0);
+			sbody->m_atmosDensity = 0.0;
+			break;
+		default:
+		case SystemBody::TYPE_PLANET_TERRESTRIAL:
+			double r = 0, g = 0, b = 0;
+			double atmo = sbody->GetAtmosOxidizing();
+			if (sbody->GetVolatileGas() > 0.001) {
+				if (atmo > 0.95) {
+					// o2
+					r = 1.0f + ((0.95f-atmo)*15.0f);
+					g = 0.95f + ((0.95f-atmo)*10.0f);
+					b = atmo*atmo*atmo*atmo*atmo;
+				} else if (atmo > 0.7) {
+					// co2
+					r = atmo+0.05f;
+					g = 1.0f + (0.7f-atmo);
+					b = 0.8f;
+				} else if (atmo > 0.65) {
+					// co
+					r = 1.0f + (0.65f-atmo);
+					g = 0.8f;
+					b = atmo + 0.25f;
+				} else if (atmo > 0.55) {
+					// ch4
+					r = 1.0f + ((0.55f-atmo)*5.0);
+					g = 0.35f - ((0.55f-atmo)*5.0);
+					b = 0.4f;
+				} else if (atmo > 0.3) {
+					// h
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+				} else if (atmo > 0.2) {
+					// he
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+				} else if (atmo > 0.15) {
+					// ar
+					r = 0.5f - ((0.15f-atmo)*5.0);
+					g = 0.0f;
+					b = 0.5f + ((0.15f-atmo)*5.0);
+				} else if (atmo > 0.1) {
+					// s
+					r = 0.8f - ((0.1f-atmo)*4.0);
+					g = 1.0f;
+					b = 0.5f - ((0.1f-atmo)*10.0);
+				} else {
+					// n
+					r = 1.0f;
+					g = 1.0f;
+					b = 1.0f;
+				}
+				sbody->m_atmosColor = Color(r*255, g*255, b*255, 255);
+			} else {
+				sbody->m_atmosColor = Color(0);
+			}
+			sbody->m_atmosDensity = sbody->GetVolatileGas();
+			//Output("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);
+			//Output("-------------------------------\n");
+			break;
+		/*default:
+			sbody->m_atmosColor = Color(0.6f, 0.6f, 0.6f, 1.0f);
+			sbody->m_atmosDensity = m_body->m_volatileGas.ToDouble();
+			break;*/
+	}
+}
+
+static const unsigned char RANDOM_RING_COLORS[][4] = {
+	{ 156, 122,  98, 217 }, // jupiter-like
+	{ 156, 122,  98, 217 }, // saturn-like
+	{ 181, 173, 174, 217 }, // neptune-like
+	{ 130, 122,  98, 217 }, // uranus-like
+	{ 207, 122,  98, 217 }  // brown dwarf-like
+};
+
+void StarSystemLegacyGeneratorBase::PickRings(SystemBody* sbody, bool forceRings)
+{
+	PROFILE_SCOPED()
+	sbody->m_rings.minRadius = fixed();
+	sbody->m_rings.maxRadius = fixed();
+	sbody->m_rings.baseColor = Color(255,255,255,255);
+
+	if (sbody->GetType() == SystemBody::TYPE_PLANET_GAS_GIANT) {
+		Random ringRng(sbody->GetSeed() + 965467);
+
+		// today's forecast: 50% chance of rings
+		double rings_die = ringRng.Double();
+		if (forceRings || (rings_die < 0.5)) {
+			const unsigned char * const baseCol
+				= RANDOM_RING_COLORS[ringRng.Int32(COUNTOF(RANDOM_RING_COLORS))];
+			sbody->m_rings.baseColor.r = Clamp(baseCol[0] + ringRng.Int32(-20,20), 0, 255);
+			sbody->m_rings.baseColor.g = Clamp(baseCol[1] + ringRng.Int32(-20,20), 0, 255);
+			sbody->m_rings.baseColor.b = Clamp(baseCol[2] + ringRng.Int32(-20,10), 0, 255);
+			sbody->m_rings.baseColor.a = Clamp(baseCol[3] + ringRng.Int32(-5,5), 0, 255);
+
+			// from wikipedia: http://en.wikipedia.org/wiki/Roche_limit
+			// basic Roche limit calculation assuming a rigid satellite
+			// d = R (2 p_M / p_m)^{1/3}
+			//
+			// where R is the radius of the primary, p_M is the density of
+			// the primary and p_m is the density of the satellite
+			//
+			// I assume a satellite density of 500 kg/m^3
+			// (which Wikipedia says is an average comet density)
+			//
+			// also, I can't be bothered to think about unit conversions right now,
+			// so I'm going to ignore the real density of the primary and take it as 1100 kg/m^3
+			// (note: density of Saturn is ~687, Jupiter ~1,326, Neptune ~1,638, Uranus ~1,318)
+			//
+			// This gives: d = 1.638642 * R
+			fixed innerMin = fixed(110, 100);
+			fixed innerMax = fixed(145, 100);
+			fixed outerMin = fixed(150, 100);
+			fixed outerMax = fixed(168642, 100000);
+
+			sbody->m_rings.minRadius = innerMin + (innerMax - innerMin)*ringRng.Fixed();
+			sbody->m_rings.maxRadius = outerMin + (outerMax - outerMin)*ringRng.Fixed();
+		}
+	}
+}
+
+/*
+ * http://en.wikipedia.org/wiki/Hill_sphere
+ */
+fixed StarSystemLegacyGeneratorBase::CalcHillRadius(SystemBody* sbody) const
+{
+	PROFILE_SCOPED()
+	if (sbody->GetSuperType() <= SystemBody::SUPERTYPE_STAR) {
+		return fixed();
+	} else {
+		// playing with precision since these numbers get small
+		// masses in earth masses
+		fixedf<32> mprimary = sbody->GetParent()->GetMassInEarths();
+
+		fixedf<48> a = sbody->GetSemiMajorAxisAsFixed();
+		fixedf<48> e = sbody->GetEccentricityAsFixed();
+
+		return fixed(a * (fixedf<48>(1,1)-e) *
+				fixedf<48>::CubeRootOf(fixedf<48>(
+						sbody->GetMassAsFixed() / (fixedf<32>(3,1)*mprimary))));
+
+		//fixed hr = semiMajorAxis*(fixed(1,1) - eccentricity) *
+		//  fixedcuberoot(mass / (3*mprimary));
+	}
+}
+
+
 void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent,
 	const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand)
 {
@@ -762,7 +928,7 @@ void StarSystemRandomGenerator::PickPlanetType(SystemBody *sbody, Random &rand)
 		sbody->m_axialTilt = (1-lambda)*sbody->GetAxialTiltAsFixed() + lambda*sbody->GetInclinationAsFixed();
 	} // else .. nothing happens to the satellite
 
-    PickAtmosphere(sbody);
+	PickAtmosphere(sbody);
 	PickRings(sbody);
 }
 
