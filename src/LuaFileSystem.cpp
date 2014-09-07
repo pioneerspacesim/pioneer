@@ -21,7 +21,6 @@ static void push_date_time(lua_State *l, const Time::DateTime &dt) {
 	int year, month, day, hour, minute, second;
 	dt.GetDateParts(&year, &month, &day);
 	dt.GetTimeParts(&hour, &minute, &second);
-	const Time::TimeDelta tstamp = (dt - Time::DateTime(3200,1,1, 0,0,0));
 
 	lua_newtable(l);
 	pi_lua_settable(l, "year", year);
@@ -30,7 +29,7 @@ static void push_date_time(lua_State *l, const Time::DateTime &dt) {
 	pi_lua_settable(l, "hour", hour);
 	pi_lua_settable(l, "minute", minute);
 	pi_lua_settable(l, "second", second);
-	pi_lua_settable(l, "timestamp", double(tstamp.GetTotalSeconds()));
+	pi_lua_settable(l, "timestamp", datetime_to_game_time(dt));
 }
 
 /*

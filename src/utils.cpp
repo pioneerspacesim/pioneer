@@ -69,6 +69,16 @@ static Time::DateTime game_time_to_datetime(double t) {
 	return Time::DateTime(3200,1,1,0,0,0) + Time::TimeDelta(t, Time::Second);
 }
 
+double datetime_to_game_time(const Time::DateTime &dt) {
+	const Time::DateTime base(3200,1,1, 0,0,0);
+	Time::TimeDelta tstamp = (dt - base);
+	if (dt < base) {
+		// adjustment to give correct rounding for GetTotalSeconds()
+		tstamp -= Time::TimeDelta(Time::Second - 1, Time::TimeUnit(1));
+	}
+	return double(tstamp.GetTotalSeconds());
+}
+
 std::string format_date(double t)
 {
 	const Time::DateTime dt = game_time_to_datetime(t);
