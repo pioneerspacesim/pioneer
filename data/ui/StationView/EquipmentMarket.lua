@@ -20,8 +20,6 @@ local equipmentMarket = function (args)
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
 		canTrade = function (e) return e.purchasable and not e:IsValidSlot("cargo", Game.player) end,
-		buy = function (e, funcs) return Format.Money(funcs.getBuyPrice(e),false) end,
-		sell = function (e, funcs) return Format.Money(funcs.getSellPrice(e),false) end,
 	})
 
 	return
