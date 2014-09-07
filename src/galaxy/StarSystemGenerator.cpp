@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystemGenerator.h"
+#include "LuaNameGen.h"
 #include "Pi.h"
 #include "Galaxy.h"
 #include "Sector.h"
@@ -16,6 +17,7 @@ static const fixed SAFE_DIST_FROM_BINARY = fixed(5,1);
 static const fixed AU_SOL_RADIUS = fixed(305,65536);
 static const fixed AU_EARTH_RADIUS = fixed(3, 65536); // XXX Duplication from StarSystem.cpp
 static const fixed FIXED_PI = fixed(103993,33102); // XXX Duplication from StarSystem.cpp
+static const double CELSIUS	= 273.15;
 
 bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
 {
@@ -606,6 +608,280 @@ try_that_again_guvnah:
 	Dump();
 #endif /* DEBUG_DUMP */
 	return true;
+}
+
+/*
+ * Position a surface starport anywhere. Space.cpp::MakeFrameFor() ensures it
+ * is on dry land (discarding this position if necessary)
+ */
+void PopulateStarSystemGenerator::PositionSettlementOnPlanet(SystemBody* sbody)
+{
+	PROFILE_SCOPED()
+	Random r(sbody->GetSeed());
+	// used for orientation on planet surface
+	double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
+	double r1 = r.Double();		// can't put two rands in the same expression
+	sbody->m_orbit.SetPlane(matrix3x3d::RotateZ(2*M_PI*r1) * matrix3x3d::RotateY(2*M_PI*r2));
+
+	// store latitude and longitude to equivalent orbital parameters to
+	// be accessible easier
+	sbody->m_inclination = fixed(r1*10000,10000) + FIXED_PI/2;	// latitide
+	sbody->m_orbitalOffset = FIXED_PI/2;						// longitude
+
+}
+
+/*
+ * Set natural resources, tech level, industry strengths and population levels
+ */
+void PopulateStarSystemGenerator::PopulateStage1(SystemBody* sbody, StarSystem::GeneratorAPI *system, fixed &outTotalPop)
+{
+	PROFILE_SCOPED()
+	for (auto child : sbody->GetChildren()) {
+		PopulateStage1(child, system, outTotalPop);
+	}
+
+	// unexplored systems have no population (that we know about)
+	if (system->GetUnexplored()) {
+		sbody->m_population = outTotalPop = fixed();
+		return;
+	}
+
+	// grav-points have no population themselves
+	if (sbody->GetType() == SystemBody::TYPE_GRAVPOINT) {
+		sbody->m_population = fixed();
+		return;
+	}
+
+	Uint32 _init[6] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX),
+			Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), UNIVERSE_SEED, Uint32(sbody->GetSeed()) };
+
+	Random rand;
+	rand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
+
+	sbody->m_population = fixed();
+
+	/* Bad type of planet for settlement */
+	if ((sbody->GetAverageTemp() > CELSIUS+100) || (sbody->GetAverageTemp() < 100) ||
+	    (sbody->GetType() != SystemBody::TYPE_PLANET_TERRESTRIAL && sbody->GetType() != SystemBody::TYPE_PLANET_ASTEROID)) {
+
+        // orbital starports should carry a small amount of population
+        if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
+			sbody->m_population = fixed(1,100000);
+			outTotalPop += sbody->m_population;
+        }
+
+		return;
+	}
+
+	sbody->m_agricultural = fixed();
+
+	if (sbody->GetLifeAsFixed() > fixed(9,10)) {
+		sbody->m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+25-sbody->GetAverageTemp(), 40), fixed(), fixed(1,1));
+		system->SetAgricultural(system->GetAgricultural() + 2*sbody->m_agricultural);
+	} else if (sbody->GetLifeAsFixed() > fixed(1,2)) {
+		sbody->m_agricultural = Clamp(fixed(1,1) - fixed(CELSIUS+30-sbody->GetAverageTemp(), 50), fixed(), fixed(1,1));
+		system->SetAgricultural(system->GetAgricultural() + 1*sbody->m_agricultural);
+	} else {
+		// don't bother populating crap planets
+		if (sbody->GetMetallicityAsFixed() < fixed(5,10) &&
+			sbody->GetMetallicityAsFixed() < (fixed(1,1) - system->GetHumanProx())) return;
+	}
+
+	const int NUM_CONSUMABLES = 10;
+	const GalacticEconomy::Commodity consumables[NUM_CONSUMABLES] = {
+		GalacticEconomy::Commodity::AIR_PROCESSORS,
+		GalacticEconomy::Commodity::GRAIN,
+		GalacticEconomy::Commodity::FRUIT_AND_VEG,
+		GalacticEconomy::Commodity::ANIMAL_MEAT,
+		GalacticEconomy::Commodity::LIQUOR,
+		GalacticEconomy::Commodity::CONSUMER_GOODS,
+		GalacticEconomy::Commodity::MEDICINES,
+		GalacticEconomy::Commodity::HAND_WEAPONS,
+		GalacticEconomy::Commodity::NARCOTICS,
+		GalacticEconomy::Commodity::LIQUID_OXYGEN
+	};
+
+	/* Commodities we produce (mining and agriculture) */
+
+	for (int i = 1; i < GalacticEconomy::COMMODITY_COUNT; i++) {
+		const GalacticEconomy::CommodityInfo &info = GalacticEconomy::COMMODITY_DATA[i];
+
+		fixed affinity = fixed(1,1);
+		if (info.econType & GalacticEconomy::ECON_AGRICULTURE) {
+			affinity *= 2*sbody->GetAgriculturalAsFixed();
+		}
+		if (info.econType & GalacticEconomy::ECON_INDUSTRY) affinity *= system->GetIndustrial();
+		// make industry after we see if agriculture and mining are viable
+		if (info.econType & GalacticEconomy::ECON_MINING) {
+			affinity *= sbody->GetMetallicityAsFixed();
+		}
+		affinity *= rand.Fixed();
+		// producing consumables is wise
+		for (int j=0; j<NUM_CONSUMABLES; j++) {
+			if (GalacticEconomy::Commodity(i) == consumables[j]) {
+				affinity *= 2;
+				break;
+			}
+		}
+		assert(affinity >= 0);
+		/* workforce... */
+		sbody->m_population += affinity * system->GetHumanProx();
+
+		int howmuch = (affinity * 256).ToInt32();
+
+		system->AddTradeLevel(GalacticEconomy::Commodity(i), -2*howmuch);
+		for (int j=0; j < GalacticEconomy::CommodityInfo::MAX_ECON_INPUTS; ++j) {
+			if (info.inputs[j] == GalacticEconomy::Commodity::NONE) continue;
+			system->AddTradeLevel(GalacticEconomy::Commodity(info.inputs[j]), howmuch);
+		}
+	}
+
+	if (!system->HasCustomBodies() && sbody->GetPopulationAsFixed() > 0)
+		sbody->m_name = Pi::luaNameGen->BodyName(sbody, namerand);
+
+	// Add a bunch of things people consume
+	for (int i=0; i<NUM_CONSUMABLES; i++) {
+		GalacticEconomy::Commodity t = consumables[i];
+		if (sbody->GetLifeAsFixed() > fixed(1,2)) {
+			// life planets can make this jizz probably
+			if ((t == GalacticEconomy::Commodity::AIR_PROCESSORS) ||
+			    (t == GalacticEconomy::Commodity::LIQUID_OXYGEN) ||
+			    (t == GalacticEconomy::Commodity::GRAIN) ||
+			    (t == GalacticEconomy::Commodity::FRUIT_AND_VEG) ||
+			    (t == GalacticEconomy::Commodity::ANIMAL_MEAT)) {
+				continue;
+			}
+		}
+		system->AddTradeLevel(GalacticEconomy::Commodity(t), rand.Int32(32,128));
+	}
+	// well, outdoor worlds should have way more people
+	sbody->m_population = fixed(1,10)*sbody->m_population + sbody->m_population*sbody->GetAgriculturalAsFixed();
+
+//	Output("%s: pop %.3f billion\n", name.c_str(), sbody->m_population.ToFloat());
+
+	outTotalPop += sbody->GetPopulationAsFixed();
+}
+
+static bool check_unique_station_name(const std::string & name, const StarSystem * system) {
+	PROFILE_SCOPED()
+	bool ret = true;
+	for (const SystemBody *station : system->GetSpaceStations())
+		if (station->GetName() == name) {
+			ret = false;
+			break;
+		}
+	return ret;
+}
+
+static std::string gen_unique_station_name(SystemBody *sp, const StarSystem *system, RefCountedPtr<Random> &namerand) {
+	PROFILE_SCOPED()
+	std::string name;
+	do {
+		name = Pi::luaNameGen->BodyName(sp, namerand);
+	} while (!check_unique_station_name(name, system));
+	return name;
+}
+
+void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSystem::GeneratorAPI *system)
+{
+	PROFILE_SCOPED()
+	for (auto child : sbody->GetChildren())
+		PopulateAddStations(child, system);
+
+	Uint32 _init[6] = { system->GetPath().systemIndex, Uint32(system->GetPath().sectorX),
+			Uint32(system->GetPath().sectorY), Uint32(system->GetPath().sectorZ), sbody->GetSeed(), UNIVERSE_SEED };
+
+	Random rand;
+	rand.seed(_init, 6);
+
+	RefCountedPtr<Random> namerand(new Random);
+	namerand->seed(_init, 6);
+
+	if (sbody->GetPopulationAsFixed() < fixed(1,1000)) return;
+
+	fixed orbMaxS = fixed(1,4)*CalcHillRadius(sbody);
+	fixed orbMinS = 4 * sbody->GetRadiusAsFixed() * AU_EARTH_RADIUS;
+	if (sbody->GetNumChildren()) orbMaxS = std::min(orbMaxS, fixed(1,2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
+
+	// starports - orbital
+	fixed pop = sbody->GetPopulationAsFixed() + rand.Fixed();
+	if( orbMinS < orbMaxS )
+	{
+		pop -= rand.Fixed();
+		Uint32 NumToMake = 0;
+		while(pop >= 0) {
+			++NumToMake;
+			pop -= rand.Fixed();
+		}
+		for( Uint32 i=0; i<NumToMake; i++ ) {
+			SystemBody *sp = system->NewBody();
+			sp->m_type = SystemBody::TYPE_STARPORT_ORBITAL;
+			sp->m_seed = rand.Int32();
+			sp->m_parent = sbody;
+			sp->m_rotationPeriod = fixed(1,3600);
+			sp->m_averageTemp = sbody->GetAverageTemp();
+			sp->m_mass = 0;
+
+			// place stations between min and max orbits to reduce the number of extremely close/fast orbits
+			sp->m_semiMajorAxis = orbMinS + ((orbMaxS - orbMinS) / 4);
+			sp->m_eccentricity = fixed();
+			sp->m_axialTilt = fixed();
+
+			sp->m_orbit.SetShapeAroundPrimary(sp->GetSemiMajorAxisAsFixed().ToDouble()*AU, sbody->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
+			if (NumToMake > 1) {
+				sp->m_orbit.SetPlane(matrix3x3d::RotateZ(double(i) * (M_PI / double(NumToMake-1))));
+			} else {
+				sp->m_orbit.SetPlane(matrix3x3d::Identity());
+			}
+
+			sp->m_inclination = fixed();
+			sbody->m_children.insert(sbody->m_children.begin(), sp);
+			system->AddSpaceStation(sp);
+			sp->m_orbMin = sp->GetSemiMajorAxisAsFixed();
+			sp->m_orbMax = sp->GetSemiMajorAxisAsFixed();
+
+			sp->m_name = gen_unique_station_name(sp, system, namerand);
+		}
+	}
+	// starports - surface
+	// give it a fighting chance of having a decent number of starports (*3)
+	pop = sbody->GetPopulationAsFixed() + (rand.Fixed() * 3);
+	int max = 6;
+	while (max-- > 0) {
+		pop -= rand.Fixed();
+		if (pop < 0) break;
+
+		SystemBody *sp = system->NewBody();
+		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
+		sp->m_seed = rand.Int32();
+		sp->m_parent = sbody;
+		sp->m_averageTemp = sbody->GetAverageTemp();
+		sp->m_mass = 0;
+		sp->m_name = gen_unique_station_name(sp, system, namerand);
+		memset(&sp->m_orbit, 0, sizeof(Orbit));
+		PositionSettlementOnPlanet(sp);
+		sbody->m_children.insert(sbody->m_children.begin(), sp);
+		system->AddSpaceStation(sp);
+	}
+
+	// garuantee that there is always a star port on a populated world
+	if( !system->HasSpaceStations() )
+	{
+		SystemBody *sp = system->NewBody();
+		sp->m_type = SystemBody::TYPE_STARPORT_SURFACE;
+		sp->m_seed = rand.Int32();
+		sp->m_parent = sbody;
+		sp->m_averageTemp = sbody->m_averageTemp;
+		sp->m_mass = 0;
+		sp->m_name = gen_unique_station_name(sp, system, namerand);
+		memset(&sp->m_orbit, 0, sizeof(Orbit));
+		PositionSettlementOnPlanet(sp);
+		sbody->m_children.insert(sbody->m_children.begin(), sp);
+		system->AddSpaceStation(sp);
+	}
 }
 
 void PopulateStarSystemGenerator::MakeShortDescription(RefCountedPtr<StarSystem::GeneratorAPI> system, Random &rand)
