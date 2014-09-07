@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Verbesserter Radarscanner"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Langstrecken-Radarscanner mit systemweiter Abdeckung"
    },
    "AIR_PROCESSORS" : {
       "description" : "",
@@ -761,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "%{sign}%joyname %axis Achse"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
