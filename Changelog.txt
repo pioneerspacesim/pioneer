@@ -10,6 +10,7 @@ September 2014
 
    * Fixes
      * Fix wrong reinitialization of random generator (#3156)
+     * Fix crash at Daniel's Haven (#3157)
 
 August 2014
 
