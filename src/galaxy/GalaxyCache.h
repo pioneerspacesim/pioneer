@@ -15,13 +15,15 @@
 #include "JobQueue.h"
 #include "RefCounted.h"
 
+class GalaxyGenerator;
+
 template <typename T, typename CompareT>
 class GalaxyObjectCache {
 	friend T;
 public:
 	static const std::string CACHE_NAME;
 
-	GalaxyObjectCache() : m_cacheHits(0), m_cacheHitsSlave(0), m_cacheMisses(0) { }
+	GalaxyObjectCache(RefCountedPtr<GalaxyGenerator> galGen) : m_galaxyGenerator(galGen), m_cacheHits(0), m_cacheHitsSlave(0), m_cacheMisses(0) { }
 	~GalaxyObjectCache();
 
 	RefCountedPtr<T> GetCached(const SystemPath& path);
@@ -54,17 +56,18 @@ public:
 
 	private:
 		GalaxyObjectCache* m_master;
+		RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 		CacheMap m_cache;
 		JobSet m_jobs;
 
-		Slave(GalaxyObjectCache* master, JobQueue* jobQueue);
+		Slave(GalaxyObjectCache* master, RefCountedPtr<GalaxyGenerator> galaxyGen, JobQueue* jobQueue);
 		void MasterDeleted();
 		void AddToCache(std::vector<RefCountedPtr<T> >& objects);
 	};
 
 	RefCountedPtr<Slave> NewSlaveCache();
 
-protected:
+private:
 	static const unsigned CACHE_JOB_SIZE = 100;
 
 	void AddToCache(std::vector<RefCountedPtr<T> >& objects);
@@ -77,7 +80,7 @@ protected:
 	class CacheJob : public Job
 	{
 	public:
-		CacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache, CacheFilledCallback callback = CacheFilledCallback());
+		CacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache, RefCountedPtr<GalaxyGenerator> galaxyGen, CacheFilledCallback callback = CacheFilledCallback());
 
 		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		virtual void OnFinish();  // runs in primary thread of the context
@@ -87,9 +90,11 @@ protected:
 		std::unique_ptr<std::vector<SystemPath> > m_paths;
 		std::vector<RefCountedPtr<T> > m_objects;
 		Slave* m_slaveCache;
+		RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 		CacheFilledCallback m_callback;
 	};
 
+	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	std::set<Slave*> m_slaves;
 	AtticMap m_attic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
 						// or elsewhere. The Sector destructor ensures that it is removed from here.

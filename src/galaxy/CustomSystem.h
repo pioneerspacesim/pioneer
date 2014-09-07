@@ -65,6 +65,7 @@ public:
 
 class CustomSystem {
 public:
+	static const int CUSTOM_ONLY_RADIUS = 4;
 	CustomSystem();
 	~CustomSystem();
 

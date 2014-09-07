@@ -14,10 +14,12 @@
 #include "CargoBody.h"
 #include "Space.h"
 #include "JobQueue.h"
+#include "galaxy/Galaxy.h"
 #include <map>
 #include <string>
 #include <vector>
 
+class GalaxyGenerator;
 class DeathView;
 class GalacticView;
 class Galaxy;
@@ -180,7 +182,9 @@ public:
 	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
 	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
 
-	static Galaxy* GetGalaxy() { return s_galaxy; }
+	static bool CreateGalaxy();
+	static bool CreateGalaxy(const std::string& genName, int genVersion = -1);
+	static RefCountedPtr<Galaxy> GetGalaxy() { return s_galaxy; }
 
 	static bool DrawGUI;
 
@@ -192,7 +196,7 @@ private:
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
-	static Galaxy* s_galaxy;
+	static RefCountedPtr<Galaxy> s_galaxy;
 	static bool menuDone;
 
 	static View *currentView;

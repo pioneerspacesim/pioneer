@@ -175,6 +175,14 @@ void SpaceStation::InitStation()
 	SceneGraph::ModelSkin skin;
 	skin.SetDecal("pioneer");
 	skin.Apply(model);
+
+	if (model->SupportsPatterns()) {
+		skin.SetRandomColors(rand);
+		skin.Apply(model);
+		model->SetPattern(rand.Int32(0, model->GetNumPatterns()));
+	} else {
+		skin.Apply(model);
+	}
 }
 
 SpaceStation::~SpaceStation()

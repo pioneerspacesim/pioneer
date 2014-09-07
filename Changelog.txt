@@ -1,3 +1,19 @@
+September 2014
+
+   * Minor changes and tweaks
+     * Show buy and sell prices in commodity market (#3153)
+     * Add new author's names to name generator (#3155)
+     * Commodity sell price too low (#3161)
+
+   * Internal Changes
+     * Improve galaxy image handling (#3154)
+     * Refactor galaxy generation code (#2773)
+     * Recreate folder structure for sgm batch export (#3162)
+
+   * Fixes
+     * Fix wrong reinitialization of random generator (#3156)
+     * Fix crash at Daniel's Haven (#3157)
+
 August 2014
 
    * New features
@@ -12,6 +28,7 @@ August 2014
      * Consistent set nav target on click in SystemView (#3125)
      * Write opengl.txt earlier to help debugging (#3138, #3137, #3132)
      * Bigger font for msg log (3143)
+     * Add support for patterns to space stations (#3151)
 
    * Script and UI API changes
      * Ship:UseECM() returns recharge time and success state.
@@ -30,6 +47,8 @@ August 2014
      * Fix refreshing assertion in SystemInfoView (#3120)
      * Fix unnecessary limit on ship base price (#3129, #3130)
      * Fix crash from TradeShips trying to serialize dead ships (#3126, #3123)
+     * Fix Fuel club discount not being applied (#3140)
+     * Fix system information updating during hyperjump (#3150)
 
 July 2014
 

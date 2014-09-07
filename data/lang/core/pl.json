@@ -761,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "Joystick(%joynum)  Oś(%{sign}%axis)"
+      "message" : "%joyname oś %{sign}%axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",

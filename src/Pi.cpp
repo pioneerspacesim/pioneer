@@ -64,7 +64,7 @@
 #include "KeyBindings.h"
 #include "EnumStrings.h"
 #include "galaxy/CustomSystem.h"
-#include "galaxy/Galaxy.h"
+#include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
 #include "graphics/Graphics.h"
@@ -152,7 +152,7 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
-Galaxy* Pi::s_galaxy = nullptr;
+RefCountedPtr<Galaxy> Pi::s_galaxy;
 
 // XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
@@ -342,6 +342,28 @@ SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 
 const char Pi::SAVE_DIR_NAME[] = "savefiles";
 
+bool Pi::CreateGalaxy()
+{
+	s_galaxy->FlushCaches();
+	s_galaxy = GalaxyGenerator::Create();
+	if (s_galaxy) {
+		s_galaxy->Init();
+		return true;
+	}
+	return false;
+}
+
+bool Pi::CreateGalaxy(const std::string& genName, GalaxyGenerator::Version genVersion)
+{
+	s_galaxy->FlushCaches();
+	s_galaxy = GalaxyGenerator::Create(genName, genVersion);
+	if (s_galaxy) {
+		s_galaxy->Init();
+		return true;
+	}
+	return false;
+}
+
 std::string Pi::GetSaveDir()
 {
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
@@ -477,7 +499,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.1f);
 
-	s_galaxy = new Galaxy;
+	if (config->HasEntry("GalaxyGenerator"))
+		GalaxyGenerator::SetDefaultGenerator(config->String("GalaxyGenerator"),
+			config->Int("GalaxyGeneratorVersion", GalaxyGenerator::LAST_VERSION));
+	s_galaxy = GalaxyGenerator::Create();
 
 	draw_progress(gauge, label, 0.2f);
 
@@ -676,7 +701,7 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	delete Pi::s_galaxy;
+	Pi::s_galaxy.Reset();
 	delete Pi::planner;
 	SDL_Quit();
 	FileSystem::Uninit();

@@ -26,7 +26,7 @@ class BinaryConverter : public BaseLoader
 public:
 	BinaryConverter(Graphics::Renderer*);
 	void Save(const std::string& filename, Model* m);
-	void Save(const std::string& filename, const std::string& savepath, Model* m);
+	void Save(const std::string& filename, const std::string& savepath, Model* m, const bool bInPlace);
 	Model *Load(const std::string &filename);
 	Model *Load(const std::string &filename, const std::string &path);
 
