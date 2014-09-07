@@ -573,20 +573,12 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 	}
 	else if (sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL) {
 		// space stations want non-rotating frame to some distance
-		// and a zero-size rotating frame
-		Frame *orbFrame = new Frame(f, sbody->GetName().c_str(), Frame::FLAG_HAS_ROT);
+		Frame *orbFrame = new Frame(f, sbody->GetName().c_str());
 		orbFrame->SetBodies(sbody, b);
 //		orbFrame->SetRadius(10*sbody->GetRadius());
 		orbFrame->SetRadius(20000.0);				// 4x standard parking radius
 		b->SetFrame(orbFrame);
 		return orbFrame;
-
-//		assert(sbody->rotationPeriod != 0);
-//		rotFrame = new Frame(orbFrame, sbody->name.c_str(), Frame::FLAG_ROTATING);
-//		rotFrame->SetBodies(sbody, b);
-//		rotFrame->SetRadius(0.0);
-//		rotFrame->SetAngVelocity(vector3d(0.0,double(static_cast<SpaceStation*>(b)->GetDesiredAngVel()),0.0));
-//		b->SetFrame(rotFrame);
 
 	} else if (sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 		// just put body into rotating frame of planet, not in its own frame

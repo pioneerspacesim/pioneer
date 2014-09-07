@@ -13,12 +13,12 @@
 
 Frame::Frame()
 {
-	Init(0, "", 0);
+	Init(0, "", FLAG_DEFAULT);
 }
 
 Frame::Frame(Frame *parent, const char *label)
 {
-	Init(parent, label, 0);
+	Init(parent, label, FLAG_DEFAULT);
 }
 
 Frame::Frame(Frame *parent, const char *label, unsigned int flags)
