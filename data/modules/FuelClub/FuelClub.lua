@@ -107,6 +107,13 @@ onChat = function (form, ref, option)
 					[Equipment.cargo.radioactives] = 0, -- Radioactives go free
 				})[commodity]
 			end,
+			getSellPrice = function (ref, commodity)
+				return ad.station:GetEquipmentPrice(commodity) * ({
+					[Equipment.cargo.hydrogen] = 0.5, -- half price Hydrogen
+					[Equipment.cargo.military_fuel] = 0.80, -- 20% off Milfuel
+					[Equipment.cargo.radioactives] = 0, -- Radioactives go free
+				})[commodity]
+			end,
 			-- Next two functions: If your membership is nearly up, you'd better
 			-- trade quickly, because we do check!
 			-- Also checking that the player isn't abusing radioactives sales...

@@ -14,8 +14,11 @@ local l = Lang.GetResource("ui-core")
 
 local commodityMarket = function (args)
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
-		stationColumns = { "icon", "name", "buy", "sell", "stock" },
+		stationColumns = { "icon", "name", "price", "stock" },
 		shipColumns = { "icon", "name", "amount" },
+		getSellPrice = function (e)
+			return Game.player:GetDockedWith():GetEquipmentPrice(e)
+		end,
 	})
 
 	return
