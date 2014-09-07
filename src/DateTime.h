@@ -101,6 +101,13 @@ class DateTime {
 		{ return DateTime(a.m_timestamp - b.m_delta); }
 		friend DateTime operator+(const TimeDelta &a, const DateTime &b) { return (b + a); }
 
+		friend bool operator<(const DateTime &a, const DateTime &b) { return (a.m_timestamp < b.m_timestamp); }
+		friend bool operator<=(const DateTime &a, const DateTime &b) { return (a.m_timestamp <= b.m_timestamp); }
+		friend bool operator==(const DateTime &a, const DateTime &b) { return (a.m_timestamp == b.m_timestamp); }
+		friend bool operator!=(const DateTime &a, const DateTime &b) { return (a.m_timestamp != b.m_timestamp); }
+		friend bool operator>(const DateTime &a, const DateTime &b) { return (a.m_timestamp > b.m_timestamp); }
+		friend bool operator>=(const DateTime &a, const DateTime &b) { return (a.m_timestamp >= b.m_timestamp); }
+
 		Sint64 GetTimestamp() const { return m_timestamp; }
 
 	private:
