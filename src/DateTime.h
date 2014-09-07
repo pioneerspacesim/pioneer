@@ -75,6 +75,7 @@ class TimeDelta {
 		friend DateTime operator+(const DateTime &a, const TimeDelta &b);
 		friend DateTime operator-(const DateTime &a, const TimeDelta &b);
 	private:
+		friend class DateTime;
 		Sint64 m_delta;
 };
 
@@ -100,6 +101,9 @@ class DateTime {
 		friend DateTime operator-(const DateTime &a, const TimeDelta &b)
 		{ return DateTime(a.m_timestamp - b.m_delta); }
 		friend DateTime operator+(const TimeDelta &a, const DateTime &b) { return (b + a); }
+
+		DateTime &operator+=(const TimeDelta &x) { m_timestamp += x.m_delta; return *this; }
+		DateTime &operator-=(const TimeDelta &x) { m_timestamp -= x.m_delta; return *this; }
 
 		friend bool operator<(const DateTime &a, const DateTime &b) { return (a.m_timestamp < b.m_timestamp); }
 		friend bool operator<=(const DateTime &a, const DateTime &b) { return (a.m_timestamp <= b.m_timestamp); }
