@@ -119,16 +119,26 @@ void SpaceStationType::OnSetupComplete()
 		}
 		else
 		{
-			struct SPlane
+			struct TPointLine
 			{
-				static vector3f IntersectLine(const vector3f &n, const vector3f &p0, const vector3f &a, const vector3f &b) {
-					using namespace MathUtil;
-					const vector3f ba = b-a;
-					const float d = p0.Length();
-					const float nDotA = Dot(n, a);
-					const float nDotBA = Dot(n, ba);
-
-					return a + (((d - nDotA)/nDotBA) * ba);
+				// for reference: http://paulbourke.net/geometry/pointlineplane/
+				static bool ClosestPointOnLine( const vector3f &Point, const vector3f &LineStart, const vector3f &LineEnd, vector3f &Intersection )
+				{
+					const float LineMag = ( LineStart - LineEnd ).Length();
+ 
+					const float U = ( ( ( Point.x - LineStart.x ) * ( LineEnd.x - LineStart.x ) ) +
+									(   ( Point.y - LineStart.y ) * ( LineEnd.y - LineStart.y ) ) +
+									(   ( Point.z - LineStart.z ) * ( LineEnd.z - LineStart.z ) ) ) /
+									( LineMag * LineMag );
+ 
+					if( U < 0.0f || U > 1.0f )
+						return false;   // closest point does not fall within the line segment
+ 
+					Intersection.x = LineStart.x + U * ( LineEnd.x - LineStart.x );
+					Intersection.y = LineStart.y + U * ( LineEnd.y - LineStart.y );
+					Intersection.z = LineStart.z + U * ( LineEnd.z - LineStart.z );
+ 
+					return true;
 				}
 			};
 
@@ -141,23 +151,13 @@ void SpaceStationType::OnSetupComplete()
 			const vector3f approach1Pos = approach1.GetTranslate();
 			const vector3f approach2Pos = approach2.GetTranslate();
 			{
-				const vector3f nUp = locTransform.Up().Normalized(); // plane normal
-				const vector3f nBack = locTransform.Back().Normalized(); // plane normal
-				const vector3f nRight = locTransform.Right().Normalized(); // plane normal
 				const vector3f p0 = locTransform.GetTranslate(); // plane position
 				const vector3f l = (approach2Pos - approach1Pos).Normalized(); // ray direction
 				const vector3f l0 = approach1Pos + (l*10000.0f);
-				
-				// back intersection default
-				intersectionPos = SPlane::IntersectLine(nBack, p0, approach1Pos, l0);
-				// right check
-				vector3f ip = SPlane::IntersectLine(nRight, p0, approach1Pos, l0);
-				if((intersectionPos - p0).LengthSqr() > (ip - p0).LengthSqr())
-					intersectionPos = ip;
-				// up check
-				ip = SPlane::IntersectLine(nUp, p0, approach1Pos, l0);
-				if((intersectionPos - p0).LengthSqr() > (ip - p0).LengthSqr())
-					intersectionPos = ip;
+
+				if(!TPointLine::ClosestPointOnLine(p0, approach1Pos, l0, intersectionPos)) {
+					Output("No point found on line segment");
+				} 
 			}
 			m_portPaths[bay].m_docking[3] = locTransform;
 			m_portPaths[bay].m_docking[3].SetTranslate( intersectionPos );
