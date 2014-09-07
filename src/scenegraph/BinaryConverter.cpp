@@ -62,19 +62,31 @@ void BinaryConverter::RegisterLoader(const std::string &typeName, std::function<
 void BinaryConverter::Save(const std::string& filename, Model* m)
 {
 	static const std::string s_EmptyString;
-	Save(filename, s_EmptyString, m);
+	Save(filename, s_EmptyString, m, false);
 }
 
-void BinaryConverter::Save(const std::string& filename, const std::string& savepath, Model* m)
+void BinaryConverter::Save(const std::string& filename, const std::string& savepath, Model* m, const bool bInPlace)
 {
+	printf("Saving file (%s)\n", filename.c_str());
 	FILE *f = nullptr;
 	FileSystem::FileSourceFS newFS(FileSystem::GetDataDir());
-	if (savepath.empty()) {
+	if (!bInPlace) {
 		if (!FileSystem::userFiles.MakeDirectory(SAVE_TARGET_DIR))
 			throw CouldNotOpenFileException();
 
+		std::string newpath = savepath.substr(0, savepath.size()-filename.size());
+		size_t pos = newpath.find_first_of("/", 0);
+		while(pos<savepath.size()-filename.size()) {
+			newpath = savepath.substr(0, pos);
+			pos = savepath.find_first_of("/", pos+1);
+			if (!FileSystem::userFiles.MakeDirectory(FileSystem::JoinPathBelow(SAVE_TARGET_DIR,newpath)))
+				throw CouldNotOpenFileException();
+			printf("Made directory (%s)\n", FileSystem::JoinPathBelow(SAVE_TARGET_DIR,newpath).c_str());
+		}
+
 		f = FileSystem::userFiles.OpenWriteStream(
-			FileSystem::JoinPathBelow(SAVE_TARGET_DIR, filename + SGM_EXTENSION));
+			FileSystem::JoinPathBelow(SAVE_TARGET_DIR, savepath + SGM_EXTENSION));
+		printf("Save file (%s)\n", FileSystem::JoinPathBelow(SAVE_TARGET_DIR, savepath + SGM_EXTENSION).c_str());
 		if (!f) throw CouldNotOpenFileException();
 	} else {
 		f = newFS.OpenWriteStream(savepath + SGM_EXTENSION);

@@ -57,7 +57,7 @@ void SetupRenderer()
 	s_renderer.reset(Graphics::Init(videoSettings));
 }
 
-void RunCompiler(const std::string &modelName, const std::string &filepath)
+void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
 {
 	Profiler::Timer timer;
 	timer.Start();
@@ -74,14 +74,9 @@ void RunCompiler(const std::string &modelName, const std::string &filepath)
 	}
 
 	try {
-		if (filepath.empty()) {
-			SceneGraph::BinaryConverter bc(s_renderer.get());
-			bc.Save(modelName, model.get());
-		} else {
-			const std::string DataPath = FileSystem::NormalisePath(filepath.substr(0, filepath.size()-6));
-			SceneGraph::BinaryConverter bc(s_renderer.get());
-			bc.Save(modelName, DataPath, model.get());
-		}
+		const std::string DataPath = FileSystem::NormalisePath(filepath.substr(0, filepath.size()-6));
+		SceneGraph::BinaryConverter bc(s_renderer.get());
+		bc.Save(modelName, DataPath, model.get(), bInPlace);
 	} catch (const CouldNotOpenFileException&) {
 	} catch (const CouldNotWriteToFileException&) {
 	}
@@ -151,7 +146,7 @@ start:
 			if (argc > 2) {
 				modelName = argv[2];
 				SetupRenderer();
-				RunCompiler(modelName, s_dummyPath);
+				RunCompiler(modelName, s_dummyPath, false);
 			}
 			break;
 		}
@@ -182,11 +177,7 @@ start:
 
 			SetupRenderer();
 			for (auto &modelName : list_model) {
-				if(isInPlace) {
-					RunCompiler(modelName.first, modelName.second);
-				} else {
-					RunCompiler(modelName.first, s_dummyPath);
-				}
+				RunCompiler(modelName.first, modelName.second, isInPlace);
 			}
 			break;
 		}
