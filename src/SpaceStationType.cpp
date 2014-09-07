@@ -86,12 +86,15 @@ void SpaceStationType::OnSetupComplete()
 		int bay, portId;
 		int minSize, maxSize;
 		char padname[8];
+		const matrix4x4f &locTransform = locIter->GetTransform();
+
 		// eg:loc_A001_p01_s0_500_b01
 		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname, &portId, &minSize, &maxSize, &bay));
 		PiVerify(bay>0 && portId>0);
 
 		// find the port and setup the rest of it's information
 		bool bFoundPort = false;
+		matrix4x4f approach1;
 		matrix4x4f approach2;
 		for(auto &rPort : m_ports) {
 			if(rPort.portId == portId) {
@@ -99,6 +102,7 @@ void SpaceStationType::OnSetupComplete()
 				rPort.maxShipSize = std::max(maxSize,rPort.maxShipSize);
 				rPort.bayIDs.push_back( std::make_pair(bay-1, padname) );
 				bFoundPort = true;
+				approach1 = rPort.m_approach[1];
 				approach2 = rPort.m_approach[2];
 				break;
 			}
@@ -109,37 +113,73 @@ void SpaceStationType::OnSetupComplete()
 		if( SURFACE == dockMethod )
 		{
 			// ground stations don't have leaving waypoints.
-			m_portPaths[bay].m_docking[2] = locIter->GetTransform(); // final (docked)
+			m_portPaths[bay].m_docking[2] = locTransform; // final (docked)
 			numDockingStages = 2;
 			numUndockStages = 1;
 		}
 		else
 		{
-			const vector3f offDir = -locIter->GetTransform().Up().Normalized() * padOffset;
+			struct SPlane
+			{
+				static vector3f IntersectLine(const vector3f &n, const vector3f &p0, const vector3f &a, const vector3f &b) {
+					using namespace MathUtil;
+					const vector3f ba = b-a;
+					const float d = p0.Length();
+					const float nDotA = Dot(n, a);
+					const float nDotBA = Dot(n, ba);
+
+					return a + (((d - nDotA)/nDotBA) * ba);
+				}
+			};
 
 			// create the docking locators
-			m_portPaths[bay].m_docking[2] = approach2; // start
-			m_portPaths[bay].m_docking[2].SetRotationOnly( locIter->GetTransform().GetOrient() );
-			m_portPaths[bay].m_docking[3] = locIter->GetTransform(); // above the pad
-			m_portPaths[bay].m_docking[3].SetTranslate( locIter->GetTransform().GetTranslate() + offDir );
-			m_portPaths[bay].m_docking[4] = locIter->GetTransform(); // final (docked)
+			// start
+			m_portPaths[bay].m_docking[2] = approach2;
+			m_portPaths[bay].m_docking[2].SetRotationOnly( locTransform.GetOrient() );
+			// above the pad
+			vector3f intersectionPos;
+			const vector3f approach1Pos = approach1.GetTranslate();
+			const vector3f approach2Pos = approach2.GetTranslate();
+			{
+				const vector3f nUp = locTransform.Up().Normalized(); // plane normal
+				const vector3f nBack = locTransform.Back().Normalized(); // plane normal
+				const vector3f nRight = locTransform.Right().Normalized(); // plane normal
+				const vector3f p0 = locTransform.GetTranslate(); // plane position
+				const vector3f l = (approach2Pos - approach1Pos).Normalized(); // ray direction
+				const vector3f l0 = approach1Pos + (l*10000.0f);
+				
+				// back intersection default
+				intersectionPos = SPlane::IntersectLine(nBack, p0, approach1Pos, l0);
+				// right check
+				vector3f ip = SPlane::IntersectLine(nRight, p0, approach1Pos, l0);
+				if((intersectionPos - p0).LengthSqr() > (ip - p0).LengthSqr())
+					intersectionPos = ip;
+				// up check
+				ip = SPlane::IntersectLine(nUp, p0, approach1Pos, l0);
+				if((intersectionPos - p0).LengthSqr() > (ip - p0).LengthSqr())
+					intersectionPos = ip;
+			}
+			m_portPaths[bay].m_docking[3] = locTransform;
+			m_portPaths[bay].m_docking[3].SetTranslate( intersectionPos );
+			// final (docked)
+			m_portPaths[bay].m_docking[4] = locTransform;
 			numDockingStages = 4;
 
 			// leaving locators ...
-			matrix4x4f orient = locIter->GetTransform().GetOrient(), EndOrient;
+			matrix4x4f orient = locTransform.GetOrient(), EndOrient;
 			if( exit_mts.empty() )
 			{
 				// leaving locators need to face in the opposite direction
 				const matrix4x4f rot = matrix3x3f::Rotate(DEG2RAD(180.0f), orient.Back());
 				orient = orient * rot;
-				orient.SetTranslate( locIter->GetTransform().GetTranslate() );
+				orient.SetTranslate( locTransform.GetTranslate() );
 				EndOrient = approach2;
 				EndOrient.SetRotationOnly(orient);
 			}
 			else
 			{
 				// leaving locators, use whatever orientation they have
-				orient.SetTranslate( locIter->GetTransform().GetTranslate() );
+				orient.SetTranslate( locTransform.GetTranslate() );
 				int exitport = 0;
 				for( auto &exitIt : exit_mts ) {
 					PiVerify(1 == sscanf( exitIt->GetName().c_str(), "exit_port%d", &exitport ));
@@ -156,9 +196,9 @@ void SpaceStationType::OnSetupComplete()
 			}
 
 			// create the leaving locators
-			m_portPaths[bay].m_leaving[1] = orient; // start
-			m_portPaths[bay].m_leaving[2] = orient; // above the pad
-			m_portPaths[bay].m_leaving[2].SetTranslate( orient.GetTranslate() + offDir );
+			m_portPaths[bay].m_leaving[1] = locTransform; // start - maintain the same orientation and position as when docked.
+			m_portPaths[bay].m_leaving[2] = orient; // above the pad - reorient...
+			m_portPaths[bay].m_leaving[2].SetTranslate( intersectionPos ); //  ...and translate to new position
 			m_portPaths[bay].m_leaving[3] = EndOrient; // end (on manual after here)
 			numUndockStages = 3;
 		}
