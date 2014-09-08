@@ -198,11 +198,11 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, con
 	lua_State *l = Lua::manager->GetLuaState();
 	pi_lua_import(l, "Equipment");
 	LuaTable cargo_types = LuaTable(l, -1).Sub("cargo");
-	if (20*Pi::rng.Fixed() < asteroid->GetMetallicity()) {
+	if (20*Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
 		cargo_types.Sub("precious_metals");
-	} else if (8*Pi::rng.Fixed() < asteroid->GetMetallicity()) {
+	} else if (8*Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
 		cargo_types.Sub("metal_alloys");
-	} else if (Pi::rng.Fixed() < asteroid->GetMetallicity()) {
+	} else if (Pi::rng.Fixed() < asteroid->GetMetallicityAsFixed()) {
 		cargo_types.Sub("metal_ore");
 	} else if (Pi::rng.Fixed() < fixed(1,2)) {
 		cargo_types.Sub("water");

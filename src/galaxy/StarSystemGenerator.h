@@ -12,7 +12,23 @@ public:
 	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config);
 };
 
-class StarSystemCustomGenerator : public StarSystemGeneratorStage {
+class StarSystemLegacyGeneratorBase : public StarSystemGeneratorStage {
+protected:
+	struct StarTypeInfo {
+		SystemBody::BodySuperType supertype;
+		int mass[2]; // min,max % sol for stars, unused for planets
+		int radius[2]; // min,max % sol radii for stars, % earth radii for planets
+		int tempMin, tempMax;
+	};
+	static const fixed starMetallicities[];
+	static const StarTypeInfo starTypeInfo[];
+
+	void PickAtmosphere(SystemBody* sbody);
+	void PickRings(SystemBody* sbody, bool forceRings = false);
+	fixed CalcHillRadius(SystemBody* sbody) const;
+};
+
+class StarSystemCustomGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config);
 
@@ -20,7 +36,7 @@ private:
 	void CustomGetKidsOf(RefCountedPtr<StarSystem::GeneratorAPI> system, SystemBody *parent, const std::vector<CustomSystemBody*> &children, int *outHumanInfestedness, Random &rand);
 };
 
-class StarSystemRandomGenerator : public StarSystemGeneratorStage {
+class StarSystemRandomGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config);
 
@@ -30,14 +46,22 @@ private:
 	void MakeStarOfType(SystemBody *sbody, SystemBody::BodyType type, Random &rand);
 	void MakeStarOfTypeLighterThan(SystemBody *sbody, SystemBody::BodyType type, fixed maxMass, Random &rand);
 	void MakeBinaryPair(SystemBody *a, SystemBody *b, fixed minDist, Random &rand);
+
+	int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);
+	const SystemBody* FindStarAndTrueOrbitalRange(const SystemBody *planet, fixed &orbMin_, fixed &orbMax_) const;
+	void PickPlanetType(SystemBody *sbody, Random &rand);
 };
 
-class PopulateStarSystemGenerator : public StarSystemGeneratorStage {
+class PopulateStarSystemGenerator : public StarSystemLegacyGeneratorBase {
 public:
 	virtual bool Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config);
 
 private:
 	void MakeShortDescription(RefCountedPtr<StarSystem::GeneratorAPI> system, Random &rand);
+
+	void PopulateAddStations(SystemBody* sbody, StarSystem::GeneratorAPI* system);
+	void PositionSettlementOnPlanet(SystemBody* sbody);
+	void PopulateStage1(SystemBody* sbody, StarSystem::GeneratorAPI* system, fixed &outTotalPop);
 };
 
 #endif
