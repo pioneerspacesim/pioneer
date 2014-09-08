@@ -59,6 +59,7 @@ public:
 private:
 	void MakeShortDescription(RefCountedPtr<StarSystem::GeneratorAPI> system, Random &rand);
 	void SetSysPolit(RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness);
+	void SetCommodityLegality(RefCountedPtr<StarSystem::GeneratorAPI> system);
 
 	void PopulateAddStations(SystemBody* sbody, StarSystem::GeneratorAPI* system);
 	void PositionSettlementOnPlanet(SystemBody* sbody);

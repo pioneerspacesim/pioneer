@@ -191,7 +191,7 @@ void SystemInfoView::UpdateEconomyTab()
 
 		for (int i=1; i< GalacticEconomy::COMMODITY_COUNT; i++){
 			if (isInList(s->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))
-				 && Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i))) {
+				 && s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
 				std::string extra = meh;              // default color
 				std::string tooltip = "";             // no tooltip for default
 				if (hs){
@@ -203,7 +203,7 @@ void SystemInfoView::UpdateEconomyTab()
 							extra = colorOther;
 							tooltip = toolTipOther;
 						}
-						if (!Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i))) {
+						if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
 							extra = illegal;
 							tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
 						}
@@ -248,11 +248,11 @@ void SystemInfoView::UpdateEconomyTab()
 		std::string("#f55")+std::string(Lang::ILLEGAL_GOODS)),
 		0, num++ * rowsep);
 	for (int i=1; i<GalacticEconomy::COMMODITY_COUNT; i++) {
-		if (!Polit::IsCommodityLegal(s, GalacticEconomy::Commodity(i))) {
+		if (!s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
 			std::string extra = illegal;
 			std::string tooltip = "";
 			if (compareSelectedWithCurrent)
-				if (Polit::IsCommodityLegal(hs.Get(), GalacticEconomy::Commodity(i))) {
+				if (hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
 					extra = meh;
 					tooltip = std::string(Lang::LEGAL_CURRENT_SYSTEM);
 				}

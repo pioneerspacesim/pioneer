@@ -646,7 +646,8 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  * We must be sneaky and avoid floating point in these places.
  */
 StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
-	m_faction(nullptr), m_unexplored(false), m_econType(GalacticEconomy::ECON_MINING), m_seed(0), m_cache(cache)
+	m_faction(nullptr), m_unexplored(false), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
+	m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true), m_cache(cache)
 {
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));

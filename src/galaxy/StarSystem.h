@@ -318,6 +318,10 @@ public:
 	IterationProxy<std::vector<RefCountedPtr<SystemBody> > > GetBodies() { return MakeIterationProxy(m_bodies); }
 	const IterationProxy<const std::vector<RefCountedPtr<SystemBody> > > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
+	bool IsCommodityLegal(const GalacticEconomy::Commodity t) {
+		return m_commodityLegal[int(t)];
+	}
+
 	int GetCommodityBasePriceModPercent(GalacticEconomy::Commodity t) {
 		return m_tradeLevel[int(t)];
 	}
@@ -379,6 +383,7 @@ private:
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 	std::vector<SystemBody*> m_spaceStations;
 	std::vector<SystemBody*> m_stars;
+	std::vector<bool> m_commodityLegal;
 
 	StarSystemCache* m_cache;
 };
@@ -411,6 +416,7 @@ public:
 	void AddTotalPop(fixed pop) { m_totalPop += pop; }
 	void SetTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] = level; }
 	void AddTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] += level; }
+	void SetCommodityLegal(GalacticEconomy::Commodity type, bool legal) { m_commodityLegal[int(type)] = legal; }
 
 	void AddSpaceStation(SystemBody* station) { assert(station->GetSuperType() == SystemBody::SUPERTYPE_STARPORT); m_spaceStations.push_back(station); }
 	void AddStar(SystemBody* star) { assert(star->GetSuperType() == SystemBody::SUPERTYPE_STAR); m_stars.push_back(star);}

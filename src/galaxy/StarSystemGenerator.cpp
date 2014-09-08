@@ -19,6 +19,9 @@ static const fixed AU_EARTH_RADIUS = fixed(3, 65536); // XXX Duplication from St
 static const fixed FIXED_PI = fixed(103993,33102); // XXX Duplication from StarSystem.cpp
 static const double CELSIUS	= 273.15;
 
+static const Uint32 POLIT_SEED = 0x1234abcd;
+static const Uint32 POLIT_SALT = 0x8732abdf;
+
 const fixed StarSystemLegacyGeneratorBase::starMetallicities[] = {
 	fixed(1,1), // GRAVPOINT - for planets that orbit them
 	fixed(9,10), // brown dwarf
@@ -1669,7 +1672,7 @@ void PopulateStarSystemGenerator::MakeShortDescription(RefCountedPtr<StarSystem:
 void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
 {
 	SystemPath path = system->GetPath();
-	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, Polit::POLIT_SEED };
+	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
 	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
@@ -1701,6 +1704,29 @@ void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<StarSystem::Generato
 	else
 		sysPolit.lawlessness = Polit::GetBaseLawlessness(sysPolit.govType) * rand.Fixed();
 	system->SetSysPolit(sysPolit);
+}
+
+void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem::GeneratorAPI> system)
+{
+	const SystemPath path = system->GetPath();
+	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
+	Random rand(_init, 5);
+
+	// All legal flags were set to true on initialization
+	Polit::GovType a = system->GetSysPolit().govType;
+	if (a == Polit::GOV_NONE) return;
+
+	if(system->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
+		for (std::pair<const GalacticEconomy::Commodity,Uint32>& legality : system->GetFaction()->commodity_legality)
+			system->SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
+	} else 	{
+		// this is a non-faction system - do some hardcoded test
+		system->SetCommodityLegal(GalacticEconomy::Commodity::HAND_WEAPONS, (rand.Int32(2) == 0));
+		system->SetCommodityLegal(GalacticEconomy::Commodity::BATTLE_WEAPONS, (rand.Int32(3) == 0));
+		system->SetCommodityLegal(GalacticEconomy::Commodity::NERVE_GAS, (rand.Int32(10) == 0));
+		system->SetCommodityLegal(GalacticEconomy::Commodity::NARCOTICS, (rand.Int32(2) == 0));
+		system->SetCommodityLegal(GalacticEconomy::Commodity::SLAVES, (rand.Int32(16) == 0));
+	}
 }
 
 /* percent */
@@ -1750,6 +1776,7 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 //	}
 //	Output("System total population %.3f billion\n", m_totalPop.ToFloat());
 	SetSysPolit(system, system->GetTotalPop());
+	SetCommodityLegality(system);
 
 	if (addSpaceStations) {
 		PopulateAddStations(system->GetRootBody().Get(), system.Get());

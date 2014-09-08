@@ -12,8 +12,6 @@ class SysPolit;
 class Ship;
 
 namespace Polit {
-	static const Uint32 POLIT_SEED = 0x1234abcd;
-
 	enum Crime { // <enum scope='Polit' name=PolitCrime prefix=CRIME_ public>
 		CRIME_TRADING_ILLEGAL_GOODS = (1<<0),
 		CRIME_WEAPON_DISCHARGE = (1<<1),
@@ -54,7 +52,6 @@ namespace Polit {
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
-	bool IsCommodityLegal(const StarSystem *s, const GalacticEconomy::Commodity t);
 	void Init();
 	void Serialize(Serializer::Writer &wr);
 	void Unserialize(Serializer::Reader &rd);
