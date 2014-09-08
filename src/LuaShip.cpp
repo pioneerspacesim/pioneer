@@ -313,7 +313,7 @@ static int l_ship_spawn_cargo(lua_State *l) {
 	CargoBody * c_body;
 
 	if (lua_gettop(l) >= 3){
-		size_t lifeTime = lua_tointeger(l, 3);
+		float lifeTime = lua_tonumber(l, 3);
 		c_body = new CargoBody(LuaRef(l, 2), lifeTime);
 	}
 	else

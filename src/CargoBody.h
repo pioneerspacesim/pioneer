@@ -13,7 +13,7 @@ namespace Graphics { class Renderer; }
 class CargoBody: public DynamicBody {
 public:
 	OBJDEF(CargoBody, DynamicBody, CARGOBODY);
-	CargoBody(const LuaRef& cargo, size_t selfdestructTimer=86400); // default to 24 h lifetime
+	CargoBody(const LuaRef& cargo, float selfdestructTimer=86400.0f); // default to 24 h lifetime
 	CargoBody() {}
 	LuaRef GetCargoType() const { return m_cargo; }
 	virtual void SetLabel(const std::string &label);

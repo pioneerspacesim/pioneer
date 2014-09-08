@@ -55,12 +55,12 @@ void CargoBody::Init()
 	Properties().Set("type", ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 }
 
-CargoBody::CargoBody(const LuaRef& cargo, size_t selfdestructTimer): m_cargo(cargo)
+CargoBody::CargoBody(const LuaRef& cargo, float selfdestructTimer): m_cargo(cargo)
 {
 	SetModel("cargo");
 	Init();
 	SetMass(1.0);
-	m_selfdestructTimer = (float) selfdestructTimer; // number of seconds to live
+	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
 
 	if (selfdestructTimer == 0) // turn off self destruct
 		m_hasSelfdestruct = false;
@@ -76,7 +76,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 	// star system.
 
 	if (m_hasSelfdestruct) {
-		m_selfdestructTimer -= float(timeStep) * 1.0;
+		m_selfdestructTimer -= timeStep;
 		if (m_selfdestructTimer <= 0){
 			Pi::game->GetSpace()->KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
