@@ -3,6 +3,7 @@
 
 local s = CustomSystem:new('Sol', { 'STAR_G' })
 	:govtype('EARTHDEMOC')
+	:lawlessness(f(1,100)) -- 1/100th from a peaceful eden
 	:short_desc('The historical birthplace of humankind')
 	:long_desc([[Sol is a fine joint]])
 
