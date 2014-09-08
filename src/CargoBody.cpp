@@ -34,6 +34,7 @@ void CargoBody::Init()
 	m_hitpoints = 1.0f;
 	SetLabel(ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 	SetMassDistributionFromModel();
+	m_hasSelfdestruct = true;
 
 	std::vector<Color> colors;
 	//metallic blue-orangeish color scheme
@@ -50,11 +51,34 @@ void CargoBody::Init()
 	Properties().Set("type", ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 }
 
-CargoBody::CargoBody(const LuaRef& cargo): m_cargo(cargo)
+CargoBody::CargoBody(const LuaRef& cargo, size_t selfdestructTimer): m_cargo(cargo)
 {
 	SetModel("cargo");
 	Init();
 	SetMass(1.0);
+	m_selfdestructTimer = (float) selfdestructTimer; // number of seconds to live
+
+	if (selfdestructTimer == 0) // turn off self destruct
+		m_hasSelfdestruct = false;
+}
+
+void CargoBody::TimeStepUpdate(const float timeStep)
+{
+
+	// Suggestion: since cargo doesn't need thrust or AI, it could be
+	// converted into an idle object on orbital rails, set up to only take
+	// memory & save file space (not CPU power) when far from the player.
+	// Until then, we kill it after some time, to not clutter up the current
+	// star system.
+
+	if (m_hasSelfdestruct) {
+		m_selfdestructTimer -= float(timeStep) * 1.0;
+		if (m_selfdestructTimer <= 0){
+			Pi::game->GetSpace()->KillBody(this);
+			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+		}
+	}
+	DynamicBody::TimeStepUpdate(timeStep);
 }
 
 bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
