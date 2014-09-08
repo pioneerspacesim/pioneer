@@ -20,8 +20,6 @@
 
 namespace Polit {
 
-static const Uint32 POLIT_SEED = 0x1234abcd;
-static const Uint32 POLIT_SALT = 0x8732abdf;
 
 static PersistSystemData<Sint64> s_criminalRecord;
 static PersistSystemData<Sint64> s_outstandingFine;
@@ -114,6 +112,10 @@ void Unserialize(Serializer::Reader &rd)
 	}
 }
 
+fixed GetBaseLawlessness(GovType gov) {
+	return s_govDesc[gov].baseLawlessness;
+}
+
 /* The drawbacks of stuffing stuff into integers */
 static int GetCrimeIdxFromEnum(enum Crime crime)
 {
@@ -184,81 +186,6 @@ void GetCrime(Sint64 *crimeBitset, Sint64 *fine)
 		*crimeBitset = s_criminalRecord.Get(path, 0);
 		*fine = s_outstandingFine.Get(path, 0);
 	}
-}
-
-void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness, SysPolit &outSysPolit)
-{
-	SystemPath path = s->GetPath();
-	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
-	Random rand(_init, 5);
-
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
-	const CustomSystem* customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
-
-	GovType a = GOV_INVALID;
-
-	/* from custom system definition */
-	if (customSystem) {
-		Polit::GovType t = customSystem->govType;
-		a = t;
-	}
-	if (a == GOV_INVALID) {
-		if (path == SystemPath(0,0,0,0)) {
-			a = Polit::GOV_EARTHDEMOC;
-		} else if (human_infestedness > 0) {
-			// attempt to get the government type from the faction
-			a = s->GetFaction()->PickGovType(rand);
-
-			// if that fails, either no faction or a faction with no gov types, then pick something at random
-			if (a == GOV_INVALID) {
-				a = static_cast<GovType>(rand.Int32(GOV_RAND_MIN, GOV_RAND_MAX));
-			}
-		} else {
-			a = GOV_NONE;
-		}
-	}
-
-	outSysPolit.govType = a;
-	if (customSystem && !customSystem->want_rand_lawlessness)
-		outSysPolit.lawlessness = customSystem->lawlessness;
-	else
-		outSysPolit.lawlessness = s_govDesc[a].baseLawlessness * rand.Fixed();
-}
-
-bool IsCommodityLegal(const StarSystem *s, const GalacticEconomy::Commodity t)
-{
-	SystemPath path = s->GetPath();
-	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SALT };
-	Random rand(_init, 5);
-
-	Polit::GovType a = s->GetSysPolit().govType;
-	if (a == GOV_NONE) return true;
-
-	if(s->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
-		Faction::CommodityProbMap::const_iterator iter = s->GetFaction()->commodity_legality.find(t);
-		if( iter != s->GetFaction()->commodity_legality.end() ) {
-			const Uint32 per = (*iter).second;
-			return (rand.Int32(100) >= per);
-		}
-	}
-	else
-	{
-		// this is a non-faction system - do some hardcoded test
-		switch (t) {
-			case GalacticEconomy::Commodity::HAND_WEAPONS:
-				return rand.Int32(2) == 0;
-			case GalacticEconomy::Commodity::BATTLE_WEAPONS:
-				return rand.Int32(3) == 0;
-			case GalacticEconomy::Commodity::NERVE_GAS:
-				return rand.Int32(10) == 0;
-			case GalacticEconomy::Commodity::NARCOTICS:
-				return rand.Int32(2) == 0;
-			case GalacticEconomy::Commodity::SLAVES:
-				return rand.Int32(16) == 0;
-			default: return true;
-		}
-	}
-	return true;
 }
 
 }

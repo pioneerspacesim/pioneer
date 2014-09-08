@@ -39,8 +39,6 @@ struct RingStyle {
 class SystemBody : public RefCounted {
 public:
 	SystemBody(const SystemPath& path, StarSystem *system);
-	void PickPlanetType(Random &rand);
-	const SystemBody* FindStarAndTrueOrbitalRange(fixed &orbMin, fixed &orbMax) const;
 
 	enum BodyType { // <enum scope='SystemBody' prefix=TYPE_ public>
 		TYPE_GRAVPOINT = 0,
@@ -140,21 +138,25 @@ public:
 	bool IsRotating() const { return m_rotationPeriod != fixed(0); }
 	// returned in seconds
 	double GetRotationPeriodInDays() const { return m_rotationPeriod.ToDouble(); }
+	fixed GetRotationPeriodAsFixed() const { return m_rotationPeriod; }
 	double GetRotationPeriod() const {
 		return m_rotationPeriod.ToDouble()*60*60*24;
 	}
 	bool HasRotationPhase() const { return m_rotationalPhaseAtStart != fixed(0); }
 	double GetRotationPhaseAtStart() const { return m_rotationalPhaseAtStart.ToDouble(); }
 	double GetAxialTilt() const { return m_axialTilt.ToDouble(); }
+	fixed GetAxialTiltAsFixed() const { return m_axialTilt; }
 
 	const Orbit& GetOrbit() const { return m_orbit; }
 	double GetEccentricity() const { return m_eccentricity.ToDouble(); }
+	fixed GetEccentricityAsFixed() const { return m_eccentricity; }
 	double GetOrbMin() const { return m_orbMin.ToDouble(); }
 	double GetOrbMax() const { return m_orbMax.ToDouble(); }
 	fixed GetOrbMinAsFixed() const { return m_orbMin; }
 	fixed GetOrbMaxAsFixed() const { return m_orbMax; }
 	double GetSemiMajorAxis() const { return m_semiMajorAxis.ToDouble(); }
 	fixed GetSemiMajorAxisAsFixed() const { return m_semiMajorAxis; }
+	fixed GetInclinationAsFixed() const { return m_inclination; }
 	void SetOrbitPlane(const matrix3x3d &orient) { m_orbit.SetPlane(orient); }
 
 	int GetAverageTemp() const { return m_averageTemp; }
@@ -163,28 +165,30 @@ public:
 
 	Uint32 GetSeed() const { return m_seed; }
 
-	fixed GetMetallicity() const { return m_metallicity; }
-	fixed GetVolatileGas() const { return m_volatileGas; }
-	fixed GetVolatileLiquid() const { return m_volatileLiquid; }
-	fixed GetVolatileIces() const { return m_volatileIces; }
-	fixed GetVolcanicity() const { return m_volcanicity; }
-	fixed GetAtmosOxidizing() const { return m_atmosOxidizing; }
-	fixed GetLife() const { return m_life; }
+	fixed GetMetallicityAsFixed() const { return m_metallicity; }
+	double GetMetallicity() const { return m_metallicity.ToDouble(); }
+	fixed GetVolatileGasAsFixed() const { return m_volatileGas; }
+	double GetVolatileGas() const { return m_volatileGas.ToDouble(); }
+	fixed GetVolatileLiquidAsFixed() const { return m_volatileLiquid; }
+	double GetVolatileLiquid() const { return m_volatileLiquid.ToDouble(); }
+	fixed GetVolatileIcesAsFixed() const { return m_volatileIces; }
+	double GetVolatileIces() const { return m_volatileIces.ToDouble(); }
+	fixed GetVolcanicityAsFixed() const { return m_volcanicity; }
+	double GetVolcanicity() const { return m_volcanicity.ToDouble(); }
+	double GetAtmosOxidizing() const { return m_atmosOxidizing.ToDouble(); }
+	fixed GetLifeAsFixed() const { return m_life; }
+	double GetLife() const { return m_life.ToDouble(); }
 
+	fixed GetAgriculturalAsFixed() const { return m_agricultural; }
 	double GetPopulation() const { return m_population.ToDouble(); }
+	fixed GetPopulationAsFixed() const { return m_population; }
 
-	fixed CalcHillRadius() const;
-	static int CalcSurfaceTemp(const SystemBody *primary, fixed distToPrimary, fixed albedo, fixed greenhouse);
 	double CalcSurfaceGravity() const;
 
 	double GetMaxChildOrbitalDistance() const;
-	void PositionSettlementOnPlanet();
-	void PopulateStage1(StarSystem *system, fixed &outTotalPop);
-	void PopulateAddStations(StarSystem *system);
 
 	bool HasRings() const { return bool(m_rings.maxRadius.v); }
 	const RingStyle& GetRings() const { return m_rings; }
-	void PickRings(bool forceRings = false);
 
 
 	// XXX merge all this atmosphere stuff
@@ -197,7 +201,6 @@ public:
 		return Color(200,200,200,255);
 	}
 
-	void PickAtmosphere();
 	void GetAtmosphereFlavor(Color *outColor, double *outDensity) const {
 		*outColor = m_atmosColor;
 		*outDensity = m_atmosDensity;
@@ -224,8 +227,10 @@ public:
 private:
 	friend class StarSystem;
 	friend class ObjectViewerView;
+	friend class StarSystemLegacyGeneratorBase;
 	friend class StarSystemCustomGenerator;
 	friend class StarSystemRandomGenerator;
+	friend class PopulateStarSystemGenerator;
 
 	void ClearParentAndChildPointers();
 
@@ -296,18 +301,10 @@ public:
 	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	struct StarTypeInfo {
-		SystemBody::BodySuperType supertype;
-		int mass[2]; // min,max % sol for stars, unused for planets
-		int radius[2]; // min,max % sol radii for stars, % earth radii for planets
-		int tempMin, tempMax;
-	};
 	static const Uint8 starColors[][3];
 	static const Uint8 starRealColors[][3];
 	static const double starLuminosities[];
 	static const float starScale[];
-	static const fixed starMetallicities[];
-	static const StarTypeInfo starTypeInfo[];
 
 	RefCountedPtr<const SystemBody> GetRootBody() const { return m_rootBody; }
 	RefCountedPtr<SystemBody> GetRootBody() { return m_rootBody; }
@@ -320,6 +317,10 @@ public:
 	unsigned GetNumBodies() const { return m_bodies.size(); }
 	IterationProxy<std::vector<RefCountedPtr<SystemBody> > > GetBodies() { return MakeIterationProxy(m_bodies); }
 	const IterationProxy<const std::vector<RefCountedPtr<SystemBody> > > GetBodies() const { return MakeIterationProxy(m_bodies); }
+
+	bool IsCommodityLegal(const GalacticEconomy::Commodity t) {
+		return m_commodityLegal[int(t)];
+	}
 
 	int GetCommodityBasePriceModPercent(GalacticEconomy::Commodity t) {
 		return m_tradeLevel[int(t)];
@@ -382,6 +383,7 @@ private:
 	std::vector< RefCountedPtr<SystemBody> > m_bodies;
 	std::vector<SystemBody*> m_spaceStations;
 	std::vector<SystemBody*> m_stars;
+	std::vector<bool> m_commodityLegal;
 
 	StarSystemCache* m_cache;
 };
@@ -392,6 +394,8 @@ private:
 	GeneratorAPI(const SystemPath &path, StarSystemCache* cache, Random& rand) : StarSystem(path, cache, rand) { }
 
 public:
+	bool HasCustomBodies() const { return m_hasCustomBodies; }
+
 	void SetCustom(bool isCustom, bool hasCustomBodies) { m_isCustom = isCustom; m_hasCustomBodies = hasCustomBodies; }
 	void SetNumStars(int numStars) { m_numStars = numStars; }
 	void SetRootBody(RefCountedPtr<SystemBody> rootBody) { m_rootBody = rootBody; }
@@ -412,6 +416,7 @@ public:
 	void AddTotalPop(fixed pop) { m_totalPop += pop; }
 	void SetTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] = level; }
 	void AddTradeLevel(GalacticEconomy::Commodity type, int level) { m_tradeLevel[int(type)] += level; }
+	void SetCommodityLegal(GalacticEconomy::Commodity type, bool legal) { m_commodityLegal[int(type)] = legal; }
 
 	void AddSpaceStation(SystemBody* station) { assert(station->GetSuperType() == SystemBody::SUPERTYPE_STARPORT); m_spaceStations.push_back(station); }
 	void AddStar(SystemBody* star) { assert(star->GetSuperType() == SystemBody::SUPERTYPE_STAR); m_stars.push_back(star);}

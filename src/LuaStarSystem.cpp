@@ -195,7 +195,7 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 	LuaTable(l, 2).PushValueToStack("l10n_key");
 	GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
 			LuaConstants::GetConstantFromArg(l, "CommodityType", -1));
-	lua_pushboolean(l, Polit::IsCommodityLegal(s, e));
+	lua_pushboolean(l, s->IsCommodityLegal(e));
 	return 1;
 }
 
