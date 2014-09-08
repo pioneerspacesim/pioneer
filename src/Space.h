@@ -23,13 +23,13 @@ class Game;
 class Space {
 public:
 	// empty space (eg for hyperspace)
-	Space(Game *game, Space* oldSpace = nullptr);
+	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace = nullptr);
 
 	// initalise with system bodies
-	Space(Game *game, const SystemPath &path, Space* oldSpace = nullptr);
+	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space* oldSpace = nullptr);
 
 	// initialise from save file
-	Space(Game *game, Serializer::Reader &rd, double at_time);
+	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, double at_time);
 
 	virtual ~Space();
 
@@ -81,7 +81,7 @@ public:
 
 
 private:
-	void GenSectorCache(const SystemPath* here);
+	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here);
 	void UpdateStarSystemCache(const SystemPath* here);
 	void GenBody(double at_time, SystemBody *b, Frame *f);
 	// make sure SystemBody* is in Pi::currentSystem

@@ -43,7 +43,7 @@ Game::Game(const SystemPath &path, double time) :
 	if (!Pi::GetGalaxy()->GetGenerator()->IsDefault())
 		Pi::CreateGalaxy();
 
-	m_space.reset(new Space(this, path));
+	m_space.reset(new Space(this, Pi::GetGalaxy(), path));
 	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
 	assert(station);
 
@@ -72,7 +72,7 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	if (!Pi::GetGalaxy()->GetGenerator()->IsDefault())
 		Pi::CreateGalaxy();
 
-	m_space.reset(new Space(this, path));
+	m_space.reset(new Space(this, Pi::GetGalaxy(), path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
@@ -166,7 +166,7 @@ Game::Game(Serializer::Reader &rd) :
 
 	// space, all the bodies and things
 	section = rd.RdSection("Space");
-	m_space.reset(new Space(this, section, m_time));
+	m_space.reset(new Space(this, Pi::GetGalaxy(), section, m_time));
 	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
 
 	assert(!m_player->IsDead()); // Pioneer does not support necromancy
@@ -459,7 +459,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.get());
 
 	// create hyperspace :)
-	m_space.reset(new Space(this, m_space.get()));
+	m_space.reset(new Space(this, Pi::GetGalaxy(), m_space.get()));
 
 	m_space->GetBackground()->SetDrawFlags( Background::Container::DRAW_STARS );
 
@@ -491,7 +491,7 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
-	m_space.reset(new Space(this, m_hyperspaceDest, m_space.get()));
+	m_space.reset(new Space(this, Pi::GetGalaxy(), m_hyperspaceDest, m_space.get()));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
