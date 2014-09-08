@@ -227,7 +227,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 				intensity = Clamp(intensity, 0.0f, 1.0f);
 
 				//calculate background intensity with some hand-tweaked fuzz applied
-				bgIntensity = (1.0f - intensity) + Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(angle, 0.25f)), 0.f, 1.f);
+				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * std::min((0.3f + powf(angle, 0.25f)), intensity), 0.f, 1.f);
 			}
 		}
 	}
