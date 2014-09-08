@@ -1666,6 +1666,43 @@ void PopulateStarSystemGenerator::MakeShortDescription(RefCountedPtr<StarSystem:
 	}
 }
 
+void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
+{
+	SystemPath path = system->GetPath();
+	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, Polit::POLIT_SEED };
+	Random rand(_init, 5);
+
+	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
+	const CustomSystem* customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
+	SysPolit sysPolit;
+	sysPolit.govType = Polit::GOV_INVALID;
+
+	/* from custom system definition */
+	if (customSystem)
+		sysPolit.govType = customSystem->govType;
+	if (sysPolit.govType == Polit::GOV_INVALID) {
+		if (path == SystemPath(0,0,0,0)) {
+			sysPolit.govType = Polit::GOV_EARTHDEMOC;
+		} else if (human_infestedness > 0) {
+			// attempt to get the government type from the faction
+			sysPolit.govType = system->GetFaction()->PickGovType(rand);
+
+			// if that fails, either no faction or a faction with no gov types, then pick something at random
+			if (sysPolit.govType == Polit::GOV_INVALID) {
+				sysPolit.govType = static_cast<Polit::GovType>(rand.Int32(Polit::GOV_RAND_MIN, Polit::GOV_RAND_MAX));
+			}
+		} else {
+			sysPolit.govType = Polit::GOV_NONE;
+		}
+	}
+
+	if (customSystem && !customSystem->want_rand_lawlessness)
+		sysPolit.lawlessness = customSystem->lawlessness;
+	else
+		sysPolit.lawlessness = Polit::GetBaseLawlessness(sysPolit.govType) * rand.Fixed();
+	system->SetSysPolit(sysPolit);
+}
+
 /* percent */
 static const int MAX_COMMODITY_BASE_PRICE_ADJUSTMENT = 25;
 
@@ -1712,9 +1749,7 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 //		Output("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
 //	Output("System total population %.3f billion\n", m_totalPop.ToFloat());
-	SysPolit sysPolit;
-	Polit::GetSysPolitStarSystem(system.Get(), system->GetTotalPop(), sysPolit);
-	system->SetSysPolit(sysPolit);
+	SetSysPolit(system, system->GetTotalPop());
 
 	if (addSpaceStations) {
 		PopulateAddStations(system->GetRootBody().Get(), system.Get());
