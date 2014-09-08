@@ -11,6 +11,13 @@ uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
+uniform sampler2D texture0;
+uniform sampler2D texture1;
+varying vec2 texCoord0;
+
+varying float dist;
+
+
 #ifdef ECLIPSE
 uniform int shadows;
 uniform ivec3 occultedLight;
@@ -66,10 +73,23 @@ float discCovered(const in float dist, const in float rad) {
 
 void main(void)
 {
+	vec4 hidetail = texture2D(texture0, texCoord0 * 16.0);
+	vec4 lodetail = texture2D(texture1, texCoord0 * 2.0);
 	vec3 eyepos = varyingEyepos;
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
+
+	//float fog = exp(-0.005 * dist);
+	//float fog2 = exp(-0.001 * dist);
+	float fog = exp(-0.004 * dist);
+	float fog2 = exp(-0.001 * dist);
+	//vec4 fogcol = mix(texcol, vec4(1.0), fog);
+	//hidetail = vec4(1.0, 0.0, 0.0, 1.0);
+	//lodetail = vec4(0.0, 0.0, 1.0, 0.0);
+	vec4 fogcol1 = mix(lodetail, hidetail, fog);
+	vec4 fogcol = mix(vec4(1.0), fogcol1, fog2);
+
 	float nDotVP=0.0;
 	float nnDotVP=0.0;
 #ifdef TERRAIN_WITH_WATER
@@ -115,6 +135,8 @@ void main(void)
 #endif
 	}
 
+	vec4 final = vertexColor * fogcol;
+	
 #ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere
 	float atmosStart = findSphereEyeRayEntryDistance(geosphereCenter, eyepos, geosphereScaledRadius * geosphereAtmosTopRad);
@@ -141,7 +163,7 @@ void main(void)
 #endif
 		fogFactor *
 		((scene.ambient * vertexColor) +
-		(diff * vertexColor)) +
+		(diff * final)) +
 		(1.0-fogFactor)*(diff*atmosColor) +
 #ifdef TERRAIN_WITH_WATER
 		  diff*specularReflection*sunset +
@@ -155,7 +177,7 @@ void main(void)
 		varyingEmission +
 #endif
 		(scene.ambient * vertexColor) +
-		(diff * vertexColor * 2.0);
+		(diff * final * 2.0);
 #endif //ATMOSPHERE
 
 #else // NUM_LIGHTS > 0 -- unlit rendering - stars

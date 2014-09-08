@@ -13,6 +13,8 @@
 #include "graphics/Renderer.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "graphics/Texture.h"
+#include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
@@ -429,7 +431,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 
 	renderer->SetAmbientColor(oldAmbient);
 }
-
+#pragma optimize("",off)
 void GeoSphere::SetUpMaterials()
 {
 	//solid
@@ -479,6 +481,11 @@ void GeoSphere::SetUpMaterials()
 	}
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 
+	m_texHi.Reset( Graphics::TextureBuilder::UI("textures/high.png").GetOrCreateTexture(Pi::renderer, "model") );
+	m_texLo.Reset( Graphics::TextureBuilder::Model("textures/low.png").GetOrCreateTexture(Pi::renderer, "model") );
+	m_surfaceMaterial->texture0 = m_texHi.Get();
+	m_surfaceMaterial->texture1 = m_texLo.Get();
+
 	{
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
@@ -487,5 +494,7 @@ void GeoSphere::SetUpMaterials()
 			skyDesc.quality |= Graphics::HAS_ECLIPSES;
 		}
 		m_atmosphereMaterial.reset(Pi::renderer->CreateMaterial(skyDesc));
+		m_atmosphereMaterial->texture0 = nullptr;
+		m_atmosphereMaterial->texture1 = nullptr;
 	}
 }

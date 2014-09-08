@@ -7,6 +7,7 @@
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include "graphics/RendererGL2.h"
+#include "graphics/TextureGL.h"
 #include <sstream>
 
 namespace Graphics {
@@ -69,6 +70,14 @@ void GeoSphereSurfaceMaterial::Apply()
 	SetGSUniforms();
 }
 
+void GeoSphereSurfaceMaterial::Unapply()
+{
+	if(texture0) {
+		static_cast<TextureGL*>(texture1)->Unbind();
+		static_cast<TextureGL*>(texture0)->Unbind();
+	}
+}
+
 void GeoSphereSurfaceMaterial::SetGSUniforms()
 {
 	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
@@ -86,6 +95,11 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
+
+	if(this->texture0) {
+		p->texture0.Set(this->texture0, 0);
+		p->texture1.Set(this->texture1, 1);
+	}
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};

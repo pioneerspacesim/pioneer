@@ -22,6 +22,7 @@
 // tri edge lengths
 static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
+//#define GEOPATCH_MAX_DEPTH  10
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
@@ -81,6 +82,8 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbd.attrib[2].semantic = Graphics::ATTRIB_DIFFUSE;
 		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
+		vbd.attrib[3].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[3].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
 		vbd.numVertices = ctx->NUMVERTICES();
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 		m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
@@ -112,6 +115,10 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 				vtxPtr->col[2] = pColr->b;
 				vtxPtr->col[3] = 255;
 				++pColr; // next colour
+
+				// uv coords
+				vtxPtr->uv.x = 1.0f - float(x) / float(edgeLen);
+				vtxPtr->uv.y = float(y) / float(edgeLen);
 
 				++vtxPtr; // next vertex
 			}
