@@ -256,6 +256,28 @@ static int l_game_attr_time(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: paused
+ *
+ * True if the game is paused.
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_game_attr_paused(lua_State *l)
+{
+	if (!Pi::game)
+		lua_pushboolean(l, 1);
+	else
+		lua_pushboolean(l, Pi::game->IsPaused() ? 1 : 0);
+	return 1;
+}
+
 // XXX temporary to support StationView "Launch" button
 // remove once WorldView has been converted to the new UI
 static int l_game_switch_view(lua_State *l)
@@ -290,6 +312,7 @@ void LuaGame::Register()
 		{ "player", l_game_attr_player },
 		{ "system", l_game_attr_system },
 		{ "time",   l_game_attr_time   },
+		{ "paused", l_game_attr_paused },
 		{ 0, 0 }
 	};
 

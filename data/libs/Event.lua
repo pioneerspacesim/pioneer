@@ -727,4 +727,39 @@ Event = {
 --   experimental
 --
 
+--
+-- Event: onGamePaused
+--
+-- Triggered when the game is paused.
+--
+-- > local onGamePaused = function () ... end
+-- > Event.Register("onGamePaused", onGamePaused)
+--
+-- Availability:
+--
+--   September 2014
+--
+-- Status:
+--
+--   experimental
+--
+
+--
+-- Event: onGameResumed
+--
+-- Triggered when the game time accel (Game::GetTimeAccel) transitions from
+-- TIMEACCEL_PAUSED to any other value.
+--
+-- > local onGameResumed = function () ... end
+-- > Event.Register("onGameResumed", onGameResumed)
+--
+-- Availability:
+--
+--   September 2014
+--
+-- Status:
+--
+--   experimental
+--
+
 return Event

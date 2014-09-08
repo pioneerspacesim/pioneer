@@ -18,7 +18,7 @@ local bbTable = ui:Table()
 	:SetRowSpacing(5)
 	:SetColumnSpacing(10)
 	:SetRowAlignment("CENTER")
-	:SetMouseEnabled(true)
+	:SetMouseEnabled(not Game.paused)
 
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
@@ -74,9 +74,19 @@ local updateRowRefs = function (station, ref)
 	updateTable(station)
 end
 
+local onGamePaused = function ()
+  bbTable:SetMouseEnabled(false)
+end
+
+local onGameResumed = function ()
+  bbTable:SetMouseEnabled(true)
+end
+
 Event.Register("onAdvertAdded", updateRowRefs)
 Event.Register("onAdvertRemoved", updateRowRefs) -- XXX close form if open
 Event.Register("onAdvertChanged", updateTable)
+Event.Register("onGamePaused", onGamePaused)
+Event.Register("onGameResumed", onGameResumed)
 
 local bulletinBoard = function (args, tg)
 	tabGroup = tg
