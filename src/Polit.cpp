@@ -193,12 +193,13 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness,
 	Random rand(_init, 5);
 
 	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
+	const CustomSystem* customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
 
 	GovType a = GOV_INVALID;
 
 	/* from custom system definition */
-	if (sec->m_systems[path.systemIndex].GetCustomSystem()) {
-		Polit::GovType t = sec->m_systems[path.systemIndex].GetCustomSystem()->govType;
+	if (customSystem) {
+		Polit::GovType t = customSystem->govType;
 		a = t;
 	}
 	if (a == GOV_INVALID) {
@@ -218,7 +219,10 @@ void GetSysPolitStarSystem(const StarSystem *s, const fixed &human_infestedness,
 	}
 
 	outSysPolit.govType = a;
-	outSysPolit.lawlessness = s_govDesc[a].baseLawlessness * rand.Fixed();
+	if (customSystem && !customSystem->want_rand_lawlessness)
+		outSysPolit.lawlessness = customSystem->lawlessness;
+	else
+		outSysPolit.lawlessness = s_govDesc[a].baseLawlessness * rand.Fixed();
 }
 
 bool IsCommodityLegal(const StarSystem *s, const GalacticEconomy::Commodity t)
