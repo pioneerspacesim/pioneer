@@ -43,7 +43,7 @@ local maxDist = 50          -- for spawning news (ly)
 local minTime = 15768000    -- no news the first 5 months of a new game (sec)
 
 -- to spawn a new event per hyperjump, provided no other news.
-local eventProbability = 1/30
+local eventProbability = 1/20
 
 -- max index of flavoured variants
 local maxIndexOfIndNewspapers = 10
