@@ -394,6 +394,7 @@ void Container::Draw(const matrix4x4d &transform)
 void Container::SetIntensity(float intensity)
 {
 	PROFILE_SCOPED()
+	intensity = Clamp(intensity, 0.0f, 1.0f);
 	m_universeBox.SetIntensity(intensity);
 	m_starField.SetIntensity(intensity);
 	m_milkyWay.SetIntensity(intensity);
