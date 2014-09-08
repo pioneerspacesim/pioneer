@@ -1,18 +1,21 @@
 September 2014
 
+   * Fixes
+     * Fix wrong reinitialization of random generator (#3156)
+     * Fix crash at Daniel's Haven (#3157)
+
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
      * Add new author's names to name generator (#3155)
      * Commodity sell price too low (#3161)
 
+   * Script and UI API changes
+     * Allow to set lawlessness in custom systems (#3166)
+
    * Internal Changes
      * Improve galaxy image handling (#3154)
      * Refactor galaxy generation code (#2773)
      * Recreate folder structure for sgm batch export (#3162)
-
-   * Fixes
-     * Fix wrong reinitialization of random generator (#3156)
-     * Fix crash at Daniel's Haven (#3157)
 
 August 2014
 

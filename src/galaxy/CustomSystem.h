@@ -80,6 +80,8 @@ public:
 	bool                   explored;
 	Faction*               faction;
 	Polit::GovType         govType;
+	bool                   want_rand_lawlessness;
+	fixed                  lawlessness; // 0.0 = lawful, 1.0 = totally lawless
 	std::string            shortDesc;
 	std::string            longDesc;
 

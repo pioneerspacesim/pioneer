@@ -362,6 +362,16 @@ static int l_csys_govtype(lua_State *L)
 	return 1;
 }
 
+static int l_csys_lawlessness(lua_State *L)
+{
+	CustomSystem *cs = l_csys_check(L, 1);
+	const fixed *value = LuaFixed::CheckFromLua(L, 2);
+	cs->lawlessness = *value;
+	cs->want_rand_lawlessness = false;
+	lua_settop(L, 1);
+	return 1;
+}
+
 static void _add_children_to_sbody(lua_State *L, CustomSystemBody *sbody)
 {
 	lua_checkstack(L, 5); // grow the stack if necessary
@@ -483,6 +493,7 @@ static luaL_Reg LuaCustomSystem_meta[] = {
 	{ "long_desc", &l_csys_long_desc },
 	{ "faction", &l_csys_faction },
 	{ "govtype", &l_csys_govtype },
+	{ "lawlessness", &l_csys_lawlessness },
 	{ "bodies", &l_csys_bodies },
 	{ "add_to_sector", &l_csys_add_to_sector },
 	{ "__gc", &l_csys_gc },
@@ -582,7 +593,8 @@ CustomSystem::CustomSystem():
 	seed(0),
 	want_rand_explored(true),
 	faction(0),
-	govType(Polit::GOV_INVALID)
+	govType(Polit::GOV_INVALID),
+	want_rand_lawlessness(true)
 {
 	PROFILE_SCOPED()
 	for (int i = 0; i < 4; ++i)
