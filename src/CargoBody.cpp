@@ -19,6 +19,8 @@ void CargoBody::Save(Serializer::Writer &wr, Space *space)
 	DynamicBody::Save(wr, space);
 	m_cargo.Save(wr);
 	wr.Float(m_hitpoints);
+	wr.Float(m_selfdestructTimer);
+	wr.Bool(m_hasSelfdestruct);
 }
 
 void CargoBody::Load(Serializer::Reader &rd, Space *space)
@@ -27,6 +29,8 @@ void CargoBody::Load(Serializer::Reader &rd, Space *space)
 	m_cargo.Load(rd);
 	Init();
 	m_hitpoints = rd.Float();
+	m_selfdestructTimer = rd.Float();
+	m_hasSelfdestruct = rd.Bool();
 }
 
 void CargoBody::Init()
