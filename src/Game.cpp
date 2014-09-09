@@ -44,35 +44,7 @@ Game::Game(const SystemPath &path, double time) :
 		Pi::CreateGalaxy();
 
 	m_space.reset(new Space(this, Pi::GetGalaxy(), path));
-	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
-	assert(station);
 
-	m_player.reset(new Player("kanara"));
-
-	m_space->AddBody(m_player.get());
-
-	m_player->SetFrame(station->GetFrame());
-	m_player->SetDockedWith(station, 0);
-
-	Polit::Init();
-	CreateViews();
-
-	EmitPauseState(IsPaused());
-}
-
-Game::Game(const SystemPath &path, const vector3d &pos, double time) :
-	m_time(time),
-	m_state(STATE_NORMAL),
-	m_wantHyperspace(false),
-	m_timeAccel(TIMEACCEL_1X),
-	m_requestedTimeAccel(TIMEACCEL_1X),
-	m_forceTimeAccel(false)
-{
-	Pi::FlushCaches();
-	if (!Pi::GetGalaxy()->GetGenerator()->IsDefault())
-		Pi::CreateGalaxy();
-
-	m_space.reset(new Space(this, Pi::GetGalaxy(), path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
@@ -82,9 +54,13 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 
 	m_player->SetFrame(b->GetFrame());
 
-	m_player->SetPosition(pos);
-	m_player->SetVelocity(vector3d(0,0,0));
-
+	if (b->GetType() == Object::SPACESTATION) {
+		m_player->SetDockedWith(static_cast<SpaceStation*>(b), 0);
+	} else {
+		const SystemBody *sbody = b->GetSystemBody();
+		m_player->SetPosition(vector3d(0, 1.5*sbody->GetRadius(), 0));
+		m_player->SetVelocity(vector3d(0,0,0));
+	}
 	Polit::Init();
 
 	CreateViews();

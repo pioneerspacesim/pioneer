@@ -41,11 +41,8 @@ public:
 	// (or LoadGame/SaveGame should be somewhere else entirely)
 	static void SaveGame(const std::string &filename, Game *game);
 
-	// start docked in station referenced by path
+	// start docked in station referenced by path or nearby to body if it is no station
 	Game(const SystemPath &path, double time = 0.0);
-
-	// start at position relative to body referenced by path
-	Game(const SystemPath &path, const vector3d &pos, double time = 0.0);
 
 	// load game
 	Game(Serializer::Reader &rd);
