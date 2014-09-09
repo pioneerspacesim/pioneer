@@ -1350,6 +1350,11 @@ void Ship::SetLabel(const std::string &label)
 	m_skin.Apply(GetModel());
 }
 
+void Ship::SetShipName(const std::string &shipName)
+{
+	m_shipName = shipName;
+}
+
 void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 {
 	m_skin = skin;

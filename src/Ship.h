@@ -215,6 +215,7 @@ public:
 	void SetSkin(const SceneGraph::ModelSkin &skin);
 
 	void SetLabel(const std::string &label);
+	void SetShipName(const std::string &shipName);
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;
@@ -351,6 +352,8 @@ private:
 
 	std::unique_ptr<Sensors> m_sensors;
 	std::unordered_map<Body*, Uint8> m_relationsMap;
+
+	std::string m_shipName;
 };
 
 
