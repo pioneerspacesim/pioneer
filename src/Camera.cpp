@@ -220,9 +220,10 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 				// get the total intensity of any shadowing bodies
 				float intensity = 0.0f;
 				const Player* pBody = Pi::game->GetPlayer();
+				const float oneOverNumLights = 1.0f / float(m_lightSources.size());
 				for( Uint32 i=0; i<m_lightSources.size() ; i++ ) 
 				{
-					intensity += ShadowedIntensity(i, pBody);
+					intensity += (ShadowedIntensity(i, pBody) * oneOverNumLights);
 				}
 				intensity = Clamp(intensity, 0.0f, 1.0f);
 
