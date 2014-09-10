@@ -22,6 +22,7 @@ namespace MathUtil {
 		return t*v2 + (F(1.0)-t)*v1;
 	}
 
+	inline float Dot(const vector3f &a, const vector3f &b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
 }
 
 #endif

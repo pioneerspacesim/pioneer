@@ -793,11 +793,11 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, accum*m));
-		} else if (starts_with(nodename, "docking_")) {
+		} else if (starts_with(nodename, "entrance_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
-		} else if (starts_with(nodename, "leaving_")) {
+		} else if (starts_with(nodename, "loc_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
-		} else if (starts_with(nodename, "approach_")) {
+		}else if (starts_with(nodename, "exit_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		}
 		return;

@@ -487,11 +487,11 @@ void Model::SetDebugFlags(Uint32 flags) {
 
 	if (m_debugFlags & SceneGraph::Model::DEBUG_DOCKING && m_dockingPoints.empty()) {
 		std::vector<MatrixTransform*> mts;
-		FindTagsByStartOfName("approach_", mts);
+		FindTagsByStartOfName("entrance_", mts);
 		AddAxisIndicators(mts, m_dockingPoints);
-		FindTagsByStartOfName("docking_", mts);
+		FindTagsByStartOfName("loc_", mts);
 		AddAxisIndicators(mts, m_dockingPoints);
-		FindTagsByStartOfName("leaving_", mts);
+		FindTagsByStartOfName("exit_", mts);
 		AddAxisIndicators(mts, m_dockingPoints);
     }
 }
