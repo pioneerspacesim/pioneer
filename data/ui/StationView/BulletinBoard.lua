@@ -51,6 +51,9 @@ local updateTable = function (station)
 		if type(ad.isEnabled) == "function" and not ad.isEnabled(ref) then
 			label:SetColor({ r = 0.4, g = 0.4, b = 0.4 })
 		end
+		if Game.paused then
+			label:SetColor({ r = 0.3, g = 0.3, b = 0.3})
+		end
 		table.insert(rows, {
 			ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
 			label,
@@ -75,11 +78,13 @@ local updateRowRefs = function (station, ref)
 end
 
 local onGamePaused = function ()
-  bbTable:SetMouseEnabled(false)
+	bbTable:SetMouseEnabled(false)
+	updateTable(Game.player:GetDockedWith())
 end
 
 local onGameResumed = function ()
-  bbTable:SetMouseEnabled(true)
+	bbTable:SetMouseEnabled(true)
+	updateTable(Game.player:GetDockedWith())
 end
 
 Event.Register("onAdvertAdded", updateRowRefs)
