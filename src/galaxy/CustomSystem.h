@@ -95,7 +95,7 @@ public:
 
 	void Init();
 
-	typedef std::vector<CustomSystem*> SystemList;
+	typedef std::vector<const CustomSystem*> SystemList;
 	// XXX this is not as const-safe as it should be
 	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
 	void AddCustomSystem(const SystemPath& path, CustomSystem* csys);
