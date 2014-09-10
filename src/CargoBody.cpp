@@ -62,7 +62,7 @@ CargoBody::CargoBody(const LuaRef& cargo, float selfdestructTimer): m_cargo(carg
 	SetMass(1.0);
 	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
 
-	if (selfdestructTimer == 0) // turn off self destruct
+	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
 		m_hasSelfdestruct = false;
 }
 
