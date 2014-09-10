@@ -3,6 +3,8 @@ September 2014
    * Fixes
      * Fix wrong reinitialization of random generator (#3156)
      * Fix crash at Daniel's Haven (#3157)
+     * Cargo body needs to save/load its self destruct timer (#3170)
+     * Fix mismatch between saving/loading code (#3172)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
@@ -21,6 +23,8 @@ September 2014
      * Recreate folder structure for sgm batch export (#3162)
      * Galaxy generation, part 2 (#3167)
      * Cargo body improvement (#3168)
+     * Easier to model docking - Part 1 (#3075)
+     * Randomize planet phase angle (#3135)
 
 August 2014
 
