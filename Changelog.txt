@@ -10,6 +10,7 @@ September 2014
      * Commodity sell price too low (#3161)
      * Make Stars visible during eclipse (#3100)
      * Cap maximum number of police GoodsTraders (#3165)
+     * Better background intensity calculation for Eclipse (#3171)
 
    * Script and UI API changes
      * Allow to set lawlessness in custom systems (#3166)
