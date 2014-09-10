@@ -215,6 +215,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	wr.WrSection("GalaxyGen", section.GetData());
 
 	// game state
+	section = Serializer::Writer();
 	section.Double(m_time);
 	section.Int32(Uint32(m_state));
 
