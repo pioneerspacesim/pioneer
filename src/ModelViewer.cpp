@@ -484,7 +484,7 @@ void ModelViewer::DrawModel()
 {
 	assert(m_model);
 
-	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 10000.f);
+	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	UpdateLights();
 

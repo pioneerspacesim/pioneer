@@ -1070,6 +1070,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
 		planet->m_orbit.SetPlane(matrix3x3d::RotateY(r1) * matrix3x3d::RotateX(-0.5*M_PI + r2*M_PI/2.0));
+		planet->m_orbit.SetPhase(rand.Double(2 * M_PI));
 
 		planet->m_inclination = FIXED_PI;
 		planet->m_inclination *= r2/2.0;

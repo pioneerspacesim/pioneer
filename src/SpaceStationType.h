@@ -13,22 +13,25 @@ namespace SceneGraph { class Model; }
 
 struct SpaceStationType {
 	typedef std::map<Uint32, matrix4x4f> TMapBayIDMat;
-	struct Port
+	struct PortPath
 	{
 		TMapBayIDMat m_docking;
 		TMapBayIDMat m_leaving;
 	};
-	typedef std::map<Uint32, Port> PortMap;
-	PortMap m_ports;
+	typedef std::map<Uint32, PortPath> PortPathMap;
+	PortPathMap m_portPaths;
 
-	struct SBayGroup {
-		SBayGroup() : minShipSize(-1), maxShipSize(-1), inUse(false) {}
+	struct SPort {
+		static const int BAD_PORT_ID = -1;
+		SPort() : portId(BAD_PORT_ID), minShipSize(5000), maxShipSize(-1), inUse(false) {}
+		int portId;
 		int minShipSize, maxShipSize;
 		bool inUse;
-		std::vector<int> bayIDs;
+		std::vector<std::pair<int,std::string> > bayIDs;
+		std::string name;
 		TMapBayIDMat m_approach;
 	};
-	typedef std::vector<SBayGroup> TBayGroups;
+	typedef std::vector<SPort> TPorts;
 
 	std::string id;
 	SceneGraph::Model *model;
@@ -39,11 +42,10 @@ struct SpaceStationType {
 	int numDockingStages;
 	int numUndockStages;
 	int shipLaunchStage;
-	double *dockAnimStageDuration;
-	double *undockAnimStageDuration;
 	float parkingDistance;
 	float parkingGapSize;
-	TBayGroups bayGroups;
+	TPorts m_ports;
+	float padOffset;
 
 	struct positionOrient_t {
 		vector3d pos;
@@ -55,8 +57,8 @@ struct SpaceStationType {
 	SpaceStationType();
 
 	void OnSetupComplete();
-	const SBayGroup* FindGroupByBay(const int zeroBaseBayID) const;
-	SBayGroup* GetGroupByBay(const int zeroBaseBayID);
+	const SPort* FindPortByBay(const int zeroBaseBayID) const;
+	SPort* GetPortByBay(const int zeroBaseBayID);
 
 	double GetDockAnimStageDuration(const int stage) const;
 	double GetUndockAnimStageDuration(const int stage) const;
