@@ -78,7 +78,7 @@ public:
 	Uint32                 seed;
 	bool                   want_rand_explored;
 	bool                   explored;
-	Faction*               faction;
+	const Faction*         faction;
 	Polit::GovType         govType;
 	bool                   want_rand_lawlessness;
 	fixed                  lawlessness; // 0.0 = lawful, 1.0 = totally lawless

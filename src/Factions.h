@@ -63,13 +63,13 @@ public:
 
 	// set the homeworld to one near the supplied co-ordinates
 	void SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint32 bi, Sint32 axisChange);
-	RefCountedPtr<const Sector> GetHomeSector();
+	RefCountedPtr<const Sector> GetHomeSector() const;
 
 private:
 	static const double FACTION_CURRENT_YEAR;	// used to calculate faction radius
 
-	RefCountedPtr<const Sector> m_homesector;	// cache of home sector to use in distance calculations
-	const bool IsCloserAndContains(double& closestFactionDist, const Sector::System* sys);
+	mutable RefCountedPtr<const Sector> m_homesector;	// cache of home sector to use in distance calculations
+	const bool IsCloserAndContains(double& closestFactionDist, const Sector::System* sys) const;
 };
 
 /* One day it might grow up to become a full tree, on the  other hand it might be
@@ -83,36 +83,35 @@ public:
 	~FactionsDatabase();
 
 	void Init();
-	bool IsInitialized();
+	bool IsInitialized() const;
 	Galaxy* GetGalaxy() const { return m_galaxy; }
 	void RegisterCustomSystem(CustomSystem *cs, const std::string& factionName);
 	void AddFaction(Faction* faction);
 
-	// XXX this is not as const-safe as it should be
-	Faction *GetFaction       (const Uint32 index);
-	Faction *GetFaction       (const std::string& factionName);
-	Faction *GetNearestFaction(const Sector::System* sys);
-	bool     IsHomeSystem     (const SystemPath& sysPath);
+	const Faction *GetFaction(const Uint32 index) const;
+	const Faction *GetFaction(const std::string& factionName) const;
+	const Faction *GetNearestFaction(const Sector::System* sys) const;
+	bool IsHomeSystem(const SystemPath& sysPath) const;
 
-	const Uint32 GetNumFactions();
+	const Uint32 GetNumFactions() const;
 
-	bool MayAssignFactions();
+	bool MayAssignFactions() const;
 
 private:
 	class Octsapling {
 	public:
-		void Add(Faction* faction);
-		const std::vector<Faction*>& CandidateFactions(const Sector::System* sys);
+		void Add(const Faction* faction);
+		const std::vector<const Faction*>& CandidateFactions(const Sector::System* sys) const;
 
 	private:
-		std::vector<Faction*> octbox[2][2][2];
-		const int BoxIndex(Sint32 sectorIndex) { return sectorIndex < 0 ? 0: 1; };
+		std::vector<const Faction*> octbox[2][2][2];
+		static const int BoxIndex(Sint32 sectorIndex) { return sectorIndex < 0 ? 0: 1; };
 		void PruneDuplicates(const int bx, const int by, const int bz);
 	};
 
 	typedef std::vector<Faction*> FactionList;
 	typedef FactionList::iterator FactionIterator;
-	typedef const std::vector<Faction*> ConstFactionList;
+	typedef const std::vector<const Faction*> ConstFactionList;
 	typedef ConstFactionList::const_iterator ConstFactionIterator;
 	typedef std::map<std::string, Faction*> FactionMap;
 	typedef std::set<SystemPath>  HomeSystemSet;

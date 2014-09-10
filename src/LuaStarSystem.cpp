@@ -484,7 +484,7 @@ static int l_starsystem_attr_faction(lua_State *l)
 	PROFILE_SCOPED()
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	if (s->GetFaction()->IsValid()) {
-		LuaObject<Faction>::PushToLua(s->GetFaction());
+		LuaObject<Faction>::PushToLua(const_cast<Faction*>(s->GetFaction())); // XXX const-correctness violation
 		return 1;
 	} else {
 		return 0;

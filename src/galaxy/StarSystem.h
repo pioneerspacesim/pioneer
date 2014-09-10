@@ -326,7 +326,7 @@ public:
 		return m_tradeLevel[int(t)];
 	}
 
-	Faction* GetFaction() const  { return m_faction; }
+	const Faction* GetFaction() const  { return m_faction; }
 	bool GetUnexplored() const { return m_unexplored; }
 	fixed GetMetallicity() const { return m_metallicity; }
 	fixed GetIndustrial() const { return m_industrial; }
@@ -364,7 +364,7 @@ private:
 	bool m_isCustom;
 	bool m_hasCustomBodies;
 
-	Faction* m_faction;
+	const Faction* m_faction;
 	bool m_unexplored;
 	fixed m_metallicity;
 	fixed m_industrial;
@@ -405,7 +405,7 @@ public:
 	void SetLongDesc(const std::string& desc) { m_longDesc = desc; }
 	void SetUnexplored(bool unexplored) { m_unexplored = unexplored; }
 	void SetSeed(Uint32 seed) { m_seed = seed; }
-	void SetFaction(Faction* faction) { m_faction = faction; }
+	void SetFaction(const Faction* faction) { m_faction = faction; }
 	void SetEconType(GalacticEconomy::EconType econType) { m_econType = econType; }
 	void SetSysPolit(SysPolit polit) { m_polit = polit; }
 	void SetMetallicity(fixed metallicity) { m_metallicity = metallicity; }
