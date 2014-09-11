@@ -30,13 +30,13 @@ namespace Time {
 	// But... I'm pretty sure we don't need leap seconds for Pioneer.
 
 enum TimeUnit : Sint64 {
-	Microsecond = 1,
-	Millisecond = 1000 * Microsecond,
-	Second = 1000 * Millisecond,
-	Minute = 60 * Second,
-	Hour = 60 * Minute,
-	Day = 24 * Hour,
-	Week = 7 * Day
+	Microsecond = 1ll,
+	Millisecond = 1000ll * Microsecond,
+	Second = 1000ll * Millisecond,
+	Minute = 60ll * Second,
+	Hour = 60ll * Minute,
+	Day = 24ll * Hour,
+	Week = 7ll * Day
 };
 
 class TimeDelta;
