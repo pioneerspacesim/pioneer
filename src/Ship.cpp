@@ -75,6 +75,8 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_controller->Save(wr, space);
 
 	m_navLights->Save(wr);
+
+	wr.String(m_shipName);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -142,6 +144,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	m_navLights->Load(rd);
 
+	m_shipName = rd.String();
 }
 
 void Ship::InitEquipSet() {
