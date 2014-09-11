@@ -26,13 +26,17 @@ bbTable.onRowClicked:Connect(function (row)
 	local ad = SpaceStation.adverts[station][ref]
 
 	local chatFunc = function (form, option)
+		station:LockAdvert(ref)
 		return ad.onChat(form, ref, option)
 	end
 	local removeFunc = function ()
 		station:RemoveAdvert(ref)
 	end
+	local closeFunc = function ()
+		station:UnlockAdvert(ref)
+	end
 
-	local form = ChatForm.New(chatFunc, removeFunc, ref, tabGroup)
+	local form = ChatForm.New(chatFunc, removeFunc, closeFunc, ref, tabGroup)
 	ui:NewLayer(form:BuildWidget())
 end)
 

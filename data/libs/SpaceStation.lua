@@ -246,7 +246,9 @@ end
 -- Group: Methods
 --
 
-
+SpaceStation.lockedAdvert = nil
+SpaceStation.advertLockCount = 0
+SpaceStation.removeOnReleased = false
 SpaceStation.adverts = {}
 
 --
@@ -363,9 +365,12 @@ end
 --
 --  stable
 --
-
 function SpaceStation:RemoveAdvert (ref)
 	if not SpaceStation.adverts[self] then return end
+	if SpaceStation.lockedAdvert == ref then
+		SpaceStation.removeOnReleased = true
+		return
+	end
 	local onDelete = SpaceStation.adverts[self][ref].onDelete
 	if onDelete then
 		onDelete(ref)
@@ -374,6 +379,42 @@ function SpaceStation:RemoveAdvert (ref)
 	Event.Queue("onAdvertRemoved", self, ref)
 end
 
+--
+-- Method: LockAdvert
+--
+-- > station:LockAdvert(ref)
+--
+-- Only one advert may be locked at a time. Locked adverts are not removed by
+-- RemoveAdvert until they are unlocked.
+--
+-- Parameters:
+--
+--   ref - the advert reference number returned by <AddAdvert>
+--
+-- Availability:
+--
+--  September 2014
+--
+-- Status:
+--
+--  experimental
+--
+function SpaceStation:LockAdvert (ref)
+	if (SpaceStation.advertLockCount > 0) then
+		assert(SpaceStation.lockedAdvert == ref, "Attempt to lock ref "..ref
+		.."disallowed."
+		.." Ref "..(SpaceStation.lockedAdvert or "nil").." is already locked "
+		..SpaceStation.advertLockCount.." times.")
+		SpaceStation.advertLockCount = SpaceStation.advertLockCount + 1
+		return
+	end
+	assert(SpaceStation.lockedAdvert == nil, "Attempt to lock ref "..ref
+		.." disallowed."
+		.." Ref "..(SpaceStation.lockedAdvert or "nil").." is already locked.")
+	SpaceStation.lockedAdvert = ref
+	SpaceStation.removeOnReleased = false
+	SpaceStation.advertLockCount = 1
+end
 
 local function updateAdverts (station)
 	-- XXX this should really just be a single event
@@ -386,6 +427,43 @@ local function updateAdverts (station)
 	end
 end
 
+--
+-- Method: UnlockAdvert
+--
+-- > station:UnlockAdvert(ref)
+--
+-- Releases the preserved advert. There must be an advert preserved at the
+-- time. If RemoveAdvert(ref) was called with the preserved advert's ref while
+-- the advert was preserved, it is now removed.
+--
+-- Parameters:
+--
+--   ref - the advert reference number returned by <AddAdvert>
+--
+-- Availability:
+--
+--  September 2014
+--
+-- Status:
+--
+--  experimental
+--
+function SpaceStation:UnlockAdvert (ref)
+	assert(SpaceStation.lockedAdvert == ref, "Attempt to unlock ref "..ref
+		.." disallowed."
+		.." Ref "..(SpaceStation.lockedAdvert or "nil").." is locked"
+		..SpaceStation.advertLockCount.." times. Unlock this"
+		.." first.")
+	if (SpaceStation.advertLockCount > 1) then
+		SpaceStation.advertLockCount = SpaceStation.advertLockCount - 1
+		return
+	end
+	SpaceStation.lockedAdvert = nil
+	SpaceStation.advertLockCount = 0
+	if SpaceStation.removeOnReleased then
+		self:RemoveAdvert(ref)
+	end
+end
 
 local function updateSystem ()
 	local stations = Space.GetBodies(function (b) return b.superType == "STARPORT" end)
