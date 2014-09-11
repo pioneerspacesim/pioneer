@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DateTime.h"
+#include <iomanip>
 #include <iostream>
 #include <cassert>
 
@@ -68,6 +69,14 @@ static void check_datetime_round_trip_2(Sint64 timestamp) {
 
 void test_datetime() {
 	const Time::DateTime EPOCH;
+
+	std::cout << "Microsecond: " << std::setw(12) << Sint64(Time::Microsecond) << "\n";
+	std::cout << "Millisecond: " << std::setw(12) << Sint64(Time::Millisecond) << "\n";
+	std::cout << "     Second: " << std::setw(12) << Sint64(Time::Second) << "\n";
+	std::cout << "     Minute: " << std::setw(12) << Sint64(Time::Minute) << "\n";
+	std::cout << "       Hour: " << std::setw(12) << Sint64(Time::Hour) << "\n";
+	std::cout << "        Day: " << std::setw(12) << Sint64(Time::Day) << "\n";
+	std::cout << "       Week: " << std::setw(12) << Sint64(Time::Week) << "\n";
 
 	std::cout << "epoch: " << EPOCH.ToStringISO8601() << "\n";
 
