@@ -34,6 +34,11 @@ local shipInfo = function (args)
 	rearWeapon =  rearWeapon  or nil
 
 	local player = Game.player
+	
+	local shipNameEntry = ui:TextEntry(player.shipName):SetFont("HEADING_LARGE")
+	shipNameEntry.onChange:Connect(function (newName)
+		player:SetShipName(newName)
+	end )
 
 	local mass_with_fuel = player.totalMass + player.fuelMassLeft
 	local mass_with_fuel_kg = 1000 * mass_with_fuel
@@ -121,6 +126,7 @@ local shipInfo = function (args)
 			:SetColumn(2, {
 				ui:VBox(10)
 					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
+					:PackEnd({	ui:Expand("HORIZONTAL", shipNameEntry),	})
 					:PackEnd(ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))
 			})
 end
