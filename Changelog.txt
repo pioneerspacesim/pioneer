@@ -25,6 +25,7 @@ September 2014
      * Cargo body improvement (#3168)
      * Easier to model docking - Part 1 (#3075)
      * Const-correctness in CustomSystems and Factions (#3174)
+     * Restrict FreeType to a single translation unit (#3175, #1203)
 
 August 2014
 

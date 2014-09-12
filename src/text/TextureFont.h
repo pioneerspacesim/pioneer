@@ -12,11 +12,15 @@
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include FT_STROKER_H
-
 namespace FileSystem { class FileData; }
+
+// forward declarations for FreeType types
+struct FT_FaceRec_;
+struct FT_LibraryRec_;
+struct FT_StrokerRec_;
+typedef struct FT_FaceRec_ *FT_Face;
+typedef struct FT_LibraryRec_ *FT_Library;
+typedef struct FT_StrokerRec_ *FT_Stroker;
 
 namespace Text {
 

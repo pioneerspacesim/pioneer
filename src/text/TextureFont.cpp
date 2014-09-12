@@ -8,9 +8,15 @@
 #include "graphics/VertexArray.h"
 #include "TextSupport.h"
 #include "utils.h"
-#include <algorithm>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include FT_STROKER_H
 #include FT_GLYPH_H
+
+#undef FT_FILE // defined by FreeType, conflicts with a symbol name from FileSystem
+
+#include <algorithm>
 
 static const int ATLAS_SIZE = 1024;
 

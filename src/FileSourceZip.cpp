@@ -11,8 +11,6 @@ extern "C" {
 #include "miniz/miniz.h"
 }
 
-#undef FT_FILE // TODO FileInfo::FT_FILE is conflicting with a FreeType def; undefine it for now
-
 namespace FileSystem {
 
 FileSourceZip::FileSourceZip(FileSourceFS &fs, const std::string &zipPath) : FileSource(zipPath), m_archive(0)

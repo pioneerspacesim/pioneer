@@ -11,9 +11,6 @@
 #include <algorithm>
 #include <cerrno>
 
-// I hate macros. I just hate them. Hate hate hate.
-#undef FT_FILE
-
 #include <windows.h>
 // GetPiUserDir() needs these
 #include <shlobj.h>
