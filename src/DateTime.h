@@ -9,9 +9,9 @@ namespace Time {
 	// We separate lengths of time (TimeDelta) from points in time (DateTime),
 	// because they have different operations defined on them
 	//
-	// The easiest way of specifying a length of time is to use the
-	// multiplication operator that is defined between integers and TimeUnit values,
-	// e.g., 2*Day, or 3*Week, or 60*Second
+	// The TimeDelta constructor takes a TimeUnit parameter, so you specify
+	// a length of time with, e.g., Time::TimeDelta(42, Time::Day)
+	//
 	// TimeUnit is an enum (rather than a set of const TimeDelta values) because
 	// that ensures the compiler will treat the values as compile time constants
 	// instead of objects that must be defined in a translation unit and initialised.
@@ -61,7 +61,6 @@ class TimeDelta {
 		friend TimeDelta operator+(const TimeDelta &a, const TimeDelta &b) { return TimeDelta(a.m_delta + b.m_delta, TimeUnit(1)); }
 		friend TimeDelta operator-(const TimeDelta &a, const TimeDelta &b) { return TimeDelta(a.m_delta - b.m_delta, TimeUnit(1)); }
 		friend TimeDelta operator*(Sint64 x, const TimeDelta &t) { return TimeDelta(x * t.m_delta, TimeUnit(1)); }
-		//friend TimeDelta operator*(Sint64 x, TimeUnit unit) { return TimeDelta(x, unit); }
 		friend TimeDelta operator/(const TimeDelta &t, Sint64 x) { return TimeDelta(t.m_delta / x, TimeUnit(1)); }
 		friend Sint64 operator/(const TimeDelta &a, const TimeDelta &b) { return (a.m_delta / b.m_delta); }
 
