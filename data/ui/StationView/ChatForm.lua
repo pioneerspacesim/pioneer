@@ -26,7 +26,7 @@ function ChatForm.New (chatFunc, removeFunc, ref, tabGroup)
 		chatFunc = chatFunc,
 		removeFunc = removeFunc,
 		ref = ref,
-        tabGroup = tabGroup,
+		tabGroup = tabGroup,
 	}
 	setmetatable(form, ChatForm.meta)
 	form.chatFunc(form, 0)
