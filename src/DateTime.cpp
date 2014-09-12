@@ -3,7 +3,7 @@
 #include <tuple>
 #include <utility>
 #include <stdio.h>
-#include <stdint.h>
+#include <cstdint>
 #include <cassert>
 #include "libs.h"
 
