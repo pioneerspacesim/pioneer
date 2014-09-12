@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_GEOSPHEREMATERIAL_H
-#define _GL2_GEOSPHEREMATEIRAL_H
+#define _GL2_GEOSPHEREMATERIAL_H
 /*
  * Programs & Materials used by terrain
  */
