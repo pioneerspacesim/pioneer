@@ -78,7 +78,7 @@ public:
 	Uint32                 seed;
 	bool                   want_rand_explored;
 	bool                   explored;
-	Faction*               faction;
+	const Faction*         faction;
 	Polit::GovType         govType;
 	bool                   want_rand_lawlessness;
 	fixed                  lawlessness; // 0.0 = lawful, 1.0 = totally lawless
@@ -95,7 +95,7 @@ public:
 
 	void Init();
 
-	typedef std::vector<CustomSystem*> SystemList;
+	typedef std::vector<const CustomSystem*> SystemList;
 	// XXX this is not as const-safe as it should be
 	const SystemList &GetCustomSystemsForSector(int sectorX, int sectorY, int sectorZ) const;
 	void AddCustomSystem(const SystemPath& path, CustomSystem* csys);

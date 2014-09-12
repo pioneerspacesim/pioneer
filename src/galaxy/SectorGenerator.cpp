@@ -26,11 +26,11 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sect
 		(sz >= -m_customOnlyRadius) && (sz <= m_customOnlyRadius-1))
 		config->isCustomOnly = true;
 
-	const std::vector<CustomSystem*> &systems = Pi::GetGalaxy()->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
+	const std::vector<const CustomSystem*> &systems = Pi::GetGalaxy()->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return true;
 
 	Uint32 sysIdx = 0;
-	for (std::vector<CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); ++it, ++sysIdx) {
+	for (std::vector<const CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); ++it, ++sysIdx) {
 		const CustomSystem *cs = *it;
 		Sector::System s(sx, sy, sz, sysIdx);
 		s.m_pos = Sector::SIZE*cs->pos;

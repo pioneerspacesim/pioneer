@@ -79,7 +79,7 @@ public:
 		SystemBody::BodyType m_starType[4];
 		Uint32 m_seed;
 		const CustomSystem* m_customSys;
-		mutable Faction* m_faction; // mutable because we only calculate on demand
+		mutable const Faction* m_faction; // mutable because we only calculate on demand
 		fixed m_population;
 		bool m_explored;
 	};

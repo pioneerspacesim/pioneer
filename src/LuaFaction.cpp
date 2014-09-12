@@ -130,7 +130,7 @@ static int l_faction_attr_has_homeworld(lua_State *l)
  */
 static int l_faction_attr_homeworld(lua_State *l)
 {
-	Faction *faction = LuaObject<Faction>::CheckFromLua(1);
+	const Faction *faction = LuaObject<Faction>::CheckFromLua(1);
 	LuaObject<SystemPath>::PushToLua(faction->homeworld);
 	return 1;
 }

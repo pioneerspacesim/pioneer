@@ -1718,7 +1718,7 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	if (a == Polit::GOV_NONE) return;
 
 	if(system->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
-		for (std::pair<const GalacticEconomy::Commodity,Uint32>& legality : system->GetFaction()->commodity_legality)
+		for (const std::pair<const GalacticEconomy::Commodity,Uint32>& legality : system->GetFaction()->commodity_legality)
 			system->SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
 	} else 	{
 		// this is a non-faction system - do some hardcoded test
