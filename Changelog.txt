@@ -5,6 +5,7 @@ September 2014
      * Fix crash at Daniel's Haven (#3157)
      * Cargo body needs to save/load its self destruct timer (#3170)
      * Fix mismatch between saving/loading code (#3172)
+     * Fix behaviour of autosave system (#3163, #3101)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
@@ -17,6 +18,7 @@ September 2014
 
    * Script and UI API changes
      * Allow to set lawlessness in custom systems (#3166)
+     * FileSystem.ReadDirectory now includes timestamps for files (#3163)
 
    * Internal Changes
      * Improve galaxy image handling (#3154)
