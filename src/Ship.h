@@ -215,6 +215,7 @@ public:
 	void SetSkin(const SceneGraph::ModelSkin &skin);
 
 	void SetLabel(const std::string &label);
+	const std::string &GetLabel() const;
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;

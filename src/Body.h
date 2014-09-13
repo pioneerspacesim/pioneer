@@ -71,7 +71,7 @@ public:
 	void OrientOnSurface(double radius, double latitude, double longitude);
 
 	virtual void SetLabel(const std::string &label);
-	const std::string &GetLabel() const { return m_label; }
+	virtual const std::string &GetLabel() const { return m_label; }
 	unsigned int GetFlags() const { return m_flags; }
 	// Only Space::KillBody() should call this method.
 	void MarkDead() { m_dead = true; }

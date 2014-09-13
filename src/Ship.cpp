@@ -34,6 +34,7 @@ static const float TONS_HULL_PER_SHIELD = 10.f;
 static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
+static const std::string s_blankAISLabel("??-????");
 
 void Ship::Save(Serializer::Writer &wr, Space *space)
 {
@@ -1351,6 +1352,11 @@ void Ship::SetLabel(const std::string &label)
 	DynamicBody::SetLabel(label);
 	m_skin.SetLabel(label);
 	m_skin.Apply(GetModel());
+}
+
+const std::string &Ship::GetLabel() const 
+{ 
+	return IsTransponderActive() ? Body::GetLabel() : s_blankAISLabel;
 }
 
 void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
