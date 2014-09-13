@@ -24,6 +24,7 @@ define_ship {
 		missile = 4,
 		cargoscoop = 0,
 		fuelscoop = 1,
+		transponder = 1,
 	},
 	min_crew = 1,
 	max_crew = 1,
