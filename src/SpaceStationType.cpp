@@ -89,7 +89,7 @@ void SpaceStationType::OnSetupComplete()
 		const matrix4x4f &locTransform = locIter->GetTransform();
 
 		// eg:loc_A001_p01_s0_500_b01
-		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname, &portId, &minSize, &maxSize, &bay));
+		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bay));
 		PiVerify(bay>0 && portId>0);
 
 		// find the port and setup the rest of it's information
@@ -147,7 +147,7 @@ void SpaceStationType::OnSetupComplete()
 			m_portPaths[bay].m_docking[2] = approach2;
 			m_portPaths[bay].m_docking[2].SetRotationOnly( locTransform.GetOrient() );
 			// above the pad
-			vector3f intersectionPos;
+			vector3f intersectionPos(0.0f);
 			const vector3f approach1Pos = approach1.GetTranslate();
 			const vector3f approach2Pos = approach2.GetTranslate();
 			{
