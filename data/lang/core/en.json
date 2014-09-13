@@ -71,13 +71,25 @@
       "description" : "An automatic tracking system used on ships and by vessel traffic services (VTS) for identifying and locating vessels.",
       "message" : "Automatic identification system (AIS)"
    },
+   "AUTOMATIC_IDENTIFICATION_SYSTEM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An automatic tracking system used on ships and by vessel traffic services (VTS) for identifying and locating vessels."
+   },
    "AUTOMATIC_IDENTIFICATION_SYSTEM_MILITARY" : {
       "description" : "Military version of the AIS transponder, can be deactivated.",
       "message" : "Military-spec AIS transponder"
    },
+   "AUTOMATIC_IDENTIFICATION_SYSTEM_MILITARY_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Military version of the AIS transponder, can be deactivated."
+   },
    "AUTOMATIC_IDENTIFICATION_SYSTEM_ILLEGAL" : {
       "description" : "Illegally modified AIS transponder, can be deactivated, or the ship name and identification can be altered.",
       "message" : "Illegally modified AIS transponder"
+   },
+   "AUTOMATIC_IDENTIFICATION_SYSTEM_ILLEGAL_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Illegally modified AIS transponder, can be deactivated, or the ship name and identification can be altered."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
