@@ -528,7 +528,7 @@ misc.advanced_radar_mapper = EquipType.New({
 	capabilities={mass=1, radar_mapper_level=2}, purchasable=true
 })
 misc.automatic_identification_system = EquipType.New({
-	l10n_key="AUTOMATIC_IDENTIFICATION_SYSTEM", slots="transponder", price=0,
+	l10n_key="AUTOMATIC_IDENTIFICATION_SYSTEM", slots="transponder", price=1000,
 	capabilities={mass=0, ais_level_cap=1}, purchasable=false
 })
 misc.automatic_identification_system_military = EquipType.New({
