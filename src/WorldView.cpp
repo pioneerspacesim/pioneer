@@ -40,11 +40,16 @@
 #include <SDL_stdinc.h>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
-static const Color s_hudTextColor(0,255,0,230);
-static const float ZOOM_SPEED = 1.f;
-static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
-static const float HUD_CROSSHAIR_SIZE = 8.0f;
-static const Uint8 HUD_ALPHA          = 87;
+namespace // anon
+{
+	static const Color s_hudTextColor(0,255,0,230);
+	static const float ZOOM_SPEED = 1.f;
+	static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
+	static const float HUD_CROSSHAIR_SIZE = 8.0f;
+	static const Uint8 HUD_ALPHA          = 87;
+	static const std::string sc_badName("?????");
+	static const std::string sc_badId("??-????");
+};
 
 WorldView::WorldView(): UIView()
 {
@@ -865,6 +870,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 				const shipstats_t &stats = s->GetStats();
 
+				const bool aisOn = s->IsTransponderActive();
+
 				float sShields = 0;
 				float sHull = s->GetPercentHull();
 				m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
@@ -881,9 +888,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 				m_hudTargetShieldIntegrity->Show();
 
 				std::string text;
-				text += s->GetShipType()->name;
+				text += (aisOn ? s->GetShipType()->name : sc_badName);
 				text += "\n";
-				text += s->GetLabel();
+				text += (aisOn ? s->GetLabel() : sc_badId);
 				text += "\n";
 
 				lua_State * l = Lua::manager->GetLuaState();
