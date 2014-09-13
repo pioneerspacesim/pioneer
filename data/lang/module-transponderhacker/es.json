@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Emporio del Honesto {name}"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "Casa de Comercio {name}"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "Almacén {name}"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "Centro de Productos {name}"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "Empresas {name}"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} & Hijos"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Bienvenido a "
+   }
+}

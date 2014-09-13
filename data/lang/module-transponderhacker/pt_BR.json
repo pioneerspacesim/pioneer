@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Empório Honesto de {nome}"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "Casa de Comércio de {nome}"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "Depósito de {nome}"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "Troca de Bens de {nome}"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "Propriedades de {nome}"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{nome} e Filhos"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Benvindo a"
+   }
+}

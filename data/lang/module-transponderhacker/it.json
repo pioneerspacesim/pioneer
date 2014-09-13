@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Emporio di {name} l'Onesto."
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "Casa d'affari di {name}"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "Magazzini {name}"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "Scambio Merci {name}"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "{name} S.P.A."
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} e figli."
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Benvenuto a: "
+   }
+}

@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Uczciwy {name}'s - Magazyn Towarów"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "Dom Handlowy {name}'s"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "Skład {name}'s"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "Wymiana Towarów {name}'s"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "Gospodarstwo {name}"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} & Synowie"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Witamy! "
+   }
+}

@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Eerlijke {name} Goederen Magazijn"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "{name}s Handel Huis"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "{name} Warenhuis"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "{name} Goederen Beurs"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "{name} Aandelen"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} & Zonen"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Welkom bij"
+   }
+}

@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "gun taigh-bhathair onarach aig {name}"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "gun taigh-mhalairt aig {name}"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "gun taigh-bhathair aig {name}"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "gun ionad malairt aig {name}"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "batharnach {name}"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} ⁊ a mhac"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Fàilte"
+   }
+}
