@@ -987,6 +987,10 @@
       "description" : "",
       "message" : "Trading illegal goods"
    },
+   "TRANSPONDER_DATA" : {
+      "description" : "",
+      "message" : "Transponder Information"
+   },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
       "message" : "Trustworthy"

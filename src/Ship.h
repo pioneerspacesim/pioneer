@@ -263,6 +263,12 @@ public:
 	void ActivateTransponder() { m_transponderActive = true; }
 	void DeactivateTransponder();
 
+	bool IsTransponderFaking() const { return m_transponderFaking; }
+	void FakeTransponderStart();
+	void FakeTransponderStop() { m_transponderFaking = false; }
+
+	void SetFakeTransponderLabel(const std::string &fakeLabel);
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -309,7 +315,10 @@ private:
 	void InitEquipSet();
 
 	bool m_invulnerable;
+
 	bool m_transponderActive;
+	bool m_transponderFaking;
+	std::string m_fakeLabel;
 
 	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;
