@@ -39,6 +39,7 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
 	m_skin.Save(wr);
+	wr.Bool(m_transponderActive);
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);
@@ -83,6 +84,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_skin.Load(rd);
 	m_skin.Apply(GetModel());
 	// needs fixups
+	m_transponderActive = rd.Bool();
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
 	m_wheelTransition = rd.Int32();
@@ -197,6 +199,7 @@ void Ship::InitMaterials()
 void Ship::Init()
 {
 	m_invulnerable = false;
+	m_transponderActive = true;
 
 	m_sensors.reset(new Sensors(this));
 

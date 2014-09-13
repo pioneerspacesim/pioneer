@@ -258,6 +258,10 @@ public:
 
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 
+	bool IsTransponderActive() const { return m_transponderActive; }
+	void ActivateTransponder() { m_transponderActive = true; }
+	void DeactivateTransponder() { m_transponderActive = false; }
+
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
@@ -304,6 +308,7 @@ private:
 	void InitEquipSet();
 
 	bool m_invulnerable;
+	bool m_transponderActive;
 
 	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;
