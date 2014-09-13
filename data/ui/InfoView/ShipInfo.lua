@@ -35,7 +35,7 @@ local shipInfo = function (args)
 
 	local player = Game.player
 	
-	local shipNameEntry = ui:TextEntry(player.shipName):SetFont("HEADING_LARGE")
+	local shipNameEntry = ui:TextEntry(player.shipName):SetFont("HEADING_SMALL")
 	shipNameEntry.onChange:Connect(function (newName)
 		player:SetShipName(newName)
 	end )
@@ -125,8 +125,14 @@ local shipInfo = function (args)
 			})
 			:SetColumn(2, {
 				ui:VBox(10)
-					:PackEnd(ui:Label(shipDef.name):SetFont("HEADING_LARGE"))
-					:PackEnd({	ui:Expand("HORIZONTAL", shipNameEntry),	})
+					:PackEnd(ui:HBox(10):PackEnd({
+						ui:VBox(5):PackEnd({
+							ui:Label(shipDef.name):SetFont("HEADING_LARGE"),
+						}),
+						ui:VBox(5):PackEnd({
+							ui:Expand("HORIZONTAL", shipNameEntry),
+						})
+					}))
 					:PackEnd(ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))
 			})
 end
