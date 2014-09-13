@@ -526,6 +526,18 @@ misc.advanced_radar_mapper = EquipType.New({
 	l10n_key="ADVANCED_RADAR_MAPPER", slots="radar", price=1200,
 	capabilities={mass=1, radar_mapper_level=2}, purchasable=true
 })
+misc.automatic_identification_system = EquipType.New({
+	l10n_key="AUTOMATIC_IDENTIFICATION_SYSTEM", slots="transponder", price=0,
+	capabilities={mass=0, ais_level_cap=1}, purchasable=false
+})
+misc.automatic_identification_system_military = EquipType.New({
+	l10n_key="AUTOMATIC_IDENTIFICATION_SYSTEM_MILITARY", slots="transponder", price=5000,
+	capabilities={mass=0, ais_level_cap=2}, purchasable=false
+})
+misc.automatic_identification_system_illegal = EquipType.New({
+	l10n_key="AUTOMATIC_IDENTIFICATION_SYSTEM_ILLEGAL", slots="transponder", price=50000,
+	capabilities={mass=0, ais_level_cap=3}, purchasable=false
+})
 misc.fuel_scoop = EquipType.New({
 	l10n_key="FUEL_SCOOP", slots="fuel_scoop", price=3500,
 	capabilities={mass=6, fuel_scoop=1}, purchasable=true

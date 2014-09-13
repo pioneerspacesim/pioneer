@@ -67,6 +67,18 @@
       "description" : "",
       "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
+   "AUTOMATIC_IDENTIFICATION_SYSTEM" : {
+      "description" : "An automatic tracking system used on ships and by vessel traffic services (VTS) for identifying and locating vessels.",
+      "message" : "Automatic identification system (AIS)"
+   },
+   "AUTOMATIC_IDENTIFICATION_SYSTEM_MILITARY" : {
+      "description" : "Military version of the AIS transponder, can be deactivated.",
+      "message" : "Military-spec AIS transponder"
+   },
+   "AUTOMATIC_IDENTIFICATION_SYSTEM_ILLEGAL" : {
+      "description" : "Illegally modified AIS transponder, can be deactivated, or the ship name and identification can be altered.",
+      "message" : "Illegally modified AIS transponder"
+   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
       "message" : "Automatic system selection"
