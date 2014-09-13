@@ -95,10 +95,9 @@ void Container::Enable()
 
 void Container::NotifyVisible(bool visible)
 {
-	if (m_visible != visible) {
-		m_visible = visible;
-		if (m_visible) { HandleVisible(); } else { HandleInvisible(); }
-
+	const bool wasVisible = IsVisible();
+	Widget::NotifyVisible(visible);
+	if (wasVisible != visible) {
 		for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 			Widget *w = (*i).Get();
 			w->NotifyVisible(visible);
