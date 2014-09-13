@@ -268,6 +268,7 @@ end
 -- laser_cooler - laser cooling booster
 -- cargo_life_support - cargo bay life support
 -- autopilot - autopilot
+-- transponder - automatic-identification-system transponder for ships to identify each other
 
 local cargo = {
 	hydrogen = EquipType.New({
