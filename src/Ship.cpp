@@ -1379,3 +1379,15 @@ void Ship::SetRelations(Body *other, Uint8 percent)
 	m_relationsMap[other] = percent;
 	if (m_sensors.get()) m_sensors->UpdateIFF(other);
 }
+
+void Ship::DeactivateTransponder() 
+{ 
+	int prop_var = 0;
+	Properties().Get("ais_level_cap", prop_var);
+	if( prop_var>1 ) { 
+		// could be military or illegally modified
+		if( IsTransponderActive() ) {
+			m_transponderActive = false;
+		}
+	}
+}

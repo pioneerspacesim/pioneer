@@ -261,7 +261,7 @@ public:
 
 	bool IsTransponderActive() const { return m_transponderActive; }
 	void ActivateTransponder() { m_transponderActive = true; }
-	void DeactivateTransponder() { m_transponderActive = false; }
+	void DeactivateTransponder();
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
