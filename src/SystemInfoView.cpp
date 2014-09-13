@@ -151,9 +151,13 @@ void SystemInfoView::UpdateEconomyTab()
 	/* imports and exports */
 	const RefCountedPtr<StarSystem> hs = m_game->GetSpace()->GetStarSystem();
 
+	// check if trade analyser is installed
+	int trade_analyser = 0;
+	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyser);
+
 	// If current system is defined and not equal to selected we will compare them
 	const bool compareSelectedWithCurrent =
-			(hs && !m_system->GetPath().IsSameSystem(hs->GetPath()));
+		(hs && !m_system->GetPath().IsSameSystem(hs->GetPath()) && trade_analyser > 0);
 
 	const std::string meh       = "#999";
 	const std::string ok        = "#fff";
@@ -195,19 +199,17 @@ void SystemInfoView::UpdateEconomyTab()
 				 && s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
 				std::string extra = meh;              // default color
 				std::string tooltip = "";             // no tooltip for default
-				if (hs){
-					if (compareSelectedWithCurrent){
-						if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-							extra = colorInInterval;     // change color
-							tooltip = toolTipInInterval; // describe trade status in current system
-						} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-							extra = colorOther;
-							tooltip = toolTipOther;
-						}
-						if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
-							extra = illegal;
-							tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
-						}
+				if (compareSelectedWithCurrent) {
+					if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+						extra = colorInInterval;     // change color
+						tooltip = toolTipInInterval; // describe trade status in current system
+					} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+						extra = colorOther;
+						tooltip = toolTipOther;
+					}
+					if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
+						extra = illegal;
+						tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
 					}
 				}
 				Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
