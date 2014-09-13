@@ -694,8 +694,16 @@ void SystemView::RefreshShips(void) {
 		   (*s)->GetType() == Object::SHIP) {
 
 			const auto c = static_cast<Ship*>(*s);
-			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
-
+			int prop_var = 0;
+			c->Properties().Get("ais_level_cap", prop_var);
+			if( prop_var>1 ) { 
+				// could be military or illegally modified
+				if( c->IsTransponderActive() ) {
+					m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+				}
+			} else {
+				m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+			}
 		}
 	}
 }
