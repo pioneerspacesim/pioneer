@@ -55,7 +55,6 @@ Game::Game(const SystemPath &path, double time) :
 	m_player->SetDockedWith(station, 0);
 
 	Polit::Init();
-
 	CreateViews();
 
 	EmitPauseState(IsPaused());
@@ -665,6 +664,111 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 	m_forceTimeAccel = force;
 }
 
+Game::Views::Views()
+	: m_sectorView(nullptr)
+	, m_galacticView(nullptr)
+	, m_settingsView(nullptr)
+	, m_systemInfoView(nullptr)
+	, m_systemView(nullptr)
+	, m_worldView(nullptr)
+	, m_deathView(nullptr)
+	, m_spaceStationView(nullptr)
+	, m_infoView(nullptr)
+	, m_cpan(nullptr)
+{ }
+
+void Game::Views::SetRenderer(Graphics::Renderer *r)
+{
+	// view manager will handle setting this probably
+	m_galacticView->SetRenderer(r);
+	m_infoView->SetRenderer(r);
+	m_sectorView->SetRenderer(r);
+	m_systemInfoView->SetRenderer(r);
+	m_systemView->SetRenderer(r);
+	m_worldView->SetRenderer(r);
+	m_deathView->SetRenderer(r);
+
+#if WITH_OBJECTVIEWER
+	m_objectViewerView->SetRenderer(r);
+#endif
+}
+
+void Game::Views::Init()
+{
+	m_cpan = Pi::cpan = new ShipCpanel(Pi::renderer);
+	m_sectorView = Pi::sectorView = new SectorView();
+	m_worldView = Pi::worldView = new WorldView();
+	m_galacticView = Pi::galacticView = new GalacticView();
+	m_systemView = Pi::systemView = new SystemView();
+	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
+	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
+	m_infoView = Pi::infoView = new UIView("InfoView");
+	m_deathView = Pi::deathView = new DeathView();
+	m_settingsView = Pi::settingsView = new UIView("SettingsInGame");
+
+#if WITH_OBJECTVIEWER
+	m_objectViewerView = Pi::objectViewerView = new ObjectViewerView();
+#endif
+
+	SetRenderer(Pi::renderer);
+}
+
+void Game::Views::Load(Serializer::Reader &rd)
+{
+	Serializer::Reader section = rd.RdSection("ShipCpanel");
+	m_cpan = Pi::cpan = new ShipCpanel(section, Pi::renderer);
+
+	section = rd.RdSection("SectorView");
+	m_sectorView = Pi::sectorView = new SectorView(section);
+
+	section = rd.RdSection("WorldView");
+	m_worldView = Pi::worldView = new WorldView(section);
+
+	m_galacticView = Pi::galacticView = new GalacticView();
+	m_systemView = Pi::systemView = new SystemView();
+	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
+	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
+	m_infoView = Pi::infoView = new UIView("InfoView");
+	m_deathView = Pi::deathView = new DeathView();
+	m_settingsView = Pi::settingsView = new UIView("SettingsInGame");
+
+#if WITH_OBJECTVIEWER
+	m_objectViewerView = Pi::objectViewerView = new ObjectViewerView();
+#endif
+
+	SetRenderer(Pi::renderer);
+}
+
+Game::Views::~Views()
+{
+#if WITH_OBJECTVIEWER
+	Pi::objectViewerView = nullptr;
+	delete m_objectViewerView;
+#endif
+
+	Pi::settingsView = nullptr;
+	Pi::deathView = nullptr;
+	Pi::infoView = nullptr;
+	Pi::spaceStationView = nullptr;
+	Pi::systemInfoView = nullptr;
+	Pi::systemView = nullptr;
+	Pi::galacticView = nullptr;
+	Pi::worldView = nullptr;
+	Pi::sectorView = nullptr;
+	Pi::cpan = nullptr;
+
+	delete m_settingsView;
+	delete m_deathView;
+	delete m_infoView;
+	delete m_spaceStationView;
+	delete m_systemInfoView;
+	delete m_systemView;
+	delete m_galacticView;
+	delete m_worldView;
+	delete m_sectorView;
+	delete m_cpan;
+}
+
 // XXX this should be in some kind of central UI management class that
 // creates a set of UI views held by the game. right now though the views
 // are rather fundamentally tied to their global points and assume they
@@ -679,30 +783,8 @@ void Game::CreateViews()
 	Pi::game = this;
 	Pi::player = m_player.get();
 
-	Pi::cpan = new ShipCpanel(Pi::renderer);
-	Pi::sectorView = new SectorView();
-	Pi::worldView = new WorldView();
-	Pi::galacticView = new GalacticView();
-	Pi::systemView = new SystemView();
-	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new UIView("StationView");
-	Pi::infoView = new UIView("InfoView");
-	Pi::deathView = new DeathView();
-	Pi::settingsView = new UIView("SettingsInGame");
-
-	// view manager will handle setting this probably
-	Pi::galacticView->SetRenderer(Pi::renderer);
-	Pi::infoView->SetRenderer(Pi::renderer);
-	Pi::sectorView->SetRenderer(Pi::renderer);
-	Pi::systemInfoView->SetRenderer(Pi::renderer);
-	Pi::systemView->SetRenderer(Pi::renderer);
-	Pi::worldView->SetRenderer(Pi::renderer);
-	Pi::deathView->SetRenderer(Pi::renderer);
-
-#if WITH_OBJECTVIEWER
-	Pi::objectViewerView = new ObjectViewerView();
-	Pi::objectViewerView->SetRenderer(Pi::renderer);
-#endif
+	m_gameViews.reset(new Views);
+	m_gameViews->Init();
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
@@ -719,35 +801,8 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::game = this;
 	Pi::player = m_player.get();
 
-	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	Pi::cpan = new ShipCpanel(section, Pi::renderer);
-
-	section = rd.RdSection("SectorView");
-	Pi::sectorView = new SectorView(section);
-
-	section = rd.RdSection("WorldView");
-	Pi::worldView = new WorldView(section);
-
-	Pi::galacticView = new GalacticView();
-	Pi::systemView = new SystemView();
-	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new UIView("StationView");
-	Pi::infoView = new UIView("InfoView");
-	Pi::deathView = new DeathView();
-	Pi::settingsView = new UIView("SettingsInGame");
-
-#if WITH_OBJECTVIEWER
-	Pi::objectViewerView = new ObjectViewerView();
-	Pi::objectViewerView->SetRenderer(Pi::renderer);
-#endif
-
-	Pi::galacticView->SetRenderer(Pi::renderer);
-	Pi::infoView->SetRenderer(Pi::renderer);
-	Pi::sectorView->SetRenderer(Pi::renderer);
-	Pi::systemInfoView->SetRenderer(Pi::renderer);
-	Pi::systemView->SetRenderer(Pi::renderer);
-	Pi::worldView->SetRenderer(Pi::renderer);
-	Pi::deathView->SetRenderer(Pi::renderer);
+	m_gameViews.reset(new Views);
+	m_gameViews->Load(rd);
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
@@ -759,33 +814,9 @@ void Game::DestroyViews()
 {
 	Pi::SetView(0);
 
-#if WITH_OBJECTVIEWER
-	delete Pi::objectViewerView;
-#endif
+	m_gameViews.reset();
 
-	delete Pi::settingsView;
-	delete Pi::deathView;
-	delete Pi::infoView;
-	delete Pi::spaceStationView;
-	delete Pi::systemInfoView;
-	delete Pi::systemView;
-	delete Pi::galacticView;
-	delete Pi::worldView;
-	delete Pi::sectorView;
-	delete Pi::cpan;
 	delete log;
-
-	Pi::objectViewerView = 0;
-	Pi::settingsView = 0;
-	Pi::deathView = 0;
-	Pi::infoView = 0;
-	Pi::spaceStationView = 0;
-	Pi::systemInfoView = 0;
-	Pi::systemView = 0;
-	Pi::galacticView = 0;
-	Pi::worldView = 0;
-	Pi::sectorView = 0;
-	Pi::cpan = 0;
 	log = 0;
 }
 
