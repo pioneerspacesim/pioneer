@@ -225,9 +225,14 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 			alreadyCached, masterCached, toBeCreated, vec_paths.size());
 #	endif
 
-	// now add the batched jobs
-	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-		m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxyGenerator, callback));
+	if (vec_paths.empty()) {
+		if (callback)
+			callback();
+	} else {
+		// now add the batched jobs
+		for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
+			m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxyGenerator, callback));
+	}
 }
 
 
