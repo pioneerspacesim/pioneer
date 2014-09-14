@@ -785,14 +785,14 @@ void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
 	}
 }
 
-RefCountedPtr<StarSystem> StarSystem::Unserialize(Serializer::Reader &rd)
+RefCountedPtr<StarSystem> StarSystem::Unserialize(RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd)
 {
 	if (rd.Byte()) {
 		int sec_x = rd.Int32();
 		int sec_y = rd.Int32();
 		int sec_z = rd.Int32();
 		int sys_idx = rd.Int32();
-		return Pi::GetGalaxy()->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
+		return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} else {
 		return RefCountedPtr<StarSystem>(0);
 	}

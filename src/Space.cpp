@@ -120,7 +120,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, d
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::Unserialize(rd);
+	m_starSystem = StarSystem::Unserialize(galaxy, rd);
 
 	const SystemPath &path = m_starSystem->GetPath();
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
