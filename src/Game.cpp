@@ -266,7 +266,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	wr.WrSection("SectorView", section.GetData());
 
 	section = Serializer::Writer();
-	Pi::worldView->Save(section);
+	m_gameViews->m_worldView->Save(section);
 	wr.WrSection("WorldView", section.GetData());
 
 
@@ -697,7 +697,7 @@ void Game::Views::Init()
 {
 	m_cpan = Pi::cpan = new ShipCpanel(Pi::renderer);
 	m_sectorView = Pi::sectorView = new SectorView();
-	m_worldView = Pi::worldView = new WorldView();
+	m_worldView = new WorldView();
 	m_galacticView = Pi::galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
@@ -722,7 +722,7 @@ void Game::Views::Load(Serializer::Reader &rd)
 	m_sectorView = Pi::sectorView = new SectorView(section);
 
 	section = rd.RdSection("WorldView");
-	m_worldView = Pi::worldView = new WorldView(section);
+	m_worldView = new WorldView(section);
 
 	m_galacticView = Pi::galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
@@ -751,7 +751,6 @@ Game::Views::~Views()
 	Pi::systemInfoView = nullptr;
 	Pi::systemView = nullptr;
 	Pi::galacticView = nullptr;
-	Pi::worldView = nullptr;
 	Pi::sectorView = nullptr;
 	Pi::cpan = nullptr;
 

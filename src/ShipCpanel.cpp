@@ -295,8 +295,8 @@ void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 	Pi::BoinkNoise();
 	const int newState = b->GetState();
 	b->SetActiveState(newState);
-	Pi::worldView->SetCamType(WorldView::CamType(newState));
-	Pi::SetView(Pi::worldView);
+	Pi::game->GetWorldView()->SetCamType(WorldView::CamType(newState));
+	Pi::SetView(Pi::game->GetWorldView());
 }
 
 void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
@@ -342,11 +342,11 @@ void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 		if (Pi::GetView() != Pi::game->GetSettingsView())
 			Pi::SetView(Pi::game->GetSettingsView());
 		else
-			Pi::SetView(Pi::worldView);
+			Pi::SetView(Pi::game->GetWorldView());
 	}
 	else {
 		if (Pi::GetView() == Pi::game->GetSettingsView())
-			Pi::SetView(Pi::worldView);
+			Pi::SetView(Pi::game->GetWorldView());
 		Pi::game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 	}
 }
@@ -356,8 +356,8 @@ void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 	Pi::BoinkNoise();
 	if (Pi::player->GetFlightState() == Ship::DOCKED) Pi::SetView(Pi::spaceStationView);
 	else {
-		Pi::SetView(Pi::worldView);
-		Pi::worldView->ToggleTargetActions();
+		Pi::SetView(Pi::game->GetWorldView());
+		Pi::game->GetWorldView()->ToggleTargetActions();
 	}
 }
 

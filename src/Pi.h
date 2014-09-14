@@ -37,7 +37,6 @@ class SystemView;
 class TransferPlanner;
 class UIView;
 class View;
-class WorldView;
 class SDLGraphics;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
@@ -156,7 +155,6 @@ public:
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static TransferPlanner *planner;
-	static WorldView *worldView;
 	static UIView *spaceStationView;
 	static UIView *infoView;
 	static LuaConsole *luaConsole;

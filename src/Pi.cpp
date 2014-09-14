@@ -60,7 +60,6 @@
 #include "SystemView.h"
 #include "Tombstone.h"
 #include "UIView.h"
-#include "WorldView.h"
 #include "KeyBindings.h"
 #include "EnumStrings.h"
 #include "galaxy/CustomSystem.h"
@@ -98,7 +97,6 @@ bool Pi::warpAfterMouseGrab = false;
 int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
-WorldView *Pi::worldView;
 UIView *Pi::spaceStationView;
 UIView *Pi::infoView;
 SectorView *Pi::sectorView;
@@ -1038,7 +1036,7 @@ void Pi::StartGame()
 	cpan->ShowAll();
 	DrawGUI = true;
 	cpan->SetAlertState(Ship::ALERT_NONE);
-	SetView(worldView);
+	SetView(game->GetWorldView());
 
 	// fire event before the first frame
 	LuaEvent::Queue("onGameStart");
