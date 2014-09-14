@@ -10,7 +10,7 @@
 #include "FileSystem.h"
 
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator) : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0),
-	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(galaxyGenerator), m_starSystemAttic(galaxyGenerator),
+	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(galaxyGenerator), m_starSystemCache(galaxyGenerator),
 	m_factions(this), m_customSystems(this)
 {
 	// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
@@ -48,8 +48,6 @@ Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator) : GALAXY_RADIUS(5
 	SDL_UnlockSurface(galaxyImg);
 	if(galaxyImg) 
 		SDL_FreeSurface(galaxyImg);
-
-	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
 }
 
 Galaxy::~Galaxy()
@@ -103,9 +101,8 @@ Uint8 Galaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 
 void Galaxy::FlushCaches()
 {
-	m_starSystemAttic.OutputCacheStatistics();
-	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
-	m_starSystemAttic.ClearCache();
+	m_starSystemCache.OutputCacheStatistics();
+	m_starSystemCache.ClearCache();
 	m_sectorCache.OutputCacheStatistics();
 	m_sectorCache.ClearCache();
 	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
@@ -120,7 +117,7 @@ void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Si
 				RefCountedPtr<const Sector> sector = Pi::GetGalaxy()->GetSector(SystemPath(sx, sy, sz));
 				sector->Dump(file);
 			}
-			m_starSystemAttic.ClearCache();
+			m_starSystemCache.ClearCache();
 		}
 	}
 }
