@@ -27,6 +27,8 @@
 #include "MathUtil.h"
 #include "LuaEvent.h"
 
+//#define DEBUG_CACHE
+
 void Space::BodyNearFinder::Prepare()
 {
 	m_bodyDist.clear();
@@ -694,13 +696,22 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 	const int zmin = here->sectorZ-survivorRadius;
 	const int zmax = here->sectorZ+survivorRadius;
 
+#   ifdef DEBUG_CACHE
+		unsigned removed = 0;
+#   endif
 	StarSystemCache::CacheMap::const_iterator i = m_starSystemCache->Begin();
 	while (i != m_starSystemCache->End()) {
-		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax))
+		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax)) {
 			m_starSystemCache->Erase(i++);
-		else
+#   ifdef DEBUG_CACHE
+		++removed;
+#   endif
+		} else
 			++i;
 	}
+#   ifdef DEBUG_CACHE
+		Output("%s: Erased %u entries.\n", StarSystemCache::CACHE_NAME.c_str(), removed);
+#   endif
 
 	SectorCache::PathVector paths;
 	// build all of the possible paths we'll need to build star systems for
