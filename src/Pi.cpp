@@ -99,7 +99,6 @@ int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
 WorldView *Pi::worldView;
-DeathView *Pi::deathView;
 UIView *Pi::spaceStationView;
 UIView *Pi::infoView;
 SectorView *Pi::sectorView;
@@ -789,8 +788,8 @@ void Pi::HandleEvents()
 							else {
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 								SetView(Pi::player->IsDead()
-										? static_cast<View*>(deathView)
-										: static_cast<View*>(worldView));
+										? static_cast<View*>(Pi::game->GetDeathView())
+										: static_cast<View*>(Pi::game->GetWorldView()));
 							}
 						}
 					}
@@ -1223,8 +1222,8 @@ void Pi::MainLoop()
 				}
 			} else {
 				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
-				Pi::deathView->Init();
-				Pi::SetView(Pi::deathView);
+				Pi::game->GetDeathView()->Init();
+				Pi::SetView(Pi::game->GetDeathView());
 				time_player_died = Pi::game->GetTime();
 			}
 		}
@@ -1282,7 +1281,7 @@ void Pi::MainLoop()
 		// wrong, because we shouldn't this when the HUD is disabled, but
 		// probably sure draw it if they switch to eg infoview while the HUD is
 		// disabled so we need much smarter control for all this rubbish
-		if ((Pi::GetView() != Pi::deathView) && DrawGUI) {
+		if ((!Pi::game || Pi::GetView() != Pi::game->GetDeathView()) && DrawGUI) {
 			Pi::ui->Update();
 			Pi::ui->Draw();
 		}
