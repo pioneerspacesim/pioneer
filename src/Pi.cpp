@@ -104,7 +104,6 @@ UIView *Pi::spaceStationView;
 UIView *Pi::infoView;
 SectorView *Pi::sectorView;
 GalacticView *Pi::galacticView;
-UIView *Pi::settingsView;
 SystemView *Pi::systemView;
 TransferPlanner *Pi::planner;
 SystemInfoView *Pi::systemInfoView;
@@ -783,9 +782,9 @@ void Pi::HandleEvents()
 					if (Pi::game) {
 						// only accessible once game started
 						if (currentView != 0) {
-							if (currentView != settingsView) {
+							if (currentView != Pi::game->GetSettingsView()) {
 								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
-								SetView(settingsView);
+								SetView(Pi::game->GetSettingsView());
 							}
 							else {
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);

@@ -704,7 +704,7 @@ void Game::Views::Init()
 	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
 	m_infoView = Pi::infoView = new UIView("InfoView");
 	m_deathView = Pi::deathView = new DeathView();
-	m_settingsView = Pi::settingsView = new UIView("SettingsInGame");
+	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
 	m_objectViewerView = Pi::objectViewerView = new ObjectViewerView();
@@ -730,7 +730,7 @@ void Game::Views::Load(Serializer::Reader &rd)
 	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
 	m_infoView = Pi::infoView = new UIView("InfoView");
 	m_deathView = Pi::deathView = new DeathView();
-	m_settingsView = Pi::settingsView = new UIView("SettingsInGame");
+	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
 	m_objectViewerView = Pi::objectViewerView = new ObjectViewerView();
@@ -746,7 +746,6 @@ Game::Views::~Views()
 	delete m_objectViewerView;
 #endif
 
-	Pi::settingsView = nullptr;
 	Pi::deathView = nullptr;
 	Pi::infoView = nullptr;
 	Pi::spaceStationView = nullptr;

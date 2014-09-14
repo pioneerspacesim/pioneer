@@ -154,7 +154,6 @@ public:
 	static Player *player;
 	static SectorView *sectorView;
 	static GalacticView *galacticView;
-	static UIView *settingsView;
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static TransferPlanner *planner;

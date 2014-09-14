@@ -339,13 +339,13 @@ void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 {
 	Pi::BoinkNoise();
 	if ((Pi::game->GetTimeAccel() == val) && (val == Game::TIMEACCEL_PAUSED)) {
-		if (Pi::GetView() != Pi::settingsView)
-			Pi::SetView(Pi::settingsView);
+		if (Pi::GetView() != Pi::game->GetSettingsView())
+			Pi::SetView(Pi::game->GetSettingsView());
 		else
 			Pi::SetView(Pi::worldView);
 	}
 	else {
-		if (Pi::GetView() == Pi::settingsView)
+		if (Pi::GetView() == Pi::game->GetSettingsView())
 			Pi::SetView(Pi::worldView);
 		Pi::game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 	}
