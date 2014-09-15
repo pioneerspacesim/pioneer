@@ -99,7 +99,6 @@ Player *Pi::player;
 View *Pi::currentView;
 UIView *Pi::spaceStationView;
 SectorView *Pi::sectorView;
-GalacticView *Pi::galacticView;
 SystemView *Pi::systemView;
 TransferPlanner *Pi::planner;
 SystemInfoView *Pi::systemInfoView;

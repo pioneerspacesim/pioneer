@@ -698,7 +698,7 @@ void Game::Views::Init(Game* game)
 	m_cpan = new ShipCpanel(Pi::renderer, game);
 	m_sectorView = Pi::sectorView = new SectorView();
 	m_worldView = new WorldView(game);
-	m_galacticView = Pi::galacticView = new GalacticView();
+	m_galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
 	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
@@ -724,7 +724,7 @@ void Game::Views::Load(Serializer::Reader &rd, Game* game)
 	section = rd.RdSection("WorldView");
 	m_worldView = new WorldView(section, game);
 
-	m_galacticView = Pi::galacticView = new GalacticView();
+	m_galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
 	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
@@ -749,7 +749,6 @@ Game::Views::~Views()
 	Pi::spaceStationView = nullptr;
 	Pi::systemInfoView = nullptr;
 	Pi::systemView = nullptr;
-	Pi::galacticView = nullptr;
 	Pi::sectorView = nullptr;
 
 	delete m_settingsView;

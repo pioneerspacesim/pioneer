@@ -284,7 +284,7 @@ void ShipCpanel::Draw()
 
 	View *cur = Pi::GetView();
 	if ((cur != Pi::sectorView) && (cur != Pi::systemView) &&
-	    (cur != Pi::systemInfoView) && (cur != Pi::galacticView)) {
+	    (cur != Pi::systemInfoView) && (cur != m_game->GetGalacticView())) {
 		HideMapviewButtons();
 	}
 
@@ -326,7 +326,7 @@ void ShipCpanel::OnChangeMapView(enum MapView view)
 				Pi::SetView(Pi::systemInfoView);
 			}
 			break;
-		case MAP_GALACTIC: Pi::SetView(Pi::galacticView); break;
+		case MAP_GALACTIC: Pi::SetView(m_game->GetGalacticView()); break;
 	}
 	for (int i=0; i<4; i++) m_mapViewButtons[i]->Show();
 }

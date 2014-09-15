@@ -20,7 +20,6 @@
 #include <vector>
 
 class GalaxyGenerator;
-class GalacticView;
 class Galaxy;
 class Intro;
 class LuaConsole;
@@ -150,7 +149,6 @@ public:
 
 	static Player *player;
 	static SectorView *sectorView;
-	static GalacticView *galacticView;
 	static SystemInfoView *systemInfoView;
 	static SystemView *systemView;
 	static TransferPlanner *planner;
