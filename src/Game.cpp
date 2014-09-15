@@ -707,7 +707,7 @@ void Game::Views::Init(Game* game)
 	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
-	m_objectViewerView = Pi::objectViewerView = new ObjectViewerView();
+	m_objectViewerView = new ObjectViewerView();
 #endif
 
 	SetRenderer(Pi::renderer);
@@ -733,7 +733,7 @@ void Game::Views::Load(Serializer::Reader &rd, Game* game)
 	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
-	m_objectViewerView = Pi::objectViewerView = new ObjectViewerView();
+	m_objectViewerView = new ObjectViewerView();
 #endif
 
 	SetRenderer(Pi::renderer);
@@ -742,7 +742,6 @@ void Game::Views::Load(Serializer::Reader &rd, Game* game)
 Game::Views::~Views()
 {
 #if WITH_OBJECTVIEWER
-	Pi::objectViewerView = nullptr;
 	delete m_objectViewerView;
 #endif
 

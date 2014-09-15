@@ -153,10 +153,6 @@ public:
 	static Intro *intro;
 	static SDLGraphics *sdl;
 
-#if WITH_OBJECTVIEWER
-	static ObjectViewerView *objectViewerView;
-#endif
-
 	static Game *game;
 
 	static struct DetailLevel detail;

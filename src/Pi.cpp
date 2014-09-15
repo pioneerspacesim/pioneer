@@ -133,10 +133,6 @@ std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 Graphics::RenderState *Pi::quadRenderState = nullptr;
 bool Pi::bRequestEndGame = false;
 
-#if WITH_OBJECTVIEWER
-ObjectViewerView *Pi::objectViewerView;
-#endif
-
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
@@ -878,7 +874,7 @@ void Pi::HandleEvents()
 #endif /* DEVKEYS */
 #if WITH_OBJECTVIEWER
 						case SDLK_F10:
-							Pi::SetView(Pi::objectViewerView);
+							Pi::SetView(Pi::game->GetObjectViewerView());
 							break;
 #endif
 						case SDLK_F11:
