@@ -283,7 +283,7 @@ void ShipCpanel::Draw()
 	m_clock->SetText(time);
 
 	View *cur = Pi::GetView();
-	if ((cur != Pi::sectorView) && (cur != Pi::systemView) &&
+	if ((cur != Pi::sectorView) && (cur != m_game->GetSystemView()) &&
 	    (cur != Pi::systemInfoView) && (cur != m_game->GetGalacticView())) {
 		HideMapviewButtons();
 	}
@@ -318,7 +318,7 @@ void ShipCpanel::OnChangeMapView(enum MapView view)
 	m_currentMapView = view;
 	switch (m_currentMapView) {
 		case MAP_SECTOR: Pi::SetView(Pi::sectorView); break;
-		case MAP_SYSTEM: Pi::SetView(Pi::systemView); break;
+		case MAP_SYSTEM: Pi::SetView(m_game->GetSystemView()); break;
 		case MAP_INFO:
 			if (Pi::GetView() == Pi::systemInfoView) {
 				Pi::systemInfoView->NextPage();

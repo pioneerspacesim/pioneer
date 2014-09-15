@@ -98,7 +98,6 @@ int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
 SectorView *Pi::sectorView;
-SystemView *Pi::systemView;
 TransferPlanner *Pi::planner;
 SystemInfoView *Pi::systemInfoView;
 LuaConsole *Pi::luaConsole;

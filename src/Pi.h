@@ -31,7 +31,6 @@ class Ship;
 class SpaceStation;
 class StarSystem;
 class SystemInfoView;
-class SystemView;
 class TransferPlanner;
 class UIView;
 class View;
@@ -150,7 +149,6 @@ public:
 	static Player *player;
 	static SectorView *sectorView;
 	static SystemInfoView *systemInfoView;
-	static SystemView *systemView;
 	static TransferPlanner *planner;
 	static LuaConsole *luaConsole;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
