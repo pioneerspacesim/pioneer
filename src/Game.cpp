@@ -695,7 +695,7 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 
 void Game::Views::Init(Game* game)
 {
-	m_cpan = new ShipCpanel(Pi::renderer);
+	m_cpan = new ShipCpanel(Pi::renderer, game);
 	m_sectorView = Pi::sectorView = new SectorView();
 	m_worldView = new WorldView(game);
 	m_galacticView = Pi::galacticView = new GalacticView();
@@ -716,7 +716,7 @@ void Game::Views::Init(Game* game)
 void Game::Views::Load(Serializer::Reader &rd, Game* game)
 {
 	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	m_cpan = new ShipCpanel(section, Pi::renderer);
+	m_cpan = new ShipCpanel(section, Pi::renderer, game);
 
 	section = rd.RdSection("SectorView");
 	m_sectorView = Pi::sectorView = new SectorView(section);

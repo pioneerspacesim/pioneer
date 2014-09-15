@@ -18,8 +18,8 @@ namespace Graphics { class Renderer; }
 
 class ShipCpanel: public Gui::Fixed {
 public:
-	ShipCpanel(Graphics::Renderer *r);
-    ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r);
+	ShipCpanel(Graphics::Renderer *r, Game* game);
+    ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r, Game* game);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
@@ -58,6 +58,8 @@ private:
 	void OnMultiFuncGrabFocus(multifuncfunc_t);
 	void OnMultiFuncUngrabFocus(multifuncfunc_t);
 	void HideMapviewButtons();
+
+	Game* m_game;
 
 	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;

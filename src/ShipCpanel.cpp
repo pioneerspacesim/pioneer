@@ -19,14 +19,15 @@
 // XXX duplicated in WorldView. should probably be a theme variable
 static const Color s_hudTextColor(0,255,0,204);
 
-ShipCpanel::ShipCpanel(Graphics::Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui::Screen::GetWidth()), 80), m_game(game)
 {
 	m_scanner = new ScannerWidget(r);
 
 	InitObject();
 }
 
-ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r): Gui::Fixed(float(Gui::Screen::GetWidth()), 80)
+ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
+	m_game(game)
 {
 	m_scanner = new ScannerWidget(r, rd);
 
@@ -261,8 +262,8 @@ void ShipCpanel::OnMultiFuncUngrabFocus(multifuncfunc_t f)
 void ShipCpanel::Update()
 {
 	PROFILE_SCOPED()
-	int timeAccel = Pi::game->GetTimeAccel();
-	int requested = Pi::game->GetRequestedTimeAccel();
+	int timeAccel = m_game->GetTimeAccel();
+	int requested = m_game->GetRequestedTimeAccel();
 
 	for (int i=0; i<6; i++) {
 		m_timeAccelButtons[i]->SetSelected(timeAccel == i);
@@ -278,7 +279,7 @@ void ShipCpanel::Update()
 
 void ShipCpanel::Draw()
 {
-	std::string time = format_date(Pi::game->GetTime());
+	std::string time = format_date(m_game->GetTime());
 	m_clock->SetText(time);
 
 	View *cur = Pi::GetView();
@@ -295,8 +296,8 @@ void ShipCpanel::OnChangeCamView(Gui::MultiStateImageButton *b)
 	Pi::BoinkNoise();
 	const int newState = b->GetState();
 	b->SetActiveState(newState);
-	Pi::game->GetWorldView()->SetCamType(WorldView::CamType(newState));
-	Pi::SetView(Pi::game->GetWorldView());
+	m_game->GetWorldView()->SetCamType(WorldView::CamType(newState));
+	Pi::SetView(m_game->GetWorldView());
 }
 
 void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
@@ -338,16 +339,16 @@ void ShipCpanel::HideMapviewButtons()
 void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 {
 	Pi::BoinkNoise();
-	if ((Pi::game->GetTimeAccel() == val) && (val == Game::TIMEACCEL_PAUSED)) {
-		if (Pi::GetView() != Pi::game->GetSettingsView())
-			Pi::SetView(Pi::game->GetSettingsView());
+	if ((m_game->GetTimeAccel() == val) && (val == Game::TIMEACCEL_PAUSED)) {
+		if (Pi::GetView() != m_game->GetSettingsView())
+			Pi::SetView(m_game->GetSettingsView());
 		else
-			Pi::SetView(Pi::game->GetWorldView());
+			Pi::SetView(m_game->GetWorldView());
 	}
 	else {
-		if (Pi::GetView() == Pi::game->GetSettingsView())
-			Pi::SetView(Pi::game->GetWorldView());
-		Pi::game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
+		if (Pi::GetView() == m_game->GetSettingsView())
+			Pi::SetView(m_game->GetWorldView());
+		m_game->RequestTimeAccel(val, Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL));
 	}
 }
 
@@ -356,8 +357,8 @@ void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 	Pi::BoinkNoise();
 	if (Pi::player->GetFlightState() == Ship::DOCKED) Pi::SetView(Pi::spaceStationView);
 	else {
-		Pi::SetView(Pi::game->GetWorldView());
-		Pi::game->GetWorldView()->ToggleTargetActions();
+		Pi::SetView(m_game->GetWorldView());
+		m_game->GetWorldView()->ToggleTargetActions();
 	}
 }
 
