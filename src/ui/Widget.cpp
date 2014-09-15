@@ -80,6 +80,7 @@ void Widget::NotifyVisible(bool visible)
 {
 	if (m_visible != visible) {
 		m_visible = visible;
+		TriggerVisibilityChanged();
 		if (m_visible) { HandleVisible(); } else { HandleInvisible(); }
 	}
 }
@@ -328,6 +329,11 @@ void Widget::TriggerSelect()
 void Widget::TriggerDeselect()
 {
 	HandleDeselect();
+}
+
+void Widget::TriggerVisibilityChanged()
+{
+	onVisibilityChanged.emit(m_visible);
 }
 
 void Widget::RegisterBindPoint(const std::string &bindName, sigc::slot<void,PropertyMap &,const std::string &> method)

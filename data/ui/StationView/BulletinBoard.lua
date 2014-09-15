@@ -18,7 +18,7 @@ local bbTable = ui:Table()
 	:SetRowSpacing(5)
 	:SetColumnSpacing(10)
 	:SetRowAlignment("CENTER")
-	:SetMouseEnabled(true)
+	:SetMouseEnabled(not Game.paused)
 
 bbTable.onRowClicked:Connect(function (row)
 	local station = Game.player:GetDockedWith()
@@ -26,13 +26,17 @@ bbTable.onRowClicked:Connect(function (row)
 	local ad = SpaceStation.adverts[station][ref]
 
 	local chatFunc = function (form, option)
+		station:LockAdvert(ref)
 		return ad.onChat(form, ref, option)
 	end
 	local removeFunc = function ()
 		station:RemoveAdvert(ref)
 	end
+	local closeFunc = function ()
+		station:UnlockAdvert(ref)
+	end
 
-	local form = ChatForm.New(chatFunc, removeFunc, ref, tabGroup)
+	local form = ChatForm.New(chatFunc, removeFunc, closeFunc, ref, tabGroup)
 	ui:NewLayer(form:BuildWidget())
 end)
 
@@ -50,6 +54,9 @@ local updateTable = function (station)
 		local label = ui:Label(ad.description)
 		if type(ad.isEnabled) == "function" and not ad.isEnabled(ref) then
 			label:SetColor({ r = 0.4, g = 0.4, b = 0.4 })
+		end
+		if Game.paused then
+			label:SetColor({ r = 0.3, g = 0.3, b = 0.3})
 		end
 		table.insert(rows, {
 			ui:Image("icons/bbs/"..icon..".png", { "PRESERVE_ASPECT" }),
@@ -74,9 +81,21 @@ local updateRowRefs = function (station, ref)
 	updateTable(station)
 end
 
+local onGamePaused = function ()
+	bbTable:SetMouseEnabled(false)
+	updateTable(Game.player:GetDockedWith())
+end
+
+local onGameResumed = function ()
+	bbTable:SetMouseEnabled(true)
+	updateTable(Game.player:GetDockedWith())
+end
+
 Event.Register("onAdvertAdded", updateRowRefs)
 Event.Register("onAdvertRemoved", updateRowRefs) -- XXX close form if open
 Event.Register("onAdvertChanged", updateTable)
+Event.Register("onGamePaused", onGamePaused)
+Event.Register("onGameResumed", onGameResumed)
 
 local bulletinBoard = function (args, tg)
 	tabGroup = tg

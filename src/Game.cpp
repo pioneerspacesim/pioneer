@@ -57,6 +57,8 @@ Game::Game(const SystemPath &path, double time) :
 	Polit::Init();
 
 	CreateViews();
+
+	EmitPauseState(IsPaused());
 }
 
 Game::Game(const SystemPath &path, const vector3d &pos, double time) :
@@ -87,6 +89,8 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 	Polit::Init();
 
 	CreateViews();
+
+	EmitPauseState(IsPaused());
 }
 
 Game::~Game()
@@ -194,6 +198,8 @@ Game::Game(Serializer::Reader &rd) :
 	// signature check
 	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
 		if (rd.Byte() != s_saveEnd[i]) throw SavedGameCorruptException();
+
+	EmitPauseState(IsPaused());
 }
 
 void Game::Serialize(Serializer::Writer &wr)
@@ -634,7 +640,18 @@ void Game::SetTimeAccel(TimeAccel t)
 			if (b->IsType(Object::SHIP))
 				(static_cast<Ship*>(b))->TimeAccelAdjust(0.5f * GetTimeStep());
 
+	bool emitPaused = (t == TIMEACCEL_PAUSED && t != m_timeAccel);
+	bool emitResumed = (m_timeAccel == TIMEACCEL_PAUSED && t != TIMEACCEL_PAUSED);
+
 	m_timeAccel = t;
+
+	if (emitPaused) {
+		EmitPauseState(true);
+	}
+
+	if (emitResumed) {
+		EmitPauseState(false);
+	}
 
 	if (m_timeAccel == TIMEACCEL_PAUSED || m_timeAccel == TIMEACCEL_HYPERSPACE) {
 		m_requestedTimeAccel = m_timeAccel;
@@ -770,6 +787,18 @@ void Game::DestroyViews()
 	Pi::sectorView = 0;
 	Pi::cpan = 0;
 	log = 0;
+}
+
+void Game::EmitPauseState(bool paused)
+{
+	if (paused)	{
+		// Notify UI that time is paused.
+		LuaEvent::Queue("onGamePaused");
+	} else {
+		// Notify the UI that time is running again.
+		LuaEvent::Queue("onGameResumed");
+	}
+	LuaEvent::Emit();
 }
 
 Game *Game::LoadGame(const std::string &filename)

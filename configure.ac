@@ -163,7 +163,10 @@ AC_ARG_WITH([extra-version], AS_HELP_STRING([--with-extra-version], [Additional 
 
 EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_VERSION=\\\"$PIONEER_VERSION\\\" -DPIONEER_EXTRAVERSION=\\\"$PIONEER_EXTRAVERSION\\\""
 
-EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DGLEW_STATIC"
+dnl GLEW_STATIC is defined so that the GLEW header provides declarations with the correct linkage
+dnl __STDC_LIMIT_MACROS is defined so that GCC 4.7 will provide limit macros (eg, INT64_MAX) as part of cstdint
+dnl (note, __STDC_LIMIT_MACROS is not needed in GCC 4.8 or later; those macros are part of the C++11 standard)
+EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DGLEW_STATIC -D__STDC_LIMIT_MACROS"
 
 
 dnl Compiler warning options

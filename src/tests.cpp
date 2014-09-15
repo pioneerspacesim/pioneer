@@ -3,14 +3,14 @@
 
 void test_frames();
 void test_stringf();
-void test_filesystem();
 void test_random();
+void test_datetime();
 
 int main(int argc, char *argv[])
 {
 	test_frames();
 	test_stringf();
-	test_filesystem();
 	test_random();
+	test_datetime();
 	return 0;
 }

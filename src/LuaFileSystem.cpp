@@ -17,6 +17,21 @@
  * will get a Lua error.
  */
 
+static void push_date_time(lua_State *l, const Time::DateTime &dt) {
+	int year, month, day, hour, minute, second;
+	dt.GetDateParts(&year, &month, &day);
+	dt.GetTimeParts(&hour, &minute, &second);
+
+	lua_newtable(l);
+	pi_lua_settable(l, "year", year);
+	pi_lua_settable(l, "month", month);
+	pi_lua_settable(l, "day", day);
+	pi_lua_settable(l, "hour", hour);
+	pi_lua_settable(l, "minute", minute);
+	pi_lua_settable(l, "second", second);
+	pi_lua_settable(l, "timestamp", datetime_to_game_time(dt));
+}
+
 /*
  * Function: ReadDirectory
  *
@@ -91,7 +106,10 @@ static int l_filesystem_read_dir(lua_State *l)
 	for (; !files.Finished(); files.Next()) {
 		const FileSystem::FileInfo &info = files.Current();
 
-		lua_pushlstring(l, info.GetName().c_str(), info.GetName().size());
+		lua_newtable(l);
+		pi_lua_settable(l, "name", info.GetName().c_str());
+		push_date_time(l, info.GetModificationTime());
+		lua_setfield(l, -2, "mtime");
 
 		if (info.IsDir())
 			lua_rawseti(l, dirsTable, lua_rawlen(l, dirsTable)+1);
