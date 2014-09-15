@@ -699,7 +699,7 @@ void Game::Views::Init(Game* game)
 	m_sectorView = Pi::sectorView = new SectorView();
 	m_worldView = new WorldView(game);
 	m_galacticView = new GalacticView();
-	m_systemView = Pi::systemView = new SystemView();
+	m_systemView = Pi::systemView = new SystemView(game);
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
@@ -725,7 +725,7 @@ void Game::Views::Load(Serializer::Reader &rd, Game* game)
 	m_worldView = new WorldView(section, game);
 
 	m_galacticView = new GalacticView();
-	m_systemView = Pi::systemView = new SystemView();
+	m_systemView = Pi::systemView = new SystemView(game);
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
