@@ -46,13 +46,13 @@ static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user set
 static const float HUD_CROSSHAIR_SIZE = 8.0f;
 static const Uint8 HUD_ALPHA          = 87;
 
-WorldView::WorldView(): UIView()
+WorldView::WorldView(Game* game): UIView(), m_game(game)
 {
 	m_camType = CAM_INTERNAL;
 	InitObject();
 }
 
-WorldView::WorldView(Serializer::Reader &rd): UIView()
+WorldView::WorldView(Serializer::Reader &rd, Game* game): UIView(), m_game(game)
 {
 	m_camType = CamType(rd.Int32());
 	InitObject();
@@ -442,7 +442,7 @@ void WorldView::OnClickHyperspace()
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
 		Pi::player->AbortHyperjump();
-		Pi::game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
+		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
 	} else {
 		// Initiate hyperspace drive
 		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
@@ -453,7 +453,7 @@ void WorldView::OnClickHyperspace()
 void WorldView::Draw3D()
 {
 	PROFILE_SCOPED()
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
@@ -543,13 +543,13 @@ void WorldView::RefreshHeadingPitch(void) {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
 	Pi::cpan->ClearOverlay();
 
-	if (Pi::game->IsPaused())
+	if (m_game->IsPaused())
 		m_pauseText->Show();
 	else
 		m_pauseText->Hide();
@@ -673,7 +673,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			vector3d pos = Pi::player->GetPosition();
-			vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+			vector3d abs_pos = Pi::player->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
 
 			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
@@ -975,14 +975,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 bool WorldView::OnClickHeadingLabel(void) {
 	m_curPlane = m_curPlane == ROTATIONAL ? PARENT : ROTATIONAL;
-	Pi::game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
+	m_game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
 	return true;
 }
 
 void WorldView::Update()
 {
 	PROFILE_SCOPED()
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
@@ -1051,13 +1051,13 @@ void WorldView::Update()
 	//speedlines and contact trails need camFrame for transform, so they
 	//must be updated here
 	if (Pi::AreSpeedLinesDisplayed()) {
-		m_speedLines->Update(Pi::game->GetTimeStep());
+		m_speedLines->Update(m_game->GetTimeStep());
 
 		matrix4x4d trans;
 		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
 		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
-			m_speedLines->Update(Pi::game->GetTimeStep());
+			m_speedLines->Update(m_game->GetTimeStep());
 
 			trans[12] = trans[13] = trans[14] = 0.0;
 			trans[15] = 1.0;
@@ -1106,7 +1106,7 @@ void WorldView::OnSwitchFrom()
 
 void WorldView::ToggleTargetActions()
 {
-	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
+	if (m_game->IsHyperspace() || m_showTargetActionsTimeout)
 		HideTargetActions();
 	else
 		ShowTargetActions();
@@ -1168,16 +1168,16 @@ void WorldView::BuildCommsNavOptions()
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
-	for (SystemBody* station : Pi::game->GetSpace()->GetStarSystem()->GetSpaceStations()) {
+	for (SystemBody* station : m_game->GetSpace()->GetStarSystem()->GetSpaceStations()) {
 		groups[station->GetParent()->GetPath().bodyIndex].push_back(station);
 	}
 
 	for ( std::map< Uint32,std::vector<SystemBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->GetBodies()[(*i).first]->GetName()));
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + m_game->GetSpace()->GetStarSystem()->GetBodies()[(*i).first]->GetName()));
 
 		for ( std::vector<SystemBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
-			SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPathOf(*j);
-			Body *body = Pi::game->GetSpace()->FindBodyForPath(&path);
+			SystemPath path = m_game->GetSpace()->GetStarSystem()->GetPathOf(*j);
+			Body *body = m_game->GetSpace()->FindBodyForPath(&path);
 			AddCommsNavOption((*j)->GetName(), body);
 		}
 	}
@@ -1227,18 +1227,18 @@ static void PlayerPayFine()
 	Sint64 crime, fine;
 	Polit::GetCrime(&crime, &fine);
 	if (Pi::player->GetMoney() == 0) {
-		Pi::game->log->Add(Lang::YOU_NO_MONEY);
+		m_game->log->Add(Lang::YOU_NO_MONEY);
 	} else if (fine > Pi::player->GetMoney()) {
 		Polit::AddCrime(0, -Pi::player->GetMoney());
 		Polit::GetCrime(&crime, &fine);
-		Pi::game->log->Add(stringf(
+		m_game->log->Add(stringf(
 			Lang::FINE_PAID_N_BUT_N_REMAINING,
 				formatarg("paid", format_money(Pi::player->GetMoney())),
 				formatarg("fine", format_money(fine))));
 		Pi::player->SetMoney(0);
 	} else {
 		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		Pi::game->log->Add(stringf(Lang::FINE_PAID_N,
+		m_game->log->Add(stringf(Lang::FINE_PAID_N,
 				formatarg("fine", format_money(fine))));
 		Polit::AddCrime(0, -fine);
 	}
@@ -1250,7 +1250,7 @@ void WorldView::OnHyperspaceTargetChanged()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		Pi::player->AbortHyperjump();
-		Pi::game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
+		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
 	}
 }
 
@@ -1302,7 +1302,7 @@ void WorldView::UpdateCommsOptions()
 
 	if (m_showTargetActionsTimeout == 0) return;
 
-	if (Pi::game->GetSpace()->GetStarSystem()->HasSpaceStations())
+	if (m_game->GetSpace()->GetStarSystem()->HasSpaceStations())
 	{
 		BuildCommsNavOptions();
 	}
@@ -1490,7 +1490,7 @@ void WorldView::UpdateProjectedObjects()
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
 	m_projectedPos.clear();
-	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
+	for (Body* b : m_game->GetSpace()->GetBodies()) {
 		// don't show the player label on internal camera
 		if (b->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 			continue;
@@ -1833,7 +1833,7 @@ double getSquareHeight(double distance, double angle) {
 
 void WorldView::Draw()
 {
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 

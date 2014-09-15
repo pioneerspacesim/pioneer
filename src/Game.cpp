@@ -693,17 +693,17 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 #endif
 }
 
-void Game::Views::Init()
+void Game::Views::Init(Game* game)
 {
 	m_cpan = Pi::cpan = new ShipCpanel(Pi::renderer);
 	m_sectorView = Pi::sectorView = new SectorView();
-	m_worldView = new WorldView();
+	m_worldView = new WorldView(game);
 	m_galacticView = Pi::galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
 	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
 	m_infoView = Pi::infoView = new UIView("InfoView");
-	m_deathView = new DeathView();
+	m_deathView = new DeathView(game);
 	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
@@ -713,7 +713,7 @@ void Game::Views::Init()
 	SetRenderer(Pi::renderer);
 }
 
-void Game::Views::Load(Serializer::Reader &rd)
+void Game::Views::Load(Serializer::Reader &rd, Game* game)
 {
 	Serializer::Reader section = rd.RdSection("ShipCpanel");
 	m_cpan = Pi::cpan = new ShipCpanel(section, Pi::renderer);
@@ -722,14 +722,14 @@ void Game::Views::Load(Serializer::Reader &rd)
 	m_sectorView = Pi::sectorView = new SectorView(section);
 
 	section = rd.RdSection("WorldView");
-	m_worldView = new WorldView(section);
+	m_worldView = new WorldView(section, game);
 
 	m_galacticView = Pi::galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
 	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
 	m_infoView = Pi::infoView = new UIView("InfoView");
-	m_deathView = new DeathView();
+	m_deathView = new DeathView(game);
 	m_settingsView = new UIView("SettingsInGame");
 
 #if WITH_OBJECTVIEWER
@@ -781,7 +781,7 @@ void Game::CreateViews()
 	Pi::player = m_player.get();
 
 	m_gameViews.reset(new Views);
-	m_gameViews->Init();
+	m_gameViews->Init(this);
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
@@ -799,7 +799,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::player = m_player.get();
 
 	m_gameViews.reset(new Views);
-	m_gameViews->Load(rd);
+	m_gameViews->Load(rd, this);
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(

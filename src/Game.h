@@ -124,8 +124,8 @@ private:
 	class Views {
 	public:
 		Views();
-		void Init();
-		void Load(Serializer::Reader &rd);
+		void Init(Game* game);
+		void Load(Serializer::Reader &rd, Game* game);
 		~Views();
 
 		void SetRenderer(Graphics::Renderer *r);

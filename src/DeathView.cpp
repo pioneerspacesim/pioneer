@@ -7,7 +7,7 @@
 #include "ShipCpanel.h"
 #include "graphics/Graphics.h"
 
-DeathView::DeathView(): View()
+DeathView::DeathView(Game* game): View(), m_game(game)
 {
 	float size[2];
 	GetSizeRequested(size);
