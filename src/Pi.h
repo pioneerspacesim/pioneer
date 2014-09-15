@@ -155,7 +155,6 @@ public:
 	static SystemView *systemView;
 	static TransferPlanner *planner;
 	static UIView *spaceStationView;
-	static UIView *infoView;
 	static LuaConsole *luaConsole;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer;
