@@ -53,6 +53,8 @@ namespace {
 		std::vector<Part> clothes;
 		std::vector<Part> armour;
 
+		SDLSurfacePtr background_general;
+
 		void Clear();
 		void Scan();
 	private:
@@ -93,7 +95,8 @@ namespace {
 
 	static void _blit_image(SDL_Surface *target, SDL_Surface *source, int xoff, int yoff)
 	{
-		assert(source);
+		assert(target);
+		if (!source) return;
 		SDL_Rect destrec = { 0, 0, 0, 0 };
 		destrec.x = ((FaceParts::FACE_WIDTH - source->w) / 2) + xoff;
 		destrec.y = yoff;
@@ -117,8 +120,15 @@ void PartDb::Clear() {
 	armour.clear();
 }
 
+static const char BACKGROUND_GENERAL_PATH[] = "facegen/backgrounds/general.png";
+
 void PartDb::Scan() {
 	Clear();
+
+	background_general = LoadSurfaceFromFile(BACKGROUND_GENERAL_PATH);
+	if (!background_general) {
+		Output("Failed to load image %s\n", BACKGROUND_GENERAL_PATH);
+	}
 
 	int species_count = 0;
 	const auto flags = fs::FileEnumerator::IncludeDirs | fs::FileEnumerator::ExcludeFiles;
@@ -302,6 +312,7 @@ void FaceParts::PickFaceParts(FaceDescriptor &inout_face, const Uint32 seed) {
 void FaceParts::BuildFaceImage(SDL_Surface *faceIm, const FaceDescriptor &face, bool armoured) {
 	const Uint32 selector = _make_selector(face.species, face.race, face.gender);
 
+	_blit_image(faceIm, s_partdb->background_general.Get(), 0, 0);
 	_blit_image(faceIm, _get_part(s_partdb->heads, selector, face.head), 0, 0);
 	if (!armoured) {
 		_blit_image(faceIm, _get_part(s_partdb->clothes, selector, face.clothes), 0, 135);
