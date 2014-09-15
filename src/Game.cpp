@@ -701,7 +701,7 @@ void Game::Views::Init(Game* game)
 	m_galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
-	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
+	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
 	m_settingsView = new UIView("SettingsInGame");
@@ -727,7 +727,7 @@ void Game::Views::Load(Serializer::Reader &rd, Game* game)
 	m_galacticView = new GalacticView();
 	m_systemView = Pi::systemView = new SystemView();
 	m_systemInfoView = Pi::systemInfoView = new SystemInfoView();
-	m_spaceStationView = Pi::spaceStationView = new UIView("StationView");
+	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
 	m_settingsView = new UIView("SettingsInGame");
@@ -746,7 +746,6 @@ Game::Views::~Views()
 	delete m_objectViewerView;
 #endif
 
-	Pi::spaceStationView = nullptr;
 	Pi::systemInfoView = nullptr;
 	Pi::systemView = nullptr;
 	Pi::sectorView = nullptr;

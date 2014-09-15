@@ -97,7 +97,6 @@ bool Pi::warpAfterMouseGrab = false;
 int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
-UIView *Pi::spaceStationView;
 SectorView *Pi::sectorView;
 SystemView *Pi::systemView;
 TransferPlanner *Pi::planner;
