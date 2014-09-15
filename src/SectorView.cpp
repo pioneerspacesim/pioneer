@@ -45,7 +45,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView() : UIView()
+SectorView::SectorView(Game* game) : UIView(), m_game(game)
 {
 	InitDefaults();
 
@@ -76,7 +76,7 @@ SectorView::SectorView() : UIView()
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd) : UIView()
+SectorView::SectorView(Serializer::Reader &rd, Game* game) : UIView(), m_game(game)
 {
 	InitDefaults();
 
