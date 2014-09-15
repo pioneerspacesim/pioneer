@@ -4,6 +4,7 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "Pi.h"
+#include "Game.h"
 #include "GalacticView.h"
 #include "SystemInfoView.h"
 #include "Player.h"
@@ -105,7 +106,7 @@ void GalacticView::PutLabels(vector3d offset)
 void GalacticView::Draw3D()
 {
 	PROFILE_SCOPED()
-	vector3f pos = Pi::sectorView->GetPosition();
+	vector3f pos = m_game->GetSectorView()->GetPosition();
 	float offset_x = (pos.x*Sector::SIZE + Pi::GetGalaxy()->SOL_OFFSET_X)/Pi::GetGalaxy()->GALAXY_RADIUS;
 	float offset_y = (-pos.y*Sector::SIZE + Pi::GetGalaxy()->SOL_OFFSET_Y)/Pi::GetGalaxy()->GALAXY_RADIUS;
 

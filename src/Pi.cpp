@@ -97,7 +97,6 @@ bool Pi::warpAfterMouseGrab = false;
 int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
-SectorView *Pi::sectorView;
 TransferPlanner *Pi::planner;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;

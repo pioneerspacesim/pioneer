@@ -186,7 +186,7 @@ void Player::OnEnterSystem()
 {
 	m_controller->SetFlightControlState(CONTROL_MANUAL);
 	//XXX don't call sectorview from here, use signals instead
-	Pi::sectorView->ResetHyperspaceTarget();
+	Pi::game->GetSectorView()->ResetHyperspaceTarget();
 }
 
 //temporary targeting stuff

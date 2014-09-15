@@ -46,7 +46,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 			if(body != 0)
 				Pi::player->SetNavTarget(body);
 		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
-			Pi::sectorView->SetSelected(path);
+			m_game->GetSectorView()->SetSelected(path);
 		}
 	}
 
@@ -507,7 +507,7 @@ static bool IsShownInInfoView(const SystemBody* sb)
 
 SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 {
-	if (!m_system || !Pi::sectorView->GetSelected().IsSameSystem(m_system->GetPath()))
+	if (!m_system || !m_game->GetSectorView()->GetSelected().IsSameSystem(m_system->GetPath()))
 		return REFRESH_ALL;
 
 	if (m_system->GetUnexplored())
@@ -518,11 +518,11 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 		// We are not currently in the selected system
 		if (m_selectedBodyPath.IsBodyPath()) {
 			// Some body was selected
-			if (Pi::sectorView->GetSelected() != m_selectedBodyPath)
+			if (m_game->GetSectorView()->GetSelected() != m_selectedBodyPath)
 				return REFRESH_SELECTED_BODY; // but now we want a different body (or none at all)
 		} else {
 			// No body was selected
-			if (Pi::sectorView->GetSelected().IsBodyPath())
+			if (m_game->GetSectorView()->GetSelected().IsBodyPath())
 				return REFRESH_SELECTED_BODY; // but now we want one, this can only be a star,
 										  // so no check for IsShownInInfoView() needed
 		}
@@ -546,7 +546,7 @@ void SystemInfoView::Update()
 {
 	switch (m_refresh) {
 		case REFRESH_ALL:
-			SystemChanged(Pi::sectorView->GetSelected());
+			SystemChanged(m_game->GetSectorView()->GetSelected());
 			m_refresh = REFRESH_NONE;
 			assert(NeedsRefresh() == REFRESH_NONE);
 			break;
@@ -598,7 +598,7 @@ void SystemInfoView::UpdateIconSelections()
 				}
 			}
 		} else {
-			SystemPath selected = Pi::sectorView->GetSelected();
+			SystemPath selected = m_game->GetSectorView()->GetSelected();
 			if (selected.IsSameSystem(m_system->GetPath()) && !selected.IsSystemPath()) {
 				if (bodyIcon.first == selected.bodyIndex) {
 					bodyIcon.second->SetSelectColor(Color(64, 96, 255, 255));

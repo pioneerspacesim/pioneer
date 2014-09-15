@@ -26,7 +26,6 @@ class LuaConsole;
 class LuaNameGen;
 class ModelCache;
 class Player;
-class SectorView;
 class Ship;
 class SpaceStation;
 class StarSystem;
@@ -146,7 +145,6 @@ public:
 #endif
 
 	static Player *player;
-	static SectorView *sectorView;
 	static TransferPlanner *planner;
 	static LuaConsole *luaConsole;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }

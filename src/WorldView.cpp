@@ -298,7 +298,7 @@ void WorldView::InitObject()
 	SetCamType(m_camType); //set the active camera
 
 	m_onHyperspaceTargetChangedCon =
-		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
+		m_game->GetSectorView()->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
@@ -445,7 +445,7 @@ void WorldView::OnClickHyperspace()
 		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
 	} else {
 		// Initiate hyperspace drive
-		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
+		SystemPath path = m_game->GetSectorView()->GetHyperspaceTarget();
 		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
 	}
 }
@@ -516,7 +516,7 @@ static Color get_color_for_warning_meter_bar(float v) {
 }
 
 void WorldView::RefreshHyperspaceButton() {
-	SystemPath target = Pi::sectorView->GetHyperspaceTarget();
+	SystemPath target = m_game->GetSectorView()->GetHyperspaceTarget();
 	if (LuaObject<Ship>::CallMethod<bool>(Pi::player, "CanHyperjumpTo", &target))
 		m_hyperspaceButton->Show();
 	else
@@ -1260,8 +1260,8 @@ void WorldView::OnPlayerChangeTarget()
 	if (b) {
 		Sound::PlaySfx("OK");
 		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
-		if (!s || !Pi::sectorView->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
-			Pi::sectorView->FloatHyperspaceTarget();
+		if (!s || !m_game->GetSectorView()->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
+			m_game->GetSectorView()->FloatHyperspaceTarget();
 	}
 
 	UpdateCommsOptions();
@@ -1288,7 +1288,7 @@ static void autopilot_orbit(Body *b, double alt)
 
 static void player_target_hypercloud(HyperspaceCloud *cloud)
 {
-	Pi::sectorView->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
+	Pi::game->GetSectorView()->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
 static void OnCommsSelectAttitude(FlightControlState s) {

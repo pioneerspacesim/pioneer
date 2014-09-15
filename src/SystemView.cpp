@@ -578,7 +578,7 @@ void SystemView::Draw3D()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
 	m_renderer->ClearScreen();
 
-	SystemPath path = Pi::sectorView->GetSelected().SystemOnly();
+	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
@@ -685,7 +685,7 @@ void SystemView::MouseWheel(bool up)
 
 void SystemView::RefreshShips(void) {
 	m_contacts.clear();
-	if(!m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::sectorView->GetSelected()))
+	if(!m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(m_game->GetSectorView()->GetSelected()))
 		return;
 
 	auto bs = m_game->GetSpace()->GetBodies();
