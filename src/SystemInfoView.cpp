@@ -19,7 +19,7 @@
 #include "Factions.h"
 #include <functional>
 
-SystemInfoView::SystemInfoView() : UIView()
+SystemInfoView::SystemInfoView(Game* game) : UIView(), m_game(game)
 {
 	SetTransparency(true);
 	m_refresh = REFRESH_NONE;
@@ -33,7 +33,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
-	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 	bool isCurrentSystem = (currentSys && currentSys->GetPath() == m_system->GetPath());
 
 	if (path == m_selectedBodyPath) {
@@ -42,7 +42,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 		}
 	} else {
 		if (isCurrentSystem) {
-			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+			Body* body = m_game->GetSpace()->FindBodyForPath(&path);
 			if(body != 0)
 				Pi::player->SetNavTarget(body);
 		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
@@ -148,7 +148,7 @@ void SystemInfoView::UpdateEconomyTab()
 	StarSystem *s = m_system.Get();             // selected system
 
 	/* imports and exports */
-	const RefCountedPtr<StarSystem> hs = Pi::game->GetSpace()->GetStarSystem();
+	const RefCountedPtr<StarSystem> hs = m_game->GetSpace()->GetStarSystem();
 
 	// If current system is defined and not equal to selected we will compare them
 	const bool compareSelectedWithCurrent =
@@ -513,7 +513,7 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 	if (m_system->GetUnexplored())
 		return REFRESH_NONE; // Nothing can be selected and we reset in SystemChanged
 
-	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 	if (!currentSys || currentSys->GetPath() != m_system->GetPath()) {
 		// We are not currently in the selected system
 		if (m_selectedBodyPath.IsBodyPath()) {
@@ -586,7 +586,7 @@ void SystemInfoView::UpdateIconSelections()
 
 		bodyIcon.second->SetSelected(false);
 
-		RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+		RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 		if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 			//navtarget can be only set in current system
 			if (Body* navtarget = Pi::player->GetNavTarget()) {
