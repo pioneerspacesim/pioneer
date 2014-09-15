@@ -123,6 +123,8 @@ void PartDb::Scan() {
 	int species_count = 0;
 	const auto flags = fs::FileEnumerator::IncludeDirs | fs::FileEnumerator::ExcludeFiles;
 	for (fs::FileEnumerator dirs(fs::gameDataFiles, "facegen", flags); !dirs.Finished(); dirs.Next()) {
+		if (!starts_with(dirs.Current().GetName(), "species_"))
+			continue;
 		if (species_count >= MAX_SPECIES) {
 			Output("FaceParts: reached the limit on the number of species\n");
 			break;
