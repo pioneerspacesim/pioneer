@@ -39,6 +39,7 @@ public:
 	const Type type;
 
 	virtual void ToLuaTable(lua_State *l) const = 0;
+	virtual ~Event() {}
 protected:
 	Event(Type _type) : type(_type) {}
 };

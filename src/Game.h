@@ -97,6 +97,8 @@ private:
 	void LoadViews(Serializer::Reader &rd);
 	void DestroyViews();
 
+	static void EmitPauseState(bool paused);
+
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 

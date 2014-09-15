@@ -254,6 +254,8 @@ public:
 	// synthesised when keyboard shortcut is used
 	sigc::signal<bool>::accumulated<EventHandlerResultAccumulator> onClick;
 
+	// Widget events
+	sigc::signal<void,bool> onVisibilityChanged;
 
 protected:
 
@@ -373,6 +375,7 @@ private:
 	void TriggerSelect();
 	void TriggerDeselect();
 
+	void TriggerVisibilityChanged();
 
 	// let container set our attributes. none of them make any sense if
 	// we're not in a container

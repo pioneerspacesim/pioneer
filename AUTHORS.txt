@@ -63,6 +63,7 @@ The Pioneer Developers are:
 * Piotr Gredka
 * Radek Valášek aka vaLin
 * Rémi Boutemy
+* Rob Williamson
 * Robert Norris
 * Robert Pallier
 * Roland Mas
