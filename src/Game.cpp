@@ -258,7 +258,7 @@ void Game::Serialize(Serializer::Writer &wr)
 
 	// views. must be saved in init order
 	section = Serializer::Writer();
-	Pi::cpan->Save(section);
+	m_gameViews->m_cpan->Save(section);
 	wr.WrSection("ShipCpanel", section.GetData());
 
 	section = Serializer::Writer();
@@ -293,7 +293,7 @@ void Game::TimeStep(float step)
 	m_space->TimeStep(step);
 
 	// XXX ui updates, not sure if they belong here
-	Pi::cpan->TimeStepUpdate(step);
+	m_gameViews->m_cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
 	log->Update(m_timeAccel == Game::TIMEACCEL_PAUSED);
 
@@ -695,7 +695,7 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 
 void Game::Views::Init(Game* game)
 {
-	m_cpan = Pi::cpan = new ShipCpanel(Pi::renderer);
+	m_cpan = new ShipCpanel(Pi::renderer);
 	m_sectorView = Pi::sectorView = new SectorView();
 	m_worldView = new WorldView(game);
 	m_galacticView = Pi::galacticView = new GalacticView();
@@ -716,7 +716,7 @@ void Game::Views::Init(Game* game)
 void Game::Views::Load(Serializer::Reader &rd, Game* game)
 {
 	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	m_cpan = Pi::cpan = new ShipCpanel(section, Pi::renderer);
+	m_cpan = new ShipCpanel(section, Pi::renderer);
 
 	section = rd.RdSection("SectorView");
 	m_sectorView = Pi::sectorView = new SectorView(section);
@@ -752,7 +752,6 @@ Game::Views::~Views()
 	Pi::systemView = nullptr;
 	Pi::galacticView = nullptr;
 	Pi::sectorView = nullptr;
-	Pi::cpan = nullptr;
 
 	delete m_settingsView;
 	delete m_deathView;

@@ -35,7 +35,7 @@ void DeathView::Init()
 
 void DeathView::OnSwitchTo()
 {
-	Pi::cpan->HideAll();
+	m_game->GetCpan()->HideAll();
 }
 
 void DeathView::Update()

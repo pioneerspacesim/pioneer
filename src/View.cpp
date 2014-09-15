@@ -20,7 +20,8 @@ View::~View() {
 	Gui::Screen::RemoveBaseWidget(m_rightButtonBar);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion2);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion1);
-	Gui::Screen::RemoveBaseWidget(Pi::cpan);
+	if (Pi::game)
+		Gui::Screen::RemoveBaseWidget(Pi::game->GetCpan());
 	Gui::Screen::RemoveBaseWidget(this);
 	delete m_rightButtonBar;
 	delete m_rightRegion2;
@@ -35,8 +36,8 @@ void View::Attach() {
 
 	Gui::Screen::AddBaseWidget(this, 0, 0);
 
-	if (Pi::cpan) {
-		Gui::Screen::AddBaseWidget(Pi::cpan, 0, h-80);
+	if (Pi::game && Pi::game->GetCpan()) {
+		Gui::Screen::AddBaseWidget(Pi::game->GetCpan(), 0, h-80);
 		Gui::Screen::AddBaseWidget(m_rightButtonBar, w-128, h-26);
 		Gui::Screen::AddBaseWidget(m_rightRegion2, w-127, h-45);
 		Gui::Screen::AddBaseWidget(m_rightRegion1, w-123, h-62);
@@ -53,10 +54,11 @@ void View::Detach() {
 	Gui::Screen::RemoveBaseWidget(m_rightButtonBar);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion2);
 	Gui::Screen::RemoveBaseWidget(m_rightRegion1);
-	Gui::Screen::RemoveBaseWidget(Pi::cpan);
+	if (Pi::game)
+		Gui::Screen::RemoveBaseWidget(Pi::game->GetCpan());
 	Gui::Screen::RemoveBaseWidget(this);
-	if (Pi::cpan)
-		Pi::cpan->ClearOverlay();
+	if (Pi::game && Pi::game->GetCpan())
+		Pi::game->GetCpan()->ClearOverlay();
 
 	OnSwitchFrom();
 }

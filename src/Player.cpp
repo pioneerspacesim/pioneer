@@ -149,7 +149,7 @@ void Player::SetAlertState(Ship::AlertState as)
 			break;
 	}
 
-	Pi::cpan->SetAlertState(as);
+	Pi::game->GetCpan()->SetAlertState(as);
 
 	Ship::SetAlertState(as);
 }

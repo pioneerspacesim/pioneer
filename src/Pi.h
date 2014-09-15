@@ -29,7 +29,6 @@ class ModelCache;
 class Player;
 class SectorView;
 class Ship;
-class ShipCpanel;
 class SpaceStation;
 class StarSystem;
 class SystemInfoView;
@@ -158,7 +157,6 @@ public:
 	static UIView *spaceStationView;
 	static UIView *infoView;
 	static LuaConsole *luaConsole;
-	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer;
 	static ModelCache *modelCache;
