@@ -99,7 +99,6 @@ Player *Pi::player;
 View *Pi::currentView;
 SectorView *Pi::sectorView;
 TransferPlanner *Pi::planner;
-SystemInfoView *Pi::systemInfoView;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
 Random Pi::rng;
