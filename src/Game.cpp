@@ -62,7 +62,7 @@ Game::Game(const SystemPath &path, double time) :
 		m_player->SetPosition(vector3d(0, 1.5*sbody->GetRadius(), 0));
 		m_player->SetVelocity(vector3d(0,0,0));
 	}
-	Polit::Init();
+	Polit::Init(m_galaxy);
 
 	CreateViews();
 
@@ -159,7 +159,7 @@ Game::Game(Serializer::Reader &rd) :
 
 	// system political stuff
 	section = rd.RdSection("Polit");
-	Polit::Unserialize(section);
+	Polit::Unserialize(section, m_galaxy);
 
 
 	// views
