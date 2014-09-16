@@ -21,6 +21,7 @@ GalaxyObjectCache<T,CompareT>::~GalaxyObjectCache()
 {
 	for (Slave* s : m_slaves)
 		s->MasterDeleted();
+	assert(m_attic.empty()); // otherwise the objects will deregister at a cache that no longer exists
 }
 
 template <typename T, typename CompareT>
