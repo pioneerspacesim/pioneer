@@ -115,9 +115,6 @@ namespace FileSystem {
 			mtime = Time::DateTime(
 				1900 + timeparts.tm_year, timeparts.tm_mon+1, timeparts.tm_mday,
 				timeparts.tm_hour, timeparts.tm_min, timeparts.tm_sec);
-#ifndef __APPLE__
-			mtime += Time::TimeDelta(info.st_mtim.tv_nsec / 1000, Time::Microsecond);
-#endif
 		}
 
 		return ty;
