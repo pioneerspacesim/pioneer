@@ -162,8 +162,8 @@ public:
 	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
 	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
 
-	static bool CreateGalaxy();
-	static bool CreateGalaxy(const std::string& genName, int genVersion = -1);
+	static RefCountedPtr<Galaxy> CreateGalaxy();
+	static RefCountedPtr<Galaxy> CreateGalaxy(const std::string& genName, int genVersion = -1);
 	static RefCountedPtr<Galaxy> GetGalaxy() { return s_galaxy; }
 
 	static bool DrawGUI;

@@ -8,6 +8,7 @@
 #include "gameconsts.h"
 #include "GameLog.h"
 #include "Serializer.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
 
 class HyperspaceCloud;
@@ -56,6 +57,7 @@ public:
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
 	bool IsHyperspace() const { return m_state == STATE_HYPERSPACE; }
 
+	RefCountedPtr<Galaxy> GetGalaxy() const { return m_galaxy; }
 	Space *GetSpace() const { return m_space.get(); }
 	double GetTime() const { return m_time; }
 	Player *GetPlayer() const { return m_player.get(); }
@@ -151,6 +153,7 @@ private:
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
+	RefCountedPtr<Galaxy> m_galaxy;
 	std::unique_ptr<Views> m_gameViews;
 	std::unique_ptr<Space> m_space;
 	double m_time;

@@ -328,26 +328,24 @@ SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 
 const char Pi::SAVE_DIR_NAME[] = "savefiles";
 
-bool Pi::CreateGalaxy()
+RefCountedPtr<Galaxy> Pi::CreateGalaxy()
 {
 	s_galaxy->FlushCaches();
 	s_galaxy = GalaxyGenerator::Create();
 	if (s_galaxy) {
 		s_galaxy->Init();
-		return true;
 	}
-	return false;
+	return s_galaxy;
 }
 
-bool Pi::CreateGalaxy(const std::string& genName, GalaxyGenerator::Version genVersion)
+RefCountedPtr<Galaxy> Pi::CreateGalaxy(const std::string& genName, GalaxyGenerator::Version genVersion)
 {
 	s_galaxy->FlushCaches();
 	s_galaxy = GalaxyGenerator::Create(genName, genVersion);
 	if (s_galaxy) {
 		s_galaxy->Init();
-		return true;
 	}
-	return false;
+	return s_galaxy;
 }
 
 std::string Pi::GetSaveDir()

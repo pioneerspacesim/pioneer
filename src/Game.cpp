@@ -32,6 +32,7 @@ static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
 Game::Game(const SystemPath &path, double time) :
+	m_galaxy(Pi::GetGalaxy()),
 	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
@@ -40,10 +41,10 @@ Game::Game(const SystemPath &path, double time) :
 	m_forceTimeAccel(false)
 {
 	Pi::FlushCaches();
-	if (!Pi::GetGalaxy()->GetGenerator()->IsDefault())
-		Pi::CreateGalaxy();
+	if (!m_galaxy->GetGenerator()->IsDefault())
+		m_galaxy = Pi::CreateGalaxy();
 
-	m_space.reset(new Space(this, Pi::GetGalaxy(), path));
+	m_space.reset(new Space(this, m_galaxy, path));
 
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
@@ -94,6 +95,7 @@ Game::~Game()
 }
 
 Game::Game(Serializer::Reader &rd) :
+	m_galaxy(Pi::GetGalaxy()),
 	m_timeAccel(TIMEACCEL_PAUSED),
 	m_requestedTimeAccel(TIMEACCEL_PAUSED),
 	m_forceTimeAccel(false)
@@ -123,8 +125,8 @@ Game::Game(Serializer::Reader &rd) :
 	section = rd.RdSection("GalaxyGen");
 	std::string genName = section.String();
 	GalaxyGenerator::Version genVersion = section.Int32();
-	if (genName != Pi::GetGalaxy()->GetGeneratorName() || genVersion != Pi::GetGalaxy()->GetGeneratorVersion()) {
-		if (!Pi::CreateGalaxy(genName, genVersion)) {
+	if (genName != m_galaxy->GetGeneratorName() || genVersion != m_galaxy->GetGeneratorVersion()) {
+		if (!(m_galaxy = Pi::CreateGalaxy(genName, genVersion))) {
 			Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
 			throw SavedGameWrongVersionException();
 		}
@@ -142,7 +144,7 @@ Game::Game(Serializer::Reader &rd) :
 
 	// space, all the bodies and things
 	section = rd.RdSection("Space");
-	m_space.reset(new Space(this, Pi::GetGalaxy(), section, m_time));
+	m_space.reset(new Space(this, m_galaxy, section, m_time));
 	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
 
 	assert(!m_player->IsDead()); // Pioneer does not support necromancy
@@ -191,8 +193,8 @@ void Game::Serialize(Serializer::Writer &wr)
 	Serializer::Writer section;
 
 	// galaxy generator
-	section.String(Pi::GetGalaxy()->GetGeneratorName());
-	section.Int32(Pi::GetGalaxy()->GetGeneratorVersion());
+	section.String(m_galaxy->GetGeneratorName());
+	section.Int32(m_galaxy->GetGeneratorVersion());
 	wr.WrSection("GalaxyGen", section.GetData());
 
 	// game state
@@ -435,7 +437,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.get());
 
 	// create hyperspace :)
-	m_space.reset(new Space(this, Pi::GetGalaxy(), m_space.get()));
+	m_space.reset(new Space(this, m_galaxy, m_space.get()));
 
 	m_space->GetBackground()->SetDrawFlags( Background::Container::DRAW_STARS );
 
@@ -467,7 +469,7 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
-	m_space.reset(new Space(this, Pi::GetGalaxy(), m_hyperspaceDest, m_space.get()));
+	m_space.reset(new Space(this, m_galaxy, m_hyperspaceDest, m_space.get()));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
