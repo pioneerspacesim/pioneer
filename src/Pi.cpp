@@ -121,7 +121,8 @@ std::string Pi::profilerPath;
 bool Pi::doProfileSlow = false;
 bool Pi::doProfileOne = false;
 #endif
-int Pi::statSceneTris;
+int Pi::statSceneTris = 0;
+int Pi::statNumPatches = 0;
 GameConfig *Pi::config;
 struct DetailLevel Pi::detail = { 0, 0 };
 bool Pi::joystickEnabled;
@@ -1327,13 +1328,12 @@ void Pi::MainLoop()
 			int lua_memB = int(lua_mem & ((1u << 10) - 1));
 			int lua_memKB = int(lua_mem >> 10) % 1024;
 			int lua_memMB = int(lua_mem >> 20);
-
 			snprintf(
 				fps_readout, sizeof(fps_readout),
-				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec\n"
+				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec, %d patches/frame\n"
 				"Lua mem usage: %d MB + %d KB + %d bytes (stack top: %d)",
 				frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				Text::TextureFont::GetGlyphCount(),
+				Text::TextureFont::GetGlyphCount(), Pi::statNumPatches,
 				lua_memMB, lua_memKB, lua_memB, lua_gettop(Lua::manager->GetLuaState())
 			);
 			frame_stat = 0;
@@ -1343,6 +1343,7 @@ void Pi::MainLoop()
 			else last_stats += 1000;
 		}
 		Pi::statSceneTris = 0;
+		Pi::statNumPatches= 0;
 
 #ifdef PIONEER_PROFILER
 		const Uint32 profTicks = SDL_GetTicks();

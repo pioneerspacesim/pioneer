@@ -340,6 +340,7 @@ public:
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
+		++Pi::statNumPatches;
 
 		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indexBuffer.Get(), rs, mat);
 	}

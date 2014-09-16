@@ -138,6 +138,7 @@ public:
 
 	static Random rng;
 	static int statSceneTris;
+	static int statNumPatches;
 
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }

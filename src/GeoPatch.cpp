@@ -135,7 +135,8 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		const vector3d relpos = clipCentroid - campos;
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
-		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
+		Pi::statSceneTris += (ctx->numTris);
+		++Pi::statNumPatches;
 
 		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indices_list[determineIndexbuffer()].Get(), rs, mat);
 	}
@@ -162,7 +163,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		}
 		const float centroidDist = (campos - centroid).Length();
 		const bool errorSplit = (centroidDist < m_roughLength);
-		if( !(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && errorSplit) ) {
+		if( !(canSplit && (m_depth < std::min(GEOPATCH_MAX_DEPTH, geosphere->GetMaxDepth())) && errorSplit) ) {
 			canSplit = false;
 		}
 	}

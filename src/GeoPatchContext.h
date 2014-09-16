@@ -16,8 +16,6 @@
 
 #include <deque>
 
-static const int GEOPATCH_MAX_EDGELEN = 55;
-
 // hold the 16 possible terrain edge connections
 static const unsigned NUM_INDEX_LISTS = 16;
 
@@ -38,6 +36,7 @@ public:
 	#pragma pack(pop)
 
 	int edgeLen;
+	int numTris;
 
 	inline int VBO_COUNT_LO_EDGE() const { return 3*(edgeLen/2); }
 	inline int VBO_COUNT_HI_EDGE() const { return 3*(edgeLen-1); }

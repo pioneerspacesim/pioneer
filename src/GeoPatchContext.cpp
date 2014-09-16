@@ -63,6 +63,8 @@ int GeoPatchContext::getIndices(std::vector<unsigned short> &pl, const unsigned 
 void GeoPatchContext::Init() {
 	frac = 1.0 / double(edgeLen-1);
 
+	numTris = 2*(edgeLen-1)*(edgeLen-1);
+
 	unsigned short *idx;
 	midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
 	for (int i=0; i<4; i++) {
