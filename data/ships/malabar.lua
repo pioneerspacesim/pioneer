@@ -25,6 +25,7 @@ define_ship {
 		cargoscoop = 1,
         fuelscoop = 1,
 		engine = 1,
+		transponder = 1,
 	},
 	min_crew = 1,
 	max_crew = 8,

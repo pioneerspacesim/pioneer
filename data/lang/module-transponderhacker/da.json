@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Ærlige {name}s Varer"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "{name}s Handelshus"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "{name}s Varehus"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "{name}s Varehandel"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "{name} Varer"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} & Sønner"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Velkommen til"
+   }
+}

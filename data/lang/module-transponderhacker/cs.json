@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "{name}'s vyhlášené obchodní středisko"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "{name}'s tržnice"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "{name}'s skladiště"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "{name}'s burza"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "{name} a.s."
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} & synové"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Vítá vás "
+   }
+}

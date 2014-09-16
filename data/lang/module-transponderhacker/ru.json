@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Торговый Центр {name}"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "Торговый Дом {name}"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "Складской Комплекс {name}"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "Товарная Биржа {name}"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "Холдинг {name}"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "компания {name} и Сыновья"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Добро пожаловать! Вас приветствует "
+   }
+}

@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "Honest {name}s Handelsplatz"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "{name}s Kaufladen"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "{name}s Makazin"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "{name}s Warenbörse"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "{name} Aktiengesellschaft"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "{name} & Söhne"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Wilkommen in "
+   }
+}

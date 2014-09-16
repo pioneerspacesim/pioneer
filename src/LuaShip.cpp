@@ -59,6 +59,223 @@ static int l_ship_is_player(lua_State *l)
     return 1;
 }
 
+/*
+ * Method: IsTransponderActive
+ *
+ * Is the ships AIS transponder turned on
+ *
+ * > aisIsActive = ship:IsTransponderActive()
+ *
+ * Returns:
+ *
+ *   aisIsActive - true if the ships is turned on, false otherwise
+ *
+ * Example:
+ *
+ * > if Game.ship:IsTransponderActive() then
+ * >     print("AIS on, ship label, and information available.")
+ * > else
+ * >     print("On radar only, running quiet, pirate / military?")
+ * > end
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_is_transponder_active(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsTransponderActive());
+
+	LUA_DEBUG_END(l, 0);
+
+	return 1;
+}
+
+/*
+ * Method: ActivateTransponder
+ *
+ * Activates the ships AIS transponder
+ *
+ * > ship:ActivateTransponder()
+ *
+ * Example:
+ *
+ * > Game.ship:ActivateTransponder()
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_activate_transponder(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->ActivateTransponder();
+
+	return 0;
+}
+
+/*
+ * Method: DeactivateTransponder
+ *
+ * Deactivates the ships AIS transponder
+ *
+ * > ship:DeactivateTransponder()
+ *
+ * Example:
+ *
+ * > Game.ship:DeactivateTransponder()
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_deactivate_transponder(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->DeactivateTransponder();
+
+	return 0;
+}
+
+/*
+ * Method: IsTransponderFaking
+ *
+ * Is the ships AIS transponder faking the data it sends
+ *
+ * > aisIsFake = ship:IsTransponderFaking()
+ *
+ * Returns:
+ *
+ *   aisIsFake - true if the ships is lying about it's AIS data, false otherwise
+ *
+ * Example:
+ *
+ * > if Game.ship:IsTransponderFaking() then
+ * >     print("AIS is a pack of lies, attack the ship.")
+ * > else
+ * >     print("AIS is trustworthy")
+ * > end
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_is_transponder_faking(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsTransponderFaking());
+
+	LUA_DEBUG_END(l, 0);
+
+	return 1;
+}
+
+/*
+ * Method: FakeTransponderStart
+ *
+ * Start faking the ships AIS transponder
+ *
+ * > ship:FakeTransponder()
+ *
+ * Example:
+ *
+ * > Game.ship:FakeTransponderStart()
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_fake_transponder_start(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->FakeTransponderStart();
+
+	return 0;
+}
+
+/*
+ * Method: FakeTransponderStop
+ *
+ * Stops faking the ships AIS transponder
+ *
+ * > ship:FakeTransponderStop()
+ *
+ * Example:
+ *
+ * > Game.ship:FakeTransponderStop()
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_fake_transponder_stop(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->FakeTransponderStop();
+
+	return 0;
+}
+
+/*
+ * Method: SetFakeTransponderLabel
+ *
+ * Changes the ship's transponder text. 
+ *
+ * > ship:SetFakeTransponderLabel(newlabel)
+ *
+ * Parameters:
+ *
+ *   newlabel - the new label
+ *
+ * Example:
+ *
+ * > ship:SetFakeTransponderLabel("AB-1234")
+ *
+ * Availability:
+ *
+ *  alpha 10
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_set_fake_transponder_label(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	const std::string label(luaL_checkstring(l, 2));
+	s->SetFakeTransponderLabel(label);
+	return 0;
+}
+
 /* Method: SetShipType
  *
  * Replaces the ship with a new ship of the specified type.
@@ -893,6 +1110,15 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_ship_is_player },
+
+		{ "IsTransponderActive", l_ship_is_transponder_active },
+		{ "ActivateTransponder", l_ship_activate_transponder },
+		{ "DeactivateTransponder", l_ship_deactivate_transponder },
+
+		{ "IsTransponderFaking", l_ship_is_transponder_faking },
+		{ "FakeTransponderStart", l_ship_fake_transponder_start },
+		{ "FakeTransponderStop", l_ship_fake_transponder_stop },
+		{ "SetFakeTransponderLabel",   l_ship_set_fake_transponder_label   },
 
 		{ "SetShipType", l_ship_set_type },
 		{ "SetHullPercent", l_ship_set_hull_percent },

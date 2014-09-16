@@ -34,11 +34,15 @@ static const float TONS_HULL_PER_SHIELD = 10.f;
 static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
+static const std::string s_blankAISLabel("??-????");
 
 void Ship::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
 	m_skin.Save(wr);
+	wr.Bool(m_transponderActive);
+	wr.Bool(m_transponderFaking);
+	wr.String(m_fakeLabel);
 	wr.Vector3d(m_angThrusters);
 	wr.Vector3d(m_thrusters);
 	wr.Int32(m_wheelTransition);
@@ -83,6 +87,10 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	m_skin.Load(rd);
 	m_skin.Apply(GetModel());
 	// needs fixups
+	m_transponderActive = rd.Bool();
+	m_transponderFaking = rd.Bool();
+	m_fakeLabel = rd.String();
+	Properties().Set("fakeLabel", m_fakeLabel);
 	m_angThrusters = rd.Vector3d();
 	m_thrusters = rd.Vector3d();
 	m_wheelTransition = rd.Int32();
@@ -124,6 +132,7 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
+	p.Set("fakeLabel", m_fakeLabel);
 	p.PushLuaTable();
 	lua_State *l = Lua::manager->GetLuaState();
 	lua_getfield(l, -1, "equipSet");
@@ -197,6 +206,8 @@ void Ship::InitMaterials()
 void Ship::Init()
 {
 	m_invulnerable = false;
+	m_transponderActive = true;
+	m_transponderFaking = false;
 
 	m_sensors.reset(new Sensors(this));
 
@@ -280,6 +291,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 
 	SetModel(m_type->modelName.c_str());
 	SetLabel("UNLABELED_SHIP");
+	SetFakeTransponderLabel("");
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
@@ -1348,6 +1360,15 @@ void Ship::SetLabel(const std::string &label)
 	DynamicBody::SetLabel(label);
 	m_skin.SetLabel(label);
 	m_skin.Apply(GetModel());
+	// only do this if it hasn't already been set
+	if( m_fakeLabel.empty() ) {
+		SetFakeTransponderLabel(label);
+	}
+}
+
+const std::string &Ship::GetLabel() const 
+{ 
+	return IsTransponderActive() ? (IsTransponderFaking() ? m_fakeLabel : Body::GetLabel()) : s_blankAISLabel;
 }
 
 void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
@@ -1369,4 +1390,32 @@ void Ship::SetRelations(Body *other, Uint8 percent)
 {
 	m_relationsMap[other] = percent;
 	if (m_sensors.get()) m_sensors->UpdateIFF(other);
+}
+
+void Ship::DeactivateTransponder() 
+{ 
+	int prop_var = 0;
+	Properties().Get("ais_level_cap", prop_var);
+	if( prop_var>1 ) { 
+		// could be military or illegally modified
+		if( IsTransponderActive() ) {
+			m_transponderActive = false;
+		}
+	}
+}
+
+void Ship::FakeTransponderStart()
+{
+	int prop_var = 0;
+	Properties().Get("ais_level_cap", prop_var);
+	if( prop_var>2 ) { 
+		// could only illegally modified
+		m_transponderFaking = true;
+	}
+}
+
+void Ship::SetFakeTransponderLabel(const std::string &fakeLabel)
+{
+	m_fakeLabel = fakeLabel;
+	Properties().Set("fakeLabel", fakeLabel);
 }

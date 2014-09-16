@@ -13,6 +13,7 @@ local econTrade       = import("InfoView/EconTrade")
 local missions        = import("InfoView/Missions")
 local crewRoster      = import("InfoView/CrewRoster")
 local orbitalAnalysis = import("InfoView/OrbitalAnalysis")
+local transponder     = import("InfoView/Transponder")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -26,12 +27,13 @@ ui.templates.InfoView = function (args)
 
 	tabGroup = TabView.New()
 
-	tabGroup:AddTab({ id = "shipInfo",        title = l.SHIP_INFORMATION,     icon = "Satellite", template = shipInfo         })
-	tabGroup:AddTab({ id = "personalInfo",    title = l.PERSONAL_INFORMATION, icon = "User",      template = personalInfo     })
-	tabGroup:AddTab({ id = "econTrade",       title = l.ECONOMY_TRADE,      icon = "Cart",      template = econTrade,       })
-	tabGroup:AddTab({ id = "missions",        title = l.MISSIONS,             icon = "Star",      template = missions,        })
-	tabGroup:AddTab({ id = "crew",            title = l.CREW_ROSTER,          icon = "Agenda",    template = crewRoster,      })
-	--tabGroup:AddTab({ id = "orbitalAnalysis", title = l.ORBITAL_ANALYSIS,     icon = "Planet",    template = orbitalAnalysis, })
+	tabGroup:AddTab({ id = "shipInfo",        title = l.SHIP_INFORMATION,     icon = "Satellite",  template = shipInfo         })
+	tabGroup:AddTab({ id = "personalInfo",    title = l.PERSONAL_INFORMATION, icon = "User",       template = personalInfo     })
+	tabGroup:AddTab({ id = "econTrade",       title = l.ECONOMY_TRADE,        icon = "Cart",       template = econTrade,       })
+	tabGroup:AddTab({ id = "missions",        title = l.MISSIONS,             icon = "Star",       template = missions,        })
+	tabGroup:AddTab({ id = "crew",            title = l.CREW_ROSTER,          icon = "Agenda",     template = crewRoster,      })
+	--tabGroup:AddTab({ id = "orbitalAnalysis", title = l.ORBITAL_ANALYSIS,     icon = "Planet",     template = orbitalAnalysis, })
+	tabGroup:AddTab({ id = "transponder",     title = l.TRANSPONDER_DATA,     icon = "Transponder",template = transponder,     })
 
 	return tabGroup.widget
 end

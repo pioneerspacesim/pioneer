@@ -690,12 +690,23 @@ void SystemView::RefreshShips(void) {
 
 	auto bs = Pi::game->GetSpace()->GetBodies();
 	for(auto s = bs.begin(); s != bs.end(); s++) {
-		if((*s) != Pi::player &&
-		   (*s)->GetType() == Object::SHIP) {
-
+		if((*s) != Pi::player && (*s)->GetType() == Object::SHIP)
+		{
 			const auto c = static_cast<Ship*>(*s);
-			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
-
+			if(c->GetDockedWith() || !c->IsInSpace()) {
+				// this ship is either docked with something, or it's in hyperspace.
+				continue;
+			}
+			int prop_var = 0;
+			c->Properties().Get("ais_level_cap", prop_var);
+			if( prop_var>1 ) { 
+				// could be military or illegally modified
+				if( c->IsTransponderActive() ) {
+					m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+				}
+			} else {
+				m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
+			}
 		}
 	}
 }

@@ -1,0 +1,30 @@
+{
+   "TRANSPONDER_HACKER_0" : {
+      "description" : "",
+      "message" : "au centre commercial {name}"
+   },
+   "TRANSPONDER_HACKER_1" : {
+      "description" : "",
+      "message" : "à la chambre de commerce de {name}"
+   },
+   "TRANSPONDER_HACKER_2" : {
+      "description" : "",
+      "message" : "à l'entrepôt de {name}"
+   },
+   "TRANSPONDER_HACKER_3" : {
+      "description" : "",
+      "message" : "au marché de {name}"
+   },
+   "TRANSPONDER_HACKER_4" : {
+      "description" : "",
+      "message" : "à la Holding {name}"
+   },
+   "TRANSPONDER_HACKER_5" : {
+      "description" : "",
+      "message" : "chez {name} & Fils"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "Bienvenue à "
+   }
+}

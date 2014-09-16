@@ -215,6 +215,7 @@ public:
 	void SetSkin(const SceneGraph::ModelSkin &skin);
 
 	void SetLabel(const std::string &label);
+	const std::string &GetLabel() const;
 
 	float GetPercentShields() const;
 	float GetPercentHull() const;
@@ -257,6 +258,16 @@ public:
 	void SetRelations(Body *other, Uint8 percent);
 
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
+
+	bool IsTransponderActive() const { return m_transponderActive; }
+	void ActivateTransponder() { m_transponderActive = true; }
+	void DeactivateTransponder();
+
+	bool IsTransponderFaking() const { return m_transponderFaking; }
+	void FakeTransponderStart();
+	void FakeTransponderStop() { m_transponderFaking = false; }
+
+	void SetFakeTransponderLabel(const std::string &fakeLabel);
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
@@ -304,6 +315,10 @@ private:
 	void InitEquipSet();
 
 	bool m_invulnerable;
+
+	bool m_transponderActive;
+	bool m_transponderFaking;
+	std::string m_fakeLabel;
 
 	static const float DEFAULT_SHIELD_COOLDOWN_TIME;
 	float m_shieldCooldown;
