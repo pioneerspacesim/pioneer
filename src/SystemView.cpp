@@ -595,7 +595,7 @@ void SystemView::Draw3D()
 	std::string t = Lang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
-	if (!m_system) m_system = Pi::GetGalaxy()->GetStarSystem(path);
+	if (!m_system) m_system = m_game->GetGalaxy()->GetStarSystem(path);
 
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);

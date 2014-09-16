@@ -14,6 +14,7 @@
 #include "UIView.h"
 
 class Game;
+class Galaxy;
 
 class GalacticView: public UIView {
 public:
@@ -33,6 +34,7 @@ private:
 	void MouseWheel(bool up);
 
 	Game* m_game;
+	RefCountedPtr<Galaxy> m_galaxy;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::Label *m_scaleReadout;

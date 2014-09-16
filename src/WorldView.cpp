@@ -711,7 +711,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 #endif
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
-		RefCountedPtr<StarSystem> s = Pi::GetGalaxy()->GetStarSystem(dest);
+		RefCountedPtr<StarSystem> s = m_game->GetGalaxy()->GetStarSystem(dest);
 
 		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
@@ -936,7 +936,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				}
 				else {
 					const SystemPath& dest = ship->GetHyperspaceDest();
-					RefCountedPtr<const Sector> s = Pi::GetGalaxy()->GetSector(dest);
+					RefCountedPtr<const Sector> s = m_game->GetGalaxy()->GetSector(dest);
 					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 					text += "\n";
 					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
