@@ -43,7 +43,7 @@ static std::vector<GeoSphere*> s_allGeospheres;
 void GeoSphere::Init()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= detail_edgeLen[4]);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 }
 
 void GeoSphere::Uninit()
@@ -76,7 +76,7 @@ void GeoSphere::UpdateAllGeoSpheres()
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= detail_edgeLen[4]);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 
 	// reinit the geosphere terrain data
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
@@ -187,7 +187,7 @@ GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 
 	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
 	// calculate length of each edge segment (quad) times 8 due to that being the number around the sphere (2 per side, 4 sides).
-	double edgeMetres = circumference / double(s_patchContext->edgeLen * 8);
+	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
 	// find out what depth we reach the desired resolution
 	while (edgeMetres>gs_targetPatchTriLength && m_maxDepth<20) {
 		edgeMetres *= 0.5;
