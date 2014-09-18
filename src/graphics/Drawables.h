@@ -23,66 +23,94 @@ protected:
 	virtual ~Drawable() { }
 	Graphics::RenderState *m_renderState;
 };
+//------------------------------------------------------------
 
 class Circle : public Drawable {
 public:
-	Circle(float radius, const Color &c, RenderState *state) : m_color(c) {
-		m_renderState = state;
-		for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
-			m_verts.push_back(vector3f(radius*sin(theta), radius*cos(theta), 0));
-		}
-	}
-	Circle(float radius, float x, float y, float z, const Color &c, RenderState *state) : m_color(c) {
-		m_renderState = state;
-		for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
-			m_verts.push_back(vector3f(radius*sin(theta) + x, radius*cos(theta) + y, z));
-		}
-	}
-	Circle(float radius, const vector3f &center, const Color &c, RenderState *state) : m_color(c) {
-		m_renderState = state;
-		for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
-			m_verts.push_back(vector3f(radius*sin(theta) + center.x, radius*cos(theta) + center.y, center.z));
-		}
-	}
-	virtual void Draw(Renderer *renderer) {
-		renderer->DrawLines(m_verts.size(), &m_verts[0], m_color, m_renderState, LINE_LOOP);
-	}
+	Circle(const float radius, const Color &c, RenderState *state);
+	Circle(const float radius, const float x, const float y, const float z, const Color &c, RenderState *state);
+	Circle(Renderer *renderer, const float radius, const vector3f &center, const Color &c, RenderState *state);
+	virtual void Draw(Renderer *renderer);
 
 private:
-	std::vector<vector3f> m_verts;
+	void SetupVertexBuffer(const Graphics::VertexArray&, Graphics::Renderer *);
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	RefCountedPtr<Material> m_material;
 	Color m_color;
 };
+//------------------------------------------------------------
 
 // Two-dimensional filled circle
 class Disk : public Drawable {
 public:
 	Disk(Graphics::Renderer *r, Graphics::RenderState*, const Color &c, float radius);
-	Disk(RefCountedPtr<Material> material, Graphics::RenderState*, const int numEdges=72, const float radius=1.0f);
+	Disk(Graphics::Renderer *r, RefCountedPtr<Material>, Graphics::RenderState*, const int edges=72, const float radius=1.0f);
 	virtual void Draw(Graphics::Renderer *r);
 
 	void SetColor(const Color&);
 
 private:
-	std::unique_ptr<Graphics::VertexArray> m_vertices;
+	void SetupVertexBuffer(const Graphics::VertexArray&, Graphics::Renderer *);
+	std::unique_ptr<VertexBuffer> m_vertexBuffer;
 	RefCountedPtr<Material> m_material;
 };
+//------------------------------------------------------------
 
-//A three dimensional line between two points
+// A three dimensional line between two points
 class Line3D : public Drawable {
 public:
 	Line3D();
+	Line3D(const Line3D& b); // this needs an explicit copy constructor due to the std::unique_ptr below
+	virtual ~Line3D() {}
 	void SetStart(const vector3f &);
 	void SetEnd(const vector3f &);
 	void SetColor(const Color &);
 	virtual void Draw(Renderer*, RenderState*);
 private:
-	vector3f m_points[2];
-	Color m_colors[2];
-	float m_width;
-};
+	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 
-//Three dimensional sphere (subdivided icosahedron) with normals
-//and spherical texture coordinates.
+	bool m_refreshVertexBuffer;
+	float m_width;
+	RefCountedPtr<Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<Graphics::VertexArray> m_va;
+};
+//------------------------------------------------------------
+
+// Three dimensional line segments between two points
+class Lines : public Drawable {
+public:
+	Lines();
+	void SetData(const int vertCount, const vector3f *vertices, const Color &color);
+	void Draw(Renderer*, RenderState*, const PrimitiveType pt = Graphics::LINE_SINGLE);
+private:
+	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
+
+	bool m_refreshVertexBuffer;
+	float m_width;
+	RefCountedPtr<Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<VertexArray> m_va;
+};
+//------------------------------------------------------------
+
+// Screen aligned quad / billboard / pointsprite
+class PointSprites : public Drawable {
+public:
+	PointSprites();
+	void SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const float size);
+	void Draw(Renderer*, RenderState*, Material*);
+private:
+	void CreateVertexBuffer(Graphics::Renderer *r, Material *mat, const Uint32 size);
+
+	bool m_refreshVertexBuffer;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<VertexArray> m_va;
+};
+//------------------------------------------------------------
+
+// Three dimensional sphere (subdivided icosahedron) with normals
+// and spherical texture coordinates.
 class Sphere3D : public Drawable {
 public:
 	//subdivisions must be 0-4
@@ -105,21 +133,32 @@ private:
 		const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		int i1, int i2, int i3, int depth);
 };
+//------------------------------------------------------------
 
 // a textured quad with reversed winding
 class TexturedQuad : public Drawable {
 public:
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state);
-	virtual void Draw(Graphics::Renderer *r) {
-		r->DrawTriangles(m_vertices.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
-	}
-
+	virtual void Draw(Graphics::Renderer *r);
 	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	std::unique_ptr<Graphics::Material> m_material;
-	std::unique_ptr<Graphics::VertexArray> m_vertices;
+	std::unique_ptr<VertexBuffer> m_vertexBuffer;
 };
+//------------------------------------------------------------
+
+//industry-standard red/green/blue XYZ axis indicator
+class Axes3D : public Drawable {
+public:
+	Axes3D(Graphics::Renderer *r, Graphics::RenderState *state = nullptr);
+	virtual void Draw(Graphics::Renderer *r);
+private:
+	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+};
+
+Axes3D* GetAxes3DDrawable(Graphics::Renderer *r);
 
 }
 

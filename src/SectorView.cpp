@@ -1376,7 +1376,7 @@ void SectorView::Update()
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
 		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
 		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(m_renderer, fresnelMat, m_jumpSphereState, 3, 1.0f) );
-		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
+		m_jumpDisk.reset( new Graphics::Drawables::Disk(m_renderer, fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
 
 	UIView::Update();
