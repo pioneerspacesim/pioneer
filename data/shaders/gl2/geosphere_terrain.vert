@@ -16,9 +16,9 @@ uniform Material material;
 void main(void)
 {
 	gl_Position = logarithmicTransform();
-	vertexColor = gl_Color;
-	varyingEyepos = vec3(gl_ModelViewMatrix * gl_Vertex);
-	varyingNormal = gl_NormalMatrix * gl_Normal;
+	vertexColor = a_color;
+	varyingEyepos = vec3(gl_ModelViewMatrix * a_vertex);
+	varyingNormal = gl_NormalMatrix * a_normal;
 
 #ifdef TERRAIN_WITH_LAVA
 	varyingEmission = material.emission;

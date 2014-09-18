@@ -7,7 +7,7 @@ uniform Material material;
 
 void main(void)
 {
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-	gl_PointSize = 1.0 + pow(gl_Color.r,3.0);
-	color = gl_Color * material.emission;
+	gl_Position = gl_ModelViewProjectionMatrix * a_vertex;
+	gl_PointSize = 1.0 + pow(a_color.r,3.0);
+	color = a_color * material.emission;
 }

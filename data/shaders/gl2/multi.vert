@@ -21,14 +21,14 @@ void main(void)
 {
 	gl_Position = logarithmicTransform();
 #ifdef VERTEXCOLOR
-	vertexColor = gl_Color;
+	vertexColor = a_color;
 #endif
 #ifdef TEXTURE0
-	texCoord0 = gl_MultiTexCoord0.xy;
+	texCoord0 = a_uv0.xy;
 #endif
 #if (NUM_LIGHTS > 0)
-	eyePos = vec3(gl_ModelViewMatrix * gl_Vertex);
-	normal = normalize(gl_NormalMatrix * gl_Normal);
+	eyePos = vec3(gl_ModelViewMatrix * a_vertex);
+	normal = normalize(gl_NormalMatrix * a_normal);
 #ifdef HEAT_COLOURING
 	heatingDir = normalize(heatingMatrix * heatingNormal);
 #endif

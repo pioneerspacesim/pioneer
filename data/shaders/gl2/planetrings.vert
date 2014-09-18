@@ -5,8 +5,8 @@ void main(void)
 {
 	gl_Position = logarithmicTransform();
 
-	gl_TexCoord[0] = gl_MultiTexCoord0;
-	gl_TexCoord[1] = gl_Vertex;
+	gl_TexCoord[0] = a_uv0;
+	gl_TexCoord[1] = a_vertex;
 
-	gl_FrontColor = gl_Color;
+	gl_FrontColor = a_color;
 }
