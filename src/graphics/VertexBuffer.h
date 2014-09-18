@@ -78,6 +78,9 @@ public:
 	Uint32 GetVertexCount() const;
 	void SetVertexCount(Uint32);
 
+	virtual void Bind() = 0;
+	virtual void Release() = 0;
+
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) = 0;
 	VertexBufferDesc m_desc;

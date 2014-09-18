@@ -60,6 +60,9 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 
 	SetVertexCount(m_desc.numVertices);
 
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+
 	glGenBuffers(1, &m_buffer);
 
 	//Allocate initial data store
@@ -70,7 +73,40 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 	memset(m_data, 0, dataSize);
 	const GLenum usage = (m_desc.usage == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glBufferData(GL_ARRAY_BUFFER, dataSize, m_data, usage);
+
+	//Setup the VAO pointers
+	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
+		const auto& attr  = m_desc.attrib[i];
+		if (attr.semantic == ATTRIB_NONE)
+			break;
+
+		// Tell OpenGL what the array contains
+		const auto offset = reinterpret_cast<const GLvoid*>(attr.offset);
+		switch (attr.semantic) {
+		case ATTRIB_POSITION:
+			glEnableVertexAttribArray(0);	// Enable the attribute at that location
+			glVertexAttribPointer(0, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);	
+			break;
+		case ATTRIB_NORMAL:
+			glEnableVertexAttribArray(1);	// Enable the attribute at that location
+			glVertexAttribPointer(1, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
+			break;
+		case ATTRIB_DIFFUSE:
+			glEnableVertexAttribArray(2);	// Enable the attribute at that location
+			glVertexAttribPointer(2, get_num_components(attr.format), get_component_type(attr.format), GL_TRUE, m_desc.stride, offset);	// only normalise the colours
+			break;
+		case ATTRIB_UV0:
+			glEnableVertexAttribArray(3);	// Enable the attribute at that location
+			glVertexAttribPointer(3, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
+			break;
+		case ATTRIB_NONE:
+		default:
+			break;
+		}
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 
 	//Don't keep client data around for static buffers
 	if (GetDesc().usage == BUFFER_USAGE_STATIC) {
@@ -84,6 +120,7 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 VertexBuffer::~VertexBuffer()
 {
 	glDeleteBuffers(1, &m_buffer);
+	glDeleteVertexArrays(1, &m_vao);
 	delete[] m_data;
 }
 
@@ -93,6 +130,7 @@ Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
 	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 	m_mapMode = mode;
 	if (GetDesc().usage == BUFFER_USAGE_STATIC) {
+		glBindVertexArray(m_vao);
 		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 		if (mode == BUFFER_MAP_READ)
 			return reinterpret_cast<Uint8*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
@@ -118,37 +156,17 @@ void VertexBuffer::Unmap()
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
 	}
+	glBindVertexArray(0);
 
 	m_mapMode = BUFFER_MAP_NONE;
 }
 
-void VertexBuffer::SetAttribPointers()
-{
-	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
-		const auto& attr  = m_desc.attrib[i];
-		const auto offset = reinterpret_cast<const GLvoid*>(m_desc.attrib[i].offset);
-		switch (attr.semantic) {
-		case ATTRIB_POSITION:
-			glVertexPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
-			break;
-		case ATTRIB_NORMAL:
-			glNormalPointer(get_component_type(attr.format), m_desc.stride, offset);
-			break;
-		case ATTRIB_DIFFUSE:
-			glColorPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
-			break;
-		case ATTRIB_UV0:
-			glTexCoordPointer(get_num_components(attr.format), get_component_type(attr.format), m_desc.stride, offset);
-			break;
-		case ATTRIB_NONE:
-		default:
-			return;
-		}
-	}
+void VertexBuffer::Bind() {
+	glBindVertexArray(m_vao);
 }
 
-void VertexBuffer::UnsetAttribPointers()
-{
+void VertexBuffer::Release() {
+	glBindVertexArray(0);
 }
 
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)

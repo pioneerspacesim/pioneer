@@ -109,13 +109,14 @@ protected:
 
 	//figure out states from a vertex array and enable them
 	//also sets vertex pointers
-	void EnableClientStates(const VertexArray*);
-	void EnableClientStates(const VertexBuffer*);
+	void EnableVertexAttributes(const VertexBuffer*);
+	void EnableVertexAttributes(const VertexArray*);
 	//disable previously enabled
-	virtual void DisableClientStates();
+	void DisableVertexAttributes(const VertexBuffer*);
+	void DisableVertexAttributes();
 	int m_numLights;
 	int m_numDirLights;
-	std::vector<GLenum> m_clientStates;
+	std::vector<GLuint> m_vertexAttribsSet;
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;

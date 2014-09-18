@@ -21,13 +21,15 @@ public:
 	~VertexBuffer();
 
 	virtual void Unmap() override;
-	void SetAttribPointers();
-	void UnsetAttribPointers();
+
+	virtual void Bind();
+	virtual void Release();
 
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) override;
 
 private:
+	GLuint m_vao;
 	Uint8 *m_data;
 };
 
