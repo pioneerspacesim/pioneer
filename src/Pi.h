@@ -19,8 +19,6 @@
 #include <string>
 #include <vector>
 
-class GalaxyGenerator;
-class Galaxy;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
@@ -162,10 +160,6 @@ public:
 	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
 	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
 
-	static RefCountedPtr<Galaxy> CreateGalaxy();
-	static RefCountedPtr<Galaxy> CreateGalaxy(const std::string& genName, int genVersion = -1);
-	static RefCountedPtr<Galaxy> GetGalaxy() { return s_galaxy; }
-
 	static bool DrawGUI;
 
 private:
@@ -176,7 +170,6 @@ private:
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
-	static RefCountedPtr<Galaxy> s_galaxy;
 	static bool menuDone;
 
 	static View *currentView;

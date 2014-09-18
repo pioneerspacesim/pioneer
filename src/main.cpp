@@ -4,6 +4,8 @@
 #include "libs.h"
 #include "Pi.h"
 #include "ModelViewer.h"
+#include "Game.h"
+#include "galaxy/GalaxyGenerator.h"
 #include "galaxy/Galaxy.h"
 #include "utils.h"
 #include <cstdio>
@@ -132,7 +134,7 @@ start:
 					Output("pioneer: could not open \"%s\" for writing: %s\n", filename.c_str(), strerror(errno));
 					break;
 				}
-				Pi::GetGalaxy()->Dump(file, sx, sy, sz, radius);
+				Game::DumpGalaxy(file, sx, sy, sz, radius);
 				if (filename != "-" && fclose(file) != 0) {
 					Output("pioneer: writing to \"%s\" failed: %s\n", filename.c_str(), strerror(errno));
 				}

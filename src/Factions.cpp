@@ -335,7 +335,7 @@ void FactionsDatabase::Init()
 
 	Output("Number of factions added: " SIZET_FMT "\n", m_factions.size());
 	ClearHomeSectors();
-	Pi::FlushCaches();    // clear caches of anything we used for faction generation
+	m_galaxy->FlushCaches();    // clear caches of anything we used for faction generation
 	while (!m_missingFactionsMap.empty()) {
 		const std::string& factionName = m_missingFactionsMap.begin()->first;
 		std::list<CustomSystem*>& csl = m_missingFactionsMap.begin()->second;

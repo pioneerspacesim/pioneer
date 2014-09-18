@@ -31,8 +31,31 @@ static const int  s_saveVersion   = 78;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
+RefCountedPtr<Galaxy> Game::s_galaxy;
+
+//static
+void Game::InitGalaxy()
+{
+	s_galaxy = GalaxyGenerator::Create();
+	s_galaxy->Init();
+}
+
+//static
+void Game::UninitGalaxy()
+{
+	s_galaxy.Reset();
+}
+
+//static
+void Game::DumpGalaxy(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
+{
+	if (!s_galaxy)
+		InitGalaxy();
+	s_galaxy->Dump(file, centerX, centerY, centerZ, radius);
+}
+
 Game::Game(const SystemPath &path, double time) :
-	m_galaxy(Pi::GetGalaxy()),
+	m_galaxy(s_galaxy),
 	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
@@ -40,9 +63,12 @@ Game::Game(const SystemPath &path, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	Pi::FlushCaches();
-	if (!m_galaxy->GetGenerator()->IsDefault())
-		m_galaxy = Pi::CreateGalaxy();
+	if (m_galaxy)
+		m_galaxy->FlushCaches();
+	if (!m_galaxy || !m_galaxy->GetGenerator()->IsDefault()) {
+		m_galaxy = s_galaxy = GalaxyGenerator::Create();
+		m_galaxy->Init();
+	}
 
 	// Now that we have a Galaxy, check the starting location
 	if (!path.IsBodyPath())
@@ -110,10 +136,11 @@ Game::~Game()
 	m_space->RemoveBody(m_player.get());
 	m_space.reset();
 	m_player.reset();
+	m_galaxy->FlushCaches();
 }
 
 Game::Game(Serializer::Reader &rd) :
-	m_galaxy(Pi::GetGalaxy()),
+	m_galaxy(s_galaxy),
 	m_timeAccel(TIMEACCEL_PAUSED),
 	m_requestedTimeAccel(TIMEACCEL_PAUSED),
 	m_forceTimeAccel(false)
@@ -131,7 +158,8 @@ Game::Game(Serializer::Reader &rd) :
 	}
 
 	// XXX This must be done after loading sectors once we can change them in game
-	Pi::FlushCaches();
+	if (m_galaxy)
+		m_galaxy->FlushCaches();
 
 	Serializer::Reader section;
 
@@ -143,11 +171,13 @@ Game::Game(Serializer::Reader &rd) :
 	section = rd.RdSection("GalaxyGen");
 	std::string genName = section.String();
 	GalaxyGenerator::Version genVersion = section.Int32();
-	if (genName != m_galaxy->GetGeneratorName() || genVersion != m_galaxy->GetGeneratorVersion()) {
-		if (!(m_galaxy = Pi::CreateGalaxy(genName, genVersion))) {
+	if (!m_galaxy || genName != m_galaxy->GetGeneratorName() || genVersion != m_galaxy->GetGeneratorVersion()) {
+		m_galaxy = s_galaxy = GalaxyGenerator::Create(genName, genVersion);
+		if (!m_galaxy) {
 			Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
 			throw SavedGameWrongVersionException();
 		}
+		m_galaxy->Init();
 	}
 
 	// game state

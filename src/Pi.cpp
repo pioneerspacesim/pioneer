@@ -138,8 +138,6 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
-RefCountedPtr<Galaxy> Pi::s_galaxy;
-
 // XXX enabling this breaks UI gauge rendering. see #2627
 #define USE_RTT 0
 
@@ -328,26 +326,6 @@ SceneGraph::Model *Pi::FindModel(const std::string &name, bool allowPlaceholder)
 
 const char Pi::SAVE_DIR_NAME[] = "savefiles";
 
-RefCountedPtr<Galaxy> Pi::CreateGalaxy()
-{
-	s_galaxy->FlushCaches();
-	s_galaxy = GalaxyGenerator::Create();
-	if (s_galaxy) {
-		s_galaxy->Init();
-	}
-	return s_galaxy;
-}
-
-RefCountedPtr<Galaxy> Pi::CreateGalaxy(const std::string& genName, GalaxyGenerator::Version genVersion)
-{
-	s_galaxy->FlushCaches();
-	s_galaxy = GalaxyGenerator::Create(genName, genVersion);
-	if (s_galaxy) {
-		s_galaxy->Init();
-	}
-	return s_galaxy;
-}
-
 std::string Pi::GetSaveDir()
 {
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
@@ -489,21 +467,17 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (config->HasEntry("GalaxyGenerator"))
 		GalaxyGenerator::SetDefaultGenerator(config->String("GalaxyGenerator"),
 			config->Int("GalaxyGeneratorVersion", GalaxyGenerator::LAST_VERSION));
-	s_galaxy = GalaxyGenerator::Create();
+	Game::InitGalaxy();
 
 	draw_progress(gauge, label, 0.2f);
 
-	s_galaxy->Init();
+	FaceParts::Init();
 
 	draw_progress(gauge, label, 0.3f);
 
-	FaceParts::Init();
-
-	draw_progress(gauge, label, 0.4f);
-
 	// Reload home sector, they might have changed, due to custom systems
 	// Sectors might be changed in game, so have to re-create them again once we have a Game.
-	draw_progress(gauge, label, 0.45f);
+	draw_progress(gauge, label, 0.4f);
 
 	modelCache = new ModelCache(Pi::renderer);
 	Shields::Init(Pi::renderer);
@@ -688,18 +662,13 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	Pi::s_galaxy.Reset();
+	Game::UninitGalaxy();
 	delete Pi::planner;
 	SDL_Quit();
 	FileSystem::Uninit();
 	asyncJobQueue.reset();
 	syncJobQueue.reset();
 	exit(0);
-}
-
-void Pi::FlushCaches()
-{
-	s_galaxy->FlushCaches();
 }
 
 void Pi::BoinkNoise()
@@ -1128,9 +1097,6 @@ void Pi::EndGame()
 	delete game;
 	game = 0;
 	player = 0;
-
-	FlushCaches();
-	//Faction::SetHomeSectors(); // We might need them to start a new game
 }
 
 void Pi::MainLoop()
