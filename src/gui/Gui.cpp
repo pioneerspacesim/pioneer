@@ -180,7 +180,8 @@ namespace Theme {
 
 	void DrawHollowRect(const float size[2], const Color &color, Graphics::RenderState *state)
 	{
-		Screen::flatColorMaterial->diffuse = color;
+		return;
+		/*Screen::flatColorMaterial->diffuse = color;
 		Screen::GetRenderer()->SetRenderState(state);
 		Screen::flatColorMaterial->Apply();
 
@@ -200,12 +201,13 @@ namespace Theme {
 		glDrawElements(GL_QUADS, 16, GL_UNSIGNED_BYTE, indices);
 		glDisableClientState(GL_VERTEX_ARRAY);
 
-		Screen::flatColorMaterial->Unapply();
+		Screen::flatColorMaterial->Unapply();*/
 	}
 
 	void DrawIndent(const float size[2], Graphics::RenderState *state)
 	{
-		Screen::GetRenderer()->SetRenderState(state);
+		return;
+		/*Screen::GetRenderer()->SetRenderState(state);
 
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
@@ -235,12 +237,13 @@ namespace Theme {
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
 
-		Screen::flatColorMaterial->Unapply();
+		Screen::flatColorMaterial->Unapply();*/
 	}
 
 	void DrawOutdent(const float size[2], Graphics::RenderState *state)
 	{
-		Screen::GetRenderer()->SetRenderState(state);
+		return;
+		/*Screen::GetRenderer()->SetRenderState(state);
 
 		GLfloat vertices[] = { 0,0,
 			0,size[1],
@@ -270,7 +273,7 @@ namespace Theme {
 		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
 		glDisableClientState(GL_VERTEX_ARRAY);
 
-		Screen::flatColorMaterial->Unapply();
+		Screen::flatColorMaterial->Unapply();*/
 	}
 }
 
