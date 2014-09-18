@@ -138,7 +138,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		Pi::statSceneTris += (ctx->GetNumTris());
 		++Pi::statNumPatches;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), GetIndexBuffer(), rs, mat);
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
 	}
 }
 

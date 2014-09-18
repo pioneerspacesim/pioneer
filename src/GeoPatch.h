@@ -118,10 +118,6 @@ public:
 			(edgeFriend[3] ? 8u : 0u);
 	}
 
-	inline Graphics::IndexBuffer* GetIndexBuffer() const {
-		return ctx->GetIndexBuffer(DetermineIndexbuffer());
-	}
-
 	void Render(Graphics::Renderer *r, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
 
 	inline bool canBeMerged() const {
