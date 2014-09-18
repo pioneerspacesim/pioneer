@@ -18,6 +18,7 @@
 #include "gameconsts.h"
 #include <SDL_stdinc.h>
 
+class Galaxy;
 class CustomSystemBody;
 class CustomSystem;
 class SystemBody;
@@ -339,8 +340,10 @@ public:
 
 	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
 
+	const RefCountedPtr<Galaxy> m_galaxy;
+
 protected:
-	StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand);
+	StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand);
 	virtual ~StarSystem();
 
 	SystemBody *NewBody() {
@@ -391,7 +394,7 @@ private:
 class StarSystem::GeneratorAPI : public StarSystem {
 private:
 	friend class GalaxyGenerator;
-	GeneratorAPI(const SystemPath &path, StarSystemCache* cache, Random& rand) : StarSystem(path, cache, rand) { }
+	GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand);
 
 public:
 	bool HasCustomBodies() const { return m_hasCustomBodies; }
