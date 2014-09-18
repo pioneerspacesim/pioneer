@@ -15,17 +15,11 @@ namespace Graphics {
 
 namespace Drawables {
 
-// A thing that can draw itself using renderer
+// A things that can draw themselves using renderer
 // (circles, disks, polylines etc)
-class Drawable {
-protected:
-	virtual void Draw(Renderer *r) { };
-	virtual ~Drawable() { }
-	Graphics::RenderState *m_renderState;
-};
 //------------------------------------------------------------
 
-class Circle : public Drawable {
+class Circle {
 public:
 	Circle(const float radius, const Color &c, RenderState *state);
 	Circle(const float radius, const float x, const float y, const float z, const Color &c, RenderState *state);
@@ -37,11 +31,12 @@ private:
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	RefCountedPtr<Material> m_material;
 	Color m_color;
+	Graphics::RenderState *m_renderState;
 };
 //------------------------------------------------------------
 
 // Two-dimensional filled circle
-class Disk : public Drawable {
+class Disk {
 public:
 	Disk(Graphics::Renderer *r, Graphics::RenderState*, const Color &c, float radius);
 	Disk(Graphics::Renderer *r, RefCountedPtr<Material>, Graphics::RenderState*, const int edges=72, const float radius=1.0f);
@@ -53,11 +48,12 @@ private:
 	void SetupVertexBuffer(const Graphics::VertexArray&, Graphics::Renderer *);
 	std::unique_ptr<VertexBuffer> m_vertexBuffer;
 	RefCountedPtr<Material> m_material;
+	Graphics::RenderState *m_renderState;
 };
 //------------------------------------------------------------
 
 // A three dimensional line between two points
-class Line3D : public Drawable {
+class Line3D {
 public:
 	Line3D();
 	Line3D(const Line3D& b); // this needs an explicit copy constructor due to the std::unique_ptr below
@@ -78,7 +74,7 @@ private:
 //------------------------------------------------------------
 
 // Three dimensional line segments between two points
-class Lines : public Drawable {
+class Lines {
 public:
 	Lines();
 	void SetData(const int vertCount, const vector3f *vertices, const Color &color);
@@ -95,7 +91,7 @@ private:
 //------------------------------------------------------------
 
 // Screen aligned quad / billboard / pointsprite
-class PointSprites : public Drawable {
+class PointSprites {
 public:
 	PointSprites();
 	void SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const float size);
@@ -111,7 +107,7 @@ private:
 
 // Three dimensional sphere (subdivided icosahedron) with normals
 // and spherical texture coordinates.
-class Sphere3D : public Drawable {
+class Sphere3D {
 public:
 	//subdivisions must be 0-4
 	Sphere3D(Renderer*, RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f);
@@ -123,6 +119,7 @@ private:
 	std::unique_ptr<VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<IndexBuffer> m_indexBuffer;
 	RefCountedPtr<Material> m_material;
+	Graphics::RenderState *m_renderState;
 
 	//std::unique_ptr<Surface> m_surface;
 	//add a new vertex, return the index
@@ -136,7 +133,7 @@ private:
 //------------------------------------------------------------
 
 // a textured quad with reversed winding
-class TexturedQuad : public Drawable {
+class TexturedQuad {
 public:
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state);
 	virtual void Draw(Graphics::Renderer *r);
@@ -145,17 +142,19 @@ private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	std::unique_ptr<Graphics::Material> m_material;
 	std::unique_ptr<VertexBuffer> m_vertexBuffer;
+	Graphics::RenderState *m_renderState;
 };
 //------------------------------------------------------------
 
 //industry-standard red/green/blue XYZ axis indicator
-class Axes3D : public Drawable {
+class Axes3D {
 public:
 	Axes3D(Graphics::Renderer *r, Graphics::RenderState *state = nullptr);
 	virtual void Draw(Graphics::Renderer *r);
 private:
 	RefCountedPtr<Graphics::Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	Graphics::RenderState *m_renderState;
 };
 
 Axes3D* GetAxes3DDrawable(Graphics::Renderer *r);
