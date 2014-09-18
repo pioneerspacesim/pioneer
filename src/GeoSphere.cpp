@@ -25,7 +25,7 @@ static const int detail_edgeLen[5] = {
 	9, 17, 33, 65, 129
 };
 
-static const double gs_targetPatchTriLength(50.0);
+static const double gs_targetPatchTriLength(100.0);
 
 #define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
@@ -186,7 +186,7 @@ GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 	s_allGeospheres.push_back(this);
 
 	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
-	// calculate length of each edge segment (quad) times 8 due to that being the number around the sphere (2 per side, 4 sides).
+	// calculate length of each edge segment (quad) times 4 due to that being the number around the sphere (1 per side, 4 sides for Root).
 	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
 	// find out what depth we reach the desired resolution
 	while (edgeMetres>gs_targetPatchTriLength && m_maxDepth<20) {
