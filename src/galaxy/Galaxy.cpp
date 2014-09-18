@@ -115,7 +115,7 @@ void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Si
 		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
 			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
 				RefCountedPtr<const Sector> sector = GetSector(SystemPath(sx, sy, sz));
-				sector->Dump(file);
+				sector->Dump(this, file);
 			}
 			m_starSystemCache.ClearCache();
 		}

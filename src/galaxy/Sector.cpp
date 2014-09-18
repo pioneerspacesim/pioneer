@@ -51,7 +51,7 @@ bool Sector::Contains(const SystemPath &sysPath) const
 	return true;
 }
 
-void Sector::Dump(FILE* file, const char* indent) const
+void Sector::Dump(Galaxy* galaxy, FILE* file, const char* indent) const
 {
 	fprintf(file, "Sector(%d,%d,%d) {\n", sx, sy, sz);
 	fprintf(file, "\t%zu systems\n", m_systems.size());
@@ -69,7 +69,7 @@ void Sector::Dump(FILE* file, const char* indent) const
 		for (unsigned i = 0; i < sys.GetNumStars(); ++i)
 			fprintf(file, "\t\t\t%s\n", EnumStrings::GetString("BodyType", sys.GetStarType(i)));
 		if (sys.GetNumStars() > 0) fprintf(file, "\t\t}\n");
-		RefCountedPtr<const StarSystem> ssys = Pi::GetGalaxy()->GetStarSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx));
+		RefCountedPtr<const StarSystem> ssys = galaxy->GetStarSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx));
 		assert(ssys->GetPath().IsSameSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx)));
 		assert(ssys->GetNumStars() == sys.GetNumStars());
 		assert(ssys->GetName() == sys.GetName());

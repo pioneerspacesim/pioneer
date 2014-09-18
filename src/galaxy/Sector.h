@@ -14,6 +14,7 @@
 #include <vector>
 
 class Faction;
+class Galaxy;
 
 class Sector : public RefCounted {
 	friend class GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>;
@@ -86,7 +87,7 @@ public:
 	std::vector<System> m_systems;
 	const int sx, sy, sz;
 
-	void Dump(FILE* file, const char* indent = "") const;
+	void Dump(Galaxy* galaxy, FILE* file, const char* indent = "") const;
 
 private:
 	Sector(const Sector&); // non-copyable
