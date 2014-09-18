@@ -7,6 +7,7 @@ September 2014
      * Fix mismatch between saving/loading code (#3172)
      * Fix behaviour of autosave system (#3163, #3101)
      * Fix possible crash when accepting mission in paused (#2732, #3169)
+     * Fix compilation errors on Mac OS X (#3182,#3183)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)

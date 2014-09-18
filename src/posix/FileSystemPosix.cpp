@@ -111,11 +111,10 @@ namespace FileSystem {
 		}
 
 		struct tm timeparts;
-		if (localtime_r(&info.st_mtim.tv_sec, &timeparts) != nullptr) {
+		if (localtime_r(&info.st_mtime, &timeparts) != nullptr) {
 			mtime = Time::DateTime(
 				1900 + timeparts.tm_year, timeparts.tm_mon+1, timeparts.tm_mday,
 				timeparts.tm_hour, timeparts.tm_min, timeparts.tm_sec);
-			mtime += Time::TimeDelta(info.st_mtim.tv_nsec / 1000, Time::Microsecond);
 		}
 
 		return ty;
@@ -196,7 +195,7 @@ namespace FileSystem {
 			Time::DateTime mtime;
 
 			struct stat info;
-			if (fstatat(dirfd(dir), entry->d_name, &info, 0) == 0) {
+			if (stat(JoinPath(fulldirpath, entry->d_name).c_str(), &info) == 0) {
 				ty = interpret_stat(info, mtime);
 			} else {
 				ty = FileInfo::FT_NON_EXISTENT;
