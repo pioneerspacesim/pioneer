@@ -113,7 +113,7 @@ public:
 	DeathView* GetDeathView() const { return m_gameViews->m_deathView; }
 	UIView* GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
 	UIView* GetInfoView() const { return m_gameViews->m_infoView; }
-	ShipCpanel* GetCpan() const { return m_gameViews ? m_gameViews->m_cpan : nullptr; } // We access Cpan in View destructor, so need this extra safety
+	ShipCpanel* GetCpan() const { return m_gameViews->m_cpan; }
 #if WITH_OBJECTVIEWER
 	ObjectViewerView* GetObjectViewerView() const { return m_gameViews->m_objectViewerView; }
 #endif

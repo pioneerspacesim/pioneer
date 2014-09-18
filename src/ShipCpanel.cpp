@@ -213,10 +213,13 @@ void ShipCpanel::InitObject()
 	Add(m_overlay[OVERLAY_TOP_RIGHT],    500.0f, 2.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_LEFT],  150.0f, 62.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_RIGHT], 520.0f, 62.0f);
+
+	View::SetCpanel(this);
 }
 
 ShipCpanel::~ShipCpanel()
 {
+	View::SetCpanel(nullptr);
 	delete m_leftButtonGroup;
 	delete m_rightButtonGroup;
 	Remove(m_scanner);
