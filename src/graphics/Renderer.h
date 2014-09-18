@@ -59,49 +59,49 @@ public:
 	virtual bool SwapBuffers() = 0;
 
 	//set 0 to render to screen
-	virtual bool SetRenderTarget(RenderTarget*) { return false; }
+	virtual bool SetRenderTarget(RenderTarget*) = 0;
 
 	//clear color and depth buffer
-	virtual bool ClearScreen() { return false; }
+	virtual bool ClearScreen() = 0;
 	//clear depth buffer
-	virtual bool ClearDepthBuffer() { return false; }
-	virtual bool SetClearColor(const Color &c) { return false; }
+	virtual bool ClearDepthBuffer() = 0;
+	virtual bool SetClearColor(const Color &c) = 0;
 
-	virtual bool SetViewport(int x, int y, int width, int height) { return false; }
+	virtual bool SetViewport(int x, int y, int width, int height) = 0;
 
 	//set the model view matrix
-	virtual bool SetTransform(const matrix4x4d &m) { return false; }
-	virtual bool SetTransform(const matrix4x4f &m) { return false; }
+	virtual bool SetTransform(const matrix4x4d &m) = 0;
+	virtual bool SetTransform(const matrix4x4f &m) = 0;
 	//set projection matrix
-	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far) { return false; }
-	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) { return false; }
-	virtual bool SetProjection(const matrix4x4f &m) { return false; }
+	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far) = 0;
+	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) = 0;
+	virtual bool SetProjection(const matrix4x4f &m) = 0;
 
-	virtual bool SetRenderState(RenderState*) { return false; }
+	virtual bool SetRenderState(RenderState*) = 0;
 
-	virtual bool SetWireFrameMode(bool enabled) { return false; }
+	virtual bool SetWireFrameMode(bool enabled) = 0;
 
-	virtual bool SetLights(int numlights, const Light *l) { return false; }
-	virtual bool SetAmbientColor(const Color &c) { return false; }
+	virtual bool SetLights(int numlights, const Light *l) = 0;
+	virtual bool SetAmbientColor(const Color &c) = 0;
 	const Color &GetAmbientColor() const { return m_ambient; }
 
-	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) { return false; }
+	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f)) = 0;
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
 	//per-vertex colour lines
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, PrimitiveType type=LINE_SINGLE) { return false; }
+	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
 	//flat colour lines
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) { return false; }
-	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) { return false; }
-	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) { return false; }
+	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
+	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
+	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) = 0;
 	//unindexed triangle draw
-	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES)  { return false; }
+	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) = 0;
 	//high amount of textured quads for particles etc
-	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) { return false; }
+	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) = 0;
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
-	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType type=TRIANGLES) { return false; }
-	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType=TRIANGLES) { return false; }
+	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType type=TRIANGLES) = 0;
+	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType=TRIANGLES) = 0;
 
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
@@ -117,7 +117,7 @@ public:
 	void RemoveCachedTexture(const std::string &type, const std::string &name);
 	void RemoveAllCachedTextures();
 
-	virtual bool ReloadShaders() { return false; }
+	virtual bool ReloadShaders() = 0;
 
 	// our own matrix stack
 	// XXX state must die
