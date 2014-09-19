@@ -21,6 +21,10 @@ public:
 	~VertexBuffer();
 
 	virtual void Unmap() override;
+
+	// copies the contents of the VertexArray into the buffer
+	virtual bool Populate(const VertexArray &) override;
+	
 	void SetAttribPointers();
 	void UnsetAttribPointers();
 
