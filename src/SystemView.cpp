@@ -94,7 +94,7 @@ std::string TransferPlanner::printFactor(void) {
 	return std::string(buf);
 }
 
-SystemView::SystemView() : UIView()
+SystemView::SystemView(Game* game) : UIView(), m_game(game)
 {
 	SetTransparency(true);
 
@@ -301,7 +301,7 @@ void SystemView::ResetViewpoint()
 	m_zoom = 1.0f/float(AU);
 	m_zoomTo = m_zoom;
 	m_timeStep = 1.0f;
-	m_time = Pi::game->GetTime();
+	m_time = m_game->GetTime();
 }
 
 void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Color &color, double planetRadius)
@@ -367,17 +367,17 @@ void SystemView::OnClickObject(const SystemBody *b)
 
 	// click on object (in same system) sets/unsets it as nav target
 	SystemPath path = m_system->GetPathOf(b);
-	if (Pi::game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
-		Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+	if (m_game->GetSpace()->GetStarSystem()->GetPath() == m_system->GetPath()) {
+		Body* body = m_game->GetSpace()->FindBodyForPath(&path);
 		if (body != 0) {
 			if(Pi::player->GetNavTarget() == body) {
 				Pi::player->SetNavTarget(body);
 				Pi::player->SetNavTarget(0);
-				Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+				m_game->log->Add(Lang::UNSET_NAVTARGET);
 			}
 			else {
 				Pi::player->SetNavTarget(body);
-				Pi::game->log->Add(Lang::SET_NAVTARGET_TO + body->GetLabel());
+				m_game->log->Add(Lang::SET_NAVTARGET_TO + body->GetLabel());
 			}
 		}
 	}
@@ -411,12 +411,12 @@ void SystemView::OnClickShip(Ship *s) {
 	if(!s) { printf("clicked on ship label but ship wasn't there\n"); return; }
 	if(Pi::player->GetNavTarget() == s) { //un-select ship if already selected
 		Pi::player->SetNavTarget(0); // remove current
-		Pi::game->log->Add(Lang::UNSET_NAVTARGET);
+		m_game->log->Add(Lang::UNSET_NAVTARGET);
 		m_infoLabel->SetText("");    // remove lingering text
 		m_infoText->SetText("");
 	} else {
 		Pi::player->SetNavTarget(s);
-		Pi::game->log->Add(Lang::SET_NAVTARGET_TO + s->GetLabel());
+		m_game->log->Add(Lang::SET_NAVTARGET_TO + s->GetLabel());
 
 		// always show label of selected ship...
 		std::string text;
@@ -488,7 +488,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	Frame *frame = Pi::player->GetFrame();
 	if(frame->IsRotFrame()) frame = frame->GetNonRotFrame();
 	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
-		const double t0 = Pi::game->GetTime();
+		const double t0 = m_game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
 
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
@@ -578,7 +578,7 @@ void SystemView::Draw3D()
 	m_renderer->SetPerspectiveProjection(50.f, m_renderer->GetDisplayAspect(), 1.f, 1000.f);
 	m_renderer->ClearScreen();
 
-	SystemPath path = Pi::sectorView->GetSelected().SystemOnly();
+	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
 	if (m_system) {
 		if (!m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
@@ -587,7 +587,7 @@ void SystemView::Draw3D()
 	}
 
 	if (m_realtime) {
-		m_time = Pi::game->GetTime();
+		m_time = m_game->GetTime();
 	}
 	else {
 		m_time += m_timeStep*Pi::GetFrameTime();
@@ -612,7 +612,7 @@ void SystemView::Draw3D()
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
 	else if (m_system->GetRootBody()) {
 		PutBody(m_system->GetRootBody().Get(), pos, trans);
-		if (Pi::game->GetSpace()->GetStarSystem() == m_system) {
+		if (m_game->GetSpace()->GetStarSystem() == m_system) {
 			const Body *navTarget = Pi::player->GetNavTarget();
 			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;
 			if (navTargetSystemBody)
@@ -623,7 +623,7 @@ void SystemView::Draw3D()
 
 	if(m_shipDrawing != OFF) {
 		RefreshShips();
-		DrawShips(m_time - Pi::game->GetTime(), pos);
+		DrawShips(m_time - m_game->GetTime(), pos);
 	}
 
 	UIView::Draw3D();
@@ -685,10 +685,10 @@ void SystemView::MouseWheel(bool up)
 
 void SystemView::RefreshShips(void) {
 	m_contacts.clear();
-	if(!Pi::game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(Pi::sectorView->GetSelected()))
+	if(!m_game->GetSpace()->GetStarSystem()->GetPath().IsSameSystem(m_game->GetSectorView()->GetSelected()))
 		return;
 
-	auto bs = Pi::game->GetSpace()->GetBodies();
+	auto bs = m_game->GetSpace()->GetBodies();
 	for(auto s = bs.begin(); s != bs.end(); s++) {
 		if((*s) != Pi::player &&
 		   (*s)->GetType() == Object::SHIP) {

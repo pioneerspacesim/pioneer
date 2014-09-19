@@ -95,8 +95,8 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	// external camera mouselook
 	if (Pi::MouseButtonState(SDL_BUTTON_MIDDLE)) {
 		// not internal camera
-		if (Pi::worldView->GetCamType() != Pi::worldView->CAM_INTERNAL) {
-			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::worldView->GetCameraController());
+		if (Pi::game->GetWorldView()->GetCamType() != WorldView::CAM_INTERNAL) {
+			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
 			const double accel = 0.01; // XXX configurable?
 			mcc->RotateLeft(mouseMotion[0] * accel);
 			mcc->RotateUp(  mouseMotion[1] * accel);
@@ -175,7 +175,7 @@ void PlayerShipController::CheckControlsLock()
 		|| Pi::player->IsDead()
 		|| (m_ship->GetFlightState() != Ship::FLYING)
 		|| Pi::IsConsoleActive()
-		|| (Pi::GetView() != Pi::worldView); //to prevent moving the ship in starmap etc.
+		|| (Pi::GetView() != Pi::game->GetWorldView()); //to prevent moving the ship in starmap etc.
 }
 
 // mouse wraparound control function
@@ -268,7 +268,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
 				//XXX worldview? madness, ask from ship instead
-				m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
+				m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
 		}
 
 		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;

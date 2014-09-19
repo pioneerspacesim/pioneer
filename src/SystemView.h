@@ -13,6 +13,7 @@ class StarSystem;
 class SystemBody;
 class Orbit;
 class Ship;
+class Game;
 
 enum BurnDirection {
 	PROGRADE,
@@ -46,7 +47,7 @@ private:
 
 class SystemView: public UIView {
 public:
-	SystemView();
+	SystemView(Game* game);
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
@@ -70,6 +71,7 @@ private:
 	void LabelShip(Ship *s, const vector3d &offset);
 	void OnClickShip(Ship *s);
 
+	Game* m_game;
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
 	TransferPlanner *m_planner;

@@ -9,13 +9,14 @@
 #include "UIView.h"
 #include <vector>
 
+class Game;
 class StarSystem;
 class SystemBody;
 namespace Graphics { class Renderer; }
 
 class SystemInfoView: public UIView {
 public:
-	SystemInfoView();
+	SystemInfoView(Game* game);
 	virtual void Update();
 	virtual void Draw3D();
 	void NextPage();
@@ -52,6 +53,9 @@ private:
 	void OnClickBackground(Gui::MouseButtonEvent *e);
 	void PutBodies(SystemBody *body, Gui::Fixed *container, int dir, float pos[2], int &majorBodies, int &starports, int &onSurface, float &prevSize);
 	void UpdateIconSelections();
+
+	Game* m_game;
+
 	Gui::VBox *m_infoBox;
 	Gui::Fixed *m_econInfo;
 	Gui::Fixed *m_econMajImport, *m_econMinImport;

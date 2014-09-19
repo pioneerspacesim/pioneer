@@ -65,7 +65,7 @@ static sigc::connection onChangeCamTypeConnection;
 
 void AmbientSounds::Init()
 {
-	onChangeCamTypeConnection = Pi::worldView->onChangeCamType.connect(sigc::ptr_fun(&AmbientSounds::UpdateForCamType));
+	onChangeCamTypeConnection = Pi::game->GetWorldView()->onChangeCamType.connect(sigc::ptr_fun(&AmbientSounds::UpdateForCamType));
 }
 
 void AmbientSounds::Uninit()
@@ -75,7 +75,7 @@ void AmbientSounds::Uninit()
 
 void AmbientSounds::Update()
 {
-	const float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	const float v_env = (Pi::game->GetWorldView()->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
 	if (Pi::player->GetFlightState() == Ship::DOCKED) {
 		if (s_starNoise.IsPlaying()) {
@@ -264,7 +264,7 @@ void AmbientSounds::Update()
 
 void AmbientSounds::UpdateForCamType()
 {
-	const WorldView::CamType cam = Pi::worldView->GetCamType();
+	const WorldView::CamType cam = Pi::game->GetWorldView()->GetCamType();
 	float v_env = (cam == WorldView::CAM_EXTERNAL ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 
 	if (s_stationNoise.IsPlaying())

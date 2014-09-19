@@ -46,13 +46,13 @@ static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user set
 static const float HUD_CROSSHAIR_SIZE = 8.0f;
 static const Uint8 HUD_ALPHA          = 87;
 
-WorldView::WorldView(): UIView()
+WorldView::WorldView(Game* game): UIView(), m_game(game)
 {
 	m_camType = CAM_INTERNAL;
 	InitObject();
 }
 
-WorldView::WorldView(Serializer::Reader &rd): UIView()
+WorldView::WorldView(Serializer::Reader &rd, Game* game): UIView(), m_game(game)
 {
 	m_camType = CamType(rd.Int32());
 	InitObject();
@@ -298,7 +298,7 @@ void WorldView::InitObject()
 	SetCamType(m_camType); //set the active camera
 
 	m_onHyperspaceTargetChangedCon =
-		Pi::sectorView->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
+		m_game->GetSectorView()->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
@@ -442,10 +442,10 @@ void WorldView::OnClickHyperspace()
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
 		Pi::player->AbortHyperjump();
-		Pi::game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
+		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
 	} else {
 		// Initiate hyperspace drive
-		SystemPath path = Pi::sectorView->GetHyperspaceTarget();
+		SystemPath path = m_game->GetSectorView()->GetHyperspaceTarget();
 		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
 	}
 }
@@ -453,7 +453,7 @@ void WorldView::OnClickHyperspace()
 void WorldView::Draw3D()
 {
 	PROFILE_SCOPED()
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
@@ -516,7 +516,7 @@ static Color get_color_for_warning_meter_bar(float v) {
 }
 
 void WorldView::RefreshHyperspaceButton() {
-	SystemPath target = Pi::sectorView->GetHyperspaceTarget();
+	SystemPath target = m_game->GetSectorView()->GetHyperspaceTarget();
 	if (LuaObject<Ship>::CallMethod<bool>(Pi::player, "CanHyperjumpTo", &target))
 		m_hyperspaceButton->Show();
 	else
@@ -543,22 +543,22 @@ void WorldView::RefreshHeadingPitch(void) {
 
 void WorldView::RefreshButtonStateAndVisibility()
 {
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
-	Pi::cpan->ClearOverlay();
+	m_game->GetCpan()->ClearOverlay();
 
-	if (Pi::game->IsPaused())
+	if (m_game->IsPaused())
 		m_pauseText->Show();
 	else
 		m_pauseText->Hide();
 
 	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-		Pi::cpan->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
+		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
+		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
+		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
+		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
 	}
 
 	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()) || Pi::player->GetWheelTransition() == 1);
@@ -673,7 +673,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 		if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 			vector3d pos = Pi::player->GetPosition();
-			vector3d abs_pos = Pi::player->GetPositionRelTo(Pi::game->GetSpace()->GetRootFrame());
+			vector3d abs_pos = Pi::player->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
 
 			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
@@ -707,14 +707,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 		const SystemPath dest = Pi::player->GetHyperspaceDest();
 		RefCountedPtr<StarSystem> s = Pi::GetGalaxy()->GetStarSystem(dest);
 
-		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
+		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
 			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
 			formatarg("x", dest.sectorX),
 			formatarg("y", dest.sectorY),
 			formatarg("z", dest.sectorZ)));
 
-		Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::PROBABILITY_OF_ARRIVAL_X_PERCENT,
-			formatarg("probability", Pi::game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
+		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::PROBABILITY_OF_ARRIVAL_X_PERCENT,
+			formatarg("probability", m_game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
 	}
 
 	else {
@@ -735,16 +735,16 @@ void WorldView::RefreshButtonStateAndVisibility()
 			} else {
 				str = stringf(Lang::M_S_RELATIVE_TO, formatarg("speed", _vel), formatarg("frame", rel_to));
 			}
-			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, str);
+			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, str);
 		}
 
 		if (Body *navtarget = Pi::player->GetNavTarget()) {
 			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
-			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
+			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
 				formatarg("distance", format_distance(dist))));
 		}
 		else
-			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
+			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
 
 		// altitude
 		const Frame* frame = Pi::player->GetFrame();
@@ -775,14 +775,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 					if (altitude < 0) altitude = 0;
 					if (altitude >= 100000.0)
-						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
+						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
 							formatarg("vspeed", vspeed / 1000.0)));
 					else
-						Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
+						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
 				} else {
 					// XXX does this need to be repeated 3 times?
-					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 					if(m_curPlane != NONE) {
 						m_curPlane = NONE;
 						m_hudDockTop->RemoveInnerWidget();
@@ -790,7 +790,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					}
 				}
 			} else {
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 				if(m_curPlane != NONE) {
 					m_curPlane = NONE;
 					m_hudDockTop->RemoveInnerWidget();
@@ -803,9 +803,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 				static_cast<Planet*>(astro)->GetAtmosphericState(center_dist, &pressure, &density);
 
 				if (pressure > 0.001)
-					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 				else
-					Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 				if (Pi::player->GetHullTemperature() > 0.01) {
 					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
 					m_hudHullTemp->Show();
@@ -813,11 +813,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 					m_hudHullTemp->Hide();
 				}
 			} else {
-				Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, ""); // No atmosphere, no pressure
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, ""); // No atmosphere, no pressure
 			}
 		} else {
-			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
-			Pi::cpan->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
+			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
 			m_hudHullTemp->Hide();
 			if(m_curPlane != NONE) {
 				m_curPlane = NONE;
@@ -975,14 +975,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 bool WorldView::OnClickHeadingLabel(void) {
 	m_curPlane = m_curPlane == ROTATIONAL ? PARENT : ROTATIONAL;
-	Pi::game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
+	m_game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
 	return true;
 }
 
 void WorldView::Update()
 {
 	PROFILE_SCOPED()
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
@@ -1051,13 +1051,13 @@ void WorldView::Update()
 	//speedlines and contact trails need camFrame for transform, so they
 	//must be updated here
 	if (Pi::AreSpeedLinesDisplayed()) {
-		m_speedLines->Update(Pi::game->GetTimeStep());
+		m_speedLines->Update(m_game->GetTimeStep());
 
 		matrix4x4d trans;
 		Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
 		if ( m_speedLines.get() && Pi::AreSpeedLinesDisplayed() ) {
-			m_speedLines->Update(Pi::game->GetTimeStep());
+			m_speedLines->Update(m_game->GetTimeStep());
 
 			trans[12] = trans[13] = trans[14] = 0.0;
 			trans[15] = 1.0;
@@ -1106,7 +1106,7 @@ void WorldView::OnSwitchFrom()
 
 void WorldView::ToggleTargetActions()
 {
-	if (Pi::game->IsHyperspace() || m_showTargetActionsTimeout)
+	if (m_game->IsHyperspace() || m_showTargetActionsTimeout)
 		HideTargetActions();
 	else
 		ShowTargetActions();
@@ -1168,16 +1168,16 @@ void WorldView::BuildCommsNavOptions()
 
 	m_commsNavOptions->PackEnd(new Gui::Label(std::string("#ff0")+std::string(Lang::NAVIGATION_TARGETS_IN_THIS_SYSTEM)+std::string("\n")));
 
-	for (SystemBody* station : Pi::game->GetSpace()->GetStarSystem()->GetSpaceStations()) {
+	for (SystemBody* station : m_game->GetSpace()->GetStarSystem()->GetSpaceStations()) {
 		groups[station->GetParent()->GetPath().bodyIndex].push_back(station);
 	}
 
 	for ( std::map< Uint32,std::vector<SystemBody*> >::const_iterator i = groups.begin(); i != groups.end(); ++i ) {
-		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + Pi::game->GetSpace()->GetStarSystem()->GetBodies()[(*i).first]->GetName()));
+		m_commsNavOptions->PackEnd(new Gui::Label("#f0f" + m_game->GetSpace()->GetStarSystem()->GetBodies()[(*i).first]->GetName()));
 
 		for ( std::vector<SystemBody*>::const_iterator j = (*i).second.begin(); j != (*i).second.end(); ++j) {
-			SystemPath path = Pi::game->GetSpace()->GetStarSystem()->GetPathOf(*j);
-			Body *body = Pi::game->GetSpace()->FindBodyForPath(&path);
+			SystemPath path = m_game->GetSpace()->GetStarSystem()->GetPathOf(*j);
+			Body *body = m_game->GetSpace()->FindBodyForPath(&path);
 			AddCommsNavOption((*j)->GetName(), body);
 		}
 	}
@@ -1227,18 +1227,18 @@ static void PlayerPayFine()
 	Sint64 crime, fine;
 	Polit::GetCrime(&crime, &fine);
 	if (Pi::player->GetMoney() == 0) {
-		Pi::game->log->Add(Lang::YOU_NO_MONEY);
+		m_game->log->Add(Lang::YOU_NO_MONEY);
 	} else if (fine > Pi::player->GetMoney()) {
 		Polit::AddCrime(0, -Pi::player->GetMoney());
 		Polit::GetCrime(&crime, &fine);
-		Pi::game->log->Add(stringf(
+		m_game->log->Add(stringf(
 			Lang::FINE_PAID_N_BUT_N_REMAINING,
 				formatarg("paid", format_money(Pi::player->GetMoney())),
 				formatarg("fine", format_money(fine))));
 		Pi::player->SetMoney(0);
 	} else {
 		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		Pi::game->log->Add(stringf(Lang::FINE_PAID_N,
+		m_game->log->Add(stringf(Lang::FINE_PAID_N,
 				formatarg("fine", format_money(fine))));
 		Polit::AddCrime(0, -fine);
 	}
@@ -1250,7 +1250,7 @@ void WorldView::OnHyperspaceTargetChanged()
 {
 	if (Pi::player->IsHyperspaceActive()) {
 		Pi::player->AbortHyperjump();
-		Pi::game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
+		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
 	}
 }
 
@@ -1260,8 +1260,8 @@ void WorldView::OnPlayerChangeTarget()
 	if (b) {
 		Sound::PlaySfx("OK");
 		Ship *s = b->IsType(Object::HYPERSPACECLOUD) ? static_cast<HyperspaceCloud*>(b)->GetShip() : 0;
-		if (!s || !Pi::sectorView->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
-			Pi::sectorView->FloatHyperspaceTarget();
+		if (!s || !m_game->GetSectorView()->GetHyperspaceTarget().IsSameSystem(s->GetHyperspaceDest()))
+			m_game->GetSectorView()->FloatHyperspaceTarget();
 	}
 
 	UpdateCommsOptions();
@@ -1288,7 +1288,7 @@ static void autopilot_orbit(Body *b, double alt)
 
 static void player_target_hypercloud(HyperspaceCloud *cloud)
 {
-	Pi::sectorView->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
+	Pi::game->GetSectorView()->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
 static void OnCommsSelectAttitude(FlightControlState s) {
@@ -1302,7 +1302,7 @@ void WorldView::UpdateCommsOptions()
 
 	if (m_showTargetActionsTimeout == 0) return;
 
-	if (Pi::game->GetSpace()->GetStarSystem()->HasSpaceStations())
+	if (m_game->GetSpace()->GetStarSystem()->HasSpaceStations())
 	{
 		BuildCommsNavOptions();
 	}
@@ -1490,7 +1490,7 @@ void WorldView::UpdateProjectedObjects()
 	// determine projected positions and update labels
 	m_bodyLabels->Clear();
 	m_projectedPos.clear();
-	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
+	for (Body* b : m_game->GetSpace()->GetBodies()) {
 		// don't show the player label on internal camera
 		if (b->IsType(Object::PLAYER) && GetCamType() == CAM_INTERNAL)
 			continue;
@@ -1833,7 +1833,7 @@ double getSquareHeight(double distance, double angle) {
 
 void WorldView::Draw()
 {
-	assert(Pi::game);
+	assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
