@@ -50,17 +50,17 @@ void DistanceFieldFont::GetGeometry(Graphics::VertexArray &va, const std::string
 	vector2f bounds(0.f);
 	for(unsigned int i=0; i<text.length(); i++) {
 		//If there is a '|', do a linebreak
-		if(text.at(i)=='|'){
+		if (text.at(i)=='|') {
 			cursor.y--;
 			cursor.x=0;
-			i++;
-		}
-		Uint32 chr = Uint32(text.at(i));
-		std::map<Uint32, Glyph>::const_iterator it = m_glyphs.find(chr);
-		if (it != m_glyphs.end()) {
-			const Glyph &glyph = it->second;
-			AddGlyph(va, cursor + glyph.offset, glyph, bounds);
-			cursor.x += glyph.xAdvance;
+		} else {
+			Uint32 chr = Uint32(text.at(i));
+			std::map<Uint32, Glyph>::const_iterator it = m_glyphs.find(chr);
+			if (it != m_glyphs.end()) {
+				const Glyph &glyph = it->second;
+				AddGlyph(va, cursor + glyph.offset, glyph, bounds);
+				cursor.x += glyph.xAdvance;
+			}
 		}
 	}
 
