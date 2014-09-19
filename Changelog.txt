@@ -31,6 +31,8 @@ September 2014
      * Easier to model docking - Part 1 (#3075)
      * Const-correctness in CustomSystems and Factions (#3174)
      * Restrict FreeType to a single translation unit (#3175, #1203)
+     * Game views refactoring (#3181)
+     * More drawable classes, minor fixes (#3187)
 
 August 2014
 
