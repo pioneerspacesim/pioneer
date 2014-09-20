@@ -55,8 +55,12 @@ static int l_game_start_game(lua_State *l)
 
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 	const double start_time = luaL_optnumber(l, 2, 0.0);
-	Pi::game = new Game(*path, start_time);
-
+	try {
+		Pi::game = new Game(*path, start_time);
+	}
+	catch (InvalidGameStartLocation& e) {
+		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
+	}
 	return 0;
 }
 

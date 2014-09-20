@@ -4,6 +4,7 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+#include <string>
 #include "libs.h"
 #include "gameconsts.h"
 #include "GameLog.h"
@@ -19,6 +20,10 @@ class Space;
 struct CannotSaveCurrentGameState {};
 struct CannotSaveInHyperspace : public CannotSaveCurrentGameState {};
 struct CannotSaveDeadPlayer : public CannotSaveCurrentGameState {};
+struct InvalidGameStartLocation {
+	std::string error;
+	InvalidGameStartLocation(const std::string& error_) : error(error_) {}
+};
 
 class SectorView;
 class GalacticView;

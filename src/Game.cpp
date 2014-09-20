@@ -44,6 +44,24 @@ Game::Game(const SystemPath &path, double time) :
 	if (!m_galaxy->GetGenerator()->IsDefault())
 		m_galaxy = Pi::CreateGalaxy();
 
+	// Now that we have a Galaxy, check the starting location
+	if (!path.IsBodyPath())
+		throw InvalidGameStartLocation("SystemPath is not a body path");
+	RefCountedPtr<const Sector> s = m_galaxy->GetSector(path);
+	if (size_t(path.systemIndex) >= s->m_systems.size()) {
+		char buf[128];
+		std::sprintf(buf, "System %u in sector <%d,%d,%d> does not exist",
+			unsigned(path.systemIndex), int(path.sectorX), int(path.sectorY), int(path.sectorZ));
+		throw InvalidGameStartLocation(std::string(buf));
+	}
+	RefCountedPtr<StarSystem> sys = m_galaxy->GetStarSystem(path);
+	if (path.bodyIndex >= sys->GetNumBodies()) {
+		char buf[256];
+		std::sprintf(buf, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist", unsigned(path.bodyIndex),
+			int(path.sectorX), int(path.sectorY), int(path.sectorZ), unsigned(path.systemIndex), sys->GetName().c_str());
+		throw InvalidGameStartLocation(std::string(buf));
+	}
+
 	m_space.reset(new Space(this, m_galaxy, path));
 
 	Body *b = m_space->FindBodyForPath(&path);
