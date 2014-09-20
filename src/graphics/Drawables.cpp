@@ -8,19 +8,21 @@ namespace Graphics {
 
 namespace Drawables {
 
-Circle::Circle(const float radius, const Color &c, RenderState *state) : m_color(c) {
+Circle::Circle(Renderer *renderer, const float radius, const Color &c, RenderState *state) : m_color(c) {
 	m_renderState = state;
 	VertexArray vertices (ATTRIB_POSITION);
 	for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
 		vertices.Add(vector3f(radius*sin(theta), radius*cos(theta), 0));
 	}
+	SetupVertexBuffer(vertices, renderer);
 }
-Circle::Circle(const float radius, const float x, const float y, const float z, const Color &c, RenderState *state) : m_color(c) {
+Circle::Circle(Renderer *renderer, const float radius, const float x, const float y, const float z, const Color &c, RenderState *state) : m_color(c) {
 	m_renderState = state;
 	VertexArray vertices (ATTRIB_POSITION);
 	for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
 		vertices.Add(vector3f(radius*sin(theta) + x, radius*cos(theta) + y, z));
 	}
+	SetupVertexBuffer(vertices, renderer);
 }
 Circle::Circle(Renderer *renderer, const float radius, const vector3f &center, const Color &c, RenderState *state) : m_color(c) {
 	m_renderState = state;
