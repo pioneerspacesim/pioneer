@@ -84,6 +84,7 @@ public:
 	~FactionsDatabase();
 
 	void Init();
+	void ClearCache() { ClearHomeSectors(); }
 	bool IsInitialized() const;
 	Galaxy* GetGalaxy() const { return m_galaxy; }
 	void RegisterCustomSystem(CustomSystem *cs, const std::string& factionName);

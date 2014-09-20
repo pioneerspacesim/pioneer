@@ -32,7 +32,7 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 	Uint32 sysIdx = 0;
 	for (std::vector<const CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); ++it, ++sysIdx) {
 		const CustomSystem *cs = *it;
-		Sector::System s(sx, sy, sz, sysIdx);
+		Sector::System s(sector.Get(), sx, sy, sz, sysIdx);
 		s.m_pos = Sector::SIZE*cs->pos;
 		s.m_name = cs->name;
 		for (s.m_numStars=0; s.m_numStars<cs->numStars; s.m_numStars++) {
@@ -136,7 +136,7 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 	int numSystems = (rng.Int32(4,20) * galaxy->GetSectorDensity(sx, sy, sz)) >> 8;
 
 	for (int i=0; i<numSystems; i++) {
-		Sector::System s(sx, sy, sz, customCount + i);
+		Sector::System s(sector.Get(), sx, sy, sz, customCount + i);
 
 		switch (rng.Int32(15)) {
 			case 0:

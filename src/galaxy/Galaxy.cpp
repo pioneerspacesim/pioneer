@@ -101,12 +101,12 @@ Uint8 Galaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 
 void Galaxy::FlushCaches()
 {
+	m_factions.ClearCache();
 	m_starSystemCache.OutputCacheStatistics();
 	m_starSystemCache.ClearCache();
 	m_sectorCache.OutputCacheStatistics();
 	m_sectorCache.ClearCache();
-	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
-	// assert(m_sectorCache.IsEmpty());
+	assert(m_sectorCache.IsEmpty());
 }
 
 void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
@@ -115,7 +115,7 @@ void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Si
 		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
 			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
 				RefCountedPtr<const Sector> sector = GetSector(SystemPath(sx, sy, sz));
-				sector->Dump(this, file);
+				sector->Dump(file);
 			}
 			m_starSystemCache.ClearCache();
 		}

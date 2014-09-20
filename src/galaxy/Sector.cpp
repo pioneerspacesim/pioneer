@@ -14,6 +14,10 @@
 const float Sector::SIZE = 8.f;
 
 //////////////////////// Sector
+
+Sector::Sector(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, SectorCache* cache)
+	: sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ), m_galaxy(galaxy), m_cache(cache) { }
+
 Sector::~Sector()
 {
 	if (m_cache)
@@ -51,7 +55,7 @@ bool Sector::Contains(const SystemPath &sysPath) const
 	return true;
 }
 
-void Sector::Dump(Galaxy* galaxy, FILE* file, const char* indent) const
+void Sector::Dump(FILE* file, const char* indent) const
 {
 	fprintf(file, "Sector(%d,%d,%d) {\n", sx, sy, sz);
 	fprintf(file, "\t%zu systems\n", m_systems.size());
@@ -69,7 +73,7 @@ void Sector::Dump(Galaxy* galaxy, FILE* file, const char* indent) const
 		for (unsigned i = 0; i < sys.GetNumStars(); ++i)
 			fprintf(file, "\t\t\t%s\n", EnumStrings::GetString("BodyType", sys.GetStarType(i)));
 		if (sys.GetNumStars() > 0) fprintf(file, "\t\t}\n");
-		RefCountedPtr<const StarSystem> ssys = galaxy->GetStarSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx));
+		RefCountedPtr<const StarSystem> ssys = m_galaxy->GetStarSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx));
 		assert(ssys->GetPath().IsSameSystem(SystemPath(sys.sx, sys.sy, sys.sz, sys.idx)));
 		assert(ssys->GetNumStars() == sys.GetNumStars());
 		assert(ssys->GetName() == sys.GetName());
@@ -95,6 +99,6 @@ float Sector::System::DistanceBetween(const System* a, const System* b)
 
 void Sector::System::AssignFaction() const
 {
-	assert(Pi::GetGalaxy()->GetFactions()->MayAssignFactions());
-	m_faction = Pi::GetGalaxy()->GetFactions()->GetNearestFaction(this);
+	assert(m_sector->m_galaxy->GetFactions()->MayAssignFactions());
+	m_faction = m_sector->m_galaxy->GetFactions()->GetNearestFaction(this);
 }
