@@ -64,6 +64,7 @@ public:
 	virtual void Draw(Renderer*, RenderState*);
 private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
+	void Dirty();
 
 	bool m_refreshVertexBuffer;
 	float m_width;

@@ -132,18 +132,27 @@ Line3D::Line3D(const Line3D& b) : Line3D()
 
 void Line3D::SetStart(const vector3f &s)
 {
-	m_va->Set(0, s);
+	if(!m_va->position[0].ExactlyEqual(s)) {
+		m_va->Set(0, s);
+		Dirty();
+	}
 }
 
 void Line3D::SetEnd(const vector3f &e)
 {
-	m_va->Set(1, e);
+	if(!m_va->position[1].ExactlyEqual(e)) {
+		m_va->Set(1, e);
+		Dirty();
+	}
 }
 
 void Line3D::SetColor(const Color &c)
 {
-	m_va->Set(0, m_va->position[0], c);
-	m_va->Set(1, m_va->position[1], c * 0.5);
+	if( !(m_va->diffuse[0]==c) ) {
+		m_va->Set(0, m_va->position[0], c);
+		m_va->Set(1, m_va->position[1], c * 0.5);
+		Dirty();
+	}
 }
 
 void Line3D::Draw(Renderer *r, RenderState *rs)
@@ -178,6 +187,10 @@ void Line3D::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 	vbd.numVertices = size;
 	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
 	assert(m_vertexBuffer.Valid());
+}
+
+void Line3D::Dirty() {
+	m_refreshVertexBuffer = true;
 }
 //------------------------------------------------------------
 
