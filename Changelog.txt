@@ -9,6 +9,7 @@ September 2014
      * Fix possible crash when accepting mission in paused (#2732, #3169)
      * Fix compilation errors on Mac OS X (#3182,#3183)
      * Fix the Line3D rendering issue (#3190)
+     * Fix the construction of the Circle drawables. (#3192)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
