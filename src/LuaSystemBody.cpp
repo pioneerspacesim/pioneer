@@ -7,6 +7,7 @@
 #include "Pi.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/StarSystem.h"
+#include "Game.h"
 
 /*
  * Class: SystemBody
@@ -145,7 +146,7 @@ static int l_sbody_attr_parent(lua_State *l)
 
 	// sbody->parent is 0 as it was cleared by the acquirer. we need to go
 	// back to the starsystem proper to get what we need.
-	RefCountedPtr<StarSystem> s = Pi::GetGalaxy()->GetStarSystem(sbody->GetPath());
+	RefCountedPtr<StarSystem> s = Pi::game->GetGalaxy()->GetStarSystem(sbody->GetPath());
 	SystemBody *live_sbody = s->GetBodyByPath(sbody->GetPath());
 
 	if (!live_sbody->GetParent())
