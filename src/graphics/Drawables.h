@@ -21,8 +21,8 @@ namespace Drawables {
 
 class Circle {
 public:
-	Circle(const float radius, const Color &c, RenderState *state);
-	Circle(const float radius, const float x, const float y, const float z, const Color &c, RenderState *state);
+	Circle(Renderer *renderer, const float radius, const Color &c, RenderState *state);
+	Circle(Renderer *renderer, const float radius, const float x, const float y, const float z, const Color &c, RenderState *state);
 	Circle(Renderer *renderer, const float radius, const vector3f &center, const Color &c, RenderState *state);
 	virtual void Draw(Renderer *renderer);
 
