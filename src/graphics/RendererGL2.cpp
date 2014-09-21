@@ -358,25 +358,37 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, Render
 
 bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
 {
-	return false;
-	/*if (count < 1 || !points || !colors) return false;
+	struct TPos {
+		vector3f pos;
+		Color4ub col;
+	};
 
-	vtxColorProg->Use();
-	vtxColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
+	MaterialDescriptor md;
+	md.vertexColors = true;
+	static std::unique_ptr<Material> mat(CreateMaterial(md));
+	
+	// Create vtx & index buffers and copy data
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic	= ATTRIB_POSITION;
+	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic	= ATTRIB_DIFFUSE;
+	vbd.attrib[1].format	= ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = count;
+	vbd.usage = BUFFER_USAGE_STATIC;
+	
+	// VertexBuffer
+	std::unique_ptr<VertexBuffer> vb;
+	vb.reset(CreateVertexBuffer(vbd));
+	TPos* vtxPtr = vb->Map<TPos>(BUFFER_MAP_WRITE);
+	assert(vb->GetDesc().stride == sizeof(TPos));
+	for(Sint32 i=0 ; i<count ; i++)
+	{
+		vtxPtr[i].pos = points[i];
+		vtxPtr[i].col = colors[i];
+	}
+	vb->Unmap();
 
-	SetRenderState(state);
-
-	glPointSize(size);
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, points);
-	glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
-	glDrawArrays(GL_POINTS, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glPointSize(1.f); // XXX wont't be necessary
-
-	return true;*/
+	return DrawBuffer(vb.get(), state, mat.get(), POINTS);
 }
 
 bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
