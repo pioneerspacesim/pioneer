@@ -45,7 +45,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView() : UIView()
+SectorView::SectorView(Game* game) : UIView(), m_game(game)
 {
 	InitDefaults();
 
@@ -76,7 +76,7 @@ SectorView::SectorView() : UIView()
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd) : UIView()
+SectorView::SectorView(Serializer::Reader &rd, Game* game) : UIView(), m_game(game)
 {
 	InitDefaults();
 
@@ -1376,7 +1376,7 @@ void SectorView::Update()
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
 		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
 		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(m_renderer, fresnelMat, m_jumpSphereState, 3, 1.0f) );
-		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
+		m_jumpDisk.reset( new Graphics::Drawables::Disk(m_renderer, fresnelMat, m_jumpSphereState, 72, 1.0f) );
 	}
 
 	UIView::Update();

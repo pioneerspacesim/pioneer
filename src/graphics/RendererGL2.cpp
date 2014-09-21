@@ -338,7 +338,7 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 	return true;
 }
 
-bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, LineType t)
+bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
 {
 	return false;
 	/*
@@ -361,7 +361,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, Render
 	return true;*/
 }
 
-bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, LineType t)
+bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, PrimitiveType t)
 {
 	return false;
 	/*
@@ -382,7 +382,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, Render
 	return true;*/
 }
 
-bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Graphics::RenderState* state, LineType t)
+bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Graphics::RenderState* state, PrimitiveType t)
 {
 	return false;
 	/*

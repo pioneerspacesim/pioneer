@@ -19,6 +19,7 @@ class Frame;
 class LabelSet;
 class Ship;
 class NavTunnelWidget;
+class Game;
 
 enum VelIconType {
 	V_PROGRADE,
@@ -43,8 +44,8 @@ namespace UI {
 class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
-	WorldView();
-	WorldView(Serializer::Reader &reader);
+	WorldView(Game* game);
+	WorldView(Serializer::Reader &reader, Game* game);
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
@@ -135,6 +136,8 @@ private:
 	void MouseWheel(bool up);
 	bool OnClickHeadingLabel(void);
 	void RefreshHeadingPitch(void);
+
+	Game* m_game;
 
 	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;

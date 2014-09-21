@@ -22,6 +22,9 @@ public:
 
 	virtual void Unmap() override;
 
+	// copies the contents of the VertexArray into the buffer
+	virtual bool Populate(const VertexArray &) override;
+	
 	virtual void Bind();
 	virtual void Release();
 

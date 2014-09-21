@@ -19,7 +19,7 @@
 #include "Factions.h"
 #include <functional>
 
-SystemInfoView::SystemInfoView() : UIView()
+SystemInfoView::SystemInfoView(Game* game) : UIView(), m_game(game)
 {
 	SetTransparency(true);
 	m_refresh = REFRESH_NONE;
@@ -33,7 +33,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
-	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 	bool isCurrentSystem = (currentSys && currentSys->GetPath() == m_system->GetPath());
 
 	if (path == m_selectedBodyPath) {
@@ -42,11 +42,11 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 		}
 	} else {
 		if (isCurrentSystem) {
-			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+			Body* body = m_game->GetSpace()->FindBodyForPath(&path);
 			if(body != 0)
 				Pi::player->SetNavTarget(body);
 		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
-			Pi::sectorView->SetSelected(path);
+			m_game->GetSectorView()->SetSelected(path);
 		}
 	}
 
@@ -148,7 +148,7 @@ void SystemInfoView::UpdateEconomyTab()
 	StarSystem *s = m_system.Get();             // selected system
 
 	/* imports and exports */
-	const RefCountedPtr<StarSystem> hs = Pi::game->GetSpace()->GetStarSystem();
+	const RefCountedPtr<StarSystem> hs = m_game->GetSpace()->GetStarSystem();
 
 	// If current system is defined and not equal to selected we will compare them
 	const bool compareSelectedWithCurrent =
@@ -507,22 +507,22 @@ static bool IsShownInInfoView(const SystemBody* sb)
 
 SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 {
-	if (!m_system || !Pi::sectorView->GetSelected().IsSameSystem(m_system->GetPath()))
+	if (!m_system || !m_game->GetSectorView()->GetSelected().IsSameSystem(m_system->GetPath()))
 		return REFRESH_ALL;
 
 	if (m_system->GetUnexplored())
 		return REFRESH_NONE; // Nothing can be selected and we reset in SystemChanged
 
-	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 	if (!currentSys || currentSys->GetPath() != m_system->GetPath()) {
 		// We are not currently in the selected system
 		if (m_selectedBodyPath.IsBodyPath()) {
 			// Some body was selected
-			if (Pi::sectorView->GetSelected() != m_selectedBodyPath)
+			if (m_game->GetSectorView()->GetSelected() != m_selectedBodyPath)
 				return REFRESH_SELECTED_BODY; // but now we want a different body (or none at all)
 		} else {
 			// No body was selected
-			if (Pi::sectorView->GetSelected().IsBodyPath())
+			if (m_game->GetSectorView()->GetSelected().IsBodyPath())
 				return REFRESH_SELECTED_BODY; // but now we want one, this can only be a star,
 										  // so no check for IsShownInInfoView() needed
 		}
@@ -546,7 +546,7 @@ void SystemInfoView::Update()
 {
 	switch (m_refresh) {
 		case REFRESH_ALL:
-			SystemChanged(Pi::sectorView->GetSelected());
+			SystemChanged(m_game->GetSectorView()->GetSelected());
 			m_refresh = REFRESH_NONE;
 			assert(NeedsRefresh() == REFRESH_NONE);
 			break;
@@ -586,7 +586,7 @@ void SystemInfoView::UpdateIconSelections()
 
 		bodyIcon.second->SetSelected(false);
 
-		RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+		RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 		if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 			//navtarget can be only set in current system
 			if (Body* navtarget = Pi::player->GetNavTarget()) {
@@ -598,7 +598,7 @@ void SystemInfoView::UpdateIconSelections()
 				}
 			}
 		} else {
-			SystemPath selected = Pi::sectorView->GetSelected();
+			SystemPath selected = m_game->GetSectorView()->GetSelected();
 			if (selected.IsSameSystem(m_system->GetPath()) && !selected.IsSystemPath()) {
 				if (bodyIcon.first == selected.bodyIndex) {
 					bodyIcon.second->SetSelectColor(Color(64, 96, 255, 255));
@@ -632,7 +632,7 @@ void SystemInfoView::BodyIcon::Draw()
 	    // The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
 	    // and not overlapping to much with asteroids
 	    Graphics::Drawables::Circle circle =
-			Graphics::Drawables::Circle(size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f,
+			Graphics::Drawables::Circle(m_renderer, size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f,
 			portColor, m_renderState);
 	    circle.Draw(m_renderer);
 	}

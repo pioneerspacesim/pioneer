@@ -60,7 +60,6 @@
 #include "SystemView.h"
 #include "Tombstone.h"
 #include "UIView.h"
-#include "WorldView.h"
 #include "KeyBindings.h"
 #include "EnumStrings.h"
 #include "galaxy/CustomSystem.h"
@@ -98,17 +97,7 @@ bool Pi::warpAfterMouseGrab = false;
 int Pi::mouseGrabWarpPos[2];
 Player *Pi::player;
 View *Pi::currentView;
-WorldView *Pi::worldView;
-DeathView *Pi::deathView;
-UIView *Pi::spaceStationView;
-UIView *Pi::infoView;
-SectorView *Pi::sectorView;
-GalacticView *Pi::galacticView;
-UIView *Pi::settingsView;
-SystemView *Pi::systemView;
 TransferPlanner *Pi::planner;
-SystemInfoView *Pi::systemInfoView;
-ShipCpanel *Pi::cpan;
 LuaConsole *Pi::luaConsole;
 Game *Pi::game;
 Random Pi::rng;
@@ -143,10 +132,6 @@ RefCountedPtr<Graphics::Texture> Pi::renderTexture;
 std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
 Graphics::RenderState *Pi::quadRenderState = nullptr;
 bool Pi::bRequestEndGame = false;
-
-#if WITH_OBJECTVIEWER
-ObjectViewerView *Pi::objectViewerView;
-#endif
 
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
@@ -783,15 +768,15 @@ void Pi::HandleEvents()
 					if (Pi::game) {
 						// only accessible once game started
 						if (currentView != 0) {
-							if (currentView != settingsView) {
+							if (currentView != Pi::game->GetSettingsView()) {
 								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
-								SetView(settingsView);
+								SetView(Pi::game->GetSettingsView());
 							}
 							else {
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 								SetView(Pi::player->IsDead()
-										? static_cast<View*>(deathView)
-										: static_cast<View*>(worldView));
+										? static_cast<View*>(Pi::game->GetDeathView())
+										: static_cast<View*>(Pi::game->GetWorldView()));
 							}
 						}
 					}
@@ -889,7 +874,7 @@ void Pi::HandleEvents()
 #endif /* DEVKEYS */
 #if WITH_OBJECTVIEWER
 						case SDLK_F10:
-							Pi::SetView(Pi::objectViewerView);
+							Pi::SetView(Pi::game->GetObjectViewerView());
 							break;
 #endif
 						case SDLK_F11:
@@ -1037,10 +1022,10 @@ void Pi::StartGame()
 {
 	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
-	cpan->ShowAll();
+	Pi::game->GetCpan()->ShowAll();
 	DrawGUI = true;
-	cpan->SetAlertState(Ship::ALERT_NONE);
-	SetView(worldView);
+	Pi::game->GetCpan()->SetAlertState(Ship::ALERT_NONE);
+	SetView(game->GetWorldView());
 
 	// fire event before the first frame
 	LuaEvent::Queue("onGameStart");
@@ -1224,8 +1209,8 @@ void Pi::MainLoop()
 				}
 			} else {
 				Pi::game->SetTimeAccel(Game::TIMEACCEL_1X);
-				Pi::deathView->Init();
-				Pi::SetView(Pi::deathView);
+				Pi::game->GetDeathView()->Init();
+				Pi::SetView(Pi::game->GetDeathView());
 				time_player_died = Pi::game->GetTime();
 			}
 		}
@@ -1283,7 +1268,7 @@ void Pi::MainLoop()
 		// wrong, because we shouldn't this when the HUD is disabled, but
 		// probably sure draw it if they switch to eg infoview while the HUD is
 		// disabled so we need much smarter control for all this rubbish
-		if ((Pi::GetView() != Pi::deathView) && DrawGUI) {
+		if ((!Pi::game || Pi::GetView() != Pi::game->GetDeathView()) && DrawGUI) {
 			Pi::ui->Update();
 			Pi::ui->Draw();
 		}
@@ -1314,7 +1299,7 @@ void Pi::MainLoop()
 			// this is something we need not do every turn...
 			if (!config->Int("DisableSound")) AmbientSounds::Update();
 		}
-		cpan->Update();
+		Pi::game->GetCpan()->Update();
 		musicPlayer.Update();
 
 		syncJobQueue->RunJobs(SYNC_JOBS_PER_LOOP);

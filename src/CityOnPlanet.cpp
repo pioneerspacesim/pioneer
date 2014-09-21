@@ -166,6 +166,8 @@ static void enumerateNewBuildings(std::vector<std::string> &filenames)
 		const std::string &name = files.Current().GetName();
 		if (ends_with_ci(name, ".model")) {
 			filenames.push_back(name.substr(0, name.length()-6));
+		} else if (ends_with_ci(name, ".sgm")) {
+			filenames.push_back(name.substr(0, name.length()-4));
 		}
 	}
 }

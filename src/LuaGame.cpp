@@ -285,9 +285,9 @@ static int l_game_switch_view(lua_State *l)
 	if (!Pi::game)
 		return luaL_error(l, "can't switch view when no game is running");
 	if (Pi::player->IsDead())
-		Pi::SetView(Pi::deathView);
+		Pi::SetView(Pi::game->GetDeathView());
 	else
-		Pi::SetView(Pi::worldView);
+		Pi::SetView(Pi::game->GetWorldView());
 	return 0;
 }
 

@@ -219,7 +219,7 @@ static int l_get_hyperspace_target(lua_State *l)
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	SystemPath target;
 	if (Pi::game->IsNormalSpace())
-		target = Pi::sectorView->GetHyperspaceTarget();
+		target = Pi::game->GetSectorView()->GetHyperspaceTarget();
 	else
 		target = player->GetHyperspaceDest();
 	LuaObject<SystemPath>::PushToLua(target);
@@ -263,7 +263,7 @@ static int l_set_hyperspace_target(lua_State *l)
 			if (!sbody->GetSuperType() == SystemBody::SUPERTYPE_STAR)
 				return luaL_error(l, "Player:SetHyperspaceTarget() -- second parameter is not a system path or the path of a star");
 		}
-		Pi::sectorView->SetHyperspaceTarget(path);
+		Pi::game->GetSectorView()->SetHyperspaceTarget(path);
 		return 0;
 	} else
 		return luaL_error(l, "Player:SetHyperspaceTarget() cannot be used while in hyperspace");

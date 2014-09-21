@@ -7,6 +7,9 @@ September 2014
      * Fix mismatch between saving/loading code (#3172)
      * Fix behaviour of autosave system (#3163, #3101)
      * Fix possible crash when accepting mission in paused (#2732, #3169)
+     * Fix compilation errors on Mac OS X (#3182,#3183)
+     * Fix the Line3D rendering issue (#3190)
+     * Fix the construction of the Circle drawables. (#3192)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
@@ -30,6 +33,8 @@ September 2014
      * Easier to model docking - Part 1 (#3075)
      * Const-correctness in CustomSystems and Factions (#3174)
      * Restrict FreeType to a single translation unit (#3175, #1203)
+     * Game views refactoring (#3181)
+     * More drawable classes, minor fixes (#3187)
 
 August 2014
 

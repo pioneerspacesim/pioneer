@@ -19,6 +19,20 @@ struct CannotSaveCurrentGameState {};
 struct CannotSaveInHyperspace : public CannotSaveCurrentGameState {};
 struct CannotSaveDeadPlayer : public CannotSaveCurrentGameState {};
 
+class SectorView;
+class GalacticView;
+class UIView;
+class SystemInfoView;
+class SystemView;
+class WorldView;
+class DeathView;
+class UIView;
+class UIView;
+class ShipCpanel;
+#if WITH_OBJECTVIEWER
+class ObjectViewerView;
+#endif
+
 class Game {
 public:
 	// LoadGame and SaveGame throw exceptions on failure
@@ -90,9 +104,47 @@ public:
 
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
 
+	SectorView* GetSectorView() const { return m_gameViews->m_sectorView; }
+	GalacticView* GetGalacticView() const { return m_gameViews->m_galacticView; }
+	UIView* GetSettingsView() const { return m_gameViews->m_settingsView; }
+	SystemInfoView* GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
+	SystemView* GetSystemView() const { return m_gameViews->m_systemView; }
+	WorldView* GetWorldView() const { return m_gameViews->m_worldView; }
+	DeathView* GetDeathView() const { return m_gameViews->m_deathView; }
+	UIView* GetSpaceStationView() const { return m_gameViews->m_spaceStationView; }
+	UIView* GetInfoView() const { return m_gameViews->m_infoView; }
+	ShipCpanel* GetCpan() const { return m_gameViews->m_cpan; }
+#if WITH_OBJECTVIEWER
+	ObjectViewerView* GetObjectViewerView() const { return m_gameViews->m_objectViewerView; }
+#endif
+
 	GameLog *log;
 
 private:
+	class Views {
+	public:
+		Views();
+		void Init(Game* game);
+		void Load(Serializer::Reader &rd, Game* game);
+		~Views();
+
+		void SetRenderer(Graphics::Renderer *r);
+
+		SectorView* m_sectorView;
+		GalacticView* m_galacticView;
+		UIView* m_settingsView;
+		SystemInfoView* m_systemInfoView;
+		SystemView* m_systemView;
+		WorldView* m_worldView;
+		DeathView* m_deathView;
+		UIView* m_spaceStationView;
+		UIView* m_infoView;
+		ShipCpanel* m_cpan;
+#if WITH_OBJECTVIEWER
+		ObjectViewerView* m_objectViewerView;
+#endif
+	};
+
 	void CreateViews();
 	void LoadViews(Serializer::Reader &rd);
 	void DestroyViews();
@@ -102,6 +154,7 @@ private:
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
+	std::unique_ptr<Views> m_gameViews;
 	std::unique_ptr<Space> m_space;
 	double m_time;
 
