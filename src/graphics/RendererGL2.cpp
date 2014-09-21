@@ -340,66 +340,20 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
 {
-	return false;
-	/*
 	PROFILE_SCOPED()
-	if (count < 2 || !v) return false;
-
-	SetRenderState(state);
-
-	vtxColorProg->Use();
-	vtxColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Color), c);
-	glDrawArrays(t, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_COLOR_ARRAY);
-
-	return true;*/
+	Drawables::Lines lines;
+	lines.SetData(count, v, c);
+	lines.Draw(this, state, t);
+	return true;
 }
 
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, PrimitiveType t)
 {
-	return false;
-	/*
 	PROFILE_SCOPED()
-	if (count < 2 || !v) return false;
-
-	SetRenderState(state);
-
-	flatColorProg->Use();
-	flatColorProg->diffuse.Set(c);
-	flatColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, sizeof(vector3f), v);
-	glDrawArrays(t, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	return true;*/
-}
-
-bool RendererGL2::DrawLines2D(int count, const vector2f *v, const Color &c, Graphics::RenderState* state, PrimitiveType t)
-{
-	return false;
-	/*
-	if (count < 2 || !v) return false;
-
-	SetRenderState(state);
-
-	flatColorProg->Use();
-	flatColorProg->diffuse.Set(c);
-	flatColorProg->invLogZfarPlus1.Set(m_invLogZfarPlus1);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(2, GL_FLOAT, sizeof(vector2f), v);
-	glDrawArrays(t, 0, count);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-	return true;*/
+	Drawables::Lines lines;
+	lines.SetData(count, v, c);
+	lines.Draw(this, state, t);
+	return true;
 }
 
 bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
@@ -427,6 +381,7 @@ bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *col
 
 bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
 {
+	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
 	SetRenderState(rs);
@@ -444,6 +399,7 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 
 bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
+	PROFILE_SCOPED()
 	if (count < 1 || !material || !material->texture0) return false;
 
 	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
@@ -480,6 +436,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 
 bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
 {
+	PROFILE_SCOPED()
 	SetRenderState(state);
 	mat->Apply();
 
@@ -498,6 +455,7 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 
 bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
 {
+	PROFILE_SCOPED()
 	SetRenderState(state);
 	mat->Apply();
 
@@ -520,6 +478,7 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 
 void RendererGL2::EnableVertexAttributes(const VertexBuffer* gvb)
 {
+	PROFILE_SCOPED()
 	const auto &desc = gvb->GetDesc();
 	// Enable the Vertex attributes
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
@@ -538,6 +497,7 @@ void RendererGL2::EnableVertexAttributes(const VertexBuffer* gvb)
 
 void RendererGL2::DisableVertexAttributes(const VertexBuffer* gvb)
 {
+	PROFILE_SCOPED()
 	const auto &desc = gvb->GetDesc();
 	// Enable the Vertex attributes
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {

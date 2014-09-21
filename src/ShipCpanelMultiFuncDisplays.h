@@ -70,9 +70,9 @@ private:
 	float SCANNER_XSHRINK;
 	float SCANNER_YSHRINK;
 
-	std::vector<vector2f> m_circle;
-	std::vector<vector2f> m_spokes;
-	std::vector<vector2f> m_vts;
+	std::vector<vector3f> m_circle;
+	std::vector<vector3f> m_spokes;
+	std::vector<vector3f> m_vts;
 	std::vector<vector3f> m_edgeVts;
 	std::vector<Color> m_edgeCols;
 

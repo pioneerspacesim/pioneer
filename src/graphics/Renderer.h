@@ -93,7 +93,6 @@ public:
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
 	//flat colour lines
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
-	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) = 0;
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) = 0;

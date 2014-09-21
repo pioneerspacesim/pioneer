@@ -637,13 +637,13 @@ void SystemInfoView::BodyIcon::Draw()
 	    circle.Draw(m_renderer);
 	}
 	if (GetSelected()) {
-	    const vector2f vts[] = {
-		    vector2f(0.f, 0.f),
-		    vector2f(size[0], 0.f),
-		    vector2f(size[0], size[1]),
-		    vector2f(0.f, size[1]),
+	    const vector3f vts[] = {
+		    vector3f(0.f, 0.f, 0.f),
+		    vector3f(size[0], 0.f, 0.f),
+		    vector3f(size[0], size[1], 0.f),
+		    vector3f(0.f, size[1], 0.f),
 	    };
-	    m_renderer->DrawLines2D(COUNTOF(vts), vts, m_selectColor, m_renderState, Graphics::LINE_LOOP);
+	    m_renderer->DrawLines(COUNTOF(vts), vts, m_selectColor, m_renderState, Graphics::LINE_LOOP);
 	}
 }
 

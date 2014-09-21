@@ -79,6 +79,7 @@ class Lines {
 public:
 	Lines();
 	void SetData(const int vertCount, const vector3f *vertices, const Color &color);
+	void SetData(const int vertCount, const vector3f *vertices, const Color *colors);
 	void Draw(Renderer*, RenderState*, const PrimitiveType pt = Graphics::LINE_SINGLE);
 private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
