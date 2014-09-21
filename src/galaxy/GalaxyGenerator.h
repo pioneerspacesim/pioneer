@@ -7,6 +7,7 @@
 #include <list>
 #include <string>
 #include "RefCounted.h"
+#include "Serializer.h"
 #include "Sector.h"
 #include "StarSystem.h"
 #include "SystemPath.h"
@@ -26,6 +27,7 @@ public:
 	static RefCountedPtr<Galaxy> Create() {
 		return Create(s_defaultGenerator, s_defaultVersion);
 	}
+	static RefCountedPtr<Galaxy> Create(Serializer::Reader& rd);
 
 	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }
 	static Version GetDefaultGeneratorVersion() { return s_defaultVersion; }
@@ -37,6 +39,9 @@ public:
 	Version GetVersion() const { return m_version; }
 
 	bool IsDefault() const { return m_name == s_defaultGenerator && m_version == s_defaultVersion; }
+
+	void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy);
+	void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy);
 
 	// Templated for the template cache class.
 	template <typename T, typename Cache>
@@ -87,6 +92,9 @@ inline RefCountedPtr<StarSystem> GalaxyGenerator::Generate<StarSystem,StarSystem
 class GalaxyGeneratorStage {
 public:
 	virtual ~GalaxyGeneratorStage() { }
+
+	virtual void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy) { }
+	virtual void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy) { }
 
 protected:
 	GalaxyGeneratorStage() : m_galaxyGenerator(nullptr) { }

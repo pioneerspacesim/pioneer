@@ -17,6 +17,19 @@ Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, flo
 {
 }
 
+//static
+RefCountedPtr<Galaxy> Galaxy::Load(Serializer::Reader &rd)
+{
+	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(rd);
+	galaxy->m_galaxyGenerator->Unserialize(rd, galaxy);
+	return galaxy;
+}
+
+void Galaxy::Serialize(Serializer::Writer &wr)
+{
+	m_galaxyGenerator->Serialize(wr, RefCountedPtr<Galaxy>(this));
+}
+
 Galaxy::~Galaxy()
 {
 }

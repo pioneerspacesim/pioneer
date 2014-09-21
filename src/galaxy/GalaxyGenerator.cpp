@@ -70,6 +70,37 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 	return RefCountedPtr<Galaxy>();
 }
 
+// static
+RefCountedPtr<Galaxy> GalaxyGenerator::Create(Serializer::Reader& rd)
+{
+	std::string genName = rd.String();
+	GalaxyGenerator::Version genVersion = rd.Int32();
+	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(genName, genVersion);
+	if (!galaxy) {
+		Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
+		throw SavedGameWrongVersionException();
+	}
+	return galaxy;
+}
+
+void GalaxyGenerator::Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy)
+{
+	wr.String(m_name);
+	wr.Int32(m_version);
+	for (SectorGeneratorStage* secgen : m_sectorStage)
+		secgen->Serialize(wr, galaxy);
+	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
+		sysgen->Serialize(wr, galaxy);
+}
+
+void GalaxyGenerator::Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
+{
+	for (SectorGeneratorStage* secgen : m_sectorStage)
+		secgen->Unserialize(rd, galaxy);
+	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
+		sysgen->Unserialize(rd, galaxy);
+}
+
 GalaxyGenerator::~GalaxyGenerator()
 {
 	for (SectorGeneratorStage* secgen : m_sectorStage)
