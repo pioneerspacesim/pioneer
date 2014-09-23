@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "FloatComparison.h"
+#include "vector2.h"
 
 // Need this pragma due to operator[] implementation.
 #pragma pack(4)
