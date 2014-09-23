@@ -185,8 +185,8 @@ private:
 
 	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
+	RefCountedPtr<Graphics::Material> m_fresnelMat;
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
-	std::unique_ptr<Graphics::Drawables::Disk> m_jumpDisk;
 	std::unique_ptr<Graphics::VertexArray> m_starVerts;
 };
 
