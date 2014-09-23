@@ -218,7 +218,7 @@ Lines::Lines() : m_refreshVertexBuffer(true), m_width(2.0f), m_va(new VertexArra
 	// XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
 }
 
-void Lines::SetData(const int vertCount, const vector3f *vertices, const Color &color)
+void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Color &color)
 {
 	PROFILE_SCOPED()
 	assert( (vertCount & 1) == 0 ); // ensure vertCount is a multiple of 2
@@ -235,12 +235,12 @@ void Lines::SetData(const int vertCount, const vector3f *vertices, const Color &
 
 	// populate the VertexArray
 	m_va->Clear();
-	for( int i=0; i<vertCount; i++ ) {
+	for( Uint32 i=0; i<vertCount; i++ ) {
 		m_va->Add(vertices[i], color);
 	}
 }
 
-void Lines::SetData(const int vertCount, const vector3f *vertices, const Color *colors)
+void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Color *colors)
 {
 	PROFILE_SCOPED()
 	assert( (vertCount & 1) == 0 ); // ensure vertCount is a multiple of 2
@@ -257,7 +257,7 @@ void Lines::SetData(const int vertCount, const vector3f *vertices, const Color *
 
 	// populate the VertexArray
 	m_va->Clear();
-	for( int i=0; i<vertCount; i++ ) {
+	for( Uint32 i=0; i<vertCount; i++ ) {
 		m_va->Add(vertices[i], colors[i]);
 	}
 }

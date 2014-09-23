@@ -1876,10 +1876,6 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
-		const vector2f center        = vector2f(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0f;
-		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f;
-		const vector2f crosshairPos  = center - crosshairSize / 2.0f;
-
 		switch (m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT:
 				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
@@ -2013,13 +2009,10 @@ void WorldView::DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *q
 
 void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
-	const float sz = HUD_CROSSHAIR_SIZE;
-
 	const vector2f screenCentre(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f);
 	vector2f dir = screenCentre - marker.pos;
 	float len = dir.Length();
-	dir *= sz/len;
-	const vector2f vts[] = { marker.pos, marker.pos + dir };
+	dir *= HUD_CROSSHAIR_SIZE/len;
 	m_edgeMarker.SetColor(c);
 	m_edgeMarker.SetStart(vector3f(marker.pos, 0.0f));
 	m_edgeMarker.SetEnd(vector3f(marker.pos + dir, 0.0f));

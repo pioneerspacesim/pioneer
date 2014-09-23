@@ -62,8 +62,8 @@ struct Shader {
 			Error("Could not load %s", filename.c_str());
 
 		// Load some common code
-		RefCountedPtr<FileSystem::FileData> dataCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/data.glsl");
-		assert(dataCode);
+		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/attributes.glsl");
+		assert(attributesCode);
 		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
 		assert(logzCode);
 		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/lib.glsl");
@@ -76,7 +76,7 @@ struct Shader {
 		} else {
 			AppendSource("#define FRAGMENT_SHADER\n");
 		}
-		AppendSource(dataCode->AsStringRange().StripUTF8BOM());
+		AppendSource(attributesCode->AsStringRange().StripUTF8BOM());
 		AppendSource(logzCode->AsStringRange().StripUTF8BOM());
 		AppendSource(libsCode->AsStringRange().StripUTF8BOM());
 		AppendSource(code->AsStringRange().StripUTF8BOM());
