@@ -23,10 +23,10 @@ class Game;
 class Space {
 public:
 	// empty space (eg for hyperspace)
-	Space(Game *game);
+	Space(Game *game, Space* oldSpace = nullptr);
 
 	// initalise with system bodies
-	Space(Game *game, const SystemPath &path);
+	Space(Game *game, const SystemPath &path, Space* oldSpace = nullptr);
 
 	// initialise from save file
 	Space(Game *game, Serializer::Reader &rd, double at_time);
@@ -94,6 +94,7 @@ private:
 	std::unique_ptr<Frame> m_rootFrame;
 
 	RefCountedPtr<SectorCache::Slave> m_sectorCache;
+	RefCountedPtr<StarSystemCache::Slave> m_starSystemCache;
 
 	RefCountedPtr<StarSystem> m_starSystem;
 

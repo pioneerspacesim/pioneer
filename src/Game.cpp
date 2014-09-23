@@ -459,7 +459,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.get());
 
 	// create hyperspace :)
-	m_space.reset(new Space(this));
+	m_space.reset(new Space(this, m_space.get()));
 
 	m_space->GetBackground()->SetDrawFlags( Background::Container::DRAW_STARS );
 
@@ -491,7 +491,7 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
-	m_space.reset(new Space(this, m_hyperspaceDest));
+	m_space.reset(new Space(this, m_hyperspaceDest, m_space.get()));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());

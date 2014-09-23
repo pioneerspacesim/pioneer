@@ -11,7 +11,7 @@
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 
-//#define DEBUG_SECTOR_CACHE
+//#define DEBUG_CACHE
 
 //virtual
 
@@ -156,7 +156,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::ClearCache() { m_cache.clear(); }
 template <typename T, typename CompareT>
 GalaxyObjectCache<T,CompareT>::Slave::~Slave()
 {
-#	ifdef DEBUG_SECTOR_CACHE
+#	ifdef DEBUG_CACHE
 		unsigned unique = 0;
 		for (auto it = m_cache.begin(); it != m_cache.end(); ++it)
 			if (it->second->GetRefCount() == 1)
@@ -186,7 +186,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 	std::vector<std::unique_ptr<PathVector> > vec_paths;
 	vec_paths.reserve(paths.size()/CACHE_JOB_SIZE + 1);
 	std::unique_ptr<PathVector> current_paths;
-#	ifdef DEBUG_SECTOR_CACHE
+#	ifdef DEBUG_CACHE
 		size_t alreadyCached = m_cache.size();
 		unsigned masterCached = 0;
 		unsigned toBeCreated = 0;
@@ -197,7 +197,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 		RefCountedPtr<T> s = m_master->GetIfCached(*it);
 		if (s) {
 			m_cache[*it] = s;
-#			ifdef DEBUG_SECTOR_CACHE
+#			ifdef DEBUG_CACHE
 				++masterCached;
 #			endif
 		} else {
@@ -209,7 +209,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 			if( current_paths->size() >= CACHE_JOB_SIZE ) {
 				vec_paths.push_back( std::move(current_paths) );
 			}
-#			ifdef DEBUG_SECTOR_CACHE
+#			ifdef DEBUG_CACHE
 				++toBeCreated;
 #			endif
 		}
@@ -220,14 +220,19 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 		vec_paths.push_back( std::move(current_paths) );
 	}
 
-#	ifdef DEBUG_SECTOR_CACHE
+#	ifdef DEBUG_CACHE
 		Output("%s: FillCache: %zu cached, %u in master cache, %u to be created, will use %zu jobs\n", CACHE_NAME.c_str(),
 			alreadyCached, masterCached, toBeCreated, vec_paths.size());
 #	endif
 
-	// now add the batched jobs
-	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-		m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxyGenerator, callback));
+	if (vec_paths.empty()) {
+		if (callback)
+			callback();
+	} else {
+		// now add the batched jobs
+		for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
+			m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxyGenerator, callback));
+	}
 }
 
 

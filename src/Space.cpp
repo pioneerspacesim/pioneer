@@ -27,6 +27,8 @@
 #include "MathUtil.h"
 #include "LuaEvent.h"
 
+//#define DEBUG_CACHE
+
 void Space::BodyNearFinder::Prepare()
 {
 	m_bodyDist.clear();
@@ -57,8 +59,9 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	}
 }
 
-Space::Space(Game *game)
-	: m_game(game)
+Space::Space(Game *game, Space* oldSpace)
+	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : Pi::GetGalaxy()->NewStarSystemSlaveCache())
+	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
@@ -75,8 +78,9 @@ Space::Space(Game *game)
 	GenSectorCache(&game->GetHyperspaceDest());
 }
 
-Space::Space(Game *game, const SystemPath &path)
-	: m_game(game)
+Space::Space(Game *game, const SystemPath &path, Space* oldSpace)
+	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : Pi::GetGalaxy()->NewStarSystemSlaveCache())
+	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
@@ -106,7 +110,8 @@ Space::Space(Game *game, const SystemPath &path)
 }
 
 Space::Space(Game *game, Serializer::Reader &rd, double at_time)
-	: m_game(game)
+	: m_starSystemCache(Pi::GetGalaxy()->NewStarSystemSlaveCache())
+	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
@@ -691,14 +696,22 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 	const int zmin = here->sectorZ-survivorRadius;
 	const int zmax = here->sectorZ+survivorRadius;
 
-	RefCountedPtr<StarSystemCache::Slave> cache = Pi::GetGalaxy()->GetStarSystemCache();
-	StarSystemCache::CacheMap::const_iterator i = cache->Begin();
-	while (i != cache->End()) {
-		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax))
-			cache->Erase(i++);
-		else
+#   ifdef DEBUG_CACHE
+		unsigned removed = 0;
+#   endif
+	StarSystemCache::CacheMap::const_iterator i = m_starSystemCache->Begin();
+	while (i != m_starSystemCache->End()) {
+		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax)) {
+			m_starSystemCache->Erase(i++);
+#   ifdef DEBUG_CACHE
+		++removed;
+#   endif
+		} else
 			++i;
 	}
+#   ifdef DEBUG_CACHE
+		Output("%s: Erased %u entries.\n", StarSystemCache::CACHE_NAME.c_str(), removed);
+#   endif
 
 	SectorCache::PathVector paths;
 	// build all of the possible paths we'll need to build star systems for
@@ -713,8 +726,7 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 			}
 		}
 	}
-
-	cache->FillCache(paths);
+	m_starSystemCache->FillCache(paths);
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
