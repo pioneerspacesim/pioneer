@@ -19,6 +19,9 @@ public:
 	typedef int Version;
 	static const Version LAST_VERSION = -1;
 
+	static	void Init(const std::string& name = std::string("legacy"), Version version = LAST_VERSION);
+	static	void Uninit();
+
 	static RefCountedPtr<Galaxy> Create(const std::string& name, Version version = LAST_VERSION);
 	static RefCountedPtr<Galaxy> Create() {
 		return Create(s_defaultGenerator, s_defaultVersion);
@@ -27,7 +30,6 @@ public:
 	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }
 	static Version GetDefaultGeneratorVersion() { return s_defaultVersion; }
 	static Version GetLastVersion(const std::string& name);
-	static void SetDefaultGenerator(const std::string& name, Version version = LAST_VERSION);
 
 	virtual ~GalaxyGenerator();
 
@@ -67,6 +69,7 @@ private:
 	std::list<SectorGeneratorStage*> m_sectorStage;
 	std::list<StarSystemGeneratorStage*> m_starSystemStage;
 
+	static RefCountedPtr<Galaxy> s_galaxy;
 	static std::string s_defaultGenerator;
 	static Version s_defaultVersion;
 };

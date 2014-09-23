@@ -134,7 +134,8 @@ start:
 					Output("pioneer: could not open \"%s\" for writing: %s\n", filename.c_str(), strerror(errno));
 					break;
 				}
-				Game::DumpGalaxy(file, sx, sy, sz, radius);
+				RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create();
+				galaxy->Dump(file, sx, sy, sz, radius);
 				if (filename != "-" && fclose(file) != 0) {
 					Output("pioneer: writing to \"%s\" failed: %s\n", filename.c_str(), strerror(errno));
 				}

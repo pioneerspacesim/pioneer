@@ -17,6 +17,7 @@ class Galaxy : public RefCounted {
 private:
 	friend class GalaxyGenerator;
 	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator);
+	void Init();
 
 public:
 	// lightyears
@@ -25,8 +26,6 @@ public:
 	const float SOL_OFFSET_Y;
 
 	~Galaxy();
-
-	void Init();
 
 	/* 0 - 255 */
 	Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const;

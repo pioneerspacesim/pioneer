@@ -41,10 +41,6 @@ class ObjectViewerView;
 
 class Game {
 public:
-	static void InitGalaxy();
-	static void UninitGalaxy();
-	static void DumpGalaxy(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius);
-
 	// LoadGame and SaveGame throw exceptions on failure
 	static Game *LoadGame(const std::string &filename);
 	// XXX game arg should be const, and this should probably be a member function
@@ -188,7 +184,6 @@ private:
 	TimeAccel m_requestedTimeAccel;
 	bool m_forceTimeAccel;
 
-	static RefCountedPtr<Galaxy> s_galaxy;
 	static const float s_timeAccelRates[];
 	static const float s_timeInvAccelRates[];
 };

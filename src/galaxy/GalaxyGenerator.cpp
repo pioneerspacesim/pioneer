@@ -11,6 +11,22 @@ static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 0;
 
 std::string GalaxyGenerator::s_defaultGenerator = "legacy";
 GalaxyGenerator::Version GalaxyGenerator::s_defaultVersion = LAST_VERSION_LEGACY;
+RefCountedPtr<Galaxy> GalaxyGenerator::s_galaxy;
+
+//static
+void GalaxyGenerator::Init(const std::string& name, Version version)
+{
+	s_defaultGenerator = name;
+	s_defaultVersion = (version == LAST_VERSION) ? GetLastVersion(name) : version;
+	GalaxyGenerator::Create(); // This will set s_galaxy
+}
+
+//static
+void GalaxyGenerator::Uninit()
+{
+	s_galaxy->FlushCaches();
+	s_galaxy.Reset();
+}
 
 //static
 GalaxyGenerator::Version GalaxyGenerator::GetLastVersion(const std::string& name)
@@ -21,21 +37,21 @@ GalaxyGenerator::Version GalaxyGenerator::GetLastVersion(const std::string& name
 		return LAST_VERSION;
 }
 
-//static
-void GalaxyGenerator::SetDefaultGenerator(const std::string& name, Version version) {
-	s_defaultGenerator = name;
-	s_defaultVersion = (version == LAST_VERSION) ? GetLastVersion(name) : version;
-}
-
 // static
 RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version version)
 {
 	if (version == LAST_VERSION)
 		version = GetLastVersion(name);
+
+	if (s_galaxy && name == s_galaxy->GetGeneratorName() && version == s_galaxy->GetGeneratorVersion()) {
+        s_galaxy->FlushCaches();
+        return s_galaxy;
+	}
+
 	if (name == "legacy") {
 		Output("Creating new galaxy with generator '%s' version %d\n", name.c_str(), version);
 		if (version == 0) {
-			return RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(
+			s_galaxy = RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(
 				(new GalaxyGenerator(name, version))
 				->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
 				->AddSectorStage(new SectorRandomSystemsGenerator)
@@ -43,6 +59,8 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 				->AddStarSystemStage(new StarSystemCustomGenerator)
 				->AddStarSystemStage(new StarSystemRandomGenerator)
 				->AddStarSystemStage(new PopulateStarSystemGenerator))));
+			s_galaxy->Init();
+			return s_galaxy;
 		}
 	}
 	Output("Galaxy generation failed: Unknown generator '%s' version %d\n", name.c_str(), version);

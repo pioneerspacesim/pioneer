@@ -465,9 +465,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	draw_progress(gauge, label, 0.1f);
 
 	if (config->HasEntry("GalaxyGenerator"))
-		GalaxyGenerator::SetDefaultGenerator(config->String("GalaxyGenerator"),
+		GalaxyGenerator::Init(config->String("GalaxyGenerator"),
 			config->Int("GalaxyGeneratorVersion", GalaxyGenerator::LAST_VERSION));
-	Game::InitGalaxy();
+	else
+		GalaxyGenerator::Init();
 
 	draw_progress(gauge, label, 0.2f);
 
@@ -662,7 +663,7 @@ void Pi::Quit()
 	delete Pi::modelCache;
 	delete Pi::renderer;
 	delete Pi::config;
-	Game::UninitGalaxy();
+	GalaxyGenerator::Uninit();
 	delete Pi::planner;
 	SDL_Quit();
 	FileSystem::Uninit();
