@@ -36,7 +36,7 @@ noinst_HEADERS = \
 	DynamicBody.h \
 	Easing.h \
 	EnumStrings.h \
-	FaceGenManager.h \
+	FaceParts.h \
 	Factions.h \
 	FileSystem.h \
 	FontCache.h \
@@ -167,7 +167,7 @@ pioneer_SOURCES	= \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
-	FaceGenManager.cpp \
+	FaceParts.cpp \
 	Factions.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
@@ -426,7 +426,7 @@ modelcompiler_SOURCES = \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
-	FaceGenManager.cpp \
+	FaceParts.cpp \
 	Factions.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \

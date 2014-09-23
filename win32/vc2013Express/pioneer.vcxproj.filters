@@ -384,7 +384,7 @@
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\FaceGenManager.cpp">
+    <ClCompile Include="..\..\src\FaceParts.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\SpeedLines.cpp">
@@ -812,7 +812,7 @@
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\FaceGenManager.h">
+    <ClInclude Include="..\..\src\FaceParts.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Shields.h">

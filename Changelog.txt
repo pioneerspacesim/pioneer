@@ -36,6 +36,7 @@ September 2014
      * Game views refactoring (#3181)
      * More drawable classes, minor fixes (#3187)
      * More cache unification (#3193)
+     * Refactor face generator code to support some future changes (#3180)
 
 August 2014
 

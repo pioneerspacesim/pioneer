@@ -7,7 +7,7 @@
 #include "CargoBody.h"
 #include "CityOnPlanet.h"
 #include "DeathView.h"
-#include "FaceGenManager.h"
+#include "FaceParts.h"
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
@@ -495,7 +495,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	draw_progress(gauge, label, 0.3f);
 
-	FaceGenManager::Init();
+	FaceParts::Init();
 
 	draw_progress(gauge, label, 0.4f);
 
@@ -678,7 +678,7 @@ void Pi::Quit()
 	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
-	FaceGenManager::Destroy();
+	FaceParts::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
 	LuaUninit();

@@ -5,6 +5,7 @@
 #define _SDLWRAPPERS_H
 
 #include "SmartPtr.h"
+#include <SDL_surface.h>
 
 namespace FileSystem { class FileSource; }
 

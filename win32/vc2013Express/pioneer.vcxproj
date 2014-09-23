@@ -184,7 +184,7 @@
     <ClCompile Include="..\..\src\DynamicBody.cpp" />
     <ClCompile Include="..\..\src\EnumStrings.cpp" />
     <ClCompile Include="..\..\src\enum_table.cpp" />
-    <ClCompile Include="..\..\src\FaceGenManager.cpp" />
+    <ClCompile Include="..\..\src\FaceParts.cpp" />
     <ClCompile Include="..\..\src\Factions.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
@@ -340,7 +340,7 @@
     <ClInclude Include="..\..\src\DynamicBody.h" />
     <ClInclude Include="..\..\src\EnumStrings.h" />
     <ClInclude Include="..\..\src\enum_table.h" />
-    <ClInclude Include="..\..\src\FaceGenManager.h" />
+    <ClInclude Include="..\..\src\FaceParts.h" />
     <ClInclude Include="..\..\src\Factions.h" />
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
