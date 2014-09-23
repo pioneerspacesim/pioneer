@@ -35,6 +35,7 @@ September 2014
      * Restrict FreeType to a single translation unit (#3175, #1203)
      * Game views refactoring (#3181)
      * More drawable classes, minor fixes (#3187)
+     * More cache unification (#3193)
 
 August 2014
 
