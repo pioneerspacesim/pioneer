@@ -215,6 +215,9 @@ private:
 	vector2f m_indicatorMousedirSize;
 
 	Graphics::RenderState *m_blendState;
+
+	Graphics::Drawables::Line3D m_edgeMarker;
+	Graphics::Drawables::Lines m_crossHair;
 };
 
 class NavTunnelWidget: public Gui::Widget {
@@ -225,8 +228,12 @@ public:
 	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
 
 private:
+	void CreateVertexBuffer(const Uint32 size);
+
 	WorldView *m_worldView;
 	Graphics::RenderState *m_renderState;
+	RefCountedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 };
 
 #endif /* _WORLDVIEW_H */
