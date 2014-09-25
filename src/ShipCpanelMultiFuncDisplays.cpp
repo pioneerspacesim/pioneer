@@ -380,19 +380,19 @@ void ScannerWidget::GenerateBaseGeometry()
 
 	// circle (to be scaled and offset)
 	m_circle.clear();
-	m_circle.push_back(vector2f(0.0f, SCANNER_YSHRINK));
+	m_circle.push_back(vector3f(0.0f, SCANNER_YSHRINK, 0.0f));
 	float a = step;
 	for (unsigned int i = 1; i < SCANNER_STEPS; i++, a += step) {
-		vector2f v = vector2f(sin(a), SCANNER_YSHRINK * cos(a));
+		vector3f v = vector3f(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
 		m_circle.push_back(v); m_circle.push_back(v);
 	}
-	m_circle.push_back(vector2f(0.0f, SCANNER_YSHRINK));
+	m_circle.push_back(vector3f(0.0f, SCANNER_YSHRINK, 0.0f));
 
 	// spokes
 	m_spokes.clear();
 	for (float ang = 0; ang < circle; ang += float(M_PI * 0.25)) {
-		m_spokes.push_back(vector2f(0.1f * sin(ang), 0.1f * SCANNER_YSHRINK * cos(ang)));
-		m_spokes.push_back(vector2f(sin(ang), SCANNER_YSHRINK * cos(ang)));
+		m_spokes.push_back(vector3f(0.1f * sin(ang), 0.1f * SCANNER_YSHRINK * cos(ang), 0.0f));
+		m_spokes.push_back(vector3f(sin(ang), SCANNER_YSHRINK * cos(ang), 0.0f));
 	}
 }
 
@@ -448,7 +448,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
 	Color col(0, 102, 0, 128);
-	m_renderer->DrawLines2D(m_vts.size(), &m_vts[0], col, m_renderState);
+	m_renderer->DrawLines(m_vts.size(), &m_vts[0], col, m_renderState);
 	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0], m_renderState);
 }
 

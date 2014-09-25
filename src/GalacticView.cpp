@@ -131,13 +131,13 @@ void GalacticView::Draw3D()
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());
 	//Color white(255);
-	const vector2f vts[] = {
-		vector2f(-0.25f,-0.93f),
-		vector2f(-0.25f,-0.94f),
-		vector2f(0.25f,-0.94f),
-		vector2f(0.25f,-0.93f)
+	const vector3f vts[] = {
+		vector3f(-0.25f,-0.93f, 0.0f),
+		vector3f(-0.25f,-0.94f, 0.0f),
+		vector3f(0.25f,-0.94f, 0.0f),
+		vector3f(0.25f,-0.93f, 0.0f)
 	};
-	m_renderer->DrawLines2D(4, vts, Color::WHITE, m_renderState, LINE_STRIP);
+	m_renderer->DrawLines(4, vts, Color::WHITE, m_renderState, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));

@@ -10,7 +10,7 @@ varying float varLogDepth;
 #ifdef VERTEX_SHADER
 vec4 logarithmicTransform()
 {
-	vec4 vertexPosClip = gl_ModelViewProjectionMatrix * gl_Vertex;
+	vec4 vertexPosClip = gl_ModelViewProjectionMatrix * a_vertex;
 	varLogDepth = vertexPosClip.z;
 	return vertexPosClip;
 }

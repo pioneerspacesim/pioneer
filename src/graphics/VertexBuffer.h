@@ -84,6 +84,9 @@ public:
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) = 0;
 
+	virtual void Bind() = 0;
+	virtual void Release() = 0;
+
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) = 0;
 	VertexBufferDesc m_desc;
