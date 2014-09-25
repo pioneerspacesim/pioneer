@@ -22,8 +22,10 @@ RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
 // must be odd numbers
 static const int detail_edgeLen[5] = {
-	7, 15, 25, 35, 55
+	9, 17, 33, 65, 129
 };
+
+static const double gs_targetPatchTriLength(100.0);
 
 #define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
@@ -41,7 +43,7 @@ static std::vector<GeoSphere*> s_allGeospheres;
 void GeoSphere::Init()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 }
 
 void GeoSphere::Uninit()
@@ -74,7 +76,7 @@ void GeoSphere::UpdateAllGeoSpheres()
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 
 	// reinit the geosphere terrain data
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
@@ -177,11 +179,20 @@ void GeoSphere::Reset()
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
 
 	s_allGeospheres.push_back(this);
+
+	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
+	// calculate length of each edge segment (quad) times 4 due to that being the number around the sphere (1 per side, 4 sides for Root).
+	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
+	// find out what depth we reach the desired resolution
+	while (edgeMetres>gs_targetPatchTriLength && m_maxDepth<20) {
+		edgeMetres *= 0.5;
+		++m_maxDepth;
+	}
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
