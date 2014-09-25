@@ -278,18 +278,18 @@ void ShipCpanel::Update()
 
 	m_scanner->Update();
 	m_useEquipWidget->Update();
-}
-
-void ShipCpanel::Draw()
-{
-	std::string time = format_date(m_game->GetTime());
-	m_clock->SetText(time);
 
 	View *cur = Pi::GetView();
 	if ((cur != m_game->GetSectorView()) && (cur != m_game->GetSystemView()) &&
 	    (cur != m_game->GetSystemInfoView()) && (cur != m_game->GetGalacticView())) {
 		HideMapviewButtons();
 	}
+}
+
+void ShipCpanel::Draw()
+{
+	std::string time = format_date(m_game->GetTime());
+	m_clock->SetText(time);
 
 	Gui::Fixed::Draw();
 }

@@ -9,7 +9,7 @@ void main(void)
 {
 	gl_Position = logarithmicTransform();
 
-	varyingEyepos = vec3(gl_ModelViewMatrix * gl_Vertex);
-	varyingNormal = normalize(gl_NormalMatrix * gl_Normal);
-	varyingVertex = gl_Vertex.xyz;
+	varyingEyepos = vec3(gl_ModelViewMatrix * a_vertex);
+	varyingNormal = normalize(gl_NormalMatrix * a_normal);
+	varyingVertex = a_vertex.xyz;
 }

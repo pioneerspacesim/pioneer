@@ -25,13 +25,14 @@ public:
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) override;
 	
-	void SetAttribPointers();
-	void UnsetAttribPointers();
+	virtual void Bind();
+	virtual void Release();
 
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) override;
 
 private:
+	GLuint m_vao;
 	Uint8 *m_data;
 };
 

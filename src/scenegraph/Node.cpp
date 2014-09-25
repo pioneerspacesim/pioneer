@@ -52,30 +52,6 @@ Node* Node::FindNode(const std::string &name)
 		return 0;
 }
 
-void Node::DrawAxes()
-{
-	//Draw plain XYZ axes using the current transform
-	const vector3f vtsXYZ[] = {
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(1.f, 0.f, 0.f),
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(0.f, 1.f, 0.f),
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(0.f, 0.f, 1.f),
-	};
-	const Color colors[] = {
-		Color::RED,
-		Color::RED,
-		Color::BLUE,
-		Color::BLUE,
-		Color::GREEN,
-		Color::GREEN,
-	};
-
-	Graphics::RenderStateDesc rsd;
-	m_renderer->DrawLines(6, vtsXYZ, colors, m_renderer->CreateRenderState(rsd));
-}
-
 void Node::Save(NodeDatabase &db)
 {
     db.wr->String(GetTypeName());

@@ -40,11 +40,17 @@
 #include <SDL_stdinc.h>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
-static const Color s_hudTextColor(0,255,0,230);
-static const float ZOOM_SPEED = 1.f;
-static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
-static const float HUD_CROSSHAIR_SIZE = 8.0f;
-static const Uint8 HUD_ALPHA          = 87;
+namespace {
+	static const Color s_hudTextColor(0,255,0,230);
+	static const float ZOOM_SPEED = 1.f;
+	static const float WHEEL_SENSITIVITY = .05f;	// Should be a variable in user settings.
+	static const float HUD_CROSSHAIR_SIZE = 8.0f;
+	static const Uint8 HUD_ALPHA          = 87;
+	static const Color white(255, 255, 255, 204);
+	static const Color green(0, 255, 0, 204);
+	static const Color yellow(230, 230, 77, 255);
+	static const Color red(255, 0, 0, 128);
+};
 
 WorldView::WorldView(Game* game): UIView(), m_game(game)
 {
@@ -1844,16 +1850,9 @@ void WorldView::Draw()
 	// don't draw crosshairs etc in hyperspace
 	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) return;
 
-	glPushAttrib(GL_CURRENT_BIT | GL_LINE_BIT);
 	glLineWidth(2.0f);
 
-	Color white(255, 255, 255, 204);
-	Color green(0, 255, 0, 204);
-	Color yellow(230, 230, 77, 255);
-	Color red(255, 0, 0, 128);
-
-	Color retroIconColor;
-	if(Pi::player->GetNavTarget()) { retroIconColor = green; } else { retroIconColor = white; }
+	const Color retroIconColor( (Pi::player->GetNavTarget()) ? green : white );
 
 	// nav target square
 	DrawTargetSquare(m_navTargetIndicator, green);
@@ -1877,38 +1876,33 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
-		const vector2f center        = vector2f(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2.0f;
-		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f;
-		const vector2f crosshairPos  = center - crosshairSize / 2.0f;
-
 		switch (m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT:
-				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
+				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
 				break;
 			case InternalCameraController::MODE_REAR:
-				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
+				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
 				break;
 			default:
 				break;
 		}
 	}
-
-	glPopAttrib();
 }
 
 void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
 {
-	const vector2f vts[] = {
-		vector2f(px-sz, py),
-		vector2f(px-0.5f*sz, py),
-		vector2f(px+sz, py),
-		vector2f(px+0.5f*sz, py),
-		vector2f(px, py-sz),
-		vector2f(px, py-0.5f*sz),
-		vector2f(px, py+sz),
-		vector2f(px, py+0.5f*sz)
+	const vector3f vts[] = {
+		vector3f(px-sz,			py,			0.0f),
+		vector3f(px-0.5f*sz,	py,			0.0f),
+		vector3f(px+sz,			py,			0.0f),
+		vector3f(px+0.5f*sz,	py,			0.0f),
+		vector3f(px,			py-sz,		0.0f),
+		vector3f(px,			py-0.5f*sz, 0.0f),
+		vector3f(px,			py+sz,		0.0f),
+		vector3f(px,			py+0.5f*sz, 0.0f)
 	};
-	m_renderer->DrawLines2D(COUNTOF(vts), vts, c, m_blendState);
+	m_crossHair.SetData(COUNTOF(vts), vts, c);
+	m_crossHair.Draw(m_renderer, m_blendState);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1933,33 +1927,34 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			}
 		}
 
-		const vector2f vts[] = {
+		const vector3f vts[] = {
 			// target crosshairs
-			vector2f(x1+10*xd, y1+10*yd),
-			vector2f(x1+20*xd, y1+20*yd),
-			vector2f(x1-10*xd, y1-10*yd),
-			vector2f(x1-20*xd, y1-20*yd),
-			vector2f(x1-10*yd, y1+10*xd),
-			vector2f(x1-20*yd, y1+20*xd),
-			vector2f(x1+10*yd, y1-10*xd),
-			vector2f(x1+20*yd, y1-20*xd),
+			vector3f(x1+10*xd, y1+10*yd, 0.0f),
+			vector3f(x1+20*xd, y1+20*yd, 0.0f),
+			vector3f(x1-10*xd, y1-10*yd, 0.0f),
+			vector3f(x1-20*xd, y1-20*yd, 0.0f),
+			vector3f(x1-10*yd, y1+10*xd, 0.0f),
+			vector3f(x1-20*yd, y1+20*xd, 0.0f),
+			vector3f(x1+10*yd, y1-10*xd, 0.0f),
+			vector3f(x1+20*yd, y1-20*xd, 0.0f),
 
 			// lead crosshairs
-			vector2f(x2-10*xd, y2-10*yd),
-			vector2f(x2+10*xd, y2+10*yd),
-			vector2f(x2-10*yd, y2+10*xd),
-			vector2f(x2+10*yd, y2-10*xd),
+			vector3f(x2-10*xd, y2-10*yd, 0.0f),
+			vector3f(x2+10*xd, y2+10*yd, 0.0f),
+			vector3f(x2-10*yd, y2+10*xd, 0.0f),
+			vector3f(x2+10*yd, y2-10*xd, 0.0f),
 
 			// line between crosshairs
-			vector2f(x1+20*xd, y1+20*yd),
-			vector2f(x2-10*xd, y2-10*yd)
+			vector3f(x1+20*xd, y1+20*yd, 0.0f),
+			vector3f(x2-10*xd, y2-10*yd, 0.0f)
 		};
 		if (lead.side == INDICATOR_ONSCREEN)
-			m_renderer->DrawLines2D(14, vts, c, m_blendState); //draw all
+			m_renderer->DrawLines(14, vts, c, m_blendState); //draw all
 		else
-			m_renderer->DrawLines2D(8, vts, c, m_blendState); //only crosshair
-	} else
+			m_renderer->DrawLines(8, vts, c, m_blendState); //only crosshair
+	} else {
 		DrawEdgeMarker(target, c);
+	}
 }
 
 void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
@@ -1994,8 +1989,9 @@ void WorldView::DrawVelocityIndicator(const Indicator &marker, VelIconType d, co
 			m_burnIcon->Draw(Pi::renderer, crosshairPos, crosshairSize, c);
 			break;
 		}
-	} else
+	} else {
 		DrawEdgeMarker(marker, c);
+	}
 
 }
 
@@ -2006,20 +2002,21 @@ void WorldView::DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *q
 	if (marker.side == INDICATOR_ONSCREEN) {
 		vector2f pos = marker.pos - m_indicatorMousedirSize/2.0f;
 		quad->Draw(Pi::renderer, pos, m_indicatorMousedirSize, c);
-	} else
+	} else {
 		DrawEdgeMarker(marker, c);
+	}
 }
 
 void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 {
-	const float sz = HUD_CROSSHAIR_SIZE;
-
 	const vector2f screenCentre(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f);
 	vector2f dir = screenCentre - marker.pos;
 	float len = dir.Length();
-	dir *= sz/len;
-	const vector2f vts[] = { marker.pos, marker.pos + dir };
-	m_renderer->DrawLines2D(2, vts, c, m_blendState);
+	dir *= HUD_CROSSHAIR_SIZE/len;
+	m_edgeMarker.SetColor(c);
+	m_edgeMarker.SetStart(vector3f(marker.pos, 0.0f));
+	m_edgeMarker.SetEnd(vector3f(marker.pos + dir, 0.0f));
+	m_edgeMarker.Draw(m_renderer, m_blendState);
 }
 
 void WorldView::MouseWheel(bool up)
@@ -2086,35 +2083,48 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 	const float y1 = pos.y - size;
 	const float y2 = pos.y + size;
 
-	const vector3f vts[] = {
-		vector3f(x1,    y1,    0.f),
-		vector3f(pos.x, y1,    0.f),
-		vector3f(x2,    y1,    0.f),
-		vector3f(x2,    pos.y, 0.f),
-		vector3f(x2,    y2,    0.f),
-		vector3f(pos.x, y2,    0.f),
-		vector3f(x1,    y2,    0.f),
-		vector3f(x1,    pos.y, 0.f)
-	};
 	Color black(c);
 	black.a = c.a / 6;
-	const Color col[] = {
-		c,
-		black,
-		c,
-		black,
-		c,
-		black,
-		c,
-		black
-	};
-	assert(COUNTOF(col) == COUNTOF(vts));
-	m_worldView->m_renderer->DrawLines(COUNTOF(vts), vts, col, m_renderState, Graphics::LINE_LOOP);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 8);
+	va.Add(vector3f(x1,    y1,    0.f),	c);
+	va.Add(vector3f(pos.x, y1,    0.f),	black);
+	va.Add(vector3f(x2,    y1,    0.f),	c);
+	va.Add(vector3f(x2,    pos.y, 0.f),	black);
+	va.Add(vector3f(x2,    y2,    0.f),	c);
+	va.Add(vector3f(pos.x, y2,    0.f),	black);
+	va.Add(vector3f(x1,    y2,    0.f),	c);
+	va.Add(vector3f(x1,    pos.y, 0.f),	black);
+
+	if( !m_vbuffer.get() ) {
+		CreateVertexBuffer( 8 );
+	}
+
+	m_vbuffer->Populate( va );
+	
+	m_worldView->m_renderer->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_LOOP);
 }
 
 void NavTunnelWidget::GetSizeRequested(float size[2]) {
 	size[0] = Gui::Screen::GetWidth();
 	size[1] = Gui::Screen::GetHeight();
+}
+
+void NavTunnelWidget::CreateVertexBuffer(const Uint32 size)
+{
+	Graphics::Renderer *r = m_worldView->m_renderer;
+
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.numVertices = size;
+	m_vbuffer.reset(r->CreateVertexBuffer(vbd));
 }
 
 // project vector vec onto plane (normal must be normalized)

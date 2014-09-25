@@ -33,8 +33,6 @@ void MatrixTransform::Accept(NodeVisitor &nv)
 void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	const matrix4x4f t = trans * m_transform;
-	//renderer->SetTransform(t);
-	//DrawAxes();
 	RenderChildren(t, rd);
 }
 

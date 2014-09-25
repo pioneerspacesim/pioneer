@@ -72,7 +72,6 @@ public:
 
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, PrimitiveType type=LINE_SINGLE) override;
 	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) override;
-	virtual bool DrawLines2D(int vertCount, const vector2f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) override;
 	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) override;
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
@@ -109,13 +108,14 @@ protected:
 
 	//figure out states from a vertex array and enable them
 	//also sets vertex pointers
-	void EnableClientStates(const VertexArray*);
-	void EnableClientStates(const VertexBuffer*);
+	void EnableVertexAttributes(const VertexBuffer*);
+	void EnableVertexAttributes(const VertexArray*);
 	//disable previously enabled
-	virtual void DisableClientStates();
+	void DisableVertexAttributes(const VertexBuffer*);
+	void DisableVertexAttributes();
 	int m_numLights;
 	int m_numDirLights;
-	std::vector<GLenum> m_clientStates;
+	std::vector<GLuint> m_vertexAttribsSet;
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;

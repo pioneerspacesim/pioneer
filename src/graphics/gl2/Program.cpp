@@ -62,6 +62,8 @@ struct Shader {
 			Error("Could not load %s", filename.c_str());
 
 		// Load some common code
+		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/attributes.glsl");
+		assert(attributesCode);
 		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
 		assert(logzCode);
 		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/lib.glsl");
@@ -69,10 +71,12 @@ struct Shader {
 
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
-		if (type == GL_VERTEX_SHADER)
+		if (type == GL_VERTEX_SHADER) {
 			AppendSource("#define VERTEX_SHADER\n");
-		else
+		} else {
 			AppendSource("#define FRAGMENT_SHADER\n");
+		}
+		AppendSource(attributesCode->AsStringRange().StripUTF8BOM());
 		AppendSource(logzCode->AsStringRange().StripUTF8BOM());
 		AppendSource(libsCode->AsStringRange().StripUTF8BOM());
 		AppendSource(code->AsStringRange().StripUTF8BOM());
@@ -185,6 +189,13 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	m_program = glCreateProgram();
 	glAttachShader(m_program, vs.shader);
 	glAttachShader(m_program, fs.shader);
+
+	//extra attribs, if they exist
+	glBindAttribLocation(m_program, 0, "a_vertex");
+	glBindAttribLocation(m_program, 1, "a_normal");
+	glBindAttribLocation(m_program, 2, "a_color");
+	glBindAttribLocation(m_program, 3, "a_uv0");
+
 	glLinkProgram(m_program);
 
 	check_glsl_errors(name.c_str(), m_program);
