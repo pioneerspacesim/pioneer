@@ -406,6 +406,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (SDL_Init(sdlInitFlags) < 0) {
 		Error("SDL initialization failed: %s\n", SDL_GetError());
 	}
+	SDL_version ver;
+	SDL_GetVersion(&ver);
+	Output("SDL Version %d.%d.%d\n", ver.major, ver.minor, ver.patch);
 
 	// Do rest of SDL video initialization and create Renderer
 	Graphics::Settings videoSettings = {};
