@@ -66,6 +66,8 @@ public:
 
 	virtual void Reset();
 
+	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
+
 private:
 	void BuildFirstPatches();
 	std::unique_ptr<GeoPatch> m_patches[6];
@@ -92,6 +94,8 @@ private:
 		eDefaultUpdateState
 	};
 	EGSInitialisationStage m_initStage;
+
+	Sint32 m_maxDepth;
 };
 
 #endif /* _GEOSPHERE_H */

@@ -19,6 +19,7 @@ September 2014
      * Cap maximum number of police GoodsTraders (#3165)
      * Better background intensity calculation for Eclipse (#3171)
      * Randomize planet phase angle (#3135)
+     *  Terrain detail / depth changes (#3184)
 
    * Script and UI API changes
      * Allow to set lawlessness in custom systems (#3166)

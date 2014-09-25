@@ -88,8 +88,8 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 		GeoPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(m_vertexBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
 
-		const Sint32 edgeLen = ctx->edgeLen;
-		const double frac = ctx->frac;
+		const Sint32 edgeLen = ctx->GetEdgeLen();
+		const double frac = ctx->GetFrac();
 		const double *pHts = heights.get();
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
@@ -135,9 +135,10 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		const vector3d relpos = clipCentroid - campos;
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
-		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
+		Pi::statSceneTris += (ctx->GetNumTris());
+		++Pi::statNumPatches;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indices_list[determineIndexbuffer()].Get(), rs, mat);
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
 	}
 }
 
@@ -162,7 +163,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		}
 		const float centroidDist = (campos - centroid).Length();
 		const bool errorSplit = (centroidDist < m_roughLength);
-		if( !(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && errorSplit) ) {
+		if( !(canSplit && (m_depth < std::min(GEOPATCH_MAX_DEPTH, geosphere->GetMaxDepth())) && errorSplit) ) {
 			canSplit = false;
 		}
 	}
@@ -174,8 +175,8 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen,
-						ctx->frac, geosphere->GetTerrain());
+						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(),
+						ctx->GetFrac(), geosphere->GetTerrain());
 			m_job = Pi::GetAsyncJobQueue()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
@@ -201,7 +202,7 @@ void GeoPatch::RequestSinglePatch()
         assert(!m_job.HasJob());
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->GetTerrain());
+					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(), ctx->GetFrac(), geosphere->GetTerrain());
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
 }
