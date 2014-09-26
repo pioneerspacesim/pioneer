@@ -50,7 +50,7 @@ namespace {
 	static const Color green(0, 255, 0, 204);
 	static const Color yellow(230, 230, 77, 255);
 	static const Color red(255, 0, 0, 128);
-};
+}
 
 WorldView::WorldView(Game* game): UIView(), m_game(game)
 {
