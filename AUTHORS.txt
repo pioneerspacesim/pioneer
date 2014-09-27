@@ -167,6 +167,11 @@ Pioneer includes the following third-party software:
   Licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported
     License (see licenses/CC-BY-SA-3.0.txt)
 
+  Galaxy colour image
+  http://www.spitzer.caltech.edu/images/2353-sig05-010a-Milky-Way-Bar
+  Credit: NASA/JPL-Caltech/R. Hurt (SSC)
+  See licenses/Image Use Policy - NASA Spitzer Space Telescope.html
+
 Acknowledgements
 ================
 
