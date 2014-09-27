@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Żywe zwierzęta"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
+   },
    "LOCKED" : {
       "description" : "",
       "message" : "zablokowany"
@@ -1104,7 +1108,7 @@
       "message" : "Brak"
    },
    "NORMA_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Ramię Normy"
    },
    "NOT_FOUND" : {
@@ -1232,7 +1236,7 @@
       "message" : "Zewnętrzny rolniczy świat."
    },
    "OUTER_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Zewnętrzne ramię"
    },
    "OVER_N_BILLION" : {
@@ -1260,7 +1264,7 @@
       "message" : "Perycentrum"
    },
    "PERSEUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Ramię Perseusza"
    },
    "PIONEER" : {
@@ -1464,7 +1468,7 @@
       "message" : "Odpady"
    },
    "SAGITTARIUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Ramię Strzelca"
    },
    "SCANNER" : {
@@ -1484,7 +1488,7 @@
       "message" : "screenshot%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Ramię Tarczy Centaura"
    },
    "SEARCH" : {
@@ -1866,6 +1870,10 @@
    "THIN" : {
       "description" : "",
       "message" : "rozrzedzona"
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Animaux vivants"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
+   },
    "LOCKED" : {
       "description" : "",
       "message" : "verrouillé"
@@ -1104,7 +1108,7 @@
       "message" : "Aucun"
    },
    "NORMA_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Bras de la Règle"
    },
    "NOT_FOUND" : {
@@ -1232,7 +1236,7 @@
       "message" : "Monde agricole à l'air libre."
    },
    "OUTER_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Bras externe"
    },
    "OVER_N_BILLION" : {
@@ -1260,7 +1264,7 @@
       "message" : "Distance de périhélie"
    },
    "PERSEUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Bras de Persée"
    },
    "PIONEER" : {
@@ -1464,7 +1468,7 @@
       "message" : "Détritus"
    },
    "SAGITTARIUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Bras du Sagittaire"
    },
    "SCANNER" : {
@@ -1484,7 +1488,7 @@
       "message" : "capture_d_ecran%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Bras Écu-Croix"
    },
    "SEARCH" : {
@@ -1866,6 +1870,10 @@
    "THIN" : {
       "description" : "",
       "message" : "fine"
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

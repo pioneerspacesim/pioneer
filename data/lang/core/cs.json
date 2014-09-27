@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Živá zvířata"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
+   },
    "LOCKED" : {
       "description" : "",
       "message" : "zaměřen"
@@ -1104,7 +1108,7 @@
       "message" : "Nic"
    },
    "NORMA_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "rameno Pravítko"
    },
    "NOT_FOUND" : {
@@ -1232,7 +1236,7 @@
       "message" : "Planeta se zemědělstvím pod širým nebem."
    },
    "OUTER_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "rameno Labuť"
    },
    "OVER_N_BILLION" : {
@@ -1260,7 +1264,7 @@
       "message" : "Perihel (přísluní)"
    },
    "PERSEUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "rameno Perseus"
    },
    "PIONEER" : {
@@ -1464,7 +1468,7 @@
       "message" : "Odpadky"
    },
    "SAGITTARIUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "rameno Střelec"
    },
    "SCANNER" : {
@@ -1484,7 +1488,7 @@
       "message" : "pioneer_screenshot%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "rameno Štít/Jižní kříž"
    },
    "SEARCH" : {
@@ -1866,6 +1870,10 @@
    "THIN" : {
       "description" : "",
       "message" : "řídkou"
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

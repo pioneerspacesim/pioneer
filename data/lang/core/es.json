@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Animales vivos"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
+   },
    "LOCKED" : {
       "description" : "",
       "message" : "Cerrado"
@@ -1104,7 +1108,7 @@
       "message" : "Nada"
    },
    "NORMA_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Norma"
    },
    "NOT_FOUND" : {
@@ -1232,7 +1236,7 @@
       "message" : "Mundo exterior agrícola."
    },
    "OUTER_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Exterior"
    },
    "OVER_N_BILLION" : {
@@ -1260,7 +1264,7 @@
       "message" : "Periapsis"
    },
    "PERSEUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Perseus"
    },
    "PIONEER" : {
@@ -1464,7 +1468,7 @@
       "message" : "Desechos"
    },
    "SAGITTARIUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Sagittarius"
    },
    "SCANNER" : {
@@ -1484,7 +1488,7 @@
       "message" : "screenshot%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Scutum-Centaurus"
    },
    "SEARCH" : {
@@ -1866,6 +1870,10 @@
    "THIN" : {
       "description" : "",
       "message" : "delgada"
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

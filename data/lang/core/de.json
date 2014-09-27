@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Lebendige Tiere"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
+   },
    "LOCKED" : {
       "description" : "",
       "message" : "Eingerastet"
@@ -1104,7 +1108,7 @@
       "message" : "Nichts"
    },
    "NORMA_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma-Arm"
    },
    "NOT_FOUND" : {
@@ -1232,7 +1236,7 @@
       "message" : "Planet mit Agrarwirtschaft unter freiem Himmel."
    },
    "OUTER_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Cygnus-Arm"
    },
    "OVER_N_BILLION" : {
@@ -1260,7 +1264,7 @@
       "message" : "Periapsisdistanz"
    },
    "PERSEUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Perseus-Arm"
    },
    "PIONEER" : {
@@ -1464,7 +1468,7 @@
       "message" : "Abfälle"
    },
    "SAGITTARIUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius-Arm"
    },
    "SCANNER" : {
@@ -1484,7 +1488,7 @@
       "message" : "Pioneer-Screenshot%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Scutum-Crux-Arm"
    },
    "SEARCH" : {
@@ -1866,6 +1870,10 @@
    "THIN" : {
       "description" : "",
       "message" : "dünnen"
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
