@@ -12,7 +12,7 @@
 class SectorCustomSystemsGenerator : public SectorGeneratorStage {
 public:
 	SectorCustomSystemsGenerator(int customOnlyRadius) : m_customOnlyRadius(customOnlyRadius) { }
-	virtual bool Apply(Random& rng, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
+	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
 
 private:
 	int m_customOnlyRadius;
@@ -20,9 +20,9 @@ private:
 
 class SectorRandomSystemsGenerator : public SectorGeneratorStage {
 public:
-virtual bool Apply(Random& rng, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
+virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
 private:
-	const std::string GenName(const Sector& sec, Sector::System &sys, int si, Random &rand);
+	const std::string GenName(RefCountedPtr<Galaxy> galaxy, const Sector& sec, Sector::System &sys, int si, Random &rand);
 };
 
 #endif

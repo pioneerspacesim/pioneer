@@ -18,6 +18,7 @@
 #include <set>
 
 class Game;
+class Galaxy;
 
 class SectorView: public UIView {
 public:
@@ -93,6 +94,7 @@ private:
 	void OnSearchBoxKeyPress(const SDL_Keysym *keysym);
 
 	Game* m_game;
+	RefCountedPtr<Galaxy> m_galaxy;
 
 	bool m_inSystem;
 

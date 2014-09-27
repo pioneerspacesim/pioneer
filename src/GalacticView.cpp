@@ -24,7 +24,7 @@ static const float ZOOM_IN_SPEED = 2;
 static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user settings.
 
-GalacticView::GalacticView(Game* game) : UIView(), m_game(game),
+GalacticView::GalacticView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy()),
 	m_quad(Graphics::TextureBuilder::UI("galaxy_colour.png").CreateTexture(Gui::Screen::GetRenderer()))
 {
 
@@ -107,8 +107,8 @@ void GalacticView::Draw3D()
 {
 	PROFILE_SCOPED()
 	vector3f pos = m_game->GetSectorView()->GetPosition();
-	float offset_x = (pos.x*Sector::SIZE + Pi::GetGalaxy()->SOL_OFFSET_X)/Pi::GetGalaxy()->GALAXY_RADIUS;
-	float offset_y = (-pos.y*Sector::SIZE + Pi::GetGalaxy()->SOL_OFFSET_Y)/Pi::GetGalaxy()->GALAXY_RADIUS;
+	float offset_x = (pos.x*Sector::SIZE + m_galaxy->SOL_OFFSET_X)/m_galaxy->GALAXY_RADIUS;
+	float offset_y = (-pos.y*Sector::SIZE + m_galaxy->SOL_OFFSET_Y)/m_galaxy->GALAXY_RADIUS;
 
 	const float aspect = m_renderer->GetDisplayAspect();
 	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
@@ -160,7 +160,7 @@ void GalacticView::Update()
 	m_zoom = Clamp(m_zoom, 0.5f, 100.0f);
 	AnimationCurves::Approach(m_zoom, m_zoomTo, frameTime);
 
-	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*Pi::GetGalaxy()->GALAXY_RADIUS/m_zoom))));
+	m_scaleReadout->SetText(stringf(Lang::INT_LY, formatarg("scale", int(0.5*m_galaxy->GALAXY_RADIUS/m_zoom))));
 
 	UIView::Update();
 }

@@ -7,6 +7,7 @@
 #include "galaxy/Economy.h"
 #include "Serializer.h"
 
+class Galaxy;
 class StarSystem;
 class SysPolit;
 class Ship;
@@ -52,9 +53,9 @@ namespace Polit {
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
-	void Init();
+	void Init(RefCountedPtr<Galaxy> galaxy);
 	void Serialize(Serializer::Writer &wr);
-	void Unserialize(Serializer::Reader &rd);
+	void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy);
 	void AddCrime(Sint64 crimeBitset, Sint64 addFine);
 	void GetCrime(Sint64 *crimeBitset, Sint64 *fine);
 	fixed GetBaseLawlessness(GovType gov);

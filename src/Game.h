@@ -4,10 +4,12 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+#include <string>
 #include "libs.h"
 #include "gameconsts.h"
 #include "GameLog.h"
 #include "Serializer.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
 
 class HyperspaceCloud;
@@ -18,6 +20,10 @@ class Space;
 struct CannotSaveCurrentGameState {};
 struct CannotSaveInHyperspace : public CannotSaveCurrentGameState {};
 struct CannotSaveDeadPlayer : public CannotSaveCurrentGameState {};
+struct InvalidGameStartLocation {
+	std::string error;
+	InvalidGameStartLocation(const std::string& error_) : error(error_) {}
+};
 
 class SectorView;
 class GalacticView;
@@ -41,11 +47,8 @@ public:
 	// (or LoadGame/SaveGame should be somewhere else entirely)
 	static void SaveGame(const std::string &filename, Game *game);
 
-	// start docked in station referenced by path
+	// start docked in station referenced by path or nearby to body if it is no station
 	Game(const SystemPath &path, double time = 0.0);
-
-	// start at position relative to body referenced by path
-	Game(const SystemPath &path, const vector3d &pos, double time = 0.0);
 
 	// load game
 	Game(Serializer::Reader &rd);
@@ -59,6 +62,7 @@ public:
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
 	bool IsHyperspace() const { return m_state == STATE_HYPERSPACE; }
 
+	RefCountedPtr<Galaxy> GetGalaxy() const { return m_galaxy; }
 	Space *GetSpace() const { return m_space.get(); }
 	double GetTime() const { return m_time; }
 	Player *GetPlayer() const { return m_player.get(); }
@@ -154,6 +158,7 @@ private:
 	void SwitchToHyperspace();
 	void SwitchToNormalSpace();
 
+	RefCountedPtr<Galaxy> m_galaxy;
 	std::unique_ptr<Views> m_gameViews;
 	std::unique_ptr<Space> m_space;
 	double m_time;

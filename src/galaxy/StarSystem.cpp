@@ -645,13 +645,17 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
-	m_faction(nullptr), m_unexplored(false), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
-	m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true), m_cache(cache)
+StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand)
+	: m_galaxy(galaxy), m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
+	  m_faction(nullptr), m_unexplored(false), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
+	  m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true), m_cache(cache)
 {
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 }
+
+StarSystem::GeneratorAPI::GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand)
+	: StarSystem(path, galaxy, cache, rand) { }
 
 #ifdef DEBUG_DUMP
 struct thing_t {
@@ -785,14 +789,14 @@ void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
 	}
 }
 
-RefCountedPtr<StarSystem> StarSystem::Unserialize(Serializer::Reader &rd)
+RefCountedPtr<StarSystem> StarSystem::Unserialize(RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd)
 {
 	if (rd.Byte()) {
 		int sec_x = rd.Int32();
 		int sec_y = rd.Int32();
 		int sec_z = rd.Int32();
 		int sys_idx = rd.Int32();
-		return Pi::GetGalaxy()->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
+		return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 	} else {
 		return RefCountedPtr<StarSystem>(0);
 	}
@@ -940,7 +944,7 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, m_rootBody.Get()).c_str());
 
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(GetPath());
+	RefCountedPtr<const Sector> sec = m_galaxy->GetSector(GetPath());
 	SystemPath pa = GetPath();
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",

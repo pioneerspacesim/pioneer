@@ -13,7 +13,7 @@ static const char *sys_names[SYS_NAME_FRAGS] =
   "lia", "an", "ar", "ur", "mi", "in", "ti", "qu", "so", "ed", "ess",
   "ex", "io", "ce", "ze", "fa", "ay", "wa", "da", "ack", "gre" };
 
-bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config)
+bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config)
 {
 	PROFILE_SCOPED()
 
@@ -26,13 +26,13 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sect
 		(sz >= -m_customOnlyRadius) && (sz <= m_customOnlyRadius-1))
 		config->isCustomOnly = true;
 
-	const std::vector<const CustomSystem*> &systems = Pi::GetGalaxy()->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
+	const std::vector<const CustomSystem*> &systems = galaxy->GetCustomSystems()->GetCustomSystemsForSector(sx, sy, sz);
 	if (systems.size() == 0) return true;
 
 	Uint32 sysIdx = 0;
 	for (std::vector<const CustomSystem*>::const_iterator it = systems.begin(); it != systems.end(); ++it, ++sysIdx) {
 		const CustomSystem *cs = *it;
-		Sector::System s(sx, sy, sz, sysIdx);
+		Sector::System s(sector.Get(), sx, sy, sz, sysIdx);
 		s.m_pos = Sector::SIZE*cs->pos;
 		s.m_name = cs->name;
 		for (s.m_numStars=0; s.m_numStars<cs->numStars; s.m_numStars++) {
@@ -48,7 +48,7 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sect
 			 * ~700ly+: unexplored
 			 */
 			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
+			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
 		} else {
 			s.m_explored = cs->explored;
 		}
@@ -57,7 +57,7 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sect
 	return true;
 }
 
-const std::string SectorRandomSystemsGenerator::GenName(const Sector& sec, Sector::System &sys, int si, Random &rng)
+const std::string SectorRandomSystemsGenerator::GenName(RefCountedPtr<Galaxy> galaxy, const Sector& sec, Sector::System &sys, int si, Random &rng)
 {
 	PROFILE_SCOPED()
 	std::string name;
@@ -99,7 +99,7 @@ const std::string SectorRandomSystemsGenerator::GenName(const Sector& sec, Secto
 	}
 
 	Uint32 weight = rng.Int32(chance);
-	if (weight < 500 || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
+	if (weight < 500 || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, si))) {
 		/* well done. you get a real name  */
 		int len = rng.Int32(2,3);
 		for (int i=0; i<len; i++) {
@@ -122,7 +122,7 @@ const std::string SectorRandomSystemsGenerator::GenName(const Sector& sec, Secto
 	}
 }
 
-bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config)
+bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config)
 {
 	/* Always place random systems outside the core custom-only region */
 	if (config->isCustomOnly)
@@ -133,10 +133,10 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sect
 	const int sz = sector->sz;
 	const int customCount = sector->m_systems.size();
 
-	int numSystems = (rng.Int32(4,20) * Pi::GetGalaxy()->GetSectorDensity(sx, sy, sz)) >> 8;
+	int numSystems = (rng.Int32(4,20) * galaxy->GetSectorDensity(sx, sy, sz)) >> 8;
 
 	for (int i=0; i<numSystems; i++) {
-		Sector::System s(sx, sy, sz, customCount + i);
+		Sector::System s(sector.Get(), sx, sy, sz, customCount + i);
 
 		switch (rng.Int32(15)) {
 			case 0:
@@ -162,7 +162,7 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sect
 		 * ~700ly+: unexplored
 		 */
 		int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-		s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || Pi::GetGalaxy()->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
+		s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
 
 		Uint32 weight = rng.Int32(1000000);
 
@@ -308,7 +308,7 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Sector> sect
 			//Output("%d: %d%\n", sx, sy);
 		}
 
-		s.m_name = GenName(*sector, s, customCount + i,  rng);
+		s.m_name = GenName(galaxy, *sector, s, customCount + i,  rng);
 		//Output("%s: \n", s.m_name.c_str());
 
 		sector->m_systems.push_back(s);

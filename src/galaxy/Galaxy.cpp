@@ -10,8 +10,8 @@
 #include "FileSystem.h"
 
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator) : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0),
-	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(galaxyGenerator), m_starSystemCache(galaxyGenerator),
-	m_factions(this), m_customSystems(this)
+	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(this, galaxyGenerator),
+	m_starSystemCache(this, galaxyGenerator), m_factions(this), m_customSystems(this)
 {
 	// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
 	static const std::string filename("galaxy_dense.bmp");
@@ -101,12 +101,12 @@ Uint8 Galaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 
 void Galaxy::FlushCaches()
 {
+	m_factions.ClearCache();
 	m_starSystemCache.OutputCacheStatistics();
 	m_starSystemCache.ClearCache();
 	m_sectorCache.OutputCacheStatistics();
 	m_sectorCache.ClearCache();
-	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
-	// assert(m_sectorCache.IsEmpty());
+	assert(m_sectorCache.IsEmpty());
 }
 
 void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
@@ -114,12 +114,17 @@ void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Si
 	for (Sint32 sx = centerX - radius; sx <= centerX + radius; ++sx) {
 		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
 			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
-				RefCountedPtr<const Sector> sector = Pi::GetGalaxy()->GetSector(SystemPath(sx, sy, sz));
+				RefCountedPtr<const Sector> sector = GetSector(SystemPath(sx, sy, sz));
 				sector->Dump(file);
 			}
 			m_starSystemCache.ClearCache();
 		}
 	}
+}
+
+RefCountedPtr<GalaxyGenerator> Galaxy::GetGenerator() const
+{
+	return m_galaxyGenerator;
 }
 
 const std::string& Galaxy::GetGeneratorName() const

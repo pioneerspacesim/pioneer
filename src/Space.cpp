@@ -59,8 +59,8 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	}
 }
 
-Space::Space(Game *game, Space* oldSpace)
-	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : Pi::GetGalaxy()->NewStarSystemSlaveCache())
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace)
+	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
 	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
@@ -75,11 +75,11 @@ Space::Space(Game *game, Space* oldSpace)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenSectorCache(&game->GetHyperspaceDest());
+	GenSectorCache(galaxy, &game->GetHyperspaceDest());
 }
 
-Space::Space(Game *game, const SystemPath &path, Space* oldSpace)
-	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : Pi::GetGalaxy()->NewStarSystemSlaveCache())
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space* oldSpace)
+	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
 	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
@@ -89,7 +89,7 @@ Space::Space(Game *game, const SystemPath &path, Space* oldSpace)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = Pi::GetGalaxy()->GetStarSystem(path);
+	m_starSystem = galaxy->GetStarSystem(path);
 
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
@@ -104,13 +104,13 @@ Space::Space(Game *game, const SystemPath &path, Space* oldSpace)
 	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	GenSectorCache(&path);
+	GenSectorCache(galaxy, &path);
 
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, Serializer::Reader &rd, double at_time)
-	: m_starSystemCache(Pi::GetGalaxy()->NewStarSystemSlaveCache())
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, double at_time)
+	: m_starSystemCache(galaxy->NewStarSystemSlaveCache())
 	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
@@ -120,7 +120,7 @@ Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::Unserialize(rd);
+	m_starSystem = StarSystem::Unserialize(galaxy, rd);
 
 	const SystemPath &path = m_starSystem->GetPath();
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
@@ -144,7 +144,7 @@ Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	for (Body* b : m_bodies)
 		b->PostLoadFixup(this);
 
-	GenSectorCache(&path);
+	GenSectorCache(galaxy, &path);
 }
 
 Space::~Space()
@@ -627,7 +627,7 @@ private:
 	SystemPath here;
 };
 
-void Space::GenSectorCache(const SystemPath* here)
+void Space::GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here)
 {
 	PROFILE_SCOPED()
 
@@ -654,7 +654,7 @@ void Space::GenSectorCache(const SystemPath* here)
 	// sort them so that those closest to the "here" path are processed first
 	SectorDistanceSort SDS(here);
 	std::sort(paths.begin(), paths.end(), SDS);
-	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
+	m_sectorCache = galaxy->NewSectorSlaveCache();
 	const SystemPath& center(*here);
 	m_sectorCache->FillCache(paths, [this,center]() { UpdateStarSystemCache(&center); });
 }

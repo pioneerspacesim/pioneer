@@ -14,6 +14,7 @@
 #include <vector>
 
 class Faction;
+class Galaxy;
 
 class Sector : public RefCounted {
 	friend class GalaxyObjectCache<Sector, SystemPath::LessSectorOnly>;
@@ -36,9 +37,8 @@ public:
 
 	class System {
 	public:
-		System(int x, int y, int z, Uint32 si): sx(x), sy(y), sz(z), idx(si), m_numStars(0), m_seed(0), m_customSys(nullptr), m_faction(nullptr), m_population(-1),
-			m_explored(false) {};
-		~System() {};
+		System(Sector* sector, int x, int y, int z, Uint32 si) : sx(x), sy(y), sz(z), idx(si), m_sector(sector),
+			m_numStars(0), m_seed(0), m_customSys(nullptr), m_faction(nullptr), m_population(-1),	m_explored(false) {}
 
 		static float DistanceBetween(const System* a, const System* b);
 
@@ -73,6 +73,7 @@ public:
 
 		void AssignFaction() const;
 
+		Sector* m_sector;
 		std::string m_name;
 		vector3f m_pos;
 		unsigned m_numStars;
@@ -92,10 +93,11 @@ private:
 	Sector(const Sector&); // non-copyable
 	Sector& operator=(const Sector&); // non-assignable
 
+	RefCountedPtr<Galaxy> m_galaxy;
 	SectorCache* m_cache;
 
 	// Only SectorCache(Job) are allowed to create sectors
-	Sector(const SystemPath& path, SectorCache* cache) : sx(path.sectorX), sy(path.sectorY), sz(path.sectorZ), m_cache(cache) { }
+	Sector(RefCountedPtr<Galaxy> galaxy, const SystemPath& path, SectorCache* cache);
 	void SetCache(SectorCache* cache) { assert(!m_cache); m_cache = cache; }
 	// sets appropriate factions for all systems in the sector
 };

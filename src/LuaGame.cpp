@@ -55,14 +55,12 @@ static int l_game_start_game(lua_State *l)
 
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 	const double start_time = luaL_optnumber(l, 2, 0.0);
-
-	RefCountedPtr<StarSystem> system(Pi::GetGalaxy()->GetStarSystem(*path));
-	SystemBody *sbody = system->GetBodyByPath(path);
-	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
+	try {
 		Pi::game = new Game(*path, start_time);
-	else
-		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0), start_time);
-
+	}
+	catch (InvalidGameStartLocation& e) {
+		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
+	}
 	return 0;
 }
 

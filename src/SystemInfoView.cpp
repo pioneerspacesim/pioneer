@@ -335,7 +335,7 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 	if (!path.HasValidSystem())
 		return;
 
-	m_system = Pi::GetGalaxy()->GetStarSystem(path);
+	m_system = m_game->GetGalaxy()->GetStarSystem(path);
 
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 

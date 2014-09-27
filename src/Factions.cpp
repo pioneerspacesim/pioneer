@@ -34,6 +34,8 @@ struct FactionBuilder {
 
 static const char LuaFaction_TypeName[] = "Faction";
 
+static FactionsDatabase* s_activeFactionsDatabase = nullptr;
+
 static FactionBuilder *l_fac_check_builder(lua_State *L, int idx) {
 	FactionBuilder *facbld = static_cast<FactionBuilder*>(
 		luaL_checkudata(L, idx, LuaFaction_TypeName));
@@ -51,7 +53,7 @@ static int l_fac_new(lua_State *L)
 	const char *name = luaL_checkstring(L, 2);
 
 	FactionBuilder *facbld = static_cast<FactionBuilder*>(lua_newuserdata(L, sizeof(*facbld)));
-	facbld->fac = new Faction;
+	facbld->fac = new Faction(s_activeFactionsDatabase->GetGalaxy());
 	facbld->registered = false;
 	facbld->skip       = false;
 	luaL_setmetatable(L, LuaFaction_TypeName);
@@ -231,7 +233,7 @@ static int l_fac_add_to_factions(lua_State *L)
 		*/
 
 		// add the faction to the various faction data structures
-		Pi::GetGalaxy()->GetFactions()->AddFaction(facbld->fac);
+		s_activeFactionsDatabase->AddFaction(facbld->fac);
 		facbld->registered = true;
 
 		return 0;
@@ -311,6 +313,9 @@ static void RegisterFactionsAPI(lua_State *L)
 
 void FactionsDatabase::Init()
 {
+	assert(!s_activeFactionsDatabase);
+	s_activeFactionsDatabase = this;
+
 	lua_State *L = luaL_newstate();
 	LUA_DEBUG_START(L);
 
@@ -330,7 +335,7 @@ void FactionsDatabase::Init()
 
 	Output("Number of factions added: " SIZET_FMT "\n", m_factions.size());
 	ClearHomeSectors();
-	Pi::FlushCaches();    // clear caches of anything we used for faction generation
+	m_galaxy->FlushCaches();    // clear caches of anything we used for faction generation
 	while (!m_missingFactionsMap.empty()) {
 		const std::string& factionName = m_missingFactionsMap.begin()->first;
 		std::list<CustomSystem*>& csl = m_missingFactionsMap.begin()->second;
@@ -344,6 +349,7 @@ void FactionsDatabase::Init()
 	}
 	m_initialized = true;
 	SetHomeSectors();
+	s_activeFactionsDatabase = nullptr;
 }
 
 void FactionsDatabase::ClearHomeSectors()
@@ -357,7 +363,7 @@ void FactionsDatabase::SetHomeSectors()
 	m_may_assign_factions = false;
 	for (auto it = m_factions.begin(); it != m_factions.end(); ++it)
 		if ((*it)->hasHomeworld)
-			(*it)->m_homesector = Pi::GetGalaxy()->GetSector((*it)->homeworld);
+			(*it)->m_homesector = m_galaxy->GetSector((*it)->homeworld);
 	m_may_assign_factions = true;
 }
 
@@ -542,11 +548,11 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 		SystemPath path(x, y, z);
 		// search for a suitable homeworld in the current sector
-		RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
+		RefCountedPtr<const Sector> sec = m_galaxy->GetSector(path);
 		Sint32 candidateSi = 0;
 		while (Uint32(candidateSi) < sec->m_systems.size()) {
 			path.systemIndex = candidateSi;
-			sys = Pi::GetGalaxy()->GetStarSystem(path);
+			sys = m_galaxy->GetStarSystem(path);
 			if (sys->HasSpaceStations()) {
 				si = candidateSi;
 				break;
@@ -565,17 +571,18 @@ void Faction::SetBestFitHomeworld(Sint32 x, Sint32 y, Sint32 z, Sint32 si, Uint3
 
 RefCountedPtr<const Sector> Faction::GetHomeSector() const {
 	if (!m_homesector) // This will later be replaced by a Sector from the cache
-		m_homesector = Pi::GetGalaxy()->GetSector(homeworld);
+		m_homesector = m_galaxy->GetSector(homeworld);
 	return m_homesector;
 }
 
-Faction::Faction() :
+Faction::Faction(Galaxy* galaxy) :
 	idx(BAD_FACTION_IDX),
 	name(Lang::NO_CENTRAL_GOVERNANCE),
 	hasHomeworld(false),
 	foundingDate(0.0),
 	expansionRate(0.0),
 	colour(BAD_FACTION_COLOUR),
+	m_galaxy(galaxy),
 	m_homesector(0)
 {
 	PROFILE_SCOPED()
