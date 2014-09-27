@@ -77,11 +77,13 @@ struct galaclabel_t {
 	const char *label;
 	vector3d pos;
 } s_labels[] = {
-	{ Lang::NORMA_ARM, vector3d(0.0,-0.3,0.0) },
-	{ Lang::PERSEUS_ARM, vector3d(0.57,0.0,0.0) },
-	{ Lang::OUTER_ARM, vector3d(0.65,0.4,0.0) },
-	{ Lang::SAGITTARIUS_ARM, vector3d(-.3,0.2,0.0) },
-	{ Lang::SCUTUM_CENTAURUS_ARM, vector3d(-.45,-0.45,0.0) },
+	{ Lang::THREE_KPC_ARM, vector3d(-0.1,-0.3,0.0) },
+	{ Lang::NORMA_ARM, vector3d(-0.2,-0.45,0.0) },
+	{ Lang::PERSEUS_ARM, vector3d(0.65,-0.2,0.0) },
+	{ Lang::OUTER_ARM, vector3d(0.0,0.8,0.0) },
+	{ Lang::SAGITTARIUS_ARM, vector3d(-0.2,-0.7,0.0) },
+	{ Lang::SCUTUM_CENTAURUS_ARM, vector3d(-0.3,-0.575,0.0) },
+	{ Lang::LOCAL_ARM, vector3d(0.45,0.1,0.0) },
 	{ 0, vector3d(0.0, 0.0, 0.0) }
 };
 

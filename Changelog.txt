@@ -10,6 +10,7 @@ September 2014
      * Fix compilation errors on Mac OS X (#3182,#3183)
      * Fix the Line3D rendering issue (#3190)
      * Fix the construction of the Circle drawables. (#3192)
+     * Fix orientation of galaxy density map (#3197)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
@@ -22,6 +23,7 @@ September 2014
      * Terrain detail / depth changes (#3184)
      * Output SDL version on start (#3196)
      * Player defined Ship names (#3176)
+     * Update galaxy colour image (#3197)
 
    * Script and UI API changes
      * Allow to set lawlessness in custom systems (#3166)
