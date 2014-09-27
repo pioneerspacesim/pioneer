@@ -48,17 +48,20 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
         return s_galaxy;
 	}
 
+	RefCountedPtr<GalaxyGenerator> galgen;
 	if (name == "legacy") {
 		Output("Creating new galaxy with generator '%s' version %d\n", name.c_str(), version);
 		if (version == 0) {
-			s_galaxy = RefCountedPtr<Galaxy>(new Galaxy(RefCountedPtr<GalaxyGenerator>(
-				(new GalaxyGenerator(name, version))
+			galgen.Reset((new GalaxyGenerator(name, version))
 				->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
 				->AddSectorStage(new SectorRandomSystemsGenerator)
 				->AddStarSystemStage(new StarSystemFromSectorGenerator)
 				->AddStarSystemStage(new StarSystemCustomGenerator)
 				->AddStarSystemStage(new StarSystemRandomGenerator)
-				->AddStarSystemStage(new PopulateStarSystemGenerator))));
+				->AddStarSystemStage(new PopulateStarSystemGenerator));
+
+			// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
+			s_galaxy = RefCountedPtr<Galaxy>(new DensityMapGalaxy(galgen, "galaxy_dense.bmp", 50000.0, 25000.0, 0.0));
 			s_galaxy->Init();
 			return s_galaxy;
 		}
