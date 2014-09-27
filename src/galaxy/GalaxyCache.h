@@ -24,7 +24,7 @@ class GalaxyObjectCache {
 public:
 	static const std::string CACHE_NAME;
 
-	GalaxyObjectCache(Galaxy* galaxy, RefCountedPtr<GalaxyGenerator> galGen) : m_galaxy(galaxy), m_galaxyGenerator(galGen), m_cacheHits(0), m_cacheHitsSlave(0), m_cacheMisses(0) { }
+	GalaxyObjectCache(Galaxy* galaxy) : m_galaxy(galaxy), m_cacheHits(0), m_cacheHitsSlave(0), m_cacheMisses(0) { }
 	~GalaxyObjectCache();
 
 	RefCountedPtr<T> GetCached(const SystemPath& path);
@@ -58,7 +58,6 @@ public:
 	private:
 		GalaxyObjectCache* m_master;
 		RefCountedPtr<Galaxy> m_galaxy;
-		RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 		CacheMap m_cache;
 		JobSet m_jobs;
 
@@ -98,7 +97,6 @@ private:
 	};
 
 	Galaxy* m_galaxy;
-	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	std::set<Slave*> m_slaves;
 	AtticMap m_attic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
 						// or elsewhere. The Sector destructor ensures that it is removed from here.

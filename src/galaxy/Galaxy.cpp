@@ -12,8 +12,8 @@
 Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 	const std::string& factionsDir, const std::string& customSysDir)
 	: GALAXY_RADIUS(radius), SOL_OFFSET_X(sol_offset_x), SOL_OFFSET_Y(sol_offset_y),
-	m_galaxyGenerator(galaxyGenerator), m_sectorCache(this, galaxyGenerator),
-	m_starSystemCache(this, galaxyGenerator), m_factions(this, factionsDir), m_customSystems(this, customSysDir)
+	m_galaxyGenerator(galaxyGenerator), m_sectorCache(this),
+	m_starSystemCache(this), m_factions(this, factionsDir), m_customSystems(this, customSysDir)
 {
 }
 
@@ -28,6 +28,11 @@ RefCountedPtr<Galaxy> Galaxy::Load(Serializer::Reader &rd)
 void Galaxy::Serialize(Serializer::Writer &wr)
 {
 	m_galaxyGenerator->Serialize(wr, RefCountedPtr<Galaxy>(this));
+}
+
+void Galaxy::SetGalaxyGenerator(RefCountedPtr<GalaxyGenerator> galaxyGenerator)
+{
+	m_galaxyGenerator = galaxyGenerator;
 }
 
 Galaxy::~Galaxy()

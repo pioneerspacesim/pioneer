@@ -19,6 +19,7 @@ protected:
 	friend class GalaxyGenerator;
 	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 		const std::string& factionsDir, const std::string& customSysDir);
+	void SetGalaxyGenerator(RefCountedPtr<GalaxyGenerator> galaxyGenerator);
 	virtual void Init();
 
 public:
@@ -51,7 +52,7 @@ public:
 	int GetGeneratorVersion() const;
 
 private:
-	const RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
+	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	SectorCache m_sectorCache;
 	StarSystemCache m_starSystemCache;
 	FactionsDatabase m_factions;

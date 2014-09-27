@@ -59,7 +59,7 @@ RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::GetCached(const SystemPath& path
 	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
 		++m_cacheMisses;
-		s = m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(RefCountedPtr<Galaxy>(m_galaxy), path, this);
+		s = m_galaxy->GetGenerator()->Generate<T,GalaxyObjectCache<T,CompareT>>(RefCountedPtr<Galaxy>(m_galaxy), path, this);
 		m_attic.insert( std::make_pair(path, s.Get()));
 	} else {
 		++m_cacheHits;
@@ -104,7 +104,7 @@ RefCountedPtr<typename GalaxyObjectCache<T,CompareT>::Slave> GalaxyObjectCache<T
 
 template <typename T, typename CompareT>
 GalaxyObjectCache<T,CompareT>::Slave::Slave(GalaxyObjectCache<T,CompareT>* master, RefCountedPtr<Galaxy> galaxy, JobQueue* jobQueue)
-	: m_master(master), m_galaxy(galaxy), m_galaxyGenerator(galaxy->GetGenerator()), m_jobs(Pi::GetAsyncJobQueue())
+	: m_master(master), m_galaxy(galaxy), m_jobs(Pi::GetAsyncJobQueue())
 {
 	m_master->m_slaves.insert(this);
 }
@@ -274,7 +274,7 @@ template class GalaxyObjectCache<Sector,SystemPath::LessSectorOnly>;
 
 template <>
 GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>* master, RefCountedPtr<Galaxy> galaxy, JobQueue* jobQueue)
-	: m_master(master), m_galaxy(galaxy), m_galaxyGenerator(galaxy->GetGenerator()), m_jobs(Pi::GetSyncJobQueue())
+	: m_master(master), m_galaxy(galaxy), m_jobs(Pi::GetSyncJobQueue())
 {
 	m_master->m_slaves.insert(this);
 }
