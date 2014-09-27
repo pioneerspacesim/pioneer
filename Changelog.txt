@@ -21,6 +21,7 @@ September 2014
      * Randomize planet phase angle (#3135)
      * Terrain detail / depth changes (#3184)
      * Output SDL version on start (#3196)
+     * Player defined Ship names (#3176)
 
    * Script and UI API changes
      * Allow to set lawlessness in custom systems (#3166)

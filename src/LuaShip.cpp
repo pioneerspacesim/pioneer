@@ -274,6 +274,38 @@ static int l_ship_set_label(lua_State *l)
 }
 
 /*
+ * Method: SetShipName
+ *
+ * Changes the ship's name text. 
+ * This is the name text that appears beside the ship in the HUD.
+ *
+ * > ship:SetShipName(newShipName)
+ *
+ * Parameters:
+ *
+ *   newShipName - the new name of the ship
+ *
+ * Example:
+ *
+ * > ship:SetShipName("Boris")
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_set_ship_name(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	const std::string shipname(luaL_checkstring(l, 2));
+	s->SetShipName(shipname);
+	return 0;
+}
+
+/*
  * Method: SpawnCargo
  *
  * Spawns a container right next to the ship.
@@ -901,6 +933,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetSkin",    l_ship_get_skin    },
 		{ "SetSkin",    l_ship_set_skin    },
 		{ "SetLabel",   l_ship_set_label   },
+		{ "SetShipName",	l_ship_set_ship_name   },
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
