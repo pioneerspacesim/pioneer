@@ -61,7 +61,7 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 				->AddStarSystemStage(new PopulateStarSystemGenerator));
 
 			// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
-			s_galaxy = RefCountedPtr<Galaxy>(new DensityMapGalaxy(galgen, "galaxy_dense.bmp", 50000.0, 25000.0, 0.0));
+			s_galaxy = RefCountedPtr<Galaxy>(new DensityMapGalaxy(galgen, "galaxy_dense.bmp", 50000.0, 25000.0, 0.0, "factions", "systems"));
 			s_galaxy->Init();
 			return s_galaxy;
 		}

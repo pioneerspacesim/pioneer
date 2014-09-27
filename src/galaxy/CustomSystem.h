@@ -90,7 +90,7 @@ public:
 
 class CustomSystemsDatabase {
 public:
-	CustomSystemsDatabase(Galaxy* galaxy) : m_galaxy(galaxy) { }
+	CustomSystemsDatabase(Galaxy* galaxy, const std::string& customSysDir) : m_galaxy(galaxy), m_customSysDirectory(customSysDir) { }
 	~CustomSystemsDatabase();
 
 	void Init();
@@ -105,6 +105,7 @@ private:
 	typedef std::map<SystemPath, CustomSystemsDatabase::SystemList> SectorMap;
 
 	Galaxy* const m_galaxy;
+	const std::string m_customSysDirectory;
 	SectorMap m_sectorMap;
 	static const CustomSystemsDatabase::SystemList s_emptySystemList; // see: Null Object pattern
 };

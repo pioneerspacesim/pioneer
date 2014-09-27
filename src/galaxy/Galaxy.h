@@ -16,7 +16,8 @@ class GalaxyGenerator;
 class Galaxy : public RefCounted {
 protected:
 	friend class GalaxyGenerator;
-	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y);
+	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
+		const std::string& factionsDir, const std::string& customSysDir);
 	virtual void Init();
 
 public:
@@ -57,7 +58,7 @@ class DensityMapGalaxy : public Galaxy {
 private:
 	friend class GalaxyGenerator;
 	DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, const std::string& mapfile,
-		float radius, float sol_offset_x, float sol_offset_y);
+		float radius, float sol_offset_x, float sol_offset_y,	const std::string& factionsDir, const std::string& customSysDir);
 
 public:
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const;

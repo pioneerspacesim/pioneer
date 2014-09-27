@@ -559,7 +559,7 @@ void CustomSystemsDatabase::Init()
 	RegisterCustomSystemsAPI(L);
 
 	LUA_DEBUG_CHECK(L, 0);
-	pi_lua_dofile_recursive(L, "systems");
+	pi_lua_dofile_recursive(L, m_customSysDirectory);
 
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);

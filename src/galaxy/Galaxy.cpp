@@ -9,10 +9,11 @@
 #include "Pi.h"
 #include "FileSystem.h"
 
-Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y)
+Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
+	const std::string& factionsDir, const std::string& customSysDir)
 	: GALAXY_RADIUS(radius), SOL_OFFSET_X(sol_offset_x), SOL_OFFSET_Y(sol_offset_y),
 	m_galaxyGenerator(galaxyGenerator), m_sectorCache(this, galaxyGenerator),
-	m_starSystemCache(this, galaxyGenerator), m_factions(this), m_customSystems(this)
+	m_starSystemCache(this, galaxyGenerator), m_factions(this, factionsDir), m_customSystems(this, customSysDir)
 {
 }
 
@@ -83,8 +84,8 @@ int Galaxy::GetGeneratorVersion() const
 }
 
 DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, const std::string& mapfile,
-	float radius, float sol_offset_x, float sol_offset_y)
-	: Galaxy(galaxyGenerator, radius, sol_offset_x, sol_offset_y),
+	float radius, float sol_offset_x, float sol_offset_y, const std::string& factionsDir, const std::string& customSysDir)
+	: Galaxy(galaxyGenerator, radius, sol_offset_x, sol_offset_y, factionsDir, customSysDir),
 	  m_mapWidth(0), m_mapHeight(0)
 {
 	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(mapfile);
