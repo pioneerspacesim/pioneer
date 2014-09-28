@@ -328,7 +328,7 @@ void FactionsDatabase::Init()
 	RegisterFactionsAPI(L);
 
 	LUA_DEBUG_CHECK(L, 0);
-	pi_lua_dofile_recursive(L, "factions");
+	pi_lua_dofile_recursive(L, m_factionDirectory);
 
 	LUA_DEBUG_END(L, 0);
 	lua_close(L);

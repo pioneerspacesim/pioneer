@@ -14,10 +14,11 @@ struct SDL_Surface;
 class GalaxyGenerator;
 
 class Galaxy : public RefCounted {
-private:
+protected:
 	friend class GalaxyGenerator;
-	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator);
-	void Init();
+	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
+		const std::string& factionsDir, const std::string& customSysDir);
+	virtual void Init();
 
 public:
 	// lightyears
@@ -28,7 +29,7 @@ public:
 	~Galaxy();
 
 	/* 0 - 255 */
-	Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const;
+	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const = 0;
 	FactionsDatabase* GetFactions() { return &m_factions; } // XXX const correctness
 	CustomSystemsDatabase* GetCustomSystems() { return &m_customSystems; } // XXX const correctness
 
@@ -47,12 +48,24 @@ public:
 
 private:
 	const RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
-	std::unique_ptr<float[]> m_galaxyMap;
-	Sint32 m_mapWidth, m_mapHeight;
 	SectorCache m_sectorCache;
 	StarSystemCache m_starSystemCache;
 	FactionsDatabase m_factions;
 	CustomSystemsDatabase m_customSystems;
+};
+
+class DensityMapGalaxy : public Galaxy {
+private:
+	friend class GalaxyGenerator;
+	DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, const std::string& mapfile,
+		float radius, float sol_offset_x, float sol_offset_y,	const std::string& factionsDir, const std::string& customSysDir);
+
+public:
+	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const;
+
+private:
+	std::unique_ptr<float[]> m_galaxyMap;
+	Sint32 m_mapWidth, m_mapHeight;
 };
 
 #endif /* _GALAXY_H */

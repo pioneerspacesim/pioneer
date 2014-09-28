@@ -44,6 +44,7 @@ September 2014
      * Refactor face generator code to support some future changes (#3180)
      * Shader Attributes and required refactoring (#3194)
      * Refactoring: Get rid of global Galaxy object (#3198)
+     * Galaxy density map, factions, custom systems controlled by GalaxyGenerator (#3199)
 
 August 2014
 

@@ -80,7 +80,7 @@ private:
 
 class FactionsDatabase {
 public:
-	FactionsDatabase(Galaxy* galaxy) : m_galaxy(galaxy), m_no_faction(galaxy), m_may_assign_factions(false), m_initialized(false) { }
+	FactionsDatabase(Galaxy* galaxy, const std::string& factionDir) : m_galaxy(galaxy), m_factionDirectory(factionDir), m_no_faction(galaxy), m_may_assign_factions(false), m_initialized(false) { }
 	~FactionsDatabase();
 
 	void Init();
@@ -123,6 +123,7 @@ private:
 	void SetHomeSectors();
 
 	Galaxy* const     m_galaxy;
+	const std::string m_factionDirectory;
 	Faction           m_no_faction;    // instead of answering null, we often want to answer a working faction object for no faction
 	FactionList       m_factions;
 	FactionMap        m_factions_byName;
