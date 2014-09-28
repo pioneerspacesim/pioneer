@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Ramię Lokalne"
    },
    "LOCKED" : {
       "description" : "",
@@ -1237,7 +1237,7 @@
    },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Zewnętrzne ramię"
+      "message" : "Ramię Zewnętrzne"
    },
    "OVER_N_BILLION" : {
       "description" : "",
@@ -1489,7 +1489,7 @@
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Tarczy Centaura"
+      "message" : "Ramię Centaura"
    },
    "SEARCH" : {
       "description" : "",
@@ -1873,7 +1873,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "Ramię Trzech Kiloparseków"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

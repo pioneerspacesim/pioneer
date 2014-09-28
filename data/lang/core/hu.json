@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Helyi kar"
    },
    "LOCKED" : {
       "description" : "",
@@ -1873,7 +1873,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "3kpsz kar"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
