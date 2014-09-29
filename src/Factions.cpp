@@ -348,8 +348,14 @@ void FactionsDatabase::Init()
 		m_missingFactionsMap.erase(m_missingFactionsMap.begin());
 	}
 	m_initialized = true;
-	SetHomeSectors();
 	s_activeFactionsDatabase = nullptr;
+}
+
+void FactionsDatabase::PostInit()
+{
+	assert(m_initialized);
+	assert(m_galaxy->IsInitialized());
+	SetHomeSectors();
 }
 
 void FactionsDatabase::ClearHomeSectors()

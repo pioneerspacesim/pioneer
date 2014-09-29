@@ -84,6 +84,7 @@ public:
 	~FactionsDatabase();
 
 	void Init();
+	void PostInit();
 	void ClearCache() { ClearHomeSectors(); }
 	bool IsInitialized() const;
 	Galaxy* GetGalaxy() const { return m_galaxy; }

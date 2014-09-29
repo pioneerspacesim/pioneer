@@ -44,6 +44,7 @@ void Galaxy::Init()
 	m_customSystems.Init();
 	m_factions.Init();
 	m_initialized = true;
+	m_factions.PostInit(); // So, cached home sectors take persisted state into account
 #if 0
 	{
 		Profiler::Timer timer;
