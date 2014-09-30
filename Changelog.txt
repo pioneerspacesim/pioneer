@@ -11,6 +11,7 @@ September 2014
      * Fix the Line3D rendering issue (#3190)
      * Fix the construction of the Circle drawables. (#3192)
      * Fix orientation of galaxy density map (#3197)
+     * Remove invalid asserts (#3206)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
