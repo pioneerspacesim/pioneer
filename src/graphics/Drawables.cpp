@@ -221,7 +221,6 @@ Lines::Lines() : m_refreshVertexBuffer(true), m_width(2.0f), m_va(new VertexArra
 void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Color &color)
 {
 	PROFILE_SCOPED()
-	assert( (vertCount & 1) == 0 ); // ensure vertCount is a multiple of 2
 	assert( vertices );
 
 	// somethings changed so even if the number of verts is constant the data must be uploaded
@@ -243,7 +242,6 @@ void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Colo
 void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Color *colors)
 {
 	PROFILE_SCOPED()
-	assert( (vertCount & 1) == 0 ); // ensure vertCount is a multiple of 2
 	assert( vertices );
 
 	// somethings changed so even if the number of verts is constant the data must be uploaded
