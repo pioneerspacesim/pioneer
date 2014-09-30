@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Braccio locale"
    },
    "LOCKED" : {
       "description" : "",
@@ -1109,7 +1109,7 @@
    },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio della Norma"
+      "message" : "Braccio Regolo-Cigno"
    },
    "NOT_FOUND" : {
       "description" : "",
@@ -1265,7 +1265,7 @@
    },
    "PERSEUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio del Perseo"
+      "message" : "Braccio di Perseo"
    },
    "PIONEER" : {
       "description" : "",
@@ -1469,7 +1469,7 @@
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio del Sagittario"
+      "message" : "Braccio Carena-Sagittario"
    },
    "SCANNER" : {
       "description" : "",
@@ -1873,7 +1873,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "Braccio dei 3-kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
