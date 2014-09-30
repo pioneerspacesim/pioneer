@@ -362,11 +362,11 @@ protected:
 		return body;
 	}
 
+	void MakeShortDescription();
+	void SetShortDesc(const std::string& desc) { m_shortDesc = desc; }
+
 private:
 	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
-	void MakeShortDescription();
-
-	void SetShortDesc(const std::string& desc) { m_shortDesc = desc; }
 
 	std::string ExportBodyToLua(FILE *f, SystemBody *body);
 	std::string GetStarTypes(SystemBody *body);
