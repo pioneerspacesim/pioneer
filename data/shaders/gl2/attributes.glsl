@@ -5,5 +5,5 @@
 attribute vec4 a_vertex;
 attribute vec3 a_normal;
 attribute vec4 a_color;
-attribute vec2 a_uv0;
+attribute vec4 a_uv0;
 #endif
