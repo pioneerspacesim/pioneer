@@ -102,6 +102,7 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_lineState = Pi::renderer->CreateRenderState(rsd); //m_renderer not set yet
 
 	m_realtime = true;
+	m_unexplored = true;
 
 	Gui::Screen::PushFont("OverlayFont");
 	m_objectLabels = new Gui::LabelSet();
@@ -580,7 +581,7 @@ void SystemView::Draw3D()
 
 	SystemPath path = m_game->GetSectorView()->GetSelected().SystemOnly();
 	if (m_system) {
-		if (!m_system->GetPath().IsSameSystem(path)) {
+		if (m_system->GetUnexplored() != m_unexplored || !m_system->GetPath().IsSameSystem(path)) {
 			m_system.Reset();
 			ResetViewpoint();
 		}
@@ -595,7 +596,10 @@ void SystemView::Draw3D()
 	std::string t = Lang::TIME_POINT+format_date(m_time);
 	m_timePoint->SetText(t);
 
-	if (!m_system) m_system = m_game->GetGalaxy()->GetStarSystem(path);
+	if (!m_system) {
+		m_system = m_game->GetGalaxy()->GetStarSystem(path);
+		m_unexplored = m_system->GetUnexplored();
+	}
 
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
@@ -610,13 +614,16 @@ void SystemView::Draw3D()
 	m_objectLabels->Clear();
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
-	else if (m_system->GetRootBody()) {
-		PutBody(m_system->GetRootBody().Get(), pos, trans);
-		if (m_game->GetSpace()->GetStarSystem() == m_system) {
-			const Body *navTarget = Pi::player->GetNavTarget();
-			const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;
-			if (navTargetSystemBody)
-				PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
+	else {
+		m_infoLabel->SetText("");
+		if (m_system->GetRootBody()) {
+			PutBody(m_system->GetRootBody().Get(), pos, trans);
+			if (m_game->GetSpace()->GetStarSystem() == m_system) {
+				const Body *navTarget = Pi::player->GetNavTarget();
+				const SystemBody *navTargetSystemBody = navTarget ? navTarget->GetSystemBody() : 0;
+				if (navTargetSystemBody)
+					PutSelectionBox(navTargetSystemBody, pos, Color::GREEN);
+			}
 		}
 	}
 	glLineWidth(1);

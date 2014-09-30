@@ -6,6 +6,7 @@
 
 #include <cstdio>
 #include "RefCounted.h"
+#include "Serializer.h"
 #include "Factions.h"
 #include "CustomSystem.h"
 #include "GalaxyCache.h"
@@ -18,6 +19,7 @@ protected:
 	friend class GalaxyGenerator;
 	Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
 		const std::string& factionsDir, const std::string& customSysDir);
+	void SetGalaxyGenerator(RefCountedPtr<GalaxyGenerator> galaxyGenerator);
 	virtual void Init();
 
 public:
@@ -26,14 +28,19 @@ public:
 	const float SOL_OFFSET_X;
 	const float SOL_OFFSET_Y;
 
+	static RefCountedPtr<Galaxy> Load(Serializer::Reader &rd);
+	void Serialize(Serializer::Writer &wr);
+
 	~Galaxy();
 
+	bool IsInitialized() const { return m_initialized; }
 	/* 0 - 255 */
 	virtual Uint8 GetSectorDensity(const int sx, const int sy, const int sz) const = 0;
 	FactionsDatabase* GetFactions() { return &m_factions; } // XXX const correctness
 	CustomSystemsDatabase* GetCustomSystems() { return &m_customSystems; } // XXX const correctness
 
 	RefCountedPtr<const Sector> GetSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
+	RefCountedPtr<Sector> GetMutableSector(const SystemPath& path) { return m_sectorCache.GetCached(path); }
 	RefCountedPtr<SectorCache::Slave> NewSectorSlaveCache() { return m_sectorCache.NewSlaveCache(); }
 
 	RefCountedPtr<StarSystem> GetStarSystem(const SystemPath& path) { return m_starSystemCache.GetCached(path); }
@@ -47,7 +54,8 @@ public:
 	int GetGeneratorVersion() const;
 
 private:
-	const RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
+	bool m_initialized;
+	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 	SectorCache m_sectorCache;
 	StarSystemCache m_starSystemCache;
 	FactionsDatabase m_factions;

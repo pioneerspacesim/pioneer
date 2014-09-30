@@ -7,7 +7,7 @@
 #include "SectorGenerator.h"
 #include "galaxy/StarSystemGenerator.h"
 
-static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 0;
+static const GalaxyGenerator::Version LAST_VERSION_LEGACY = 1;
 
 std::string GalaxyGenerator::s_defaultGenerator = "legacy";
 GalaxyGenerator::Version GalaxyGenerator::s_defaultVersion = LAST_VERSION_LEGACY;
@@ -43,31 +43,72 @@ RefCountedPtr<Galaxy> GalaxyGenerator::Create(const std::string& name, Version v
 	if (version == LAST_VERSION)
 		version = GetLastVersion(name);
 
-	if (s_galaxy && name == s_galaxy->GetGeneratorName() && version == s_galaxy->GetGeneratorVersion()) {
-        s_galaxy->FlushCaches();
-        return s_galaxy;
-	}
-
 	RefCountedPtr<GalaxyGenerator> galgen;
 	if (name == "legacy") {
-		Output("Creating new galaxy with generator '%s' version %d\n", name.c_str(), version);
-		if (version == 0) {
+		Output("Creating new galaxy generator '%s' version %d\n", name.c_str(), version);
+		if (version == 0 || version == 1) {
 			galgen.Reset((new GalaxyGenerator(name, version))
 				->AddSectorStage(new SectorCustomSystemsGenerator(CustomSystem::CUSTOM_ONLY_RADIUS))
 				->AddSectorStage(new SectorRandomSystemsGenerator)
+				->AddSectorStage(new SectorPersistenceGenerator(version))
 				->AddStarSystemStage(new StarSystemFromSectorGenerator)
 				->AddStarSystemStage(new StarSystemCustomGenerator)
 				->AddStarSystemStage(new StarSystemRandomGenerator)
 				->AddStarSystemStage(new PopulateStarSystemGenerator));
-
-			// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
-			s_galaxy = RefCountedPtr<Galaxy>(new DensityMapGalaxy(galgen, "galaxy_dense.bmp", 50000.0, 25000.0, 0.0, "factions", "systems"));
-			s_galaxy->Init();
-			return s_galaxy;
 		}
 	}
-	Output("Galaxy generation failed: Unknown generator '%s' version %d\n", name.c_str(), version);
-	return RefCountedPtr<Galaxy>();
+
+	if (galgen) {
+		if (s_galaxy && galgen->m_name == s_galaxy->GetGeneratorName() && galgen->m_version == s_galaxy->GetGeneratorVersion()) {
+			Output("Clearing and re-using previous Galaxy object\n");
+			s_galaxy->SetGalaxyGenerator(galgen);
+	        s_galaxy->FlushCaches();
+	        return s_galaxy;
+		}
+
+		assert(name == "legacy"); // Once whe have have more, this will become an if switch
+		// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
+		s_galaxy = RefCountedPtr<Galaxy>(new DensityMapGalaxy(galgen, "galaxy_dense.bmp", 50000.0, 25000.0, 0.0, "factions", "systems"));
+		s_galaxy->Init();
+		return s_galaxy;
+	} else {
+		Output("Galaxy generation failed: Unknown generator '%s' version %d\n", name.c_str(), version);
+		return RefCountedPtr<Galaxy>();
+	}
+}
+
+// static
+RefCountedPtr<Galaxy> GalaxyGenerator::Create(Serializer::Reader& rd)
+{
+	std::string genName = rd.String();
+	GalaxyGenerator::Version genVersion = rd.Int32();
+	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(genName, genVersion);
+	if (!galaxy) {
+		Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
+		throw SavedGameWrongVersionException();
+	}
+	return galaxy;
+}
+
+void GalaxyGenerator::Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy)
+{
+	wr.String(m_name);
+	if (m_name == "legacy" && m_version == 0)
+		wr.Int32(1); // Promote savegame
+	else
+		wr.Int32(m_version);
+	for (SectorGeneratorStage* secgen : m_sectorStage)
+		secgen->Serialize(wr, galaxy);
+	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
+		sysgen->Serialize(wr, galaxy);
+}
+
+void GalaxyGenerator::Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
+{
+	for (SectorGeneratorStage* secgen : m_sectorStage)
+		secgen->Unserialize(rd, galaxy);
+	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
+		sysgen->Unserialize(rd, galaxy);
 }
 
 GalaxyGenerator::~GalaxyGenerator()

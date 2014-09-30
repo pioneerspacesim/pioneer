@@ -134,13 +134,7 @@ Game::Game(Serializer::Reader &rd) :
 
 	// galaxy generator
 	section = rd.RdSection("GalaxyGen");
-	std::string genName = section.String();
-	GalaxyGenerator::Version genVersion = section.Int32();
-	m_galaxy = GalaxyGenerator::Create(genName, genVersion);
-	if (!m_galaxy) {
-		Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
-		throw SavedGameWrongVersionException();
-	}
+	m_galaxy = Galaxy::Load(section);
 
 	// game state
 	section = rd.RdSection("Game");
@@ -203,8 +197,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	Serializer::Writer section;
 
 	// galaxy generator
-	section.String(m_galaxy->GetGeneratorName());
-	section.Int32(m_galaxy->GetGeneratorVersion());
+	m_galaxy->Serialize(section);
 	wr.WrSection("GalaxyGen", section.GetData());
 
 	// game state
@@ -236,7 +229,6 @@ void Game::Serialize(Serializer::Writer &wr)
 		(*i)->Serialize(section, m_space.get());
 
 	wr.WrSection("HyperspaceClouds", section.GetData());
-
 
 	// system political data (crime etc)
 	section = Serializer::Writer();

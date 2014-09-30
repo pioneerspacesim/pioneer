@@ -10,6 +10,7 @@
 
 #include "Serializer.h"
 #include "Pi.h"
+#include "LuaEvent.h"
 #include "enum_table.h"
 #include <map>
 #include <string>
@@ -647,7 +648,7 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  */
 StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand)
 	: m_galaxy(galaxy), m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
-	  m_faction(nullptr), m_unexplored(false), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
+	  m_faction(nullptr), m_explored(eEXPLORED_AT_START), m_exploredTime(0.0), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
 	  m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true), m_cache(cache)
 {
 	PROFILE_SCOPED()
@@ -714,6 +715,59 @@ void StarSystem::Dump()
 	Output("Junk dumped to starsystem.dump\n");
 }
 #endif /* DEBUG_DUMP */
+
+void StarSystem::MakeShortDescription()
+{
+	PROFILE_SCOPED()
+	if (GetExplored() == StarSystem::eUNEXPLORED)
+		SetShortDesc(Lang::UNEXPLORED_SYSTEM_NO_DATA);
+
+	else if (GetExplored() == StarSystem::eEXPLORED_BY_PLAYER)
+		SetShortDesc(stringf(Lang::RECENTLY_EXPLORED_SYSTEM, formatarg("date", format_date_only(GetExploredTime()))));
+
+	/* Total population is in billions */
+	else if(GetTotalPop() == 0) {
+		SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
+	} else if (GetTotalPop() < fixed(1,10)) {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
+		}
+	} else if (GetTotalPop() < fixed(1,2)) {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::MINING_COLONY); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
+		}
+	} else if (GetTotalPop() < fixed(5,1)) {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::HEAVY_INDUSTRY); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::EXTENSIVE_MINING); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
+		}
+	} else {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::VAST_STRIP_MINE); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
+		}
+	}
+}
+
+
+void StarSystem::ExploreSystem(double time)
+{
+	if (m_explored != eUNEXPLORED)
+		return;
+	m_explored = eEXPLORED_BY_PLAYER;
+	m_exploredTime = time;
+	RefCountedPtr<Sector> sec = m_galaxy->GetMutableSector(m_path);
+	Sector::System& secsys = sec->m_systems[m_path.systemIndex];
+	secsys.SetExplored(m_explored, m_exploredTime);
+	MakeShortDescription();
+	LuaEvent::Queue("onSystemExplored", this);
+}
 
 void SystemBody::Dump(FILE* file, const char* indent) const
 {
@@ -963,7 +1017,7 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 	} else {
 		fprintf(file, "%sStarSystem(%d,%d,%d,%u) {\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex);
 		fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
-		fprintf(file, "%s\t%sEXPLORED%s\n", indent, m_unexplored ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
+		fprintf(file, "%s\t%sEXPLORED%s\n", indent, GetUnexplored() ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
 		fprintf(file, "%s\tfaction %s%s%s\n", indent, m_faction ? "\"" : "NONE", m_faction ? m_faction->name.c_str() : "", m_faction ? "\"" : "");
 		fprintf(file, "%s\tseed %u\n", indent, static_cast<Uint32>(m_seed));
 		fprintf(file, "%s\t%u stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");

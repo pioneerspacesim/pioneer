@@ -74,6 +74,7 @@ private:
 	Game* m_game;
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
+	bool m_unexplored;
 	TransferPlanner *m_planner;
 	std::list<std::pair<Ship*, Orbit>> m_contacts;
 	Gui::LabelSet *m_shipLabels;

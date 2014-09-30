@@ -29,7 +29,7 @@ static void push_date_time(lua_State *l, const Time::DateTime &dt) {
 	pi_lua_settable(l, "hour", hour);
 	pi_lua_settable(l, "minute", minute);
 	pi_lua_settable(l, "second", second);
-	pi_lua_settable(l, "timestamp", datetime_to_game_time(dt));
+	pi_lua_settable(l, "timestamp", dt.ToGameTime());
 }
 
 /*

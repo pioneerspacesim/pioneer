@@ -10,6 +10,7 @@
 #include "galaxy/StarSystem.h"
 #include "galaxy/Economy.h"
 #include "Pi.h"
+#include "Game.h"
 #include "Space.h"
 #include "Star.h"
 #include "Planet.h"
@@ -380,6 +381,43 @@ static int l_starsystem_export_to_lua(lua_State *l)
 }
 
 /*
+ * Method: Explore
+ *
+ * Set the star system to be explored by the Player.
+ *
+ * > system:Explore(time)
+ *
+ * Parameters:
+ *
+ *   time - optional, the game time at which the system was explored.
+ *          Defaults to current game time.
+ *
+ * Availability:
+ *
+ *   October 2014
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_explore(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	double time;
+	if (lua_isnumber(l, 2))
+		time = luaL_checknumber(l, 2);
+	else
+		time = Pi::game->GetTime();
+
+	s->ExploreSystem(time);
+
+	LUA_DEBUG_END(l,0);
+	return 0;
+}
+
+/*
  * Attribute: name
  *
  * The name of the system. This is usually the same as the name of the primary
@@ -529,6 +567,8 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "DistanceTo", l_starsystem_distance_to },
 
 		{ "ExportToLua", l_starsystem_export_to_lua },
+
+		{ "Explore", l_starsystem_explore },
 
 		{ 0, 0 }
 	};

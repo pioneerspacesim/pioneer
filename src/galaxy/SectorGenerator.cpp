@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
+#include "DateTime.h"
 #include "SectorGenerator.h"
 #include "CustomSystem.h"
 #include "Galaxy.h"
@@ -48,9 +49,15 @@ bool SectorCustomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 			 * ~700ly+: unexplored
 			 */
 			int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-			s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx));
+			if (((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, sysIdx)))
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
 		} else {
-			s.m_explored = cs->explored;
+			if (cs->explored)
+				s.m_explored = StarSystem::eEXPLORED_AT_START;
+			else
+				s.m_explored = StarSystem::eUNEXPLORED;
 		}
 		sector->m_systems.push_back(s);
 	}
@@ -162,7 +169,10 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 		 * ~700ly+: unexplored
 		 */
 		int dist = isqrt(1 + sx*sx + sy*sy + sz*sz);
-		s.m_explored = ((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i));
+		if (((dist <= 90) && ( dist <= 65 || rng.Int32(dist) <= 40)) || galaxy->GetFactions()->IsHomeSystem(SystemPath(sx, sy, sz, customCount + i)))
+			s.m_explored = StarSystem::eEXPLORED_AT_START;
+		else
+			s.m_explored = StarSystem::eUNEXPLORED;
 
 		Uint32 weight = rng.Int32(1000000);
 
@@ -314,4 +324,51 @@ bool SectorRandomSystemsGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> gala
 		sector->m_systems.push_back(s);
 	}
 	return true;
+}
+
+
+void SectorPersistenceGenerator::SetExplored(Sector::System* sys, StarSystem::ExplorationState e, double time)
+{
+	Sint32 date;
+	if (e != StarSystem::eUNEXPLORED) {
+		int year, month, day;
+		Time::DateTime dt = Time::DateTime(3200,1,1,0,0,0) + Time::TimeDelta(time, Time::Second);
+		dt.GetDateParts(&year, &month, &day);
+		date = day | month << 5 | year << 9;
+	}
+	m_exploredSystems.Set(SystemPath(sys->sx, sys->sy, sys->sz, sys->idx), (e == StarSystem::eUNEXPLORED) ? -1 : date);
+}
+
+bool SectorPersistenceGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config)
+{
+	if (galaxy->IsInitialized()) {
+		for (Sector::System& secsys : sector->m_systems) {
+			Sint32 exploredTime = m_exploredSystems.Get(SystemPath(secsys.sx, secsys.sy, secsys.sz, secsys.idx), -1);
+			if (exploredTime == 0) {
+				secsys.m_explored = StarSystem::eEXPLORED_AT_START;
+				secsys.m_exploredTime = 0.0;
+			} else if (exploredTime > 0) {
+				int year = exploredTime >> 9;
+				int month = (exploredTime >> 5) & 0xf;
+				int day = exploredTime & 0x1f;
+				Time::DateTime dt(year, month, day);
+				secsys.m_explored = StarSystem::eEXPLORED_BY_PLAYER;
+				secsys.m_exploredTime = dt.ToGameTime();
+			}
+		}
+	}
+	sector->onSetExplorationState.connect(sigc::mem_fun(this, &SectorPersistenceGenerator::SetExplored));
+	return true;
+}
+
+void SectorPersistenceGenerator::Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
+{
+	m_exploredSystems.Clear();
+	if (m_version >= 1)
+		m_exploredSystems.Unserialize(rd, &m_exploredSystems);
+}
+
+void SectorPersistenceGenerator::Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy)
+{
+	m_exploredSystems.Serialize(wr);
 }

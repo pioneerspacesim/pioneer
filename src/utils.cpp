@@ -65,23 +65,9 @@ static const char * const MONTH_NAMES[] = {
 	Lang::MONTH_DEC
 };
 
-static Time::DateTime game_time_to_datetime(double t) {
-	return Time::DateTime(3200,1,1,0,0,0) + Time::TimeDelta(t, Time::Second);
-}
-
-double datetime_to_game_time(const Time::DateTime &dt) {
-	const Time::DateTime base(3200,1,1, 0,0,0);
-	Time::TimeDelta tstamp = (dt - base);
-	if (dt < base) {
-		// adjustment to give correct rounding for GetTotalSeconds()
-		tstamp -= Time::TimeDelta(Time::Second - 1, Time::TimeUnit(1));
-	}
-	return double(tstamp.GetTotalSeconds());
-}
-
 std::string format_date(double t)
 {
-	const Time::DateTime dt = game_time_to_datetime(t);
+	const Time::DateTime dt(t);
 	int year, month, day, hour, minute, second;
 	dt.GetDateParts(&year, &month, &day);
 	dt.GetTimeParts(&hour, &minute, &second);
@@ -94,7 +80,7 @@ std::string format_date(double t)
 
 std::string format_date_only(double t)
 {
-	const Time::DateTime dt = game_time_to_datetime(t);
+	const Time::DateTime dt(t);
 	int year, month, day;
 	dt.GetDateParts(&year, &month, &day);
 

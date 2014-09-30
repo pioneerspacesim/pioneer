@@ -289,6 +289,12 @@ public:
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 	class GeneratorAPI; // Complete definition below
 
+	enum ExplorationState {
+		eUNEXPLORED = 0,
+		eEXPLORED_BY_PLAYER = 1,
+		eEXPLORED_AT_START = 2
+	};
+
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
@@ -328,7 +334,11 @@ public:
 	}
 
 	const Faction* GetFaction() const  { return m_faction; }
-	bool GetUnexplored() const { return m_unexplored; }
+	bool GetUnexplored() const { return m_explored == eUNEXPLORED; }
+	ExplorationState GetExplored() const { return m_explored; }
+	double GetExploredTime() const { return m_exploredTime; }
+	void ExploreSystem(double time);
+
 	fixed GetMetallicity() const { return m_metallicity; }
 	fixed GetIndustrial() const { return m_industrial; }
 	fixed GetAgricultural() const { return m_agricultural; }
@@ -352,6 +362,9 @@ protected:
 		return body;
 	}
 
+	void MakeShortDescription();
+	void SetShortDesc(const std::string& desc) { m_shortDesc = desc; }
+
 private:
 	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
 
@@ -368,7 +381,8 @@ private:
 	bool m_hasCustomBodies;
 
 	const Faction* m_faction;
-	bool m_unexplored;
+	ExplorationState m_explored;
+	double m_exploredTime;
 	fixed m_metallicity;
 	fixed m_industrial;
 	GalacticEconomy::EconType m_econType;
@@ -404,9 +418,8 @@ public:
 	void SetRootBody(RefCountedPtr<SystemBody> rootBody) { m_rootBody = rootBody; }
 	void SetRootBody(SystemBody* rootBody) { m_rootBody.Reset(rootBody); }
 	void SetName(const std::string& name) { m_name = name; }
-	void SetShortDesc(const std::string& desc) { m_shortDesc = desc; }
 	void SetLongDesc(const std::string& desc) { m_longDesc = desc; }
-	void SetUnexplored(bool unexplored) { m_unexplored = unexplored; }
+	void SetExplored(ExplorationState explored, double time) { m_explored = explored; m_exploredTime = time; }
 	void SetSeed(Uint32 seed) { m_seed = seed; }
 	void SetFaction(const Faction* faction) { m_faction = faction; }
 	void SetEconType(GalacticEconomy::EconType econType) { m_econType = econType; }
@@ -424,6 +437,8 @@ public:
 	void AddSpaceStation(SystemBody* station) { assert(station->GetSuperType() == SystemBody::SUPERTYPE_STARPORT); m_spaceStations.push_back(station); }
 	void AddStar(SystemBody* star) { assert(star->GetSuperType() == SystemBody::SUPERTYPE_STAR); m_stars.push_back(star);}
 	using StarSystem::NewBody;
+	using StarSystem::MakeShortDescription;
+	using StarSystem::SetShortDesc;
 };
 
 #endif /* _STARSYSTEM_H */
