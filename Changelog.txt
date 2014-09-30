@@ -1,5 +1,7 @@
 September 2014
-
+   * New Features
+     * System exploration (#3201)
+     
    * Fixes
      * Fix wrong reinitialization of random generator (#3156)
      * Fix crash at Daniel's Haven (#3157)
