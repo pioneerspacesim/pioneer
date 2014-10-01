@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "cisimler"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "cisim"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

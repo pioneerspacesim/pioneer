@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "kūnai"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "kūnas"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

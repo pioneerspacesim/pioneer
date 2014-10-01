@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "tělesy"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "tělesem"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

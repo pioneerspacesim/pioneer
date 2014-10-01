@@ -1,27 +1,27 @@
 {
    "BASE" : {
       "description" : "",
-      "message" : "base"
+      "message" : "állomás"
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "állomás"
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "égitest"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "égitest"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : " {portcount} ismeretlen {bases} bemérve."
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : " {bodycount} nagy {bodies} található a rendszerben."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",

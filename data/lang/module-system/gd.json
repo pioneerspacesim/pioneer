@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "bodhaigean"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "bodhaig"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

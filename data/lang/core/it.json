@@ -1401,7 +1401,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Questo sistema fu esplorato il %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",

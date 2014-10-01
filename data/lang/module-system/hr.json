@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "tijela"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "tijelo"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "corpos"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "corpo"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

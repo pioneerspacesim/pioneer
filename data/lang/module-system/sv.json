@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "kroppar"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "kropp"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

@@ -9,11 +9,11 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "legemer"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "krop"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",

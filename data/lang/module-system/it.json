@@ -5,23 +5,23 @@
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "basi"
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "corpi"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "corpo"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : "Hai scoperto {portcount} {bases} nascoste!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "Esplorazione del sistema con {bodycount} {bodies} maggiori."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
