@@ -110,6 +110,22 @@ void DynamicBody::SetFrame(Frame *f)
 	m_externalForce = m_gravityForce = m_atmosForce = vector3d(0.0);
 }
 
+double DynamicBody::CalcAtmosphericForce(double dragCoeff) const
+{
+	Body *body = GetFrame()->GetBody();
+	if (!body || !GetFrame()->IsRotFrame() || !body->IsType(Object::PLANET))
+		return 0.0;
+	Planet *planet = static_cast<Planet*>(body);
+	double dist = GetPosition().Length();
+	double speed = m_vel.Length();
+	double pressure, density;
+	planet->GetAtmosphericState(dist, &pressure, &density);
+	const double radius = GetClipRadius();		// bogus, preserving behaviour
+	const double area = radius;
+	// ^^^ yes that is as stupid as it looks
+	return 0.5*density*speed*speed*area*dragCoeff;
+}
+
 void DynamicBody::CalcExternalForce()
 {
 	// gravity
@@ -128,16 +144,8 @@ void DynamicBody::CalcExternalForce()
 	// atmospheric drag
 	if (body && GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
 	{
-		Planet *planet = static_cast<Planet*>(body);
-		double dist = GetPosition().Length();
-		double speed = m_vel.Length();
-		double pressure, density;
-		planet->GetAtmosphericState(dist, &pressure, &density);
-		const double radius = GetClipRadius();		// bogus, preserving behaviour
-		const double AREA = radius;
-		// ^^^ yes that is as stupid as it looks
 		vector3d dragDir = -m_vel.NormalizedSafe();
-		vector3d fDrag = 0.5*density*speed*speed*AREA*m_dragCoeff*dragDir;
+		vector3d fDrag = CalcAtmosphericForce(m_dragCoeff)*dragDir;
 
 		// make this a bit less daft at high time accel
 		// only allow atmosForce to increase by .1g per frame

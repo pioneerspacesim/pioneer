@@ -152,6 +152,8 @@ public:
 
 	// 0 to 1.0 is alive, > 1.0 = death
 	double GetHullTemperature() const;
+	// Calculate temperature we would have with wheels down
+	double ExtrapolateHullTemperature() const;
 
 	enum ECMResult {
 		ECM_NOT_INSTALLED,

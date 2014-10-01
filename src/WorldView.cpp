@@ -567,6 +567,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
 	}
 
+	if (is_equal_exact(Pi::player->GetWheelState(), 0.0f) && Pi::player->ExtrapolateHullTemperature() > 0.7)
+		m_wheelsButton->Hide();
+	else
+		m_wheelsButton->Show();
 	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()) || Pi::player->GetWheelTransition() == 1);
 
 	RefreshHyperspaceButton();

@@ -876,6 +876,13 @@ void Ship::FireWeapon(int num)
 	LuaEvent::Queue("onShipFiring", this);
 }
 
+double Ship::ExtrapolateHullTemperature() const
+{
+	const double dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * 1.25;
+	const double dragGs = CalcAtmosphericForce(dragCoeff) / (GetMass() * 9.81);
+	return dragGs / 5.0;
+}
+
 double Ship::GetHullTemperature() const
 {
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);

@@ -29,6 +29,7 @@ public:
 	bool IsMoving() const { return m_isMoving; }
 	virtual double GetMass() const { return m_mass; }	// XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep);
+	double CalcAtmosphericForce(double dragCoeff) const;
 	void CalcExternalForce();
 	void UndoTimestep();
 
