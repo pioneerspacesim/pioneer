@@ -6,6 +6,7 @@ Table of Contents
   1.3 Windows - Autotools (Linux cross-compile)
   1.4 OS X - Autotools
   1.5 OSX - XCode 4
+  1.6 Nix - Autotools
 2 pioneer-thirdparty
   2.1 Linux - Autotools
   2.2 Windows - MSVC
@@ -162,6 +163,23 @@ aplication bundle. The XCode project uses the mac port libraries that you
 have installed above. Once the pioneer.app bundle is complete you can move it
 around where you like (/Applications is a nice place for it).
 
+
+1.6 Nix - Autotools
+-------------------
+
+1. Install the development environment using the included expressions.
+
+    nix-env -i -f nix/env.nix         # build and install the environment
+    load-env-pioneer                  # load the environment
+
+2. Run ./bootstrap to generate your 'configure' file
+
+3. Run ./configure to configure the build.
+
+4. Run make to build everything
+
+Executing ./pioneer requires the development environment to be loaded,
+executing ./src/pioneer does not.
 
 
 2 pioneer-thirdparty
