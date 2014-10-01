@@ -1399,6 +1399,10 @@
       "description" : "",
       "message" : "Arka"
    },
+   "RECENTLY_EXPLORED_SYSTEM" : {
+      "description" : "",
+      "message" : "This system was explored on %date."
+   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Sabitlenme izni iste"

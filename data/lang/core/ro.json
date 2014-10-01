@@ -1399,6 +1399,10 @@
       "description" : "",
       "message" : "Spate"
    },
+   "RECENTLY_EXPLORED_SYSTEM" : {
+      "description" : "",
+      "message" : "This system was explored on %date."
+   },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
       "message" : "Cereţi permisiunea de a andoca"

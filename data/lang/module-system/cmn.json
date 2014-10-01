@@ -1,4 +1,28 @@
 {
+   "BASE" : {
+      "description" : "",
+      "message" : "base"
+   },
+   "BASES" : {
+      "description" : "",
+      "message" : "bases"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "bodies"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "body"
+   },
+   "DISCOVERED_HIDDEN_BASES" : {
+      "description" : "",
+      "message" : "You have discovered {portcount} hidden {bases}!"
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : "Exploring system with {bodycount} major {bodies}."
+   },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
       "message" : "你的油箱几乎要空了."
