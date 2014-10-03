@@ -29,6 +29,7 @@ public:
 	bool IsMoving() const { return m_isMoving; }
 	virtual double GetMass() const { return m_mass; }	// XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep);
+	double CalcAtmosphericForce(double dragCoeff) const;
 	void CalcExternalForce();
 	void UndoTimestep();
 
@@ -53,6 +54,10 @@ public:
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
+
+	static const double DEFAULT_DRAG_COEFF;
+	double m_dragCoeff;
+
 private:
 	vector3d m_oldPos;
 	vector3d m_oldAngDisplacement;

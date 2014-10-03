@@ -770,7 +770,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
-
+	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
 	DynamicBody::TimeStepUpdate(timeStep);
 
 	// fuel use decreases mass, so do this as the last thing in the frame
@@ -876,12 +876,19 @@ void Ship::FireWeapon(int num)
 	LuaEvent::Queue("onShipFiring", this);
 }
 
+double Ship::ExtrapolateHullTemperature() const
+{
+	const double dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * 1.25;
+	const double dragGs = CalcAtmosphericForce(dragCoeff) / (GetMass() * 9.81);
+	return dragGs / 5.0;
+}
+
 double Ship::GetHullTemperature() const
 {
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	int atmo_shield_cap = 0;
 	const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);
-	if (atmo_shield_cap) {
+	if (atmo_shield_cap && GetWheelState() < 1.0) {
 		return dragGs / 300.0;
 	} else {
 		return dragGs / 5.0;

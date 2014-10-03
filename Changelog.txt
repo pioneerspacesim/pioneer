@@ -2,6 +2,7 @@ October 2014
 
    * New Features
      * We now have a build script for NixOS Linux (#3208)
+     * Flying with gears down increases drag (#2509, #3207)
 
 September 2014
    * New Features
