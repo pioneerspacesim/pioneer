@@ -1,11 +1,11 @@
 {
    "BASE" : {
       "description" : "",
-      "message" : "base"
+      "message" : "Basis"
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "Basen"
    },
    "BODIES" : {
       "description" : "",
@@ -17,11 +17,11 @@
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : "Du hast {portcount} versteckte {bases} entdeckt!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "System mit {bodycount} wichtigen {bodies} erkunden."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",

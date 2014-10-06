@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Lokaler Arm"
    },
    "LOCKED" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Dieses System wurde am %date erkundet."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1877,7 +1877,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "3kpc Arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
