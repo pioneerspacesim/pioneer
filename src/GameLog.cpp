@@ -3,6 +3,10 @@
 #include "StringF.h"
 #include "graphics/Renderer.h"
 
+// TH Start
+#include "Color.h"
+// TH End
+
 const Uint32 MESSAGE_TIMEOUT  = 8000;
 const Uint32 FADE_TIME  = 1000;
 const Uint32 FADE_AFTER = MESSAGE_TIMEOUT - FADE_TIME;
