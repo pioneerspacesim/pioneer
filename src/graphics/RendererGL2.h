@@ -1,6 +1,8 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#pragma once
+
 #ifndef _RENDERER_GL2_H
 #define _RENDERER_GL2_H
 /*
@@ -65,7 +67,8 @@ public:
 
 	virtual bool SetWireFrameMode(bool enabled);
 
-	virtual bool SetLights(int numlights, const Light *l);
+	virtual bool SetLights(const int numlights, const Light *l);
+	virtual int GetNumLights() const { return m_numLights; }
 	virtual bool SetAmbientColor(const Color &c);
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
@@ -119,6 +122,8 @@ protected:
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;
+	
+	void SetMaterialShaderTransforms(Material *);
 
 	matrix4x4f& GetCurrentTransform() { return m_currentTransform; }
 	matrix4x4f m_currentTransform;

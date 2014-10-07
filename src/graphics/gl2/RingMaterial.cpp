@@ -21,11 +21,20 @@ Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void RingMaterial::Apply()
 {
-	m_program->Use();
-	m_program->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
+	GL2::Material::Apply();
+
 	assert(this->texture0);
 	static_cast<TextureGL*>(texture0)->Bind();
 	m_program->texture0.Set(0);
+
+	//Light uniform parameters
+	for( int i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+		const Light& Light = m_renderer->GetLight(i);
+		m_program->lights[i].diffuse.Set( Light.GetDiffuse() );
+		m_program->lights[i].specular.Set( Light.GetSpecular() );
+		const vector3f& pos = Light.GetPosition();
+		m_program->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+	}
 }
 
 void RingMaterial::Unapply()

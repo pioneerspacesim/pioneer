@@ -312,7 +312,7 @@ void PointSprites::SetData(const int count, const vector3f *positions, const mat
 
 	matrix4x4f rot(trans);
 	rot.ClearToRotOnly();
-	rot = rot.InverseOf();
+	rot = rot.Inverse();
 
 	const float sz = 0.5f * size;
 	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);

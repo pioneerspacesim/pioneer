@@ -21,6 +21,15 @@ namespace Graphics {
 			virtual void Apply() override {
 				GL2::Material::Apply();
 				m_program->sceneAmbient.Set(m_renderer->GetAmbientColor());
+
+				//Light uniform parameters
+				for( int i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+					const Light& Light = m_renderer->GetLight(i);
+					m_program->lights[i].diffuse.Set( Light.GetDiffuse() );
+					m_program->lights[i].specular.Set( Light.GetSpecular() );
+					const vector3f& pos = Light.GetPosition();
+					m_program->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+				}
 			}
 		};
 	}

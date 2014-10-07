@@ -12,7 +12,7 @@ namespace Graphics {
 
 namespace GL2 {
 
-static const char *s_glslVersion = "#version 110\n";
+static const char *s_glslVersion = "#version 150\n";
 GLuint Program::s_curProgram = 0;
 
 // Check and warn about compile & link errors
@@ -196,6 +196,8 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	glBindAttribLocation(m_program, 2, "a_color");
 	glBindAttribLocation(m_program, 3, "a_uv0");
 
+	glBindFragDataLocation(m_program, 0, "frag_color");
+
 	glLinkProgram(m_program);
 
 	check_glsl_errors(name.c_str(), m_program);
@@ -206,6 +208,22 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 void Program::InitUniforms()
 {
 	//Init generic uniforms, like matrices
+	uProjectionMatrix.Init("uProjectionMatrix", m_program);
+	uViewMatrix.Init("uViewMatrix", m_program);
+	uViewMatrixInverse.Init("uViewMatrixInverse", m_program);
+	uViewProjectionMatrix.Init("uViewProjectionMatrix", m_program);
+	uNormalMatrix.Init("uNormalMatrix", m_program);
+
+	//Light uniform parameters
+	char cLight[64];
+	for( int i=0 ; i<=4 ; i++ ) {
+		snprintf(cLight, 64, "uLight[%d]", i);
+		const std::string strLight( cLight );
+		lights[i].diffuse.Init( (strLight + ".diffuse").c_str(), m_program );
+		lights[i].specular.Init( (strLight + ".specular").c_str(), m_program );
+		lights[i].position.Init( (strLight + ".position").c_str(), m_program );
+	}
+
 	invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
 	diffuse.Init("material.diffuse", m_program);
 	emission.Init("material.emission", m_program);

@@ -370,7 +370,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 		// transform the collision location into the models local space (from world space) and add it as a hit.
 		matrix4x4d mtx = GetOrient();
 		mtx.SetTranslate( GetPosition() );
-		const matrix4x4d invmtx = mtx.InverseOf();
+		const matrix4x4d invmtx = mtx.Inverse();
 		const vector3d localPos = invmtx * contactData.pos;
 		GetShields()->AddHit(localPos);
 
@@ -1232,7 +1232,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
 	matrix3x3f mt;
-	matrix3x3dtof(viewTransform.InverseOf().GetOrient(), mt);
+	matrix3x3dtof(viewTransform.Inverse().GetOrient(), mt);
 	s_heatGradientParams.heatingMatrix = mt;
 	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
 	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(),0.0,1.0);

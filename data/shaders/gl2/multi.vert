@@ -2,18 +2,18 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifdef TEXTURE0
-varying vec2 texCoord0;
+out vec2 texCoord0;
 #endif
 #ifdef VERTEXCOLOR
-varying vec4 vertexColor;
+out vec4 vertexColor;
 #endif
 #if (NUM_LIGHTS > 0)
-varying vec3 eyePos;
-varying vec3 normal;
+out vec3 eyePos;
+out vec3 normal;
 	#ifdef HEAT_COLOURING
 		uniform mat3 heatingMatrix;
 		uniform vec3 heatingNormal; // normalised
-		varying vec3 heatingDir;
+		out vec3 heatingDir;
 	#endif // HEAT_COLOURING
 #endif
 
@@ -27,8 +27,8 @@ void main(void)
 	texCoord0 = a_uv0.xy;
 #endif
 #if (NUM_LIGHTS > 0)
-	eyePos = vec3(gl_ModelViewMatrix * a_vertex);
-	normal = normalize(gl_NormalMatrix * a_normal);
+	eyePos = vec3(uViewMatrix * a_vertex);
+	normal = normalize(uNormalMatrix * vec4(a_normal, 1.0)).xyz;
 #ifdef HEAT_COLOURING
 	heatingDir = normalize(heatingMatrix * heatingNormal);
 #endif

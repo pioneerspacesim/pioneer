@@ -2,16 +2,16 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 uniform vec4 u_viewPosition;
-uniform gl_MaterialParameters material;
+uniform MaterialParameters material;
 
-varying vec3 v_texCoord;
-varying float v_skyboxFactor;
+out vec3 v_texCoord;
+out float v_skyboxFactor;
 
 void main( void )
 {
     vec3 position = a_vertex.xyz;
     position += u_viewPosition.xyz;
-    gl_Position = gl_ModelViewProjectionMatrix * vec4(position, 1.0);
+    gl_Position = uViewProjectionMatrix * vec4(position, 1.0);
     v_texCoord    = a_vertex.xyz;    
 	v_skyboxFactor = material.shininess;
 }

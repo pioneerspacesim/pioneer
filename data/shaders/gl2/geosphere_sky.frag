@@ -22,7 +22,9 @@ uniform vec3 lrad;
 uniform vec3 sdivlrad;
 #endif // ECLIPSE
 
-varying vec4 varyingEyepos;
+in vec4 varyingEyepos;
+
+out vec4 frag_color;
 
 void sphereEntryExitDist(out float near, out float far, const in vec3 sphereCenter, const in vec3 eyeTo, const in float radius)
 {
@@ -75,7 +77,7 @@ void main(void)
 	vec3 surfaceNorm = normalize(skyNear * eyenorm - geosphereCenter);
 	for (int i=0; i<NUM_LIGHTS; ++i) {
 
-		vec3 lightDir = normalize(vec3(gl_LightSource[i].position));
+		vec3 lightDir = normalize(vec3(uLight[i].position));
 
 		float uneclipsed = 1.0;
 #ifdef ECLIPSE
@@ -124,10 +126,10 @@ void main(void)
 
 		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir));
 		float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon
-		atmosDiffuse +=  gl_LightSource[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
+		atmosDiffuse +=  uLight[i].diffuse * uneclipsed * 0.5*(nDotVP+0.5*clamp(1.0-nnDotVP*4.0,0.0,1.0) * INV_NUM_LIGHTS);
 
 		//Calculate Specular Highlight
-		vec3 L = normalize(gl_LightSource[i].position.xyz - varyingEyepos.xyz); 
+		vec3 L = normalize(uLight[i].position.xyz - varyingEyepos.xyz); 
 		vec3 E = normalize(-varyingEyepos.xyz);
 		vec3 R = normalize(-reflect(L,vec3(0.0))); 
 		specularHighlight += pow(max(dot(R,E),0.0),64.0) * uneclipsed * INV_NUM_LIGHTS;
@@ -140,7 +142,7 @@ void main(void)
 	vec4 sunset = vec4(0.8,clamp(pow(atmpower,0.8),0.0,1.0),clamp(pow(atmpower,1.2),0.0,1.0),1.0);
 
 	atmosDiffuse.a = 1.0;
-	gl_FragColor = (1.0-fogFactor) * (atmosDiffuse*
+	frag_color = (1.0-fogFactor) * (atmosDiffuse*
 		vec4(atmosColor.rgb, 1.0)) +
 		(0.02-clamp(fogFactor,0.0,0.01))*atmosDiffuse*ldprod*sunset +     //increase light on lower atmosphere.
 		atmosColor*specularHighlight*(1.0-fogFactor)*sunset;		  //add light from specularHighlight.

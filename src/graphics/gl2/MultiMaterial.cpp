@@ -74,9 +74,9 @@ void LitMultiMaterial::SetProgram(Program *p)
 
 void MultiMaterial::Apply()
 {
+	GL2::Material::Apply();
+
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
-	p->Use();
-	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 
 	p->diffuse.Set(this->diffuse);
 
@@ -119,6 +119,16 @@ void LitMultiMaterial::Apply()
 	p->specular.Set(this->specular);
 	p->shininess.Set(float(this->shininess));
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
+
+	//Light uniform parameters
+	for( int i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+		const Light& Light = m_renderer->GetLight(i);
+		p->lights[i].diffuse.Set( Light.GetDiffuse() );
+		p->lights[i].specular.Set( Light.GetSpecular() );
+		const vector3f pos = Light.GetPosition();
+		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+	}
+	CheckRenderErrors();
 }
 
 void MultiMaterial::Unapply()

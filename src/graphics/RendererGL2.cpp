@@ -63,16 +63,17 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHT0);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-	glMatrixMode(GL_MODELVIEW);
+	SetMatrixMode(MatrixMode::MODELVIEW);
+
 	m_modelViewStack.push(matrix4x4f::Identity());
 	m_projectionStack.push(matrix4x4f::Identity());
 
-	SetClearColor(Color(0.f));
+	SetClearColor(Color4f(0.f, 0.f, 0.f, 0.f));
 	SetViewport(0, 0, m_width, m_height);
 
 	if (vs.enableDebugMessages)
@@ -136,6 +137,26 @@ static std::string glerr_to_string(GLenum err)
 	}
 }
 
+//extern 
+void CheckRenderErrors()
+{
+	GLenum err = glGetError();
+	if( err ) {
+		std::stringstream ss;
+		ss << "OpenGL error(s) during frame:\n";
+		while (err != GL_NO_ERROR) {
+			ss << glerr_to_string(err) << '\n';
+			err = glGetError();
+			if( err == GL_OUT_OF_MEMORY ) {
+				ss << "Out-of-memory on graphics card." << std::endl
+					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
+					<< "Also try reducing City and Planet detail settings." << std::endl;
+			}
+		}
+		Warning("%s", ss.str().c_str());
+	}
+}
+
 bool RendererGL2::SwapBuffers()
 {
 	PROFILE_SCOPED()
@@ -171,6 +192,7 @@ bool RendererGL2::SetRenderState(RenderState *rs)
 		static_cast<GL2::RenderState*>(rs)->Apply();
 		m_activeRenderState = rs;
 	}
+	CheckRenderErrors();
 	return true;
 }
 
@@ -183,6 +205,7 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 		m_activeRenderTarget->Unbind();
 
 	m_activeRenderTarget = static_cast<GL2::RenderTarget*>(rt);
+	CheckRenderErrors();
 
 	return true;
 }
@@ -192,6 +215,7 @@ bool RendererGL2::ClearScreen()
 	m_activeRenderState = nullptr;
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	CheckRenderErrors();
 
 	return true;
 }
@@ -201,6 +225,7 @@ bool RendererGL2::ClearDepthBuffer()
 	m_activeRenderState = nullptr;
 	glDepthMask(GL_TRUE);
 	glClear(GL_DEPTH_BUFFER_BIT);
+	CheckRenderErrors();
 
 	return true;
 }
@@ -235,9 +260,8 @@ bool RendererGL2::SetTransform(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
 	//same as above
-	m_modelViewStack.top() = m;
 	SetMatrixMode(MatrixMode::MODELVIEW);
-	LoadMatrix(&m[0]);
+	LoadMatrix(m);
 	return true;
 }
 
@@ -272,9 +296,8 @@ bool RendererGL2::SetProjection(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
 	//same as above
-	m_projectionStack.top() = m;
 	SetMatrixMode(MatrixMode::PROJECTION);
-	LoadMatrix(&m[0]);
+	LoadMatrix(m);
 	return true;
 }
 
@@ -288,34 +311,21 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
-	// XXX move lighting out to shaders
+	const int NumLights = std::min(numlights, int(TOTAL_NUM_LIGHTS));
 
-	//glLight depends on the current transform, but we have always
-	//relied on it being identity when setting lights.
-	Graphics::Renderer::MatrixTicket ticket(this, MatrixMode::MODELVIEW);
-	SetTransform(matrix4x4f::Identity());
-
-	m_numLights = numlights;
+	m_numLights = NumLights;
 	m_numDirLights = 0;
 
-	for (int i=0; i < numlights; i++) {
+	for (int i=0; i<NumLights; i++) {
 		const Light &l = lights[i];
-		// directional lights have w of 0
-		const float pos[] = {
-			l.GetPosition().x,
-			l.GetPosition().y,
-			l.GetPosition().z,
-			l.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f
-		};
-		glLightfv(GL_LIGHT0+i, GL_POSITION, pos);
-		glLightfv(GL_LIGHT0+i, GL_DIFFUSE, l.GetDiffuse().ToColor4f());
-		glLightfv(GL_LIGHT0+i, GL_SPECULAR, l.GetSpecular().ToColor4f());
-		glEnable(GL_LIGHT0+i);
+		m_lights[i].SetPosition( l.GetPosition() );
+		m_lights[i].SetDiffuse( l.GetDiffuse() );
+		m_lights[i].SetSpecular( l.GetSpecular() );
 
 		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
 			m_numDirLights++;
 
-		assert(m_numDirLights < 5);
+		assert(m_numDirLights <= TOTAL_NUM_LIGHTS);
 	}
 
 	return true;
@@ -332,10 +342,16 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 	if (enabled) {
 		glScissor(pos.x,pos.y,size.x,size.y);
 		glEnable(GL_SCISSOR_TEST);
-	}
-	else
+	} else {
 		glDisable(GL_SCISSOR_TEST);
+	}
 	return true;
+}
+
+void RendererGL2::SetMaterialShaderTransforms(Material *m)
+{
+	m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
+	CheckRenderErrors();
 }
 
 bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
@@ -395,18 +411,43 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 {
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
+	CheckRenderErrors();
 
-	SetRenderState(rs);
+	VertexBufferDesc vbd;
+	Uint32 attribIdx = 0;
+	assert(v->HasAttrib(ATTRIB_POSITION));
+	vbd.attrib[attribIdx].semantic	= ATTRIB_POSITION;
+	vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
+	++attribIdx;
 
-	m->Apply();
-	EnableVertexAttributes(v);
+	if( v->HasAttrib(ATTRIB_NORMAL) ) {
+		vbd.attrib[attribIdx].semantic	= ATTRIB_NORMAL;
+		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
+		++attribIdx;
+	}
+	if( v->HasAttrib(ATTRIB_DIFFUSE) ) {
+		vbd.attrib[attribIdx].semantic	= ATTRIB_DIFFUSE;
+		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_UBYTE4;
+		++attribIdx;
+	}
+	if( v->HasAttrib(ATTRIB_UV0) ) {
+		vbd.attrib[attribIdx].semantic	= ATTRIB_UV0;
+		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
+		++attribIdx;
+	}
+	vbd.numVertices = v->position.size();
+	vbd.usage = BUFFER_USAGE_STATIC;
+	
+	// VertexBuffer
+	std::unique_ptr<VertexBuffer> vb;
+	vb.reset(CreateVertexBuffer(vbd));
+	vb->Populate(*v);
+	CheckRenderErrors();
 
-	glDrawArrays(t, 0, v->GetNumVerts());
+	const bool res = DrawBuffer(vb.get(), rs, m, t);
+	CheckRenderErrors();
 
-	m->Unapply();
-	DisableVertexAttributes();
-
-	return true;
+	return res;
 }
 
 bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
@@ -418,7 +459,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 
 	matrix4x4f rot(GetCurrentModelView());
 	rot.ClearToRotOnly();
-	rot = rot.InverseOf();
+	rot = rot.Inverse();
 
 	const float sz = 0.5f*size;
 	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
@@ -449,8 +490,11 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
+	CheckRenderErrors();
 	SetRenderState(state);
 	mat->Apply();
+
+	SetMaterialShaderTransforms(mat);
 
 	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
 
@@ -461,6 +505,7 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 
 	DisableVertexAttributes(gvb);
 	gvb->Release();
+	CheckRenderErrors();
 
 	return true;
 }
@@ -468,8 +513,11 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
+	CheckRenderErrors();
 	SetRenderState(state);
 	mat->Apply();
+
+	SetMaterialShaderTransforms(mat);
 
 	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
 	auto gib = static_cast<GL2::IndexBuffer*>(ib);
@@ -483,7 +531,7 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	DisableVertexAttributes(gvb);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	gvb->Release();
-	
+	CheckRenderErrors();
 
 	return true;
 }
@@ -491,6 +539,7 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 void RendererGL2::EnableVertexAttributes(const VertexBuffer* gvb)
 {
 	PROFILE_SCOPED()
+	CheckRenderErrors();
 	const auto &desc = gvb->GetDesc();
 	// Enable the Vertex attributes
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
@@ -505,11 +554,13 @@ void RendererGL2::EnableVertexAttributes(const VertexBuffer* gvb)
 			return;
 		}
 	}
+	CheckRenderErrors();
 }
 
 void RendererGL2::DisableVertexAttributes(const VertexBuffer* gvb)
 {
 	PROFILE_SCOPED()
+	CheckRenderErrors();
 	const auto &desc = gvb->GetDesc();
 	// Enable the Vertex attributes
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
@@ -524,12 +575,14 @@ void RendererGL2::DisableVertexAttributes(const VertexBuffer* gvb)
 			return;
 		}
 	}
+	CheckRenderErrors();
 }
 
 
 void RendererGL2::EnableVertexAttributes(const VertexArray *v)
 {
 	PROFILE_SCOPED();
+	CheckRenderErrors();
 
 	if (!v) return;
 	assert(v->position.size() > 0); //would be strange
@@ -538,6 +591,7 @@ void RendererGL2::EnableVertexAttributes(const VertexArray *v)
 	m_vertexAttribsSet.push_back(0);
 	glEnableVertexAttribArray(0);	// Enable the attribute at that location
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
+	CheckRenderErrors();
 
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		assert(! v->normal.empty());
@@ -545,27 +599,32 @@ void RendererGL2::EnableVertexAttributes(const VertexArray *v)
 		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 		glEnableVertexAttribArray(1);	// Enable the attribute at that location
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
+		CheckRenderErrors();
 	}
 	if (v->HasAttrib(ATTRIB_DIFFUSE)) {
 		assert(! v->diffuse.empty());
 		m_vertexAttribsSet.push_back(2);
 		glEnableVertexAttribArray(2);	// Enable the attribute at that location
 		glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));	// only normalise the colours
+		CheckRenderErrors();
 	}
 	if (v->HasAttrib(ATTRIB_UV0)) {
 		assert(! v->uv0.empty());
 		m_vertexAttribsSet.push_back(3);
 		glEnableVertexAttribArray(3);	// Enable the attribute at that location
 		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
+		CheckRenderErrors();
 	}
 }
 
 void RendererGL2::DisableVertexAttributes()
 {
 	PROFILE_SCOPED();
+	CheckRenderErrors();
 
 	for (auto i : m_vertexAttribsSet) {
 		glDisableVertexAttribArray(i);
+		CheckRenderErrors();
 	}
 	m_vertexAttribsSet.clear();
 }
@@ -573,6 +632,7 @@ void RendererGL2::DisableVertexAttributes()
 Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 {
 	PROFILE_SCOPED()
+	CheckRenderErrors();
 	MaterialDescriptor desc = d;
 
 	GL2::Material *mat = 0;
@@ -627,6 +687,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	p = GetOrCreateProgram(mat); // XXX throws ShaderException on compile/link failure
 
 	mat->SetProgram(p);
+	CheckRenderErrors();
 	return mat;
 }
 
@@ -643,6 +704,7 @@ bool RendererGL2::ReloadShaders()
 
 GL2::Program* RendererGL2::GetOrCreateProgram(GL2::Material *mat)
 {
+	CheckRenderErrors();
 	const MaterialDescriptor &desc = mat->GetDescriptor();
 	GL2::Program *p = 0;
 
@@ -659,30 +721,36 @@ GL2::Program* RendererGL2::GetOrCreateProgram(GL2::Material *mat)
 		p = mat->CreateProgram(desc);
 		m_programs.push_back(std::make_pair(desc, p));
 	}
+	CheckRenderErrors();
 
 	return p;
 }
 
 Texture *RendererGL2::CreateTexture(const TextureDescriptor &descriptor)
 {
+	CheckRenderErrors();
 	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 
 RenderState *RendererGL2::CreateRenderState(const RenderStateDesc &desc)
 {
+	CheckRenderErrors();
 	const uint32_t hash = lookup3_hashlittle(&desc, sizeof(RenderStateDesc), 0);
 	auto it = m_renderStates.find(hash);
-	if (it != m_renderStates.end())
+	if (it != m_renderStates.end()) {
+		CheckRenderErrors();
 		return it->second;
-	else {
+	} else {
 		auto *rs = new GL2::RenderState(desc);
 		m_renderStates[hash] = rs;
+		CheckRenderErrors();
 		return rs;
 	}
 }
 
 RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 {
+	CheckRenderErrors();
 	GL2::RenderTarget* rt = new GL2::RenderTarget(desc);
 	rt->Bind();
 	if (desc.colorFormat != TEXTURE_NONE) {
@@ -713,6 +781,7 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 	}
 	rt->CheckStatus();
 	rt->Unbind();
+	CheckRenderErrors();
 	return rt;
 }
 
@@ -736,12 +805,10 @@ void RendererGL2::PushState()
 	SetMatrixMode(MatrixMode::MODELVIEW);
 	PushMatrix();
 	m_viewportStack.push( m_viewportStack.top() );
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
 }
 
 void RendererGL2::PopState()
 {
-	glPopAttrib();
 	m_viewportStack.pop();
 	assert(!m_viewportStack.empty());
 	SetMatrixMode(MatrixMode::PROJECTION);
@@ -754,14 +821,6 @@ void RendererGL2::SetMatrixMode(MatrixMode mm)
 {
 	PROFILE_SCOPED()
 	if( mm != m_matrixMode ) {
-		switch (mm) {
-			case MatrixMode::MODELVIEW:
-				glMatrixMode(GL_MODELVIEW);
-				break;
-			case MatrixMode::PROJECTION:
-				glMatrixMode(GL_PROJECTION);
-				break;
-		}
 		m_matrixMode = mm;
 	}
 }
@@ -769,8 +828,6 @@ void RendererGL2::SetMatrixMode(MatrixMode mm)
 void RendererGL2::PushMatrix()
 {
 	PROFILE_SCOPED()
-
-	glPushMatrix();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.push(m_modelViewStack.top());
@@ -784,7 +841,6 @@ void RendererGL2::PushMatrix()
 void RendererGL2::PopMatrix()
 {
 	PROFILE_SCOPED()
-	glPopMatrix();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.pop();
@@ -800,7 +856,6 @@ void RendererGL2::PopMatrix()
 void RendererGL2::LoadIdentity()
 {
 	PROFILE_SCOPED()
-	glLoadIdentity();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top() = matrix4x4f::Identity();
@@ -814,7 +869,6 @@ void RendererGL2::LoadIdentity()
 void RendererGL2::LoadMatrix(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
-	glLoadMatrixf(&m[0]);
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top() = m;
@@ -828,7 +882,6 @@ void RendererGL2::LoadMatrix(const matrix4x4f &m)
 void RendererGL2::Translate( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
-	glTranslatef(x,y,z);
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Translate(x,y,z);
@@ -842,7 +895,6 @@ void RendererGL2::Translate( const float x, const float y, const float z )
 void RendererGL2::Scale( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
-	glScalef(x,y,z);
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Scale(x,y,z);

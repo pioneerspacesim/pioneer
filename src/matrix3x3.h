@@ -128,6 +128,28 @@ class matrix3x3 {
 		m[6] = cell[2]; m[7] = cell[5]; m[8] = cell[8];
 		return m;
 	}
+	matrix3x3 Inverse() const {
+		// computes the inverse of a matrix m
+		#define cell2d(x,y)    cell[((y*3) + x)]
+		const T det = cell2d(0, 0) * (cell2d(1, 1) * cell2d(2, 2) - cell2d(2, 1) * cell2d(1, 2)) -
+					  cell2d(0, 1) * (cell2d(1, 0) * cell2d(2, 2) - cell2d(1, 2) * cell2d(2, 0)) +
+					  cell2d(0, 2) * (cell2d(1, 0) * cell2d(2, 1) - cell2d(1, 1) * cell2d(2, 0));
+
+		const T invdet = 1 / det;
+
+		matrix3x3 minv; // inverse of matrix m
+		#define idx2d(x,y)    ((y*3) + x)
+		minv[idx2d(0, 0)] = (cell2d(1, 1) * cell2d(2, 2) - cell2d(2, 1) * cell2d(1, 2)) * invdet;
+		minv[idx2d(0, 1)] = (cell2d(0, 2) * cell2d(2, 1) - cell2d(0, 1) * cell2d(2, 2)) * invdet;
+		minv[idx2d(0, 2)] = (cell2d(0, 1) * cell2d(1, 2) - cell2d(0, 2) * cell2d(1, 1)) * invdet;
+		minv[idx2d(1, 0)] = (cell2d(1, 2) * cell2d(2, 0) - cell2d(1, 0) * cell2d(2, 2)) * invdet;
+		minv[idx2d(1, 1)] = (cell2d(0, 0) * cell2d(2, 2) - cell2d(0, 2) * cell2d(2, 0)) * invdet;
+		minv[idx2d(1, 2)] = (cell2d(1, 0) * cell2d(0, 2) - cell2d(0, 0) * cell2d(1, 2)) * invdet;
+		minv[idx2d(2, 0)] = (cell2d(1, 0) * cell2d(2, 1) - cell2d(2, 0) * cell2d(1, 1)) * invdet;
+		minv[idx2d(2, 1)] = (cell2d(2, 0) * cell2d(0, 1) - cell2d(0, 0) * cell2d(2, 1)) * invdet;
+		minv[idx2d(2, 2)] = (cell2d(0, 0) * cell2d(1, 1) - cell2d(1, 0) * cell2d(0, 1)) * invdet;
+		return minv;
+	}
 	void Renormalize() {
 		vector3<T> x = VectorX().Normalized();
 		vector3<T> y = VectorZ().Cross(x).Normalized();

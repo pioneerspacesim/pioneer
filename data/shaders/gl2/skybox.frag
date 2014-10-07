@@ -3,10 +3,12 @@
 
 uniform samplerCube texture0;
 
-varying vec3 v_texCoord;
-varying float v_skyboxFactor;
+in vec3 v_texCoord;
+in float v_skyboxFactor;
+
+out vec4 frag_color;
 
 void main( void )
 {
-    gl_FragColor = vec4(textureCube( texture0, v_texCoord ).xyz * v_skyboxFactor, 1.0);
+    frag_color = vec4(texture( texture0, v_texCoord ).xyz * v_skyboxFactor, 1.0);
 }

@@ -47,7 +47,7 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 	vector3d yaxis = campos.Normalized();
 	vector3d zaxis = vector3d(1.0,0.0,0.0).Cross(yaxis).Normalized();
 	vector3d xaxis = yaxis.Cross(zaxis);
-	const matrix4x4d invrot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
+	const matrix4x4d invrot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).Inverse();
 
 	renderer->SetTransform(modelView * matrix4x4d::ScaleMatrix(rad, rad, rad) * invrot);
 

@@ -1,9 +1,29 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifdef VERTEX_SHADER
-attribute vec4 a_vertex;
-attribute vec3 a_normal;
-attribute vec4 a_color;
-attribute vec4 a_uv0;
-#endif
+uniform mat4 uProjectionMatrix;
+uniform mat4 uViewMatrix;
+uniform mat4 uViewMatrixInverse;
+uniform mat4 uViewProjectionMatrix;
+uniform mat4 uNormalMatrix;
+
+//Light uniform parameters
+struct Light {
+	vec4 diffuse;
+	vec4 specular;
+	vec4 position;
+};
+uniform Light uLight[4];
+
+struct MaterialParameters {
+	vec4 emission;
+	vec4 ambient;
+	vec4 diffuse;
+	vec4 specular;
+	float shininess;
+};
+
+in vec4 a_vertex;
+in vec3 a_normal;
+in vec4 a_color;
+in vec2 a_uv0;

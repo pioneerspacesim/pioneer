@@ -90,6 +90,8 @@ public:
 	virtual void Apply() { }
 	virtual void Unapply() { }
 
+	virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) = 0;
+
 	void *specialParameter0; //this can be whatever. Bit of a hack.
 
 	//XXX may not be necessary. Used by newmodel to check if a material uses patterns

@@ -31,10 +31,8 @@ Program *FresnelColourMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void FresnelColourMaterial::Apply()
 {
+	GL2::Material::Apply();
 	FresnelColourProgram *p = static_cast<FresnelColourProgram*>(m_program);
-	p->Use();
-	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
-
 	p->diffuse.Set(this->diffuse);
 }
 

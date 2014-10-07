@@ -69,12 +69,12 @@ void GasGiantSurfaceMaterial::Apply()
 
 void GasGiantSurfaceMaterial::SetGSUniforms()
 {
+	GL2::Material::Apply();
+
 	GasGiantProgram *p = static_cast<GasGiantProgram*>(m_program);
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
 	const SystemBody::AtmosphereParameters ap = params.atmosphere;
 
-	p->Use();
-	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	p->emission.Set(this->emissive);
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 	p->atmosColor.Set(ap.atmosCol);
@@ -84,6 +84,15 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
 	p->geosphereScale.Set(ap.scale);
+
+	//Light uniform parameters
+	for( int i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+		const Light& Light = m_renderer->GetLight(i);
+		p->lights[i].diffuse.Set( Light.GetDiffuse() );
+		p->lights[i].specular.Set( Light.GetSpecular() );
+		const vector3f& pos = Light.GetPosition();
+		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+	}
 
 	p->diffuse.Set(this->diffuse);
 	p->texture0.Set(this->texture0, 0);

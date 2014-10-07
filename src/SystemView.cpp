@@ -473,7 +473,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 		matrix4x4f invRot = trans;
 		invRot.ClearToRotOnly();
-		invRot = invRot.InverseOf();
+		invRot = invRot.Inverse();
 
 		matrix4x4f bodyTrans = trans;
 		bodyTrans.Translate(vector3f(offset));

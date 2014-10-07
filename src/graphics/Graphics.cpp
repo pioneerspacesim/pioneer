@@ -131,11 +131,8 @@ static void write_opengl_info(std::ostream &out)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
 
 	DUMP_GL_VALUE(GL_MAX_3D_TEXTURE_SIZE);
-	DUMP_GL_VALUE(GL_MAX_ATTRIB_STACK_DEPTH);
-	DUMP_GL_VALUE(GL_MAX_CLIENT_ATTRIB_STACK_DEPTH);
 	DUMP_GL_VALUE(GL_MAX_CLIP_PLANES);
 	DUMP_GL_VALUE(GL_MAX_COLOR_ATTACHMENTS_EXT);
-	DUMP_GL_VALUE(GL_MAX_COLOR_MATRIX_STACK_DEPTH);
 	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
 	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
 	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
@@ -201,6 +198,8 @@ static void write_opengl_info(std::ostream &out)
 			}
 		}
 	}
+	// one last time
+	dump_and_clear_opengl_errors(out);
 }
 
 Renderer* Init(Settings vs)
@@ -221,6 +220,7 @@ Renderer* Init(Settings vs)
 	width = window->GetWidth();
 	height = window->GetHeight();
 
+	glewExperimental = true;
 	GLenum glew_err;
 	if ((glew_err = glewInit()) != GLEW_OK)
 		Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
@@ -237,14 +237,18 @@ Renderer* Init(Settings vs)
 		fclose(f);
 	}
 
-	if (!glewIsSupported("GL_VERSION_2_0") )
-		Error("OpenGL Version 2.0 is not supported. Pioneer cannot run on your graphics card.");
+	// pump this once as glewExperimental is necessary but spews a single error
+	GLenum err = glGetError();
+
+	if (!glewIsSupported("GL_VERSION_3_3") )
+		Error("OpenGL Version 3.3 is not supported. Pioneer cannot run on your graphics card.");
 
 	if (!glewIsSupported("GL_ARB_vertex_buffer_object"))
 		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
 
-	if (!glewIsSupported("GL_EXT_texture_compression_s3tc"))
-		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
+	// Brilliantly under OpenGL 3.3 Glew says this isn't supported :/
+	//if (!glewIsSupported("GL_EXT_texture_compression_s3tc"))
+	//	Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 
 	// We deliberately ignore the value from GL_NUM_COMPRESSED_TEXTURE_FORMATS, because some drivers
 	// choose not to list any formats (despite supporting texture compression). See issue #3132.

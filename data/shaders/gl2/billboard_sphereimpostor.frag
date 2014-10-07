@@ -1,11 +1,13 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-varying vec4 color;
-varying vec2 uv;
-varying vec3 lightDir;
+in vec4 color;
+in vec2 uv;
+in vec3 lightDir;
 
 uniform Scene scene;
+
+out vec4 frag_color;
 
 void main(void)
 {
@@ -14,6 +16,6 @@ void main(void)
 		discard;
 	vec3 normal = vec3(uv.x, uv.y, sqrt(1.0 - len));
 	float diff = dot(normal, lightDir);
-	gl_FragColor = color * diff + scene.ambient;
+	frag_color = color * diff + scene.ambient;
 	SetFragDepth();
 }

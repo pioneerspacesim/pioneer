@@ -1,9 +1,9 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-varying vec3 varyingEyepos;
-varying vec3 varyingNormal;
-varying vec3 varyingVertex;
+in vec3 varyingEyepos;
+in vec3 varyingNormal;
+in vec3 varyingVertex;
 
 uniform Scene scene;
 uniform Material material;
@@ -19,6 +19,8 @@ uniform int numHits;
 const vec4 red = vec4(1.0, 0.5, 0.5, 0.5);
 const vec4 blue = vec4(0.5, 0.5, 1.0, 1.0);
 const vec4 hitColour = vec4(1.0, 0.5, 0.5, 1.0);
+
+out vec4 frag_color;
 
 float calcIntensity(int shieldIndex)
 {
@@ -56,7 +58,7 @@ void main(void)
 	// add on our hit effect colour
 	color = color + (hitColour * clampedInt);
 	
-	gl_FragColor = color;
+	frag_color = color;
 
 	SetFragDepth();
 }

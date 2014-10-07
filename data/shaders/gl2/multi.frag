@@ -8,38 +8,40 @@ uniform sampler2D texture2; //glow
 uniform sampler2D texture3; //ambient
 uniform sampler2D texture4; //pattern
 uniform sampler2D texture5; //color
-varying vec2 texCoord0;
+in vec2 texCoord0;
 #endif
 
 #ifdef VERTEXCOLOR
-varying vec4 vertexColor;
+in vec4 vertexColor;
 #endif
 #if (NUM_LIGHTS > 0)
-varying vec3 eyePos;
-varying vec3 normal;
+in vec3 eyePos;
+in vec3 normal;
 	#ifdef HEAT_COLOURING
 		uniform sampler2D heatGradient;
 		uniform float heatingAmount; // 0.0 to 1.0 used for `u` component of heatGradient texture
-		varying vec3 heatingDir;
+		in vec3 heatingDir;
 	#endif // HEAT_COLOURING
 #endif // (NUM_LIGHTS > 0)
 
 uniform Scene scene;
 uniform Material material;
 
+out vec4 frag_color;
+
 #if (NUM_LIGHTS > 0)
 //ambient, diffuse, specular
 //would be a good idea to make specular optional
 void ads(in int lightNum, in vec3 pos, in vec3 n, inout vec4 light, inout vec4 specular)
 {
-	vec3 s = normalize(vec3(gl_LightSource[lightNum].position)); //directional light
+	vec3 s = normalize(vec3(uLight[lightNum].position)); //directional light
 	vec3 v = normalize(vec3(-pos));
 	vec3 h = normalize(v + s);
-	light += gl_LightSource[lightNum].diffuse * material.diffuse * max(dot(s, n), 0.0);
+	light += uLight[lightNum].diffuse * material.diffuse * max(dot(s, n), 0.0);
 #ifdef MAP_SPECULAR
-	specular += texture2D(texture1, texCoord0) * material.specular * gl_LightSource[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
+	specular += texture(texture1, texCoord0) * material.specular * uLight[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
 #else
-	specular += material.specular * gl_LightSource[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
+	specular += material.specular * uLight[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
 #endif
 	specular.a = 0.0;
 	light.a = 1.0;
@@ -54,12 +56,12 @@ void main(void)
 	vec4 color = material.diffuse;
 #endif
 #ifdef TEXTURE0
-	color *= texture2D(texture0, texCoord0);
+	color *= texture(texture0, texCoord0);
 #endif
 //patterns - simple lookup
 #ifdef MAP_COLOR
-	vec4 pat = texture2D(texture4, texCoord0);
-	vec4 mapColor = texture2D(texture5, vec2(pat.r, 0.0));
+	vec4 pat = texture(texture4, texCoord0);
+	vec4 mapColor = texture(texture5, vec2(pat.r, 0.0));
 	vec4 tint = mix(vec4(1.0),mapColor,pat.a);
 	color *= tint;
 #endif
@@ -81,12 +83,12 @@ void main(void)
 #ifdef MAP_AMBIENT
 	// this is crude "baked ambient occulsion" - basically multiply everything by the ambient texture
 	// scaling whatever we've decided the lighting contribution is by 0.0 to 1.0 to account for sheltered/hidden surfaces
-	light *= texture2D(texture3, texCoord0);
+	light *= texture(texture3, texCoord0);
 #endif
 
 	//emissive only make sense with lighting
 #ifdef MAP_EMISSIVE
-	light += texture2D(texture2, texCoord0); //glow map
+	light += texture(texture2, texCoord0); //glow map
 #else
 	light += material.emission; //just emissive parameter
 #endif
@@ -98,19 +100,19 @@ void main(void)
 		{
 			float dphNn = clamp(dot(heatingDir, normal), 0.0, 1.0);
 			float heatDot = heatingAmount * (dphNn * dphNn * dphNn);
-			vec4 heatColour = texture2D(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
-			gl_FragColor = color * light + specular;
-			gl_FragColor.rgb = gl_FragColor.rgb + heatColour.rgb;
+			vec4 heatColour = texture(heatGradient, vec2(heatDot, 0.5)); //heat gradient blend
+			frag_color = color * light + specular;
+			frag_color.rgb = frag_color.rgb + heatColour.rgb;
 		}
 		else
 		{
-			gl_FragColor = color * light + specular;
+			frag_color = color * light + specular;
 		}
 	#else
-		gl_FragColor = color * light + specular;
+		frag_color = color * light + specular;
 	#endif // HEAT_COLOURING
 #else
-	gl_FragColor = color;
+	frag_color = color;
 #endif
 	SetFragDepth();
 }
