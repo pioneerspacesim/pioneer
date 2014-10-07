@@ -33,6 +33,9 @@ namespace OS {
 
 	// return a string describing the operating system that the game is running on, useful!
 	const std::string GetOSInfoString();
+
+	// Enable Google breakpad for crash minidumps
+	void EnableBreakpad();
 }
 
 #endif

@@ -6,10 +6,15 @@
 #include "OS.h"
 #include "FileSystem.h"
 #include "TextUtils.h"
+#include "breakpad/exception_handler.h"
 #include <SDL.h>
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
+
+using namespace google_breakpad;
+
+ExceptionHandler* exceptionHandler = nullptr;
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4996)
@@ -164,6 +169,51 @@ const std::string GetOSInfoString()
 		return hwInfo + name;
 
 	return hwInfo + name + " (" + patchName + ")";
+}
+
+/////////////////////////////////////////////////////// Google Breakpad
+bool FilterCallback(void* context, EXCEPTION_POINTERS* exinfo,
+	MDRawAssertionInfo* assertion) 
+{	
+	return true;
+}
+
+bool MinidumpCallback(const wchar_t* dump_path,
+	const wchar_t* minidump_id,
+	void* context,
+	EXCEPTION_POINTERS* exinfo,
+	MDRawAssertionInfo* assertion,
+	bool succeeded)
+{
+	std::wstring msg = L"Unhandled exception occured.\n";
+	msg.append(L"Crash information dump was written to: \n    ");
+	msg.append(transcode_utf8_to_utf16(FileSystem::userFiles.GetRoot() + "\\crashdumps"));
+	msg.append(L"\nMini-dump id: \n    ");
+	msg.append(minidump_id);
+	MessageBoxW(NULL,
+		msg.c_str(), L"Game crashed!", MB_OK | MB_ICONERROR);
+
+	return succeeded;
+}
+
+void EnableBreakpad()
+{
+	CustomClientInfo cci;
+	cci.count = 0;
+	cci.entries = nullptr;
+	std::wstring dumps_path;
+	dumps_path = transcode_utf8_to_utf16(FileSystem::userFiles.GetRoot());
+	FileSystem::userFiles.MakeDirectory("crashdumps");
+	dumps_path.append(L"\\crashdumps");
+	exceptionHandler = new ExceptionHandler(
+		dumps_path,													// Dump path
+		FilterCallback,												// Filter callback
+		MinidumpCallback,											// Minidumps callback
+		nullptr,													// Callback context
+		ExceptionHandler::HandlerType::HANDLER_ALL,					// Handler types
+		MINIDUMP_TYPE::MiniDumpWithDataSegs,
+		L"",														// Minidump server pipe name
+		&cci);														// Custom client information
 }
 
 } // namespace OS
