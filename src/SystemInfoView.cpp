@@ -24,6 +24,9 @@ SystemInfoView::SystemInfoView(Game* game) : UIView(), m_game(game)
 	SetTransparency(true);
 	m_refresh = REFRESH_NONE;
 	m_unexplored = true;
+	int trade_analyzer = 0;
+	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyzer);
+	m_hasTradeAnalyzer = bool(trade_analyzer);
 }
 
 void SystemInfoView::OnBodySelected(SystemBody *b)
@@ -151,9 +154,16 @@ void SystemInfoView::UpdateEconomyTab()
 	/* imports and exports */
 	const RefCountedPtr<StarSystem> hs = m_game->GetSpace()->GetStarSystem();
 
+	// check if trade analyzer is installed
+	int trade_analyzer = 0;
+	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyzer);
+
+	// we might be here because we changed equipment, update that as well:
+	m_hasTradeAnalyzer = bool (trade_analyzer);
+
 	// If current system is defined and not equal to selected we will compare them
 	const bool compareSelectedWithCurrent =
-			(hs && !m_system->GetPath().IsSameSystem(hs->GetPath()));
+		(hs && !m_system->GetPath().IsSameSystem(hs->GetPath()) && trade_analyzer > 0);
 
 	const std::string meh       = "#999";
 	const std::string ok        = "#fff";
@@ -195,19 +205,17 @@ void SystemInfoView::UpdateEconomyTab()
 				 && s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
 				std::string extra = meh;              // default color
 				std::string tooltip = "";             // no tooltip for default
-				if (hs){
-					if (compareSelectedWithCurrent){
-						if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-							extra = colorInInterval;     // change color
-							tooltip = toolTipInInterval; // describe trade status in current system
-						} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-							extra = colorOther;
-							tooltip = toolTipOther;
-						}
-						if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
-							extra = illegal;
-							tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
-						}
+				if (compareSelectedWithCurrent) {
+					if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+						extra = colorInInterval;     // change color
+						tooltip = toolTipInInterval; // describe trade status in current system
+					} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+						extra = colorOther;
+						tooltip = toolTipOther;
+					}
+					if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
+						extra = illegal;
+						tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
 					}
 				}
 				Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
@@ -512,6 +520,12 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 		return REFRESH_ALL;
 
 	if (m_system->GetUnexplored() != m_unexplored)
+		return REFRESH_ALL;
+
+	// If we changed equipment since last refresh
+	int trade_analyzer = 0;
+	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyzer);
+	if (m_hasTradeAnalyzer != trade_analyzer)
 		return REFRESH_ALL;
 
 	if (m_system->GetUnexplored())

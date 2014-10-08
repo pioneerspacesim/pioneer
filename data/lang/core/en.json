@@ -1899,6 +1899,14 @@
       "description" : "",
       "message" : "RIP OLD BEAN"
    },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade analyzer"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shows profitable commodities to trade between selected and current system"
+   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Trading illegal goods"
