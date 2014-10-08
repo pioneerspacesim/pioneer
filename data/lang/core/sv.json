@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Lokal arm"
    },
    "LOCKED" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Detta system utforskades den %date"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
