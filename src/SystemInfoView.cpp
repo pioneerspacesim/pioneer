@@ -525,7 +525,7 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 	// If we changed equipment since last refresh
 	int trade_analyzer = 0;
 	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyzer);
-	if (m_hasTradeAnalyzer != trade_analyzer)
+	if (m_hasTradeAnalyzer != (trade_analyzer!=0))
 		return REFRESH_ALL;
 
 	if (m_system->GetUnexplored())
