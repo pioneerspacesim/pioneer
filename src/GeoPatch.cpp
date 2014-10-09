@@ -186,20 +186,16 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 	}
 }
 
-
+// the default sphere we do the horizon culling against
 static const SSphere3D s_sph;
-static bool s_buseHC = true;
-#pragma optimize("",off)
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 {
-	if(s_buseHC)
-	{
-		SSphere3D obj;
-		obj.m_centre = clipCentroid;
-		obj.m_radius = clipRadius;
+	SSphere3D obj;
+	obj.m_centre = clipCentroid;
+	obj.m_radius = clipRadius;
 
-		if( !s_sph.HorizonCulling(campos, obj) )
-			return;
+	if( !s_sph.HorizonCulling(campos, obj) ) {
+		return; // nothing below this patch is visible
 	}
 
 	if (kids[0]) {
@@ -222,19 +218,12 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
 	}
 }
-#pragma optimize("",off)
+
 void GeoPatch::LODUpdate(const vector3d &campos) 
 {
 	// there should be no LOD update when we have active split requests
 	if(mHasJobRequest)
 		return;
-
-	/*SSphere3D obj;
-	obj.m_centre = clipCentroid;
-	obj.m_radius = clipRadius;
-
-	if( !s_sph.HorizonCulling(campos, obj) )
-		return;*/
 
 	bool canSplit = true;
 	bool canMerge = bool(kids[0]);
