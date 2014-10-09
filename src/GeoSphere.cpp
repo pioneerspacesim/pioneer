@@ -22,7 +22,7 @@ RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
 // must be odd numbers
 static const int detail_edgeLen[5] = {
-	9, 17, 33, 65, 129
+	7, 15, 25, 35, 55
 };
 
 static const double gs_targetPatchTriLength(100.0);
