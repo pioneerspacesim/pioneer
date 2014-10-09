@@ -88,7 +88,6 @@ struct SSphere3D {
 
 // tri edge lengths
 static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
-#define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,

@@ -19,6 +19,9 @@
 // hold the 16 possible terrain edge connections
 static const unsigned NUM_INDEX_LISTS = 16;
 
+// maximumpatch depth
+#define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
+
 namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatch;
