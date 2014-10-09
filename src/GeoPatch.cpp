@@ -19,6 +19,73 @@
 #include <deque>
 #include <algorithm>
 
+struct SPlane {
+	double a, b, c, d;
+	double DistanceToPoint(const vector3d &p) const {
+		return a*p.x + b*p.y + c*p.z + d;
+	}
+
+	SPlane::SPlane(const vector3d& N, const vector3d &P)
+	{
+		const vector3d NormalizedNormal = N.Normalized();
+		a = NormalizedNormal.x;
+		b = NormalizedNormal.y;
+		c = NormalizedNormal.z;
+		d = -(P.Dot(NormalizedNormal));
+	}
+};
+
+
+struct SSphere3D {
+	SSphere3D() : m_centre(vector3d(0.0)), m_radius(1.0) {}
+	vector3d m_centre;
+	double m_radius;
+
+	// Adapted from Ysaneya here: http://www.gamedev.net/blog/73/entry-1666972-horizon-culling/
+	///
+	///		Performs horizon culling with an object's bounding sphere, given a view point.
+	///		This function checks whether the object's sphere is inside the view cone formed
+	///		by the view point and this sphere. The view cone is capped so that the visibility
+	///		is false only in the 'shadow' of this sphere.
+	///		@param view Position of view point in world space
+	///		@param obj Bounding sphere of another object.
+	///		@return true if the object's bounding sphere is visible from the viewpoint, false if the
+	///		sphere is in the shadow cone AND not in front of the capping plane.
+	///
+	bool SSphere3D::HorizonCulling(const vector3d& view, const SSphere3D& obj) const
+	{
+		vector3d O1C = m_centre - view;
+		vector3d O2C = obj.m_centre - view;
+
+		const double D1 = O1C.Length();
+		const double D2 = O2C.Length();
+		const double R1 = m_radius;
+		const double R2 = obj.m_radius;
+		const double iD1 = 1.0f / D1;
+		const double iD2 = 1.0f / D2;
+	
+		O1C *= iD1;
+		O2C *= iD2;
+		const double K = O1C.Dot(O2C);
+
+		const double K1 = R1 * iD1;
+		const double K2 = R2 * iD2;
+		bool status = true;
+		if ( K > K1 * K2 )
+		{
+			status = (-2.0f * K * K1 * K2 + K1 * K1 + K2 * K2 < 1.0f - K * K);
+		}
+
+		const double y = R1 * R1 * iD1;
+		const vector3d P = m_centre - y * O1C;
+		const vector3d N = -O1C;
+		SPlane plane(N, P);
+		status = status || (plane.DistanceToPoint(obj.m_centre) > obj.m_radius);
+
+		return status;
+	}
+};
+
 // tri edge lengths
 static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
 #define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
@@ -120,7 +187,22 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 	}
 }
 
-void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
+
+static const SSphere3D s_sph;
+static bool s_buseHC = true;
+#pragma optimize("",off)
+void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
+{
+	if(s_buseHC)
+	{
+		SSphere3D obj;
+		obj.m_centre = clipCentroid;
+		obj.m_radius = clipRadius;
+
+		if( !s_sph.HorizonCulling(campos, obj) )
+			return;
+	}
+
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights) {
@@ -141,11 +223,19 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
 	}
 }
-
-void GeoPatch::LODUpdate(const vector3d &campos) {
-	// there should be no LODUpdate'ing when we have active split requests
+#pragma optimize("",off)
+void GeoPatch::LODUpdate(const vector3d &campos) 
+{
+	// there should be no LOD update when we have active split requests
 	if(mHasJobRequest)
 		return;
+
+	/*SSphere3D obj;
+	obj.m_centre = clipCentroid;
+	obj.m_radius = clipRadius;
+
+	if( !s_sph.HorizonCulling(campos, obj) )
+		return;*/
 
 	bool canSplit = true;
 	bool canMerge = bool(kids[0]);
