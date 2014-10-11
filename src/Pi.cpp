@@ -429,12 +429,14 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
 	syncJobQueue.reset(new SyncJobQueue);
-
+	
+	Output("ShipType::Init()\n");
 	// XXX early, Lua init needs it
 	ShipType::Init();
 
 	// XXX UI requires Lua  but Pi::ui must exist before we start loading
 	// templates. so now we have crap everywhere :/
+	Output("Lua::Init()\n");
 	Lua::Init();
 
 	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
@@ -462,49 +464,56 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		)
     );
 
-	draw_progress(gauge, label, 0.1f);
+	draw_progress(gauge, label, 0.0f);
 
+	Output("GalaxyGenerator::Init()\n");
 	if (config->HasEntry("GalaxyGenerator"))
 		GalaxyGenerator::Init(config->String("GalaxyGenerator"),
 			config->Int("GalaxyGeneratorVersion", GalaxyGenerator::LAST_VERSION));
 	else
 		GalaxyGenerator::Init();
 
+	draw_progress(gauge, label, 0.1f);
+
+	Output("FaceParts::Init()\n");
+	FaceParts::Init();
 	draw_progress(gauge, label, 0.2f);
 
-	FaceParts::Init();
-
+	Output("new ModelCache\n");
+	modelCache = new ModelCache(Pi::renderer);
 	draw_progress(gauge, label, 0.3f);
 
-	// Reload home sector, they might have changed, due to custom systems
-	// Sectors might be changed in game, so have to re-create them again once we have a Game.
-	draw_progress(gauge, label, 0.4f);
-
-	modelCache = new ModelCache(Pi::renderer);
+	Output("Shields::Init\n");
 	Shields::Init(Pi::renderer);
-	draw_progress(gauge, label, 0.5f);
+	draw_progress(gauge, label, 0.4f);
 
 //unsigned int control_word;
 //_clearfp();
 //_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
 //double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
-	draw_progress(gauge, label, 0.6f);
-
+	Output("BaseSphere::Init\n");
 	BaseSphere::Init();
-	draw_progress(gauge, label, 0.7f);
+	draw_progress(gauge, label, 0.5f);
 
+	Output("CityOnPlanet::Init\n");
 	CityOnPlanet::Init();
+	draw_progress(gauge, label, 0.6f);
+	
+	Output("SpaceStation::Init\n");
+	SpaceStation::Init();
+	draw_progress(gauge, label, 0.7f);
+	
+	Output("NavLights::Init\n");
+	NavLights::Init(Pi::renderer);
+	draw_progress(gauge, label, 0.75f);
+
+	Output("Sfx::Init\n");
+	Sfx::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.8f);
 
-	SpaceStation::Init();
-	draw_progress(gauge, label, 0.9f);
-
-	NavLights::Init(Pi::renderer);
-	Sfx::Init(Pi::renderer);
-	draw_progress(gauge, label, 0.95f);
-
 	if (!no_gui && !config->Int("DisableSound")) {
+		Output("Sound::Init\n");
 		Sound::Init();
 		Sound::SetMasterVolume(config->Float("MasterVolume"));
 		Sound::SetSfxVolume(config->Float("SfxVolume"));
@@ -515,9 +524,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		if (config->Int("SfxMuted")) Sound::SetSfxVolume(0.f);
 		if (config->Int("MusicMuted")) GetMusicPlayer().SetEnabled(false);
 	}
-	draw_progress(gauge, label, 1.0f);
+	draw_progress(gauge, label, 0.9f);
 
 	OS::NotifyLoadEnd();
+	draw_progress(gauge, label, 1.0f);
 
 #if 0
 	// frame test code
