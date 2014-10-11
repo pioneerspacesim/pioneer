@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _COLORS_H
+#define _COLORS_H
 /*
  * The place for colors and possibly bitmaps.
  */
@@ -16,3 +17,5 @@ namespace Colors {
 	extern const Color IFF_ALLY;
 	extern const Color IFF_HOSTILE;
 }
+
+#endif
