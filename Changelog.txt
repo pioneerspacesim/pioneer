@@ -7,6 +7,7 @@ October 2014
   
    * Fixes
      * Remove detail changes (#3213)
+     * Replace #pragma once by traditional include guards. (#3215)
 
 September 2014
    * New Features
