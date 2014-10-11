@@ -15,10 +15,6 @@
 #include <deque>
 #include <algorithm>
 
-// if changing the detail level we avoid recalculating these if they're cached
-static RefCountedPtr<Graphics::IndexBuffer> g_geoIndicesLists[5][NUM_INDEX_LISTS];
-
-
 void GeoPatchContext::Cleanup() {
 	midIndices.reset();
 	for (int i=0; i<4; i++) {
@@ -62,19 +58,10 @@ int GeoPatchContext::GetIndices(std::vector<unsigned short> &pl, const unsigned 
 	return tri_count;
 }
 
-void GeoPatchContext::Init() {
+void GeoPatchContext::Init() 
+{
 	frac = 1.0 / double(edgeLen-1);
-
 	numTris = 2*(edgeLen-1)*(edgeLen-1);
-
-	// used the cached ones if we can
-	const int detail = Clamp(Pi::detail.planets, 0, 4);
-	if( g_geoIndicesLists[detail][0].Valid() ) {
-		for( unsigned int i=0; i<NUM_INDEX_LISTS; ++i ) {
-			indices_list[i] = g_geoIndicesLists[detail][i];
-		}
-		return;
-	}
 
 	unsigned short *idx;
 	midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
@@ -236,8 +223,6 @@ void GeoPatchContext::Init() {
 			idxPtr[j] = pl_short[i][j];
 		}
 		indices_list[i]->Unmap();
-		// cache it for later
-		g_geoIndicesLists[detail][i] = indices_list[i];
 	}
 
 	if (midIndices) {

@@ -78,6 +78,7 @@ The Pioneer Developers are:
 * Taiki Kim
 * Thierry Dupré
 * Tim Jones
+* Timothy Hills
 * Tom Morton
 * Torham2234
 * Ulf Pettersson

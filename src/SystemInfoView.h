@@ -71,6 +71,7 @@ private:
 	//map is not enough to associate icons as each tab has their own. First element is the body index of SystemPath (names are not unique)
 	std::vector<std::pair<Uint32, BodyIcon*> > m_bodyIcons;
 	bool m_unexplored;
+	bool m_hasTradeAnalyzer;
 
 	Graphics::RenderState *m_solidState;
 };

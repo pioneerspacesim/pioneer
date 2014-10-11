@@ -3,6 +3,11 @@ October 2014
    * New Features
      * We now have a build script for NixOS Linux (#3208)
      * Flying with gears down increases drag (#2509, #3207)
+     * New Trade Analyzer ship component (#3200)
+  
+   * Fixes
+     * Remove detail changes (#3213)
+     * Replace #pragma once by traditional include guards. (#3215)
 
 September 2014
    * New Features

@@ -1935,6 +1935,14 @@
       "description" : "",
       "message" : "SPOCZYWAJ W POKOJU STARY PIERNIKU"
    },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Analizator handlu"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Pokazuje zysk w handlu towarami pomiędzy wskazanym a obecnym systemem"
+   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Obrót nielegalnymi towarami"

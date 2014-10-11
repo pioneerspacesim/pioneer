@@ -29,6 +29,7 @@ EquipSet.default = {
 	laser_cooler=1,
 	cargo_life_support=1,
 	autopilot=1,
+	trade_analyzer=1,
 }
 
 function EquipSet.New (slots)
