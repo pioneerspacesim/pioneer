@@ -115,8 +115,6 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 		delete[] m_data;
 		m_data = nullptr;
 	}
-
-	//If we had VAOs could set up the pointers already
 }
 
 VertexBuffer::~VertexBuffer()
