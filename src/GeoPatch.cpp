@@ -137,7 +137,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	const vector3d cenDir(clipCentroid.Normalized());
 	const double dotProd = camDir.Dot(cenDir);
 
-	if( dotProd < 0.5 ) {
+	if( dotProd < 0.25 ) {
 		SSphere obj;
 		obj.m_centre = clipCentroid;
 		obj.m_radius = clipRadius;
