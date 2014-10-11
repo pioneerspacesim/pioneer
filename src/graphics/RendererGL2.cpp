@@ -25,6 +25,8 @@
 #include "gl2/ShieldMaterial.h"
 #include "gl2/SkyboxMaterial.h"
 #include "gl2/SphereImpostorMaterial.h"
+#include "gl2/UIMaterial.h"
+#include "gl2/VtxColorMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -89,7 +91,8 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 
 RendererGL2::~RendererGL2()
 {
-	while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
+	// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
+	//while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 	for (auto state : m_renderStates)
 		delete state.second;
 }
@@ -645,6 +648,12 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	// Create the material. It will be also used to create the shader,
 	// like a tiny factory
 	switch (desc.effect) {
+	case EFFECT_VTXCOLOR:
+		mat = new GL2::VtxColorMaterial();
+		break;
+	case EFFECT_UI:
+		mat = new GL2::UIMaterial();
+		break;
 	case EFFECT_PLANETRING:
 		mat = new GL2::RingMaterial();
 		break;

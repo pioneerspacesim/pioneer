@@ -102,11 +102,9 @@ static void write_opengl_info(std::ostream &out)
 
 	out << "GLEW version " << glewGetString(GLEW_VERSION) << "\n";
 
-	if (glewIsSupported("GL_VERSION_2_0"))
-		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION_ARB) << "\n";
-
 	out << "Available extensions:" << "\n";
 	if (glewIsSupported("GL_VERSION_3_0")) {
+		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 		GLint numext = 0;
 		glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
 		for (int i = 0; i < numext; ++i) {
@@ -130,7 +128,6 @@ static void write_opengl_info(std::ostream &out)
 #define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
 
-	DUMP_GL_VALUE(GL_MAX_3D_TEXTURE_SIZE);
 	DUMP_GL_VALUE(GL_MAX_CLIP_PLANES);
 	DUMP_GL_VALUE(GL_MAX_COLOR_ATTACHMENTS_EXT);
 	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
@@ -142,10 +139,8 @@ static void write_opengl_info(std::ostream &out)
 	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
 	DUMP_GL_VALUE(GL_MAX_LIGHTS);
 	DUMP_GL_VALUE(GL_MAX_LIST_NESTING);
-	DUMP_GL_VALUE(GL_MAX_MODELVIEW_STACK_DEPTH);
 	DUMP_GL_VALUE(GL_MAX_NAME_STACK_DEPTH);
 	DUMP_GL_VALUE(GL_MAX_PIXEL_MAP_TABLE);
-	DUMP_GL_VALUE(GL_MAX_PROJECTION_STACK_DEPTH);
 	DUMP_GL_VALUE(GL_MAX_RENDERBUFFER_SIZE_EXT);
 	DUMP_GL_VALUE(GL_MAX_SAMPLES_EXT);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_COORDS);
@@ -262,6 +257,7 @@ Renderer* Init(Settings vs)
 	initted = true;
 
 	MaterialDescriptor desc;
+	desc.effect = EFFECT_VTXCOLOR;
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
 	vtxColorMaterial->IncRefCount();

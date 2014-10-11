@@ -513,6 +513,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	m_renderState = m_renderer->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_UI;
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.reset(m_renderer->CreateMaterial(desc));

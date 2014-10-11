@@ -35,6 +35,7 @@ namespace GL2 {
 	class RingMaterial;
 	class FresnelColourMaterial;
 	class ShieldMaterial;
+	class UIMaterial;
 }
 
 class RendererGL2 : public Renderer
@@ -43,7 +44,7 @@ public:
 	RendererGL2(WindowSDL *window, const Graphics::Settings &vs);
 	virtual ~RendererGL2();
 
-	virtual const char* GetName() const { return "GL2 renderer"; }
+	virtual const char* GetName() const { return "GL3.3 renderer"; }
 	virtual bool GetNearFarRange(float &near, float &far) const;
 
 	virtual bool BeginFrame();

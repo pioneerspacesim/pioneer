@@ -25,6 +25,8 @@ class RendererGL2;
 // depends on the effect
 enum EffectType {
 	EFFECT_DEFAULT,
+	EFFECT_VTXCOLOR,
+	EFFECT_UI,
 	EFFECT_STARFIELD,
 	EFFECT_PLANETRING,
 	EFFECT_GEOSPHERE_TERRAIN,

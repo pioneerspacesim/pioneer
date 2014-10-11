@@ -55,6 +55,12 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\GasGiantMaterial.cpp">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\VtxColorMaterial.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\UIMaterial.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -115,6 +121,12 @@
       <Filter>gl2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\gl2\GasGiantMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\VtxColorMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\UIMaterial.h">
       <Filter>gl2</Filter>
     </ClInclude>
   </ItemGroup>
