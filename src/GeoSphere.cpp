@@ -302,7 +302,7 @@ void GeoSphere::BuildFirstPatches()
 	m_patches[5].reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5ULL << maxShiftDepth)));
 	for (int i=0; i<NUM_PATCHES; i++) {
 		for (int j=0; j<4; j++) {
-			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]].get();
+			m_patches[i]->SetEdgeFriend(j, m_patches[geo_sphere_edge_friends[i][j]].get());
 		}
 	}
 
@@ -337,7 +337,7 @@ void GeoSphere::Update()
 			ProcessSplitResults();
 			uint8_t numValidPatches = 0;
 			for (int i=0; i<NUM_PATCHES; i++) {
-				if(m_patches[i]->heights) {
+				if(m_patches[i]->HasHeightData()) {
 					++numValidPatches;
 				}
 			}

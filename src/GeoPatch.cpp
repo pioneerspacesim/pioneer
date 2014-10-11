@@ -117,28 +117,40 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 			}
 		}
 		m_vertexBuffer->Unmap();
+
+#ifdef DEBUG_BOUNDING_SPHERES
+		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
+		m_boundsphere.reset( new Graphics::Drawables::Sphere3D(Pi::renderer, mat, Pi::renderer->CreateRenderState(Graphics::RenderStateDesc()), 0, clipRadius) );
+#endif
 	}
 }
 
 // the default sphere we do the horizon culling against
-static const SSphere s_sph(0.9999);
+static const SSphere s_sph;
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 {
-	SSphere obj;
-	obj.m_centre = clipCentroid;
-	obj.m_radius = clipRadius;
-
-	if( !s_sph.HorizonCulling(campos, obj) ) {
+	if (!frustum.TestPoint(clipCentroid, clipRadius))
 		return; // nothing below this patch is visible
+
+	// only want to horizon cull patches that can actually be over the horizon!
+	const vector3d camDir((campos - clipCentroid).Normalized());
+	const vector3d cenDir(clipCentroid.Normalized());
+	const double dotProd = camDir.Dot(cenDir);
+
+	if( dotProd < 0.5 ) {
+		SSphere obj;
+		obj.m_centre = clipCentroid;
+		obj.m_radius = clipRadius;
+
+		if( !s_sph.HorizonCulling(campos, obj) ) {
+			return; // nothing below this patch is visible
+		}
 	}
 
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights) {
 		_UpdateVBOs(renderer);
-
-		if (!frustum.TestPoint(clipCentroid, clipRadius))
-			return;
 
 		Graphics::Material *mat = geosphere->GetSurfaceMaterial();
 		Graphics::RenderState *rs = geosphere->GetSurfRenderState();
@@ -150,6 +162,13 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		++Pi::statNumPatches;
 
 		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
+#ifdef DEBUG_BOUNDING_SPHERES
+		if(m_boundsphere.get()) {
+			renderer->SetWireFrameMode(true);
+			m_boundsphere->Draw(renderer);
+			renderer->SetWireFrameMode(false);
+		}
+#endif
 	}
 }
 
