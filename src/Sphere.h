@@ -17,7 +17,7 @@ struct SSphere {
 	double m_radius;
 
 	// Adapted from Ysaneya here: http://www.gamedev.net/blog/73/entry-1666972-horizon-culling/
-	bool SSphere::HorizonCulling(const vector3d& view, const SSphere& obj) const;
+	bool HorizonCulling(const vector3d& view, const SSphere& obj) const;
 };
 
 #endif /* _SPHERE_H */
