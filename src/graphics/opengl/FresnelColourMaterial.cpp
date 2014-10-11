@@ -12,7 +12,7 @@
 namespace Graphics {
 namespace OGL {
 
-FresnelColourProgram::FresnelColourProgram(const MaterialDescriptor &desc, int lights)
+FresnelColourProgram::FresnelColourProgram(const MaterialDescriptor &desc)
 {
 	//build some defines
 	std::stringstream ss;

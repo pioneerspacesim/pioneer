@@ -13,9 +13,9 @@
 namespace Graphics {
 namespace OGL {
 
-MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
+MultiProgram::MultiProgram(const MaterialDescriptor &desc, int numLights)
 {
-	lights = Clamp(lights, 1, 4);
+	numLights = Clamp(numLights, 1, 4);
 
 	//build some defines
 	std::stringstream ss;
@@ -26,8 +26,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 	if (desc.alphaTest)
 		ss << "#define ALPHA_TEST\n";
 	//using only one light
-	if (desc.lighting && lights > 0)
-		ss << stringf("#define NUM_LIGHTS %0{d}\n", lights);
+	if (desc.lighting && numLights > 0)
+		ss << stringf("#define NUM_LIGHTS %0{d}\n", numLights);
 	else
 		ss << "#define NUM_LIGHTS 0\n";
 

@@ -16,7 +16,7 @@ namespace Graphics {
 	namespace OGL {
 		class FresnelColourProgram : public Program {
 		public:
-			FresnelColourProgram(const MaterialDescriptor &, int lights=0);
+			FresnelColourProgram(const MaterialDescriptor &);
 		};
 
 		class FresnelColourMaterial : public Material { //unlit

@@ -16,7 +16,7 @@ namespace Graphics {
 	namespace OGL {
 		class MultiProgram : public Program {
 		public:
-			MultiProgram(const MaterialDescriptor &, int lights=0);
+			MultiProgram(const MaterialDescriptor &, int numLights=0);
 		};
 
 		class MultiMaterial : public Material { //unlit
