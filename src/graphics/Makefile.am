@@ -37,7 +37,7 @@ noinst_HEADERS = \
 	opengl/ShieldMaterial.h \
 	opengl/StarfieldMaterial.h \
 	opengl/SkyboxMaterial.h \
-	opengl/TextureGL.h \ \
+	opengl/TextureGL.h \
 	opengl/UIMaterial.h \
 	opengl/Uniform.h \
 	opengl/VtxColorMaterial.h
