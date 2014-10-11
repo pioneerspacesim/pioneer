@@ -8,12 +8,12 @@
  * textured/untextured, vertex colors or no...
  *
  */
-#include "GL2Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
 
 namespace Graphics {
 
-	namespace GL2 {
+	namespace OGL {
 		class UIProgram : public Program {
 		public:
 			UIProgram(const MaterialDescriptor &);

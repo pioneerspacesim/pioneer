@@ -4,11 +4,11 @@
 #include "RingMaterial.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
-#include "graphics/RendererGL2.h"
-#include "graphics/TextureGL.h"
+#include "RendererGL.h"
+#include "TextureGL.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
@@ -21,7 +21,7 @@ Program *RingMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void RingMaterial::Apply()
 {
-	GL2::Material::Apply();
+	OGL::Material::Apply();
 
 	assert(this->texture0);
 	static_cast<TextureGL*>(texture0)->Bind();

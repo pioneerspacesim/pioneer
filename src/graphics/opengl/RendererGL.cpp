@@ -1,32 +1,32 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "RendererGL2.h"
-#include "Graphics.h"
-#include "Light.h"
-#include "Material.h"
+#include "RendererGL.h"
+#include "graphics/Graphics.h"
+#include "graphics/Light.h"
+#include "graphics/Material.h"
 #include "OS.h"
 #include "StringF.h"
-#include "Texture.h"
+#include "graphics/Texture.h"
 #include "TextureGL.h"
-#include "VertexArray.h"
+#include "graphics/VertexArray.h"
 #include "GLDebug.h"
-#include "gl2/GasGiantMaterial.h"
-#include "gl2/GeoSphereMaterial.h"
-#include "gl2/GL2Material.h"
-#include "gl2/GL2RenderState.h"
-#include "gl2/GL2RenderTarget.h"
-#include "gl2/GL2VertexBuffer.h"
-#include "gl2/MultiMaterial.h"
-#include "gl2/Program.h"
-#include "gl2/RingMaterial.h"
-#include "gl2/StarfieldMaterial.h"
-#include "gl2/FresnelColourMaterial.h"
-#include "gl2/ShieldMaterial.h"
-#include "gl2/SkyboxMaterial.h"
-#include "gl2/SphereImpostorMaterial.h"
-#include "gl2/UIMaterial.h"
-#include "gl2/VtxColorMaterial.h"
+#include "GasGiantMaterial.h"
+#include "GeoSphereMaterial.h"
+#include "MaterialGL.h"
+#include "RenderStateGL.h"
+#include "RenderTargetGL.h"
+#include "VertexBufferGL.h"
+#include "MultiMaterial.h"
+#include "Program.h"
+#include "RingMaterial.h"
+#include "StarfieldMaterial.h"
+#include "FresnelColourMaterial.h"
+#include "ShieldMaterial.h"
+#include "SkyboxMaterial.h"
+#include "SphereImpostorMaterial.h"
+#include "UIMaterial.h"
+#include "VtxColorMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -35,11 +35,11 @@
 
 namespace Graphics {
 
-typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
+typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
 
 // for material-less line and point drawing
-GL2::MultiProgram *vtxColorProg;
-GL2::MultiProgram *flatColorProg;
+OGL::MultiProgram *vtxColorProg;
+OGL::MultiProgram *flatColorProg;
 
 RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
@@ -82,10 +82,10 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 		GLDebug::Enable();
 
 	MaterialDescriptor desc;
-	flatColorProg = new GL2::MultiProgram(desc);
+	flatColorProg = new OGL::MultiProgram(desc);
 	m_programs.push_back(std::make_pair(desc, flatColorProg));
 	desc.vertexColors = true;
-	vtxColorProg = new GL2::MultiProgram(desc);
+	vtxColorProg = new OGL::MultiProgram(desc);
 	m_programs.push_back(std::make_pair(desc, vtxColorProg));
 }
 
@@ -192,7 +192,7 @@ bool RendererGL2::SwapBuffers()
 bool RendererGL2::SetRenderState(RenderState *rs)
 {
 	if (m_activeRenderState != rs) {
-		static_cast<GL2::RenderState*>(rs)->Apply();
+		static_cast<OGL::RenderState*>(rs)->Apply();
 		m_activeRenderState = rs;
 	}
 	CheckRenderErrors();
@@ -203,11 +203,11 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 {
 	PROFILE_SCOPED()
 	if (rt)
-		static_cast<GL2::RenderTarget*>(rt)->Bind();
+		static_cast<OGL::RenderTarget*>(rt)->Bind();
 	else if (m_activeRenderTarget)
 		m_activeRenderTarget->Unbind();
 
-	m_activeRenderTarget = static_cast<GL2::RenderTarget*>(rt);
+	m_activeRenderTarget = static_cast<OGL::RenderTarget*>(rt);
 	CheckRenderErrors();
 
 	return true;
@@ -471,7 +471,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
 
 	//do two-triangle quads. Could also do indexed surfaces.
-	//GL2 renderer should use actual point sprites
+	//OGL renderer should use actual point sprites
 	//(see history of Render.cpp for point code remnants)
 	for (int i=0; i<count; i++) {
 		const vector3f &pos = positions[i];
@@ -499,7 +499,7 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 
 	SetMaterialShaderTransforms(mat);
 
-	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
+	auto gvb = static_cast<OGL::VertexBuffer*>(vb);
 
 	gvb->Bind();
 	EnableVertexAttributes(gvb);
@@ -522,8 +522,8 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 
 	SetMaterialShaderTransforms(mat);
 
-	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
-	auto gib = static_cast<GL2::IndexBuffer*>(ib);
+	auto gvb = static_cast<OGL::VertexBuffer*>(vb);
+	auto gib = static_cast<OGL::IndexBuffer*>(ib);
 
 	gvb->Bind();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
@@ -638,8 +638,8 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	CheckRenderErrors();
 	MaterialDescriptor desc = d;
 
-	GL2::Material *mat = 0;
-	GL2::Program *p = 0;
+	OGL::Material *mat = 0;
+	OGL::Program *p = 0;
 
 	if (desc.lighting) {
 		desc.dirLights = m_numDirLights;
@@ -649,45 +649,45 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	// like a tiny factory
 	switch (desc.effect) {
 	case EFFECT_VTXCOLOR:
-		mat = new GL2::VtxColorMaterial();
+		mat = new OGL::VtxColorMaterial();
 		break;
 	case EFFECT_UI:
-		mat = new GL2::UIMaterial();
+		mat = new OGL::UIMaterial();
 		break;
 	case EFFECT_PLANETRING:
-		mat = new GL2::RingMaterial();
+		mat = new OGL::RingMaterial();
 		break;
 	case EFFECT_STARFIELD:
-		mat = new GL2::StarfieldMaterial();
+		mat = new OGL::StarfieldMaterial();
 		break;
 	case EFFECT_GEOSPHERE_TERRAIN:
 	case EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA:
 	case EFFECT_GEOSPHERE_TERRAIN_WITH_WATER:
-		mat = new GL2::GeoSphereSurfaceMaterial();
+		mat = new OGL::GeoSphereSurfaceMaterial();
 		break;
 	case EFFECT_GEOSPHERE_SKY:
-		mat = new GL2::GeoSphereSkyMaterial();
+		mat = new OGL::GeoSphereSkyMaterial();
 		break;
 	case EFFECT_FRESNEL_SPHERE:
-		mat = new GL2::FresnelColourMaterial();
+		mat = new OGL::FresnelColourMaterial();
 		break;
 	case EFFECT_SHIELD:
-		mat = new GL2::ShieldMaterial();
+		mat = new OGL::ShieldMaterial();
 		break;
 	case EFFECT_SKYBOX:
-		mat = new GL2::SkyboxMaterial();
+		mat = new OGL::SkyboxMaterial();
 		break;
 	case EFFECT_SPHEREIMPOSTOR:
-		mat = new GL2::SphereImpostorMaterial();
+		mat = new OGL::SphereImpostorMaterial();
 		break;
 	case EFFECT_GASSPHERE_TERRAIN:
-		mat = new GL2::GasGiantSurfaceMaterial();
+		mat = new OGL::GasGiantSurfaceMaterial();
 		break;
 	default:
 		if (desc.lighting)
-			mat = new GL2::LitMultiMaterial();
+			mat = new OGL::LitMultiMaterial();
 		else
-			mat = new GL2::MultiMaterial();
+			mat = new OGL::MultiMaterial();
 	}
 
 	mat->m_renderer = this;
@@ -711,11 +711,11 @@ bool RendererGL2::ReloadShaders()
 	return true;
 }
 
-GL2::Program* RendererGL2::GetOrCreateProgram(GL2::Material *mat)
+OGL::Program* RendererGL2::GetOrCreateProgram(OGL::Material *mat)
 {
 	CheckRenderErrors();
 	const MaterialDescriptor &desc = mat->GetDescriptor();
-	GL2::Program *p = 0;
+	OGL::Program *p = 0;
 
 	// Find an existing program...
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
@@ -750,7 +750,7 @@ RenderState *RendererGL2::CreateRenderState(const RenderStateDesc &desc)
 		CheckRenderErrors();
 		return it->second;
 	} else {
-		auto *rs = new GL2::RenderState(desc);
+		auto *rs = new OGL::RenderState(desc);
 		m_renderStates[hash] = rs;
 		CheckRenderErrors();
 		return rs;
@@ -760,7 +760,7 @@ RenderState *RendererGL2::CreateRenderState(const RenderStateDesc &desc)
 RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 {
 	CheckRenderErrors();
-	GL2::RenderTarget* rt = new GL2::RenderTarget(desc);
+	OGL::RenderTarget* rt = new OGL::RenderTarget(desc);
 	rt->Bind();
 	if (desc.colorFormat != TEXTURE_NONE) {
 		Graphics::TextureDescriptor cdesc(
@@ -796,12 +796,12 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 
 VertexBuffer *RendererGL2::CreateVertexBuffer(const VertexBufferDesc &desc)
 {
-	return new GL2::VertexBuffer(desc);
+	return new OGL::VertexBuffer(desc);
 }
 
 IndexBuffer *RendererGL2::CreateIndexBuffer(Uint32 size, BufferUsage usage)
 {
-	return new GL2::IndexBuffer(size, usage);
+	return new OGL::IndexBuffer(size, usage);
 }
 
 // XXX very heavy. in the future when all GL calls are made through the

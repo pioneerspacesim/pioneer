@@ -7,12 +7,12 @@
  * Programs & Materials used by terrain
  */
 #include "libs.h"
-#include "GL2Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
 #include "galaxy/StarSystem.h"
 
 namespace Graphics {
-	namespace GL2 {
+	namespace OGL {
 		class GasGiantProgram : public Program {
 		public:
 			GasGiantProgram(const std::string &filename, const std::string &defines);

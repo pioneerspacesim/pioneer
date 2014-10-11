@@ -9,11 +9,11 @@
  * The Program requires setting intensity using the generic emission parameter
  */
 #include "libs.h"
-#include "Material.h"
+#include "graphics/Material.h"
 #include "Program.h"
 
 namespace Graphics {
-	namespace GL2 {
+	namespace OGL {
 		class StarfieldMaterial : public Material {
 		public:
 			Program *CreateProgram(const MaterialDescriptor &) {

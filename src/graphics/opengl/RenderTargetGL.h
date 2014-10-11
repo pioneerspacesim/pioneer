@@ -14,7 +14,7 @@ namespace Graphics {
 
 class RendererGL2;
 
-namespace GL2 {
+namespace OGL {
 
 class RenderTarget;
 

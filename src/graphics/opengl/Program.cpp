@@ -10,7 +10,7 @@
 
 namespace Graphics {
 
-namespace GL2 {
+namespace OGL {
 
 static const char *s_glslVersion = "#version 150\n";
 GLuint Program::s_curProgram = 0;
@@ -62,11 +62,11 @@ struct Shader {
 			Error("Could not load %s", filename.c_str());
 
 		// Load some common code
-		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/attributes.glsl");
+		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/attributes.glsl");
 		assert(attributesCode);
-		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
+		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/logz.glsl");
 		assert(logzCode);
-		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/lib.glsl");
+		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/lib.glsl");
 		assert(libsCode);
 
 		AppendSource(s_glslVersion);
@@ -179,7 +179,7 @@ void Program::Unuse()
 //load, compile and link
 void Program::LoadShaders(const std::string &name, const std::string &defines)
 {
-	const std::string filename = std::string("shaders/gl2/") + name;
+	const std::string filename = std::string("shaders/opengl/") + name;
 
 	//load, create and compile shaders
 	Shader vs(GL_VERTEX_SHADER, filename + ".vert", defines);
@@ -242,6 +242,6 @@ void Program::InitUniforms()
 	sceneAmbient.Init("scene.ambient", m_program);
 }
 
-} // GL2
+} // OGL
 
 } // Graphics

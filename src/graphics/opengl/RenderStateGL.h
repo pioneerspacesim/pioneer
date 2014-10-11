@@ -6,7 +6,7 @@
 #include "graphics/RenderState.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 class RenderState : public Graphics::RenderState {
 public:

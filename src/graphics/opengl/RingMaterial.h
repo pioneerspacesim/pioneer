@@ -7,11 +7,11 @@
  * Planet ring material
  */
 #include "libs.h"
-#include "GL2Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
 namespace Graphics {
 
-	namespace GL2 {
+	namespace OGL {
 
 		class RingMaterial : public Material {
 		public:

@@ -11,7 +11,7 @@
 #include "Program.h"
 
 namespace Graphics {
-	namespace GL2 {
+	namespace OGL {
 		class SkyboxMaterial : public Material {
 		private:
 

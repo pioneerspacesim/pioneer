@@ -6,11 +6,11 @@
 #include "Camera.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
-#include "graphics/RendererGL2.h"
+#include "RendererGL.h"
 #include <sstream>
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 GeoSphereProgram::GeoSphereProgram(const std::string &filename, const std::string &defines)
 {
@@ -61,7 +61,7 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define TERRAIN_WITH_WATER\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
-	return new Graphics::GL2::GeoSphereProgram("geosphere_terrain", ss.str());
+	return new Graphics::OGL::GeoSphereProgram("geosphere_terrain", ss.str());
 }
 
 void GeoSphereSurfaceMaterial::Apply()
@@ -71,7 +71,7 @@ void GeoSphereSurfaceMaterial::Apply()
 
 void GeoSphereSurfaceMaterial::SetGSUniforms()
 {
-	GL2::Material::Apply();
+	OGL::Material::Apply();
 
 	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
@@ -140,7 +140,7 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 	ss << "#define ATMOSPHERE\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
-	return new Graphics::GL2::GeoSphereProgram("geosphere_sky", ss.str());
+	return new Graphics::OGL::GeoSphereProgram("geosphere_sky", ss.str());
 }
 
 void GeoSphereSkyMaterial::Apply()

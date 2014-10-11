@@ -12,7 +12,7 @@
 
 namespace Graphics {
 
-	namespace GL2 {
+	namespace OGL {
 
 		struct ShaderException { };
 

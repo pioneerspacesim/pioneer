@@ -3,15 +3,15 @@
 
 #include "MultiMaterial.h"
 #include "graphics/Material.h"
-#include "graphics/TextureGL.h"
 #include "graphics/Graphics.h"
-#include "graphics/RendererGL2.h"
+#include "RendererGL.h"
+#include "TextureGL.h"
 #include <sstream>
 #include "StringF.h"
 #include "Ship.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 {
@@ -74,7 +74,7 @@ void LitMultiMaterial::SetProgram(Program *p)
 
 void MultiMaterial::Apply()
 {
-	GL2::Material::Apply();
+	OGL::Material::Apply();
 
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
 

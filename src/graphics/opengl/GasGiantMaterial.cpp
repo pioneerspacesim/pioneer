@@ -6,11 +6,11 @@
 #include "Camera.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
-#include "graphics/RendererGL2.h"
+#include "RendererGL.h"
 #include <sstream>
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 // GasGiantProgram -------------------------------------------
 GasGiantProgram::GasGiantProgram(const std::string &filename, const std::string &defines)
@@ -59,7 +59,7 @@ Program *GasGiantSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define ATMOSPHERE\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
-	return new Graphics::GL2::GasGiantProgram("gassphere_base", ss.str());
+	return new Graphics::OGL::GasGiantProgram("gassphere_base", ss.str());
 }
 
 void GasGiantSurfaceMaterial::Apply()
@@ -69,7 +69,7 @@ void GasGiantSurfaceMaterial::Apply()
 
 void GasGiantSurfaceMaterial::SetGSUniforms()
 {
-	GL2::Material::Apply();
+	OGL::Material::Apply();
 
 	GasGiantProgram *p = static_cast<GasGiantProgram*>(m_program);
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);

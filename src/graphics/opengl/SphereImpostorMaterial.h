@@ -6,11 +6,11 @@
  * Billboard sphere impostor
  */
 #include "libs.h"
-#include "GL2Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
 namespace Graphics {
 
-	namespace GL2 {
+	namespace OGL {
 
 		class SphereImpostorMaterial : public Material {
 		public:
@@ -19,7 +19,7 @@ namespace Graphics {
 			}
 
 			virtual void Apply() override {
-				GL2::Material::Apply();
+				OGL::Material::Apply();
 				m_program->sceneAmbient.Set(m_renderer->GetAmbientColor());
 
 				//Light uniform parameters

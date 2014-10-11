@@ -1,10 +1,10 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "graphics/gl2/GL2RenderTarget.h"
-#include "graphics/TextureGL.h"
+#include "RenderTargetGL.h"
+#include "TextureGL.h"
 
-namespace Graphics { namespace GL2 {
+namespace Graphics { namespace OGL {
 
 RenderBuffer::RenderBuffer()
 {

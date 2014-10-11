@@ -10,7 +10,7 @@
  * Users are responsible for deleting a material they have requested. This is because materials
  * are rarely shareable.
  * Material::Apply is called by renderer before drawing, and Unapply after drawing (to restore state).
- * For the GL2 renderer, a Material is always accompanied by a Program.
+ * For the OGL renderer, a Material is always accompanied by a Program.
  */
 #include "libs.h"
 #include <RefCounted.h>

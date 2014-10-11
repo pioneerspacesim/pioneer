@@ -1,11 +1,11 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "graphics/gl2/GL2VertexBuffer.h"
+#include "graphics/opengl/VertexBufferGL.h"
 #include "graphics/VertexArray.h"
 #include "utils.h"
 
-namespace Graphics { namespace GL2 {
+namespace Graphics { namespace OGL {
 
 GLint get_num_components(VertexAttribFormat fmt)
 {
@@ -334,5 +334,5 @@ void IndexBuffer::Unmap()
 	m_mapMode = BUFFER_MAP_NONE;
 }
 
-} //namespace GL2
+} //namespace OGL
 } //namespace Graphics

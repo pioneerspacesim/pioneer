@@ -8,12 +8,12 @@
  * textured/untextured, vertex colors or no...
  *
  */
-#include "GL2Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
 
 namespace Graphics {
 
-	namespace GL2 {
+	namespace OGL {
 		class FresnelColourProgram : public Program {
 		public:
 			FresnelColourProgram(const MaterialDescriptor &, int lights=0);

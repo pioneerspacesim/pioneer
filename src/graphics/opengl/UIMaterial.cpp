@@ -3,14 +3,14 @@
 
 #include "UIMaterial.h"
 #include "graphics/Material.h"
-#include "graphics/TextureGL.h"
 #include "graphics/Graphics.h"
-#include "graphics/RendererGL2.h"
+#include "TextureGL.h"
+#include "RendererGL.h"
 #include <sstream>
 #include "StringF.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 UIProgram::UIProgram(const MaterialDescriptor &desc)
 {
@@ -28,7 +28,7 @@ Program *UIMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void UIMaterial::Apply()
 {
-	GL2::Material::Apply();
+	OGL::Material::Apply();
 
 	UIProgram *p = static_cast<UIProgram*>(m_program);
 

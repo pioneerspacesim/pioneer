@@ -4,7 +4,7 @@
 #ifndef _GL2_MATERIAL_H
 #define _GL2_MATERIAL_H
 /*
- * Multi-purpose GL2 material.
+ * Multi-purpose OGL material.
  *
  * Generally, the idea is that a Program contains uniforms but
  * a material sets them, using the standard parameters of Graphics::Material
@@ -19,7 +19,7 @@ namespace Graphics {
 
 	class RendererGL2;
 
-	namespace GL2 {
+	namespace OGL {
 
 		class Program;
 

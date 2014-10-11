@@ -3,14 +3,14 @@
 
 #include "FresnelColourMaterial.h"
 #include "graphics/Material.h"
-#include "graphics/TextureGL.h"
 #include "graphics/Graphics.h"
-#include "graphics/RendererGL2.h"
+#include "TextureGL.h"
+#include "RendererGL.h"
 #include <sstream>
 #include "StringF.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 FresnelColourProgram::FresnelColourProgram(const MaterialDescriptor &desc, int lights)
 {
@@ -31,7 +31,7 @@ Program *FresnelColourMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void FresnelColourMaterial::Apply()
 {
-	GL2::Material::Apply();
+	OGL::Material::Apply();
 	FresnelColourProgram *p = static_cast<FresnelColourProgram*>(m_program);
 	p->diffuse.Set(this->diffuse);
 }

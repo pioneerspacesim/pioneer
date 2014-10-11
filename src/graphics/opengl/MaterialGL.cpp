@@ -1,12 +1,12 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#include "GL2Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
-#include "graphics/RendererGL2.h"
+#include "RendererGL.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 void Material::Apply()
 {

@@ -11,7 +11,7 @@ namespace Graphics {
 
 	class Texture;
 
-	namespace GL2 {
+	namespace OGL {
 		class Uniform {
 		public:
 			Uniform();

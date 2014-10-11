@@ -13,7 +13,7 @@
  *  - use glvertexattribpointer instead of glvertexpointer etc
  *  - get rid of built-in glMaterial, glMatrix use
  */
-#include "Renderer.h"
+#include "graphics/Renderer.h"
 #include <stack>
 #include <unordered_map>
 
@@ -22,7 +22,7 @@ namespace Graphics {
 class Texture;
 struct Settings;
 
-namespace GL2 {
+namespace OGL {
 	class GasGiantSurfaceMaterial;
 	class GeoSphereSkyMaterial;
 	class GeoSphereSurfaceMaterial;
@@ -129,20 +129,20 @@ protected:
 	matrix4x4f& GetCurrentTransform() { return m_currentTransform; }
 	matrix4x4f m_currentTransform;
 
-	GL2::Program* GetOrCreateProgram(GL2::Material*);
-	friend class GL2::Material;
-	friend class GL2::GasGiantSurfaceMaterial;
-	friend class GL2::GeoSphereSurfaceMaterial;
-	friend class GL2::GeoSphereSkyMaterial;
-	friend class GL2::MultiMaterial;
-	friend class GL2::LitMultiMaterial;
-	friend class GL2::RingMaterial;
-	friend class GL2::FresnelColourMaterial;
-	friend class GL2::ShieldMaterial;
-	std::vector<std::pair<MaterialDescriptor, GL2::Program*> > m_programs;
-	std::unordered_map<Uint32, GL2::RenderState*> m_renderStates;
+	OGL::Program* GetOrCreateProgram(OGL::Material*);
+	friend class OGL::Material;
+	friend class OGL::GasGiantSurfaceMaterial;
+	friend class OGL::GeoSphereSurfaceMaterial;
+	friend class OGL::GeoSphereSkyMaterial;
+	friend class OGL::MultiMaterial;
+	friend class OGL::LitMultiMaterial;
+	friend class OGL::RingMaterial;
+	friend class OGL::FresnelColourMaterial;
+	friend class OGL::ShieldMaterial;
+	std::vector<std::pair<MaterialDescriptor, OGL::Program*> > m_programs;
+	std::unordered_map<Uint32, OGL::RenderState*> m_renderStates;
 	float m_invLogZfarPlus1;
-	GL2::RenderTarget *m_activeRenderTarget;
+	OGL::RenderTarget *m_activeRenderTarget;
 	RenderState *m_activeRenderState;
 
 	MatrixMode m_matrixMode;

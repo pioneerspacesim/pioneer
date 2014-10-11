@@ -3,15 +3,15 @@
 
 #include "ShieldMaterial.h"
 #include "graphics/Material.h"
-#include "graphics/TextureGL.h"
 #include "graphics/Graphics.h"
-#include "graphics/RendererGL2.h"
+#include "TextureGL.h"
+#include "RendererGL.h"
 #include <sstream>
 #include "StringF.h"
 #include "Shields.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 ShieldProgram::ShieldProgram(const MaterialDescriptor &desc)
 {
@@ -51,7 +51,7 @@ Program *ShieldMaterial::CreateProgram(const MaterialDescriptor &desc)
 
 void ShieldMaterial::Apply()
 {
-	GL2::Material::Apply();
+	OGL::Material::Apply();
 
 	ShieldProgram *p = static_cast<ShieldProgram*>(m_program);
 

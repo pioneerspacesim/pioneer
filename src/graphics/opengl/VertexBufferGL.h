@@ -5,7 +5,7 @@
 #define GL2_VERTEXBUFFER_H
 #include "graphics/VertexBuffer.h"
 
-namespace Graphics { namespace GL2 {
+namespace Graphics { namespace OGL {
 
 class GLBufferBase {
 public:

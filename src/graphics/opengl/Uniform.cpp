@@ -2,10 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Uniform.h"
-#include "graphics/TextureGL.h"
+#include "TextureGL.h"
 
 namespace Graphics {
-namespace GL2 {
+namespace OGL {
 
 Uniform::Uniform()
 : m_location(-1)

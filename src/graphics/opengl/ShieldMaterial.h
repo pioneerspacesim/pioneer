@@ -8,12 +8,12 @@
  * textured/untextured, vertex colors or no...
  *
  */
-#include "GL2Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
 
 namespace Graphics {
 
-	namespace GL2 {
+	namespace OGL {
 		static const Sint32 MAX_SHIELD_HITS = 5; // Also defined in Ship.h
 
 		class ShieldProgram : public Program {
