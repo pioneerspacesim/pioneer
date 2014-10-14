@@ -57,7 +57,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 {
 	m_viewportStack.push(Viewport());
 
-	const bool useDXTnTextures = vs.useTextureCompression && glewIsSupported("GL_EXT_texture_compression_s3tc");
+	const bool useDXTnTextures = vs.useTextureCompression;
 	m_useCompressedTextures = useDXTnTextures;
 
 	//XXX bunch of fixed function states here!
