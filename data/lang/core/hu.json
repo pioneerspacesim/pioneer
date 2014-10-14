@@ -1937,11 +1937,11 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Piacelemző"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Kiemeli a jelenlegi és a cél rendszer között várhatóan profittal értékesíthető termékeket."
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
