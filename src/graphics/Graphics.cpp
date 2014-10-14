@@ -215,7 +215,7 @@ Renderer* Init(Settings vs)
 	width = window->GetWidth();
 	height = window->GetHeight();
 
-	//glewExperimental = true;
+	glewExperimental = true;
 	GLenum glew_err;
 	if ((glew_err = glewInit()) != GLEW_OK)
 		Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
@@ -235,10 +235,10 @@ Renderer* Init(Settings vs)
 	// pump this once as glewExperimental is necessary but spews a single error
 	GLenum err = glGetError();
 
-	if (!glewIsSupported("GL_VERSION_3_3") )
-		Error("OpenGL Version 3.3 is not supported. Pioneer cannot run on your graphics card.");
+	if (!glewIsSupported("GL_VERSION_3_2") )
+		Error("OpenGL Version 3.2 is not supported. Pioneer cannot run on your graphics card.");
 
-	// Brilliantly under OpenGL 3.3 CORE profile Glew says this isn't supported, this forces us to use a COMPATIBILITY profile :/
+	// Brilliantly under OpenGL 3.2 CORE profile Glew says this isn't supported, this forces us to use a COMPATIBILITY profile :/
 	if (!glewIsSupported("GL_EXT_texture_compression_s3tc") || !glewIsSupported("GL_EXT_texture_compression_dxt1"))
 		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 

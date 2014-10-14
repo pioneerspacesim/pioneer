@@ -12,7 +12,9 @@ namespace Graphics {
 
 namespace OGL {
 
-static const char *s_glslVersion = "#version 330\n";
+// #version 150 for OpenGL3.2
+// #version 330 for OpenGL3.3
+static const char *s_glslVersion = "#version 150\n";
 GLuint Program::s_curProgram = 0;
 
 // Check and warn about compile & link errors
