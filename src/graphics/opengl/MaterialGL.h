@@ -17,7 +17,7 @@
 
 namespace Graphics {
 
-	class RendererGL2;
+	class RendererOGL;
 
 	namespace OGL {
 
@@ -35,9 +35,9 @@ namespace Graphics {
 			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj);
 
 		protected:
-			friend class Graphics::RendererGL2;
+			friend class Graphics::RendererOGL;
 			Program *m_program;
-			RendererGL2 *m_renderer;
+			RendererOGL *m_renderer;
 		};
 	}
 }

@@ -41,7 +41,7 @@ typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterat
 OGL::MultiProgram *vtxColorProg;
 OGL::MultiProgram *flatColorProg;
 
-RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
+RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
 , m_numDirLights(0)
 //the range is very large due to a "logarithmic z-buffer" trick used
@@ -89,7 +89,7 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	m_programs.push_back(std::make_pair(desc, vtxColorProg));
 }
 
-RendererGL2::~RendererGL2()
+RendererOGL::~RendererOGL()
 {
 	// HACK ANDYC - this crashes when shutting down? They'll be released anyway right?
 	//while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
@@ -97,14 +97,14 @@ RendererGL2::~RendererGL2()
 		delete state.second;
 }
 
-bool RendererGL2::GetNearFarRange(float &near, float &far) const
+bool RendererOGL::GetNearFarRange(float &near, float &far) const
 {
 	near = m_minZNear;
 	far = m_maxZFar;
 	return true;
 }
 
-bool RendererGL2::BeginFrame()
+bool RendererOGL::BeginFrame()
 {
 	PROFILE_SCOPED()
 	glClearColor(0,0,0,0);
@@ -112,7 +112,7 @@ bool RendererGL2::BeginFrame()
 	return true;
 }
 
-bool RendererGL2::EndFrame()
+bool RendererOGL::EndFrame()
 {
 	return true;
 }
@@ -160,7 +160,7 @@ void CheckRenderErrors()
 	}
 }
 
-bool RendererGL2::SwapBuffers()
+bool RendererOGL::SwapBuffers()
 {
 	PROFILE_SCOPED()
 #ifndef NDEBUG
@@ -189,7 +189,7 @@ bool RendererGL2::SwapBuffers()
 	return true;
 }
 
-bool RendererGL2::SetRenderState(RenderState *rs)
+bool RendererOGL::SetRenderState(RenderState *rs)
 {
 	if (m_activeRenderState != rs) {
 		static_cast<OGL::RenderState*>(rs)->Apply();
@@ -199,7 +199,7 @@ bool RendererGL2::SetRenderState(RenderState *rs)
 	return true;
 }
 
-bool RendererGL2::SetRenderTarget(RenderTarget *rt)
+bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 {
 	PROFILE_SCOPED()
 	if (rt)
@@ -213,7 +213,7 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 	return true;
 }
 
-bool RendererGL2::ClearScreen()
+bool RendererOGL::ClearScreen()
 {
 	m_activeRenderState = nullptr;
 	glDepthMask(GL_TRUE);
@@ -223,7 +223,7 @@ bool RendererGL2::ClearScreen()
 	return true;
 }
 
-bool RendererGL2::ClearDepthBuffer()
+bool RendererOGL::ClearDepthBuffer()
 {
 	m_activeRenderState = nullptr;
 	glDepthMask(GL_TRUE);
@@ -233,13 +233,13 @@ bool RendererGL2::ClearDepthBuffer()
 	return true;
 }
 
-bool RendererGL2::SetClearColor(const Color &c)
+bool RendererOGL::SetClearColor(const Color &c)
 {
 	glClearColor(c.r, c.g, c.b, c.a);
 	return true;
 }
 
-bool RendererGL2::SetViewport(int x, int y, int width, int height)
+bool RendererOGL::SetViewport(int x, int y, int width, int height)
 {
 	assert(!m_viewportStack.empty());
 	Viewport& currentViewport = m_viewportStack.top();
@@ -251,7 +251,7 @@ bool RendererGL2::SetViewport(int x, int y, int width, int height)
 	return true;
 }
 
-bool RendererGL2::SetTransform(const matrix4x4d &m)
+bool RendererOGL::SetTransform(const matrix4x4d &m)
 {
 	PROFILE_SCOPED()
 	matrix4x4f mf;
@@ -259,7 +259,7 @@ bool RendererGL2::SetTransform(const matrix4x4d &m)
 	return SetTransform(mf);
 }
 
-bool RendererGL2::SetTransform(const matrix4x4f &m)
+bool RendererOGL::SetTransform(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
 	//same as above
@@ -268,7 +268,7 @@ bool RendererGL2::SetTransform(const matrix4x4f &m)
 	return true;
 }
 
-bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, float far)
+bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near, float far)
 {
 	PROFILE_SCOPED()
 
@@ -287,7 +287,7 @@ bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, 
 	return true;
 }
 
-bool RendererGL2::SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
+bool RendererOGL::SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
 {
 	PROFILE_SCOPED()
 	const matrix4x4f orthoMat = matrix4x4f::OrthoFrustum(xmin, xmax, ymin, ymax, zmin, zmax);
@@ -295,7 +295,7 @@ bool RendererGL2::SetOrthographicProjection(float xmin, float xmax, float ymin, 
 	return true;
 }
 
-bool RendererGL2::SetProjection(const matrix4x4f &m)
+bool RendererOGL::SetProjection(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
 	//same as above
@@ -304,13 +304,13 @@ bool RendererGL2::SetProjection(const matrix4x4f &m)
 	return true;
 }
 
-bool RendererGL2::SetWireFrameMode(bool enabled)
+bool RendererOGL::SetWireFrameMode(bool enabled)
 {
 	glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
 	return true;
 }
 
-bool RendererGL2::SetLights(int numlights, const Light *lights)
+bool RendererOGL::SetLights(int numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
@@ -334,13 +334,13 @@ bool RendererGL2::SetLights(int numlights, const Light *lights)
 	return true;
 }
 
-bool RendererGL2::SetAmbientColor(const Color &c)
+bool RendererOGL::SetAmbientColor(const Color &c)
 {
 	m_ambient = c;
 	return true;
 }
 
-bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
+bool RendererOGL::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
 {
 	if (enabled) {
 		glScissor(pos.x,pos.y,size.x,size.y);
@@ -351,13 +351,13 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 	return true;
 }
 
-void RendererGL2::SetMaterialShaderTransforms(Material *m)
+void RendererOGL::SetMaterialShaderTransforms(Material *m)
 {
 	m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
 	CheckRenderErrors();
 }
 
-bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
+bool RendererOGL::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
 {
 	PROFILE_SCOPED()
 	Drawables::Lines lines;
@@ -366,7 +366,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, Render
 	return true;
 }
 
-bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, PrimitiveType t)
+bool RendererOGL::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, PrimitiveType t)
 {
 	PROFILE_SCOPED()
 	Drawables::Lines lines;
@@ -375,7 +375,7 @@ bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, Render
 	return true;
 }
 
-bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
+bool RendererOGL::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
 {
 	struct TPos {
 		vector3f pos;
@@ -410,7 +410,7 @@ bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *col
 	return DrawBuffer(vb.get(), state, mat.get(), POINTS);
 }
 
-bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
+bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
 {
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
@@ -453,7 +453,7 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	return res;
 }
 
-bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
+bool RendererOGL::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	PROFILE_SCOPED()
 	if (count < 1 || !material || !material->texture0) return false;
@@ -490,7 +490,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 	return true;
 }
 
-bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
+bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
 	CheckRenderErrors();
@@ -513,7 +513,7 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	return true;
 }
 
-bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
+bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
 	CheckRenderErrors();
@@ -539,7 +539,7 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	return true;
 }
 
-void RendererGL2::EnableVertexAttributes(const VertexBuffer* gvb)
+void RendererOGL::EnableVertexAttributes(const VertexBuffer* gvb)
 {
 	PROFILE_SCOPED()
 	CheckRenderErrors();
@@ -560,7 +560,7 @@ void RendererGL2::EnableVertexAttributes(const VertexBuffer* gvb)
 	CheckRenderErrors();
 }
 
-void RendererGL2::DisableVertexAttributes(const VertexBuffer* gvb)
+void RendererOGL::DisableVertexAttributes(const VertexBuffer* gvb)
 {
 	PROFILE_SCOPED()
 	CheckRenderErrors();
@@ -582,7 +582,7 @@ void RendererGL2::DisableVertexAttributes(const VertexBuffer* gvb)
 }
 
 
-void RendererGL2::EnableVertexAttributes(const VertexArray *v)
+void RendererOGL::EnableVertexAttributes(const VertexArray *v)
 {
 	PROFILE_SCOPED();
 	CheckRenderErrors();
@@ -620,7 +620,7 @@ void RendererGL2::EnableVertexAttributes(const VertexArray *v)
 	}
 }
 
-void RendererGL2::DisableVertexAttributes()
+void RendererOGL::DisableVertexAttributes()
 {
 	PROFILE_SCOPED();
 	CheckRenderErrors();
@@ -632,7 +632,7 @@ void RendererGL2::DisableVertexAttributes()
 	m_vertexAttribsSet.clear();
 }
 
-Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
+Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 {
 	PROFILE_SCOPED()
 	CheckRenderErrors();
@@ -700,7 +700,7 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	return mat;
 }
 
-bool RendererGL2::ReloadShaders()
+bool RendererOGL::ReloadShaders()
 {
 	Output("Reloading " SIZET_FMT " programs...\n", m_programs.size());
 	for (ProgramIterator it = m_programs.begin(); it != m_programs.end(); ++it) {
@@ -711,7 +711,7 @@ bool RendererGL2::ReloadShaders()
 	return true;
 }
 
-OGL::Program* RendererGL2::GetOrCreateProgram(OGL::Material *mat)
+OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 {
 	CheckRenderErrors();
 	const MaterialDescriptor &desc = mat->GetDescriptor();
@@ -735,13 +735,13 @@ OGL::Program* RendererGL2::GetOrCreateProgram(OGL::Material *mat)
 	return p;
 }
 
-Texture *RendererGL2::CreateTexture(const TextureDescriptor &descriptor)
+Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
 {
 	CheckRenderErrors();
 	return new TextureGL(descriptor, m_useCompressedTextures);
 }
 
-RenderState *RendererGL2::CreateRenderState(const RenderStateDesc &desc)
+RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 {
 	CheckRenderErrors();
 	const uint32_t hash = lookup3_hashlittle(&desc, sizeof(RenderStateDesc), 0);
@@ -757,7 +757,7 @@ RenderState *RendererGL2::CreateRenderState(const RenderStateDesc &desc)
 	}
 }
 
-RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
+RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 {
 	CheckRenderErrors();
 	OGL::RenderTarget* rt = new OGL::RenderTarget(desc);
@@ -794,12 +794,12 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 	return rt;
 }
 
-VertexBuffer *RendererGL2::CreateVertexBuffer(const VertexBufferDesc &desc)
+VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexBufferDesc &desc)
 {
 	return new OGL::VertexBuffer(desc);
 }
 
-IndexBuffer *RendererGL2::CreateIndexBuffer(Uint32 size, BufferUsage usage)
+IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage)
 {
 	return new OGL::IndexBuffer(size, usage);
 }
@@ -807,7 +807,7 @@ IndexBuffer *RendererGL2::CreateIndexBuffer(Uint32 size, BufferUsage usage)
 // XXX very heavy. in the future when all GL calls are made through the
 // renderer, we can probably do better by trackingn current state and
 // only restoring the things that have changed
-void RendererGL2::PushState()
+void RendererOGL::PushState()
 {
 	SetMatrixMode(MatrixMode::PROJECTION);
 	PushMatrix();
@@ -816,7 +816,7 @@ void RendererGL2::PushState()
 	m_viewportStack.push( m_viewportStack.top() );
 }
 
-void RendererGL2::PopState()
+void RendererOGL::PopState()
 {
 	m_viewportStack.pop();
 	assert(!m_viewportStack.empty());
@@ -826,7 +826,7 @@ void RendererGL2::PopState()
 	PopMatrix();
 }
 
-void RendererGL2::SetMatrixMode(MatrixMode mm)
+void RendererOGL::SetMatrixMode(MatrixMode mm)
 {
 	PROFILE_SCOPED()
 	if( mm != m_matrixMode ) {
@@ -834,7 +834,7 @@ void RendererGL2::SetMatrixMode(MatrixMode mm)
 	}
 }
 
-void RendererGL2::PushMatrix()
+void RendererOGL::PushMatrix()
 {
 	PROFILE_SCOPED()
 	switch(m_matrixMode) {
@@ -847,7 +847,7 @@ void RendererGL2::PushMatrix()
 	}
 }
 
-void RendererGL2::PopMatrix()
+void RendererOGL::PopMatrix()
 {
 	PROFILE_SCOPED()
 	switch(m_matrixMode) {
@@ -862,7 +862,7 @@ void RendererGL2::PopMatrix()
 	}
 }
 
-void RendererGL2::LoadIdentity()
+void RendererOGL::LoadIdentity()
 {
 	PROFILE_SCOPED()
 	switch(m_matrixMode) {
@@ -875,7 +875,7 @@ void RendererGL2::LoadIdentity()
 	}
 }
 
-void RendererGL2::LoadMatrix(const matrix4x4f &m)
+void RendererOGL::LoadMatrix(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
 	switch(m_matrixMode) {
@@ -888,7 +888,7 @@ void RendererGL2::LoadMatrix(const matrix4x4f &m)
 	}
 }
 
-void RendererGL2::Translate( const float x, const float y, const float z )
+void RendererOGL::Translate( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
 	switch(m_matrixMode) {
@@ -901,7 +901,7 @@ void RendererGL2::Translate( const float x, const float y, const float z )
 	}
 }
 
-void RendererGL2::Scale( const float x, const float y, const float z )
+void RendererOGL::Scale( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
 	switch(m_matrixMode) {

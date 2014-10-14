@@ -18,7 +18,7 @@
 namespace Graphics {
 
 class Texture;
-class RendererGL2;
+class RendererOGL;
 
 // Shorthand for unique effects
 // The other descriptor parameters may or may not have effect,
@@ -62,7 +62,7 @@ public:
 	bool usePatterns; //pattern/color system
 	bool vertexColors;
 	Sint32 textures; //texture count
-	Uint32 dirLights; //set by rendererGL2 if lighting == true
+	Uint32 dirLights; //set by RendererOGL if lighting == true
 	Uint32 quality; // see: Graphics::MaterialQuality
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
@@ -103,7 +103,7 @@ protected:
 	MaterialDescriptor m_descriptor;
 
 private:
-	friend class RendererGL2;
+	friend class RendererOGL;
 };
 
 }

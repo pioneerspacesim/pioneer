@@ -257,7 +257,7 @@ Renderer* Init(Settings vs)
 	// This is (probably) allowed by the spec, which states that only formats which are "suitable
 	// for general-purpose usage" should be enumerated.
 
-	Renderer *renderer = new RendererGL2(window, vs);
+	Renderer *renderer = new RendererOGL(window, vs);
 
 	Output("Initialized %s\n", renderer->GetName());
 

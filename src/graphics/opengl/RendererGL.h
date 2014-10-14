@@ -38,11 +38,11 @@ namespace OGL {
 	class UIMaterial;
 }
 
-class RendererGL2 : public Renderer
+class RendererOGL : public Renderer
 {
 public:
-	RendererGL2(WindowSDL *window, const Graphics::Settings &vs);
-	virtual ~RendererGL2();
+	RendererOGL(WindowSDL *window, const Graphics::Settings &vs);
+	virtual ~RendererOGL();
 
 	virtual const char* GetName() const { return "GL3.3 renderer"; }
 	virtual bool GetNearFarRange(float &near, float &far) const;

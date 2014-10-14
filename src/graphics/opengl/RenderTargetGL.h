@@ -12,7 +12,7 @@
 
 namespace Graphics {
 
-class RendererGL2;
+class RendererOGL;
 
 namespace OGL {
 
@@ -40,7 +40,7 @@ public:
 	virtual void SetDepthTexture(Texture*);
 
 protected:
-	friend class Graphics::RendererGL2;
+	friend class Graphics::RendererOGL;
 	RenderTarget(const RenderTargetDesc &);
 	void Bind();
 	void Unbind();
