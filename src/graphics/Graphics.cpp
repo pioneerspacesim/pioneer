@@ -239,8 +239,8 @@ Renderer* Init(Settings vs)
 		Error("OpenGL Version 3.2 is not supported. Pioneer cannot run on your graphics card.");
 
 	// Brilliantly under OpenGL 3.2 CORE profile Glew says this isn't supported, this forces us to use a COMPATIBILITY profile :/
-	if (!glewIsSupported("GL_EXT_texture_compression_s3tc") || !glewIsSupported("GL_EXT_texture_compression_dxt1"))
-		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
+	//if (!glewIsSupported("GL_EXT_texture_compression_s3tc") || !glewIsSupported("GL_EXT_texture_compression_dxt1"))
+	//	Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 
 	// We deliberately ignore the value from GL_NUM_COMPRESSED_TEXTURE_FORMATS, because some drivers
 	// choose not to list any formats (despite supporting texture compression). See issue #3132.
