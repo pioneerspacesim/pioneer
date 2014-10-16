@@ -1,110 +1,110 @@
 {
    "ASK_CANDIDATE_TO_SIT_A_TEST" : {
       "description" : "",
-      "message" : "要求候选人进行测试"
+      "message" : "Ask candidate to sit a test"
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "名称: {name}\n经验: {experience}\n工资: 每周 {wage}\n\n{response} \n"
+      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
-      "message" : "{potentialCrewMember} ({wage} / 星期)"
+      "message" : "{potentialCrewMember} ({wage}/wk)"
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "测试结果:\n\n基本船员能力: {general} %\n工程和维修: {engineering} %\n飞行和航天: {piloting} %\n导航和领航: {navigation} %\n探索和防御: {sensors} %\n测试总分: {overall} %"
+      "message" : "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "船员雇佣"
+      "message" : "Crew for hire"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "回去"
+      "message" : "Go back"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "挂断."
+      "message" : "Hang up."
    },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
-      "message" : "很抱歉,我不想再低了."
+      "message" : "I'm sorry, I'm not prepared to go any lower."
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "很抱歉,你的报价对我没有吸引力."
+      "message" : "I'm sorry, your offer isn't attractive to me."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
-      "message" : "根据岗位的不同进行分配"
+      "message" : "Make offer of position on ship for stated amount"
    },
    "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
       "description" : "",
-      "message" : "最低在岗工作时长"
+      "message" : "Minimal time served aboard ship"
    },
    "NAVIGATOR" : {
       "description" : "",
-      "message" : "导航员"
+      "message" : "Navigator"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "没有经验"
+      "message" : "No experience"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "好吧,我觉得这样没问题."
+      "message" : "OK, I suppose that's all right."
    },
    "PILOT" : {
       "description" : "",
-      "message" : "飞行员"
+      "message" : "Pilot"
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
-      "message" : "在 {station} 内正在找工作的有潜力船员:"
+      "message" : "Potential crew members are registered as seeking employment at {station}:"
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "探索和防御"
+      "message" : "Sensors and defence"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "船上的工程师"
+      "message" : "Ship's Engineer"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "仅在模拟器里训练过"
+      "message" : "Simulator training only"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "拥有一些可控情况下的经验"
+      "message" : "Some experience in controlled environments"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "建议新的周薪为 {newAmount}"
+      "message" : "Suggest new weekly wage of {newAmount}"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
-      "message" : "谢谢,我马上开始工作."
+      "message" : "Thanks, I'll get settled on board immediately."
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",
-      "message" : "你太慷慨了!"
+      "message" : "That's extremely generous of you!"
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "这当然使这个提议更棒!"
+      "message" : "That certainly makes this offer look better!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",
-      "message" : "那里似乎不适合我!"
+      "message" : "There doesn't seem to be space for me on board!"
    },
    "TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "有经验的船员"
+      "message" : "Time served crew member"
    },
    "VETERAN_TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "极具经验的老兵"
+      "message" : "Veteran, time served crew member"
    }
 }

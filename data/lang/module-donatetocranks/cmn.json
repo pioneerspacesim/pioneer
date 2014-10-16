@@ -1,63 +1,63 @@
 {
    "FLAVOUR_0_MESSAGE" : {
       "description" : "",
-      "message" : "请选择捐赠给面神教堂的数额."
+      "message" : "请选择要捐给\"漫天飞舞的意大利面条怪教堂\"的金额."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "捐赠! 面神教堂需要你的钱来传达上帝的旨意."
+      "message" : "捐款! 为了向众生传达上帝的旨意,\"漫天飞舞的意大利面条怪教堂\" 需要你的捐赠."
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
-      "message" : "和平与你同在, 兄弟. 请选择捐赠给自由灵魂守护者的数额吧."
+      "message" : "愿和平伴你长存, 我的兄弟. 请选择要捐赠给\"自由精神守护者\"的金额."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "捐赠. 自由灵魂的守护者恭敬地请求你的关爱来帮助我们的修道院."
+      "message" : "捐赠. 自由精神守护者需要您的捐赠来维持我们的修道院."
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
-      "message" : "请选择捐赠给战争孤儿救助会的数额, 让银河系里所有的儿童远离痛苦吧."
+      "message" : "请选择要捐给战争孤儿救济会的金额, 让银河内的所有儿童都免受战争之苦."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "感受慷慨? 战争孤儿救助会需要你的帮助来继续他们的基本工作."
+      "message" : "想变得慷慨一点吗? 战争孤儿救济会需要您的帮助."
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
-      "message" : "请选择捐赠给绿色观察协会的数额, 让我们的银河系远离污染."
+      "message" : "请选择要捐给绿色之眼的金额, 结束我们对宇宙的污染."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "贡献. 银河系 '禁止军事引擎' 活动需要你的钱."
+      "message" : "捐赠. '银河反战协会' 需要您的捐赠."
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
-      "message" : "请选择捐款数额."
+      "message" : "请选择要捐赠的金额."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "捐赠! 拯救我们的物种. 停止对新殖民时间的屠杀."
+      "message" : "捐赠! 保护我们的物种! 停止对定居星球的物种的屠杀."
    },
    "FLAVOUR_5_MESSAGE" : {
       "description" : "",
-      "message" : "解放你的飞船! 请选择捐赠的数额. 黑客攻击愉快."
+      "message" : "解放你的飞船! 请选择一个捐献金额. 黑的愉快."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "支持自由! 停止使用非正义的专用软件控制你的飞船."
+      "message" : "为了自由! 抵制流氓软件控制你的飞船!"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "先等一等."
+      "message" : "挂断."
    },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
-      "message" : "谢谢你. 所有的捐赠都是欢迎的."
+      "message" : "谢谢你. 任何金额的捐献都是受欢迎的."
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "喔! 这太慷慨了."
+      "message" : "哇喔! 您真是太慷慨了."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",

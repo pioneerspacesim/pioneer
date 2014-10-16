@@ -1,559 +1,559 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "高于平均值"
+      "message" : "Above Average"
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "开启"
+      "message" : "Active"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "换购之后"
+      "message" : "After trade-in"
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "所属:"
+      "message" : "Allegiance:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "总重"
+      "message" : "All-up weight"
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "数量"
+      "message" : "Amount"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "发生了一个错误"
+      "message" : "An error has occurred"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "尝试修理船体"
+      "message" : "Attempt to repair hull"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "可以购买"
+      "message" : "Available for purchase"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "平均值"
+      "message" : "Average"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "向后加速度"
+      "message" : "Backward acceleration"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "公告板"
+      "message" : "Bulletin Board"
    },
    "BUY" : {
       "description" : "Commodities and equipment prices",
-      "message" : "购买"
+      "message" : "Buy"
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "购买飞船"
+      "message" : "Buy Ship"
    },
    "CABINS" : {
       "description" : "",
-      "message" : "客舱"
+      "message" : "Cabins"
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} 空闲"
+      "message" : "{amount} free"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} 已使用"
+      "message" : "{amount} used"
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "取消"
+      "message" : "Cancel"
    },
    "CAPACITY" : {
       "description" : "",
-      "message" : "容量"
+      "message" : "Capacity"
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "已占用容量"
+      "message" : "Capacity used"
    },
    "CARGO" : {
       "description" : "",
-      "message" : "货仓"
+      "message" : "Cargo"
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "货仓空间"
+      "message" : "Cargo space"
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount} t 空闲"
+      "message" : "{amount}t free"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount} t 已使用"
+      "message" : "{amount}t used"
    },
    "CASH" : {
       "description" : "",
-      "message" : "现金"
+      "message" : "Cash"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "现金: {money}"
+      "message" : "Cash: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
-      "message" : "改变绑定"
+      "message" : "Change Binding"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "首席机械师"
+      "message" : "Chief Mechanic"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "圆形轨道速度"
+      "message" : "Circular orbit speed"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "城市细节等级"
+      "message" : "City detail level"
    },
    "CLEAN" : {
       "description" : "",
-      "message" : "无记录"
+      "message" : "Clean"
    },
    "CLEAR" : {
       "description" : "",
-      "message" : "清除"
+      "message" : "Clear"
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "客户端"
+      "message" : "Client"
    },
    "COMBAT" : {
       "description" : "",
-      "message" : "战斗"
+      "message" : "Combat"
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "指挥官"
+      "message" : "Commander"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "商品市场"
+      "message" : "Commodity Market"
    },
    "COMPACT_SCANNER" : {
       "description" : "",
-      "message" : "小型扫描仪"
+      "message" : "Compact scanner"
    },
    "COMPETENT" : {
       "description" : "",
-      "message" : "胜任"
+      "message" : "Competent"
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "已完成"
+      "message" : "Completed"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "压缩贴图文件"
+      "message" : "Compress Textures"
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "警官"
+      "message" : "Constable"
    },
    "CONTINUE_GAME" : {
       "description" : "",
-      "message" : "继续游戏"
+      "message" : "Continue game"
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "控制"
+      "message" : "Controls"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "控制选项"
+      "message" : "Control Options"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "无法加载游戏."
+      "message" : "Could not load game: "
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "可信的"
+      "message" : "Credible"
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "船员舱"
+      "message" : "Crew cabins"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "船员名册"
+      "message" : "Crew Roster"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "犯罪记录"
+      "message" : "Criminal record"
    },
    "DANGEROUS" : {
       "description" : "",
-      "message" : "危险"
+      "message" : "Dangerous"
    },
    "DEADLY" : {
       "description" : "",
-      "message" : "致命的"
+      "message" : "Deadly"
    },
    "DELTA_V" : {
       "description" : "",
-      "message" : "速度增量"
+      "message" : "Delta-v"
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "速度增量(空载)"
+      "message" : "Delta-v (empty)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "速度增量(满载)"
+      "message" : "Delta-v (full)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
-      "message" : "速度增量(最大)"
+      "message" : "Delta-v (max)"
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "减速至地速为:"
+      "message" : "Descent-to-ground speed:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "摧毁敌人飞船"
+      "message" : "Destroy enemy ship"
    },
    "DISMISS" : {
       "description" : "",
-      "message" : "解散"
+      "message" : "Dismiss"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "显示HUD轨迹"
+      "message" : "Display HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "显示导航路径"
+      "message" : "Display nav tunnels"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "显示速度矢量"
+      "message" : "Display speed lines"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "停靠在当前目标"
+      "message" : "Dock at current target"
    },
    "DUE" : {
       "description" : "",
-      "message" : "应有"
+      "message" : "Due"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "剩余天数: %d"
+      "message" : "Days left: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "经济 & 贸易"
+      "message" : "Economy & Trade"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "影响:"
+      "message" : "Effects:"
    },
    "ELITE" : {
       "description" : "",
-      "message" : "精英"
+      "message" : "ELITE"
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "雇佣"
+      "message" : "Employment"
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "启用座舱(实验性)"
+      "message" : "Enable cockpit (EXPERIMENTAL)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "启用摇杆"
+      "message" : "Enable joystick"
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "工程:"
+      "message" : "Engineering:"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "装备"
+      "message" : "Equipment"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "装备市场"
+      "message" : "Equipment Market"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "已装备"
+      "message" : "Equipped"
    },
    "ERROR" : {
       "description" : "",
-      "message" : "错误"
+      "message" : "Error"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "逃逸速度:"
+      "message" : "Escape speed:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "退出游戏"
+      "message" : "Exit this game"
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "有经验的"
+      "message" : "Experienced"
    },
    "EXPERT" : {
       "description" : "For player reputation",
-      "message" : "专家"
+      "message" : "Expert"
    },
    "FAILED" : {
       "description" : "",
-      "message" : "失败"
+      "message" : "Failed"
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "女性"
+      "message" : "Female"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "向前加速度"
+      "message" : "Forward acceleration"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "向前加速度(空载)"
+      "message" : "Forward accel (empty)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "向前加速度(满载)"
+      "message" : "Forward accel (full)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "分形细节"
+      "message" : "Fractal detail"
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "空闲"
+      "message" : "free"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "前武器"
+      "message" : "Front weapon"
    },
    "FUEL" : {
       "description" : "",
-      "message" : "燃料"
+      "message" : "Fuel"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "燃料箱已满."
+      "message" : "Fuel tank full."
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "燃料重量"
+      "message" : "Fuel weight"
    },
    "FULL_SCREEN" : {
       "description" : "",
-      "message" : "全屏"
+      "message" : "Full screen"
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "一般船员"
+      "message" : "General crew"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "命令船员"
+      "message" : "Give orders to crew"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "也祝你好运."
+      "message" : "Good riddance to you, too."
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "挂断."
+      "message" : "Hang up."
    },
    "HARMLESS" : {
       "description" : "",
-      "message" : "人畜无害的"
+      "message" : "Harmless"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "重型货运穿梭机"
+      "message" : "Heavy cargo shuttle"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "重型信使"
+      "message" : "Heavy courier"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "重型战斗机"
+      "message" : "Heavy fighter"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "重型货船"
+      "message" : "Heavy freighter"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "重型客运穿梭机"
+      "message" : "Heavy passenger shuttle"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "重型客运船"
+      "message" : "Heavy passenger transport"
    },
    "HIGH" : {
       "description" : "",
-      "message" : "高"
+      "message" : "High"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "船体无需维修"
+      "message" : "Hull does not require repair."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "船体完整性"
+      "message" : "Hull integrity"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "{name} 修复了船体,现船体为 {repairPercent}%"
+      "message" : "Hull repaired by {name}, now at {repairPercent}%"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "船体修理失败. 船体受到了部分损伤."
+      "message" : "Hull repair attempt failed. Hull suffered minor damage."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "超空间引擎"
+      "message" : "Hyperdrive"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "装载超空间引擎:"
+      "message" : "Hyperdrive fitted:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "超空间范围"
+      "message" : "Hyperspace range"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "我受够了给别人白干活儿. 你难道不知道什么叫合同吗?"
+      "message" : "I'm tired of working for nothing. Don't you know what a contract is?"
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "未启用"
+      "message" : "Inactive"
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
-      "message" : "无能的"
+      "message" : "Incompetent"
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "缺乏经验的"
+      "message" : "Inexperienced"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "反转鼠标Y轴"
+      "message" : "Invert Mouse Y"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "在货仓内"
+      "message" : "In cargo hold"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "有存货"
+      "message" : "In stock"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "该商品没有存货了"
+      "message" : "This item is out of stock."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "能给你干活实在是太棒了.如果你还需要我帮忙,我瞬间就会出现在你面前."
+      "message" : "It's been great working for you. If you need me again, I'll be here a while."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "抛弃"
+      "message" : "Jettison"
    },
    "KILLS" : {
       "description" : "",
-      "message" : "击杀数量:"
+      "message" : "Kills:"
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "语言"
+      "message" : "Language"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "语言(重启游戏生效)"
+      "message" : "Language (restart game to apply)"
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "发射请求驳回:港口正忙."
+      "message" : "Permission to launch denied: docking bay busy."
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "发射请求驳回:船员不足无法控制飞船"
+      "message" : "Permission to launch denied: not enough crew too handle this ship."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "发射请求驳回:你的罚金已经爆表了."
+      "message" : "Permission to launch denied: you have outstanding fines."
    },
    "LEGAL_STATUS" : {
       "description" : "",
-      "message" : "法律状况"
+      "message" : "Legal status"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "轻型货运穿梭机"
+      "message" : "Light cargo shuttle"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "轻型信使"
+      "message" : "Light courier"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "轻型战斗机"
+      "message" : "Light fighter"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "轻型货船"
+      "message" : "Light freighter"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "轻型客运穿梭机"
+      "message" : "Light passenger shuttle"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "轻型客运船"
+      "message" : "Light passenger transport"
    },
    "LOAD" : {
       "description" : "",
-      "message" : "装载"
+      "message" : "Load"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "载入游戏"
+      "message" : "Load game"
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "大厅"
+      "message" : "Lobby"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "与 {name} 相距 {distance} km:"
+      "message" : "Located {distance}km from the centre of {name}:"
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "地点"
+      "message" : "Location"
    },
    "LOW" : {
       "description" : "",
-      "message" : "低"
+      "message" : "Low"
    },
    "LY" : {
       "description" : "",
@@ -561,530 +561,530 @@
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "生成新面孔"
+      "message" : "Make new face"
    },
    "MALE" : {
       "description" : "",
-      "message" : "男性"
+      "message" : "Male"
    },
    "MASS" : {
       "description" : "",
-      "message" : "质量"
+      "message" : "Mass"
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "大师"
+      "message" : "Master"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "主音量:"
+      "message" : "Master:"
    },
    "MAX" : {
       "description" : "",
-      "message" : "最大"
+      "message" : "max"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "最大船员"
+      "message" : "Maximum crew"
    },
    "MEDIUM" : {
       "description" : "",
-      "message" : "中等"
+      "message" : "Medium"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "中型货运穿梭机"
+      "message" : "Medium cargo shuttle"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "中型信使"
+      "message" : "Medium courier"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "中型战斗机"
+      "message" : "Medium fighter"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "中型货船"
+      "message" : "Medium freighter"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "中型客运穿梭机"
+      "message" : "Medium passenger shuttle"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "中型客运船"
+      "message" : "Medium passenger transport"
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "合金"
+      "message" : "Metal alloys"
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "军事"
+      "message" : "Military"
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "最小成员数"
+      "message" : "Minimum crew"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "导弹挂点"
+      "message" : "Missile mounts"
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "任务"
+      "message" : "Missions"
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "任务细节"
+      "message" : "Mission Details"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "更多信息..."
+      "message" : "More info..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "几乎无害的"
+      "message" : "Mostly Harmless"
    },
    "MULTISAMPLING" : {
       "description" : "",
-      "message" : "多重采样"
+      "message" : "Multisampling"
    },
    "MURDER" : {
       "description" : "",
-      "message" : "谋杀"
+      "message" : "Murder"
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "音乐:"
+      "message" : "Music:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "静音"
+      "message" : "Mute"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "名称"
+      "message" : "Name"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "姓名"
+      "message" : "Name"
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "导航:"
+      "message" : "Navigation:"
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "谈判"
+      "message" : "Negotiate"
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "下一项支付"
+      "message" : "Next paid"
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "不"
+      "message" : "No"
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "无名小卒"
+      "message" : "Nobody"
    },
    "NONE" : {
       "description" : "",
-      "message" : "无"
+      "message" : "None"
    },
    "NOTES" : {
       "description" : "",
-      "message" : "笔记:"
+      "message" : "Notes:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "没有足够的 {alloy} 进行修理"
+      "message" : "Not enough {alloy} to attempt a repair"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} 无法安装在该飞船上"
+      "message" : "{equipment} is not supported on this ship model"
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "没有任务."
+      "message" : "No missions."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} 光年 (最大 {maxRange})"
+      "message" : "{range} light years ({maxRange} max)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} 个已满客舱"
+      "message" : "{quantity} Occupied Passenger Cabins"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} 台护盾生成器"
+      "message" : "{quantity} Shield Generators"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} 个空客舱"
+      "message" : "{quantity} Unoccupied Passenger Cabins"
    },
    "OFF" : {
       "description" : "",
-      "message" : "关闭"
+      "message" : "Off"
    },
    "OK" : {
       "description" : "",
-      "message" : "OK"
+      "message" : "Ok"
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "选项"
+      "message" : "Options"
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "轨道"
+      "message" : "Orbit"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "轨道分析"
+      "message" : "Orbital Analysis"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "\\t"
+      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
    "OWED" : {
       "description" : "",
-      "message" : "拖欠"
+      "message" : "Owed"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "缴了 {amount} 罚金"
+      "message" : "Pay fine of {amount}"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "个人信息"
+      "message" : "Personal Information"
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "导航员:"
+      "message" : "Piloting:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "驾驶座上的是 {name}"
+      "message" : "Pilot seat is now occupied by {name}"
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "海盗行为"
+      "message" : "Piracy"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "行星细节距离"
+      "message" : "Planet detail distance"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "行星贴图"
+      "message" : "Planet textures"
    },
    "POLICE" : {
       "description" : "",
-      "message" : "警察"
+      "message" : "Police"
    },
    "POOR" : {
       "description" : "",
-      "message" : "穷"
+      "message" : "Poor"
    },
    "POSITION" : {
       "description" : "",
-      "message" : "位置"
+      "message" : "Position"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "按任意键"
+      "message" : "Press a key or controller button"
    },
    "PRICE" : {
       "description" : "",
-      "message" : "价格"
+      "message" : "Price"
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "专家"
+      "message" : "Professional"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "评判分数"
+      "message" : "Qualification scores"
    },
    "QUIT" : {
       "description" : "",
-      "message" : "退出"
+      "message" : "Quit"
    },
    "RANK" : {
       "description" : "",
-      "message" : "排行:"
+      "message" : "Rank:"
    },
    "RATING" : {
       "description" : "",
-      "message" : "等级:"
+      "message" : "Rating:"
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "后武器"
+      "message" : "Rear weapon"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "补充燃料"
+      "message" : "Refuel"
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "补满燃料"
+      "message" : "Refuel full"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "可靠的"
+      "message" : "Reliable"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "花 {price} 修理船体的 {damage}%"
+      "message" : "Repair {damage}% hull damage for {price}"
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "声誉"
+      "message" : "Reputation"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "请求发射"
+      "message" : "Request Launch"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "返回游戏"
+      "message" : "Return to game"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "返回主菜单"
+      "message" : "Return to menu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "向后加速度 (空载)"
+      "message" : "Reverse accel (empty)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "向后加速度 (满载)"
+      "message" : "Reverse accel (full)"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "报酬"
+      "message" : "Reward"
    },
    "SAVE" : {
       "description" : "",
-      "message" : "保存"
+      "message" : "Save"
    },
    "SELECT" : {
       "description" : "",
-      "message" : "选择"
+      "message" : "Select"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
-      "message" : "选择一个文件或输入一个文件名进行保存"
+      "message" : "Select a file to save to or enter a new filename"
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "选择文件..."
+      "message" : "Select file..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "载入游戏..."
+      "message" : "Select game to load..."
    },
    "SELL" : {
       "description" : "Commodities and equipment prices",
-      "message" : "价格"
+      "message" : "Sell"
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "传感器:"
+      "message" : "Sensors:"
    },
    "SHIP" : {
       "description" : "",
-      "message" : "飞船"
+      "message" : "Ship"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "飞船信息"
+      "message" : "Ship Information"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "你的飞船状态棒极了."
+      "message" : "Your ship is in perfect working condition."
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "你的飞船已经装满了设备."
+      "message" : "Your ship is fully equipped."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
-      "message" : "你的飞船已经装满了货物."
+      "message" : "Your ship is fully laden."
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "飞船市场"
+      "message" : "Ship Market"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "修理飞船"
+      "message" : "Ship Repairs"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "你正在查看的飞船已经售出"
+      "message" : "The ship you were viewing has been sold"
    },
    "SOUND" : {
       "description" : "",
-      "message" : "声音"
+      "message" : "Sound"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "从巴纳德星开始"
+      "message" : "Start at Barnard's Star"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "从地球开始"
+      "message" : "Start at Earth"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "从新希望开始"
+      "message" : "Start at New Hope"
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "空间站管理者"
+      "message" : "Station manager"
    },
    "STATUS" : {
       "description" : "",
-      "message" : "状态"
+      "message" : "Status"
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "感谢你的购买.记得在出发之前装载设备和并添加燃料."
+      "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "飞船上没别人可以驾驶它了."
+      "message" : "There is nobody else on board able to fly this ship."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "飞船处于空间站控制下了,指挥官."
+      "message" : "The ship is under station control, Commander."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "切换 男/女"
+      "message" : "Toggle male/female"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "飞船对于现在的船员来说太小了."
+      "message" : "Ship is too small for the current crew."
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "总计:"
+      "message" : "Total: "
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "总质量"
+      "message" : "Total mass"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "交易非法货物"
+      "message" : "Trading illegal goods"
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "可信的"
+      "message" : "Trustworthy"
    },
    "TYPE" : {
       "description" : "",
-      "message" : "种类"
+      "message" : "Type"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "武器违法射击"
+      "message" : "Unlawful weapons discharge"
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "不可靠的"
+      "message" : "Unreliable"
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "向上加速度"
+      "message" : "Up acceleration"
    },
    "USED" : {
       "description" : "",
-      "message" : "已使用"
+      "message" : "Used"
    },
    "VERY_HIGH" : {
       "description" : "",
-      "message" : "非常高"
+      "message" : "Very high"
    },
    "VERY_LOW" : {
       "description" : "",
-      "message" : "非常低"
+      "message" : "Very low"
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "视频"
+      "message" : "Video"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "视频设置(重启游戏生效)"
+      "message" : "Video configuration (restart game to apply)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "视频分辨率"
+      "message" : "Video resolution"
    },
    "WAGE" : {
       "description" : "",
-      "message" : "工资"
+      "message" : "Wage"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "空重"
+      "message" : "Weight empty"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
-      "message" : "载重全满"
+      "message" : "Weight fully loaded"
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "进入超空间,指挥官."
+      "message" : "We are in hyperspace, Commander."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "我们现在跟你没生意做."
+      "message" : "We have no business with you at the moment."
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "有."
+      "message" : "Yes"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "你会后悔抢劫我的!"
+      "message" : "You're going to regret sacking me!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "你的船体完整性为 {value}%."
+      "message" : "Your hull is at {value}% integrity."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "你没有足够的钱购买."
+      "message" : "You don't have enough money for that option."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "你必须选择一个战斗目标,指挥官."
+      "message" : "You must first select a combat target, Commander."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "你必须选择一个合适的导航目标,指挥官."
+      "message" : "You must first select a suitable navigation target, Commander."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "你必须先发射升空,指挥官."
+      "message" : "You must launch first, Commander."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "你必须先请求发射许可,指挥官."
+      "message" : "You must request launch clearance first, Commander."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "你没有足够的钱."
+      "message" : "You do not have enough money"
    }
 }

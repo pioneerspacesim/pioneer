@@ -5,7 +5,7 @@
    },
    "BEGIN_TRADE" : {
       "description" : "",
-      "message" : "开始交易"
+      "message" : "开始贸易"
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
@@ -13,11 +13,11 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "你也许想要在这儿购买燃料和处理 {radioactives}."
+      "message" : "你可以在这里采购燃料和处理 {radioactives}."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "{clubname} 是一个独立的组织,致力于向其成员提供价格便宜的星际飞船的燃料.分支机构遍布整个银河系.会员的好处包括:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -25,50 +25,50 @@
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "回去"
+      "message" : "返回"
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "先等一等."
+      "message" : "挂断."
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, 免费处理 (某些条件下适用)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "打折的 {fuel} 燃料."
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "我们有自己的燃料库存, 跟市面上的库存是独立的."
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "在必要时加满燃料."
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Join now! Annual membership costs only {membership_fee}"
+      "message" : "现在就加入吧! 年度会员费只要 {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "你买了多少吨 {military_fuel} 我们就帮你处理多少吨 {radioactives}."
+      "message" : "如果您在我们这儿购买 {military_fuel}, 我们就可以免费帮您处理一些 {radioactives}."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "对 {radioactives} 处理有什么条件?"
+      "message" : "处置 {radioactives} 需要什么条件?"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "你的会员资格申请已经被拒绝了."
+      "message" : "您的会员申请已被拒绝."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",
-      "message" : "你现在是会员了. 你的会员资格将过期于 {expiry_date}."
+      "message" : "您已经成为了我们的会员. 您的会员资格将在 {expiry_date} 到期."
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "在我们帮你处理{radioactives} 前你必须购买我们的 {military_fuel}"
+      "message" : "在我们处理 {radioactives}前, 你必须先购买我们的 {military_fuel} ."
    }
 }

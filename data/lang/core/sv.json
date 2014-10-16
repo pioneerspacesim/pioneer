@@ -1937,11 +1937,11 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Handelskomperator"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Jämför och visar de mest lönsamma handelsvaror att frakta från nuvarande till markerade system"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
