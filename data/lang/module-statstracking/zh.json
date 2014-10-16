@@ -1,10 +1,10 @@
 {
    "PIONEERING_PILOTS_GUILD" : {
       "description" : "",
-      "message" : "Pioneering Pilots' Guild"
+      "message" : "开拓者飞行员协会"
    },
    "WELL_DONE_COMMANDER_YOUR_COMBAT_RATING_HAS_IMPROVED" : {
       "description" : "",
-      "message" : "Well done commander! Your combat rating has improved!"
+      "message" : "做得好指挥官! 你的战斗等级提高了!"
    }
 }
