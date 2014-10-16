@@ -86,16 +86,24 @@ struct Shader {
 		static bool s_bDumpShaderSource = true;
 		if (s_bDumpShaderSource) {
 			const char SHADER_OUT_DIR_NAME[] = "shaders";
-			const char SHADER_GL2_OUT_DIR_NAME[] = "shaders/gl2";
+			const char SHADER_GL2_OUT_DIR_NAME[] = "shaders/opengl";
 			FileSystem::userFiles.MakeDirectory(SHADER_OUT_DIR_NAME);
 			FileSystem::userFiles.MakeDirectory(SHADER_GL2_OUT_DIR_NAME);
 			const std::string outFilename(FileSystem::GetUserDir() + "/" + filename);
 			FILE *tmp = fopen(outFilename.c_str(), "w+");
-			Output("%s", filename);
-			for( Uint32 i=0; i<blocks.size(); i++ ) {
-				fprintf(tmp, "%.*s", block_sizes[i], blocks[i]);
+			if(tmp) {
+				Output("%s", filename);
+				for( Uint32 i=0; i<blocks.size(); i++ ) {
+					const char *block = blocks[i];
+					const GLint sizes = block_sizes[i];
+					if(block && sizes>0) {
+						fprintf(tmp, "%.*s", sizes, block);
+					}
+				}
+				fclose(tmp);
+			} else {
+				Output("Could not open file %s", outFilename.c_str());
 			}
-			fclose(tmp);
 		}
 #endif
 		shader = glCreateShader(type);
