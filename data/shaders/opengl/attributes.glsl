@@ -15,7 +15,7 @@ struct Light {
 };
 uniform Light uLight[4];
 
-struct MaterialParameters {
+struct Material {
 	vec4 emission;
 	vec4 ambient;
 	vec4 diffuse;

@@ -2,7 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 uniform vec4 u_viewPosition;
-uniform MaterialParameters material;
+uniform Material material;
 
 out vec3 v_texCoord;
 out float v_skyboxFactor;

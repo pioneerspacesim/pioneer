@@ -1,14 +1,6 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-//material uniform parameters
-struct Material {
-	vec4 diffuse;
-	vec4 emission;
-	vec4 specular;
-	float shininess;
-};
-
 #ifdef FRAGMENT_SHADER
 //scene uniform parameters
 struct Scene {
