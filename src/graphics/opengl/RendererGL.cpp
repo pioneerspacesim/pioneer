@@ -820,6 +820,9 @@ void RendererOGL::PopState()
 {
 	m_viewportStack.pop();
 	assert(!m_viewportStack.empty());
+	const Viewport& cvp = m_viewportStack.top();
+	SetViewport(cvp.x, cvp.y, cvp.w, cvp.h);
+
 	SetMatrixMode(MatrixMode::PROJECTION);
 	PopMatrix();
 	SetMatrixMode(MatrixMode::MODELVIEW);
