@@ -17,11 +17,11 @@
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "船员雇佣"
+      "message" : "待雇船员"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "回去"
+      "message" : "返回"
    },
    "HANG_UP" : {
       "description" : "",
@@ -65,11 +65,11 @@
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "探索和防御"
+      "message" : "传感器与防御"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "船上的工程师"
+      "message" : "飞船工程师"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "拥有一些可控情况下的经验"
+      "message" : "拥有一些正常状况下的经验"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "这当然使这个提议更棒!"
+      "message" : "这确实让这份工作更诱人了!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",

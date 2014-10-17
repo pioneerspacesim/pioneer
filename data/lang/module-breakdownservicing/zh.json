@@ -29,7 +29,7 @@
    },
    "FLAVOUR_1_YESPLEASE" : {
       "description" : "",
-      "message" : "维护我的引擎."
+      "message" : "请维护我的引擎."
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
-      "message" : "您的引擎已经维护."
+      "message" : "您的引擎已经维护完毕."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
@@ -105,11 +105,11 @@
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "超空间引擎在坏掉之前被我修好了"
+      "message" : "超空间引擎在坏掉之前被我修好了."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "飞船上的超空间引擎由于功能失灵而被摧毁了."
+      "message" : "飞船上的超空间引擎由于功能失灵而损毁了"
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
@@ -125,6 +125,6 @@
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "你在超空间引擎坏掉之前将其修好了."
+      "message" : "你修好了马上就要损坏的超空间引擎."
    }
 }
