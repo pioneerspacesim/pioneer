@@ -5,6 +5,7 @@ October 2014
      * Flying with gears down increases drag (#2509, #3207)
      * New Trade Analyzer ship component (#3200)
      * Added Horizon Culling for planets (#3216)
+     * Second Hand ship equipment advert for BBS (#3220)
   
    * Fixes
      * Remove detail changes (#3213)
