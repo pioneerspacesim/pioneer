@@ -4,6 +4,7 @@ October 2014
      * We now have a build script for NixOS Linux (#3208)
      * Flying with gears down increases drag (#2509, #3207)
      * New Trade Analyzer ship component (#3200)
+     * Added Horizon Culling for planets (#3216)
   
    * Fixes
      * Remove detail changes (#3213)
