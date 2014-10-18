@@ -6,6 +6,7 @@ October 2014
      * New Trade Analyzer ship component (#3200)
      * Added Horizon Culling for planets (#3216)
      * Second Hand ship equipment advert for BBS (#3220)
+     * Google Breakpad (MSVC only) (#3211)
   
    * Fixes
      * Remove detail changes (#3213)
