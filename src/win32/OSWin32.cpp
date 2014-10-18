@@ -6,15 +6,18 @@
 #include "OS.h"
 #include "FileSystem.h"
 #include "TextUtils.h"
+#ifdef WITH_BREAKPAD
 #include "breakpad/exception_handler.h"
+#endif
 #include <SDL.h>
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
 
+#ifdef WITH_BREAKPAD
 using namespace google_breakpad;
-
 ExceptionHandler* exceptionHandler = nullptr;
+#endif
 
 #ifdef _MSC_VER
 #pragma warning(disable: 4996)
@@ -171,6 +174,7 @@ const std::string GetOSInfoString()
 	return hwInfo + name + " (" + patchName + ")";
 }
 
+#ifdef WITH_BREAKPAD
 /////////////////////////////////////////////////////// Google Breakpad
 bool FilterCallback(void* context, EXCEPTION_POINTERS* exinfo,
 	MDRawAssertionInfo* assertion) 
@@ -195,9 +199,11 @@ bool MinidumpCallback(const wchar_t* dump_path,
 
 	return succeeded;
 }
+#endif
 
 void EnableBreakpad()
 {
+#ifdef WITH_BREAKPAD
 	CustomClientInfo cci;
 	cci.count = 0;
 	cci.entries = nullptr;
@@ -214,6 +220,7 @@ void EnableBreakpad()
 		MINIDUMP_TYPE::MiniDumpWithDataSegs,
 		L"",														// Minidump server pipe name
 		&cci);														// Custom client information
+#endif
 }
 
 } // namespace OS
