@@ -173,6 +173,8 @@ void GeoSphere::Reset()
 		}
 	}
 
+	CalculateMaxPatchDepth();
+
 	m_initStage = eBuildFirstPatches;
 }
 
@@ -185,14 +187,7 @@ GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
 
 	s_allGeospheres.push_back(this);
 
-	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
-	// calculate length of each edge segment (quad) times 4 due to that being the number around the sphere (1 per side, 4 sides for Root).
-	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
-	// find out what depth we reach the desired resolution
-	while (edgeMetres>gs_targetPatchTriLength && m_maxDepth<20) {
-		edgeMetres *= 0.5;
-		++m_maxDepth;
-	}
+	CalculateMaxPatchDepth();
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
@@ -307,7 +302,7 @@ void GeoSphere::BuildFirstPatches()
 	m_patches[5].reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5ULL << maxShiftDepth)));
 	for (int i=0; i<NUM_PATCHES; i++) {
 		for (int j=0; j<4; j++) {
-			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]].get();
+			m_patches[i]->SetEdgeFriend(j, m_patches[geo_sphere_edge_friends[i][j]].get());
 		}
 	}
 
@@ -316,6 +311,18 @@ void GeoSphere::BuildFirstPatches()
 	}
 
 	m_initStage = eRequestedFirstPatches;
+}
+
+void GeoSphere::CalculateMaxPatchDepth()
+{
+	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
+	// calculate length of each edge segment (quad) times 4 due to that being the number around the sphere (1 per side, 4 sides for Root).
+	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
+	// find out what depth we reach the desired resolution
+	while (edgeMetres>gs_targetPatchTriLength && m_maxDepth<GEOPATCH_MAX_DEPTH) {
+		edgeMetres *= 0.5;
+		++m_maxDepth;
+	}
 }
 
 void GeoSphere::Update()
@@ -330,7 +337,7 @@ void GeoSphere::Update()
 			ProcessSplitResults();
 			uint8_t numValidPatches = 0;
 			for (int i=0; i<NUM_PATCHES; i++) {
-				if(m_patches[i]->heights) {
+				if(m_patches[i]->HasHeightData()) {
 					++numValidPatches;
 				}
 			}

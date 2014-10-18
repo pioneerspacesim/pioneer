@@ -70,6 +70,11 @@ public:
 
 private:
 	void BuildFirstPatches();
+	void CalculateMaxPatchDepth();
+	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
+		return m_terrain->GetColor(p, height, norm);
+	}
+
 	std::unique_ptr<GeoPatch> m_patches[6];
 
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
@@ -78,10 +83,6 @@ private:
 
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
-
-	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
-		return m_terrain->GetColor(p, height, norm);
-	}
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
