@@ -340,6 +340,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Profiler::Timer timer;
 	timer.Start();
 
+	OS::EnableBreakpad();
 	OS::NotifyLoadBegin();
 
 	FileSystem::Init();

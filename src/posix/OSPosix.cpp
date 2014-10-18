@@ -122,4 +122,9 @@ const std::string GetOSInfoString()
 	return std::string(infoString);
 }
 
+void EnableBreakpad()
+{
+	// Support for Mac and Linux should be added
+}
+
 } // namespace OS
