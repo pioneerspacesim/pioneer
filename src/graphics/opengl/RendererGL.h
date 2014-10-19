@@ -3,8 +3,8 @@
 
 #pragma once
 
-#ifndef _RENDERER_GL2_H
-#define _RENDERER_GL2_H
+#ifndef _RENDERER_OGL_H
+#define _RENDERER_OGL_H
 /*
  * OpenGL 2.X renderer (2.0, GLSL 1.10 at the moment)
  *  - no fixed function support (shaders for everything)

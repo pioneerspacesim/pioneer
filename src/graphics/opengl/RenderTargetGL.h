@@ -1,8 +1,8 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _GL2_RENDERTARGET_H
-#define _GL2_RENDERTARGET_H
+#ifndef _OGL_RENDERTARGET_H
+#define _OGL_RENDERTARGET_H
 /*
  * Framebuffer object with switchable target textures.
  * In theory you should use one texture format and size per FBO

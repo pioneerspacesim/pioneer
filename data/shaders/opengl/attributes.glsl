@@ -23,7 +23,11 @@ struct Material {
 	float shininess;
 };
 
+#ifdef VERTEX_SHADER
+
 in vec4 a_vertex;
 in vec3 a_normal;
 in vec4 a_color;
 in vec2 a_uv0;
+
+#endif // VERTEX_SHADER

@@ -16,7 +16,7 @@ vec4 logarithmicTransform()
 	varLogDepth = vertexPosClip.z;
 	return vertexPosClip;
 }
-#else
+#elif defined(FRAGMENT_SHADER)
 void SetFragDepth()
 {
 	gl_FragDepth = gl_DepthRange.near + (gl_DepthRange.far * log(varLogDepth + 1.0) * invLogZfarPlus1);

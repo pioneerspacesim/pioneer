@@ -1,8 +1,8 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _GL2_MULTIMATERIAL_H
-#define _GL2_MULTIMATERIAL_H
+#ifndef _OGL_MULTIMATERIAL_H
+#define _OGL_MULTIMATERIAL_H
 /*
  * A generic material & program for simple uses
  * textured/untextured, vertex colors or no...
