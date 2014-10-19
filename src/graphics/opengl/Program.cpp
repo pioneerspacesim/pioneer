@@ -88,11 +88,11 @@ struct Shader {
 		static bool s_bDumpShaderSource = true;
 		if (s_bDumpShaderSource) {
 			const char SHADER_OUT_DIR_NAME[] = "shaders";
-			const char SHADER_GL2_OUT_DIR_NAME[] = "shaders/opengl";
+			const char SHADER_OGL_OUT_DIR_NAME[] = "shaders/opengl";
 			FileSystem::userFiles.MakeDirectory(SHADER_OUT_DIR_NAME);
-			FileSystem::userFiles.MakeDirectory(SHADER_GL2_OUT_DIR_NAME);
+			FileSystem::userFiles.MakeDirectory(SHADER_OGL_OUT_DIR_NAME);
 			const std::string outFilename(FileSystem::GetUserDir() + "/" + filename);
-			FILE *tmp = fopen(outFilename.c_str(), "w+");
+			FILE *tmp = fopen(outFilename.c_str(), "wb");
 			if(tmp) {
 				Output("%s", filename);
 				for( Uint32 i=0; i<blocks.size(); i++ ) {
