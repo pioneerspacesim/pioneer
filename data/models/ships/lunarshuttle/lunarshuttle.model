@@ -10,6 +10,7 @@ use_patterns
 
 lod 500
 mesh lunar_shuttle_hi.dae
+mesh lunar_shuttle_shield.dae
 
 lod 100 
 mesh lunar_shuttle_lo.dae
