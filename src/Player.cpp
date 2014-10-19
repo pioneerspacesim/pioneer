@@ -48,6 +48,7 @@ Player::Player(ShipType::Id shipId): Ship(shipId)
 void Player::SetShipType(const ShipType::Id &shipId) {
 	Ship::SetShipType(shipId);
 	registerEquipChangeListener(this);
+	InitCockpit();
 }
 
 void Player::Save(Serializer::Writer &wr, Space *space)
