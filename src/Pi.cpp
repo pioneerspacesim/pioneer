@@ -138,7 +138,7 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
-// XXX enabling this breaks UI gauge rendering. see #2627
+// Leaving define in place in case of future rendering problems.
 #define USE_RTT 1
 
 //static
