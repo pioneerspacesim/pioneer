@@ -129,15 +129,19 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 static const SSphere s_sph;
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 {
+	// must update the VBOs to calculate the clipRadius...
+	_UpdateVBOs(renderer);
+	// ...before doing the furstum culling that relies on it.
 	if (!frustum.TestPoint(clipCentroid, clipRadius))
 		return; // nothing below this patch is visible
 
 	// only want to horizon cull patches that can actually be over the horizon!
-	const vector3d camDir((campos - clipCentroid).Normalized());
+	const vector3d camDir(campos - clipCentroid);
+	const vector3d camDirNorm(camDir.Normalized());
 	const vector3d cenDir(clipCentroid.Normalized());
-	const double dotProd = camDir.Dot(cenDir);
+	const double dotProd = camDirNorm.Dot(cenDir);
 
-	if( dotProd < 0.25 ) {
+	if( dotProd < 0.25 && (camDir.LengthSqr() > (clipRadius*clipRadius)) ) {
 		SSphere obj;
 		obj.m_centre = clipCentroid;
 		obj.m_radius = clipRadius;
@@ -150,8 +154,6 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights) {
-		_UpdateVBOs(renderer);
-
 		Graphics::Material *mat = geosphere->GetSurfaceMaterial();
 		Graphics::RenderState *rs = geosphere->GetSurfRenderState();
 
