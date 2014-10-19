@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "UIView.h"
+#include "Camera.h"
 
 #if WITH_OBJECTVIEWER
 
