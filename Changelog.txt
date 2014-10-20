@@ -14,6 +14,7 @@ October 2014
      * Fix #3224 (#3225)
      * Re-init the cockpit when we buy a new ship (#3226)
      * Fix ObjectViewer crash for non-planets (#3228)
+     * Fix alpha blending and render to texture (#3229)
 
 September 2014
    * New Features
