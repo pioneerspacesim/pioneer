@@ -20,7 +20,7 @@
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
 static const double  START_SEG_SIZE = CITY_ON_PLANET_RADIUS;
-static const double  START_SEG_SIZE_NO_ATMO = CITY_ON_PLANET_RADIUS / 10.0f;
+static const double  START_SEG_SIZE_NO_ATMO = CITY_ON_PLANET_RADIUS / 5.0f;
 static const double MIN_SEG_SIZE = 50.0;
 static const unsigned int CITYFLAVOURS = 5;
 
@@ -285,7 +285,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 
 
 	const Aabb &aabb = station->GetAabb();
-	matrix4x4d m = station->GetOrient();
+	const matrix4x4d &m = station->GetOrient();
 
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
@@ -293,35 +293,33 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	Random rand;
 	rand.seed(seed);
 
-	const vector3d p = station->GetPosition();
-
-	vector3d p1, p2, p3, p4;
-
-	const float rad = planet->GetSystemBody()->GetRadius();
+	const float pop = planet->GetSystemBody()->GetPopulation();
 	double seg = START_SEG_SIZE;
 	if (planet->GetSystemBody()->HasAtmosphere())
-		seg=Clamp(rad/1000.0, 100.0, START_SEG_SIZE);
+		seg=Clamp(pop*1000.0, 200.0, START_SEG_SIZE);
 	else
-		seg=Clamp(rad/10000.0, 150.0, START_SEG_SIZE_NO_ATMO);
+		seg=Clamp(pop*100.0, 250.0, START_SEG_SIZE_NO_ATMO);
 
-	double sizex = seg*2.0;// + rand.Int32((int)START_SEG_SIZE);
-	double sizez = seg*2.0;// + rand.Int32((int)START_SEG_SIZE);
+	const double sizex = seg*2.0;
+	const double sizez = seg*2.0;
+
+	const vector3d p = station->GetPosition();
 
 	// always have random shipyard buildings around the space station
-	cityflavour[0].buildingListIdx = 0;//2;
+	cityflavour[0].buildingListIdx = 0;
 	cityflavour[0].center = p;
 	cityflavour[0].size = seg;
 
 	for (unsigned int i = 1; i < CITYFLAVOURS; i++) {
-		cityflavour[i].buildingListIdx =
-			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
-		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
-		double a = rand.Int32(-1000,1000);
-		double b = rand.Int32(-1000,1000);
+		cityflavour[i].buildingListIdx = (COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
+		const citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
+		const double a = rand.Int32(-1000,1000);
+		const double b = rand.Int32(-1000,1000);
 		cityflavour[i].center = p + a*mx + b*mz;
 		cityflavour[i].size = rand.Int32(int(blist->minRadius), int(blist->maxRadius));
 	}
-
+	
+	vector3d p1, p2, p3, p4;
 	for (int side=0; side<4; side++) {
 		/* put buildings on all sides of spaceport */
 		switch(side) {
