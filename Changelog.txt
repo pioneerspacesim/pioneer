@@ -13,6 +13,7 @@ October 2014
      * Replace #pragma once by traditional include guards. (#3215)
      * Fix #3224 (#3225)
      * Re-init the cockpit when we buy a new ship (#3226)
+     * Fix ObjectViewer crash for non-planets (#3228)
 
 September 2014
    * New Features
