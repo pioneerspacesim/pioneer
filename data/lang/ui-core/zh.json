@@ -177,7 +177,7 @@
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "无法加载游戏."
+      "message" : "无法加载游戏:"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -345,7 +345,7 @@
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "前武器"
+      "message" : "前置武器"
    },
    "FUEL" : {
       "description" : "",
@@ -497,7 +497,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "发射请求驳回:船员不足无法控制飞船"
+      "message" : "发射请求驳回:船员不足无法控制飞船."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -685,7 +685,7 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "不"
+      "message" : "否"
    },
    "NOBODY" : {
       "description" : "For player reputation",
@@ -701,7 +701,7 @@
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "没有足够的 {alloy} 进行修理"
+      "message" : "没有足够的 {alloy} 用于修理"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
@@ -749,7 +749,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "\\t"
+      "message" : "环绕速度是指飞船的轨道速度在垂直于(90度)飞船-{name}方向上的分量.\n\n下降速度取最小绝对值, 同时也是切向的. 一个较慢的轨道速度或较低的角度会导致飞船的轨道与 {name} 表面交会.\n\n逃逸速度在任何方向上都相同, 除非飞船的轨道与 {name} 表面交会.\n\\t\\t"
    },
    "OWED" : {
       "description" : "",
@@ -765,7 +765,7 @@
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "导航员:"
+      "message" : "导航中:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
@@ -965,7 +965,7 @@
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "飞船处于空间站控制下了,指挥官."
+      "message" : "飞船处于空间站控制下了, 指挥官."
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
@@ -1053,7 +1053,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "有."
+      "message" : "是"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
