@@ -138,8 +138,8 @@ Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
-// XXX enabling this breaks UI gauge rendering. see #2627
-#define USE_RTT 0
+// Leaving define in place in case of future rendering problems.
+#define USE_RTT 1
 
 //static
 void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
@@ -156,7 +156,7 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 	Graphics::RenderStateDesc rsd;
 	rsd.depthTest  = false;
 	rsd.depthWrite = false;
-	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.blendMode = Graphics::BLEND_SOLID;
 	quadRenderState = Pi::renderer->CreateRenderState(rsd);
 
 	Graphics::TextureDescriptor texDesc(
@@ -190,7 +190,6 @@ void Pi::DrawRenderTarget() {
 	Pi::renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());	
 	Pi::renderer->SetTransform(matrix4x4f::Identity());
 
-	//Gui::Screen::EnterOrtho();
 	{
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 		Pi::renderer->PushMatrix();
@@ -202,7 +201,6 @@ void Pi::DrawRenderTarget() {
 	
 	Pi::renderQuad->Draw( Pi::renderer );
 
-	//Gui::Screen::LeaveOrtho();
 	{
 		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 		Pi::renderer->PopMatrix();
@@ -218,6 +216,7 @@ void Pi::DrawRenderTarget() {
 void Pi::BeginRenderTarget() {
 #if USE_RTT
 	Pi::renderer->SetRenderTarget(Pi::renderTarget);
+	Pi::renderer->ClearScreen();
 #endif
 }
 
