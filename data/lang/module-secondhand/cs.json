@@ -4,7 +4,7 @@
       "message" : "[+]"
    },
    "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
-      "description" : "",
+      "description" : "Regarding installing a component on the ship",
       "message" : "Fitting is included in the price."
    },
    "FLAVOUR_0_BODY" : {
@@ -17,7 +17,7 @@
    },
    "FLAVOUR_1_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name} I have an almost brand new {equipment} which I'm selling for just {price}."
+      "message" : "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -64,8 +64,8 @@
       "message" : "The {equipment} has been fitted to your ship."
    },
    "HOW_DO_I_FITT_IT" : {
-      "description" : "",
-      "message" : "How do I fit it"
+      "description" : "Regarding installing a component on the ship",
+      "message" : "How do I fit it?"
    },
    "REPEAT_OFFER" : {
       "description" : "",

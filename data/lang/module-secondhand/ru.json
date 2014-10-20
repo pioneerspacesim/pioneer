@@ -4,20 +4,20 @@
       "message" : "[+]"
    },
    "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
-      "description" : "",
+      "description" : "Regarding installing a component on the ship",
       "message" : "Fitting is included in the price."
    },
    "FLAVOUR_0_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
+      "message" : "Привет! Меня зовут {name} и я распродаю {equipment} с моего старого ржавого корыта. За это я хочу {price}."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Special offer, selling one {equipment}."
+      "message" : "В ПРОДАЖЕ: Специальное предложение! Продажа одного {equipment}."
    },
    "FLAVOUR_1_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name} I have an almost brand new {equipment} which I'm selling for just {price}."
+      "message" : "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -61,11 +61,11 @@
    },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
-      "message" : "The {equipment} has been fitted to your ship."
+      "message" : "На ваш корабль установлено {equipment}."
    },
    "HOW_DO_I_FITT_IT" : {
-      "description" : "",
-      "message" : "How do I fit it"
+      "description" : "Regarding installing a component on the ship",
+      "message" : "How do I fit it?"
    },
    "REPEAT_OFFER" : {
       "description" : "",
@@ -73,6 +73,6 @@
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You don't have enough money."
+      "message" : "Недостаточно средств для покупки."
    }
 }

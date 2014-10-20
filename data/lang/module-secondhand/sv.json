@@ -4,56 +4,56 @@
       "message" : "Köpa"
    },
    "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
-      "description" : "",
-      "message" : "Fitting is included in the price."
+      "description" : "Regarding installing a component on the ship",
+      "message" : "Installation är inkluderat i priset."
    },
    "FLAVOUR_0_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
+      "message" : "Hej! Jag heter {name} och jag säljer min {equipment} från min gamla skrothög, för {price}."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Special offer, selling one {equipment}."
+      "message" : "TILL SALU: Extra erbjudande, en {equipment} säljes."
    },
    "FLAVOUR_1_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name} I have an almost brand new {equipment} which I'm selling for just {price}."
+      "message" : "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: Practically unused {equipment}, at an affordable price!"
+      "message" : "SÄLJER: En i princip oanvänd {equipment}, till överkommligt pris!"
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
+      "message" : "Var hälsad! Jag heter {name} och jag har en mycket fin {equipment} vilken skulle kunna bli din för nätta {price}."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: One {equipment}, for a reasonable price!"
+      "message" : "SÄLJES: En {equipment}, till överkommligt pris!"
    },
    "FLAVOUR_3_BODY" : {
       "description" : "",
-      "message" : "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
+      "message" : "Hallå! Jag har en extra {equipment} som jag behöver bli av med. Jag vill ha {price} för den."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: One {equipment}, in good condition."
+      "message" : "TILL SALU: En {equipment}, i gott skick."
    },
    "FLAVOUR_4_BODY" : {
       "description" : "",
-      "message" : "Hi! We have an extra {equipment} which could be yours for {price}."
+      "message" : "Hej! Vi har en extra {equipment} som kan bli din för {price}"
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Leftover {equipment}, in fine condition."
+      "message" : "TILL SALU: Överbliven {equipment}, i fint skick."
    },
    "FLAVOUR_5_BODY" : {
       "description" : "",
-      "message" : "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
+      "message" : "Hej! Vill du köpa min gamla {equipment}? Den har tjänat mig väl, men jag har uppgraderat mig nu, så jag behöver den inte längre. Priset är {price}."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Old {equipment}, in working condition."
+      "message" : "TILL SALU: En {equipment}, i bruksdugligt skick."
    },
    "HANG_UP" : {
       "description" : "",
@@ -61,18 +61,18 @@
    },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
-      "message" : "The {equipment} has been fitted to your ship."
+      "message" : "En {equipment} har installerats på ditt skepp."
    },
    "HOW_DO_I_FITT_IT" : {
-      "description" : "",
-      "message" : "How do I fit it"
+      "description" : "Regarding installing a component on the ship",
+      "message" : "How do I fit it?"
    },
    "REPEAT_OFFER" : {
       "description" : "",
-      "message" : "Repeat offer"
+      "message" : "Upprepa erbjudandet"
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You don't have enough money."
+      "message" : "Du har inte tillräckligt med pengar."
    }
 }
