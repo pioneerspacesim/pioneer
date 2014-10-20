@@ -1,5 +1,7 @@
 October 2014
-
+   * Art
+     * Lunar Shuttle facelift #3230
+     
    * New Features
      * We now have a build script for NixOS Linux (#3208)
      * Flying with gears down increases drag (#2509, #3207)
