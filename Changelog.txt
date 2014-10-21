@@ -1,6 +1,7 @@
 October 2014
    * Art
-     * Lunar Shuttle facelift #3230
+     * Lunar Shuttle facelift (#3230)
+     * Apsis icon and crosshair polish (#3223)
      
    * New Features
      * We now have a build script for NixOS Linux (#3208)
