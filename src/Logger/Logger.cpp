@@ -102,6 +102,9 @@ Logger::Logger(void)
     // This will be a concatenation of all events into one string,
     //   enclosed by brackets.
     m_gaEvents = "[";
+
+	SetUserID();
+	SetSessionID();
 }
 
 // Although it's necessary to include a user ID and session ID in an event,

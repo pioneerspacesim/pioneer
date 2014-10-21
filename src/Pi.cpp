@@ -369,6 +369,36 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	Logger* pLogger = OS::GetLogger();
+	
+    // ------------------- //
+    // ------FILL IN------ //
+    // You'll get your game's unique public key from GameAnalytics.
+    pLogger->SetGameKey("6e7fb601f7c5180055ee562fcbb8017e");
+    // You'll also get an API key from GameAnalytics (for getting heatmaps).
+    pLogger->SetApiKey("cc321e8ea719d51ced87e3248450a49c5ce3a2a8");
+    // The build version you're on. Set this however works best for you.
+    pLogger->SetBuild(version);
+    // You'll get your secret key from GameAnalytics.
+    pLogger->SetSecretKey("cf3c2390d178640f02ad7d894d3f19c309490603");
+    // ------------------- //
+
+    //----------------//
+    // LOGGING EVENTS //
+    //----------------//
+
+    // Game starts
+    LogEvent evStart;
+    evStart.SetEventID("Game:Start");
+    pLogger->AddLogEvent(evStart);
+
+    // Send this event right away, since GameAnalytics measures
+    //   session playtime as (time of last event) - (time of first event).
+    pLogger->SubmitLogEvents();
+
+#endif //USE_GAME_ANALYTICS_LOGGING
+
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
 	Pi::detail.fracmult = config->Int("FractalMultiple");
@@ -518,6 +548,22 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	draw_progress(gauge, label, 1.0f);
 
 	OS::NotifyLoadEnd();
+	
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	//----------------//
+    // LOGGING EVENTS //
+    //----------------//
+
+    // Game starts
+    LogEvent evInit;
+    evInit.SetEventID("Game:Initialised");
+    pLogger->AddLogEvent(evInit);
+
+    // Send this event right away, since GameAnalytics measures
+    //   session playtime as (time of last event) - (time of first event).
+    pLogger->SubmitLogEvents();
+
+#endif //USE_GAME_ANALYTICS_LOGGING
 
 #if 0
 	// frame test code
@@ -645,6 +691,20 @@ bool Pi::IsConsoleActive()
 
 void Pi::Quit()
 {
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	Logger* pLogger = OS::GetLogger();
+
+    // Game starts
+    LogEvent evQuit;
+    evQuit.SetEventID("Game:Quit");
+    pLogger->AddLogEvent(evQuit);
+
+    // Send this event right away, since GameAnalytics measures
+    //   session playtime as (time of last event) - (time of first event).
+    pLogger->SubmitLogEvents();
+
+#endif //USE_GAME_ANALYTICS_LOGGING
+
 	Projectile::FreeModel();
 	delete Pi::intro;
 	delete Pi::luaConsole;
@@ -938,6 +998,18 @@ void Pi::HandleEvents()
 
 void Pi::TombStoneLoop()
 {
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	Logger* pLogger = OS::GetLogger();
+
+    // Game starts
+    LogEvent evDeath;
+	evDeath.SetEventID("Death");
+	const vector3d pos = Pi::player->GetPosition();
+    evDeath.SetLocation(Point(pos.x, pos.y, pos.z));
+    pLogger->AddLogEvent(evDeath);
+    pLogger->SubmitLogEvents();
+#endif //USE_GAME_ANALYTICS_LOGGING
+
 	std::unique_ptr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
@@ -1002,6 +1074,16 @@ void Pi::StartGame()
 	// fire event before the first frame
 	LuaEvent::Queue("onGameStart");
 	LuaEvent::Emit();
+
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	Logger* pLogger = OS::GetLogger();
+
+    // Game starts
+    LogEvent ev;
+    ev.SetEventID("Game:Started");
+    pLogger->AddLogEvent(ev);
+    pLogger->SubmitLogEvents();
+#endif //USE_GAME_ANALYTICS_LOGGING
 }
 
 void Pi::Start()
@@ -1098,6 +1180,16 @@ void Pi::EndGame()
 	delete game;
 	game = 0;
 	player = 0;
+
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	Logger* pLogger = OS::GetLogger();
+
+    // Game starts
+    LogEvent ev;
+    ev.SetEventID("Game:Ended");
+    pLogger->AddLogEvent(ev);
+    pLogger->SubmitLogEvents();
+#endif //USE_GAME_ANALYTICS_LOGGING
 }
 
 void Pi::MainLoop()

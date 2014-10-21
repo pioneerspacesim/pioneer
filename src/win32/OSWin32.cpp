@@ -223,4 +223,15 @@ void EnableBreakpad()
 #endif
 }
 
+#ifdef USE_GAME_ANALYTICS_LOGGING
+static std::unique_ptr<Logger> s_logger;
+Logger* GetLogger()
+{
+	if(!s_logger.get()) {
+		s_logger.reset( new Logger );
+	}
+	return s_logger.get();
+}
+#endif
+
 } // namespace OS

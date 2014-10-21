@@ -10,6 +10,9 @@
     <Filter Include="src\posix">
       <UniqueIdentifier>{6d264ce7-1454-4144-a050-a665481a0a20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Logger">
+      <UniqueIdentifier>{2fd86021-8e6c-4ee9-bb8d-772295e216d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
@@ -425,6 +428,18 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Plane.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\Logger.cpp">
+      <Filter>src\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\MD5.cpp">
+      <Filter>src\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\sha1.cpp">
+      <Filter>src\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\SYSTEM.cpp">
+      <Filter>src\Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -859,6 +874,18 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Plane.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logger\Logger.h">
+      <Filter>src\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logger\MD5.h">
+      <Filter>src\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logger\sha1.h">
+      <Filter>src\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logger\SYSTEM.h">
+      <Filter>src\Logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

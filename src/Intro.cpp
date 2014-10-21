@@ -3,6 +3,7 @@
 
 #include "Intro.h"
 #include "Pi.h"
+#include "OS.h"
 #include "Lang.h"
 #include "Easing.h"
 #include "graphics/Renderer.h"
@@ -60,6 +61,16 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_spinnerRatio = w*2.f/h;
 
 	m_needReset = true;
+
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	Logger* pLogger = OS::GetLogger();
+
+    // Game starts
+    LogEvent ev;
+    ev.SetEventID("Intro:Initialised");
+    pLogger->AddLogEvent(ev);
+    pLogger->SubmitLogEvents();
+#endif //USE_GAME_ANALYTICS_LOGGING
 }
 
 Intro::~Intro()
