@@ -37,11 +37,11 @@ private:
     vector3d m_location;
 };
 
-// The main class for logging and sending events.
+// The base class for logging and sending events - acts as a NULL device
 class Analytics
 {
 public:
-    Analytics(void) {}
+    Analytics(void);
 	virtual ~Analytics(void) {}
     virtual void AddLogEvent(AnalyticsEvent ev) {}
     virtual void SubmitLogEvents(void) {}

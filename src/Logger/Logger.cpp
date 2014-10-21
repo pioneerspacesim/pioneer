@@ -84,8 +84,14 @@ std::string AnalyticsEvent::GetString(std::string userID, std::string sessionID,
     return ss.str();
 }
 
-#ifdef USE_GAME_ANALYTICS_LOGGING
+// The base class for logging and sending events - acts as a NULL device
+Analytics::Analytics(void)
+{
+	Output("Analytics - NULL device - no logging\n");
+}
 
+#ifdef USE_GAME_ANALYTICS_LOGGING
+// The main class for logging and sending events.
 GameAnalytics::GameAnalytics(void)
 {
     // Initialize libcurl.
@@ -107,6 +113,8 @@ GameAnalytics::GameAnalytics(void)
 
 	SetUserID();
 	SetSessionID();
+
+	Output("Analytics - GameAnalytics device - is logging\n");
 }
 
 // Although it's necessary to include a user ID and session ID in an event,
