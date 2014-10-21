@@ -224,7 +224,6 @@
     <ClCompile Include="..\..\src\Logger\Logger.cpp" />
     <ClCompile Include="..\..\src\Logger\MD5.cpp" />
     <ClCompile Include="..\..\src\Logger\sha1.cpp" />
-    <ClCompile Include="..\..\src\Logger\SYSTEM.cpp" />
     <ClCompile Include="..\..\src\Lua.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -388,7 +387,6 @@
     <ClInclude Include="..\..\src\Logger\Logger.h" />
     <ClInclude Include="..\..\src\Logger\MD5.h" />
     <ClInclude Include="..\..\src\Logger\sha1.h" />
-    <ClInclude Include="..\..\src\Logger\SYSTEM.h" />
     <ClInclude Include="..\..\src\Lua.h" />
     <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />

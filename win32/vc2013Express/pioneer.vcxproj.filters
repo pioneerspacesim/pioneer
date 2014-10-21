@@ -438,9 +438,6 @@
     <ClCompile Include="..\..\src\Logger\sha1.cpp">
       <Filter>src\Logger</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Logger\SYSTEM.cpp">
-      <Filter>src\Logger</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -882,9 +879,6 @@
       <Filter>src\Logger</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Logger\sha1.h">
-      <Filter>src\Logger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\Logger\SYSTEM.h">
       <Filter>src\Logger</Filter>
     </ClInclude>
   </ItemGroup>

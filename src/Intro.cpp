@@ -62,15 +62,9 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 
 	m_needReset = true;
 
-#ifdef USE_GAME_ANALYTICS_LOGGING
-	Logger* pLogger = OS::GetLogger();
-
-    // Game starts
-    LogEvent ev;
-    ev.SetEventID("Intro:Initialised");
-    pLogger->AddLogEvent(ev);
+	BaseLogger* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(LoggerEvent("Intro:Initialised"));
     pLogger->SubmitLogEvents();
-#endif //USE_GAME_ANALYTICS_LOGGING
 }
 
 Intro::~Intro()

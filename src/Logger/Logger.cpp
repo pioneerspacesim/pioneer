@@ -1,5 +1,5 @@
 #include "Logger.h"
-#include "SYSTEM.h"
+#include "OS.h"
 
 #include <sstream>
 
@@ -11,25 +11,25 @@
 // That way it won't be added to the event string.
 // There might be a more elegant way to do this that I haven't thought of.
 
-void LogEvent::SetArea(std::string area)
+void LoggerEvent::SetArea(std::string area)
 {
     m_area = area;
     m_useArea = true;
 }
 
-void LogEvent::SetEventID(std::string eventID)
+void LoggerEvent::SetEventID(std::string eventID)
 {
     m_eventID = eventID;
     m_useEventID = true;
 }
 
-void LogEvent::SetValue(float value)
+void LoggerEvent::SetValue(float value)
 {
     m_value = value;
     m_useValue = true;
 }
 
-void LogEvent::SetLocation(Point location)
+void LoggerEvent::SetLocation(const vector3d& location)
 {
     m_location = location;
     m_useLocation = true;
@@ -38,7 +38,7 @@ void LogEvent::SetLocation(Point location)
 // Gets the string version of the event, ready to send.
 // It might be nicer to use a json generator, but the format is simple enough.
 // For reference on what this should like, go here: http://support.gameanalytics.com/entries/22613463-Design-event-structure
-std::string LogEvent::GetString(std::string userID, std::string sessionID, std::string build)
+std::string LoggerEvent::GetString(std::string userID, std::string sessionID, std::string build)
 {
     std::stringstream ss;
     ss << "{";
@@ -84,6 +84,8 @@ std::string LogEvent::GetString(std::string userID, std::string sessionID, std::
     return ss.str();
 }
 
+#ifdef USE_GAME_ANALYTICS_LOGGING
+
 Logger::Logger(void)
 {
     // Initialize libcurl.
@@ -118,7 +120,7 @@ void Logger::SetUserID(void)
 {
     // GetUniqueUserID uses Windows-specific code, so it's separated
     //   into a separate file.
-    m_userID = SYSTEM::GetUniqueUserID();
+    m_userID = OS::GetUniqueUserID();
 }
 
 // Sets the session ID with a GUID (Globally Unique Identifier).
@@ -126,13 +128,13 @@ void Logger::SetSessionID(void)
 {
     // GetGUID uses Windows-specific code, so it's separated
     //   into a separate file.
-    m_sessionID = SYSTEM::GetGUID();
+    m_sessionID = OS::GetGUID();
 }
 
 // Adds an event to the string of all events.
 // This allows you to decide when to send events to the server,
 //   as opposed to sending one every time an event is logged.
-void Logger::AddLogEvent(LogEvent ev)
+void Logger::AddLogEvent(LoggerEvent ev)
 {
     // If this isn't the first event...
     if (m_gaEvents.back() != '[')
@@ -325,19 +327,19 @@ void Logger::LoadHeatmap(std::string area, std::string eventID)
         Json::Value & value = data["value"];
 
         // Make a vector of pairs: points and their values.
-        std::vector<std::pair<Point, int>> points;
+        std::vector<std::pair<vector3d, int>> points;
 
         // Iterate through the arrays. (We're just iterating through x technically,
         //   but all arrays are the same length.)
         for (unsigned i = 0; i < x.size(); ++i)
         {
             // Add x, y, and z as a Point, and value as the second part of the pair.
-            points.push_back(std::pair<Point, int>(Point(x[i].asDouble(), y[i].asDouble(), z[i].asDouble()), value[i].asInt()));
+            points.push_back(std::pair<vector3d, int>(vector3d(x[i].asDouble(), y[i].asDouble(), z[i].asDouble()), value[i].asInt()));
         }
 
         // I like to keep my heatmaps ordered by area.
         // You can organize them however makes sense to you.
-        m_heatmaps.insert(std::pair<std::string, std::vector<std::pair<Point, int>>>(area, points));
+        m_heatmaps.insert(std::pair<std::string, std::vector<std::pair<vector3d, int>>>(area, points));
         
         // Cleanup your CURL object.
         curl_easy_cleanup(curl);
@@ -347,9 +349,9 @@ void Logger::LoadHeatmap(std::string area, std::string eventID)
 }
 
 // Gets a heatmap from a particular area. If that heatmap doesn't exist, returns false.
-bool Logger::GetHeatmap(std::string area, std::vector<std::pair<Point, int>>& points)
+bool Logger::GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>& points)
 {
-    std::map<std::string, std::vector<std::pair<Point, int>>>::iterator it = m_heatmaps.find(area);
+    std::map<std::string, std::vector<std::pair<vector3d, int>>>::iterator it = m_heatmaps.find(area);
     if (it == m_heatmaps.end())
         return false;
 
@@ -380,3 +382,5 @@ void Logger::SetSecretKey(const std::string &secretKey)
 {
 	m_secretKey = secretKey;
 }
+
+#endif // USE_GAME_ANALYTICS_LOGGING

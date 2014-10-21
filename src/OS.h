@@ -9,9 +9,7 @@
  */
 #include "libs.h"
 #include "utils.h"
-#ifdef USE_GAME_ANALYTICS_LOGGING
 #include "Logger/Logger.h"
-#endif
 
 namespace OS {
 
@@ -40,10 +38,11 @@ namespace OS {
 	// Enable Google breakpad for crash minidumps
 	void EnableBreakpad();
 
-#ifdef USE_GAME_ANALYTICS_LOGGING
 	// Get the GameAnalytics Logger
-	Logger* GetLogger();
-#endif
+	BaseLogger* GetLogger();
+
+	std::string GetUniqueUserID(void);
+	std::string GetGUID(void);
 }
 
 #endif

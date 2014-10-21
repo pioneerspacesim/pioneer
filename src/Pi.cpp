@@ -369,11 +369,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
-#ifdef USE_GAME_ANALYTICS_LOGGING
-	Logger* pLogger = OS::GetLogger();
+
+	BaseLogger* pLogger = OS::GetLogger();
 	
-    // ------------------- //
-    // ------FILL IN------ //
     // You'll get your game's unique public key from GameAnalytics.
     pLogger->SetGameKey("6e7fb601f7c5180055ee562fcbb8017e");
     // You'll also get an API key from GameAnalytics (for getting heatmaps).
@@ -382,22 +380,14 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
     pLogger->SetBuild(version);
     // You'll get your secret key from GameAnalytics.
     pLogger->SetSecretKey("cf3c2390d178640f02ad7d894d3f19c309490603");
-    // ------------------- //
-
-    //----------------//
-    // LOGGING EVENTS //
-    //----------------//
 
     // Game starts
-    LogEvent evStart;
-    evStart.SetEventID("Game:Start");
-    pLogger->AddLogEvent(evStart);
+    pLogger->AddLogEvent(LoggerEvent("Game:Start"));
 
     // Send this event right away, since GameAnalytics measures
     //   session playtime as (time of last event) - (time of first event).
     pLogger->SubmitLogEvents();
 
-#endif //USE_GAME_ANALYTICS_LOGGING
 
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
@@ -549,21 +539,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	OS::NotifyLoadEnd();
 	
-#ifdef USE_GAME_ANALYTICS_LOGGING
-	//----------------//
-    // LOGGING EVENTS //
-    //----------------//
 
-    // Game starts
-    LogEvent evInit;
-    evInit.SetEventID("Game:Initialised");
-    pLogger->AddLogEvent(evInit);
-
-    // Send this event right away, since GameAnalytics measures
-    //   session playtime as (time of last event) - (time of first event).
+    // Game Initialised
+    pLogger->AddLogEvent(LoggerEvent("Game:Initialised"));
     pLogger->SubmitLogEvents();
 
-#endif //USE_GAME_ANALYTICS_LOGGING
 
 #if 0
 	// frame test code
@@ -691,19 +671,10 @@ bool Pi::IsConsoleActive()
 
 void Pi::Quit()
 {
-#ifdef USE_GAME_ANALYTICS_LOGGING
-	Logger* pLogger = OS::GetLogger();
-
-    // Game starts
-    LogEvent evQuit;
-    evQuit.SetEventID("Game:Quit");
-    pLogger->AddLogEvent(evQuit);
-
-    // Send this event right away, since GameAnalytics measures
-    //   session playtime as (time of last event) - (time of first event).
+	BaseLogger* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(LoggerEvent("Game:Quit"));
     pLogger->SubmitLogEvents();
 
-#endif //USE_GAME_ANALYTICS_LOGGING
 
 	Projectile::FreeModel();
 	delete Pi::intro;
@@ -998,17 +969,9 @@ void Pi::HandleEvents()
 
 void Pi::TombStoneLoop()
 {
-#ifdef USE_GAME_ANALYTICS_LOGGING
-	Logger* pLogger = OS::GetLogger();
-
-    // Game starts
-    LogEvent evDeath;
-	evDeath.SetEventID("Death");
-	const vector3d pos = Pi::player->GetPosition();
-    evDeath.SetLocation(Point(pos.x, pos.y, pos.z));
-    pLogger->AddLogEvent(evDeath);
+	BaseLogger* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(LoggerEvent("Death", Pi::player->GetPosition()));
     pLogger->SubmitLogEvents();
-#endif //USE_GAME_ANALYTICS_LOGGING
 
 	std::unique_ptr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 	Uint32 last_time = SDL_GetTicks();
@@ -1075,15 +1038,9 @@ void Pi::StartGame()
 	LuaEvent::Queue("onGameStart");
 	LuaEvent::Emit();
 
-#ifdef USE_GAME_ANALYTICS_LOGGING
-	Logger* pLogger = OS::GetLogger();
-
-    // Game starts
-    LogEvent ev;
-    ev.SetEventID("Game:Started");
-    pLogger->AddLogEvent(ev);
+	BaseLogger* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(LoggerEvent("Game:Started"));
     pLogger->SubmitLogEvents();
-#endif //USE_GAME_ANALYTICS_LOGGING
 }
 
 void Pi::Start()
@@ -1181,15 +1138,9 @@ void Pi::EndGame()
 	game = 0;
 	player = 0;
 
-#ifdef USE_GAME_ANALYTICS_LOGGING
-	Logger* pLogger = OS::GetLogger();
-
-    // Game starts
-    LogEvent ev;
-    ev.SetEventID("Game:Ended");
-    pLogger->AddLogEvent(ev);
+	BaseLogger* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(LoggerEvent("Game:Ended"));
     pLogger->SubmitLogEvents();
-#endif //USE_GAME_ANALYTICS_LOGGING
 }
 
 void Pi::MainLoop()

@@ -1,28 +1,28 @@
+
+#pragma once
+
+#ifndef _LOGGER_H_
+#define _LOGGER_H_
+
 #include <map>
 #include <string>
 #include <vector>
 
-// Generic Point class, for heatmaps. Just to be thorough.
-class Point
-{
-public:
-    Point(void) : x(0.f), y(0.f), z(0.f) {};
-    Point(float x_, float y_, float z_) : x(x_), y(y_), z(z_) {};
-    float x;
-    float y;
-    float z;
-};
+#include "vector3.h"
 
 // You'll put together a LogEvent whenever you want to log something.
-class LogEvent
+class LoggerEvent
 {
     friend class Logger;
 public:
-    LogEvent() : m_useArea(false), m_useEventID(false), m_useValue(false), m_useLocation(false) {};
+    LoggerEvent() : m_useArea(false), m_useEventID(false), m_useValue(false), m_useLocation(false) {};
+	LoggerEvent(const std::string& evID) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(false), m_eventID(evID) {};
+	LoggerEvent(const std::string& evID, const vector3d& location) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(true), m_eventID(evID), m_location(location) {};
+
     void SetArea(std::string area);
     void SetEventID(std::string eventID);
     void SetValue(float value);
-    void SetLocation(Point location);
+    void SetLocation(const vector3d& location);
 private:
     std::string GetString(std::string userID, std::string sessionID, std::string build);
 
@@ -34,27 +34,51 @@ private:
     std::string m_area;
     std::string m_eventID;
     float m_value;
-    Point m_location;
+    vector3d m_location;
 };
 
 // The main class for logging and sending events.
-class Logger
+class BaseLogger
+{
+public:
+    BaseLogger(void) {}
+	virtual ~BaseLogger(void) {}
+    virtual void AddLogEvent(LoggerEvent ev) {}
+    virtual void SubmitLogEvents(void) {}
+    virtual void LoadHeatmap(std::string area, std::string eventID) {}
+    virtual bool GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>& points) { return false; }
+
+	// You'll get your game's unique public key from GameAnalytics.
+	virtual void SetGameKey(const std::string &gameKey) {}
+    // You'll also get an API key from GameAnalytics.
+	virtual void SetApiKey(const std::string &apiKey) {}
+    // The build version you're on.
+	virtual void SetBuild(const std::string &build) {}
+    // You're on secret key.
+	virtual void SetSecretKey(const std::string &secretKey) {}
+};
+
+#ifdef USE_GAME_ANALYTICS_LOGGING
+
+// The main class for logging and sending events.
+class Logger : public BaseLogger
 {
 public:
     Logger(void);
-    void AddLogEvent(LogEvent ev);
-    void SubmitLogEvents(void);
-    void LoadHeatmap(std::string area, std::string eventID);
-    bool GetHeatmap(std::string area, std::vector<std::pair<Point, int>>& points);
+	virtual ~Logger(void) {}
+    virtual void AddLogEvent(LoggerEvent ev);
+    virtual void SubmitLogEvents(void);
+    virtual void LoadHeatmap(std::string area, std::string eventID);
+    virtual bool GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>& points);
 
 	// You'll get your game's unique public key from GameAnalytics.
-	void SetGameKey(const std::string &gameKey);
+	virtual void SetGameKey(const std::string &gameKey);
     // You'll also get an API key from GameAnalytics.
-	void SetApiKey(const std::string &apiKey);
+	virtual void SetApiKey(const std::string &apiKey);
     // The build version you're on.
-	void SetBuild(const std::string &build);
+	virtual void SetBuild(const std::string &build);
     // You're on secret key.
-	void SetSecretKey(const std::string &secretKey);
+	virtual void SetSecretKey(const std::string &secretKey);
 
 private:
     void SetUserID(void);
@@ -71,5 +95,9 @@ private:
     std::string m_sessionID;
 
     // This makes PERFECT SENSE.
-    std::map<std::string, std::vector<std::pair<Point, int>>> m_heatmaps;
+    std::map<std::string, std::vector<std::pair<vector3d, int>>> m_heatmaps;
 };
+
+#endif // USE_GAME_ANALYTICS_LOGGING
+
+#endif // _LOGGER_H_
