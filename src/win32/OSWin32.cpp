@@ -233,14 +233,19 @@ void EnableBreakpad()
 
 
 static std::unique_ptr<Analytics> s_logger;
-Analytics* GetLogger()
+Analytics* GetLogger( const bool bUseLogging /*= false*/ )
 {
 #ifdef USE_GAME_ANALYTICS_LOGGING
-	if(!s_logger.get()) {
+	if(!s_logger.get() && bUseLogging) {
+		// The GameAnalytics class that sends data to our GameAnalytics.com service
 		s_logger.reset( new GameAnalytics );
+	} else {
+		// this is the NULL device that does nothing, it just provides empty methods you can safely call
+		s_logger.reset( new Analytics );
 	}
 #else
 	if(!s_logger.get()) {
+		// this is the NULL device that does nothing, it just provides empty methods you can safely call
 		s_logger.reset( new Analytics );
 	}
 #endif
@@ -249,6 +254,7 @@ Analytics* GetLogger()
 
 std::string GetGUID(void)
 {
+#ifdef USE_GAME_ANALYTICS_LOGGING
     // Get the GUID.
     GUID guid;
     CoCreateGuid(&guid);
@@ -264,10 +270,14 @@ std::string GetGUID(void)
     result.erase(std::remove(result.begin(), result.end(), '-'), result.end());
 
     return result;
+#else
+	return std::string();
+#endif
 }
 
 std::string GetUniqueUserID(void)
 {
+#ifdef USE_GAME_ANALYTICS_LOGGING
     std::string result;
 
     // Prepare an array to get info for up to 16 network adapters.
@@ -316,6 +326,9 @@ std::string GetUniqueUserID(void)
     }
 
     return result;
+#else
+	return std::string();
+#endif
 }
 
 } // namespace OS

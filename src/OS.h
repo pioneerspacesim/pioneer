@@ -39,7 +39,8 @@ namespace OS {
 	void EnableBreakpad();
 
 	// Get the GameAnalytics GameAnalytics
-	Analytics* GetLogger();
+	// False to get the NULL version by default
+	Analytics* GetLogger( const bool bUseLogging = false );
 
 	std::string GetUniqueUserID(void);
 	std::string GetGUID(void);
