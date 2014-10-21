@@ -49,6 +49,9 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 #endif
 	map["EnableGLDebug"] = "0";
 
+	map["AskedAboutLogging"] = "0";
+	map["CanUseLogging"] = "0";
+
 	Load();
 
 	for (auto i = override_.begin(); i != override_.end(); ++i) {
