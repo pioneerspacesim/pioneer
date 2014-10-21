@@ -369,24 +369,28 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
-
-	Analytics* pLogger = OS::GetLogger();
+	const bool bCanUseLogging = bool(config->Int("CanUseLogging"));
+	Analytics* pLogger = OS::GetLogger( bCanUseLogging );
 	
-    // You'll get your game's unique public key from GameAnalytics.
-    pLogger->SetGameKey("6e7fb601f7c5180055ee562fcbb8017e");
-    // You'll also get an API key from GameAnalytics (for getting heatmaps).
-    pLogger->SetApiKey("cc321e8ea719d51ced87e3248450a49c5ce3a2a8");
-    // The build version you're on. Set this however works best for you.
-    pLogger->SetBuild(version);
-    // You'll get your secret key from GameAnalytics.
-    pLogger->SetSecretKey("cf3c2390d178640f02ad7d894d3f19c309490603");
+	// I don't really need to skip doing this since the NULL Analystics device will do NOTHING
+	// however it is useful for debugging in release mode and knowing which one it has picked.
+	if( bCanUseLogging ) {
+		// You'll get your game's unique public key from GameAnalytics.
+		pLogger->SetGameKey("6e7fb601f7c5180055ee562fcbb8017e");
+		// You'll also get an API key from GameAnalytics (for getting heatmaps).
+		pLogger->SetApiKey("cc321e8ea719d51ced87e3248450a49c5ce3a2a8");
+		// The build version you're on. Set this however works best for you.
+		pLogger->SetBuild(version);
+		// You'll get your secret key from GameAnalytics.
+		pLogger->SetSecretKey("cf3c2390d178640f02ad7d894d3f19c309490603");
 
-    // Game starts
-    pLogger->AddLogEvent(AnalyticsEvent("Game:Start"));
+		// Game starts
+		pLogger->AddLogEvent(AnalyticsEvent("Game:Start"));
 
-    // Send this event right away, since GameAnalytics measures
-    //   session playtime as (time of last event) - (time of first event).
-    pLogger->SubmitLogEvents();
+		// Send this event right away, since GameAnalytics measures
+		//   session playtime as (time of last event) - (time of first event).
+		pLogger->SubmitLogEvents();
+	}
 
 
 	Pi::detail.planets = config->Int("DetailPlanets");
