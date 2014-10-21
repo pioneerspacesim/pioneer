@@ -51,6 +51,7 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 
 	map["AskedAboutLogging"] = "0";
 	map["CanUseLogging"] = "0";
+	map["OutputLoggingFile"] = "1";
 
 	Load();
 
