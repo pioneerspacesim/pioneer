@@ -232,16 +232,16 @@ void EnableBreakpad()
 }
 
 
-static std::unique_ptr<BaseLogger> s_logger;
-BaseLogger* GetLogger()
+static std::unique_ptr<Analytics> s_logger;
+Analytics* GetLogger()
 {
 #ifdef USE_GAME_ANALYTICS_LOGGING
 	if(!s_logger.get()) {
-		s_logger.reset( new Logger );
+		s_logger.reset( new GameAnalytics );
 	}
 #else
 	if(!s_logger.get()) {
-		s_logger.reset( new BaseLogger );
+		s_logger.reset( new Analytics );
 	}
 #endif
 	return s_logger.get();

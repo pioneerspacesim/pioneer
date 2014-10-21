@@ -38,8 +38,8 @@ namespace OS {
 	// Enable Google breakpad for crash minidumps
 	void EnableBreakpad();
 
-	// Get the GameAnalytics Logger
-	BaseLogger* GetLogger();
+	// Get the GameAnalytics GameAnalytics
+	Analytics* GetLogger();
 
 	std::string GetUniqueUserID(void);
 	std::string GetGUID(void);

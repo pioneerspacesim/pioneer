@@ -11,25 +11,25 @@
 // That way it won't be added to the event string.
 // There might be a more elegant way to do this that I haven't thought of.
 
-void LoggerEvent::SetArea(std::string area)
+void AnalyticsEvent::SetArea(std::string area)
 {
     m_area = area;
     m_useArea = true;
 }
 
-void LoggerEvent::SetEventID(std::string eventID)
+void AnalyticsEvent::SetEventID(std::string eventID)
 {
     m_eventID = eventID;
     m_useEventID = true;
 }
 
-void LoggerEvent::SetValue(float value)
+void AnalyticsEvent::SetValue(float value)
 {
     m_value = value;
     m_useValue = true;
 }
 
-void LoggerEvent::SetLocation(const vector3d& location)
+void AnalyticsEvent::SetLocation(const vector3d& location)
 {
     m_location = location;
     m_useLocation = true;
@@ -38,7 +38,7 @@ void LoggerEvent::SetLocation(const vector3d& location)
 // Gets the string version of the event, ready to send.
 // It might be nicer to use a json generator, but the format is simple enough.
 // For reference on what this should like, go here: http://support.gameanalytics.com/entries/22613463-Design-event-structure
-std::string LoggerEvent::GetString(std::string userID, std::string sessionID, std::string build)
+std::string AnalyticsEvent::GetString(std::string userID, std::string sessionID, std::string build)
 {
     std::stringstream ss;
     ss << "{";
@@ -86,7 +86,7 @@ std::string LoggerEvent::GetString(std::string userID, std::string sessionID, st
 
 #ifdef USE_GAME_ANALYTICS_LOGGING
 
-Logger::Logger(void)
+GameAnalytics::GameAnalytics(void)
 {
     // Initialize libcurl.
     CURLcode res = curl_global_init(CURL_GLOBAL_ALL);
@@ -116,7 +116,7 @@ Logger::Logger(void)
 // More info here: http://support.gameanalytics.com/entries/23054568-Generating-unique-user-identifiers
 
 // This hashes the user's MAC address to create an ID unique to that machine.
-void Logger::SetUserID(void)
+void GameAnalytics::SetUserID(void)
 {
     // GetUniqueUserID uses Windows-specific code, so it's separated
     //   into a separate file.
@@ -124,7 +124,7 @@ void Logger::SetUserID(void)
 }
 
 // Sets the session ID with a GUID (Globally Unique Identifier).
-void Logger::SetSessionID(void)
+void GameAnalytics::SetSessionID(void)
 {
     // GetGUID uses Windows-specific code, so it's separated
     //   into a separate file.
@@ -134,7 +134,7 @@ void Logger::SetSessionID(void)
 // Adds an event to the string of all events.
 // This allows you to decide when to send events to the server,
 //   as opposed to sending one every time an event is logged.
-void Logger::AddLogEvent(LoggerEvent ev)
+void GameAnalytics::AddLogEvent(AnalyticsEvent ev)
 {
     // If this isn't the first event...
     if (m_gaEvents.back() != '[')
@@ -149,7 +149,7 @@ void Logger::AddLogEvent(LoggerEvent ev)
 // Submits the events string to the server.
 // This is the meat of the whole operation.
 // (I think I mixed up two phrases there...)
-void Logger::SubmitLogEvents(void)
+void GameAnalytics::SubmitLogEvents(void)
 {
     // New CURL object.
     CURL * curl = curl_easy_init();
@@ -255,7 +255,7 @@ int DataToString(char *data, size_t size, size_t nmemb, std::string * result)
 }
 
 // Get heatmap data for an area, and add it to your collection of heatmaps.
-void Logger::LoadHeatmap(std::string area, std::string eventID)
+void GameAnalytics::LoadHeatmap(std::string area, std::string eventID)
 {
     // New CURL object.
     CURL * curl = curl_easy_init();
@@ -349,7 +349,7 @@ void Logger::LoadHeatmap(std::string area, std::string eventID)
 }
 
 // Gets a heatmap from a particular area. If that heatmap doesn't exist, returns false.
-bool Logger::GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>& points)
+bool GameAnalytics::GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>& points)
 {
     std::map<std::string, std::vector<std::pair<vector3d, int>>>::iterator it = m_heatmaps.find(area);
     if (it == m_heatmaps.end())
@@ -360,25 +360,25 @@ bool Logger::GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>&
 }
 
 // You'll get your game's unique public key from GameAnalytics.
-void Logger::SetGameKey(const std::string &gameKey) 
+void GameAnalytics::SetGameKey(const std::string &gameKey) 
 { 
 	m_gameKey = gameKey; 
 }
 
 // You'll also get an API key from GameAnalytics (for getting heatmaps).
-void Logger::SetApiKey(const std::string &apiKey)
+void GameAnalytics::SetApiKey(const std::string &apiKey)
 { 
 	m_apiKey = apiKey; 
 }
 
 // The build version you're on. Set this however works best for you.
-void Logger::SetBuild(const std::string &build) 
+void GameAnalytics::SetBuild(const std::string &build) 
 { 
 	m_build = build; 
 }
 
 // You're on secret key.
-void Logger::SetSecretKey(const std::string &secretKey)
+void GameAnalytics::SetSecretKey(const std::string &secretKey)
 {
 	m_secretKey = secretKey;
 }

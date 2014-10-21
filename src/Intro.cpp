@@ -62,8 +62,8 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 
 	m_needReset = true;
 
-	BaseLogger* pLogger = OS::GetLogger();
-    pLogger->AddLogEvent(LoggerEvent("Intro:Initialised"));
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Intro:Initialised"));
     pLogger->SubmitLogEvents();
 }
 

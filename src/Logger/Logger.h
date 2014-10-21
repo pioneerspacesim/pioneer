@@ -10,14 +10,14 @@
 
 #include "vector3.h"
 
-// You'll put together a LogEvent whenever you want to log something.
-class LoggerEvent
+// You'll put together an AnalyticsEvent whenever you want to log something.
+class AnalyticsEvent
 {
-    friend class Logger;
+    friend class GameAnalytics;
 public:
-    LoggerEvent() : m_useArea(false), m_useEventID(false), m_useValue(false), m_useLocation(false) {};
-	LoggerEvent(const std::string& evID) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(false), m_eventID(evID) {};
-	LoggerEvent(const std::string& evID, const vector3d& location) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(true), m_eventID(evID), m_location(location) {};
+    AnalyticsEvent() : m_useArea(false), m_useEventID(false), m_useValue(false), m_useLocation(false) {};
+	AnalyticsEvent(const std::string& evID) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(false), m_eventID(evID) {};
+	AnalyticsEvent(const std::string& evID, const vector3d& location) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(true), m_eventID(evID), m_location(location) {};
 
     void SetArea(std::string area);
     void SetEventID(std::string eventID);
@@ -38,12 +38,12 @@ private:
 };
 
 // The main class for logging and sending events.
-class BaseLogger
+class Analytics
 {
 public:
-    BaseLogger(void) {}
-	virtual ~BaseLogger(void) {}
-    virtual void AddLogEvent(LoggerEvent ev) {}
+    Analytics(void) {}
+	virtual ~Analytics(void) {}
+    virtual void AddLogEvent(AnalyticsEvent ev) {}
     virtual void SubmitLogEvents(void) {}
     virtual void LoadHeatmap(std::string area, std::string eventID) {}
     virtual bool GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>& points) { return false; }
@@ -59,14 +59,13 @@ public:
 };
 
 #ifdef USE_GAME_ANALYTICS_LOGGING
-
 // The main class for logging and sending events.
-class Logger : public BaseLogger
+class GameAnalytics : public Analytics
 {
 public:
-    Logger(void);
-	virtual ~Logger(void) {}
-    virtual void AddLogEvent(LoggerEvent ev);
+    GameAnalytics(void);
+	virtual ~GameAnalytics(void) {}
+    virtual void AddLogEvent(AnalyticsEvent ev);
     virtual void SubmitLogEvents(void);
     virtual void LoadHeatmap(std::string area, std::string eventID);
     virtual bool GetHeatmap(std::string area, std::vector<std::pair<vector3d, int>>& points);
@@ -97,7 +96,6 @@ private:
     // This makes PERFECT SENSE.
     std::map<std::string, std::vector<std::pair<vector3d, int>>> m_heatmaps;
 };
-
 #endif // USE_GAME_ANALYTICS_LOGGING
 
 #endif // _LOGGER_H_

@@ -370,7 +370,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lang::MakeCore(res);
 
 
-	BaseLogger* pLogger = OS::GetLogger();
+	Analytics* pLogger = OS::GetLogger();
 	
     // You'll get your game's unique public key from GameAnalytics.
     pLogger->SetGameKey("6e7fb601f7c5180055ee562fcbb8017e");
@@ -382,7 +382,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
     pLogger->SetSecretKey("cf3c2390d178640f02ad7d894d3f19c309490603");
 
     // Game starts
-    pLogger->AddLogEvent(LoggerEvent("Game:Start"));
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Start"));
 
     // Send this event right away, since GameAnalytics measures
     //   session playtime as (time of last event) - (time of first event).
@@ -541,7 +541,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	
 
     // Game Initialised
-    pLogger->AddLogEvent(LoggerEvent("Game:Initialised"));
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Initialised"));
     pLogger->SubmitLogEvents();
 
 
@@ -671,8 +671,8 @@ bool Pi::IsConsoleActive()
 
 void Pi::Quit()
 {
-	BaseLogger* pLogger = OS::GetLogger();
-    pLogger->AddLogEvent(LoggerEvent("Game:Quit"));
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Quit"));
     pLogger->SubmitLogEvents();
 
 
@@ -969,8 +969,8 @@ void Pi::HandleEvents()
 
 void Pi::TombStoneLoop()
 {
-	BaseLogger* pLogger = OS::GetLogger();
-    pLogger->AddLogEvent(LoggerEvent("Death", Pi::player->GetPosition()));
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Death", Pi::player->GetPosition()));
     pLogger->SubmitLogEvents();
 
 	std::unique_ptr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
@@ -1038,8 +1038,8 @@ void Pi::StartGame()
 	LuaEvent::Queue("onGameStart");
 	LuaEvent::Emit();
 
-	BaseLogger* pLogger = OS::GetLogger();
-    pLogger->AddLogEvent(LoggerEvent("Game:Started"));
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Started"));
     pLogger->SubmitLogEvents();
 }
 
@@ -1138,8 +1138,8 @@ void Pi::EndGame()
 	game = 0;
 	player = 0;
 
-	BaseLogger* pLogger = OS::GetLogger();
-    pLogger->AddLogEvent(LoggerEvent("Game:Ended"));
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Ended"));
     pLogger->SubmitLogEvents();
 }
 
