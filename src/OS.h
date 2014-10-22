@@ -42,6 +42,9 @@ namespace OS {
 	// False to get the NULL version by default
 	Analytics* GetLogger( const bool bUseLogging = false );
 
+	// Destroy the analytics logger
+	void ShutdownLogger();
+
 	std::string GetUniqueUserID(void);
 	std::string GetGUID(void);
 }

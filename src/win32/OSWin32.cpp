@@ -236,12 +236,14 @@ static std::unique_ptr<Analytics> s_logger;
 Analytics* GetLogger( const bool bUseLogging /*= false*/ )
 {
 #ifdef USE_GAME_ANALYTICS_LOGGING
-	if(!s_logger.get() && bUseLogging) {
-		// The GameAnalytics class that sends data to our GameAnalytics.com service
-		s_logger.reset( new GameAnalytics );
-	} else {
-		// this is the NULL device that does nothing, it just provides empty methods you can safely call
-		s_logger.reset( new Analytics );
+	if(!s_logger.get()) {
+		if( bUseLogging ) {
+			// The GameAnalytics class that sends data to our GameAnalytics.com service
+			s_logger.reset( new GameAnalytics );
+		} else {
+			// this is the NULL device that does nothing, it just provides empty methods you can safely call
+			s_logger.reset( new Analytics );
+		}
 	}
 #else
 	if(!s_logger.get()) {
@@ -250,6 +252,12 @@ Analytics* GetLogger( const bool bUseLogging /*= false*/ )
 	}
 #endif
 	return s_logger.get();
+}
+
+// Destroy the analytics logger
+void ShutdownLogger()
+{
+	s_logger.reset();
 }
 
 std::string GetGUID(void)

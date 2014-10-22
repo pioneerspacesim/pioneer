@@ -139,6 +139,12 @@ Analytics* GetLogger( const bool bUseLogging /*= false*/ )
 	return s_logger.get();
 }
 
+// Destroy the analytics logger
+void ShutdownLogger()
+{
+	s_logger.reset();
+}
+
 std::string GetUniqueUserID(void)
 {
 	return std::string();
