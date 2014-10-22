@@ -127,4 +127,26 @@ void EnableBreakpad()
 	// Support for Mac and Linux should be added
 }
 
+// Get the GameAnalytics GameAnalytics
+// False to get the NULL version by default
+static std::unique_ptr<Analytics> s_logger;
+Analytics* GetLogger( const bool bUseLogging /*= false*/ )
+{
+	if(!s_logger.get()) {
+		// this is the NULL device that does nothing, it just provides empty methods you can safely call
+		s_logger.reset( new Analytics );
+	}
+	return s_logger.get();
+}
+
+std::string GetUniqueUserID(void)
+{
+	return std::string();
+}
+
+std::string GetGUID(void)
+{
+	return std::string();
+}
+
 } // namespace OS
