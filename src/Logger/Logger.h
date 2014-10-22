@@ -24,7 +24,7 @@ public:
     void SetValue(float value);
     void SetLocation(const vector3d& location);
 private:
-    std::string GetString(std::string userID, std::string sessionID, std::string build);
+    std::string GetString(const std::string& userID, const std::string& sessionID, const std::string& build);
 
     bool m_useArea;
     bool m_useEventID;
@@ -64,7 +64,7 @@ class GameAnalytics : public Analytics
 {
 public:
     GameAnalytics(void);
-	virtual ~GameAnalytics(void) {}
+	virtual ~GameAnalytics(void);
     virtual void AddLogEvent(AnalyticsEvent ev);
     virtual void SubmitLogEvents(void);
     virtual void LoadHeatmap(std::string area, std::string eventID);
@@ -95,6 +95,8 @@ private:
 
     // This makes PERFECT SENSE.
     std::map<std::string, std::vector<std::pair<vector3d, int>>> m_heatmaps;
+
+	FILE* m_pLoggingFile;
 };
 #endif // USE_GAME_ANALYTICS_LOGGING
 

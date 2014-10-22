@@ -369,7 +369,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
-	const bool bCanUseLogging = bool(config->Int("CanUseLogging"));
+	const bool bCanUseLogging = bool(config->Int("AnalyticsCanUse"));
 	Analytics* pLogger = OS::GetLogger( bCanUseLogging );
 	
 	// I don't really need to skip doing this since the NULL Analystics device will do NOTHING
@@ -678,6 +678,8 @@ void Pi::Quit()
 	Analytics* pLogger = OS::GetLogger();
     pLogger->AddLogEvent(AnalyticsEvent("Game:Quit"));
     pLogger->SubmitLogEvents();
+	OS::ShutdownLogger();
+	// Don't try to call this after here
 
 
 	Projectile::FreeModel();

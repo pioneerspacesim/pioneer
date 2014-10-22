@@ -1,5 +1,6 @@
 #include "Logger.h"
 #include "OS.h"
+#include "FileSystem.h"
 
 #include <sstream>
 
@@ -38,7 +39,7 @@ void AnalyticsEvent::SetLocation(const vector3d& location)
 // Gets the string version of the event, ready to send.
 // It might be nicer to use a json generator, but the format is simple enough.
 // For reference on what this should like, go here: http://support.gameanalytics.com/entries/22613463-Design-event-structure
-std::string AnalyticsEvent::GetString(std::string userID, std::string sessionID, std::string build)
+std::string AnalyticsEvent::GetString(const std::string& userID, const std::string& sessionID, const std::string& build)
 {
     std::stringstream ss;
     ss << "{";
@@ -81,6 +82,7 @@ std::string AnalyticsEvent::GetString(std::string userID, std::string sessionID,
         ss << m_location.z;
     }
     ss << "}";
+	
     return ss.str();
 }
 
@@ -92,17 +94,13 @@ Analytics::Analytics(void)
 
 #ifdef USE_GAME_ANALYTICS_LOGGING
 // The main class for logging and sending events.
-GameAnalytics::GameAnalytics(void)
+GameAnalytics::GameAnalytics(void) : m_pLoggingFile(nullptr)
 {
     // Initialize libcurl.
     CURLcode res = curl_global_init(CURL_GLOBAL_ALL);
 
-    // Check the error flag.
-    if (res != CURLE_OK)
-    {
-        // This is how I roll with error messages.
-        std::cout << "Curl didn't not even work. " << curl_easy_strerror(res) << std::endl;
-    }
+	if (res != CURLE_OK)
+		Output("Curl didn't work: (%s)\n", curl_easy_strerror(res));
 
     // Currently the API's version is 1. Leave it like this for now.
     m_apiVersion = "1";
@@ -115,6 +113,16 @@ GameAnalytics::GameAnalytics(void)
 	SetSessionID();
 
 	Output("Analytics - GameAnalytics device - is logging\n");
+	m_pLoggingFile = FileSystem::userFiles.OpenWriteStream("analytics.txt", FileSystem::FileSourceFS::WRITE_TEXT);
+}
+
+GameAnalytics::~GameAnalytics(void)
+{
+	if(m_pLoggingFile) {
+		fflush(m_pLoggingFile);
+		fclose(m_pLoggingFile);
+		m_pLoggingFile = nullptr;
+	}
 }
 
 // Although it's necessary to include a user ID and session ID in an event,
@@ -166,6 +174,9 @@ void GameAnalytics::SubmitLogEvents(void)
         // Close the events string with a bracket.
         m_gaEvents += "]";
 
+		// keep a local log so people can see what is being logged.
+		fputs(m_gaEvents.c_str(), m_pLoggingFile);
+
         // ---------------------------------- //
         // ------PARTIAL IMPLEMENTATION------ //
         // ---------------------------------- //
@@ -190,52 +201,32 @@ void GameAnalytics::SubmitLogEvents(void)
         // Set the URL of the request.
         CURLcode res = curl_easy_setopt(curl, CURLOPT_URL, url);
 
-        // Check the error flag.
         if (res != CURLE_OK)
-        {
-            // This is how I roll with error messages.
-            std::cout << "Curl didn't not even work. " << curl_easy_strerror(res) << std::endl;
-        }
+			Output("Curl didn't work: (%s)\n", curl_easy_strerror(res));
 
         // Set the POST data (the string of events).
         res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, m_gaEvents.c_str());
 
-        // Check the error flag.
         if (res != CURLE_OK)
-        {
-            // This is how I roll with error messages.
-            std::cout << "Curl didn't not even work. " << curl_easy_strerror(res) << std::endl;
-        }
+			Output("Curl didn't work: (%s)\n", curl_easy_strerror(res));
 
         // Set the headers (hashed secret key + data).
         res = curl_easy_setopt(curl, CURLOPT_HTTPHEADER, chunk);
 
-        // Check the error flag.
         if (res != CURLE_OK)
-        {
-            // This is how I roll with error messages.
-            std::cout << "Curl didn't not even work. " << curl_easy_strerror(res) << std::endl;
-        }
+			Output("Curl didn't work: (%s)\n", curl_easy_strerror(res));
 
         // Set request mode to POST.
         res = curl_easy_setopt(curl, CURLOPT_POST, 1);
 
-        // Check the error flag.
         if (res != CURLE_OK)
-        {
-            // This is how I roll with error messages.
-            std::cout << "Curl didn't not even work. " << curl_easy_strerror(res) << std::endl;
-        }
+			Output("Curl didn't work: (%s)\n", curl_easy_strerror(res));
 
         // Send the request!
         res = curl_easy_perform(curl);
 
-        // Check the error flag.
         if (res != CURLE_OK)
-        {
-            // This is how I roll with error messages.
-            std::cout << "Curl didn't not even work. " << curl_easy_strerror(res) << std::endl;
-        }
+			Output("Curl didn't work: (%s)\n", curl_easy_strerror(res));
 
         // Cleanup your CURL object.
         curl_easy_cleanup(curl);
@@ -306,12 +297,8 @@ void GameAnalytics::LoadHeatmap(std::string area, std::string eventID)
         // Send the request!
         CURLcode res = curl_easy_perform(curl);
 
-        // Check the error flag.
         if (res != CURLE_OK)
-        {
-            // Bummer.
-            std::cout << "Curl didn't not even work. " << curl_easy_strerror(res) << std::endl;
-        }
+			Output("Curl didn't work: (%s)\n", curl_easy_strerror(res));
 
         // Get ready to receive json data.
 		Json::Reader reader;
