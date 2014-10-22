@@ -12,10 +12,10 @@
 // That way it won't be added to the event string.
 // There might be a more elegant way to do this that I haven't thought of.
 
-void AnalyticsEvent::SetArea(std::string area)
+void AnalyticsEvent::SetText(std::string text)
 {
-    m_area = area;
-    m_useArea = true;
+    m_text = text;
+    m_useText = true;
 }
 
 void AnalyticsEvent::SetEventID(std::string eventID)
@@ -51,11 +51,11 @@ std::string AnalyticsEvent::GetString(const std::string& userID, const std::stri
     ss << ", ";
     ss << "\"build\": ";
     ss << "\"" << build << "\"";
-    if (m_useArea)
+    if (m_useText)
     {
         ss << ", ";
-        ss << "\"area\": ";
-        ss << "\"" << m_area << "\"";
+        ss << "\"text\": ";
+        ss << "\"" << m_text << "\"";
     }
     if (m_useEventID)
     {

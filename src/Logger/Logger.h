@@ -15,23 +15,23 @@ class AnalyticsEvent
 {
     friend class GameAnalytics;
 public:
-    AnalyticsEvent() : m_useArea(false), m_useEventID(false), m_useValue(false), m_useLocation(false) {};
-	AnalyticsEvent(const std::string& evID) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(false), m_eventID(evID) {};
-	AnalyticsEvent(const std::string& evID, const vector3d& location) : m_useArea(false), m_useEventID(true), m_useValue(false), m_useLocation(true), m_eventID(evID), m_location(location) {};
+    AnalyticsEvent() : m_useText(false), m_useEventID(false), m_useValue(false), m_useLocation(false) {};
+	AnalyticsEvent(const std::string& evID) : m_useText(false), m_useEventID(true), m_useValue(false), m_useLocation(false), m_eventID(evID) {};
+	AnalyticsEvent(const std::string& evID, const vector3d& location) : m_useText(false), m_useEventID(true), m_useValue(false), m_useLocation(true), m_eventID(evID), m_location(location) {};
 
-    void SetArea(std::string area);
+    void SetText(std::string text);
     void SetEventID(std::string eventID);
     void SetValue(float value);
     void SetLocation(const vector3d& location);
 private:
     std::string GetString(const std::string& userID, const std::string& sessionID, const std::string& build);
 
-    bool m_useArea;
+    bool m_useText;
     bool m_useEventID;
     bool m_useValue;
     bool m_useLocation;
 
-    std::string m_area;
+    std::string m_text;
     std::string m_eventID;
     float m_value;
     vector3d m_location;

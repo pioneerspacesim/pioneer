@@ -387,6 +387,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		// Game starts
 		pLogger->AddLogEvent(AnalyticsEvent("Game:Start"));
 
+		AnalyticsEvent evOS("OS");
+		evOS.SetText( OS::GetOSInfoString() );
+		pLogger->AddLogEvent( evOS );
+
 		// Send this event right away, since GameAnalytics measures
 		//   session playtime as (time of last event) - (time of first event).
 		pLogger->SubmitLogEvents();
