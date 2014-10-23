@@ -757,7 +757,7 @@
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "缴了 {amount} 罚金"
+      "message" : "缴纳 {amount} 罚金"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",

@@ -473,7 +473,7 @@
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "广泛采矿行动."
+      "message" : "大规模采矿行动."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -777,7 +777,7 @@
    },
    "LARGE" : {
       "description" : "",
-      "message" : "大"
+      "message" : "较大的"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
@@ -969,7 +969,7 @@
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "用于对富矿小行星进行爆炸式采矿."
+      "message" : "用于对富矿小行星进行爆破式采矿."
    },
    "MINING_COLONY" : {
       "description" : "",
@@ -1129,7 +1129,7 @@
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
-      "message" : "没有已建立的订单"
+      "message" : "没有已建立的体系"
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
@@ -1241,11 +1241,11 @@
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "超过 %population 十亿"
+      "message" : "超过 %population 000000000"
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "超过 %population 百万"
+      "message" : "超过 %population 000000"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
@@ -1293,11 +1293,11 @@
    },
    "PLANET_CONTAINING_LIQUID_WATER" : {
       "description" : "",
-      "message" : "\"行星表面覆盖着液态水\""
+      "message" : "\"表面存在液态水\""
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\"有些冰的行星\""
+      "message" : "\"较冷的星球\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "正常delta-v. 单击重置为零."
+      "message" : "法线delta-v. 单击重置为零."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
@@ -1421,7 +1421,7 @@
    },
    "ROCKY_PLANET" : {
       "description" : "",
-      "message" : "\"岩石行星\""
+      "message" : "\"岩石星球\""
    },
    "ROCKY_PLANET_CONTAINING_COME_LIQUIDS" : {
       "description" : "",
@@ -1873,7 +1873,7 @@
    },
    "THIN" : {
       "description" : "",
-      "message" : "薄"
+      "message" : "较薄的"
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1969,7 +1969,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "非法武器卸载"
+      "message" : "违法武器发射"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
@@ -1993,7 +1993,7 @@
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "非常紧密"
+      "message" : "高密度的"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
