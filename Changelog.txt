@@ -19,6 +19,7 @@ October 2014
      * Fix ObjectViewer crash for non-planets (#3228)
      * Fix alpha blending and render to texture (#3229)
      * Fix the crosshair rendering (#3232)
+     * Match the BeginFrame with an EndFrame (#3235)
 
 September 2014
    * New Features
