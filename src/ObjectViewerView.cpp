@@ -113,7 +113,8 @@ void ObjectViewerView::Draw3D()
 	Graphics::Light light;
 	light.SetType(Graphics::Light::LIGHT_DIRECTIONAL);
 
-	if (Pi::MouseButtonState(SDL_BUTTON_RIGHT)) {
+	const int btnState = Pi::MouseButtonState(SDL_BUTTON_RIGHT);
+	if (btnState) {
 		int m[2];
 		Pi::GetMouseMotion(m);
 		m_camRot = matrix4x4d::RotateXMatrix(-0.002*m[1]) *
@@ -136,6 +137,9 @@ void ObjectViewerView::Draw3D()
 	}
 
 	UIView::Draw3D();
+	if (btnState) {
+		m_cameraContext->EndFrame();
+	}
 }
 
 void ObjectViewerView::OnSwitchTo()
