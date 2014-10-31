@@ -23,6 +23,7 @@ October 2014
      * Fix alpha blending and render to texture (#3229)
      * Fix the crosshair rendering (#3232)
      * Match the BeginFrame with an EndFrame (#3235)
+     * Deadzone (#3236)
 
 September 2014
    * New Features
