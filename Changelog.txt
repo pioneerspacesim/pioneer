@@ -3,6 +3,9 @@ October 2014
      * Lunar Shuttle facelift (#3230)
      * Apsis icon and crosshair polish (#3223)
      
+   * Minor changes and tweaks
+     * More variation in city size / dimension (#3227)
+     
    * New Features
      * We now have a build script for NixOS Linux (#3208)
      * Flying with gears down increases drag (#2509, #3207)
@@ -20,6 +23,7 @@ October 2014
      * Fix alpha blending and render to texture (#3229)
      * Fix the crosshair rendering (#3232)
      * Match the BeginFrame with an EndFrame (#3235)
+     * Deadzone (#3236)
 
 September 2014
    * New Features
