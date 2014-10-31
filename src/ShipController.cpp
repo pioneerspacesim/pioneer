@@ -35,8 +35,8 @@ PlayerShipController::PlayerShipController() :
 	m_lowThrustPower(0.25), // note: overridden by the default value in GameConfig.cpp (DefaultLowThrustPower setting)
 	m_mouseDir(0.0)
 {
-	float deadzone = Pi::config->Float("JoystickDeadzone");
-	m_joystickDeadzone = deadzone * deadzone;
+	const float deadzone = Pi::config->Float("JoystickDeadzone");
+	m_joystickDeadzone = Clamp(deadzone, 0.01f, 1.0f); // do not use (deadzone * deadzone) as values are 0<>1 range, aka: 0.1 * 0.1 = 0.01 or 1% deadzone!!! Not what player asked for!
 	m_fovY = Pi::config->Float("FOVVertical");
 	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
 
@@ -287,12 +287,16 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		changeVec.y = KeyBindings::yawAxis.GetValue();
 		changeVec.z = KeyBindings::rollAxis.GetValue();
 
-		// Deadzone more accurate
+		// Deadzone per-axis with normalisation
+		const float dz = m_joystickDeadzone;
 		for (int axis=0; axis<3; axis++) {
-				if (fabs(changeVec[axis]) < m_joystickDeadzone)
-					changeVec[axis]=0.0;
-				else
-					changeVec[axis] = changeVec[axis] * 2.0;
+			if (fabs(changeVec[axis]) < dz) {
+				// no input
+				changeVec[axis] = 0.0f;
+			} else {
+				// subtract deadzone and re-normalise to full range
+				changeVec[axis] = (changeVec[axis] - dz) / (1.0f - dz);
+			}
 		}
 		
 		wantAngVel += changeVec;

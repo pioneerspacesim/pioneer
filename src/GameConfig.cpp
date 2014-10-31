@@ -33,7 +33,7 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 	map["SectorViewZoom"] = "2.0";
 	map["MaxPhysicsCyclesPerRender"] = "4";
 	map["AntiAliasingMode"] = "2";
-	map["JoystickDeadzone"] = "0.1";
+	map["JoystickDeadzone"] = "0.2"; // 20% deadzone is common
 	map["DefaultLowThrustPower"] = "0.25";
 	map["VSync"] = "0";
 	map["UseTextureCompression"] = "1";
