@@ -152,9 +152,9 @@ noinst_HEADERS = \
 	vector2.h \
 	vector3.h \
 	enum_table.h \
-	Logger\Logger.h \
-	Logger\MD5.h \
-	Logger\sha1.h 
+	Logger/Logger.h \
+	Logger/MD5.h \
+	Logger/sha1.h 
 
 pioneer_SOURCES	= \
 	AmbientSounds.cpp \
@@ -286,9 +286,9 @@ pioneer_SOURCES	= \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp \
-	Logger\Logger.cpp \
-	Logger\MD5.cpp \
-	Logger\sha1.cpp 
+	Logger/Logger.cpp \
+	Logger/MD5.cpp \
+	Logger/sha1.cpp 
 
 pioneer_LDADD = \
 	collider/libcollider.a \
@@ -549,9 +549,9 @@ modelcompiler_SOURCES = \
 	perlin.cpp \
 	utils.cpp \
 	enum_table.cpp \
-	Logger\Logger.cpp \
-	Logger\MD5.cpp \
-	Logger\sha1.cpp 
+	Logger/Logger.cpp \
+	Logger/MD5.cpp \
+	Logger/sha1.cpp 
 
 modelcompiler_LDADD = \
 	collider/libcollider.a \
