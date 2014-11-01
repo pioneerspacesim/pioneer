@@ -6,7 +6,7 @@
 
 #include "curl/curl.h" // libcurl, for sending http requests
 #include "MD5.h"  // MD5 hashing algorithm
-#include "json\json.h" // json parser
+#include "json/json.h" // json parser
 
 // Each Set function also specifies that the variable is in use.
 // That way it won't be added to the event string.
