@@ -1,7 +1,7 @@
 {
    "BUY" : {
       "description" : "Buy a piece of ship equipment",
-      "message" : "Buy"
+      "message" : "Comprar"
    },
    "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
       "description" : "Regarding installing a component on the ship",
@@ -69,10 +69,10 @@
    },
    "REPEAT_OFFER" : {
       "description" : "",
-      "message" : "Repeat offer"
+      "message" : "Repetir oferta"
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You don't have enough money."
+      "message" : "Você não tem dinheiro suficiente."
    }
 }

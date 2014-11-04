@@ -161,7 +161,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Não é possível salvar o jogo após o jogador morrer"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Colhimento de carga tentado. Sem espaço suficiente no compartimento de carga."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Matar rotação"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
@@ -705,7 +705,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Ilegal (sistema atual):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Legal (sistema atual):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -1305,7 +1305,7 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Taxa de aumento de valores delta-v. Clique para resetar para padrão."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Este sistema foi explorado em %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
