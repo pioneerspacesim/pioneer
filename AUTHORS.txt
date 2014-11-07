@@ -62,6 +62,7 @@ The Pioneer Developers are:
 * Peter Kurucz
 * Phil Howlett
 * Piotr Gredka
+* PVJeltz
 * Radek Valášek aka vaLin
 * Rémi Boutemy
 * Rob Williamson
