@@ -315,16 +315,18 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		// split axes such as triggers on Xbox / Xbox360 / XboxONE pads
 		{
-			const float up = -KeyBindings::pitchAxisUp.GetValue();
-			const float down = KeyBindings::pitchAxisDown.GetValue();
+			#define NORMALISE(N) ((1.0f + N) * 0.5f)
+
+			const float up = -NORMALISE(KeyBindings::pitchAxisUp.GetValue());
+			const float down = NORMALISE(KeyBindings::pitchAxisDown.GetValue());
 			changeVec.x += (up + down);
 
-			const float left = -KeyBindings::yawAxisLeft.GetValue();
-			const float right = KeyBindings::yawAxisRight.GetValue();
+			const float left = -NORMALISE(KeyBindings::yawAxisLeft.GetValue());
+			const float right = NORMALISE(KeyBindings::yawAxisRight.GetValue());
 			changeVec.y += (left + right);
 
-			const float rollleft = -KeyBindings::rollAxisLeft.GetValue();
-			const float rollright = KeyBindings::rollAxisRight.GetValue();
+			const float rollleft = -NORMALISE(KeyBindings::rollAxisLeft.GetValue());
+			const float rollright = NORMALISE(KeyBindings::rollAxisRight.GetValue());
 			changeVec.z += (rollleft + rollright);
 		}
 
