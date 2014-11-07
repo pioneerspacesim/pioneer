@@ -211,6 +211,19 @@ public:
 		return  mean + z0 * stddev;
 	}
 
+	int Poisson(double lambda)
+	{
+		int k = 0;
+		double p = Double();
+		const double target = exp(-lambda);
+		while (p > target)
+		{
+			k += 1;
+			p *= Double();
+		}
+		return k;
+	}
+
 	// Pick a fixed-point integer half open interval [0,1)
 	fixed Fixed()
 	{
