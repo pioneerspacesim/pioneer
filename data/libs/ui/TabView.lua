@@ -59,6 +59,7 @@ function TabView.AddTab (self, args)
 	local title    = args.title
 	local icon     = args.icon
 	local template = args.template
+	local footer   = args.footer
 
 	local tab = {
 		group    = self,
@@ -66,6 +67,7 @@ function TabView.AddTab (self, args)
 		icon     = icon,
 		title    = title,
 		template = template,
+		footer   = footer
 	}
 
 	self:RemoveTab(id)
@@ -126,6 +128,9 @@ function TabView.SwitchToNum (self, num)
 	self.title:SetText(tab.title)
 
 	self.body:SetInnerWidget(tab.template(tab, self))
+	if tab.footer then
+		self:SetFooter(tab.footer)
+	end
 end
 
 function TabView.SwitchTo (self, id)

@@ -2,6 +2,10 @@ November 2014
    * Script and UI API changes
      * Added random number from Poisson distribution (#3242)
 
+   * Minor changes and tweaks
+     * Introduce special footer when player is in equipment market,
+       fixes #3117 (#3238)
+
 October 2014
    * Art
      * Lunar Shuttle facelift (#3230)
