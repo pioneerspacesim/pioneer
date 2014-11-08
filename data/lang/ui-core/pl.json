@@ -89,7 +89,7 @@
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "Użyte miejsce w ładowni"
    },
    "CARGO_T_FREE" : {
       "description" : "",
