@@ -17,7 +17,7 @@
    },
    "FLAVOUR_1_BODY" : {
       "description" : "",
-      "message" : "Cześć! Nazywam się {name}. {equipment} - mam to w posiadaniu i jest prawie jak nowe. Sprzedam to za jedyne {price}."
+      "message" : "Cześć! Nazywam się {name}. Mam w posiadaniu sprzęt ({equipment}) prawie jak nowy. Sprzedam to za jedyne {price}."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -25,7 +25,7 @@
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
+      "message" : "Pozdrawiam! Nazywam się {name} i mam tu sprzęt ({equipment}) w bardzo dobrym stanie. Może być twój za jedyne {price}."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -33,7 +33,7 @@
    },
    "FLAVOUR_3_BODY" : {
       "description" : "",
-      "message" : "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
+      "message" : "Witaj! Mam ekstra sprzęt ({equipment}) którego chcę się pozbyć, moja oferta wynosi {price}."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_4_BODY" : {
       "description" : "",
-      "message" : "Hi! We have an extra {equipment} which could be yours for {price}."
+      "message" : "Cześć! Mamy ekstra sprzęt ({equipment}) który może być twój za {price}."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -49,7 +49,7 @@
    },
    "FLAVOUR_5_BODY" : {
       "description" : "",
-      "message" : "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
+      "message" : "Pozdrawiam! Chcesz kupić mój stary sprzęt ({equipment})? Służył mi dobrze, ale po modernizacji już go nie potrzebuję. Cena wynosi {price}."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "Selling second hand ship equipment",
