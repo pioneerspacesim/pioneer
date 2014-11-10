@@ -89,7 +89,7 @@
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "Foglalt raktér"
    },
    "CARGO_T_FREE" : {
       "description" : "",
