@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.72.0 commit date:2014-10-15, commit time:15:23, hash:73f5a41</authoring_tool>
     </contributor>
-    <created>2014-10-19T21:35:37</created>
-    <modified>2014-10-19T21:35:37</modified>
+    <created>2014-11-12T17:39:39</created>
+    <modified>2014-11-12T17:39:39</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -9759,6 +9759,13 @@
         <rotate sid="rotationY">0 1 0 0.1359564</rotate>
         <rotate sid="rotationX">1 0 0 75.83907</rotate>
         <scale sid="scale">0.5 0.5 0.5</scale>
+      </node>
+      <node id="tag_gunmount_0" name="tag_gunmount_0" type="NODE">
+        <translate sid="location">-0.7818208 10.12041 -1.542856</translate>
+        <rotate sid="rotationZ">0 0 1 180</rotate>
+        <rotate sid="rotationY">0 1 0 8.65142e-6</rotate>
+        <rotate sid="rotationX">1 0 0 90</rotate>
+        <scale sid="scale">1 1 1</scale>
       </node>
     </visual_scene>
   </library_visual_scenes>
