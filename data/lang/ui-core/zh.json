@@ -89,7 +89,7 @@
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "货仓空间已被占用"
    },
    "CARGO_T_FREE" : {
       "description" : "",
