@@ -139,7 +139,7 @@ std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 
 // Leaving define in place in case of future rendering problems.
-#define USE_RTT 1
+#define USE_RTT 0
 
 //static
 void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
