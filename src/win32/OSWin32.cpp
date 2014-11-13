@@ -14,6 +14,14 @@
 #include <wchar.h>
 #include <windows.h>
 
+#include <algorithm> // std::remove
+
+#include "Logger/sha1.h" // SHA-1 hashing algorithm
+#include "curl/curl.h" // libcurl, for sending http requests
+#include <iphlpapi.h>
+#pragma comment(lib, "IPHLPAPI.lib")
+#include <iptypes.h>
+
 #ifdef WITH_BREAKPAD
 using namespace google_breakpad;
 ExceptionHandler* exceptionHandler = nullptr;
@@ -220,6 +228,114 @@ void EnableBreakpad()
 		MINIDUMP_TYPE::MiniDumpWithDataSegs,
 		L"",														// Minidump server pipe name
 		&cci);														// Custom client information
+#endif
+}
+
+
+static std::unique_ptr<Analytics> s_logger;
+Analytics* GetLogger( const bool bUseLogging /*= false*/ )
+{
+#ifdef USE_GAME_ANALYTICS_LOGGING
+	if(!s_logger.get()) {
+		if( bUseLogging ) {
+			// The GameAnalytics class that sends data to our GameAnalytics.com service
+			s_logger.reset( new GameAnalytics );
+		} else {
+			// this is the NULL device that does nothing, it just provides empty methods you can safely call
+			s_logger.reset( new Analytics );
+		}
+	}
+#else
+	if(!s_logger.get()) {
+		// this is the NULL device that does nothing, it just provides empty methods you can safely call
+		s_logger.reset( new Analytics );
+	}
+#endif
+	return s_logger.get();
+}
+
+// Destroy the analytics logger
+void ShutdownLogger()
+{
+	s_logger.reset();
+}
+
+std::string GetGUID(void)
+{
+#ifdef USE_GAME_ANALYTICS_LOGGING
+    // Get the GUID.
+    GUID guid;
+    CoCreateGuid(&guid);
+
+    // Turn the GUID into an ASCII string.
+    RPC_CSTR str;
+    UuidToStringA((UUID*)&guid, &str);
+
+    // Get a standard string out of that.
+    std::string result = (LPSTR)str;
+
+    // Remove any hyphens.
+    result.erase(std::remove(result.begin(), result.end(), '-'), result.end());
+
+    return result;
+#else
+	return std::string();
+#endif
+}
+
+std::string GetUniqueUserID(void)
+{
+#ifdef USE_GAME_ANALYTICS_LOGGING
+    std::string result;
+
+    // Prepare an array to get info for up to 16 network adapters.
+    // It's a little hacky, but it's way complicated to do otherwise,
+    //   and the chances of someone having more than 16 are pretty crazy.
+    IP_ADAPTER_INFO info[16];
+
+    // Get info for all the network adapters.
+    DWORD dwBufLen = sizeof(info);
+    DWORD dwStatus = GetAdaptersInfo(info, &dwBufLen);
+    if (dwStatus != ERROR_SUCCESS)
+    {
+        // ---------------------- //
+        // ------INCOMPLETE------ //
+        // ---------------------- //
+        /* deal with error */
+    }
+    else
+    {
+        PIP_ADAPTER_INFO pAdapterInfo = info;
+
+        // Iterate through the adapter array until we find one.
+        // (Will most likely be the first.)
+        while (pAdapterInfo && pAdapterInfo == 0)
+        {
+            pAdapterInfo = pAdapterInfo->Next;
+        }
+
+        if (!pAdapterInfo)
+        {
+            // Can't get the network adapter, using a GUID instead.
+            result = GetGUID();
+        }
+        else
+        {
+            // Get a hash of the MAC address using SHA1.
+            unsigned char hash[20];
+            char hexstring[41];
+            sha1::calc(pAdapterInfo->Address, pAdapterInfo->AddressLength, hash);
+            sha1::toHexString(hash, hexstring);
+            result = hexstring;
+
+            // Remove any hyphens.
+            result.erase(std::remove(result.begin(), result.end(), '-'), result.end());
+        }
+    }
+
+    return result;
+#else
+	return std::string();
 #endif
 }
 

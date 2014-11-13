@@ -369,6 +369,34 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
+	const bool bCanUseLogging = bool(config->Int("AnalyticsCanUse"));
+	Analytics* pLogger = OS::GetLogger( bCanUseLogging );
+	
+	// I don't really need to skip doing this since the NULL Analystics device will do NOTHING
+	// however it is useful for debugging in release mode and knowing which one it has picked.
+	if( bCanUseLogging ) {
+		// You'll get your game's unique public key from GameAnalytics.
+		pLogger->SetGameKey("6e7fb601f7c5180055ee562fcbb8017e");
+		// You'll also get an API key from GameAnalytics (for getting heatmaps).
+		pLogger->SetApiKey("cc321e8ea719d51ced87e3248450a49c5ce3a2a8");
+		// The build version you're on. Set this however works best for you.
+		pLogger->SetBuild(version);
+		// You'll get your secret key from GameAnalytics.
+		pLogger->SetSecretKey("cf3c2390d178640f02ad7d894d3f19c309490603");
+
+		// Game starts
+		pLogger->AddLogEvent(AnalyticsEvent("Game:Start"));
+
+		AnalyticsEvent evOS("OS");
+		evOS.SetText( OS::GetOSInfoString() );
+		pLogger->AddLogEvent( evOS );
+
+		// Send this event right away, since GameAnalytics measures
+		//   session playtime as (time of last event) - (time of first event).
+		pLogger->SubmitLogEvents();
+	}
+
+
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
 	Pi::detail.fracmult = config->Int("FractalMultiple");
@@ -518,6 +546,12 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	draw_progress(gauge, label, 1.0f);
 
 	OS::NotifyLoadEnd();
+	
+
+    // Game Initialised
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Initialised"));
+    pLogger->SubmitLogEvents();
+
 
 #if 0
 	// frame test code
@@ -645,6 +679,13 @@ bool Pi::IsConsoleActive()
 
 void Pi::Quit()
 {
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Quit"));
+    pLogger->SubmitLogEvents();
+	OS::ShutdownLogger();
+	// Don't try to call this after here
+
+
 	Projectile::FreeModel();
 	delete Pi::intro;
 	delete Pi::luaConsole;
@@ -938,6 +979,10 @@ void Pi::HandleEvents()
 
 void Pi::TombStoneLoop()
 {
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Death", Pi::player->GetPosition()));
+    pLogger->SubmitLogEvents();
+
 	std::unique_ptr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 	Uint32 last_time = SDL_GetTicks();
 	float _time = 0;
@@ -1002,6 +1047,10 @@ void Pi::StartGame()
 	// fire event before the first frame
 	LuaEvent::Queue("onGameStart");
 	LuaEvent::Emit();
+
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Started"));
+    pLogger->SubmitLogEvents();
 }
 
 void Pi::Start()
@@ -1098,6 +1147,10 @@ void Pi::EndGame()
 	delete game;
 	game = 0;
 	player = 0;
+
+	Analytics* pLogger = OS::GetLogger();
+    pLogger->AddLogEvent(AnalyticsEvent("Game:Ended"));
+    pLogger->SubmitLogEvents();
 }
 
 void Pi::MainLoop()

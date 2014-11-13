@@ -16,6 +16,9 @@
     <Filter Include="Win32">
       <UniqueIdentifier>{1d302f47-f764-4c47-a347-368ea89b5822}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Logger">
+      <UniqueIdentifier>{1ecc70bb-a7e6-41c5-a262-ac3a60010162}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\modelcompiler.cpp">
@@ -71,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\DateTime.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\Logger.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\MD5.cpp">
+      <Filter>Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Logger\sha1.cpp">
+      <Filter>Logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +169,15 @@
     </ClInclude>
     <ClInclude Include="..\..\src\DateTime.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logger\Logger.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logger\MD5.h">
+      <Filter>Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Logger\sha1.h">
+      <Filter>Logger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

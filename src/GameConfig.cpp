@@ -49,6 +49,10 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 #endif
 	map["EnableGLDebug"] = "0";
 
+	map["AnalyticsAskedAbout"] = "0";
+	map["AnalyticsCanUse"] = "0";
+	map["AnalyticsOutputFile"] = "1";
+
 	Load();
 
 	for (auto i = override_.begin(); i != override_.end(); ++i) {

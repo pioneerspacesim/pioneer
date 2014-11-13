@@ -9,6 +9,7 @@
  */
 #include "libs.h"
 #include "utils.h"
+#include "Logger/Logger.h"
 
 namespace OS {
 
@@ -36,6 +37,16 @@ namespace OS {
 
 	// Enable Google breakpad for crash minidumps
 	void EnableBreakpad();
+
+	// Get the GameAnalytics GameAnalytics
+	// False to get the NULL version by default
+	Analytics* GetLogger( const bool bUseLogging = false );
+
+	// Destroy the analytics logger
+	void ShutdownLogger();
+
+	std::string GetUniqueUserID(void);
+	std::string GetGUID(void);
 }
 
 #endif

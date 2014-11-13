@@ -97,15 +97,15 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_NO_GLU;GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_GAME_ANALYTICS_LOGGING;CURL_STATICLIB;GLEW_NO_GLU;GLEW_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>profiler.lib;glew.lib;json.lib;assimp.lib;shlwapi.lib;libogg_static_vc2013_debug.lib;libvorbis_static_vc2013_debug.lib;libvorbisfile_static_vc2013_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-d-2_0.lib;libpng15.lib;zlib.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurld.lib;ws2_32.lib;ole32.lib;rpcrt4.lib;wldap32.lib;AdvAPI32.lib;profiler.lib;glew.lib;json.lib;assimp.lib;shlwapi.lib;libogg_static_vc2013_debug.lib;libvorbis_static_vc2013_debug.lib;libvorbisfile_static_vc2013_debug.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-d-2_0.lib;libpng15.lib;zlib.lib;collider.lib;galaxy.lib;graphics.lib;gui.lib;ui.lib;jenkins.lib;lua.lib;terrain.lib;text.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <PostBuildEvent>
@@ -136,18 +136,20 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>common.lib;crash_generation_client.lib;exception_handler.lib;profiler.lib;glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurl.lib;ws2_32.lib;ole32.lib;rpcrt4.lib;wldap32.lib;AdvAPI32.lib;common.lib;crash_generation_client.lib;exception_handler.lib;profiler.lib;glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WITH_BREAKPAD;GLEW_NO_GLU;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_GAME_ANALYTICS_LOGGING;CURL_STATICLIB;WITH_BREAKPAD;GLEW_NO_GLU;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <SDLCheck>false</SDLCheck>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <OmitFramePointers>true</OmitFramePointers>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <PostBuildEvent>
       <Command>xcopy "..\..\..\pioneer-thirdparty\win32\bin\*.dll" "$(TargetDir)\*.dll" /Y /C</Command>
@@ -158,15 +160,16 @@
     <ClCompile />
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>common.lib;crash_generation_client.lib;exception_handler.lib;profiler.lib;glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcurl.lib;ws2_32.lib;ole32.lib;rpcrt4.lib;wldap32.lib;AdvAPI32.lib;common.lib;crash_generation_client.lib;exception_handler.lib;profiler.lib;glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
       <LargeAddressAware>true</LargeAddressAware>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <IgnoreSpecificDefaultLibraries>libcmt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PIONEER_PROFILER;GLEW_NO_GLU;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_GAME_ANALYTICS_LOGGING;CURL_STATICLIB;PIONEER_PROFILER;GLEW_NO_GLU;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Qpar-report:2 /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>false</SDLCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -219,6 +222,9 @@
     <ClCompile Include="..\..\src\JobQueue.cpp" />
     <ClCompile Include="..\..\src\KeyBindings.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
+    <ClCompile Include="..\..\src\Logger\Logger.cpp" />
+    <ClCompile Include="..\..\src\Logger\MD5.cpp" />
+    <ClCompile Include="..\..\src\Logger\sha1.cpp" />
     <ClCompile Include="..\..\src\Lua.cpp" />
     <ClCompile Include="..\..\src\LuaBody.cpp" />
     <ClCompile Include="..\..\src\LuaCargoBody.cpp" />
@@ -379,6 +385,9 @@
     <ClInclude Include="..\..\src\JobQueue.h" />
     <ClInclude Include="..\..\src\KeyBindings.h" />
     <ClInclude Include="..\..\src\libs.h" />
+    <ClInclude Include="..\..\src\Logger\Logger.h" />
+    <ClInclude Include="..\..\src\Logger\MD5.h" />
+    <ClInclude Include="..\..\src\Logger\sha1.h" />
     <ClInclude Include="..\..\src\Lua.h" />
     <ClInclude Include="..\..\src\LuaComms.h" />
     <ClInclude Include="..\..\src\LuaConsole.h" />
