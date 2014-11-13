@@ -5,6 +5,7 @@ November 2014
    * Minor changes and tweaks
      * Introduce special footer when player is in equipment market,
        fixes #3117 (#3238)
+     * A smarter ShipMarket in SpaceStation (#3243)
 
    * Fixes
      * Update deprecated gun tag on Lunar shuttle (#3245)
