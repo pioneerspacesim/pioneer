@@ -1881,33 +1881,21 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
+		const vector2f center        = vector2f(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) * 0.5f;
+		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f;
+		const vector2f crosshairPos  = center - crosshairSize * 0.5f;
+
 		switch (m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT:
-				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE, white);
+				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
 				break;
 			case InternalCameraController::MODE_REAR:
-				DrawCrosshair(Gui::Screen::GetWidth()/2.0f, Gui::Screen::GetHeight()/2.0f, HUD_CROSSHAIR_SIZE/2.0f, white);
+				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
 				break;
 			default:
 				break;
 		}
 	}
-}
-
-void WorldView::DrawCrosshair(float px, float py, float sz, const Color &c)
-{
-	const vector3f vts[] = {
-		vector3f(px-sz,			py,			0.0f),
-		vector3f(px-0.5f*sz,	py,			0.0f),
-		vector3f(px+sz,			py,			0.0f),
-		vector3f(px+0.5f*sz,	py,			0.0f),
-		vector3f(px,			py-sz,		0.0f),
-		vector3f(px,			py-0.5f*sz, 0.0f),
-		vector3f(px,			py+sz,		0.0f),
-		vector3f(px,			py+0.5f*sz, 0.0f)
-	};
-	m_crossHair.SetData(COUNTOF(vts), vts, c);
-	m_crossHair.Draw(m_renderer, m_blendState);
 }
 
 void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c)
@@ -1970,7 +1958,7 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 
 	m_targetIcon->Draw(Pi::renderer,
 			   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
-				    marker.pos.y - HUD_CROSSHAIR_SIZE),
+						marker.pos.y - HUD_CROSSHAIR_SIZE),
 			   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
 }
 

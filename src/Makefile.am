@@ -99,6 +99,7 @@ noinst_HEADERS = \
 	OS.h \
 	PersistSystemData.h \
 	Pi.h \
+	Plane.h \
 	Planet.h \
 	Player.h \
 	PngWriter.h \
@@ -130,6 +131,7 @@ noinst_HEADERS = \
 	SpaceStation.h \
 	SpaceStationType.h \
 	SpeedLines.h \
+	Sphere.h \
 	Star.h \
 	SystemInfoView.h \
 	SystemView.h \
@@ -240,6 +242,7 @@ pioneer_SOURCES	= \
 	ObjectViewerView.cpp \
 	Orbit.cpp \
 	Pi.cpp \
+	Plane.cpp \
 	Planet.cpp \
 	Player.cpp \
 	PngWriter.cpp \
@@ -267,6 +270,7 @@ pioneer_SOURCES	= \
 	SpaceStation.cpp \
 	SpaceStationType.cpp \
 	SpeedLines.cpp \
+	Sphere.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
@@ -499,6 +503,7 @@ modelcompiler_SOURCES = \
 	ObjectViewerView.cpp \
 	Orbit.cpp \
 	Pi.cpp \
+	Plane.cpp \
 	Planet.cpp \
 	Player.cpp \
 	PngWriter.cpp \
@@ -526,6 +531,7 @@ modelcompiler_SOURCES = \
 	SpaceStation.cpp \
 	SpaceStationType.cpp \
 	SpeedLines.cpp \
+	Sphere.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \

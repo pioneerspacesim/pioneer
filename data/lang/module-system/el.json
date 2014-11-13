@@ -1,15 +1,15 @@
 {
    "BASE" : {
       "description" : "",
-      "message" : "base"
+      "message" : "βάση"
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "βάσεις"
    },
    "BODIES" : {
       "description" : "",
-      "message" : "bodies"
+      "message" : "σώματα"
    },
    "BODY" : {
       "description" : "",
@@ -17,18 +17,18 @@
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : "Έχετε ανακαλύψει  {portcount} κρυφές {bases}!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "Ερευνάτε σύστημα με  {bodycount} major {bodies}."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is almost empty."
+      "message" : "Τα καύσιμα σας τελειώνουν σύντομα"
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is empty."
+      "message" : "Τα καύσιμα σας τελείωσαν"
    }
 }

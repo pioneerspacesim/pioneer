@@ -88,24 +88,20 @@ irc.freenode.net.
 1.3 Windows - Autotools (Linux cross-compile)
 ---------------------------------------------
 
-1. First you need a cross-compiling environment. We use MXE (http://mxe.cc)
-   with a patch required to make SDL2 compile. Until that patch is merged
-   upstream, grab it from:
+1. First you need a cross-compiling environment. We use MXE (http://mxe.cc).
 
-     git://github.com/robn/mxe.git
+     git clone git://github.com/mxe/mxe.git
 
    Now compile GCC and the dependencies needed for Pioneer:
 
-     make gcc freetype sdl2 sdl2_image vorbis libsigc++
+     make gcc freetype sdl2 sdl2_image vorbis libsigc++ assimp
 
-2. Prepare the pioneer-thirdparty repository. See below.
-
-3. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
+2. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
    file.
 
 4. Run configure to configure the build:
 
-     ./configure --with-mxe=/path/to/mxe --with-thirdparty=/path/to/pioneer-thirdparty
+     ./configure --with-mxe=/path/to/mxe
 
 5. Run make to build everything
 

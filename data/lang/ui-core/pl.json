@@ -87,6 +87,10 @@
       "description" : "",
       "message" : "Miejsce w ładowni"
    },
+   "CARGO_SPACE_USED" : {
+      "description" : "",
+      "message" : "Użyte miejsce w ładowni"
+   },
    "CARGO_T_FREE" : {
       "description" : "",
       "message" : "{amount}t wolne"

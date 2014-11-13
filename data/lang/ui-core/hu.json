@@ -87,6 +87,10 @@
       "description" : "",
       "message" : "Raktér kapacitás"
    },
+   "CARGO_SPACE_USED" : {
+      "description" : "",
+      "message" : "Foglalt raktér"
+   },
    "CARGO_T_FREE" : {
       "description" : "",
       "message" : "{amount}t szabad"

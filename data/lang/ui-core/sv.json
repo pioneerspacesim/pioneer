@@ -87,6 +87,10 @@
       "description" : "",
       "message" : "Lastutrymme"
    },
+   "CARGO_SPACE_USED" : {
+      "description" : "",
+      "message" : "Använt lastutrymme"
+   },
    "CARGO_T_FREE" : {
       "description" : "",
       "message" : "{amount}t ledigt"

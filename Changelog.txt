@@ -1,18 +1,47 @@
+November 2014
+   * Script and UI API changes
+     * Added random number from Poisson distribution (#3242)
+
+   * Minor changes and tweaks
+     * Introduce special footer when player is in equipment market,
+       fixes #3117 (#3238)
+     * A smarter ShipMarket in SpaceStation (#3243)
+     * Fix Anti-Aliasing (#3246)
+
+   * Fixes
+     * Update deprecated gun tag on Lunar shuttle (#3245)
+
 October 2014
+   * Art
+     * Lunar Shuttle facelift (#3230)
+     * Apsis icon and crosshair polish (#3223)
+
+   * Minor changes and tweaks
+     * More variation in city size / dimension (#3227)
 
    * New Features
      * We now have a build script for NixOS Linux (#3208)
      * Flying with gears down increases drag (#2509, #3207)
      * New Trade Analyzer ship component (#3200)
-  
+     * Added Horizon Culling for planets (#3216)
+     * Second Hand ship equipment advert for BBS (#3220)
+     * Google Breakpad (MSVC only) (#3211)
+
    * Fixes
      * Remove detail changes (#3213)
      * Replace #pragma once by traditional include guards. (#3215)
+     * Fix #3224 (#3225)
+     * Re-init the cockpit when we buy a new ship (#3226)
+     * Fix ObjectViewer crash for non-planets (#3228)
+     * Fix alpha blending and render to texture (#3229)
+     * Fix the crosshair rendering (#3232)
+     * Match the BeginFrame with an EndFrame (#3235)
+     * Deadzone (#3236)
 
 September 2014
    * New Features
      * System exploration (#3201)
-     
+
    * Fixes
      * Fix wrong reinitialization of random generator (#3156)
      * Fix crash at Daniel's Haven (#3157)
