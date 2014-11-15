@@ -188,6 +188,23 @@ static int l_engine_set_fullscreen(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_bloom(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("GFX_UseBloom") != 0);
+	return 1;
+}
+
+static int l_engine_set_bloom(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetBloom takes one boolean argument");
+	const bool useBloom = lua_toboolean(l, 1);
+	Pi::config->SetInt("GFX_UseBloom", (useBloom ? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
+
+
 static int l_engine_get_vsync_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("VSync") != 0);
@@ -756,6 +773,8 @@ void LuaEngine::Register()
 		{ "SetTextureCompressionEnabled", l_engine_set_texture_compression_enabled },
 		{ "GetMultisampling", l_engine_get_multisampling },
 		{ "SetMultisampling", l_engine_set_multisampling },
+		{ "GetBloom", l_engine_get_bloom },
+		{ "SetBloom", l_engine_set_bloom },
 
 		{ "GetPlanetDetailLevel", l_engine_get_planet_detail_level },
 		{ "SetPlanetDetailLevel", l_engine_set_planet_detail_level },
