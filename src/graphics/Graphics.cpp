@@ -68,6 +68,7 @@ static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error =
 			out << gl_error_to_string(err) << " ";
 			err = glGetError();
 		} while (err != GL_NO_ERROR);
+		out << std::endl;
 	}
 }
 
@@ -250,6 +251,9 @@ Renderer* Init(Settings vs)
 	Renderer *renderer = new RendererOGL(window, vs);
 
 	Output("Initialized %s\n", renderer->GetName());
+
+	std::ostringstream dummy;
+	dump_and_clear_opengl_errors(dummy);
 
 	initted = true;
 
