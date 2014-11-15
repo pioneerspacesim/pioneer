@@ -85,11 +85,11 @@
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Грузовой отсек"
+      "message" : "Грузоподъёмность"
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "Грузовой отсек"
    },
    "CARGO_T_FREE" : {
       "description" : "",

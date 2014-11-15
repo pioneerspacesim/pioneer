@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Рукав Ориона"
    },
    "LOCKED" : {
       "description" : "",
@@ -1877,7 +1877,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "Рукав в 3 кпк от центра"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1937,7 +1937,7 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Анализатор торговли"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
