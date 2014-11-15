@@ -81,14 +81,12 @@ void RenderTarget::SetDepthTexture(Texture* t)
 
 void RenderTarget::Bind()
 {
-	assert(!m_active);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 	m_active = true;
 }
 
 void RenderTarget::Unbind()
 {
-	assert(m_active);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	m_active = false;
 }
