@@ -44,6 +44,8 @@
 #include "Planet.h"
 #include "Player.h"
 #include "Projectile.h"
+#include "graphics/PostProcess.h"
+#include "graphics/PostProcessing.h"
 #include "SDLWrappers.h"
 #include "SectorView.h"
 #include "Serializer.h"
@@ -128,104 +130,13 @@ RefCountedPtr<UI::Context> Pi::ui;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
-Graphics::RenderTarget *Pi::renderTarget;
-RefCountedPtr<Graphics::Texture> Pi::renderTexture;
-std::unique_ptr<Graphics::Drawables::TexturedQuad> Pi::renderQuad;
-Graphics::RenderState *Pi::quadRenderState = nullptr;
+Graphics::PostProcess* Pi::m_gamePP;
+Graphics::PostProcess* Pi::m_guiPP;
 bool Pi::bRequestEndGame = false;
 
 Sound::MusicPlayer Pi::musicPlayer;
 std::unique_ptr<AsyncJobQueue> Pi::asyncJobQueue;
 std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
-
-// Leaving define in place in case of future rendering problems.
-#define USE_RTT 0
-
-//static
-void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
-	/*	@fluffyfreak here's a rendertarget implementation you can use for oculusing and other things. It's pretty simple:
-		 - fill out a RenderTargetDesc struct and call Renderer::CreateRenderTarget
-		 - pass target to Renderer::SetRenderTarget to start rendering to texture
-		 - set up viewport, clear etc, then draw as usual
-		 - SetRenderTarget(0) to resume render to screen
-		 - you can access the attached texture with GetColorTexture to use it with a material
-		You can reuse the same target with multiple textures.
-		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
-	*/
-#if USE_RTT
-	Graphics::RenderStateDesc rsd;
-	rsd.depthTest  = false;
-	rsd.depthWrite = false;
-	rsd.blendMode = Graphics::BLEND_SOLID;
-	quadRenderState = Pi::renderer->CreateRenderState(rsd);
-
-	Graphics::TextureDescriptor texDesc(
-		Graphics::TEXTURE_RGBA_8888,
-		vector2f(width, height),
-		Graphics::LINEAR_CLAMP, false, false, 0);
-	Pi::renderTexture.Reset(Pi::renderer->CreateTexture(texDesc));
-	Pi::renderQuad.reset(new Graphics::Drawables::TexturedQuad(
-		Pi::renderer, Pi::renderTexture.Get(), 
-		vector2f(0.0f,0.0f), vector2f(float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight())), 
-		quadRenderState));
-
-	// Complete the RT description so we can request a buffer.
-	// NB: we don't want it to create use a texture because we share it with the textured quad created above.
-	Graphics::RenderTargetDesc rtDesc(
-		width,
-		height,
-		Graphics::TEXTURE_NONE,		// don't create a texture
-		Graphics::TEXTURE_DEPTH,
-		false);
-	Pi::renderTarget = Pi::renderer->CreateRenderTarget(rtDesc);
-
-	Pi::renderTarget->SetColorTexture(Pi::renderTexture.Get());
-#endif
-}
-
-//static
-void Pi::DrawRenderTarget() {
-#if USE_RTT
-	Pi::renderer->BeginFrame();
-	Pi::renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());	
-	Pi::renderer->SetTransform(matrix4x4f::Identity());
-
-	{
-		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
-		Pi::renderer->PushMatrix();
-		Pi::renderer->SetOrthographicProjection(0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 0, -1, 1);
-		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
-		Pi::renderer->PushMatrix();
-		Pi::renderer->LoadIdentity();
-	}
-	
-	Pi::renderQuad->Draw( Pi::renderer );
-
-	{
-		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
-		Pi::renderer->PopMatrix();
-		Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
-		Pi::renderer->PopMatrix();
-	}
-
-	Pi::renderer->EndFrame();
-#endif
-}
-
-//static
-void Pi::BeginRenderTarget() {
-#if USE_RTT
-	Pi::renderer->SetRenderTarget(Pi::renderTarget);
-	Pi::renderer->ClearScreen();
-#endif
-}
-
-//static
-void Pi::EndRenderTarget() {
-#if USE_RTT
-	Pi::renderer->SetRenderTarget(nullptr);
-#endif
-}
 
 static void draw_progress(UI::Gauge *gauge, UI::Label *label, float progress)
 {
@@ -401,7 +312,6 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	Pi::renderer = Graphics::Init(videoSettings);
 
-	Pi::CreateRenderTarget(videoSettings.width, videoSettings.height);
 	Pi::rng.IncRefCount(); // so nothing tries to free it
 	Pi::rng.seed(time(0));
 
@@ -641,6 +551,16 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	luaConsole = new LuaConsole();
 	KeyBindings::toggleLuaConsole.onPress.connect(sigc::mem_fun(Pi::luaConsole, &LuaConsole::Toggle));
+
+	// Define post processes
+	m_gamePP = new Graphics::PostProcess("Bloom", renderer->GetWindow());
+	if (config->Int("GFX_UseBloom")!=0) {
+		m_gamePP->AddPass(renderer, "HBlur", Graphics::EFFECT_HORIZONTAL_BLUR);
+		m_gamePP->AddPass(renderer, "VBlur", Graphics::EFFECT_VERTICAL_BLUR);
+		m_gamePP->AddPass(renderer, "Compose", Graphics::EFFECT_BLOOM_COMPOSITOR, Graphics::PP_PASS_COMPOSE);
+	}
+
+	m_guiPP = new Graphics::PostProcess("GUI", renderer->GetWindow());
 
 	planner = new TransferPlanner();
 
@@ -956,14 +876,13 @@ void Pi::TombStoneLoop()
 		Pi::renderer->GetWindow()->SetGrab(false);
 
 		// render the scene
-		Pi::BeginRenderTarget();
 		Pi::renderer->BeginFrame();
+		Pi::renderer->BeginPostProcessing();
 		tombstone->Draw(_time);
+		Pi::renderer->PostProcessFrame(m_gamePP);
+		Pi::renderer->EndPostProcessing();
 		Pi::renderer->EndFrame();
 		Gui::Draw();
-		Pi::EndRenderTarget();
-
-		Pi::DrawRenderTarget();
 		Pi::renderer->SwapBuffers();
 
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
@@ -1049,17 +968,16 @@ void Pi::Start()
 				while (SDL_PollEvent(&event)) {}
 		}
 
-		Pi::BeginRenderTarget();
 		Pi::renderer->BeginFrame();
+		Pi::renderer->BeginPostProcessing();
 		intro->Draw(_time);
+		Pi::renderer->PostProcessFrame(m_gamePP);
+		Pi::renderer->EndPostProcessing();
 		Pi::renderer->EndFrame();
 
 		ui->Update();
 		ui->Draw();
-		Pi::EndRenderTarget();
 
-		// render the rendertarget texture
-		Pi::DrawRenderTarget();
 		Pi::renderer->SwapBuffers();
 
 		Pi::frameTime = 0.001f*(SDL_GetTicks() - last_time);
@@ -1194,9 +1112,8 @@ void Pi::MainLoop()
 			}
 		}
 
-		Pi::BeginRenderTarget();
-
 		Pi::renderer->BeginFrame();
+		Pi::renderer->BeginPostProcessing();
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
@@ -1218,8 +1135,16 @@ void Pi::MainLoop()
 		// hide cursor for ship control.
 
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
+		
+		if(game && (GetView() != game->GetWorldView())) {
+			renderer->PostProcessFrame(m_guiPP);
+		} else {
+			renderer->PostProcessFrame(m_gamePP);
+		}
 
+		Pi::renderer->EndPostProcessing();
 		Pi::renderer->EndFrame();
+
 		if( DrawGUI ) {
 			Gui::Draw();
 			if (game)
@@ -1262,8 +1187,6 @@ void Pi::MainLoop()
 		}
 #endif
 
-		Pi::EndRenderTarget();
-		Pi::DrawRenderTarget();
 		Pi::renderer->SwapBuffers();
 
 		// game exit will have cleared Pi::game. we can't continue.

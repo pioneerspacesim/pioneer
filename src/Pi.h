@@ -31,7 +31,7 @@ class TransferPlanner;
 class UIView;
 class View;
 class SDLGraphics;
-namespace Graphics { class Renderer; }
+namespace Graphics { class Renderer; class PostProcess; }
 namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
 namespace UI { class Context; }
@@ -104,11 +104,6 @@ public:
 	static void BoinkNoise();
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
-
-	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
-	static void DrawRenderTarget();
-	static void BeginRenderTarget();
-	static void EndRenderTarget();
 
 	static const char SAVE_DIR_NAME[];
 
@@ -207,10 +202,8 @@ private:
 
 	static Gui::Fixed *menu;
 
-	static Graphics::RenderTarget *renderTarget;
-	static RefCountedPtr<Graphics::Texture> renderTexture;
-	static std::unique_ptr<Graphics::Drawables::TexturedQuad> renderQuad;
-	static Graphics::RenderState *quadRenderState;
+	static Graphics::PostProcess* m_gamePP;
+	static Graphics::PostProcess* m_guiPP;
 
 	static bool bRequestEndGame;
 };

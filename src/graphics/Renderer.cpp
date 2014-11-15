@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "Texture.h"
+#include "PostProcessing.h"
 
 namespace Graphics {
 

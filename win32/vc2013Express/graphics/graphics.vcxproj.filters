@@ -65,6 +65,8 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\PostProcess.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\PostProcessing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -140,6 +142,20 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\RendererGL.h">
       <Filter>opengl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\HorizontalBlurMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\TexturedFullscreenQuad.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\VerticalBlurMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\BloomCompositorMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\PostProcess.h" />
+    <ClInclude Include="..\..\..\src\graphics\PostProcessing.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
