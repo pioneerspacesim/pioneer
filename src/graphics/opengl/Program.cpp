@@ -164,6 +164,16 @@ Program::Program(const std::string &name, const std::string &defines, const bool
 	InitUniforms();
 }
 
+Program::Program(const std::string &folder, const std::string &name, const std::string &defines, const bool bHasGeomShader)
+: m_name(name)
+, m_defines(defines)
+, m_program(0)
+, m_bHasGeomShader(bHasGeomShader)
+{
+	LoadShaders(FileSystem::JoinPathBelow(folder, name), defines);
+	InitUniforms();
+}
+
 Program::~Program()
 {
 	glDeleteProgram(m_program);

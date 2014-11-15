@@ -20,6 +20,7 @@ namespace Graphics {
 		public:
 			Program();
 			Program(const std::string &name, const std::string &defines, const bool bHasGeomShader = false);
+			Program(const std::string &folder, const std::string &name, const std::string &defines, const bool bHasGeomShader);
 			virtual ~Program();
 			void Reload();
 			virtual void Use();
