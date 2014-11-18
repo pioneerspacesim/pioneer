@@ -1,4 +1,7 @@
 November 2014
+   * New Features
+     * Update to use OpenGL 3.2 (#3219)
+     
    * Script and UI API changes
      * Added random number from Poisson distribution (#3242)
 
