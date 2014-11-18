@@ -473,7 +473,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 		matrix4x4f invRot = trans;
 		invRot.ClearToRotOnly();
-		invRot = invRot.InverseOf();
+		invRot = invRot.Inverse();
 
 		matrix4x4f bodyTrans = trans;
 		bodyTrans.Translate(vector3f(offset));
@@ -610,7 +610,7 @@ void SystemView::Draw3D()
 	vector3d pos(0,0,0);
 	if (m_selectedObject) GetTransformTo(m_selectedObject, pos);
 
-	glLineWidth(2);
+	// glLineWidth(2);
 	m_objectLabels->Clear();
 	if (m_system->GetUnexplored())
 		m_infoLabel->SetText(Lang::UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW);
@@ -626,7 +626,7 @@ void SystemView::Draw3D()
 			}
 		}
 	}
-	glLineWidth(1);
+	// glLineWidth(1);
 
 	if(m_shipDrawing != OFF) {
 		RefreshShips();

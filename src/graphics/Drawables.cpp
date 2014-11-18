@@ -184,9 +184,9 @@ void Line3D::Draw(Renderer *r, RenderState *rs)
 	}
 	// XXX would be nicer to draw this as a textured triangle strip
 	// can't guarantee linewidth support
-	glLineWidth(m_width);
+	// glLineWidth(m_width);
 	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::LINE_SINGLE);
-	glLineWidth(1.f);
+	// glLineWidth(1.f);
 }
 
 void Line3D::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
@@ -272,9 +272,9 @@ void Lines::Draw(Renderer *r, RenderState *rs, const PrimitiveType pt)
 	}
 	// XXX would be nicer to draw this as a textured triangle strip
 	// can't guarantee linewidth support
-	glLineWidth(m_width);
+	// glLineWidth(m_width);
 	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), pt);
-	glLineWidth(1.f);
+	// glLineWidth(1.f);
 }
 
 void Lines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
@@ -312,7 +312,7 @@ void PointSprites::SetData(const int count, const vector3f *positions, const mat
 
 	matrix4x4f rot(trans);
 	rot.ClearToRotOnly();
-	rot = rot.InverseOf();
+	rot = rot.Inverse();
 
 	const float sz = 0.5f * size;
 	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);

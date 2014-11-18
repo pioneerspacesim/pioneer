@@ -1,0 +1,36 @@
+// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#ifdef TEXTURE0
+out vec2 texCoord0;
+#endif
+#ifdef VERTEXCOLOR
+out vec4 vertexColor;
+#endif
+#if (NUM_LIGHTS > 0)
+out vec3 eyePos;
+out vec3 normal;
+	#ifdef HEAT_COLOURING
+		uniform mat3 heatingMatrix;
+		uniform vec3 heatingNormal; // normalised
+		out vec3 heatingDir;
+	#endif // HEAT_COLOURING
+#endif
+
+void main(void)
+{
+	gl_Position = logarithmicTransform();
+#ifdef VERTEXCOLOR
+	vertexColor = a_color;
+#endif
+#ifdef TEXTURE0
+	texCoord0 = a_uv0.xy;
+#endif
+#if (NUM_LIGHTS > 0)
+	eyePos = vec3(uViewMatrix * a_vertex);
+	normal = normalize(uNormalMatrix * vec4(a_normal, 1.0)).xyz;
+#ifdef HEAT_COLOURING
+	heatingDir = normalize(heatingMatrix * heatingNormal);
+#endif
+#endif
+}

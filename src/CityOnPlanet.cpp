@@ -188,7 +188,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		}
 	}
 	assert(!models.empty());
-	//Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
@@ -200,8 +200,9 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
 		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
-		//Output("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
+		Output(" - %s: %f\n", (*m)->GetName().c_str(), list->buildings[i].xzradius);
 	}
+	Output("End of buildings.\n");
 }
 
 void CityOnPlanet::Init()

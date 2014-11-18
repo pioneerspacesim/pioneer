@@ -10,7 +10,7 @@
  * Users are responsible for deleting a material they have requested. This is because materials
  * are rarely shareable.
  * Material::Apply is called by renderer before drawing, and Unapply after drawing (to restore state).
- * For the GL2 renderer, a Material is always accompanied by a Program.
+ * For the OGL renderer, a Material is always accompanied by a Program.
  */
 #include "libs.h"
 #include <RefCounted.h>
@@ -18,13 +18,15 @@
 namespace Graphics {
 
 class Texture;
-class RendererGL2;
+class RendererOGL;
 
 // Shorthand for unique effects
 // The other descriptor parameters may or may not have effect,
 // depends on the effect
 enum EffectType {
 	EFFECT_DEFAULT,
+	EFFECT_VTXCOLOR,
+	EFFECT_UI,
 	EFFECT_STARFIELD,
 	EFFECT_PLANETRING,
 	EFFECT_GEOSPHERE_TERRAIN,
@@ -60,7 +62,7 @@ public:
 	bool usePatterns; //pattern/color system
 	bool vertexColors;
 	Sint32 textures; //texture count
-	Uint32 dirLights; //set by rendererGL2 if lighting == true
+	Uint32 dirLights; //set by RendererOGL if lighting == true
 	Uint32 quality; // see: Graphics::MaterialQuality
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
@@ -90,6 +92,8 @@ public:
 	virtual void Apply() { }
 	virtual void Unapply() { }
 
+	virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) = 0;
+
 	void *specialParameter0; //this can be whatever. Bit of a hack.
 
 	//XXX may not be necessary. Used by newmodel to check if a material uses patterns
@@ -99,7 +103,7 @@ protected:
 	MaterialDescriptor m_descriptor;
 
 private:
-	friend class RendererGL2;
+	friend class RendererOGL;
 };
 
 }

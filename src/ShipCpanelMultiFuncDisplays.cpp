@@ -143,7 +143,7 @@ void ScannerWidget::Draw()
 	// objects above
 	if (!m_contacts.empty()) DrawBlobs(false);
 
-	glLineWidth(1.f);
+	// glLineWidth(1.f);
 
 	SetScissor(false);
 }
@@ -345,11 +345,11 @@ void ScannerWidget::DrawBlobs(bool below)
 
 		float pointSize = 1.f;
 		if (weight == WEIGHT_LIGHT) {
-			glLineWidth(1);
+			// glLineWidth(1);
 			pointSize = 3.f;
 		}
 		else {
-			glLineWidth(2);
+			// glLineWidth(2);
 			pointSize = 4.f;
 		}
 

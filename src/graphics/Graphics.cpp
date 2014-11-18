@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
-#include "RendererGL2.h"
+#include "opengl/RendererGL.h"
 #include "OS.h"
 #include "StringF.h"
 #include <sstream>
@@ -68,6 +68,7 @@ static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error =
 			out << gl_error_to_string(err) << " ";
 			err = glGetError();
 		} while (err != GL_NO_ERROR);
+		out << std::endl;
 	}
 }
 
@@ -102,11 +103,9 @@ static void write_opengl_info(std::ostream &out)
 
 	out << "GLEW version " << glewGetString(GLEW_VERSION) << "\n";
 
-	if (glewIsSupported("GL_VERSION_2_0"))
-		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION_ARB) << "\n";
-
 	out << "Available extensions:" << "\n";
 	if (glewIsSupported("GL_VERSION_3_0")) {
+		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 		GLint numext = 0;
 		glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
 		for (int i = 0; i < numext; ++i) {
@@ -130,12 +129,7 @@ static void write_opengl_info(std::ostream &out)
 #define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
 
-	DUMP_GL_VALUE(GL_MAX_3D_TEXTURE_SIZE);
-	DUMP_GL_VALUE(GL_MAX_ATTRIB_STACK_DEPTH);
-	DUMP_GL_VALUE(GL_MAX_CLIENT_ATTRIB_STACK_DEPTH);
-	DUMP_GL_VALUE(GL_MAX_CLIP_PLANES);
 	DUMP_GL_VALUE(GL_MAX_COLOR_ATTACHMENTS_EXT);
-	DUMP_GL_VALUE(GL_MAX_COLOR_MATRIX_STACK_DEPTH);
 	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
 	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
 	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
@@ -143,22 +137,12 @@ static void write_opengl_info(std::ostream &out)
 	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
 	DUMP_GL_VALUE(GL_MAX_EVAL_ORDER);
 	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(GL_MAX_LIGHTS);
-	DUMP_GL_VALUE(GL_MAX_LIST_NESTING);
-	DUMP_GL_VALUE(GL_MAX_MODELVIEW_STACK_DEPTH);
-	DUMP_GL_VALUE(GL_MAX_NAME_STACK_DEPTH);
-	DUMP_GL_VALUE(GL_MAX_PIXEL_MAP_TABLE);
-	DUMP_GL_VALUE(GL_MAX_PROJECTION_STACK_DEPTH);
 	DUMP_GL_VALUE(GL_MAX_RENDERBUFFER_SIZE_EXT);
 	DUMP_GL_VALUE(GL_MAX_SAMPLES_EXT);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_COORDS);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_STACK_DEPTH);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_UNITS);
-	DUMP_GL_VALUE(GL_MAX_VARYING_FLOATS);
 	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
 	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
 	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
@@ -166,7 +150,6 @@ static void write_opengl_info(std::ostream &out)
 	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
 	DUMP_GL_VALUE(GL_SAMPLES);
 	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
-	DUMP_GL_VALUE2(GL_ALIASED_POINT_SIZE_RANGE);
 	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
 	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
 	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
@@ -201,6 +184,8 @@ static void write_opengl_info(std::ostream &out)
 			}
 		}
 	}
+	// one last time
+	dump_and_clear_opengl_errors(out);
 }
 
 Renderer* Init(Settings vs)
@@ -221,6 +206,7 @@ Renderer* Init(Settings vs)
 	width = window->GetWidth();
 	height = window->GetHeight();
 
+	glewExperimental = true;
 	GLenum glew_err;
 	if ((glew_err = glewInit()) != GLEW_OK)
 		Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
@@ -237,27 +223,42 @@ Renderer* Init(Settings vs)
 		fclose(f);
 	}
 
-	if (!glewIsSupported("GL_VERSION_2_0") )
-		Error("OpenGL Version 2.0 is not supported. Pioneer cannot run on your graphics card.");
+	// pump this once as glewExperimental is necessary but spews a single error
+	GLenum err = glGetError();
 
-	if (!glewIsSupported("GL_ARB_vertex_buffer_object"))
-		Error("OpenGL extension ARB_vertex_buffer_object not supported. Pioneer can not run on your graphics card.");
+	if (!glewIsSupported("GL_VERSION_3_2") )
+		Error("OpenGL Version 3.2 is not supported. Pioneer cannot run on your graphics card.");
 
+	// Brilliantly under OpenGL 3.2 CORE profile Glew says this isn't supported, this forces us to use a COMPATIBILITY profile :/
 	if (!glewIsSupported("GL_EXT_texture_compression_s3tc"))
-		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
+	{
+		if (glewIsSupported("GL_ARB_texture_compression")) {
+			GLint intv[4];
+			glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &intv[0]);
+			if( intv[0] == 0 ) {
+				Error("GL_NUM_COMPRESSED_TEXTURE_FORMATS is zero.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
+			}
+		} else {
+			Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
+		}
+	}
 
 	// We deliberately ignore the value from GL_NUM_COMPRESSED_TEXTURE_FORMATS, because some drivers
 	// choose not to list any formats (despite supporting texture compression). See issue #3132.
 	// This is (probably) allowed by the spec, which states that only formats which are "suitable
 	// for general-purpose usage" should be enumerated.
 
-	Renderer *renderer = new RendererGL2(window, vs);
+	Renderer *renderer = new RendererOGL(window, vs);
 
 	Output("Initialized %s\n", renderer->GetName());
+
+	std::ostringstream dummy;
+	dump_and_clear_opengl_errors(dummy);
 
 	initted = true;
 
 	MaterialDescriptor desc;
+	desc.effect = EFFECT_VTXCOLOR;
 	desc.vertexColors = true;
 	vtxColorMaterial = renderer->CreateMaterial(desc);
 	vtxColorMaterial->IncRefCount();

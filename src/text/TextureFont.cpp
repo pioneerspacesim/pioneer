@@ -480,6 +480,8 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	, m_atlasV(0)
 	, m_atlasVIncrement(0)
 {
+	Graphics::CheckRenderErrors();
+
 	FT_Error err; // used to store freetype error return codes
 
 	err = FT_Init_FreeType(&m_ftLib);
@@ -498,8 +500,12 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
+	Graphics::CheckRenderErrors();
+
 	m_texFormat = m_config.IsOutline() ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
 	m_bpp = m_config.IsOutline() ? 2 : 1;
+
+	Graphics::CheckRenderErrors();
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
@@ -507,6 +513,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	m_renderState = m_renderer->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_UI;
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.reset(m_renderer->CreateMaterial(desc));
