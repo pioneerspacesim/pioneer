@@ -255,6 +255,10 @@
       "description" : "mission deadline date",
       "message" : "Due"
    },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
+   },
    "D_DAYS_LEFT" : {
       "description" : "",
       "message" : "Days left: %d"

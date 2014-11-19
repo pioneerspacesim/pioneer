@@ -69,6 +69,15 @@ local unserialize = function (data)
 end
 
 
+local onJettison = function(ship, cargo)
+	if ship:IsPlayer() then
+		if cargo.price <= 0 or not Game.system:IsCommodityLegal(cargo) then
+			Legal:notifyOfCrime(ship,"DUMPING")
+		end
+	end
+end
+
+
 local onShipHit = function(ship, attacker)
 	if attacker and attacker:IsPlayer() then
 		Legal:notifyOfCrime(ship,"PIRACY")
