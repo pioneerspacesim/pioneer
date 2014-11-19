@@ -16,12 +16,15 @@ noinst_HEADERS = \
 	Light.h \
 	Material.h \
 	RenderState.h \
+	PostProcess.h \
+	PostProcessing.h \
 	VertexArray.h \
 	Texture.h \
 	TextureBuilder.h \
 	Drawables.h \
 	Types.h \
 	VertexBuffer.h \
+	opengl/BloomCompositorMaterial.h \
 	opengl/GLDebug.h \
 	opengl/MaterialGL.h \
 	opengl/RenderStateGL.h \
@@ -30,6 +33,7 @@ noinst_HEADERS = \
 	opengl/FresnelColourMaterial.h \
 	opengl/GasGiantMaterial.h \
 	opengl/GeoSphereMaterial.h \
+	opengl/HorizontalBlurMaterial.h \
 	opengl/MultiMaterial.h \
 	opengl/Program.h \
 	opengl/RendererGL.h \
@@ -38,8 +42,10 @@ noinst_HEADERS = \
 	opengl/StarfieldMaterial.h \
 	opengl/SkyboxMaterial.h \
 	opengl/TextureGL.h \
+	opengl/TexturedFullscreenQuad.h \
 	opengl/UIMaterial.h \
 	opengl/Uniform.h \
+	opengl/VerticalBlurMaterial.h \
 	opengl/VtxColorMaterial.h
 
 libgraphics_a_SOURCES = \
@@ -49,6 +55,8 @@ libgraphics_a_SOURCES = \
 	Frustum.cpp \
 	Light.cpp \
 	Material.cpp \
+	PostProcess.cpp \
+	PostProcessing.cpp \
 	VertexArray.cpp \
 	TextureBuilder.cpp \
 	Drawables.cpp \
