@@ -17,11 +17,11 @@
    },
    "FLAVOUR_1_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
+      "message" : "Привет! Меня зовут {name}. У меня есть практически новенький {equipment} всего за {price}!"
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: Practically unused {equipment}, at an affordable price!"
+      "message" : "ПРОДАЖА: Практически неиспользованный {equipment} по доступной цене!"
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_4_BODY" : {
       "description" : "",
-      "message" : "Hi! We have an extra {equipment} which could be yours for {price}."
+      "message" : "Привет! У меня есть особый {equipment}, который может стать вашим всего за  {price}."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -49,11 +49,11 @@
    },
    "FLAVOUR_5_BODY" : {
       "description" : "",
-      "message" : "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
+      "message" : "Приветствую! Хотите купить мой старенький {equipment}? Он сослужил мне хорошую службу, но теперь я обновил своё оборудование и это стало не нужным. Цена {price}."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Old {equipment}, in working condition."
+      "message" : "В ПРОДАЖЕ: Старенький {equipment}, ещё в рабочем состоянии!"
    },
    "HANG_UP" : {
       "description" : "",
@@ -65,11 +65,11 @@
    },
    "HOW_DO_I_FITT_IT" : {
       "description" : "Regarding installing a component on the ship",
-      "message" : "How do I fit it?"
+      "message" : "Как мне это установить?"
    },
    "REPEAT_OFFER" : {
       "description" : "",
-      "message" : "Repeat offer"
+      "message" : "Повторите предложение"
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",

@@ -1,4 +1,7 @@
 November 2014
+   * New Features
+     * Update to use OpenGL 3.2 (#3219)
+     
    * Script and UI API changes
      * Added random number from Poisson distribution (#3242)
 
@@ -10,6 +13,9 @@ November 2014
 
    * Fixes
      * Update deprecated gun tag on Lunar shuttle (#3245)
+
+   * Internal Changes
+     * The OSX build showed these might be shadowed (#3248)
 
 October 2014
    * Art

@@ -49,7 +49,7 @@ struct Color4ub {
 	Color4ub operator*(const float f) const		{ return Color4ub(Uint8(f*r), Uint8(f*g), Uint8(f*b), Uint8(f*a)); }
 	Color4ub operator/(const float f) const		{ return Color4ub(Uint8(r/f), Uint8(g/f), Uint8(b/f), Uint8(a/f)); }
 
-	friend bool operator==(const Color4ub& a, const Color4ub& b) { return ((a.r == b.r) && (a.g == b.g) && (a.b == b.b) && (a.a == b.a)); }
+	friend bool operator==(const Color4ub& aIn, const Color4ub& bIn) { return ((aIn.r == bIn.r) && (aIn.g == bIn.g) && (aIn.b == bIn.b) && (aIn.a == bIn.a)); }
 
 	Color4f ToColor4f() const { return Color4f(r/255.0f, g/255.0f, b/255.0f, a/255.0f); }
 
