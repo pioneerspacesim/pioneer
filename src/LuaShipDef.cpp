@@ -198,7 +198,7 @@ void LuaShipDef::Register()
 
 	lua_newtable(l);
 
-	for (std::map<ShipType::Id,ShipType>::const_iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
+	for (std::map<ShipType::Id,const ShipType>::const_iterator i = ShipType::types.begin(); i != ShipType::types.end(); ++i)
 	{
 		const ShipType &st = (*i).second;
 		lua_newtable(l);

@@ -600,7 +600,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (pStatFile)
 	{
 		fprintf(pStatFile, "name,modelname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
-		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
+		for (std::map<std::string, const ShipType>::iterator i = ShipType::types.begin();
 				i != ShipType::types.end(); ++i)
 		{
 			const ShipType *shipdef = &(i->second);
