@@ -177,11 +177,6 @@ void Ship::InitGun(const char *tag, int num)
 		m_gun[num].pos = trans.GetTranslate();
 		m_gun[num].dir = trans.GetOrient().VectorZ();
 	}
-	else {
-		// XXX deprecated
-		m_gun[num].pos = m_type->gunMount[num].pos;
-		m_gun[num].dir = m_type->gunMount[num].dir;
-	}
 }
 
 void Ship::InitMaterials()
@@ -859,10 +854,8 @@ void Ship::FireWeapon(int num)
 	bool mining = prop.Get<int>(prefix+"mining");
 	if (prop.Get<int>(prefix+"dual"))
 	{
-		const ShipType::DualLaserOrientation orient = m_type->gunMount[num].orient;
-		const vector3d orient_norm =
-				(orient == ShipType::DUAL_LASERS_VERTICAL) ? m.VectorX() : m.VectorY();
-		const vector3d sep = m_type->gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
+		const vector3d orient_norm = m.VectorY();
+		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
 
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos + sep, baseVel, dirVel);
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos - sep, baseVel, dirVel);

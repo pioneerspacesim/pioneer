@@ -76,8 +76,6 @@ void InternalCameraController::Reset()
 	const SceneGraph::MatrixTransform *fallback = m->FindTagByName("tag_camera");
 	if (fallback)
 		fallbackTransform = fallback->GetTransform() * matrix4x4f::RotateYMatrix(M_PI);
-	else
-		fallbackTransform = matrix4x4f::Translation(vector3f(GetShip()->GetShipType()->cameraOffset)); // XXX deprecated
 
 	FillCameraPosOrient(m, "tag_camera_front",  m_frontPos,  m_frontOrient,  fallbackTransform, matrix3x3d::Identity());
 	FillCameraPosOrient(m, "tag_camera_rear",   m_rearPos,   m_rearOrient,   fallbackTransform, matrix3x3d::RotateY(M_PI));
