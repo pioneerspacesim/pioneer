@@ -11,7 +11,8 @@
 class Ship;
 namespace SceneGraph { class Model; }
 
-struct SpaceStationType {
+class SpaceStationType {
+public:
 	typedef std::map<Uint32, matrix4x4f> TMapBayIDMat;
 	struct PortPath
 	{
@@ -19,7 +20,6 @@ struct SpaceStationType {
 		TMapBayIDMat m_leaving;
 	};
 	typedef std::map<Uint32, PortPath> PortPathMap;
-	PortPathMap m_portPaths;
 
 	struct SPort {
 		static const int BAD_PORT_ID = -1;
@@ -33,6 +33,14 @@ struct SpaceStationType {
 	};
 	typedef std::vector<SPort> TPorts;
 
+	struct positionOrient_t {
+		vector3d pos;
+		vector3d xaxis;
+		vector3d yaxis;
+		vector3d zaxis;
+	};
+	
+private:
 	std::string id;
 	SceneGraph::Model *model;
 	std::string modelName;
@@ -44,17 +52,15 @@ struct SpaceStationType {
 	int shipLaunchStage;
 	float parkingDistance;
 	float parkingGapSize;
+	PortPathMap m_portPaths;
 	TPorts m_ports;
 	float padOffset;
 
-	struct positionOrient_t {
-		vector3d pos;
-		vector3d xaxis;
-		vector3d yaxis;
-		vector3d zaxis;
-	};
+	static std::vector<SpaceStationType> surfaceTypes;
+	static std::vector<SpaceStationType> orbitalTypes;
 
-	SpaceStationType();
+public:
+	SpaceStationType(const std::string &id, const std::string &path);
 
 	void OnSetupComplete();
 	const SPort* FindPortByBay(const int zeroBaseBayID) const;
@@ -71,10 +77,21 @@ struct SpaceStationType {
 	 * ship has been released and is under player control again */
 	bool GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 
+	const std::string& ModelName() const { return modelName; }
+	float AngVel() const { return angVel; }
+	bool IsSurfaceStation() const { return (SURFACE==dockMethod); }
+	bool IsOrbitalStation() const { return (ORBITAL==dockMethod); }
+	unsigned int NumDockingPorts() const { return numDockingPorts; }
+	int NumDockingStages() const { return numDockingStages; }
+	int NumUndockStages() const { return numUndockStages; }
+	int ShipLaunchStage() const { return shipLaunchStage; }
+	float ParkingDistance() const { return parkingDistance; }
+	float ParkingGapSize() const { return parkingGapSize; }
+	const TPorts& Ports() const { return m_ports; }
+
 	static void Init();
-	static void Uninit();
-	static std::vector<SpaceStationType> surfaceStationTypes;
-	static std::vector<SpaceStationType> orbitalStationTypes;
+
+	static const SpaceStationType* RandomStationType(Random &random, const bool bIsGround);
 };
 
 #endif

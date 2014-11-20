@@ -662,7 +662,6 @@ void Pi::Quit()
 	Shields::Uninit();
 	Sfx::Uninit();
 	Sound::Uninit();
-	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
 	FaceParts::Uninit();

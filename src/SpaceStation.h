@@ -28,13 +28,12 @@ class SpaceStation: public ModelBody {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
-	static void Uninit();
 
 	// Should point to SystemBody in Pi::currentSystem
 	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->angVel,0); }
+	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->AngVel(),0); }
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void StaticUpdate(const float timeStep);
@@ -53,7 +52,7 @@ public:
 	void SwapDockedShipsPort(const int oldPort, const int newPort);
 
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
-	int GetDockingPortCount() const { return m_type->numDockingPorts; }
+	int GetDockingPortCount() const { return m_type->NumDockingPorts(); }
 	int GetFreeDockingPort(const Ship *s) const; // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const;
 	int NumShipsDocked() const;
