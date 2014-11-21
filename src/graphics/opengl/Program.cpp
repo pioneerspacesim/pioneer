@@ -43,6 +43,19 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		return false;
 	}
 
+	if (!isShader) {
+		// perform general validation that the program is usable
+		glValidateProgram(obj);
+ 
+		glGetProgramiv(obj, GL_VALIDATE_STATUS, &status);
+		
+		if (status == GL_FALSE) {
+			Error("Error vaildating shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+			return false;
+		}
+	}
+
 	// Log warnings even if successfully compiled
 	// Sometimes the log is full of junk "success" messages so
 	// this is not a good use for OS::Warning
