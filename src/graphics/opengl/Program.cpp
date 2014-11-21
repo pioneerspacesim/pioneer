@@ -208,7 +208,7 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	//create program, attach shaders and link
 	m_program = glCreateProgram();
 	if(glIsProgram(m_program)!=GL_TRUE)
-		throw ShaderException();
+		throw ProgramException();
 
 	glAttachShader(m_program, vs.shader);
 	if( m_bHasGeomShader ) {
