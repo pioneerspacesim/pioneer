@@ -211,8 +211,9 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 		throw ShaderException();
 
 	glAttachShader(m_program, vs.shader);
-	if( m_bHasGeomShader )
+	if( m_bHasGeomShader ) {
 		glAttachShader(m_program, gs->shader);
+	}
 	glAttachShader(m_program, fs.shader);
 
 	//extra attribs, if they exist
