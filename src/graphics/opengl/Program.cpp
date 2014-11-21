@@ -109,6 +109,9 @@ struct Shader {
 		}
 #endif
 		shader = glCreateShader(type);
+		if(glIsShader(shader)!=GL_TRUE)
+			throw ShaderException();
+
 		Compile(shader);
 
 		// CheckGLSL may use OS::Warning instead of Error so the game may still (attempt to) run
@@ -204,6 +207,9 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 
 	//create program, attach shaders and link
 	m_program = glCreateProgram();
+	if(glIsProgram(m_program)!=GL_TRUE)
+		throw ShaderException();
+
 	glAttachShader(m_program, vs.shader);
 	if( m_bHasGeomShader )
 		glAttachShader(m_program, gs->shader);
