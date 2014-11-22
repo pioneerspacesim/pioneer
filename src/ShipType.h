@@ -75,9 +75,9 @@ struct ShipType {
 	static const std::string MISSILE_UNGUIDED;
 
 	static std::map<Id, const ShipType> types;
-	static std::vector<Id> player_ships;
-	static std::vector<Id> static_ships;
-	static std::vector<Id> missile_ships;
+	static std::vector<const Id> player_ships;
+	static std::vector<const Id> static_ships;
+	static std::vector<const Id> missile_ships;
 
 	static void Init();
 	static const ShipType *Get(const char *name) {

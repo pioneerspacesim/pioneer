@@ -1,8 +1,10 @@
 // Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#define ALLOW_LUA_SHIP_DEF 1
+
 #include "ShipType.h"
-#if 0
+#if ALLOW_LUA_SHIP_DEF
 #include "LuaVector.h"
 #include "LuaUtils.h"
 #include "LuaTable.h"
@@ -16,9 +18,9 @@
 
 
 std::map<ShipType::Id, const ShipType> ShipType::types;
-std::vector<ShipType::Id> ShipType::player_ships;
-std::vector<ShipType::Id> ShipType::static_ships;
-std::vector<ShipType::Id> ShipType::missile_ships;
+std::vector<const ShipType::Id> ShipType::player_ships;
+std::vector<const ShipType::Id> ShipType::static_ships;
+std::vector<const ShipType::Id> ShipType::missile_ships;
 
 const std::string ShipType::POLICE				= "kanara";
 const std::string ShipType::MISSILE_GUIDED		= "missile_guided";
@@ -130,9 +132,9 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	hyperdriveClass = data.get("hyperdrive_class", 1).asInt();
 }
 
-#if 0
+#if ALLOW_LUA_SHIP_DEF
 static std::string s_currentShipFile;
-int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const std::string&> *list)
+int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const ShipType::Id> &list)
 {
 	if (s_currentShipFile.empty())
 		return luaL_error(L, "ship file contains multiple ship definitions");
@@ -238,7 +240,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const std::string&
 	Json::StyledWriter writer;
 	const std::string saveMe = writer.write( data );
 
-	const std::string path("ships/" + s.modelName + ".json");
+	const std::string path("ships/" + s_currentShipFile + ".json");
 	FileSystem::FileSourceFS newFS(FileSystem::GetDataDir());
 	FILE *f = newFS.OpenWriteStream(path);
 	if (!f) {
@@ -265,7 +267,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const std::string&
 	typedef std::map<std::string, const ShipType>::iterator iter;
 	std::pair<iter, bool> result = ShipType::types.insert(std::make_pair(id, s));
 	if (result.second)
-		list->push_back(s_currentShipFile);
+		list.push_back(s_currentShipFile);
 	else
 		return luaL_error(L, "Ship '%s' was already defined by a different file", id.c_str());
 	s_currentShipFile.clear();
@@ -275,29 +277,50 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const std::string&
 
 int define_ship(lua_State *L)
 {
-	return _define_ship(L, ShipType::TAG_SHIP, &ShipType::player_ships);
+	return _define_ship(L, ShipType::TAG_SHIP, ShipType::player_ships);
 }
 
 int define_static_ship(lua_State *L)
 {
-	return _define_ship(L, ShipType::TAG_STATIC_SHIP, &ShipType::static_ships);
+	return _define_ship(L, ShipType::TAG_STATIC_SHIP, ShipType::static_ships);
 }
 
 int define_missile(lua_State *L)
 {
-	return _define_ship(L, ShipType::TAG_MISSILE, &ShipType::missile_ships);
+	return _define_ship(L, ShipType::TAG_MISSILE, ShipType::missile_ships);
 }
 #endif
 
 void ShipType::Init()
 {
-
 	static bool isInitted = false;
 	if (isInitted) 
 		return;
 	isInitted = true;
 
-#if 0
+	// load all ship definitions
+	namespace fs = FileSystem;
+	for (fs::FileEnumerator files(fs::gameDataFiles, "ships", fs::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
+		const fs::FileInfo &info = files.Current();
+		if (ends_with_ci(info.GetPath(), ".json")) {
+			const std::string id(info.GetName().substr(0, info.GetName().size()-5));
+			ShipType st = ShipType(id, info.GetPath());
+			types.insert(std::make_pair(st.id, st));
+
+			// assign the names to the various lists
+			switch( st.tag ) {
+			case TAG_SHIP:				player_ships.push_back(id);				break;
+			case TAG_STATIC_SHIP:		static_ships.push_back(id);				break;
+			case TAG_MISSILE:			missile_ships.push_back(id);			break;
+				break;
+			case TAG_NONE:
+			default:
+				break;
+			}
+		}
+	}
+
+#if ALLOW_LUA_SHIP_DEF
 	lua_State *l = luaL_newstate();
 
 	LUA_DEBUG_START(l);
@@ -329,14 +352,16 @@ void ShipType::Init()
 
 	// load all ship definitions
 	namespace fs = FileSystem;
-	for (fs::FileEnumerator files(fs::gameDataFiles, "ships", fs::FileEnumerator::Recurse);
-			!files.Finished(); files.Next()) {
+	for (fs::FileEnumerator files(fs::gameDataFiles, "ships", fs::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
 		const fs::FileInfo &info = files.Current();
 		if (ends_with_ci(info.GetPath(), ".lua")) {
 			const std::string name = info.GetName();
-			s_currentShipFile = name.substr(0, name.size()-4);
-			pi_lua_dofile(l, info.GetPath());
-			s_currentShipFile.clear();
+			s_currentShipFile = name.substr(0, name.size() - 4);
+			if (ShipType::types.find(s_currentShipFile) == ShipType::types.end())
+			{
+				pi_lua_dofile(l, info.GetPath());
+				s_currentShipFile.clear();
+			}
 		}
 	}
 
@@ -344,28 +369,6 @@ void ShipType::Init()
 
 	lua_close(l);
 #endif
-
-	// load all ship definitions
-	namespace fs = FileSystem;
-	for (fs::FileEnumerator files(fs::gameDataFiles, "ships", fs::FileEnumerator::Recurse); !files.Finished(); files.Next()) {
-		const fs::FileInfo &info = files.Current();
-		if (ends_with_ci(info.GetPath(), ".json")) {
-			const std::string id(info.GetName().substr(0, info.GetName().size()-5));
-			ShipType st = ShipType(id, info.GetPath());
-			types.insert(std::make_pair(st.id, st));
-
-			// assign the names to the various lists
-			switch( st.tag ) {
-			case TAG_SHIP:				player_ships.push_back(id);				break;
-			case TAG_STATIC_SHIP:		static_ships.push_back(id);				break;
-			case TAG_MISSILE:			missile_ships.push_back(id);			break;
-				break;
-			case TAG_NONE:
-			default:
-				break;
-			}
-		}
-	}
 
 	//remove unbuyable ships from player ship list
 	ShipType::player_ships.erase(
