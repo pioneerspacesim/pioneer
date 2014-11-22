@@ -25,6 +25,8 @@
 #include <algorithm>
 #include <memory>
 
+// The glLoadGen header was generated using the following command line:
+// lua LoadGen.lua -style=pointer_cpp -spec=gl -version=3.2 -profile=core core_3_2 -stdext=gl_ubiquitous.txt -stdext=gl_core_post_3_3.txt 
 #include "graphics/opengl/gl_core_3_2.hpp"
 
 #ifdef _WIN32

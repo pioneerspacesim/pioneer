@@ -103,8 +103,640 @@ namespace gl
 		LoadTest var_EXT_texture_compression_s3tc;
 		LoadTest var_EXT_texture_sRGB;
 		LoadTest var_EXT_texture_filter_anisotropic;
+		LoadTest var_ARB_compressed_texture_pixel_storage;
+		LoadTest var_ARB_conservative_depth;
+		LoadTest var_ARB_ES2_compatibility;
+		LoadTest var_ARB_get_program_binary;
+		LoadTest var_ARB_explicit_uniform_location;
+		LoadTest var_ARB_internalformat_query;
+		LoadTest var_ARB_internalformat_query2;
+		LoadTest var_ARB_map_buffer_alignment;
+		LoadTest var_ARB_program_interface_query;
+		LoadTest var_ARB_separate_shader_objects;
+		LoadTest var_ARB_shading_language_420pack;
+		LoadTest var_ARB_shading_language_packing;
+		LoadTest var_ARB_texture_buffer_range;
+		LoadTest var_ARB_texture_storage;
+		LoadTest var_ARB_texture_view;
+		LoadTest var_ARB_vertex_attrib_binding;
+		LoadTest var_ARB_viewport_array;
+		LoadTest var_ARB_arrays_of_arrays;
+		LoadTest var_ARB_clear_buffer_object;
+		LoadTest var_ARB_copy_image;
+		LoadTest var_ARB_ES3_compatibility;
+		LoadTest var_ARB_fragment_layer_viewport;
+		LoadTest var_ARB_framebuffer_no_attachments;
+		LoadTest var_ARB_invalidate_subdata;
+		LoadTest var_ARB_robust_buffer_access_behavior;
+		LoadTest var_ARB_stencil_texturing;
+		LoadTest var_ARB_texture_query_levels;
+		LoadTest var_ARB_texture_storage_multisample;
+		LoadTest var_KHR_debug;
 		
 	} //namespace exts
+	typedef void (CODEGEN_FUNCPTR *PFNCLEARDEPTHF)(GLfloat);
+	PFNCLEARDEPTHF ClearDepthf = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNDEPTHRANGEF)(GLfloat, GLfloat);
+	PFNDEPTHRANGEF DepthRangef = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETSHADERPRECISIONFORMAT)(GLenum, GLenum, GLint *, GLint *);
+	PFNGETSHADERPRECISIONFORMAT GetShaderPrecisionFormat = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNRELEASESHADERCOMPILER)();
+	PFNRELEASESHADERCOMPILER ReleaseShaderCompiler = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNSHADERBINARY)(GLsizei, const GLuint *, GLenum, const GLvoid *, GLsizei);
+	PFNSHADERBINARY ShaderBinary = 0;
+	
+	static int Load_ARB_ES2_compatibility()
+	{
+		int numFailed = 0;
+		ClearDepthf = reinterpret_cast<PFNCLEARDEPTHF>(IntGetProcAddress("glClearDepthf"));
+		if(!ClearDepthf) ++numFailed;
+		DepthRangef = reinterpret_cast<PFNDEPTHRANGEF>(IntGetProcAddress("glDepthRangef"));
+		if(!DepthRangef) ++numFailed;
+		GetShaderPrecisionFormat = reinterpret_cast<PFNGETSHADERPRECISIONFORMAT>(IntGetProcAddress("glGetShaderPrecisionFormat"));
+		if(!GetShaderPrecisionFormat) ++numFailed;
+		ReleaseShaderCompiler = reinterpret_cast<PFNRELEASESHADERCOMPILER>(IntGetProcAddress("glReleaseShaderCompiler"));
+		if(!ReleaseShaderCompiler) ++numFailed;
+		ShaderBinary = reinterpret_cast<PFNSHADERBINARY>(IntGetProcAddress("glShaderBinary"));
+		if(!ShaderBinary) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNGETPROGRAMBINARY)(GLuint, GLsizei, GLsizei *, GLenum *, GLvoid *);
+	PFNGETPROGRAMBINARY GetProgramBinary = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMBINARY)(GLuint, GLenum, const GLvoid *, GLsizei);
+	PFNPROGRAMBINARY ProgramBinary = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMPARAMETERI)(GLuint, GLenum, GLint);
+	PFNPROGRAMPARAMETERI ProgramParameteri = 0;
+	
+	static int Load_ARB_get_program_binary()
+	{
+		int numFailed = 0;
+		GetProgramBinary = reinterpret_cast<PFNGETPROGRAMBINARY>(IntGetProcAddress("glGetProgramBinary"));
+		if(!GetProgramBinary) ++numFailed;
+		ProgramBinary = reinterpret_cast<PFNPROGRAMBINARY>(IntGetProcAddress("glProgramBinary"));
+		if(!ProgramBinary) ++numFailed;
+		ProgramParameteri = reinterpret_cast<PFNPROGRAMPARAMETERI>(IntGetProcAddress("glProgramParameteri"));
+		if(!ProgramParameteri) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNGETINTERNALFORMATIV)(GLenum, GLenum, GLenum, GLsizei, GLint *);
+	PFNGETINTERNALFORMATIV GetInternalformativ = 0;
+	
+	static int Load_ARB_internalformat_query()
+	{
+		int numFailed = 0;
+		GetInternalformativ = reinterpret_cast<PFNGETINTERNALFORMATIV>(IntGetProcAddress("glGetInternalformativ"));
+		if(!GetInternalformativ) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNGETINTERNALFORMATI64V)(GLenum, GLenum, GLenum, GLsizei, GLint64 *);
+	PFNGETINTERNALFORMATI64V GetInternalformati64v = 0;
+	
+	static int Load_ARB_internalformat_query2()
+	{
+		int numFailed = 0;
+		GetInternalformati64v = reinterpret_cast<PFNGETINTERNALFORMATI64V>(IntGetProcAddress("glGetInternalformati64v"));
+		if(!GetInternalformati64v) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNGETPROGRAMINTERFACEIV)(GLuint, GLenum, GLenum, GLint *);
+	PFNGETPROGRAMINTERFACEIV GetProgramInterfaceiv = 0;
+	typedef GLuint (CODEGEN_FUNCPTR *PFNGETPROGRAMRESOURCEINDEX)(GLuint, GLenum, const GLchar *);
+	PFNGETPROGRAMRESOURCEINDEX GetProgramResourceIndex = 0;
+	typedef GLint (CODEGEN_FUNCPTR *PFNGETPROGRAMRESOURCELOCATION)(GLuint, GLenum, const GLchar *);
+	PFNGETPROGRAMRESOURCELOCATION GetProgramResourceLocation = 0;
+	typedef GLint (CODEGEN_FUNCPTR *PFNGETPROGRAMRESOURCELOCATIONINDEX)(GLuint, GLenum, const GLchar *);
+	PFNGETPROGRAMRESOURCELOCATIONINDEX GetProgramResourceLocationIndex = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETPROGRAMRESOURCENAME)(GLuint, GLenum, GLuint, GLsizei, GLsizei *, GLchar *);
+	PFNGETPROGRAMRESOURCENAME GetProgramResourceName = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETPROGRAMRESOURCEIV)(GLuint, GLenum, GLuint, GLsizei, const GLenum *, GLsizei, GLsizei *, GLint *);
+	PFNGETPROGRAMRESOURCEIV GetProgramResourceiv = 0;
+	
+	static int Load_ARB_program_interface_query()
+	{
+		int numFailed = 0;
+		GetProgramInterfaceiv = reinterpret_cast<PFNGETPROGRAMINTERFACEIV>(IntGetProcAddress("glGetProgramInterfaceiv"));
+		if(!GetProgramInterfaceiv) ++numFailed;
+		GetProgramResourceIndex = reinterpret_cast<PFNGETPROGRAMRESOURCEINDEX>(IntGetProcAddress("glGetProgramResourceIndex"));
+		if(!GetProgramResourceIndex) ++numFailed;
+		GetProgramResourceLocation = reinterpret_cast<PFNGETPROGRAMRESOURCELOCATION>(IntGetProcAddress("glGetProgramResourceLocation"));
+		if(!GetProgramResourceLocation) ++numFailed;
+		GetProgramResourceLocationIndex = reinterpret_cast<PFNGETPROGRAMRESOURCELOCATIONINDEX>(IntGetProcAddress("glGetProgramResourceLocationIndex"));
+		if(!GetProgramResourceLocationIndex) ++numFailed;
+		GetProgramResourceName = reinterpret_cast<PFNGETPROGRAMRESOURCENAME>(IntGetProcAddress("glGetProgramResourceName"));
+		if(!GetProgramResourceName) ++numFailed;
+		GetProgramResourceiv = reinterpret_cast<PFNGETPROGRAMRESOURCEIV>(IntGetProcAddress("glGetProgramResourceiv"));
+		if(!GetProgramResourceiv) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNACTIVESHADERPROGRAM)(GLuint, GLuint);
+	PFNACTIVESHADERPROGRAM ActiveShaderProgram = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNBINDPROGRAMPIPELINE)(GLuint);
+	PFNBINDPROGRAMPIPELINE BindProgramPipeline = 0;
+	typedef GLuint (CODEGEN_FUNCPTR *PFNCREATESHADERPROGRAMV)(GLenum, GLsizei, const GLchar *const*);
+	PFNCREATESHADERPROGRAMV CreateShaderProgramv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNDELETEPROGRAMPIPELINES)(GLsizei, const GLuint *);
+	PFNDELETEPROGRAMPIPELINES DeleteProgramPipelines = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGENPROGRAMPIPELINES)(GLsizei, GLuint *);
+	PFNGENPROGRAMPIPELINES GenProgramPipelines = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETPROGRAMPIPELINEINFOLOG)(GLuint, GLsizei, GLsizei *, GLchar *);
+	PFNGETPROGRAMPIPELINEINFOLOG GetProgramPipelineInfoLog = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETPROGRAMPIPELINEIV)(GLuint, GLenum, GLint *);
+	PFNGETPROGRAMPIPELINEIV GetProgramPipelineiv = 0;
+	typedef GLboolean (CODEGEN_FUNCPTR *PFNISPROGRAMPIPELINE)(GLuint);
+	PFNISPROGRAMPIPELINE IsProgramPipeline = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1D)(GLuint, GLint, GLdouble);
+	PFNPROGRAMUNIFORM1D ProgramUniform1d = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1DV)(GLuint, GLint, GLsizei, const GLdouble *);
+	PFNPROGRAMUNIFORM1DV ProgramUniform1dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1F)(GLuint, GLint, GLfloat);
+	PFNPROGRAMUNIFORM1F ProgramUniform1f = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1FV)(GLuint, GLint, GLsizei, const GLfloat *);
+	PFNPROGRAMUNIFORM1FV ProgramUniform1fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1I)(GLuint, GLint, GLint);
+	PFNPROGRAMUNIFORM1I ProgramUniform1i = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1IV)(GLuint, GLint, GLsizei, const GLint *);
+	PFNPROGRAMUNIFORM1IV ProgramUniform1iv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1UI)(GLuint, GLint, GLuint);
+	PFNPROGRAMUNIFORM1UI ProgramUniform1ui = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM1UIV)(GLuint, GLint, GLsizei, const GLuint *);
+	PFNPROGRAMUNIFORM1UIV ProgramUniform1uiv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2D)(GLuint, GLint, GLdouble, GLdouble);
+	PFNPROGRAMUNIFORM2D ProgramUniform2d = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2DV)(GLuint, GLint, GLsizei, const GLdouble *);
+	PFNPROGRAMUNIFORM2DV ProgramUniform2dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2F)(GLuint, GLint, GLfloat, GLfloat);
+	PFNPROGRAMUNIFORM2F ProgramUniform2f = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2FV)(GLuint, GLint, GLsizei, const GLfloat *);
+	PFNPROGRAMUNIFORM2FV ProgramUniform2fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2I)(GLuint, GLint, GLint, GLint);
+	PFNPROGRAMUNIFORM2I ProgramUniform2i = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2IV)(GLuint, GLint, GLsizei, const GLint *);
+	PFNPROGRAMUNIFORM2IV ProgramUniform2iv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2UI)(GLuint, GLint, GLuint, GLuint);
+	PFNPROGRAMUNIFORM2UI ProgramUniform2ui = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM2UIV)(GLuint, GLint, GLsizei, const GLuint *);
+	PFNPROGRAMUNIFORM2UIV ProgramUniform2uiv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3D)(GLuint, GLint, GLdouble, GLdouble, GLdouble);
+	PFNPROGRAMUNIFORM3D ProgramUniform3d = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3DV)(GLuint, GLint, GLsizei, const GLdouble *);
+	PFNPROGRAMUNIFORM3DV ProgramUniform3dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3F)(GLuint, GLint, GLfloat, GLfloat, GLfloat);
+	PFNPROGRAMUNIFORM3F ProgramUniform3f = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3FV)(GLuint, GLint, GLsizei, const GLfloat *);
+	PFNPROGRAMUNIFORM3FV ProgramUniform3fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3I)(GLuint, GLint, GLint, GLint, GLint);
+	PFNPROGRAMUNIFORM3I ProgramUniform3i = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3IV)(GLuint, GLint, GLsizei, const GLint *);
+	PFNPROGRAMUNIFORM3IV ProgramUniform3iv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3UI)(GLuint, GLint, GLuint, GLuint, GLuint);
+	PFNPROGRAMUNIFORM3UI ProgramUniform3ui = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM3UIV)(GLuint, GLint, GLsizei, const GLuint *);
+	PFNPROGRAMUNIFORM3UIV ProgramUniform3uiv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4D)(GLuint, GLint, GLdouble, GLdouble, GLdouble, GLdouble);
+	PFNPROGRAMUNIFORM4D ProgramUniform4d = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4DV)(GLuint, GLint, GLsizei, const GLdouble *);
+	PFNPROGRAMUNIFORM4DV ProgramUniform4dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4F)(GLuint, GLint, GLfloat, GLfloat, GLfloat, GLfloat);
+	PFNPROGRAMUNIFORM4F ProgramUniform4f = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4FV)(GLuint, GLint, GLsizei, const GLfloat *);
+	PFNPROGRAMUNIFORM4FV ProgramUniform4fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4I)(GLuint, GLint, GLint, GLint, GLint, GLint);
+	PFNPROGRAMUNIFORM4I ProgramUniform4i = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4IV)(GLuint, GLint, GLsizei, const GLint *);
+	PFNPROGRAMUNIFORM4IV ProgramUniform4iv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4UI)(GLuint, GLint, GLuint, GLuint, GLuint, GLuint);
+	PFNPROGRAMUNIFORM4UI ProgramUniform4ui = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORM4UIV)(GLuint, GLint, GLsizei, const GLuint *);
+	PFNPROGRAMUNIFORM4UIV ProgramUniform4uiv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX2DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX2DV ProgramUniformMatrix2dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX2FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX2FV ProgramUniformMatrix2fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX2X3DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX2X3DV ProgramUniformMatrix2x3dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX2X3FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX2X3FV ProgramUniformMatrix2x3fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX2X4DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX2X4DV ProgramUniformMatrix2x4dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX2X4FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX2X4FV ProgramUniformMatrix2x4fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX3DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX3DV ProgramUniformMatrix3dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX3FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX3FV ProgramUniformMatrix3fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX3X2DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX3X2DV ProgramUniformMatrix3x2dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX3X2FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX3X2FV ProgramUniformMatrix3x2fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX3X4DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX3X4DV ProgramUniformMatrix3x4dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX3X4FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX3X4FV ProgramUniformMatrix3x4fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX4DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX4DV ProgramUniformMatrix4dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX4FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX4FV ProgramUniformMatrix4fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX4X2DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX4X2DV ProgramUniformMatrix4x2dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX4X2FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX4X2FV ProgramUniformMatrix4x2fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX4X3DV)(GLuint, GLint, GLsizei, GLboolean, const GLdouble *);
+	PFNPROGRAMUNIFORMMATRIX4X3DV ProgramUniformMatrix4x3dv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPROGRAMUNIFORMMATRIX4X3FV)(GLuint, GLint, GLsizei, GLboolean, const GLfloat *);
+	PFNPROGRAMUNIFORMMATRIX4X3FV ProgramUniformMatrix4x3fv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNUSEPROGRAMSTAGES)(GLuint, GLbitfield, GLuint);
+	PFNUSEPROGRAMSTAGES UseProgramStages = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVALIDATEPROGRAMPIPELINE)(GLuint);
+	PFNVALIDATEPROGRAMPIPELINE ValidateProgramPipeline = 0;
+	
+	static int Load_ARB_separate_shader_objects()
+	{
+		int numFailed = 0;
+		ActiveShaderProgram = reinterpret_cast<PFNACTIVESHADERPROGRAM>(IntGetProcAddress("glActiveShaderProgram"));
+		if(!ActiveShaderProgram) ++numFailed;
+		BindProgramPipeline = reinterpret_cast<PFNBINDPROGRAMPIPELINE>(IntGetProcAddress("glBindProgramPipeline"));
+		if(!BindProgramPipeline) ++numFailed;
+		CreateShaderProgramv = reinterpret_cast<PFNCREATESHADERPROGRAMV>(IntGetProcAddress("glCreateShaderProgramv"));
+		if(!CreateShaderProgramv) ++numFailed;
+		DeleteProgramPipelines = reinterpret_cast<PFNDELETEPROGRAMPIPELINES>(IntGetProcAddress("glDeleteProgramPipelines"));
+		if(!DeleteProgramPipelines) ++numFailed;
+		GenProgramPipelines = reinterpret_cast<PFNGENPROGRAMPIPELINES>(IntGetProcAddress("glGenProgramPipelines"));
+		if(!GenProgramPipelines) ++numFailed;
+		GetProgramPipelineInfoLog = reinterpret_cast<PFNGETPROGRAMPIPELINEINFOLOG>(IntGetProcAddress("glGetProgramPipelineInfoLog"));
+		if(!GetProgramPipelineInfoLog) ++numFailed;
+		GetProgramPipelineiv = reinterpret_cast<PFNGETPROGRAMPIPELINEIV>(IntGetProcAddress("glGetProgramPipelineiv"));
+		if(!GetProgramPipelineiv) ++numFailed;
+		IsProgramPipeline = reinterpret_cast<PFNISPROGRAMPIPELINE>(IntGetProcAddress("glIsProgramPipeline"));
+		if(!IsProgramPipeline) ++numFailed;
+		ProgramUniform1d = reinterpret_cast<PFNPROGRAMUNIFORM1D>(IntGetProcAddress("glProgramUniform1d"));
+		if(!ProgramUniform1d) ++numFailed;
+		ProgramUniform1dv = reinterpret_cast<PFNPROGRAMUNIFORM1DV>(IntGetProcAddress("glProgramUniform1dv"));
+		if(!ProgramUniform1dv) ++numFailed;
+		ProgramUniform1f = reinterpret_cast<PFNPROGRAMUNIFORM1F>(IntGetProcAddress("glProgramUniform1f"));
+		if(!ProgramUniform1f) ++numFailed;
+		ProgramUniform1fv = reinterpret_cast<PFNPROGRAMUNIFORM1FV>(IntGetProcAddress("glProgramUniform1fv"));
+		if(!ProgramUniform1fv) ++numFailed;
+		ProgramUniform1i = reinterpret_cast<PFNPROGRAMUNIFORM1I>(IntGetProcAddress("glProgramUniform1i"));
+		if(!ProgramUniform1i) ++numFailed;
+		ProgramUniform1iv = reinterpret_cast<PFNPROGRAMUNIFORM1IV>(IntGetProcAddress("glProgramUniform1iv"));
+		if(!ProgramUniform1iv) ++numFailed;
+		ProgramUniform1ui = reinterpret_cast<PFNPROGRAMUNIFORM1UI>(IntGetProcAddress("glProgramUniform1ui"));
+		if(!ProgramUniform1ui) ++numFailed;
+		ProgramUniform1uiv = reinterpret_cast<PFNPROGRAMUNIFORM1UIV>(IntGetProcAddress("glProgramUniform1uiv"));
+		if(!ProgramUniform1uiv) ++numFailed;
+		ProgramUniform2d = reinterpret_cast<PFNPROGRAMUNIFORM2D>(IntGetProcAddress("glProgramUniform2d"));
+		if(!ProgramUniform2d) ++numFailed;
+		ProgramUniform2dv = reinterpret_cast<PFNPROGRAMUNIFORM2DV>(IntGetProcAddress("glProgramUniform2dv"));
+		if(!ProgramUniform2dv) ++numFailed;
+		ProgramUniform2f = reinterpret_cast<PFNPROGRAMUNIFORM2F>(IntGetProcAddress("glProgramUniform2f"));
+		if(!ProgramUniform2f) ++numFailed;
+		ProgramUniform2fv = reinterpret_cast<PFNPROGRAMUNIFORM2FV>(IntGetProcAddress("glProgramUniform2fv"));
+		if(!ProgramUniform2fv) ++numFailed;
+		ProgramUniform2i = reinterpret_cast<PFNPROGRAMUNIFORM2I>(IntGetProcAddress("glProgramUniform2i"));
+		if(!ProgramUniform2i) ++numFailed;
+		ProgramUniform2iv = reinterpret_cast<PFNPROGRAMUNIFORM2IV>(IntGetProcAddress("glProgramUniform2iv"));
+		if(!ProgramUniform2iv) ++numFailed;
+		ProgramUniform2ui = reinterpret_cast<PFNPROGRAMUNIFORM2UI>(IntGetProcAddress("glProgramUniform2ui"));
+		if(!ProgramUniform2ui) ++numFailed;
+		ProgramUniform2uiv = reinterpret_cast<PFNPROGRAMUNIFORM2UIV>(IntGetProcAddress("glProgramUniform2uiv"));
+		if(!ProgramUniform2uiv) ++numFailed;
+		ProgramUniform3d = reinterpret_cast<PFNPROGRAMUNIFORM3D>(IntGetProcAddress("glProgramUniform3d"));
+		if(!ProgramUniform3d) ++numFailed;
+		ProgramUniform3dv = reinterpret_cast<PFNPROGRAMUNIFORM3DV>(IntGetProcAddress("glProgramUniform3dv"));
+		if(!ProgramUniform3dv) ++numFailed;
+		ProgramUniform3f = reinterpret_cast<PFNPROGRAMUNIFORM3F>(IntGetProcAddress("glProgramUniform3f"));
+		if(!ProgramUniform3f) ++numFailed;
+		ProgramUniform3fv = reinterpret_cast<PFNPROGRAMUNIFORM3FV>(IntGetProcAddress("glProgramUniform3fv"));
+		if(!ProgramUniform3fv) ++numFailed;
+		ProgramUniform3i = reinterpret_cast<PFNPROGRAMUNIFORM3I>(IntGetProcAddress("glProgramUniform3i"));
+		if(!ProgramUniform3i) ++numFailed;
+		ProgramUniform3iv = reinterpret_cast<PFNPROGRAMUNIFORM3IV>(IntGetProcAddress("glProgramUniform3iv"));
+		if(!ProgramUniform3iv) ++numFailed;
+		ProgramUniform3ui = reinterpret_cast<PFNPROGRAMUNIFORM3UI>(IntGetProcAddress("glProgramUniform3ui"));
+		if(!ProgramUniform3ui) ++numFailed;
+		ProgramUniform3uiv = reinterpret_cast<PFNPROGRAMUNIFORM3UIV>(IntGetProcAddress("glProgramUniform3uiv"));
+		if(!ProgramUniform3uiv) ++numFailed;
+		ProgramUniform4d = reinterpret_cast<PFNPROGRAMUNIFORM4D>(IntGetProcAddress("glProgramUniform4d"));
+		if(!ProgramUniform4d) ++numFailed;
+		ProgramUniform4dv = reinterpret_cast<PFNPROGRAMUNIFORM4DV>(IntGetProcAddress("glProgramUniform4dv"));
+		if(!ProgramUniform4dv) ++numFailed;
+		ProgramUniform4f = reinterpret_cast<PFNPROGRAMUNIFORM4F>(IntGetProcAddress("glProgramUniform4f"));
+		if(!ProgramUniform4f) ++numFailed;
+		ProgramUniform4fv = reinterpret_cast<PFNPROGRAMUNIFORM4FV>(IntGetProcAddress("glProgramUniform4fv"));
+		if(!ProgramUniform4fv) ++numFailed;
+		ProgramUniform4i = reinterpret_cast<PFNPROGRAMUNIFORM4I>(IntGetProcAddress("glProgramUniform4i"));
+		if(!ProgramUniform4i) ++numFailed;
+		ProgramUniform4iv = reinterpret_cast<PFNPROGRAMUNIFORM4IV>(IntGetProcAddress("glProgramUniform4iv"));
+		if(!ProgramUniform4iv) ++numFailed;
+		ProgramUniform4ui = reinterpret_cast<PFNPROGRAMUNIFORM4UI>(IntGetProcAddress("glProgramUniform4ui"));
+		if(!ProgramUniform4ui) ++numFailed;
+		ProgramUniform4uiv = reinterpret_cast<PFNPROGRAMUNIFORM4UIV>(IntGetProcAddress("glProgramUniform4uiv"));
+		if(!ProgramUniform4uiv) ++numFailed;
+		ProgramUniformMatrix2dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX2DV>(IntGetProcAddress("glProgramUniformMatrix2dv"));
+		if(!ProgramUniformMatrix2dv) ++numFailed;
+		ProgramUniformMatrix2fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX2FV>(IntGetProcAddress("glProgramUniformMatrix2fv"));
+		if(!ProgramUniformMatrix2fv) ++numFailed;
+		ProgramUniformMatrix2x3dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX2X3DV>(IntGetProcAddress("glProgramUniformMatrix2x3dv"));
+		if(!ProgramUniformMatrix2x3dv) ++numFailed;
+		ProgramUniformMatrix2x3fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX2X3FV>(IntGetProcAddress("glProgramUniformMatrix2x3fv"));
+		if(!ProgramUniformMatrix2x3fv) ++numFailed;
+		ProgramUniformMatrix2x4dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX2X4DV>(IntGetProcAddress("glProgramUniformMatrix2x4dv"));
+		if(!ProgramUniformMatrix2x4dv) ++numFailed;
+		ProgramUniformMatrix2x4fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX2X4FV>(IntGetProcAddress("glProgramUniformMatrix2x4fv"));
+		if(!ProgramUniformMatrix2x4fv) ++numFailed;
+		ProgramUniformMatrix3dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX3DV>(IntGetProcAddress("glProgramUniformMatrix3dv"));
+		if(!ProgramUniformMatrix3dv) ++numFailed;
+		ProgramUniformMatrix3fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX3FV>(IntGetProcAddress("glProgramUniformMatrix3fv"));
+		if(!ProgramUniformMatrix3fv) ++numFailed;
+		ProgramUniformMatrix3x2dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX3X2DV>(IntGetProcAddress("glProgramUniformMatrix3x2dv"));
+		if(!ProgramUniformMatrix3x2dv) ++numFailed;
+		ProgramUniformMatrix3x2fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX3X2FV>(IntGetProcAddress("glProgramUniformMatrix3x2fv"));
+		if(!ProgramUniformMatrix3x2fv) ++numFailed;
+		ProgramUniformMatrix3x4dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX3X4DV>(IntGetProcAddress("glProgramUniformMatrix3x4dv"));
+		if(!ProgramUniformMatrix3x4dv) ++numFailed;
+		ProgramUniformMatrix3x4fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX3X4FV>(IntGetProcAddress("glProgramUniformMatrix3x4fv"));
+		if(!ProgramUniformMatrix3x4fv) ++numFailed;
+		ProgramUniformMatrix4dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX4DV>(IntGetProcAddress("glProgramUniformMatrix4dv"));
+		if(!ProgramUniformMatrix4dv) ++numFailed;
+		ProgramUniformMatrix4fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX4FV>(IntGetProcAddress("glProgramUniformMatrix4fv"));
+		if(!ProgramUniformMatrix4fv) ++numFailed;
+		ProgramUniformMatrix4x2dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX4X2DV>(IntGetProcAddress("glProgramUniformMatrix4x2dv"));
+		if(!ProgramUniformMatrix4x2dv) ++numFailed;
+		ProgramUniformMatrix4x2fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX4X2FV>(IntGetProcAddress("glProgramUniformMatrix4x2fv"));
+		if(!ProgramUniformMatrix4x2fv) ++numFailed;
+		ProgramUniformMatrix4x3dv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX4X3DV>(IntGetProcAddress("glProgramUniformMatrix4x3dv"));
+		if(!ProgramUniformMatrix4x3dv) ++numFailed;
+		ProgramUniformMatrix4x3fv = reinterpret_cast<PFNPROGRAMUNIFORMMATRIX4X3FV>(IntGetProcAddress("glProgramUniformMatrix4x3fv"));
+		if(!ProgramUniformMatrix4x3fv) ++numFailed;
+		UseProgramStages = reinterpret_cast<PFNUSEPROGRAMSTAGES>(IntGetProcAddress("glUseProgramStages"));
+		if(!UseProgramStages) ++numFailed;
+		ValidateProgramPipeline = reinterpret_cast<PFNVALIDATEPROGRAMPIPELINE>(IntGetProcAddress("glValidateProgramPipeline"));
+		if(!ValidateProgramPipeline) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNTEXBUFFERRANGE)(GLenum, GLenum, GLuint, GLintptr, GLsizeiptr);
+	PFNTEXBUFFERRANGE TexBufferRange = 0;
+	
+	static int Load_ARB_texture_buffer_range()
+	{
+		int numFailed = 0;
+		TexBufferRange = reinterpret_cast<PFNTEXBUFFERRANGE>(IntGetProcAddress("glTexBufferRange"));
+		if(!TexBufferRange) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNTEXSTORAGE1D)(GLenum, GLsizei, GLenum, GLsizei);
+	PFNTEXSTORAGE1D TexStorage1D = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNTEXSTORAGE2D)(GLenum, GLsizei, GLenum, GLsizei, GLsizei);
+	PFNTEXSTORAGE2D TexStorage2D = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNTEXSTORAGE3D)(GLenum, GLsizei, GLenum, GLsizei, GLsizei, GLsizei);
+	PFNTEXSTORAGE3D TexStorage3D = 0;
+	
+	static int Load_ARB_texture_storage()
+	{
+		int numFailed = 0;
+		TexStorage1D = reinterpret_cast<PFNTEXSTORAGE1D>(IntGetProcAddress("glTexStorage1D"));
+		if(!TexStorage1D) ++numFailed;
+		TexStorage2D = reinterpret_cast<PFNTEXSTORAGE2D>(IntGetProcAddress("glTexStorage2D"));
+		if(!TexStorage2D) ++numFailed;
+		TexStorage3D = reinterpret_cast<PFNTEXSTORAGE3D>(IntGetProcAddress("glTexStorage3D"));
+		if(!TexStorage3D) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNTEXTUREVIEW)(GLuint, GLenum, GLuint, GLenum, GLuint, GLuint, GLuint, GLuint);
+	PFNTEXTUREVIEW TextureView = 0;
+	
+	static int Load_ARB_texture_view()
+	{
+		int numFailed = 0;
+		TextureView = reinterpret_cast<PFNTEXTUREVIEW>(IntGetProcAddress("glTextureView"));
+		if(!TextureView) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNBINDVERTEXBUFFER)(GLuint, GLuint, GLintptr, GLsizei);
+	PFNBINDVERTEXBUFFER BindVertexBuffer = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVERTEXATTRIBBINDING)(GLuint, GLuint);
+	PFNVERTEXATTRIBBINDING VertexAttribBinding = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVERTEXATTRIBFORMAT)(GLuint, GLint, GLenum, GLboolean, GLuint);
+	PFNVERTEXATTRIBFORMAT VertexAttribFormat = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVERTEXATTRIBIFORMAT)(GLuint, GLint, GLenum, GLuint);
+	PFNVERTEXATTRIBIFORMAT VertexAttribIFormat = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVERTEXATTRIBLFORMAT)(GLuint, GLint, GLenum, GLuint);
+	PFNVERTEXATTRIBLFORMAT VertexAttribLFormat = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVERTEXBINDINGDIVISOR)(GLuint, GLuint);
+	PFNVERTEXBINDINGDIVISOR VertexBindingDivisor = 0;
+	
+	static int Load_ARB_vertex_attrib_binding()
+	{
+		int numFailed = 0;
+		BindVertexBuffer = reinterpret_cast<PFNBINDVERTEXBUFFER>(IntGetProcAddress("glBindVertexBuffer"));
+		if(!BindVertexBuffer) ++numFailed;
+		VertexAttribBinding = reinterpret_cast<PFNVERTEXATTRIBBINDING>(IntGetProcAddress("glVertexAttribBinding"));
+		if(!VertexAttribBinding) ++numFailed;
+		VertexAttribFormat = reinterpret_cast<PFNVERTEXATTRIBFORMAT>(IntGetProcAddress("glVertexAttribFormat"));
+		if(!VertexAttribFormat) ++numFailed;
+		VertexAttribIFormat = reinterpret_cast<PFNVERTEXATTRIBIFORMAT>(IntGetProcAddress("glVertexAttribIFormat"));
+		if(!VertexAttribIFormat) ++numFailed;
+		VertexAttribLFormat = reinterpret_cast<PFNVERTEXATTRIBLFORMAT>(IntGetProcAddress("glVertexAttribLFormat"));
+		if(!VertexAttribLFormat) ++numFailed;
+		VertexBindingDivisor = reinterpret_cast<PFNVERTEXBINDINGDIVISOR>(IntGetProcAddress("glVertexBindingDivisor"));
+		if(!VertexBindingDivisor) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNDEPTHRANGEARRAYV)(GLuint, GLsizei, const GLdouble *);
+	PFNDEPTHRANGEARRAYV DepthRangeArrayv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNDEPTHRANGEINDEXED)(GLuint, GLdouble, GLdouble);
+	PFNDEPTHRANGEINDEXED DepthRangeIndexed = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETDOUBLEI_V)(GLenum, GLuint, GLdouble *);
+	PFNGETDOUBLEI_V GetDoublei_v = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETFLOATI_V)(GLenum, GLuint, GLfloat *);
+	PFNGETFLOATI_V GetFloati_v = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNSCISSORARRAYV)(GLuint, GLsizei, const GLint *);
+	PFNSCISSORARRAYV ScissorArrayv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNSCISSORINDEXED)(GLuint, GLint, GLint, GLsizei, GLsizei);
+	PFNSCISSORINDEXED ScissorIndexed = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNSCISSORINDEXEDV)(GLuint, const GLint *);
+	PFNSCISSORINDEXEDV ScissorIndexedv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVIEWPORTARRAYV)(GLuint, GLsizei, const GLfloat *);
+	PFNVIEWPORTARRAYV ViewportArrayv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVIEWPORTINDEXEDF)(GLuint, GLfloat, GLfloat, GLfloat, GLfloat);
+	PFNVIEWPORTINDEXEDF ViewportIndexedf = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNVIEWPORTINDEXEDFV)(GLuint, const GLfloat *);
+	PFNVIEWPORTINDEXEDFV ViewportIndexedfv = 0;
+	
+	static int Load_ARB_viewport_array()
+	{
+		int numFailed = 0;
+		DepthRangeArrayv = reinterpret_cast<PFNDEPTHRANGEARRAYV>(IntGetProcAddress("glDepthRangeArrayv"));
+		if(!DepthRangeArrayv) ++numFailed;
+		DepthRangeIndexed = reinterpret_cast<PFNDEPTHRANGEINDEXED>(IntGetProcAddress("glDepthRangeIndexed"));
+		if(!DepthRangeIndexed) ++numFailed;
+		GetDoublei_v = reinterpret_cast<PFNGETDOUBLEI_V>(IntGetProcAddress("glGetDoublei_v"));
+		if(!GetDoublei_v) ++numFailed;
+		GetFloati_v = reinterpret_cast<PFNGETFLOATI_V>(IntGetProcAddress("glGetFloati_v"));
+		if(!GetFloati_v) ++numFailed;
+		ScissorArrayv = reinterpret_cast<PFNSCISSORARRAYV>(IntGetProcAddress("glScissorArrayv"));
+		if(!ScissorArrayv) ++numFailed;
+		ScissorIndexed = reinterpret_cast<PFNSCISSORINDEXED>(IntGetProcAddress("glScissorIndexed"));
+		if(!ScissorIndexed) ++numFailed;
+		ScissorIndexedv = reinterpret_cast<PFNSCISSORINDEXEDV>(IntGetProcAddress("glScissorIndexedv"));
+		if(!ScissorIndexedv) ++numFailed;
+		ViewportArrayv = reinterpret_cast<PFNVIEWPORTARRAYV>(IntGetProcAddress("glViewportArrayv"));
+		if(!ViewportArrayv) ++numFailed;
+		ViewportIndexedf = reinterpret_cast<PFNVIEWPORTINDEXEDF>(IntGetProcAddress("glViewportIndexedf"));
+		if(!ViewportIndexedf) ++numFailed;
+		ViewportIndexedfv = reinterpret_cast<PFNVIEWPORTINDEXEDFV>(IntGetProcAddress("glViewportIndexedfv"));
+		if(!ViewportIndexedfv) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNCLEARBUFFERDATA)(GLenum, GLenum, GLenum, GLenum, const void *);
+	PFNCLEARBUFFERDATA ClearBufferData = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNCLEARBUFFERSUBDATA)(GLenum, GLenum, GLintptr, GLsizeiptr, GLenum, GLenum, const void *);
+	PFNCLEARBUFFERSUBDATA ClearBufferSubData = 0;
+	
+	static int Load_ARB_clear_buffer_object()
+	{
+		int numFailed = 0;
+		ClearBufferData = reinterpret_cast<PFNCLEARBUFFERDATA>(IntGetProcAddress("glClearBufferData"));
+		if(!ClearBufferData) ++numFailed;
+		ClearBufferSubData = reinterpret_cast<PFNCLEARBUFFERSUBDATA>(IntGetProcAddress("glClearBufferSubData"));
+		if(!ClearBufferSubData) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNCOPYIMAGESUBDATA)(GLuint, GLenum, GLint, GLint, GLint, GLint, GLuint, GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei);
+	PFNCOPYIMAGESUBDATA CopyImageSubData = 0;
+	
+	static int Load_ARB_copy_image()
+	{
+		int numFailed = 0;
+		CopyImageSubData = reinterpret_cast<PFNCOPYIMAGESUBDATA>(IntGetProcAddress("glCopyImageSubData"));
+		if(!CopyImageSubData) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNFRAMEBUFFERPARAMETERI)(GLenum, GLenum, GLint);
+	PFNFRAMEBUFFERPARAMETERI FramebufferParameteri = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETFRAMEBUFFERPARAMETERIV)(GLenum, GLenum, GLint *);
+	PFNGETFRAMEBUFFERPARAMETERIV GetFramebufferParameteriv = 0;
+	
+	static int Load_ARB_framebuffer_no_attachments()
+	{
+		int numFailed = 0;
+		FramebufferParameteri = reinterpret_cast<PFNFRAMEBUFFERPARAMETERI>(IntGetProcAddress("glFramebufferParameteri"));
+		if(!FramebufferParameteri) ++numFailed;
+		GetFramebufferParameteriv = reinterpret_cast<PFNGETFRAMEBUFFERPARAMETERIV>(IntGetProcAddress("glGetFramebufferParameteriv"));
+		if(!GetFramebufferParameteriv) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNINVALIDATEBUFFERDATA)(GLuint);
+	PFNINVALIDATEBUFFERDATA InvalidateBufferData = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNINVALIDATEBUFFERSUBDATA)(GLuint, GLintptr, GLsizeiptr);
+	PFNINVALIDATEBUFFERSUBDATA InvalidateBufferSubData = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNINVALIDATEFRAMEBUFFER)(GLenum, GLsizei, const GLenum *);
+	PFNINVALIDATEFRAMEBUFFER InvalidateFramebuffer = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNINVALIDATESUBFRAMEBUFFER)(GLenum, GLsizei, const GLenum *, GLint, GLint, GLsizei, GLsizei);
+	PFNINVALIDATESUBFRAMEBUFFER InvalidateSubFramebuffer = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNINVALIDATETEXIMAGE)(GLuint, GLint);
+	PFNINVALIDATETEXIMAGE InvalidateTexImage = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNINVALIDATETEXSUBIMAGE)(GLuint, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei);
+	PFNINVALIDATETEXSUBIMAGE InvalidateTexSubImage = 0;
+	
+	static int Load_ARB_invalidate_subdata()
+	{
+		int numFailed = 0;
+		InvalidateBufferData = reinterpret_cast<PFNINVALIDATEBUFFERDATA>(IntGetProcAddress("glInvalidateBufferData"));
+		if(!InvalidateBufferData) ++numFailed;
+		InvalidateBufferSubData = reinterpret_cast<PFNINVALIDATEBUFFERSUBDATA>(IntGetProcAddress("glInvalidateBufferSubData"));
+		if(!InvalidateBufferSubData) ++numFailed;
+		InvalidateFramebuffer = reinterpret_cast<PFNINVALIDATEFRAMEBUFFER>(IntGetProcAddress("glInvalidateFramebuffer"));
+		if(!InvalidateFramebuffer) ++numFailed;
+		InvalidateSubFramebuffer = reinterpret_cast<PFNINVALIDATESUBFRAMEBUFFER>(IntGetProcAddress("glInvalidateSubFramebuffer"));
+		if(!InvalidateSubFramebuffer) ++numFailed;
+		InvalidateTexImage = reinterpret_cast<PFNINVALIDATETEXIMAGE>(IntGetProcAddress("glInvalidateTexImage"));
+		if(!InvalidateTexImage) ++numFailed;
+		InvalidateTexSubImage = reinterpret_cast<PFNINVALIDATETEXSUBIMAGE>(IntGetProcAddress("glInvalidateTexSubImage"));
+		if(!InvalidateTexSubImage) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNTEXSTORAGE2DMULTISAMPLE)(GLenum, GLsizei, GLenum, GLsizei, GLsizei, GLboolean);
+	PFNTEXSTORAGE2DMULTISAMPLE TexStorage2DMultisample = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNTEXSTORAGE3DMULTISAMPLE)(GLenum, GLsizei, GLenum, GLsizei, GLsizei, GLsizei, GLboolean);
+	PFNTEXSTORAGE3DMULTISAMPLE TexStorage3DMultisample = 0;
+	
+	static int Load_ARB_texture_storage_multisample()
+	{
+		int numFailed = 0;
+		TexStorage2DMultisample = reinterpret_cast<PFNTEXSTORAGE2DMULTISAMPLE>(IntGetProcAddress("glTexStorage2DMultisample"));
+		if(!TexStorage2DMultisample) ++numFailed;
+		TexStorage3DMultisample = reinterpret_cast<PFNTEXSTORAGE3DMULTISAMPLE>(IntGetProcAddress("glTexStorage3DMultisample"));
+		if(!TexStorage3DMultisample) ++numFailed;
+		return numFailed;
+	}
+	
+	typedef void (CODEGEN_FUNCPTR *PFNDEBUGMESSAGECALLBACK)(GLDEBUGPROC, const void *);
+	PFNDEBUGMESSAGECALLBACK DebugMessageCallback = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNDEBUGMESSAGECONTROL)(GLenum, GLenum, GLenum, GLsizei, const GLuint *, GLboolean);
+	PFNDEBUGMESSAGECONTROL DebugMessageControl = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNDEBUGMESSAGEINSERT)(GLenum, GLenum, GLuint, GLenum, GLsizei, const GLchar *);
+	PFNDEBUGMESSAGEINSERT DebugMessageInsert = 0;
+	typedef GLuint (CODEGEN_FUNCPTR *PFNGETDEBUGMESSAGELOG)(GLuint, GLsizei, GLenum *, GLenum *, GLuint *, GLenum *, GLsizei *, GLchar *);
+	PFNGETDEBUGMESSAGELOG GetDebugMessageLog = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETOBJECTLABEL)(GLenum, GLuint, GLsizei, GLsizei *, GLchar *);
+	PFNGETOBJECTLABEL GetObjectLabel = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETOBJECTPTRLABEL)(const void *, GLsizei, GLsizei *, GLchar *);
+	PFNGETOBJECTPTRLABEL GetObjectPtrLabel = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNGETPOINTERV)(GLenum, GLvoid **);
+	PFNGETPOINTERV GetPointerv = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNOBJECTLABEL)(GLenum, GLuint, GLsizei, const GLchar *);
+	PFNOBJECTLABEL ObjectLabel = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNOBJECTPTRLABEL)(const void *, GLsizei, const GLchar *);
+	PFNOBJECTPTRLABEL ObjectPtrLabel = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPOPDEBUGGROUP)();
+	PFNPOPDEBUGGROUP PopDebugGroup = 0;
+	typedef void (CODEGEN_FUNCPTR *PFNPUSHDEBUGGROUP)(GLenum, GLuint, GLsizei, const GLchar *);
+	PFNPUSHDEBUGGROUP PushDebugGroup = 0;
+	
+	static int Load_KHR_debug()
+	{
+		int numFailed = 0;
+		DebugMessageCallback = reinterpret_cast<PFNDEBUGMESSAGECALLBACK>(IntGetProcAddress("glDebugMessageCallback"));
+		if(!DebugMessageCallback) ++numFailed;
+		DebugMessageControl = reinterpret_cast<PFNDEBUGMESSAGECONTROL>(IntGetProcAddress("glDebugMessageControl"));
+		if(!DebugMessageControl) ++numFailed;
+		DebugMessageInsert = reinterpret_cast<PFNDEBUGMESSAGEINSERT>(IntGetProcAddress("glDebugMessageInsert"));
+		if(!DebugMessageInsert) ++numFailed;
+		GetDebugMessageLog = reinterpret_cast<PFNGETDEBUGMESSAGELOG>(IntGetProcAddress("glGetDebugMessageLog"));
+		if(!GetDebugMessageLog) ++numFailed;
+		GetObjectLabel = reinterpret_cast<PFNGETOBJECTLABEL>(IntGetProcAddress("glGetObjectLabel"));
+		if(!GetObjectLabel) ++numFailed;
+		GetObjectPtrLabel = reinterpret_cast<PFNGETOBJECTPTRLABEL>(IntGetProcAddress("glGetObjectPtrLabel"));
+		if(!GetObjectPtrLabel) ++numFailed;
+		GetPointerv = reinterpret_cast<PFNGETPOINTERV>(IntGetProcAddress("glGetPointerv"));
+		if(!GetPointerv) ++numFailed;
+		ObjectLabel = reinterpret_cast<PFNOBJECTLABEL>(IntGetProcAddress("glObjectLabel"));
+		if(!ObjectLabel) ++numFailed;
+		ObjectPtrLabel = reinterpret_cast<PFNOBJECTPTRLABEL>(IntGetProcAddress("glObjectPtrLabel"));
+		if(!ObjectPtrLabel) ++numFailed;
+		PopDebugGroup = reinterpret_cast<PFNPOPDEBUGGROUP>(IntGetProcAddress("glPopDebugGroup"));
+		if(!PopDebugGroup) ++numFailed;
+		PushDebugGroup = reinterpret_cast<PFNPUSHDEBUGGROUP>(IntGetProcAddress("glPushDebugGroup"));
+		if(!PushDebugGroup) ++numFailed;
+		return numFailed;
+	}
+	
 	typedef void (CODEGEN_FUNCPTR *PFNBLENDFUNC)(GLenum, GLenum);
 	PFNBLENDFUNC BlendFunc = 0;
 	typedef void (CODEGEN_FUNCPTR *PFNCLEAR)(GLbitfield);
@@ -1419,10 +2051,39 @@ namespace gl
 			
 			void InitializeMappingTable(std::vector<MapEntry> &table)
 			{
-				table.reserve(3);
+				table.reserve(32);
 				table.push_back(MapEntry("GL_EXT_texture_compression_s3tc", &exts::var_EXT_texture_compression_s3tc));
 				table.push_back(MapEntry("GL_EXT_texture_sRGB", &exts::var_EXT_texture_sRGB));
 				table.push_back(MapEntry("GL_EXT_texture_filter_anisotropic", &exts::var_EXT_texture_filter_anisotropic));
+				table.push_back(MapEntry("GL_ARB_compressed_texture_pixel_storage", &exts::var_ARB_compressed_texture_pixel_storage));
+				table.push_back(MapEntry("GL_ARB_conservative_depth", &exts::var_ARB_conservative_depth));
+				table.push_back(MapEntry("GL_ARB_ES2_compatibility", &exts::var_ARB_ES2_compatibility, Load_ARB_ES2_compatibility));
+				table.push_back(MapEntry("GL_ARB_get_program_binary", &exts::var_ARB_get_program_binary, Load_ARB_get_program_binary));
+				table.push_back(MapEntry("GL_ARB_explicit_uniform_location", &exts::var_ARB_explicit_uniform_location));
+				table.push_back(MapEntry("GL_ARB_internalformat_query", &exts::var_ARB_internalformat_query, Load_ARB_internalformat_query));
+				table.push_back(MapEntry("GL_ARB_internalformat_query2", &exts::var_ARB_internalformat_query2, Load_ARB_internalformat_query2));
+				table.push_back(MapEntry("GL_ARB_map_buffer_alignment", &exts::var_ARB_map_buffer_alignment));
+				table.push_back(MapEntry("GL_ARB_program_interface_query", &exts::var_ARB_program_interface_query, Load_ARB_program_interface_query));
+				table.push_back(MapEntry("GL_ARB_separate_shader_objects", &exts::var_ARB_separate_shader_objects, Load_ARB_separate_shader_objects));
+				table.push_back(MapEntry("GL_ARB_shading_language_420pack", &exts::var_ARB_shading_language_420pack));
+				table.push_back(MapEntry("GL_ARB_shading_language_packing", &exts::var_ARB_shading_language_packing));
+				table.push_back(MapEntry("GL_ARB_texture_buffer_range", &exts::var_ARB_texture_buffer_range, Load_ARB_texture_buffer_range));
+				table.push_back(MapEntry("GL_ARB_texture_storage", &exts::var_ARB_texture_storage, Load_ARB_texture_storage));
+				table.push_back(MapEntry("GL_ARB_texture_view", &exts::var_ARB_texture_view, Load_ARB_texture_view));
+				table.push_back(MapEntry("GL_ARB_vertex_attrib_binding", &exts::var_ARB_vertex_attrib_binding, Load_ARB_vertex_attrib_binding));
+				table.push_back(MapEntry("GL_ARB_viewport_array", &exts::var_ARB_viewport_array, Load_ARB_viewport_array));
+				table.push_back(MapEntry("GL_ARB_arrays_of_arrays", &exts::var_ARB_arrays_of_arrays));
+				table.push_back(MapEntry("GL_ARB_clear_buffer_object", &exts::var_ARB_clear_buffer_object, Load_ARB_clear_buffer_object));
+				table.push_back(MapEntry("GL_ARB_copy_image", &exts::var_ARB_copy_image, Load_ARB_copy_image));
+				table.push_back(MapEntry("GL_ARB_ES3_compatibility", &exts::var_ARB_ES3_compatibility));
+				table.push_back(MapEntry("GL_ARB_fragment_layer_viewport", &exts::var_ARB_fragment_layer_viewport));
+				table.push_back(MapEntry("GL_ARB_framebuffer_no_attachments", &exts::var_ARB_framebuffer_no_attachments, Load_ARB_framebuffer_no_attachments));
+				table.push_back(MapEntry("GL_ARB_invalidate_subdata", &exts::var_ARB_invalidate_subdata, Load_ARB_invalidate_subdata));
+				table.push_back(MapEntry("GL_ARB_robust_buffer_access_behavior", &exts::var_ARB_robust_buffer_access_behavior));
+				table.push_back(MapEntry("GL_ARB_stencil_texturing", &exts::var_ARB_stencil_texturing));
+				table.push_back(MapEntry("GL_ARB_texture_query_levels", &exts::var_ARB_texture_query_levels));
+				table.push_back(MapEntry("GL_ARB_texture_storage_multisample", &exts::var_ARB_texture_storage_multisample, Load_ARB_texture_storage_multisample));
+				table.push_back(MapEntry("GL_KHR_debug", &exts::var_KHR_debug, Load_KHR_debug));
 			}
 			
 			void ClearExtensionVars()
@@ -1430,6 +2091,35 @@ namespace gl
 				exts::var_EXT_texture_compression_s3tc = exts::LoadTest();
 				exts::var_EXT_texture_sRGB = exts::LoadTest();
 				exts::var_EXT_texture_filter_anisotropic = exts::LoadTest();
+				exts::var_ARB_compressed_texture_pixel_storage = exts::LoadTest();
+				exts::var_ARB_conservative_depth = exts::LoadTest();
+				exts::var_ARB_ES2_compatibility = exts::LoadTest();
+				exts::var_ARB_get_program_binary = exts::LoadTest();
+				exts::var_ARB_explicit_uniform_location = exts::LoadTest();
+				exts::var_ARB_internalformat_query = exts::LoadTest();
+				exts::var_ARB_internalformat_query2 = exts::LoadTest();
+				exts::var_ARB_map_buffer_alignment = exts::LoadTest();
+				exts::var_ARB_program_interface_query = exts::LoadTest();
+				exts::var_ARB_separate_shader_objects = exts::LoadTest();
+				exts::var_ARB_shading_language_420pack = exts::LoadTest();
+				exts::var_ARB_shading_language_packing = exts::LoadTest();
+				exts::var_ARB_texture_buffer_range = exts::LoadTest();
+				exts::var_ARB_texture_storage = exts::LoadTest();
+				exts::var_ARB_texture_view = exts::LoadTest();
+				exts::var_ARB_vertex_attrib_binding = exts::LoadTest();
+				exts::var_ARB_viewport_array = exts::LoadTest();
+				exts::var_ARB_arrays_of_arrays = exts::LoadTest();
+				exts::var_ARB_clear_buffer_object = exts::LoadTest();
+				exts::var_ARB_copy_image = exts::LoadTest();
+				exts::var_ARB_ES3_compatibility = exts::LoadTest();
+				exts::var_ARB_fragment_layer_viewport = exts::LoadTest();
+				exts::var_ARB_framebuffer_no_attachments = exts::LoadTest();
+				exts::var_ARB_invalidate_subdata = exts::LoadTest();
+				exts::var_ARB_robust_buffer_access_behavior = exts::LoadTest();
+				exts::var_ARB_stencil_texturing = exts::LoadTest();
+				exts::var_ARB_texture_query_levels = exts::LoadTest();
+				exts::var_ARB_texture_storage_multisample = exts::LoadTest();
+				exts::var_KHR_debug = exts::LoadTest();
 			}
 			
 			void LoadExtByName(std::vector<MapEntry> &table, const char *extensionName)

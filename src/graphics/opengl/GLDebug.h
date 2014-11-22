@@ -20,7 +20,7 @@
 #endif
 
 // some people build with an old version of GLEW that doesn't include KHR_debug
-#if (GL_ARB_debug_output && GL_KHR_debug)
+#if 1 //(GL_ARB_debug_output && GL_KHR_debug)
 
 namespace Graphics {
 
@@ -28,17 +28,17 @@ namespace Graphics {
 	private:
 		static const char *type_to_string(GLenum type) {
 			switch(type) {
-				case GL_DEBUG_TYPE_ERROR_ARB:
+				case gl::DEBUG_TYPE_ERROR:
 					return("Error");
-				case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR_ARB:
+				case gl::DEBUG_TYPE_DEPRECATED_BEHAVIOR:
 					return("Deprecated Behaviour");
-				case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR_ARB:
+				case gl::DEBUG_TYPE_UNDEFINED_BEHAVIOR:
 					return("Undefined Behaviour");
-				case GL_DEBUG_TYPE_PORTABILITY_ARB:
+				case gl::DEBUG_TYPE_PORTABILITY:
 					return("Portability");
-				case GL_DEBUG_TYPE_PERFORMANCE_ARB:
+				case gl::DEBUG_TYPE_PERFORMANCE:
 					return("Performance");
-				case GL_DEBUG_TYPE_OTHER_ARB:
+				case gl::DEBUG_TYPE_OTHER:
 					return("Other");
 				default:
 					return("");
@@ -47,17 +47,17 @@ namespace Graphics {
 
 		static const char *source_to_string(GLenum source) {
 			switch(source) {
-				case GL_DEBUG_SOURCE_API_ARB:
+				case gl::DEBUG_SOURCE_API:
 					return("API");
-				case GL_DEBUG_SOURCE_WINDOW_SYSTEM_ARB:
+				case gl::DEBUG_SOURCE_WINDOW_SYSTEM:
 					return("Window System");
-				case GL_DEBUG_SOURCE_SHADER_COMPILER_ARB:
+				case gl::DEBUG_SOURCE_SHADER_COMPILER:
 					return("Shader Compiler");
-				case GL_DEBUG_SOURCE_THIRD_PARTY_ARB:
+				case gl::DEBUG_SOURCE_THIRD_PARTY:
 					return("Third Party");
-				case GL_DEBUG_SOURCE_APPLICATION_ARB:
+				case gl::DEBUG_SOURCE_APPLICATION:
 					return("Application");
-				case GL_DEBUG_SOURCE_OTHER_ARB:
+				case gl::DEBUG_SOURCE_OTHER:
 					return("Other");
 				default:
 					return("");
@@ -66,11 +66,11 @@ namespace Graphics {
 
 		static const char *severity_to_string(GLenum severity) {
 			switch(severity) {
-				case GL_DEBUG_SEVERITY_HIGH_ARB:
+				case gl::DEBUG_SEVERITY_HIGH:
 					return("High");
-				case GL_DEBUG_SEVERITY_MEDIUM_ARB:
+				case gl::DEBUG_SEVERITY_MEDIUM:
 					return("Medium");
-				case GL_DEBUG_SEVERITY_LOW_ARB:
+				case gl::DEBUG_SEVERITY_LOW:
 					return("Low");
 				default:
 					return("");
@@ -80,7 +80,7 @@ namespace Graphics {
 		// put a breakpoint in this function
 		static void STDCALL PrintMessage(GLenum source, GLenum type,
 			GLuint id, GLenum severity, GLsizei length,
-			const GLchar* message, void* userParam)
+			const GLchar* message, const void* userParam)
 		{
 			Output("Type: %s, Source: %s, ID: %u, Severity: %s, Message: %s\n",
 				type_to_string(type), source_to_string(source), id,
@@ -90,17 +90,24 @@ namespace Graphics {
 	public:
 		//register the callback function, if the extension is available
 		static void Enable() {
-			glEnable(GL_DEBUG_OUTPUT);
-			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
-			glDebugMessageCallbackARB(PrintMessage, 0);
+			if (!gl::exts::var_KHR_debug) {
+				Output("GL_KHR_debug is not supported; GLDebug will not work\n");
+				return;
+			}
+
+			gl::Enable(gl::DEBUG_OUTPUT);
+			gl::Enable(gl::DEBUG_OUTPUT_SYNCHRONOUS);
+			gl::DebugMessageCallback(PrintMessage, 0);
 
 			//Using the default message type and severity parameters.
 			//If you want to be drowned in performance warnings, use:
-			//glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, 0, true);
+			//gl::DebugMessageControl(gl::DONT_CARE, gl::DONT_CARE, gl::DEBUG_SEVERITY_LOW, 0, 0, true);
 		}
 
 		static void Disable() {
-			glDisable(GL_DEBUG_OUTPUT);
+			if (gl::exts::var_KHR_debug) {
+				gl::Disable(gl::DEBUG_OUTPUT);
+			}
 		}
 
 	};
