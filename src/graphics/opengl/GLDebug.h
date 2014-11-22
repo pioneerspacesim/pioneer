@@ -12,6 +12,7 @@
  * which also includes stack printout
  */
 #include "libs.h"
+
 #ifdef _WIN32
 #define STDCALL __stdcall
 #else
@@ -89,11 +90,6 @@ namespace Graphics {
 	public:
 		//register the callback function, if the extension is available
 		static void Enable() {
-			if (!glewIsSupported("GL_KHR_debug")) {
-				Output("GL_KHR_debug is not supported; GLDebug will not work\n");
-				return;
-			}
-
 			glEnable(GL_DEBUG_OUTPUT);
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
 			glDebugMessageCallbackARB(PrintMessage, 0);
@@ -104,9 +100,7 @@ namespace Graphics {
 		}
 
 		static void Disable() {
-			if (glewIsSupported("GL_KHR_debug")) {
-				glDisable(GL_DEBUG_OUTPUT);
-			}
+			glDisable(GL_DEBUG_OUTPUT);
 		}
 
 	};
@@ -120,7 +114,7 @@ namespace Graphics {
 	class GLDebug {
 	public:
 		static void Enable() {
-			Output("GL Debug support was excluded from this build because the GLEW headers were not recent enough\n");
+			Output("GL Debug support was excluded from this build because the glLoadGen headers did not include support for it.\n");
 		}
 
 		static void Disable() {}

@@ -167,11 +167,11 @@ void Screendump(const char* destFile, const int width, const int height)
 	const int stride = (3*width + 3) & ~3;
 
 	std::vector<Uint8> pixel_data(stride * height);
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
-	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
-	glFinish();
+	gl::BindFramebuffer(gl::FRAMEBUFFER, 0);
+	gl::PixelStorei(gl::PACK_ALIGNMENT, 4); // never trust defaults
+	gl::ReadBuffer(gl::FRONT);
+	gl::ReadPixels(0, 0, width, height, gl::RGB, gl::UNSIGNED_BYTE, &pixel_data[0]);
+	gl::Finish();
 
 	write_png(FileSystem::userFiles, fname, &pixel_data[0], width, height, stride, 3);
 

@@ -25,7 +25,7 @@
 #include <algorithm>
 #include <memory>
 
-#include "glew/glew.h"
+#include "graphics/opengl/gl_core_3_2.hpp"
 
 #ifdef _WIN32
 #	include <malloc.h>

@@ -61,14 +61,13 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	m_useCompressedTextures = useDXTnTextures;
 
 	//XXX bunch of fixed function states here!
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	gl::CullFace(gl::BACK);
+	gl::FrontFace(gl::CCW);
+	gl::Enable(gl::CULL_FACE);
+	gl::Enable(gl::DEPTH_TEST);
+	gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+	gl::Hint(gl::LINE_SMOOTH_HINT, gl::NICEST);
+	gl::Enable(gl::TEXTURE_CUBE_MAP_SEAMLESS);
 
 	SetMatrixMode(MatrixMode::MODELVIEW);
 
@@ -97,18 +96,18 @@ RendererOGL::~RendererOGL()
 		delete state.second;
 }
 
-bool RendererOGL::GetNearFarRange(float &near, float &far) const
+bool RendererOGL::GetNearFarRange(float &near_, float &far_) const
 {
-	near = m_minZNear;
-	far = m_maxZFar;
+	near_ = m_minZNear;
+	far_ = m_maxZFar;
 	return true;
 }
 
 bool RendererOGL::BeginFrame()
 {
 	PROFILE_SCOPED()
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	gl::ClearColor(0,0,0,0);
+	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	return true;
 }
 
@@ -121,20 +120,14 @@ static std::string glerr_to_string(GLenum err)
 {
 	switch (err)
 	{
-	case GL_INVALID_ENUM:
+	case gl::INVALID_ENUM:
 		return "GL_INVALID_ENUM";
-	case GL_INVALID_VALUE:
+	case gl::INVALID_VALUE:
 		return "GL_INVALID_VALUE";
-	case GL_INVALID_OPERATION:
+	case gl::INVALID_OPERATION:
 		return "GL_INVALID_OPERATION";
-	case GL_OUT_OF_MEMORY:
+	case gl::OUT_OF_MEMORY:
 		return "GL_OUT_OF_MEMORY";
-	case GL_STACK_OVERFLOW: //deprecated in GL3
-		return "GL_STACK_OVERFLOW";
-	case GL_STACK_UNDERFLOW: //deprecated in GL3
-		return "GL_STACK_UNDERFLOW";
-	case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
-		return "GL_INVALID_FRAMEBUFFER_OPERATION";
 	default:
 		return stringf("Unknown error 0x0%0{x}", err);
 	}
@@ -143,14 +136,14 @@ static std::string glerr_to_string(GLenum err)
 //extern 
 void CheckRenderErrors()
 {
-	GLenum err = glGetError();
+	GLenum err = gl::GetError();
 	if( err ) {
 		std::stringstream ss;
 		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
+		while (err != gl::NO_ERROR_) {
 			ss << glerr_to_string(err) << '\n';
-			err = glGetError();
-			if( err == GL_OUT_OF_MEMORY ) {
+			err = gl::GetError();
+			if( err == gl::OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
@@ -168,14 +161,14 @@ bool RendererOGL::SwapBuffers()
 	// determining *where* the error happened. For that purpose, try GDebugger or
 	// the GL_KHR_DEBUG extension
 	GLenum err;
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
+	err = gl::GetError();
+	if (err != gl::NO_ERROR_) {
 		std::stringstream ss;
 		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
+		while (err != gl::NO_ERROR_) {
 			ss << glerr_to_string(err) << std::endl;
-			err = glGetError();
-			if( err == GL_OUT_OF_MEMORY ) {
+			err = gl::GetError();
+			if( err == gl::OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
@@ -216,8 +209,8 @@ bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 bool RendererOGL::ClearScreen()
 {
 	m_activeRenderState = nullptr;
-	glDepthMask(GL_TRUE);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	gl::DepthMask(gl::TRUE_);
+	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	CheckRenderErrors();
 
 	return true;
@@ -226,8 +219,8 @@ bool RendererOGL::ClearScreen()
 bool RendererOGL::ClearDepthBuffer()
 {
 	m_activeRenderState = nullptr;
-	glDepthMask(GL_TRUE);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	gl::DepthMask(gl::TRUE_);
+	gl::Clear(gl::DEPTH_BUFFER_BIT);
 	CheckRenderErrors();
 
 	return true;
@@ -235,7 +228,7 @@ bool RendererOGL::ClearDepthBuffer()
 
 bool RendererOGL::SetClearColor(const Color &c)
 {
-	glClearColor(c.r, c.g, c.b, c.a);
+	gl::ClearColor(c.r, c.g, c.b, c.a);
 	return true;
 }
 
@@ -247,7 +240,7 @@ bool RendererOGL::SetViewport(int x, int y, int width, int height)
 	currentViewport.y = y;
 	currentViewport.w = width;
 	currentViewport.h = height;
-	glViewport(x, y, width, height);
+	gl::Viewport(x, y, width, height);
 	return true;
 }
 
@@ -268,21 +261,21 @@ bool RendererOGL::SetTransform(const matrix4x4f &m)
 	return true;
 }
 
-bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near, float far)
+bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near_, float far_)
 {
 	PROFILE_SCOPED()
 
 	// update values for log-z hack
-	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
+	m_invLogZfarPlus1 = 1.0f / (log(far_+1.0f)/log(2.0f));
 
 	Graphics::SetFov(fov);
 
-	float ymax = near * tan(fov * M_PI / 360.0);
+	float ymax = near_ * tan(fov * M_PI / 360.0);
 	float ymin = -ymax;
 	float xmin = ymin * aspect;
 	float xmax = ymax * aspect;
 
-	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near, far);
+	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near_, far_);
 	SetProjection(frustrumMat);
 	return true;
 }
@@ -306,7 +299,7 @@ bool RendererOGL::SetProjection(const matrix4x4f &m)
 
 bool RendererOGL::SetWireFrameMode(bool enabled)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
+	gl::PolygonMode(gl::FRONT_AND_BACK, enabled ? gl::LINE : gl::FILL);
 	return true;
 }
 
@@ -343,10 +336,10 @@ bool RendererOGL::SetAmbientColor(const Color &c)
 bool RendererOGL::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
 {
 	if (enabled) {
-		glScissor(pos.x,pos.y,size.x,size.y);
-		glEnable(GL_SCISSOR_TEST);
+		gl::Scissor(pos.x,pos.y,size.x,size.y);
+		gl::Enable(gl::SCISSOR_TEST);
 	} else {
-		glDisable(GL_SCISSOR_TEST);
+		gl::Disable(gl::SCISSOR_TEST);
 	}
 	return true;
 }
@@ -504,7 +497,7 @@ bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	gvb->Bind();
 	EnableVertexAttributes(gvb);
 
-	glDrawArrays(pt, 0, gvb->GetVertexCount());
+	gl::DrawArrays(pt, 0, gvb->GetVertexCount());
 
 	DisableVertexAttributes(gvb);
 	gvb->Release();
@@ -526,13 +519,13 @@ bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	auto gib = static_cast<OGL::IndexBuffer*>(ib);
 
 	gvb->Bind();
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
+	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
 	EnableVertexAttributes(gvb);
 
-	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0);
+	gl::DrawElements(pt, ib->GetIndexCount(), gl::UNSIGNED_SHORT, 0);
 
 	DisableVertexAttributes(gvb);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0);
 	gvb->Release();
 	CheckRenderErrors();
 
@@ -548,10 +541,10 @@ void RendererOGL::EnableVertexAttributes(const VertexBuffer* gvb)
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
 		const auto& attr = desc.attrib[i];
 		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glEnableVertexAttribArray(0);		break;
-		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
-		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
-		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
+		case ATTRIB_POSITION:		gl::EnableVertexAttribArray(0);		break;
+		case ATTRIB_NORMAL:			gl::EnableVertexAttribArray(1);		break;
+		case ATTRIB_DIFFUSE:		gl::EnableVertexAttribArray(2);		break;
+		case ATTRIB_UV0:			gl::EnableVertexAttribArray(3);		break;
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -569,10 +562,10 @@ void RendererOGL::DisableVertexAttributes(const VertexBuffer* gvb)
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
 		const auto& attr = desc.attrib[i];
 		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);			break;
-		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);			break;
-		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);			break;
-		case ATTRIB_UV0:			glDisableVertexAttribArray(3);			break;
+		case ATTRIB_POSITION:		gl::DisableVertexAttribArray(0);			break;
+		case ATTRIB_NORMAL:			gl::DisableVertexAttribArray(1);			break;
+		case ATTRIB_DIFFUSE:		gl::DisableVertexAttribArray(2);			break;
+		case ATTRIB_UV0:			gl::DisableVertexAttribArray(3);			break;
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -592,30 +585,29 @@ void RendererOGL::EnableVertexAttributes(const VertexArray *v)
 
 	// XXX could be 3D or 2D
 	m_vertexAttribsSet.push_back(0);
-	glEnableVertexAttribArray(0);	// Enable the attribute at that location
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
+	gl::EnableVertexAttribArray(0);	// Enable the attribute at that location
+	gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE_, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
 	CheckRenderErrors();
 
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		assert(! v->normal.empty());
 		m_vertexAttribsSet.push_back(1);
-		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
-		glEnableVertexAttribArray(1);	// Enable the attribute at that location
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
+		gl::EnableVertexAttribArray(1);	// Enable the attribute at that location
+		gl::VertexAttribPointer(1, 3, gl::FLOAT, gl::FALSE_, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 		CheckRenderErrors();
 	}
 	if (v->HasAttrib(ATTRIB_DIFFUSE)) {
 		assert(! v->diffuse.empty());
 		m_vertexAttribsSet.push_back(2);
-		glEnableVertexAttribArray(2);	// Enable the attribute at that location
-		glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));	// only normalise the colours
+		gl::EnableVertexAttribArray(2);	// Enable the attribute at that location
+		gl::VertexAttribPointer(2, 4, gl::UNSIGNED_BYTE, gl::TRUE_, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));	// only normalise the colours
 		CheckRenderErrors();
 	}
 	if (v->HasAttrib(ATTRIB_UV0)) {
 		assert(! v->uv0.empty());
 		m_vertexAttribsSet.push_back(3);
-		glEnableVertexAttribArray(3);	// Enable the attribute at that location
-		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
+		gl::EnableVertexAttribArray(3);	// Enable the attribute at that location
+		gl::VertexAttribPointer(3, 2, gl::FLOAT, gl::FALSE_, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 		CheckRenderErrors();
 	}
 }
@@ -626,7 +618,7 @@ void RendererOGL::DisableVertexAttributes()
 	CheckRenderErrors();
 
 	for (auto i : m_vertexAttribsSet) {
-		glDisableVertexAttribArray(i);
+		gl::DisableVertexAttribArray(i);
 		CheckRenderErrors();
 	}
 	m_vertexAttribsSet.clear();

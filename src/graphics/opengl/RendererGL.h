@@ -45,7 +45,7 @@ public:
 	virtual ~RendererOGL();
 
 	virtual const char* GetName() const { return "GL3.3 renderer"; }
-	virtual bool GetNearFarRange(float &near, float &far) const;
+	virtual bool GetNearFarRange(float &near_, float &far_) const;
 
 	virtual bool BeginFrame();
 	virtual bool EndFrame();
@@ -62,7 +62,7 @@ public:
 
 	virtual bool SetTransform(const matrix4x4d &m);
 	virtual bool SetTransform(const matrix4x4f &m);
-	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far);
+	virtual bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_);
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
 	virtual bool SetProjection(const matrix4x4f &m);
 
