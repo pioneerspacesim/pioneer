@@ -18,9 +18,9 @@
 
 
 std::map<ShipType::Id, const ShipType> ShipType::types;
-std::vector<const ShipType::Id> ShipType::player_ships;
-std::vector<const ShipType::Id> ShipType::static_ships;
-std::vector<const ShipType::Id> ShipType::missile_ships;
+std::vector<ShipType::Id> ShipType::player_ships;
+std::vector<ShipType::Id> ShipType::static_ships;
+std::vector<ShipType::Id> ShipType::missile_ships;
 
 const std::string ShipType::POLICE				= "kanara";
 const std::string ShipType::MISSILE_GUIDED		= "missile_guided";
@@ -134,7 +134,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 
 #if ALLOW_LUA_SHIP_DEF
 static std::string s_currentShipFile;
-int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const ShipType::Id> &list)
+int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *list)
 {
 	if (s_currentShipFile.empty())
 		return luaL_error(L, "ship file contains multiple ship definitions");
@@ -267,7 +267,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const ShipType::Id
 	typedef std::map<std::string, const ShipType>::iterator iter;
 	std::pair<iter, bool> result = ShipType::types.insert(std::make_pair(id, s));
 	if (result.second)
-		list.push_back(s_currentShipFile);
+		list->push_back(s_currentShipFile);
 	else
 		return luaL_error(L, "Ship '%s' was already defined by a different file", id.c_str());
 	s_currentShipFile.clear();
@@ -277,17 +277,17 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<const ShipType::Id
 
 int define_ship(lua_State *L)
 {
-	return _define_ship(L, ShipType::TAG_SHIP, ShipType::player_ships);
+	return _define_ship(L, ShipType::TAG_SHIP, &ShipType::player_ships);
 }
 
 int define_static_ship(lua_State *L)
 {
-	return _define_ship(L, ShipType::TAG_STATIC_SHIP, ShipType::static_ships);
+	return _define_ship(L, ShipType::TAG_STATIC_SHIP, &ShipType::static_ships);
 }
 
 int define_missile(lua_State *L)
 {
-	return _define_ship(L, ShipType::TAG_MISSILE, ShipType::missile_ships);
+	return _define_ship(L, ShipType::TAG_MISSILE, &ShipType::missile_ships);
 }
 #endif
 
