@@ -165,7 +165,7 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GLDebug.h" />
-    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_2.hpp" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_2.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MaterialGL.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MultiMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\Program.h" />

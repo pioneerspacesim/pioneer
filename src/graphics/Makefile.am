@@ -22,7 +22,7 @@ noinst_HEADERS = \
 	Drawables.h \
 	Types.h \
 	VertexBuffer.h \
-	opengl/gl_core_3_2.hpp \
+	opengl/gl_core_3_2.h \
 	opengl/GLDebug.h \
 	opengl/MaterialGL.h \
 	opengl/RenderStateGL.h \

@@ -40,13 +40,13 @@ enum BufferMapMode {
 };
 
 enum PrimitiveType {
-	TRIANGLES = gl::TRIANGLES,
-	TRIANGLE_STRIP = gl::TRIANGLE_STRIP,
-	TRIANGLE_FAN = gl::TRIANGLE_FAN,
-	POINTS = gl::POINTS,
-	LINE_SINGLE = gl::LINES,			//draw one line per two vertices
-	LINE_STRIP = gl::LINE_STRIP,		//connect vertices
-	LINE_LOOP = gl::LINE_LOOP		//connect vertices,  connect start & end
+	TRIANGLES = GL_TRIANGLES,
+	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+	TRIANGLE_FAN = GL_TRIANGLE_FAN,
+	POINTS = GL_POINTS,
+	LINE_SINGLE = GL_LINES,			//draw one line per two vertices
+	LINE_STRIP = GL_LINE_STRIP,		//connect vertices
+	LINE_LOOP = GL_LINE_LOOP		//connect vertices,  connect start & end
 };
 
 enum BlendMode {

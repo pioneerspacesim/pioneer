@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
-#include "opengl/gl_core_3_2.hpp"
+#include "opengl/gl_core_3_2.h"
 #include "opengl/RendererGL.h"
 #include "OS.h"
 #include "StringF.h"
@@ -48,25 +48,25 @@ float GetFovFactor()
 static const char *gl_error_to_string(GLenum err)
 {
 	switch (err) {
-		case gl::NO_ERROR_: return "(no error)";
-		case gl::INVALID_ENUM: return "invalid enum";
-		case gl::INVALID_VALUE: return "invalid value";
-		case gl::INVALID_OPERATION: return "invalid operation";
-		case gl::INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
-		case gl::OUT_OF_MEMORY: return "out of memory";
+		case GL_NO_ERROR: return "(no error)";
+		case GL_INVALID_ENUM: return "invalid enum";
+		case GL_INVALID_VALUE: return "invalid value";
+		case GL_INVALID_OPERATION: return "invalid operation";
+		case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
+		case GL_OUT_OF_MEMORY: return "out of memory";
 		default: return "(unknown error)";
 	}
 }
 
-static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = gl::NO_ERROR_)
+static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = GL_NO_ERROR)
 {
-	GLenum err = ((first_error == gl::NO_ERROR_) ? gl::GetError() : first_error);
-	if (err != gl::NO_ERROR_) {
+	GLenum err = ((first_error == GL_NO_ERROR) ? glGetError() : first_error);
+	if (err != GL_NO_ERROR) {
 		out << "errors: ";
 		do {
 			out << gl_error_to_string(err) << " ";
-			err = gl::GetError();
-		} while (err != gl::NO_ERROR_);
+			err = glGetError();
+		} while (err != GL_NO_ERROR);
 		out << std::endl;
 	}
 }
@@ -77,36 +77,36 @@ static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, in
 	assert(name);
 
 	GLdouble e[4];
-	gl::GetDoublev(id, e);
+	glGetDoublev(id, e);
 
-	GLenum err = gl::GetError();
-	if (err == gl::NO_ERROR_) {
+	GLenum err = glGetError();
+	if (err == GL_NO_ERROR) {
 		out << name << " = " << e[0];
 		for (int i = 1; i < num_elems; ++i)
 			out << ", " << e[i];
 		out << "\n";
 	} else {
-		while (err != gl::NO_ERROR_) {
-			if (err == gl::INVALID_ENUM) { out << name << " -- not supported\n"; }
+		while (err != GL_NO_ERROR) {
+			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
 			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
-			err = gl::GetError();
+			err = glGetError();
 		}
 	}
 }
 
 static void write_opengl_info(std::ostream &out)
 {
-	out << "OpenGL version " << gl::GetString(gl::VERSION);
-	out << ", running on " << gl::GetString(gl::VENDOR);
-	out << " " << gl::GetString(gl::RENDERER) << "\n";
+	out << "OpenGL version " << glGetString(GL_VERSION);
+	out << ", running on " << glGetString(GL_VENDOR);
+	out << " " << glGetString(GL_RENDERER) << "\n";
 
 	out << "Available extensions:" << "\n";
 	{
-		out << "Shading language version: " <<  gl::GetString(gl::SHADING_LANGUAGE_VERSION) << "\n";
+		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 		GLint numext = 0;
-		gl::GetIntegerv(gl::NUM_EXTENSIONS, &numext);
+		glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
 		for (int i = 0; i < numext; ++i) {
-			out << "  " << gl::GetStringi(gl::EXTENSIONS, i) << "\n";
+			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
 		}
 	}
 
@@ -118,25 +118,25 @@ static void write_opengl_info(std::ostream &out)
 #define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
 
-	DUMP_GL_VALUE(gl::MAX_COMBINED_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(gl::MAX_CUBE_MAP_TEXTURE_SIZE);
-	DUMP_GL_VALUE(gl::MAX_DRAW_BUFFERS);
-	DUMP_GL_VALUE(gl::MAX_ELEMENTS_INDICES);
-	DUMP_GL_VALUE(gl::MAX_ELEMENTS_VERTICES);
-	DUMP_GL_VALUE(gl::MAX_FRAGMENT_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(gl::MAX_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(gl::MAX_TEXTURE_LOD_BIAS);
-	DUMP_GL_VALUE(gl::MAX_TEXTURE_SIZE);
-	DUMP_GL_VALUE(gl::MAX_VERTEX_ATTRIBS);
-	DUMP_GL_VALUE(gl::MAX_VERTEX_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(gl::MAX_VERTEX_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(gl::NUM_COMPRESSED_TEXTURE_FORMATS);
-	DUMP_GL_VALUE(gl::SAMPLE_BUFFERS);
-	DUMP_GL_VALUE(gl::SAMPLES);
-	DUMP_GL_VALUE2(gl::ALIASED_LINE_WIDTH_RANGE);
-	DUMP_GL_VALUE2(gl::MAX_VIEWPORT_DIMS);
-	DUMP_GL_VALUE2(gl::SMOOTH_LINE_WIDTH_RANGE);
-	DUMP_GL_VALUE2(gl::SMOOTH_POINT_SIZE_RANGE);
+	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(GL_SAMPLES);
+	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
 
 #undef DUMP_GL_VALUE
 #undef DUMP_GL_VALUE2
@@ -149,16 +149,16 @@ static void write_opengl_info(std::ostream &out)
 		GLint nformats;
 		GLint formats[128]; // XXX 128 should be enough, right?
 
-		gl::GetIntegerv(gl::NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
-		GLenum err = gl::GetError();
-		if (err != gl::NO_ERROR_) {
+		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
+		GLenum err = glGetError();
+		if (err != GL_NO_ERROR) {
 			out << "Get NUM_COMPRESSED_TEXTURE_FORMATS failed\n";
 			dump_and_clear_opengl_errors(out, err);
 		} else {
 			assert(nformats >= 0 && nformats < int(COUNTOF(formats)));
-			gl::GetIntegerv(gl::COMPRESSED_TEXTURE_FORMATS, formats);
-			err = gl::GetError();
-			if (err != gl::NO_ERROR_) {
+			glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
+			err = glGetError();
+			if (err != GL_NO_ERROR) {
 				out << "Get COMPRESSED_TEXTURE_FORMATS failed\n";
 				dump_and_clear_opengl_errors(out, err);
 			} else {
@@ -190,7 +190,7 @@ Renderer* Init(Settings vs)
 	width = window->GetWidth();
 	height = window->GetHeight();
 
-	gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
+	const int didLoad = ogl_LoadFunctions();
 	if (!didLoad)
 		Error("glLoadGen failed to load functions.\n");
 
@@ -206,7 +206,7 @@ Renderer* Init(Settings vs)
 		fclose(f);
 	}
 
-	if (!gl::exts::var_EXT_texture_compression_s3tc) {
+	if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED) {
 		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 	}
 

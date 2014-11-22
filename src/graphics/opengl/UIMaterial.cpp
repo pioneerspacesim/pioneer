@@ -44,7 +44,7 @@ void UIMaterial::Unapply()
 	
 	if (texture1) {
 		static_cast<TextureGL*>(texture1)->Unbind();
-		gl::ActiveTexture(gl::TEXTURE0);
+		glActiveTexture(GL_TEXTURE0);
 	}
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();

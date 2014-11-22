@@ -661,7 +661,7 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
 	PROFILE_SCOPED()
-	gl::DepthRange(0,1);
+	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
 	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
@@ -892,7 +892,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 
 	m_renderer->SetTransform(modelview);
-	gl::DepthRange(0,1);
+	glDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -1045,21 +1045,21 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 		// player location indicator
 		if (m_inSystem && bIsCurrentSystem) {
-			gl::DepthRange(0.2,1.0);
+			glDepthRange(0.2,1.0);
 			m_disk->SetColor(Color(0, 0, 204));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
 		if (bIsCurrentSystem) {
-			gl::DepthRange(0.1,1.0);
+			glDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(0, 204, 0));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
-			gl::DepthRange(0.1,1.0);
+			glDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(77));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
