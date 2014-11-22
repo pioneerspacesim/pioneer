@@ -21,7 +21,7 @@ GLuint Program::s_curProgram = 0;
 static bool check_glsl_errors(const char *filename, GLuint obj)
 {
 	//check if shader or program
-	bool isShader = (glIsShader(obj) == TRUE);
+	bool isShader = (glIsShader(obj) == GL_TRUE);
 
 	int infologLength = 0;
 	char infoLog[1024];
@@ -37,7 +37,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 	else
 		glGetProgramiv(obj, GL_LINK_STATUS, &status);
 
-	if (status == FALSE) {
+	if (status == GL_FALSE) {
 		Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
 			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
 		return false;
