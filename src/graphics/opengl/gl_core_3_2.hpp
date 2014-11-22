@@ -1829,7 +1829,7 @@ namespace gl
 	namespace sys
 	{
 		
-		exts::LoadTest LoadFunctions();
+		gl::exts::LoadTest LoadFunctions();
 		
 		int GetMinorVersion();
 		int GetMajorVersion();
