@@ -10,6 +10,7 @@ November 2014
        fixes #3117 (#3238)
      * A smarter ShipMarket in SpaceStation (#3243)
      * Fix Anti-Aliasing (#3246)
+     * Remove defunct shader programs (#3258)
 
    * Fixes
      * Update deprecated gun tag on Lunar shuttle (#3245)
