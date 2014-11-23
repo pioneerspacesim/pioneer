@@ -43,6 +43,19 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		return false;
 	}
 
+	if (!isShader) {
+		// perform general validation that the program is usable
+		glValidateProgram(obj);
+ 
+		glGetProgramiv(obj, GL_VALIDATE_STATUS, &status);
+		
+		if (status == GL_FALSE) {
+			Error("Error vaildating shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
+				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+			return false;
+		}
+	}
+
 	// Log warnings even if successfully compiled
 	// Sometimes the log is full of junk "success" messages so
 	// this is not a good use for OS::Warning
@@ -111,6 +124,9 @@ struct Shader {
 		}
 #endif
 		shader = glCreateShader(type);
+		if(glIsShader(shader)!=GL_TRUE)
+			throw ShaderException();
+
 		Compile(shader);
 
 		// CheckGLSL may use OS::Warning instead of Error so the game may still (attempt to) run
@@ -216,9 +232,13 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 
 	//create program, attach shaders and link
 	m_program = glCreateProgram();
+	if(glIsProgram(m_program)!=GL_TRUE)
+		throw ProgramException();
+
 	glAttachShader(m_program, vs.shader);
-	if( m_bHasGeomShader )
+	if( m_bHasGeomShader ) {
 		glAttachShader(m_program, gs->shader);
+	}
 	glAttachShader(m_program, fs.shader);
 
 	//extra attribs, if they exist

@@ -43,10 +43,6 @@ namespace Graphics {
 
 typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
 
-// for material-less line and point drawing
-OGL::MultiProgram *vtxColorProg;
-OGL::MultiProgram *flatColorProg;
-
 RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
 , m_numDirLights(0)
@@ -86,13 +82,6 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 
 	if (vs.enableDebugMessages)
 		GLDebug::Enable();
-
-	MaterialDescriptor desc;
-	flatColorProg = new OGL::MultiProgram(desc);
-	m_programs.push_back(std::make_pair(desc, flatColorProg));
-	desc.vertexColors = true;
-	vtxColorProg = new OGL::MultiProgram(desc);
-	m_programs.push_back(std::make_pair(desc, vtxColorProg));
 
 	// Init post processing
 	m_postprocessing.reset(new PostProcessing(this));
