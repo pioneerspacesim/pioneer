@@ -18,6 +18,7 @@ November 2014
 
    * Internal Changes
      * The OSX build showed these might be shadowed (#3248)
+     * Json ship definitions (#3252)
 
 October 2014
    * Art
