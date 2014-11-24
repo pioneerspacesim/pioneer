@@ -1,0 +1,8 @@
+{
+   "tag" : "missile",
+   "forward_thrust" : 400000.0,
+   "hull_mass" : 1,
+   "model" : "missile",
+   "name" : "MISSILE_UNGUIDED",
+   "price" : 100.0
+}
