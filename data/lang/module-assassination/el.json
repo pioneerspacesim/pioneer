@@ -9,35 +9,35 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Συγνώμη,  δεν σας εμπιστεύομαι."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Επιστρέψτε όταν έχετε επαρκή προσόντα."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Δεν νομίζω ότι είστε αυτός που ψάχνω."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Δεν φαίνεστε για άτομο που μπορεί να κάνει αυτό που χρειάζεται να γίνει."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Είναι ξεκάθαρο ότι δεν κάνετε για αυτή  την δουλειά,"
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Φαίνεστε πολύ άπειρος για να χειριστείτε ένα τόσο σημαντικό συμβόλαιο."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Δεν έχω ακούσει ποτέ για εσάς. Χρειάζομαι κάποιον έμπειρο για αυτό το συμβόλαιο."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Δεν θα ήθελα να ρισκάρω το συμβόλαιο δίνοντας το σε έναν άπειρο όπως εσάς."
    },
    "DISTANCE" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Αποσύνδεση."
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
-      "message" : "How soon must it be done?"
+      "message" : "Πόσο σύντομα πρέπει να ολοκληρωθεί ?"
    },
    "HOW_WILL_I_BE_PAID" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship:"
+      "message" : "Σκάφος:"
    },
    "SHIP_ID" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "TITLE_13" : {
       "description" : "",
-      "message" : "Lawyer"
+      "message" : "Δικηγόρος"
    },
    "TITLE_14" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "TITLE_19" : {
       "description" : "",
-      "message" : "Professor"
+      "message" : "Καθηγητής"
    },
    "TITLE_2" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "TITLE_24" : {
       "description" : "",
-      "message" : "Sergeant"
+      "message" : "Λοχίας"
    },
    "TITLE_3" : {
       "description" : "",

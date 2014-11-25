@@ -65,7 +65,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Επιστρέψτε όταν έχετε επαρκή προσόντα."
    },
    "DENY_2" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Αποσύνδεση"
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",

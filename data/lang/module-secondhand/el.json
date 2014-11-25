@@ -57,7 +57,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Αποσύνδεση"
    },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",

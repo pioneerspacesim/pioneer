@@ -21,7 +21,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Επιστρέψτε όταν έχετε επαρκή προσόντα."
    },
    "DENY_2" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Αποσύνδεση"
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",

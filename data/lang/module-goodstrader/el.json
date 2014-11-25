@@ -1,15 +1,15 @@
 {
    "GOODS_TRADER_0" : {
       "description" : "",
-      "message" : "Honest {name}'s Goods Emporium"
+      "message" : "Εμπόριο Αγαθών {name}'s"
    },
    "GOODS_TRADER_1" : {
       "description" : "",
-      "message" : "{name}'s Trading House"
+      "message" : "Εμπορικό κατάστημα {name}'s"
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}'s Warehouse"
+      "message" : "Κατάστημα {name}'s"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
@@ -21,10 +21,10 @@
    },
    "GOODS_TRADER_5" : {
       "description" : "",
-      "message" : "{name} & Sons"
+      "message" : "{name} & ΥΙΟΙ "
    },
    "WELCOME_TO" : {
       "description" : "",
-      "message" : "Welcome to "
+      "message" : "Καλωσορίσατε στο"
    }
 }
