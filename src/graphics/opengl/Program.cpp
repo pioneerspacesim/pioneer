@@ -43,6 +43,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		return false;
 	}
 
+#if 0
 	if (!isShader) {
 		// perform general validation that the program is usable
 		glValidateProgram(obj);
@@ -55,6 +56,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 			return false;
 		}
 	}
+#endif
 
 	// Log warnings even if successfully compiled
 	// Sometimes the log is full of junk "success" messages so
