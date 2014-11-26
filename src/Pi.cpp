@@ -600,10 +600,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (pStatFile)
 	{
 		fprintf(pStatFile, "name,modelname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
-		for (std::map<std::string, ShipType>::iterator i = ShipType::types.begin();
-				i != ShipType::types.end(); ++i)
+		for (auto iter : ShipType::types)
 		{
-			const ShipType *shipdef = &(i->second);
+			const ShipType *shipdef = &(iter.second);
 			SceneGraph::Model *model = Pi::FindModel(shipdef->modelName, false);
 
 			double hullmass = shipdef->hullMass;
@@ -662,7 +661,6 @@ void Pi::Quit()
 	Shields::Uninit();
 	Sfx::Uninit();
 	Sound::Uninit();
-	SpaceStation::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
 	FaceParts::Uninit();

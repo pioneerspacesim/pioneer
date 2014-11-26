@@ -522,7 +522,7 @@ static double MaxEffectRad(Body *body, Ship *ship)
 	if(!body) return 0.0;
 	if(!body->IsType(Object::TERRAINBODY)) {
 		if (!body->IsType(Object::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
-		return static_cast<SpaceStation*>(body)->GetStationType()->parkingDistance + 1000.0;
+		return static_cast<SpaceStation*>(body)->GetStationType()->ParkingDistance() + 1000.0;
 	}
 	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / ship->GetAccelUp()));
 }
@@ -923,7 +923,7 @@ bool AICmdDock::TimeStepUpdate()
 
 		m_dockdir = dockpos.zaxis.Normalized();
 		m_dockupdir = dockpos.yaxis.Normalized();		// don't trust these enough
-		if (type->dockMethod == SpaceStationType::ORBITAL) {
+		if (type->IsOrbitalStation()) {
 			m_dockupdir = -m_dockupdir;
 		} else if (m_state == eDockingComplete) {
 			m_dockpos -= m_dockupdir * (m_ship->GetAabb().min.y + 1.0);
@@ -943,14 +943,14 @@ bool AICmdDock::TimeStepUpdate()
 
 	// second docking waypoint
 	m_ship->SetWheelState(true);
-	vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_dockpos);
-	vector3d relpos = targpos - m_ship->GetPosition();
-	vector3d reldir = relpos.NormalizedSafe();
-	vector3d relvel = -m_target->GetVelocityRelTo(m_ship);
+	const vector3d targpos = GetPosInFrame(m_ship->GetFrame(), m_target->GetFrame(), m_dockpos);
+	const vector3d relpos = targpos - m_ship->GetPosition();
+	const vector3d reldir = relpos.NormalizedSafe();
+	const vector3d relvel = -m_target->GetVelocityRelTo(m_ship);
 
-	double maxdecel = m_ship->GetAccelUp() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
-	double ispeed = calc_ivel(relpos.Length(), 0.0, maxdecel);
-	vector3d vdiff = ispeed*reldir - relvel;
+	const double maxdecel = m_ship->GetAccelUp() - GetGravityAtPos(m_target->GetFrame(), m_dockpos);
+	const double ispeed = calc_ivel(relpos.Length(), 0.0, maxdecel);
+	const vector3d vdiff = ispeed*reldir - relvel;
 	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
 	if (vdiff.Dot(reldir) < 0) {
 		m_ship->SetDecelerating(true);
@@ -965,7 +965,7 @@ bool AICmdDock::TimeStepUpdate()
 		trot = trot * matrix3x3d::Rotate(ang, axis);
 	}
 	double af;
-	if (m_target->GetStationType()->dockMethod == SpaceStationType::ORBITAL) {
+	if (m_target->GetStationType()->IsOrbitalStation()) {
 		af = m_ship->AIFaceDirection(trot * m_dockdir);
 	} else {
 		af = m_ship->AIFaceDirection(m_ship->GetPosition().Cross(m_ship->GetOrient().VectorX()));

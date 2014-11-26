@@ -139,6 +139,17 @@ void Output(const char *format, ...)
 	fputs(buf, stderr);
 }
 
+void OpenGLDebugMsg(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	fputs(buf, stderr);
+}
+
 std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;

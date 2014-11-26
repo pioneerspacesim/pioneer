@@ -16,6 +16,8 @@ namespace Graphics {
 
 		struct ShaderException { };
 
+		struct ProgramException { };
+
 		class Program {
 		public:
 			Program();

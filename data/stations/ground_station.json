@@ -1,0 +1,7 @@
+{
+   "model" : "ground_station",
+   "type" : "surface",
+   "parking_distance" : 5000,
+   "parking_gap_size" : 2000,
+   "pad_offset" : 150
+}

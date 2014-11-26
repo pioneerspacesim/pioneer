@@ -3,37 +3,69 @@
 
 #include "SpaceStationType.h"
 #include "FileSystem.h"
-#include "Lua.h"
-#include "LuaVector.h"
-#include "LuaVector.h"
-#include "LuaTable.h"
 #include "Pi.h"
 #include "MathUtil.h"
 #include "Ship.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
 #include "OS.h"
+#include "json/json.h"
 
 #include <algorithm>
 
-static lua_State *s_lua;
-static std::string s_currentStationFile = "";
-std::vector<SpaceStationType> SpaceStationType::surfaceStationTypes;
-std::vector<SpaceStationType> SpaceStationType::orbitalStationTypes;
+std::vector<SpaceStationType> SpaceStationType::surfaceTypes;
+std::vector<SpaceStationType> SpaceStationType::orbitalTypes;
 
-SpaceStationType::SpaceStationType()
-: id("")
-, model(0)
-, modelName("")
-, angVel(0.f)
-, dockMethod(SURFACE)
-, numDockingPorts(0)
-, numDockingStages(0)
-, numUndockStages(0)
-, shipLaunchStage(3)
-, parkingDistance(0)
-, parkingGapSize(0)
-{}
+SpaceStationType::SpaceStationType(const std::string &id_, const std::string &path_)
+	: id(id_)
+	, model(0)
+	, modelName("")
+	, angVel(0.f)
+	, dockMethod(SURFACE)
+	, numDockingPorts(0)
+	, numDockingStages(0)
+	, numUndockStages(0)
+	, shipLaunchStage(3)
+	, parkingDistance(0)
+	, parkingGapSize(0)
+{
+	Json::Reader reader;
+	Json::Value data;
+
+	auto fd = FileSystem::gameDataFiles.ReadFile(path_);
+	if (!fd) {
+		Output("couldn't open station def '%s'\n", path_.c_str());
+		return;
+	}
+
+	if (!reader.parse(fd->GetData(), fd->GetData()+fd->GetSize(), data)) {
+		Output("couldn't read station def '%s': %s\n", path_.c_str(), reader.getFormattedErrorMessages().c_str());
+		return;
+	}
+
+	modelName = data.get("model", "").asString();
+
+	const std::string type(data.get("type", "").asString());
+	if (type == "surface")
+		dockMethod = SURFACE;
+	else if (type == "orbital")
+		dockMethod = ORBITAL;
+	else {
+		Output("couldn't parse station def '%s': unknown type '%s'\n", path_.c_str(), type.c_str());
+		return;
+	}
+
+	angVel = data.get("angular_velocity", 0.0f).asFloat();
+
+	parkingDistance = data.get("parking_distance", 0.0f).asFloat();
+	parkingGapSize = data.get("parking_gap_size", 0.0f).asFloat();
+	
+	padOffset = data.get("pad_offset", 150.f).asFloat();
+
+	model = Pi::FindModel(modelName);
+	assert(model);
+	OnSetupComplete();
+}
 
 void SpaceStationType::OnSetupComplete()
 {
@@ -357,77 +389,35 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 	return gotOrient;
 }
 
-static int _define_station(lua_State *L, SpaceStationType &station)
-{
-	station.id = s_currentStationFile;
-
-	LUA_DEBUG_START(L);
-	LuaTable t(L, -1);
-	station.modelName = t.Get<std::string>("model");
-	station.angVel = t.Get("angular_velocity", 0.f);
-	station.parkingDistance = t.Get("parking_distance", 5000.f);
-	station.parkingGapSize = t.Get("parking_gap_size", 2000.f);
-	station.padOffset = t.Get("pad_offset", 150.f);
-	LUA_DEBUG_END(L, 0);
-
-	assert(!station.modelName.empty());
-
-	station.model = Pi::FindModel(station.modelName);
-	station.OnSetupComplete();
-	return 0;
-}
-
-static int define_orbital_station(lua_State *L)
-{
-	SpaceStationType station;
-	station.dockMethod = SpaceStationType::ORBITAL;
-	_define_station(L, station);
-	SpaceStationType::orbitalStationTypes.push_back(station);
-	return 0;
-}
-
-static int define_surface_station(lua_State *L)
-{
-	SpaceStationType station;
-	station.dockMethod = SpaceStationType::SURFACE;
-	_define_station(L, station);
-	SpaceStationType::surfaceStationTypes.push_back(station);
-	return 0;
-}
-
+/*static*/
 void SpaceStationType::Init()
 {
-	assert(s_lua == 0);
-	if (s_lua != 0) return;
+	static bool isInitted = false;
+	if (isInitted) 
+		return;
+	isInitted = true;
 
-	s_lua = luaL_newstate();
-	lua_State *L = s_lua;
-
-	LUA_DEBUG_START(L);
-	pi_lua_open_standard_base(L);
-
-	LuaVector::Register(L);
-
-	LUA_DEBUG_CHECK(L, 0);
-
-	lua_register(L, "define_orbital_station", define_orbital_station);
-	lua_register(L, "define_surface_station", define_surface_station);
-
+	// load all station definitions
 	namespace fs = FileSystem;
-	for (fs::FileEnumerator files(fs::gameDataFiles, "stations", fs::FileEnumerator::Recurse);
-			!files.Finished(); files.Next()) {
+	for (fs::FileEnumerator files(fs::gameDataFiles, "stations", 0); !files.Finished(); files.Next()) {
 		const fs::FileInfo &info = files.Current();
-		if (ends_with_ci(info.GetPath(), ".lua")) {
-			const std::string name = info.GetName();
-			s_currentStationFile = name.substr(0, name.size()-4);
-			pi_lua_dofile(L, info.GetPath());
-			s_currentStationFile.clear();
+		if (ends_with_ci(info.GetPath(), ".json")) {
+			const std::string id(info.GetName().substr(0, info.GetName().size()-5));
+			SpaceStationType st = SpaceStationType(id, info.GetPath());
+			switch (st.dockMethod) {
+				case SURFACE: surfaceTypes.push_back(st); break;
+				case ORBITAL: orbitalTypes.push_back(st); break;
+			}
 		}
 	}
-	LUA_DEBUG_END(L, 0);
 }
 
-void SpaceStationType::Uninit()
+/*static*/
+const SpaceStationType* SpaceStationType::RandomStationType(Random &random, const bool bIsGround)
 {
-	lua_close(s_lua); s_lua = 0;
+	if (bIsGround) {
+		return &surfaceTypes[ random.Int32(SpaceStationType::surfaceTypes.size()) ];
+	} 
+
+	return &orbitalTypes[ random.Int32(SpaceStationType::orbitalTypes.size()) ];
 }
