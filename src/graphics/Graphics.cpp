@@ -4,7 +4,7 @@
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
-#include "opengl/gl_core_3_2.h"
+#include "opengl/gl_core_3_1.h"
 #include "opengl/RendererGL.h"
 #include "OS.h"
 #include "StringF.h"

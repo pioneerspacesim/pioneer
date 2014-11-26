@@ -19,7 +19,7 @@ namespace Graphics {
 		class Program {
 		public:
 			Program();
-			Program(const std::string &name, const std::string &defines, const bool bHasGeomShader = false);
+			Program(const std::string &name, const std::string &defines);
 			virtual ~Program();
 			void Reload();
 			virtual void Use();
@@ -66,7 +66,6 @@ namespace Graphics {
 			std::string m_name;
 			std::string m_defines;
 			GLuint m_program;
-			const bool m_bHasGeomShader;
 		};
 
 	}
