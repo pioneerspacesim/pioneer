@@ -257,7 +257,7 @@ void Program::InitUniforms()
 
 	//Light uniform parameters
 	char cLight[64];
-	for( int i=0 ; i<=4 ; i++ ) {
+	for( int i=0 ; i<4 ; i++ ) {
 		snprintf(cLight, 64, "uLight[%d]", i);
 		const std::string strLight( cLight );
 		lights[i].diffuse.Init( (strLight + ".diffuse").c_str(), m_program );
