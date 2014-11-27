@@ -1,7 +1,7 @@
 November 2014
    * New Features
      * Update to use OpenGL 3.2 (#3219)
-     
+
    * Script and UI API changes
      * Added random number from Poisson distribution (#3242)
 
@@ -12,6 +12,7 @@ November 2014
      * Fix Anti-Aliasing (#3246)
      * Remove defunct shader programs (#3258)
      * Extra checking for program creation (#3253)
+     * Fix (unnoticeable) logical error in cargo code (#3261)
 
    * Fixes
      * Update deprecated gun tag on Lunar shuttle (#3245)
