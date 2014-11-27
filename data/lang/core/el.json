@@ -53,11 +53,11 @@
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Argon atmosphere\""
+      "message" : "\" Ατμόσφαιρα Αργού\""
    },
    "ASTEROID" : {
       "description" : "",
-      "message" : "Asteroid"
+      "message" : "Αστεροειδής"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Φορτίο"
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
-      "message" : "Cargo Bay Life Support"
+      "message" : "Χώρος φορτίου για υποστήριξη ζωής"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Computers"
+      "message" : "Υπολογιστές"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Carbon Monoxide atmosphere\""
+      "message" : "\" Ατμόσφαιρα μονοξειδίου του άνθρακα\""
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
@@ -317,7 +317,7 @@
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Μείωση εύρους σαρωτή"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "FARM_MACHINERY" : {
       "description" : "",
-      "message" : "Farm machinery"
+      "message" : "Αγροτικά Μηχανήματα "
    },
    "FERTILIZER" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "GALACTIC_VIEW" : {
       "description" : "",
-      "message" : "Galactic view"
+      "message" : "Όψη Γαλαξία"
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
@@ -573,7 +573,7 @@
    },
    "GRAIN" : {
       "description" : "",
-      "message" : "Grain"
+      "message" : "Σιτηρά"
    },
    "HAND_WEAPONS" : {
       "description" : "",
@@ -621,7 +621,7 @@
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Helium atmosphere\""
+      "message" : "\" Ατμόσφαιρα Ηλείου\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Hull Auto-Repair System"
+      "message" : "Σύστημα αυτόματης επισκευής κύτους"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -641,11 +641,11 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Ακεραιότητα κύτους"
    },
    "HULL_TEMP" : {
       "description" : "",
-      "message" : "Hull temp"
+      "message" : "Θερμοκρασία κύτους"
    },
    "HYDROGEN" : {
       "description" : "",
@@ -697,7 +697,7 @@
    },
    "H_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Hydrogen atmosphere\""
+      "message" : "\" Ατμόσφαιρα Υδρογόνου\""
    },
    "ICE_WORLD" : {
       "description" : "",
@@ -717,7 +717,7 @@
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Αύξηση εύρους σαρωτή"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -733,7 +733,7 @@
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
-      "message" : "Industrial machinery"
+      "message" : "Βιομηχανικά μηχανήματα"
    },
    "INTERNAL_VIEW" : {
       "description" : "",
@@ -785,7 +785,7 @@
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Large plasma accelerator"
+      "message" : "Μέγας επιταχυντής πλάσματος"
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
@@ -797,7 +797,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Laser fire detected."
+      "message" : "Εντοπίστηκε βολή Laser"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -821,7 +821,7 @@
    },
    "LIVE_ANIMALS" : {
       "description" : "",
-      "message" : "Live Animals"
+      "message" : "Ζώντα Ζώα"
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -921,7 +921,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Μάζα"
    },
    "MASSIVE" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Κράματα Μετάλλου"
    },
    "METAL_ORE" : {
       "description" : "",
@@ -977,7 +977,7 @@
    },
    "MINING_MACHINERY" : {
       "description" : "",
-      "message" : "Mining machinery"
+      "message" : "Μηχανήματα εξόρυξης"
    },
    "MINOR_EXPORTS" : {
       "description" : "",
@@ -1001,11 +1001,11 @@
    },
    "MISSILE" : {
       "description" : "",
-      "message" : "missile"
+      "message" : "πύραυλος"
    },
    "MISSILE_GUIDED" : {
       "description" : "",
-      "message" : "Guided Missile"
+      "message" : "Καθοδηγούμενος Πύραυλος"
    },
    "MISSILE_NAVAL" : {
       "description" : "",
@@ -1089,7 +1089,7 @@
    },
    "NARCOTICS" : {
       "description" : "",
-      "message" : "Narcotics"
+      "message" : "Ναρκωτικά"
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
@@ -1329,11 +1329,11 @@
    },
    "POLICE_SHIP_REGISTRATION" : {
       "description" : "",
-      "message" : "POLICE"
+      "message" : "ΑΣΤΥΝΟΜΙΑ"
    },
    "POPULATION" : {
       "description" : "",
-      "message" : "Population:"
+      "message" : "Πληθυσμός:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",
@@ -1417,7 +1417,7 @@
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "Ρομπότ"
    },
    "ROCKY_PLANET" : {
       "description" : "",
@@ -1469,7 +1469,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Rubbish"
+      "message" : "Σκουπίδια"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1477,7 +1477,7 @@
    },
    "SCANNER" : {
       "description" : "",
-      "message" : "Scanner"
+      "message" : "Σαρωτής"
    },
    "SCANNER_CONTROL" : {
       "description" : "",
@@ -1517,7 +1517,7 @@
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Selected system"
+      "message" : "Επιλεγμένο Σύστημα"
    },
    "SELECT_A_TARGET" : {
       "description" : "",
@@ -1565,7 +1565,7 @@
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Shield Generator"
+      "message" : "Γεννήτρια Ασπίδας"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
@@ -1597,7 +1597,7 @@
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Ship detected nearby."
+      "message" : "Εντοπίστηκε  Σκάφος σε μικρή απόσταση. "
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1609,7 +1609,7 @@
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Ship nearby"
+      "message" : "Σκάφος σε μικρή απόσταση"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
@@ -1629,7 +1629,7 @@
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Slaves"
+      "message" : "Σκλάβοι"
    },
    "SMALL" : {
       "description" : "",
@@ -1645,7 +1645,7 @@
    },
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
-      "message" : "Small plasma accelerator"
+      "message" : "Μικρός επιταχυντής πλάσματος"
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1817,11 +1817,11 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Surface gravity"
+      "message" : "Επιφανειακή βαρύτητα"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
-      "message" : "Surface temperature"
+      "message" : "Θερμοκρασία επιφάνειας"
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
@@ -1965,7 +1965,7 @@
    },
    "UNKNOWN" : {
       "description" : "",
-      "message" : "<unknown>"
+      "message" : "<άγνωστο>"
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
