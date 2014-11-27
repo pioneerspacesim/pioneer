@@ -1,7 +1,7 @@
 {
    "ASSASSINATION" : {
       "description" : "",
-      "message" : "Assassination"
+      "message" : "Δολοφονία"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "SHIP_ID" : {
       "description" : "",
-      "message" : "Ship ID:"
+      "message" : "Αναγνωριστικό Σκάφους:"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Admiral"
+      "message" : "Ναύαρχος"
    },
    "TITLE_1" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "TITLE_11" : {
       "description" : "",
-      "message" : "General"
+      "message" : "Στρατηγός"
    },
    "TITLE_12" : {
       "description" : "",
-      "message" : "Judge"
+      "message" : "Δικαστής"
    },
    "TITLE_13" : {
       "description" : "",
@@ -269,11 +269,11 @@
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Brigadier"
+      "message" : "Ταξίαρχος"
    },
    "TITLE_20" : {
       "description" : "",
-      "message" : "Prosecutor"
+      "message" : "Εισαγγελέας"
    },
    "TITLE_21" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Captain"
+      "message" : "Καπετάνιος"
    },
    "TITLE_5" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "TITLE_9" : {
       "description" : "",
-      "message" : "Corporal"
+      "message" : "Δεκανέας"
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",

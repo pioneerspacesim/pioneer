@@ -269,7 +269,7 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	// damage (kineticEnergy is being passed as a damage value) is measured in kilograms
 	// ignore damage less than a gram except for cargo, which is very fragile.
 	CollisionContact dummy;
-	if (o->IsType(Object::CARGOBODY)){
+	if (this->IsType(Object::CARGOBODY)){
 		OnDamage(o, float(kineticEnergy), dummy);
 	}
 	else if (kineticEnergy > 1e-3){
