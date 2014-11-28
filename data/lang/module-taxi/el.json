@@ -97,7 +97,7 @@
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Εξαίσια."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Σας ευχαριστούμε για το ταξίδι,  πληρώσαμε στο ακέραιο."
    },
    "FLAVOUR_0_WHEREAREWE" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_0_WHYSOMUCH" : {
       "description" : "",
-      "message" : "We are visiting a friend."
+      "message" : "Κάνουμε επίσκεψη σε φίλο."
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_12_DANGER" : {
       "description" : "",
-      "message" : "Someone is chasing me."
+      "message" : "Κάποιος με καταδιώκει."
    },
    "FLAVOUR_12_FAILUREMSG" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "FLAVOUR_12_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the ride. You have been paid in full."
+      "message" : "Σας ευχαριστούμε για τη μεταφορά,  πληρώσαμε στο ακέραιο."
    },
    "FLAVOUR_12_WHEREAREWE" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Σας ευχαριστούμε για το ταξίδι,  πληρώσαμε στο ακέραιο."
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "FLAVOUR_2_WHYSOMUCH" : {
       "description" : "",
-      "message" : "It's normal business trip."
+      "message" : "Είναι ένα επιχειρηματικό ταξίδι."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Σας ευχαριστούμε για το ταξίδι,  πληρώσαμε στο ακέραιο."
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
@@ -321,7 +321,7 @@
    },
    "FLAVOUR_3_WHYSOMUCH" : {
       "description" : "",
-      "message" : "An old rival is trying to kill me."
+      "message" : "Ένας παλιός ανταγωνιστής προσπαθεί να με σκοτώσει."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
-      "message" : "Just me."
+      "message" : "Μόνο εγώ."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Σας ευχαριστούμε για το ταξίδι,  πληρώσαμε στο ακέραιο."
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Σας ευχαριστούμε για το ταξίδι,  πληρώσαμε στο ακέραιο."
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm freelance journalist."
+      "message" : "Είμαι αυτοαπασχολούμενος δημοσιογράφος."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
-      "message" : "Me and nobody else."
+      "message" : "Εγώ και κανείς άλλος."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Mafia want me dead."
+      "message" : "Η μαφία με θέλει νεκρό"
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "FLAVOUR_8_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Μόνο εγώ."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
@@ -481,7 +481,7 @@
    },
    "FLAVOUR_8_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm visiting a sick relative."
+      "message" : "Επισκέπτομαι έναν άρρωστο συγγενή."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "FLAVOUR_9_DANGER" : {
       "description" : "",
-      "message" : "The Police may try to stop you."
+      "message" : "Η αστυνομία ίσως σας σταματήσει"
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
@@ -497,7 +497,7 @@
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Μόνο εγώ."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
@@ -521,7 +521,7 @@
    },
    "GROUP_DETAILS" : {
       "description" : "",
-      "message" : "Group details:"
+      "message" : "Πληροφορίες Γκρούπ:"
    },
    "HANG_UP" : {
       "description" : "",
@@ -529,11 +529,11 @@
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
-      "message" : "Hey!?! You are going to pay for this!!!"
+      "message" : "θα το πληρώσεις αυτό που έκανες."
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
-      "message" : "How many of you are there?"
+      "message" : "Πόσοι είστε ?"
    },
    "HOW_SOON_YOU_MUST_BE_THERE" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "I must be there before "
+      "message" : "Πρέπει να είμαι εκεί πριν την"
    },
    "LY" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "You have {client} on board? That was a bad idea."
+      "message" : "έχεις τον {client} στο σκάφος? πολύ κακή κίνηση."
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
@@ -569,7 +569,7 @@
    },
    "TAXI" : {
       "description" : "",
-      "message" : "Taxi"
+      "message" : "Ταξί"
    },
    "TO" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",
-      "message" : "We want to be there before "
+      "message" : "Θέλουμε να είμαστε εκεί πριν την "
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
@@ -589,6 +589,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cabin space on your ship."
+      "message" : "Δεν υπάρχουν επαρκείς καμπίνες στο σκάφος."
    }
 }
