@@ -44,7 +44,7 @@ public:
 	RendererOGL(WindowSDL *window, const Graphics::Settings &vs);
 	virtual ~RendererOGL();
 
-	virtual const char* GetName() const { return "GL3.3 renderer"; }
+	virtual const char* GetName() const { return "OpenGL 3.1, with extensions, renderer"; }
 	virtual bool GetNearFarRange(float &near_, float &far_) const;
 
 	virtual bool BeginFrame();
