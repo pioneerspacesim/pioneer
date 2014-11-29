@@ -22,7 +22,7 @@ noinst_HEADERS = \
 	Drawables.h \
 	Types.h \
 	VertexBuffer.h \
-	opengl/gl_core_3_1.h \
+	opengl/gl_core_3_x.h \
 	opengl/GLDebug.h \
 	opengl/MaterialGL.h \
 	opengl/RenderStateGL.h \
@@ -54,7 +54,7 @@ libgraphics_a_SOURCES = \
 	TextureBuilder.cpp \
 	Drawables.cpp \
 	VertexBuffer.cpp \
-	opengl/gl_core_3_1.cpp \
+	opengl/gl_core_3_x.c \
 	opengl/MaterialGL.cpp \
 	opengl/RenderStateGL.cpp \
 	opengl/RenderTargetGL.cpp \
