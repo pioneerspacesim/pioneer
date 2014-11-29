@@ -137,7 +137,7 @@
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
-      "message" : "Bottom camera"
+      "message" : "Vedere de jos"
    },
    "CAMERA_FRONT_VIEW" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
-      "message" : "Left camera"
+      "message" : "Vedere stănga"
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
@@ -153,11 +153,11 @@
    },
    "CAMERA_RIGHT_VIEW" : {
       "description" : "",
-      "message" : "Right camera"
+      "message" : "Vedere din dreapta"
    },
    "CAMERA_TOP_VIEW" : {
       "description" : "",
-      "message" : "Top camera"
+      "message" : "Vedere de sus"
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "CAPITALIST" : {
       "description" : "",
-      "message" : "Capitalist"
+      "message" : "Capitalist(ă)"
    },
    "CARBON_ORE" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Scade amplitudine scaner"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
-      "message" : "Draw vertical lines"
+      "message" : "Desenează linii verticale"
    },
    "DRIVE_CLASS1" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Extensive mining operations."
+      "message" : "Activitate miniera extensivă."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -505,7 +505,7 @@
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Fire missile"
+      "message" : "Lansați rachetă"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
@@ -521,7 +521,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "Combustibil"
    },
    "FUEL_SCOOP" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
+      "message" : "Acest fișier de salvare nu a putut fi scris din cauza unei erori de sistem."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Heavy industry."
+      "message" : "Industrie grea."
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "High population outdoor world."
+      "message" : "Lume cu populație mare la suprafață."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
@@ -717,7 +717,7 @@
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Crește amplitudine scaner"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "În tranzit"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
@@ -861,7 +861,7 @@
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "Comutare Panou Info"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
@@ -869,23 +869,23 @@
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Rotește Vizionare în Jos"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Rotește Vizionare la Stânga"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Rotește Vizionare la Dreapta"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Rotește Vizionare în Sus"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Mută pe Vizionare Posterioară"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
@@ -1041,15 +1041,15 @@
    },
    "MONTH_JAN" : {
       "description" : "",
-      "message" : "Jan"
+      "message" : "Ian"
    },
    "MONTH_JUL" : {
       "description" : "",
-      "message" : "Jul"
+      "message" : "Iul"
    },
    "MONTH_JUN" : {
       "description" : "",
-      "message" : "Jun"
+      "message" : "Iun"
    },
    "MONTH_MAR" : {
       "description" : "",
@@ -1057,11 +1057,11 @@
    },
    "MONTH_MAY" : {
       "description" : "",
-      "message" : "May"
+      "message" : "Mai"
    },
    "MONTH_NOV" : {
       "description" : "",
-      "message" : "Nov"
+      "message" : "Noi"
    },
    "MONTH_OCT" : {
       "description" : "",
@@ -1145,7 +1145,7 @@
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} days"
+      "message" : "%days{f.0} zile"
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used in numbers.",
@@ -1233,7 +1233,7 @@
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
-      "message" : "Outdoor agricultural world."
+      "message" : "Lume cu agricultură de exterior."
    },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1249,11 +1249,11 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Occupied Passenger Cabin"
+      "message" : "Cabină Pasager Ocupată"
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "PAUSED"
+      "message" : "PAUZĂ"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
-      "message" : "Probability of arrival: %probability%%"
+      "message" : "Probabilitate de sosire: %probability%%"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Resetare"
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
@@ -1441,19 +1441,19 @@
    },
    "ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate Down"
+      "message" : "Întoarce în jos"
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate Left"
+      "message" : "Întoarce la Stânga"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "Întoarce la Dreapta"
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate Up"
+      "message" : "Întoarce în Sus"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1509,7 +1509,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "Vizualizare Hartă Sector"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1525,7 +1525,7 @@
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
-      "message" : "Select low thrust power level"
+      "message" : "Selectați nivel redus de propulsare"
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
@@ -1541,7 +1541,7 @@
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
-      "message" : "Set low thrust power level to %power%%"
+      "message" : "Setați nivelul redus de propulsare la %power%%"
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
@@ -1817,7 +1817,7 @@
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
-      "message" : "Surface gravity"
+      "message" : "Gravitația la suprafață"
    },
    "SURFACE_TEMPERATURE" : {
       "description" : "",
@@ -1833,7 +1833,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System"
+      "message" : "Sistem"
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
@@ -1881,7 +1881,7 @@
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
-      "message" : "Thriving outdoor world."
+      "message" : "Lume exterioară prosperă."
    },
    "THRUSTER_DORSAL" : {
       "description" : "",
@@ -1921,7 +1921,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Toggle Lua console"
+      "message" : "Comutare consolă LUA"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1929,7 +1929,7 @@
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
-      "message" : "Toggle scanner mode"
+      "message" : "Comutare mod scaner"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "",
@@ -1977,7 +1977,7 @@
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Required for transport of a single passenger"
+      "message" : "Necesar(ă) pentru transportul unui singur pasager"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1985,7 +1985,7 @@
    },
    "USE_LOW_THRUST" : {
       "description" : "",
-      "message" : "Use low thrust"
+      "message" : "Folosiți propulsie redusă"
    },
    "VAST_STRIP_MINE" : {
       "description" : "",

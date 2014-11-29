@@ -22,7 +22,7 @@ namespace Graphics {
 			}
 
 			Program *CreateProgram(const MaterialDescriptor &) {
-				return new Program("postprocessing", "textured_fullscreen_quad", "", false);
+				return new Program("postprocessing", "textured_fullscreen_quad", "");
 			}
 
 			virtual void Apply() {

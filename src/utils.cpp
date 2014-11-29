@@ -139,6 +139,17 @@ void Output(const char *format, ...)
 	fputs(buf, stderr);
 }
 
+void OpenGLDebugMsg(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	fputs(buf, stderr);
+}
+
 std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;
@@ -167,7 +178,7 @@ void Screendump(const char* destFile, const int width, const int height)
 	const int stride = (3*width + 3) & ~3;
 
 	std::vector<Uint8> pixel_data(stride * height);
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
 	glReadBuffer(GL_FRONT);
 	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);

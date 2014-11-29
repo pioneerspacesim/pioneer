@@ -1,7 +1,7 @@
 November 2014
    * New Features
      * Update to use OpenGL 3.2 (#3219)
-     
+
    * Script and UI API changes
      * Added random number from Poisson distribution (#3242)
 
@@ -12,12 +12,18 @@ November 2014
      * Fix Anti-Aliasing (#3246)
      * Remove defunct shader programs (#3258)
      * Extra checking for program creation (#3253)
+     * Fix (unnoticeable) logical error in cargo code (#3261)
+     * Add CppCheck file. (#3266)
 
    * Fixes
      * Update deprecated gun tag on Lunar shuttle (#3245)
+     * Fix Open GL errors causing MXE build not working (#3251)
 
    * Internal Changes
      * The OSX build showed these might be shadowed (#3248)
+     * Json ship definitions (#3252)
+     * Disable shader validation due to OSX bug (#3260)
+     * Remove GLEW, use glLoadGen (#3265)
 
 October 2014
    * Art

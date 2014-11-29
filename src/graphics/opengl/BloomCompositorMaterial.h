@@ -22,7 +22,7 @@ namespace Graphics {
 			}
 
 			Program *CreateProgram(const MaterialDescriptor &) {
-				return new Program("postprocessing", "compositor", "", false);
+				return new Program("postprocessing", "compositor", "");
 			}
 
 			virtual void Apply() {

@@ -12,9 +12,10 @@ namespace Graphics {
 
 namespace OGL {
 
+// #version 140 for OpenGL3.1
 // #version 150 for OpenGL3.2
 // #version 330 for OpenGL3.3
-static const char *s_glslVersion = "#version 150\n";
+static const char *s_glslVersion = "#version 140\n";
 GLuint Program::s_curProgram = 0;
 
 // Check and warn about compile & link errors
@@ -43,6 +44,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 		return false;
 	}
 
+#if 0
 	if (!isShader) {
 		// perform general validation that the program is usable
 		glValidateProgram(obj);
@@ -55,6 +57,7 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 			return false;
 		}
 	}
+#endif
 
 	// Log warnings even if successfully compiled
 	// Sometimes the log is full of junk "success" messages so
@@ -73,24 +76,22 @@ struct Shader {
 	Shader(GLenum type, const std::string &filename, const std::string &defines) {
 		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
 
-		if (!code)
+		if (!code.Valid())
 			Error("Could not load %s", filename.c_str());
 
 		// Load some common code
 		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/attributes.glsl");
-		assert(attributesCode);
+		assert(attributesCode.Valid());
 		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/logz.glsl");
-		assert(logzCode);
+		assert(logzCode.Valid());
 		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/lib.glsl");
-		assert(libsCode);
+		assert(libsCode.Valid());
 
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
 		if (type == GL_VERTEX_SHADER) {
 			AppendSource("#define VERTEX_SHADER\n");
-		} else if (type == GL_GEOMETRY_SHADER) {
-			AppendSource("#define GEOMETRY_SHADER\n");
-		}else {
+		} else {
 			AppendSource("#define FRAGMENT_SHADER\n");
 		}
 		AppendSource(attributesCode->AsStringRange().StripUTF8BOM());
@@ -168,25 +169,22 @@ Program::Program()
 : m_name("")
 , m_defines("")
 , m_program(0)
-, m_bHasGeomShader(false)
 {
 }
 
-Program::Program(const std::string &name, const std::string &defines, const bool bHasGeomShader /*= false*/)
+Program::Program(const std::string &name, const std::string &defines)
 : m_name(name)
 , m_defines(defines)
 , m_program(0)
-, m_bHasGeomShader(bHasGeomShader)
 {
 	LoadShaders(name, defines);
 	InitUniforms();
 }
 
-Program::Program(const std::string &folder, const std::string &name, const std::string &defines, const bool bHasGeomShader)
+Program::Program(const std::string &folder, const std::string &name, const std::string &defines)
 : m_name(name)
 , m_defines(defines)
 , m_program(0)
-, m_bHasGeomShader(bHasGeomShader)
 {
 	LoadShaders(FileSystem::JoinPathBelow(folder, name), defines);
 	InitUniforms();
@@ -225,9 +223,6 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 
 	//load, create and compile shaders
 	Shader vs(GL_VERTEX_SHADER, filename + ".vert", defines);
-	std::unique_ptr<Shader> gs;
-	if( m_bHasGeomShader )
-		gs.reset( new Shader(GL_GEOMETRY_SHADER, filename + ".geom", defines) );
 	Shader fs(GL_FRAGMENT_SHADER, filename + ".frag", defines);
 
 	//create program, attach shaders and link
@@ -236,9 +231,7 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 		throw ProgramException();
 
 	glAttachShader(m_program, vs.shader);
-	if( m_bHasGeomShader ) {
-		glAttachShader(m_program, gs->shader);
-	}
+
 	glAttachShader(m_program, fs.shader);
 
 	//extra attribs, if they exist
@@ -267,7 +260,7 @@ void Program::InitUniforms()
 
 	//Light uniform parameters
 	char cLight[64];
-	for( int i=0 ; i<=4 ; i++ ) {
+	for( int i=0 ; i<4 ; i++ ) {
 		snprintf(cLight, 64, "uLight[%d]", i);
 		const std::string strLight( cLight );
 		lights[i].diffuse.Init( (strLight + ".diffuse").c_str(), m_program );

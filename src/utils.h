@@ -30,6 +30,7 @@
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 void Output(const char *format, ...)  __attribute((format(printf,1,2)));
+void OpenGLDebugMsg(const char *format, ...)  __attribute((format(printf,1,2)));
 
 // Helper for timing functions with multiple stages
 // Used on a branch to help time loading.

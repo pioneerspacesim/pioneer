@@ -33,7 +33,7 @@
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, élimination gratuite (selon conditions)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",

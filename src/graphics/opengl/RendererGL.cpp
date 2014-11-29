@@ -68,7 +68,6 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
@@ -95,10 +94,10 @@ RendererOGL::~RendererOGL()
 		delete state.second;
 }
 
-bool RendererOGL::GetNearFarRange(float &near, float &far) const
+bool RendererOGL::GetNearFarRange(float &near_, float &far_) const
 {
-	near = m_minZNear;
-	far = m_maxZFar;
+	near_ = m_minZNear;
+	far_ = m_maxZFar;
 	return true;
 }
 
@@ -146,12 +145,6 @@ static std::string glerr_to_string(GLenum err)
 		return "GL_INVALID_OPERATION";
 	case GL_OUT_OF_MEMORY:
 		return "GL_OUT_OF_MEMORY";
-	case GL_STACK_OVERFLOW: //deprecated in GL3
-		return "GL_STACK_OVERFLOW";
-	case GL_STACK_UNDERFLOW: //deprecated in GL3
-		return "GL_STACK_UNDERFLOW";
-	case GL_INVALID_FRAMEBUFFER_OPERATION_EXT:
-		return "GL_INVALID_FRAMEBUFFER_OPERATION";
 	default:
 		return stringf("Unknown error 0x0%0{x}", err);
 	}
@@ -285,21 +278,21 @@ bool RendererOGL::SetTransform(const matrix4x4f &m)
 	return true;
 }
 
-bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near, float far)
+bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near_, float far_)
 {
 	PROFILE_SCOPED()
 
 	// update values for log-z hack
-	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
+	m_invLogZfarPlus1 = 1.0f / (log(far_+1.0f)/log(2.0f));
 
 	Graphics::SetFov(fov);
 
-	float ymax = near * tan(fov * M_PI / 360.0);
+	float ymax = near_ * tan(fov * M_PI / 360.0);
 	float ymin = -ymax;
 	float xmin = ymin * aspect;
 	float xmax = ymax * aspect;
 
-	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near, far);
+	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near_, far_);
 	SetProjection(frustrumMat);
 	return true;
 }
@@ -616,7 +609,6 @@ void RendererOGL::EnableVertexAttributes(const VertexArray *v)
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		assert(! v->normal.empty());
 		m_vertexAttribsSet.push_back(1);
-		glNormalPointer(GL_FLOAT, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 		glEnableVertexAttribArray(1);	// Enable the attribute at that location
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 		CheckRenderErrors();

@@ -65,6 +65,9 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
+      <Filter>opengl</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\PostProcess.cpp" />
     <ClCompile Include="..\..\..\src\graphics\PostProcessing.cpp" />
   </ItemGroup>
@@ -140,6 +143,9 @@
       <Filter>opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\opengl\RendererGL.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.h">
       <Filter>opengl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\opengl\HorizontalBlurMaterial.h">

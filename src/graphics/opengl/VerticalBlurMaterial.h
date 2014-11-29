@@ -21,7 +21,7 @@ namespace Graphics {
 			}
 
 			Program *CreateProgram(const MaterialDescriptor &) {
-				return new Program("postprocessing", "vblur", "", false);
+				return new Program("postprocessing", "vblur", "");
 			}
 
 			virtual void Apply() {

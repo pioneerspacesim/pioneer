@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Radar cartographique avancé"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Radar cartographique avancé, avec couverture large du système"
    },
    "AIR_PROCESSORS" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Tentative de récupération de cargo avortée. Pas assez de place dans la soute."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -593,19 +593,19 @@
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Hold retrograde"
+      "message" : "Maintenir rétropoussée"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
-      "message" : "Hold prograde"
+      "message" : "Maintenir poussée"
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Stop la rotation"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
-      "message" : "Hold normal"
+      "message" : "Maintenir cap"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "",
@@ -705,7 +705,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Illégal (système actuel):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -761,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "%{sign}%joyname Axe %axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Légal (système actuel)"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Bras de la voie lactée local"
    },
    "LOCKED" : {
       "description" : "",
@@ -837,7 +837,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "Exportations principales (système actuel)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "Importations principales (système actuel)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -985,7 +985,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "Exportations secondaires (système actuel)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -993,7 +993,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "Importations secondaires (système actuel)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Ce système a été exploré le %date"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1589,7 +1589,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
+      "message" : "Bascule entre les modes d'affichage vaisseau"
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1825,11 +1825,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "Cap du vaisseau, coordonnées célestes"
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "Cap du vaisseau, coordonnées planétaires"
    },
    "SYSTEM" : {
       "description" : "",
@@ -1877,7 +1877,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "Bras de la voie lactée 3kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1937,11 +1937,11 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Analyseur de profit commercial"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Montre les profits générés par les échanges commerciaux entre le système actuel et le système sélectionné"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
