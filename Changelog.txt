@@ -16,6 +16,7 @@ November 2014
 
    * Fixes
      * Update deprecated gun tag on Lunar shuttle (#3245)
+     * Fix Open GL errors causing MXE build not working (#3251)
 
    * Internal Changes
      * The OSX build showed these might be shadowed (#3248)

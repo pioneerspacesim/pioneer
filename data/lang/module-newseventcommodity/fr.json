@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "Pendant l'exposition de la grande vapeur dans le système [system] ({sectorx}, {sectory}, {sectorz}), une tentative de record pour le concours du plus gros poids tiré par un tracteur s'est transformé en carnage lorsqu'un des participant a perdu le contrôle de son engin, détruisant au passage toutes les machines des autres participants. L'administration a prévenu que cela pourrait engendrer la fin pour les agriculteurs locaux."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "L'économie s'accélère dans le système {system} ({sectorx}, {sectory}, {sectorz}) ou les consommateurs ont de plus en plus d'argent à dépenser."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
@@ -97,11 +97,11 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "NEWS {date}: Les récoltes d'algues dans la géante gazeuse du système {system} ont établi un nouveau record."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "Alors que le système {system} ({sectorx}, {sectory}, {sectorz}) entre dans une phase très favorable pour les algues jaunes trouvées dans l'atmosphère d'une géante gazeuse locale, les récoltes ont été exceptionnellement bonnes pour la société d'engrais Soleil Jaune Inc."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
@@ -121,11 +121,11 @@
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "NEWS {date}: Grande ouverture d'une nouvelle usine dans le système {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "La nouvelle usine Amissionox dans le système {system} ({sectorx}, {sectory}, {sectorz}) vient d'ouvrir ses portes. Elle produira des couteaux de haute qualitée capables de découper une botte spatiale; néanmoins, à cause de la pénurie de ressources nécessaires pour la fabrication des lames, elle n'a pas encore atteint tout son potentiel de production."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -221,15 +221,15 @@
    },
    "NEWSPAPER_FED" : {
       "description" : "",
-      "message" : "The Federal Times"
+      "message" : "Le Temps Fédéral"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
-      "message" : "The Imperial Herald"
+      "message" : "Le Héraut Impérial"
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
-      "message" : "The Pioneer Courier"
+      "message" : "Le Transporteur Pionnier"
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "The Galactic Post"
+      "message" : "La Poste Galactique"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
@@ -257,19 +257,19 @@
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "Le Courrier Universel"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
-      "message" : "The Daily Express"
+      "message" : "L'Express Quotidien"
    },
    "NEWSPAPER_IND_8" : {
       "description" : "",
-      "message" : "The Tellurian Telegraph"
+      "message" : "Le Télégraphe Tellurien "
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "Le Journal Sattelitte"
    },
    "TITLE_0" : {
       "description" : "",
