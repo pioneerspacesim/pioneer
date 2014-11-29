@@ -5,7 +5,7 @@
 #define _TEXTUREGL_H
 
 #include "graphics/Texture.h"
-#include "glew/glew.h"
+#include "gl_core_3_1.h"
 
 namespace Graphics {
 

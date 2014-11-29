@@ -25,7 +25,10 @@
 #include <algorithm>
 #include <memory>
 
-#include "glew/glew.h"
+// The glLoadGen header was generated using the following command line:
+// lua LoadGen.lua -style=pointer_cpp -spec=gl -version=3.1 -profile=core core_3_1 -stdext=gl_ubiquitous.txt -stdext=gl_core_post_3_3.txt -ext ARB_seamless_cube_map ARB_seamless_cubemap_per_texture
+// Then rename the gl_core_3_1.c file to gl_core_3_1.cpp
+#include "graphics/opengl/gl_core_3_1.h"
 
 #ifdef _WIN32
 #	include <malloc.h>

@@ -128,6 +128,7 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_1.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\MaterialGL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\Program.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GLDebug.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_1.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MaterialGL.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MultiMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\Program.h" />

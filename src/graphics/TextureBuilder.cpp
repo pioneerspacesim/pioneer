@@ -8,7 +8,7 @@
 #include <SDL_rwops.h>
 #include <algorithm>
 
-// XXX SDL2 can all this be replaced with SDL_GL_BindTexture?
+// XXX SDL2 can all this be replaced with SDL_glBindTexture?
 
 namespace Graphics {
 
