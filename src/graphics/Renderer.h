@@ -53,7 +53,7 @@ public:
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 
 	//get supported minimum for z near and maximum for z far values
-	virtual bool GetNearFarRange(float &near, float &far) const = 0;
+	virtual bool GetNearFarRange(float &near_, float &far_) const = 0;
 
 	virtual bool BeginFrame() = 0;
 	virtual bool EndFrame() = 0;
@@ -75,7 +75,7 @@ public:
 	virtual bool SetTransform(const matrix4x4d &m) = 0;
 	virtual bool SetTransform(const matrix4x4f &m) = 0;
 	//set projection matrix
-	virtual bool SetPerspectiveProjection(float fov, float aspect, float near, float far) = 0;
+	virtual bool SetPerspectiveProjection(float fov, float aspect, float near_, float far_) = 0;
 	virtual bool SetOrthographicProjection(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax) = 0;
 	virtual bool SetProjection(const matrix4x4f &m) = 0;
 

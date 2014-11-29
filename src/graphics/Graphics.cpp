@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
+#include "opengl/gl_core_3_x.h"
 #include "opengl/RendererGL.h"
 #include "OS.h"
 #include "StringF.h"
@@ -53,8 +54,6 @@ static const char *gl_error_to_string(GLenum err)
 		case GL_INVALID_OPERATION: return "invalid operation";
 		case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
 		case GL_OUT_OF_MEMORY: return "out of memory";
-		case GL_STACK_UNDERFLOW: return "stack underflow";
-		case GL_STACK_OVERFLOW: return "stack overflow";
 		default: return "(unknown error)";
 	}
 }
@@ -101,24 +100,14 @@ static void write_opengl_info(std::ostream &out)
 	out << ", running on " << glGetString(GL_VENDOR);
 	out << " " << glGetString(GL_RENDERER) << "\n";
 
-	out << "GLEW version " << glewGetString(GLEW_VERSION) << "\n";
-
 	out << "Available extensions:" << "\n";
-	if (glewIsSupported("GL_VERSION_3_0")) {
+	{
 		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 		GLint numext = 0;
 		glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
 		for (int i = 0; i < numext; ++i) {
 			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
 		}
-	}
-	else {
-		out << "  ";
-		std::istringstream ext(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
-		std::copy(
-			std::istream_iterator<std::string>(ext),
-			std::istream_iterator<std::string>(),
-			std::ostream_iterator<std::string>(out, "\n  "));
 	}
 
 	out << "\nImplementation Limits:\n";
@@ -129,19 +118,14 @@ static void write_opengl_info(std::ostream &out)
 #define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
 
-	DUMP_GL_VALUE(GL_MAX_COLOR_ATTACHMENTS_EXT);
 	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
 	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
 	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
 	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
 	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
-	DUMP_GL_VALUE(GL_MAX_EVAL_ORDER);
 	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(GL_MAX_RENDERBUFFER_SIZE_EXT);
-	DUMP_GL_VALUE(GL_MAX_SAMPLES_EXT);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT);
 	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
 	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
 	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
@@ -206,10 +190,9 @@ Renderer* Init(Settings vs)
 	width = window->GetWidth();
 	height = window->GetHeight();
 
-	glewExperimental = true;
-	GLenum glew_err;
-	if ((glew_err = glewInit()) != GLEW_OK)
-		Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
+	const int didLoad = ogl_LoadFunctions();
+	if (!didLoad)
+		Error("glLoadGen failed to load functions.\n");
 
 	{
 		std::ostringstream buf;
@@ -223,31 +206,15 @@ Renderer* Init(Settings vs)
 		fclose(f);
 	}
 
-	// pump this once as glewExperimental is necessary but spews a single error
-	GLenum err = glGetError();
-
-	if (!glewIsSupported("GL_VERSION_3_2") )
-		Error("OpenGL Version 3.2 is not supported. Pioneer cannot run on your graphics card.");
-
-	// Brilliantly under OpenGL 3.2 CORE profile Glew says this isn't supported, this forces us to use a COMPATIBILITY profile :/
-	if (!glewIsSupported("GL_EXT_texture_compression_s3tc"))
-	{
-		if (glewIsSupported("GL_ARB_texture_compression")) {
-			GLint intv[4];
-			glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &intv[0]);
-			if( intv[0] == 0 ) {
-				Error("GL_NUM_COMPRESSED_TEXTURE_FORMATS is zero.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
-			}
-		} else {
-			Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
-		}
+	if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED) {
+		Error("OpenGL extension GL_EXT_texture_compression_s3tc not supported.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
 	}
 
 	// We deliberately ignore the value from GL_NUM_COMPRESSED_TEXTURE_FORMATS, because some drivers
 	// choose not to list any formats (despite supporting texture compression). See issue #3132.
 	// This is (probably) allowed by the spec, which states that only formats which are "suitable
 	// for general-purpose usage" should be enumerated.
-
+	
 	Renderer *renderer = new RendererOGL(window, vs);
 
 	Output("Initialized %s\n", renderer->GetName());
