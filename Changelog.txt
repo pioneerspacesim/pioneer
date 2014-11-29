@@ -13,6 +13,7 @@ November 2014
      * Remove defunct shader programs (#3258)
      * Extra checking for program creation (#3253)
      * Fix (unnoticeable) logical error in cargo code (#3261)
+     * Add CppCheck file. (#3266)
 
    * Fixes
      * Update deprecated gun tag on Lunar shuttle (#3245)
