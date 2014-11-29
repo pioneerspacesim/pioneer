@@ -23,6 +23,7 @@ November 2014
      * The OSX build showed these might be shadowed (#3248)
      * Json ship definitions (#3252)
      * Disable shader validation due to OSX bug (#3260)
+     * Remove GLEW, use glLoadGen (#3265)
 
 October 2014
    * Art
