@@ -25,7 +25,7 @@
    },
    "ALT_IN_KM" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+      "message" : "Hgt: %hoogte{f.0}km (%vsnelheid{f.1}km/s)"
    },
    "ALT_IN_METRES" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Automatische systeem selectie"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Kan niet opslaan nadat de speler dood is"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Cargo Scoop"
+      "message" : "Vracht opscheppen"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "vracht opscheppen geprobeerd. Niet genoeg ruimte in vrachtruim"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -565,7 +565,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Algemeen zicht beheer"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "",
-      "message" : "Hold anti-normal"
+      "message" : "hou anti-normaal"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
@@ -605,7 +605,7 @@
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "",
-      "message" : "Hold normal"
+      "message" : "hou normaal"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Hyperspace"
+      "message" : "Hyperruimte"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -705,7 +705,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "ILLEGAAL_HUIDIG_SYSTEEM"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -737,7 +737,7 @@
    },
    "INTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Internal view"
+      "message" : "Binnenste uitzicht"
    },
    "INT_LY" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "JOY" : {
       "description" : "",
-      "message" : "Joy"
+      "message" : "Vreugde"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "LEGAAL_HUIDIG_SYSTEEM"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Lokale arm"
    },
    "LOCKED" : {
       "description" : "",
@@ -837,7 +837,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "GROOT_UITVOER_HUIDIG_SYSTEEM"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "GROOT_INVOER_HUIDIG_SYSTEEM"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -869,43 +869,43 @@
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Draai zicht naar beneden"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Draai zicht naar links"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Draai zicht naar rechts"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Draai zicht naar boven"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Verplaats uitzicht naar achteren"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "verplaats uitzicht naar beneden"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Verplaats uitzicht naar voren"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "verplaats uitzicht naar links"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "verplaats uitzicht naar rechts"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "verplaats uitzicht naar boven"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
@@ -917,7 +917,7 @@
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Warp naar geselecteerd systeem"
    },
    "MASS" : {
       "description" : "",
@@ -985,7 +985,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "KLEIN_UITVOER_HUIDIG_SYSTEEM"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -993,7 +993,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "KLEIN_INVOER_HUIDIG_SYSTEEM"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1269,7 +1269,7 @@
    },
    "PIONEER" : {
       "description" : "",
-      "message" : "PIONEER"
+      "message" : "PIONIER"
    },
    "PIRACY" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Normaal delta-v. Klik om te resetten naar nul"
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "",
@@ -1317,7 +1317,7 @@
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Radiaal delta-v. Klik om te resetten naar nul"
    },
    "PLASTICS" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Dit systeem was verkent op %datum"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1545,7 +1545,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Zet navigatie doel naar:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1941,7 +1941,7 @@
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Laat winstgevend vracht zien om te handelen tussen geselecteerd en huidig systeem"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
