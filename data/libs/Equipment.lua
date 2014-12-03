@@ -528,7 +528,7 @@ misc.advanced_radar_mapper = EquipType.New({
 })
 misc.fuel_scoop = EquipType.New({
 	l10n_key="FUEL_SCOOP", slots="scoop", price=3500,
-	capabilities={mass=6, fuel_scoop=1}, purchasable=true
+	capabilities={mass=6, fuel_scoop=3}, purchasable=true
 })
 misc.cargo_scoop = EquipType.New({
 	l10n_key="CARGO_SCOOP", slots="scoop", price=3900,
@@ -536,7 +536,7 @@ misc.cargo_scoop = EquipType.New({
 })
 misc.multi_scoop = EquipType.New({
 	l10n_key="MULTI_SCOOP", slots="scoop", price=12000,
-	capabilities={mass=9, cargo_scoop=1, fuel_scoop=1}, purchasable=true
+	capabilities={mass=9, cargo_scoop=1, fuel_scoop=2}, purchasable=true
 })
 misc.hypercloud_analyzer = EquipType.New({
 	l10n_key="HYPERCLOUD_ANALYZER", slots="hypercloud", price=1500,
