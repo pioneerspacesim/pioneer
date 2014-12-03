@@ -20,7 +20,7 @@
    "ship_class" : "light_fighter",
    "slots" : {
       "cargo" : 9,
-      "cargo_scoop" : 0,
+      "scoop" : 0,
       "engine" : 0,
       "laser_front" : 1,
       "missile" : 8

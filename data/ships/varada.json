@@ -20,8 +20,7 @@
    "ship_class" : "light_courier",
    "slots" : {
       "cargo" : 5,
-      "cargo_scoop" : 0,
-      "fuel_scoop" : 1,
+      "scoop" : 1,
       "laser_front" : 0,
       "missile" : 0
    },
