@@ -534,6 +534,10 @@ misc.cargo_scoop = EquipType.New({
 	l10n_key="CARGO_SCOOP", slots="scoop", price=3900,
 	capabilities={mass=7, cargo_scoop=1}, purchasable=true
 })
+misc.multi_scoop = EquipType.New({
+	l10n_key="MULTI_SCOOP", slots="scoop", price=12000,
+	capabilities={mass=9, cargo_scoop=1, fuel_scoop=1}, purchasable=true
+})
 misc.hypercloud_analyzer = EquipType.New({
 	l10n_key="HYPERCLOUD_ANALYZER", slots="hypercloud", price=1500,
 	capabilities={mass=1, hypercloud_analyzer=1}, purchasable=true
