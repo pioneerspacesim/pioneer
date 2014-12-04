@@ -20,8 +20,7 @@
    "ship_class" : "medium_fighter",
    "slots" : {
       "cargo" : 30,
-      "cargoscoop" : 0,
-      "fuelscoop" : 0,
+      "scoop" : 0,
       "laser_front" : 1,
       "laser_rear" : 1,
       "missile" : 4

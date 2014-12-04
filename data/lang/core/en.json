@@ -1071,6 +1071,14 @@
       "description" : "",
       "message" : "Sep"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Murder"
@@ -1470,6 +1478,10 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
+   },
+   "SCOOP" : {
+      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "message" : "Scoop"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",

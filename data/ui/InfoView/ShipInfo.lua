@@ -34,7 +34,7 @@ local shipInfo = function (args)
 	rearWeapon =  rearWeapon  or nil
 
 	local player = Game.player
-	
+
 	local shipNameEntry = ui:TextEntry(player.shipName):SetFont("HEADING_SMALL")
 	shipNameEntry.onChange:Connect(function (newName)
 		player:SetShipName(newName)
@@ -117,8 +117,7 @@ local shipInfo = function (args)
 						"",
 						{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
 						{ lcore.ATMOSPHERIC_SHIELDING..":", yes_no(shipDef.equipSlotCapacity.atmo_shield)},
-						{ lcore.FUEL_SCOOP..":",            yes_no(shipDef.equipSlotCapacity.fuel_scoop)},
-						{ lcore.CARGO_SCOOP..":",           yes_no(shipDef.equipSlotCapacity.cargo_scoop)},
+						{ lcore.SCOOP..":",                 shipDef.equipSlotCapacity.scoop},
 					}),
 					"",
 					ui:Label(l.EQUIPMENT):SetFont("HEADING_LARGE"),

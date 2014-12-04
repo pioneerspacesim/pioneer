@@ -20,9 +20,8 @@
    "ship_class" : "medium_passenger_transport",
    "slots" : {
       "cargo" : 2000,
-      "cargoscoop" : 1,
+      "scoop" : 2,
       "engine" : 1,
-      "fuelscoop" : 1,
       "laser_front" : 1,
       "laser_rear" : 1,
       "missile" : 0

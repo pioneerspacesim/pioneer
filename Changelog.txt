@@ -1,3 +1,8 @@
+December 2014
+   * New Features
+     * New Multi Scoop equipment, and merge cargo and fuel scoop slots
+       to a single one (#3267)
+
 November 2014
    * New Features
      * Update to use OpenGL 3.2 (#3219)
@@ -23,7 +28,7 @@ November 2014
      * The OSX build showed these might be shadowed (#3248)
      * Json ship definitions (#3252)
      * Disable shader validation due to OSX bug (#3260)
-     * Remove GLEW, use glLoadGen (#3265)
+     * Remove GLEW, use glLoadGen, downgrade to OpenGL 3.1 (#3265)
 
 October 2014
    * Art
