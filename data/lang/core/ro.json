@@ -29,7 +29,7 @@
    },
    "ALT_IN_METRES" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}m"
+      "message" : "Alt: %altitude{f.0}m (%vspeed{f.1}m/s)"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
@@ -201,19 +201,19 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Cargo Scoop"
+      "message" : "Colector Marfa"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Cargo scoop active. Collected 1 tonne of %item."
+      "message" : "Colector marfă activ. Ați colectat 1 tonă de %item."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "S-a încercat colectarea mărfii. Nu e suficient spațiu în depozit."
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping cargo pods from space."
+      "message" : "Permite colectarea magaziilor cu marfă din spațiu."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Computer heading control"
+      "message" : "Ghidaj asistat de calculator"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "GAME_SAVED_TO" : {
       "description" : "",
-      "message" : "\"Jocul salvat drept \""
+      "message" : "\"Jocul salvat în \""
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "",
-      "message" : "Hold retrograde"
+      "message" : "Oprește retrogradarea"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "",
@@ -781,7 +781,7 @@
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Gigantică gazoasa mare"
+      "message" : "Gigant gazos mare"
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
@@ -1925,7 +1925,7 @@
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
-      "message" : "Toggle rotation damping"
+      "message" : "Comutare atenuare rotație"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1953,7 +1953,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Sistem neexporat. Nicio altă informaţie valabilăd."
+      "message" : "Sistem neexporat. Nicio altă informaţie valabilă."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
@@ -1997,7 +1997,7 @@
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Gigantică gazoasă foarte mare"
+      "message" : "Gigant gazos foarte mare"
    },
    "VID_CONNECTING" : {
       "description" : "",
