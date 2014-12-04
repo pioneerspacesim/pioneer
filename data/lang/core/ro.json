@@ -565,7 +565,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Controale Generale Vizionare"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -729,7 +729,7 @@
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
-      "message" : "Industrial hub system."
+      "message" : "Sistem de tip centru industrial."
    },
    "INDUSTRIAL_MACHINERY" : {
       "description" : "",
@@ -737,7 +737,7 @@
    },
    "INTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Internal view"
+      "message" : "Vizionare internă"
    },
    "INT_LY" : {
       "description" : "",
@@ -865,7 +865,7 @@
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "Comută Selecție Vizionarea Următoare"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
@@ -889,23 +889,23 @@
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "Mută pe Vizionare de Jos"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Mută pe Vizionare Frontală"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "Mută pe Vizionare Stânga"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "Mută pe Vizionare Dreapta"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "Mută pe Vizionare de Sus"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
@@ -1621,7 +1621,7 @@
    },
    "SIDEREAL_VIEW" : {
       "description" : "",
-      "message" : "Sidereal view"
+      "message" : "Vizionare siderală"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
@@ -1637,7 +1637,7 @@
    },
    "SMALL_GAS_GIANT" : {
       "description" : "",
-      "message" : "Gigantică gazoasa mică"
+      "message" : "Gigant gazos mic"
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
