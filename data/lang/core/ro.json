@@ -165,7 +165,7 @@
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Can't save game while in hyperspace"
+      "message" : "Jocul nu poate fi salvat în timpul tranzit-ului în hiperspațiu"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Activitate miniera extensivă."
+      "message" : "Activitate minieră extensivă."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -553,7 +553,7 @@
    },
    "GAME_LOAD_WRONG_VERSION" : {
       "description" : "",
-      "message" : "This saved game cannot be loaded because it was created by a different version of Pioneer."
+      "message" : "Acest joc salvat nu poate fi încărcat pentru a fost creat de o versiune diferită a lui Pioneer."
    },
    "GAME_SAVED_TO" : {
       "description" : "",
@@ -997,7 +997,7 @@
    },
    "MISCELLANEOUS" : {
       "description" : "",
-      "message" : "Miscellaneous"
+      "message" : "Diverse"
    },
    "MISSILE" : {
       "description" : "",
@@ -1073,7 +1073,7 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Colector Multifuncțional"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -1469,11 +1469,11 @@
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
-      "message" : "Rotation damping off"
+      "message" : "Dezactivare amortizare rotație"
    },
    "ROTATION_DAMPING_ON" : {
       "description" : "",
-      "message" : "Rotation damping on"
+      "message" : "Activare amortizare rotație"
    },
    "RUBBISH" : {
       "description" : "",
@@ -1489,7 +1489,7 @@
    },
    "SCANNER_CONTROL" : {
       "description" : "",
-      "message" : "Scanner control"
+      "message" : "Control scaner"
    },
    "SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -1497,7 +1497,7 @@
    },
    "SCOOP" : {
       "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
-      "message" : "Scoop"
+      "message" : "Colector"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1985,7 +1985,7 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Extra Passenger Cabin"
+      "message" : "Cabină Pasager Extra"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
@@ -2001,7 +2001,7 @@
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
-      "message" : "Vast strip-mining colony."
+      "message" : "Colonie de minerit vast în fâșii."
    },
    "VERY_DENSE" : {
       "description" : "",
