@@ -79,6 +79,10 @@
       "description" : "",
       "message" : "An on-board flight computer."
    },
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Autopilot control"
+   },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
       "message" : "Autopilot: Dock with space station"
