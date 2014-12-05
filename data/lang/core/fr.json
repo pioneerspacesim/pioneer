@@ -588,15 +588,15 @@
       "message" : "\"Couv\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
       "message" : "Hold anti-normal"
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Maintenir rétropoussée"
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "Maintenir poussée"
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +604,15 @@
       "message" : "Stop la rotation"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "Maintenir cap"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "Hold radially in"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Hold radially out"
    },
    "HEAVY_INDUSTRY" : {
@@ -1071,6 +1071,14 @@
       "description" : "",
       "message" : "Sept"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Meurtre"
@@ -1486,6 +1494,10 @@
    "SCANNER_DESCRIPTION" : {
       "description" : "",
       "message" : "Donne une représentation 3D des vaisseaux environnants."
+   },
+   "SCOOP" : {
+      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "message" : "Scoop"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
