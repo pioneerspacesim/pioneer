@@ -1480,7 +1480,7 @@
       "message" : "screenshot%index{d08}.png"
    },
    "SCOOP" : {
-      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Scoop"
    },
    "SCUTUM_CENTAURUS_ARM" : {
