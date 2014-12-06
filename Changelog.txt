@@ -3,6 +3,9 @@ December 2014
      * New Multi Scoop equipment, and merge cargo and fuel scoop slots
        to a single one (#3267)
 
+   * Fixes
+     * Fix string "NONE" in ShipInfo not using the translated version (#3268)
+
 November 2014
    * New Features
      * Update to use OpenGL 3.2 (#3219)

@@ -85,7 +85,7 @@ local shipInfo = function (args)
 			:SetColumn(0, {
 				ui:Table():AddRows({
 					ui:Table():SetColumnSpacing(10):AddRows({
-						{ l.HYPERDRIVE..":", hyperdrive and hyperdrive:GetName() or "None" },
+						{ l.HYPERDRIVE..":", hyperdrive and hyperdrive:GetName() or l.NONE },
 						{
 							l.HYPERSPACE_RANGE..":",
 							string.interp(
@@ -103,8 +103,8 @@ local shipInfo = function (args)
 						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
 						{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
 						"",
-						{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or "None"},
-						{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or "None" },
+						{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or l.NONE },
+						{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or l.NONE },
 						{ l.FUEL..":",         string.format("%d%%", Game.player.fuel)},
 						{ l.DELTA_V..":",      string.format("%d km/s", deltav / 1000)},
 						"",
