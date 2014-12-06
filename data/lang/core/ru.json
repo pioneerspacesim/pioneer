@@ -1073,7 +1073,7 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Универсальный "
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",

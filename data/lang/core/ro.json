@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Cartograf Radar Avansat"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Cartograf radar cu rază mare de acțiune, cu acoperire la nivel de sistem."
    },
    "AIR_PROCESSORS" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "",
-      "message" : "Automatic system selection"
+      "message" : "Selectare automată a sistemului"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Equatorial to polar radius ratio"
+      "message" : "Proporție raza ecuatorială față de raza polară"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Braț local"
    },
    "LOCKED" : {
       "description" : "",
@@ -857,7 +857,7 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Fixează Țintă Hiperspațiu"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
@@ -909,15 +909,15 @@
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "Sari la Sistemul Curent"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "Sari la Țintă Hiperspațiu"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Sari la Sistemul Selectat"
    },
    "MASS" : {
       "description" : "",
@@ -1077,7 +1077,7 @@
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Deși mai puțin eficient decât un colector de combustibil, el permite colectarea atat de marfă cât și de combustibil"
    },
    "MURDER" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Acest sistem a fost explorat pe %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1557,7 +1557,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Setează ținta navigației către:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1601,7 +1601,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
+      "message" : "Navighează între modurile de vizualizare navă."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1837,11 +1837,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "S-a schimbat afișarea orientării în coordonate spațiale."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "S-a schimbat afișarea orientării în coordonate planetare."
    },
    "SYSTEM" : {
       "description" : "",
@@ -1929,7 +1929,7 @@
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "Toggle HUD mode"
+      "message" : "Comută mod HUD"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
@@ -1949,11 +1949,11 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Analizator comercial"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Indică mărfurile profitabile de comercializat între sistemul selectat și cel curent"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",

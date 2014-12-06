@@ -201,11 +201,11 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Harpun towarowy"
+      "message" : "Czerpak towarowy"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Aktywowano harpun towarowy. Pozyskano 1 tonę: %item."
+      "message" : "Aktywowano czerpak towarowy. Pozyskano 1 tonę: %item."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
@@ -525,11 +525,11 @@
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Dren paliwowy"
+      "message" : "Czerpak paliwowy"
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Dren paliwowy włączony. Masz %quantity ton wodoru."
+      "message" : "Czerpak paliwowy włączony. Masz %quantity ton wodoru."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -1073,11 +1073,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Czerpak wielofunkcyjny"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Mniej skuteczny od czerpaka paliwowego, lecz mimo to pozwala przechwycić zarówno kontenery towarowe jak i paliwo."
    },
    "MURDER" : {
       "description" : "",
@@ -1497,7 +1497,7 @@
    },
    "SCOOP" : {
       "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
-      "message" : "Scoop"
+      "message" : "Czerpak"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
