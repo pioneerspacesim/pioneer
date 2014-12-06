@@ -1497,7 +1497,7 @@
    },
    "SCOOP" : {
       "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
-      "message" : "Czerpak"
+      "message" : "Mocowania czerpaków"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
