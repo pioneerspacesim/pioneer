@@ -5,6 +5,7 @@ December 2014
 
    * Fixes
      * Fix string "NONE" in ShipInfo not using the translated version (#3268)
+     * Require OpenGL 3.1 context when opening the SDL window (#3269)
 
 November 2014
    * New Features
