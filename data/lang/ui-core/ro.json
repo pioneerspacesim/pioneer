@@ -241,7 +241,7 @@
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
-      "message" : "Afişarea tunelului de navigaţie"
+      "message" : "Afişare tunele de navigaţie"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Încercarea de a repara corpul navei a eșuat. Corpul navei a suferit pagube minore."
+      "message" : "Încercarea de a repara fuzelajul a eșuat. Fuzelajul a suferit pagube minore."
    },
    "HYPERDRIVE" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "MULTISAMPLING" : {
       "description" : "",
-      "message" : "Multisampling"
+      "message" : "Eșantionare multiplă"
    },
    "MURDER" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Orbită"
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
-      "message" : "Start la New Hope"
+      "message" : "Pornește din New Hope"
    },
    "STATION_MANAGER" : {
       "description" : "",

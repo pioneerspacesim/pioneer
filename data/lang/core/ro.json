@@ -289,7 +289,7 @@
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
-      "message" : "\" (%surfacecount on surface)\""
+      "message" : "\" (%surfacecount la suprafață)\""
    },
    "COUNT_STARPORTS" : {
       "description" : "",
@@ -361,11 +361,11 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Label out-of-range systems"
+      "message" : "Etichetează sistemele din afara razei de acțiune"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "Etichetează sistemele nepopulate"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
@@ -761,7 +761,7 @@
    },
    "JOY_AXIS" : {
       "description" : "",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "%{sign}%joyname Axa %axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1217,7 +1217,7 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "",
-      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
+      "message" : "%radius{f.3} %units raze (%radkm{f.0} km)"
    },
    "N_YEARS" : {
       "description" : "",
@@ -1496,7 +1496,7 @@
       "message" : "Oferă o hartă 3D a navelor apropiate."
    },
    "SCOOP" : {
-      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Colector"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
@@ -1889,7 +1889,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "braț de 3kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
