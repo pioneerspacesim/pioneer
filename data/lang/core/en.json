@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "following selection"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Front"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Fruit and Veg"
@@ -1111,10 +1107,6 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "None"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
@@ -1386,10 +1378,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Radius"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Rear"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
