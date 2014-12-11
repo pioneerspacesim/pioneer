@@ -121,7 +121,7 @@
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
-      "message" : "Nivelul detaliilor oraşelor"
+      "message" : "Nivel detalii oraşe"
    },
    "CLEAN" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Nu pot încărca jocul:"
+      "message" : "Nu am putut încărca jocul:"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -189,11 +189,11 @@
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Cabine echipajului"
+      "message" : "Cabine echipaj"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Listă Echipaj"
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economia şi Comerţul"
+      "message" : "Economie şi Comerţ"
    },
    "EFFECTS" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "ENGINEERING" : {
       "description" : "",
-      "message" : "Engineering:"
+      "message" : "Inginerie:"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Detalizarea fractală"
+      "message" : "Detalii fractali"
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -349,7 +349,7 @@
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Turelă frontală"
+      "message" : "Arma frontală"
    },
    "FUEL" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Greutatea combustibilului"
+      "message" : "Greutate combustibil"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Corpul navei este reparat."
+      "message" : "Fuzelajul nu necesită reparații."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Raza în hiperspaţiu"
+      "message" : "Rază de acțiune salt hiperspaţiu"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -461,7 +461,7 @@
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Mouse Y inversat"
+      "message" : "Inversează Mouse Y"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -485,11 +485,11 @@
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Ucideri:"
+      "message" : "Doborâți:"
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Limba"
+      "message" : "Limbă"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Load game"
+      "message" : "Încarcă joc"
    },
    "LOBBY" : {
       "description" : "",
@@ -549,7 +549,7 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Situat la {distance}km de la centru {name}:"
+      "message" : "Situat la {distance}km față de centrul {name}:"
    },
    "LOCATION" : {
       "description" : "",
@@ -641,7 +641,7 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Detalii despre Misiune."
+      "message" : "Detalii Misiune"
    },
    "MORE_INFO" : {
       "description" : "",
@@ -685,7 +685,7 @@
    },
    "NEXT_PAID" : {
       "description" : "",
-      "message" : "Next paid"
+      "message" : "Plata urm."
    },
    "NO" : {
       "description" : "Negative answer to a question",
@@ -705,7 +705,7 @@
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Insuficient cu {alloy} pentru a repara."
+      "message" : "Insuficient {alloy} pentru a încerca reparația"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "RATING" : {
       "description" : "",
-      "message" : "Rating:"
+      "message" : "Clasificare:"
    },
    "REAR_WEAPON" : {
       "description" : "",
@@ -965,7 +965,7 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Mai mult nu există nimeni cine ar putea să conducă această navă."
+      "message" : "Nu mai există nimeni la bord care să poată pilota această navă."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
@@ -973,7 +973,7 @@
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "",
-      "message" : "Comutare sex masculin/femenin"
+      "message" : "Comutare sex masculin/feminin"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
@@ -1061,7 +1061,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Veţi regreta că m-aţi concediat."
+      "message" : "Veţi regreta că m-aţi concediat!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
