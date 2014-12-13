@@ -585,7 +585,7 @@
    },
    "HAT" : {
       "description" : "",
-      "message" : "\" Hat\""
+      "message" : "\" Buton vizualizare\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",

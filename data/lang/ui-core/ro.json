@@ -77,7 +77,7 @@
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Capacitatea uzată"
+      "message" : "Capacitate folosită"
    },
    "CARGO" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Viteza orbitei circulare"
+      "message" : "Viteza pt. orbită circulară"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "DISMISS" : {
       "description" : "",
-      "message" : "Dismiss"
+      "message" : "Concediază"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Echipament navă"
+      "message" : "Echipament"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Părăsire acestui joc"
+      "message" : "Ieșiți din acest joc"
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
@@ -481,7 +481,7 @@
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Discarcă"
+      "message" : "Aruncă"
    },
    "KILLS" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Maestru"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
@@ -713,7 +713,7 @@
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "Lipsă misiuni."
+      "message" : "Nicio misiune."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
@@ -781,7 +781,7 @@
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Detalizarea planetelor la distanţă"
+      "message" : "Distanță detalii planetă"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
@@ -1081,7 +1081,7 @@
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "În primul rând trebuie să lansaţi, Comandante."
+      "message" : "În primul rând trebuie să lansaţi nava, Comandante."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
