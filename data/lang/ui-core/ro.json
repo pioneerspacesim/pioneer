@@ -1,7 +1,7 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Above Average"
+      "message" : "Peste Mediu"
    },
    "ACTIVE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Încercarea de a repara corpul navei"
+      "message" : "Încearcă repararea fuzelajului"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "COMPRESS_TEXTURES" : {
       "description" : "",
-      "message" : "Comprimarea Texturelor"
+      "message" : "Comprimarea Texturilor"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "EMPLOYMENT" : {
       "description" : "",
-      "message" : "Ocuparea"
+      "message" : "Ocupație"
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
@@ -637,7 +637,7 @@
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "Missions"
+      "message" : "Misiuni"
    },
    "MISSION_DETAILS" : {
       "description" : "",
@@ -741,7 +741,7 @@
    },
    "OPTIONS" : {
       "description" : "",
-      "message" : "Options"
+      "message" : "Opțiuni"
    },
    "ORBIT" : {
       "description" : "",
@@ -753,7 +753,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
+      "message" : "Viteza pentru orbita circulară este dată pentru o viteză tangențială. Nava ar trebui să se miște întro direcție la 90° față de axa navei/corpului ceresc {name}.\n\nViteza de coborâre este un minim absolut, și este de asemenea tangențială. O viteză mai mica sau un unghi mai mic va rezulta intr-un curs care se intersectează cu suprafața corpului ceresc {name}.\n\nViteza de ieșire din atmosferă va merge în teorie în orice direcție, atâta timp cât nava nu intră în {name} în drum.\n⇥⇥"
    },
    "OWED" : {
       "description" : "",
@@ -885,7 +885,7 @@
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
-      "message" : "Select a file to save to or enter a new filename"
+      "message" : "Selectați un fișier în care să salvați sau introduceți un nume nou de fișier"
    },
    "SELECT_FILE" : {
       "description" : "",
