@@ -17,7 +17,7 @@
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
-      "message" : "All-up weight"
+      "message" : "Greutate totală"
    },
    "AMOUNT" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Backward acceleration"
+      "message" : "Accelerație în marșarier"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Cancel"
+      "message" : "Anulează"
    },
    "CAPACITY" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "CLEAR" : {
       "description" : "",
-      "message" : "Clear"
+      "message" : "Șterge"
    },
    "CLIENT" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "",
-      "message" : "Display speed lines"
+      "message" : "Afișează linii viteză"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "ELITE" : {
       "description" : "",
-      "message" : "ELITE"
+      "message" : "ELITĂ"
    },
    "EMPLOYMENT" : {
       "description" : "",
@@ -325,11 +325,11 @@
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Female"
+      "message" : "Feminin"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Forward acceleration"
+      "message" : "Accelerație înainte"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "Hull repaired by {name}, now at {repairPercent}%"
+      "message" : "Fuzelaj reparat de către {name}, acum la {repairPercent}%"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Am avut plăcere să vă servesc. Dacă veţi mai avea nevoie de mine, voi fi pe aici o vreme."
+      "message" : "Mi-a făcut plăcere să lucrez pentru dumneavoastră. Dacă veţi mai avea nevoie de mine, voi fi pe aici o vreme."
    },
    "JETTISON" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "al"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Minimum crew"
+      "message" : "Personal minim"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Mostly Harmless"
+      "message" : "Majoritar Inofensiv"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -661,11 +661,11 @@
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Music:"
+      "message" : "Muzică:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Muţit"
+      "message" : "Mut"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -677,11 +677,11 @@
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Navigaţiune:"
+      "message" : "Navigaţie:"
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Negotiate"
+      "message" : "Negociază"
    },
    "NEXT_PAID" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
-      "message" : "Fotoliu de pilot este ocupat de {name}"
+      "message" : "Locul pilotului este acum ocupat de {name}"
    },
    "PIRACY" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "Apasați o tastă sau un buton de pe controler"
    },
    "PRICE" : {
       "description" : "",
@@ -829,7 +829,7 @@
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Rear weapon"
+      "message" : "Armă dorsală"
    },
    "REFUEL" : {
       "description" : "",
@@ -889,7 +889,7 @@
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Select file..."
+      "message" : "Selectează fișier..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
@@ -941,11 +941,11 @@
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Start at Barnard's Star"
+      "message" : "Pornește din Steaua lui Barnard"
    },
    "START_AT_EARTH" : {
       "description" : "",
-      "message" : "Start la Terra."
+      "message" : "Pornește de pe Pamânt"
    },
    "START_AT_NEW_HOPE" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Up acceleration"
+      "message" : "Accelerație verticală"
    },
    "USED" : {
       "description" : "",
@@ -1085,7 +1085,7 @@
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must request launch clearance first, Commander."
+      "message" : "Mai întâi trebuie să cereți autorizare de lansare, Comandante."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
