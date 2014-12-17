@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "După schimb"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Cantitate"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Disponibil pentru cumpărare"
    },
    "AVERAGE" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Cumpără Nava"
    },
    "CABINS" : {
       "description" : "",
@@ -61,11 +61,11 @@
    },
    "CABIN_FREE" : {
       "description" : "",
-      "message" : "{amount} free"
+      "message" : "{amount} libere"
    },
    "CABIN_USED" : {
       "description" : "",
-      "message" : "{amount} used"
+      "message" : "{amount} ocupate"
    },
    "CANCEL" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Bani: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Mecanic Șef"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Piață de Produse"
    },
    "COMPACT_SCANNER" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Agent de Poliție"
    },
    "CONTINUE_GAME" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "CRIMINAL_RECORD" : {
       "description" : "",
-      "message" : "Criminal record"
+      "message" : "Cazier judiciar"
    },
    "DANGEROUS" : {
       "description" : "",
@@ -213,11 +213,11 @@
    },
    "DELTA_V_EMPTY" : {
       "description" : "Delta-v capacity of a ship with no cargo or upgrades",
-      "message" : "Delta-v (empty)"
+      "message" : "Delta-v (goală)"
    },
    "DELTA_V_FULL" : {
       "description" : "Delta-v capacity of a ship with maximum cargo",
-      "message" : "Delta-v (full)"
+      "message" : "Delta-v (plină)"
    },
    "DELTA_V_MAX" : {
       "description" : "Delta-v capacity of a ship with cargo bay fully loaded with propellant",
@@ -277,7 +277,7 @@
    },
    "ENABLE_COCKPIT" : {
       "description" : "",
-      "message" : "Enable cockpit (EXPERIMENTAL)"
+      "message" : "Activează carlingă (EXPERIMENTAL)"
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
@@ -293,11 +293,11 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Piață Echipamente"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Echipat"
    },
    "ERROR" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Viteza de acceleraţie (plină)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -389,27 +389,27 @@
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Navetă masivă de marfă"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Curier masiv"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Navă masivă de luptă"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Caric masiv"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Navetă masiva de pasageri"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Transportor masiv de pasageri"
    },
    "HIGH" : {
       "description" : "",
@@ -465,11 +465,11 @@
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "În depozit navă"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "În stoc"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
@@ -513,27 +513,27 @@
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Navetă mică de marfă"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Curier mic"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Navă mică de luptă"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Caric mic"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Navetă mică de pasageri"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Transportor mic de pasageri"
    },
    "LOAD" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "LOBBY" : {
       "description" : "",
-      "message" : "Lobby"
+      "message" : "Antreu"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -597,27 +597,27 @@
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium cargo shuttle"
+      "message" : "Navetă medie de marfă"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
-      "message" : "Medium courier"
+      "message" : "Curier mediu"
    },
    "MEDIUM_FIGHTER" : {
       "description" : "",
-      "message" : "Medium fighter"
+      "message" : "Navă medie de luptă"
    },
    "MEDIUM_FREIGHTER" : {
       "description" : "",
-      "message" : "Medium freighter"
+      "message" : "Caric mediu"
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Medium passenger shuttle"
+      "message" : "Navetă medie de pasageri"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Medium passenger transport"
+      "message" : "Transportor mediu de pasageri"
    },
    "METAL_ALLOYS" : {
       "description" : "",
@@ -761,7 +761,7 @@
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "Plătește amenda de {amount}"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "Poliție"
    },
    "POOR" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
-      "message" : "Repair {damage}% hull damage for {price}"
+      "message" : "Repară {damage}% avarii fuzelaj la prețul {price}"
    },
    "REPUTATION" : {
       "description" : "",
@@ -869,7 +869,7 @@
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Reverse accel (full)"
+      "message" : "Acceleraţie înapoi (plină)"
    },
    "REWARD" : {
       "description" : "",
@@ -925,15 +925,15 @@
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Ship Market"
+      "message" : "Piață Nave"
    },
    "SHIP_REPAIRS" : {
       "description" : "",
-      "message" : "Ship Repairs"
+      "message" : "Reparații Navă"
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "The ship you were viewing has been sold"
+      "message" : "Nava pe care o vizionați a fost vândută"
    },
    "SOUND" : {
       "description" : "",
@@ -953,7 +953,7 @@
    },
    "STATION_MANAGER" : {
       "description" : "",
-      "message" : "Station manager"
+      "message" : "Manager stațiune"
    },
    "STATUS" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Vă mulţumim pentru achiziţia dumneavoastră. Nu uitaţi să instalaţi echipament şi să cumparaţi combustibil înainte de a pleca."
+      "message" : "Vă mulţumim pentru achiziţia dumneavoastră. Nu uitaţi să instalaţi echipamentul şi să cumparaţi combustibil înainte de a pleca."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -985,7 +985,7 @@
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Total mass"
+      "message" : "Masa totală"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1065,11 +1065,11 @@
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Your hull is at {value}% integrity."
+      "message" : "Fuzelajul dvs. are integritate de {value}%."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "You don't have enough money for that option."
+      "message" : "Nu aveți destui bani pentru opțiunea aceea."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
