@@ -28,6 +28,7 @@ The Pioneer Developers are:
 * Denis Volk
 * DerpyHooves
 * Dionisis Kontominas
+* Dmitry Marakasov
 * Emery Hemingway
 * Enric Morales
 * Florian Schmidt
