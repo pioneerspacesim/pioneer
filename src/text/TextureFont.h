@@ -90,9 +90,9 @@ private:
 	std::map<Uint32,Glyph> m_glyphs;
 
 	// UV offsets for glyphs
-	int m_atlasU;
-	int m_atlasV;
-	int m_atlasVIncrement;
+	unsigned int m_atlasU;
+	unsigned int m_atlasV;
+	unsigned int m_atlasVIncrement;
 
 	RefCountedPtr<Graphics::Texture> m_texture;
 	Graphics::TextureFormat m_texFormat;
