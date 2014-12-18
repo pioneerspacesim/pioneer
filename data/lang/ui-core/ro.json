@@ -89,15 +89,15 @@
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "Spaţiu depozit folosit"
    },
    "CARGO_T_FREE" : {
       "description" : "",
-      "message" : "{amount}t free"
+      "message" : "{amount}t libere"
    },
    "CARGO_T_USED" : {
       "description" : "",
-      "message" : "{amount}t used"
+      "message" : "{amount}t folosite"
    },
    "CASH" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "COMPACT_SCANNER" : {
       "description" : "",
-      "message" : "Compact scanner"
+      "message" : "Scaner compact"
    },
    "COMPETENT" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "CONTINUE_GAME" : {
       "description" : "",
-      "message" : "Continue game"
+      "message" : "Continuă jocul"
    },
    "CONTROLS" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Credible"
+      "message" : "Credibil"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Display HUD trails"
+      "message" : "Afișează marcaje HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Experienced"
+      "message" : "Experimentat"
    },
    "EXPERT" : {
       "description" : "For player reputation",
@@ -413,7 +413,7 @@
    },
    "HIGH" : {
       "description" : "",
-      "message" : "High"
+      "message" : "Mare"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "INEXPERIENCED" : {
       "description" : "For player reputation",
-      "message" : "Inexperienced"
+      "message" : "Fără experiență"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -497,15 +497,15 @@
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Nu vi se acordă permisiunea de a decola: staţiile sunt aglomerate."
+      "message" : "Nu vi se acordă permisiunea să decolați: staţiile sunt aglomerate."
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew too handle this ship."
+      "message" : "Nu vi se acordă permisiunea sa decolați: insuficient echipaj pentru a manevra nava."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Permission to launch denied: you have outstanding fines."
+      "message" : "Nu vi se acordă permisiunea sa decolați: aveți amenzi neachitate."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
-      "message" : "Master:"
+      "message" : "Principal:"
    },
    "MAX" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "MAXIMUM_CREW" : {
       "description" : "",
-      "message" : "Maximum crew"
+      "message" : "Personal maxim"
    },
    "MEDIUM" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Missile mounts"
+      "message" : "Monturi rachete"
    },
    "MISSIONS" : {
       "description" : "",
@@ -689,11 +689,11 @@
    },
    "NO" : {
       "description" : "Negative answer to a question",
-      "message" : "No"
+      "message" : "Nu"
    },
    "NOBODY" : {
       "description" : "For player reputation",
-      "message" : "Nobody"
+      "message" : "Un nimeni"
    },
    "NONE" : {
       "description" : "",
@@ -709,7 +709,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} is not supported on this ship model"
+      "message" : "Echipamentul {equipment} nu e suportat de acest model de navă"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -733,7 +733,7 @@
    },
    "OFF" : {
       "description" : "",
-      "message" : "Off"
+      "message" : "Oprit"
    },
    "OK" : {
       "description" : "",
@@ -809,7 +809,7 @@
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
-      "message" : "Professional"
+      "message" : "Profesionist"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -837,11 +837,11 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Refuel full"
+      "message" : "Reaprovizionează complet"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
-      "message" : "Reliable"
+      "message" : "De încredere"
    },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
@@ -849,7 +849,7 @@
    },
    "REPUTATION" : {
       "description" : "",
-      "message" : "Reputation"
+      "message" : "Reputație"
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
@@ -857,11 +857,11 @@
    },
    "RETURN_TO_GAME" : {
       "description" : "",
-      "message" : "Return to game"
+      "message" : "Întoarcere în joc"
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Înapoi spre meniu"
+      "message" : "Întoarcere în meniu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
@@ -917,7 +917,7 @@
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
-      "message" : "Your ship is fully equipped."
+      "message" : "Nava dvs. e complet echipată."
    },
    "SHIP_IS_FULLY_LADEN" : {
       "description" : "",
@@ -977,7 +977,7 @@
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
-      "message" : "Ship is too small for the current crew."
+      "message" : "Nava e prea mică pentru echipajul curent."
    },
    "TOTAL" : {
       "description" : "",
@@ -993,7 +993,7 @@
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
-      "message" : "Trustworthy"
+      "message" : "De mare încredere"
    },
    "TYPE" : {
       "description" : "",
@@ -1005,7 +1005,7 @@
    },
    "UNRELIABLE" : {
       "description" : "",
-      "message" : "Unreliable"
+      "message" : "De neîncredere"
    },
    "UP_ACCEL" : {
       "description" : "",
@@ -1017,7 +1017,7 @@
    },
    "VERY_HIGH" : {
       "description" : "",
-      "message" : "Very high"
+      "message" : "Foarte mare"
    },
    "VERY_LOW" : {
       "description" : "",
@@ -1057,7 +1057,7 @@
    },
    "YES" : {
       "description" : "Positive answer to a question",
-      "message" : "Yes"
+      "message" : "Da"
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
