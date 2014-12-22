@@ -269,7 +269,7 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelyhood depends on it."
+      "message" : "Our livelihood depends on it."
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
@@ -357,43 +357,31 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "This will be your last run!"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Looks like my paycheck has arrived!"
+      "message" : "You work for {client}? This is your end!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "You're working for {client}? That was a bad idea."
+      "message" : "Hey buddy, fork over the goods. Now!"
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Your cargo and your life, pilot!"
+      "message" : "Pal, you'll never reach your destination."
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "I'm sure this will bring a pretty penny on the market"
+      "message" : "Ah, another fat goose enroute to {location}."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Hey Dude, this task is too big for you! I'll take over!"
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
-      "message" : "Tell my old friend {client} that I'll see them in hell!"
-   },
-   "PIRATE_TAUNTS_7" : {
-      "description" : "",
-      "message" : "That cargo isn't going to reach it's destination today."
-   },
-   "PIRATE_TAUNTS_8" : {
-      "description" : "",
-      "message" : "You're not getting to {location} today!"
-   },
-   "PIRATE_TAUNTS_9" : {
-      "description" : "",
-      "message" : "You'll pay for that cargo, with your life."
+      "message" : "Your luck has run out!"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -454,5 +442,77 @@
    "DENY_7" : {
       "description" : "",
       "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+   },
+   "ALUMINIUM_TUBES" : {
+      "description" : "custom cargo",
+      "message" : "Aluminium tubes"
+   },
+   "ART_OBJECTS" : {
+      "description" : "custom cargo",
+      "message" : "Art objects"
+   },
+   "CLUS" : {
+      "description" : "custom cargo",
+      "message" : "Containeraized living units"
+   },
+   "DIAMONDS" : {
+      "description" : "custom cargo",
+      "message" : "Diamonds"
+   },
+   "DIGESTERS" : {
+      "description" : "custom cargo",
+      "message" : "Digesters"
+   },
+   "ELECTRICAL_APPLIANCES" : {
+      "description" : "custom cargo",
+      "message" : "Electrical appliances"
+   },
+   "EXPLOSIVES" : {
+      "description" : "custom cargo",
+      "message" : "Explosives"
+   },
+   "FURNITURE" : {
+      "description" : "custom cargo",
+      "message" : "Furniture"
+   },
+   "GREENHOUSES" : {
+      "description" : "custom cargo",
+      "message" : "Greenhouses"
+   },
+   "HAZARDOUS_SUBSTANCES" : {
+      "description" : "custom cargo",
+      "message" : "Hazardous substances"
+   },
+   "MACHINE_TOOLS" : {
+      "description" : "custom cargo",
+      "message" : "Machine tools"
+   },
+   "NEPTUNIUM" : {
+      "description" : "custom cargo",
+      "message" : "Neptunium"
+   },
+   "PLUTONIUM" : {
+      "description" : "custom cargo",
+      "message" : "Plutonium"
+   },
+   "SEMI_FINISHED_PRODUCTS" : {
+      "description" : "custom cargo",
+      "message" : "Semi-finished products"
+   },
+   "SPACESHIP_PARTS" : {
+      "description" : "custom cargo",
+      "message" : "Spaceship parts"
+   },
+   "TITANIUM" : {
+      "description" : "custom cargo",
+      "message" : "Titanium"
+   },
+   "TUNGSTEN" : {
+      "description" : "custom cargo",
+      "message" : "Tungsten"
+   },
+   "URANIUM" : {
+      "description" : "custom cargo",
+      "message" : "Uranium"
    }
 }
