@@ -36,9 +36,140 @@ local typical_reward_local = 35
 -- max cargo per trip
 local max_cargo = 50
 
-local num_pirate_taunts = 10
+local num_pirate_taunts = 7
 local num_deny = 8
 
+-- the custom cargo
+-- it seems that the two translation strings are necessary
+-- as a workaround. At least for now
+aluminium_tubes = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'ALUMINIUM_TUBES'
+})
+art_objects = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'ART_OBJECTS'
+})
+clus = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'CLUS'
+})
+diamonds = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'DIAMONDS'
+})
+digesters = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'DIGESTERS'
+})
+electrical_appliances = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'ELECTRICAL_APPLIANCES'
+})
+explosives = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'EXPLOSIVES'
+})
+furniture = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'FURNITURE'
+})
+greenhouses = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'GREENHOUSES'
+})
+hazardous_substances = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'HAZARDOUS_SUBSTANCES'
+})
+machine_tools = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'MACHINE_TOOLS'
+})
+neptunium = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Radioactive_waste",
+	l10n_ckey = 'NEPTUNIUM'
+})
+plutonium = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Radioactive_waste",
+	l10n_ckey = 'PLUTONIUM'
+})
+semi_finished_products = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'SEMI_FINISHED_PRODUCTS'
+})
+spaceship_parts = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Narcotics",
+	l10n_ckey = 'SPACESHIP_PARTS'
+})
+titanium = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Metal_alloys",
+	l10n_ckey = 'TITANIUM'
+})
+tungsten = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Metal_alloys",
+	l10n_ckey = 'TUNGSTEN'
+})
+uranium = Equipment.EquipType.New({
+	l10n_key = 'CARGO', slots="cargo", price=100,
+	capabilities={mass=1},
+	purchasable=false, icon_name="Radioactive_waste",
+	l10n_ckey = 'URANIUM'
+})
+
+local custom_cargo = {}
+table.insert(custom_cargo, aluminium_tubes)
+table.insert(custom_cargo, art_objects)
+table.insert(custom_cargo, clus)
+table.insert(custom_cargo, diamonds)
+table.insert(custom_cargo, digesters)
+table.insert(custom_cargo, electrical_appliances)
+table.insert(custom_cargo, explosives)
+table.insert(custom_cargo, furniture)
+table.insert(custom_cargo, greenhouses)
+table.insert(custom_cargo, hazardous_substances)
+table.insert(custom_cargo, machine_tools)
+table.insert(custom_cargo, neptunium)
+table.insert(custom_cargo, plutonium)
+table.insert(custom_cargo, semi_finished_products)
+table.insert(custom_cargo, spaceship_parts)
+table.insert(custom_cargo, titanium)
+table.insert(custom_cargo, tungsten)
+table.insert(custom_cargo, uranium)
 
 local flavours = {
 	{
@@ -143,7 +274,8 @@ local onChat = function (form, ref, option)
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name	  = ad.client.name,
 			cash	  = Format.Money(ad.reward),
-			cargoname = ad.cargotype:GetName(),
+--			cargoname = l[ad.cargotype.l10n_key],
+			cargoname = l[ad.cargotype.l10n_ckey],
 			starport  = sbody.name,
 			system	  = sys.name,
 			sectorx	  = ad.location.sectorX,
@@ -159,7 +291,8 @@ local onChat = function (form, ref, option)
 	elseif option == 2 then
 		local howmuch = string.interp(flavours[ad.flavour].howmuch, {
 			cargo	  = ad.cargo,
-			cargoname = ad.cargotype:GetName(),
+--			cargoname = l[ad.cargotype.l10n_key],
+			cargoname = l[ad.cargotype.l10n_ckey],
 		})
 
 		form:SetMessage(howmuch)
@@ -240,22 +373,22 @@ local findNearbyStations = function (station, minDist)
 	return nearbystations
 end
 
-local getAvailCargo = function (min_price)
-	local availcargo = {}
-        for k,v in pairs(Equipment) do
-		if k == "cargo" then
-			for _,e in pairs(v) do
-				if e.purchasable and e.price >= min_price and e.price <= (min_price + 100) then
-					table.insert(availcargo,e)
-				end
-			end
-		end
-	end
-	return availcargo
-end
+--local getAvailCargo = function (min_price)
+--	local availcargo = {}
+--        for k,v in pairs(Equipment) do
+--		if k == "cargo" then
+--			for _,e in pairs(v) do
+--				if e.purchasable and e.price >= min_price and e.price <= (min_price + 100) then
+--					table.insert(availcargo,e)
+--				end
+--			end
+--		end
+--	end
+--	return availcargo
+--end
 
 local nearbysystems
- 
+
 local makeAdvert = function (station)
 	local reward, due, location, nearbysystem, dist, nearbystations
 	local client = Character.New()
@@ -263,8 +396,9 @@ local makeAdvert = function (station)
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
 	local cargo = Engine.rand:Integer(1,max_cargo)
-	local availcargo = getAvailCargo(risk * 250 - 10)
-	local cargotype = availcargo[Engine.rand:Integer(1, #availcargo)]
+--	local availcargo = getAvailCargo(risk * 250 - 10)
+--	local cargotype = availcargo[Engine.rand:Integer(1, #availcargo)]
+	local cargotype = custom_cargo[Engine.rand:Integer(1, #custom_cargo)]
 
 	if flavours[flavour].localdelivery then
 		nearbysystem = Game.system
@@ -324,10 +458,19 @@ end
 
 local onCreateBB = function (station)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
+	local numAchievableJobs = 0
+	local reputation = Character.persistent.player.reputation
+	local canHyperspace = Game.player.maxHyperspaceRange > 0
+	local minFuelForJump = 1
+	local freeCargoSpace = Game.player.freeCapacity
 
 	for i = 1,num do
 		local ad = makeAdvert(station)
+		if ad and isQualifiedFor(reputation, ad) and ((ad.localdelivery and ad.cargo <= freeCargoSpace) or (canHyperspace and ad.cargo <= (freeCargoSpace + minFuelForJump))) then
+			numAchievableJobs = numAchievableJobs + 1
+		end
 	end
+	-- Here's something missing.
 end
 
 local onUpdateBB = function (station)
@@ -505,7 +648,8 @@ local onClick = function (mission)
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
-														cargoname = mission.cargotype:GetName(),
+														-- cargoname = l[mission.cargotype.l10n_key],
+														cargoname = l[mission.cargotype.l10n_ckey],
 														starport = mission.location:GetSystemBody().name,
 														system = mission.location:GetStarSystem().name,
 														sectorx = mission.location.sectorX,
@@ -556,7 +700,8 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(mission.cargotype:GetName())
+													-- ui:Label(l[mission.cargotype.l10n_key])
+													ui:Label(l[mission.cargotype.l10n_ckey])
 												})
 											}),
 										ui:Grid(2,1)
