@@ -162,18 +162,18 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				lua_pushvalue(l, idx);
 				lua_pushnil(l);
 				while (lua_next(l, -2)) {
-					if (key) {
-						pickle(l, -2, out, key);
-						pickle(l, -1, out, key);
-					}
-					else {
+					const char *k = key;
+					if (!k) {
 						lua_pushvalue(l, -2);
-						const char *k = lua_tostring(l, -1);
-						pickle(l, -3, out, k);
-						pickle(l, -2, out, k);
+						k = lua_tostring(l, -1);
 						lua_pop(l, 1);
 					}
-					lua_pop(l, 1);
+					// Copy the values to pickle, as they might be mutated by the pickling process.
+					lua_pushvalue(l, -2);
+					lua_pushvalue(l, -2);
+					pickle(l, -2, out, key);
+					pickle(l, -1, out, key);
+					lua_pop(l, 3);
 				}
 				lua_pop(l, 1);
 				out += "n";
