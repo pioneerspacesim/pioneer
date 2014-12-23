@@ -7,12 +7,25 @@ local Serializer = import("Serializer")
 local Lang = import("Lang")
 local ShipDef = import("ShipDef")
 
-local l = Lang.GetResource("core")
-
 --
 -- Class: EquipType
 --
 -- A container for a ship's equipment.
+--
+-- Its constructor takes a table, the "specs". Mandatory fields are the following:
+--  * l10n_key: the key to look up the name and description of
+--          the object in a language-agnostic way
+--  * l10n_resource: where to look up the aforementioned key. If not specified,
+--          the system assumes "core"
+--  * capabilities: a table of string->int, having at least "mass" as a valid key
+--
+-- All specs are copied directly within the object (even those I know nothing about),
+-- but it is a shallow copy. This is particularly important for the capabilities, as
+-- modifying the capabilities of one EquipType instance might modify them for other
+-- instances if the same table was used for all (which is strongly discouraged by the
+-- author, but who knows ? Some people might find it useful.)
+--
+--
 local EquipType = utils.inherits(nil, "EquipType")
 
 function EquipType.New (specs)
@@ -20,10 +33,42 @@ function EquipType.New (specs)
 	for i,v in pairs(specs) do
 		obj[i] = v
 	end
+	if not obj.l10n_resource then
+		obj.l10n_resource = "core"
+	end
+	local l = Lang.GetResource(obj.l10n_resource)
+	obj.volatile = {
+		description = l[obj.l10n_key.."_DESCRIPTION"] or "",
+		name = l[obj.l10n_key] or ""
+	}
 	setmetatable(obj, EquipType.meta)
 	if type(obj.slots) ~= "table" then
 		obj.slots = {obj.slots}
 	end
+	return obj
+end
+
+function EquipType:Serialize()
+	local tmp = EquipType.Super().Serialize(self)
+	local ret = {}
+	for k,v in pairs(tmp) do
+		ret[k] = v
+	end
+	ret.volatile = nil
+	return ret
+end
+
+function EquipType.Unserialize(data)
+	obj = EquipType.Super().Unserialize(data)
+	setmetatable(obj, EquipType.meta)
+	local l = Lang.GetResource(obj.l10n_resource)
+	if not obj.l10n_resource then
+		obj.l10n_resource = "core"
+	end
+	obj.volatile = {
+		description = l[obj.l10n_key.."_DESCRIPTION"] or "",
+		name = l[obj.l10n_key] or ""
+	}
 	return obj
 end
 
@@ -73,11 +118,11 @@ function EquipType:IsValidSlot(slot, ship)
 end
 
 function EquipType:GetName()
-	return l[self.l10n_key] or ""
+	return self.volatile.name
 end
 
 function EquipType:GetDescription()
-	return l[self.l10n_key.."_DESCRIPTION"] or ""
+	return self.volatile.description
 end
 
 local function __ApplyMassLimit(ship, capabilities, num)
