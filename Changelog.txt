@@ -9,6 +9,7 @@ December 2014
 
    * Minor changes and tweaks
      * Switch font texture U/V coordinates to unsigned int (#3273)
+     * README updated to markdown format (#3276)
 
    * Internal Changes
      * Fix spelling error in DeliverPackage
