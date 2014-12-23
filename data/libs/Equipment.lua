@@ -118,7 +118,7 @@ end
 local LaserType = utils.inherits(EquipType, "LaserType")
 function LaserType:Install(ship, num, slot)
 	if num > 1 then num = 1 end -- FIXME: support installing multiple lasers (e.g., in the "cargo" slot?)
-	if self:Super().Install(self, ship, 1, slot) < 1 then return 0 end
+	if LaserType.Super().Install(self, ship, 1, slot) < 1 then return 0 end
 	local prefix = slot..'_'
 	for k,v in pairs(self.laser_stats) do
 		ship:setprop(prefix..k, v)
@@ -128,7 +128,7 @@ end
 
 function LaserType:Uninstall(ship, num, slot)
 	if num > 1 then num = 1 end -- FIXME: support uninstalling multiple lasers (e.g., in the "cargo" slot?)
-	if self:Super().Uninstall(self, ship, 1) < 1 then return 0 end
+	if LaserType.Super().Uninstall(self, ship, 1) < 1 then return 0 end
 	local prefix = (slot or "laser_front").."_"
 	for k,v in pairs(self.laser_stats) do
 		ship:unsetprop(prefix..k)
