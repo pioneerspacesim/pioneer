@@ -2,6 +2,7 @@ December 2014
    * New Features
      * New Multi Scoop equipment, and merge cargo and fuel scoop slots
        to a single one (#3267)
+     * New OPLI ship Storeria (#3257)
 
    * Fixes
      * Fix string "NONE" in ShipInfo not using the translated version (#3268)
