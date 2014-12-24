@@ -13,6 +13,7 @@ December 2014
 
    * Internal Changes
      * Fix spelling error in DeliverPackage
+     * Better descriptions for translation strings in ui-/core (#3272)
 
 November 2014
    * New Features

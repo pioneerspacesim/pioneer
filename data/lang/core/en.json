@@ -68,7 +68,7 @@
       "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatic system selection"
    },
    "AUTOPILOT" : {
@@ -108,7 +108,7 @@
       "message" : "Axial tilt"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Only a few thousand"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "Binary system"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "bodies"
    },
    "BODY" : {
@@ -192,7 +192,7 @@
       "message" : "Cargo Bay Life Support"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "Allows the transport of live cargo."
    },
    "CARGO_N" : {
@@ -304,7 +304,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Current system"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "Destination"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Dir \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "following selection"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Front"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Fruit and Veg"
@@ -536,7 +532,7 @@
       "message" : "Permits scooping hydrogen fuel from gas giant planets."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Galactic view"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +568,7 @@
       "message" : "Government type:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Grain"
    },
    "HAND_WEAPONS" : {
@@ -584,7 +580,7 @@
       "message" : "Entirely Capitalist - no government welfare provision"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_FORWARD" : {
@@ -740,7 +736,7 @@
       "message" : "Internal view"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
@@ -752,7 +748,7 @@
       "message" : "In transit to %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +756,7 @@
       "message" : "Joystick input"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "English"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Large"
    },
    "LARGE_GAS_GIANT" : {
@@ -828,7 +824,7 @@
       "message" : "Local arm"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "locked"
    },
    "MAJOR_EXPORTS" : {
@@ -1111,16 +1107,12 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "None"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Not found"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1216,7 +1208,7 @@
       "message" : "%mass{f.3} %units masses"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1386,10 +1378,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Radius"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Rear"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1604,7 +1592,7 @@
       "message" : "Ship velocity by reference object"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Sidereal view"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1648,7 +1636,7 @@
       "message" : "Some established mining."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Origin"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1808,7 +1796,7 @@
       "message" : "Surface temperature"
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "System"
    },
    "SYSTEM_NUMBER" : {
@@ -1836,7 +1824,7 @@
       "message" : "Target object in cross-hairs"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "tenuous"
    },
    "TEXTILES" : {
@@ -1908,7 +1896,7 @@
       "message" : "Toggle scanner mode"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP OLD BEAN"
    },
    "TRADE_ANALYZER" : {
@@ -1975,14 +1963,6 @@
       "description" : "",
       "message" : "Very large gas giant"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Connecting..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Video link established"
-   },
    "VIEW" : {
       "description" : "",
       "message" : "View"
@@ -2024,7 +2004,7 @@
       "message" : "\" with no significant atmosphere\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2032,7 +2012,7 @@
       "message" : "%crime cannot be tolerated here."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2056,7 +2036,7 @@
       "message" : "You do not have any money."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {
@@ -2068,19 +2048,19 @@
       "message" : "Zoom out"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normal delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radial delta-v. Click to reset to zero."
    },
    "UNSET_NAVTARGET" : {
