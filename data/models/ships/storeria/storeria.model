@@ -2,9 +2,9 @@ material Material-material
 diffuse 1.0 1.0 1.0
 specular 0.8 0.8 0.8
 use_patterns
-tex_diff storeria_dif.png
-tex_spec storeria_spec.png
-tex_glow storeria_glow.png
+tex_diff storeria_dif.dds
+tex_spec storeria_spec.dds
+tex_glow storeria_glow.dds
 
 lod 300
 mesh storeria_hi.dae
