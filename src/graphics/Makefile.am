@@ -11,57 +11,63 @@ noinst_HEADERS = \
 	Graphics.h \
 	WindowSDL.h \
 	Renderer.h \
-	RendererGL2.h \
 	RenderTarget.h \
-	GLDebug.h \
 	Frustum.h \
 	Light.h \
 	Material.h \
 	RenderState.h \
 	VertexArray.h \
 	Texture.h \
-	TextureGL.h \
 	TextureBuilder.h \
 	Drawables.h \
 	Types.h \
 	VertexBuffer.h \
-	gl2/GL2Material.h \
-	gl2/GL2RenderState.h \
-	gl2/GL2RenderTarget.h \
-	gl2/GL2VertexBuffer.h \
-	gl2/FresnelColourMaterial.h \
-	gl2/GasGiantMaterial.h \
-	gl2/GeoSphereMaterial.h \
-	gl2/MultiMaterial.h \
-	gl2/Program.h \
-	gl2/RingMaterial.h \
-	gl2/ShieldMaterial.h \
-	gl2/StarfieldMaterial.h \
-	gl2/SkyboxMaterial.h \
-	gl2/Uniform.h
+	opengl/gl_core_3_x.h \
+	opengl/GLDebug.h \
+	opengl/MaterialGL.h \
+	opengl/RenderStateGL.h \
+	opengl/RenderTargetGL.h \
+	opengl/VertexBufferGL.h \
+	opengl/FresnelColourMaterial.h \
+	opengl/GasGiantMaterial.h \
+	opengl/GeoSphereMaterial.h \
+	opengl/MultiMaterial.h \
+	opengl/Program.h \
+	opengl/RendererGL.h \
+	opengl/RingMaterial.h \
+	opengl/ShieldMaterial.h \
+	opengl/StarfieldMaterial.h \
+	opengl/SkyboxMaterial.h \
+	opengl/TextureGL.h \
+	opengl/UIMaterial.h \
+	opengl/Uniform.h \
+	opengl/VtxColorMaterial.h
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \
 	WindowSDL.cpp \
 	Renderer.cpp \
-	RendererGL2.cpp \
 	Frustum.cpp \
 	Light.cpp \
 	Material.cpp \
 	VertexArray.cpp \
-	TextureGL.cpp \
 	TextureBuilder.cpp \
 	Drawables.cpp \
 	VertexBuffer.cpp \
-	gl2/GL2Material.cpp \
-	gl2/GL2RenderState.cpp \
-	gl2/GL2RenderTarget.cpp \
-	gl2/GL2VertexBuffer.cpp \
-	gl2/FresnelColourMaterial.cpp \
-	gl2/GasGiantMaterial.cpp \
-	gl2/GeoSphereMaterial.cpp \
-	gl2/MultiMaterial.cpp \
-	gl2/Program.cpp \
-	gl2/ShieldMaterial.cpp \
-	gl2/RingMaterial.cpp \
-	gl2/Uniform.cpp
+	opengl/gl_core_3_x.c \
+	opengl/MaterialGL.cpp \
+	opengl/RenderStateGL.cpp \
+	opengl/RenderTargetGL.cpp \
+	opengl/VertexBufferGL.cpp \
+	opengl/FresnelColourMaterial.cpp \
+	opengl/GasGiantMaterial.cpp \
+	opengl/GeoSphereMaterial.cpp \
+	opengl/MultiMaterial.cpp \
+	opengl/Program.cpp \
+	opengl/ShieldMaterial.cpp \
+	opengl/RendererGL.cpp \
+	opengl/RingMaterial.cpp \
+	opengl/TextureGL.cpp \
+	opengl/UIMaterial.cpp \
+	opengl/Uniform.cpp \
+	opengl/VtxColorMaterial.cpp

@@ -20,6 +20,7 @@
 
 static const unsigned int DEFAULT_NUM_BUILDINGS = 1000;
 static const double  START_SEG_SIZE = CITY_ON_PLANET_RADIUS;
+static const double  START_SEG_SIZE_NO_ATMO = CITY_ON_PLANET_RADIUS / 5.0f;
 static const double MIN_SEG_SIZE = 50.0;
 static const unsigned int CITYFLAVOURS = 5;
 
@@ -166,6 +167,8 @@ static void enumerateNewBuildings(std::vector<std::string> &filenames)
 		const std::string &name = files.Current().GetName();
 		if (ends_with_ci(name, ".model")) {
 			filenames.push_back(name.substr(0, name.length()-6));
+		} else if (ends_with_ci(name, ".sgm")) {
+			filenames.push_back(name.substr(0, name.length()-4));
 		}
 	}
 }
@@ -185,7 +188,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		}
 	}
 	assert(!models.empty());
-	//Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
@@ -197,8 +200,9 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
 		const double maxy = std::max(fabs(aabb.max.z), fabs(aabb.min.z));
 		list->buildings[i].xzradius = sqrt(maxx*maxx + maxy*maxy);
-		//Output("%s: %f\n", list->buildings[i].modelname, list->buildings[i].xzradius);
+		Output(" - %s: %f\n", (*m)->GetName().c_str(), list->buildings[i].xzradius);
 	}
+	Output("End of buildings.\n");
 }
 
 void CityOnPlanet::Init()
@@ -280,8 +284,9 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 		}
 	}
 
+
 	const Aabb &aabb = station->GetAabb();
-	matrix4x4d m = station->GetOrient();
+	const matrix4x4d &m = station->GetOrient();
 
 	vector3d mx = m*vector3d(1,0,0);
 	vector3d mz = m*vector3d(0,0,1);
@@ -289,27 +294,33 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 	Random rand;
 	rand.seed(seed);
 
+	const float pop = planet->GetSystemBody()->GetPopulation();
+	double seg = START_SEG_SIZE;
+	if (planet->GetSystemBody()->HasAtmosphere())
+		seg=Clamp(pop*1000.0, 200.0, START_SEG_SIZE);
+	else
+		seg=Clamp(pop*100.0, 250.0, START_SEG_SIZE_NO_ATMO);
+
+	const double sizex = seg*2.0;
+	const double sizez = seg*2.0;
+
 	const vector3d p = station->GetPosition();
 
-	vector3d p1, p2, p3, p4;
-	double sizex = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
-	double sizez = START_SEG_SIZE;// + rand.Int32((int)START_SEG_SIZE);
-
 	// always have random shipyard buildings around the space station
-	cityflavour[0].buildingListIdx = 0;//2;
+	cityflavour[0].buildingListIdx = 0;
 	cityflavour[0].center = p;
-	cityflavour[0].size = 500;
+	cityflavour[0].size = seg;
 
 	for (unsigned int i = 1; i < CITYFLAVOURS; i++) {
-		cityflavour[i].buildingListIdx =
-			(COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
-		citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
-		double a = rand.Int32(-1000,1000);
-		double b = rand.Int32(-1000,1000);
+		cityflavour[i].buildingListIdx = (COUNTOF(s_buildingLists) > 1 ? rand.Int32(COUNTOF(s_buildingLists)) : 0);
+		const citybuildinglist_t *blist = &s_buildingLists[cityflavour[i].buildingListIdx];
+		const double a = rand.Int32(-1000,1000);
+		const double b = rand.Int32(-1000,1000);
 		cityflavour[i].center = p + a*mx + b*mz;
 		cityflavour[i].size = rand.Int32(int(blist->minRadius), int(blist->maxRadius));
 	}
-
+	
+	vector3d p1, p2, p3, p4;
 	for (int side=0; side<4; side++) {
 		/* put buildings on all sides of spaceport */
 		switch(side) {

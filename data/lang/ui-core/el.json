@@ -81,11 +81,15 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Φορτίο"
    },
    "CARGO_SPACE" : {
       "description" : "",
       "message" : "Cargo space"
+   },
+   "CARGO_SPACE_USED" : {
+      "description" : "",
+      "message" : "Cargo space used"
    },
    "CARGO_T_FREE" : {
       "description" : "",
@@ -377,7 +381,7 @@
    },
    "HANG_UP" : {
       "description" : "",
-      "message" : "Hang up."
+      "message" : "Αποσύνδεση"
    },
    "HARMLESS" : {
       "description" : "",
@@ -417,7 +421,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "Ακεραιότητα κύτους"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -569,7 +573,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "Μάζα"
    },
    "MASTER" : {
       "description" : "For player reputation",
@@ -617,7 +621,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Κράματα Μετάλλου"
    },
    "MILITARY" : {
       "description" : "",

@@ -75,6 +75,8 @@ void Ship::Save(Serializer::Writer &wr, Space *space)
 	m_controller->Save(wr, space);
 
 	m_navLights->Save(wr);
+
+	wr.String(m_shipName);
 }
 
 void Ship::Load(Serializer::Reader &rd, Space *space)
@@ -142,6 +144,8 @@ void Ship::Load(Serializer::Reader &rd, Space *space)
 
 	m_navLights->Load(rd);
 
+	m_shipName = rd.String();
+	Properties().Set("shipName", m_shipName);
 }
 
 void Ship::InitEquipSet() {
@@ -172,11 +176,6 @@ void Ship::InitGun(const char *tag, int num)
 		const matrix4x4f &trans = mt->GetTransform();
 		m_gun[num].pos = trans.GetTranslate();
 		m_gun[num].dir = trans.GetOrient().VectorZ();
-	}
-	else {
-		// XXX deprecated
-		m_gun[num].pos = m_type->gunMount[num].pos;
-		m_gun[num].dir = m_type->gunMount[num].dir;
 	}
 }
 
@@ -213,6 +212,8 @@ void Ship::Init()
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
+
+	p.Set("shipName", m_shipName);
 
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
 	m_hyperspaceCloud = 0;
@@ -364,7 +365,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 		// transform the collision location into the models local space (from world space) and add it as a hit.
 		matrix4x4d mtx = GetOrient();
 		mtx.SetTranslate( GetPosition() );
-		const matrix4x4d invmtx = mtx.InverseOf();
+		const matrix4x4d invmtx = mtx.Inverse();
 		const vector3d localPos = invmtx * contactData.pos;
 		GetShields()->AddHit(localPos);
 
@@ -764,7 +765,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
-
+	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
 	DynamicBody::TimeStepUpdate(timeStep);
 
 	// fuel use decreases mass, so do this as the last thing in the frame
@@ -782,7 +783,7 @@ void Ship::DoThrusterSounds() const
 
 	// XXX sound logic could be part of a bigger class (ship internal sounds)
 	/* Ship engine noise. less loud inside */
-	float v_env = (Pi::worldView->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
+	float v_env = (Pi::game->GetWorldView()->GetCameraController()->IsExternal() ? 1.0f : 0.5f) * Sound::GetSfxVolume();
 	static Sound::Event sndev;
 	float volBoth = 0.0f;
 	volBoth += 0.5f*fabs(GetThrusterState().y);
@@ -853,10 +854,8 @@ void Ship::FireWeapon(int num)
 	bool mining = prop.Get<int>(prefix+"mining");
 	if (prop.Get<int>(prefix+"dual"))
 	{
-		const ShipType::DualLaserOrientation orient = m_type->gunMount[num].orient;
-		const vector3d orient_norm =
-				(orient == ShipType::DUAL_LASERS_VERTICAL) ? m.VectorX() : m.VectorY();
-		const vector3d sep = m_type->gunMount[num].sep * dir.Cross(orient_norm).NormalizedSafe();
+		const vector3d orient_norm = m.VectorY();
+		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
 
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos + sep, baseVel, dirVel);
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos - sep, baseVel, dirVel);
@@ -870,12 +869,19 @@ void Ship::FireWeapon(int num)
 	LuaEvent::Queue("onShipFiring", this);
 }
 
+double Ship::ExtrapolateHullTemperature() const
+{
+	const double dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * 1.25;
+	const double dragGs = CalcAtmosphericForce(dragCoeff) / (GetMass() * 9.81);
+	return dragGs / 5.0;
+}
+
 double Ship::GetHullTemperature() const
 {
 	double dragGs = GetAtmosForce().Length() / (GetMass() * 9.81);
 	int atmo_shield_cap = 0;
 	const_cast<Ship *>(this)->Properties().Get("atmo_shield_cap", atmo_shield_cap);
-	if (atmo_shield_cap) {
+	if (atmo_shield_cap && GetWheelState() < 1.0) {
 		return dragGs / 300.0;
 	} else {
 		return dragGs / 5.0;
@@ -1024,7 +1030,7 @@ void Ship::StaticUpdate(const float timeStep)
 				vector3d pdir = -GetOrient().VectorZ();
 				double dot = vdir.Dot(pdir);
 				if ((m_stats.free_capacity) && (dot > 0.95) && (speed > 2000.0) && (density > 1.0)) {
-					double rate = speed*density*0.00001f;
+					double rate = speed*density*0.00000333f*double(capacity);
 					if (Pi::rng.Double() < rate) {
 						lua_State *l = Lua::manager->GetLuaState();
 						pi_lua_import(l, "Equipment");
@@ -1219,7 +1225,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
 
 	matrix3x3f mt;
-	matrix3x3dtof(viewTransform.InverseOf().GetOrient(), mt);
+	matrix3x3dtof(viewTransform.Inverse().GetOrient(), mt);
 	s_heatGradientParams.heatingMatrix = mt;
 	s_heatGradientParams.heatingNormal = vector3f(GetVelocity().Normalized());
 	s_heatGradientParams.heatingAmount = Clamp(GetHullTemperature(),0.0,1.0);
@@ -1337,7 +1343,7 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 	Init();
 	onFlavourChanged.emit();
 	if (IsType(Object::PLAYER))
-		Pi::worldView->SetCamType(Pi::worldView->GetCamType());
+		Pi::game->GetWorldView()->SetCamType(Pi::game->GetWorldView()->GetCamType());
 	InitEquipSet();
 
 	LuaEvent::Queue("onShipTypeChanged", this);
@@ -1348,6 +1354,12 @@ void Ship::SetLabel(const std::string &label)
 	DynamicBody::SetLabel(label);
 	m_skin.SetLabel(label);
 	m_skin.Apply(GetModel());
+}
+
+void Ship::SetShipName(const std::string &shipName)
+{
+	m_shipName = shipName;
+	Properties().Set("shipName", shipName);
 }
 
 void Ship::SetSkin(const SceneGraph::ModelSkin &skin)

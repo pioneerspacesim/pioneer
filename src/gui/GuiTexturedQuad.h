@@ -20,7 +20,7 @@ namespace Gui {
 // a textured quad with reversed winding for the UI
 // XXX possibly doesn't belong in Gui::, but its knowledge of reverse-winding
 // makes it seem odd for Graphics::Drawables
-class TexturedQuad : public Graphics::Drawables::Drawable {
+class TexturedQuad {
 public:
 	TexturedQuad(Graphics::Texture *texture) : m_texture(RefCountedPtr<Graphics::Texture>(texture)) {}
 	virtual ~TexturedQuad() {}

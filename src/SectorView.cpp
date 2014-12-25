@@ -45,7 +45,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView() : UIView()
+SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
@@ -76,7 +76,7 @@ SectorView::SectorView() : UIView()
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd) : UIView()
+SectorView::SectorView(Serializer::Reader &rd, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
@@ -118,7 +118,7 @@ void SectorView::InitDefaults()
 	m_cacheYMin = 0;
 	m_cacheYMax = 0;
 
-	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
+	m_sectorCache = m_galaxy->NewSectorSlaveCache();
 }
 
 void SectorView::InitObject()
@@ -590,7 +590,7 @@ void SectorView::SetSelected(const SystemPath &path)
 void SectorView::OnClickSystem(const SystemPath &path)
 {
 	if (path.IsSameSystem(m_selected)) {
-		RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(path);
+		RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
 		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
 			unsigned i;
 			for (i = 0; i < system->GetNumStars(); ++i)
@@ -606,7 +606,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		if (m_automaticSystemSelection) {
 			GotoSystem(path);
 		} else {
-			RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(path);
+			RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
 			SetSelected(system->GetStars()[0]->GetPath());
 		}
 	}
@@ -787,7 +787,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 {
 	UpdateDistanceLabelAndLine(labels.distance, m_current, path);
 
-	RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(path);
+	RefCountedPtr<StarSystem> sys = m_galaxy->GetStarSystem(path);
 
 	std::string desc;
 	if (sys->GetNumStars() == 4) {
@@ -971,7 +971,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
 				SystemPath current = SystemPath(sx, sy, sz, sysIdx);
-				RefCountedPtr<StarSystem> pSS = Pi::GetGalaxy()->GetStarSystem(current);
+				RefCountedPtr<StarSystem> pSS = m_galaxy->GetStarSystem(current);
 				i->SetPopulation(pSS->GetTotalPop());
 			}
 
@@ -1068,7 +1068,6 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation(i->GetPosition().x, i->GetPosition().y, i->GetPosition().z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
-			m_jumpDisk->Draw(m_renderer);
 		}
 	}
 }
@@ -1353,7 +1352,7 @@ void SectorView::Update()
 			}
 
 			if (!m_selected.IsSameSystem(new_selected)) {
-				RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(new_selected);
+				RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(new_selected);
 				SetSelected(system->GetStars()[0]->GetPath());
 			}
 		}
@@ -1374,9 +1373,9 @@ void SectorView::Update()
 
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
-		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
-		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(m_renderer, fresnelMat, m_jumpSphereState, 3, 1.0f) );
-		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
+		m_fresnelMat.Reset(m_renderer->CreateMaterial(matdesc));
+		m_fresnelMat->diffuse = Color::WHITE;
+		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(m_renderer, m_fresnelMat, m_jumpSphereState, 4, 1.0f) );
 	}
 
 	UIView::Update();

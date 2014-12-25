@@ -19,10 +19,14 @@
 #include "Factions.h"
 #include <functional>
 
-SystemInfoView::SystemInfoView() : UIView()
+SystemInfoView::SystemInfoView(Game* game) : UIView(), m_game(game)
 {
 	SetTransparency(true);
 	m_refresh = REFRESH_NONE;
+	m_unexplored = true;
+	int trade_analyzer = 0;
+	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyzer);
+	m_hasTradeAnalyzer = bool(trade_analyzer);
 }
 
 void SystemInfoView::OnBodySelected(SystemBody *b)
@@ -33,7 +37,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 	}
 
 	SystemPath path = m_system->GetPathOf(b);
-	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 	bool isCurrentSystem = (currentSys && currentSys->GetPath() == m_system->GetPath());
 
 	if (path == m_selectedBodyPath) {
@@ -42,11 +46,11 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 		}
 	} else {
 		if (isCurrentSystem) {
-			Body* body = Pi::game->GetSpace()->FindBodyForPath(&path);
+			Body* body = m_game->GetSpace()->FindBodyForPath(&path);
 			if(body != 0)
 				Pi::player->SetNavTarget(body);
 		} else if (b->GetSuperType() == SystemBody::SUPERTYPE_STAR) { // We allow hyperjump to any star of the system
-			Pi::sectorView->SetSelected(path);
+			m_game->GetSectorView()->SetSelected(path);
 		}
 	}
 
@@ -148,11 +152,18 @@ void SystemInfoView::UpdateEconomyTab()
 	StarSystem *s = m_system.Get();             // selected system
 
 	/* imports and exports */
-	const RefCountedPtr<StarSystem> hs = Pi::game->GetSpace()->GetStarSystem();
+	const RefCountedPtr<StarSystem> hs = m_game->GetSpace()->GetStarSystem();
+
+	// check if trade analyzer is installed
+	int trade_analyzer = 0;
+	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyzer);
+
+	// we might be here because we changed equipment, update that as well:
+	m_hasTradeAnalyzer = bool (trade_analyzer);
 
 	// If current system is defined and not equal to selected we will compare them
 	const bool compareSelectedWithCurrent =
-			(hs && !m_system->GetPath().IsSameSystem(hs->GetPath()));
+		(hs && !m_system->GetPath().IsSameSystem(hs->GetPath()) && trade_analyzer > 0);
 
 	const std::string meh       = "#999";
 	const std::string ok        = "#fff";
@@ -194,19 +205,17 @@ void SystemInfoView::UpdateEconomyTab()
 				 && s->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
 				std::string extra = meh;              // default color
 				std::string tooltip = "";             // no tooltip for default
-				if (hs){
-					if (compareSelectedWithCurrent){
-						if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-							extra = colorInInterval;     // change color
-							tooltip = toolTipInInterval; // describe trade status in current system
-						} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
-							extra = colorOther;
-							tooltip = toolTipOther;
-						}
-						if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
-							extra = illegal;
-							tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
-						}
+				if (compareSelectedWithCurrent) {
+					if (isInInterval(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+						extra = colorInInterval;     // change color
+						tooltip = toolTipInInterval; // describe trade status in current system
+					} else if (isOther(hs->GetCommodityBasePriceModPercent(GalacticEconomy::Commodity(i)))) {
+						extra = colorOther;
+						tooltip = toolTipOther;
+					}
+					if (!hs->IsCommodityLegal(GalacticEconomy::Commodity(i))) {
+						extra = illegal;
+						tooltip = std::string(Lang::ILLEGAL_CURRENT_SYSTEM);
 					}
 				}
 				Gui::Label *label = new Gui::Label(extra+GalacticEconomy::COMMODITY_DATA[i].name);
@@ -335,8 +344,8 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 	if (!path.HasValidSystem())
 		return;
 
-	m_system = Pi::GetGalaxy()->GetStarSystem(path);
-
+	m_system = m_game->GetGalaxy()->GetStarSystem(path);
+	m_unexplored = m_system->GetUnexplored();
 	m_sbodyInfoTab = new Gui::Fixed(float(Gui::Screen::GetWidth()), float(Gui::Screen::GetHeight()-100));
 
 	if (m_system->GetUnexplored()) {
@@ -507,22 +516,31 @@ static bool IsShownInInfoView(const SystemBody* sb)
 
 SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 {
-	if (!m_system || !Pi::sectorView->GetSelected().IsSameSystem(m_system->GetPath()))
+	if (!m_system || !m_game->GetSectorView()->GetSelected().IsSameSystem(m_system->GetPath()))
+		return REFRESH_ALL;
+
+	if (m_system->GetUnexplored() != m_unexplored)
+		return REFRESH_ALL;
+
+	// If we changed equipment since last refresh
+	int trade_analyzer = 0;
+	Pi::player->Properties().Get("trade_analyzer_cap", trade_analyzer);
+	if (m_hasTradeAnalyzer != (trade_analyzer!=0))
 		return REFRESH_ALL;
 
 	if (m_system->GetUnexplored())
 		return REFRESH_NONE; // Nothing can be selected and we reset in SystemChanged
 
-	RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+	RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 	if (!currentSys || currentSys->GetPath() != m_system->GetPath()) {
 		// We are not currently in the selected system
 		if (m_selectedBodyPath.IsBodyPath()) {
 			// Some body was selected
-			if (Pi::sectorView->GetSelected() != m_selectedBodyPath)
+			if (m_game->GetSectorView()->GetSelected() != m_selectedBodyPath)
 				return REFRESH_SELECTED_BODY; // but now we want a different body (or none at all)
 		} else {
 			// No body was selected
-			if (Pi::sectorView->GetSelected().IsBodyPath())
+			if (m_game->GetSectorView()->GetSelected().IsBodyPath())
 				return REFRESH_SELECTED_BODY; // but now we want one, this can only be a star,
 										  // so no check for IsShownInInfoView() needed
 		}
@@ -546,7 +564,7 @@ void SystemInfoView::Update()
 {
 	switch (m_refresh) {
 		case REFRESH_ALL:
-			SystemChanged(Pi::sectorView->GetSelected());
+			SystemChanged(m_game->GetSectorView()->GetSelected());
 			m_refresh = REFRESH_NONE;
 			assert(NeedsRefresh() == REFRESH_NONE);
 			break;
@@ -586,7 +604,7 @@ void SystemInfoView::UpdateIconSelections()
 
 		bodyIcon.second->SetSelected(false);
 
-		RefCountedPtr<StarSystem> currentSys = Pi::game->GetSpace()->GetStarSystem();
+		RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 		if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 			//navtarget can be only set in current system
 			if (Body* navtarget = Pi::player->GetNavTarget()) {
@@ -598,7 +616,7 @@ void SystemInfoView::UpdateIconSelections()
 				}
 			}
 		} else {
-			SystemPath selected = Pi::sectorView->GetSelected();
+			SystemPath selected = m_game->GetSectorView()->GetSelected();
 			if (selected.IsSameSystem(m_system->GetPath()) && !selected.IsSystemPath()) {
 				if (bodyIcon.first == selected.bodyIndex) {
 					bodyIcon.second->SetSelectColor(Color(64, 96, 255, 255));
@@ -632,18 +650,18 @@ void SystemInfoView::BodyIcon::Draw()
 	    // The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
 	    // and not overlapping to much with asteroids
 	    Graphics::Drawables::Circle circle =
-			Graphics::Drawables::Circle(size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f,
+			Graphics::Drawables::Circle(m_renderer, size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f,
 			portColor, m_renderState);
 	    circle.Draw(m_renderer);
 	}
 	if (GetSelected()) {
-	    const vector2f vts[] = {
-		    vector2f(0.f, 0.f),
-		    vector2f(size[0], 0.f),
-		    vector2f(size[0], size[1]),
-		    vector2f(0.f, size[1]),
+	    const vector3f vts[] = {
+		    vector3f(0.f, 0.f, 0.f),
+		    vector3f(size[0], 0.f, 0.f),
+		    vector3f(size[0], size[1], 0.f),
+		    vector3f(0.f, size[1], 0.f),
 	    };
-	    m_renderer->DrawLines2D(COUNTOF(vts), vts, m_selectColor, m_renderState, Graphics::LINE_LOOP);
+	    m_renderer->DrawLines(COUNTOF(vts), vts, m_selectColor, m_renderState, Graphics::LINE_LOOP);
 	}
 }
 

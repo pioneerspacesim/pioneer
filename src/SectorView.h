@@ -17,10 +17,13 @@
 #include "graphics/RenderState.h"
 #include <set>
 
+class Game;
+class Galaxy;
+
 class SectorView: public UIView {
 public:
-	SectorView();
-	SectorView(Serializer::Reader &rd);
+	SectorView(Game* game);
+	SectorView(Serializer::Reader &rd, Game* game);
 	virtual ~SectorView();
 
 	virtual void Update();
@@ -89,6 +92,9 @@ private:
 	void MouseWheel(bool up);
 	void OnKeyPressed(SDL_Keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_Keysym *keysym);
+
+	Game* m_game;
+	RefCountedPtr<Galaxy> m_galaxy;
 
 	bool m_inSystem;
 
@@ -181,8 +187,8 @@ private:
 
 	std::unique_ptr<Graphics::VertexArray> m_lineVerts;
 	std::unique_ptr<Graphics::VertexArray> m_secLineVerts;
+	RefCountedPtr<Graphics::Material> m_fresnelMat;
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
-	std::unique_ptr<Graphics::Drawables::Disk> m_jumpDisk;
 	std::unique_ptr<Graphics::VertexArray> m_starVerts;
 };
 

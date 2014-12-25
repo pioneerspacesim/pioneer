@@ -279,17 +279,17 @@ const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase:
 };
 
 
-bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
+bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(system->GetPath());
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	assert(system->GetPath().systemIndex >= 0 && system->GetPath().systemIndex < sec->m_systems.size());
 	const Sector::System& secSys = sec->m_systems[system->GetPath().systemIndex];
 
-	system->SetFaction(Pi::GetGalaxy()->GetFactions()->GetNearestFaction(&secSys));
+	system->SetFaction(galaxy->GetFactions()->GetNearestFaction(&secSys));
 	system->SetSeed(secSys.GetSeed());
 	system->SetName(secSys.GetName());
-	system->SetUnexplored(!secSys.IsExplored());
+	system->SetExplored(secSys.GetExplored(), secSys.GetExploredTime());
 	return true;
 }
 
@@ -573,10 +573,10 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	}
 }
 
-bool StarSystemCustomGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
+bool StarSystemCustomGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(system->GetPath());
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	system->SetCustom(false, false);
 	if (const CustomSystem *customSys = sec->m_systems[system->GetPath().systemIndex].GetCustomSystem()) {
 		system->SetCustom(true, false);
@@ -1216,10 +1216,10 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
-bool StarSystemRandomGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
+bool StarSystemRandomGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(system->GetPath());
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	const Sector::System& secSys = sec->m_systems[system->GetPath().systemIndex];
 
 	if (config->isCustomOnly)
@@ -1382,7 +1382,7 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody* sbody, StarSystem::
 	}
 
 	// unexplored systems have no population (that we know about)
-	if (system->GetUnexplored()) {
+	if (system->GetExplored() != StarSystem::eEXPLORED_AT_START) {
 		sbody->m_population = outTotalPop = fixed();
 		return;
 	}
@@ -1625,58 +1625,13 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 	}
 }
 
-void PopulateStarSystemGenerator::MakeShortDescription(RefCountedPtr<StarSystem::GeneratorAPI> system, Random &rand)
-{
-	PROFILE_SCOPED()
-	if ((system->GetIndustrial() > system->GetMetallicity()) && (system->GetIndustrial() > system->GetAgricultural())) {
-		system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
-	} else if (system->GetMetallicity() > system->GetAgricultural()) {
-		system->SetEconType(GalacticEconomy::ECON_MINING);
-	} else {
-		system->SetEconType(GalacticEconomy::ECON_AGRICULTURE);
-	}
-
-	if (system->GetUnexplored()) {
-		system->SetShortDesc(Lang::UNEXPLORED_SYSTEM_NO_DATA);
-	}
-
-	/* Total population is in billions */
-	else if(system->GetTotalPop() == 0) {
-		system->SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
-	} else if (system->GetTotalPop() < fixed(1,10)) {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
-		}
-	} else if (system->GetTotalPop() < fixed(1,2)) {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::MINING_COLONY); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
-		}
-	} else if (system->GetTotalPop() < fixed(5,1)) {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::HEAVY_INDUSTRY); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::EXTENSIVE_MINING); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
-		}
-	} else {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::VAST_STRIP_MINE); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
-		}
-	}
-}
-
-void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
+void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
 {
 	SystemPath path = system->GetPath();
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
 	const CustomSystem* customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
 	SysPolit sysPolit;
 	sysPolit.govType = Polit::GOV_INVALID;
@@ -1730,10 +1685,21 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	}
 }
 
+void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system)
+{
+	if ((system->GetIndustrial() > system->GetMetallicity()) && (system->GetIndustrial() > system->GetAgricultural())) {
+		system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
+	} else if (system->GetMetallicity() > system->GetAgricultural()) {
+		system->SetEconType(GalacticEconomy::ECON_MINING);
+	} else {
+		system->SetEconType(GalacticEconomy::ECON_AGRICULTURE);
+	}
+}
+
 /* percent */
 static const int MAX_COMMODITY_BASE_PRICE_ADJUSTMENT = 25;
 
-bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system,
+bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system,
 		GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
@@ -1745,7 +1711,7 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	system->SetHumanProx(Pi::GetGalaxy()->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2,3): fixed(3,1) /
+	system->SetHumanProx(galaxy->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2,3): fixed(3,1) /
 		isqrt(9 + 10*(system->GetPath().sectorX*system->GetPath().sectorX + system->GetPath().sectorY*system->GetPath().sectorY + system->GetPath().sectorZ*system->GetPath().sectorZ)));
 	system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
 	system->SetIndustrial(rand.Fixed());
@@ -1776,15 +1742,17 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 //		Output("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
 //	Output("System total population %.3f billion\n", m_totalPop.ToFloat());
-	SetSysPolit(system, system->GetTotalPop());
+	SetSysPolit(galaxy, system, system->GetTotalPop());
 	SetCommodityLegality(system);
 
 	if (addSpaceStations) {
 		PopulateAddStations(system->GetRootBody().Get(), system.Get());
 	}
 
-	if (!system->GetShortDescription().size())
-		MakeShortDescription(system, rand);
+	if (!system->GetShortDescription().size()) {
+		SetEconType(system);
+		system->MakeShortDescription();
+	}
 
 	return true;
 }

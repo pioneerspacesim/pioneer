@@ -345,18 +345,15 @@ static int l_space_spawn_ship_parked(lua_State *l)
 	Ship *ship = new Ship(type);
 	assert(ship);
 
-	double parkDist = station->GetStationType()->parkingDistance;
-	parkDist -= ship->GetPhysRadius();		// park inside parking radius
-	double parkOffset = 0.5 * station->GetStationType()->parkingGapSize;
-	parkOffset += ship->GetPhysRadius();	// but outside the docking gap
+	const double parkDist = station->GetStationType()->ParkingDistance() - ship->GetPhysRadius();		// park inside parking radius
+	const double parkOffset = (0.5 * station->GetStationType()->ParkingGapSize()) + ship->GetPhysRadius();	// but outside the docking gap
 
 	double xpos = (slot == 0 || slot == 3) ? -parkOffset : parkOffset;
 	double zpos = (slot == 0 || slot == 1) ? -parkOffset : parkOffset;
-	vector3d parkPos = vector3d(xpos, parkDist, zpos);
-	parkPos = station->GetPosition() + station->GetOrient() * parkPos;
+	const vector3d parkPos = station->GetPosition() + station->GetOrient() * vector3d(xpos, parkDist, zpos);
 
 	// orbital stations have Y as axis of rotation
-	matrix3x3d rot = matrix3x3d::RotateX(M_PI/2) * station->GetOrient();
+	const matrix3x3d rot = matrix3x3d::RotateX(M_PI/2) * station->GetOrient();
 
 	ship->SetFrame(station->GetFrame());
 	ship->SetVelocity(vector3d(0.0));

@@ -87,6 +87,10 @@
       "description" : "",
       "message" : "Laderaum"
    },
+   "CARGO_SPACE_USED" : {
+      "description" : "",
+      "message" : "Laderaum in Verwendung"
+   },
    "CARGO_T_FREE" : {
       "description" : "",
       "message" : "{amount}t frei"

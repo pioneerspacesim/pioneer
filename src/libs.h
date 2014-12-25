@@ -25,7 +25,9 @@
 #include <algorithm>
 #include <memory>
 
-#include "glew/glew.h"
+// The glLoadGen header was generated using the following command line:
+// lua LoadGen.lua -style=pointer_c -spec=gl -version=3.1 -profile=core core_3_x -stdext=gl_ubiquitous.txt -stdext=gl_core_post_3_3.txt -ext ARB_seamless_cube_map ARB_seamless_cubemap_per_texture
+#include "graphics/opengl/gl_core_3_x.h"
 
 #ifdef _WIN32
 #	include <malloc.h>
@@ -45,8 +47,12 @@
 #	endif
 #endif
 
-#ifdef _MSC_VER // MSVC doesn't support the %z specifier, but has its own %I specifier
-#define SIZET_FMT "%Iu"
+#ifdef _WIN32 // MSVC doesn't support the %z specifier, but has its own %I specifier
+#	ifndef __MINGW32__
+#	define SIZET_FMT "%Iu"
+#	else
+#	define SIZET_FMT "%zu"
+#	endif
 #else
 #define SIZET_FMT "%zu"
 #endif

@@ -65,23 +65,9 @@ static const char * const MONTH_NAMES[] = {
 	Lang::MONTH_DEC
 };
 
-static Time::DateTime game_time_to_datetime(double t) {
-	return Time::DateTime(3200,1,1,0,0,0) + Time::TimeDelta(t, Time::Second);
-}
-
-double datetime_to_game_time(const Time::DateTime &dt) {
-	const Time::DateTime base(3200,1,1, 0,0,0);
-	Time::TimeDelta tstamp = (dt - base);
-	if (dt < base) {
-		// adjustment to give correct rounding for GetTotalSeconds()
-		tstamp -= Time::TimeDelta(Time::Second - 1, Time::TimeUnit(1));
-	}
-	return double(tstamp.GetTotalSeconds());
-}
-
 std::string format_date(double t)
 {
-	const Time::DateTime dt = game_time_to_datetime(t);
+	const Time::DateTime dt(t);
 	int year, month, day, hour, minute, second;
 	dt.GetDateParts(&year, &month, &day);
 	dt.GetTimeParts(&hour, &minute, &second);
@@ -94,7 +80,7 @@ std::string format_date(double t)
 
 std::string format_date_only(double t)
 {
-	const Time::DateTime dt = game_time_to_datetime(t);
+	const Time::DateTime dt(t);
 	int year, month, day;
 	dt.GetDateParts(&year, &month, &day);
 
@@ -153,6 +139,17 @@ void Output(const char *format, ...)
 	fputs(buf, stderr);
 }
 
+void OpenGLDebugMsg(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	fputs(buf, stderr);
+}
+
 std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;
@@ -181,7 +178,7 @@ void Screendump(const char* destFile, const int width, const int height)
 	const int stride = (3*width + 3) & ~3;
 
 	std::vector<Uint8> pixel_data(stride * height);
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
 	glReadBuffer(GL_FRONT);
 	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);

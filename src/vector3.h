@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "FloatComparison.h"
+#include "vector2.h"
 
 // Need this pragma due to operator[] implementation.
 #pragma pack(4)
@@ -24,6 +25,7 @@ public:
 	// only float and double versions are possible.
 	vector3();
 	vector3(const vector3<T> &v);
+	vector3(const vector2f &v, T t);
 	explicit vector3(const T  vals[3]);
 	explicit vector3(T val);
 	vector3(T _x, T _y, T _z);
@@ -123,9 +125,11 @@ public:
 template<> inline vector3<float >::vector3() {}
 template<> inline vector3<double>::vector3() {}
 template<> inline vector3<float >::vector3(const vector3<float > &v): x(v.x), y(v.y), z(v.z) {}
+template<> inline vector3<float >::vector3(const vector2f &v, float t): x(v.x), y(v.y), z(t) {}
 template<> inline vector3<float >::vector3(const vector3<double> &v): x(float(v.x)), y(float(v.y)), z(float(v.z)) {}
 template<> inline vector3<double>::vector3(const vector3<float > &v): x(v.x), y(v.y), z(v.z) {}
 template<> inline vector3<double>::vector3(const vector3<double> &v): x(v.x), y(v.y), z(v.z) {}
+template<> inline vector3<double>::vector3(const vector2f &v, double t): x(v.x), y(v.y), z(t) {}
 template<> inline vector3<float >::vector3(float  val): x(val), y(val), z(val) {}
 template<> inline vector3<double>::vector3(double val): x(val), y(val), z(val) {}
 template<> inline vector3<float >::vector3(float  _x, float  _y, float  _z): x(_x), y(_y), z(_z) {}

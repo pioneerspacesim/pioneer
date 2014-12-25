@@ -30,6 +30,7 @@
 void Error(const char *format, ...) __attribute((format(printf,1,2))) __attribute((noreturn));
 void Warning(const char *format, ...)  __attribute((format(printf,1,2)));
 void Output(const char *format, ...)  __attribute((format(printf,1,2)));
+void OpenGLDebugMsg(const char *format, ...)  __attribute((format(printf,1,2)));
 
 // Helper for timing functions with multiple stages
 // Used on a branch to help time loading.
@@ -48,8 +49,6 @@ protected:
 };
 
 std::string string_join(std::vector<std::string> &v, std::string sep);
-namespace Time { class DateTime; }
-double datetime_to_game_time(const Time::DateTime &datetime);
 std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist, int precision = 2);

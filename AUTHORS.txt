@@ -28,6 +28,8 @@ The Pioneer Developers are:
 * Denis Volk
 * DerpyHooves
 * Dionisis Kontominas
+* Dmitry Marakasov
+* Emery Hemingway
 * Enric Morales
 * Florian Schmidt
 * Fran Morton
@@ -61,6 +63,7 @@ The Pioneer Developers are:
 * Peter Kurucz
 * Phil Howlett
 * Piotr Gredka
+* PVJeltz
 * Radek Valášek aka vaLin
 * Rémi Boutemy
 * Rob Williamson
@@ -77,6 +80,7 @@ The Pioneer Developers are:
 * Taiki Kim
 * Thierry Dupré
 * Tim Jones
+* Timothy Hills
 * Tom Morton
 * Torham2234
 * Ulf Pettersson
@@ -103,12 +107,6 @@ Pioneer includes the following third-party software:
   Lua 5.2.1 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
   Copyright (C) 1994-2012 Lua.org, PUC-Rio
   Licensed under the MIT licence (see contrib/lua/lua.h)
-
-  GLEW: The OpenGL Extension Wrangler
-  Copyright (C) 2002-2008, Milan Ikits <milan ikits[]ieee org>
-  Copyright (C) 2002-2008, Marcelo E. Magallon <mmagallo[]debian org>
-  Copyright (C) 2002, Lev Povalahev
-  Licensed under the Modified BSD licence (see licenses/GLEW.txt)
 
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)
@@ -166,6 +164,12 @@ Pioneer includes the following third-party software:
   Copyright (c) 2010 David Ferreira
   Licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported
     License (see licenses/CC-BY-SA-3.0.txt)
+
+  Galaxy colour image
+  Modified version (rotated/converted to PNG)
+  http://www.spitzer.caltech.edu/images/2353-sig05-010a-Milky-Way-Bar
+  Credit: NASA/JPL-Caltech/R. Hurt (SSC)
+  See licenses/Image Use Policy - NASA Spitzer Space Telescope.html
 
 Acknowledgements
 ================

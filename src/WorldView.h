@@ -19,6 +19,7 @@ class Frame;
 class LabelSet;
 class Ship;
 class NavTunnelWidget;
+class Game;
 
 enum VelIconType {
 	V_PROGRADE,
@@ -43,8 +44,8 @@ namespace UI {
 class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
-	WorldView();
-	WorldView(Serializer::Reader &reader);
+	WorldView(Game* game);
+	WorldView(Serializer::Reader &reader, Game* game);
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
@@ -106,7 +107,6 @@ private:
 
 	void OnToggleLabels();
 
-	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c);
@@ -135,6 +135,8 @@ private:
 	void MouseWheel(bool up);
 	bool OnClickHeadingLabel(void);
 	void RefreshHeadingPitch(void);
+
+	Game* m_game;
 
 	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;
@@ -212,6 +214,9 @@ private:
 	vector2f m_indicatorMousedirSize;
 
 	Graphics::RenderState *m_blendState;
+
+	Graphics::Drawables::Line3D m_edgeMarker;
+	Graphics::Drawables::Lines m_crossHair;
 };
 
 class NavTunnelWidget: public Gui::Widget {
@@ -222,8 +227,12 @@ public:
 	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
 
 private:
+	void CreateVertexBuffer(const Uint32 size);
+
 	WorldView *m_worldView;
 	Graphics::RenderState *m_renderState;
+	RefCountedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 };
 
 #endif /* _WORLDVIEW_H */

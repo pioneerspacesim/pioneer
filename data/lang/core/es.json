@@ -68,7 +68,7 @@
       "message" : "Protege su nave de las altas temperaturas durante la reentrada atmosférica."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Selección automática de sistema"
    },
    "AUTOPILOT" : {
@@ -108,7 +108,7 @@
       "message" : "Inclinación"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Solo unos pocos miles"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "Sistema binario"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "Cuerpos"
    },
    "BODY" : {
@@ -192,7 +192,7 @@
       "message" : "Bahía de carga de soporte vital"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "Permite el transporte de cargamento vivo."
    },
    "CARGO_N" : {
@@ -304,7 +304,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Sistema actual"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "Destino"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Dir \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "siguiente selección"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Proa"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Frutas y verd."
@@ -536,7 +532,7 @@
       "message" : "Permite la recogida de combustible de hidrógeno de gigantes gaseosos."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Vista galáctica"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +568,7 @@
       "message" : "Sistema de gobierno:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Cereales"
    },
    "HAND_WEAPONS" : {
@@ -584,19 +580,19 @@
       "message" : "Enteramente capitalista - sin intervencion del estado"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
       "message" : "Mantener antinormal"
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Mantener retrogrado"
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "Mantener progrado"
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +600,15 @@
       "message" : "Neutralizar rotación"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "Mantener normal"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "Mantener radialmente"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Mantener radialmente hacia fuera"
    },
    "HEAVY_INDUSTRY" : {
@@ -740,7 +736,7 @@
       "message" : "Vista interior"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
@@ -752,7 +748,7 @@
       "message" : "En tránsito a %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +756,7 @@
       "message" : "Joystick"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "Eje %{sign}%joyname %axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "Español"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Grande"
    },
    "LARGE_GAS_GIANT" : {
@@ -823,8 +819,12 @@
       "description" : "",
       "message" : "Animales vivos"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo local"
+   },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "Cerrado"
    },
    "MAJOR_EXPORTS" : {
@@ -1067,6 +1067,14 @@
       "description" : "",
       "message" : "Sep"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multirecogedor"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Aunque es menos efectivo que un recogedor de fuel permite la recogida tanto de carga como de fuel"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Asesinato"
@@ -1099,16 +1107,12 @@
       "description" : "",
       "message" : "Gas nervioso"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Nada"
-   },
    "NORMA_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Norma"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Sin resultados"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1204,7 +1208,7 @@
       "message" : "%mass{f.3} masa %units"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} radios %units (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1232,7 +1236,7 @@
       "message" : "Mundo exterior agrícola."
    },
    "OUTER_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Exterior"
    },
    "OVER_N_BILLION" : {
@@ -1260,7 +1264,7 @@
       "message" : "Periapsis"
    },
    "PERSEUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Perseus"
    },
    "PIONEER" : {
@@ -1300,19 +1304,19 @@
       "message" : "Economía centralizada"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Tasa de incremento de valores delta-v. Click para restablecer valores."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Delta-v normal. Click para restablecer a cero."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Delta-v progrado. Click para restablecer a cero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Delta-v radial. Click para restablecer a cero."
    },
    "PLASTICS" : {
@@ -1391,9 +1395,9 @@
       "description" : "",
       "message" : "Radio"
    },
-   "REAR" : {
+   "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "Popa"
+      "message" : "Este sistema se exploró el %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1464,7 +1468,7 @@
       "message" : "Desechos"
    },
    "SAGITTARIUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Sagittarius"
    },
    "SCANNER" : {
@@ -1479,12 +1483,16 @@
       "description" : "",
       "message" : "Proporciona una vista 3D de las naves próximas."
    },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Recogedor"
+   },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
    },
    "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "",
+      "description" : "Arm of the Milky Way galaxy",
       "message" : "Brazo Scutum-Centaurus"
    },
    "SEARCH" : {
@@ -1612,7 +1620,7 @@
       "message" : "Vector de velocidad relativo al objeto"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Vista sideral"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1656,7 +1664,7 @@
       "message" : "Alguna minería establecida."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Origen"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1824,7 +1832,7 @@
       "message" : "Conmutada la dirección a las coordenadas planetarias."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "Sistema"
    },
    "SYSTEM_NUMBER" : {
@@ -1852,7 +1860,7 @@
       "message" : "Adquirir blanco en la mira"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "tenue"
    },
    "TEXTILES" : {
@@ -1866,6 +1874,10 @@
    "THIN" : {
       "description" : "",
       "message" : "delgada"
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo 3kpc "
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1920,8 +1932,16 @@
       "message" : "Encender modo Scanner"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP VIEJO AMIGO"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Analizador de comercio"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Muestra las mercancías rentables con las que comerciar entre el sistema seleccionado y el actual"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1979,14 +1999,6 @@
       "description" : "",
       "message" : "Gigante gaseoso muy grande"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Conectando..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Videoconexión establecida"
-   },
    "VIEW" : {
       "description" : "",
       "message" : "Vista"
@@ -2028,7 +2040,7 @@
       "message" : "\" sin atmósfera significativa\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2036,7 +2048,7 @@
       "message" : "%crime no tolerado"
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2060,7 +2072,7 @@
       "message" : "Se encuentra sin fondos."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

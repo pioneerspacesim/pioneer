@@ -9,9 +9,11 @@
 #include "Camera.h"
 #include "RefCounted.h"
 
+class Game;
+
 class DeathView : public View {
 public:
-	DeathView();
+	DeathView(Game* game);
 	virtual ~DeathView();
 
 	void Init();
@@ -26,6 +28,7 @@ private:
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
 	float m_cameraDist;
+	Game* m_game;
 };
 
 #endif

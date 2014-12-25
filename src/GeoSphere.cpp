@@ -25,6 +25,8 @@ static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
 };
 
+static const double gs_targetPatchTriLength(100.0);
+
 #define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
 static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
@@ -41,7 +43,7 @@ static std::vector<GeoSphere*> s_allGeospheres;
 void GeoSphere::Init()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 }
 
 void GeoSphere::Uninit()
@@ -74,7 +76,7 @@ void GeoSphere::UpdateAllGeoSpheres()
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 
 	// reinit the geosphere terrain data
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
@@ -171,17 +173,21 @@ void GeoSphere::Reset()
 		}
 	}
 
+	CalculateMaxPatchDepth();
+
 	m_initStage = eBuildFirstPatches;
 }
 
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
 
 	s_allGeospheres.push_back(this);
+
+	CalculateMaxPatchDepth();
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
@@ -296,7 +302,7 @@ void GeoSphere::BuildFirstPatches()
 	m_patches[5].reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5ULL << maxShiftDepth)));
 	for (int i=0; i<NUM_PATCHES; i++) {
 		for (int j=0; j<4; j++) {
-			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]].get();
+			m_patches[i]->SetEdgeFriend(j, m_patches[geo_sphere_edge_friends[i][j]].get());
 		}
 	}
 
@@ -305,6 +311,18 @@ void GeoSphere::BuildFirstPatches()
 	}
 
 	m_initStage = eRequestedFirstPatches;
+}
+
+void GeoSphere::CalculateMaxPatchDepth()
+{
+	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
+	// calculate length of each edge segment (quad) times 4 due to that being the number around the sphere (1 per side, 4 sides for Root).
+	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
+	// find out what depth we reach the desired resolution
+	while (edgeMetres>gs_targetPatchTriLength && m_maxDepth<GEOPATCH_MAX_DEPTH) {
+		edgeMetres *= 0.5;
+		++m_maxDepth;
+	}
 }
 
 void GeoSphere::Update()
@@ -319,7 +337,7 @@ void GeoSphere::Update()
 			ProcessSplitResults();
 			uint8_t numValidPatches = 0;
 			for (int i=0; i<NUM_PATCHES; i++) {
-				if(m_patches[i]->heights) {
+				if(m_patches[i]->HasHeightData()) {
 					++numValidPatches;
 				}
 			}

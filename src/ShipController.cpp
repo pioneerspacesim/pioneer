@@ -35,8 +35,8 @@ PlayerShipController::PlayerShipController() :
 	m_lowThrustPower(0.25), // note: overridden by the default value in GameConfig.cpp (DefaultLowThrustPower setting)
 	m_mouseDir(0.0)
 {
-	float deadzone = Pi::config->Float("JoystickDeadzone");
-	m_joystickDeadzone = deadzone * deadzone;
+	const float deadzone = Pi::config->Float("JoystickDeadzone");
+	m_joystickDeadzone = Clamp(deadzone, 0.01f, 1.0f); // do not use (deadzone * deadzone) as values are 0<>1 range, aka: 0.1 * 0.1 = 0.01 or 1% deadzone!!! Not what player asked for!
 	m_fovY = Pi::config->Float("FOVVertical");
 	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
 
@@ -95,8 +95,8 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 	// external camera mouselook
 	if (Pi::MouseButtonState(SDL_BUTTON_MIDDLE)) {
 		// not internal camera
-		if (Pi::worldView->GetCamType() != Pi::worldView->CAM_INTERNAL) {
-			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::worldView->GetCameraController());
+		if (Pi::game->GetWorldView()->GetCamType() != WorldView::CAM_INTERNAL) {
+			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
 			const double accel = 0.01; // XXX configurable?
 			mcc->RotateLeft(mouseMotion[0] * accel);
 			mcc->RotateUp(  mouseMotion[1] * accel);
@@ -175,7 +175,7 @@ void PlayerShipController::CheckControlsLock()
 		|| Pi::player->IsDead()
 		|| (m_ship->GetFlightState() != Ship::FLYING)
 		|| Pi::IsConsoleActive()
-		|| (Pi::GetView() != Pi::worldView); //to prevent moving the ship in starmap etc.
+		|| (Pi::GetView() != Pi::game->GetWorldView()); //to prevent moving the ship in starmap etc.
 }
 
 // mouse wraparound control function
@@ -268,7 +268,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
 				//XXX worldview? madness, ask from ship instead
-				m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
+				m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
 		}
 
 		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
@@ -287,12 +287,16 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		changeVec.y = KeyBindings::yawAxis.GetValue();
 		changeVec.z = KeyBindings::rollAxis.GetValue();
 
-		// Deadzone more accurate
+		// Deadzone per-axis with normalisation
+		const float dz = m_joystickDeadzone;
 		for (int axis=0; axis<3; axis++) {
-				if (fabs(changeVec[axis]) < m_joystickDeadzone)
-					changeVec[axis]=0.0;
-				else
-					changeVec[axis] = changeVec[axis] * 2.0;
+			if (fabs(changeVec[axis]) < dz) {
+				// no input
+				changeVec[axis] = 0.0f;
+			} else {
+				// subtract deadzone and re-normalise to full range
+				changeVec[axis] = (changeVec[axis] - dz) / (1.0f - dz);
+			}
 		}
 		
 		wantAngVel += changeVec;

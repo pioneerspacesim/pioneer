@@ -1,4 +1,28 @@
 {
+   "BASE" : {
+      "description" : "",
+      "message" : "állomás"
+   },
+   "BASES" : {
+      "description" : "",
+      "message" : "állomás"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "égitest"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "égitest"
+   },
+   "DISCOVERED_HIDDEN_BASES" : {
+      "description" : "",
+      "message" : " {portcount} ismeretlen {bases} bemérve."
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : " {bodycount} nagy {bodies} található a rendszerben."
+   },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
       "message" : "Hajtóanyag-szint alacsony."

@@ -1,4 +1,78 @@
+December 2014
+   * New Features
+     * New Multi Scoop equipment, and merge cargo and fuel scoop slots
+       to a single one (#3267)
+     * New OPLI ship Storeria (#3257)
+
+   * Fixes
+     * Fix string "NONE" in ShipInfo not using the translated version (#3268)
+     * Require OpenGL 3.1 context when opening the SDL window (#3269)
+
+   * Minor changes and tweaks
+     * Switch font texture U/V coordinates to unsigned int (#3273)
+     * README updated to markdown format (#3276)
+
+   * Internal Changes
+     * Fix spelling error in DeliverPackage
+     * Better descriptions for translation strings in ui-/core (#3272)
+
+November 2014
+   * New Features
+     * Update to use OpenGL 3.2 (#3219)
+
+   * Script and UI API changes
+     * Added random number from Poisson distribution (#3242)
+
+   * Minor changes and tweaks
+     * Introduce special footer when player is in equipment market,
+       fixes #3117 (#3238)
+     * A smarter ShipMarket in SpaceStation (#3243)
+     * Fix Anti-Aliasing (#3246)
+     * Remove defunct shader programs (#3258)
+     * Extra checking for program creation (#3253)
+     * Fix (unnoticeable) logical error in cargo code (#3261)
+     * Add CppCheck file. (#3266)
+
+   * Fixes
+     * Update deprecated gun tag on Lunar shuttle (#3245)
+     * Fix Open GL errors causing MXE build not working (#3251)
+
+   * Internal Changes
+     * The OSX build showed these might be shadowed (#3248)
+     * Json ship definitions (#3252)
+     * Disable shader validation due to OSX bug (#3260)
+     * Remove GLEW, use glLoadGen, downgrade to OpenGL 3.1 (#3265)
+
+October 2014
+   * Art
+     * Lunar Shuttle facelift (#3230)
+     * Apsis icon and crosshair polish (#3223)
+
+   * Minor changes and tweaks
+     * More variation in city size / dimension (#3227)
+
+   * New Features
+     * We now have a build script for NixOS Linux (#3208)
+     * Flying with gears down increases drag (#2509, #3207)
+     * New Trade Analyzer ship component (#3200)
+     * Added Horizon Culling for planets (#3216)
+     * Second Hand ship equipment advert for BBS (#3220)
+     * Google Breakpad (MSVC only) (#3211)
+
+   * Fixes
+     * Remove detail changes (#3213)
+     * Replace #pragma once by traditional include guards. (#3215)
+     * Fix #3224 (#3225)
+     * Re-init the cockpit when we buy a new ship (#3226)
+     * Fix ObjectViewer crash for non-planets (#3228)
+     * Fix alpha blending and render to texture (#3229)
+     * Fix the crosshair rendering (#3232)
+     * Match the BeginFrame with an EndFrame (#3235)
+     * Deadzone (#3236)
+
 September 2014
+   * New Features
+     * System exploration (#3201)
 
    * Fixes
      * Fix wrong reinitialization of random generator (#3156)
@@ -7,6 +81,12 @@ September 2014
      * Fix mismatch between saving/loading code (#3172)
      * Fix behaviour of autosave system (#3163, #3101)
      * Fix possible crash when accepting mission in paused (#2732, #3169)
+     * Fix compilation errors on Mac OS X (#3182,#3183)
+     * Fix the Line3D rendering issue (#3190)
+     * Fix the construction of the Circle drawables. (#3192)
+     * Fix orientation of galaxy density map (#3197)
+     * Remove invalid asserts (#3206)
+     * Attributes for uv coords should be vec4 not vec2 (#3205)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
@@ -16,6 +96,10 @@ September 2014
      * Cap maximum number of police GoodsTraders (#3165)
      * Better background intensity calculation for Eclipse (#3171)
      * Randomize planet phase angle (#3135)
+     * Terrain detail / depth changes (#3184)
+     * Output SDL version on start (#3196)
+     * Player defined Ship names (#3176)
+     * Update galaxy colour image (#3197)
 
    * Script and UI API changes
      * Allow to set lawlessness in custom systems (#3166)
@@ -30,6 +114,13 @@ September 2014
      * Easier to model docking - Part 1 (#3075)
      * Const-correctness in CustomSystems and Factions (#3174)
      * Restrict FreeType to a single translation unit (#3175, #1203)
+     * Game views refactoring (#3181)
+     * More drawable classes, minor fixes (#3187)
+     * More cache unification (#3193)
+     * Refactor face generator code to support some future changes (#3180)
+     * Shader Attributes and required refactoring (#3194)
+     * Refactoring: Get rid of global Galaxy object (#3198)
+     * Galaxy density map, factions, custom systems controlled by GalaxyGenerator (#3199)
 
 August 2014
 

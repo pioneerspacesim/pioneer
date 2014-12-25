@@ -362,8 +362,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 		const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
 
 		//don't run off atlas borders
-		m_atlasVIncrement = std::max(m_atlasVIncrement, bmStrokeGlyph->bitmap.rows);
-		if (m_atlasU + bmStrokeGlyph->bitmap.width > ATLAS_SIZE) {
+		m_atlasVIncrement = std::max(m_atlasVIncrement, (unsigned int)bmStrokeGlyph->bitmap.rows);
+		if (m_atlasU + (unsigned int)bmStrokeGlyph->bitmap.width > ATLAS_SIZE) {
 			m_atlasU = 0;
 			m_atlasV += m_atlasVIncrement;
 			m_atlasVIncrement = 0;
@@ -427,8 +427,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 	else {
 
 		//don't run off atlas borders
-		m_atlasVIncrement = std::max(m_atlasVIncrement, bmGlyph->bitmap.rows);
-		if (m_atlasU + bmGlyph->bitmap.width >= ATLAS_SIZE) {
+		m_atlasVIncrement = std::max(m_atlasVIncrement, (unsigned int)bmGlyph->bitmap.rows);
+		if (m_atlasU + (unsigned int)bmGlyph->bitmap.width >= ATLAS_SIZE) {
 			m_atlasU = 0;
 			m_atlasV += m_atlasVIncrement;
 			m_atlasVIncrement = 0;
@@ -480,6 +480,8 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	, m_atlasV(0)
 	, m_atlasVIncrement(0)
 {
+	Graphics::CheckRenderErrors();
+
 	FT_Error err; // used to store freetype error return codes
 
 	err = FT_Init_FreeType(&m_ftLib);
@@ -498,8 +500,12 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
+	Graphics::CheckRenderErrors();
+
 	m_texFormat = m_config.IsOutline() ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
 	m_bpp = m_config.IsOutline() ? 2 : 1;
+
+	Graphics::CheckRenderErrors();
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
@@ -507,6 +513,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	m_renderState = m_renderer->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_UI;
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.reset(m_renderer->CreateMaterial(desc));

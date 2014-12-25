@@ -30,7 +30,7 @@ matrix4x4d Geom::GetRotation() const
 void Geom::MoveTo(const matrix4x4d &m)
 {
 	m_orient = m;
-	m_invOrient = m.InverseOf();
+	m_invOrient = m.Inverse();
 }
 
 void Geom::MoveTo(const matrix4x4d &m, const vector3d &pos)
@@ -39,7 +39,7 @@ void Geom::MoveTo(const matrix4x4d &m, const vector3d &pos)
 	m_orient[12] = pos.x;
 	m_orient[13] = pos.y;
 	m_orient[14] = pos.z;
-	m_invOrient = m_orient.InverseOf();
+	m_invOrient = m_orient.Inverse();
 }
 
 vector3d Geom::GetPosition() const

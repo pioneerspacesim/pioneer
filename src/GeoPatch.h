@@ -16,6 +16,8 @@
 
 #include <deque>
 
+// #define DEBUG_BOUNDING_SPHERES
+
 namespace Graphics { class Renderer; class Frustum; }
 class SystemBody;
 class GeoPatchContext;
@@ -25,7 +27,7 @@ class SQuadSplitResult;
 class SSingleSplitResult;
 
 class GeoPatch {
-public:
+private:
 	static const int NUM_EDGES = 4;
 	static const int NUM_KIDS = NUM_EDGES;
 
@@ -48,6 +50,10 @@ public:
 	const GeoPatchID mPatchID;
 	Job::Handle m_job;
 	bool mHasJobRequest;
+#ifdef DEBUG_BOUNDING_SPHERES
+	std::unique_ptr<Graphics::Drawables::Sphere3D> m_boundsphere;
+#endif
+public:
 
 	GeoPatch(const RefCountedPtr<GeoPatchContext> &_ctx, GeoSphere *gs,
 		const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
@@ -110,7 +116,7 @@ public:
 		else return e->kids[we_are].get();
 	}
 
-	inline GLuint determineIndexbuffer() const {
+	inline GLuint DetermineIndexbuffer() const {
 		return // index buffers are ordered by edge resolution flags
 			(edgeFriend[0] ? 1u : 0u) |
 			(edgeFriend[1] ? 2u : 0u) |
@@ -136,6 +142,9 @@ public:
 	void RequestSinglePatch();
 	void ReceiveHeightmaps(SQuadSplitResult *psr);
 	void ReceiveHeightmap(const SSingleSplitResult *psr);
+
+	inline void SetEdgeFriend(const int idx, GeoPatch *pPatch) { edgeFriend[idx] = pPatch; }
+	inline bool HasHeightData() const { return (heights.get()!=nullptr); }
 };
 
 #endif /* _GEOPATCH_H */

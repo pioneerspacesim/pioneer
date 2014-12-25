@@ -162,7 +162,7 @@ static int l_matrix_div (lua_State *L)
 static int l_matrix_inverse(lua_State *L)
 {
 	const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 1);
-	LuaMatrix::PushToLua(L, m->InverseOf());
+	LuaMatrix::PushToLua(L, m->Inverse());
 	return 1;
 }
 

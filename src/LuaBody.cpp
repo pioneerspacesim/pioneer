@@ -379,8 +379,8 @@ static int l_body_find_nearest_to(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	Object::Type type = static_cast<Object::Type>(LuaConstants::GetConstantFromArg(l, "PhysicsObjectType", 2));
 
-	Body *near = Pi::game->GetSpace()->FindNearestTo(b, type);
-	LuaObject<Body>::PushToLua(near);
+	Body *nearest = Pi::game->GetSpace()->FindNearestTo(b, type);
+	LuaObject<Body>::PushToLua(nearest);
 
 	return 1;
 }

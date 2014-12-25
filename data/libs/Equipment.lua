@@ -263,11 +263,11 @@ end
 -- atmo_shield - atmospheric shielding
 -- cabin - cabin
 -- shield - shield
--- fuel_scoop - fuel scoop
--- cargo_scoop - cargo scoop
+-- scoop - scoop used for scooping things (cargo, fuel/hydrogen)
 -- laser_cooler - laser cooling booster
 -- cargo_life_support - cargo bay life support
 -- autopilot - autopilot
+-- trade_analyzer - commodity trade analyzer computer module
 
 local cargo = {
 	hydrogen = EquipType.New({
@@ -527,12 +527,16 @@ misc.advanced_radar_mapper = EquipType.New({
 	capabilities={mass=1, radar_mapper_level=2}, purchasable=true
 })
 misc.fuel_scoop = EquipType.New({
-	l10n_key="FUEL_SCOOP", slots="fuel_scoop", price=3500,
-	capabilities={mass=6, fuel_scoop=1}, purchasable=true
+	l10n_key="FUEL_SCOOP", slots="scoop", price=3500,
+	capabilities={mass=6, fuel_scoop=3}, purchasable=true
 })
 misc.cargo_scoop = EquipType.New({
-	l10n_key="CARGO_SCOOP", slots="cargo_scoop", price=3900,
+	l10n_key="CARGO_SCOOP", slots="scoop", price=3900,
 	capabilities={mass=7, cargo_scoop=1}, purchasable=true
+})
+misc.multi_scoop = EquipType.New({
+	l10n_key="MULTI_SCOOP", slots="scoop", price=12000,
+	capabilities={mass=9, cargo_scoop=1, fuel_scoop=2}, purchasable=true
 })
 misc.hypercloud_analyzer = EquipType.New({
 	l10n_key="HYPERCLOUD_ANALYZER", slots="hypercloud", price=1500,
@@ -545,6 +549,10 @@ misc.shield_energy_booster = EquipType.New({
 misc.hull_autorepair = EquipType.New({
 	l10n_key="HULL_AUTOREPAIR", slots="hull_autorepair", price=16000,
 	capabilities={mass=40, hull_autorepair=1}, purchasable=true
+})
+misc.trade_analyzer = EquipType.New({
+	l10n_key="TRADE_ANALYZER", slots="trade_analyzer", price=400,
+	capabilities={mass=0, trade_analyzer=1}, purchasable=true
 })
 
 local hyperspace = {}

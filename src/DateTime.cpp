@@ -90,6 +90,10 @@ Time::DateTime::DateTime(int year, int month, int day, int hour, int minute, int
 		+ microsecond * Time::Microsecond;
 }
 
+Time::DateTime::DateTime(double gameTime) : DateTime(3200,1,1,0,0,0) {
+	*this += Time::TimeDelta(gameTime, Time::Second);
+}
+
 void Time::DateTime::GetDateParts(int *out_year, int *out_month, int *out_day) const {
 	if (out_year || out_month || out_day) {
 		static_assert(Time::Day > (Sint64(1) << 32),
@@ -150,6 +154,16 @@ void Time::DateTime::GetTimeParts(int *out_hour, int *out_minute, int *out_secon
 		if (out_minute) { *out_minute = (seconds /   60) % 60; }
 		if (out_second) { *out_second = (seconds /    1) % 60; }
 	}
+}
+
+double Time::DateTime::ToGameTime() const {
+	const Time::DateTime base(3200,1,1, 0,0,0);
+	Time::TimeDelta tstamp = (*this - base);
+	if (*this < base) {
+		// adjustment to give correct rounding for GetTotalSeconds()
+		tstamp -= Time::TimeDelta(Time::Second - 1, Time::TimeUnit(1));
+	}
+	return double(tstamp.GetTotalSeconds());
 }
 
 std::string Time::DateTime::ToDateString() const {

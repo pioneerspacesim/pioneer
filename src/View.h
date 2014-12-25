@@ -10,6 +10,8 @@
 
 namespace Graphics { class Renderer; }
 
+class ShipCpanel;
+
 /*
  * For whatever draws crap into the main area of the screen.
  * Eg:
@@ -33,6 +35,8 @@ public:
 
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
 
+	static void SetCpanel(ShipCpanel* cpan) { s_cpan = cpan; }
+
 protected:
 	virtual void OnSwitchTo() = 0;
 	virtual void OnSwitchFrom() {}
@@ -42,6 +46,8 @@ protected:
 	Gui::Fixed *m_rightRegion1;
 	Gui::Fixed *m_rightRegion2;
 	Graphics::Renderer *m_renderer;
+
+	static ShipCpanel* s_cpan;
 };
 
 #endif /* _VIEW_H */

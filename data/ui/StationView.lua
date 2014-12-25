@@ -34,74 +34,89 @@ ui.templates.StationView = function (args)
 
 	local player = Game.player
 
-	local cashLabel = ui:NumberLabel("MONEY")
-	cashLabel:Bind("value", player, "cash")
-
-	local cargoGauge = ui:Gauge()
-	local cargoUsedLabel = ui:Label("")
-	local cargoFreeLabel = ui:Label("")
-	local function cargoUpdate ()
-		cargoGauge:SetUpperValue(player.totalCargo)
-		cargoGauge:SetValue(player.usedCargo)
-		cargoUsedLabel:SetText(string.interp(l.CARGO_T_USED, { amount = player.usedCargo }))
-		cargoFreeLabel:SetText(string.interp(l.CARGO_T_FREE, { amount = player.totalCargo-player.usedCargo }))
+	local function createCashLabel()
+		local cashLabel = ui:NumberLabel("MONEY")
+		cashLabel:Bind("value", player, "cash")
+		return cashLabel
 	end
-	player:Connect("usedCargo", cargoUpdate)
-	player:Connect("totalCargo", cargoUpdate)
-	cargoUpdate()
 
-	local cabinGauge = ui:Gauge()
-	local cabinUsedLabel = ui:Label("")
-	local cabinFreeLabel = ui:Label("")
-	local function cabinUpdate ()
-        local cap = player.cabin_cap or 0
-        local count = player:GetEquipCountOccupied("cabin")
-		cabinGauge:SetUpperValue(count)
-		cabinGauge:SetValue(count-cap)
-		cabinUsedLabel:SetText(string.interp(l.CABIN_USED, { amount = count-cap }))
-		cabinFreeLabel:SetText(string.interp(l.CABIN_FREE, { amount = cap}))
+	local function cargoUpdate (fields)
+		fields["gauge"]:SetUpperValue(player.totalCargo)
+		fields["gauge"]:SetValue(player.usedCargo)
+		fields["usedLabel"]:SetText(string.interp(l.CARGO_T_USED, { amount = player.usedCargo }))
+		fields["freeLabel"]:SetText(string.interp(l.CARGO_T_FREE, { amount = player.totalCargo-player.usedCargo }))
 	end
-	player:Connect("cabin_cap", cabinUpdate)
-	cabinUpdate()
 
-	local footer =
-		ui:Margin(15, "TOP",
+	local function capacityUpdate (fields)
+		local totalCapacity = player.usedCapacity + player.freeCapacity
+		fields["gauge"]:SetUpperValue(totalCapacity)
+		fields["gauge"]:SetValue(player.usedCapacity)
+		fields["usedLabel"]:SetText(string.interp(l.CARGO_T_USED, { amount = player.usedCapacity }))
+		fields["freeLabel"]:SetText(string.interp(l.CARGO_T_FREE, { amount = player.freeCapacity }))
+	end
+
+	local function cabinUpdate (fields)
+		local cap = player.cabin_cap or 0
+		local count = player:GetEquipCountOccupied("cabin")
+		fields["gauge"]:SetUpperValue(count)
+		fields["gauge"]:SetValue(count-cap)
+		fields["usedLabel"]:SetText(string.interp(l.CABIN_USED, { amount = count-cap }))
+		fields["freeLabel"]:SetText(string.interp(l.CABIN_FREE, { amount = cap}))
+	end
+
+	local function createGauge(text, connectTo, funcUpdate)
+		local gauge = ui:Gauge()
+		local usedLabel = ui:Label("")
+		local freeLabel = ui:Label("")
+		local fields = {}
+		fields["gauge"] = gauge;
+		fields["usedLabel"] = usedLabel;
+		fields["freeLabel"] = freeLabel;
+		local function innerFuncUpdate()
+			funcUpdate(fields);
+		end
+		for k,v in pairs(connectTo) do
+			player:Connect(v, innerFuncUpdate)
+		end
+		innerFuncUpdate()
+
+		return ui:Margin(10, "HORIZONTAL",
+			ui:HBox(10):PackEnd({
+				ui:Align("MIDDLE",
+					ui:HBox(10):PackEnd({
+						text..":",
+						gauge,
+					})
+				),
+				ui:VBox():PackEnd({
+					usedLabel,
+					freeLabel,
+				}):SetFont("XSMALL"),
+			})
+		)
+	end
+
+	local function createFooter(type)
+		type = type or "default"
+
+		local leftGauge = nil
+		if type == "default" then
+			leftGauge = createGauge(l.CARGO, { "usedCargo", "totalCargo" }, cargoUpdate)
+		elseif type == "equip" then
+			leftGauge = createGauge(l.CAPACITY, { "usedCapacity", "freeCapacity" }, capacityUpdate)
+		end
+
+		return ui:Margin(15, "TOP",
 			ui:Margin(5, "VERTICAL",
 				ui:Grid({15,30,30,15},1):SetRow(0, {
 					ui:Margin(10, "HORIZONTAL",
 						ui:HBox():PackEnd({
 							l.CASH..": ",
-							cashLabel,
+							createCashLabel(),
 						})
 					),
-					ui:Margin(10, "HORIZONTAL",
-						ui:HBox(10):PackEnd({
-							ui:Align("MIDDLE",
-								ui:HBox(10):PackEnd({
-									l.CARGO..":",
-									cargoGauge,
-								})
-							),
-							ui:VBox():PackEnd({
-								cargoUsedLabel,
-								cargoFreeLabel,
-							}):SetFont("XSMALL"),
-						})
-					),
-					ui:Margin(10, "HORIZONTAL",
-						ui:HBox(10):PackEnd({
-							ui:Align("MIDDLE",
-								ui:HBox(10):PackEnd({
-									l.CABINS..":",
-									cabinGauge,
-								})
-							),
-							ui:VBox():PackEnd({
-								cabinUsedLabel,
-								cabinFreeLabel,
-							}):SetFont("XSMALL"),
-						})
-					),
+					leftGauge,
+					createGauge(l.CABINS, { "cabin_cap" }, cabinUpdate),
 					ui:Margin(10, "HORIZONTAL",
 						ui:Align("RIGHT",
 							l.LEGAL_STATUS..": "..l.CLEAN
@@ -110,16 +125,20 @@ ui.templates.StationView = function (args)
 				})
 			)
 		)
+	end
 
-	tabGroup:AddTab({ id = "lobby",           title = l.LOBBY,            icon = "Info",       template = lobby           })
-	tabGroup:AddTab({ id = "bulletinBoard",   title = l.BULLETIN_BOARD,   icon = "Clipboard",  template = bulletinBoard   })
-	tabGroup:AddTab({ id = "commodityMarket", title = l.COMMODITY_MARKET, icon = "Cart",       template = commodityMarket })
-	tabGroup:AddTab({ id = "shipMarket",      title = l.SHIP_MARKET,      icon = "Rocketship", template = shipMarket      })
-	tabGroup:AddTab({ id = "equipmentMarket", title = l.EQUIPMENT_MARKET, icon = "Radio",      template = equipmentMarket })
-	tabGroup:AddTab({ id = "shipRepairs",     title = l.SHIP_REPAIRS,     icon = "Tools",      template = shipRepairs     })
-	tabGroup:AddTab({ id = "police",          title = l.POLICE,           icon = "Shield",     template = police          })
+	local footerDefault = createFooter()
+	local footerEquip = createFooter("equip")
 
-	tabGroup:SetFooter(footer)
+	tabGroup:AddTab({ id = "lobby",           title = l.LOBBY,            icon = "Info",       template = lobby,           footer = footerDefault})
+	tabGroup:AddTab({ id = "bulletinBoard",   title = l.BULLETIN_BOARD,   icon = "Clipboard",  template = bulletinBoard,   footer = footerDefault})
+	tabGroup:AddTab({ id = "commodityMarket", title = l.COMMODITY_MARKET, icon = "Cart",       template = commodityMarket, footer = footerDefault})
+	tabGroup:AddTab({ id = "shipMarket",      title = l.SHIP_MARKET,      icon = "Rocketship", template = shipMarket,      footer = footerDefault})
+	tabGroup:AddTab({ id = "equipmentMarket", title = l.EQUIPMENT_MARKET, icon = "Radio",      template = equipmentMarket, footer = footerEquip})
+	tabGroup:AddTab({ id = "shipRepairs",     title = l.SHIP_REPAIRS,     icon = "Tools",      template = shipRepairs,     footer = footerDefault})
+	tabGroup:AddTab({ id = "police",          title = l.POLICE,           icon = "Shield",     template = police,          footer = footerDefault})
+
+	tabGroup:SetFooter(footerDefault)
 
 	return tabGroup.widget
 end

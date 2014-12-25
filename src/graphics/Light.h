@@ -9,6 +9,8 @@
 
 namespace Graphics {
 
+static const Uint32 TOTAL_NUM_LIGHTS = 4U;
+
 class Light
 {
 public:

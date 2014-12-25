@@ -1,0 +1,30 @@
+{
+   "GOODS_TRADER_0" : {
+      "description" : "",
+      "message" : "诚信 {name} 百货商场"
+   },
+   "GOODS_TRADER_1" : {
+      "description" : "",
+      "message" : "{name} 交易屋"
+   },
+   "GOODS_TRADER_2" : {
+      "description" : "",
+      "message" : "{name} 大仓库"
+   },
+   "GOODS_TRADER_3" : {
+      "description" : "",
+      "message" : "{name} 商品交换平台"
+   },
+   "GOODS_TRADER_4" : {
+      "description" : "",
+      "message" : "{name} 控股公司"
+   },
+   "GOODS_TRADER_5" : {
+      "description" : "",
+      "message" : "{name} & Sons"
+   },
+   "WELCOME_TO" : {
+      "description" : "",
+      "message" : "欢迎来到 "
+   }
+}

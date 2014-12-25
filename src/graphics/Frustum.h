@@ -6,6 +6,7 @@
 
 #include "libs.h"
 #include "vector3.h"
+#include "Plane.h"
 
 namespace Graphics {
 
@@ -43,16 +44,9 @@ private:
 
 	void InitFromMatrix(const matrix4x4d &m);
 
-	struct Plane {
-		double a, b, c, d;
-		double DistanceToPoint(const vector3d &p) const {
-			return a*p.x + b*p.y + c*p.z + d;
-		}
-	};
-
 	matrix4x4d m_projMatrix;
 	matrix4x4d m_modelMatrix;
-	Plane m_planes[6];
+	SPlane m_planes[6];
 	double m_translateThresholdSqr;
 };
 

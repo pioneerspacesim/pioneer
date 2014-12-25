@@ -87,6 +87,10 @@
       "description" : "",
       "message" : "Espace cargo"
    },
+   "CARGO_SPACE_USED" : {
+      "description" : "",
+      "message" : "Espace de cargaison utilisé"
+   },
    "CARGO_T_FREE" : {
       "description" : "",
       "message" : "{amount}t libre"
@@ -833,7 +837,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Refuel full"
+      "message" : "Faire le plein"
    },
    "RELIABLE" : {
       "description" : "For player reputation",

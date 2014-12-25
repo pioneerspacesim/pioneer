@@ -15,8 +15,6 @@
 #include <deque>
 #include <algorithm>
 
-
-
 void GeoPatchContext::Cleanup() {
 	midIndices.reset();
 	for (int i=0; i<4; i++) {
@@ -25,7 +23,7 @@ void GeoPatchContext::Cleanup() {
 	}
 }
 
-int GeoPatchContext::getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
+int GeoPatchContext::GetIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
 {
 	// calculate how many tri's there are
 	int tri_count = (VBO_COUNT_MID_IDX() / 3);
@@ -60,8 +58,10 @@ int GeoPatchContext::getIndices(std::vector<unsigned short> &pl, const unsigned 
 	return tri_count;
 }
 
-void GeoPatchContext::Init() {
+void GeoPatchContext::Init() 
+{
 	frac = 1.0 / double(edgeLen-1);
+	numTris = 2*(edgeLen-1)*(edgeLen-1);
 
 	unsigned short *idx;
 	midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
@@ -212,7 +212,7 @@ void GeoPatchContext::Init() {
 	// populate the N indices lists from the arrays built during InitTerrainIndices()
 	// iterate over each index list and optimize it
 	for( unsigned int i=0; i<NUM_INDEX_LISTS; ++i ) {
-		unsigned int tri_count = getIndices(pl_short[i], i);
+		const unsigned int tri_count = GetIndices(pl_short[i], i);
 		VertexCacheOptimizerUShort vco;
 		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
 		assert(0 == res);

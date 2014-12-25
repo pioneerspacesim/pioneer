@@ -23,6 +23,9 @@
 
 namespace Graphics {
 
+// fwd declaration
+class VertexArray;
+
 const Uint32 MAX_ATTRIBS = 8;
 
 struct VertexAttribDesc {
@@ -77,6 +80,12 @@ public:
 	//you may set a smaller count for partial rendering
 	Uint32 GetVertexCount() const;
 	void SetVertexCount(Uint32);
+
+	// copies the contents of the VertexArray into the buffer
+	virtual bool Populate(const VertexArray &) = 0;
+
+	virtual void Bind() = 0;
+	virtual void Release() = 0;
 
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) = 0;

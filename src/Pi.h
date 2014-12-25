@@ -19,26 +19,17 @@
 #include <string>
 #include <vector>
 
-class GalaxyGenerator;
-class DeathView;
-class GalacticView;
-class Galaxy;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
 class ModelCache;
 class Player;
-class SectorView;
 class Ship;
-class ShipCpanel;
 class SpaceStation;
 class StarSystem;
-class SystemInfoView;
-class SystemView;
 class TransferPlanner;
 class UIView;
 class View;
-class WorldView;
 class SDLGraphics;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
@@ -138,6 +129,7 @@ public:
 
 	static Random rng;
 	static int statSceneTris;
+	static int statNumPatches;
 
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
@@ -152,27 +144,13 @@ public:
 #endif
 
 	static Player *player;
-	static SectorView *sectorView;
-	static GalacticView *galacticView;
-	static UIView *settingsView;
-	static SystemInfoView *systemInfoView;
-	static SystemView *systemView;
 	static TransferPlanner *planner;
-	static WorldView *worldView;
-	static DeathView *deathView;
-	static UIView *spaceStationView;
-	static UIView *infoView;
 	static LuaConsole *luaConsole;
-	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer;
 	static ModelCache *modelCache;
 	static Intro *intro;
 	static SDLGraphics *sdl;
-
-#if WITH_OBJECTVIEWER
-	static ObjectViewerView *objectViewerView;
-#endif
 
 	static Game *game;
 
@@ -181,10 +159,6 @@ public:
 
 	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
 	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
-
-	static bool CreateGalaxy();
-	static bool CreateGalaxy(const std::string& genName, int genVersion = -1);
-	static RefCountedPtr<Galaxy> GetGalaxy() { return s_galaxy; }
 
 	static bool DrawGUI;
 
@@ -196,7 +170,6 @@ private:
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
-	static RefCountedPtr<Galaxy> s_galaxy;
 	static bool menuDone;
 
 	static View *currentView;

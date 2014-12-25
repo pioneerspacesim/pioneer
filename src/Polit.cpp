@@ -77,13 +77,13 @@ static politDesc_t s_govDesc[GOV_MAX] = {
 	{ Lang::VIOLENT_ANARCHY,					2,		ECON_NONE,				fixed(90,100) },
 };
 
-void Init()
+void Init(RefCountedPtr<Galaxy> galaxy)
 {
 	s_criminalRecord.Clear();
 	s_outstandingFine.Clear();
 
 	// setup the per faction criminal records
-	const Uint32 numFactions = Pi::GetGalaxy()->GetFactions()->GetNumFactions();
+	const Uint32 numFactions = galaxy->GetFactions()->GetNumFactions();
 	s_playerPerBlocCrimeRecord.clear();
 	s_playerPerBlocCrimeRecord.resize( numFactions );
 }
@@ -99,9 +99,9 @@ void Serialize(Serializer::Writer &wr)
 	}
 }
 
-void Unserialize(Serializer::Reader &rd)
+void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
 {
-	Init();
+	Init(galaxy);
 	PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
 	PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
 	const Uint32 numFactions = rd.Int32();

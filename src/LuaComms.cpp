@@ -40,7 +40,7 @@
  */
 static int l_comms_message(lua_State *l)
 {
-	if (!Pi::cpan)
+	if (!Pi::game || !Pi::game->GetCpan())
 		luaL_error(l, "Control panel does not exist.");
 
 	std::string msg = luaL_checkstring(l, 1);
@@ -83,7 +83,7 @@ static int l_comms_message(lua_State *l)
  */
 static int l_comms_important_message(lua_State *l)
 {
-	if (!Pi::cpan)
+	if (!Pi::game || !Pi::game->GetCpan())
 		luaL_error(l, "Control panel does not exist.");
 
 	std::string msg = luaL_checkstring(l, 1);

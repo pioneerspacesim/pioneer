@@ -15,13 +15,13 @@
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
 #include "MathUtil.h"
+#include "Sphere.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
 
 // tri edge lengths
 static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
-#define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
@@ -88,8 +88,8 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 		GeoPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(m_vertexBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
 
-		const Sint32 edgeLen = ctx->edgeLen;
-		const double frac = ctx->frac;
+		const Sint32 edgeLen = ctx->GetEdgeLen();
+		const double frac = ctx->GetFrac();
 		const double *pHts = heights.get();
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
@@ -117,32 +117,66 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 			}
 		}
 		m_vertexBuffer->Unmap();
+
+#ifdef DEBUG_BOUNDING_SPHERES
+		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
+		m_boundsphere.reset( new Graphics::Drawables::Sphere3D(Pi::renderer, mat, Pi::renderer->CreateRenderState(Graphics::RenderStateDesc()), 0, clipRadius) );
+#endif
 	}
 }
 
-void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
+// the default sphere we do the horizon culling against
+static const SSphere s_sph;
+void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
+{
+	// must update the VBOs to calculate the clipRadius...
+	_UpdateVBOs(renderer);
+	// ...before doing the furstum culling that relies on it.
+	if (!frustum.TestPoint(clipCentroid, clipRadius))
+		return; // nothing below this patch is visible
+
+	// only want to horizon cull patches that can actually be over the horizon!
+	const vector3d camDir(campos - clipCentroid);
+	const vector3d camDirNorm(camDir.Normalized());
+	const vector3d cenDir(clipCentroid.Normalized());
+	const double dotProd = camDirNorm.Dot(cenDir);
+
+	if( dotProd < 0.25 && (camDir.LengthSqr() > (clipRadius*clipRadius)) ) {
+		SSphere obj;
+		obj.m_centre = clipCentroid;
+		obj.m_radius = clipRadius;
+
+		if( !s_sph.HorizonCulling(campos, obj) ) {
+			return; // nothing below this patch is visible
+		}
+	}
+
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights) {
-		_UpdateVBOs(renderer);
-
-		if (!frustum.TestPoint(clipCentroid, clipRadius))
-			return;
-
 		Graphics::Material *mat = geosphere->GetSurfaceMaterial();
 		Graphics::RenderState *rs = geosphere->GetSurfRenderState();
 
 		const vector3d relpos = clipCentroid - campos;
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
-		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
+		Pi::statSceneTris += (ctx->GetNumTris());
+		++Pi::statNumPatches;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indices_list[determineIndexbuffer()].Get(), rs, mat);
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
+#ifdef DEBUG_BOUNDING_SPHERES
+		if(m_boundsphere.get()) {
+			renderer->SetWireFrameMode(true);
+			m_boundsphere->Draw(renderer);
+			renderer->SetWireFrameMode(false);
+		}
+#endif
 	}
 }
 
-void GeoPatch::LODUpdate(const vector3d &campos) {
-	// there should be no LODUpdate'ing when we have active split requests
+void GeoPatch::LODUpdate(const vector3d &campos) 
+{
+	// there should be no LOD update when we have active split requests
 	if(mHasJobRequest)
 		return;
 
@@ -162,7 +196,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 		}
 		const float centroidDist = (campos - centroid).Length();
 		const bool errorSplit = (centroidDist < m_roughLength);
-		if( !(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && errorSplit) ) {
+		if( !(canSplit && (m_depth < std::min(GEOPATCH_MAX_DEPTH, geosphere->GetMaxDepth())) && errorSplit) ) {
 			canSplit = false;
 		}
 	}
@@ -174,8 +208,8 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen,
-						ctx->frac, geosphere->GetTerrain());
+						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(),
+						ctx->GetFrac(), geosphere->GetTerrain());
 			m_job = Pi::GetAsyncJobQueue()->Queue(new QuadPatchJob(ssrd));
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
@@ -201,7 +235,7 @@ void GeoPatch::RequestSinglePatch()
         assert(!m_job.HasJob());
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->GetTerrain());
+					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(), ctx->GetFrac(), geosphere->GetTerrain());
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
 }

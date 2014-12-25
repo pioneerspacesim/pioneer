@@ -288,6 +288,27 @@ Event = {
 --
 
 --
+-- Event: onSystemExplored
+--
+-- Triggered when a system has just been explored by the player.
+--
+-- > local onSystemExplored = function (system) ... end
+-- > Event.Register("onSystemExplored", onSystemExplored)
+--
+-- Parameters:
+--
+--   system - the <StarSystem> that has just been explored
+--
+-- Availability:
+--
+--   October 2014
+--
+-- Status:
+--
+--   experimental
+--
+
+--
 -- Event: onFrameChanged
 --
 -- Triggered as a dynamic <Body> moves between frames of reference.

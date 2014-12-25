@@ -13,9 +13,12 @@
 #include "graphics/RenderState.h"
 #include "UIView.h"
 
+class Game;
+class Galaxy;
+
 class GalacticView: public UIView {
 public:
-	GalacticView();
+	GalacticView(Game* game);
 	virtual ~GalacticView();
 	virtual void Update();
 	virtual void Draw3D();
@@ -29,6 +32,9 @@ private:
 	void OnClickGalacticView();
 	void PutLabels(vector3d offset);
 	void MouseWheel(bool up);
+
+	Game* m_game;
+	RefCountedPtr<Galaxy> m_galaxy;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::Label *m_scaleReadout;

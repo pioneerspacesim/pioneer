@@ -27,11 +27,12 @@
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
 
-static const int  s_saveVersion   = 78;
+static const int  s_saveVersion   = 80;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
 Game::Game(const SystemPath &path, double time) :
+	m_galaxy(GalaxyGenerator::Create()),
 	m_time(time),
 	m_state(STATE_NORMAL),
 	m_wantHyperspace(false),
@@ -39,41 +40,26 @@ Game::Game(const SystemPath &path, double time) :
 	m_requestedTimeAccel(TIMEACCEL_1X),
 	m_forceTimeAccel(false)
 {
-	Pi::FlushCaches();
-	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
-		Pi::CreateGalaxy();
+	// Now that we have a Galaxy, check the starting location
+	if (!path.IsBodyPath())
+		throw InvalidGameStartLocation("SystemPath is not a body path");
+	RefCountedPtr<const Sector> s = m_galaxy->GetSector(path);
+	if (size_t(path.systemIndex) >= s->m_systems.size()) {
+		char buf[128];
+		std::sprintf(buf, "System %u in sector <%d,%d,%d> does not exist",
+			unsigned(path.systemIndex), int(path.sectorX), int(path.sectorY), int(path.sectorZ));
+		throw InvalidGameStartLocation(std::string(buf));
+	}
+	RefCountedPtr<StarSystem> sys = m_galaxy->GetStarSystem(path);
+	if (path.bodyIndex >= sys->GetNumBodies()) {
+		char buf[256];
+		std::sprintf(buf, "Body %d in system <%d,%d,%d : %d ('%s')> does not exist", unsigned(path.bodyIndex),
+			int(path.sectorX), int(path.sectorY), int(path.sectorZ), unsigned(path.systemIndex), sys->GetName().c_str());
+		throw InvalidGameStartLocation(std::string(buf));
+	}
 
-	m_space.reset(new Space(this, path));
-	SpaceStation *station = static_cast<SpaceStation*>(m_space->FindBodyForPath(&path));
-	assert(station);
+	m_space.reset(new Space(this, m_galaxy, path));
 
-	m_player.reset(new Player("kanara"));
-
-	m_space->AddBody(m_player.get());
-
-	m_player->SetFrame(station->GetFrame());
-	m_player->SetDockedWith(station, 0);
-
-	Polit::Init();
-
-	CreateViews();
-
-	EmitPauseState(IsPaused());
-}
-
-Game::Game(const SystemPath &path, const vector3d &pos, double time) :
-	m_time(time),
-	m_state(STATE_NORMAL),
-	m_wantHyperspace(false),
-	m_timeAccel(TIMEACCEL_1X),
-	m_requestedTimeAccel(TIMEACCEL_1X),
-	m_forceTimeAccel(false)
-{
-	Pi::FlushCaches();
-	if (!Pi::GetGalaxy()->GetGenerator().IsDefault())
-		Pi::CreateGalaxy();
-
-	m_space.reset(new Space(this, path));
 	Body *b = m_space->FindBodyForPath(&path);
 	assert(b);
 
@@ -83,10 +69,14 @@ Game::Game(const SystemPath &path, const vector3d &pos, double time) :
 
 	m_player->SetFrame(b->GetFrame());
 
-	m_player->SetPosition(pos);
-	m_player->SetVelocity(vector3d(0,0,0));
-
-	Polit::Init();
+	if (b->GetType() == Object::SPACESTATION) {
+		m_player->SetDockedWith(static_cast<SpaceStation*>(b), 0);
+	} else {
+		const SystemBody *sbody = b->GetSystemBody();
+		m_player->SetPosition(vector3d(0, 1.5*sbody->GetRadius(), 0));
+		m_player->SetVelocity(vector3d(0,0,0));
+	}
+	Polit::Init(m_galaxy);
 
 	CreateViews();
 
@@ -116,6 +106,7 @@ Game::~Game()
 	m_space->RemoveBody(m_player.get());
 	m_space.reset();
 	m_player.reset();
+	m_galaxy->FlushCaches();
 }
 
 Game::Game(Serializer::Reader &rd) :
@@ -135,9 +126,6 @@ Game::Game(Serializer::Reader &rd) :
 		throw SavedGameWrongVersionException();
 	}
 
-	// XXX This must be done after loading sectors once we can change them in game
-	Pi::FlushCaches();
-
 	Serializer::Reader section;
 
 	// Preparing the Lua stuff
@@ -146,14 +134,7 @@ Game::Game(Serializer::Reader &rd) :
 
 	// galaxy generator
 	section = rd.RdSection("GalaxyGen");
-	std::string genName = section.String();
-	GalaxyGenerator::Version genVersion = section.Int32();
-	if (genName != Pi::GetGalaxy()->GetGeneratorName() || genVersion != Pi::GetGalaxy()->GetGeneratorVersion()) {
-		if (!Pi::CreateGalaxy(genName, genVersion)) {
-			Output("can't load savefile, unsupported galaxy generator %s, version %d\n", genName.c_str(), genVersion);
-			throw SavedGameWrongVersionException();
-		}
-	}
+	m_galaxy = Galaxy::Load(section);
 
 	// game state
 	section = rd.RdSection("Game");
@@ -167,7 +148,7 @@ Game::Game(Serializer::Reader &rd) :
 
 	// space, all the bodies and things
 	section = rd.RdSection("Space");
-	m_space.reset(new Space(this, section, m_time));
+	m_space.reset(new Space(this, m_galaxy, section, m_time));
 	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
 
 	assert(!m_player->IsDead()); // Pioneer does not support necromancy
@@ -182,7 +163,7 @@ Game::Game(Serializer::Reader &rd) :
 
 	// system political stuff
 	section = rd.RdSection("Polit");
-	Polit::Unserialize(section);
+	Polit::Unserialize(section, m_galaxy);
 
 
 	// views
@@ -216,8 +197,7 @@ void Game::Serialize(Serializer::Writer &wr)
 	Serializer::Writer section;
 
 	// galaxy generator
-	section.String(Pi::GetGalaxy()->GetGeneratorName());
-	section.Int32(Pi::GetGalaxy()->GetGeneratorVersion());
+	m_galaxy->Serialize(section);
 	wr.WrSection("GalaxyGen", section.GetData());
 
 	// game state
@@ -250,7 +230,6 @@ void Game::Serialize(Serializer::Writer &wr)
 
 	wr.WrSection("HyperspaceClouds", section.GetData());
 
-
 	// system political data (crime etc)
 	section = Serializer::Writer();
 	Polit::Serialize(section);
@@ -259,15 +238,15 @@ void Game::Serialize(Serializer::Writer &wr)
 
 	// views. must be saved in init order
 	section = Serializer::Writer();
-	Pi::cpan->Save(section);
+	m_gameViews->m_cpan->Save(section);
 	wr.WrSection("ShipCpanel", section.GetData());
 
 	section = Serializer::Writer();
-	Pi::sectorView->Save(section);
+	m_gameViews->m_sectorView->Save(section);
 	wr.WrSection("SectorView", section.GetData());
 
 	section = Serializer::Writer();
-	Pi::worldView->Save(section);
+	m_gameViews->m_worldView->Save(section);
 	wr.WrSection("WorldView", section.GetData());
 
 
@@ -294,7 +273,7 @@ void Game::TimeStep(float step)
 	m_space->TimeStep(step);
 
 	// XXX ui updates, not sure if they belong here
-	Pi::cpan->TimeStepUpdate(step);
+	m_gameViews->m_cpan->TimeStepUpdate(step);
 	Sfx::TimeStepAll(step, m_space->GetRootFrame());
 	log->Update(m_timeAccel == Game::TIMEACCEL_PAUSED);
 
@@ -460,7 +439,7 @@ void Game::SwitchToHyperspace()
 	m_space->RemoveBody(m_player.get());
 
 	// create hyperspace :)
-	m_space.reset(new Space(this));
+	m_space.reset(new Space(this, m_galaxy, m_space.get()));
 
 	m_space->GetBackground()->SetDrawFlags( Background::Container::DRAW_STARS );
 
@@ -492,7 +471,7 @@ void Game::SwitchToNormalSpace()
 	m_space->RemoveBody(m_player.get());
 
 	// create a new space for the system
-	m_space.reset(new Space(this, m_hyperspaceDest));
+	m_space.reset(new Space(this, m_galaxy, m_hyperspaceDest, m_space.get()));
 
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
@@ -665,6 +644,99 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 	m_forceTimeAccel = force;
 }
 
+Game::Views::Views()
+	: m_sectorView(nullptr)
+	, m_galacticView(nullptr)
+	, m_settingsView(nullptr)
+	, m_systemInfoView(nullptr)
+	, m_systemView(nullptr)
+	, m_worldView(nullptr)
+	, m_deathView(nullptr)
+	, m_spaceStationView(nullptr)
+	, m_infoView(nullptr)
+	, m_cpan(nullptr)
+{ }
+
+void Game::Views::SetRenderer(Graphics::Renderer *r)
+{
+	// view manager will handle setting this probably
+	m_galacticView->SetRenderer(r);
+	m_infoView->SetRenderer(r);
+	m_sectorView->SetRenderer(r);
+	m_systemInfoView->SetRenderer(r);
+	m_systemView->SetRenderer(r);
+	m_worldView->SetRenderer(r);
+	m_deathView->SetRenderer(r);
+
+#if WITH_OBJECTVIEWER
+	m_objectViewerView->SetRenderer(r);
+#endif
+}
+
+void Game::Views::Init(Game* game)
+{
+	m_cpan = new ShipCpanel(Pi::renderer, game);
+	m_sectorView = new SectorView(game);
+	m_worldView = new WorldView(game);
+	m_galacticView = new GalacticView(game);
+	m_systemView = new SystemView(game);
+	m_systemInfoView = new SystemInfoView(game);
+	m_spaceStationView = new UIView("StationView");
+	m_infoView = new UIView("InfoView");
+	m_deathView = new DeathView(game);
+	m_settingsView = new UIView("SettingsInGame");
+
+#if WITH_OBJECTVIEWER
+	m_objectViewerView = new ObjectViewerView();
+#endif
+
+	SetRenderer(Pi::renderer);
+}
+
+void Game::Views::Load(Serializer::Reader &rd, Game* game)
+{
+	Serializer::Reader section = rd.RdSection("ShipCpanel");
+	m_cpan = new ShipCpanel(section, Pi::renderer, game);
+
+	section = rd.RdSection("SectorView");
+	m_sectorView = new SectorView(section, game);
+
+	section = rd.RdSection("WorldView");
+	m_worldView = new WorldView(section, game);
+
+	m_galacticView = new GalacticView(game);
+	m_systemView = new SystemView(game);
+	m_systemInfoView = new SystemInfoView(game);
+	m_spaceStationView = new UIView("StationView");
+	m_infoView = new UIView("InfoView");
+	m_deathView = new DeathView(game);
+	m_settingsView = new UIView("SettingsInGame");
+
+#if WITH_OBJECTVIEWER
+	m_objectViewerView = new ObjectViewerView();
+#endif
+
+	SetRenderer(Pi::renderer);
+}
+
+Game::Views::~Views()
+{
+#if WITH_OBJECTVIEWER
+	delete m_objectViewerView;
+#endif
+
+	delete m_settingsView;
+	delete m_deathView;
+	delete m_infoView;
+	delete m_spaceStationView;
+	delete m_systemInfoView;
+	delete m_systemView;
+	delete m_galacticView;
+	delete m_worldView;
+	delete m_sectorView;
+	delete m_cpan;
+}
+
 // XXX this should be in some kind of central UI management class that
 // creates a set of UI views held by the game. right now though the views
 // are rather fundamentally tied to their global points and assume they
@@ -679,30 +751,8 @@ void Game::CreateViews()
 	Pi::game = this;
 	Pi::player = m_player.get();
 
-	Pi::cpan = new ShipCpanel(Pi::renderer);
-	Pi::sectorView = new SectorView();
-	Pi::worldView = new WorldView();
-	Pi::galacticView = new GalacticView();
-	Pi::systemView = new SystemView();
-	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new UIView("StationView");
-	Pi::infoView = new UIView("InfoView");
-	Pi::deathView = new DeathView();
-	Pi::settingsView = new UIView("SettingsInGame");
-
-	// view manager will handle setting this probably
-	Pi::galacticView->SetRenderer(Pi::renderer);
-	Pi::infoView->SetRenderer(Pi::renderer);
-	Pi::sectorView->SetRenderer(Pi::renderer);
-	Pi::systemInfoView->SetRenderer(Pi::renderer);
-	Pi::systemView->SetRenderer(Pi::renderer);
-	Pi::worldView->SetRenderer(Pi::renderer);
-	Pi::deathView->SetRenderer(Pi::renderer);
-
-#if WITH_OBJECTVIEWER
-	Pi::objectViewerView = new ObjectViewerView();
-	Pi::objectViewerView->SetRenderer(Pi::renderer);
-#endif
+	m_gameViews.reset(new Views);
+	m_gameViews->Init(this);
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
@@ -719,35 +769,8 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::game = this;
 	Pi::player = m_player.get();
 
-	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	Pi::cpan = new ShipCpanel(section, Pi::renderer);
-
-	section = rd.RdSection("SectorView");
-	Pi::sectorView = new SectorView(section);
-
-	section = rd.RdSection("WorldView");
-	Pi::worldView = new WorldView(section);
-
-	Pi::galacticView = new GalacticView();
-	Pi::systemView = new SystemView();
-	Pi::systemInfoView = new SystemInfoView();
-	Pi::spaceStationView = new UIView("StationView");
-	Pi::infoView = new UIView("InfoView");
-	Pi::deathView = new DeathView();
-	Pi::settingsView = new UIView("SettingsInGame");
-
-#if WITH_OBJECTVIEWER
-	Pi::objectViewerView = new ObjectViewerView();
-	Pi::objectViewerView->SetRenderer(Pi::renderer);
-#endif
-
-	Pi::galacticView->SetRenderer(Pi::renderer);
-	Pi::infoView->SetRenderer(Pi::renderer);
-	Pi::sectorView->SetRenderer(Pi::renderer);
-	Pi::systemInfoView->SetRenderer(Pi::renderer);
-	Pi::systemView->SetRenderer(Pi::renderer);
-	Pi::worldView->SetRenderer(Pi::renderer);
-	Pi::deathView->SetRenderer(Pi::renderer);
+	m_gameViews.reset(new Views);
+	m_gameViews->Load(rd, this);
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
@@ -759,33 +782,9 @@ void Game::DestroyViews()
 {
 	Pi::SetView(0);
 
-#if WITH_OBJECTVIEWER
-	delete Pi::objectViewerView;
-#endif
+	m_gameViews.reset();
 
-	delete Pi::settingsView;
-	delete Pi::deathView;
-	delete Pi::infoView;
-	delete Pi::spaceStationView;
-	delete Pi::systemInfoView;
-	delete Pi::systemView;
-	delete Pi::galacticView;
-	delete Pi::worldView;
-	delete Pi::sectorView;
-	delete Pi::cpan;
 	delete log;
-
-	Pi::objectViewerView = 0;
-	Pi::settingsView = 0;
-	Pi::deathView = 0;
-	Pi::infoView = 0;
-	Pi::spaceStationView = 0;
-	Pi::systemInfoView = 0;
-	Pi::systemView = 0;
-	Pi::galacticView = 0;
-	Pi::worldView = 0;
-	Pi::sectorView = 0;
-	Pi::cpan = 0;
 	log = 0;
 }
 

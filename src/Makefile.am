@@ -36,7 +36,7 @@ noinst_HEADERS = \
 	DynamicBody.h \
 	Easing.h \
 	EnumStrings.h \
-	FaceGenManager.h \
+	FaceParts.h \
 	Factions.h \
 	FileSystem.h \
 	FontCache.h \
@@ -99,6 +99,7 @@ noinst_HEADERS = \
 	OS.h \
 	PersistSystemData.h \
 	Pi.h \
+	Plane.h \
 	Planet.h \
 	Player.h \
 	PngWriter.h \
@@ -130,6 +131,7 @@ noinst_HEADERS = \
 	SpaceStation.h \
 	SpaceStationType.h \
 	SpeedLines.h \
+	Sphere.h \
 	Star.h \
 	SystemInfoView.h \
 	SystemView.h \
@@ -167,7 +169,7 @@ pioneer_SOURCES	= \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
-	FaceGenManager.cpp \
+	FaceParts.cpp \
 	Factions.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
@@ -240,6 +242,7 @@ pioneer_SOURCES	= \
 	ObjectViewerView.cpp \
 	Orbit.cpp \
 	Pi.cpp \
+	Plane.cpp \
 	Planet.cpp \
 	Player.cpp \
 	PngWriter.cpp \
@@ -267,6 +270,7 @@ pioneer_SOURCES	= \
 	SpaceStation.cpp \
 	SpaceStationType.cpp \
 	SpeedLines.cpp \
+	Sphere.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
@@ -293,7 +297,6 @@ pioneer_LDADD = \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a
 
 pioneer_LDADD += \
@@ -370,7 +373,6 @@ uitest_LDADD = \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a
 
 uitest_LDADD += \
@@ -398,7 +400,6 @@ textstress_LDADD = \
 	graphics/libgraphics.a \
 	posix/libposix.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a
 
 textstress_LDADD += \
@@ -426,7 +427,7 @@ modelcompiler_SOURCES = \
 	DeathView.cpp \
 	DynamicBody.cpp \
 	EnumStrings.cpp \
-	FaceGenManager.cpp \
+	FaceParts.cpp \
 	Factions.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
@@ -499,6 +500,7 @@ modelcompiler_SOURCES = \
 	ObjectViewerView.cpp \
 	Orbit.cpp \
 	Pi.cpp \
+	Plane.cpp \
 	Planet.cpp \
 	Player.cpp \
 	PngWriter.cpp \
@@ -526,6 +528,7 @@ modelcompiler_SOURCES = \
 	SpaceStation.cpp \
 	SpaceStationType.cpp \
 	SpeedLines.cpp \
+	Sphere.cpp \
 	Star.cpp \
 	SystemInfoView.cpp \
 	SystemView.cpp \
@@ -551,7 +554,6 @@ modelcompiler_LDADD = \
 	../contrib/PicoDDS/libpicodds.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/json/libjson.a \
-	../contrib/glew/libglew.a \
 	../contrib/profiler/libprofiler.a
 
 modelcompiler_LDADD += \
