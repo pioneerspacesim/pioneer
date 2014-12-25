@@ -12,8 +12,7 @@
    "slots" : {
       "atmo_shield" : 0,
       "cargo" : 1500,
-      "cargoscoop" : 1,
-      "fuelscoop" : 1,
+      "scoop" : 2,
       "laser_front" : 1,
       "laser_rear" : 0,
       "missile" : 0
