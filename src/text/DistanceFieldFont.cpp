@@ -49,8 +49,8 @@ void DistanceFieldFont::GetGeometry(Graphics::VertexArray &va, const std::string
 	vector2f cursor = offset;
 	vector2f bounds(0.f);
 	for(unsigned int i=0; i<text.length(); i++) {
-		//If there is a '|', do a linebreak
-		if (text.at(i)=='|') {
+		//Look for \n and do a linebreak
+		if (text.at(i)=='\n') {
 			cursor.y--;
 			cursor.x=0;
 		} else {
