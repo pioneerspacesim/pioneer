@@ -188,7 +188,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		}
 	}
 	assert(!models.empty());
-	Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	Output("Got %d buildings of tag %s\n", static_cast<int>(models.size()), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 
