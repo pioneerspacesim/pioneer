@@ -47,10 +47,6 @@
       "description" : "",
       "message" : "Go back"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang up."
-   },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
       "message" : "We will only dispose of as many tonnes of {radioactives} as you have bought tonnes of {military_fuel} from us."
