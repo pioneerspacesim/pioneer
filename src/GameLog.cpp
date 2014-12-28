@@ -78,9 +78,10 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 	for (auto it = m_messages.rbegin(); it != m_messages.rend(); ++it) {
 		float alpha = 1.f;
 		if (it->time > FADE_AFTER) {
-			alpha = 1.0f - (float(it->time - FADE_AFTER) / FADE_TIME);
+			alpha = 1.0f - (float(it->time - FADE_AFTER) / float(FADE_TIME));
 		}
-		m_font->RenderString(it->msg.c_str(), m_offset.x, m_offset.y + y, Color(c.r, c.g, c.b, alpha*255));
+		const Color textColour(c.r, c.g, c.b, Clamp(Uint32(alpha*255), 0U, 255U));
+		m_font->RenderString(it->msg.c_str(), m_offset.x, m_offset.y + y, textColour);
 		y -= m_lineHeight;
 	}
 }
