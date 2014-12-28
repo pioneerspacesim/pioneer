@@ -34,64 +34,64 @@ local typical_reward = 35 * max_delivery_dist
 -- typical reward for local delivery
 local typical_reward_local = 35
 -- max cargo per trip
-local max_cargo = 50
+local max_cargo = 15
 
 local num_pirate_taunts = 7
-local num_deny = 8
+local num_deny = 6
 
 -- the custom cargo
 -- it seems that the two translation strings are necessary
 -- as a workaround. At least for now
 aluminium_tubes = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'ALUMINIUM_TUBES'
 })
 art_objects = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'ART_OBJECTS'
 })
 clus = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'CLUS'
 })
 diamonds = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=300,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'DIAMONDS'
 })
 digesters = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'DIGESTERS'
 })
 electrical_appliances = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'ELECTRICAL_APPLIANCES'
 })
 explosives = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'EXPLOSIVES'
 })
 furniture = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=15,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'FURNITURE'
 })
 greenhouses = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'GREENHOUSES'
@@ -103,49 +103,49 @@ hazardous_substances = Equipment.EquipType.New({
 	l10n_ckey = 'HAZARDOUS_SUBSTANCES'
 })
 machine_tools = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'MACHINE_TOOLS'
 })
 neptunium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Radioactive_waste",
 	l10n_ckey = 'NEPTUNIUM'
 })
 plutonium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Radioactive_waste",
 	l10n_ckey = 'PLUTONIUM'
 })
 semi_finished_products = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'SEMI_FINISHED_PRODUCTS'
 })
 spaceship_parts = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=250,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
 	l10n_ckey = 'SPACESHIP_PARTS'
 })
 titanium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Metal_alloys",
 	l10n_ckey = 'TITANIUM'
 })
 tungsten = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=125,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Metal_alloys",
 	l10n_ckey = 'TUNGSTEN'
 })
 uranium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'CARGO', slots="cargo", price=175,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Radioactive_waste",
 	l10n_ckey = 'URANIUM'
@@ -373,37 +373,44 @@ local findNearbyStations = function (station, minDist)
 	return nearbystations
 end
 
---local getAvailCargo = function (min_price)
---	local availcargo = {}
---        for k,v in pairs(Equipment) do
---		if k == "cargo" then
---			for _,e in pairs(v) do
---				if e.purchasable and e.price >= min_price and e.price <= (min_price + 100) then
---					table.insert(availcargo,e)
---				end
---			end
---		end
---	end
---	return availcargo
---end
+local getAvailCargo = function (min_price)
+	local availcargo = {}
+	for _, c in pairs(custom_cargo) do
+		if c.price >= min_price and c.price <= (min_price + 100) then
+			table.insert(availcargo, c)
+		end
+	end
+	return availcargo
+end
 
 local nearbysystems
 
-local makeAdvert = function (station)
-	local reward, due, location, nearbysystem, dist, nearbystations
+local makeAdvert = function (station, freeCargoSpace)
+	local reward, due, location, nearbysystem, dist, nearbystations, cargo, cargotype
 	local client = Character.New()
 	local flavour = Engine.rand:Integer(1,#flavours)
 	local urgency = flavours[flavour].urgency
 	local risk = flavours[flavour].risk
-	local cargo = Engine.rand:Integer(1,max_cargo)
---	local availcargo = getAvailCargo(risk * 250 - 10)
---	local cargotype = availcargo[Engine.rand:Integer(1, #availcargo)]
-	local cargotype = custom_cargo[Engine.rand:Integer(1, #custom_cargo)]
+	local availcargo = getAvailCargo(risk * 250)
 
+	if #availcargo == 1 then
+		cargotype = availcargo[1]
+	else
+		cargotype = availcargo[Engine.rand:Integer(1, #availcargo)]
+	end
 	if flavours[flavour].localdelivery then
 		nearbysystem = Game.system
 		nearbystations = findNearbyStations(station, 1000)
 		if #nearbystations == 0 then return nil end
+		if freeCargoSpace then
+			if freeCargoSpace == 1 then
+				cargo = 1
+			else
+				cargo = Engine.rand:Integer(1, freeCargoSpace)
+			end
+		else
+			cargo = Engine.rand:Integer(1, max_cargo)
+		end
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) + cargo
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
@@ -416,6 +423,16 @@ local makeAdvert = function (station)
 		dist = nearbysystem:DistanceTo(Game.system)
 		nearbystations = nearbysystem:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
+		if freeCargoSpace then
+			local approxFuelForJump = math.floor(dist / 10)
+			if (freeCargoSpace - approxFuelForJump) == 1 then
+				cargo = 1
+			else
+				cargo = Engine.rand:Integer(1, (freeCargoSpace - approxFuelForJump))
+			end
+		else
+			cargo = Engine.rand:Integer(1, max_cargo)
+		end
 		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/100) * Engine.rand:Number(0.8,1.2)
 		due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
 	end
@@ -461,16 +478,20 @@ local onCreateBB = function (station)
 	local numAchievableJobs = 0
 	local reputation = Character.persistent.player.reputation
 	local canHyperspace = Game.player.maxHyperspaceRange > 0
-	local minFuelForJump = 1
 	local freeCargoSpace = Game.player.freeCapacity
 
 	for i = 1,num do
 		local ad = makeAdvert(station)
-		if ad and isQualifiedFor(reputation, ad) and ((ad.localdelivery and ad.cargo <= freeCargoSpace) or (canHyperspace and ad.cargo <= (freeCargoSpace + minFuelForJump))) then
+		local approxFuelForJump = math.floor(ad.dist / 10)
+		if ad and ((ad.localdelivery and ad.cargo <= freeCargoSpace) or (canHyperspace and ad.cargo <= (freeCargoSpace + approxFuelForJump))) then
 			numAchievableJobs = numAchievableJobs + 1
 		end
 	end
-	-- Here's something missing.
+
+	-- try to make one job that matches the players free cargo space
+	if numAchievableJobs == 0 and freeCargoSpace ~= 0 then
+		makeAdvert(station, freeCargoSpace)
+	end
 end
 
 local onUpdateBB = function (station)
