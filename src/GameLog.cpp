@@ -1,5 +1,4 @@
 #include "GameLog.h"
-#include "Colors.h"
 #include "StringF.h"
 #include "graphics/Renderer.h"
 
@@ -72,7 +71,7 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 	r->SetTransform(matrix4x4f::Identity());
 	r->SetRenderState(prsd);
 
-	const Color &c = Colors::HUD_MESSAGE;
+	const Color &c = Color::WHITE;
 
 	float y = 0;
 	for (auto it = m_messages.rbegin(); it != m_messages.rend(); ++it) {
