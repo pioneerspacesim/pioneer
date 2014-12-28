@@ -308,8 +308,8 @@ public:
 	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static const Uint8 starColors[][3];
-	static const Uint8 starRealColors[][3];
+	static const Color starColors[];
+	static const Color starRealColors[];
 	static const double starLuminosities[];
 	static const float starScale[];
 
