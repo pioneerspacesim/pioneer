@@ -130,6 +130,9 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\opengl\MaterialGL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp" />
