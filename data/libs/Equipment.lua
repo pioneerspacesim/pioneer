@@ -61,10 +61,10 @@ end
 function EquipType.Unserialize(data)
 	obj = EquipType.Super().Unserialize(data)
 	setmetatable(obj, EquipType.meta)
-	local l = Lang.GetResource(obj.l10n_resource)
 	if not obj.l10n_resource then
 		obj.l10n_resource = "core"
 	end
+	local l = Lang.GetResource(obj.l10n_resource)
 	obj.volatile = {
 		description = l[obj.l10n_key.."_DESCRIPTION"] or "",
 		name = l[obj.l10n_key] or ""
