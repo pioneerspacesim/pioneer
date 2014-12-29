@@ -13,6 +13,7 @@ December 2014
      * README updated to markdown format (#3276)
      * Ship and station labels can now include line breaks (#3188)
      * Changed to compile as c++ for all build configurations (#3288)
+     * Handle non-core strings for lua equipment (#3279)
 
    * Internal Changes
      * Fix spelling error in DeliverPackage

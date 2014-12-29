@@ -9,6 +9,7 @@ local TabView = import("ui/TabView")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local KeyBindingCapture = import("UI.Game.KeyBindingCapture")
 local AxisBindingCapture = import("UI.Game.AxisBindingCapture")
+local ErrorScreen = import("ErrorScreen")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
