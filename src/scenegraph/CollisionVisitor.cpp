@@ -172,6 +172,7 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 
 	assert(m_collMesh->GetGeomTree() == 0);
 	assert(!m_vertices.empty() && !m_indices.empty());
+	assert(!m_vertices.size() < 65536);
 
 	//duplicate data again for geomtree...
 	const int numVertices = m_vertices.size();
