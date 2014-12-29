@@ -35,120 +35,119 @@ local typical_reward = 35 * max_delivery_dist
 local typical_reward_local = 35
 -- max cargo per trip
 local max_cargo = 15
+local max_cargo_wholesaler = 150
 
 local num_pirate_taunts = 7
 local num_deny = 6
 
 -- the custom cargo
--- it seems that the two translation strings are necessary
--- as a workaround. At least for now
 aluminium_tubes = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=50,
+	l10n_key = 'ALUMINIUM_TUBES', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'ALUMINIUM_TUBES'
+	l10n_resource="module-cargorun"
 })
 art_objects = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=200,
+	l10n_key = 'ART_OBJECTS', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'ART_OBJECTS'
+	l10n_resource="module-cargorun"
 })
 clus = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=20,
+	l10n_key = 'CLUS', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'CLUS'
+	l10n_resource="module-cargorun"
 })
 diamonds = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=300,
+	l10n_key = 'DIAMONDS', slots="cargo", price=300,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'DIAMONDS'
+	l10n_resource="module-cargorun"
 })
 digesters = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=10,
+	l10n_key = 'DIGESTERS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'DIGESTERS'
+	l10n_resource="module-cargorun"
 })
 electrical_appliances = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=150,
+	l10n_key = 'ELECTRICAL_APPLIANCES', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'ELECTRICAL_APPLIANCES'
+	l10n_resource="module-cargorun"
 })
 explosives = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=50,
+	l10n_key = 'EXPLOSIVES', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'EXPLOSIVES'
+	l10n_resource="module-cargorun"
 })
 furniture = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=15,
+	l10n_key = 'FURNITURE', slots="cargo", price=15,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'FURNITURE'
+	l10n_resource="module-cargorun"
 })
 greenhouses = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=20,
+	l10n_key = 'GREENHOUSES', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'GREENHOUSES'
+	l10n_resource="module-cargorun"
 })
 hazardous_substances = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=100,
+	l10n_key = 'HAZARDOUS_SUBSTANCES', slots="cargo", price=100,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'HAZARDOUS_SUBSTANCES'
+	l10n_resource="module-cargorun"
 })
 machine_tools = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=10,
+	l10n_key = 'MACHINE_TOOLS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'MACHINE_TOOLS'
+	l10n_resource="module-cargorun"
 })
 neptunium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=200,
+	l10n_key = 'NEPTUNIUM', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Radioactive_waste",
-	l10n_ckey = 'NEPTUNIUM'
+	l10n_resource="module-cargorun"
 })
 plutonium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=200,
+	l10n_key = 'PLUTONIUM', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Radioactive_waste",
-	l10n_ckey = 'PLUTONIUM'
+	l10n_resource="module-cargorun"
 })
 semi_finished_products = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=10,
+	l10n_key = 'SEMI_FINISHED_PRODUCTS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'SEMI_FINISHED_PRODUCTS'
+	l10n_resource="module-cargorun"
 })
 spaceship_parts = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=250,
+	l10n_key = 'SPACESHIP_PARTS', slots="cargo", price=250,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Narcotics",
-	l10n_ckey = 'SPACESHIP_PARTS'
+	l10n_resource="module-cargorun"
 })
 titanium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=150,
+	l10n_key = 'TITANIUM', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Metal_alloys",
-	l10n_ckey = 'TITANIUM'
+	l10n_resource="module-cargorun"
 })
 tungsten = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=125,
+	l10n_key = 'TUNGSTEN', slots="cargo", price=125,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Metal_alloys",
-	l10n_ckey = 'TUNGSTEN'
+	l10n_resource="module-cargorun"
 })
 uranium = Equipment.EquipType.New({
-	l10n_key = 'CARGO', slots="cargo", price=175,
+	l10n_key = 'URANIUM', slots="cargo", price=175,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Radioactive_waste",
-	l10n_ckey = 'URANIUM'
+	l10n_resource="module-cargorun"
 })
 
 local custom_cargo = {}
@@ -176,50 +175,62 @@ local flavours = {
 		urgency = 0,
 		risk = 0,
 		localdelivery = false,
+		wholesaler = false,
 	}, {
 		urgency = 0.1,
 		risk = 0,
 		localdelivery = false,
+		wholesaler = false,
 	}, {
 		urgency = 0.6,
 		risk = 0,
 		localdelivery = false,
+		wholesaler = false,
 	}, {
 		urgency = 0.4,
 		risk = 0.75,
 		localdelivery = false,
+		wholesaler = false,
 	}, {
 		urgency = 0.1,
 		risk = 0.1,
 		localdelivery = false,
+		wholesaler = false,
 	}, {
 		urgency = 0.1,
 		risk = 0,
 		localdelivery = true,
+		wholesaler = false,
 	}, {
 		urgency = 0.2,
 		risk = 0,
 		localdelivery = true,
+		wholesaler = false,
 	}, {
 		urgency = 0.4,
 		risk = 0,
 		localdelivery = true,
+		wholesaler = false,
 	}, {
 		urgency = 0.6,
 		risk = 0,
 		localdelivery = true,
+		wholesaler = false,
 	}, {
 		urgency = 0.8,
 		risk = 0,
 		localdelivery = true,
+		wholesaler = false,
 	}, {
 		urgency = 0.2,
 		risk = 0.2,
 		localdelivery = false,
+		wholesaler = true,
 	}, {
 		urgency = 0.4,
 		risk = 0.4,
 		localdelivery = false,
+		wholesaler = true,
 	}
 }
 
@@ -274,8 +285,7 @@ local onChat = function (form, ref, option)
 		local introtext = string.interp(flavours[ad.flavour].introtext, {
 			name	  = ad.client.name,
 			cash	  = Format.Money(ad.reward),
---			cargoname = l[ad.cargotype.l10n_key],
-			cargoname = l[ad.cargotype.l10n_ckey],
+			cargoname = l[ad.cargotype.l10n_key],
 			starport  = sbody.name,
 			system	  = sys.name,
 			sectorx	  = ad.location.sectorX,
@@ -291,8 +301,7 @@ local onChat = function (form, ref, option)
 	elseif option == 2 then
 		local howmuch = string.interp(flavours[ad.flavour].howmuch, {
 			cargo	  = ad.cargo,
---			cargoname = l[ad.cargotype.l10n_key],
-			cargoname = l[ad.cargotype.l10n_ckey],
+			cargoname = l[ad.cargotype.l10n_key],
 		})
 
 		form:SetMessage(howmuch)
@@ -431,7 +440,11 @@ local makeAdvert = function (station, freeCargoSpace)
 				cargo = Engine.rand:Integer(1, (freeCargoSpace - approxFuelForJump))
 			end
 		else
-			cargo = Engine.rand:Integer(1, max_cargo)
+			if flavours[flavour].wholesaler then
+				cargo = Engine.rand:Integer(max_cargo, max_cargo_wholesaler)
+			else
+				cargo = Engine.rand:Integer(1, max_cargo)
+			end
 		end
 		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/100) * Engine.rand:Number(0.8,1.2)
 		due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
@@ -443,6 +456,7 @@ local makeAdvert = function (station, freeCargoSpace)
 		client		= client,
 		location	= location,
 		localdelivery	= flavours[flavour].localdelivery,
+		wholesaler	= flavours[flavour].wholesaler,
 		dist		= dist,
 		due		= due,
 		cargo		= cargo,
@@ -669,8 +683,7 @@ local onClick = function (mission)
 	return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((flavours[mission.flavour].introtext):interp({
 														name   = mission.client.name,
-														-- cargoname = l[mission.cargotype.l10n_key],
-														cargoname = l[mission.cargotype.l10n_ckey],
+														cargoname = l[mission.cargotype.l10n_key],
 														starport = mission.location:GetSystemBody().name,
 														system = mission.location:GetStarSystem().name,
 														sectorx = mission.location.sectorX,
@@ -721,8 +734,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													-- ui:Label(l[mission.cargotype.l10n_key])
-													ui:Label(l[mission.cargotype.l10n_ckey])
+													ui:Label(l[mission.cargotype.l10n_key])
 												})
 											}),
 										ui:Grid(2,1)
