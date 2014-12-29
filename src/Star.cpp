@@ -68,13 +68,11 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	renderer->SetTransform(trans * rot);
 
-	const Uint8 *col = StarSystem::starRealColors[GetSystemBody()->GetType()];
-
 	Random rand;
 
 	//render star halo
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
-	const Color bright(col[0], col[1], col[2], 255);
+	const Color bright(StarSystem::starRealColors[GetSystemBody()->GetType()]);
 	const Color dark(0);
 
 	va.Add(vector3f(0.f), bright);
