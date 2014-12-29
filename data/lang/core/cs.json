@@ -161,7 +161,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Nelze uložit hru po smrti hráče"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -701,7 +701,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Ilegalní (current system):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -797,7 +797,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Legální (current system):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
