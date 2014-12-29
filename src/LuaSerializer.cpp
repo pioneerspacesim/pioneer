@@ -411,27 +411,32 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			// unpickle the object, and insert it beneath the method table value
 			pos = unpickle(l, end);
 
-			// get PiSerializerClasses[typename]
-			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
-			lua_pushlstring(l, cl, len);
-			lua_gettable(l, -2);
-			lua_remove(l, -2);
-
-			if (lua_isnil(l, -1)) {
-				lua_pop(l, 2);
-				break;
-			}
-
-			lua_getfield(l, -1, "Unserialize");
-			if (lua_isnil(l, -1)) {
+			// If it is a reference, don't run the unserializer. It has either
+			// already been run, or the data is still building (cyclic
+			// references will do that to you.)
+			if (*end != 'r') {
+				// get PiSerializerClasses[typename]
+				lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
 				lua_pushlstring(l, cl, len);
-				luaL_error(l, "No Unserialize method found for class '%s'\n", lua_tostring(l, -1));
+				lua_gettable(l, -2);
+				lua_remove(l, -2);
+
+				if (lua_isnil(l, -1)) {
+					lua_pop(l, 2);
+					break;
+				}
+
+				lua_getfield(l, -1, "Unserialize");
+				if (lua_isnil(l, -1)) {
+					lua_pushlstring(l, cl, len);
+					luaL_error(l, "No Unserialize method found for class '%s'\n", lua_tostring(l, -1));
+				}
+
+				lua_insert(l, -3);
+				lua_pop(l, 1);
+
+				pi_lua_protected_call(l, 1, 1);
 			}
-
-			lua_insert(l, -3);
-			lua_pop(l, 1);
-
-			pi_lua_protected_call(l, 1, 1);
 
 			break;
 		}
