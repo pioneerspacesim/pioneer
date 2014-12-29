@@ -12,6 +12,7 @@ December 2014
      * Switch font texture U/V coordinates to unsigned int (#3273)
      * README updated to markdown format (#3276)
      * Ship and station labels can now include line breaks (#3188)
+     * Changed to compile as c++ for all build configurations (#3288)
 
    * Internal Changes
      * Fix spelling error in DeliverPackage
