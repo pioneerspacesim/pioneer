@@ -14,6 +14,7 @@ December 2014
      * Ship and station labels can now include line breaks (#3188)
      * Changed to compile as c++ for all build configurations (#3288)
      * Handle non-core strings for lua equipment (#3279)
+     * Use counter not named bays for stations (#3291)
 
    * Internal Changes
      * Fix spelling error in DeliverPackage
