@@ -273,19 +273,19 @@
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+      "message" : "CARGO SERVICE. I require a ship for a delivery to {system} system."
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "Your ship registration has been noted, we will reject all further applications for work from you."
+      "message" : "I'll make a note of your vessel identification number. I will reject all further applications for work from you."
    },
    "FLAVOUR_10_HOWMUCH" : {
       "description" : "",
-      "message" : "{cargo}t of goods."
+      "message" : "There are {cargo}t of {cargoname}."
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings, my name is {name} and I work for the {starport} administration. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hello, my name is {name} and I'm wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "FLAVOUR_10_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "We would be happy to pay you less money."
+      "message" : "I would be happy to pay you less money."
    },
    "FLAVOUR_11_ADTEXT" : {
       "description" : "",
