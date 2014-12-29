@@ -60,7 +60,7 @@
 // "Deserialize" function under that namespace. that data returned will be
 // given back to the module
 
-void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key)
+void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, const char *key)
 {
 	static char buf[256];
 
@@ -72,7 +72,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 	if (!lua_checkstack(l, 20))
 		luaL_error(l, "The Lua stack couldn't be extended (out of memory?)");
 
-	idx = lua_absindex(l, idx);
+	to_serialize = lua_absindex(l, to_serialize);
+	int idx = to_serialize;
 
 	if (lua_getmetatable(l, idx)) {
 		lua_getfield(l, -1, "class");
@@ -96,12 +97,10 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			lua_pushvalue(l, idx);
 			pi_lua_protected_call(l, 1, 1);
 
-			lua_remove(l, idx);
-			lua_insert(l, idx);
-
-			lua_pop(l, 4);
+			idx = lua_gettop(l);
 
 			if (lua_isnil(l, idx)) {
+				lua_pop(l, 5);
 				LUA_DEBUG_END(l, 0);
 				return;
 			}
@@ -138,7 +137,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		}
 
 		case LUA_TTABLE: {
-			lua_pushinteger(l, lua_Integer(lua_topointer(l, idx)));         // ptr
+			lua_pushinteger(l, lua_Integer(lua_topointer(l, to_serialize)));         // ptr
 
 			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");    // ptr reftable
 			lua_pushvalue(l, -2);                                           // ptr reftable ptr
@@ -154,7 +153,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				out += "t";
 
 				lua_pushvalue(l, -3);                                       // ptr reftable nil ptr
-				lua_pushvalue(l, idx);                                      // ptr reftable nil ptr table
+				lua_pushvalue(l, to_serialize);                                      // ptr reftable nil ptr table
 				lua_rawset(l, -4);                                          // ptr reftable nil
 				pickle(l, -3, out, key);
 				lua_pop(l, 3);                                              // [empty]
@@ -169,11 +168,9 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 						lua_pop(l, 1);
 					}
 					// Copy the values to pickle, as they might be mutated by the pickling process.
-					lua_pushvalue(l, -2);
-					lua_pushvalue(l, -2);
 					pickle(l, -2, out, key);
 					pickle(l, -1, out, key);
-					lua_pop(l, 3);
+					lua_pop(l, 1);
 				}
 				lua_pop(l, 1);
 				out += "n";
@@ -226,6 +223,9 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			Error("Lua serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
 			break;
 	}
+
+	if (idx != lua_absindex(l, to_serialize)) // It means we called a transformation function on the data, so we clean it up.
+		lua_pop(l, 5);
 
 	LUA_DEBUG_END(l, 0);
 }
