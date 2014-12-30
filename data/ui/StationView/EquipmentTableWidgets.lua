@@ -12,9 +12,6 @@ local MessageBox = import("ui/MessageBox")
 
 local l = Lang.GetResource("ui-core")
 
--- XXX equipment strings are in core. this sucks
-local lcore = Lang.GetResource("core")
-
 local ui = Engine.ui
 
 -- loose money when you sell parts back to the station.

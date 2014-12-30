@@ -134,6 +134,9 @@ shipTable.onRowClicked:Connect(function (row)
 	currentShipOnSale = station:GetShipsOnSale()[row+1]
 	local def = currentShipOnSale.def
 
+	local hyperdrive_str = def.hyperdriveClass > 0 and
+		Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass]:GetName() or l.NONE
+
 	local forwardAccelEmpty =  def.linearThrust.FORWARD / (-9.81*1000*(def.hullMass+def.fuelTankMass))
 	local forwardAccelFull  =  def.linearThrust.FORWARD / (-9.81*1000*(def.hullMass+def.capacity+def.fuelTankMass))
 	local reverseAccelEmpty = -def.linearThrust.REVERSE / (-9.81*1000*(def.hullMass+def.fuelTankMass))
@@ -162,7 +165,7 @@ shipTable.onRowClicked:Connect(function (row)
 				ui:Expand("HORIZONTAL", ui:Align("RIGHT", buyButton)),
 			}),
 			ModelSpinner.New(ui, def.modelName, currentShipOnSale.skin, currentShipOnSale.pattern),
-			ui:Label(l.HYPERDRIVE_FITTED.." "..lcore[(def.hyperdriveClass > 0 and 'DRIVE_CLASS'..def.hyperdriveClass or 'NONE')]):SetFont("SMALL"),
+			ui:Label(l.HYPERDRIVE_FITTED.." "..hyperdrive_str):SetFont("SMALL"),
 			ui:Margin(10, "TOP",
 				ui:Grid(2,1)
 					:SetFont("SMALL")

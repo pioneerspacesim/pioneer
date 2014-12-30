@@ -63,10 +63,6 @@
       "description" : "",
       "message" : "You don't have enough money."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang up."
-   },
    "REPEAT_OFFER" : {
       "description" : "",
       "message" : "Repeat offer"

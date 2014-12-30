@@ -3,6 +3,8 @@ December 2014
      * New Multi Scoop equipment, and merge cargo and fuel scoop slots
        to a single one (#3267)
      * New OPLI ship Storeria (#3257)
+     * Our two space stations decommissioned (hoop and big_crappy) and three new jaw
+       dropping amazing ones enter service! (#3099)
 
    * Fixes
      * Fix string "NONE" in ShipInfo not using the translated version (#3268)
@@ -21,6 +23,8 @@ December 2014
      * Better descriptions for translation strings in ui-/core (#3272)
      * Change the Star Color structures to use Color instead of Uint8 (#3285)
      * Remove the Colours.h/cpp files (#3289)
+     * Several bugfixes to the Lua serializer triggered by recent code (#3279)
+     * Remove redundant code and translation strings (#3294)
 
 November 2014
    * New Features
