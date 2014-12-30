@@ -3,6 +3,8 @@ December 2014
      * New Multi Scoop equipment, and merge cargo and fuel scoop slots
        to a single one (#3267)
      * New OPLI ship Storeria (#3257)
+     * Our two space stations decommissioned (hoop and big_crappy) and three new jaw
+       dropping amazing ones enter service! (#3099)
 
    * Fixes
      * Fix string "NONE" in ShipInfo not using the translated version (#3268)

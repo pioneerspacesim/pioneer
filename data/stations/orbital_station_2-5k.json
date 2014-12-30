@@ -1,0 +1,8 @@
+{
+"model" : "orbital_station_2-5k",
+"type" : "orbital",
+"angular_velocity" : 0.030,
+"parking_distance" : 3000.0,
+"parking_gap_size" : 500.0,
+"pad_offset" : 150
+}
