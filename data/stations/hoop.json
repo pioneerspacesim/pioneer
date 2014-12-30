@@ -1,8 +1,0 @@
-{
-   "model" : "hoop_spacestation",
-   "type" : "orbital",
-   "angular_velocity" : 0.08,
-   "parking_distance" : 5000,
-   "parking_gap_size" : 500,
-   "pad_offset" : 150
-}
