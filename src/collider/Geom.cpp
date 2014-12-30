@@ -122,8 +122,8 @@ void Geom::CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &t
 	} stack[32];
 	int stackpos = 0;
 
-	stack[0].edgeNode = GetGeomTree()->m_edgeTree->GetRoot();
-	stack[0].triNode = b->GetGeomTree()->m_triTree->GetRoot();
+	stack[0].edgeNode = GetGeomTree()->GetEdgeTree()->GetRoot();
+	stack[0].triNode = b->GetGeomTree()->GetTriTree()->GetRoot();
 
 	while ((stackpos >= 0) && (maxContacts > 0)) {
 		BVHNode *edgeNode = stack[stackpos].edgeNode;
@@ -183,10 +183,11 @@ void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const mat
 		int numContacts = 0;
 		vector3f dir;
 		isect_t isect;
+		const float *pVertices(GetGeomTree()->GetVertices());
 		for (int i=0; i<edgeNode->numTris; i++) {
-			int vtxNum = edges[ edgeNode->triIndicesStart[i] ].v1i;
-			vector3d v1 = transToB * vector3d(&GetGeomTree()->m_vertices[vtxNum]);
-			vector3f _from(float(v1.x), float(v1.y), float(v1.z));
+			const int vtxNum = edges[ edgeNode->triIndicesStart[i] ].v1i;
+			const vector3d v1 = transToB * vector3d(pVertices[vtxNum]);
+			const vector3f _from(float(v1.x), float(v1.y), float(v1.z));
 
 			vector3d _dir(
 					double(edges[ edgeNode->triIndicesStart[i] ].dir.x),

@@ -146,7 +146,7 @@ start:
 			if (argc > 2) {
 				modelName = argv[2];
 				SetupRenderer();
-				RunCompiler(modelName, s_dummyPath, false);
+				RunCompiler(modelName, modelName, false);
 			}
 			break;
 		}

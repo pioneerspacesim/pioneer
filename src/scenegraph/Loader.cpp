@@ -297,6 +297,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 
 	// Run CollisionVisitor to create the initial CM and its GeomTree.
 	// If no collision mesh is defined, a simple bounding box will be generated
+	Output("CreateCollisionMesh for : (%s)\n", m_model->m_name.c_str());
 	m_model->CreateCollisionMesh();
 
 	// Do an initial animation update to get all the animation transforms correct

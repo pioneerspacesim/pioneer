@@ -11,30 +11,27 @@ const unsigned int IGNORE_FLAG = 0x8000;
 
 GeomTree::~GeomTree()
 {
-	delete[] m_vertices;
-	delete[] m_indices;
-	delete[] m_triFlags;
-
-	delete[] m_edges;
-	delete m_triTree;
-	delete m_edgeTree;
 }
 
 GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, unsigned int *triflags)
 : m_numVertices(numVerts)
 , m_numTris(numTris)
+, m_vertices(vertices)
+, m_indices(indices)
+, m_triFlags(triflags)
 {
-	m_vertices = vertices;
-	m_indices  = indices;
-	m_triFlags = triflags;
+	Profiler::Timer timer;
+	timer.Start();
 
 	m_aabb.min = vector3d(FLT_MAX,FLT_MAX,FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX,-FLT_MAX,-FLT_MAX);
 
 	// activeTris = tris we are still trying to put into leaves
 	std::vector<int> activeTris;
-	/* So, we ignore tris with flag >= 0x8000 */
-	for (int i=0; i<numTris; i++) {
+	activeTris.reserve(numTris);
+	// So, we ignore tris with flag >= 0x8000
+	for (int i=0; i<numTris; i++) 
+	{
 		if (triflags[i] >= IGNORE_FLAG) continue;
 		activeTris.push_back(i*3);
 	}
@@ -45,26 +42,32 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 	else if ((_i1) > (_i2)) edges[std::pair<int,int>(_i2,_i1)] = _triflag;
 
 	// eliminate duplicate vertices
-	for (int i=0; i<numVerts; i++) {
-		vector3d v = vector3d(&m_vertices[3*i]);
-		for (int j=i+1; j<numVerts; j++) {
-			vector3d v2 = vector3d(&m_vertices[3*j]);
-			if (v2.ExactlyEqual(v)) {
-				for (int k=0; k<numTris*3; k++) {
+	for (int i=0; i<numVerts; i++) 
+	{
+		const vector3d v = vector3d(&m_vertices[3*i]);
+		for (int j=i+1; j<numVerts; j++) 
+		{
+			const vector3d v2 = vector3d(&m_vertices[3 * j]);
+			if (v2.ExactlyEqual(v)) 
+			{
+				for (int k=0; k<numTris*3; k++) 
+				{
 					if ((indices[k] == j) && (triflags[k/3] < 0x8000)) indices[k] = i;
 				}
 			}
 		}
 	}
 
-	/* Get radius, m_aabb, and merge duplicate edges */
+	// Get radius, m_aabb, and merge duplicate edges
 	m_radius = 0;
-	for (int i=0; i<numTris; i++) {
+	for (int i=0; i<numTris; i++) 
+	{
 		const unsigned int triflag = m_triFlags[i];
-		if (triflag < IGNORE_FLAG) {
-			int vi1 = 3*m_indices[3*i];
-			int vi2 = 3*m_indices[3*i+1];
-			int vi3 = 3*m_indices[3*i+2];
+		if (triflag < IGNORE_FLAG) 
+		{
+			const int vi1 = 3*m_indices[3*i];
+			const int vi2 = 3*m_indices[3*i+1];
+			const int vi3 = 3*m_indices[3*i+2];
 
 			ADD_EDGE(vi1, vi2, triflag);
 			ADD_EDGE(vi1, vi3, triflag);
@@ -78,44 +81,47 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 			m_aabb.Update(v[1]);
 			m_aabb.Update(v[2]);
 			for (int j=0; j<3; j++) {
-				double rad = v[j].x*v[j].x + v[j].y*v[j].y + v[j].z*v[j].z;
+				const double rad = v[j].x*v[j].x + v[j].y*v[j].y + v[j].z*v[j].z;
 				if (rad>m_radius) m_radius = rad;
 			}
 		}
 	}
 	m_radius = sqrt(m_radius);
 
-	Aabb *aabbs = new Aabb[activeTris.size()];
-	for (unsigned int i=0; i<activeTris.size(); i++) {
-		vector3d v1 = vector3d(&m_vertices[3*m_indices[activeTris[i]]]);
-		vector3d v2 = vector3d(&m_vertices[3*m_indices[activeTris[i]+1]]);
-		vector3d v3 = vector3d(&m_vertices[3*m_indices[activeTris[i]+2]]);
-		aabbs[i].min = aabbs[i].max = v1;
-		aabbs[i].Update(v2);
-		aabbs[i].Update(v3);
-	}
+	{
+		Aabb *aabbs = new Aabb[activeTris.size()];
+		for (unsigned int i = 0; i < activeTris.size(); i++)
+		{
+			const vector3d v1 = vector3d(&m_vertices[3 * m_indices[activeTris[i]]]);
+			const vector3d v2 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 1]]);
+			const vector3d v3 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 2]]);
+			aabbs[i].min = aabbs[i].max = v1;
+			aabbs[i].Update(v2);
+			aabbs[i].Update(v3);
+		}
 
-	//int t = SDL_GetTicks();
-	m_triTree = new BVHTree(activeTris.size(), &activeTris[0], aabbs);
-	delete [] aabbs;
+		//int t = SDL_GetTicks();
+		m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
+		delete[] aabbs;
+	}
 	//Output("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
 
 	m_numEdges = edges.size();
-	m_edges = new Edge[m_numEdges];
+	m_edges.reset( new Edge[m_numEdges] );
 	// to build Edge bvh tree with.
-	aabbs = new Aabb[m_numEdges];
+	m_aabbs.reset( new Aabb[m_numEdges] );
 	int *edgeIdxs = new int[m_numEdges];
 
 	int pos = 0;
-	for (std::map< std::pair<int,int>, int >::iterator i = edges.begin();
-			i != edges.end(); ++i, pos++) {
+	for( auto i : edges ) 
+	{
 		// precalc some jizz
-		const std::pair<int, int> &vtx = (*i).first;
-		const int triflag = (*i).second;
-		vector3d v1 = vector3d(&m_vertices[vtx.first]);
-		vector3d v2 = vector3d(&m_vertices[vtx.second]);
+		const std::pair<int, int> &vtx = i.first;
+		const int triflag = i.second;
+		const vector3d v1 = vector3d(&m_vertices[vtx.first]);
+		const vector3d v2 = vector3d(&m_vertices[vtx.second]);
 		vector3d dir = (v2-v1);
-		double len = dir.Length();
+		const double len = dir.Length();
 		dir *= 1.0/len;
 
 		m_edges[pos].v1i = vtx.first;
@@ -125,14 +131,91 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 		m_edges[pos].dir = vector3f(float(dir.x), float(dir.y), float(dir.z));
 
 		edgeIdxs[pos] = pos;
-		aabbs[pos].min = aabbs[pos].max = v1;
-		aabbs[pos].Update(v2);
+		m_aabbs[pos].min = m_aabbs[pos].max = v1;
+		m_aabbs[pos].Update(v2);
 	}
+
 	//t = SDL_GetTicks();
-	m_edgeTree = new BVHTree(m_numEdges, edgeIdxs, aabbs);
-	delete [] aabbs;
+	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, m_aabbs.get()));
 	delete [] edgeIdxs;
 	//Output("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
+
+	timer.Stop();
+	Output(" - - GeomTree::GeomTree took: %lf milliseconds\n", timer.millicycles());
+}
+
+GeomTree::GeomTree(Serializer::Reader &rd)
+{
+	Profiler::Timer timer;
+	timer.Start();
+
+	m_numVertices = rd.Int32();
+	m_numEdges = rd.Int32();
+	m_numTris = rd.Int32();
+	m_radius = rd.Double();
+
+	m_aabb.max = rd.Vector3d();
+	m_aabb.min = rd.Vector3d();
+	m_aabb.radius = rd.Double();
+
+	const Uint32 numAabbs = rd.Int32();
+	m_aabbs.reset(new Aabb[numAabbs]);
+	for (Uint32 iAabb = 0; iAabb < numAabbs; ++iAabb) {
+		m_aabbs[iAabb].max = rd.Vector3d();
+		m_aabbs[iAabb].min = rd.Vector3d();
+		m_aabbs[iAabb].radius = rd.Double();
+	}
+
+	m_edges.reset(new Edge[m_numEdges]);
+	for (Uint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
+		m_edges[iEdge].Load(rd);
+	}
+
+	m_vertices.reset(new float[m_numVertices * 3]);
+	for (Uint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
+		m_vertices[iVert] = rd.Float();
+	}
+
+	m_indices.reset(new Uint16[m_numTris * 3]);
+	for (Uint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
+		m_indices[iIndi] = rd.Int16();
+	}
+
+	m_triFlags.reset(new Uint32[m_numTris]);
+	for (Uint32 iTri = 0; iTri < m_numTris; ++iTri) {
+		m_triFlags[iTri] = rd.Int32();
+	}
+
+	// activeTris = tris we are still trying to put into leaves
+	std::vector<int> activeTris;
+	activeTris.reserve(m_numTris);
+	// So, we ignore tris with flag >= 0x8000
+	for (int i = 0; i<m_numTris; i++)
+	{
+		if (m_triFlags[i] >= IGNORE_FLAG) continue;
+		activeTris.push_back(i * 3);
+	}
+	// regenerate the aabb data
+	Aabb *aabbs = new Aabb[activeTris.size()];
+	for (unsigned int i = 0; i<activeTris.size(); i++)
+	{
+		const vector3d v1 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 0]]);
+		const vector3d v2 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 1]]);
+		const vector3d v3 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 2]]);
+		aabbs[i].min = aabbs[i].max = v1;
+		aabbs[i].Update(v2);
+		aabbs[i].Update(v3);
+	}
+	m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
+	delete[] aabbs;
+
+	// 
+	int *edgeIdxs = new int[m_numEdges];
+	memset(edgeIdxs, 0, sizeof(int)*m_numEdges);
+	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, m_aabbs.get()));
+
+	timer.Stop();
+	Output(" - - GeomTree::GeomTree(Serializer::Reader &rd) took: %lf milliseconds\n", timer.millicycles());
 }
 
 static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)
@@ -271,4 +354,40 @@ vector3f GeomTree::GetTriNormal(int triIdx) const
 	const vector3f c(&m_vertices[3*m_indices[3*triIdx+2]]);
 
 	return (b-a).Cross(c-a).Normalized();
+}
+
+void GeomTree::Save(Serializer::Writer &wr) const
+{
+	wr.Int32(m_numVertices);
+
+	wr.Int32(m_numEdges);
+	wr.Int32(m_numTris);
+	wr.Double(m_radius);
+
+	wr.Vector3d(m_aabb.max);
+	wr.Vector3d(m_aabb.min);
+	wr.Double(m_aabb.radius);
+
+	wr.Int32(m_numEdges);
+	for (Uint32 iAabb = 0; iAabb < m_numEdges; ++iAabb) {
+		wr.Vector3d(m_aabbs[iAabb].max);
+		wr.Vector3d(m_aabbs[iAabb].min);
+		wr.Double(m_aabbs[iAabb].radius);
+	}
+
+	for (Uint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
+		m_edges[iEdge].Save(wr);
+	}
+
+	for (Uint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
+		wr.Float(m_vertices[iVert]);
+	}
+
+	for (Uint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
+		wr.Int16(m_indices[iIndi]);
+	}
+
+	for (Uint32 iTri = 0; iTri < m_numTris; ++iTri) {
+		wr.Int32(m_triFlags[iTri]);
+	}
 }

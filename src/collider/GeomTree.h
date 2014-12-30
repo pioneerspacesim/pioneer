@@ -6,6 +6,7 @@
 
 #include "libs.h"
 #include "CollisionContact.h"
+#include "Serializer.h"
 
 struct isect_t {
 	// triIdx = -1 if no intersection
@@ -19,7 +20,9 @@ struct BVHNode;
 class GeomTree {
 public:
 	GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, unsigned int *triflags);
+	GeomTree(Serializer::Reader &rd);
 	~GeomTree();
+
 	const Aabb &GetAabb() const { return m_aabb; }
 	// dir should be unit length,
 	// isect.dist should be ray length
@@ -39,35 +42,59 @@ public:
 		// edge triFlag can be weird since edges may get merged and
 		// intended flag lost
 		int triFlag;
+
+		void Save(Serializer::Writer &wr) const
+		{
+			wr.Int32(v1i);
+			wr.Int32(v2i);
+			wr.Float(len);
+			wr.Vector3f(dir);
+			wr.Int32(triFlag);
+		}
+		void Load(Serializer::Reader &rd)
+		{
+			v1i = rd.Int32();
+			v2i = rd.Int32();
+			len = rd.Float();
+			dir = rd.Vector3f();
+			triFlag = rd.Int32();
+		}
 	};
-	const Edge *GetEdges() const { return m_edges; }
+	const Edge *GetEdges() const { return m_edges.get(); }
 	int GetNumEdges() const { return m_numEdges; }
 
-	const int m_numVertices;
-	const float *m_vertices;
-	static int stats_rayTriIntersections;
+	BVHTree* GetTriTree() const { return m_triTree.get(); }
+	BVHTree* GetEdgeTree() const { return m_edgeTree.get(); }
 
-	BVHTree *m_triTree;
-	BVHTree *m_edgeTree;
-
-	const float *GetVertices() const { return m_vertices; }
-	const Uint16 *GetIndices() const { return m_indices; }
-	const unsigned int *GetTriFlags() const { return m_triFlags; }
+	const float *GetVertices() const { return m_vertices.get(); }
+	const Uint16 *GetIndices() const { return m_indices.get(); }
+	const unsigned int *GetTriFlags() const { return m_triFlags.get(); }
 	int GetNumVertices() const { return m_numVertices; }
 	int GetNumTris() const { return m_numTris; }
+
+	void Save(Serializer::Writer &wr) const;
 
 private:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;
 
+	int m_numVertices;
+	int m_numEdges;
+	int m_numTris;
+
 	double m_radius;
 	Aabb m_aabb;
+	std::unique_ptr<Aabb[]> m_aabbs;
 
-	int m_numEdges;
-	Edge *m_edges;
+	std::unique_ptr<BVHTree> m_triTree;
+	std::unique_ptr<BVHTree> m_edgeTree;
 
-	const Uint16 *m_indices;
-	const unsigned int *m_triFlags;
-	int m_numTris;
+	std::unique_ptr<Edge[]> m_edges;
+
+	std::unique_ptr<float[]> m_vertices;
+	std::unique_ptr<Uint16[]> m_indices;
+	std::unique_ptr<unsigned int[]> m_triFlags;
+
+	static int stats_rayTriIntersections;
 };
 
 #endif /* _GEOMTREE_H */

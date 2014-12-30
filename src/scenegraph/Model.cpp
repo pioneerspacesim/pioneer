@@ -396,6 +396,8 @@ void Model::Save(Serializer::Writer &wr) const
 	SaveVisitor sv(&wr);
 	m_root->Accept(sv);
 
+	m_collMesh->Save(wr);
+
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
 		wr.Double((*i)->GetProgress());
 
@@ -421,6 +423,8 @@ void Model::Load(Serializer::Reader &rd)
 {
 	LoadVisitor lv(&rd);
 	m_root->Accept(lv);
+
+	m_collMesh->Load(rd);
 
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
 		(*i)->SetProgress(rd.Double());

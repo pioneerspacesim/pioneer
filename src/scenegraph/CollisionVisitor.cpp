@@ -166,6 +166,9 @@ void CollisionVisitor::AabbToMesh(const Aabb &bb)
 
 RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 {
+	Profiler::Timer timer;
+	timer.Start();
+
 	//convert from model AABB if no collisiongeoms found
 	if (!m_properData)
 		AabbToMesh(m_collMesh->GetAabb());
@@ -206,6 +209,9 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	m_vertices.clear();
 	m_indices.clear();
 	m_flags.clear();
+
+	timer.Stop();
+	Output(" - CreateCollisionMesh took: %lf milliseconds\n", timer.millicycles());
 
 	return m_collMesh;
 }
