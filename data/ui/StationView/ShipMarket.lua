@@ -21,9 +21,6 @@ local ui = Engine.ui
 
 local l = Lang.GetResource("ui-core")
 
--- XXX equipment strings are in core. this sucks
-local lcore = Lang.GetResource("core")
-
 local shipClassString = {
 	light_cargo_shuttle        = l.LIGHT_CARGO_SHUTTLE,
 	light_courier              = l.LIGHT_COURIER,
@@ -188,8 +185,8 @@ shipTable.onRowClicked:Connect(function (row)
 							:AddRow({l.WEIGHT_FULLY_LOADED, Format.MassTonnes(def.hullMass+def.capacity+def.fuelTankMass)})
 							:AddRow({l.FUEL_WEIGHT,         Format.MassTonnes(def.fuelTankMass)})
 							:AddRow({l.MISSILE_MOUNTS,      def.equipSlotCapacity["missile"]})
-							:AddRow({lcore.ATMOSPHERIC_SHIELDING, yes_no(def.equipSlotCapacity["atmo_shield"])})
-							:AddRow({lcore.SCOOP,           def.equipSlotCapacity["scoop"]})
+							:AddRow({l.ATMOSPHERIC_SHIELDING, yes_no(def.equipSlotCapacity["atmo_shield"])})
+							:AddRow({l.SCOOP_MOUNTS,        def.equipSlotCapacity["scoop"]})
 					})
 			),
 		})
