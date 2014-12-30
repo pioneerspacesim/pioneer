@@ -24,6 +24,7 @@ December 2014
      * Change the Star Color structures to use Color instead of Uint8 (#3285)
      * Remove the Colours.h/cpp files (#3289)
      * Several bugfixes to the Lua serializer triggered by recent code (#3279)
+     * Remove redundant code and translation strings (#3294)
 
 November 2014
    * New Features
