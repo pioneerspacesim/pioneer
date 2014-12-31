@@ -110,6 +110,7 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 	m->GetRoot()->Accept(sv);
 
 	m->GetCollisionMesh()->Save(wr);
+	wr.Float(m->GetDrawClipRadius());
 
 	SaveAnimations(wr, m);
 
@@ -190,6 +191,7 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 	RefCountedPtr<CollMesh> collMesh(new CollMesh());
 	collMesh->Load(rd);
 	m_model->SetCollisionMesh(collMesh);
+	m_model->SetDrawClipRadius(rd.Float());
 
 	LoadAnimations(rd);
 

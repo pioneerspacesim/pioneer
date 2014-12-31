@@ -103,6 +103,7 @@ public:
 	const std::string& GetName() const { return m_name; }
 
 	float GetDrawClipRadius() const { return m_boundingRadius; }
+	void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
 	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
 	RefCountedPtr<CollMesh> CreateCollisionMesh();
 	RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
