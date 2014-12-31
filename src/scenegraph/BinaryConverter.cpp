@@ -187,14 +187,14 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 	if (!root) throw LoadingError("Expected root");
 	m_model->m_root.Reset(root);
 
-	RefCountedPtr<CollMesh> collMesh = m_model->GetCollisionMesh();
-	collMesh.Reset(new CollMesh());
+	RefCountedPtr<CollMesh> collMesh(new CollMesh());
 	collMesh->Load(rd);
+	m_model->SetCollisionMesh(collMesh);
 
 	LoadAnimations(rd);
 
 	m_model->UpdateAnimations();
-	m_model->CreateCollisionMesh();
+	//m_model->CreateCollisionMesh();
 	if (m_patternsUsed) SetUpPatterns();
 
 	return m_model;
