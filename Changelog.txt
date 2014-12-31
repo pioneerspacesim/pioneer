@@ -9,6 +9,7 @@ December 2014
    * Fixes
      * Fix string "NONE" in ShipInfo not using the translated version (#3268)
      * Require OpenGL 3.1 context when opening the SDL window (#3269)
+     * Move parentheses to correct position for ATLAS_SIZE test (#3299)
 
    * Minor changes and tweaks
      * Switch font texture U/V coordinates to unsigned int (#3273)
