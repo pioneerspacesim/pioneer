@@ -6,6 +6,10 @@
 #include "FileSystem.h"
 #include "StringF.h"
 
+extern "C" {
+#include "miniz/miniz.h"
+}
+
 using namespace SceneGraph;
 
 // Attempt at version history:
@@ -98,7 +102,7 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 	wr.Byte('S');
 	wr.Byte('G');
 	wr.Byte('M');
-	wr.Byte('2');
+	wr.Byte('1');
 
 	wr.Int32(SGM_VERSION);
 
@@ -119,8 +123,15 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 	for (unsigned int i = 0; i < m->GetNumTags(); i++)
 		wr.String(m->GetTagByIndex(i)->GetName().c_str());
 
+	// compress in memory, write to open file 
+	size_t outSize = 0;
+	size_t nwritten = 0;
 	const std::string& data = wr.GetData();
-	const size_t nwritten = fwrite(data.data(), data.length(), 1, f);
+	void *pCompressedData = tdefl_compress_mem_to_heap(data.data(), data.length(), &outSize, 128);
+	if (pCompressedData) {
+		nwritten = fwrite(pCompressedData, outSize, 1, f);
+		mz_free(pCompressedData);
+	}
 	fclose(f);
 
 	if (nwritten != 1) throw CouldNotWriteToFileException();
@@ -154,8 +165,17 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 
 				RefCountedPtr<FileSystem::FileData> binfile = info.Read();
 				if (binfile.Valid()) {
-					Serializer::Reader rd(binfile->AsByteRange());
-					Model* model = CreateModel(rd);
+					Model* model(nullptr);
+					size_t outSize(0);
+					// decompress the loaded ByteRange in memory
+					const ByteRange bin = binfile->AsByteRange();
+					void *pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
+					if (pDecompressedData) {
+						// now parse in-memory representation as new ByteRange.
+						Serializer::Reader rd(ByteRange((char*)pDecompressedData, outSize));
+						model = CreateModel(rd);
+						mz_free(pDecompressedData);
+					}
 					return model;
 				}
 			}
@@ -170,7 +190,7 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 {
 	//verify signature
 	const Uint32 sig = rd.Int32();
-	if (sig != 0x324D4753) //'SGM2'
+	if (sig != 0x314D4753) //'SGM1'
 		throw LoadingError("Not a binary model file");
 
 	const Uint32 version = rd.Int32();
