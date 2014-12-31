@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Detail skupiny:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hej!?! Za tohle zaplatíš!!!"

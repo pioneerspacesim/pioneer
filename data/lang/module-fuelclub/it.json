@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Indietro"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Riaggancia."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, smaltimento gratuito (si applicano delle condizioni)"

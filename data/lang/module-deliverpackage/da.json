@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Vores levebrød afhænger af det."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Afbryd linjen."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Hvornår skal den afleveres?"

@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Gå tilbage"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Afbryd linjen."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Beklager, jeg vil ikke gå lavere end dét."

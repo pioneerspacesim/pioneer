@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Service hyperspace engine"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Prekini."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "I don't have enough money"

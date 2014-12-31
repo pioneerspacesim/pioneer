@@ -55,10 +55,6 @@
       "description" : "Selling second hand ship equipment",
       "message" : "FOR SALE: Old {equipment}, in working condition."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Αποσύνδεση"
-   },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
       "message" : "The {equipment} has been fitted to your ship."

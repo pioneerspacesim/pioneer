@@ -55,10 +55,6 @@
       "description" : "Selling second hand ship equipment",
       "message" : "A LA VENTA: {equipment} viejo, funcional."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
-   },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
       "message" : "El {equipment} se ha instalado en su nave."

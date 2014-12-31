@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Gå tilbage"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Afbryd linjen."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, free disposal (conditions apply)"

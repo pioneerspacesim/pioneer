@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Rozpocznij przegląd napędu"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Rozłącz się."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Nie mam tyle pieniędzy"

@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Od tego zależy nasza egzystencja."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Rozłącz się."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Jaki jest termin dostawy?"

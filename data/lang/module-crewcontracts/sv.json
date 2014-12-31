@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Tillbaka"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Jag är ledsen, men jag är inte beredd att gå lägre."

@@ -55,10 +55,6 @@
       "description" : "Selling second hand ship equipment",
       "message" : "В ПРОДАЖЕ: Старенький {equipment}, ещё в рабочем состоянии!"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
-   },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
       "message" : "На ваш корабль установлено {equipment}."

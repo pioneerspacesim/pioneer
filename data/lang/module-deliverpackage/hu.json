@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "A megélhetésünk múlik rajta."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Kapcsolat megszakítása."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Mikorra kell leszállítani?"

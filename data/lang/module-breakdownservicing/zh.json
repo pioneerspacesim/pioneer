@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "维护超空间引擎"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "挂断."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "我没有足够的钱"

@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Ve är beroende av det för vårt levebröd."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Hur snabbt måste det levereras?"

@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "详细组信息:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "挂断."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "喂!?! 你会付出代价的!!!"

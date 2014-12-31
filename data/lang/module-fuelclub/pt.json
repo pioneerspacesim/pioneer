@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Voltar"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligar."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, free disposal (conditions apply)"

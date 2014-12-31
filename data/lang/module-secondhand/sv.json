@@ -55,10 +55,6 @@
       "description" : "Selling second hand ship equipment",
       "message" : "TILL SALU: En {equipment}, i bruksdugligt skick."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
-   },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
       "message" : "En {equipment} har installerats på ditt skepp."

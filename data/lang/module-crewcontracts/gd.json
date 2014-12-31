@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Till"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Cuir crìoch air a' ghairm."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "I'm sorry, I'm not prepared to go any lower."

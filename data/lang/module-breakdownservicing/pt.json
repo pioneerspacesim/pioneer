@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Efetuar a manutenção do motor de hiperespaço"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligar."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Não tenho créditos suficientes"

@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Vissza"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Kapcsolat megszakítása."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives} ingyen átvétele (feltételekkel)"

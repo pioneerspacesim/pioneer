@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Voltar"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligar."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "As minhas desculpas, não estou preparado para continuar."
