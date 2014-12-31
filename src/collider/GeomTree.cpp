@@ -167,22 +167,22 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	}
 
 	m_edges.reset(new Edge[m_numEdges]);
-	for (Uint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
+	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
 		m_edges[iEdge].Load(rd);
 	}
 
 	m_vertices.reset(new float[m_numVertices * 3]);
-	for (Uint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
+	for (Sint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
 		m_vertices[iVert] = rd.Float();
 	}
 
 	m_indices.reset(new Uint16[m_numTris * 3]);
-	for (Uint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
+	for (Sint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
 		m_indices[iIndi] = rd.Int16();
 	}
 
 	m_triFlags.reset(new Uint32[m_numTris]);
-	for (Uint32 iTri = 0; iTri < m_numTris; ++iTri) {
+	for (Sint32 iTri = 0; iTri < m_numTris; ++iTri) {
 		m_triFlags[iTri] = rd.Int32();
 	}
 
@@ -359,7 +359,6 @@ vector3f GeomTree::GetTriNormal(int triIdx) const
 void GeomTree::Save(Serializer::Writer &wr) const
 {
 	wr.Int32(m_numVertices);
-
 	wr.Int32(m_numEdges);
 	wr.Int32(m_numTris);
 	wr.Double(m_radius);
@@ -369,25 +368,25 @@ void GeomTree::Save(Serializer::Writer &wr) const
 	wr.Double(m_aabb.radius);
 
 	wr.Int32(m_numEdges);
-	for (Uint32 iAabb = 0; iAabb < m_numEdges; ++iAabb) {
+	for (Sint32 iAabb = 0; iAabb < m_numEdges; ++iAabb) {
 		wr.Vector3d(m_aabbs[iAabb].max);
 		wr.Vector3d(m_aabbs[iAabb].min);
 		wr.Double(m_aabbs[iAabb].radius);
 	}
 
-	for (Uint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
+	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
 		m_edges[iEdge].Save(wr);
 	}
 
-	for (Uint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
+	for (Sint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
 		wr.Float(m_vertices[iVert]);
 	}
 
-	for (Uint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
+	for (Sint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
 		wr.Int16(m_indices[iIndi]);
 	}
 
-	for (Uint32 iTri = 0; iTri < m_numTris; ++iTri) {
+	for (Sint32 iTri = 0; iTri < m_numTris; ++iTri) {
 		wr.Int32(m_triFlags[iTri]);
 	}
 }
