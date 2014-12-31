@@ -187,7 +187,6 @@
     <ClCompile Include="..\..\src\CameraController.cpp" />
     <ClCompile Include="..\..\src\CargoBody.cpp" />
     <ClCompile Include="..\..\src\CityOnPlanet.cpp" />
-    <ClCompile Include="..\..\src\CollMesh.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\CRC32.cpp" />
     <ClCompile Include="..\..\src\DateTime.cpp" />
