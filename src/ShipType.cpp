@@ -247,7 +247,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		Output("couldn't open file for writing '%s'\n", path.c_str());
 		abort();
 	}
-	const size_t nwritten = fwrite(saveMe.data(), saveMe.length(), 1, f);
+	fwrite(saveMe.data(), saveMe.length(), 1, f);
 	fclose(f);
 
 	lua_pop(L, 1);

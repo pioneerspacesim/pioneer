@@ -121,7 +121,7 @@ void LitMultiMaterial::Apply()
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 
 	//Light uniform parameters
-	for( int i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
 		const Light& Light = m_renderer->GetLight(i);
 		p->lights[i].diffuse.Set( Light.GetDiffuse() );
 		p->lights[i].specular.Set( Light.GetSpecular() );

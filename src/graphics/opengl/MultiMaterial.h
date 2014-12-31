@@ -39,7 +39,7 @@ namespace Graphics {
 
 		private:
 			Program* m_programs[5];
-			int m_curNumLights;
+			Uint32 m_curNumLights;
 		};
 	}
 }
