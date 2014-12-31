@@ -428,7 +428,7 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 
 		//don't run off atlas borders
 		m_atlasVIncrement = std::max(m_atlasVIncrement, static_cast<unsigned int>(bmGlyph->bitmap.rows));
-		if (m_atlasU + static_cast<unsigned int>(bmGlyph->bitmap.width >= ATLAS_SIZE)) {
+		if (m_atlasU + static_cast<unsigned int>(bmGlyph->bitmap.width) >= ATLAS_SIZE) {
 			m_atlasU = 0;
 			m_atlasV += m_atlasVIncrement;
 			m_atlasVIncrement = 0;
