@@ -183,10 +183,10 @@ void Geom::CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const mat
 		int numContacts = 0;
 		vector3f dir;
 		isect_t isect;
-		const float *pVertices(GetGeomTree()->GetVertices());
+		const std::vector<vector3f> &rVertices = GetGeomTree()->GetVertices();
 		for (int i=0; i<edgeNode->numTris; i++) {
 			const int vtxNum = edges[ edgeNode->triIndicesStart[i] ].v1i;
-			const vector3d v1 = transToB * vector3d(pVertices[vtxNum]);
+			const vector3d v1 = transToB * vector3d(rVertices[vtxNum]);
 			const vector3f _from(float(v1.x), float(v1.y), float(v1.z));
 
 			vector3d _dir(

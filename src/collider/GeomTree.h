@@ -19,7 +19,7 @@ struct BVHNode;
 
 class GeomTree {
 public:
-	GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, unsigned int *triflags);
+	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const Uint16 *indices, const unsigned int *triflags);
 	GeomTree(Serializer::Reader &rd);
 	~GeomTree();
 
@@ -60,15 +60,15 @@ public:
 			triFlag = rd.Int32();
 		}
 	};
-	const Edge *GetEdges() const { return m_edges.get(); }
+	const Edge *GetEdges() const { return &m_edges[0]; }
 	int GetNumEdges() const { return m_numEdges; }
 
 	BVHTree* GetTriTree() const { return m_triTree.get(); }
 	BVHTree* GetEdgeTree() const { return m_edgeTree.get(); }
 
-	const float *GetVertices() const { return m_vertices.get(); }
-	const Uint16 *GetIndices() const { return m_indices.get(); }
-	const unsigned int *GetTriFlags() const { return m_triFlags.get(); }
+	const std::vector<vector3f>& GetVertices() const { return m_vertices; }
+	const Uint16 *GetIndices() const { return &m_indices[0]; }
+	const unsigned int *GetTriFlags() const { return &m_triFlags[0]; }
 	int GetNumVertices() const { return m_numVertices; }
 	int GetNumTris() const { return m_numTris; }
 
@@ -83,18 +83,16 @@ private:
 
 	double m_radius;
 	Aabb m_aabb;
-	std::unique_ptr<Aabb[]> m_aabbs;
+	std::vector<Aabb> m_aabbs;
 
 	std::unique_ptr<BVHTree> m_triTree;
 	std::unique_ptr<BVHTree> m_edgeTree;
 
-	std::unique_ptr<Edge[]> m_edges;
+	std::vector<Edge> m_edges;
 
-	std::unique_ptr<float[]> m_vertices;
-	std::unique_ptr<Uint16[]> m_indices;
-	std::unique_ptr<unsigned int[]> m_triFlags;
-
-	static int stats_rayTriIntersections;
+	std::vector<vector3f> m_vertices;
+	std::vector<Uint16> m_indices;
+	std::vector<unsigned int> m_triFlags;
 };
 
 #endif /* _GEOMTREE_H */

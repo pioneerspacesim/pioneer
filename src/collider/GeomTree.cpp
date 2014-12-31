@@ -5,23 +5,30 @@
 #include "GeomTree.h"
 #include "BVHTree.h"
 
-int GeomTree::stats_rayTriIntersections;
-
 const unsigned int IGNORE_FLAG = 0x8000;
 
 GeomTree::~GeomTree()
 {
 }
 
-GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, unsigned int *triflags)
+GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const Uint16 *indices, const unsigned int *triflags)
 : m_numVertices(numVerts)
 , m_numTris(numTris)
 , m_vertices(vertices)
-, m_indices(indices)
-, m_triFlags(triflags)
 {
 	Profiler::Timer timer;
 	timer.Start();
+
+	const int numIndices = numTris * 3;
+	m_indices.reserve(numIndices);
+	for (int i = 0; i < numIndices; ++i) {
+		m_indices.push_back(indices[i]);
+	}
+
+	m_triFlags.reserve(numTris);
+	for (int i = 0; i < numTris; ++i) {
+		m_triFlags.push_back(triflags[i]);
+	}
 
 	m_aabb.min = vector3d(FLT_MAX,FLT_MAX,FLT_MAX);
 	m_aabb.max = vector3d(-FLT_MAX,-FLT_MAX,-FLT_MAX);
@@ -44,15 +51,16 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 	// eliminate duplicate vertices
 	for (int i=0; i<numVerts; i++) 
 	{
-		const vector3d v = vector3d(&m_vertices[3*i]);
+		const vector3d v = vector3d(m_vertices[i]);
 		for (int j=i+1; j<numVerts; j++) 
 		{
-			const vector3d v2 = vector3d(&m_vertices[3 * j]);
+			const vector3d v2 = vector3d(m_vertices[j]);
 			if (v2.ExactlyEqual(v)) 
 			{
 				for (int k=0; k<numTris*3; k++) 
 				{
-					if ((indices[k] == j) && (triflags[k/3] < 0x8000)) indices[k] = i;
+					if ((indices[k] == j) && (triflags[k / 3] < 0x8000)) 
+						m_indices[k] = i;
 				}
 			}
 		}
@@ -65,18 +73,18 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 		const unsigned int triflag = m_triFlags[i];
 		if (triflag < IGNORE_FLAG) 
 		{
-			const int vi1 = 3*m_indices[3*i];
-			const int vi2 = 3*m_indices[3*i+1];
-			const int vi3 = 3*m_indices[3*i+2];
+			const int vi1 = m_indices[3*i+0];
+			const int vi2 = m_indices[3*i+1];
+			const int vi3 = m_indices[3*i+2];
 
 			ADD_EDGE(vi1, vi2, triflag);
 			ADD_EDGE(vi1, vi3, triflag);
 			ADD_EDGE(vi2, vi3, triflag);
 
 			vector3d v[3];
-			v[0] = vector3d(&m_vertices[vi1]);
-			v[1] = vector3d(&m_vertices[vi2]);
-			v[2] = vector3d(&m_vertices[vi3]);
+			v[0] = vector3d(m_vertices[vi1]);
+			v[1] = vector3d(m_vertices[vi2]);
+			v[2] = vector3d(m_vertices[vi3]);
 			m_aabb.Update(v[0]);
 			m_aabb.Update(v[1]);
 			m_aabb.Update(v[2]);
@@ -92,9 +100,9 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 		Aabb *aabbs = new Aabb[activeTris.size()];
 		for (unsigned int i = 0; i < activeTris.size(); i++)
 		{
-			const vector3d v1 = vector3d(&m_vertices[3 * m_indices[activeTris[i]]]);
-			const vector3d v2 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 1]]);
-			const vector3d v3 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 2]]);
+			const vector3d v1 = vector3d(m_vertices[m_indices[activeTris[i] + 0]]);
+			const vector3d v2 = vector3d(m_vertices[m_indices[activeTris[i] + 1]]);
+			const vector3d v3 = vector3d(m_vertices[m_indices[activeTris[i] + 2]]);
 			aabbs[i].min = aabbs[i].max = v1;
 			aabbs[i].Update(v2);
 			aabbs[i].Update(v3);
@@ -107,19 +115,20 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 	//Output("Tri tree of %d tris build in %dms\n", activeTris.size(), SDL_GetTicks() - t);
 
 	m_numEdges = edges.size();
-	m_edges.reset( new Edge[m_numEdges] );
+	m_edges.resize( m_numEdges );
 	// to build Edge bvh tree with.
-	m_aabbs.reset( new Aabb[m_numEdges] );
+	m_aabbs.resize( m_numEdges );
 	int *edgeIdxs = new int[m_numEdges];
 
 	int pos = 0;
-	for( auto i : edges ) 
+	typedef std::map< std::pair<int, int>, int >::iterator MapPairIter;
+	for (MapPairIter i = edges.begin(), iEnd = edges.end();	i != iEnd; ++i, pos++) 
 	{
 		// precalc some jizz
-		const std::pair<int, int> &vtx = i.first;
-		const int triflag = i.second;
-		const vector3d v1 = vector3d(&m_vertices[vtx.first]);
-		const vector3d v2 = vector3d(&m_vertices[vtx.second]);
+		const std::pair<int, int> &vtx = (*i).first;
+		const int triflag = (*i).second;
+		const vector3d v1 = vector3d(m_vertices[vtx.first]);
+		const vector3d v2 = vector3d(m_vertices[vtx.second]);
 		vector3d dir = (v2-v1);
 		const double len = dir.Length();
 		dir *= 1.0/len;
@@ -136,7 +145,7 @@ GeomTree::GeomTree(int numVerts, int numTris, float *vertices, Uint16 *indices, 
 	}
 
 	//t = SDL_GetTicks();
-	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, m_aabbs.get()));
+	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
 	delete [] edgeIdxs;
 	//Output("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
 
@@ -159,29 +168,30 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	m_aabb.radius = rd.Double();
 
 	const Uint32 numAabbs = rd.Int32();
-	m_aabbs.reset(new Aabb[numAabbs]);
+	m_aabbs.resize(numAabbs);
 	for (Uint32 iAabb = 0; iAabb < numAabbs; ++iAabb) {
 		m_aabbs[iAabb].max = rd.Vector3d();
 		m_aabbs[iAabb].min = rd.Vector3d();
 		m_aabbs[iAabb].radius = rd.Double();
 	}
 
-	m_edges.reset(new Edge[m_numEdges]);
+	m_edges.resize(m_numEdges);
 	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge) {
 		m_edges[iEdge].Load(rd);
 	}
 
-	m_vertices.reset(new float[m_numVertices * 3]);
-	for (Sint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
-		m_vertices[iVert] = rd.Float();
+	m_vertices.resize(m_numVertices);
+	for (Sint32 iVert = 0; iVert < m_numVertices; ++iVert) {
+		m_vertices[iVert] = rd.Vector3f();
 	}
 
-	m_indices.reset(new Uint16[m_numTris * 3]);
-	for (Sint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {
+	const int numIndicies(m_numTris * 3);
+	m_indices.resize(numIndicies);
+	for (Sint32 iIndi = 0; iIndi < numIndicies; ++iIndi) {
 		m_indices[iIndi] = rd.Int16();
 	}
 
-	m_triFlags.reset(new Uint32[m_numTris]);
+	m_triFlags.resize(m_numTris);
 	for (Sint32 iTri = 0; iTri < m_numTris; ++iTri) {
 		m_triFlags[iTri] = rd.Int32();
 	}
@@ -199,9 +209,9 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	Aabb *aabbs = new Aabb[activeTris.size()];
 	for (unsigned int i = 0; i<activeTris.size(); i++)
 	{
-		const vector3d v1 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 0]]);
-		const vector3d v2 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 1]]);
-		const vector3d v3 = vector3d(&m_vertices[3 * m_indices[activeTris[i] + 2]]);
+		const vector3d v1 = vector3d(m_vertices[m_indices[activeTris[i] + 0]]);
+		const vector3d v2 = vector3d(m_vertices[m_indices[activeTris[i] + 1]]);
+		const vector3d v3 = vector3d(m_vertices[m_indices[activeTris[i] + 2]]);
 		aabbs[i].min = aabbs[i].max = v1;
 		aabbs[i].Update(v2);
 		aabbs[i].Update(v3);
@@ -212,7 +222,10 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	// 
 	int *edgeIdxs = new int[m_numEdges];
 	memset(edgeIdxs, 0, sizeof(int)*m_numEdges);
-	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, m_aabbs.get()));
+	for (int i = 0; i<m_numEdges; i++) {
+		edgeIdxs[i] = i;
+	}
+	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
 
 	timer.Stop();
 	Output(" - - GeomTree::GeomTree(Serializer::Reader &rd) took: %lf milliseconds\n", timer.millicycles());
@@ -318,10 +331,9 @@ pop_bstack:
 
 void GeomTree::RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const
 {
-	stats_rayTriIntersections++;
-	const vector3f a(&m_vertices[3*m_indices[triIdx]]);
-	const vector3f b(&m_vertices[3*m_indices[triIdx+1]]);
-	const vector3f c(&m_vertices[3*m_indices[triIdx+2]]);
+	const vector3f a(m_vertices[m_indices[triIdx+0]]);
+	const vector3f b(m_vertices[m_indices[triIdx+1]]);
+	const vector3f c(m_vertices[m_indices[triIdx+2]]);
 
 	vector3f v0_cross, v1_cross, v2_cross;
 	const vector3f n = (c-a).Cross(b-a);
@@ -349,9 +361,9 @@ void GeomTree::RayTriIntersect(int numRays, const vector3f &origin, const vector
 
 vector3f GeomTree::GetTriNormal(int triIdx) const
 {
-	const vector3f a(&m_vertices[3*m_indices[3*triIdx]]);
-	const vector3f b(&m_vertices[3*m_indices[3*triIdx+1]]);
-	const vector3f c(&m_vertices[3*m_indices[3*triIdx+2]]);
+	const vector3f a(m_vertices[m_indices[3*triIdx+0]]);
+	const vector3f b(m_vertices[m_indices[3*triIdx+1]]);
+	const vector3f c(m_vertices[m_indices[3*triIdx+2]]);
 
 	return (b-a).Cross(c-a).Normalized();
 }
@@ -378,8 +390,8 @@ void GeomTree::Save(Serializer::Writer &wr) const
 		m_edges[iEdge].Save(wr);
 	}
 
-	for (Sint32 iVert = 0; iVert < (m_numVertices * 3); ++iVert) {
-		wr.Float(m_vertices[iVert]);
+	for (Sint32 iVert = 0; iVert < m_numVertices; ++iVert) {
+		wr.Vector3f(m_vertices[iVert]);
 	}
 
 	for (Sint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi) {

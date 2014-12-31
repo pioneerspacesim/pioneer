@@ -191,7 +191,7 @@ void Model::DrawCollisionMesh()
 {
 	if (!m_collMesh) return;
 
-	const vector3f *vertices = reinterpret_cast<const vector3f*>(m_collMesh->GetGeomTree()->GetVertices());
+	const std::vector<vector3f> &vertices = m_collMesh->GetGeomTree()->GetVertices();
 	const Uint16 *indices = m_collMesh->GetGeomTree()->GetIndices();
 	const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
 	const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;

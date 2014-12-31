@@ -77,7 +77,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 	const int numVertices = cg.GetVertices().size();
 	const int numIndices = cg.GetIndices().size();
 	const int numTris = numIndices / 3;
-	vector3f *vertices = new vector3f[numVertices];
+	std::vector<vector3f> vertices(numVertices);
 	Uint16 *indices = new Uint16[numIndices];
 	unsigned int *triFlags = new unsigned int[numTris];
 
@@ -94,7 +94,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 	//takes ownership of data
 	GeomTree *gt = new GeomTree(
 		numVertices, numTris,
-		reinterpret_cast<float*>(vertices),
+		vertices,
 		indices, triFlags);
 	cg.SetGeomTree(gt);
 
@@ -175,13 +175,13 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 
 	assert(m_collMesh->GetGeomTree() == 0);
 	assert(!m_vertices.empty() && !m_indices.empty());
-	assert(!m_vertices.size() < 65536);
+	assert(m_vertices.size() < 65536);
 
 	//duplicate data again for geomtree...
 	const int numVertices = m_vertices.size();
 	const int numIndices = m_indices.size();
 	const int numTris = numIndices / 3;
-	vector3f *vertices = new vector3f[numVertices];
+	std::vector<vector3f> vertices(numVertices);
 	Uint16 *indices = new Uint16[numIndices];
 	unsigned int *triFlags = new unsigned int[numTris];
 
@@ -200,7 +200,7 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	//takes ownership of data
 	GeomTree *gt = new GeomTree(
 		numVertices, numTris,
-		reinterpret_cast<float*>(vertices),
+		vertices,
 		indices, triFlags);
 	m_collMesh->SetGeomTree(gt);
 	m_collMesh->SetNumTriangles(m_totalTris);
