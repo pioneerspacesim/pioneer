@@ -150,7 +150,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	//Output("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
 
 	timer.Stop();
-	Output(" - - GeomTree::GeomTree took: %lf milliseconds\n", timer.millicycles());
+	//Output(" - - GeomTree::GeomTree took: %lf milliseconds\n", timer.millicycles());
 }
 
 GeomTree::GeomTree(Serializer::Reader &rd)
@@ -228,7 +228,7 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	m_edgeTree.reset(new BVHTree(m_numEdges, edgeIdxs, &m_aabbs[0]));
 
 	timer.Stop();
-	Output(" - - GeomTree::GeomTree(Serializer::Reader &rd) took: %lf milliseconds\n", timer.millicycles());
+	//Output(" - - GeomTree::GeomTree(Serializer::Reader &rd) took: %lf milliseconds\n", timer.millicycles());
 }
 
 static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)

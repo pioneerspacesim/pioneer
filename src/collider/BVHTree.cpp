@@ -28,7 +28,7 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 	BuildNode(m_root, objPtrs, objAabbs, activeObjIdxs);
 
 	timer.Stop();
-	Output(" - - - BVHTree::BVHTree took: %lf milliseconds\n", timer.millicycles());
+	//Output(" - - - BVHTree::BVHTree took: %lf milliseconds\n", timer.millicycles());
 }
 
 void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs)

@@ -211,7 +211,7 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	m_flags.clear();
 
 	timer.Stop();
-	Output(" - CreateCollisionMesh took: %lf milliseconds\n", timer.millicycles());
+	//Output(" - CreateCollisionMesh took: %lf milliseconds\n", timer.millicycles());
 
 	return m_collMesh;
 }
