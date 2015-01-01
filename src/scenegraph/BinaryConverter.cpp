@@ -6,12 +6,16 @@
 #include "FileSystem.h"
 #include "StringF.h"
 
+extern "C" {
+#include "miniz/miniz.h"
+}
+
 using namespace SceneGraph;
 
 // Attempt at version history:
 // 1: prototype
 // 2: converted StaticMesh to VertexBuffer
-const Uint32 SGM_VERSION = 2;
+const Uint32 SGM_VERSION = 3;
 const std::string SGM_EXTENSION = ".sgm";
 const std::string SAVE_TARGET_DIR = "binarymodels";
 
@@ -109,6 +113,9 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 	SaveHelperVisitor sv(&wr, m);
 	m->GetRoot()->Accept(sv);
 
+	m->GetCollisionMesh()->Save(wr);
+	wr.Float(m->GetDrawClipRadius());
+
 	SaveAnimations(wr, m);
 
 	//save tags
@@ -116,8 +123,15 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 	for (unsigned int i = 0; i < m->GetNumTags(); i++)
 		wr.String(m->GetTagByIndex(i)->GetName().c_str());
 
+	// compress in memory, write to open file 
+	size_t outSize = 0;
+	size_t nwritten = 0;
 	const std::string& data = wr.GetData();
-	const size_t nwritten = fwrite(data.data(), data.length(), 1, f);
+	void *pCompressedData = tdefl_compress_mem_to_heap(data.data(), data.length(), &outSize, 128);
+	if (pCompressedData) {
+		nwritten = fwrite(pCompressedData, outSize, 1, f);
+		mz_free(pCompressedData);
+	}
 	fclose(f);
 
 	if (nwritten != 1) throw CouldNotWriteToFileException();
@@ -151,8 +165,17 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 
 				RefCountedPtr<FileSystem::FileData> binfile = info.Read();
 				if (binfile.Valid()) {
-					Serializer::Reader rd(binfile->AsByteRange());
-					Model* model = CreateModel(rd);
+					Model* model(nullptr);
+					size_t outSize(0);
+					// decompress the loaded ByteRange in memory
+					const ByteRange bin = binfile->AsByteRange();
+					void *pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
+					if (pDecompressedData) {
+						// now parse in-memory representation as new ByteRange.
+						Serializer::Reader rd(ByteRange((char*)pDecompressedData, outSize));
+						model = CreateModel(rd);
+						mz_free(pDecompressedData);
+					}
 					return model;
 				}
 			}
@@ -171,7 +194,7 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 		throw LoadingError("Not a binary model file");
 
 	const Uint32 version = rd.Int32();
-	if (version != 2)
+	if (version != SGM_VERSION)
 		throw LoadingError("Unsupported file version");
 
 	const std::string modelName = rd.String();
@@ -185,10 +208,15 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 	if (!root) throw LoadingError("Expected root");
 	m_model->m_root.Reset(root);
 
+	RefCountedPtr<CollMesh> collMesh(new CollMesh());
+	collMesh->Load(rd);
+	m_model->SetCollisionMesh(collMesh);
+	m_model->SetDrawClipRadius(rd.Float());
+
 	LoadAnimations(rd);
 
 	m_model->UpdateAnimations();
-	m_model->CreateCollisionMesh();
+	//m_model->CreateCollisionMesh();
 	if (m_patternsUsed) SetUpPatterns();
 
 	return m_model;

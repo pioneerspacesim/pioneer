@@ -61,6 +61,7 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 {
 	Profiler::Timer timer;
 	timer.Start();
+	Output("\n---\nStarting compiler for (%s)\n", modelName.c_str());
 
 	//load the current model in a pristine state (no navlights, shields...)
 	//and then save it into binary
@@ -143,10 +144,36 @@ start:
 	switch (mode) {
 		case MODE_MODELCOMPILER: {
 			std::string modelName;
+			std::string filePath;
 			if (argc > 2) {
-				modelName = argv[2];
+				filePath = modelName = argv[2];
+				// determine if we're meant to be writing these in the source directory
+				bool isInPlace = false;
+				if (argc > 3) {
+					std::string arg3 = argv[3];
+					isInPlace = (arg3 == "inplace" || arg3 == "true");
+
+					// find all of the models
+					FileSystem::FileSource &fileSource = FileSystem::gameDataFiles;
+					for (FileSystem::FileEnumerator files(fileSource, "models", FileSystem::FileEnumerator::Recurse); !files.Finished(); files.Next())
+					{
+						const FileSystem::FileInfo &info = files.Current();
+						const std::string &fpath = info.GetPath();
+
+						//check it's the expected type
+						if (info.IsFile()) {
+							if (ends_with_ci(fpath, ".model")) {	// store the path for ".model" files
+								const std::string shortname(info.GetName().substr(0, info.GetName().size() - 6));
+								if (shortname == modelName) {
+									filePath = fpath;
+									break;
+								}
+							}
+						}
+					}
+				}
 				SetupRenderer();
-				RunCompiler(modelName, s_dummyPath, false);
+				RunCompiler(modelName, filePath, isInPlace);
 			}
 			break;
 		}
@@ -197,11 +224,12 @@ start:
 			Output(
 				"usage: modelcompiler [mode] [options...]\n"
 				"available modes:\n"
-				"    -compile          [-c]          model compiler\n"
-				"    -batch            [-b]          batch mode output into users home/Pioneer directory\n"
-				"    -batch inplace    [-b inplace]  batch mode output into the source folder\n"
-				"    -version          [-v]          show version\n"
-				"    -help             [-h,-?]       this help\n"
+				"    -compile          [-c ...]          model compiler\n"
+				"    -compile inplace  [-c ... inplace]  model compiler\n"
+				"    -batch            [-b]              batch mode output into users home/Pioneer directory\n"
+				"    -batch inplace    [-b inplace]      batch mode output into the source folder\n"
+				"    -version          [-v]              show version\n"
+				"    -help             [-h,-?]           this help\n"
 			);
 			break;
 	}

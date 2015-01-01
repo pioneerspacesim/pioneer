@@ -854,6 +854,9 @@
     <ClInclude Include="..\..\src\Plane.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\CollMesh.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\src\win32\pioneer.rc">

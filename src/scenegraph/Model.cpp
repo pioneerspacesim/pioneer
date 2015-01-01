@@ -189,8 +189,8 @@ void Model::CreateAabbVB()
 		for(unsigned int i = 0; i < 7; i++) {
 			va.Add(verts[i]);
 			va.Add(verts[i+1]);
-		}
-		
+}
+
 		for(unsigned int i = 8; i < 15; i++) {
 			va.Add(verts[i]);
 			va.Add(verts[i+1]);
@@ -233,7 +233,7 @@ void Model::DrawCollisionMesh()
 
 	if( !m_collisionMeshVB.Valid() )
 	{
-		const vector3f *vertices = reinterpret_cast<const vector3f*>(m_collMesh->GetGeomTree()->GetVertices());
+		const std::vector<vector3f> &vertices = m_collMesh->GetGeomTree()->GetVertices();
 		const Uint16 *indices = m_collMesh->GetGeomTree()->GetIndices();
 		const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
 		const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;

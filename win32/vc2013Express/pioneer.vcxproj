@@ -343,6 +343,7 @@
     <ClInclude Include="..\..\src\CameraController.h" />
     <ClInclude Include="..\..\src\CargoBody.h" />
     <ClInclude Include="..\..\src\CityOnPlanet.h" />
+    <ClInclude Include="..\..\src\CollMesh.h" />
     <ClInclude Include="..\..\src\Color.h" />
     <ClInclude Include="..\..\src\CRC32.h" />
     <ClInclude Include="..\..\src\DateTime.h" />

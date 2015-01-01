@@ -14,9 +14,7 @@ struct CollisionContact {
 	void *userData1, *userData2;
 	int geomFlag;
 //	bool vsStatic;		// true => object 2 was in static, else dynamic
-	CollisionContact() {
-		depth = 0; triIdx = -1; userData1 = userData2 = 0; geomFlag = 0; dist = 0;
-	}
+	CollisionContact() : depth(0), dist(0), triIdx(-1), userData1(nullptr), userData2(nullptr), geomFlag(0) { /*empty*/ }
 };
 
 #endif /* _COLLISION_CONTACT_H */
