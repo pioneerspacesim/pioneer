@@ -5,7 +5,7 @@
 #include "GeomTree.h"
 #include "BVHTree.h"
 
-const unsigned int IGNORE_FLAG = 0x8000;
+static const unsigned int IGNORE_FLAG = 0x8000;
 
 GeomTree::~GeomTree()
 {
@@ -43,7 +43,8 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 		activeTris.push_back(i*3);
 	}
 
-	std::map< std::pair<int,int>, int > edges;
+	typedef std::map< std::pair<int,int>, int > EdgeType;
+	EdgeType edges;
 #define ADD_EDGE(_i1,_i2,_triflag) \
 	if ((_i1) < (_i2)) edges[std::pair<int,int>(_i1,_i2)] = _triflag; \
 	else if ((_i1) > (_i2)) edges[std::pair<int,int>(_i2,_i1)] = _triflag;
@@ -51,16 +52,17 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	// eliminate duplicate vertices
 	for (int i=0; i<numVerts; i++) 
 	{
-		const vector3d v = vector3d(m_vertices[i]);
+		const vector3f &v1 = m_vertices[i];
 		for (int j=i+1; j<numVerts; j++) 
 		{
-			const vector3d v2 = vector3d(m_vertices[j]);
-			if (v2.ExactlyEqual(v)) 
+			const vector3f &v2 = m_vertices[j];
+			if (v2.ExactlyEqual(v1)) 
 			{
-				for (int k=0; k<numTris*3; k++) 
+				for (int k=0; k<numIndices; k++) 
 				{
-					if ((indices[k] == j) && (triflags[k / 3] < 0x8000)) 
+					if ((indices[k] == j) && (triflags[k / 3] < IGNORE_FLAG)) {
 						m_indices[k] = i;
+					}
 				}
 			}
 		}
@@ -121,27 +123,27 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	int *edgeIdxs = new int[m_numEdges];
 
 	int pos = 0;
-	typedef std::map< std::pair<int, int>, int >::iterator MapPairIter;
+	typedef EdgeType::iterator MapPairIter;
 	for (MapPairIter i = edges.begin(), iEnd = edges.end();	i != iEnd; ++i, pos++) 
 	{
 		// precalc some jizz
 		const std::pair<int, int> &vtx = (*i).first;
 		const int triflag = (*i).second;
-		const vector3d v1 = vector3d(m_vertices[vtx.first]);
-		const vector3d v2 = vector3d(m_vertices[vtx.second]);
-		vector3d dir = (v2-v1);
-		const double len = dir.Length();
-		dir *= 1.0/len;
+		const vector3f &v1 = m_vertices[vtx.first];
+		const vector3f &v2 = m_vertices[vtx.second];
+		vector3f dir = (v2-v1);
+		const float len = dir.Length();
+		dir *= 1.0f/len;
 
 		m_edges[pos].v1i = vtx.first;
 		m_edges[pos].v2i = vtx.second;
 		m_edges[pos].triFlag = triflag;
-		m_edges[pos].len = float(len);
-		m_edges[pos].dir = vector3f(float(dir.x), float(dir.y), float(dir.z));
+		m_edges[pos].len = len;
+		m_edges[pos].dir = dir;
 
 		edgeIdxs[pos] = pos;
-		m_aabbs[pos].min = m_aabbs[pos].max = v1;
-		m_aabbs[pos].Update(v2);
+		m_aabbs[pos].min = m_aabbs[pos].max = vector3d(v1);
+		m_aabbs[pos].Update(vector3d(v2));
 	}
 
 	//t = SDL_GetTicks();
@@ -233,6 +235,7 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 
 static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vector3f &invDir, isect_t *isect)
 {
+	PROFILE_SCOPED()
 	float
 	l1      = (n->aabb.min.x - start.x) * invDir.x,
 	l2      = (n->aabb.max.x - start.x) * invDir.x,
@@ -254,11 +257,13 @@ static bool SlabsRayAabbTest(const BVHNode *n, const vector3f &start, const vect
 
 void GeomTree::TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const
 {
+	PROFILE_SCOPED()
 	TraceRay(m_triTree->GetRoot(), start, dir, isect);
 }
 
 void GeomTree::TraceRay(const BVHNode *currnode, const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const
 {
+	PROFILE_SCOPED()
 	BVHNode *stack[32];
 	int stackpos = -1;
 	vector3f invDir(1.0f/a_dir.x, 1.0f/a_dir.y, 1.0f/a_dir.z);
@@ -292,11 +297,13 @@ struct bvhstack {
  */
 void GeomTree::TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const
 {
+	PROFILE_SCOPED()
 	TraceCoherentRays(m_triTree->GetRoot(), numRays, a_origin, a_dirs, isects);
 }
 
 void GeomTree::TraceCoherentRays(const BVHNode *currnode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const
 {
+	PROFILE_SCOPED()
 	bvhstack stack[32];
 	int stackpos = -1;
 	vector3f *invDirs = static_cast<vector3f*>(alloca(sizeof(vector3f)*numRays));
@@ -331,6 +338,7 @@ pop_bstack:
 
 void GeomTree::RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const
 {
+	PROFILE_SCOPED()
 	const vector3f a(m_vertices[m_indices[triIdx+0]]);
 	const vector3f b(m_vertices[m_indices[triIdx+1]]);
 	const vector3f c(m_vertices[m_indices[triIdx+2]]);
@@ -361,6 +369,7 @@ void GeomTree::RayTriIntersect(int numRays, const vector3f &origin, const vector
 
 vector3f GeomTree::GetTriNormal(int triIdx) const
 {
+	PROFILE_SCOPED()
 	const vector3f a(m_vertices[m_indices[3*triIdx+0]]);
 	const vector3f b(m_vertices[m_indices[3*triIdx+1]]);
 	const vector3f c(m_vertices[m_indices[3*triIdx+2]]);
