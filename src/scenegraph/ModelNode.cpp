@@ -25,6 +25,7 @@ Node* ModelNode::Clone(NodeCopyCache *cache)
 
 void ModelNode::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	//slight hack here
 	RenderData newrd = *rd;
 	newrd.nodemask |= MASK_IGNORE;

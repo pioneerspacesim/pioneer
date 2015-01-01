@@ -72,7 +72,10 @@
 #include "DeleteEmitter.h"
 #include <stdexcept>
 
-namespace Graphics { class Renderer; }
+namespace Graphics { 
+	class Renderer; 
+	class VertexBuffer;
+}
 
 namespace SceneGraph
 {
@@ -181,6 +184,7 @@ private:
 	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
 
 	// debug support
+	void CreateAabbVB();
 	void DrawAabb();
 	void DrawCollisionMesh();
 	void DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines);
@@ -189,6 +193,10 @@ private:
 	Uint32 m_debugFlags;
 	std::vector<Graphics::Drawables::Line3D> m_tagPoints;
 	std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
+	RefCountedPtr<Graphics::VertexBuffer> m_collisionMeshVB;
+	RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
+	RefCountedPtr<Graphics::Material> m_aabbMat;
+	Graphics::RenderState* m_state;
 };
 
 }

@@ -11,7 +11,7 @@
 
 namespace Graphics {
 	class Renderer;
-	class VertexArray;
+	class VertexBuffer;
 	class Material;
 	class RenderState;
 }
@@ -30,12 +30,12 @@ public:
 	static Thruster *Load(NodeDatabase&);
 
 private:
-	static Graphics::VertexArray* CreateThrusterGeometry();
-	static Graphics::VertexArray* CreateGlowGeometry();
+	static Graphics::VertexBuffer* CreateThrusterGeometry(Graphics::Renderer*, Graphics::Material*);
+	static Graphics::VertexBuffer* CreateGlowGeometry(Graphics::Renderer*, Graphics::Material*);
 	RefCountedPtr<Graphics::Material> m_tMat;
 	RefCountedPtr<Graphics::Material> m_glowMat;
-	std::unique_ptr<Graphics::VertexArray> m_tVerts;
-	std::unique_ptr<Graphics::VertexArray> m_glowVerts;
+	RefCountedPtr<Graphics::VertexBuffer> m_tBuffer;
+	RefCountedPtr<Graphics::VertexBuffer> m_glowBuffer;
 	Graphics::RenderState *m_renderState;
 	bool linearOnly;
 	vector3f dir;

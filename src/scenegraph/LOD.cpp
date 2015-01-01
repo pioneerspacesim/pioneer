@@ -40,6 +40,7 @@ void LOD::AddLevel(float pixelSize, Node *nod)
 
 void LOD::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	//figure out approximate pixel size of object's bounding radius
 	//on screen and pick a child to render
 	const vector3f cameraPos(-trans[12], -trans[13], -trans[14]);
