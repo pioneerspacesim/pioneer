@@ -61,6 +61,7 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 {
 	Profiler::Timer timer;
 	timer.Start();
+	Output("\n---\nStarting compiler for (%s)\n", modelName.c_str());
 
 	//load the current model in a pristine state (no navlights, shields...)
 	//and then save it into binary
