@@ -30,6 +30,7 @@ public:
 private:
 	RefCountedPtr<Graphics::Material> m_material;
 	std::unique_ptr<Graphics::VertexArray> m_geometry;
+	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 	RefCountedPtr<Text::DistanceFieldFont> m_font;
 	Graphics::RenderState *m_renderState;
 };
