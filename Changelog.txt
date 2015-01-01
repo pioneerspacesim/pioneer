@@ -27,6 +27,7 @@ December 2014
      * Several bugfixes to the Lua serializer triggered by recent code (#3279)
      * Remove redundant code and translation strings (#3294)
      * Optimise VertexBuffer usage for SG Nodes (#3300)
+     * Bundle Collision with SGM file (#3297)
 
 November 2014
    * New Features
