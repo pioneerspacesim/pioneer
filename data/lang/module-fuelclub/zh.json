@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "返回"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "挂断."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, 免费处理 (某些条件下适用)"

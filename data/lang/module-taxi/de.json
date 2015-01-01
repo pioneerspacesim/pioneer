@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Gruppendetails:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Auflegen."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey! Dafür werden Sie bezahlen!"

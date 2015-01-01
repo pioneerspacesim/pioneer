@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
@@ -292,16 +292,16 @@ bool RendererOGL::SetWireFrameMode(bool enabled)
 	return true;
 }
 
-bool RendererOGL::SetLights(int numlights, const Light *lights)
+bool RendererOGL::SetLights(Uint32 numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
-	const int NumLights = std::min(numlights, int(TOTAL_NUM_LIGHTS));
+	const Uint32 NumLights = std::min(numlights, TOTAL_NUM_LIGHTS);
 
 	m_numLights = NumLights;
 	m_numDirLights = 0;
 
-	for (int i=0; i<NumLights; i++) {
+	for (Uint32 i=0; i<NumLights; i++) {
 		const Light &l = lights[i];
 		m_lights[i].SetPosition( l.GetPosition() );
 		m_lights[i].SetDiffuse( l.GetDiffuse() );

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureFont.h"
@@ -362,8 +362,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 		const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
 
 		//don't run off atlas borders
-		m_atlasVIncrement = std::max(m_atlasVIncrement, (unsigned int)bmStrokeGlyph->bitmap.rows);
-		if (m_atlasU + (unsigned int)bmStrokeGlyph->bitmap.width > ATLAS_SIZE) {
+		m_atlasVIncrement = std::max(m_atlasVIncrement, static_cast<unsigned int>(bmStrokeGlyph->bitmap.rows));
+		if (m_atlasU + static_cast<unsigned int>(bmStrokeGlyph->bitmap.width) > ATLAS_SIZE) {
 			m_atlasU = 0;
 			m_atlasV += m_atlasVIncrement;
 			m_atlasVIncrement = 0;
@@ -427,8 +427,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 	else {
 
 		//don't run off atlas borders
-		m_atlasVIncrement = std::max(m_atlasVIncrement, (unsigned int)bmGlyph->bitmap.rows);
-		if (m_atlasU + (unsigned int)bmGlyph->bitmap.width >= ATLAS_SIZE) {
+		m_atlasVIncrement = std::max(m_atlasVIncrement, static_cast<unsigned int>(bmGlyph->bitmap.rows));
+		if (m_atlasU + static_cast<unsigned int>(bmGlyph->bitmap.width) >= ATLAS_SIZE) {
 			m_atlasU = 0;
 			m_atlasV += m_atlasVIncrement;
 			m_atlasVIncrement = 0;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_MULTIMATERIAL_H
@@ -39,7 +39,7 @@ namespace Graphics {
 
 		private:
 			Program* m_programs[5];
-			int m_curNumLights;
+			Uint32 m_curNumLights;
 		};
 	}
 }

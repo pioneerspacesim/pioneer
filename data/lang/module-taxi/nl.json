@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Groep details:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey!?! Ik zet het je betaald!!!"

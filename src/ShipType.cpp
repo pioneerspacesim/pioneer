@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #define ALLOW_LUA_SHIP_DEF 1
@@ -247,7 +247,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 		Output("couldn't open file for writing '%s'\n", path.c_str());
 		abort();
 	}
-	const size_t nwritten = fwrite(saveMe.data(), saveMe.length(), 1, f);
+	fwrite(saveMe.data(), saveMe.length(), 1, f);
 	fclose(f);
 
 	lua_pop(L, 1);

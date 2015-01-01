@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Zurück"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Auflegen."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, kostenlose Entsorgung (siehe Konditionen)"

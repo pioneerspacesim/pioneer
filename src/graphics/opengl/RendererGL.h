@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -68,8 +68,8 @@ public:
 
 	virtual bool SetWireFrameMode(bool enabled);
 
-	virtual bool SetLights(const int numlights, const Light *l);
-	virtual int GetNumLights() const { return m_numLights; }
+	virtual bool SetLights(Uint32 numlights, const Light *l);
+	virtual Uint32 GetNumLights() const { return m_numLights; }
 	virtual bool SetAmbientColor(const Color &c);
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
@@ -117,8 +117,8 @@ protected:
 	//disable previously enabled
 	void DisableVertexAttributes(const VertexBuffer*);
 	void DisableVertexAttributes();
-	int m_numLights;
-	int m_numDirLights;
+	Uint32 m_numLights;
+	Uint32 m_numDirLights;
 	std::vector<GLuint> m_vertexAttribsSet;
 	float m_minZNear;
 	float m_maxZFar;

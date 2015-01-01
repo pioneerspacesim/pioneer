@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Easing.h"
@@ -23,9 +23,6 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 , dir(_dir)
 , pos(_pos)
 {
-	m_tVerts.reset(CreateThrusterGeometry());
-	m_glowVerts.reset(CreateGlowGeometry());
-
 	//set up materials
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
@@ -53,8 +50,6 @@ Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
 , dir(thruster.dir)
 , pos(thruster.pos)
 {
-	m_tVerts.reset(CreateThrusterGeometry());
-	m_glowVerts.reset(CreateGlowGeometry());
 }
 
 Node* Thruster::Clone(NodeCopyCache *cache)
@@ -69,6 +64,7 @@ void Thruster::Accept(NodeVisitor &nv)
 
 void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	float power = -dir.Dot(vector3f(rd->linthrust));
 
 	if (!linearOnly) {
@@ -101,9 +97,14 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	m_tMat->diffuse.a = 255 - m_glowMat->diffuse.a;
 
 	Graphics::Renderer *r = GetRenderer();
+	if( !m_tBuffer.Valid() ) {
+		m_tBuffer.Reset(CreateThrusterGeometry(r, m_tMat.Get()));
+		m_glowBuffer.Reset(CreateGlowGeometry(r, m_glowMat.Get()));
+	}
+
 	r->SetTransform(trans);
-	r->DrawTriangles(m_tVerts.get(), m_renderState, m_tMat.Get());
-	r->DrawTriangles(m_glowVerts.get(), m_renderState, m_glowMat.Get());
+	r->DrawBuffer(m_tBuffer.Get(), m_renderState, m_tMat.Get());
+	r->DrawBuffer(m_glowBuffer.Get(), m_renderState, m_glowMat.Get());
 }
 
 void Thruster::Save(NodeDatabase &db)
@@ -123,10 +124,9 @@ Thruster *Thruster::Load(NodeDatabase &db)
 	return t;
 }
 
-Graphics::VertexArray *Thruster::CreateThrusterGeometry()
+Graphics::VertexBuffer *Thruster::CreateThrusterGeometry(Graphics::Renderer *r, Graphics::Material *mat)
 {
-	Graphics::VertexArray *verts =
-		new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	Graphics::VertexArray verts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 	//zero at thruster center
 	//+x down
@@ -147,13 +147,13 @@ Graphics::VertexArray *Thruster::CreateThrusterGeometry()
 
 	//add four intersecting planes to create a volumetric effect
 	for (int i=0; i < 4; i++) {
-		verts->Add(one, topLeft);
-		verts->Add(two, topRight);
-		verts->Add(three, botRight);
+		verts.Add(one, topLeft);
+		verts.Add(two, topRight);
+		verts.Add(three, botRight);
 
-		verts->Add(three, botRight);
-		verts->Add(four, botLeft);
-		verts->Add(one, topLeft);
+		verts.Add(three, botRight);
+		verts.Add(four, botLeft);
+		verts.Add(one, topLeft);
 
 		one.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 		two.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
@@ -161,13 +161,23 @@ Graphics::VertexArray *Thruster::CreateThrusterGeometry()
 		four.ArbRotate(vector3f(0.f, 0.f, 1.f), DEG2RAD(45.f));
 	}
 
-	return verts;
+	//create buffer and upload data
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
+	vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+	vbd.numVertices = verts.GetNumVerts();
+	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+	Graphics::VertexBuffer *vb = r->CreateVertexBuffer(vbd);
+	vb->Populate(verts);
+
+	return vb;
 }
 
-Graphics::VertexArray *Thruster::CreateGlowGeometry()
+Graphics::VertexBuffer *Thruster::CreateGlowGeometry(Graphics::Renderer *r, Graphics::Material *mat)
 {
-	Graphics::VertexArray *verts =
-		new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+	Graphics::VertexArray verts(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
 
 	//create glow billboard for linear thrusters
 	const float w = 0.2;
@@ -184,19 +194,30 @@ Graphics::VertexArray *Thruster::CreateGlowGeometry()
 	const vector2f botRight(1.f, 0.f);
 
 	for (int i = 0; i < 5; i++) {
-		verts->Add(one, topLeft);
-		verts->Add(two, topRight);
-		verts->Add(three, botRight);
+		verts.Add(one, topLeft);
+		verts.Add(two, topRight);
+		verts.Add(three, botRight);
 
-		verts->Add(three, botRight);
-		verts->Add(four, botLeft);
-		verts->Add(one, topLeft);
+		verts.Add(three, botRight);
+		verts.Add(four, botLeft);
+		verts.Add(one, topLeft);
 
 		one.z += .1f;
 		two.z = three.z = four.z = one.z;
 	}
 
-	return verts;
+	//create buffer and upload data
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
+	vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+	vbd.numVertices = verts.GetNumVerts();
+	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+	Graphics::VertexBuffer *vb = r->CreateVertexBuffer(vbd);
+	vb->Populate(verts);
+
+	return vb;
 }
 
 }

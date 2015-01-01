@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Mensagem do fim da carreira de {alvo} felizmente recebida. Aqui está seu {dinheiro}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligamento."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Quando será feito?"

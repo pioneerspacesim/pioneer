@@ -1,8 +1,9 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Node.h"
 #include "NodeVisitor.h"
+#include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 
 namespace SceneGraph {
@@ -50,6 +51,12 @@ Node* Node::FindNode(const std::string &name)
 		return this;
 	else
 		return 0;
+}
+
+void Node::DrawAxes()
+{
+	Graphics::Drawables::Axes3D *axes = Graphics::Drawables::GetAxes3DDrawable(m_renderer);
+	axes->Draw(m_renderer);
 }
 
 void Node::Save(NodeDatabase &db)

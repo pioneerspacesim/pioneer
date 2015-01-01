@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStationType.h"
@@ -90,7 +90,7 @@ void SpaceStationType::OnSetupComplete()
 	model->FindTagsByStartOfName("loc_", locator_mts);
 	model->FindTagsByStartOfName("exit_", exit_mts);
 
-	Output("%s has:\n %u entrances,\n %u pads,\n %u exits\n", modelName.c_str(), entrance_mts.size(), locator_mts.size(), exit_mts.size());
+	Output("%s has:\n %lu entrances,\n %lu pads,\n %lu exits\n", modelName.c_str(), entrance_mts.size(), locator_mts.size(), exit_mts.size());
 
 	// Add the partially initialised ports
 	for (auto apprIter : entrance_mts)

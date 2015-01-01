@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GasGiantMaterial.h"
@@ -86,7 +86,7 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 	p->geosphereScale.Set(ap.scale);
 
 	//Light uniform parameters
-	for( int i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
 		const Light& Light = m_renderer->GetLight(i);
 		p->lights[i].diffuse.Set( Light.GetDiffuse() );
 		p->lights[i].specular.Set( Light.GetSpecular() );

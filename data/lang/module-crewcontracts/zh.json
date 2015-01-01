@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "返回"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "挂断."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "很抱歉,我不想再低了."

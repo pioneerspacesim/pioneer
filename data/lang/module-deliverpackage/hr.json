@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Our livelihood depends on it."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Prekini."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "How soon must it be delivered?"

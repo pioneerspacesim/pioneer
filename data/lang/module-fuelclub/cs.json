@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Zpět"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, likvidace zdarma (za určitých podmínek)"

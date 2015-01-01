@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Geri"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, ücretsiz elden çıkarma (koşullar geçerlidir)"

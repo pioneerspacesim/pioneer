@@ -9,6 +9,7 @@ December 2014
    * Fixes
      * Fix string "NONE" in ShipInfo not using the translated version (#3268)
      * Require OpenGL 3.1 context when opening the SDL window (#3269)
+     * Move parentheses to correct position for ATLAS_SIZE test (#3299)
 
    * Minor changes and tweaks
      * Switch font texture U/V coordinates to unsigned int (#3273)
@@ -25,6 +26,7 @@ December 2014
      * Remove the Colours.h/cpp files (#3289)
      * Several bugfixes to the Lua serializer triggered by recent code (#3279)
      * Remove redundant code and translation strings (#3294)
+     * Optimise VertexBuffer usage for SG Nodes (#3300)
 
 November 2014
    * New Features

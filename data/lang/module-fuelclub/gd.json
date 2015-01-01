@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Till"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Cuir crìoch air a' ghairm."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, free disposal (conditions apply)"

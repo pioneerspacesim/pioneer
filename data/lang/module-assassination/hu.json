@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "{target} karrierjének vége. Itt a pénzed: {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Kapcsolat megszakítása."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Milyen hamar kell elvégezni?"

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StaticGeometry.h"
@@ -43,6 +43,7 @@ void StaticGeometry::Accept(NodeVisitor &nv)
 
 void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	SDL_assert(m_renderState);
 	Graphics::Renderer *r = GetRenderer();
 	r->SetTransform(trans);
@@ -264,8 +265,20 @@ void StaticGeometry::DrawBoundingBox(const Aabb &bb)
 	Graphics::RenderStateDesc rsd;
 	rsd.cullMode = Graphics::CULL_NONE;
 
+	RefCountedPtr<Graphics::VertexBuffer> vb;
+	//create buffer and upload data
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = vts->GetNumVerts();
+	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+	vb.Reset( m_renderer->CreateVertexBuffer(vbd) );
+	vb->Populate( *vts );
+
 	r->SetWireFrameMode(true);
-	r->DrawTriangles(vts.get(), r->CreateRenderState(rsd), Graphics::vtxColorMaterial);
+	r->DrawBuffer(vb.Get(), r->CreateRenderState(rsd), Graphics::vtxColorMaterial);
 	r->SetWireFrameMode(false);
 }
 

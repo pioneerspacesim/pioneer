@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Servicér hyperrums-motor"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Afbryd linjen."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Jeg har ikke nok penge"

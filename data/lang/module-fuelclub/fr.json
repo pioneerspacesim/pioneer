@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Retour"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Raccrochez."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, élimination gratuite (selon conditions)"
