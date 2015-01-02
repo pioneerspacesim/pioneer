@@ -112,7 +112,7 @@ void GalacticView::PutLabels(vector3d offset)
 	Gui::Screen::LeaveOrtho();
 }
 
-
+static const float pointsize(0.005f);
 void GalacticView::Draw3D()
 {
 	PROFILE_SCOPED()
@@ -134,9 +134,9 @@ void GalacticView::Draw3D()
 	m_quad.Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
 
 	// "you are here" dot
-	//Color green(0, 255, 0, 255);
 	const vector3f offs(offset_x, offset_y, 0.f);
-	m_youAreHere.SetData(1, &offs, matrix4x4f::Identity(), Color::GREEN, 3.f);
+	m_youAreHere.SetData(1, &offs, matrix4x4f::Identity(), Color::GREEN, pointsize);
+	m_youAreHere.Draw(m_renderer, m_renderState);
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());

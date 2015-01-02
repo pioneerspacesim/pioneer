@@ -402,10 +402,10 @@ void Points::SetData(const int count, const vector3f *positions, const matrix4x4
 	for (int i=0; i<count; i++) {
 		const vector3f &pos = positions[i];
 
-		m_va->Add(pos+rotv3, color[i]);
-		m_va->Add(pos+rotv4, color[i]);
-		m_va->Add(pos+rotv2, color[i]);
-		m_va->Add(pos+rotv1, color[i]);
+		m_va->Add(pos+rotv3, color);
+		m_va->Add(pos+rotv4, color);
+		m_va->Add(pos+rotv2, color);
+		m_va->Add(pos+rotv1, color);
 	}
 
 	m_refreshVertexBuffer = true;
