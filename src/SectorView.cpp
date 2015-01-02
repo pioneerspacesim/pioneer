@@ -501,11 +501,13 @@ void SectorView::Draw3D()
 	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
 
 	//draw sector legs in one go
-	if (m_lineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0], m_alphaBlendState);
+	if (m_lineVerts->GetNumVerts() > 2) {
+		m_lines.Draw(m_renderer, m_alphaBlendState);
+	}
 
-	if (m_secLineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0], m_alphaBlendState);
+	if (m_secLineVerts->GetNumVerts() > 2) {
+		m_sectorlines.Draw(m_renderer, m_alphaBlendState);
+	}
 
 	UpdateFactionToggles();
 
@@ -929,6 +931,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_secLineVerts->Add(vts[3], darkgreen);
 		m_secLineVerts->Add(vts[3], darkgreen);	// line segment 4
 		m_secLineVerts->Add(vts[0], darkgreen);
+
+		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 	}
 
 	Uint32 sysIdx = 0;
@@ -1002,6 +1006,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_lineVerts->Add(systrans * vector3f(0.1f, 0.1f, z), light);
 			m_lineVerts->Add(systrans * vector3f(-0.1f, 0.1f, z), light);
 			m_lineVerts->Add(systrans * vector3f(0.1f, -0.1f, z), light);
+
+			m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
 		}
 
 		if (i->IsSameSystem(m_selected)) {

@@ -55,6 +55,8 @@ private:
 		bool isSpecial;
 	};
 	std::list<Contact> m_contacts;
+	Graphics::Drawables::Lines m_contactLines;
+	Graphics::Drawables::Points m_contactBlobs;
 
 	enum ScannerMode { SCANNER_MODE_AUTO, SCANNER_MODE_MANUAL };
 	ScannerMode m_mode;
@@ -78,6 +80,9 @@ private:
 
 	Graphics::Renderer *m_renderer;
 	Graphics::RenderState *m_renderState;
+	
+	Graphics::Drawables::Lines m_scanLines;
+	Graphics::Drawables::Lines m_edgeLines;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {

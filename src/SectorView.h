@@ -190,6 +190,9 @@ private:
 	RefCountedPtr<Graphics::Material> m_fresnelMat;
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 	std::unique_ptr<Graphics::VertexArray> m_starVerts;
+
+	Graphics::Drawables::Lines m_lines;
+	Graphics::Drawables::Lines m_sectorlines;
 };
 
 #endif /* _SECTORVIEW_H */
