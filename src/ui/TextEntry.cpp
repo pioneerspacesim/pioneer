@@ -78,8 +78,8 @@ void TextEntry::Draw()
 	Container::Draw();
 
 	if (IsSelected()) {
-		GetContext()->GetRenderer()->DrawLines(2, m_cursorVertices,
-			Color::WHITE, GetContext()->GetSkin().GetAlphaBlendState());
+		m_lines.SetData(2, &m_cursorVertices[0], Color::WHITE);
+		m_lines.Draw(GetContext()->GetRenderer(), GetContext()->GetSkin().GetAlphaBlendState());
 	}
 }
 

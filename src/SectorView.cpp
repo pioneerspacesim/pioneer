@@ -1095,12 +1095,12 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 		for (int sx = secOrigin.x-buildRadius; sx <= secOrigin.x+buildRadius; sx++) {
 			for (int sy = secOrigin.y-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
-						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
-							BuildFarSector(GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
-						}
+					if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
+						BuildFarSector(GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 					}
 				}
 			}
+		}
 
 		m_secPosFar      = secOrigin;
 		m_radiusFar      = buildRadius;
@@ -1109,8 +1109,8 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0],
-			m_alphaBlendState, 1.f + (Graphics::GetScreenHeight() / 720.f));
+		m_farstarsPoints.SetData(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], matrix4x4f::Identity(), 1.f + (Graphics::GetScreenHeight() / 720.f));
+		m_farstarsPoints.Draw(m_renderer, m_alphaBlendState);
 	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn

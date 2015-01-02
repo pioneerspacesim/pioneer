@@ -50,6 +50,9 @@ namespace Gui {
 
 		bool m_justFocused;
 		sigc::connection m_clickout;
+
+		Graphics::Drawables::Lines m_cursorLines;
+		Graphics::Drawables::Lines m_outlines;
 	};
 }
 

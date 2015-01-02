@@ -57,8 +57,8 @@ void ToolTip::Draw()
 		return;
 
 	float size[2];
-	int age = SDL_GetTicks() - m_createdTime;
-	float alpha = std::min(age / FADE_TIME_MS, 0.75f);
+	const int age = SDL_GetTicks() - m_createdTime;
+	const float alpha = std::min(age / FADE_TIME_MS, 0.75f);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	r->SetRenderState(Gui::Screen::alphaBlendState);
@@ -74,7 +74,8 @@ void ToolTip::Draw()
 		vector3f(0, 0, 0)
 	};
 	const Color outlineColor(Color4f(0,0,.8f,alpha));
-	r->DrawLines(4, &outlineVts[0], outlineColor, Screen::alphaBlendState, Graphics::LINE_LOOP);
+	m_outlines.SetData(2, &outlineVts[0], outlineColor);
+	m_outlines.Draw(r, Screen::alphaBlendState, Graphics::LINE_LOOP);
 
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 

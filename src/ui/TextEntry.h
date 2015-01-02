@@ -6,6 +6,7 @@
 
 #include "Container.h"
 #include "Label.h"
+#include "graphics/Drawables.h"
 
 namespace UI {
 
@@ -36,6 +37,7 @@ private:
 
 	Uint32 m_cursor;
 	vector3f m_cursorVertices[2];
+	Graphics::Drawables::Lines m_lines;
 };
 
 }

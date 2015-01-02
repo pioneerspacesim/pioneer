@@ -128,6 +128,8 @@ private:
 	UI::Slider *thrustSliders[2*3]; //thruster sliders 2*xyz (linear & angular)
 
 	sigc::signal<void> onModelChanged;
+
+	Graphics::Drawables::Lines m_gridLines;
 };
 
 #endif

@@ -217,6 +217,7 @@ private:
 
 	Graphics::Drawables::Line3D m_edgeMarker;
 	Graphics::Drawables::Lines m_crossHair;
+	Graphics::Drawables::Lines m_indicator;
 };
 
 class NavTunnelWidget: public Gui::Widget {

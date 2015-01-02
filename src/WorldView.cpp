@@ -1941,10 +1941,12 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			vector3f(x1+20*xd, y1+20*yd, 0.0f),
 			vector3f(x2-10*xd, y2-10*yd, 0.0f)
 		};
-		if (lead.side == INDICATOR_ONSCREEN)
-			m_renderer->DrawLines(14, vts, c, m_blendState); //draw all
-		else
-			m_renderer->DrawLines(8, vts, c, m_blendState); //only crosshair
+		if (lead.side == INDICATOR_ONSCREEN) {
+			m_indicator.SetData(14, vts, c);
+		} else {
+			m_indicator.SetData(8, vts, c);
+		}
+		m_indicator.Draw(m_renderer, m_blendState);
 	} else {
 		DrawEdgeMarker(target, c);
 	}

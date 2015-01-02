@@ -449,35 +449,12 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	}
 
 	m_renderer->SetTransform(trans);
-	m_renderer->DrawLines(points.size(), &points[0], Color(128), m_bgState);//Color(0.0f,0.2f,0.0f,1.0f));
+	m_gridLines.SetData(points.size(), &points[0], Color(128));
+	m_gridLines.Draw(m_renderer, m_bgState);
 
-	//industry-standard red/green/blue XYZ axis indiactor
-	const int numAxVerts = 6;
-	const vector3f vts[numAxVerts] = {
-		//X
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(radius, 0.f, 0.f),
-
-		//Y
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(0.f, radius, 0.f),
-
-		//Z
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(0.f, 0.f, radius),
-	};
-	const Color col[numAxVerts] = {
-		Color(255, 0, 0),
-		Color(255, 0, 0),
-
-		Color(0, 0, 255),
-		Color(0, 0, 255),
-
-		Color(0, 255, 0),
-		Color(0, 255, 0)
-	};
-
-	m_renderer->DrawLines(numAxVerts, &vts[0], &col[0], m_bgState);
+	// industry-standard red/green/blue XYZ axis indiactor
+	m_renderer->SetTransform(trans * matrix4x4f::ScaleMatrix(radius));
+	Graphics::Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
 }
 
 void ModelViewer::DrawModel()
