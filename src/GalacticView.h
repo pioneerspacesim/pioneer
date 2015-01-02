@@ -43,7 +43,7 @@ private:
 	Gui::TexturedQuad m_quad;
 	sigc::connection m_onMouseWheelCon;
 	Graphics::RenderState *m_renderState;
-	Drawables::Lines m_scalelines;
+	Graphics::Drawables::Lines m_scalelines;
 };
 
 #endif /* _GALACTICVIEW_H */
