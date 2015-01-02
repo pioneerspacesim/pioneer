@@ -380,7 +380,11 @@ void Points::SetData(const int count, const vector3f *positions, const matrix4x4
 
 	assert(positions);
 
-	m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, count * 6) );
+	if( m_va.get() && m_va->GetNumVerts() == (count * 4) ) {
+		m_va->Clear();
+	} else {
+		m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, count * 4) );
+	}
 
 	matrix4x4f rot(trans);
 	rot.ClearToRotOnly();
@@ -398,13 +402,10 @@ void Points::SetData(const int count, const vector3f *positions, const matrix4x4
 	for (int i=0; i<count; i++) {
 		const vector3f &pos = positions[i];
 
-		m_va->Add(pos+rotv4, color); //top left
-		m_va->Add(pos+rotv3, color); //bottom left
-		m_va->Add(pos+rotv1, color); //top right
-
-		m_va->Add(pos+rotv1, color); //top right
-		m_va->Add(pos+rotv3, color); //bottom left
-		m_va->Add(pos+rotv2, color); //bottom right
+		m_va->Add(pos+rotv3, color[i]);
+		m_va->Add(pos+rotv4, color[i]);
+		m_va->Add(pos+rotv2, color[i]);
+		m_va->Add(pos+rotv1, color[i]);
 	}
 
 	m_refreshVertexBuffer = true;
@@ -418,10 +419,10 @@ void Points::SetData(const int count, const vector3f *positions, const Color *co
 
 	assert(positions);
 
-	if( m_va.get() && m_va->GetNumVerts() == (count * 6) ) {
+	if( m_va.get() && m_va->GetNumVerts() == (count * 4) ) {
 		m_va->Clear();
 	} else {
-		m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, count * 6) );
+		m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, count * 4) );
 	}
 
 	matrix4x4f rot(trans);
@@ -440,13 +441,10 @@ void Points::SetData(const int count, const vector3f *positions, const Color *co
 	for (int i=0; i<count; i++) {
 		const vector3f &pos = positions[i];
 
-		m_va->Add(pos+rotv4, color[i]); //top left
-		m_va->Add(pos+rotv3, color[i]); //bottom left
-		m_va->Add(pos+rotv1, color[i]); //top right
-
-		m_va->Add(pos+rotv1, color[i]); //top right
-		m_va->Add(pos+rotv3, color[i]); //bottom left
-		m_va->Add(pos+rotv2, color[i]); //bottom right
+		m_va->Add(pos+rotv3, color[i]);
+		m_va->Add(pos+rotv4, color[i]);
+		m_va->Add(pos+rotv2, color[i]);
+		m_va->Add(pos+rotv1, color[i]);
 	}
 
 	m_refreshVertexBuffer = true;
@@ -463,8 +461,7 @@ void Points::Draw(Renderer *r, RenderState *rs)
 		m_vertexBuffer->Populate( *m_va );
 	}
 
-	// XXX would be nicer to draw this as a textured triangle strip
-	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::TRIANGLES);
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::TRIANGLE_STRIP);
 }
 
 void Points::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)

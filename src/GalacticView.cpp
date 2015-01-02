@@ -116,9 +116,9 @@ void GalacticView::PutLabels(vector3d offset)
 void GalacticView::Draw3D()
 {
 	PROFILE_SCOPED()
-	vector3f pos = m_game->GetSectorView()->GetPosition();
-	float offset_x = (pos.x*Sector::SIZE + m_galaxy->SOL_OFFSET_X)/m_galaxy->GALAXY_RADIUS;
-	float offset_y = (-pos.y*Sector::SIZE + m_galaxy->SOL_OFFSET_Y)/m_galaxy->GALAXY_RADIUS;
+	const vector3f pos = m_game->GetSectorView()->GetPosition();
+	const float offset_x = (pos.x*Sector::SIZE + m_galaxy->SOL_OFFSET_X)/m_galaxy->GALAXY_RADIUS;
+	const float offset_y = (-pos.y*Sector::SIZE + m_galaxy->SOL_OFFSET_Y)/m_galaxy->GALAXY_RADIUS;
 
 	const float aspect = m_renderer->GetDisplayAspect();
 	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
@@ -135,8 +135,8 @@ void GalacticView::Draw3D()
 
 	// "you are here" dot
 	//Color green(0, 255, 0, 255);
-	vector3f offs(offset_x, offset_y, 0.f);
-	m_renderer->DrawPoints(1, &offs, &Color::GREEN, m_renderState, 3.f);
+	const vector3f offs(offset_x, offset_y, 0.f);
+	m_youAreHere.SetData(1, &offs, matrix4x4f::Identity(), Color::GREEN, 3.f);
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());
