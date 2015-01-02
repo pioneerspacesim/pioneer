@@ -27,7 +27,6 @@ static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user set
 GalacticView::GalacticView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy()),
 	m_quad(Graphics::TextureBuilder::UI("galaxy_colour.png").CreateTexture(Gui::Screen::GetRenderer()))
 {
-
 	SetTransparency(true);
 	m_zoom = 1.0f;
 	m_zoomTo = m_zoom;
@@ -57,6 +56,15 @@ GalacticView::GalacticView(Game* game) : UIView(), m_game(game), m_galaxy(game->
 	rsd.depthTest  = false;
 	rsd.depthWrite = false;
 	m_renderState = Gui::Screen::GetRenderer()->CreateRenderState(rsd);
+
+	// setup scale lines
+	const vector3f vts[] = {
+		vector3f(-0.25f,-0.93f, 0.0f),
+		vector3f(-0.25f,-0.94f, 0.0f),
+		vector3f(0.25f,-0.94f, 0.0f),
+		vector3f(0.25f,-0.93f, 0.0f)
+	};
+	m_scalelines.SetData(4, vts, Color::WHITE);
 }
 
 GalacticView::~GalacticView()
@@ -132,14 +140,7 @@ void GalacticView::Draw3D()
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	//Color white(255);
-	const vector3f vts[] = {
-		vector3f(-0.25f,-0.93f, 0.0f),
-		vector3f(-0.25f,-0.94f, 0.0f),
-		vector3f(0.25f,-0.94f, 0.0f),
-		vector3f(0.25f,-0.93f, 0.0f)
-	};
-	m_renderer->DrawLines(4, vts, Color::WHITE, m_renderState, LINE_STRIP);
+	m_scalelines.Draw(m_renderer, m_renderState, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));
