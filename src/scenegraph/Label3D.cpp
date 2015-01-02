@@ -69,9 +69,12 @@ void Label3D::SetText(const std::string &text)
 void Label3D::Render(const matrix4x4f &trans, const RenderData *rd)
 {
 	PROFILE_SCOPED()
-	Graphics::Renderer *r = GetRenderer();
-	r->SetTransform(trans);
-	r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get());
+	if( m_vbuffer.get() )
+	{
+		Graphics::Renderer *r = GetRenderer();
+		r->SetTransform(trans);
+		r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get());
+	}
 }
 
 void Label3D::Accept(NodeVisitor &nv)
