@@ -111,8 +111,8 @@ private:
 class Points {
 public:
 	Points();
-	void SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size);
-	void SetData(const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size);
+	void SetData(Renderer*, const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size);
+	void SetData(Renderer*, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size);
 	void Draw(Renderer*, RenderState*);
 private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);

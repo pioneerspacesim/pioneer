@@ -55,6 +55,7 @@ GalacticView::GalacticView(Game* game) : UIView(), m_game(game), m_galaxy(game->
 	Graphics::RenderStateDesc rsd;
 	rsd.depthTest  = false;
 	rsd.depthWrite = false;
+	rsd.cullMode   = CULL_NONE;
 	m_renderState = Gui::Screen::GetRenderer()->CreateRenderState(rsd);
 
 	// setup scale lines
@@ -135,7 +136,7 @@ void GalacticView::Draw3D()
 
 	// "you are here" dot
 	const vector3f offs(offset_x, offset_y, 0.f);
-	m_youAreHere.SetData(1, &offs, matrix4x4f::Identity(), Color::GREEN, pointsize);
+	m_youAreHere.SetData(m_renderer, 1, &offs, matrix4x4f::Identity(), Color::GREEN, pointsize);
 	m_youAreHere.Draw(m_renderer, m_renderState);
 
 	// scale at the top

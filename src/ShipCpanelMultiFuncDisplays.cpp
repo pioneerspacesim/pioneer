@@ -76,6 +76,7 @@ void ScannerWidget::InitObject()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
+	rsd.cullMode = CULL_NONE;
 	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
@@ -392,7 +393,7 @@ void ScannerWidget::DrawBlobs(bool below)
 		m_contactLines.SetData(vts.size(), &vts[0], &colors[0]);
 		m_contactLines.Draw(m_renderer, m_renderState);
 
-		m_contactBlobs.SetData(blobs.size(), &blobs[0], &blobcolors[0], matrix4x4f::Identity(), 3.f);
+		m_contactBlobs.SetData(m_renderer, blobs.size(), &blobs[0], &blobcolors[0], matrix4x4f::Identity(), 3.f);
 		m_contactBlobs.Draw(m_renderer, m_renderState);
 	}
 }

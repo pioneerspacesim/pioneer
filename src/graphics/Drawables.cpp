@@ -341,7 +341,7 @@ void PointSprites::SetData(const int count, const vector3f *positions, const mat
 void PointSprites::Draw(Renderer *r, RenderState *rs, Material *mat)
 {
 	PROFILE_SCOPED()
-	if( !m_vertexBuffer.Valid() ) {
+	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
 		CreateVertexBuffer(r, mat, m_va->GetNumVerts());
 	}
 	if( m_refreshVertexBuffer ) {
@@ -372,18 +372,20 @@ Points::Points() : m_refreshVertexBuffer(true)
 	PROFILE_SCOPED()
 }
 
-void Points::SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size)
+void Points::SetData(Renderer* r, const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size)
 {
 	PROFILE_SCOPED()
 	if (count < 1 ) 
 		return;
 
 	assert(positions);
+	const int total = (count * 6);
 
-	if( m_va.get() && m_va->GetNumVerts() == (count * 4) ) {
+	if (m_va.get() && m_va->GetNumVerts() == total) {
 		m_va->Clear();
 	} else {
-		m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, count * 4) );
+		m_va.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, total));
+		CreateVertexBuffer(r, total);
 	}
 
 	matrix4x4f rot(trans);
@@ -402,27 +404,32 @@ void Points::SetData(const int count, const vector3f *positions, const matrix4x4
 	for (int i=0; i<count; i++) {
 		const vector3f &pos = positions[i];
 
-		m_va->Add(pos+rotv3, color);
-		m_va->Add(pos+rotv4, color);
-		m_va->Add(pos+rotv2, color);
-		m_va->Add(pos+rotv1, color);
+		m_va->Add(pos + rotv4, color); //top left
+		m_va->Add(pos + rotv3, color); //bottom left
+		m_va->Add(pos + rotv1, color); //top right
+
+		m_va->Add(pos + rotv1, color); //top right
+		m_va->Add(pos + rotv3, color); //bottom left
+		m_va->Add(pos + rotv2, color); //bottom right
 	}
 
 	m_refreshVertexBuffer = true;
 }
 
-void Points::SetData(const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size)
+void Points::SetData(Renderer* r, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size)
 {
 	PROFILE_SCOPED()
 	if (count < 1 ) 
 		return;
 
 	assert(positions);
+	const int total = (count * 6);
 
-	if( m_va.get() && m_va->GetNumVerts() == (count * 4) ) {
+	if (m_va.get() && m_va->GetNumVerts() == total) {
 		m_va->Clear();
 	} else {
-		m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, count * 4) );
+		m_va.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, total));
+		CreateVertexBuffer(r, total);
 	}
 
 	matrix4x4f rot(trans);
@@ -441,10 +448,13 @@ void Points::SetData(const int count, const vector3f *positions, const Color *co
 	for (int i=0; i<count; i++) {
 		const vector3f &pos = positions[i];
 
-		m_va->Add(pos+rotv3, color[i]);
-		m_va->Add(pos+rotv4, color[i]);
-		m_va->Add(pos+rotv2, color[i]);
-		m_va->Add(pos+rotv1, color[i]);
+		m_va->Add(pos + rotv4, color[i]); //top left
+		m_va->Add(pos + rotv3, color[i]); //bottom left
+		m_va->Add(pos + rotv1, color[i]); //top right
+
+		m_va->Add(pos + rotv1, color[i]); //top right
+		m_va->Add(pos + rotv3, color[i]); //bottom left
+		m_va->Add(pos + rotv2, color[i]); //bottom right
 	}
 
 	m_refreshVertexBuffer = true;
@@ -453,7 +463,7 @@ void Points::SetData(const int count, const vector3f *positions, const Color *co
 void Points::Draw(Renderer *r, RenderState *rs)
 {
 	PROFILE_SCOPED()
-	if( !m_vertexBuffer.Valid() ) {
+	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
 		CreateVertexBuffer(r, m_va->GetNumVerts());
 	}
 	if( m_refreshVertexBuffer ) {
@@ -461,7 +471,7 @@ void Points::Draw(Renderer *r, RenderState *rs)
 		m_vertexBuffer->Populate( *m_va );
 	}
 
-	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::TRIANGLE_STRIP);
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::TRIANGLES);
 }
 
 void Points::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
