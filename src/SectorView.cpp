@@ -671,7 +671,6 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 	if (!m_material)
 		m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
 
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, (m_visibleFactions.size() - m_hiddenFactions.size()) * 12);
 	static const Color labelBorder(13, 13, 31, 166);
 	const auto renderState = Gui::Screen::alphaBlendState;
 
@@ -693,33 +692,23 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 				
 				{
-					//va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0), labelBorder); // 1
-					//va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f + labelHeight, 0), labelBorder); // 2
-					//va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0), labelBorder); // 3
-					//va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0), labelBorder); // 4
-
-					va.Add(vector3f(pos.x - 5.f,				pos.y - 5.f + labelHeight,	0), labelBorder); // 2
-					va.Add(vector3f(pos.x - 5.f,				pos.y - 5.f,				0), labelBorder); // 1
-					va.Add(vector3f(pos.x + labelWidth + 5.f,	pos.y - 5.f + labelHeight,	0), labelBorder); // 4
-
-					va.Add(vector3f(pos.x + labelWidth + 5.f,	pos.y - 5.f + labelHeight,	0), labelBorder); // 4
-					va.Add(vector3f(pos.x - 5.f,				pos.y - 5.f + labelHeight,	0), labelBorder); // 1
-					va.Add(vector3f(pos.x + labelWidth + 5.f,	pos.y - 5.f,				0), labelBorder); // 3
+					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
+					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
+					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f + labelHeight, 0));
+					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
+					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
+					m_material->diffuse = labelBorder;
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				{
-					// va.Add(vector3f(pos.x - 8.f, pos.y,       0), labelColor); // 1
-					// va.Add(vector3f(pos.x      , pos.y + 8.f, 0), labelColor); // 2
-					// va.Add(vector3f(pos.x,       pos.y - 8.f, 0), labelColor); // 3
-					// va.Add(vector3f(pos.x + 8.f, pos.y,		 0), labelColor); // 4
-
-					va.Add(vector3f(pos.x, pos.y + 8.f, 0), labelColor); // 2
-					va.Add(vector3f(pos.x - 8.f, pos.y, 0), labelColor); // 1
-					va.Add(vector3f(pos.x + 8.f, pos.y, 0), labelColor); // 4
-
-					va.Add(vector3f(pos.x + 8.f, pos.y, 0), labelColor); // 4
-					va.Add(vector3f(pos.x - 8.f, pos.y, 0), labelColor); // 1
-					va.Add(vector3f(pos.x, pos.y - 8.f, 0), labelColor); // 3
+					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
+					va.Add(vector3f(pos.x - 8.f, pos.y,       0));
+					va.Add(vector3f(pos.x      , pos.y + 8.f, 0));
+					va.Add(vector3f(pos.x,       pos.y - 8.f, 0));
+					va.Add(vector3f(pos.x + 8.f, pos.y,       0));
+					m_material->diffuse = labelColor;
+					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
 				if (labelColor.GetLuminance() > 191) labelColor.a = 204;    // luminance is sometimes a bit overly
@@ -727,8 +716,6 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 			}
 		}
 	}
-
-	m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLES);
 	Gui::Screen::LeaveOrtho();
 }
 
