@@ -49,7 +49,7 @@ function ChatForm:BuildWidget ()
 	box:PackEnd(hbox)
 
 	if self.message then
-		box:PackEnd(ui:Scroller(ui:MultiLineText(self.message)))
+		box:PackEnd(ui:Margin(20, "BOTTOM", ui:Scroller(ui:MultiLineText(self.message))))
 	end
 
 	if self.options or self.equipWidgetConfig then
