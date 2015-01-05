@@ -36,9 +36,9 @@ GLenum get_component_type(VertexAttribFormat fmt)
 	}
 }
 
-VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
+VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
+	Graphics::VertexBuffer(desc)
 {
-	m_desc = desc;
 	//update offsets in desc
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (m_desc.attrib[i].offset == 0)

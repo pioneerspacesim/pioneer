@@ -41,7 +41,13 @@ noinst_HEADERS = \
 	opengl/TextureGL.h \
 	opengl/UIMaterial.h \
 	opengl/Uniform.h \
-	opengl/VtxColorMaterial.h
+	opengl/VtxColorMaterial.h \
+	dummy/RendererDummy.h \
+	dummy/MaterialDummy.h \
+	dummy/TextureDummy.h \
+	dummy/RenderStateDummy.h \
+	dummy/RenderTargetDummy.h \
+	dummy/VertexBufferDummy.h
 
 libgraphics_a_SOURCES = \
 	Graphics.cpp \

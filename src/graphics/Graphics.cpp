@@ -6,6 +6,7 @@
 #include "Material.h"
 #include "opengl/gl_core_3_x.h"
 #include "opengl/RendererGL.h"
+#include "dummy/RendererDummy.h"
 #include "OS.h"
 #include "StringF.h"
 #include <sstream>
@@ -214,8 +215,12 @@ Renderer* Init(Settings vs)
 	// choose not to list any formats (despite supporting texture compression). See issue #3132.
 	// This is (probably) allowed by the spec, which states that only formats which are "suitable
 	// for general-purpose usage" should be enumerated.
-	
-	Renderer *renderer = new RendererOGL(window, vs);
+
+	Renderer *renderer =
+		vs.rendererType == Graphics::RENDERER_OPENGL ? new RendererOGL(window, vs) :
+		vs.rendererType == Graphics::RENDERER_DUMMY  ? new RendererDummy() :
+		static_cast<Renderer*>(nullptr);
+	assert(renderer);
 
 	Output("Initialized %s\n", renderer->GetName());
 

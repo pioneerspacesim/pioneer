@@ -45,6 +45,7 @@ void SetupRenderer()
 
 	//video
 	Graphics::Settings videoSettings = {};
+	videoSettings.rendererType = Graphics::RENDERER_DUMMY;
 	videoSettings.width = s_config->Int("ScrWidth");
 	videoSettings.height = s_config->Int("ScrHeight");
 	videoSettings.fullscreen = false;

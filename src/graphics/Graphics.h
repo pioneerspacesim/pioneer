@@ -16,8 +16,15 @@ namespace Graphics {
 	class Renderer;
 	class Material;
 
+	enum RendererType {
+		RENDERER_NONE = 0,
+		RENDERER_DUMMY,
+		RENDERER_OPENGL
+	};
+
 	// requested video settings
 	struct Settings {
+		RendererType rendererType;
 		bool fullscreen;
 		bool hidden;
 		bool useTextureCompression;

@@ -120,6 +120,7 @@ int main(int argc, char **argv)
 	}
 
 	Graphics::Settings videoSettings;
+	videoSettings.rendererType = Graphics::RENDERER_OPENGL;
 	videoSettings.width = WIDTH;
 	videoSettings.height = HEIGHT;
 	videoSettings.fullscreen = false;
