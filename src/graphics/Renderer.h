@@ -49,6 +49,8 @@ public:
 
 	virtual const char* GetName() const = 0;
 
+	virtual void WriteRendererInfo(std::ostream &out) const {}
+
 	WindowSDL *GetWindow() const { return m_window.get(); }
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 

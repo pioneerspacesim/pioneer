@@ -45,6 +45,9 @@ public:
 	virtual ~RendererOGL();
 
 	virtual const char* GetName() const { return "OpenGL 3.1, with extensions, renderer"; }
+
+	virtual void WriteRendererInfo(std::ostream &out) const;
+
 	virtual bool GetNearFarRange(float &near_, float &far_) const;
 
 	virtual bool BeginFrame();
@@ -151,6 +154,9 @@ protected:
 		Sint32 x, y, w, h;
 	};
 	std::stack<Viewport> m_viewportStack;
+
+private:
+	static bool initted;
 };
 
 }
