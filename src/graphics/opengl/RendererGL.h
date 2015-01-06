@@ -41,6 +41,8 @@ namespace OGL {
 class RendererOGL : public Renderer
 {
 public:
+	static void RegisterRenderer();
+
 	RendererOGL(WindowSDL *window, const Graphics::Settings &vs);
 	virtual ~RendererOGL();
 

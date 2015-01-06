@@ -13,6 +13,14 @@
 
 namespace Graphics {
 
+static RendererCreateFunc rendererCreateFunc[MAX_RENDERER_TYPE] = {};
+
+void RegisterRenderer(RendererType type, RendererCreateFunc fn) {
+	assert(type < MAX_RENDERER_TYPE);
+	assert(fn);
+	rendererCreateFunc[type] = fn;
+}
+
 static bool initted = false;
 Material *vtxColorMaterial;
 static int width, height;
@@ -68,11 +76,9 @@ Renderer* Init(Settings vs)
 	// This is (probably) allowed by the spec, which states that only formats which are "suitable
 	// for general-purpose usage" should be enumerated.
 
-	Renderer *renderer =
-		vs.rendererType == Graphics::RENDERER_OPENGL ? new RendererOGL(window, vs) :
-		vs.rendererType == Graphics::RENDERER_DUMMY  ? new RendererDummy() :
-		static_cast<Renderer*>(nullptr);
-	assert(renderer);
+	assert(vs.rendererType < MAX_RENDERER_TYPE);
+	assert(rendererCreateFunc[vs.rendererType]);
+	Renderer *renderer = rendererCreateFunc[vs.rendererType](window, vs);
 
 	Output("Initialized %s\n", renderer->GetName());
 

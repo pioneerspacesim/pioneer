@@ -15,4 +15,5 @@ noinst_HEADERS = \
 	RenderTargetDummy.h \
 	VertexBufferDummy.h
 
-libgraphicsdummy_a_SOURCES =
+libgraphicsdummy_a_SOURCES = \
+	RendererDummy.cpp

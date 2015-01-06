@@ -13,13 +13,10 @@
  */
 namespace Graphics {
 
-	class Renderer;
-	class Material;
-
 	enum RendererType {
-		RENDERER_NONE = 0,
 		RENDERER_DUMMY,
-		RENDERER_OPENGL
+		RENDERER_OPENGL,
+		MAX_RENDERER_TYPE
 	};
 
 	// requested video settings
@@ -37,6 +34,12 @@ namespace Graphics {
 		const char *title;
 	};
 
+	class Renderer;
+	class WindowSDL;
+
+	typedef Renderer* (*RendererCreateFunc)(WindowSDL *window, const Settings &vs);
+	void RegisterRenderer(RendererType type, RendererCreateFunc fn);
+
 	//for querying available modes
 	struct VideoMode {
 		VideoMode(int w, int h)
@@ -46,6 +49,7 @@ namespace Graphics {
 		int height;
 	};
 
+	class Material;
 	extern Material *vtxColorMaterial;
 
 	int GetScreenWidth();

@@ -18,6 +18,8 @@ namespace Graphics {
 class RendererDummy : public Renderer
 {
 public:
+	static void RegisterRenderer();
+
 	RendererDummy() : Renderer(0, 0, 0),
 	m_identity(matrix4x4f::Identity())
 	{}

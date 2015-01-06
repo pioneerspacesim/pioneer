@@ -3,6 +3,7 @@
 
 #include "ModelViewer.h"
 #include "FileSystem.h"
+#include "graphics/opengl/RendererGL.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
@@ -140,6 +141,8 @@ void ModelViewer::Run(const std::string &modelName)
 	Lua::Init();
 
 	ModManager::Init();
+
+	Graphics::RendererOGL::RegisterRenderer();
 
 	//video
 	Graphics::Settings videoSettings = {};

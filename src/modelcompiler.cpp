@@ -10,6 +10,7 @@
 
 #include "FileSystem.h"
 #include "GameConfig.h"
+#include "graphics/dummy/RendererDummy.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
@@ -42,6 +43,8 @@ void SetupRenderer()
 		Error("SDL initialization failed: %s\n", SDL_GetError());
 
 	ModManager::Init();
+
+	Graphics::RendererDummy::RegisterRenderer();
 
 	//video
 	Graphics::Settings videoSettings = {};

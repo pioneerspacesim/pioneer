@@ -35,6 +35,15 @@
 
 namespace Graphics {
 
+static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
+    return new RendererOGL(win, vs);
+}
+
+void RendererOGL::RegisterRenderer() {
+    Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
+}
+
+
 bool RendererOGL::initted = false;
 
 typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
