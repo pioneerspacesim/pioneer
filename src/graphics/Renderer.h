@@ -13,8 +13,6 @@
 
 namespace Graphics {
 
-extern void CheckRenderErrors();
-
 /*
  * Renderer base class. A Renderer draws points, lines, triangles.
  * It is also used to create render states, materials and vertex/index buffers.
@@ -50,6 +48,8 @@ public:
 	virtual const char* GetName() const = 0;
 
 	virtual void WriteRendererInfo(std::ostream &out) const {}
+
+	virtual void CheckRenderErrors() const {}
 
 	WindowSDL *GetWindow() const { return m_window.get(); }
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }

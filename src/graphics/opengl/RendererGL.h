@@ -48,6 +48,9 @@ public:
 
 	virtual void WriteRendererInfo(std::ostream &out) const;
 
+	virtual void CheckRenderErrors() const { CheckErrors(); }
+	static void CheckErrors();
+
 	virtual bool GetNearFarRange(float &near_, float &far_) const;
 
 	virtual bool BeginFrame();

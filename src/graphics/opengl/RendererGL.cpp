@@ -264,8 +264,7 @@ static std::string glerr_to_string(GLenum err)
 	}
 }
 
-//extern 
-void CheckRenderErrors()
+void RendererOGL::CheckErrors()
 {
 	GLenum err = glGetError();
 	if( err ) {
