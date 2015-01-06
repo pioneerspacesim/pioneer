@@ -60,6 +60,8 @@ public:
 	virtual bool SetRenderState(RenderState*) override;
 	virtual bool SetRenderTarget(RenderTarget*) override;
 
+	virtual bool SetDepthRange(double near, double far) override;
+
 	virtual bool ClearScreen();
 	virtual bool ClearDepthBuffer();
 	virtual bool SetClearColor(const Color &c);

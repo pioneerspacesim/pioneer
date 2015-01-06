@@ -336,6 +336,12 @@ bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	return true;
 }
 
+bool RendererOGL::SetDepthRange(double near, double far)
+{
+	glDepthRange(near, far);
+	return true;
+}
+
 bool RendererOGL::ClearScreen()
 {
 	m_activeRenderState = nullptr;

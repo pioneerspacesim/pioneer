@@ -83,6 +83,9 @@ public:
 
 	virtual bool SetRenderState(RenderState*) = 0;
 
+	// XXX maybe GL-specific. maybe should be part of the render state
+	virtual bool SetDepthRange(double near, double far) = 0;
+
 	virtual bool SetWireFrameMode(bool enabled) = 0;
 
 	virtual bool SetLights(Uint32 numlights, const Light *l) = 0;
