@@ -1,3 +1,7 @@
+January 2015
+   * Internal Changes
+     * Remove DrawPoints & DrawLines methods (#3303)
+
 December 2014
    * New Features
      * New Multi Scoop equipment, and merge cargo and fuel scoop slots
