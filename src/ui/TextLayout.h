@@ -11,7 +11,7 @@
 #include <vector>
 
 namespace Text { class TextureFont; }
-namespace Graphics { class Renderer; }
+namespace Graphics { class Renderer; class VertexBuffer; }
 
 namespace UI {
 
@@ -35,6 +35,7 @@ private:
 	Point m_lastSize;        // and the resulting size
 
 	RefCountedPtr<Text::TextureFont> m_font;
+	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
 };
 
 }

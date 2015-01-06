@@ -53,6 +53,7 @@ namespace Gui {
 
 		Graphics::Drawables::Lines m_cursorLines;
 		Graphics::Drawables::Lines m_outlines;
+		RefCountedPtr<Graphics::VertexBuffer> m_vb;
 	};
 }
 

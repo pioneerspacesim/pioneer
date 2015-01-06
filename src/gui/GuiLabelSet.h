@@ -36,6 +36,7 @@ public:
 		bool hasOwnColor;
 		sigc::slot<void> onClick;
 		float screenx, screeny;
+		RefCountedPtr<Graphics::VertexBuffer> m_vb;
 	};
 
 	LabelSet();

@@ -9,7 +9,7 @@
 #include "RefCounted.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
-#include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/RenderState.h"
 
 namespace FileSystem { class FileData; }
@@ -30,11 +30,14 @@ public:
 	TextureFont(const FontConfig &config, Graphics::Renderer *renderer, float scale = 1.0f);
 	~TextureFont();
 
-	void RenderString(const char *str, float x, float y, const Color &color = Color::WHITE);
-	Color RenderMarkup(const char *str, float x, float y, const Color &color = Color::WHITE);
-	void MeasureString(const char *str, float &w, float &h);
-	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y);
-	int PickCharacter(const char *str, float mouseX, float mouseY);
+	void RenderBuffer(Graphics::VertexBuffer *vb, const Color &color = Color::WHITE);
+	void MeasureString(const std::string &str, float &w, float &h);
+	void MeasureCharacterPos(const std::string &str, int charIndex, float &x, float &y);
+	int PickCharacter(const std::string &str, float mouseX, float mouseY);
+
+	void PopulateString(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
+	Color PopulateMarkup(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
+	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va) const;
 
 	// general baseline-to-baseline height
 	float GetHeight() const { return m_height; }
@@ -56,9 +59,8 @@ public:
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
-	// fill a vertex array with single-colored text
-	void CreateGeometry(Graphics::VertexArray &, const char *str, float x, float y, const Color &color = Color::WHITE);
-	RefCountedPtr<Graphics::Texture> GetTexture() { return m_texture; }
+	RefCountedPtr<Graphics::Texture> GetTexture() const  { return m_texture; }
+	Graphics::Material* GetMaterial() const { return m_mat.get(); }
 
 private:
 	TextureFont(const TextureFont &);
@@ -78,11 +80,11 @@ private:
 
 	float GetKern(const Glyph &a, const Glyph &b);
 
-	void AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &color);
+	void AddGlyphGeometry(Graphics::VertexArray &va, const Glyph &glyph, const float x, const float y, const Color &color);
 	float m_height;
 	float m_descender;
 	std::unique_ptr<Graphics::Material> m_mat;
-	Graphics::VertexArray m_vertices;
+	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 	Graphics::RenderState *m_renderState;
 
 	static int s_glyphCount;

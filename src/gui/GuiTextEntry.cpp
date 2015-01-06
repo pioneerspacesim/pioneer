@@ -238,7 +238,7 @@ void TextEntry::Draw()
 
 	//text
 	SetScissor(true);
-	Gui::Screen::RenderString(m_text, 1.0f - m_scroll, 0.0f, c, m_font.Get());
+	Gui::Screen::RenderStringBuffer(m_vb, m_text, 1.0f - m_scroll, 0.0f, c, m_font.Get());
 	SetScissor(false);
 
 	//cursor

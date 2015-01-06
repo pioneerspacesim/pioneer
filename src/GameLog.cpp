@@ -1,6 +1,7 @@
 #include "GameLog.h"
 #include "StringF.h"
 #include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
 
 const Uint32 MESSAGE_TIMEOUT  = 8000;
 const Uint32 FADE_TIME  = 1000;
@@ -73,14 +74,27 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 
 	const Color &c = Color::WHITE;
 
+	// (re)build buffers
 	float y = 0;
 	for (auto it = m_messages.rbegin(); it != m_messages.rend(); ++it) {
 		float alpha = 1.f;
 		if (it->time > FADE_AFTER) {
 			alpha = 1.0f - (float(it->time - FADE_AFTER) / float(FADE_TIME));
 		}
-		const Color textColour(c.r, c.g, c.b, Clamp(Uint32(alpha*255), 0U, 255U));
-		m_font->RenderString(it->msg.c_str(), m_offset.x, m_offset.y + y, textColour);
+		Uint32 iAlpha(Clamp(Uint32(alpha*255), 0U, 255U));
+		const Color textColour(c.r, c.g, c.b, iAlpha);
+
+		// update only if things have changed or the buffer does not exist
+		if( !it->m_vb.Valid() || iAlpha!=it->m_prevAlpha || !it->m_prevoffset.ExactlyEqual(m_offset) )
+		{
+			it->m_prevAlpha = iAlpha;
+			it->m_prevoffset = m_offset;
+			Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+			m_font->PopulateString(va, it->msg.c_str(), m_offset.x, m_offset.y + y, textColour);
+			it->m_vb.Reset( m_font->CreateVertexBuffer(va) );
+		}
+
+		m_font->RenderBuffer( it->m_vb.Get() );
 		y -= m_lineHeight;
 	}
 }

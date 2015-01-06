@@ -1235,7 +1235,8 @@ void Pi::MainLoop()
 				// display pathStr
 				Gui::Screen::EnterOrtho();
 				Gui::Screen::PushFont("ConsoleFont");
-				Gui::Screen::RenderString(pathStr.str(), 0, 0);
+				static RefCountedPtr<Graphics::VertexBuffer> s_pathvb;
+				Gui::Screen::RenderStringBuffer(s_pathvb, pathStr.str(), 0, 0);
 				Gui::Screen::PopFont();
 				Gui::Screen::LeaveOrtho();
 			}
@@ -1254,7 +1255,8 @@ void Pi::MainLoop()
 		if (Pi::showDebugInfo) {
 			Gui::Screen::EnterOrtho();
 			Gui::Screen::PushFont("ConsoleFont");
-			Gui::Screen::RenderString(fps_readout, 0, 0);
+			static RefCountedPtr<Graphics::VertexBuffer> s_debugInfovb;
+			Gui::Screen::RenderStringBuffer(s_debugInfovb, fps_readout, 0, 0);
 			Gui::Screen::PopFont();
 			Gui::Screen::LeaveOrtho();
 		}
