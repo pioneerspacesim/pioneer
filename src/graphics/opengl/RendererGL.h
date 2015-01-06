@@ -106,6 +106,8 @@ public:
 	virtual void Translate( const float x, const float y, const float z );
 	virtual void Scale( const float x, const float y, const float z );
 
+	virtual bool Screendump(ScreendumpState &sd);
+
 protected:
 	virtual void PushState();
 	virtual void PopState();

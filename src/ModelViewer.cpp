@@ -788,7 +788,9 @@ void ModelViewer::Screenshot()
 	const time_t t = time(0);
 	const struct tm *_tm = localtime(&t);
 	strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
-	Screendump(buf, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	Graphics::ScreendumpState sd;
+	m_renderer->Screendump(sd);
+	write_screenshot(sd, buf);
 	AddLog(stringf("Screenshot %0 saved", buf));
 }
 

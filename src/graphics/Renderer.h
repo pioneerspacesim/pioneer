@@ -167,6 +167,8 @@ public:
 		MatrixMode m_matrixMode;
 	};
 
+	virtual bool Screendump(ScreendumpState &sd) { return false; }
+
 protected:
 	int m_width;
 	int m_height;

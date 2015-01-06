@@ -72,7 +72,11 @@ static inline Sint64 isqrt(Sint64 a)
 	return ret;
 }
 
-void Screendump(const char* destFile, const int w, const int h);
+namespace Graphics {
+    struct ScreendumpState;
+}
+
+void write_screenshot(const Graphics::ScreendumpState &sd, const char* destFile);
 
 // find string in bigger string, ignoring case
 const char *pi_strcasestr(const char *haystack, const char *needle);

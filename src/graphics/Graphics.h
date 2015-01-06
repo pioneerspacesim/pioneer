@@ -59,6 +59,14 @@ namespace Graphics {
 	Renderer* Init(Settings);
 	void Uninit();
 	std::vector<VideoMode> GetAvailableVideoModes();
+
+	struct ScreendumpState {
+		std::unique_ptr<Uint8[]> pixels;
+		Uint32 width;
+		Uint32 height;
+		Uint32 stride;
+		Uint32 bpp;
+	};
 }
 
 #endif /* _RENDER_H */
