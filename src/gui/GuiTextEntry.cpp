@@ -206,6 +206,8 @@ void TextEntry::Draw()
 	PROFILE_SCOPED()
 	m_justFocused = false;
 
+	Graphics::Renderer *pRenderer = Screen::GetRenderer();
+
 	float size[2];
 	GetSize(size);
 
@@ -231,7 +233,8 @@ void TextEntry::Draw()
 		vector3f(size[0],size[1], 0.f),
 		vector3f(0,size[1], 0.f)
 	};
-	Screen::GetRenderer()->DrawLines(4, &boxVts[0], c, Screen::alphaBlendState, Graphics::LINE_LOOP);
+	m_outlines.SetData(2, &boxVts[0], c);
+	m_outlines.Draw(pRenderer, Screen::alphaBlendState, Graphics::LINE_LOOP);
 
 	//text
 	SetScissor(true);
@@ -243,7 +246,8 @@ void TextEntry::Draw()
 		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()), 0.f),
 		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()), 0.f),
 	};
-	Screen::GetRenderer()->DrawLines(2, &cursorVts[0], Color(128), Screen::alphaBlendState);
+	m_cursorLines.SetData(2, &cursorVts[0], Color(128));
+	m_cursorLines.Draw(pRenderer, Screen::alphaBlendState);
 }
 
 } /* namespace Gui */

@@ -106,6 +106,8 @@ private:
 	std::unique_ptr<Gui::TexturedQuad> m_periapsisIcon;
 	std::unique_ptr<Gui::TexturedQuad> m_apoapsisIcon;
 	Graphics::RenderState *m_lineState;
+	Graphics::Drawables::Lines m_orbits;
+	Graphics::Drawables::Lines m_selectBox;
 };
 
 #endif /* _SYSTEMVIEW_H */

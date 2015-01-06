@@ -23,6 +23,7 @@ namespace Gui {
 		std::string m_text;
 		TextLayout *m_layout;
 		Uint32 m_createdTime;
+		Graphics::Drawables::Lines m_outlines;
 	};
 }
 

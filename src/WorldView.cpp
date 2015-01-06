@@ -1903,8 +1903,8 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 	if (target.side == INDICATOR_HIDDEN) return;
 
 	if (target.side == INDICATOR_ONSCREEN) {
-		float x1 = target.pos.x, y1 = target.pos.y;
-		float x2 = lead.pos.x, y2 = lead.pos.y;
+		const float x1 = target.pos.x, y1 = target.pos.y;
+		const float x2 = lead.pos.x, y2 = lead.pos.y;
 
 		float xd = x2 - x1, yd = y2 - y1;
 		if (lead.side != INDICATOR_ONSCREEN) {
@@ -1941,10 +1941,12 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			vector3f(x1+20*xd, y1+20*yd, 0.0f),
 			vector3f(x2-10*xd, y2-10*yd, 0.0f)
 		};
-		if (lead.side == INDICATOR_ONSCREEN)
-			m_renderer->DrawLines(14, vts, c, m_blendState); //draw all
-		else
-			m_renderer->DrawLines(8, vts, c, m_blendState); //only crosshair
+		if (lead.side == INDICATOR_ONSCREEN) {
+			m_indicator.SetData(14, vts, c);
+		} else {
+			m_indicator.SetData(8, vts, c);
+		}
+		m_indicator.Draw(m_renderer, m_blendState);
 	} else {
 		DrawEdgeMarker(target, c);
 	}

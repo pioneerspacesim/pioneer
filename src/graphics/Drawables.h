@@ -107,6 +107,23 @@ private:
 };
 //------------------------------------------------------------
 
+// Screen aligned quad / billboard / pointsprite
+class Points {
+public:
+	Points();
+	void SetData(Renderer*, const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size);
+	void SetData(Renderer*, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size);
+	void Draw(Renderer*, RenderState*);
+private:
+	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
+	
+	bool m_refreshVertexBuffer;
+	RefCountedPtr<Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<VertexArray> m_va;
+};
+//------------------------------------------------------------
+
 // Three dimensional sphere (subdivided icosahedron) with normals
 // and spherical texture coordinates.
 class Sphere3D {

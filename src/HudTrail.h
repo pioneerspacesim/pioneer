@@ -9,6 +9,7 @@
 #include "libs.h"
 #include "Body.h"
 #include "graphics/Renderer.h"
+#include "graphics/Drawables.h"
 
 class HudTrail
 {
@@ -29,6 +30,7 @@ private:
 	matrix4x4d m_transform;
 	std::deque<vector3d> m_trailPoints;
 	Graphics::RenderState *m_renderState;
+	Graphics::Drawables::Lines m_lines;
 };
 
 #endif

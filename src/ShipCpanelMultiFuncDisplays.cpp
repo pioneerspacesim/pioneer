@@ -76,6 +76,7 @@ void ScannerWidget::InitObject()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
+	rsd.cullMode = CULL_NONE;
 	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
@@ -296,6 +297,18 @@ void ScannerWidget::Update()
 
 void ScannerWidget::DrawBlobs(bool below)
 {
+	assert( !m_contacts.empty() );
+
+	static const Uint32 MAX_CONTACTS(100);
+	std::vector<vector3f> blobs;
+	std::vector<vector3f> vts;
+	std::vector<Color> blobcolors;
+	std::vector<Color> colors;
+	blobs.reserve(MAX_CONTACTS);
+	vts.reserve(MAX_CONTACTS);
+	blobcolors.reserve(MAX_CONTACTS);
+	colors.reserve(MAX_CONTACTS);
+
 	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
 		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
@@ -365,11 +378,23 @@ void ScannerWidget::DrawBlobs(bool below)
 		const float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
-		const vector3f verts[] = { vector3f(x, y_base, 0.f), vector3f(x, y_blob, 0.f) };
-		m_renderer->DrawLines(2, &verts[0], *color, m_renderState);
+		// store this stalk
+		vts.push_back(vector3f(x, y_base, 0.f));
+		vts.push_back(vector3f(x, y_blob, 0.f));
+		colors.push_back(*color);
+		colors.push_back(*color);
 
-		vector3f blob(x, y_blob, 0.f);
-		m_renderer->DrawPoints(1, &blob, color, m_renderState, pointSize);
+		// blob!
+		blobs.push_back(vector3f(x, y_blob, 0.f));
+		blobcolors.push_back(*color);
+	}
+
+	if( !vts.empty() ) {
+		m_contactLines.SetData(vts.size(), &vts[0], &colors[0]);
+		m_contactLines.Draw(m_renderer, m_renderState);
+
+		m_contactBlobs.SetData(m_renderer, blobs.size(), &blobs[0], &blobcolors[0], matrix4x4f::Identity(), 3.f);
+		m_contactBlobs.Draw(m_renderer, m_renderState);
 	}
 }
 
@@ -398,8 +423,8 @@ void ScannerWidget::GenerateBaseGeometry()
 
 void ScannerWidget::GenerateRingsAndSpokes()
 {
-	int csize = m_circle.size();
-	int ssize = m_spokes.size();
+	const int csize = m_circle.size();
+	const int ssize = m_spokes.size();
 	m_vts.clear();
 
 	// inner circle
@@ -424,11 +449,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	vector3f vn(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
 
 	// bright part
-	Color col = Color(178, 178, 0, 128);
-	if (m_mode == SCANNER_MODE_AUTO) {
-		// green like the scanner to indicate that the scanner is controlling the range
-		col = Color(0, 178, 0, 128);
-	}
+	Color col = (m_mode == SCANNER_MODE_AUTO) ? Color(0, 178, 0, 128) : Color(178, 178, 0, 128);
 	for (int i=0; i<=dimstart; i++) {
 		if (i == csize) return;			// whole circle bright case
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
@@ -443,13 +464,16 @@ void ScannerWidget::GenerateRingsAndSpokes()
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
 		m_edgeCols.push_back(col);
 	}
+
+	static const Color vtscol(0, 102, 0, 128);
+	m_scanLines.SetData(m_vts.size(), &m_vts[0], vtscol);
+	m_edgeLines.SetData(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
 }
 
 void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
-	Color col(0, 102, 0, 128);
-	m_renderer->DrawLines(m_vts.size(), &m_vts[0], col, m_renderState);
-	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0], m_renderState);
+	m_scanLines.Draw(m_renderer, m_renderState);
+	m_edgeLines.Draw(m_renderer, m_renderState);
 }
 
 void ScannerWidget::TimeStepUpdate(float step)

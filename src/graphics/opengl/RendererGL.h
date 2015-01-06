@@ -74,9 +74,6 @@ public:
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
 
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, PrimitiveType type=LINE_SINGLE) override;
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) override;
-	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) override;
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override;

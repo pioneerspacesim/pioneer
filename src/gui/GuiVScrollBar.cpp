@@ -82,7 +82,8 @@ void ScrollBar::Draw()
 		lines[0] = vector3f(BORDER, BORDER+(size[1]-2*BORDER)*pos, 0.f);
 		lines[1] = vector3f(size[0]-BORDER, BORDER+(size[1]-2*BORDER)*pos, 0.f);
 	}
-	Screen::GetRenderer()->DrawLines(2, &lines[0], Color::WHITE, Screen::alphaBlendState);
+	m_lines.SetData(2, &lines[0], Color::WHITE);
+	m_lines.Draw(Screen::GetRenderer(), Screen::alphaBlendState);
 }
 
 void ScrollBar::GetSizeRequested(float size[2])

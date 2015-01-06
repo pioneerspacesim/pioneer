@@ -34,9 +34,9 @@ private:
 	private:
 		Graphics::Renderer *m_renderer;
 		Graphics::RenderState *m_renderState;
+		Graphics::Drawables::Lines m_selectBox;
 		bool m_hasStarport;
 		Color m_selectColor;
-
 	};
 
 	enum RefreshType {

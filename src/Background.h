@@ -66,6 +66,7 @@ namespace Background
 		//hyperspace animation vertex data
 		vector3f m_hyperVtx[BG_STAR_MAX*3];
 		Color m_hyperCol[BG_STAR_MAX*3];
+		std::unique_ptr<Graphics::VertexBuffer> m_animBuffer;
 	};
 
 	class MilkyWay : public BackgroundElement
