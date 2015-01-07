@@ -3,6 +3,7 @@
 
 #include "ModelViewer.h"
 #include "FileSystem.h"
+#include "graphics/opengl/RendererGL.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
@@ -141,8 +142,11 @@ void ModelViewer::Run(const std::string &modelName)
 
 	ModManager::Init();
 
+	Graphics::RendererOGL::RegisterRenderer();
+
 	//video
 	Graphics::Settings videoSettings = {};
+	videoSettings.rendererType = Graphics::RENDERER_OPENGL;
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
@@ -787,7 +791,9 @@ void ModelViewer::Screenshot()
 	const time_t t = time(0);
 	const struct tm *_tm = localtime(&t);
 	strftime(buf, sizeof(buf), "modelviewer-%Y%m%d-%H%M%S.png", _tm);
-	Screendump(buf, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+	Graphics::ScreendumpState sd;
+	m_renderer->Screendump(sd);
+	write_screenshot(sd, buf);
 	AddLog(stringf("Screenshot %0 saved", buf));
 }
 

@@ -1,6 +1,7 @@
 January 2015
    * Internal Changes
      * Remove DrawPoints & DrawLines methods (#3303)
+     * Dummy renderer for headless tools (#3306)
 
 December 2014
    * New Features
