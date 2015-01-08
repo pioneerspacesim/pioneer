@@ -78,6 +78,8 @@ void ScannerWidget::InitObject()
 	rsd.depthTest = false;
 	rsd.cullMode = CULL_NONE;
 	m_renderState = m_renderer->CreateRenderState(rsd);
+
+	GenerateRingsAndSpokes();
 }
 
 ScannerWidget::~ScannerWidget()
@@ -451,7 +453,7 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	// bright part
 	Color col = (m_mode == SCANNER_MODE_AUTO) ? Color(0, 178, 0, 128) : Color(178, 178, 0, 128);
 	for (int i=0; i<=dimstart; i++) {
-		if (i == csize) return;			// whole circle bright case
+		if (i == csize) break;			// whole circle bright case
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
 		m_edgeCols.push_back(col);
 	}

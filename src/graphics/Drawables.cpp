@@ -174,6 +174,9 @@ void Line3D::SetColor(const Color &c)
 void Line3D::Draw(Renderer *r, RenderState *rs)
 {
 	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
 	if( !m_vertexBuffer.Valid() ) {
 		CreateVertexBuffer(r, 2);
 	}
@@ -263,6 +266,9 @@ void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Colo
 void Lines::Draw(Renderer *r, RenderState *rs, const PrimitiveType pt)
 {
 	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
 	if( !m_vertexBuffer.Valid() ) {
 		CreateVertexBuffer(r, m_va->GetNumVerts());
 	}
@@ -341,6 +347,9 @@ void PointSprites::SetData(const int count, const vector3f *positions, const mat
 void PointSprites::Draw(Renderer *r, RenderState *rs, Material *mat)
 {
 	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
 	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
 		CreateVertexBuffer(r, mat, m_va->GetNumVerts());
 	}
@@ -463,6 +472,9 @@ void Points::SetData(Renderer* r, const int count, const vector3f *positions, co
 void Points::Draw(Renderer *r, RenderState *rs)
 {
 	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
 	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
 		CreateVertexBuffer(r, m_va->GetNumVerts());
 	}
