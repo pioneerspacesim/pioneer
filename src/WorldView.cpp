@@ -1877,7 +1877,7 @@ void WorldView::Draw()
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	// glLineWidth(1.0f);
-	Graphics::CheckRenderErrors();
+	m_renderer->CheckRenderErrors();
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {

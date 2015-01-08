@@ -10,6 +10,7 @@
 
 #include "FileSystem.h"
 #include "GameConfig.h"
+#include "graphics/dummy/RendererDummy.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
@@ -43,8 +44,11 @@ void SetupRenderer()
 
 	ModManager::Init();
 
+	Graphics::RendererDummy::RegisterRenderer();
+
 	//video
 	Graphics::Settings videoSettings = {};
+	videoSettings.rendererType = Graphics::RENDERER_DUMMY;
 	videoSettings.width = s_config->Int("ScrWidth");
 	videoSettings.height = s_config->Int("ScrHeight");
 	videoSettings.fullscreen = false;

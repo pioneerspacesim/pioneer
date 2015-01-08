@@ -168,23 +168,13 @@ std::string format_distance(double dist, int precision)
 	return ss.str();
 }
 
-void Screendump(const char* destFile, const int width, const int height)
+void write_screenshot(const Graphics::ScreendumpState &sd, const char* destFile)
 {
 	const std::string dir = "screenshots";
 	FileSystem::userFiles.MakeDirectory(dir);
 	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
-	// pad rows to 4 bytes, which is the default row alignment for OpenGL
-	const int stride = (3*width + 3) & ~3;
-
-	std::vector<Uint8> pixel_data(stride * height);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
-	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
-	glFinish();
-
-	write_png(FileSystem::userFiles, fname, &pixel_data[0], width, height, stride, 3);
+	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp);
 
 	Output("Screenshot %s saved\n", fname.c_str());
 }

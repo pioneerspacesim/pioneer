@@ -66,6 +66,7 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
+#include "graphics/opengl/RendererGL.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
@@ -386,8 +387,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	SDL_GetVersion(&ver);
 	Output("SDL Version %d.%d.%d\n", ver.major, ver.minor, ver.patch);
 
+	Graphics::RendererOGL::RegisterRenderer();
+
 	// Do rest of SDL video initialization and create Renderer
 	Graphics::Settings videoSettings = {};
+	videoSettings.rendererType = Graphics::RENDERER_OPENGL;
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);
@@ -777,7 +781,9 @@ void Pi::HandleEvents()
 							const time_t t = time(0);
 							struct tm *_tm = localtime(&t);
 							strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
-							Screendump(buf, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
+							Graphics::ScreendumpState sd;
+							Pi::renderer->Screendump(sd);
+							write_screenshot(sd, buf);
 							break;
 						}
 #if WITH_DEVKEYS
