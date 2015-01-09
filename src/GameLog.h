@@ -31,6 +31,7 @@ private:
 	vector2f m_screenSize;
 	vector2f m_offset;
 	float m_lineHeight;
+	size_t m_prevMessages;
 };
 
 #endif

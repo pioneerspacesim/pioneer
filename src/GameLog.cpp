@@ -15,6 +15,7 @@ GameLog::Message::Message(const std::string &m, Uint32 t)
 GameLog::GameLog(RefCountedPtr<Text::TextureFont> font, vector2f scrSize)
 : m_font(font)
 , m_screenSize(scrSize)
+, m_prevMessages(0)
 {
 	m_lineHeight = m_font->GetHeight();
 
@@ -75,8 +76,11 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 	const Color &c = Color::WHITE;
 
 	// (re)build buffers
+	const size_t numMessages = m_messages.size();
+	const bool bRefresh = (numMessages != m_prevMessages);
+	// update message loop
 	float y = 0;
-	for (auto it = m_messages.rbegin(); it != m_messages.rend(); ++it) {
+	for (auto it = m_messages.rbegin(), itEnd = m_messages.rend(); it != itEnd; ++it) {
 		float alpha = 1.f;
 		if (it->time > FADE_AFTER) {
 			alpha = 1.0f - (float(it->time - FADE_AFTER) / float(FADE_TIME));
@@ -85,7 +89,7 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 		const Color textColour(c.r, c.g, c.b, iAlpha);
 
 		// update only if things have changed or the buffer does not exist
-		if( !it->m_vb.Valid() || iAlpha!=it->m_prevAlpha || !it->m_prevoffset.ExactlyEqual(m_offset) )
+		if (bRefresh || !it->m_vb.Valid() || iAlpha != it->m_prevAlpha || !it->m_prevoffset.ExactlyEqual(m_offset))
 		{
 			it->m_prevAlpha = iAlpha;
 			it->m_prevoffset = m_offset;
@@ -97,4 +101,5 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 		m_font->RenderBuffer( it->m_vb.Get() );
 		y -= m_lineHeight;
 	}
+	m_prevMessages = numMessages;
 }
