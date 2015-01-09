@@ -6,6 +6,8 @@
 
 #include "Widget.h"
 #include "SmartPtr.h"
+#include "text/TextureFont.h"
+#include "graphics/VertexBuffer.h"
 
 // single line of text
 
@@ -29,9 +31,12 @@ protected:
 private:
 	void BindText(PropertyMap &p, const std::string &k);
 
+	bool m_bNeedsUpdating;
 	std::string m_text;
 	Color m_color;
 	Point m_preferredSize;
+	RefCountedPtr<Text::TextureFont> m_font;
+	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
 };
 
 }

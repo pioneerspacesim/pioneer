@@ -6,6 +6,8 @@
 #include "RefCounted.h"
 #include "text/TextureFont.h"
 #include "Color.h"
+#include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 
 namespace UI {
 
@@ -107,15 +109,26 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 
 void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color)
 {
+	// cache this before Computing the size
+	const bool bNewSize = (layoutSize != m_lastRequested);
 	ComputeSize(layoutSize);
 
 	const int top = -drawPos.y - m_font->GetHeight();
 	const int bottom = -drawPos.y + drawSize.y;
 
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+
 	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
-		if ((*i).pos.y >= top && (*i).pos.y < bottom)
-			m_font->RenderString((*i).text.c_str(), (*i).pos.x, (*i).pos.y, color);
+		if ((*i).pos.y >= top && (*i).pos.y < bottom) {
+			m_font->PopulateString(va, (*i).text, (*i).pos.x, (*i).pos.y, color);
+		}
 	}
+
+	if (bNewSize || !m_vbuffer.Valid()) {
+		m_vbuffer.Reset( m_font->CreateVertexBuffer(va) );
+	}
+
+	m_font->RenderBuffer( m_vbuffer.Get() );
 }
 
 }

@@ -33,7 +33,7 @@ namespace Gui {
 		bool m_shadow;
 		GLuint m_dlist;
 		RefCountedPtr<Text::TextureFont> m_font;
-		TextLayout *m_layout;
+		std::unique_ptr<TextLayout> m_layout;
 		TextLayout::ColourMarkupMode m_colourMarkupMode;
 	};
 }
