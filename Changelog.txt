@@ -3,6 +3,7 @@ January 2015
      * Remove DrawPoints & DrawLines methods (#3303)
      * Dummy renderer for headless tools (#3306)
      * Fix scanner drawing post-load (#3309)
+     * Faster text buffer rendering (#3304)
 
 December 2014
    * New Features
