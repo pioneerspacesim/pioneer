@@ -32,6 +32,8 @@ private:
 	void BindText(PropertyMap &p, const std::string &k);
 
 	bool m_bNeedsUpdating;
+	bool m_bPrevDisabled;
+	float m_prevOpacity;
 	std::string m_text;
 	Color m_color;
 	Point m_preferredSize;
