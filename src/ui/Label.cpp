@@ -46,6 +46,9 @@ void Label::Layout()
 
 void Label::Draw()
 {
+	if (m_text.empty())
+		return;
+
 	const Color color(IsDisabled() ? disabledColor : m_color);
 	const float opacity = GetContext()->GetOpacity();
 	const Color finalColor(color.r, color.g, color.b, color.a*opacity);
