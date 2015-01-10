@@ -29,6 +29,9 @@ public:
 
 	virtual bool BeginFrame() { return true; }
 	virtual bool EndFrame() { return true; }
+	virtual bool BeginPostProcessing(RenderTarget* rt_device = nullptr) { return true; }
+	virtual bool PostProcessFrame(PostProcess* postprocess = nullptr) { return true; }
+	virtual bool EndPostProcessing() { return true; }
 	virtual bool SwapBuffers() { return true; }
 
 	virtual bool SetRenderState(RenderState*) override { return true; }

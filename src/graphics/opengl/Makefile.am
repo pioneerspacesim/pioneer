@@ -9,7 +9,7 @@ AM_CPPFLAGS += -I$(srcdir)/../.. -isystem $(top_srcdir)/contrib
 noinst_LIBRARIES = libgraphicsopengl.a
 noinst_HEADERS = \
 	gl_core_3_x.h \
-	opengl/BloomCompositorMaterial.h \
+	BloomCompositorMaterial.h \
 	GLDebug.h \
 	MaterialGL.h \
 	RenderStateGL.h \
@@ -18,7 +18,7 @@ noinst_HEADERS = \
 	FresnelColourMaterial.h \
 	GasGiantMaterial.h \
 	GeoSphereMaterial.h \
-	opengl/HorizontalBlurMaterial.h \
+	HorizontalBlurMaterial.h \
 	MultiMaterial.h \
 	Program.h \
 	RendererGL.h \
@@ -27,10 +27,10 @@ noinst_HEADERS = \
 	StarfieldMaterial.h \
 	SkyboxMaterial.h \
 	TextureGL.h \
-	opengl/TexturedFullscreenQuad.h \
+	TexturedFullscreenQuad.h \
 	UIMaterial.h \
 	Uniform.h \
-	opengl/VerticalBlurMaterial.h \
+	VerticalBlurMaterial.h \
 	VtxColorMaterial.h
 
 libgraphicsopengl_a_SOURCES = \
