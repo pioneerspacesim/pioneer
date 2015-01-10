@@ -7,6 +7,7 @@ January 2015
      * Dummy renderer for headless tools (#3306)
      * Fix scanner drawing post-load (#3309)
      * Faster text buffer rendering (#3304)
+     * Ignore any sgm files in the repository (#3315)
 
 December 2014
    * New Features
