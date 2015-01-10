@@ -1,4 +1,96 @@
 {
+   "ACCEPTED_1" : {
+      "description" : "",
+      "message" : "Excellent. I'll load the goods on your ship."
+   },
+   "ACCEPTED_2" : {
+      "description" : "",
+      "message" : "Very good."
+   },
+   "ACCEPTED_3" : {
+      "description" : "",
+      "message" : "Ok, good. I hope I can trust you."
+   },
+   "ACCEPTED_4" : {
+      "description" : "",
+      "message" : "It's a deal!"
+   },
+   "ADTEXT_1" : {
+      "description" : "",
+      "message" : "CARGO RUN. Delivery of cargo to the {system} system."
+   },
+   "ADTEXT_2" : {
+      "description" : "",
+      "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+   },
+   "ADTEXT__6" : {
+      "description" : "",
+      "message" : "DELIVERY. Valuable Cargo to the {system} system. {cash} to an experienced pilot."
+   },
+   "ADTEXT_LOCAL_1" : {
+      "description" : "",
+      "message" : "LOCAL DELIVERY. Move of goods to {starport}."
+   },
+   "ADTEXT_LOCAL_2" : {
+      "description" : "",
+      "message" : "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+   },
+   "ADTEXT_LOCAL_3" : {
+      "description" : "",
+      "message" : "LOCAL CARGO RUN. Delivery of goods to {starport}."
+   },
+   "ADTEXT_WHOLESALER" : {
+      "description" : "",
+      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Could you repeat the original request?"
+   },
+   "INTROTEXT_1" : {
+      "description" : "",
+      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+   },
+   "INTROTEXT_2" : {
+      "description" : "",
+      "message" : "Greetings. {name} Transport Services needs you, to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away. We pay {cash} for a save and complete delivery."
+   },
+   "INTROTEXT__2" : {
+      "description" : "",
+      "message" : "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
+   },
+   "INTROTEXT__6" : {
+      "description" : "",
+      "message" : "Hello. This could be a dangerous run. We need someone experienced for a run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We pay {cash}. The distance is {dist} ly."
+   },
+   "INTROTEXT__7__1" : {
+      "description" : "",
+      "message" : "Hi, my name is {name}. I want to carry {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. You know, the little fluffy creatures, which no human can resist. The distance is {dist} ly. I pay {cash} for this delivery."
+   },
+   "INTROTEXT__7__2" : {
+      "description" : "",
+      "message" : "Greetings. Have you heard of the wedding season of {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system? We want to transport {cargoname} there. It's {dist} ly away. The pay is {cash} credits. How about it?"
+   },
+   "INTROTEXT_LOCAL_1" : {
+      "description" : "",
+      "message" : "Nice to meet you. I'm {name} and I work for the {starport} administration. We pay {cash} to someone who is able to move {cargoname} to {starport}."
+   },
+   "INTROTEXT_LOCAL_2" : {
+      "description" : "",
+      "message" : "Hi. I'm {name} and I will pay {cash} for a delivery of {cargoname} to {starport}."
+   },
+   "INTROTEXT_LOCAL_3" : {
+      "description" : "",
+      "message" : "My name is {name} and I need {cargoname} delivered to a client at {starport}. I'll pay you {cash} credits for this run."
+   },
+   "INTROTEXT_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Hello, my name is {name} and I'm wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+   },
+   "INTROTEXT_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+   },
    "AMOUNT" : {
       "description" : "",
       "message" : "Amount:"
@@ -10,10 +102,6 @@
    "CARGORUN" : {
       "description" : "",
       "message" : "Cargo run"
-   },
-   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
-      "description" : "",
-      "message" : "Could you repeat the original request?"
    },
    "DANGER" : {
       "description" : "",
@@ -27,359 +115,251 @@
       "description" : "",
       "message" : "Distance:"
    },
-   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
+   "DENY_1" : {
       "description" : "",
-      "message" : "Excellent. I will let the recipient know you are on your way."
+      "message" : "I'm sorry, but this cargo is too valuable for me to hand them over to an inexperienced pilot."
    },
-   "FLAVOUR_0_ADTEXT" : {
+   "DENY_2" : {
       "description" : "",
-      "message" : "GOING TO the {system} system? Money paid for delivery of cargo."
+      "message" : "Who are you? I do not know you and I do not trust you."
    },
-   "FLAVOUR_0_FAILUREMSG" : {
+   "DENY_3" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever over that delivery. I'm not willing to pay you."
+      "message" : "I'm sorry, I'm looking for an experienced pilot."
    },
-   "FLAVOUR_0_HOWMUCH" : {
+   "DENY_4" : {
       "description" : "",
-      "message" : "{cargo} metric tons."
+      "message" : "Excuse me, but I do not think that you can get the job done."
    },
-   "FLAVOUR_0_INTROTEXT" : {
+   "DENY_5" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Don't waste my time! You are too wet behind the ears."
    },
-   "FLAVOUR_0_SUCCESSMSG" : {
+   "DENY_6" : {
       "description" : "",
-      "message" : "Thank you for the delivery. You have been paid in full."
+      "message" : "You're kidding, right? Come back when you're more experienced!"
    },
-   "FLAVOUR_0_WHYSOMUCHTEXT" : {
+   "FAILUREMSG_1" : {
       "description" : "",
-      "message" : "My customer pays for the delivery."
+      "message" : "I'm very disappointed by the late delivery. You will not be paid."
    },
-   "FLAVOUR_1_ADTEXT" : {
+   "FAILUREMSG_2" : {
       "description" : "",
-      "message" : "WANTED. Delivery of cargo to the {system} system."
+      "message" : "What should I do with these things? You are too late! The goods are now worthless!"
    },
-   "FLAVOUR_1_FAILUREMSG" : {
+   "FAILUREMSG_3" : {
       "description" : "",
-      "message" : "I'm frustrated by the late delivery, and I refuse to pay you."
+      "message" : "Listen, we were clear about the deadline. I refuse you to pay."
    },
-   "FLAVOUR_1_HOWMUCH" : {
+   "FAILUREMSG_4" : {
       "description" : "",
-      "message" : "{cargo}t"
+      "message" : "I'll make a note of your vessel identification number. From now on, I will reject all requests for work from you."
    },
-   "FLAVOUR_1_INTROTEXT" : {
+   "FAILUREMSG__7__1" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "You bastard, you have waited too long for this delivery. All my fluffy pets are starved!"
    },
-   "FLAVOUR_1_SUCCESSMSG" : {
+   "WHAT_IS_THIS" : {
       "description" : "",
-      "message" : "The goods have been received and you have been paid in full."
+      "message" : "What's this? You have jettisoned my cargo? Are you crazy?"
    },
-   "FLAVOUR_1_WHYSOMUCHTEXT" : {
+   "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
       "description" : "",
-      "message" : "It is nothing special."
-   },
-   "FLAVOUR_2_ADTEXT" : {
-      "description" : "",
-      "message" : "URGENT. Fast ship needed to deliver cargo to the {system} system."
-   },
-   "FLAVOUR_2_FAILUREMSG" : {
-      "description" : "",
-      "message" : "I was quite clear about the deadline and am very disappointed by the late delivery. You will not be paid."
-   },
-   "FLAVOUR_2_HOWMUCH" : {
-      "description" : "",
-      "message" : "The mass is {cargo}t."
-   },
-   "FLAVOUR_2_INTROTEXT" : {
-      "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
-   },
-   "FLAVOUR_2_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "You have been paid in full for the delivery. Thank you."
-   },
-   "FLAVOUR_2_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "It must be delivered by the deadline or we may not get funding."
-   },
-   "FLAVOUR_3_ADTEXT" : {
-      "description" : "",
-      "message" : "DELIVERY. Valuable Cargo to the {system} system. {cash} to an experienced pilot."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Useless! I will never depend on you again! Needless to say, you will not be paid for this."
-   },
-   "FLAVOUR_3_HOWMUCH" : {
-      "description" : "",
-      "message" : "There are {cargo}t."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
-   },
-   "FLAVOUR_3_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
-   },
-   "FLAVOUR_3_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "The goods are very valuable."
-   },
-   "FLAVOUR_4_ADTEXT" : {
-      "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
-   },
-   "FLAVOUR_4_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Your ship registration has been noted, we will reject all further applications for work from you."
-   },
-   "FLAVOUR_4_HOWMUCH" : {
-      "description" : "",
-      "message" : "{cargo}t {cargoname}"
-   },
-   "FLAVOUR_4_INTROTEXT" : {
-      "description" : "",
-      "message" : "Greetings. This is an automated message from {name} Transport Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
-   },
-   "FLAVOUR_4_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
-   },
-   "FLAVOUR_4_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "We would be happy to pay you less money."
-   },
-   "FLAVOUR_5_ADTEXT" : {
-      "description" : "",
-      "message" : "DELIVERY. Move of goods to {starport}."
-   },
-   "FLAVOUR_5_FAILUREMSG" : {
-      "description" : "",
-      "message" : "What are these? Oh, you took so long that I forgot I'd even sent this!"
-   },
-   "FLAVOUR_5_HOWMUCH" : {
-      "description" : "",
-      "message" : "{cargo}t {cargoname}"
-   },
-   "FLAVOUR_5_INTROTEXT" : {
-      "description" : "",
-      "message" : "Nice to meet you. I'm {name} and I work for the {starport} administration. We pay {cash} to someone who is able to move our goods to {starport}. No rush, no hassles."
-   },
-   "FLAVOUR_5_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Oh wonderful. We will start unloading immediately. Thank you so much."
-   },
-   "FLAVOUR_5_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Is it a lot? I don't think so."
-   },
-   "FLAVOUR_6_ADTEXT" : {
-      "description" : "",
-      "message" : "SHORT-RANGE CARGO RUN. Delivery of goods to {starport}."
-   },
-   "FLAVOUR_6_FAILUREMSG" : {
-      "description" : "",
-      "message" : "I could have delivered it faster myself. I'm not paying you."
-   },
-   "FLAVOUR_6_HOWMUCH" : {
-      "description" : "",
-      "message" : "{cargo}t {cargoname}"
-   },
-   "FLAVOUR_6_INTROTEXT" : {
-      "description" : "",
-      "message" : "Hi. I'm {name} and I will pay {cash} for a delivery to {starport}."
-   },
-   "FLAVOUR_6_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Thank you for the goods, you have been paid in full."
-   },
-   "FLAVOUR_6_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "I don't think it's a lot."
-   },
-   "FLAVOUR_7_ADTEXT" : {
-      "description" : "",
-      "message" : "INTER-PLANETARY CARGO RUN. Freight of local cargo to {starport}."
-   },
-   "FLAVOUR_7_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Our customers are not going to be happy with this. Do not expect to be paid."
-   },
-   "FLAVOUR_7_HOWMUCH" : {
-      "description" : "",
-      "message" : "There are only {cargo}t."
-   },
-   "FLAVOUR_7_INTROTEXT" : {
-      "description" : "",
-      "message" : "Hello. We need {cargoname} delivered to {starport} as soon as possible. Standard payment for this shipment is {cash}."
-   },
-   "FLAVOUR_7_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Excellent, we've credited the funds into your account."
-   },
-   "FLAVOUR_7_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Standard rates, we work with the market."
-   },
-   "FLAVOUR_8_ADTEXT" : {
-      "description" : "",
-      "message" : "NEARBY DELIVERY. Require quick delivery of cargo to {starport}."
-   },
-   "FLAVOUR_8_FAILUREMSG" : {
-      "description" : "",
-      "message" : "You were offered a premium for quick delivery! I refuse to pay for this."
-   },
-   "FLAVOUR_8_HOWMUCH" : {
-      "description" : "",
-      "message" : "There are {cargo}t."
-   },
-   "FLAVOUR_8_INTROTEXT" : {
-      "description" : "",
-      "message" : "My name is {name} and I need {cargoname} delivered to a client at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
-   },
-   "FLAVOUR_8_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Your prompt delivery is appreciated, I have credited your account accordingly."
-   },
-   "FLAVOUR_8_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "It's really urgent."
-   },
-   "FLAVOUR_9_ADTEXT" : {
-      "description" : "",
-      "message" : "FAST TRANSPORT. Urgent dispatch of perishables to {starport}."
-   },
-   "FLAVOUR_9_FAILUREMSG" : {
-      "description" : "",
-      "message" : "It's all spoilt, this is of no use to anyone! We cannot and will not pay you."
-   },
-   "FLAVOUR_9_HOWMUCH" : {
-      "description" : "",
-      "message" : "Only {cargo}t."
-   },
-   "FLAVOUR_9_INTROTEXT" : {
-      "description" : "",
-      "message" : "Greetings, we're behind with our produce shipment and need {cargoname} delivered to {starport} urgently. We'll pay you {cash} for your troubles."
-   },
-   "FLAVOUR_9_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Grand! We'll start unpacking immediately. I'll have your account updated right away."
-   },
-   "FLAVOUR_9_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Our livelihood depends on it."
-   },
-   "FLAVOUR_10_ADTEXT" : {
-      "description" : "",
-      "message" : "CARGO SERVICE. I require a ship for a delivery to {system} system."
-   },
-   "FLAVOUR_10_FAILUREMSG" : {
-      "description" : "",
-      "message" : "I'll make a note of your vessel identification number. I will reject all further applications for work from you."
-   },
-   "FLAVOUR_10_HOWMUCH" : {
-      "description" : "",
-      "message" : "There are {cargo}t of {cargoname}."
-   },
-   "FLAVOUR_10_INTROTEXT" : {
-      "description" : "",
-      "message" : "Hello, my name is {name} and I'm wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
-   },
-   "FLAVOUR_10_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
-   },
-   "FLAVOUR_10_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "I would be happy to pay you less money."
-   },
-   "FLAVOUR_11_ADTEXT" : {
-      "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
-   },
-   "FLAVOUR_11_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Your ship registration has been noted, we will reject all further applications for work from you."
-   },
-   "FLAVOUR_11_HOWMUCH" : {
-      "description" : "",
-      "message" : "{cargo}t of goods."
-   },
-   "FLAVOUR_11_INTROTEXT" : {
-      "description" : "",
-      "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
-   },
-   "FLAVOUR_11_SUCCESSMSG" : {
-      "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. Thank you."
-   },
-   "FLAVOUR_11_WHYSOMUCHTEXT" : {
-      "description" : "",
-      "message" : "Well, we would be happy to pay you less."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang up."
+      "message" : "I've debited your account with the missing goods."
    },
    "HOW_MUCH_MASS" : {
       "description" : "",
       "message" : "How much mass?"
    },
+   "HOWMUCH_1" : {
+      "description" : "",
+      "message" : "{cargo} metric tons."
+   },
+   "HOWMUCH_2" : {
+      "description" : "",
+      "message" : "{cargo}t"
+   },
+   "HOWMUCH_3" : {
+      "description" : "",
+      "message" : "The mass is {cargo}t."
+   },
+   "HOWMUCH_4" : {
+      "description" : "",
+      "message" : "There are {cargo}t."
+   },
+   "HOWMUCH_5" : {
+      "description" : "",
+      "message" : "There are {cargo}t of {cargoname}."
+   },
+   "HOWMUCH_6" : {
+      "description" : "",
+      "message" : "There are only {cargo}t."
+   },
+   "HOWMUCH_7" : {
+      "description" : "",
+      "message" : "Only {cargo}t."
+   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "How soon must it be delivered?"
    },
-   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
+   "URGENCY_1" : {
+      "description" : "",
+      "message" : "There is no rush. It must be delivered by "
+   },
+   "URGENCY_2" : {
+      "description" : "",
+      "message" : "It must necessarily be delivered by "
+   },
+   "URGENCY_3" : {
+      "description" : "",
+      "message" : "We are in hurry. So it must be delivered by "
+   },
+   "URGENCY_4" : {
+      "description" : "",
+      "message" : "Because of the close schedule it must be delivered by "
+   },
+   "URGENCY_5" : {
+      "description" : "",
+      "message" : "It is essential that the goods have been delivered before "
+   },
+   "URGENCY__3__5" : {
+      "description" : "",
+      "message" : "The cargo consists of neptunium-235. So the delivery must be completed until "
+   },
+   "URGENCY__7__1" : {
+      "description" : "",
+      "message" : "Because of the reproduction rate of the little pets the delivery must be completed until "
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "Will I be in any danger?"
+   },
+   "RISK_1" : {
+      "description" : "",
+      "message" : "I expect no hassles."
+   },
+   "RISK_2" : {
+      "description" : "",
+      "message" : "Not any more than usual."
+   },
+   "RISK_3" : {
+      "description" : "",
+      "message" : "This is valuable cargo, you should keep your eyes open."
+   },
+   "RISK_4" : {
       "description" : "",
       "message" : "It could be dangerous, you should make sure you're adequately prepared."
    },
-   "IT_MUST_BE_DELIVERED_BY" : {
+   "RISK_5" : {
       "description" : "",
-      "message" : "It must be delivered by "
+      "message" : "This is very risky, you will almost certainly run into resistance."
    },
-   "NO" : {
+   "RISK_6" : {
       "description" : "",
-      "message" : "No."
+      "message" : "I personally think, you'll never come back."
+   },
+   "SUCCESSMSG_1" : {
+      "description" : "",
+      "message" : "Thank you for the transportation of our goods. You have been paid."
+   },
+   "SUCCESSMSG_2" : {
+      "description" : "",
+      "message" : "Thanks for the timely delivery. The money was transferred."
+   },
+   "SUCCESSMSG_3" : {
+      "description" : "",
+      "message" : "Excellent, it's a pleasure to work with you. I have paid the bill."
+   },
+   "SUCCESSMSG__7__1" : {
+      "description" : "",
+      "message" : "Oh dear, I wished you had my cargo jettisoned. Anyway, here is your payment."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Why so much money?"
+   },
+   "WHYSOMUCHTEXT_1" : {
+      "description" : "",
+      "message" : "This is the standard fee."
+   },
+   "WHYSOMUCHTEXT_2" : {
+      "description" : "",
+      "message" : "Accept it, or leave it be."
+   },
+   "WHYSOMUCHTEXT_3" : {
+      "description" : "",
+      "message" : "Is it a lot? I don't think so."
+   },
+   "WHYSOMUCHTEXT_4" : {
+      "description" : "",
+      "message" : "The times are good."
+   },
+   "WHYSOMUCHTEXT_5" : {
+      "description" : "",
+      "message" : "We have an economic boom."
+   },
+   "WHYSOMUCHTEXT_6" : {
+      "description" : "",
+      "message" : "Well, we would be happy to pay you less."
+   },
+   "WHYSOMUCHTEXT_7" : {
+      "description" : "",
+      "message" : "The goods are very valuable."
+   },
+   "WHYSOMUCHTEXT_8" : {
+      "description" : "",
+      "message" : "The goods are very expensive."
+   },
+   "WHYSOMUCHTEXT__1" : {
+      "description" : "",
+      "message" : "These goods are needed urgently in a chemical plant."
+   },
+   "WHYSOMUCHTEXT__2" : {
+      "description" : "",
+      "message" : "These goods are essential for the construction of a new mine."
+   },
+   "WHYSOMUCHTEXT__6" : {
+      "description" : "",
+      "message" : "The police informed us that an unknown group of pirates attacked cargo ships in this system."
+   },
+   "WHYSOMUCHTEXT__7__1" : {
+      "description" : "",
+      "message" : "Quibbles are the fast seller this season. You should invest in Quibble shares if you want to make a lot of money."
    },
    "LY" : {
       "description" : "",
       "message" : "ly"
    },
-   "NOT_ANY_MORE_THAN_USUAL" : {
-      "description" : "",
-      "message" : "Not any more than usual."
-   },
    "OK_AGREED" : {
       "description" : "",
       "message" : "Ok, agreed."
    },
-   "PIRATE_TAUNTS_0" : {
+   "PIRATE_TAUNTS_1" : {
       "description" : "",
       "message" : "This will be your last run!"
    },
-   "PIRATE_TAUNTS_1" : {
+   "PIRATE_TAUNTS_2" : {
       "description" : "",
       "message" : "You work for {client}? This is your end!"
    },
-   "PIRATE_TAUNTS_2" : {
+   "PIRATE_TAUNTS_3" : {
       "description" : "",
       "message" : "Hey buddy, fork over the goods. Now!"
    },
-   "PIRATE_TAUNTS_3" : {
+   "PIRATE_TAUNTS_4" : {
       "description" : "",
       "message" : "Pal, you'll never reach your destination."
    },
-   "PIRATE_TAUNTS_4" : {
+   "PIRATE_TAUNTS_5" : {
       "description" : "",
       "message" : "Ah, another fat goose enroute to {location}."
    },
-   "PIRATE_TAUNTS_5" : {
+   "PIRATE_TAUNTS_6" : {
       "description" : "",
       "message" : "Hey Dude, this task is too big for you! I'll take over!"
    },
-   "PIRATE_TAUNTS_6" : {
+   "PIRATE_TAUNTS_7" : {
       "description" : "",
       "message" : "Your luck has run out!"
    },
@@ -391,49 +371,9 @@
       "description" : "",
       "message" : "System:"
    },
-   "THIS_IS_A_VALUABLE_CARGO_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
-      "description" : "",
-      "message" : "This is valuable cargo, you should keep your eyes open."
-   },
-   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
-      "description" : "",
-      "message" : "This is very risky, you will almost certainly run into resistance."
-   },
-   "WHY_SO_MUCH_MONEY" : {
-      "description" : "",
-      "message" : "Why so much money?"
-   },
-   "WILL_I_BE_IN_ANY_DANGER" : {
-      "description" : "",
-      "message" : "Will I be in any danger?"
-   },
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
       "message" : "You do not have enough cargo space on your ship."
-   },
-   "DENY_0" : {
-      "description" : "",
-      "message" : "I'm sorry, but this cargo is too valuable for me to hand them over to an inexperienced pilot."
-   },
-   "DENY_1" : {
-      "description" : "",
-      "message" : "Who are you? I do not know you and I do not trust you."
-   },
-   "DENY_2" : {
-      "description" : "",
-      "message" : "I'm sorry, I'm looking for an experienced pilot."
-   },
-   "DENY_3" : {
-      "description" : "",
-      "message" : "Excuse me, but I do not think that you can get the job done."
-   },
-   "DENY_4" : {
-      "description" : "",
-      "message" : "Don't waste my time! You are too wet behind the ears."
-   },
-   "DENY_5" : {
-      "description" : "",
-      "message" : "You're kidding, right? Come back when you're more experienced!"
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
@@ -506,5 +446,13 @@
    "URANIUM" : {
       "description" : "custom cargo",
       "message" : "Uranium"
+   },
+   "QUIBBLES" : {
+      "description" : "custom cargo",
+      "message" : "Quibbles"
+   },
+   "WEDDING_DRESSES" : {
+      "description" : "custom cargo",
+      "message" : "Wedding dresses"
    }
 }
