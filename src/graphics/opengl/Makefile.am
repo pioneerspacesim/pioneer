@@ -31,7 +31,9 @@ noinst_HEADERS = \
 	UIMaterial.h \
 	Uniform.h \
 	VerticalBlurMaterial.h \
-	VtxColorMaterial.h
+	VtxColorMaterial.h \
+	../PostProcess.h \
+	../PostProcessing.h
 
 libgraphicsopengl_a_SOURCES = \
 	gl_core_3_x.c \
@@ -50,4 +52,6 @@ libgraphicsopengl_a_SOURCES = \
 	TextureGL.cpp \
 	UIMaterial.cpp \
 	Uniform.cpp \
-	VtxColorMaterial.cpp
+	VtxColorMaterial.cpp \
+	../PostProcess.cpp \
+	../PostProcessing.cpp
