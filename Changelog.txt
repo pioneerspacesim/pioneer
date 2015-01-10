@@ -1,5 +1,8 @@
 January 2015
-   * Internal Changes
+   * Fixes
+     * Fix 3310 (#3312)
+   
+   * Internal Chnages
      * Remove DrawPoints & DrawLines methods (#3303)
      * Dummy renderer for headless tools (#3306)
      * Fix scanner drawing post-load (#3309)
