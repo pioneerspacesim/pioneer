@@ -20,8 +20,7 @@
    "ship_class" : "medium_freighter",
    "slots" : {
       "cargo" : 2500,
-      "cargoscoop" : 1,
-      "fuelscoop" : 1,
+      "scoop" : 2,
       "laser_front" : 1,
       "laser_rear" : 1,
       "missile" : 4

@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Πληροφορίες Γκρούπ:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Αποσύνδεση"
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "θα το πληρώσεις αυτό που έκανες."

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -420,9 +420,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission.r = StarSystem::starRealColors[GetSystemBody()->GetType()][0];
-		emission.g = StarSystem::starRealColors[GetSystemBody()->GetType()][1];
-		emission.b = StarSystem::starRealColors[GetSystemBody()->GetType()][2];
+		emission = StarSystem::starRealColors[GetSystemBody()->GetType()];
 		emission.a = 255;
 	}
 

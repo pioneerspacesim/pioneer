@@ -5,7 +5,7 @@
    },
    "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
       "description" : "Regarding installing a component on the ship",
-      "message" : "Fitting is included in the price."
+      "message" : "Монтаж включён в стоимость."
    },
    "FLAVOUR_0_BODY" : {
       "description" : "",
@@ -25,19 +25,19 @@
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
+      "message" : "Приветвую! Я {name} и у меня есть очень хороший {equipment}, который будет вашим всего за {price}."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: One {equipment}, for a reasonable price!"
+      "message" : "ПРОДАЁТСЯ: Один б/у {equipment}, по сходной цене!"
    },
    "FLAVOUR_3_BODY" : {
       "description" : "",
-      "message" : "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
+      "message" : "Здравствуйте! У меня есть лишний {equipment}, от которого я бы хотел избавиться, моя цена {price}."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: One {equipment}, in good condition."
+      "message" : "РАСПРОДАЖА: Один {equipment}, в хорошем состоянии."
    },
    "FLAVOUR_4_BODY" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Leftover {equipment}, in fine condition."
+      "message" : "РАСПРОДАЖА: Остаток {equipment}, в хорошем состоянии."
    },
    "FLAVOUR_5_BODY" : {
       "description" : "",
@@ -54,10 +54,6 @@
    "FLAVOUR_5_TITLE" : {
       "description" : "Selling second hand ship equipment",
       "message" : "В ПРОДАЖЕ: Старенький {equipment}, ещё в рабочем состоянии!"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
    },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",

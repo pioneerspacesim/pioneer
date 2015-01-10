@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "О группе:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Эй!! Вы собираетесь платить за это?!"

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollisionVisitor.h"
@@ -77,7 +77,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 	const int numVertices = cg.GetVertices().size();
 	const int numIndices = cg.GetIndices().size();
 	const int numTris = numIndices / 3;
-	vector3f *vertices = new vector3f[numVertices];
+	std::vector<vector3f> vertices(numVertices);
 	Uint16 *indices = new Uint16[numIndices];
 	unsigned int *triFlags = new unsigned int[numTris];
 
@@ -94,7 +94,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 	//takes ownership of data
 	GeomTree *gt = new GeomTree(
 		numVertices, numTris,
-		reinterpret_cast<float*>(vertices),
+		vertices,
 		indices, triFlags);
 	cg.SetGeomTree(gt);
 
@@ -166,18 +166,22 @@ void CollisionVisitor::AabbToMesh(const Aabb &bb)
 
 RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 {
+	Profiler::Timer timer;
+	timer.Start();
+
 	//convert from model AABB if no collisiongeoms found
 	if (!m_properData)
 		AabbToMesh(m_collMesh->GetAabb());
 
 	assert(m_collMesh->GetGeomTree() == 0);
 	assert(!m_vertices.empty() && !m_indices.empty());
+	assert(m_vertices.size() < 65536);
 
 	//duplicate data again for geomtree...
 	const int numVertices = m_vertices.size();
 	const int numIndices = m_indices.size();
 	const int numTris = numIndices / 3;
-	vector3f *vertices = new vector3f[numVertices];
+	std::vector<vector3f> vertices(numVertices);
 	Uint16 *indices = new Uint16[numIndices];
 	unsigned int *triFlags = new unsigned int[numTris];
 
@@ -196,7 +200,7 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	//takes ownership of data
 	GeomTree *gt = new GeomTree(
 		numVertices, numTris,
-		reinterpret_cast<float*>(vertices),
+		vertices,
 		indices, triFlags);
 	m_collMesh->SetGeomTree(gt);
 	m_collMesh->SetNumTriangles(m_totalTris);
@@ -205,6 +209,9 @@ RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 	m_vertices.clear();
 	m_indices.clear();
 	m_flags.clear();
+
+	timer.Stop();
+	//Output(" - CreateCollisionMesh took: %lf milliseconds\n", timer.millicycles());
 
 	return m_collMesh;
 }

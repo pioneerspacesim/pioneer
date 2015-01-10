@@ -68,7 +68,7 @@
       "message" : "Schützt Ihr Schiff vor der Hitze beim Wiedereintritt in die Atmosphäre."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatische Systemauswahl"
    },
    "AUTOPILOT" : {
@@ -108,7 +108,7 @@
       "message" : "Neigung der Rotationsachse"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Nur einige Tausend"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "Doppel-Sternsystem"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "Körpern"
    },
    "BODY" : {
@@ -192,7 +192,7 @@
       "message" : "Frachtraum-Lebenserhaltung"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "Ermöglicht den Transport von lebender Fracht."
    },
    "CARGO_N" : {
@@ -304,7 +304,7 @@
       "message" : "Strg"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Aktuelles System"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "Reiseziel"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\"-Richtung \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "Auswahl folgen"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Vorderseite"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Obst und Gemüse"
@@ -536,7 +532,7 @@
       "message" : "Erlaubt es, Wasserstofftreibstoff von Gasriesen zu sammeln."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Galaxienansicht"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +568,7 @@
       "message" : "Regierungsform:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Getreide"
    },
    "HAND_WEAPONS" : {
@@ -584,19 +580,19 @@
       "message" : "Rein kapitalistisch – kein staatliches Sozialsystem"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "-Hut"
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
       "message" : "Anti-Normal halten."
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Rückläufig halten."
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "Rechtläufig halten."
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +600,15 @@
       "message" : "Rotation stoppen"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "Normal halten."
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "Radial nach innen halten."
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Radial nach außen halten."
    },
    "HEAVY_INDUSTRY" : {
@@ -669,7 +665,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperraumankuftswolke"
+      "message" : "Hyperraumankunftswolke"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
@@ -740,7 +736,7 @@
       "message" : "Innenansicht"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale Lj"
    },
    "IN_TRANSIT" : {
@@ -752,7 +748,7 @@
       "message" : "Auf dem Weg nach %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +756,7 @@
       "message" : "Joystickeingabe"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Achse"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "Deutsch"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Großer"
    },
    "LARGE_GAS_GIANT" : {
@@ -828,7 +824,7 @@
       "message" : "Lokaler Arm"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "Eingerastet"
    },
    "MAJOR_EXPORTS" : {
@@ -1071,6 +1067,14 @@
       "description" : "",
       "message" : "Sep"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Mehrzweckschaufel"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ist zwar weniger effizient als die Treibstoffschaufel, kann aber sowohl Fracht als auch Treibstoff aufnehmen"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Mord"
@@ -1103,16 +1107,12 @@
       "description" : "",
       "message" : "Chemische Kampfstoffe"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Nichts"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma-Arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Nicht gefunden"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1208,7 +1208,7 @@
       "message" : "%mass{f.3} %{units}massen"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %{units}radii"
    },
    "N_YEARS" : {
@@ -1304,19 +1304,19 @@
       "message" : "Planwirtschaft"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Wachstumsrate der delta-v-Werte. Klicken um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normales delta-v. Klicken um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Rechtläufiges delta-v. Klicken um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radiales delta-v. Klicken um auf Null zurückzusetzen."
    },
    "PLASTICS" : {
@@ -1394,10 +1394,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Radius"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Heck"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1486,6 +1482,10 @@
    "SCANNER_DESCRIPTION" : {
       "description" : "",
       "message" : "Erstellt eine 3D-Kartenansicht von Schiffen in der Nähe."
+   },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Schaufel"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1620,7 +1620,7 @@
       "message" : "Geschwindigkeit zum Referenzobjekt"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Seitliche Ansicht"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1664,7 +1664,7 @@
       "message" : "Ein wenig Bergbau."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Ursprung"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1832,7 +1832,7 @@
       "message" : "Schalte Kursanzeige auf Planetenkoordinaten um."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "System"
    },
    "SYSTEM_NUMBER" : {
@@ -1860,7 +1860,7 @@
       "message" : "Objekt im Fadenkreuz anvisieren"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "sehr dünnen"
    },
    "TEXTILES" : {
@@ -1932,7 +1932,7 @@
       "message" : "Scanner-Modus umschalten"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "Ruhe in Frieden, Kumpel"
    },
    "TRADE_ANALYZER" : {
@@ -1999,14 +1999,6 @@
       "description" : "",
       "message" : "Sehr großer Gasriese"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Verbinde..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Video-Link verbunden"
-   },
    "VIEW" : {
       "description" : "",
       "message" : "Ansicht"
@@ -2048,7 +2040,7 @@
       "message" : "\" ohne signifikante Atmosphäre\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2056,7 +2048,7 @@
       "message" : "%crime wird hier nicht geduldet."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2080,7 +2072,7 @@
       "message" : "Sie haben kein Geld."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

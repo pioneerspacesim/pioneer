@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Powrót"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Rozłącz się."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives} - darmowa utylizacja (pod pewnymi warunkami)"

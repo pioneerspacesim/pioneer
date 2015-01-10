@@ -68,7 +68,7 @@
       "message" : "Skyddar ditt rymdskepp från hettan vid återinträde i atmosfär."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatiskt systemval"
    },
    "AUTOPILOT" : {
@@ -108,7 +108,7 @@
       "message" : "Axiallutning"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Bara några tusen"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "Binärsystem"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "kroppar"
    },
    "BODY" : {
@@ -192,7 +192,7 @@
       "message" : "Livsuppehållande lastrum"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "Tillåter transport av levande last."
    },
    "CARGO_N" : {
@@ -304,7 +304,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Nuvarande system"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "Destination"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Dir \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "följande val"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Fram"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Frukt och grönsaker"
@@ -536,7 +532,7 @@
       "message" : "Tillåter uppsamling av vätebränsle från gasjättar."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Galaxvy"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +568,7 @@
       "message" : "Regeringsform:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Säd"
    },
    "HAND_WEAPONS" : {
@@ -584,19 +580,19 @@
       "message" : "Helt kapitalistiskt - ingen välfärd tillhandahållen från regeringen"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hatt\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
       "message" : "Lås anti-normal"
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Lås bakåtriktad rörelse"
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "Lås framåtriktad rörelse"
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +600,15 @@
       "message" : "Avbryt rotation"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "Lås normal"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "Lås radiellt in"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Lås radiellt ut"
    },
    "HEAVY_INDUSTRY" : {
@@ -740,7 +736,7 @@
       "message" : "Intern vy"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
@@ -752,7 +748,7 @@
       "message" : "På väg till %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +756,7 @@
       "message" : "Joystickinmatning"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "Svenska"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Stor"
    },
    "LARGE_GAS_GIANT" : {
@@ -828,7 +824,7 @@
       "message" : "Lokal arm"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "låst"
    },
    "MAJOR_EXPORTS" : {
@@ -1071,6 +1067,14 @@
       "description" : "",
       "message" : "Sep"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multiskopa"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Skopar både last containrar och bränsle, dock mindre effektiv än vanlig bränsleskopa"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Mord"
@@ -1103,16 +1107,12 @@
       "description" : "",
       "message" : "Nervgas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Inget"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Inte hittad"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1208,7 +1208,7 @@
       "message" : "%mass{f.3} %units massor"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units radie (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1304,19 +1304,19 @@
       "message" : "Centralt planerad ekonomi"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Ökningshastighet av delta-v värden. Klicka för att återställa till standard."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normal delta-v. Klicka för att återställa till noll."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograd delta-v. Klicka för att återställa till noll."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radiell delta-v. Klicka för att återställa till noll."
    },
    "PLASTICS" : {
@@ -1394,10 +1394,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Radie"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Bakre"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1486,6 +1482,10 @@
    "SCANNER_DESCRIPTION" : {
       "description" : "",
       "message" : "Ger en 3D karta över närbelägna skepp."
+   },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Skopa"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1620,7 +1620,7 @@
       "message" : "Skeppshastighet mot referensobjekt"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Sidovy"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1664,7 +1664,7 @@
       "message" : "Viss etablerad gruvdrift."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Ursprung"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1832,7 +1832,7 @@
       "message" : "Växlade riktningsskärmen till planetens koordinater."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "System"
    },
    "SYSTEM_NUMBER" : {
@@ -1860,7 +1860,7 @@
       "message" : "Sätt objektet i hårkorset som mål"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "svagt"
    },
    "TEXTILES" : {
@@ -1932,7 +1932,7 @@
       "message" : "Växla scannerläge"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP GAMLA BÖNA"
    },
    "TRADE_ANALYZER" : {
@@ -1999,14 +1999,6 @@
       "description" : "",
       "message" : "Mycket stor gasjätte"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Ansluter..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Videolänk etablerad"
-   },
    "VIEW" : {
       "description" : "",
       "message" : "Vy"
@@ -2048,7 +2040,7 @@
       "message" : "\" utan någon nämnbar atmosfär\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2056,7 +2048,7 @@
       "message" : "%crime kan inte tolereras här."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2080,7 +2072,7 @@
       "message" : "Du har inga pengar."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

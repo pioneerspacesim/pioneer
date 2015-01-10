@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Volte"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligamento."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioativos}, descarte gratuito (as condições de aplicam)"

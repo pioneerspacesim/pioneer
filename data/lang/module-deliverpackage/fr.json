@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Notre gagne-pain en dépend."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Raccrochez."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Quand ceci doit etre livré ? "

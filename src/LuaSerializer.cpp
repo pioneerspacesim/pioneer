@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSerializer.h"
@@ -60,7 +60,7 @@
 // "Deserialize" function under that namespace. that data returned will be
 // given back to the module
 
-void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *key)
+void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, const char *key)
 {
 	static char buf[256];
 
@@ -72,7 +72,8 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 	if (!lua_checkstack(l, 20))
 		luaL_error(l, "The Lua stack couldn't be extended (out of memory?)");
 
-	idx = lua_absindex(l, idx);
+	to_serialize = lua_absindex(l, to_serialize);
+	int idx = to_serialize;
 
 	if (lua_getmetatable(l, idx)) {
 		lua_getfield(l, -1, "class");
@@ -96,12 +97,10 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			lua_pushvalue(l, idx);
 			pi_lua_protected_call(l, 1, 1);
 
-			lua_remove(l, idx);
-			lua_insert(l, idx);
-
-			lua_pop(l, 4);
+			idx = lua_gettop(l);
 
 			if (lua_isnil(l, idx)) {
+				lua_pop(l, 5);
 				LUA_DEBUG_END(l, 0);
 				return;
 			}
@@ -138,7 +137,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 		}
 
 		case LUA_TTABLE: {
-			lua_pushinteger(l, lua_Integer(lua_topointer(l, idx)));         // ptr
+			lua_pushinteger(l, lua_Integer(lua_topointer(l, to_serialize)));         // ptr
 
 			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");    // ptr reftable
 			lua_pushvalue(l, -2);                                           // ptr reftable ptr
@@ -154,7 +153,7 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				out += "t";
 
 				lua_pushvalue(l, -3);                                       // ptr reftable nil ptr
-				lua_pushvalue(l, idx);                                      // ptr reftable nil ptr table
+				lua_pushvalue(l, to_serialize);                                      // ptr reftable nil ptr table
 				lua_rawset(l, -4);                                          // ptr reftable nil
 				pickle(l, -3, out, key);
 				lua_pop(l, 3);                                              // [empty]
@@ -162,17 +161,15 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 				lua_pushvalue(l, idx);
 				lua_pushnil(l);
 				while (lua_next(l, -2)) {
-					if (key) {
-						pickle(l, -2, out, key);
-						pickle(l, -1, out, key);
-					}
-					else {
+					const char *k = key;
+					if (!k) {
 						lua_pushvalue(l, -2);
-						const char *k = lua_tostring(l, -1);
-						pickle(l, -3, out, k);
-						pickle(l, -2, out, k);
+						k = lua_tostring(l, -1);
 						lua_pop(l, 1);
 					}
+					// Copy the values to pickle, as they might be mutated by the pickling process.
+					pickle(l, -2, out, key);
+					pickle(l, -1, out, key);
 					lua_pop(l, 1);
 				}
 				lua_pop(l, 1);
@@ -226,6 +223,9 @@ void LuaSerializer::pickle(lua_State *l, int idx, std::string &out, const char *
 			Error("Lua serializer '%s' tried to serialize %s value", key, lua_typename(l, lua_type(l, idx)));
 			break;
 	}
+
+	if (idx != lua_absindex(l, to_serialize)) // It means we called a transformation function on the data, so we clean it up.
+		lua_pop(l, 5);
 
 	LUA_DEBUG_END(l, 0);
 }
@@ -411,27 +411,32 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 			// unpickle the object, and insert it beneath the method table value
 			pos = unpickle(l, end);
 
-			// get PiSerializerClasses[typename]
-			lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
-			lua_pushlstring(l, cl, len);
-			lua_gettable(l, -2);
-			lua_remove(l, -2);
-
-			if (lua_isnil(l, -1)) {
-				lua_pop(l, 2);
-				break;
-			}
-
-			lua_getfield(l, -1, "Unserialize");
-			if (lua_isnil(l, -1)) {
+			// If it is a reference, don't run the unserializer. It has either
+			// already been run, or the data is still building (cyclic
+			// references will do that to you.)
+			if (*end != 'r') {
+				// get PiSerializerClasses[typename]
+				lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerClasses");
 				lua_pushlstring(l, cl, len);
-				luaL_error(l, "No Unserialize method found for class '%s'\n", lua_tostring(l, -1));
+				lua_gettable(l, -2);
+				lua_remove(l, -2);
+
+				if (lua_isnil(l, -1)) {
+					lua_pop(l, 2);
+					break;
+				}
+
+				lua_getfield(l, -1, "Unserialize");
+				if (lua_isnil(l, -1)) {
+					lua_pushlstring(l, cl, len);
+					luaL_error(l, "No Unserialize method found for class '%s'\n", lua_tostring(l, -1));
+				}
+
+				lua_insert(l, -3);
+				lua_pop(l, 1);
+
+				pi_lua_protected_call(l, 1, 1);
 			}
-
-			lua_insert(l, -3);
-			lua_pop(l, 1);
-
-			pi_lua_protected_call(l, 1, 1);
 
 			break;
 		}

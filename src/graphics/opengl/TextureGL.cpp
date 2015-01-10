@@ -1,7 +1,8 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/Renderer.h"
+#include "RendererGL.h"
 #include "TextureGL.h"
 #include <cassert>
 #include "utils.h"
@@ -81,7 +82,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 
 	glGenTextures(1, &m_texture);
 	glBindTexture(m_target, m_texture);
-	CheckRenderErrors();
+	RendererOGL::CheckErrors();
 
 
 	// useCompressed is the global scope flag whereas descriptor.allowCompression is the local texture mode flag
@@ -93,17 +94,17 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 			if (!IsCompressed(descriptor.format)) {
 				if (!descriptor.generateMipmaps)
 					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 
 				glTexImage2D(
 					m_target, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 				if (descriptor.generateMipmaps)
 					glGenerateMipmap(m_target);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 			} else {
 				const GLint oglFormatMinSize = GetMinSize(descriptor.format);
 				size_t Width = descriptor.dataSize.x;
@@ -122,7 +123,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					Height /= 2;
 				}
 				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 			}
 			break;
 
@@ -130,7 +131,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 			if(!IsCompressed(descriptor.format)) {
 				if(descriptor.generateMipmaps)
 					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 
 				glTexImage2D(
 					GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
@@ -162,10 +163,10 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 				if (descriptor.generateMipmaps)
 					glGenerateMipmap(m_target);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 			} else {
 				const GLint oglFormatMinSize = GetMinSize(descriptor.format);
 				size_t Width = descriptor.dataSize.x;
@@ -189,14 +190,14 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					Height /= 2;
 				}
 				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
-				CheckRenderErrors();
+				RendererOGL::CheckErrors();
 			}
 			break;
 
 		default:
 			assert(0);
 	}
-	CheckRenderErrors();
+	RendererOGL::CheckErrors();
 
 	GLenum magFilter, minFilter, wrapS, wrapT;
 	switch (descriptor.sampleMode) {
@@ -231,7 +232,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 	glTexParameteri(m_target, GL_TEXTURE_WRAP_T, wrapS);
 	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
-	CheckRenderErrors();
+	RendererOGL::CheckErrors();
 
 }
 

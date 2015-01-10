@@ -68,7 +68,7 @@
       "message" : "保护你的飞船不受再入热的影响."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "自动化系统选择"
    },
    "AUTOPILOT" : {
@@ -108,7 +108,7 @@
       "message" : "转轴倾角"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "只有几千"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "双星系统"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "体"
    },
    "BODY" : {
@@ -192,7 +192,7 @@
       "message" : "货仓生命维持系统"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "允许货仓支持生命活动."
    },
    "CARGO_N" : {
@@ -304,7 +304,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "当前星系"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "目的地"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Dir\""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "以下选项"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "前"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "蔬果"
@@ -536,7 +532,7 @@
       "message" : "允许从气体巨行星上采集氢燃料."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "银河视角"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +568,7 @@
       "message" : "政府类型:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "粮食"
    },
    "HAND_WEAPONS" : {
@@ -584,19 +580,19 @@
       "message" : "完全资本主义 - 政府不提供福利"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
       "message" : "锁定航向 (反法线)"
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "锁定航向 (船尾)"
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "锁定航向 (船首)"
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +600,15 @@
       "message" : "消除旋转"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "锁定航向 (法线)"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "锁定航向 (径向内)"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "锁定航向 (径向外)"
    },
    "HEAVY_INDUSTRY" : {
@@ -740,7 +736,7 @@
       "message" : "内部视角"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
@@ -752,7 +748,7 @@
       "message" : "正在中转到 %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "摇杆"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +756,7 @@
       "message" : "摇杆输入"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}Joy%joynum %axis 轴"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "简体中文"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "较大的"
    },
    "LARGE_GAS_GIANT" : {
@@ -828,7 +824,7 @@
       "message" : "猎户臂"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "锁定"
    },
    "MAJOR_EXPORTS" : {
@@ -1071,6 +1067,14 @@
       "description" : "",
       "message" : "九月"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "联合收集器"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "虽然收集效率不及燃料收集器, 但它却可以同时收集燃料和货物"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "谋杀"
@@ -1103,16 +1107,12 @@
       "description" : "",
       "message" : "神经毒气"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "无"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "天鹅臂"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "未找到"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1208,7 +1208,7 @@
       "message" : "%mass{f.3} %units 质量"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units 半径 (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1304,19 +1304,19 @@
       "message" : "计划经济"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "delta-v 增加率. 单击重置为默认值."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "法线delta-v. 单击重置为零."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "前进方向delta-v. 单击重置为零."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "径向delta-v. 单击重置为零."
    },
    "PLASTICS" : {
@@ -1394,10 +1394,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "半径"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "后"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1486,6 +1482,10 @@
    "SCANNER_DESCRIPTION" : {
       "description" : "",
       "message" : "提供附近飞船的3D地图"
+   },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "个收集器位"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1620,7 +1620,7 @@
       "message" : "飞船相对于参照物体的速度"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "恒星视角"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1664,7 +1664,7 @@
       "message" : "一些已建立的采矿站."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "起源"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1832,7 +1832,7 @@
       "message" : "已将朝向模式设为地表坐标模式."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "星系"
    },
    "SYSTEM_NUMBER" : {
@@ -1860,7 +1860,7 @@
       "message" : "将准星内物体设为目标"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "稀薄的"
    },
    "TEXTILES" : {
@@ -1932,7 +1932,7 @@
       "message" : "切换扫描仪模式"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "缅怀老比恩"
    },
    "TRADE_ANALYZER" : {
@@ -1999,14 +1999,6 @@
       "description" : "",
       "message" : "超大气体巨星"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "正在连接..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "视频连接已建立."
-   },
    "VIEW" : {
       "description" : "",
       "message" : "视图"
@@ -2048,7 +2040,7 @@
       "message" : "\"没有明显大气\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2056,7 +2048,7 @@
       "message" : "%crime 在这里是无法容忍的."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2080,7 +2072,7 @@
       "message" : "你已经穷得响叮当了."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

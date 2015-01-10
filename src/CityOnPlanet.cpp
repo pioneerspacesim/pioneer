@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -188,7 +188,7 @@ static void lookupBuildingListModels(citybuildinglist_t *list)
 		}
 	}
 	assert(!models.empty());
-	Output("Got %d buildings of tag %s\n", models.size(), list->modelTagName);
+	Output("Got %d buildings of tag %s\n", static_cast<int>(models.size()), list->modelTagName);
 	list->buildings = new citybuilding_t[models.size()];
 	list->numBuildings = models.size();
 

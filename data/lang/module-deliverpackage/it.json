@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Le nostre vite dipendono da esso."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Riaggancia."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Per quando dev'essere consegnato?"

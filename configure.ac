@@ -1,4 +1,4 @@
-dnl Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+dnl Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
 
 dnl Process this file with autoconf to create configure.
@@ -396,6 +396,8 @@ AC_CONFIG_FILES([
 	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/graphics/opengl/Makefile
+	src/graphics/dummy/Makefile
 	src/scenegraph/Makefile
 	src/galaxy/Makefile
 	src/terrain/Makefile

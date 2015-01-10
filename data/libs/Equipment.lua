@@ -1,4 +1,4 @@
--- Copyright © 2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils = import("utils")
@@ -7,12 +7,25 @@ local Serializer = import("Serializer")
 local Lang = import("Lang")
 local ShipDef = import("ShipDef")
 
-local l = Lang.GetResource("core")
-
 --
 -- Class: EquipType
 --
 -- A container for a ship's equipment.
+--
+-- Its constructor takes a table, the "specs". Mandatory fields are the following:
+--  * l10n_key: the key to look up the name and description of
+--          the object in a language-agnostic way
+--  * l10n_resource: where to look up the aforementioned key. If not specified,
+--          the system assumes "core"
+--  * capabilities: a table of string->int, having at least "mass" as a valid key
+--
+-- All specs are copied directly within the object (even those I know nothing about),
+-- but it is a shallow copy. This is particularly important for the capabilities, as
+-- modifying the capabilities of one EquipType instance might modify them for other
+-- instances if the same table was used for all (which is strongly discouraged by the
+-- author, but who knows ? Some people might find it useful.)
+--
+--
 local EquipType = utils.inherits(nil, "EquipType")
 
 function EquipType.New (specs)
@@ -20,10 +33,42 @@ function EquipType.New (specs)
 	for i,v in pairs(specs) do
 		obj[i] = v
 	end
+	if not obj.l10n_resource then
+		obj.l10n_resource = "core"
+	end
+	local l = Lang.GetResource(obj.l10n_resource)
+	obj.volatile = {
+		description = l[obj.l10n_key.."_DESCRIPTION"] or "",
+		name = l[obj.l10n_key] or ""
+	}
 	setmetatable(obj, EquipType.meta)
 	if type(obj.slots) ~= "table" then
 		obj.slots = {obj.slots}
 	end
+	return obj
+end
+
+function EquipType:Serialize()
+	local tmp = EquipType.Super().Serialize(self)
+	local ret = {}
+	for k,v in pairs(tmp) do
+		ret[k] = v
+	end
+	ret.volatile = nil
+	return ret
+end
+
+function EquipType.Unserialize(data)
+	obj = EquipType.Super().Unserialize(data)
+	setmetatable(obj, EquipType.meta)
+	if not obj.l10n_resource then
+		obj.l10n_resource = "core"
+	end
+	local l = Lang.GetResource(obj.l10n_resource)
+	obj.volatile = {
+		description = l[obj.l10n_key.."_DESCRIPTION"] or "",
+		name = l[obj.l10n_key] or ""
+	}
 	return obj
 end
 
@@ -73,11 +118,11 @@ function EquipType:IsValidSlot(slot, ship)
 end
 
 function EquipType:GetName()
-	return l[self.l10n_key] or ""
+	return self.volatile.name
 end
 
 function EquipType:GetDescription()
-	return l[self.l10n_key.."_DESCRIPTION"] or ""
+	return self.volatile.description
 end
 
 local function __ApplyMassLimit(ship, capabilities, num)
@@ -118,7 +163,7 @@ end
 local LaserType = utils.inherits(EquipType, "LaserType")
 function LaserType:Install(ship, num, slot)
 	if num > 1 then num = 1 end -- FIXME: support installing multiple lasers (e.g., in the "cargo" slot?)
-	if self:Super().Install(self, ship, 1, slot) < 1 then return 0 end
+	if LaserType.Super().Install(self, ship, 1, slot) < 1 then return 0 end
 	local prefix = slot..'_'
 	for k,v in pairs(self.laser_stats) do
 		ship:setprop(prefix..k, v)
@@ -128,7 +173,7 @@ end
 
 function LaserType:Uninstall(ship, num, slot)
 	if num > 1 then num = 1 end -- FIXME: support uninstalling multiple lasers (e.g., in the "cargo" slot?)
-	if self:Super().Uninstall(self, ship, 1) < 1 then return 0 end
+	if LaserType.Super().Uninstall(self, ship, 1) < 1 then return 0 end
 	local prefix = (slot or "laser_front").."_"
 	for k,v in pairs(self.laser_stats) do
 		ship:unsetprop(prefix..k)
@@ -263,8 +308,7 @@ end
 -- atmo_shield - atmospheric shielding
 -- cabin - cabin
 -- shield - shield
--- fuel_scoop - fuel scoop
--- cargo_scoop - cargo scoop
+-- scoop - scoop used for scooping things (cargo, fuel/hydrogen)
 -- laser_cooler - laser cooling booster
 -- cargo_life_support - cargo bay life support
 -- autopilot - autopilot
@@ -528,12 +572,16 @@ misc.advanced_radar_mapper = EquipType.New({
 	capabilities={mass=1, radar_mapper_level=2}, purchasable=true
 })
 misc.fuel_scoop = EquipType.New({
-	l10n_key="FUEL_SCOOP", slots="fuel_scoop", price=3500,
-	capabilities={mass=6, fuel_scoop=1}, purchasable=true
+	l10n_key="FUEL_SCOOP", slots="scoop", price=3500,
+	capabilities={mass=6, fuel_scoop=3}, purchasable=true
 })
 misc.cargo_scoop = EquipType.New({
-	l10n_key="CARGO_SCOOP", slots="cargo_scoop", price=3900,
+	l10n_key="CARGO_SCOOP", slots="scoop", price=3900,
 	capabilities={mass=7, cargo_scoop=1}, purchasable=true
+})
+misc.multi_scoop = EquipType.New({
+	l10n_key="MULTI_SCOOP", slots="scoop", price=12000,
+	capabilities={mass=9, cargo_scoop=1, fuel_scoop=2}, purchasable=true
 })
 misc.hypercloud_analyzer = EquipType.New({
 	l10n_key="HYPERCLOUD_ANALYZER", slots="hypercloud", price=1500,

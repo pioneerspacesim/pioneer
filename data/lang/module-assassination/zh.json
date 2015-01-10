@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "{target} 的死亡已经被证实. 这是你的 {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "挂断."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "我要多快完成这事情?"

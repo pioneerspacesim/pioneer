@@ -68,7 +68,7 @@
       "message" : "Shields your spaceship from the heat of atmospheric re-entry."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Taghadh fèin-obrachail an t-siostaim"
    },
    "AUTOPILOT" : {
@@ -108,7 +108,7 @@
       "message" : "Claonadh aisealach"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Mìle no dhà"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "Siostam càraideach"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "bodhaigean"
    },
    "BODY" : {
@@ -192,7 +192,7 @@
       "message" : "Taic-beatha san ionad charago"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "Leigidh seo leat carago beò a ghiùlan."
    },
    "CARGO_N" : {
@@ -304,7 +304,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "An t-siostam làithreach"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "Ceann-uidhe"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\"Comhair\""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "an taghadh a leanas"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Beulaibh"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Measan 's glasraich"
@@ -536,7 +532,7 @@
       "message" : "Leigidh seo leat connadh hàidhdreaidean a sgobadh o mhòr-phlanaidean gasa."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Sealladh an reul-chriosa"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +568,7 @@
       "message" : "Seòrsa an riaghaltais:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Gràn"
    },
    "HAND_WEAPONS" : {
@@ -584,19 +580,19 @@
       "message" : "Calpach gu tur - gun riaghaltas no sochair"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Ad\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
       "message" : "Hold anti-normal"
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Hold retrograde"
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "Hold prograde"
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +600,15 @@
       "message" : "Kill rotation"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "Hold normal"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "Hold radially in"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Hold radially out"
    },
    "HEAVY_INDUSTRY" : {
@@ -740,7 +736,7 @@
       "message" : "Sealladh taobh a-staigh"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
@@ -752,7 +748,7 @@
       "message" : "A' siubhal gu %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +756,7 @@
       "message" : "Ion-chuir a' joystick"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "Gàidhlig"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Mòr"
    },
    "LARGE_GAS_GIANT" : {
@@ -828,7 +824,7 @@
       "message" : "Local arm"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "glaiste"
    },
    "MAJOR_EXPORTS" : {
@@ -1071,6 +1067,14 @@
       "description" : "",
       "message" : "Sult"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Murt"
@@ -1103,16 +1107,12 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Chan eil gin"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Cha deach a lorg"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1208,7 +1208,7 @@
       "message" : "%mass{f.3} %units tomadan"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units rèideas (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1304,19 +1304,19 @@
       "message" : "Àrd-riaghaltas le plana-eaconamaidh "
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normal delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLASTICS" : {
@@ -1394,10 +1394,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Rèideas"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Cùlaibh"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1486,6 +1482,10 @@
    "SCANNER_DESCRIPTION" : {
       "description" : "",
       "message" : "Bheir seo mapa 3D dhut dhe na soithichean am fagas."
+   },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Scoop"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1620,7 +1620,7 @@
       "message" : "Ship velocity by reference object"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Sealladh ùine nan reul"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1664,7 +1664,7 @@
       "message" : "Beagan mèinnearachd seasmhaich."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Tùs"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1832,7 +1832,7 @@
       "message" : "Switched heading display to planetary coordinates."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "Siostam"
    },
    "SYSTEM_NUMBER" : {
@@ -1860,7 +1860,7 @@
       "message" : "Target object in cross-hairs"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "tenuous"
    },
    "TEXTILES" : {
@@ -1932,7 +1932,7 @@
       "message" : "Toglaich modh an sganair"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP OLD BEAN"
    },
    "TRADE_ANALYZER" : {
@@ -1999,14 +1999,6 @@
       "description" : "",
       "message" : "Mòr-phlanaid gasa glè mhòr"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "'Ga cheangal..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Chaidh ceangal video a stèidheachadh"
-   },
    "VIEW" : {
       "description" : "",
       "message" : "Seall"
@@ -2048,7 +2040,7 @@
       "message" : "\" gun àile ceart\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2056,7 +2048,7 @@
       "message" : "Chan fhulaing sinn %crime an-seo."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2080,7 +2072,7 @@
       "message" : "Chan eil airgead agad."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

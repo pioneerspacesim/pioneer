@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MatrixTransform.h"
@@ -32,7 +32,10 @@ void MatrixTransform::Accept(NodeVisitor &nv)
 
 void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	const matrix4x4f t = trans * m_transform;
+	//renderer->SetTransform(t);
+	//DrawAxes();
 	RenderChildren(t, rd);
 }
 

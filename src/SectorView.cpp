@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -174,6 +174,7 @@ void SectorView::InitObject()
 
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
+	rsd.cullMode = CULL_NONE;
 	m_alphaBlendState = m_renderer->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor bbMatDesc;
@@ -501,11 +502,13 @@ void SectorView::Draw3D()
 	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
 
 	//draw sector legs in one go
-	if (m_lineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0], m_alphaBlendState);
+	if (m_lineVerts->GetNumVerts() > 2) {
+		m_lines.Draw(m_renderer, m_alphaBlendState);
+	}
 
-	if (m_secLineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0], m_alphaBlendState);
+	if (m_secLineVerts->GetNumVerts() > 2) {
+		m_sectorlines.Draw(m_renderer, m_alphaBlendState);
+	}
 
 	UpdateFactionToggles();
 
@@ -661,8 +664,16 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
 	PROFILE_SCOPED()
-	glDepthRange(0,1);
+
+	m_renderer->SetDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
+
+	if (!m_material)
+		m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
+
+	static const Color labelBorder(13, 13, 31, 166);
+	const auto renderState = Gui::Screen::alphaBlendState;
+
 	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 
@@ -673,22 +684,20 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 			if (Gui::Screen::Project(vector3d(sys.GetFullPosition() - origin), pos)) {
 
 				std::string labelText    = sys.GetName() + "\n" + (*it)->name;
-				Color       labelColor  = (*it)->colour;
-				float       labelHeight = 0;
-				float       labelWidth  = 0;
+				Color labelColor  = (*it)->colour;
+				float labelHeight = 0;
+				float labelWidth  = 0;
 
 				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
 
-				if (!m_material) m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
-
-				auto renderState = Gui::Screen::alphaBlendState;
+				
 				{
 					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f + labelHeight, 0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
-					m_material->diffuse = Color(13, 13, 31, 166);
+					m_material->diffuse = labelBorder;
 					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
@@ -892,7 +901,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 
 	m_renderer->SetTransform(modelview);
-	glDepthRange(0,1);
+	m_renderer->SetDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -929,6 +938,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_secLineVerts->Add(vts[3], darkgreen);
 		m_secLineVerts->Add(vts[3], darkgreen);	// line segment 4
 		m_secLineVerts->Add(vts[0], darkgreen);
+
+		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 	}
 
 	Uint32 sysIdx = 0;
@@ -1002,6 +1013,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_lineVerts->Add(systrans * vector3f(0.1f, 0.1f, z), light);
 			m_lineVerts->Add(systrans * vector3f(-0.1f, 0.1f, z), light);
 			m_lineVerts->Add(systrans * vector3f(0.1f, -0.1f, z), light);
+
+			m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
 		}
 
 		if (i->IsSameSystem(m_selected)) {
@@ -1045,21 +1058,21 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 		// player location indicator
 		if (m_inSystem && bIsCurrentSystem) {
-			glDepthRange(0.2,1.0);
+			m_renderer->SetDepthRange(0.2,1.0);
 			m_disk->SetColor(Color(0, 0, 204));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
 		if (bIsCurrentSystem) {
-			glDepthRange(0.1,1.0);
+			m_renderer->SetDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(0, 204, 0));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
-			glDepthRange(0.1,1.0);
+			m_renderer->SetDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(77));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
@@ -1089,12 +1102,12 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 		for (int sx = secOrigin.x-buildRadius; sx <= secOrigin.x+buildRadius; sx++) {
 			for (int sy = secOrigin.y-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
-						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
-							BuildFarSector(GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
-						}
+					if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
+						BuildFarSector(GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 					}
 				}
 			}
+		}
 
 		m_secPosFar      = secOrigin;
 		m_radiusFar      = buildRadius;
@@ -1103,8 +1116,8 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0],
-			m_alphaBlendState, 1.f + (Graphics::GetScreenHeight() / 720.f));
+		m_farstarsPoints.SetData(m_renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 1.f * (Graphics::GetScreenHeight() / 720.f));
+		m_farstarsPoints.Draw(m_renderer, m_alphaBlendState);
 	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn

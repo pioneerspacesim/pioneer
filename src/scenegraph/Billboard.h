@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_BILLBOARD_H
@@ -7,8 +7,12 @@
  * One or more billboard sprites, meant for lights mostly
  */
 #include "Node.h"
-#include "graphics/Material.h"
-#include "graphics/RenderState.h"
+
+namespace Graphics {
+	class Material;
+	class VertexBuffer;
+	class RenderState;
+}
 
 namespace SceneGraph {
 
@@ -25,6 +29,7 @@ public:
 private:
 	float m_size;
 	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
 	Graphics::RenderState *m_renderState;
 	vector3f m_offset;
 };

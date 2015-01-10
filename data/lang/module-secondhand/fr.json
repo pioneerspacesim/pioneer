@@ -55,10 +55,6 @@
       "description" : "Selling second hand ship equipment",
       "message" : "A VENDRE: Vieux {equipment}, en état de marche."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Raccrochez."
-   },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
       "message" : "{equipment} a été installé sur votre vaisseau."

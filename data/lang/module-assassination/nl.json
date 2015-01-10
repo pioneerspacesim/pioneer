@@ -53,15 +53,15 @@
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "I am most displeased to find that {target} is still alive. Needless to say you will receive no payment."
+      "message" : "Ik ben erg teleurgesteld om te horen dat {doelwit} nog steeds leeft. Onnodig om te zeggen dat je geen betaling ontvangt"
    },
    "FLAVOUR_0_FAILUREMSG2" : {
       "description" : "",
-      "message" : "{target}'s removal was not done by you. No payment this time."
+      "message" : "{doelwit}'s verwijdering was niet gedaan bij jou. Geen betaling deze keer"
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} to get rid of {target}."
+      "message" : "Hey, ik ben {naam}. Ik betaal je {geld} om af te komen van {doelwit}"
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I hear that {target} is in good health. This pains me."
+      "message" : "Ik hoor dat {doelwit} gezond is. Dit bezeert mij"
    },
    "FLAVOUR_1_FAILUREMSG2" : {
       "description" : "",
@@ -81,11 +81,11 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "I need {target} taken out of the picture. I'll pay you {cash} to do this."
+      "message" : "Ik moet {doelwit} uit het plaatje hebben. Ik betaal je {geld} om dit te doen"
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "I am most sad to hear of {target}'s demise. You have been paid in full."
+      "message" : "Ik ben bedroeft om te horen over {doelwit}'s ondergang. Je bent volledig betaalt "
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -93,19 +93,19 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "It is most regrettable that {target} is still live and well. You will receive no payment as you did not complete your contract."
+      "message" : "Het is zonde dat {doelwit} nog steeds leeft. Je zal geen betaling krijgen doordat je niet je contract voltooid hebt"
    },
    "FLAVOUR_2_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Contract was completed by someone else. Be faster next time!"
+      "message" : "Het contract was voltooid door iemand anders. Wees sneller de volgende keer!"
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "I am {name}, and I will pay you {cash} to terminate {target}."
+      "message" : "Ik ben {naam}, en ik betaal je {geld} om {doelwit} te elimineren "
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "You have been paid in full for the completion of that important contract."
+      "message" : "Je bent volledig betaalt voor de voltooing van dat belangrijke contract"
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -113,19 +113,19 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "You will pay for not eliminating {target}!"
+      "message" : "Je zal boeten om niet {doelwit} gelimineerd te hebben!"
    },
    "FLAVOUR_3_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Are you asking money for job done by someone else? Get lost."
+      "message" : "Ben je geld aan het vragen voor je contract ondertussen het gedaan is bij iemand anders? Hoepel op"
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "The {target} must be reduced to space dust. I'll award you {cash} to do this."
+      "message" : "Het {doelwit} moest vermindert worden tot ruimte stof. Ik betaal je {geld} om dit te doen"
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "{target} is dead. Here is your award."
+      "message" : "{doelwit} is dood. Hier is je beloning"
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "{target} is still breathing and I'm not giving money to you."
+      "message" : "{doelwit} ademt nog steeds en ik geef geen geld aan jou"
    },
    "FLAVOUR_4_FAILUREMSG2" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "For {cash} we wish to encourage {target} to stop work permanently."
+      "message" : "Voor {geld} bemoedigen we om {doelwit} te stoppen met werken onmiddelijk"
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -165,11 +165,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Message of {target}'s ending career happily acquired. Here is your {cash}."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
+      "message" : "Bericht van {doelwit}'s einde carriere blij gekregen. Hier is je {geld}"
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
@@ -301,7 +297,7 @@
    },
    "TITLE_5" : {
       "description" : "",
-      "message" : "Cardinal"
+      "message" : "Cardinaal"
    },
    "TITLE_6" : {
       "description" : "",

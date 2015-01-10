@@ -20,8 +20,7 @@
    "ship_class" : "light_cargo_shuttle",
    "slots" : {
       "cargo" : 10,
-      "cargo_scoop" : 1,
-      "fuel_scoop" : 0,
+      "scoop" : 1,
       "laser_front" : 1,
       "missile" : 0
    },

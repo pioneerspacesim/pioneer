@@ -27,7 +27,6 @@ noinst_HEADERS = \
 	CargoBody.h \
 	CityOnPlanet.h \
 	Color.h \
-	Colors.h \
 	Cutscene.h \
 	CRC32.h \
 	DateTime.h \
@@ -162,7 +161,6 @@ pioneer_SOURCES	= \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
-	Colors.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DateTime.cpp \
@@ -288,6 +286,7 @@ pioneer_LDADD = \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
+	graphics/opengl/libgraphicsopengl.a \
 	galaxy/libgalaxy.a \
 	scenegraph/libscenegraph.a \
 	text/libtext.a \
@@ -420,7 +419,6 @@ modelcompiler_SOURCES = \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
-	Colors.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DateTime.cpp \
@@ -545,6 +543,8 @@ modelcompiler_LDADD = \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
+	graphics/dummy/libgraphicsdummy.a \
+	graphics/opengl/libgraphicsopengl.a \
 	galaxy/libgalaxy.a \
 	scenegraph/libscenegraph.a \
 	text/libtext.a \

@@ -124,12 +124,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\opengl\MaterialGL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp" />
@@ -164,6 +168,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\MaterialDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RendererDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderStateDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderTargetDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\TextureDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\BloomCompositorMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h" />

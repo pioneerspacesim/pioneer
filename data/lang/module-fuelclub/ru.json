@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "[Назад]"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "Бесплатная утилизация {radioactives} (при соблюдении условий) "

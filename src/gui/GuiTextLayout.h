@@ -1,10 +1,14 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUITEXTLAYOUT_H
 #define _GUITEXTLAYOUT_H
 
 #include "text/TextureFont.h"
+
+namespace Graphics {
+	class Vertexbuffer;
+}
 
 namespace Gui {
 class TextLayout {
@@ -15,14 +19,13 @@ public:
 		ColourMarkupUse   // interprets markup tags
 	};
 	explicit TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font = RefCountedPtr<Text::TextureFont>(0), ColourMarkupMode markup = ColourMarkupUse);
-	void Render(float layoutWidth, const Color &color = Color::WHITE) const;
+	void Render(const float layoutWidth, const Color &color = Color::WHITE) const;
+	void Update(const float layoutWidth, const Color &color = Color::WHITE);
 	void MeasureSize(const float layoutWidth, float outSize[2]) const;
 	void _MeasureSizeRaw(const float layoutWidth, float outSize[2]) const;
 	~TextLayout() { free(str); }
 	void SetJustified(bool v) { m_justify = v; }
 private:
-	void _RenderRaw(float layoutWidth, const Color &color) const;
-
 	struct word_t {
 		char *word;
 		float advx;
@@ -34,6 +37,7 @@ private:
 	ColourMarkupMode m_colourMarkup;
 
 	RefCountedPtr<Text::TextureFont> m_font;
+	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
 };
 }
 

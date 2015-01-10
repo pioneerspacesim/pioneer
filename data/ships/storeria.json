@@ -1,0 +1,31 @@
+{
+   "model" : "storeria",
+   "name" : "Storeria",
+   "cockpit" : "",
+   "manufacturer" : "opli",
+   "ship_class" : "medium_freighter",
+   "min_crew" : 1,
+   "max_crew" : 5,
+   "price" : 2527000.0,
+   "hull_mass" : 500,
+   "capacity" : 1550,
+   "slots" : {
+      "atmo_shield" : 0,
+      "cargo" : 1500,
+      "scoop" : 2,
+      "laser_front" : 1,
+      "laser_rear" : 0,
+      "missile" : 0
+   },
+   "effective_exhaust_velocity" : 25000000.0,
+   "thruster_fuel_use" : -1.0,
+   "fuel_tank_mass" : 1000,
+   "hyperdrive_class" : 7,
+   "forward_thrust" : 100000000.0,
+   "reverse_thrust" : 30000000.0,
+   "up_thrust" : 18000000.0,
+   "down_thrust" : 18000000.0,
+   "left_thrust" : 8000000.0,
+   "right_thrust" : 8000000.0,
+   "angular_thrust" : 183000000.0
+}

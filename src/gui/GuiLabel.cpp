@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -17,7 +17,7 @@ Label::Label(const std::string &text, TextLayout::ColourMarkupMode colourMarkupM
 
 Label::~Label()
 {
-	delete m_layout;
+	m_layout.reset();
 }
 
 void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
@@ -33,14 +33,11 @@ void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMar
 
 void Label::UpdateLayout()
 {
-	if (m_layout) delete m_layout;
-	m_layout = new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode);
+	m_layout.reset(new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode));
 }
 
 void Label::RecalcSize()
 {
-//	float size[2];
-//	Screen::MeasureLayout(m_text, FLT_MAX, size);
 	ResizeRequest();
 }
 
@@ -73,6 +70,7 @@ void Label::Draw()
 	PROFILE_SCOPED()
 	if (!m_layout) UpdateLayout();
 	float size[2]; GetSize(size);
+	m_layout->Update(size[0], m_color);
 	if (m_shadow) {
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 		r->Translate(1,1,0);

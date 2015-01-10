@@ -25,7 +25,7 @@
    },
    "ALT_IN_KM" : {
       "description" : "",
-      "message" : "Alt: %altitude{f.0}km (%vspeed{f.1}km/s)"
+      "message" : "Hgt: %hoogte{f.0}km (%vsnelheid{f.1}km/s)"
    },
    "ALT_IN_METRES" : {
       "description" : "",
@@ -68,8 +68,8 @@
       "message" : "Beschermt schip tegen de hitte bij terugkeer in atmosfeer."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
-      "message" : "Automatic system selection"
+      "description" : "for star map, select star system when mouse close to it",
+      "message" : "Automatische systeem selectie"
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -108,7 +108,7 @@
       "message" : "Axiale tilt"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Slechts enkele duizenden"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "Binair systeem"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "lichamen"
    },
    "BODY" : {
@@ -161,7 +161,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Kan niet opslaan nadat de speler dood is"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -192,7 +192,7 @@
       "message" : "Vrachtruimte levens-systeem"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "Maakt vervoer van levende vracht mogelijk."
    },
    "CARGO_N" : {
@@ -201,7 +201,7 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Cargo Scoop"
+      "message" : "Vracht opscheppen"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "vracht opscheppen geprobeerd. Niet genoeg ruimte in vrachtruim"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -304,7 +304,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Huidig systeem"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "Bestemming"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Richting \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "Volgende selectie"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Voorkant"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Fruit en groente"
@@ -536,7 +532,7 @@
       "message" : "Maakt het mogelijk om waterstof te scheppen van gas giganten."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Galactisch overzicht"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -565,14 +561,14 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "Algemeen zicht beheer"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
       "message" : "Type regering:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Graan"
    },
    "HAND_WEAPONS" : {
@@ -584,19 +580,19 @@
       "message" : "Volkomen kapitalistisch - geen overheids-gesubsidieerde welzijnsvoorzieningen"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hoed\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
-      "message" : "Hold anti-normal"
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
+      "message" : "hou anti-normaal"
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Hold retrograde"
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "Hold prograde"
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +600,15 @@
       "message" : "Kill rotation"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
-      "message" : "Hold normal"
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
+      "message" : "hou normaal"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "Hold radially in"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Hold radially out"
    },
    "HEAVY_INDUSTRY" : {
@@ -665,7 +661,7 @@
    },
    "HYPERSPACE" : {
       "description" : "",
-      "message" : "Hyperspace"
+      "message" : "Hyperruimte"
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
@@ -705,7 +701,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "ILLEGAAL_HUIDIG_SYSTEEM"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -737,10 +733,10 @@
    },
    "INTERNAL_VIEW" : {
       "description" : "",
-      "message" : "Internal view"
+      "message" : "Binnenste uitzicht"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale lj"
    },
    "IN_TRANSIT" : {
@@ -752,15 +748,15 @@
       "message" : "Onderweg naar %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
-      "message" : "Joy"
+      "description" : "Short for Joystick",
+      "message" : "Vreugde"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
       "message" : "Joystick invoer"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "Nederlands"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Grote"
    },
    "LARGE_GAS_GIANT" : {
@@ -801,7 +797,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "LEGAAL_HUIDIG_SYSTEEM"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -825,10 +821,10 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Lokale arm"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "gesloten"
    },
    "MAJOR_EXPORTS" : {
@@ -837,7 +833,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "GROOT_UITVOER_HUIDIG_SYSTEEM"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -845,7 +841,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "GROOT_INVOER_HUIDIG_SYSTEEM"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -869,43 +865,43 @@
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "Draai zicht naar beneden"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "Draai zicht naar links"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "Draai zicht naar rechts"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "Draai zicht naar boven"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "Verplaats uitzicht naar achteren"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "verplaats uitzicht naar beneden"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "Verplaats uitzicht naar voren"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "verplaats uitzicht naar links"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "verplaats uitzicht naar rechts"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "verplaats uitzicht naar boven"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
@@ -917,7 +913,7 @@
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "Warp naar geselecteerd systeem"
    },
    "MASS" : {
       "description" : "",
@@ -985,7 +981,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "KLEIN_UITVOER_HUIDIG_SYSTEEM"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -993,7 +989,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "KLEIN_INVOER_HUIDIG_SYSTEEM"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -1071,6 +1067,14 @@
       "description" : "",
       "message" : "Sep"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Moord"
@@ -1103,16 +1107,12 @@
       "description" : "",
       "message" : "Zenuwgas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Geen"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Niet gevonden"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1208,7 +1208,7 @@
       "message" : "%mass{f.3} %units massa"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1269,7 +1269,7 @@
    },
    "PIONEER" : {
       "description" : "",
-      "message" : "PIONEER"
+      "message" : "PIONIER"
    },
    "PIRACY" : {
       "description" : "",
@@ -1304,20 +1304,20 @@
       "message" : "Centraal geplande economie"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "description" : "For system orbit view",
+      "message" : "Normaal delta-v. Klik om te resetten naar nul"
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "description" : "For system orbit view",
+      "message" : "Radiaal delta-v. Klik om te resetten naar nul"
    },
    "PLASTICS" : {
       "description" : "",
@@ -1395,13 +1395,9 @@
       "description" : "",
       "message" : "Radius"
    },
-   "REAR" : {
-      "description" : "",
-      "message" : "Achterkant"
-   },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Dit systeem was verkent op %datum"
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1487,6 +1483,10 @@
       "description" : "",
       "message" : "Projecteert een 3D-kaart van nabije schepen."
    },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Scoop"
+   },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "schermdump%index{d08}.png"
@@ -1545,7 +1545,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Zet navigatie doel naar:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1620,7 +1620,7 @@
       "message" : "Snelheid van schip t.o.v. referentieobject"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Sidereal view"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1664,7 +1664,7 @@
       "message" : "Enige mijnbouw."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Oorsprong"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1832,7 +1832,7 @@
       "message" : "Switched heading display to planetary coordinates."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "Systeem"
    },
    "SYSTEM_NUMBER" : {
@@ -1860,7 +1860,7 @@
       "message" : "Maak object in vizier tot doelwit"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "onbeduidende"
    },
    "TEXTILES" : {
@@ -1932,7 +1932,7 @@
       "message" : "Schakel tussen scanner modus"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP OUDE KNAR"
    },
    "TRADE_ANALYZER" : {
@@ -1941,7 +1941,7 @@
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Laat winstgevend vracht zien om te handelen tussen geselecteerd en huidig systeem"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1999,14 +1999,6 @@
       "description" : "",
       "message" : "Zeer grote gas gigant"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Verbinden..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Video link geïnitialiseerd"
-   },
    "VIEW" : {
       "description" : "",
       "message" : "Bekijk"
@@ -2048,7 +2040,7 @@
       "message" : "\" zonder significante atmosfeer\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2056,7 +2048,7 @@
       "message" : "%crime wordt hier niet getolereerd."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2080,7 +2072,7 @@
       "message" : "U heeft geen geld."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

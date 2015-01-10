@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Atrás"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, libre disposición (se aplican condiciones)"

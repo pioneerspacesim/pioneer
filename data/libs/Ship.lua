@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Ship = import_core("Ship")
@@ -281,7 +281,7 @@ compat.slots.old2new={
 	MISSILE="missile", ECM="ecm", SCANNER="scanner", RADARMAPPER="radar_mapper",
 	HYPERCLOUD="hypercloud", HULLAUTOREPAIR="hull_autorepair",
 	ENERGYBOOSTER="energy_booster", ATMOSHIELD="atmo_shield", CABIN="cabin",
-	SHIELD="shield", FUELSCOOP="fuel_scoop", CARGOSCOOP="cargo_scoop",
+	SHIELD="shield", FUELSCOOP="scoop", CARGOSCOOP="scoop",
 	LASERCOOLER="laser_cooler", CARGOLIFESUPPORT="cargo_life_support",
 	AUTOPILOT="autopilot"
 }

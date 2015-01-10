@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/opengl/VertexBufferGL.h"
@@ -36,9 +36,9 @@ GLenum get_component_type(VertexAttribFormat fmt)
 	}
 }
 
-VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
+VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
+	Graphics::VertexBuffer(desc)
 {
-	m_desc = desc;
 	//update offsets in desc
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (m_desc.attrib[i].offset == 0)

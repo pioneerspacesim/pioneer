@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Grup detayı:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey!?! Bunun bedelini ödeyeceksin!!!"

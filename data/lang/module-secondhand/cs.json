@@ -5,74 +5,70 @@
    },
    "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
       "description" : "Regarding installing a component on the ship",
-      "message" : "Fitting is included in the price."
+      "message" : "Instalace na loď je v ceně"
    },
    "FLAVOUR_0_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
+      "message" : "Ahoj! My jméno je {name} a prodávám {equipment} z mé staré lodi. Chci za to {price}. "
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Special offer, selling one {equipment}."
+      "message" : "PRODEJ: Speciální nabídka, {equipment} na prodej."
    },
    "FLAVOUR_1_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name}. I have an almost brand new {equipment} which I'm selling for just {price}."
+      "message" : "Ahoj! My jméno je {name} a prodávám téměr nové {equipment}. Chci za to {price}. "
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: Practically unused {equipment}, at an affordable price!"
+      "message" : "PRODEJ: Téměř nepoužité {equipment} za výhodnou cenu!"
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Greetings! I'm {name} and I have a very fine {equipment} which could be yours for just {price}."
+      "message" : "Zdravím! Jmenuje se {name} a mám velmi dobré {equipment} které může být tvoje za pouze {price}."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "SELLING: One {equipment}, for a reasonable price!"
+      "message" : "PRODEJ: {equipment} za rozumnou cenu!"
    },
    "FLAVOUR_3_BODY" : {
       "description" : "",
-      "message" : "Hello! I have an extra {equipment} which I need to get off my hands, my asking price is {price}."
+      "message" : "Ahoj! Mám navíc jeden {equipment}. Potřebuju se toho zbavit, prodám to za {price}."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: One {equipment}, in good condition."
+      "message" : "PRODEJ: {equipment} ve skvělém stavu!"
    },
    "FLAVOUR_4_BODY" : {
       "description" : "",
-      "message" : "Hi! We have an extra {equipment} which could be yours for {price}."
+      "message" : "Ahoj! Mám nějaké extra {equipment}, které může být tvoje za {price}."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Leftover {equipment}, in fine condition."
+      "message" : "PRODEJ:  Přebytkové {equipment}, v dobrém stavu"
    },
    "FLAVOUR_5_BODY" : {
       "description" : "",
-      "message" : "Greetings! Do you want to buy my old {equipment}? It has served me well, but I have now upgraded and don't need it. The price is {price}."
+      "message" : "Zdravím! Chceš koupit mé staré {equipment}? Sloužilo mi dobře, ale už to nepotřebuju. Cena je {price}."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "FOR SALE: Old {equipment}, in working condition."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
+      "message" : "PRODEJ: {equipment}, staré ale fungující."
    },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
-      "message" : "The {equipment} has been fitted to your ship."
+      "message" : "{equipment} bylo nainstalováno na tvoji loď."
    },
    "HOW_DO_I_FITT_IT" : {
       "description" : "Regarding installing a component on the ship",
-      "message" : "How do I fit it?"
+      "message" : "Jak to nainstaluji na svoji loď?"
    },
    "REPEAT_OFFER" : {
       "description" : "",
-      "message" : "Repeat offer"
+      "message" : "Opakuj nabídku"
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You don't have enough money."
+      "message" : "Nemáš dostatek peněž"
    }
 }

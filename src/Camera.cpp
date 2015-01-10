@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -103,7 +103,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
-		const Uint8 *col = StarSystem::starRealColors[body->GetType()];
+		const Color &col = StarSystem::starRealColors[body->GetType()];
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
@@ -152,8 +152,7 @@ void Camera::Update()
 				attrs.billboardPos = vector3f(pos);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
-					const Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
-					attrs.billboardColor = Color(col[0], col[1], col[2], 255);
+					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
 				}
 				else if (b->IsType(Object::PLANET)) {
 					// XXX this should incorporate some lighting effect

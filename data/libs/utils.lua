@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils
@@ -154,8 +154,28 @@ end
 -- To overwrite the constructor (function `New`), don't forget to rename the current
 -- one and call it in the new method.
 --
+local object = {}
+
+object.meta = { __index = object, class="object" }
+
+function object.New(args)
+	local newinst = {}
+	setmetatable( newinst, object.meta )
+	return newinst
+end
+
+function object:Serialize()
+	return self
+end
+
+function object.Unserialize(data)
+	setmetatable(data, object.meta)
+	return data
+end
+
 utils.inherits = function (baseClass, name)
 	local new_class = {}
+	local base_class = baseClass or object
 	new_class.meta = { __index = new_class, class=name }
 
 	-- generic constructor
@@ -165,27 +185,22 @@ utils.inherits = function (baseClass, name)
 		return newinst
 	end
 
-	if nil ~= baseClass then
-		setmetatable( new_class, { __index = baseClass } )
-	end
-
-	function new_class:Serialize()
-		return self
-	end
-
-	function new_class.Unserialize(data)
-		setmetatable(data, new_class.meta)
-		return data
-	end
+	setmetatable( new_class, { __index = base_class } )
 
 	-- Return the class object of the instance
 	function new_class:Class()
 		return new_class
 	end
 
+	function new_class.Unserialize(data)
+        local tmp = base_class.Unserialize(data)
+		setmetatable(tmp, new_class.meta)
+		return tmp
+	end
+
 	-- Return the super class object of the instance
-	function new_class:Super()
-		return baseClass
+	function new_class.Super()
+		return base_class
 	end
 
 	return new_class

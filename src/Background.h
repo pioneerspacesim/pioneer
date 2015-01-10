@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BACKGROUND_H
@@ -66,6 +66,7 @@ namespace Background
 		//hyperspace animation vertex data
 		vector3f m_hyperVtx[BG_STAR_MAX*3];
 		Color m_hyperCol[BG_STAR_MAX*3];
+		std::unique_ptr<Graphics::VertexBuffer> m_animBuffer;
 	};
 
 	class MilkyWay : public BackgroundElement

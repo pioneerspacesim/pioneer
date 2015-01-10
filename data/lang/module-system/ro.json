@@ -1,11 +1,11 @@
 {
    "BASE" : {
       "description" : "",
-      "message" : "base"
+      "message" : "bază"
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "baze"
    },
    "BODIES" : {
       "description" : "",
@@ -17,18 +17,18 @@
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : "Ați descoperit {portcount} {bases} ascunse!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "Se explorează sistemul cu {bodycount} {bodies} majore."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is almost empty."
+      "message" : "Rezervorul dvs. e aproape gol."
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is empty."
+      "message" : "Rezervorul dvs. e gol."
    }
 }

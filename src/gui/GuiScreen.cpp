@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -290,7 +290,7 @@ int Screen::PickCharacterInString(const std::string &s, float x, float y, Text::
 	return font->PickCharacter(s.c_str(), x, y);
 }
 
-void Screen::RenderString(const std::string &s, float xoff, float yoff, const Color &color, Text::TextureFont *font)
+void Screen::RenderStringBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const std::string &s, float xoff, float yoff, const Color &color, Text::TextureFont *font)
 {
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
@@ -307,10 +307,21 @@ void Screen::RenderString(const std::string &s, float xoff, float yoff, const Co
 	r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
 
-	font->RenderString(s.c_str(), 0, 0, color);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	font->PopulateString(va, s.c_str(), 0, 0, color);
+
+	if( va.GetNumVerts() > 0 ) {
+		if( !vb.Valid() || vb->GetVertexCount() != va.GetNumVerts() ) {
+			vb.Reset( font->CreateVertexBuffer(va) );
+		}
+
+		vb->Populate(va);
+		
+		font->RenderBuffer(vb.Get(), color);
+	} 
 }
 
-void Screen::RenderMarkup(const std::string &s, const Color &color, Text::TextureFont *font)
+void Screen::RenderMarkupBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const std::string &s, const Color &color, Text::TextureFont *font)
 {
 	PROFILE_SCOPED()
     if (!font) font = GetFont().Get();
@@ -327,7 +338,18 @@ void Screen::RenderMarkup(const std::string &s, const Color &color, Text::Textur
 	r->Translate(floor(x/Screen::fontScale[0])*Screen::fontScale[0], floor(y/Screen::fontScale[1])*Screen::fontScale[1], 0);
 	r->Scale(Screen::fontScale[0], Screen::fontScale[1], 1);
 
-	font->RenderMarkup(s.c_str(), 0, 0, color);
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+	font->PopulateMarkup(va, s.c_str(), 0, 0, color);
+
+	if( va.GetNumVerts() > 0 ) {
+		if( !vb.Valid() || vb->GetVertexCount() != va.GetNumVerts() ) {
+			vb.Reset( font->CreateVertexBuffer(va) );
+		}
+
+		vb->Populate(va);
+		
+		font->RenderBuffer(vb.Get());
+	} 
 }
 
 void Screen::AddShortcutWidget(Widget *w)

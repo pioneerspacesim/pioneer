@@ -1,3 +1,45 @@
+January 2015
+   * Fixes
+     * Fix 3310 (#3312)
+   
+   * Internal Chnages
+     * Remove DrawPoints & DrawLines methods (#3303)
+     * Dummy renderer for headless tools (#3306)
+     * Fix scanner drawing post-load (#3309)
+     * Faster text buffer rendering (#3304)
+     * Ignore any sgm files in the repository (#3315)
+
+December 2014
+   * New Features
+     * New Multi Scoop equipment, and merge cargo and fuel scoop slots
+       to a single one (#3267)
+     * New OPLI ship Storeria (#3257)
+     * Our two space stations decommissioned (hoop and big_crappy) and three new jaw
+       dropping amazing ones enter service! (#3099)
+
+   * Fixes
+     * Fix string "NONE" in ShipInfo not using the translated version (#3268)
+     * Require OpenGL 3.1 context when opening the SDL window (#3269)
+     * Move parentheses to correct position for ATLAS_SIZE test (#3299)
+
+   * Minor changes and tweaks
+     * Switch font texture U/V coordinates to unsigned int (#3273)
+     * README updated to markdown format (#3276)
+     * Ship and station labels can now include line breaks (#3188)
+     * Changed to compile as c++ for all build configurations (#3288)
+     * Handle non-core strings for lua equipment (#3279)
+     * Use counter not named bays for stations (#3291)
+
+   * Internal Changes
+     * Fix spelling error in DeliverPackage
+     * Better descriptions for translation strings in ui-/core (#3272)
+     * Change the Star Color structures to use Color instead of Uint8 (#3285)
+     * Remove the Colours.h/cpp files (#3289)
+     * Several bugfixes to the Lua serializer triggered by recent code (#3279)
+     * Remove redundant code and translation strings (#3294)
+     * Optimise VertexBuffer usage for SG Nodes (#3300)
+     * Bundle Collision with SGM file (#3297)
+
 November 2014
    * New Features
      * Update to use OpenGL 3.2 (#3219)
@@ -23,7 +65,7 @@ November 2014
      * The OSX build showed these might be shadowed (#3248)
      * Json ship definitions (#3252)
      * Disable shader validation due to OSX bug (#3260)
-     * Remove GLEW, use glLoadGen (#3265)
+     * Remove GLEW, use glLoadGen, downgrade to OpenGL 3.1 (#3265)
 
 October 2014
    * Art

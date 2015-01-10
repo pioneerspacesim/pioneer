@@ -1,4 +1,4 @@
--- Copyright © 2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils = import("utils")
@@ -24,8 +24,7 @@ EquipSet.default = {
 	atmo_shield=1,
 	cabin=50,
 	shield=9999,
-	fuel_scoop=1,
-	cargo_scoop=1,
+	scoop=2,
 	laser_cooler=1,
 	cargo_life_support=1,
 	autopilot=1,

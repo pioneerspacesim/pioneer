@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "我们今后的生计都指望这一次了."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "挂断."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "需要什么时候送到?"

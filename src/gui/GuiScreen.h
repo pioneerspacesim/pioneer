@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUISCREEN_H
@@ -54,12 +54,12 @@ namespace Gui {
 
 		static float GetFontHeight(Text::TextureFont *font = 0);
 		static float GetFontDescender(Text::TextureFont *font = 0);
-
-		static void RenderString(const std::string &s, float xoff, float yoff, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
+		
+		static void RenderStringBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const std::string &s, float xoff, float yoff, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
+		static void RenderMarkupBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const std::string &s, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 		static void MeasureString(const std::string &s, float &w, float &h, Text::TextureFont *font = 0);
 		static int PickCharacterInString(const std::string &s, float x, float y, Text::TextureFont *font = 0);
 		static void MeasureCharacterPos(const std::string &s, int charIndex, float &x, float &y, Text::TextureFont *font = 0);
-		static void RenderMarkup(const std::string &s, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 
 		static Graphics::Renderer *GetRenderer() { return s_renderer; }
 

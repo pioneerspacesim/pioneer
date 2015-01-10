@@ -68,7 +68,7 @@
       "message" : "Osłaniają statek przy wejściu w atmosferę."
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatyczny wybór systemu"
    },
    "AUTOPILOT" : {
@@ -108,7 +108,7 @@
       "message" : "Nachylenie osi"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Tylko kilka tysięcy"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +120,7 @@
       "message" : "System podwójny"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "ciałami"
    },
    "BODY" : {
@@ -192,7 +192,7 @@
       "message" : "System Podtrzymywania Życia"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
+      "description" : "live cargo = animals, slaves",
       "message" : "Umożliwia transport ludzi i zwierząt."
    },
    "CARGO_N" : {
@@ -201,11 +201,11 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Harpun towarowy"
+      "message" : "Czerpak towarowy"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Aktywowano harpun towarowy. Pozyskano 1 tonę: %item."
+      "message" : "Aktywowano czerpak towarowy. Pozyskano 1 tonę: %item."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
@@ -304,7 +304,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Aktualny system"
    },
    "DATE_DUE_N" : {
@@ -332,7 +332,7 @@
       "message" : "Punkt docelowy"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Dir \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -511,10 +511,6 @@
       "description" : "",
       "message" : "wybieraj wskazany"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Przód"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Warzywa i owoce"
@@ -525,18 +521,18 @@
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Dren paliwowy"
+      "message" : "Czerpak paliwowy"
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Dren paliwowy włączony. Masz %quantity ton wodoru."
+      "message" : "Czerpak paliwowy włączony. Masz %quantity ton wodoru."
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
       "message" : "Pozwala czerpać paliwo wodorowe z gazowych olbrzymów."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Galaktyka"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +568,7 @@
       "message" : "Rząd:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Zboże"
    },
    "HAND_WEAPONS" : {
@@ -584,19 +580,19 @@
       "message" : "Całkowity Kapitalizm - bez opieki społecznej"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
       "message" : "Pozycja anormalna"
    },
    "HEADING_LOCK_BACKWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Pozycja tyłem"
    },
    "HEADING_LOCK_FORWARD" : {
-      "description" : "",
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
       "message" : "Pozycja przodem"
    },
    "HEADING_LOCK_KILLROT" : {
@@ -604,15 +600,15 @@
       "message" : "Stłum rotację"
    },
    "HEADING_LOCK_NORMAL" : {
-      "description" : "",
+      "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "Pozycja normalna"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face towards planet)",
       "message" : "Pozycja dośrodkowo"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
-      "description" : "",
+      "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Pozycja odśrodkowo"
    },
    "HEAVY_INDUSTRY" : {
@@ -740,7 +736,7 @@
       "message" : "Widok wewnętrzny"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale lś"
    },
    "IN_TRANSIT" : {
@@ -752,7 +748,7 @@
       "message" : "Przelot do %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +756,7 @@
       "message" : "Ustawienia joysticka"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%joyname oś %{sign}%axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,7 +772,7 @@
       "message" : "Polski"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Duża"
    },
    "LARGE_GAS_GIANT" : {
@@ -828,7 +824,7 @@
       "message" : "Ramię Lokalne"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "zablokowany"
    },
    "MAJOR_EXPORTS" : {
@@ -1071,6 +1067,14 @@
       "description" : "",
       "message" : "Wrz"
    },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Czerpak wielofunkcyjny"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Mniej skuteczny od czerpaka paliwowego, lecz mimo to pozwala przechwycić zarówno kontenery towarowe jak i paliwo."
+   },
    "MURDER" : {
       "description" : "",
       "message" : "Morderstwo"
@@ -1103,16 +1107,12 @@
       "description" : "",
       "message" : "Gaz paraliżujący"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Brak"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Ramię Normy"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Nie znaleziono"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1208,7 +1208,7 @@
       "message" : "%mass{f.3} masy %units"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} promienia %units (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1304,19 +1304,19 @@
       "message" : "Gospodarka centralnie planowana"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Tempo wzrostu wartości delta-v. Kliknij, aby przywrócić domyślne."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Delta-v dla pozycji normalnej. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Delta-v dla pozycji przodem. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Delta-v dla pozycji radialnej. Kliknij, aby wyzerować."
    },
    "PLASTICS" : {
@@ -1394,10 +1394,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Promień"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Tył"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1486,6 +1482,10 @@
    "SCANNER_DESCRIPTION" : {
       "description" : "",
       "message" : "Dostarcza trójwymiarową mapę pobliskiej przestrzeni."
+   },
+   "SCOOP" : {
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Mocowania czerpaków"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1620,7 +1620,7 @@
       "message" : "Prędkość statku względem punktu odniesienia"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Widok radialny"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1664,7 +1664,7 @@
       "message" : "Kilka kopalni."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Punkt wyjściowy"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1832,7 +1832,7 @@
       "message" : "Wyświetlanie pozycji przełączono na koordynaty planetarne."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "System"
    },
    "SYSTEM_NUMBER" : {
@@ -1860,7 +1860,7 @@
       "message" : "Zaznacz widoczny obiekt"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "śladowa"
    },
    "TEXTILES" : {
@@ -1932,7 +1932,7 @@
       "message" : "Zmiana trybu skanera"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "SPOCZYWAJ W POKOJU STARY PIERNIKU"
    },
    "TRADE_ANALYZER" : {
@@ -1999,14 +1999,6 @@
       "description" : "",
       "message" : "Bardzo duży gazowy olbrzym"
    },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Łączenie..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Połączenie wideo."
-   },
    "VIEW" : {
       "description" : "",
       "message" : "Widok"
@@ -2048,7 +2040,7 @@
       "message" : "\" bez znaczącej atmosfery\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2056,7 +2048,7 @@
       "message" : "%crime nie będzie tu tolerowane."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2080,7 +2072,7 @@
       "message" : "Nie masz pieniędzy."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

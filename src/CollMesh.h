@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLLMESH_H
@@ -6,6 +6,7 @@
 #include "RefCounted.h"
 #include "Aabb.h"
 #include "collider/GeomTree.h"
+#include "Serializer.h"
 
 //This simply stores the collision GeomTrees
 //and AABB.
@@ -43,6 +44,39 @@ public:
 	//for statistics
 	unsigned int GetNumTriangles() const { return m_totalTris; }
 	void SetNumTriangles(unsigned int i) { m_totalTris = i; }
+
+	void Save(Serializer::Writer &wr) const
+	{
+		wr.Vector3d(m_aabb.max);
+		wr.Vector3d(m_aabb.min);
+		wr.Double(m_aabb.radius);
+
+		m_geomTree->Save(wr);
+
+		wr.Int32(m_dynGeomTrees.size());
+		for (auto it : m_dynGeomTrees) {
+			it->Save(wr);
+		}
+
+		wr.Int32(m_totalTris);
+	}
+
+	void Load(Serializer::Reader &rd)
+	{
+		m_aabb.max = rd.Vector3d();
+		m_aabb.min = rd.Vector3d();
+		m_aabb.radius = rd.Double();
+
+		m_geomTree = new GeomTree(rd);
+
+		const Uint32 numDynGeomTrees = rd.Int32();
+		m_dynGeomTrees.reserve(numDynGeomTrees);
+		for (Uint32 it = 0; it < numDynGeomTrees; ++it) {
+			m_dynGeomTrees.push_back(new GeomTree(rd));
+		}
+
+		m_totalTris = rd.Int32();
+	}
 
 protected:
 	Aabb m_aabb;

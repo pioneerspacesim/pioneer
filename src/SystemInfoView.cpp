@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
@@ -637,6 +637,17 @@ SystemInfoView::BodyIcon::BodyIcon(const char *img, Graphics::Renderer *r)
 	//no blending
 	Graphics::RenderStateDesc rsd;
 	m_renderState = r->CreateRenderState(rsd);
+
+	float size[2];
+	GetSize(size);
+	const vector3f vts[] = {
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(size[0], 0.f, 0.f),
+		vector3f(size[0], size[1], 0.f),
+		vector3f(0.f, size[1], 0.f),
+	};
+	m_selectBox.SetData(COUNTOF(vts), vts, m_selectColor);
+	
 }
 
 void SystemInfoView::BodyIcon::Draw()
@@ -655,13 +666,7 @@ void SystemInfoView::BodyIcon::Draw()
 	    circle.Draw(m_renderer);
 	}
 	if (GetSelected()) {
-	    const vector3f vts[] = {
-		    vector3f(0.f, 0.f, 0.f),
-		    vector3f(size[0], 0.f, 0.f),
-		    vector3f(size[0], size[1], 0.f),
-		    vector3f(0.f, size[1], 0.f),
-	    };
-	    m_renderer->DrawLines(COUNTOF(vts), vts, m_selectColor, m_renderState, Graphics::LINE_LOOP);
+		m_selectBox.Draw(m_renderer, m_renderState, Graphics::LINE_LOOP);
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTORVIEW_H
@@ -190,6 +190,10 @@ private:
 	RefCountedPtr<Graphics::Material> m_fresnelMat;
 	std::unique_ptr<Graphics::Drawables::Sphere3D> m_jumpSphere;
 	std::unique_ptr<Graphics::VertexArray> m_starVerts;
+
+	Graphics::Drawables::Lines m_lines;
+	Graphics::Drawables::Lines m_sectorlines;
+	Graphics::Drawables::Points m_farstarsPoints;
 };
 
 #endif /* _SECTORVIEW_H */

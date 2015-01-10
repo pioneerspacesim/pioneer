@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStation.h"
@@ -295,6 +295,10 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 			return (m_shipDocking[i].stage > 0); // grant docking only if the ship is not already docked/undocking
 		}
 	}
+
+	const Aabb &bbox = s->GetAabb();
+	const double bboxRad = bbox.GetRadius();
+
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		// initial unoccupied check
 		if (m_shipDocking[i].ship != 0) continue;
@@ -302,9 +306,6 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 		// size-of-ship vs size-of-bay check
 		const SpaceStationType::SPort *const pPort = m_type->FindPortByBay(i);
 		if( !pPort ) continue;
-
-		const Aabb &bbox = s->GetAabb();
-		const double bboxRad = bbox.GetRadius();
 
 		if( pPort->minShipSize < bboxRad && bboxRad < pPort->maxShipSize ) {
 			shipDocking_t &sd = m_shipDocking[i];

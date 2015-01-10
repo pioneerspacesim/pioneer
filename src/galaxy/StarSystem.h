@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STARSYSTEM_H
@@ -308,8 +308,8 @@ public:
 	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static const Uint8 starColors[][3];
-	static const Uint8 starRealColors[][3];
+	static const Color starColors[];
+	static const Color starRealColors[];
 	static const double starLuminosities[];
 	static const float starScale[];
 

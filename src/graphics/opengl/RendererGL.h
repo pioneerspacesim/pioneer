@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #pragma once
@@ -41,10 +41,18 @@ namespace OGL {
 class RendererOGL : public Renderer
 {
 public:
+	static void RegisterRenderer();
+
 	RendererOGL(WindowSDL *window, const Graphics::Settings &vs);
 	virtual ~RendererOGL();
 
 	virtual const char* GetName() const { return "OpenGL 3.1, with extensions, renderer"; }
+
+	virtual void WriteRendererInfo(std::ostream &out) const;
+
+	virtual void CheckRenderErrors() const { CheckErrors(); }
+	static void CheckErrors();
+
 	virtual bool GetNearFarRange(float &near_, float &far_) const;
 
 	virtual bool BeginFrame();
@@ -56,6 +64,8 @@ public:
 
 	virtual bool SetRenderState(RenderState*) override;
 	virtual bool SetRenderTarget(RenderTarget*) override;
+
+	virtual bool SetDepthRange(double near, double far) override;
 
 	virtual bool ClearScreen();
 	virtual bool ClearDepthBuffer();
@@ -71,15 +81,12 @@ public:
 
 	virtual bool SetWireFrameMode(bool enabled);
 
-	virtual bool SetLights(const int numlights, const Light *l);
-	virtual int GetNumLights() const { return m_numLights; }
+	virtual bool SetLights(Uint32 numlights, const Light *l);
+	virtual Uint32 GetNumLights() const { return m_numLights; }
 	virtual bool SetAmbientColor(const Color &c);
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
 
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, PrimitiveType type=LINE_SINGLE) override;
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) override;
-	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) override;
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override;
@@ -109,6 +116,8 @@ public:
 	virtual void Translate( const float x, const float y, const float z );
 	virtual void Scale( const float x, const float y, const float z );
 
+	virtual bool Screendump(ScreendumpState &sd);
+
 protected:
 	virtual void PushState();
 	virtual void PopState();
@@ -120,8 +129,8 @@ protected:
 	//disable previously enabled
 	void DisableVertexAttributes(const VertexBuffer*);
 	void DisableVertexAttributes();
-	int m_numLights;
-	int m_numDirLights;
+	Uint32 m_numLights;
+	Uint32 m_numDirLights;
 	std::vector<GLuint> m_vertexAttribsSet;
 	float m_minZNear;
 	float m_maxZFar;
@@ -157,6 +166,9 @@ protected:
 		Sint32 x, y, w, h;
 	};
 	std::stack<Viewport> m_viewportStack;
+
+private:
+	static bool initted;
 };
 
 }

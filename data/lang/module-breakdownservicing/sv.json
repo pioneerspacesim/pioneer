@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Serva hyperrymdmotor"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Jag har inte tillräckligt med pengar"

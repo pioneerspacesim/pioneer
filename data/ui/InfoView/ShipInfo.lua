@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -34,7 +34,7 @@ local shipInfo = function (args)
 	rearWeapon =  rearWeapon  or nil
 
 	local player = Game.player
-	
+
 	local shipNameEntry = ui:TextEntry(player.shipName):SetFont("HEADING_SMALL")
 	shipNameEntry.onChange:Connect(function (newName)
 		player:SetShipName(newName)
@@ -85,7 +85,7 @@ local shipInfo = function (args)
 			:SetColumn(0, {
 				ui:Table():AddRows({
 					ui:Table():SetColumnSpacing(10):AddRows({
-						{ l.HYPERDRIVE..":", hyperdrive and hyperdrive:GetName() or "None" },
+						{ l.HYPERDRIVE..":", hyperdrive and hyperdrive:GetName() or l.NONE },
 						{
 							l.HYPERSPACE_RANGE..":",
 							string.interp(
@@ -103,8 +103,8 @@ local shipInfo = function (args)
 						{ l.FUEL_WEIGHT..":",   string.format("%dt (%dt "..l.MAX..")", player.fuelMassLeft, shipDef.fuelTankMass ) },
 						{ l.ALL_UP_WEIGHT..":", string.format("%dt", mass_with_fuel ) },
 						"",
-						{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or "None"},
-						{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or "None" },
+						{ l.FRONT_WEAPON..":", frontWeapon and frontWeapon:GetName() or l.NONE },
+						{ l.REAR_WEAPON..":",  rearWeapon and rearWeapon:GetName() or l.NONE },
 						{ l.FUEL..":",         string.format("%d%%", Game.player.fuel)},
 						{ l.DELTA_V..":",      string.format("%d km/s", deltav / 1000)},
 						"",
@@ -117,8 +117,7 @@ local shipInfo = function (args)
 						"",
 						{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
 						{ lcore.ATMOSPHERIC_SHIELDING..":", yes_no(shipDef.equipSlotCapacity.atmo_shield)},
-						{ lcore.FUEL_SCOOP..":",            yes_no(shipDef.equipSlotCapacity.fuel_scoop)},
-						{ lcore.CARGO_SCOOP..":",           yes_no(shipDef.equipSlotCapacity.cargo_scoop)},
+						{ lcore.SCOOP..":",                 shipDef.equipSlotCapacity.scoop},
 					}),
 					"",
 					ui:Label(l.EQUIPMENT):SetFont("HEADING_LARGE"),

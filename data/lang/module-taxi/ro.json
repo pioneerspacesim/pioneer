@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Group details:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Închide."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey!?! You are going to pay for this!!!"
@@ -545,7 +541,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "al"
    },
    "OK_AGREED" : {
       "description" : "",

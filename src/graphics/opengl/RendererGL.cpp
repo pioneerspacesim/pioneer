@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
@@ -41,6 +41,17 @@
 
 namespace Graphics {
 
+static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
+    return new RendererOGL(win, vs);
+}
+
+void RendererOGL::RegisterRenderer() {
+    Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
+}
+
+
+bool RendererOGL::initted = false;
+
 typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
 
 RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
@@ -57,6 +68,19 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 , m_activeRenderState(nullptr)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
+	if (!initted) {
+		initted = true;
+
+		if (!ogl_LoadFunctions())
+			Error("glLoadGen failed to load functions.\n");
+
+		if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED)
+			Error(
+				"OpenGL extension GL_EXT_texture_compression_s3tc not supported.\n"
+				"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures."
+			);
+	}
+
 	m_viewportStack.push(Viewport());
 
 	const bool useDXTnTextures = vs.useTextureCompression;
@@ -92,6 +116,133 @@ RendererOGL::~RendererOGL()
 	//while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 	for (auto state : m_renderStates)
 		delete state.second;
+}
+
+static const char *gl_error_to_string(GLenum err)
+{
+	switch (err) {
+		case GL_NO_ERROR: return "(no error)";
+		case GL_INVALID_ENUM: return "invalid enum";
+		case GL_INVALID_VALUE: return "invalid value";
+		case GL_INVALID_OPERATION: return "invalid operation";
+		case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
+		case GL_OUT_OF_MEMORY: return "out of memory";
+		default: return "(unknown error)";
+	}
+}
+
+static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = GL_NO_ERROR)
+{
+	GLenum err = ((first_error == GL_NO_ERROR) ? glGetError() : first_error);
+	if (err != GL_NO_ERROR) {
+		out << "errors: ";
+		do {
+			out << gl_error_to_string(err) << " ";
+			err = glGetError();
+		} while (err != GL_NO_ERROR);
+		out << std::endl;
+	}
+}
+
+static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
+{
+	assert(num_elems > 0 && num_elems <= 4);
+	assert(name);
+
+	GLdouble e[4];
+	glGetDoublev(id, e);
+
+	GLenum err = glGetError();
+	if (err == GL_NO_ERROR) {
+		out << name << " = " << e[0];
+		for (int i = 1; i < num_elems; ++i)
+			out << ", " << e[i];
+		out << "\n";
+	} else {
+		while (err != GL_NO_ERROR) {
+			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
+			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
+			err = glGetError();
+		}
+	}
+}
+
+void RendererOGL::WriteRendererInfo(std::ostream &out) const
+{
+	out << "OpenGL version " << glGetString(GL_VERSION);
+	out << ", running on " << glGetString(GL_VENDOR);
+	out << " " << glGetString(GL_RENDERER) << "\n";
+
+	out << "Available extensions:" << "\n";
+	{
+		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+		GLint numext = 0;
+		glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
+		for (int i = 0; i < numext; ++i) {
+			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
+		}
+	}
+
+	out << "\nImplementation Limits:\n";
+
+	// first, clear all OpenGL error flags
+	dump_and_clear_opengl_errors(out);
+
+#define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
+#define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
+
+	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(GL_SAMPLES);
+	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
+
+#undef DUMP_GL_VALUE
+#undef DUMP_GL_VALUE2
+
+	// enumerate compressed texture formats
+	{
+		dump_and_clear_opengl_errors(out);
+		out << "\nCompressed texture formats:\n";
+
+		GLint nformats;
+		GLint formats[128]; // XXX 128 should be enough, right?
+
+		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
+		GLenum err = glGetError();
+		if (err != GL_NO_ERROR) {
+			out << "Get NUM_COMPRESSED_TEXTURE_FORMATS failed\n";
+			dump_and_clear_opengl_errors(out, err);
+		} else {
+			assert(nformats >= 0 && nformats < int(COUNTOF(formats)));
+			glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
+			err = glGetError();
+			if (err != GL_NO_ERROR) {
+				out << "Get COMPRESSED_TEXTURE_FORMATS failed\n";
+				dump_and_clear_opengl_errors(out, err);
+			} else {
+				for (int i = 0; i < nformats; ++i) {
+					out << stringf("  %0{x#}\n", unsigned(formats[i]));
+				}
+			}
+		}
+	}
+	// one last time
+	dump_and_clear_opengl_errors(out);
 }
 
 bool RendererOGL::GetNearFarRange(float &near_, float &far_) const
@@ -150,8 +301,7 @@ static std::string glerr_to_string(GLenum err)
 	}
 }
 
-//extern 
-void CheckRenderErrors()
+void RendererOGL::CheckErrors()
 {
 	GLenum err = glGetError();
 	if( err ) {
@@ -220,6 +370,12 @@ bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	m_activeRenderTarget = static_cast<OGL::RenderTarget*>(rt);
 	CheckRenderErrors();
 
+	return true;
+}
+
+bool RendererOGL::SetDepthRange(double near, double far)
+{
+	glDepthRange(near, far);
 	return true;
 }
 
@@ -320,16 +476,16 @@ bool RendererOGL::SetWireFrameMode(bool enabled)
 	return true;
 }
 
-bool RendererOGL::SetLights(int numlights, const Light *lights)
+bool RendererOGL::SetLights(Uint32 numlights, const Light *lights)
 {
 	if (numlights < 1) return false;
 
-	const int NumLights = std::min(numlights, int(TOTAL_NUM_LIGHTS));
+	const Uint32 NumLights = std::min(numlights, TOTAL_NUM_LIGHTS);
 
 	m_numLights = NumLights;
 	m_numDirLights = 0;
 
-	for (int i=0; i<NumLights; i++) {
+	for (Uint32 i=0; i<NumLights; i++) {
 		const Light &l = lights[i];
 		m_lights[i].SetPosition( l.GetPosition() );
 		m_lights[i].SetDiffuse( l.GetDiffuse() );
@@ -365,59 +521,6 @@ void RendererOGL::SetMaterialShaderTransforms(Material *m)
 {
 	m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
 	CheckRenderErrors();
-}
-
-bool RendererOGL::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
-{
-	PROFILE_SCOPED()
-	Drawables::Lines lines;
-	lines.SetData(count, v, c);
-	lines.Draw(this, state, t);
-	return true;
-}
-
-bool RendererOGL::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, PrimitiveType t)
-{
-	PROFILE_SCOPED()
-	Drawables::Lines lines;
-	lines.SetData(count, v, c);
-	lines.Draw(this, state, t);
-	return true;
-}
-
-bool RendererOGL::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
-{
-	struct TPos {
-		vector3f pos;
-		Color4ub col;
-	};
-
-	MaterialDescriptor md;
-	md.vertexColors = true;
-	static std::unique_ptr<Material> mat(CreateMaterial(md));
-	
-	// Create vtx & index buffers and copy data
-	VertexBufferDesc vbd;
-	vbd.attrib[0].semantic	= ATTRIB_POSITION;
-	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic	= ATTRIB_DIFFUSE;
-	vbd.attrib[1].format	= ATTRIB_FORMAT_UBYTE4;
-	vbd.numVertices = count;
-	vbd.usage = BUFFER_USAGE_STATIC;
-	
-	// VertexBuffer
-	std::unique_ptr<VertexBuffer> vb;
-	vb.reset(CreateVertexBuffer(vbd));
-	TPos* vtxPtr = vb->Map<TPos>(BUFFER_MAP_WRITE);
-	assert(vb->GetDesc().stride == sizeof(TPos));
-	for(Sint32 i=0 ; i<count ; i++)
-	{
-		vtxPtr[i].pos = points[i];
-		vtxPtr[i].col = colors[i];
-	}
-	vb->Unmap();
-
-	return DrawBuffer(vb.get(), state, mat.get(), POINTS);
 }
 
 bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
@@ -936,6 +1039,26 @@ void RendererOGL::Scale( const float x, const float y, const float z )
 			m_modelViewStack.top().Scale(x,y,z);
 			break;
 	}
+}
+
+bool RendererOGL::Screendump(ScreendumpState &sd)
+{
+	sd.width = GetWindow()->GetWidth();
+	sd.height = GetWindow()->GetHeight();
+	sd.bpp = 3; // XXX get from window
+
+	// pad rows to 4 bytes, which is the default row alignment for OpenGL
+	sd.stride = (3*sd.width + 3) & ~3;
+
+	sd.pixels.reset(new Uint8[sd.stride * sd.height]);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, sd.width, sd.height, GL_RGB, GL_UNSIGNED_BYTE, sd.pixels.get());
+	glFinish();
+
+	return true;
 }
 
 }

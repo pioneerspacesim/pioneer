@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureFont.h"
@@ -6,6 +6,7 @@
 #include "libs.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "TextSupport.h"
 #include "utils.h"
 
@@ -24,7 +25,7 @@ namespace Text {
 
 int TextureFont::s_glyphCount = 0;
 
-void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &c)
+void TextureFont::AddGlyphGeometry(Graphics::VertexArray &va, const Glyph &glyph, const float x, const float y, const Color &c)
 {
 	const float offX = x + float(glyph.offX);
 	const float offY = y + GetHeight() - float(glyph.offY);
@@ -41,18 +42,18 @@ void TextureFont::AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph
 	const vector2f t2(offU+glyph.texWidth, offV                );
 	const vector2f t3(offU+glyph.texWidth, offV+glyph.texHeight);
 
-	va->Add(p0, c, t0);
-	va->Add(p1, c, t1);
-	va->Add(p2, c, t2);
+	va.Add(p0, c, t0);
+	va.Add(p1, c, t1);
+	va.Add(p2, c, t2);
 
-	va->Add(p2, c, t2);
-	va->Add(p1, c, t1);
-	va->Add(p3, c, t3);
+	va.Add(p2, c, t2);
+	va.Add(p1, c, t1);
+	va.Add(p3, c, t3);
 
 	s_glyphCount++;
 }
 
-void TextureFont::MeasureString(const char *str, float &w, float &h)
+void TextureFont::MeasureString(const std::string &str, float &w, float &h)
 {
 	w = h = 0.0f;
 
@@ -65,9 +66,7 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 			line_width = 0.0f;
 			h += GetHeight();
 			i++;
-		}
-
-		else {
+		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
@@ -90,9 +89,9 @@ void TextureFont::MeasureString(const char *str, float &w, float &h)
 	h += GetHeight() + GetDescender();
 }
 
-void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &charX, float &charY)
+void TextureFont::MeasureCharacterPos(const std::string &str, int charIndex, float &charX, float &charY)
 {
-	assert(str && (charIndex >= 0));
+	assert(charIndex >= 0);
 
 	float x = 0.0f, y = GetHeight();
 	int i = 0;
@@ -124,9 +123,9 @@ void TextureFont::MeasureCharacterPos(const char *str, int charIndex, float &cha
 	charY = y;
 }
 
-int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY)
+int TextureFont::PickCharacter(const std::string &str, float mouseX, float mouseY)
 {
-	assert(str && mouseX >= 0.0f && mouseY >= 0.0f);
+	assert(mouseX >= 0.0f && mouseY >= 0.0f);
 
 	// at the point of the mouse in-box test, the vars have the following values:
 	// i1: the index of the character being tested
@@ -175,10 +174,20 @@ int TextureFont::PickCharacter(const char *str, float mouseX, float mouseY)
 	return i2;
 }
 
-void TextureFont::RenderString(const char *str, float x, float y, const Color &color)
+void TextureFont::RenderBuffer(Graphics::VertexBuffer *vb, const Color &color)
+{
+	if( vb && vb->GetVertexCount() > 0 )
+	{
+		m_mat->diffuse = color;
+		m_renderer->DrawBuffer(vb, m_renderState, m_mat.get());
+	}
+}
+
+void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color)
 {
 	PROFILE_SCOPED()
-	m_vertices.Clear();
+
+	if(str.empty()) return;
 
 	float alpha_f = color.a / 255.0f;
 	const Color premult_color = Color(color.r * alpha_f, color.g * alpha_f, color.b * alpha_f, color.a);
@@ -192,16 +201,14 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			px = x;
 			py += GetHeight();
 			i++;
-		}
-
-		else {
+		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
-			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, premult_color);
+			AddGlyphGeometry(va, glyph, roundf(px), py, premult_color);
 
 			if (str[i]) {
 				Uint32 chr2;
@@ -214,14 +221,13 @@ void TextureFont::RenderString(const char *str, float x, float y, const Color &c
 			px += glyph.advX;
 		}
 	}
-
-	m_renderer->DrawTriangles(&m_vertices, m_renderState, m_mat.get());
 }
 
-Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &color)
+Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color)
 {
 	PROFILE_SCOPED()
-	m_vertices.Clear();
+
+	if(str.empty()) return Color::BLACK;
 
 	float px = x;
 	float py = y;
@@ -233,8 +239,8 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '#') {
-			unsigned hexcol;
-			if (sscanf(str+i, "#%3x", &hexcol)==1) {
+			Uint32 hexcol;
+			if (sscanf(&str[i], "#%3x", &hexcol)==1) {
 				c.r = float((hexcol&0xf00)>>4);
 				c.g = float((hexcol&0xf0));
 				c.b = float((hexcol&0xf)<<4);
@@ -251,16 +257,14 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 			px = x;
 			py += GetHeight();
 			i++;
-		}
-
-		else {
+		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
 			assert(n);
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
-			AddGlyphGeometry(&m_vertices, glyph, roundf(px), py, premult_c);
+			AddGlyphGeometry(va, glyph, roundf(px), py, premult_c);
 
 			// XXX kerning doesn't skip markup
 			if (str[i]) {
@@ -275,8 +279,29 @@ Color TextureFont::RenderMarkup(const char *str, float x, float y, const Color &
 		}
 	}
 
-	m_renderer->DrawTriangles(&m_vertices, m_renderState, m_mat.get());
 	return c;
+}
+
+Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va) const 
+{
+	if( va.GetNumVerts() > 0 )
+	{
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
+		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.numVertices = va.GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+		Graphics::VertexBuffer *vbuffer = m_renderer->CreateVertexBuffer(vbd);
+		vbuffer->Populate( va );
+
+		return vbuffer;
+	}
+	return nullptr;
 }
 
 const TextureFont::Glyph &TextureFont::GetGlyph(Uint32 chr)
@@ -362,8 +387,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 		const FT_BitmapGlyph bmStrokeGlyph = FT_BitmapGlyph(strokeGlyph);
 
 		//don't run off atlas borders
-		m_atlasVIncrement = std::max(m_atlasVIncrement, bmStrokeGlyph->bitmap.rows);
-		if (m_atlasU + bmStrokeGlyph->bitmap.width > ATLAS_SIZE) {
+		m_atlasVIncrement = std::max(m_atlasVIncrement, static_cast<unsigned int>(bmStrokeGlyph->bitmap.rows));
+		if (m_atlasU + static_cast<unsigned int>(bmStrokeGlyph->bitmap.width) > ATLAS_SIZE) {
 			m_atlasU = 0;
 			m_atlasV += m_atlasVIncrement;
 			m_atlasVIncrement = 0;
@@ -423,12 +448,11 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 
 		FT_Done_Glyph(strokeGlyph);
 	}
-
-	else {
-
+	else 
+	{
 		//don't run off atlas borders
-		m_atlasVIncrement = std::max(m_atlasVIncrement, bmGlyph->bitmap.rows);
-		if (m_atlasU + bmGlyph->bitmap.width >= ATLAS_SIZE) {
+		m_atlasVIncrement = std::max(m_atlasVIncrement, static_cast<unsigned int>(bmGlyph->bitmap.rows));
+		if (m_atlasU + static_cast<unsigned int>(bmGlyph->bitmap.width) >= ATLAS_SIZE) {
 			m_atlasU = 0;
 			m_atlasV += m_atlasVIncrement;
 			m_atlasVIncrement = 0;
@@ -475,12 +499,11 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	, m_scale(scale)
 	, m_ftLib(nullptr)
 	, m_stroker(nullptr)
-	, m_vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
 	, m_atlasU(0)
 	, m_atlasV(0)
 	, m_atlasVIncrement(0)
 {
-	Graphics::CheckRenderErrors();
+	renderer->CheckRenderErrors();
 
 	FT_Error err; // used to store freetype error return codes
 
@@ -500,12 +523,12 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	Graphics::CheckRenderErrors();
+	renderer->CheckRenderErrors();
 
 	m_texFormat = m_config.IsOutline() ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
 	m_bpp = m_config.IsOutline() ? 2 : 1;
 
-	Graphics::CheckRenderErrors();
+	renderer->CheckRenderErrors();
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystem.h"
@@ -25,7 +25,7 @@
 //#define DEBUG_DUMP
 
 // indexed by enum type turd
-const Uint8 StarSystem::starColors[][3] = {
+const Color StarSystem::starColors[] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 102, 102, 204 }, // white dwarf
@@ -62,11 +62,11 @@ const Uint8 StarSystem::starColors[][3] = {
 	{ 255, 178, 255 }, // Purple-Blue/O Wolf Rayet Star
 	{ 76, 178, 76 }, // Stellar Blackhole
 	{ 51, 230, 51 }, // Intermediate mass Black-hole
-	{ 0, 255, 0 }, // Super massive black hole
+	{ 0, 255, 0 } // Super massive black hole
 };
 
 // indexed by enum type turd
-const Uint8 StarSystem::starRealColors[][3] = {
+const Color StarSystem::starRealColors[] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 255, 255, 255 }, // white dwarf
@@ -103,7 +103,7 @@ const Uint8 StarSystem::starRealColors[][3] = {
 	{ 255, 204, 255 },  // O WF
 	{ 255, 255, 255 },  // small Black hole
 	{ 16, 0, 20 }, // med BH
-	{ 10, 0, 16 }, // massive BH
+	{ 10, 0, 16 } // massive BH
 };
 
 const double StarSystem::starLuminosities[] = {

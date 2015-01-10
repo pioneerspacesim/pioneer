@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Revisiona ipermotore"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Riaggancia."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Non ho abbastanza crediti"

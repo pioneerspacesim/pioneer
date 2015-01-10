@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Hipermotor szervizelése"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Kapcsolat megszakítása."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Nincs elég pénzem"

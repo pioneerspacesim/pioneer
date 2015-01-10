@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "VtxColorMaterial.h"
@@ -15,7 +15,7 @@ namespace OGL {
 VtxColorProgram::VtxColorProgram(const MaterialDescriptor &desc)
 {
 	m_name = "vtxColor";
-	CheckRenderErrors();
+	RendererOGL::CheckErrors();
 
 	LoadShaders(m_name, m_defines);
 	InitUniforms();
