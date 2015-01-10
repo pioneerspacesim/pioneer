@@ -11,8 +11,8 @@
 
 namespace UI {
 
-TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text) :
-	m_font(font)
+TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text)
+	: m_font(font), m_prevColor(Color::WHITE)
 {
 	if (!text.size())
 		return;
@@ -124,11 +124,12 @@ void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point
 		}
 	}
 
-	if (bNewSize || !m_vbuffer.Valid()) {
+	if (bNewSize || !m_vbuffer.Valid() || m_prevColor != color) {
 		m_vbuffer.Reset( m_font->CreateVertexBuffer(va) );
 	}
 
 	m_font->RenderBuffer( m_vbuffer.Get() );
+	m_prevColor = color;
 }
 
 }

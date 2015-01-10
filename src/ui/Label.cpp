@@ -11,7 +11,13 @@ namespace UI {
 
 static const Color disabledColor(204, 204, 204, 255);
 
-Label::Label(Context *context, const std::string &text) : Widget(context), m_bNeedsUpdating(true), m_text(text), m_color(Color::WHITE), m_font(GetContext()->GetFont(GetFont()))
+Label::Label(Context *context, const std::string &text) : Widget(context)
+, m_bNeedsUpdating(true)
+, m_bPrevDisabled(false)
+, m_prevOpacity(-1.0f)
+, m_text(text)
+, m_color(Color::WHITE)
+, m_font(GetContext()->GetFont(GetFont()))
 {
 	RegisterBindPoint("text", sigc::mem_fun(this, &Label::BindText));
 }
@@ -40,16 +46,22 @@ void Label::Layout()
 
 void Label::Draw()
 {
-	const Color color(IsDisabled() ? disabledColor : m_color);
-	const Color finalColor(color.r, color.g, color.b, color.a*GetContext()->GetOpacity());
+	if (m_text.empty())
+		return;
 
-	if( m_bNeedsUpdating || m_font != GetContext()->GetFont(GetFont()) )
+	const Color color(IsDisabled() ? disabledColor : m_color);
+	const float opacity = GetContext()->GetOpacity();
+	const Color finalColor(color.r, color.g, color.b, color.a*opacity);
+
+	if (m_bNeedsUpdating || m_font != GetContext()->GetFont(GetFont()) || m_prevOpacity != opacity || m_bPrevDisabled != IsDisabled())
 	{
 		m_font = GetContext()->GetFont(GetFont());
 		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 		m_font->PopulateString(va, m_text, 0.0f, 0.0f, finalColor);
 		m_vbuffer.Reset( m_font->CreateVertexBuffer(va) );
 		m_bNeedsUpdating = false;
+		m_bPrevDisabled = IsDisabled();
+		m_prevOpacity = opacity;
 	}
 
 	m_font->RenderBuffer( m_vbuffer.Get() );
