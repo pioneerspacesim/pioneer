@@ -176,6 +176,10 @@ void Ship::InitGun(const char *tag, int num)
 		const matrix4x4f &trans = mt->GetTransform();
 		m_gun[num].pos = trans.GetTranslate();
 		m_gun[num].dir = trans.GetOrient().VectorZ();
+	} else {
+		// XXX deprecated
+		m_gun[num].pos = (num==ShipType::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
+		m_gun[num].dir = (num==ShipType::GUN_FRONT) ? vector3f(0,0,-1) : vector3f(0,0,1);
 	}
 }
 
@@ -827,12 +831,15 @@ void Ship::TimeAccelAdjust(const float timeStep)
 
 void Ship::FireWeapon(int num)
 {
-	if (m_flightState != FLYING) return;
+	if (m_flightState != FLYING) 
+		return;
+
 	std::string prefix(num?"laser_rear_":"laser_front_");
 	int damage = 0;
 	Properties().Get(prefix+"damage", damage);
 	if (!damage)
 		return;
+
 	Properties().PushLuaTable();
 	LuaTable prop(Lua::manager->GetLuaState(), -1);
 
@@ -843,15 +850,15 @@ void Ship::FireWeapon(int num)
 	m_gun[num].temperature += 0.01f;
 
 	m_gun[num].recharge = prop.Get<float>(prefix+"rechargeTime");
-	vector3d baseVel = GetVelocity();
-	vector3d dirVel = prop.Get<float>(prefix+"speed") * dir.Normalized();
+	const vector3d baseVel = GetVelocity();
+	const vector3d dirVel = prop.Get<float>(prefix+"speed") * dir.Normalized();
 
-	Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
+	const Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
 			prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
-	float lifespan = prop.Get<float>(prefix+"lifespan");
-	float width = prop.Get<float>(prefix+"width");
-	float length = prop.Get<float>(prefix+"length");
-	bool mining = prop.Get<int>(prefix+"mining");
+	const float lifespan = prop.Get<float>(prefix+"lifespan");
+	const float width = prop.Get<float>(prefix+"width");
+	const float length = prop.Get<float>(prefix+"length");
+	const bool mining = prop.Get<int>(prefix+"mining");
 	if (prop.Get<int>(prefix+"dual"))
 	{
 		const vector3d orient_norm = m.VectorY();
@@ -859,9 +866,9 @@ void Ship::FireWeapon(int num)
 
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos + sep, baseVel, dirVel);
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos - sep, baseVel, dirVel);
-	}
-	else
+	} else {
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos, baseVel, dirVel);
+	}
 
 	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
