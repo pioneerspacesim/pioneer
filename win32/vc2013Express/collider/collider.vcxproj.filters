@@ -20,7 +20,6 @@
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\collider\Weld.h" />
-    <ClInclude Include="..\..\..\src\collider\Containers.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
