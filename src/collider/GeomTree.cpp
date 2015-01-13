@@ -57,7 +57,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 		nv::Weld<vector3f> weld;
 		const Uint32 newCount = weld(m_vertices, xrefs);
 
-		Output("---   %d vertices welded\n", count - newCount);
+		//Output("---   %d vertices welded\n", count - newCount);
 
 		// Remap faces.
 		const Uint32 faceCount = numTris;
@@ -154,7 +154,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	//Output("Edge tree of %d edges build in %dms\n", m_numEdges, SDL_GetTicks() - t);
 
 	timer.Stop();
-	Output(" - - GeomTree::GeomTree took: %lf milliseconds\n", timer.millicycles());
+	//Output(" - - GeomTree::GeomTree took: %lf milliseconds\n", timer.millicycles());
 }
 
 GeomTree::GeomTree(Serializer::Reader &rd)
