@@ -13,7 +13,7 @@
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Alegianţă:"
+      "message" : "Alegianță:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
@@ -56,15 +56,15 @@
       "message" : "Cumpără Nava"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Cabine"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} libere"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} ocupate"
    },
    "CANCEL" : {
@@ -72,7 +72,7 @@
       "message" : "Anulează"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Capacitate"
    },
    "CAPACITY_USED" : {
@@ -85,18 +85,18 @@
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Spaţiu depozit"
+      "message" : "Spațiu depozit"
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Spaţiu depozit folosit"
+      "message" : "Spațiu depozit folosit"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t libere"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t folosite"
    },
    "CASH" : {
@@ -108,7 +108,7 @@
       "message" : "Bani: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Înlocuire tastă"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +120,15 @@
       "message" : "Viteza pt. orbită circulară"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "Nivel detalii oraşe"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Curat"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Șterge"
    },
    "CLIENT" : {
@@ -136,7 +136,7 @@
       "message" : "Client"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Statistici de luptă"
    },
    "COMMANDER" : {
@@ -148,11 +148,11 @@
       "message" : "Piață de Produse"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "Scaner compact"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Competent"
    },
    "COMPLETED" : {
@@ -160,7 +160,7 @@
       "message" : "Terminat"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Comprimarea Texturilor"
    },
    "CONSTABLE" : {
@@ -177,7 +177,7 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Opţiuni de control"
+      "message" : "Opțiuni de control"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
@@ -200,11 +200,11 @@
       "message" : "Cazier judiciar"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Periculos"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Mortal"
    },
    "DELTA_V" : {
@@ -232,7 +232,7 @@
       "message" : "Distruge navă inamică"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Concediază"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -240,19 +240,19 @@
       "message" : "Afișează marcaje HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
-      "message" : "Afişare tunele de navigaţie"
+      "description" : "Settings option: hyperspace tunnel effect",
+      "message" : "Afișare tunele de navigație"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Afișează linii viteză"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Docarea la ţintă curentă"
+      "message" : "Andocare la ținta curentă"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Termen"
    },
    "D_DAYS_LEFT" : {
@@ -261,14 +261,14 @@
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economie şi Comerţ"
+      "message" : "Economie și Comerț"
    },
    "EFFECTS" : {
       "description" : "",
       "message" : "Efecte:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "ELITĂ"
    },
    "EMPLOYMENT" : {
@@ -276,7 +276,7 @@
       "message" : "Ocupație"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Activează carlingă (EXPERIMENTAL)"
    },
    "ENABLE_JOYSTICK" : {
@@ -284,7 +284,7 @@
       "message" : "Activare jozstick"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Inginerie:"
    },
    "EQUIPMENT" : {
@@ -320,7 +320,7 @@
       "message" : "Expert"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Eșuat"
    },
    "FEMALE" : {
@@ -333,11 +333,11 @@
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Viteza de acceleraţie (golită)"
+      "message" : "Viteza de accelerație (goală)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Viteza de acceleraţie (plină)"
+      "message" : "Viteza de accelerație (plină)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
@@ -384,7 +384,7 @@
       "message" : "Închide."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Inofensiv"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -412,7 +412,7 @@
       "message" : "Transportor masiv de pasageri"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "Mare"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -421,7 +421,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Consistenţă fuzelaj"
+      "message" : "Consistență fuzelaj"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -441,11 +441,11 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Rază de acțiune salt hiperspaţiu"
+      "message" : "Rază de acțiune salt hiperspațiu"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
-      "message" : "Am obosit să lucrez pentru nimic. Nu cunoaşteţi ce înseamnă contract?"
+      "message" : "M-am săturat să muncesc pe degeaba. Nu știți ce înseamnă un contract?"
    },
    "INACTIVE" : {
       "description" : "",
@@ -477,7 +477,7 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Mi-a făcut plăcere să lucrez pentru dumneavoastră. Dacă veţi mai avea nevoie de mine, voi fi pe aici o vreme."
+      "message" : "Mi-a făcut plăcere să lucrez pentru dumneavoastră. Dacă veți mai avea nevoie de mine, voi fi pe aici o vreme."
    },
    "JETTISON" : {
       "description" : "",
@@ -497,7 +497,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Nu vi se acordă permisiunea să decolați: staţiile sunt aglomerate."
+      "message" : "Nu vi se acordă permisiunea să decolați: stațiile sunt aglomerate."
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
@@ -560,12 +560,12 @@
       "message" : "Scăzut"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "al"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Faţă nouă"
+      "message" : "Față nouă"
    },
    "MALE" : {
       "description" : "",
@@ -592,7 +592,7 @@
       "message" : "Personal maxim"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Mediu"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -677,7 +677,7 @@
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Navigaţie:"
+      "message" : "Navigație:"
    },
    "NEGOTIATE" : {
       "description" : "",
@@ -756,7 +756,7 @@
       "message" : "Viteza pentru orbita circulară este dată pentru o viteză tangențială. Nava ar trebui să se miște întro direcție la 90° față de axa navei/corpului ceresc {name}.\n\nViteza de coborâre este un minim absolut, și este de asemenea tangențială. O viteză mai mica sau un unghi mai mic va rezulta intr-un curs care se intersectează cu suprafața corpului ceresc {name}.\n\nViteza de ieșire din atmosferă va merge în teorie în orice direcție, atâta timp cât nava nu intră în {name} în drum.\n⇥⇥"
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Datorat"
    },
    "PAY_FINE_OF_N" : {
@@ -765,7 +765,7 @@
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
-      "message" : "Informaţii Personale"
+      "message" : "Informații Personale"
    },
    "PILOTING" : {
       "description" : "",
@@ -792,12 +792,12 @@
       "message" : "Poliție"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Slab"
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Poziţia"
+      "message" : "Poziția"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -805,7 +805,7 @@
    },
    "PRICE" : {
       "description" : "",
-      "message" : "Preţ"
+      "message" : "Preț"
    },
    "PROFESSIONAL" : {
       "description" : "For player reputation",
@@ -865,11 +865,11 @@
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Acceleraţie înapoi (golită)"
+      "message" : "Accelerație înapoi (goală)"
    },
    "REVERSE_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Acceleraţie înapoi (plină)"
+      "message" : "Accelerație înapoi (plină)"
    },
    "REWARD" : {
       "description" : "",
@@ -909,11 +909,11 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Informaţii navă"
+      "message" : "Informații navă"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Nava dumneavoastră este în condiţie perfectă de funcţionare."
+      "message" : "Nava dumneavoastră este în condiție perfectă de funcționare."
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
@@ -948,7 +948,7 @@
       "message" : "Pornește de pe Pamânt"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Pornește din New Hope"
    },
    "STATION_MANAGER" : {
@@ -961,7 +961,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Vă mulţumim pentru achiziţia dumneavoastră. Nu uitaţi să instalaţi echipamentul şi să cumparaţi combustibil înainte de a pleca."
+      "message" : "Vă mulțumim pentru achiziția dumneavoastră. Nu uitați să instalați echipamentul şi să cumparați combustibil înainte de a pleca."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -969,10 +969,10 @@
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
-      "message" : "Nava este sub controlul staţiei, Comandante."
+      "message" : "Nava este sub controlul stației, Comandante."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Comutare sex masculin/feminin"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1016,11 @@
       "message" : "Folosit"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Foarte mare"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Foarte scăzută"
    },
    "VIDEO" : {
@@ -1033,10 +1033,10 @@
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Rezoluţie video"
+      "message" : "Rezoluție video"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Salariu"
    },
    "WEIGHT_EMPTY" : {
@@ -1049,7 +1049,7 @@
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "Suntem în hiperspaţiu, Comandante."
+      "message" : "Suntem în hiperspațiu, Comandante."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
@@ -1061,7 +1061,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Veţi regreta că m-aţi concediat!"
+      "message" : "Veți regreta că m-ați concediat!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
@@ -1081,7 +1081,7 @@
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "În primul rând trebuie să lansaţi nava, Comandante."
+      "message" : "În primul rând trebuie să lansați nava, Comandante."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
@@ -1089,6 +1089,6 @@
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "Nu aveţi destui bani"
+      "message" : "Nu aveți destui bani"
    }
 }
