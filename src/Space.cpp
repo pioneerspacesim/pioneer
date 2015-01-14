@@ -53,7 +53,6 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len-dist);
 	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len+dist);
 
-	bodies.reserve(m_bodyDist.size());
 	while (min != max) {
 		bodies.push_back((*min).body);
 		++min;
@@ -941,14 +940,14 @@ void Space::UpdateBodies()
 		rmb->SetFrame(0);
 		for (Body* b : m_bodies)
 			b->NotifyRemoved(rmb);
-		ReallyRemoveBody(rmb);
+		m_bodies.remove(rmb);
 	}
 	m_removeBodies.clear();
 
 	for (Body* killb : m_killBodies) {
 		for (Body* b : m_bodies)
 			b->NotifyRemoved(killb);
-		ReallyRemoveBody(killb);
+		m_bodies.remove(killb);
 		delete killb;
 	}
 	m_killBodies.clear();
@@ -956,16 +955,6 @@ void Space::UpdateBodies()
 #ifndef NDEBUG
 	m_processingFinalizationQueue = false;
 #endif
-}
-
-void Space::ReallyRemoveBody(Body* b)
-{
-	PROFILE_SCOPED()
-	auto it = std::find(m_bodies.begin(), m_bodies.end(), b);
-	if( it != m_bodies.end() ) {
-		(*it) = m_bodies.back();
-		m_bodies.pop_back();
-	}
 }
 
 static char space[256];
