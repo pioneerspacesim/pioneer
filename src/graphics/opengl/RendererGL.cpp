@@ -10,6 +10,8 @@
 #include "graphics/Texture.h"
 #include "TextureGL.h"
 #include "graphics/VertexArray.h"
+#include "graphics/PostProcess.h"
+#include "graphics/PostProcessing.h"
 #include "GLDebug.h"
 #include "GasGiantMaterial.h"
 #include "GeoSphereMaterial.h"
@@ -25,6 +27,10 @@
 #include "ShieldMaterial.h"
 #include "SkyboxMaterial.h"
 #include "SphereImpostorMaterial.h"
+#include "TexturedFullscreenQuad.h"
+#include "HorizontalBlurMaterial.h"
+#include "VerticalBlurMaterial.h"
+#include "BloomCompositorMaterial.h"
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
 
@@ -99,6 +105,9 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 
 	if (vs.enableDebugMessages)
 		GLDebug::Enable();
+
+	// Init post processing
+	m_postprocessing.reset(new PostProcessing(this));
 }
 
 RendererOGL::~RendererOGL()
@@ -248,6 +257,25 @@ bool RendererOGL::BeginFrame()
 	PROFILE_SCOPED()
 	glClearColor(0,0,0,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	return true;
+}
+
+bool RendererOGL::BeginPostProcessing(RenderTarget* rt_device)
+{
+	m_postprocessing->SetDeviceRT(rt_device);
+	m_postprocessing->BeginFrame();
+	return true;
+}
+
+bool RendererOGL::PostProcessFrame(PostProcess* postprocess)
+{	
+	m_postprocessing->Run(postprocess);
+	return true;
+}
+
+bool RendererOGL::EndPostProcessing()
+{
+	m_postprocessing->EndFrame();
 	return true;
 }
 
@@ -766,6 +794,18 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_GASSPHERE_TERRAIN:
 		mat = new OGL::GasGiantSurfaceMaterial();
+		break;
+	case EFFECT_TEXTURED_FULLSCREEN_QUAD:
+		mat = new OGL::TexturedFullscreenQuad();
+		break;
+	case EFFECT_HORIZONTAL_BLUR:
+		mat = new OGL::HorizontalBlurMaterial();
+		break;
+	case EFFECT_VERTICAL_BLUR:
+		mat = new OGL::VerticalBlurMaterial();
+		break;
+	case EFFECT_BLOOM_COMPOSITOR:
+		mat = new OGL::BloomCompositorMaterial();
 		break;
 	default:
 		if (desc.lighting)

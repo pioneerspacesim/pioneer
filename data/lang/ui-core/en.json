@@ -43,6 +43,10 @@
       "description" : "",
       "message" : "Backward acceleration"
    },
+   "BLOOM" : {
+      "description" : "",
+      "message" : "Bloom"
+   },
    "BULLETIN_BOARD" : {
       "description" : "",
       "message" : "Bulletin Board"

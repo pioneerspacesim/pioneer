@@ -22,6 +22,7 @@ namespace Graphics {
 		public:
 			Program();
 			Program(const std::string &name, const std::string &defines);
+			Program(const std::string &folder, const std::string &name, const std::string &defines);
 			virtual ~Program();
 			void Reload();
 			virtual void Use();

@@ -9,7 +9,7 @@
  * The Program requires setting intensity using the generic emission parameter
  */
 #include "libs.h"
-#include "graphics/Material.h"
+#include "MaterialGL.h"
 #include "Program.h"
 
 namespace Graphics {

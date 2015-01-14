@@ -57,6 +57,9 @@ public:
 
 	virtual bool BeginFrame();
 	virtual bool EndFrame();
+	virtual bool BeginPostProcessing(RenderTarget* rt_device = nullptr) override;
+	virtual bool PostProcessFrame(PostProcess* postprocess = nullptr) override;
+	virtual bool EndPostProcessing() override;
 	virtual bool SwapBuffers();
 
 	virtual bool SetRenderState(RenderState*) override;

@@ -103,8 +103,10 @@ struct Shader {
 		if (s_bDumpShaderSource) {
 			const char SHADER_OUT_DIR_NAME[] = "shaders";
 			const char SHADER_OGL_OUT_DIR_NAME[] = "shaders/opengl";
+			const char SHADER_PP_OUT_DIR_NAME[] = "shaders/opengl/postprocessing";
 			FileSystem::userFiles.MakeDirectory(SHADER_OUT_DIR_NAME);
 			FileSystem::userFiles.MakeDirectory(SHADER_OGL_OUT_DIR_NAME);
+			FileSystem::userFiles.MakeDirectory(SHADER_PP_OUT_DIR_NAME);
 			const std::string outFilename(FileSystem::GetUserDir() + "/" + filename);
 			FILE *tmp = fopen(outFilename.c_str(), "wb");
 			if(tmp) {
@@ -176,6 +178,15 @@ Program::Program(const std::string &name, const std::string &defines)
 , m_program(0)
 {
 	LoadShaders(name, defines);
+	InitUniforms();
+}
+
+Program::Program(const std::string &folder, const std::string &name, const std::string &defines)
+: m_name(name)
+, m_defines(defines)
+, m_program(0)
+{
+	LoadShaders(FileSystem::JoinPathBelow(folder, name), defines);
 	InitUniforms();
 }
 

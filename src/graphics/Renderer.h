@@ -27,6 +27,8 @@ class TextureDescriptor;
 class VertexArray;
 class VertexBuffer;
 class IndexBuffer;
+class PostProcess;
+class PostProcessing;
 struct VertexBufferDesc;
 struct RenderStateDesc;
 struct RenderTargetDesc;
@@ -59,6 +61,9 @@ public:
 
 	virtual bool BeginFrame() = 0;
 	virtual bool EndFrame() = 0;
+	virtual bool BeginPostProcessing(RenderTarget* rt_device = nullptr) = 0;
+	virtual bool PostProcessFrame(PostProcess* postprocess = nullptr) = 0;
+	virtual bool EndPostProcessing() = 0;
 	//traditionally gui happens between endframe and swapbuffers
 	virtual bool SwapBuffers() = 0;
 
@@ -177,6 +182,7 @@ protected:
 	int m_height;
 	Color m_ambient;
 	Light m_lights[4];
+	std::unique_ptr<PostProcessing> m_postprocessing;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;

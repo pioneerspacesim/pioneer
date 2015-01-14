@@ -116,12 +116,17 @@ ui.templates.Settings = function (args)
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
 
+		local bloomCheckBox = optionCheckBox(
+			Engine.GetBloom, Engine.SetBloom,
+			l.BLOOM)
+
 		return ui:Grid({1,1}, 1)
 			:SetCell(0,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				ui:Label(l.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY),
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
+				bloomCheckBox,
 			})))
 			:SetCell(1,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				planetDetailDropDown,

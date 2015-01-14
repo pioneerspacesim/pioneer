@@ -71,6 +71,8 @@
     <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp">
       <Filter>dummy</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\PostProcess.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\PostProcessing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -166,6 +168,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h">
       <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\TexturedFullscreenQuad.h" />
+    <ClInclude Include="..\..\..\src\graphics\PostProcess.h" />
+    <ClInclude Include="..\..\..\src\graphics\PostProcessing.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\BloomCompositorMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\HorizontalBlurMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\VerticalBlurMaterial.h">
+      <Filter>opengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
