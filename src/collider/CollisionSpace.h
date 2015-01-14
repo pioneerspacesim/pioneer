@@ -5,6 +5,7 @@
 #define _COLLISION_SPACE
 
 #include <list>
+#include <vector>
 #include "../vector3.h"
 
 class Geom;

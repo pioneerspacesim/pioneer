@@ -326,7 +326,7 @@ private:
 	AlertState m_alertState;
 	double m_lastAlertUpdate;
 	double m_lastFiringAlert;
-	Space::BodyNearList m_nearbyBodies;
+	BodyList m_nearbyBodies;
 
 	struct HyperspacingOut {
 		SystemPath dest;

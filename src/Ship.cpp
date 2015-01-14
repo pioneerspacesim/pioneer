@@ -621,7 +621,7 @@ Ship::ECMResult Ship::UseECM()
 		// damage neaby missiles
 		const float ECM_RADIUS = 4000.0f;
 
-		Space::BodyNearList nearby;
+		BodyList nearby;
 		Pi::game->GetSpace()->GetBodiesMaybeNear(this, ECM_RADIUS, nearby);
 		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 			if ((*i)->GetFrame() != GetFrame()) continue;
