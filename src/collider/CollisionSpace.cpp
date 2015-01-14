@@ -63,7 +63,7 @@ public:
 		return &m_nodesAlloc[m_nodesAllocPos++];
 	}
 
-	BvhTree(const std::list<Geom*> &geoms);
+	BvhTree(const GeomArray &geoms);
 	~BvhTree() {
 		if (m_geoms) delete [] m_geoms;
 		if (m_nodesAlloc) delete [] m_nodesAlloc;
@@ -71,10 +71,10 @@ public:
 	void CollideGeom(Geom *, const Aabb &, int minMailboxValue, void (*callback)(CollisionContact*));
 
 private:
-	void BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &outGeomPos);
+	void BuildNode(BvhNode *node, const GeomArray &a_geoms, int &outGeomPos);
 };
 
-BvhTree::BvhTree(const std::list<Geom*> &geoms)
+BvhTree::BvhTree(const GeomArray &geoms)
 {
 	PROFILE_SCOPED()
 	m_geoms = 0;
@@ -135,7 +135,7 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 	}
 }
 
-void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &outGeomPos)
+void BvhTree::BuildNode(BvhNode *node, const GeomArray &a_geoms, int &outGeomPos)
 {
 	PROFILE_SCOPED()
 	const int numGeoms = a_geoms.size();
@@ -146,8 +146,8 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &out
 	aabb.min = vector3d(FLT_MAX, FLT_MAX, FLT_MAX);
 	aabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
-	for (std::list<Geom*>::const_iterator i = a_geoms.begin();
-			i != a_geoms.end(); ++i) {
+	for (GeomArray::const_iterator i = a_geoms.begin(), iEnd=a_geoms.end(); i != iEnd; ++i) 
+	{
 		vector3d p = (*i)->GetPosition();
 		double rad = (*i)->GetGeomTree()->GetRadius();
 		aabb.Update(p + vector3d(rad,rad,rad));
@@ -162,10 +162,9 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &out
 	else axis = 2;
 	const double pivot = 0.5*(aabb.max[axis] + aabb.min[axis]);
 
-	std::list<Geom*> side[2];
+	GeomArray side[2];
 
-	for (std::list<Geom*>::const_iterator i = a_geoms.begin();
-			i != a_geoms.end(); ++i) {
+	for (GeomArray::const_iterator i = a_geoms.begin(), iEnd=a_geoms.end(); i != iEnd; ++i) {
 		if ((*i)->GetPosition()[axis] < pivot) {
 			side[0].push_back(*i);
 		} else {
@@ -181,8 +180,7 @@ void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &out
 		node->geomStart = &m_geoms[outGeomPos];
 
 		// copy geoms to the stinking flat array
-		for (std::list<Geom*>::const_iterator i = a_geoms.begin();
-				i != a_geoms.end(); ++i) {
+		for (GeomArray::const_iterator i = a_geoms.begin(), iEnd=a_geoms.end(); i != iEnd; ++i) {
 			m_geoms[outGeomPos++] = *i;
 		}
 	} else {
@@ -205,8 +203,8 @@ CollisionSpace::CollisionSpace()
 	PROFILE_SCOPED()
 	sphere.radius = 0;
 	m_needStaticGeomRebuild = true;
-	m_staticObjectTree = 0;
-	m_dynamicObjectTree = 0;
+	m_staticObjectTree = nullptr;
+	m_dynamicObjectTree = nullptr;
 }
 
 CollisionSpace::~CollisionSpace()
@@ -225,7 +223,12 @@ void CollisionSpace::AddGeom(Geom *geom)
 void CollisionSpace::RemoveGeom(Geom *geom)
 {
 	PROFILE_SCOPED()
-	m_geoms.remove(geom);
+	if(m_geoms.empty())
+		return;
+
+	GeomArray::iterator it = std::find(m_geoms.begin(), m_geoms.end(), geom);
+	if( it!=m_geoms.end() )
+		m_geoms.erase(it);
 }
 
 void CollisionSpace::AddStaticGeom(Geom *geom)
@@ -238,7 +241,9 @@ void CollisionSpace::AddStaticGeom(Geom *geom)
 void CollisionSpace::RemoveStaticGeom(Geom *geom)
 {
 	PROFILE_SCOPED()
-	m_staticGeoms.remove(geom);
+	GeomArray::iterator it = std::find(m_staticGeoms.begin(), m_staticGeoms.end(), geom);
+	if( it!=m_staticGeoms.end() )
+		m_staticGeoms.erase(it);
 	m_needStaticGeomRebuild = true;
 }
 
@@ -333,7 +338,7 @@ pop_jizz:
 		node = vn_stack[stackPos--];
 	}
 
-	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+	for (GeomArray::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
 		if ((*i) == ignore) continue;
 		if ((*i)->IsEnabled()) {
 			const matrix4x4d &invTrans = (*i)->GetInvTransform();
@@ -410,8 +415,10 @@ void CollisionSpace::RebuildObjectTrees()
 		if (m_staticObjectTree) delete m_staticObjectTree;
 		m_staticObjectTree = new BvhTree(m_staticGeoms);
 	}
-	if (m_dynamicObjectTree) delete m_dynamicObjectTree;
-	m_dynamicObjectTree = new BvhTree(m_geoms);
+	if ( !m_geoms.empty() ) { 
+		if (m_dynamicObjectTree) delete m_dynamicObjectTree;
+		m_dynamicObjectTree = new BvhTree(m_geoms);
+	}
 
 	m_needStaticGeomRebuild = false;
 }
@@ -422,14 +429,14 @@ void CollisionSpace::Collide(void (*callback)(CollisionContact*))
 	RebuildObjectTrees();
 
 	int mailboxMin = 0;
-	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i) {
+	for (GeomArray::const_iterator i = m_geoms.begin(), iEnd=m_geoms.end(); i != iEnd; ++i) {
 		(*i)->SetMailboxIndex(mailboxMin++);
 	}
 
 	/* This mailbox nonsense is so: after collision(a,b), we will not
 	 * attempt collision(b,a) */
 	mailboxMin = 1;
-	for (std::list<Geom*>::iterator i = m_geoms.begin(); i != m_geoms.end(); ++i, mailboxMin++) {
+	for (GeomArray::const_iterator i = m_geoms.begin(), iEnd=m_geoms.end(); i != iEnd; ++i, mailboxMin++) {
 		CollideGeoms(*i, mailboxMin, callback);
 	}
 }
