@@ -137,6 +137,7 @@
     <ClInclude Include="..\..\..\src\collider\CollisionSpace.h" />
     <ClInclude Include="..\..\..\src\collider\Geom.h" />
     <ClInclude Include="..\..\..\src\collider\GeomTree.h" />
+    <ClInclude Include="..\..\..\src\collider\Weld.h" />
     <ClInclude Include="..\..\..\src\win32\pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

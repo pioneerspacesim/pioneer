@@ -26,6 +26,9 @@ public:
 	vector2f &operator*=(const float &a) { x*=a; y*=a; return *this; }
 	vector2f operator-() const { return vector2f(-x,-y); }
 
+	bool operator==(const vector2f &a) const { 
+		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y);
+	}
 	bool ExactlyEqual(const vector2f &a) const {
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y);
 	}

@@ -4,6 +4,7 @@
 #include "../libs.h"
 #include "GeomTree.h"
 #include "BVHTree.h"
+#include "Weld.h"
 
 static const unsigned int IGNORE_FLAG = 0x8000;
 
@@ -50,21 +51,22 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	else if ((_i1) > (_i2)) edges[std::pair<int,int>(_i2,_i1)] = _triflag;
 
 	// eliminate duplicate vertices
-	for (int i=0; i<numVerts; i++) 
 	{
-		const vector3f &v1 = m_vertices[i];
-		for (int j=i+1; j<numVerts; j++) 
+		const Uint32 count = numVerts;
+		std::vector<Uint32> xrefs;
+		nv::Weld<vector3f> weld;
+		const Uint32 newCount = weld(m_vertices, xrefs);
+
+		//Output("---   %d vertices welded\n", count - newCount);
+
+		// Remap faces.
+		const Uint32 faceCount = numTris;
+		for (Uint32 f = 0; f < faceCount; f++)
 		{
-			const vector3f &v2 = m_vertices[j];
-			if (v2.ExactlyEqual(v1)) 
-			{
-				for (int k=0; k<numIndices; k++) 
-				{
-					if ((indices[k] == j) && (triflags[k / 3] < IGNORE_FLAG)) {
-						m_indices[k] = i;
-					}
-				}
-			}
+			const Uint32 idx = (f * 3);
+			m_indices[idx+0] = xrefs.at(m_indices[idx+0]);
+			m_indices[idx+1] = xrefs.at(m_indices[idx+1]);
+			m_indices[idx+2] = xrefs.at(m_indices[idx+2]);
 		}
 	}
 
