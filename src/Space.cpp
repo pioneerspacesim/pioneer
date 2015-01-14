@@ -53,6 +53,7 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	std::vector<BodyDist>::const_iterator min = std::lower_bound(m_bodyDist.begin(), m_bodyDist.end(), len-dist);
 	std::vector<BodyDist>::const_iterator max = std::upper_bound(min, m_bodyDist.end(), len+dist);
 
+	bodies.reserve(m_bodyDist.size());
 	while (min != max) {
 		bodies.push_back((*min).body);
 		++min;
@@ -150,8 +151,9 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, d
 Space::~Space()
 {
 	UpdateBodies(); // make sure anything waiting to be removed gets removed before we go and kill everything else
-	for (std::list<Body*>::iterator i = m_bodies.begin(); i != m_bodies.end(); ++i)
-		KillBody(*i);
+	for (auto i : m_bodies) {
+		KillBody(i);
+	}
 	UpdateBodies();
 }
 
@@ -354,15 +356,16 @@ vector3d Space::GetHyperspaceExitPoint(const SystemPath &source, const SystemPat
 
 Body *Space::FindNearestTo(const Body *b, Object::Type t) const
 {
+	PROFILE_SCOPED()
 	Body *nearest = 0;
 	double dist = FLT_MAX;
-	for (std::list<Body*>::const_iterator i = m_bodies.begin(); i != m_bodies.end(); ++i) {
-		if ((*i)->IsDead()) continue;
-		if ((*i)->IsType(t)) {
-			double d = (*i)->GetPositionRelTo(b).Length();
+	for (auto i : m_bodies) {
+		if (i->IsDead()) continue;
+		if (i->IsType(t)) {
+			double d = i->GetPositionRelTo(b).Length();
 			if (d < dist) {
 				dist = d;
-				nearest = *i;
+				nearest = i;
 			}
 		}
 	}
@@ -862,6 +865,7 @@ static void hitCallback(CollisionContact *c)
 // temporary one-point version
 static void CollideWithTerrain(Body *body)
 {
+	PROFILE_SCOPED()
 	if (!body->IsType(Object::DYNAMICBODY)) return;
 	DynamicBody *dynBody = static_cast<DynamicBody*>(body);
 	if (!dynBody->IsMoving()) return;
@@ -889,6 +893,7 @@ static void CollideWithTerrain(Body *body)
 
 void Space::CollideFrame(Frame *f)
 {
+	PROFILE_SCOPED()
 	f->GetCollisionSpace()->Collide(&hitCallback);
 	for (Frame* kid : f->GetChildren())
 		CollideFrame(kid);
@@ -927,6 +932,7 @@ void Space::TimeStep(float step)
 
 void Space::UpdateBodies()
 {
+	PROFILE_SCOPED()
 #ifndef NDEBUG
 	m_processingFinalizationQueue = true;
 #endif
@@ -935,14 +941,14 @@ void Space::UpdateBodies()
 		rmb->SetFrame(0);
 		for (Body* b : m_bodies)
 			b->NotifyRemoved(rmb);
-		m_bodies.remove(rmb);
+		ReallyRemoveBody(rmb);
 	}
 	m_removeBodies.clear();
 
 	for (Body* killb : m_killBodies) {
 		for (Body* b : m_bodies)
 			b->NotifyRemoved(killb);
-		m_bodies.remove(killb);
+		ReallyRemoveBody(killb);
 		delete killb;
 	}
 	m_killBodies.clear();
@@ -950,6 +956,16 @@ void Space::UpdateBodies()
 #ifndef NDEBUG
 	m_processingFinalizationQueue = false;
 #endif
+}
+
+void Space::ReallyRemoveBody(Body* b)
+{
+	PROFILE_SCOPED()
+	auto it = std::find(m_bodies.begin(), m_bodies.end(), b);
+	if( it != m_bodies.end() ) {
+		(*it) = m_bodies.back();
+		m_bodies.pop_back();
+	}
 }
 
 static char space[256];

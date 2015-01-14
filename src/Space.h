@@ -64,8 +64,8 @@ public:
 	Body *FindBodyForPath(const SystemPath *path) const;
 
 	unsigned GetNumBodies() const { return m_bodies.size(); }
-	IterationProxy<std::list<Body*> > GetBodies() { return MakeIterationProxy(m_bodies); }
-	const IterationProxy<const std::list<Body*> > GetBodies() const { return MakeIterationProxy(m_bodies); }
+	IterationProxy<std::vector<Body*> > GetBodies() { return MakeIterationProxy(m_bodies); }
+	const IterationProxy<const std::vector<Body*> > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
 	Background::Container *GetBackground() { return m_background.get(); }
 
@@ -88,6 +88,7 @@ private:
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
 
 	void UpdateBodies();
+	void ReallyRemoveBody(Body*);
 
 	void CollideFrame(Frame *f);
 
@@ -101,11 +102,11 @@ private:
 	Game *m_game;
 
 	// all the bodies we know about
-	std::list<Body*> m_bodies;
+	std::vector<Body*> m_bodies;
 
 	// bodies that were removed/killed this timestep and need pruning at the end
-	std::list<Body*> m_removeBodies;
-	std::list<Body*> m_killBodies;
+	std::vector<Body*> m_removeBodies;
+	std::vector<Body*> m_killBodies;
 
 	void RebuildFrameIndex();
 	void RebuildBodyIndex();
