@@ -324,7 +324,9 @@ private:
 	vector3d m_angThrusters;
 
 	AlertState m_alertState;
+	double m_lastAlertUpdate;
 	double m_lastFiringAlert;
+	Space::BodyNearList m_nearbyBodies;
 
 	struct HyperspacingOut {
 		SystemPath dest;
