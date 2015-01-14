@@ -5,6 +5,7 @@
 #define _SPACE_H
 
 #include <list>
+#include "Body.h"
 #include "Object.h"
 #include "vector3.h"
 #include "Serializer.h"
@@ -14,7 +15,6 @@
 #include "Background.h"
 #include "IterationProxy.h"
 
-class Body;
 class Frame;
 class Ship;
 class HyperspaceCloud;
