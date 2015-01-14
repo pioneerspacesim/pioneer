@@ -257,7 +257,11 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
+	m_lastAlertUpdate = 0.0;
 	m_lastFiringAlert = 0.0;
+	m_shipNear = false;
+	m_shipFiring = false;
+
 	m_testLanded = false;
 	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
@@ -915,8 +919,8 @@ void Ship::UpdateAlertState()
 		return;
 	}
 
-	bool ship_is_near = false, ship_is_firing = false;
-	if (m_lastFiringAlert + 1.0 <= Pi::game->GetTime()) 
+	bool ship_is_near = m_shipNear, ship_is_firing = m_shipFiring;
+	if (m_lastAlertUpdate + 1.0 <= Pi::game->GetTime())
 	{
 		// time to update the list again, once per second should suffice
 		m_lastAlertUpdate = Pi::game->GetTime();
@@ -950,7 +954,10 @@ void Ship::UpdateAlertState()
 				}
 			}
 		}
-		
+
+		// store
+		m_shipNear = ship_is_near;
+		m_shipFiring = ship_is_firing;
 	}
 
 	bool changed = false;
