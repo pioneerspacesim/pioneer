@@ -919,7 +919,7 @@ void Ship::UpdateAlertState()
 		return;
 	}
 
-	bool ship_is_near = m_shipNear, ship_is_firing = m_shipFiring;
+	bool ship_is_near = false, ship_is_firing = false;
 	if (m_lastAlertUpdate + 1.0 <= Pi::game->GetTime())
 	{
 		// time to update the list again, once per second should suffice
@@ -958,6 +958,11 @@ void Ship::UpdateAlertState()
 		// store
 		m_shipNear = ship_is_near;
 		m_shipFiring = ship_is_firing;
+	}
+	else
+	{
+		ship_is_near = m_shipNear;
+		ship_is_firing = m_shipFiring;
 	}
 
 	bool changed = false;
