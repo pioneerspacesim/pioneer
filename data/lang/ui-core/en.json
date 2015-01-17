@@ -711,6 +711,10 @@
       "description" : "",
       "message" : "Navigation:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigator"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Negotiate"
@@ -806,6 +810,10 @@
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Personal Information"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
    },
    "PILOTING" : {
       "description" : "",
@@ -955,6 +963,10 @@
       "description" : "",
       "message" : "Sensors:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensors and defence"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Ship"
@@ -986,6 +998,10 @@
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
       "message" : "The ship you were viewing has been sold"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Ship's Engineer"
    },
    "SOUND" : {
       "description" : "",
