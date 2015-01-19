@@ -2,7 +2,8 @@ January 2015
    * Fixes
      * Fix 3310 (#3312)
      * Fix 3313 (#3316)
-   
+     * Fix Ship:onShipEquipmentChanged (#3326)
+
    * Internal Chnages
      * Remove DrawPoints & DrawLines methods (#3303)
      * Dummy renderer for headless tools (#3306)
