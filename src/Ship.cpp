@@ -1315,6 +1315,9 @@ void Ship::EnterHyperspace() {
 		return;
 	}
 
+	// Clear ships cached list of nearby bodies so we don't try to access them.
+	m_nearbyBodies.clear();
+
 	LuaEvent::Queue("onLeaveSystem", this);
 
 	SetFlightState(Ship::HYPERSPACE);
