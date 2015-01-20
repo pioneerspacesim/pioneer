@@ -5,6 +5,7 @@
 #define _COLLISION_SPACE
 
 #include <list>
+#include <vector>
 #include "../vector3.h"
 
 class Geom;
@@ -18,6 +19,7 @@ struct Sphere {
 };
 
 class BvhTree;
+typedef std::vector<Geom*> GeomArray;
 
 /*
  * Collision spaces have a bunch of geoms and at most one sphere (for a planet).
@@ -46,8 +48,8 @@ public:
 private:
 	void CollideGeoms(Geom *a, int minMailboxValue, void (*callback)(CollisionContact*));
 	void CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect);
-	std::list<Geom*> m_geoms;
-	std::list<Geom*> m_staticGeoms;
+	GeomArray m_geoms;
+	GeomArray m_staticGeoms;
 	bool m_needStaticGeomRebuild;
 	BvhTree *m_staticObjectTree;
 	BvhTree *m_dynamicObjectTree;

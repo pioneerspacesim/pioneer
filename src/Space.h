@@ -5,6 +5,7 @@
 #define _SPACE_H
 
 #include <list>
+#include "Body.h"
 #include "Object.h"
 #include "vector3.h"
 #include "Serializer.h"
@@ -14,7 +15,6 @@
 #include "Background.h"
 #include "IterationProxy.h"
 
-class Body;
 class Frame;
 class Ship;
 class HyperspaceCloud;
@@ -70,12 +70,11 @@ public:
 	Background::Container *GetBackground() { return m_background.get(); }
 
 	// body finder delegates
-	typedef std::vector<Body*> BodyNearList;
-	typedef BodyNearList::iterator BodyNearIterator;
-	void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const {
+	typedef BodyList::iterator BodyNearIterator;
+	void GetBodiesMaybeNear(const Body *b, double dist, BodyList &bodies) const {
 		m_bodyNearFinder.GetBodiesMaybeNear(b, dist, bodies);
 	}
-	void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const {
+	void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyList &bodies) const {
 		m_bodyNearFinder.GetBodiesMaybeNear(pos, dist, bodies);
 	}
 
@@ -128,8 +127,8 @@ private:
 		BodyNearFinder(const Space *space) : m_space(space) {}
 		void Prepare();
 
-		void GetBodiesMaybeNear(const Body *b, double dist, BodyNearList &bodies) const;
-		void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyNearList &bodies) const;
+		void GetBodiesMaybeNear(const Body *b, double dist, BodyList &bodies) const;
+		void GetBodiesMaybeNear(const vector3d &pos, double dist, BodyList &bodies) const;
 
 	private:
 		struct BodyDist {

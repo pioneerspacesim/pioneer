@@ -97,7 +97,7 @@ void Sensors::Update(float time)
 
 	//Find nearby contacts, same range as scanner. Scanner should use these
 	//contacts, worldview labels too.
-	Space::BodyNearList nearby;
+	BodyList nearby;
 	Pi::game->GetSpace()->GetBodiesMaybeNear(m_owner, 100000.0f, nearby);
 	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 		if ((*i) == m_owner || !(*i)->IsType(Object::SHIP)) continue;

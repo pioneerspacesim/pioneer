@@ -64,7 +64,7 @@ void Missile::TimeStepUpdate(const float timeStep)
 	if (!m_owner) {
 		Explode();
 	} else if (m_armed) {
-		Space::BodyNearList nearby;
+		BodyList nearby;
 		Pi::game->GetSpace()->GetBodiesMaybeNear(this, MISSILE_DETECTION_RADIUS, nearby);
 		for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 			if (*i == this) continue;
@@ -101,7 +101,7 @@ void Missile::Explode()
 	const double kgDamage = 10000.0;
 
 	CollisionContact dummy;
-	Space::BodyNearList nearby;
+	BodyList nearby;
 	Pi::game->GetSpace()->GetBodiesMaybeNear(this, damageRadius, nearby);
 	for (Space::BodyNearIterator i = nearby.begin(); i != nearby.end(); ++i) {
 		if ((*i)->GetFrame() != GetFrame()) continue;

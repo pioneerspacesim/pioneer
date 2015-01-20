@@ -119,4 +119,7 @@ private:
 	double m_physRadius;
 };
 
+
+typedef std::vector<Body*> BodyList;
+
 #endif /* _BODY_H */
