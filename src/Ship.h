@@ -13,6 +13,7 @@
 #include "Sensors.h"
 #include "Serializer.h"
 #include "ShipType.h"
+#include "Space.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include "LuaTable.h"
