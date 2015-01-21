@@ -654,7 +654,7 @@ Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
 	Pi::game->GetSpace()->AddBody(missile);
 	return missile;
 }
-
+#pragma optimize("",off)
 void Ship::SetFlightState(Ship::FlightState newState)
 {
 	if (m_flightState == newState) return;
@@ -663,10 +663,15 @@ void Ship::SetFlightState(Ship::FlightState newState)
 
 	if (newState == FLYING) {
 		m_testLanded = false;
-		if (m_flightState == DOCKING || m_flightState == DOCKED) onUndock.emit();
-		m_dockedWith = 0;
-		// lock thrusters for two seconds to push us out of station
-		m_launchLockTimeout = 2.0;
+		if (m_flightState == DOCKING || m_flightState == DOCKED) 
+			onUndock.emit();
+
+		m_dockedWith = nullptr;
+
+		// lock thrusters on for amount of time needed to push us out of station
+		static const double MASS_LOCK_REFERENCE(40000.0); // based purely on experimentation
+		// limit the time to between 2.0 and 20.0 seconds of thrust, the player can override
+		m_launchLockTimeout = std::min(std::max(2.0, 2.0 * (GetMass() / MASS_LOCK_REFERENCE)), 20.0);
 	}
 
 	m_flightState = newState;
