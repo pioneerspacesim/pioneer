@@ -654,7 +654,7 @@ Missile * Ship::SpawnMissile(ShipType::Id missile_type, int power) {
 	Pi::game->GetSpace()->AddBody(missile);
 	return missile;
 }
-#pragma optimize("",off)
+
 void Ship::SetFlightState(Ship::FlightState newState)
 {
 	if (m_flightState == newState) return;
