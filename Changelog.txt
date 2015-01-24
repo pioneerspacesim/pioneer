@@ -3,6 +3,8 @@ January 2015
      * Fix 3310 (#3312)
      * Fix 3313 (#3316)
      * Fix Ship:onShipEquipmentChanged (#3326)
+     * Ship launch thrust timer fix (#3330)
+     * Fix the UI strange rendering (#3332)
 
    * Internal Chnages
      * Remove DrawPoints & DrawLines methods (#3303)
@@ -14,6 +16,7 @@ January 2015
      
    * Optimisation
      * Animation interpolation optimisation (#3327)
+     * Ship nearby optimise (#3328)
 
 December 2014
    * New Features
