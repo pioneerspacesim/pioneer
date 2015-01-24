@@ -1224,6 +1224,8 @@ void Pi::MainLoop()
 		SetMouseGrab(Pi::MouseButtonState(SDL_BUTTON_RIGHT));
 
 		Pi::renderer->EndFrame();
+
+		Pi::renderer->ClearDepthBuffer();
 		if( DrawGUI ) {
 			Gui::Draw();
 			if (game)

@@ -2,7 +2,10 @@ January 2015
    * Fixes
      * Fix 3310 (#3312)
      * Fix 3313 (#3316)
-   
+     * Fix Ship:onShipEquipmentChanged (#3326)
+     * Ship launch thrust timer fix (#3330)
+     * Fix the UI strange rendering (#3332)
+
    * Internal Chnages
      * Remove DrawPoints & DrawLines methods (#3303)
      * Dummy renderer for headless tools (#3306)
@@ -10,6 +13,11 @@ January 2015
      * Faster text buffer rendering (#3304)
      * Ignore any sgm files in the repository (#3315)
      * Faster deduplication of collision data (#3319)
+     * Stop vs2013 using the whole program optimisation (#3333)
+     
+   * Optimisation
+     * Animation interpolation optimisation (#3327)
+     * Ship nearby optimise (#3328)
 
 December 2014
    * New Features

@@ -13,6 +13,7 @@
 #include "Sensors.h"
 #include "Serializer.h"
 #include "ShipType.h"
+#include "Space.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include "LuaTable.h"
@@ -324,7 +325,11 @@ private:
 	vector3d m_angThrusters;
 
 	AlertState m_alertState;
+	double m_lastAlertUpdate;
 	double m_lastFiringAlert;
+	bool m_shipNear;
+	bool m_shipFiring;
+	Space::BodyNearList m_nearbyBodies;
 
 	struct HyperspacingOut {
 		SystemPath dest;
