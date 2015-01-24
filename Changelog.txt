@@ -11,6 +11,9 @@ January 2015
      * Faster text buffer rendering (#3304)
      * Ignore any sgm files in the repository (#3315)
      * Faster deduplication of collision data (#3319)
+     
+   * Optimisation
+     * Animation interpolation optimisation (#3327)
 
 December 2014
    * New Features
