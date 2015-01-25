@@ -52,10 +52,9 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 
 	// eliminate duplicate vertices
 	{
-		const Uint32 count = numVerts;
 		std::vector<Uint32> xrefs;
 		nv::Weld<vector3f> weld;
-		const Uint32 newCount = weld(m_vertices, xrefs);
+		weld(m_vertices, xrefs);
 
 		//Output("---   %d vertices welded\n", count - newCount);
 

@@ -172,7 +172,7 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 					void *pDecompressedData = tinfl_decompress_mem_to_heap(&bin[0], bin.Size(), &outSize, 0);
 					if (pDecompressedData) {
 						// now parse in-memory representation as new ByteRange.
-						Serializer::Reader rd(ByteRange((char*)pDecompressedData, outSize));
+						Serializer::Reader rd(ByteRange(static_cast<char*>(pDecompressedData), outSize));
 						model = CreateModel(rd);
 						mz_free(pDecompressedData);
 					}

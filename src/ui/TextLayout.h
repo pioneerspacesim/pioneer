@@ -33,10 +33,11 @@ private:
 
 	Point m_lastRequested;   // the layout area we were asked to compute size for
 	Point m_lastSize;        // and the resulting size
-	Color m_prevColor;
 
 	RefCountedPtr<Text::TextureFont> m_font;
 	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
+
+	Color m_prevColor;
 };
 
 }

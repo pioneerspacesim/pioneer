@@ -178,7 +178,6 @@ void TextLayout::Update(const float width, const Color &color)
 			vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
 			vbd.numVertices = va.GetNumVerts();
 			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
-			Graphics::Material *mat = m_font->GetMaterial();
 			m_vbuffer.Reset( r->CreateVertexBuffer(vbd) );
 		}
 

@@ -31,8 +31,6 @@ static const float SCANNER_SCALE     = 0.00001f;
 static const float A_BIT             = 1.1f;
 static const unsigned int SCANNER_STEPS = 100;
 
-enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
-
 // XXX target colours should be unified throughout the game
 static const Color scannerNavTargetColour     = Color( 0,   255, 0   );
 static const Color scannerCombatTargetColour  = Color( 255, 0,   0   );
@@ -312,7 +310,6 @@ void ScannerWidget::DrawBlobs(bool below)
 	colors.reserve(MAX_CONTACTS);
 
 	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
-		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
 		const Color *color = 0;
 
@@ -322,7 +319,6 @@ void ScannerWidget::DrawBlobs(bool below)
 					color = &scannerCombatTargetColour;
 				else
 					color = &scannerShipColour;
-				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::MISSILE:
@@ -337,7 +333,6 @@ void ScannerWidget::DrawBlobs(bool below)
 					color = &scannerNavTargetColour;
 				else
 					color = &scannerStationColour;
-				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::CARGOBODY:
@@ -356,16 +351,6 @@ void ScannerWidget::DrawBlobs(bool below)
 
 			default:
 				continue;
-		}
-
-		float pointSize = 1.f;
-		if (weight == WEIGHT_LIGHT) {
-			// glLineWidth(1);
-			pointSize = 3.f;
-		}
-		else {
-			// glLineWidth(2);
-			pointSize = 4.f;
 		}
 
 		vector3d pos = i->pos * Pi::player->GetOrient();

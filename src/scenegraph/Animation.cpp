@@ -44,7 +44,7 @@ void Animation::UpdateChannelTargets(Node *root)
 void Animation::Interpolate()
 {
 	PROFILE_SCOPED()
-	if( m_time == m_timePrev ) {
+	if (is_equal_exact(m_time, m_timePrev)) {
 		return;
 	}
 

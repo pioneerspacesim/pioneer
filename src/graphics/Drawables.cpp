@@ -388,7 +388,7 @@ void Points::SetData(Renderer* r, const int count, const vector3f *positions, co
 		return;
 
 	assert(positions);
-	const int total = (count * 6);
+	const unsigned int total = (count * 6);
 
 	if (m_va.get() && m_va->GetNumVerts() == total) {
 		m_va->Clear();
@@ -432,7 +432,7 @@ void Points::SetData(Renderer* r, const int count, const vector3f *positions, co
 		return;
 
 	assert(positions);
-	const int total = (count * 6);
+	const unsigned int total = (count * 6);
 
 	if (m_va.get() && m_va->GetNumVerts() == total) {
 		m_va->Clear();

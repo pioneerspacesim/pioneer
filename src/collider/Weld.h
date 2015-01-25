@@ -25,10 +25,10 @@ template <typename Key> struct hash
 {
 	inline Uint32 sdbm_hash(const void * data_in, Uint32 size, Uint32 h = 5381)
 	{
-		const Uint8 * data = (const Uint8 *) data_in;
+		const Uint8 * data = static_cast<const Uint8 *>(data_in);
 		Uint32 i = 0;
 		while (i < size) {
-			h = (h << 16) + (h << 6) - h + (Uint32) data[i++];
+			h = (h << 16) + (h << 6) - h + static_cast<Uint32>(data[i++]);
 		}
 		return h;
 	}

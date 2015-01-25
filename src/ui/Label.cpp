@@ -53,7 +53,7 @@ void Label::Draw()
 	const float opacity = GetContext()->GetOpacity();
 	const Color finalColor(color.r, color.g, color.b, color.a*opacity);
 
-	if (m_bNeedsUpdating || m_font != GetContext()->GetFont(GetFont()) || m_prevOpacity != opacity || m_bPrevDisabled != IsDisabled())
+	if (m_bNeedsUpdating || m_font != GetContext()->GetFont(GetFont()) || !is_equal_exact(m_prevOpacity, opacity) || m_bPrevDisabled != IsDisabled())
 	{
 		m_font = GetContext()->GetFont(GetFont());
 		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
