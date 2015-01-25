@@ -59,6 +59,10 @@
       "description" : "",
       "message" : "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
    },
+   "INTROTEXT__4" : {
+      "description" : "",
+      "message" : "Greetings. I'm {name}. The {system} government wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. Where they want to build a new district. The pay is {cash}. {system} is {dist} ly from here."
+   },
    "INTROTEXT__6" : {
       "description" : "",
       "message" : "Hello. This could be a dangerous run. We need someone experienced for a run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We pay {cash}. The distance is {dist} ly."
@@ -319,6 +323,10 @@
       "description" : "",
       "message" : "These goods are essential for the construction of a new mine."
    },
+   "WHYSOMUCHTEXT__4" : {
+      "description" : "",
+      "message" : "These goods are important to a construction stage."
+   },
    "WHYSOMUCHTEXT__6" : {
       "description" : "",
       "message" : "The police informed us that an unknown group of pirates attacked cargo ships in this system."
@@ -362,6 +370,54 @@
    "PIRATE_TAUNTS_7" : {
       "description" : "",
       "message" : "Your luck has run out!"
+   },
+   "PIRATE_GRIPES_1" : {
+      "description" : "",
+      "message" : "Damn! You will pay for this."
+   },
+   "PIRATE_GRIPES_2" : {
+      "description" : "",
+      "message" : "Oh no. My poor ship."
+   },
+   "PIRATE_GRIPES_3" : {
+      "description" : "",
+      "message" : "Wait, I'll show you."
+   },
+   "ESCORT_CHATTER_1" : {
+      "description" : "",
+      "message" : "Oh no. Hostile craft detected. Let us attack it together."
+   },
+   "ESCORT_CHATTER_2" : {
+      "description" : "",
+      "message" : "Great. This pirate will be my first kill."
+   },
+   "ESCORT_CHATTER_3" : {
+      "description" : "",
+      "message" : "Enemy spotted. Begin with the attack."
+   },
+   "ESCORT_CHATTER_4" : {
+      "description" : "",
+      "message" : "Proceed to your destination. I'll cover."
+   },
+   "ESCORT_CHATTER_5" : {
+      "description" : "",
+      "message" : "Tally ho. This will be my first catch today."
+   },
+   "TARGET_DESTROYED" : {
+      "description" : "",
+      "message" : "Target destroyed."
+   },
+   "CEASE_FIRE" : {
+      "description" : "",
+      "message" : "Cease fire, cease fire. I'm on your side."
+   },
+   "I_AM_ON_MY_WAY" : {
+      "description" : "",
+      "message" : "Sensors show that you are taking damage. I'm on my way."
+   },
+   "GUNS_GUNS_GUNS" : {
+      "description" : "",
+      "message" : "Guns, guns, guns."
    },
    "SPACEPORT" : {
       "description" : "",
