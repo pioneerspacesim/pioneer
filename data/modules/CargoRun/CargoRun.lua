@@ -39,6 +39,8 @@ local max_cargo_wholesaler = 100
 
 -- number of strings in module-cargorun
 local num_pirate_taunts = 7
+local num_pirate_gripes = 3
+local num_escort_chatter = 5
 local num_success_msg = 3
 local num_failure_msg = 4
 local num_accepted = 4
@@ -410,6 +412,7 @@ local makeAdvert = function (station, freeCargoSpace)
 		if freeCargoSpace ~= nil then
 			local approxFuelForJump = math.floor(dist / 10)
 			cargo = (freeCargoSpace - approxFuelForJump) <= 1 and 1 or Engine.rand:Integer(1, (freeCargoSpace - approxFuelForJump))
+			introtext = Engine.rand:Integer(1, num_intro)
 		else
 			if wholesaler then
 				cargo = Engine.rand:Integer(max_cargo, max_cargo_wholesaler)
@@ -421,7 +424,7 @@ local makeAdvert = function (station, freeCargoSpace)
 		end
 		branch = Engine.rand:Integer(1, #custom_cargo)
 		cargotype = Engine.rand:Integer(1, #custom_cargo[branch])
-		risk = custom_cargo[branch][cargotype].price / 600 + Engine.rand:Number(0, 0.3) -- goods with price 300 have a risk of 0.5 to 0.8
+		risk = custom_cargo[branch][cargotype].price / 400 + Engine.rand:Number(0, 0.25) -- goods with price 300 have a risk of 0.75 to 1
 		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/100) * Engine.rand:Number(0.8,1.2)
 		due = Game.time + ((dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1))
 	end
@@ -510,6 +513,12 @@ local onUpdateBB = function (station)
 	end
 end
 
+local pirate_ship = {}
+local pirate_gripes_time
+local escort_ship
+local escort_chatter_time
+local escort_switch_target
+
 local onEnterSystem = function (player)
 	if (not player:IsPlayer()) then return end
 
@@ -518,26 +527,26 @@ local onEnterSystem = function (player)
 	for ref,mission in pairs(missions) do
 		if mission.status == "ACTIVE" and mission.location:IsSameSystem(syspath) then
 			local risk = mission.risk
-			local ships = 0
+			local pirates = 0
 
 			local riskmargin = Engine.rand:Number(-0.3,0.3) -- Add some random luck
-			if risk >= (1 + riskmargin) then ships = 3
-			elseif risk >= (0.7 + riskmargin) then ships = 2
-			elseif risk >= (0.5 + riskmargin) then ships = 1
+			if risk >= (1 + riskmargin) then pirates = 3
+			elseif risk >= (0.7 + riskmargin) then pirates = 2
+			elseif risk >= (0.5 + riskmargin) then pirates = 1
 			end
 
-			-- if there is some risk and still no ships, flip a tricoin
-			if ships < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then ships = 1 end
+			-- if there is some risk and still no pirates, flip a tricoin
+			if pirates < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then pirates = 1 end
 
 			-- XXX hull mass is a bad way to determine suitability for role
 			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
 				and def.hyperdriveClass > 0 and def.hullMass <= 400 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
-			local ship
+			local pirate
 
-			while ships > 0 do
-				ships = ships-1
+			while pirates > 0 do
+				pirates = pirates - 1
 
 				if Engine.rand:Number(1) <= risk then
 					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
@@ -550,18 +559,30 @@ local onEnterSystem = function (player)
 					))
 					local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
-					ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-					ship:SetLabel(Ship.MakeRandomLabel())
-					ship:AddEquip(default_drive)
-					ship:AddEquip(laserdef)
-					ship:AIKill(Game.player)
+					pirate = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+					pirate:SetLabel(Ship.MakeRandomLabel())
+					pirate:AddEquip(default_drive)
+					pirate:AddEquip(laserdef)
+					pirate:AIKill(Game.player)
+					table.insert(pirate_ship, pirate)
 				end
 			end
 
-			if ship then
+			if pirate then
 				local pirate_greeting = string.interp(l["PIRATE_TAUNTS_"..Engine.rand:Integer(1,num_pirate_taunts)], {
 					client = mission.client.name, location = mission.location:GetSystemBody().name,})
-				Comms.ImportantMessage(pirate_greeting, ship.label)
+				Comms.ImportantMessage(pirate_greeting, pirate.label)
+				pirate_gripes_time = Game.time
+				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
+					local escort = Space.SpawnShipNear("kanara", Game.player, 50, 100)
+					escort:SetLabel(Ship.MakeRandomLabel())
+					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
+					escort:AIKill(pirate)
+					escort_ship = escort
+					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, num_escort_chatter)], escort.label)
+					escort_chatter_time = Game.time
+					escort_switch_target = escort_chatter_time
+				end
 			end
 		end
 
@@ -571,9 +592,68 @@ local onEnterSystem = function (player)
 	end
 end
 
+local onShipDestroyed = function (ship, attacker)
+	if ship:IsPlayer() then return end
+
+	if ship == escort_ship then
+		escort_ship = nil
+		return
+	end
+
+	if #pirate_ship ~= 0 then
+		for i = 1, #pirate_ship do
+			if pirate_ship[i] == ship then
+				table.remove(pirate_ship, i)
+				break
+			end
+		end
+		if escort_ship ~= nil and #pirate_ship ~= 0 then
+			escort_ship:AIKill(pirate_ship[1])
+		end
+		if attacker == escort_ship then
+			Comms.ImportantMessage(l.TARGET_DESTROYED, escort_ship.label)
+		end
+	end
+end
+
+local onShipFiring = function (ship)
+	if ship:IsPlayer() then return end
+
+	if escort_ship ~= nil and ship == escort_ship and Game.time >= escort_chatter_time then -- don't flood the control panel with messages
+		Comms.ImportantMessage(l.GUNS_GUNS_GUNS, escort_ship.label)
+			escort_chatter_time = Game.time + 30
+	end
+end
+
+local onShipHit = function (ship, attacker)
+	if ship:IsPlayer() and escort_ship ~= nil and #pirate_ship ~= 0 then
+		if Game.time >= escort_switch_target then -- don't switch between targets too quick
+			escort_ship:AIKill(attacker)
+			Comms.ImportantMessage(l.I_AM_ON_MY_WAY, escort_ship.label)
+			escort_switch_target = Game.time + 90
+		end
+		return
+	end
+
+	if ship == escort_ship and attacker:IsPlayer() then
+		Comms.ImportantMessage(l.CEASE_FIRE, escort_ship.label)
+		return
+	end
+	if #pirate_ship ~= 0 and attacker:IsPlayer() then
+		for i = 1, #pirate_ship do
+			if pirate_ship[i] == ship and Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
+				Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, num_pirate_gripes)], pirate_ship[i].label)
+				pirate_gripes_time = Game.time + 30
+			end
+		end
+	end
+end
+
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		nearbysystems = nil
+		pirate_ship = {}
+		escort_ship = nil
 	end
 end
 
@@ -665,6 +745,8 @@ end
 
 local onGameEnd = function ()
 	nearbysystems = nil
+	pirate_ship = {}
+	escort_ship = nil
 end
 
 local onClick = function (mission)
@@ -791,6 +873,9 @@ Event.Register("onUpdateBB", onUpdateBB)
 Event.Register("onEnterSystem", onEnterSystem)
 Event.Register("onLeaveSystem", onLeaveSystem)
 Event.Register("onShipDocked", onShipDocked)
+Event.Register("onShipFiring", onShipFiring)
+Event.Register("onShipHit", onShipHit)
+Event.Register("onShipDestroyed", onShipDestroyed)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onReputationChanged", onReputationChanged)
