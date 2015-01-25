@@ -35,6 +35,7 @@ void ToolTip::CalcSize()
 	m_layout->MeasureSize(400.0, size);
 	size[0] += 2*TOOLTIP_PADDING;
 	SetSize(size[0], size[1]);
+	m_layout->Update(size[0]);
 }
 
 void ToolTip::SetText(const char *text)
@@ -61,7 +62,6 @@ void ToolTip::Draw()
 	const float alpha = std::min(age / FADE_TIME_MS, 0.75f);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	r->SetRenderState(Gui::Screen::alphaBlendState);
 
 	GetSize(size);
 	const Color color(Color4f(0.2f, 0.2f, 0.6f, alpha));
