@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Fejlett Radartérképező"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Nagy hatótávú Radar térképező rendszerszintű lefedettséggel."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmoszférapajzs"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Auto-pilóta"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy fedélzeti repülésirányító számítógép."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Raktéri életfenntartó"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Lehetővé teszi élőárú szállítását."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Rakományszívó"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Lehetővé teszi rakománytartály felszedését az űrből."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "1. szintű hipermotor"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "2. szintű hipermotor"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "3. szintű hipermotor"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "4. szintű hipermotor"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "5. szintű hipermotor"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "6. szintű hipermotor"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "7. szintű hipermotor"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "8. szintű hipermotor"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "9. szintű hipermotor"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "1. szintű katonai hiperhajtómű"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "2. szintű katonai hiperhajtómű"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "3. szintű katonai hiperhajtómű"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "4. szintű katonai hajtómű"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Fejlett rakétazavaró"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy hatékonyabb elektronikus rakétazavaró rendszer,  fejlettebb követőrakéták ellen is hatásos."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Rakétazavaró"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy elektronikus rakétazavaró védelmi rendszer, amely bizonyos fajta követőrakéták megsemmisítésére alkalmas."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Üzemanyagszívó"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Lehetővé teszi hidrogén üzemanyag felvételét gázóriás bolygókból."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Hajótest javító rendszer"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Automatikusan javítja a hajótestet sérülés esetén."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hiperugrás analizátor"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A hiperugrás-felhőket analizálja, megállapítva a célállomást és az érkezés vagy indulás időpontját."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Nagy plazmagyorsító"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Lézerhűtés javító"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy fejlettebb hűtőrendszer a fegyvereidhez."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW robbantó bányászágyú"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ásványokban gazdag aszteroidák bányászatához."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Irányított rakéta"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Flottarakéta"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Követőrakéta"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 nemirányított rakéta"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Kombinált szívó"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Bár kevésbé hatékony üzemanyagszívó üzemmódban, mint a hagyományos üzemanyagszívó de lehetővé teszi rakomány befogását is."
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW pulzuságyú"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW pulzuságyú"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW pulzuságyú"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW pulzuságyú"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW pulzuságyú"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dupla pulzuságyú"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW gyorstüzelő pulzuságyú"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radartérképező"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Távolsági érzékelő, űrben lebegő felszerelés, rakomány, hajó vizsgálatára."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Szkenner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Egy 3D térképet jelenít meg a közeli hajókról."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Pajzsenergia töltő"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Javítja a pajzsok feltöltésének sebességét."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Pajzsgenerátor"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Minden felszerelt egységgel növekszik a hajótest védelme."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Kicsi plazmagyorsító"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Piacelemző"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Kiemeli a jelenlegi és a cél rendszer között várhatóan profittal értékesíthető termékeket."
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Személyszállító utaskabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Szükséges egy személy szállításához"
+   }
+}

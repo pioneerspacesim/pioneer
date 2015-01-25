@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Thachair mearachd"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Atmospheric shielding"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "A' feuchainn ris an t-slige a chàradh"
@@ -56,15 +60,15 @@
       "message" : "Ceannaich soitheach"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Cèibinnean"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} saor"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} 'ga chleachdadh"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "Sguir dheth"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Tomhas-lìonaidh"
    },
    "CAPACITY_USED" : {
@@ -92,11 +96,11 @@
       "message" : "Cargo space used"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t saor"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t 'ga chleachdadh"
    },
    "CASH" : {
@@ -108,7 +112,7 @@
       "message" : "Airgead: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Atharraich an nasgadh"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +124,15 @@
       "message" : "Luaths cuairteach na reul-chuairte"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "Leibheil mion-shealladh nam bailtean"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Glan"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Falamhaich"
    },
    "CLIENT" : {
@@ -136,7 +140,7 @@
       "message" : "Ceannaiche"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Còmhrag"
    },
    "COMMANDER" : {
@@ -148,11 +152,11 @@
       "message" : "Margaid bathair-àmh"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "Sganair teannta"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Comasach"
    },
    "COMPLETED" : {
@@ -160,7 +164,7 @@
       "message" : "Coileanta"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Dùmhlaich na h-innich"
    },
    "CONSTABLE" : {
@@ -200,11 +204,11 @@
       "message" : "Clàr nan eucoir"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Cunnartach"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Marbhtach"
    },
    "DELTA_V" : {
@@ -232,7 +236,7 @@
       "message" : "Mill soitheach an nàmhaid"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Leig seachad"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -240,11 +244,11 @@
       "message" : "Seall staranan HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "Seall tunailean seòladaireachd"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Seall loidhnichean luaiths"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -252,7 +256,7 @@
       "message" : "Docaich aig an targaid làithreach"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Ceann-latha pàighidh"
    },
    "D_DAYS_LEFT" : {
@@ -268,7 +272,7 @@
       "message" : "Èifeachdan:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "SEANN-EÒLACH"
    },
    "EMPLOYMENT" : {
@@ -276,7 +280,7 @@
       "message" : "Obair"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Cuir cockpit an comas (DEUCHAINNEACH)"
    },
    "ENABLE_JOYSTICK" : {
@@ -284,7 +288,7 @@
       "message" : "Cuir joystick an comas"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Innleadaireachd:"
    },
    "EQUIPMENT" : {
@@ -320,7 +324,7 @@
       "message" : "Fiosrachail"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Air fhàilligeadh"
    },
    "FEMALE" : {
@@ -384,7 +388,7 @@
       "message" : "Cuir crìoch air a' ghairm."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Neoichiontach"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -412,7 +416,7 @@
       "message" : "Soitheach thaistealach trom"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "Àrd"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -560,7 +564,7 @@
       "message" : "Ìseal"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "bl-sol"
    },
    "MAKE_NEW_FACE" : {
@@ -592,7 +596,7 @@
       "message" : "An sgioba as motha"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Meadhanach"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -756,7 +760,7 @@
       "message" : "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan long a bhith a' siubhal le 90° an comhair aiseal na luinge/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an long ri {name} air an t-slighe.\n\t\t"
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Na thathar ort"
    },
    "PAY_FINE_OF_N" : {
@@ -792,7 +796,7 @@
       "message" : "A' phoileas"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Bochd"
    },
    "POSITION" : {
@@ -879,6 +883,10 @@
       "description" : "",
       "message" : "Sàbhail"
    },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Scoop mounts"
+   },
    "SELECT" : {
       "description" : "",
       "message" : "Tagh"
@@ -948,7 +956,7 @@
       "message" : "Tòisich air an Talamh"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Tòisich air Dòchas Ùr"
    },
    "STATION_MANAGER" : {
@@ -972,7 +980,7 @@
       "message" : "Tha an soitheach fo smachd an stèisein, a Chomandair."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Toglaich fireann/boireann"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1024,11 @@
       "message" : "Air a chleachdadh"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Glè àrd"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Glè ìseal"
    },
    "VIDEO" : {
@@ -1036,7 +1044,7 @@
       "message" : "Dùmhlachd-bhreacaidh"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Tuarastal"
    },
    "WEIGHT_EMPTY" : {

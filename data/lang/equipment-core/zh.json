@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "高级雷达绘图仪"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "远距离雷达绘图仪可以覆盖星系的大部分区域."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "大气护盾"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "保护你的飞船不受再入热的影响."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "自动飞行仪"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "一个机载的飞行电脑"
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "货仓生命维持系统"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "允许货仓支持生命活动."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "收集器"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "允许飞船从太空中打捞货柜."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "等级 1 超空间引擎"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "等级 2 超空间引擎"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "等级 3 超空间引擎"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "等级 4 超空间引擎"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "等级 5 超空间引擎"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "等级 6 超空间引擎"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "等级 7 超空间引擎"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "等级 8 超空间引擎"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "等级 9 超空间引擎"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "等级 1 军用推进器"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "等级 2 军用推进器"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "等级 3 军用推进器"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "等级 4 军用推进器"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "高级电子战反制系统"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "一套电子反导防御系统,有能力摧毁更先进型号的制导导弹."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "电子战反制系统"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "一套电子反导防御系统,有能力摧毁一些制导导弹."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "燃料收集器"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "允许从气体巨行星上采集氢燃料."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "船体自动修理系统"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "自动地修理船体所受到的损伤."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "超空间云分析器"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "分析超空间云并得出超空间跳跃的目的地与出发和到达时间."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "大型等离子体加速器"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "激光冷却加速器"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "一套改进过的武器冷却系统."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW 爆破采矿加农炮"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "用于对富矿小行星进行爆破式采矿."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "制导导弹"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "远程导弹"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "智能导弹"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 非制导火箭弹"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "联合收集器"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "虽然收集效率不及燃料收集器, 但它却可以同时收集燃料和货物"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW 脉冲加农炮"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW 脉冲加农炮"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW 脉冲加农炮"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW 脉冲加农炮"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW 脉冲加农炮"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW 双联脉冲加农炮"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW 速射脉冲加农炮"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "雷达绘图仪"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "用于远距离探测其他飞船的装备,货仓和状态信息."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "扫描仪"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "提供附近飞船的3D地图"
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "护盾能量增益装置"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "增加护盾的回充速率."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "护盾生成器"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "每个装置都可提供外加的船体防护."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "小型等离子体加速器"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "贸易分析器"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "显示当前星系与已选星系间有贸易价值的商品"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "额外客舱"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "需要单人客运船"
+   }
+}

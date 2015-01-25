@@ -1,12 +1,4 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
-   },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
-   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Air processors"
@@ -59,25 +51,13 @@
       "description" : "",
       "message" : "Asteroid"
    },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Atmospheric Shielding"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
-   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatic system selection"
    },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Pilot otomatis"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "An on-board flight computer."
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Autopilot control"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -187,21 +167,9 @@
       "description" : "",
       "message" : "Sensors report critical cargo bay life-support conditions."
    },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Cargo Bay Life Support"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "live cargo = animals, slaves",
-      "message" : "Allows the transport of live cargo."
-   },
    "CARGO_N" : {
       "description" : "",
       "message" : "Kargo: %{mass}t"
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Cargo Scoop"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -210,10 +178,6 @@
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
       "message" : "Cargo scoop attempted. Not enough room in cargo hold."
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permits scooping cargo pods from space."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -371,58 +335,6 @@
       "description" : "",
       "message" : "Draw vertical lines"
    },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 1"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 2"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 3"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 4"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 5"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 6"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 7"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 8"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 9"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Class 1 Military drive"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Class 2 Military drive"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Class 3 Military drive"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Class 4 Military drive"
-   },
    "EARTH" : {
       "description" : "",
       "message" : "Bumi"
@@ -438,22 +350,6 @@
    "ECCENTRICITY" : {
       "description" : "",
       "message" : "Eccentricity"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Advanced ECM system"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "ECM system"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -519,17 +415,9 @@
       "description" : "",
       "message" : "Bahan bakar"
    },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Fuel Scoop"
-   },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
       "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
-   },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permits scooping hydrogen fuel from gas giant planets."
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
@@ -627,14 +515,6 @@
       "description" : "",
       "message" : "High population outdoor world."
    },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "SIstem Perbaikan Otomatis Lambung Kapal"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Automatically repairs the ship's hull in the event of damage."
-   },
    "HULL_INTEGRITY" : {
       "description" : "",
       "message" : "Integritas lambung kapal"
@@ -650,14 +530,6 @@
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
       "message" : "Hydrogen is primarily used as a fusion fuel"
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Hypercloud Analyzer"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -778,18 +650,6 @@
    "LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Large gas giant"
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Akselerator plasma besar"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Laser Cooling Booster"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Sistem pendingin yang lebih baik untuk senjata anda."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -959,14 +819,6 @@
       "description" : "",
       "message" : "Bahan bakar militer"
    },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW blast-mining cannon"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Used to blast-mine mineral rich asteroids."
-   },
    "MINING_COLONY" : {
       "description" : "",
       "message" : "Mining colony."
@@ -998,22 +850,6 @@
    "MISSILE" : {
       "description" : "",
       "message" : "misil"
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Guided Missile"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Naval Missile"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Misil Pintar"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "R40 Unguided Rocket"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1347,45 +1183,9 @@
       "description" : "",
       "message" : "Probability of arrival: %probability%%"
    },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MW pulse cannon"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MW pulse cannon"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MW pulse cannon"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MW pulse cannon"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MW pulse cannon"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW dual-fire pulse cannon"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW rapid-fire pulse cannon"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Quadruple system"
-   },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar Mapper"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1471,17 +1271,9 @@
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius arm"
    },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scanner"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Scanner control"
-   },
-   "SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Provides a 3D map of nearby ships."
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1555,22 +1347,6 @@
       "description" : "",
       "message" : "Set speed: %speed{f.0} m/s"
    },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Shield Energy Booster"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Increases the rate at which shields recharge."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Generator Perisai"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Memberikan perlindungan lambung kapal tambahan dengan setiap unit yang terpasang."
-   },
    "SHIELD_INTEGRITY" : {
       "description" : "",
       "message" : "Integritas perisai"
@@ -1642,10 +1418,6 @@
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
       "message" : "Small industrial outpost."
-   },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Akselerator plasma kecil"
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1935,14 +1707,6 @@
       "description" : "shown on tombstone when player dies",
       "message" : "RIP OLD BEAN"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
-   },
-   "TRADE_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Trading illegal goods"
@@ -1970,14 +1734,6 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Unlawful weapons discharge"
-   },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Kabin Penumpang Tambahan"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Required for transport of a single passenger"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",

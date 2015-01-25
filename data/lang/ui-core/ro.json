@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "A survenit o eroare"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Atmospheric shielding"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Încearcă repararea fuzelajului"
@@ -878,6 +882,10 @@
    "SAVE" : {
       "description" : "",
       "message" : "Salvează"
+   },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Scoop mounts"
    },
    "SELECT" : {
       "description" : "",

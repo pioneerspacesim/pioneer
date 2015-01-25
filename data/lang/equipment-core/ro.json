@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Cartograf Radar Avansat"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Cartograf radar cu rază mare de acțiune, cu acoperire la nivel de sistem."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Scut Atmosferic"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Protejează nava de căldura intrării în atmosferă."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un calculator de zbor de bord."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Sistem de Susținere a Vieții Hală"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permite transportul de marfă vie."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Colector Marfa"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permite colectarea magaziilor cu marfă din spațiu."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Motor Superluminic Clasa 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Motor Militar Clasa 4"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Sistem avansat ECM"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva tipuri mai avansate de rachete autoghidate."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Sistem ECM"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un sistem de contramăsuri electronice defensive împotriva rachetelor, capabile să distrugă câteva rachete autoghidate."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Colector Combustibil"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permite colectarea combustibilului de hidrogen de pe planetele gigantice de gaz."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Sistem de Autoreparare Fuzelaj"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Repară automat fuzelajul navei în caz de avarii."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analizator Hipernor"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analizează norii unui salt în hiperspațiu pentru a determina destinația și timpul sosirii sau plecării."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Accelerator plasmă mare"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Amplificator Sistem de Răcire Laser"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Un sistem îmbunătățit de răcire pentru armele dumneavoastră."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "Tun forjare 17MW"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Folosit pentru a forja asteroizi bogați în minerale."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Rachetă Teleghidată"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Rachetă Navală"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Rachetă Inteligentă"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "Racheta nedirijată R40"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Colector Multifuncțional"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Deși mai puțin eficient decât un colector de combustibil, el permite colectarea atat de marfă cât și de combustibil"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 10MW"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 1MW"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 20MW"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 2MW"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "Tun intermitent 4MW"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "Tun dual intermitent 1MW"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "Tun intermitent cu foc rapid 2MW"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Cartograf Radar"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Folosit pentru a inspecta de la distanță echipamentul, încărcătura și starea altor nave."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scaner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Oferă o hartă 3D a navelor apropiate."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Amplificator Energie Scut"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Crește rata reîncărcării scuturilor."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Generator de scut"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Oferă apărare adițională fuzelajului navei per unitate instalată."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Accelerator plasmă mic"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Analizator comercial"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Indică mărfurile profitabile de comercializat între sistemul selectat și cel curent"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Cabină Pasager Extra"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Necesar(ă) pentru transportul unui singur pasager"
+   }
+}

@@ -1,12 +1,4 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
-   },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
-   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Luftbehandlere"
@@ -59,25 +51,13 @@
       "description" : "",
       "message" : "Asteroide"
    },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Atmosfærisk Skjold"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Skærmer dit rumskib for varmen ved atmosfærisk nedstigen."
-   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatic system selection"
    },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Autopilot"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "En on-board computer."
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Autopilot control"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -187,21 +167,9 @@
       "description" : "",
       "message" : "Sensorer meddeler kritisk livsstøtte i lastrummet."
    },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Lastrums-livsstøttesystemer."
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "live cargo = animals, slaves",
-      "message" : "Tillader transport af levende last."
-   },
    "CARGO_N" : {
       "description" : "",
       "message" : "Last: %{mass}t"
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Lastopsamler"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -210,10 +178,6 @@
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
       "message" : "Cargo scoop attempted. Not enough room in cargo hold."
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Gør det muligt at indsamle lastkapsler fra rummet."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -371,58 +335,6 @@
       "description" : "",
       "message" : "Tegn vertikale linjer"
    },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Klasse 1 Hyperdrev"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Klasse 2 Hyperdrev"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Klasse 3 Hyperdrev"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Klasse 4 Hyperdrev"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Klasse 5 Hyperdrev"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Klasse 6 Hyperdrev"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Klasse 7 Hyperdrev"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Klasse 8 Hyperdrev"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Klasse 9 Hyperdrev"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Klasse 1 Militærdrev"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Klasse 2 Militærdrev"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Klasse 3 Militærdrev"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Klasse 4 Militærdrev"
-   },
    "EARTH" : {
       "description" : "",
       "message" : "Jorden"
@@ -438,22 +350,6 @@
    "ECCENTRICITY" : {
       "description" : "",
       "message" : "Excentricitet"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Avanceret ECM-system"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Et elektronisk missilforsvarssystem, i stand til at ødelægge mere advancerede typer af eftersøgende missiler."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "ECM-system"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Et elektronisk missilforsvarssystem, i stand til at ødelægge nogle eftersøgende missiler."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -519,17 +415,9 @@
       "description" : "",
       "message" : "Brændstof"
    },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Brændstof-opsamler"
-   },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
       "message" : "Brændstof-opsamler aktiv. Du har nu %quantity tons hydrogen."
-   },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Tillader opsamling af hydrogen-brændstop fra gas gigant-planeter."
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
@@ -627,14 +515,6 @@
       "description" : "",
       "message" : "Højbefolket udendørsverden."
    },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Skrog Auto-reparéringssystem"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Reparerer automatisk skibets skrog i tilfælde af skader."
-   },
    "HULL_INTEGRITY" : {
       "description" : "",
       "message" : "Skrogintegritet"
@@ -650,14 +530,6 @@
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
       "message" : "Hydrogen er primært brugt til fusionsbrændstof"
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Hypersky Analysator"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Analysér hyperrumskyer for at bestemme destination og tidspunktet for ankomst eller afgang."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -778,18 +650,6 @@
    "LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Stor gasgigant"
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Stor plasmaaccelerator"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Laser Kølingsbooster"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Et forbedret kølesystem til dine våben."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -959,14 +819,6 @@
       "description" : "",
       "message" : "Militærbrændstof"
    },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW spræng-mine kanon"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Brugt til at spræng-mine mineralholdige asteroider."
-   },
    "MINING_COLONY" : {
       "description" : "",
       "message" : "Minekoloni"
@@ -998,22 +850,6 @@
    "MISSILE" : {
       "description" : "",
       "message" : "missil"
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Guidet missil"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Sø-missil"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Smart missil"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "R40 Ikke-guidet Raket"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1347,45 +1183,9 @@
       "description" : "",
       "message" : "Sandsynlighed for ankomst: %probability%%"
    },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MW pulskanon"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MW pulskanon"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MW pulskanon"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MW pulskanon"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MW pulskanon"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW dobbelt-skuds pulskanon"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW hurtig-skuds pulskanon"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Kvadrupelt system"
-   },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar Kortlægger"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Brugt til at fjernundersøge udstyr, last og tilstand af andre skibe."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1471,17 +1271,9 @@
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius arm"
    },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Skanner"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Skannerkontrol"
-   },
-   "SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Giver et 3D-kort af skibe i nærheden."
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1555,22 +1347,6 @@
       "description" : "",
       "message" : "Sæt hastighed: %speed{f.0} m/s"
    },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Skjoldenergi Booster"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Øger hastigheden skjolde genlader med."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Skjoldgenerator"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Giver ekstra skrogforsvar med hver enhed monteret."
-   },
    "SHIELD_INTEGRITY" : {
       "description" : "",
       "message" : "Skjoldintegritet"
@@ -1642,10 +1418,6 @@
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
       "message" : "Lille industriel forpost."
-   },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Lille plasmaaccelerator"
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1935,14 +1707,6 @@
       "description" : "shown on tombstone when player dies",
       "message" : "RIP OLD BEAN"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
-   },
-   "TRADE_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
-   },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
       "message" : "Handler ulovlige varer"
@@ -1970,14 +1734,6 @@
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
       "message" : "Lovstridig våbenaffyring"
-   },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Ekstra Passagérkabine"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Krævet for transport af enkelt passagerer"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
