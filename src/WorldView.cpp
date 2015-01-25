@@ -643,7 +643,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					break;
 
 				case CONTROL_AUTOPILOT:
-					m_flightStatus->SetText(Lang::AUTOPILOT);
+					m_flightStatus->SetText(Lang::AUTOPILOT_CONTROL);
 					break;
 
 				default: assert(0); break;
@@ -2095,7 +2095,7 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 	}
 
 	m_vbuffer->Populate( va );
-	
+
 	m_worldView->m_renderer->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_LOOP);
 }
 

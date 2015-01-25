@@ -14,7 +14,8 @@ January 2015
      * Ignore any sgm files in the repository (#3315)
      * Faster deduplication of collision data (#3319)
      * Stop vs2013 using the whole program optimisation (#3333)
-     
+     * Equipment strings moved to new translation module (#3295)
+
    * Optimisation
      * Animation interpolation optimisation (#3327)
      * Ship nearby optimise (#3328)
