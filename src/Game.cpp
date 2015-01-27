@@ -129,7 +129,6 @@ Game::Game(Serializer::Reader &rd) :
 	Serializer::Reader section;
 
 	// Preparing the Lua stuff
-	LuaRef::InitLoad();
 	Pi::luaSerializer->InitTableRefs();
 
 	// galaxy generator
@@ -175,7 +174,6 @@ Game::Game(Serializer::Reader &rd) :
 	Pi::luaSerializer->Unserialize(section);
 
 	Pi::luaSerializer->UninitTableRefs();
-	LuaRef::UninitLoad();
 	// signature check
 	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
 		if (rd.Byte() != s_saveEnd[i]) throw SavedGameCorruptException();
