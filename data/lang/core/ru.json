@@ -173,11 +173,11 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Грузосборник сработал. Поймана 1 тонна %item."
+      "message" : "Грузосборник включён. Собрана 1 т %item."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Неудачная попытка сбора. Не достаточно места в грузовом отсеке."
+      "message" : "Неудачная попытка сбора. Недостаточно места в грузовом отсеке."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Система назначения"
+      "message" : "Пункт назначения"
    },
    "DIRECTION" : {
       "description" : "Direction",
@@ -417,7 +417,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Топливозаборник работает. Вы собрали %quantity т водорода."
+      "message" : "Топливозаборник включён. Вы собрали %quantity т водорода."
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
@@ -429,7 +429,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Эта запись не может быть загружена из-за проблем с правами доступа или по другой причине..."
+      "message" : "Это сохранение не может быть загружено из-за проблем с правами доступа или по другой причине..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "HARD_CAPITALIST" : {
       "description" : "",
-      "message" : "Ультракапитализм - отсутствие государственности."
+      "message" : "Ультракапитализм - отсутствие соцгарантий."
    },
    "HAT" : {
       "description" : "Hat switch: Is the top button on a joystick",
@@ -485,7 +485,7 @@
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Стоп вращение"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
@@ -541,11 +541,11 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Сканирование гипероблака"
+      "message" : "Остаток облака гипервыхода"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Гипероблако выхода"
+      "message" : "Облако гипервыхода"
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
@@ -905,11 +905,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Универсальный "
+      "message" : "Мультисборник"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Позволяет собирать как топливо, так и груз, но с меньшей эффективностью"
    },
    "MURDER" : {
       "description" : "",
@@ -1205,7 +1205,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Расстояние по умолчанию"
+      "message" : "Сброс"
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
@@ -1225,7 +1225,7 @@
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Управление креном"
+      "message" : "Вращение"
    },
    "ROLL_LEFT" : {
       "description" : "",
@@ -1277,7 +1277,7 @@
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
+      "message" : "Сборник"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1313,7 +1313,7 @@
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Установите маркер на цель"
+      "message" : "Выберите цель"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1417,7 +1417,7 @@
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
-      "message" : "Малое промышленное представительство."
+      "message" : "Малый промышленный аванпост."
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1493,7 +1493,7 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Белая звезда спектрального класса \"F\""
+      "message" : "Белая звезда класса \"F\""
    },
    "STAR_G" : {
       "description" : "",
@@ -1689,7 +1689,7 @@
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "Переключение в режим HUD"
+      "message" : "Переключение режима ИЛС"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
@@ -1717,7 +1717,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Неизведанная система. Данные отсутствуют."
+      "message" : "Неисследованная система. Данные отсутствуют."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
