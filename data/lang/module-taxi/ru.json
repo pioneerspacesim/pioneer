@@ -173,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "Из-за вашей некомпетентности я потерял работу. Таким образом, в деньгах я нуждаюсь больше вас."
+      "message" : "Из-за Вашей некомпетентности я потерял работу. В деньгах я нуждаюсь больше Вас."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
-      "message" : "Добрый день. Я {name}.\n Необходим скоростной корабль для полёта в систему {system} ({sectorx}, {sectory}, {sectorz})\n Расстояние {dist} св.л., за работу предлагаю {cash}."
+      "message" : "Меня зовут {name}. Мне нужен скоростной корабль для полёта в систему {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л., за работу предлагаю {cash}."
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Добрый день! Меня зовут {name}.\n Наша группа ищет перевозчика, чтобы попасть в систему {system} ({sectorx}, {sectory}, {sectorz})\n Расстояние {dist} св.л., заплатим {cash}."
+      "message" : "Добрый день! Меня зовут {name}. Наша группа ищет перевозчика, чтобы попасть в систему {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л., заплатим {cash}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "ИЩЕМ ТРАНСПОРТ: перелет маленькой группы в систему {system}. Заплатим {cash}."
+      "message" : "ИЩЕМ ТРАНСПОРТ: для перелёта маленькой группы в систему {system}. Заплатим {cash}."
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Было приятно лететь с вами! Деньги уже перечислены."
+      "message" : "Было приятно лететь с Вами! Деньги уже перечислены."
    },
    "FLAVOUR_2_WHEREAREWE" : {
       "description" : "",
