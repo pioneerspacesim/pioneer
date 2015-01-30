@@ -68,10 +68,11 @@ dnl ###########################################################################
 
 STD_CXXFLAGS=
 
-EXTRA_CFLAGS=
-EXTRA_CXXFLAGS=
-EXTRA_CPPFLAGS=
-EXTRA_LIBS=
+dnl allow extra stuff from environment too
+EXTRA_CFLAGS="$CFLAGS"
+EXTRA_CXXFLAGS="$CXXFLAGS"
+EXTRA_CPPFLAGS="$CPPFLAGS"
+EXTRA_LIBS="$LIBS"
 
 WARN_CFLAGS=
 WARN_CXXFLAGS=
