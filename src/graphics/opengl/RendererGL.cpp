@@ -50,6 +50,7 @@ typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterat
 
 RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
+, m_numLights(0)
 , m_numDirLights(0)
 //the range is very large due to a "logarithmic z-buffer" trick used
 //http://outerra.blogspot.com/2009/08/logarithmic-z-buffer.html
@@ -450,14 +451,17 @@ bool RendererOGL::SetWireFrameMode(bool enabled)
 
 bool RendererOGL::SetLights(Uint32 numlights, const Light *lights)
 {
-	if (numlights < 1) return false;
+	numlights = std::min(numlights, TOTAL_NUM_LIGHTS);
+	if (numlights < 1) {
+		m_numLights = 0;
+		m_numDirLights = 0;
+		return false;
+	}
 
-	const Uint32 NumLights = std::min(numlights, TOTAL_NUM_LIGHTS);
-
-	m_numLights = NumLights;
+	m_numLights = numlights;
 	m_numDirLights = 0;
 
-	for (Uint32 i=0; i<NumLights; i++) {
+	for (Uint32 i = 0; i<numlights; i++) {
 		const Light &l = lights[i];
 		m_lights[i].SetPosition( l.GetPosition() );
 		m_lights[i].SetDiffuse( l.GetDiffuse() );
