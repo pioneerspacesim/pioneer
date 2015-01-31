@@ -16,7 +16,7 @@ enums:
 
 .PHONY: sgm
 sgm:
-	./src/modelcompiler$(EXEEXT) -b inplace
+	env SDL_VIDEODRIVER=dummy ./src/modelcompiler$(EXEEXT) -b inplace
 
 EXTRA_DIST = \
 	AUTHORS.txt \

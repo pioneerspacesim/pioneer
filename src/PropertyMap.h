@@ -31,12 +31,8 @@ public:
 		return m_signals[k].connect(fn);
 	}
 
-    void Save(Serializer::Writer &wr) {
-        m_table.Save(wr);
-    }
-    void Load(Serializer::Reader &rd) {
-        m_table.Load(rd);
-    }
+	void Save(Serializer::Writer &wr);
+	void Load(Serializer::Reader &rd);
 
 private:
 	LuaRef m_table;

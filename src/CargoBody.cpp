@@ -17,7 +17,7 @@
 void CargoBody::Save(Serializer::Writer &wr, Space *space)
 {
 	DynamicBody::Save(wr, space);
-	m_cargo.Save(wr);
+	Pi::luaSerializer->WrLuaRef(m_cargo, wr);
 	wr.Float(m_hitpoints);
 	wr.Float(m_selfdestructTimer);
 	wr.Bool(m_hasSelfdestruct);
@@ -26,7 +26,7 @@ void CargoBody::Save(Serializer::Writer &wr, Space *space)
 void CargoBody::Load(Serializer::Reader &rd, Space *space)
 {
 	DynamicBody::Load(rd, space);
-	m_cargo.Load(rd);
+	Pi::luaSerializer->RdLuaRef(m_cargo, rd);
 	Init();
 	m_hitpoints = rd.Float();
 	m_selfdestructTimer = rd.Float();

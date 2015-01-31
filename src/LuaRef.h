@@ -22,12 +22,6 @@ public:
 
 	lua_State * GetLua() const { return m_lua; }
 
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
-
-	static void InitLoad();
-	static void UninitLoad();
-
 private:
 	lua_State * m_lua;
 	int m_id;
