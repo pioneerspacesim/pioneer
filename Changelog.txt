@@ -1,4 +1,7 @@
 January 2015
+   * New Features
+     * Many point stars on starless galaxy (#3321)
+     
    * Fixes
      * Fix 3310 (#3312)
      * Fix 3313 (#3316)
@@ -6,6 +9,7 @@ January 2015
      * Ship launch thrust timer fix (#3330)
      * Fix the UI strange rendering (#3332)
      * Update the ToolTip text layout (#3334)
+     * Prevent issue #3340 assert (#3341)
 
    * Internal Chnages
      * Remove DrawPoints & DrawLines methods (#3303)
@@ -16,6 +20,7 @@ January 2015
      * Faster deduplication of collision data (#3319)
      * Stop vs2013 using the whole program optimisation (#3333)
      * Equipment strings moved to new translation module (#3295)
+     * modelcompiler no GL, no SDL, build support for compiled models (#3339)
 
    * Optimisation
      * Animation interpolation optimisation (#3327)
