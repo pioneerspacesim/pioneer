@@ -89,7 +89,7 @@ public:
 	virtual bool SetWireFrameMode(bool enabled) = 0;
 
 	virtual bool SetLights(Uint32 numlights, const Light *l) = 0;
-	const Light& GetLight(const Uint32 idx) const { assert(idx<=4); return m_lights[idx]; }
+	const Light& GetLight(const Uint32 idx) const { assert(idx<4); return m_lights[idx]; }
 	virtual Uint32 GetNumLights() const { return 0; }
 	virtual bool SetAmbientColor(const Color &c) = 0;
 	const Color &GetAmbientColor() const { return m_ambient; }
