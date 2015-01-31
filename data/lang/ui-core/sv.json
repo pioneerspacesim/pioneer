@@ -377,7 +377,7 @@
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Utfärda order till besättning"
+      "message" : "Verkställ order"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Skrovintegritet"
+      "message" : "Skrovhållfasthet"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Ladda spel"
+      "message" : "Återuppta spel"
    },
    "LOBBY" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Position"
+      "message" : "Befattning"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -857,7 +857,7 @@
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Begär uppskjutningstillstånd"
+      "message" : "Uppskjutningstillstånd"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1061,7 +1061,7 @@
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "Vi har inga affärer med dig för stunden."
+      "message" : "Du har inga polisiära ärenden."
    },
    "YES" : {
       "description" : "Positive answer to a question",
