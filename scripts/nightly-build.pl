@@ -131,7 +131,7 @@ sub build_chroot {
 
     system sprintf("sudo rsync -av --delete --exclude=pioneer/.git %s %s/%s", SOURCE_DIR, CHROOT_DIR, $platform);
 
-    $configure_opts .= " --with-thirdparty=/pioneer-thirdparty LIBS=\"-ldl -lrt\"";
+    $configure_opts .= " --with-thirdparty=/pioneer-thirdparty";
     system sprintf("sudo chroot %s/%s sh -c 'cd pioneer && ./configure $configure_opts && make distclean && ./configure %s && make %s'", CHROOT_DIR, $platform, $configure_opts, MAKE_OPTS);
 
     # special case for build host, compile the sgm models as well

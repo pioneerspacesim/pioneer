@@ -246,6 +246,7 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
     else
 	    PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 	    export PKG_CONFIG_PATH
+	    EXTRA_LIBS="$EXTRA_LIBS -ldl -lrt"
     fi
 	CFLAGS="-isystem $withval/usr/include"
 	LIBS="-L$withval/usr/lib -Wl,-rpath,$withval/usr/lib"
