@@ -578,7 +578,7 @@ local onEnterSystem = function (player)
 					escort:SetLabel(Ship.MakeRandomLabel())
 					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
 					escort:AIKill(pirate)
-					escort_ship = escort
+					table.insert(escort_ship, escort)
 					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, num_escort_chatter)], escort.label)
 					escort_chatter_time = Game.time
 					escort_switch_target = escort_chatter_time
@@ -592,12 +592,34 @@ local onEnterSystem = function (player)
 	end
 end
 
+local isEscortShip = function (ship)
+	if #escort_ship ~= 0 then
+		for i = 1, #escort_ship do
+			if escort_ship[i] == ship then return true end
+		end
+	end
+	return false
+end
+
+local isPirateShip = function (ship)
+	if #pirate_ship ~= 0 then
+		for i = 1, #pirate_ship do
+			if pirate_ship[i] == ship then return true end
+		end
+	end
+	return false
+end
+
 local onShipDestroyed = function (ship, attacker)
 	if ship:IsPlayer() then return end
 
-	if ship == escort_ship then
-		escort_ship = nil
-		return
+	if #escort_ship ~= 0 then
+		for i = 1, #escort_ship do
+			if escort_ship[i] == ship then
+				table.remove(escort_ship, i)
+				return
+			end
+		end
 	end
 
 	if #pirate_ship ~= 0 then
@@ -607,11 +629,12 @@ local onShipDestroyed = function (ship, attacker)
 				break
 			end
 		end
-		if escort_ship ~= nil and #pirate_ship ~= 0 then
-			escort_ship:AIKill(pirate_ship[1])
-		end
-		if attacker == escort_ship then
-			Comms.ImportantMessage(l.TARGET_DESTROYED, escort_ship.label)
+		if isEscortShip(attacker) then
+			Comms.ImportantMessage(l.TARGET_DESTROYED, ship.label)
+			if #pirate_ship ~= 0 then
+				attacker:AIKill(pirate_ship[1])
+				escort_switch_target = Game.time + 90
+			end
 		end
 	end
 end
@@ -619,32 +642,29 @@ end
 local onShipFiring = function (ship)
 	if ship:IsPlayer() then return end
 
-	if escort_ship ~= nil and ship == escort_ship and Game.time >= escort_chatter_time then -- don't flood the control panel with messages
-		Comms.ImportantMessage(l.GUNS_GUNS_GUNS, escort_ship.label)
+	if isEscortShip(ship) and Game.time >= escort_chatter_time then -- don't flood the control panel with messages
+		Comms.ImportantMessage(l.GUNS_GUNS_GUNS, ship.label)
 			escort_chatter_time = Game.time + 30
 	end
 end
 
 local onShipHit = function (ship, attacker)
-	if ship:IsPlayer() and escort_ship ~= nil and #pirate_ship ~= 0 then
+	if ship:IsPlayer() and #escort_ship ~= 0 and not isEscortShip(attacker) then
 		if Game.time >= escort_switch_target then -- don't switch between targets too quick
-			escort_ship:AIKill(attacker)
-			Comms.ImportantMessage(l.I_AM_ON_MY_WAY, escort_ship.label)
+			for i = 1, #escort_ship do
+				escort_ship[i]:AIKill(attacker) -- all escort ships respond
+			end
+			Comms.ImportantMessage(l.I_AM_ON_MY_WAY, escort_ship[1].label)
 			escort_switch_target = Game.time + 90
 		end
-		return
-	end
 
-	if ship == escort_ship and attacker:IsPlayer() then
-		Comms.ImportantMessage(l.CEASE_FIRE, escort_ship.label)
-		return
-	end
-	if #pirate_ship ~= 0 and attacker:IsPlayer() then
-		for i = 1, #pirate_ship do
-			if pirate_ship[i] == ship and Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
-				Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, num_pirate_gripes)], pirate_ship[i].label)
-				pirate_gripes_time = Game.time + 30
-			end
+	elseif isEscortShip(ship) and attacker:IsPlayer() then
+		Comms.ImportantMessage(l.CEASE_FIRE, ship.label)
+
+	elseif isPirateShip(ship) and attacker:IsPlayer() then
+		if Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
+			Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, num_pirate_gripes)], ship.label)
+			pirate_gripes_time = Game.time + 30
 		end
 	end
 end
@@ -653,7 +673,7 @@ local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		nearbysystems = nil
 		pirate_ship = {}
-		escort_ship = nil
+		escort_ship = {}
 	end
 end
 
@@ -746,7 +766,7 @@ end
 local onGameEnd = function ()
 	nearbysystems = nil
 	pirate_ship = {}
-	escort_ship = nil
+	escort_ship = {}
 end
 
 local onClick = function (mission)
