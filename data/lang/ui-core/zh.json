@@ -29,7 +29,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Atmospheric shielding"
+      "message" : "可安装大气护盾"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
@@ -885,7 +885,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Scoop mounts"
+      "message" : "收集器挂点"
    },
    "SELECT" : {
       "description" : "",

@@ -57,7 +57,7 @@
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
+      "message" : "自动驾驶中"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
