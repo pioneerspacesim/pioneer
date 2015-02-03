@@ -140,6 +140,7 @@ noinst_HEADERS = \
 	VideoLink.h \
 	View.h \
 	WorldView.h \
+	ServerAgent.h \
 	SmartPtr.h \
 	buildopts.h \
 	fixed.h \
@@ -251,6 +252,7 @@ pioneer_SOURCES	= \
 	SectorView.cpp \
 	Sensors.cpp \
 	Serializer.cpp \
+	ServerAgent.cpp \
 	StringF.cpp \
 	Sfx.cpp \
 	Shields.cpp \
