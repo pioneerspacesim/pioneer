@@ -2,7 +2,7 @@
    "name" : "UIFont",
    "faces" : [
       {
-         "fontFile" : "TitilliumText22L004.otf",
+         "fontFile" : "PionilliumText22L-Medium.ttf",
          "pixelWidth" : 20,
          "pixelHeight" : 20
       },
