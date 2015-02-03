@@ -1,7 +1,11 @@
+February 2015
+   * Fixes
+     * Romanian characters added, fixes #3314 (#3318)
+
 January 2015
    * New Features
      * Many point stars on starless galaxy (#3321)
-     
+
    * Fixes
      * Fix 3310 (#3312)
      * Fix 3313 (#3316)

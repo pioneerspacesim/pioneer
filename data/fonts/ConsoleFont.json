@@ -2,7 +2,7 @@
    "name" : "ConsoleFont",
    "faces" : [
       {
-         "fontFile" : "Inconsolata.otf",
+         "fontFile" : "Inpionata.ttf",
          "pixelWidth" : 14,
          "pixelHeight" : 14
       },
