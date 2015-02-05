@@ -362,6 +362,7 @@ uitest_SOURCES = \
 	LuaConstants.cpp \
 	LuaRef.cpp \
 	LuaPropertiedObject.cpp \
+	LuaSerializer.cpp \
 	PngWriter.cpp \
 	EnumStrings.cpp \
 	PropertyMap.cpp \

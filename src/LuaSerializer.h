@@ -12,6 +12,8 @@
 
 class LuaSerializer : public DeleteEmitter {
 	friend class LuaObject<LuaSerializer>;
+	friend void LuaRef::Save(Serializer::Writer &wr);
+	friend void LuaRef::Load(Serializer::Reader &rd);
 
 public:
 	void Serialize(Serializer::Writer &wr);
