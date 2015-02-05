@@ -31,6 +31,7 @@ class TransferPlanner;
 class UIView;
 class View;
 class SDLGraphics;
+class ServerAgent;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
@@ -124,6 +125,8 @@ public:
 	static LuaTimer *luaTimer;
 
 	static LuaNameGen *luaNameGen;
+
+	static ServerAgent *serverAgent;
 
 	static RefCountedPtr<UI::Context> ui;
 

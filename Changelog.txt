@@ -2,6 +2,9 @@ February 2015
    * Fixes
      * Romanian characters added, fixes #3314 (#3318)
 
+   * Script and UI API changes
+     * ServerAgent class for simple network communication (#3342)
+
 January 2015
    * New Features
      * Many point stars on starless galaxy (#3321)
