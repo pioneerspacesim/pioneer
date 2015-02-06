@@ -11,6 +11,7 @@
 #include "LuaWrappable.h"
 #include "RefCounted.h"
 #include "DeleteEmitter.h"
+#include "Serializer.h"
 #include <typeinfo>
 #include <tuple>
 
@@ -68,6 +69,25 @@
 // type for promotion test callbacks
 typedef bool (*PromotionTest)(LuaWrappable *o);
 
+// type for serializer function pair
+struct SerializerPair {
+	typedef std::string (*Serializer)(LuaWrappable *o);
+	typedef bool (*Deserializer)(const char *stream, const char **next);
+
+	SerializerPair() :
+		serialize(nullptr),
+		deserialize(nullptr)
+	{}
+
+	SerializerPair(Serializer _serialize, Deserializer _deserialize) :
+		serialize(_serialize),
+		deserialize(_deserialize)
+	{}
+
+	Serializer serialize;
+	Deserializer deserialize;
+};
+
 
 // wrapper baseclass, and extra bits for getting at certain parts of the
 // LuaObject layer 
@@ -123,6 +143,11 @@ protected:
 	// pushed, test_fn will be called. if it returns true then the created lua
 	// object will be of target_type
 	static void RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn);
+
+	static void RegisterSerializer(const char *type, SerializerPair pair);
+
+	std::string Serialize();
+	static bool Deserialize(const char *stream, const char **next);
 
     // allocate n bytes from Lua memory and leave it an associated userdata on
     // the stack. this is a wrapper around lua_newuserdata
