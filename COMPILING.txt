@@ -51,6 +51,7 @@ irc.freenode.net.
     g++
     automake
     pkg-config
+    libcurl-dev
     libsigc++-dev
     libsigc++-2.0-dev
     libsdl2-dev
