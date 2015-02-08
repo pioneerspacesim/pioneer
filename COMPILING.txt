@@ -60,6 +60,7 @@ irc.freenode.net.
     libvorbis-dev
     libpng-dev
     libassimp-dev >= 3.0
+    libcurl4-openssl-dev
     mesa-common-dev
 
    If your platform doesn't have assimp 3.0, you'll need to build it from
@@ -95,7 +96,7 @@ irc.freenode.net.
 
    Now compile GCC and the dependencies needed for Pioneer:
 
-     make gcc freetype sdl2 sdl2_image vorbis libsigc++ assimp
+     make gcc freetype sdl2 sdl2_image vorbis libsigc++ assimp curl
 
 2. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
    file.
