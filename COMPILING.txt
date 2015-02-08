@@ -60,7 +60,6 @@ irc.freenode.net.
     libvorbis-dev
     libpng-dev
     libassimp-dev >= 3.0
-    libcurl4-openssl-dev
     mesa-common-dev
 
    If your platform doesn't have assimp 3.0, you'll need to build it from
