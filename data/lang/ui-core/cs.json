@@ -29,7 +29,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Atmospheric shielding"
+      "message" : "Atmosférický štít"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "Náklad"
    },
    "CARGO_T_FREE" : {
       "description" : "t for tonne",
@@ -800,7 +800,7 @@
       "message" : "Ubohý"
    },
    "POSITION" : {
-      "description" : "",
+      "description" : "The job title/position of crew memeber",
       "message" : "Pozice"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
@@ -885,7 +885,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Scoop mounts"
+      "message" : "Podvěsy sběračů"
    },
    "SELECT" : {
       "description" : "",
@@ -1060,7 +1060,7 @@
       "message" : "Jsme v hyperprostoru, veliteli."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
+      "description" : "Said by the police to law abiding player",
       "message" : "Momentálně s tebou nemáme uzavřen žádný obchod."
    },
    "YES" : {

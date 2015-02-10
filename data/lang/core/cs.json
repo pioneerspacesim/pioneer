@@ -177,7 +177,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Sezbírání nákladu selhalo. V nákladovém prostoru není dostatek místa."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "Analýza trhu komoditami v systému #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Zastavit rotaci"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
@@ -629,7 +629,7 @@
    },
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "%{sign}%joyname osa %axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -693,7 +693,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "Hlavní export (aktuální systém)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -701,7 +701,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "Hlavní import (aktuální systém)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -833,7 +833,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "Drobný export (aktuální systém)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -841,7 +841,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "Drobný import (aktuální systém)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -905,7 +905,7 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Multi sběrač"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Systém byl prozkoumán %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1337,7 +1337,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Zvolit navigační cíl na:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
