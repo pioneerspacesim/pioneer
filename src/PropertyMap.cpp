@@ -3,7 +3,7 @@
 
 #include "PropertyMap.h"
 #include "LuaUtils.h"
-#include "Pi.h"
+#include "LuaSerializer.h"
 
 PropertyMap::PropertyMap(LuaManager *lua)
 {
@@ -31,11 +31,11 @@ void PropertyMap::PushLuaTable()
 
 void PropertyMap::Save(Serializer::Writer &wr)
 {
-	Pi::luaSerializer->WrLuaRef(m_table, wr);
+	m_table.Save(wr);
 }
 
 
 void PropertyMap::Load(Serializer::Reader &rd)
 {
-	Pi::luaSerializer->RdLuaRef(m_table, rd);
+	m_table.Load(rd);
 }

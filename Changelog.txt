@@ -5,6 +5,9 @@ February 2015
    * Script and UI API changes
      * ServerAgent class for simple network communication (#3342)
 
+   * Internal Chnages
+     * LuaSerializer refactoring to diminish coupling with LuaObject (#3349)
+
 January 2015
    * New Features
      * Many point stars on starless galaxy (#3321)
