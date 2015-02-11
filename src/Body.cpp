@@ -17,6 +17,7 @@
 #include "Space.h"
 #include "Game.h"
 #include "LuaEvent.h"
+#include "json/JsonUtils.h" // npw - new code
 
 Body::Body() : PropertiedObject(Lua::manager)
 	, m_flags(0)
@@ -49,6 +50,24 @@ void Body::Save(Serializer::Writer &wr, Space *space)
 	wr.Double(m_clipRadius);
 }
 
+// npw - new code
+void Body::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	Json::Value bodyObj(Json::objectValue); // Create JSON object to contain body data.
+
+	Properties().SaveToJson(bodyObj);
+	bodyObj["index_for_frame"] = space->GetIndexForFrame(m_frame);
+	bodyObj["label"] = m_label;
+	bodyObj["dead"] = m_dead;
+
+	VectorToJson(bodyObj, m_pos, "pos");
+	MatrixToJson(bodyObj, m_orient, "orient");
+	bodyObj["phys_radius"] = DoubleToStr(m_physRadius);
+	bodyObj["clip_radius"] = DoubleToStr(m_clipRadius);
+
+	jsonObj["body"] = bodyObj; // Add body object to supplied object.
+}
+
 void Body::Load(Serializer::Reader &rd, Space *space)
 {
 	Properties().Load(rd);
@@ -61,6 +80,30 @@ void Body::Load(Serializer::Reader &rd, Space *space)
 	for (int i=0; i<9; i++) m_orient[i] = rd.Double();
 	m_physRadius = rd.Double();
 	m_clipRadius = rd.Double();
+}
+
+// npw - new code (under construction)
+void Body::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	if (!jsonObj.isMember("body")) throw SavedGameCorruptException();
+	Json::Value bodyObj = jsonObj["body"];
+
+	if (!bodyObj.isMember("index_for_frame")) throw SavedGameCorruptException();
+	if (!bodyObj.isMember("label")) throw SavedGameCorruptException();
+	if (!bodyObj.isMember("dead")) throw SavedGameCorruptException();
+	if (!bodyObj.isMember("phys_radius")) throw SavedGameCorruptException();
+	if (!bodyObj.isMember("clip_radius")) throw SavedGameCorruptException();
+
+	Properties().LoadFromJson(bodyObj);
+	m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"].asInt());
+	m_label = bodyObj["label"].asString();
+	Properties().Set("label", m_label);
+	m_dead = bodyObj["dead"].asBool();
+
+	JsonToVector(&m_pos, bodyObj, "pos");
+	JsonToMatrix(&m_orient, bodyObj, "orient");
+	m_physRadius = StrToDouble(bodyObj["phys_radius"].asString());
+	m_clipRadius = StrToDouble(bodyObj["clip_radius"].asString());
 }
 
 void Body::Serialize(Serializer::Writer &_wr, Space *space)
@@ -83,6 +126,28 @@ void Body::Serialize(Serializer::Writer &_wr, Space *space)
 			assert(0);
 	}
 	_wr.WrSection("Body", wr.GetData());
+}
+
+// npw - new code
+void Body::ToJson(Json::Value &jsonObj, Space *space)
+{
+	jsonObj["body_type"] = int(GetType());
+
+	switch (GetType()) {
+	case Object::STAR:
+	case Object::PLANET:
+	case Object::SPACESTATION:
+	case Object::SHIP:
+	case Object::PLAYER:
+	case Object::MISSILE:
+	case Object::CARGOBODY:
+	case Object::PROJECTILE:
+	case Object::HYPERSPACECLOUD:
+		SaveToJson(jsonObj, space);
+		break;
+	default:
+		assert(0);
+	}
 }
 
 Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
@@ -114,6 +179,39 @@ Body *Body::Unserialize(Serializer::Reader &_rd, Space *space)
 			assert(0);
 	}
 	b->Load(rd, space);
+	return b;
+}
+
+// npw - new code (under construction)
+Body *Body::FromJson(const Json::Value &jsonObj, Space *space)
+{
+	if (!jsonObj.isMember("body_type")) throw SavedGameCorruptException();
+
+	Body *b = 0;
+	Object::Type type = Object::Type(jsonObj["body_type"].asInt());
+	switch (type) {
+	case Object::STAR:
+		b = new Star(); break;
+	case Object::PLANET:
+		b = new Planet(); break;
+	case Object::SPACESTATION:
+		b = new SpaceStation(); break;
+	case Object::SHIP:
+		b = new Ship(); break;
+	case Object::PLAYER:
+		b = new Player(); break;
+	case Object::MISSILE:
+		b = new Missile(); break;
+	case Object::PROJECTILE:
+		b = new Projectile(); break;
+	case Object::CARGOBODY:
+		b = new CargoBody(); break;
+	case Object::HYPERSPACECLOUD:
+		b = new HyperspaceCloud(); break;
+	default:
+		assert(0);
+	}
+	b->LoadFromJson(jsonObj, space);
 	return b;
 }
 

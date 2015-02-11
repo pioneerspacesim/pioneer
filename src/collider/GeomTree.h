@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "CollisionContact.h"
 #include "Serializer.h"
+#include "json/JsonUtils.h" // npw - new code
 
 struct isect_t {
 	// triIdx = -1 if no intersection
@@ -51,6 +52,16 @@ public:
 			wr.Vector3f(dir);
 			wr.Int32(triFlag);
 		}
+		void SaveToJson(Json::Value &jsonObj) const // npw - new code
+		{
+			Json::Value edgeObj(Json::objectValue); // Create JSON object to contain edge data.
+			edgeObj["v1i"] = v1i;
+			edgeObj["v2i"] = v2i;
+			edgeObj["len"] = FloatToStr(len);
+			VectorToJson(edgeObj, dir, "dir");
+			edgeObj["tri_flag"] = triFlag;
+			jsonObj["edge"] = edgeObj; // Add edge object to supplied object.
+		}
 		void Load(Serializer::Reader &rd)
 		{
 			v1i = rd.Int32();
@@ -73,6 +84,7 @@ public:
 	int GetNumTris() const { return m_numTris; }
 
 	void Save(Serializer::Writer &wr) const;
+	void SaveToJson(Json::Value &jsonObj) const; // npw - new code
 
 private:
 	void RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const;

@@ -134,6 +134,22 @@ void NavLights::Save(Serializer::Writer &wr)
 		wr.Byte(it->color);
 }
 
+// npw - new code
+void NavLights::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value navLightsObj(Json::objectValue); // Create JSON object to contain nav lights data.
+
+	navLightsObj["time"] = FloatToStr(m_time);
+	navLightsObj["enabled"] = m_enabled;
+
+	Json::Value lightsArray(Json::arrayValue); // Create JSON array to contain lights data.
+	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
+		lightsArray.append(it->color);
+	navLightsObj["lights"] = lightsArray; // Add lights array to nav lights object.
+
+	jsonObj["nav_lights"] = navLightsObj; // Add nav lights object to supplied object.
+}
+
 void NavLights::Load(Serializer::Reader &rd)
 {
 	m_time    = rd.Float();
@@ -142,6 +158,31 @@ void NavLights::Load(Serializer::Reader &rd)
 	RefCountedPtr<Graphics::Material> mat;
 	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
 		Uint8 c = rd.Byte();
+		it->billboard->SetMaterial(get_material(c));
+	}
+}
+
+// npw - new code (under construction)
+void NavLights::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("nav_lights")) throw SavedGameCorruptException();
+	Json::Value navLightsObj = jsonObj["nav_lights"];
+
+	if (!navLightsObj.isMember("time")) throw SavedGameCorruptException();
+	if (!navLightsObj.isMember("enabled")) throw SavedGameCorruptException();
+	if (!navLightsObj.isMember("lights")) throw SavedGameCorruptException();
+
+	m_time = StrToFloat(navLightsObj["time"].asString());
+	m_enabled = navLightsObj["enabled"].asBool();
+
+	Json::Value lightsArray = navLightsObj["lights"];
+	if (!lightsArray.isArray()) throw SavedGameCorruptException();
+	RefCountedPtr<Graphics::Material> mat;
+	assert(m_lights.size() == lightsArray.size());
+	unsigned int arrayIndex = 0;
+	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
+	{
+		Uint8 c = lightsArray[arrayIndex++].asUInt();
 		it->billboard->SetMaterial(get_material(c));
 	}
 }

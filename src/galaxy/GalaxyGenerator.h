@@ -28,6 +28,7 @@ public:
 		return Create(s_defaultGenerator, s_defaultVersion);
 	}
 	static RefCountedPtr<Galaxy> Create(Serializer::Reader& rd);
+	static RefCountedPtr<Galaxy> CreateFromJson(const Json::Value &jsonObj); // npw - new code (under construction)
 
 	static std::string GetDefaultGeneratorName() { return s_defaultGenerator; }
 	static Version GetDefaultGeneratorVersion() { return s_defaultVersion; }
@@ -41,7 +42,9 @@ public:
 	bool IsDefault() const { return m_name == s_defaultGenerator && m_version == s_defaultVersion; }
 
 	void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy);
+	void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy); // npw - new code
 	void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy);
+	void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy); // npw - new code (under construction)
 
 	// Templated for the template cache class.
 	template <typename T, typename Cache>
@@ -94,7 +97,9 @@ public:
 	virtual ~GalaxyGeneratorStage() { }
 
 	virtual void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy) { }
+	virtual void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy) { } // npw - new code (under construction)
 	virtual void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy) { }
+	virtual void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy) { } // npw - new code (under construction)
 
 protected:
 	GalaxyGeneratorStage() : m_galaxyGenerator(nullptr) { }

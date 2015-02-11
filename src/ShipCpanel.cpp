@@ -36,6 +36,21 @@ ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r, Game* game
 	m_camButton->SetActiveState(rd.Int32());
 }
 
+// npw - new code(under construction)
+ShipCpanel::ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
+m_game(game)
+{
+	if (!jsonObj.isMember("ship_c_panel")) throw SavedGameCorruptException();
+	Json::Value shipCPanelObj = jsonObj["ship_c_panel"];
+
+	m_scanner = new ScannerWidget(r, shipCPanelObj);
+
+	InitObject();
+
+	if (!shipCPanelObj.isMember("cam_button_state")) throw SavedGameCorruptException();
+	m_camButton->SetActiveState(shipCPanelObj["cam_button_state"].asInt());
+}
+
 void ShipCpanel::InitObject()
 {
 	SetTransparency(true);
@@ -406,6 +421,15 @@ void ShipCpanel::Save(Serializer::Writer &wr)
 {
 	m_scanner->Save(wr);
 	wr.Int32(m_camButton->GetState());
+}
+
+// npw - new code
+void ShipCpanel::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value shipCPanelObj(Json::objectValue); // Create JSON object to contain ship control panel data.
+	m_scanner->SaveToJson(shipCPanelObj);
+	shipCPanelObj["cam_button_state"] = m_camButton->GetState();
+	jsonObj["ship_c_panel"] = shipCPanelObj; // Add ship control panel object to supplied object.
 }
 
 void ShipCpanel::SetOverlayText(OverlayTextPos pos, const std::string &text)

@@ -4,7 +4,7 @@
 #include "../libs.h"
 #include "GeomTree.h"
 #include "BVHTree.h"
-#include "Weld.h"
+#include "json/JsonUtils.h" // npw - new code
 
 static const unsigned int IGNORE_FLAG = 0x8000;
 
@@ -51,21 +51,21 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	else if ((_i1) > (_i2)) edges[std::pair<int,int>(_i2,_i1)] = _triflag;
 
 	// eliminate duplicate vertices
+	for (int i=0; i<numVerts; i++) 
 	{
-		std::vector<Uint32> xrefs;
-		nv::Weld<vector3f> weld;
-		weld(m_vertices, xrefs);
-
-		//Output("---   %d vertices welded\n", count - newCount);
-
-		// Remap faces.
-		const Uint32 faceCount = numTris;
-		for (Uint32 f = 0; f < faceCount; f++)
+		const vector3f &v1 = m_vertices[i];
+		for (int j=i+1; j<numVerts; j++) 
 		{
-			const Uint32 idx = (f * 3);
-			m_indices[idx+0] = xrefs.at(m_indices[idx+0]);
-			m_indices[idx+1] = xrefs.at(m_indices[idx+1]);
-			m_indices[idx+2] = xrefs.at(m_indices[idx+2]);
+			const vector3f &v2 = m_vertices[j];
+			if (v2.ExactlyEqual(v1)) 
+			{
+				for (int k=0; k<numIndices; k++) 
+				{
+					if ((indices[k] == j) && (triflags[k / 3] < IGNORE_FLAG)) {
+						m_indices[k] = i;
+					}
+				}
+			}
 		}
 	}
 
@@ -411,4 +411,64 @@ void GeomTree::Save(Serializer::Writer &wr) const
 	for (Sint32 iTri = 0; iTri < m_numTris; ++iTri) {
 		wr.Int32(m_triFlags[iTri]);
 	}
+}
+
+// npw - new code
+void GeomTree::SaveToJson(Json::Value &jsonObj) const
+{
+	Json::Value geomTreeObj(Json::objectValue); // Create JSON object to contain geom tree data.
+
+	geomTreeObj["num_vertices"] = m_numVertices;
+	geomTreeObj["num_edges"] = m_numEdges;
+	geomTreeObj["num_tris"] = m_numTris;
+	geomTreeObj["radius"] = DoubleToStr(m_radius);
+
+	VectorToJson(geomTreeObj, m_aabb.max, "aabb_max");
+	VectorToJson(geomTreeObj, m_aabb.min, "aabb_min");
+	geomTreeObj["aabb_radius"] = DoubleToStr(m_aabb.radius);
+
+	Json::Value aabbArray(Json::arrayValue); // Create JSON array to contain aabb data.
+	for (Sint32 iAabb = 0; iAabb < m_numEdges; ++iAabb)
+	{
+		Json::Value aabbArrayEl(Json::objectValue); // Create JSON object to contain aabb.
+		VectorToJson(aabbArrayEl, m_aabbs[iAabb].max, "aabb_max");
+		VectorToJson(aabbArrayEl, m_aabbs[iAabb].min, "aabb_min");
+		aabbArrayEl["aabb_radius"] = DoubleToStr(m_aabbs[iAabb].radius);
+		aabbArray.append(aabbArrayEl); // Append aabb object to array.
+	}
+	geomTreeObj["aabbs"] = aabbArray; // Add aabb array to geom tree object.
+
+	Json::Value edgesArray(Json::arrayValue); // Create JSON array to contain edges data.
+	for (Sint32 iEdge = 0; iEdge < m_numEdges; ++iEdge)
+	{
+		Json::Value edgeArrayEl(Json::objectValue); // Create JSON object to contain edge.
+		m_edges[iEdge].SaveToJson(edgeArrayEl);
+		edgesArray.append(edgeArrayEl); // Append edge object to array.
+	}
+	geomTreeObj["edges"] = edgesArray; // Add edges array to geom tree object.
+
+	Json::Value verticesArray(Json::arrayValue); // Create JSON array to contain vertices data.
+	for (Sint32 iVert = 0; iVert < m_numVertices; ++iVert)
+	{
+		Json::Value verticesArrayEl(Json::objectValue); // Create JSON object to contain vertex.
+		VectorToJson(verticesArrayEl, m_vertices[iVert], "vertex");
+		verticesArray.append(verticesArrayEl); // Append vertex object to array.
+	}
+	geomTreeObj["vertices"] = verticesArray; // Add vertices array to geom tree object.
+
+	Json::Value indicesArray(Json::arrayValue); // Create JSON array to contain indices data.
+	for (Sint32 iIndi = 0; iIndi < (m_numTris * 3); ++iIndi)
+	{
+		indicesArray.append(m_indices[iIndi]);
+	}
+	geomTreeObj["indices"] = indicesArray; // Add indices array to geom tree object.
+
+	Json::Value trisArray(Json::arrayValue); // Create JSON array to contain tris data.
+	for (Sint32 iTri = 0; iTri < m_numTris; ++iTri)
+	{
+		trisArray.append(m_triFlags[iTri]);
+	}
+	geomTreeObj["tris"] = trisArray; // Add tris array to geom tree object.
+	
+	jsonObj["model"] = geomTreeObj; // Add geom tree object to supplied object.
 }

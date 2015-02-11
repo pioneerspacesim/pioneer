@@ -6,6 +6,7 @@
 
 #include "galaxy/Economy.h"
 #include "Serializer.h"
+#include "json/json.h" // npw - new code
 
 class Galaxy;
 class StarSystem;
@@ -55,7 +56,9 @@ namespace Polit {
 	void NotifyOfCrime(Ship *s, enum Crime c);
 	void Init(RefCountedPtr<Galaxy> galaxy);
 	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj); // npw - new code
 	void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy);
+	void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy); // npw - new code (under construction)
 	void AddCrime(Sint64 crimeBitset, Sint64 addFine);
 	void GetCrime(Sint64 *crimeBitset, Sint64 *fine);
 	fixed GetBaseLawlessness(GovType gov);

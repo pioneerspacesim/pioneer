@@ -41,7 +41,9 @@ public:
 	virtual ~ShipController() { }
 	virtual Type GetType() { return AI; }
 	virtual void Save(Serializer::Writer &wr, Space *s) { }
+	virtual void SaveToJson(Json::Value &jsonObj, Space *s) { } // npw - new code
 	virtual void Load(Serializer::Reader &rd) { }
+	virtual void LoadFromJson(const Json::Value &jsonObj) { } // npw - new code (under construction)
 	virtual void PostLoadFixup(Space *) { }
 	virtual void StaticUpdate(float timeStep);
 	virtual void SetFlightControlState(FlightControlState s) { }
@@ -56,7 +58,9 @@ public:
 	~PlayerShipController();
 	virtual Type GetType() { return PLAYER; }
 	void Save(Serializer::Writer &wr, Space *s);
+	void SaveToJson(Json::Value &jsonObj, Space *s); // npw - new code
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj); // npw - new code (under construction)
 	void PostLoadFixup(Space *s);
 	void StaticUpdate(float timeStep);
 	// Poll controls, set thruster states, gun states and target velocity

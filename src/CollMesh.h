@@ -7,6 +7,7 @@
 #include "Aabb.h"
 #include "collider/GeomTree.h"
 #include "Serializer.h"
+#include "json/JsonUtils.h" // npw - new code
 
 //This simply stores the collision GeomTrees
 //and AABB.
@@ -59,6 +60,27 @@ public:
 		}
 
 		wr.Int32(m_totalTris);
+	}
+
+	// npw - new code
+	void SaveToJson(Json::Value &jsonObj) const
+	{
+		Json::Value collMeshObj(Json::objectValue); // Create JSON object to contain coll mesh data.
+
+		VectorToJson(collMeshObj, m_aabb.max, "aabb_max");
+		VectorToJson(collMeshObj, m_aabb.min, "aabb_min");
+		collMeshObj["aabb_radius"] = DoubleToStr(m_aabb.radius);
+
+		m_geomTree->SaveToJson(collMeshObj);
+
+		for (auto it : m_dynGeomTrees)
+		{
+			it->SaveToJson(collMeshObj);
+		}
+
+		collMeshObj["total_tris"] = m_totalTris;
+
+		jsonObj["coll_mesh"] = collMeshObj; // Add coll mesh object to supplied object.
 	}
 
 	void Load(Serializer::Reader &rd)

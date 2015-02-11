@@ -9,6 +9,7 @@
 #include "galaxy/StarSystem.h"
 #include "Pi.h"
 #include "Game.h"
+#include "json/JsonUtils.h" // npw - new code
 #include <algorithm>
 
 Frame::Frame()
@@ -42,6 +43,34 @@ void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
 	Sfx::Serialize(wr, f);
 }
 
+// npw - new code
+void Frame::ToJson(Json::Value &jsonObj, Frame *f, Space *space)
+{
+	Json::Value frameObj(Json::objectValue); // Create JSON object to contain frame data.
+
+	frameObj["flags"] = f->m_flags;
+	frameObj["radius"] = DoubleToStr(f->m_radius);
+	frameObj["label"] = f->m_label;
+	VectorToJson(frameObj, f->m_pos, "pos");
+	frameObj["ang_speed"] = DoubleToStr(f->m_angSpeed);
+	MatrixToJson(frameObj, f->m_initialOrient, "init_orient");
+	frameObj["index_for_system_body"] = space->GetIndexForSystemBody(f->m_sbody);
+	frameObj["index_for_astro_body"] = space->GetIndexForBody(f->m_astroBody);
+
+	Json::Value childFrameArray(Json::arrayValue); // Create JSON array to contain child frame data.
+	for (Frame* kid : f->GetChildren())
+	{
+		Json::Value childFrameArrayEl(Json::objectValue); // Create JSON object to contain child frame.
+		Frame::ToJson(childFrameArrayEl, kid, space);
+		childFrameArray.append(childFrameArrayEl); // Append child frame object to array.
+	}
+	frameObj["child_frames"] = childFrameArray; // Add child frame array to frame object.
+
+	Sfx::ToJson(frameObj, f);
+
+	jsonObj["frame"] = frameObj; // Add frame object to supplied object.
+}
+
 Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, double at_time)
 {
 	Frame *f = new Frame();
@@ -61,6 +90,48 @@ Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, d
 		f->m_children.push_back(Unserialize(rd, space, f, at_time));
 	}
 	Sfx::Unserialize(rd, f);
+
+	f->ClearMovement();
+	return f;
+}
+
+// npw - new code (under construction)
+Frame *Frame::FromJson(const Json::Value &jsonObj, Space *space, Frame *parent, double at_time)
+{
+	Frame *f = new Frame();
+	f->m_parent = parent;
+
+	if (!jsonObj.isMember("frame")) throw SavedGameCorruptException();
+	Json::Value frameObj = jsonObj["frame"];
+
+	if (!frameObj.isMember("flags")) throw SavedGameCorruptException();
+	if (!frameObj.isMember("radius")) throw SavedGameCorruptException();
+	if (!frameObj.isMember("label")) throw SavedGameCorruptException();
+	if (!frameObj.isMember("pos")) throw SavedGameCorruptException();
+	if (!frameObj.isMember("ang_speed")) throw SavedGameCorruptException();
+	if (!frameObj.isMember("init_orient")) throw SavedGameCorruptException();
+	if (!frameObj.isMember("index_for_system_body")) throw SavedGameCorruptException();
+	if (!frameObj.isMember("index_for_astro_body")) throw SavedGameCorruptException();
+
+	f->m_flags = frameObj["flags"].asInt();
+	f->m_radius = StrToDouble(frameObj["radius"].asString());
+	f->m_label = frameObj["label"].asString();
+	JsonToVector(&(f->m_pos), frameObj, "pos");
+	f->m_angSpeed = StrToDouble(frameObj["ang_speed"].asString());
+	matrix3x3d orient;
+	JsonToMatrix(&orient, frameObj, "init_orient");
+	f->SetInitialOrient(orient, at_time);
+	f->m_sbody = space->GetSystemBodyByIndex(frameObj["index_for_system_body"].asUInt());
+	f->m_astroBodyIndex = frameObj["index_for_astro_body"].asUInt();
+	f->m_vel = vector3d(0.0); // m_vel is set to zero.
+
+	if (!frameObj.isMember("child_frames")) throw SavedGameCorruptException();
+	Json::Value childFrameArray = frameObj["child_frames"];
+	if (!childFrameArray.isArray()) throw SavedGameCorruptException();
+	for (unsigned int i = 0; i < childFrameArray.size(); ++i) {
+		f->m_children.push_back(FromJson(childFrameArray[i], space, f, at_time));
+	}
+	Sfx::FromJson(frameObj, f);
 
 	f->ClearMovement();
 	return f;

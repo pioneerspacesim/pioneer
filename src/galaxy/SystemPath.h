@@ -7,6 +7,7 @@
 #include "Serializer.h"
 #include "LuaWrappable.h"
 #include <stdexcept>
+#include "json/json.h" // npw - new code
 
 class SystemPath : public LuaWrappable {
 public:
@@ -128,12 +129,42 @@ public:
 		wr.Int32(Uint32(systemIndex));
 		wr.Int32(Uint32(bodyIndex));
 	}
+	void ToJson(Json::Value &jsonObj) const { // npw - new code
+		Json::Value systemPathObj(Json::objectValue); // Create JSON object to contain system path data.
+		systemPathObj["sector_x"] = sectorX;
+		systemPathObj["sector_y"] = sectorY;
+		systemPathObj["sector_z"] = sectorZ;
+		systemPathObj["system_index"] = systemIndex;
+		systemPathObj["body_index"] = bodyIndex;
+		jsonObj["system_path"] = systemPathObj; // Add system path object to supplied object.
+	}
 	static SystemPath Unserialize(Serializer::Reader &rd) {
 		Uint32 x = rd.Int32();
 		Uint32 y = rd.Int32();
 		Uint32 z = rd.Int32();
 		Sint32 si = Sint32(rd.Int32());
 		Sint32 bi = Sint32(rd.Int32());
+		return SystemPath(x, y, z, si, bi);
+	}
+	static SystemPath FromJson(const Json::Value &jsonObj) { // npw - new code (under construction)
+		if (!jsonObj.isMember("system_path")) throw SavedGameCorruptException();
+		Json::Value systemPathObj = jsonObj["system_path"];
+		if (!systemPathObj.isMember("sector_x")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("sector_y")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("sector_z")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("system_index")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("body_index")) throw SavedGameCorruptException();
+		Sint32 x = systemPathObj["sector_x"].asInt();
+		Sint32 y = systemPathObj["sector_y"].asInt();
+		Sint32 z = systemPathObj["sector_z"].asInt();
+		Uint32 si = systemPathObj["system_index"].asUInt();
+		Uint32 bi = systemPathObj["body_index"].asUInt();
+		// The following code is the equivalent of Unserialize which doesn't look right (check use of Sint32 and Uint32).
+		//Uint32 x = systemPathObj["sector_x"].asInt();
+		//Uint32 y = systemPathObj["sector_y"].asInt();
+		//Uint32 z = systemPathObj["sector_z"].asInt();
+		//Sint32 si = Sint32(systemPathObj["system_index"].asUInt());
+		//Sint32 bi = Sint32(systemPathObj["body_index"].asUInt());
 		return SystemPath(x, y, z, si, bi);
 	}
 

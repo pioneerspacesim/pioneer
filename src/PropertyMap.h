@@ -31,8 +31,18 @@ public:
 		return m_signals[k].connect(fn);
 	}
 
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
+    void Save(Serializer::Writer &wr) {
+        m_table.Save(wr);
+    }
+	void SaveToJson(Json::Value &jsonObj) { // npw - new code (under construction)
+		m_table.SaveToJson(jsonObj);
+	}
+    void Load(Serializer::Reader &rd) {
+        m_table.Load(rd);
+    }
+	void LoadFromJson(const Json::Value &jsonObj) { // npw - new code (under construction)
+		m_table.LoadFromJson(jsonObj);
+	}
 
 private:
 	LuaRef m_table;

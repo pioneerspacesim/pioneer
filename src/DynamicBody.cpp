@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "Planet.h"
 #include "Pi.h"
+#include "json/JsonUtils.h" // npw - new code
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;
 const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
@@ -71,6 +72,25 @@ void DynamicBody::Save(Serializer::Writer &wr, Space *space)
 	wr.Bool(m_isMoving);
 }
 
+// npw - new code
+void DynamicBody::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	ModelBody::SaveToJson(jsonObj, space);
+
+	Json::Value dynamicBodyObj(Json::objectValue); // Create JSON object to contain dynamic body data.
+
+	VectorToJson(dynamicBodyObj, m_force, "force");
+	VectorToJson(dynamicBodyObj, m_torque, "torque");
+	VectorToJson(dynamicBodyObj, m_vel, "vel");
+	VectorToJson(dynamicBodyObj, m_angVel, "ang_vel");
+	dynamicBodyObj["mass"] = DoubleToStr(m_mass);
+	dynamicBodyObj["mass_radius"] = DoubleToStr(m_massRadius);
+	dynamicBodyObj["ang_inertia"] = DoubleToStr(m_angInertia);
+	dynamicBodyObj["is_moving"] = m_isMoving;
+
+	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
+}
+
 void DynamicBody::Load(Serializer::Reader &rd, Space *space)
 {
 	ModelBody::Load(rd, space);
@@ -82,6 +102,33 @@ void DynamicBody::Load(Serializer::Reader &rd, Space *space)
 	m_massRadius = rd.Double();
 	m_angInertia = rd.Double();
 	m_isMoving = rd.Bool();
+}
+
+// npw - new code (under construction)
+void DynamicBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	ModelBody::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("dynamic_body")) throw SavedGameCorruptException();
+	Json::Value dynamicBodyObj = jsonObj["dynamic_body"];
+
+	if (!dynamicBodyObj.isMember("force")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("torque")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("vel")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("ang_vel")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("mass")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("mass_radius")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("ang_inertia")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("is_moving")) throw SavedGameCorruptException();
+
+	JsonToVector(&m_force, dynamicBodyObj, "force");
+	JsonToVector(&m_torque, dynamicBodyObj, "torque");
+	JsonToVector(&m_vel, dynamicBodyObj, "vel");
+	JsonToVector(&m_angVel, dynamicBodyObj, "ang_vel");
+	m_mass = StrToDouble(dynamicBodyObj["mass"].asString());
+	m_massRadius = StrToDouble(dynamicBodyObj["mass_radius"].asString());
+	m_angInertia = StrToDouble(dynamicBodyObj["ang_inertia"].asString());
+	m_isMoving = dynamicBodyObj["is_moving"].asBool();
 }
 
 void DynamicBody::PostLoadFixup(Space *space)

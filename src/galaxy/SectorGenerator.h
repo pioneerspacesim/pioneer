@@ -32,7 +32,9 @@ public:
 	SectorPersistenceGenerator(GalaxyGenerator::Version version) : m_version(version) { }
 	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
 	virtual void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy);
+	virtual void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy); // npw - new code (under construction)
 	virtual void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy);
+	virtual void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy); // npw - new code
 
 private:
 	void SetExplored(Sector::System* sys, StarSystem::ExplorationState e, double time);

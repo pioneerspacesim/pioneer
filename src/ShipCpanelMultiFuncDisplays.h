@@ -28,6 +28,7 @@ class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
 	ScannerWidget(Graphics::Renderer *r);
 	ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd);
+	ScannerWidget(Graphics::Renderer *r, const Json::Value &jsonObj); // npw - new code (under construction)
 	virtual ~ScannerWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
@@ -38,6 +39,7 @@ public:
 	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
+	void SaveToJson(Json::Value &jsonObj); // npw - new code
 
 private:
 	void InitObject();
@@ -55,8 +57,6 @@ private:
 		bool isSpecial;
 	};
 	std::list<Contact> m_contacts;
-	Graphics::Drawables::Lines m_contactLines;
-	Graphics::Drawables::Points m_contactBlobs;
 
 	enum ScannerMode { SCANNER_MODE_AUTO, SCANNER_MODE_MANUAL };
 	ScannerMode m_mode;
@@ -80,9 +80,6 @@ private:
 
 	Graphics::Renderer *m_renderer;
 	Graphics::RenderState *m_renderState;
-	
-	Graphics::Drawables::Lines m_scanLines;
-	Graphics::Drawables::Lines m_edgeLines;
 };
 
 class UseEquipWidget: public IMultiFunc, public Gui::Fixed {
