@@ -26,6 +26,13 @@ void Star::Load(Serializer::Reader &rd, Space *space)
 	InitStar();
 }
 
+// npw - new code (under construction)
+void Star::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	TerrainBody::LoadFromJson(jsonObj, space);		// to get sbody
+	InitStar();
+}
+
 void Star::InitStar()
 {
 	// this one should be atmosphere radius when stars have atmosphere

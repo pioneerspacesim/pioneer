@@ -6,6 +6,7 @@
 
 #include "lua/lua.hpp"
 #include "Serializer.h"
+#include "json/json.h" // npw - new code
 #include <vector>
 #include <cassert>
 
@@ -22,10 +23,13 @@ public:
 
 	lua_State * GetLua() const { return m_lua; }
 
-	bool IsValid() const { return m_lua && m_id != LUA_NOREF; }
-
 	void Save(Serializer::Writer &wr);
+	void SaveToJson(Json::Value &jsonObj); // npw - new code
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj); // npw - new code (under construction)
+
+	static void InitLoad();
+	static void UninitLoad();
 
 private:
 	lua_State * m_lua;

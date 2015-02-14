@@ -3,6 +3,15 @@
 
 #include "LuaSerializer.h"
 #include "LuaObject.h"
+#include "galaxy/StarSystem.h"
+#include "Body.h"
+#include "Ship.h"
+#include "SpaceStation.h"
+#include "Planet.h"
+#include "Star.h"
+#include "Player.h"
+#include "Pi.h"
+#include "Game.h"
 
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like
@@ -24,8 +33,8 @@
 
 
 // pickler can handle simple types (boolean, number, string) and will drill
-// down into tables. it can do userdata assuming the appropriate Lua wrapper
-// class has registered a serializer and deseriaizer
+// down into tables. it can do userdata for a specific set of types - Body and
+// its kids and SystemPath. anything else will cause a lua error
 //
 // pickle format is newline-seperated. each line begins with a type value,
 // followed by data for that type as follows
@@ -37,8 +46,8 @@
 //   n        - end of table
 //   r        - reference to previously-seen table. followed by the table id
 //   uXXXX    - userdata. XXXX is type, followed by newline, followed by data
-//                everything after u is passed down to LuaObject::Serialize to
-//                generate using per-class serializers
+//     Body       - data is a single stringified number for Serializer::LookupBody
+//     SystemPath - data is four stringified numbers, newline separated
 //   oXXXX    - object. XXX is type, followed by newline, followed by one
 //              pickled item (typically t[able])
 
@@ -178,7 +187,35 @@ void LuaSerializer::pickle(lua_State *l, int to_serialize, std::string &out, con
 			if (!o)
 				Error("Lua serializer '%s' tried to serialize an invalid '%s' object", key, lo->GetType());
 
-			out += lo->Serialize();
+			// XXX object wrappers should really have Serialize/Unserialize
+			// methods to deal with this
+			if (lo->Isa("SystemPath")) {
+				SystemPath *sbp = static_cast<SystemPath*>(o);
+				snprintf(buf, sizeof(buf), "SystemPath\n%d\n%d\n%d\n%u\n%u\n",
+					sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
+				out += buf;
+				break;
+			}
+
+			if (lo->Isa("Body")) {
+				Body *b = static_cast<Body*>(o);
+				snprintf(buf, sizeof(buf), "Body\n%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
+				out += buf;
+				break;
+			}
+
+			if (lo->Isa("SceneGraph.ModelSkin")) {
+				SceneGraph::ModelSkin *skin = static_cast<SceneGraph::ModelSkin*>(o);
+				Serializer::Writer wr;
+				skin->Save(wr);
+				const std::string &ser = wr.GetData();
+				snprintf(buf, sizeof(buf), "ModelSkin\n%lu\n", ser.size());
+				out += buf;
+				out += ser;
+				break;
+			}
+
+			Error("Lua serializer '%s' tried to serialize unsupported '%s' userdata value", key, lo->GetType());
 			break;
 		}
 
@@ -270,11 +307,97 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 		}
 
 		case 'u': {
-			const char *end;
-			if (!LuaObjectBase::Deserialize(pos, &end))
-				throw SavedGameCorruptException();
-			pos = end;
-			break;
+			const char *end = strchr(pos, '\n');
+			if (!end) throw SavedGameCorruptException();
+			int len = end - pos;
+			end++; // skip newline
+
+			if (len == 10 && strncmp(pos, "SystemPath", 10) == 0) {
+				pos = end;
+
+				Sint32 sectorX = strtol(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				Sint32 sectorY = strtol(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				Sint32 sectorZ = strtol(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				Uint32 systemNum = strtoul(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				Uint32 sbodyId = strtoul(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				const SystemPath sbp(sectorX, sectorY, sectorZ, systemNum, sbodyId);
+				LuaObject<SystemPath>::PushToLua(sbp);
+
+				break;
+			}
+
+			if (len == 4 && strncmp(pos, "Body", 4) == 0) {
+				pos = end;
+
+				Uint32 n = strtoul(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				Body *body = Pi::game->GetSpace()->GetBodyByIndex(n);
+				if (pos == end) throw SavedGameCorruptException();
+
+				switch (body->GetType()) {
+					case Object::BODY:
+						LuaObject<Body>::PushToLua(body);
+						break;
+					case Object::SHIP:
+						LuaObject<Ship>::PushToLua(dynamic_cast<Ship*>(body));
+						break;
+					case Object::SPACESTATION:
+						LuaObject<SpaceStation>::PushToLua(dynamic_cast<SpaceStation*>(body));
+						break;
+					case Object::PLANET:
+						LuaObject<Planet>::PushToLua(dynamic_cast<Planet*>(body));
+						break;
+					case Object::STAR:
+						LuaObject<Star>::PushToLua(dynamic_cast<Star*>(body));
+						break;
+					case Object::PLAYER:
+						LuaObject<Player>::PushToLua(dynamic_cast<Player*>(body));
+						break;
+					default:
+						throw SavedGameCorruptException();
+				}
+
+				break;
+			}
+
+			if (len == 9 && strncmp(pos, "ModelSkin", 9) == 0) {
+				pos = end;
+
+				Uint32 serlen = strtoul(pos, const_cast<char**>(&end), 0);
+				if (pos == end) throw SavedGameCorruptException();
+				pos = end+1; // skip newline
+
+				std::string buf(pos, serlen);
+				const char *bufp = buf.c_str();
+				Serializer::Reader rd(ByteRange(bufp, bufp + buf.size()));
+				SceneGraph::ModelSkin skin;
+				skin.Load(rd);
+
+				LuaObject<SceneGraph::ModelSkin>::PushToLua(skin);
+
+				pos += serlen;
+
+				break;
+			}
+
+			throw SavedGameCorruptException();
 		}
 
 		case 'o': {
@@ -330,27 +453,15 @@ const char *LuaSerializer::unpickle(lua_State *l, const char *pos)
 void LuaSerializer::InitTableRefs() {
 	lua_State *l = Lua::manager->GetLuaState();
 
-	lua_pushlightuserdata(l, this);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializer");
-
 	lua_newtable(l);
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
-
-	lua_newtable(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
 }
 
 void LuaSerializer::UninitTableRefs() {
 	lua_State *l = Lua::manager->GetLuaState();
 
 	lua_pushnil(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializer");
-
-	lua_pushnil(l);
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerTableRefs");
-
-	lua_pushnil(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
 }
 
 void LuaSerializer::Serialize(Serializer::Writer &wr)
@@ -393,6 +504,47 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 	LUA_DEBUG_END(l, 0);
 }
 
+// npw - new code
+void LuaSerializer::ToJson(Json::Value &jsonObj)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+	int savetable = lua_gettop(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_pushvalue(l, -1);
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	}
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		lua_pushinteger(l, 1);
+		lua_gettable(l, -2);
+		pi_lua_protected_call(l, 0, 1);
+		lua_pushvalue(l, -3);
+		lua_insert(l, -2);
+		lua_settable(l, savetable);
+		lua_pop(l, 1);
+	}
+
+	lua_pop(l, 1);
+
+	std::string pickled;
+	pickle(l, savetable, pickled);
+
+	jsonObj["lua_modules"] = pickled;
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+}
+
 void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -400,6 +552,49 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 	LUA_DEBUG_START(l);
 
 	std::string pickled = rd.String();
+	const char *start = pickled.c_str();
+	const char *end = unpickle(l, start);
+	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
+	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
+	int savetable = lua_gettop(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_pushvalue(l, -1);
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	}
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		lua_pushvalue(l, -2);
+		lua_pushinteger(l, 2);
+		lua_gettable(l, -3);
+		lua_getfield(l, savetable, lua_tostring(l, -2));
+		if (lua_isnil(l, -1)) {
+			lua_pop(l, 1);
+			lua_newtable(l);
+		}
+		pi_lua_protected_call(l, 1, 0);
+		lua_pop(l, 2);
+	}
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
+}
+
+// npw - new code (under construction)
+void LuaSerializer::FromJson(const Json::Value &jsonObj)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	if (!jsonObj.isMember("lua_modules")) throw SavedGameCorruptException();
+	std::string pickled = jsonObj["lua_modules"].asString();
+
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
 	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();

@@ -30,13 +30,15 @@ public:
 
 	// initialise from save file
 	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, double at_time);
+	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj, double at_time); // npw - new code (under construction)
 
 	virtual ~Space();
 
 	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj); // npw - new code
 
 	// frame/body/sbody indexing for save/load. valid after
-	// construction/Serialize(), invalidated by TimeStep(). they will assert
+	// construction/Serialize()/ToJson(), invalidated by TimeStep(). they will assert
 	// if called while invalid
 	Frame *GetFrameByIndex(Uint32 idx) const;
 	Body  *GetBodyByIndex(Uint32 idx) const;

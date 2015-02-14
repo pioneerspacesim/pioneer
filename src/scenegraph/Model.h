@@ -70,6 +70,7 @@
 #include "graphics/Drawables.h"
 #include "Serializer.h"
 #include "DeleteEmitter.h"
+#include "json/json.h" // npw - new code
 #include <stdexcept>
 
 namespace Graphics { 
@@ -148,7 +149,9 @@ public:
 	void SetThrust(const vector3f &linear, const vector3f &angular);
 
 	void Save(Serializer::Writer &wr) const;
+	void SaveToJson(Json::Value &jsonObj); // npw - new code
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj); // npw - new code (under construction)
 
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;

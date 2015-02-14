@@ -11,6 +11,7 @@
 #include "Serializer.h"
 #include "galaxy/Galaxy.h"
 #include "galaxy/SystemPath.h"
+#include "json/json.h" // npw - new code
 
 class HyperspaceCloud;
 class Player;
@@ -52,11 +53,13 @@ public:
 
 	// load game
 	Game(Serializer::Reader &rd);
+	Game(const Json::Value &jsonObj); // npw - new code
 
 	~Game();
 
 	// save game
 	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj); // npw - new code
 
 	// various game states
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
@@ -130,6 +133,7 @@ private:
 		Views();
 		void Init(Game* game);
 		void Load(Serializer::Reader &rd, Game* game);
+		void LoadFromJson(const Json::Value &jsonObj, Game* game); // npw - new code (under construction)
 		~Views();
 
 		void SetRenderer(Graphics::Renderer *r);
@@ -151,6 +155,7 @@ private:
 
 	void CreateViews();
 	void LoadViews(Serializer::Reader &rd);
+	void LoadViewsFromJson(const Json::Value &jsonObj); // npw - new code (under construction)
 	void DestroyViews();
 
 	static void EmitPauseState(bool paused);

@@ -23,6 +23,7 @@ public:
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void Save(Serializer::Writer &wr);
+	virtual void SaveToJson(Json::Value &jsonObj); // npw - new code
 	virtual void Load(Serializer::Reader &rd);
 
 protected:
@@ -43,8 +44,6 @@ private:
 	Gui::TexturedQuad m_quad;
 	sigc::connection m_onMouseWheelCon;
 	Graphics::RenderState *m_renderState;
-	Graphics::Drawables::Points m_youAreHere;
-	Graphics::Drawables::Lines m_scalelines;
 };
 
 #endif /* _GALACTICVIEW_H */

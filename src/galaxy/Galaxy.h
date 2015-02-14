@@ -10,6 +10,7 @@
 #include "Factions.h"
 #include "CustomSystem.h"
 #include "GalaxyCache.h"
+#include "json/json.h" // npw - new code
 
 struct SDL_Surface;
 class GalaxyGenerator;
@@ -29,7 +30,9 @@ public:
 	const float SOL_OFFSET_Y;
 
 	static RefCountedPtr<Galaxy> Load(Serializer::Reader &rd);
+	static RefCountedPtr<Galaxy> LoadFromJson(const Json::Value &jsonObj); // npw - new code (under construction)
 	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj); // npw - new code
 
 	~Galaxy();
 

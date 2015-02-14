@@ -67,6 +67,21 @@ WorldView::WorldView(Serializer::Reader &rd, Game* game): UIView(), m_game(game)
 	m_siderealCameraController->Load(rd);
 }
 
+// npw - new code (under construction)
+WorldView::WorldView(const Json::Value &jsonObj, Game* game)
+{
+	if (!jsonObj.isMember("world_view")) throw SavedGameCorruptException();
+	Json::Value worldViewObj = jsonObj["world_view"];
+
+	if (!worldViewObj.isMember("cam_type")) throw SavedGameCorruptException();
+	m_camType = CamType(worldViewObj["cam_type"].asInt());
+	InitObject();
+
+	m_internalCameraController->LoadFromJson(worldViewObj);
+	m_externalCameraController->LoadFromJson(worldViewObj);
+	m_siderealCameraController->LoadFromJson(worldViewObj);
+}
+
 static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
 
 void WorldView::InitObject()
@@ -331,6 +346,19 @@ void WorldView::Save(Serializer::Writer &wr)
 	m_internalCameraController->Save(wr);
 	m_externalCameraController->Save(wr);
 	m_siderealCameraController->Save(wr);
+}
+
+// npw - new code
+void WorldView::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value worldViewObj(Json::objectValue); // Create JSON object to contain world view data.
+
+	worldViewObj["cam_type"] = int(m_camType);
+	m_internalCameraController->SaveToJson(worldViewObj);
+	m_externalCameraController->SaveToJson(worldViewObj);
+	m_siderealCameraController->SaveToJson(worldViewObj);
+
+	jsonObj["world_view"] = worldViewObj; // Add world view object to supplied object.
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -643,7 +671,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					break;
 
 				case CONTROL_AUTOPILOT:
-					m_flightStatus->SetText(Lang::AUTOPILOT_CONTROL);
+					m_flightStatus->SetText(Lang::AUTOPILOT);
 					break;
 
 				default: assert(0); break;
@@ -1877,7 +1905,7 @@ void WorldView::Draw()
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	// glLineWidth(1.0f);
-	m_renderer->CheckRenderErrors();
+	Graphics::CheckRenderErrors();
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
@@ -1903,8 +1931,8 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 	if (target.side == INDICATOR_HIDDEN) return;
 
 	if (target.side == INDICATOR_ONSCREEN) {
-		const float x1 = target.pos.x, y1 = target.pos.y;
-		const float x2 = lead.pos.x, y2 = lead.pos.y;
+		float x1 = target.pos.x, y1 = target.pos.y;
+		float x2 = lead.pos.x, y2 = lead.pos.y;
 
 		float xd = x2 - x1, yd = y2 - y1;
 		if (lead.side != INDICATOR_ONSCREEN) {
@@ -1941,12 +1969,10 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			vector3f(x1+20*xd, y1+20*yd, 0.0f),
 			vector3f(x2-10*xd, y2-10*yd, 0.0f)
 		};
-		if (lead.side == INDICATOR_ONSCREEN) {
-			m_indicator.SetData(14, vts, c);
-		} else {
-			m_indicator.SetData(8, vts, c);
-		}
-		m_indicator.Draw(m_renderer, m_blendState);
+		if (lead.side == INDICATOR_ONSCREEN)
+			m_renderer->DrawLines(14, vts, c, m_blendState); //draw all
+		else
+			m_renderer->DrawLines(8, vts, c, m_blendState); //only crosshair
 	} else {
 		DrawEdgeMarker(target, c);
 	}
@@ -2095,7 +2121,7 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 	}
 
 	m_vbuffer->Populate( va );
-
+	
 	m_worldView->m_renderer->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_LOOP);
 }
 

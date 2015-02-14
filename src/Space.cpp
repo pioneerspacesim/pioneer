@@ -147,6 +147,49 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, d
 	GenSectorCache(galaxy, &path);
 }
 
+// npw - new code(under construction)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj, double at_time)
+	: m_starSystemCache(galaxy->NewStarSystemSlaveCache())
+	, m_game(game)
+	, m_frameIndexValid(false)
+	, m_bodyIndexValid(false)
+	, m_sbodyIndexValid(false)
+	, m_bodyNearFinder(this)
+#ifndef NDEBUG
+	, m_processingFinalizationQueue(false)
+#endif
+{
+	if (!jsonObj.isMember("space")) throw SavedGameCorruptException();
+	Json::Value spaceObj = jsonObj["space"];
+
+	m_starSystem = StarSystem::FromJson(galaxy, spaceObj);
+
+	const SystemPath &path = m_starSystem->GetPath();
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
+
+	RebuildSystemBodyIndex();
+
+	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
+
+	m_rootFrame.reset(Frame::FromJson(spaceObj, this, 0, at_time));
+	RebuildFrameIndex();
+
+	if (!spaceObj.isMember("bodies")) throw SavedGameCorruptException();
+	Json::Value bodyArray = spaceObj["bodies"];
+	if (!bodyArray.isArray()) throw SavedGameCorruptException();
+	for (Uint32 i = 0; i < bodyArray.size(); i++)
+		m_bodies.push_back(Body::FromJson(bodyArray[i], this));
+	RebuildBodyIndex();
+
+	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
+	for (Body* b : m_bodies)
+		b->PostLoadFixup(this);
+
+	GenSectorCache(galaxy, &path);
+}
+
 Space::~Space()
 {
 	UpdateBodies(); // make sure anything waiting to be removed gets removed before we go and kill everything else
@@ -170,6 +213,31 @@ void Space::Serialize(Serializer::Writer &wr)
 	wr.Int32(m_bodies.size());
 	for (Body* b : m_bodies)
 		b->Serialize(wr, this);
+}
+
+// npw - new code
+void Space::ToJson(Json::Value &jsonObj)
+{
+	RebuildFrameIndex();
+	RebuildBodyIndex();
+	RebuildSystemBodyIndex();
+
+	Json::Value spaceObj(Json::objectValue); // Create JSON object to contain space data (all the bodies and things).
+
+	StarSystem::ToJson(spaceObj, m_starSystem.Get());
+
+	Frame::ToJson(spaceObj, m_rootFrame.get(), this);
+
+	Json::Value bodyArray(Json::arrayValue); // Create JSON array to contain body data.
+	for (Body* b : m_bodies)
+	{
+		Json::Value bodyArrayEl(Json::objectValue); // Create JSON object to contain body.
+		b->ToJson(bodyArrayEl, this);
+		bodyArray.append(bodyArrayEl); // Append body object to array.
+	}
+	spaceObj["bodies"] = bodyArray; // Add body array to space object.
+
+	jsonObj["space"] = spaceObj; // Add space object to supplied object.
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx) const

@@ -14,6 +14,7 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include "json/JsonUtils.h" // npw - new code
 
 using namespace Graphics;
 
@@ -42,12 +43,41 @@ void Sfx::Save(Serializer::Writer &wr)
 	wr.Int32(m_type);
 }
 
+// npw - new code
+void Sfx::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value sfxObj(Json::objectValue); // Create JSON object to contain sfx data.
+
+	VectorToJson(sfxObj, m_pos, "pos");
+	VectorToJson(sfxObj, m_vel, "vel");
+	sfxObj["age"] = FloatToStr(m_age);
+	sfxObj["type"] = m_type;
+
+	jsonObj["sfx"] = sfxObj; // Add sfx object to supplied object.
+}
+
 void Sfx::Load(Serializer::Reader &rd)
 {
 	m_pos = rd.Vector3d();
 	m_vel = rd.Vector3d();
 	m_age = rd.Float();
 	m_type = static_cast<Sfx::TYPE>(rd.Int32());
+}
+
+// npw - new code (under construction)
+void Sfx::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("sfx")) throw SavedGameCorruptException();
+	Json::Value sfxObj = jsonObj["sfx"];
+	if (!sfxObj.isMember("pos")) throw SavedGameCorruptException();
+	if (!sfxObj.isMember("vel")) throw SavedGameCorruptException();
+	if (!sfxObj.isMember("age")) throw SavedGameCorruptException();
+	if (!sfxObj.isMember("type")) throw SavedGameCorruptException();
+
+	JsonToVector(&m_pos, sfxObj, "pos");
+	JsonToVector(&m_vel, sfxObj, "vel");
+	m_age = StrToFloat(sfxObj["age"].asString());
+	m_type = static_cast<Sfx::TYPE>(sfxObj["type"].asInt());
 }
 
 void Sfx::Serialize(Serializer::Writer &wr, const Frame *f)
@@ -68,6 +98,27 @@ void Sfx::Serialize(Serializer::Writer &wr, const Frame *f)
 	}
 }
 
+// npw - new code
+void Sfx::ToJson(Json::Value &jsonObj, const Frame *f)
+{
+	Json::Value sfxArray(Json::arrayValue); // Create JSON array to contain sfx data.
+
+	if (f->m_sfx)
+	{
+		for (int i = 0; i < MAX_SFX_PER_FRAME; i++)
+		{
+			if (f->m_sfx[i].m_type != TYPE_NONE)
+			{
+				Json::Value sfxArrayEl(Json::objectValue); // Create JSON object to contain sfx element.
+				f->m_sfx[i].SaveToJson(sfxArrayEl);
+				sfxArray.append(sfxArrayEl); // Append sfx object to array.
+			}
+		}
+	}
+
+	jsonObj["sfx_array"] = sfxArray; // Add sfx array to supplied object.
+}
+
 void Sfx::Unserialize(Serializer::Reader &rd, Frame *f)
 {
 	int numActive = rd.Int32();
@@ -76,6 +127,20 @@ void Sfx::Unserialize(Serializer::Reader &rd, Frame *f)
 		for (int i=0; i<numActive; i++) {
 			f->m_sfx[i].Load(rd);
 		}
+	}
+}
+
+// npw - new code (under construction)
+void Sfx::FromJson(const Json::Value &jsonObj, Frame *f)
+{
+	if (!jsonObj.isMember("sfx_array")) throw SavedGameCorruptException();
+	Json::Value sfxArray = jsonObj["sfx_array"];
+	if (!sfxArray.isArray()) throw SavedGameCorruptException();
+
+	if (sfxArray.size()) f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];
+	for (unsigned int i = 0; i < sfxArray.size(); ++i)
+	{
+		f->m_sfx[i].LoadFromJson(sfxArray[i]);
 	}
 }
 

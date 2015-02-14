@@ -6,6 +6,7 @@
 #include "AnimationCurves.h"
 #include "Pi.h"
 #include "Game.h"
+#include "json/JsonUtils.h" // npw - new code
 
 CameraController::CameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	m_camera(camera),
@@ -129,11 +130,30 @@ void InternalCameraController::Save(Serializer::Writer &wr)
 	wr.Int32(m_mode);
 }
 
+// npw - new code
+void InternalCameraController::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value internalCameraObj(Json::objectValue); // Create JSON object to contain internal camera data.
+
+	internalCameraObj["mode"] = m_mode;
+
+	jsonObj["internal"] = internalCameraObj; // Add internal camera object to supplied object.
+}
+
 void InternalCameraController::Load(Serializer::Reader &rd)
 {
 	SetMode(static_cast<Mode>(rd.Int32()));
 }
 
+// npw - new code (under construction)
+void InternalCameraController::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("internal")) throw SavedGameCorruptException();
+	Json::Value internalCameraObj = jsonObj["internal"];
+	if (!internalCameraObj.isMember("mode")) throw SavedGameCorruptException();
+
+	SetMode(static_cast<Mode>(internalCameraObj["mode"].asInt()));
+}
 
 ExternalCameraController::ExternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	MoveableCameraController(camera, ship),
@@ -225,6 +245,18 @@ void ExternalCameraController::Save(Serializer::Writer &wr)
 	wr.Double(m_dist);
 }
 
+// npw - new code
+void ExternalCameraController::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value externalCameraObj(Json::objectValue); // Create JSON object to contain external camera data.
+
+	externalCameraObj["rot_x"] = DoubleToStr(m_rotX);
+	externalCameraObj["rot_y"] = DoubleToStr(m_rotY);
+	externalCameraObj["dist"] = DoubleToStr(m_dist);
+
+	jsonObj["external"] = externalCameraObj; // Add external camera object to supplied object.
+}
+
 void ExternalCameraController::Load(Serializer::Reader &rd)
 {
 	m_rotX = rd.Double();
@@ -233,6 +265,20 @@ void ExternalCameraController::Load(Serializer::Reader &rd)
 	m_distTo = m_dist;
 }
 
+// npw - new code (under construction)
+void ExternalCameraController::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("external")) throw SavedGameCorruptException();
+	Json::Value externalCameraObj = jsonObj["external"];
+	if (!externalCameraObj.isMember("rot_x")) throw SavedGameCorruptException();
+	if (!externalCameraObj.isMember("rot_y")) throw SavedGameCorruptException();
+	if (!externalCameraObj.isMember("dist")) throw SavedGameCorruptException();
+
+	m_rotX = StrToDouble(externalCameraObj["rot_x"].asString());
+	m_rotY = StrToDouble(externalCameraObj["rot_y"].asString());
+	m_dist = StrToDouble(externalCameraObj["dist"].asString());
+	m_distTo = m_dist;
+}
 
 SiderealCameraController::SiderealCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
 	MoveableCameraController(camera, ship),
@@ -326,9 +372,32 @@ void SiderealCameraController::Save(Serializer::Writer &wr)
 	wr.Double(m_dist);
 }
 
+// npw - new code
+void SiderealCameraController::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value siderealCameraObj(Json::objectValue); // Create JSON object to contain sidereal camera data.
+
+	MatrixToJson(siderealCameraObj, m_sidOrient, "sid_orient");
+	siderealCameraObj["dist"] = DoubleToStr(m_dist);
+
+	jsonObj["sidereal"] = siderealCameraObj; // Add sidereal camera object to supplied object.
+}
+
 void SiderealCameraController::Load(Serializer::Reader &rd)
 {
 	for (int i = 0; i < 9; i++) m_sidOrient[i] = rd.Double();
 	m_dist = rd.Double();
+	m_distTo = m_dist;
+}
+
+// npw - new code (under construction)
+void SiderealCameraController::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("sidereal")) throw SavedGameCorruptException();
+	Json::Value siderealCameraObj = jsonObj["sidereal"];
+	if (!siderealCameraObj.isMember("dist")) throw SavedGameCorruptException();
+
+	JsonToMatrix(&m_sidOrient, siderealCameraObj, "sid_orient");
+	m_dist = StrToDouble(siderealCameraObj["dist"].asString());
 	m_distTo = m_dist;
 }

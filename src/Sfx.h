@@ -27,7 +27,9 @@ public:
 	static void TimeStepAll(const float timeStep, Frame *f);
 	static void RenderAll(Graphics::Renderer *r, Frame *f, const Frame *camFrame);
 	static void Serialize(Serializer::Writer &wr, const Frame *f);
+	static void ToJson(Json::Value &jsonObj, const Frame *f); // npw - new code
 	static void Unserialize(Serializer::Reader &rd, Frame *f);
+	static void FromJson(const Json::Value &jsonObj, Frame *f); // npw - new code (under construction)
 
 	Sfx();
 	void SetPosition(const vector3d &p);
@@ -52,7 +54,9 @@ private:
 	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
 	void TimeStepUpdate(const float timeStep);
 	void Save(Serializer::Writer &wr);
+	void SaveToJson(Json::Value &jsonObj); // npw - new code
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj); // npw - new code (under construction)
 
 	vector3d m_pos;
 	vector3d m_vel;

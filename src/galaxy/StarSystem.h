@@ -301,7 +301,9 @@ public:
 	SystemPath GetPathOf(const SystemBody *sbody) const;
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
 	static void Serialize(Serializer::Writer &wr, StarSystem *);
+	static void ToJson(Json::Value &jsonObj, StarSystem *); // npw - new code
 	static RefCountedPtr<StarSystem> Unserialize(RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd);
+	static RefCountedPtr<StarSystem> FromJson(RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj); // npw - new code (under construction)
 	const SystemPath &GetPath() const { return m_path; }
 	const std::string& GetShortDescription() const { return m_shortDesc; }
 	const std::string& GetLongDescription() const { return m_longDesc; }

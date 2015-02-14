@@ -29,12 +29,37 @@ public:
 			wr.Auto((*i).second);
 		}
 	}
+	void ToJson(Json::Value &jsonObj) const { // npw - new code
+		Json::Value dictArray(Json::arrayValue); // Create JSON array to contain dict data.
+		for (typename std::map<SystemPath, T>::const_iterator i = m_dict.begin(); i != m_dict.end(); ++i)
+		{
+			Json::Value dictArrayEl(Json::objectValue); // Create JSON object to contain dict element.
+			(*i).first.ToJson(dictArrayEl);
+			dictArrayEl["value"] = AutoToStr((*i).second);
+			dictArray.append(dictArrayEl); // Append dict object to array.
+		}
+		jsonObj["dict"] = dictArray; // Add dict array to supplied object.
+	}
 	static void Unserialize(Serializer::Reader &rd, PersistSystemData<T> *pd) {
 		int num = rd.Int32();
 		while (num-- > 0) {
 			SystemPath path = SystemPath::Unserialize(rd);
 			T val;
 			rd.Auto(&val);
+			pd->m_dict[path] = val;
+		}
+	}
+	static void FromJson(const Json::Value &jsonObj, PersistSystemData<T> *pd) { // npw - new code (under construction)
+		if (!jsonObj.isMember("dict")) throw SavedGameCorruptException();
+		Json::Value dictArray = jsonObj["dict"];
+		if (!dictArray.isArray()) throw SavedGameCorruptException();
+		for (unsigned int arrayIndex = 0; arrayIndex < dictArray.size(); ++arrayIndex)
+		{
+			Json::Value dictArrayEl = dictArray[arrayIndex];
+			if (!dictArrayEl.isMember("value")) throw SavedGameCorruptException();
+			SystemPath path = SystemPath::FromJson(dictArrayEl);
+			T val;
+			StrToAuto(&val, dictArrayEl["value"].asString());
 			pd->m_dict[path] = val;
 		}
 	}
