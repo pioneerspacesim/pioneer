@@ -25,9 +25,25 @@ RefCountedPtr<Galaxy> Galaxy::Load(Serializer::Reader &rd)
 	return galaxy;
 }
 
+//static
+RefCountedPtr<Galaxy> Galaxy::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("galaxy_generator")) throw SavedGameCorruptException();
+	Json::Value galaxyGenObj = jsonObj["galaxy_generator"];
+
+	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::CreateFromJson(galaxyGenObj);
+	galaxy->m_galaxyGenerator->FromJson(galaxyGenObj, galaxy);
+	return galaxy;
+}
+
 void Galaxy::Serialize(Serializer::Writer &wr)
 {
 	m_galaxyGenerator->Serialize(wr, RefCountedPtr<Galaxy>(this));
+}
+
+void Galaxy::ToJson(Json::Value &jsonObj)
+{
+	m_galaxyGenerator->ToJson(jsonObj, RefCountedPtr<Galaxy>(this));
 }
 
 void Galaxy::SetGalaxyGenerator(RefCountedPtr<GalaxyGenerator> galaxyGenerator)

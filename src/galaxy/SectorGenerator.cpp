@@ -368,7 +368,19 @@ void SectorPersistenceGenerator::Unserialize(Serializer::Reader &rd, RefCountedP
 		m_exploredSystems.Unserialize(rd, &m_exploredSystems);
 }
 
+void SectorPersistenceGenerator::FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
+{
+	m_exploredSystems.Clear();
+	if (m_version >= 1)
+		m_exploredSystems.FromJson(jsonObj, &m_exploredSystems);
+}
+
 void SectorPersistenceGenerator::Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy)
 {
 	m_exploredSystems.Serialize(wr);
+}
+
+void SectorPersistenceGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
+{
+	m_exploredSystems.ToJson(jsonObj);
 }
