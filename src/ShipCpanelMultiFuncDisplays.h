@@ -28,6 +28,7 @@ class ScannerWidget: public IMultiFunc, public Gui::Widget {
 public:
 	ScannerWidget(Graphics::Renderer *r);
 	ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd);
+	ScannerWidget(Graphics::Renderer *r, const Json::Value &jsonObj);
 	virtual ~ScannerWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
@@ -38,6 +39,7 @@ public:
 	void TimeStepUpdate(float step);
 
 	void Save(Serializer::Writer &wr);
+	void SaveToJson(Json::Value &jsonObj);
 
 private:
 	void InitObject();

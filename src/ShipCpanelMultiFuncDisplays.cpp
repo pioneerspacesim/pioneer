@@ -61,6 +61,25 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
 	InitObject();
 }
 
+ScannerWidget::ScannerWidget(Graphics::Renderer *r, const Json::Value &jsonObj) :
+m_renderer(r)
+{
+	if (!jsonObj.isMember("scanner")) throw SavedGameCorruptException();
+	Json::Value scannerObj = jsonObj["scanner"];
+
+	if (!scannerObj.isMember("mode")) throw SavedGameCorruptException();
+	if (!scannerObj.isMember("current_range")) throw SavedGameCorruptException();
+	if (!scannerObj.isMember("manual_range")) throw SavedGameCorruptException();
+	if (!scannerObj.isMember("target_range")) throw SavedGameCorruptException();
+
+	m_mode = ScannerMode(scannerObj["mode"].asInt());
+	m_currentRange = StrToFloat(scannerObj["current_range"].asString());
+	m_manualRange = StrToFloat(scannerObj["manual_range"].asString());
+	m_targetRange = StrToFloat(scannerObj["target_range"].asString());
+
+	InitObject();
+}
+
 void ScannerWidget::InitObject()
 {
 	InitScaling();
@@ -480,6 +499,18 @@ void ScannerWidget::Save(Serializer::Writer &wr)
 	wr.Float(m_currentRange);
 	wr.Float(m_manualRange);
 	wr.Float(m_targetRange);
+}
+
+void ScannerWidget::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value scannerObj(Json::objectValue); // Create JSON object to contain scanner data.
+
+	scannerObj["mode"] = Sint32(m_mode);
+	scannerObj["current_range"] = FloatToStr(m_currentRange);
+	scannerObj["manual_range"] = FloatToStr(m_manualRange);
+	scannerObj["target_range"] = FloatToStr(m_targetRange);
+
+	jsonObj["scanner"] = scannerObj; // Add scanner object to supplied object.
 }
 
 /////////////////////////////////
