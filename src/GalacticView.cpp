@@ -77,10 +77,17 @@ void GalacticView::Save(Serializer::Writer &wr)
 {
 }
 
+void GalacticView::SaveToJson(Json::Value &jsonObj)
+{
+}
+
 void GalacticView::Load(Serializer::Reader &rd)
 {
 }
 
+void GalacticView::LoadFromJson(const Json::Value &jsonObj)
+{
+}
 
 struct galaclabel_t {
 	const char *label;

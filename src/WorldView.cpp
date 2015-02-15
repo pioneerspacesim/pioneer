@@ -67,6 +67,20 @@ WorldView::WorldView(Serializer::Reader &rd, Game* game): UIView(), m_game(game)
 	m_siderealCameraController->Load(rd);
 }
 
+WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game)
+{
+	if (!jsonObj.isMember("world_view")) throw SavedGameCorruptException();
+	Json::Value worldViewObj = jsonObj["world_view"];
+
+	if (!worldViewObj.isMember("cam_type")) throw SavedGameCorruptException();
+	m_camType = CamType(worldViewObj["cam_type"].asInt());
+	InitObject();
+
+	m_internalCameraController->LoadFromJson(worldViewObj);
+	m_externalCameraController->LoadFromJson(worldViewObj);
+	m_siderealCameraController->LoadFromJson(worldViewObj);
+}
+
 static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
 
 void WorldView::InitObject()

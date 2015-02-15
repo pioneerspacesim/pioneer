@@ -24,6 +24,7 @@ class SectorView: public UIView {
 public:
 	SectorView(Game* game);
 	SectorView(Serializer::Reader &rd, Game* game);
+	SectorView(const Json::Value &jsonObj, Game* game);
 	virtual ~SectorView();
 
 	virtual void Update();
@@ -42,6 +43,7 @@ public:
 	void GotoSelectedSystem() { GotoSystem(m_selected); }
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	virtual void Save(Serializer::Writer &wr);
+	virtual void SaveToJson(Json::Value &jsonObj);
 
 	sigc::signal<void> onHyperspaceTargetChanged;
 
