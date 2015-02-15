@@ -34,7 +34,9 @@ public:
 	NavLights(SceneGraph::Model*, float period = 2.f);
 	virtual ~NavLights();
 	virtual void Save(Serializer::Writer &wr);
+	virtual void SaveToJson(Json::Value &jsonObj);
 	virtual void Load(Serializer::Reader &rd);
+	virtual void LoadFromJson(const Json::Value &jsonObj);
 
 	void SetEnabled(bool on) { m_enabled = on; }
 	void Update(float time);
