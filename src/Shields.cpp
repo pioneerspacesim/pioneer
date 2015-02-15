@@ -8,6 +8,7 @@
 #include "scenegraph/CollisionGeometry.h"
 #include "Ship.h"
 #include "Pi.h"
+#include "json/JsonUtils.h"
 #include <sstream>
 
 namespace {
@@ -229,6 +230,26 @@ void Shields::Save(Serializer::Writer &wr)
 	}
 }
 
+void Shields::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value shieldsObj(Json::objectValue); // Create JSON object to contain shields data.
+
+	shieldsObj["enabled"] = m_enabled;
+	shieldsObj["num_shields"] = m_shields.size();
+
+	Json::Value shieldArray(Json::arrayValue); // Create JSON array to contain shield data.
+	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it)
+	{
+		Json::Value shieldArrayEl(Json::objectValue); // Create JSON object to contain shield.
+		ColorToJson(shieldArrayEl, it->m_colour, "color");
+		shieldArrayEl["mesh_name"] = it->m_mesh->GetName();
+		shieldArray.append(shieldArrayEl); // Append shield object to array.
+	}
+	shieldsObj["shield_array"] = shieldArray; // Add shield array to shields object.
+
+	jsonObj["shields"] = shieldsObj; // Add shields object to supplied object.
+}
+
 void Shields::Load(Serializer::Reader &rd)
 {
 	m_enabled = rd.Bool();
@@ -243,6 +264,35 @@ void Shields::Load(Serializer::Reader &rd)
 		for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
 			if(name==it->m_mesh->GetName()) {
 				it->m_colour = Color3ub(r, g, b);
+				break;
+			}
+		}
+	}
+}
+
+void Shields::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("shields")) throw SavedGameCorruptException();
+	Json::Value shieldsObj = jsonObj["shields"];
+
+	if (!shieldsObj.isMember("enabled")) throw SavedGameCorruptException();
+	if (!shieldsObj.isMember("num_shields")) throw SavedGameCorruptException();
+	if (!shieldsObj.isMember("shield_array")) throw SavedGameCorruptException();
+
+	m_enabled = shieldsObj["Enabled"].asBool();
+	assert(shieldsObj["num_shields"].asUInt() == m_shields.size());
+
+	Json::Value shieldArray = shieldsObj["shield_array"];
+	if (!shieldArray.isArray()) throw SavedGameCorruptException();
+	for (unsigned int i = 0; i < shieldArray.size(); ++i)
+	{
+		Json::Value shieldArrayEl = shieldArray[i];
+		if (!shieldArrayEl.isMember("mesh_name")) throw SavedGameCorruptException();
+		for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it)
+		{
+			if (shieldArrayEl["mesh_name"].asString() == it->m_mesh->GetName())
+			{
+				JsonToColor(&(it->m_colour), shieldArrayEl, "color");
 				break;
 			}
 		}
