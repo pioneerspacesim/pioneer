@@ -33,7 +33,9 @@ public:
 	void SetLabel(const std::string &label);
 
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj);
 	void Save(Serializer::Writer &wr) const;
+	void SaveToJson(Json::Value &jsonObj) const;
 
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
