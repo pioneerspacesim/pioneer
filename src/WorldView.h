@@ -54,7 +54,7 @@ public:
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
 	virtual void Save(Serializer::Writer &wr);
-	virtual void SaveToJson(Json::Value &jsonObj); // npw - new code
+	virtual void SaveToJson(Json::Value &jsonObj);
 	enum CamType {
 		CAM_INTERNAL,
 		CAM_EXTERNAL,

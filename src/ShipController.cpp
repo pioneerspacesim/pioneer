@@ -65,6 +65,19 @@ void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
 }
 
+void PlayerShipController::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	Json::Value playerShipControllerObj(Json::objectValue); // Create JSON object to contain player ship controller data.
+	playerShipControllerObj["flight_control_state"] = static_cast<int>(m_flightControlState);
+	playerShipControllerObj["set_speed"] = DoubleToStr(m_setSpeed);
+	playerShipControllerObj["low_thrust_power"] = FloatToStr(m_lowThrustPower);
+	playerShipControllerObj["rotation_damping"] = m_rotationDamping;
+	playerShipControllerObj["index_for_combat_target"] = space->GetIndexForBody(m_combatTarget);
+	playerShipControllerObj["index_for_nav_target"] = space->GetIndexForBody(m_navTarget);
+	playerShipControllerObj["index_for_set_speed_target"] = space->GetIndexForBody(m_setSpeedTarget);
+	jsonObj["player_ship_controller"] = playerShipControllerObj; // Add player ship controller object to supplied object.
+}
+
 void PlayerShipController::Load(Serializer::Reader &rd)
 {
 	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
@@ -75,6 +88,29 @@ void PlayerShipController::Load(Serializer::Reader &rd)
 	m_combatTargetIndex = rd.Int32();
 	m_navTargetIndex = rd.Int32();
 	m_setSpeedTargetIndex = rd.Int32();
+}
+
+void PlayerShipController::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("player_ship_controller")) throw SavedGameCorruptException();
+	Json::Value playerShipControllerObj = jsonObj["player_ship_controller"];
+
+	if (!playerShipControllerObj.isMember("flight_control_state")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("set_speed")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("low_thrust_power")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("rotation_damping")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("index_for_combat_target")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("index_for_nav_target")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("index_for_set_speed_target")) throw SavedGameCorruptException();
+
+	m_flightControlState = static_cast<FlightControlState>(playerShipControllerObj["flight_control_state"].asInt());
+	m_setSpeed = StrToDouble(playerShipControllerObj["set_speed"].asString());
+	m_lowThrustPower = StrToFloat(playerShipControllerObj["low_thrust_power"].asString());
+	m_rotationDamping = playerShipControllerObj["rotation_damping"].asBool();
+	//figure out actual bodies in PostLoadFixup - after Space body index has been built
+	m_combatTargetIndex = playerShipControllerObj["index_for_combat_target"].asInt();
+	m_navTargetIndex = playerShipControllerObj["index_for_nav_target"].asInt();
+	m_setSpeedTargetIndex = playerShipControllerObj["index_for_set_speed_target"].asInt();
 }
 
 void PlayerShipController::PostLoadFixup(Space *space)
