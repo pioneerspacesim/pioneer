@@ -8,6 +8,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "StringF.h"
+#include "json/JsonUtils.h"
 
 namespace SceneGraph {
 
@@ -445,6 +446,22 @@ private:
 	Serializer::Writer *wr;
 };
 
+class SaveVisitorJson : public NodeVisitor {
+public:
+	SaveVisitorJson(Json::Value &jsonObj) : m_jsonArray(jsonObj) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node)
+	{
+		const matrix4x4f &m = node.GetTransform();
+		Json::Value matrixTransformObj(Json::objectValue); // Create JSON object to contain matrix transform data.
+		MatrixToJson(matrixTransformObj, m, "matrix_transform");
+		m_jsonArray.append(matrixTransformObj); // Append matrix transform object to array.
+	}
+
+private:
+	Json::Value &m_jsonArray;
+};
+
 void Model::Save(Serializer::Writer &wr) const
 {
 	SaveVisitor sv(&wr);
@@ -454,6 +471,25 @@ void Model::Save(Serializer::Writer &wr) const
 		wr.Double((*i)->GetProgress());
 
 	wr.Int32(m_curPatternIndex);
+}
+
+void Model::SaveToJson(Json::Value &jsonObj) const
+{
+	Json::Value modelObj(Json::objectValue); // Create JSON object to contain model data.
+
+	Json::Value visitorArray(Json::arrayValue); // Create JSON array to contain visitor data.
+	SaveVisitorJson sv(visitorArray);
+	m_root->Accept(sv);
+	modelObj["visitor"] = visitorArray; // Add visitor array to model object.
+
+	Json::Value animationArray(Json::arrayValue); // Create JSON array to contain animation data.
+	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
+		animationArray.append(DoubleToStr((*i)->GetProgress()));
+	modelObj["animations"] = animationArray; // Add animation array to model object.
+
+	modelObj["cur_pattern_index"] = m_curPatternIndex;
+
+	jsonObj["model"] = modelObj; // Add model object to supplied object.
 }
 
 class LoadVisitor : public NodeVisitor {
@@ -471,6 +507,22 @@ private:
 	Serializer::Reader *rd;
 };
 
+class LoadVisitorJson : public NodeVisitor {
+public:
+	LoadVisitorJson(const Json::Value &jsonObj) : m_jsonArray(jsonObj), m_arrayIndex(0) {}
+
+	void ApplyMatrixTransform(MatrixTransform &node)
+	{
+		matrix4x4f m;
+		JsonToMatrix(&m, m_jsonArray[m_arrayIndex++], "matrix_transform");
+		node.SetTransform(m);
+	}
+
+private:
+	const Json::Value &m_jsonArray;
+	unsigned int m_arrayIndex;
+};
+
 void Model::Load(Serializer::Reader &rd)
 {
 	LoadVisitor lv(&rd);
@@ -481,6 +533,30 @@ void Model::Load(Serializer::Reader &rd)
 	UpdateAnimations();
 
 	SetPattern(rd.Int32());
+}
+
+void Model::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("model")) throw SavedGameCorruptException();
+	Json::Value modelObj = jsonObj["model"];
+	if (!modelObj.isMember("visitor")) throw SavedGameCorruptException();
+	if (!modelObj.isMember("animations")) throw SavedGameCorruptException();
+	if (!modelObj.isMember("cur_pattern_index")) throw SavedGameCorruptException();
+
+	Json::Value visitorArray = modelObj["visitor"];
+	if (!visitorArray.isArray()) throw SavedGameCorruptException();
+	LoadVisitorJson lv(visitorArray);
+	m_root->Accept(lv);
+
+	Json::Value animationArray = modelObj["animations"];
+	if (!animationArray.isArray()) throw SavedGameCorruptException();
+	assert(m_animations.size() == animationArray.size());
+	unsigned int arrayIndex = 0;
+	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
+		(*i)->SetProgress(StrToDouble(animationArray[arrayIndex++].asString()));
+	UpdateAnimations();
+
+	SetPattern(modelObj["cur_pattern_index"].asUInt());
 }
 
 std::string Model::GetNameForMaterial(Graphics::Material *mat) const
