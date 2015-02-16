@@ -245,7 +245,7 @@
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Показать товары, выгодные для торговли между выбранной и текущей системами"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
