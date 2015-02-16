@@ -16,6 +16,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
+#include "json/JsonUtils.h"
 
 using namespace Graphics;
 
@@ -80,6 +81,26 @@ void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
 	if (m_ship) m_ship->Serialize(wr, space);
 }
 
+void HyperspaceCloud::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	Body::SaveToJson(jsonObj, space);
+
+	Json::Value hyperspaceCloudObj(Json::objectValue); // Create JSON object to contain hyperspace cloud data.
+
+	VectorToJson(hyperspaceCloudObj, m_vel, "vel");
+	hyperspaceCloudObj["birth_date"] = DoubleToStr(m_birthdate);
+	hyperspaceCloudObj["due"] = DoubleToStr(m_due);
+	hyperspaceCloudObj["is_arrival"] = m_isArrival;
+	if (m_ship)
+	{
+		Json::Value shipObj(Json::objectValue); // Create JSON object to contain ship data.
+		m_ship->ToJson(shipObj, space);
+		hyperspaceCloudObj["ship"] = shipObj; // Add ship object to hyperpace cloud object.
+	}
+
+	jsonObj["hyperspace_cloud"] = hyperspaceCloudObj; // Add hyperspace cloud object to supplied object.
+}
+
 void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
@@ -89,6 +110,30 @@ void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
 	m_isArrival = rd.Bool();
 	if (rd.Bool()) {
 		m_ship = static_cast<Ship*>(Body::Unserialize(rd, space));
+	}
+}
+
+void HyperspaceCloud::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	Body::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("hyperspace_cloud")) throw SavedGameCorruptException();
+	Json::Value hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
+
+	if (!hyperspaceCloudObj.isMember("vel")) throw SavedGameCorruptException();
+	if (!hyperspaceCloudObj.isMember("birth_date")) throw SavedGameCorruptException();
+	if (!hyperspaceCloudObj.isMember("due")) throw SavedGameCorruptException();
+	if (!hyperspaceCloudObj.isMember("is_arrival")) throw SavedGameCorruptException();
+
+	JsonToVector(&m_vel, hyperspaceCloudObj, "vel");
+	m_birthdate = StrToDouble(hyperspaceCloudObj["birth_date"].asString());
+	m_due = StrToDouble(hyperspaceCloudObj["due"].asString());
+	m_isArrival = hyperspaceCloudObj["is_arrival"].asBool();
+
+	if (hyperspaceCloudObj.isMember("ship"))
+	{
+		Json::Value shipObj = hyperspaceCloudObj["ship"];
+		m_ship = static_cast<Ship*>(Body::FromJson(shipObj, space));
 	}
 }
 
