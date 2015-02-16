@@ -88,6 +88,21 @@ void ModelBody::Save(Serializer::Writer &wr, Space *space)
 	m_shields->Save(wr);
 }
 
+void ModelBody::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	Body::SaveToJson(jsonObj, space);
+
+	Json::Value modelBodyObj(Json::objectValue); // Create JSON object to contain model body data.
+
+	modelBodyObj["is_static"] = m_isStatic;
+	modelBodyObj["is_colliding"] = m_colliding;
+	modelBodyObj["model_name"] = m_modelName;
+	m_model->SaveToJson(modelBodyObj);
+	m_shields->SaveToJson(modelBodyObj);
+
+	jsonObj["model_body"] = modelBodyObj; // Add model body object to supplied object.
+}
+
 void ModelBody::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
@@ -112,6 +127,24 @@ void ModelBody::SetStatic(bool isStatic)
 		GetFrame()->RemoveStaticGeom(m_geom);
 		GetFrame()->AddGeom(m_geom);
 	}
+}
+
+void ModelBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	Body::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("model_body")) throw SavedGameCorruptException();
+	Json::Value modelBodyObj = jsonObj["model_body"];
+
+	if (!modelBodyObj.isMember("is_static")) throw SavedGameCorruptException();
+	if (!modelBodyObj.isMember("is_colliding")) throw SavedGameCorruptException();
+	if (!modelBodyObj.isMember("model_name")) throw SavedGameCorruptException();
+
+	m_isStatic = modelBodyObj["is_static"].asBool();
+	m_colliding = modelBodyObj["is_colliding"].asBool();
+	SetModel(modelBodyObj["model_name"].asString().c_str());
+	m_model->LoadFromJson(modelBodyObj);
+	m_shields->LoadFromJson(modelBodyObj);
 }
 
 void ModelBody::SetColliding(bool colliding)

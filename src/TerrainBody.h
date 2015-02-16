@@ -39,7 +39,9 @@ protected:
 	void InitTerrainBody();
 
 	virtual void Save(Serializer::Writer &wr, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 
 private:
 	const SystemBody *m_sbody;

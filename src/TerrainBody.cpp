@@ -51,10 +51,34 @@ void TerrainBody::Save(Serializer::Writer &wr, Space *space)
 	wr.Int32(space->GetIndexForSystemBody(m_sbody));
 }
 
+void TerrainBody::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	Body::SaveToJson(jsonObj, space);
+
+	Json::Value terrainBodyObj(Json::objectValue); // Create JSON object to contain terrain body data.
+
+	terrainBodyObj["index_for_system_body"] = space->GetIndexForSystemBody(m_sbody);
+
+	jsonObj["terrain_body"] = terrainBodyObj; // Add terrain body object to supplied object.
+}
+
 void TerrainBody::Load(Serializer::Reader &rd, Space *space)
 {
 	Body::Load(rd, space);
 	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
+	InitTerrainBody();
+}
+
+void TerrainBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	Body::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("terrain_body")) throw SavedGameCorruptException();
+	Json::Value terrainBodyObj = jsonObj["terrain_body"];
+
+	if (!terrainBodyObj.isMember("index_for_system_body")) throw SavedGameCorruptException();
+
+	m_sbody = space->GetSystemBodyByIndex(terrainBodyObj["index_for_system_body"].asInt());
 	InitTerrainBody();
 }
 
