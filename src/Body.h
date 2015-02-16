@@ -24,7 +24,9 @@ public:
 	Body();
 	virtual ~Body();
 	void Serialize(Serializer::Writer &wr, Space *space);
+	void ToJson(Json::Value &jsonObj, Space *space);
 	static Body *Unserialize(Serializer::Reader &rd, Space *space);
+	static Body *FromJson(const Json::Value &jsonObj, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
 	virtual void SetPosition(const vector3d &p) { m_pos = p; }
@@ -103,7 +105,9 @@ public:
 
 protected:
 	virtual void Save(Serializer::Writer &wr, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	unsigned int m_flags;
 
 	// Interpolated draw orientation-position
