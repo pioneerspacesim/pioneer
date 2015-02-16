@@ -20,6 +20,7 @@ public:
 protected:
 	void InitStar();
 	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 
 	Graphics::RenderState *m_haloState;
 };

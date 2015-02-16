@@ -49,6 +49,15 @@ void Planet::Load(Serializer::Reader &rd, Space *space)
 	InitParams(sbody);
 }
 
+void Planet::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	TerrainBody::LoadFromJson(jsonObj, space);
+
+	const SystemBody *sbody = GetSystemBody();
+	assert(sbody);
+	InitParams(sbody);
+}
+
 void Planet::InitParams(const SystemBody *sbody)
 {
 	double specificHeatCp;
