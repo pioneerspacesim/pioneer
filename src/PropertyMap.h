@@ -32,7 +32,9 @@ public:
 	}
 
 	void Save(Serializer::Writer &wr);
+	void SaveToJson(Json::Value &jsonObj);
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 private:
 	LuaRef m_table;

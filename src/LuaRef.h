@@ -6,6 +6,7 @@
 
 #include "lua/lua.hpp"
 #include "Serializer.h"
+#include "json/json.h"
 #include <vector>
 #include <cassert>
 
@@ -25,7 +26,9 @@ public:
 	bool IsValid() const { return m_lua && m_id != LUA_NOREF; }
 
 	void Save(Serializer::Writer &wr);
+	void SaveToJson(Json::Value &jsonObj);
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 private:
 	lua_State * m_lua;

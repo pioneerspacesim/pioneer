@@ -34,8 +34,17 @@ void PropertyMap::Save(Serializer::Writer &wr)
 	m_table.Save(wr);
 }
 
+void PropertyMap::SaveToJson(Json::Value &jsonObj)
+{
+	m_table.SaveToJson(jsonObj);
+}
 
 void PropertyMap::Load(Serializer::Reader &rd)
 {
 	m_table.Load(rd);
+}
+
+void PropertyMap::LoadFromJson(const Json::Value &jsonObj)
+{
+	m_table.LoadFromJson(jsonObj);
 }
