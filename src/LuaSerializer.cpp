@@ -3,6 +3,7 @@
 
 #include "LuaSerializer.h"
 #include "LuaObject.h"
+#include "json/JsonUtils.h"
 
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like
@@ -393,6 +394,46 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 	LUA_DEBUG_END(l, 0);
 }
 
+void LuaSerializer::ToJson(Json::Value &jsonObj)
+{
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	lua_newtable(l);
+	int savetable = lua_gettop(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_pushvalue(l, -1);
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	}
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		lua_pushinteger(l, 1);
+		lua_gettable(l, -2);
+		pi_lua_protected_call(l, 0, 1);
+		lua_pushvalue(l, -3);
+		lua_insert(l, -2);
+		lua_settable(l, savetable);
+		lua_pop(l, 1);
+	}
+
+	lua_pop(l, 1);
+
+	std::string pickled;
+	pickle(l, savetable, pickled);
+
+	BinStrToJson(jsonObj, pickled, "lua_modules");
+
+	lua_pop(l, 1);
+
+	LUA_DEBUG_END(l, 0);
+}
+
 void LuaSerializer::Unserialize(Serializer::Reader &rd)
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -400,6 +441,48 @@ void LuaSerializer::Unserialize(Serializer::Reader &rd)
 	LUA_DEBUG_START(l);
 
 	std::string pickled = rd.String();
+	const char *start = pickled.c_str();
+	const char *end = unpickle(l, start);
+	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
+	if (!lua_istable(l, -1)) throw SavedGameCorruptException();
+	int savetable = lua_gettop(l);
+
+	lua_getfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	if (lua_isnil(l, -1)) {
+		lua_pop(l, 1);
+		lua_newtable(l);
+		lua_pushvalue(l, -1);
+		lua_setfield(l, LUA_REGISTRYINDEX, "PiSerializerCallbacks");
+	}
+
+	lua_pushnil(l);
+	while (lua_next(l, -2) != 0) {
+		lua_pushvalue(l, -2);
+		lua_pushinteger(l, 2);
+		lua_gettable(l, -3);
+		lua_getfield(l, savetable, lua_tostring(l, -2));
+		if (lua_isnil(l, -1)) {
+			lua_pop(l, 1);
+			lua_newtable(l);
+		}
+		pi_lua_protected_call(l, 1, 0);
+		lua_pop(l, 2);
+	}
+
+	lua_pop(l, 2);
+
+	LUA_DEBUG_END(l, 0);
+}
+
+void LuaSerializer::FromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("lua_modules")) throw SavedGameCorruptException();
+
+	lua_State *l = Lua::manager->GetLuaState();
+
+	LUA_DEBUG_START(l);
+
+	std::string pickled = JsonToBinStr(jsonObj, "lua_modules");
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
 	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();

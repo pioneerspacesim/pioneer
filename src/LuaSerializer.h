@@ -19,7 +19,9 @@ class LuaSerializer : public DeleteEmitter {
 
 public:
 	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj);
 	void Unserialize(Serializer::Reader &rd);
+	void FromJson(const Json::Value &jsonObj);
 
 	void WrLuaRef(LuaRef &ref, Serializer::Writer &wr);
 	void RdLuaRef(LuaRef &ref, Serializer::Reader &rd);
