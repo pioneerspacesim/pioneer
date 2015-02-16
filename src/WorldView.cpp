@@ -347,6 +347,18 @@ void WorldView::Save(Serializer::Writer &wr)
 	m_siderealCameraController->Save(wr);
 }
 
+void WorldView::SaveToJson(Json::Value &jsonObj)
+{
+	Json::Value worldViewObj(Json::objectValue); // Create JSON object to contain world view data.
+
+	worldViewObj["cam_type"] = int(m_camType);
+	m_internalCameraController->SaveToJson(worldViewObj);
+	m_externalCameraController->SaveToJson(worldViewObj);
+	m_siderealCameraController->SaveToJson(worldViewObj);
+
+	jsonObj["world_view"] = worldViewObj; // Add world view object to supplied object.
+}
+
 void WorldView::SetCamType(enum CamType c)
 {
 	Pi::BoinkNoise();
