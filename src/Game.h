@@ -52,11 +52,13 @@ public:
 
 	// load game
 	Game(Serializer::Reader &rd);
+	Game(const Json::Value &jsonObj);
 
 	~Game();
 
 	// save game
 	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj);
 
 	// various game states
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
@@ -130,6 +132,7 @@ private:
 		Views();
 		void Init(Game* game);
 		void Load(Serializer::Reader &rd, Game* game);
+		void LoadFromJson(const Json::Value &jsonObj, Game* game);
 		~Views();
 
 		void SetRenderer(Graphics::Renderer *r);
@@ -151,6 +154,7 @@ private:
 
 	void CreateViews();
 	void LoadViews(Serializer::Reader &rd);
+	void LoadViewsFromJson(const Json::Value &jsonObj);
 	void DestroyViews();
 
 	static void EmitPauseState(bool paused);
