@@ -23,6 +23,20 @@ void CargoBody::Save(Serializer::Writer &wr, Space *space)
 	wr.Bool(m_hasSelfdestruct);
 }
 
+void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	DynamicBody::SaveToJson(jsonObj, space);
+
+	Json::Value cargoBodyObj(Json::objectValue); // Create JSON object to contain cargo body data.
+
+	m_cargo.SaveToJson(cargoBodyObj);
+	cargoBodyObj["hit_points"] = FloatToStr(m_hitpoints);
+	cargoBodyObj["self_destruct_timer"] = FloatToStr(m_selfdestructTimer);
+	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
+
+	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
+}
+
 void CargoBody::Load(Serializer::Reader &rd, Space *space)
 {
 	DynamicBody::Load(rd, space);
@@ -31,6 +45,24 @@ void CargoBody::Load(Serializer::Reader &rd, Space *space)
 	m_hitpoints = rd.Float();
 	m_selfdestructTimer = rd.Float();
 	m_hasSelfdestruct = rd.Bool();
+}
+
+void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+	DynamicBody::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("cargo_body")) throw SavedGameCorruptException();
+	Json::Value cargoBodyObj = jsonObj["cargo_body"];
+
+	if (!cargoBodyObj.isMember("hit_points")) throw SavedGameCorruptException();
+	if (!cargoBodyObj.isMember("self_destruct_timer")) throw SavedGameCorruptException();
+	if (!cargoBodyObj.isMember("has_self_destruct")) throw SavedGameCorruptException();
+
+	m_cargo.LoadFromJson(cargoBodyObj);
+	Init();
+	m_hitpoints = StrToFloat(cargoBodyObj["hit_points"].asString());
+	m_selfdestructTimer = StrToFloat(cargoBodyObj["self_destruct_timer"].asString());
+	m_hasSelfdestruct = cargoBodyObj["has_self_destruct"].asBool();
 }
 
 void CargoBody::Init()
