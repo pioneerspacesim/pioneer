@@ -830,19 +830,6 @@ StarSystem::~StarSystem()
 		m_cache->RemoveFromAttic(m_path);
 }
 
-void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
-{
-	if (s) {
-		wr.Byte(1);
-		wr.Int32(s->m_path.sectorX);
-		wr.Int32(s->m_path.sectorY);
-		wr.Int32(s->m_path.sectorZ);
-		wr.Int32(s->m_path.systemIndex);
-	} else {
-		wr.Byte(0);
-	}
-}
-
 void StarSystem::ToJson(Json::Value &jsonObj, StarSystem *s)
 {
 	if (s)
@@ -853,19 +840,6 @@ void StarSystem::ToJson(Json::Value &jsonObj, StarSystem *s)
 		starSystemObj["sector_z"] = s->m_path.sectorZ;
 		starSystemObj["system_index"] = s->m_path.systemIndex;
 		jsonObj["star_system"] = starSystemObj; // Add star system object to supplied object.
-	}
-}
-
-RefCountedPtr<StarSystem> StarSystem::Unserialize(RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd)
-{
-	if (rd.Byte()) {
-		int sec_x = rd.Int32();
-		int sec_y = rd.Int32();
-		int sec_z = rd.Int32();
-		int sys_idx = rd.Int32();
-		return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
-	} else {
-		return RefCountedPtr<StarSystem>(0);
 	}
 }
 

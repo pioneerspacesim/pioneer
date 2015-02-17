@@ -36,7 +36,7 @@ public:
 	void ToJson(Json::Value &jsonObj);
 
 	// frame/body/sbody indexing for save/load. valid after
-	// construction/Serialize(), invalidated by TimeStep(). they will assert
+	// construction/ToJson(), invalidated by TimeStep(). they will assert
 	// if called while invalid
 	Frame *GetFrameByIndex(Uint32 idx) const;
 	Body  *GetBodyByIndex(Uint32 idx) const;

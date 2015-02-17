@@ -22,13 +22,6 @@ public:
 	void Set(const SystemPath &path, T val) {
 		m_dict[path.SystemOnly()] = val;
 	}
-	void Serialize(Serializer::Writer &wr) const {
-		wr.Int32(m_dict.size());
-		for (typename std::map<SystemPath, T>::const_iterator i = m_dict.begin(); i != m_dict.end(); ++i) {
-			(*i).first.Serialize(wr);
-			wr.Auto((*i).second);
-		}
-	}
 	void ToJson(Json::Value &jsonObj) const {
 		Json::Value dictArray(Json::arrayValue); // Create JSON array to contain dict data.
 		for (typename std::map<SystemPath, T>::const_iterator i = m_dict.begin(); i != m_dict.end(); ++i)
@@ -39,15 +32,6 @@ public:
 			dictArray.append(dictArrayEl); // Append dict object to array.
 		}
 		jsonObj["dict"] = dictArray; // Add dict array to supplied object.
-	}
-	static void Unserialize(Serializer::Reader &rd, PersistSystemData<T> *pd) {
-		int num = rd.Int32();
-		while (num-- > 0) {
-			SystemPath path = SystemPath::Unserialize(rd);
-			T val;
-			rd.Auto(&val);
-			pd->m_dict[path] = val;
-		}
 	}
 	static void FromJson(const Json::Value &jsonObj, PersistSystemData<T> *pd) {
 		if (!jsonObj.isMember("dict")) throw SavedGameCorruptException();

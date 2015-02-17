@@ -94,9 +94,7 @@ class GalaxyGeneratorStage {
 public:
 	virtual ~GalaxyGeneratorStage() { }
 
-	virtual void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy) { }
 	virtual void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy) { }
-	virtual void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy) { }
 	virtual void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy) { }
 
 protected:

@@ -778,8 +778,6 @@ Game *Game::LoadGame(const std::string &filename)
 	Output("Game::LoadGame('%s')\n", filename.c_str());
 	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!file) throw CouldNotOpenFileException();
-	//Serializer::Reader rd(file->AsByteRange());
-	//return new Game(rd);
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	Json::Reader jsonReader; // Create reader for parsing the JSON string.
 	jsonReader.parse(file->GetData(), rootNode); // Parse the JSON string.
@@ -802,11 +800,6 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotOpenFileException();
 	}
 
-	//Serializer::Writer wr;
-	//game->Serialize(wr);
-
-	//const std::string data = wr.GetData();
-
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
 	Json::StyledWriter jsonWriter; // Create writer for writing the JSON data to string.
@@ -815,7 +808,6 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
 
-	//size_t nwritten = fwrite(data.data(), data.length(), 1, f);
 	size_t nwritten = fwrite(jsonDataStr.data(), jsonDataStr.length(), 1, f);
 	fclose(f);
 

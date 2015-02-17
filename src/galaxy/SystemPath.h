@@ -122,13 +122,6 @@ public:
 		return SystemPath(sectorX, sectorY, sectorZ, systemIndex);
 	}
 
-	void Serialize(Serializer::Writer &wr) const {
-		wr.Int32(sectorX);
-		wr.Int32(sectorY);
-		wr.Int32(sectorZ);
-		wr.Int32(Uint32(systemIndex));
-		wr.Int32(Uint32(bodyIndex));
-	}
 	void ToJson(Json::Value &jsonObj) const {
 		Json::Value systemPathObj(Json::objectValue); // Create JSON object to contain system path data.
 		systemPathObj["sector_x"] = sectorX;
@@ -137,14 +130,6 @@ public:
 		systemPathObj["system_index"] = systemIndex;
 		systemPathObj["body_index"] = bodyIndex;
 		jsonObj["system_path"] = systemPathObj; // Add system path object to supplied object.
-	}
-	static SystemPath Unserialize(Serializer::Reader &rd) {
-		Uint32 x = rd.Int32();
-		Uint32 y = rd.Int32();
-		Uint32 z = rd.Int32();
-		Sint32 si = Sint32(rd.Int32());
-		Sint32 bi = Sint32(rd.Int32());
-		return SystemPath(x, y, z, si, bi);
 	}
 	static SystemPath FromJson(const Json::Value &jsonObj) {
 		if (!jsonObj.isMember("system_path")) throw SavedGameCorruptException();
