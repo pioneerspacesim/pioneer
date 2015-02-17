@@ -30,10 +30,12 @@ public:
 
 	// initialise from save file
 	Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, double at_time);
+	Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj, double at_time);
 
 	virtual ~Space();
 
 	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj);
 
 	// frame/body/sbody indexing for save/load. valid after
 	// construction/Serialize(), invalidated by TimeStep(). they will assert
