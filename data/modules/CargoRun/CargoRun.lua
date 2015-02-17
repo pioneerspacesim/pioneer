@@ -41,11 +41,14 @@ local max_cargo_wholesaler = 100
 local num_pirate_taunts = 7
 local num_pirate_gripes = 3
 local num_escort_chatter = 5
-local num_success_msg = 3
+local num_success_msg = 4
 local num_failure_msg = 4
 local num_accepted = 4
-local num_how_much_mass = 7
-local num_why_so_much_money = 8
+local num_how_much_mass = 6
+local num_how_much_mass_wholesaler = 2
+local num_why_so_much_money = 6
+local num_why_so_much_money_urgent = 2
+local num_why_so_much_money_expensive = 2
 local num_urgency = 5
 local num_deny = 6
 local num_risk = 6
@@ -53,7 +56,7 @@ local num_wholesaler = 2
 local num_adtext_local = 3
 local num_intro_local = 3
 local num_adtext = 2
-local num_intro = 2
+local num_intro = 3
 
 -- the custom cargo
 aluminium_tubes = Equipment.EquipType.New({
@@ -285,19 +288,29 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		num = custom_cargo[ad.branch][ad.cargotype].price >= 175 and num_why_so_much_money or (num_why_so_much_money - 2)
-		if ad.localdelivery then
-			form:SetMessage(l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, num)])
+		if ad.urgency >= 0.8 then
+			form:SetMessage(l["WHYSOMUCHTEXT_URGENT_" .. Engine.rand:Integer(1, num_why_so_much_money_urgent)])
+		elseif ad.branch == 6 then
+			form:SetMessage(l["WHYSOMUCHTEXT_EXPENSIVE_" .. Engine.rand:Integer(1, num_why_so_much_money_expensive)])
+		elseif ad.localdelivery then
+			form:SetMessage(l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, num_why_so_much_money)])
 		else
-			form:SetMessage(l["WHYSOMUCHTEXT__" .. ad.branch .. "__" .. ad.cargotype] or l["WHYSOMUCHTEXT__" .. ad.branch] or l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, num)])
+			form:SetMessage(l["WHYSOMUCHTEXT__" .. ad.branch .. "__" .. ad.cargotype] or l["WHYSOMUCHTEXT__" .. ad.branch] or l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, num_why_so_much_money)])
 		end
 
 	elseif option == 2 then
-		num = ad.cargo <= 3 and num_how_much_mass or (num_how_much_mass - 2)
-		local howmuch = string.interp(l["HOWMUCH_" .. Engine.rand:Integer(1, num)], {
-			cargo	  = ad.cargo,
-			cargoname = l[custom_cargo[ad.branch][ad.cargotype].l10n_key],
-		})
+		local howmuch
+		if ad.wholesaler then
+			howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, num_how_much_mass_wholesaler)], {
+				cargo	  = ad.cargo,
+				cargoname = l[custom_cargo[ad.branch][ad.cargotype].l10n_key],
+			})
+		else
+			num = ad.cargo <= 3 and num_how_much_mass or (num_how_much_mass - 2) -- The last 2 strings contain "only"
+			howmuch = string.interp(l["HOWMUCH_" .. Engine.rand:Integer(1, num)], {
+				cargo	  = ad.cargo,
+			})
+		end
 		form:SetMessage(howmuch)
 
 	elseif option == 3 then
@@ -341,7 +354,11 @@ local onChat = function (form, ref, option)
 		if ad.localdelivery then
 			form:SetMessage(l["RISK_" .. num])
 		else
-			form:SetMessage(l["RISK__" .. ad.branch .. "__" .. ad.cargotype] or l["RISK__" .. ad.branch] or l["RISK_" .. num])
+			local venture = l["RISK__" .. ad.branch .. "__" .. ad.cargotype] or l["RISK__" .. ad.branch] or l["RISK_" .. num]
+			if ad.wholesaler and ad.introtext == 1 then
+				venture = venture .. " " .. l.RISK_WHOLESALER
+			end
+			form:SetMessage(venture)
 		end
 	end
 
@@ -378,11 +395,10 @@ local nearbysystems
 
 local makeAdvert = function (station, freeCargoSpace)
 	local reward, due, location, nearbysystem, dist, nearbystations, cargo, adtext, introtext
-	local branch, cargotype, risk
+	local branch, cargotype, risk, wholesaler
 	local client = Character.New()
 	local urgency = Engine.rand:Number(0, 1)
 	local localdelivery = Engine.rand:Number(0, 1) > 0.5 and true or false
-	local wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
 
 	if localdelivery then
 		nearbysystem = Game.system
@@ -396,6 +412,7 @@ local makeAdvert = function (station, freeCargoSpace)
 		branch = Engine.rand:Integer(1, (#custom_cargo - 1)) -- no crazy cargo for local delivery
 		cargotype = Engine.rand:Integer(1, #custom_cargo[branch])
 		risk = 0 -- no risk for local delivery
+		wholesaler = false -- no local wholesaler delivery
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) + cargo
 		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
@@ -414,6 +431,7 @@ local makeAdvert = function (station, freeCargoSpace)
 			cargo = (freeCargoSpace - approxFuelForJump) <= 1 and 1 or Engine.rand:Integer(1, (freeCargoSpace - approxFuelForJump))
 			introtext = Engine.rand:Integer(1, num_intro)
 		else
+			wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
 			if wholesaler then
 				cargo = Engine.rand:Integer(max_cargo, max_cargo_wholesaler)
 				introtext = Engine.rand:Integer(1, num_wholesaler)
@@ -492,7 +510,11 @@ local onCreateBB = function (station)
 	end
 	-- try to make one job that matches the players free cargo space
 	if numAchievableJobs == 0 and freeCargoSpace ~= 0 then
-		makeAdvert(station, freeCargoSpace)
+		if freeCargoSpace > max_cargo_wholesaler then
+			makeAdvert(station, max_cargo_wholesaler)
+		else
+			makeAdvert(station, freeCargoSpace)
+		end
 	end
 end
 
@@ -515,7 +537,7 @@ end
 
 local pirate_ship = {}
 local pirate_gripes_time
-local escort_ship
+local escort_ship = {}
 local escort_chatter_time
 local escort_switch_target
 
@@ -574,9 +596,17 @@ local onEnterSystem = function (player)
 				Comms.ImportantMessage(pirate_greeting, pirate.label)
 				pirate_gripes_time = Game.time
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
-					local escort = Space.SpawnShipNear("kanara", Game.player, 50, 100)
-					escort:SetLabel(Ship.MakeRandomLabel())
-					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
+					local escort
+					if mission.wholesaler and mission.introtext == 2 then
+						escort = Space.SpawnShipNear("wave", Game.player, 50, 100) -- Haber Corp.
+						escort:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
+						escort:SetLabel(Ship.MakeRandomLabel())
+						Comms.ImportantMessage(l.ESCORT_HABER_GREETING, escort.label)
+					else
+						escort = Space.SpawnShipNear("kanara", Game.player, 50, 100) -- Local wholesaler or random police ship
+						escort:AddEquip(Equipment.laser.pulsecannon_1mw)
+						escort:SetLabel(Ship.MakeRandomLabel())
+					end
 					escort:AIKill(pirate)
 					table.insert(escort_ship, escort)
 					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, num_escort_chatter)], escort.label)
@@ -630,7 +660,7 @@ local onShipDestroyed = function (ship, attacker)
 			end
 		end
 		if isEscortShip(attacker) then
-			Comms.ImportantMessage(l.TARGET_DESTROYED, ship.label)
+			Comms.ImportantMessage(l.TARGET_DESTROYED, attacker.label)
 			if #pirate_ship ~= 0 then
 				attacker:AIKill(pirate_ship[1])
 				escort_switch_target = Game.time + 90
@@ -664,7 +694,7 @@ local onShipHit = function (ship, attacker)
 	elseif isPirateShip(ship) and attacker:IsPlayer() then
 		if Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
 			Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, num_pirate_gripes)], ship.label)
-			pirate_gripes_time = Game.time + 30
+			pirate_gripes_time = Game.time + 60
 		end
 	end
 end
