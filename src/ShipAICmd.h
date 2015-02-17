@@ -31,11 +31,8 @@ public:
 	}
 
 	// Serialisation functions
-	static AICommand *Load(Serializer::Reader &rd);
 	static AICommand *LoadFromJson(const Json::Value &jsonObj);
-	AICommand(Serializer::Reader &rd, CmdName name);
 	AICommand(const Json::Value &jsonObj, CmdName name);
-	virtual void Save(Serializer::Writer &wr);
 	virtual void SaveToJson(Json::Value &jsonObj);
 	virtual void PostLoadFixup(Space *space);
 
@@ -59,13 +56,6 @@ public:
 		if (m_child) m_child->GetStatusText(str);
 		else snprintf(str, 255, "Dock: target %s, state %i", m_target->GetLabel().c_str(), m_state);
 	}
-	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::game->GetSpace();
-		AICommand::Save(wr);
-		wr.Int32(space->GetIndexForBody(m_target));
-		wr.Vector3d(m_dockpos); wr.Vector3d(m_dockdir);
-		wr.Vector3d(m_dockupdir); wr.Int32(m_state);
-	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
 		Space *space = Pi::game->GetSpace();
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
@@ -76,11 +66,6 @@ public:
 		VectorToJson(aiCommandObj, m_dockupdir, "dock_up_dir");
 		aiCommandObj["state"] = m_state;
 		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdDock(Serializer::Reader &rd) : AICommand(rd, CMD_DOCK) {
-		m_targetIndex = rd.Int32();
-		m_dockpos = rd.Vector3d(); m_dockdir = rd.Vector3d();
-		m_dockupdir = rd.Vector3d(); m_state = EDockingStates(rd.Int32());
 	}
 	AICmdDock(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_DOCK) {
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
@@ -144,17 +129,6 @@ public:
 		else snprintf(str, 255, "FlyTo: %s, dist %.1fkm, endvel %.1fkm/s, state %i",
 			m_targframe->GetLabel().c_str(), m_posoff.Length()/1000.0, m_endvel/1000.0, m_state);
 	}
-	virtual void Save(Serializer::Writer &wr) {
-		if(m_child) { delete m_child; m_child = 0; }
-		AICommand::Save(wr);
-		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_target));
-		wr.Double(m_dist);
-		wr.Int32(Pi::game->GetSpace()->GetIndexForFrame(m_targframe));
-		wr.Vector3d(m_posoff);
-		wr.Double(m_endvel);
-		wr.Bool(m_tangent);
-		wr.Int32(m_state);
-	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
 		if (m_child) { delete m_child; m_child = 0; }
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
@@ -167,15 +141,6 @@ public:
 		aiCommandObj["tangent"] = m_tangent;
 		aiCommandObj["state"] = m_state;
 		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdFlyTo(Serializer::Reader &rd) : AICommand(rd, CMD_FLYTO) {
-		m_targetIndex = rd.Int32();
-		m_dist = rd.Double();
-		m_targframeIndex = rd.Int32();
-		m_posoff = rd.Vector3d();
-		m_endvel = rd.Double();
-		m_tangent = rd.Bool();
-		m_state = rd.Int32();
 	}
 	AICmdFlyTo(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_FLYTO) {
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
@@ -231,12 +196,6 @@ public:
 		else snprintf(str, 255, "FlyAround: alt %.1fkm, vel %.1fkm/s, mode %i",
 			m_alt/1000.0, m_vel/1000.0, m_targmode);
 	}
-	virtual void Save(Serializer::Writer &wr) {
-		if (m_child) { delete m_child; m_child = 0; }
-		AICommand::Save(wr);
-		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_obstructor));
-		wr.Double(m_vel); wr.Double(m_alt); wr.Int32(m_targmode);
-	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
 		if (m_child) { delete m_child; m_child = 0; }
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
@@ -246,10 +205,6 @@ public:
 		aiCommandObj["alt"] = DoubleToStr(m_alt);
 		aiCommandObj["targ_mode"] = m_targmode;
 		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdFlyAround(Serializer::Reader &rd) : AICommand(rd, CMD_FLYAROUND) {
-		m_obstructorIndex = rd.Int32();
-		m_vel = rd.Double(); m_alt = rd.Double(); m_targmode = rd.Int32();
 	}
 	AICmdFlyAround(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_FLYAROUND) {
 		if (!jsonObj.isMember("index_for_obstructor")) throw SavedGameCorruptException();
@@ -293,20 +248,12 @@ public:
 	}
 
 	// don't actually need to save all this crap
-	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::game->GetSpace();
-		AICommand::Save(wr);
-		wr.Int32(space->GetIndexForBody(m_target));
-	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
 		Space *space = Pi::game->GetSpace();
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
 		AICommand::SaveToJson(aiCommandObj);
 		aiCommandObj["index_for_target"] = space->GetIndexForBody(m_target);
 		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdKill(Serializer::Reader &rd) : AICommand(rd, CMD_KILL) {
-		m_targetIndex = rd.Int32();
 	}
 	AICmdKill(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_KILL) {
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
@@ -338,20 +285,12 @@ public:
 		m_target = target;
 	}
 
-	virtual void Save(Serializer::Writer &wr) {
-        Space *space = Pi::game->GetSpace();
-		AICommand::Save(wr);
-		wr.Int32(space->GetIndexForBody(m_target));
-	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
 		Space *space = Pi::game->GetSpace();
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
 		AICommand::SaveToJson(aiCommandObj);
 		aiCommandObj["index_for_target"] = space->GetIndexForBody(m_target);
 		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdKamikaze(Serializer::Reader &rd) : AICommand(rd, CMD_KAMIKAZE) {
-		m_targetIndex = rd.Int32();
 	}
 	AICmdKamikaze(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_KAMIKAZE) {
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
@@ -376,7 +315,6 @@ class AICmdHoldPosition : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
 	AICmdHoldPosition(Ship *ship) : AICommand(ship, CMD_HOLDPOSITION) { }
-	AICmdHoldPosition(Serializer::Reader &rd) : AICommand(rd, CMD_HOLDPOSITION) { }
 	AICmdHoldPosition(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_HOLDPOSITION) { }
 };
 
@@ -390,12 +328,6 @@ public:
 		else snprintf(str, 255, "Formation: %s, dist %.1fkm",
 			m_target->GetLabel().c_str(), m_posoff.Length()/1000.0);
 	}
-	virtual void Save(Serializer::Writer &wr) {
-		if(m_child) { delete m_child; m_child = 0; }
-		AICommand::Save(wr);
-		wr.Int32(Pi::game->GetSpace()->GetIndexForBody(m_target));
-		wr.Vector3d(m_posoff);
-	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
 		if (m_child) { delete m_child; m_child = 0; }
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
@@ -403,10 +335,6 @@ public:
 		aiCommandObj["index_for_target"] = Pi::game->GetSpace()->GetIndexForBody(m_target);
 		VectorToJson(aiCommandObj, m_posoff, "pos_off");
 		jsonObj["ai_command"] = aiCommandObj; // Add ai command object to supplied object.
-	}
-	AICmdFormation(Serializer::Reader &rd) : AICommand(rd, CMD_FORMATION) {
-		m_targetIndex = rd.Int32();
-		m_posoff = rd.Vector3d();
 	}
 	AICmdFormation(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_FORMATION) {
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();

@@ -31,9 +31,7 @@ public:
 		return m_signals[k].connect(fn);
 	}
 
-	void Save(Serializer::Writer &wr);
 	void SaveToJson(Json::Value &jsonObj);
-	void Load(Serializer::Reader &rd);
 	void LoadFromJson(const Json::Value &jsonObj);
 
 private:

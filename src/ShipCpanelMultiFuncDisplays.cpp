@@ -50,17 +50,6 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
 	InitObject();
 }
 
-ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
-	m_renderer(r)
-{
-	m_mode = ScannerMode(rd.Int32());
-	m_currentRange = rd.Float();
-	m_manualRange = rd.Float();
-	m_targetRange = rd.Float();
-
-	InitObject();
-}
-
 ScannerWidget::ScannerWidget(Graphics::Renderer *r, const Json::Value &jsonObj) :
 m_renderer(r)
 {
@@ -491,14 +480,6 @@ void ScannerWidget::TimeStepUpdate(float step)
 		m_currentRange = Clamp(m_currentRange + (m_currentRange*step), SCANNER_RANGE_MIN, m_targetRange);
 
 	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_currentRange);
-}
-
-void ScannerWidget::Save(Serializer::Writer &wr)
-{
-	wr.Int32(Sint32(m_mode));
-	wr.Float(m_currentRange);
-	wr.Float(m_manualRange);
-	wr.Float(m_targetRange);
 }
 
 void ScannerWidget::SaveToJson(Json::Value &jsonObj)

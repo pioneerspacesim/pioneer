@@ -54,17 +54,6 @@ PlayerShipController::~PlayerShipController()
 	m_fireMissileKey.disconnect();
 }
 
-void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
-{
-	wr.Int32(static_cast<int>(m_flightControlState));
-	wr.Double(m_setSpeed);
-	wr.Float(m_lowThrustPower);
-	wr.Bool(m_rotationDamping);
-	wr.Int32(space->GetIndexForBody(m_combatTarget));
-	wr.Int32(space->GetIndexForBody(m_navTarget));
-	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
-}
-
 void PlayerShipController::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	Json::Value playerShipControllerObj(Json::objectValue); // Create JSON object to contain player ship controller data.
@@ -76,18 +65,6 @@ void PlayerShipController::SaveToJson(Json::Value &jsonObj, Space *space)
 	playerShipControllerObj["index_for_nav_target"] = space->GetIndexForBody(m_navTarget);
 	playerShipControllerObj["index_for_set_speed_target"] = space->GetIndexForBody(m_setSpeedTarget);
 	jsonObj["player_ship_controller"] = playerShipControllerObj; // Add player ship controller object to supplied object.
-}
-
-void PlayerShipController::Load(Serializer::Reader &rd)
-{
-	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
-	m_setSpeed = rd.Double();
-	m_lowThrustPower = rd.Float();
-	m_rotationDamping = rd.Bool();
-	//figure out actual bodies in PostLoadFixup - after Space body index has been built
-	m_combatTargetIndex = rd.Int32();
-	m_navTargetIndex = rd.Int32();
-	m_setSpeedTargetIndex = rd.Int32();
 }
 
 void PlayerShipController::LoadFromJson(const Json::Value &jsonObj)

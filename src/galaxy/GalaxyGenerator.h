@@ -41,9 +41,7 @@ public:
 
 	bool IsDefault() const { return m_name == s_defaultGenerator && m_version == s_defaultVersion; }
 
-	void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy);
 	void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
-	void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy);
 	void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
 
 	// Templated for the template cache class.

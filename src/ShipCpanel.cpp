@@ -26,16 +26,6 @@ ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui:
 	InitObject();
 }
 
-ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
-	m_game(game)
-{
-	m_scanner = new ScannerWidget(r, rd);
-
-	InitObject();
-
-	m_camButton->SetActiveState(rd.Int32());
-}
-
 ShipCpanel::ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game) : Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
 m_game(game)
 {
@@ -414,12 +404,6 @@ void ShipCpanel::TimeStepUpdate(float step)
 {
 	PROFILE_SCOPED()
 	m_scanner->TimeStepUpdate(step);
-}
-
-void ShipCpanel::Save(Serializer::Writer &wr)
-{
-	m_scanner->Save(wr);
-	wr.Int32(m_camButton->GetState());
 }
 
 void ShipCpanel::SaveToJson(Json::Value &jsonObj)

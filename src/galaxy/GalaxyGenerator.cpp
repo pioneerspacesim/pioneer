@@ -106,19 +106,6 @@ RefCountedPtr<Galaxy> GalaxyGenerator::CreateFromJson(const Json::Value &jsonObj
 	return galaxy;
 }
 
-void GalaxyGenerator::Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy)
-{
-	wr.String(m_name);
-	if (m_name == "legacy" && m_version == 0)
-		wr.Int32(1); // Promote savegame
-	else
-		wr.Int32(m_version);
-	for (SectorGeneratorStage* secgen : m_sectorStage)
-		secgen->Serialize(wr, galaxy);
-	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
-		sysgen->Serialize(wr, galaxy);
-}
-
 void GalaxyGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
 	Json::Value galaxyGenObj(Json::objectValue); // Create JSON object to contain galaxy data.
@@ -148,14 +135,6 @@ void GalaxyGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 	galaxyGenObj["star_system_stage"] = starSystemStageArray; // Add system stage array to galaxy generator object.
 
 	jsonObj["galaxy_generator"] = galaxyGenObj; // Add galaxy generator object to supplied object.
-}
-
-void GalaxyGenerator::Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
-{
-	for (SectorGeneratorStage* secgen : m_sectorStage)
-		secgen->Unserialize(rd, galaxy);
-	for (StarSystemGeneratorStage* sysgen : m_starSystemStage)
-		sysgen->Unserialize(rd, galaxy);
 }
 
 void GalaxyGenerator::FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)

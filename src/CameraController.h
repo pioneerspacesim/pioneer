@@ -28,9 +28,7 @@ public:
 
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void Save(Serializer::Writer &wr) { }
 	virtual void SaveToJson(Json::Value &jsonObj) { }
-	virtual void Load(Serializer::Reader &rd) { }
 	virtual void LoadFromJson(const Json::Value &jsonObj) { }
 	virtual bool IsExternal() const { return false; }
 
@@ -72,9 +70,7 @@ public:
 	const char *GetName() const { return m_name; }
 	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
-	void Save(Serializer::Writer &wr);
 	void SaveToJson(Json::Value &jsonObj);
-	void Load(Serializer::Reader &rd);
 	void LoadFromJson(const Json::Value &jsonObj);
 
 private:
@@ -137,9 +133,7 @@ public:
 		m_rotY = y;
 	}
 
-	void Save(Serializer::Writer &wr);
 	void SaveToJson(Json::Value &jsonObj);
-	void Load(Serializer::Reader &rd);
 	void LoadFromJson(const Json::Value &jsonObj);
 
 	void Update();
@@ -173,9 +167,7 @@ public:
 	void Reset();
 	bool IsExternal() const { return true; }
 
-	void Save(Serializer::Writer &wr);
 	void SaveToJson(Json::Value &jsonObj);
-	void Load(Serializer::Reader &rd);
 	void LoadFromJson(const Json::Value &jsonObj);
 
 	void Update();

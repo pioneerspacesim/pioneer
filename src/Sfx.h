@@ -26,9 +26,7 @@ public:
 	static void AddThrustSmoke(const Body *b, TYPE, float speed, vector3d adjustpos);
 	static void TimeStepAll(const float timeStep, Frame *f);
 	static void RenderAll(Graphics::Renderer *r, Frame *f, const Frame *camFrame);
-	static void Serialize(Serializer::Writer &wr, const Frame *f);
 	static void ToJson(Json::Value &jsonObj, const Frame *f);
-	static void Unserialize(Serializer::Reader &rd, Frame *f);
 	static void FromJson(const Json::Value &jsonObj, Frame *f);
 
 	Sfx();
@@ -53,9 +51,7 @@ private:
 
 	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
 	void TimeStepUpdate(const float timeStep);
-	void Save(Serializer::Writer &wr);
 	void SaveToJson(Json::Value &jsonObj);
-	void Load(Serializer::Reader &rd);
 	void LoadFromJson(const Json::Value &jsonObj);
 
 	vector3d m_pos;

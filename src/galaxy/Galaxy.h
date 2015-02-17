@@ -28,9 +28,7 @@ public:
 	const float SOL_OFFSET_X;
 	const float SOL_OFFSET_Y;
 
-	static RefCountedPtr<Galaxy> Load(Serializer::Reader &rd);
 	static RefCountedPtr<Galaxy> LoadFromJson(const Json::Value &jsonObj);
-	void Serialize(Serializer::Writer &wr);
 	void ToJson(Json::Value &jsonObj);
 
 	~Galaxy();

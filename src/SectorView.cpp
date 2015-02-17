@@ -76,30 +76,6 @@ SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetG
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
-{
-	InitDefaults();
-
-	m_pos.x = m_posMovingTo.x = rd.Float();
-	m_pos.y = m_posMovingTo.y = rd.Float();
-	m_pos.z = m_posMovingTo.z = rd.Float();
-	m_rotX = m_rotXMovingTo = rd.Float();
-	m_rotZ = m_rotZMovingTo = rd.Float();
-	m_zoom = m_zoomMovingTo = rd.Float();
-	// XXX I have no idea if this is correct,
-	// I just copied it from the one other place m_zoomClamped is set
-	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
-	m_inSystem = rd.Bool();
-	m_current = SystemPath::Unserialize(rd);
-	m_selected = SystemPath::Unserialize(rd);
-	m_hyperspaceTarget = SystemPath::Unserialize(rd);
-	m_matchTargetToSelection = rd.Bool();
-	m_automaticSystemSelection = rd.Bool();
-	m_detailBoxVisible = rd.Byte();
-
-	InitObject();
-}
-
 SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
@@ -387,23 +363,6 @@ SectorView::~SectorView()
 {
 	m_onMouseWheelCon.disconnect();
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
-}
-
-void SectorView::Save(Serializer::Writer &wr)
-{
-	wr.Float(m_pos.x);
-	wr.Float(m_pos.y);
-	wr.Float(m_pos.z);
-	wr.Float(m_rotX);
-	wr.Float(m_rotZ);
-	wr.Float(m_zoom);
-	wr.Bool(m_inSystem);
-	m_current.Serialize(wr);
-	m_selected.Serialize(wr);
-	m_hyperspaceTarget.Serialize(wr);
-	wr.Bool(m_matchTargetToSelection);
-	wr.Bool(m_automaticSystemSelection);
-	wr.Byte(m_detailBoxVisible);
 }
 
 void SectorView::SaveToJson(Json::Value &jsonObj)

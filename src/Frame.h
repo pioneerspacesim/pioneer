@@ -28,10 +28,8 @@ public:
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
-	static void Serialize(Serializer::Writer &wr, Frame *f, Space *space);
 	static void ToJson(Json::Value &jsonObj, Frame *f, Space *space);
 	static void PostUnserializeFixup(Frame *f, Space *space);
-	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, double at_time);
 	static Frame *FromJson(const Json::Value &jsonObj, Space *space, Frame *parent, double at_time);
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }

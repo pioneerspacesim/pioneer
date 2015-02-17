@@ -88,17 +88,6 @@ void Init(RefCountedPtr<Galaxy> galaxy)
 	s_playerPerBlocCrimeRecord.resize( numFactions );
 }
 
-void Serialize(Serializer::Writer &wr)
-{
-	s_criminalRecord.Serialize(wr);
-	s_outstandingFine.Serialize(wr);
-	wr.Int32(s_playerPerBlocCrimeRecord.size());
-	for (Uint32 i=0; i < s_playerPerBlocCrimeRecord.size(); i++) {
-		wr.Int64(s_playerPerBlocCrimeRecord[i].record);
-		wr.Int64(s_playerPerBlocCrimeRecord[i].fine);
-	}
-}
-
 void ToJson(Json::Value &jsonObj)
 {
 	Json::Value politObj(Json::objectValue); // Create JSON object to contain polit data.
@@ -122,19 +111,6 @@ void ToJson(Json::Value &jsonObj)
 	politObj["crime_record"] = crimeRecordArray; // Add crime record array to polit object.
 
 	jsonObj["polit"] = politObj; // Add polit object to supplied object.
-}
-
-void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
-{
-	Init(galaxy);
-	PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
-	PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
-	const Uint32 numFactions = rd.Int32();
-	assert(s_playerPerBlocCrimeRecord.size() == numFactions);
-	for (Uint32 i=0; i < numFactions; i++) {
-		s_playerPerBlocCrimeRecord[i].record = rd.Int64();
-		s_playerPerBlocCrimeRecord[i].fine = rd.Int64();
-	}
 }
 
 void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)

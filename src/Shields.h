@@ -35,9 +35,7 @@ public:
 
 	Shields(SceneGraph::Model*);
 	virtual ~Shields();
-	virtual void Save(Serializer::Writer &wr);
 	virtual void SaveToJson(Json::Value &jsonObj);
-	virtual void Load(Serializer::Reader &rd);
 	virtual void LoadFromJson(const Json::Value &jsonObj);
 
 	void SetEnabled(const bool on) { m_enabled = on; }

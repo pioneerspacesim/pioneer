@@ -129,7 +129,6 @@ private:
 	public:
 		Views();
 		void Init(Game* game);
-		void Load(Serializer::Reader &rd, Game* game);
 		void LoadFromJson(const Json::Value &jsonObj, Game* game);
 		~Views();
 

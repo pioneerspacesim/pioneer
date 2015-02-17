@@ -148,9 +148,7 @@ public:
 	//special for ship model use
 	void SetThrust(const vector3f &linear, const vector3f &angular);
 
-	void Save(Serializer::Writer &wr) const;
 	void SaveToJson(Json::Value &jsonObj) const;
-	void Load(Serializer::Reader &rd);
 	void LoadFromJson(const Json::Value &jsonObj);
 
 	//serialization aid

@@ -73,15 +73,7 @@ GalacticView::~GalacticView()
 	m_onMouseWheelCon.disconnect();
 }
 
-void GalacticView::Save(Serializer::Writer &wr)
-{
-}
-
 void GalacticView::SaveToJson(Json::Value &jsonObj)
-{
-}
-
-void GalacticView::Load(Serializer::Reader &rd)
 {
 }
 

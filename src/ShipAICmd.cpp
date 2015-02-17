@@ -16,21 +16,6 @@
 static const double VICINITY_MIN = 15000.0;
 static const double VICINITY_MUL = 4.0;
 
-AICommand *AICommand::Load(Serializer::Reader &rd)
-{
-	CmdName name = CmdName(rd.Int32());
-	switch (name) {
-		case CMD_NONE: default: return 0;
-		case CMD_DOCK: return new AICmdDock(rd);
-		case CMD_FLYTO: return new AICmdFlyTo(rd);
-		case CMD_FLYAROUND: return new AICmdFlyAround(rd);
-		case CMD_KILL: return new AICmdKill(rd);
-		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);
-		case CMD_HOLDPOSITION: return new AICmdHoldPosition(rd);
-		case CMD_FORMATION: return new AICmdFormation(rd);
-	}
-}
-
 AICommand *AICommand::LoadFromJson(const Json::Value &jsonObj)
 {
 	if (jsonObj.isMember("ai_command"))
@@ -55,15 +40,6 @@ AICommand *AICommand::LoadFromJson(const Json::Value &jsonObj)
 	return 0; // Return 0 if supplied object doesn't contain an "ai_command" object.
 }
 
-void AICommand::Save(Serializer::Writer &wr)
-{
-	Space *space = Pi::game->GetSpace();
-	wr.Int32(m_cmdName);
-	wr.Int32(space->GetIndexForBody(m_ship));
-	if (m_child) m_child->Save(wr);
-	else wr.Int32(CMD_NONE);
-}
-
 void AICommand::SaveToJson(Json::Value &jsonObj)
 {
 	// AICommand is an abstract base class, so it is guaranteed that the supplied object
@@ -79,13 +55,6 @@ void AICommand::SaveToJson(Json::Value &jsonObj)
 	commonAiCommandObj["index_for_body"] = space->GetIndexForBody(m_ship);
 	if (m_child) m_child->SaveToJson(commonAiCommandObj);
 	jsonObj["common_ai_command"] = commonAiCommandObj; // Add common ai command object to supplied object.
-}
-
-AICommand::AICommand(Serializer::Reader &rd, CmdName name)
-{
-	m_cmdName = name;
-	m_shipIndex = rd.Int32();
-	m_child = Load(rd);
 }
 
 AICommand::AICommand(const Json::Value &jsonObj, CmdName name)

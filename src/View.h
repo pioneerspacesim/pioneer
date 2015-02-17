@@ -27,9 +27,7 @@ public:
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
-	virtual void Save(Serializer::Writer &wr) {}
 	virtual void SaveToJson(Json::Value &jsonObj) {}
-	virtual void Load(Serializer::Reader &rd) {}
 	virtual void LoadFromJson(const Json::Value &jsonObj) {}
 
 	void Attach();

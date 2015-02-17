@@ -125,11 +125,6 @@ void InternalCameraController::SetMode(Mode m)
 	}
 }
 
-void InternalCameraController::Save(Serializer::Writer &wr)
-{
-	wr.Int32(m_mode);
-}
-
 void InternalCameraController::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value internalCameraObj(Json::objectValue); // Create JSON object to contain internal camera data.
@@ -137,11 +132,6 @@ void InternalCameraController::SaveToJson(Json::Value &jsonObj)
 	internalCameraObj["mode"] = m_mode;
 
 	jsonObj["internal"] = internalCameraObj; // Add internal camera object to supplied object.
-}
-
-void InternalCameraController::Load(Serializer::Reader &rd)
-{
-	SetMode(static_cast<Mode>(rd.Int32()));
 }
 
 void InternalCameraController::LoadFromJson(const Json::Value &jsonObj)
@@ -236,13 +226,6 @@ void ExternalCameraController::Update()
 	CameraController::Update();
 }
 
-void ExternalCameraController::Save(Serializer::Writer &wr)
-{
-	wr.Double(m_rotX);
-	wr.Double(m_rotY);
-	wr.Double(m_dist);
-}
-
 void ExternalCameraController::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value externalCameraObj(Json::objectValue); // Create JSON object to contain external camera data.
@@ -252,14 +235,6 @@ void ExternalCameraController::SaveToJson(Json::Value &jsonObj)
 	externalCameraObj["dist"] = DoubleToStr(m_dist);
 
 	jsonObj["external"] = externalCameraObj; // Add external camera object to supplied object.
-}
-
-void ExternalCameraController::Load(Serializer::Reader &rd)
-{
-	m_rotX = rd.Double();
-	m_rotY = rd.Double();
-	m_dist = rd.Double();
-	m_distTo = m_dist;
 }
 
 void ExternalCameraController::LoadFromJson(const Json::Value &jsonObj)
@@ -362,12 +337,6 @@ void SiderealCameraController::Update()
 	CameraController::Update();
 }
 
-void SiderealCameraController::Save(Serializer::Writer &wr)
-{
-	for (int i = 0; i < 9; i++) wr.Double(m_sidOrient[i]);
-	wr.Double(m_dist);
-}
-
 void SiderealCameraController::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value siderealCameraObj(Json::objectValue); // Create JSON object to contain sidereal camera data.
@@ -376,13 +345,6 @@ void SiderealCameraController::SaveToJson(Json::Value &jsonObj)
 	siderealCameraObj["dist"] = DoubleToStr(m_dist);
 
 	jsonObj["sidereal"] = siderealCameraObj; // Add sidereal camera object to supplied object.
-}
-
-void SiderealCameraController::Load(Serializer::Reader &rd)
-{
-	for (int i = 0; i < 9; i++) m_sidOrient[i] = rd.Double();
-	m_dist = rd.Double();
-	m_distTo = m_dist;
 }
 
 void SiderealCameraController::LoadFromJson(const Json::Value &jsonObj)

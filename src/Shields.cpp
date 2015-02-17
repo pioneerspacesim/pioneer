@@ -217,19 +217,6 @@ Shields::~Shields()
 {
 }
 
-void Shields::Save(Serializer::Writer &wr)
-{
-	wr.Bool(m_enabled);
-
-	wr.Int32(m_shields.size());
-	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-		wr.Byte(it->m_colour.r);
-		wr.Byte(it->m_colour.g);
-		wr.Byte(it->m_colour.b);
-		wr.String(it->m_mesh->GetName());
-	}
-}
-
 void Shields::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value shieldsObj(Json::objectValue); // Create JSON object to contain shields data.
@@ -248,26 +235,6 @@ void Shields::SaveToJson(Json::Value &jsonObj)
 	shieldsObj["shield_array"] = shieldArray; // Add shield array to shields object.
 
 	jsonObj["shields"] = shieldsObj; // Add shields object to supplied object.
-}
-
-void Shields::Load(Serializer::Reader &rd)
-{
-	m_enabled = rd.Bool();
-
-	const Uint32 NumShields = rd.Int32();
-	assert(NumShields == m_shields.size());
-	for (Uint32 iRead = 0; iRead < NumShields; iRead++ ) {
-		const Uint8 r = rd.Byte();
-		const Uint8 g = rd.Byte();
-		const Uint8 b = rd.Byte();
-		const std::string name = rd.String();
-		for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it) {
-			if(name==it->m_mesh->GetName()) {
-				it->m_colour = Color3ub(r, g, b);
-				break;
-			}
-		}
-	}
 }
 
 void Shields::LoadFromJson(const Json::Value &jsonObj)

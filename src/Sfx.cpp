@@ -35,14 +35,6 @@ Sfx::Sfx()
 	m_type = TYPE_NONE;
 }
 
-void Sfx::Save(Serializer::Writer &wr)
-{
-	wr.Vector3d(m_pos);
-	wr.Vector3d(m_vel);
-	wr.Float(m_age);
-	wr.Int32(m_type);
-}
-
 void Sfx::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value sfxObj(Json::objectValue); // Create JSON object to contain sfx data.
@@ -53,14 +45,6 @@ void Sfx::SaveToJson(Json::Value &jsonObj)
 	sfxObj["type"] = m_type;
 
 	jsonObj["sfx"] = sfxObj; // Add sfx object to supplied object.
-}
-
-void Sfx::Load(Serializer::Reader &rd)
-{
-	m_pos = rd.Vector3d();
-	m_vel = rd.Vector3d();
-	m_age = rd.Float();
-	m_type = static_cast<Sfx::TYPE>(rd.Int32());
 }
 
 void Sfx::LoadFromJson(const Json::Value &jsonObj)
@@ -76,24 +60,6 @@ void Sfx::LoadFromJson(const Json::Value &jsonObj)
 	JsonToVector(&m_vel, sfxObj, "vel");
 	m_age = StrToFloat(sfxObj["age"].asString());
 	m_type = static_cast<Sfx::TYPE>(sfxObj["type"].asInt());
-}
-
-void Sfx::Serialize(Serializer::Writer &wr, const Frame *f)
-{
-	// how many sfx turds are active in frame?
-	int numActive = 0;
-	if (f->m_sfx) {
-		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
-			if (f->m_sfx[i].m_type != TYPE_NONE) numActive++;
-		}
-	}
-	wr.Int32(numActive);
-
-	if (numActive) for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
-		if (f->m_sfx[i].m_type != TYPE_NONE) {
-			f->m_sfx[i].Save(wr);
-		}
-	}
 }
 
 void Sfx::ToJson(Json::Value &jsonObj, const Frame *f)
@@ -114,17 +80,6 @@ void Sfx::ToJson(Json::Value &jsonObj, const Frame *f)
 	}
 
 	jsonObj["sfx_array"] = sfxArray; // Add sfx array to supplied object.
-}
-
-void Sfx::Unserialize(Serializer::Reader &rd, Frame *f)
-{
-	int numActive = rd.Int32();
-	if (numActive) {
-		f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];
-		for (int i=0; i<numActive; i++) {
-			f->m_sfx[i].Load(rd);
-		}
-	}
 }
 
 void Sfx::FromJson(const Json::Value &jsonObj, Frame *f)

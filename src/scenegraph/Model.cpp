@@ -432,20 +432,6 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[2] = ang.z;
 }
 
-class SaveVisitor : public NodeVisitor {
-public:
-	SaveVisitor(Serializer::Writer *wr_): wr(wr_) {}
-
-	void ApplyMatrixTransform(MatrixTransform &node) {
-		const matrix4x4f &m = node.GetTransform();
-		for (int i = 0; i < 16; i++)
-			wr->Float(m[i]);
-	}
-
-private:
-	Serializer::Writer *wr;
-};
-
 class SaveVisitorJson : public NodeVisitor {
 public:
 	SaveVisitorJson(Json::Value &jsonObj) : m_jsonArray(jsonObj) {}
@@ -461,17 +447,6 @@ public:
 private:
 	Json::Value &m_jsonArray;
 };
-
-void Model::Save(Serializer::Writer &wr) const
-{
-	SaveVisitor sv(&wr);
-	m_root->Accept(sv);
-
-	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
-		wr.Double((*i)->GetProgress());
-
-	wr.Int32(m_curPatternIndex);
-}
 
 void Model::SaveToJson(Json::Value &jsonObj) const
 {
@@ -492,21 +467,6 @@ void Model::SaveToJson(Json::Value &jsonObj) const
 	jsonObj["model"] = modelObj; // Add model object to supplied object.
 }
 
-class LoadVisitor : public NodeVisitor {
-public:
-	LoadVisitor(Serializer::Reader *rd_): rd(rd_) {}
-
-	void ApplyMatrixTransform(MatrixTransform &node) {
-		matrix4x4f m;
-		for (int i = 0; i < 16; i++)
-			m[i] = rd->Float();
-		node.SetTransform(m);
-	}
-
-private:
-	Serializer::Reader *rd;
-};
-
 class LoadVisitorJson : public NodeVisitor {
 public:
 	LoadVisitorJson(const Json::Value &jsonObj) : m_jsonArray(jsonObj), m_arrayIndex(0) {}
@@ -522,18 +482,6 @@ private:
 	const Json::Value &m_jsonArray;
 	unsigned int m_arrayIndex;
 };
-
-void Model::Load(Serializer::Reader &rd)
-{
-	LoadVisitor lv(&rd);
-	m_root->Accept(lv);
-
-	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
-		(*i)->SetProgress(rd.Double());
-	UpdateAnimations();
-
-	SetPattern(rd.Int32());
-}
 
 void Model::LoadFromJson(const Json::Value &jsonObj)
 {

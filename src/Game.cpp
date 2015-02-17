@@ -671,32 +671,6 @@ void Game::Views::Init(Game* game)
 	SetRenderer(Pi::renderer);
 }
 
-void Game::Views::Load(Serializer::Reader &rd, Game* game)
-{
-	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	m_cpan = new ShipCpanel(section, Pi::renderer, game);
-
-	section = rd.RdSection("SectorView");
-	m_sectorView = new SectorView(section, game);
-
-	section = rd.RdSection("WorldView");
-	m_worldView = new WorldView(section, game);
-
-	m_galacticView = new GalacticView(game);
-	m_systemView = new SystemView(game);
-	m_systemInfoView = new SystemInfoView(game);
-	m_spaceStationView = new UIView("StationView");
-	m_infoView = new UIView("InfoView");
-	m_deathView = new DeathView(game);
-	m_settingsView = new UIView("SettingsInGame");
-
-#if WITH_OBJECTVIEWER
-	m_objectViewerView = new ObjectViewerView();
-#endif
-
-	SetRenderer(Pi::renderer);
-}
-
 void Game::Views::LoadFromJson(const Json::Value &jsonObj, Game* game)
 {
 	m_cpan = new ShipCpanel(jsonObj, Pi::renderer, game);

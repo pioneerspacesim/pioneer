@@ -27,22 +27,6 @@ Frame::Frame(Frame *parent, const char *label, unsigned int flags)
 	Init(parent, label, flags);
 }
 
-void Frame::Serialize(Serializer::Writer &wr, Frame *f, Space *space)
-{
-	wr.Int32(f->m_flags);
-	wr.Double(f->m_radius);
-	wr.String(f->m_label);
-	wr.Vector3d(f->m_pos);
-	wr.Double(f->m_angSpeed);
-	for (int i=0; i<9; i++) wr.Double(f->m_initialOrient[i]);
-	wr.Int32(space->GetIndexForSystemBody(f->m_sbody));
-	wr.Int32(space->GetIndexForBody(f->m_astroBody));
-	wr.Int32(f->m_children.size());
-	for (Frame* kid : f->GetChildren())
-		Serialize(wr, kid, space);
-	Sfx::Serialize(wr, f);
-}
-
 void Frame::ToJson(Json::Value &jsonObj, Frame *f, Space *space)
 {
 	Json::Value frameObj(Json::objectValue); // Create JSON object to contain frame data.
@@ -68,30 +52,6 @@ void Frame::ToJson(Json::Value &jsonObj, Frame *f, Space *space)
 	Sfx::ToJson(frameObj, f);
 
 	jsonObj["frame"] = frameObj; // Add frame object to supplied object.
-}
-
-Frame *Frame::Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, double at_time)
-{
-	Frame *f = new Frame();
-	f->m_parent = parent;
-	f->m_flags = rd.Int32();
-	f->m_radius = rd.Double();
-	f->m_label = rd.String();
-	f->m_pos = rd.Vector3d();
-	f->m_angSpeed = rd.Double();
-	matrix3x3d orient;
-	for (int i=0; i<9; i++) orient[i] = rd.Double();
-	f->SetInitialOrient(orient, at_time);
-	f->m_sbody = space->GetSystemBodyByIndex(rd.Int32());
-	f->m_astroBodyIndex = rd.Int32();
-	f->m_vel = vector3d(0.0);
-	for (int i=rd.Int32(); i>0; --i) {
-		f->m_children.push_back(Unserialize(rd, space, f, at_time));
-	}
-	Sfx::Unserialize(rd, f);
-
-	f->ClearMovement();
-	return f;
 }
 
 Frame *Frame::FromJson(const Json::Value &jsonObj, Space *space, Frame *parent, double at_time)

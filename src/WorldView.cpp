@@ -58,15 +58,6 @@ WorldView::WorldView(Game* game): UIView(), m_game(game)
 	InitObject();
 }
 
-WorldView::WorldView(Serializer::Reader &rd, Game* game): UIView(), m_game(game)
-{
-	m_camType = CamType(rd.Int32());
-	InitObject();
-	m_internalCameraController->Load(rd);
-	m_externalCameraController->Load(rd);
-	m_siderealCameraController->Load(rd);
-}
-
 WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game)
 {
 	if (!jsonObj.isMember("world_view")) throw SavedGameCorruptException();
@@ -337,14 +328,6 @@ WorldView::~WorldView()
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseWheelCon.disconnect();
-}
-
-void WorldView::Save(Serializer::Writer &wr)
-{
-	wr.Int32(int(m_camType));
-	m_internalCameraController->Save(wr);
-	m_externalCameraController->Save(wr);
-	m_siderealCameraController->Save(wr);
 }
 
 void WorldView::SaveToJson(Json::Value &jsonObj)

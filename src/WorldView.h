@@ -45,7 +45,6 @@ class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
 	WorldView(Game* game);
-	WorldView(Serializer::Reader &reader, Game* game);
 	WorldView(const Json::Value &jsonObj, Game* game);
 	virtual ~WorldView();
 	virtual void ShowAll();
@@ -53,7 +52,6 @@ public:
 	virtual void Draw3D();
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
-	virtual void Save(Serializer::Writer &wr);
 	virtual void SaveToJson(Json::Value &jsonObj);
 	enum CamType {
 		CAM_INTERNAL,
