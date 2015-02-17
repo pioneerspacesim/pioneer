@@ -109,78 +109,6 @@ Game::~Game()
 	m_galaxy->FlushCaches();
 }
 
-Game::Game(Serializer::Reader &rd) :
-	m_timeAccel(TIMEACCEL_PAUSED),
-	m_requestedTimeAccel(TIMEACCEL_PAUSED),
-	m_forceTimeAccel(false)
-{
-	// signature check
-	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
-		if (rd.Byte() != s_saveStart[i]) throw SavedGameCorruptException();
-
-	// version check
-	rd.SetStreamVersion(rd.Int32());
-	Output("savefile version: %d\n", rd.StreamVersion());
-	if (rd.StreamVersion() != s_saveVersion) {
-		Output("can't load savefile, expected version: %d\n", s_saveVersion);
-		throw SavedGameWrongVersionException();
-	}
-
-	Serializer::Reader section;
-
-	// Preparing the Lua stuff
-	Pi::luaSerializer->InitTableRefs();
-
-	// galaxy generator
-	section = rd.RdSection("GalaxyGen");
-	m_galaxy = Galaxy::Load(section);
-
-	// game state
-	section = rd.RdSection("Game");
-	m_time = section.Double();
-	m_state = State(section.Int32());
-
-	m_wantHyperspace = section.Bool();
-	m_hyperspaceProgress = section.Double();
-	m_hyperspaceDuration = section.Double();
-	m_hyperspaceEndTime = section.Double();
-
-	// space, all the bodies and things
-	section = rd.RdSection("Space");
-	m_space.reset(new Space(this, m_galaxy, section, m_time));
-	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
-
-	assert(!m_player->IsDead()); // Pioneer does not support necromancy
-
-	// space transition state
-	section = rd.RdSection("HyperspaceClouds");
-
-	// hyperspace clouds being brought over from the previous system
-	Uint32 nclouds = section.Int32();
-	for (Uint32 i = 0; i < nclouds; i++)
-		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(section, 0)));
-
-	// system political stuff
-	section = rd.RdSection("Polit");
-	Polit::Unserialize(section, m_galaxy);
-
-
-	// views
-	LoadViews(rd);
-
-
-	// lua
-	section = rd.RdSection("LuaModules");
-	Pi::luaSerializer->Unserialize(section);
-
-	Pi::luaSerializer->UninitTableRefs();
-	// signature check
-	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
-		if (rd.Byte() != s_saveEnd[i]) throw SavedGameCorruptException();
-
-	EmitPauseState(IsPaused());
-}
-
 Game::Game(const Json::Value &jsonObj) :
 m_timeAccel(TIMEACCEL_PAUSED),
 m_requestedTimeAccel(TIMEACCEL_PAUSED),
@@ -257,86 +185,6 @@ m_forceTimeAccel(false)
 	else throw SavedGameCorruptException();
 
 	EmitPauseState(IsPaused());
-}
-
-void Game::Serialize(Serializer::Writer &wr)
-{
-	// preparing the lua serializer
-	Pi::luaSerializer->InitTableRefs();
-	// leading signature
-	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
-		wr.Byte(s_saveStart[i]);
-
-	// version
-	wr.Int32(s_saveVersion);
-
-	Serializer::Writer section;
-
-	// galaxy generator
-	m_galaxy->Serialize(section);
-	wr.WrSection("GalaxyGen", section.GetData());
-
-	// game state
-	section = Serializer::Writer();
-	section.Double(m_time);
-	section.Int32(Uint32(m_state));
-
-	section.Bool(m_wantHyperspace);
-	section.Double(m_hyperspaceProgress);
-	section.Double(m_hyperspaceDuration);
-	section.Double(m_hyperspaceEndTime);
-
-	wr.WrSection("Game", section.GetData());
-
-
-	// space, all the bodies and things
-	section = Serializer::Writer();
-	m_space->Serialize(section);
-	section.Int32(m_space->GetIndexForBody(m_player.get()));
-	wr.WrSection("Space", section.GetData());
-
-
-	// space transition state
-	section = Serializer::Writer();
-
-	// hyperspace clouds being brought over from the previous system
-	section.Int32(m_hyperspaceClouds.size());
-	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
-		(*i)->Serialize(section, m_space.get());
-
-	wr.WrSection("HyperspaceClouds", section.GetData());
-
-	// system political data (crime etc)
-	section = Serializer::Writer();
-	Polit::Serialize(section);
-	wr.WrSection("Polit", section.GetData());
-
-
-	// views. must be saved in init order
-	section = Serializer::Writer();
-	m_gameViews->m_cpan->Save(section);
-	wr.WrSection("ShipCpanel", section.GetData());
-
-	section = Serializer::Writer();
-	m_gameViews->m_sectorView->Save(section);
-	wr.WrSection("SectorView", section.GetData());
-
-	section = Serializer::Writer();
-	m_gameViews->m_worldView->Save(section);
-	wr.WrSection("WorldView", section.GetData());
-
-
-	// lua
-	section = Serializer::Writer();
-	Pi::luaSerializer->Serialize(section);
-	wr.WrSection("LuaModules", section.GetData());
-
-
-	// trailing signature
-	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
-		wr.Byte(s_saveEnd[i]);
-
-	Pi::luaSerializer->UninitTableRefs();
 }
 
 void Game::ToJson(Json::Value &jsonObj)
@@ -912,23 +760,6 @@ void Game::CreateViews()
 }
 
 // XXX mostly a copy of CreateViews
-void Game::LoadViews(Serializer::Reader &rd)
-{
-	Pi::SetView(0);
-
-	// XXX views expect Pi::game and Pi::player to exist
-	Pi::game = this;
-	Pi::player = m_player.get();
-
-	m_gameViews.reset(new Views);
-	m_gameViews->Load(rd, this);
-
-	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
-	log = new GameLog(
-		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_NORMAL),
-		vector2f(scrSize.x, scrSize.y));
-}
-
 void Game::LoadViewsFromJson(const Json::Value &jsonObj)
 {
 	Pi::SetView(0);

@@ -30,39 +30,6 @@ void SpaceStation::Init()
 	SpaceStationType::Init();
 }
 
-void SpaceStation::Save(Serializer::Writer &wr, Space *space)
-{
-	ModelBody::Save(wr, space);
-	wr.Int32(m_shipDocking.size());
-	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
-		wr.Int32(space->GetIndexForBody(m_shipDocking[i].ship));
-		wr.Int32(m_shipDocking[i].stage);
-		wr.Float(float(m_shipDocking[i].stagePos));
-		wr.Vector3d(m_shipDocking[i].fromPos);
-		wr.WrQuaternionf(m_shipDocking[i].fromRot);
-	}
-	// store each of the port details and bay IDs
-	wr.Int32(m_ports.size());
-	for (Uint32 i=0; i<m_ports.size(); i++) {
-		wr.Int32(m_ports[i].minShipSize);
-		wr.Int32(m_ports[i].maxShipSize);
-		wr.Bool(m_ports[i].inUse);
-		wr.Int32(m_ports[i].bayIDs.size());
-		for (Uint32 j=0; j<m_ports[i].bayIDs.size(); j++) {
-			wr.Int32(m_ports[i].bayIDs[j].first);
-			wr.String(m_ports[i].bayIDs[j].second);
-		}
-	}
-
-	wr.Int32(space->GetIndexForSystemBody(m_sbody));
-	wr.Int32(m_numPoliceDocked);
-
-	wr.Double(m_doorAnimationStep);
-	wr.Double(m_doorAnimationState);
-
-	m_navLights->Save(wr);
-}
-
 void SpaceStation::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	ModelBody::SaveToJson(jsonObj, space);
@@ -115,52 +82,6 @@ void SpaceStation::SaveToJson(Json::Value &jsonObj, Space *space)
 	m_navLights->SaveToJson(spaceStationObj);
 
 	jsonObj["space_station"] = spaceStationObj; // Add space station object to supplied object.
-}
-
-void SpaceStation::Load(Serializer::Reader &rd, Space *space)
-{
-	ModelBody::Load(rd, space);
-
-	m_oldAngDisplacement = 0.0;
-
-	const Uint32 numShipDocking = rd.Int32();
-	m_shipDocking.reserve(numShipDocking);
-	for (Uint32 i=0; i<numShipDocking; i++) {
-		m_shipDocking.push_back(shipDocking_t());
-		shipDocking_t &sd = m_shipDocking.back();
-		sd.shipIndex = rd.Int32();
-		sd.stage = rd.Int32();
-		sd.stagePos = rd.Float();
-		sd.fromPos = rd.Vector3d();
-		sd.fromRot = rd.RdQuaternionf();
-	}
-	// retrieve each of the port details and bay IDs
-	const Uint32 numBays = rd.Int32();
-	m_ports.reserve(numBays);
-	for (Uint32 i=0; i<numBays; i++) {
-		m_ports.push_back(SpaceStationType::SPort());
-		SpaceStationType::SPort &port = m_ports.back();
-		port.minShipSize = rd.Int32();
-		port.maxShipSize = rd.Int32();
-		port.inUse = rd.Bool();
-		const Uint32 numBayIds = rd.Int32();
-		port.bayIDs.reserve(numBayIds);
-		for (Uint32 j=0; j<numBayIds; j++) {
-			const Uint32 ID = rd.Int32();
-			const std::string name = rd.String();
-			port.bayIDs.push_back( std::make_pair(ID,name) );
-		}
-	}
-
-	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
-	m_numPoliceDocked = rd.Int32();
-
-	m_doorAnimationStep = rd.Double();
-	m_doorAnimationState = rd.Double();
-
-	InitStation();
-
-	m_navLights->Load(rd);
 }
 
 void SpaceStation::LoadFromJson(const Json::Value &jsonObj, Space *space)

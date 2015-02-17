@@ -59,19 +59,6 @@ void DynamicBody::AddRelTorque(const vector3d &t)
 	m_torque += GetOrient() * t;
 }
 
-void DynamicBody::Save(Serializer::Writer &wr, Space *space)
-{
-	ModelBody::Save(wr, space);
-	wr.Vector3d(m_force);
-	wr.Vector3d(m_torque);
-	wr.Vector3d(m_vel);
-	wr.Vector3d(m_angVel);
-	wr.Double(m_mass);
-	wr.Double(m_massRadius);
-	wr.Double(m_angInertia);
-	wr.Bool(m_isMoving);
-}
-
 void DynamicBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	ModelBody::SaveToJson(jsonObj, space);
@@ -88,19 +75,6 @@ void DynamicBody::SaveToJson(Json::Value &jsonObj, Space *space)
 	dynamicBodyObj["is_moving"] = m_isMoving;
 
 	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
-}
-
-void DynamicBody::Load(Serializer::Reader &rd, Space *space)
-{
-	ModelBody::Load(rd, space);
-	m_force = rd.Vector3d();
-	m_torque = rd.Vector3d();
-	m_vel = rd.Vector3d();
-	m_angVel = rd.Vector3d();
-	m_mass = rd.Double();
-	m_massRadius = rd.Double();
-	m_angInertia = rd.Double();
-	m_isMoving = rd.Bool();
 }
 
 void DynamicBody::LoadFromJson(const Json::Value &jsonObj, Space *space)

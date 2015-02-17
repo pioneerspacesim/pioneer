@@ -70,17 +70,6 @@ void HyperspaceCloud::SetIsArrival(bool isArrival)
 	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
-void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
-{
-	Body::Save(wr, space);
-	wr.Vector3d(m_vel);
-	wr.Double(m_birthdate);
-	wr.Double(m_due);
-	wr.Bool(m_isArrival);
-	wr.Bool(m_ship != 0);
-	if (m_ship) m_ship->Serialize(wr, space);
-}
-
 void HyperspaceCloud::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	Body::SaveToJson(jsonObj, space);
@@ -99,18 +88,6 @@ void HyperspaceCloud::SaveToJson(Json::Value &jsonObj, Space *space)
 	}
 
 	jsonObj["hyperspace_cloud"] = hyperspaceCloudObj; // Add hyperspace cloud object to supplied object.
-}
-
-void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
-{
-	Body::Load(rd, space);
-	m_vel = rd.Vector3d();
-	m_birthdate = rd.Double();
-	m_due = rd.Double();
-	m_isArrival = rd.Bool();
-	if (rd.Bool()) {
-		m_ship = static_cast<Ship*>(Body::Unserialize(rd, space));
-	}
 }
 
 void HyperspaceCloud::LoadFromJson(const Json::Value &jsonObj, Space *space)

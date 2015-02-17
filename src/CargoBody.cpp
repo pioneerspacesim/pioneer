@@ -14,15 +14,6 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 
-void CargoBody::Save(Serializer::Writer &wr, Space *space)
-{
-	DynamicBody::Save(wr, space);
-	m_cargo.Save(wr);
-	wr.Float(m_hitpoints);
-	wr.Float(m_selfdestructTimer);
-	wr.Bool(m_hasSelfdestruct);
-}
-
 void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
@@ -35,16 +26,6 @@ void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
 	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
 
 	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
-}
-
-void CargoBody::Load(Serializer::Reader &rd, Space *space)
-{
-	DynamicBody::Load(rd, space);
-	m_cargo.Load(rd);
-	Init();
-	m_hitpoints = rd.Float();
-	m_selfdestructTimer = rd.Float();
-	m_hasSelfdestruct = rd.Bool();
 }
 
 void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)

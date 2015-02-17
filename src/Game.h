@@ -51,13 +51,11 @@ public:
 	Game(const SystemPath &path, double time = 0.0);
 
 	// load game
-	Game(Serializer::Reader &rd);
 	Game(const Json::Value &jsonObj);
 
 	~Game();
 
 	// save game
-	void Serialize(Serializer::Writer &wr);
 	void ToJson(Json::Value &jsonObj);
 
 	// various game states
@@ -153,7 +151,6 @@ private:
 	};
 
 	void CreateViews();
-	void LoadViews(Serializer::Reader &rd);
 	void LoadViewsFromJson(const Json::Value &jsonObj);
 	void DestroyViews();
 

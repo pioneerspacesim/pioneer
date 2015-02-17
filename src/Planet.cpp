@@ -40,15 +40,6 @@ Planet::Planet(SystemBody *sbody)
 	InitParams(sbody);
 }
 
-void Planet::Load(Serializer::Reader &rd, Space *space)
-{
-	TerrainBody::Load(rd, space);
-
-	const SystemBody *sbody = GetSystemBody();
-	assert(sbody);
-	InitParams(sbody);
-}
-
 void Planet::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	TerrainBody::LoadFromJson(jsonObj, space);

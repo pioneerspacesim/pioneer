@@ -35,50 +35,6 @@ static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
-void Ship::Save(Serializer::Writer &wr, Space *space)
-{
-	DynamicBody::Save(wr, space);
-	m_skin.Save(wr);
-	wr.Vector3d(m_angThrusters);
-	wr.Vector3d(m_thrusters);
-	wr.Int32(m_wheelTransition);
-	wr.Float(m_wheelState);
-	wr.Float(m_launchLockTimeout);
-	wr.Bool(m_testLanded);
-	wr.Int32(int(m_flightState));
-	wr.Int32(int(m_alertState));
-	wr.Double(m_lastFiringAlert);
-
-	// XXX make sure all hyperspace attrs and the cloud get saved
-	m_hyperspace.dest.Serialize(wr);
-	wr.Float(m_hyperspace.countdown);
-
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		wr.Int32(m_gun[i].state);
-		wr.Float(m_gun[i].recharge);
-		wr.Float(m_gun[i].temperature);
-	}
-	wr.Float(m_ecmRecharge);
-	wr.String(m_type->id);
-	wr.Int32(m_dockedWithPort);
-	wr.Int32(space->GetIndexForBody(m_dockedWith));
-	wr.Float(m_stats.hull_mass_left);
-	wr.Float(m_stats.shield_mass_left);
-	wr.Float(m_shieldCooldown);
-	if(m_curAICmd) { wr.Int32(1); m_curAICmd->Save(wr); }
-	else wr.Int32(0);
-	wr.Int32(int(m_aiMessage));
-	wr.Double(m_thrusterFuel);
-	wr.Double(m_reserveFuel);
-
-	wr.Int32(static_cast<int>(m_controller->GetType()));
-	m_controller->Save(wr, space);
-
-	m_navLights->Save(wr);
-
-	wr.String(m_shipName);
-}
-
 void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
@@ -132,75 +88,6 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	shipObj["name"] = m_shipName;
 
 	jsonObj["ship"] = shipObj; // Add ship object to supplied object.
-}
-
-void Ship::Load(Serializer::Reader &rd, Space *space)
-{
-	DynamicBody::Load(rd, space);
-	m_skin.Load(rd);
-	m_skin.Apply(GetModel());
-	// needs fixups
-	m_angThrusters = rd.Vector3d();
-	m_thrusters = rd.Vector3d();
-	m_wheelTransition = rd.Int32();
-	m_wheelState = rd.Float();
-	m_launchLockTimeout = rd.Float();
-	m_testLanded = rd.Bool();
-	m_flightState = static_cast<FlightState>(rd.Int32());
-	m_alertState = static_cast<AlertState>(rd.Int32());
-	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
-	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
-	m_lastFiringAlert = rd.Double();
-
-	m_hyperspace.dest = SystemPath::Unserialize(rd);
-	m_hyperspace.countdown = rd.Float();
-	m_hyperspace.duration = 0;
-
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_gun[i].state = rd.Int32();
-		m_gun[i].recharge = rd.Float();
-		m_gun[i].temperature = rd.Float();
-	}
-	m_ecmRecharge = rd.Float();
-	SetShipId(rd.String()); // XXX handle missing thirdparty ship
-	m_dockedWithPort = rd.Int32();
-	m_dockedWithIndex = rd.Int32();
-	Init();
-	m_stats.hull_mass_left = rd.Float(); // must be after Init()...
-	m_stats.shield_mass_left = rd.Float();
-	m_shieldCooldown = rd.Float();
-	if(rd.Int32()) m_curAICmd = AICommand::Load(rd);
-	else m_curAICmd = 0;
-	m_aiMessage = AIError(rd.Int32());
-	SetFuel(rd.Double());
-	m_stats.fuel_tank_mass_left = GetShipType()->fuelTankMass * GetFuel();
-	m_reserveFuel = rd.Double();
-
-	PropertyMap &p = Properties();
-	p.Set("hullMassLeft", m_stats.hull_mass_left);
-	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
-	p.Set("shieldMassLeft", m_stats.shield_mass_left);
-	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
-	p.PushLuaTable();
-	lua_State *l = Lua::manager->GetLuaState();
-	lua_getfield(l, -1, "equipSet");
-	m_equipSet = LuaRef(l, -1);
-	lua_pop(l, 2);
-
-	UpdateLuaStats();
-
-	m_controller = 0;
-	const ShipController::Type ctype = static_cast<ShipController::Type>(rd.Int32());
-	if (ctype == ShipController::PLAYER)
-		SetController(new PlayerShipController());
-	else
-		SetController(new ShipController());
-	m_controller->Load(rd);
-
-	m_navLights->Load(rd);
-
-	m_shipName = rd.String();
-	Properties().Set("shipName", m_shipName);
 }
 
 void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)

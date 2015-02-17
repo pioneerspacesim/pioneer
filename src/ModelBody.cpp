@@ -78,16 +78,6 @@ ModelBody::~ModelBody()
 	delete m_model;
 }
 
-void ModelBody::Save(Serializer::Writer &wr, Space *space)
-{
-	Body::Save(wr, space);
-	wr.Bool(m_isStatic);
-	wr.Bool(m_colliding);
-	wr.String(m_modelName);
-	m_model->Save(wr);
-	m_shields->Save(wr);
-}
-
 void ModelBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	Body::SaveToJson(jsonObj, space);
@@ -101,16 +91,6 @@ void ModelBody::SaveToJson(Json::Value &jsonObj, Space *space)
 	m_shields->SaveToJson(modelBodyObj);
 
 	jsonObj["model_body"] = modelBodyObj; // Add model body object to supplied object.
-}
-
-void ModelBody::Load(Serializer::Reader &rd, Space *space)
-{
-	Body::Load(rd, space);
-	m_isStatic = rd.Bool();
-	m_colliding = rd.Bool();
-	SetModel(rd.String().c_str());
-	m_model->Load(rd);
-	m_shields->Load(rd);
 }
 
 void ModelBody::SetStatic(bool isStatic)

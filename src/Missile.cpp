@@ -40,14 +40,6 @@ void Missile::PostLoadFixup(Space *space)
 	m_owner = space->GetBodyByIndex(m_ownerIndex);
 }
 
-void Missile::Save(Serializer::Writer &wr, Space *space)
-{
-	Ship::Save(wr, space);
-	wr.Int32(space->GetIndexForBody(m_owner));
-	wr.Int32(m_power);
-	wr.Bool(m_armed);
-}
-
 void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	Ship::SaveToJson(jsonObj, space);
@@ -59,14 +51,6 @@ void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 	missileObj["armed"] = m_armed;
 
 	jsonObj["missile"] = missileObj; // Add missile object to supplied object.
-}
-
-void Missile::Load(Serializer::Reader &rd, Space *space)
-{
-	Ship::Load(rd, space);
-	m_ownerIndex = rd.Int32();
-	m_power = rd.Int32();
-	m_armed = rd.Bool();
 }
 
 void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)

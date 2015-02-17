@@ -126,21 +126,6 @@ Projectile::~Projectile()
 {
 }
 
-void Projectile::Save(Serializer::Writer &wr, Space *space)
-{
-	Body::Save(wr, space);
-	wr.Vector3d(m_baseVel);
-	wr.Vector3d(m_dirVel);
-	wr.Float(m_age);
-	wr.Float(m_lifespan);
-	wr.Float(m_baseDam);
-	wr.Float(m_length);
-	wr.Float(m_width);
-	wr.Bool(m_mining);
-	wr.Color4UB(m_color);
-	wr.Int32(space->GetIndexForBody(m_parent));
-}
-
 void Projectile::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	Body::SaveToJson(jsonObj, space);
@@ -159,21 +144,6 @@ void Projectile::SaveToJson(Json::Value &jsonObj, Space *space)
 	projectileObj["index_for_body"] = space->GetIndexForBody(m_parent);
 
 	jsonObj["projectile"] = projectileObj; // Add projectile object to supplied object.
-}
-
-void Projectile::Load(Serializer::Reader &rd, Space *space)
-{
-	Body::Load(rd, space);
-	m_baseVel = rd.Vector3d();
-	m_dirVel = rd.Vector3d();
-	m_age = rd.Float();
-	m_lifespan = rd.Float();
-	m_baseDam = rd.Float();
-	m_length = rd.Float();
-	m_width = rd.Float();
-	m_mining = rd.Bool();
-	m_color = rd.Color4UB();
-	m_parentIndex = rd.Int32();
 }
 
 void Projectile::LoadFromJson(const Json::Value &jsonObj, Space *space)
