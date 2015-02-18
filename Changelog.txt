@@ -1,6 +1,7 @@
 February 2015
    * Fixes
      * Romanian characters added, fixes #3314 (#3318)
+     * Fix the libcurl linking for Profile, PreRelease and Debug (#3354)
 
    * Script and UI API changes
      * ServerAgent class for simple network communication (#3342)
