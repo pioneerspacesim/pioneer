@@ -40,7 +40,7 @@ void SpaceStation::SaveToJson(Json::Value &jsonObj, Space *space)
 	for (Uint32 i = 0; i<m_shipDocking.size(); i++)
 	{
 		Json::Value shipDockingArrayEl(Json::objectValue); // Create JSON object to contain ship docking.
-		shipDockingArrayEl["index_for_body"] = m_shipDocking[i].ship;
+		shipDockingArrayEl["index_for_body"] = space->GetIndexForBody(m_shipDocking[i].ship);
 		shipDockingArrayEl["stage"] = m_shipDocking[i].stage;
 		shipDockingArrayEl["stage_pos"] = DoubleToStr(m_shipDocking[i].stagePos); // stagePos is a double but was saved as a float in pre-JSON system for some reason (saved as double here).
 		VectorToJson(shipDockingArrayEl, m_shipDocking[i].fromPos, "from_pos");
