@@ -138,7 +138,7 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_lastFiringAlert = StrToDouble(shipObj["last_firing_alert"].asString());
 
 	Json::Value hyperspaceDestObj = shipObj["hyperspace_destination"];
-	SystemPath::FromJson(hyperspaceDestObj);
+	m_hyperspace.dest = SystemPath::FromJson(hyperspaceDestObj);
 	m_hyperspace.countdown = StrToFloat(shipObj["hyperspace_countdown"].asString());
 	m_hyperspace.duration = 0;
 
