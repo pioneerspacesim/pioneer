@@ -85,7 +85,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Kargo"
    },
    "CARGO_SPACE" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Campuran logam"
    },
    "MILITARY" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Pembunuhan"
    },
    "MUSIC" : {
       "description" : "",
@@ -781,7 +781,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Pembajakan"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -800,7 +800,7 @@
       "message" : "Poor"
    },
    "POSITION" : {
-      "description" : "",
+      "description" : "The job title/position of crew memeber",
       "message" : "Position"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
@@ -997,7 +997,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Berdagang barang ilegal"
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
@@ -1060,7 +1060,7 @@
       "message" : "We are in hyperspace, Commander."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
+      "description" : "Said by the police to law abiding player",
       "message" : "We have no business with you at the moment."
    },
    "YES" : {

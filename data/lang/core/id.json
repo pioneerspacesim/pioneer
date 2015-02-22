@@ -37,7 +37,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal Meat"
+      "message" : "Daging hewan"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
@@ -101,11 +101,11 @@
    },
    "BODIES" : {
       "description" : "space bodies",
-      "message" : "bodies"
+      "message" : "tubuh"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "tubuh"
    },
    "BROWN_DWARF" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "CAPITALIST" : {
       "description" : "",
-      "message" : "Capitalist"
+      "message" : "Kapitalis"
    },
    "CARBON_ORE" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Kargo"
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : ", highly volcanic"
+      "message" : ", sangat vulkanik"
    },
    "COMMODITY_NONE" : {
       "description" : "When no commodities exist",
@@ -225,11 +225,11 @@
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Computers"
+      "message" : "Komputer"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Computer heading control"
+      "message" : "Kontrol arah komputerisasi"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Consumer goods"
+      "message" : "Barang konsumer"
    },
    "CONTROLS" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Kurangi jangkuan pemindai"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Extensive mining operations."
+      "message" : "Operasi penambangan ekstensif"
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "FINE_PAID_N" : {
       "description" : "",
-      "message" : "You have paid the fine of %fine."
+      "message" : "Anda telah membayar denda sebesar %fine"
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Fire missile"
+      "message" : "Tembakan misil"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
-      "message" : "Galactic view"
+      "message" : "Peta galaksi"
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
@@ -509,7 +509,7 @@
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Highly volcanic"
+      "message" : "Sangat vulkanis"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
@@ -529,7 +529,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Hydrogen is primarily used as a fusion fuel"
+      "message" : "Hidrogen digunakan sebagai bahan bakar fusi"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace arrival cloud"
+      "message" : "Awan kedatangan hyperspace"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing in %countdown{f.0} seconds"
+      "message" : "Lompatan hyperspace dalam %countdown{f.0} detik"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
@@ -569,7 +569,7 @@
    },
    "ICE_WORLD" : {
       "description" : "",
-      "message" : "\" ice world\""
+      "message" : "\" dunia es\""
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -581,11 +581,11 @@
    },
    "IMPERIAL_RULE" : {
       "description" : "",
-      "message" : "Imperial Rule"
+      "message" : "Peraturan Imperial"
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Tingkatkan jangkauan pemindai"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Industrial colony."
+      "message" : "Koloni industri."
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
@@ -613,11 +613,11 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "Dalam perjalanan"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to %system [%x,%y,%z]"
+      "message" : "Dalam transit ke %system [%x,%y,%z]"
    },
    "JOY" : {
       "description" : "Short for Joystick",
@@ -653,7 +653,7 @@
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Laser fire detected."
+      "message" : "Tembakan laser terditeksi."
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -685,11 +685,11 @@
    },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
-      "message" : "locked"
+      "message" : "Terkunci"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
-      "message" : "Major Exports:"
+      "message" : "Eksport utama:"
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
@@ -709,7 +709,7 @@
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Manual control mode"
+      "message" : "Mode kontrol manual"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
@@ -797,7 +797,7 @@
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
-      "message" : "Message from %sender:"
+      "message" : "Pesan dari %sender:"
    },
    "META" : {
       "description" : "'Meta' key on keyboard",
@@ -805,7 +805,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Campuran logam"
    },
    "METAL_ORE" : {
       "description" : "",
@@ -813,7 +813,7 @@
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Military dictatorship"
+      "message" : "Diktatorisme militer"
    },
    "MILITARY_FUEL" : {
       "description" : "",
@@ -821,7 +821,7 @@
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Mining colony."
+      "message" : "Koloni pertambangan"
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -897,7 +897,7 @@
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Oct"
+      "message" : "Okt"
    },
    "MONTH_SEP" : {
       "description" : "",
@@ -913,7 +913,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Pembunuhan"
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
@@ -929,7 +929,7 @@
    },
    "NARCOTICS" : {
       "description" : "",
-      "message" : "Narcotics"
+      "message" : "Narkotika"
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "No central governance"
+      "message" : "Tidak ada pemerintah pusat"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
@@ -1009,7 +1009,7 @@
    },
    "NUMBER_LY" : {
       "description" : "",
-      "message" : "%distance{f.2} ly"
+      "message" : "%distance{f.2} tahun cahaya"
    },
    "NUMBER_TONNES" : {
       "description" : "",
@@ -1085,7 +1085,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Occupied Passenger Cabin"
+      "message" : "Kabin penumpang terisi"
    },
    "PAUSED" : {
       "description" : "",
@@ -1109,7 +1109,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Pembajakan"
    },
    "PITCH" : {
       "description" : "",
@@ -1133,7 +1133,7 @@
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\" planet with some ice\""
+      "message" : "\" planet dengan es\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
@@ -1213,7 +1213,7 @@
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "Robot"
    },
    "ROCKY_PLANET" : {
       "description" : "",
@@ -1241,7 +1241,7 @@
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate Left"
+      "message" : "Putar ke kiri"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
@@ -1249,7 +1249,7 @@
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate Up"
+      "message" : "Putar ke atas"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1265,7 +1265,7 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Rubbish"
+      "message" : "Sampah"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1297,7 +1297,7 @@
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
-      "message" : "Sector coordinates:"
+      "message" : "Koordinat sektor:"
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
@@ -1313,7 +1313,7 @@
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Select a target"
+      "message" : "Pilih target"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.0} m/s"
+      "message" : "Atur kecepatan: %speed[f.0] m/s"
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
@@ -1373,7 +1373,7 @@
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Ship detected nearby."
+      "message" : "Kapal terditeksi di dekat sini."
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1381,11 +1381,11 @@
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Ship mass: %{mass}t"
+      "message" : "Massa kapal: %[mass]ton"
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Ship nearby"
+      "message" : "Kapal dekat sini"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
@@ -1437,11 +1437,11 @@
    },
    "SOURCE" : {
       "description" : "tell source system of hyperjump entry cloud",
-      "message" : "Origin"
+      "message" : "Asal"
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Speed control mode"
+      "message" : "Mode kontrol kecepatan"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
@@ -1577,7 +1577,7 @@
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Star system information"
+      "message" : "Sistem informasi bintang"
    },
    "STAR_S_BH" : {
       "description" : "",
@@ -1637,7 +1637,7 @@
    },
    "TEXTILES" : {
       "description" : "",
-      "message" : "Textiles"
+      "message" : "Tekstil"
    },
    "THICK" : {
       "description" : "",
@@ -1693,7 +1693,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Toggle Lua console"
+      "message" : "Munculkan atau hilangkan konsol LUA"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1709,7 +1709,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Berdagang barang ilegal"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1717,7 +1717,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Unexplored system. No more data available."
+      "message" : "Sistem belum dieksplorasi. Tidak ada data yang diketahui."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
@@ -1749,7 +1749,7 @@
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "very dense"
+      "message" : "Sangat rapat"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
@@ -1777,7 +1777,7 @@
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Wheels are down"
+      "message" : "Roda diturunkan"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
@@ -1821,7 +1821,7 @@
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Young farming colony."
+      "message" : "Koloni pertanian muda."
    },
    "YOU_NO_MONEY" : {
       "description" : "",
