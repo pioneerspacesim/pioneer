@@ -15,6 +15,14 @@
       "description" : "",
       "message" : "It's a deal!"
    },
+   "ACCEPTED_PICKUP_1" : {
+      "description" : "",
+      "message" : "Ok, I will take care that the goods are ready for collection."
+   },
+   "ACCEPTED_PICKUP_2" : {
+      "description" : "",
+      "message" : "It's a deal! I will contact my colleagues that you are on your way."
+   },
    "ADTEXT_1" : {
       "description" : "",
       "message" : "CARGO RUN. Delivery of cargo to the {system} system."
@@ -42,6 +50,10 @@
    "ADTEXT_WHOLESALER" : {
       "description" : "",
       "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+   },
+   "ADTEXT_PICKUP" : {
+      "description" : "",
+      "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -99,6 +111,14 @@
       "description" : "",
       "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
    },
+   "INTROTEXT_PICKUP_1" : {
+      "description" : "",
+      "message" : "How do you do? My name is {name}. I need a ship that is able to fly to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, pickup {cargoname} and return to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system for {cash} credits. The distance to {system} is {dist} ly."
+   },
+   "INTROTEXT_PICKUP_2" : {
+      "description" : "",
+      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from the {dist} ly away {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. He pays {cash} credits for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+   },
    "AMOUNT" : {
       "description" : "",
       "message" : "Amount:"
@@ -119,9 +139,17 @@
       "description" : "",
       "message" : "Deadline:"
    },
+   "DELIVER_TO" : {
+      "description" : "",
+      "message" : "Deliver to …"
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distance:"
+   },
+   "PICKUP_FROM" : {
+      "description" : "",
+      "message" : "Pickup cargo from …"
    },
    "DENY_1" : {
       "description" : "",
@@ -474,6 +502,10 @@
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
       "message" : "You do not have enough cargo space on your ship."
+   },
+   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "We have loaded up the cargo on your ship."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
