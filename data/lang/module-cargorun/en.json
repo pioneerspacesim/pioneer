@@ -487,6 +487,10 @@
       "description" : "",
       "message" : "Sensors show that you are taking damage. I'm on my way."
    },
+   "I_NEED_HELP" : {
+      "description" : "",
+      "message" : "I'm taking damage. I need help."
+   },
    "GUNS_GUNS_GUNS" : {
       "description" : "",
       "message" : "Guns, guns, guns."

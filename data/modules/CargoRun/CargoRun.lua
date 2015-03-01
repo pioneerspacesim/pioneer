@@ -572,6 +572,7 @@ end
 
 local pirate_ship = {}
 local pirate_gripes_time
+local pirate_switch_target
 local escort_ship = {}
 local escort_chatter_time
 local escort_switch_target
@@ -635,18 +636,21 @@ local onEnterSystem = function (player)
 					if mission.wholesaler and mission.introtext == 2 then
 						escort = Space.SpawnShipNear("wave", Game.player, 50, 100) -- Haber Corp.
 						escort:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
+						escort:AddEquip(Equipment.misc.shield_generator)
 						escort:SetLabel(Ship.MakeRandomLabel())
 						Comms.ImportantMessage(l.ESCORT_HABER_GREETING, escort.label)
 					else
 						escort = Space.SpawnShipNear("kanara", Game.player, 50, 100) -- Local wholesaler or random police ship
 						escort:AddEquip(Equipment.laser.pulsecannon_1mw)
+						escort:AddEquip(Equipment.misc.shield_generator)
 						escort:SetLabel(Ship.MakeRandomLabel())
 					end
 					escort:AIKill(pirate)
 					table.insert(escort_ship, escort)
 					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, num_escort_chatter)], escort.label)
 					escort_chatter_time = Game.time
-					escort_switch_target = escort_chatter_time
+					escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
+					pirate_switch_target = Game.time + Engine.rand:Integer(90, 120)
 				end
 			end
 		end
@@ -678,27 +682,26 @@ end
 local onShipDestroyed = function (ship, attacker)
 	if ship:IsPlayer() then return end
 
-	if #escort_ship ~= 0 then
+	if isEscortShip(ship) then
 		for i = 1, #escort_ship do
 			if escort_ship[i] == ship then
 				table.remove(escort_ship, i)
-				return
+				if isPirateShip(attacker) then
+					attacker:AIKill(Game.player)
+				end
 			end
 		end
-	end
-
-	if #pirate_ship ~= 0 then
+	elseif isPirateShip(ship) then
 		for i = 1, #pirate_ship do
 			if pirate_ship[i] == ship then
 				table.remove(pirate_ship, i)
-				break
-			end
-		end
-		if isEscortShip(attacker) then
-			Comms.ImportantMessage(l.TARGET_DESTROYED, attacker.label)
-			if #pirate_ship ~= 0 then
-				attacker:AIKill(pirate_ship[1])
-				escort_switch_target = Game.time + 90
+				if isEscortShip(attacker) then
+					Comms.ImportantMessage(l.TARGET_DESTROYED, attacker.label)
+					if #pirate_ship ~= 0 then
+						attacker:AIKill(pirate_ship[1])
+						escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
+					end
+				end
 			end
 		end
 	end
@@ -709,7 +712,7 @@ local onShipFiring = function (ship)
 
 	if isEscortShip(ship) and Game.time >= escort_chatter_time then -- don't flood the control panel with messages
 		Comms.ImportantMessage(l.GUNS_GUNS_GUNS, ship.label)
-			escort_chatter_time = Game.time + 30
+			escort_chatter_time = Game.time + Engine.rand:Integer(15, 45)
 	end
 end
 
@@ -720,16 +723,34 @@ local onShipHit = function (ship, attacker)
 				escort_ship[i]:AIKill(attacker) -- all escort ships respond
 			end
 			Comms.ImportantMessage(l.I_AM_ON_MY_WAY, escort_ship[1].label)
-			escort_switch_target = Game.time + 90
+			escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
 		end
 
-	elseif isEscortShip(ship) and attacker:IsPlayer() then
-		Comms.ImportantMessage(l.CEASE_FIRE, ship.label)
+	elseif isEscortShip(ship) then
+		if attacker:IsPlayer() then
+			Comms.ImportantMessage(l.CEASE_FIRE, ship.label)
+		elseif isPirateShip(attacker) then
+			if Game.time >= escort_switch_target then
+				ship:AIKill(attacker)
+				escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
+			end
+			if Game.time >= escort_chatter_time then
+				Comms.ImportantMessage(l.I_NEED_HELP, ship.label)
+				escort_chatter_time = Game.time + Engine.rand:Integer(15, 45)
+			end
+		end
 
-	elseif isPirateShip(ship) and attacker:IsPlayer() then
-		if Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
-			Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, num_pirate_gripes)], ship.label)
-			pirate_gripes_time = Game.time + 60
+	elseif isPirateShip(ship) then
+		if attacker:IsPlayer() then
+			if Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
+				Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, num_pirate_gripes)], ship.label)
+				pirate_gripes_time = Game.time + Engine.rand:Integer(30, 90)
+			end
+		elseif isEscortShip(attacker) then
+			if Game.time >= pirate_switch_target then
+				ship:AIKill(attacker)
+				pirate_switch_target = Game.time + Engine.rand:Integer(90, 120)
+			end
 		end
 	end
 end
