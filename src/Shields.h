@@ -8,6 +8,7 @@
  */
 #include "libs.h"
 #include "Serializer.h"
+#include "json/json.h"
 #include <deque>
 
 namespace Graphics { class Renderer; }
