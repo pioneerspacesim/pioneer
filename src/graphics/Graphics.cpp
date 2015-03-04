@@ -68,8 +68,13 @@ Renderer* Init(Settings vs)
 	}
 
 	WindowSDL *window = new WindowSDL(vs, "Pioneer");
-	width = window->GetWidth();
-	height = window->GetHeight();
+	if (vs.rendererType == Graphics::RENDERER_DUMMY) {
+		width = vs.width;
+		height = vs.height;
+	} else {
+		width = window->GetWidth();
+		height = window->GetHeight();
+	}
 
 	// We deliberately ignore the value from GL_NUM_COMPRESSED_TEXTURE_FORMATS, because some drivers
 	// choose not to list any formats (despite supporting texture compression). See issue #3132.
