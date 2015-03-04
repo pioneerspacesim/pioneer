@@ -66,7 +66,7 @@ void Body::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!bodyObj.isMember("clip_radius")) throw SavedGameCorruptException();
 
 	Properties().LoadFromJson(bodyObj);
-	m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"].asInt());
+	m_frame = space->GetFrameByIndex(bodyObj["index_for_frame"].asUInt());
 	m_label = bodyObj["label"].asString();
 	Properties().Set("label", m_label);
 	m_dead = bodyObj["dead"].asBool();
