@@ -17,6 +17,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 , m_numTris(numTris)
 , m_vertices(vertices)
 {
+	assert(vertices.size() == m_numVertices);
 	Profiler::Timer timer;
 	timer.Start();
 
@@ -55,6 +56,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 		std::vector<Uint32> xrefs;
 		nv::Weld<vector3f> weld;
 		weld(m_vertices, xrefs);
+		m_numVertices = m_vertices.size();
 
 		//Output("---   %d vertices welded\n", count - newCount);
 

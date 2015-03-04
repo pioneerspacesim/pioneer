@@ -1,3 +1,7 @@
+March 2015
+   * Fixes
+     * Fix modelcompiler (#3356)
+
 February 2015
    * Fixes
      * Romanian characters added, fixes #3314 (#3318)
