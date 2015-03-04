@@ -1,8 +1,11 @@
+March 2015
+   * Fixes
+     * Fix modelcompiler (#3356)
+
 February 2015
    * Fixes
      * Romanian characters added, fixes #3314 (#3318)
      * Fix the libcurl linking for Profile, PreRelease and Debug (#3354)
-     * Fix modelcompiler (#3356)
 
    * Script and UI API changes
      * ServerAgent class for simple network communication (#3342)
