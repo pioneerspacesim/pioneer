@@ -2,8 +2,8 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "JsonUtils.h"
-#include "utils.h"
-#include "Serializer.h" // Need this for the exceptions
+#include "../../src/utils.h"
+#include "../../src/Serializer.h" // Need this for the exceptions
 
 void VectorToJson(Json::Value &jsonObj, const vector3f &vec, const std::string &name)
 {
