@@ -10,6 +10,7 @@
 #include "Factions.h"
 #include "CustomSystem.h"
 #include "GalaxyCache.h"
+#include "json/json.h"
 
 struct SDL_Surface;
 class GalaxyGenerator;

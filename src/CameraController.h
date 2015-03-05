@@ -9,6 +9,7 @@
 #include "Lang.h"
 #include "Serializer.h"
 #include "Camera.h"
+#include "json/json.h"
 
 class Ship;
 

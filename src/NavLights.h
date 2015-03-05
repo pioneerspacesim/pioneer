@@ -8,6 +8,7 @@
  */
 #include "libs.h"
 #include "Serializer.h"
+#include "json/json.h"
 
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; class Billboard; }
