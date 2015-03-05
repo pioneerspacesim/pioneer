@@ -4,5 +4,5 @@ include $(top_srcdir)/Makefile.common
 AM_CPPFLAGS += -I @top_srcdir@/contrib
 
 noinst_LIBRARIES = libjson.a
-libjson_a_SOURCES = jsoncpp.cpp
-noinst_HEADERS = json.h
+libjson_a_SOURCES = jsoncpp.cpp JsonUtils.cpp
+noinst_HEADERS = json.h JsonUtils.h
