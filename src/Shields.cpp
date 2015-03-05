@@ -222,7 +222,7 @@ void Shields::SaveToJson(Json::Value &jsonObj)
 	Json::Value shieldsObj(Json::objectValue); // Create JSON object to contain shields data.
 
 	shieldsObj["enabled"] = m_enabled;
-	shieldsObj["num_shields"] = m_shields.size();
+	shieldsObj["num_shields"] = Json::Value::UInt(m_shields.size());
 
 	Json::Value shieldArray(Json::arrayValue); // Create JSON array to contain shield data.
 	for (ShieldIterator it = m_shields.begin(); it != m_shields.end(); ++it)
