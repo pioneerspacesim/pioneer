@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "Serializer.h"
 #include "gui/Gui.h"
+#include "json/json.h"
 
 namespace Graphics { class Renderer; }
 
