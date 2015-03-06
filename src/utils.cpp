@@ -218,14 +218,16 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 std::string SInt64ToStr(Sint64 val)
 {
 	char str[128];
-	sprintf(str, "%I64d", val);
+	//sprintf(str, "%I64d", val); // Windows
+	sprintf(str, "%lld", val);
 	return str;
 }
 
 std::string UInt64ToStr(Uint64 val)
 {
 	char str[128];
-	sprintf(str, "%I64u", val);
+	//sprintf(str, "%I64u", val); // Windows
+	sprintf(str, "%llu", val);
 	return str;
 }
 
@@ -248,8 +250,8 @@ std::string FloatToStr(float val)
 		uint32_t intVal;
 		memcpy(&intVal, &val, 4);
 		char str[64];
-		std::sprintf(str, "%I32u", intVal);
-		//std::sprintf(str, "%lu", intVal); // Also works
+		//sprintf(str, "%I32u", intVal); // Windows
+		sprintf(str, "%lu", intVal);
 		return str;
 	}
 	else // sizeof(float) == 8
@@ -257,8 +259,8 @@ std::string FloatToStr(float val)
 		uint64_t intVal;
 		memcpy(&intVal, &val, 8);
 		char str[128];
-		std::sprintf(str, "%I64u", intVal);
-		//std::sprintf(str, "%llu", intVal); // Also works
+		//sprintf(str, "%I64u", intVal); // Windows
+		sprintf(str, "%llu", intVal);
 		return str;
 	}
 }
@@ -282,8 +284,8 @@ std::string DoubleToStr(double val)
 		uint32_t intVal;
 		memcpy(&intVal, &val, 4);
 		char str[64];
-		std::sprintf(str, "%I32u", intVal);
-		//std::sprintf(str, "%lu", intVal); // Also works
+		//sprintf(str, "%I32u", intVal); // Windows
+		sprintf(str, "%lu", intVal);
 		return str;
 	}
 	else // sizeof(double) == 8
@@ -291,8 +293,8 @@ std::string DoubleToStr(double val)
 		uint64_t intVal;
 		memcpy(&intVal, &val, 8);
 		char str[128];
-		std::sprintf(str, "%I64u", intVal);
-		//std::sprintf(str, "%llu", intVal); // Also works
+		//sprintf(str, "%I64u", intVal); // Windows
+		sprintf(str, "%llu", intVal);
 		return str;
 	}
 }
@@ -300,14 +302,16 @@ std::string DoubleToStr(double val)
 std::string AutoToStr(Sint32 val)
 {
 	char str[64];
-	sprintf(str, "%I32d", val);
+	//sprintf(str, "%I32d", val); // Windows
+	sprintf(str, "%ld", val);
 	return str;
 }
 
 std::string AutoToStr(Sint64 val)
 {
 	char str[128];
-	sprintf(str, "%I64d", val);
+	//sprintf(str, "%I64d", val); // Windows
+	sprintf(str, "%lld", val);
 	return str;
 }
 
@@ -324,14 +328,16 @@ std::string AutoToStr(double val)
 Sint64 StrToSInt64(const std::string &str)
 {
 	Sint64 val;
-	std::sscanf(str.c_str(), "%I64d", &val);
+	//sscanf(str.c_str(), "%I64d", &val); // Windows
+	sscanf(str.c_str(), "%lld", &val);
 	return val;
 }
 
 Uint64 StrToUInt64(const std::string &str)
 {
 	Uint64 val;
-	std::sscanf(str.c_str(), "%I64u", &val);
+	//sscanf(str.c_str(), "%I64u", &val); // Windows
+	sscanf(str.c_str(), "%llu", &val);
 	return val;
 }
 
@@ -355,8 +361,8 @@ float StrToFloat(const std::string &str)
 	if (sizeof(float) == 4)
 	{
 		uint32_t intVal;
-		std::sscanf(str.c_str(), "%I32u", &intVal);
-		//std::sscanf(str.c_str(), "%lu", &intVal); // Also works
+		//sscanf(str.c_str(), "%I32u", &intVal); // Windows
+		sscanf(str.c_str(), "%lu", &intVal);
 		float val;
 		memcpy(&val, &intVal, 4);
 		return val;
@@ -364,8 +370,8 @@ float StrToFloat(const std::string &str)
 	else // sizeof(float) == 8
 	{
 		uint64_t intVal;
-		std::sscanf(str.c_str(), "%I64u", &intVal);
-		//std::sscanf(str.c_str(), "%llu", &intVal); // Also works
+		//sscanf(str.c_str(), "%I64u", &intVal); // Windows
+		sscanf(str.c_str(), "%llu", &intVal);
 		float val;
 		memcpy(&val, &intVal, 8);
 		return val;
@@ -392,8 +398,8 @@ double StrToDouble(const std::string &str)
 	if (sizeof(double) == 4)
 	{
 		uint32_t intVal;
-		std::sscanf(str.c_str(), "%I32u", &intVal);
-		//std::sscanf(str.c_str(), "%lu", &intVal); // Also works
+		//sscanf(str.c_str(), "%I32u", &intVal); // Windows
+		sscanf(str.c_str(), "%lu", &intVal);
 		double val;
 		memcpy(&val, &intVal, 4);
 		return val;
@@ -401,8 +407,8 @@ double StrToDouble(const std::string &str)
 	else // sizeof(double) == 8
 	{
 		uint64_t intVal;
-		std::sscanf(str.c_str(), "%I64u", &intVal);
-		//std::sscanf(str.c_str(), "%llu", &intVal); // Also works
+		//sscanf(str.c_str(), "%I64u", &intVal); // Windows
+		sscanf(str.c_str(), "%llu", &intVal);
 		double val;
 		memcpy(&val, &intVal, 8);
 		return val;
@@ -411,12 +417,14 @@ double StrToDouble(const std::string &str)
 
 void StrToAuto(Sint32 *pVal, const std::string &str)
 {
-	std::sscanf(str.c_str(), "%I32d", pVal);
+	//sscanf(str.c_str(), "%I32d", pVal); // Windows
+	sscanf(str.c_str(), "%ld", pVal);
 }
 
 void StrToAuto(Sint64 *pVal, const std::string &str)
 {
-	std::sscanf(str.c_str(), "%I64d", pVal);
+	//sscanf(str.c_str(), "%I64d", pVal); // Windows
+	sscanf(str.c_str(), "%lld", pVal);
 }
 
 void StrToAuto(float *pVal, const std::string &str)
