@@ -217,14 +217,14 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 
 std::string SInt64ToStr(Sint64 val)
 {
-	char str[32];
+	char str[128];
 	sprintf(str, "%I64d", val);
 	return str;
 }
 
 std::string UInt64ToStr(Uint64 val)
 {
-	char str[32];
+	char str[128];
 	sprintf(str, "%I64u", val);
 	return str;
 }
@@ -247,7 +247,7 @@ std::string FloatToStr(float val)
 	{
 		uint32_t intVal;
 		memcpy(&intVal, &val, 4);
-		char str[16];
+		char str[64];
 		std::sprintf(str, "%I32u", intVal);
 		//std::sprintf(str, "%lu", intVal); // Also works
 		return str;
@@ -256,7 +256,7 @@ std::string FloatToStr(float val)
 	{
 		uint64_t intVal;
 		memcpy(&intVal, &val, 8);
-		char str[32];
+		char str[128];
 		std::sprintf(str, "%I64u", intVal);
 		//std::sprintf(str, "%llu", intVal); // Also works
 		return str;
@@ -281,7 +281,7 @@ std::string DoubleToStr(double val)
 	{
 		uint32_t intVal;
 		memcpy(&intVal, &val, 4);
-		char str[16];
+		char str[64];
 		std::sprintf(str, "%I32u", intVal);
 		//std::sprintf(str, "%lu", intVal); // Also works
 		return str;
@@ -290,7 +290,7 @@ std::string DoubleToStr(double val)
 	{
 		uint64_t intVal;
 		memcpy(&intVal, &val, 8);
-		char str[32];
+		char str[128];
 		std::sprintf(str, "%I64u", intVal);
 		//std::sprintf(str, "%llu", intVal); // Also works
 		return str;
@@ -299,14 +299,14 @@ std::string DoubleToStr(double val)
 
 std::string AutoToStr(Sint32 val)
 {
-	char str[16];
+	char str[64];
 	sprintf(str, "%I32d", val);
 	return str;
 }
 
 std::string AutoToStr(Sint64 val)
 {
-	char str[32];
+	char str[128];
 	sprintf(str, "%I64d", val);
 	return str;
 }
