@@ -94,17 +94,14 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 
 	// external camera mouselook
 	if (Pi::MouseButtonState(SDL_BUTTON_MIDDLE)) {
-		// not internal camera
-		if (Pi::game->GetWorldView()->GetCamType() != WorldView::CAM_INTERNAL) {
-			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
-			const double accel = 0.01; // XXX configurable?
-			mcc->RotateLeft(mouseMotion[0] * accel);
-			mcc->RotateUp(  mouseMotion[1] * accel);
-			// only mouselook if the player presses both mmb and rmb
-			mouseMotion[0] = 0;
-			mouseMotion[1] = 0;
-		}
-	}
+            MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
+            const double accel = 0.01; // XXX configurable?
+            mcc->RotateLeft(mouseMotion[0] * accel);
+            mcc->RotateUp(  mouseMotion[1] * accel);
+            // only mouselook if the player presses both mmb and rmb
+            mouseMotion[0] = 0;
+            mouseMotion[1] = 0;
+        }
 
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
