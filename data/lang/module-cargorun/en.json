@@ -311,6 +311,10 @@
       "description" : "",
       "message" : "It is possible that an unscrupulous jewel trader wants to intercept the cargo."
    },
+   "RISK__6__5" : {
+      "description" : "",
+      "message" : "The police informed us that an unknown group of pirates attacked cargo ships in this system."
+   },
    "RISK_WHOLESALER" : {
       "description" : "",
       "message" : "The police have promised us to patrol the area."
@@ -369,19 +373,15 @@
    },
    "WHYSOMUCHTEXT_URGENT_2" : {
       "description" : "",
-      "message" : "If we do not meet the delivery date, we have to pay penalty."
+      "message" : "If we do not meet the delivery date, a project will come to a standstill."
    },
-   "WHYSOMUCHTEXT_EXPENSIVE_1" : {
+   "WHYSOMUCHTEXT_URGENT_3" : {
       "description" : "",
-      "message" : "The valuable goods are in great demand."
-   },
-   "WHYSOMUCHTEXT_EXPENSIVE_2" : {
-      "description" : "",
-      "message" : "The goods are very expensive."
+      "message" : "These goods are needed urgently."
    },
    "WHYSOMUCHTEXT__1" : {
       "description" : "",
-      "message" : "These goods are needed urgently in a chemical plant. A delivery date is at risk."
+      "message" : "These goods are needed in a chemical plant. The production must not be interrupted."
    },
    "WHYSOMUCHTEXT__2" : {
       "description" : "",
@@ -393,7 +393,11 @@
    },
    "WHYSOMUCHTEXT__6" : {
       "description" : "",
-      "message" : "The police informed us that an unknown group of pirates attacked cargo ships in this system."
+      "message" : "The valuable goods are in great demand."
+   },
+   "WHYSOMUCHTEXT__6__5" : {
+      "description" : "",
+      "message" : "The piece parts are very expensive."
    },
    "WHYSOMUCHTEXT__7__1" : {
       "description" : "",
