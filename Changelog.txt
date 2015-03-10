@@ -1,6 +1,9 @@
 March 2015
    * Fixes
      * Fix modelcompiler (#3356)
+     
+   * New Features
+     * Mouselook for internal camera (#3361)
 
 February 2015
    * Fixes
