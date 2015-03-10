@@ -6,6 +6,9 @@
 #include "Pi.h"
 #include "Player.h"
 #include "Easing.h"
+#include "CameraController.h"
+#include "Game.h"
+#include "WorldView.h"
 
 ShipCockpit::ShipCockpit(const std::string &modelName) :
 	m_shipDir(0.0),
@@ -24,6 +27,7 @@ ShipCockpit::ShipCockpit(const std::string &modelName) :
 	SetModel(modelName.c_str());
 	assert(GetModel());
 	SetColliding(false);
+        m_icc = nullptr;
 }
 
 ShipCockpit::~ShipCockpit()
@@ -36,9 +40,23 @@ void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 
+inline void ShipCockpit::resetInternalCameraController() {
+        m_icc = static_cast<InternalCameraController*>(Pi::game->GetWorldView()->GetCameraController());
+}
+
 void ShipCockpit::Update(float timeStep)
 {
-	m_transform = matrix4x4d::Identity();
+        m_transform = matrix4x4d::Identity();
+
+       double rotX;
+       double rotY;
+       if(m_icc == nullptr)
+           // I don't know where to put this
+           resetInternalCameraController();
+       m_icc->getRots(rotX, rotY);
+       m_transform.RotateX(rotX);
+       m_transform.RotateY(rotY);
+
 	vector3d cur_dir = Pi::player->GetOrient().VectorZ().Normalized();
 	if(cur_dir.Dot(m_shipDir) < 1.0f) {
 		m_rotInterp = 0.0f;
@@ -61,7 +79,7 @@ void ShipCockpit::Update(float timeStep)
 	float offset = (gforce > 14.0f? -1.0f : (gforce < -14.0f? 1.0f : 0.0f)) * COCKPIT_ACCEL_OFFSET;
 	m_transInterp += timeStep * COCKPIT_ACCEL_INTERP_MULTIPLIER;
 	if(m_transInterp > 1.0f) {
-		m_transInterp = 1.0f;	
+		m_transInterp = 1.0f;
 		m_translate.z = offset;
 	}
 	m_translate.z = Easing::Quad::EaseIn(double(m_transInterp), m_translate.z, offset-m_translate.z, 1.0);
@@ -129,7 +147,7 @@ void ShipCockpit::Update(float timeStep)
 		}
 
 		// Roll
-		if(dot_yaw < 1.0f) {			
+		if(dot_yaw < 1.0f) {
 			if(angle_yaw > DEG2RAD(COCKPIT_LAG_MAX_ANGLE)) {
 				angle_yaw = DEG2RAD(COCKPIT_LAG_MAX_ANGLE);
 			}

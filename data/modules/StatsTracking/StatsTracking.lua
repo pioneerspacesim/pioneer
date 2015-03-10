@@ -39,7 +39,7 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 local onShipHit = function (ship, attacker)
-	if attacker:isa('Ship') and attacker:IsPlayer() then
+	if attacker and attacker:isa('Ship') and attacker:IsPlayer() then
 		PlayerDamagedShips[ship]=true
 	end
 end

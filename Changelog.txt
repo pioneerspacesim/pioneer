@@ -1,6 +1,10 @@
 March 2015
    * Fixes
      * Fix modelcompiler (#3356)
+     * Attempt to avoid calling methods on a nil object (#3357)
+     
+   * New Features
+     * Mouselook for internal camera (#3361)
 
 February 2015
    * Fixes

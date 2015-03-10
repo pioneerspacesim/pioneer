@@ -35,8 +35,14 @@ void CameraController::Update()
 
 
 InternalCameraController::InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship) :
-	CameraController(camera, ship),
-	m_mode(MODE_FRONT)
+	MoveableCameraController(camera, ship),
+	m_mode(MODE_FRONT),
+	m_rotX(0),
+	m_rotY(0),
+       m_viewRotX(0),
+       m_viewRotY(0),
+	m_intOrient(matrix3x3d::Identity()),
+	m_viewOrient(matrix3x3d::Identity())
 {
 	Reset();
 }
@@ -88,6 +94,22 @@ void InternalCameraController::Reset()
 	SetMode(m_mode);
 }
 
+void InternalCameraController::Update()
+{
+    m_viewOrient =
+        matrix3x3d::RotateY(-DEG2RAD(m_rotY)) *
+        matrix3x3d::RotateX(-DEG2RAD(m_rotX));
+
+    SetOrient(m_intOrient * m_viewOrient);
+
+    CameraController::Update();
+}
+
+void InternalCameraController::getRots(double &rX, double &rY) {
+        rX = m_viewRotX;
+        rY = m_viewRotY;
+}
+
 void InternalCameraController::SetMode(Mode m)
 {
 	m_mode = m;
@@ -95,34 +117,62 @@ void InternalCameraController::SetMode(Mode m)
 		case MODE_FRONT:
 			m_name = Lang::CAMERA_FRONT_VIEW;
 			SetPosition(m_frontPos);
-			SetOrient(m_frontOrient);
+                       m_intOrient = m_frontOrient;
 			break;
 		case MODE_REAR:
 			m_name = Lang::CAMERA_REAR_VIEW;
 			SetPosition(m_rearPos);
-			SetOrient(m_rearOrient);
+                       m_intOrient = m_rearOrient;
 			break;
 		case MODE_LEFT:
 			m_name = Lang::CAMERA_LEFT_VIEW;
 			SetPosition(m_leftPos);
-			SetOrient(m_leftOrient);
+                       m_intOrient = m_leftOrient;
 			break;
 		case MODE_RIGHT:
 			m_name = Lang::CAMERA_RIGHT_VIEW;
 			SetPosition(m_rightPos);
-			SetOrient(m_rightOrient);
+                       m_intOrient = m_rightOrient;
 			break;
 		case MODE_TOP:
 			m_name = Lang::CAMERA_TOP_VIEW;
 			SetPosition(m_topPos);
-			SetOrient(m_topOrient);
+                       m_intOrient = m_topOrient;
 			break;
 		case MODE_BOTTOM:
 			m_name = Lang::CAMERA_BOTTOM_VIEW;
 			SetPosition(m_bottomPos);
-			SetOrient(m_bottomOrient);
+                       m_intOrient = m_bottomOrient;
 			break;
 	}
+       m_rotX = 0;
+       m_rotY = 0;
+       m_viewRotX = 0;
+       m_viewRotY = 0;
+}
+
+void InternalCameraController::RotateUp(float frameTime)
+{
+       m_viewRotX -= frameTime;
+       m_rotX -= 45*frameTime;
+}
+
+void InternalCameraController::RotateDown(float frameTime)
+{
+       m_viewRotX += frameTime;
+	m_rotX += 45*frameTime;
+}
+
+void InternalCameraController::RotateLeft(float frameTime)
+{
+       m_viewRotY -= frameTime;
+	m_rotY -= 45*frameTime;
+}
+
+void InternalCameraController::RotateRight(float frameTime)
+{
+       m_viewRotY += frameTime;
+	m_rotY += 45*frameTime;
 }
 
 void InternalCameraController::SaveToJson(Json::Value &jsonObj)
