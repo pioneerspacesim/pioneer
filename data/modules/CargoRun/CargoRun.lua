@@ -27,8 +27,7 @@ local ui = Engine.ui
 -- don't produce missions for further than this many light years away
 local max_delivery_dist = 15
 -- typical time for travel to a system max_delivery_dist away
---	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
-local typical_travel_time = (3 * max_delivery_dist + 4) * 24 * 60 * 60
+local typical_travel_time = (2.5 * max_delivery_dist + 8) * 24 * 60 * 60
 -- typical reward for delivery to a system max_delivery_dist away
 local typical_reward = 35 * max_delivery_dist
 -- typical reward for local delivery
@@ -213,6 +212,8 @@ table.insert(custom_cargo, consumer_goods)	-- 5
 table.insert(custom_cargo, expensive)		-- 6
 table.insert(custom_cargo, crazy)		-- 7
 
+local HABER = 2 -- INTROTEXT_WHOLESALER_2
+
 local ads = {}
 local missions = {}
 
@@ -283,14 +284,14 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		if ad.urgency >= 0.8 then
+		local whysomuchtext = l["WHYSOMUCHTEXT__" .. ad.branch .. "__" .. ad.cargotype] or l["WHYSOMUCHTEXT__" .. ad.branch]
+
+		if whysomuchtext then
+			form:SetMessage(whysomuchtext)
+		elseif ad.urgency >= 0.8 then
 			form:SetMessage(l["WHYSOMUCHTEXT_URGENT_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCHTEXT_URGENT"))])
-		elseif ad.branch == 6 then
-			form:SetMessage(l["WHYSOMUCHTEXT_EXPENSIVE_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCHTEXT_EXPENSIVE"))])
-		elseif ad.localdelivery then
-			form:SetMessage(l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCHTEXT"))])
 		else
-			form:SetMessage(l["WHYSOMUCHTEXT__" .. ad.branch .. "__" .. ad.cargotype] or l["WHYSOMUCHTEXT__" .. ad.branch] or l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCHTEXT"))])
+			form:SetMessage(l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCHTEXT"))])
 		end
 
 	elseif option == 2 then
@@ -347,25 +348,20 @@ local onChat = function (form, ref, option)
 		return
 
 	elseif option == 4 then
-		local urgency
 		local num = math.floor(ad.urgency * (getNumberOf("URGENCY") - 1)) + 1
-		if ad.localdelivery then
-			urgency = l["URGENCY_" .. num]
-		else
-			urgency = l["URGENCY__" .. ad.branch .. "__" .. ad.cargotype] or l["URGENCY__" .. ad.branch] or l["URGENCY_" .. num]
-		end
+		local urgency = l["URGENCY__" .. ad.branch .. "__" .. ad.cargotype] or l["URGENCY__" .. ad.branch] or l["URGENCY_" .. num]
 		form:SetMessage(urgency .. Format.Date(ad.due))
 
 	elseif option == 5 then
-		local num = math.floor(ad.risk * (getNumberOf("RISK") - 1)) + 1
-		if ad.localdelivery then
-			form:SetMessage(l["RISK_" .. num])
+		if ad.localdelivery then -- very low risk -> no specific text to give no confusing answer
+			form:SetMessage(l.RISK_1)
 		else
-			local venture = l["RISK__" .. ad.branch .. "__" .. ad.cargotype] or l["RISK__" .. ad.branch] or l["RISK_" .. num]
-			if ad.wholesaler and ad.introtext == 1 then
-				venture = venture .. " " .. l.RISK_WHOLESALER
+			local num = math.floor(ad.risk * (getNumberOf("RISK") - 1)) + 1
+			local risk = l["RISK__" .. ad.branch .. "__" .. ad.cargotype] or l["RISK__" .. ad.branch] or l["RISK_" .. num]
+			if ad.wholesaler and ad.introtext ~= HABER then
+				risk = risk .. " " .. l.RISK_WHOLESALER
 			end
-			form:SetMessage(venture)
+			form:SetMessage(risk)
 		end
 	end
 
@@ -402,10 +398,12 @@ local nearbysystems
 
 local makeAdvert = function (station, freeCargoSpace)
 	local reward, due, location, nearbysystem, dist, nearbystations, cargo, adtext, introtext
-	local branch, cargotype, risk, wholesaler, pickup
+	local risk, wholesaler, pickup
 	local client = Character.New()
 	local urgency = Engine.rand:Number(0, 1)
 	local localdelivery = Engine.rand:Number(0, 1) > 0.5 and true or false
+	local branch = Engine.rand:Integer(1, #custom_cargo)
+	local cargotype = Engine.rand:Integer(1, #custom_cargo[branch])
 
 	if localdelivery then
 		nearbysystem = Game.system
@@ -416,14 +414,12 @@ local makeAdvert = function (station, freeCargoSpace)
 		else
 			cargo = Engine.rand:Integer(1, max_cargo)
 		end
-		branch = Engine.rand:Integer(1, (#custom_cargo - 1)) -- no crazy cargo for local delivery
-		cargotype = Engine.rand:Integer(1, #custom_cargo[branch])
 		risk = 0 -- no risk for local delivery
 		wholesaler = false -- no local wholesaler delivery
 		pickup = false -- no local pickup mission
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
-		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) + cargo
-		due = Game.time + ((4*24*60*60) * (Engine.rand:Number(1.5,3.5) - urgency))
+		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) * (1+cargo/max_cargo)
+		due = Game.time + ((4*24*60*60) + (24*60*60 * (dist / (1.49*10^11))) * (1.5 - urgency))
 		introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_LOCAL"))
 	else
 		if nearbysystems == nil then
@@ -454,11 +450,9 @@ local makeAdvert = function (station, freeCargoSpace)
 				end
 			end
 		end
-		branch = Engine.rand:Integer(1, #custom_cargo)
-		cargotype = Engine.rand:Integer(1, #custom_cargo[branch])
 		risk = custom_cargo[branch][cargotype].price / 400 + Engine.rand:Number(0, 0.25) -- goods with price 300 have a risk of 0.75 to 1
-		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/100) * Engine.rand:Number(0.8,1.2)
-		due = (dist / max_delivery_dist) * typical_travel_time * (1.5-urgency) * Engine.rand:Number(0.9,1.1)
+		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/max_cargo_wholesaler) * Engine.rand:Number(0.8,1.2)
+		due = (dist / max_delivery_dist) * typical_travel_time * (1.5 - urgency)
 		if pickup then
 			reward = reward * pickup_factor
 			due = due * pickup_factor + Game.time
@@ -619,7 +613,7 @@ local onEnterSystem = function (player)
 				pirate_gripes_time = Game.time
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
 					local escort
-					if mission.wholesaler and mission.introtext == 2 then
+					if mission.wholesaler and mission.introtext == HABER then
 						escort = Space.SpawnShipNear("wave", Game.player, 50, 100) -- Haber Corp.
 						escort:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
 						escort:AddEquip(Equipment.misc.shield_generator)
@@ -855,7 +849,7 @@ local onClick = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	if mission.localdelivery then
 		introtext = l["INTROTEXT_LOCAL_" .. mission.introtext]
-		danger = l["RISK_" .. math.floor(mission.risk * (getNumberOf("RISK") - 1)) + 1]
+		danger = l.RISK_1
 	else
 		if mission.wholesaler then
 			introtext = l["INTROTEXT_WHOLESALER_" .. mission.introtext]
