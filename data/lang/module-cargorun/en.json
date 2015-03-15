@@ -55,6 +55,10 @@
       "description" : "",
       "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
    },
+   "ADTEXT_PICKUP_LOCAL" : {
+      "description" : "",
+      "message" : "RELOCATION. Move of cargo from {starport} required."
+   },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
       "message" : "Could you repeat the original request?"
@@ -110,6 +114,14 @@
    "INTROTEXT_WHOLESALER_2" : {
       "description" : "",
       "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+   },
+   "INTROTEXT_PICKUP_LOCAL_1" : {
+      "description" : "",
+      "message" : "Greetings. I'm {name}. I will pay {cash} to someone who will transport {cargoname} from {starport} to {dom_starport}."
+   },
+   "INTROTEXT_PICKUP_LOCAL_2" : {
+      "description" : "",
+      "message" : "Hello. My name is {name}. Because of the relocation of our warehouse, we have to move {cargoname} from {starport} to our new domicile {dom_starport}. We will pay you {cash} credits for this delivery."
    },
    "INTROTEXT_PICKUP_1" : {
       "description" : "",
