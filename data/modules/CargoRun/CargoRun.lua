@@ -257,7 +257,11 @@ local onChat = function (form, ref, option)
 
 	if option == 0 then
 		if ad.localdelivery then
-			introtext = l["INTROTEXT_LOCAL_" .. ad.introtext]
+			if ad.pickup then
+				introtext = l["INTROTEXT_PICKUP_LOCAL_" .. ad.introtext]
+			else
+				introtext = l["INTROTEXT_LOCAL_" .. ad.introtext]
+			end
 		elseif ad.wholesaler then
 			introtext = l["INTROTEXT_WHOLESALER_" .. ad.introtext]
 		elseif ad.pickup then
@@ -416,11 +420,18 @@ local makeAdvert = function (station, freeCargoSpace)
 		end
 		risk = 0 -- no risk for local delivery
 		wholesaler = false -- no local wholesaler delivery
-		pickup = false -- no local pickup mission
+		pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
 		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) * (1+cargo/max_cargo)
-		due = Game.time + ((4*24*60*60) + (24*60*60 * (dist / (1.49*10^11))) * (1.5 - urgency))
-		introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_LOCAL"))
+		due = (4*24*60*60) + (24*60*60 * (dist / (1.49*10^11))) * (1.5 - urgency)
+		if pickup then
+			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_PICKUP_LOCAL"))
+			reward = reward * pickup_factor
+			due = due * pickup_factor + Game.time
+		else
+			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_LOCAL"))
+			due = due + Game.time
+		end
 	else
 		if nearbysystems == nil then
 			nearbysystems = Game.system:GetNearbySystems(max_delivery_dist, function (s) return #s:GetStationPaths() > 0 end)
@@ -434,6 +445,7 @@ local makeAdvert = function (station, freeCargoSpace)
 			local approxFuelForJump = math.floor(dist / 10)
 			cargo = (freeCargoSpace - approxFuelForJump) <= 1 and 1 or Engine.rand:Integer(1, (freeCargoSpace - approxFuelForJump))
 			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
+			wholesaler = false
 		else
 			wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
 			if wholesaler then
@@ -443,20 +455,17 @@ local makeAdvert = function (station, freeCargoSpace)
 			else
 				cargo = Engine.rand:Integer(1, max_cargo)
 				pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
-				if pickup then
-					introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_PICKUP"))
-				else
-					introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
-				end
 			end
 		end
 		risk = custom_cargo[branch][cargotype].price / 400 + Engine.rand:Number(0, 0.25) -- goods with price 300 have a risk of 0.75 to 1
 		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/max_cargo_wholesaler) * Engine.rand:Number(0.8,1.2)
 		due = (dist / max_delivery_dist) * typical_travel_time * (1.5 - urgency)
 		if pickup then
+			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_PICKUP"))
 			reward = reward * pickup_factor
 			due = due * pickup_factor + Game.time
 		else
+			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
 			due = due + Game.time
 		end
 	end
@@ -482,7 +491,11 @@ local makeAdvert = function (station, freeCargoSpace)
 	}
 
 	if localdelivery then
-		adtext = l["ADTEXT_LOCAL_" .. Engine.rand:Integer(1, getNumberOf("ADTEXT_LOCAL"))]
+		if pickup then
+			adtext = l.ADTEXT_PICKUP_LOCAL
+		else
+			adtext = l["ADTEXT_LOCAL_" .. Engine.rand:Integer(1, getNumberOf("ADTEXT_LOCAL"))]
+		end
 	elseif wholesaler then
 		adtext = l.ADTEXT_WHOLESALER
 	elseif pickup then
@@ -660,7 +673,7 @@ local isPirateShip = function (ship)
 end
 
 local onShipDestroyed = function (ship, attacker)
-	if ship:IsPlayer() then return end
+	if ship:IsPlayer() or attacker == nil then return end
 
 	if isEscortShip(ship) then
 		for i = 1, #escort_ship do
@@ -697,6 +710,9 @@ local onShipFiring = function (ship)
 end
 
 local onShipHit = function (ship, attacker)
+	if attacker == nil then return end
+	if not attacker:isa('Ship') then return end
+
 	if ship:IsPlayer() and #escort_ship ~= 0 and not isEscortShip(attacker) then
 		if Game.time >= escort_switch_target then -- don't switch between targets too quick
 			for i = 1, #escort_ship do
@@ -848,7 +864,11 @@ local onClick = function (mission)
 	local introtext, danger
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
 	if mission.localdelivery then
-		introtext = l["INTROTEXT_LOCAL_" .. mission.introtext]
+		if mission.pickup then
+			introtext = l["INTROTEXT_PICKUP_LOCAL_" .. mission.introtext]
+		else
+			introtext = l["INTROTEXT_LOCAL_" .. mission.introtext]
+		end
 		danger = l.RISK_1
 	else
 		if mission.wholesaler then
