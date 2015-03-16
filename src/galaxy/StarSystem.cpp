@@ -830,30 +830,35 @@ StarSystem::~StarSystem()
 		m_cache->RemoveFromAttic(m_path);
 }
 
-void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
+void StarSystem::ToJson(Json::Value &jsonObj, StarSystem *s)
 {
-	if (s) {
-		wr.Byte(1);
-		wr.Int32(s->m_path.sectorX);
-		wr.Int32(s->m_path.sectorY);
-		wr.Int32(s->m_path.sectorZ);
-		wr.Int32(s->m_path.systemIndex);
-	} else {
-		wr.Byte(0);
+	if (s)
+	{
+		Json::Value starSystemObj(Json::objectValue); // Create JSON object to contain star system data.
+		starSystemObj["sector_x"] = s->m_path.sectorX;
+		starSystemObj["sector_y"] = s->m_path.sectorY;
+		starSystemObj["sector_z"] = s->m_path.sectorZ;
+		starSystemObj["system_index"] = s->m_path.systemIndex;
+		jsonObj["star_system"] = starSystemObj; // Add star system object to supplied object.
 	}
 }
 
-RefCountedPtr<StarSystem> StarSystem::Unserialize(RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd)
+RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj)
 {
-	if (rd.Byte()) {
-		int sec_x = rd.Int32();
-		int sec_y = rd.Int32();
-		int sec_z = rd.Int32();
-		int sys_idx = rd.Int32();
-		return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
-	} else {
-		return RefCountedPtr<StarSystem>(0);
-	}
+	if (!jsonObj.isMember("star_system")) return RefCountedPtr<StarSystem>(0); // No star system
+
+	Json::Value starSystemObj = jsonObj["star_system"];
+
+	if (!starSystemObj.isMember("sector_x")) throw SavedGameCorruptException();
+	if (!starSystemObj.isMember("sector_y")) throw SavedGameCorruptException();
+	if (!starSystemObj.isMember("sector_z")) throw SavedGameCorruptException();
+	if (!starSystemObj.isMember("system_index")) throw SavedGameCorruptException();
+
+	int sec_x = starSystemObj["sector_x"].asInt();
+	int sec_y = starSystemObj["sector_y"].asInt();
+	int sec_z = starSystemObj["sector_z"].asInt();
+	int sys_idx = starSystemObj["system_index"].asUInt();
+	return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 }
 
 std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {

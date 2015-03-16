@@ -70,6 +70,7 @@
 #include "graphics/Drawables.h"
 #include "Serializer.h"
 #include "DeleteEmitter.h"
+#include "json/json.h"
 #include <stdexcept>
 
 namespace Graphics { 
@@ -147,8 +148,8 @@ public:
 	//special for ship model use
 	void SetThrust(const vector3f &linear, const vector3f &angular);
 
-	void Save(Serializer::Writer &wr) const;
-	void Load(Serializer::Reader &rd);
+	void SaveToJson(Json::Value &jsonObj) const;
+	void LoadFromJson(const Json::Value &jsonObj);
 
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;

@@ -76,26 +76,43 @@ SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetG
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
+SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
-	m_pos.x = m_posMovingTo.x = rd.Float();
-	m_pos.y = m_posMovingTo.y = rd.Float();
-	m_pos.z = m_posMovingTo.z = rd.Float();
-	m_rotX = m_rotXMovingTo = rd.Float();
-	m_rotZ = m_rotZMovingTo = rd.Float();
-	m_zoom = m_zoomMovingTo = rd.Float();
+	if (!jsonObj.isMember("sector_view")) throw SavedGameCorruptException();
+	Json::Value sectorViewObj = jsonObj["sector_view"];
+
+	if (!sectorViewObj.isMember("pos_x")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("pos_y")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("pos_z")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("rot_x")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("rot_z")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("zoom")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("in_system")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("current")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("selected")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("hyperspace")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("match_target_to_selection")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("automatic_system_selection")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("detail_box_visible")) throw SavedGameCorruptException();
+
+	m_pos.x = m_posMovingTo.x = StrToFloat(sectorViewObj["pos_x"].asString());
+	m_pos.y = m_posMovingTo.y = StrToFloat(sectorViewObj["pos_y"].asString());
+	m_pos.z = m_posMovingTo.z = StrToFloat(sectorViewObj["pos_z"].asString());
+	m_rotX = m_rotXMovingTo = StrToFloat(sectorViewObj["rot_x"].asString());
+	m_rotZ = m_rotZMovingTo = StrToFloat(sectorViewObj["rot_z"].asString());
+	m_zoom = m_zoomMovingTo = StrToFloat(sectorViewObj["zoom"].asString());
 	// XXX I have no idea if this is correct,
 	// I just copied it from the one other place m_zoomClamped is set
 	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
-	m_inSystem = rd.Bool();
-	m_current = SystemPath::Unserialize(rd);
-	m_selected = SystemPath::Unserialize(rd);
-	m_hyperspaceTarget = SystemPath::Unserialize(rd);
-	m_matchTargetToSelection = rd.Bool();
-	m_automaticSystemSelection = rd.Bool();
-	m_detailBoxVisible = rd.Byte();
+	m_inSystem = sectorViewObj["in_system"].asBool();
+	m_current = SystemPath::FromJson(sectorViewObj["current"]);
+	m_selected = SystemPath::FromJson(sectorViewObj["selected"]);
+	m_hyperspaceTarget = SystemPath::FromJson(sectorViewObj["hyperspace"]);
+	m_matchTargetToSelection = sectorViewObj["match_target_to_selection"].asBool();
+	m_automaticSystemSelection = sectorViewObj["automatic_system_selection"].asBool();
+	m_detailBoxVisible = sectorViewObj["detail_box_visible"].asUInt();
 
 	InitObject();
 }
@@ -348,21 +365,35 @@ SectorView::~SectorView()
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
-void SectorView::Save(Serializer::Writer &wr)
+void SectorView::SaveToJson(Json::Value &jsonObj)
 {
-	wr.Float(m_pos.x);
-	wr.Float(m_pos.y);
-	wr.Float(m_pos.z);
-	wr.Float(m_rotX);
-	wr.Float(m_rotZ);
-	wr.Float(m_zoom);
-	wr.Bool(m_inSystem);
-	m_current.Serialize(wr);
-	m_selected.Serialize(wr);
-	m_hyperspaceTarget.Serialize(wr);
-	wr.Bool(m_matchTargetToSelection);
-	wr.Bool(m_automaticSystemSelection);
-	wr.Byte(m_detailBoxVisible);
+	Json::Value sectorViewObj(Json::objectValue); // Create JSON object to contain sector view data.
+
+	sectorViewObj["pos_x"] = FloatToStr(m_pos.x);
+	sectorViewObj["pos_y"] = FloatToStr(m_pos.y);
+	sectorViewObj["pos_z"] = FloatToStr(m_pos.z);
+	sectorViewObj["rot_x"] = FloatToStr(m_rotX);
+	sectorViewObj["rot_z"] = FloatToStr(m_rotZ);
+	sectorViewObj["zoom"] = FloatToStr(m_zoom);
+	sectorViewObj["in_system"] = m_inSystem;
+
+	Json::Value currentSystemObj(Json::objectValue); // Create JSON object to contain current system data.
+	m_current.ToJson(currentSystemObj);
+	sectorViewObj["current"] = currentSystemObj; // Add current system object to sector view object.
+
+	Json::Value selectedSystemObj(Json::objectValue); // Create JSON object to contain selected system data.
+	m_selected.ToJson(selectedSystemObj);
+	sectorViewObj["selected"] = selectedSystemObj; // Add selected system object to sector view object.
+
+	Json::Value hyperspaceSystemObj(Json::objectValue); // Create JSON object to contain hyperspace system data.
+	m_hyperspaceTarget.ToJson(hyperspaceSystemObj);
+	sectorViewObj["hyperspace"] = hyperspaceSystemObj; // Add hyperspace system object to sector view object.
+
+	sectorViewObj["match_target_to_selection"] = m_matchTargetToSelection;
+	sectorViewObj["automatic_system_selection"] = m_automaticSystemSelection;
+	sectorViewObj["detail_box_visible"] = m_detailBoxVisible;
+
+	jsonObj["sector_view"] = sectorViewObj; // Add sector view object to supplied object.
 }
 
 void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)

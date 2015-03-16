@@ -31,7 +31,7 @@ public:
 #endif
 
 protected:
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 
 private:
 	void InitParams(const SystemBody*);

@@ -29,13 +29,12 @@ void PropertyMap::PushLuaTable()
 	m_table.PushCopyToStack();
 }
 
-void PropertyMap::Save(Serializer::Writer &wr)
+void PropertyMap::SaveToJson(Json::Value &jsonObj)
 {
-	m_table.Save(wr);
+	m_table.SaveToJson(jsonObj);
 }
 
-
-void PropertyMap::Load(Serializer::Reader &rd)
+void PropertyMap::LoadFromJson(const Json::Value &jsonObj)
 {
-	m_table.Load(rd);
+	m_table.LoadFromJson(jsonObj);
 }

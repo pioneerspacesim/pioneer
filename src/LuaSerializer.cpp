@@ -3,6 +3,7 @@
 
 #include "LuaSerializer.h"
 #include "LuaObject.h"
+#include "json/JsonUtils.h"
 
 // every module can save one object. that will usually be a table.  we call
 // each serializer in turn and capture its return value we build a table like
@@ -353,7 +354,7 @@ void LuaSerializer::UninitTableRefs() {
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
 }
 
-void LuaSerializer::Serialize(Serializer::Writer &wr)
+void LuaSerializer::ToJson(Json::Value &jsonObj)
 {
 	lua_State *l = Lua::manager->GetLuaState();
 
@@ -386,20 +387,22 @@ void LuaSerializer::Serialize(Serializer::Writer &wr)
 	std::string pickled;
 	pickle(l, savetable, pickled);
 
-	wr.String(pickled);
+	BinStrToJson(jsonObj, pickled, "lua_modules");
 
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
 }
 
-void LuaSerializer::Unserialize(Serializer::Reader &rd)
+void LuaSerializer::FromJson(const Json::Value &jsonObj)
 {
+	if (!jsonObj.isMember("lua_modules")) throw SavedGameCorruptException();
+
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
 
-	std::string pickled = rd.String();
+	std::string pickled = JsonToBinStr(jsonObj, "lua_modules");
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
 	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();

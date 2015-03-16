@@ -40,8 +40,8 @@ public:
 	virtual void TimeStepUpdate(const float timeStep);
 
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 
 	void SetLighting(Graphics::Renderer *r, const Camera *camera, std::vector<Graphics::Light> &oldLights, Color &oldAmbient);
 	void ResetLighting(Graphics::Renderer *r, const std::vector<Graphics::Light> &oldLights, const Color &oldAmbient);

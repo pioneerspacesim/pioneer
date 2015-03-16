@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "Random.h"
 #include "LuaWrappable.h"
+#include "json/json.h"
 #include <string>
 
 namespace SceneGraph {
@@ -33,7 +34,9 @@ public:
 	void SetLabel(const std::string &label);
 
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj);
 	void Save(Serializer::Writer &wr) const;
+	void SaveToJson(Json::Value &jsonObj) const;
 
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;

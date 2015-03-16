@@ -12,12 +12,12 @@
 
 class LuaSerializer : public DeleteEmitter {
 	friend class LuaObject<LuaSerializer>;
-	friend void LuaRef::Save(Serializer::Writer &wr);
-	friend void LuaRef::Load(Serializer::Reader &rd);
+	friend void LuaRef::SaveToJson(Json::Value &jsonObj);
+	friend void LuaRef::LoadFromJson(const Json::Value &jsonObj);
 
 public:
-	void Serialize(Serializer::Writer &wr);
-	void Unserialize(Serializer::Reader &rd);
+	void ToJson(Json::Value &jsonObj);
+	void FromJson(const Json::Value &jsonObj);
 
 	void WrLuaRef(LuaRef &ref, Serializer::Writer &wr);
 	void RdLuaRef(LuaRef &ref, Serializer::Reader &rd);

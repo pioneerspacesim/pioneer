@@ -300,8 +300,8 @@ public:
 	const std::string &GetName() const { return m_name; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
-	static void Serialize(Serializer::Writer &wr, StarSystem *);
-	static RefCountedPtr<StarSystem> Unserialize(RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd);
+	static void ToJson(Json::Value &jsonObj, StarSystem *);
+	static RefCountedPtr<StarSystem> FromJson(RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj);
 	const SystemPath &GetPath() const { return m_path; }
 	const std::string& GetShortDescription() const { return m_shortDesc; }
 	const std::string& GetLongDescription() const { return m_longDesc; }

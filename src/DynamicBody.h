@@ -52,8 +52,8 @@ public:
 
 	Orbit ComputeOrbit() const;
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 
 	static const double DEFAULT_DRAG_COEFF;
 	double m_dragCoeff;

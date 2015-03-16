@@ -69,8 +69,8 @@ public:
 	virtual void UpdateInterpTransform(double alpha);
 
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 
 private:
 	void DockingUpdate(const double timeStep);

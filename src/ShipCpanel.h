@@ -19,7 +19,7 @@ namespace Graphics { class Renderer; }
 class ShipCpanel: public Gui::Fixed {
 public:
 	ShipCpanel(Graphics::Renderer *r, Game* game);
-    ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r, Game* game);
+	ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game);
 	virtual ~ShipCpanel();
 	virtual void Draw();
 	void Update();
@@ -27,7 +27,7 @@ public:
 
 	void TimeStepUpdate(float step);
 
-	void Save(Serializer::Writer &wr);
+	void SaveToJson(Json::Value &jsonObj);
 
 	enum OverlayTextPos {
 		OVERLAY_TOP_LEFT,

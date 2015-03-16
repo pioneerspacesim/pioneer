@@ -9,6 +9,7 @@
 #include "Lang.h"
 #include "Serializer.h"
 #include "Camera.h"
+#include "json/json.h"
 
 class Ship;
 
@@ -28,8 +29,8 @@ public:
 
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void Save(Serializer::Writer &wr) { }
-	virtual void Load(Serializer::Reader &rd) { }
+	virtual void SaveToJson(Json::Value &jsonObj) { }
+	virtual void LoadFromJson(const Json::Value &jsonObj) { }
 	virtual bool IsExternal() const { return false; }
 
 	// camera position relative to the body
@@ -93,8 +94,8 @@ public:
 	const char *GetName() const { return m_name; }
 	void SetMode(Mode m);
 	Mode GetMode() const { return m_mode; }
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 	void RotateDown(float frameTime);
 	void RotateLeft(float frameTime);
@@ -146,8 +147,8 @@ public:
 		m_rotY = y;
 	}
 
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 	void Update();
 
@@ -180,8 +181,8 @@ public:
 	void Reset();
 	bool IsExternal() const { return true; }
 
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 	void Update();
 

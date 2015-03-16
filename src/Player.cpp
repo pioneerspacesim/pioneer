@@ -51,15 +51,15 @@ void Player::SetShipType(const ShipType::Id &shipId) {
 	InitCockpit();
 }
 
-void Player::Save(Serializer::Writer &wr, Space *space)
+void Player::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Ship::Save(wr, space);
+	Ship::SaveToJson(jsonObj, space);
 }
 
-void Player::Load(Serializer::Reader &rd, Space *space)
+void Player::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	Pi::player = this;
-	Ship::Load(rd, space);
+	Ship::LoadFromJson(jsonObj, space);
 	InitCockpit();
 	registerEquipChangeListener(this);
 }

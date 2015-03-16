@@ -8,6 +8,7 @@
  */
 #include "libs.h"
 #include "Serializer.h"
+#include "json/json.h"
 #include <deque>
 
 namespace Graphics { class Renderer; }
@@ -35,8 +36,8 @@ public:
 
 	Shields(SceneGraph::Model*);
 	virtual ~Shields();
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void SaveToJson(Json::Value &jsonObj);
+	virtual void LoadFromJson(const Json::Value &jsonObj);
 
 	void SetEnabled(const bool on) { m_enabled = on; }
 	void Update(const float coolDown, const float shieldStrength);

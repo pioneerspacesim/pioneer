@@ -109,7 +109,7 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, double at_time)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj, double at_time)
 	: m_starSystemCache(galaxy->NewStarSystemSlaveCache())
 	, m_game(game)
 	, m_frameIndexValid(false)
@@ -120,7 +120,10 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, d
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::Unserialize(galaxy, rd);
+	if (!jsonObj.isMember("space")) throw SavedGameCorruptException();
+	Json::Value spaceObj = jsonObj["space"];
+
+	m_starSystem = StarSystem::FromJson(galaxy, spaceObj);
 
 	const SystemPath &path = m_starSystem->GetPath();
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
@@ -131,13 +134,14 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Serializer::Reader &rd, d
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
-	Serializer::Reader section = rd.RdSection("Frames");
-	m_rootFrame.reset(Frame::Unserialize(section, this, 0, at_time));
+	m_rootFrame.reset(Frame::FromJson(spaceObj, this, 0, at_time));
 	RebuildFrameIndex();
 
-	Uint32 nbodies = rd.Int32();
-	for (Uint32 i = 0; i < nbodies; i++)
-		m_bodies.push_back(Body::Unserialize(rd, this));
+	if (!spaceObj.isMember("bodies")) throw SavedGameCorruptException();
+	Json::Value bodyArray = spaceObj["bodies"];
+	if (!bodyArray.isArray()) throw SavedGameCorruptException();
+	for (Uint32 i = 0; i < bodyArray.size(); i++)
+		m_bodies.push_back(Body::FromJson(bodyArray[i], this));
 	RebuildBodyIndex();
 
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
@@ -155,21 +159,28 @@ Space::~Space()
 	UpdateBodies();
 }
 
-void Space::Serialize(Serializer::Writer &wr)
+void Space::ToJson(Json::Value &jsonObj)
 {
 	RebuildFrameIndex();
 	RebuildBodyIndex();
 	RebuildSystemBodyIndex();
 
-	StarSystem::Serialize(wr, m_starSystem.Get());
+	Json::Value spaceObj(Json::objectValue); // Create JSON object to contain space data (all the bodies and things).
 
-	Serializer::Writer section;
-	Frame::Serialize(section, m_rootFrame.get(), this);
-	wr.WrSection("Frames", section.GetData());
+	StarSystem::ToJson(spaceObj, m_starSystem.Get());
 
-	wr.Int32(m_bodies.size());
+	Frame::ToJson(spaceObj, m_rootFrame.get(), this);
+
+	Json::Value bodyArray(Json::arrayValue); // Create JSON array to contain body data.
 	for (Body* b : m_bodies)
-		b->Serialize(wr, this);
+	{
+		Json::Value bodyArrayEl(Json::objectValue); // Create JSON object to contain body.
+		b->ToJson(bodyArrayEl, this);
+		bodyArray.append(bodyArrayEl); // Append body object to array.
+	}
+	spaceObj["bodies"] = bodyArray; // Add body array to space object.
+
+	jsonObj["space"] = spaceObj; // Add space object to supplied object.
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx) const
