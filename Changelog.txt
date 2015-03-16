@@ -5,6 +5,7 @@ March 2015
      
    * New Features
      * Mouselook for internal camera (#3361)
+     * Migrating the save-game serialisation from a binary flat file to JSON (#3355)
 
 February 2015
    * Fixes
