@@ -27,7 +27,7 @@
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
 
-static const int  s_saveVersion   = 80;
+static const int  s_saveVersion   = 81;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 

@@ -13,5 +13,4 @@ Regular tasks
 - data/libs/NameGen.lua: Add new authors to name generator
 
 One-time tasks
-- Remove serializer registration for ModelSkin (see XXX comment at bottom for
-  scengraph/LuaModelSkin.cpp)
+- 
