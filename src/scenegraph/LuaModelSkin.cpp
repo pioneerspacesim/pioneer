@@ -147,8 +147,5 @@ template <> void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
 	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_modelskin_serializer, _modelskin_deserializer));
-
-	// XXX support for old savefiles
-	LuaObjectBase::RegisterSerializer("ModelSkin", SerializerPair(_modelskin_serializer, _modelskin_deserializer));
 }
 
