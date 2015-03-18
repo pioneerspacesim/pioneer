@@ -1,6 +1,8 @@
 // Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+// #extension GL_ARB_gpu_shader5 : enable
+
 #ifdef TEXTURE0
 out vec2 texCoord0;
 #endif
@@ -28,7 +30,10 @@ void main(void)
 #endif
 #if (NUM_LIGHTS > 0)
 	eyePos = vec3(uViewMatrix * a_vertex);
-	normal = normalize(uNormalMatrix * vec4(a_normal, 1.0)).xyz;
+	normal = normalize(uNormalMatrix * a_normal);
+	
+	//mat3 mn = mat3(transpose(inverse(uViewMatrix)));
+	//normal = normalize(mn * a_normal);
 #ifdef HEAT_COLOURING
 	heatingDir = normalize(heatingMatrix * heatingNormal);
 #endif
