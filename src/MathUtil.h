@@ -5,6 +5,8 @@
 #define _MATHUTIL_H
 
 #include "vector3.h"
+#include "matrix3x3.h"
+#include "matrix4x4.h"
 
 namespace MathUtil {
 
@@ -23,6 +25,15 @@ namespace MathUtil {
 	}
 
 	inline float Dot(const vector3f &a, const vector3f &b) { return a.x*b.x + a.y*b.y + a.z*b.z; }
+
+	// matrix4x4f utility functions
+	matrix4x4f Inverse(const matrix4x4f &);
+	matrix4x4f InverseSlow(const matrix4x4f &);
+	matrix4x4f Transpose(const matrix4x4f &);
+	
+	// matrix3x3f utility functions
+	matrix3x3f Inverse(const matrix3x3f &);
+	matrix3x3f Transpose(const matrix3x3f &);
 }
 
 #endif

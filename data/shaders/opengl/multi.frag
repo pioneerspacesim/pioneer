@@ -39,9 +39,9 @@ void ads(in int lightNum, in vec3 pos, in vec3 n, inout vec4 light, inout vec4 s
 	vec3 h = normalize(v + s);
 	light += uLight[lightNum].diffuse * material.diffuse * max(dot(s, n), 0.0);
 #ifdef MAP_SPECULAR
-	specular += texture(texture1, texCoord0) * material.specular * uLight[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
+	specular += texture(texture1, texCoord0) * material.specular * uLight[lightNum].specular * pow(max(dot(h, n), 0.0), material.shininess);
 #else
-	specular += material.specular * uLight[lightNum].diffuse * pow(max(dot(h, n), 0.0), material.shininess);
+	specular += material.specular * uLight[lightNum].specular * pow(max(dot(h, n), 0.0), material.shininess);
 #endif
 	specular.a = 0.0;
 	light.a = 1.0;

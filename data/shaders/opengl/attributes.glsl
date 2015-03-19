@@ -5,7 +5,7 @@ uniform mat4 uProjectionMatrix;
 uniform mat4 uViewMatrix;
 uniform mat4 uViewMatrixInverse;
 uniform mat4 uViewProjectionMatrix;
-uniform mat4 uNormalMatrix;
+uniform mat3 uNormalMatrix;
 
 //Light uniform parameters
 struct Light {
@@ -28,6 +28,6 @@ struct Material {
 in vec4 a_vertex;
 in vec3 a_normal;
 in vec4 a_color;
-in vec2 a_uv0;
+in vec4 a_uv0;
 
 #endif // VERTEX_SHADER
