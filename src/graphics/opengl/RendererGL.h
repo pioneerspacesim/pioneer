@@ -122,10 +122,8 @@ protected:
 	//figure out states from a vertex array and enable them
 	//also sets vertex pointers
 	void EnableVertexAttributes(const VertexBuffer*);
-	void EnableVertexAttributes(const VertexArray*);
 	//disable previously enabled
 	void DisableVertexAttributes(const VertexBuffer*);
-	void DisableVertexAttributes();
 	Uint32 m_numLights;
 	Uint32 m_numDirLights;
 	std::vector<GLuint> m_vertexAttribsSet;

@@ -30,8 +30,8 @@ public:
 	void CollideEdgesWithTrisOf(const GeomTree *other, const matrix4x4d &transTo, void (*callback)(CollisionContact*)) const;
 	void TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const;
 	void TraceRay(const BVHNode *startNode, const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const;
-	void TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
-	void TraceCoherentRays(const BVHNode *startNode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
+	//void TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
+	//void TraceCoherentRays(const BVHNode *startNode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
 	vector3f GetTriNormal(int triIdx) const;
 	unsigned int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
