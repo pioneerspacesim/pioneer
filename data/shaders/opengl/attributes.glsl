@@ -29,5 +29,6 @@ in vec4 a_vertex;
 in vec3 a_normal;
 in vec4 a_color;
 in vec4 a_uv0;
+in mat4 a_transform;
 
 #endif // VERTEX_SHADER

@@ -645,6 +645,14 @@ void RendererOGL::EnableVertexAttributes(const VertexBuffer* gvb)
 		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
 		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
 		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
+		case ATTRIB_TRANSFORM: {
+			// used to pass a matrix4x4f in, however each attrib array is max size of (GLSL) vec4 so must enable 4 arrays
+			glEnableVertexAttribArray(4);
+			glEnableVertexAttribArray(5);
+			glEnableVertexAttribArray(6);
+			glEnableVertexAttribArray(7);
+			break;
+		}
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -664,6 +672,14 @@ void RendererOGL::DisableVertexAttributes(const VertexBuffer* gvb)
 		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);			break;
 		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);			break;
 		case ATTRIB_UV0:			glDisableVertexAttribArray(3);			break;
+		case ATTRIB_TRANSFORM: {
+			// see enable comment above
+			glDisableVertexAttribArray(4);
+			glDisableVertexAttribArray(5);
+			glDisableVertexAttribArray(6);
+			glDisableVertexAttribArray(7);
+			break;
+		}
 		case ATTRIB_NONE:
 		default:
 			return;
