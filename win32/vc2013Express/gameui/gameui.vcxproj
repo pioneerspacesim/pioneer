@@ -103,6 +103,7 @@
     </Link>
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
