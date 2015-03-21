@@ -8,6 +8,6 @@ void main(void)
 {
 	gl_Position = logarithmicTransform();
 
-	texCoord0 = a_uv0;
+	texCoord0 = a_uv0.xy;
 	texCoord1 = a_vertex;
 }
