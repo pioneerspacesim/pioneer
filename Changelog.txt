@@ -3,6 +3,7 @@ March 2015
      * Fix modelcompiler (#3356)
      * Attempt to avoid calling methods on a nil object (#3357)
      * Fix missing specular highlights (#3367)
+     * Fix compilation of planetrings shader (#3370)
      
    * New Features
      * Mouselook for internal camera (#3361)
