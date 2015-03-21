@@ -23,6 +23,7 @@ HudTrail::HudTrail(Body *b, const Color& c)
 
 void HudTrail::Update(float time)
 {
+	PROFILE_SCOPED();
 	//record position
 	m_updateTime += time;
 	if (m_updateTime > UPDATE_INTERVAL) {
@@ -44,6 +45,7 @@ void HudTrail::Update(float time)
 
 void HudTrail::Render(Graphics::Renderer *r)
 {
+	PROFILE_SCOPED();
 	//render trail
 	if (m_trailPoints.size() > 1) {
 		const vector3d vpos = m_transform * m_body->GetInterpPosition();

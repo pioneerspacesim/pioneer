@@ -319,6 +319,7 @@ bool RendererOGL::SwapBuffers()
 #endif
 
 	GetWindow()->SwapBuffers();
+	m_stats.NextFrame();
 	return true;
 }
 
@@ -536,6 +537,8 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 
 	const bool res = DrawBuffer(vb.get(), rs, m, t);
 	CheckRenderErrors();
+	
+	m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
 
 	return res;
 }
@@ -574,6 +577,8 @@ bool RendererOGL::DrawPointSprites(int count, const vector3f *positions, RenderS
 
 	DrawTriangles(&va, rs, material);
 	CheckRenderErrors();
+	
+	m_stats.AddToStatCount(Stats::STAT_DRAWPOINTSPRITES, count);
 
 	return true;
 }
@@ -596,6 +601,8 @@ bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	DisableVertexAttributes(gvb);
 	gvb->Release();
 	CheckRenderErrors();
+
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
 }
@@ -621,6 +628,8 @@ bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	gvb->Release();
 	CheckRenderErrors();
+
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
 }

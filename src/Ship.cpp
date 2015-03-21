@@ -1320,6 +1320,8 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 
+	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
+
 	if (m_ecmRecharge > 0.0f) {
 		// ECM effect: a cloud of particles for a sparkly effect
 		vector3f v[100];

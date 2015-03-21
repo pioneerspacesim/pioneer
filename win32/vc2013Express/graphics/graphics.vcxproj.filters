@@ -71,6 +71,7 @@
     <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp">
       <Filter>dummy</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\Stats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -167,6 +168,7 @@
     <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h">
       <Filter>dummy</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\Stats.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

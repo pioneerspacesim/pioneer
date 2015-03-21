@@ -147,6 +147,7 @@ void Animation::SelectFunctions()
 
 float Animation::Update(float time)
 {
+	PROFILE_SCOPED();
 	if (m_completed)
 		return 0.0f;
 
@@ -186,6 +187,7 @@ void AnimationController::Add(Animation *animation)
 
 void AnimationController::Update()
 {
+	PROFILE_SCOPED();
 	const Uint32 now = SDL_GetTicks();
 
 	for (auto i = m_animations.begin(); i != m_animations.end();) {

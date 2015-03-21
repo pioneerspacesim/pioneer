@@ -8,6 +8,7 @@
 #include "libs.h"
 #include "graphics/Types.h"
 #include "graphics/Light.h"
+#include "Stats.h"
 #include <map>
 #include <memory>
 
@@ -172,11 +173,14 @@ public:
 
 	virtual bool Screendump(ScreendumpState &sd) { return false; }
 
+	Stats& GetStats() { return m_stats; }
+
 protected:
 	int m_width;
 	int m_height;
 	Color m_ambient;
 	Light m_lights[4];
+	Stats m_stats;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;
