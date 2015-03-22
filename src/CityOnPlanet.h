@@ -13,7 +13,7 @@ class Planet;
 class SpaceStation;
 class Frame;
 class Geom;
-namespace Graphics { class Renderer; class Frustum; }
+namespace Graphics { class Renderer; class Frustum; class InstanceBuffer; }
 namespace SceneGraph { class Model; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0
@@ -35,20 +35,58 @@ private:
 	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
-		SceneGraph::Model *model;
+		Uint32 instIndex;
 		float clipRadius;
 		int rotation; // 0-3
 		vector3d pos;
 		Geom *geom;
 	};
 
+	struct BuildingType {
+		RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
+		Uint32 m_count;
+	};
+
 	Planet *m_planet;
 	Frame *m_frame;
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
+	std::vector<BuildingType> m_buildingTypes;
 	int m_detailLevel;
 	vector3d m_realCentre;
 	float m_clipRadius;
+
+	// --------------------------------------------------------
+	// statics
+	static const unsigned int CITYFLAVOURS = 5;
+
+	struct citybuilding_t {
+		const char *modelname;
+		double xzradius;
+		SceneGraph::Model *resolvedModel;
+		RefCountedPtr<CollMesh> collMesh;
+		Uint32 instIndex;
+	};
+
+	struct citybuildinglist_t {
+		const char *modelTagName;
+		double minRadius, maxRadius;
+		unsigned int numBuildings;
+		citybuilding_t *buildings;
+	};
+
+	struct cityflavourdef_t {
+		vector3d center;
+		double size;
+	};
+
+	static bool s_cityBuildingsInitted;
+
+	static citybuildinglist_t s_buildingList;
+	static cityflavourdef_t cityflavour[CITYFLAVOURS];
+
+	static void EnumerateNewBuildings(std::set<std::string> &filenames);
+	static void LookupBuildingListModels(citybuildinglist_t *list);
 };
 
 #endif /* _CITYONPLANET_H */
