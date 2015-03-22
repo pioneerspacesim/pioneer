@@ -171,6 +171,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 			renderer->SetWireFrameMode(false);
 		}
 #endif
+		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
 	}
 }
 
