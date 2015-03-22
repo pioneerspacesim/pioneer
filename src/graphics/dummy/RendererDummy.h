@@ -60,6 +60,8 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override { return true; }
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override { return true; }
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType) override { return true; }
+	virtual bool DrawBufferInstanced(VertexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType type=TRIANGLES) override { return true; }
+	virtual bool DrawBufferIndexedInstanced(VertexBuffer*, IndexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType=TRIANGLES) override { return true; }
 
 	virtual Material *CreateMaterial(const MaterialDescriptor &d) override { return new Graphics::Dummy::Material(); }
 	virtual Texture *CreateTexture(const TextureDescriptor &d) override { return new Graphics::TextureDummy(d); }
@@ -67,6 +69,7 @@ public:
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &d) override { return new Graphics::Dummy::RenderTarget(d); }
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc &d) override { return new Graphics::Dummy::VertexBuffer(d); }
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage bu) override { return new Graphics::Dummy::IndexBuffer(size, bu); }
+	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage bu) override { return new Graphics::Dummy::InstanceBuffer(size, bu); }
 
 	virtual bool ReloadShaders() { return true; }
 
