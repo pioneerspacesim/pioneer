@@ -631,7 +631,7 @@ bool RendererOGL::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 
 	vb->Bind();
 	instb->Bind();
-	glDrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetSize());
+	glDrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
 	CheckRenderErrors();
@@ -652,7 +652,7 @@ bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 	vb->Bind();
 	ib->Bind();
 	instb->Bind();
-	glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0, instb->GetSize());
+	glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0, instb->GetInstanceCount());
 	instb->Release();
 	ib->Release();
 	vb->Release();

@@ -107,4 +107,10 @@ InstanceBuffer::~InstanceBuffer()
 {
 }
 
+void InstanceBuffer::SetInstanceCount(const Uint32 ic)
+{
+	assert(ic <= GetSize());
+	m_instanceCount = std::min(ic, GetSize());
+}
+
 }

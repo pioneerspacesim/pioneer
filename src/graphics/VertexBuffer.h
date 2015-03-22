@@ -123,6 +123,8 @@ public:
 	virtual matrix4x4f* Map(BufferMapMode) = 0;
 
 	Uint32 GetSize() const { return m_size; }
+	Uint32 GetInstanceCount() const { return m_instanceCount; }
+	void SetInstanceCount(const Uint32);
 	BufferUsage GetUsage() const { return m_usage; }
 
 	virtual void Bind() = 0;
@@ -130,6 +132,7 @@ public:
 
 protected:
 	Uint32 m_size;
+	Uint32 m_instanceCount;
 	BufferUsage m_usage;
 };
 
