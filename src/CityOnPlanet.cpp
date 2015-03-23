@@ -178,7 +178,10 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 		EnumerateNewBuildings(filenames);
 		for(auto it = filenames.begin(), itEnd = filenames.end(); it != itEnd; ++it)
 		{
+			// find/load the model
 			Model *model = Pi::modelCache->FindModel(*it);
+
+			// good to use
 			models.push_back(model);
 		}
 	}

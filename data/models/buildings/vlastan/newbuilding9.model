@@ -5,6 +5,7 @@ tex_spec specular.dds
 diffuse 1.0 1.0 1.0
 specular 0.6 0.6 0.8
 shininess 40
+use_instancing
 
 lod 5
 mesh newbuilding9LQ.obj

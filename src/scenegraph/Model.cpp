@@ -329,11 +329,10 @@ RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
 
 RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &name) const
 {
-	for (MaterialContainer::const_iterator it = m_materials.begin();
-		it != m_materials.end();
-		++it)
+	for (auto it : m_materials)
 	{
-		if ((*it).first == name) return (*it).second;
+		if (it.first == name) 
+			return it.second;
 	}
 	return RefCountedPtr<Graphics::Material>(); //return invalid
 }

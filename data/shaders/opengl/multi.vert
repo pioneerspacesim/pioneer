@@ -29,8 +29,13 @@ void main(void)
 	texCoord0 = a_uv0.xy;
 #endif
 #if (NUM_LIGHTS > 0)
+#ifdef USE_INSTANCING
+	eyePos = vec3(uViewMatrix * (a_transform * a_vertex));
+	normal = normalize(uNormalMatrix * (mat3(a_transform) * a_normal));
+#else
 	eyePos = vec3(uViewMatrix * a_vertex);
 	normal = normalize(uNormalMatrix * a_normal);
+#endif
 	
 	//mat3 mn = mat3(transpose(inverse(uViewMatrix)));
 	//normal = normalize(mn * a_normal);

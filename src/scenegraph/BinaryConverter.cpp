@@ -244,6 +244,7 @@ void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 		wr.Bool(m.alpha_test);
 		wr.Bool(m.unlit);
 		wr.Bool(m.use_pattern);
+		wr.Bool(m.use_instancing);
 	}
 }
 
@@ -264,6 +265,7 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 		m.alpha_test = rd.Bool();
 		m.unlit = rd.Bool();
 		m.use_pattern = rd.Bool();
+		m.use_instancing = rd.Bool();
 
 		if (m.use_pattern) m_patternsUsed = true;
 

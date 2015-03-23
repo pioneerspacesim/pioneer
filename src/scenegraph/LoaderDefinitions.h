@@ -24,7 +24,8 @@ struct MaterialDefinition {
 		opacity(100),
 		alpha_test(false),
 		unlit(false),
-		use_pattern(false)
+		use_pattern(false),
+		use_instancing(false)
 	{ }
 	std::string name;
 	std::string tex_diff;
@@ -40,6 +41,7 @@ struct MaterialDefinition {
 	bool alpha_test;
 	bool unlit;
 	bool use_pattern;
+	bool use_instancing;
 };
 
 struct LodDefinition {

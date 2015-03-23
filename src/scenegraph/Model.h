@@ -120,7 +120,7 @@ public:
 
 	//materials used in the nodes should be accessible from here for convenience
 	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
-	RefCountedPtr<Graphics::Material> GetMaterialByIndex(int) const;
+	RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
 	unsigned int GetNumMaterials() const { return m_materials.size(); }
 
 	unsigned int GetNumTags() const { return m_tags.size(); }

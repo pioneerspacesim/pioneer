@@ -78,7 +78,8 @@ void StaticGeometry::Render(const std::vector<matrix4x4f> &trans, const RenderDa
 		ib->Unmap();
 		ib->SetInstanceCount(numTrans);
 	}
-
+	
+	r->SetTransform(matrix4x4f::Identity());
 	for (auto& it : m_meshes) {
 		r->DrawBufferIndexedInstanced(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, it.material.Get(), m_instBuffer.Get());
 	}

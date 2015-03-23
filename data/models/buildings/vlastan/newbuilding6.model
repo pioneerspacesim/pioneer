@@ -6,6 +6,7 @@ diffuse 1.0 1.0 1.0
 specular 0.6 0.6 0.8
 shininess 40
 use_patterns
+use_instancing
 
 lod 6
 mesh newbuilding6LQ.obj
