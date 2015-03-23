@@ -90,4 +90,6 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		}
 		renderer->DrawTriangles(&v, rs, mat, Graphics::TRIANGLE_STRIP);
 	}
+
+	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_ATMOSPHERES, 1);
 }

@@ -13,6 +13,7 @@
 #include "collider/Geom.h"
 #include "graphics/Frustum.h"
 #include "graphics/Graphics.h"
+#include "graphics/Stats.h"
 #include "scenegraph/Model.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
@@ -390,6 +391,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 		}
 	}
 
+	Uint32 uCount = 0;
 	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter)
 	{
 		const vector3d pos = viewTransform * (*iter).pos;
@@ -401,5 +403,9 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 		_rot.SetTranslate(posf);
 
 		(*iter).model->Render(_rot);
+		++uCount;
 	}
+	
+	r->GetStats().AddToStatCount(Graphics::Stats::STAT_BUILDINGS, uCount);
+	r->GetStats().AddToStatCount(Graphics::Stats::STAT_CITIES, 1);
 }

@@ -84,4 +84,6 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	renderer->DrawTriangles(&va, m_haloState, Graphics::vtxColorMaterial, TRIANGLE_FAN);
 
 	TerrainBody::Render(renderer, camera, viewCoords, viewTransform);
+
+	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_STARS, 1);
 }

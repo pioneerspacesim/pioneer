@@ -9,6 +9,7 @@
 #include "graphics/VertexBuffer.h"
 #include "graphics/Material.h"
 #include "graphics/RenderState.h"
+#include "graphics/Stats.h"
 
 namespace SceneGraph {
 
@@ -55,8 +56,8 @@ void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 	//some hand-tweaked scaling, to make the lights seem larger from distance
 	const float size = m_size * Graphics::GetFovFactor() * Clamp(trans.GetTranslate().Length() / 500.f, 0.25f, 15.f);
 
-	const vector3f rotv1 = rot * vector3f(size/2.f, -size/2.f, 0.0f);
-	const vector3f rotv2 = rot * vector3f(size/2.f, size/2.f, 0.0f);
+	const vector3f rotv1 = rot * vector3f(size*0.5f, -size*0.5f, 0.0f);
+	const vector3f rotv2 = rot * vector3f(size*0.5f, size*0.5f, 0.0f);
 
 	va.Add(m_offset-rotv1, vector2f(0.f, 0.f)); //top left
 	va.Add(m_offset-rotv2, vector2f(0.f, 1.f)); //bottom left
@@ -82,6 +83,8 @@ void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 
 	r->SetTransform(trans);
 	r->DrawBuffer(m_vbuffer.Get(), m_renderState, m_material.Get());
+
+	r->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
 }
 
 }

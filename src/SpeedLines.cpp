@@ -16,6 +16,7 @@ SpeedLines::SpeedLines(Ship *s)
 , m_visible(false)
 , m_dir(0.f)
 {
+	PROFILE_SCOPED();
 	m_points.reserve(DEPTH * DEPTH * DEPTH);
 	for (int x = -DEPTH/2; x < DEPTH/2; x++) {
 		for (int y = -DEPTH/2; y < DEPTH/2; y++) {
@@ -39,6 +40,7 @@ SpeedLines::SpeedLines(Ship *s)
 
 void SpeedLines::Update(float time)
 {
+	PROFILE_SCOPED();
 	vector3f vel = vector3f(m_ship->GetVelocity());
 	const float absVel = vel.Length();
 
@@ -98,6 +100,7 @@ void SpeedLines::Update(float time)
 
 void SpeedLines::Render(Graphics::Renderer *r)
 {
+	PROFILE_SCOPED();
 	if (!m_visible || m_points.empty()) return;
 
 	const vector3f dir = m_dir * m_lineLength;
@@ -122,6 +125,7 @@ void SpeedLines::Render(Graphics::Renderer *r)
 
 void SpeedLines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 {
+	PROFILE_SCOPED();
 	Graphics::MaterialDescriptor desc;
 	desc.vertexColors = true;
 	m_material.Reset(r->CreateMaterial(desc));

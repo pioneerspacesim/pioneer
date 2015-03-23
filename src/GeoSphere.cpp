@@ -444,6 +444,8 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	}
 
 	renderer->SetAmbientColor(oldAmbient);
+
+	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PLANETS, 1);
 }
 
 void GeoSphere::SetUpMaterials()

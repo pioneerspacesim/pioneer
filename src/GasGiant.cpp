@@ -343,6 +343,7 @@ public:
 		++Pi::statNumPatches;
 
 		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indexBuffer.Get(), rs, mat);
+		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
 	}
 };
 
@@ -626,6 +627,8 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	m_surfaceMaterial->Unapply();
 
 	renderer->SetAmbientColor(oldAmbient);
+
+	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_GASGIANTS, 1);
 }
 
 void GasGiant::SetUpMaterials()

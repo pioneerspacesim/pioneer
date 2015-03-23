@@ -23,6 +23,7 @@ noinst_HEADERS = \
 	TextureBuilder.h \
 	Drawables.h \
 	Types.h \
+	Stats.h \
 	VertexBuffer.h
 
 libgraphics_a_SOURCES = \
@@ -35,4 +36,5 @@ libgraphics_a_SOURCES = \
 	VertexArray.cpp \
 	TextureBuilder.cpp \
 	Drawables.cpp \
+	Stats.cpp \
 	VertexBuffer.cpp

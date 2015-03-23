@@ -77,6 +77,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 , m_period(period)
 , m_enabled(false)
 {
+	PROFILE_SCOPED();
 	assert(g_initted);
 
 	Graphics::Renderer *renderer = model->GetRenderer();
@@ -166,6 +167,7 @@ void NavLights::LoadFromJson(const Json::Value &jsonObj)
 
 void NavLights::Update(float time)
 {
+	PROFILE_SCOPED();
 	if (!m_enabled) {
 		for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
 			it->billboard->SetNodeMask(0x0);
@@ -187,6 +189,7 @@ void NavLights::Update(float time)
 
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
+	PROFILE_SCOPED();
 	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
 		if (it->group != group || it->color == c) continue;
 		it->billboard->SetMaterial(get_material(c));
