@@ -51,7 +51,7 @@ private:
 // Instance buffer
 class InstanceBuffer : public Graphics::InstanceBuffer {
 public:
-	InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage hint)
+	InstanceBuffer(Uint32 size, BufferUsage hint)
 		: Graphics::InstanceBuffer(size, hint), m_data(new matrix4x4f[size])
 	{}
 	virtual ~InstanceBuffer() {};
