@@ -1330,6 +1330,7 @@ void Pi::MainLoop()
 			const Uint32 numDrawGroundStations	= stats.m_stats[Graphics::Stats::STAT_GROUNDSTATIONS];
 			const Uint32 numDrawSpaceStations	= stats.m_stats[Graphics::Stats::STAT_SPACESTATIONS];
 			const Uint32 numDrawAtmospheres		= stats.m_stats[Graphics::Stats::STAT_ATMOSPHERES];
+			const Uint32 numDrawPatches			= stats.m_stats[Graphics::Stats::STAT_PATCHES];
 			const Uint32 numDrawPlanets			= stats.m_stats[Graphics::Stats::STAT_PLANETS];
 			const Uint32 numDrawGasGiants		= stats.m_stats[Graphics::Stats::STAT_GASGIANTS];
 			const Uint32 numDrawStars			= stats.m_stats[Graphics::Stats::STAT_STARS];
@@ -1341,13 +1342,13 @@ void Pi::MainLoop()
 				"Lua mem usage: %d MB + %d KB + %d bytes (stack top: %d)\n\n"
 				"Draw Calls (%u), of which were:\n Tris (%u)\n Point Sprites (%u)\n Billboards (%u)\n"
 				"Buildings (%u), Cities (%u), GroundStations (%u), SpaceStations (%u), Atmospheres (%u)\n"
-				"Planets (%u), GasGiants (%u), Stars (%u), Ships (%u)\n",
+				"Patches (%u), Planets (%u), GasGiants (%u), Stars (%u), Ships (%u)\n",
 				frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
 				Text::TextureFont::GetGlyphCount(), Pi::statNumPatches,
 				lua_memMB, lua_memKB, lua_memB, lua_gettop(Lua::manager->GetLuaState()),
 				numDrawCalls, numDrawTris, numDrawPointSprites, numDrawBillBoards,
 				numDrawBuildings, numDrawCities, numDrawGroundStations, numDrawSpaceStations, numDrawAtmospheres,
-				numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips
+				numDrawPatches, numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips
 			);
 			frame_stat = 0;
 			phys_stat = 0;

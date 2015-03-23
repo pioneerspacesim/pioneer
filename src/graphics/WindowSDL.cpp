@@ -96,6 +96,8 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name) {
 
 	SDL_SetWindowTitle(m_window, vs.title);
 	SDL_ShowCursor(0);
+
+	SDL_GL_SetSwapInterval((vs.vsync!=0) ? 1 : 0);
 }
 
 WindowSDL::~WindowSDL()
