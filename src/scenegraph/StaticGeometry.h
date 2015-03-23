@@ -51,6 +51,7 @@ protected:
 	void DrawBoundingBox(const Aabb &bb);
 	std::vector<Mesh> m_meshes;
 	Graphics::RenderState *m_renderState;
+	RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
 };
 
 }

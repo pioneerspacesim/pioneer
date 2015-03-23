@@ -58,8 +58,29 @@ void StaticGeometry::Render(const std::vector<matrix4x4f> &trans, const RenderDa
 	PROFILE_SCOPED()
 	SDL_assert(m_renderState);
 	Graphics::Renderer *r = GetRenderer();
+
+	const size_t numTrans = trans.size();
+	if (!m_instBuffer.Valid() || (numTrans > m_instBuffer->GetSize()))
+	{
+		// create the InstanceBuffer with the maximum number of transformations we might use within it.
+		m_instBuffer.Reset( r->CreateInstanceBuffer(numTrans, Graphics::BUFFER_USAGE_DYNAMIC) );
+	}
+
+	// Update the InstanceBuffer data
+	for(Uint32 i=0; i<numTrans; i++) {
+		Graphics::InstanceBuffer* ib = m_instBuffer.Get();
+		matrix4x4f *pBuffer = ib->Map(Graphics::BUFFER_MAP_WRITE);
+		// Copy the transforms into the buffer
+		for(auto mt : trans) {
+			(*pBuffer) = mt;
+			++pBuffer;
+		}
+		ib->Unmap();
+		ib->SetInstanceCount(numTrans);
+	}
+
 	for (auto& it : m_meshes) {
-		r->DrawBufferIndexedInstanced(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, it.material.Get());
+		r->DrawBufferIndexedInstanced(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, it.material.Get(), m_instBuffer.Get());
 	}
 }
 

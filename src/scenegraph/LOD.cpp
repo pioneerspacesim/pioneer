@@ -66,17 +66,7 @@ void LOD::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	if ( r!=nullptr )
 	{
 		const size_t count = m_pixelSizes.size();
-		if (m_instBuffer.empty() || (count != m_instBuffer.size())) {
-			m_instBuffer.resize(count);
-		}
-
 		const size_t tsize = trans.size();
-		if (!m_instBuffer[0].Valid() || (tsize > m_instBuffer[0]->GetSize())) {
-			// create the InstanceBuffers with the maximum number of transformations we might use within it.
-			for (Uint32 i = 0; i < count; i++) {
-				m_instBuffer[i].Reset(r->CreateInstanceBuffer(tsize, Graphics::BUFFER_USAGE_DYNAMIC));
-			}
-		}
 
 		// transformation buffers
 		std::vector< std::vector<matrix4x4f> > transform;
@@ -101,19 +91,6 @@ void LOD::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 			}
 
 			transform[lod].push_back(mt);
-		}
-
-		// Update the InstanceBuffer data
-		for (Uint32 i = 0; i<count; i++) {
-			Graphics::InstanceBuffer* ib = m_instBuffer[i].Get();
-			matrix4x4f *pBuffer = ib->Map(Graphics::BUFFER_MAP_WRITE);
-			// Copy the transforms into the buffer
-			for (auto mt : transform[i]) {
-				(*pBuffer) = mt;
-				++pBuffer;
-			}
-			ib->Unmap();
-			ib->SetInstanceCount(transform[i].size());
 		}
 
 		// now render each of the buffers for each of the lods

@@ -105,6 +105,7 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 {
 	// reset data structures
 	m_enabledBuildings.clear();
+	m_buildingCounts.resize(s_buildingList.numBuildings);
 	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
 		m_buildingCounts[i] = 0;
 	}
@@ -188,6 +189,7 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 
 	int i = 0;
 	for (auto m = models.begin(), itEnd = models.end(); m != itEnd; ++m, i++) {
+		list->buildings[i].instIndex = i;
 		list->buildings[i].resolvedModel = *m;
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
