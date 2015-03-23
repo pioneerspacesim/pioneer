@@ -32,10 +32,20 @@ void MatrixTransform::Accept(NodeVisitor &nv)
 
 void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)
 {
-	PROFILE_SCOPED()
+	PROFILE_SCOPED();
 	const matrix4x4f t = trans * m_transform;
-	//renderer->SetTransform(t);
-	//DrawAxes();
+	RenderChildren(t, rd);
+}
+
+void MatrixTransform::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED();
+	const size_t transSize = trans.size();
+	std::vector<matrix4x4f> t; 
+	t.resize(transSize);
+	for (size_t tIdx = 0; tIdx < transSize; tIdx++) {
+		t[tIdx] = trans[tIdx] * m_transform;
+	}
 	RenderChildren(t, rd);
 }
 

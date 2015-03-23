@@ -6,6 +6,7 @@
 #include "NodeCopyCache.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
+#include "graphics/VertexBuffer.h"
 
 namespace SceneGraph {
 
@@ -52,6 +53,76 @@ void LOD::Render(const matrix4x4f &trans, const RenderData *rd)
 		if (pixrad < m_pixelSizes[i-1]) lod = i-1;
 	}
 	m_children[lod]->Render(trans, rd);
+}
+
+void LOD::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	// anything to draw?
+	if (m_pixelSizes.empty()) 
+		return;
+
+	// got something to draw with
+	Graphics::Renderer *r = GetRenderer();
+	if ( r!=nullptr )
+	{
+		const size_t count = m_pixelSizes.size();
+		if (m_instBuffer.empty() || (count != m_instBuffer.size())) {
+			m_instBuffer.resize(count);
+		}
+
+		const size_t tsize = trans.size();
+		if (!m_instBuffer[0].Valid() || (tsize > m_instBuffer[0]->GetSize())) {
+			// create the InstanceBuffers with the maximum number of transformations we might use within it.
+			for (Uint32 i = 0; i < count; i++) {
+				m_instBuffer[i].Reset(r->CreateInstanceBuffer(tsize, Graphics::BUFFER_USAGE_DYNAMIC));
+			}
+		}
+
+		// transformation buffers
+		std::vector< std::vector<matrix4x4f> > transform;
+		transform.resize(count);
+		for (Uint32 i = 0; i<count; i++) {
+			transform[i].reserve(tsize);
+		}
+
+		// seperate out the transformations
+		for (auto mt : trans)
+		{
+			//figure out approximate pixel size of object's bounding radius
+			//on screen and pick a child to render
+			const vector3f cameraPos(-mt[12], -mt[13], -mt[14]);
+			//fov is vertical, so using screen height
+			const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
+			unsigned int lod = m_children.size() - 1;
+			for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
+				if (pixrad < m_pixelSizes[i - 1]) {
+					lod = i - 1;
+				}
+			}
+
+			transform[lod].push_back(mt);
+		}
+
+		// Update the InstanceBuffer data
+		for (Uint32 i = 0; i<count; i++) {
+			Graphics::InstanceBuffer* ib = m_instBuffer[i].Get();
+			matrix4x4f *pBuffer = ib->Map(Graphics::BUFFER_MAP_WRITE);
+			// Copy the transforms into the buffer
+			for (auto mt : transform[i]) {
+				(*pBuffer) = mt;
+				++pBuffer;
+			}
+			ib->Unmap();
+			ib->SetInstanceCount(transform[i].size());
+		}
+
+		// now render each of the buffers for each of the lods
+		for (Uint32 inst = 0; inst < transform.size(); inst++) {
+			if (!transform[inst].empty()) {
+				m_children[inst]->Render(transform[inst], rd);
+			}
+		}
+	}
 }
 
 void LOD::Save(NodeDatabase &db)

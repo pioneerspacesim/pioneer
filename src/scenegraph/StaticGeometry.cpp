@@ -53,6 +53,15 @@ void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 	//DrawBoundingBox(m_boundingBox);
 }
 
+void StaticGeometry::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED()
+	SDL_assert(m_renderState);
+	Graphics::Renderer *r = GetRenderer();
+	for (auto& it : m_meshes) {
+		r->DrawBufferIndexedInstanced(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, it.material.Get());
+	}
+}
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
 void StaticGeometry::Save(NodeDatabase &db)

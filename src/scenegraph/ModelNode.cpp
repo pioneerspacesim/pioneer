@@ -32,4 +32,13 @@ void ModelNode::Render(const matrix4x4f &trans, const RenderData *rd)
 	m_model->Render(trans, &newrd);
 }
 
+void ModelNode::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED()
+	//slight hack here
+	RenderData newrd = *rd;
+	newrd.nodemask |= MASK_IGNORE;
+	m_model->Render(trans, &newrd);
+}
+
 }

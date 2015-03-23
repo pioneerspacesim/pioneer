@@ -106,8 +106,7 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 	// reset data structures
 	m_enabledBuildings.clear();
 	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-		m_buildingTypes[i].m_count = 0;
-		m_buildingTypes[i].m_instBuffer.Reset();
+		m_buildingCounts[i] = 0;
 	}
 
 	// Generate the new building list
@@ -135,7 +134,7 @@ void CityOnPlanet::AddStaticGeomsToCollisionSpace()
 			m_frame->AddStaticGeom(m_buildings[i].geom);
 			m_enabledBuildings.push_back(m_buildings[i]);
 			// Update building types
-			m_buildingTypes[m_buildings[i].instIndex].m_count++; 
+			++(m_buildingCounts[m_buildings[i].instIndex]);
 		}
 	}
 
@@ -384,7 +383,7 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 	transform.resize(s_buildingList.numBuildings);
 	memset(&instCount[0], 0, sizeof(Uint32) * s_buildingList.numBuildings);
 	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-		transform[i].reserve(m_buildingTypes[i].m_count);
+		transform[i].reserve(m_buildingCounts[i]);
 	}
 
 	for (std::vector<BuildingDef>::const_iterator iter=m_enabledBuildings.begin(), itEND=m_enabledBuildings.end(); iter != itEND; ++iter)
@@ -403,32 +402,10 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 
 		++uCount;
 	}
-
-	if (bDetailChanged)
-	{
-		for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-			// create the InstanceBuffer with the maximum number of buildings we might use within it.
-			assert( instCount[i] <= m_buildingTypes[i].m_count );
-			m_buildingTypes[i].m_instBuffer.Reset( r->CreateInstanceBuffer(m_buildingTypes[i].m_count, Graphics::BUFFER_USAGE_DYNAMIC) );
-		}
-	}
-
-	// Update the InstanceBuffer data
-	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-		Graphics::InstanceBuffer* ib = m_buildingTypes[i].m_instBuffer.Get();
-		matrix4x4f *pBuffer = ib->Map(Graphics::BUFFER_MAP_WRITE);
-		// Copy the transforms into the buffer
-		for(auto mt : transform[i]) {
-			(*pBuffer) = mt;
-			++pBuffer;
-		}
-		ib->Unmap();
-		ib->SetInstanceCount(transform[i].size());
-	}
 	
 	// render the building models using instancing
 	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-		s_buildingList.buildings[i].resolvedModel->Render(m_buildingTypes[i].m_instBuffer.Get());
+		s_buildingList.buildings[i].resolvedModel->Render(transform[i]);
 	}
 
 	r->GetStats().AddToStatCount(Graphics::Stats::STAT_BUILDINGS, uCount);

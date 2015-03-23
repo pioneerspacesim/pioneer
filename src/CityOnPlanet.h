@@ -13,7 +13,7 @@ class Planet;
 class SpaceStation;
 class Frame;
 class Geom;
-namespace Graphics { class Renderer; class Frustum; class InstanceBuffer; }
+namespace Graphics { class Renderer; class Frustum; }
 namespace SceneGraph { class Model; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0
@@ -42,16 +42,11 @@ private:
 		Geom *geom;
 	};
 
-	struct BuildingType {
-		RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
-		Uint32 m_count;
-	};
-
 	Planet *m_planet;
 	Frame *m_frame;
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
-	std::vector<BuildingType> m_buildingTypes;
+	std::vector<Uint32> m_buildingCounts;
 	int m_detailLevel;
 	vector3d m_realCentre;
 	float m_clipRadius;
