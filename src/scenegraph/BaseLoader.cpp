@@ -29,7 +29,6 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	matDesc.alphaTest = mdef.alpha_test;
 
 	matDesc.usePatterns = mdef.use_pattern;
-	matDesc.instanced = mdef.use_instancing;
 
 	//diffuse texture is a must. Will create a white dummy texture if one is not supplied
 	matDesc.textures = 1;
