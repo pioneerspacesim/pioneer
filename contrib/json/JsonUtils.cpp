@@ -1,6 +1,8 @@
 // Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "JsonUtils.h"
 #include "../../src/utils.h"
 #include "../../src/Serializer.h" // Need this for the exceptions
