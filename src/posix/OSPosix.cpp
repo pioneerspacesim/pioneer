@@ -41,13 +41,9 @@ void RedirectStdio()
 
 	f = freopen(output_path.c_str(), "w", stderr);
 	if (!f)
-		f = fopen(output_path.c_str(), "w");
-	if (!f)
 		Output("ERROR: Couldn't redirect output to '%s': %s\n", output_path.c_str(), strerror(errno));
-	else {
+	else
 		setvbuf(f, 0, _IOLBF, BUFSIZ);
-		*stderr = *f;
-	}
 }
 
 void EnableFPE()
