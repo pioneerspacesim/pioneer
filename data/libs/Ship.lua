@@ -327,7 +327,7 @@ end
 --
 -- Remove one or more of a given equipment type from its appropriate cargo slot
 --
--- > num_removed = ship:RemoveEquip(item, count)
+-- > num_removed = ship:RemoveEquip(item, count, slot)
 --
 -- Parameters:
 --
