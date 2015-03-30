@@ -12,6 +12,7 @@ March 2015
    * Internal Changes
      * Fix VS2013 profiling configuration (#3368)
      * Rendering statistics (#3371)
+     * Instanced model rendering for cities (#3372)
 
 February 2015
    * Fixes
