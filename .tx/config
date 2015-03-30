@@ -16,11 +16,6 @@ file_filter = data/lang/equipment-core/<lang>.json
 source_file = data/lang/equipment-core/en.json
 source_lang = en
 
-[pioneer.equipment-core]
-file_filter = data/lang/equipment-core/<lang>.json
-source_file = data/lang/equipment-core/en.json
-source_lang = en
-
 [pioneer.module-aiwarning]
 file_filter = data/lang/module-aiwarning/<lang>.json
 source_file = data/lang/module-aiwarning/en.json
