@@ -30,6 +30,7 @@ public:
 	virtual const char *GetTypeName() const { return "StaticGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+	virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd);
 
 	virtual void Save(NodeDatabase&) override;
 	static StaticGeometry *Load(NodeDatabase&);
@@ -50,6 +51,7 @@ protected:
 	void DrawBoundingBox(const Aabb &bb);
 	std::vector<Mesh> m_meshes;
 	Graphics::RenderState *m_renderState;
+	RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
 };
 
 }

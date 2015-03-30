@@ -108,14 +108,19 @@ public:
 
 	float GetDrawClipRadius() const { return m_boundingRadius; }
 	void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
+	
 	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
+	void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd = 0); //ModelNode can override RD
+
 	RefCountedPtr<CollMesh> CreateCollisionMesh();
 	RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
 	void SetCollisionMesh(RefCountedPtr<CollMesh> collMesh) { m_collMesh.Reset(collMesh.Get()); }
+
 	RefCountedPtr<Group> GetRoot() { return m_root; }
+
 	//materials used in the nodes should be accessible from here for convenience
 	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
-	RefCountedPtr<Graphics::Material> GetMaterialByIndex(int) const;
+	RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
 	unsigned int GetNumMaterials() const { return m_materials.size(); }
 
 	unsigned int GetNumTags() const { return m_tags.size(); }

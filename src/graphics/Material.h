@@ -61,6 +61,7 @@ public:
 	bool specularMap;
 	bool usePatterns; //pattern/color system
 	bool vertexColors;
+	bool instanced;
 	Sint32 textures; //texture count
 	Uint32 dirLights; //set by RendererOGL if lighting == true
 	Uint32 quality; // see: Graphics::MaterialQuality

@@ -41,8 +41,31 @@ public:
 
 	virtual void Unmap() override {}
 
+	virtual void Bind() {}
+	virtual void Release() {}
+
 private:
     std::unique_ptr<Uint16[]> m_buffer;
+};
+
+// Instance buffer
+class InstanceBuffer : public Graphics::InstanceBuffer {
+public:
+	InstanceBuffer(Uint32 size, BufferUsage hint)
+		: Graphics::InstanceBuffer(size, hint), m_data(new matrix4x4f[size])
+	{}
+	virtual ~InstanceBuffer() {};
+	virtual matrix4x4f* Map(BufferMapMode) override { return m_data.get(); }
+	virtual void Unmap() override {}
+
+	Uint32 GetSize() const { return m_size; }
+	BufferUsage GetUsage() const { return m_usage; }
+
+	virtual void Bind() {}
+	virtual void Release() {}
+
+protected:
+	std::unique_ptr<matrix4x4f> m_data;
 };
 
 } }

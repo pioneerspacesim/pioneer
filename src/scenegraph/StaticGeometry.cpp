@@ -53,6 +53,59 @@ void StaticGeometry::Render(const matrix4x4f &trans, const RenderData *rd)
 	//DrawBoundingBox(m_boundingBox);
 }
 
+void StaticGeometry::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED()
+	SDL_assert(m_renderState);
+	Graphics::Renderer *r = GetRenderer();
+
+	const size_t numTrans = trans.size();
+	if (!m_instBuffer.Valid() || (numTrans > m_instBuffer->GetSize()))
+	{
+		// create the InstanceBuffer with the maximum number of transformations we might use within it.
+		m_instBuffer.Reset( r->CreateInstanceBuffer(numTrans, Graphics::BUFFER_USAGE_DYNAMIC) );
+	}
+
+	// Update the InstanceBuffer data
+	for(Uint32 i=0; i<numTrans; i++) {
+		Graphics::InstanceBuffer* ib = m_instBuffer.Get();
+		matrix4x4f *pBuffer = ib->Map(Graphics::BUFFER_MAP_WRITE);
+		// Copy the transforms into the buffer
+		for(auto mt : trans) {
+			(*pBuffer) = mt;
+			++pBuffer;
+		}
+		ib->Unmap();
+		ib->SetInstanceCount(numTrans);
+	}
+	
+	// we'll set the transformation within the vertex shader so identity the global one
+	r->SetTransform(matrix4x4f::Identity());
+
+	// process each mesh
+	for (auto& it : m_meshes) {
+		// Due to the shader needing to change we have to get the material and force it to the instanced variant
+		Graphics::MaterialDescriptor mdesc = it.material->GetDescriptor();
+		mdesc.instanced = true;
+		// create the "new" material with the instanced description
+		RefCountedPtr<Graphics::Material> mat(r->CreateMaterial(mdesc));
+		// copy over all of the other details
+		mat->texture0 = it.material->texture0;
+		mat->texture1 = it.material->texture1;
+		mat->texture2 = it.material->texture2;
+		mat->texture3 = it.material->texture3;
+		mat->texture4 = it.material->texture4;
+		mat->texture5 = it.material->texture5;
+		mat->heatGradient = it.material->heatGradient;
+		mat->diffuse = it.material->diffuse;
+		mat->specular = it.material->specular;
+		mat->emissive = it.material->emissive;
+		mat->shininess = it.material->shininess;
+		mat->specialParameter0 = it.material->specialParameter0;
+		// finally render using the instance material
+		r->DrawBufferIndexedInstanced(it.vertexBuffer.Get(), it.indexBuffer.Get(), m_renderState, mat.Get(), m_instBuffer.Get());
+	}
+}
 
 typedef std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > MaterialContainer;
 void StaticGeometry::Save(NodeDatabase &db)

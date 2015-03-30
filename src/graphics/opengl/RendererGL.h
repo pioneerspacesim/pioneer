@@ -88,6 +88,8 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override;
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType) override;
+	virtual bool DrawBufferInstanced(VertexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType type=TRIANGLES) override;
+	virtual bool DrawBufferIndexedInstanced(VertexBuffer*, IndexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType=TRIANGLES) override;
 
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override;
@@ -95,6 +97,7 @@ public:
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override;
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) override;
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override;
+	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override;
 
 	virtual bool ReloadShaders();
 
@@ -119,11 +122,6 @@ protected:
 	virtual void PushState();
 	virtual void PopState();
 
-	//figure out states from a vertex array and enable them
-	//also sets vertex pointers
-	void EnableVertexAttributes(const VertexBuffer*);
-	//disable previously enabled
-	void DisableVertexAttributes(const VertexBuffer*);
 	Uint32 m_numLights;
 	Uint32 m_numDirLights;
 	std::vector<GLuint> m_vertexAttribsSet;

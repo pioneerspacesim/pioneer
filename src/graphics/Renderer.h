@@ -28,6 +28,7 @@ class TextureDescriptor;
 class VertexArray;
 class VertexBuffer;
 class IndexBuffer;
+class InstanceBuffer;
 struct VertexBufferDesc;
 struct RenderStateDesc;
 struct RenderTargetDesc;
@@ -106,6 +107,9 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType type=TRIANGLES) = 0;
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType=TRIANGLES) = 0;
+	// instanced variations of the above
+	virtual bool DrawBufferInstanced(VertexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType type=TRIANGLES) = 0;
+	virtual bool DrawBufferIndexedInstanced(VertexBuffer*, IndexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType=TRIANGLES) = 0;
 
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
@@ -115,6 +119,7 @@ public:
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) = 0;
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
+	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);

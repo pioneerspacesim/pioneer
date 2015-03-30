@@ -113,6 +113,7 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
 	m_renderer->SetTransform(trans);
+
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
 	params.boundingRadius = GetDrawClipRadius();
@@ -154,6 +155,48 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	if (m_debugFlags & DEBUG_DOCKING) {
 		m_renderer->SetTransform(trans);
 		DrawAxisIndicators(m_dockingPoints);
+	}
+}
+
+void Model::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED();
+
+	//update color parameters (materials are shared by model instances)
+	if (m_curPattern) {
+		for (MaterialContainer::const_iterator it = m_materials.begin(); it != m_materials.end(); ++it) {
+			if ((*it).second->GetDescriptor().usePatterns) {
+				(*it).second->texture5 = m_colorMap.GetTexture();
+				(*it).second->texture4 = m_curPattern;
+			}
+		}
+	}
+
+	//update decals (materials and geometries are shared)
+	for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
+		if (m_decalMaterials[i])
+			m_decalMaterials[i]->texture0 = m_curDecals[i];
+
+	//Override renderdata if this model is called from ModelNode
+	RenderData params = (rd != 0) ? (*rd) : m_renderData;
+
+	//m_renderer->SetTransform(trans);
+
+	//using the entire model bounding radius for all nodes at the moment.
+	//BR could also be a property of Node.
+	params.boundingRadius = GetDrawClipRadius();
+
+	//render in two passes, if this is the top-level model
+	if (m_debugFlags & DEBUG_WIREFRAME)
+		m_renderer->SetWireFrameMode(true);
+
+	if (params.nodemask & MASK_IGNORE) {
+		m_root->Render(trans, &params);
+	} else {
+		params.nodemask = NODE_SOLID;
+		m_root->Render(trans, &params);
+		params.nodemask = NODE_TRANSPARENT;
+		m_root->Render(trans, &params);
 	}
 }
 
@@ -286,11 +329,10 @@ RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
 
 RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &name) const
 {
-	for (MaterialContainer::const_iterator it = m_materials.begin();
-		it != m_materials.end();
-		++it)
+	for (auto it : m_materials)
 	{
-		if ((*it).first == name) return (*it).second;
+		if (it.first == name) 
+			return it.second;
 	}
 	return RefCountedPtr<Graphics::Material>(); //return invalid
 }
