@@ -84,12 +84,16 @@ local doSettingsScreen = function()
 end
 
 local doQuitConfirmation = function()
-	ui:NewLayer(
-		ui.templates.QuitConfirmation({
-			onConfirm = function () Engine.Quit() end,
-			onCancel  = function () ui:DropLayer() end
-		})
-	)
+	if Engine.GetConfirmQuit() then
+		ui:NewLayer(
+			ui.templates.QuitConfirmation({
+				onConfirm = function () Engine.Quit() end,
+				onCancel  = function () ui:DropLayer() end
+			})
+		)
+	else
+		Engine.Quit()
+	end
 end
 
 local buttonDefs = {
