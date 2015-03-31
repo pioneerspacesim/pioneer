@@ -37,16 +37,23 @@ void MatrixTransform::Render(const matrix4x4f &trans, const RenderData *rd)
 	RenderChildren(t, rd);
 }
 
+static const matrix4x4f s_ident(matrix4x4f::Identity());
 void MatrixTransform::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 {
 	PROFILE_SCOPED();
-	const size_t transSize = trans.size();
-	std::vector<matrix4x4f> t; 
-	t.resize(transSize);
-	for (size_t tIdx = 0; tIdx < transSize; tIdx++) {
-		t[tIdx] = trans[tIdx] * m_transform;
+	if(0==memcmp(&m_transform, &s_ident, sizeof(matrix4x4f))) {
+		// m_transform is identity so avoid performing all multiplications
+		RenderChildren(trans, rd);
+	} else {
+		// m_transform is valid, modify all positions by it
+		const size_t transSize = trans.size();
+		std::vector<matrix4x4f> t; 
+		t.resize(transSize);
+		for (size_t tIdx = 0; tIdx < transSize; tIdx++) {
+			t[tIdx] = trans[tIdx] * m_transform;
+		}
+		RenderChildren(t, rd);
 	}
-	RenderChildren(t, rd);
 }
 
 void MatrixTransform::Save(NodeDatabase &db)
