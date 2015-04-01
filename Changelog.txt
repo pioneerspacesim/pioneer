@@ -1,14 +1,18 @@
+April 2015
+   * New Features
+     * Confirm quit question added (#3374)
+
 March 2015
    * Fixes
      * Fix modelcompiler (#3356)
      * Attempt to avoid calling methods on a nil object (#3357)
      * Fix missing specular highlights (#3367)
      * Fix compilation of planetrings shader (#3370)
-     
+
    * New Features
      * Mouselook for internal camera (#3361)
      * Migrating the save-game serialisation from a binary flat file to JSON (#3355)
-     
+
    * Internal Changes
      * Fix VS2013 profiling configuration (#3368)
      * Rendering statistics (#3371)

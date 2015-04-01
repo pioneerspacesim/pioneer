@@ -100,6 +100,10 @@ ui.templates.Settings = function (args)
 			Engine.GetCompactScanner, Engine.SetCompactScanner,
 			l.COMPACT_SCANNER)
 
+		local confirmQuit = optionCheckBox(
+			Engine.GetConfirmQuit, Engine.SetConfirmQuit,
+			"Confirm quit")
+
 		local speedLinesCheckBox = optionCheckBox(
 			Engine.GetDisplaySpeedLines, Engine.SetDisplaySpeedLines,
 			l.DISPLAY_SPEED_LINES)
@@ -133,6 +137,7 @@ ui.templates.Settings = function (args)
 				hudTrailsCheckBox,
 				cockpitCheckBox,
 				compactScannerCheckBox,
+				confirmQuit,
 			})))
 	end
 
