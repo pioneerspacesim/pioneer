@@ -37,6 +37,8 @@ local max_cargo = 10
 local max_cargo_wholesaler = 100
 -- factor for pickup missions
 local pickup_factor = 1.75
+-- the maximum price of the custom cargo
+local max_price = 300
 
 -- the custom cargo
 aluminium_tubes = Equipment.EquipType.New({
@@ -288,14 +290,14 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		local whysomuchtext = l["WHYSOMUCHTEXT__" .. ad.branch .. "__" .. ad.cargotype] or l["WHYSOMUCHTEXT__" .. ad.branch]
+		local whysomuch = l["WHYSOMUCH__" .. ad.branch .. "__" .. ad.cargotype] or l["WHYSOMUCH__" .. ad.branch]
 
-		if whysomuchtext then
-			form:SetMessage(whysomuchtext)
+		if whysomuch then
+			form:SetMessage(whysomuch)
 		elseif ad.urgency >= 0.8 then
-			form:SetMessage(l["WHYSOMUCHTEXT_URGENT_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCHTEXT_URGENT"))])
+			form:SetMessage(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCH_URGENT"))])
 		else
-			form:SetMessage(l["WHYSOMUCHTEXT_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCHTEXT"))])
+			form:SetMessage(l["WHYSOMUCH_" .. Engine.rand:Integer(1, getNumberOf("WHYSOMUCH"))])
 		end
 
 	elseif option == 2 then
@@ -353,8 +355,10 @@ local onChat = function (form, ref, option)
 
 	elseif option == 4 then
 		local num = math.floor(ad.urgency * (getNumberOf("URGENCY") - 1)) + 1
-		local urgency = l["URGENCY__" .. ad.branch .. "__" .. ad.cargotype] or l["URGENCY__" .. ad.branch] or l["URGENCY_" .. num]
-		form:SetMessage(urgency .. Format.Date(ad.due))
+		local urgency = string.interp(l["URGENCY__" .. ad.branch .. "__" .. ad.cargotype] or l["URGENCY__" .. ad.branch] or l["URGENCY_" .. num], {
+			date	= Format.Date(ad.due),
+		})
+		form:SetMessage(urgency)
 
 	elseif option == 5 then
 		if ad.localdelivery then -- very low risk -> no specific text to give no confusing answer
@@ -414,7 +418,7 @@ local makeAdvert = function (station, freeCargoSpace)
 		nearbystations = findNearbyStations(station, 1000)
 		if #nearbystations == 0 then return nil end
 		if freeCargoSpace ~= nil then
-			cargo = freeCargoSpace == 1 and 1 or Engine.rand:Integer(1, freeCargoSpace)
+			cargo = Engine.rand:Integer(1, freeCargoSpace)
 		else
 			cargo = Engine.rand:Integer(1, max_cargo)
 		end
@@ -446,6 +450,7 @@ local makeAdvert = function (station, freeCargoSpace)
 			cargo = (freeCargoSpace - approxFuelForJump) <= 1 and 1 or Engine.rand:Integer(1, (freeCargoSpace - approxFuelForJump))
 			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
 			wholesaler = false
+			pickup = false
 		else
 			wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
 			if wholesaler then
@@ -455,17 +460,20 @@ local makeAdvert = function (station, freeCargoSpace)
 			else
 				cargo = Engine.rand:Integer(1, max_cargo)
 				pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
+				if pickup then
+					introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_PICKUP"))
+				else
+					introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
+				end
 			end
 		end
-		risk = custom_cargo[branch][cargotype].price / 400 + Engine.rand:Number(0, 0.25) -- goods with price 300 have a risk of 0.75 to 1
+		risk = 0.75 * custom_cargo[branch][cargotype].price / max_price + Engine.rand:Number(0, 0.25) -- goods with price max_price have a risk of 0.75 to 1
 		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/max_cargo_wholesaler) * Engine.rand:Number(0.8,1.2)
 		due = (dist / max_delivery_dist) * typical_travel_time * (1.5 - urgency)
 		if pickup then
-			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_PICKUP"))
 			reward = reward * pickup_factor
 			due = due * pickup_factor + Game.time
 		else
-			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
 			due = due + Game.time
 		end
 	end
@@ -523,7 +531,6 @@ end
 local onCreateBB = function (station)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
 	local numAchievableJobs = 0
-	local reputation = Character.persistent.player.reputation
 	local canHyperspace = Game.player.maxHyperspaceRange > 0
 	local freeCargoSpace = Game.player.freeCapacity
 
@@ -780,7 +787,7 @@ local onShipDocked = function (player, station)
 
 	for ref,mission in pairs(missions) do
 		if (mission.location == station.path and not mission.pickup) or (mission.domicile == station.path and mission.pickup and mission.cargo_picked_up) then
-			local reward
+			local reputation
 			local oldReputation = Character.persistent.player.reputation
 			local cargo = unloadCargo(mission)
 

@@ -73,7 +73,7 @@
    },
    "INTROTEXT_3" : {
       "description" : "",
-      "message" : "Good day. I'm {name} founder of the {name} Ltd. I need someone trusworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I pay {cash} for the {dist} ly long flight."
+      "message" : "Good day. I'm {name}, founder of the {name} Ltd. I need someone trusworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I pay {cash} for the {dist} ly long flight."
    },
    "INTROTEXT__2" : {
       "description" : "",
@@ -236,11 +236,11 @@
       "message" : "There are {cargo}t."
    },
    "HOWMUCH_5" : {
-      "description" : "",
+      "description" : "This string is only used for 1 to 3 metric tons",
       "message" : "There are only {cargo}t."
    },
    "HOWMUCH_6" : {
-      "description" : "",
+      "description" : "This string is only used for 1 to 3 metric tons",
       "message" : "Only {cargo}t."
    },
    "HOWMUCH_WHOLESALER_1" : {
@@ -257,31 +257,31 @@
    },
    "URGENCY_1" : {
       "description" : "",
-      "message" : "There is no rush. It must be delivered by "
+      "message" : "There is no rush. It must be delivered by {date}."
    },
    "URGENCY_2" : {
       "description" : "",
-      "message" : "It must necessarily be delivered by "
+      "message" : "It must necessarily be delivered by {date}."
    },
    "URGENCY_3" : {
       "description" : "",
-      "message" : "Because of the close schedule it must be delivered by "
+      "message" : "Because of the close schedule it must be delivered by {date}."
    },
    "URGENCY_4" : {
       "description" : "",
-      "message" : "We are in hurry. So it must be delivered by "
+      "message" : "We are in hurry. So it must be delivered by {date}."
    },
    "URGENCY_5" : {
       "description" : "",
-      "message" : "It is essential that the goods have been delivered before "
+      "message" : "It is essential that the goods have been delivered before {date}."
    },
    "URGENCY__3__5" : {
       "description" : "",
-      "message" : "The cargo consists of neptunium-235. So the delivery must be completed until "
+      "message" : "The cargo consists of neptunium-235. So the delivery must be completed until {date}."
    },
    "URGENCY__7__1" : {
       "description" : "",
-      "message" : "Because of the reproduction rate of the little pets and the limited food in the container, the delivery must be completed until "
+      "message" : "Because of the reproduction rate of the little pets and the limited food in the container, the delivery must be completed until {date}."
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
@@ -355,67 +355,71 @@
       "description" : "",
       "message" : "Why so much money?"
    },
-   "WHYSOMUCHTEXT_1" : {
+   "WHYSOMUCH_1" : {
       "description" : "",
       "message" : "This is the standard fee."
    },
-   "WHYSOMUCHTEXT_2" : {
+   "WHYSOMUCH_2" : {
       "description" : "",
       "message" : "Accept it, or leave it be."
    },
-   "WHYSOMUCHTEXT_3" : {
+   "WHYSOMUCH_3" : {
       "description" : "",
       "message" : "Is it a lot? I don't think so."
    },
-   "WHYSOMUCHTEXT_4" : {
+   "WHYSOMUCH_4" : {
       "description" : "",
       "message" : "I wish that the goods will be delivered on time and in one piece."
    },
-   "WHYSOMUCHTEXT_5" : {
+   "WHYSOMUCH_5" : {
       "description" : "",
       "message" : "I wish that you remain silent about the delivery."
    },
-   "WHYSOMUCHTEXT_6" : {
+   "WHYSOMUCH_6" : {
       "description" : "",
       "message" : "Well, we would be happy to pay you less."
    },
-   "WHYSOMUCHTEXT_URGENT_1" : {
+   "WHYSOMUCH_URGENT_1" : {
       "description" : "",
       "message" : "My favorite pilot is sick and time is short."
    },
-   "WHYSOMUCHTEXT_URGENT_2" : {
+   "WHYSOMUCH_URGENT_2" : {
       "description" : "",
       "message" : "If we do not meet the delivery date, a project will come to a standstill."
    },
-   "WHYSOMUCHTEXT_URGENT_3" : {
+   "WHYSOMUCH_URGENT_3" : {
       "description" : "",
       "message" : "These goods are needed urgently."
    },
-   "WHYSOMUCHTEXT__1" : {
+   "WHYSOMUCH__1" : {
       "description" : "",
       "message" : "These goods are needed in a chemical plant. The production must not be interrupted."
    },
-   "WHYSOMUCHTEXT__2" : {
+   "WHYSOMUCH__2" : {
       "description" : "",
       "message" : "These goods are essential for the construction of a new mine."
    },
-   "WHYSOMUCHTEXT__4" : {
+   "WHYSOMUCH__4" : {
       "description" : "",
       "message" : "These goods are important to a construction stage. They can't proceed without this products."
    },
-   "WHYSOMUCHTEXT__6" : {
+   "WHYSOMUCH__6" : {
       "description" : "",
       "message" : "The valuable goods are in great demand."
    },
-   "WHYSOMUCHTEXT__6__5" : {
+   "WHYSOMUCH__3__1" : {
+      "description" : "",
+      "message" : "Some centrifuges were destroyed due to a software error and must be replaced."
+   },
+   "WHYSOMUCH__6__5" : {
       "description" : "",
       "message" : "The piece parts are very expensive."
    },
-   "WHYSOMUCHTEXT__7__1" : {
+   "WHYSOMUCH__7__1" : {
       "description" : "",
       "message" : "Quibbles are the fast seller this season. You should invest in Quibble shares if you want to make a lot of money."
    },
-   "WHYSOMUCHTEXT__7__2" : {
+   "WHYSOMUCH__7__2" : {
       "description" : "",
       "message" : "So far I could not find anyone to perform this transport. When the season is over, my merchandise is worthless."
    },
