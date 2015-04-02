@@ -1,23 +1,23 @@
 {
    "MSG_1" : {
       "description" : "",
-      "message" : "Scegli {yes} per uscire da qua e tornare ai tuoi programmi noiosi."
+      "message" : "Scegli {yes} per uscire da qua e tornare ai tuoi noiosi programmi."
    },
    "MSG_10" : {
       "description" : "",
-      "message" : "Prego sceliere {no} per sprecare anche un po' di ore produttive. Vuoi?"
+      "message" : "Prego scegliere {no} per sprecare ancora delle ore produttive. Vuoi?"
    },
    "MSG_11" : {
       "description" : "",
-      "message" : "Gli esploratori non abbandonano, ma prosegui pure e clicca {yes} se non sei uno di loro."
+      "message" : "Gli esploratori non abbandonano, ma prosegui pure cliccando {yes} se non sei uno di loro."
    },
    "MSG_12" : {
       "description" : "",
-      "message" : "Scegli {no} se sei un temibile cacciatore di taglie, altrimenti, clicca codardamente {yes}."
+      "message" : "Scegli {no} se sei un temibile cacciatore di taglie, altrimenti clicca codardamente {yes}."
    },
    "MSG_13" : {
       "description" : "\"Seeing\" as in having an affair / being unfaithful",
-      "message" : "Non parlamo più tra noi. Ti sta vedendo con qualcun altro?"
+      "message" : "Non parliamo più tra noi. Ti sta vedendo con altri?"
    },
    "MSG_14" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Clicca {no} se hai coraggio, clicca {yes} per nasconderti vergognosamente."
+      "message" : "Clicca {no} se sei coraggioso, clicca {yes} per fuggire vergognosamente."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
@@ -61,11 +61,11 @@
    },
    "MSG_8" : {
       "description" : "",
-      "message" : "Penso che tu voglia cliccare {no} per giocare ancora. Lo farai."
+      "message" : "Penso che tu voglia cliccare {no} per giocare ancora. Su, fallo."
    },
    "MSG_9" : {
       "description" : "",
-      "message" : "Il click su {yes} significa che dovrai tornare alla monotonia del mondo del lavoro."
+      "message" : "Il click su {yes} significa che dovrai tornare alla monotonia del mondo lavorativo."
    },
    "NO" : {
       "description" : "No, don't quit program",
