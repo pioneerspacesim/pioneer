@@ -1,7 +1,7 @@
 {
    "MSG_1" : {
       "description" : "",
-      "message" : "Say {yes} to get out of here and go back to your boring programs?"
+      "message" : "Vissza az unalmas szoftvereidhez?"
    },
    "MSG_10" : {
       "description" : "",
@@ -37,19 +37,19 @@
    },
    "MSG_2" : {
       "description" : "",
-      "message" : "Don't go now, there's a pirate waiting for you in the other program."
+      "message" : "Ne menj! Egy kalóz feni rád a kését a másik programban!"
    },
    "MSG_3" : {
       "description" : "",
-      "message" : "Are you sure you want to quit this great game that cost you nothing?"
+      "message" : "Tényleg kilépnél ebőől a nagyszerű játékból, ami ráadásul egy filléredbe sem került?"
    },
    "MSG_4" : {
       "description" : "",
-      "message" : "Doest thou wish to leave with such hasty abandon?"
+      "message" : "Távozol is, jóuram?"
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
-      "message" : "Choose {no} for guns and glory, {yes} for work and worry."
+      "message" : "Válaszd  a Nem-et ha kalandra vágysz, Igen-t, ha keserves munkára."
    },
    "MSG_6" : {
       "description" : "",
@@ -69,14 +69,14 @@
    },
    "NO" : {
       "description" : "No, don't quit program",
-      "message" : "Nincs"
+      "message" : "Nem"
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
-      "message" : "Quit?"
+      "message" : "Kilépsz?"
    },
    "YES" : {
       "description" : "Yes, quit program",
-      "message" : "Van"
+      "message" : "Igen"
    }
 }
