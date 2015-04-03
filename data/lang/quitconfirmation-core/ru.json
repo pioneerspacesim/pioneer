@@ -25,7 +25,7 @@
    },
    "MSG_15" : {
       "description" : "",
-      "message" : "Giving up already?"
+      "message" : "Уже сдались?"
    },
    "MSG_16" : {
       "description" : "A little homage to the movie 2001 A Space Odyssey",
@@ -73,7 +73,7 @@
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
-      "message" : "Quit?"
+      "message" : "Выходите?"
    },
    "YES" : {
       "description" : "Yes, quit program",
