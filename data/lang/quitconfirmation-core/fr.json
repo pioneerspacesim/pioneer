@@ -1,31 +1,31 @@
 {
    "MSG_1" : {
       "description" : "",
-      "message" : "Say {yes} to get out of here and go back to your boring programs?"
+      "message" : "Dîtes {yes} pour vous en aller et retourner à vos programmes ennuyeux."
    },
    "MSG_10" : {
       "description" : "",
-      "message" : "Please choose {no} to waste a few more productive hours. Please?"
+      "message" : "S'il vous plaît, choisissez {no} pour perdre quelques heures de productivité en plus."
    },
    "MSG_11" : {
       "description" : "",
-      "message" : "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+      "message" : "Les explorateurs ne quittent pas. Mais continuez et cliquez sur {yes} si vous n'en êtes pas un…"
    },
    "MSG_12" : {
       "description" : "",
-      "message" : "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+      "message" : "Choisis {no} si t'es un dur à cuir ! Sinon, clique mollement sur {yes}."
    },
    "MSG_13" : {
       "description" : "\"Seeing\" as in having an affair / being unfaithful",
-      "message" : "We never talk anymore. Are you seeing someone else?"
+      "message" : "Nous ne parlons plus si souvent… Fréquentez-vous quelqu'un d'autre ?"
    },
    "MSG_14" : {
       "description" : "",
-      "message" : "Do you really have something better to do?"
+      "message" : "Vous avez vraiment quelque chose de mieux à faire ?"
    },
    "MSG_15" : {
       "description" : "",
-      "message" : "Giving up already?"
+      "message" : "Tu abandonnes déjà ?"
    },
    "MSG_16" : {
       "description" : "A little homage to the movie 2001 A Space Odyssey",
@@ -41,7 +41,7 @@
    },
    "MSG_3" : {
       "description" : "",
-      "message" : "Are you sure you want to quit this great game that cost you nothing?"
+      "message" : "Êtes-vous sûre de vouloir quitter ce jeux génial qui ne vous coûte rien ?"
    },
    "MSG_4" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
-      "message" : "Choose {no} for guns and glory, {yes} for work and worry."
+      "message" : "Choisissez {no} pour la gloire et les armes ou {yes} pour le bureau et les larmes"
    },
    "MSG_6" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "I wouldn't leave if I were you. The command line is much worse."
+      "message" : "Je ne quitterais pas si j'étais vous. L'interface en lignes de commandes est bien pire…"
    },
    "MSG_8" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
-      "message" : "Quit?"
+      "message" : "Quitter ?"
    },
    "YES" : {
       "description" : "Yes, quit program",

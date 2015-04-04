@@ -429,7 +429,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Cette sauvegarde ne peut être chargée - problème de permissions ou autre..."
+      "message" : "Cette sauvegarde ne peut être chargée - problème de permissions ou autre…"
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -669,7 +669,7 @@
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Oxygen est requis par certains procédés industriels et les systèmes de support vitaux"
+      "message" : "L'oxygène liquide est requis par certains procédés industriels et les systèmes de support vitaux"
    },
    "LIQUOR" : {
       "description" : "",
@@ -909,7 +909,7 @@
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Malgré une efficacité moindre que celle d'une écope à carubrant, cela permet d'écoper et la cargaison, et le carburant."
    },
    "MURDER" : {
       "description" : "",
