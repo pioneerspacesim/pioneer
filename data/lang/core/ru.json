@@ -937,7 +937,7 @@
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
-      "message" : "Цель системы навигации"
+      "message" : "Цели навигации в системе"
    },
    "NERVE_GAS" : {
       "description" : "",
@@ -1337,15 +1337,15 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Установка навигационной цели:"
+      "message" : "Выбрана цель для навигации:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Скорость: %speed{f.2} км/с"
+      "message" : "Скор.: %speed{f.2} км/с"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Скорость: %speed{f.0} м/с"
+      "message" : "Скор.: %speed{f.0} м/с"
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
@@ -1365,7 +1365,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Переключение между режимами отображения корабля."
+      "message" : "Переключение между режимами отображения кораблей."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1737,7 +1737,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Сброс навигационной цели."
+      "message" : "Цель навигации отменена."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

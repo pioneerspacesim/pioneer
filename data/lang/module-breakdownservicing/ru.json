@@ -97,7 +97,7 @@
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "У меня недостаточно денег."
+      "message" : "У меня недостаточно средств"
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",

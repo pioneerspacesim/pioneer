@@ -501,15 +501,15 @@
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
-      "message" : "Вылет запрещен. Стыковочная зона занята."
+      "message" : "В разрешении на взлёт отказано: стыковочная зона занята."
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Вылет запрещен: на вашем корабле не укомплектован экипаж."
+      "message" : "В разрешении на взлёт отказано: на вашем корабле не укомплектован экипаж."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Вылет запрещен: у вас не оплачены штрафы."
+      "message" : "В разрешении на взлёт отказано: у вас имеются неоплаченные штрафы."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Лёгкий грузовой шаттл"
+      "message" : "Лёгкий грузовой челнок"
    },
    "LIGHT_COURIER" : {
       "description" : "",
@@ -533,7 +533,7 @@
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Лёгкий пассажирский шаттл"
+      "message" : "Лёгкий пассажирский челнок"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Средний грузовой шаттл"
+      "message" : "Средний грузовой челнок"
    },
    "MEDIUM_COURIER" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "MEDIUM_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Средний пассажирский шаттл"
+      "message" : "Средний пассажирский челнок"
    },
    "MEDIUM_PASSENGER_TRANSPORT" : {
       "description" : "",
@@ -800,7 +800,7 @@
       "message" : "Слабый"
    },
    "POSITION" : {
-      "description" : "",
+      "description" : "The job title/position of crew memeber",
       "message" : "Должность"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
@@ -921,7 +921,7 @@
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
-      "message" : "Ваш корабль находится в отличном состоянии.\n"
+      "message" : "Ваш корабль находится в отличном состоянии."
    },
    "SHIP_IS_FULLY_EQUIPPED" : {
       "description" : "",
@@ -941,7 +941,7 @@
    },
    "SHIP_VIEWING_WAS_SOLD" : {
       "description" : "",
-      "message" : "Корабль, который вы смотрели был продан"
+      "message" : "Корабль, который вы смотрели, был продан"
    },
    "SOUND" : {
       "description" : "",
@@ -969,7 +969,7 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Спасибо за покупку. Не забудьте заправить баки."
+      "message" : "Спасибо за покупку! Перед взлётом не забудьте заправить баки и отремонтировать повреждённое оборудование."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
@@ -1060,7 +1060,7 @@
       "message" : "Мы в гиперпространстве, Командир."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
+      "description" : "Said by the police to law abiding player",
       "message" : "Ваш правовой статус чист. Всего доброго, Командир!"
    },
    "YES" : {
@@ -1073,30 +1073,30 @@
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
-      "message" : "Ваш корпус цел на {value}%"
+      "message" : "Ваш корпус цел на {value}%."
    },
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
-      "message" : "У вас недостаточно средств для этой операции."
+      "message" : "У вас недостаточно средств для совершения этой операции."
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Вы должны указать боевую цель, Командир."
+      "message" : "Командир, сначала вы должны указать боевую цель."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала вы должны указать цель навигации, Командир."
+      "message" : "Командир, сначала вы должны указать цель навигации."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала мы должны взлететь, Командир."
+      "message" : "Командир, сначала мы должны взлететь."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Сначала вы должны запросить разрешение на взлёт, Командир."
+      "message" : "Командир, сначала вы должны запросить разрешение на взлёт."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "Недостаточно средств для покупки."
+      "message" : "У вас недостаточно средств"
    }
 }
