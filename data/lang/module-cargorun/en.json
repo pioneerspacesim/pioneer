@@ -491,10 +491,6 @@
       "description" : "",
       "message" : "Tally ho. This will be my first catch today."
    },
-   "ESCORT_HABER_GREETING" : {
-      "description" : "",
-      "message" : "Feel happy. Haber Corp. protects its business partners."
-   },
    "TARGET_DESTROYED" : {
       "description" : "",
       "message" : "Target destroyed."
@@ -512,7 +508,7 @@
       "message" : "I'm taking damage. I need help."
    },
    "GUNS_GUNS_GUNS" : {
-      "description" : "",
+      "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
       "message" : "Guns, guns, guns."
    },
    "SPACEPORT" : {
@@ -526,6 +522,10 @@
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
       "message" : "You do not have enough cargo space on your ship."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "You do not have enough empty cargo space to accommodate the goods.\nPlease come back when you have enough empty cargo hold."
    },
    "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
       "description" : "",
