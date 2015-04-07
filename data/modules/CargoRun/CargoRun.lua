@@ -214,8 +214,6 @@ table.insert(custom_cargo, consumer_goods)	-- 5
 table.insert(custom_cargo, expensive)		-- 6
 table.insert(custom_cargo, crazy)		-- 7
 
-local HABER = 2 -- INTROTEXT_WHOLESALER_2
-
 local ads = {}
 local missions = {}
 
@@ -366,7 +364,7 @@ local onChat = function (form, ref, option)
 		else
 			local num = math.floor(ad.risk * (getNumberOf("RISK") - 1)) + 1
 			local risk = l["RISK__" .. ad.branch .. "__" .. ad.cargotype] or l["RISK__" .. ad.branch] or l["RISK_" .. num]
-			if ad.wholesaler and ad.introtext ~= HABER then
+			if ad.wholesaler then
 				risk = risk .. " " .. l.RISK_WHOLESALER
 			end
 			form:SetMessage(risk)
@@ -404,7 +402,7 @@ end
 
 local nearbysystems
 
-local makeAdvert = function (station, freeCargoSpace)
+local makeAdvert = function (station)
 	local reward, due, location, nearbysystem, dist, nearbystations, cargo, adtext, introtext
 	local risk, wholesaler, pickup
 	local client = Character.New()
@@ -417,11 +415,7 @@ local makeAdvert = function (station, freeCargoSpace)
 		nearbysystem = Game.system
 		nearbystations = findNearbyStations(station, 1000)
 		if #nearbystations == 0 then return nil end
-		if freeCargoSpace ~= nil then
-			cargo = Engine.rand:Integer(1, freeCargoSpace)
-		else
-			cargo = Engine.rand:Integer(1, max_cargo)
-		end
+		cargo = Engine.rand:Integer(1, max_cargo)
 		risk = 0 -- no risk for local delivery
 		wholesaler = false -- no local wholesaler delivery
 		pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
@@ -445,26 +439,18 @@ local makeAdvert = function (station, freeCargoSpace)
 		dist = nearbysystem:DistanceTo(Game.system)
 		nearbystations = nearbysystem:GetStationPaths()
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
-		if freeCargoSpace ~= nil then
-			local approxFuelForJump = math.floor(dist / 10)
-			cargo = (freeCargoSpace - approxFuelForJump) <= 1 and 1 or Engine.rand:Integer(1, (freeCargoSpace - approxFuelForJump))
-			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
-			wholesaler = false
+		wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
+		if wholesaler then
+			cargo = Engine.rand:Integer(max_cargo, max_cargo_wholesaler)
+			introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_WHOLESALER"))
 			pickup = false
 		else
-			wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
-			if wholesaler then
-				cargo = Engine.rand:Integer(max_cargo, max_cargo_wholesaler)
-				introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_WHOLESALER"))
-				pickup = false
+			cargo = Engine.rand:Integer(1, max_cargo)
+			pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
+			if pickup then
+				introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_PICKUP"))
 			else
-				cargo = Engine.rand:Integer(1, max_cargo)
-				pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
-				if pickup then
-					introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT_PICKUP"))
-				else
-					introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
-				end
+				introtext = Engine.rand:Integer(1, getNumberOf("INTROTEXT"))
 			end
 		end
 		risk = 0.75 * custom_cargo[branch][cargotype].price / max_price + Engine.rand:Number(0, 0.25) -- goods with price max_price have a risk of 0.75 to 1
@@ -530,26 +516,8 @@ end
 
 local onCreateBB = function (station)
 	local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
-	local numAchievableJobs = 0
-	local canHyperspace = Game.player.maxHyperspaceRange > 0
-	local freeCargoSpace = Game.player.freeCapacity
-
 	for i = 1,num do
-		local ad = makeAdvert(station)
-		if ad then
-			local approxFuelForJump = math.floor(ad.dist / 10)
-			if ((ad.localdelivery and ad.cargo <= freeCargoSpace) or (canHyperspace and ad.cargo <= (freeCargoSpace + approxFuelForJump))) then
-				numAchievableJobs = numAchievableJobs + 1
-			end
-		end
-	end
-	-- try to make one job that matches the players free cargo space
-	if numAchievableJobs == 0 and freeCargoSpace ~= 0 then
-		if freeCargoSpace > max_cargo_wholesaler then
-			makeAdvert(station, max_cargo_wholesaler)
-		else
-			makeAdvert(station, freeCargoSpace)
-		end
+		makeAdvert(station)
 	end
 end
 
@@ -570,10 +538,10 @@ local onUpdateBB = function (station)
 	end
 end
 
-local pirate_ship = {}
+local pirate_ships = {}
 local pirate_gripes_time
 local pirate_switch_target
-local escort_ship = {}
+local escort_ships = {}
 local escort_chatter_time
 local escort_switch_target
 
@@ -622,7 +590,7 @@ local onEnterSystem = function (player)
 					pirate:AddEquip(default_drive)
 					pirate:AddEquip(laserdef)
 					pirate:AIKill(Game.player)
-					table.insert(pirate_ship, pirate)
+					table.insert(pirate_ships, pirate)
 				end
 			end
 
@@ -633,20 +601,12 @@ local onEnterSystem = function (player)
 				pirate_gripes_time = Game.time
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
 					local escort
-					if mission.wholesaler and mission.introtext == HABER then
-						escort = Space.SpawnShipNear("wave", Game.player, 50, 100) -- Haber Corp.
-						escort:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
-						escort:AddEquip(Equipment.misc.shield_generator)
-						escort:SetLabel(Ship.MakeRandomLabel())
-						Comms.ImportantMessage(l.ESCORT_HABER_GREETING, escort.label)
-					else
-						escort = Space.SpawnShipNear("kanara", Game.player, 50, 100) -- Local wholesaler or random police ship
-						escort:AddEquip(Equipment.laser.pulsecannon_1mw)
-						escort:AddEquip(Equipment.misc.shield_generator)
-						escort:SetLabel(Ship.MakeRandomLabel())
-					end
+					escort = Space.SpawnShipNear("kanara", Game.player, 50, 100) -- Local wholesaler or random police ship
+					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
+					escort:AddEquip(Equipment.misc.shield_generator)
+					escort:SetLabel(Ship.MakeRandomLabel())
 					escort:AIKill(pirate)
-					table.insert(escort_ship, escort)
+					table.insert(escort_ships, escort)
 					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, getNumberOf("ESCORT_CHATTER"))], escort.label)
 					escort_chatter_time = Game.time
 					escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
@@ -662,18 +622,18 @@ local onEnterSystem = function (player)
 end
 
 local isEscortShip = function (ship)
-	if #escort_ship ~= 0 then
-		for i = 1, #escort_ship do
-			if escort_ship[i] == ship then return true end
+	if #escort_ships ~= 0 then
+		for i = 1, #escort_ships do
+			if escort_ships[i] == ship then return true end
 		end
 	end
 	return false
 end
 
 local isPirateShip = function (ship)
-	if #pirate_ship ~= 0 then
-		for i = 1, #pirate_ship do
-			if pirate_ship[i] == ship then return true end
+	if #pirate_ships ~= 0 then
+		for i = 1, #pirate_ships do
+			if pirate_ships[i] == ship then return true end
 		end
 	end
 	return false
@@ -683,22 +643,22 @@ local onShipDestroyed = function (ship, attacker)
 	if ship:IsPlayer() or attacker == nil then return end
 
 	if isEscortShip(ship) then
-		for i = 1, #escort_ship do
-			if escort_ship[i] == ship then
-				table.remove(escort_ship, i)
+		for i = 1, #escort_ships do
+			if escort_ships[i] == ship then
+				table.remove(escort_ships, i)
 				if isPirateShip(attacker) then
 					attacker:AIKill(Game.player)
 				end
 			end
 		end
 	elseif isPirateShip(ship) then
-		for i = 1, #pirate_ship do
-			if pirate_ship[i] == ship then
-				table.remove(pirate_ship, i)
+		for i = 1, #pirate_ships do
+			if pirate_ships[i] == ship then
+				table.remove(pirate_ships, i)
 				if isEscortShip(attacker) then
 					Comms.ImportantMessage(l.TARGET_DESTROYED, attacker.label)
-					if #pirate_ship ~= 0 then
-						attacker:AIKill(pirate_ship[1])
+					if #pirate_ships ~= 0 then
+						attacker:AIKill(pirate_ships[1])
 						escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
 					end
 				end
@@ -720,12 +680,12 @@ local onShipHit = function (ship, attacker)
 	if attacker == nil then return end
 	if not attacker:isa('Ship') then return end
 
-	if ship:IsPlayer() and #escort_ship ~= 0 and not isEscortShip(attacker) then
+	if ship:IsPlayer() and #escort_ships ~= 0 and not isEscortShip(attacker) then
 		if Game.time >= escort_switch_target then -- don't switch between targets too quick
-			for i = 1, #escort_ship do
-				escort_ship[i]:AIKill(attacker) -- all escort ships respond
+			for i = 1, #escort_ships do
+				escort_ships[i]:AIKill(attacker) -- all escort ships respond
 			end
-			Comms.ImportantMessage(l.I_AM_ON_MY_WAY, escort_ship[1].label)
+			Comms.ImportantMessage(l.I_AM_ON_MY_WAY, escort_ships[1].label)
 			escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
 		end
 
@@ -761,8 +721,8 @@ end
 local onLeaveSystem = function (ship)
 	if ship:IsPlayer() then
 		nearbysystems = nil
-		pirate_ship = {}
-		escort_ship = {}
+		pirate_ships = {}
+		escort_ships = {}
 	end
 end
 
@@ -787,11 +747,10 @@ local onShipDocked = function (player, station)
 
 	for ref,mission in pairs(missions) do
 		if (mission.location == station.path and not mission.pickup) or (mission.domicile == station.path and mission.pickup and mission.cargo_picked_up) then
-			local reputation
+			local reputation = mission.localdelivery and 1 or 1.5
 			local oldReputation = Character.persistent.player.reputation
 			local cargo = unloadCargo(mission)
 
-			if mission.localdelivery then reputation = 1 else reputation = 1.5 end
 			if Game.time <= mission.due and cargo == mission.cargo then
 				Comms.ImportantMessage(l["SUCCESSMSG__" .. mission.branch .. "__" .. mission.cargotype] or l["SUCCESSMSG__" .. mission.branch] or l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOf("SUCCESSMSG"))],
 					mission.client.name)
@@ -816,7 +775,7 @@ local onShipDocked = function (player, station)
 
 		elseif mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
 			if Game.player.freeCapacity < mission.cargo then
-				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP, mission.client.name)
+				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
 			else
 				Game.player:AddEquip(custom_cargo[mission.branch][mission.cargotype], mission.cargo, "cargo")
 				mission.cargo_picked_up = true
@@ -863,8 +822,8 @@ end
 
 local onGameEnd = function ()
 	nearbysystems = nil
-	pirate_ship = {}
-	escort_ship = {}
+	pirate_ships = {}
+	escort_ships = {}
 end
 
 local onClick = function (mission)
