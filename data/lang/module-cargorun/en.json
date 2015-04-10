@@ -31,7 +31,7 @@
       "description" : "",
       "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
    },
-   "ADTEXT__6" : {
+   "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
       "message" : "DELIVERY. Valuable Cargo to the {system} system. {cash} to an experienced pilot."
    },
@@ -47,15 +47,15 @@
       "description" : "",
       "message" : "LOCAL CARGO RUN. Delivery of goods to {starport}."
    },
-   "ADTEXT_WHOLESALER" : {
+   "ADTEXT_WHOLESALER_1" : {
       "description" : "",
       "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
    },
-   "ADTEXT_PICKUP" : {
+   "ADTEXT_PICKUP_1" : {
       "description" : "",
       "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
    },
-   "ADTEXT_PICKUP_LOCAL" : {
+   "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
       "message" : "RELOCATION. Move of cargo from {starport} required."
    },
@@ -75,23 +75,23 @@
       "description" : "",
       "message" : "Good day. I'm {name}, founder of the {name} Ltd. I need someone trusworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I pay {cash} for the {dist} ly long flight."
    },
-   "INTROTEXT__2" : {
+   "INTROTEXT_MINING_1" : {
       "description" : "",
       "message" : "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
    },
-   "INTROTEXT__4" : {
+   "INTROTEXT_INFRASTRUCTURE_1" : {
       "description" : "",
       "message" : "Greetings. I'm {name}. The {system} government wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. Where they want to build a new district. The pay is {cash}. {system} is {dist} ly from here."
    },
-   "INTROTEXT__6" : {
+   "INTROTEXT_EXPENSIVE_1" : {
       "description" : "",
       "message" : "Hello. This could be a dangerous run. We need someone experienced for a run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We pay {cash}. The distance is {dist} ly."
    },
-   "INTROTEXT__7__1" : {
+   "INTROTEXT_FLUFFY_1" : {
       "description" : "",
       "message" : "Hi, my name is {name}. I want to carry {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. You know, the little fluffy creatures, which no human can resist. The distance is {dist} ly. I pay {cash} for this delivery."
    },
-   "INTROTEXT__7__2" : {
+   "INTROTEXT_WEDDING_1" : {
       "description" : "",
       "message" : "Greetings. Have you heard of the wedding season of {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system? We want to transport {cargoname} there. It's {dist} ly away. The pay is {cash} credits. How about it?"
    },
@@ -203,7 +203,7 @@
       "description" : "",
       "message" : "I'll make a note of your vessel identification number. From now on, I will reject all requests for work from you."
    },
-   "FAILUREMSG__7__1" : {
+   "FAILUREMSG_FLUFFY_1" : {
       "description" : "",
       "message" : "You bastard, you have waited too long for this delivery. All my fluffy pets are starved!"
    },
@@ -275,11 +275,11 @@
       "description" : "",
       "message" : "It is essential that the goods have been delivered before {date}."
    },
-   "URGENCY__3__5" : {
+   "URGENCY_RADIOACTIVE_1" : {
       "description" : "",
-      "message" : "The cargo consists of neptunium-235. So the delivery must be completed until {date}."
+      "message" : "Because of the half-life period of this isotope, delivery must be completed by {date}."
    },
-   "URGENCY__7__1" : {
+   "URGENCY_FLUFFY_1" : {
       "description" : "",
       "message" : "Because of the reproduction rate of the little pets and the limited food in the container, the delivery must be completed until {date}."
    },
@@ -311,25 +311,33 @@
       "description" : "",
       "message" : "I personally think, you'll never reach your destination."
    },
-   "RISK__6" : {
+   "RISK_EXPENSIVE_1" : {
       "description" : "",
       "message" : "We have done everything to keep the delivery secret. But we can never have certainty."
    },
-   "RISK__6__1" : {
-      "description" : "",
-      "message" : "The goods are very sought after by art lovers."
-   },
-   "RISK__6__2" : {
-      "description" : "",
-      "message" : "It is possible that an unscrupulous jewel trader wants to intercept the cargo."
-   },
-   "RISK__6__5" : {
+   "RISK_EXPENSIVE_2" : {
       "description" : "",
       "message" : "The police informed us that an unknown group of pirates attacked cargo ships in this system."
    },
-   "RISK_WHOLESALER" : {
+   "RISK_ART_1" : {
       "description" : "",
-      "message" : "The police have promised us to patrol the area."
+      "message" : "The goods are very sought after by art lovers."
+   },
+   "RISK_GEMS_1" : {
+      "description" : "",
+      "message" : "It is possible that an unscrupulous jewel trader wants to intercept the cargo."
+   },
+   "RISK_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Don't worry. A police patrol is ready in case of trouble."
+   },
+   "RISK_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "Maybe there's a risk. But the police have promised us to patrol the area."
+   },
+   "RISK_WHOLESALER_3" : {
+      "description" : "",
+      "message" : "The risk is high. But an escort is ready to guard you."
    },
    "SUCCESSMSG_1" : {
       "description" : "",
@@ -347,7 +355,7 @@
       "description" : "",
       "message" : "Fine, I will definitely recommend you. Here's your money."
    },
-   "SUCCESSMSG__7__1" : {
+   "SUCCESSMSG_FLUFFY_1" : {
       "description" : "",
       "message" : "Oh dear, I wished you had my cargo jettisoned. Anyway, here is your payment."
    },
@@ -391,35 +399,35 @@
       "description" : "",
       "message" : "These goods are needed urgently."
    },
-   "WHYSOMUCH__1" : {
+   "WHYSOMUCH_CHEMICAL_1" : {
       "description" : "",
       "message" : "These goods are needed in a chemical plant. The production must not be interrupted."
    },
-   "WHYSOMUCH__2" : {
+   "WHYSOMUCH_MINING_1" : {
       "description" : "",
       "message" : "These goods are essential for the construction of a new mine."
    },
-   "WHYSOMUCH__4" : {
+   "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
       "message" : "These goods are important to a construction stage. They can't proceed without this products."
    },
-   "WHYSOMUCH__6" : {
+   "WHYSOMUCH_EXPENSIVE_1" : {
       "description" : "",
       "message" : "The valuable goods are in great demand."
    },
-   "WHYSOMUCH__3__1" : {
+   "WHYSOMUCH_EXPENSIVE_2" : {
       "description" : "",
-      "message" : "Some centrifuges were destroyed due to a software error and must be replaced."
+      "message" : "The goods are very expensive."
    },
-   "WHYSOMUCH__6__5" : {
+   "WHYSOMUCH_CENTRIFUGES_1" : {
       "description" : "",
-      "message" : "The piece parts are very expensive."
+      "message" : "Some centrifuges were destroyed due to a software error and have to be replaced urgend."
    },
-   "WHYSOMUCH__7__1" : {
+   "WHYSOMUCH_FLUFFY_1" : {
       "description" : "",
-      "message" : "Quibbles are the fast seller this season. You should invest in Quibble shares if you want to make a lot of money."
+      "message" : "{cargoname} are the fast seller this season. You should invest in {cargoname} shares if you want to make a lot of money."
    },
-   "WHYSOMUCH__7__2" : {
+   "WHYSOMUCH_WEDDING_1" : {
       "description" : "",
       "message" : "So far I could not find anyone to perform this transport. When the season is over, my merchandise is worthless."
    },
