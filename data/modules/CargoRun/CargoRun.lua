@@ -224,19 +224,26 @@ table.insert(centrifuges, machine_tools)
 table.insert(centrifuges, titanium)
 
 local custom_cargo = {
-	{ "CHEMICAL", chemical },
-	{ "MINING", mining },
-	{ "HARDWARE", hardware },
-	{ "INFRASTRUCTURE", infrastructure },
-	{ "CONSUMER_GOODS", consumer_goods },
-	{ "EXPENSIVE", expensive },
-	{ "FLUFFY", fluffy },
-	{ "WEDDING" , wedding },
-	{ "ART", art },
-	{ "GEMS", gems },
-	{ "RADIOACTIVE", radioactive },
-	{ "CENTRIFUGES", centrifuges }
+	{ bkey = "CHEMICAL", goods = chemical, weight },
+	{ bkey = "MINING", goods = mining, weight },
+	{ bkey = "HARDWARE", goods = hardware, weight },
+	{ bkey = "INFRASTRUCTURE", goods = infrastructure, weight },
+	{ bkey = "CONSUMER_GOODS", goods = consumer_goods, weight },
+	{ bkey = "EXPENSIVE", goods = expensive, weight },
+	{ bkey = "FLUFFY", goods = fluffy, weight },
+	{ bkey = "WEDDING" , goods = wedding, weight },
+	{ bkey = "ART", goods = art, weight },
+	{ bkey = "GEMS", goods = gems, weight },
+	{ bkey = "RADIOACTIVE", goods = radioactive, weight },
+	{ bkey = "CENTRIFUGES", goods = centrifuges, weight }
 }
+
+-- Each branch should have a probability weight proportional to its size
+local custom_cargo_weight_sum = 0
+for branch,branch_array in pairs(custom_cargo) do
+	custom_cargo[branch].weight = #branch_array.goods
+	custom_cargo_weight_sum = custom_cargo_weight_sum + #branch_array.goods
+end
 
 local ads = {}
 local missions = {}
@@ -298,16 +305,14 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		local branch
 		local n = getNumberOf("WHYSOMUCH_" .. ad.branch)
-		if n == 0 and ad.urgency >= 0.8 then
-			branch = "URGENT"
-			n = getNumberOf("WHYSOMUCH_" .. branch)
+		if n >= 1 then
+			form:SetMessage(string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = l[ad.cargotype.l10n_key] }))
+		elseif ad.urgency >= 0.8 then
+			form:SetMessage(string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOf("WHYSOMUCH_URGENT"))], { cargoname = l[ad.cargotype.l10n_key] }))
 		else
-			branch = ad.branch
+			form:SetMessage(string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOf("WHYSOMUCH"))], { cargoname = l[ad.cargotype.l10n_key] }))
 		end
-		form:SetMessage(string.interp(l["WHYSOMUCH_" .. branch .. "_" .. Engine.rand:Integer(1, n == 0 and 1 or n)]
-			 or l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOf("WHYSOMUCH"))], { cargoname = l[ad.cargotype.l10n_key] }))
 
 	elseif option == 2 then
 		local howmuch
@@ -406,11 +411,19 @@ local findNearbyStations = function (station, minDist)
 	return nearbystations
 end
 
--- FIXME
-local getRandomCargo = function (t)
-	local b = Engine.rand:Integer(1, #t)
-	local c = Engine.rand:Integer(1, #t[b][2])
-        return t[b][1], t[b][2][c]
+local randomCargo = function()
+	local accumulator = 0
+	local r = Engine.rand:Integer(0,custom_cargo_weight_sum)
+
+	for k,b in pairs(custom_cargo) do
+		accumulator = b.weight + accumulator
+		if r <= accumulator then
+			return
+				custom_cargo[k].bkey,
+				custom_cargo[k].goods[Engine.rand:Integer(1, #custom_cargo[k].goods)]
+		end
+	end
+	error("Oh, dear! This should not happen.")
 end
 
 local nearbysystems
@@ -422,7 +435,7 @@ local makeAdvert = function (station)
 	local urgency = Engine.rand:Number(0, 1)
 	local localdelivery = Engine.rand:Number(0, 1) > 0.5 and true or false
 
-	branch, cargotype = getRandomCargo(custom_cargo)
+	branch, cargotype = randomCargo()
 	if localdelivery then
 		nearbysystem = Game.system
 		nearbystations = findNearbyStations(station, 1000)
@@ -477,7 +490,12 @@ local makeAdvert = function (station)
 	end
 
 	local n = getNumberOf("INTROTEXT_" .. missiontype)
-	local introtext = l["INTROTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n == 0 and 1 or n)] or l["INTROTEXT_" .. Engine.rand:Integer(1, getNumberOf("INTROTEXT"))]
+	local introtext
+	if n >= 1 then
+		introtext = l["INTROTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)]
+	else
+		introtext = l["INTROTEXT_" .. Engine.rand:Integer(1, getNumberOf("INTROTEXT"))]
+	end
 	local ad = {
 		station		= station,
 		domicile	= station.path,
@@ -499,7 +517,12 @@ local makeAdvert = function (station)
 	}
 
 	n = getNumberOf("ADTEXT_" .. missiontype)
-	local adtext = l["ADTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n == 0 and 1 or n)] or l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOf("ADTEXT"))]
+	local adtext
+	if n >= 1 then
+		adtext = l["ADTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)]
+	else
+		adtext = l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOf("ADTEXT"))]
+	end
 	ad.desc = string.interp(adtext, {
 		system	 = nearbysystem.name,
 		cash	 = Format.Money(ad.reward),
@@ -755,8 +778,11 @@ local onShipDocked = function (player, station)
 
 			if Game.time <= mission.due and cargo == mission.cargo then
 				local n = getNumberOf("SUCCESSMSG_" .. mission.branch)
-				Comms.ImportantMessage(l["SUCCESSMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n == 0 and 1 or n)]
-					or l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOf("SUCCESSMSG"))], mission.client.name)
+				if n >= 1 then
+					Comms.ImportantMessage(l["SUCCESSMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n)], mission.client.name)
+				else
+					Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOf("SUCCESSMSG"))], mission.client.name)
+				end
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
 				player:AddMoney(mission.reward)
 			else
@@ -766,8 +792,11 @@ local onShipDocked = function (player, station)
 					Comms.ImportantMessage(l.I_HAVE_DEBITED_YOUR_ACCOUNT, mission.client.name)
 				else
 					local n = getNumberOf("FAILUREMSG_" .. mission.branch)
-					Comms.ImportantMessage(l["FAILUREMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n == 0 and 1 or n)]
-						or l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOf("FAILUREMSG"))], mission.client.name)
+					if n >= 1 then
+						Comms.ImportantMessage(l["FAILUREMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n)], mission.client.name)
+					else
+						Comms.ImportantMessage(l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOf("FAILUREMSG"))], mission.client.name)
+					end
 				end
 				Character.persistent.player.reputation = Character.persistent.player.reputation - reputation
 			end
