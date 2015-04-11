@@ -73,7 +73,7 @@
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
-      "message" : "Quit?"
+      "message" : "要退出游戏吗?"
    },
    "YES" : {
       "description" : "Yes, quit program",
