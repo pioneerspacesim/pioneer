@@ -1,7 +1,7 @@
 {
    "MSG_1" : {
       "description" : "",
-      "message" : "Say {yes} to get out of here and go back to your boring programs?"
+      "message" : "真的要离开这里去做那些无聊的事情吗?"
    },
    "MSG_10" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "MSG_2" : {
       "description" : "",
-      "message" : "Don't go now, there's a pirate waiting for you in the other program."
+      "message" : "现在别走, 外面有好多海盗等着你呢."
    },
    "MSG_3" : {
       "description" : "",
