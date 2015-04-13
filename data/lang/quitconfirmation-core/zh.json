@@ -41,27 +41,27 @@
    },
    "MSG_3" : {
       "description" : "",
-      "message" : "Are you sure you want to quit this great game that cost you nothing?"
+      "message" : "确定要退出这个好玩又不花你一分钱的游戏吗?"
    },
    "MSG_4" : {
       "description" : "",
-      "message" : "Doest thou wish to leave with such hasty abandon?"
+      "message" : "就这么匆匆忙忙地走了吗?"
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
-      "message" : "Choose {no} for guns and glory, {yes} for work and worry."
+      "message" : "想要战争和荣耀就[留下], 想要工作和烦恼就[离开]."
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Click {no} to be brave, click {yes} to cower in shame."
+      "message" : "勇敢地[留下]或是怯懦地[离开]."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "I wouldn't leave if I were you. The command line is much worse."
+      "message" : "如果我是你我就不会这么做, 回去敲代码比玩游戏惨多了."
    },
    "MSG_8" : {
       "description" : "",
-      "message" : "I'm thinking you want to click {no} to play more. You do it."
+      "message" : "你会选择[留下]然后继续玩. 照着做吧."
    },
    "MSG_9" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "NO" : {
       "description" : "No, don't quit program",
-      "message" : "否"
+      "message" : "留下"
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
@@ -77,6 +77,6 @@
    },
    "YES" : {
       "description" : "Yes, quit program",
-      "message" : "是"
+      "message" : "离开"
    }
 }
