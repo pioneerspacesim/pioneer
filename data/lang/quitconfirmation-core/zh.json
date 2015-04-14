@@ -65,7 +65,7 @@
    },
    "MSG_9" : {
       "description" : "",
-      "message" : "Clicking {yes} means you must return to the humdrum workday world."
+      "message" : "选择[离开]意味着你就得回到乏味的工作中去了."
    },
    "NO" : {
       "description" : "No, don't quit program",
