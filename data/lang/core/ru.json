@@ -1141,7 +1141,7 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Скорость изменения величины Дельта-V. Нажмите на кнопку, чтобы вернуть скорость по умолчанию."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
