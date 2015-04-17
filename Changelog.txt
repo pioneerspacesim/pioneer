@@ -3,7 +3,7 @@ April 2015
      * Confirm quit question added (#3374)
 
    * Fixes
-     Fix #3377 - broken cockpit rotations using headlook (#3381)
+     * Broken cockpit rotations using headlook (#3381)
 
 March 2015
    * Fixes
