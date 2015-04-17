@@ -117,9 +117,6 @@ public:
 
 	double m_rotX; //vertical rot
 	double m_rotY; //horizontal rot
-        // cache for ShipCockpit to avoid divisions
-	double m_viewRotX; //vertical rot
-	double m_viewRotY; //horizontal rot
 	matrix3x3d m_intOrient;
 	matrix3x3d m_viewOrient;
 };
