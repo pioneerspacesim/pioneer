@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmosférický štít"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Chrání vaši loď před žárem při průletu atmosférou"
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Palubní navigační počítač"
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Podpora života v nákladovém prostoru"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Umožňuje přepravu živého nákladu"
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Sběrač nákladu"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Umožňuje sbírat nákladové kontejnery ve vesmíru"
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Hypermotor třídy 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Vojenský hypermotor třídy 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Vojenský hypermotor třídy 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Vojenský hypermotor třídy 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Vojenský hypermotor třídy 4"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Zdokonalený ECM systém"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektronická rušička střel, schopná zničit některé pokročilejší naváděné střely"
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "ECM systém"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektronická rušička, schopná zničit některé naváděné střely"
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Sběrač paliva"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Umožňuje čerpat vodíkové palivo z plynných obrů (planet)"
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Automatická oprava trupu"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Automaticky opravuje trup lodi pokud dojde k poškození"
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analyzátor hyperprostorových oken"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analyzuje hyperprostorová okna ke zjištění času příletu/odletu"
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Velký plasma-akcelerátor"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Posilovač chlazení laseru"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Vylepšený systém chlazení pro vaše zbraně"
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW důlní kanón"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Slouží k dolování minerálů z asteroidů"
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Řízená střela"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Námořní střela"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Smart střela"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 neřízená střela"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi sběrač"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW pulsní kanón"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW pulsní kanón"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW pulsní kanón"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW pulsní kanón"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW pulsní kanón"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dvojitý pulsní kanón"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW rychlopalný pulsní kanón"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Skener lodí"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Umožňuje na dálku prozkoumat vybavení, nákladový prostor a stav jiných lodí"
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Radar"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Zobrazuje 3D mapu lodí ve vaší blízkosti."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Posilovač výkonu štítů"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Zrychluje regeneraci štítů."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Generátor štítů"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Každý (další) generátor štítů posiluje ochranu trupu"
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Malý plasma-akcelerátor"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade analyzer"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shows profitable commodities to trade between selected and current system"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Extra pasažérská kabina"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Vyžadována pro přepravu jednoho pasažéra"
+   }
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _BODY_H
@@ -23,8 +23,8 @@ public:
 	OBJDEF(Body, Object, BODY);
 	Body();
 	virtual ~Body();
-	void Serialize(Serializer::Writer &wr, Space *space);
-	static Body *Unserialize(Serializer::Reader &rd, Space *space);
+	void ToJson(Json::Value &jsonObj, Space *space);
+	static Body *FromJson(const Json::Value &jsonObj, Space *space);
 	virtual void PostLoadFixup(Space *space) {};
 
 	virtual void SetPosition(const vector3d &p) { m_pos = p; }
@@ -102,8 +102,8 @@ public:
 			FLAG_DRAW_LAST = (1<<2) };		// causes the body drawn after other bodies in the z-sort
 
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	unsigned int m_flags;
 
 	// Interpolated draw orientation-position

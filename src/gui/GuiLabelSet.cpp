@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -60,8 +60,9 @@ void LabelSet::Draw()
 {
 	PROFILE_SCOPED()
 	if (!m_labelsVisible) return;
-	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i)
-		Gui::Screen::RenderString((*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, (*i).hasOwnColor ? (*i).color : m_labelColor, m_font.Get());
+	for (std::vector<LabelSetItem>::iterator i = m_items.begin(); i != m_items.end(); ++i) {
+		Gui::Screen::RenderStringBuffer((*i).m_vb, (*i).text, (*i).screenx, (*i).screeny - Gui::Screen::GetFontHeight()*0.5f, (*i).hasOwnColor ? (*i).color : m_labelColor, m_font.Get());
+	}
 }
 
 void LabelSet::GetSizeRequested(float size[2])

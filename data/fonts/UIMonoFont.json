@@ -2,7 +2,7 @@
    "name" : "UIMonoFont",
    "faces" : [
       {
-         "fontFile" : "Inconsolata.otf",
+         "fontFile" : "Inpionata.ttf",
          "pixelWidth" : 18,
          "pixelHeight" : 18
       },

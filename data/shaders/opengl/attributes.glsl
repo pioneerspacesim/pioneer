@@ -1,11 +1,13 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
+#extension GL_ARB_explicit_attrib_location : enable
 
 uniform mat4 uProjectionMatrix;
 uniform mat4 uViewMatrix;
 uniform mat4 uViewMatrixInverse;
 uniform mat4 uViewProjectionMatrix;
-uniform mat4 uNormalMatrix;
+uniform mat3 uNormalMatrix;
 
 //Light uniform parameters
 struct Light {
@@ -25,9 +27,12 @@ struct Material {
 
 #ifdef VERTEX_SHADER
 
-in vec4 a_vertex;
-in vec3 a_normal;
-in vec4 a_color;
-in vec2 a_uv0;
+layout (location = 0) in vec4 a_vertex;
+layout (location = 1) in vec3 a_normal;
+layout (location = 2) in vec4 a_color;
+layout (location = 3) in vec4 a_uv0;
+layout (location = 4) in mat4 a_transform;
+// shadows 5, 6, and 7
+// next available is layout (location = 8) 
 
 #endif // VERTEX_SHADER

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUITEXTENTRY_H
@@ -50,6 +50,10 @@ namespace Gui {
 
 		bool m_justFocused;
 		sigc::connection m_clickout;
+
+		Graphics::Drawables::Lines m_cursorLines;
+		Graphics::Drawables::Lines m_outlines;
+		RefCountedPtr<Graphics::VertexBuffer> m_vb;
 	};
 }
 

@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -158,8 +158,8 @@ NameGen.firstNames.male = {
 	'Asier', 'Barry', 'Ben', 'Benjamin', 'Benoit', 'Bernard', 'Bill',
 	'Blaga', 'Bob', 'Brian', 'Bruce', 'Byron', 'Carl', 'Carlos', 'Chip',
 	'Chris', 'Christopher', 'Clive', 'Connor', 'Craig', 'Dan', 'Daniel', 'Darren',
-	'Dave', 'David', 'Denis', 'Dennis', 'Derek', 'Diego', 'Dionisis', 'Domingo',
-	'Eduardo', 'Emilio', 'Enric', 'Enrique', 'Felipe', 'Felix',
+	'Dave', 'David', 'Denis', 'Dennis', 'Derek', 'Diego', 'Dmitry', 'Dionisis', 'Domingo',
+	'Eduardo', 'Emery', 'Emilio', 'Enric', 'Enrique', 'Felipe', 'Felix',
 	'Fernando', 'Florian', 'Fran', 'Francisco', 'Francisco Javier', 'Frank',
 	'Gareth', 'Gary', 'Gaz', 'Geoffrey', 'George', 'Gernot', 'Graham', 'Gregorio',
 	'Guy', 'Henry', 'Herbert', 'Ian', 'Ignacio', 'Jackie', 'Jaime',
@@ -170,14 +170,14 @@ NameGen.firstNames.male = {
 	'Keith', 'Kenneth', 'Kimmo', 'Konrad', 'Krzysztof', 'Lance', 'Lars',
 	'Lee', 'Leon', 'Leonardo', 'Luca', 'Luis', 'Maksim', 'Malcolm', 'Manuel',
 	'Marcel', 'Marcus', 'Mariano', 'Mark', 'Matthew', 'Michael',
-	'Michele', 'Miguel', 'Miha', 'Neil', 'Nic', 'Nicholas', 'Non', 'Oleg', 'Pablo', 'Patrick',
+	'Michele', 'Miguel', 'Miha', 'Neil', 'Nic', 'Nick', 'Nicholas', 'Non', 'Oleg', 'Pablo', 'Patrick',
 	'Paul', 'Pedro', 'Peter', 'Phil', 'Philip', 'Piotr', 'Radek', 'Rafael',
-	'Ralph', 'Ramon', 'Rémi', 'Ricardo', 'Richard', 'Robert', 'Roger', 'Roland',
+	'Ralph', 'Ramon', 'Rémi', 'Ricardo', 'Richard', 'Rob', 'Robert', 'Roger', 'Roland',
 	'Roy', 'Salvador', 'Santiago', 'Sean', 'Simon', 'Stefan', 'Stephen',
-	'Steve', 'Szilárd', 'Taiki', 'Thierry', 'Thomas', 'Tim', 'Tom', 'Tomas', 'Tony',
+	'Steve', 'Szilárd', 'Taiki', 'Thierry', 'Thomas', 'Tim', 'Timothy', 'Tom', 'Tomas', 'Tony',
 	'Tristram', 'Ulf', 'Vaughan', 'Vincent', 'Vladimir', 'Wayne', 'William'
 }
--- SAVEBUMP add: Emery, Rob, Timothy
+-- SAVEBUMP add: 
 
 NameGen.firstNames.female = {
 	'Jen', 'Steph', 'Hannah', 'Alison', 'Amanda', 'Angela', 'Ann', 'Anne',
@@ -236,9 +236,9 @@ NameGen.surnames = {
 	'Graham', 'Grant', 'Gray', 'Gredka', 'Green', 'Greene', 'Griffin',
 	'Guerra', 'Guthrie', 'Gutierrez', 'Hahn', 'Haley', 'Hall', 'Hamilton',
 	'Han', 'Hansen', 'Hao', 'Hard', 'Harding', 'Hardy', 'Harper',
-	'Harris', 'Harrison', 'Harvey', 'Hawkins', 'Hayden', 'Hays',
+	'Harris', 'Harrison', 'Harvey', 'Hawkins', 'Hayden', 'Hays', 'Hemingway', 
 	'Henderson', 'Hendricks', 'Hendrix', 'Henry', 'Herbert', 'Herman',
-	'Hernandez', 'Hester', 'Hicks', 'Hill', 'Hindle', 'Hinton', 'Hodgetts',
+	'Hernandez', 'Hester', 'Hicks', 'Hill', 'Hills', 'Hindle', 'Hinton', 'Hodgetts',
 	'Holden', 'Holman', 'Holmes', 'Hooper', 'Hopper', 'Horne', 'Hou',
 	'Howard', 'Howe', 'Howell', 'Howlett', 'Hsai', 'Hsiao', 'Hsieh',
 	'Hsiung', 'Hsu', 'Hu', 'Huang', 'Huber', 'Hudson', 'Hughes', 'Hung',
@@ -252,7 +252,7 @@ NameGen.surnames = {
 	'Larson', 'Lawrence', 'Lawson', 'Lee', 'Lei', 'Levine', 'Levy',
 	'Lewis', 'Li', 'Liang', 'Liao', 'Lin', 'Little', 'Liu', 'Livingston',
 	'Lo', 'Long', 'Lopez', 'Lowery', 'Lucas', 'Lung', 'Lynch', 'Ma',
-	'Macdonald', 'Macias', 'Madden', 'Mahol', 'Manna', 'Mao', 'Marshall',
+	'Macdonald', 'Macias', 'Madden', 'Mahol', 'Manna', 'Mao', 'Marakasov', 'Marshall',
 	'Martin', 'Martinez', 'Mas', 'Mason', 'Matthews', 'Maxwell', 'Mayer',
 	'Maynard', 'Mayo', 'Mays', 'Mcconnell', 'Mccoy', 'Mccray',
 	'Mccullough', 'Mcdonald', 'Mcfadden', 'Mcfarland', 'Mcgowan',
@@ -288,7 +288,7 @@ NameGen.surnames = {
 	'Tuan', 'Tucker', 'Tulloh', 'Turner', 'Tyler', 'Tyson', 'Valášek', 'Valdez',
 	'Valencia', 'Valenzuela', 'Vang', 'Vasquez', 'Vazquez', 'Vega',
 	'Velazquez', 'Vitorovi', 'Volk', 'Wagner', 'Walker', 'Wallace', 'Walls', 'Walter', 'Wan',
-	'Wang', 'Ward', 'Warner', 'Warren', 'Washington', 'Watkins',
+	'Wang', 'Wanstall', 'Ward', 'Warner', 'Warren', 'Washington', 'Watkins',
 	'Watson', 'Watts', 'Weaver', 'Webb', 'Weeks', 'Wei', 'Weiss', 'Welch',
 	'Wells', 'West', 'Westerhoff', 'Wheeler', 'White', 'Whitfield',
 	'Wilder', 'William', 'Williams', 'Williamson', 'Willis', 'Wilson',
@@ -296,7 +296,7 @@ NameGen.surnames = {
 	'Wooten', 'Wright', 'Wu', 'Wynn', 'Yang', 'Yen', 'Yin', 'Young', 'Yu',
 	'Yuan', 'Yung', 'Zamora', 'Zimmerman',
 }
--- SAVEBUMP add: Hemingway, Hills
+-- SAVEBUMP add: 
 
 NameGen.outdoorPlanetFormats = {
 	"{name}",

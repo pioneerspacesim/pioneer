@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _UTILS_H
@@ -72,7 +72,11 @@ static inline Sint64 isqrt(Sint64 a)
 	return ret;
 }
 
-void Screendump(const char* destFile, const int w, const int h);
+namespace Graphics {
+    struct ScreendumpState;
+}
+
+void write_screenshot(const Graphics::ScreendumpState &sd, const char* destFile);
 
 // find string in bigger string, ignoring case
 const char *pi_strcasestr(const char *haystack, const char *needle);
@@ -127,6 +131,26 @@ inline bool ends_with_ci(const std::string &s, const char *t) {
 inline bool ends_with_ci(const std::string &s, const std::string &t) {
 	return ends_with_ci(s.c_str(), s.size(), t.c_str(), t.size());
 }
+
+// 'Numeric type' to string conversions.
+std::string SInt64ToStr(Sint64 val);
+std::string UInt64ToStr(Uint64 val);
+std::string FloatToStr(float val);
+std::string DoubleToStr(double val);
+std::string AutoToStr(Sint32 val);
+std::string AutoToStr(Sint64 val);
+std::string AutoToStr(float val);
+std::string AutoToStr(double val);
+
+// String to 'Numeric type' conversions.
+Sint64 StrToSInt64(const std::string &str);
+Uint64 StrToUInt64(const std::string &str);
+float StrToFloat(const std::string &str);
+double StrToDouble(const std::string &str);
+void StrToAuto(Sint32 *pVal, const std::string &str);
+void StrToAuto(Sint64 *pVal, const std::string &str);
+void StrToAuto(float *pVal, const std::string &str);
+void StrToAuto(double *pVal, const std::string &str);
 
 // add a few things that MSVC is missing
 #if defined(_MSC_VER) && (_MSC_VER < 1800)

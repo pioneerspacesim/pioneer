@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Die Nachricht von {target}s Karriereende hat uns erreicht. Hier sind Ihre {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Auflegen."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Bis wann muss es passieren?"

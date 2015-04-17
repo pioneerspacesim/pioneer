@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Model.h"
@@ -8,6 +8,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "StringF.h"
+#include "json/JsonUtils.h"
 
 namespace SceneGraph {
 
@@ -92,6 +93,7 @@ Model *Model::MakeInstance() const
 
 void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	//update color parameters (materials are shared by model instances)
 	if (m_curPattern) {
 		for (MaterialContainer::const_iterator it = m_materials.begin(); it != m_materials.end(); ++it) {
@@ -111,6 +113,7 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
 	m_renderer->SetTransform(trans);
+
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
 	params.boundingRadius = GetDrawClipRadius();
@@ -155,11 +158,54 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 	}
 }
 
-void Model::DrawAabb()
+void Model::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED();
+
+	//update color parameters (materials are shared by model instances)
+	if (m_curPattern) {
+		for (MaterialContainer::const_iterator it = m_materials.begin(); it != m_materials.end(); ++it) {
+			if ((*it).second->GetDescriptor().usePatterns) {
+				(*it).second->texture5 = m_colorMap.GetTexture();
+				(*it).second->texture4 = m_curPattern;
+			}
+		}
+	}
+
+	//update decals (materials and geometries are shared)
+	for (unsigned int i = 0; i < MAX_DECAL_MATERIALS; i++)
+		if (m_decalMaterials[i])
+			m_decalMaterials[i]->texture0 = m_curDecals[i];
+
+	//Override renderdata if this model is called from ModelNode
+	RenderData params = (rd != 0) ? (*rd) : m_renderData;
+
+	//m_renderer->SetTransform(trans);
+
+	//using the entire model bounding radius for all nodes at the moment.
+	//BR could also be a property of Node.
+	params.boundingRadius = GetDrawClipRadius();
+
+	//render in two passes, if this is the top-level model
+	if (m_debugFlags & DEBUG_WIREFRAME)
+		m_renderer->SetWireFrameMode(true);
+
+	if (params.nodemask & MASK_IGNORE) {
+		m_root->Render(trans, &params);
+	} else {
+		params.nodemask = NODE_SOLID;
+		m_root->Render(trans, &params);
+		params.nodemask = NODE_TRANSPARENT;
+		m_root->Render(trans, &params);
+	}
+}
+
+void Model::CreateAabbVB()
+{
+	PROFILE_SCOPED()
 	if (!m_collMesh) return;
 
-	Aabb aabb = m_collMesh->GetAabb();
+	const Aabb aabb = m_collMesh->GetAabb();
 
 	const vector3f verts[16] = {
 		vector3f(aabb.min.x, aabb.min.y, aabb.min.z),
@@ -181,36 +227,88 @@ void Model::DrawAabb()
 		vector3f(aabb.min.x, aabb.max.y, aabb.max.z),
 	};
 
-	auto state = m_renderer->CreateRenderState(Graphics::RenderStateDesc());
-	m_renderer->DrawLines(8, verts + 0, Color::GREEN, state, Graphics::LINE_STRIP);
-	m_renderer->DrawLines(8, verts + 8, Color::GREEN, state, Graphics::LINE_STRIP);
+	if( !m_aabbVB.Valid() )
+	{
+		Graphics::VertexArray va(Graphics::ATTRIB_POSITION, 28);
+		for(unsigned int i = 0; i < 7; i++) {
+			va.Add(verts[i]);
+			va.Add(verts[i+1]);
+}
+
+		for(unsigned int i = 8; i < 15; i++) {
+			va.Add(verts[i]);
+			va.Add(verts[i+1]);
+		}
+
+		Graphics::MaterialDescriptor desc;
+		m_aabbMat.Reset(m_renderer->CreateMaterial(desc));
+		m_aabbMat->diffuse = Color::GREEN;
+
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = va.GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+		m_aabbVB.Reset( m_renderer->CreateVertexBuffer(vbd) );
+		m_aabbVB->Populate( va );
+	}
+
+	m_state = m_renderer->CreateRenderState(Graphics::RenderStateDesc());
+}
+
+void Model::DrawAabb()
+{
+	if (!m_collMesh) return;
+
+	if( !m_aabbVB.Valid() ) {
+		CreateAabbVB();
+	}
+
+	m_renderer->DrawBuffer( m_aabbVB.Get(), m_state, m_aabbMat.Get(), Graphics::LINE_SINGLE);
+	
 }
 
 // Draw collision mesh as a wireframe overlay
 void Model::DrawCollisionMesh()
 {
+	PROFILE_SCOPED()
 	if (!m_collMesh) return;
 
-	const vector3f *vertices = reinterpret_cast<const vector3f*>(m_collMesh->GetGeomTree()->GetVertices());
-	const Uint16 *indices = m_collMesh->GetGeomTree()->GetIndices();
-	const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
-	const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;
+	if( !m_collisionMeshVB.Valid() )
+	{
+		const std::vector<vector3f> &vertices = m_collMesh->GetGeomTree()->GetVertices();
+		const Uint16 *indices = m_collMesh->GetGeomTree()->GetIndices();
+		const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
+		const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;
 
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
-	int trindex = -1;
-	for(unsigned int i = 0; i < numIndices; i++) {
-		if (i % 3 == 0)
-			trindex++;
-		const unsigned int flag = triFlags[trindex];
-		//show special geomflags in red
-		va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
+		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, numIndices * 3);
+		int trindex = -1;
+		for(unsigned int i = 0; i < numIndices; i++) {
+			if (i % 3 == 0)
+				trindex++;
+			const unsigned int flag = triFlags[trindex];
+			//show special geomflags in red
+			va.Add(vertices[indices[i]], flag > 0 ? Color::RED : Color::WHITE);
+		}
+
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
+		vbd.numVertices = va.GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+		m_collisionMeshVB.Reset( m_renderer->CreateVertexBuffer(vbd) );
+		m_collisionMeshVB->Populate( va );
 	}
 
 	//might want to add some offset
 	m_renderer->SetWireFrameMode(true);
 	Graphics::RenderStateDesc rsd;
 	rsd.cullMode = Graphics::CULL_NONE;
-	m_renderer->DrawTriangles(&va, m_renderer->CreateRenderState(rsd), Graphics::vtxColorMaterial);
+	m_renderer->DrawBuffer(m_collisionMeshVB.Get(), m_renderer->CreateRenderState(rsd), Graphics::vtxColorMaterial);
 	m_renderer->SetWireFrameMode(false);
 }
 
@@ -231,11 +329,10 @@ RefCountedPtr<CollMesh> Model::CreateCollisionMesh()
 
 RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &name) const
 {
-	for (MaterialContainer::const_iterator it = m_materials.begin();
-		it != m_materials.end();
-		++it)
+	for (auto it : m_materials)
 	{
-		if ((*it).first == name) return (*it).second;
+		if (it.first == name) 
+			return it.second;
 	}
 	return RefCountedPtr<Graphics::Material>(); //return invalid
 }
@@ -377,56 +474,79 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[2] = ang.z;
 }
 
-class SaveVisitor : public NodeVisitor {
+class SaveVisitorJson : public NodeVisitor {
 public:
-	SaveVisitor(Serializer::Writer *wr_): wr(wr_) {}
+	SaveVisitorJson(Json::Value &jsonObj) : m_jsonArray(jsonObj) {}
 
-	void ApplyMatrixTransform(MatrixTransform &node) {
+	void ApplyMatrixTransform(MatrixTransform &node)
+	{
 		const matrix4x4f &m = node.GetTransform();
-		for (int i = 0; i < 16; i++)
-			wr->Float(m[i]);
+		Json::Value matrixTransformObj(Json::objectValue); // Create JSON object to contain matrix transform data.
+		MatrixToJson(matrixTransformObj, m, "matrix_transform");
+		m_jsonArray.append(matrixTransformObj); // Append matrix transform object to array.
 	}
 
 private:
-	Serializer::Writer *wr;
+	Json::Value &m_jsonArray;
 };
 
-void Model::Save(Serializer::Writer &wr) const
+void Model::SaveToJson(Json::Value &jsonObj) const
 {
-	SaveVisitor sv(&wr);
+	Json::Value modelObj(Json::objectValue); // Create JSON object to contain model data.
+
+	Json::Value visitorArray(Json::arrayValue); // Create JSON array to contain visitor data.
+	SaveVisitorJson sv(visitorArray);
 	m_root->Accept(sv);
+	modelObj["visitor"] = visitorArray; // Add visitor array to model object.
 
+	Json::Value animationArray(Json::arrayValue); // Create JSON array to contain animation data.
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
-		wr.Double((*i)->GetProgress());
+		animationArray.append(DoubleToStr((*i)->GetProgress()));
+	modelObj["animations"] = animationArray; // Add animation array to model object.
 
-	wr.Int32(m_curPatternIndex);
+	modelObj["cur_pattern_index"] = m_curPatternIndex;
+
+	jsonObj["model"] = modelObj; // Add model object to supplied object.
 }
 
-class LoadVisitor : public NodeVisitor {
+class LoadVisitorJson : public NodeVisitor {
 public:
-	LoadVisitor(Serializer::Reader *rd_): rd(rd_) {}
+	LoadVisitorJson(const Json::Value &jsonObj) : m_jsonArray(jsonObj), m_arrayIndex(0) {}
 
-	void ApplyMatrixTransform(MatrixTransform &node) {
+	void ApplyMatrixTransform(MatrixTransform &node)
+	{
 		matrix4x4f m;
-		for (int i = 0; i < 16; i++)
-			m[i] = rd->Float();
+		JsonToMatrix(&m, m_jsonArray[m_arrayIndex++], "matrix_transform");
 		node.SetTransform(m);
 	}
 
 private:
-	Serializer::Reader *rd;
+	const Json::Value &m_jsonArray;
+	unsigned int m_arrayIndex;
 };
 
-void Model::Load(Serializer::Reader &rd)
+void Model::LoadFromJson(const Json::Value &jsonObj)
 {
-	LoadVisitor lv(&rd);
+	if (!jsonObj.isMember("model")) throw SavedGameCorruptException();
+	Json::Value modelObj = jsonObj["model"];
+	if (!modelObj.isMember("visitor")) throw SavedGameCorruptException();
+	if (!modelObj.isMember("animations")) throw SavedGameCorruptException();
+	if (!modelObj.isMember("cur_pattern_index")) throw SavedGameCorruptException();
+
+	Json::Value visitorArray = modelObj["visitor"];
+	if (!visitorArray.isArray()) throw SavedGameCorruptException();
+	LoadVisitorJson lv(visitorArray);
 	m_root->Accept(lv);
 
+	Json::Value animationArray = modelObj["animations"];
+	if (!animationArray.isArray()) throw SavedGameCorruptException();
+	assert(m_animations.size() == animationArray.size());
+	unsigned int arrayIndex = 0;
 	for (AnimationContainer::const_iterator i = m_animations.begin(); i != m_animations.end(); ++i)
-		(*i)->SetProgress(rd.Double());
+		(*i)->SetProgress(StrToDouble(animationArray[arrayIndex++].asString()));
 	UpdateAnimations();
 
-	SetPattern(rd.Int32());
+	SetPattern(modelObj["cur_pattern_index"].asUInt());
 }
 
 std::string Model::GetNameForMaterial(Graphics::Material *mat) const

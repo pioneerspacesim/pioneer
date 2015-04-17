@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
@@ -13,6 +13,7 @@
 #include "Sensors.h"
 #include "Serializer.h"
 #include "ShipType.h"
+#include "Space.h"
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 #include "LuaTable.h"
@@ -262,8 +263,8 @@ public:
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	void RenderLaserfire();
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
@@ -324,7 +325,11 @@ private:
 	vector3d m_angThrusters;
 
 	AlertState m_alertState;
+	double m_lastAlertUpdate;
 	double m_lastFiringAlert;
+	bool m_shipNear;
+	bool m_shipFiring;
+	Space::BodyNearList m_nearbyBodies;
 
 	struct HyperspacingOut {
 		SystemPath dest;

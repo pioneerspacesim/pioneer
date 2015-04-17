@@ -1,14 +1,96 @@
+April 2015
+   * New Features
+     * Confirm quit question added (#3374)
+     
+   * Fixes
+     Fix #3377 - broken cockpit rotations using headlook (#3381)
+
+March 2015
+   * Fixes
+     * Fix modelcompiler (#3356)
+     * Attempt to avoid calling methods on a nil object (#3357)
+     * Fix missing specular highlights (#3367)
+     * Fix compilation of planetrings shader (#3370)
+
+   * New Features
+     * Mouselook for internal camera (#3361)
+     * Migrating the save-game serialisation from a binary flat file to JSON (#3355)
+
+   * Internal Changes
+     * Fix VS2013 profiling configuration (#3368)
+     * Rendering statistics (#3371)
+     * Instanced model rendering for cities (#3372)
+     * Update the sgm file version (#3375)
+
+February 2015
+   * Fixes
+     * Romanian characters added, fixes #3314 (#3318)
+     * Fix the libcurl linking for Profile, PreRelease and Debug (#3354)
+
+   * Script and UI API changes
+     * ServerAgent class for simple network communication (#3342)
+
+   * Internal Changes
+     * LuaSerializer refactoring to diminish coupling with LuaObject (#3349)
+
+January 2015
+   * New Features
+     * Many point stars on starless galaxy (#3321)
+
+   * Fixes
+     * Fix 3310 (#3312)
+     * Fix 3313 (#3316)
+     * Fix Ship:onShipEquipmentChanged (#3326)
+     * Ship launch thrust timer fix (#3330)
+     * Fix the UI strange rendering (#3332)
+     * Update the ToolTip text layout (#3334)
+     * Prevent issue #3340 assert (#3341)
+
+   * Internal Chnages
+     * Remove DrawPoints & DrawLines methods (#3303)
+     * Dummy renderer for headless tools (#3306)
+     * Fix scanner drawing post-load (#3309)
+     * Faster text buffer rendering (#3304)
+     * Ignore any sgm files in the repository (#3315)
+     * Faster deduplication of collision data (#3319)
+     * Stop vs2013 using the whole program optimisation (#3333)
+     * Equipment strings moved to new translation module (#3295)
+     * modelcompiler no GL, no SDL, build support for compiled models (#3339)
+
+   * Optimisation
+     * Animation interpolation optimisation (#3327)
+     * Ship nearby optimise (#3328)
+
 December 2014
    * New Features
      * New Multi Scoop equipment, and merge cargo and fuel scoop slots
        to a single one (#3267)
+     * New OPLI ship Storeria (#3257)
+     * Our two space stations decommissioned (hoop and big_crappy) and three new jaw
+       dropping amazing ones enter service! (#3099)
 
    * Fixes
      * Fix string "NONE" in ShipInfo not using the translated version (#3268)
      * Require OpenGL 3.1 context when opening the SDL window (#3269)
-     
+     * Move parentheses to correct position for ATLAS_SIZE test (#3299)
+
    * Minor changes and tweaks
      * Switch font texture U/V coordinates to unsigned int (#3273)
+     * README updated to markdown format (#3276)
+     * Ship and station labels can now include line breaks (#3188)
+     * Changed to compile as c++ for all build configurations (#3288)
+     * Handle non-core strings for lua equipment (#3279)
+     * Use counter not named bays for stations (#3291)
+
+   * Internal Changes
+     * Fix spelling error in DeliverPackage
+     * Better descriptions for translation strings in ui-/core (#3272)
+     * Change the Star Color structures to use Color instead of Uint8 (#3285)
+     * Remove the Colours.h/cpp files (#3289)
+     * Several bugfixes to the Lua serializer triggered by recent code (#3279)
+     * Remove redundant code and translation strings (#3294)
+     * Optimise VertexBuffer usage for SG Nodes (#3300)
+     * Bundle Collision with SGM file (#3297)
 
 November 2014
    * New Features

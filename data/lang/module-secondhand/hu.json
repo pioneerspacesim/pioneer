@@ -55,10 +55,6 @@
       "description" : "Selling second hand ship equipment",
       "message" : "ELADÓ: öreg {equipment}, működőképes állapotban."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Kapcsolat megszakítása."
-   },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
       "message" : "{equipment} felszerelve."

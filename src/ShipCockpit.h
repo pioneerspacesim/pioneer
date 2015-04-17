@@ -7,6 +7,8 @@
 #include "libs.h"
 #include "ModelBody.h"
 #include "scenegraph/Model.h"
+#include "CameraController.h"
+#include "WorldView.h"
 
 static const float COCKPIT_LAG_MAX_ANGLE = 7.5f;
 static const float COCKPIT_ROTATION_INTERP_MULTIPLIER = 5.0f;
@@ -25,6 +27,7 @@ public:
 	void Update(float timeStep);
 	void RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, Frame* frame);
 	void OnActivated();
+       void resetInternalCameraController(void);
 
 protected:
 	float CalculateSignedForwardVelocity(vector3d forward, vector3d velocity);
@@ -44,6 +47,6 @@ private:
 	float m_shipVel;           // current ship velocity
 	vector3d m_translate;      // cockpit translation
 	matrix4x4d m_transform;    // cockpit transformation
+       InternalCameraController* m_icc;
 };
-
 #endif

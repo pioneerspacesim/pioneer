@@ -20,9 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\contrib\json\json.h" />
+    <ClInclude Include="..\..\..\contrib\json\JsonUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\json\jsoncpp.cpp" />
+    <ClCompile Include="..\..\..\contrib\json\JsonUtils.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{026FC030-0192-4582-B1AF-F9AADF4D73AD}</ProjectGuid>
@@ -98,6 +100,7 @@
     <ClCompile>
       <WarningLevel>Level2</WarningLevel>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PIONEER_PROFILER;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/opengl/VertexBufferGL.h"
@@ -36,9 +36,9 @@ GLenum get_component_type(VertexAttribFormat fmt)
 	}
 }
 
-VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
+VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
+	Graphics::VertexBuffer(desc)
 {
-	m_desc = desc;
 	//update offsets in desc
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (m_desc.attrib[i].offset == 0)
@@ -268,12 +268,41 @@ bool VertexBuffer::Populate(const VertexArray &va)
 
 void VertexBuffer::Bind() {
 	glBindVertexArray(m_vao);
+
+	// Enable the Vertex attributes
+	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
+		const auto& attr = m_desc.attrib[i];
+		switch (attr.semantic) {
+		case ATTRIB_POSITION:		glEnableVertexAttribArray(0);		break;
+		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
+		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
+		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
+		case ATTRIB_NONE:
+		default:
+			return;
+		}
+	}
 }
 
 void VertexBuffer::Release() {
+	// Enable the Vertex attributes
+	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
+		const auto& attr = m_desc.attrib[i];
+		switch (attr.semantic) {
+		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);			break;
+		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);			break;
+		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);			break;
+		case ATTRIB_UV0:			glDisableVertexAttribArray(3);			break;
+		case ATTRIB_NONE:
+		default:
+			return;
+		}
+	}
+
 	glBindVertexArray(0);
 }
 
+// ------------------------------------------------------------
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	: Graphics::IndexBuffer(size, hint)
 {
@@ -332,6 +361,103 @@ void IndexBuffer::Unmap()
 	}
 
 	m_mapMode = BUFFER_MAP_NONE;
+}
+
+void IndexBuffer::Bind() {
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+}
+
+void IndexBuffer::Release() {
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+// ------------------------------------------------------------
+InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage hint)
+	: Graphics::InstanceBuffer(size, hint)
+{
+	assert(size > 0);
+
+	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
+	glGenBuffers(1, &m_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+	m_data.reset( new matrix4x4f[size] );
+	memset(m_data.get(), 0, sizeof(matrix4x4f) * size);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(matrix4x4f) * m_size, m_data.get(), usage);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Don't keep client data around for static buffers
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		m_data.reset();
+	}
+}
+
+InstanceBuffer::~InstanceBuffer()
+{
+	glDeleteBuffers(1, &m_buffer);
+}
+
+matrix4x4f* InstanceBuffer::Map(BufferMapMode mode)
+{
+	assert(mode != BUFFER_MAP_NONE); //makes no sense
+	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
+	m_mapMode = mode;
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+		if (mode == BUFFER_MAP_READ)
+			return reinterpret_cast<matrix4x4f*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
+		else if (mode == BUFFER_MAP_WRITE)
+			return reinterpret_cast<matrix4x4f*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+	}
+
+	return m_data.get();
+}
+
+void InstanceBuffer::Unmap()
+{
+	assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
+
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	} else {
+		if (m_mapMode == BUFFER_MAP_WRITE) {
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(matrix4x4f) * m_size, m_data.get());
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+	}
+
+	m_mapMode = BUFFER_MAP_NONE;
+}
+
+void InstanceBuffer::Bind() {
+	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+
+	// used to pass a matrix4x4f in, however each attrib array is max size of (GLSL) vec4 so must enable 4 arrays
+	const size_t sizeVec4 = (sizeof(float)*4);
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)0);
+	glEnableVertexAttribArray(5);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)sizeVec4);
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)(2 * sizeVec4));
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)(3 * sizeVec4));
+
+	glVertexAttribDivisor(4, 1);
+	glVertexAttribDivisor(5, 1);
+	glVertexAttribDivisor(6, 1);
+	glVertexAttribDivisor(7, 1);
+}
+
+void InstanceBuffer::Release() {
+	// see enable comment above
+	glDisableVertexAttribArray(4);
+	glDisableVertexAttribArray(5);
+	glDisableVertexAttribArray(6);
+	glDisableVertexAttribArray(7);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 } //namespace OGL

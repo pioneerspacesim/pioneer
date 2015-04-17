@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Anar enrere"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Acabar la conversa."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, free disposal (conditions apply)"

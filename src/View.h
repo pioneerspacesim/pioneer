@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VIEW_H
@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "Serializer.h"
 #include "gui/Gui.h"
+#include "json/json.h"
 
 namespace Graphics { class Renderer; }
 
@@ -27,8 +28,8 @@ public:
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
-	virtual void Save(Serializer::Writer &wr) {}
-	virtual void Load(Serializer::Reader &rd) {}
+	virtual void SaveToJson(Json::Value &jsonObj) {}
+	virtual void LoadFromJson(const Json::Value &jsonObj) {}
 
 	void Attach();
 	void Detach();

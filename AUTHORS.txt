@@ -56,6 +56,7 @@ The Pioneer Developers are:
 * Michele Botticelli
 * Miha Vitorovič
 * Nic
+* Nick Wanstall
 * Oleg Ovcharenko
 * Paul Mahol
 * Paul Roberts
@@ -92,7 +93,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2014 Pioneer Developers
+Copyright © 2008-2015 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the
@@ -134,11 +135,15 @@ Pioneer includes the following third-party software:
   https://code.google.com/p/high-performance-cplusplus-profiler/
   Licensed under the MIT license
 
-  Titillium Text font
+  Pionillium Text font
+  Copyright (c) 2015, Pioneer Developers
+  Based on Titillium
   Copyright (C) 2007-2009 Academia di Belle Arte di Urbino - Campivisivi
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 
-  Inconsolata font
+  Inpionata font
+  Copyright (c) 2015, Pioneer Developers
+  Based on Inconsolata
   Copyright (C) 2006, Raph Levien
   Licensed under the SIL Open Font Licence v1.1 (see licenses/SIL-1.1.txt)
 

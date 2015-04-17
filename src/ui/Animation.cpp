@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Animation.h"
@@ -147,6 +147,7 @@ void Animation::SelectFunctions()
 
 float Animation::Update(float time)
 {
+	PROFILE_SCOPED();
 	if (m_completed)
 		return 0.0f;
 
@@ -186,6 +187,7 @@ void AnimationController::Add(Animation *animation)
 
 void AnimationController::Update()
 {
+	PROFILE_SCOPED();
 	const Uint32 now = SDL_GetTicks();
 
 	for (auto i = m_animations.begin(); i != m_animations.end();) {

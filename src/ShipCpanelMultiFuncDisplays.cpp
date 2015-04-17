@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipCpanelMultiFuncDisplays.h"
@@ -31,8 +31,6 @@ static const float SCANNER_SCALE     = 0.00001f;
 static const float A_BIT             = 1.1f;
 static const unsigned int SCANNER_STEPS = 100;
 
-enum ScannerBlobWeight { WEIGHT_LIGHT, WEIGHT_HEAVY };
-
 // XXX target colours should be unified throughout the game
 static const Color scannerNavTargetColour     = Color( 0,   255, 0   );
 static const Color scannerCombatTargetColour  = Color( 255, 0,   0   );
@@ -52,13 +50,21 @@ ScannerWidget::ScannerWidget(Graphics::Renderer *r) :
 	InitObject();
 }
 
-ScannerWidget::ScannerWidget(Graphics::Renderer *r, Serializer::Reader &rd) :
-	m_renderer(r)
+ScannerWidget::ScannerWidget(Graphics::Renderer *r, const Json::Value &jsonObj) :
+m_renderer(r)
 {
-	m_mode = ScannerMode(rd.Int32());
-	m_currentRange = rd.Float();
-	m_manualRange = rd.Float();
-	m_targetRange = rd.Float();
+	if (!jsonObj.isMember("scanner")) throw SavedGameCorruptException();
+	Json::Value scannerObj = jsonObj["scanner"];
+
+	if (!scannerObj.isMember("mode")) throw SavedGameCorruptException();
+	if (!scannerObj.isMember("current_range")) throw SavedGameCorruptException();
+	if (!scannerObj.isMember("manual_range")) throw SavedGameCorruptException();
+	if (!scannerObj.isMember("target_range")) throw SavedGameCorruptException();
+
+	m_mode = ScannerMode(scannerObj["mode"].asInt());
+	m_currentRange = StrToFloat(scannerObj["current_range"].asString());
+	m_manualRange = StrToFloat(scannerObj["manual_range"].asString());
+	m_targetRange = StrToFloat(scannerObj["target_range"].asString());
 
 	InitObject();
 }
@@ -76,7 +82,10 @@ void ScannerWidget::InitObject()
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	rsd.depthTest = false;
+	rsd.cullMode = CULL_NONE;
 	m_renderState = m_renderer->CreateRenderState(rsd);
+
+	GenerateRingsAndSpokes();
 }
 
 ScannerWidget::~ScannerWidget()
@@ -296,8 +305,19 @@ void ScannerWidget::Update()
 
 void ScannerWidget::DrawBlobs(bool below)
 {
+	assert( !m_contacts.empty() );
+
+	static const Uint32 MAX_CONTACTS(100);
+	std::vector<vector3f> blobs;
+	std::vector<vector3f> vts;
+	std::vector<Color> blobcolors;
+	std::vector<Color> colors;
+	blobs.reserve(MAX_CONTACTS);
+	vts.reserve(MAX_CONTACTS);
+	blobcolors.reserve(MAX_CONTACTS);
+	colors.reserve(MAX_CONTACTS);
+
 	for (std::list<Contact>::iterator i = m_contacts.begin(); i != m_contacts.end(); ++i) {
-		ScannerBlobWeight weight = WEIGHT_LIGHT;
 
 		const Color *color = 0;
 
@@ -307,7 +327,6 @@ void ScannerWidget::DrawBlobs(bool below)
 					color = &scannerCombatTargetColour;
 				else
 					color = &scannerShipColour;
-				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::MISSILE:
@@ -322,7 +341,6 @@ void ScannerWidget::DrawBlobs(bool below)
 					color = &scannerNavTargetColour;
 				else
 					color = &scannerStationColour;
-				weight = WEIGHT_HEAVY;
 				break;
 
 			case Object::CARGOBODY:
@@ -343,16 +361,6 @@ void ScannerWidget::DrawBlobs(bool below)
 				continue;
 		}
 
-		float pointSize = 1.f;
-		if (weight == WEIGHT_LIGHT) {
-			// glLineWidth(1);
-			pointSize = 3.f;
-		}
-		else {
-			// glLineWidth(2);
-			pointSize = 4.f;
-		}
-
 		vector3d pos = i->pos * Pi::player->GetOrient();
 		if ((pos.y > 0) && (below)) continue;
 		if ((pos.y < 0) && (!below)) continue;
@@ -365,11 +373,23 @@ void ScannerWidget::DrawBlobs(bool below)
 		const float y_base = m_y + m_y * SCANNER_YSHRINK * float(pos.z) * m_scale;
 		const float y_blob = y_base - m_y * SCANNER_YSHRINK * float(pos.y) * m_scale;
 
-		const vector3f verts[] = { vector3f(x, y_base, 0.f), vector3f(x, y_blob, 0.f) };
-		m_renderer->DrawLines(2, &verts[0], *color, m_renderState);
+		// store this stalk
+		vts.push_back(vector3f(x, y_base, 0.f));
+		vts.push_back(vector3f(x, y_blob, 0.f));
+		colors.push_back(*color);
+		colors.push_back(*color);
 
-		vector3f blob(x, y_blob, 0.f);
-		m_renderer->DrawPoints(1, &blob, color, m_renderState, pointSize);
+		// blob!
+		blobs.push_back(vector3f(x, y_blob, 0.f));
+		blobcolors.push_back(*color);
+	}
+
+	if( !vts.empty() ) {
+		m_contactLines.SetData(vts.size(), &vts[0], &colors[0]);
+		m_contactLines.Draw(m_renderer, m_renderState);
+
+		m_contactBlobs.SetData(m_renderer, blobs.size(), &blobs[0], &blobcolors[0], matrix4x4f::Identity(), 3.f);
+		m_contactBlobs.Draw(m_renderer, m_renderState);
 	}
 }
 
@@ -398,8 +418,8 @@ void ScannerWidget::GenerateBaseGeometry()
 
 void ScannerWidget::GenerateRingsAndSpokes()
 {
-	int csize = m_circle.size();
-	int ssize = m_spokes.size();
+	const int csize = m_circle.size();
+	const int ssize = m_spokes.size();
 	m_vts.clear();
 
 	// inner circle
@@ -424,13 +444,9 @@ void ScannerWidget::GenerateRingsAndSpokes()
 	vector3f vn(sin(a), SCANNER_YSHRINK * cos(a), 0.0f);
 
 	// bright part
-	Color col = Color(178, 178, 0, 128);
-	if (m_mode == SCANNER_MODE_AUTO) {
-		// green like the scanner to indicate that the scanner is controlling the range
-		col = Color(0, 178, 0, 128);
-	}
+	Color col = (m_mode == SCANNER_MODE_AUTO) ? Color(0, 178, 0, 128) : Color(178, 178, 0, 128);
 	for (int i=0; i<=dimstart; i++) {
-		if (i == csize) return;			// whole circle bright case
+		if (i == csize) break;			// whole circle bright case
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
 		m_edgeCols.push_back(col);
 	}
@@ -443,13 +459,16 @@ void ScannerWidget::GenerateRingsAndSpokes()
 		m_edgeVts.push_back(vector3f(m_circle[i].x, m_circle[i].y, 0.0f));
 		m_edgeCols.push_back(col);
 	}
+
+	static const Color vtscol(0, 102, 0, 128);
+	m_scanLines.SetData(m_vts.size(), &m_vts[0], vtscol);
+	m_edgeLines.SetData(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0]);
 }
 
 void ScannerWidget::DrawRingsAndSpokes(bool blend)
 {
-	Color col(0, 102, 0, 128);
-	m_renderer->DrawLines(m_vts.size(), &m_vts[0], col, m_renderState);
-	m_renderer->DrawLines(m_edgeVts.size(), &m_edgeVts[0], &m_edgeCols[0], m_renderState);
+	m_scanLines.Draw(m_renderer, m_renderState);
+	m_edgeLines.Draw(m_renderer, m_renderState);
 }
 
 void ScannerWidget::TimeStepUpdate(float step)
@@ -463,12 +482,16 @@ void ScannerWidget::TimeStepUpdate(float step)
 	m_scale = SCANNER_SCALE * (SCANNER_RANGE_MAX / m_currentRange);
 }
 
-void ScannerWidget::Save(Serializer::Writer &wr)
+void ScannerWidget::SaveToJson(Json::Value &jsonObj)
 {
-	wr.Int32(Sint32(m_mode));
-	wr.Float(m_currentRange);
-	wr.Float(m_manualRange);
-	wr.Float(m_targetRange);
+	Json::Value scannerObj(Json::objectValue); // Create JSON object to contain scanner data.
+
+	scannerObj["mode"] = Sint32(m_mode);
+	scannerObj["current_range"] = FloatToStr(m_currentRange);
+	scannerObj["manual_range"] = FloatToStr(m_manualRange);
+	scannerObj["target_range"] = FloatToStr(m_targetRange);
+
+	jsonObj["scanner"] = scannerObj; // Add scanner object to supplied object.
 }
 
 /////////////////////////////////

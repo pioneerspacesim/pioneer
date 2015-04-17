@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GALACTICVIEW_H
@@ -22,8 +22,8 @@ public:
 	virtual ~GalacticView();
 	virtual void Update();
 	virtual void Draw3D();
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void SaveToJson(Json::Value &jsonObj);
+	virtual void LoadFromJson(const Json::Value &jsonObj);
 
 protected:
 	virtual void OnSwitchTo() {}
@@ -43,6 +43,8 @@ private:
 	Gui::TexturedQuad m_quad;
 	sigc::connection m_onMouseWheelCon;
 	Graphics::RenderState *m_renderState;
+	Graphics::Drawables::Points m_youAreHere;
+	Graphics::Drawables::Lines m_scalelines;
 };
 
 #endif /* _GALACTICVIEW_H */

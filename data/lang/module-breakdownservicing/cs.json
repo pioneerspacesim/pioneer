@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Provést údržbu hypermotoru"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Nemám dostatek peněz"

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -27,7 +27,6 @@ static const float WHEEL_SENSITIVITY = .2f;		// Should be a variable in user set
 GalacticView::GalacticView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy()),
 	m_quad(Graphics::TextureBuilder::UI("galaxy_colour.png").CreateTexture(Gui::Screen::GetRenderer()))
 {
-
 	SetTransparency(true);
 	m_zoom = 1.0f;
 	m_zoomTo = m_zoom;
@@ -56,7 +55,17 @@ GalacticView::GalacticView(Game* game) : UIView(), m_game(game), m_galaxy(game->
 	Graphics::RenderStateDesc rsd;
 	rsd.depthTest  = false;
 	rsd.depthWrite = false;
+	rsd.cullMode   = CULL_NONE;
 	m_renderState = Gui::Screen::GetRenderer()->CreateRenderState(rsd);
+
+	// setup scale lines
+	const vector3f vts[] = {
+		vector3f(-0.25f,-0.93f, 0.0f),
+		vector3f(-0.25f,-0.94f, 0.0f),
+		vector3f(0.25f,-0.94f, 0.0f),
+		vector3f(0.25f,-0.93f, 0.0f)
+	};
+	m_scalelines.SetData(4, vts, Color::WHITE);
 }
 
 GalacticView::~GalacticView()
@@ -64,14 +73,13 @@ GalacticView::~GalacticView()
 	m_onMouseWheelCon.disconnect();
 }
 
-void GalacticView::Save(Serializer::Writer &wr)
+void GalacticView::SaveToJson(Json::Value &jsonObj)
 {
 }
 
-void GalacticView::Load(Serializer::Reader &rd)
+void GalacticView::LoadFromJson(const Json::Value &jsonObj)
 {
 }
-
 
 struct galaclabel_t {
 	const char *label;
@@ -104,13 +112,13 @@ void GalacticView::PutLabels(vector3d offset)
 	Gui::Screen::LeaveOrtho();
 }
 
-
+static const float pointsize(0.005f);
 void GalacticView::Draw3D()
 {
 	PROFILE_SCOPED()
-	vector3f pos = m_game->GetSectorView()->GetPosition();
-	float offset_x = (pos.x*Sector::SIZE + m_galaxy->SOL_OFFSET_X)/m_galaxy->GALAXY_RADIUS;
-	float offset_y = (-pos.y*Sector::SIZE + m_galaxy->SOL_OFFSET_Y)/m_galaxy->GALAXY_RADIUS;
+	const vector3f pos = m_game->GetSectorView()->GetPosition();
+	const float offset_x = (pos.x*Sector::SIZE + m_galaxy->SOL_OFFSET_X)/m_galaxy->GALAXY_RADIUS;
+	const float offset_y = (-pos.y*Sector::SIZE + m_galaxy->SOL_OFFSET_Y)/m_galaxy->GALAXY_RADIUS;
 
 	const float aspect = m_renderer->GetDisplayAspect();
 	m_renderer->SetOrthographicProjection(-aspect, aspect, 1.f, -1.f, -1.f, 1.f);
@@ -126,20 +134,13 @@ void GalacticView::Draw3D()
 	m_quad.Draw(m_renderer, vector2f(-1.0f), vector2f(2.0f));
 
 	// "you are here" dot
-	//Color green(0, 255, 0, 255);
-	vector3f offs(offset_x, offset_y, 0.f);
-	m_renderer->DrawPoints(1, &offs, &Color::GREEN, m_renderState, 3.f);
+	const vector3f offs(offset_x, offset_y, 0.f);
+	m_youAreHere.SetData(m_renderer, 1, &offs, matrix4x4f::Identity(), Color::GREEN, pointsize);
+	m_youAreHere.Draw(m_renderer, m_renderState);
 
 	// scale at the top
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	//Color white(255);
-	const vector3f vts[] = {
-		vector3f(-0.25f,-0.93f, 0.0f),
-		vector3f(-0.25f,-0.94f, 0.0f),
-		vector3f(0.25f,-0.94f, 0.0f),
-		vector3f(0.25f,-0.93f, 0.0f)
-	};
-	m_renderer->DrawLines(4, vts, Color::WHITE, m_renderState, LINE_STRIP);
+	m_scalelines.Draw(m_renderer, m_renderState, LINE_STRIP);
 
 	m_labels->Clear();
 	PutLabels(-vector3d(offset_x, offset_y, 0.0));

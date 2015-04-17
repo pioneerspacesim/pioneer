@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Tillbaka"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, gratis undanröjning (villkor gäller)"

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -71,6 +71,9 @@ void TextLayout::MeasureSize(const float width, float outSize[2]) const
 void TextLayout::Render(const float width, const Color &color) const
 {
 	PROFILE_SCOPED()
+	if(words.empty())
+		return;
+
 	float fontScale[2];
 	Gui::Screen::GetCoords2Pixels(fontScale);
 
@@ -84,68 +87,103 @@ void TextLayout::Render(const float width, const Color &color) const
 		r->LoadIdentity();
 		r->Translate(floor(x/fontScale[0])*fontScale[0], floor(y/fontScale[1])*fontScale[1], 0);
 		r->Scale(fontScale[0], fontScale[1], 1);
-		_RenderRaw(width / fontScale[0], color);
+		m_font->RenderBuffer( m_vbuffer.Get(), color );
 	}
 }
 
-void TextLayout::_RenderRaw(float maxWidth, const Color &color) const
+
+void TextLayout::Update(const float width, const Color &color)
 {
 	PROFILE_SCOPED()
-	float py = 0;
+	if(words.empty())
+		return;
+
+	float fontScale[2];
+	Gui::Screen::GetCoords2Pixels(fontScale);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
+	
+	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
-	const float spaceWidth = m_font->GetGlyph(' ').advX;
+	if( r )
+	{
+		const float maxWidth = width / fontScale[0];
 
-	Color c = color;
+		float py = 0;
 
-	std::list<word_t>::const_iterator wpos = this->words.begin();
-	// build lines of text
-	while (wpos != this->words.end()) {
-		float len = 0;
-		int num = 0;
+		const float spaceWidth = m_font->GetGlyph(' ').advX;
 
-		std::list<word_t>::const_iterator i = wpos;
-		len += (*i).advx;
-		num++;
-		bool overflow = false;
-		bool explicit_newline = false;
-		if ((*i).word != 0) {
-			++i;
-			for (; i != this->words.end(); ++i) {
-				if ((*i).word == 0) {
-					// newline
-					explicit_newline = true;
+		Color c = color;
+
+		std::list<word_t>::const_iterator wpos = this->words.begin();
+		// build lines of text
+		while (wpos != this->words.end()) {
+			float len = 0;
+			int num = 0;
+
+			std::list<word_t>::const_iterator i = wpos;
+			len += (*i).advx;
+			num++;
+			bool overflow = false;
+			bool explicit_newline = false;
+			if ((*i).word != 0) {
+				++i;
+				for (; i != this->words.end(); ++i) {
+					if ((*i).word == 0) {
+						// newline
+						explicit_newline = true;
+						num++;
+						break;
+					}
+					if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
+					len += (*i).advx + spaceWidth;
 					num++;
-					break;
 				}
-				if (len + spaceWidth + (*i).advx > maxWidth) { overflow = true; break; }
-				len += (*i).advx + spaceWidth;
-				num++;
 			}
+
+			float _spaceWidth;
+			if ((m_justify) && (num>1) && overflow) {
+				float spaceleft = maxWidth - len;
+				_spaceWidth = spaceWidth + (spaceleft/float(num-1));
+			} else {
+				_spaceWidth = spaceWidth;
+			}
+
+			float px = 0;
+			for (int j=0; j<num; j++) {
+				if ((*wpos).word) {
+					const std::string word( (*wpos).word );
+					if (m_colourMarkup == ColourMarkupUse)
+						c = m_font->PopulateMarkup(va, word, round(px), round(py), c);
+					else
+						m_font->PopulateString(va, word, round(px), round(py), c);
+				}
+				px += (*wpos).advx + _spaceWidth;
+				++wpos;
+			}
+			py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
+		}
+	}
+
+	if( va.GetNumVerts() > 0 ) {
+		if( !m_vbuffer.Valid() || m_vbuffer->GetVertexCount() != va.GetNumVerts() ) {
+			//create buffer and upload data
+			Graphics::VertexBufferDesc vbd;
+			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+			vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+			vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+			vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
+			vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
+			vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+			vbd.numVertices = va.GetNumVerts();
+			vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+			m_vbuffer.Reset( r->CreateVertexBuffer(vbd) );
 		}
 
-		float _spaceWidth;
-		if ((m_justify) && (num>1) && overflow) {
-			float spaceleft = maxWidth - len;
-			_spaceWidth = spaceWidth + (spaceleft/float(num-1));
-		} else {
-			_spaceWidth = spaceWidth;
-		}
-
-		float px = 0;
-		for (int j=0; j<num; j++) {
-			if ((*wpos).word) {
-				if (m_colourMarkup == ColourMarkupUse)
-					c = m_font->RenderMarkup((*wpos).word, round(px), round(py), c);
-				else
-					m_font->RenderString((*wpos).word, round(px), round(py), c);
-			}
-			px += (*wpos).advx + _spaceWidth;
-			++wpos;
-		}
-		py += m_font->GetHeight() * (explicit_newline ? PARAGRAPH_SPACING : 1.0f);
+		m_vbuffer->Populate(va);
+	} else {
+		m_vbuffer.Reset();
 	}
 }
 

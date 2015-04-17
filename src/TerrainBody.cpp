@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TerrainBody.h"
@@ -45,16 +45,27 @@ void TerrainBody::InitTerrainBody()
 	m_maxFeatureHeight = (m_baseSphere->GetMaxFeatureHeight() + 1.0) * m_sbody->GetRadius();
 }
 
-void TerrainBody::Save(Serializer::Writer &wr, Space *space)
+void TerrainBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Body::Save(wr, space);
-	wr.Int32(space->GetIndexForSystemBody(m_sbody));
+	Body::SaveToJson(jsonObj, space);
+
+	Json::Value terrainBodyObj(Json::objectValue); // Create JSON object to contain terrain body data.
+
+	terrainBodyObj["index_for_system_body"] = space->GetIndexForSystemBody(m_sbody);
+
+	jsonObj["terrain_body"] = terrainBodyObj; // Add terrain body object to supplied object.
 }
 
-void TerrainBody::Load(Serializer::Reader &rd, Space *space)
+void TerrainBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	Body::Load(rd, space);
-	m_sbody = space->GetSystemBodyByIndex(rd.Int32());
+	Body::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("terrain_body")) throw SavedGameCorruptException();
+	Json::Value terrainBodyObj = jsonObj["terrain_body"];
+
+	if (!terrainBodyObj.isMember("index_for_system_body")) throw SavedGameCorruptException();
+
+	m_sbody = space->GetSystemBodyByIndex(terrainBodyObj["index_for_system_body"].asInt());
 	InitTerrainBody();
 }
 

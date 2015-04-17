@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WORLDVIEW_H
@@ -45,14 +45,14 @@ class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
 	WorldView(Game* game);
-	WorldView(Serializer::Reader &reader, Game* game);
+	WorldView(const Json::Value &jsonObj, Game* game);
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
-	virtual void Save(Serializer::Writer &wr);
+	virtual void SaveToJson(Json::Value &jsonObj);
 	enum CamType {
 		CAM_INTERNAL,
 		CAM_EXTERNAL,
@@ -217,6 +217,7 @@ private:
 
 	Graphics::Drawables::Line3D m_edgeMarker;
 	Graphics::Drawables::Lines m_crossHair;
+	Graphics::Drawables::Lines m_indicator;
 };
 
 class NavTunnelWidget: public Gui::Widget {

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -27,7 +27,7 @@
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
 
-static const int  s_saveVersion   = 80;
+static const int  s_saveVersion   = 81;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -109,156 +109,134 @@ Game::~Game()
 	m_galaxy->FlushCaches();
 }
 
-Game::Game(Serializer::Reader &rd) :
-	m_timeAccel(TIMEACCEL_PAUSED),
-	m_requestedTimeAccel(TIMEACCEL_PAUSED),
-	m_forceTimeAccel(false)
+Game::Game(const Json::Value &jsonObj) :
+m_timeAccel(TIMEACCEL_PAUSED),
+m_requestedTimeAccel(TIMEACCEL_PAUSED),
+m_forceTimeAccel(false)
 {
 	// signature check
-	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
-		if (rd.Byte() != s_saveStart[i]) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("signature")) throw SavedGameCorruptException();
+	Json::Value signature = jsonObj["signature"];
+	if (signature.isString() && signature.asString().compare(s_saveStart) == 0) {}
+	else throw SavedGameCorruptException();
 
 	// version check
-	rd.SetStreamVersion(rd.Int32());
-	Output("savefile version: %d\n", rd.StreamVersion());
-	if (rd.StreamVersion() != s_saveVersion) {
+	if (!jsonObj.isMember("version")) throw SavedGameCorruptException();
+	Json::Value version = jsonObj["version"];
+	if (!version.isInt()) throw SavedGameCorruptException();
+	Output("savefile version: %d\n", version.asInt());
+	if (version.asInt() == s_saveVersion) {}
+	else
+	{
 		Output("can't load savefile, expected version: %d\n", s_saveVersion);
 		throw SavedGameWrongVersionException();
 	}
 
-	Serializer::Reader section;
-
 	// Preparing the Lua stuff
-	LuaRef::InitLoad();
 	Pi::luaSerializer->InitTableRefs();
 
 	// galaxy generator
-	section = rd.RdSection("GalaxyGen");
-	m_galaxy = Galaxy::Load(section);
+	m_galaxy = Galaxy::LoadFromJson(jsonObj);
 
 	// game state
-	section = rd.RdSection("Game");
-	m_time = section.Double();
-	m_state = State(section.Int32());
+	if (!jsonObj.isMember("time")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("state")) throw SavedGameCorruptException();
+	m_time = StrToDouble(jsonObj["time"].asString());
+	m_state = State(jsonObj["state"].asInt());
 
-	m_wantHyperspace = section.Bool();
-	m_hyperspaceProgress = section.Double();
-	m_hyperspaceDuration = section.Double();
-	m_hyperspaceEndTime = section.Double();
+	if (!jsonObj.isMember("want_hyperspace")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("hyperspace_progress")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("hyperspace_duration")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("hyperspace_end_time")) throw SavedGameCorruptException();
+	m_wantHyperspace = jsonObj["want_hyperspace"].asBool();
+	m_hyperspaceProgress = StrToDouble(jsonObj["hyperspace_progress"].asString());
+	m_hyperspaceDuration = StrToDouble(jsonObj["hyperspace_duration"].asString());
+	m_hyperspaceEndTime = StrToDouble(jsonObj["hyperspace_end_time"].asString());
 
 	// space, all the bodies and things
-	section = rd.RdSection("Space");
-	m_space.reset(new Space(this, m_galaxy, section, m_time));
-	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(section.Int32())));
+	if (!jsonObj.isMember("player")) throw SavedGameCorruptException();
+	m_space.reset(new Space(this, m_galaxy, jsonObj, m_time));
+	m_player.reset(static_cast<Player*>(m_space->GetBodyByIndex(jsonObj["player"].asUInt())));
 
 	assert(!m_player->IsDead()); // Pioneer does not support necromancy
 
-	// space transition state
-	section = rd.RdSection("HyperspaceClouds");
-
 	// hyperspace clouds being brought over from the previous system
-	Uint32 nclouds = section.Int32();
-	for (Uint32 i = 0; i < nclouds; i++)
-		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::Unserialize(section, 0)));
+	if (!jsonObj.isMember("hyperspace_clouds")) throw SavedGameCorruptException();
+	Json::Value hyperspaceCloudArray = jsonObj["hyperspace_clouds"];
+	if (!hyperspaceCloudArray.isArray()) throw SavedGameCorruptException();
+	for (Uint32 i = 0; i < hyperspaceCloudArray.size(); i++)
+		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::FromJson(hyperspaceCloudArray[i], 0)));
 
 	// system political stuff
-	section = rd.RdSection("Polit");
-	Polit::Unserialize(section, m_galaxy);
-
+	Polit::FromJson(jsonObj, m_galaxy);
 
 	// views
-	LoadViews(rd);
-
+	LoadViewsFromJson(jsonObj);
 
 	// lua
-	section = rd.RdSection("LuaModules");
-	Pi::luaSerializer->Unserialize(section);
+	Pi::luaSerializer->FromJson(jsonObj);
 
 	Pi::luaSerializer->UninitTableRefs();
-	LuaRef::UninitLoad();
-	// signature check
-	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
-		if (rd.Byte() != s_saveEnd[i]) throw SavedGameCorruptException();
+
+	// signature check (don't really need this anymore)
+	if (!jsonObj.isMember("trailing_signature")) throw SavedGameCorruptException();
+	Json::Value trailingSignature = jsonObj["trailing_signature"];
+	if (trailingSignature.isString() && trailingSignature.asString().compare(s_saveEnd) == 0) {}
+	else throw SavedGameCorruptException();
 
 	EmitPauseState(IsPaused());
 }
 
-void Game::Serialize(Serializer::Writer &wr)
+void Game::ToJson(Json::Value &jsonObj)
 {
 	// preparing the lua serializer
 	Pi::luaSerializer->InitTableRefs();
-	// leading signature
-	for (Uint32 i = 0; i < strlen(s_saveStart)+1; i++)
-		wr.Byte(s_saveStart[i]);
+
+	// signature
+	jsonObj["signature"] = s_saveStart;
 
 	// version
-	wr.Int32(s_saveVersion);
-
-	Serializer::Writer section;
+	jsonObj["version"] = s_saveVersion;
 
 	// galaxy generator
-	m_galaxy->Serialize(section);
-	wr.WrSection("GalaxyGen", section.GetData());
+	m_galaxy->ToJson(jsonObj);
 
 	// game state
-	section = Serializer::Writer();
-	section.Double(m_time);
-	section.Int32(Uint32(m_state));
+	jsonObj["time"] = DoubleToStr(m_time);
+	jsonObj["state"] = Uint32(m_state);
 
-	section.Bool(m_wantHyperspace);
-	section.Double(m_hyperspaceProgress);
-	section.Double(m_hyperspaceDuration);
-	section.Double(m_hyperspaceEndTime);
-
-	wr.WrSection("Game", section.GetData());
-
+	jsonObj["want_hyperspace"] = m_wantHyperspace;
+	jsonObj["hyperspace_progress"] = DoubleToStr(m_hyperspaceProgress);
+	jsonObj["hyperspace_duration"] = DoubleToStr(m_hyperspaceDuration);
+	jsonObj["hyperspace_end_time"] = DoubleToStr(m_hyperspaceEndTime);
 
 	// space, all the bodies and things
-	section = Serializer::Writer();
-	m_space->Serialize(section);
-	section.Int32(m_space->GetIndexForBody(m_player.get()));
-	wr.WrSection("Space", section.GetData());
-
-
-	// space transition state
-	section = Serializer::Writer();
+	m_space->ToJson(jsonObj);
+	jsonObj["player"] = m_space->GetIndexForBody(m_player.get());
 
 	// hyperspace clouds being brought over from the previous system
-	section.Int32(m_hyperspaceClouds.size());
+	Json::Value hyperspaceCloudArray(Json::arrayValue); // Create JSON array to contain hyperspace cloud data.
 	for (std::list<HyperspaceCloud*>::const_iterator i = m_hyperspaceClouds.begin(); i != m_hyperspaceClouds.end(); ++i)
-		(*i)->Serialize(section, m_space.get());
-
-	wr.WrSection("HyperspaceClouds", section.GetData());
+	{
+		Json::Value hyperspaceCloudArrayEl(Json::objectValue); // Create JSON object to contain hyperspace cloud.
+		(*i)->ToJson(hyperspaceCloudArrayEl, m_space.get());
+		hyperspaceCloudArray.append(hyperspaceCloudArrayEl); // Append hyperspace cloud object to array.
+	}
+	jsonObj["hyperspace_clouds"] = hyperspaceCloudArray; // Add hyperspace cloud array to supplied object.
 
 	// system political data (crime etc)
-	section = Serializer::Writer();
-	Polit::Serialize(section);
-	wr.WrSection("Polit", section.GetData());
-
+	Polit::ToJson(jsonObj);
 
 	// views. must be saved in init order
-	section = Serializer::Writer();
-	m_gameViews->m_cpan->Save(section);
-	wr.WrSection("ShipCpanel", section.GetData());
-
-	section = Serializer::Writer();
-	m_gameViews->m_sectorView->Save(section);
-	wr.WrSection("SectorView", section.GetData());
-
-	section = Serializer::Writer();
-	m_gameViews->m_worldView->Save(section);
-	wr.WrSection("WorldView", section.GetData());
-
+	m_gameViews->m_cpan->SaveToJson(jsonObj);
+	m_gameViews->m_sectorView->SaveToJson(jsonObj);
+	m_gameViews->m_worldView->SaveToJson(jsonObj);
 
 	// lua
-	section = Serializer::Writer();
-	Pi::luaSerializer->Serialize(section);
-	wr.WrSection("LuaModules", section.GetData());
-
+	Pi::luaSerializer->ToJson(jsonObj);
 
 	// trailing signature
-	for (Uint32 i = 0; i < strlen(s_saveEnd)+1; i++)
-		wr.Byte(s_saveEnd[i]);
+	jsonObj["trailing_signature"] = s_saveEnd; // Don't really need this anymore.
 
 	Pi::luaSerializer->UninitTableRefs();
 }
@@ -693,16 +671,11 @@ void Game::Views::Init(Game* game)
 	SetRenderer(Pi::renderer);
 }
 
-void Game::Views::Load(Serializer::Reader &rd, Game* game)
+void Game::Views::LoadFromJson(const Json::Value &jsonObj, Game* game)
 {
-	Serializer::Reader section = rd.RdSection("ShipCpanel");
-	m_cpan = new ShipCpanel(section, Pi::renderer, game);
-
-	section = rd.RdSection("SectorView");
-	m_sectorView = new SectorView(section, game);
-
-	section = rd.RdSection("WorldView");
-	m_worldView = new WorldView(section, game);
+	m_cpan = new ShipCpanel(jsonObj, Pi::renderer, game);
+	m_sectorView = new SectorView(jsonObj, game);
+	m_worldView = new WorldView(jsonObj, game);
 
 	m_galacticView = new GalacticView(game);
 	m_systemView = new SystemView(game);
@@ -761,7 +734,7 @@ void Game::CreateViews()
 }
 
 // XXX mostly a copy of CreateViews
-void Game::LoadViews(Serializer::Reader &rd)
+void Game::LoadViewsFromJson(const Json::Value &jsonObj)
 {
 	Pi::SetView(0);
 
@@ -770,7 +743,7 @@ void Game::LoadViews(Serializer::Reader &rd)
 	Pi::player = m_player.get();
 
 	m_gameViews.reset(new Views);
-	m_gameViews->Load(rd, this);
+	m_gameViews->LoadFromJson(jsonObj, this);
 
 	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
 	log = new GameLog(
@@ -805,8 +778,11 @@ Game *Game::LoadGame(const std::string &filename)
 	Output("Game::LoadGame('%s')\n", filename.c_str());
 	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!file) throw CouldNotOpenFileException();
-	Serializer::Reader rd(file->AsByteRange());
-	return new Game(rd);
+	Json::Value rootNode; // Create the root JSON value for receiving the game data.
+	Json::Reader jsonReader; // Create reader for parsing the JSON string.
+	jsonReader.parse(file->GetData(), rootNode); // Parse the JSON string.
+	if (!rootNode.isObject()) throw SavedGameCorruptException();
+	return new Game(rootNode); // Decode the game data from JSON and create the game.
 	// file data is freed here
 }
 
@@ -824,15 +800,15 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotOpenFileException();
 	}
 
-	Serializer::Writer wr;
-	game->Serialize(wr);
-
-	const std::string data = wr.GetData();
+	Json::Value rootNode; // Create the root JSON value for receiving the game data.
+	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
+	Json::StyledWriter jsonWriter; // Create writer for writing the JSON data to string.
+	const std::string jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
 
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
 
-	size_t nwritten = fwrite(data.data(), data.length(), 1, f);
+	size_t nwritten = fwrite(jsonDataStr.data(), jsonDataStr.length(), 1, f);
 	fclose(f);
 
 	if (nwritten != 1) throw CouldNotWriteToFileException();

@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -83,6 +83,19 @@ local doSettingsScreen = function()
 	)
 end
 
+local doQuitConfirmation = function()
+	if Engine.GetConfirmQuit() then
+		ui:NewLayer(
+			ui.templates.QuitConfirmation({
+				onConfirm = function () Engine.Quit() end,
+				onCancel  = function () ui:DropLayer() end
+			})
+		)
+	else
+		Engine.Quit()
+	end
+end
+
 local buttonDefs = {
 	{ l.CONTINUE_GAME,          function () loadGame("_exit") end },
 	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,6),48600)   setupPlayerSol() end },
@@ -90,7 +103,7 @@ local buttonDefs = {
 	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerBarnard() end },
 	{ l.LOAD_GAME,              doLoadDialog },
 	{ l.OPTIONS,                doSettingsScreen },
-	{ l.QUIT,                   function () Engine.Quit() end },
+	{ l.QUIT,                   doQuitConfirmation },
 }
 
 local anims = {}
@@ -137,7 +150,7 @@ table.insert(anims, {
 	duration = 0.4,
 })
 
-local menu = 
+local menu =
 	ui:Grid(1, { 0.2, 0.6, 0.2 })
 		:SetRow(0, {
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)

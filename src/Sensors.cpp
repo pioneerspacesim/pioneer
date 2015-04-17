@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Sensors.h"
@@ -56,6 +56,7 @@ Sensors::Sensors(Ship *owner)
 
 bool Sensors::ChooseTarget(TargetingCriteria crit)
 {
+	PROFILE_SCOPED();
 	bool found = false;
 
 	m_radarContacts.sort(ContactDistanceSort);
@@ -78,6 +79,7 @@ bool Sensors::ChooseTarget(TargetingCriteria crit)
 
 Sensors::IFF Sensors::CheckIFF(Body* other)
 {
+	PROFILE_SCOPED();
 	//complicated relationship check goes here
 	if (other->IsType(Object::SHIP)) {
 		Uint8 rel = m_owner->GetRelations(other);
@@ -91,6 +93,7 @@ Sensors::IFF Sensors::CheckIFF(Body* other)
 
 void Sensors::Update(float time)
 {
+	PROFILE_SCOPED();
 	if (m_owner != Pi::player) return;
 
 	PopulateStaticContacts(); //no need to do all the time
@@ -142,6 +145,7 @@ void Sensors::Update(float time)
 
 void Sensors::UpdateIFF(Body *b)
 {
+	PROFILE_SCOPED();
 	for (auto it = m_radarContacts.begin(); it != m_radarContacts.end(); ++it)
 	{
 		if (it->body == b) {
@@ -153,12 +157,14 @@ void Sensors::UpdateIFF(Body *b)
 
 void Sensors::ResetTrails()
 {
+	PROFILE_SCOPED();
 	for (auto it = m_radarContacts.begin(); it != m_radarContacts.end(); ++it)
 		it->trail->Reset(Pi::player->GetFrame());
 }
 
 void Sensors::PopulateStaticContacts()
 {
+	PROFILE_SCOPED();
 	m_staticContacts.clear();
 
 	for (Body* b : Pi::game->GetSpace()->GetBodies()) {

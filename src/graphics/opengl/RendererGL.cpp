@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
@@ -35,10 +35,22 @@
 
 namespace Graphics {
 
+static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
+    return new RendererOGL(win, vs);
+}
+
+void RendererOGL::RegisterRenderer() {
+    Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
+}
+
+
+bool RendererOGL::initted = false;
+
 typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
 
 RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
+, m_numLights(0)
 , m_numDirLights(0)
 //the range is very large due to a "logarithmic z-buffer" trick used
 //http://outerra.blogspot.com/2009/08/logarithmic-z-buffer.html
@@ -51,6 +63,19 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 , m_activeRenderState(nullptr)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
+	if (!initted) {
+		initted = true;
+
+		if (!ogl_LoadFunctions())
+			Error("glLoadGen failed to load functions.\n");
+
+		if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED)
+			Error(
+				"OpenGL extension GL_EXT_texture_compression_s3tc not supported.\n"
+				"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures."
+			);
+	}
+
 	m_viewportStack.push(Viewport());
 
 	const bool useDXTnTextures = vs.useTextureCompression;
@@ -83,6 +108,133 @@ RendererOGL::~RendererOGL()
 	//while (!m_programs.empty()) delete m_programs.back().second, m_programs.pop_back();
 	for (auto state : m_renderStates)
 		delete state.second;
+}
+
+static const char *gl_error_to_string(GLenum err)
+{
+	switch (err) {
+		case GL_NO_ERROR: return "(no error)";
+		case GL_INVALID_ENUM: return "invalid enum";
+		case GL_INVALID_VALUE: return "invalid value";
+		case GL_INVALID_OPERATION: return "invalid operation";
+		case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
+		case GL_OUT_OF_MEMORY: return "out of memory";
+		default: return "(unknown error)";
+	}
+}
+
+static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = GL_NO_ERROR)
+{
+	GLenum err = ((first_error == GL_NO_ERROR) ? glGetError() : first_error);
+	if (err != GL_NO_ERROR) {
+		out << "errors: ";
+		do {
+			out << gl_error_to_string(err) << " ";
+			err = glGetError();
+		} while (err != GL_NO_ERROR);
+		out << std::endl;
+	}
+}
+
+static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
+{
+	assert(num_elems > 0 && num_elems <= 4);
+	assert(name);
+
+	GLdouble e[4];
+	glGetDoublev(id, e);
+
+	GLenum err = glGetError();
+	if (err == GL_NO_ERROR) {
+		out << name << " = " << e[0];
+		for (int i = 1; i < num_elems; ++i)
+			out << ", " << e[i];
+		out << "\n";
+	} else {
+		while (err != GL_NO_ERROR) {
+			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
+			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
+			err = glGetError();
+		}
+	}
+}
+
+void RendererOGL::WriteRendererInfo(std::ostream &out) const
+{
+	out << "OpenGL version " << glGetString(GL_VERSION);
+	out << ", running on " << glGetString(GL_VENDOR);
+	out << " " << glGetString(GL_RENDERER) << "\n";
+
+	out << "Available extensions:" << "\n";
+	{
+		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+		GLint numext = 0;
+		glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
+		for (int i = 0; i < numext; ++i) {
+			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
+		}
+	}
+
+	out << "\nImplementation Limits:\n";
+
+	// first, clear all OpenGL error flags
+	dump_and_clear_opengl_errors(out);
+
+#define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
+#define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
+
+	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(GL_SAMPLES);
+	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
+
+#undef DUMP_GL_VALUE
+#undef DUMP_GL_VALUE2
+
+	// enumerate compressed texture formats
+	{
+		dump_and_clear_opengl_errors(out);
+		out << "\nCompressed texture formats:\n";
+
+		GLint nformats;
+		GLint formats[128]; // XXX 128 should be enough, right?
+
+		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
+		GLenum err = glGetError();
+		if (err != GL_NO_ERROR) {
+			out << "Get NUM_COMPRESSED_TEXTURE_FORMATS failed\n";
+			dump_and_clear_opengl_errors(out, err);
+		} else {
+			assert(nformats >= 0 && nformats < int(COUNTOF(formats)));
+			glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
+			err = glGetError();
+			if (err != GL_NO_ERROR) {
+				out << "Get COMPRESSED_TEXTURE_FORMATS failed\n";
+				dump_and_clear_opengl_errors(out, err);
+			} else {
+				for (int i = 0; i < nformats; ++i) {
+					out << stringf("  %0{x#}\n", unsigned(formats[i]));
+				}
+			}
+		}
+	}
+	// one last time
+	dump_and_clear_opengl_errors(out);
 }
 
 bool RendererOGL::GetNearFarRange(float &near_, float &far_) const
@@ -122,8 +274,7 @@ static std::string glerr_to_string(GLenum err)
 	}
 }
 
-//extern 
-void CheckRenderErrors()
+void RendererOGL::CheckErrors()
 {
 	GLenum err = glGetError();
 	if( err ) {
@@ -168,6 +319,7 @@ bool RendererOGL::SwapBuffers()
 #endif
 
 	GetWindow()->SwapBuffers();
+	m_stats.NextFrame();
 	return true;
 }
 
@@ -192,6 +344,12 @@ bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	m_activeRenderTarget = static_cast<OGL::RenderTarget*>(rt);
 	CheckRenderErrors();
 
+	return true;
+}
+
+bool RendererOGL::SetDepthRange(double near, double far)
+{
+	glDepthRange(near, far);
 	return true;
 }
 
@@ -292,16 +450,19 @@ bool RendererOGL::SetWireFrameMode(bool enabled)
 	return true;
 }
 
-bool RendererOGL::SetLights(int numlights, const Light *lights)
+bool RendererOGL::SetLights(Uint32 numlights, const Light *lights)
 {
-	if (numlights < 1) return false;
+	numlights = std::min(numlights, TOTAL_NUM_LIGHTS);
+	if (numlights < 1) {
+		m_numLights = 0;
+		m_numDirLights = 0;
+		return false;
+	}
 
-	const int NumLights = std::min(numlights, int(TOTAL_NUM_LIGHTS));
-
-	m_numLights = NumLights;
+	m_numLights = numlights;
 	m_numDirLights = 0;
 
-	for (int i=0; i<NumLights; i++) {
+	for (Uint32 i = 0; i<numlights; i++) {
 		const Light &l = lights[i];
 		m_lights[i].SetPosition( l.GetPosition() );
 		m_lights[i].SetDiffuse( l.GetDiffuse() );
@@ -339,64 +500,10 @@ void RendererOGL::SetMaterialShaderTransforms(Material *m)
 	CheckRenderErrors();
 }
 
-bool RendererOGL::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
-{
-	PROFILE_SCOPED()
-	Drawables::Lines lines;
-	lines.SetData(count, v, c);
-	lines.Draw(this, state, t);
-	return true;
-}
-
-bool RendererOGL::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, PrimitiveType t)
-{
-	PROFILE_SCOPED()
-	Drawables::Lines lines;
-	lines.SetData(count, v, c);
-	lines.Draw(this, state, t);
-	return true;
-}
-
-bool RendererOGL::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
-{
-	struct TPos {
-		vector3f pos;
-		Color4ub col;
-	};
-
-	MaterialDescriptor md;
-	md.vertexColors = true;
-	static std::unique_ptr<Material> mat(CreateMaterial(md));
-	
-	// Create vtx & index buffers and copy data
-	VertexBufferDesc vbd;
-	vbd.attrib[0].semantic	= ATTRIB_POSITION;
-	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic	= ATTRIB_DIFFUSE;
-	vbd.attrib[1].format	= ATTRIB_FORMAT_UBYTE4;
-	vbd.numVertices = count;
-	vbd.usage = BUFFER_USAGE_STATIC;
-	
-	// VertexBuffer
-	std::unique_ptr<VertexBuffer> vb;
-	vb.reset(CreateVertexBuffer(vbd));
-	TPos* vtxPtr = vb->Map<TPos>(BUFFER_MAP_WRITE);
-	assert(vb->GetDesc().stride == sizeof(TPos));
-	for(Sint32 i=0 ; i<count ; i++)
-	{
-		vtxPtr[i].pos = points[i];
-		vtxPtr[i].col = colors[i];
-	}
-	vb->Unmap();
-
-	return DrawBuffer(vb.get(), state, mat.get(), POINTS);
-}
-
 bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
 {
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
-	CheckRenderErrors();
 
 	VertexBufferDesc vbd;
 	Uint32 attribIdx = 0;
@@ -427,10 +534,11 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	std::unique_ptr<VertexBuffer> vb;
 	vb.reset(CreateVertexBuffer(vbd));
 	vb->Populate(*v);
-	CheckRenderErrors();
 
 	const bool res = DrawBuffer(vb.get(), rs, m, t);
 	CheckRenderErrors();
+	
+	m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
 
 	return res;
 }
@@ -468,6 +576,9 @@ bool RendererOGL::DrawPointSprites(int count, const vector3f *positions, RenderS
 	}
 
 	DrawTriangles(&va, rs, material);
+	CheckRenderErrors();
+	
+	m_stats.AddToStatCount(Stats::STAT_DRAWPOINTSPRITES, count);
 
 	return true;
 }
@@ -475,22 +586,17 @@ bool RendererOGL::DrawPointSprites(int count, const vector3f *positions, RenderS
 bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors();
 	SetRenderState(state);
 	mat->Apply();
 
 	SetMaterialShaderTransforms(mat);
 
-	auto gvb = static_cast<OGL::VertexBuffer*>(vb);
-
-	gvb->Bind();
-	EnableVertexAttributes(gvb);
-
-	glDrawArrays(pt, 0, gvb->GetVertexCount());
-
-	DisableVertexAttributes(gvb);
-	gvb->Release();
+	vb->Bind();
+	glDrawArrays(pt, 0, vb->GetVertexCount());
+	vb->Release();
 	CheckRenderErrors();
+
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
 }
@@ -498,119 +604,63 @@ bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors();
 	SetRenderState(state);
 	mat->Apply();
 
 	SetMaterialShaderTransforms(mat);
 
-	auto gvb = static_cast<OGL::VertexBuffer*>(vb);
-	auto gib = static_cast<OGL::IndexBuffer*>(ib);
-
-	gvb->Bind();
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
-	EnableVertexAttributes(gvb);
-
+	vb->Bind();
+	ib->Bind();
 	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0);
-
-	DisableVertexAttributes(gvb);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	gvb->Release();
+	ib->Release();
+	vb->Release();
 	CheckRenderErrors();
+
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
 }
 
-void RendererOGL::EnableVertexAttributes(const VertexBuffer* gvb)
+bool RendererOGL::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Material* mat, InstanceBuffer* instb, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
+	SetRenderState(state);
+	mat->Apply();
+
+	SetMaterialShaderTransforms(mat);
+
+	vb->Bind();
+	instb->Bind();
+	glDrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
+	instb->Release();
+	vb->Release();
 	CheckRenderErrors();
-	const auto &desc = gvb->GetDesc();
-	// Enable the Vertex attributes
-	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
-		const auto& attr = desc.attrib[i];
-		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glEnableVertexAttribArray(0);		break;
-		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
-		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
-		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
-		case ATTRIB_NONE:
-		default:
-			return;
-		}
-	}
-	CheckRenderErrors();
+
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+
+	return true;
 }
 
-void RendererOGL::DisableVertexAttributes(const VertexBuffer* gvb)
+bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, InstanceBuffer* instb, PrimitiveType pt)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors();
-	const auto &desc = gvb->GetDesc();
-	// Enable the Vertex attributes
-	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
-		const auto& attr = desc.attrib[i];
-		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);			break;
-		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);			break;
-		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);			break;
-		case ATTRIB_UV0:			glDisableVertexAttribArray(3);			break;
-		case ATTRIB_NONE:
-		default:
-			return;
-		}
-	}
-	CheckRenderErrors();
-}
+	SetRenderState(state);
+	mat->Apply();
 
+	SetMaterialShaderTransforms(mat);
 
-void RendererOGL::EnableVertexAttributes(const VertexArray *v)
-{
-	PROFILE_SCOPED();
+	vb->Bind();
+	ib->Bind();
+	instb->Bind();
+	glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0, instb->GetInstanceCount());
+	instb->Release();
+	ib->Release();
+	vb->Release();
 	CheckRenderErrors();
 
-	if (!v) return;
-	assert(v->position.size() > 0); //would be strange
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
-	// XXX could be 3D or 2D
-	m_vertexAttribsSet.push_back(0);
-	glEnableVertexAttribArray(0);	// Enable the attribute at that location
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
-	CheckRenderErrors();
-
-	if (v->HasAttrib(ATTRIB_NORMAL)) {
-		assert(! v->normal.empty());
-		m_vertexAttribsSet.push_back(1);
-		glEnableVertexAttribArray(1);	// Enable the attribute at that location
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
-		CheckRenderErrors();
-	}
-	if (v->HasAttrib(ATTRIB_DIFFUSE)) {
-		assert(! v->diffuse.empty());
-		m_vertexAttribsSet.push_back(2);
-		glEnableVertexAttribArray(2);	// Enable the attribute at that location
-		glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));	// only normalise the colours
-		CheckRenderErrors();
-	}
-	if (v->HasAttrib(ATTRIB_UV0)) {
-		assert(! v->uv0.empty());
-		m_vertexAttribsSet.push_back(3);
-		glEnableVertexAttribArray(3);	// Enable the attribute at that location
-		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
-		CheckRenderErrors();
-	}
-}
-
-void RendererOGL::DisableVertexAttributes()
-{
-	PROFILE_SCOPED();
-	CheckRenderErrors();
-
-	for (auto i : m_vertexAttribsSet) {
-		glDisableVertexAttribArray(i);
-		CheckRenderErrors();
-	}
-	m_vertexAttribsSet.clear();
+	return true;
 }
 
 Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
@@ -785,6 +835,11 @@ IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage)
 	return new OGL::IndexBuffer(size, usage);
 }
 
+InstanceBuffer *RendererOGL::CreateInstanceBuffer(Uint32 size, BufferUsage usage)
+{
+	return new OGL::InstanceBuffer(size, usage);
+}
+
 // XXX very heavy. in the future when all GL calls are made through the
 // renderer, we can probably do better by trackingn current state and
 // only restoring the things that have changed
@@ -812,7 +867,6 @@ void RendererOGL::PopState()
 
 void RendererOGL::SetMatrixMode(MatrixMode mm)
 {
-	PROFILE_SCOPED()
 	if( mm != m_matrixMode ) {
 		m_matrixMode = mm;
 	}
@@ -820,7 +874,6 @@ void RendererOGL::SetMatrixMode(MatrixMode mm)
 
 void RendererOGL::PushMatrix()
 {
-	PROFILE_SCOPED()
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.push(m_modelViewStack.top());
@@ -833,7 +886,6 @@ void RendererOGL::PushMatrix()
 
 void RendererOGL::PopMatrix()
 {
-	PROFILE_SCOPED()
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.pop();
@@ -848,7 +900,6 @@ void RendererOGL::PopMatrix()
 
 void RendererOGL::LoadIdentity()
 {
-	PROFILE_SCOPED()
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top() = matrix4x4f::Identity();
@@ -861,7 +912,6 @@ void RendererOGL::LoadIdentity()
 
 void RendererOGL::LoadMatrix(const matrix4x4f &m)
 {
-	PROFILE_SCOPED()
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top() = m;
@@ -874,7 +924,6 @@ void RendererOGL::LoadMatrix(const matrix4x4f &m)
 
 void RendererOGL::Translate( const float x, const float y, const float z )
 {
-	PROFILE_SCOPED()
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Translate(x,y,z);
@@ -887,7 +936,6 @@ void RendererOGL::Translate( const float x, const float y, const float z )
 
 void RendererOGL::Scale( const float x, const float y, const float z )
 {
-	PROFILE_SCOPED()
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Scale(x,y,z);
@@ -896,6 +944,26 @@ void RendererOGL::Scale( const float x, const float y, const float z )
 			m_modelViewStack.top().Scale(x,y,z);
 			break;
 	}
+}
+
+bool RendererOGL::Screendump(ScreendumpState &sd)
+{
+	sd.width = GetWindow()->GetWidth();
+	sd.height = GetWindow()->GetHeight();
+	sd.bpp = 3; // XXX get from window
+
+	// pad rows to 4 bytes, which is the default row alignment for OpenGL
+	sd.stride = (3*sd.width + 3) & ~3;
+
+	sd.pixels.reset(new Uint8[sd.stride * sd.height]);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, sd.width, sd.height, GL_RGB, GL_UNSIGNED_BYTE, sd.pixels.get());
+	glFinish();
+
+	return true;
 }
 
 }

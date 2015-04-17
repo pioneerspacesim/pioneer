@@ -13,5 +13,4 @@ Regular tasks
 - data/libs/NameGen.lua: Add new authors to name generator
 
 One-time tasks
-
-[ There is nothing we know we need to do at the next savebump. ]
+- 

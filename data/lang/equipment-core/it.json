@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Identificatore Radar Avanzato"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Identificatore radar a lungo raggio che copre l'intero sistema."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Scudi atmosferici"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Proteggono l'astronave dal surriscaldamento durante l'ingresso in atmosfera."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilota"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Sistema avanzato di navigazione stellare automatica."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Supporti vitali per la stiva"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permette il trasporto di esseri viventi nella stiva."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Raccoglitore di cargo"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permette la raccolta di container di cargo vaganti nello spazio."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Ipermotore civile classe 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Ipermotore militare classe 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Ipermotore militare classe 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Ipermotore militare classe 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Ipermotore militare classe 4"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Sistema ECM avanzato"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Contromisure elettroniche a difesa da attacchi missilistici. È in grado di distruggere i più avanzati missili a ricerca."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Sistema ECM"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Contromisure elettroniche a difesa da attacchi missilistici. È in grado di distruggere alcuni missili a ricerca."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Raccoglitore di carburante"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permette la raccolta e lo stoccaggio di idrogeno dall'atmosfera dei giganti gassosi."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Autoriparatore dello scafo"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Sistema avanzato che ripara lentamente lo scafo in caso di danneggiamento."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analizzatore di nubi iperspaziali"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analizza i residui di un balzo iperspaziale (c.d. nubi iperspaziali) per determinare la destinazione ed il tempo di arrivo o partenza dell'astronave che lo ha generato."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Acceleratore di plasma: grande"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Sistema criogenico per laser"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Refrigera il generatore di impulsi laser ritardandone il surriscaldamento."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "Cannone minerario da 17MW"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Utilizzato per estrarre materiale minerario dagli asteroidi."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Missile autoguidato"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Testata tattica"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Missile intelligente"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "Missile R40 non guidato"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Raccoglitore"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Seppur meno efficace di un raccoglitore di carburante, permette di raccogliere sia cargo che carburante"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "Laser a impulsi da 10MW"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "Laser a impulsi da 1MW"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "Laser a impulsi da 20MW"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "Laser a impulsi da 2MW"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "Laser a impulsi da 4MW"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "Laser a doppio impulso da 1MW"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "Laser a impulsi rapidi da 2MW"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Identificatore Radar"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Fornisce dettagli circa l'equipaggiamento, il carico e lo stato dell'astronave bersaglio."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scanner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Sensore a corto raggio che identifica la posizione in tre dimensioni di astronavi e stazioni spaziali vicine."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Sovralimentatore di scudi"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Incrementa il tasso di rigenerazione dell'energia degli scudi."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Generatore di scudi"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ogni unità genera un campo di forza attorno all'astronave aumentando la capacità di resistenza agli attacchi."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Acceleratore di plasma: piccolo"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Analizzatore commerciale"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Evidenzia gli scambi commerciali redditizi tra il sistema selezionato e quello corrente."
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Alloggio passeggeri extra"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Richiesta per il trasporto di un singolo passeggero"
+   }
+}

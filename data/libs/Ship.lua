@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Ship = import_core("Ship")
@@ -172,7 +172,7 @@ function Ship:AddEquip(item, count, slot)
 	end
 	local ret = self.equipSet:Add(self, item, count, slot)
 	if ret > 0 then
-		Event.Queue("onShipEquipmentChange", self, item)
+		Event.Queue("onShipEquipmentChanged", self, item)
 	end
 	return ret
 end
@@ -319,7 +319,7 @@ Ship.SetEquip = function (self, slot, index, item)
 		item = compat.equip.old2new[item]
 	end
 	self.equipSet:Set(self, slot, index, item)
-	Event.Queue("onShipEquipmentChange", self)
+	Event.Queue("onShipEquipmentChanged", self)
 end
 
 --
@@ -327,7 +327,7 @@ end
 --
 -- Remove one or more of a given equipment type from its appropriate cargo slot
 --
--- > num_removed = ship:RemoveEquip(item, count)
+-- > num_removed = ship:RemoveEquip(item, count, slot)
 --
 -- Parameters:
 --
@@ -361,7 +361,7 @@ Ship.RemoveEquip = function (self, item, count, slot)
 	end
 	local ret = self.equipSet:Remove(self, item, count, slot)
 	if ret > 0 then
-		Event.Queue("onShipEquipmentChange", self, item)
+		Event.Queue("onShipEquipmentChanged", self, item)
 	end
 	return ret
 end

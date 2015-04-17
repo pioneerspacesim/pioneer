@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Мы получили подтверждение ликвидации {target}. Призовая сумма в {cash} переведена на ваш счёт."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Когда я должен выполнить задание?"

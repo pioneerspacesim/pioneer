@@ -107,7 +107,7 @@
     <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PIONEER_PROFILER;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
@@ -124,12 +124,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">CompileAsCpp</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\opengl\MaterialGL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp" />
@@ -148,6 +152,7 @@
     <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Material.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Renderer.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\Stats.cpp" />
     <ClCompile Include="..\..\..\src\graphics\TextureBuilder.cpp" />
     <ClCompile Include="..\..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\..\src\graphics\VertexBuffer.cpp" />
@@ -162,6 +167,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\MaterialDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RendererDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderStateDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderTargetDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\TextureDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />
@@ -189,6 +200,7 @@
     <ClInclude Include="..\..\..\src\graphics\Renderer.h" />
     <ClInclude Include="..\..\..\src\graphics\RenderState.h" />
     <ClInclude Include="..\..\..\src\graphics\RenderTarget.h" />
+    <ClInclude Include="..\..\..\src\graphics\Stats.h" />
     <ClInclude Include="..\..\..\src\graphics\Texture.h" />
     <ClInclude Include="..\..\..\src\graphics\TextureBuilder.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexArray.h" />

@@ -1,7 +1,7 @@
 language: cpp
 compiler:
   - gcc
-script: ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty && make
+script: ./bootstrap && ./configure --with-thirdparty=$(pwd)/pioneer-thirdparty LIBS="-ldl -lrt" && make
 before_install:
      - git clone --depth 1 git://github.com/pioneerspacesim/pioneer-thirdparty.git pioneer-thirdparty
      - cd pioneer-thirdparty/ && autoconf && ./configure && make assimp && make sdl2 && make sdl2_image && cd ../

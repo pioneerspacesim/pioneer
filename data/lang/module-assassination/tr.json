@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "{target}'ın kariyerinin sonlama haberi mutlulukla karşılandı. {cash} burada"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "En yakın ne zaman yapılması gerekiyor?"

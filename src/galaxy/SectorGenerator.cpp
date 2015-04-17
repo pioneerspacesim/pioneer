@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
@@ -361,14 +361,14 @@ bool SectorPersistenceGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy
 	return true;
 }
 
-void SectorPersistenceGenerator::Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
+void SectorPersistenceGenerator::FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
 	m_exploredSystems.Clear();
 	if (m_version >= 1)
-		m_exploredSystems.Unserialize(rd, &m_exploredSystems);
+		m_exploredSystems.FromJson(jsonObj, &m_exploredSystems);
 }
 
-void SectorPersistenceGenerator::Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy)
+void SectorPersistenceGenerator::ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
-	m_exploredSystems.Serialize(wr);
+	m_exploredSystems.ToJson(jsonObj);
 }

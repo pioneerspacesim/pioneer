@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -8,12 +8,11 @@
 #include "libs.h"
 #include "graphics/Types.h"
 #include "graphics/Light.h"
+#include "Stats.h"
 #include <map>
 #include <memory>
 
 namespace Graphics {
-
-extern void CheckRenderErrors();
 
 /*
  * Renderer base class. A Renderer draws points, lines, triangles.
@@ -29,6 +28,7 @@ class TextureDescriptor;
 class VertexArray;
 class VertexBuffer;
 class IndexBuffer;
+class InstanceBuffer;
 struct VertexBufferDesc;
 struct RenderStateDesc;
 struct RenderTargetDesc;
@@ -48,6 +48,10 @@ public:
 	virtual ~Renderer();
 
 	virtual const char* GetName() const = 0;
+
+	virtual void WriteRendererInfo(std::ostream &out) const {}
+
+	virtual void CheckRenderErrors() const {}
 
 	WindowSDL *GetWindow() const { return m_window.get(); }
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
@@ -81,11 +85,14 @@ public:
 
 	virtual bool SetRenderState(RenderState*) = 0;
 
+	// XXX maybe GL-specific. maybe should be part of the render state
+	virtual bool SetDepthRange(double near, double far) = 0;
+
 	virtual bool SetWireFrameMode(bool enabled) = 0;
 
-	virtual bool SetLights(const int numlights, const Light *l) = 0;
-	const Light& GetLight(const int idx) const { assert(idx<=4); return m_lights[idx]; }
-	virtual int GetNumLights() const { return 0; }
+	virtual bool SetLights(Uint32 numlights, const Light *l) = 0;
+	const Light& GetLight(const Uint32 idx) const { assert(idx<4); return m_lights[idx]; }
+	virtual Uint32 GetNumLights() const { return 0; }
 	virtual bool SetAmbientColor(const Color &c) = 0;
 	const Color &GetAmbientColor() const { return m_ambient; }
 
@@ -93,11 +100,6 @@ public:
 
 	//drawing functions
 	//2d drawing is generally understood to be for gui use (unlit, ortho projection)
-	//per-vertex colour lines
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color *colors, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
-	//flat colour lines
-	virtual bool DrawLines(int vertCount, const vector3f *vertices, const Color &color, RenderState*, PrimitiveType type=LINE_SINGLE) = 0;
-	virtual bool DrawPoints(int count, const vector3f *points, const Color *colors, RenderState*, float pointSize=1.f) = 0;
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) = 0;
 	//high amount of textured quads for particles etc
@@ -105,6 +107,9 @@ public:
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType type=TRIANGLES) = 0;
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType=TRIANGLES) = 0;
+	// instanced variations of the above
+	virtual bool DrawBufferInstanced(VertexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType type=TRIANGLES) = 0;
+	virtual bool DrawBufferIndexedInstanced(VertexBuffer*, IndexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType=TRIANGLES) = 0;
 
 	//creates a unique material based on the descriptor. It will not be deleted automatically.
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) = 0;
@@ -114,6 +119,7 @@ public:
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) = 0;
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
+	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;
 
 	Texture *GetCachedTexture(const std::string &type, const std::string &name);
 	void AddCachedTexture(const std::string &type, const std::string &name, Texture *texture);
@@ -170,11 +176,16 @@ public:
 		MatrixMode m_matrixMode;
 	};
 
+	virtual bool Screendump(ScreendumpState &sd) { return false; }
+
+	Stats& GetStats() { return m_stats; }
+
 protected:
 	int m_width;
 	int m_height;
 	Color m_ambient;
 	Light m_lights[4];
+	Stats m_stats;
 
 	virtual void PushState() = 0;
 	virtual void PopState() = 0;

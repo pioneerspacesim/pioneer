@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Bericht van {doelwit}'s einde carriere blij gekregen. Hier is je {geld}"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Hoe snel moet het gebeuren?"

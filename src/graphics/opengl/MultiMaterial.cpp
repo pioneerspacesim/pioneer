@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MultiMaterial.h"
@@ -41,6 +41,9 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int numLights)
 		ss << "#define MAP_COLOR\n";
 	if (desc.quality & HAS_HEAT_GRADIENT)
 		ss << "#define HEAT_COLOURING\n";
+	
+	if (desc.instanced) 
+		ss << "#define USE_INSTANCING\n";
 
 	m_name = "multi";
 	m_defines = ss.str();
@@ -121,14 +124,14 @@ void LitMultiMaterial::Apply()
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 
 	//Light uniform parameters
-	for( int i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
 		const Light& Light = m_renderer->GetLight(i);
 		p->lights[i].diffuse.Set( Light.GetDiffuse() );
 		p->lights[i].specular.Set( Light.GetSpecular() );
 		const vector3f pos = Light.GetPosition();
 		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
 	}
-	CheckRenderErrors();
+	RendererOGL::CheckErrors();
 }
 
 void MultiMaterial::Unapply()

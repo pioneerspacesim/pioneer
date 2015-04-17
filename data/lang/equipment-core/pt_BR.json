@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Proteção Atmosférica"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Protege sua nave do calor na re-entrada atmosférica."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Piloto Automático"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Um computador de bordo."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Carga vital na baía"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permite o transporte de carga viva."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Despejo de carga"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permite despejar carga do espaço."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Hiper drive de classe 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Estrada Militar de Classe 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Estrada Militar de Classe 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Estrada Militar de Classe 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Estrada Militar de Classe 4"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Sistema ECM Avançado"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Um sistema de defesa de mísseis eletrônicos, capaz de destruir os mais avançados tipos de mísseis caseiros."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Sistema ECM"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Um sistema de defesa de mísseis, capaz de destruir alguns mísseis caseiros."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Despejo de Combustível"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permissão para despejar combustível de hidrogênio de planetas gasosos gigantes."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Sistema de Auto-Reparo de Fuselagem"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Reparar automaticamente a fuselagem da nave em caso de dano."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analista de Hiper Nuvem"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analisa nuvens do hiper espaço para determinar destinos e tempo de chegada e partida."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Grande acelerador de plasma"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Aumentar Resfriamento do Laser"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Um sistema de resfriamento improvisado para suas armas."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW canhão de explosão de mina"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Usado para explodir minas de asteroides minerais ricos."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Míssil Guiado"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Míssil Naval"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Míssil Inteligente"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 Foguete Desgovernado"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW vibração do canhão"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW vibração do canhão"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW vibração do canhão"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW vibração do canhão"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW vibração de canhão"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW vibração de canhão de fogo duplo"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW vibração de canhão de fogo rápido"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Mapeador de Radar"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Usado para inspecionar remotamente equipamentos, cargas e estado de outras naves."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scanner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Fornecer um mapa 3D de naves próximas."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Reforço na Proteção da Energia"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Aumentar a taxa de recarga de proteção."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Gerador de Escudo"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Proporciona proteção adicional de fuselagem com cada unidade ajustada."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Pequeno acelerador de plasma"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade analyzer"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shows profitable commodities to trade between selected and current system"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Cabine para Passageiro Extra"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Solicitou transporte de um único passageiro"
+   }
+}

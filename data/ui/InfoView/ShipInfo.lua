@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -11,7 +11,6 @@ local ModelSpinner = import("UI.Game.ModelSpinner")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
-local lcore = Lang.GetResource("core");
 
 local yes_no = function (binary)
 	if binary == 1 then
@@ -116,8 +115,8 @@ local shipInfo = function (args)
 						{ l.CREW_CABINS..":",  shipDef.maxCrew },
 						"",
 						{ l.MISSILE_MOUNTS..":",            shipDef.equipSlotCapacity.missile},
-						{ lcore.ATMOSPHERIC_SHIELDING..":", yes_no(shipDef.equipSlotCapacity.atmo_shield)},
-						{ lcore.SCOOP..":",                 shipDef.equipSlotCapacity.scoop},
+						{ l.ATMOSPHERIC_SHIELDING..":",     yes_no(shipDef.equipSlotCapacity.atmo_shield)},
+						{ l.SCOOP_MOUNTS..":",              shipDef.equipSlotCapacity.scoop},
 					}),
 					"",
 					ui:Label(l.EQUIPMENT):SetFont("HEADING_LARGE"),

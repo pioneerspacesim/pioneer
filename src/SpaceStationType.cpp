@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStationType.h"
@@ -90,6 +90,8 @@ void SpaceStationType::OnSetupComplete()
 	model->FindTagsByStartOfName("loc_", locator_mts);
 	model->FindTagsByStartOfName("exit_", exit_mts);
 
+	Output("%s has:\n %lu entrances,\n %lu pads,\n %lu exits\n", modelName.c_str(), entrance_mts.size(), locator_mts.size(), exit_mts.size());
+
 	// Add the partially initialised ports
 	for (auto apprIter : entrance_mts)
 	{
@@ -113,15 +115,18 @@ void SpaceStationType::OnSetupComplete()
 		m_ports.push_back( new_port );
 	}
 
+	int bay=0;
 	for (auto locIter : locator_mts)
 	{
-		int bay, portId;
+		int bayStr, portId;
 		int minSize, maxSize;
 		char padname[8];
 		const matrix4x4f &locTransform = locIter->GetTransform();
 
+		++bay;
+
 		// eg:loc_A001_p01_s0_500_b01
-		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bay));
+		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bayStr));
 		PiVerify(bay>0 && portId>0);
 
 		// find the port and setup the rest of it's information

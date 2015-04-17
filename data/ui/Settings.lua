@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = import("Game")
@@ -9,6 +9,7 @@ local TabView = import("ui/TabView")
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local KeyBindingCapture = import("UI.Game.KeyBindingCapture")
 local AxisBindingCapture = import("UI.Game.AxisBindingCapture")
+local ErrorScreen = import("ErrorScreen")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -99,6 +100,10 @@ ui.templates.Settings = function (args)
 			Engine.GetCompactScanner, Engine.SetCompactScanner,
 			l.COMPACT_SCANNER)
 
+		local confirmQuit = optionCheckBox(
+			Engine.GetConfirmQuit, Engine.SetConfirmQuit,
+			"Confirm quit")
+
 		local speedLinesCheckBox = optionCheckBox(
 			Engine.GetDisplaySpeedLines, Engine.SetDisplaySpeedLines,
 			l.DISPLAY_SPEED_LINES)
@@ -132,6 +137,7 @@ ui.templates.Settings = function (args)
 				hudTrailsCheckBox,
 				cockpitCheckBox,
 				compactScannerCheckBox,
+				confirmQuit,
 			})))
 	end
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Drawables.h"
@@ -174,6 +174,9 @@ void Line3D::SetColor(const Color &c)
 void Line3D::Draw(Renderer *r, RenderState *rs)
 {
 	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
 	if( !m_vertexBuffer.Valid() ) {
 		CreateVertexBuffer(r, 2);
 	}
@@ -263,6 +266,9 @@ void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Colo
 void Lines::Draw(Renderer *r, RenderState *rs, const PrimitiveType pt)
 {
 	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
 	if( !m_vertexBuffer.Valid() ) {
 		CreateVertexBuffer(r, m_va->GetNumVerts());
 	}
@@ -341,7 +347,10 @@ void PointSprites::SetData(const int count, const vector3f *positions, const mat
 void PointSprites::Draw(Renderer *r, RenderState *rs, Material *mat)
 {
 	PROFILE_SCOPED()
-	if( !m_vertexBuffer.Valid() ) {
+	if (m_va->GetNumVerts() == 0)
+		return;
+
+	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
 		CreateVertexBuffer(r, mat, m_va->GetNumVerts());
 	}
 	if( m_refreshVertexBuffer ) {
@@ -361,6 +370,134 @@ void PointSprites::CreateVertexBuffer(Graphics::Renderer *r, Material *mat, cons
 	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
 	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
+	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.numVertices = size;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+}
+
+//------------------------------------------------------------
+Points::Points() : m_refreshVertexBuffer(true)
+{
+	PROFILE_SCOPED()
+}
+
+void Points::SetData(Renderer* r, const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size)
+{
+	PROFILE_SCOPED()
+	if (count < 1 ) 
+		return;
+
+	assert(positions);
+	const unsigned int total = (count * 6);
+
+	if (m_va.get() && m_va->GetNumVerts() == total) {
+		m_va->Clear();
+	} else {
+		m_va.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, total));
+		CreateVertexBuffer(r, total);
+	}
+
+	matrix4x4f rot(trans);
+	rot.ClearToRotOnly();
+	rot = rot.Inverse();
+
+	const float sz = 0.5f * size;
+	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
+	//do two-triangle quads. Could also do indexed surfaces.
+	//PiGL renderer should use actual point sprites
+	//(see history of Render.cpp for point code remnants)
+	for (int i=0; i<count; i++) {
+		const vector3f &pos = positions[i];
+
+		m_va->Add(pos + rotv4, color); //top left
+		m_va->Add(pos + rotv3, color); //bottom left
+		m_va->Add(pos + rotv1, color); //top right
+
+		m_va->Add(pos + rotv1, color); //top right
+		m_va->Add(pos + rotv3, color); //bottom left
+		m_va->Add(pos + rotv2, color); //bottom right
+	}
+
+	m_refreshVertexBuffer = true;
+}
+
+void Points::SetData(Renderer* r, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size)
+{
+	PROFILE_SCOPED()
+	if (count < 1 ) 
+		return;
+
+	assert(positions);
+	const unsigned int total = (count * 6);
+
+	if (m_va.get() && m_va->GetNumVerts() == total) {
+		m_va->Clear();
+	} else {
+		m_va.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, total));
+		CreateVertexBuffer(r, total);
+	}
+
+	matrix4x4f rot(trans);
+	rot.ClearToRotOnly();
+	rot = rot.Inverse();
+
+	const float sz = 0.5f * size;
+	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
+	//do two-triangle quads. Could also do indexed surfaces.
+	//PiGL renderer should use actual point sprites
+	//(see history of Render.cpp for point code remnants)
+	for (int i=0; i<count; i++) {
+		const vector3f &pos = positions[i];
+
+		m_va->Add(pos + rotv4, color[i]); //top left
+		m_va->Add(pos + rotv3, color[i]); //bottom left
+		m_va->Add(pos + rotv1, color[i]); //top right
+
+		m_va->Add(pos + rotv1, color[i]); //top right
+		m_va->Add(pos + rotv3, color[i]); //bottom left
+		m_va->Add(pos + rotv2, color[i]); //bottom right
+	}
+
+	m_refreshVertexBuffer = true;
+}
+
+void Points::Draw(Renderer *r, RenderState *rs)
+{
+	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
+	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
+		CreateVertexBuffer(r, m_va->GetNumVerts());
+	}
+	if( m_refreshVertexBuffer ) {
+		m_refreshVertexBuffer = false;
+		m_vertexBuffer->Populate( *m_va );
+	}
+
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::TRIANGLES);
+}
+
+void Points::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
+{
+	PROFILE_SCOPED()
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
 	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
 	vbd.numVertices = size;
 	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));

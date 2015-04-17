@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Nuestro sustento depende de esto."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "¿Cual es la fecha de entrega?"

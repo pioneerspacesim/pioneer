@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Avancerad radarmapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Långdistans radarmapper med systemstor täckning."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmosfärssköld"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Skyddar ditt rymdskepp från hettan vid återinträde i atmosfär."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "En flygdator ombord."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Livsuppehållande lastrum"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tillåter transport av levande last."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Lastskopa"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tillåter upphämtning av lastbehållare från rymden."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Klass 1 hypermotor"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Klass 2 hypermotor"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Klass 3 hypermotor"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Klass 4 hypermotor"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Klass 5 hypermotor"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Klass 6 hypermotor"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Klass 7 hypermotor"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Klass 8 hypermotor"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Klass 9 hypermotor"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Klass 1 militär motor"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Klass 2 militär motor"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Klass 3 militär motor"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Klass 4 militär motor"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Avancerat ECM system"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ett elektroniskt anti-missil system som klarar av att förstöra mer avancerade typer av målsökande missiler."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "ECM system"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ett elektroniskt anti-missilsystem som klarar av att förstöra vissa målsökande missiler."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Bränsleskopa"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tillåter uppsamling av vätebränsle från gasjättar."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Automatiskt skrovreparationssystem"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Reparerar automatiskt skeppets skrov om det blir skadat."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hypermolnanalysator"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analyserar hyperrymdmoln för att avgöra destinationen och tid för ankomst och avfärd."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Stor plasmaaccellerator"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Laserkylningsförstärkare"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ett förbättrat kylsystem för dina vapen"
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW explosiv gruvkanon"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Används för att spränga sönder mineralrika asteroider."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Guidad missil"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Militär missil"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Smartmissil"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 ostyrd raket"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multiskopa"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Skopar både last containrar och bränsle, dock mindre effektiv än vanlig bränsleskopa"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW pulskanon"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW pulskanon"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW pulskanon"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW pulskanon"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW pulskanon"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dubbel pulskanon"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW snabbskjutande pulskanon"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radarmapper"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Används för att på avstånd inspektera utrustning, last och status på andra skepp."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scanner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ger en 3D karta över närbelägna skepp."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Sköldenergiförstärkare"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ökar sköldarnas uppladdningsnivå."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Sköldgenerator"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ger skrovet med mer skydd för varje enhet som monteras."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Liten plasmaaccellerator"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Handelskomperator"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Jämför och visar de mest lönsamma handelsvaror att frakta från nuvarande till markerade system"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Extra passagerarkabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Krävs för transport av en ensam passagerare"
+   }
+}

@@ -1,12 +1,4 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Fejlett Radartérképező"
-   },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Nagy hatótávú Radar térképező rendszerszintű lefedettséggel."
-   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Levegőfeldolgozók"
@@ -59,25 +51,13 @@
       "description" : "",
       "message" : "Aszteroid"
    },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Atmoszférapajzs"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Megvédi az űrhajót az atmoszférába lépés alatt a túlmelegedéstől."
-   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Automata rendszerkijelölés"
    },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Auto-pilóta"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Egy fedélzeti repülésirányító számítógép."
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Automata vezérlés"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -108,7 +88,7 @@
       "message" : "Tengelydőlés"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Csak pár ezer"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +100,7 @@
       "message" : "Bináris rendszer"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "égitesttel"
    },
    "BODY" : {
@@ -187,21 +167,9 @@
       "description" : "",
       "message" : "A szenzorok a raktér életfenntartóinak meghibásodását mutatják."
    },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Raktéri életfenntartó"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Lehetővé teszi élőárú szállítását."
-   },
    "CARGO_N" : {
       "description" : "",
       "message" : "Rakomány: %{mass}t"
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Rakományszívó"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -210,10 +178,6 @@
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
       "message" : "Rakomány szívása sikertelen, nincs hely a raktérben."
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Lehetővé teszi rakománytartály felszedését az űrből."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -304,7 +268,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Jelenlegi rendszer"
    },
    "DATE_DUE_N" : {
@@ -332,7 +296,7 @@
       "message" : "Célállomás"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Irány \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -371,58 +335,6 @@
       "description" : "",
       "message" : "Függőleges vonalak rajzolása"
    },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "1. szintű hipermotor"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "2. szintű hipermotor"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "3. szintű hipermotor"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "4. szintű hipermotor"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "5. szintű hipermotor"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "6. szintű hipermotor"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "7. szintű hipermotor"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "8. szintű hipermotor"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "9. szintű hipermotor"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "1. szintű katonai hiperhajtómű"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "2. szintű katonai hiperhajtómű"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "3. szintű katonai hiperhajtómű"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "4. szintű katonai hajtómű"
-   },
    "EARTH" : {
       "description" : "",
       "message" : "Föld"
@@ -438,22 +350,6 @@
    "ECCENTRICITY" : {
       "description" : "",
       "message" : "Alakszabályosság"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Fejlett rakétazavaró"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Egy hatékonyabb elektronikus rakétazavaró rendszer,  fejlettebb követőrakéták ellen is hatásos."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "Rakétazavaró"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Egy elektronikus rakétazavaró védelmi rendszer, amely bizonyos fajta követőrakéták megsemmisítésére alkalmas."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -511,10 +407,6 @@
       "description" : "",
       "message" : "kiválasztás követése"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Első"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Gyümölcs-zöldség"
@@ -523,20 +415,12 @@
       "description" : "",
       "message" : "Hajtóanyag"
    },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Üzemanyagszívó"
-   },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
       "message" : "Üzemanyagszívó aktív. Jelenleg már %quantity tonna hidrogéned van."
    },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Lehetővé teszi hidrogén üzemanyag felvételét gázóriás bolygókból."
-   },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Galaktikus nézet"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +456,7 @@
       "message" : "Kormányzat:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Búza"
    },
    "HAND_WEAPONS" : {
@@ -584,7 +468,7 @@
       "message" : "Teljesen kapitalista - kormányintézkedések nélkül"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
@@ -631,14 +515,6 @@
       "description" : "",
       "message" : "Nagy népességü külső világ"
    },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Hajótest javító rendszer"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Automatikusan javítja a hajótestet sérülés esetén."
-   },
    "HULL_INTEGRITY" : {
       "description" : "",
       "message" : "Hajóintegritás"
@@ -654,14 +530,6 @@
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
       "message" : "A hidrogént elsősorban fúziós üzemanyagként használják"
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Hiperugrás analizátor"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "A hiperugrás-felhőket analizálja, megállapítva a célállomást és az érkezés vagy indulás időpontját."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -740,7 +608,7 @@
       "message" : "Belső nézet"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale fényév"
    },
    "IN_TRANSIT" : {
@@ -752,7 +620,7 @@
       "message" : "Utazás %system rendszerbe [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +628,7 @@
       "message" : "Joystick bevitel"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis tengely"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,24 +644,12 @@
       "message" : "Magyar"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Nagy"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Nagy gázóriás"
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Nagy plazmagyorsító"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Lézerhűtés javító"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Egy fejlettebb hűtőrendszer a fegyvereidhez."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -828,7 +684,7 @@
       "message" : "Helyi kar"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "zárolt"
    },
    "MAJOR_EXPORTS" : {
@@ -963,14 +819,6 @@
       "description" : "",
       "message" : "Katonai üzemanyag"
    },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW robbantó bányászágyú"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Ásványokban gazdag aszteroidák bányászatához."
-   },
    "MINING_COLONY" : {
       "description" : "",
       "message" : "Bányászkolónia"
@@ -1002,22 +850,6 @@
    "MISSILE" : {
       "description" : "",
       "message" : "rakéta"
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Irányított rakéta"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Flottarakéta"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Követőrakéta"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "R40 nemirányított rakéta"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1111,16 +943,12 @@
       "description" : "",
       "message" : "Ideggáz"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Nincs"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma kar"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Nincs ilyen"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1216,7 +1044,7 @@
       "message" : "%mass{f.3} %units tömeg"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units sugár (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1312,19 +1140,19 @@
       "message" : "Központi tervgazdálkodás"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Delta-V lépték. Vissza alapértékre."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normálirányú delta-v. Vissza alapértékre."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prográd delta-v. Vissza alapértékre."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Sugárirányú delta-v. Vissza alapértékre."
    },
    "PLASTICS" : {
@@ -1355,45 +1183,9 @@
       "description" : "",
       "message" : "Az érkezés valószínűsége: %probability%%"
    },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MW pulzuságyú"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MW pulzuságyú"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MW pulzuságyú"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MW pulzuságyú"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MW pulzuságyú"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW dupla pulzuságyú"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW gyorstüzelő pulzuságyú"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Négyes rendszer"
-   },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radartérképező"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Távolsági érzékelő, űrben lebegő felszerelés, rakomány, hajó vizsgálatára."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1402,10 +1194,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Sugár"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Hátsó"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1483,20 +1271,12 @@
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius kar"
    },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Szkenner"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Szkenner irányítás"
    },
-   "SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Egy 3D térképet jelenít meg a közeli hajókról."
-   },
    "SCOOP" : {
-      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Szívó"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
@@ -1567,22 +1347,6 @@
       "description" : "",
       "message" : "Seb: %speed{f.0} m/s"
    },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Pajzsenergia töltő"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Javítja a pajzsok feltöltésének sebességét."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Pajzsgenerátor"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Minden felszerelt egységgel növekszik a hajótest védelme."
-   },
    "SHIELD_INTEGRITY" : {
       "description" : "",
       "message" : "Pajzsintegritás"
@@ -1632,7 +1396,7 @@
       "message" : "Hajósebesség a referenciához mérten"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Sziderikus nézet"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1655,10 +1419,6 @@
       "description" : "",
       "message" : "Kisebb ipari előörs"
    },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Kicsi plazmagyorsító"
-   },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
       "message" : "Kisméretű kutatások. Nincs regisztrált település."
@@ -1676,7 +1436,7 @@
       "message" : "Némi bányászat"
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Indulópont"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1844,7 +1604,7 @@
       "message" : "Irányszög kijelző a bolygó koordinátarendszeréhez állítva."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "Rendszer"
    },
    "SYSTEM_NUMBER" : {
@@ -1872,7 +1632,7 @@
       "message" : "Célkeresztobjektum becélzása"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "ritkás"
    },
    "TEXTILES" : {
@@ -1944,16 +1704,8 @@
       "message" : "Szkennermód kapcsoló"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "Ég veled barátom!"
-   },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Piacelemző"
-   },
-   "TRADE_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kiemeli a jelenlegi és a cél rendszer között várhatóan profittal értékesíthető termékeket."
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1983,14 +1735,6 @@
       "description" : "",
       "message" : "Törvénytelen fegyverhasználat"
    },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Személyszállító utaskabin"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Szükséges egy személy szállításához"
-   },
    "UNSET_NAVTARGET" : {
       "description" : "",
       "message" : "Navigációs cél törlése"
@@ -2010,14 +1754,6 @@
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Nagyon nagy gázóriás"
-   },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Kapcsolódás..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Videokapcsolat létrejött"
    },
    "VIEW" : {
       "description" : "",
@@ -2060,7 +1796,7 @@
       "message" : "\" számottevő atmoszféra nélkül\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2068,7 +1804,7 @@
       "message" : "A(z) %crime bűntény itt nem elfogadott."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2092,7 +1828,7 @@
       "message" : "Nincs pénzed."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

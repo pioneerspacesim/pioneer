@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -88,27 +88,58 @@ void Init(RefCountedPtr<Galaxy> galaxy)
 	s_playerPerBlocCrimeRecord.resize( numFactions );
 }
 
-void Serialize(Serializer::Writer &wr)
+void ToJson(Json::Value &jsonObj)
 {
-	s_criminalRecord.Serialize(wr);
-	s_outstandingFine.Serialize(wr);
-	wr.Int32(s_playerPerBlocCrimeRecord.size());
-	for (Uint32 i=0; i < s_playerPerBlocCrimeRecord.size(); i++) {
-		wr.Int64(s_playerPerBlocCrimeRecord[i].record);
-		wr.Int64(s_playerPerBlocCrimeRecord[i].fine);
+	Json::Value politObj(Json::objectValue); // Create JSON object to contain polit data.
+
+	Json::Value criminalRecordObj(Json::objectValue); // Create JSON object to contain criminal record data.
+	s_criminalRecord.ToJson(criminalRecordObj);
+	politObj["criminal_record"] = criminalRecordObj; // Add criminal record object to polit object.
+
+	Json::Value outstandingFineObj(Json::objectValue); // Create JSON object to contain outstanding fine data.
+	s_outstandingFine.ToJson(outstandingFineObj);
+	politObj["outstanding_fine"] = outstandingFineObj; // Add outstanding fine object to polit object.
+
+	Json::Value crimeRecordArray(Json::arrayValue); // Create JSON array to contain crime record data.
+	for (Uint32 i = 0; i < s_playerPerBlocCrimeRecord.size(); i++)
+	{
+		Json::Value crimeRecordArrayEl(Json::objectValue); // Create JSON object to contain crime record element.
+		crimeRecordArrayEl["record"] = SInt64ToStr(s_playerPerBlocCrimeRecord[i].record);
+		crimeRecordArrayEl["fine"] = SInt64ToStr(s_playerPerBlocCrimeRecord[i].fine);
+		crimeRecordArray.append(crimeRecordArrayEl); // Append crime record object to array.
 	}
+	politObj["crime_record"] = crimeRecordArray; // Add crime record array to polit object.
+
+	jsonObj["polit"] = politObj; // Add polit object to supplied object.
 }
 
-void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy)
+void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy)
 {
 	Init(galaxy);
-	PersistSystemData<Sint64>::Unserialize(rd, &s_criminalRecord);
-	PersistSystemData<Sint64>::Unserialize(rd, &s_outstandingFine);
-	const Uint32 numFactions = rd.Int32();
-	assert(s_playerPerBlocCrimeRecord.size() == numFactions);
-	for (Uint32 i=0; i < numFactions; i++) {
-		s_playerPerBlocCrimeRecord[i].record = rd.Int64();
-		s_playerPerBlocCrimeRecord[i].fine = rd.Int64();
+
+	if (!jsonObj.isMember("polit")) throw SavedGameCorruptException();
+	Json::Value politObj = jsonObj["polit"];
+
+	if (!politObj.isMember("criminal_record")) throw SavedGameCorruptException();
+	if (!politObj.isMember("outstanding_fine")) throw SavedGameCorruptException();
+	if (!politObj.isMember("crime_record")) throw SavedGameCorruptException();
+
+	Json::Value criminalRecordObj = politObj["criminal_record"];
+	PersistSystemData<Sint64>::FromJson(criminalRecordObj, &s_criminalRecord);
+
+	Json::Value outstandingFineObj = politObj["outstanding_fine"];
+	PersistSystemData<Sint64>::FromJson(outstandingFineObj, &s_outstandingFine);
+
+	Json::Value crimeRecordArray = politObj["crime_record"];
+	if (!crimeRecordArray.isArray()) throw SavedGameCorruptException();
+	assert(s_playerPerBlocCrimeRecord.size() == crimeRecordArray.size());
+	for (Uint32 i = 0; i < s_playerPerBlocCrimeRecord.size(); i++)
+	{
+		Json::Value crimeRecordArrayEl = crimeRecordArray[i];
+		if (!crimeRecordArrayEl.isMember("record")) throw SavedGameCorruptException();
+		if (!crimeRecordArrayEl.isMember("fine")) throw SavedGameCorruptException();
+		s_playerPerBlocCrimeRecord[i].record = StrToSInt64(crimeRecordArrayEl["record"].asString());
+		s_playerPerBlocCrimeRecord[i].fine = StrToSInt64(crimeRecordArrayEl["fine"].asString());
 	}
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -16,35 +16,58 @@
 static const double VICINITY_MIN = 15000.0;
 static const double VICINITY_MUL = 4.0;
 
-AICommand *AICommand::Load(Serializer::Reader &rd)
+AICommand *AICommand::LoadFromJson(const Json::Value &jsonObj)
 {
-	CmdName name = CmdName(rd.Int32());
-	switch (name) {
-		case CMD_NONE: default: return 0;
-		case CMD_DOCK: return new AICmdDock(rd);
-		case CMD_FLYTO: return new AICmdFlyTo(rd);
-		case CMD_FLYAROUND: return new AICmdFlyAround(rd);
-		case CMD_KILL: return new AICmdKill(rd);
-		case CMD_KAMIKAZE: return new AICmdKamikaze(rd);
-		case CMD_HOLDPOSITION: return new AICmdHoldPosition(rd);
-		case CMD_FORMATION: return new AICmdFormation(rd);
+	if (jsonObj.isMember("ai_command"))
+	{
+		Json::Value aiCommandObj = jsonObj["ai_command"];
+		if (!aiCommandObj.isMember("common_ai_command")) throw SavedGameCorruptException();
+		Json::Value commonAiCommandObj = aiCommandObj["common_ai_command"];
+		if (!commonAiCommandObj.isMember("command_name")) throw SavedGameCorruptException();
+		CmdName name = CmdName(commonAiCommandObj["command_name"].asInt());
+		switch (name)
+		{
+		case CMD_NONE: default: return 0; // No longer need CMD_NONE (see AICommand::SaveToJson notes).
+		case CMD_DOCK: return new AICmdDock(aiCommandObj);
+		case CMD_FLYTO: return new AICmdFlyTo(aiCommandObj);
+		case CMD_FLYAROUND: return new AICmdFlyAround(aiCommandObj);
+		case CMD_KILL: return new AICmdKill(aiCommandObj);
+		case CMD_KAMIKAZE: return new AICmdKamikaze(aiCommandObj);
+		case CMD_HOLDPOSITION: return new AICmdHoldPosition(aiCommandObj);
+		case CMD_FORMATION: return new AICmdFormation(aiCommandObj);
+		}
 	}
+	return 0; // Return 0 if supplied object doesn't contain an "ai_command" object.
 }
 
-void AICommand::Save(Serializer::Writer &wr)
+void AICommand::SaveToJson(Json::Value &jsonObj)
 {
+	// AICommand is an abstract base class, so it is guaranteed that the supplied object
+	// is the top-level JSON object (always named "ai_command") encoding the specific ai command.
+	// The top-level ai command object will contain:
+	// (1) the specific ai command data (already created and added in the overriding concrete class function), and
+	// (2) the common ai command object (created and added in this base class function).
+	// The command name (enum CmdName) and a child ai command (if this ai command has one) are added to the common ai command object.
+	// No longer need to save CMD_NONE when a child ai command does not exist (just don't add a child ai command object).
 	Space *space = Pi::game->GetSpace();
-	wr.Int32(m_cmdName);
-	wr.Int32(space->GetIndexForBody(m_ship));
-	if (m_child) m_child->Save(wr);
-	else wr.Int32(CMD_NONE);
+	Json::Value commonAiCommandObj(Json::objectValue); // Create JSON object to contain common ai command data.
+	commonAiCommandObj["command_name"] = m_cmdName;
+	commonAiCommandObj["index_for_body"] = space->GetIndexForBody(m_ship);
+	if (m_child) m_child->SaveToJson(commonAiCommandObj);
+	jsonObj["common_ai_command"] = commonAiCommandObj; // Add common ai command object to supplied object.
 }
 
-AICommand::AICommand(Serializer::Reader &rd, CmdName name)
+AICommand::AICommand(const Json::Value &jsonObj, CmdName name)
 {
 	m_cmdName = name;
-	m_shipIndex = rd.Int32();
-	m_child = Load(rd);
+
+	if (!jsonObj.isMember("common_ai_command")) throw SavedGameCorruptException();
+	Json::Value commonAiCommandObj = jsonObj["common_ai_command"];
+
+	if (!commonAiCommandObj.isMember("index_for_body")) throw SavedGameCorruptException();
+	m_shipIndex = commonAiCommandObj["index_for_body"].asInt();
+
+	m_child = LoadFromJson(commonAiCommandObj);
 }
 
 void AICommand::PostLoadFixup(Space *space)

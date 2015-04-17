@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Atrás"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Lo siento, no estoy preparado para rebajar más."

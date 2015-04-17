@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _NAVLIGHTS_H
@@ -8,6 +8,7 @@
  */
 #include "libs.h"
 #include "Serializer.h"
+#include "json/json.h"
 
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; class Billboard; }
@@ -33,8 +34,8 @@ public:
 
 	NavLights(SceneGraph::Model*, float period = 2.f);
 	virtual ~NavLights();
-	virtual void Save(Serializer::Writer &wr);
-	virtual void Load(Serializer::Reader &rd);
+	virtual void SaveToJson(Json::Value &jsonObj);
+	virtual void LoadFromJson(const Json::Value &jsonObj);
 
 	void SetEnabled(bool on) { m_enabled = on; }
 	void Update(float time);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -58,13 +58,18 @@ WorldView::WorldView(Game* game): UIView(), m_game(game)
 	InitObject();
 }
 
-WorldView::WorldView(Serializer::Reader &rd, Game* game): UIView(), m_game(game)
+WorldView::WorldView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game)
 {
-	m_camType = CamType(rd.Int32());
+	if (!jsonObj.isMember("world_view")) throw SavedGameCorruptException();
+	Json::Value worldViewObj = jsonObj["world_view"];
+
+	if (!worldViewObj.isMember("cam_type")) throw SavedGameCorruptException();
+	m_camType = CamType(worldViewObj["cam_type"].asInt());
 	InitObject();
-	m_internalCameraController->Load(rd);
-	m_externalCameraController->Load(rd);
-	m_siderealCameraController->Load(rd);
+
+	m_internalCameraController->LoadFromJson(worldViewObj);
+	m_externalCameraController->LoadFromJson(worldViewObj);
+	m_siderealCameraController->LoadFromJson(worldViewObj);
 }
 
 static const float LOW_THRUST_LEVELS[] = { 0.75, 0.5, 0.25, 0.1, 0.05, 0.01 };
@@ -325,12 +330,16 @@ WorldView::~WorldView()
 	m_onMouseWheelCon.disconnect();
 }
 
-void WorldView::Save(Serializer::Writer &wr)
+void WorldView::SaveToJson(Json::Value &jsonObj)
 {
-	wr.Int32(int(m_camType));
-	m_internalCameraController->Save(wr);
-	m_externalCameraController->Save(wr);
-	m_siderealCameraController->Save(wr);
+	Json::Value worldViewObj(Json::objectValue); // Create JSON object to contain world view data.
+
+	worldViewObj["cam_type"] = int(m_camType);
+	m_internalCameraController->SaveToJson(worldViewObj);
+	m_externalCameraController->SaveToJson(worldViewObj);
+	m_siderealCameraController->SaveToJson(worldViewObj);
+
+	jsonObj["world_view"] = worldViewObj; // Add world view object to supplied object.
 }
 
 void WorldView::SetCamType(enum CamType c)
@@ -368,9 +377,8 @@ void WorldView::SetCamType(enum CamType c)
 
 void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 {
-	if (m_internalCameraController->GetMode() == m) return;
-
-	Pi::BoinkNoise();
+       if (m_internalCameraController->GetMode() != m)
+               Pi::BoinkNoise();
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	UpdateCameraName();
@@ -643,7 +651,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					break;
 
 				case CONTROL_AUTOPILOT:
-					m_flightStatus->SetText(Lang::AUTOPILOT);
+					m_flightStatus->SetText(Lang::AUTOPILOT_CONTROL);
 					break;
 
 				default: assert(0); break;
@@ -1877,7 +1885,7 @@ void WorldView::Draw()
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	// glLineWidth(1.0f);
-	Graphics::CheckRenderErrors();
+	m_renderer->CheckRenderErrors();
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
@@ -1903,8 +1911,8 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 	if (target.side == INDICATOR_HIDDEN) return;
 
 	if (target.side == INDICATOR_ONSCREEN) {
-		float x1 = target.pos.x, y1 = target.pos.y;
-		float x2 = lead.pos.x, y2 = lead.pos.y;
+		const float x1 = target.pos.x, y1 = target.pos.y;
+		const float x2 = lead.pos.x, y2 = lead.pos.y;
 
 		float xd = x2 - x1, yd = y2 - y1;
 		if (lead.side != INDICATOR_ONSCREEN) {
@@ -1941,10 +1949,12 @@ void WorldView::DrawCombatTargetIndicator(const Indicator &target, const Indicat
 			vector3f(x1+20*xd, y1+20*yd, 0.0f),
 			vector3f(x2-10*xd, y2-10*yd, 0.0f)
 		};
-		if (lead.side == INDICATOR_ONSCREEN)
-			m_renderer->DrawLines(14, vts, c, m_blendState); //draw all
-		else
-			m_renderer->DrawLines(8, vts, c, m_blendState); //only crosshair
+		if (lead.side == INDICATOR_ONSCREEN) {
+			m_indicator.SetData(14, vts, c);
+		} else {
+			m_indicator.SetData(8, vts, c);
+		}
+		m_indicator.Draw(m_renderer, m_blendState);
 	} else {
 		DrawEdgeMarker(target, c);
 	}
@@ -2093,7 +2103,7 @@ void NavTunnelWidget::DrawTargetGuideSquare(const vector2f &pos, const float siz
 	}
 
 	m_vbuffer->Populate( va );
-	
+
 	m_worldView->m_renderer->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_LOOP);
 }
 

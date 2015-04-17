@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Hiba történt"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Atmoszférapajzs"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Kíséreld meg a hajótest javítását"
@@ -56,15 +60,15 @@
       "message" : "Megvesz"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Utaskabin"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} szabad"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} foglalt"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "Mégse"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Kapacitás"
    },
    "CAPACITY_USED" : {
@@ -92,11 +96,11 @@
       "message" : "Foglalt raktér"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t szabad"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t foglalt"
    },
    "CASH" : {
@@ -108,7 +112,7 @@
       "message" : "Pénz: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Hozzárendel"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +124,15 @@
       "message" : "Sebesség körpályához"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "Város részletesség"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Tiszta"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Töröl"
    },
    "CLIENT" : {
@@ -136,7 +140,7 @@
       "message" : "Kliens"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Harc"
    },
    "COMMANDER" : {
@@ -148,11 +152,11 @@
       "message" : "Árupiac"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "Kompakt szkenner."
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Versenyképes"
    },
    "COMPLETED" : {
@@ -160,7 +164,7 @@
       "message" : "Befejezve"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Textúrák tömörítése"
    },
    "CONSTABLE" : {
@@ -200,11 +204,11 @@
       "message" : "Bűnügyi nyilvántartás"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Veszélyes"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Halálos"
    },
    "DELTA_V" : {
@@ -232,7 +236,7 @@
       "message" : "Lődd ki az ellenséges hajót."
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Elbocsájt"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -240,11 +244,11 @@
       "message" : "HUD nyomvonalak"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "Navigációs alagút"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Sebességjelző vonalak"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -252,7 +256,7 @@
       "message" : "Dokkolj a célponttal."
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Lejár"
    },
    "D_DAYS_LEFT" : {
@@ -268,7 +272,7 @@
       "message" : "Effektek:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "ELITE"
    },
    "EMPLOYMENT" : {
@@ -276,7 +280,7 @@
       "message" : "Alkalmazás"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Kabin bekapcsolása (KISÉRLETI)"
    },
    "ENABLE_JOYSTICK" : {
@@ -284,7 +288,7 @@
       "message" : "Joystick irányítás engedélyezése"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Gépészet:"
    },
    "EQUIPMENT" : {
@@ -320,7 +324,7 @@
       "message" : "Szakértő"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Sikertelen"
    },
    "FEMALE" : {
@@ -384,7 +388,7 @@
       "message" : "Kapcsolat megszakítása."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Ártalmatlan"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -412,7 +416,7 @@
       "message" : "Nehéz személyszállító"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "Magas"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -560,7 +564,7 @@
       "message" : "Alacsony"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "fé"
    },
    "MAKE_NEW_FACE" : {
@@ -592,7 +596,7 @@
       "message" : "Maximum legénység"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Közepes"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -756,7 +760,7 @@
       "message" : "A körpályához megadott sebesség párhuzamos a bolygó felszínével. A hajónak 90°-os szögben kell haladnia a ship/{name} tengelyhez képest.\n\nAz ereszkedési sebesség a lehető legalacsonyabb, és szintén párhuzamos a felszínnel. Lassabb sebesség vagy nagyobb ereszkedési szög ütközőpályát eredményez.\n\nA szökési sebesség elméletben bármely irányba működik, ütközőpályákat kivéve."
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Tartozás"
    },
    "PAY_FINE_OF_N" : {
@@ -792,7 +796,7 @@
       "message" : "Rendőrség"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Gyenge"
    },
    "POSITION" : {
@@ -879,6 +883,10 @@
       "description" : "",
       "message" : "Ment"
    },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Szívó felfüggesztés"
+   },
    "SELECT" : {
       "description" : "",
       "message" : "Kiválaszt"
@@ -948,7 +956,7 @@
       "message" : "Kezdés a Földön"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Kezdés New Hope-on"
    },
    "STATION_MANAGER" : {
@@ -972,7 +980,7 @@
       "message" : "Vezérlést átvette az állomás, parancsnok."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Férfi/Nő"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1024,11 @@
       "message" : "Használt"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Nagyon magas"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Nagyon alacsony"
    },
    "VIDEO" : {
@@ -1036,7 +1044,7 @@
       "message" : "Képernyő-felbontás"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Bér"
    },
    "WEIGHT_EMPTY" : {

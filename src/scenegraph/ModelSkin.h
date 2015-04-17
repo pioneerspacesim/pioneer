@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef SCENEGRAPH_MODELSKIN_H
@@ -8,6 +8,7 @@
 #include "Serializer.h"
 #include "Random.h"
 #include "LuaWrappable.h"
+#include "json/json.h"
 #include <string>
 
 namespace SceneGraph {
@@ -33,7 +34,9 @@ public:
 	void SetLabel(const std::string &label);
 
 	void Load(Serializer::Reader &rd);
+	void LoadFromJson(const Json::Value &jsonObj);
 	void Save(Serializer::Writer &wr) const;
+	void SaveToJson(Json::Value &jsonObj) const;
 
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;

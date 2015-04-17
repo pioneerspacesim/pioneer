@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Material.h"
@@ -6,18 +6,18 @@
 namespace Graphics {
 
 Material::Material() :
-	texture0(0),
-	texture1(0),
-	texture2(0),
-	texture3(0),
-	texture4(0),
-	texture5(0),
-	heatGradient(0),
+	texture0(nullptr),
+	texture1(nullptr),
+	texture2(nullptr),
+	texture3(nullptr),
+	texture4(nullptr),
+	texture5(nullptr),
+	heatGradient(nullptr),
 	diffuse(Color::WHITE),
 	specular(Color::BLACK),
 	emissive(Color::BLACK),
 	shininess(100), //somewhat sharp
-	specialParameter0(0)
+	specialParameter0(nullptr)
 {
 }
 
@@ -30,6 +30,7 @@ MaterialDescriptor::MaterialDescriptor()
 , specularMap(false)
 , usePatterns(false)
 , vertexColors(false)
+, instanced(false)
 , textures(0)
 , dirLights(0)
 , quality(0)
@@ -47,6 +48,7 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		a.specularMap == b.specularMap &&
 		a.usePatterns == b.usePatterns &&
 		a.vertexColors == b.vertexColors &&
+		a.instanced == b.instanced &&
 		a.textures == b.textures &&
 		a.dirLights == b.dirLights &&
 		a.quality == b.quality

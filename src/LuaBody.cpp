@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -11,6 +11,15 @@
 #include "TerrainBody.h"
 #include "Pi.h"
 #include "Game.h"
+
+#include "ModelBody.h"
+#include "Ship.h"
+#include "Player.h"
+#include "SpaceStation.h"
+#include "Planet.h"
+#include "Star.h"
+#include "CargoBody.h"
+#include "Missile.h"
 
 /*
  * Class: Body
@@ -385,6 +394,57 @@ static int l_body_find_nearest_to(lua_State *l)
 	return 1;
 }
 
+static std::string _body_serializer(LuaWrappable *o)
+{
+	static char buf[256];
+	Body *b = static_cast<Body*>(o);
+	snprintf(buf, sizeof(buf), "%u\n", Pi::game->GetSpace()->GetIndexForBody(b));
+	return std::string(buf);
+}
+
+static bool _body_deserializer(const char *pos, const char **next)
+{
+	Uint32 n = strtoul(pos, const_cast<char**>(next), 0);
+	if (pos == *next) return false;
+	(*next)++; // skip newline
+
+	Body *body = Pi::game->GetSpace()->GetBodyByIndex(n);
+
+	switch (body->GetType()) {
+		case Object::BODY:
+			LuaObject<Body>::PushToLua(body);
+			break;
+		case Object::MODELBODY:
+			LuaObject<Body>::PushToLua(dynamic_cast<ModelBody*>(body));
+			break;
+		case Object::SHIP:
+			LuaObject<Ship>::PushToLua(dynamic_cast<Ship*>(body));
+			break;
+		case Object::PLAYER:
+			LuaObject<Player>::PushToLua(dynamic_cast<Player*>(body));
+			break;
+		case Object::SPACESTATION:
+			LuaObject<SpaceStation>::PushToLua(dynamic_cast<SpaceStation*>(body));
+			break;
+		case Object::PLANET:
+			LuaObject<Planet>::PushToLua(dynamic_cast<Planet*>(body));
+			break;
+		case Object::STAR:
+			LuaObject<Star>::PushToLua(dynamic_cast<Star*>(body));
+			break;
+		case Object::CARGOBODY:
+			LuaObject<Star>::PushToLua(dynamic_cast<CargoBody*>(body));
+			break;
+		case Object::MISSILE:
+			LuaObject<Missile>::PushToLua(dynamic_cast<Missile*>(body));
+			break;
+		default:
+			return false;
+	}
+
+	return true;
+}
+
 template <> const char *LuaObject<Body>::s_type = "Body";
 
 template <> void LuaObject<Body>::RegisterClass()
@@ -411,4 +471,15 @@ template <> void LuaObject<Body>::RegisterClass()
 
 	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Body>::DynamicCastPromotionTest);
+	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_body_serializer, _body_deserializer));
+
+	// we're also the serializer for our subclasses
+	LuaObjectBase::RegisterSerializer("ModelBody",    SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("Ship",         SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("Player",       SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("SpaceStation", SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("Planet",       SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("Star",         SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("CargoBody",    SerializerPair(_body_serializer, _body_deserializer));
+	LuaObjectBase::RegisterSerializer("Missile",      SerializerPair(_body_serializer, _body_deserializer));
 }

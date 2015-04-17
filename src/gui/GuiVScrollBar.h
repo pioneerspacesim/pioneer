@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUIVSCROLLBAR
@@ -25,6 +25,7 @@ namespace Gui {
 		void OnRawMouseMotion(MouseMotionEvent *e);
 		bool m_isPressed, m_isHoriz;
 		sigc::connection _m_release, _m_motion;
+		Graphics::Drawables::Lines m_lines;
 	};
 
 	class VScrollBar: public ScrollBar {

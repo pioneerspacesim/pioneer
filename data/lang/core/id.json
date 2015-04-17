@@ -1,12 +1,4 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
-   },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
-   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Air processors"
@@ -45,7 +37,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal Meat"
+      "message" : "Daging hewan"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
@@ -59,25 +51,13 @@
       "description" : "",
       "message" : "Asteroid"
    },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Atmospheric Shielding"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
-   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatic system selection"
    },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Pilot otomatis"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "An on-board flight computer."
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Autopilot control"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -108,7 +88,7 @@
       "message" : "Axial tilt"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Hanya beberapa ribu"
    },
    "BATTLE_WEAPONS" : {
@@ -120,12 +100,12 @@
       "message" : "Sistem biner"
    },
    "BODIES" : {
-      "description" : "",
-      "message" : "bodies"
+      "description" : "space bodies",
+      "message" : "tubuh"
    },
    "BODY" : {
       "description" : "",
-      "message" : "body"
+      "message" : "tubuh"
    },
    "BROWN_DWARF" : {
       "description" : "",
@@ -169,7 +149,7 @@
    },
    "CAPITALIST" : {
       "description" : "",
-      "message" : "Capitalist"
+      "message" : "Kapitalis"
    },
    "CARBON_ORE" : {
       "description" : "",
@@ -181,27 +161,15 @@
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo"
+      "message" : "Kargo"
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
       "message" : "Sensors report critical cargo bay life-support conditions."
    },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Cargo Bay Life Support"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Allows the transport of live cargo."
-   },
    "CARGO_N" : {
       "description" : "",
       "message" : "Kargo: %{mass}t"
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Cargo Scoop"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -210,10 +178,6 @@
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
       "message" : "Cargo scoop attempted. Not enough room in cargo hold."
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permits scooping cargo pods from space."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -237,7 +201,7 @@
    },
    "COMMA_HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : ", highly volcanic"
+      "message" : ", sangat vulkanik"
    },
    "COMMODITY_NONE" : {
       "description" : "When no commodities exist",
@@ -261,11 +225,11 @@
    },
    "COMPUTERS" : {
       "description" : "",
-      "message" : "Computers"
+      "message" : "Komputer"
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Computer heading control"
+      "message" : "Kontrol arah komputerisasi"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -273,7 +237,7 @@
    },
    "CONSUMER_GOODS" : {
       "description" : "",
-      "message" : "Consumer goods"
+      "message" : "Barang konsumer"
    },
    "CONTROLS" : {
       "description" : "",
@@ -304,7 +268,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Current system"
    },
    "DATE_DUE_N" : {
@@ -317,7 +281,7 @@
    },
    "DECREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Kurangi jangkuan pemindai"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -332,7 +296,7 @@
       "message" : "Tujuan"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Arah \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -371,58 +335,6 @@
       "description" : "",
       "message" : "Draw vertical lines"
    },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 1"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 2"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 3"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 4"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 5"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 6"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 7"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 8"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Hyperdrive kelas 9"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Class 1 Military drive"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Class 2 Military drive"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Class 3 Military drive"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Class 4 Military drive"
-   },
    "EARTH" : {
       "description" : "",
       "message" : "Bumi"
@@ -438,22 +350,6 @@
    "ECCENTRICITY" : {
       "description" : "",
       "message" : "Eccentricity"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Advanced ECM system"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "ECM system"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -473,7 +369,7 @@
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Extensive mining operations."
+      "message" : "Operasi penambangan ekstensif"
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -493,7 +389,7 @@
    },
    "FINE_PAID_N" : {
       "description" : "",
-      "message" : "You have paid the fine of %fine."
+      "message" : "Anda telah membayar denda sebesar %fine"
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
@@ -505,15 +401,11 @@
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Fire missile"
+      "message" : "Tembakan misil"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
       "message" : "following selection"
-   },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Front"
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -523,21 +415,13 @@
       "description" : "",
       "message" : "Bahan bakar"
    },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Fuel Scoop"
-   },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
       "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
    },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permits scooping hydrogen fuel from gas giant planets."
-   },
    "GALACTIC_VIEW" : {
-      "description" : "",
-      "message" : "Galactic view"
+      "description" : "view galactic map",
+      "message" : "Peta galaksi"
    },
    "GALAXY_SECTOR_VIEW" : {
       "description" : "",
@@ -572,7 +456,7 @@
       "message" : "Tipe pemerintahan:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Grain"
    },
    "HAND_WEAPONS" : {
@@ -584,7 +468,7 @@
       "message" : "Entirely Capitalist - no government welfare provision"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
@@ -625,19 +509,11 @@
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
-      "message" : "Highly volcanic"
+      "message" : "Sangat vulkanis"
    },
    "HIGH_POPULATION_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "High population outdoor world."
-   },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "SIstem Perbaikan Otomatis Lambung Kapal"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Automatically repairs the ship's hull in the event of damage."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
@@ -653,15 +529,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Hydrogen is primarily used as a fusion fuel"
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Hypercloud Analyzer"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+      "message" : "Hidrogen digunakan sebagai bahan bakar fusi"
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -669,7 +537,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace arrival cloud"
+      "message" : "Awan kedatangan hyperspace"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
@@ -693,7 +561,7 @@
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing in %countdown{f.0} seconds"
+      "message" : "Lompatan hyperspace dalam %countdown{f.0} detik"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
@@ -701,7 +569,7 @@
    },
    "ICE_WORLD" : {
       "description" : "",
-      "message" : "\" ice world\""
+      "message" : "\" dunia es\""
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -713,11 +581,11 @@
    },
    "IMPERIAL_RULE" : {
       "description" : "",
-      "message" : "Imperial Rule"
+      "message" : "Peraturan Imperial"
    },
    "INCREASE_SCAN_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Tingkatkan jangkauan pemindai"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -725,7 +593,7 @@
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
-      "message" : "Industrial colony."
+      "message" : "Koloni industri."
    },
    "INDUSTRIAL_HUB_SYSTEM" : {
       "description" : "",
@@ -740,19 +608,19 @@
       "message" : "Tampilan internal"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "Dalam perjalanan"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
-      "message" : "In transit to %system [%x,%y,%z]"
+      "message" : "Dalam transit ke %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +628,7 @@
       "message" : "Joystick input"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,28 +644,16 @@
       "message" : "Bahasa Indonesia"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Large"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Large gas giant"
    },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Akselerator plasma besar"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Laser Cooling Booster"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Sistem pendingin yang lebih baik untuk senjata anda."
-   },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
-      "message" : "Laser fire detected."
+      "message" : "Tembakan laser terditeksi."
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -828,12 +684,12 @@
       "message" : "Local arm"
    },
    "LOCKED" : {
-      "description" : "",
-      "message" : "locked"
+      "description" : "to lock a hyperspace target",
+      "message" : "Terkunci"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
-      "message" : "Major Exports:"
+      "message" : "Eksport utama:"
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
@@ -853,7 +709,7 @@
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Manual control mode"
+      "message" : "Mode kontrol manual"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
@@ -941,7 +797,7 @@
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
-      "message" : "Message from %sender:"
+      "message" : "Pesan dari %sender:"
    },
    "META" : {
       "description" : "'Meta' key on keyboard",
@@ -949,7 +805,7 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metal alloys"
+      "message" : "Campuran logam"
    },
    "METAL_ORE" : {
       "description" : "",
@@ -957,23 +813,15 @@
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Military dictatorship"
+      "message" : "Diktatorisme militer"
    },
    "MILITARY_FUEL" : {
       "description" : "",
       "message" : "Bahan bakar militer"
    },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW blast-mining cannon"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Used to blast-mine mineral rich asteroids."
-   },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Mining colony."
+      "message" : "Koloni pertambangan"
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -1002,22 +850,6 @@
    "MISSILE" : {
       "description" : "",
       "message" : "misil"
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Guided Missile"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Naval Missile"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Misil Pintar"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "R40 Unguided Rocket"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1065,7 +897,7 @@
    },
    "MONTH_OCT" : {
       "description" : "",
-      "message" : "Oct"
+      "message" : "Okt"
    },
    "MONTH_SEP" : {
       "description" : "",
@@ -1081,7 +913,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "Pembunuhan"
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
@@ -1097,7 +929,7 @@
    },
    "NARCOTICS" : {
       "description" : "",
-      "message" : "Narcotics"
+      "message" : "Narkotika"
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
@@ -1111,16 +943,12 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "None"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Tidak ditemukan"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1133,7 +961,7 @@
    },
    "NO_CENTRAL_GOVERNANCE" : {
       "description" : "",
-      "message" : "No central governance"
+      "message" : "Tidak ada pemerintah pusat"
    },
    "NO_ESTABLISHED_ORDER" : {
       "description" : "",
@@ -1181,7 +1009,7 @@
    },
    "NUMBER_LY" : {
       "description" : "",
-      "message" : "%distance{f.2} ly"
+      "message" : "%distance{f.2} tahun cahaya"
    },
    "NUMBER_TONNES" : {
       "description" : "",
@@ -1216,7 +1044,7 @@
       "message" : "%mass{f.3} %units masses"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1257,7 +1085,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Occupied Passenger Cabin"
+      "message" : "Kabin penumpang terisi"
    },
    "PAUSED" : {
       "description" : "",
@@ -1281,7 +1109,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "Pembajakan"
    },
    "PITCH" : {
       "description" : "",
@@ -1305,26 +1133,26 @@
    },
    "PLANET_WITH_SOME_ICE" : {
       "description" : "",
-      "message" : "\" planet with some ice\""
+      "message" : "\" planet dengan es\""
    },
    "PLANNED_ECONOMY" : {
       "description" : "",
       "message" : "Centrally planned economy"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normal delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLASTICS" : {
@@ -1355,45 +1183,9 @@
       "description" : "",
       "message" : "Probability of arrival: %probability%%"
    },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MW pulse cannon"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MW pulse cannon"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MW pulse cannon"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MW pulse cannon"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MW pulse cannon"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW dual-fire pulse cannon"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW rapid-fire pulse cannon"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Quadruple system"
-   },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar Mapper"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1402,10 +1194,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Radius"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Rear"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1425,7 +1213,7 @@
    },
    "ROBOTS" : {
       "description" : "",
-      "message" : "Robots"
+      "message" : "Robot"
    },
    "ROCKY_PLANET" : {
       "description" : "",
@@ -1453,7 +1241,7 @@
    },
    "ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate Left"
+      "message" : "Putar ke kiri"
    },
    "ROTATE_RIGHT" : {
       "description" : "",
@@ -1461,7 +1249,7 @@
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate Up"
+      "message" : "Putar ke atas"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
@@ -1477,26 +1265,18 @@
    },
    "RUBBISH" : {
       "description" : "",
-      "message" : "Rubbish"
+      "message" : "Sampah"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius arm"
    },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scanner"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Scanner control"
    },
-   "SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Provides a 3D map of nearby ships."
-   },
    "SCOOP" : {
-      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Scoop"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
@@ -1517,7 +1297,7 @@
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
-      "message" : "Sector coordinates:"
+      "message" : "Koordinat sektor:"
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
@@ -1533,7 +1313,7 @@
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Select a target"
+      "message" : "Pilih target"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1565,23 +1345,7 @@
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.0} m/s"
-   },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Shield Energy Booster"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Increases the rate at which shields recharge."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Generator Perisai"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Memberikan perlindungan lambung kapal tambahan dengan setiap unit yang terpasang."
+      "message" : "Atur kecepatan: %speed[f.0] m/s"
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
@@ -1609,7 +1373,7 @@
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Ship detected nearby."
+      "message" : "Kapal terditeksi di dekat sini."
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1617,11 +1381,11 @@
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Ship mass: %{mass}t"
+      "message" : "Massa kapal: %[mass]ton"
    },
    "SHIP_NEARBY" : {
       "description" : "",
-      "message" : "Ship nearby"
+      "message" : "Kapal dekat sini"
    },
    "SHIP_ORIENTATION" : {
       "description" : "",
@@ -1632,7 +1396,7 @@
       "message" : "Ship velocity by reference object"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Sidereal view"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1655,10 +1419,6 @@
       "description" : "",
       "message" : "Small industrial outpost."
    },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Akselerator plasma kecil"
-   },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
       "message" : "Small-scale prospecting. No registered settlements."
@@ -1676,12 +1436,12 @@
       "message" : "Some established mining."
    },
    "SOURCE" : {
-      "description" : "",
-      "message" : "Origin"
+      "description" : "tell source system of hyperjump entry cloud",
+      "message" : "Asal"
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Speed control mode"
+      "message" : "Mode kontrol kecepatan"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
@@ -1817,7 +1577,7 @@
    },
    "STAR_SYSTEM_INFORMATION" : {
       "description" : "",
-      "message" : "Star system information"
+      "message" : "Sistem informasi bintang"
    },
    "STAR_S_BH" : {
       "description" : "",
@@ -1844,7 +1604,7 @@
       "message" : "Switched heading display to planetary coordinates."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "System"
    },
    "SYSTEM_NUMBER" : {
@@ -1872,12 +1632,12 @@
       "message" : "Target object in cross-hairs"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "tenuous"
    },
    "TEXTILES" : {
       "description" : "",
-      "message" : "Textiles"
+      "message" : "Tekstil"
    },
    "THICK" : {
       "description" : "",
@@ -1933,7 +1693,7 @@
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
-      "message" : "Toggle Lua console"
+      "message" : "Munculkan atau hilangkan konsol LUA"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
@@ -1944,20 +1704,12 @@
       "message" : "Toggle scanner mode"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP OLD BEAN"
-   },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
-   },
-   "TRADE_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "Berdagang barang ilegal"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1965,7 +1717,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Unexplored system. No more data available."
+      "message" : "Sistem belum dieksplorasi. Tidak ada data yang diketahui."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
@@ -1983,14 +1735,6 @@
       "description" : "",
       "message" : "Unlawful weapons discharge"
    },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Kabin Penumpang Tambahan"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Required for transport of a single passenger"
-   },
    "UNSET_NAVTARGET" : {
       "description" : "",
       "message" : "Unset navigation target."
@@ -2005,19 +1749,11 @@
    },
    "VERY_DENSE" : {
       "description" : "",
-      "message" : "very dense"
+      "message" : "Sangat rapat"
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Very large gas giant"
-   },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Menyambungkan..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Video link established"
    },
    "VIEW" : {
       "description" : "",
@@ -2041,7 +1777,7 @@
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Wheels are down"
+      "message" : "Roda diturunkan"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
@@ -2060,7 +1796,7 @@
       "message" : "\" tanpa atmosfer signifikan\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2068,7 +1804,7 @@
       "message" : "%crime tidak bisa ditoleransi disini."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2085,14 +1821,14 @@
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Young farming colony."
+      "message" : "Koloni pertanian muda."
    },
    "YOU_NO_MONEY" : {
       "description" : "",
       "message" : "Anda tidak punya uang."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

@@ -1,12 +1,4 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Расширенный радарный топограф"
-   },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : " Радарный топограф дальнего действия с системой широкой зоны покрытия."
-   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Воздушные процессоры"
@@ -59,25 +51,13 @@
       "description" : "",
       "message" : "Астероид"
    },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Атмосферный щит"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Защищает корабль от перегрева при полёте в атмосфере."
-   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Автоматический выбор системы"
    },
-   "AUTOPILOT" : {
-      "description" : "",
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
       "message" : "Автопилот"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Бортовой компьютер для программируемого автоматического пилотирования."
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -108,7 +88,7 @@
       "message" : "Наклон оси"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Только несколько тысяч"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +100,7 @@
       "message" : "Двойная система"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "объектами"
    },
    "BODY" : {
@@ -187,33 +167,17 @@
       "description" : "",
       "message" : "Датчики сообщают о критических условиях жизнеобеспечения грузового отсека."
    },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Система жизнеобеспечения"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Система необходима для обеспечения и поддержания жизнедеятельности в грузовых отсеках корабля."
-   },
    "CARGO_N" : {
       "description" : "",
       "message" : "Трюм: %{mass}т"
    },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Грузосборник"
-   },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Грузосборник сработал. Поймана 1 тонна %item."
+      "message" : "Грузосборник включён. Собрана 1 т %item."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Неудачная попытка сбора. Не достаточно места в грузовом отсеке."
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Предназначен для сбора грузовых контейнеров в космическом пространстве."
+      "message" : "Неудачная попытка сбора. Недостаточно места в грузовом отсеке."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -304,7 +268,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Текущая система"
    },
    "DATE_DUE_N" : {
@@ -329,10 +293,10 @@
    },
    "DESTINATION" : {
       "description" : "",
-      "message" : "Система назначения"
+      "message" : "Пункт назначения"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Dir \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -371,58 +335,6 @@
       "description" : "",
       "message" : "Вертикальные линии"
    },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Гипердвигатель 1 класса"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Гипердвигатель 2 класса"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Гипердвигатель 3 класса"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Гипердвигатель 4 класса"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Гипердвигатель 5 класса"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Гипердвигатель 6 класса"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Гипердвигатель 7 класса"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Гипердвигатель 8 класса"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Гипердвигатель 9 класса"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Гипердвигатель военный 1 кл."
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Гипердвигатель военный 2 кл."
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Гипердвигатель военный 3 кл."
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Гипердвигатель военный 4 кл."
-   },
    "EARTH" : {
       "description" : "",
       "message" : "земн."
@@ -438,22 +350,6 @@
    "ECCENTRICITY" : {
       "description" : "",
       "message" : "Эксцентриситет"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Продвинутая система ПРО"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Электронная система ПРО способна уничтожить более продвинутые типы самонаводящихся ракет."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "Стандартная система ПРО"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Противоракетная система постановки электронных помех."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -511,10 +407,6 @@
       "description" : "",
       "message" : "выбрать"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Перед"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Фрукты и овощи"
@@ -523,20 +415,12 @@
       "description" : "",
       "message" : "Топливо"
    },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Топливозаборник"
-   },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Топливозаборник работает. Вы собрали %quantity т водорода."
-   },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Предназначен для сбора водородного топлива из атмосферы газовых планет-гигантов."
+      "message" : "Топливозаборник включён. Вы собрали %quantity т водорода."
    },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Карта галактики"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -545,7 +429,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Эта запись не может быть загружена из-за проблем с правами доступа или по другой причине..."
+      "message" : "Это сохранение не может быть загружено из-за проблем с правами доступа или по другой причине..."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -572,7 +456,7 @@
       "message" : "Политический строй:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Зерно"
    },
    "HAND_WEAPONS" : {
@@ -581,39 +465,39 @@
    },
    "HARD_CAPITALIST" : {
       "description" : "",
-      "message" : "Ультракапитализм - отсутствие государственности."
+      "message" : "Ультракапитализм - отсутствие соцгарантий."
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
+      "message" : "Направление антинормаль"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Hold retrograde"
+      "message" : "Обратное направление"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Hold prograde"
+      "message" : "Прямое направление"
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Стоп вращение"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Hold normal"
+      "message" : "Направление нормаль"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
+      "message" : "Радиальное напр. к телу"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
+      "message" : "Радиальное напр. от тела"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -631,14 +515,6 @@
       "description" : "",
       "message" : "Сильно заселённый открытый мир."
    },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Система авторемонта корпуса"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Система предназначена для обеспечения автоматического ремонта корабля во время полета."
-   },
    "HULL_INTEGRITY" : {
       "description" : "",
       "message" : "Корпус"
@@ -655,14 +531,6 @@
       "description" : "",
       "message" : "Водород прежде всего используется в качестве термоядерного топлива"
    },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Анализатор гипероблаков"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Сканирует прыжковые гипероблака и определяет пункт назначения и время отправления\\прибытия прыгнувшего корабля."
-   },
    "HYPERSPACE" : {
       "description" : "",
       "message" : "Гиперпространство"
@@ -673,11 +541,11 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Сканирование гипероблака"
+      "message" : "Остаток облака гипервыхода"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Гипероблако выхода"
+      "message" : "Облако гипервыхода"
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
@@ -740,7 +608,7 @@
       "message" : "Обзор"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale СвЛ"
    },
    "IN_TRANSIT" : {
@@ -752,7 +620,7 @@
       "message" : "Прыжок в систему %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +628,7 @@
       "message" : "Настройки джойстика:"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Ось"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,24 +644,12 @@
       "message" : "Русский"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Большая"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Большой газовый гигант"
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Большой плазмомёт"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Доп.орудийный охладитель"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Система обеспечивает повышенный уровень охлаждения лазерных орудий."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -828,7 +684,7 @@
       "message" : "Рукав Ориона"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "закрыто"
    },
    "MAJOR_EXPORTS" : {
@@ -963,14 +819,6 @@
       "description" : "",
       "message" : "Военное топливо"
    },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW технологическое орудие"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Используется для добычи минералов из астероидов."
-   },
    "MINING_COLONY" : {
       "description" : "",
       "message" : "Шахтёрская колония."
@@ -1002,22 +850,6 @@
    "MISSILE" : {
       "description" : "",
       "message" : "ракета"
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Управляемая ракета"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Военная ракета"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Самонаводящаяся ракета"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "Неуправляемая ракета R40"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1073,11 +905,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Универсальный "
+      "message" : "Мультисборник"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Позволяет собирать как топливо, так и груз, но с меньшей эффективностью"
    },
    "MURDER" : {
       "description" : "",
@@ -1105,22 +937,18 @@
    },
    "NAVIGATION_TARGETS_IN_THIS_SYSTEM" : {
       "description" : "",
-      "message" : "Цель системы навигации"
+      "message" : "Цели навигации в системе"
    },
    "NERVE_GAS" : {
       "description" : "",
       "message" : "Парализующий газ"
-   },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "<отсутствует>"
    },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Рукав Лебедя"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Не обнаружено"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1216,7 +1044,7 @@
       "message" : "%mass{f.3} %units массы"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units радиуса (%radkm{f.0} км)"
    },
    "N_YEARS" : {
@@ -1312,19 +1140,19 @@
       "message" : "Централизованная плановая экономика"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "description" : "For system orbit view",
+      "message" : "Скорость изменения величины Дельта-V. Нажмите на кнопку, чтобы вернуть скорость по умолчанию."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normal delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLASTICS" : {
@@ -1355,45 +1183,9 @@
       "description" : "",
       "message" : "Пройдено: %probability%%"
    },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "10MW импульсное орудие"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "1MW импульсное орудие"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "20MW импульсное орудие"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "2MW импульсное орудие"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "4MW импульсное орудие"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW сдвоенное имп.орудие"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "2MW скоростное имп.орудие"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Четверная система"
-   },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Радарный топограф"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Используется для дистанционного сканирования чужих кораблей - собирает информацию о грузе, оборудовании и общем состоянии. Также используется для получения информации о других объектах."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1402,10 +1194,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Радиус"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Зад"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1417,7 +1205,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Расстояние по умолчанию"
+      "message" : "Сброс"
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
@@ -1437,7 +1225,7 @@
    },
    "ROLL" : {
       "description" : "",
-      "message" : "Управление креном"
+      "message" : "Вращение"
    },
    "ROLL_LEFT" : {
       "description" : "",
@@ -1483,21 +1271,13 @@
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Рукав Стрельца"
    },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Сканер"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Управление сканером:"
    },
-   "SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Формирует на дисплее объемную схему расположения значимых объектов в околокорабельном пространстве."
-   },
    "SCOOP" : {
-      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
-      "message" : "Scoop"
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
+      "message" : "Сборник"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1533,7 +1313,7 @@
    },
    "SELECT_A_TARGET" : {
       "description" : "",
-      "message" : "Установите маркер на цель"
+      "message" : "Выберите цель"
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
@@ -1557,31 +1337,15 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Установка навигационной цели:"
+      "message" : "Выбрана цель для навигации:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Скорость: %speed{f.2} км/с"
+      "message" : "Скор.: %speed{f.2} км/с"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Скорость: %speed{f.0} м/с"
-   },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Энергоблок для щитов"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Энергоблок сокращает время, необходимое на перезарядку щитов. Полезен на крупных кораблях с мощными системами поддержания силового поля."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Генератор защитного поля"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Генераторы создают силовое поле, обеспечивающее дополнительную защиту кораблю. Можно установить один или более."
+      "message" : "Скор.: %speed{f.0} м/с"
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
@@ -1601,7 +1365,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Переключение между режимами отображения корабля."
+      "message" : "Переключение между режимами отображения кораблей."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1632,7 +1396,7 @@
       "message" : "Скорость относительно выбранной цели"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Вид со стороны"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1653,11 +1417,7 @@
    },
    "SMALL_INDUSTRIAL_OUTPOST" : {
       "description" : "",
-      "message" : "Малое промышленное представительство."
-   },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Малый плазмомёт"
+      "message" : "Малый промышленный аванпост."
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
@@ -1676,7 +1436,7 @@
       "message" : "Шахтёрское поселение."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Система выбытия"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1733,7 +1493,7 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Белая звезда спектрального класса \"F\""
+      "message" : "Белая звезда класса \"F\""
    },
    "STAR_G" : {
       "description" : "",
@@ -1844,7 +1604,7 @@
       "message" : "Switched heading display to planetary coordinates."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "Система"
    },
    "SYSTEM_NUMBER" : {
@@ -1872,7 +1632,7 @@
       "message" : "Захват объекта маркером"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "разрежённой"
    },
    "TEXTILES" : {
@@ -1929,7 +1689,7 @@
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
-      "message" : "Переключение в режим HUD"
+      "message" : "Переключение режима ИЛС"
    },
    "TOGGLE_LUA_CONSOLE" : {
       "description" : "",
@@ -1944,16 +1704,8 @@
       "message" : "Изменить режим сканера"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "ПОКОЙСЯ С МИРОМ, СТАРИНА"
-   },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Анализатор торговли"
-   },
-   "TRADE_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1965,7 +1717,7 @@
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Неизведанная система. Данные отсутствуют."
+      "message" : "Неисследованная система. Данные отсутствуют."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
@@ -1983,17 +1735,9 @@
       "description" : "",
       "message" : "Стрельба в зоне станции"
    },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Пассажирская каюта"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Для перевозки каждого дополнительного пассажира требуется отдельная каюта."
-   },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Сброс навигационной цели."
+      "message" : "Цель навигации отменена."
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -2010,14 +1754,6 @@
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Огромный газовый гигант"
-   },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "Соединение..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Видеосвязь установлена"
    },
    "VIEW" : {
       "description" : "",
@@ -2060,7 +1796,7 @@
       "message" : "\" с разрежённой атмосферой\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2068,7 +1804,7 @@
       "message" : "%crime - вы объявлены в розыск!"
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2092,7 +1828,7 @@
       "message" : "На вашем счёте нет денег."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

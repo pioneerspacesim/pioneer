@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Hipersürücüye bakım yap"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Yeteri kadar param yok."

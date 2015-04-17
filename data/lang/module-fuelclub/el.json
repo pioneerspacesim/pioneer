@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Επιστροφή"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Αποσύνδεση"
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, free disposal (conditions apply)"

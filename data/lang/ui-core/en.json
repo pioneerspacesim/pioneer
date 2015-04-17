@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "An error has occurred"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Atmospheric shielding"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Attempt to repair hull"
@@ -56,15 +60,15 @@
       "message" : "Buy"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Cabins"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} free"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} used"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "Cancel"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Capacity"
    },
    "CAPACITY_USED" : {
@@ -92,11 +96,11 @@
       "message" : "Cargo space used"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t free"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t used"
    },
    "CASH" : {
@@ -108,7 +112,7 @@
       "message" : "Cash: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Change Binding"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +124,15 @@
       "message" : "Circular orbit speed"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "City detail level"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Clean"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Clear"
    },
    "CLIENT" : {
@@ -136,7 +140,7 @@
       "message" : "Client"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Combat"
    },
    "COMMANDER" : {
@@ -148,7 +152,7 @@
       "message" : "Commodity Market"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Competent"
    },
    "COMPLETED" : {
@@ -156,7 +160,7 @@
       "message" : "Completed"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Compress Textures"
    },
    "CONSTABLE" : {
@@ -196,11 +200,11 @@
       "message" : "Criminal record"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Dangerous"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Deadly"
    },
    "DELTA_V" : {
@@ -228,7 +232,7 @@
       "message" : "Destroy enemy ship"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Dismiss"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -236,11 +240,11 @@
       "message" : "Display HUD trails"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "Display nav tunnels"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Display speed lines"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -248,7 +252,7 @@
       "message" : "Dock at current target"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Due"
    },
    "D_DAYS_LEFT" : {
@@ -264,7 +268,7 @@
       "message" : "Effects:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "ELITE"
    },
    "EMPLOYMENT" : {
@@ -272,7 +276,7 @@
       "message" : "Employment"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Enable cockpit (EXPERIMENTAL)"
    },
    "ENABLE_JOYSTICK" : {
@@ -280,7 +284,7 @@
       "message" : "Enable joystick"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Engineering:"
    },
    "EQUIPMENT" : {
@@ -316,7 +320,7 @@
       "message" : "Expert"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Failed"
    },
    "FEMALE" : {
@@ -380,7 +384,7 @@
       "message" : "Hang up."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Harmless"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -408,7 +412,7 @@
       "message" : "Heavy passenger transport"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "High"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -460,7 +464,7 @@
       "message" : "Invert Mouse Y"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "Compact scanner"
    },
    "IN_CARGO_HOLD" : {
@@ -560,7 +564,7 @@
       "message" : "Low"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "ly"
    },
    "MAKE_NEW_FACE" : {
@@ -592,7 +596,7 @@
       "message" : "Maximum crew"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Medium"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -756,7 +760,7 @@
       "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Owed"
    },
    "PAY_FINE_OF_N" : {
@@ -792,11 +796,11 @@
       "message" : "Police"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Poor"
    },
    "POSITION" : {
-      "description" : "",
+      "description" : "The job title/position of crew memeber",
       "message" : "Position"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
@@ -879,6 +883,10 @@
       "description" : "",
       "message" : "Save"
    },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Scoop mounts"
+   },
    "SELECT" : {
       "description" : "",
       "message" : "Select"
@@ -948,7 +956,7 @@
       "message" : "Start at Earth"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Start at New Hope"
    },
    "STATION_MANAGER" : {
@@ -972,7 +980,7 @@
       "message" : "The ship is under station control, Commander."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Toggle male/female"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1024,11 @@
       "message" : "Used"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Very high"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Very low"
    },
    "VIDEO" : {
@@ -1036,7 +1044,7 @@
       "message" : "Video resolution"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Wage"
    },
    "WEIGHT_EMPTY" : {
@@ -1052,7 +1060,7 @@
       "message" : "We are in hyperspace, Commander."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
+      "description" : "Said by the police to law abiding player",
       "message" : "We have no business with you at the moment."
    },
    "YES" : {

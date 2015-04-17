@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "j'ai recu avec joie le message concernant la fin de carrière de  {target}. Voici vos {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Raccrochez."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Quand cela doit-il être fait ?"

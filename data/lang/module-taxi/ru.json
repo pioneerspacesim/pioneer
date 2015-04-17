@@ -1,15 +1,15 @@
 {
    "CORPORATIONS_0" : {
       "description" : "",
-      "message" : "Sirius"
+      "message" : "Сириус"
    },
    "CORPORATIONS_1" : {
       "description" : "",
-      "message" : "ACME"
+      "message" : "Вектор"
    },
    "CORPORATIONS_10" : {
       "description" : "",
-      "message" : "Bulk Ships"
+      "message" : "Корабли оптом"
    },
    "CORPORATIONS_11" : {
       "description" : "",
@@ -21,31 +21,31 @@
    },
    "CORPORATIONS_3" : {
       "description" : "",
-      "message" : "Taranis"
+      "message" : "Таранис"
    },
    "CORPORATIONS_4" : {
       "description" : "",
-      "message" : "Aquarian Shipbuilding"
+      "message" : "Водные верфи"
    },
    "CORPORATIONS_5" : {
       "description" : "",
-      "message" : "Rockforth"
+      "message" : "Рокфорт"
    },
    "CORPORATIONS_6" : {
       "description" : "",
-      "message" : "Amaliel"
+      "message" : "Амалиэль"
    },
    "CORPORATIONS_7" : {
       "description" : "",
-      "message" : "Marett Space"
+      "message" : "Маретт-космос"
    },
    "CORPORATIONS_8" : {
       "description" : "",
-      "message" : "Vega Line"
+      "message" : "Линия Вега"
    },
    "CORPORATIONS_9" : {
       "description" : "",
-      "message" : "Digital"
+      "message" : "Цифровая"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "По-моему вы просто неудачник! Я не собираюсь платить вам!"
+      "message" : "Да Вы некомпетентны! Я не собираюсь платить Вам!"
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "Из-за вашей некомпетентности я потерял работу. Таким образом, в деньгах я нуждаюсь больше вас."
+      "message" : "Из-за Вашей некомпетентности я потерял работу. В деньгах я нуждаюсь больше Вас."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
-      "message" : "Добрый день. Я {name}.\n Необходим скоростной корабль для полёта в систему {system} ({sectorx}, {sectory}, {sectorz})\n Расстояние {dist} св.л., за работу предлагаю {cash}."
+      "message" : "Меня зовут {name}. Мне нужен скоростной корабль для полёта в систему {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л., за работу предлагаю {cash}."
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Добрый день! Меня зовут {name}.\n Наша группа ищет перевозчика, чтобы попасть в систему {system} ({sectorx}, {sectory}, {sectorz})\n Расстояние {dist} св.л., заплатим {cash}."
+      "message" : "Добрый день! Меня зовут {name}. Наша группа ищет перевозчика, чтобы попасть в систему {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л., заплатим {cash}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "ИЩЕМ ТРАНСПОРТ: перелет маленькой группы в систему {system}. Заплатим {cash}."
+      "message" : "ИЩЕМ ТРАНСПОРТ: для перелёта маленькой группы в систему {system}. Заплатим {cash}."
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Было приятно лететь с вами! Деньги уже перечислены."
+      "message" : "Было приятно лететь с Вами! Деньги уже перечислены."
    },
    "FLAVOUR_2_WHEREAREWE" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Сожалею, но мы слишком долго летали. Я не готов заплатить вам. Прощайте."
+      "message" : "Полёт занял целую вечность! Я не буду платить Вам. Прощайте."
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
@@ -513,7 +513,7 @@
    },
    "FLAVOUR_9_WHYSOMUCH" : {
       "description" : "",
-      "message" : "Полиция хочет взять у меня интервью."
+      "message" : "Полиция хочет пообщаться со мной."
    },
    "FROM" : {
       "description" : "",
@@ -522,10 +522,6 @@
    "GROUP_DETAILS" : {
       "description" : "",
       "message" : "О группе:"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",

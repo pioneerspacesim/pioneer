@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Klicke {ja}, um hier raus und zurück  zu deinen langweiligen Programmen zu kommen."
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Bitte drücke {nein}, um noch ein paar produktive Stunden zu verschwenden. Bitte?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Entdecker geben nicht auf, aber geh ruhig und klicke {ja}, wenn du keiner bist."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Wähle {nein}, wenn du ein zäher Kopfgeldjäger bist, wenn nicht, dann klicke sanft {ja}."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Wir reden nie mehr. Siehst du irgendjemand sonst hier?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Hast  du wirklich etwas besseres zu tun?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Du gibst schon auf?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Just what do you think you're doing, Dave?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "Aufhören ist für Schwächlinge!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Geh jetzt nicht, ein Pirat wartet im anderen Programm auf dich."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "Willst du wirklich dieses großartige Spiel verlassen, das dich nichts kostet?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Will er entfliehen mit solch hastigem Schritt?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Wähle {nein} für Waffen und Ehre, {ja} für Arbeit und Sorgen."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Klicke mutig {nein} oder klicke {ja} um dich in Schande zu ducken."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "An deiner Stelle würde ich nicht aufhören. Die Commandline ist viel schlimmer."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Ich bin mir sicher, dass du {nein} klickst und weiterspielst. Du tust es."
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "{ja} zu drücken bedeutet deine Rückkehr in die eintönige Arbeitswelt."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Nein"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Beenden?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Ja"
+   }
+}

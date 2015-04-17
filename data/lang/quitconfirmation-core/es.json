@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "¿Decir {yes} para salir de aquí y regresar a tus aburridos programas?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Por favor elige {no} para perder unas pocas horas productivas más. ¿Si?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Los exploradores no abandonan, pero da un paso adelante y pulsa {yes} si no lo eres."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Elige {no} si eres un duro cazarrecompensas, en caso contrario, pulsa {yes} delicadamente."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Ya no hablamos. ¿Te estas viendo con alguien?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "¿De verdad tienes algo mejor que hacer?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "¿Ya te rindes?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "¿Qué piensas que estas haciendo, Dave?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "¡Abandonar es de DÉBILES!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "No te vayas ahora, te espera un pirata en el otro programa."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "¿Estas seguro que quieres salir de este gran juego que no te cuesta nada?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "¿Desea usted partir de forma tan rauda?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Elige {no} para tiros y gloria, {yes} para trabajo y preocupaciones."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Pulsa {no} para ser valiente, pulsa {yes} por cobardía y vergüenza."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "Si fuera tu no me iría. La linea de comandos es mucho peor."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Estoy pensando que quieres pulsar {no} para jugar más. hazlo."
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "Pulsar {yes} significa que tienes que volver a tu rutinario mundo de trabajo diario."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "No"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "¿Salir?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Si"
+   }
+}

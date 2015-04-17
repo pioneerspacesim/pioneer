@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Powiesz {yes} to wydostaniesz się stąd i wrócisz do swoich nudnych programów?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Proszę wybrać {no} aby zmarnować więcej produktywnych godzin. To jak robimy?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Odkrywcy nie odchodzą, ale śmiało kliknij {yes} jeśli takim nie jesteś."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Wybierz {no}, jeśli jesteś twardym łowcą nagród. Jeśli nie, to kliknij z gracją {tak}."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Już nigdy nie będziemy rozmawiać. Czy znajdzie się tu ktoś inny?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Naprawdę masz coś lepszego do roboty?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Gotów by się poddać?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Tylko czy aby na pewno wiesz co robisz, Dawidku?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "Wyjście jest dla mięczaków!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Nie odchodź teraz. W innych programach czeka na Ciebie pirat."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "Czy na pewno chcesz wyjść z tej wspaniałej gry, która Cię nic nie kosztowała?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Czy decydujesz się tak pochopnie odejść?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Wybierz {no} dla broni i chwały, {yes} dla pracy i zmartwień."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Kliknij {no} okazując odwagę, kliknij {yes} kuląc się ze wstydu."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "Gdybym był tobą to bym nie odchodził. Wiersz polecenia jest znacznie gorszy."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Wydaje mi się że klikniesz {no} aby pograć dłużej. Dasz radę."
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "Kliknięcie {yes} oznacza że musisz powrócić do szarej codzienności świata."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Nie"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Wyjście?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Tak"
+   }
+}

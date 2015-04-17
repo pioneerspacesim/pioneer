@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
@@ -51,15 +51,15 @@ void Player::SetShipType(const ShipType::Id &shipId) {
 	InitCockpit();
 }
 
-void Player::Save(Serializer::Writer &wr, Space *space)
+void Player::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Ship::Save(wr, space);
+	Ship::SaveToJson(jsonObj, space);
 }
 
-void Player::Load(Serializer::Reader &rd, Space *space)
+void Player::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	Pi::player = this;
-	Ship::Load(rd, space);
+	Ship::LoadFromJson(jsonObj, space);
 	InitCockpit();
 	registerEquipChangeListener(this);
 }

@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Revise el motor de hiperimpulso"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "No dispone de dinero suficiente"

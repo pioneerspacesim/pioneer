@@ -1,12 +1,4 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
-   },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
-   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Processadores de ar"
@@ -59,25 +51,13 @@
       "description" : "",
       "message" : "Asteróide"
    },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Escudo Atmosférico"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Protege a nave do calor da reentrada atmosférica."
-   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Automatic system selection"
    },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Piloto autom."
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Computador de voo de bordo."
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Autopilot control"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -108,7 +88,7 @@
       "message" : "Inclinação de axial"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Apenas alguns milhares"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +100,7 @@
       "message" : "Sistema binário"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "corpos"
    },
    "BODY" : {
@@ -187,21 +167,9 @@
       "description" : "",
       "message" : "Sensors report critical cargo bay life-support conditions."
    },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Suporte de Vida da Baía de Mercadoria"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permite o transporte de mercadoria viva."
-   },
    "CARGO_N" : {
       "description" : "",
       "message" : "Mercadoria: %{mass}t"
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Escavador de Mercadoria"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -210,10 +178,6 @@
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
       "message" : "Cargo scoop attempted. Not enough room in cargo hold."
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permite escavar contentores de mercadoria do espaço."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -304,7 +268,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "Sistema atual"
    },
    "DATE_DUE_N" : {
@@ -332,7 +296,7 @@
       "message" : "Destino"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\" Dir \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -371,58 +335,6 @@
       "description" : "",
       "message" : "Desenhar linhas verticais"
    },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 1"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 2"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 3"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 4"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 5"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 6"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 7"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 8"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Hiperdrive de classe 9"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Drive Militar de classe 1"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Drive Militar de classe 2"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Drive Militar de classe 3"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Class 4 Military drive"
-   },
    "EARTH" : {
       "description" : "",
       "message" : "Terra"
@@ -438,22 +350,6 @@
    "ECCENTRICITY" : {
       "description" : "",
       "message" : "Excentricidade"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Sistema ECM avançado"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir os mais avançados tipos de mísseis teleguiados."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "Sistema ECM"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Um sistema de contra-medida electrónica de defesa míssil, capaz de destruir mísseis teleguiados."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -511,10 +407,6 @@
       "description" : "",
       "message" : "seguir selecção"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Frente"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Frutas e Vegetais"
@@ -523,20 +415,12 @@
       "description" : "",
       "message" : "Combustível"
    },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Escavador de Combustível"
-   },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
       "message" : "Escavação de combustível ativo. Tem agora %quantity toneladas de hidrogénio."
    },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permite escavar combustível de hidrogénio a partir de planetas gigantes gasosos."
-   },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Vista galática"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +456,7 @@
       "message" : "Tipo de governo:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Grão"
    },
    "HAND_WEAPONS" : {
@@ -584,7 +468,7 @@
       "message" : "Completamente Capitalista - não há segurança social do estado"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
@@ -631,14 +515,6 @@
       "description" : "",
       "message" : "High population outdoor world."
    },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Sistema de reparação automática do casco"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Repara automaticamente o casco da nave em caso de dano."
-   },
    "HULL_INTEGRITY" : {
       "description" : "",
       "message" : "Integri. do casco"
@@ -654,14 +530,6 @@
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
       "message" : "O hidrogénio é usado principalmente como combustível de fusão"
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Analisador da Hipernuvem"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -740,7 +608,7 @@
       "message" : "Vista interna"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale al"
    },
    "IN_TRANSIT" : {
@@ -752,7 +620,7 @@
       "message" : "A caminho de %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "diversão"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +628,7 @@
       "message" : "Joystick input"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,24 +644,12 @@
       "message" : "Português"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Grande"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Gigante de gás grande"
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Acelerador de plasma grande"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Impulsionador de Refrigeração de Laser"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Sistema de arrefecimento melhorado para as suas armas."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -828,7 +684,7 @@
       "message" : "Local arm"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "bloqueado"
    },
    "MAJOR_EXPORTS" : {
@@ -963,14 +819,6 @@
       "description" : "",
       "message" : "Combustível militar"
    },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "Canhão de mineração de 17MW"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Usado para explodir asteróides ricos em minerais."
-   },
    "MINING_COLONY" : {
       "description" : "",
       "message" : "Colónia de mineração."
@@ -1002,22 +850,6 @@
    "MISSILE" : {
       "description" : "",
       "message" : "míssil"
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Míssil Guiado"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Míssil Naval"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Míssil Inteligente"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "Roquete não guiado R40"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1111,16 +943,12 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Nada"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Não encontrado"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1216,7 +1044,7 @@
       "message" : "%mass{f.3} %units massas"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1312,19 +1140,19 @@
       "message" : "Centrally planned economy"
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normal delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLASTICS" : {
@@ -1355,45 +1183,9 @@
       "description" : "",
       "message" : "Probabilidade de chegada: %probability%%"
    },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "Canhão de impulso de 10MW"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "Canhão de impulso de 1MW"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "Canhão de impulso de 20MW"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "Canhão de impulso de 2MW"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "Canhão de impulso de 4MW"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "1MW dual-fire pulse cannon"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "Canhão de impulso de disparo rápido de 2MW"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Sistema quadruplo"
-   },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Mapeador de Radar"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Usado para inspeccionar equipamento, mercadoria e estado de outras naves remotamente."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1402,10 +1194,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Raio"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Traseira"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1483,20 +1271,12 @@
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius arm"
    },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Escaneador"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Scanner control"
    },
-   "SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Fornece um mapa 3D das naves na vizinhança"
-   },
    "SCOOP" : {
-      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Scoop"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
@@ -1567,22 +1347,6 @@
       "description" : "",
       "message" : "Velocidade definida: %speed{f.0} m/s"
    },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Impulsionador de Energia do Escudo"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Aumentar a velocidade de recarga dos escudos"
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Gerador do Escudo"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Providencia defesas adicionais do casco por cada unidade instalada."
-   },
    "SHIELD_INTEGRITY" : {
       "description" : "",
       "message" : "Integridade do escudo"
@@ -1632,7 +1396,7 @@
       "message" : "Velocidade da nave por referência ao objecto"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Vista sideral"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1655,10 +1419,6 @@
       "description" : "",
       "message" : "Pequeno posto avançado industrial."
    },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Acelerador de plasma pequeno"
-   },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
       "message" : "Small-scale prospecting. No registered settlements."
@@ -1676,7 +1436,7 @@
       "message" : "Alguma mineração estabelecida."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Origem"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1844,7 +1604,7 @@
       "message" : "Switched heading display to planetary coordinates."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "Sistema"
    },
    "SYSTEM_NUMBER" : {
@@ -1872,7 +1632,7 @@
       "message" : "Target object in cross-hairs"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "ténue"
    },
    "TEXTILES" : {
@@ -1944,16 +1704,8 @@
       "message" : "Toggle scanner mode"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP OLD BEAN"
-   },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
-   },
-   "TRADE_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1983,14 +1735,6 @@
       "description" : "",
       "message" : "Descarga de armas ilegal"
    },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Cabine de Passageiro Extra"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Required for transport of a single passenger"
-   },
    "UNSET_NAVTARGET" : {
       "description" : "",
       "message" : "Unset navigation target."
@@ -2010,14 +1754,6 @@
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Gigante de gás muito grande"
-   },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "A estabelecer ligação..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Ligação de vídeo estabelecida"
    },
    "VIEW" : {
       "description" : "",
@@ -2060,7 +1796,7 @@
       "message" : "\" sem atmosfera significativa\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2068,7 +1804,7 @@
       "message" : "Aqui não é tolerado o %crime."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2092,7 +1828,7 @@
       "message" : "Não tem dinheiro suficiente."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

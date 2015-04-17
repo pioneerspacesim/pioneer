@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_TEXTENTRY_H
@@ -6,6 +6,7 @@
 
 #include "Container.h"
 #include "Label.h"
+#include "graphics/Drawables.h"
 
 namespace UI {
 
@@ -36,6 +37,7 @@ private:
 
 	Uint32 m_cursor;
 	vector3f m_cursorVertices[2];
+	Graphics::Drawables::Lines m_lines;
 };
 
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -35,6 +35,7 @@ void ToolTip::CalcSize()
 	m_layout->MeasureSize(400.0, size);
 	size[0] += 2*TOOLTIP_PADDING;
 	SetSize(size[0], size[1]);
+	m_layout->Update(size[0]);
 }
 
 void ToolTip::SetText(const char *text)
@@ -57,11 +58,10 @@ void ToolTip::Draw()
 		return;
 
 	float size[2];
-	int age = SDL_GetTicks() - m_createdTime;
-	float alpha = std::min(age / FADE_TIME_MS, 0.75f);
+	const int age = SDL_GetTicks() - m_createdTime;
+	const float alpha = std::min(age / FADE_TIME_MS, 0.75f);
 
 	Graphics::Renderer *r = Gui::Screen::GetRenderer();
-	r->SetRenderState(Gui::Screen::alphaBlendState);
 
 	GetSize(size);
 	const Color color(Color4f(0.2f, 0.2f, 0.6f, alpha));
@@ -74,7 +74,8 @@ void ToolTip::Draw()
 		vector3f(0, 0, 0)
 	};
 	const Color outlineColor(Color4f(0,0,.8f,alpha));
-	r->DrawLines(4, &outlineVts[0], outlineColor, Screen::alphaBlendState, Graphics::LINE_LOOP);
+	m_outlines.SetData(2, &outlineVts[0], outlineColor);
+	m_outlines.Draw(r, Screen::alphaBlendState, Graphics::LINE_LOOP);
 
 	Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 

@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Si è verificato un errore"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Scudi atmosferici"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Tenta di riparare lo scavo"
@@ -56,15 +60,15 @@
       "message" : "Compra Astronave"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Alloggi"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} liberi"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} occupati"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "Annulla"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Capacità"
    },
    "CAPACITY_USED" : {
@@ -92,11 +96,11 @@
       "message" : "Capacità di carico usata"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t disponibili"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t occupate"
    },
    "CASH" : {
@@ -108,7 +112,7 @@
       "message" : "Denaro: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Cambia associazioni"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +124,15 @@
       "message" : "Velocità orbita circolare"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "Livello dettaglio città"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Pulito"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Pulisci"
    },
    "CLIENT" : {
@@ -136,7 +140,7 @@
       "message" : "Cliente"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Combattimento"
    },
    "COMMANDER" : {
@@ -148,11 +152,11 @@
       "message" : "Mercato dei beni di scambio"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "Scanner compatto"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Competente"
    },
    "COMPLETED" : {
@@ -160,7 +164,7 @@
       "message" : "Completato"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Compressione Texture"
    },
    "CONSTABLE" : {
@@ -200,11 +204,11 @@
       "message" : "Fedina penale"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Pericoloso"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Letale"
    },
    "DELTA_V" : {
@@ -232,7 +236,7 @@
       "message" : "Distruggi l'astronave nemica"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Licenzia"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -240,11 +244,11 @@
       "message" : "Mostra scie nel HUD"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "Mostra tunnel di navigazione"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Mostra effetti di velocità"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -252,7 +256,7 @@
       "message" : "Attracca alla destinazione selezionata"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Scadenza"
    },
    "D_DAYS_LEFT" : {
@@ -268,7 +272,7 @@
       "message" : "Effetti:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "ELITE"
    },
    "EMPLOYMENT" : {
@@ -276,7 +280,7 @@
       "message" : "Impiego"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Abilita abitacolo (SPERIMENTALE)"
    },
    "ENABLE_JOYSTICK" : {
@@ -284,7 +288,7 @@
       "message" : "Abilita Joystick"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Ingegneria:"
    },
    "EQUIPMENT" : {
@@ -320,7 +324,7 @@
       "message" : "Esperto"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Fallito"
    },
    "FEMALE" : {
@@ -384,7 +388,7 @@
       "message" : "Riaggancia."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Innocuo"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -412,7 +416,7 @@
       "message" : "Trasporto passeggeri pesante"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "Alto"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -560,7 +564,7 @@
       "message" : "Basso"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "AL"
    },
    "MAKE_NEW_FACE" : {
@@ -592,7 +596,7 @@
       "message" : "Equipaggio massimo"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Medio"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -756,7 +760,7 @@
       "message" : "La velocità di orbita circolare è data come velocità tangenziale. L'astronave deve muoversi in una direzione di 90° rispetto all'asse astronave/{name}.\n\nLa velocità di discesa è un minimo assoluto, ed è anch'essa tangenziale. Una velocità od un angolo inferiori porteranno ad una traiettoria che interseca con la superficie di {name}.\n\nLa velocità di fuga si applica teoricamente ad ogni direzione, fintanto che l'astronave non entra in rotta di collisione con {name}."
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Dovuto"
    },
    "PAY_FINE_OF_N" : {
@@ -792,7 +796,7 @@
       "message" : "Polizia"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Scarso"
    },
    "POSITION" : {
@@ -879,6 +883,10 @@
       "description" : "",
       "message" : "Salva"
    },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Supporti per raccoglitori"
+   },
    "SELECT" : {
       "description" : "",
       "message" : "Seleziona"
@@ -948,7 +956,7 @@
       "message" : "Parti dalla Terra"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Parti da New Hope"
    },
    "STATION_MANAGER" : {
@@ -972,7 +980,7 @@
       "message" : "La sua astronave è sotto il controllo della stazione, Comandante."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Cambia maschio/femmina"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1024,11 @@
       "message" : "Utilizzato"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Molto alto"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Molto basso"
    },
    "VIDEO" : {
@@ -1036,7 +1044,7 @@
       "message" : "Risoluzione video"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Stipendio"
    },
    "WEIGHT_EMPTY" : {

@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Verbesserter Radarscanner"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Langstrecken-Radarscanner mit systemweiter Abdeckung"
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmosphären-Hitzeschild"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Schützt Ihr Schiff vor der Hitze beim Wiedereintritt in die Atmosphäre."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ein on-board-Flugcomputer."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Frachtraum-Lebenserhaltung"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ermöglicht den Transport von lebender Fracht."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Frachtschaufel"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Erlaubt es, abgeworfene Fracht im Weltraum aufzusammeln"
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Klasse-1-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Klasse-2-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Klasse-3-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Klasse-4-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Klasse-5-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Klasse-6-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Klasse-7-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Klasse-8-Sprungtriebwerk"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Klasse-9-Sprungtriebwerk"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Klasse-1-Militär-Hyperraumantrieb"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Klasse-2-Militär-Hyperraumantrieb"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Klasse-3-Militär-Hyperraumantrieb"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Klasse-4-Militär-Hyperraumantrieb"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Erweitertes EGM-System"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Raketen zerstören."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "EGM-System"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann gelenkte Raketen zerstören."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Treibstoffschaufel"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Erlaubt es, Wasserstofftreibstoff von Gasriesen zu sammeln."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Rumpf-Auto-Reparatur"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Repariert den Schiffsrumpf bei Beschädigungen automatisch."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hyperraumwolkenanalysator"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analysiert Hyperraumwolken, um den Zeitpunkt der Ankunft oder des Abfluges zu bestimmen."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Großer Plasmawerfer"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Laserkühlungsbooster"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ein verbessertes Waffenkühlsystem."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW-Bergbaulaser"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Dient zum Abbau mineralienreicher Asteroiden."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Lenkrakete"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Marinerakete"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Intelligente Rakete"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "Ungelenkte R40-Rakete"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Mehrzweckschaufel"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ist zwar weniger effizient als die Treibstoffschaufel, kann aber sowohl Fracht als auch Treibstoff aufnehmen"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW-Pulslaser"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW-Pulslaser"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW-Pulslaser"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW-Pulslaser"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW-Pulslaser"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW-Doppel-Pulslaser"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW-Doppel-Pulslaser"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radar-Scanner"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Kann aus der Ferne die Ausrüstung, Fracht und den Status anderer Schiffe ermitteln."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Scanner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Erstellt eine 3D-Kartenansicht von Schiffen in der Nähe."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Schildenergie-Booster"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Verbessert die Regeneration der Schilde."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Schild-Generator"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Jeder installierte Generator bietet zusätzlichen Schutz für den Rumpf."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Kleiner Plasmawerfer"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Handels-Analyseeinheit"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Zeigt Handelsgüter an, die zwischen dem ausgewählten und dem momentanen System profitabel gehandelt werden können."
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Zusätzliche Passagier-Kabinen"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Benötigt für den Transport von einem Passagier"
+   }
+}

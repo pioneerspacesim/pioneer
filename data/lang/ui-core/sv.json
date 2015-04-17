@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Ett fel har uppstått"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Atmosfärkapabel"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Försök att reparera skrov"
@@ -56,15 +60,15 @@
       "message" : "Köp skepp"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Hytter"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} ledigt"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} använt"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "Avbryt"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Kapacitet"
    },
    "CAPACITY_USED" : {
@@ -92,11 +96,11 @@
       "message" : "Använt lastutrymme"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t ledigt"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t använt"
    },
    "CASH" : {
@@ -108,7 +112,7 @@
       "message" : "Pengar: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Ändra bindning"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +124,15 @@
       "message" : "Cirkulär omloppshastighet"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "Detaljnivå för städer"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Rensa"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Rensa"
    },
    "CLIENT" : {
@@ -136,7 +140,7 @@
       "message" : "Klient"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Strid"
    },
    "COMMANDER" : {
@@ -148,11 +152,11 @@
       "message" : "Råvarumarknad"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "Kompakt skanner"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Kompetent"
    },
    "COMPLETED" : {
@@ -160,7 +164,7 @@
       "message" : "Utförd"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Komprimera texturer"
    },
    "CONSTABLE" : {
@@ -200,11 +204,11 @@
       "message" : "Kriminalregister"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Farligt"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Dödligt"
    },
    "DELTA_V" : {
@@ -232,7 +236,7 @@
       "message" : "Förstör fiendeskepp"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Avskeda"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -240,11 +244,11 @@
       "message" : "Visa HUD spår"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "Visa navigationstunnlar"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Visa hastighetslinjer"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -252,7 +256,7 @@
       "message" : "Docka vid nuvarande mål"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Förfaller"
    },
    "D_DAYS_LEFT" : {
@@ -268,7 +272,7 @@
       "message" : "Effekter:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "ELITE"
    },
    "EMPLOYMENT" : {
@@ -276,7 +280,7 @@
       "message" : "Anställning"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Aktivera cockpit (EXPERIMENTELLT)"
    },
    "ENABLE_JOYSTICK" : {
@@ -284,7 +288,7 @@
       "message" : "Aktivera joystick"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Ingenjör:"
    },
    "EQUIPMENT" : {
@@ -320,7 +324,7 @@
       "message" : "Expert"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Misslyckades"
    },
    "FEMALE" : {
@@ -373,7 +377,7 @@
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Utfärda order till besättning"
+      "message" : "Verkställ order"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
@@ -384,7 +388,7 @@
       "message" : "Lägg på."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Ofarlig"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -412,7 +416,7 @@
       "message" : "Tung passagerartransport"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "Hög"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -421,7 +425,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Skrovintegritet"
+      "message" : "Skrovhållfasthet"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -541,7 +545,7 @@
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Ladda spel"
+      "message" : "Återuppta spel"
    },
    "LOBBY" : {
       "description" : "",
@@ -560,7 +564,7 @@
       "message" : "Låg"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "ly"
    },
    "MAKE_NEW_FACE" : {
@@ -592,7 +596,7 @@
       "message" : "Maxbesättning"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Medium"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -756,7 +760,7 @@
       "message" : "Cirkulär omloppshastighet är angiven för en tangerande hastighet. Skeppet borde röras i 90° riktning mot skep/{name} axeln.\n\nNedstigningshastighet är ett absolut minimum och är också tangerande. En lägre hastighet eller lägre vinkel kommer att resultera i en kurs som korsar ytan på {name}.\n\nFlykthastighet fungerar i teorin i alla riktningar så länge inte skeppet krockar med {name} på vägen.\n\t\t"
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Skyldig"
    },
    "PAY_FINE_OF_N" : {
@@ -792,12 +796,12 @@
       "message" : "Polis"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Dålig"
    },
    "POSITION" : {
       "description" : "",
-      "message" : "Position"
+      "message" : "Befattning"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
@@ -853,7 +857,7 @@
    },
    "REQUEST_LAUNCH" : {
       "description" : "",
-      "message" : "Begär uppskjutningstillstånd"
+      "message" : "Uppskjutningstillstånd"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -878,6 +882,10 @@
    "SAVE" : {
       "description" : "",
       "message" : "Spara"
+   },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Skopfästen"
    },
    "SELECT" : {
       "description" : "",
@@ -948,7 +956,7 @@
       "message" : "Starta på Jorden"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Starta vid New Hope"
    },
    "STATION_MANAGER" : {
@@ -972,7 +980,7 @@
       "message" : "Skeppet är under stationens kontroll kapten."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Växla mellan manlig/kvinnlig"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1024,11 @@
       "message" : "Använd"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Mycket högt"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Väldigt lågt"
    },
    "VIDEO" : {
@@ -1036,7 +1044,7 @@
       "message" : "Videoupplösning"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Lön"
    },
    "WEIGHT_EMPTY" : {
@@ -1053,7 +1061,7 @@
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "",
-      "message" : "Vi har inga affärer med dig för stunden."
+      "message" : "Du har inga polisiära ärenden."
    },
    "YES" : {
       "description" : "Positive answer to a question",

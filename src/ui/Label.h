@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_LABEL_H
@@ -6,6 +6,8 @@
 
 #include "Widget.h"
 #include "SmartPtr.h"
+#include "text/TextureFont.h"
+#include "graphics/VertexBuffer.h"
 
 // single line of text
 
@@ -29,9 +31,14 @@ protected:
 private:
 	void BindText(PropertyMap &p, const std::string &k);
 
+	bool m_bNeedsUpdating;
+	bool m_bPrevDisabled;
+	float m_prevOpacity;
 	std::string m_text;
 	Color m_color;
 	Point m_preferredSize;
+	RefCountedPtr<Text::TextureFont> m_font;
+	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
 };
 
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -14,23 +14,36 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 
-void CargoBody::Save(Serializer::Writer &wr, Space *space)
+void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	DynamicBody::Save(wr, space);
-	m_cargo.Save(wr);
-	wr.Float(m_hitpoints);
-	wr.Float(m_selfdestructTimer);
-	wr.Bool(m_hasSelfdestruct);
+	DynamicBody::SaveToJson(jsonObj, space);
+
+	Json::Value cargoBodyObj(Json::objectValue); // Create JSON object to contain cargo body data.
+
+	m_cargo.SaveToJson(cargoBodyObj);
+	cargoBodyObj["hit_points"] = FloatToStr(m_hitpoints);
+	cargoBodyObj["self_destruct_timer"] = FloatToStr(m_selfdestructTimer);
+	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
+
+	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
 }
 
-void CargoBody::Load(Serializer::Reader &rd, Space *space)
+void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	DynamicBody::Load(rd, space);
-	m_cargo.Load(rd);
+	DynamicBody::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("cargo_body")) throw SavedGameCorruptException();
+	Json::Value cargoBodyObj = jsonObj["cargo_body"];
+
+	if (!cargoBodyObj.isMember("hit_points")) throw SavedGameCorruptException();
+	if (!cargoBodyObj.isMember("self_destruct_timer")) throw SavedGameCorruptException();
+	if (!cargoBodyObj.isMember("has_self_destruct")) throw SavedGameCorruptException();
+
+	m_cargo.LoadFromJson(cargoBodyObj);
 	Init();
-	m_hitpoints = rd.Float();
-	m_selfdestructTimer = rd.Float();
-	m_hasSelfdestruct = rd.Bool();
+	m_hitpoints = StrToFloat(cargoBodyObj["hit_points"].asString());
+	m_selfdestructTimer = StrToFloat(cargoBodyObj["self_destruct_timer"].asString());
+	m_hasSelfdestruct = cargoBodyObj["has_self_destruct"].asBool();
 }
 
 void CargoBody::Init()

@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmosferski štit"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Štiti vaš brod od topline pri ponovnom ulasku u atmosferu."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Automatski pilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Računalo za automatsku navigaciju."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Životna podrška za teretni prostor"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Omogućava transport živog tereta."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Crpka za teret"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Omogućava prikupljanje kontejnera iz svemira."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Hiperpogon klase 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Vojni pogon klase 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Vojni pogon klase 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Vojni pogon klase 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Vojni pogon klase 4"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Napredni ECM sustav"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektronski sustav obrane od raketa, sposoban za uništavanje naprednijih raketa."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "ECM sustav"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektronski sustav obrane od raketa, sposoban za uništavanje nekih raketa."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Crpka za gorivo"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Omogućava crpljenje vodika iz plinovitih divova."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Automatski sustav za popravljanje trupa"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Automatski popravlja trup broda pri oštećenju."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analizator hiperoblaka"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analizira hiperprostorne oblake kako bi odredio destinaciju i vrijeme dolaska ili polaska."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Veliki ubrzivač plazme"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Ubrzivač hlađenja lasera"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Poboljšan sustav hlađenja vašeg oružja."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW blast-mining top"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Koristi se za rušenje asteroida bogatih mineralima."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Vođena raketa"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Vojna raketa"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Pametna raketa"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 nevođena raketa"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW impulsni top"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW impulsni top"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW impulsni top"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW impulsni top"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW impulsni top"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dvostruko-paljbeni impulsni top"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW brzo-paljbeni impulsni top"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radar"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Pruža detalje o drugim brodovima."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Skener"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Pruža 3D mapu brodova u blizini."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Ubrzivač generatora štita"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Povećava brzinu napajanja štitova."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Generator štita"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Pruža dodatnu zaštitu trupa sa svakom dodatnom montiranom jedinicom."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Mali ubrzivač plazme"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade analyzer"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shows profitable commodities to trade between selected and current system"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Extra Passenger Cabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Required for transport of a single passenger"
+   }
+}

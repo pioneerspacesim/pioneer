@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATERIAL_H
@@ -61,6 +61,7 @@ public:
 	bool specularMap;
 	bool usePatterns; //pattern/color system
 	bool vertexColors;
+	bool instanced;
 	Sint32 textures; //texture count
 	Uint32 dirLights; //set by RendererOGL if lighting == true
 	Uint32 quality; // see: Graphics::MaterialQuality

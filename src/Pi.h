@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
@@ -31,6 +31,7 @@ class TransferPlanner;
 class UIView;
 class View;
 class SDLGraphics;
+class ServerAgent;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
@@ -124,6 +125,8 @@ public:
 	static LuaTimer *luaTimer;
 
 	static LuaNameGen *luaNameGen;
+
+	static ServerAgent *serverAgent;
 
 	static RefCountedPtr<UI::Context> ui;
 

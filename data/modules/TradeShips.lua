@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -757,6 +757,8 @@ end
 Event.Register("onShipAlertChanged", onShipAlertChanged)
 
 local onShipHit = function (ship, attacker)
+	if attacker == nil then return end-- XX
+	
 	-- XXX this whole thing might be better if based on amount of damage sustained
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]
@@ -831,6 +833,7 @@ end
 Event.Register("onShipCollided", onShipCollided)
 
 local onShipDestroyed = function (ship, attacker)
+	if attacker == nil then return end-- XX
 	if trade_ships[ship] ~= nil then
 		local trader = trade_ships[ship]
 

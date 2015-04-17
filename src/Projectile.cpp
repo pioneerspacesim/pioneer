@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -22,6 +22,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/TextureBuilder.h"
+#include "json/JsonUtils.h"
 
 std::unique_ptr<Graphics::VertexArray> Projectile::s_sideVerts;
 std::unique_ptr<Graphics::VertexArray> Projectile::s_glowVerts;
@@ -125,34 +126,54 @@ Projectile::~Projectile()
 {
 }
 
-void Projectile::Save(Serializer::Writer &wr, Space *space)
+void Projectile::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Body::Save(wr, space);
-	wr.Vector3d(m_baseVel);
-	wr.Vector3d(m_dirVel);
-	wr.Float(m_age);
-	wr.Float(m_lifespan);
-	wr.Float(m_baseDam);
-	wr.Float(m_length);
-	wr.Float(m_width);
-	wr.Bool(m_mining);
-	wr.Color4UB(m_color);
-	wr.Int32(space->GetIndexForBody(m_parent));
+	Body::SaveToJson(jsonObj, space);
+
+	Json::Value projectileObj(Json::objectValue); // Create JSON object to contain projectile data.
+
+	VectorToJson(projectileObj, m_baseVel, "base_vel");
+	VectorToJson(projectileObj, m_dirVel, "dir_vel");
+	projectileObj["age"] = FloatToStr(m_age);
+	projectileObj["life_span"] = FloatToStr(m_lifespan);
+	projectileObj["base_dam"] = FloatToStr(m_baseDam);
+	projectileObj["length"] = FloatToStr(m_length);
+	projectileObj["width"] = FloatToStr(m_width);
+	projectileObj["mining"] = m_mining;
+	ColorToJson(projectileObj, m_color, "color");
+	projectileObj["index_for_body"] = space->GetIndexForBody(m_parent);
+
+	jsonObj["projectile"] = projectileObj; // Add projectile object to supplied object.
 }
 
-void Projectile::Load(Serializer::Reader &rd, Space *space)
+void Projectile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	Body::Load(rd, space);
-	m_baseVel = rd.Vector3d();
-	m_dirVel = rd.Vector3d();
-	m_age = rd.Float();
-	m_lifespan = rd.Float();
-	m_baseDam = rd.Float();
-	m_length = rd.Float();
-	m_width = rd.Float();
-	m_mining = rd.Bool();
-	m_color = rd.Color4UB();
-	m_parentIndex = rd.Int32();
+	Body::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("projectile")) throw SavedGameCorruptException();
+	Json::Value projectileObj = jsonObj["projectile"];
+
+	if (!projectileObj.isMember("base_vel")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("dir_vel")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("age")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("life_span")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("base_dam")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("length")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("width")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("mining")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("color")) throw SavedGameCorruptException();
+	if (!projectileObj.isMember("index_for_body")) throw SavedGameCorruptException();
+
+	JsonToVector(&m_baseVel, projectileObj, "base_vel");
+	JsonToVector(&m_dirVel, projectileObj, "dir_vel");
+	m_age = StrToFloat(projectileObj["age"].asString());
+	m_lifespan = StrToFloat(projectileObj["life_span"].asString());
+	m_baseDam = StrToFloat(projectileObj["base_dam"].asString());
+	m_length = StrToFloat(projectileObj["length"].asString());
+	m_width = StrToFloat(projectileObj["width"].asString());
+	m_mining = projectileObj["mining"].asBool();
+	JsonToColor(&m_color, projectileObj, "color");
+	m_parentIndex = projectileObj["index_for_body"].asInt();
 }
 
 void Projectile::PostLoadFixup(Space *space)

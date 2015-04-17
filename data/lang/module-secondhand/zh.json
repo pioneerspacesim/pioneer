@@ -55,10 +55,6 @@
       "description" : "Selling second hand ship equipment",
       "message" : "打折: 一个老旧的 {equipment}, 还算能运行."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "挂断."
-   },
    "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
       "description" : "",
       "message" : "{equipment} 已经装在你的飞船上了."

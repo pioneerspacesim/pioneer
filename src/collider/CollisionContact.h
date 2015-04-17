@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLLISION_CONTACT_H
@@ -14,9 +14,7 @@ struct CollisionContact {
 	void *userData1, *userData2;
 	int geomFlag;
 //	bool vsStatic;		// true => object 2 was in static, else dynamic
-	CollisionContact() {
-		depth = 0; triIdx = -1; userData1 = userData2 = 0; geomFlag = 0; dist = 0;
-	}
+	CollisionContact() : depth(0), dist(0), triIdx(-1), userData1(nullptr), userData2(nullptr), geomFlag(0) { /*empty*/ }
 };
 
 #endif /* _COLLISION_CONTACT_H */

@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -49,7 +49,7 @@ function ChatForm:BuildWidget ()
 	box:PackEnd(hbox)
 
 	if self.message then
-		box:PackEnd(ui:Scroller(ui:MultiLineText(self.message)))
+		box:PackEnd(ui:Margin(20, "BOTTOM", ui:Scroller(ui:MultiLineText(self.message))))
 	end
 
 	if self.options or self.equipWidgetConfig then

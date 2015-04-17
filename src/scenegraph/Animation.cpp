@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Animation.h"
@@ -13,6 +13,7 @@ typedef ChannelList::iterator ChannelIterator;
 Animation::Animation(const std::string &name, double duration)
 : m_duration(duration)
 , m_time(0.0)
+, m_timePrev(-1.0)
 , m_name(name)
 {
 }
@@ -20,6 +21,7 @@ Animation::Animation(const std::string &name, double duration)
 Animation::Animation(const Animation &anim)
 : m_duration(anim.m_duration)
 , m_time(0.0)
+, m_timePrev(-1.0)
 , m_name(anim.m_name)
 {
 	for(ChannelList::const_iterator chan = anim.m_channels.begin(); chan != anim.m_channels.end(); ++chan) {
@@ -29,6 +31,8 @@ Animation::Animation(const Animation &anim)
 
 void Animation::UpdateChannelTargets(Node *root)
 {
+	m_timePrev = (-1.0);
+
 	for(ChannelList::iterator chan = m_channels.begin(); chan != m_channels.end(); ++chan) {
 		//update channels to point to new node structure
 		MatrixTransform *trans = dynamic_cast<MatrixTransform*>(root->FindNode(chan->node->GetName()));
@@ -39,7 +43,13 @@ void Animation::UpdateChannelTargets(Node *root)
 
 void Animation::Interpolate()
 {
+	PROFILE_SCOPED()
+	if (is_equal_exact(m_time, m_timePrev)) {
+		return;
+	}
+
 	const double mtime = m_time;
+	m_timePrev = m_time;
 
 	//go through channels and calculate transforms
 	for(ChannelIterator chan = m_channels.begin(); chan != m_channels.end(); ++chan) {

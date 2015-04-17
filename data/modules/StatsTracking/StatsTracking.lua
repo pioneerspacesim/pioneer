@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Event = import("Event")
@@ -39,7 +39,7 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 local onShipHit = function (ship, attacker)
-	if attacker:isa('Ship') and attacker:IsPlayer() then
+	if attacker and attacker:isa('Ship') and attacker:IsPlayer() then
 		PlayerDamagedShips[ship]=true
 	end
 end

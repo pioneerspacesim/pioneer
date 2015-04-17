@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -518,6 +518,49 @@ static int l_sbodypath_meta_tostring(lua_State *l)
 	return 1;
 }
 
+static std::string _systempath_serializer(LuaWrappable *o)
+{
+	static char buf[256];
+
+	SystemPath *sbp = static_cast<SystemPath*>(o);
+	snprintf(buf, sizeof(buf), "%d\n%d\n%d\n%u\n%u\n",
+		sbp->sectorX, sbp->sectorY, sbp->sectorZ, sbp->systemIndex, sbp->bodyIndex);
+
+	return std::string(buf);
+}
+
+static bool _systempath_deserializer(const char *pos, const char **next)
+{
+	const char *end;
+
+	Sint32 sectorX = strtol(pos, const_cast<char**>(&end), 0);
+	if (pos == end) return false;
+	pos = end+1; // skip newline
+
+	Sint32 sectorY = strtol(pos, const_cast<char**>(&end), 0);
+	if (pos == end) return false;
+	pos = end+1; // skip newline
+
+	Sint32 sectorZ = strtol(pos, const_cast<char**>(&end), 0);
+	if (pos == end) return false;
+	pos = end+1; // skip newline
+
+	Uint32 systemNum = strtoul(pos, const_cast<char**>(&end), 0);
+	if (pos == end) return false;
+	pos = end+1; // skip newline
+
+	Uint32 sbodyId = strtoul(pos, const_cast<char**>(&end), 0);
+	if (pos == end) return false;
+	pos = end+1; // skip newline
+
+	const SystemPath sbp(sectorX, sectorY, sectorZ, systemNum, sbodyId);
+	LuaObject<SystemPath>::PushToLua(sbp);
+
+	*next = pos;
+
+	return true;
+}
+
 template <> const char *LuaObject<SystemPath>::s_type = "SystemPath";
 
 template <> void LuaObject<SystemPath>::RegisterClass()
@@ -554,4 +597,5 @@ template <> void LuaObject<SystemPath>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, l_meta);
+	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_systempath_serializer, _systempath_deserializer));
 }

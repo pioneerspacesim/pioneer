@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -26,14 +26,18 @@ ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui:
 	InitObject();
 }
 
-ShipCpanel::ShipCpanel(Serializer::Reader &rd, Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
-	m_game(game)
+ShipCpanel::ShipCpanel(const Json::Value &jsonObj, Graphics::Renderer *r, Game* game) : Gui::Fixed(float(Gui::Screen::GetWidth()), 80),
+m_game(game)
 {
-	m_scanner = new ScannerWidget(r, rd);
+	if (!jsonObj.isMember("ship_c_panel")) throw SavedGameCorruptException();
+	Json::Value shipCPanelObj = jsonObj["ship_c_panel"];
+
+	m_scanner = new ScannerWidget(r, shipCPanelObj);
 
 	InitObject();
 
-	m_camButton->SetActiveState(rd.Int32());
+	if (!shipCPanelObj.isMember("cam_button_state")) throw SavedGameCorruptException();
+	m_camButton->SetActiveState(shipCPanelObj["cam_button_state"].asInt());
 }
 
 void ShipCpanel::InitObject()
@@ -402,10 +406,12 @@ void ShipCpanel::TimeStepUpdate(float step)
 	m_scanner->TimeStepUpdate(step);
 }
 
-void ShipCpanel::Save(Serializer::Writer &wr)
+void ShipCpanel::SaveToJson(Json::Value &jsonObj)
 {
-	m_scanner->Save(wr);
-	wr.Int32(m_camButton->GetState());
+	Json::Value shipCPanelObj(Json::objectValue); // Create JSON object to contain ship control panel data.
+	m_scanner->SaveToJson(shipCPanelObj);
+	shipCPanelObj["cam_button_state"] = m_camButton->GetState();
+	jsonObj["ship_c_panel"] = shipCPanelObj; // Add ship control panel object to supplied object.
 }
 
 void ShipCpanel::SetOverlayText(OverlayTextPos pos, const std::string &text)

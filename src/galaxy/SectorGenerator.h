@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef SECTORGENERATOR_H
@@ -31,8 +31,8 @@ class SectorPersistenceGenerator : public SectorGeneratorStage {
 public:
 	SectorPersistenceGenerator(GalaxyGenerator::Version version) : m_version(version) { }
 	virtual bool Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<Sector> sector, GalaxyGenerator::SectorConfig* config);
-	virtual void Unserialize(Serializer::Reader &rd, RefCountedPtr<Galaxy> galaxy);
-	virtual void Serialize(Serializer::Writer &wr, RefCountedPtr<Galaxy> galaxy);
+	virtual void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
+	virtual void ToJson(Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
 
 private:
 	void SetExplored(Sector::System* sys, StarSystem::ExplorationState e, double time);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BVHTree.h"
@@ -10,6 +10,10 @@ const int MAX_SPLITPOS_RETRIES = 15;
 
 BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 {
+	PROFILE_SCOPED()
+	Profiler::Timer timer;
+	timer.Start();
+
 	std::vector<int> activeObjIdxs(numObjs);
 	for (int i=0; i<numObjs; i++) activeObjIdxs[i] = i;
 
@@ -23,10 +27,14 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 
 	m_root = AllocNode();
 	BuildNode(m_root, objPtrs, objAabbs, activeObjIdxs);
+
+	timer.Stop();
+	//Output(" - - - BVHTree::BVHTree took: %lf milliseconds\n", timer.millicycles());
 }
 
 void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs)
 {
+	PROFILE_SCOPED()
 	const size_t numTris = objs.size();
 	if (numTris <= 0) Error("MakeLeaf called with no elements in objs.");
 
@@ -49,6 +57,7 @@ void BVHTree::BuildNode(BVHNode *node,
 			const Aabb *objAabbs,
 			std::vector<objPtr_t> &activeObjIdx)
 {
+	PROFILE_SCOPED()
 	const int numTris = activeObjIdx.size();
 	if (numTris <= 0) Error("BuildNode called with no elements in activeObjIndex.");
 
@@ -64,7 +73,7 @@ void BVHTree::BuildNode(BVHNode *node,
 	aabb.max = vector3d(-FLT_MAX, -FLT_MAX, -FLT_MAX);
 
 	for (int i=0; i<numTris; i++) {
-		int idx = activeObjIdx[i];
+		const int idx = activeObjIdx[i];
 		aabb.Update(objAabbs[idx].min);
 		aabb.Update(objAabbs[idx].max);
 	}
@@ -80,7 +89,7 @@ void BVHTree::BuildNode(BVHNode *node,
 	for (;;) {
 		splitAxis = 0;
 
-		vector3d boxSize = splitBox.max - splitBox.min;
+		const vector3d boxSize = splitBox.max - splitBox.min;
 
 		if (boxSize[1] > boxSize[0]) splitAxis = 1;
 		if ((boxSize[2] > boxSize[1]) && (boxSize[2] > boxSize[0])) splitAxis = 2;
@@ -90,8 +99,8 @@ void BVHTree::BuildNode(BVHNode *node,
 		s1count = 0, s2count = 0;
 
 		for (int i=0; i<numTris; i++) {
-			int idx = activeObjIdx[i];
-			double mid = 0.5 * (objAabbs[idx].min[splitAxis] + objAabbs[idx].max[splitAxis]);
+			const int idx = activeObjIdx[i];
+			const double mid = 0.5 * (objAabbs[idx].min[splitAxis] + objAabbs[idx].max[splitAxis]);
 			if (mid < splitPos) {
 				splitSides[i] = 0;
 				s1count++;
@@ -126,6 +135,8 @@ void BVHTree::BuildNode(BVHNode *node,
 	}
 
 	std::vector<int> side[2];
+	side[0].reserve(numTris);
+	side[1].reserve(numTris);
 
 	for (int i=0; i<numTris; i++) {
 		side[splitSides[i]].push_back(activeObjIdx[i]);

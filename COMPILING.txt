@@ -13,7 +13,7 @@ Table of Contents
   2.3 Windows - Autotools (Linux cross-compile)
   2.4 OSX
 3 Building documentation
-  3.1 Lua API - Natrual Docs
+  3.1 Lua API - Natural Docs
   3.2 C++ source - Doxygen
 
 
@@ -51,6 +51,7 @@ irc.freenode.net.
     g++
     automake
     pkg-config
+    libcurl-dev
     libsigc++-dev
     libsigc++-2.0-dev
     libsdl2-dev
@@ -94,7 +95,7 @@ irc.freenode.net.
 
    Now compile GCC and the dependencies needed for Pioneer:
 
-     make gcc freetype sdl2 sdl2_image vorbis libsigc++ assimp
+     make gcc freetype sdl2 sdl2_image vorbis libsigc++ assimp curl
 
 2. Now you can build Pioneer. Run ./bootstrap to generate your 'configure'
    file.
@@ -231,7 +232,7 @@ This section describes how to build html-documentation which is stored on disk
 for the local pioneer source tree.
 
 
-3.1 Lua API - Natrual Docs
+3.1 Lua API - Natural Docs
 --------------------------
 
 Pioneer is extensible through the Lua scripting language. It is used for
@@ -239,7 +240,7 @@ modules such as missions and BBS interaction. See the pioneer wiki for further
 details. For up-to-date documentation one can build it locally from the
 pioneer source
 
-0. Install dependencies: natruldocs
+0. Install dependencies: naturaldocs
 
 1. Run make codedoc
 

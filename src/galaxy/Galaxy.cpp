@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -18,16 +18,19 @@ Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, flo
 }
 
 //static
-RefCountedPtr<Galaxy> Galaxy::Load(Serializer::Reader &rd)
+RefCountedPtr<Galaxy> Galaxy::LoadFromJson(const Json::Value &jsonObj)
 {
-	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create(rd);
-	galaxy->m_galaxyGenerator->Unserialize(rd, galaxy);
+	if (!jsonObj.isMember("galaxy_generator")) throw SavedGameCorruptException();
+	Json::Value galaxyGenObj = jsonObj["galaxy_generator"];
+
+	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::CreateFromJson(galaxyGenObj);
+	galaxy->m_galaxyGenerator->FromJson(galaxyGenObj, galaxy);
 	return galaxy;
 }
 
-void Galaxy::Serialize(Serializer::Writer &wr)
+void Galaxy::ToJson(Json::Value &jsonObj)
 {
-	m_galaxyGenerator->Serialize(wr, RefCountedPtr<Galaxy>(this));
+	m_galaxyGenerator->ToJson(jsonObj, RefCountedPtr<Galaxy>(this));
 }
 
 void Galaxy::SetGalaxyGenerator(RefCountedPtr<GalaxyGenerator> galaxyGenerator)

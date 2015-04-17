@@ -9,7 +9,7 @@
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}s lagerställe"
+      "message" : "{name}s lager"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "GOODS_TRADER_4" : {
       "description" : "",
-      "message" : "{name} Holdings"
+      "message" : "{name} Marknad"
    },
    "GOODS_TRADER_5" : {
       "description" : "",

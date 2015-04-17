@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "发生了一个错误"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "可安装大气护盾"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "尝试修理船体"
@@ -56,15 +60,15 @@
       "message" : "购买飞船"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "客舱"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} 空闲"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} 已使用"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "取消"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "容量"
    },
    "CAPACITY_USED" : {
@@ -92,11 +96,11 @@
       "message" : "货仓空间已被占用"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount} t 空闲"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount} t 已使用"
    },
    "CASH" : {
@@ -108,7 +112,7 @@
       "message" : "现金: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "改变绑定"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +124,15 @@
       "message" : "圆形轨道速度"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "城市细节等级"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "无记录"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "清除"
    },
    "CLIENT" : {
@@ -136,7 +140,7 @@
       "message" : "客户端"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "战斗"
    },
    "COMMANDER" : {
@@ -148,11 +152,11 @@
       "message" : "商品市场"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "小型扫描仪"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "胜任"
    },
    "COMPLETED" : {
@@ -160,7 +164,7 @@
       "message" : "已完成"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "压缩贴图文件"
    },
    "CONSTABLE" : {
@@ -200,11 +204,11 @@
       "message" : "犯罪记录"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "危险"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "致命的"
    },
    "DELTA_V" : {
@@ -232,7 +236,7 @@
       "message" : "摧毁敌人飞船"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "解散"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -240,11 +244,11 @@
       "message" : "显示HUD轨迹"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "显示导航路径"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "显示速度矢量"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -252,7 +256,7 @@
       "message" : "停靠在当前目标"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "应有"
    },
    "D_DAYS_LEFT" : {
@@ -268,7 +272,7 @@
       "message" : "影响:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "精英"
    },
    "EMPLOYMENT" : {
@@ -276,7 +280,7 @@
       "message" : "雇佣"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "启用座舱(实验性)"
    },
    "ENABLE_JOYSTICK" : {
@@ -284,7 +288,7 @@
       "message" : "启用摇杆"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "工程:"
    },
    "EQUIPMENT" : {
@@ -320,7 +324,7 @@
       "message" : "专家"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "失败"
    },
    "FEMALE" : {
@@ -384,7 +388,7 @@
       "message" : "挂断."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "人畜无害的"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -412,7 +416,7 @@
       "message" : "重型客运船"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "高"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -560,7 +564,7 @@
       "message" : "低"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "ly"
    },
    "MAKE_NEW_FACE" : {
@@ -592,7 +596,7 @@
       "message" : "最大船员"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "中等"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -756,7 +760,7 @@
       "message" : "环绕速度是指飞船的轨道速度在垂直于(90度)飞船-{name}方向上的分量.\n\n下降速度取最小绝对值, 同时也是切向的. 一个较慢的轨道速度或较低的角度会导致飞船的轨道与 {name} 表面交会.\n\n逃逸速度在任何方向上都相同, 除非飞船的轨道与 {name} 表面交会.\n\\t\\t"
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "拖欠"
    },
    "PAY_FINE_OF_N" : {
@@ -792,7 +796,7 @@
       "message" : "警察"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "穷"
    },
    "POSITION" : {
@@ -879,6 +883,10 @@
       "description" : "",
       "message" : "保存"
    },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "收集器挂点"
+   },
    "SELECT" : {
       "description" : "",
       "message" : "选择"
@@ -948,7 +956,7 @@
       "message" : "从地球开始"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "从新希望开始"
    },
    "STATION_MANAGER" : {
@@ -972,7 +980,7 @@
       "message" : "飞船处于空间站控制下了, 指挥官."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "切换 男/女"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1024,11 @@
       "message" : "已使用"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "非常高"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "非常低"
    },
    "VIDEO" : {
@@ -1036,7 +1044,7 @@
       "message" : "视频分辨率"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "工资"
    },
    "WEIGHT_EMPTY" : {

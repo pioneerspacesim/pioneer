@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Planet.h"
@@ -40,9 +40,9 @@ Planet::Planet(SystemBody *sbody)
 	InitParams(sbody);
 }
 
-void Planet::Load(Serializer::Reader &rd, Space *space)
+void Planet::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	TerrainBody::Load(rd, space);
+	TerrainBody::LoadFromJson(jsonObj, space);
 
 	const SystemBody *sbody = GetSystemBody();
 	assert(sbody);

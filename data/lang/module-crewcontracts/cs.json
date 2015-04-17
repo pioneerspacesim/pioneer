@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Zpět"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Promiňte, ale níž už nepůjdu."

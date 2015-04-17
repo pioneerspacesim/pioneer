@@ -393,9 +393,6 @@
     <ClCompile Include="..\..\src\GameLog.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Colors.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Shields.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -424,6 +421,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Plane.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ServerAgent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaServerAgent.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -830,9 +833,6 @@
     <ClInclude Include="..\..\src\GameLog.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\Colors.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\ShipCockpit.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -858,6 +858,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Plane.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\CollMesh.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ServerAgent.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaServerAgent.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

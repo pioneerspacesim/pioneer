@@ -21,26 +21,49 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pioneer", "pioneer.vcxproj"
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "text", "text\text.vcxproj", "{06E6CE3D-9163-453B-BF8D-3B9DECB5AB78}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jenkins", "jenkins\jenkins.vcxproj", "{38C0279B-EB3E-4113-8E3E-29AFC31C3C20}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "galaxy", "galaxy\galaxy.vcxproj", "{82973C2C-FC40-4320-84AE-A47E36868C02}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "collider", "collider\collider.vcxproj", "{A2082451-1B70-47C1-88E1-62A59EB13A44}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics", "graphics\graphics.vcxproj", "{DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "terrain", "terrain\terrain.vcxproj", "{64F034A3-B40E-4D42-ADDD-E2EE42ED517F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gui", "gui\gui.vcxproj", "{B19B00BA-F9DE-451F-9E16-C5E582DEEE77}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "lua.vcxproj", "{5085B12D-F9AC-4878-9672-1FD4EB0EFB67}"
 	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
 		{B19B00BA-F9DE-451F-9E16-C5E582DEEE77} = {B19B00BA-F9DE-451F-9E16-C5E582DEEE77}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ui", "ui\ui.vcxproj", "{F604C1BC-C921-4468-8F09-427705AD9D29}"
 	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
 		{5085B12D-F9AC-4878-9672-1FD4EB0EFB67} = {5085B12D-F9AC-4878-9672-1FD4EB0EFB67}
 	EndProjectSection
 EndProject
@@ -51,10 +74,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gameui", "gameui\gameui.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "scenegraph", "newmodel\newmodel.vcxproj", "{E34F7DBC-F23D-481A-B920-E53F56C53EE8}"
 	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
 		{DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE} = {DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "json\json.vcxproj", "{026FC030-0192-4582-B1AF-F9AADF4D73AD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "profiler", "profiler\profiler.vcxproj", "{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}"
 EndProject

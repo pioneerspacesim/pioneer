@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NavLights.h"
@@ -77,6 +77,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 , m_period(period)
 , m_enabled(false)
 {
+	PROFILE_SCOPED();
 	assert(g_initted);
 
 	Graphics::Renderer *renderer = model->GetRenderer();
@@ -125,29 +126,48 @@ NavLights::~NavLights()
 {
 }
 
-void NavLights::Save(Serializer::Writer &wr)
+void NavLights::SaveToJson(Json::Value &jsonObj)
 {
-	wr.Float(m_time);
-	wr.Bool(m_enabled);
+	Json::Value navLightsObj(Json::objectValue); // Create JSON object to contain nav lights data.
 
+	navLightsObj["time"] = FloatToStr(m_time);
+	navLightsObj["enabled"] = m_enabled;
+
+	Json::Value lightsArray(Json::arrayValue); // Create JSON array to contain lights data.
 	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
-		wr.Byte(it->color);
+		lightsArray.append(it->color);
+	navLightsObj["lights"] = lightsArray; // Add lights array to nav lights object.
+
+	jsonObj["nav_lights"] = navLightsObj; // Add nav lights object to supplied object.
 }
 
-void NavLights::Load(Serializer::Reader &rd)
+void NavLights::LoadFromJson(const Json::Value &jsonObj)
 {
-	m_time    = rd.Float();
-	m_enabled = rd.Bool();
+	if (!jsonObj.isMember("nav_lights")) throw SavedGameCorruptException();
+	Json::Value navLightsObj = jsonObj["nav_lights"];
 
+	if (!navLightsObj.isMember("time")) throw SavedGameCorruptException();
+	if (!navLightsObj.isMember("enabled")) throw SavedGameCorruptException();
+	if (!navLightsObj.isMember("lights")) throw SavedGameCorruptException();
+
+	m_time = StrToFloat(navLightsObj["time"].asString());
+	m_enabled = navLightsObj["enabled"].asBool();
+
+	Json::Value lightsArray = navLightsObj["lights"];
+	if (!lightsArray.isArray()) throw SavedGameCorruptException();
 	RefCountedPtr<Graphics::Material> mat;
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
-		Uint8 c = rd.Byte();
+	assert(m_lights.size() == lightsArray.size());
+	unsigned int arrayIndex = 0;
+	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
+	{
+		Uint8 c = lightsArray[arrayIndex++].asUInt();
 		it->billboard->SetMaterial(get_material(c));
 	}
 }
 
 void NavLights::Update(float time)
 {
+	PROFILE_SCOPED();
 	if (!m_enabled) {
 		for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
 			it->billboard->SetNodeMask(0x0);
@@ -169,6 +189,7 @@ void NavLights::Update(float time)
 
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
+	PROFILE_SCOPED();
 	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
 		if (it->group != group || it->color == c) continue;
 		it->billboard->SetMaterial(get_material(c));

@@ -1,4 +1,4 @@
-dnl Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+dnl Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 dnl Licensed under the terms of the GPL v3. See COPYING.txt for details
 
 dnl Process this file with autoconf to create configure.
@@ -68,10 +68,11 @@ dnl ###########################################################################
 
 STD_CXXFLAGS=
 
-EXTRA_CFLAGS=
-EXTRA_CXXFLAGS=
-EXTRA_CPPFLAGS=
-EXTRA_LIBS=
+dnl allow extra stuff from environment too
+EXTRA_CFLAGS="$CFLAGS"
+EXTRA_CXXFLAGS="$CXXFLAGS"
+EXTRA_CPPFLAGS="$CPPFLAGS"
+EXTRA_LIBS="$LIBS"
 
 WARN_CFLAGS=
 WARN_CXXFLAGS=
@@ -245,6 +246,7 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
     else
 	    PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 	    export PKG_CONFIG_PATH
+	    EXTRA_LIBS="$EXTRA_LIBS -ldl -lrt"
     fi
 	CFLAGS="-isystem $withval/usr/include"
 	LIBS="-L$withval/usr/lib -Wl,-rpath,$withval/usr/lib"
@@ -303,6 +305,9 @@ if test "x$cross_compiling" = "xno" ; then
 	LIBS="$old_libs"
 
 fi
+
+dnl Check for libcurl
+PKG_CHECK_MODULES([CURL], [libcurl])
 
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])
@@ -396,6 +401,8 @@ AC_CONFIG_FILES([
 	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/graphics/opengl/Makefile
+	src/graphics/dummy/Makefile
 	src/scenegraph/Makefile
 	src/galaxy/Makefile
 	src/terrain/Makefile

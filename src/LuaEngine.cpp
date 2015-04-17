@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
@@ -107,8 +107,8 @@ static int l_engine_attr_version(lua_State *l)
 {
 	std::string version(PIONEER_VERSION);
 	if (strlen(PIONEER_EXTRAVERSION)) version += " (" PIONEER_EXTRAVERSION ")";
-    lua_pushlstring(l, version.c_str(), version.size());
-    return 1;
+	 lua_pushlstring(l, version.c_str(), version.size());
+	 return 1;
 }
 
 /*
@@ -711,6 +711,22 @@ static int l_engine_set_compact_scanner(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_confirm_quit(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("ConfirmQuit") != 0);
+	return 1;
+}
+
+static int l_engine_set_confirm_quit(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "ConfirmQuit takes one boolean argument");
+	const bool confirm = lua_toboolean(l, 1);
+	Pi::config->SetInt("ConfirmQuit", (confirm ? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
+
 static int l_engine_get_joystick_enabled(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("EnableJoystick") != 0);
@@ -780,6 +796,9 @@ void LuaEngine::Register()
 
 		{ "GetCompactScanner", l_engine_get_compact_scanner },
 		{ "SetCompactScanner", l_engine_set_compact_scanner },
+
+		{ "GetConfirmQuit", l_engine_get_confirm_quit },
+		{ "SetConfirmQuit", l_engine_set_confirm_quit },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },

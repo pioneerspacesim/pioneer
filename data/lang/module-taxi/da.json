@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Gruppedetaljer:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Afbryd linjen."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey!!! Du skal du få betalt!!!"

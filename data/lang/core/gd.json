@@ -1,12 +1,4 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
-   },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
-   },
    "AIR_PROCESSORS" : {
       "description" : "",
       "message" : "Pròiseasaran adhair"
@@ -59,25 +51,13 @@
       "description" : "",
       "message" : "Dreag"
    },
-   "ATMOSPHERIC_SHIELDING" : {
-      "description" : "",
-      "message" : "Sgiath àile"
-   },
-   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
-   },
    "AUTOMATIC_SYSTEM_SELECTION" : {
-      "description" : "",
+      "description" : "for star map, select star system when mouse close to it",
       "message" : "Taghadh fèin-obrachail an t-siostaim"
    },
-   "AUTOPILOT" : {
-      "description" : "",
-      "message" : "Fèin-stiùireadh"
-   },
-   "AUTOPILOT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Coimpiutair itealaich air bhòrd."
+   "AUTOPILOT_CONTROL" : {
+      "description" : "Indicating that ship is flying under autopilot control",
+      "message" : "Autopilot control"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -108,7 +88,7 @@
       "message" : "Claonadh aisealach"
    },
    "A_FEW_THOUSAND" : {
-      "description" : "",
+      "description" : "regarding population",
       "message" : "Mìle no dhà"
    },
    "BATTLE_WEAPONS" : {
@@ -120,7 +100,7 @@
       "message" : "Siostam càraideach"
    },
    "BODIES" : {
-      "description" : "",
+      "description" : "space bodies",
       "message" : "bodhaigean"
    },
    "BODY" : {
@@ -187,21 +167,9 @@
       "description" : "",
       "message" : "Tha na mothaichearan ag innse mu staid èiginneach na taice-beatha san ionad charago."
    },
-   "CARGO_LIFE_SUPPORT" : {
-      "description" : "",
-      "message" : "Taic-beatha san ionad charago"
-   },
-   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Leigidh seo leat carago beò a ghiùlan."
-   },
    "CARGO_N" : {
       "description" : "",
       "message" : "Carago: %{mass}t"
-   },
-   "CARGO_SCOOP" : {
-      "description" : "",
-      "message" : "Cargo Scoop"
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
@@ -210,10 +178,6 @@
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
       "message" : "Cargo scoop attempted. Not enough room in cargo hold."
-   },
-   "CARGO_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permits scooping cargo pods from space."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -304,7 +268,7 @@
       "message" : "Ctrl"
    },
    "CURRENT_SYSTEM" : {
-      "description" : "",
+      "description" : "selected current star system",
       "message" : "An t-siostam làithreach"
    },
    "DATE_DUE_N" : {
@@ -332,7 +296,7 @@
       "message" : "Ceann-uidhe"
    },
    "DIRECTION" : {
-      "description" : "",
+      "description" : "Direction",
       "message" : "\"Comhair\""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
@@ -371,58 +335,6 @@
       "description" : "",
       "message" : "Tarraing loidhnichean inghearach"
    },
-   "DRIVE_CLASS1" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 1"
-   },
-   "DRIVE_CLASS2" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 2"
-   },
-   "DRIVE_CLASS3" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 3"
-   },
-   "DRIVE_CLASS4" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 4"
-   },
-   "DRIVE_CLASS5" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 5"
-   },
-   "DRIVE_CLASS6" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 6"
-   },
-   "DRIVE_CLASS7" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 7"
-   },
-   "DRIVE_CLASS8" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 8"
-   },
-   "DRIVE_CLASS9" : {
-      "description" : "",
-      "message" : "Draibh os-fhànais clas 9"
-   },
-   "DRIVE_MIL1" : {
-      "description" : "",
-      "message" : "Draibh an airm clas 1"
-   },
-   "DRIVE_MIL2" : {
-      "description" : "",
-      "message" : "Draibh an airm clas 2"
-   },
-   "DRIVE_MIL3" : {
-      "description" : "",
-      "message" : "Draibh an airm clas 3"
-   },
-   "DRIVE_MIL4" : {
-      "description" : "",
-      "message" : "Draibh an airm clas 4"
-   },
    "EARTH" : {
       "description" : "",
       "message" : "An Talamh"
@@ -438,22 +350,6 @@
    "ECCENTRICITY" : {
       "description" : "",
       "message" : "Neo-mheadhanachd"
-   },
-   "ECM_ADVANCED" : {
-      "description" : "",
-      "message" : "Siostam dìona dealanach adhartach"
-   },
-   "ECM_ADVANCED_DESCRIPTION" : {
-      "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
-   },
-   "ECM_BASIC" : {
-      "description" : "",
-      "message" : "Siostam dìona dealanach"
-   },
-   "ECM_BASIC_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Siostam dìona dealanach an aghaidh astasan a nì milleadh air cuid a dh'astasan le fèin-stiùireadh."
    },
    "ECONOMIC_INFO" : {
       "description" : "",
@@ -511,10 +407,6 @@
       "description" : "",
       "message" : "an taghadh a leanas"
    },
-   "FRONT" : {
-      "description" : "",
-      "message" : "Beulaibh"
-   },
    "FRUIT_AND_VEG" : {
       "description" : "",
       "message" : "Measan 's glasraich"
@@ -523,20 +415,12 @@
       "description" : "",
       "message" : "Connadh"
    },
-   "FUEL_SCOOP" : {
-      "description" : "",
-      "message" : "Fuel Scoop"
-   },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
       "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
    },
-   "FUEL_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Leigidh seo leat connadh hàidhdreaidean a sgobadh o mhòr-phlanaidean gasa."
-   },
    "GALACTIC_VIEW" : {
-      "description" : "",
+      "description" : "view galactic map",
       "message" : "Sealladh an reul-chriosa"
    },
    "GALAXY_SECTOR_VIEW" : {
@@ -572,7 +456,7 @@
       "message" : "Seòrsa an riaghaltais:"
    },
    "GRAIN" : {
-      "description" : "",
+      "description" : "like wheat or barley",
       "message" : "Gràn"
    },
    "HAND_WEAPONS" : {
@@ -584,7 +468,7 @@
       "message" : "Calpach gu tur - gun riaghaltas no sochair"
    },
    "HAT" : {
-      "description" : "",
+      "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Ad\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
@@ -631,14 +515,6 @@
       "description" : "",
       "message" : "Saoghal le sluagh mòr a' fuireach a-muigh."
    },
-   "HULL_AUTOREPAIR" : {
-      "description" : "",
-      "message" : "Siostam fèin-chàraidh na slige"
-   },
-   "HULL_AUTOREPAIR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Càraichidh seo an t-slige gu fèin-obrachail nuair a bhios i air dochann."
-   },
    "HULL_INTEGRITY" : {
       "description" : "",
       "message" : "Iomlanachd na slige"
@@ -654,14 +530,6 @@
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
       "message" : "Cleachdar hàidhdreaidean mar chonnadh fiùisein gu h-àraidh"
-   },
-   "HYPERCLOUD_ANALYZER" : {
-      "description" : "",
-      "message" : "Sgrùdair os-neul"
-   },
-   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Sgrùd neòil os-fhànais gus an ceann-uidhe agus an ùine gus falbh no ruigsinn a shuidheachadh."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -740,7 +608,7 @@
       "message" : "Sealladh taobh a-staigh"
    },
    "INT_LY" : {
-      "description" : "",
+      "description" : "integer number of light years",
       "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
@@ -752,7 +620,7 @@
       "message" : "A' siubhal gu %system [%x,%y,%z]"
    },
    "JOY" : {
-      "description" : "",
+      "description" : "Short for Joystick",
       "message" : "Joy"
    },
    "JOYSTICK_INPUT" : {
@@ -760,7 +628,7 @@
       "message" : "Ion-chuir a' joystick"
    },
    "JOY_AXIS" : {
-      "description" : "",
+      "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
    "KM_S_RELATIVE_TO" : {
@@ -776,24 +644,12 @@
       "message" : "Gàidhlig"
    },
    "LARGE" : {
-      "description" : "",
+      "description" : "regarding terrestrial planet size (mass actually)",
       "message" : "Mòr"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Mòr-phlanaid gasa mòr"
-   },
-   "LARGE_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Luathaichear plasma mòr"
-   },
-   "LASER_COOLING_BOOSTER" : {
-      "description" : "",
-      "message" : "Laser Cooling Booster"
-   },
-   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Siostam fuaraidh leasaichte airson nan arm agad."
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -828,7 +684,7 @@
       "message" : "Local arm"
    },
    "LOCKED" : {
-      "description" : "",
+      "description" : "to lock a hyperspace target",
       "message" : "glaiste"
    },
    "MAJOR_EXPORTS" : {
@@ -963,14 +819,6 @@
       "description" : "",
       "message" : "Connadh an airm"
    },
-   "MININGCANNON_17MW" : {
-      "description" : "",
-      "message" : "17MW blast-mining cannon"
-   },
-   "MININGCANNON_17MW_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Used to blast-mine mineral rich asteroids."
-   },
    "MINING_COLONY" : {
       "description" : "",
       "message" : "Tuineachadh mèinnearachd."
@@ -1002,22 +850,6 @@
    "MISSILE" : {
       "description" : "",
       "message" : "astas"
-   },
-   "MISSILE_GUIDED" : {
-      "description" : "",
-      "message" : "Astas stiùirichte"
-   },
-   "MISSILE_NAVAL" : {
-      "description" : "",
-      "message" : "Astas cabhlachail"
-   },
-   "MISSILE_SMART" : {
-      "description" : "",
-      "message" : "Astas glic"
-   },
-   "MISSILE_UNGUIDED" : {
-      "description" : "",
-      "message" : "Rocaid R40 gun stiùireadh"
    },
    "MIXED_ECONOMY" : {
       "description" : "",
@@ -1111,16 +943,12 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NONE" : {
-      "description" : "used for no allegiance, and no rank, and no missions",
-      "message" : "Chan eil gin"
-   },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Norma arm"
    },
    "NOT_FOUND" : {
-      "description" : "",
+      "description" : "searching star system in sector view",
       "message" : "Cha deach a lorg"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
@@ -1216,7 +1044,7 @@
       "message" : "%mass{f.3} %units tomadan"
    },
    "N_WHATEVER_RADII" : {
-      "description" : "",
+      "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
       "message" : "%radius{f.3} %units rèideas (%radkm{f.0} km)"
    },
    "N_YEARS" : {
@@ -1312,19 +1140,19 @@
       "message" : "Àrd-riaghaltas le plana-eaconamaidh "
    },
    "PLANNER_RESET_FACTOR" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
    "PLANNER_RESET_NORMAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Normal delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_PROGRADE" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
-      "description" : "",
+      "description" : "For system orbit view",
       "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLASTICS" : {
@@ -1355,45 +1183,9 @@
       "description" : "",
       "message" : "Coltachd na ruigsinn: %probability%%"
    },
-   "PULSECANNON_10MW" : {
-      "description" : "",
-      "message" : "Canan buille-chuisle 100MW"
-   },
-   "PULSECANNON_1MW" : {
-      "description" : "",
-      "message" : "Canan buille-chuisle 1MW"
-   },
-   "PULSECANNON_20MW" : {
-      "description" : "",
-      "message" : "Canan buille-chuisle 20MW"
-   },
-   "PULSECANNON_2MW" : {
-      "description" : "",
-      "message" : "Canan buille-chuisle 2MW"
-   },
-   "PULSECANNON_4MW" : {
-      "description" : "",
-      "message" : "Canan buille-chuisle 4MW"
-   },
-   "PULSECANNON_DUAL_1MW" : {
-      "description" : "",
-      "message" : "Canan buille-chuisle dùbailte 1MW"
-   },
-   "PULSECANNON_RAPID_2MW" : {
-      "description" : "",
-      "message" : "Canan buille-chuisle luaith 2MW"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Siostam ceithir-fillte"
-   },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Rèidear-mapachaidh"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1402,10 +1194,6 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Rèideas"
-   },
-   "REAR" : {
-      "description" : "",
-      "message" : "Cùlaibh"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1483,20 +1271,12 @@
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius arm"
    },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Sganair"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Smachd an sganair"
    },
-   "SCANNER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Bheir seo mapa 3D dhut dhe na soithichean am fagas."
-   },
    "SCOOP" : {
-      "description" : "A general word for cargo scoop or fuel scoop; used to scoop up cargo or fuel",
+      "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Scoop"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
@@ -1567,22 +1347,6 @@
       "description" : "",
       "message" : "Set speed: %speed{f.0} m/s"
    },
-   "SHIELD_ENERGY_BOOSTER" : {
-      "description" : "",
-      "message" : "Shield Energy Booster"
-   },
-   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Increases the rate at which shields recharge."
-   },
-   "SHIELD_GENERATOR" : {
-      "description" : "",
-      "message" : "Gineadair sgèithe"
-   },
-   "SHIELD_GENERATOR_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Bheir seo barrachd dìona dhan t-slige leis gach aonad a chuireas tu ris."
-   },
    "SHIELD_INTEGRITY" : {
       "description" : "",
       "message" : "Shield integrity"
@@ -1632,7 +1396,7 @@
       "message" : "Ship velocity by reference object"
    },
    "SIDEREAL_VIEW" : {
-      "description" : "",
+      "description" : "camera view setting",
       "message" : "Sealladh ùine nan reul"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
@@ -1655,10 +1419,6 @@
       "description" : "",
       "message" : "Tuineachadh gnìomhachail beag."
    },
-   "SMALL_PLASMA_ACCEL" : {
-      "description" : "",
-      "message" : "Luathaichear plasma beag"
-   },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
       "message" : "Small-scale prospecting. No registered settlements."
@@ -1676,7 +1436,7 @@
       "message" : "Beagan mèinnearachd seasmhaich."
    },
    "SOURCE" : {
-      "description" : "",
+      "description" : "tell source system of hyperjump entry cloud",
       "message" : "Tùs"
    },
    "SPEED_CONTROL_MODE" : {
@@ -1844,7 +1604,7 @@
       "message" : "Switched heading display to planetary coordinates."
    },
    "SYSTEM" : {
-      "description" : "",
+      "description" : "star system",
       "message" : "Siostam"
    },
    "SYSTEM_NUMBER" : {
@@ -1872,7 +1632,7 @@
       "message" : "Target object in cross-hairs"
    },
    "TENUOUS" : {
-      "description" : "",
+      "description" : "atmosphere thickness",
       "message" : "tenuous"
    },
    "TEXTILES" : {
@@ -1944,16 +1704,8 @@
       "message" : "Toglaich modh an sganair"
    },
    "TOMBSTONE_EPITAPH" : {
-      "description" : "",
+      "description" : "shown on tombstone when player dies",
       "message" : "RIP OLD BEAN"
-   },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
-   },
-   "TRADE_ANALYZER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1983,14 +1735,6 @@
       "description" : "",
       "message" : "Losgadh airm mì-laghail"
    },
-   "UNOCCUPIED_CABIN" : {
-      "description" : "",
-      "message" : "Extra Passenger Cabin"
-   },
-   "UNOCCUPIED_CABIN_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Riatanach airson còmhdhail aon taistealaich"
-   },
    "UNSET_NAVTARGET" : {
       "description" : "",
       "message" : "Neo-shuidhich ceann-uidhe na seòladaireachd."
@@ -2010,14 +1754,6 @@
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
       "message" : "Mòr-phlanaid gasa glè mhòr"
-   },
-   "VID_CONNECTING" : {
-      "description" : "",
-      "message" : "'Ga cheangal..."
-   },
-   "VID_LINK_ESTABLISHED" : {
-      "description" : "",
-      "message" : "Chaidh ceangal video a stèidheachadh"
    },
    "VIEW" : {
       "description" : "",
@@ -2060,7 +1796,7 @@
       "message" : "\" gun àile ceart\""
    },
    "X" : {
-      "description" : "",
+      "description" : "keybinding: x axis",
       "message" : "X"
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
@@ -2068,7 +1804,7 @@
       "message" : "Chan fhulaing sinn %crime an-seo."
    },
    "Y" : {
-      "description" : "",
+      "description" : "keybinding: y axis",
       "message" : "Y"
    },
    "YAW" : {
@@ -2092,7 +1828,7 @@
       "message" : "Chan eil airgead agad."
    },
    "Z" : {
-      "description" : "",
+      "description" : "keybinding: z axis",
       "message" : "Z"
    },
    "ZOOM_IN" : {

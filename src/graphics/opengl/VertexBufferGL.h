@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GL2_VERTEXBUFFER_H
@@ -25,8 +25,8 @@ public:
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) override;
 	
-	virtual void Bind();
-	virtual void Release();
+	virtual void Bind() override;
+	virtual void Release() override;
 
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) override;
@@ -43,9 +43,27 @@ public:
 
 	virtual Uint16 *Map(BufferMapMode) override;
 	virtual void Unmap() override;
+	
+	virtual void Bind() override;
+	virtual void Release() override;
 
 private:
 	Uint16 *m_data;
+};
+
+// Instance buffer
+class InstanceBuffer : public Graphics::InstanceBuffer, public GLBufferBase {
+public:
+	InstanceBuffer(Uint32 size, BufferUsage);
+	virtual ~InstanceBuffer() override;
+	virtual matrix4x4f* Map(BufferMapMode) override;
+	virtual void Unmap() override;
+
+	virtual void Bind() override;
+	virtual void Release() override;
+
+protected:
+	std::unique_ptr<matrix4x4f> m_data;
 };
 
 } }

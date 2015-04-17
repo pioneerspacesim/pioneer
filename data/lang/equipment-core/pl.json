@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Zaawansowany maper radarowy"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Maper radarowy dalekiego zasięgu z pokryciem na cały system."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Tarcze Atmosferyczne"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Osłaniają statek przy wejściu w atmosferę."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Komputer nawigacyjny"
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "System Podtrzymywania Życia"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Umożliwia transport ludzi i zwierząt."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Czerpak towarowy"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Umożliwia przejęcie kontenerów towarowych dryfujących w przestrzeni."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Napęd Klasy 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Napęd Klasy 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Napęd Klasy 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Napęd Klasy 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Napęd Klasy 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Napęd Klasy 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Napęd Klasy 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Napęd Klasy 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Napęd Klasy 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Napęd Wojskowy Klasy 4"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Zaawansowany System ECM"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektroniczny system obrony przeciwrakietowej, zdolny do zniszczenia bardziej zaawansowanych pocisków naprowadzanych."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "System ECM"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Elektroniczny system obrony przeciwrakietowej, zdolny do zniszczenia niektórych pocisków naprowadzanych."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Czerpak paliwowy"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Pozwala czerpać paliwo wodorowe z gazowych olbrzymów."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "System Autonaprawy Kadłuba"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Automatycznie naprawia kadłub statku w przypadku uszkodzenia."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analizator Hiperskoku"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analizator chmur nadprzestrzennych do obliczania czasu i celu, przylotu lub odlotu."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Duży Akcelerator Plazmy"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Wspomaganie Chłodzenia Lasera"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Poprawia system chłodzenia twojej broni."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW Działo Górnicze"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Służy do kruszenia planetoid bogatych w minerały."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Pocisk Kierowany"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Pocisk Bojowy"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Pocisk Samonaprowadzający"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "Pocisk Niekierowany R40"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Czerpak wielofunkcyjny"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Mniej skuteczny od czerpaka paliwowego, lecz mimo to pozwala przechwycić zarówno kontenery towarowe jak i paliwo."
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW Działo Impulsowe"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW Działo Impulsowe"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW Działo Impulsowe"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW Działo Impulsowe"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW Działo Impulsowe"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW Działo Imp. - podwójny ogień"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW Szybkostrzelne Działo Imp."
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Mapowanie Radarowe"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Przydatne do zdalnego podglądu wyposażenia, ładunku i stanu innych statków."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Skaner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Dostarcza trójwymiarową mapę pobliskiej przestrzeni."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Wzmacniacz Osłon"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Zwiększa szybkość regeneracji osłon."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Generator Osłon"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Zapewnia dodatkową osłonę kadłuba wraz z dodawaniem kolejnych jednostek."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Mały Akcelerator Plazmy"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Analizator handlu"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Pokazuje zysk w handlu towarami pomiędzy wskazanym a obecnym systemem"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Kabina pasażerska"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Umożliwia przewiezienie jednego pasażera"
+   }
+}

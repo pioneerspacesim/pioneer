@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Meddelande om {target}s avslutade karriär glatt mottaget. Här är dina {cash}"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Hur snabbt måste det göras?"

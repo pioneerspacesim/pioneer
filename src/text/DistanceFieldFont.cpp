@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DistanceFieldFont.h"
@@ -49,12 +49,18 @@ void DistanceFieldFont::GetGeometry(Graphics::VertexArray &va, const std::string
 	vector2f cursor = offset;
 	vector2f bounds(0.f);
 	for(unsigned int i=0; i<text.length(); i++) {
-		Uint32 chr = Uint32(text.at(i));
-		std::map<Uint32, Glyph>::const_iterator it = m_glyphs.find(chr);
-		if (it != m_glyphs.end()) {
-			const Glyph &glyph = it->second;
-			AddGlyph(va, cursor + glyph.offset, glyph, bounds);
-			cursor.x += glyph.xAdvance;
+		//Look for \n and do a linebreak
+		if (text.at(i)=='\n') {
+			cursor.y--;
+			cursor.x=0;
+		} else {
+			Uint32 chr = Uint32(text.at(i));
+			std::map<Uint32, Glyph>::const_iterator it = m_glyphs.find(chr);
+			if (it != m_glyphs.end()) {
+				const Glyph &glyph = it->second;
+				AddGlyph(va, cursor + glyph.offset, glyph, bounds);
+				cursor.x += glyph.xAdvance;
+			}
 		}
 	}
 

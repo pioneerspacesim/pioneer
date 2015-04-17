@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DRAWABLES_H
@@ -102,6 +102,23 @@ private:
 	void CreateVertexBuffer(Graphics::Renderer *r, Material *mat, const Uint32 size);
 
 	bool m_refreshVertexBuffer;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	std::unique_ptr<VertexArray> m_va;
+};
+//------------------------------------------------------------
+
+// Screen aligned quad / billboard / pointsprite
+class Points {
+public:
+	Points();
+	void SetData(Renderer*, const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size);
+	void SetData(Renderer*, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size);
+	void Draw(Renderer*, RenderState*);
+private:
+	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
+	
+	bool m_refreshVertexBuffer;
+	RefCountedPtr<Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<VertexArray> m_va;
 };

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GAME_H
@@ -51,12 +51,12 @@ public:
 	Game(const SystemPath &path, double time = 0.0);
 
 	// load game
-	Game(Serializer::Reader &rd);
+	Game(const Json::Value &jsonObj);
 
 	~Game();
 
 	// save game
-	void Serialize(Serializer::Writer &wr);
+	void ToJson(Json::Value &jsonObj);
 
 	// various game states
 	bool IsNormalSpace() const { return m_state == STATE_NORMAL; }
@@ -129,7 +129,7 @@ private:
 	public:
 		Views();
 		void Init(Game* game);
-		void Load(Serializer::Reader &rd, Game* game);
+		void LoadFromJson(const Json::Value &jsonObj, Game* game);
 		~Views();
 
 		void SetRenderer(Graphics::Renderer *r);
@@ -150,7 +150,7 @@ private:
 	};
 
 	void CreateViews();
-	void LoadViews(Serializer::Reader &rd);
+	void LoadViewsFromJson(const Json::Value &jsonObj);
 	void DestroyViews();
 
 	static void EmitPauseState(bool paused);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_ANIMATION_H
@@ -33,6 +33,7 @@ private:
 	friend class BinaryConverter;
 	double m_duration;
 	double m_time;
+	double m_timePrev;
 	std::string m_name;
 	std::vector<AnimationChannel> m_channels;
 };

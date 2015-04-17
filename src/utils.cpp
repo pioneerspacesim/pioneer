@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "utils.h"
@@ -168,23 +168,13 @@ std::string format_distance(double dist, int precision)
 	return ss.str();
 }
 
-void Screendump(const char* destFile, const int width, const int height)
+void write_screenshot(const Graphics::ScreendumpState &sd, const char* destFile)
 {
 	const std::string dir = "screenshots";
 	FileSystem::userFiles.MakeDirectory(dir);
 	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
-	// pad rows to 4 bytes, which is the default row alignment for OpenGL
-	const int stride = (3*width + 3) & ~3;
-
-	std::vector<Uint8> pixel_data(stride * height);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
-	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
-	glFinish();
-
-	write_png(FileSystem::userFiles, fname, &pixel_data[0], width, height, stride, 3);
+	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp);
 
 	Output("Screenshot %s saved\n", fname.c_str());
 }
@@ -223,6 +213,228 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 			}
 		}
 	}
+}
+
+std::string SInt64ToStr(Sint64 val)
+{
+	char str[128];
+	//sprintf(str, "%I64d", val); // Windows
+	sprintf(str, "%lld", val);
+	return str;
+}
+
+std::string UInt64ToStr(Uint64 val)
+{
+	char str[128];
+	//sprintf(str, "%I64u", val); // Windows
+	sprintf(str, "%llu", val);
+	return str;
+}
+
+std::string FloatToStr(float val)
+{
+	// Can't get hexfloats to work.
+	//char hex[128]; // Probably don't need such a large char array.
+	//std::sprintf(hex, "%a", val);
+	//return hex;
+
+	// Lossy method storing as decimal and exponent.
+	//char str[128]; // Probably don't need such a large char array.
+	//std::sprintf(str, "%.7e", val);
+	//return str;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(float) == 4 || sizeof(float) == 8, "float isn't 4 or 8 bytes");
+	if (sizeof(float) == 4)
+	{
+		uint32_t intVal;
+		memcpy(&intVal, &val, 4);
+		char str[64];
+		//sprintf(str, "%I32u", intVal); // Windows
+		sprintf(str, "%lu", intVal);
+		return str;
+	}
+	else // sizeof(float) == 8
+	{
+		uint64_t intVal;
+		memcpy(&intVal, &val, 8);
+		char str[128];
+		//sprintf(str, "%I64u", intVal); // Windows
+		sprintf(str, "%llu", intVal);
+		return str;
+	}
+}
+
+std::string DoubleToStr(double val)
+{
+	// Can't get hexfloats to work.
+	//char hex[128]; // Probably don't need such a large char array.
+	//std::sprintf(hex, "%la", val);
+	//return hex;
+
+	// Lossy method storing as decimal and exponent.
+	//char str[128]; // Probably don't need such a large char array.
+	//std::sprintf(str, "%.15le", val);
+	//return str;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(double) == 4 || sizeof(double) == 8, "double isn't 4 or 8 bytes");
+	if (sizeof(double) == 4)
+	{
+		uint32_t intVal;
+		memcpy(&intVal, &val, 4);
+		char str[64];
+		//sprintf(str, "%I32u", intVal); // Windows
+		sprintf(str, "%lu", intVal);
+		return str;
+	}
+	else // sizeof(double) == 8
+	{
+		uint64_t intVal;
+		memcpy(&intVal, &val, 8);
+		char str[128];
+		//sprintf(str, "%I64u", intVal); // Windows
+		sprintf(str, "%llu", intVal);
+		return str;
+	}
+}
+
+std::string AutoToStr(Sint32 val)
+{
+	char str[64];
+	//sprintf(str, "%I32d", val); // Windows
+	sprintf(str, "%ld", val);
+	return str;
+}
+
+std::string AutoToStr(Sint64 val)
+{
+	char str[128];
+	//sprintf(str, "%I64d", val); // Windows
+	sprintf(str, "%lld", val);
+	return str;
+}
+
+std::string AutoToStr(float val)
+{
+	return FloatToStr(val);
+}
+
+std::string AutoToStr(double val)
+{
+	return DoubleToStr(val);
+}
+
+Sint64 StrToSInt64(const std::string &str)
+{
+	Sint64 val;
+	//sscanf(str.c_str(), "%I64d", &val); // Windows
+	sscanf(str.c_str(), "%lld", &val);
+	return val;
+}
+
+Uint64 StrToUInt64(const std::string &str)
+{
+	Uint64 val;
+	//sscanf(str.c_str(), "%I64u", &val); // Windows
+	sscanf(str.c_str(), "%llu", &val);
+	return val;
+}
+
+float StrToFloat(const std::string &str)
+{
+	// Can't get hexfloats to work.
+	//return std::strtof(str.c_str(), 0);
+
+	// Can't get hexfloats to work.
+	//float val;
+	//std::sscanf(str.c_str(), "%a", &val);
+	//return val;
+
+	// Lossy method storing as decimal and exponent.
+	//float val;
+	//std::sscanf(str.c_str(), "%e", &val);
+	//return val;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(float) == 4 || sizeof(float) == 8, "float isn't 4 or 8 bytes");
+	if (sizeof(float) == 4)
+	{
+		uint32_t intVal;
+		//sscanf(str.c_str(), "%I32u", &intVal); // Windows
+		sscanf(str.c_str(), "%lu", &intVal);
+		float val;
+		memcpy(&val, &intVal, 4);
+		return val;
+	}
+	else // sizeof(float) == 8
+	{
+		uint64_t intVal;
+		//sscanf(str.c_str(), "%I64u", &intVal); // Windows
+		sscanf(str.c_str(), "%llu", &intVal);
+		float val;
+		memcpy(&val, &intVal, 8);
+		return val;
+	}
+}
+
+double StrToDouble(const std::string &str)
+{
+	// Can't get hexfloats to work.
+	//return std::strtod(str.c_str(), 0);
+
+	// Can't get hexfloats to work.
+	//double val;
+	//std::sscanf(str.c_str(), "%la", &val);
+	//return val;
+
+	// Lossy method storing as decimal and exponent.
+	//double val;
+	//std::sscanf(str.c_str(), "%le", &val);
+	//return val;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(double) == 4 || sizeof(double) == 8, "double isn't 4 or 8 bytes");
+	if (sizeof(double) == 4)
+	{
+		uint32_t intVal;
+		//sscanf(str.c_str(), "%I32u", &intVal); // Windows
+		sscanf(str.c_str(), "%lu", &intVal);
+		double val;
+		memcpy(&val, &intVal, 4);
+		return val;
+	}
+	else // sizeof(double) == 8
+	{
+		uint64_t intVal;
+		//sscanf(str.c_str(), "%I64u", &intVal); // Windows
+		sscanf(str.c_str(), "%llu", &intVal);
+		double val;
+		memcpy(&val, &intVal, 8);
+		return val;
+	}
+}
+
+void StrToAuto(Sint32 *pVal, const std::string &str)
+{
+	//sscanf(str.c_str(), "%I32d", pVal); // Windows
+	sscanf(str.c_str(), "%ld", pVal);
+}
+
+void StrToAuto(Sint64 *pVal, const std::string &str)
+{
+	//sscanf(str.c_str(), "%I64d", pVal); // Windows
+	sscanf(str.c_str(), "%lld", pVal);
+}
+
+void StrToAuto(float *pVal, const std::string &str)
+{
+	*pVal = StrToFloat(str);
+}
+
+void StrToAuto(double *pVal, const std::string &str)
+{
+	*pVal = StrToDouble(str);
 }
 
 static const int HEXDUMP_CHUNK = 16;

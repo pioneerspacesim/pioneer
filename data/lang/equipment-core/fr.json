@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radar cartographique avancé"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Radar cartographique avancé, avec couverture large du système"
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Bouclier atmosphérique"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Protège votre vaisseau pendant une rentrée en atmosphère."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Pilote automatique"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ordinateur de bord."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Soute préssurisée pour animaux"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permet le transport d'animaux vivants et d'esclaves."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Récupérateur de cargaison"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permet de récupérer des conteneurs dans l'espace."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 1"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 2"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 3"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 4"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 5"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 6"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 7"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 8"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Hyperpropulsion Classe 9"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 1"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 2"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 3"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Propulsion militaire Classe 4"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Système ECM avancé"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Système de contremesures électronique capable de détruire la plupart des missiles à tête chercheuse."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "Système ECM"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Système de contremesures électroniques, capable de détruire certains missiles guidés."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Écope à carburant"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permet de récupérer de l'hydrogène sur les planètes géantes gazeuses."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Système d'autoréparation de coque"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Répare automatiquement la coque du vaisseau en cas de dommages."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Analyseur de nuage hyperspatial"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analyse les nuages hyperspatiaux pour déterminer la destination et l'heure d'arrivée ou de départ."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Grand accélérateur à plasma"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Accélérateur de refroidissement laser"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Améliore le refroidissement de vos armes."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "Canon minier 17MW"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Utilisé pour l'extraction du minerai des astéroïdes."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Missile guidé"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Missile naval"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Missile intelligent"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "Roquette R40 non guidée"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Malgré une efficacité moindre que celle d'une écope à carubrant, cela permet d'écoper et la cargaison, et le carburant."
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "Canon laser 10MW"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "Canon laser 1MW"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "Canon laser 20MW"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "Canon laser 2MW"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "Canon laser 4MW"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "Canon laser 1MW double"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "Canon laser rapide 2MW"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Cartographe Radar"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permet d'inspecter l'équipement, le cargo et l'état des autres vaisseaux."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Senseurs"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Donne une représentation 3D des vaisseaux environnants."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Booster énergétique de bouclier"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Accélère le rechargement des boucliers."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Générateur de bouclier"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Procure une protection de coque supplémentaire pour chaque unité installée."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Petit accélérateur à plasma"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Analyseur de profit commercial"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Montre les profits générés par les échanges commerciaux entre le système actuel et le système sélectionné"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Cabine passager supp."
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Requis pour le transport d'un passager."
+   }
+}

@@ -1,0 +1,258 @@
+{
+   "ADVANCED_RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Advanced Radar Mapper"
+   },
+   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Long range radar mapper with system wide coverage."
+   },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "",
+      "message" : "Atmospheric Shielding"
+   },
+   "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
+   },
+   "AUTOPILOT" : {
+      "description" : "",
+      "message" : "Autopilot"
+   },
+   "AUTOPILOT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An on-board flight computer."
+   },
+   "CARGO_LIFE_SUPPORT" : {
+      "description" : "",
+      "message" : "Cargo Bay Life Support"
+   },
+   "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Allows the transport of live cargo."
+   },
+   "CARGO_SCOOP" : {
+      "description" : "",
+      "message" : "Cargo Scoop"
+   },
+   "CARGO_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Tilgjengeligjør fanging av lastepods fra rommet."
+   },
+   "DRIVE_CLASS1" : {
+      "description" : "",
+      "message" : "Class 1 Hyperdrive"
+   },
+   "DRIVE_CLASS2" : {
+      "description" : "",
+      "message" : "Class 2 Hyperdrive"
+   },
+   "DRIVE_CLASS3" : {
+      "description" : "",
+      "message" : "Class 3 Hyperdrive"
+   },
+   "DRIVE_CLASS4" : {
+      "description" : "",
+      "message" : "Class 4 Hyperdrive"
+   },
+   "DRIVE_CLASS5" : {
+      "description" : "",
+      "message" : "Class 5 Hyperdrive"
+   },
+   "DRIVE_CLASS6" : {
+      "description" : "",
+      "message" : "Class 6 Hyperdrive"
+   },
+   "DRIVE_CLASS7" : {
+      "description" : "",
+      "message" : "Class 7 Hyperdrive"
+   },
+   "DRIVE_CLASS8" : {
+      "description" : "",
+      "message" : "Class 8 Hyperdrive"
+   },
+   "DRIVE_CLASS9" : {
+      "description" : "",
+      "message" : "Class 9 Hyperdrive"
+   },
+   "DRIVE_MIL1" : {
+      "description" : "",
+      "message" : "Klasse 1 Millitær motor"
+   },
+   "DRIVE_MIL2" : {
+      "description" : "",
+      "message" : "Klasse 2 Millitær motor"
+   },
+   "DRIVE_MIL3" : {
+      "description" : "",
+      "message" : "Klasse 3 Millitær motor"
+   },
+   "DRIVE_MIL4" : {
+      "description" : "",
+      "message" : "Class 4 Military drive"
+   },
+   "ECM_ADVANCED" : {
+      "description" : "",
+      "message" : "Advanced ECM system"
+   },
+   "ECM_ADVANCED_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+   },
+   "ECM_BASIC" : {
+      "description" : "",
+      "message" : "ECM system"
+   },
+   "ECM_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An electronic countermeasure missile defence system, capable of destroying some homing missiles."
+   },
+   "FUEL_SCOOP" : {
+      "description" : "",
+      "message" : "Fuel Scoop"
+   },
+   "FUEL_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permits scooping hydrogen fuel from gas giant planets."
+   },
+   "HULL_AUTOREPAIR" : {
+      "description" : "",
+      "message" : "Hull Auto-Repair System"
+   },
+   "HULL_AUTOREPAIR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Reparerer automatisk skipets skrog ved skade."
+   },
+   "HYPERCLOUD_ANALYZER" : {
+      "description" : "",
+      "message" : "Hypercloud Analyzer"
+   },
+   "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+   },
+   "LARGE_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Stor plasmaaksellerator"
+   },
+   "LASER_COOLING_BOOSTER" : {
+      "description" : "",
+      "message" : "Laser Cooling Booster"
+   },
+   "LASER_COOLING_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "An improved cooling system for your weapons."
+   },
+   "MININGCANNON_17MW" : {
+      "description" : "",
+      "message" : "17MW blast-mining cannon"
+   },
+   "MININGCANNON_17MW_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Used to blast-mine mineral rich asteroids."
+   },
+   "MISSILE_GUIDED" : {
+      "description" : "",
+      "message" : "Guided Missile"
+   },
+   "MISSILE_NAVAL" : {
+      "description" : "",
+      "message" : "Naval Missile"
+   },
+   "MISSILE_SMART" : {
+      "description" : "",
+      "message" : "Smart Missile"
+   },
+   "MISSILE_UNGUIDED" : {
+      "description" : "",
+      "message" : "R40 Unguided Rocket"
+   },
+   "MULTI_SCOOP" : {
+      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
+      "message" : "Multi Scoop"
+   },
+   "MULTI_SCOOP_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+   },
+   "PULSECANNON_10MW" : {
+      "description" : "",
+      "message" : "10MW pulskanon"
+   },
+   "PULSECANNON_1MW" : {
+      "description" : "",
+      "message" : "1MW pulse cannon"
+   },
+   "PULSECANNON_20MW" : {
+      "description" : "",
+      "message" : "20MW pulse cannon"
+   },
+   "PULSECANNON_2MW" : {
+      "description" : "",
+      "message" : "2MW pulse cannon"
+   },
+   "PULSECANNON_4MW" : {
+      "description" : "",
+      "message" : "4MW pulse cannon"
+   },
+   "PULSECANNON_DUAL_1MW" : {
+      "description" : "",
+      "message" : "1MW dual-fire pulse cannon"
+   },
+   "PULSECANNON_RAPID_2MW" : {
+      "description" : "",
+      "message" : "2MW rapid-fire pulse cannon"
+   },
+   "RADAR_MAPPER" : {
+      "description" : "",
+      "message" : "Radar Mapper"
+   },
+   "RADAR_MAPPER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
+   },
+   "SCANNER" : {
+      "description" : "",
+      "message" : "Skanner"
+   },
+   "SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Viser ett 3D kart over skip i nærheten."
+   },
+   "SHIELD_ENERGY_BOOSTER" : {
+      "description" : "",
+      "message" : "Shield Energy Booster"
+   },
+   "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Øker hastigheten på lading av skjold."
+   },
+   "SHIELD_GENERATOR" : {
+      "description" : "",
+      "message" : "Skjoldgenerator"
+   },
+   "SHIELD_GENERATOR_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Provides additional hull defences with each unit fitted."
+   },
+   "SMALL_PLASMA_ACCEL" : {
+      "description" : "",
+      "message" : "Liten plasmaakselerator"
+   },
+   "TRADE_ANALYZER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade analyzer"
+   },
+   "TRADE_ANALYZER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Shows profitable commodities to trade between selected and current system"
+   },
+   "UNOCCUPIED_CABIN" : {
+      "description" : "",
+      "message" : "Extra Passenger Cabin"
+   },
+   "UNOCCUPIED_CABIN_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Required for transport of a single passenger"
+   }
+}

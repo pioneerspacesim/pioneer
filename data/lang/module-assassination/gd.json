@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Message of {target}'s ending career happily acquired. Here is your {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Cuir crìoch air a' ghairm."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "How soon must it be done?"

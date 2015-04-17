@@ -68,6 +68,10 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
       <Filter>opengl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp">
+      <Filter>dummy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\Stats.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -146,6 +150,25 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.h">
       <Filter>opengl</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\dummy\MaterialDummy.h">
+      <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\dummy\RendererDummy.h">
+      <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderStateDummy.h">
+      <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderTargetDummy.h">
+      <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\dummy\TextureDummy.h">
+      <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h">
+      <Filter>dummy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\Stats.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">
@@ -153,6 +176,9 @@
     </Filter>
     <Filter Include="opengl">
       <UniqueIdentifier>{d326765b-28c9-46c3-bde7-60dcfd3a059f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dummy">
+      <UniqueIdentifier>{613c7313-f10f-43ec-92f0-5f0c66d0cfc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

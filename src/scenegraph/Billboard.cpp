@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Billboard.h"
@@ -6,6 +6,10 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
+#include "graphics/Material.h"
+#include "graphics/RenderState.h"
+#include "graphics/Stats.h"
 
 namespace SceneGraph {
 
@@ -42,6 +46,7 @@ void Billboard::Accept(NodeVisitor &nv)
 
 void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	Graphics::Renderer *r = GetRenderer();
 
 	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0, 6);
@@ -51,8 +56,8 @@ void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 	//some hand-tweaked scaling, to make the lights seem larger from distance
 	const float size = m_size * Graphics::GetFovFactor() * Clamp(trans.GetTranslate().Length() / 500.f, 0.25f, 15.f);
 
-	const vector3f rotv1 = rot * vector3f(size/2.f, -size/2.f, 0.0f);
-	const vector3f rotv2 = rot * vector3f(size/2.f, size/2.f, 0.0f);
+	const vector3f rotv1 = rot * vector3f(size*0.5f, -size*0.5f, 0.0f);
+	const vector3f rotv2 = rot * vector3f(size*0.5f, size*0.5f, 0.0f);
 
 	va.Add(m_offset-rotv1, vector2f(0.f, 0.f)); //top left
 	va.Add(m_offset-rotv2, vector2f(0.f, 1.f)); //bottom left
@@ -62,8 +67,24 @@ void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 	va.Add(m_offset-rotv2, vector2f(0.f, 1.f)); //bottom left
 	va.Add(m_offset+rotv1, vector2f(1.f, 1.f)); //bottom right
 
+	if( !m_vbuffer.Valid() )
+	{
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.numVertices = va.GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+		m_vbuffer.Reset( r->CreateVertexBuffer(vbd) );
+	}
+	m_vbuffer->Populate( va );
+
 	r->SetTransform(trans);
-	r->DrawTriangles(&va, m_renderState, m_material.Get());
+	r->DrawBuffer(m_vbuffer.Get(), m_renderState, m_material.Get());
+
+	r->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
 }
 
 }

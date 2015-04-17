@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Indietro"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Riaggancia."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Mi dispiace, non sono preparato a scendere più in basso."

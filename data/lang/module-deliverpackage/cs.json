@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "Závisí na tom naše živobytí."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Dokdy musí být zásilka doručena?"

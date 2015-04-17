@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Group.h"
@@ -116,14 +116,32 @@ void Group::Traverse(NodeVisitor &nv)
 
 void Group::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	RenderChildren(trans, rd);
 }
 
 void Group::RenderChildren(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	for(std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
 	{
 		if((*itr)->GetNodeMask() & rd->nodemask)
+			(*itr)->Render(trans, rd);
+	}
+}
+
+void Group::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED()
+	RenderChildren(trans, rd);
+}
+
+void Group::RenderChildren(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED()
+	for (std::vector<Node*>::iterator itr = m_children.begin(), itEnd = m_children.end(); itr != itEnd; ++itr)
+	{
+		if ((*itr)->GetNodeMask() & rd->nodemask)
 			(*itr)->Render(trans, rd);
 	}
 }

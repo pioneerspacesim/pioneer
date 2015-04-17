@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef PROPERTYMAP_H
@@ -31,12 +31,8 @@ public:
 		return m_signals[k].connect(fn);
 	}
 
-    void Save(Serializer::Writer &wr) {
-        m_table.Save(wr);
-    }
-    void Load(Serializer::Reader &rd) {
-        m_table.Load(rd);
-    }
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 private:
 	LuaRef m_table;

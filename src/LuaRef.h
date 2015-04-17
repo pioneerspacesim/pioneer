@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAREF_H
@@ -6,6 +6,7 @@
 
 #include "lua/lua.hpp"
 #include "Serializer.h"
+#include "json/json.h"
 #include <vector>
 #include <cassert>
 
@@ -22,11 +23,10 @@ public:
 
 	lua_State * GetLua() const { return m_lua; }
 
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
+	bool IsValid() const { return m_lua && m_id != LUA_NOREF; }
 
-	static void InitLoad();
-	static void UninitLoad();
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 private:
 	lua_State * m_lua;

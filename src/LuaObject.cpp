@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -94,14 +94,17 @@
 static bool instantiated = false;
 
 static std::map< std::string, std::map<std::string,PromotionTest> > *promotions;
+static std::map< std::string, SerializerPair > *serializers;
 
 static void _teardown() {
 	delete promotions;
+	delete serializers;
 }
 
 static inline void _instantiate() {
 	if (!instantiated) {
 		promotions = new std::map< std::string, std::map<std::string,PromotionTest> >;
+		serializers = new std::map< std::string, SerializerPair >;
 
 		// XXX atexit is not a very nice way to deal with this in C++
 		atexit(_teardown);
@@ -865,6 +868,49 @@ bool LuaObjectBase::Isa(const char *base) const
 void LuaObjectBase::RegisterPromotion(const char *base_type, const char *target_type, PromotionTest test_fn)
 {
 	(*promotions)[base_type][target_type] = test_fn;
+}
+
+void LuaObjectBase::RegisterSerializer(const char *type, SerializerPair pair)
+{
+	(*serializers)[type] = pair;
+}
+
+std::string LuaObjectBase::Serialize()
+{
+	static char buf[256];
+
+	lua_State *l = Lua::manager->GetLuaState();
+
+	auto i = serializers->find(m_type);
+	if (i == serializers->end()) {
+		luaL_error(l, "No registered serializer for type %s\n", m_type);
+		abort();
+	}
+
+	snprintf(buf, sizeof(buf), "%s\n", m_type);
+
+	return std::string(buf) + (*i).second.serialize(GetObject());
+}
+
+bool LuaObjectBase::Deserialize(const char *stream, const char **next)
+{
+	static char buf[256];
+
+	const char *end = strchr(stream, '\n');
+	int len = end - stream;
+	end++; // skip newline
+
+	snprintf(buf, sizeof(buf), "%.*s", len, stream);
+
+	lua_State *l = Lua::manager->GetLuaState();
+
+	auto i = serializers->find(buf);
+	if (i == serializers->end()) {
+		luaL_error(l, "No registered deserializer for type %s\n", buf);
+		abort();
+	}
+
+	return (*i).second.deserialize(end, next);
 }
 
 void *LuaObjectBase::Allocate(size_t n) {

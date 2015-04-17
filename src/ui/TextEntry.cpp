@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextEntry.h"
@@ -78,8 +78,8 @@ void TextEntry::Draw()
 	Container::Draw();
 
 	if (IsSelected()) {
-		GetContext()->GetRenderer()->DrawLines(2, m_cursorVertices,
-			Color::WHITE, GetContext()->GetSkin().GetAlphaBlendState());
+		m_lines.SetData(2, &m_cursorVertices[0], Color::WHITE);
+		m_lines.Draw(GetContext()->GetRenderer(), GetContext()->GetSkin().GetAlphaBlendState());
 	}
 }
 

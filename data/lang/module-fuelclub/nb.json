@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Gå tilbake"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Legg på."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, free disposal (conditions apply)"

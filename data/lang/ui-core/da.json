@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Der er opstået en fejl"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Atmospheric shielding"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Forsøg at reparere skrog"
@@ -56,15 +60,15 @@
       "message" : "Køb Skib"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Kabiner"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} ledig"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} i brug"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "Annulér"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Kapacitet"
    },
    "CAPACITY_USED" : {
@@ -92,11 +96,11 @@
       "message" : "Cargo space used"
    },
    "CARGO_T_FREE" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t ledig"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}t brugt"
    },
    "CASH" : {
@@ -108,7 +112,7 @@
       "message" : "Penge: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Skift tast"
    },
    "CHIEF_MECHANIC" : {
@@ -120,15 +124,15 @@
       "message" : "Cirkulært kredsløbshastighed"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "Bydetaljeniveau"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Ren"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Ryd"
    },
    "CLIENT" : {
@@ -136,7 +140,7 @@
       "message" : "Klient"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Kamp"
    },
    "COMMANDER" : {
@@ -148,11 +152,11 @@
       "message" : "Råvaremarkede"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
+      "description" : "Game settings option",
       "message" : "Compact scanner"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Kompetent"
    },
    "COMPLETED" : {
@@ -160,7 +164,7 @@
       "message" : "Færdig"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Komprimér Teksturer"
    },
    "CONSTABLE" : {
@@ -200,11 +204,11 @@
       "message" : "Straffeattest"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Farlig"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Dødelig"
    },
    "DELTA_V" : {
@@ -232,7 +236,7 @@
       "message" : "Ødelæg fjendtligt skib"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Afvis"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -240,11 +244,11 @@
       "message" : "Vis HUD-spor"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "Vis navigationstunneller"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Vis hastighedslinjer"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -252,7 +256,7 @@
       "message" : "Tilkobl med nuværende mål"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Til"
    },
    "D_DAYS_LEFT" : {
@@ -268,7 +272,7 @@
       "message" : "Effekter:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "ELITE"
    },
    "EMPLOYMENT" : {
@@ -276,7 +280,7 @@
       "message" : "Beskæftigelse"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Aktivér cockpit (EKSPERIMENTELT)"
    },
    "ENABLE_JOYSTICK" : {
@@ -284,7 +288,7 @@
       "message" : "Aktivér joystick"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Vedligeholdelse:"
    },
    "EQUIPMENT" : {
@@ -320,7 +324,7 @@
       "message" : "Ekspert"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Fejlet"
    },
    "FEMALE" : {
@@ -384,7 +388,7 @@
       "message" : "Afbryd linjen."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Harmløs"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -412,7 +416,7 @@
       "message" : "Tung passagértransport"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "Høj"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -560,7 +564,7 @@
       "message" : "Lav"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "ly"
    },
    "MAKE_NEW_FACE" : {
@@ -592,7 +596,7 @@
       "message" : "Maksimum besætning"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Mellem"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -756,7 +760,7 @@
       "message" : "Cirkulært kredsløb er givet for en tangential hastighed. Skibet skal bevæge sig i en retning på 90° til skibets/{navn} akse.\n\nNedstigningshastighed er et absolut minimum og også tangential. En langsommere hastighed eller en lavere vinkel vil resultere i en kurs, der krydser med overfladen af {name}.\n\nUndslipningshastigheden vil i teorien virke i alle retninger, så længe skibet ikke kolliderer med {name} på vejen."
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Skyldte"
    },
    "PAY_FINE_OF_N" : {
@@ -792,7 +796,7 @@
       "message" : "Politi"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Ringe"
    },
    "POSITION" : {
@@ -879,6 +883,10 @@
       "description" : "",
       "message" : "Gem"
    },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Scoop mounts"
+   },
    "SELECT" : {
       "description" : "",
       "message" : "Vælg"
@@ -948,7 +956,7 @@
       "message" : "Start på Jorden"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Begynd ved New Hope"
    },
    "STATION_MANAGER" : {
@@ -972,7 +980,7 @@
       "message" : "Skibet er under stationsmagt, Kommandør."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Skift mand/kvinde"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1016,11 +1024,11 @@
       "message" : "Brugt"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Meget Høj"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Meget lav"
    },
    "VIDEO" : {
@@ -1036,7 +1044,7 @@
       "message" : "Billedopløsning"
    },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Løn"
    },
    "WEIGHT_EMPTY" : {

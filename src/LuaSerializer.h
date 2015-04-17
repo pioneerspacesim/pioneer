@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUASERIALIZER_H
@@ -12,12 +12,16 @@
 
 class LuaSerializer : public DeleteEmitter {
 	friend class LuaObject<LuaSerializer>;
-	friend void LuaRef::Save(Serializer::Writer &wr);
-	friend void LuaRef::Load(Serializer::Reader &rd);
+	friend void LuaRef::SaveToJson(Json::Value &jsonObj);
+	friend void LuaRef::LoadFromJson(const Json::Value &jsonObj);
 
 public:
-	void Serialize(Serializer::Writer &wr);
-	void Unserialize(Serializer::Reader &rd);
+	void ToJson(Json::Value &jsonObj);
+	void FromJson(const Json::Value &jsonObj);
+
+	void WrLuaRef(LuaRef &ref, Serializer::Writer &wr);
+	void RdLuaRef(LuaRef &ref, Serializer::Reader &rd);
+
 	void InitTableRefs();
 	void UninitTableRefs();
 

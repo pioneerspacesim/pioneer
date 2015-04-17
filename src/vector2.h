@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VECTOR2_H
@@ -26,6 +26,9 @@ public:
 	vector2f &operator*=(const float &a) { x*=a; y*=a; return *this; }
 	vector2f operator-() const { return vector2f(-x,-y); }
 
+	bool operator==(const vector2f &a) const { 
+		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y);
+	}
 	bool ExactlyEqual(const vector2f &a) const {
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y);
 	}
