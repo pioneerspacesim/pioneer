@@ -1401,7 +1401,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Моделирование развития вселенной: %age{f.1} млрд. лет ;-)"
+      "message" : "Моделируем развитие вселенной: %age{f.1} млрд. лет ;-)"
    },
    "SLAVES" : {
       "description" : "",
