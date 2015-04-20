@@ -29,7 +29,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Atmospheric shielding"
+      "message" : "Atmosfer kalkanı"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "BUY" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Buy"
+      "message" : "Satın al"
    },
    "BUY_SHIP" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "Kullanılan kargo alanı"
    },
    "CARGO_T_FREE" : {
       "description" : "t for tonne",
@@ -153,7 +153,7 @@
    },
    "COMPACT_SCANNER" : {
       "description" : "Game settings option",
-      "message" : "Compact scanner"
+      "message" : "Yoğun tarayıcı"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -481,7 +481,7 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Sizin için çalışmak çok iyiydi. Bana tekrar ihtiyacınız olursa bir süre daha buralardayım"
+      "message" : "Sizin için çalışmak harikaydı. Bana tekrar ihtiyacınız olursa bir süre daha buralardayım."
    },
    "JETTISON" : {
       "description" : "",
@@ -800,7 +800,7 @@
       "message" : "Fakir"
    },
    "POSITION" : {
-      "description" : "",
+      "description" : "The job title/position of crew memeber",
       "message" : "Pozisyon"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
@@ -885,7 +885,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Scoop mounts"
+      "message" : "Toplayıcı bağlantıları"
    },
    "SELECT" : {
       "description" : "",
@@ -1060,7 +1060,7 @@
       "message" : "Komutanım, üstuzaydayız."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
+      "description" : "Said by the police to law abiding player",
       "message" : "Şu anda sizinle bir işimiz yok."
    },
    "YES" : {

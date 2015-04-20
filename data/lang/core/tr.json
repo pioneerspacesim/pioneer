@@ -57,7 +57,7 @@
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
+      "message" : "Otomatik pilot kontrolü"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -573,7 +573,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "Yasadışı (mevcut sistem):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "%{sign}%joyname %axis Ekseni"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -657,7 +657,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "Yasal (mevcut sistem):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "Yerel kol"
    },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
@@ -693,7 +693,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "Ana ihracat (mevcut sistem)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -701,7 +701,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "Ana ithalat (mevcut sistem)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -833,7 +833,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "Yan ihracat (mevcut sistem)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -841,7 +841,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "Yan ithalat (mevcut sistem)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -905,11 +905,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Çoklu Toplayıcı"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Yakıt toplayıcıdan daha az etkilli olsa da hem kargo hem de yakıt toplamaya izin verir"
    },
    "MURDER" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Bu sistem %date tarihinde keşfedildi."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1277,7 +1277,7 @@
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
+      "message" : "Toplayıcı"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1337,7 +1337,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "Navigasyon hedefini seç:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1365,7 +1365,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
+      "message" : "Gemi ekran biçimleri arasında geçiş yap."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1597,11 +1597,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "Yönelim ekranı sistem geneli koordinatlara değiştirildi."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "Yönelim ekranı gezegensel koordinatlara değiştirildi."
    },
    "SYSTEM" : {
       "description" : "star system",
@@ -1649,7 +1649,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "3kpc kolu"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1737,7 +1737,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "Navigasyon hedefini sil."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Gelişmiş Radar Eşleyici"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Sistem geneli kapsamaya sahip uzun mesafe radar eşleyici."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Çoklu Toplayıcı"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Yakıt toplayıcıdan daha az etkilli olsa da hem kargo hem de yakıt toplamaya izin verir"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Radar Haritalayıcı"
+      "message" : "Radar Eşleyici"
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Ticaret inceleyici"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",

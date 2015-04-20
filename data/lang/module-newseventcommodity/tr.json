@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "Haberler {date}: {system} sisteminde sistem geneli salgın. Ölü sayısı artıyor."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
@@ -201,7 +201,7 @@
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Merhabalar ve selamlar! {cargo}"
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",

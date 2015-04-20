@@ -1,11 +1,11 @@
 {
    "BASE" : {
       "description" : "",
-      "message" : "base"
+      "message" : "üs"
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "üsler"
    },
    "BODIES" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : " {portcount} gizli {bases} keşfettiniz!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
@@ -25,10 +25,10 @@
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
-      "message" : "Yakıt tankı neredeyse boş."
+      "message" : "Yakıt tankınız neredeyse boş."
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "Yakıt tankı boş."
+      "message" : "Yakıt tankınız boş."
    }
 }
