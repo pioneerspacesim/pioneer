@@ -57,7 +57,7 @@
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Pilota automatico"
+      "message" : "Autopilota"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
