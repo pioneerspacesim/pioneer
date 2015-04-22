@@ -223,10 +223,6 @@ local onGameStart = function ()
 		end
 		-- load membership info
 		memberships = loaded_data.memberships
-		for k,v in pairs(memberships) do
-			for l,w in pairs(v) do
-			end
-		end
 		loaded_data = nil
 	else
 		-- Hopefully this won't be necessary after Pioneer handles Lua teardown
