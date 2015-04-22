@@ -478,7 +478,7 @@ end
 
 local onClick = function (mission)
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.location)) or "???"
-
+	local danger
 	if mission.risk <= 0.1 then
 		danger = (l.I_HIGHLY_DOUBT_IT)
 	elseif mission.risk > 0.1 and mission.risk <= 0.3 then

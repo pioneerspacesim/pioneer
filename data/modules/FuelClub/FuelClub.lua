@@ -177,7 +177,7 @@ onChat = function (form, ref, option)
 
 	else
 		-- non-members get offered membership
-		message = ad.flavour.nonmember_intro:interp({clubname=ad.flavour.clubname}).."\n"..
+		local message = ad.flavour.nonmember_intro:interp({clubname=ad.flavour.clubname}).."\n"..
 			"\n\t* " ..l.LIST_BENEFITS_FUEL_INTRO..
 			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=Equipment.cargo.hydrogen:GetName()})..
 			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=Equipment.cargo.military_fuel:GetName()})..
