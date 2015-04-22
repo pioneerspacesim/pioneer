@@ -15,7 +15,7 @@ local exploreSystem = function (system)
 	local starports = #Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	local major_bodies = #Space.GetBodies(function (body) return body.superType and body.superType ~= 'STARPORT' and body.superType ~= 'NONE' end)
 	local bodies
-	if major_modies == 1 then
+	if major_bodies == 1 then
 		bodies = l.BODY
 	else
 		bodies = l.BODIES
