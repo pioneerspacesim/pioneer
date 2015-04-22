@@ -137,7 +137,7 @@ table.insert(anims, {
 	duration = 0.4,
 })
 
-local menu = 
+local menu =
 	ui:Grid(1, { 0.2, 0.6, 0.2 })
 		:SetRow(0, {
 			ui:Grid({ 0.1, 0.8, 0.1 }, 1)

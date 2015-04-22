@@ -8,7 +8,6 @@ local Space = import("Space")
 local Comms = import("Comms")
 local Event = import("Event")
 local Mission = import("Mission")
-local NameGen = import("NameGen")
 local Format = import("Format")
 local Serializer = import("Serializer")
 local Character = import("Character")
@@ -465,7 +464,7 @@ local onGameStart = function ()
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
 			description = ad.desc,
-            icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+			icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 			onChat      = onChat,
 			onDelete    = onDelete,
 			isEnabled   = isEnabled })

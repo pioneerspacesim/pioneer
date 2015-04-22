@@ -211,7 +211,7 @@ local onCreateBB = function (station)
 end
 
 local onGameStart = function ()
-	local ref
+
 	if loaded_data then
 		-- rebuild saved adverts
 		for k,ad in pairs(loaded_data.ads) do
