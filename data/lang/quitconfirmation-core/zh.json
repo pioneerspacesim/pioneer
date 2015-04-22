@@ -5,15 +5,15 @@
    },
    "MSG_10" : {
       "description" : "",
-      "message" : "Please choose {no} to waste a few more productive hours. Please?"
+      "message" : "可以请您选择[留下]再继续浪费几个小时吗?"
    },
    "MSG_11" : {
       "description" : "",
-      "message" : "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+      "message" : "探索者从不言弃, 如果你不属于其中一员的话, 尽管选择[离开]吧."
    },
    "MSG_12" : {
       "description" : "",
-      "message" : "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+      "message" : "如果你是个坚强的赏金猎人, 那就选择[留下], 如果不是那就优雅地[离开]吧."
    },
    "MSG_13" : {
       "description" : "\"Seeing\" as in having an affair / being unfaithful",
@@ -21,11 +21,11 @@
    },
    "MSG_14" : {
       "description" : "",
-      "message" : "Do you really have something better to do?"
+      "message" : "真的有更好的事情要去做吗?"
    },
    "MSG_15" : {
       "description" : "",
-      "message" : "Giving up already?"
+      "message" : "已经放弃了吗?"
    },
    "MSG_16" : {
       "description" : "A little homage to the movie 2001 A Space Odyssey",
