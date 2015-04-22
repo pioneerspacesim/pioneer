@@ -5,11 +5,11 @@
    },
    "MSG_10" : {
       "description" : "",
-      "message" : "Please choose {no} to waste a few more productive hours. Please?"
+      "message" : "Kattints a {no}-re, hogy elpazarolhass még néhány produktív órát. Légy szives."
    },
    "MSG_11" : {
       "description" : "",
-      "message" : "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+      "message" : "A felderítők sosem hátrálnak meg. Nyomd az {yes}t, ha nem vagy az."
    },
    "MSG_12" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "MSG_3" : {
       "description" : "",
-      "message" : "Tényleg kilépnél ebőől a nagyszerű játékból, ami ráadásul egy filléredbe sem került?"
+      "message" : "Tényleg kilépnél eből a nagyszerű játékból, ami ráadásul egy filléredbe sem került?"
    },
    "MSG_4" : {
       "description" : "",
@@ -49,23 +49,23 @@
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
-      "message" : "Válaszd  a Nem-et ha kalandra vágysz, Igen-t, ha keserves munkára."
+      "message" : "Válaszd  a {no}-et ha kalandra vágysz, Igen-t, ha keserves munkára."
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Click {no} to be brave, click {yes} to cower in shame."
+      "message" : "Kattints a {no}-re, ha bátor vagy, az {yes}re, ha meghunyászkodsz."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "I wouldn't leave if I were you. The command line is much worse."
+      "message" : "Én maradnék a helyedben. A parancssor sokkal rosszabb."
    },
    "MSG_8" : {
       "description" : "",
-      "message" : "I'm thinking you want to click {no} to play more. You do it."
+      "message" : "Szerintem a {no}-re akarsz kattintani, hogy tovább játszhass. Tedd meg."
    },
    "MSG_9" : {
       "description" : "",
-      "message" : "Clicking {yes} means you must return to the humdrum workday world."
+      "message" : "Vissza akarsz térni a sivár munkanapokba?"
    },
    "NO" : {
       "description" : "No, don't quit program",

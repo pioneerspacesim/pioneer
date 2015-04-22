@@ -37,15 +37,15 @@
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Genel piyasadan bağımsız, yakıt stoklarımız"
+      "message" : "Kendi yakıt stoklarımız, genel piyasadan bağımsız."
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Gerekli durumlarda, yakıt tankı ikmali"
+      "message" : "Yakıt tankı ikmali, gerektiğinde"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Hemen katıl! Yıllık üyelik ücreti sadece {membership_fee}"
+      "message" : "Hemen katıl! Yıllık üyelik sadece {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",

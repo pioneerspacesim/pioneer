@@ -141,7 +141,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "Oyuncu öldükten sonra oyun kaydedilemez"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Kargo toplama denendi. Kargo bölümünde yeterli yer yok."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -209,11 +209,11 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+      "message" : "#ff0%selected_system#fff (şeçilen) sisteminin #ff0%current_system#fff (mevcut) sistemine göre mal ticaret analizi:"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "#fff%system#fff sisteminin mal ticaret analizi"
    },
    "COMMS" : {
       "description" : "",
@@ -473,31 +473,31 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
+      "message" : "Ters-dikeyde sabitle"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
-      "message" : "Hold retrograde"
+      "message" : "Gerilemede sabitle"
    },
    "HEADING_LOCK_FORWARD" : {
       "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Hold prograde"
+      "message" : "İlerlemede sabitle"
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "Döndürmeyi yok et."
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Hold normal"
+      "message" : "Dikeyde sabitle"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
+      "message" : "Radyal içeri sabitle"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
+      "message" : "Radyal dışarı sabitle"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -985,7 +985,7 @@
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used in numbers.",
-      "message" : "."
+      "message" : ","
    },
    "NUMBER_G" : {
       "description" : "",
@@ -1001,7 +1001,7 @@
    },
    "NUMBER_GROUP_SEP" : {
       "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
+      "message" : "."
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1141,19 +1141,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Delta-v değerlerinin artış oranı. Varsayılana sıfırlamak için tıkla."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Dikey delta-v. Sıfırlamak için tıkla."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "İlerleme delta-v. Sıfırlamak için tıkla."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Radyal delta-v. Sıfırlamak için tıkla."
    },
    "PLASTICS" : {
       "description" : "",

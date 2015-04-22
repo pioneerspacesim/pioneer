@@ -213,7 +213,7 @@
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Standart oranlar, marketle çalışıyoruz."
+      "message" : "Standart oranlar, piyasayla çalışıyoruz."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "Eminim bu markette yüklüce bir para getirecek."
+      "message" : "Eminim bu piyasada yüklüce bir para getirecek."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",

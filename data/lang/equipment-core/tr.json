@@ -245,7 +245,7 @@
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Seçilen ve mevcut sistem arasında alım satımı karlı olan malları gösterir"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

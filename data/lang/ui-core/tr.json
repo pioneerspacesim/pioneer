@@ -505,11 +505,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Denize iniş izni reddedildi: bu gemiyi idare edecek yeterli ekip sayısına sahip değil."
+      "message" : "Denize iniş izni reddedildi: bu gemiyi idare edecek yeterli mürettebata sahip değil."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Denize iniş izni reddedildi: borcunuz var."
+      "message" : "Denize iniş izni reddedildi: ödenmemiş borcunuz var."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -637,7 +637,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Füze tepeleri"
+      "message" : "Füze bağlantıları"
    },
    "MISSIONS" : {
       "description" : "",
@@ -713,7 +713,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{ekipman}, bu gemi modelini desteklenmiyor"
+      "message" : "{equipment} bu gemi modelini tarafından desteklenmiyor"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -841,7 +841,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Yakıt dolumu dolu"
+      "message" : "Tam yakıt dolumu"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
@@ -905,7 +905,7 @@
    },
    "SELL" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Sell"
+      "message" : "Sat"
    },
    "SENSORS" : {
       "description" : "",
