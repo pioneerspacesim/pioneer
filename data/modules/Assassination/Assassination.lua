@@ -187,7 +187,6 @@ local makeAdvert = function (station)
 		due = due,
 		faceseed = Engine.rand:Integer(),
 		flavour = flavour,
-		isfemale = isfemale,
 		location = location,
 		dist = dist,
 		reward = reward,

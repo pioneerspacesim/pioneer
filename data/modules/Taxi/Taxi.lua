@@ -269,7 +269,6 @@ local makeAdvert = function (station)
 		risk		= risk,
 		urgency		= urgency,
 		reward		= reward,
-		isfemale	= isfemale,
 		faceseed	= Engine.rand:Integer(),
 	}
 
