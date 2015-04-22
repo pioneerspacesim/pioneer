@@ -16,7 +16,7 @@ end
 
 -- copy table by value, rather than the default: by reference.
 local copyTable = function(T)
-	t2 = {}
+	local t2 = {}
 	for k,v in pairs(T) do
 		t2[k] = v
 	end
@@ -286,7 +286,7 @@ local checkAdvertsAdd = function(station)
 	for i,n in pairs(news) do
 		-- don't place ad if we're in the system of the event
 		if not currentSystem:IsSameSystem(n.syspath) then
-			ref = station:AddAdvert(
+			local ref = station:AddAdvert(
 				{description = n.description,
 				 icon = "news",
 				 onChat = onChat,
