@@ -27,17 +27,12 @@ local Comms = import("Comms")
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
-local Space = import("Space")
 local Event = import("Event")
 local Format = import("Format")
 local Serializer = import("Serializer")
-local utils = import("utils")
 local Equipment = import ("Equipment")
 
 local l = Lang.GetResource("module-newseventcommodity")
-
--- Get the UI class
-local ui = Engine.ui
 
 local maxDist = 50          -- for spawning news (ly)
 local minTime = 15768000    -- no news the first 5 months of a new game (sec)
@@ -269,7 +264,6 @@ end
 -- check if we should remove any ads
 local checkAdvertsRemove = function(station)
 	for ref,ad in pairs(ads) do
-		local len = tableLength(ads)
 		if ad.n.expires < Game.time then
 			ad.station:RemoveAdvert(ref)
 		end
@@ -292,8 +286,6 @@ local checkAdvertsAdd = function(station)
 				 onChat = onChat,
 				 onDelete = onDelete})
 			ads[ref] = {n=n, station=station}
-
-			local length = tableLength(ads)
 		end
 	end
 end
