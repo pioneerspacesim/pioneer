@@ -59,7 +59,7 @@ void SystemInfoView::OnBodySelected(SystemBody *b)
 
 void SystemInfoView::OnBodyViewed(SystemBody *b)
 {
-	std::string desc, data;
+	std::string data;
 
 	m_infoBox->DeleteAllChildren();
 
