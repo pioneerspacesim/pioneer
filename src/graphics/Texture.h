@@ -70,7 +70,7 @@ public:
 	const unsigned int numberOfMipMaps;
 	const TextureType type;
 
-	void operator=(const TextureDescriptor &o) {
+	TextureDescriptor& operator=(const TextureDescriptor &o) {
 		const_cast<TextureFormat&>(format) = o.format;
 		const_cast<vector2f&>(dataSize) = o.dataSize;
 		const_cast<vector2f&>(texSize) = o.texSize;
@@ -79,6 +79,7 @@ public:
 		const_cast<bool&>(allowCompression) = o.allowCompression;
 		const_cast<unsigned int&>(numberOfMipMaps) = o.numberOfMipMaps;
 		const_cast<TextureType&>(type) = o.type;
+		return *this;
 	}
 };
 
