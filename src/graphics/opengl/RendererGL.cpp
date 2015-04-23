@@ -413,7 +413,7 @@ bool RendererOGL::SetPerspectiveProjection(float fov, float aspect, float near_,
 	PROFILE_SCOPED()
 
 	// update values for log-z hack
-	m_invLogZfarPlus1 = 1.0f / (log(far_+1.0f)/log(2.0f));
+	m_invLogZfarPlus1 = 1.0f / (log1p(far_)/log(2.0f));
 
 	Graphics::SetFov(fov);
 
