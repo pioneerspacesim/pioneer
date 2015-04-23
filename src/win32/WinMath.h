@@ -9,7 +9,6 @@
 // Note that the functions Gamma and LogGamma are mutually dependent.
 double LogGamma(double);
 double Gamma(double);
-double LogOnePlusX(double x);
 
 #if defined(_MSC_VER) && (_MSC_VER<=1700)
 // http://social.msdn.microsoft.com/Forums/en-US/Vsexpressvc/thread/25c923af-a824-40f8-8fd4-e5574bc147af/
