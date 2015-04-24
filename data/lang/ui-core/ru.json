@@ -33,7 +33,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Попытка починки корпуса"
+      "message" : "Попытаться отремонтировать корпус"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Стыковка с выбранной целью"
+      "message" : "Состыковаться с выбранной целью"
    },
    "DUE" : {
       "description" : "mission deadline date",
@@ -293,7 +293,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Оборудование"
+      "message" : "Оснащение"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
@@ -793,7 +793,7 @@
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Охрана"
+      "message" : "Служба безопасности"
    },
    "POOR" : {
       "description" : "Player combat rating",
@@ -841,7 +841,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Полная заправка"
+      "message" : "Дозаправить полностью"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
