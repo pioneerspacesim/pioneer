@@ -102,7 +102,11 @@ ui.templates.Settings = function (args)
 
 		local confirmQuit = optionCheckBox(
 			Engine.GetConfirmQuit, Engine.SetConfirmQuit,
-			"Confirm quit")
+			l.QUIT_CONFIRMATION)
+
+		local vsyncCheckBox = optionCheckBox(
+			Engine.GetVSyncEnabled, Engine.SetVSyncEnabled,
+			l.VSYNC)
 
 		local speedLinesCheckBox = optionCheckBox(
 			Engine.GetDisplaySpeedLines, Engine.SetDisplaySpeedLines,
@@ -126,6 +130,7 @@ ui.templates.Settings = function (args)
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
+				vsyncCheckBox,
 			})))
 			:SetCell(1,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				planetDetailDropDown,
