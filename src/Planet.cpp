@@ -16,7 +16,6 @@
 
 #ifdef _MSC_VER
 	#include "win32/WinMath.h"
-	#define log1pf LogOnePlusX
 #endif // _MSC_VER
 
 using namespace Graphics;
@@ -201,8 +200,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 			0.60 * noise( 5.0 * alpha, noiseOffset, 0.0) +
 			0.15 * noise(10.0 * alpha, noiseOffset, 0.0);
 
-		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1pf(1.0f)));
-		const float v = LOG_SCALE*sqrtf(sqrtf(log1pf(n)));
+		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1p(1.0f)));
+		const float v = LOG_SCALE*sqrtf(sqrtf(log1p(n)));
 
 		Color color;
 		color.r = v*baseCol.r;

@@ -45,7 +45,7 @@ public:
 	float GetDescender() const { return m_descender; }
 
 	struct Glyph {
-		Glyph() : advX(0), advY(0), width(0), height(0), texWidth(0), texHeight(0), offX(0), offY(0), offU(0), offV(0), ftIndex(0) {}
+		Glyph() : advX(0), advY(0), width(0), height(0), texWidth(0), texHeight(0), offX(0), offY(0), offU(0), offV(0), ftFace(nullptr), ftIndex(0) {}
 		float advX, advY;
 		float width, height;
 		float texWidth, texHeight;

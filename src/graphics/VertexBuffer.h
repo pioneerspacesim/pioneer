@@ -68,7 +68,7 @@ protected:
 
 class VertexBuffer : public RefCounted, public Mappable {
 public:
-	VertexBuffer(const VertexBufferDesc &desc) : m_desc(desc) {}
+	VertexBuffer(const VertexBufferDesc &desc) : m_desc(desc), m_numVertices(0) {}
 	virtual ~VertexBuffer();
 	const VertexBufferDesc &GetDesc() const { return m_desc; }
 

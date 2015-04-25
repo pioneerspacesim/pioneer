@@ -9,7 +9,7 @@ const Uint32 FADE_AFTER = MESSAGE_TIMEOUT - FADE_TIME;
 const Uint8 MAX_MESSAGES = 6;
 
 GameLog::Message::Message(const std::string &m, Uint32 t)
-: msg(m), time(t)
+	: msg(m), time(t), m_prevAlpha(0)
 {}
 
 GameLog::GameLog(RefCountedPtr<Text::TextureFont> font, vector2f scrSize)

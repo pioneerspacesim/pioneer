@@ -153,7 +153,7 @@ class matrix3x3 {
 	void Renormalize() {
 		vector3<T> x = VectorX().Normalized();
 		vector3<T> y = VectorZ().Cross(x).Normalized();
-		*this = matrix3x3::FromVectors(x, y);
+		*this = FromVectors(x, y);
 	}
 	void Print () const {
 		for (int i=0; i<3; i++) {

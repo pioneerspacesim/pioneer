@@ -270,11 +270,7 @@ int SpaceStation::GetFreeDockingPort(const Ship *s) const
 {
 	assert(s);
 	for (unsigned int i=0; i<m_type->NumDockingPorts(); i++) {
-		if (m_shipDocking[i].ship == 0) {
-			// fwing
-			// initial unoccupied check
-			if (m_shipDocking[i].ship != 0) continue;
-
+		if (m_shipDocking[i].ship == nullptr) {
 			// size-of-ship vs size-of-bay check
 			const SpaceStationType::SPort *const pPort = m_type->FindPortByBay(i);
 			if( !pPort ) continue;

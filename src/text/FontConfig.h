@@ -24,13 +24,14 @@ public:
 		const Uint32 rangeMin;
 		const Uint32 rangeMax;
 
-		void operator=(const Face &o) {
+		Face & operator=(const Face &o) {
 			const_cast<std::string&>(fontFile) = o.fontFile;
 			const_cast<int&>(pixelWidth) = o.pixelWidth;
 			const_cast<int&>(pixelHeight) = o.pixelHeight;
 			const_cast<float&>(advanceXAdjustment) = o.advanceXAdjustment;
 			const_cast<Uint32&>(rangeMin) = o.rangeMin;
 			const_cast<Uint32&>(rangeMax) = o.rangeMax;
+			return *this;
 		}
 
 		bool operator<(const Face &o) const {
