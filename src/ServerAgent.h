@@ -76,7 +76,7 @@ private:
 
 	struct Response {
 		Response(SuccessCallback _onSuccess, FailCallback _onFail, void *_userdata) :
-			onSuccess(_onSuccess), onFail(_onFail), userdata(_userdata) {}
+			success(false), onSuccess(_onSuccess), onFail(_onFail), userdata(_userdata) {}
 
 		bool success;
 
