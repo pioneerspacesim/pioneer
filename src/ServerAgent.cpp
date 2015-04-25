@@ -12,7 +12,7 @@ void NullServerAgent::Call(const std::string &method, const Json::Value &data, S
 
 void NullServerAgent::ProcessResponses()
 {
-	while (m_queue.size() > 0) {
+	while (!m_queue.empty()) {
 		Response &resp(m_queue.front());
 		resp.onFail("ServerAgent not available", resp.userdata);
 		m_queue.pop();
@@ -93,11 +93,11 @@ void HTTPServerAgent::ProcessResponses()
 	// the response at our leisure
 	SDL_LockMutex(m_responseQueueLock);
 	responseQueue = m_responseQueue;
-	while (m_responseQueue.size() > 0)
+	while (!m_responseQueue.empty())
 		m_responseQueue.pop();
 	SDL_UnlockMutex(m_responseQueueLock);
 
-	while (responseQueue.size() > 0) {
+	while (!responseQueue.empty()) {
 		Response &resp = responseQueue.front();
 
 		if (resp.success)
@@ -123,11 +123,11 @@ void HTTPServerAgent::ThreadMain()
 		SDL_LockMutex(m_requestQueueLock);
 
 		// if there's no requests, wait until the main thread wakes us
-		if (m_requestQueue.size() == 0)
+		if (m_requestQueue.empty())
 			SDL_CondWait(m_requestQueueCond, m_requestQueueLock);
 
 		// woken up but nothing on the queue means we're being destroyed
-		if (m_requestQueue.size() == 0) {
+		if (m_requestQueue.empty()) {
 			// main thread is waiting for this lock, and will start
 			// cleanup as soon as it has it
 			SDL_UnlockMutex(m_requestQueueLock);

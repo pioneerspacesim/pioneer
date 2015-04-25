@@ -98,7 +98,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	capacity = data.get("capacity", 0).asInt();
 	fuelTankMass = data.get("fuel_tank_mass", 5).asInt();
 
-	for( Json::Value::iterator slot = data["slots"].begin() ; slot != data["slots"].end() ; slot++ ) {
+	for( Json::Value::iterator slot = data["slots"].begin() ; slot != data["slots"].end() ; ++slot ) {
 		const std::string slotname = slot.key().asString();
 		slots[slotname] = data["slots"].get(slotname, 0).asInt();
 	}

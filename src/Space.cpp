@@ -79,7 +79,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace)
 }
 
 Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space* oldSpace)
-	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
+	: m_starSystem(galaxy->GetStarSystem(path))
+	, m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
 	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
@@ -89,8 +90,6 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = galaxy->GetStarSystem(path);
-
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
 	m_background.reset(new Background::Container(Pi::renderer, rand));

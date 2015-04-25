@@ -692,11 +692,11 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 			std::vector<const SystemBody*>::reverse_iterator sit = second_to_root.rbegin();
 			while(sit!=second_to_root.rend() && fit!=first_to_root.rend() && (*sit)==(*fit))	//keep tracing both branches from system's root
 			{																					//until they diverge
-				sit++;
-				fit++;
+				++sit;
+				++fit;
 			}
-			if (sit == second_to_root.rend()) sit--;
-			if (fit == first_to_root.rend()) fit--;	//oops! one of the branches ends at lca, backtrack
+			if (sit == second_to_root.rend()) --sit;
+			if (fit == first_to_root.rend()) --fit;	//oops! one of the branches ends at lca, backtrack
 
 			if((*fit)->IsCoOrbitalWith(*sit))	//planet is around one part of coorbiting pair, star is another.
 			{
