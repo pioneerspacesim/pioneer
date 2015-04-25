@@ -1,6 +1,7 @@
 April 2015
    * New Features
      * Confirm quit question added (#3374)
+     * Enable vsync (#3385)
 
    * Fixes
      * Broken cockpit rotations using headlook (#3381)
