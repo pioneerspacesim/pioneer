@@ -823,6 +823,10 @@
       "description" : "",
       "message" : "Quit"
    },
+   "QUIT_CONFIRMATION" : {
+      "description" : "For the checkbox in settings window",
+      "message" : "Quit confirmation"
+   },
    "RANK" : {
       "description" : "",
       "message" : "Rank:"
@@ -1042,6 +1046,10 @@
    "VIDEO_RESOLUTION" : {
       "description" : "",
       "message" : "Video resolution"
+   },
+   "VSYNC" : {
+      "description" : "For the checkbox in settings window",
+      "message" : "VSync"
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",

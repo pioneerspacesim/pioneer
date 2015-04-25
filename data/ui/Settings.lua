@@ -102,11 +102,11 @@ ui.templates.Settings = function (args)
 
 		local confirmQuit = optionCheckBox(
 			Engine.GetConfirmQuit, Engine.SetConfirmQuit,
-			"Confirm quit")
+			l.QUIT_CONFIRMATION)
 
 		local vsyncCheckBox = optionCheckBox(
 			Engine.GetVSyncEnabled, Engine.SetVSyncEnabled,
-			"VSync")
+			l.VSYNC)
 
 		local speedLinesCheckBox = optionCheckBox(
 			Engine.GetDisplaySpeedLines, Engine.SetDisplaySpeedLines,
