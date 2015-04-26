@@ -825,7 +825,7 @@
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
-      "message" : "Quit confirmation"
+      "message" : "Potwierdzenie wyjścia"
    },
    "RANK" : {
       "description" : "",
@@ -1049,7 +1049,7 @@
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
-      "message" : "VSync"
+      "message" : "Synchr. pionowa"
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
