@@ -8,7 +8,6 @@ local Space = import("Space")
 local Comms = import("Comms")
 local Event = import("Event")
 local Mission = import("Mission")
-local NameGen = import("NameGen")
 local Format = import("Format")
 local Serializer = import("Serializer")
 local Character = import("Character")
@@ -41,201 +40,211 @@ local pickup_factor = 1.75
 local max_price = 300
 
 -- the custom cargo
-aluminium_tubes = Equipment.EquipType.New({
+local aluminium_tubes = Equipment.EquipType.New({
 	l10n_key = 'ALUMINIUM_TUBES', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-art_objects = Equipment.EquipType.New({
+local art_objects = Equipment.EquipType.New({
 	l10n_key = 'ART_OBJECTS', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-clus = Equipment.EquipType.New({
+local clus = Equipment.EquipType.New({
 	l10n_key = 'CLUS', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-diamonds = Equipment.EquipType.New({
+local diamonds = Equipment.EquipType.New({
 	l10n_key = 'DIAMONDS', slots="cargo", price=300,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-digesters = Equipment.EquipType.New({
+local digesters = Equipment.EquipType.New({
 	l10n_key = 'DIGESTERS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-electrical_appliances = Equipment.EquipType.New({
+local electrical_appliances = Equipment.EquipType.New({
 	l10n_key = 'ELECTRICAL_APPLIANCES', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-explosives = Equipment.EquipType.New({
+local explosives = Equipment.EquipType.New({
 	l10n_key = 'EXPLOSIVES', slots="cargo", price=50,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-furniture = Equipment.EquipType.New({
+local furniture = Equipment.EquipType.New({
 	l10n_key = 'FURNITURE', slots="cargo", price=15,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-greenhouses = Equipment.EquipType.New({
+local greenhouses = Equipment.EquipType.New({
 	l10n_key = 'GREENHOUSES', slots="cargo", price=20,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-hazardous_substances = Equipment.EquipType.New({
+local hazardous_substances = Equipment.EquipType.New({
 	l10n_key = 'HAZARDOUS_SUBSTANCES', slots="cargo", price=100,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-machine_tools = Equipment.EquipType.New({
+local machine_tools = Equipment.EquipType.New({
 	l10n_key = 'MACHINE_TOOLS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-neptunium = Equipment.EquipType.New({
+local neptunium = Equipment.EquipType.New({
 	l10n_key = 'NEPTUNIUM', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-plutonium = Equipment.EquipType.New({
+local plutonium = Equipment.EquipType.New({
 	l10n_key = 'PLUTONIUM', slots="cargo", price=200,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-semi_finished_products = Equipment.EquipType.New({
+local semi_finished_products = Equipment.EquipType.New({
 	l10n_key = 'SEMI_FINISHED_PRODUCTS', slots="cargo", price=10,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-spaceship_parts = Equipment.EquipType.New({
+local spaceship_parts = Equipment.EquipType.New({
 	l10n_key = 'SPACESHIP_PARTS', slots="cargo", price=250,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-titanium = Equipment.EquipType.New({
+local titanium = Equipment.EquipType.New({
 	l10n_key = 'TITANIUM', slots="cargo", price=150,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-tungsten = Equipment.EquipType.New({
+local tungsten = Equipment.EquipType.New({
 	l10n_key = 'TUNGSTEN', slots="cargo", price=125,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-uranium = Equipment.EquipType.New({
+local uranium = Equipment.EquipType.New({
 	l10n_key = 'URANIUM', slots="cargo", price=175,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-quibbles = Equipment.EquipType.New({
+local quibbles = Equipment.EquipType.New({
 	l10n_key = 'QUIBBLES', slots="cargo", price=1,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
-wedding_dresses = Equipment.EquipType.New({
+local wedding_dresses = Equipment.EquipType.New({
 	l10n_key = 'WEDDING_DRESSES', slots="cargo", price=15,
 	capabilities={mass=1},
 	purchasable=false, icon_name="Default",
 	l10n_resource="module-cargorun"
 })
 
-local chemical = {}
-table.insert(chemical, digesters)
-table.insert(chemical, hazardous_substances)
+local chemical = {
+	digesters,
+	hazardous_substances
+}
 
-local mining = {}
-table.insert(mining, clus)
-table.insert(mining, explosives)
+local mining = {
+	clus,
+	explosives
+}
 
-local hardware = {}
-table.insert(hardware, aluminium_tubes)
-table.insert(hardware, diamonds)
-table.insert(hardware, hazardous_substances)
-table.insert(hardware, machine_tools)
-table.insert(hardware, neptunium)
-table.insert(hardware, plutonium)
-table.insert(hardware, semi_finished_products)
-table.insert(hardware, spaceship_parts)
-table.insert(hardware, titanium)
-table.insert(hardware, tungsten)
-table.insert(hardware, uranium)
+local hardware = {
+	aluminium_tubes,
+	diamonds,
+	hazardous_substances,
+	machine_tools,
+	neptunium,
+	plutonium,
+	semi_finished_products,
+	spaceship_parts,
+	titanium,
+	tungsten,
+	uranium
+}
 
-local infrastructure = {}
-table.insert(infrastructure, clus)
-table.insert(infrastructure, explosives)
-table.insert(infrastructure, greenhouses)
+local infrastructure = {
+	clus,
+	explosives,
+	greenhouses
+}
 
-local consumer_goods = {}
-table.insert(consumer_goods, electrical_appliances)
-table.insert(consumer_goods, furniture)
-table.insert(consumer_goods, spaceship_parts)
+local consumer_goods = {
+	electrical_appliances,
+	furniture,
+	spaceship_parts
+}
 
-local expensive = {} -- price >= 175
-table.insert(expensive, art_objects)
-table.insert(expensive, diamonds)
-table.insert(expensive, neptunium)
-table.insert(expensive, plutonium)
-table.insert(expensive, spaceship_parts)
-table.insert(expensive, uranium)
+local expensive = { -- price >= 175
+	art_objects,
+	diamonds,
+	neptunium,
+	plutonium,
+	spaceship_parts,
+	uranium
+}
 
-local fluffy = {}
-table.insert(fluffy, quibbles)
+local fluffy = {
+	quibbles
+}
 
-local wedding = {}
-table.insert(wedding, wedding_dresses)
+local wedding = {
+	wedding_dresses
+}
 
-local art = {}
-table.insert(art, art_objects)
+local art = {
+	art_objects
+}
 
-local gems = {}
-table.insert(gems, diamonds)
+local gems = {
+	diamonds
+}
 
-local radioactive = {}
-table.insert(radioactive, neptunium)
-table.insert(radioactive, plutonium)
-table.insert(radioactive, uranium)
+local radioactive = {
+	neptunium,
+	plutonium,
+	uranium
+}
 
-local centrifuges = {}
-table.insert(centrifuges, aluminium_tubes)
-table.insert(centrifuges, machine_tools)
-table.insert(centrifuges, titanium)
+local centrifuges = {
+	aluminium_tubes
+}
 
 local custom_cargo = {
-	{ bkey = "CHEMICAL", goods = chemical, weight },
-	{ bkey = "MINING", goods = mining, weight },
-	{ bkey = "HARDWARE", goods = hardware, weight },
-	{ bkey = "INFRASTRUCTURE", goods = infrastructure, weight },
-	{ bkey = "CONSUMER_GOODS", goods = consumer_goods, weight },
-	{ bkey = "EXPENSIVE", goods = expensive, weight },
-	{ bkey = "FLUFFY", goods = fluffy, weight },
-	{ bkey = "WEDDING" , goods = wedding, weight },
-	{ bkey = "ART", goods = art, weight },
-	{ bkey = "GEMS", goods = gems, weight },
-	{ bkey = "RADIOACTIVE", goods = radioactive, weight },
-	{ bkey = "CENTRIFUGES", goods = centrifuges, weight }
+	{ bkey = "CHEMICAL", goods = chemical, weight = 0 },
+	{ bkey = "MINING", goods = mining, weight = 0 },
+	{ bkey = "HARDWARE", goods = hardware, weight = 0 },
+	{ bkey = "INFRASTRUCTURE", goods = infrastructure, weight = 0 },
+	{ bkey = "CONSUMER_GOODS", goods = consumer_goods, weight = 0 },
+	{ bkey = "EXPENSIVE", goods = expensive, weight = 0 },
+	{ bkey = "FLUFFY", goods = fluffy, weight = 0 },
+	{ bkey = "WEDDING" , goods = wedding, weight = 0 },
+	{ bkey = "ART", goods = art, weight = 0 },
+	{ bkey = "GEMS", goods = gems, weight = 0 },
+	{ bkey = "RADIOACTIVE", goods = radioactive, weight = 0 },
+	{ bkey = "CENTRIFUGES", goods = centrifuges, weight = 0 }
 }
 
 -- Each branch should have a probability weight proportional to its size
@@ -257,13 +266,15 @@ local isQualifiedFor = function(reputation, ad)
 		false
 end
 
-local getNumberOf = function (str)
-	local num = 0
+-- This function returns the number of flavours of the given string str
+-- It is assumed that the first flavour has suffix '_1'
+local getNumberOfFlavours = function (str)
+	local num = 1
 
-	while l[str .. "_" .. num + 1] do
+	while l[str .. "_" .. num] do
 		num = num + 1
 	end
-	return num
+	return num - 1
 end
 
 local onChat = function (form, ref, option)
@@ -281,7 +292,7 @@ local onChat = function (form, ref, option)
 	form:SetFace(ad.client)
 
 	if not qualified then
-		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, getNumberOf("DENY"))])
+		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY"))])
 		return
 	end
 
@@ -289,7 +300,7 @@ local onChat = function (form, ref, option)
 		local introtext = string.interp(ad.introtext, {
 			name		= ad.client.name,
 			cash		= Format.Money(ad.reward),
-			cargoname	= l[ad.cargotype.l10n_key],
+			cargoname	= ad.cargotype:GetName(),
 			starport	= ad.location:GetSystemBody().name,
 			system		= ad.location:GetStarSystem().name,
 			sectorx		= ad.location.sectorX,
@@ -305,38 +316,38 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 
 	elseif option == 1 then
-		local n = getNumberOf("WHYSOMUCH_" .. ad.branch)
+		local n = getNumberOfFlavours("WHYSOMUCH_" .. ad.branch)
 		if n >= 1 then
-			form:SetMessage(string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = l[ad.cargotype.l10n_key] }))
+			form:SetMessage(string.interp(l["WHYSOMUCH_" .. ad.branch .. "_" .. Engine.rand:Integer(1, n)], { cargoname = ad.cargotype:GetName() }))
 		elseif ad.urgency >= 0.8 then
-			form:SetMessage(string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOf("WHYSOMUCH_URGENT"))], { cargoname = l[ad.cargotype.l10n_key] }))
+			form:SetMessage(string.interp(l["WHYSOMUCH_URGENT_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH_URGENT"))], { cargoname = ad.cargotype:GetName() }))
 		else
-			form:SetMessage(string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOf("WHYSOMUCH"))], { cargoname = l[ad.cargotype.l10n_key] }))
+			form:SetMessage(string.interp(l["WHYSOMUCH_" .. Engine.rand:Integer( 1, getNumberOfFlavours("WHYSOMUCH"))], { cargoname = ad.cargotype:GetName() }))
 		end
 
 	elseif option == 2 then
 		local howmuch
 		if ad.wholesaler then
-			howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, getNumberOf("HOWMUCH_WHOLESALER"))], {
-				cargo	  = ad.cargo,
-				cargoname = l[ad.cargotype.l10n_key],
+			howmuch = string.interp(l["HOWMUCH_WHOLESALER_" .. Engine.rand:Integer(1, getNumberOfFlavours("HOWMUCH_WHOLESALER"))], {
+				amount    = ad.amount,
+				cargoname = ad.cargotype:GetName(),
 			})
 		else
-			local num = ad.cargo <= 3 and getNumberOf("HOWMUCH") or (getNumberOf("HOWMUCH") - 2) -- The last 2 strings contain "only"
+			local num = ad.amount <= 3 and getNumberOfFlavours("HOWMUCH") or (getNumberOfFlavours("HOWMUCH") - 2) -- The last 2 strings contain "only"
 			howmuch = string.interp(l["HOWMUCH_" .. Engine.rand:Integer(1, num)], {
-				cargo	  = ad.cargo,
+				amount = ad.amount,
 			})
 		end
 		form:SetMessage(howmuch)
 
 	elseif option == 3 then
-		if Game.player.freeCapacity < ad.cargo then
+		if Game.player.freeCapacity < ad.amount then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP)
 			return
 		end
 		local cargo_picked_up
 		if not ad.pickup then
-			Game.player:AddEquip(ad.cargotype, ad.cargo, "cargo")
+			Game.player:AddEquip(ad.cargotype, ad.amount, "cargo")
 			cargo_picked_up = true
 		else
 			cargo_picked_up = false
@@ -356,21 +367,21 @@ local onChat = function (form, ref, option)
 			risk		= ad.risk,
 			reward		= ad.reward,
 			due		= ad.due,
-			cargo		= ad.cargo,
+			amount		= ad.amount,
 			branch		= ad.branch,
 			cargotype	= ad.cargotype,
 		}
 		table.insert(missions,Mission.New(mission))
 		if ad.pickup then
-			form:SetMessage(l["ACCEPTED_PICKUP_" .. Engine.rand:Integer(1, getNumberOf("ACCEPTED_PICKUP"))])
+			form:SetMessage(l["ACCEPTED_PICKUP_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED_PICKUP"))])
 		else
-			form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOf("ACCEPTED"))])
+			form:SetMessage(l["ACCEPTED_" .. Engine.rand:Integer(1, getNumberOfFlavours("ACCEPTED"))])
 		end
 		return
 
 	elseif option == 4 then
-		form:SetMessage(string.interp(l["URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (getNumberOf("URGENCY_" .. ad.branch) - 1)) + 1]
-			or l["URGENCY_" .. math.floor(ad.urgency * (getNumberOf("URGENCY") - 1)) + 1], { date = Format.Date(ad.due) }))
+		form:SetMessage(string.interp(l["URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY_" .. ad.branch) - 1)) + 1]
+			or l["URGENCY_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY") - 1)) + 1], { date = Format.Date(ad.due) }))
 
 	elseif option == 5 then
 		if ad.localdelivery then -- very low risk -> no specific text to give no confusing answer
@@ -378,7 +389,7 @@ local onChat = function (form, ref, option)
 		else
 			local branch
 			if ad.wholesaler then branch = "WHOLESALER" else branch = ad.branch end
-			form:SetMessage(l["RISK_" .. branch .. "_" .. math.floor(ad.risk * (getNumberOf("RISK_" .. branch) - 1)) + 1] or l["RISK_" .. math.floor(ad.risk * (getNumberOf("RISK") - 1)) + 1])
+			form:SetMessage(l["RISK_" .. branch .. "_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1] or l["RISK_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
 		end
 	end
 
@@ -429,7 +440,7 @@ end
 local nearbysystems
 
 local makeAdvert = function (station)
-	local reward, due, location, nearbysystem, dist, nearbystations, cargo
+	local reward, due, location, nearbysystem, dist, nearbystations, amount
 	local risk, wholesaler, pickup, branch, cargotype, missiontype
 	local client = Character.New()
 	local urgency = Engine.rand:Number(0, 1)
@@ -440,12 +451,12 @@ local makeAdvert = function (station)
 		nearbysystem = Game.system
 		nearbystations = findNearbyStations(station, 1000)
 		if #nearbystations == 0 then return nil end
-		cargo = Engine.rand:Integer(1, max_cargo)
+		amount = Engine.rand:Integer(1, max_cargo)
 		risk = 0 -- no risk for local delivery
 		wholesaler = false -- no local wholesaler delivery
 		pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
 		location, dist = table.unpack(nearbystations[Engine.rand:Integer(1,#nearbystations)])
-		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) * (1+cargo/max_cargo)
+		reward = typical_reward_local + (math.sqrt(dist) / 15000) * (1+urgency) * (1+amount/max_cargo)
 		due = (4*24*60*60) + (24*60*60 * (dist / (1.49*10^11))) * (1.5 - urgency)
 		if pickup then
 			missiontype = "PICKUP_LOCAL"
@@ -466,11 +477,11 @@ local makeAdvert = function (station)
 		location = nearbystations[Engine.rand:Integer(1,#nearbystations)]
 		wholesaler = Engine.rand:Number(0, 1) > 0.75 and true or false
 		if wholesaler then
-			cargo = Engine.rand:Integer(max_cargo, max_cargo_wholesaler)
+			amount = Engine.rand:Integer(max_cargo, max_cargo_wholesaler)
 			missiontype = "WHOLESALER"
 			pickup = false
 		else
-			cargo = Engine.rand:Integer(1, max_cargo)
+			amount = Engine.rand:Integer(1, max_cargo)
 			pickup = Engine.rand:Number(0, 1) > 0.75 and true or false
 			if pickup then
 				missiontype = "PICKUP"
@@ -479,7 +490,7 @@ local makeAdvert = function (station)
 			end
 		end
 		risk = 0.75 * cargotype.price / max_price + Engine.rand:Number(0, 0.25) -- goods with price max_price have a risk of 0.75 to 1
-		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+cargo/max_cargo_wholesaler) * Engine.rand:Number(0.8,1.2)
+		reward = (dist / max_delivery_dist) * typical_reward * (1+risk) * (1.5+urgency) * (1+amount/max_cargo_wholesaler) * Engine.rand:Number(0.8,1.2)
 		due = (dist / max_delivery_dist) * typical_travel_time * (1.5 - urgency)
 		if pickup then
 			reward = reward * pickup_factor
@@ -489,12 +500,12 @@ local makeAdvert = function (station)
 		end
 	end
 
-	local n = getNumberOf("INTROTEXT_" .. missiontype)
+	local n = getNumberOfFlavours("INTROTEXT_" .. missiontype)
 	local introtext
 	if n >= 1 then
 		introtext = l["INTROTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)]
 	else
-		introtext = l["INTROTEXT_" .. Engine.rand:Integer(1, getNumberOf("INTROTEXT"))]
+		introtext = l["INTROTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("INTROTEXT"))]
 	end
 	local ad = {
 		station		= station,
@@ -507,7 +518,7 @@ local makeAdvert = function (station)
 		introtext	= introtext,
 		dist		= dist,
 		due		= due,
-		cargo		= cargo,
+		amount		= amount,
 		branch		= branch,
 		cargotype	= cargotype,
 		risk		= risk,
@@ -516,12 +527,12 @@ local makeAdvert = function (station)
 		faceseed	= Engine.rand:Integer(),
 	}
 
-	n = getNumberOf("ADTEXT_" .. missiontype)
+	n = getNumberOfFlavours("ADTEXT_" .. missiontype)
 	local adtext
 	if n >= 1 then
 		adtext = l["ADTEXT_" .. missiontype .. "_" .. Engine.rand:Integer(1, n)]
 	else
-		adtext = l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOf("ADTEXT"))]
+		adtext = l["ADTEXT_" .. Engine.rand:Integer(1, getNumberOfFlavours("ADTEXT"))]
 	end
 	ad.desc = string.interp(adtext, {
 		system	 = nearbysystem.name,
@@ -621,7 +632,7 @@ local onEnterSystem = function (player)
 			end
 
 			if pirate then
-				local pirate_greeting = string.interp(l["PIRATE_TAUNTS_" .. Engine.rand:Integer(1, getNumberOf("PIRATE_TAUNTS"))], {
+				local pirate_greeting = string.interp(l["PIRATE_TAUNTS_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_TAUNTS"))], {
 					client = mission.client.name, location = mission.location:GetSystemBody().name,})
 				Comms.ImportantMessage(pirate_greeting, pirate.label)
 				pirate_gripes_time = Game.time
@@ -633,7 +644,7 @@ local onEnterSystem = function (player)
 					escort:SetLabel(Ship.MakeRandomLabel())
 					escort:AIKill(pirate)
 					table.insert(escort_ships, escort)
-					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, getNumberOf("ESCORT_CHATTER"))], escort.label)
+					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, getNumberOfFlavours("ESCORT_CHATTER"))], escort.label)
 					escort_chatter_time = Game.time
 					escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
 					pirate_switch_target = Game.time + Engine.rand:Integer(90, 120)
@@ -732,7 +743,7 @@ local onShipHit = function (ship, attacker)
 	elseif isPirateShip(ship) then
 		if attacker:IsPlayer() then
 			if Game.time >= pirate_gripes_time then -- don't flood the control panel with messages
-				Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, getNumberOf("PIRATE_GRIPES"))], ship.label)
+				Comms.ImportantMessage(l["PIRATE_GRIPES_" .. Engine.rand:Integer(1, getNumberOfFlavours("PIRATE_GRIPES"))], ship.label)
 				pirate_gripes_time = Game.time + Engine.rand:Integer(30, 90)
 			end
 		elseif isEscortShip(attacker) then
@@ -752,21 +763,6 @@ local onLeaveSystem = function (ship)
 	end
 end
 
-local unloadCargo = function (mission)
-	local uc = Game.player:RemoveEquip(mission.cargotype, mission.cargo, "cargo")
-	if uc ~= mission.cargo then -- this is ugly
-		local list = Game.player:GetEquip("cargo")
-		for _, i in pairs(list) do
-			if i.l10n_key == mission.cargotype.l10n_key then
-				Game.player:RemoveEquip(i, 1, "cargo")
-				uc = uc + 1
-				if uc == mission.cargo then break end
-			end
-		end
-	end
-	return uc
-end
-
 local onShipDocked = function (player, station)
 	if not player:IsPlayer() then return end
 
@@ -774,28 +770,28 @@ local onShipDocked = function (player, station)
 		if (mission.location == station.path and not mission.pickup) or (mission.domicile == station.path and mission.pickup and mission.cargo_picked_up) then
 			local reputation = mission.localdelivery and 1 or 1.5
 			local oldReputation = Character.persistent.player.reputation
-			local cargo = unloadCargo(mission)
+			local amount = Game.player:RemoveEquip(mission.cargotype, mission.amount, "cargo")
 
-			if Game.time <= mission.due and cargo == mission.cargo then
-				local n = getNumberOf("SUCCESSMSG_" .. mission.branch)
+			if Game.time <= mission.due and amount == mission.amount then
+				local n = getNumberOfFlavours("SUCCESSMSG_" .. mission.branch)
 				if n >= 1 then
 					Comms.ImportantMessage(l["SUCCESSMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n)], mission.client.name)
 				else
-					Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOf("SUCCESSMSG"))], mission.client.name)
+					Comms.ImportantMessage(l["SUCCESSMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("SUCCESSMSG"))], mission.client.name)
 				end
 				Character.persistent.player.reputation = Character.persistent.player.reputation + reputation
 				player:AddMoney(mission.reward)
 			else
-				if cargo < mission.cargo then
+				if amount < mission.amount then
 					Comms.ImportantMessage(l.WHAT_IS_THIS, mission.client.name)
-					player:AddMoney((cargo - mission.cargo) * mission.cargotype.price) -- pay for the missing
+					player:AddMoney((amount - mission.amount) * mission.cargotype.price) -- pay for the missing
 					Comms.ImportantMessage(l.I_HAVE_DEBITED_YOUR_ACCOUNT, mission.client.name)
 				else
-					local n = getNumberOf("FAILUREMSG_" .. mission.branch)
+					local n = getNumberOfFlavours("FAILUREMSG_" .. mission.branch)
 					if n >= 1 then
 						Comms.ImportantMessage(l["FAILUREMSG_" .. mission.branch .. "_" .. Engine.rand:Integer(1, n)], mission.client.name)
 					else
-						Comms.ImportantMessage(l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOf("FAILUREMSG"))], mission.client.name)
+						Comms.ImportantMessage(l["FAILUREMSG_" .. Engine.rand:Integer(1, getNumberOfFlavours("FAILUREMSG"))], mission.client.name)
 					end
 				end
 				Character.persistent.player.reputation = Character.persistent.player.reputation - reputation
@@ -807,10 +803,10 @@ local onShipDocked = function (player, station)
 			missions[ref] = nil
 
 		elseif mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
-			if Game.player.freeCapacity < mission.cargo then
+			if Game.player.freeCapacity < mission.amount then
 				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
 			else
-				Game.player:AddEquip(mission.cargotype, mission.cargo, "cargo")
+				Game.player:AddEquip(mission.cargotype, mission.amount, "cargo")
 				mission.cargo_picked_up = true
 				Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
 			end
@@ -833,24 +829,26 @@ end
 local loaded_data
 
 local onGameStart = function ()
-	ads = {}
-	missions = {}
+	if loaded_data then
+		ads = {}
+		missions = {}
+		custom_cargo = {}
+		custom_cargo_weight_sum = 0
 
-	if not loaded_data then return end
-
-	for k,ad in pairs(loaded_data.ads) do
-		local ref = ad.station:AddAdvert({
-			description = ad.desc,
-			icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
-			onChat      = onChat,
-			onDelete    = onDelete,
-			isEnabled   = isEnabled })
-		ads[ref] = ad
+		for k,ad in pairs(loaded_data.ads) do
+			local ref = ad.station:AddAdvert({
+				description = ad.desc,
+				icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
+				onChat      = onChat,
+				onDelete    = onDelete,
+				isEnabled   = isEnabled })
+			ads[ref] = ad
+		end
+		missions = loaded_data.missions
+		custom_cargo = loaded_data.custom_cargo
+		custom_cargo_weight_sum = loaded_data.custom_cargo_weight_sum
+		loaded_data = nil
 	end
-
-	missions = loaded_data.missions
-
-	loaded_data = nil
 end
 
 local onGameEnd = function ()
@@ -867,13 +865,13 @@ local onClick = function (mission)
 	else
 		local branch
 		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
-		danger = (l["RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOf("RISK_" .. branch) - 1)) + 1]
-			or l["RISK_" .. math.floor(mission.risk * (getNumberOf("RISK") - 1)) + 1])
+		danger = (l["RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1]
+			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
 	end
 
 	if not mission.pickup then return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
-											cargoname = l[mission.cargotype.l10n_key],
+											cargoname = mission.cargotype:GetName(),
 											starport = mission.location:GetSystemBody().name,
 											system = mission.location:GetStarSystem().name,
 											sectorx = mission.location.sectorX,
@@ -936,7 +934,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(l[mission.cargotype.l10n_key])
+													ui:Label(mission.cargotype:GetName())
 												})
 											}),
 										ui:Grid(2,1)
@@ -947,7 +945,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(mission.cargo.."t")
+													ui:Label(mission.amount.."t")
 												})
 											}),
 										ui:Grid(2,1)
@@ -967,7 +965,7 @@ local onClick = function (mission)
 		})
 	else return ui:Grid(2,1)
 		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
-											cargoname = l[mission.cargotype.l10n_key],
+											cargoname = mission.cargotype:GetName(),
 											starport = mission.location:GetSystemBody().name,
 											system = mission.location:GetStarSystem().name,
 											sectorx = mission.location.sectorX,
@@ -1081,7 +1079,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(l[mission.cargotype.l10n_key])
+													ui:Label(mission.cargotype:GetName())
 												})
 											}),
 										ui:Grid(2,1)
@@ -1092,7 +1090,7 @@ local onClick = function (mission)
 											})
 											:SetColumn(1, {
 												ui:VBox():PackEnd({
-													ui:Label(mission.cargo.."t")
+													ui:Label(mission.amount.."t")
 												})
 											}),
 										ui:Grid(2,1)
@@ -1114,7 +1112,7 @@ local onClick = function (mission)
 end
 
 local serialize = function ()
-	return { ads = ads, missions = missions }
+	return { ads = ads, missions = missions, custom_cargo = custom_cargo, custom_cargo_weight_sum = custom_cargo_weight_sum }
 end
 
 local unserialize = function (data)
