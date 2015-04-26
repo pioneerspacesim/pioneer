@@ -800,7 +800,7 @@
       "message" : "Poor"
    },
    "POSITION" : {
-      "description" : "",
+      "description" : "The job title/position of crew memeber",
       "message" : "Padėtis"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
@@ -822,6 +822,10 @@
    "QUIT" : {
       "description" : "",
       "message" : "Baigti"
+   },
+   "QUIT_CONFIRMATION" : {
+      "description" : "For the checkbox in settings window",
+      "message" : "Quit confirmation"
    },
    "RANK" : {
       "description" : "",
@@ -1043,6 +1047,10 @@
       "description" : "",
       "message" : "Vaizdo raiška"
    },
+   "VSYNC" : {
+      "description" : "For the checkbox in settings window",
+      "message" : "VSync"
+   },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
       "message" : "Wage"
@@ -1060,7 +1068,7 @@
       "message" : "We are in hyperspace, Commander."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
+      "description" : "Said by the police to law abiding player",
       "message" : "We have no business with you at the moment."
    },
    "YES" : {
