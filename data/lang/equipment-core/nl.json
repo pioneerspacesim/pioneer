@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Geavanceerde Radar Analyser"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Langeafstands radar analyser met stelselbrede dekking."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Hoewel minder effectief dan een brandstofhoos maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
