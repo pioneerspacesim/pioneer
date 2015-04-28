@@ -346,7 +346,7 @@ local onShipDocked = function (ship, station)
 		-- if this is the system of the news
 		if currentSystem:IsSameSystem(n.syspath) then
 			-- send a grateful greeting from the station if the player cargo is right
-			if ship:CountEquip(n.cargo, cargo) > 0 and n.demand > 0 then
+			if ship:CountEquip(n.cargo, "cargo") > 0 and n.demand > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
 					{cargo = n.cargo:GetName()})
 				Comms.Message(greeting)
