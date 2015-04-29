@@ -909,7 +909,7 @@
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Hoewel minder effectief dan een brandstofhoos maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
    },
    "MURDER" : {
       "description" : "",
@@ -1077,7 +1077,7 @@
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "Groter dan %population biljoen"
+      "message" : "Groter dan %population miljard"
    },
    "OVER_N_MILLION" : {
       "description" : "",
@@ -1401,7 +1401,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Bezig met simuleren: evolutie van het universum - %age{f.1} biljoen jaar ;-)"
+      "message" : "Bezig met simuleren: evolutie van het universum - %age{f.1} miljard jaar ;-)"
    },
    "SLAVES" : {
       "description" : "",

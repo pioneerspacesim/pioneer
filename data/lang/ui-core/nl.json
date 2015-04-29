@@ -561,7 +561,7 @@
    },
    "LOW" : {
       "description" : "",
-      "message" : "Low"
+      "message" : "Laag"
    },
    "LY" : {
       "description" : "Light year",
@@ -885,7 +885,7 @@
    },
    "SAVE" : {
       "description" : "",
-      "message" : "Save"
+      "message" : "Opslaan"
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
@@ -1033,7 +1033,7 @@
    },
    "VERY_LOW" : {
       "description" : "Game settings option: graphic resolution",
-      "message" : "Very low"
+      "message" : "Zeer laag"
    },
    "VIDEO" : {
       "description" : "",
