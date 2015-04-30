@@ -7,6 +7,7 @@ April 2015
      * Broken cockpit rotations using headlook (#3381)
 
    * Internal Changes
+     * luacheck changes (#3383)
      * Cppcheck changes (#3384)
 
 March 2015

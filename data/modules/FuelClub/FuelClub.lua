@@ -177,7 +177,7 @@ onChat = function (form, ref, option)
 
 	else
 		-- non-members get offered membership
-		message = ad.flavour.nonmember_intro:interp({clubname=ad.flavour.clubname}).."\n"..
+		local message = ad.flavour.nonmember_intro:interp({clubname=ad.flavour.clubname}).."\n"..
 			"\n\t* " ..l.LIST_BENEFITS_FUEL_INTRO..
 			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=Equipment.cargo.hydrogen:GetName()})..
 			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=Equipment.cargo.military_fuel:GetName()})..
@@ -211,7 +211,7 @@ local onCreateBB = function (station)
 end
 
 local onGameStart = function ()
-	local ref
+
 	if loaded_data then
 		-- rebuild saved adverts
 		for k,ad in pairs(loaded_data.ads) do
@@ -223,10 +223,6 @@ local onGameStart = function ()
 		end
 		-- load membership info
 		memberships = loaded_data.memberships
-		for k,v in pairs(memberships) do
-			for l,w in pairs(v) do
-			end
-		end
 		loaded_data = nil
 	else
 		-- Hopefully this won't be necessary after Pioneer handles Lua teardown

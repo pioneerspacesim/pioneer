@@ -2,7 +2,6 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
-local SpaceStation = import("SpaceStation")
 local Game = import("Game")
 local Event = import("Event")
 local Format = import("Format")
@@ -89,7 +88,7 @@ local function buyShip (sos)
 	if player:CrewNumber() > def.maxCrew then
 		MessageBox.Message(l.TOO_SMALL_FOR_CURRENT_CREW)
 		return
-    end
+	end
 
 	player:AddMoney(-cost)
 

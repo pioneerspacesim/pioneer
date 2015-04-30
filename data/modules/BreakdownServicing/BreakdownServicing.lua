@@ -105,7 +105,7 @@ local onChat = function (form, ref, option)
 	price = price * 10
 
 	-- Replace those tokens into ad's intro text that can change during play
-	message = string.interp(ad.intro, {
+	local message = string.interp(ad.intro, {
 		drive = hyperdrive and hyperdrive:GetName() or "None",
 		price = Format.Money(price),
 	})

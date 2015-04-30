@@ -5,6 +5,7 @@ local Game = import("Game")
 local Serializer = import("Serializer")
 local Character = import("Character")
 local Lang = import("Lang")
+local Engine = import("Engine")
 
 local l = Lang.GetResource("ui-core")
 

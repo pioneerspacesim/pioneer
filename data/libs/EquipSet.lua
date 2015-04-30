@@ -283,7 +283,7 @@ end
 --  removed - the number of pieces actually removed.
 --
 function EquipSet:Remove(ship, item, num, slot)
-	local num = num or 1
+	num = num or 1
 	if not slot then
 		slot = item:GetDefaultSlot(ship)
 	end

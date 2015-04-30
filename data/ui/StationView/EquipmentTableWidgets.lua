@@ -35,7 +35,7 @@ local defaultFuncs = {
 
 	-- what do we get for this item if we are selling
 	getSellPrice = function (e)
-		basePrice = Game.player:GetDockedWith():GetEquipmentPrice(e)
+		local basePrice = Game.player:GetDockedWith():GetEquipmentPrice(e)
 		if basePrice > 0 then
 			return sellPriceReduction * basePrice
 		else
