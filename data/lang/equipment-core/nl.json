@@ -5,7 +5,7 @@
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Langeafstands radar analyser met stelselbrede dekking."
+      "message" : "Langeafstands radar mapper met stelselbrede dekking."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Laat winstgevend vracht zien om te handelen tussen geselecteerd en huidig systeem"
+      "message" : "Toon handelswaar die winstgevend is tussen de huidige en geselecteerde stelsels."
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

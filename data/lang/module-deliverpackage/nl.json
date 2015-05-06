@@ -77,7 +77,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED. Delivery of a package to the {system} system."
+      "message" : "GEVRAAGD: Bezorging van een pakket naar het {system}-stelsel."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -225,7 +225,7 @@
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
+      "message" : "Mijn naam is {name} en ik wil dit ding afgeleverd hebben bij mijn vriend op  {starport} pronto, ik betaal je {cash} credits als je het daar binnen redelijke termijn brengt."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "Systeem:"
+      "message" : "Stelsel:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",

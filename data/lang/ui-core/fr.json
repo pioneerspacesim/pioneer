@@ -825,7 +825,7 @@
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
-      "message" : "Quit confirmation"
+      "message" : "Confirmation de quitter"
    },
    "RANK" : {
       "description" : "",

@@ -9,7 +9,7 @@
    },
    "FLAVOUR_0_BODY" : {
       "description" : "",
-      "message" : "Hi! My name is {name} and I'm selling off my {equipment} from my old rusty bucket. I want {price} for it."
+      "message" : "Hai! Mijn naam is {name} en ik verkoop de {equipment} van mijn oude roestige blik. ik wil er {price} voor hebben."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "Selling second hand ship equipment",

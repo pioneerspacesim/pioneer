@@ -49,7 +49,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Removal of {target} from the {system} system."
+      "message" : "GEVRAAGD: Verwijdering van {target} in het {system}-stelsel."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Someone to kill {target} from the {system} system."
+      "message" : "GEVRAAGD: Iemand die {target} uit het {system}-stelsel afmaakt."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "REMOVAL: {target} is no longer wanted in the {system} system."
+      "message" : "VERWIJDERING: {target} is niet langer gewenst in het {system}-stelsel."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "Systeem:"
+      "message" : "Stelsel:"
    },
    "TARGET_NAME" : {
       "description" : "",
@@ -321,6 +321,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} zal vertrekken uit {spaceport} in het {system} systeem ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} ly, datum {date}. Het schip is genaamd {shipname} en heeft het registratie id {shipregid}."
+      "message" : "{target} zal vertrekken uit {spaceport} in het {system}-stelsel ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} ly, datum {date}. Het schip heet {shipname} en heeft  registratie-id {shipregid}."
    }
 }
