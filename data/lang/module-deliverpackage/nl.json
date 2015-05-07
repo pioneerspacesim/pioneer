@@ -65,7 +65,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo, Ik ben {name}. Ik betaal u {cash} als u een klein pakketje aflever bij {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo. Ik ben {name}. Ik ben bereid {cash} voor een schip te betalen dat een pakket vervoert naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo. Ik ben {name}. Ik ben bereid {cash} voor een schip te betalen dat een pakket vervoert naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo. Ik ben {name}. Ik ben bereid {cash} te betalen voor een schip dat een pakket vervoert naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Gegroet. Dit is een automatisch bericht uit Bedford en {name} Courier Services. We betalen {cash} voor de vlucht naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",

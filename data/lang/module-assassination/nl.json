@@ -321,6 +321,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} zal vertrekken uit {spaceport} in het {system}-stelsel ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} ly, datum {date}. Het schip heet {shipname} en heeft  registratie-id {shipregid}."
+      "message" : "{target} zal vertrekken uit {spaceport} in het {system}-stelsel ({sectorX}, {sectorY}, {sectorZ}), afstand {dist} lj., datum {date}. Het schip heet {shipname} en heeft  registratie-id {shipregid}."
    }
 }
