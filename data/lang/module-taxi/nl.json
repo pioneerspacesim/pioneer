@@ -53,7 +53,7 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Gevaar:"
    },
    "DEADLINE" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "lj"
    },
    "OK_AGREED" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Is het gevaarlijk?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

@@ -1,7 +1,7 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Geavanceerde Radar Analyser"
+      "message" : "Geavanceerde Radar Mapper"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
@@ -9,11 +9,11 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Atmosferisch schild"
+      "message" : "Atmosfeerschild"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Beschermt schip tegen de hitte bij terugkeer in atmosfeer."
+      "message" : "Beschermt uw schip tegen de hitte bij terugkeer in een atmosfeer."
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
-      "message" : "Een ingebouwde stuurcomputer."
+      "message" : "Een boordvluchtcomputer."
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Vracht opscheppen"
+      "message" : "Vrachtschep"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Laat toe om vrachtmodules op te scheppen uit de ruimte."
+      "message" : "Staat toe vrachtcontainers op te scheppen uit de ruimte."
    },
    "DRIVE_CLASS1" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Maakt het mogelijk om waterstof te scheppen van gas giganten."
+      "message" : "Maakt het mogelijk om waterstof te scheppen van gasreuzen."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Multischep"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Hoewel minder effectief dan een brandstofhoos maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
+      "message" : "Hoewel minder effectief dan een brandstofschep maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Handels-analysesysteem"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",

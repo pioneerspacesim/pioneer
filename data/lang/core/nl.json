@@ -61,7 +61,7 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Autopiloot: Meer aan bij ruimtestation"
+      "message" : "Automatische piloot: Meer aan bij ruimtestation"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
-      "message" : "Kan niet opslaan tijdens hyperspace"
+      "message" : "Kan het spel niet opslaan tijdens een hyperruimtesprong"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -537,27 +537,27 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace aankomst-wolk"
+      "message" : "Hyperruimte-aankomstwolk"
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Hyperspace aankomst-wolk overblijfsel"
+      "message" : "Hyperruimte-aankomstwolkoverblijfsel"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
-      "message" : "Hyperspace vertrek-wolk"
+      "message" : "Hyperruimte-vertrekwolk"
    },
    "HYPERSPACE_JUMP" : {
       "description" : "",
-      "message" : "Hyperspace-sprong"
+      "message" : "Hyperruimtesprong"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
-      "message" : "Hyperspace-sprong afgebroken."
+      "message" : "Hyperruimtesprong afgebroken."
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Hyperspace doel"
+      "message" : "Hyperruimte-bestemming"
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
@@ -713,7 +713,7 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "Leg hyperruimtebestemming vast"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
@@ -905,7 +905,7 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Multischep"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -1325,11 +1325,11 @@
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
-      "message" : "Kies hyperspace-bestemming naar %system"
+      "message" : "Kies hyperruimte-bestemming naar %system"
    },
    "SET_HYPERSPACE_TARGET_TO_FOLLOW_THIS_DEPARTURE" : {
       "description" : "",
-      "message" : "Hyperspace-wolk Analysator: Kies hyperspace-doelwit om dit vertrek te volgen"
+      "message" : "Hyperruimtewolk-analysesysteem. Kies hyperruimte-bestemming om dit vertrek te volgen"
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
