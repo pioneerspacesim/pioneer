@@ -1,3 +1,7 @@
+May 2015
+   * New Features
+     * New mission: cargo run (#3274)
+
 April 2015
    * New Features
      * Confirm quit question added (#3374)

@@ -46,6 +46,11 @@ file_filter = data/lang/module-donatetocranks/<lang>.json
 source_file = data/lang/module-donatetocranks/en.json
 source_lang = en
 
+[pioneer.module-cargorun]
+file_filter = data/lang/module-cargorun/<lang>.json
+source_file = data/lang/module-cargorun/en.json
+source_lang = en
+
 [pioneer.module-crewcontracts]
 file_filter = data/lang/module-crewcontracts/<lang>.json
 source_file = data/lang/module-crewcontracts/en.json
