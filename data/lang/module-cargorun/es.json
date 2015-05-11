@@ -293,7 +293,7 @@
    },
    "INTROTEXT_PICKUP_LOCAL_2" : {
       "description" : "",
-      "message" : "Hello. My name is {name}. My employer is willing to hire you for {pay} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+      "message" : "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
    },
    "INTROTEXT_WEDDING_1" : {
       "description" : "",
