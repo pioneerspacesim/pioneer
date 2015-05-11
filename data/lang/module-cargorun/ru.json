@@ -1,43 +1,43 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Excellent. I'll load the goods on to your ship."
+      "message" : "Отлично. Я погружу товары на ваш корабль."
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Very good."
+      "message" : "Очень хорошо."
    },
    "ACCEPTED_3" : {
       "description" : "",
-      "message" : "Ok, good. I hope I can trust you."
+      "message" : "Хорошо. Надеюсь я могу вам доверять."
    },
    "ACCEPTED_4" : {
       "description" : "",
-      "message" : "It's a deal!"
+      "message" : "По рукам!"
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, I will make sure that the goods are ready for collection."
+      "message" : "Хорошо, я проверю, что все товары подготовлены."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "It's a deal! I will let my colleagues know that you are on your way."
+      "message" : "По рукам! Я сообщу своим коллегам, что Вы уже в пути."
    },
    "ADTEXT_1" : {
       "description" : "",
-      "message" : "CARGO RUN. Delivery of cargo to the {system} system."
+      "message" : "ГРУЗОВАЯ ДОСТАВКА. Необходимо доставить груз в систему {system}."
    },
    "ADTEXT_2" : {
       "description" : "",
-      "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+      "message" : "ТРЕБУЕТСЯ ТРАНСПОРТИРОВКА. Транспортировка товаров в систему {system}. Оплата {cash}."
    },
    "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+      "message" : "ДОСТАВКА. Ценный груз в систему {system}. {cash} опытному пилоту."
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "LOCAL DELIVERY. Move of goods to {starport}."
+      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка товаров в порт {starport}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
