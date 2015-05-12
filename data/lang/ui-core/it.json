@@ -1049,7 +1049,7 @@
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
-      "message" : "VSync"
+      "message" : "Sincronia verticale"
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
