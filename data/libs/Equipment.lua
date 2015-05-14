@@ -725,11 +725,45 @@ laser.large_plasma_accelerator = LaserType.New({
 		width=7, dual=0, mining=0, rgba_r = 127, rgba_g = 255, rgba_b = 255, rgba_a = 255
 	}, purchasable=true
 })
+
+local sensor = {
+	bodyscanner = EquipType.New({
+		l10n_key = 'BODYSCANNER', slots="sensor", price=1,
+		capabilities={mass=1}, purchasable=true, 
+		max_range=100000000, target_altitude=0, state="HALTED", progress=0
+	}),
+}
+
+function sensor.bodyscanner:BeginAcquisition(callback)
+	self.state = "RUNNING"
+	self.target_altitude = 10000 --get nearest body altitude
+	self.progress = 0
+	self.callback = callback
+	self.callback(self.progress, self.state)
+end
+
+function sensor.bodyscanner:PauseAcquisition()
+	self.state = "PAUSED"
+	self.callback(self.progress, self.state)
+end
+
+function sensor.bodyscanner:ClearAcquisition()
+	self.state = "HALTED"
+	self.target_altitude = 0
+	self.progress = 0
+	self.callback(self.progress, self.state)
+end
+
+function sensor.bodyscanner:GetLastResults()
+	return {body="todo_body_system_path", altitude=altitude} --get scanning body systempath
+end
+
 local equipment = {
 	cargo=cargo,
 	laser=laser,
 	hyperspace=hyperspace,
 	misc=misc,
+	sensor=sensor,
 	LaserType=LaserType,
 	HyperdriveType=HyperdriveType,
 	EquipType=EquipType,
@@ -737,7 +771,7 @@ local equipment = {
 
 local serialize = function()
 	local ret = {}
-	for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+	for _,k in ipairs{"cargo","laser", "hyperspace", "misc", "sensor"} do
 		local tmp = {}
 		for kk, vv in pairs(equipment[k]) do
 			tmp[kk] = vv
@@ -748,7 +782,7 @@ local serialize = function()
 end
 
 local unserialize = function (data)
-	for _,k in ipairs{"cargo","laser", "hyperspace", "misc"} do
+	for _,k in ipairs{"cargo","laser", "hyperspace", "misc", "sensor"} do
 		local tmp = equipment[k]
 		for kk, vv in pairs(data[k]) do
 			tmp[kk] = vv

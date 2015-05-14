@@ -254,5 +254,13 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
+   },
+   "BODYSCANNER" : {
+      "description" : "",
+      "message" : "Body Scanner"
+   },
+   "BODYSCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Scan nearest body for resources."
    }
 }
