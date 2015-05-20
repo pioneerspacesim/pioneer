@@ -739,21 +739,19 @@ function sensor.bodyscanner:BeginAcquisition(callback)
 	self:ClearAcquisition()
 	self.callback = callback
 	local closest_planet = Game.player:FindNearestTo("PLANET")
-	if(closest_planet~=nil)then -- isObject or is nill? or always OK?
+	if closest_planet then
 		self.target_altitude = Game.player:DistanceTo(closest_planet)
 		self.target_body = closest_planet
 		self.state = "RUNNING"
-		-- I want the update to be private function can I use an inline function for this?
-		Timer:CallEvery(2, function()
+		Timer:CallEvery(1, function()
 			local stop_timer = false
-			if(self.state == "RUNNING" or self.state == "HALTED") then
-				if(self.target_body~=nil and self.target_body:exists()) then
+			if self.state == "RUNNING" or self.state == "HALTED" then
+				if self.target_body and self.target_body:exists() then
 					local distance_diff = math.abs( Game.player:DistanceTo(self.target_body) - self.target_altitude)
-					if(distance_diff/self.target_altitude <= 0.05)then
-						-- possebly back in range: HALTED -> RUNNING
-						self.state = "RUNNING"
+					if distance_diff/self.target_altitude <= 0.05 then -- percentual distance difference to target_altitude
+						self.state = "RUNNING" -- possebly back in range: HALTED -> RUNNING
 						self.progress = self.progress + 3
-						if(self.progress > 100) then
+						if self.progress > 100 then
 							self.state = "DONE"
 							self.progress = {body=self.target_body.path, altitude=self.target_altitude}
 							stop_timer = true
@@ -764,27 +762,31 @@ function sensor.bodyscanner:BeginAcquisition(callback)
 						self.state = "HALTED"
 						stop_timer = false
 					end
-				else
+				else -- we lost the target body
 					self:ClearAcquisition()
 					stop_timer = true
 				end
 			end
 
-			self.callback(self.progress, self.state)
+			self:DoCallBack()
 			return stop_timer
 		end)
 	end
-	self.callback(self.progress, self.state)
+	self:DoCallBack()
 end
 
 function sensor.bodyscanner:PauseAcquisition()
-	if(self.state == "RUNNING")then
-		-- how to start again or is this a toggle?
+	if self.state == "RUNNING" or self.state "HALTED" then
 		self.state = "PAUSED"
-		if(self.callback~=nil)then
-			self.callback(self.progress, self.state)
-		end
 	end
+	self:DoCallBack()
+end
+
+function sensor.bodyscanner:UnPauseAcquisition()
+	if self.state == "PAUSED" then
+		self.state = "RUNNING"
+	end
+	self:DoCallBack()
 end
 
 function sensor.bodyscanner:ClearAcquisition()
@@ -792,10 +794,12 @@ function sensor.bodyscanner:ClearAcquisition()
 	self.target_altitude = 0
 	self.progress = 0
 	self.target_body = nil
-	if(self.callback~=nil)then
-		self.callback(self.progress, self.state)
-	end
+	self:DoCallBack()
 	self.callback=nil
+end
+
+function sensor.bodyscanner:DoCallBack()
+	if self.callback then self.callback(self.progress, self.state) end
 end
 
 function sensor.bodyscanner:GetLastResults()
