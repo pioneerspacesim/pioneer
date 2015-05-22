@@ -289,6 +289,64 @@ HyperdriveType.OnEnterHyperspace = function (self, ship)
 	end
 end
 
+local SensorType = utils.inherits(EquipType, "SensorType")
+
+function SensorType:BeginAcquisition(callback)
+	self:ClearAcquisition()
+	self.callback = callback
+	if self:OnBeginAcquisition() then
+		self.state = "RUNNING"
+		Timer:CallEvery(1, function()
+			local stop_timer = true
+			if self:IsScanning() then
+				self:OnProgress()
+				if self:IsScanning() then
+					stop_timer = false
+				end
+			elseif self.state == "PAUSED" then 
+				stop_timer = false
+			elseif self.state == "DONE" then
+				stop_timer = true
+			end
+			self:DoCallBack()
+			return stop_timer
+		end)
+	end
+	self:DoCallBack()
+end
+
+function SensorType:PauseAcquisition()
+	if self:IsScanning() then
+		self.state = "PAUSED"
+	end
+	self:DoCallBack()
+end
+
+function SensorType:UnPauseAcquisition()
+	if self.state == "PAUSED" then
+		self.state = "RUNNING"
+	end
+	self:DoCallBack()
+end
+
+function SensorType:ClearAcquisition()
+	self:OnClear()
+	self.state = "HALTED"
+	self.callback=nil
+end
+
+function SensorType:GetLastResults()
+	return self.progress
+end
+
+function IsScanning()
+	return self.state == "RUNNING" or self.state "HALTED"
+end
+
+function SensorType:DoCallBack()
+	if self.callback then self.callback(self.progress, self.state) end
+end
+
 -- Constants: EquipSlot
 --
 -- Equipment slots. Every equipment or cargo type has a corresponding
@@ -727,84 +785,44 @@ laser.large_plasma_accelerator = LaserType.New({
 })
 
 local sensor = {
-	bodyscanner = EquipType.New({
+	bodyscanner = SensorType.New({
 		l10n_key = 'BODYSCANNER', slots="sensor", price=1,
 		capabilities={mass=1}, purchasable=true, 
 		max_range=100000000, target_altitude=0, state="HALTED", progress=0,
-		target_body=nil, callback=nil
+		OnBeginAcquisition = function(self)
+			local closest_planet = Game.player:FindNearestTo("PLANET")
+			if closest_planet then
+				self.target_altitude = Game.player:DistanceTo(closest_planet)
+				self.target_body = closest_planet
+				return true
+			else
+				return false
+			end
+		end,
+		OnProgress = function(self)
+			if self.target_body and self.target_body:exists() then
+				local distance_diff = math.abs( Game.player:DistanceTo(self.target_body) - self.target_altitude)
+				if distance_diff/self.target_altitude <= 0.05 then -- percentual distance difference to target_altitude
+					self.state = "RUNNING" -- possebly back in range: HALTED -> RUNNING
+					self.progress = self.progress + 30
+					if self.progress > 100 then
+						self.state = "DONE"
+						self.progress = {body=self.target_body.path, altitude=self.target_altitude}
+					end
+				else -- strayed out off range
+					self.state = "HALTED"
+				end
+			else -- we lost the target body
+				self:ClearAcquisition()
+			end
+		end
+		OnClear = function(self)
+				self.target_altitude = 0
+				self.progress = 0
+				self.target_body = nil
+			end
 	}),
 }
-
-function sensor.bodyscanner:BeginAcquisition(callback)
-	self:ClearAcquisition()
-	self.callback = callback
-	local closest_planet = Game.player:FindNearestTo("PLANET")
-	if closest_planet then
-		self.target_altitude = Game.player:DistanceTo(closest_planet)
-		self.target_body = closest_planet
-		self.state = "RUNNING"
-		Timer:CallEvery(1, function()
-			local stop_timer = false
-			if self.state == "RUNNING" or self.state == "HALTED" then
-				if self.target_body and self.target_body:exists() then
-					local distance_diff = math.abs( Game.player:DistanceTo(self.target_body) - self.target_altitude)
-					if distance_diff/self.target_altitude <= 0.05 then -- percentual distance difference to target_altitude
-						self.state = "RUNNING" -- possebly back in range: HALTED -> RUNNING
-						self.progress = self.progress + 3
-						if self.progress > 100 then
-							self.state = "DONE"
-							self.progress = {body=self.target_body.path, altitude=self.target_altitude}
-							stop_timer = true
-						else
-							stop_timer = false
-						end
-					else -- strayed out off range
-						self.state = "HALTED"
-						stop_timer = false
-					end
-				else -- we lost the target body
-					self:ClearAcquisition()
-					stop_timer = true
-				end
-			end
-
-			self:DoCallBack()
-			return stop_timer
-		end)
-	end
-	self:DoCallBack()
-end
-
-function sensor.bodyscanner:PauseAcquisition()
-	if self.state == "RUNNING" or self.state "HALTED" then
-		self.state = "PAUSED"
-	end
-	self:DoCallBack()
-end
-
-function sensor.bodyscanner:UnPauseAcquisition()
-	if self.state == "PAUSED" then
-		self.state = "RUNNING"
-	end
-	self:DoCallBack()
-end
-
-function sensor.bodyscanner:ClearAcquisition()
-	self.state = "HALTED"
-	self.target_altitude = 0
-	self.progress = 0
-	self.target_body = nil
-	self:DoCallBack()
-	self.callback=nil
-end
-
-function sensor.bodyscanner:DoCallBack()
-	if self.callback then self.callback(self.progress, self.state) end
-end
-
-function sensor.bodyscanner:GetLastResults()
-	return self.progress
-end
 
 local equipment = {
 	cargo=cargo,
@@ -815,6 +833,7 @@ local equipment = {
 	LaserType=LaserType,
 	HyperdriveType=HyperdriveType,
 	EquipType=EquipType,
+	SensorType=SensorType
 }
 
 local serialize = function()
