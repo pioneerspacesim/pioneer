@@ -249,23 +249,23 @@
    },
    "INTROTEXT_3" : {
       "description" : "",
-      "message" : "Good day. I'm {name}, founder of the {name} Ltd. I need someone trustworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash} for the {dist} ly long flight."
+      "message" : "Buenos días. Soy {name}, fundador de {name} Ltd. Necesito a alguien de confianza para enviar {cargoname} a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}). Se pagará {cash} por el viaje de {dist} año/s luz."
    },
    "INTROTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "Hello. We need someone experienced for a potentially dangerous run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We'll pay {cash}. The distance is {dist} ly."
+      "message" : "Hola. Necesitamos a alguien con experiencia para un viaje potencialmente peligroso al sistema {system} ({sectorx}, {sectory}, {sectorz}). Se pagarán {cash}. La distancia es {dist} año/s luz."
    },
    "INTROTEXT_FLUFFY_1" : {
       "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Hi, my name is {name}. I have a fluffy shipment of {cargoname} for delivery to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The distance is {dist} ly. For this delivery I will pay you {cash}."
+      "message" : "Un saludo, me llamo {name}. Dispongo de un jugoso cargamento de {cargoname} para enviar a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}). La distancia es {dist} año/s luz. Por este envío se le pagará {cash}."
    },
    "INTROTEXT_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Greetings. I'm {name}. The {system} government wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The pay is {cash}. {system} is located {dist} ly from here."
+      "message" : "Saludos. Soy {name}. El gobierno de {system} quiere enviar {cargoname} a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}). La paga es {cash}. {system} está localizado a {dist} año/s luz de aquí."
    },
    "INTROTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "Nice to meet you. I'm {name} and I work for the {starport} administration. We pay {cash} to someone who is able to move {cargoname} to {starport}."
+      "message" : "Encantado de conocerle. Yo soy {name} y trabajo para la administración de {starport}. Pagamos {cash} a alguien capaz de transportar {cargoname} a {starport}."
    },
    "INTROTEXT_LOCAL_2" : {
       "description" : "",
@@ -273,39 +273,39 @@
    },
    "INTROTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "My name is {name} and I need {cargoname} delivered to a client at {starport}. I'll pay you {cash} for this run."
+      "message" : "Mi nombre es {name} y necesito {cargoname} entregado a un cliente en {starport}. Le pagaré {cash} por este viaje."
    },
    "INTROTEXT_MINING_1" : {
       "description" : "{name} is the full name of a person",
-      "message" : "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
+      "message" : "Hola. La Compañía Minera {name} quiere efectuar un envío de {cargoname} a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} año/s luz de distancia, con el fin de construir una nueva mina. La paga es {cash}."
    },
    "INTROTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "How do you do? My name is {name}, and I need a ship that is able to fly to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, to pickup {cargoname} and return to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system for {cash}. The distance to {system} is {dist} ly."
+      "message" : "¿Cómo está? Mi nombre es {name}, y necesito una nave capaz de volar a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), para recoger {cargoname} y volver a {dom_starport} en el sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) por {cash}. La distancia a {system} son {dist} año/s luz."
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from the {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "¿Cómo le va? Soy {name}. Uno de mis clientes quiere importar {cargoname} desde {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a una distancia de {dist} año/s luz."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "Greetings. I'm {name}. I will pay {cash} to someone who will transport {cargoname} from {starport} to {dom_starport}."
+      "message" : "Saludos. Soy {name}. Pagaré {cash} a alguien que transporte {cargoname} de {starport} a {dom_starport}."
    },
    "INTROTEXT_PICKUP_LOCAL_2" : {
       "description" : "",
-      "message" : "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+      "message" : "Hola. Mi nombre es {name}. Mi jefe tiene intención de contratarle por {cash} para ayudarnos a realojar nuestro almacen moviendo {cargoname} desde {starport} a nuestro nuevo domicilio, {dom_starport}."
    },
    "INTROTEXT_WEDDING_1" : {
       "description" : "",
-      "message" : "Greetings. Have you heard of the wedding season of {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system? We want to transport {cargoname} there. It's {dist} ly away. The pay is {cash}. How about it?"
+      "message" : "Saludos ¿Ha oído hablar de la temporada de bodas de {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})? Queremos que transporte allí {cargoname}. Está a {dist} año/s luz de distancia. La paga serán {cash}. ¿Qué le parece?"
    },
    "INTROTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "Hello, my name is {name} and I'm a wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly."
+      "message" : "Hola, mi nombre es {name} y soy un hombre de negocios al por mayor en el sistema {system}. Pago {cash} por un viaje a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} años luz."
    },
    "INTROTEXT_WHOLESALER_2" : {
       "description" : "",
-      "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Saludos, mi nombre es {name} y trabajo para Haber Corp. Pagamos {cash} por un envío a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a una distancia de {dist} años luz."
    },
    "I_AM_ON_MY_WAY" : {
       "description" : "",
