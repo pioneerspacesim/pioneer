@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Nume: {name}\nExperiență: {experience}\nSalariu cerut: {wage} per săptămână\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+      "message" : "Rezultate examinare:\n\nCompetențe generale echipaj: {general}%\nInginerie și reparații: {engineering}%\nPilotaj și zbor cosmic: {piloting}%\nNavigare și cartografiere: {navigation}%\nSenzori și apărare: {sensors}%\nScor general examen: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
@@ -49,7 +49,7 @@
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "OK, I suppose that's all right."
+      "message" : "OK, bănuiesc că e în regulă."
    },
    "PILOT" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
-      "message" : "Thanks, I'll get settled on board immediately."
+      "message" : "Mulțumesc, o să mă stabilesc la bord imediat."
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",
