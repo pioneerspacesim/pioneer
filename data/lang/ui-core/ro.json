@@ -825,7 +825,7 @@
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
-      "message" : "Quit confirmation"
+      "message" : "Confirmare anulare"
    },
    "RANK" : {
       "description" : "",
@@ -889,7 +889,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Scoop mounts"
+      "message" : "Monturi colectoare"
    },
    "SELECT" : {
       "description" : "",
