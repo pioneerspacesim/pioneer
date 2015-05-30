@@ -5,7 +5,7 @@
 // Objective-C cocoa wrapper for pioneer
 
 #include "buildopts.h"
-#import <SDL/SDL.h>
+#import <SDL2/SDL.h>
 #import "SDLMain.h"
 #import <unistd.h>
 
