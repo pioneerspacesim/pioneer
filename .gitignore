@@ -65,3 +65,4 @@ gmon.out
 result
 *.sgm
 osx/pioneer.xcworkspace/xcuserdata
+._*
