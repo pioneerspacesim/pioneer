@@ -1573,7 +1573,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 
 			sp->m_orbit.SetShapeAroundPrimary(sp->GetSemiMajorAxisAsFixed().ToDouble()*AU, sbody->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
 			if (NumToMake > 1) {
-				sp->m_orbit.SetPlane(matrix3x3d::RotateZ(double(i) * (M_PI / double(NumToMake-1))));
+				sp->m_orbit.SetPlane(matrix3x3d::RotateZ(double(i) * ((M_PI * 2.0) / double(NumToMake-1))));
 			} else {
 				sp->m_orbit.SetPlane(matrix3x3d::Identity());
 			}
