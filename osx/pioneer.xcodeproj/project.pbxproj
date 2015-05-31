@@ -21,14 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		3701C51F1B1AA34C000F4A72 /* Ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C51B1B1AA34C000F4A72 /* Ogg.framework */; };
-		3701C5201B1AA34C000F4A72 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C51C1B1AA34C000F4A72 /* SDL2_image.framework */; };
-		3701C5211B1AA34C000F4A72 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C51D1B1AA34C000F4A72 /* SDL2.framework */; };
-		3701C5221B1AA34C000F4A72 /* Vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C51E1B1AA34C000F4A72 /* Vorbis.framework */; };
-		3701C5231B1AA359000F4A72 /* Ogg.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C51B1B1AA34C000F4A72 /* Ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3701C5241B1AA359000F4A72 /* SDL2_image.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C51C1B1AA34C000F4A72 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3701C5251B1AA359000F4A72 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C51D1B1AA34C000F4A72 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3701C5261B1AA359000F4A72 /* Vorbis.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C51E1B1AA34C000F4A72 /* Vorbis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3701C57D1B1ABA1B000F4A72 /* Ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5791B1ABA1B000F4A72 /* Ogg.framework */; };
+		3701C57E1B1ABA1B000F4A72 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */; };
+		3701C57F1B1ABA1B000F4A72 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57B1B1ABA1B000F4A72 /* SDL2.framework */; };
+		3701C5801B1ABA1B000F4A72 /* Vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */; };
+		3701C5811B1ABA27000F4A72 /* Ogg.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C5791B1ABA1B000F4A72 /* Ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3701C5821B1ABA27000F4A72 /* SDL2_image.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3701C5831B1ABA27000F4A72 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57B1B1ABA1B000F4A72 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3701C5841B1ABA27000F4A72 /* Vorbis.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3785633C1B19762E0039F2BC /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563351B19762E0039F2BC /* libbz2.1.0.6.dylib */; };
 		3785633D1B19762E0039F2BC /* libjpeg.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563361B19762E0039F2BC /* libjpeg.9.dylib */; };
 		3785633F1B19762E0039F2BC /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563381B19762E0039F2BC /* libpng16.16.dylib */; };
@@ -520,10 +520,10 @@
 				4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */,
 				4A5619D313866B5B002A904C /* libfreetype.6.dylib in Copy Libraries */,
 				4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */,
-				3701C5231B1AA359000F4A72 /* Ogg.framework in Copy Libraries */,
-				3701C5241B1AA359000F4A72 /* SDL2_image.framework in Copy Libraries */,
-				3701C5251B1AA359000F4A72 /* SDL2.framework in Copy Libraries */,
-				3701C5261B1AA359000F4A72 /* Vorbis.framework in Copy Libraries */,
+				3701C5811B1ABA27000F4A72 /* Ogg.framework in Copy Libraries */,
+				3701C5821B1ABA27000F4A72 /* SDL2_image.framework in Copy Libraries */,
+				3701C5831B1ABA27000F4A72 /* SDL2.framework in Copy Libraries */,
+				3701C5841B1ABA27000F4A72 /* Vorbis.framework in Copy Libraries */,
 			);
 			name = "Copy Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,10 +531,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3701C51B1B1AA34C000F4A72 /* Ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogg.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/Ogg.framework"; sourceTree = "<group>"; };
-		3701C51C1B1AA34C000F4A72 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/SDL2_image.framework"; sourceTree = "<group>"; };
-		3701C51D1B1AA34C000F4A72 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/SDL2.framework"; sourceTree = "<group>"; };
-		3701C51E1B1AA34C000F4A72 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vorbis.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/Vorbis.framework"; sourceTree = "<group>"; };
+		3701C5791B1ABA1B000F4A72 /* Ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogg.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/Ogg.framework"; sourceTree = "<group>"; };
+		3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/SDL2_image.framework"; sourceTree = "<group>"; };
+		3701C57B1B1ABA1B000F4A72 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/SDL2.framework"; sourceTree = "<group>"; };
+		3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vorbis.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/Vorbis.framework"; sourceTree = "<group>"; };
 		378563351B19762E0039F2BC /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = /opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<absolute>"; };
 		378563361B19762E0039F2BC /* libjpeg.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libjpeg.9.dylib; path = /opt/local/lib/libjpeg.9.dylib; sourceTree = "<absolute>"; };
 		378563381B19762E0039F2BC /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = /opt/local/lib/libpng16.16.dylib; sourceTree = "<absolute>"; };
@@ -1323,10 +1323,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3701C51F1B1AA34C000F4A72 /* Ogg.framework in Frameworks */,
-				3701C5201B1AA34C000F4A72 /* SDL2_image.framework in Frameworks */,
-				3701C5211B1AA34C000F4A72 /* SDL2.framework in Frameworks */,
-				3701C5221B1AA34C000F4A72 /* Vorbis.framework in Frameworks */,
+				3701C57D1B1ABA1B000F4A72 /* Ogg.framework in Frameworks */,
+				3701C57E1B1ABA1B000F4A72 /* SDL2_image.framework in Frameworks */,
+				3701C57F1B1ABA1B000F4A72 /* SDL2.framework in Frameworks */,
+				3701C5801B1ABA1B000F4A72 /* Vorbis.framework in Frameworks */,
 				378564551B197FC20039F2BC /* libcurl.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
 				3785634A1B19768C0039F2BC /* libX11.6.dylib in Frameworks */,
@@ -1604,10 +1604,10 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3701C51B1B1AA34C000F4A72 /* Ogg.framework */,
-				3701C51C1B1AA34C000F4A72 /* SDL2_image.framework */,
-				3701C51D1B1AA34C000F4A72 /* SDL2.framework */,
-				3701C51E1B1AA34C000F4A72 /* Vorbis.framework */,
+				3701C5791B1ABA1B000F4A72 /* Ogg.framework */,
+				3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */,
+				3701C57B1B1ABA1B000F4A72 /* SDL2.framework */,
+				3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */,
 				378564541B197FC20039F2BC /* libcurl.dylib */,
 				378563511B19769A0039F2BC /* OpenGL.framework */,
 				4A20B0E4135319770020F43E /* Other Frameworks */,
@@ -2954,7 +2954,7 @@
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
 				INFOPLIST_PREFIX_HEADER = InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/opt/local/lib/**",
@@ -3011,7 +3011,7 @@
 				INFOPLIST_FILE = "pioneer/pioneer-Info.plist";
 				INFOPLIST_PREFIX_HEADER = InfoPlist.h;
 				INFOPLIST_PREPROCESS = YES;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/opt/local/lib/**",
