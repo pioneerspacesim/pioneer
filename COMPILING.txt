@@ -117,16 +117,12 @@ irc.freenode.net.
    was to install macports (http://www.macports.org/) and install the
    following ports (sudo port install xxxx):
 
-     assimp
-     pkgconfig
-     freetype
-     libsdl2
-     libsdl2_image
-     libsdl2_sound
-     libsigcxx2
-     libvorbis
      autoconf
      automake
+     pkgconfig
+     assimp
+     freetype
+     libsigcxx2
 
 3. Run ./bootstrap to generate your 'configure' file
 
@@ -221,7 +217,8 @@ To get it, clone git://github.com/pioneerspacesim/pioneer-thirdparty.git.
 2.4 OSX
 -------
 
-- pioneer-thirdparty currently not required.
+1. After cloning the repo, move it to a folder called "pioneer-thirdparty"
+   alongside your "pioneer" folder.
 
 
 
