@@ -23,14 +23,14 @@
 /* Begin PBXBuildFile section */
 		3701C57D1B1ABA1B000F4A72 /* Ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5791B1ABA1B000F4A72 /* Ogg.framework */; };
 		3701C57E1B1ABA1B000F4A72 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */; };
-		3701C57F1B1ABA1B000F4A72 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57B1B1ABA1B000F4A72 /* SDL2.framework */; };
 		3701C5801B1ABA1B000F4A72 /* Vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */; };
-		3701C5811B1ABA27000F4A72 /* Ogg.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C5791B1ABA1B000F4A72 /* Ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3701C5821B1ABA27000F4A72 /* SDL2_image.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3701C5831B1ABA27000F4A72 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57B1B1ABA1B000F4A72 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3701C5841B1ABA27000F4A72 /* Vorbis.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
 		3701C58E1B1ABF7B000F4A72 /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C58D1B1ABF7B000F4A72 /* libpng16.16.dylib */; };
+		3701C5931B1AD252000F4A72 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5921B1AD252000F4A72 /* SDL2.framework */; };
+		3701C5951B1AD283000F4A72 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C5921B1AD252000F4A72 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3701C5961B1AD29F000F4A72 /* Ogg.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C5791B1ABA1B000F4A72 /* Ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3701C5971B1AD29F000F4A72 /* SDL2_image.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3701C5981B1AD29F000F4A72 /* Vorbis.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563511B19769A0039F2BC /* OpenGL.framework */; };
 		3785635D1B197CF90039F2BC /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
 		3785635F1B197CF90039F2BC /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
@@ -478,12 +478,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				3701C5961B1AD29F000F4A72 /* Ogg.framework in Copy Libraries */,
+				3701C5971B1AD29F000F4A72 /* SDL2_image.framework in Copy Libraries */,
+				3701C5981B1AD29F000F4A72 /* Vorbis.framework in Copy Libraries */,
+				3701C5951B1AD283000F4A72 /* SDL2.framework in Copy Libraries */,
 				4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */,
 				4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */,
-				3701C5811B1ABA27000F4A72 /* Ogg.framework in Copy Libraries */,
-				3701C5821B1ABA27000F4A72 /* SDL2_image.framework in Copy Libraries */,
-				3701C5831B1ABA27000F4A72 /* SDL2.framework in Copy Libraries */,
-				3701C5841B1ABA27000F4A72 /* Vorbis.framework in Copy Libraries */,
 			);
 			name = "Copy Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,12 +491,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3701C5791B1ABA1B000F4A72 /* Ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogg.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/Ogg.framework"; sourceTree = "<group>"; };
-		3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/SDL2_image.framework"; sourceTree = "<group>"; };
-		3701C57B1B1ABA1B000F4A72 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/SDL2.framework"; sourceTree = "<group>"; };
-		3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vorbis.framework; path = "../../../../../../Users/dan/Library/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug/Vorbis.framework"; sourceTree = "<group>"; };
+		3701C5791B1ABA1B000F4A72 /* Ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Ogg.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vorbis.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
 		3701C58D1B1ABF7B000F4A72 /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = ../../../../../../opt/local/lib/libpng16.16.dylib; sourceTree = "<group>"; };
+		3701C5921B1AD252000F4A72 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		378563511B19769A0039F2BC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		378563581B197CF90039F2BC /* JsonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonUtils.cpp; sourceTree = "<group>"; };
 		378563591B197CF90039F2BC /* JsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonUtils.h; sourceTree = "<group>"; };
@@ -1271,11 +1271,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3701C5931B1AD252000F4A72 /* SDL2.framework in Frameworks */,
 				3701C58E1B1ABF7B000F4A72 /* libpng16.16.dylib in Frameworks */,
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
 				3701C57D1B1ABA1B000F4A72 /* Ogg.framework in Frameworks */,
 				3701C57E1B1ABA1B000F4A72 /* SDL2_image.framework in Frameworks */,
-				3701C57F1B1ABA1B000F4A72 /* SDL2.framework in Frameworks */,
 				3701C5801B1ABA1B000F4A72 /* Vorbis.framework in Frameworks */,
 				378564551B197FC20039F2BC /* libcurl.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
@@ -1540,10 +1540,10 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3701C5921B1AD252000F4A72 /* SDL2.framework */,
 				3701C58D1B1ABF7B000F4A72 /* libpng16.16.dylib */,
 				3701C5791B1ABA1B000F4A72 /* Ogg.framework */,
 				3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */,
-				3701C57B1B1ABA1B000F4A72 /* SDL2.framework */,
 				3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */,
 				4A20B0E4135319770020F43E /* Other Frameworks */,
 				4A671B851388C04700657F38 /* SubLibraries */,
