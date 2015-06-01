@@ -25,7 +25,6 @@
 		3701C57E1B1ABA1B000F4A72 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */; };
 		3701C5801B1ABA1B000F4A72 /* Vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */; };
 		3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
-		3701C58E1B1ABF7B000F4A72 /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C58D1B1ABF7B000F4A72 /* libpng16.16.dylib */; };
 		3701C5931B1AD252000F4A72 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5921B1AD252000F4A72 /* SDL2.framework */; };
 		3701C5951B1AD283000F4A72 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C5921B1AD252000F4A72 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3701C5961B1AD29F000F4A72 /* Ogg.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C5791B1ABA1B000F4A72 /* Ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -100,6 +99,15 @@
 		378564521B197FAE0039F2BC /* LuaServerAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785644E1B197FAE0039F2BC /* LuaServerAgent.cpp */; };
 		378564531B197FAE0039F2BC /* ServerAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564501B197FAE0039F2BC /* ServerAgent.cpp */; };
 		378564551B197FC20039F2BC /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 378564541B197FC20039F2BC /* libcurl.dylib */; };
+		44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
+		44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
+		44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
+		44B75AA21B1C26D600EC500F /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */; };
+		44B75AA31B1C26D600EC500F /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */; };
+		44B75AA41B1C26D600EC500F /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B75AA11B1C26D600EC500F /* libpng16.16.dylib */; };
+		44B75AA51B1C26F600EC500F /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */; };
+		44B75AA61B1C26F600EC500F /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */; };
+		44B75AA71B1C26F600EC500F /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 44B75AA11B1C26D600EC500F /* libpng16.16.dylib */; };
 		4A01889715A59908002F540B /* SystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A01889615A59908002F540B /* SystemPath.cpp */; };
 		4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */; };
 		4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CC165CF00D00208507 /* SmallButton.cpp */; };
@@ -402,7 +410,6 @@
 		4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */; };
 		4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACDB6D0167879AF0069FA03 /* DistanceFieldFont.cpp */; };
 		4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
-		4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		4ACE132F16B4B19D00CAE524 /* EnumStrings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACE132C16B4B19D00CAE524 /* EnumStrings.cpp */; };
 		4ACED56A16BBCC7200E53808 /* LuaMissile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ACED56816BBCC7200E53808 /* LuaMissile.cpp */; };
 		4ADB0D0C15C50DD900AE2123 /* TerrainHeightAsteroid2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D0615C50DD900AE2123 /* TerrainHeightAsteroid2.cpp */; };
@@ -423,7 +430,6 @@
 		4ADF51981557477400ACF5A0 /* LuaMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADF51911557477400ACF5A0 /* LuaMatrix.cpp */; };
 		4ADF51991557477400ACF5A0 /* LuaSystemBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADF51931557477400ACF5A0 /* LuaSystemBody.cpp */; };
 		4ADF519A1557477400ACF5A0 /* LuaVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADF51951557477400ACF5A0 /* LuaVector.cpp */; };
-		4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
 		4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AE9706514369D7500424F91 /* LuaLang.cpp */; };
 		4AEC8A1A15C7886A00B281C3 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC8A1815C7886A00B281C3 /* Light.cpp */; };
 		4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AED721C14E1501D004D171E /* TerrainHeightMapped2.cpp */; };
@@ -457,6 +463,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				44B75AA51B1C26F600EC500F /* libbz2.1.0.6.dylib in Copy SubLibraries */,
+				44B75AA61B1C26F600EC500F /* libz.1.2.8.dylib in Copy SubLibraries */,
+				44B75AA71B1C26F600EC500F /* libpng16.16.dylib in Copy SubLibraries */,
+				44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */,
+				44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */,
+				44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */,
 			);
 			name = "Copy SubLibraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,8 +494,6 @@
 				3701C5971B1AD29F000F4A72 /* SDL2_image.framework in Copy Libraries */,
 				3701C5981B1AD29F000F4A72 /* Vorbis.framework in Copy Libraries */,
 				3701C5951B1AD283000F4A72 /* SDL2.framework in Copy Libraries */,
-				4ACDB6D5167881AF0069FA03 /* libassimp.3.0.0.dylib in Copy Libraries */,
-				4AE5CA441383E6AA00B55DEB /* libsigc-2.0.0.dylib in Copy Libraries */,
 			);
 			name = "Copy Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,7 +505,6 @@
 		3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vorbis.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
-		3701C58D1B1ABF7B000F4A72 /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = ../../../../../../opt/local/lib/libpng16.16.dylib; sourceTree = "<group>"; };
 		3701C5921B1AD252000F4A72 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		378563511B19769A0039F2BC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		378563581B197CF90039F2BC /* JsonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonUtils.cpp; sourceTree = "<group>"; };
@@ -639,6 +648,11 @@
 		378564501B197FAE0039F2BC /* ServerAgent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerAgent.cpp; sourceTree = "<group>"; };
 		378564511B197FAE0039F2BC /* ServerAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerAgent.h; sourceTree = "<group>"; };
 		378564541B197FC20039F2BC /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
+		44B75A9B1B1C26CA00EC500F /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = ../../../../../opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<group>"; };
+		44B75A9C1B1C26CA00EC500F /* libz.1.2.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.8.dylib; path = ../../../../../opt/local/lib/libz.1.2.8.dylib; sourceTree = "<group>"; };
+		44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = ../../../../../opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<group>"; };
+		44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.8.dylib; path = ../../../../../opt/local/lib/libz.1.2.8.dylib; sourceTree = "<group>"; };
+		44B75AA11B1C26D600EC500F /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = ../../../../../opt/local/lib/libpng16.16.dylib; sourceTree = "<group>"; };
 		4A01889615A59908002F540B /* SystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemPath.cpp; sourceTree = "<group>"; };
 		4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSmallButton.cpp; sourceTree = "<group>"; };
 		4A0F25CC165CF00D00208507 /* SmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallButton.cpp; sourceTree = "<group>"; };
@@ -1271,13 +1285,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44B75AA21B1C26D600EC500F /* libbz2.1.0.6.dylib in Frameworks */,
+				44B75AA31B1C26D600EC500F /* libz.1.2.8.dylib in Frameworks */,
 				3701C5931B1AD252000F4A72 /* SDL2.framework in Frameworks */,
-				3701C58E1B1ABF7B000F4A72 /* libpng16.16.dylib in Frameworks */,
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
 				3701C57D1B1ABA1B000F4A72 /* Ogg.framework in Frameworks */,
 				3701C57E1B1ABA1B000F4A72 /* SDL2_image.framework in Frameworks */,
 				3701C5801B1ABA1B000F4A72 /* Vorbis.framework in Frameworks */,
 				378564551B197FC20039F2BC /* libcurl.dylib in Frameworks */,
+				44B75AA41B1C26D600EC500F /* libpng16.16.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
 				4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
@@ -1540,8 +1556,9 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				44B75A9B1B1C26CA00EC500F /* libbz2.1.0.6.dylib */,
+				44B75A9C1B1C26CA00EC500F /* libz.1.2.8.dylib */,
 				3701C5921B1AD252000F4A72 /* SDL2.framework */,
-				3701C58D1B1ABF7B000F4A72 /* libpng16.16.dylib */,
 				3701C5791B1ABA1B000F4A72 /* Ogg.framework */,
 				3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */,
 				3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */,
@@ -1647,6 +1664,9 @@
 		4A671B851388C04700657F38 /* SubLibraries */ = {
 			isa = PBXGroup;
 			children = (
+				44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */,
+				44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */,
+				44B75AA11B1C26D600EC500F /* libpng16.16.dylib */,
 				3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */,
 				4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
@@ -2363,7 +2383,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\n#relocateLibInApp /opt/local/lib/ libfreetype.6.dylib\n#relocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\n#relocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\n\n# GLEW dylibs\n#relocateLibInApp /opt/local/lib/ libGLEW.1.9.0.dylib\n\n# libassimp\n#lnk libassimp.3.0.0.dylib libassimp.3.dylib\n#relocateLibInApp /opt/local/lib/ libassimp.3.dylib\n#relocateSubLib /opt/local/lib/ libassimp.3.0.0.dylib libz.1.dylib\n\n# sigcxx\n#relocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n# SDL\n#relocateLibInApp /opt/local/lib/ libSDL-1.2.0.dylib\n#relocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrandr.2.dylib\n#relocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXext.6.dylib\n#relocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXrender.1.dylib\n#relocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libSDL-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_image\n#relocateLibInApp /opt/local/lib/ libSDL_image-1.2.0.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libpng15.15.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libtiff.3.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libjpeg.8.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libz.1.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libSDL-1.2.0.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrandr.2.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXext.6.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXrender.1.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libSDL_image-1.2.0.dylib libXdmcp.6.dylib\n\n# SDL_sound\n#lnk libSDL_sound-1.0.1.0.2.dylib libSDL_sound-1.0.1.dylib\n#relocateLibInApp /opt/local/lib/ libSDL_sound-1.0.1.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libSDL-1.2.0.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libsmpeg-0.4.0.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libmodplug.1.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbis.0.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libvorbisfile.3.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libFLAC.8.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libogg.0.dylib\n#relocateSubLib /opt/local/lib/ libSDL_sound-1.0.1.0.2.dylib libspeex.1.dylib\n\n# vorbisfile\n#relocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\n#relocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\n#relocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n#bz2\n#lnk libbz2.1.0.6.dylib libbz2.1.0.dylib\n#relocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# FLAC\n#idLib libFLAC.8.dylib\n#relocateSubLib /opt/local/lib/ libFLAC.8.dylib libogg.0.dylib\n\n# jpeg\n#idLib libjpeg.8.dylib\n\n# modplug\n#idLib libmodplug.1.dylib\n\n# ogg\n#idLib libogg.0.dylib\n\n# png\n#idLib libpng15.15.dylib\n#relocateSubLib /opt/local/lib/ libpng15.15.dylib libz.1.dylib\n#relocateLibInApp /opt/local/lib/ libpng15.15.dylib\n\n# smpeg\n#idLib libsmpeg-0.4.0.dylib\n#relocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n#speex\n#lnk libspeex.1.5.0.dylib libspeex.1.dylib\n#idLib libspeex.1.dylib\n\n# tiff\n#idLib libtiff.3.dylib\n#relocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\n#relocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# vorbis\n#idLib libvorbis.0.dylib\n#relocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# libX11\n#relocateLibInApp /opt/local/lib/ libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libX11.6.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libX11.6.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libX11.6.dylib libXdmcp.6.dylib\n\n# libXau\n#relocateLibInApp /opt/local/lib/ libXau.6.dylib\n\n# libxcd\n#relocateLibInApp /opt/local/lib/ libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libxcb.1.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libxcb.1.dylib libXdmcp.6.dylib\n\n# libXdmcp\n#relocateLibInApp /opt/local/lib/ libXdmcp.6.dylib\n\n# libext\n#relocateLibInApp /opt/local/lib/ libXext.6.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libXdmcp.6.dylib\n\n# libXrandr\n#relocateLibInApp /opt/local/lib/ libXrandr.2.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXext.6.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXrender.1.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXdmcp.6.dylib\n\n# libXrender\n#relocateLibInApp /opt/local/lib/ libXrender.1.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libXdmcp.6.dylib\n\n# zlib\n#lnk libz.1.2.7.dylib libz.1.dylib\n#relocateLibInApp /opt/local/lib/ libz.1.dylib\n#idLib libz.1.2.7.dylib\n\n";
+			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libpng16.16.dylib\n\n# libassimp\nlnk libassimp.3.0.0.dylib libassimp.3.dylib\nrelocateLibInApp /opt/local/lib/ libassimp.3.dylib\nrelocateSubLib /opt/local/lib/ libassimp.3.0.0.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n#\n# EXTRA LIBS\n#\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# FLAC\n#idLib libFLAC.8.dylib\n#relocateSubLib /opt/local/lib/ libFLAC.8.dylib libogg.0.dylib\n\n# jpeg\n#idLib libjpeg.8.dylib\n\n# modplug\n#idLib libmodplug.1.dylib\n\n# ogg\n#idLib libogg.0.dylib\n\n# png\nidLib libpng16.16.dylib\nrelocateSubLib /opt/local/lib/ libpng16.16.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng16.16.dylib\n\n# smpeg\n#idLib libsmpeg-0.4.0.dylib\n#relocateSubLib /opt/local/lib/ libsmpeg-0.4.0.dylib libSDL-1.2.0.dylib\n\n#speex\n#lnk libspeex.1.5.0.dylib libspeex.1.dylib\n#idLib libspeex.1.dylib\n\n# tiff\n#idLib libtiff.3.dylib\n#relocateSubLib /opt/local/lib/ libtiff.3.dylib libjpeg.8.dylib\n#relocateSubLib /opt/local/lib/ libtiff.3.dylib libz.1.dylib\n\n# vorbis\n#idLib libvorbis.0.dylib\n#relocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\n\n# libX11\n#relocateLibInApp /opt/local/lib/ libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libX11.6.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libX11.6.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libX11.6.dylib libXdmcp.6.dylib\n\n# libXau\n#relocateLibInApp /opt/local/lib/ libXau.6.dylib\n\n# libxcd\n#relocateLibInApp /opt/local/lib/ libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libxcb.1.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libxcb.1.dylib libXdmcp.6.dylib\n\n# libXdmcp\n#relocateLibInApp /opt/local/lib/ libXdmcp.6.dylib\n\n# libext\n#relocateLibInApp /opt/local/lib/ libXext.6.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libXext.6.dylib libXdmcp.6.dylib\n\n# libXrandr\n#relocateLibInApp /opt/local/lib/ libXrandr.2.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXext.6.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXrender.1.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libXrandr.2.dylib libXdmcp.6.dylib\n\n# libXrender\n#relocateLibInApp /opt/local/lib/ libXrender.1.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libX11.6.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libxcb.1.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libXau.6.dylib\n#relocateSubLib /opt/local/lib/ libXrender.1.dylib libXdmcp.6.dylib\n\n# zlib\nlnk libz.1.2.8.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.8.dylib\n\n";
 		};
 		4AE970701436A65D00424F91 /* GenGitVersion */ = {
 			isa = PBXShellScriptBuildPhase;
