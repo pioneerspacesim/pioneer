@@ -1,9 +1,10 @@
+June 2015
+   * Fixes
+     * Calculate the correct distribution of orbitals, may affect saved games (#3389)
+
 May 2015
    * New Features
      * New mission: cargo run (#3274)
-
-   * Fixes
-     * Calculate the correct distribution of orbitals, may affect saved games (#3389)
 
 April 2015
    * New Features
