@@ -30,6 +30,12 @@
 		3701C5961B1AD29F000F4A72 /* Ogg.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C5791B1ABA1B000F4A72 /* Ogg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3701C5971B1AD29F000F4A72 /* SDL2_image.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3701C5981B1AD29F000F4A72 /* Vorbis.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; };
+		37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
+		37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; };
+		37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; };
+		37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
+		37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; };
 		378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563511B19769A0039F2BC /* OpenGL.framework */; };
 		3785635D1B197CF90039F2BC /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
 		3785635F1B197CF90039F2BC /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
@@ -102,12 +108,6 @@
 		44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
 		44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
 		44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
-		44B75AA21B1C26D600EC500F /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */; };
-		44B75AA31B1C26D600EC500F /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */; };
-		44B75AA41B1C26D600EC500F /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B75AA11B1C26D600EC500F /* libpng16.16.dylib */; };
-		44B75AA51B1C26F600EC500F /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */; };
-		44B75AA61B1C26F600EC500F /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */; };
-		44B75AA71B1C26F600EC500F /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 44B75AA11B1C26D600EC500F /* libpng16.16.dylib */; };
 		4A01889715A59908002F540B /* SystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A01889615A59908002F540B /* SystemPath.cpp */; };
 		4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */; };
 		4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CC165CF00D00208507 /* SmallButton.cpp */; };
@@ -463,9 +463,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				44B75AA51B1C26F600EC500F /* libbz2.1.0.6.dylib in Copy SubLibraries */,
-				44B75AA61B1C26F600EC500F /* libz.1.2.8.dylib in Copy SubLibraries */,
-				44B75AA71B1C26F600EC500F /* libpng16.16.dylib in Copy SubLibraries */,
+				37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */,
+				37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */,
+				37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */,
 				44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */,
 				44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */,
 				44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */,
@@ -506,6 +506,9 @@
 		3701C57C1B1ABA1B000F4A72 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vorbis.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
 		3701C5921B1AD252000F4A72 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = /opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<absolute>"; };
+		37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = /opt/local/lib/libpng16.16.dylib; sourceTree = "<absolute>"; };
+		37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.8.dylib; path = /opt/local/lib/libz.1.2.8.dylib; sourceTree = "<absolute>"; };
 		378563511B19769A0039F2BC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		378563581B197CF90039F2BC /* JsonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonUtils.cpp; sourceTree = "<group>"; };
 		378563591B197CF90039F2BC /* JsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonUtils.h; sourceTree = "<group>"; };
@@ -648,11 +651,6 @@
 		378564501B197FAE0039F2BC /* ServerAgent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ServerAgent.cpp; sourceTree = "<group>"; };
 		378564511B197FAE0039F2BC /* ServerAgent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerAgent.h; sourceTree = "<group>"; };
 		378564541B197FC20039F2BC /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
-		44B75A9B1B1C26CA00EC500F /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = ../../../../../opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<group>"; };
-		44B75A9C1B1C26CA00EC500F /* libz.1.2.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.8.dylib; path = ../../../../../opt/local/lib/libz.1.2.8.dylib; sourceTree = "<group>"; };
-		44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = ../../../../../opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<group>"; };
-		44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.8.dylib; path = ../../../../../opt/local/lib/libz.1.2.8.dylib; sourceTree = "<group>"; };
-		44B75AA11B1C26D600EC500F /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = ../../../../../opt/local/lib/libpng16.16.dylib; sourceTree = "<group>"; };
 		4A01889615A59908002F540B /* SystemPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SystemPath.cpp; sourceTree = "<group>"; };
 		4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaSmallButton.cpp; sourceTree = "<group>"; };
 		4A0F25CC165CF00D00208507 /* SmallButton.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SmallButton.cpp; sourceTree = "<group>"; };
@@ -1285,15 +1283,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44B75AA21B1C26D600EC500F /* libbz2.1.0.6.dylib in Frameworks */,
-				44B75AA31B1C26D600EC500F /* libz.1.2.8.dylib in Frameworks */,
+				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
+				37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */,
+				37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */,
 				3701C5931B1AD252000F4A72 /* SDL2.framework in Frameworks */,
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
 				3701C57D1B1ABA1B000F4A72 /* Ogg.framework in Frameworks */,
 				3701C57E1B1ABA1B000F4A72 /* SDL2_image.framework in Frameworks */,
 				3701C5801B1ABA1B000F4A72 /* Vorbis.framework in Frameworks */,
 				378564551B197FC20039F2BC /* libcurl.dylib in Frameworks */,
-				44B75AA41B1C26D600EC500F /* libpng16.16.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
 				4ACDB6D416787A6A0069FA03 /* libassimp.3.0.0.dylib in Frameworks */,
 				4A20B0E3135319770020F43E /* Cocoa.framework in Frameworks */,
@@ -1556,8 +1554,6 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				44B75A9B1B1C26CA00EC500F /* libbz2.1.0.6.dylib */,
-				44B75A9C1B1C26CA00EC500F /* libz.1.2.8.dylib */,
 				3701C5921B1AD252000F4A72 /* SDL2.framework */,
 				3701C5791B1ABA1B000F4A72 /* Ogg.framework */,
 				3701C57A1B1ABA1B000F4A72 /* SDL2_image.framework */,
@@ -1664,9 +1660,9 @@
 		4A671B851388C04700657F38 /* SubLibraries */ = {
 			isa = PBXGroup;
 			children = (
-				44B75A9F1B1C26D600EC500F /* libbz2.1.0.6.dylib */,
-				44B75AA01B1C26D600EC500F /* libz.1.2.8.dylib */,
-				44B75AA11B1C26D600EC500F /* libpng16.16.dylib */,
+				37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */,
+				37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */,
+				37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */,
 				3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */,
 				4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
