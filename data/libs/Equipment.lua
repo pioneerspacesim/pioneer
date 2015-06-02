@@ -7,6 +7,7 @@ local Serializer = import("Serializer")
 local Lang = import("Lang")
 local ShipDef = import("ShipDef")
 local Timer = import("Timer")
+local Space = import_core("Space")
 
 -- Class: EquipType
 --
@@ -797,21 +798,22 @@ local sensor = {
 				local distance = Game.player:DistanceTo(closest_planet)
 				if distance < self.max_range then
 					self.target_altitude = distance
-					self.target_body = closest_planet
+					self.target_body_path = closest_planet.path
 					return true
 				end
 			end
 			return false
 		end,
 		OnProgress = function(self)
-			if self.target_body and self.target_body:exists() then
-				local distance_diff = math.abs( Game.player:DistanceTo(self.target_body) - self.target_altitude)
+			local target_body = Space.GetBody(self.target_body_path.bodyIndex)
+			if target_body and target_body:exists() then
+				local distance_diff = math.abs( Game.player:DistanceTo(target_body) - self.target_altitude)
 				if distance_diff/self.target_altitude <= 0.05 then -- percentual distance difference to target_altitude
 					self.state = "RUNNING" -- possebly back in range: HALTED -> RUNNING
 					self.progress = self.progress + 3
 					if self.progress > 100 then
 						self.state = "DONE"
-						self.progress = {body=self.target_body.path, altitude=self.target_altitude}
+						self.progress = {body=target_body.path, altitude=self.target_altitude}
 					end
 				else -- strayed out off range
 					self.state = "HALTED"
@@ -823,7 +825,6 @@ local sensor = {
 		OnClear = function(self)
 			self.target_altitude = 0
 			self.progress = 0
-			self.target_body = nil
 		end
 	}),
 }
