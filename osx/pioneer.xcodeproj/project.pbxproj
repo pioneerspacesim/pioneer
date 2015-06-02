@@ -2862,7 +2862,6 @@
 					"$(inherited)",
 					"$(TARGET_BUILD_DIR)",
 					"$(PROJECT_DIR)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/pioneer-ezidovdnkvmaqigenmdknrfjdoju/Build/Products/Debug",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = YES;
@@ -2900,9 +2899,6 @@
 					"/opt/local/lib/**",
 					"\"$(SRCROOT)/../src/gui\"",
 					"\"$(SRCROOT)/../contrib/lua\"",
-					"\"$(SRCROOT)/../contrib/oolua\"",
-					"\"$(SRCROOT)/../src/render\"",
-					/opt/X11/lib,
 					/opt/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -2958,9 +2954,6 @@
 					"/opt/local/lib/**",
 					"\"$(SRCROOT)/../src/gui\"",
 					"\"$(SRCROOT)/../contrib/lua\"",
-					"\"$(SRCROOT)/../contrib/oolua\"",
-					"\"$(SRCROOT)/../src/render\"",
-					/opt/X11/lib,
 					/opt/local/lib,
 				);
 				LLVM_LTO = NO;
