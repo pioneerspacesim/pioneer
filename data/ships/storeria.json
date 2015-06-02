@@ -15,7 +15,8 @@
       "scoop" : 2,
       "laser_front" : 1,
       "laser_rear" : 0,
-      "missile" : 0
+      "missile" : 0,
+      "sensor"  : 4
    },
    "effective_exhaust_velocity" : 25000000.0,
    "thruster_fuel_use" : -1.0,
