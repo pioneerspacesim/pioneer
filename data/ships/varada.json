@@ -22,7 +22,8 @@
       "cargo" : 5,
       "scoop" : 1,
       "laser_front" : 0,
-      "missile" : 0
+      "missile" : 0,
+      "sensor"  : 10
    },
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 120000.0
