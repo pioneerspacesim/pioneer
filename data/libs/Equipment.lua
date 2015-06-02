@@ -795,9 +795,9 @@ local sensor = {
 		OnBeginAcquisition = function(self)
 			local closest_planet = Game.player:FindNearestTo("PLANET")
 			if closest_planet then
-				local distance = Game.player:DistanceTo(closest_planet)
-				if distance < self.max_range then
-					self.target_altitude = distance
+				local altitude = self:DistanceToSurface(closest_planet)
+				if altitude < self.max_range then
+					self.target_altitude = altitude
 					self.target_body_path = closest_planet.path
 					return true
 				end
@@ -807,8 +807,9 @@ local sensor = {
 		OnProgress = function(self)
 			local target_body = Space.GetBody(self.target_body_path.bodyIndex)
 			if target_body and target_body:exists() then
-				local distance_diff = math.abs( Game.player:DistanceTo(target_body) - self.target_altitude)
-				if distance_diff/self.target_altitude <= 0.05 then -- percentual distance difference to target_altitude
+				local altitude = self:DistanceToSurface(target_body)
+				local distance_diff = math.abs(altitude - self.target_altitude)
+				if distance_diff/self.target_altitude <= 0.05 then -- percentual difference
 					self.state = "RUNNING" -- possebly back in range: HALTED -> RUNNING
 					self.progress = self.progress + 3
 					if self.progress > 100 then
@@ -825,6 +826,9 @@ local sensor = {
 		OnClear = function(self)
 			self.target_altitude = 0
 			self.progress = 0
+		end,
+		DistanceToSurface = function(self, body)
+			return Game.player:DistanceTo(body) - body.path:GetSystemBody().radius
 		end
 	}),
 }
