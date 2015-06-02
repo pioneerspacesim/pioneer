@@ -222,9 +222,12 @@ void WorldView::InitObject()
 	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
 	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
 	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(255, 255, 0, 204));
+	m_hudSensorGaugeStack = new Gui::VBox();
+	m_hudSensorGaugeStack->SetSpacing(2.0f);
 	Add(m_hudFuelGauge, 5.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
+	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
 	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
 
@@ -845,6 +848,33 @@ void WorldView::RefreshButtonStateAndVisibility()
 		}
 
 		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
+
+		int hasSensors = 0;
+		Pi::player->Properties().Get("sensor_cap", hasSensors);
+		if (hasSensors) {
+			m_hudSensorGaugeStack->DeleteAllChildren();
+			lua_State *l = Lua::manager->GetLuaState();
+			const int clean_stack = lua_gettop(l);
+			LuaObject<Ship>::CallMethod<LuaRef>(Pi::player, "GetEquip", "sensor").PushCopyToStack();
+			const int numSensorSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "sensor");
+			if (numSensorSlots) {
+				lua_pushnil(l);
+				while(lua_next(l, -2)) {
+					if (lua_type(l, -2) == LUA_TNUMBER) {
+						LuaTable sensor(l, -1);
+						const float sensor_progress = sensor.CallMethod<float>("GetProgress");
+						if (sensor_progress > 0.0 && sensor_progress < 100.f) {
+							const auto sensor_gauge = new Gui::MeterBar(100.f, sensor.CallMethod<std::string>("GetName").c_str(), Color(255, 255, 0, 204));
+							sensor_gauge->SetValue(sensor_progress/100.f);
+							sensor_gauge->Show();
+							m_hudSensorGaugeStack->PackEnd(sensor_gauge);
+						}
+					}
+					lua_pop(l, 1);
+				}
+			}
+			lua_settop(l, clean_stack);
+		}
 	}
 
 	const float activeWeaponTemp = Pi::player->GetGunTemperature(GetActiveWeapon());
