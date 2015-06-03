@@ -5,25 +5,12 @@
 // Objective-C cocoa wrapper for pioneer
 
 #include "buildopts.h"
-#import <SDL/SDL.h>
+#import <SDL2/SDL.h>
 #import "SDLMain.h"
 #import <unistd.h>
 
 static int    gArgc;
 static char  **gArgv;
-
-@implementation SDLApplication
-
-// Invoked from the Quit menu item
-- (void)terminate:(id)sender
-{
-    // Posts a SDL_QUIT event so SDL shutsdown
-    SDL_Event event;
-    event.type = SDL_QUIT;
-    SDL_PushEvent(&event);
-    [super terminate:sender];
-}
-@end
 
 @implementation SDLMain
 
