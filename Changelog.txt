@@ -1,3 +1,10 @@
+June 2015
+   * New Features
+     * Allow up to 3 orbits a spacestation can occupy (#3392)
+
+   * Fixes
+     * Calculate the correct distribution of orbitals, may affect saved games (#3389)
+
 May 2015
    * New Features
      * New mission: cargo run (#3274)
