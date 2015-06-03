@@ -137,7 +137,7 @@
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
-      "message" : "Distance:"
+      "message" : "Distanța:"
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
@@ -445,7 +445,7 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Spaceport:"
+      "message" : "Port spațial:"
    },
    "SPACESHIP_PARTS" : {
       "description" : "custom cargo",
@@ -473,7 +473,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistem:"
    },
    "TARGET_DESTROYED" : {
       "description" : "",
