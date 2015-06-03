@@ -117,16 +117,15 @@ irc.freenode.net.
    was to install macports (http://www.macports.org/) and install the
    following ports (sudo port install xxxx):
 
-      assimp
-      pkgconfig
-      freetype
-      libsdl2
-      libsdl2_image
-      libsigcxx2
-      libvorbis
-      autoconf
-      automake
-
+     assimp
+     pkgconfig
+     freetype
+     libsdl2
+     libsdl2_image
+     libsigcxx2
+     libvorbis
+     autoconf
+     automake
 
 3. Run ./bootstrap to generate your 'configure' file
 
