@@ -1,63 +1,63 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Excellent. I'll load the goods on to your ship."
+      "message" : "Großartig. Ich werde die Fracht auf dein Schiff laden."
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Very good."
+      "message" : "Sehr gut."
    },
    "ACCEPTED_3" : {
       "description" : "",
-      "message" : "Ok, good. I hope I can trust you."
+      "message" : "Ok, gut. Ich hoffe, ich kann dir trauen."
    },
    "ACCEPTED_4" : {
       "description" : "",
-      "message" : "It's a deal!"
+      "message" : "Abgemacht!"
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, I will make sure that the goods are ready for collection."
+      "message" : "Ok, ich werde sicherstellen, dass die Fracht bereit zum Aufsammeln ist."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "It's a deal! I will let my colleagues know that you are on your way."
+      "message" : "Abgemacht! Ich werde meine Kollegen wissen lassen, dass du auf dem Weg bist."
    },
    "ADTEXT_1" : {
       "description" : "",
-      "message" : "CARGO RUN. Delivery of cargo to the {system} system."
+      "message" : "FRACHTLIEFERUNG. Lieferung von Fracht ins {system} System."
    },
    "ADTEXT_2" : {
       "description" : "",
-      "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+      "message" : "BRAUCHE TRANSPORT. Transport von Fracht zum {system} System. Zahle {cash}."
    },
    "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+      "message" : "LIEFERUNG. Wertvolle Fracht zum {system} System. Zahle {cash} für einen erfahrenen Piloten."
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "LOCAL DELIVERY. Move of goods to {starport}."
+      "message" : "LOKALE LIEFERUNG. Bringe Fracht nach {starport}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+      "message" : "TRANSPORT GESUCHT. Lieferung von lokaler Fracht nach {starport}."
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "LOCAL CARGO RUN. Delivery of goods to {starport}."
+      "message" : "LOKALE FRACHTLIEFERUNG. Lieferung von Fracht nach {starport}."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
+      "message" : "FRACHTABHOLUNG. Abholung von Fracht aus dem {system} System benötigt."
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "RELOCATION. Move of cargo from {starport} required."
+      "message" : "UMZUG. Abholung von Fracht von {starport} gesucht."
    },
    "ADTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+      "message" : "LIEFERSERVICE. Wir brauchen ein Schiff für eine Lieferung zum {system} System."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
@@ -89,7 +89,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you please repeat the original request?"
+      "message" : "Was war nochmal die anfängliche Frage?"
    },
    "DANGER" : {
       "description" : "the risk level",
