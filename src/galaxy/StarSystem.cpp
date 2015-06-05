@@ -701,7 +701,7 @@ void StarSystem::Dump()
 	}
 
 	FILE *f = fopen("starsystem.dump", "w");
-	fprintf(f, "%lu bodies\n", output.size());
+	fprintf(f, "%zu bodies\n", output.size());
 	fprintf(f, "0 steps\n");
 	for (std::vector<thing_t>::iterator i = output.begin();
 			i != output.end(); ++i) {

@@ -91,7 +91,7 @@ void GalaxyObjectCache<T,CompareT>::ClearCache()
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::OutputCacheStatistics(bool reset)
 {
-	Output("%s: misses: %lld, slave hits: %lld, master hits: %lld\n", CACHE_NAME.c_str(), m_cacheMisses, m_cacheHitsSlave, m_cacheHits);
+	Output("%s: misses: %llu, slave hits: %llu, master hits: %llu\n", CACHE_NAME.c_str(), m_cacheMisses, m_cacheHitsSlave, m_cacheHits);
 	if (reset)
 		m_cacheMisses = m_cacheHitsSlave = m_cacheHits = 0;
 }
