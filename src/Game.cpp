@@ -780,7 +780,8 @@ Game *Game::LoadGame(const std::string &filename)
 	if (!file) throw CouldNotOpenFileException();
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	Json::Reader jsonReader; // Create reader for parsing the JSON string.
-	jsonReader.parse(file->GetData(), rootNode); // Parse the JSON string.
+	const auto data = file->AsByteRange();
+	jsonReader.parse(data.begin, data.end, rootNode); // Parse the JSON string.
 	if (!rootNode.isObject()) throw SavedGameCorruptException();
 	return new Game(rootNode); // Decode the game data from JSON and create the game.
 	// file data is freed here
