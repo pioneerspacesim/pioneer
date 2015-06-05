@@ -163,7 +163,7 @@ GalaxyObjectCache<T,CompareT>::Slave::~Slave()
 		for (auto it = m_cache.begin(); it != m_cache.end(); ++it)
 			if (it->second->GetRefCount() == 1)
 				unique++;
-		Output("%s: Discarding slave cache with %zu entries (%u to be removed)\n", CACHE_NAME.c_str(), m_cache.size(), unique);
+		Output("%s: Discarding slave cache with " SIZET_FMT " entries (%u to be removed)\n", CACHE_NAME.c_str(), m_cache.size(), unique);
 #	endif
 	if (m_master)
 		m_master->m_slaves.erase(this);
@@ -223,7 +223,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 	}
 
 #	ifdef DEBUG_CACHE
-		Output("%s: FillCache: %zu cached, %u in master cache, %u to be created, will use %zu jobs\n", CACHE_NAME.c_str(),
+		Output("%s: FillCache: " SIZET_FMT " cached, %u in master cache, %u to be created, will use " SIZET_FMT " jobs\n", CACHE_NAME.c_str(),
 			alreadyCached, masterCached, toBeCreated, vec_paths.size());
 #	endif
 
