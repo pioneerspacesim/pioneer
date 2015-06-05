@@ -1563,16 +1563,16 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 		// Any to position?
 		if( NumToMake > 0 )
 		{
+			const double centralMass = sbody->GetMassAsFixed().ToDouble() * EARTH_MASS;
+
 			// What is our innermost orbit?
 			fixed innerOrbit = orbMinS + ((orbMaxS - orbMinS) / 4);
 
 			// Try to limit the inner orbit to at least one day.
 			{
-				Orbit orb;
-				orb.SetShapeAroundPrimary(innerOrbit.ToDouble() * AU, 0.0, 0.0);
-				orb.SetPlane(matrix3x3d::RotateZ(((M_PI * 2.0) / double(NumToMake-1))));
-				float days = float(orb.Period()) / float(60*60*24);
-				if(days<1.0)
+				const double seconds = Orbit::OrbitalPeriod(innerOrbit.ToDouble() * AU, centralMass);
+				const double days = seconds / (60.0*60.0*24.0);
+				if (days < 1.0)
 				{
 					// We can't go higher than our maximum so set it to that.
 					innerOrbit = orbMaxS;
@@ -1615,7 +1615,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 				sp->m_eccentricity = fixed();
 				sp->m_axialTilt = fixed();
 
-				sp->m_orbit.SetShapeAroundPrimary(sp->GetSemiMajorAxisAsFixed().ToDouble()*AU, sbody->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
+				sp->m_orbit.SetShapeAroundPrimary(sp->GetSemiMajorAxisAsFixed().ToDouble()*AU, centralMass, 0.0);
 				if (NumToMake > 1) {
 					// The rotations around X & Y perturb the orbits just a little bit so that not all stations are exactly within the same plane
 					// The Z rotation is what gives them the separation in their orbit around the parent body as a whole.
