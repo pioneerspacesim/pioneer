@@ -9,12 +9,12 @@
 	#include "win32/WinMath.h"
 #endif
 
-static double calc_orbital_period(double semiMajorAxis, double centralMass)
+double Orbit::OrbitalPeriod(double semiMajorAxis, double centralMass)
 {
 	return 2.0*M_PI*sqrt((semiMajorAxis*semiMajorAxis*semiMajorAxis)/(G*centralMass));
 }
 
-static double calc_orbital_period_gravpoint(double semiMajorAxis, double totalMass, double bodyMass)
+double Orbit::OrbitalPeriodTwoBody(double semiMajorAxis, double totalMass, double bodyMass)
 {
 	// variable names according to the formula in:
 	// http://en.wikipedia.org/wiki/Barycentric_coordinates_(astronomy)#Two-body_problem
@@ -44,13 +44,13 @@ static double calc_orbital_period_gravpoint(double semiMajorAxis, double totalMa
 static double calc_velocity_area_per_sec(double semiMajorAxis, double centralMass, double eccentricity) {
 	const double a2 = semiMajorAxis * semiMajorAxis;
 	const double e2 = eccentricity * eccentricity;
-	return M_PI * a2 * sqrt((eccentricity < 1.0) ? (1 - e2) : (e2 - 1.0)) / calc_orbital_period(semiMajorAxis, centralMass);
+	return M_PI * a2 * sqrt((eccentricity < 1.0) ? (1 - e2) : (e2 - 1.0)) / Orbit::OrbitalPeriod(semiMajorAxis, centralMass);
 }
 
 static double calc_velocity_area_per_sec_gravpoint(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity) {
 	const double a2 = semiMajorAxis * semiMajorAxis;
 	const double e2 = eccentricity * eccentricity;
-	return M_PI * a2 * sqrt((eccentricity < 1.0) ? (1 - e2) : (e2 - 1.0)) / calc_orbital_period_gravpoint(semiMajorAxis, totalMass, bodyMass);
+	return M_PI * a2 * sqrt((eccentricity < 1.0) ? (1 - e2) : (e2 - 1.0)) / Orbit::OrbitalPeriodTwoBody(semiMajorAxis, totalMass, bodyMass);
 }
 
 static void calc_position_from_mean_anomaly(const double M, const double e, const double a, double &cos_v, double &sin_v, double *r) {

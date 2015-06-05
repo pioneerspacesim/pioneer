@@ -10,6 +10,10 @@
 
 class Orbit {
 public:
+	// utility functions for simple calculations
+	static double OrbitalPeriod(double semiMajorAxis, double centralMass);
+	static double OrbitalPeriodTwoBody(double semiMajorAxis, double totalMass, double bodyMass);
+
 	// note: the resulting Orbit is at the given position at t=0
 	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
 
