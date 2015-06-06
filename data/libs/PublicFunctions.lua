@@ -1,8 +1,7 @@
 -- Public Functions
 
 -- spawn pirates
-function SpawnPirate(risk) 
-		ships = ships-1
+function SpawnPirate(name,risk) 
 		if Engine.rand:Number(1) <= risk then
 			local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 			local default_drive = eq.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
@@ -14,18 +13,18 @@ function SpawnPirate(risk)
 			))
 			local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
-			ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-			ship:SetLabel(Ship.MakeRandomLabel())
-			ship:AddEquip(default_drive)
-			ship:AddEquip(laserdef)
-			ship:AddEquip(eq.misc.shield_generator, math.ceil(risk * 3))
+			name = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+			name:SetLabel(Ship.MakeRandomLabel())
+			name:AddEquip(default_drive)
+			name:AddEquip(laserdef)
+			name:AddEquip(eq.misc.shield_generator, math.ceil(risk * 3))
 			if Engine.rand:Number(2) <= risk then
-				ship:AddEquip(eq.misc.laser_cooling_booster)
+				name:AddEquip(eq.misc.laser_cooling_booster)
 			end
 			if Engine.rand:Number(3) <= risk then
-				ship:AddEquip(eq.misc.shield_energy_booster)
+				name:AddEquip(eq.misc.shield_energy_booster)
 			end
-			ship:AIKill(Game.player)
+			name:AIKill(Game.player)
 			end
 
 end
