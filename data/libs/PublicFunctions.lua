@@ -25,6 +25,6 @@ function SpawnPirate(name,risk)
 				name:AddEquip(eq.misc.shield_energy_booster)
 			end
 			name:AIKill(Game.player)
-			end
+		end
 
 end
