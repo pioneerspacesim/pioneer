@@ -616,7 +616,7 @@ local onEnterSystem = function (player)
 				pirates = pirates - 1
 
 				if Engine.rand:Number(1) <= risk then
-					SpawnPirates(pirate,risk);
+					SpawnPirate(pirate,risk);
 					pirate:AIKill(Game.player)
 					table.insert(pirate_ships, pirate)
 				end
