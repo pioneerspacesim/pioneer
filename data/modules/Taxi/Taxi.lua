@@ -24,6 +24,9 @@ local l = Lang.GetResource("module-taxi")
 -- Get the UI class
 local ui = Engine.ui
 
+-- Import the public functions
+import ("libs/PublicFunctions.lua")
+
 -- don't produce missions for further than this many light years away
 local max_taxi_dist = 40
 -- typical time for travel to a system max_taxi_dist away
