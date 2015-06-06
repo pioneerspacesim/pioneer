@@ -13,7 +13,6 @@
 #include <sstream>
 #include <cmath>
 #include <cstdio>
-#include <inttypes.h>
 
 std::string format_money(double cents, bool showCents){
 	char *end;                                   // for  error checking
