@@ -1,5 +1,6 @@
 -- Public Functions
 
+-- spawn pirates
 function SpawnPirate(num_pirate_taunts) 
 		ships = ships-1
 		if Engine.rand:Number(1) <= risk then
