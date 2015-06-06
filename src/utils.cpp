@@ -218,16 +218,14 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 std::string SInt64ToStr(Sint64 val)
 {
 	char str[128];
-	//sprintf(str, "%I64d", val); // Windows
-	sprintf(str, "%lld", val);
+	sprintf(str, "%" PRIu64, val);
 	return str;
 }
 
 std::string UInt64ToStr(Uint64 val)
 {
 	char str[128];
-	//sprintf(str, "%I64u", val); // Windows
-	sprintf(str, "%llu", val);
+	sprintf(str, "%" PRIu64, val);
 	return str;
 }
 
@@ -250,8 +248,6 @@ std::string FloatToStr(float val)
 		uint32_t intVal;
 		memcpy(&intVal, &val, 4);
 		char str[64];
-		//sprintf(str, "%I32u", intVal); // Windows
-		sprintf(str, "%lu", intVal);
 		return str;
 	}
 	else // sizeof(float) == 8
@@ -259,8 +255,7 @@ std::string FloatToStr(float val)
 		uint64_t intVal;
 		memcpy(&intVal, &val, 8);
 		char str[128];
-		//sprintf(str, "%I64u", intVal); // Windows
-		sprintf(str, "%llu", intVal);
+		sprintf(str, "%" PRIu64, intVal);
 		return str;
 	}
 }
@@ -284,8 +279,7 @@ std::string DoubleToStr(double val)
 		uint32_t intVal;
 		memcpy(&intVal, &val, 4);
 		char str[64];
-		//sprintf(str, "%I32u", intVal); // Windows
-		sprintf(str, "%lu", intVal);
+		sprintf(str, "%" PRIu32, intVal);
 		return str;
 	}
 	else // sizeof(double) == 8
@@ -293,8 +287,7 @@ std::string DoubleToStr(double val)
 		uint64_t intVal;
 		memcpy(&intVal, &val, 8);
 		char str[128];
-		//sprintf(str, "%I64u", intVal); // Windows
-		sprintf(str, "%llu", intVal);
+		sprintf(str, "%" PRIu64, intVal);
 		return str;
 	}
 }
@@ -303,15 +296,14 @@ std::string AutoToStr(Sint32 val)
 {
 	char str[64];
 	//sprintf(str, "%I32d", val); // Windows
-	sprintf(str, "%ld", val);
+	sprintf(str, "%" PRId32, val);
 	return str;
 }
 
 std::string AutoToStr(Sint64 val)
 {
 	char str[128];
-	//sprintf(str, "%I64d", val); // Windows
-	sprintf(str, "%lld", val);
+	sprintf(str, "%" PRId64, val);
 	return str;
 }
 
@@ -328,16 +320,14 @@ std::string AutoToStr(double val)
 Sint64 StrToSInt64(const std::string &str)
 {
 	Sint64 val;
-	//sscanf(str.c_str(), "%I64d", &val); // Windows
-	sscanf(str.c_str(), "%lld", &val);
+	sscanf(str.c_str(), "%" SCNd64, &val);
 	return val;
 }
 
 Uint64 StrToUInt64(const std::string &str)
 {
 	Uint64 val;
-	//sscanf(str.c_str(), "%I64u", &val); // Windows
-	sscanf(str.c_str(), "%llu", &val);
+	sscanf(str.c_str(), "%" SCNu64, &val);
 	return val;
 }
 
@@ -361,8 +351,7 @@ float StrToFloat(const std::string &str)
 	if (sizeof(float) == 4)
 	{
 		uint32_t intVal;
-		//sscanf(str.c_str(), "%I32u", &intVal); // Windows
-		sscanf(str.c_str(), "%lu", &intVal);
+		sscanf(str.c_str(), "%" SCNu32, &intVal);
 		float val;
 		memcpy(&val, &intVal, 4);
 		return val;
@@ -370,8 +359,7 @@ float StrToFloat(const std::string &str)
 	else // sizeof(float) == 8
 	{
 		uint64_t intVal;
-		//sscanf(str.c_str(), "%I64u", &intVal); // Windows
-		sscanf(str.c_str(), "%llu", &intVal);
+		sscanf(str.c_str(), "%" SCNu64, &intVal);
 		float val;
 		memcpy(&val, &intVal, 8);
 		return val;
@@ -398,8 +386,7 @@ double StrToDouble(const std::string &str)
 	if (sizeof(double) == 4)
 	{
 		uint32_t intVal;
-		//sscanf(str.c_str(), "%I32u", &intVal); // Windows
-		sscanf(str.c_str(), "%lu", &intVal);
+		sscanf(str.c_str(), "%" SCNu32, &intVal);
 		double val;
 		memcpy(&val, &intVal, 4);
 		return val;
@@ -407,8 +394,7 @@ double StrToDouble(const std::string &str)
 	else // sizeof(double) == 8
 	{
 		uint64_t intVal;
-		//sscanf(str.c_str(), "%I64u", &intVal); // Windows
-		sscanf(str.c_str(), "%llu", &intVal);
+		sscanf(str.c_str(), "%" SCNu64, &intVal);
 		double val;
 		memcpy(&val, &intVal, 8);
 		return val;
@@ -417,14 +403,12 @@ double StrToDouble(const std::string &str)
 
 void StrToAuto(Sint32 *pVal, const std::string &str)
 {
-	//sscanf(str.c_str(), "%I32d", pVal); // Windows
-	sscanf(str.c_str(), "%ld", pVal);
+	sscanf(str.c_str(), "%" SCNd32, pVal);
 }
 
 void StrToAuto(Sint64 *pVal, const std::string &str)
 {
-	//sscanf(str.c_str(), "%I64d", pVal); // Windows
-	sscanf(str.c_str(), "%lld", pVal);
+	sscanf(str.c_str(), "%" SCNd64, pVal);
 }
 
 void StrToAuto(float *pVal, const std::string &str)

@@ -102,7 +102,7 @@ static std::string _modelskin_serializer(LuaWrappable *o)
 	Serializer::Writer wr;
 	skin->Save(wr);
 	const std::string &ser = wr.GetData();
-	snprintf(buf, sizeof(buf), "%lu\n", ser.size());
+	snprintf(buf, sizeof(buf), SIZET_FMT "\n", ser.size());
 
 	return std::string(buf) + ser;
 }

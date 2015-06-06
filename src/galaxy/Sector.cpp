@@ -67,7 +67,7 @@ void Sector::System::SetExplored(StarSystem::ExplorationState e, double time)
 void Sector::Dump(FILE* file, const char* indent) const
 {
 	fprintf(file, "Sector(%d,%d,%d) {\n", sx, sy, sz);
-	fprintf(file, "\t%zu systems\n", m_systems.size());
+	fprintf(file, "\t" SIZET_FMT " systems\n", m_systems.size());
 	for (const Sector::System& sys : m_systems) {
 		assert(sx == sys.sx && sy == sys.sy && sz == sys.sz);
 		assert(sys.idx >= 0);

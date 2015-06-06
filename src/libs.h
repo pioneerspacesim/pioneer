@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <cerrno>
 #include <cstring>
+#include <cinttypes>
 #include <string>
 #include <deque>
 #include <vector>

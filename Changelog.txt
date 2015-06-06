@@ -4,6 +4,7 @@ June 2015
 
    * Fixes
      * Calculate the correct distribution of orbitals, may affect saved games (#3389)
+     * Fix crash on start and crash on game load (#3399, #3387, #3400, #3402)
 
 May 2015
    * New Features
