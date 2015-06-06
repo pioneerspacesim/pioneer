@@ -1,7 +1,7 @@
 -- Public Functions
 
 -- spawn pirates
-function SpawnPirate(num_pirate_taunts) 
+function SpawnPirate(risk) 
 		ships = ships-1
 		if Engine.rand:Number(1) <= risk then
 			local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
