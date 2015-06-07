@@ -248,6 +248,7 @@ std::string FloatToStr(float val)
 		uint32_t intVal;
 		memcpy(&intVal, &val, 4);
 		char str[64];
+		sprintf(str, "%" PRIu32, intVal);
 		return str;
 	}
 	else // sizeof(float) == 8
