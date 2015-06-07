@@ -31,6 +31,7 @@ void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
 void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::LoadFromJson(jsonObj, space);
+	GetModel()->SetLabel(GetLabel());
 
 	if (!jsonObj.isMember("cargo_body")) throw SavedGameCorruptException();
 	Json::Value cargoBodyObj = jsonObj["cargo_body"];
