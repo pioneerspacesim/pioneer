@@ -7,6 +7,7 @@ June 2015
      * Fix crash on start and crash on game load (#3399, #3387, #3400, #3402)
      * Fix crash when using Chinese languge (#3405)
      * Init model label in SpaceStation and CargoBody LoadFromJson (#3406)
+     * Fix redirection of stderr to avoid undefined behaviour on posix (#3373)
 
 May 2015
    * New Features
