@@ -29,6 +29,8 @@ public:
 	unsigned int GetNumVerts() const;
 	AttributeSet GetAttributeSet() const { return m_attribs; }
 
+	bool IsEmpty() const { return position.empty(); }
+
 	//removes vertices, does not deallocate space
 	void Clear();
 
