@@ -87,6 +87,7 @@ void SpaceStation::SaveToJson(Json::Value &jsonObj, Space *space)
 void SpaceStation::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	ModelBody::LoadFromJson(jsonObj, space);
+	GetModel()->SetLabel(GetLabel());
 
 	if (!jsonObj.isMember("space_station")) throw SavedGameCorruptException();
 	Json::Value spaceStationObj = jsonObj["space_station"];
