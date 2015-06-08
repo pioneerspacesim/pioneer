@@ -148,6 +148,9 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	if (!lua_istable(l, 2)) {
+		return luaL_error(l, "GetCommodityBasePriceAlterations takes a cargo object as and argument.");
+	}
 	LuaTable equip(l, 2);
 
 	if (!equip.CallMethod<bool>("IsValidSlot", "cargo")) {
