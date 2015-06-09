@@ -16,6 +16,8 @@ local utils = import("utils")
 	
 -- spawn pirates
 function SpawnPirate(risk) 
+	local ship
+	
 	local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
 
 	local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
