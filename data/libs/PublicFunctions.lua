@@ -1,21 +1,21 @@
 -- Public Functions
-
+local Engine = import("Engine")
+local Lang = import("Lang")
+local Game = import("Game")
+local Space = import("Space")
+local Comms = import("Comms")
+local Event = import("Event")
+local Mission = import("Mission")
+local Format = import("Format")
+local Serializer = import("Serializer")
+local Character = import("Character")
+local Equipment = import("Equipment")
+local ShipDef = import("ShipDef")
+local Ship = import("Ship")
+local utils = import("utils")
+	
 -- spawn pirates
 function SpawnPirate(risk) 
-	local Engine = import("Engine")
-	local Lang = import("Lang")
-	local Game = import("Game")
-	local Space = import("Space")
-	local Comms = import("Comms")
-	local Event = import("Event")
-	local Mission = import("Mission")
-	local Format = import("Format")
-	local Serializer = import("Serializer")
-	local Character = import("Character")
-	local Equipment = import("Equipment")
-	local ShipDef = import("ShipDef")
-	local Ship = import("Ship")
-	local utils = import("utils")
 	local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
 
 	local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
