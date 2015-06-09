@@ -8,10 +8,8 @@ local Ship = import("Ship")
 local utils = import("utils")
 	
 -- spawn pirates
-function SpawnPirate(risk) 
+function SpawnPirate(risk, shipdefs) 
 	local ship
-	local shipdef
-	local shipdefs
 	
 	local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
 
