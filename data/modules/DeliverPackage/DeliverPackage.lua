@@ -374,6 +374,7 @@ local onEnterSystem = function (player)
 				ships = ships-1
 
 				if Engine.rand:Number(1) <= risk then
+					local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 					SpawnPirate(ship, risk)
 					ship:AIKill(Game.player)
 				end
