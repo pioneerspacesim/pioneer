@@ -616,7 +616,7 @@ local onEnterSystem = function (player)
 				pirates = pirates - 1
 				local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 				if Engine.rand:Number(1) <= risk then
-					SpawnPirate(risk);
+					SpawnPirate(risk, shipdefs);
 					ship:AIKill(Game.player)
 					table.insert(pirate_ships, pirate)
 				end
