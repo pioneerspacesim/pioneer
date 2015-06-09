@@ -610,14 +610,14 @@ local onEnterSystem = function (player)
 				and def.hyperdriveClass > 0 and def.hullMass <= 400 end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
-			local pirate
+			local ship
 
 			while pirates > 0 do
 				pirates = pirates - 1
 				local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 				if Engine.rand:Number(1) <= risk then
-					SpawnPirate(pirate,risk);
-					pirate:AIKill(Game.player)
+					SpawnPirate(risk);
+					ship:AIKill(Game.player)
 					table.insert(pirate_ships, pirate)
 				end
 			end
