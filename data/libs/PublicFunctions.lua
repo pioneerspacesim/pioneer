@@ -11,9 +11,9 @@ function SpawnPirate(name,risk)
 		))
 	local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
 
-	name = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-	name:SetLabel(Ship.MakeRandomLabel())
-	name:AddEquip(default_drive)
-	name:AddEquip(laserdef)
+	ship = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+	ship:SetLabel(Ship.MakeRandomLabel())
+	ship:AddEquip(default_drive)
+	ship:AddEquip(laserdef)
 
 end
