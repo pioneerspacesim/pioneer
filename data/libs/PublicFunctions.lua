@@ -2,7 +2,6 @@
 
 -- spawn pirates
 function SpawnPirate(name,risk) 
-	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 	local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
 
 	local max_laser_size = shipdef.capacity - default_drive.capabilities.mass
