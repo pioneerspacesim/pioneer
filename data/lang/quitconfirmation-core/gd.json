@@ -1,71 +1,71 @@
 {
    "MSG_1" : {
       "description" : "",
-      "message" : "Say {yes} to get out of here and go back to your boring programs?"
+      "message" : "An bheil tu airson {yes} a ràdh gus falbh 's tilleadh dha na prògraman dòrainneach agad?"
    },
    "MSG_10" : {
       "description" : "",
-      "message" : "Please choose {no} to waste a few more productive hours. Please?"
+      "message" : "Nach tagh thu {no} gus barrachd àm a chaitheamh gun chiall?"
    },
    "MSG_11" : {
       "description" : "",
-      "message" : "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+      "message" : "Cha ghèill taisgealaiche ach lean air adhart is briog air {yes} mur e taisgealaiche  a th' annad."
    },
    "MSG_12" : {
       "description" : "",
-      "message" : "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+      "message" : "Tagh {no} ma tha thu tapaidh 's an tòir air tasgal. Mur eil, briog air {yes} gu cùramach."
    },
    "MSG_13" : {
       "description" : "\"Seeing\" as in having an affair / being unfaithful",
-      "message" : "We never talk anymore. Are you seeing someone else?"
+      "message" : "Cha bhruidhinn sinn tuilleadh. A bheil leannann eile agad?"
    },
    "MSG_14" : {
       "description" : "",
-      "message" : "Do you really have something better to do?"
+      "message" : "A bheil rud as cudromaiche agad ri dhèanamh dha-rìribh?"
    },
    "MSG_15" : {
       "description" : "",
-      "message" : "Giving up already?"
+      "message" : "A bheil thu a' gèilleadh mar-thà?"
    },
    "MSG_16" : {
       "description" : "A little homage to the movie 2001 A Space Odyssey",
-      "message" : "Just what do you think you're doing, Dave?"
+      "message" : "Saoil dè tha thu ris, a laochain?"
    },
    "MSG_17" : {
       "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-      "message" : "Quitting is for WIMPs!"
+      "message" : "Chan fhàg ach gealtairean!"
    },
    "MSG_2" : {
       "description" : "",
-      "message" : "Don't go now, there's a pirate waiting for you in the other program."
+      "message" : "Na falbh an-dràsta, tha spùinneadair a' feitheamh ort sa phrògram eile."
    },
    "MSG_3" : {
       "description" : "",
-      "message" : "Are you sure you want to quit this great game that cost you nothing?"
+      "message" : "A bheil thu cinnteach gu bheil thu airson an sàr-gheama seo fhàgail a fhuair thu an-asgaidh?"
    },
    "MSG_4" : {
       "description" : "",
-      "message" : "Doest thou wish to leave with such hasty abandon?"
+      "message" : "A bheil a' chabhag ort?"
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
-      "message" : "Choose {no} for guns and glory, {yes} for work and worry."
+      "message" : "Tagh {no} airson gunnaichean 's glòir, {yes} airson obair 's dragh."
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Click {no} to be brave, click {yes} to cower in shame."
+      "message" : "Briog air {no} ma tha thu dàna no air {yes} 's nàire ort."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "I wouldn't leave if I were you. The command line is much worse."
+      "message" : "Chan fhàgainn-sa. Tha an loidhne-àithne mòran nas dona."
    },
    "MSG_8" : {
       "description" : "",
-      "message" : "I'm thinking you want to click {no} to play more. You do it."
+      "message" : "Saoilidh mi gu bheil thu airson briogadh air {no} gus barrachd a chluich. Nì thu seo."
    },
    "MSG_9" : {
       "description" : "",
-      "message" : "Clicking {yes} means you must return to the humdrum workday world."
+      "message" : "Is ciall dha {yes} gum feum thu tilleadh dhan obair làithreach agad."
    },
    "NO" : {
       "description" : "No, don't quit program",
@@ -73,7 +73,7 @@
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
-      "message" : "Quit?"
+      "message" : "A bheil thu airson fàgail an-seo?"
    },
    "YES" : {
       "description" : "Yes, quit program",

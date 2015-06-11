@@ -45,7 +45,7 @@
    },
    "AR_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Argon atmosphere\""
+      "message" : "\" àile argoin\""
    },
    "ASTEROID" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
+      "message" : "Smachd fèin-stiùiridh"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -173,15 +173,15 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Cargo scoop active. Collected 1 tonne of %item."
+      "message" : "Tha sgiob carago gnìomhach. Chruinnich thu 1 tunna de %item"
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "Fheuch thu ri sgobadh carago. Chan eil rum gu leòr agad san roinn carago."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Methane atmosphere\""
+      "message" : "\" àile meatain\""
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
-      "message" : "Computer speed control"
+      "message" : "Smachd a' choimpiutair air an luaths"
    },
    "CONSUMER_GOODS" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Fuel scoop active. You now have %quantity tonnes of hydrogen."
+      "message" : "Tha sgiob a' chonnaidh gnìomhach. Tha %quantity tunna a hàidhdreaidean agad a-nis."
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
@@ -505,7 +505,7 @@
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Helium atmosphere\""
+      "message" : "\" àile hilium\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
-      "message" : "%{sign}%joyname %axis Axis"
+      "message" : "%{sign}%joyname aiseal %axis"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -905,11 +905,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Iomadh sgiob"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Ged nach eil e cho èifeachdach 's a tha sgiob connaidh, 's urrainn dhut an dà chuid carago is connadh a sgobadh leis."
    },
    "MURDER" : {
       "description" : "",
@@ -1053,7 +1053,7 @@
    },
    "O2_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Oxygen atmosphere\""
+      "message" : "\" àile ogsaidein\""
    },
    "OCEANICWORLD" : {
       "description" : "",
@@ -1085,7 +1085,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Occupied Passenger Cabin"
+      "message" : "Cèibinn thaistealach trang"
    },
    "PAUSED" : {
       "description" : "",
@@ -1197,7 +1197,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "Chaidh an siostam seo a rùrachadh %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1277,7 +1277,7 @@
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
+      "message" : "Sgiob"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1341,11 +1341,11 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.2} km/s"
+      "message" : "Luaths suidhichte: %speed{f.2} km/s"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.0} m/s"
+      "message" : "Luaths suidhichte: %speed{f.0} m/s"
    },
    "SHIELD_INTEGRITY" : {
       "description" : "",
@@ -1621,7 +1621,7 @@
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Sulfuric atmosphere\""
+      "message" : "\" àile pronnaisg\""
    },
    "TAKEOFF" : {
       "description" : "",

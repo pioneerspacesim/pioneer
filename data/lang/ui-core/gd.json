@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "Às dèidh a' mhalairt"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -825,7 +825,7 @@
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
-      "message" : "Quit confirmation"
+      "message" : "Dearbhadh an fhàgail"
    },
    "RANK" : {
       "description" : "",
@@ -889,7 +889,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Scoop mounts"
+      "message" : "Tàthaidhean sgioba"
    },
    "SELECT" : {
       "description" : "",
