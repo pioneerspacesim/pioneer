@@ -87,6 +87,9 @@ local earth_starports = {
 	CustomSystemBody:new('Los Angeles', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(34))
 		:longitude(math.deg2rad(118)),
+        CustomSystemBody:new('Low Earth Orbit', 'STARPORT_ORBITAL')
+                :semi_major_axis(f(458,10000000))
+                :rotation_period(f(2,24)),
 	CustomSystemBody:new('Gates Spaceport', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(100,100000))
 		:rotation_period(f(1,24*60*3)),

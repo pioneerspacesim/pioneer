@@ -532,9 +532,16 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		} else {
-			if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
-				Error("%s's orbit is too close to its parent", csbody->name.c_str());
-			}
+                        if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
+                            if (kid->m_orbit.GetSemiMajorAxis() < 1.05 * parent->GetRadius()) {
+                                    Error("%s's orbit is too close to its parent", csbody->name.c_str());
+                            }
+                        }
+                        else {
+                            if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
+                                    Error("%s's orbit is too close to its parent", csbody->name.c_str());
+                            }
+                        }
 			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble());
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		}
