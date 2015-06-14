@@ -1550,8 +1550,8 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 
 	if (sbody->GetPopulationAsFixed() < fixed(1,1000)) return;
 
-	fixed orbMaxS = fixed(1,4)*CalcHillRadius(sbody);
-	fixed orbMinS = 4 * sbody->GetRadiusAsFixed() * AU_EARTH_RADIUS;
+	fixed orbMaxS = fixed(1,6)*CalcHillRadius(sbody);
+	fixed orbMinS = fixed(106,100) * sbody->GetRadiusAsFixed() * AU_EARTH_RADIUS;
 	if (sbody->GetNumChildren() > 0) 
 		orbMaxS = std::min(orbMaxS, fixed(1,2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
 
@@ -1573,7 +1573,7 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 			const double centralMass = sbody->GetMassAsFixed().ToDouble() * EARTH_MASS;
 
 			// What is our innermost orbit?
-			fixed innerOrbit = orbMinS + ((orbMaxS - orbMinS) / 4);
+			fixed innerOrbit = orbMinS;// + ((orbMaxS - orbMinS) / 25);
 
 			// Try to limit the inner orbit to at least one day.
 			{
