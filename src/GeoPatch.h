@@ -61,11 +61,11 @@ public:
 
 	~GeoPatch();
 
-	inline void UpdateVBOs() {
+	inline void NeedToUpdateVBOs() {
 		m_needUpdateVBOs = (nullptr != heights);
 	}
 
-	void _UpdateVBOs(Graphics::Renderer *renderer);
+	void UpdateVBOs(Graphics::Renderer *renderer);
 
 	inline int GetEdgeIdxOf(const GeoPatch *e) const {
 		for (int i=0; i<NUM_KIDS; i++) {if (edgeFriend[i] == e) {return i;}}
