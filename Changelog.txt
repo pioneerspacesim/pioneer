@@ -9,6 +9,7 @@ June 2015
      * Init model label in SpaceStation and CargoBody LoadFromJson (#3406)
      * Fix redirection of stderr to avoid undefined behaviour on posix (#3373)
      * Fix save/load crash (#3387) for real this time (#3407)
+     * Fix terrain max depth calculation (#3411)
 
 May 2015
    * New Features
