@@ -67,7 +67,7 @@ GeoPatch::~GeoPatch() {
 	colors.reset();
 }
 
-void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer) 
+void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 {
 	if (m_needUpdateVBOs) {
 		assert(renderer);
@@ -130,7 +130,7 @@ static const SSphere s_sph;
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 {
 	// must update the VBOs to calculate the clipRadius...
-	_UpdateVBOs(renderer);
+	UpdateVBOs(renderer);
 	// ...before doing the furstum culling that relies on it.
 	if (!frustum.TestPoint(clipCentroid, clipRadius))
 		return; // nothing below this patch is visible
@@ -295,7 +295,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		}
 		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
 		for (int i=0; i<NUM_KIDS; i++) {
-			kids[i]->UpdateVBOs();
+			kids[i]->NeedToUpdateVBOs();
 		}
 		mHasJobRequest = false;
 	}

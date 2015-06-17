@@ -282,6 +282,8 @@ void GeoSphere::BuildFirstPatches()
 	if(m_patches[0])
 		return;
 
+	CalculateMaxPatchDepth();
+
 	// generate root face patches of the cube/sphere
 	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
 	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
@@ -346,7 +348,7 @@ void GeoSphere::Update()
 	case eReceivedFirstPatches:
 		{
 			for (int i=0; i<NUM_PATCHES; i++) {
-				m_patches[i]->UpdateVBOs();
+				m_patches[i]->NeedToUpdateVBOs();
 			}
 			m_initStage = eDefaultUpdateState;
 		} break;
