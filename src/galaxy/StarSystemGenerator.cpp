@@ -533,8 +533,9 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		} else {
                         if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
-                            if (kid->m_orbit.GetSemiMajorAxis() < 1.05 * parent->GetRadius()) {
-                                    Error("%s's orbit is too close to its parent", csbody->name.c_str());
+                            fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0/EARTH_RADIUS);
+                            if (kid->m_orbit.GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
+                                    Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(),kid->m_orbit.GetSemiMajorAxis(),lowestOrbit.ToFloat());
                             }
                         }
                         else {
@@ -1549,10 +1550,8 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 	namerand->seed(_init, 6);
 
 	if (sbody->GetPopulationAsFixed() < fixed(1,1000)) return;
-
-	fixed orbMaxS = fixed(1,6)*CalcHillRadius(sbody);
-	fixed orbMinS = fixed(106,100) * sbody->GetRadiusAsFixed() * AU_EARTH_RADIUS;
-        //Output("%3f * %3f * 1.06 = %3f\n", sbody->GetRadiusAsFixed().ToFloat(),  AU_EARTH_RADIUS.ToFloat(), orbMinS.ToFloat());
+	fixed orbMaxS = fixed(1,4)*CalcHillRadius(sbody);
+	fixed orbMinS = fixed().FromDouble((sbody->CalcAtmosphereParams().atmosRadius + + 500000.0/EARTH_RADIUS)) * AU_EARTH_RADIUS;
 	if (sbody->GetNumChildren() > 0) 
 		orbMaxS = std::min(orbMaxS, fixed(1,2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
 
@@ -1572,18 +1571,21 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 		if( NumToMake > 0 )
 		{
 			const double centralMass = sbody->GetMassAsFixed().ToDouble() * EARTH_MASS;
-
+                        
 			// What is our innermost orbit?
 			fixed innerOrbit = orbMinS;// + ((orbMaxS - orbMinS) / 25);
 
-			// Try to limit the inner orbit to at least one hour and a half.
+			// Try to limit the inner orbit to at least three hours.
 			{
+                                const double minHours = 3.0;
 				const double seconds = Orbit::OrbitalPeriod(innerOrbit.ToDouble() * AU, centralMass);
 				const double hours = seconds / (60.0*60.0);
-				if (hours < 1.5)
+				if (hours < minHours)
 				{
-					// We can't go higher than our maximum so set it to that.
-					innerOrbit = orbMaxS;
+                                        //knowing that T=2*pi*R/sqrt(G*M/R) find R for set T=4 hours: 
+                                        fixed orbitFromPeriod = fixed().FromDouble((std::pow(G*centralMass, 1.0/3.0)*std::pow(minHours*60.0*60.0, 2.0/3.0))/(std::pow(2.0*M_PI, 2.0/3.0)*AU));
+                                        // We can't go higher than our maximum so set it to that.
+					innerOrbit = std::min(orbMaxS, orbitFromPeriod);
 				}
 			}
 
