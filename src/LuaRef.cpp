@@ -108,6 +108,8 @@ void LuaRef::SaveToJson(Json::Value &jsonObj)
 
 void LuaRef::LoadFromJson(const Json::Value &jsonObj)
 {
+	if (!m_lua) { m_lua = Lua::manager->GetLuaState(); }
+
 	if (!jsonObj.isMember("lua_ref")) throw SavedGameCorruptException();
 
 	std::string pickled = jsonObj["lua_ref"].asString();
