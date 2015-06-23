@@ -1,7 +1,7 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Отлично. Я погружу товары на ваш корабль."
+      "message" : "Отлично! Я погружу товары на ваш корабль."
    },
    "ACCEPTED_2" : {
       "description" : "",
@@ -17,11 +17,11 @@
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Хорошо, я проверю, что все товары подготовлены."
+      "message" : "Хорошо, я проверю, что все товары подготовлены к погрузке."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "По рукам! Я сообщу своим коллегам, что Вы уже в пути."
+      "message" : "Договорились! Я сообщу своим коллегам, что вы уже в пути."
    },
    "ADTEXT_1" : {
       "description" : "",
@@ -37,15 +37,15 @@
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка товаров в порт {starport}."
+      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка товаров в космопорт {starport}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "НУЖЕН ТРАНСПОРТ. Доставка местного груза в {starport}."
+      "message" : "ТРЕБУЕТСЯ ТРАНСПОРТ. Доставка груза в местный космопорт {starport}."
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "МЕСТНАЯ ДОСТАВКА. Доставить груз в {starport}."
+      "message" : "МЕСТНАЯ ГРУЗОВАЯ ДОСТАВКА. Доставить груз в космопорт {starport}."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
@@ -53,11 +53,11 @@
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "ПЕРЕВОЗКА. Требуется вывезти груз из {starport}."
+      "message" : "ПЕРЕВОЗКА. Требуется вывезти груз из космопорта {starport}."
    },
    "ADTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "ДОСТАВКА ГРУЗА. Нужен корабль для доставки груза в систему {system}."
+      "message" : "СЛУЖБА ДОСТАВКИ. Требуется корабль для доставки груза в систему {system}."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
@@ -125,7 +125,7 @@
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "Возвращайся, когда наберёшься опыта."
+      "message" : "Возвращайтесь, когда станете более опытным."
    },
    "DIAMONDS" : {
       "description" : "custom cargo",
@@ -173,11 +173,11 @@
    },
    "FAILUREMSG_2" : {
       "description" : "",
-      "message" : "Вы опоздали! Что мне теперь с этим делать? Теперь это хлам!"
+      "message" : "Вы опоздали! Что вы мне прикажете с этим делать?! Теперь оно ничего не стоит!"
    },
    "FAILUREMSG_3" : {
       "description" : "",
-      "message" : "Listen, we were clear about the deadline. You can forget about getting payed."
+      "message" : "Послушайте, мы договаривались, что доставка будет в срок. Так что забудьте об оплате."
    },
    "FAILUREMSG_4" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "INTROTEXT_1" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Привет! Меня зовут {name}. Я заплачу {cash}, если вы доставите {cargoname} на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
    },
    "INTROTEXT_2" : {
       "description" : "{name} is the full name of a person",
@@ -269,7 +269,7 @@
    },
    "INTROTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "Привет. Я {name} и я заплачу {cash} за быструю доставку {cargoname} в {starport}."
+      "message" : "Привет! Я {name} и я заплачу {cash} за быструю доставку {cargoname} на станцию {starport}."
    },
    "INTROTEXT_LOCAL_3" : {
       "description" : "",
