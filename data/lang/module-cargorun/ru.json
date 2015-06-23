@@ -133,7 +133,7 @@
    },
    "DIGESTERS" : {
       "description" : "custom cargo",
-      "message" : "Digesters"
+      "message" : "Автоклавы"
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
@@ -141,7 +141,7 @@
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
-      "message" : "Electrical appliances"
+      "message" : "Электрооборудование "
    },
    "ESCORT_CHATTER_1" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "GREENHOUSES" : {
       "description" : "custom cargo",
-      "message" : "Парники"
+      "message" : "Теплицы"
    },
    "GUNS_GUNS_GUNS" : {
       "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -229,7 +229,7 @@
    },
    "HOWMUCH_WHOLESALER_2" : {
       "description" : "",
-      "message" : "{amount} т. {cargoname}"
+      "message" : "{amount}т. {cargoname}"
    },
    "HOW_MUCH_MASS" : {
       "description" : "",
@@ -325,7 +325,7 @@
    },
    "MACHINE_TOOLS" : {
       "description" : "custom cargo",
-      "message" : "Machine tools"
+      "message" : "Металлорежущие станки"
    },
    "NEPTUNIUM" : {
       "description" : "custom cargo",
@@ -481,11 +481,11 @@
    },
    "TITANIUM" : {
       "description" : "custom cargo",
-      "message" : "Titanium"
+      "message" : "Титан"
    },
    "TUNGSTEN" : {
       "description" : "custom cargo",
-      "message" : "Tungsten"
+      "message" : "Вольфрам"
    },
    "URANIUM" : {
       "description" : "custom cargo",
@@ -521,11 +521,11 @@
    },
    "WEDDING_DRESSES" : {
       "description" : "custom cargo",
-      "message" : "Свадебные платья"
+      "message" : "Свадебные наряды"
    },
    "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "Мы загрузили товары на ваш корабль."
+      "message" : "Мы погрузили товары на ваш корабль."
    },
    "WHAT_IS_THIS" : {
       "description" : "",
