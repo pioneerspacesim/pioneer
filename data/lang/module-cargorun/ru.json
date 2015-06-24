@@ -105,23 +105,23 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "I'm sorry, but this cargo is too valuable for me to hand over to an inexperienced pilot."
+      "message" : "Извините, но этот груз крайне ценен для меня, чтобы его можно было доверить такому неопытному пилоту как вы."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I've never heard of you. I don't know you and I don't trust you."
+      "message" : "Я никогда раньше не слышал о вас. Я вас не знаю и я вам не доверяю."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "I'm sorry, I'm looking for an experienced pilot."
+      "message" : "Простите, но я ищу опытного пилота."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "Excuse me, but I don't think you have what it takes to get the job done."
+      "message" : "Извините меня, но я не думаю, что у вас есть что-то такое, чтобы получить работу."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "Don't waste my time! You are too wet behind the ears."
+      "message" : "Не трать впустую моё время! Ты ещё зелёный."
    },
    "DENY_6" : {
       "description" : "",
@@ -149,19 +149,19 @@
    },
    "ESCORT_CHATTER_2" : {
       "description" : "",
-      "message" : "Отлично. Этого пирата я убью первым."
+      "message" : "Отлично! Этот пират будет первой моей добычей."
    },
    "ESCORT_CHATTER_3" : {
       "description" : "",
-      "message" : "Enemy spotted. Commencing attack."
+      "message" : "Враг обнаружен. Открываю огонь."
    },
    "ESCORT_CHATTER_4" : {
       "description" : "",
-      "message" : "Продолжайте движение. Я вас прикрою."
+      "message" : "Продолжайте следовать к месту назначения. Я вас прикрою."
    },
    "ESCORT_CHATTER_5" : {
       "description" : "",
-      "message" : "Tally ho. This will be my first catch today."
+      "message" : "Ату его! Это будет моя первая добыча сегодня."
    },
    "EXPLOSIVES" : {
       "description" : "custom cargo",
@@ -333,7 +333,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Хорошо, договорились."
+      "message" : "Согласен, подписываю контракт."
    },
    "PICKUP_FROM" : {
       "description" : "from a location",
@@ -341,7 +341,7 @@
    },
    "PIRATE_GRIPES_1" : {
       "description" : "",
-      "message" : "Damn! You will pay for this!"
+      "message" : "Проклятие! Вы поплатитесь за это!"
    },
    "PIRATE_GRIPES_2" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "PIRATE_GRIPES_3" : {
       "description" : "said with vengeance",
-      "message" : "Wait, I'll show you."
+      "message" : "Погоди! Я ещё покажу тебе!"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "You work for {client}? This will be the end of you!"
+      "message" : "Работаешь на {client}? Это была плохая идея!"
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
@@ -365,15 +365,15 @@
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "Pal, you'll never reach your destination."
+      "message" : "Эй приятель, ты никогда не доберёшься до места назначения."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Ah, another fat goose en route to {location}."
+      "message" : "Ах, ещё один жирный гусь, следующий к {location}."
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
-      "message" : "Looks like you're carrying more than you can handle. Let me help you with that."
+      "message" : "Похоже ты перевозишь больше, чем положено. Давай-ка я тебе помогу."
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
@@ -537,27 +537,27 @@
    },
    "WHYSOMUCH_2" : {
       "description" : "",
-      "message" : "Accept it, or leave it be."
+      "message" : "Либо примите работу, либо оставьте её."
    },
    "WHYSOMUCH_3" : {
       "description" : "",
-      "message" : "What is considered \"much\" is relative."
+      "message" : "Считаю понятие слова \"большая\" относительным."
    },
    "WHYSOMUCH_4" : {
       "description" : "",
-      "message" : "The pay reflects our wish for the goods to be delivered on time and in one piece."
+      "message" : "Оплата отражает наше желание того, чтобы товар доставили вовремя и в целости и сохранности."
    },
    "WHYSOMUCH_5" : {
       "description" : "",
-      "message" : "See it as a bonus for you to be discreet about this delivery."
+      "message" : "Давайте рассмотрим это как награду за ваше умение молчать об этой доставке."
    },
    "WHYSOMUCH_6" : {
       "description" : "",
-      "message" : "Ну, мы не против заплатить меньше."
+      "message" : "Ну, мы были бы не против заплатить вам меньше."
    },
    "WHYSOMUCH_CENTRIFUGES_1" : {
       "description" : "",
-      "message" : "Немного {cargoname} было уничтожено из-за ошибки программы; нужна срочная замена."
+      "message" : "Несколько {cargoname} было уничтожено из-за ошибки в программном обеспечении и теперь требуется срочная их замена."
    },
    "WHYSOMUCH_CHEMICAL_1" : {
       "description" : "",
@@ -565,7 +565,7 @@
    },
    "WHYSOMUCH_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "Valuable goods are in great demand."
+      "message" : "Ценные товары пользуются большим спросом."
    },
    "WHYSOMUCH_EXPENSIVE_2" : {
       "description" : "",
@@ -577,11 +577,11 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Эти товары необходимы для строительного проекта."
+      "message" : "Эти товары крайне важны для строительного проекта."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",
-      "message" : "These goods are essential for the construction of a new mine."
+      "message" : "Эти товары важны для строительства новой шахты."
    },
    "WHYSOMUCH_URGENT_1" : {
       "description" : "",
@@ -593,11 +593,11 @@
    },
    "WHYSOMUCH_URGENT_3" : {
       "description" : "",
-      "message" : "Эти товары нужны очень срочно."
+      "message" : "Эти товары крайне необходимы."
    },
    "WHYSOMUCH_WEDDING_1" : {
       "description" : "",
-      "message" : "So far I could not find anyone to perform this transport. When the season is over, my merchandise is worthless."
+      "message" : "До сих пор я не мог найти никого для выполнения этой перевозки. Когда сезон закончится, мой товар ничего не будет стоить."
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
