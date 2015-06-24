@@ -5,7 +5,7 @@
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Очень хорошо."
+      "message" : "Прекрасно!"
    },
    "ACCEPTED_3" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FAILUREMSG_4" : {
       "description" : "",
-      "message" : "From now on, I will reject all job requests from you."
+      "message" : "Отныне, я больше не буду рассматривать ваши запросы о работе."
    },
    "FAILUREMSG_FLUFFY_1" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "HOWMUCH_1" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "{amount} metric tons."
+      "message" : "{amount} метротонн."
    },
    "HOWMUCH_2" : {
       "description" : "regarding mass, always more than 1t",
@@ -213,19 +213,19 @@
    },
    "HOWMUCH_3" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "Груз весит {amount}т."
+      "message" : "Масса груза {amount}т."
    },
    "HOWMUCH_4" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "{amount} тонн груза."
+      "message" : "Имеется {amount}т."
    },
    "HOWMUCH_SINGULAR_1" : {
       "description" : "This string is only used for 1 metric tons (singular)",
-      "message" : "Всего {amount}т."
+      "message" : "Всего лишь {amount}т."
    },
    "HOWMUCH_WHOLESALER_1" : {
       "description" : "",
-      "message" : "{amount} тонн {cargoname}."
+      "message" : "Имеется {amount}т. {cargoname}."
    },
    "HOWMUCH_WHOLESALER_2" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "HOW_MUCH_MASS" : {
       "description" : "",
-      "message" : "Сколько весит груз?"
+      "message" : "Какова масса груза?"
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
       "description" : "",
-      "message" : "I've debited your account with the missing goods."
+      "message" : "Я списываю деньги с вашего счёта за утерю товара."
    },
    "I_NEED_HELP" : {
       "description" : "",
@@ -401,43 +401,43 @@
    },
    "RISK_4" : {
       "description" : "",
-      "message" : "Вас могут поджидать опасности - убедитесь, что готовы к этому."
+      "message" : "Вас могут поджидать опасности - убедитесь, что вы готовы к этому."
    },
    "RISK_5" : {
       "description" : "",
-      "message" : "This might be very risky, you could run into some significant resistance."
+      "message" : "Дело довольно рискованное - скорее всего за грузом будут охотиться."
    },
    "RISK_6" : {
       "description" : "",
-      "message" : "Don't count on reaching your destination unharmed."
+      "message" : "Не рассчитывайте достигнуть места назначения целым и невредимым. "
    },
    "RISK_ART_1" : {
       "description" : "",
-      "message" : "The goods are very sought after by art lovers."
+      "message" : "Товары очень привлекают \"любителей искусства\"."
    },
    "RISK_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "We have done everything to keep the delivery secret. But we can never be certain."
+      "message" : "Мы сделали всё, чтобы сохранить в тайне доставку. Но мы не можем гарантировать, что не было утечки информации."
    },
    "RISK_EXPENSIVE_2" : {
       "description" : "",
-      "message" : "The police informed us that an unknown group of pirates is operating in this system."
+      "message" : "Полиция сообщила нам, что неизвестная группа пиратов действует в этой системе."
    },
    "RISK_GEMS_1" : {
       "description" : "",
-      "message" : "It is possible that an unscrupulous jewel trader wants to intercept the cargo."
+      "message" : "Не исключено, что какой-нибудь беспринципный торговец драгоценными камнями захочет отнять груз."
    },
    "RISK_WHOLESALER_1" : {
       "description" : "",
-      "message" : "Don't worry. A police patrol is ready in case of trouble."
+      "message" : "Не волнуйтесь. Полицейский патруль готов будет оказать помощь."
    },
    "RISK_WHOLESALER_2" : {
       "description" : "",
-      "message" : "Возможно, риск есть. Но полиция уверяет, что патрулирует окрестности."
+      "message" : "Риск не исключён. Но полиция уверяет, что патрулирует область."
    },
    "RISK_WHOLESALER_3" : {
       "description" : "",
-      "message" : "Риск высок, но вас будут охранять."
+      "message" : "Риск высок. Но у вас будет сопровождение."
    },
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
@@ -457,19 +457,19 @@
    },
    "SUCCESSMSG_2" : {
       "description" : "",
-      "message" : "Благодарю за своевременную доставку. Деньги я перевёл."
+      "message" : "Благодарю за своевременную доставку. Деньги перечислены на ваш счёт."
    },
    "SUCCESSMSG_3" : {
       "description" : "",
-      "message" : "Прекрасно, с вами приятно работать. Чек оплачен."
+      "message" : "Великолепно! С вами приятно было работать. Чек оплачен."
    },
    "SUCCESSMSG_4" : {
       "description" : "",
-      "message" : "Спасибо! Я вас обязательно порекомендую. Деньги зачислены."
+      "message" : "Спасибо! Я вас обязательно порекомендую. Деньги зачислены на ваш счёт."
    },
    "SUCCESSMSG_FLUFFY_1" : {
       "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
-      "message" : "Oh dear, what to do with so many fluffy beings. Either way, money has been sent."
+      "message" : "Ах, Боже мой, что делать с таким количеством пушистых существ. В любом случае, деньги перечислены на ваш счёт."
    },
    "SYSTEM" : {
       "description" : "",
@@ -493,15 +493,15 @@
    },
    "URGENCY_1" : {
       "description" : "",
-      "message" : "Это не срочно. Доставить нужно к {date}."
+      "message" : "Это не к спеху. Доставить нужно до {date}."
    },
    "URGENCY_2" : {
       "description" : "",
-      "message" : "Груз должен быть доставлен до {date}."
+      "message" : "Обязательно нужно доставить до {date}."
    },
    "URGENCY_3" : {
       "description" : "",
-      "message" : "График плотно загружен, так что доставить нужно к {date}."
+      "message" : "Из-за плотного графика нужно доставить до {date}."
    },
    "URGENCY_4" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "URGENCY_RADIOACTIVE_1" : {
       "description" : "",
-      "message" : "Из-за периода полураспада этого изотопа, доставить нужно до {date}."
+      "message" : "Ориентируемся по периоду полураспада этого изотопа, поэтому доставка должна быть завершена до {date}."
    },
    "WEDDING_DRESSES" : {
       "description" : "custom cargo",
@@ -529,11 +529,11 @@
    },
    "WHAT_IS_THIS" : {
       "description" : "",
-      "message" : "Что? Вы выбросили мой груз? Да вы с ума сошли!"
+      "message" : "Что вы говорите? Вы выбросили мой груз? Вы что, сумасшедший?"
    },
    "WHYSOMUCH_1" : {
       "description" : "",
-      "message" : "Это стандартные расценки."
+      "message" : "Это стандартная оплата за работу."
    },
    "WHYSOMUCH_2" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Цель заключения контракта?"
+      "message" : "Почему такая большая оплата?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
