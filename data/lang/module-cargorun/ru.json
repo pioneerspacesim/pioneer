@@ -261,7 +261,7 @@
    },
    "INTROTEXT_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Greetings. I'm {name}. The {system} government wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The pay is {cash}. {system} is located {dist} ly from here."
+      "message" : "Приветствую! Я {name}. Правительство системы {system} поручило доставить {cargoname} на станцию {starport}, та что в системе {system} ({sectorx}, {sectory}, {sectorz}). Система находится в {dist} св.лет отсюда. Оплата {cash}."
    },
    "INTROTEXT_LOCAL_1" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "INTROTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "My name is {name} and I need {cargoname} delivered to a client at {starport}. I'll pay you {cash} for this run."
+      "message" : "Меня зовут {name} и мне нужно доставить {cargoname} клиенту, который ожидает груз на станции {starport}. Плачу {cash} за доставку."
    },
    "INTROTEXT_MINING_1" : {
       "description" : "{name} is the full name of a person",
@@ -297,7 +297,7 @@
    },
    "INTROTEXT_WEDDING_1" : {
       "description" : "",
-      "message" : "Greetings. Have you heard of the wedding season of {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system? We want to transport {cargoname} there. It's {dist} ly away. The pay is {cash}. How about it?"
+      "message" : "Приветствую! Вы слышали уже о свадебном буме на станции {starport} в системе {system} ({sectorx}, {sectory}, {sectorz})? Мы хотим доставить туда {cargoname}. Это в {dist} св.лет отсюда. Оплата {cash}. Как вам такое предложение?"
    },
    "INTROTEXT_WHOLESALER_1" : {
       "description" : "",
