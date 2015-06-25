@@ -23,7 +23,8 @@
       "scoop" : 1,
       "engine" : 0,
       "laser_front" : 1,
-      "missile" : 0
+      "missile" : 0,
+      "sensor"  : 0
    },
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 1100000.0

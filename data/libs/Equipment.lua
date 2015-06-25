@@ -6,6 +6,9 @@ local Game = import_core("Game")
 local Serializer = import("Serializer")
 local Lang = import("Lang")
 local ShipDef = import("ShipDef")
+local Timer = import("Timer")
+local Space = import_core("Space")
+local Comms = import("Comms")
 
 --
 -- Class: EquipType
@@ -287,6 +290,75 @@ HyperdriveType.OnEnterHyperspace = function (self, ship)
 		end
 		ship:unsetprop('nextJumpFuelUse')
 	end
+end
+
+local SensorType = utils.inherits(EquipType, "SensorType")
+
+function SensorType:BeginAcquisition(callback)
+	self:ClearAcquisition()
+	self.callback = callback
+	if self:OnBeginAcquisition() then
+		self.state = "RUNNING"
+		self.stop_timer = false
+		Timer:CallEvery(1, function()
+			self:ScanProgress()
+		end)
+	end
+	self:DoCallBack()
+end
+
+function SensorType:ScanProgress()
+	-- TODO if new BeginAcquisition before timer tick gets here
+	-- the previous timer is left running because self.stop_timer != true
+	if self.stop_timer == true then
+		return true
+	end
+	if self:IsScanning() then
+		self:OnProgress()
+		if self:IsScanning() then
+			self.stop_timer = false
+		end
+	elseif self.state == "PAUSED" then
+		self.stop_timer = false
+	elseif self.state == "DONE" then
+		self.stop_timer = true
+	end
+	self:DoCallBack()
+	return self.stop_timer
+end
+
+function SensorType:PauseAcquisition()
+	if self:IsScanning() then
+		self.state = "PAUSED"
+	end
+	self:DoCallBack()
+end
+
+function SensorType:UnPauseAcquisition()
+	if self.state == "PAUSED" then
+		self.state = "RUNNING"
+	end
+	self:DoCallBack()
+end
+
+function SensorType:ClearAcquisition()
+	self:OnClear()
+	self.state = "DONE"
+	self.stop_timer = true
+	self:DoCallBack()
+	self.callback = nil
+end
+
+function SensorType:GetLastResults()
+	return self.progress
+end
+
+function SensorType:IsScanning()
+	return self.state == "RUNNING" or self.state == "HALTED"
+end
+
+function SensorType:DoCallBack()
+	if self.callback then self.callback(self.progress, self.state) end
 end
 
 -- Constants: EquipSlot
@@ -599,6 +671,104 @@ misc.trade_analyzer = EquipType.New({
 	l10n_key="TRADE_ANALYZER", slots="trade_analyzer", price=400,
 	capabilities={mass=0, trade_analyzer=1}, purchasable=true
 })
+misc.bodyscanner = SensorType.New({
+	l10n_key = 'BODYSCANNER', slots="sensor", price=1,
+	capabilities={mass=1,bodyscanner=1}, purchasable=true,
+	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	OnBeginAcquisition = function(self)
+		local closest_planet = Game.player:FindNearestTo("PLANET")
+		if closest_planet then
+			local altitude = self:DistanceToSurface(closest_planet)
+			if altitude < self.max_range then
+				self.target_altitude = altitude
+				self.target_body_path = closest_planet.path
+				local l = Lang.GetResource(self.l10n_resource)
+				Comms.Message(l.STARTING_SCAN.." "..string.format('%6.3f km',self.target_altitude/1000))
+				return true
+			end
+		end
+		return false
+	end,
+	OnProgress = function(self)
+		local l = Lang.GetResource(self.l10n_resource)
+		local target_body = Space.GetBody(self.target_body_path.bodyIndex)
+		if target_body and target_body:exists() then
+			local altitude = self:DistanceToSurface(target_body)
+			local distance_diff = math.abs(altitude - self.target_altitude)
+			local percentual_diff = distance_diff/self.target_altitude
+			if percentual_diff <= 0.05 then
+				if self.state == "HALTED" then
+					Comms.Message(l.SCAN_RESUMED)
+					self.state = "RUNNING"
+				end
+				self.progress = self.progress + 3
+				if self.progress > 100 then
+					self.state = "DONE"
+					self.progress = {body=target_body.path, altitude=self.target_altitude}
+					Comms.Message(l.SCAN_COMPLETED)
+				end
+			else -- strayed out off range
+				if self.state == "RUNNING" then
+					local lower_limit = self.target_altitude-(percentual_diff*self.target_altitude)
+					local upper_limit = self.target_altitude+(percentual_diff*self.target_altitude)
+					Comms.Message(l.OUT_OF_SCANRANGE.." "..string.format('%6.3f km',lower_limit/1000).." - "..string.format('%6.3f km',upper_limit/1000))
+				end
+				self.state = "HALTED"
+			end
+		else -- we lost the target body
+			self:ClearAcquisition()
+		end
+	end,
+	OnClear = function(self)
+		self.target_altitude = 0
+		self.progress = 0
+	end,
+	DistanceToSurface = function(self, body)
+		return  select(3,Game.player:GetGroundPosition(body)) -- altitude
+	end
+})
+
+-- TODO the bodyscanner doesn't survive a reload
+-- Serialize doesn't work because it tries to write
+-- the function pointers to bodyscanner.OnBeginAcquisition...
+-- this results in error tried to serialze a function value
+-- but this is a side effect of something else that is wrong maybe?
+-- for now I filter these out here
+function SensorType:Serialize()
+	local tmp = SensorType.Super().Serialize(self)
+	local ret = {}
+	for k,v in pairs(tmp) do
+		if type(v) ~= "function" then
+		ret[k] = v
+		end
+	end
+	ret.volatile = nil
+	return ret
+end
+
+-- when deserializing I need to set the function pointers
+-- again, I do this manually here for now.
+-- But this breaks the inhertance and is a bad fix
+function SensorType.Unserialize(data)
+	obj = SensorType.Super().Unserialize(data)
+	setmetatable(obj, SensorType.meta)
+	obj.OnClear = misc.bodyscanner.OnClear
+	obj.OnProgress = misc.bodyscanner.OnProgress
+	obj.OnBeginAcquisition = misc.bodyscanner.OnBeginAcquisition
+	obj.DistanceToSurface = misc.bodyscanner.DistanceToSurface
+	-- TODO an active scanner reloads as defunct, the timer is
+	-- not started because there was no BeginAcquisition
+	-- doing this results in error Game is not started
+	-- need a on game start listener?
+	-- Event.Register("onGameStart", onGameStart)
+	-- or this could be ok, equipment is inactive after load?
+	-- obj:ScanProgress()
+	-- Timer:CallEvery(1, function()
+	--	self:ScanProgress()
+	-- end)
+	return obj
+end
 
 local hyperspace = {}
 hyperspace.hyperdrive_1 = HyperdriveType.New({
@@ -733,6 +903,7 @@ local equipment = {
 	LaserType=LaserType,
 	HyperdriveType=HyperdriveType,
 	EquipType=EquipType,
+	SensorType=SensorType
 }
 
 local serialize = function()
@@ -760,5 +931,6 @@ Serializer:Register("Equipment", serialize, unserialize)
 Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
 Serializer:RegisterClass("HyperdriveType", HyperdriveType)
+Serializer:RegisterClass("SensorType", SensorType)
 
 return equipment
