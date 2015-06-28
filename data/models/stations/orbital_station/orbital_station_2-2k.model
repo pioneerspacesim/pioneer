@@ -1,0 +1,49 @@
+material facade-material
+tex_diff facades_diff.dds
+tex_glow facades_diff.dds
+specular 0.1 0.1 0.1
+unlit
+
+material floor-material
+tex_diff floors_diff.dds
+tex_glow floors_diff.dds
+specular 0.1 0.1 0.1
+unlit
+
+material tunnels-material
+tex_diff spoke_n_misc_diff.dds
+tex_glow spoke_n_misc_diff.dds
+specular 0.1 0.1 0.1
+unlit
+
+material facade_window-material
+tex_diff facades_diff.dds
+tex_glow facades_diff.dds
+specular 0.6 0.6 0.6
+opacity 13
+
+material ring-material
+tex_diff ring_diff.dds
+tex_glow ring_glow.dds
+specular 0.1 0.1 0.1
+
+material ring_glass-material
+tex_diff ring_diff.dds
+specular 0.7 0.7 0.7
+opacity 20
+
+material strut-material
+tex_diff struts_diff.dds
+specular 0.1 0.1 0.1
+
+material spokes-material
+tex_diff spoke_n_misc_diff.dds
+specular 0.1 0.1 0.1
+
+mesh station_hub_B.dae
+mesh station_docking_B.dae
+mesh station_ring_2-2k.dae
+
+
+collision station_B_coll.dae	
+#collision station_ring_2-5k_coll.dae
