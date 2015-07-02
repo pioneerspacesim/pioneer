@@ -357,7 +357,7 @@
    },
    "FUEL" : {
       "description" : "",
-      "message" : "Fuel"
+      "message" : "وقود"
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Hull integrity"
+      "message" : "سلامة الدرع"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "MASS" : {
       "description" : "",
-      "message" : "Mass"
+      "message" : "كتلة"
    },
    "MASTER" : {
       "description" : "For player reputation",
@@ -661,7 +661,7 @@
    },
    "MURDER" : {
       "description" : "",
-      "message" : "Murder"
+      "message" : "قتل"
    },
    "MUSIC" : {
       "description" : "",
@@ -781,7 +781,7 @@
    },
    "PIRACY" : {
       "description" : "",
-      "message" : "Piracy"
+      "message" : "قرصنة"
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
@@ -917,7 +917,7 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship"
+      "message" : "سفينة"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1001,7 +1001,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Trading illegal goods"
+      "message" : "تجارة البضاعة الممنوعة"
    },
    "TRUSTWORTHY" : {
       "description" : "For player reputation",
