@@ -29,7 +29,7 @@
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "Dir fehlt es eindeutig an Erfahrung für einen so wichtigen Vertrag."
+      "message" : "Ihnen fehlt es eindeutig an Erfahrung für einen so wichtigen Vertrag."
    },
    "DENY_6" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "FLAVOUR_2_FAILUREMSG2" : {
       "description" : "",
-      "message" : "Die Aufgabe wurde von jemand anderem erledigt. Sei nächstes mal schneller!"
+      "message" : "Die Aufgabe wurde von jemand anderem erledigt. Seien Sie beim Nächsten mal schneller!"
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "{target} ist tot. Hier ist Ihre Belohnung"
+      "message" : "{target} ist tot. Hier ist Ihre Belohnung."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Neuigkeiten von {target}s Rückzug. Hier ist Ihr Geld."
+      "message" : "Wohlwollend nahm ich die Neuigkeiten von {target}s Rückzug zur Kenntnis. Hier ist Ihr Geld."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
