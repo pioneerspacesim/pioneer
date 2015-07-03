@@ -57,7 +57,7 @@
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "SuperFix Instandhaltung (Ableger: {name})"
+      "message" : "SuperFix-Instandhaltung (Ableger: {name})"
    },
    "FLAVOUR_3_YESPLEASE" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs. Lassen Sie Ihren heute noch überholen, von der offiziell zugelassenen {name} Triebwerksservice-Firma.\n\nAntrieb: {drive}\nKostenpunkt: {price}\nGarantie: 18 Monate\n{lasttime}"
+      "message" : "Vermeiden Sie die Unannehmlichkeiten eines kaputten Hyperraum-Antriebs. Lassen Sie Ihren heute noch überholen.\n\nAntrieb: {drive}\nKostenpunkt: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "Ich habe nichzt genug Geld"
+      "message" : "Ich habe nicht genug Geld"
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
