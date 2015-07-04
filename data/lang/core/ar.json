@@ -37,7 +37,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Animal Meat"
+      "message" : "لحم حيوانات"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
@@ -61,7 +61,7 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Autopilot: Dock with space station"
+      "message" : "الطيار الألي: الهبوط على المحطة"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "BUTTON" : {
       "description" : "",
-      "message" : "\" Button \""
+      "message" : "\" زر \""
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "CLEARANCE_ALREADY_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Clearance already granted. Proceed to docking bay %bay."
+      "message" : "تم قبول اذن الهبوط. توجه الى المحط: %bay"
    },
    "CLEARANCE_DENIED_NO_BAYS" : {
       "description" : "",
@@ -325,7 +325,7 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Label out-of-range systems"
+      "message" : "اظهار اسماء الانظمة البعيدة"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
@@ -445,7 +445,7 @@
    },
    "GAME_SAVE_CANNOT_WRITE" : {
       "description" : "",
-      "message" : "This saved game file could not be written because of a system error."
+      "message" : "لا يمكن كتابة ملف حفظ اللعبة هذا بسبب خطأ في النظام."
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "GRAIN" : {
       "description" : "like wheat or barley",
-      "message" : "Grain"
+      "message" : "حبوب"
    },
    "HAND_WEAPONS" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "HAT" : {
       "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "\" Hat\""
+      "message" : "\" قبعة\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -501,11 +501,11 @@
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
-      "message" : "Heavy industry."
+      "message" : "الات ثقيلة"
    },
    "HE_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Helium atmosphere\""
+      "message" : "\" غلاف جوي مكون من الهيليوم\""
    },
    "HIGHLY_VOLCANIC" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "HYPERSPACE_ARRIVAL_CLOUD_REMNANT" : {
       "description" : "",
-      "message" : "Hyperspace arrival cloud remnant"
+      "message" : "بقايا ةصةل سحابة القذف"
    },
    "HYPERSPACE_DEPARTURE_CLOUD" : {
       "description" : "",
@@ -569,7 +569,7 @@
    },
    "ICE_WORLD" : {
       "description" : "",
-      "message" : "\" ice world\""
+      "message" : "\"عالم جليدي\""
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -613,7 +613,7 @@
    },
    "IN_TRANSIT" : {
       "description" : "",
-      "message" : "In transit"
+      "message" : "في العبور"
    },
    "IN_TRANSIT_TO_N_X_X_X" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "LARGE" : {
       "description" : "regarding terrestrial planet size (mass actually)",
-      "message" : "Large"
+      "message" : "ضخم"
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
-      "message" : "Liberal democracy"
+      "message" : "ديمقراطية حرة"
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
@@ -685,7 +685,7 @@
    },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
-      "message" : "locked"
+      "message" : "مقفل"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -797,7 +797,7 @@
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
-      "message" : "Message from %sender:"
+      "message" : "رسالة من %sender:"
    },
    "META" : {
       "description" : "'Meta' key on keyboard",
@@ -809,7 +809,7 @@
    },
    "METAL_ORE" : {
       "description" : "",
-      "message" : "Metal ore"
+      "message" : "معدن خام"
    },
    "MILITARY_DICTATORSHIP" : {
       "description" : "",
@@ -821,7 +821,7 @@
    },
    "MINING_COLONY" : {
       "description" : "",
-      "message" : "Mining colony."
+      "message" : "مستعمرة بحث عن معادن"
    },
    "MINING_MACHINERY" : {
       "description" : "",
@@ -837,7 +837,7 @@
    },
    "MINOR_IMPORTS" : {
       "description" : "",
-      "message" : "Minor Imports:"
+      "message" : "واردات طفيفة:"
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
@@ -865,7 +865,7 @@
    },
    "MONTH_DEC" : {
       "description" : "",
-      "message" : "Dec"
+      "message" : "ديسمبر"
    },
    "MONTH_FEB" : {
       "description" : "",
@@ -929,7 +929,7 @@
    },
    "NARCOTICS" : {
       "description" : "",
-      "message" : "Narcotics"
+      "message" : "مخدرات"
    },
    "NAVIGATION_STAR_MAPS" : {
       "description" : "",
@@ -973,7 +973,7 @@
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
-      "message" : "No registered inhabitants"
+      "message" : "لا يوجد سكان مسجلين"
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
@@ -981,7 +981,7 @@
    },
    "NUMBER_DAYS" : {
       "description" : "",
-      "message" : "%days{f.0} days"
+      "message" : "%days{f.0} يوم"
    },
    "NUMBER_DECIMAL_POINT" : {
       "description" : "Decimal delimiter used in numbers.",
@@ -1005,7 +1005,7 @@
    },
    "NUMBER_HOURS" : {
       "description" : "",
-      "message" : "%hours{f.1} hrs"
+      "message" : "%hours{f.1} ساعة"
    },
    "NUMBER_LY" : {
       "description" : "",
@@ -1069,7 +1069,7 @@
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
-      "message" : "Outdoor agricultural world."
+      "message" : "العالم الزراعي الخارجي"
    },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1081,7 +1081,7 @@
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "Over %population million"
+      "message" : "اكثر من %population مليون"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
@@ -1113,7 +1113,7 @@
    },
    "PITCH" : {
       "description" : "",
-      "message" : "Pitch"
+      "message" : "انحدار"
    },
    "PITCH_DOWN" : {
       "description" : "",
@@ -1161,7 +1161,7 @@
    },
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
-      "message" : "Plutocratic dictatorship"
+      "message" : "دكتاتورية"
    },
    "POLICE_SHIP_REGISTRATION" : {
       "description" : "",
@@ -1181,7 +1181,7 @@
    },
    "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
       "description" : "",
-      "message" : "Probability of arrival: %probability%%"
+      "message" : "احتمال الوصول: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
@@ -1229,7 +1229,7 @@
    },
    "ROLL_LEFT" : {
       "description" : "",
-      "message" : "Roll left"
+      "message" : "الاتفاف لليسار"
    },
    "ROLL_RIGHT" : {
       "description" : "",
@@ -1249,11 +1249,11 @@
    },
    "ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate Up"
+      "message" : "الدوران للأعلى"
    },
    "ROTATIONAL_PERIOD" : {
       "description" : "",
-      "message" : "\" (rotational period)\""
+      "message" : "\" (فترة الالتفاف)\""
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
@@ -1321,7 +1321,7 @@
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
-      "message" : "Semi-major axis"
+      "message" : "محور شبه الرئيسي"
    },
    "SET_HYPERSPACE_DESTINATION_TO" : {
       "description" : "",
@@ -1341,7 +1341,7 @@
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
-      "message" : "Set speed: %speed{f.2} km/s"
+      "message" : "تثبيت السرعة: %speed{f.2} كم/ث"
    },
    "SET_SPEED_M_S" : {
       "description" : "",
@@ -1381,7 +1381,7 @@
    },
    "SHIP_MASS_N_TONNES" : {
       "description" : "",
-      "message" : "Ship mass: %{mass}t"
+      "message" : "كتلة المركبة: %{mass}t"
    },
    "SHIP_NEARBY" : {
       "description" : "",
@@ -1405,7 +1405,7 @@
    },
    "SLAVES" : {
       "description" : "",
-      "message" : "Slaves"
+      "message" : "عبيد"
    },
    "SMALL" : {
       "description" : "",
@@ -1441,7 +1441,7 @@
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Speed control mode"
+      "message" : "وضع التحكم بالسرعة"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
@@ -1481,7 +1481,7 @@
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Blue hyper giant star"
+      "message" : "شمس زرقاء عملاقة متوهجة"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
@@ -1517,7 +1517,7 @@
    },
    "STAR_K" : {
       "description" : "",
-      "message" : "Type 'K' orange star"
+      "message" : "نوع \"K\" نجم برتقالي"
    },
    "STAR_K_GIANT" : {
       "description" : "",
@@ -1529,7 +1529,7 @@
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Orange super giant star"
+      "message" : "شمس برتقالية ضخمة"
    },
    "STAR_M" : {
       "description" : "",
@@ -1553,7 +1553,7 @@
    },
    "STAR_O" : {
       "description" : "",
-      "message" : "Hot, massive type 'O' star"
+      "message" : "نوع \"O\" نجم حار هائل"
    },
    "STAR_O_GIANT" : {
       "description" : "",
@@ -1581,7 +1581,7 @@
    },
    "STAR_S_BH" : {
       "description" : "",
-      "message" : "A stellar black hole"
+      "message" : "ثقب اسود ممتاز"
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
@@ -1609,7 +1609,7 @@
    },
    "SYSTEM_NUMBER" : {
       "description" : "",
-      "message" : "System number:"
+      "message" : "رقم النظام:"
    },
    "SYSTEM_ORBIT_VIEW" : {
       "description" : "",
@@ -1641,11 +1641,11 @@
    },
    "THICK" : {
       "description" : "",
-      "message" : "thick"
+      "message" : "السمك"
    },
    "THIN" : {
       "description" : "",
-      "message" : "thin"
+      "message" : "رقيق"
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1673,7 +1673,7 @@
    },
    "THRUSTER_STARBOARD" : {
       "description" : "",
-      "message" : "Thrust right"
+      "message" : "دفع لليمين"
    },
    "THRUSTER_VENTRAL" : {
       "description" : "",
@@ -1713,7 +1713,7 @@
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
-      "message" : "Triple system"
+      "message" : "نظام ثلاثي"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
@@ -1741,7 +1741,7 @@
    },
    "USE_LOW_THRUST" : {
       "description" : "",
-      "message" : "Use low thrust"
+      "message" : "استخدام دفع منخفض"
    },
    "VAST_STRIP_MINE" : {
       "description" : "",
@@ -1801,7 +1801,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "",
-      "message" : "%crime cannot be tolerated here."
+      "message" : "لا يمكن التسامح مع %crime"
    },
    "Y" : {
       "description" : "keybinding: y axis",
