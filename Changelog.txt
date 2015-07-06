@@ -1,3 +1,7 @@
+July 2015
+   * New Features
+     * Add first initial support for Arab fonts (#3416)
+
 June 2015
    * New Features
      * Allow up to 3 orbits a spacestation can occupy (#3392)
