@@ -36,6 +36,9 @@ private:
 	bool m_justify;
 	ColourMarkupMode m_colourMarkup;
 
+	float prevWidth;
+	Color prevColor;
+
 	RefCountedPtr<Text::TextureFont> m_font;
 	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
 };
