@@ -195,6 +195,12 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 	float px = x;
 	float py = y;
 
+	// we know how many we're adding so reserve space ahead of time
+	va.position.reserve(str.size() * 6);
+	va.diffuse.reserve(str.size() * 6);
+	va.uv0.reserve(str.size() * 6);
+
+	// add all of the glyphs individually
 	int i = 0;
 	while (str[i]) {
 		if (str[i] == '\n') {
@@ -228,6 +234,11 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 	PROFILE_SCOPED()
 
 	if(str.empty()) return Color::BLACK;
+
+	// we know how many we're adding so reserve space ahead of time
+	va.position.reserve(str.size() * 6);
+	va.diffuse.reserve(str.size() * 6);
+	va.uv0.reserve(str.size() * 6);
 
 	float px = x;
 	float py = y;
