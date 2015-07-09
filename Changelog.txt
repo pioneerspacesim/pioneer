@@ -2,6 +2,7 @@ July 2015
    * New Features
      * Add first initial support for Arab fonts (#3416)
      * New (smaller) space station added (#3414)
+     * Allow custom stations to have realistic orbit heights (#3410)
 
 June 2015
    * New Features
