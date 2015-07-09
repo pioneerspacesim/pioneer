@@ -4,6 +4,9 @@ July 2015
      * New (smaller) space station added (#3414)
      * Allow custom stations to have realistic orbit heights (#3410)
 
+   * Fixes
+     * Proposed fix for the MINGW32 issue #3409 (#3418)
+
 June 2015
    * New Features
      * Allow up to 3 orbits a spacestation can occupy (#3392)
