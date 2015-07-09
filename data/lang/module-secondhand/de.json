@@ -9,7 +9,7 @@
    },
    "FLAVOUR_0_BODY" : {
       "description" : "",
-      "message" : "Hi. Mein Name ist {name}. {equipment} aus meiner Rostmühle zu verkaufen. Wunschpreis: {price]."
+      "message" : "Hi. Mein Name ist {name}. Ich habe {equipment} aus meiner Rostmühle zu verkaufen. Wunschpreis: {price}."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -17,15 +17,15 @@
    },
    "FLAVOUR_1_BODY" : {
       "description" : "",
-      "message" : "Hi. Mein Name ist {name}. Ich hätte da 1 nitnagelneues {equipment] zu verkaufen zu einem Hammerpreis: {price]."
+      "message" : "Hi. Mein Name ist {name}. Ich hätte da 1 nigelnagelneues {equipment} zu verkaufen zu einem Hammerpreis: {price}."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "VERKAUFE: {eqipment], so gut wie neu, zu einem leistbaren Preis."
+      "message" : "VERKAUFE: {eqipment}, so gut wie neu, zu einem bezahlbaren Preis."
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Seid gegrüßt! Mein name ist {name} und verkaufe höchstwertige Ersatzteile. 1 {equipment} zum Preis von {price} wäre mein Angebot an euch.."
+      "message" : "Seid gegrüßt! Mein Name ist {name} und verkaufe höchstwertige Ersatzteile. 1 {equipment} zum Preis von {price} wäre mein Angebot an Euch."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",
@@ -33,23 +33,23 @@
    },
    "FLAVOUR_3_BODY" : {
       "description" : "",
-      "message" : "Hi!ich hätte da ein überschüssiges Teil das ich loswerden möchte: 1 {equipment}, Wunschpreis wäre {price]"
+      "message" : "Hi! Ich hätte da ein überschüssiges Teil, das ich loswerden möchte: 1 {equipment}, Wunschpreis wäre {price}."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "VERKAUFE: {equipment], guter Zustand!"
+      "message" : "VERKAUFE: {equipment}, guter Zustand!"
    },
    "FLAVOUR_4_BODY" : {
       "description" : "",
-      "message" : "Hi! Wir hätten ein überzähliges Reserveteil (1 {equipment}), welches für {price] dir gehören könnte."
+      "message" : "Hi! Wir hätten ein überzähliges Reserveteil (1 {equipment}), welches für {price} Ihnen gehören könnte."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "Selling second hand ship equipment",
-      "message" : "VERKAUFE: {equipment], überzählig, in sehr gutem Zustand"
+      "message" : "VERKAUFE: {equipment}, überzählig, in sehr gutem Zustand"
    },
    "FLAVOUR_5_BODY" : {
       "description" : "",
-      "message" : "Seid gegrüßt! Möchtet Ihr meine alte Ausrüstung kaufen (1 {equipment})? Sie hat mir gut gedient, aber ich habe sie durch ein neueres Modell ersetzt. Der Preis ist {price}."
+      "message" : "Guten Tag! Möchten Sie meine alte Ausrüstung kaufen (1 {equipment})? Sie hat mir gut gedient, aber ich habe sie durch ein neueres Modell ersetzt. Der Preis ist {price}."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "Selling second hand ship equipment",

@@ -49,11 +49,7 @@
 #endif
 
 #ifdef _WIN32 // MSVC doesn't support the %z specifier, but has its own %I specifier
-#	ifndef __MINGW32__
-#	define SIZET_FMT "%Iu"
-#	else
-#	define SIZET_FMT "%zu"
-#	endif
+#define SIZET_FMT "%Iu"
 #else
 #define SIZET_FMT "%zu"
 #endif
