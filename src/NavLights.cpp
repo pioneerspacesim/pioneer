@@ -143,15 +143,6 @@ void NavLights::SaveToJson(Json::Value &jsonObj)
 	navLightsObj["time"] = FloatToStr(m_time);
 	navLightsObj["enabled"] = m_enabled;
 
-	Json::Value lightsArray(Json::arrayValue); // Create JSON array to contain lights data.
-	for(auto glit : m_groupLights) {
-		for (LightIterator it = glit.m_lights.begin(); it != glit.m_lights.end(); ++it) {
-			lightsArray.append(it->group);
-			lightsArray.append(it->color);
-		}
-	}
-	navLightsObj["lights"] = lightsArray; // Add lights array to nav lights object.
-
 	jsonObj["nav_lights"] = navLightsObj; // Add nav lights object to supplied object.
 }
 
@@ -162,34 +153,9 @@ void NavLights::LoadFromJson(const Json::Value &jsonObj)
 
 	if (!navLightsObj.isMember("time")) throw SavedGameCorruptException();
 	if (!navLightsObj.isMember("enabled")) throw SavedGameCorruptException();
-	if (!navLightsObj.isMember("lights")) throw SavedGameCorruptException();
 
 	m_time = StrToFloat(navLightsObj["time"].asString());
 	m_enabled = navLightsObj["enabled"].asBool();
-
-
-	Json::Value lightsArray = navLightsObj["lights"];
-	if (!lightsArray.isArray()) throw SavedGameCorruptException();
-	RefCountedPtr<Graphics::Material> mat;
-	//assert(m_lights.size() == lightsArray.size());
-	const Uint32 laSize = lightsArray.size();
-	Uint32 lastGroup = 0xFFFFFFFF;
-	Uint32 lightIndex = 0;
-	GroupLightsVecIter glit = m_groupLights.end();
-	for (Uint32 arrayIndex = 0; arrayIndex < laSize; ++arrayIndex) 
-	{
-		const Uint32 group = lightsArray[arrayIndex].asUInt();
-		const Uint8 c = lightsArray[arrayIndex].asUInt();
-		if(lastGroup != group) {
-			glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
-			lastGroup = group;
-			lightIndex = 0;
-		}
-		if(glit != m_groupLights.end()) {
-			assert(lightIndex < glit->m_lights.size());
-			glit->m_lights[lightIndex++].billboard->SetMaterial(get_material(c));
-		}
-	}
 }
 
 void NavLights::Update(float time)
