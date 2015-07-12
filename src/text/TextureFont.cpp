@@ -10,9 +10,6 @@
 #include "TextSupport.h"
 #include "utils.h"
 
-#include "Pi.h"
-#include "Game.h"
-
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_STROKER_H
@@ -346,7 +343,7 @@ Graphics::VertexBuffer* TextureFont::GetCachedVertexBuffer(const std::string &st
 	}
 
 	// update the last access time
-	const double lastAccessTime = Pi::game ? Pi::game->GetTime() : 0.0;
+	const double lastAccessTime = 0.001 * double(SDL_GetTicks());
 	found->second.first = lastAccessTime;
 
 	if ((lastAccessTime - m_lfLastCacheCleanTime) > CACHE_EVICTION_TIME) {
@@ -366,7 +363,7 @@ void TextureFont::AddCachedVertexBuffer(Graphics::VertexBuffer *pVB, const std::
 		return;
 
 	// set the time that the buffer was added to the cache
-	const double lastAccessTime = Pi::game ? Pi::game->GetTime() : 0.0;
+	const double lastAccessTime = 0.001 * double(SDL_GetTicks());
 	m_vbTextCache[str] = std::make_pair(lastAccessTime, RefCountedPtr<Graphics::VertexBuffer>(pVB));
 }
 
@@ -374,7 +371,7 @@ Uint32 TextureFont::CleanVertexBufferCache()
 {
 	// update the last access time
 	Uint32 numDeleted = 0;
-	const double currentTime = Pi::game ? Pi::game->GetTime() : 0.0;
+	const double currentTime = 0.001 * double(SDL_GetTicks());
 	for (auto it : m_vbTextCache) {
 		if ((currentTime - it.second.first) > CACHE_EVICTION_TIME) {
 			it.second.second.Reset();
