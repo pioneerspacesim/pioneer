@@ -182,12 +182,13 @@ void NavLights::LoadFromJson(const Json::Value &jsonObj)
 		const Uint8 c = lightsArray[arrayIndex].asUInt();
 		if(lastGroup != group) {
 			glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
-			assert(glit != m_groupLights.end());
 			lastGroup = group;
 			lightIndex = 0;
 		}
-		assert(lightIndex < glit->m_lights.size());
-		glit->m_lights[lightIndex++].billboard->SetMaterial(get_material(c));
+		if(glit != m_groupLights.end()) {
+			assert(lightIndex < glit->m_lights.size());
+			glit->m_lights[lightIndex++].billboard->SetMaterial(get_material(c));
+		}
 	}
 }
 
@@ -203,8 +204,8 @@ void NavLights::Update(float time)
 
 	m_time += time;
 
-	int phase((fmod(m_time, m_period) / m_period) * 8);
-	Uint8 mask = 1 << phase;
+	const int phase((fmod(m_time, m_period) / m_period) * 8);
+	const Uint8 mask = 1 << phase;
 
 	for(auto glit : m_groupLights) {
 		for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it) {
