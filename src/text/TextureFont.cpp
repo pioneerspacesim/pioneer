@@ -10,6 +10,9 @@
 #include "TextSupport.h"
 #include "utils.h"
 
+#include "Pi.h"
+#include "Game.h"
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_STROKER_H
@@ -19,7 +22,10 @@
 
 #include <algorithm>
 
-static const int ATLAS_SIZE = 1024;
+namespace {
+	static const int ATLAS_SIZE = 1024;
+	static double CACHE_EVICTION_TIME = 0.25;
+};
 
 namespace Text {
 
@@ -293,26 +299,89 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 	return c;
 }
 
-Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va) const 
+Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va) const
 {
-	if( va.GetNumVerts() > 0 )
+	if (va.GetNumVerts() > 0)
 	{
 		//create buffer and upload data
 		Graphics::VertexBufferDesc vbd;
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
+		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
 		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_FLOAT2;
 		vbd.numVertices = va.GetNumVerts();
 		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
 		Graphics::VertexBuffer *vbuffer = m_renderer->CreateVertexBuffer(vbd);
-		vbuffer->Populate( va );
+		vbuffer->Populate(va);
 
 		return vbuffer;
 	}
 	return nullptr;
+}
+
+Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str)
+{
+	if( va.GetNumVerts() > 0 )
+	{
+		Graphics::VertexBuffer *pVB = GetCachedVertexBuffer(str);
+		if (pVB)
+			return pVB;
+
+		//create buffer and upload data
+		Graphics::VertexBuffer *vbuffer = CreateVertexBuffer(va);
+		AddCachedVertexBuffer(vbuffer, str);
+
+		return vbuffer;
+	}
+	return nullptr;
+}
+
+Graphics::VertexBuffer* TextureFont::GetCachedVertexBuffer(const std::string &str)
+{
+	VBHashMapIter found = m_vbTextCache.find(str);
+	if (found == m_vbTextCache.end()) {
+		return nullptr;
+	}
+
+	// update the last access time
+	const double lastAccessTime = Pi::game ? Pi::game->GetTime() : 0.0;
+	found->second.first = lastAccessTime;
+
+	if ((lastAccessTime - m_lfLastCacheCleanTime) > CACHE_EVICTION_TIME) {
+		const Uint32 uDeleted = CleanVertexBufferCache();
+		Output("NumDeleted %d\n", uDeleted);
+		m_lfLastCacheCleanTime = lastAccessTime;
+	}
+
+	// return the vertex buffer
+	return found->second.second.Get();
+}
+
+void TextureFont::AddCachedVertexBuffer(Graphics::VertexBuffer *pVB, const std::string &str)
+{
+	Graphics::VertexBuffer *pLocalVB = GetCachedVertexBuffer(str);
+	if (pLocalVB)
+		return;
+
+	// set the time that the buffer was added to the cache
+	const double lastAccessTime = Pi::game ? Pi::game->GetTime() : 0.0;
+	m_vbTextCache[str] = std::make_pair(lastAccessTime, RefCountedPtr<Graphics::VertexBuffer>(pVB));
+}
+
+Uint32 TextureFont::CleanVertexBufferCache()
+{
+	// update the last access time
+	Uint32 numDeleted = 0;
+	const double currentTime = Pi::game ? Pi::game->GetTime() : 0.0;
+	for (auto it : m_vbTextCache) {
+		if ((currentTime - it.second.first) > CACHE_EVICTION_TIME) {
+			it.second.second.Reset();
+			++numDeleted;
+		}
+	}
+	return numDeleted;
 }
 
 const TextureFont::Glyph &TextureFont::GetGlyph(Uint32 chr)
@@ -513,6 +582,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	, m_atlasU(0)
 	, m_atlasV(0)
 	, m_atlasVIncrement(0)
+	, m_lfLastCacheCleanTime(0.0)
 {
 	renderer->CheckRenderErrors();
 
