@@ -7,6 +7,9 @@ July 2015
    * Fixes
      * Proposed fix for the MINGW32 issue #3409 (#3418)
 
+   * Internal Changes
+     * Numerous optimisations (#3419)
+
 June 2015
    * New Features
      * Allow up to 3 orbits a spacestation can occupy (#3392)
