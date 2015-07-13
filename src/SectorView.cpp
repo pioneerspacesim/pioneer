@@ -533,11 +533,13 @@ void SectorView::Draw3D()
 	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
 
 	//draw sector legs in one go
-	if (m_lineVerts->GetNumVerts() > 2) {
+	if(!m_lineVerts->IsEmpty()) {
+		m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
 		m_lines.Draw(m_renderer, m_alphaBlendState);
 	}
 
-	if (m_secLineVerts->GetNumVerts() > 2) {
+	if (!m_secLineVerts->IsEmpty()) {
+		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 		m_sectorlines.Draw(m_renderer, m_alphaBlendState);
 	}
 
@@ -927,10 +929,6 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 			}
 		}
 	}
-	
-	if(!m_lineVerts->IsEmpty()) {
-		m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
-	}
 
 	// ...then switch and do all the labels
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
@@ -965,8 +963,11 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			trans * vector3f(Sector::SIZE, 0.f, 0.f)
 		};
 
-		m_secLineVerts->position.reserve(8);
-		m_secLineVerts->diffuse.reserve(8);
+		// reserve some more space
+		const size_t newNum = m_secLineVerts->GetNumVerts() + 8;
+		m_secLineVerts->position.reserve(newNum);
+		m_secLineVerts->diffuse.reserve(newNum);
+
 		m_secLineVerts->Add(vts[0], darkgreen);	// line segment 1
 		m_secLineVerts->Add(vts[1], darkgreen);
 		m_secLineVerts->Add(vts[1], darkgreen);	// line segment 2
@@ -975,8 +976,6 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_secLineVerts->Add(vts[3], darkgreen);
 		m_secLineVerts->Add(vts[3], darkgreen);	// line segment 4
 		m_secLineVerts->Add(vts[0], darkgreen);
-
-		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 	}
 
 	static size_t prevNumLineVerts = 0xFFFFFFFF;
