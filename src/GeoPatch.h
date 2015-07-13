@@ -142,6 +142,7 @@ public:
 	void RequestSinglePatch();
 	void ReceiveHeightmaps(SQuadSplitResult *psr);
 	void ReceiveHeightmap(const SSingleSplitResult *psr);
+	void ReceiveJobHandle(Job::Handle job);
 
 	inline void SetEdgeFriend(const int idx, GeoPatch *pPatch) { edgeFriend[idx] = pPatch; }
 	inline bool HasHeightData() const { return (heights.get()!=nullptr); }
