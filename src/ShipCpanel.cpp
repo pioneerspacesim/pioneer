@@ -292,8 +292,13 @@ void ShipCpanel::Update()
 
 void ShipCpanel::Draw()
 {
-	std::string time = format_date(m_game->GetTime());
-	m_clock->SetText(time);
+	static double prevTime = -1.0;
+	const double currTime = m_game->GetTime();
+	if(!is_equal_exact(prevTime, currTime)) {
+		prevTime = currTime;
+		const std::string time = format_date(currTime);
+		m_clock->SetText(time);
+	}
 
 	Gui::Fixed::Draw();
 }

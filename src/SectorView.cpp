@@ -533,11 +533,13 @@ void SectorView::Draw3D()
 	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
 
 	//draw sector legs in one go
-	if (m_lineVerts->GetNumVerts() > 2) {
+	if(!m_lineVerts->IsEmpty()) {
+		m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
 		m_lines.Draw(m_renderer, m_alphaBlendState);
 	}
 
-	if (m_secLineVerts->GetNumVerts() > 2) {
+	if (!m_secLineVerts->IsEmpty()) {
+		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 		m_sectorlines.Draw(m_renderer, m_alphaBlendState);
 	}
 
@@ -950,16 +952,21 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 	m_renderer->SetTransform(trans);
 	RefCountedPtr<Sector> ps = GetCached(SystemPath(sx, sy, sz));
 
-	int cz = int(floor(m_pos.z+0.5f));
+	const int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
-		const Color darkgreen(0, 51, 0, 255);
+		static const Color darkgreen(0, 51, 0, 255);
 		const vector3f vts[] = {
 			trans * vector3f(0.f, 0.f, 0.f),
 			trans * vector3f(0.f, Sector::SIZE, 0.f),
 			trans * vector3f(Sector::SIZE, Sector::SIZE, 0.f),
 			trans * vector3f(Sector::SIZE, 0.f, 0.f)
 		};
+
+		// reserve some more space
+		const size_t newNum = m_secLineVerts->GetNumVerts() + 8;
+		m_secLineVerts->position.reserve(newNum);
+		m_secLineVerts->diffuse.reserve(newNum);
 
 		m_secLineVerts->Add(vts[0], darkgreen);	// line segment 1
 		m_secLineVerts->Add(vts[1], darkgreen);
@@ -969,9 +976,12 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_secLineVerts->Add(vts[3], darkgreen);
 		m_secLineVerts->Add(vts[3], darkgreen);	// line segment 4
 		m_secLineVerts->Add(vts[0], darkgreen);
-
-		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
 	}
+
+	static size_t prevNumLineVerts = 0xFFFFFFFF;
+	const size_t numLineVerts = ps->m_systems.size() * 8;
+	m_lineVerts->position.reserve(numLineVerts);
+	m_lineVerts->diffuse.reserve(numLineVerts);
 
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++sysIdx) {
@@ -1044,8 +1054,6 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			m_lineVerts->Add(systrans * vector3f(0.1f, 0.1f, z), light);
 			m_lineVerts->Add(systrans * vector3f(-0.1f, 0.1f, z), light);
 			m_lineVerts->Add(systrans * vector3f(0.1f, -0.1f, z), light);
-
-			m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
 		}
 
 		if (i->IsSameSystem(m_selected)) {

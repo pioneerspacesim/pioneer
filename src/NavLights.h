@@ -45,7 +45,30 @@ public:
 	static void Uninit();
 
 protected:
-	std::vector<LightBulb> m_lights;
+
+	class TGroupLights {
+	public:
+		TGroupLights(Uint32 g) : m_group(g) {}
+		const Uint32 m_group;
+		std::vector<LightBulb> m_lights;
+	private:
+		TGroupLights() : m_group(0xFFFFFFFF) {}
+	};
+
+	// for use with std::find_if
+	class GroupMatch{
+		const Uint32 group;
+	public:
+		GroupMatch(const Uint32 g): group(g) {}
+		bool operator() (const TGroupLights& myValue)
+		{ 
+			return (group == myValue.m_group);
+		}
+	};
+
+	typedef std::vector<TGroupLights> GroupLightsVec;
+	typedef GroupLightsVec::iterator GroupLightsVecIter;
+	GroupLightsVec m_groupLights;
 	float m_time;
 	float m_period;
 	bool m_enabled;

@@ -116,7 +116,17 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 		}
 		bblight->SetMaterial(get_material(color));
 
-		m_lights.push_back(LightBulb(group, mask, color, bblight));
+		GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
+		if(glit == m_groupLights.end()) {
+			// didn't find group, create a new one
+			m_groupLights.push_back(TGroupLights(group));
+			Output("NavLights group (%u) added\n", group);
+			// now use it
+			glit = (m_groupLights.end() - 1);
+		}
+
+		assert(glit != m_groupLights.end());
+		glit->m_lights.push_back(LightBulb(group, mask, color, bblight));
 		mt->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 		mt->AddChild(bblight);
 	}
@@ -133,11 +143,6 @@ void NavLights::SaveToJson(Json::Value &jsonObj)
 	navLightsObj["time"] = FloatToStr(m_time);
 	navLightsObj["enabled"] = m_enabled;
 
-	Json::Value lightsArray(Json::arrayValue); // Create JSON array to contain lights data.
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
-		lightsArray.append(it->color);
-	navLightsObj["lights"] = lightsArray; // Add lights array to nav lights object.
-
 	jsonObj["nav_lights"] = navLightsObj; // Add nav lights object to supplied object.
 }
 
@@ -148,51 +153,45 @@ void NavLights::LoadFromJson(const Json::Value &jsonObj)
 
 	if (!navLightsObj.isMember("time")) throw SavedGameCorruptException();
 	if (!navLightsObj.isMember("enabled")) throw SavedGameCorruptException();
-	if (!navLightsObj.isMember("lights")) throw SavedGameCorruptException();
 
 	m_time = StrToFloat(navLightsObj["time"].asString());
 	m_enabled = navLightsObj["enabled"].asBool();
-
-	Json::Value lightsArray = navLightsObj["lights"];
-	if (!lightsArray.isArray()) throw SavedGameCorruptException();
-	RefCountedPtr<Graphics::Material> mat;
-	assert(m_lights.size() == lightsArray.size());
-	unsigned int arrayIndex = 0;
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
-	{
-		Uint8 c = lightsArray[arrayIndex++].asUInt();
-		it->billboard->SetMaterial(get_material(c));
-	}
 }
 
 void NavLights::Update(float time)
 {
 	PROFILE_SCOPED();
 	if (!m_enabled) {
-		for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
-			it->billboard->SetNodeMask(0x0);
+		for(auto glit : m_groupLights)
+			for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it)
+				it->billboard->SetNodeMask(0x0);
 		return;
 	}
 
 	m_time += time;
 
-	int phase((fmod(m_time, m_period) / m_period) * 8);
-	Uint8 mask = 1 << phase;
+	const int phase((fmod(m_time, m_period) / m_period) * 8);
+	const Uint8 mask = 1 << phase;
 
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
-		if (it->mask & mask)
-			it->billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-		else
-			it->billboard->SetNodeMask(0x0);
+	for(auto glit : m_groupLights) {
+		for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it) {
+			if (it->mask & mask)
+				it->billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+			else
+				it->billboard->SetNodeMask(0x0);
+		}
 	}
 }
 
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
 	PROFILE_SCOPED();
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
-		if (it->group != group || it->color == c) continue;
-		it->billboard->SetMaterial(get_material(c));
-		it->color = c;
+	GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
+	if(glit != m_groupLights.end()) {
+		for (LightIterator it = glit->m_lights.begin(), itEnd = glit->m_lights.end(); it != itEnd; ++it) {
+			if (it->group != group || it->color == c) continue;
+			it->billboard->SetMaterial(get_material(c));
+			it->color = c;
+		}
 	}
 }

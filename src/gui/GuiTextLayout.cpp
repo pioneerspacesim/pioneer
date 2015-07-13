@@ -57,6 +57,9 @@ TextLayout::TextLayout(const char *_str, RefCountedPtr<Text::TextureFont> font, 
 			str[i++] = 0;
 		}
 	}
+
+	prevWidth = -1.0f;
+	prevColor = Color::WHITE;
 }
 
 void TextLayout::MeasureSize(const float width, float outSize[2]) const
@@ -95,8 +98,18 @@ void TextLayout::Render(const float width, const Color &color) const
 void TextLayout::Update(const float width, const Color &color)
 {
 	PROFILE_SCOPED()
-	if(words.empty())
+	if(words.empty()) {
+		m_vbuffer.Reset();
 		return;
+	}
+
+	// see if anything has changed
+	if((prevWidth==width) && (prevColor==color)) {
+		return;
+	}
+
+	prevWidth = width;
+	prevColor = color;
 
 	float fontScale[2];
 	Gui::Screen::GetCoords2Pixels(fontScale);
