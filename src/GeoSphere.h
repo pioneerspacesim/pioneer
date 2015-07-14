@@ -68,14 +68,25 @@ public:
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
 
+	void AddQuadSplitRequest(double, SQuadSplitRequest*, GeoPatch*);
+
 private:
 	void BuildFirstPatches();
 	void CalculateMaxPatchDepth();
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);
 	}
+	void ProcessQuadSplitRequests();
 
 	std::unique_ptr<GeoPatch> m_patches[6];
+	struct TDistanceRequest {
+		TDistanceRequest(double dist, SQuadSplitRequest *pRequest, GeoPatch *pRequester) :
+			mDistance(dist), mpRequest(pRequest), mpRequester(pRequester) {}
+		double mDistance;
+		SQuadSplitRequest *mpRequest;
+		GeoPatch *mpRequester;
+	};
+	std::deque<TDistanceRequest> mQuadSplitRequests;
 
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
 	std::deque<SQuadSplitResult*> mQuadSplitResults;

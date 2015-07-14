@@ -185,6 +185,7 @@ void GeoPatch::LODUpdate(const vector3d &campos)
 	bool canMerge = bool(kids[0]);
 
 	// always split at first level
+	double centroidDist = DBL_MAX;
 	if (parent) {
 		for (int i=0; i<NUM_EDGES; i++) {
 			if (!edgeFriend[i]) {
@@ -195,7 +196,7 @@ void GeoPatch::LODUpdate(const vector3d &campos)
 				break;
 			}
 		}
-		const float centroidDist = (campos - centroid).Length();
+		centroidDist = (campos - centroid).Length();
 		const bool errorSplit = (centroidDist < m_roughLength);
 		if( !(canSplit && (m_depth < std::min(GEOPATCH_MAX_DEPTH, geosphere->GetMaxDepth())) && errorSplit) ) {
 			canSplit = false;
@@ -205,13 +206,14 @@ void GeoPatch::LODUpdate(const vector3d &campos)
 	if (canSplit) {
 		if (!kids[0]) {
             assert(!mHasJobRequest);
-            assert(!m_job.HasJob());
 			mHasJobRequest = true;
-
+			
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(),
 						ctx->GetFrac(), geosphere->GetTerrain());
-			m_job = Pi::GetAsyncJobQueue()->Queue(new QuadPatchJob(ssrd));
+
+			// add to the GeoSphere to be processed at end of all LODUpdate requests
+			geosphere->AddQuadSplitRequest(centroidDist, ssrd, this);
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -233,7 +235,6 @@ void GeoPatch::RequestSinglePatch()
 {
 	if( !heights ) {
         assert(!mHasJobRequest);
-        assert(!m_job.HasJob());
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
 					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(), ctx->GetFrac(), geosphere->GetTerrain());
@@ -313,4 +314,10 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 		colors.reset(data.colors);
 	}
 	mHasJobRequest = false;
+}
+
+void GeoPatch::ReceiveJobHandle(Job::Handle job)
+{
+	assert(!m_job.HasJob());
+	m_job = (Job::Handle&&)job;
 }

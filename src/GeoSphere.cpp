@@ -358,9 +358,33 @@ void GeoSphere::Update()
 			for (int i=0; i<NUM_PATCHES; i++) {
 				m_patches[i]->LODUpdate(m_tempCampos);
 			}
+			ProcessQuadSplitRequests();
 		}
 		break;
 	}
+}
+
+void GeoSphere::AddQuadSplitRequest(double dist, SQuadSplitRequest *pReq, GeoPatch *pPatch)
+{
+	mQuadSplitRequests.push_back(TDistanceRequest(dist, pReq, pPatch));
+}
+
+void GeoSphere::ProcessQuadSplitRequests()
+{
+	class RequestDistanceSort {
+	public:
+		bool operator()(const TDistanceRequest &a, const TDistanceRequest &b)
+		{
+			return a.mDistance < b.mDistance;
+		}
+	};
+	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), RequestDistanceSort());
+
+	for(auto iter : mQuadSplitRequests) {
+		SQuadSplitRequest *ssrd = iter.mpRequest;
+		iter.mpRequester->ReceiveJobHandle(Pi::GetAsyncJobQueue()->Queue(new QuadPatchJob(ssrd)));
+	}
+	mQuadSplitRequests.clear();
 }
 
 void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
