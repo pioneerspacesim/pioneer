@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "Hoewel minder effectief dan een brandstofschep maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
    },
+   "OUT_OF_SCANRANGE" : {
+      "description" : "",
+      "message" : "Max scan range exceeded:"
+   },
+   "PLANETSCANNER" : {
+      "description" : "Scans the nearest body for resources",
+      "message" : "Body scan"
+   },
+   "PLANETSCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Scan nearest body for resources."
+   },
    "PULSECANNON_10MW" : {
       "description" : "",
       "message" : "10MW puls kanon"
@@ -219,6 +231,14 @@
       "description" : "",
       "message" : "Projecteert een 3D-kaart van nabije schepen."
    },
+   "SCAN_COMPLETED" : {
+      "description" : "",
+      "message" : "Scanning completed"
+   },
+   "SCAN_RESUMED" : {
+      "description" : "",
+      "message" : "Scanning resumed"
+   },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
       "message" : "Schild-energie Aanjager"
@@ -238,6 +258,10 @@
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
       "message" : "Kleine plasma accelerator"
+   },
+   "STARTING_SCAN" : {
+      "description" : "",
+      "message" : "Starting scan, target distance is"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

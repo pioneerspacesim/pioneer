@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "Ged nach eil e cho èifeachdach 's a tha sgiob connaidh, 's urrainn dhut an dà chuid carago is connadh a sgobadh leis."
    },
+   "OUT_OF_SCANRANGE" : {
+      "description" : "",
+      "message" : "Max scan range exceeded:"
+   },
+   "PLANETSCANNER" : {
+      "description" : "Scans the nearest body for resources",
+      "message" : "Body scan"
+   },
+   "PLANETSCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Scan nearest body for resources."
+   },
    "PULSECANNON_10MW" : {
       "description" : "",
       "message" : "Canan buille-chuisle 100MW"
@@ -219,6 +231,14 @@
       "description" : "",
       "message" : "Bheir seo mapa 3D dhut dhe na soithichean am fagas."
    },
+   "SCAN_COMPLETED" : {
+      "description" : "",
+      "message" : "Scanning completed"
+   },
+   "SCAN_RESUMED" : {
+      "description" : "",
+      "message" : "Scanning resumed"
+   },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
       "message" : "Shield Energy Booster"
@@ -238,6 +258,10 @@
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
       "message" : "Luathaichear plasma beag"
+   },
+   "STARTING_SCAN" : {
+      "description" : "",
+      "message" : "Starting scan, target distance is"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

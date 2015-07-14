@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "Seppur meno efficace di un raccoglitore di carburante, permette di raccogliere sia cargo che carburante"
    },
+   "OUT_OF_SCANRANGE" : {
+      "description" : "",
+      "message" : "Max scan range exceeded:"
+   },
+   "PLANETSCANNER" : {
+      "description" : "Scans the nearest body for resources",
+      "message" : "Body scan"
+   },
+   "PLANETSCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Scan nearest body for resources."
+   },
    "PULSECANNON_10MW" : {
       "description" : "",
       "message" : "Laser a impulsi da 10MW"
@@ -219,6 +231,14 @@
       "description" : "",
       "message" : "Sensore a corto raggio che identifica la posizione in tre dimensioni di astronavi e stazioni spaziali vicine."
    },
+   "SCAN_COMPLETED" : {
+      "description" : "",
+      "message" : "Scanning completed"
+   },
+   "SCAN_RESUMED" : {
+      "description" : "",
+      "message" : "Scanning resumed"
+   },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
       "message" : "Sovralimentatore di scudi"
@@ -238,6 +258,10 @@
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
       "message" : "Acceleratore di plasma: piccolo"
+   },
+   "STARTING_SCAN" : {
+      "description" : "",
+      "message" : "Starting scan, target distance is"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "Mniej skuteczny od czerpaka paliwowego, lecz mimo to pozwala przechwycić zarówno kontenery towarowe jak i paliwo."
    },
+   "OUT_OF_SCANRANGE" : {
+      "description" : "",
+      "message" : "Max scan range exceeded:"
+   },
+   "PLANETSCANNER" : {
+      "description" : "Scans the nearest body for resources",
+      "message" : "Body scan"
+   },
+   "PLANETSCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Scan nearest body for resources."
+   },
    "PULSECANNON_10MW" : {
       "description" : "",
       "message" : "10MW Działo Impulsowe"
@@ -219,6 +231,14 @@
       "description" : "",
       "message" : "Dostarcza trójwymiarową mapę pobliskiej przestrzeni."
    },
+   "SCAN_COMPLETED" : {
+      "description" : "",
+      "message" : "Scanning completed"
+   },
+   "SCAN_RESUMED" : {
+      "description" : "",
+      "message" : "Scanning resumed"
+   },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
       "message" : "Wzmacniacz Osłon"
@@ -238,6 +258,10 @@
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
       "message" : "Mały Akcelerator Plazmy"
+   },
+   "STARTING_SCAN" : {
+      "description" : "",
+      "message" : "Starting scan, target distance is"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

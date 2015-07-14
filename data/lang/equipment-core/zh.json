@@ -175,6 +175,18 @@
       "description" : "",
       "message" : "虽然收集效率不及燃料收集器, 但它却可以同时收集燃料和货物"
    },
+   "OUT_OF_SCANRANGE" : {
+      "description" : "",
+      "message" : "Max scan range exceeded:"
+   },
+   "PLANETSCANNER" : {
+      "description" : "Scans the nearest body for resources",
+      "message" : "Body scan"
+   },
+   "PLANETSCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Scan nearest body for resources."
+   },
    "PULSECANNON_10MW" : {
       "description" : "",
       "message" : "10MW 脉冲加农炮"
@@ -219,6 +231,14 @@
       "description" : "",
       "message" : "提供附近飞船的3D地图"
    },
+   "SCAN_COMPLETED" : {
+      "description" : "",
+      "message" : "Scanning completed"
+   },
+   "SCAN_RESUMED" : {
+      "description" : "",
+      "message" : "Scanning resumed"
+   },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
       "message" : "护盾能量增益装置"
@@ -238,6 +258,10 @@
    "SMALL_PLASMA_ACCEL" : {
       "description" : "",
       "message" : "小型等离子体加速器"
+   },
+   "STARTING_SCAN" : {
+      "description" : "",
+      "message" : "Starting scan, target distance is"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
