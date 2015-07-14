@@ -738,21 +738,12 @@ misc.trade_analyzer = EquipType.New({
 	l10n_key="TRADE_ANALYZER", slots="trade_analyzer", price=400,
 	capabilities={mass=0, trade_analyzer=1}, purchasable=true
 })
-
-misc.bodyscanner = BodyScannerType.New({
-	l10n_key = 'BODYSCANNER', slots="sensor", price=1,
-	capabilities={mass=1,sensor=1}, purchasable=true,
+misc.planetscanner = BodyScannerType.New({
+	l10n_key = 'PLANETSCANNER', slots="sensor", price=15000,
+	capabilities={mass=1,sensor=1}, purchasable=false,
 	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
 	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05}
-})
-
-misc.bodyscanner2 = BodyScannerType.New({
-	l10n_key = 'BODYSCANNER_FAST', slots="sensor", price=1.5,
-	capabilities={mass=1,sensor=1}, purchasable=true,
-	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
-	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
-	bodyscanner_stats={scan_speed=6, scan_tolerance=0.025}
 })
 
 local hyperspace = {}

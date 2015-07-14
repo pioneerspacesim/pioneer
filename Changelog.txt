@@ -12,6 +12,7 @@ July 2015
      * Numerous optimisations (#3419)
      * Remove output spamming messages (#3421)
      * Sort terrain gen (#3420)
+     * Inactivate BodyScanner equipment testing code (#3422)
 
 June 2015
    * New Features
