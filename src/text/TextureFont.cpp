@@ -348,7 +348,6 @@ Graphics::VertexBuffer* TextureFont::GetCachedVertexBuffer(const std::string &st
 
 	if ((lastAccessTime - m_lfLastCacheCleanTime) > CACHE_EVICTION_TIME) {
 		const Uint32 uDeleted = CleanVertexBufferCache();
-		Output("NumDeleted %d\n", uDeleted);
 		m_lfLastCacheCleanTime = lastAccessTime;
 	}
 

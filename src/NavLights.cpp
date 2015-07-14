@@ -120,7 +120,6 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 		if(glit == m_groupLights.end()) {
 			// didn't find group, create a new one
 			m_groupLights.push_back(TGroupLights(group));
-			Output("NavLights group (%u) added\n", group);
 			// now use it
 			glit = (m_groupLights.end() - 1);
 		}
