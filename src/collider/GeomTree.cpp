@@ -17,7 +17,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 , m_numTris(numTris)
 , m_vertices(vertices)
 {
-	assert(vertices.size() == m_numVertices);
+	assert(static_cast<int>(vertices.size()) == m_numVertices);
 	Profiler::Timer timer;
 	timer.Start();
 
@@ -39,7 +39,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	std::vector<int> activeTris;
 	activeTris.reserve(numTris);
 	// So, we ignore tris with flag >= 0x8000
-	for (int i=0; i<numTris; i++) 
+	for (int i=0; i<numTris; i++)
 	{
 		if (triflags[i] >= IGNORE_FLAG) continue;
 		activeTris.push_back(i*3);
@@ -73,10 +73,10 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 
 	// Get radius, m_aabb, and merge duplicate edges
 	m_radius = 0;
-	for (int i=0; i<numTris; i++) 
+	for (int i=0; i<numTris; i++)
 	{
 		const unsigned int triflag = m_triFlags[i];
-		if (triflag < IGNORE_FLAG) 
+		if (triflag < IGNORE_FLAG)
 		{
 			const int vi1 = m_indices[3*i+0];
 			const int vi2 = m_indices[3*i+1];
@@ -127,7 +127,7 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 
 	int pos = 0;
 	typedef EdgeType::iterator MapPairIter;
-	for (MapPairIter i = edges.begin(), iEnd = edges.end();	i != iEnd; ++i, pos++) 
+	for (MapPairIter i = edges.begin(), iEnd = edges.end();	i != iEnd; ++i, pos++)
 	{
 		// precalc some jizz
 		const std::pair<int, int> &vtx = (*i).first;
@@ -221,7 +221,7 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	m_triTree.reset(new BVHTree(activeTris.size(), &activeTris[0], aabbs));
 	delete[] aabbs;
 
-	// 
+	//
 	int *edgeIdxs = new int[m_numEdges];
 	memset(edgeIdxs, 0, sizeof(int)*m_numEdges);
 	for (int i = 0; i<m_numEdges; i++) {
@@ -350,7 +350,7 @@ void GeomTree::RayTriIntersect(int numRays, const vector3f &origin, const vector
 		const float v2d = v2_cross.Dot(dirs[i]);
 
 		if (((v0d > 0) && (v1d > 0) && (v2d > 0)) ||
-		    ((v0d < 0) && (v1d < 0) && (v2d < 0))) {
+			 ((v0d < 0) && (v1d < 0) && (v2d < 0))) {
 			const float dist = nominator / dirs[i].Dot(n);
 			if ((dist > 0) && (dist < isects[i].dist)) {
 				isects[i].dist = dist;
