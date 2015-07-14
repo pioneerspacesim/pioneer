@@ -104,7 +104,7 @@ void TextLayout::Update(const float width, const Color &color)
 	}
 
 	// see if anything has changed
-	if((prevWidth==width) && (prevColor==color)) {
+	if(is_equal_exact(prevWidth,width) && (prevColor==color)) {
 		return;
 	}
 
