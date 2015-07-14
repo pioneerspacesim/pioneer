@@ -9,6 +9,8 @@ July 2015
 
    * Internal Changes
      * Numerous optimisations (#3419)
+     * Remove output spamming messages (#3421)
+     * Sort terrain gen (#3420)
 
 June 2015
    * New Features
