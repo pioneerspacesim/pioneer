@@ -549,7 +549,7 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Kau akan menyesal berhubungan dengan [client]"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Hari ini bukan hari keberuntunganmu! Bersiaplah untuk mati."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
@@ -565,11 +565,11 @@
    },
    "TAXI" : {
       "description" : "",
-      "message" : "Taxi"
+      "message" : "Taksi"
    },
    "TO" : {
       "description" : "",
-      "message" : "To:"
+      "message" : "Untuk:"
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",
