@@ -6,6 +6,9 @@ local Game = import_core("Game")
 local Serializer = import("Serializer")
 local Lang = import("Lang")
 local ShipDef = import("ShipDef")
+local Timer = import("Timer")
+local Space = import_core("Space")
+local Comms = import("Comms")
 
 --
 -- Class: EquipType
@@ -52,7 +55,9 @@ function EquipType:Serialize()
 	local tmp = EquipType.Super().Serialize(self)
 	local ret = {}
 	for k,v in pairs(tmp) do
-		ret[k] = v
+		if type(v) ~= "function" then
+			ret[k] = v
+		end
 	end
 	ret.volatile = nil
 	return ret
@@ -287,6 +292,140 @@ HyperdriveType.OnEnterHyperspace = function (self, ship)
 		end
 		ship:unsetprop('nextJumpFuelUse')
 	end
+end
+
+local SensorType = utils.inherits(EquipType, "SensorType")
+
+function SensorType:BeginAcquisition(callback)
+	self:ClearAcquisition()
+	self.callback = callback
+	if self:OnBeginAcquisition() then
+		self.state = "RUNNING"
+		self.stop_timer = false
+		Timer:CallEvery(1, function()
+			return self:ScanProgress()
+		end)
+	end
+	self:DoCallBack()
+end
+
+function SensorType:ScanProgress()
+	if self.stop_timer == true then
+		return true
+	end
+	if self:IsScanning() then
+		self:OnProgress()
+		if self:IsScanning() then
+			self.stop_timer = false
+		end
+	elseif self.state == "PAUSED" then
+		self.stop_timer = false
+	elseif self.state == "DONE" then
+		self.stop_timer = true
+	end
+	self:DoCallBack()
+	return self.stop_timer
+end
+
+function SensorType:PauseAcquisition()
+	if self:IsScanning() then
+		self.state = "PAUSED"
+	end
+	self:DoCallBack()
+end
+
+function SensorType:UnPauseAcquisition()
+	if self.state == "PAUSED" then
+		self.state = "RUNNING"
+	end
+	self:DoCallBack()
+end
+
+function SensorType:ClearAcquisition()
+	self:OnClear()
+	self.state = "DONE"
+	self.stop_timer = true
+	self:DoCallBack()
+	self.callback = nil
+end
+
+function SensorType:GetLastResults()
+	return self.progress
+end
+
+-- gets called from C++ to set the MeterBar value
+-- must return a number
+function SensorType:GetProgress()
+	if type(self.progress) == "number" then
+		return self.progress
+	else
+		return 0
+	end
+end
+
+function SensorType:IsScanning()
+	return self.state == "RUNNING" or self.state == "HALTED"
+end
+
+function SensorType:DoCallBack()
+	if self.callback then self.callback(self.progress, self.state) end
+end
+
+local BodyScannerType = utils.inherits(SensorType, "BodyScannerType")
+
+function BodyScannerType:OnBeginAcquisition()
+	local closest_planet = Game.player:FindNearestTo("PLANET")
+	if closest_planet then
+		local altitude = self:DistanceToSurface(closest_planet)
+		if altitude < self.max_range then
+			self.target_altitude = altitude
+			self.target_body_path = closest_planet.path
+			local l = Lang.GetResource(self.l10n_resource)
+			Comms.Message(l.STARTING_SCAN.." "..string.format('%6.3f km',self.target_altitude/1000))
+			return true
+		end
+	end
+	return false
+end
+
+function BodyScannerType:OnProgress()
+	local l = Lang.GetResource(self.l10n_resource)
+	local target_body = Space.GetBody(self.target_body_path.bodyIndex)
+	if target_body and target_body:exists() then
+		local altitude = self:DistanceToSurface(target_body)
+		local distance_diff = math.abs(altitude - self.target_altitude)
+		local percentual_diff = distance_diff/self.target_altitude
+		if percentual_diff <= self.bodyscanner_stats.scan_tolerance then
+			if self.state == "HALTED" then
+				Comms.Message(l.SCAN_RESUMED)
+				self.state = "RUNNING"
+			end
+			self.progress = self.progress + self.bodyscanner_stats.scan_speed
+			if self.progress > 100 then
+				self.state = "DONE"
+				self.progress = {body=target_body.path, altitude=self.target_altitude}
+				Comms.Message(l.SCAN_COMPLETED)
+			end
+		else -- strayed out off range
+			if self.state == "RUNNING" then
+				local lower_limit = self.target_altitude-(percentual_diff*self.target_altitude)
+				local upper_limit = self.target_altitude+(percentual_diff*self.target_altitude)
+				Comms.Message(l.OUT_OF_SCANRANGE.." "..string.format('%6.3f km',lower_limit/1000).." - "..string.format('%6.3f km',upper_limit/1000))
+			end
+			self.state = "HALTED"
+		end
+	else -- we lost the target body
+		self:ClearAcquisition()
+	end
+end
+
+function BodyScannerType:OnClear()
+	self.target_altitude = 0
+	self.progress = 0
+end
+
+function BodyScannerType:DistanceToSurface(body)
+	return  select(3,Game.player:GetGroundPosition(body)) -- altitude
 end
 
 -- Constants: EquipSlot
@@ -600,6 +739,22 @@ misc.trade_analyzer = EquipType.New({
 	capabilities={mass=0, trade_analyzer=1}, purchasable=true
 })
 
+misc.bodyscanner = BodyScannerType.New({
+	l10n_key = 'BODYSCANNER', slots="sensor", price=1,
+	capabilities={mass=1,sensor=1}, purchasable=true,
+	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05}
+})
+
+misc.bodyscanner2 = BodyScannerType.New({
+	l10n_key = 'BODYSCANNER_FAST', slots="sensor", price=1.5,
+	capabilities={mass=1,sensor=1}, purchasable=true,
+	icon_on_name="body_scanner_on", icon_off_name="body_scanner_off",
+	max_range=100000000, target_altitude=0, state="HALTED", progress=0,
+	bodyscanner_stats={scan_speed=6, scan_tolerance=0.025}
+})
+
 local hyperspace = {}
 hyperspace.hyperdrive_1 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS1", fuel=cargo.hydrogen, slots="engine",
@@ -733,6 +888,8 @@ local equipment = {
 	LaserType=LaserType,
 	HyperdriveType=HyperdriveType,
 	EquipType=EquipType,
+	SensorType=SensorType,
+	BodyScannerType=BodyScannerType
 }
 
 local serialize = function()
@@ -760,5 +917,7 @@ Serializer:Register("Equipment", serialize, unserialize)
 Serializer:RegisterClass("LaserType", LaserType)
 Serializer:RegisterClass("EquipType", EquipType)
 Serializer:RegisterClass("HyperdriveType", HyperdriveType)
+Serializer:RegisterClass("SensorType", SensorType)
+Serializer:RegisterClass("BodyScannerType", BodyScannerType)
 
 return equipment

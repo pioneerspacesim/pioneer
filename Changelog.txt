@@ -3,6 +3,7 @@ July 2015
      * Add first initial support for Arab fonts (#3416)
      * New (smaller) space station added (#3414)
      * Allow custom stations to have realistic orbit heights (#3410)
+     * New SensorType API and BodyScanner equipment (#3287, #3396)
 
    * Fixes
      * Proposed fix for the MINGW32 issue #3409 (#3418)

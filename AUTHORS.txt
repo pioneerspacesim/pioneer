@@ -20,6 +20,7 @@ The Pioneer Developers are:
 * Blaga Cosmin
 * Brian Ronald
 * C de Craen
+* cccpxx78
 * Chip Richards
 * Chris Collins
 * Chris Dennett
