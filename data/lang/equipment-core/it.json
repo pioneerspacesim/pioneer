@@ -177,15 +177,15 @@
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Portata massima dell'analizzatore superata:"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Analizzatore Ogg. Celesti"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Analizza l'oggetto più vicino cercando risorse."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Analisi completata"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Riprendo analisi"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Inizio analisi, distanza dal bersaglio"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
