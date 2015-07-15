@@ -20,7 +20,7 @@ enum RunMode {
 	MODE_USAGE_ERROR
 };
 
-#ifdef __APPLE__
+#ifdef _XCODE
 // SDL_main is not defined on OSX, need to look into this more to confirm
 int SDL_main(int argc, char** argv)
 #else
