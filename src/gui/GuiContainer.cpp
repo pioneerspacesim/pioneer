@@ -198,10 +198,18 @@ void Container::Draw()
 		Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), m_bgcol, Screen::alphaBlendState);
 	}
 
+	typedef std::vector<widget_pos> WidgetVec;
+	WidgetVec visibleVec;
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
-		if (!(*i).w->IsVisible()) continue;
+		PROFILE_SCOPED_RAW("Container::Draw - Visibility Determination Loop")
+		if (!(*i).w->IsVisible())
+			continue;
+		// we can see it, palce it in the draw queue
+		visibleVec.push_back(*i);
+	}
 
-		PROFILE_SCOPED_RAW("Container::Draw - Child Loop")
+	for (WidgetVec::iterator i = visibleVec.begin(), itEnd = visibleVec.end(); i != itEnd; ++i) {
+		PROFILE_SCOPED_RAW("Container::Draw - Draw Loop")
 
 		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 		r->Translate((*i).pos[0], (*i).pos[1], 0);
