@@ -24,6 +24,8 @@ namespace Gui {
 		Gui::Label *m_label;
 		::Color m_barColor;
 		float m_barValue;
+		std::unique_ptr<Graphics::Drawables::RoundEdgedRect> m_outer;
+		std::unique_ptr<Graphics::Drawables::RoundEdgedRect> m_inner;
 	};
 }
 

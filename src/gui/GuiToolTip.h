@@ -24,6 +24,7 @@ namespace Gui {
 		TextLayout *m_layout;
 		Uint32 m_createdTime;
 		Graphics::Drawables::Lines m_outlines;
+		std::unique_ptr<Graphics::Drawables::Rect> m_background;
 	};
 }
 

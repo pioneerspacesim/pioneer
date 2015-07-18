@@ -133,51 +133,6 @@ namespace Theme {
 	}
 	static const float BORDER_WIDTH = 2.0;
 
-	void DrawRect(const vector2f &pos, const vector2f &size, const Color &c, Graphics::RenderState *state)
-	{
-		Graphics::VertexArray bgArr(Graphics::ATTRIB_POSITION, 4);
-		bgArr.Add(vector3f(pos.x,size.y,0));
-		bgArr.Add(vector3f(size.x,size.y,0));
-		bgArr.Add(vector3f(size.x,pos.y,0));
-		bgArr.Add(vector3f(pos.x,pos.y,0));
-		Screen::flatColorMaterial->diffuse = c;
-		Screen::GetRenderer()->DrawTriangles(&bgArr, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
-	}
-
-	void DrawRoundEdgedRect(const float size[2], float rad, const Color &color, Graphics::RenderState *state)
-	{
-		static Graphics::VertexArray vts(Graphics::ATTRIB_POSITION);
-		vts.Clear();
-
-		const int STEPS = 6;
-		if (rad > 0.5f*std::min(size[0], size[1])) rad = 0.5f*std::min(size[0], size[1]);
-			// top left
-			// bottom left
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f(rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
-			}
-			// bottom right
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*0.5 + M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f(size[0] - rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
-			}
-			// top right
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI + M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang), 0.f));
-			}
-
-			// top right
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f(rad - rad*cos(ang), rad + rad*sin(ang), 0.f));
-			}
-
-		Screen::flatColorMaterial->diffuse = color;
-		Screen::GetRenderer()->DrawTriangles(&vts, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
-	}
-
 	struct TPos {
 		vector3f pos;
 	};

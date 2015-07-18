@@ -65,7 +65,11 @@ void ToolTip::Draw()
 
 	GetSize(size);
 	const Color color(Color4f(0.2f, 0.2f, 0.6f, alpha));
-	Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), color, Screen::alphaBlendState);
+	if(!m_background) {
+		m_background.reset( new Graphics::Drawables::Rect(r, vector2f(0.f), vector2f(size[0], size[1]), color, Screen::alphaBlendState, false));
+	}
+	m_background->Update(vector2f(0.f), vector2f(size[0], size[1]), color);
+	m_background->Draw(r);
 
 	const vector3f outlineVts[] = {
 		vector3f(size[0], 0, 0),
