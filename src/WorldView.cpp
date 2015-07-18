@@ -37,6 +37,7 @@
 #include "LuaObject.h"
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
 #include <SDL_stdinc.h>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
@@ -256,12 +257,14 @@ void WorldView::InitObject()
 	m_navVelIndicator.label = (new Gui::Label(""))->Color(0, 255, 0);
 	m_combatTargetIndicator.label = new Gui::Label(""); // colour set dynamically
 	m_targetLeadIndicator.label = new Gui::Label("");
+	m_burnIndicator.label = (new Gui::Label(""))->Color(0, 153, 255);
 
 	// these labels are repositioned during Draw3D()
 	Add(m_navTargetIndicator.label, 0, 0);
 	Add(m_navVelIndicator.label, 0, 0);
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
+	Add(m_burnIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
 	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
@@ -1575,7 +1578,16 @@ void WorldView::UpdateProjectedObjects()
 		if(camSpaceBurnVel.ExactlyEqual(vector3d(0,0,0))) {
 			HideIndicator(m_burnIndicator);
 		} else {
-			UpdateIndicator(m_burnIndicator, camSpaceBurnVel);
+			const vector3d velSpeed = Pi::planner->GetVel() * cam_rot;
+			double relativeSpeed = (velSpeed - camSpaceVel).Length();
+			std::stringstream ddV;
+			ddV << std::setprecision(2) << std::fixed;
+			if(relativeSpeed > 1000)
+				ddV << relativeSpeed / 1000. << " km/s";
+			else
+				ddV << relativeSpeed << " m/s";
+			m_burnIndicator.label->SetText(ddV.str());
+			UpdateIndicator(m_burnIndicator, velSpeed);
 		}
 
 	} else {

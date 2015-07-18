@@ -28,26 +28,36 @@ static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user set
 // i don't know how to name it
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
-TransferPlanner::TransferPlanner() {
+TransferPlanner::TransferPlanner() :
+	m_position(0., 0., 0.), m_initialVelocity(0., 0., 0.)
+{
 	m_dvPrograde = 0.0;
 	m_dvNormal = 0.0;
 	m_dvRadial = 0.0;
 	m_factor = 1;
 }
 
-vector3d TransferPlanner::GetVel() { return Pi::player->GetVelocity() + GetOffsetVel(); }
+vector3d TransferPlanner::GetVel() const { return m_initialVelocity + GetOffsetVel(); }
 
-vector3d TransferPlanner::GetOffsetVel() {
-	const vector3d pPos    = Pi::player->GetPosition();
-	const vector3d pVel    = Pi::player->GetVelocity();
-	const vector3d pNormal = pPos.Cross(pVel);
+vector3d TransferPlanner::GetOffsetVel() const {
+	if(m_position.ExactlyEqual(vector3d(0., 0., 0.)))
+		return vector3d(0., 0., 0.);
 
-	return m_dvPrograde * pVel.Normalized()    +
-	       m_dvNormal   * pNormal.Normalized() +
-	       m_dvRadial   * pPos.Normalized();
+	const vector3d pNormal = m_position.Cross(m_initialVelocity);
+
+	return m_dvPrograde * m_initialVelocity.Normalized() +
+		   m_dvNormal   * pNormal.Normalized() +
+		   m_dvRadial   * m_position.Normalized();
 }
 
 void TransferPlanner::AddDv(BurnDirection d, double dv) {
+	if(m_position.ExactlyEqual(vector3d(0., 0., 0.)) or
+	   GetOffsetVel().ExactlyEqual(vector3d(0., 0., 0.)))
+	{
+		m_initialVelocity = Pi::player->GetVelocity();
+		m_position = Pi::player->GetPosition();
+	}
+
 	switch (d) {
 	case PROGRADE: m_dvPrograde += m_factor * dv; break;
 	case NORMAL:   m_dvNormal   += m_factor * dv; break;
@@ -92,6 +102,14 @@ std::string TransferPlanner::printFactor(void) {
 	char buf[10];
 	snprintf(buf, sizeof(buf), "%6gx", 10 * m_factor);
 	return std::string(buf);
+}
+
+vector3d TransferPlanner::GetPosition() const { return m_position; }
+
+void TransferPlanner::SetPosition(const vector3d& position) { m_position = position; }
+
+void TransferPlanner::SetInitialVelocity(const vector3d& velocity) {
+	m_initialVelocity = velocity;
 }
 
 SystemView::SystemView(Game* game) : UIView(), m_game(game)
@@ -497,10 +515,11 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
 
 		if(!m_planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
-			Orbit plannedOrbit = Orbit::FromBodyState(Pi::player->GetPosition(),
+			Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 								  m_planner->GetVel(),
 								  frame->GetSystemBody()->GetMass());
 			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
+			PutSelectionBox(offset + m_planner->GetPosition()* double(m_zoom), Color::BLUE);
 		}
 
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);

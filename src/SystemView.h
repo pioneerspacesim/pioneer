@@ -30,8 +30,11 @@ enum ShipDrawing {
 class TransferPlanner {
 public:
 	TransferPlanner();
-	vector3d GetVel();
-	vector3d GetOffsetVel();
+	vector3d GetVel() const;
+	vector3d GetOffsetVel() const;
+	vector3d GetPosition() const;
+	void SetPosition(const vector3d& position);
+	void SetInitialVelocity(const vector3d& velocity);
 	void IncreaseFactor(), ResetFactor(), DecreaseFactor();
 	void AddDv(BurnDirection d, double dv);
 	void ResetDv(BurnDirection d);
@@ -43,6 +46,8 @@ private:
 	double m_dvRadial;
 	double m_factor;       // dv multiplier
 	const double m_factorFactor = 5.0; // m_factor multiplier
+	vector3d m_position;
+	vector3d m_initialVelocity;
 };
 
 class SystemView: public UIView {
