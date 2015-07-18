@@ -1,27 +1,27 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Excellent. I'll load the goods on to your ship."
+      "message" : "Uitstekend. Ik zal de goederen inladen in uw schip."
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Very good."
+      "message" : "Zeer goed"
    },
    "ACCEPTED_3" : {
       "description" : "",
-      "message" : "Ok, good. I hope I can trust you."
+      "message" : "Ok, goed. Ik hoop dat u te vertrouwen bent."
    },
    "ACCEPTED_4" : {
       "description" : "",
-      "message" : "It's a deal!"
+      "message" : "Akkoord!"
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, I will make sure that the goods are ready for collection."
+      "message" : "Ok, ik zal zorgen dat de goederen opgepikt kunnen worden."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "It's a deal! I will let my colleagues know that you are on your way."
+      "message" : "Akkoord! I laat mijn collega's weten dat u onderweg bent."
    },
    "ADTEXT_1" : {
       "description" : "",
