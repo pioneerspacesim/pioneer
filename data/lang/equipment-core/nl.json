@@ -177,15 +177,15 @@
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Max scanbereik overschreden:"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Hemellichaamscan"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Scan dichtstbijzijnde hemellichaam op grondstoffen"
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Scan voltooid"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Scannen hervat"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Scan starten. Afstand tot doel is"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
