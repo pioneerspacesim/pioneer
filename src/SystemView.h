@@ -35,7 +35,6 @@ public:
 	vector3d GetPosition() const;
 	double GetStartTime() const;
 	void SetPosition(const vector3d& position);
-	void SetInitialVelocity(const vector3d& velocity);
 	void IncreaseFactor(), ResetFactor(), DecreaseFactor();
 	void AddStartTime(double deltaT);
 	void ResetStartTime();
@@ -51,7 +50,7 @@ private:
 	double m_factor;       // dv multiplier
 	const double m_factorFactor = 5.0; // m_factor multiplier
 	vector3d m_position;
-	vector3d m_initialVelocity;
+	vector3d m_velocity;
 	double m_startTime;
 };
 
