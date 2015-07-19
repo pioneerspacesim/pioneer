@@ -85,7 +85,7 @@
    },
    "CLUS" : {
       "description" : "custom cargo",
-      "message" : "Container con unidades vivas."
+      "message" : "Contenedor con seres vivos."
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "DELIVER_TO" : {
       "description" : "Deliver to this location",
-      "message" : "Envío a:"
+      "message" : "Entregar a:"
    },
    "DENY_1" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "DIGESTERS" : {
       "description" : "custom cargo",
-      "message" : "Digestivos"
+      "message" : "Digestores"
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
@@ -141,7 +141,7 @@
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
-      "message" : "Aplicadores eléctricos"
+      "message" : "Apliques eléctricos"
    },
    "ESCORT_CHATTER_1" : {
       "description" : "",
@@ -157,11 +157,11 @@
    },
    "ESCORT_CHATTER_4" : {
       "description" : "",
-      "message" : "Continue a su destino. Le cubriré."
+      "message" : "Continue hacia su destino. Le cubriré."
    },
    "ESCORT_CHATTER_5" : {
       "description" : "",
-      "message" : "Tally ho. Hoy esta va a ser my primera captura."
+      "message" : "¡Al ataquer! Esta va a ser mi primera captura hoy."
    },
    "EXPLOSIVES" : {
       "description" : "custom cargo",
@@ -193,7 +193,7 @@
    },
    "GREENHOUSES" : {
       "description" : "custom cargo",
-      "message" : "Casas verdes"
+      "message" : "Invernaderos"
    },
    "GUNS_GUNS_GUNS" : {
       "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -209,27 +209,27 @@
    },
    "HOWMUCH_2" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "{amount}t"
+      "message" : "{amount} T"
    },
    "HOWMUCH_3" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "La masa es {amount}t."
+      "message" : "La masa es {amount} T."
    },
    "HOWMUCH_4" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "Hay {amount}t."
+      "message" : "Hay {amount} T."
    },
    "HOWMUCH_SINGULAR_1" : {
       "description" : "This string is only used for 1 metric tons (singular)",
-      "message" : "Solo son {amount}t."
+      "message" : "Solo son {amount} T."
    },
    "HOWMUCH_WHOLESALER_1" : {
       "description" : "",
-      "message" : "Hay {amount}t de {cargoname}."
+      "message" : "Hay {amount} T de {cargoname}."
    },
    "HOWMUCH_WHOLESALER_2" : {
       "description" : "",
-      "message" : "{amount}t de {cargoname}"
+      "message" : "{amount} T de {cargoname}"
    },
    "HOW_MUCH_MASS" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
       "description" : "",
-      "message" : "Le he descontado las mercancías perdidas."
+      "message" : "Le he descontado las mercancías perdidas de su cuenta."
    },
    "I_NEED_HELP" : {
       "description" : "",
@@ -321,7 +321,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "AL"
    },
    "MACHINE_TOOLS" : {
       "description" : "custom cargo",
@@ -337,7 +337,7 @@
    },
    "PICKUP_FROM" : {
       "description" : "from a location",
-      "message" : "Recogida de carga desde:"
+      "message" : "Recoger carga desde:"
    },
    "PIRATE_GRIPES_1" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "PIRATE_GRIPES_3" : {
       "description" : "said with vengeance",
-      "message" : "Espera, te lo mostraré."
+      "message" : "Espera, yo te enseñaré."
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -361,11 +361,11 @@
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Eh, tío, las manos sobre las mercancías. ¡Ya!"
+      "message" : "Eh, colega, pasa la mercancía. ¡Ya!"
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "Nunca vas a llegar a tu destino."
+      "message" : "Amigo, nunca vas a llegar a tu destino."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "QUIBBLES" : {
       "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Quibbles"
+      "message" : "Nimiedades"
    },
    "RISK_1" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
-      "message" : "Productos incompletos"
+      "message" : "Artículos semi-acabados"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "SPACESHIP_PARTS" : {
       "description" : "custom cargo",
-      "message" : "Partes de naves espaciales"
+      "message" : "Repuestos de naves espaciales"
    },
    "SUCCESSMSG_1" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "URGENCY_1" : {
       "description" : "",
-      "message" : "No hay prisa. se debe recibir el {date}."
+      "message" : "No hay prisa. Se debe recibir el {date}."
    },
    "URGENCY_2" : {
       "description" : "",
@@ -513,11 +513,11 @@
    },
    "URGENCY_FLUFFY_1" : {
       "description" : "",
-      "message" : "Debido a la tasa de reproducción de los animalitos y la poca comida del container, el envío se debe completar antes del {date}."
+      "message" : "Debido a la tasa de reproducción de los animalitos y la poca comida del contenedor, el envío se debe completar antes del {date}."
    },
    "URGENCY_RADIOACTIVE_1" : {
       "description" : "",
-      "message" : "Debido al periodo de vida de este isótopo, el envío debe completarse el {date}."
+      "message" : "Debido al periodo medio de vida de este isótopo, el envío debe completarse el {date}."
    },
    "WEDDING_DRESSES" : {
       "description" : "custom cargo",
@@ -529,11 +529,11 @@
    },
    "WHAT_IS_THIS" : {
       "description" : "",
-      "message" : "¿Qué es esto? ¿ha lanzado mi carga al espacio? ¿Pero está loco?"
+      "message" : "¿Qué es esto? ¿Ha lanzado mi carga al espacio? ¿Pero está usted loco?"
    },
    "WHYSOMUCH_1" : {
       "description" : "",
-      "message" : "Es la cuota estándar."
+      "message" : "Esta es la minuta estándar."
    },
    "WHYSOMUCH_2" : {
       "description" : "",
@@ -549,11 +549,11 @@
    },
    "WHYSOMUCH_5" : {
       "description" : "",
-      "message" : "Tómelo como un bonus por su discrección con el envío."
+      "message" : "Tómelo como una bonificación por su discrección acerca del envío."
    },
    "WHYSOMUCH_6" : {
       "description" : "",
-      "message" : "Bien, nos haría felices pagarle menos."
+      "message" : "Bien, estaríamos contentos de pagarle menos."
    },
    "WHYSOMUCH_CENTRIFUGES_1" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "WHYSOMUCH_URGENT_2" : {
       "description" : "",
-      "message" : "Si no lo enviamos en la fecha, el proyecto se va a parar indefinidamente."
+      "message" : "Si no lo enviamos en la fecha prevista, el proyecto se va a parar indefinidamente."
    },
    "WHYSOMUCH_URGENT_3" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "No hay suficiente espacio en su nave."
+      "message" : "No hay suficiente espacio de carga en su nave."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
       "description" : "",
