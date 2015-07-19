@@ -1570,16 +1570,16 @@ void WorldView::UpdateProjectedObjects()
 
 	// velocity relative to current frame (white)
 	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
-	const vector3d camSpaceBurnVel = Pi::planner->GetOffsetVel() * cam_rot;
 	if (camSpaceVel.LengthSqr() >= 1e-4) {
 		UpdateIndicator(m_velIndicator, camSpaceVel);
 		UpdateIndicator(m_retroVelIndicator, -camSpaceVel);
 
-		if(camSpaceBurnVel.ExactlyEqual(vector3d(0,0,0))) {
+		if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
 			HideIndicator(m_burnIndicator);
 		} else {
-			const vector3d velSpeed = Pi::planner->GetVel() * cam_rot;
-			double relativeSpeed = (velSpeed - camSpaceVel).Length();
+			const vector3d camSpacePlanSpeed = Pi::planner->GetVel() * cam_rot;
+			double relativeSpeed = (camSpacePlanSpeed - camSpaceVel).Length();
+
 			std::stringstream ddV;
 			ddV << std::setprecision(2) << std::fixed;
 			if(relativeSpeed > 1000)
@@ -1587,7 +1587,7 @@ void WorldView::UpdateProjectedObjects()
 			else
 				ddV << relativeSpeed << " m/s";
 			m_burnIndicator.label->SetText(ddV.str());
-			UpdateIndicator(m_burnIndicator, velSpeed);
+			UpdateIndicator(m_burnIndicator, camSpacePlanSpeed);
 		}
 
 	} else {
