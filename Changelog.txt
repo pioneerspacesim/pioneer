@@ -7,6 +7,7 @@ July 2015
 
    * Fixes
      * Proposed fix for the MINGW32 issue #3409 (#3418)
+     * Fixed color of labels starting with empty strings (#3425)
 
    * Internal Changes
      * Numerous optimisations (#3419)
