@@ -31,7 +31,7 @@ static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user set
 static const double ROUGH_SIZE_OF_TURD = 10.0;
 
 TransferPlanner::TransferPlanner() :
-	m_position(0., 0., 0.), m_initialVelocity(0., 0., 0.)
+	m_position(0., 0., 0.), m_velocity(0., 0., 0.)
 {
 	m_dvPrograde = 0.0;
 	m_dvNormal = 0.0;
@@ -40,15 +40,15 @@ TransferPlanner::TransferPlanner() :
 	m_factor = 1;
 }
 
-vector3d TransferPlanner::GetVel() const { return m_initialVelocity + GetOffsetVel(); }
+vector3d TransferPlanner::GetVel() const { return m_velocity + GetOffsetVel(); }
 
 vector3d TransferPlanner::GetOffsetVel() const {
 	if(m_position.ExactlyEqual(vector3d(0., 0., 0.)))
 		return vector3d(0., 0., 0.);
 
-	const vector3d pNormal = m_position.Cross(m_initialVelocity);
+	const vector3d pNormal = m_position.Cross(m_velocity);
 
-	return m_dvPrograde * m_initialVelocity.Normalized() +
+	return m_dvPrograde * m_velocity.Normalized() +
 		   m_dvNormal   * pNormal.Normalized() +
 		   m_dvRadial   * m_position.Normalized();
 }
@@ -57,9 +57,9 @@ void TransferPlanner::AddStartTime(double deltaT) {
 	m_startTime += m_factor * deltaT;
 	Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
 	Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
-	if(m_position.ExactlyEqual(vector3d(0., 0., 0.)))
-		m_initialVelocity = Pi::player->GetVelocityRelTo(frame);
+
 	m_position = playerOrbit.OrbitalPosAtTime(m_startTime);
+	m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), m_startTime);
 }
 
 void TransferPlanner::ResetStartTime() {
@@ -67,13 +67,13 @@ void TransferPlanner::ResetStartTime() {
 	if(GetOffsetVel().ExactlyEqual(vector3d(0., 0. , 0.)))
 	{
 		m_position = vector3d(0., 0., 0.);
-		m_initialVelocity = vector3d(0. , 0., 0.);
+		m_velocity = vector3d(0. , 0., 0.);
 	}
 	else
 	{
 		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
-		m_initialVelocity = Pi::player->GetVelocityRelTo(frame);
+		m_velocity = Pi::player->GetVelocityRelTo(frame);
 	}
 }
 
@@ -104,7 +104,7 @@ void TransferPlanner::AddDv(BurnDirection d, double dv) {
 	{
 		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
-		m_initialVelocity = Pi::player->GetVelocityRelTo(frame);
+		m_velocity = Pi::player->GetVelocityRelTo(frame);
 		m_startTime = 0;
 	}
 
@@ -126,7 +126,7 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 	   GetOffsetVel().ExactlyEqual(vector3d(0., 0., 0.)))
 	{
 		m_position = vector3d(0., 0., 0.);
-		m_initialVelocity = vector3d(0., 0., 0.);
+		m_velocity = vector3d(0., 0., 0.);
 	}
 }
 
@@ -164,10 +164,6 @@ std::string TransferPlanner::printFactor(void) {
 vector3d TransferPlanner::GetPosition() const { return m_position; }
 
 void TransferPlanner::SetPosition(const vector3d& position) { m_position = position; }
-
-void TransferPlanner::SetInitialVelocity(const vector3d& velocity) {
-	m_initialVelocity = velocity;
-}
 
 SystemView::SystemView(Game* game) : UIView(), m_game(game)
 {
