@@ -170,7 +170,7 @@ void TextLayout::Update(const float width, const Color &color)
 					if (m_colourMarkup == ColourMarkupUse)
 					{
 						Color newColor = m_font->PopulateMarkup(va, word, round(px), round(py), c);
-						if(not word.empty())
+						if(!word.empty())
 							c = std::move(newColor);
 					}
 					else
