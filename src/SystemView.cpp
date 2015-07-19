@@ -16,6 +16,8 @@
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
+#include <sstream>
+#include <iomanip>
 
 using namespace Graphics;
 
@@ -34,6 +36,7 @@ TransferPlanner::TransferPlanner() :
 	m_dvPrograde = 0.0;
 	m_dvNormal = 0.0;
 	m_dvRadial = 0.0;
+	m_startTime = 0.0;
 	m_factor = 1;
 }
 
@@ -50,12 +53,59 @@ vector3d TransferPlanner::GetOffsetVel() const {
 		   m_dvRadial   * m_position.Normalized();
 }
 
-void TransferPlanner::AddDv(BurnDirection d, double dv) {
-	if(m_position.ExactlyEqual(vector3d(0., 0., 0.)) or
-	   GetOffsetVel().ExactlyEqual(vector3d(0., 0., 0.)))
+void TransferPlanner::AddStartTime(double deltaT) {
+	m_startTime += m_factor * deltaT;
+	Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+	Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
+	if(m_position.ExactlyEqual(vector3d(0., 0., 0.)))
+		m_initialVelocity = Pi::player->GetVelocityRelTo(frame);
+	m_position = playerOrbit.OrbitalPosAtTime(m_startTime);
+}
+
+void TransferPlanner::ResetStartTime() {
+	m_startTime = 0;
+	if(GetOffsetVel().ExactlyEqual(vector3d(0., 0. , 0.)))
 	{
-		m_initialVelocity = Pi::player->GetVelocity();
-		m_position = Pi::player->GetPosition();
+		m_position = vector3d(0., 0., 0.);
+		m_initialVelocity = vector3d(0. , 0., 0.);
+	}
+	else
+	{
+		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		m_position = Pi::player->GetPositionRelTo(frame);
+		m_initialVelocity = Pi::player->GetVelocityRelTo(frame);
+	}
+}
+
+double TransferPlanner::GetStartTime() const {
+	return m_startTime;
+}
+
+std::string TransferPlanner::printStartTime() {
+	std::stringstream out;
+	out << std::setprecision(2) << std::fixed
+		<< std::setw(6) << std::right;
+	if(m_startTime < 60)
+		out << m_startTime << "s";
+	else if(m_startTime < 3600)
+		out << m_startTime / 60. << "m";
+	else if(m_startTime < 86400)
+		out << m_startTime / 3600. << "h";
+	else if(m_startTime < 31536000)
+		out << m_startTime / 86400. << "d";
+	else
+		out << m_startTime / 31536000. << "y";
+
+	return out.str();
+}
+
+void TransferPlanner::AddDv(BurnDirection d, double dv) {
+	if(m_position.ExactlyEqual(vector3d(0., 0., 0.)))
+	{
+		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		m_position = Pi::player->GetPositionRelTo(frame);
+		m_initialVelocity = Pi::player->GetVelocityRelTo(frame);
+		m_startTime = 0;
 	}
 
 	switch (d) {
@@ -70,6 +120,13 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 	case PROGRADE: m_dvPrograde = 0; break;
 	case NORMAL:   m_dvNormal   = 0; break;
 	case RADIAL:   m_dvRadial   = 0; break;
+	}
+
+	if(std::fabs(m_startTime) < 1. and
+	   GetOffsetVel().ExactlyEqual(vector3d(0., 0., 0.)))
+	{
+		m_position = vector3d(0., 0., 0.);
+		m_initialVelocity = vector3d(0., 0., 0.);
 	}
 }
 
@@ -176,53 +233,69 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_plannerFactorText = (new Gui::Label(""))->Color(178, 178, 178);
 	Add(m_plannerFactorText, dx + 60 + 7, dy);
 
+	m_plannerIncreaseStartTimeButton = new Gui::ImageButton("icons/orbit_increase_big.png");
+	m_plannerIncreaseStartTimeButton->SetRenderDimensions(18, 18);
+	Add(m_plannerIncreaseStartTimeButton, dx + 40, dy + 20);
+
+	m_plannerResetStartTimeButton = new Gui::ImageButton("icons/orbit_start_big.png");
+	m_plannerResetStartTimeButton->SetRenderDimensions(18, 18);
+	m_plannerResetStartTimeButton->SetToolTip(Lang::PLANNER_RESET_START);
+	Add(m_plannerResetStartTimeButton, dx + 20, dy + 20);
+
+	m_plannerDecreaseStartTimeButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
+	m_plannerDecreaseStartTimeButton->SetRenderDimensions(18, 18);
+	Add(m_plannerDecreaseStartTimeButton, dx, dy + 20);
+
+	m_plannerStartTimeText = (new Gui::Label(""))->Color(178, 178, 178);
+	Add(m_plannerStartTimeText, dx + 60, dy + 20);
+
 	m_plannerAddProgradeVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
 	m_plannerAddProgradeVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddProgradeVelButton, dx + 40, dy + 20);
+	Add(m_plannerAddProgradeVelButton, dx + 40, dy + 40);
 
 	m_plannerZeroProgradeVelButton = new Gui::ImageButton("icons/orbit_proretro_big.png");
 	m_plannerZeroProgradeVelButton->SetRenderDimensions(18, 18);
 	m_plannerZeroProgradeVelButton->SetToolTip(Lang::PLANNER_RESET_PROGRADE);
-	Add(m_plannerZeroProgradeVelButton, dx + 20, dy + 20);
+	Add(m_plannerZeroProgradeVelButton, dx + 20, dy + 40);
 
 	m_plannerAddRetrogradeVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
 	m_plannerAddRetrogradeVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddRetrogradeVelButton, dx, dy + 20);
+	Add(m_plannerAddRetrogradeVelButton, dx, dy + 40);
 
 	m_plannerProgradeDvText = (new Gui::Label(""))->Color(178, 178, 178);
-	Add(m_plannerProgradeDvText, dx + 60, dy + 20);
+	Add(m_plannerProgradeDvText, dx + 60, dy + 40);
 
 	m_plannerAddNormalVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
 	m_plannerAddNormalVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddNormalVelButton, dx + 40, dy + 40);
+	Add(m_plannerAddNormalVelButton, dx + 40, dy + 60);
 
 	m_plannerZeroNormalVelButton = new Gui::ImageButton("icons/orbit_normal_big.png");
 	m_plannerZeroNormalVelButton->SetRenderDimensions(18, 18);
 	m_plannerZeroNormalVelButton->SetToolTip(Lang::PLANNER_RESET_NORMAL);
-	Add(m_plannerZeroNormalVelButton, dx + 20, dy + 40);
+	Add(m_plannerZeroNormalVelButton, dx + 20, dy + 60);
 
 	m_plannerAddAntiNormalVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
 	m_plannerAddAntiNormalVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddAntiNormalVelButton, dx, dy + 40);
+	Add(m_plannerAddAntiNormalVelButton, dx, dy + 60);
 
 	m_plannerNormalDvText = (new Gui::Label(""))->Color(178, 178, 178);
-	Add(m_plannerNormalDvText, dx + 60, dy + 40);
+	Add(m_plannerNormalDvText, dx + 60, dy + 60);
 
 	m_plannerAddRadiallyInVelButton = new Gui::ImageButton("icons/orbit_increase_big.png");
 	m_plannerAddRadiallyInVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddRadiallyInVelButton, dx + 40, dy + 60);
+	Add(m_plannerAddRadiallyInVelButton, dx + 40, dy + 80);
 
 	m_plannerZeroRadialVelButton = new Gui::ImageButton("icons/orbit_radial_big.png");
 	m_plannerZeroRadialVelButton->SetRenderDimensions(18, 18);
 	m_plannerZeroRadialVelButton->SetToolTip(Lang::PLANNER_RESET_RADIAL);
-	Add(m_plannerZeroRadialVelButton, dx + 20, dy + 60);
+	Add(m_plannerZeroRadialVelButton, dx + 20, dy + 80);
 
 	m_plannerAddRadiallyOutVelButton = new Gui::ImageButton("icons/orbit_reduce_big.png");
 	m_plannerAddRadiallyOutVelButton->SetRenderDimensions(18, 18);
-	Add(m_plannerAddRadiallyOutVelButton, dx, dy + 60);
+	Add(m_plannerAddRadiallyOutVelButton, dx, dy + 80);
 
 	m_plannerRadialDvText = (new Gui::Label(""))->Color(178, 178, 178);
-	Add(m_plannerRadialDvText, dx + 60, dy + 60);
+	Add(m_plannerRadialDvText, dx + 60, dy + 80);
 
 	const int time_controls_left = Gui::Screen::GetWidth() - 150;
 	const int time_controls_top = Gui::Screen::GetHeight() - 86;
@@ -514,12 +587,12 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
 
-		if(!m_planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
+		if(!m_planner->GetPosition().ExactlyEqual(vector3d(0,0,0))) {
 			Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 								  m_planner->GetVel(),
 								  frame->GetSystemBody()->GetMass());
 			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
-			PutSelectionBox(offset + m_planner->GetPosition()* double(m_zoom), Color::BLUE);
+			PutSelectionBox(offset + m_planner->GetPosition()* double(m_zoom), Color::STEELBLUE);
 		}
 
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
@@ -671,17 +744,21 @@ void SystemView::Update()
 				m_zoomTo *= pow(ZOOM_OUT_SPEED / Pi::GetMoveSpeedShiftModifier(), ft);
 
 		// transfer planner buttons
+		if (m_plannerIncreaseStartTimeButton->IsPressed()) { m_planner->AddStartTime( 10.); }
+		if (m_plannerDecreaseStartTimeButton->IsPressed()) { m_planner->AddStartTime(-10.); }
 		if (m_plannerAddProgradeVelButton->IsPressed())    { m_planner->AddDv(PROGRADE,  10.0); }
 		if (m_plannerAddRetrogradeVelButton->IsPressed())  { m_planner->AddDv(PROGRADE, -10.0); }
 		if (m_plannerAddNormalVelButton->IsPressed())      { m_planner->AddDv(NORMAL,    10.0); }
 		if (m_plannerAddAntiNormalVelButton->IsPressed())  { m_planner->AddDv(NORMAL,   -10.0); }
 		if (m_plannerAddRadiallyInVelButton->IsPressed())  { m_planner->AddDv(RADIAL,    10.0); }
 		if (m_plannerAddRadiallyOutVelButton->IsPressed()) { m_planner->AddDv(RADIAL,   -10.0); }
+		if (m_plannerResetStartTimeButton->IsPressed())	   { m_planner->ResetStartTime();  }
 		if (m_plannerZeroProgradeVelButton->IsPressed())   { m_planner->ResetDv(PROGRADE); }
 		if (m_plannerZeroNormalVelButton->IsPressed())     { m_planner->ResetDv(NORMAL);   }
 		if (m_plannerZeroRadialVelButton->IsPressed())     { m_planner->ResetDv(RADIAL);   }
 
 		m_plannerFactorText->SetText(m_planner->printFactor());
+		m_plannerStartTimeText->SetText(m_planner->printStartTime());
 		m_plannerProgradeDvText->SetText(m_planner->printDv(PROGRADE));
 		m_plannerNormalDvText->SetText(m_planner->printDv(NORMAL));
 		m_plannerRadialDvText->SetText(m_planner->printDv(RADIAL));
