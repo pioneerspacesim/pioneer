@@ -177,7 +177,7 @@
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Превышена дальность сканирования:"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
@@ -233,11 +233,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Сканирование завершено"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Сканирование возобновлено"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Начинаю сканирование, расстояние до цели"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

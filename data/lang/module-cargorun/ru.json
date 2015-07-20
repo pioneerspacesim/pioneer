@@ -49,7 +49,7 @@
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
+      "message" : "ЗАБОР ГРУЗА. Необходимо забрать груз из {system} системы."
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "ESCORT_CHATTER_1" : {
       "description" : "",
-      "message" : "Hostile craft detected. Let us attack it together."
+      "message" : "Замечен вражеский корабль. Атакуем его вместе."
    },
    "ESCORT_CHATTER_2" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "FAILUREMSG_FLUFFY_1" : {
       "description" : "",
-      "message" : "You monster! You've waited too long for this delivery. All my fluffy pets are starved!"
+      "message" : "Ты чудовище! Ты слишком долго тянул с доставкой. Все мои пушистики изголодались!"
    },
    "FURNITURE" : {
       "description" : "custom cargo",
@@ -589,7 +589,7 @@
    },
    "WHYSOMUCH_URGENT_2" : {
       "description" : "",
-      "message" : "If we do not meet the delivery date, the project will come to a standstill."
+      "message" : "Если мы не успеем доставить грузы вовремя, проект начнет простаивать."
    },
    "WHYSOMUCH_URGENT_3" : {
       "description" : "",
