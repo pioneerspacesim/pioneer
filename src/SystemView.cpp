@@ -53,13 +53,26 @@ vector3d TransferPlanner::GetOffsetVel() const {
 		   m_dvRadial   * m_position.Normalized();
 }
 
-void TransferPlanner::AddStartTime(double deltaT) {
-	m_startTime += m_factor * deltaT;
-	Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
-	Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
+void TransferPlanner::AddStartTime(double timeStep) {
+	if(std::fabs(m_startTime) < 1.)
+	   m_startTime = Pi::game->GetTime(); 
 
-	m_position = playerOrbit.OrbitalPosAtTime(m_startTime);
-	m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), m_startTime);
+	m_startTime += m_factor * timeStep;
+	double deltaT = m_startTime - Pi::game->GetTime();
+	if(deltaT > 0.)
+	{
+		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
+
+		m_position = playerOrbit.OrbitalPosAtTime(deltaT);
+		m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), deltaT);
+	}
+	else
+	{
+		m_startTime = 0.;
+		m_position = vector3d(0., 0., 0.);
+		m_velocity = vector3d(0., 0., 0.);
+	}
 }
 
 void TransferPlanner::ResetStartTime() {
@@ -82,21 +95,10 @@ double TransferPlanner::GetStartTime() const {
 }
 
 std::string TransferPlanner::printStartTime() {
-	std::stringstream out;
-	out << std::setprecision(2) << std::fixed
-		<< std::setw(6) << std::right;
-	if(m_startTime < 60)
-		out << m_startTime << "s";
-	else if(m_startTime < 3600)
-		out << m_startTime / 60. << "m";
-	else if(m_startTime < 86400)
-		out << m_startTime / 3600. << "h";
-	else if(m_startTime < 31536000)
-		out << m_startTime / 86400. << "d";
-	else
-		out << m_startTime / 31536000. << "y";
+	if(m_startTime < 1.)
+		return "Now";
 
-	return out.str();
+	return format_date(m_startTime);
 }
 
 void TransferPlanner::AddDv(BurnDirection d, double dv) {
@@ -105,7 +107,7 @@ void TransferPlanner::AddDv(BurnDirection d, double dv) {
 		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
 		m_velocity = Pi::player->GetVelocityRelTo(frame);
-		m_startTime = 0;
+		m_startTime = Pi::game->GetTime();
 	}
 
 	switch (d) {
@@ -127,6 +129,7 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 	{
 		m_position = vector3d(0., 0., 0.);
 		m_velocity = vector3d(0., 0., 0.);
+		m_startTime = 0.;
 	}
 }
 
@@ -303,13 +306,13 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	Add(b, time_controls_left + 0, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_r2.png", "icons/sysview_accel_r2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 26, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_r1.png", "icons/sysview_accel_r1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 45, time_controls_top);
@@ -320,13 +323,13 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	Add(b, time_controls_left + 64, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 83, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 102, time_controls_top);
@@ -344,6 +347,10 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_periapsisIcon.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 	Graphics::TextureBuilder b2 = Graphics::TextureBuilder::UI("icons/apoapsis.png");
 	m_apoapsisIcon.reset(new Gui::TexturedQuad(b2.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder b3 = Graphics::TextureBuilder::UI("icons/ship.png");
+	m_shipIcon.reset(new Gui::TexturedQuad(b3.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder b4 = Graphics::TextureBuilder::UI("icons/maneuver.png");
+	m_maneuverIcon.reset(new Gui::TexturedQuad(b4.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
 	ResetViewpoint();
 
@@ -583,15 +590,23 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
 
+		double plannerStartTime = m_planner->GetStartTime();
+		if(std::fabs(plannerStartTime) < 1. and t0 > plannerStartTime)
+			m_planner->ResetStartTime();
+		
 		if(!m_planner->GetPosition().ExactlyEqual(vector3d(0,0,0))) {
 			Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 								  m_planner->GetVel(),
 								  frame->GetSystemBody()->GetMass());
 			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
-			PutSelectionBox(offset + m_planner->GetPosition()* double(m_zoom), Color::STEELBLUE);
+			Draw(Icon::MANEUVER, offset + m_planner->GetPosition() * static_cast<double>(m_zoom));
+			if(std::fabs(m_time - t0) > 1. and (m_time - plannerStartTime) > 0.)
+				Draw(Icon::SHIP, offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) * static_cast<double>(m_zoom), &Color::STEELBLUE);
 		}
 
-		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
+		Draw(Icon::SHIP, offset + Pi::player->GetPosition() * static_cast<double>(m_zoom));
+		if(std::fabs(m_time - t0) > 10)
+			Draw(Icon::SHIP, offset + playerOrbit.OrbitalPosAtTime(m_time - t0) * static_cast<double>(m_zoom), &Color::RED);
 	}
 
 	if (b->HasChildren()) {
@@ -800,6 +815,36 @@ void SystemView::RefreshShips(void) {
 
 		}
 	}
+}
+
+void SystemView::Draw(Icon icon, const vector3d &worldPos, const Color* const color)
+{
+	Gui::Screen::EnterOrtho();
+
+	vector3d screenPos;
+	if (Gui::Screen::Project(worldPos, screenPos)) {
+		Gui::TexturedQuad* quad;
+		vector2f size;
+
+		switch(icon)
+		{
+			case SystemView::Icon::SHIP:
+				quad = m_shipIcon.get();
+				size = vector2f(24.f);
+				break;
+			case SystemView::Icon::MANEUVER:
+				quad = m_maneuverIcon.get();
+				size = vector2f(24.f);
+				break;
+		}
+
+		if(color)
+			quad->Draw(Gui::Screen::GetRenderer(), vector2f(screenPos.x - size.x / 2.f, screenPos.y - size.y / 2.f), size, *color);
+		else
+			quad->Draw(Gui::Screen::GetRenderer(), vector2f(screenPos.x - size.x / 2.f, screenPos.y - size.y / 2.f), size);
+	}
+
+	Gui::Screen::LeaveOrtho();
 }
 
 void SystemView::DrawShips(const double t, const vector3d &offset) {
