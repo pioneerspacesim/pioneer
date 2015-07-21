@@ -138,6 +138,18 @@ vector3d Orbit::OrbitalPosAtTime(double t) const
 	return m_orient * vector3d(-cos_v*r, sin_v*r, 0);
 }
 
+vector3d Orbit::OrbitalVelocityAtTime(double totalMass, double t) const
+{
+	double cos_v, sin_v, r;
+	calc_position_from_mean_anomaly(MeanAnomalyAtTime(t), m_eccentricity, m_semiMajorAxis, cos_v, sin_v, &r);
+
+	double mi = G * totalMass;
+	double p = (1. - m_eccentricity * m_eccentricity) * m_semiMajorAxis;
+	double h = std::sqrt(mi / p);
+
+	return m_orient * vector3d(h * sin_v, h * (m_eccentricity + cos_v), 0);
+}
+
 // used for stepping through the orbit in small fractions
 // mean anomaly <-> true anomaly conversion doesn't have
 // to be taken into account

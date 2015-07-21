@@ -1807,6 +1807,10 @@
       "description" : "For system orbit view",
       "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
+   "PLANNER_RESET_START" : {
+      "description" : "For system orbit view",
+      "message" : "Maneuver start. Click to reset to default."
+   },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
       "message" : "Prograde delta-v. Click to reset to zero."
