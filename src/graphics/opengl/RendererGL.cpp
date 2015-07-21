@@ -827,16 +827,19 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 
 VertexBuffer *RendererOGL::CreateVertexBuffer(const VertexBufferDesc &desc)
 {
+	m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 	return new OGL::VertexBuffer(desc);
 }
 
 IndexBuffer *RendererOGL::CreateIndexBuffer(Uint32 size, BufferUsage usage)
 {
+	m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 	return new OGL::IndexBuffer(size, usage);
 }
 
 InstanceBuffer *RendererOGL::CreateInstanceBuffer(Uint32 size, BufferUsage usage)
 {
+	m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
 	return new OGL::InstanceBuffer(size, usage);
 }
 

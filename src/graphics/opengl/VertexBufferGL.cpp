@@ -254,6 +254,7 @@ void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 bool VertexBuffer::Populate(const VertexArray &va)
 {
 	assert(va.GetNumVerts()>0);
+	assert(va.GetNumVerts()==m_numVertices);
 	bool result = false;
 	const Graphics::AttributeSet as = va.GetAttributeSet();
 	switch( as ) {

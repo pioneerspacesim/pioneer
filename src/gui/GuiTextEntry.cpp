@@ -223,7 +223,10 @@ void TextEntry::Draw()
 	}
 
 	//background
-	Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), Color(0,0,0,192), Screen::alphaBlendState);
+	if(!m_background) {
+		m_background.reset( new Graphics::Drawables::Rect(pRenderer, vector2f(0.f), vector2f(size[0], size[1]), Color(0,0,0,192), Screen::alphaBlendState));
+	}
+	m_background->Draw(pRenderer);
 
 	//outline
 	const Color c = IsFocused() ? Color::WHITE : Color(192, 192, 192, 255);
