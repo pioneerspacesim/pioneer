@@ -144,7 +144,12 @@ vector3d Orbit::OrbitalVelocityAtTime(double totalMass, double t) const
 	calc_position_from_mean_anomaly(MeanAnomalyAtTime(t), m_eccentricity, m_semiMajorAxis, cos_v, sin_v, &r);
 
 	double mi = G * totalMass;
-	double p = (1. - m_eccentricity * m_eccentricity) * m_semiMajorAxis;
+	double p;
+	if(m_eccentricity < 1.)
+		p = (1. - m_eccentricity * m_eccentricity) * m_semiMajorAxis;
+	else
+		p = (m_eccentricity * m_eccentricity - 1.) * m_semiMajorAxis;
+
 	double h = std::sqrt(mi / p);
 
 	return m_orient * vector3d(h * sin_v, h * (m_eccentricity + cos_v), 0);
