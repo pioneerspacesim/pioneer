@@ -408,19 +408,34 @@ void ModelViewer::DrawBackground()
 	m_renderer->SetOrthographicProjection(0.f, 1.f, 0.f, 1.f, -1.f, 1.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
-	static Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE);
-	va.Clear();
-	const Color top = Color::BLACK;
-	const Color bottom = Color(77);
-	va.Add(vector3f(0.f, 0.f, 0.f), bottom);
-	va.Add(vector3f(1.f, 0.f, 0.f), bottom);
-	va.Add(vector3f(1.f, 1.f, 0.f), top);
+	if(!m_bgBuffer.Valid())
+	{
+		const Color top = Color::BLACK;
+		const Color bottom = Color(77);
+		Graphics::VertexArray bgArr(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 6);
+		// triangle 1
+		bgArr.Add(vector3f(0.f, 0.f, 0.f), bottom);
+		bgArr.Add(vector3f(1.f, 0.f, 0.f), bottom);
+		bgArr.Add(vector3f(1.f, 1.f, 0.f), top);
+		// triangle 2
+		bgArr.Add(vector3f(0.f, 0.f, 0.f), bottom);
+		bgArr.Add(vector3f(1.f, 1.f, 0.f), top);
+		bgArr.Add(vector3f(0.f, 1.f, 0.f), top);
 
-	va.Add(vector3f(0.f, 0.f, 0.f), bottom);
-	va.Add(vector3f(1.f, 1.f, 0.f), top);
-	va.Add(vector3f(0.f, 1.f, 0.f), top);
-
-	m_renderer->DrawTriangles(&va, m_bgState, Graphics::vtxColorMaterial);
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic	= Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format	= Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic	= Graphics::ATTRIB_DIFFUSE;
+		vbd.attrib[1].format	= Graphics::ATTRIB_FORMAT_UBYTE4;
+		vbd.numVertices = 6;
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+	
+		// VertexBuffer
+		m_bgBuffer.Reset( m_renderer->CreateVertexBuffer(vbd) );
+		m_bgBuffer->Populate(bgArr);
+	}
+	
+	m_renderer->DrawBuffer(m_bgBuffer.Get(), m_bgState, Graphics::vtxColorMaterial, Graphics::TRIANGLES);
 }
 
 //Draw grid and axes
@@ -467,7 +482,6 @@ void ModelViewer::DrawModel()
 
 	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
 	m_renderer->SetTransform(matrix4x4f::Identity());
-	UpdateLights();
 
 	matrix4x4f mv;
 	if (m_options.mouselookEnabled) {
@@ -510,9 +524,10 @@ void ModelViewer::MainLoop()
 		m_frameTime = (ticks - lastTime);
 		lastTime = ticks;
 
-		m_renderer->ClearScreen();
-
 		PollEvents();
+
+		m_renderer->ClearScreen();
+		UpdateLights();
 		UpdateCamera();
 		UpdateShield();
 

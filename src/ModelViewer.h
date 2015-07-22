@@ -105,6 +105,7 @@ private:
 	std::string m_modelName;
 	RefCountedPtr<UI::Context> m_ui;
 	Graphics::RenderState *m_bgState;
+	RefCountedPtr<Graphics::VertexBuffer> m_bgBuffer;
 
 	//undecided on this input stuff
 	//updating the states of all inputs during PollEvents
