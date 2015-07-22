@@ -40,7 +40,7 @@ private:
 	void DrawBackground();
 	void DrawGrid(const matrix4x4f &trans, float radius);
 	void DrawLog();
-	void DrawModel();
+	void DrawModel(const matrix4x4f &mv);
 	void MainLoop();
 	void OnAnimChanged(unsigned int, const std::string&);
 	void OnAnimSliderChanged(float);

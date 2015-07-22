@@ -476,23 +476,9 @@ void ModelViewer::DrawGrid(const matrix4x4f &trans, float radius)
 	Graphics::Drawables::GetAxes3DDrawable(m_renderer)->Draw(m_renderer);
 }
 
-void ModelViewer::DrawModel()
+void ModelViewer::DrawModel(const matrix4x4f &mv)
 {
 	assert(m_model);
-
-	m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
-	m_renderer->SetTransform(matrix4x4f::Identity());
-
-	matrix4x4f mv;
-	if (m_options.mouselookEnabled) {
-		mv = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
-	} else {
-		m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
-		matrix4x4f rot = matrix4x4f::Identity();
-		rot.RotateX(DEG2RAD(-m_rotX));
-		rot.RotateY(DEG2RAD(-m_rotY));
-		mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
-	}
 
 	m_model->UpdateAnimations();
 
@@ -505,14 +491,6 @@ void ModelViewer::DrawModel()
 	);
 
 	m_model->Render(mv);
-
-	if (m_options.showLandingPad) {
-		if (!m_scaleModel) CreateTestResources();
-		m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
-	}
-
-	if (m_options.showGrid)
-		DrawGrid(mv, m_model->GetDrawClipRadius());
 }
 
 void ModelViewer::MainLoop()
@@ -524,6 +502,7 @@ void ModelViewer::MainLoop()
 		m_frameTime = (ticks - lastTime);
 		lastTime = ticks;
 
+		// logic update
 		PollEvents();
 
 		m_renderer->ClearScreen();
@@ -531,6 +510,7 @@ void ModelViewer::MainLoop()
 		UpdateCamera();
 		UpdateShield();
 
+		// render the gradient backdrop
 		DrawBackground();
 
 		//update animations, draw model etc.
@@ -539,13 +519,41 @@ void ModelViewer::MainLoop()
 			m_shields->SetEnabled(m_options.showShields || m_shieldIsHit);
 
 			//Calculate the impact's radius dependant on time
-			float dif1 = 0.34 - (-1.48f);
-			float dif2 = m_shieldHitPan - (-1.48f);
+			const float dif1 = 0.34 - (-1.48f);
+			const float dif2 = m_shieldHitPan - (-1.48f);
 			//Range from start (0.0) to end (1.0)
-			float dif = dif2 / (dif1 * 1.0f);
+			const float dif = dif2 / (dif1 * 1.0f);
 
 			m_shields->Update(m_options.showShields ? 1.0f : (1.0f - dif), 1.0f);
-			DrawModel();
+			
+			// setup rendering
+			m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
+			m_renderer->SetTransform(matrix4x4f::Identity());
+
+			// calc camera info
+			matrix4x4f mv;
+			if (m_options.mouselookEnabled) {
+				mv = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
+			} else {
+				m_rotX = Clamp(m_rotX, -90.0f, 90.0f);
+				matrix4x4f rot = matrix4x4f::Identity();
+				rot.RotateX(DEG2RAD(-m_rotX));
+				rot.RotateY(DEG2RAD(-m_rotY));
+				mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
+			}
+
+			// draw the model itself
+			DrawModel(mv);
+
+			// helper rendering
+			if (m_options.showLandingPad) {
+				if (!m_scaleModel) CreateTestResources();
+				m_scaleModel->Render(mv * matrix4x4f::Translation(0.f, m_landingMinOffset, 0.f));
+			}
+
+			if (m_options.showGrid) {
+				DrawGrid(mv, m_model->GetDrawClipRadius());
+			}
 		}
 
 		m_ui->Update();
@@ -557,6 +565,7 @@ void ModelViewer::MainLoop()
 			Screenshot();
 		}
 
+		// end scene
 		m_renderer->SwapBuffers();
 	}
 }
