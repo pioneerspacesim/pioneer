@@ -124,6 +124,7 @@ void Camera::Update()
 	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
 		BodyAttrs attrs;
 		attrs.body = b;
+		attrs.billboard = false; // false by default
 
 		// determine position and transform for draw
 		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);
@@ -141,12 +142,11 @@ void Camera::Update()
 		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
 
 		// terrain objects are visible from distance but might not have any discernable features
-		attrs.billboard = false;
 		if (b->IsType(Object::TERRAINBODY)) {
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 				vector3d pos;
-				double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
+				const double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
 				attrs.billboardPos = vector3f(pos);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
@@ -164,8 +164,7 @@ void Camera::Update()
 				// this should always be the main star in the system - except for the star itself!
 				if( !m_lightSources.empty() && !b->IsType(Object::STAR) ) {
 					const Graphics::Light& light = m_lightSources[0].GetLight();
-					const vector3f dir = light.GetPosition() - attrs.billboardPos;
-					attrs.billboardColor *= light.GetDiffuse();
+					attrs.billboardColor *= light.GetDiffuse(); // colour the billboard a little with the Starlight
 				}
 
 				attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
