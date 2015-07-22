@@ -146,7 +146,8 @@ void Camera::Update()
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 				vector3d pos;
-				const double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
+				// limit the minimum billboard size for planets so they're always a little visible
+				const double size = std::max(0.5, rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos));
 				attrs.billboardPos = vector3f(pos);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
