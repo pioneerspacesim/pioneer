@@ -139,8 +139,6 @@ void Camera::Update()
 
 		// approximate pixel width (disc diameter) of body on screen
 		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
-		if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD)
-			continue;
 
 		// terrain objects are visible from distance but might not have any discernable features
 		attrs.billboard = false;
@@ -158,11 +156,22 @@ void Camera::Update()
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))
 					attrs.billboardColor = b->GetSystemBody()->GetAlbedo();
-					attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 				}
-				else
+				else {
 					attrs.billboardColor = Color::WHITE;
+				}
+
+				// this should always be the main star in the system - except for the star itself!
+				if( !m_lightSources.empty() && !b->IsType(Object::STAR) ) {
+					const Graphics::Light& light = m_lightSources[0].GetLight();
+					const vector3f dir = light.GetPosition() - attrs.billboardPos;
+					attrs.billboardColor *= light.GetDiffuse();
+				}
+
+				attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 			}
+		} else if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD) {
+			continue;
 		}
 
 		m_sortedBodies.push_back(attrs);
