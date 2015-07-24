@@ -124,6 +124,7 @@ void Camera::Update()
 	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
 		BodyAttrs attrs;
 		attrs.body = b;
+		attrs.billboard = false; // false by default
 
 		// determine position and transform for draw
 		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);
@@ -139,16 +140,14 @@ void Camera::Update()
 
 		// approximate pixel width (disc diameter) of body on screen
 		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
-		if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD)
-			continue;
 
 		// terrain objects are visible from distance but might not have any discernable features
-		attrs.billboard = false;
 		if (b->IsType(Object::TERRAINBODY)) {
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 				vector3d pos;
-				double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
+				// limit the minimum billboard size for planets so they're always a little visible
+				const double size = std::max(0.5, rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos));
 				attrs.billboardPos = vector3f(pos);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
@@ -158,11 +157,21 @@ void Camera::Update()
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))
 					attrs.billboardColor = b->GetSystemBody()->GetAlbedo();
-					attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 				}
-				else
+				else {
 					attrs.billboardColor = Color::WHITE;
+				}
+
+				// this should always be the main star in the system - except for the star itself!
+				if( !m_lightSources.empty() && !b->IsType(Object::STAR) ) {
+					const Graphics::Light& light = m_lightSources[0].GetLight();
+					attrs.billboardColor *= light.GetDiffuse(); // colour the billboard a little with the Starlight
+				}
+
+				attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 			}
+		} else if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD) {
+			continue;
 		}
 
 		m_sortedBodies.push_back(attrs);
