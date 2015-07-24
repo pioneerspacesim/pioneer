@@ -15,6 +15,7 @@ July 2015
      * Sort terrain gen (#3420)
      * Inactivate BodyScanner equipment testing code (#3422)
      * Drawing optimisations (#3424)
+     * Render far away (#3428)
 
 June 2015
    * New Features
