@@ -379,6 +379,20 @@ static int l_engine_set_display_hud_trails(lua_State *l)
 	return 0;
 }
 
+static int l_engine_set_amount_stars(lua_State *l)
+{
+	const float amount = Clamp(luaL_checknumber(l, 1), 0.0, 1.0);
+	Pi::config->SetFloat("AmountOfBackgroundStars", amount);
+	Pi::SetAmountBackgroundStars(amount);
+	return 0;
+}
+
+static int l_engine_get_amount_stars(lua_State *l)
+{
+	lua_pushnumber(l, Pi::config->Float("AmountOfBackgroundStars"));
+	return 1;
+}
+
 static void set_master_volume(const bool muted, const float volume)
 {
 	Sound::Pause(muted || is_zero_exact(volume));
@@ -799,6 +813,9 @@ void LuaEngine::Register()
 
 		{ "GetConfirmQuit", l_engine_get_confirm_quit },
 		{ "SetConfirmQuit", l_engine_set_confirm_quit },
+
+		{ "SetAmountStars", l_engine_set_amount_stars },
+		{ "GetAmountStars", l_engine_get_amount_stars },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },
