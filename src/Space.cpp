@@ -79,8 +79,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace)
 }
 
 Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space* oldSpace)
-	: m_starSystem(galaxy->GetStarSystem(path))
-	, m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
+	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
+	, m_starSystem(galaxy->GetStarSystem(path))
 	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)

@@ -712,7 +712,6 @@ void Rect::Draw(Graphics::Renderer *r)
 }
 	
 //------------------------------------------------------------
-#pragma optimize("",off)
 RoundEdgedRect::RoundEdgedRect(Graphics::Renderer *r, const vector2f &size, const float rad, const Color &c, RenderState *state, const bool bIsStatic /*= true*/) : m_renderState(state)
 {
 	PROFILE_SCOPED()
@@ -734,7 +733,6 @@ RoundEdgedRect::RoundEdgedRect(Graphics::Renderer *r, const vector2f &size, cons
 	Update(size, rad, c);
 }
 
-#pragma optimize("",off)
 void RoundEdgedRect::Update(const vector2f &size, float rad, const Color &c)
 {
 	Graphics::VertexArray vts(Graphics::ATTRIB_POSITION | ATTRIB_DIFFUSE);
