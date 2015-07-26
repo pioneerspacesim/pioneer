@@ -978,7 +978,6 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_secLineVerts->Add(vts[0], darkgreen);
 	}
 
-	static size_t prevNumLineVerts = 0xFFFFFFFF;
 	const size_t numLineVerts = ps->m_systems.size() * 8;
 	m_lineVerts->position.reserve(numLineVerts);
 	m_lineVerts->diffuse.reserve(numLineVerts);

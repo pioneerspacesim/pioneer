@@ -437,13 +437,13 @@ void InstanceBuffer::Bind() {
 	// used to pass a matrix4x4f in, however each attrib array is max size of (GLSL) vec4 so must enable 4 arrays
 	const size_t sizeVec4 = (sizeof(float)*4);
 	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)0);
+	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(0));
 	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)sizeVec4);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(sizeVec4));
 	glEnableVertexAttribArray(6);
-	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)(2 * sizeVec4));
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(2 * sizeVec4));
 	glEnableVertexAttribArray(7);
-	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, (GLvoid*)(3 * sizeVec4));
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(3 * sizeVec4));
 
 	glVertexAttribDivisor(4, 1);
 	glVertexAttribDivisor(5, 1);

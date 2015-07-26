@@ -319,5 +319,5 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 void GeoPatch::ReceiveJobHandle(Job::Handle job)
 {
 	assert(!m_job.HasJob());
-	m_job = (Job::Handle&&)job;
+	m_job = static_cast<Job::Handle&&>(job);
 }
