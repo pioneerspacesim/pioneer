@@ -1577,8 +1577,8 @@ void WorldView::UpdateProjectedObjects()
 		if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
 			HideIndicator(m_burnIndicator);
 		} else {
-			const vector3d camSpacePlanSpeed = Pi::planner->GetVel() * cam_rot;
-			double relativeSpeed = (camSpacePlanSpeed - camSpaceVel).Length();
+			const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() * cam_rot - camSpaceVel);
+			double relativeSpeed = camSpacePlanSpeed.Length();
 
 			std::stringstream ddV;
 			ddV << std::setprecision(2) << std::fixed;
@@ -1587,6 +1587,7 @@ void WorldView::UpdateProjectedObjects()
 			else
 				ddV << relativeSpeed << " m/s";
 			m_burnIndicator.label->SetText(ddV.str());
+			m_burnIndicator.side = INDICATOR_TOP;
 			UpdateIndicator(m_burnIndicator, camSpacePlanSpeed);
 		}
 

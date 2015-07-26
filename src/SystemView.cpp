@@ -394,10 +394,23 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Color &color, double planetRadius)
 {
-	int num_vertices = 0;
-	vector3f vts[100];
-	for (int i = 0; i < int(COUNTOF(vts)); ++i) {
-		const double t = double(i) / double(COUNTOF(vts));
+	static constexpr unsigned short n_vertices_max = 100;
+
+	double maxT = 1.;
+	unsigned short num_vertices = 0;
+	for (unsigned short i = 0; i < n_vertices_max; ++i) {
+		const double t = double(i) / double(n_vertices_max);
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
+		if (pos.Length() < planetRadius)
+		{
+			maxT = t;
+			break;
+		}
+	}
+
+	vector3f vts[n_vertices_max];
+	for (unsigned short i = 0; i < n_vertices_max; ++i) {
+		const double t = double(i) / double(n_vertices_max) * maxT;
 		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
 		vts[i] = vector3f(offset + pos * double(m_zoom));
 		++num_vertices;
@@ -408,7 +421,7 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	if (num_vertices > 1) {
 		m_orbits.SetData(num_vertices, vts, color);
 		// don't close the loop for hyperbolas and parabolas and crashed ellipses
-		if ((orbit->GetEccentricity() > 1.0) || (num_vertices < int(COUNTOF(vts)))) {
+		if (maxT < 1. || (orbit->GetEccentricity() > 1.0)) {
 			m_orbits.Draw(m_renderer, m_lineState, LINE_STRIP);
 		} else {
 			m_orbits.Draw(m_renderer, m_lineState, LINE_LOOP);
