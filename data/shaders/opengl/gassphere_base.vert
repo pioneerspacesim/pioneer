@@ -3,7 +3,7 @@ out vec3 varyingNormal;
 out vec3 varyingTexCoord0;
 
 uniform vec3 geosphereCenter;
-uniform float geosphereScaledRadius;
+uniform float geosphereRadius;
 
 void main(void)
 {

@@ -6,7 +6,7 @@ out vec3 varyingNormal;
 out vec4 vertexColor;
 
 uniform vec3 geosphereCenter;
-uniform float geosphereScaledRadius;
+uniform float geosphereRadius;
 
 #ifdef TERRAIN_WITH_LAVA
 out vec4 varyingEmission;

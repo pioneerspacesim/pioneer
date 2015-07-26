@@ -547,7 +547,7 @@ void GasGiant::Update()
 	}
 }
 
-void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
+void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
 {
 	if( !m_surfaceTexture.Valid() )
 	{
@@ -584,7 +584,6 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
 		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
-		m_materialParameters.atmosphere.scale = scale;
 
 		m_materialParameters.shadows = shadows;
 

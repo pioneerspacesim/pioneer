@@ -78,26 +78,6 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	float znear, zfar;
 	renderer->GetNearFarRange(znear, zfar);
 
-	double len = fpos.Length();
-	//objects very far away are downscaled, because they cannot be
-	//accurately drawn using actual distances
-	int shrink = 0;
-	double scale = 1.0f;
-
-	double dist_to_horizon;
-	for (;;) {
-		if (len < rad) break;		// player inside radius case
-		dist_to_horizon = sqrt(len*len - rad*rad);
-
-		if (dist_to_horizon < zfar*0.5) break;
-
-		rad *= 0.25;
-		fpos = 0.25*fpos;
-		len *= 0.25;
-		scale *= 4.0f;
-		++shrink;
-	}
-
 	vector3d campos = fpos;
 	ftran.ClearToRotOnly();
 	campos = ftran.Inverse() * campos;
@@ -115,15 +95,10 @@ void TerrainBody::Render(Graphics::Renderer *renderer, const Camera *camera, con
 	ftran.Scale(rad, rad, rad);
 
 	// translation not applied until patch render to fix jitter
-	m_baseSphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), scale, shadows);
+	m_baseSphere->Render(renderer, ftran, -campos, m_sbody->GetRadius(), shadows);
 
 	ftran.Translate(campos.x, campos.y, campos.z);
 	SubRender(renderer, ftran, campos);
-
-	//clear depth buffer, shrunk objects should not interact
-	//with foreground
-	if (shrink)
-		renderer->ClearDepthBuffer();
 }
 
 void TerrainBody::SetFrame(Frame *f)
