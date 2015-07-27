@@ -249,7 +249,7 @@
    },
    "COULD_NOT_OPEN_FILENAME" : {
       "description" : "",
-      "message" : "Could not open %path"
+      "message" : "لا يمكن فتح %path"
    },
    "COUNT_ON_SURFACE" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "FINE_PAID_N" : {
       "description" : "",
-      "message" : "You have paid the fine of %fine."
+      "message" : "لقد قمت بدفع الغرامة بمبلغ %fine."
    },
    "FINE_PAID_N_BUT_N_REMAINING" : {
       "description" : "",
@@ -401,11 +401,11 @@
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Fire missile"
+      "message" : "صاروخ ناري"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
-      "message" : "following selection"
+      "message" : "متابعة المحدد"
    },
    "FRUIT_AND_VEG" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "MONTH_SEP" : {
       "description" : "",
-      "message" : "Sep"
+      "message" : "سبتمبر"
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
@@ -969,7 +969,7 @@
    },
    "NO_HYPERDRIVE" : {
       "description" : "",
-      "message" : "No hyperdrive"
+      "message" : "لا يوجد جهاز قذف"
    },
    "NO_REGISTERED_INHABITANTS" : {
       "description" : "",
@@ -1117,11 +1117,11 @@
    },
    "PITCH_DOWN" : {
       "description" : "",
-      "message" : "Pitch down"
+      "message" : "انحدر للاسفل"
    },
    "PITCH_UP" : {
       "description" : "",
-      "message" : "Pitch up"
+      "message" : "انحدر للاعلى"
    },
    "PLANETARY_INFO" : {
       "description" : "",
@@ -1193,7 +1193,7 @@
    },
    "RADIUS" : {
       "description" : "",
-      "message" : "Radius"
+      "message" : "نصف القطر"
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
@@ -1233,7 +1233,7 @@
    },
    "ROLL_RIGHT" : {
       "description" : "",
-      "message" : "Roll right"
+      "message" : "التفاف لليمين"
    },
    "ROTATE_DOWN" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Selected system"
+      "message" : "النظام المحدد"
    },
    "SELECT_A_TARGET" : {
       "description" : "",
@@ -1357,7 +1357,7 @@
    },
    "SHIFT" : {
       "description" : "Shift key on keyboard",
-      "message" : "Shift"
+      "message" : "بدل"
    },
    "SHIP" : {
       "description" : "",
@@ -1397,7 +1397,7 @@
    },
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
-      "message" : "Sidereal view"
+      "message" : "رؤية جانبية"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
@@ -1457,7 +1457,7 @@
    },
    "STAR_A" : {
       "description" : "",
-      "message" : "Type 'A' hot white star"
+      "message" : "نوع 'A' نجم ابيض حار"
    },
    "STAR_AF_GIANT" : {
       "description" : "",
@@ -1473,19 +1473,19 @@
    },
    "STAR_B" : {
       "description" : "",
-      "message" : "Bright type 'B' blue star"
+      "message" : "نجم ساطع نوع 'B' ازرق"
    },
    "STAR_B_GIANT" : {
       "description" : "",
-      "message" : "شمس زرقاء ضخمة"
+      "message" : "نجم ازرق ضخم"
    },
    "STAR_B_HYPER_GIANT" : {
       "description" : "",
-      "message" : "شمس زرقاء عملاقة متوهجة"
+      "message" : "نجم ازرق متوهج عملاق"
    },
    "STAR_B_SUPER_GIANT" : {
       "description" : "",
-      "message" : "شمس زرقاء عملاقة"
+      "message" : "نجم ازرق خارق عملاق"
    },
    "STAR_B_WF" : {
       "description" : "",
@@ -1497,19 +1497,19 @@
    },
    "STAR_G" : {
       "description" : "",
-      "message" : "Type 'G' yellow star"
+      "message" : "نوع 'G' نجم اصفر"
    },
    "STAR_G_GIANT" : {
       "description" : "",
-      "message" : "شمس صفراء ضخمة - غير مستقرة"
+      "message" : "نجم اصفر عملاق - غير مستقر"
    },
    "STAR_G_HYPER_GIANT" : {
       "description" : "",
-      "message" : "شمس صفراء ضخمة متوهجة - غير مستقرة"
+      "message" : "نجم متوهج ضخم - غير مستقر"
    },
    "STAR_G_SUPER_GIANT" : {
       "description" : "",
-      "message" : "شمس صفراء ضخمة"
+      "message" : "نجم اصفر خارق عملاق"
    },
    "STAR_IM_BH" : {
       "description" : "",
@@ -1521,19 +1521,19 @@
    },
    "STAR_K_GIANT" : {
       "description" : "",
-      "message" : "شمس برتقالية ضخمة - غير مستقرة"
+      "message" : "نجم برتقالي عملاق - غير مستقر"
    },
    "STAR_K_HYPER_GIANT" : {
       "description" : "",
-      "message" : "شمس برتقالية متوهجة عملاقة - غير مستقرة"
+      "message" : "نجم برتقالي متوهج عملاق - غير مستقر"
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "شمس برتقالية ضخمة"
+      "message" : "نجم برتقالي ضخم"
    },
    "STAR_M" : {
       "description" : "",
-      "message" : "Type 'M' red star"
+      "message" : "نوع 'M' نجم احمر"
    },
    "STAR_M_GIANT" : {
       "description" : "",
@@ -1561,7 +1561,7 @@
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue hyper giant star"
+      "message" : "نجم ازرق متوهج ضخم"
    },
    "STAR_O_SUPER_GIANT" : {
       "description" : "",
@@ -1629,7 +1629,7 @@
    },
    "TARGET_OBJECT_IN_SIGHTS" : {
       "description" : "",
-      "message" : "Target object in cross-hairs"
+      "message" : "تحديد الهدف على نقطة التسديد"
    },
    "TENUOUS" : {
       "description" : "atmosphere thickness",
@@ -1637,7 +1637,7 @@
    },
    "TEXTILES" : {
       "description" : "",
-      "message" : "Textiles"
+      "message" : "منسوجات"
    },
    "THICK" : {
       "description" : "",
@@ -1733,7 +1733,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "تفريغ الأسلحة غير المشروعة"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",

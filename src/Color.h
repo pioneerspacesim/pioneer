@@ -36,7 +36,7 @@ struct Color4f {
 
 namespace {
 	static const float s_inv255 = 1.0f / 255.0f;
-	#define INV255(n) (Uint8((float)n * s_inv255))
+	#define INV255(n) (Uint8(float(n) * s_inv255))
 };
 
 struct Color4ub {

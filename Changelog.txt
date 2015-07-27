@@ -17,6 +17,7 @@ July 2015
      * Drawing optimisations (#3424)
      * Render far away (#3428)
      * Modelviewer refactor (#3429)
+     * Cleanup build warnings (#3433)
 
 June 2015
    * New Features
