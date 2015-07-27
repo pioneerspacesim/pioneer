@@ -53,25 +53,35 @@ vector3d TransferPlanner::GetOffsetVel() const {
 		   m_dvRadial   * m_position.Normalized();
 }
 
-void TransferPlanner::AddStartTime(double deltaT) {
-	m_startTime += m_factor * deltaT;
-	Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
-	Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
+void TransferPlanner::AddStartTime(double timeStep) {
+	if(std::fabs(m_startTime) < 1.)
+		m_startTime = Pi::game->GetTime(); 
 
-	m_position = playerOrbit.OrbitalPosAtTime(m_startTime);
-	m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), m_startTime);
+	m_startTime += m_factor * timeStep;
+	double deltaT = m_startTime - Pi::game->GetTime();
+	if(deltaT > 0.)
+	{
+		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		Orbit playerOrbit = Orbit::FromBodyState(Pi::player->GetPositionRelTo(frame), Pi::player->GetVelocityRelTo(frame), frame->GetSystemBody()->GetMass());
+
+		m_position = playerOrbit.OrbitalPosAtTime(deltaT);
+		m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), deltaT);
+	}
+	else
+		ResetStartTime();
 }
 
 void TransferPlanner::ResetStartTime() {
 	m_startTime = 0;
-	if(GetOffsetVel().ExactlyEqual(vector3d(0., 0. , 0.)))
+	Frame *frame = Pi::player->GetFrame();
+	if(!frame || GetOffsetVel().ExactlyEqual(vector3d(0., 0. , 0.)))
 	{
 		m_position = vector3d(0., 0., 0.);
 		m_velocity = vector3d(0. , 0., 0.);
 	}
 	else
 	{
-		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		frame = frame->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
 		m_velocity = Pi::player->GetVelocityRelTo(frame);
 	}
@@ -81,20 +91,32 @@ double TransferPlanner::GetStartTime() const {
 	return m_startTime;
 }
 
-std::string TransferPlanner::printStartTime() {
-	std::stringstream out;
-	out << std::setprecision(2) << std::fixed
-		<< std::setw(6) << std::right;
-	if(m_startTime < 60)
-		out << m_startTime << "s";
-	else if(m_startTime < 3600)
-		out << m_startTime / 60. << "m";
-	else if(m_startTime < 86400)
-		out << m_startTime / 3600. << "h";
-	else if(m_startTime < 31536000)
-		out << m_startTime / 86400. << "d";
+static std::string formatTime(double t)
+{
+	std::stringstream formattedTime;
+	formattedTime << std::setprecision(1) << std::fixed;
+	double absT = std::abs(t);
+	if(absT < 60.)
+		formattedTime << t << "s";
+	else if(absT < 3600)
+		formattedTime << t / 60. << "m";
+	else if(absT < 86400)
+		formattedTime << t / 3600. << "h";
+	else if(absT < 31536000)
+		formattedTime << t / 86400. << "d";
 	else
-		out << m_startTime / 31536000. << "y";
+		formattedTime << t / 31536000. << "y";
+	return formattedTime.str(); 
+}
+
+std::string TransferPlanner::printDeltaTime() {
+	std::stringstream out;
+	out << std::setw(9);
+	double deltaT = m_startTime - Pi::game->GetTime();
+	if(std::fabs(m_startTime) < 1.)
+		out << "Now";
+	else
+		out << formatTime(deltaT); 
 
 	return out.str();
 }
@@ -105,7 +127,7 @@ void TransferPlanner::AddDv(BurnDirection d, double dv) {
 		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
 		m_velocity = Pi::player->GetVelocityRelTo(frame);
-		m_startTime = 0;
+		m_startTime = Pi::game->GetTime();
 	}
 
 	switch (d) {
@@ -127,7 +149,20 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 	{
 		m_position = vector3d(0., 0., 0.);
 		m_velocity = vector3d(0., 0., 0.);
+		m_startTime = 0.;
 	}
+}
+
+void TransferPlanner::ResetDv() {
+    m_dvPrograde = 0;
+    m_dvNormal = 0;
+    m_dvRadial = 0;
+
+    if(std::fabs(m_startTime) < 1.) {
+		m_position = vector3d(0., 0., 0.);
+		m_velocity = vector3d(0., 0., 0.);
+		m_startTime = 0.;
+    }
 }
 
 std::string TransferPlanner::printDv(BurnDirection d) {
@@ -157,7 +192,7 @@ void TransferPlanner::DecreaseFactor(void) {
 
 std::string TransferPlanner::printFactor(void) {
 	char buf[10];
-	snprintf(buf, sizeof(buf), "%6gx", 10 * m_factor);
+	snprintf(buf, sizeof(buf), "%8gx", 10 * m_factor);
 	return std::string(buf);
 }
 
@@ -303,13 +338,13 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	Add(b, time_controls_left + 0, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_r2.png", "icons/sysview_accel_r2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 26, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_r1.png", "icons/sysview_accel_r1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -100000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), -1000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 45, time_controls_top);
@@ -320,13 +355,13 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	Add(b, time_controls_left + 64, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f1.png", "icons/sysview_accel_f1_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 83, time_controls_top);
 
 	b = new Gui::ImageButton("icons/sysview_accel_f2.png", "icons/sysview_accel_f2_on.png");
-	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 1000000.f));
+	b->onPress.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 100000.f));
 	b->onRelease.connect(sigc::bind(sigc::mem_fun(this, &SystemView::OnClickAccel), 0.0f));
 	b->SetRenderDimensions(19, 17);
 	Add(b, time_controls_left + 102, time_controls_top);
@@ -596,12 +631,17 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
 
+		double plannerStartTime = m_planner->GetStartTime();
 		if(!m_planner->GetPosition().ExactlyEqual(vector3d(0,0,0))) {
 			Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 								  m_planner->GetVel(),
 								  frame->GetSystemBody()->GetMass());
 			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
-			PutSelectionBox(offset + m_planner->GetPosition()* double(m_zoom), Color::STEELBLUE);
+			if(std::fabs(m_time - t0) > 1. && (m_time - plannerStartTime) > 0.)
+				PutSelectionBox(offset + offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) * static_cast<double>(m_zoom), Color::STEELBLUE);
+			else
+				PutSelectionBox(offset + m_planner->GetPosition() * static_cast<double>(m_zoom), Color::STEELBLUE);
+				
 		}
 
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
@@ -767,7 +807,7 @@ void SystemView::Update()
 		if (m_plannerZeroRadialVelButton->IsPressed())     { m_planner->ResetDv(RADIAL);   }
 
 		m_plannerFactorText->SetText(m_planner->printFactor());
-		m_plannerStartTimeText->SetText(m_planner->printStartTime());
+		m_plannerStartTimeText->SetText(m_planner->printDeltaTime());
 		m_plannerProgradeDvText->SetText(m_planner->printDv(PROGRADE));
 		m_plannerNormalDvText->SetText(m_planner->printDv(NORMAL));
 		m_plannerRadialDvText->SetText(m_planner->printDv(RADIAL));

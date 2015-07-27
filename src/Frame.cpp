@@ -120,6 +120,7 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 	m_collisionSpace = new CollisionSpace();
 	if (m_parent) m_parent->AddChild(this);
 	if (label) m_label = label;
+	m_sbody = nullptr;
 }
 
 Frame::~Frame()
