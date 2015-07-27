@@ -36,11 +36,11 @@ public:
 	double GetStartTime() const;
 	void SetPosition(const vector3d& position);
 	void IncreaseFactor(), ResetFactor(), DecreaseFactor();
-	void AddStartTime(double deltaT);
+	void AddStartTime(double timeStep);
 	void ResetStartTime();
 	void AddDv(BurnDirection d, double dv);
 	void ResetDv(BurnDirection d);
-	std::string printStartTime();
+	std::string printDeltaTime();
 	std::string printDv(BurnDirection d);
 	std::string printFactor();
 private:
