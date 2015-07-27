@@ -14,6 +14,10 @@ July 2015
      * Remove output spamming messages (#3421)
      * Sort terrain gen (#3420)
      * Inactivate BodyScanner equipment testing code (#3422)
+     * Drawing optimisations (#3424)
+     * Render far away (#3428)
+     * Modelviewer refactor (#3429)
+     * Cleanup build warnings (#3433)
 
 June 2015
    * New Features

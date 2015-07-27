@@ -664,7 +664,115 @@ void TexturedQuad::Draw(Graphics::Renderer *r)
 	r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
 }
 //------------------------------------------------------------
+Rect::Rect(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const Color &c, RenderState *state, const bool bIsStatic /*= true*/) : m_renderState(state)
+{
+	PROFILE_SCOPED()
+			
+	using namespace Graphics;
+	VertexArray bgArr(ATTRIB_POSITION | ATTRIB_DIFFUSE, 4);
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
 
+	bgArr.Add(vector3f(pos.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,pos.y,0), c);
+	bgArr.Add(vector3f(pos.x,pos.y,0), c);
+
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic	= ATTRIB_POSITION;
+	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
+	vbd.attrib[1].format   = ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = 4;
+	vbd.usage = bIsStatic ? BUFFER_USAGE_STATIC : BUFFER_USAGE_DYNAMIC;
+	
+	// VertexBuffer
+	m_vertexBuffer.Reset( r->CreateVertexBuffer(vbd) );
+	m_vertexBuffer->Populate(bgArr);
+}
+
+void Rect::Update(const vector2f &pos, const vector2f &size, const Color &c)
+{
+	using namespace Graphics;
+	VertexArray bgArr(ATTRIB_POSITION | ATTRIB_DIFFUSE, 4);
+
+	bgArr.Add(vector3f(pos.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,pos.y,0), c);
+	bgArr.Add(vector3f(pos.x,pos.y,0), c);
+	
+	m_vertexBuffer->Populate(bgArr);
+}
+
+void Rect::Draw(Graphics::Renderer *r)
+{
+	PROFILE_SCOPED()
+	r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
+}
+	
+//------------------------------------------------------------
+RoundEdgedRect::RoundEdgedRect(Graphics::Renderer *r, const vector2f &size, const float rad, const Color &c, RenderState *state, const bool bIsStatic /*= true*/) : m_renderState(state)
+{
+	PROFILE_SCOPED()
+			
+	using namespace Graphics;
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic	= ATTRIB_POSITION;
+	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
+	vbd.attrib[1].format   = ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = 4 * (STEPS+1);
+	vbd.usage = bIsStatic ? BUFFER_USAGE_STATIC : BUFFER_USAGE_DYNAMIC;
+	m_vertexBuffer.Reset( r->CreateVertexBuffer(vbd) );
+
+	Update(size, rad, c);
+}
+
+void RoundEdgedRect::Update(const vector2f &size, float rad, const Color &c)
+{
+	Graphics::VertexArray vts(Graphics::ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	
+	if (rad > 0.5f*std::min(size.x, size.y)) 
+		rad = 0.5f*std::min(size.x, size.y);
+
+	// top left
+	// bottom left
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f(rad - rad*cos(ang), (size.y - rad) + rad*sin(ang), 0.f), c);
+	}
+	// bottom right
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI*0.5 + M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f(size.x - rad - rad*cos(ang), (size.y - rad) + rad*sin(ang), 0.f), c);
+	}
+	// top right
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI + M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f((size.x - rad) - rad*cos(ang), rad + rad*sin(ang), 0.f), c);
+	}
+
+	// top right
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f(rad - rad*cos(ang), rad + rad*sin(ang), 0.f), c);
+	}
+
+	m_vertexBuffer->Populate(vts);
+}
+
+void RoundEdgedRect::Draw(Graphics::Renderer *r)
+{
+	PROFILE_SCOPED()
+	r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
+}
+	
+//------------------------------------------------------------
 Axes3D::Axes3D(Graphics::Renderer *r, Graphics::RenderState *state)
 {
 	PROFILE_SCOPED()

@@ -42,6 +42,7 @@ namespace Gui {
 		bool HandleMouseEvent(MouseButtonEvent *e);
 		Color m_bgcol;
 		bool m_transparent;
+		std::unique_ptr<Graphics::Drawables::Rect> m_rect;
 	protected:
 		struct widget_pos {
 			Widget *w;

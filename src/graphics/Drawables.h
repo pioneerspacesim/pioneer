@@ -165,6 +165,33 @@ private:
 };
 //------------------------------------------------------------
 
+// a coloured rectangle
+class Rect {
+public:
+	Rect(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const Color &c, RenderState *state, const bool bIsStatic = true);
+	void Update(const vector2f &pos, const vector2f &size, const Color &c);
+	virtual void Draw(Graphics::Renderer *r);
+private:
+	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	Graphics::RenderState *m_renderState;
+};
+//------------------------------------------------------------
+
+// a coloured rectangle
+class RoundEdgedRect {
+public:
+	RoundEdgedRect(Graphics::Renderer *r, const vector2f &size, const float rad, const Color &c, RenderState *state, const bool bIsStatic = true);
+	void Update(const vector2f &size, float rad, const Color &c);
+	virtual void Draw(Graphics::Renderer *r);
+private:
+	static const int STEPS = 6;
+	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
+	Graphics::RenderState *m_renderState;
+};
+//------------------------------------------------------------
+
 //industry-standard red/green/blue XYZ axis indicator
 class Axes3D {
 public:

@@ -35,7 +35,9 @@ public:
 
 	friend vector2f operator*(const vector2f &v, const float &a) { return vector2f(v.x*a, v.y*a); }
 	friend vector2f operator*(const float &a, const vector2f &v) { return v*a; }
-	friend vector2f operator/(const vector2f &v, const float &a) { return vector2f(v.x/a, v.y/a); }
+	friend vector2f operator/(const vector2f &v, const float &a) { return vector2f(v.x / a, v.y / a); }
+	friend bool operator<(const vector2f &va, const vector2f &vb) { return va.LengthSqr() < vb.LengthSqr(); }
+
 
 	float Length() const { return sqrt(x*x + y*y); }
 	float LengthSqr() const { return x*x + y*y; }

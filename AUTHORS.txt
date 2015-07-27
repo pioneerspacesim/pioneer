@@ -20,7 +20,6 @@ The Pioneer Developers are:
 * Blaga Cosmin
 * Brian Ronald
 * C de Craen
-* cccpxx78
 * Chip Richards
 * Chris Collins
 * Chris Dennett
@@ -67,6 +66,7 @@ The Pioneer Developers are:
 * Pedro Gimeno
 * Peter Kurucz
 * Phil Howlett
+* Pieter Thielens
 * Piotr Gredka
 * PVJeltz
 * Radek Valášek aka vaLin
