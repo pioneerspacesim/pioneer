@@ -33,7 +33,6 @@ private:
 	friend class BinaryConverter;
 	double m_duration;
 	double m_time;
-	double m_timePrev;
 	std::string m_name;
 	std::vector<AnimationChannel> m_channels;
 };
