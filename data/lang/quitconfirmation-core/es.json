@@ -45,7 +45,7 @@
    },
    "MSG_4" : {
       "description" : "",
-      "message" : "¿Desea usted partir de forma tan rauda?"
+      "message" : "¿Deseáis partir de forma tan abrupta?"
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
@@ -53,15 +53,15 @@
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Pulsa {no} para ser valiente, pulsa {yes} por cobardía y vergüenza."
+      "message" : "Pulsa {no} para mostrar valentía, pulsa {yes} para cobardear en tablas."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "Si fuera tu no me iría. La linea de comandos es mucho peor."
+      "message" : "Si yo fuera tú, no me iría. La linea de comandos es mucho peor."
    },
    "MSG_8" : {
       "description" : "",
-      "message" : "Estoy pensando que quieres pulsar {no} para jugar más. hazlo."
+      "message" : "Estoy pensando que quieres pulsar {no} para jugar más. Házlo."
    },
    "MSG_9" : {
       "description" : "",
