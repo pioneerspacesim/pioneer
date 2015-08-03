@@ -441,7 +441,7 @@
    },
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
-      "message" : "Semi-finished products"
+      "message" : "Полуфабрикат"
    },
    "SPACEPORT" : {
       "description" : "",
