@@ -93,18 +93,20 @@ double TransferPlanner::GetStartTime() const {
 
 static std::string formatTime(double t)
 {
-    std::stringstream formattedTime;
-    formattedTime << std::setprecision(1) << std::fixed;
+	std::stringstream formattedTime;
+	formattedTime << std::setprecision(1) << std::fixed;
 	double absT = std::abs(t);
-    if(absT < 60.)
-        formattedTime << t << "s";
-    else if(absT < 3600)
-        formattedTime << t / 60. << "m";
-    else if(absT < 86400)
-        formattedTime << t / 3600. << "h";
-    else
-        formattedTime << t / 86400. << "y";
-    return formattedTime.str(); 
+	if(absT < 60.)
+		formattedTime << t << "s";
+	else if(absT < 3600)
+		formattedTime << t / 60. << "m";
+	else if(absT < 86400)
+		formattedTime << t / 3600. << "h";
+	else if(absT < 31536000)
+		formattedTime << t / 86400. << "d";
+	else
+		formattedTime << t / 31536000. << "y";
+	return formattedTime.str(); 
 }
 
 std::string TransferPlanner::printDeltaTime() {
