@@ -68,23 +68,20 @@ void TransferPlanner::AddStartTime(double timeStep) {
 		m_velocity = playerOrbit.OrbitalVelocityAtTime(frame->GetSystemBody()->GetMass(), deltaT);
 	}
 	else
-	{
-		m_startTime = 0.;
-		m_position = vector3d(0., 0., 0.);
-		m_velocity = vector3d(0., 0., 0.);
-	}
+		ResetStartTime();
 }
 
 void TransferPlanner::ResetStartTime() {
 	m_startTime = 0;
-	if(GetOffsetVel().ExactlyEqual(vector3d(0., 0. , 0.)))
+	Frame *frame = Pi::player->GetFrame();
+	if(!frame || GetOffsetVel().ExactlyEqual(vector3d(0., 0. , 0.)))
 	{
 		m_position = vector3d(0., 0., 0.);
 		m_velocity = vector3d(0. , 0., 0.);
 	}
 	else
 	{
-		Frame *frame = Pi::player->GetFrame()->GetNonRotFrame();
+		frame = frame->GetNonRotFrame();
 		m_position = Pi::player->GetPositionRelTo(frame);
 		m_velocity = Pi::player->GetVelocityRelTo(frame);
 	}
@@ -152,6 +149,18 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 		m_velocity = vector3d(0., 0., 0.);
 		m_startTime = 0.;
 	}
+}
+
+void TransferPlanner::ResetDv() {
+    m_dvPrograde = 0;
+    m_dvNormal = 0;
+    m_dvRadial = 0;
+
+    if(std::fabs(m_startTime) < 1.) {
+		m_position = vector3d(0., 0., 0.);
+		m_velocity = vector3d(0., 0., 0.);
+		m_startTime = 0.;
+    }
 }
 
 std::string TransferPlanner::printDv(BurnDirection d) {

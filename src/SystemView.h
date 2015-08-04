@@ -40,6 +40,7 @@ public:
 	void ResetStartTime();
 	void AddDv(BurnDirection d, double dv);
 	void ResetDv(BurnDirection d);
+	void ResetDv();
 	std::string printDeltaTime();
 	std::string printDv(BurnDirection d);
 	std::string printFactor();
