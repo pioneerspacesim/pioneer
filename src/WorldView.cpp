@@ -1578,11 +1578,16 @@ void WorldView::UpdateProjectedObjects()
 		HideIndicator(m_retroVelIndicator);
 	}
 
+	const Frame* frame = Pi::player->GetFrame();
+	if(frame->IsRotFrame())
+		frame = frame->GetNonRotFrame();
+	const SystemBody* systemBody = frame->GetSystemBody();
+
 	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
 		HideIndicator(m_burnIndicator);
-	} else {
+	} else if(systemBody) {
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
-		double mass = Pi::player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass();
+		double mass = systemBody->GetMass();
 		// XXX The best solution would be to store the mass(es) on Orbit
 		const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))) * cam_rot;
 		double relativeSpeed = camSpacePlanSpeed.Length();
