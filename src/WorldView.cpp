@@ -1587,20 +1587,22 @@ void WorldView::UpdateProjectedObjects()
 		HideIndicator(m_burnIndicator);
 	} else if(systemBody) {
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
-		double mass = systemBody->GetMass();
-		// XXX The best solution would be to store the mass(es) on Orbit
-		const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))) * cam_rot;
-		double relativeSpeed = camSpacePlanSpeed.Length();
+		if(!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
+			double mass = systemBody->GetMass();
+			// XXX The best solution would be to store the mass(es) on Orbit
+			const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))) * cam_rot;
+			double relativeSpeed = camSpacePlanSpeed.Length();
 
-		std::stringstream ddV;
-		ddV << std::setprecision(2) << std::fixed;
-		if(relativeSpeed > 1000)
-			ddV << relativeSpeed / 1000. << " km/s";
-		else
-			ddV << relativeSpeed << " m/s";
-		m_burnIndicator.label->SetText(ddV.str());
-		m_burnIndicator.side = INDICATOR_TOP;
-		UpdateIndicator(m_burnIndicator, camSpacePlanSpeed);
+			std::stringstream ddV;
+			ddV << std::setprecision(2) << std::fixed;
+			if(relativeSpeed > 1000)
+				ddV << relativeSpeed / 1000. << " km/s";
+			else
+				ddV << relativeSpeed << " m/s";
+			m_burnIndicator.label->SetText(ddV.str());
+			m_burnIndicator.side = INDICATOR_TOP;
+			UpdateIndicator(m_burnIndicator, camSpacePlanSpeed);
+		}
 	}
 
 	// orientation according to mouse
