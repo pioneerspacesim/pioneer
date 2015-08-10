@@ -158,6 +158,14 @@ Space::~Space()
 	UpdateBodies();
 }
 
+void Space::RefreshBackground()
+{
+	const SystemPath &path = m_starSystem->GetPath();
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
+}
+
 void Space::ToJson(Json::Value &jsonObj)
 {
 	RebuildFrameIndex();

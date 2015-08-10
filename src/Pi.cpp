@@ -715,6 +715,12 @@ void Pi::SetView(View *v)
 	if (currentView) currentView->Attach();
 }
 
+void Pi::RefreshBackground()
+{
+	if(game && game->GetSpace())
+		game->GetSpace()->RefreshBackground();
+}
+
 void Pi::OnChangeDetailLevel()
 {
 	BaseSphere::OnChangeDetailLevel();

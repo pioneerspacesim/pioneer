@@ -206,7 +206,7 @@ void Starfield::Init()
 
 void Starfield::Fill(Random &rand)
 {
-	const Sint32 NUM_BG_STARS = Clamp(Sint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), 0, BG_STAR_MAX);
+	const Sint32 NUM_BG_STARS = Clamp(Sint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
 
 	// setup the animated stars buffer (streaks in Hyperspace)
 	{

@@ -61,6 +61,7 @@ namespace Background
 	private:
 		void Init();
 		static const int BG_STAR_MAX = 100000;
+		static const int BG_STAR_MIN = 1000;
 		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 
 		//hyperspace animation vertex data

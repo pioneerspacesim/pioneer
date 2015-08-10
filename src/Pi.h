@@ -139,6 +139,7 @@ public:
 
 	static void SetAmountBackgroundStars(const float pc) { amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f); }
 	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
+	static void RefreshBackground();
 
 #if WITH_DEVKEYS
 	static bool showDebugInfo;

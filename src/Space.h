@@ -68,6 +68,7 @@ public:
 	const IterationProxy<const std::list<Body*> > GetBodies() const { return MakeIterationProxy(m_bodies); }
 
 	Background::Container *GetBackground() { return m_background.get(); }
+	void RefreshBackground();
 
 	// body finder delegates
 	typedef std::vector<Body*> BodyNearList;

@@ -394,6 +394,12 @@ static int l_engine_get_amount_stars(lua_State *l)
 	return 1;
 }
 
+static int l_engine_refresh_background(lua_State *l)
+{
+	Pi::RefreshBackground();
+	return 0;
+}
+
 static void set_master_volume(const bool muted, const float volume)
 {
 	Sound::Pause(muted || is_zero_exact(volume));
@@ -817,6 +823,7 @@ void LuaEngine::Register()
 
 		{ "SetAmountStars", l_engine_set_amount_stars },
 		{ "GetAmountStars", l_engine_get_amount_stars },
+		{ "RefreshBackground", l_engine_refresh_background },
 
 		{ "GetMasterMuted", l_engine_get_master_muted },
 		{ "SetMasterMuted", l_engine_set_master_muted },
