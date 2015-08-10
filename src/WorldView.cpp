@@ -37,6 +37,7 @@
 #include "LuaObject.h"
 #include <algorithm>
 #include <sstream>
+#include <iomanip>
 #include <SDL_stdinc.h>
 
 const double WorldView::PICK_OBJECT_RECT_SIZE = 20.0;
@@ -256,12 +257,14 @@ void WorldView::InitObject()
 	m_navVelIndicator.label = (new Gui::Label(""))->Color(0, 255, 0);
 	m_combatTargetIndicator.label = new Gui::Label(""); // colour set dynamically
 	m_targetLeadIndicator.label = new Gui::Label("");
+	m_burnIndicator.label = (new Gui::Label(""))->Color(0, 153, 255);
 
 	// these labels are repositioned during Draw3D()
 	Add(m_navTargetIndicator.label, 0, 0);
 	Add(m_navVelIndicator.label, 0, 0);
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
+	Add(m_burnIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
 	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
@@ -1567,20 +1570,37 @@ void WorldView::UpdateProjectedObjects()
 
 	// velocity relative to current frame (white)
 	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
-	const vector3d camSpaceBurnVel = Pi::planner->GetOffsetVel() * cam_rot;
 	if (camSpaceVel.LengthSqr() >= 1e-4) {
 		UpdateIndicator(m_velIndicator, camSpaceVel);
 		UpdateIndicator(m_retroVelIndicator, -camSpaceVel);
-
-		if(camSpaceBurnVel.ExactlyEqual(vector3d(0,0,0))) {
-			HideIndicator(m_burnIndicator);
-		} else {
-			UpdateIndicator(m_burnIndicator, camSpaceBurnVel);
-		}
-
 	} else {
 		HideIndicator(m_velIndicator);
 		HideIndicator(m_retroVelIndicator);
+	}
+
+	const Frame* frame = Pi::player->GetFrame();
+	if(frame->IsRotFrame())
+		frame = frame->GetNonRotFrame();
+	const SystemBody* systemBody = frame->GetSystemBody();
+
+	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
+		HideIndicator(m_burnIndicator);
+	} else if(systemBody) {
+		Orbit playerOrbit = Pi::player->ComputeOrbit();
+		double mass = systemBody->GetMass();
+		// XXX The best solution would be to store the mass(es) on Orbit
+		const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))) * cam_rot;
+		double relativeSpeed = camSpacePlanSpeed.Length();
+
+		std::stringstream ddV;
+		ddV << std::setprecision(2) << std::fixed;
+		if(relativeSpeed > 1000)
+			ddV << relativeSpeed / 1000. << " km/s";
+		else
+			ddV << relativeSpeed << " m/s";
+		m_burnIndicator.label->SetText(ddV.str());
+		m_burnIndicator.side = INDICATOR_TOP;
+		UpdateIndicator(m_burnIndicator, camSpacePlanSpeed);
 	}
 
 	// orientation according to mouse

@@ -421,6 +421,10 @@ void Game::SwitchToHyperspace()
 
 	m_space->GetBackground()->SetDrawFlags( Background::Container::DRAW_STARS );
 
+	// Reset planner
+	Pi::planner->ResetStartTime();
+	Pi::planner->ResetDv();
+
 	// put the player in it
 	m_player->SetFrame(m_space->GetRootFrame());
 	m_space->AddBody(m_player.get());

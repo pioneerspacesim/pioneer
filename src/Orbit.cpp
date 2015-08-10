@@ -138,6 +138,67 @@ vector3d Orbit::OrbitalPosAtTime(double t) const
 	return m_orient * vector3d(-cos_v*r, sin_v*r, 0);
 }
 
+double Orbit::OrbitalTimeAtPos(const vector3d& pos, double centralMass) const
+{
+	double c = m_eccentricity * m_semiMajorAxis;
+	matrix3x3d matrixInv = m_orient.Inverse();
+	vector3d approx3dPos = (matrixInv * pos - vector3d(c, 0., 0.)).Normalized();
+
+	double cos_v = -vector3d(1., 0., 0.).Dot(approx3dPos);
+	double sin_v = std::copysign(vector3d(1., 0., 0.).Cross(approx3dPos).Length(), approx3dPos.y);
+
+	double cos_E = (cos_v + m_eccentricity) / (1. + m_eccentricity * cos_v);
+	double E;
+	double meanAnomaly;
+	if(m_eccentricity <= 1.)
+	{
+		E = std::acos(cos_E);
+		if(sin_v < 0)
+			E *= -1.;
+		meanAnomaly = E - m_eccentricity * std::sin(E);
+	}
+	else
+	{
+		E = std::acosh(cos_E);
+		if(sin_v < 0)
+			E *= -1.;
+		meanAnomaly = E - m_eccentricity * std::sinh(E);
+	}
+	
+	if(m_eccentricity <= 1.)
+	{
+		meanAnomaly -= m_orbitalPhaseAtStart;
+		while(meanAnomaly < 0)
+			meanAnomaly += 2. * M_PI;
+	}
+	else if(meanAnomaly < 0.)
+		meanAnomaly += m_orbitalPhaseAtStart;
+
+	if(m_eccentricity <= 1.)
+		return meanAnomaly * Period() / (2. * M_PI);
+	else if(meanAnomaly < 0.)
+		return -meanAnomaly * std::sqrt(std::pow(m_semiMajorAxis, 3) / (G * centralMass));
+	else
+		return - std::fabs(meanAnomaly + m_orbitalPhaseAtStart) * std::sqrt(std::pow(m_semiMajorAxis, 3) / (G * centralMass));
+}
+
+vector3d Orbit::OrbitalVelocityAtTime(double totalMass, double t) const
+{
+	double cos_v, sin_v, r;
+	calc_position_from_mean_anomaly(MeanAnomalyAtTime(t), m_eccentricity, m_semiMajorAxis, cos_v, sin_v, &r);
+
+	double mi = G * totalMass;
+	double p;
+	if(m_eccentricity <= 1.)
+		p = (1. - m_eccentricity * m_eccentricity) * m_semiMajorAxis;
+	else
+		p = (m_eccentricity * m_eccentricity - 1.) * m_semiMajorAxis;
+
+	double h = std::sqrt(mi / p);
+
+	return m_orient * vector3d(h * sin_v, h * (m_eccentricity + cos_v), 0);
+}
+
 // used for stepping through the orbit in small fractions
 // mean anomaly <-> true anomaly conversion doesn't have
 // to be taken into account

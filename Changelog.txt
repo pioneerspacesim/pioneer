@@ -1,3 +1,7 @@
+August 2015
+   * New Features
+     * Orbital planner got some new features (#3426)
+
 July 2015
    * New Features
      * Add first initial support for Arab fonts (#3416)

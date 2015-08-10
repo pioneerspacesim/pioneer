@@ -36,6 +36,8 @@ public:
 	void SetPhase(double orbitalPhaseAtStart) { m_orbitalPhaseAtStart = orbitalPhaseAtStart; }
 
 	vector3d OrbitalPosAtTime(double t) const;
+	double OrbitalTimeAtPos(const vector3d& pos, double centralMass) const;
+	vector3d OrbitalVelocityAtTime(double totalMass, double t) const;
 
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
 	vector3d EvenSpacedPosTrajectory(double t) const;
