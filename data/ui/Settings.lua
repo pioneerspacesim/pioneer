@@ -133,7 +133,7 @@ ui.templates.Settings = function (args)
 					label:SetText(caption .. " " .. math.floor(new_value * 100) .. "%")
 					setter(new_value)
 				end)
-			return ui:VBox():PackEnd({label, slider})
+			return ui:HBox():PackEnd({label, slider})
 		end
 
 		return ui:Grid({1,1}, 1)
