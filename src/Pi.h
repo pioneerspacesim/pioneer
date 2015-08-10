@@ -137,7 +137,7 @@ public:
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
-	static void SetAmountBackgroundStars(const float pc) { amountOfBackgroundStarsDisplayed = Clamp(pc, 0.0f, 1.0f); }
+	static void SetAmountBackgroundStars(const float pc) { amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f); }
 	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
 
 #if WITH_DEVKEYS
