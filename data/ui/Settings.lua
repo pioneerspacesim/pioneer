@@ -133,7 +133,7 @@ ui.templates.Settings = function (args)
 					label:SetText(caption .. " " .. math.floor(new_value * 100) .. "%")
 					setter(new_value)
 				end)
-			return ui:VBox():PackEnd({label, slider})
+			return ui:HBox():PackEnd({label, slider})
 		end
 
 		return ui:Grid({1,1}, 1)
@@ -364,12 +364,19 @@ ui.templates.Settings = function (args)
 	setTabs:AddTab({ id = "Language", title = l.LANGUAGE, icon = "Globe1",      template = wrapWithScroller(languageTemplate) })
 	setTabs:AddTab({ id = "Controls", title = l.CONTROLS, icon = "Gamepad",     template = wrapWithScroller(controlsTemplate) })
 
+	local function onCloseSettings()
+		print('Refreshing game settings now...')
+	end
+
 	local close_buttons = {}
 	do
 		local items = args.closeButtons
 		for i = 1, #items do
 			local btn = ui:Button():SetInnerWidget(ui:Label(items[i].text))
-			btn.onClick:Connect(items[i].onClick)
+			btn.onClick:Connect(function()
+				onCloseSettings()
+				items[i].onClick
+			end)
 			close_buttons[i] = btn
 			if (items[i].toDisable and items[i].toDisable()) then
 				btn:Disable()
