@@ -1155,6 +1155,10 @@
       "description" : "For system orbit view",
       "message" : "Radial delta-v. Click to reset to zero."
    },
+   "PLANNER_RESET_START" : {
+      "description" : "For system orbit view",
+      "message" : "Maneuver start. Click to reset to default."
+   },
    "PLASTICS" : {
       "description" : "",
       "message" : "Plastmasės"
