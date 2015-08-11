@@ -126,6 +126,7 @@ std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
+bool Pi::bRefreshBackgroundStars = false;
 float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
@@ -713,12 +714,6 @@ void Pi::SetView(View *v)
 	if (currentView) currentView->Detach();
 	currentView = v;
 	if (currentView) currentView->Attach();
-}
-
-void Pi::RefreshBackground()
-{
-	if(game && game->GetSpace())
-		game->GetSpace()->RefreshBackground();
 }
 
 void Pi::OnChangeDetailLevel()

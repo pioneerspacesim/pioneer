@@ -915,6 +915,10 @@ void Space::CollideFrame(Frame *f)
 void Space::TimeStep(float step)
 {
 	PROFILE_SCOPED()
+
+	if( Pi::MustRefreshBackgroundClearFlag() )
+		RefreshBackground();
+
 	m_frameIndexValid = m_bodyIndexValid = m_sbodyIndexValid = false;
 
 	// XXX does not need to be done this often
