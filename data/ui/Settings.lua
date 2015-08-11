@@ -364,19 +364,12 @@ ui.templates.Settings = function (args)
 	setTabs:AddTab({ id = "Language", title = l.LANGUAGE, icon = "Globe1",      template = wrapWithScroller(languageTemplate) })
 	setTabs:AddTab({ id = "Controls", title = l.CONTROLS, icon = "Gamepad",     template = wrapWithScroller(controlsTemplate) })
 
-	local function onCloseSettings()
-		Engine.RefreshBackground()
-	end
-
 	local close_buttons = {}
 	do
 		local items = args.closeButtons
 		for i = 1, #items do
 			local btn = ui:Button():SetInnerWidget(ui:Label(items[i].text))
-			btn.onClick:Connect(function()
-				onCloseSettings()
-				items[i].onClick()
-			end)
+			btn.onClick:Connect(items[i].onClick)
 			close_buttons[i] = btn
 			if (items[i].toDisable and items[i].toDisable()) then
 				btn:Disable()
