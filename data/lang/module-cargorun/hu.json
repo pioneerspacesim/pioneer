@@ -5,11 +5,11 @@
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Nagyon jó."
+      "message" : "Remek."
    },
    "ACCEPTED_3" : {
       "description" : "",
-      "message" : "Ok, jó lesz. Remélem bízhatok benned."
+      "message" : "Jól van. Remélem bízhatok benned."
    },
    "ACCEPTED_4" : {
       "description" : "",
@@ -17,35 +17,35 @@
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, I will make sure that the goods are ready for collection."
+      "message" : "Rendben. Előkészítem a rakományt a berakodáshoz."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "It's a deal! I will let my colleagues know that you are on your way."
+      "message" : "Áll az alku! Szólok a kollégáimnak, hogy érkezik a szállítmány."
    },
    "ADTEXT_1" : {
       "description" : "",
-      "message" : "CARGO RUN. Delivery of cargo to the {system} system."
+      "message" : "ÁRU SZÁLLÍTÁS. Kissebb rakomány a {system} rendszerbe."
    },
    "ADTEXT_2" : {
       "description" : "",
-      "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+      "message" : "SZÁLLÍTÓT KERES. Fuvart keresek {system} rendszerbe. Fizetés: {cash}."
    },
    "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+      "message" : "FUVAR. Értékes rakomány {system} rendszerbe. {cash}, tapasztalt pilótának."
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "LOCAL DELIVERY. Move of goods to {starport}."
+      "message" : "HELYI FUVAR. {startport} kikötöjébe."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+      "message" : "HELY SZÁLLÍTMÁNY. Áru, cél: {starport}."
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "LOCAL CARGO RUN. Delivery of goods to {starport}."
+      "message" : "RÖVID TÁVÚ ÁRUSZÁLLÍTÁS. Rakomány {starport} kikötőjébe."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
