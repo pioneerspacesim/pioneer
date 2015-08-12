@@ -638,7 +638,7 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 								  frame->GetSystemBody()->GetMass());
 			PutOrbit(&plannedOrbit, offset, Color::STEELBLUE, b->GetRadius());
 			if(std::fabs(m_time - t0) > 1. && (m_time - plannerStartTime) > 0.)
-				PutSelectionBox(offset + offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) * static_cast<double>(m_zoom), Color::STEELBLUE);
+				PutSelectionBox(offset + plannedOrbit.OrbitalPosAtTime(m_time - plannerStartTime) * static_cast<double>(m_zoom), Color::STEELBLUE);
 			else
 				PutSelectionBox(offset + m_planner->GetPosition() * static_cast<double>(m_zoom), Color::STEELBLUE);
 				
