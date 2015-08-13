@@ -4,6 +4,7 @@ August 2015
 
    * Fixes
      * Fix NAN for planned orbit (#3437)
+     * Fix math typo (#3440)
 
 July 2015
    * New Features
