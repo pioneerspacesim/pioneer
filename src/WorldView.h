@@ -67,6 +67,8 @@ public:
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
+	void ResetHyperspaceButton();
+
 	sigc::signal<void> onChangeCamType;
 
 protected:

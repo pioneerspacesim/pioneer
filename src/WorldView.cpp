@@ -471,6 +471,12 @@ void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
 	}
 }
 
+void WorldView::ResetHyperspaceButton()
+{
+	if(m_hyperspaceButton->GetState() == 1)
+		m_hyperspaceButton->StatePrev();
+}
+
 void WorldView::Draw3D()
 {
 	PROFILE_SCOPED()
