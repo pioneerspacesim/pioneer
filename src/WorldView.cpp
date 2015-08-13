@@ -460,6 +460,10 @@ void WorldView::OnClickBlastoff()
 
 void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
 {
+	// Not the best way, but show the button when docked, but flip it back when pressed
+	if(Pi::player->GetFlightState() == Ship::DOCKED || Pi::player->GetFlightState() == Ship::LANDED)
+		ResetHyperspaceButton();
+
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
 		Pi::player->AbortHyperjump();
