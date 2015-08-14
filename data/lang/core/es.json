@@ -1157,7 +1157,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Iniciar maniobra. Click para reiniciar por defecto."
    },
    "PLASTICS" : {
       "description" : "",
