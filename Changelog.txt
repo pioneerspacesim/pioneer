@@ -6,6 +6,9 @@ August 2015
      * Fix NAN for planned orbit (#3437)
      * Fix math typo (#3440)
 
+   * Internal Changes
+     * Changed/removed some non-portable C++11 usage (#3444)
+
 July 2015
    * New Features
      * Add first initial support for Arab fonts (#3416)
