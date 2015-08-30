@@ -144,7 +144,7 @@ void TransferPlanner::ResetDv(BurnDirection d) {
 	case RADIAL:   m_dvRadial   = 0; break;
 	}
 
-	if(std::fabs(m_startTime) < 1. and
+	if(std::fabs(m_startTime) < 1. &&
 	   GetOffsetVel().ExactlyEqual(vector3d(0., 0., 0.)))
 	{
 		m_position = vector3d(0., 0., 0.);
@@ -429,7 +429,7 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Color &color, double planetRadius)
 {
-	static constexpr unsigned short n_vertices_max = 100;
+	static const unsigned short n_vertices_max = 100;
 
 	double maxT = 1.;
 	unsigned short num_vertices = 0;
