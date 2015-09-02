@@ -1,3 +1,11 @@
+September 2015
+   * New Features
+     * Control how many stars in the sky (#3431)
+
+   * Internal Changes
+     * Remove planetary scaling during rendering (#3434)
+     * Remove the animation Interpolate optimisation (#3435)
+
 August 2015
    * New Features
      * Orbital planner got some new features (#3426)
