@@ -32,7 +32,7 @@ public:
 	virtual ~GasGiant();
 
 	virtual void Update();
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows);
+	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows);
 
 	virtual double GetHeight(const vector3d &p) const { return 0.0; }
 

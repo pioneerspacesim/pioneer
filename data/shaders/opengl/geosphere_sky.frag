@@ -4,8 +4,7 @@
 uniform vec4 atmosColor;
 // to keep distances sane we do a nearer, smaller scam. this is how many times
 // smaller the geosphere has been made
-uniform float geosphereScale;
-uniform float geosphereScaledRadius;
+uniform float geosphereRadius;
 uniform float geosphereAtmosTopRad;
 uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
@@ -61,13 +60,13 @@ void main(void)
 	vec3 eyenorm = normalize(varyingEyepos.xyz);
 	float specularHighlight=0.0;
 
-	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, varyingEyepos.xyz, geosphereScaledRadius * geosphereAtmosTopRad);
-	float atmosDist = geosphereScale * (skyFar - skyNear);
+	sphereEntryExitDist(skyNear, skyFar, geosphereCenter, varyingEyepos.xyz, geosphereRadius * geosphereAtmosTopRad);
+	float atmosDist = (skyFar - skyNear);
 	float ldprod=0.0;
 	
 	// a&b scaled so length of 1.0 means planet surface.
-	vec3 a = (skyNear * eyenorm - geosphereCenter) / geosphereScaledRadius;
-	vec3 b = (skyFar * eyenorm - geosphereCenter) / geosphereScaledRadius;
+	vec3 a = (skyNear * eyenorm - geosphereCenter) / geosphereRadius;
+	vec3 b = (skyFar * eyenorm - geosphereCenter) / geosphereRadius;
 	ldprod = AtmosLengthDensityProduct(a, b, atmosColor.a * geosphereAtmosFogDensity, atmosDist, geosphereAtmosInvScaleHeight);
 	
 	float fogFactor = 1.0 / exp(ldprod);
