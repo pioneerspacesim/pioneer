@@ -61,6 +61,7 @@ namespace Background
 	private:
 		void Init();
 		static const int BG_STAR_MAX = 100000;
+		static const int BG_STAR_MIN = 1000;
 		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 
 		//hyperspace animation vertex data
@@ -94,12 +95,13 @@ namespace Background
 
 		Container(Graphics::Renderer*, Random &rand);
 		void Draw(const matrix4x4d &transform);
-		void Refresh(Random &rand);
 
 		void SetIntensity(float intensity);
 		void SetDrawFlags(const Uint32 flags);
 
 	private:
+		void Refresh(Random &rand);
+
 		Graphics::Renderer *m_renderer;
 		MilkyWay m_milkyWay;
 		Starfield m_starField;

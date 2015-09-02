@@ -951,6 +951,10 @@
       "description" : "",
       "message" : "Sound"
    },
+   "STAR_FIELD_DENSITY" : {
+      "description" : "",
+      "message" : "Density of Star field"
+   },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
       "message" : "Start at Barnard's Star"

@@ -137,6 +137,14 @@ public:
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
+	static void SetAmountBackgroundStars(const float pc) { amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f); bRefreshBackgroundStars = true; }
+	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
+	static bool MustRefreshBackgroundClearFlag() { 
+		const bool bRet = bRefreshBackgroundStars;
+		bRefreshBackgroundStars = false;
+		return bRet; 
+	}
+
 #if WITH_DEVKEYS
 	static bool showDebugInfo;
 #endif
@@ -207,6 +215,8 @@ private:
 	static bool navTunnelDisplayed;
 	static bool speedLinesDisplayed;
 	static bool hudTrailsDisplayed;
+	static bool bRefreshBackgroundStars;
+	static float amountOfBackgroundStarsDisplayed;
 
 	static Gui::Fixed *menu;
 

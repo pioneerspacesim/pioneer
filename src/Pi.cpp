@@ -126,6 +126,8 @@ std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
 bool Pi::navTunnelDisplayed;
 bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
+bool Pi::bRefreshBackgroundStars = true;
+float Pi::amountOfBackgroundStarsDisplayed = 1.0f;
 Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
@@ -375,6 +377,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Lang::Resource res(Lang::GetResource("core", config->String("Lang")));
 	Lang::MakeCore(res);
 
+	Pi::SetAmountBackgroundStars(config->Float("AmountOfBackgroundStars"));
 	Pi::detail.planets = config->Int("DetailPlanets");
 	Pi::detail.textures = config->Int("Textures");
 	Pi::detail.fracmult = config->Int("FractalMultiple");
