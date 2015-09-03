@@ -963,6 +963,10 @@
       "description" : "New Hope is an in game location",
       "message" : "从新希望开始"
    },
+   "STAR_FIELD_DENSITY" : {
+      "description" : "",
+      "message" : "Density of Star field"
+   },
    "STATION_MANAGER" : {
       "description" : "",
       "message" : "空间站管理者"

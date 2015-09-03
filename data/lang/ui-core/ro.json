@@ -963,6 +963,10 @@
       "description" : "New Hope is an in game location",
       "message" : "Pornește din New Hope"
    },
+   "STAR_FIELD_DENSITY" : {
+      "description" : "",
+      "message" : "Density of Star field"
+   },
    "STATION_MANAGER" : {
       "description" : "",
       "message" : "Manager stațiune"

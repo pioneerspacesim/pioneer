@@ -963,6 +963,10 @@
       "description" : "New Hope is an in game location",
       "message" : "Começar em Nova Esperança"
    },
+   "STAR_FIELD_DENSITY" : {
+      "description" : "",
+      "message" : "Density of Star field"
+   },
    "STATION_MANAGER" : {
       "description" : "",
       "message" : "Station manager"
