@@ -67,6 +67,8 @@ public:
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
+	void ResetHyperspaceButton();
+
 	sigc::signal<void> onChangeCamType;
 
 protected:
@@ -123,7 +125,7 @@ private:
 	void OnClickLowThrustPower();
 	void OnSelectLowThrustPower(float power);
 
-	void OnClickHyperspace();
+	void OnClickHyperspace(Gui::MultiStateImageButton *b);
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
@@ -142,8 +144,6 @@ private:
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
-	Gui::ImageButton *m_hyperspaceButton;
-
 	Gui::Label *m_pauseText;
 	Gui::Label *m_showCameraName;
 	Gui::Fixed *m_commsOptions;
@@ -154,6 +154,7 @@ private:
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
+	Gui::MultiStateImageButton *m_hyperspaceButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
 	Uint32 m_showTargetActionsTimeout;

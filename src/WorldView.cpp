@@ -150,9 +150,10 @@ void WorldView::InitObject()
 	set_low_thrust_power_button->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(set_low_thrust_power_button, 98, 2);
 
-	m_hyperspaceButton = new Gui::ImageButton("icons/hyperspace_f8.png");
+	m_hyperspaceButton = new Gui::MultiStateImageButton();
 	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
-	m_hyperspaceButton->SetToolTip(Lang::HYPERSPACE_JUMP);
+	m_hyperspaceButton->AddState(0, "icons/hyperspace_engage_f8.png", Lang::HYPERSPACE_JUMP_ENGAGE);
+	m_hyperspaceButton->AddState(1, "icons/hyperspace_abort_f8.png", Lang::HYPERSPACE_JUMP_ABORT);
 	m_hyperspaceButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickHyperspace));
 	m_hyperspaceButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
@@ -457,8 +458,12 @@ void WorldView::OnClickBlastoff()
 	}
 }
 
-void WorldView::OnClickHyperspace()
+void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
 {
+	// Not the best way, but show the button when docked, but flip it back when pressed
+	if(Pi::player->GetFlightState() == Ship::DOCKED || Pi::player->GetFlightState() == Ship::LANDED)
+		ResetHyperspaceButton();
+
 	if (Pi::player->IsHyperspaceActive()) {
 		// Hyperspace countdown in effect.. abort!
 		Pi::player->AbortHyperjump();
@@ -468,6 +473,12 @@ void WorldView::OnClickHyperspace()
 		SystemPath path = m_game->GetSectorView()->GetHyperspaceTarget();
 		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
 	}
+}
+
+void WorldView::ResetHyperspaceButton()
+{
+	if(m_hyperspaceButton->GetState() == 1)
+		m_hyperspaceButton->StatePrev();
 }
 
 void WorldView::Draw3D()
