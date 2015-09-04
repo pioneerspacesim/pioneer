@@ -1,6 +1,7 @@
 September 2015
    * New Features
      * Control how many stars in the sky (#3431)
+     * Two state hyperspace button (#3438)
 
    * Internal Changes
      * Remove planetary scaling during rendering (#3434)
