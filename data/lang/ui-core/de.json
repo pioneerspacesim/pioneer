@@ -965,7 +965,7 @@
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
-      "message" : "Density of Star field"
+      "message" : "Ziel des Sternenfeldes"
    },
    "STATION_MANAGER" : {
       "description" : "",
