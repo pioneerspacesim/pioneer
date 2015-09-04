@@ -547,13 +547,17 @@
       "description" : "",
       "message" : "Nor de plecare în hiperspațiu"
    },
-   "HYPERSPACE_JUMP" : {
-      "description" : "",
-      "message" : "Salt în hiperstațiu"
+   "HYPERSPACE_JUMP_ABORT" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Disengage Hyperdrive"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Salt în hiperspațiu anulat."
+   },
+   "HYPERSPACE_JUMP_ENGAGE" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Engage Hyperdrive"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",

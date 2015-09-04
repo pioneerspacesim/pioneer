@@ -547,13 +547,17 @@
       "description" : "",
       "message" : "Nube iperspaziale di partenza"
    },
-   "HYPERSPACE_JUMP" : {
-      "description" : "",
-      "message" : "Balzo Iperspaziale"
+   "HYPERSPACE_JUMP_ABORT" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Disengage Hyperdrive"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Balzo annullato."
+   },
+   "HYPERSPACE_JUMP_ENGAGE" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Engage Hyperdrive"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",

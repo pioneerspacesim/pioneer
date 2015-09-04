@@ -547,13 +547,17 @@
       "description" : "",
       "message" : "Neul falbh os-fhànais"
    },
-   "HYPERSPACE_JUMP" : {
-      "description" : "",
-      "message" : "Leum os-fhànais"
+   "HYPERSPACE_JUMP_ABORT" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Disengage Hyperdrive"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Chaidh sgur dhen leum os-fhànais."
+   },
+   "HYPERSPACE_JUMP_ENGAGE" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Engage Hyperdrive"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",

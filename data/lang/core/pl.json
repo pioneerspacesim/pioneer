@@ -547,13 +547,17 @@
       "description" : "",
       "message" : "Wejściowa chmura nadprzestrzenna"
    },
-   "HYPERSPACE_JUMP" : {
-      "description" : "",
-      "message" : "Skok w nadprzestrzeń"
+   "HYPERSPACE_JUMP_ABORT" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Disengage Hyperdrive"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Skok w nadprzestrzeń przerwany."
+   },
+   "HYPERSPACE_JUMP_ENGAGE" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Engage Hyperdrive"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",

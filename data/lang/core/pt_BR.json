@@ -547,13 +547,17 @@
       "description" : "",
       "message" : "Nuvem de partida do espaço sideral"
    },
-   "HYPERSPACE_JUMP" : {
-      "description" : "",
-      "message" : "Salto no Espaço SIderal"
+   "HYPERSPACE_JUMP_ABORT" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Disengage Hyperdrive"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Salto no espaço sideral abortado."
+   },
+   "HYPERSPACE_JUMP_ENGAGE" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Engage Hyperdrive"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",

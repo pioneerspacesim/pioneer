@@ -547,13 +547,17 @@
       "description" : "",
       "message" : "Avgångsmoln till hyperrymd"
    },
-   "HYPERSPACE_JUMP" : {
-      "description" : "",
-      "message" : "Hyperrymdhopp"
+   "HYPERSPACE_JUMP_ABORT" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Disengage Hyperdrive"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Hyerrymdshopp avbrutet."
+   },
+   "HYPERSPACE_JUMP_ENGAGE" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Engage Hyperdrive"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
