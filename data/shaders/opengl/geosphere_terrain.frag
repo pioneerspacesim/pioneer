@@ -83,15 +83,11 @@ void main(void)
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
 
-	//float fog = exp(-0.005 * dist);
-	//float fog2 = exp(-0.001 * dist);
-	float fog = exp(-0.004 * dist);
-	float fog2 = exp(-0.001 * dist);
-	//vec4 fogcol = mix(texcol, vec4(1.0), fog);
-	//hidetail = vec4(1.0, 0.0, 0.0, 1.0);
-	//lodetail = vec4(0.0, 0.0, 1.0, 0.0);
-	vec4 fogcol1 = mix(lodetail, hidetail, fog);
-	vec4 fogcol = mix(vec4(1.0), fogcol1, fog2);
+	// calculte the detail texture contribution from hi and lo textures
+	float hiloMix = exp(-0.004 * dist);
+	float detailMix = exp(-0.001 * dist);
+	vec4 detailVal = mix(lodetail, hidetail, hiloMix);
+	vec4 detailMul = mix(vec4(1.0), detailVal, detailMix);
 
 	float nDotVP=0.0;
 	float nnDotVP=0.0;
@@ -138,7 +134,8 @@ void main(void)
 #endif
 	}
 
-	vec4 final = vertexColor * fogcol;
+	// Use the detail value to multiply the final colour before lighting
+	vec4 final = vertexColor * detailMul;
 	
 #ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere

@@ -29,10 +29,10 @@ void main(void)
 #ifdef TERRAIN_WITH_LAVA
 	varyingEmission = material.emission;
 	//Glow lava terrains
-	if ( vertexColor.r > 0.4 && vertexColor.g < 0.2 && vertexColor.b < 0.4 ) {
+	if ( vertexColor.r > 0.4 && vertexColor.g < 0.2 && vertexColor.b < 0.4 ) 
+	{
 		varyingEmission = 3.0*vertexColor;
 		varyingEmission *= (vertexColor.r+vertexColor.g+vertexColor.b);
-
 	}
 #endif
 }
