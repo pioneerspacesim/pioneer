@@ -437,11 +437,11 @@
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Ipermotore"
+      "message" : "Iperguida"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
-      "message" : "Ipermotore montato:"
+      "message" : "Iperguida montata:"
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",

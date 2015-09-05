@@ -41,55 +41,55 @@
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 1"
+      "message" : "Iperguida civile classe 1"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 2"
+      "message" : "Iperguida civile classe 2"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 3"
+      "message" : "Iperguida civile classe 3"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 4"
+      "message" : "Iperguida civile classe 4"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 5"
+      "message" : "Iperguida civile classe 5"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 6"
+      "message" : "Iperguida civile classe 6"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 7"
+      "message" : "Iperguida civile classe 7"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 8"
+      "message" : "Iperguida civile classe 8"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Ipermotore civile classe 9"
+      "message" : "Iperguida civile classe 9"
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Ipermotore militare classe 1"
+      "message" : "Iperguida militare classe 1"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Ipermotore militare classe 2"
+      "message" : "Iperguida militare classe 2"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Ipermotore militare classe 3"
+      "message" : "Iperguida militare classe 3"
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Ipermotore militare classe 4"
+      "message" : "Iperguida militare classe 4"
    },
    "ECM_ADVANCED" : {
       "description" : "",
