@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaFormat.h"
@@ -28,7 +28,7 @@
  *
  * Parameters:
  *
- *   date - a date/time value, as seconds since 12:00 01-01-3200
+ *   date - a date/time value, as seconds since 3200-01-01  00:00:00
  *
  * Return:
  *

@@ -59,6 +59,38 @@
       "description" : "",
       "message" : "Frist:"
    },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "I'm sorry, but I don't think I could trust you with my safety."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Come back when you have some qualifications."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "I don't think you're the pilot I'm looking for."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "You don't look like someone capable of transporting people."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "You're not the kind of pilot I'm looking for."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "You seem much too inexperienced to handle a transport of this importance."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "I have never heard of you. I need someone experienced for this journey."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "I'm not willing to risk my life on someone without any qualifications like you."
+   },
    "DISTANCE" : {
       "description" : "",
       "message" : "Distanse:"
@@ -490,10 +522,6 @@
    "GROUP_DETAILS" : {
       "description" : "",
       "message" : "Group details:"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Legg på."
    },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",

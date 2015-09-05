@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VIEW_H
@@ -7,8 +7,11 @@
 #include "libs.h"
 #include "Serializer.h"
 #include "gui/Gui.h"
+#include "json/json.h"
 
 namespace Graphics { class Renderer; }
+
+class ShipCpanel;
 
 /*
  * For whatever draws crap into the main area of the screen.
@@ -25,13 +28,15 @@ public:
 	virtual void Draw3D() = 0;
 	// for checking key states, mouse crud
 	virtual void Update() = 0;
-	virtual void Save(Serializer::Writer &wr) {}
-	virtual void Load(Serializer::Reader &rd) {}
+	virtual void SaveToJson(Json::Value &jsonObj) {}
+	virtual void LoadFromJson(const Json::Value &jsonObj) {}
 
 	void Attach();
 	void Detach();
 
 	void SetRenderer(Graphics::Renderer *r) { m_renderer = r; }
+
+	static void SetCpanel(ShipCpanel* cpan) { s_cpan = cpan; }
 
 protected:
 	virtual void OnSwitchTo() = 0;
@@ -42,6 +47,8 @@ protected:
 	Gui::Fixed *m_rightRegion1;
 	Gui::Fixed *m_rightRegion2;
 	Graphics::Renderer *m_renderer;
+
+	static ShipCpanel* s_cpan;
 };
 
 #endif /* _VIEW_H */

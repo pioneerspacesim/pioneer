@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATIONTYPE_H
@@ -11,25 +11,36 @@
 class Ship;
 namespace SceneGraph { class Model; }
 
-struct SpaceStationType {
+class SpaceStationType {
+public:
 	typedef std::map<Uint32, matrix4x4f> TMapBayIDMat;
-	struct Port
+	struct PortPath
 	{
 		TMapBayIDMat m_docking;
 		TMapBayIDMat m_leaving;
 	};
-	typedef std::map<Uint32, Port> PortMap;
-	PortMap m_ports;
+	typedef std::map<Uint32, PortPath> PortPathMap;
 
-	struct SBayGroup {
-		SBayGroup() : minShipSize(-1), maxShipSize(-1), inUse(false) {}
+	struct SPort {
+		static const int BAD_PORT_ID = -1;
+		SPort() : portId(BAD_PORT_ID), minShipSize(5000), maxShipSize(-1), inUse(false) {}
+		int portId;
 		int minShipSize, maxShipSize;
 		bool inUse;
-		std::vector<int> bayIDs;
+		std::vector<std::pair<int,std::string> > bayIDs;
+		std::string name;
 		TMapBayIDMat m_approach;
 	};
-	typedef std::vector<SBayGroup> TBayGroups;
+	typedef std::vector<SPort> TPorts;
 
+	struct positionOrient_t {
+		vector3d pos;
+		vector3d xaxis;
+		vector3d yaxis;
+		vector3d zaxis;
+	};
+	
+private:
 	std::string id;
 	SceneGraph::Model *model;
 	std::string modelName;
@@ -39,24 +50,21 @@ struct SpaceStationType {
 	int numDockingStages;
 	int numUndockStages;
 	int shipLaunchStage;
-	double *dockAnimStageDuration;
-	double *undockAnimStageDuration;
 	float parkingDistance;
 	float parkingGapSize;
-	TBayGroups bayGroups;
+	PortPathMap m_portPaths;
+	TPorts m_ports;
+	float padOffset;
 
-	struct positionOrient_t {
-		vector3d pos;
-		vector3d xaxis;
-		vector3d yaxis;
-		vector3d zaxis;
-	};
+	static std::vector<SpaceStationType> surfaceTypes;
+	static std::vector<SpaceStationType> orbitalTypes;
 
-	SpaceStationType();
+public:
+	SpaceStationType(const std::string &id, const std::string &path);
 
 	void OnSetupComplete();
-	const SBayGroup* FindGroupByBay(const int zeroBaseBayID) const;
-	SBayGroup* GetGroupByBay(const int zeroBaseBayID);
+	const SPort* FindPortByBay(const int zeroBaseBayID) const;
+	SPort* GetPortByBay(const int zeroBaseBayID);
 
 	double GetDockAnimStageDuration(const int stage) const;
 	double GetUndockAnimStageDuration(const int stage) const;
@@ -69,10 +77,21 @@ struct SpaceStationType {
 	 * ship has been released and is under player control again */
 	bool GetDockAnimPositionOrient(const unsigned int port, int stage, double t, const vector3d &from, positionOrient_t &outPosOrient, const Ship *ship) const;
 
+	const std::string& ModelName() const { return modelName; }
+	float AngVel() const { return angVel; }
+	bool IsSurfaceStation() const { return (SURFACE==dockMethod); }
+	bool IsOrbitalStation() const { return (ORBITAL==dockMethod); }
+	unsigned int NumDockingPorts() const { return numDockingPorts; }
+	int NumDockingStages() const { return numDockingStages; }
+	int NumUndockStages() const { return numUndockStages; }
+	int ShipLaunchStage() const { return shipLaunchStage; }
+	float ParkingDistance() const { return parkingDistance; }
+	float ParkingGapSize() const { return parkingGapSize; }
+	const TPorts& Ports() const { return m_ports; }
+
 	static void Init();
-	static void Uninit();
-	static std::vector<SpaceStationType> surfaceStationTypes;
-	static std::vector<SpaceStationType> orbitalStationTypes;
+
+	static const SpaceStationType* RandomStationType(Random &random, const bool bIsGround);
 };
 
 #endif

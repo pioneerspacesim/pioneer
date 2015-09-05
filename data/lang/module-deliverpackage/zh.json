@@ -1,0 +1,350 @@
+{
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "可以请你重复原来的请求吗?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "危险:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "截止日期:"
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "运送"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "不好意思, 我不能把这个交给你去做."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "等你有了资历再来吧."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "我不觉得你是能胜任这任务的飞行员."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "你看起来好像不是那么可靠的样子."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "你不是我在找的飞行员."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "你好像在处理这种运输任务方面的经验太少了点儿."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "我从来都没有听说过你. 我需要更有经验的人来完成这个任务."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "我不会为了你这种没有任何资历的人而搭上我的东西."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "距离:"
+   },
+   "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
+      "description" : "",
+      "message" : "棒极了.我会通知接收方说你已经出发了."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "你要去 {system} 星系吗? 如果帮我捎一下这个小包裹的话我可以给你付一些报酬."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "无法接受! 你运东西简直太慢了. 这笔钱你别想要了."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨,我是 {name}. {cash} 作为酬劳, 能请你帮我把一个小包裹运送到 {system} ({sectorx}, {sectory}, {sectorz}) 距离这儿有 {dist} ly 星系的 {starport} 星港吗?"
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "感谢你的运送. 已经付你全款了."
+   },
+   "FLAVOUR_0_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "我的一个朋友来看望我的时候落下了一些衣服和一本古董纸质书籍. 我想把这些都还给她."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "悬赏. 运送一个包裹到 {system} 星系."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "你来晚了, 我很失望. 别可怜巴巴地看着我, 我不会给你一分钱的."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "你好. 我是 {name}. 我出 {cash} 请你将一个包裹送往 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的 {starport} . 距离为 {dist} ly."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "包裹已经收到了. 给, 这是你的酬劳."
+   },
+   "FLAVOUR_1_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "这没有什么特别的."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "十万火急. 来艘快船把这个包裹送到 {system} 星系."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "别说你不知道截止日期是哪年哪月, 总之我很失望. 我不会付你\"快递\"费的."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "你好. 我是 {name}. 我出 {cash} 请你将一个包裹送往 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的 {starport} . 距离为 {dist} ly."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "全额付款, 五星好评, 给你点32个赞."
+   },
+   "FLAVOUR_2_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "这是一份研究论文, 必须在截止日期之前送到那里, 否则我们不会得到任何的研究经费."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "运送人物. 将文档送往 {system} 星系. 有经验的飞行员可以拿到 {cash} 酬劳."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "太没用了! 我再也不会相信你了! 毫无疑问我不会付你钱的."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "你好. 我是 {name}. 我出 {cash} 请你将一个包裹送往 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的 {starport} . 距离为 {dist} ly."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "你及时和准确的运送让我十分欣赏. 已经把款打过去了."
+   },
+   "FLAVOUR_3_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "我拿到了一些极度敏感的文件. 我相信泄露的来源已经追查到我了."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "邮件服务: 我们需要一艘船跑去 {system} 一趟."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "你的飞船信息已经被记录. 我们会拒绝其他的申请."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "你好. 这是贝德福德和 {name} 的快递服务自动发送的邮件. 我们以 {cash} 的价格请你跑一趟 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 的 {starport} 星港, 距离 {dist} ly."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "我很赞赏你及时和准确的运送. 全款支付."
+   },
+   "FLAVOUR_4_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "我们很高兴少付你一点钱."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "搬家: 把家具搬到 {starport} 星港."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "这些是啥? 喔, 你运得也太慢了, 我都忘掉这回事了."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "很高兴见到你. 我是 {name} , 如果你能帮我把一些东西搬到 {starport} 星港, 我会给你 {cash} .我不急着赶时间, 那些只是我搬家以后剩下的一些细碎物品."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "棒极了. 马上开始卸货. 再次感谢你."
+   },
+   "FLAVOUR_5_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "这很多吗? 我该重新考虑一下我的出价了."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "短途货运. 送一个小包裹去 {starport}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "连我自己都能运得比你快. 我不会给你钱."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨. 我是 {name} , 我付你 {cash} 请你帮我把一个包裹带到 {starport}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你的包裹. 给你快递费."
+   },
+   "FLAVOUR_6_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "我觉得这并不多."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "行星间运输. 把本地货物运上 {starport} 星港."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "我们的顾客对这件事跟不高兴. 别指望我给你钱了."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "你好. 我们要尽快把这些箱子运到 {starport} . 运费就按标准运费 {cash} 支付."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "棒极了. 我们已经把钱打到你账上了."
+   },
+   "FLAVOUR_7_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "标准利率. 我们为市场工作."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "近距离运输. 要尽快把一个物品送到 {starport}."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "我们只对及时的运送支付酬金, 你就别想了."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "我的名字是 {name} , 我急需把一个东西交给呆在 {starport} 的朋友, 如果你及时送到的话, 作为报酬, 我给你 {cash}."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "很感激你及时的运送, 我马上就把钱给你."
+   },
+   "FLAVOUR_8_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "非常急."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "运送包裹. 把容易腐烂的东西紧急送往 {starport}."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "都泡汤了, 谁都用不了了! 我们不会给你钱的."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "你好, 我们的产品运输途径出了些问题, 你能帮我把它们快速运到 {starport} 吗? 我们会给你丰厚的报酬 {cash}."
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "碉堡了! 马上开始卸货. 钱已转账请查收."
+   },
+   "FLAVOUR_9_WHYSOMUCHTEXT" : {
+      "description" : "",
+      "message" : "我们今后的生计都指望这一次了."
+   },
+   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
+      "description" : "",
+      "message" : "需要什么时候送到?"
+   },
+   "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
+      "description" : "",
+      "message" : "可能会有危险, 你最好准备充分些."
+   },
+   "IT_MUST_BE_DELIVERED_BY" : {
+      "description" : "",
+      "message" : "最晚到达时间是"
+   },
+   "I_HIGHLY_DOUBT_IT" : {
+      "description" : "",
+      "message" : "绝对不会."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "NOT_ANY_MORE_THAN_USUAL" : {
+      "description" : "",
+      "message" : "不能再平常了."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "OK, 同意了."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "跟 {client} 做事你会后悔的."
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "看起来我的工资马上就要到手了!"
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "你为 {client} 做事? 真是个坏主意."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "交货也杀, 小子!"
+   },
+   "PIRATE_TAUNTS_4" : {
+      "description" : "",
+      "message" : "这些一定能在黑市上卖个好价钱的"
+   },
+   "PIRATE_TAUNTS_5" : {
+      "description" : "",
+      "message" : "今天不是你的幸运日! 准备去死吧."
+   },
+   "PIRATE_TAUNTS_6" : {
+      "description" : "",
+      "message" : "告诉我的老朋友 {client} 我们地狱见!"
+   },
+   "PIRATE_TAUNTS_7" : {
+      "description" : "",
+      "message" : "那个包裹永远也到不了目的地了."
+   },
+   "PIRATE_TAUNTS_8" : {
+      "description" : "",
+      "message" : "今天你可到不了 {location} 了!"
+   },
+   "PIRATE_TAUNTS_9" : {
+      "description" : "",
+      "message" : "跟那货物一起去死吧."
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "星港:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "星系:"
+   },
+   "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
+      "description" : "",
+      "message" : "这个包裹挺值钱的, 你可要看紧点儿,"
+   },
+   "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
+      "description" : "",
+      "message" : "非常危险, 你一出门肯定会被打的."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "为什么给这么多钱?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "我会有危险吗?"
+   }
+}

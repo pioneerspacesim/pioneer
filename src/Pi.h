@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _PI_H
@@ -19,27 +19,19 @@
 #include <string>
 #include <vector>
 
-class GalaxyGenerator;
-class DeathView;
-class GalacticView;
-class Galaxy;
 class Intro;
 class LuaConsole;
 class LuaNameGen;
 class ModelCache;
 class Player;
-class SectorView;
 class Ship;
-class ShipCpanel;
 class SpaceStation;
 class StarSystem;
-class SystemInfoView;
-class SystemView;
 class TransferPlanner;
 class UIView;
 class View;
-class WorldView;
 class SDLGraphics;
+class ServerAgent;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
@@ -134,13 +126,24 @@ public:
 
 	static LuaNameGen *luaNameGen;
 
+	static ServerAgent *serverAgent;
+
 	static RefCountedPtr<UI::Context> ui;
 
 	static Random rng;
 	static int statSceneTris;
+	static int statNumPatches;
 
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
+
+	static void SetAmountBackgroundStars(const float pc) { amountOfBackgroundStarsDisplayed = Clamp(pc, 0.01f, 1.0f); bRefreshBackgroundStars = true; }
+	static float GetAmountBackgroundStars() { return amountOfBackgroundStarsDisplayed; }
+	static bool MustRefreshBackgroundClearFlag() { 
+		const bool bRet = bRefreshBackgroundStars;
+		bRefreshBackgroundStars = false;
+		return bRet; 
+	}
 
 #if WITH_DEVKEYS
 	static bool showDebugInfo;
@@ -152,27 +155,13 @@ public:
 #endif
 
 	static Player *player;
-	static SectorView *sectorView;
-	static GalacticView *galacticView;
-	static UIView *settingsView;
-	static SystemInfoView *systemInfoView;
-	static SystemView *systemView;
 	static TransferPlanner *planner;
-	static WorldView *worldView;
-	static DeathView *deathView;
-	static UIView *spaceStationView;
-	static UIView *infoView;
 	static LuaConsole *luaConsole;
-	static ShipCpanel *cpan;
 	static Sound::MusicPlayer &GetMusicPlayer() { return musicPlayer; }
 	static Graphics::Renderer *renderer;
 	static ModelCache *modelCache;
 	static Intro *intro;
 	static SDLGraphics *sdl;
-
-#if WITH_OBJECTVIEWER
-	static ObjectViewerView *objectViewerView;
-#endif
 
 	static Game *game;
 
@@ -181,10 +170,6 @@ public:
 
 	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}
 	static JobQueue *GetSyncJobQueue() { return syncJobQueue.get();}
-
-	static bool CreateGalaxy();
-	static bool CreateGalaxy(const std::string& genName, int genVersion = -1);
-	static RefCountedPtr<Galaxy> GetGalaxy() { return s_galaxy; }
 
 	static bool DrawGUI;
 
@@ -196,7 +181,6 @@ private:
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;
 
-	static RefCountedPtr<Galaxy> s_galaxy;
 	static bool menuDone;
 
 	static View *currentView;
@@ -231,6 +215,8 @@ private:
 	static bool navTunnelDisplayed;
 	static bool speedLinesDisplayed;
 	static bool hudTrailsDisplayed;
+	static bool bRefreshBackgroundStars;
+	static float amountOfBackgroundStarsDisplayed;
 
 	static Gui::Fixed *menu;
 

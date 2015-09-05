@@ -1,0 +1,31 @@
+{
+   "angular_thrust" : 7000000.0,
+   "capacity" : 30,
+   "cockpit" : "",
+   "down_thrust" : 800000.0,
+   "effective_exhaust_velocity" : 16900000.0,
+   "forward_thrust" : 6800000.0,
+   "fuel_tank_mass" : 22,
+   "hull_mass" : 13,
+   "hyperdrive_class" : 2,
+   "left_thrust" : 800000.0,
+   "manufacturer" : "auronox",
+   "max_crew" : 1,
+   "min_crew" : 1,
+   "model" : "wave",
+   "name" : "Wave",
+   "price" : 269000.0,
+   "reverse_thrust" : 1400000.0,
+   "right_thrust" : 800000.0,
+   "ship_class" : "medium_fighter",
+   "slots" : {
+      "cargo" : 30,
+      "scoop" : 0,
+      "laser_front" : 1,
+      "laser_rear" : 1,
+      "missile" : 4,
+      "sensor"  : 2
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 800000.0
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef DEATH_VIEW_H
@@ -9,9 +9,11 @@
 #include "Camera.h"
 #include "RefCounted.h"
 
+class Game;
+
 class DeathView : public View {
 public:
-	DeathView();
+	DeathView(Game* game);
 	virtual ~DeathView();
 
 	void Init();
@@ -26,6 +28,7 @@ private:
 	RefCountedPtr<CameraContext> m_cameraContext;
 	std::unique_ptr<Camera> m_camera;
 	float m_cameraDist;
+	Game* m_game;
 };
 
 #endif

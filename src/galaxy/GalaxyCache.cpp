@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include <utility>
@@ -8,10 +8,11 @@
 #include "Game.h"
 #include "galaxy/GalaxyCache.h"
 #include "galaxy/GalaxyGenerator.h"
+#include "galaxy/Galaxy.h"
 #include "galaxy/Sector.h"
 #include "galaxy/StarSystem.h"
 
-//#define DEBUG_SECTOR_CACHE
+//#define DEBUG_CACHE
 
 //virtual
 
@@ -20,6 +21,7 @@ GalaxyObjectCache<T,CompareT>::~GalaxyObjectCache()
 {
 	for (Slave* s : m_slaves)
 		s->MasterDeleted();
+	assert(m_attic.empty()); // otherwise the objects will deregister at a cache that no longer exists
 }
 
 template <typename T, typename CompareT>
@@ -57,7 +59,7 @@ RefCountedPtr<T> GalaxyObjectCache<T,CompareT>::GetCached(const SystemPath& path
 	RefCountedPtr<T> s = this->GetIfCached(path);
 	if (!s) {
 		++m_cacheMisses;
-		s = m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(path, this);
+		s = m_galaxy->GetGenerator()->Generate<T,GalaxyObjectCache<T,CompareT>>(RefCountedPtr<Galaxy>(m_galaxy), path, this);
 		m_attic.insert( std::make_pair(path, s.Get()));
 	} else {
 		++m_cacheHits;
@@ -89,7 +91,7 @@ void GalaxyObjectCache<T,CompareT>::ClearCache()
 template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::OutputCacheStatistics(bool reset)
 {
-	Output("%s: misses: %lld, slave hits: %lld, master hits: %lld\n", CACHE_NAME.c_str(), m_cacheMisses, m_cacheHitsSlave, m_cacheHits);
+	Output("%s: misses: %llu, slave hits: %llu, master hits: %llu\n", CACHE_NAME.c_str(), m_cacheMisses, m_cacheHitsSlave, m_cacheHits);
 	if (reset)
 		m_cacheMisses = m_cacheHitsSlave = m_cacheHits = 0;
 }
@@ -97,12 +99,12 @@ void GalaxyObjectCache<T,CompareT>::OutputCacheStatistics(bool reset)
 template <typename T, typename CompareT>
 RefCountedPtr<typename GalaxyObjectCache<T,CompareT>::Slave> GalaxyObjectCache<T,CompareT>::NewSlaveCache()
 {
-	return RefCountedPtr<Slave>(new Slave(this, m_galaxyGenerator, Pi::GetAsyncJobQueue()));
+	return RefCountedPtr<Slave>(new Slave(this, RefCountedPtr<Galaxy>(m_galaxy), Pi::GetAsyncJobQueue()));
 }
 
 template <typename T, typename CompareT>
-GalaxyObjectCache<T,CompareT>::Slave::Slave(GalaxyObjectCache<T,CompareT>* master, RefCountedPtr<GalaxyGenerator> galaxyGen, JobQueue* jobQueue)
-	: m_master(master), m_galaxyGenerator(galaxyGen), m_jobs(Pi::GetAsyncJobQueue())
+GalaxyObjectCache<T,CompareT>::Slave::Slave(GalaxyObjectCache<T,CompareT>* master, RefCountedPtr<Galaxy> galaxy, JobQueue* jobQueue)
+	: m_master(master), m_galaxy(galaxy), m_jobs(Pi::GetAsyncJobQueue())
 {
 	m_master->m_slaves.insert(this);
 }
@@ -156,12 +158,12 @@ void GalaxyObjectCache<T,CompareT>::Slave::ClearCache() { m_cache.clear(); }
 template <typename T, typename CompareT>
 GalaxyObjectCache<T,CompareT>::Slave::~Slave()
 {
-#	ifdef DEBUG_SECTOR_CACHE
+#	ifdef DEBUG_CACHE
 		unsigned unique = 0;
 		for (auto it = m_cache.begin(); it != m_cache.end(); ++it)
 			if (it->second->GetRefCount() == 1)
 				unique++;
-		Output("%s: Discarding slave cache with %zu entries (%u to be removed)\n", CACHE_NAME.c_str(), m_cache.size(), unique);
+		Output("%s: Discarding slave cache with " SIZET_FMT " entries (%u to be removed)\n", CACHE_NAME.c_str(), m_cache.size(), unique);
 #	endif
 	if (m_master)
 		m_master->m_slaves.erase(this);
@@ -186,7 +188,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 	std::vector<std::unique_ptr<PathVector> > vec_paths;
 	vec_paths.reserve(paths.size()/CACHE_JOB_SIZE + 1);
 	std::unique_ptr<PathVector> current_paths;
-#	ifdef DEBUG_SECTOR_CACHE
+#	ifdef DEBUG_CACHE
 		size_t alreadyCached = m_cache.size();
 		unsigned masterCached = 0;
 		unsigned toBeCreated = 0;
@@ -197,7 +199,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 		RefCountedPtr<T> s = m_master->GetIfCached(*it);
 		if (s) {
 			m_cache[*it] = s;
-#			ifdef DEBUG_SECTOR_CACHE
+#			ifdef DEBUG_CACHE
 				++masterCached;
 #			endif
 		} else {
@@ -209,7 +211,7 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 			if( current_paths->size() >= CACHE_JOB_SIZE ) {
 				vec_paths.push_back( std::move(current_paths) );
 			}
-#			ifdef DEBUG_SECTOR_CACHE
+#			ifdef DEBUG_CACHE
 				++toBeCreated;
 #			endif
 		}
@@ -220,22 +222,27 @@ void GalaxyObjectCache<T,CompareT>::Slave::FillCache(const typename GalaxyObject
 		vec_paths.push_back( std::move(current_paths) );
 	}
 
-#	ifdef DEBUG_SECTOR_CACHE
-		Output("%s: FillCache: %zu cached, %u in master cache, %u to be created, will use %zu jobs\n", CACHE_NAME.c_str(),
+#	ifdef DEBUG_CACHE
+		Output("%s: FillCache: " SIZET_FMT " cached, %u in master cache, %u to be created, will use " SIZET_FMT " jobs\n", CACHE_NAME.c_str(),
 			alreadyCached, masterCached, toBeCreated, vec_paths.size());
 #	endif
 
-	// now add the batched jobs
-	for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
-		m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxyGenerator, callback));
+	if (vec_paths.empty()) {
+		if (callback)
+			callback();
+	} else {
+		// now add the batched jobs
+		for (auto it = vec_paths.begin(), itEnd = vec_paths.end(); it != itEnd; ++it)
+			m_jobs.Order(new GalaxyObjectCache<T,CompareT>::CacheJob(std::move(*it), this, m_galaxy, callback));
+	}
 }
 
 
 template <typename T, typename CompareT>
 GalaxyObjectCache<T,CompareT>::CacheJob::CacheJob(std::unique_ptr<std::vector<SystemPath> > path,
-	typename GalaxyObjectCache<T,CompareT>::Slave* slaveCache, RefCountedPtr<GalaxyGenerator> galaxyGen,
+	typename GalaxyObjectCache<T,CompareT>::Slave* slaveCache, RefCountedPtr<Galaxy> galaxy,
 	typename GalaxyObjectCache<T,CompareT>::CacheFilledCallback callback)
-	: Job(), m_paths(std::move(path)), m_slaveCache(slaveCache), m_galaxyGenerator(galaxyGen), m_callback(callback)
+	: Job(), m_paths(std::move(path)), m_slaveCache(slaveCache), m_galaxy(galaxy), m_galaxyGenerator(galaxy->GetGenerator()), m_callback(callback)
 {
 	m_objects.reserve(m_paths->size());
 }
@@ -245,7 +252,7 @@ template <typename T, typename CompareT>
 void GalaxyObjectCache<T,CompareT>::CacheJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 {
 	for (auto it = m_paths->begin(), itEnd = m_paths->end(); it != itEnd; ++it)
-		m_objects.push_back(m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(*it, nullptr));
+		m_objects.push_back(m_galaxyGenerator->Generate<T,GalaxyObjectCache<T,CompareT>>(m_galaxy, *it, nullptr));
 }
 
 //virtual
@@ -266,8 +273,8 @@ template class GalaxyObjectCache<Sector,SystemPath::LessSectorOnly>;
 /****** StarSystemCache ******/
 
 template <>
-GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>* master, RefCountedPtr<GalaxyGenerator> galaxyGen, JobQueue* jobQueue)
-	: m_master(master), m_galaxyGenerator(galaxyGen), m_jobs(Pi::GetSyncJobQueue())
+GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>::Slave::Slave(GalaxyObjectCache<StarSystem,SystemPath::LessSystemOnly>* master, RefCountedPtr<Galaxy> galaxy, JobQueue* jobQueue)
+	: m_master(master), m_galaxy(galaxy), m_jobs(Pi::GetSyncJobQueue())
 {
 	m_master->m_slaves.insert(this);
 }

@@ -9,7 +9,7 @@
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Fecha tope:"
+      "message" : "Fecha límite:"
    },
    "DELIVERY" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Qué hay, Soy {name}. Le pagaré {cash} si entrega un pequeño paquete en {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}) ({dist} ly)."
+      "message" : "Qué hay, Soy {name}. Le pagaré {cash} si entrega un pequeño paquete en {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}) ({dist} AL)."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_0_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Cuando una amiga me visitó se dejó algunas prendas y unos libros antiguos en papel. Me gustaría devolverselos."
+      "message" : "Cuando una amiga me visitó se dejó algunas prendas y unos libros antiguos en papel. Me gustaría devolvérselos."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola. Soy {name}. Tengo intención de pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+      "message" : "Hola. Soy {name}. Tengo intención de pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} AL)."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -101,11 +101,11 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Creo que fui bastante claro con la fecha tope y estoy muy defraudado por la tardanza. No se le pagará."
+      "message" : "Fuí bastante claro con la fecha límite y estoy muy defraudado por la tardanza. No se le pagará."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola. Soy {name}. Y mi intención es pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+      "message" : "Hola. Soy {name}. Y mi intención es pagar {cash} por una nave que transporte un paquete a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} AL)."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -121,15 +121,15 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "¡Inútil! ¡No volveré a depender de usted en el futuro! Es innecesario decir que no se le pagará ni un crédito."
+      "message" : "¡Inútil! ¡No volveré a depender de usted en el futuro! Huelga decir que no se le pagará por esto."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola. Soy {name}. Tengo la intención de pagar {cash} por una nave que transporte una carga a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+      "message" : "Hola. Soy {name}. Tengo la intención de pagar {cash} por una nave que transporte una carga a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} AL)."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Se aprecia su servicio discreto y a tiempo. Se le pagará inmediatamente."
+      "message" : "Su servicio discreto y a tiempo es muy apreciado. Se le pagará inmediatamente."
    },
    "FLAVOUR_3_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -141,11 +141,11 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Se ha anotado el registro de su nave, vamos a rechazar cualquier solicitud de trabajo suya en el futuro."
+      "message" : "Hemos anotado la matrícula de su nave; rechazaremos cualquier solicitud de trabajo suya en el futuro."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Saludos. Este es un mensaje automatizado de los Servicios de Mensajería Bedford y {name}. Pagamos {cash} por una carrera a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} ly)."
+      "message" : "Saludos. Este es un mensaje automatizado de los Servicios de Mensajería Bedford y {name}. Pagamos {cash} por una carrera a {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz})) ({dist} AL)."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "MUDANZA. Traslado de soportes físicos a {starport}."
+      "message" : "MUDANZA. Traslado de soportes físicos a {starport} desde almacén."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_5_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "¿Es mucho? ¡Debería replantear la oferta!"
+      "message" : "¿Es mucho? ¡Debería replantearme la oferta!"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Su entrega a tiempo es apreciada, en consecuencia he acreditado su cuenta."
+      "message" : "Su entrega a tiempo es apreciada, he cargado el pago en su cuenta."
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -237,11 +237,11 @@
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "PAQUETE PENDIENTE. Envío urgente de alimentos perecederos a {starport}."
+      "message" : "PAQUETE PENDIENTE. Despacho urgente de alimentos perecederos a {starport}."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
-      "message" : "¡Está todo estropeado! ¡No sirve para nada! No podemos pagarle."
+      "message" : "¡Está todo estropeado! ¡No sirve para nada! No podemos pagarle ni lo haremos."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
@@ -254,10 +254,6 @@
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
       "message" : "Nuestro sustento depende de esto."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -277,7 +273,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "AL"
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",
@@ -289,7 +285,7 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "Vas a lamentar el hacer negocios con {client}"
+      "message" : "Vas a lamentar hacer negocios con {client}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",

@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -8,7 +8,6 @@ local Space = import("Space")
 local Comms = import("Comms")
 local Event = import("Event")
 local Mission = import("Mission")
-local NameGen = import("NameGen")
 local Format = import("Format")
 local Serializer = import("Serializer")
 local Character = import("Character")
@@ -270,7 +269,6 @@ local makeAdvert = function (station)
 		risk		= risk,
 		urgency		= urgency,
 		reward		= reward,
-		isfemale	= isfemale,
 		faceseed	= Engine.rand:Integer(),
 	}
 

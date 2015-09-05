@@ -1,0 +1,31 @@
+{
+   "angular_thrust" : 80000000.0,
+   "capacity" : 2900,
+   "cockpit" : "",
+   "down_thrust" : 40000000.0,
+   "effective_exhaust_velocity" : 20000000.0,
+   "forward_thrust" : 125000000.0,
+   "fuel_tank_mass" : 1000,
+   "hull_mass" : 380,
+   "hyperdrive_class" : 7,
+   "left_thrust" : 40000000.0,
+   "manufacturer" : "opli",
+   "max_crew" : 6,
+   "min_crew" : 1,
+   "model" : "nerodia",
+   "name" : "Nerodia",
+   "price" : 4827000.0,
+   "reverse_thrust" : 70000000.0,
+   "right_thrust" : 40000000.0,
+   "ship_class" : "medium_freighter",
+   "slots" : {
+      "cargo" : 2500,
+      "scoop" : 2,
+      "laser_front" : 1,
+      "laser_rear" : 1,
+      "missile" : 4,
+      "sensor"  : 4
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 50000000.0
+}

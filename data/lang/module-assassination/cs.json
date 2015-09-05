@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Zpráva o konci {target} šťastně dorazila. Zde je tvých {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Konec"
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Do kdy musí být úkol splněn?"

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpeedLines.h"
@@ -16,6 +16,7 @@ SpeedLines::SpeedLines(Ship *s)
 , m_visible(false)
 , m_dir(0.f)
 {
+	PROFILE_SCOPED();
 	m_points.reserve(DEPTH * DEPTH * DEPTH);
 	for (int x = -DEPTH/2; x < DEPTH/2; x++) {
 		for (int y = -DEPTH/2; y < DEPTH/2; y++) {
@@ -25,17 +26,21 @@ SpeedLines::SpeedLines(Ship *s)
 		}
 	}
 
-	m_vertices.resize(m_points.size() * 2);
-	m_vtxColors.resize(m_vertices.size());
+	m_varray.reset(new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, (m_points.size() * 2)));
+	for( Uint32 i = 0; i < (m_points.size() * 2); i++ )
+		m_varray->Add(vector3f(0.0f), Color::BLACK);
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 	rsd.depthWrite = false;
 	m_renderState = Pi::renderer->CreateRenderState(rsd);
+
+	CreateVertexBuffer( Pi::renderer, (m_points.size() * 2) );
 }
 
 void SpeedLines::Update(float time)
 {
+	PROFILE_SCOPED();
 	vector3f vel = vector3f(m_ship->GetVelocity());
 	const float absVel = vel.Length();
 
@@ -95,24 +100,42 @@ void SpeedLines::Update(float time)
 
 void SpeedLines::Render(Graphics::Renderer *r)
 {
-	if (!m_visible) return;
+	PROFILE_SCOPED();
+	if (!m_visible || m_points.empty()) return;
 
 	const vector3f dir = m_dir * m_lineLength;
 
 	Uint16 vtx = 0;
+	//distance fade
+	Color col(Color::GRAY);
 	for (auto it = m_points.begin(); it != m_points.end(); ++it) {
-		m_vertices[vtx]   = *it - dir;
-		m_vertices[vtx+1] = *it + dir;
+		col.a = Clamp((1.f - it->Length() / BOUNDS),0.f,1.f) * 255;	
 
-		//distance fade
-		const Color col = Color(Color::GRAY.r, Color::GRAY.g, Color::GRAY.b,
-				Clamp((1.f - it->Length() / BOUNDS),0.f,1.f) * 255);
-		m_vtxColors[vtx]   = col;
-		m_vtxColors[vtx+1] = col;
+		m_varray->Set(vtx, *it - dir, col);
+		m_varray->Set(vtx+1,*it + dir, col);
 
 		vtx += 2;
 	}
 
+	m_vbuffer->Populate( *m_varray );
+
 	r->SetTransform(m_transform);
-	r->DrawLines(m_vertices.size(), &m_vertices[0], &m_vtxColors[0], m_renderState);
+	r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get(), Graphics::LINE_SINGLE);
+}
+
+void SpeedLines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
+{
+	PROFILE_SCOPED();
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.numVertices = size;
+	m_vbuffer.reset(r->CreateVertexBuffer(vbd));
 }

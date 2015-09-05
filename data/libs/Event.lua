@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -285,6 +285,27 @@ Event = {
 -- Status:
 --
 --   stable
+--
+
+--
+-- Event: onSystemExplored
+--
+-- Triggered when a system has just been explored by the player.
+--
+-- > local onSystemExplored = function (system) ... end
+-- > Event.Register("onSystemExplored", onSystemExplored)
+--
+-- Parameters:
+--
+--   system - the <StarSystem> that has just been explored
+--
+-- Availability:
+--
+--   October 2014
+--
+-- Status:
+--
+--   experimental
 --
 
 --
@@ -721,6 +742,41 @@ Event = {
 -- Availability:
 --
 --   alpha 20
+--
+-- Status:
+--
+--   experimental
+--
+
+--
+-- Event: onGamePaused
+--
+-- Triggered when the game is paused.
+--
+-- > local onGamePaused = function () ... end
+-- > Event.Register("onGamePaused", onGamePaused)
+--
+-- Availability:
+--
+--   September 2014
+--
+-- Status:
+--
+--   experimental
+--
+
+--
+-- Event: onGameResumed
+--
+-- Triggered when the game time accel (Game::GetTimeAccel) transitions from
+-- TIMEACCEL_PAUSED to any other value.
+--
+-- > local onGameResumed = function () ... end
+-- > Event.Register("onGameResumed", onGameResumed)
+--
+-- Availability:
+--
+--   September 2014
 --
 -- Status:
 --

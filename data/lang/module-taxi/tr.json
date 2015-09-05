@@ -333,7 +333,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ödemeyi sorma bile! Seni yetklilere rapor edeceğim."
+      "message" : "Sakın ödeme isteme! Seni yetklilere rapor edeceğim."
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "FLAVOUR_5_DANGER" : {
       "description" : "",
-      "message" : "Basının biraz ilgisi ile çekebilirsin. Onları dikkate alma."
+      "message" : "Basından biraz ilgi görebilirsin. Onları dikkate alma."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Grup detayı:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey!?! Bunun bedelini ödeyeceksin!!!"
@@ -557,7 +553,7 @@
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Güvertede {client} mi var? Bu kötü bir fikirdi."
+      "message" : "{client} güvertende mi var? Bu kötü bir fikirdi."
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",

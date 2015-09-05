@@ -1,0 +1,106 @@
+{
+   "ASK_CANDIDATE_TO_SIT_A_TEST" : {
+      "description" : "",
+      "message" : "要求候选人进行测试"
+   },
+   "CREWDETAILSHEETBB" : {
+      "description" : "",
+      "message" : "名称: {name}\n经验: {experience}\n工资: 每周 {wage}\n\n{response} \n"
+   },
+   "CREWMEMBER_WAGE_PER_WEEK" : {
+      "description" : "",
+      "message" : "{potentialCrewMember} ({wage} / 星期)"
+   },
+   "CREWTESTRESULTSBB" : {
+      "description" : "",
+      "message" : "测试结果:\n\n基本船员能力: {general} %\n工程和维修: {engineering} %\n飞行和航天: {piloting} %\n导航和领航: {navigation} %\n探索和防御: {sensors} %\n测试总分: {overall} %"
+   },
+   "CREW_FOR_HIRE" : {
+      "description" : "",
+      "message" : "待雇船员"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "返回"
+   },
+   "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
+      "description" : "",
+      "message" : "很抱歉,我不想再低了."
+   },
+   "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
+      "description" : "",
+      "message" : "很抱歉,你的报价对我没有吸引力."
+   },
+   "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
+      "description" : "",
+      "message" : "根据岗位的不同进行分配"
+   },
+   "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
+      "description" : "",
+      "message" : "最低在岗工作时长"
+   },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "导航员"
+   },
+   "NO_EXPERIENCE" : {
+      "description" : "",
+      "message" : "没有经验"
+   },
+   "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
+      "description" : "",
+      "message" : "好吧,我觉得这样没问题."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "飞行员"
+   },
+   "POTENTIAL_CREW_MEMBERS" : {
+      "description" : "",
+      "message" : "在 {station} 内正在找工作的有潜力船员:"
+   },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "传感器与防御"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "飞船工程师"
+   },
+   "SIMULATOR_TRAINING_ONLY" : {
+      "description" : "",
+      "message" : "仅在模拟器里训练过"
+   },
+   "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
+      "description" : "",
+      "message" : "拥有一些正常状况下的经验"
+   },
+   "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
+      "description" : "",
+      "message" : "建议新的周薪为 {newAmount}"
+   },
+   "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
+      "description" : "",
+      "message" : "谢谢,我马上开始工作."
+   },
+   "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
+      "description" : "",
+      "message" : "你太慷慨了!"
+   },
+   "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
+      "description" : "",
+      "message" : "这确实让这份工作更诱人了!"
+   },
+   "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
+      "description" : "",
+      "message" : "那里似乎不适合我!"
+   },
+   "TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "有经验的船员"
+   },
+   "VETERAN_TIME_SERVED_CREW_MEMBER" : {
+      "description" : "",
+      "message" : "极具经验的老兵"
+   }
+}

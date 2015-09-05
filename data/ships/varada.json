@@ -1,0 +1,30 @@
+{
+   "angular_thrust" : 4500000.0,
+   "capacity" : 5,
+   "cockpit" : "",
+   "down_thrust" : 120000.0,
+   "effective_exhaust_velocity" : 14000000.0,
+   "forward_thrust" : 600000.0,
+   "fuel_tank_mass" : 3,
+   "hull_mass" : 2,
+   "hyperdrive_class" : 1,
+   "left_thrust" : 240000.0,
+   "manufacturer" : "mandarava_csepel",
+   "max_crew" : 1,
+   "min_crew" : 1,
+   "model" : "varada",
+   "name" : "Varada",
+   "price" : 123000.0,
+   "reverse_thrust" : 200000.0,
+   "right_thrust" : 240000.0,
+   "ship_class" : "light_courier",
+   "slots" : {
+      "cargo" : 5,
+      "scoop" : 1,
+      "laser_front" : 0,
+      "missile" : 0,
+      "sensor"  : 8
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 120000.0
+}

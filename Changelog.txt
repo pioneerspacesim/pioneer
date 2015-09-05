@@ -1,8 +1,235 @@
+September 2015
+   * New Features
+     * Control how many stars in the sky (#3431)
+     * Two state hyperspace button (#3438)
+
+   * Fixes
+     * Fix undefined symbols for static const members (#3446)
+
+   * Internal Changes
+     * Remove planetary scaling during rendering (#3434)
+     * Remove the animation Interpolate optimisation (#3435)
+
+August 2015
+   * New Features
+     * Orbital planner got some new features (#3426)
+
+   * Fixes
+     * Fix NAN for planned orbit (#3437)
+     * Fix math typo (#3440)
+
+   * Internal Changes
+     * Changed/removed some non-portable C++11 usage (#3444)
+
+July 2015
+   * New Features
+     * Add first initial support for Arab fonts (#3416)
+     * New (smaller) space station added (#3414)
+     * Allow custom stations to have realistic orbit heights (#3410)
+     * New SensorType API and BodyScanner equipment (#3287, #3396)
+
+   * Fixes
+     * Proposed fix for the MINGW32 issue #3409 (#3418)
+     * Fixed color of labels starting with empty strings (#3425)
+
+   * Internal Changes
+     * Numerous optimisations (#3419)
+     * Remove output spamming messages (#3421)
+     * Sort terrain gen (#3420)
+     * Inactivate BodyScanner equipment testing code (#3422)
+     * Drawing optimisations (#3424)
+     * Render far away (#3428)
+     * Modelviewer refactor (#3429)
+     * Cleanup build warnings (#3433)
+
+June 2015
+   * New Features
+     * Allow up to 3 orbits a spacestation can occupy (#3392)
+
+   * Fixes
+     * Calculate the correct distribution of orbitals, may affect saved games (#3389)
+     * Fix crash on start and crash on game load (#3399, #3387, #3400, #3402)
+     * Fix crash when using Chinese languge (#3405)
+     * Init model label in SpaceStation and CargoBody LoadFromJson (#3406)
+     * Fix redirection of stderr to avoid undefined behaviour on posix (#3373)
+     * Fix save/load crash (#3387) for real this time (#3407)
+     * Fix another save/load crash triggered by floating cargo (#3412, #3413)
+     * Fix terrain max depth calculation (#3411)
+
+May 2015
+   * New Features
+     * New mission: cargo run (#3274)
+
+April 2015
+   * New Features
+     * Confirm quit question added (#3374)
+     * Enable vsync (#3385)
+
+   * Fixes
+     * Broken cockpit rotations using headlook (#3381)
+
+   * Internal Changes
+     * luacheck changes (#3383)
+     * Cppcheck changes (#3384)
+
+March 2015
+   * Fixes
+     * Fix modelcompiler (#3356)
+     * Attempt to avoid calling methods on a nil object (#3357)
+     * Fix missing specular highlights (#3367)
+     * Fix compilation of planetrings shader (#3370)
+
+   * New Features
+     * Mouselook for internal camera (#3361)
+     * Migrating the save-game serialisation from a binary flat file to JSON (#3355)
+
+   * Internal Changes
+     * Fix VS2013 profiling configuration (#3368)
+     * Rendering statistics (#3371)
+     * Instanced model rendering for cities (#3372)
+     * Update the sgm file version (#3375)
+
+February 2015
+   * Fixes
+     * Romanian characters added, fixes #3314 (#3318)
+     * Fix the libcurl linking for Profile, PreRelease and Debug (#3354)
+
+   * Script and UI API changes
+     * ServerAgent class for simple network communication (#3342)
+
+   * Internal Changes
+     * LuaSerializer refactoring to diminish coupling with LuaObject (#3349)
+
+January 2015
+   * New Features
+     * Many point stars on starless galaxy (#3321)
+
+   * Fixes
+     * Fix 3310 (#3312)
+     * Fix 3313 (#3316)
+     * Fix Ship:onShipEquipmentChanged (#3326)
+     * Ship launch thrust timer fix (#3330)
+     * Fix the UI strange rendering (#3332)
+     * Update the ToolTip text layout (#3334)
+     * Prevent issue #3340 assert (#3341)
+
+   * Internal Chnages
+     * Remove DrawPoints & DrawLines methods (#3303)
+     * Dummy renderer for headless tools (#3306)
+     * Fix scanner drawing post-load (#3309)
+     * Faster text buffer rendering (#3304)
+     * Ignore any sgm files in the repository (#3315)
+     * Faster deduplication of collision data (#3319)
+     * Stop vs2013 using the whole program optimisation (#3333)
+     * Equipment strings moved to new translation module (#3295)
+     * modelcompiler no GL, no SDL, build support for compiled models (#3339)
+
+   * Optimisation
+     * Animation interpolation optimisation (#3327)
+     * Ship nearby optimise (#3328)
+
+December 2014
+   * New Features
+     * New Multi Scoop equipment, and merge cargo and fuel scoop slots
+       to a single one (#3267)
+     * New OPLI ship Storeria (#3257)
+     * Our two space stations decommissioned (hoop and big_crappy) and three new jaw
+       dropping amazing ones enter service! (#3099)
+
+   * Fixes
+     * Fix string "NONE" in ShipInfo not using the translated version (#3268)
+     * Require OpenGL 3.1 context when opening the SDL window (#3269)
+     * Move parentheses to correct position for ATLAS_SIZE test (#3299)
+
+   * Minor changes and tweaks
+     * Switch font texture U/V coordinates to unsigned int (#3273)
+     * README updated to markdown format (#3276)
+     * Ship and station labels can now include line breaks (#3188)
+     * Changed to compile as c++ for all build configurations (#3288)
+     * Handle non-core strings for lua equipment (#3279)
+     * Use counter not named bays for stations (#3291)
+
+   * Internal Changes
+     * Fix spelling error in DeliverPackage
+     * Better descriptions for translation strings in ui-/core (#3272)
+     * Change the Star Color structures to use Color instead of Uint8 (#3285)
+     * Remove the Colours.h/cpp files (#3289)
+     * Several bugfixes to the Lua serializer triggered by recent code (#3279)
+     * Remove redundant code and translation strings (#3294)
+     * Optimise VertexBuffer usage for SG Nodes (#3300)
+     * Bundle Collision with SGM file (#3297)
+
+November 2014
+   * New Features
+     * Update to use OpenGL 3.2 (#3219)
+
+   * Script and UI API changes
+     * Added random number from Poisson distribution (#3242)
+
+   * Minor changes and tweaks
+     * Introduce special footer when player is in equipment market,
+       fixes #3117 (#3238)
+     * A smarter ShipMarket in SpaceStation (#3243)
+     * Fix Anti-Aliasing (#3246)
+     * Remove defunct shader programs (#3258)
+     * Extra checking for program creation (#3253)
+     * Fix (unnoticeable) logical error in cargo code (#3261)
+     * Add CppCheck file. (#3266)
+
+   * Fixes
+     * Update deprecated gun tag on Lunar shuttle (#3245)
+     * Fix Open GL errors causing MXE build not working (#3251)
+
+   * Internal Changes
+     * The OSX build showed these might be shadowed (#3248)
+     * Json ship definitions (#3252)
+     * Disable shader validation due to OSX bug (#3260)
+     * Remove GLEW, use glLoadGen, downgrade to OpenGL 3.1 (#3265)
+
+October 2014
+   * Art
+     * Lunar Shuttle facelift (#3230)
+     * Apsis icon and crosshair polish (#3223)
+
+   * Minor changes and tweaks
+     * More variation in city size / dimension (#3227)
+
+   * New Features
+     * We now have a build script for NixOS Linux (#3208)
+     * Flying with gears down increases drag (#2509, #3207)
+     * New Trade Analyzer ship component (#3200)
+     * Added Horizon Culling for planets (#3216)
+     * Second Hand ship equipment advert for BBS (#3220)
+     * Google Breakpad (MSVC only) (#3211)
+
+   * Fixes
+     * Remove detail changes (#3213)
+     * Replace #pragma once by traditional include guards. (#3215)
+     * Fix #3224 (#3225)
+     * Re-init the cockpit when we buy a new ship (#3226)
+     * Fix ObjectViewer crash for non-planets (#3228)
+     * Fix alpha blending and render to texture (#3229)
+     * Fix the crosshair rendering (#3232)
+     * Match the BeginFrame with an EndFrame (#3235)
+     * Deadzone (#3236)
+
 September 2014
+   * New Features
+     * System exploration (#3201)
 
    * Fixes
      * Fix wrong reinitialization of random generator (#3156)
      * Fix crash at Daniel's Haven (#3157)
+     * Cargo body needs to save/load its self destruct timer (#3170)
+     * Fix mismatch between saving/loading code (#3172)
+     * Fix behaviour of autosave system (#3163, #3101)
+     * Fix possible crash when accepting mission in paused (#2732, #3169)
+     * Fix compilation errors on Mac OS X (#3182,#3183)
+     * Fix the Line3D rendering issue (#3190)
+     * Fix the construction of the Circle drawables. (#3192)
+     * Fix orientation of galaxy density map (#3197)
+     * Remove invalid asserts (#3206)
+     * Attributes for uv coords should be vec4 not vec2 (#3205)
 
    * Minor changes and tweaks
      * Show buy and sell prices in commodity market (#3153)
@@ -10,16 +237,33 @@ September 2014
      * Commodity sell price too low (#3161)
      * Make Stars visible during eclipse (#3100)
      * Cap maximum number of police GoodsTraders (#3165)
+     * Better background intensity calculation for Eclipse (#3171)
+     * Randomize planet phase angle (#3135)
+     * Terrain detail / depth changes (#3184)
+     * Output SDL version on start (#3196)
+     * Player defined Ship names (#3176)
+     * Update galaxy colour image (#3197)
 
    * Script and UI API changes
      * Allow to set lawlessness in custom systems (#3166)
+     * FileSystem.ReadDirectory now includes timestamps for files (#3163)
+     * Expose pause/unpause events to Lua (#3169)
 
    * Internal Changes
      * Improve galaxy image handling (#3154)
-     * Refactor galaxy generation code (#2773)
+     * Refactor galaxy generation code (#2773, #3167)
      * Recreate folder structure for sgm batch export (#3162)
-     * Galaxy generation, part 2 (#3167)
      * Cargo body improvement (#3168)
+     * Easier to model docking - Part 1 (#3075)
+     * Const-correctness in CustomSystems and Factions (#3174)
+     * Restrict FreeType to a single translation unit (#3175, #1203)
+     * Game views refactoring (#3181)
+     * More drawable classes, minor fixes (#3187)
+     * More cache unification (#3193)
+     * Refactor face generator code to support some future changes (#3180)
+     * Shader Attributes and required refactoring (#3194)
+     * Refactoring: Get rid of global Galaxy object (#3198)
+     * Galaxy density map, factions, custom systems controlled by GalaxyGenerator (#3199)
 
 August 2014
 

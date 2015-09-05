@@ -21,12 +21,17 @@ private:
 		Message(const std::string &s, Uint32 t);
 		std::string msg;
 		Uint32 time;
+		vector2f m_prevoffset;
+		Uint32 m_prevAlpha;
+		RefCountedPtr<Graphics::VertexBuffer> m_vb;
 	};
 	std::list<Message> m_messages;
+	
 	RefCountedPtr<Text::TextureFont> m_font;
 	vector2f m_screenSize;
 	vector2f m_offset;
 	float m_lineHeight;
+	size_t m_prevMessages;
 };
 
 #endif

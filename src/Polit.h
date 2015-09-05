@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _POLIT_H
@@ -6,7 +6,9 @@
 
 #include "galaxy/Economy.h"
 #include "Serializer.h"
+#include "json/json.h"
 
+class Galaxy;
 class StarSystem;
 class SysPolit;
 class Ship;
@@ -52,9 +54,9 @@ namespace Polit {
 	};
 
 	void NotifyOfCrime(Ship *s, enum Crime c);
-	void Init();
-	void Serialize(Serializer::Writer &wr);
-	void Unserialize(Serializer::Reader &rd);
+	void Init(RefCountedPtr<Galaxy> galaxy);
+	void ToJson(Json::Value &jsonObj);
+	void FromJson(const Json::Value &jsonObj, RefCountedPtr<Galaxy> galaxy);
 	void AddCrime(Sint64 crimeBitset, Sint64 addFine);
 	void GetCrime(Sint64 *crimeBitset, Sint64 *fine);
 	fixed GetBaseLawlessness(GovType gov);

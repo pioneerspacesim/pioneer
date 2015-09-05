@@ -11,6 +11,16 @@ file_filter = data/lang/ui-core/<lang>.json
 source_file = data/lang/ui-core/en.json
 source_lang = en
 
+[pioneer.equipment-core]
+file_filter = data/lang/equipment-core/<lang>.json
+source_file = data/lang/equipment-core/en.json
+source_lang = en
+
+[pioneer.quitconfirmation-core]
+file_filter = data/lang/quitconfirmation-core/<lang>.json
+source_file = data/lang/quitconfirmation-core/en.json
+source_lang = en
+
 [pioneer.module-aiwarning]
 file_filter = data/lang/module-aiwarning/<lang>.json
 source_file = data/lang/module-aiwarning/en.json
@@ -36,6 +46,11 @@ file_filter = data/lang/module-donatetocranks/<lang>.json
 source_file = data/lang/module-donatetocranks/en.json
 source_lang = en
 
+[pioneer.module-cargorun]
+file_filter = data/lang/module-cargorun/<lang>.json
+source_file = data/lang/module-cargorun/en.json
+source_lang = en
+
 [pioneer.module-crewcontracts]
 file_filter = data/lang/module-crewcontracts/<lang>.json
 source_file = data/lang/module-crewcontracts/en.json
@@ -54,6 +69,11 @@ source_lang = en
 [pioneer.module-newseventcommodity]
 file_filter = data/lang/module-newseventcommodity/<lang>.json
 source_file = data/lang/module-newseventcommodity/en.json
+source_lang = en
+
+[pioneer.module-secondhand]
+file_filter = data/lang/module-secondhand/<lang>.json
+source_file = data/lang/module-secondhand/en.json
 source_lang = en
 
 [pioneer.module-stationrefuelling]

@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Révision de moteur hyperspacial"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Raccrochez."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Je n'ai pas assez d'argent"

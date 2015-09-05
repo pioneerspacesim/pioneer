@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LOD.h"
@@ -6,6 +6,7 @@
 #include "NodeCopyCache.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
+#include "graphics/VertexBuffer.h"
 
 namespace SceneGraph {
 
@@ -40,6 +41,7 @@ void LOD::AddLevel(float pixelSize, Node *nod)
 
 void LOD::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
 	//figure out approximate pixel size of object's bounding radius
 	//on screen and pick a child to render
 	const vector3f cameraPos(-trans[12], -trans[13], -trans[14]);
@@ -51,6 +53,53 @@ void LOD::Render(const matrix4x4f &trans, const RenderData *rd)
 		if (pixrad < m_pixelSizes[i-1]) lod = i-1;
 	}
 	m_children[lod]->Render(trans, rd);
+}
+
+void LOD::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	// anything to draw?
+	if (m_pixelSizes.empty()) 
+		return;
+
+	// got something to draw with
+	Graphics::Renderer *r = GetRenderer();
+	if ( r!=nullptr )
+	{
+		const size_t count = m_pixelSizes.size();
+		const size_t tsize = trans.size();
+
+		// transformation buffers
+		std::vector< std::vector<matrix4x4f> > transform;
+		transform.resize(count);
+		for (Uint32 i = 0; i<count; i++) {
+			transform[i].reserve(tsize);
+		}
+
+		// seperate out the transformations
+		for (auto mt : trans)
+		{
+			//figure out approximate pixel size of object's bounding radius
+			//on screen and pick a child to render
+			const vector3f cameraPos(-mt[12], -mt[13], -mt[14]);
+			//fov is vertical, so using screen height
+			const float pixrad = Graphics::GetScreenHeight() * rd->boundingRadius / (cameraPos.Length() * Graphics::GetFovFactor());
+			unsigned int lod = m_children.size() - 1;
+			for (unsigned int i = m_pixelSizes.size(); i > 0; i--) {
+				if (pixrad < m_pixelSizes[i - 1]) {
+					lod = i - 1;
+				}
+			}
+
+			transform[lod].push_back(mt);
+		}
+
+		// now render each of the buffers for each of the lods
+		for (Uint32 inst = 0; inst < transform.size(); inst++) {
+			if (!transform[inst].empty()) {
+				m_children[inst]->Render(transform[inst], rd);
+			}
+		}
+	}
 }
 
 void LOD::Save(NodeDatabase &db)

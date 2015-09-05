@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Besked om {target}s afsluttede karierre blev modtaget med glæde. Her er dine {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Afbryd linjen."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Hvor hurtigt skal det gøres?"

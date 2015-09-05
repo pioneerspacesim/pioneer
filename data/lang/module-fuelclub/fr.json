@@ -27,13 +27,9 @@
       "description" : "",
       "message" : "Retour"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Raccrochez."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, élimination gratuite (selon conditions)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
@@ -45,7 +41,7 @@
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "Remplissage du réservoir de carburant, à l'endroit où c'est nécessaire."
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",

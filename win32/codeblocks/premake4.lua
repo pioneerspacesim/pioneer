@@ -33,7 +33,6 @@ solution "Pioneer"
 		libdirs { path.join(TP_DIR, "lib") }
 	end
 	includedirs { ".", SRCDIR, BASEDIR .. "contrib" }
-	defines { "GLEW_STATIC" }
 	vpaths (VPATHS)
 	--std=c++11 causes errors with miniz
 	buildoptions  { "-std=gnu++11" }
@@ -103,10 +102,6 @@ solution "Pioneer"
 		files { LIBDIR .. "FileSystemWin32.cpp", LIBDIR .. "OSWin32.cpp" }
 
 	--contrib libs
-	project "glew"
-		kind "StaticLib"
-		files { BASEDIR .. "contrib/glew/*.h", BASEDIR .. "contrib/glew/*.c" }
-
 	project "jenkins"
 		kind "StaticLib"
 		files { BASEDIR .. "contrib/jenkins/lookup3.*" }
@@ -143,7 +138,7 @@ solution "Pioneer"
 			linkoptions "-mwindows"
 		end
 		links { "galaxy", "terrain", "gameui", "collider", "gui",
-			"scenegraph", "text", "ui", "graphics", "win32", "glew",
+			"scenegraph", "text", "ui", "graphics", "win32",
 			"jenkins", "json", "lua", "picodds"
 		}
 		links { "mingw32", "SDL2main", "SDL2", "SDL2_Image", "png",

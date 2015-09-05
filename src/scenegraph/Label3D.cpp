@@ -1,10 +1,11 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Label3D.h"
 #include "NodeVisitor.h"
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 
 namespace SceneGraph {
 
@@ -46,15 +47,39 @@ void Label3D::SetText(const std::string &text)
 {
 	//regenerate geometry
 	m_geometry->Clear();
-	if (!text.empty())
+	if (!text.empty()) {
 		m_font->GetGeometry(*m_geometry, text, vector2f(0.f));
+
+		// Happens if none of the characters in the string have glyphs in the SDF font.
+		// Most noticeably, this means text consisting of entirely Cyrillic
+		// or Chinese characters will vanish when rendered on a Label3D.
+		if (m_geometry->IsEmpty()) { return; }
+		
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.numVertices = m_geometry->GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+		m_vbuffer.reset( m_renderer->CreateVertexBuffer(vbd) );
+		m_vbuffer->Populate(*m_geometry);
+	}
 }
 
 void Label3D::Render(const matrix4x4f &trans, const RenderData *rd)
 {
-	Graphics::Renderer *r = GetRenderer();
-	r->SetTransform(trans);
-	r->DrawTriangles(m_geometry.get(), m_renderState, m_material.Get());
+	PROFILE_SCOPED()
+	if( m_vbuffer.get() )
+	{
+		Graphics::Renderer *r = GetRenderer();
+		r->SetTransform(trans);
+		r->DrawBuffer(m_vbuffer.get(), m_renderState, m_material.Get());
+	}
 }
 
 void Label3D::Accept(NodeVisitor &nv)

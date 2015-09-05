@@ -27,10 +27,6 @@
       "description" : "",
       "message" : "Geri"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
       "message" : "{radioactives}, ücretsiz elden çıkarma (koşullar geçerlidir)"
@@ -41,15 +37,15 @@
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Genel piyasadan bağımsız, yakıt stoklarımız"
+      "message" : "Kendi yakıt stoklarımız, genel piyasadan bağımsız."
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Gerekli durumlarda, yakıt tankı ikmali"
+      "message" : "Yakıt tankı ikmali, gerektiğinde"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
-      "message" : "Hemen katıl! Yıllık üyelik ücreti sadece {membership_fee}"
+      "message" : "Hemen katıl! Yıllık üyelik sadece {membership_fee}"
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
@@ -61,7 +57,7 @@
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",
-      "message" : "Üyelik başvurunuz reddedildi"
+      "message" : "Üyelik başvurunuz reddedildi."
    },
    "YOU_ARE_NOW_A_MEMBER" : {
       "description" : "",

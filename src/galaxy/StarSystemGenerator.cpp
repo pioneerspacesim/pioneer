@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystemGenerator.h"
@@ -279,17 +279,17 @@ const StarSystemLegacyGeneratorBase::StarTypeInfo StarSystemLegacyGeneratorBase:
 };
 
 
-bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
+bool StarSystemFromSectorGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(system->GetPath());
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	assert(system->GetPath().systemIndex >= 0 && system->GetPath().systemIndex < sec->m_systems.size());
 	const Sector::System& secSys = sec->m_systems[system->GetPath().systemIndex];
 
-	system->SetFaction(Pi::GetGalaxy()->GetFactions()->GetNearestFaction(&secSys));
+	system->SetFaction(galaxy->GetFactions()->GetNearestFaction(&secSys));
 	system->SetSeed(secSys.GetSeed());
 	system->SetName(secSys.GetName());
-	system->SetUnexplored(!secSys.IsExplored());
+	system->SetExplored(secSys.GetExplored(), secSys.GetExploredTime());
 	return true;
 }
 
@@ -532,9 +532,17 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 		if (kid->GetType() == SystemBody::TYPE_STARPORT_SURFACE) {
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(csbody->longitude) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		} else {
-			if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
-				Error("%s's orbit is too close to its parent", csbody->name.c_str());
-			}
+                        if (kid->GetSuperType() == SystemBody::SUPERTYPE_STARPORT) {
+                            fixed lowestOrbit = fixed().FromDouble(parent->CalcAtmosphereParams().atmosRadius + 500000.0/EARTH_RADIUS);
+                            if (kid->m_orbit.GetSemiMajorAxis() < lowestOrbit.ToDouble()) {
+                                    Error("%s's orbit is too close to its parent (%.2f/%.2f)", csbody->name.c_str(),kid->m_orbit.GetSemiMajorAxis(),lowestOrbit.ToFloat());
+                            }
+                        }
+                        else {
+                            if (kid->m_orbit.GetSemiMajorAxis() < 1.2 * parent->GetRadius()) {
+                                    Error("%s's orbit is too close to its parent", csbody->name.c_str());
+                            }
+                        }
 			double offset = csbody->want_rand_offset ? rand.Double(2*M_PI) : (csbody->orbitalOffset.ToDouble());
 			kid->m_orbit.SetPlane(matrix3x3d::RotateY(offset) * matrix3x3d::RotateX(-0.5*M_PI + csbody->latitude));
 		}
@@ -573,10 +581,10 @@ void StarSystemCustomGenerator::CustomGetKidsOf(RefCountedPtr<StarSystem::Genera
 	}
 }
 
-bool StarSystemCustomGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
+bool StarSystemCustomGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(system->GetPath());
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	system->SetCustom(false, false);
 	if (const CustomSystem *customSys = sec->m_systems[system->GetPath().systemIndex].GetCustomSystem()) {
 		system->SetCustom(true, false);
@@ -692,11 +700,11 @@ int StarSystemRandomGenerator::CalcSurfaceTemp(const SystemBody *primary, fixed 
 			std::vector<const SystemBody*>::reverse_iterator sit = second_to_root.rbegin();
 			while(sit!=second_to_root.rend() && fit!=first_to_root.rend() && (*sit)==(*fit))	//keep tracing both branches from system's root
 			{																					//until they diverge
-				sit++;
-				fit++;
+				++sit;
+				++fit;
 			}
-			if (sit == second_to_root.rend()) sit--;
-			if (fit == first_to_root.rend()) fit--;	//oops! one of the branches ends at lca, backtrack
+			if (sit == second_to_root.rend()) --sit;
+			if (fit == first_to_root.rend()) --fit;	//oops! one of the branches ends at lca, backtrack
 
 			if((*fit)->IsCoOrbitalWith(*sit))	//planet is around one part of coorbiting pair, star is another.
 			{
@@ -1070,6 +1078,7 @@ void StarSystemRandomGenerator::MakePlanetsAround(RefCountedPtr<StarSystem::Gene
 		double r1 = rand.Double(2*M_PI);		// function parameter evaluation order is implementation-dependent
 		double r2 = rand.NDouble(5);			// can't put two rands in the same expression
 		planet->m_orbit.SetPlane(matrix3x3d::RotateY(r1) * matrix3x3d::RotateX(-0.5*M_PI + r2*M_PI/2.0));
+		planet->m_orbit.SetPhase(rand.Double(2 * M_PI));
 
 		planet->m_inclination = FIXED_PI;
 		planet->m_inclination *= r2/2.0;
@@ -1215,10 +1224,10 @@ void StarSystemRandomGenerator::MakeBinaryPair(SystemBody *a, SystemBody *b, fix
 	b->m_orbMax = orbMax;
 }
 
-bool StarSystemRandomGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
+bool StarSystemRandomGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(system->GetPath());
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(system->GetPath());
 	const Sector::System& secSys = sec->m_systems[system->GetPath().systemIndex];
 
 	if (config->isCustomOnly)
@@ -1381,7 +1390,7 @@ void PopulateStarSystemGenerator::PopulateStage1(SystemBody* sbody, StarSystem::
 	}
 
 	// unexplored systems have no population (that we know about)
-	if (system->GetUnexplored()) {
+	if (system->GetExplored() != StarSystem::eEXPLORED_AT_START) {
 		sbody->m_population = outTotalPop = fixed();
 		return;
 	}
@@ -1541,49 +1550,98 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 	namerand->seed(_init, 6);
 
 	if (sbody->GetPopulationAsFixed() < fixed(1,1000)) return;
-
 	fixed orbMaxS = fixed(1,4)*CalcHillRadius(sbody);
-	fixed orbMinS = 4 * sbody->GetRadiusAsFixed() * AU_EARTH_RADIUS;
-	if (sbody->GetNumChildren()) orbMaxS = std::min(orbMaxS, fixed(1,2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
+	fixed orbMinS = fixed().FromDouble((sbody->CalcAtmosphereParams().atmosRadius + + 500000.0/EARTH_RADIUS)) * AU_EARTH_RADIUS;
+	if (sbody->GetNumChildren() > 0) 
+		orbMaxS = std::min(orbMaxS, fixed(1,2) * sbody->GetChildren()[0]->GetOrbMinAsFixed());
 
 	// starports - orbital
 	fixed pop = sbody->GetPopulationAsFixed() + rand.Fixed();
 	if( orbMinS < orbMaxS )
 	{
+		// How many stations do we need?
 		pop -= rand.Fixed();
 		Uint32 NumToMake = 0;
 		while(pop >= 0) {
 			++NumToMake;
 			pop -= rand.Fixed();
 		}
-		for( Uint32 i=0; i<NumToMake; i++ ) {
-			SystemBody *sp = system->NewBody();
-			sp->m_type = SystemBody::TYPE_STARPORT_ORBITAL;
-			sp->m_seed = rand.Int32();
-			sp->m_parent = sbody;
-			sp->m_rotationPeriod = fixed(1,3600);
-			sp->m_averageTemp = sbody->GetAverageTemp();
-			sp->m_mass = 0;
 
-			// place stations between min and max orbits to reduce the number of extremely close/fast orbits
-			sp->m_semiMajorAxis = orbMinS + ((orbMaxS - orbMinS) / 4);
-			sp->m_eccentricity = fixed();
-			sp->m_axialTilt = fixed();
+		// Any to position?
+		if( NumToMake > 0 )
+		{
+			const double centralMass = sbody->GetMassAsFixed().ToDouble() * EARTH_MASS;
+                        
+			// What is our innermost orbit?
+			fixed innerOrbit = orbMinS;// + ((orbMaxS - orbMinS) / 25);
 
-			sp->m_orbit.SetShapeAroundPrimary(sp->GetSemiMajorAxisAsFixed().ToDouble()*AU, sbody->GetMassAsFixed().ToDouble() * EARTH_MASS, 0.0);
-			if (NumToMake > 1) {
-				sp->m_orbit.SetPlane(matrix3x3d::RotateZ(double(i) * (M_PI / double(NumToMake-1))));
-			} else {
-				sp->m_orbit.SetPlane(matrix3x3d::Identity());
+			// Try to limit the inner orbit to at least three hours.
+			{
+                                const double minHours = 3.0;
+				const double seconds = Orbit::OrbitalPeriod(innerOrbit.ToDouble() * AU, centralMass);
+				const double hours = seconds / (60.0*60.0);
+				if (hours < minHours)
+				{
+                                        //knowing that T=2*pi*R/sqrt(G*M/R) find R for set T=4 hours: 
+                                        fixed orbitFromPeriod = fixed().FromDouble((std::pow(G*centralMass, 1.0/3.0)*std::pow(minHours*60.0*60.0, 2.0/3.0))/(std::pow(2.0*M_PI, 2.0/3.0)*AU));
+                                        // We can't go higher than our maximum so set it to that.
+					innerOrbit = std::min(orbMaxS, orbitFromPeriod);
+				}
 			}
 
-			sp->m_inclination = fixed();
-			sbody->m_children.insert(sbody->m_children.begin(), sp);
-			system->AddSpaceStation(sp);
-			sp->m_orbMin = sp->GetSemiMajorAxisAsFixed();
-			sp->m_orbMax = sp->GetSemiMajorAxisAsFixed();
+			// I like to think that we'd fill several "shells" of orbits at once rather than fill one and move out further
+			static const Uint32 MAX_ORBIT_SHELLS = 3;
+			fixed shells[MAX_ORBIT_SHELLS];
+			if( innerOrbit != orbMaxS )
+			{
+				shells[0] = innerOrbit; // low
+				shells[1] = innerOrbit + ((orbMaxS - innerOrbit) * fixed(1,2)); // med
+				shells[2] = orbMaxS; // high
+			}
+			else
+			{
+				shells[0] = shells[1] = shells[2] = innerOrbit;
+			}
+			Uint32 orbitIdx = 0;
 
-			sp->m_name = gen_unique_station_name(sp, system, namerand);
+			for( Uint32 i=0; i<NumToMake; i++ ) 
+			{
+				// Pick the orbit we've currently placing a station into.
+				const fixed currOrbit = shells[orbitIdx];
+				++orbitIdx; 
+				orbitIdx = orbitIdx % MAX_ORBIT_SHELLS; // wrap it
+
+				// Begin creation of the new station
+				SystemBody *sp = system->NewBody();
+				sp->m_type = SystemBody::TYPE_STARPORT_ORBITAL;
+				sp->m_seed = rand.Int32();
+				sp->m_parent = sbody;
+				sp->m_rotationPeriod = fixed(1,3600);
+				sp->m_averageTemp = sbody->GetAverageTemp();
+				sp->m_mass = 0;
+
+				// place stations between min and max orbits to reduce the number of extremely close/fast orbits
+				sp->m_semiMajorAxis = currOrbit;
+				sp->m_eccentricity = fixed();
+				sp->m_axialTilt = fixed();
+
+				sp->m_orbit.SetShapeAroundPrimary(sp->GetSemiMajorAxisAsFixed().ToDouble()*AU, centralMass, 0.0);
+				if (NumToMake > 1) {
+					// The rotations around X & Y perturb the orbits just a little bit so that not all stations are exactly within the same plane
+					// The Z rotation is what gives them the separation in their orbit around the parent body as a whole.
+					sp->m_orbit.SetPlane(matrix3x3d::RotateX(rand.Double(M_PI * 0.03125)) * matrix3x3d::RotateY(rand.Double(M_PI * 0.03125)) * matrix3x3d::RotateZ(double(i) * ((M_PI * 2.0) / double(NumToMake-1))));
+				} else {
+					sp->m_orbit.SetPlane(matrix3x3d::Identity());
+				}
+
+				sp->m_inclination = fixed();
+				sbody->m_children.insert(sbody->m_children.begin(), sp);
+				system->AddSpaceStation(sp);
+				sp->m_orbMin = sp->GetSemiMajorAxisAsFixed();
+				sp->m_orbMax = sp->GetSemiMajorAxisAsFixed();
+
+				sp->m_name = gen_unique_station_name(sp, system, namerand);
+			}
 		}
 	}
 	// starports - surface
@@ -1624,58 +1682,13 @@ void PopulateStarSystemGenerator::PopulateAddStations(SystemBody* sbody, StarSys
 	}
 }
 
-void PopulateStarSystemGenerator::MakeShortDescription(RefCountedPtr<StarSystem::GeneratorAPI> system, Random &rand)
-{
-	PROFILE_SCOPED()
-	if ((system->GetIndustrial() > system->GetMetallicity()) && (system->GetIndustrial() > system->GetAgricultural())) {
-		system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
-	} else if (system->GetMetallicity() > system->GetAgricultural()) {
-		system->SetEconType(GalacticEconomy::ECON_MINING);
-	} else {
-		system->SetEconType(GalacticEconomy::ECON_AGRICULTURE);
-	}
-
-	if (system->GetUnexplored()) {
-		system->SetShortDesc(Lang::UNEXPLORED_SYSTEM_NO_DATA);
-	}
-
-	/* Total population is in billions */
-	else if(system->GetTotalPop() == 0) {
-		system->SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
-	} else if (system->GetTotalPop() < fixed(1,10)) {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
-		}
-	} else if (system->GetTotalPop() < fixed(1,2)) {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::MINING_COLONY); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
-		}
-	} else if (system->GetTotalPop() < fixed(5,1)) {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::HEAVY_INDUSTRY); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::EXTENSIVE_MINING); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
-		}
-	} else {
-		switch (system->GetEconType()) {
-			case GalacticEconomy::ECON_INDUSTRY: system->SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
-			case GalacticEconomy::ECON_MINING: system->SetShortDesc(Lang::VAST_STRIP_MINE); break;
-			case GalacticEconomy::ECON_AGRICULTURE: system->SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
-		}
-	}
-}
-
-void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
+void PopulateStarSystemGenerator::SetSysPolit(RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system, const fixed &human_infestedness)
 {
 	SystemPath path = system->GetPath();
 	const Uint32 _init[5] = { Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), path.systemIndex, POLIT_SEED };
 	Random rand(_init, 5);
 
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(path);
+	RefCountedPtr<const Sector> sec = galaxy->GetSector(path);
 	const CustomSystem* customSystem = sec->m_systems[path.systemIndex].GetCustomSystem();
 	SysPolit sysPolit;
 	sysPolit.govType = Polit::GOV_INVALID;
@@ -1717,7 +1730,7 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	if (a == Polit::GOV_NONE) return;
 
 	if(system->GetFaction()->idx != Faction::BAD_FACTION_IDX ) {
-		for (std::pair<const GalacticEconomy::Commodity,Uint32>& legality : system->GetFaction()->commodity_legality)
+		for (const std::pair<const GalacticEconomy::Commodity,Uint32>& legality : system->GetFaction()->commodity_legality)
 			system->SetCommodityLegal(legality.first, (rand.Int32(100) >= legality.second));
 	} else 	{
 		// this is a non-faction system - do some hardcoded test
@@ -1729,10 +1742,21 @@ void PopulateStarSystemGenerator::SetCommodityLegality(RefCountedPtr<StarSystem:
 	}
 }
 
+void PopulateStarSystemGenerator::SetEconType(RefCountedPtr<StarSystem::GeneratorAPI> system)
+{
+	if ((system->GetIndustrial() > system->GetMetallicity()) && (system->GetIndustrial() > system->GetAgricultural())) {
+		system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
+	} else if (system->GetMetallicity() > system->GetAgricultural()) {
+		system->SetEconType(GalacticEconomy::ECON_MINING);
+	} else {
+		system->SetEconType(GalacticEconomy::ECON_AGRICULTURE);
+	}
+}
+
 /* percent */
 static const int MAX_COMMODITY_BASE_PRICE_ADJUSTMENT = 25;
 
-bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::GeneratorAPI> system,
+bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<Galaxy> galaxy, RefCountedPtr<StarSystem::GeneratorAPI> system,
 		GalaxyGenerator::StarSystemConfig* config)
 {
 	PROFILE_SCOPED()
@@ -1744,7 +1768,7 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 	/* Various system-wide characteristics */
 	// This is 1 in sector (0,0,0) and approaches 0 farther out
 	// (1,0,0) ~ .688, (1,1,0) ~ .557, (1,1,1) ~ .48
-	system->SetHumanProx(Pi::GetGalaxy()->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2,3): fixed(3,1) /
+	system->SetHumanProx(galaxy->GetFactions()->IsHomeSystem(system->GetPath()) ? fixed(2,3): fixed(3,1) /
 		isqrt(9 + 10*(system->GetPath().sectorX*system->GetPath().sectorX + system->GetPath().sectorY*system->GetPath().sectorY + system->GetPath().sectorZ*system->GetPath().sectorZ)));
 	system->SetEconType(GalacticEconomy::ECON_INDUSTRY);
 	system->SetIndustrial(rand.Fixed());
@@ -1775,15 +1799,17 @@ bool PopulateStarSystemGenerator::Apply(Random& rng, RefCountedPtr<StarSystem::G
 //		Output("%s: %d%%\n", type.name, m_tradeLevel[t]);
 //	}
 //	Output("System total population %.3f billion\n", m_totalPop.ToFloat());
-	SetSysPolit(system, system->GetTotalPop());
+	SetSysPolit(galaxy, system, system->GetTotalPop());
 	SetCommodityLegality(system);
 
 	if (addSpaceStations) {
 		PopulateAddStations(system->GetRootBody().Get(), system.Get());
 	}
 
-	if (!system->GetShortDescription().size())
-		MakeShortDescription(system, rand);
+	if (!system->GetShortDescription().size()) {
+		SetEconType(system);
+		system->MakeShortDescription();
+	}
 
 	return true;
 }

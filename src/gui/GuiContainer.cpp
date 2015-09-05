@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -195,13 +195,18 @@ void Container::Draw()
 	GetSize(size);
 	if (!m_transparent) {
 		PROFILE_SCOPED_RAW("Container::Draw - !m_transparent")
-		Theme::DrawRect(vector2f(0.f), vector2f(size[0], size[1]), m_bgcol, Screen::alphaBlendState);
+		if(!m_rect) {
+			m_rect.reset(new Graphics::Drawables::Rect(Screen::GetRenderer(),vector2f(0.f), vector2f(size[0], size[0]), m_bgcol, Screen::alphaBlendState, false));
+		} else {
+			m_rect->Update(vector2f(0.f), vector2f(size[0], size[1]), m_bgcol);
+		}
+		m_rect->Draw(Screen::GetRenderer());
 	}
 
 	for (WidgetList::iterator i = m_children.begin(), itEnd = m_children.end(); i != itEnd; ++i) {
-		if (!(*i).w->IsVisible()) continue;
-
 		PROFILE_SCOPED_RAW("Container::Draw - Child Loop")
+		if (!(*i).w->IsVisible())
+			continue;
 
 		Graphics::Renderer::MatrixTicket ticket(r, Graphics::MatrixMode::MODELVIEW);
 		r->Translate((*i).pos[0], (*i).pos[1], 0);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SYSTEMPATH_H
@@ -6,6 +6,7 @@
 
 #include "Serializer.h"
 #include "LuaWrappable.h"
+#include "json/json.h"
 #include <stdexcept>
 
 class SystemPath : public LuaWrappable {
@@ -121,19 +122,28 @@ public:
 		return SystemPath(sectorX, sectorY, sectorZ, systemIndex);
 	}
 
-	void Serialize(Serializer::Writer &wr) const {
-		wr.Int32(sectorX);
-		wr.Int32(sectorY);
-		wr.Int32(sectorZ);
-		wr.Int32(Uint32(systemIndex));
-		wr.Int32(Uint32(bodyIndex));
+	void ToJson(Json::Value &jsonObj) const {
+		Json::Value systemPathObj(Json::objectValue); // Create JSON object to contain system path data.
+		systemPathObj["sector_x"] = sectorX;
+		systemPathObj["sector_y"] = sectorY;
+		systemPathObj["sector_z"] = sectorZ;
+		systemPathObj["system_index"] = systemIndex;
+		systemPathObj["body_index"] = bodyIndex;
+		jsonObj["system_path"] = systemPathObj; // Add system path object to supplied object.
 	}
-	static SystemPath Unserialize(Serializer::Reader &rd) {
-		Uint32 x = rd.Int32();
-		Uint32 y = rd.Int32();
-		Uint32 z = rd.Int32();
-		Sint32 si = Sint32(rd.Int32());
-		Sint32 bi = Sint32(rd.Int32());
+	static SystemPath FromJson(const Json::Value &jsonObj) {
+		if (!jsonObj.isMember("system_path")) throw SavedGameCorruptException();
+		Json::Value systemPathObj = jsonObj["system_path"];
+		if (!systemPathObj.isMember("sector_x")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("sector_y")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("sector_z")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("system_index")) throw SavedGameCorruptException();
+		if (!systemPathObj.isMember("body_index")) throw SavedGameCorruptException();
+		Sint32 x = systemPathObj["sector_x"].asInt();
+		Sint32 y = systemPathObj["sector_y"].asInt();
+		Sint32 z = systemPathObj["sector_z"].asInt();
+		Uint32 si = systemPathObj["system_index"].asUInt();
+		Uint32 bi = systemPathObj["body_index"].asUInt();
 		return SystemPath(x, y, z, si, bi);
 	}
 

@@ -13,7 +13,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "Delivery"
+      "message" : "Entrega"
    },
    "DENY_0" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "FLAVOUR_1_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It is nothing special."
+      "message" : "Não é nada de especial."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "We would be happy to pay you less money."
+      "message" : "Ficaríamos contentes se pagássemos menos dinheiro."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_5_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Is it a lot? I should rethink my offer!"
+      "message" : "É demasiado? Tenho de repensar a minha oferta!"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "I don't think it's a lot."
+      "message" : "Não acho que seja demasiado!"
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Standard rates, we work with the market."
+      "message" : "Taxas normais, trabalhamos com o mercado."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It's really urgent."
+      "message" : "É mesmo urgente."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
@@ -253,15 +253,11 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelyhood depends on it."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligar."
+      "message" : "Our livelihood depends on it."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
-      "message" : "How soon must it be delivered?"
+      "message" : "Quão cedo tem de ser entregue?"
    },
    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
       "description" : "",
@@ -269,11 +265,11 @@
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",
-      "message" : "It must be delivered by "
+      "message" : "A entrega tem de ser feita antes de"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
-      "message" : "I highly doubt it."
+      "message" : "Duvido muito."
    },
    "LY" : {
       "description" : "",
@@ -281,7 +277,7 @@
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Não mais que o normal."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -293,7 +289,7 @@
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Looks like my paycheck has arrived!"
+      "message" : "Parece que o meu cheque chegou!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",

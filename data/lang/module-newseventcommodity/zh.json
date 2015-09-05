@@ -1,0 +1,294 @@
+{
+   "FLAVOUR_0_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 在{system} 星系中瘟疫泛滥.死亡人数上升."
+   },
+   "FLAVOUR_0_NEWSBODY" : {
+      "description" : "Imply high demand for MEDICINE commodity.",
+      "message" : "瘟疫正在 {system}  ({sectorx}, {sectory}, {sectorz})星系内大杀特杀, 政府发出了紧急医疗求助."
+   },
+   "FLAVOUR_10_HEADLINE" : {
+      "description" : "",
+      "message" : "{date}新闻: 大型企业在 {system} 星系内的威胁仍旧持续."
+   },
+   "FLAVOUR_10_NEWSBODY" : {
+      "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
+      "message" : "Prekall 公司正在试图垄断整个 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的空气呼吸权..深吸一口气吧, 这可能是最后一口免费空气了."
+   },
+   "FLAVOUR_11_HEADLINE" : {
+      "description" : "",
+      "message" : "{date}新闻: 在 {system} 星系发生了神秘的黄牛消失事件."
+   },
+   "FLAVOUR_11_NEWSBODY" : {
+      "description" : "Imply high demand of ANIMAL_MEAT.",
+      "message" : "像是遇到了一股神秘力量, 在 {system} 星系的农场主一觉醒来以后发现牛栏里面空空如也. \"本世纪最大的黄牛大盗\"警察说道."
+   },
+   "FLAVOUR_12_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 计算机系统故障导致 {system} 星系的基础设施建设停摆."
+   },
+   "FLAVOUR_12_NEWSBODY" : {
+      "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
+      "message" : "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 里蔓延着的可恶计算机病毒导致了所有的 Nachosoft 计算机硬盘损毁. 计算机专家表示这事件使得星系内用纸量大涨."
+   },
+   "FLAVOUR_13_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 在 {system} 星系发生机器人起义事件."
+   },
+   "FLAVOUR_13_NEWSBODY" : {
+      "description" : "Imply that nobody wants to buy ROBOTS anymore.",
+      "message" : "现在星系 {system} ({sectorx}, {sectory}, {sectorz}) 内反对机器人的呼声空前高涨. 由于\"行为失控\"导致星系内没人再敢买机器仆人了."
+   },
+   "FLAVOUR_14_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 千年一遇的太阳耀斑爆发导致 {system} 星系内有史以来最大的一次停电."
+   },
+   "FLAVOUR_14_NEWSBODY" : {
+      "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
+      "message" : "大面积的停电侵袭了整个 {system} 星系 ({sectorx}, {sectory}, {sectorz}). 顾客们排起长龙购买塑料保温盒来代替他们的电冰箱. 而生产商存储的生产原料也将告罄."
+   },
+   "FLAVOUR_15_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 警察突袭了 {system} 星系内的犯罪窝点, 核心犯罪分子头目被抓获."
+   },
+   "FLAVOUR_15_NEWSBODY" : {
+      "description" : "imply high demand of NARCOTICS.",
+      "message" : "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 的当局者希望在犯罪组织头目被捕以后, 例如毒品之类的犯罪活动会消失."
+   },
+   "FLAVOUR_16_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 在 {system} 星系举办的年度蒸汽机博览会上发生了严重事故."
+   },
+   "FLAVOUR_16_NEWSBODY" : {
+      "description" : "Imply high demand of FARM_MACHINERY.",
+      "message" : "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 举办的蒸汽机车博览会上, 宇宙历史上最大的蒸汽机车拔河赛以大混乱收场. 失控的机车横冲乱撞,毁掉了其他所有参赛的机车. 当局表示这可能会给当地农场主带来一场灾难."
+   },
+   "FLAVOUR_17_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 在 {system} 星系发现了富矿."
+   },
+   "FLAVOUR_17_NEWSBODY" : {
+      "description" : "Imply vast abundance of METAL_ORE.",
+      "message" : "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 的矿工发现了前所未见的丰富矿床."
+   },
+   "FLAVOUR_18_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系的经济转型获得了巨大成功."
+   },
+   "FLAVOUR_18_NEWSBODY" : {
+      "description" : "Imply vast demand of CONSUMER_GOODS.",
+      "message" : "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 经济的车轮滴溜溜转得飞快, 人民群众的荷包也涨得满满的."
+   },
+   "FLAVOUR_19_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系现在满地都是黄金."
+   },
+   "FLAVOUR_19_NEWSBODY" : {
+      "description" : "Imply vast abundance of PRECIOUS_METALS.",
+      "message" : "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 有个人继承了他已故的叔叔留下来的一项发明. 这项发明可以让他把任何的固体物质转换成金和铂. 经济学家预测这会导致经济系统的崩坏, 除非那个人的造金机器坏掉了."
+   },
+   "FLAVOUR_1_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系中的冲突加剧."
+   },
+   "FLAVOUR_1_NEWSBODY" : {
+      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+      "message" : "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的长期冲突逐步升级为军队全面参与的战斗."
+   },
+   "FLAVOUR_20_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: 在 {system} 气体巨星上收获的藻类产量创下了新纪录."
+   },
+   "FLAVOUR_20_NEWSBODY" : {
+      "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
+      "message" : "随着 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 内气体巨星大气层内发现的黄藻进入疯长阶段, \"藻黄\"肥料公司在行星大气内收获的藻类异常的多."
+   },
+   "FLAVOUR_21_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系签订了 \"人道主义战争\" 条约."
+   },
+   "FLAVOUR_21_NEWSBODY" : {
+      "description" : "Imply vast abundance of NERVE_GAS.",
+      "message" : "虽然 {system} ({sectorx}, {sectory}, {sectorz}) 内的冲突双方都没有签署停火协议, 但是他们还是同意不再使用化学武器了."
+   },
+   "FLAVOUR_22_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系的警察罢工中. 平民们不得不拿起武器保卫自己."
+   },
+   "FLAVOUR_22_NEWSBODY" : {
+      "description" : "Imply high demand of HAND_WEAPONS.",
+      "message" : "{system} 星系的警察由于人手不足执法不力而被抗议, 随后集体罢工. 同时, 民间私人警察用钉耙和枪械将自己武装了起来, 以应付最坏状况."
+   },
+   "FLAVOUR_23_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系掀起建厂新热潮."
+   },
+   "FLAVOUR_23_NEWSBODY" : {
+      "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
+      "message" : "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 新建的瑞士军刀工厂已经开始生产. 共产将会产出大量优质的瑞士军刀, 其锋利程度甚至可以戳穿太空服. 然而由于生产原材料的紧缺, 工厂的生产力仍没有完全发挥出来."
+   },
+   "FLAVOUR_2_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系发生了干旱, 农作物干枯殆尽."
+   },
+   "FLAVOUR_2_NEWSBODY" : {
+      "description" : "Hint there will be high demand of GRAIN.",
+      "message" : "严重的干旱毁掉了 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的大量农作物.有闹大饥荒的危险."
+   },
+   "FLAVOUR_3_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻:  {system} 星系内的素食主义者数量有增长趋势."
+   },
+   "FLAVOUR_3_NEWSBODY" : {
+      "description" : "Imply high demand of FRUIT_AND_VEG.",
+      "message" : "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 的管理者试图增加绿色蔬菜的进口以满足日渐增加的需求量."
+   },
+   "FLAVOUR_4_HEADLINE" : {
+      "description" : "About mob rivals competing for selling drugs",
+      "message" : "{date} 新闻: 毒品战争在 {system} 星系爆发了. 执法者正在试图稳住局面."
+   },
+   "FLAVOUR_4_NEWSBODY" : {
+      "description" : "Imply high abundance of NARCOTICS.",
+      "message" : "廉价的毒品洪水般的涌入了 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 的黑市. 起因是大毒枭们争相增加自己的影响力."
+   },
+   "FLAVOUR_5_HEADLINE" : {
+      "description" : "",
+      "message" : "{system} 星系发生了奴隶叛逃事件. 农业生产处于停滞状态."
+   },
+   "FLAVOUR_5_NEWSBODY" : {
+      "description" : "Imply high demand of SLAVES.",
+      "message" : "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 内的奴隶工人摆脱了锁链并发生了暴动事件. 由于无法找到廉价的劳动力, 经济现在处于停滞状态."
+   },
+   "FLAVOUR_6_HEADLINE" : {
+      "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
+      "message" : "{date} 新闻: {system} 星系举行了Quibble欢乐嘉年华."
+   },
+   "FLAVOUR_6_NEWSBODY" : {
+      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
+      "message" : "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 进行的热烈庆祝活动将持续进行,因为他们喜欢这个毛茸茸的小家伙."
+   },
+   "FLAVOUR_7_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系的社会各行业经济瞬间崩溃."
+   },
+   "FLAVOUR_7_NEWSBODY" : {
+      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
+      "message" : "长时间忽视机器的维修保养, 导致 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 工业停滞中 ."
+   },
+   "FLAVOUR_8_HEADLINE" : {
+      "description" : "",
+      "message" : "{date} 新闻: {system} 星系报告发生了采矿事故."
+   },
+   "FLAVOUR_8_NEWSBODY" : {
+      "description" : "Imply high demand of MINING_MACHINERY.",
+      "message" : "一个在 {system} 星系的矿井发生崩塌, ({sectorx}, {sectory}, {sectorz}) 造成数百名工人死亡,并且摧毁了对经济发展至关重要的采矿机械."
+   },
+   "FLAVOUR_9_HEADLINE" : {
+      "description" : "",
+      "message" : "{date}新闻: {system} 星系中出现了时尚热潮."
+   },
+   "FLAVOUR_9_NEWSBODY" : {
+      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
+      "message" : "{system} 星系 ({sectorx}, {sectory}, {sectorz}) 有了最新的潮流. 现在人们能养一只活的宠物成为了一件重要事件."
+   },
+   "GRATEFUL_GREETING_0" : {
+      "description" : "",
+      "message" : "欢迎您,商人! 我们会对你的 {cargo} 给个好价钱的."
+   },
+   "GRATEFUL_GREETING_1" : {
+      "description" : "",
+      "message" : "你的到来是最受欢迎的, 你运输的 {cargo} 也是!"
+   },
+   "GRATEFUL_GREETING_2" : {
+      "description" : "",
+      "message" : "您好! 在这里卖 {cargo} 应该能有不错的销量."
+   },
+   "GRATEFUL_GREETING_3" : {
+      "description" : "",
+      "message" : "欢迎您! 最后一些 {cargo}."
+   },
+   "GRATEFUL_GREETING_4" : {
+      "description" : "",
+      "message" : "我们一直希望能获得 {cargo}."
+   },
+   "GRATEFUL_GREETING_5" : {
+      "description" : "",
+      "message" : "欢迎您! 您运输的 {cargo} 在这里会卖得很好."
+   },
+   "NEWSPAPER_CIW" : {
+      "description" : "",
+      "message" : "同盟纪事"
+   },
+   "NEWSPAPER_FED" : {
+      "description" : "",
+      "message" : "联邦时报"
+   },
+   "NEWSPAPER_IMP" : {
+      "description" : "",
+      "message" : "帝国先驱报"
+   },
+   "NEWSPAPER_IND_0" : {
+      "description" : "",
+      "message" : "先锋快递报"
+   },
+   "NEWSPAPER_IND_1" : {
+      "description" : "",
+      "message" : "独立论坛报"
+   },
+   "NEWSPAPER_IND_10" : {
+      "description" : "",
+      "message" : "在轨观察者报"
+   },
+   "NEWSPAPER_IND_2" : {
+      "description" : "",
+      "message" : "银河快报"
+   },
+   "NEWSPAPER_IND_3" : {
+      "description" : "",
+      "message" : "宇宙太阳报"
+   },
+   "NEWSPAPER_IND_4" : {
+      "description" : "",
+      "message" : "行星快报"
+   },
+   "NEWSPAPER_IND_5" : {
+      "description" : "",
+      "message" : "皇家公报"
+   },
+   "NEWSPAPER_IND_6" : {
+      "description" : "",
+      "message" : "宇宙邮政"
+   },
+   "NEWSPAPER_IND_7" : {
+      "description" : "",
+      "message" : "每日快报"
+   },
+   "NEWSPAPER_IND_8" : {
+      "description" : "",
+      "message" : "地球电报"
+   },
+   "NEWSPAPER_IND_9" : {
+      "description" : "",
+      "message" : "卫星杂志"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "{newspaper} 的最新报道"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : " {newspaper} 提供的新闻"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "{newspaper} 的报道"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "{newspaper} 的最新消息"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "{newspaper} 提供的信息"
+   }
+}

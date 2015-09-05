@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaLang.h"
@@ -55,9 +55,6 @@ static int l_lang_get_resource(lua_State *l)
 	}
 
 	lua_newtable(l);
-	lua_pushstring(l, "__index");
-	lua_pushcfunction(l, _resource_index);
-	lua_rawset(l, -3);
 	lua_pushstring(l, "__newindex");
 	lua_pushcfunction(l, _resource_index);
 	lua_rawset(l, -3);

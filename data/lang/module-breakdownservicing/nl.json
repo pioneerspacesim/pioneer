@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Ik wil een servicebeurt"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Ik heb niet genoeg geld"

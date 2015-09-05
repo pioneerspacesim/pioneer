@@ -1,9 +1,10 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
+local Space = import("Space")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -34,7 +35,7 @@ local orbitalAnalysis = function ()
 
 	return ui:Expand():SetInnerWidget(
 		ui:VBox(20):PackEnd({
-            (l.LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME):interp({
+			(l.LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME):interp({
 														-- convert to kilometres
 														distance = string.format('%6.2f',distance/1000),
 														name = name

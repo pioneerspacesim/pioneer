@@ -1,0 +1,30 @@
+{
+   "angular_thrust" : 500000000.0,
+   "capacity" : 1400,
+   "cockpit" : "",
+   "down_thrust" : 10000000.0,
+   "effective_exhaust_velocity" : 51784000.0,
+   "forward_thrust" : 50000000.0,
+   "fuel_tank_mass" : 225,
+   "hull_mass" : 175,
+   "hyperdrive_class" : 3,
+   "left_thrust" : 10000000.0,
+   "manufacturer" : "albr",
+   "max_crew" : 3,
+   "min_crew" : 2,
+   "model" : "deneb",
+   "name" : "Deneb",
+   "price" : 4300000.0,
+   "reverse_thrust" : 30000000.0,
+   "right_thrust" : 10000000.0,
+   "ship_class" : "medium_freighter",
+   "slots" : {
+      "cargo" : 1400,
+      "scoop" : 2,
+      "laser_front" : 1,
+      "missile" : 8,
+      "sensor"  : 4
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 40000000.0
+}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -10,6 +10,7 @@
 #include "galaxy/StarSystem.h"
 #include "galaxy/Economy.h"
 #include "Pi.h"
+#include "Game.h"
 #include "Space.h"
 #include "Star.h"
 #include "Planet.h"
@@ -147,6 +148,9 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 	LUA_DEBUG_START(l);
 
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	if (!lua_istable(l, 2)) {
+		return luaL_error(l, "GetCommodityBasePriceAlterations takes a cargo object as and argument.");
+	}
 	LuaTable equip(l, 2);
 
 	if (!equip.CallMethod<bool>("IsValidSlot", "cargo")) {
@@ -251,14 +255,14 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 	const int here_y = here.sectorY;
 	const int here_z = here.sectorZ;
 	const Uint32 here_idx = here.systemIndex;
-	RefCountedPtr<const Sector> here_sec = Pi::GetGalaxy()->GetSector(here);
+	RefCountedPtr<const Sector> here_sec = s->m_galaxy->GetSector(here);
 
 	const int diff_sec = int(ceil(dist_ly/Sector::SIZE));
 
 	for (int x = here_x-diff_sec; x <= here_x+diff_sec; x++) {
 		for (int y = here_y-diff_sec; y <= here_y+diff_sec; y++) {
 			for (int z = here_z-diff_sec; z <= here_z+diff_sec; z++) {
-				RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(SystemPath(x, y, z));
+				RefCountedPtr<const Sector> sec = s->m_galaxy->GetSector(SystemPath(x, y, z));
 
 				for (unsigned int idx = 0; idx < sec->m_systems.size(); idx++) {
 					if (x == here_x && y == here_y && z == here_z && idx == here_idx)
@@ -267,7 +271,7 @@ static int l_starsystem_get_nearby_systems(lua_State *l)
 					if (Sector::DistanceBetween(here_sec, here_idx, sec, idx) > dist_ly)
 						continue;
 
-					RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(SystemPath(x, y, z, idx));
+					RefCountedPtr<StarSystem> sys = s->m_galaxy->GetStarSystem(SystemPath(x, y, z, idx));
 					if (filter) {
 						lua_pushvalue(l, 3);
 						LuaObject<StarSystem>::PushToLua(sys.Get());
@@ -329,8 +333,8 @@ static int l_starsystem_distance_to(lua_State *l)
 		loc2 = &(s2->GetPath());
 	}
 
-	RefCountedPtr<const Sector> sec1 = Pi::GetGalaxy()->GetSector(*loc1);
-	RefCountedPtr<const Sector> sec2 = Pi::GetGalaxy()->GetSector(*loc2);
+	RefCountedPtr<const Sector> sec1 = s->m_galaxy->GetSector(*loc1);
+	RefCountedPtr<const Sector> sec2 = s->m_galaxy->GetSector(*loc2);
 
 	double dist = Sector::DistanceBetween(sec1, loc1->systemIndex, sec2, loc2->systemIndex);
 
@@ -376,6 +380,43 @@ static int l_starsystem_export_to_lua(lua_State *l)
 	}
 
 	LUA_DEBUG_END(l, 0);
+	return 0;
+}
+
+/*
+ * Method: Explore
+ *
+ * Set the star system to be explored by the Player.
+ *
+ * > system:Explore(time)
+ *
+ * Parameters:
+ *
+ *   time - optional, the game time at which the system was explored.
+ *          Defaults to current game time.
+ *
+ * Availability:
+ *
+ *   October 2014
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_explore(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	double time;
+	if (lua_isnumber(l, 2))
+		time = luaL_checknumber(l, 2);
+	else
+		time = Pi::game->GetTime();
+
+	s->ExploreSystem(time);
+
+	LUA_DEBUG_END(l,0);
 	return 0;
 }
 
@@ -484,7 +525,7 @@ static int l_starsystem_attr_faction(lua_State *l)
 	PROFILE_SCOPED()
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	if (s->GetFaction()->IsValid()) {
-		LuaObject<Faction>::PushToLua(s->GetFaction());
+		LuaObject<Faction>::PushToLua(const_cast<Faction*>(s->GetFaction())); // XXX const-correctness violation
 		return 1;
 	} else {
 		return 0;
@@ -529,6 +570,8 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "DistanceTo", l_starsystem_distance_to },
 
 		{ "ExportToLua", l_starsystem_export_to_lua },
+
+		{ "Explore", l_starsystem_explore },
 
 		{ 0, 0 }
 	};

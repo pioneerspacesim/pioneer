@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -133,144 +133,257 @@ namespace Theme {
 	}
 	static const float BORDER_WIDTH = 2.0;
 
-	void DrawRect(const vector2f &pos, const vector2f &size, const Color &c, Graphics::RenderState *state)
-	{
-		Graphics::VertexArray bgArr(Graphics::ATTRIB_POSITION, 4);
-		bgArr.Add(vector3f(pos.x,size.y,0));
-		bgArr.Add(vector3f(size.x,size.y,0));
-		bgArr.Add(vector3f(size.x,pos.y,0));
-		bgArr.Add(vector3f(pos.x,pos.y,0));
-		Screen::flatColorMaterial->diffuse = c;
-		Screen::GetRenderer()->DrawTriangles(&bgArr, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
-	}
-
-	void DrawRoundEdgedRect(const float size[2], float rad, const Color &color, Graphics::RenderState *state)
-	{
-		static Graphics::VertexArray vts(Graphics::ATTRIB_POSITION);
-		vts.Clear();
-
-		const int STEPS = 6;
-		if (rad > 0.5f*std::min(size[0], size[1])) rad = 0.5f*std::min(size[0], size[1]);
-			// top left
-			// bottom left
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f(rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
-			}
-			// bottom right
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*0.5 + M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f(size[0] - rad - rad*cos(ang), (size[1] - rad) + rad*sin(ang), 0.f));
-			}
-			// top right
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI + M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f((size[0] - rad) - rad*cos(ang), rad + rad*sin(ang), 0.f));
-			}
-
-			// top right
-			for (int i=0; i<=STEPS; i++) {
-				float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
-				vts.Add(vector3f(rad - rad*cos(ang), rad + rad*sin(ang), 0.f));
-			}
-
-		Screen::flatColorMaterial->diffuse = color;
-		Screen::GetRenderer()->DrawTriangles(&vts, state, Screen::flatColorMaterial, Graphics::TRIANGLE_FAN);
-	}
+	struct TPos {
+		vector3f pos;
+	};
 
 	void DrawHollowRect(const float size[2], const Color &color, Graphics::RenderState *state)
 	{
+		const vector3f vertices[] = { 
+	/* 0 */	vector3f(0,0,0),
+	/* 1 */	vector3f(0,size[1],0),
+	/* 2 */	vector3f(size[0],size[1],0),
+	/* 3 */	vector3f(size[0],0,0),
+	/* 4 */	vector3f(BORDER_WIDTH,BORDER_WIDTH,0),
+	/* 5 */	vector3f(BORDER_WIDTH,size[1]-BORDER_WIDTH,0),
+	/* 6 */	vector3f(size[0]-BORDER_WIDTH,size[1]-BORDER_WIDTH,0),
+	/* 7 */	vector3f(size[0]-BORDER_WIDTH,BORDER_WIDTH,0)
+		};
+		const GLushort indices[] = {
+			0,1,5, 0,5,4, 0,4,7, 0,7,3,
+			3,7,6, 3,6,2, 1,2,6, 1,6,5 };
+
+		// create buffer
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = 8;
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+		// Upload data
+		// VertexBuffer
+		std::unique_ptr<Graphics::VertexBuffer> vb;
+		vb.reset(Screen::GetRenderer()->CreateVertexBuffer(vbd));
+		TPos* vtxPtr = vb->Map<TPos>(Graphics::BUFFER_MAP_WRITE);
+		assert(vb->GetDesc().stride == sizeof(TPos));
+		for(Uint32 i=0 ; i<8 ; i++) {
+			vtxPtr[i].pos	= vertices[i];
+		}
+		vb->Unmap();
+
+		//create index buffer & copy
+		std::unique_ptr<Graphics::IndexBuffer> ib;
+		ib.reset(Screen::GetRenderer()->CreateIndexBuffer(24, Graphics::BUFFER_USAGE_STATIC));
+		Uint16* idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
+		for (Uint32 j = 0; j < 24; j++) {
+			idxPtr[j] = indices[j];
+		}
+		ib->Unmap();
+		
 		Screen::flatColorMaterial->diffuse = color;
-		Screen::GetRenderer()->SetRenderState(state);
-		Screen::flatColorMaterial->Apply();
-
-		GLfloat vertices[] = { 0,0,
-			0,size[1],
-			size[0],size[1],
-			size[0],0,
-			BORDER_WIDTH,BORDER_WIDTH,
-			BORDER_WIDTH,size[1]-BORDER_WIDTH,
-			size[0]-BORDER_WIDTH,size[1]-BORDER_WIDTH,
-			size[0]-BORDER_WIDTH,BORDER_WIDTH };
-		GLubyte indices[] = {
-			0,1,5,4, 0,4,7,3,
-			3,7,6,2, 1,2,6,5 };
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vertices);
-		glDrawElements(GL_QUADS, 16, GL_UNSIGNED_BYTE, indices);
-		glDisableClientState(GL_VERTEX_ARRAY);
-
-		Screen::flatColorMaterial->Unapply();
+		Screen::GetRenderer()->DrawBufferIndexed(vb.get(), ib.get(), state, Screen::flatColorMaterial);
 	}
 
+	Graphics::IndexBuffer* CreateIndexBuffer(const GLushort indices[], const Uint32 IndexStart, const Uint32 IndexEnd, const Uint32 NumIndices)
+	{
+		Graphics::IndexBuffer *ib = Screen::GetRenderer()->CreateIndexBuffer(NumIndices, Graphics::BUFFER_USAGE_STATIC);
+		Uint16* idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
+		for (Uint32 j = 0; j < NumIndices; j++) {
+			idxPtr[j] = indices[j + IndexStart];
+		}
+		ib->Unmap();
+
+		return ib;
+	}
+
+	struct TIndentBuffers {
+		RefCountedPtr<Graphics::VertexBuffer> vb;
+		RefCountedPtr<Graphics::IndexBuffer> ib[3];
+	};
+	typedef std::map<vector2f, TIndentBuffers> MapIndentBuffers;
+	static MapIndentBuffers s_indentBuffers;
 	void DrawIndent(const float size[2], Graphics::RenderState *state)
 	{
-		Screen::GetRenderer()->SetRenderState(state);
+		PROFILE_SCOPED()
 
-		GLfloat vertices[] = { 0,0,
-			0,size[1],
-			size[0],size[1],
-			size[0],0,
-			BORDER_WIDTH,BORDER_WIDTH,
-			BORDER_WIDTH,size[1]-BORDER_WIDTH,
-			size[0]-BORDER_WIDTH,size[1]-BORDER_WIDTH,
-			size[0]-BORDER_WIDTH,BORDER_WIDTH };
-		GLubyte indices[] = {
-			0,1,5,4, 0,4,7,3,
-			3,7,6,2, 1,2,6,5,
-			4,5,6,7 };
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vertices);
+		// locals
+		RefCountedPtr<Graphics::VertexBuffer> vb;
+		RefCountedPtr<Graphics::IndexBuffer> ib[3];
+		
+		// see if we have this size of indent in the cache already
+		const vector2f vsize(size[0], size[1]);
+		MapIndentBuffers::iterator bufIt = s_indentBuffers.find(vsize);
+		if (bufIt != s_indentBuffers.end())
+		{
+			// found it
+			vb = bufIt->second.vb;
+			ib[0] = bufIt->second.ib[0];
+			ib[1] = bufIt->second.ib[1];
+			ib[2] = bufIt->second.ib[2];
+		}
+		else
+		{
+			// generate it
+			const vector3f vertices[] = {
+				/* 0 */	vector3f(0, 0, 0),
+				/* 1 */	vector3f(0, size[1], 0),
+				/* 2 */	vector3f(size[0], size[1], 0),
+				/* 3 */	vector3f(size[0], 0, 0),
+				/* 4 */	vector3f(BORDER_WIDTH, BORDER_WIDTH, 0),
+				/* 5 */	vector3f(BORDER_WIDTH, size[1] - BORDER_WIDTH, 0),
+				/* 6 */	vector3f(size[0] - BORDER_WIDTH, size[1] - BORDER_WIDTH, 0),
+				/* 7 */	vector3f(size[0] - BORDER_WIDTH, BORDER_WIDTH, 0)
+			};
+			const GLushort indices[] = {
+				0, 1, 5, 0, 5, 4, 0, 4, 7, 0, 7, 3,
+				3, 7, 6, 3, 6, 2, 1, 2, 6, 1, 6, 5,
+				4, 5, 6, 4, 6, 7 };
 
+			// create buffer
+			Graphics::VertexBufferDesc vbd;
+			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+			vbd.numVertices = 8;
+			vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+			// Upload data
+			vb.Reset(Screen::GetRenderer()->CreateVertexBuffer(vbd));
+			TPos* vtxPtr = vb->Map<TPos>(Graphics::BUFFER_MAP_WRITE);
+			assert(vb->GetDesc().stride == sizeof(TPos));
+			for (Uint32 i = 0; i < 8; i++) {
+				vtxPtr[i].pos = vertices[i];
+			}
+			vb->Unmap();
+
+			// indices
+			Uint32 IndexStart = 0;
+			Uint32 IndexEnd = 12;
+			Uint32 NumIndices = 12;
+
+			ib[0].Reset(CreateIndexBuffer(indices, IndexStart, IndexEnd, NumIndices));
+
+			IndexStart += NumIndices;
+			NumIndices = 12;
+			IndexEnd += NumIndices;
+
+			ib[1].Reset(CreateIndexBuffer(indices, IndexStart, IndexEnd, NumIndices));
+
+			IndexStart += NumIndices;
+			NumIndices = 6;
+			IndexEnd += NumIndices;
+
+			ib[2].Reset(CreateIndexBuffer(indices, IndexStart, IndexEnd, NumIndices));
+
+			TIndentBuffers tib;
+			tib.vb = vb;
+			tib.ib[0] = ib[0];
+			tib.ib[1] = ib[1];
+			tib.ib[2] = ib[2];
+			s_indentBuffers[vsize] = tib;
+		}
+
+		// Draw it!
 		Screen::flatColorMaterial->diffuse = Colors::bgShadow;
-		Screen::flatColorMaterial->Apply();
-		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
-
+		Screen::GetRenderer()->DrawBufferIndexed(vb.Get(), ib[0].Get(), state, Screen::flatColorMaterial);
 		Screen::flatColorMaterial->diffuse = Color(153,153,153,255);
-		Screen::flatColorMaterial->Apply();
-		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-
+		Screen::GetRenderer()->DrawBufferIndexed(vb.Get(), ib[1].Get(), state, Screen::flatColorMaterial);
 		Screen::flatColorMaterial->diffuse = Colors::bg;
-		Screen::flatColorMaterial->Apply();
-		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
-		glDisableClientState(GL_VERTEX_ARRAY);
-
-		Screen::flatColorMaterial->Unapply();
+		Screen::GetRenderer()->DrawBufferIndexed(vb.Get(), ib[2].Get(), state, Screen::flatColorMaterial);
 	}
 
+	struct TOutdentBuffers {
+		RefCountedPtr<Graphics::VertexBuffer> vb;
+		RefCountedPtr<Graphics::IndexBuffer> ib[3];
+	};
+	typedef std::map<vector2f, TOutdentBuffers> MapOutdentBuffers;
+	static MapOutdentBuffers s_outdentBuffers;
 	void DrawOutdent(const float size[2], Graphics::RenderState *state)
 	{
-		Screen::GetRenderer()->SetRenderState(state);
+		PROFILE_SCOPED()
 
-		GLfloat vertices[] = { 0,0,
-			0,size[1],
-			size[0],size[1],
-			size[0],0,
-			BORDER_WIDTH,BORDER_WIDTH,
-			BORDER_WIDTH,size[1]-BORDER_WIDTH,
-			size[0]-BORDER_WIDTH,size[1]-BORDER_WIDTH,
-			size[0]-BORDER_WIDTH,BORDER_WIDTH };
-		GLubyte indices[] = {
-			0,1,5,4, 0,4,7,3,
-			3,7,6,2, 1,2,6,5,
-			4,5,6,7 };
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glVertexPointer(2, GL_FLOAT, 0, vertices);
+		// locals
+		RefCountedPtr<Graphics::VertexBuffer> vb;
+		RefCountedPtr<Graphics::IndexBuffer> ib[3];
 
+		// see if we have this size of indent in the cache already
+		const vector2f vsize(size[0], size[1]);
+		MapOutdentBuffers::iterator bufIt = s_outdentBuffers.find(vsize);
+		if (bufIt != s_outdentBuffers.end())
+		{
+			// found it
+			vb = bufIt->second.vb;
+			ib[0] = bufIt->second.ib[0];
+			ib[1] = bufIt->second.ib[1];
+			ib[2] = bufIt->second.ib[2];
+		}
+		else
+		{
+			// generate it
+			const vector3f vertices[] = {
+				/* 0 */	vector3f(0, 0, 0),
+				/* 1 */	vector3f(0, size[1], 0),
+				/* 2 */	vector3f(size[0], size[1], 0),
+				/* 3 */	vector3f(size[0], 0, 0),
+				/* 4 */	vector3f(BORDER_WIDTH, BORDER_WIDTH, 0),
+				/* 5 */	vector3f(BORDER_WIDTH, size[1] - BORDER_WIDTH, 0),
+				/* 6 */	vector3f(size[0] - BORDER_WIDTH, size[1] - BORDER_WIDTH, 0),
+				/* 7 */	vector3f(size[0] - BORDER_WIDTH, BORDER_WIDTH, 0)
+			};
+			const GLushort indices[] = {
+				0, 1, 5, 0, 5, 4, 0, 4, 7, 0, 7, 3,
+				3, 7, 6, 3, 6, 2, 1, 2, 6, 1, 6, 5,
+				4, 5, 6, 4, 6, 7 };
+
+			// create buffer
+			Graphics::VertexBufferDesc vbd;
+			vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+			vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+			vbd.numVertices = 8;
+			vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+			// Upload data
+			vb.Reset(Screen::GetRenderer()->CreateVertexBuffer(vbd));
+			TPos* vtxPtr = vb->Map<TPos>(Graphics::BUFFER_MAP_WRITE);
+			assert(vb->GetDesc().stride == sizeof(TPos));
+			for (Uint32 i = 0; i < 8; i++) {
+				vtxPtr[i].pos = vertices[i];
+			}
+			vb->Unmap();
+
+			// indices
+			Uint32 IndexStart = 0;
+			Uint32 IndexEnd = 12;
+			Uint32 NumIndices = 12;
+
+			ib[0].Reset(CreateIndexBuffer(indices, IndexStart, IndexEnd, NumIndices));
+
+			IndexStart += NumIndices;
+			NumIndices = 12;
+			IndexEnd += NumIndices;
+
+			ib[1].Reset(CreateIndexBuffer(indices, IndexStart, IndexEnd, NumIndices));
+
+			IndexStart += NumIndices;
+			NumIndices = 6;
+			IndexEnd += NumIndices;
+
+			ib[2].Reset(CreateIndexBuffer(indices, IndexStart, IndexEnd, NumIndices));
+
+			TOutdentBuffers tib;
+			tib.vb = vb;
+			tib.ib[0] = ib[0];
+			tib.ib[1] = ib[1];
+			tib.ib[2] = ib[2];
+			s_outdentBuffers[vsize] = tib;
+		}
+
+		// Draw it!
 		Screen::flatColorMaterial->diffuse = Color(153,153,153,255);
-		Screen::flatColorMaterial->Apply();
-		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices);
-
+		Screen::GetRenderer()->DrawBufferIndexed(vb.Get(), ib[0].Get(), state, Screen::flatColorMaterial);
 		Screen::flatColorMaterial->diffuse = Colors::bgShadow;
-		Screen::flatColorMaterial->Apply();
-		glDrawElements(GL_QUADS, 8, GL_UNSIGNED_BYTE, indices+8);
-
+		Screen::GetRenderer()->DrawBufferIndexed(vb.Get(), ib[1].Get(), state, Screen::flatColorMaterial);
 		Screen::flatColorMaterial->diffuse = Colors::bg;
-		Screen::flatColorMaterial->Apply();
-		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, indices+16);
-		glDisableClientState(GL_VERTEX_ARRAY);
-
-		Screen::flatColorMaterial->Unapply();
+		Screen::GetRenderer()->DrawBufferIndexed(vb.Get(), ib[2].Get(), state, Screen::flatColorMaterial);
 	}
 }
 

@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "Haberler {date}: {system} sisteminde sistem geneli salgın. Ölü sayısı artıyor."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
@@ -9,7 +9,7 @@
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "HABERLER {date}: Düşmanlar {system} sisteminin ayakta kalmasını tehdit ediyor."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
@@ -17,7 +17,7 @@
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde sığırların ortadan gizemli kayboluşu."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
@@ -25,7 +25,7 @@
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde bilgisayarlar arızalanınca altyapı çöktü."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
@@ -33,7 +33,7 @@
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde robot ayaklanması."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde güneş patlamaları bin yılın en büyük kesintisine neden oldu."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
@@ -49,7 +49,7 @@
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "HABERLER {date}: {system} sisteminde polis suç çetesine baskın yaptı, kilit yöneticiler tutuklandı. "
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
@@ -57,7 +57,7 @@
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "HABERLER {date}: {system} sistemi yıllık Büyük Duman Şenliklerinde ciddi kaza."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
@@ -65,7 +65,7 @@
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde yeni bulunan zenginlikler."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "HABERLER {date}: {system} sisteminde ekonomik reform büyük bir başarı sağladı."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
@@ -81,7 +81,7 @@
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde altın yağıyor."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
@@ -89,7 +89,7 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde çatışmalar şiddetlendi."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
@@ -97,7 +97,7 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "HABERLER {date}: {system} sisteminde gaz devi alg hasatı rekoru yeniledi."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "HABERLER {date}: {system} sisteminde daha \"insancıl\"  savaş için anlaşma imzalandı."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
@@ -113,7 +113,7 @@
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "HABERLER {date}: {system} sisteminde polis grevi. Vatandaşlar kendini savunmak zorunda kaldı."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde yeni bir fabrikanın büyük açılışı."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "HABERLER {date}: {system} sisteminde kuraklık. Ekinler mahvoldu."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
@@ -137,7 +137,7 @@
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde vejan yaşam tarzını benimseyenler arttı."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
@@ -145,15 +145,15 @@
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "HABERLER {date}: {system} sisteminde ilaç savaşları. Kanun koruyucular kontrolü sağlamakta zorlanıyor."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Rakip ilaç lordlarının güçlerini artırma mücadelesi nedeniyle, {system} sistemi ({sectorx}, {sectory}, {sectorz}) koordinatlarında piyasa ucuz ilaçlarla doldu."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "HABERLER {date}: {system} sisteminde köleler isyan etti. Tarın endüstrisi durma noktasına geldi."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde Neşeli Atışma Festivali."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
@@ -169,7 +169,7 @@
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde endüstri durma noktasına geldi."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde maden kazası rapor edildi."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
@@ -185,7 +185,7 @@
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "HABERLER {date}: {system} sisteminde moda çılgınlığı."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
@@ -193,15 +193,15 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Hoş geldin tüccar! {cargo} için sana iyi bir fiyat vereceğiz."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Gelmeniz çok hoş karşılandı, {cargo} sevkiyatınız da"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Merhabalar ve selamlar! Burada {cargo} satarken hiç sorun yaşamayacaksın."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
@@ -217,78 +217,78 @@
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "Confederate Chronicle"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
-      "message" : "The Federal Times"
+      "message" : "Federal Times"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
-      "message" : "The Imperial Herald"
+      "message" : "Imperial Herald"
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
-      "message" : "The Pioneer Courier"
+      "message" : "Pioneer Courier"
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
-      "message" : "The Independent Tribune"
+      "message" : "Independent Tribune"
    },
    "NEWSPAPER_IND_10" : {
       "description" : "",
-      "message" : "The Orbital Observer"
+      "message" : "Orbital Observer"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "The Galactic Post"
+      "message" : "Galactic Post"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
-      "message" : "The Universal Sun"
+      "message" : "Universal Sun"
    },
    "NEWSPAPER_IND_4" : {
       "description" : "",
-      "message" : "The Planetary Press"
+      "message" : "Planetary Press"
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
-      "message" : "The Royal Gazette"
+      "message" : "Royal Gazette"
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "Universal Mail"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
-      "message" : "The Daily Express"
+      "message" : "Daily Express"
    },
    "NEWSPAPER_IND_8" : {
       "description" : "",
-      "message" : "The Tellurian Telegraph"
+      "message" : "Tellurian Telegraph"
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "Uydu Gazetesi"
+      "message" : "Satellite Journal"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "{newspaper} gazetesinden taze haberler"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "{newspaper} gazetesinden haberler"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "{newspaper} gazetesinden rapor"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "{newspaper} gazetesinden son dakika"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "{newspaper} Notları"
+      "message" : "{newspaper} gazetesinden notlar"
    }
 }

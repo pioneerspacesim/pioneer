@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Animation.h"
@@ -39,6 +39,7 @@ void Animation::UpdateChannelTargets(Node *root)
 
 void Animation::Interpolate()
 {
+	PROFILE_SCOPED()
 	const double mtime = m_time;
 
 	//go through channels and calculate transforms

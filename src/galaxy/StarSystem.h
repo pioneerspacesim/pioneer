@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STARSYSTEM_H
@@ -18,6 +18,7 @@
 #include "gameconsts.h"
 #include <SDL_stdinc.h>
 
+class Galaxy;
 class CustomSystemBody;
 class CustomSystem;
 class SystemBody;
@@ -213,7 +214,6 @@ public:
 		float planetRadius;
 		Color atmosCol;
 		vector3d center;
-		float scale;
 	};
 
 	AtmosphereParameters CalcAtmosphereParams() const;
@@ -288,21 +288,27 @@ public:
 	friend class GalaxyObjectCache<StarSystem, SystemPath::LessSystemOnly>;
 	class GeneratorAPI; // Complete definition below
 
+	enum ExplorationState {
+		eUNEXPLORED = 0,
+		eEXPLORED_BY_PLAYER = 1,
+		eEXPLORED_AT_START = 2
+	};
+
 	void ExportToLua(const char *filename);
 
 	const std::string &GetName() const { return m_name; }
 	SystemPath GetPathOf(const SystemBody *sbody) const;
 	SystemBody *GetBodyByPath(const SystemPath &path) const;
-	static void Serialize(Serializer::Writer &wr, StarSystem *);
-	static RefCountedPtr<StarSystem> Unserialize(Serializer::Reader &rd);
+	static void ToJson(Json::Value &jsonObj, StarSystem *);
+	static RefCountedPtr<StarSystem> FromJson(RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj);
 	const SystemPath &GetPath() const { return m_path; }
 	const std::string& GetShortDescription() const { return m_shortDesc; }
 	const std::string& GetLongDescription() const { return m_longDesc; }
 	unsigned GetNumStars() const { return m_numStars; }
 	const SysPolit &GetSysPolit() const { return m_polit; }
 
-	static const Uint8 starColors[][3];
-	static const Uint8 starRealColors[][3];
+	static const Color starColors[];
+	static const Color starRealColors[];
 	static const double starLuminosities[];
 	static const float starScale[];
 
@@ -326,8 +332,12 @@ public:
 		return m_tradeLevel[int(t)];
 	}
 
-	Faction* GetFaction() const  { return m_faction; }
-	bool GetUnexplored() const { return m_unexplored; }
+	const Faction* GetFaction() const  { return m_faction; }
+	bool GetUnexplored() const { return m_explored == eUNEXPLORED; }
+	ExplorationState GetExplored() const { return m_explored; }
+	double GetExploredTime() const { return m_exploredTime; }
+	void ExploreSystem(double time);
+
 	fixed GetMetallicity() const { return m_metallicity; }
 	fixed GetIndustrial() const { return m_industrial; }
 	fixed GetAgricultural() const { return m_agricultural; }
@@ -339,8 +349,10 @@ public:
 
 	void Dump(FILE* file, const char* indent = "", bool suppressSectorData = false) const;
 
+	const RefCountedPtr<Galaxy> m_galaxy;
+
 protected:
-	StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand);
+	StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand);
 	virtual ~StarSystem();
 
 	SystemBody *NewBody() {
@@ -348,6 +360,9 @@ protected:
 		m_bodies.push_back(RefCountedPtr<SystemBody>(body));
 		return body;
 	}
+
+	void MakeShortDescription();
+	void SetShortDesc(const std::string& desc) { m_shortDesc = desc; }
 
 private:
 	void SetCache(StarSystemCache* cache) { assert(!m_cache); m_cache = cache; }
@@ -364,8 +379,9 @@ private:
 	bool m_isCustom;
 	bool m_hasCustomBodies;
 
-	Faction* m_faction;
-	bool m_unexplored;
+	const Faction* m_faction;
+	ExplorationState m_explored;
+	double m_exploredTime;
 	fixed m_metallicity;
 	fixed m_industrial;
 	GalacticEconomy::EconType m_econType;
@@ -391,7 +407,7 @@ private:
 class StarSystem::GeneratorAPI : public StarSystem {
 private:
 	friend class GalaxyGenerator;
-	GeneratorAPI(const SystemPath &path, StarSystemCache* cache, Random& rand) : StarSystem(path, cache, rand) { }
+	GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand);
 
 public:
 	bool HasCustomBodies() const { return m_hasCustomBodies; }
@@ -401,11 +417,10 @@ public:
 	void SetRootBody(RefCountedPtr<SystemBody> rootBody) { m_rootBody = rootBody; }
 	void SetRootBody(SystemBody* rootBody) { m_rootBody.Reset(rootBody); }
 	void SetName(const std::string& name) { m_name = name; }
-	void SetShortDesc(const std::string& desc) { m_shortDesc = desc; }
 	void SetLongDesc(const std::string& desc) { m_longDesc = desc; }
-	void SetUnexplored(bool unexplored) { m_unexplored = unexplored; }
+	void SetExplored(ExplorationState explored, double time) { m_explored = explored; m_exploredTime = time; }
 	void SetSeed(Uint32 seed) { m_seed = seed; }
-	void SetFaction(Faction* faction) { m_faction = faction; }
+	void SetFaction(const Faction* faction) { m_faction = faction; }
 	void SetEconType(GalacticEconomy::EconType econType) { m_econType = econType; }
 	void SetSysPolit(SysPolit polit) { m_polit = polit; }
 	void SetMetallicity(fixed metallicity) { m_metallicity = metallicity; }
@@ -421,6 +436,8 @@ public:
 	void AddSpaceStation(SystemBody* station) { assert(station->GetSuperType() == SystemBody::SUPERTYPE_STARPORT); m_spaceStations.push_back(station); }
 	void AddStar(SystemBody* star) { assert(star->GetSuperType() == SystemBody::SUPERTYPE_STAR); m_stars.push_back(star);}
 	using StarSystem::NewBody;
+	using StarSystem::MakeShortDescription;
+	using StarSystem::SetShortDesc;
 };
 
 #endif /* _STARSYSTEM_H */

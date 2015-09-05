@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Player.h"
@@ -48,17 +48,18 @@ Player::Player(ShipType::Id shipId): Ship(shipId)
 void Player::SetShipType(const ShipType::Id &shipId) {
 	Ship::SetShipType(shipId);
 	registerEquipChangeListener(this);
+	InitCockpit();
 }
 
-void Player::Save(Serializer::Writer &wr, Space *space)
+void Player::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Ship::Save(wr, space);
+	Ship::SaveToJson(jsonObj, space);
 }
 
-void Player::Load(Serializer::Reader &rd, Space *space)
+void Player::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	Pi::player = this;
-	Ship::Load(rd, space);
+	Ship::LoadFromJson(jsonObj, space);
 	InitCockpit();
 	registerEquipChangeListener(this);
 }
@@ -149,7 +150,7 @@ void Player::SetAlertState(Ship::AlertState as)
 			break;
 	}
 
-	Pi::cpan->SetAlertState(as);
+	Pi::game->GetCpan()->SetAlertState(as);
 
 	Ship::SetAlertState(as);
 }
@@ -176,7 +177,7 @@ void Player::OnEnterHyperspace()
 	SetNavTarget(0);
 	SetCombatTarget(0);
 
-	Pi::worldView->HideTargetActions(); // hide the comms menu
+	Pi::game->GetWorldView()->HideTargetActions(); // hide the comms menu
 	m_controller->SetFlightControlState(CONTROL_MANUAL); //could set CONTROL_HYPERDRIVE
 	ClearThrusterState();
 	Pi::game->WantHyperspace();
@@ -186,7 +187,8 @@ void Player::OnEnterSystem()
 {
 	m_controller->SetFlightControlState(CONTROL_MANUAL);
 	//XXX don't call sectorview from here, use signals instead
-	Pi::sectorView->ResetHyperspaceTarget();
+	Pi::game->GetSectorView()->ResetHyperspaceTarget();
+	Pi::game->GetWorldView()->ResetHyperspaceButton();
 }
 
 //temporary targeting stuff

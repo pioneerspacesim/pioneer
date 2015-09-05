@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DYNAMICBODY_H
@@ -29,6 +29,7 @@ public:
 	bool IsMoving() const { return m_isMoving; }
 	virtual double GetMass() const { return m_mass; }	// XXX don't override this
 	virtual void TimeStepUpdate(const float timeStep);
+	double CalcAtmosphericForce(double dragCoeff) const;
 	void CalcExternalForce();
 	void UndoTimestep();
 
@@ -51,8 +52,12 @@ public:
 
 	Orbit ComputeOrbit() const;
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+
+	static const double DEFAULT_DRAG_COEFF;
+	double m_dragCoeff;
+
 private:
 	vector3d m_oldPos;
 	vector3d m_oldAngDisplacement;

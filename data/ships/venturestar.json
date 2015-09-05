@@ -1,0 +1,31 @@
+{
+   "angular_thrust" : 100000000.0,
+   "capacity" : 3000,
+   "cockpit" : "",
+   "down_thrust" : 16000000.0,
+   "effective_exhaust_velocity" : 81784000.0,
+   "forward_thrust" : 100000000.0,
+   "fuel_tank_mass" : 500,
+   "hull_mass" : 900,
+   "hyperdrive_class" : 9,
+   "left_thrust" : 16000000.0,
+   "manufacturer" : "albr",
+   "max_crew" : 5,
+   "min_crew" : 2,
+   "model" : "venturestar",
+   "name" : "Venturestar",
+   "price" : 5800000.0,
+   "reverse_thrust" : 50000000.0,
+   "right_thrust" : 16000000.0,
+   "ship_class" : "medium_freighter",
+   "slots" : {
+      "atmo_shield" : 1,
+      "cargo" : 3000,
+      "scoop" : 2,
+      "laser_front" : 1,
+      "missile" : 12,
+      "sensor"  : 4
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 50000000.0
+}

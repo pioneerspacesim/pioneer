@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _STATICGEOMETRY_H
@@ -30,6 +30,7 @@ public:
 	virtual const char *GetTypeName() const { return "StaticGeometry"; }
 	virtual void Accept(NodeVisitor &nv);
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
+	virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd);
 
 	virtual void Save(NodeDatabase&) override;
 	static StaticGeometry *Load(NodeDatabase&);
@@ -50,6 +51,7 @@ protected:
 	void DrawBoundingBox(const Aabb &bb);
 	std::vector<Mesh> m_meshes;
 	Graphics::RenderState *m_renderState;
+	RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
 };
 
 }

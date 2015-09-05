@@ -14,6 +14,10 @@ codedoc:
 enums:
 	python scripts/scan_enums.py -r --pattern=*.h -o src/enum_table.cpp src
 
+.PHONY: sgm
+sgm:
+	env SDL_VIDEODRIVER=dummy ./src/modelcompiler$(EXEEXT) -b inplace
+
 EXTRA_DIST = \
 	AUTHORS.txt \
 	COMPILING.OSX.txt \

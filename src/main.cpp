@@ -1,9 +1,11 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
 #include "Pi.h"
 #include "ModelViewer.h"
+#include "Game.h"
+#include "galaxy/GalaxyGenerator.h"
 #include "galaxy/Galaxy.h"
 #include "utils.h"
 #include <cstdio>
@@ -132,7 +134,8 @@ start:
 					Output("pioneer: could not open \"%s\" for writing: %s\n", filename.c_str(), strerror(errno));
 					break;
 				}
-				Pi::GetGalaxy()->Dump(file, sx, sy, sz, radius);
+				RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::Create();
+				galaxy->Dump(file, sx, sy, sz, radius);
 				if (filename != "-" && fclose(file) != 0) {
 					Output("pioneer: writing to \"%s\" failed: %s\n", filename.c_str(), strerror(errno));
 				}

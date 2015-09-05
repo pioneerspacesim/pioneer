@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VERTEXARRAY_H
@@ -28,6 +28,8 @@ public:
 	bool HasAttrib(VertexAttrib v) const;
 	unsigned int GetNumVerts() const;
 	AttributeSet GetAttributeSet() const { return m_attribs; }
+
+	bool IsEmpty() const { return position.empty(); }
 
 	//removes vertices, does not deallocate space
 	void Clear();

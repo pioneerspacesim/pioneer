@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -14,19 +14,37 @@
 #include "scenegraph/SceneGraph.h"
 #include "scenegraph/ModelSkin.h"
 
-void CargoBody::Save(Serializer::Writer &wr, Space *space)
+void CargoBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	DynamicBody::Save(wr, space);
-	m_cargo.Save(wr);
-	wr.Float(m_hitpoints);
+	DynamicBody::SaveToJson(jsonObj, space);
+
+	Json::Value cargoBodyObj(Json::objectValue); // Create JSON object to contain cargo body data.
+
+	m_cargo.SaveToJson(cargoBodyObj);
+	cargoBodyObj["hit_points"] = FloatToStr(m_hitpoints);
+	cargoBodyObj["self_destruct_timer"] = FloatToStr(m_selfdestructTimer);
+	cargoBodyObj["has_self_destruct"] = m_hasSelfdestruct;
+
+	jsonObj["cargo_body"] = cargoBodyObj; // Add cargo body object to supplied object.
 }
 
-void CargoBody::Load(Serializer::Reader &rd, Space *space)
+void CargoBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	DynamicBody::Load(rd, space);
-	m_cargo.Load(rd);
+	DynamicBody::LoadFromJson(jsonObj, space);
+	GetModel()->SetLabel(GetLabel());
+
+	if (!jsonObj.isMember("cargo_body")) throw SavedGameCorruptException();
+	Json::Value cargoBodyObj = jsonObj["cargo_body"];
+
+	if (!cargoBodyObj.isMember("hit_points")) throw SavedGameCorruptException();
+	if (!cargoBodyObj.isMember("self_destruct_timer")) throw SavedGameCorruptException();
+	if (!cargoBodyObj.isMember("has_self_destruct")) throw SavedGameCorruptException();
+
+	m_cargo.LoadFromJson(cargoBodyObj);
 	Init();
-	m_hitpoints = rd.Float();
+	m_hitpoints = StrToFloat(cargoBodyObj["hit_points"].asString());
+	m_selfdestructTimer = StrToFloat(cargoBodyObj["self_destruct_timer"].asString());
+	m_hasSelfdestruct = cargoBodyObj["has_self_destruct"].asBool();
 }
 
 void CargoBody::Init()
@@ -51,14 +69,14 @@ void CargoBody::Init()
 	Properties().Set("type", ScopedTable(m_cargo).CallMethod<std::string>("GetName"));
 }
 
-CargoBody::CargoBody(const LuaRef& cargo, size_t selfdestructTimer): m_cargo(cargo)
+CargoBody::CargoBody(const LuaRef& cargo, float selfdestructTimer): m_cargo(cargo)
 {
 	SetModel("cargo");
 	Init();
 	SetMass(1.0);
-	m_selfdestructTimer = (float) selfdestructTimer; // number of seconds to live
+	m_selfdestructTimer = selfdestructTimer; // number of seconds to live
 
-	if (selfdestructTimer == 0) // turn off self destruct
+	if (is_zero_exact(selfdestructTimer)) // turn off self destruct
 		m_hasSelfdestruct = false;
 }
 
@@ -72,7 +90,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 	// star system.
 
 	if (m_hasSelfdestruct) {
-		m_selfdestructTimer -= float(timeStep) * 1.0;
+		m_selfdestructTimer -= timeStep;
 		if (m_selfdestructTimer <= 0){
 			Pi::game->GetSpace()->KillBody(this);
 			Sfx::Add(this, Sfx::TYPE_EXPLOSION);

@@ -245,7 +245,7 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "Witamy, zalegamy z wysyłką naszych produktów i potrzebujemy ich szybkiej dostawy do  {starport}. Zapłacimy {cash} za fatygę."
+      "message" : "Witam, zalegamy z wysyłką naszych produktów i potrzebujemy je szybko dostarczyć do  {starport}. Zapłacimy {cash} za fatygę."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
@@ -253,11 +253,7 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Od tego zależy nasze utrzymanie."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Rozłącz się."
+      "message" : "Od tego zależy nasza egzystencja."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",

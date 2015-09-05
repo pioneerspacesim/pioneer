@@ -1,51 +1,51 @@
 {
    "ASSASSINATION" : {
       "description" : "",
-      "message" : "Assassination"
+      "message" : "Δολοφονία"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Θα μπορούσατε να επαναλάβετε το αρχικό αίτημα ?"
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't trust you."
+      "message" : "Συγνώμη,  δεν σας εμπιστεύομαι."
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Επιστρέψτε όταν έχετε επαρκή προσόντα."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the one I'm looking for."
+      "message" : "Δεν νομίζω ότι είστε αυτός που ψάχνω."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of doing what needs to be done."
+      "message" : "Δεν φαίνεστε για άτομο που μπορεί να κάνει αυτό που χρειάζεται να γίνει."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You are clearly not the one for this job."
+      "message" : "Είναι ξεκάθαρο ότι δεν κάνετε για αυτή  την δουλειά,"
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a contract of this importance."
+      "message" : "Φαίνεστε πολύ άπειρος για να χειριστείτε ένα τόσο σημαντικό συμβόλαιο."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this contract."
+      "message" : "Δεν έχω ακούσει ποτέ για εσάς. Χρειάζομαι κάποιον έμπειρο για αυτό το συμβόλαιο."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this contract by giving it to someone as inexperienced as you."
+      "message" : "Δεν θα ήθελα να ρισκάρω το συμβόλαιο δίνοντας το σε έναν άπειρο όπως εσάς."
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Απόσταση:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "εξαίσια."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -167,13 +167,9 @@
       "description" : "",
       "message" : "Message of {target}'s ending career happily acquired. Here is your {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang up."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
-      "message" : "How soon must it be done?"
+      "message" : "Πόσο σύντομα πρέπει να ολοκληρωθεί ?"
    },
    "HOW_WILL_I_BE_PAID" : {
       "description" : "",
@@ -189,7 +185,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Εντάξει, Σύμφωνοι"
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
@@ -197,11 +193,11 @@
    },
    "SHIP" : {
       "description" : "",
-      "message" : "Ship:"
+      "message" : "Σκάφος:"
    },
    "SHIP_ID" : {
       "description" : "",
-      "message" : "Ship ID:"
+      "message" : "Αναγνωριστικό Σκάφους:"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -209,7 +205,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Σύστημα:"
    },
    "TARGET_NAME" : {
       "description" : "",
@@ -221,7 +217,7 @@
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Admiral"
+      "message" : "Ναύαρχος"
    },
    "TITLE_1" : {
       "description" : "",
@@ -233,15 +229,15 @@
    },
    "TITLE_11" : {
       "description" : "",
-      "message" : "General"
+      "message" : "Στρατηγός"
    },
    "TITLE_12" : {
       "description" : "",
-      "message" : "Judge"
+      "message" : "Δικαστής"
    },
    "TITLE_13" : {
       "description" : "",
-      "message" : "Lawyer"
+      "message" : "Δικηγόρος"
    },
    "TITLE_14" : {
       "description" : "",
@@ -265,15 +261,15 @@
    },
    "TITLE_19" : {
       "description" : "",
-      "message" : "Professor"
+      "message" : "Καθηγητής"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Brigadier"
+      "message" : "Ταξίαρχος"
    },
    "TITLE_20" : {
       "description" : "",
-      "message" : "Prosecutor"
+      "message" : "Εισαγγελέας"
    },
    "TITLE_21" : {
       "description" : "",
@@ -289,7 +285,7 @@
    },
    "TITLE_24" : {
       "description" : "",
-      "message" : "Sergeant"
+      "message" : "Λοχίας"
    },
    "TITLE_3" : {
       "description" : "",
@@ -297,7 +293,7 @@
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Captain"
+      "message" : "Καπετάνιος"
    },
    "TITLE_5" : {
       "description" : "",
@@ -317,7 +313,7 @@
    },
    "TITLE_9" : {
       "description" : "",
-      "message" : "Corporal"
+      "message" : "Δεκανέας"
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",

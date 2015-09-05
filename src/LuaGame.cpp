@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaGame.h"
@@ -55,14 +55,12 @@ static int l_game_start_game(lua_State *l)
 
 	SystemPath *path = LuaObject<SystemPath>::CheckFromLua(1);
 	const double start_time = luaL_optnumber(l, 2, 0.0);
-
-	RefCountedPtr<StarSystem> system(Pi::GetGalaxy()->GetStarSystem(*path));
-	SystemBody *sbody = system->GetBodyByPath(path);
-	if (sbody->GetSuperType() == SystemBody::SUPERTYPE_STARPORT)
+	try {
 		Pi::game = new Game(*path, start_time);
-	else
-		Pi::game = new Game(*path, vector3d(0, 1.5*sbody->GetRadius(), 0), start_time);
-
+	}
+	catch (InvalidGameStartLocation& e) {
+		luaL_error(l, "invalid starting location for game: %s", e.error.c_str());
+	}
 	return 0;
 }
 
@@ -256,6 +254,28 @@ static int l_game_attr_time(lua_State *l)
 	return 1;
 }
 
+/*
+ * Attribute: paused
+ *
+ * True if the game is paused.
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_game_attr_paused(lua_State *l)
+{
+	if (!Pi::game)
+		lua_pushboolean(l, 1);
+	else
+		lua_pushboolean(l, Pi::game->IsPaused() ? 1 : 0);
+	return 1;
+}
+
 // XXX temporary to support StationView "Launch" button
 // remove once WorldView has been converted to the new UI
 static int l_game_switch_view(lua_State *l)
@@ -263,9 +283,9 @@ static int l_game_switch_view(lua_State *l)
 	if (!Pi::game)
 		return luaL_error(l, "can't switch view when no game is running");
 	if (Pi::player->IsDead())
-		Pi::SetView(Pi::deathView);
+		Pi::SetView(Pi::game->GetDeathView());
 	else
-		Pi::SetView(Pi::worldView);
+		Pi::SetView(Pi::game->GetWorldView());
 	return 0;
 }
 
@@ -290,6 +310,7 @@ void LuaGame::Register()
 		{ "player", l_game_attr_player },
 		{ "system", l_game_attr_system },
 		{ "time",   l_game_attr_time   },
+		{ "paused", l_game_attr_paused },
 		{ 0, 0 }
 	};
 

@@ -21,15 +21,15 @@
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
-      "message" : "I have serviced your hyperdrive."
+      "message" : "Rinn mi obair-chàraidh air an draibh os-fhànais agaibh."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "{proprietor}: Hyperdrive maintenance specialist"
+      "message" : "{proprietor}: Eòlaiche air càradh dhraibhean os-fhànais"
    },
    "FLAVOUR_1_YESPLEASE" : {
       "description" : "",
-      "message" : "Service my drive"
+      "message" : "Dèanaibh obair-càraidh air an dràibh agam"
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
@@ -45,11 +45,11 @@
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Please tune my drive at the quoted price"
+      "message" : "Gleusaibh an draibh agam air a' phrìs a dh'iarr sibh"
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Welcome SuperFix Maintenance.\n\n{lasttime}\nTime for your biannual maintenance? Let us SuperFix your hyperdrive!\nWe can tune your {drive} for just {price}.  There's nobody cheaper!"
+      "message" : "Fàilte dhan t-sàr-cheàrdach càraidh.\n\n{lasttime}\nAn tàinig àm na h-obrach-càraidh leth-bhliadhnail agad? Nach dèan sinn sàr-chàradh air an draibh os-fhànais agaibh!\nGleusaidh sinn a' {drive} agad 's cha bhi e ach {price}. Chan fhaigh thu obair nas saoire àite sam bith!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
@@ -69,7 +69,7 @@
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
-      "message" : "We have completed the work on your hyperdrive."
+      "message" : "Tha sinn air an obair air an draibh os-fhànais agaibh a choileanadh."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
@@ -95,36 +95,32 @@
       "description" : "",
       "message" : "Service hyperspace engine"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Cuir crìoch air a' ghairm."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "I don't have enough money"
+      "message" : "Chan eil airgead gu leòr agam"
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "I fixed the hyperdrive before it broke down."
+      "message" : "Chàraich mi an draibh os-fhànais mus do bhris e."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "The ship's hyperdrive has been destroyed by a malfunction"
+      "message" : "Mhill mearachd-obrachaidh an draibh os-fhànais"
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Your drive has not been serviced since it was installed on {date}"
+      "message" : "Cha deach obair-chàraidh a dhèanamh air an draibh agaibh on a chaidh a stàladh {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
-      "message" : "Your drive was last serviced on {date} by {company}"
+      "message" : "Chaidh an obair-chàraidh mu dheireadh air an draibh agaibh a dhèanamh le {company}"
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "You do not have a drive to service!"
+      "message" : "Chan eil draibh ri chàradh agaibh!"
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "You fixed the hyperdrive before it broke down."
+      "message" : "Chàraich thu an draibh os-fhànais mus do bhris e."
    }
 }

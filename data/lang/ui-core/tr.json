@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "Bir hata oluştu"
    },
+   "ATMOSPHERIC_SHIELDING" : {
+      "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
+      "message" : "Atmosfer kalkanı"
+   },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
       "message" : "Gövdeyi tamir etmeyi dene"
@@ -49,22 +53,22 @@
    },
    "BUY" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Buy"
+      "message" : "Satın al"
    },
    "BUY_SHIP" : {
       "description" : "",
       "message" : "Gemi Al"
    },
    "CABINS" : {
-      "description" : "",
+      "description" : "For passengers",
       "message" : "Kabinler"
    },
    "CABIN_FREE" : {
-      "description" : "",
+      "description" : "Free capacity for passengers",
       "message" : "{amount} boş"
    },
    "CABIN_USED" : {
-      "description" : "",
+      "description" : "Passengers using cabins",
       "message" : "{amount} kullanılan"
    },
    "CANCEL" : {
@@ -72,7 +76,7 @@
       "message" : "Vazgeç"
    },
    "CAPACITY" : {
-      "description" : "",
+      "description" : "Capacity of ship to fit more equipment",
       "message" : "Kapasite"
    },
    "CAPACITY_USED" : {
@@ -87,12 +91,16 @@
       "description" : "",
       "message" : "Kargo alanı"
    },
-   "CARGO_T_FREE" : {
+   "CARGO_SPACE_USED" : {
       "description" : "",
+      "message" : "Kullanılan kargo alanı"
+   },
+   "CARGO_T_FREE" : {
+      "description" : "t for tonne",
       "message" : "{amount}T boş"
    },
    "CARGO_T_USED" : {
-      "description" : "",
+      "description" : "t for tonne",
       "message" : "{amount}T kullanılan"
    },
    "CASH" : {
@@ -104,7 +112,7 @@
       "message" : "Nakit: {money}"
    },
    "CHANGE_BINDING" : {
-      "description" : "",
+      "description" : "Key binding option",
       "message" : "Atamayı Değiştir"
    },
    "CHIEF_MECHANIC" : {
@@ -116,15 +124,15 @@
       "message" : "Dairesel yörünge hızı"
    },
    "CITY_DETAIL_LEVEL" : {
-      "description" : "",
+      "description" : "Game graphics option",
       "message" : "Şehir detay seviyesi"
    },
    "CLEAN" : {
-      "description" : "",
+      "description" : "Legal status of player",
       "message" : "Temiz"
    },
    "CLEAR" : {
-      "description" : "",
+      "description" : "Clear an option in game settings/options menu",
       "message" : "Temizle"
    },
    "CLIENT" : {
@@ -132,7 +140,7 @@
       "message" : "Müşteri"
    },
    "COMBAT" : {
-      "description" : "",
+      "description" : "Headline for kills and combat rating",
       "message" : "Savaş"
    },
    "COMMANDER" : {
@@ -144,11 +152,11 @@
       "message" : "Ticari Mal Pazarı"
    },
    "COMPACT_SCANNER" : {
-      "description" : "",
-      "message" : "Compact scanner"
+      "description" : "Game settings option",
+      "message" : "Yoğun tarayıcı"
    },
    "COMPETENT" : {
-      "description" : "",
+      "description" : "Combat rating",
       "message" : "Mücadeleci"
    },
    "COMPLETED" : {
@@ -156,7 +164,7 @@
       "message" : "Tamamlandı"
    },
    "COMPRESS_TEXTURES" : {
-      "description" : "",
+      "description" : "graphics option in game settings menu ",
       "message" : "Dokuları Sıkıştır"
    },
    "CONSTABLE" : {
@@ -196,11 +204,11 @@
       "message" : "Suç kaydı"
    },
    "DANGEROUS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Tehlikeli"
    },
    "DEADLY" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Ölümcül"
    },
    "DELTA_V" : {
@@ -228,7 +236,7 @@
       "message" : "Düşman gemisini yok et"
    },
    "DISMISS" : {
-      "description" : "",
+      "description" : "Terminate crew memeber's contract",
       "message" : "Gidebilirsin"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -236,11 +244,11 @@
       "message" : "HUD izlerini göster"
    },
    "DISPLAY_NAV_TUNNELS" : {
-      "description" : "",
+      "description" : "Settings option: hyperspace tunnel effect",
       "message" : "Nav tünellerini göster"
    },
    "DISPLAY_SPEED_LINES" : {
-      "description" : "",
+      "description" : "Settings option: effect when travelling in space",
       "message" : "Hız çizgilerini göster"
    },
    "DOCK_AT_CURRENT_TARGET" : {
@@ -248,7 +256,7 @@
       "message" : "Mevcut hedefe sabitlen"
    },
    "DUE" : {
-      "description" : "",
+      "description" : "mission deadline date",
       "message" : "Süresi gelen"
    },
    "D_DAYS_LEFT" : {
@@ -264,7 +272,7 @@
       "message" : "Efektler:"
    },
    "ELITE" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "ELITE"
    },
    "EMPLOYMENT" : {
@@ -272,7 +280,7 @@
       "message" : "İş"
    },
    "ENABLE_COCKPIT" : {
-      "description" : "",
+      "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Kokpiti etkinleştir (DENEYSEL)"
    },
    "ENABLE_JOYSTICK" : {
@@ -280,7 +288,7 @@
       "message" : "Joystick etkin"
    },
    "ENGINEERING" : {
-      "description" : "",
+      "description" : "Engineering skills of crew",
       "message" : "Mühendislik:"
    },
    "EQUIPMENT" : {
@@ -316,7 +324,7 @@
       "message" : "Uzman"
    },
    "FAILED" : {
-      "description" : "",
+      "description" : "When failed mission",
       "message" : "Başarısız oldu"
    },
    "FEMALE" : {
@@ -380,7 +388,7 @@
       "message" : "Bekle."
    },
    "HARMLESS" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Zararsız"
    },
    "HEAVY_CARGO_SHUTTLE" : {
@@ -408,7 +416,7 @@
       "message" : "Ağır yolcu gemisi"
    },
    "HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: for graphics resolution",
       "message" : "Yüksek"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
@@ -473,7 +481,7 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Sizin için çalışmak çok iyiydi. Bana tekrar ihtiyacınız olursa bir süre daha buralardayım"
+      "message" : "Sizin için çalışmak harikaydı. Bana tekrar ihtiyacınız olursa bir süre daha buralardayım."
    },
    "JETTISON" : {
       "description" : "",
@@ -497,11 +505,11 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Denize iniş izni reddedildi: bu gemiyi idare edecek yeterli ekip sayısına sahip değil."
+      "message" : "Denize iniş izni reddedildi: bu gemiyi idare edecek yeterli mürettebata sahip değil."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
-      "message" : "Denize iniş izni reddedildi: borcunuz var."
+      "message" : "Denize iniş izni reddedildi: ödenmemiş borcunuz var."
    },
    "LEGAL_STATUS" : {
       "description" : "",
@@ -556,7 +564,7 @@
       "message" : "Düşük"
    },
    "LY" : {
-      "description" : "",
+      "description" : "Light year",
       "message" : "Iy"
    },
    "MAKE_NEW_FACE" : {
@@ -588,7 +596,7 @@
       "message" : "En fazla mürettebat"
    },
    "MEDIUM" : {
-      "description" : "",
+      "description" : "Game settings option: graphics resolution",
       "message" : "Orta"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
@@ -629,7 +637,7 @@
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
-      "message" : "Füze tepeleri"
+      "message" : "Füze bağlantıları"
    },
    "MISSIONS" : {
       "description" : "",
@@ -705,7 +713,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{ekipman}, bu gemi modelini desteklenmiyor"
+      "message" : "{equipment} bu gemi modelini tarafından desteklenmiyor"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -752,7 +760,7 @@
       "message" : "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n "
    },
    "OWED" : {
-      "description" : "",
+      "description" : "Player owing money to crew members",
       "message" : "Borç"
    },
    "PAY_FINE_OF_N" : {
@@ -788,11 +796,11 @@
       "message" : "Polis"
    },
    "POOR" : {
-      "description" : "",
+      "description" : "Player combat rating",
       "message" : "Fakir"
    },
    "POSITION" : {
-      "description" : "",
+      "description" : "The job title/position of crew memeber",
       "message" : "Pozisyon"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
@@ -815,6 +823,10 @@
       "description" : "",
       "message" : "Çıkış"
    },
+   "QUIT_CONFIRMATION" : {
+      "description" : "For the checkbox in settings window",
+      "message" : "Quit confirmation"
+   },
    "RANK" : {
       "description" : "",
       "message" : "Rütbe:"
@@ -833,7 +845,7 @@
    },
    "REFUEL_FULL" : {
       "description" : "",
-      "message" : "Yakıt dolumu dolu"
+      "message" : "Tam yakıt dolumu"
    },
    "RELIABLE" : {
       "description" : "For player reputation",
@@ -875,6 +887,10 @@
       "description" : "",
       "message" : "Kaydet"
    },
+   "SCOOP_MOUNTS" : {
+      "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
+      "message" : "Toplayıcı bağlantıları"
+   },
    "SELECT" : {
       "description" : "",
       "message" : "Seç"
@@ -893,7 +909,7 @@
    },
    "SELL" : {
       "description" : "Commodities and equipment prices",
-      "message" : "Sell"
+      "message" : "Sat"
    },
    "SENSORS" : {
       "description" : "",
@@ -944,8 +960,12 @@
       "message" : "Dünyada Başla"
    },
    "START_AT_NEW_HOPE" : {
-      "description" : "",
+      "description" : "New Hope is an in game location",
       "message" : "Yeni Ümit'te Başla"
+   },
+   "STAR_FIELD_DENSITY" : {
+      "description" : "",
+      "message" : "Density of Star field"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -968,7 +988,7 @@
       "message" : "Komutanım, gemi istasyon kontrolünde."
    },
    "TOGGLE_MALE_FEMALE" : {
-      "description" : "",
+      "description" : "player gender",
       "message" : "Erkek/kadın"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
@@ -1012,11 +1032,11 @@
       "message" : "Kullanılan"
    },
    "VERY_HIGH" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Çok yüksek"
    },
    "VERY_LOW" : {
-      "description" : "",
+      "description" : "Game settings option: graphic resolution",
       "message" : "Çok düşük"
    },
    "VIDEO" : {
@@ -1031,8 +1051,12 @@
       "description" : "",
       "message" : "Ekran çözünürlüğü"
    },
+   "VSYNC" : {
+      "description" : "For the checkbox in settings window",
+      "message" : "VSync"
+   },
    "WAGE" : {
-      "description" : "",
+      "description" : "Salary of crew shown in crew roster",
       "message" : "Ücret"
    },
    "WEIGHT_EMPTY" : {
@@ -1048,7 +1072,7 @@
       "message" : "Komutanım, üstuzaydayız."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
-      "description" : "",
+      "description" : "Said by the police to law abiding player",
       "message" : "Şu anda sizinle bir işimiz yok."
    },
    "YES" : {

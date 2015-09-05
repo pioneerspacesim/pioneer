@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Spune {yes} ca să ieși de aici și să te întorci la programele tale plictisitoare?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Te rog apasă {no} ca să mai irosești câteva ore productive. Te rog?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Exploratorii nu renunță, dar apasă {yes} dacă nu ești unul."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Alege {no} dacă ești un adevărat vânător de recompense, altfel.. apasă grațios pe {yes}."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Nu mai vorbim în ultima vreme. Ai pe altcineva?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Chiar ai ceva mai bun de făcut?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Deja te dai bătut(ă)?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Ce crezi că faci, Popescule?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "De aicea nu plecăm!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Nu pleca încă, e un pirat care te așteaptă în celălalt program."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "Ești sigur(ă) că vrei să ieși din acest joc superb care nu te costă nimic?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Așa repede vrei să pleci?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Alege {no} pentru faimă și destin, {yes} pentru patimă și chin."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Alege {no} ca să fii curajos, alege {yes} ca să te acoperi de rușine."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "Nu aș pleca în locul tău. Linia de comandă e mult mai groaznică."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Cred că vrei să apeși {no} și să te mai joci. Aaapaaasăăă-l!"
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "Dacă apeși {yes} înseamnă că vrei să te întorci la monotonia zilnică a lumii."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Nu"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Ieși?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Da"
+   }
+}

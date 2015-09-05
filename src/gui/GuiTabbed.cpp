@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -155,15 +155,29 @@ void Tabbed::Draw()
 	float xpos = 0;
 	unsigned int index = 0;
 
-	Theme::DrawRect(vector2f(0.f), vector2f(size[0], TAB_BAR_HEIGHT), Theme::Colors::bgShadow, Screen::alphaBlendState);
+	if(!m_rectBGShadow) {
+		m_rectBGShadow.reset( new Graphics::Drawables::Rect(Screen::GetRenderer(), vector2f(0.f), vector2f(size[0], TAB_BAR_HEIGHT), Theme::Colors::bgShadow, Screen::alphaBlendState) );
+	}
+	m_rectBGShadow->Draw(Screen::GetRenderer());
 
-	for (pagecontainer_t::iterator i = m_pages.begin(); i!=m_pages.end();
-			++i, index++) {
+	for (pagecontainer_t::iterator i = m_pages.begin(), iEnd = m_pages.end(); i!=iEnd; ++i, index++) 
+	{
 		float csize[2];
 		(*i).first->GetSize(csize);
 		csize[0] += 2*LABEL_PADDING;
 		if (index == m_page) {
-			Theme::DrawRect(vector2f(xpos, 0.f), vector2f(xpos+csize[0], TAB_BAR_HEIGHT), Theme::Colors::bg, Screen::alphaBlendState);
+			vector2f newpos(xpos, 0.f);
+			vector2f newsize(xpos+csize[0], TAB_BAR_HEIGHT);
+			if(!BGVBTracker_.m_rectBG || !BGVBTracker_.prevPos_.ExactlyEqual(newpos) || !BGVBTracker_.prevSize_.ExactlyEqual(newsize)) {
+				BGVBTracker_.prevPos_ = newpos;
+				BGVBTracker_.prevSize_ = newsize;
+				BGVBTracker_.m_rectBG.reset( new Graphics::Drawables::Rect(Screen::GetRenderer(), newpos, newsize, Theme::Colors::bg, Screen::alphaBlendState, false) );
+			}
+			else
+			{
+				BGVBTracker_.m_rectBG->Update(newpos, newsize, Theme::Colors::bg);
+			}
+			BGVBTracker_.m_rectBG->Draw(Screen::GetRenderer());
 		}
 		xpos += csize[0];
 	}

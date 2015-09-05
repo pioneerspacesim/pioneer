@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FILESYSTEM_H
@@ -7,6 +7,7 @@
 #include "RefCounted.h"
 #include "StringRange.h"
 #include "ByteRange.h"
+#include "DateTime.h"
 #include <string>
 #include <vector>
 #include <deque>
@@ -79,6 +80,10 @@ namespace FileSystem {
 		bool IsFile() const { return (m_type == FT_FILE); }
 		bool IsSpecial() const { return (m_type == FT_SPECIAL); }
 
+		// modification time specified in *local* time (not UTC)
+		// (specified in local time because we want it to be easy to display)
+		Time::DateTime GetModificationTime() const { return m_modTime; }
+
 		const std::string &GetPath() const { return m_path; }
 		std::string GetName() const { return m_path.substr(m_dirLen); }
 		std::string GetDir() const { return m_path.substr(0, m_dirLen); }
@@ -112,10 +117,11 @@ namespace FileSystem {
 
 	private:
 		// use FileSource::MakeFileInfo to create your FileInfos
-		FileInfo(FileSource *source, const std::string &path, FileType type);
+		FileInfo(FileSource *source, const std::string &path, FileType type, Time::DateTime modTime);
 
 		FileSource *m_source;
 		std::string m_path;
+		Time::DateTime m_modTime;
 		int m_dirLen;
 		FileType m_type;
 	};
@@ -163,6 +169,7 @@ namespace FileSystem {
 		bool IsTrusted() const { return m_trusted; }
 
 	protected:
+		FileInfo MakeFileInfo(const std::string &path, FileInfo::FileType entryType, Time::DateTime modTime);
 		FileInfo MakeFileInfo(const std::string &path, FileInfo::FileType entryType);
 
 	private:

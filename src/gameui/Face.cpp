@@ -1,18 +1,15 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Face.h"
 #include "FileSystem.h"
 #include "SDLWrappers.h"
 #include "graphics/TextureBuilder.h"
-#include "FaceGenManager.h"
+#include "FaceParts.h"
 
 using namespace UI;
 
 namespace GameUI {
-
-static const Uint32 FACE_WIDTH = 295;
-static const Uint32 FACE_HEIGHT = 285;
 
 RefCountedPtr<Graphics::Material> Face::s_material;
 
@@ -23,10 +20,18 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context), m_pre
 	m_flags = flags;
 	m_seed = seed;
 
-	SDLSurfacePtr faceim = SDLSurfacePtr::WrapNew(SDL_CreateRGBSurface(SDL_SWSURFACE, FACE_WIDTH, FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0));
+	SDLSurfacePtr faceim = SDLSurfacePtr::WrapNew(SDL_CreateRGBSurface(SDL_SWSURFACE, FaceParts::FACE_WIDTH, FaceParts::FACE_HEIGHT, 24, 0xff, 0xff00, 0xff0000, 0));
 
-	Sint8 gender=0;
-	FaceGenManager::BlitFaceIm(faceim, gender, flags, seed);
+	FaceParts::FaceDescriptor face;
+	switch (flags & GENDER_MASK) {
+		case RAND: face.gender = -1; break;
+		case MALE: face.gender = 0; break;
+		case FEMALE: face.gender = 1; break;
+		default: assert(0); break;
+	}
+
+	FaceParts::PickFaceParts(face, m_seed);
+	FaceParts::BuildFaceImage(faceim.Get(), face, (flags & ARMOUR));
 
 	m_texture.reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer()));
 
@@ -36,7 +41,7 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context), m_pre
 		s_material.Reset(GetContext()->GetRenderer()->CreateMaterial(matDesc));
 	}
 
-	m_preferredSize = UI::Point(FACE_WIDTH, FACE_HEIGHT);
+	m_preferredSize = UI::Point(FaceParts::FACE_WIDTH, FaceParts::FACE_HEIGHT);
 	SetSizeControlFlags(UI::Widget::PRESERVE_ASPECT);
 }
 
@@ -87,7 +92,7 @@ Face *Face::SetHeightLines(Uint32 lines)
 {
 	const Text::TextureFont *font = GetContext()->GetFont(GetFont()).Get();
 	const float height = font->GetHeight() * lines;
-	m_preferredSize = UI::Point(height * float(FACE_WIDTH) / float(FACE_HEIGHT), height);
+	m_preferredSize = UI::Point(height * float(FaceParts::FACE_WIDTH) / float(FaceParts::FACE_HEIGHT), height);
 	GetContext()->RequestLayout();
 	return this;
 }

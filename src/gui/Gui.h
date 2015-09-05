@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUI_H
@@ -9,6 +9,7 @@
 
 namespace Graphics {
 	class Renderer;
+	class VertexBuffer;
 	class WindowSDL;
 	class RenderState;
 }
@@ -16,8 +17,6 @@ namespace Graphics {
 namespace Gui {
 
 	namespace Theme {
-		void DrawRect(const vector2f&, const vector2f &size, const Color&, Graphics::RenderState*);
-		void DrawRoundEdgedRect(const float size[2], float rad, const Color&, Graphics::RenderState*);
 		void DrawIndent(const float size[2], Graphics::RenderState*);
 		void DrawOutdent(const float size[2], Graphics::RenderState*);
 		void DrawHollowRect(const float size[2], const Color&, Graphics::RenderState*);

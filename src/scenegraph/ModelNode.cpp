@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelNode.h"
@@ -25,6 +25,16 @@ Node* ModelNode::Clone(NodeCopyCache *cache)
 
 void ModelNode::Render(const matrix4x4f &trans, const RenderData *rd)
 {
+	PROFILE_SCOPED()
+	//slight hack here
+	RenderData newrd = *rd;
+	newrd.nodemask |= MASK_IGNORE;
+	m_model->Render(trans, &newrd);
+}
+
+void ModelNode::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
+{
+	PROFILE_SCOPED()
 	//slight hack here
 	RenderData newrd = *rd;
 	newrd.nodemask |= MASK_IGNORE;

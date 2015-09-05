@@ -253,11 +253,7 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelyhood depends on it."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang up."
+      "message" : "Our livelihood depends on it."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -289,7 +285,7 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "Kau akan menyesal berhubungan dengan [client]"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -309,7 +305,7 @@
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Hari ini bukan hari keberuntunganmu! Bersiaplah untuk mati."
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -9,23 +9,117 @@
 #include "Pi.h"
 #include "FileSystem.h"
 
-Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator) : GALAXY_RADIUS(50000.0), SOL_OFFSET_X(25000.0), SOL_OFFSET_Y(0.0),
-	m_galaxyGenerator(galaxyGenerator), m_mapWidth(0), m_mapHeight(0), m_sectorCache(galaxyGenerator), m_starSystemAttic(galaxyGenerator),
-	m_factions(this), m_customSystems(this)
+Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, float radius, float sol_offset_x, float sol_offset_y,
+	const std::string& factionsDir, const std::string& customSysDir)
+	: GALAXY_RADIUS(radius), SOL_OFFSET_X(sol_offset_x), SOL_OFFSET_Y(sol_offset_y),
+	m_initialized(false), m_galaxyGenerator(galaxyGenerator), m_sectorCache(this),
+	m_starSystemCache(this), m_factions(this, factionsDir), m_customSystems(this, customSysDir)
 {
-	// NB : The galaxy density image MUST be in BMP format due to OSX failing to load pngs the same as Linux/Windows
-	static const std::string filename("galaxy_dense.bmp");
+}
 
-	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(filename);
+//static
+RefCountedPtr<Galaxy> Galaxy::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!jsonObj.isMember("galaxy_generator")) throw SavedGameCorruptException();
+	Json::Value galaxyGenObj = jsonObj["galaxy_generator"];
+
+	RefCountedPtr<Galaxy> galaxy = GalaxyGenerator::CreateFromJson(galaxyGenObj);
+	galaxy->m_galaxyGenerator->FromJson(galaxyGenObj, galaxy);
+	return galaxy;
+}
+
+void Galaxy::ToJson(Json::Value &jsonObj)
+{
+	m_galaxyGenerator->ToJson(jsonObj, RefCountedPtr<Galaxy>(this));
+}
+
+void Galaxy::SetGalaxyGenerator(RefCountedPtr<GalaxyGenerator> galaxyGenerator)
+{
+	m_galaxyGenerator = galaxyGenerator;
+}
+
+Galaxy::~Galaxy()
+{
+}
+
+void Galaxy::Init()
+{
+	m_customSystems.Init();
+	m_factions.Init();
+	m_initialized = true;
+	m_factions.PostInit(); // So, cached home sectors take persisted state into account
+#if 0
+	{
+		Profiler::Timer timer;
+		timer.Start();
+		Uint32 totalVal = 0;
+		const static int s_count = 64;
+		for( int sx=-s_count; sx<s_count; sx++ ) {
+			for( int sy=-s_count; sy<s_count; sy++ ) {
+				for( int sz=-s_count; sz<s_count; sz++ ) {
+					totalVal += GetSectorDensity( sx, sy, sz );
+				}
+			}
+		}
+		timer.Stop();
+		Output("\nGalaxy test took: %lf milliseconds, totalVal (%u)\n", timer.millicycles(), totalVal);
+	}
+#endif
+}
+
+void Galaxy::FlushCaches()
+{
+	m_factions.ClearCache();
+	m_starSystemCache.OutputCacheStatistics();
+	m_starSystemCache.ClearCache();
+	m_sectorCache.OutputCacheStatistics();
+	m_sectorCache.ClearCache();
+	assert(m_sectorCache.IsEmpty());
+}
+
+void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
+{
+	for (Sint32 sx = centerX - radius; sx <= centerX + radius; ++sx) {
+		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
+			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
+				RefCountedPtr<const Sector> sector = GetSector(SystemPath(sx, sy, sz));
+				sector->Dump(file);
+			}
+			m_starSystemCache.ClearCache();
+		}
+	}
+}
+
+RefCountedPtr<GalaxyGenerator> Galaxy::GetGenerator() const
+{
+	return m_galaxyGenerator;
+}
+
+const std::string& Galaxy::GetGeneratorName() const
+{
+	return m_galaxyGenerator->GetName();
+}
+
+int Galaxy::GetGeneratorVersion() const
+{
+	return m_galaxyGenerator->GetVersion();
+}
+
+DensityMapGalaxy::DensityMapGalaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator, const std::string& mapfile,
+	float radius, float sol_offset_x, float sol_offset_y, const std::string& factionsDir, const std::string& customSysDir)
+	: Galaxy(galaxyGenerator, radius, sol_offset_x, sol_offset_y, factionsDir, customSysDir),
+	  m_mapWidth(0), m_mapHeight(0)
+{
+	RefCountedPtr<FileSystem::FileData> filedata = FileSystem::gameDataFiles.ReadFile(mapfile);
 	if (!filedata) {
-		Output("Galaxy: couldn't load '%s'\n", filename.c_str());
+		Output("Galaxy: couldn't load '%s'\n", mapfile.c_str());
 		Pi::Quit();
 	}
 
 	SDL_RWops *datastream = SDL_RWFromConstMem(filedata->GetData(), filedata->GetSize());
 	SDL_Surface *galaxyImg = SDL_LoadBMP_RW(datastream, 1);
 	if (!galaxyImg) {
-		Output("Galaxy: couldn't load: %s (%s)\n", filename.c_str(), SDL_GetError());
+		Output("Galaxy: couldn't load: %s (%s)\n", mapfile.c_str(), SDL_GetError());
 		Pi::Quit();
 	}
 
@@ -46,42 +140,12 @@ Galaxy::Galaxy(RefCountedPtr<GalaxyGenerator> galaxyGenerator) : GALAXY_RADIUS(5
 	}
 	// unlock the surface and then release it
 	SDL_UnlockSurface(galaxyImg);
-	if(galaxyImg) 
+	if(galaxyImg)
 		SDL_FreeSurface(galaxyImg);
-
-	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
-}
-
-Galaxy::~Galaxy()
-{
-}
-
-void Galaxy::Init()
-{
-	m_customSystems.Init();
-	m_factions.Init();
-
-#if 0
-	{
-		Profiler::Timer timer;
-		timer.Start();
-		Uint32 totalVal = 0;
-		const static int s_count = 64;
-		for( int sx=-s_count; sx<s_count; sx++ ) {
-			for( int sy=-s_count; sy<s_count; sy++ ) {
-				for( int sz=-s_count; sz<s_count; sz++ ) {
-					totalVal += GetSectorDensity( sx, sy, sz );
-				}
-			}
-		}
-		timer.Stop();
-		Output("\nGalaxy test took: %lf milliseconds, totalVal (%u)\n", timer.millicycles(), totalVal);
-	}
-#endif
 }
 
 static const float one_over_256(1.0f / 256.0f);
-Uint8 Galaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
+Uint8 DensityMapGalaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 {
 	// -1.0 to 1.0 then limited to 0.0 to 1.0
 	const float offset_x = (((sx*Sector::SIZE + SOL_OFFSET_X)/GALAXY_RADIUS) + 1.0f)*0.5f;
@@ -99,38 +163,4 @@ Uint8 Galaxy::GetSectorDensity(const int sx, const int sy, const int sz) const
 	val *= 0.5f;
 
 	return Uint8(val);
-}
-
-void Galaxy::FlushCaches()
-{
-	m_starSystemAttic.OutputCacheStatistics();
-	m_starSystemCache = m_starSystemAttic.NewSlaveCache();
-	m_starSystemAttic.ClearCache();
-	m_sectorCache.OutputCacheStatistics();
-	m_sectorCache.ClearCache();
-	// XXX Ideally the cache would now be empty, but we still have Faction::m_homesector :(
-	// assert(m_sectorCache.IsEmpty());
-}
-
-void Galaxy::Dump(FILE* file, Sint32 centerX, Sint32 centerY, Sint32 centerZ, Sint32 radius)
-{
-	for (Sint32 sx = centerX - radius; sx <= centerX + radius; ++sx) {
-		for (Sint32 sy = centerY - radius; sy <= centerY + radius; ++sy) {
-			for (Sint32 sz = centerZ - radius; sz <= centerZ + radius; ++sz) {
-				RefCountedPtr<const Sector> sector = Pi::GetGalaxy()->GetSector(SystemPath(sx, sy, sz));
-				sector->Dump(file);
-			}
-			m_starSystemAttic.ClearCache();
-		}
-	}
-}
-
-const std::string& Galaxy::GetGeneratorName() const
-{
-	return m_galaxyGenerator->GetName();
-}
-
-int Galaxy::GetGeneratorVersion() const
-{
-	return m_galaxyGenerator->GetVersion();
 }

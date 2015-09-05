@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef SECTORCACHE_H
@@ -16,6 +16,7 @@
 #include "RefCounted.h"
 
 class GalaxyGenerator;
+class Galaxy;
 
 template <typename T, typename CompareT>
 class GalaxyObjectCache {
@@ -23,7 +24,7 @@ class GalaxyObjectCache {
 public:
 	static const std::string CACHE_NAME;
 
-	GalaxyObjectCache(RefCountedPtr<GalaxyGenerator> galGen) : m_galaxyGenerator(galGen), m_cacheHits(0), m_cacheHitsSlave(0), m_cacheMisses(0) { }
+	GalaxyObjectCache(Galaxy* galaxy) : m_galaxy(galaxy), m_cacheHits(0), m_cacheHitsSlave(0), m_cacheMisses(0) { }
 	~GalaxyObjectCache();
 
 	RefCountedPtr<T> GetCached(const SystemPath& path);
@@ -56,11 +57,11 @@ public:
 
 	private:
 		GalaxyObjectCache* m_master;
-		RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
+		RefCountedPtr<Galaxy> m_galaxy;
 		CacheMap m_cache;
 		JobSet m_jobs;
 
-		Slave(GalaxyObjectCache* master, RefCountedPtr<GalaxyGenerator> galaxyGen, JobQueue* jobQueue);
+		Slave(GalaxyObjectCache* master, RefCountedPtr<Galaxy> galaxy, JobQueue* jobQueue);
 		void MasterDeleted();
 		void AddToCache(std::vector<RefCountedPtr<T> >& objects);
 	};
@@ -80,7 +81,7 @@ private:
 	class CacheJob : public Job
 	{
 	public:
-		CacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache, RefCountedPtr<GalaxyGenerator> galaxyGen, CacheFilledCallback callback = CacheFilledCallback());
+		CacheJob(std::unique_ptr<std::vector<SystemPath> > path, Slave* slaveCache, RefCountedPtr<Galaxy> galaxy, CacheFilledCallback callback = CacheFilledCallback());
 
 		virtual void OnRun();    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		virtual void OnFinish();  // runs in primary thread of the context
@@ -90,11 +91,12 @@ private:
 		std::unique_ptr<std::vector<SystemPath> > m_paths;
 		std::vector<RefCountedPtr<T> > m_objects;
 		Slave* m_slaveCache;
+		RefCountedPtr<Galaxy> m_galaxy;
 		RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
 		CacheFilledCallback m_callback;
 	};
 
-	RefCountedPtr<GalaxyGenerator> m_galaxyGenerator;
+	Galaxy* m_galaxy;
 	std::set<Slave*> m_slaves;
 	AtticMap m_attic;	// Those contains non-refcounted pointers which are kept alive by RefCountedPtrs in slave caches
 						// or elsewhere. The Sector destructor ensures that it is removed from here.

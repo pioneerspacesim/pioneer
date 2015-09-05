@@ -1,0 +1,30 @@
+{
+   "angular_thrust" : 25000000.0,
+   "capacity" : 35,
+   "cockpit" : "sinonatrix_cockpit",
+   "down_thrust" : 1000000.0,
+   "effective_exhaust_velocity" : 19500000.0,
+   "forward_thrust" : 5500000.0,
+   "fuel_tank_mass" : 30,
+   "hull_mass" : 20,
+   "hyperdrive_class" : 3,
+   "left_thrust" : 1000000.0,
+   "manufacturer" : "opli",
+   "max_crew" : 1,
+   "min_crew" : 1,
+   "model" : "sinonatrix",
+   "name" : "Sinonatrix",
+   "price" : 219000.0,
+   "reverse_thrust" : 1200000.0,
+   "right_thrust" : 1000000.0,
+   "ship_class" : "light_courier",
+   "slots" : {
+      "cargo" : 35,
+      "scoop" : 2,
+      "laser_front" : 1,
+      "missile" : 2,
+      "sensor"  : 8
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 1500000.0
+}

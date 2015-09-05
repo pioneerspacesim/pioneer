@@ -1,11 +1,11 @@
 {
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Kan je het orginele aanvraag herhalen?"
+      "message" : "Kunt u het orginele verzoek herhalen?"
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Gevaar:"
    },
    "DEADLINE" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "Delivery"
+      "message" : "Levering"
    },
    "DENY_0" : {
       "description" : "",
@@ -53,7 +53,7 @@
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
-      "message" : "Excellent. I will let the recipient know you are on your way."
+      "message" : "Uitstekend. Ik laat de ontvanger weten dat u onderweg bent."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -61,11 +61,11 @@
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever over that delivery. I'm not willing to pay you."
+      "message" : "Onacceptabel! Uw levering duurde te lang. Ik ga u niet betalen."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver a small package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo, Ik ben {name}. Ik betaal u {cash} als u een klein pakketje aflever bij {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -77,7 +77,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED. Delivery of a package to the {system} system."
+      "message" : "GEVRAAGD: Bezorging van een pakket naar het {system}-stelsel."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo. Ik ben {name}. Ik ben bereid {cash} voor een schip te betalen dat een pakket vervoert naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "The package has been received and you have been paid in full."
+      "message" : "Het pakket is ontvangen en u bent volledig betaald."
    },
    "FLAVOUR_1_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo. Ik ben {name}. Ik ben bereid {cash} voor een schip te betalen dat een pakket vervoert naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -125,11 +125,11 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hello. I'm {name}. I'm willing to pay {cash} for a ship to carry a package to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hallo. Ik ben {name}. Ik ben bereid {cash} te betalen voor een schip dat een pakket vervoert naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
+      "message" : "Uw tijdige en discrete dienst wordt zeer gewaardeerd. U bent volledig betaald."
    },
    "FLAVOUR_3_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -145,11 +145,11 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings. This is an automated message from Bedford and {name} Courier Services. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Gegroet. Dit is een automatisch bericht uit Bedford en {name} Courier Services. We betalen {cash} voor de vlucht naar {starport} in het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your timely and discrete service is much appreciated. You have been paid in full."
+      "message" : "Uw tijdige en discrete dienst wordt zeer gewaardeerd. U bent volledig betaald."
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "MOVING HOME. Move of hardware to {starport} from storage."
+      "message" : "VERHUIZING. Verhuizen van hardware naar {starport} uit opslag."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -169,7 +169,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Oh wonderful. I'll start unloading immediately. Thanks again."
+      "message" : "Oh, fantastisch. Ik begin meteen uit te laden. Nogmaals bedankt."
    },
    "FLAVOUR_5_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "INTER-PLANETARY CARGO. Freight of local cargo to {starport}."
+      "message" : "INTER-PLANETAIRE VRACHT. Transport van lokale vracht naar {starport}."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
@@ -225,7 +225,7 @@
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
+      "message" : "Mijn naam is {name} en ik wil dit ding afgeleverd hebben bij mijn vriend op  {starport} pronto, ik betaal je {cash} credits als je het daar binnen redelijke termijn brengt."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
@@ -245,43 +245,39 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "Greetings, we're behind with our produce shipment and need it delivered to {starport} urgently. We'll pay you {cash} for your troubles."
+      "message" : "Gegroet, we hebben een achterstand met het verschepen van onze productie en het moet zo snel mogelijk bij {starport} afgeleverd worden. We betalen u {cash} voor de moeite."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Grand! We'll start unpacking immediately. I'll have your account updated right away."
+      "message" : "Mooi! We beginnen meteen uit te pakken. Ik heb het meteen op uw rekening gestort."
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelyhood depends on it."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
+      "message" : "Our livelihood depends on it."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
-      "message" : "How soon must it be delivered?"
+      "message" : "Hoe snel moet het afgeleverd zijn?"
    },
    "IT_COULD_BE_DANGEROUS_YOU_SHOULD_MAKE_SURE_YOURE_ADEQUATELY_PREPARED" : {
       "description" : "",
-      "message" : "It could be dangerous, you should make sure you're adequately prepared."
+      "message" : "Het kan gevaarlijk zijn. Wees goed voorbereid."
    },
    "IT_MUST_BE_DELIVERED_BY" : {
       "description" : "",
-      "message" : "It must be delivered by "
+      "message" : "Het moet afgeleverd zijn op"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
-      "message" : "I highly doubt it."
+      "message" : "Ik betwijfel het ten zeerste."
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "lj"
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Niet meer dan normaal."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -293,19 +289,19 @@
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Looks like my paycheck has arrived!"
+      "message" : "Mijn salaris is binnen!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "You're working for {client}? That was a bad idea."
+      "message" : "Jij werkt voor {client}? Slecht idee."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Your cargo and your life, pilot!"
+      "message" : "Je lading en je leven, piloot!"
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "I'm sure this will bring a pretty penny on the market"
+      "message" : "Ik weet zeker dat dit aardig wat opbrengt op de markt"
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
@@ -313,42 +309,42 @@
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
-      "message" : "Tell my old friend {client} that I'll see them in hell!"
+      "message" : "Zeg mijn oude vriend {client} dat ik hem in de hel wel weer zal zien!"
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "That package isn't going to reach it's destination today."
+      "message" : "Dat pakket zal vandaag niet afgeleverd worden."
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
-      "message" : "You're not getting to {location} today!"
+      "message" : "Je zult vandaag niet op {location} aankomen!"
    },
    "PIRATE_TAUNTS_9" : {
       "description" : "",
-      "message" : "You'll pay for that cargo, with your life."
+      "message" : "Je zult met uw leven voor die lading betalen."
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Ruimtepoort:"
+      "message" : "Ruimtehaven:"
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "Systeem:"
+      "message" : "Stelsel:"
    },
    "THIS_IS_A_VALUABLE_PACKAGE_YOU_SHOULD_KEEP_YOUR_EYES_OPEN" : {
       "description" : "",
-      "message" : "This is a valuable package, you should keep your eyes open."
+      "message" : "Dit is een waardevol pakket. Hou je ogen open."
    },
    "THIS_IS_VERY_RISKY_YOU_WILL_ALMOST_CERTAINLY_RUN_INTO_RESISTANCE" : {
       "description" : "",
-      "message" : "This is very risky, you will almost certainly run into resistance."
+      "message" : "Dit is zeer risicovol. U zult vrijwel zeker tegenstand ontmoeten."
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Waarom zo veel geld?"
+      "message" : "Waarom zoveel geld?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Is het gevaarlijk?"
    }
 }

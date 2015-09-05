@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_LABEL_H
@@ -30,6 +30,7 @@ public:
 private:
 	RefCountedPtr<Graphics::Material> m_material;
 	std::unique_ptr<Graphics::VertexArray> m_geometry;
+	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 	RefCountedPtr<Text::DistanceFieldFont> m_font;
 	Graphics::RenderState *m_renderState;
 };

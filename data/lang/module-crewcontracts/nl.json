@@ -1,11 +1,11 @@
 {
    "ASK_CANDIDATE_TO_SIT_A_TEST" : {
       "description" : "",
-      "message" : "Ask candidate to sit a test"
+      "message" : "Vraag kandidaat een test af te leggen"
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Naam: {name}\nErvaring: {experience}\nVraagprijs: {wage} per week\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -13,35 +13,31 @@
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+      "message" : "Examenresultaten:\n\nAlgemene bemanningsvaardigheden: {general}%\nWerktuigbouwkunde en reparaties: {engineering}%\nBesturing en ruimtevaart: {piloting}%\nNavigatie en koers uitzetten: {navigation}%\nSensoren en verdediging: {sensors}%\nTotale examenscore: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "Crew for hire"
+      "message" : "Bemanning aangeboden"
    },
    "GO_BACK" : {
       "description" : "",
       "message" : "Ga terug"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
-      "message" : "I'm sorry, I'm not prepared to go any lower."
+      "message" : "Sorry, ik kan niet lager gaan."
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "I'm sorry, your offer isn't attractive to me."
+      "message" : "Sorry, uw aanbod vind ik niet aantrekkelijk."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
-      "message" : "Make offer of position on ship for stated amount"
+      "message" : "Bied positie op schip aan voor gestelde bedrag"
    },
    "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
       "description" : "",
-      "message" : "Minimal time served aboard ship"
+      "message" : "Minimale tijd doorgebracht aan boord"
    },
    "NAVIGATOR" : {
       "description" : "",
@@ -49,62 +45,62 @@
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "No experience"
+      "message" : "Geen ervaring"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "OK, I suppose that's all right."
+      "message" : "OK, I ga er vanuit dat dat klopt."
    },
    "PILOT" : {
       "description" : "",
-      "message" : "Pilot"
+      "message" : "Piloot"
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
-      "message" : "Potential crew members are registered as seeking employment at {station}:"
+      "message" : "Potentiele bemanningsleden zijn geregistreerd als werkzoekend op {station}:"
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "Sensors and defence"
+      "message" : "Sensoren en verdediging"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "Ship's Engineer"
+      "message" : "Sheepswerktuigbouwkundige"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "Simulator training only"
+      "message" : "Alleen simulatortraining"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "Some experience in controlled environments"
+      "message" : "Enige ervaring in gecontroleerde omgevingen"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Suggest new weekly wage of {newAmount}"
+      "message" : "Stel nieuw weekloon van {newAmount} voor"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
-      "message" : "Thanks, I'll get settled on board immediately."
+      "message" : "Bedankt, ik installeer me meteen aan boord."
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",
-      "message" : "That's extremely generous of you!"
+      "message" : "Dat is extreem gul van u!"
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "That certainly makes this offer look better!"
+      "message" : "Dat maakt dit aanbod een stuk mooier!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",
-      "message" : "There doesn't seem to be space for me on board!"
+      "message" : "Er is helemaal geen plek voor mij aan boord!"
    },
    "TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Time served crew member"
+      "message" : "Tijd doorgebracht als bemanningslid"
    },
    "VETERAN_TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Veteran, time served crew member"
+      "message" : "Senior, tijd doorgebracht bemanningslid"
    }
 }

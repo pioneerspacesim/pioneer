@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Vissza az unalmas szoftvereidhez?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Kattints a {no}-re, hogy elpazarolhass még néhány produktív órát. Légy szives."
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "A felderítők sosem hátrálnak meg. Nyomd az {yes}t, ha nem vagy az."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Egy keménykötésű fejvadász {no}et mondana. A szentek mehetnek."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Alig beszélgetünk. Találkozgatsz valakivel?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Tényleg van jobb dolgod?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Máris feladod?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Mit gondolsz, mit csinálsz, Dave?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "A kilépés a gyengék eszköze!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Ne menj! Egy kalóz feni rád a kését a másik programban!"
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "Tényleg kilépnél eből a nagyszerű játékból, ami ráadásul egy filléredbe sem került?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Távozol is, jóuram?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Válaszd  a {no}-et ha kalandra vágysz, Igen-t, ha keserves munkára."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Kattints a {no}-re, ha bátor vagy, az {yes}re, ha meghunyászkodsz."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "Én maradnék a helyedben. A parancssor sokkal rosszabb."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Szerintem a {no}-re akarsz kattintani, hogy tovább játszhass. Tedd meg."
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "Vissza akarsz térni a sivár munkanapokba?"
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Nem"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Kilépsz?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Igen"
+   }
+}

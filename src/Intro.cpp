@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -34,8 +34,8 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	m_skin.SetDecal("pioneer");
 	m_skin.SetLabel(Lang::PIONEER);
 
-	for (std::vector<ShipType::Id>::const_iterator i = ShipType::player_ships.begin(); i != ShipType::player_ships.end(); ++i) {
-		SceneGraph::Model *model = Pi::FindModel(ShipType::types[*i].modelName)->MakeInstance();
+	for (auto i : ShipType::player_ships) {
+		SceneGraph::Model *model = Pi::FindModel(ShipType::types[i].modelName)->MakeInstance();
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
 		const Uint32 numMats = model->GetNumMaterials();
 		for( Uint32 m=0; m<numMats; m++ ) {

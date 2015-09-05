@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -100,23 +100,50 @@ namespace FileSystem {
 
 	FileSourceFS::~FileSourceFS() {}
 
+	static FileInfo::FileType interpret_stat(const struct stat &info, Time::DateTime &mtime) {
+		FileInfo::FileType ty;
+		if (S_ISREG(info.st_mode)) {
+			ty = FileInfo::FT_FILE;
+		} else if (S_ISDIR(info.st_mode)) {
+			ty = FileInfo::FT_DIR;
+		} else {
+			ty = FileInfo::FT_SPECIAL;
+		}
+
+		struct tm timeparts;
+		if (localtime_r(&info.st_mtime, &timeparts) != nullptr) {
+			mtime = Time::DateTime(
+				1900 + timeparts.tm_year, timeparts.tm_mon+1, timeparts.tm_mday,
+				timeparts.tm_hour, timeparts.tm_min, timeparts.tm_sec);
+		}
+
+		return ty;
+	}
+
+	static FileInfo::FileType stat_path(const char *fullpath, Time::DateTime &mtime) {
+		struct stat info;
+		if (stat(fullpath, &info) == 0) {
+			return interpret_stat(info, mtime);
+		} else {
+			return FileInfo::FT_NON_EXISTENT;
+		}
+	}
+
+	static FileInfo::FileType stat_fd(int fd, Time::DateTime &mtime) {
+		struct stat info;
+		if (fstat(fd, &info) == 0) {
+			return interpret_stat(info, mtime);
+		} else {
+			return FileInfo::FT_NON_EXISTENT;
+		}
+	}
+
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
-		struct stat statinfo;
-		FileInfo::FileType ty;
-		if (stat(fullpath.c_str(), &statinfo) == 0) {
-			if (S_ISREG(statinfo.st_mode)) {
-				ty = FileInfo::FT_FILE;
-			} else if (S_ISDIR(statinfo.st_mode)) {
-				ty = FileInfo::FT_DIR;
-			} else {
-				ty = FileInfo::FT_SPECIAL;
-			}
-		} else {
-			ty = FileInfo::FT_NON_EXISTENT;
-		}
-		return MakeFileInfo(path, ty);
+		Time::DateTime mtime;
+		FileInfo::FileType ty = stat_path(fullpath.c_str(), mtime);
+		return MakeFileInfo(path, ty, mtime);
 	}
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
@@ -126,6 +153,10 @@ namespace FileSystem {
 		if (!fl) {
 			return RefCountedPtr<FileData>(0);
 		} else {
+			Time::DateTime mtime;
+			FileInfo::FileType ty = stat_fd(fileno(fl), mtime);
+			assert(ty == FileInfo::FT_FILE);
+
 			fseek(fl, 0, SEEK_END);
 			long sz = ftell(fl);
 			fseek(fl, 0, SEEK_SET);
@@ -142,7 +173,8 @@ namespace FileSystem {
 				memset(data + read_size, 0xee, sz - read_size);
 			}
 			fclose(fl);
-			return RefCountedPtr<FileData>(new FileDataMalloc(MakeFileInfo(path, FileInfo::FT_FILE), sz, data));
+
+			return RefCountedPtr<FileData>(new FileDataMalloc(MakeFileInfo(path, ty, mtime), sz, data));
 		}
 	}
 
@@ -159,35 +191,17 @@ namespace FileSystem {
 			if (strcmp(entry->d_name, ".") == 0) continue;
 			if (strcmp(entry->d_name, "..") == 0) continue;
 
-			const std::string fullpath = JoinPath(fulldirpath, entry->d_name);
-
 			FileInfo::FileType ty;
-			switch (entry->d_type) {
-				case DT_DIR: ty = FileInfo::FT_DIR; break;
-				case DT_REG: ty = FileInfo::FT_FILE; break;
-				case DT_LNK: case DT_UNKNOWN:
-				{
-					// if readdir() can't tell us whether we've got a file or directory then we need to stat
-					// also stat for links to traverse them
-					struct stat statinfo;
-					if (stat(fullpath.c_str(), &statinfo) == 0) {
-						if (S_ISREG(statinfo.st_mode)) {
-							ty = FileInfo::FT_FILE;
-						} else if (S_ISDIR(statinfo.st_mode)) {
-							ty = FileInfo::FT_DIR;
-						} else {
-							ty = FileInfo::FT_SPECIAL;
-						}
-					} else {
-						// XXX error out here?
-						ty = FileInfo::FT_NON_EXISTENT;
-					}
-					break;
-				}
-				default: ty = FileInfo::FT_SPECIAL; break;
+			Time::DateTime mtime;
+
+			struct stat info;
+			if (stat(JoinPath(fulldirpath, entry->d_name).c_str(), &info) == 0) {
+				ty = interpret_stat(info, mtime);
+			} else {
+				ty = FileInfo::FT_NON_EXISTENT;
 			}
 
-			output.push_back(MakeFileInfo(JoinPath(dirpath, entry->d_name), ty));
+			output.push_back(MakeFileInfo(JoinPath(dirpath, entry->d_name), ty, mtime));
 		}
 
 		closedir(dir);

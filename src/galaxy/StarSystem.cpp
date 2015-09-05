@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StarSystem.h"
@@ -10,6 +10,7 @@
 
 #include "Serializer.h"
 #include "Pi.h"
+#include "LuaEvent.h"
 #include "enum_table.h"
 #include <map>
 #include <string>
@@ -24,7 +25,7 @@
 //#define DEBUG_DUMP
 
 // indexed by enum type turd
-const Uint8 StarSystem::starColors[][3] = {
+const Color StarSystem::starColors[] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 102, 102, 204 }, // white dwarf
@@ -61,11 +62,11 @@ const Uint8 StarSystem::starColors[][3] = {
 	{ 255, 178, 255 }, // Purple-Blue/O Wolf Rayet Star
 	{ 76, 178, 76 }, // Stellar Blackhole
 	{ 51, 230, 51 }, // Intermediate mass Black-hole
-	{ 0, 255, 0 }, // Super massive black hole
+	{ 0, 255, 0 } // Super massive black hole
 };
 
 // indexed by enum type turd
-const Uint8 StarSystem::starRealColors[][3] = {
+const Color StarSystem::starRealColors[] = {
 	{ 0, 0, 0 }, // gravpoint
 	{ 128, 0, 0 }, // brown dwarf
 	{ 255, 255, 255 }, // white dwarf
@@ -102,7 +103,7 @@ const Uint8 StarSystem::starRealColors[][3] = {
 	{ 255, 204, 255 },  // O WF
 	{ 255, 255, 255 },  // small Black hole
 	{ 16, 0, 20 }, // med BH
-	{ 10, 0, 16 }, // massive BH
+	{ 10, 0, 16 } // massive BH
 };
 
 const double StarSystem::starLuminosities[] = {
@@ -645,13 +646,17 @@ SystemBody::AtmosphereParameters SystemBody::CalcAtmosphereParams() const
  *
  * We must be sneaky and avoid floating point in these places.
  */
-StarSystem::StarSystem(const SystemPath &path, StarSystemCache* cache, Random& rand) : m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
-	m_faction(nullptr), m_unexplored(false), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
-	m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true), m_cache(cache)
+StarSystem::StarSystem(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand)
+	: m_galaxy(galaxy), m_path(path.SystemOnly()), m_numStars(0), m_isCustom(false),
+	  m_faction(nullptr), m_explored(eEXPLORED_AT_START), m_exploredTime(0.0), m_econType(GalacticEconomy::ECON_MINING), m_seed(0),
+	  m_commodityLegal(unsigned(GalacticEconomy::Commodity::COMMODITY_COUNT), true), m_cache(cache)
 {
 	PROFILE_SCOPED()
 	memset(m_tradeLevel, 0, sizeof(m_tradeLevel));
 }
+
+StarSystem::GeneratorAPI::GeneratorAPI(const SystemPath &path, RefCountedPtr<Galaxy> galaxy, StarSystemCache* cache, Random& rand)
+	: StarSystem(path, galaxy, cache, rand) { }
 
 #ifdef DEBUG_DUMP
 struct thing_t {
@@ -696,7 +701,7 @@ void StarSystem::Dump()
 	}
 
 	FILE *f = fopen("starsystem.dump", "w");
-	fprintf(f, "%lu bodies\n", output.size());
+	fprintf(f, SIZET_FMT " bodies\n", output.size());
 	fprintf(f, "0 steps\n");
 	for (std::vector<thing_t>::iterator i = output.begin();
 			i != output.end(); ++i) {
@@ -710,6 +715,59 @@ void StarSystem::Dump()
 	Output("Junk dumped to starsystem.dump\n");
 }
 #endif /* DEBUG_DUMP */
+
+void StarSystem::MakeShortDescription()
+{
+	PROFILE_SCOPED()
+	if (GetExplored() == StarSystem::eUNEXPLORED)
+		SetShortDesc(Lang::UNEXPLORED_SYSTEM_NO_DATA);
+
+	else if (GetExplored() == StarSystem::eEXPLORED_BY_PLAYER)
+		SetShortDesc(stringf(Lang::RECENTLY_EXPLORED_SYSTEM, formatarg("date", format_date_only(GetExploredTime()))));
+
+	/* Total population is in billions */
+	else if(GetTotalPop() == 0) {
+		SetShortDesc(Lang::SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS);
+	} else if (GetTotalPop() < fixed(1,10)) {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::SMALL_INDUSTRIAL_OUTPOST); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::SOME_ESTABLISHED_MINING); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::YOUNG_FARMING_COLONY); break;
+		}
+	} else if (GetTotalPop() < fixed(1,2)) {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_COLONY); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::MINING_COLONY); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::OUTDOOR_AGRICULTURAL_WORLD); break;
+		}
+	} else if (GetTotalPop() < fixed(5,1)) {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::HEAVY_INDUSTRY); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::EXTENSIVE_MINING); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::THRIVING_OUTDOOR_WORLD); break;
+		}
+	} else {
+		switch (GetEconType()) {
+			case GalacticEconomy::ECON_INDUSTRY: SetShortDesc(Lang::INDUSTRIAL_HUB_SYSTEM); break;
+			case GalacticEconomy::ECON_MINING: SetShortDesc(Lang::VAST_STRIP_MINE); break;
+			case GalacticEconomy::ECON_AGRICULTURE: SetShortDesc(Lang::HIGH_POPULATION_OUTDOOR_WORLD); break;
+		}
+	}
+}
+
+
+void StarSystem::ExploreSystem(double time)
+{
+	if (m_explored != eUNEXPLORED)
+		return;
+	m_explored = eEXPLORED_BY_PLAYER;
+	m_exploredTime = time;
+	RefCountedPtr<Sector> sec = m_galaxy->GetMutableSector(m_path);
+	Sector::System& secsys = sec->m_systems[m_path.systemIndex];
+	secsys.SetExplored(m_explored, m_exploredTime);
+	MakeShortDescription();
+	LuaEvent::Queue("onSystemExplored", this);
+}
 
 void SystemBody::Dump(FILE* file, const char* indent) const
 {
@@ -772,30 +830,35 @@ StarSystem::~StarSystem()
 		m_cache->RemoveFromAttic(m_path);
 }
 
-void StarSystem::Serialize(Serializer::Writer &wr, StarSystem *s)
+void StarSystem::ToJson(Json::Value &jsonObj, StarSystem *s)
 {
-	if (s) {
-		wr.Byte(1);
-		wr.Int32(s->m_path.sectorX);
-		wr.Int32(s->m_path.sectorY);
-		wr.Int32(s->m_path.sectorZ);
-		wr.Int32(s->m_path.systemIndex);
-	} else {
-		wr.Byte(0);
+	if (s)
+	{
+		Json::Value starSystemObj(Json::objectValue); // Create JSON object to contain star system data.
+		starSystemObj["sector_x"] = s->m_path.sectorX;
+		starSystemObj["sector_y"] = s->m_path.sectorY;
+		starSystemObj["sector_z"] = s->m_path.sectorZ;
+		starSystemObj["system_index"] = s->m_path.systemIndex;
+		jsonObj["star_system"] = starSystemObj; // Add star system object to supplied object.
 	}
 }
 
-RefCountedPtr<StarSystem> StarSystem::Unserialize(Serializer::Reader &rd)
+RefCountedPtr<StarSystem> StarSystem::FromJson(RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj)
 {
-	if (rd.Byte()) {
-		int sec_x = rd.Int32();
-		int sec_y = rd.Int32();
-		int sec_z = rd.Int32();
-		int sys_idx = rd.Int32();
-		return Pi::GetGalaxy()->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
-	} else {
-		return RefCountedPtr<StarSystem>(0);
-	}
+	if (!jsonObj.isMember("star_system")) return RefCountedPtr<StarSystem>(0); // No star system
+
+	Json::Value starSystemObj = jsonObj["star_system"];
+
+	if (!starSystemObj.isMember("sector_x")) throw SavedGameCorruptException();
+	if (!starSystemObj.isMember("sector_y")) throw SavedGameCorruptException();
+	if (!starSystemObj.isMember("sector_z")) throw SavedGameCorruptException();
+	if (!starSystemObj.isMember("system_index")) throw SavedGameCorruptException();
+
+	int sec_x = starSystemObj["sector_x"].asInt();
+	int sec_y = starSystemObj["sector_y"].asInt();
+	int sec_z = starSystemObj["sector_z"].asInt();
+	int sys_idx = starSystemObj["system_index"].asUInt();
+	return galaxy->GetStarSystem(SystemPath(sec_x, sec_y, sec_z, sys_idx));
 }
 
 std::string StarSystem::ExportBodyToLua(FILE *f, SystemBody *body) {
@@ -940,7 +1003,7 @@ void StarSystem::ExportToLua(const char *filename) {
 
 	fprintf(f, "system:bodies(%s)\n\n", ExportBodyToLua(f, m_rootBody.Get()).c_str());
 
-	RefCountedPtr<const Sector> sec = Pi::GetGalaxy()->GetSector(GetPath());
+	RefCountedPtr<const Sector> sec = m_galaxy->GetSector(GetPath());
 	SystemPath pa = GetPath();
 
 	fprintf(f, "system:add_to_sector(%d,%d,%d,v(%.4f,%.4f,%.4f))\n",
@@ -959,7 +1022,7 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 	} else {
 		fprintf(file, "%sStarSystem(%d,%d,%d,%u) {\n", indent, m_path.sectorX, m_path.sectorY, m_path.sectorZ, m_path.systemIndex);
 		fprintf(file, "%s\t\"%s\"\n", indent, m_name.c_str());
-		fprintf(file, "%s\t%sEXPLORED%s\n", indent, m_unexplored ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
+		fprintf(file, "%s\t%sEXPLORED%s\n", indent, GetUnexplored() ? "UN" : "", m_hasCustomBodies ? ", CUSTOM-ONLY" : m_isCustom ? ", CUSTOM" : "");
 		fprintf(file, "%s\tfaction %s%s%s\n", indent, m_faction ? "\"" : "NONE", m_faction ? m_faction->name.c_str() : "", m_faction ? "\"" : "");
 		fprintf(file, "%s\tseed %u\n", indent, static_cast<Uint32>(m_seed));
 		fprintf(file, "%s\t%u stars%s\n", indent, m_numStars, m_numStars > 0 ? " {" : "");
@@ -968,7 +1031,7 @@ void StarSystem::Dump(FILE* file, const char* indent, bool suppressSectorData) c
 			fprintf(file, "%s\t\t%s\n", indent, EnumStrings::GetString("BodyType", m_stars[i]->GetType()));
 		if (m_numStars > 0) fprintf(file, "%s\t}\n", indent);
 	}
-	fprintf(file, "%s\t%zu bodies, %zu spaceports \n", indent, m_bodies.size(), m_spaceStations.size());
+	fprintf(file, "%s\t" SIZET_FMT " bodies, " SIZET_FMT " spaceports \n", indent, m_bodies.size(), m_spaceStations.size());
 	fprintf(file, "%s\tpopulation %.0f\n", indent, m_totalPop.ToDouble() * 1e9);
 	fprintf(file, "%s\tgovernment %s/%s, lawlessness %.2f\n", indent, m_polit.GetGovernmentDesc(), m_polit.GetEconomicDesc(),
 		m_polit.lawlessness.ToDouble() * 100.0);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 // A deterministic random number generator for use by the rest of the
@@ -209,6 +209,19 @@ public:
 		}
 
 		return  mean + z0 * stddev;
+	}
+
+	int Poisson(double lambda)
+	{
+		int k = 0;
+		double p = Double();
+		const double target = exp(-lambda);
+		while (p > target)
+		{
+			k += 1;
+			p *= Double();
+		}
+		return k;
 	}
 
 	// Pick a fixed-point integer half open interval [0,1)

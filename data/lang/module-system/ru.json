@@ -1,4 +1,28 @@
 {
+   "BASE" : {
+      "description" : "",
+      "message" : "база"
+   },
+   "BASES" : {
+      "description" : "",
+      "message" : "базы"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "объектами"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "объектом"
+   },
+   "DISCOVERED_HIDDEN_BASES" : {
+      "description" : "",
+      "message" : "Вы обнаружили скрытые {bases}, в количестве {portcount}!"
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : "Исследуется система с {bodycount} крупным(и) {bodies}."
+   },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
       "message" : "Ваш топливный бак почти пуст."

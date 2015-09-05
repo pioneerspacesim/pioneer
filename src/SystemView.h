@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SYSTEMVIEW_H
@@ -13,6 +13,7 @@ class StarSystem;
 class SystemBody;
 class Orbit;
 class Ship;
+class Game;
 
 enum BurnDirection {
 	PROGRADE,
@@ -29,11 +30,18 @@ enum ShipDrawing {
 class TransferPlanner {
 public:
 	TransferPlanner();
-	vector3d GetVel();
-	vector3d GetOffsetVel();
+	vector3d GetVel() const;
+	vector3d GetOffsetVel() const;
+	vector3d GetPosition() const;
+	double GetStartTime() const;
+	void SetPosition(const vector3d& position);
 	void IncreaseFactor(), ResetFactor(), DecreaseFactor();
+	void AddStartTime(double timeStep);
+	void ResetStartTime();
 	void AddDv(BurnDirection d, double dv);
 	void ResetDv(BurnDirection d);
+	void ResetDv();
+	std::string printDeltaTime();
 	std::string printDv(BurnDirection d);
 	std::string printFactor();
 private:
@@ -42,11 +50,14 @@ private:
 	double m_dvRadial;
 	double m_factor;       // dv multiplier
 	const double m_factorFactor = 5.0; // m_factor multiplier
+	vector3d m_position;
+	vector3d m_velocity;
+	double m_startTime;
 };
 
 class SystemView: public UIView {
 public:
-	SystemView();
+	SystemView(Game* game);
 	virtual ~SystemView();
 	virtual void Update();
 	virtual void Draw3D();
@@ -62,6 +73,7 @@ private:
 	void OnClickAccel(float step);
 	void OnClickRealt();
 	void OnIncreaseFactorButtonClick(void), OnResetFactorButtonClick(void), OnDecreaseFactorButtonClick(void);
+	void OnIncreaseStartTimeButtonClick(void), OnResetStartTimeButtonClick(void), OnDecreaseStartTimeButtonClick(void);
 	void OnToggleShipsButtonClick(void);
 	void ResetViewpoint();
 	void MouseWheel(bool up);
@@ -70,8 +82,10 @@ private:
 	void LabelShip(Ship *s, const vector3d &offset);
 	void OnClickShip(Ship *s);
 
+	Game* m_game;
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
+	bool m_unexplored;
 	TransferPlanner *m_planner;
 	std::list<std::pair<Ship*, Orbit>> m_contacts;
 	Gui::LabelSet *m_shipLabels;
@@ -84,6 +98,7 @@ private:
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_toggleShipsButton;
+	Gui::ImageButton *m_plannerIncreaseStartTimeButton, *m_plannerResetStartTimeButton, *m_plannerDecreaseStartTimeButton;
 	Gui::ImageButton *m_plannerIncreaseFactorButton, *m_plannerResetFactorButton, *m_plannerDecreaseFactorButton;
 	Gui::ImageButton *m_plannerAddProgradeVelButton;
 	Gui::ImageButton *m_plannerAddRetrogradeVelButton;
@@ -95,7 +110,7 @@ private:
 	Gui::Label *m_timePoint;
 	Gui::Label *m_infoLabel;
 	Gui::Label *m_infoText;
-	Gui::Label *m_plannerFactorText, *m_plannerProgradeDvText, *m_plannerNormalDvText, *m_plannerRadialDvText;
+	Gui::Label *m_plannerFactorText, *m_plannerStartTimeText, *m_plannerProgradeDvText, *m_plannerNormalDvText, *m_plannerRadialDvText;
 	Gui::LabelSet *m_objectLabels;
 	sigc::connection m_onMouseWheelCon;
 
@@ -103,6 +118,8 @@ private:
 	std::unique_ptr<Gui::TexturedQuad> m_periapsisIcon;
 	std::unique_ptr<Gui::TexturedQuad> m_apoapsisIcon;
 	Graphics::RenderState *m_lineState;
+	Graphics::Drawables::Lines m_orbits;
+	Graphics::Drawables::Lines m_selectBox;
 };
 
 #endif /* _SYSTEMVIEW_H */

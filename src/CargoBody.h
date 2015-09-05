@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CARGOBODY_H
@@ -13,7 +13,7 @@ namespace Graphics { class Renderer; }
 class CargoBody: public DynamicBody {
 public:
 	OBJDEF(CargoBody, DynamicBody, CARGOBODY);
-	CargoBody(const LuaRef& cargo, size_t selfdestructTimer=86400); // default to 24 h lifetime
+	CargoBody(const LuaRef& cargo, float selfdestructTimer=86400.0f); // default to 24 h lifetime
 	CargoBody() {}
 	LuaRef GetCargoType() const { return m_cargo; }
 	virtual void SetLabel(const std::string &label);
@@ -22,8 +22,8 @@ public:
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 private:
 	void Init();
 	LuaRef m_cargo;

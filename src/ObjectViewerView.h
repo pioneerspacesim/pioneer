@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OBJECTVIEWERVIEW_H
@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "gui/Gui.h"
 #include "UIView.h"
+#include "Camera.h"
 
 #if WITH_OBJECTVIEWER
 
@@ -25,6 +26,9 @@ private:
 	Gui::VBox *m_vbox;
 	const Body* lastTarget;
 	matrix4x4d m_camRot;
+
+	RefCountedPtr<CameraContext> m_cameraContext;
+	std::unique_ptr<Camera> m_camera;
 
 	Gui::TextEntry *m_sbodyMass;
 	Gui::TextEntry *m_sbodyRadius;

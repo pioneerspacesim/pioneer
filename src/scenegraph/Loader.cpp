@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Loader.h"
@@ -297,6 +297,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 
 	// Run CollisionVisitor to create the initial CM and its GeomTree.
 	// If no collision mesh is defined, a simple bounding box will be generated
+	Output("CreateCollisionMesh for : (%s)\n", m_model->m_name.c_str());
 	m_model->CreateCollisionMesh();
 
 	// Do an initial animation update to get all the animation transforms correct
@@ -793,11 +794,11 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 			CreateLabel(parent, m);
 		} else if (starts_with(nodename, "tag_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, accum*m));
-		} else if (starts_with(nodename, "docking_")) {
+		} else if (starts_with(nodename, "entrance_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
-		} else if (starts_with(nodename, "leaving_")) {
+		} else if (starts_with(nodename, "loc_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
-		} else if (starts_with(nodename, "approach_")) {
+		} else if (starts_with(nodename, "exit_")) {
 			m_model->AddTag(nodename, new MatrixTransform(m_renderer, m));
 		}
 		return;

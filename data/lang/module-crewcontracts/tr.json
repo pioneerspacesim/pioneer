@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Geri"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Üzgünüm, daha aşağı inmeyi düşünmüyordum."
@@ -89,7 +85,7 @@
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",
-      "message" : "Gerçekten çok cömertsiniz"
+      "message" : "Gerçekten çok cömertsiniz!"
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",

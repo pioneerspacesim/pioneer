@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef ORBIT_H
@@ -10,6 +10,10 @@
 
 class Orbit {
 public:
+	// utility functions for simple calculations
+	static double OrbitalPeriod(double semiMajorAxis, double centralMass);
+	static double OrbitalPeriodTwoBody(double semiMajorAxis, double totalMass, double bodyMass);
+
 	// note: the resulting Orbit is at the given position at t=0
 	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
 
@@ -32,6 +36,8 @@ public:
 	void SetPhase(double orbitalPhaseAtStart) { m_orbitalPhaseAtStart = orbitalPhaseAtStart; }
 
 	vector3d OrbitalPosAtTime(double t) const;
+	double OrbitalTimeAtPos(const vector3d& pos, double centralMass) const;
+	vector3d OrbitalVelocityAtTime(double totalMass, double t) const;
 
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
 	vector3d EvenSpacedPosTrajectory(double t) const;

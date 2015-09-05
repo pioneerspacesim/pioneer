@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "真的要离开这里去做那些无聊的事情吗?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "可以请您选择[留下]再继续浪费几个小时吗?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "探索者从不言弃, 如果你不属于其中一员的话, 尽管选择[离开]吧."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "如果你是个坚强的赏金猎人, 那就选择[留下], 如果不是那就优雅地[离开]吧."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "We never talk anymore. Are you seeing someone else?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "真的有更好的事情要去做吗?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "已经放弃了吗?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Just what do you think you're doing, Dave?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "Quitting is for WIMPs!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "现在别走, 外面有好多海盗等着你呢."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "确定要退出这个好玩又不花你一分钱的游戏吗?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "就这么匆匆忙忙地走了吗?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "想要战争和荣耀就[留下], 想要工作和烦恼就[离开]."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "勇敢地[留下]或是怯懦地[离开]."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "如果我是你我就不会这么做, 回去敲代码比玩游戏惨多了."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "你会选择[留下]然后继续玩. 照着做吧."
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "选择[离开]意味着你就得回到乏味的工作中去了."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "留下"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "要退出游戏吗?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "离开"
+   }
+}

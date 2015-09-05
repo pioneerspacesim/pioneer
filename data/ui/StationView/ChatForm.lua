@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -21,12 +21,13 @@ ChatForm.meta = {
 	class = "ChatForm",
 }
 
-function ChatForm.New (chatFunc, removeFunc, ref, tabGroup)
+function ChatForm.New (chatFunc, removeFunc, closeFunc, ref, tabGroup)
 	local form = {
 		chatFunc = chatFunc,
 		removeFunc = removeFunc,
+		closeFunc = closeFunc,
 		ref = ref,
-        tabGroup = tabGroup,
+		tabGroup = tabGroup,
 	}
 	setmetatable(form, ChatForm.meta)
 	form.chatFunc(form, 0)
@@ -48,7 +49,7 @@ function ChatForm:BuildWidget ()
 	box:PackEnd(hbox)
 
 	if self.message then
-		box:PackEnd(ui:Scroller(ui:MultiLineText(self.message)))
+		box:PackEnd(ui:Margin(20, "BOTTOM", ui:Scroller(ui:MultiLineText(self.message))))
 	end
 
 	if self.options or self.equipWidgetConfig then
@@ -97,7 +98,7 @@ function ChatForm:BuildWidget ()
 	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
 	hangupButton.button.onClick:Connect(function () self:Close() end)
 
-	return
+	local parent =
 		ui:ColorBackground(0,0,0,0.5,
 			ui:Grid({10,40,10},{6,30,12}):SetCell(1,1,
 				ui:Background(
@@ -106,6 +107,14 @@ function ChatForm:BuildWidget ()
 				)
 			)
 		)
+
+	parent.onVisibilityChanged:Connect(function (visible)
+		if (not visible) then
+			self:OnClosed()
+		end
+	end)
+
+	return parent
 end
 
 function ChatForm:SetTitle (title)
@@ -165,7 +174,7 @@ function ChatForm:Close ()
 end
 
 function ChatForm:GotoPolice ()
-    self:Close()
+	self:Close()
 	self.tabGroup:SwitchTo("police")
 end
 
@@ -175,6 +184,10 @@ function ChatForm:RemoveAdvertOnClose()
 	if self.removeFunc then
 		self.removeFunc()
 	end
+end
+
+function ChatForm:OnClosed()
+	self.closeFunc()
 end
 
 return ChatForm

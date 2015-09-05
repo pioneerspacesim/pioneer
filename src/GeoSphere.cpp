@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -27,6 +27,8 @@ static const int detail_edgeLen[5] = {
 	7, 15, 25, 35, 55
 };
 
+static const double gs_targetPatchTriLength(100.0);
+
 #define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
 
 static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
@@ -43,7 +45,7 @@ static std::vector<GeoSphere*> s_allGeospheres;
 void GeoSphere::Init()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 }
 
 void GeoSphere::Uninit()
@@ -76,7 +78,7 @@ void GeoSphere::UpdateAllGeoSpheres()
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->edgeLen <= GEOPATCH_MAX_EDGELEN);
+	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 
 	// reinit the geosphere terrain data
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
@@ -173,17 +175,21 @@ void GeoSphere::Reset()
 		}
 	}
 
+	CalculateMaxPatchDepth();
+
 	m_initStage = eBuildFirstPatches;
 }
 
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
 
 	s_allGeospheres.push_back(this);
+
+	CalculateMaxPatchDepth();
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 }
@@ -278,6 +284,8 @@ void GeoSphere::BuildFirstPatches()
 	if(m_patches[0])
 		return;
 
+	CalculateMaxPatchDepth();
+
 	// generate root face patches of the cube/sphere
 	static const vector3d p1 = (vector3d( 1, 1, 1)).Normalized();
 	static const vector3d p2 = (vector3d(-1, 1, 1)).Normalized();
@@ -298,7 +306,7 @@ void GeoSphere::BuildFirstPatches()
 	m_patches[5].reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5ULL << maxShiftDepth)));
 	for (int i=0; i<NUM_PATCHES; i++) {
 		for (int j=0; j<4; j++) {
-			m_patches[i]->edgeFriend[j] = m_patches[geo_sphere_edge_friends[i][j]].get();
+			m_patches[i]->SetEdgeFriend(j, m_patches[geo_sphere_edge_friends[i][j]].get());
 		}
 	}
 
@@ -307,6 +315,18 @@ void GeoSphere::BuildFirstPatches()
 	}
 
 	m_initStage = eRequestedFirstPatches;
+}
+
+void GeoSphere::CalculateMaxPatchDepth()
+{
+	const double circumference = 2.0 * M_PI * m_sbody->GetRadius();
+	// calculate length of each edge segment (quad) times 4 due to that being the number around the sphere (1 per side, 4 sides for Root).
+	double edgeMetres = circumference / double(s_patchContext->GetEdgeLen() * 8);
+	// find out what depth we reach the desired resolution
+	while (edgeMetres>gs_targetPatchTriLength && m_maxDepth<GEOPATCH_MAX_DEPTH) {
+		edgeMetres *= 0.5;
+		++m_maxDepth;
+	}
 }
 
 void GeoSphere::Update()
@@ -321,7 +341,7 @@ void GeoSphere::Update()
 			ProcessSplitResults();
 			uint8_t numValidPatches = 0;
 			for (int i=0; i<NUM_PATCHES; i++) {
-				if(m_patches[i]->heights) {
+				if(m_patches[i]->HasHeightData()) {
 					++numValidPatches;
 				}
 			}
@@ -330,7 +350,7 @@ void GeoSphere::Update()
 	case eReceivedFirstPatches:
 		{
 			for (int i=0; i<NUM_PATCHES; i++) {
-				m_patches[i]->UpdateVBOs();
+				m_patches[i]->NeedToUpdateVBOs();
 			}
 			m_initStage = eDefaultUpdateState;
 		} break;
@@ -340,12 +360,36 @@ void GeoSphere::Update()
 			for (int i=0; i<NUM_PATCHES; i++) {
 				m_patches[i]->LODUpdate(m_tempCampos);
 			}
+			ProcessQuadSplitRequests();
 		}
 		break;
 	}
 }
 
-void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
+void GeoSphere::AddQuadSplitRequest(double dist, SQuadSplitRequest *pReq, GeoPatch *pPatch)
+{
+	mQuadSplitRequests.push_back(TDistanceRequest(dist, pReq, pPatch));
+}
+
+void GeoSphere::ProcessQuadSplitRequests()
+{
+	class RequestDistanceSort {
+	public:
+		bool operator()(const TDistanceRequest &a, const TDistanceRequest &b)
+		{
+			return a.mDistance < b.mDistance;
+		}
+	};
+	std::sort(mQuadSplitRequests.begin(), mQuadSplitRequests.end(), RequestDistanceSort());
+
+	for(auto iter : mQuadSplitRequests) {
+		SQuadSplitRequest *ssrd = iter.mpRequest;
+		iter.mpRequester->ReceiveJobHandle(Pi::GetAsyncJobQueue()->Queue(new QuadPatchJob(ssrd)));
+	}
+	mQuadSplitRequests.clear();
+}
+
+void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
 {
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
@@ -376,9 +420,10 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
 		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
-		m_materialParameters.atmosphere.scale = scale;
 
 		m_materialParameters.shadows = shadows;
+
+		m_materialParameters.maxPatchDepth = GetMaxDepth();
 
 		m_surfaceMaterial->specialParameter0 = &m_materialParameters;
 
@@ -404,9 +449,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		// stars should emit light and terrain should be visible from distance
 		ambient.r = ambient.g = ambient.b = 51;
 		ambient.a = 255;
-		emission.r = StarSystem::starRealColors[GetSystemBody()->GetType()][0];
-		emission.g = StarSystem::starRealColors[GetSystemBody()->GetType()][1];
-		emission.b = StarSystem::starRealColors[GetSystemBody()->GetType()][2];
+		emission = StarSystem::starRealColors[GetSystemBody()->GetType()];
 		emission.a = 255;
 	}
 
@@ -430,8 +473,10 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	}
 
 	renderer->SetAmbientColor(oldAmbient);
+
+	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PLANETS, 1);
 }
-#pragma optimize("",off)
+
 void GeoSphere::SetUpMaterials()
 {
 	//solid
@@ -481,8 +526,8 @@ void GeoSphere::SetUpMaterials()
 	}
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 
-	m_texHi.Reset( Graphics::TextureBuilder::UI("textures/high.png").GetOrCreateTexture(Pi::renderer, "model") );
-	m_texLo.Reset( Graphics::TextureBuilder::Model("textures/low.png").GetOrCreateTexture(Pi::renderer, "model") );
+	m_texHi.Reset( Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model") );
+	m_texLo.Reset( Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model") );
 	m_surfaceMaterial->texture0 = m_texHi.Get();
 	m_surfaceMaterial->texture1 = m_texLo.Get();
 

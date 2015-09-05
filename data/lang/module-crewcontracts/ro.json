@@ -1,47 +1,43 @@
 {
    "ASK_CANDIDATE_TO_SIT_A_TEST" : {
       "description" : "",
-      "message" : "Ask candidate to sit a test"
+      "message" : "Cere candidatului să facă un test"
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Name: {name}\nExperience: {experience}\nAsking wage: {wage} per week\n\n{response}\n"
+      "message" : "Nume: {name}\nExperiență: {experience}\nSalariu cerut: {wage} per săptămână\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
-      "message" : "{potentialCrewMember} ({wage}/wk)"
+      "message" : "{potentialCrewMember} ({wage}/săpt)"
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Examination results:\n\nGeneral crew competence: {general}%\nEngineering and repair: {engineering}%\nPiloting and spaceflight: {piloting}%\nNavigation and plotting: {navigation}%\nSensors and defence: {sensors}%\nOverall exam score: {overall}%"
+      "message" : "Rezultate examinare:\n\nCompetențe generale echipaj: {general}%\nInginerie și reparații: {engineering}%\nPilotaj și zbor cosmic: {piloting}%\nNavigare și cartografiere: {navigation}%\nSenzori și apărare: {sensors}%\nScor general examen: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "Crew for hire"
+      "message" : "Echipaj de angajat"
    },
    "GO_BACK" : {
       "description" : "",
       "message" : "Înapoi"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Închide."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
-      "message" : "I'm sorry, I'm not prepared to go any lower."
+      "message" : "Îmi pare rău, nu sunt pregătit să las mai puțin."
    },
    "IM_SORRY_YOUR_OFFER_ISNT_ATTRACTIVE_TO_ME" : {
       "description" : "",
-      "message" : "I'm sorry, your offer isn't attractive to me."
+      "message" : "Îmi pare rău, oferta dvs. nu mă atrage."
    },
    "MAKE_OFFER_OF_POSITION_ON_SHIP_FOR_STATED_AMOUNT" : {
       "description" : "",
-      "message" : "Make offer of position on ship for stated amount"
+      "message" : "Fă o ofertă de poziție pe navă pentru suma oferită"
    },
    "MINIMAL_TIME_SERVED_ABOARD_SHIP" : {
       "description" : "",
-      "message" : "Minimal time served aboard ship"
+      "message" : "Timp minim servit pe navă"
    },
    "NAVIGATOR" : {
       "description" : "",
@@ -49,11 +45,11 @@
    },
    "NO_EXPERIENCE" : {
       "description" : "",
-      "message" : "No experience"
+      "message" : "Fără experiență"
    },
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
-      "message" : "OK, I suppose that's all right."
+      "message" : "OK, bănuiesc că e în regulă."
    },
    "PILOT" : {
       "description" : "",
@@ -61,50 +57,50 @@
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
-      "message" : "Potential crew members are registered as seeking employment at {station}:"
+      "message" : "Potențialii membrii de echipaj sunt înregistrați ca și forță de muncă la {station}:"
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
-      "message" : "Sensors and defence"
+      "message" : "Senzori și apărare"
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "Ship's Engineer"
+      "message" : "Inginer de Navă"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
-      "message" : "Simulator training only"
+      "message" : "Antrenament doar cu simulatorul"
    },
    "SOME_EXPERIENCE_IN_CONTROLLED_ENVIRONMENTS" : {
       "description" : "",
-      "message" : "Some experience in controlled environments"
+      "message" : "Ceva experiență în medii controlate"
    },
    "SUGGEST_NEW_WEEKLY_WAGE_OF_N" : {
       "description" : "",
-      "message" : "Suggest new weekly wage of {newAmount}"
+      "message" : "Sugerează un venit nou săptămânal de {newAmount}"
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
-      "message" : "Thanks, I'll get settled on board immediately."
+      "message" : "Mulțumesc, o să mă stabilesc la bord imediat."
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",
-      "message" : "That's extremely generous of you!"
+      "message" : "Sunteți foarte generos!"
    },
    "THAT_CERTAINLY_MAKES_THIS_OFFER_LOOK_BETTER" : {
       "description" : "",
-      "message" : "That certainly makes this offer look better!"
+      "message" : "Asta face oferta cu siguranță să arate mai bine!"
    },
    "THERE_DOESNT_SEEM_TO_BE_SPACE_FOR_ME_ON_BOARD" : {
       "description" : "",
-      "message" : "There doesn't seem to be space for me on board!"
+      "message" : "Pare că nu există cabină liberă pentru mine la bord!"
    },
    "TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Time served crew member"
+      "message" : "Membru de echipaj cu experiență"
    },
    "VETERAN_TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Veteran, time served crew member"
+      "message" : "Membru de echipaj veteran"
    }
 }

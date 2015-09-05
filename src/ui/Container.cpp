@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Container.h"
@@ -95,10 +95,9 @@ void Container::Enable()
 
 void Container::NotifyVisible(bool visible)
 {
-	if (m_visible != visible) {
-		m_visible = visible;
-		if (m_visible) { HandleVisible(); } else { HandleInvisible(); }
-
+	const bool wasVisible = IsVisible();
+	Widget::NotifyVisible(visible);
+	if (wasVisible != visible) {
 		for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i) {
 			Widget *w = (*i).Get();
 			w->NotifyVisible(visible);

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GUIMETERBAR_H
@@ -24,6 +24,8 @@ namespace Gui {
 		Gui::Label *m_label;
 		::Color m_barColor;
 		float m_barValue;
+		std::unique_ptr<Graphics::Drawables::RoundEdgedRect> m_outer;
+		std::unique_ptr<Graphics::Drawables::RoundEdgedRect> m_inner;
 	};
 }
 

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -208,7 +208,7 @@ public:
 		indices.reset();
 	}
 
-	int getIndices(std::vector<unsigned short> &pl)
+	int GetIndices(std::vector<unsigned short> &pl)
 	{
 		// calculate how many tri's there are
 		const int tri_count = IDX_VBO_COUNT_ALL_IDX()/3;
@@ -250,7 +250,7 @@ public:
 
 		// populate the N indices lists from the arrays built during InitTerrainIndices()
 		// iterate over each index list and optimize it
-		unsigned int tri_count = getIndices(pl_short);
+		unsigned int tri_count = GetIndices(pl_short);
 		VertexCacheOptimizerUShort vco;
 		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[0], tri_count);
 		assert(0 == res);
@@ -340,8 +340,10 @@ public:
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
+		++Pi::statNumPatches;
 
 		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indexBuffer.Get(), rs, mat);
+		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
 	}
 };
 
@@ -545,7 +547,7 @@ void GasGiant::Update()
 	}
 }
 
-void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const float scale, const std::vector<Camera::Shadow> &shadows)
+void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
 {
 	if( !m_surfaceTexture.Valid() )
 	{
@@ -582,7 +584,6 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 		m_materialParameters.atmosphere = GetSystemBody()->CalcAtmosphereParams();
 		m_materialParameters.atmosphere.center = trans * vector3d(0.0, 0.0, 0.0);
 		m_materialParameters.atmosphere.planetRadius = radius;
-		m_materialParameters.atmosphere.scale = scale;
 
 		m_materialParameters.shadows = shadows;
 
@@ -625,6 +626,8 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 	m_surfaceMaterial->Unapply();
 
 	renderer->SetAmbientColor(oldAmbient);
+
+	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_GASGIANTS, 1);
 }
 
 void GasGiant::SetUpMaterials()

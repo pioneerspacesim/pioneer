@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GRAPHICS_H
@@ -13,11 +13,15 @@
  */
 namespace Graphics {
 
-	class Renderer;
-	class Material;
+	enum RendererType {
+		RENDERER_DUMMY,
+		RENDERER_OPENGL,
+		MAX_RENDERER_TYPE
+	};
 
 	// requested video settings
 	struct Settings {
+		RendererType rendererType;
 		bool fullscreen;
 		bool hidden;
 		bool useTextureCompression;
@@ -30,6 +34,12 @@ namespace Graphics {
 		const char *title;
 	};
 
+	class Renderer;
+	class WindowSDL;
+
+	typedef Renderer* (*RendererCreateFunc)(WindowSDL *window, const Settings &vs);
+	void RegisterRenderer(RendererType type, RendererCreateFunc fn);
+
 	//for querying available modes
 	struct VideoMode {
 		VideoMode(int w, int h)
@@ -39,6 +49,7 @@ namespace Graphics {
 		int height;
 	};
 
+	class Material;
 	extern Material *vtxColorMaterial;
 
 	int GetScreenWidth();
@@ -52,6 +63,14 @@ namespace Graphics {
 	Renderer* Init(Settings);
 	void Uninit();
 	std::vector<VideoMode> GetAvailableVideoModes();
+
+	struct ScreendumpState {
+		std::unique_ptr<Uint8[]> pixels;
+		Uint32 width;
+		Uint32 height;
+		Uint32 stride;
+		Uint32 bpp;
+	};
 }
 
 #endif /* _RENDER_H */

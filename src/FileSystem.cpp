@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -9,8 +9,6 @@
 #include <algorithm>
 #include <iterator>
 #include <stdexcept>
-
-#undef FT_FILE // XXX FileInfo::FT_FILE is conflicting with a FreeType def; undefine it for now
 
 namespace FileSystem {
 
@@ -131,9 +129,10 @@ namespace FileSystem {
 	{
 	}
 
-	FileInfo::FileInfo(FileSource *source, const std::string &path, FileType type):
+	FileInfo::FileInfo(FileSource *source, const std::string &path, FileType type, Time::DateTime modTime):
 		m_source(source),
 		m_path(path),
+		m_modTime(modTime),
 		m_dirLen(0),
 		m_type(type)
 	{
@@ -146,9 +145,14 @@ namespace FileSystem {
 		}
 	}
 
+	FileInfo FileSource::MakeFileInfo(const std::string &path, FileInfo::FileType fileType, Time::DateTime modTime)
+	{
+		return FileInfo(this, path, fileType, modTime);
+	}
+
 	FileInfo FileSource::MakeFileInfo(const std::string &path, FileInfo::FileType fileType)
 	{
-		return FileInfo(this, path, fileType);
+		return MakeFileInfo(path, fileType, Time::DateTime());
 	}
 
 	FileSourceUnion::FileSourceUnion(): FileSource(":union:") {}

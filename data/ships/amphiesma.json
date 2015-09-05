@@ -1,0 +1,30 @@
+{
+   "angular_thrust" : 4000000.0,
+   "capacity" : 38,
+   "cockpit" : "",
+   "down_thrust" : 500000.0,
+   "effective_exhaust_velocity" : 28600000.0,
+   "forward_thrust" : 4000000.0,
+   "fuel_tank_mass" : 24,
+   "hull_mass" : 18,
+   "hyperdrive_class" : 1,
+   "left_thrust" : 500000.0,
+   "manufacturer" : "opli",
+   "max_crew" : 2,
+   "min_crew" : 1,
+   "model" : "amphiesma",
+   "name" : "Amphiesma",
+   "price" : 168000.0,
+   "reverse_thrust" : 1000000.0,
+   "right_thrust" : 500000.0,
+   "ship_class" : "medium_courier",
+   "slots" : {
+      "cargo" : 38,
+      "scoop" : 2,
+      "laser_front" : 1,
+      "missile" : 4,
+      "sensor"  : 8
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 1000000.0
+}

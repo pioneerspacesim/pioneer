@@ -1,0 +1,31 @@
+{
+   "angular_thrust" : 8600000.0,
+   "capacity" : 30,
+   "cockpit" : "",
+   "down_thrust" : 600000.0,
+   "effective_exhaust_velocity" : 8840000.0,
+   "forward_thrust" : 2500000.0,
+   "fuel_tank_mass" : 25,
+   "hull_mass" : 30,
+   "hyperdrive_class" : 0,
+   "left_thrust" : 600000.0,
+   "manufacturer" : "haber",
+   "max_crew" : 4,
+   "min_crew" : 1,
+   "model" : "lunarshuttle",
+   "name" : "Lunar Shuttle",
+   "price" : 101000.0,
+   "reverse_thrust" : 1100000.0,
+   "right_thrust" : 600000.0,
+   "ship_class" : "light_passenger_shuttle",
+   "slots" : {
+      "cargo" : 30,
+      "scoop" : 1,
+      "engine" : 0,
+      "laser_front" : 1,
+      "missile" : 0,
+      "sensor"  : 0
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 1100000.0
+}

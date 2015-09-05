@@ -1,0 +1,70 @@
+{
+   "APPLY_FOR_MEMBERSHIP" : {
+      "description" : "",
+      "message" : "申请会员资格"
+   },
+   "BEGIN_TRADE" : {
+      "description" : "",
+      "message" : "开始贸易"
+   },
+   "FLAVOUR_0_CLUBNAME" : {
+      "description" : "",
+      "message" : "星际飞行员燃料合作社"
+   },
+   "FLAVOUR_0_MEMBER_INTRO" : {
+      "description" : "",
+      "message" : "你可以在这里采购燃料和处理 {radioactives}."
+   },
+   "FLAVOUR_0_NONMEMBER_INTRO" : {
+      "description" : "",
+      "message" : "{clubname} 是一个独立的组织,致力于向其成员提供价格便宜的星际飞船的燃料.分支机构遍布整个银河系.会员的好处包括:"
+   },
+   "FLAVOUR_0_WELCOME" : {
+      "description" : "",
+      "message" : "欢迎来到 {clubname}"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "返回"
+   },
+   "LIST_BENEFITS_DISPOSAL" : {
+      "description" : "",
+      "message" : "{radioactives}, 免费处理 (某些条件下适用)"
+   },
+   "LIST_BENEFITS_FUEL" : {
+      "description" : "",
+      "message" : "打折的 {fuel} 燃料."
+   },
+   "LIST_BENEFITS_FUEL_INTRO" : {
+      "description" : "",
+      "message" : "我们有自己的燃料库存, 跟市面上的库存是独立的."
+   },
+   "LIST_BENEFITS_FUEL_TANK" : {
+      "description" : "",
+      "message" : "在必要时加满燃料."
+   },
+   "LIST_BENEFITS_JOIN" : {
+      "description" : "",
+      "message" : "现在就加入吧! 年度会员费只要 {membership_fee}"
+   },
+   "WE_WILL_ONLY_DISPOSE_OF" : {
+      "description" : "",
+      "message" : "如果您在我们这儿购买 {military_fuel}, 我们就可以免费帮您处理一些 {radioactives}."
+   },
+   "WHAT_CONDITIONS_APPLY" : {
+      "description" : "",
+      "message" : "处置 {radioactives} 需要什么条件?"
+   },
+   "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
+      "description" : "",
+      "message" : "您的会员申请已被拒绝."
+   },
+   "YOU_ARE_NOW_A_MEMBER" : {
+      "description" : "",
+      "message" : "您已经成为了我们的会员. 您的会员资格将在 {expiry_date} 到期."
+   },
+   "YOU_MUST_BUY" : {
+      "description" : "",
+      "message" : "在我们处理 {radioactives}前, 你必须先购买我们的 {military_fuel} ."
+   }
+}

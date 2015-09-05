@@ -1,8 +1,9 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Node.h"
 #include "NodeVisitor.h"
+#include "graphics/Drawables.h"
 #include "graphics/Renderer.h"
 
 namespace SceneGraph {
@@ -54,26 +55,8 @@ Node* Node::FindNode(const std::string &name)
 
 void Node::DrawAxes()
 {
-	//Draw plain XYZ axes using the current transform
-	const vector3f vtsXYZ[] = {
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(1.f, 0.f, 0.f),
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(0.f, 1.f, 0.f),
-		vector3f(0.f, 0.f, 0.f),
-		vector3f(0.f, 0.f, 1.f),
-	};
-	const Color colors[] = {
-		Color::RED,
-		Color::RED,
-		Color::BLUE,
-		Color::BLUE,
-		Color::GREEN,
-		Color::GREEN,
-	};
-
-	Graphics::RenderStateDesc rsd;
-	m_renderer->DrawLines(6, vtsXYZ, colors, m_renderer->CreateRenderState(rsd));
+	Graphics::Drawables::Axes3D *axes = Graphics::Drawables::GetAxes3DDrawable(m_renderer);
+	axes->Draw(m_renderer);
 }
 
 void Node::Save(NodeDatabase &db)

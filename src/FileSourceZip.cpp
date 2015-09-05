@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FileSourceZip.h"
@@ -10,8 +10,6 @@
 extern "C" {
 #include "miniz/miniz.h"
 }
-
-#undef FT_FILE // TODO FileInfo::FT_FILE is conflicting with a FreeType def; undefine it for now
 
 namespace FileSystem {
 

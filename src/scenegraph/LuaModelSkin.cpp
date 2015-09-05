@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelSkin.h"
@@ -93,6 +93,41 @@ public:
 
 }
 
+static std::string _modelskin_serializer(LuaWrappable *o)
+{
+	static char buf[256];
+
+	SceneGraph::ModelSkin *skin = static_cast<SceneGraph::ModelSkin*>(o);
+
+	Serializer::Writer wr;
+	skin->Save(wr);
+	const std::string &ser = wr.GetData();
+	snprintf(buf, sizeof(buf), SIZET_FMT "\n", ser.size());
+
+	return std::string(buf) + ser;
+}
+
+static bool _modelskin_deserializer(const char *pos, const char **next)
+{
+	const char *end;
+
+	Uint32 serlen = strtoul(pos, const_cast<char**>(&end), 0);
+	if (pos == end) return false;
+	pos = end+1; // skip newline
+
+	std::string buf(pos, serlen);
+	const char *bufp = buf.c_str();
+	Serializer::Reader rd(ByteRange(bufp, bufp + buf.size()));
+	SceneGraph::ModelSkin skin;
+	skin.Load(rd);
+
+	LuaObject<SceneGraph::ModelSkin>::PushToLua(skin);
+
+	*next = pos + serlen;
+
+	return true;
+}
+
 using namespace SceneGraph;
 
 template <> const char *LuaObject<SceneGraph::ModelSkin>::s_type = "SceneGraph.ModelSkin";
@@ -111,5 +146,6 @@ template <> void LuaObject<SceneGraph::ModelSkin>::RegisterClass()
 	};
 
 	LuaObjectBase::CreateClass(s_type, 0, l_methods, 0, 0);
+	LuaObjectBase::RegisterSerializer(s_type, SerializerPair(_modelskin_serializer, _modelskin_deserializer));
 }
 

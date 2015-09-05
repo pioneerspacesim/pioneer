@@ -1,0 +1,62 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择要捐给\"漫天飞舞的意大利面条怪教堂\"的金额."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "捐款! 为了向众生传达上帝的旨意,\"漫天飞舞的意大利面条怪教堂\" 需要你的捐赠."
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "愿和平伴你长存, 我的兄弟. 请选择要捐赠给\"自由精神守护者\"的金额."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "捐赠. 自由精神守护者需要您的捐赠来维持我们的修道院."
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择要捐给战争孤儿救济会的金额, 让银河内的所有儿童都免受战争之苦."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "想变得慷慨一点吗? 战争孤儿救济会需要您的帮助."
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择要捐给绿色之眼的金额, 结束我们对宇宙的污染."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "捐赠. '银河反战协会' 需要您的捐赠."
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "请选择要捐赠的金额."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "捐赠! 保护我们的物种! 停止对定居星球的物种的屠杀."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "解放你的飞船! 请选择一个捐献金额. 黑的愉快."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "为了自由! 抵制流氓软件控制你的飞船!"
+   },
+   "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
+      "description" : "",
+      "message" : "谢谢你. 任何金额的捐献都是受欢迎的."
+   },
+   "WOW_THAT_WAS_VERY_GENEROUS" : {
+      "description" : "",
+      "message" : "哇喔! 您真是太慷慨了."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "你没有足够的钱."
+   }
+}

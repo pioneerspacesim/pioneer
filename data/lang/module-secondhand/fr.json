@@ -1,0 +1,74 @@
+{
+   "BUY" : {
+      "description" : "Buy a piece of ship equipment",
+      "message" : "Achat"
+   },
+   "FITTING_IS_INCLUDED_IN_THE_PRICE" : {
+      "description" : "Regarding installing a component on the ship",
+      "message" : "L'installation est incluse dans le prix."
+   },
+   "FLAVOUR_0_BODY" : {
+      "description" : "",
+      "message" : "Salut! Mon nom est {name} et je vends un équipement ({equipment}) provenant de mon vieux tas de ferraille."
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "Selling second hand ship equipment",
+      "message" : "A VENDRE: Offre spéciale, vends équipement ({equipment})."
+   },
+   "FLAVOUR_1_BODY" : {
+      "description" : "",
+      "message" : "Salut! Mon nom est {name}. J'ai un équipement ({equipment}) presque neuf que je vends pour seulement {price}."
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "Selling second hand ship equipment",
+      "message" : "VENDS: équipement ({equipment}) pratiquement pas utilisé à un prix abordable."
+   },
+   "FLAVOUR_2_BODY" : {
+      "description" : "",
+      "message" : "Salutations! Je suis {name} et j'ai un équipement ({equipment}) qui est très bon et qui peut être vôtre pour seulement {price}."
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "Selling second hand ship equipment",
+      "message" : "VENDS: {equipment} à un prix raisonnable !"
+   },
+   "FLAVOUR_3_BODY" : {
+      "description" : "",
+      "message" : "Bonjour! J'ai un équipement ({equipment}) en trop dont j'ai besoin de me débarrasser, mon prix est de {price}."
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "Selling second hand ship equipment",
+      "message" : "A VENDRE: {equipment}, en bon état."
+   },
+   "FLAVOUR_4_BODY" : {
+      "description" : "",
+      "message" : "Salut! Nous avons un équipement ({equipment}) en trop qui pourrait être le vôtre pour {price}."
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "Selling second hand ship equipment",
+      "message" : "A VENDRE: {equipment} en bon état."
+   },
+   "FLAVOUR_5_BODY" : {
+      "description" : "",
+      "message" : "Salutations! Voulez-vous acheter mon vieil équipement ({equipment})? Il m'a bien servi, mais j'ai maintenant le modèle supérieur et je n'en ait donc plus l'utilité. Son prix est de {price}."
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "Selling second hand ship equipment",
+      "message" : "A VENDRE: Vieil équipement ({equipment}), en état de marche."
+   },
+   "HAS_BEEN_FITTED_TO_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "L'équipment ({equipment}) a été installé sur votre vaisseau."
+   },
+   "HOW_DO_I_FITT_IT" : {
+      "description" : "Regarding installing a component on the ship",
+      "message" : "Comment je l'installe ?"
+   },
+   "REPEAT_OFFER" : {
+      "description" : "",
+      "message" : "Répéter l'offre"
+   },
+   "YOU_DONT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "Vous n'avez pas assez d'argent."
+   }
+}

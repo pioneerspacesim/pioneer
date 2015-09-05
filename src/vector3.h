@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VECTOR3_H
@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "FloatComparison.h"
+#include "vector2.h"
 
 // Need this pragma due to operator[] implementation.
 #pragma pack(4)
@@ -24,6 +25,7 @@ public:
 	// only float and double versions are possible.
 	vector3();
 	vector3(const vector3<T> &v);
+	vector3(const vector2f &v, T t);
 	explicit vector3(const T  vals[3]);
 	explicit vector3(T val);
 	vector3(T _x, T _y, T _z);
@@ -45,6 +47,9 @@ public:
 	vector3 operator-(const vector3 &a) const { return vector3(x-a.x, y-a.y, z-a.z); }
 	vector3 operator-() const { return vector3(-x, -y, -z); }
 
+	bool operator==(const vector3 &a) const { 
+		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
+	}
 	bool ExactlyEqual(const vector3 &a) const {
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
 	}
@@ -123,9 +128,11 @@ public:
 template<> inline vector3<float >::vector3() {}
 template<> inline vector3<double>::vector3() {}
 template<> inline vector3<float >::vector3(const vector3<float > &v): x(v.x), y(v.y), z(v.z) {}
+template<> inline vector3<float >::vector3(const vector2f &v, float t): x(v.x), y(v.y), z(t) {}
 template<> inline vector3<float >::vector3(const vector3<double> &v): x(float(v.x)), y(float(v.y)), z(float(v.z)) {}
 template<> inline vector3<double>::vector3(const vector3<float > &v): x(v.x), y(v.y), z(v.z) {}
 template<> inline vector3<double>::vector3(const vector3<double> &v): x(v.x), y(v.y), z(v.z) {}
+template<> inline vector3<double>::vector3(const vector2f &v, double t): x(v.x), y(v.y), z(t) {}
 template<> inline vector3<float >::vector3(float  val): x(val), y(val), z(val) {}
 template<> inline vector3<double>::vector3(double val): x(val), y(val), z(val) {}
 template<> inline vector3<float >::vector3(float  _x, float  _y, float  _z): x(_x), y(_y), z(_z) {}

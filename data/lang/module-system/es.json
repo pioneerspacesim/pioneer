@@ -1,4 +1,28 @@
 {
+   "BASE" : {
+      "description" : "",
+      "message" : "base"
+   },
+   "BASES" : {
+      "description" : "",
+      "message" : "bases"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "Cuerpos"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "cuerpo"
+   },
+   "DISCOVERED_HIDDEN_BASES" : {
+      "description" : "",
+      "message" : "Has descubierto {portcount} {bases} ocultas!"
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : "Explorando sistema con {bodycount} {bodies} mayores."
+   },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
       "message" : "¡ALERTA! El propelente se está agotando."

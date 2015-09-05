@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Win32Setup.h"
@@ -10,9 +10,6 @@
 #include <cassert>
 #include <algorithm>
 #include <cerrno>
-
-// I hate macros. I just hate them. Hate hate hate.
-#undef FT_FILE
 
 #include <windows.h>
 // GetPiUserDir() needs these
@@ -100,12 +97,46 @@ namespace FileSystem {
 		return ty;
 	}
 
+	static Time::DateTime datetime_for_filetime(FILETIME filetime) {
+		Time::DateTime dt;
+
+		SYSTEMTIME systime, localtime;
+		FileTimeToSystemTime(&filetime, &systime);
+		SystemTimeToTzSpecificLocalTime(0, &systime, &localtime);
+
+		dt = Time::DateTime(
+			localtime.wYear, localtime.wMonth, localtime.wDay,
+			localtime.wHour, localtime.wMinute, localtime.wSecond);
+		dt += Time::TimeDelta(localtime.wMilliseconds, Time::Millisecond);
+		return dt;
+	}
+
+	static Time::DateTime file_modtime_for_handle(HANDLE hfile) {
+		assert(hfile != INVALID_HANDLE_VALUE);
+
+		Time::DateTime modtime;
+		FILETIME filetime;
+		if (GetFileTime(hfile, 0, 0, &filetime)) {
+			modtime = datetime_for_filetime(filetime);
+		}
+		return modtime;
+	}
+
 	FileInfo FileSourceFS::Lookup(const std::string &path)
 	{
 		const std::string fullpath = JoinPathBelow(GetRoot(), path);
 		const std::wstring wfullpath = transcode_utf8_to_utf16(fullpath);
 		DWORD attrs = GetFileAttributesW(wfullpath.c_str());
-		return MakeFileInfo(path, file_type_for_attributes(attrs));
+		const FileInfo::FileType ty = file_type_for_attributes(attrs);
+		Time::DateTime modtime;
+		if (ty == FileInfo::FT_FILE || ty == FileInfo::FT_DIR) {
+			HANDLE hfile = CreateFileW(wfullpath.c_str(), GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+			if (hfile != INVALID_HANDLE_VALUE) {
+				modtime = file_modtime_for_handle(hfile);
+				CloseHandle(hfile);
+			}
+		}
+		return MakeFileInfo(path, ty, modtime);
 	}
 
 	RefCountedPtr<FileData> FileSourceFS::ReadFile(const std::string &path)
@@ -116,6 +147,8 @@ namespace FileSystem {
 		if (filehandle == INVALID_HANDLE_VALUE)
 			return RefCountedPtr<FileData>(0);
 		else {
+			const Time::DateTime modtime = file_modtime_for_handle(filehandle);
+
 			LARGE_INTEGER large_size;
 			if (!GetFileSizeEx(filehandle, &large_size)) {
 				Output("failed to get file size for '%s'\n", fullpath.c_str());
@@ -152,7 +185,7 @@ namespace FileSystem {
 
 			CloseHandle(filehandle);
 
-			return RefCountedPtr<FileData>(new FileDataMalloc(MakeFileInfo(path, FileInfo::FT_FILE), size, data));
+			return RefCountedPtr<FileData>(new FileDataMalloc(MakeFileInfo(path, FileInfo::FT_FILE, modtime), size, data));
 		}
 	}
 
@@ -173,8 +206,9 @@ namespace FileSystem {
 		do {
 			std::string fname = transcode_utf16_to_utf8(findinfo.cFileName, wcslen(findinfo.cFileName));
 			if (fname != "." && fname != "..") {
-				FileInfo::FileType ty = file_type_for_attributes(findinfo.dwFileAttributes);
-				output.push_back(MakeFileInfo(JoinPath(dirpath, fname), ty));
+				const FileInfo::FileType ty = file_type_for_attributes(findinfo.dwFileAttributes);
+				const Time::DateTime modtime = datetime_for_filetime(findinfo.ftLastWriteTime);
+				output.push_back(MakeFileInfo(JoinPath(dirpath, fname), ty, modtime));
 			}
 
 			if (! FindNextFileW(dirhandle, &findinfo)) {

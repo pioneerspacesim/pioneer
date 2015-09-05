@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_MODEL_H
@@ -70,9 +70,13 @@
 #include "graphics/Drawables.h"
 #include "Serializer.h"
 #include "DeleteEmitter.h"
+#include "json/json.h"
 #include <stdexcept>
 
-namespace Graphics { class Renderer; }
+namespace Graphics { 
+	class Renderer; 
+	class VertexBuffer;
+}
 
 namespace SceneGraph
 {
@@ -103,13 +107,20 @@ public:
 	const std::string& GetName() const { return m_name; }
 
 	float GetDrawClipRadius() const { return m_boundingRadius; }
+	void SetDrawClipRadius(float clipRadius) { m_boundingRadius = clipRadius; }
+	
 	void Render(const matrix4x4f &trans, const RenderData *rd = 0); //ModelNode can override RD
+	void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd = 0); //ModelNode can override RD
+
 	RefCountedPtr<CollMesh> CreateCollisionMesh();
 	RefCountedPtr<CollMesh> GetCollisionMesh() const { return m_collMesh; }
+	void SetCollisionMesh(RefCountedPtr<CollMesh> collMesh) { m_collMesh.Reset(collMesh.Get()); }
+
 	RefCountedPtr<Group> GetRoot() { return m_root; }
+
 	//materials used in the nodes should be accessible from here for convenience
 	RefCountedPtr<Graphics::Material> GetMaterialByName(const std::string &name) const;
-	RefCountedPtr<Graphics::Material> GetMaterialByIndex(int) const;
+	RefCountedPtr<Graphics::Material> GetMaterialByIndex(const int) const;
 	unsigned int GetNumMaterials() const { return m_materials.size(); }
 
 	unsigned int GetNumTags() const { return m_tags.size(); }
@@ -142,8 +153,8 @@ public:
 	//special for ship model use
 	void SetThrust(const vector3f &linear, const vector3f &angular);
 
-	void Save(Serializer::Writer &wr) const;
-	void Load(Serializer::Reader &rd);
+	void SaveToJson(Json::Value &jsonObj) const;
+	void LoadFromJson(const Json::Value &jsonObj);
 
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;
@@ -181,6 +192,7 @@ private:
 	Graphics::Texture *m_curDecals[MAX_DECAL_MATERIALS];
 
 	// debug support
+	void CreateAabbVB();
 	void DrawAabb();
 	void DrawCollisionMesh();
 	void DrawAxisIndicators(std::vector<Graphics::Drawables::Line3D> &lines);
@@ -189,6 +201,10 @@ private:
 	Uint32 m_debugFlags;
 	std::vector<Graphics::Drawables::Line3D> m_tagPoints;
 	std::vector<Graphics::Drawables::Line3D> m_dockingPoints;
+	RefCountedPtr<Graphics::VertexBuffer> m_collisionMeshVB;
+	RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
+	RefCountedPtr<Graphics::Material> m_aabbMat;
+	Graphics::RenderState* m_state;
 };
 
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTURE_H
@@ -70,7 +70,7 @@ public:
 	const unsigned int numberOfMipMaps;
 	const TextureType type;
 
-	void operator=(const TextureDescriptor &o) {
+	TextureDescriptor& operator=(const TextureDescriptor &o) {
 		const_cast<TextureFormat&>(format) = o.format;
 		const_cast<vector2f&>(dataSize) = o.dataSize;
 		const_cast<vector2f&>(texSize) = o.texSize;
@@ -79,6 +79,7 @@ public:
 		const_cast<bool&>(allowCompression) = o.allowCompression;
 		const_cast<unsigned int&>(numberOfMipMaps) = o.numberOfMipMaps;
 		const_cast<TextureType&>(type) = o.type;
+		return *this;
 	}
 };
 

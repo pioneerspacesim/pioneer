@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Group details:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Cuir crìoch air a' ghairm."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey!?! You are going to pay for this!!!"
@@ -589,6 +585,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cabin space on your ship."
+      "message" : "Chan eil rum gu leòr sna cèibinnean san t-soitheach agad."
    }
 }

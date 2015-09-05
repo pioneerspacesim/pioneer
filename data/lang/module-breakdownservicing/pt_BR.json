@@ -95,10 +95,6 @@
       "description" : "",
       "message" : "Máquina de manutenção do hiperespaço"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Desligamento."
-   },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Não tenho dinheiro suficiente"

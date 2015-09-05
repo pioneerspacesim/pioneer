@@ -2,7 +2,7 @@
    "name" : "GuiFont",
    "faces" : [
       {
-         "fontFile" : "TitilliumText22L004.otf",
+         "fontFile" : "PionilliumText22L-Medium.ttf",
          "pixelWidth" : 14,
          "pixelHeight" : 14,
          "advanceXAdjustment" : -1
@@ -17,7 +17,8 @@
             [ "0x0500", "0x0527" ],
             [ "0x2DE0", "0x2DFF" ],
             [ "0xA640", "0xA697" ],
-            [ "0xA69F", "0xA69F" ]
+            [ "0xA69F", "0xA69F" ],
+			[ "0x0600", "0x06FF" ]
          ]
       },
       {

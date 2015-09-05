@@ -1,7 +1,7 @@
 {
    "APPLY_FOR_MEMBERSHIP" : {
       "description" : "",
-      "message" : "Apply for membership"
+      "message" : "Γίνετε μέλος"
    },
    "BEGIN_TRADE" : {
       "description" : "",
@@ -21,15 +21,11 @@
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Welcome to {clubname}"
+      "message" : "Καλωσορίσατε στο {clubname}"
    },
    "GO_BACK" : {
       "description" : "",
-      "message" : "Go back"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang up."
+      "message" : "Επιστροφή"
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
@@ -45,7 +41,7 @@
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "ξαναγέμισμα ντεποζίτου, όπου απαιτείται"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",

@@ -1,0 +1,32 @@
+{
+   "angular_thrust" : 170000000.0,
+   "capacity" : 2300,
+   "cockpit" : "",
+   "down_thrust" : 50000000.0,
+   "effective_exhaust_velocity" : 17940000.0,
+   "forward_thrust" : 160000000.0,
+   "fuel_tank_mass" : 2000,
+   "hull_mass" : 700,
+   "hyperdrive_class" : 0,
+   "left_thrust" : 50000000.0,
+   "manufacturer" : "mandarava_csepel",
+   "max_crew" : 8,
+   "min_crew" : 1,
+   "model" : "malabar",
+   "name" : "Malabar",
+   "price" : 6128000.0,
+   "reverse_thrust" : 80000000.0,
+   "right_thrust" : 50000000.0,
+   "ship_class" : "medium_passenger_transport",
+   "slots" : {
+      "cargo" : 2000,
+      "scoop" : 2,
+      "engine" : 1,
+      "laser_front" : 1,
+      "laser_rear" : 1,
+      "missile" : 0,
+      "sensor"  : 0
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 70000000.0
+}

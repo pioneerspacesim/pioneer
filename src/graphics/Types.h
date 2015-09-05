@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef GRAPHICS_TYPES_H
@@ -39,17 +39,14 @@ enum BufferMapMode {
 	BUFFER_MAP_READ
 };
 
-enum LineType {
-	LINE_SINGLE = GL_LINES, //draw one line per two vertices
-	LINE_STRIP = GL_LINE_STRIP,  //connect vertices
-	LINE_LOOP = GL_LINE_LOOP    //connect vertices,  connect start & end
-};
-
 enum PrimitiveType {
 	TRIANGLES = GL_TRIANGLES,
 	TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
 	TRIANGLE_FAN = GL_TRIANGLE_FAN,
-	POINTS = GL_POINTS
+	POINTS = GL_POINTS,
+	LINE_SINGLE = GL_LINES,			//draw one line per two vertices
+	LINE_STRIP = GL_LINE_STRIP,		//connect vertices
+	LINE_LOOP = GL_LINE_LOOP		//connect vertices,  connect start & end
 };
 
 enum BlendMode {

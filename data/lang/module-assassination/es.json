@@ -69,7 +69,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SE BUSCA: Alguien para matar a {target} en el sistema {system}."
+      "message" : "SE BUSCA: a quien pueda matar a {target} en el sistema {system}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Me entristecen las noticias sobre el fallecimiento de {target}. Se le ha efectuado el pago completo."
+      "message" : "Estoy muy afectado al enterarme del fallecimiento de {target}. Se le ha efectuado el pago completo."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "{target} está muerto. He aquí su premio."
+      "message" : "{target} está muerto. Aquí está su minuta."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "BIOGRAFICO: Ciertos admiradores quieren a {target} fiambre."
+      "message" : "BIOGRAFICA: Ciertos admiradores quieren a {target} muerto."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -161,15 +161,11 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Nos gustaría terminar con la carrera de {target} en el sistema {system} por {cash}."
+      "message" : "Nos gustaría que {target} tuviera un apropiado final de carrera en el sistema {system} por {cash}."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "El mensaje sobre el fin de la carrera de {target} se ha recibido felizmente. He aquí sus {cash}."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
+      "message" : "Recibida felizmente la noticia sobre el fin de la carrera de {target}. Aquí van sus {cash}."
    },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
@@ -185,7 +181,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "AL"
    },
    "OK_AGREED" : {
       "description" : "",
@@ -229,7 +225,7 @@
    },
    "TITLE_10" : {
       "description" : "",
-      "message" : "Alferez"
+      "message" : "Alférez"
    },
    "TITLE_11" : {
       "description" : "",
@@ -261,7 +257,7 @@
    },
    "TITLE_18" : {
       "description" : "",
-      "message" : "Soldado raso"
+      "message" : "Soldado"
    },
    "TITLE_19" : {
       "description" : "",
@@ -269,7 +265,7 @@
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Brigadier"
+      "message" : "Brigada"
    },
    "TITLE_20" : {
       "description" : "",

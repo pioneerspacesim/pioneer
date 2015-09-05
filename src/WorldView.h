@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WORLDVIEW_H
@@ -19,6 +19,7 @@ class Frame;
 class LabelSet;
 class Ship;
 class NavTunnelWidget;
+class Game;
 
 enum VelIconType {
 	V_PROGRADE,
@@ -43,15 +44,15 @@ namespace UI {
 class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
-	WorldView();
-	WorldView(Serializer::Reader &reader);
+	WorldView(Game* game);
+	WorldView(const Json::Value &jsonObj, Game* game);
 	virtual ~WorldView();
 	virtual void ShowAll();
 	virtual void Update();
 	virtual void Draw3D();
 	virtual void Draw();
 	static const double PICK_OBJECT_RECT_SIZE;
-	virtual void Save(Serializer::Writer &wr);
+	virtual void SaveToJson(Json::Value &jsonObj);
 	enum CamType {
 		CAM_INTERNAL,
 		CAM_EXTERNAL,
@@ -65,6 +66,8 @@ public:
 	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
+
+	void ResetHyperspaceButton();
 
 	sigc::signal<void> onChangeCamType;
 
@@ -106,7 +109,6 @@ private:
 
 	void OnToggleLabels();
 
-	void DrawCrosshair(float px, float py, float sz, const Color &c);
 	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
 	void DrawTargetSquare(const Indicator &marker, const Color &c);
 	void DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c);
@@ -123,7 +125,7 @@ private:
 	void OnClickLowThrustPower();
 	void OnSelectLowThrustPower(float power);
 
-	void OnClickHyperspace();
+	void OnClickHyperspace(Gui::MultiStateImageButton *b);
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
@@ -136,11 +138,11 @@ private:
 	bool OnClickHeadingLabel(void);
 	void RefreshHeadingPitch(void);
 
+	Game* m_game;
+
 	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
-
-	Gui::ImageButton *m_hyperspaceButton;
 
 	Gui::Label *m_pauseText;
 	Gui::Label *m_showCameraName;
@@ -152,6 +154,7 @@ private:
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
+	Gui::MultiStateImageButton *m_hyperspaceButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
 	Uint32 m_showTargetActionsTimeout;
@@ -177,6 +180,7 @@ private:
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 	Gui::MeterBar *m_hudFuelGauge;
+	Gui::VBox *m_hudSensorGaugeStack;
 
 	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerChangeTargetCon;
@@ -212,6 +216,10 @@ private:
 	vector2f m_indicatorMousedirSize;
 
 	Graphics::RenderState *m_blendState;
+
+	Graphics::Drawables::Line3D m_edgeMarker;
+	Graphics::Drawables::Lines m_crossHair;
+	Graphics::Drawables::Lines m_indicator;
 };
 
 class NavTunnelWidget: public Gui::Widget {
@@ -222,8 +230,12 @@ public:
 	void DrawTargetGuideSquare(const vector2f &pos, const float size, const Color &c);
 
 private:
+	void CreateVertexBuffer(const Uint32 size);
+
 	WorldView *m_worldView;
 	Graphics::RenderState *m_renderState;
+	RefCountedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 };
 
 #endif /* _WORLDVIEW_H */

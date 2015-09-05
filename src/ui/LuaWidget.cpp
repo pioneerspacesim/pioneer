@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Widget.h"
@@ -133,6 +133,12 @@ public:
 		return 1;
 	}
 
+	static int l_attr_on_visibility_changed(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		LuaSignal<bool>().Wrap(l, w->onVisibilityChanged);
+		return 1;
+	}
+
 };
 
 }
@@ -159,18 +165,19 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "disabled",     LuaWidget::l_attr_disabled       },
+		{ "disabled",            LuaWidget::l_attr_disabled              },
 
-		{ "onKeyDown",    LuaWidget::l_attr_on_key_down    },
-		{ "onKeyUp",      LuaWidget::l_attr_on_key_up      },
-		{ "onTextInput",  LuaWidget::l_attr_on_text_input  },
-		{ "onMouseDown",  LuaWidget::l_attr_on_mouse_down  },
-		{ "onMouseUp",    LuaWidget::l_attr_on_mouse_up    },
-		{ "onMouseMove",  LuaWidget::l_attr_on_mouse_move  },
-		{ "onMouseWheel", LuaWidget::l_attr_on_mouse_wheel },
-		{ "onMouseOver",  LuaWidget::l_attr_on_mouse_over  },
-		{ "onMouseOut",   LuaWidget::l_attr_on_mouse_out   },
-		{ "onClick",      LuaWidget::l_attr_on_click       },
+		{ "onKeyDown",           LuaWidget::l_attr_on_key_down           },
+		{ "onKeyUp",             LuaWidget::l_attr_on_key_up             },
+		{ "onTextInput",         LuaWidget::l_attr_on_text_input         },
+		{ "onMouseDown",         LuaWidget::l_attr_on_mouse_down         },
+		{ "onMouseUp",           LuaWidget::l_attr_on_mouse_up           },
+		{ "onMouseMove",         LuaWidget::l_attr_on_mouse_move         },
+		{ "onMouseWheel",        LuaWidget::l_attr_on_mouse_wheel        },
+		{ "onMouseOver",         LuaWidget::l_attr_on_mouse_over         },
+		{ "onMouseOut",          LuaWidget::l_attr_on_mouse_out          },
+		{ "onClick",             LuaWidget::l_attr_on_click              },
+		{ "onVisibilityChanged", LuaWidget::l_attr_on_visibility_changed },
 
 		{ 0, 0 }
 	};

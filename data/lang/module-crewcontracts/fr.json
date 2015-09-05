@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Retour"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Raccrochez."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Désolé, je ne suis pas prêt à baisser plus."

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -103,7 +103,7 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 		const double dist = lpos.Length() / AU;
 		lpos *= 1.0/dist; // normalize
 
-		const Uint8 *col = StarSystem::starRealColors[body->GetType()];
+		const Color &col = StarSystem::starRealColors[body->GetType()];
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
@@ -124,6 +124,7 @@ void Camera::Update()
 	for (Body* b : Pi::game->GetSpace()->GetBodies()) {
 		BodyAttrs attrs;
 		attrs.body = b;
+		attrs.billboard = false; // false by default
 
 		// determine position and transform for draw
 		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);
@@ -139,31 +140,38 @@ void Camera::Update()
 
 		// approximate pixel width (disc diameter) of body on screen
 		const float pixSize = Graphics::GetScreenHeight() * 2.0 * rad / (attrs.camDist * Graphics::GetFovFactor());
-		if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD)
-			continue;
 
 		// terrain objects are visible from distance but might not have any discernable features
-		attrs.billboard = false;
 		if (b->IsType(Object::TERRAINBODY)) {
 			if (pixSize < BILLBOARD_PIXEL_THRESHOLD) {
 				attrs.billboard = true;
 				vector3d pos;
-				double size = rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos);
+				// limit the minimum billboard size for planets so they're always a little visible
+				const double size = std::max(0.5, rad * 2.0 * m_context->GetFrustum().TranslatePoint(attrs.viewCoords, pos));
 				attrs.billboardPos = vector3f(pos);
 				attrs.billboardSize = float(size);
 				if (b->IsType(Object::STAR)) {
-					const Uint8 *col = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
-					attrs.billboardColor = Color(col[0], col[1], col[2], 255);
+					attrs.billboardColor = StarSystem::starRealColors[b->GetSystemBody()->GetType()];
 				}
 				else if (b->IsType(Object::PLANET)) {
 					// XXX this should incorporate some lighting effect
 					// (ie, colour of the illuminating star(s))
 					attrs.billboardColor = b->GetSystemBody()->GetAlbedo();
-					attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 				}
-				else
+				else {
 					attrs.billboardColor = Color::WHITE;
+				}
+
+				// this should always be the main star in the system - except for the star itself!
+				if( !m_lightSources.empty() && !b->IsType(Object::STAR) ) {
+					const Graphics::Light& light = m_lightSources[0].GetLight();
+					attrs.billboardColor *= light.GetDiffuse(); // colour the billboard a little with the Starlight
+				}
+
+				attrs.billboardColor.a = 255; // no alpha, these things are hard enough to see as it is
 			}
+		} else if (pixSize < OBJECT_HIDDEN_PIXEL_THRESHOLD) {
+			continue;
 		}
 
 		m_sortedBodies.push_back(attrs);
@@ -210,24 +218,19 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 			if (pressure >= 0.001)
 			{
 				//go through all lights to calculate something resembling light intensity
-				float angle = 0.f;
-				for(auto &it : m_lightSources) 
-				{
-					const vector3f lightDir(it.GetLight().GetPosition().Normalized());
-					angle += std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it.GetLight().GetDiffuse().GetLuminance() / 255.0f);
-				}
-
-				// get the total intensity of any shadowing bodies
-				float intensity = 0.0f;
+				float intensity = 0.f;
 				const Player* pBody = Pi::game->GetPlayer();
 				for( Uint32 i=0; i<m_lightSources.size() ; i++ ) 
 				{
-					intensity += ShadowedIntensity(i, pBody);
+					// Set up data for eclipses. All bodies are assumed to be spheres.
+					const LightSource &it = m_lightSources[i];
+					const vector3f lightDir(it.GetLight().GetPosition().Normalized());
+					intensity += ShadowedIntensity(i, pBody) * std::max(0.f, lightDir.Dot(-relpos.Normalized())) * (it.GetLight().GetDiffuse().GetLuminance() / 255.0f);
 				}
 				intensity = Clamp(intensity, 0.0f, 1.0f);
 
 				//calculate background intensity with some hand-tweaked fuzz applied
-				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * std::min((0.3f + powf(angle, 0.25f)), intensity), 0.f, 1.f);
+				bgIntensity = Clamp(1.f - std::min(1.f, powf(density, 0.25f)) * (0.3f + powf(intensity, 0.25f)), 0.f, 1.f);
 			}
 		}
 	}

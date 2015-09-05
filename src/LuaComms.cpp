@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaComms.h"
@@ -40,7 +40,7 @@
  */
 static int l_comms_message(lua_State *l)
 {
-	if (!Pi::cpan)
+	if (!Pi::game || !Pi::game->GetCpan())
 		luaL_error(l, "Control panel does not exist.");
 
 	std::string msg = luaL_checkstring(l, 1);
@@ -83,7 +83,7 @@ static int l_comms_message(lua_State *l)
  */
 static int l_comms_important_message(lua_State *l)
 {
-	if (!Pi::cpan)
+	if (!Pi::game || !Pi::game->GetCpan())
 		luaL_error(l, "Control panel does not exist.");
 
 	std::string msg = luaL_checkstring(l, 1);

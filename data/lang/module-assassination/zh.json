@@ -1,0 +1,326 @@
+{
+   "ASSASSINATION" : {
+      "description" : "",
+      "message" : "刺杀"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "可以请你复述初始的请求吗?"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "不好意思, 不过我真的不相信你."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "当你有点资历了再回来吧."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "我不认为你是我要找的人."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "你看起来不像是能可靠地完成我的要求的人."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "你明显不是能胜任这个工作的人."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "你好像对于这么重要的任务没有太多经验."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "我从来都没有听说过你. 我需要更有经验的人来完成这个任务."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "我不会为了你这种没有任何资历的人而让我的计划泡汤."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "距离:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "棒极了."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "悬赏: 干掉在 {system} 星系的 {target}."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "我得知了 {target} 还活着的消息, 我非常生气. 毫无疑问你别想拿到你的钱了."
+   },
+   "FLAVOUR_0_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} 已经死了, 但那不是你所为之. 我不能给你报酬."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "你好, 我是 {name}. 如果你帮我解决掉 {target} , 我会给你 {cash} ."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "我得知 {target} 的天堂一辈游正式开始了. 干得不错, 钱已到账."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "悬赏令: 现悬赏在 {system} 星系的 {target} 的项上人头."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "我听说 {target} 现在还活的好好儿的. 请允许我做一个悲伤的表情."
+   },
+   "FLAVOUR_1_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} 不是被你杀掉的, 所以我不会付你钱的."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "我要把 {target} 这个人从名单上抹掉. 活动经费给你 {cash} ."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "听说 {target} 死掉了我高兴得都要哭了. 这些钱你都拿走吧."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "清除行动: {system} 星系内不允发现 {target} 的活动踪迹."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{target} 现在居然还是安然无恙. 你没有履行我们的约定所以你也不会收到我们的钱."
+   },
+   "FLAVOUR_2_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "任务已经被别人完成了. 下次动手麻利点儿!"
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "我是 {name}, 我付你 {cash} 去干掉 {target}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "你完成了我们的约定, 钱已转账请查收."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "终结: 谁来帮我杀了 {target}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "没有杀掉 {target} , 你会付出代价的."
+   },
+   "FLAVOUR_3_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "你在向我要由别人完成的任务的工钱? 给我滚."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "{target} 一定要被轰杀至渣渣. 我给你 {cash} 去做."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} 死了. 这是给你的奖励."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "\"退休\": 谁能帮我把 {target} \"退休\"了."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "{target} 还活着, 我不能给你钱."
+   },
+   "FLAVOUR_4_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} 的\"退休\"由别人完成了."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "我们出 {cash} 让 {target} 永远的停止工作."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "我得知 {target} 的\"退休\" 工作完成得轻松加愉快. 这是你的钱."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "任务书: 有些人想让 {target} 下地狱."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "我们发现 {target} 安然无恙. 这让我们很失望."
+   },
+   "FLAVOUR_5_FAILUREMSG2" : {
+      "description" : "",
+      "message" : "{target} 被其他人抢先一步干掉了."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "我们希望 {target} 在 {system} 内愉快地终结这一生. 给你付 {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "{target} 的死亡已经被证实. 这是你的 {cash}."
+   },
+   "HOW_SOON_MUST_IT_BE_DONE" : {
+      "description" : "",
+      "message" : "我要多快完成这事情?"
+   },
+   "HOW_WILL_I_BE_PAID" : {
+      "description" : "",
+      "message" : "你会给我多少钱?"
+   },
+   "IT_MUST_BE_DONE_AFTER" : {
+      "description" : "",
+      "message" : "在 {target} 离开 {spaceport} 的时候就动手. 别错过了这机会."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "OK, 我同意."
+   },
+   "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
+      "description" : "",
+      "message" : "完成后回来这里, 拿你的报酬."
+   },
+   "SHIP" : {
+      "description" : "",
+      "message" : "飞船:"
+   },
+   "SHIP_ID" : {
+      "description" : "",
+      "message" : "飞船ID:"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "星港:"
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "星系:"
+   },
+   "TARGET_NAME" : {
+      "description" : "",
+      "message" : "目标名称:"
+   },
+   "TARGET_WILL_BE_LEAVING_SPACEPORT_AT" : {
+      "description" : "",
+      "message" : "目标离开星港时间:"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "上将"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "大使"
+   },
+   "TITLE_10" : {
+      "description" : "",
+      "message" : "少尉"
+   },
+   "TITLE_11" : {
+      "description" : "",
+      "message" : "将军"
+   },
+   "TITLE_12" : {
+      "description" : "",
+      "message" : "法官"
+   },
+   "TITLE_13" : {
+      "description" : "",
+      "message" : "律师"
+   },
+   "TITLE_14" : {
+      "description" : "",
+      "message" : "中尉"
+   },
+   "TITLE_15" : {
+      "description" : "",
+      "message" : "元帅"
+   },
+   "TITLE_16" : {
+      "description" : "",
+      "message" : "商人"
+   },
+   "TITLE_17" : {
+      "description" : "",
+      "message" : "警官"
+   },
+   "TITLE_18" : {
+      "description" : "",
+      "message" : "列兵"
+   },
+   "TITLE_19" : {
+      "description" : "",
+      "message" : "教授"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "旅长"
+   },
+   "TITLE_20" : {
+      "description" : "",
+      "message" : "原告"
+   },
+   "TITLE_21" : {
+      "description" : "",
+      "message" : "牧师"
+   },
+   "TITLE_22" : {
+      "description" : "",
+      "message" : "水手"
+   },
+   "TITLE_23" : {
+      "description" : "",
+      "message" : "参议员"
+   },
+   "TITLE_24" : {
+      "description" : "",
+      "message" : "军士"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "军校学生"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "舰长"
+   },
+   "TITLE_5" : {
+      "description" : "",
+      "message" : "主教"
+   },
+   "TITLE_6" : {
+      "description" : "",
+      "message" : "上校"
+   },
+   "TITLE_7" : {
+      "description" : "",
+      "message" : "指挥官"
+   },
+   "TITLE_8" : {
+      "description" : "",
+      "message" : "准将"
+   },
+   "TITLE_9" : {
+      "description" : "",
+      "message" : "下士"
+   },
+   "WHERE_CAN_I_FIND_X" : {
+      "description" : "",
+      "message" : "我在哪能找到 {target} ?"
+   },
+   "X_WILL_BE_LEAVING" : {
+      "description" : "",
+      "message" : "{target} 会在 {date} 离开 {system} 星系 ({sectorX}, {sectorY}, {sectorZ}) 的 {spaceport}. 他的飞船名称是 {shipname}, 飞船ID {shipregid}."
+   }
+}

@@ -255,10 +255,6 @@
       "description" : "",
       "message" : "От этого зависит наше благосостояние."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
-   },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
       "message" : "Каковы сроки доставки?"
@@ -277,7 +273,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "св.лет›"
+      "message" : "св.лет"
    },
    "NOT_ANY_MORE_THAN_USUAL" : {
       "description" : "",

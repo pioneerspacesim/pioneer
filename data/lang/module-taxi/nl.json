@@ -53,7 +53,7 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Gevaar:"
    },
    "DEADLINE" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "GEVRAAGD: Vervoer voor een kleine groep naar het {system}-stelsel. We betalen {cash}."
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, Ik ben {name} en ik heb vervoer nodig voor een kleine groep naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Ik betaal {cash}."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "SCHIP GEVRAAGD: Vervoer met een snel schip naar het {system}-stelsel."
    },
    "FLAVOUR_10_DANGER" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I want fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Paying {cash}."
+      "message" : "Mijn naam is {name}. I wil snel vervoer naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Betaal {cash}."
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_11_ADTEXT" : {
       "description" : "",
-      "message" : "FAST SHIP: Passage on a fast ship to {system} system."
+      "message" : "SNEL SCHIP: Vervoer naar het {system}-stelsel."
    },
    "FLAVOUR_11_DANGER" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Mijn naam is {name}. Ik heb snel vervoer nodig naar {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj afstand. Ik betaal {cash}."
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "FLAVOUR_12_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP REQUIRED: Passage to {system} system."
+      "message" : "SCHIP NODIG: Vervoer naar het {system}-stelsel."
    },
    "FLAVOUR_12_DANGER" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Mijn naam is {name}. Ik heb vervoer nodig naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Ik betaal {cash}."
    },
    "FLAVOUR_12_SUCCESSMSG" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "GEVRAAGD: Vervoer voor een kleine groep naar het {system}-stelsel. We betalen {cash}."
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, Ik ben {name} en ik heb vervoer nodig voor een kleine groep naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Ik betaal {cash}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "GEVRAAGD: Vervoer voor een kleine groep naar het {system}-stelsel. Ik betaal {cash}."
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, Ik ben {name} en ik heb vervoer nodig voor een kleine groep naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj afstand. Ik betaal  {cash}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP REQUIRED: Passage to {system} system. Will pay {cash}."
+      "message" : "SCHIP NODIG: Vervoer naar het {system}-stelsel. Betaal {cash}."
    },
    "FLAVOUR_3_DANGER" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, Ik ben {name} en ik heb vervoer nodig naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Ik betaal {cash}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -325,7 +325,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "SCHIP GEVRAAGD: Vervoer naar het {system}-stelsel. Betaal {cash}."
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, Ik ben {name} en ik heb vervoer nodig naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Ik betaal {cash}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "GEVRAAGD: Vervoer naar het {system}-stelsel. Betaal {cash}."
    },
    "FLAVOUR_5_DANGER" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, Ik ben {name} en ik heb vervoer nodig naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, een afstand van {dist} lj. Ik betaal {cash}."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -389,7 +389,7 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "SCHIP GEVRAAGD: Vervoer naar het {system}-stelsel. Betaal {cash}."
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
@@ -405,7 +405,7 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, Ik ben {name} en ik heb vervoer nodig naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Ik betaal {cash}."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Safe passage to {system} system. Will pay {cash}."
+      "message" : "SCHIP GEVRAAGD: Veilig vervoer naar het {system}-stelsel. Betaal {cash}."
    },
    "FLAVOUR_7_DANGER" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, my name is {name} and I need safe passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Hai, mijn naam is {name} en ik heb vervoer nodig naar het {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj. afstand. Ik betaal {cash}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "SCHIP GEVRAAGD: Vervoer op een snel schip naar het {system}-stelsel."
    },
    "FLAVOUR_8_DANGER" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Mijn naam is {name}. Ik heb snel vervoer nodig naar {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj afstand. Ik betaal {cash}."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "SCHIP GEVRAAGD: Vervoer op een snel schip naar het {system}-stelsel."
    },
    "FLAVOUR_9_DANGER" : {
       "description" : "",
@@ -501,7 +501,7 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Mijn naam is {name}. Ik heb snel vervoer nodig naar {system} ({sectorx}, {sectory}, {sectorz})-stelsel, op {dist} lj afstand. Ik betaal {cash}."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
@@ -523,10 +523,6 @@
       "description" : "",
       "message" : "Groep details:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Hang op."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
       "message" : "Hey!?! Ik zet het je betaald!!!"
@@ -545,7 +541,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "lj"
    },
    "OK_AGREED" : {
       "description" : "",
@@ -585,7 +581,7 @@
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Is het gevaarlijk?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

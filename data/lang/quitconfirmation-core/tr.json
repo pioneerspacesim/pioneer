@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Buradan ayrılmak için {yes} de ve sıkıcı programlarına geri dön?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Lütfen verimli daha fazla saatinizi harcamak için {no}ı seçin. Lütfen?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Kaşifler vazgeçmez, fakat değilsen devam et ve {yes}e tıkla."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Sert bir ödül avcısıysan {no}ı seç, Yoksa kibarca {yes}e tıkla."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Artık hiç konuşamıyoruz. Başka birisiyle mi görüşüyorsun?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Gerçekten yapman gereken daha iyi bir şey mi var?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Hemen pes mi ediyorsun?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Ne yaptığını düşünüyorsun, Dave?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "Vazgeçmek ZAYIFLAR içindir!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Şimdi gitme, diğer programda senin için bekleyen bir korsan var."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "Size hiçbir maliyeti olmayan bu güzel oyundan çıkmak istediğinize emin misin?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Çok acele bir terkle mi ayrılmak istiyorsun?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Silahlar ve zafer için {no}ı, Çalışma ve endişe için {yes}i seçin."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Cesur olmak için {no}a tıkla. Utanç içinde korkmak için {yes}e tıkla."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "Senin yerinde olsam ayrılmazdım. Komut satırı çok daha kötü"
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Daha fazla oynamak için {no}ı tıklamak istediğini düşünüyorum. Tıkla."
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "{yes}e tıklamak tekdüze işgünü dünyasına geri dönmek anlamına gelir."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Hayır"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Çıkış?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Evet"
+   }
+}

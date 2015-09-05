@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Välj {yes} för att lämna och återgå till dina tråkiga program?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Vänligen väl {no} för att ödsla bort ytterligare ett par produktiva timmar. Snälla?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Upptäcktsresare slutar aldrig, men för all del, klicka {yes} om du inte är en."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Välj {no} om du är en tuff legosoldat, annars klicka {yes} fryntligt."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Vi talar aldrig med varandra längre. Träffar du någon annan?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Har du verkligen något bättre för dig?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Ger du redan upp?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Vad tror du att du håller på med?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "Tror du Magellan någonsin gav upp?"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Lämna inte redan, det en pirat väntar på dig i det andra programmet.  "
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "Vill du verkligen avsluta detta fantastiska spel, som inte kostat dig något?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Önskar ni övergiva mig?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Välj {no} för ära och heder, {yes} för att abdikera i sveder."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Klicka {no} för att vara modig, klicka {yes} för att vara bloodig."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "Om jag vore dig hade jag inte avslutat, kommandoraden är mycket värre."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Det synes mig att du önskar klicka {no} för att spela lite mer. Gör det!"
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "Klickar du {yes} kommer du återgå till vardagens stilla gång, med arbete och slit."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Nej"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Avsluta?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Ja"
+   }
+}

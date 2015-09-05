@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -26,6 +26,8 @@
 #include "Game.h"
 #include "MathUtil.h"
 #include "LuaEvent.h"
+
+//#define DEBUG_CACHE
 
 void Space::BodyNearFinder::Prepare()
 {
@@ -57,8 +59,9 @@ void Space::BodyNearFinder::GetBodiesMaybeNear(const vector3d &pos, double dist,
 	}
 }
 
-Space::Space(Game *game)
-	: m_game(game)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, Space* oldSpace)
+	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
+	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
@@ -72,11 +75,13 @@ Space::Space(Game *game)
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenSectorCache(&game->GetHyperspaceDest());
+	GenSectorCache(galaxy, &game->GetHyperspaceDest());
 }
 
-Space::Space(Game *game, const SystemPath &path)
-	: m_game(game)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, Space* oldSpace)
+	: m_starSystemCache(oldSpace ? oldSpace->m_starSystemCache : galaxy->NewStarSystemSlaveCache())
+	, m_starSystem(galaxy->GetStarSystem(path))
+	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
@@ -85,8 +90,6 @@ Space::Space(Game *game, const SystemPath &path)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = Pi::GetGalaxy()->GetStarSystem(path);
-
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
 	Random rand(_init, 5);
 	m_background.reset(new Background::Container(Pi::renderer, rand));
@@ -100,13 +103,14 @@ Space::Space(Game *game, const SystemPath &path)
 	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get());
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
-	GenSectorCache(&path);
+	GenSectorCache(galaxy, &path);
 
 	//DebugDumpFrames();
 }
 
-Space::Space(Game *game, Serializer::Reader &rd, double at_time)
-	: m_game(game)
+Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const Json::Value &jsonObj, double at_time)
+	: m_starSystemCache(galaxy->NewStarSystemSlaveCache())
+	, m_game(game)
 	, m_frameIndexValid(false)
 	, m_bodyIndexValid(false)
 	, m_sbodyIndexValid(false)
@@ -115,7 +119,10 @@ Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 	, m_processingFinalizationQueue(false)
 #endif
 {
-	m_starSystem = StarSystem::Unserialize(rd);
+	if (!jsonObj.isMember("space")) throw SavedGameCorruptException();
+	Json::Value spaceObj = jsonObj["space"];
+
+	m_starSystem = StarSystem::FromJson(galaxy, spaceObj);
 
 	const SystemPath &path = m_starSystem->GetPath();
 	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
@@ -126,20 +133,21 @@ Space::Space(Game *game, Serializer::Reader &rd, double at_time)
 
 	CityOnPlanet::SetCityModelPatterns(m_starSystem->GetPath());
 
-	Serializer::Reader section = rd.RdSection("Frames");
-	m_rootFrame.reset(Frame::Unserialize(section, this, 0, at_time));
+	m_rootFrame.reset(Frame::FromJson(spaceObj, this, 0, at_time));
 	RebuildFrameIndex();
 
-	Uint32 nbodies = rd.Int32();
-	for (Uint32 i = 0; i < nbodies; i++)
-		m_bodies.push_back(Body::Unserialize(rd, this));
+	if (!spaceObj.isMember("bodies")) throw SavedGameCorruptException();
+	Json::Value bodyArray = spaceObj["bodies"];
+	if (!bodyArray.isArray()) throw SavedGameCorruptException();
+	for (Uint32 i = 0; i < bodyArray.size(); i++)
+		m_bodies.push_back(Body::FromJson(bodyArray[i], this));
 	RebuildBodyIndex();
 
 	Frame::PostUnserializeFixup(m_rootFrame.get(), this);
 	for (Body* b : m_bodies)
 		b->PostLoadFixup(this);
 
-	GenSectorCache(&path);
+	GenSectorCache(galaxy, &path);
 }
 
 Space::~Space()
@@ -150,21 +158,36 @@ Space::~Space()
 	UpdateBodies();
 }
 
-void Space::Serialize(Serializer::Writer &wr)
+void Space::RefreshBackground()
+{
+	const SystemPath &path = m_starSystem->GetPath();
+	Uint32 _init[5] = { path.systemIndex, Uint32(path.sectorX), Uint32(path.sectorY), Uint32(path.sectorZ), UNIVERSE_SEED };
+	Random rand(_init, 5);
+	m_background.reset(new Background::Container(Pi::renderer, rand));
+}
+
+void Space::ToJson(Json::Value &jsonObj)
 {
 	RebuildFrameIndex();
 	RebuildBodyIndex();
 	RebuildSystemBodyIndex();
 
-	StarSystem::Serialize(wr, m_starSystem.Get());
+	Json::Value spaceObj(Json::objectValue); // Create JSON object to contain space data (all the bodies and things).
 
-	Serializer::Writer section;
-	Frame::Serialize(section, m_rootFrame.get(), this);
-	wr.WrSection("Frames", section.GetData());
+	StarSystem::ToJson(spaceObj, m_starSystem.Get());
 
-	wr.Int32(m_bodies.size());
+	Frame::ToJson(spaceObj, m_rootFrame.get(), this);
+
+	Json::Value bodyArray(Json::arrayValue); // Create JSON array to contain body data.
 	for (Body* b : m_bodies)
-		b->Serialize(wr, this);
+	{
+		Json::Value bodyArrayEl(Json::objectValue); // Create JSON object to contain body.
+		b->ToJson(bodyArrayEl, this);
+		bodyArray.append(bodyArrayEl); // Append body object to array.
+	}
+	spaceObj["bodies"] = bodyArray; // Add body array to space object.
+
+	jsonObj["space"] = spaceObj; // Add space object to supplied object.
 }
 
 Frame *Space::GetFrameByIndex(Uint32 idx) const
@@ -622,7 +645,7 @@ private:
 	SystemPath here;
 };
 
-void Space::GenSectorCache(const SystemPath* here)
+void Space::GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here)
 {
 	PROFILE_SCOPED()
 
@@ -649,7 +672,7 @@ void Space::GenSectorCache(const SystemPath* here)
 	// sort them so that those closest to the "here" path are processed first
 	SectorDistanceSort SDS(here);
 	std::sort(paths.begin(), paths.end(), SDS);
-	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
+	m_sectorCache = galaxy->NewSectorSlaveCache();
 	const SystemPath& center(*here);
 	m_sectorCache->FillCache(paths, [this,center]() { UpdateStarSystemCache(&center); });
 }
@@ -691,14 +714,22 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 	const int zmin = here->sectorZ-survivorRadius;
 	const int zmax = here->sectorZ+survivorRadius;
 
-	RefCountedPtr<StarSystemCache::Slave> cache = Pi::GetGalaxy()->GetStarSystemCache();
-	StarSystemCache::CacheMap::const_iterator i = cache->Begin();
-	while (i != cache->End()) {
-		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax))
-			cache->Erase(i++);
-		else
+#   ifdef DEBUG_CACHE
+		unsigned removed = 0;
+#   endif
+	StarSystemCache::CacheMap::const_iterator i = m_starSystemCache->Begin();
+	while (i != m_starSystemCache->End()) {
+		if (!WithinBox(i->second->GetPath(), xmin, xmax, ymin, ymax, zmin, zmax)) {
+			m_starSystemCache->Erase(i++);
+#   ifdef DEBUG_CACHE
+		++removed;
+#   endif
+		} else
 			++i;
 	}
+#   ifdef DEBUG_CACHE
+		Output("%s: Erased %u entries.\n", StarSystemCache::CACHE_NAME.c_str(), removed);
+#   endif
 
 	SectorCache::PathVector paths;
 	// build all of the possible paths we'll need to build star systems for
@@ -713,8 +744,7 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 			}
 		}
 	}
-
-	cache->FillCache(paths);
+	m_starSystemCache->FillCache(paths);
 }
 
 void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
@@ -885,6 +915,10 @@ void Space::CollideFrame(Frame *f)
 void Space::TimeStep(float step)
 {
 	PROFILE_SCOPED()
+
+	if( Pi::MustRefreshBackgroundClearFlag() )
+		RefreshBackground();
+
 	m_frameIndexValid = m_bodyIndexValid = m_sbodyIndexValid = false;
 
 	// XXX does not need to be done this often

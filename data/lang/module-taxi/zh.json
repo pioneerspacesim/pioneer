@@ -1,0 +1,590 @@
+{
+   "CORPORATIONS_0" : {
+      "description" : "",
+      "message" : "天狼星"
+   },
+   "CORPORATIONS_1" : {
+      "description" : "",
+      "message" : "ACME"
+   },
+   "CORPORATIONS_10" : {
+      "description" : "",
+      "message" : "散装船"
+   },
+   "CORPORATIONS_11" : {
+      "description" : "",
+      "message" : "Arment 空气动力"
+   },
+   "CORPORATIONS_2" : {
+      "description" : "",
+      "message" : "酷可乐"
+   },
+   "CORPORATIONS_3" : {
+      "description" : "",
+      "message" : "Taranis"
+   },
+   "CORPORATIONS_4" : {
+      "description" : "",
+      "message" : "水瓶座造船厂"
+   },
+   "CORPORATIONS_5" : {
+      "description" : "",
+      "message" : "Rockforth"
+   },
+   "CORPORATIONS_6" : {
+      "description" : "",
+      "message" : "Amaliel"
+   },
+   "CORPORATIONS_7" : {
+      "description" : "",
+      "message" : "Marett Space"
+   },
+   "CORPORATIONS_8" : {
+      "description" : "",
+      "message" : "Vega Line"
+   },
+   "CORPORATIONS_9" : {
+      "description" : "",
+      "message" : "数字"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "可以请你重复原来的请求吗?"
+   },
+   "DANGER" : {
+      "description" : "",
+      "message" : "危险:"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "截止日期:"
+   },
+   "DENY_0" : {
+      "description" : "",
+      "message" : "我很抱歉, 但我不认为我可以将我的人身安全托付给你."
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "等你有些资历了再来吧."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "我觉得你不是我要求的飞行员."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "你不像那种能运送的人."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "你不是我在找的飞行员."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "你好像没有处理过这么重要的运输任务的经验."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "我从来没有听说你. 我需要有经验的人帮我完成这次旅行."
+   },
+   "DENY_7" : {
+      "description" : "",
+      "message" : "我不愿意把我的性命搭在你这种没有资历的人身上."
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "距离:"
+   },
+   "EXCELLENT" : {
+      "description" : "",
+      "message" : "太棒了."
+   },
+   "FLAVOUR_0_ADTEXT" : {
+      "description" : "",
+      "message" : "征召: 运送一些乘客到 {system} 星系. 我将支付现金 {cash}."
+   },
+   "FLAVOUR_0_DANGER" : {
+      "description" : "",
+      "message" : "不会的."
+   },
+   "FLAVOUR_0_FAILUREMSG" : {
+      "description" : "",
+      "message" : "不能接受! 你永远都完成不了这任务. 我不会再付钱给你."
+   },
+   "FLAVOUR_0_HOWMANY" : {
+      "description" : "",
+      "message" : "我们有 {group} 个人."
+   },
+   "FLAVOUR_0_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨, 我是 {name}, 我需要将一些乘客接到 {system} ({sectorx}, {sectory}, {sectorz}) 星系, {dist} ly. 我会付给你 {cash}."
+   },
+   "FLAVOUR_0_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你提供的愉快旅途. 已经全额支付."
+   },
+   "FLAVOUR_0_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我们已经等够了 - 马上把我送上附近的空间站!"
+   },
+   "FLAVOUR_0_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我们要去拜访一位朋友."
+   },
+   "FLAVOUR_10_ADTEXT" : {
+      "description" : "",
+      "message" : "飞船征召: 能尽快飞往 {system} 星系的客船."
+   },
+   "FLAVOUR_10_DANGER" : {
+      "description" : "",
+      "message" : "我感觉有人在跟踪我."
+   },
+   "FLAVOUR_10_FAILUREMSG" : {
+      "description" : "",
+      "message" : "你是一个毫无经验的飞行员.我才不会付钱呢."
+   },
+   "FLAVOUR_10_HOWMANY" : {
+      "description" : "",
+      "message" : "只有一个."
+   },
+   "FLAVOUR_10_INTROTEXT" : {
+      "description" : "",
+      "message" : "我叫 {name}. 我想快点到 {system} ({sectorx}, {sectory}, {sectorz}) 星系, 离这里 {dist} ly. 报酬 {cash}."
+   },
+   "FLAVOUR_10_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "十分感谢快运. 已经全额转账给你了."
+   },
+   "FLAVOUR_10_WHEREAREWE" : {
+      "description" : "",
+      "message" : "还没到吗? 我等不及了 - 马上把我带到最近的空间站!"
+   },
+   "FLAVOUR_10_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我宁愿某人没能找到我."
+   },
+   "FLAVOUR_11_ADTEXT" : {
+      "description" : "",
+      "message" : "快船: 去 {system} 星系的快速客运船."
+   },
+   "FLAVOUR_11_DANGER" : {
+      "description" : "",
+      "message" : "有时候人们不想被检查."
+   },
+   "FLAVOUR_11_FAILUREMSG" : {
+      "description" : "",
+      "message" : "因为你的无能, 我丢了工作. 所以我比你更需要这笔钱."
+   },
+   "FLAVOUR_11_HOWMANY" : {
+      "description" : "",
+      "message" : "只有一个."
+   },
+   "FLAVOUR_11_INTROTEXT" : {
+      "description" : "",
+      "message" : "我是 {name}. 我要尽快到达 {system} ({sectorx}, {sectory}, {sectorz}) 星系,距离 {dist} ly. 我会付你 {cash}."
+   },
+   "FLAVOUR_11_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你快速的运送.已经给你全部的钱了."
+   },
+   "FLAVOUR_11_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿?我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_11_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我是工厂督察."
+   },
+   "FLAVOUR_12_ADTEXT" : {
+      "description" : "",
+      "message" : "需要船只: 到 {system} 星系的客船."
+   },
+   "FLAVOUR_12_DANGER" : {
+      "description" : "",
+      "message" : "有人在追我."
+   },
+   "FLAVOUR_12_FAILUREMSG" : {
+      "description" : "",
+      "message" : "我并没有足够的钱. 抱歉."
+   },
+   "FLAVOUR_12_HOWMANY" : {
+      "description" : "",
+      "message" : "只有一人."
+   },
+   "FLAVOUR_12_INTROTEXT" : {
+      "description" : "",
+      "message" : "我叫 {name}. 我需要到 {system} ({sectorx}, {sectory}, {sectorz}) 星系, 距离 {dist} ly. 我会支付 {cash}."
+   },
+   "FLAVOUR_12_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你的运送. 已经付你全款了."
+   },
+   "FLAVOUR_12_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_12_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我欠了别人钱, 他们在追我."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "征召: 能运送一些人去 {system} 星系的客运船. 我将支付现金 {cash}."
+   },
+   "FLAVOUR_1_DANGER" : {
+      "description" : "",
+      "message" : "不."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "不能接受! 你永远都完成不了这任务. 我不会再付钱给你."
+   },
+   "FLAVOUR_1_HOWMANY" : {
+      "description" : "",
+      "message" : "我们一共有 {group} 个人."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨, 我是 {name}, 我需要运送一小队人到 {system} ({sectorx}, {sectory}, {sectorz}) 星系, 距离 {dist} ly.我将支付 {cash}."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你提供愉快旅程. 已经付你全款了."
+   },
+   "FLAVOUR_1_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我们已经等够了 - 马上把我们带到最近的空间站!"
+   },
+   "FLAVOUR_1_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我们为 {corp} 公司工作, 他们出钱."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "船只需求:  能运送一些乘客去 {system} 星系的客船. 报酬 {cash}."
+   },
+   "FLAVOUR_2_DANGER" : {
+      "description" : "",
+      "message" : "不."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "不能接受! 你已经将时间用完了. 我不会再付钱给你."
+   },
+   "FLAVOUR_2_HOWMANY" : {
+      "description" : "",
+      "message" : "我们一共有 {group} 个人."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨, 我是 {name} , 我需要运送一些乘客到 {system} ({sectorx}, {sectory}, {sectorz})星系, 距离{dist} ly. 我将支付 {cash}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你带我们来这里. 我们现在就打钱给你, 祝你好运!"
+   },
+   "FLAVOUR_2_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我们已经等够了 - 现在把我们带到最近的空间站!"
+   },
+   "FLAVOUR_2_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "这是普通的商务旅行."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "飞船招租: 把我拉到 {system} 星系. 我将支付 {cash}."
+   },
+   "FLAVOUR_3_DANGER" : {
+      "description" : "",
+      "message" : "我觉得有个刺客在跟踪我, 他们可能会跟着你的飞船."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "不能接受! 你永远都完成不了这任务,我不会再付钱给你."
+   },
+   "FLAVOUR_3_HOWMANY" : {
+      "description" : "",
+      "message" : "只有我一个人."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨. 我是 {name}. 我需要去 {system} ({sectorx}, {sectory}, {sectorz}) 星系, 距离 {dist} ly. 我会付给你 {cash}."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "感谢你带我完成这次很棒的旅行.已经把报酬全额支付给你了."
+   },
+   "FLAVOUR_3_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_3_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我的老对头准备杀了我."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "船只需求: 带我去 {system} 星系. 我出 {cash}."
+   },
+   "FLAVOUR_4_DANGER" : {
+      "description" : "",
+      "message" : "不."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "甚至不要求付款! 我要向当局举报你."
+   },
+   "FLAVOUR_4_HOWMANY" : {
+      "description" : "",
+      "message" : "就我."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨, 我是 {name}, 我需要到 {system} ({sectorx}, {sectory}, {sectorz}) 星系. 距离 {dist} ly. 我会付给你 {cash}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你载着我到这里. 我已经全额支付. 祝你好运!"
+   },
+   "FLAVOUR_4_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_4_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我是旅行商人."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "招租: 搭我去 {system} 星系. 我付 {cash}."
+   },
+   "FLAVOUR_5_DANGER" : {
+      "description" : "",
+      "message" : "你可能会收到一些感兴趣的新闻. 忽略它们."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "瞧你干的好事! 我整个旅行都被毁了,而且我一半的粉丝都跑了!"
+   },
+   "FLAVOUR_5_HOWMANY" : {
+      "description" : "",
+      "message" : "只有我."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨, 我是 {name}, 我需要到 {system} ({sectorx}, {sectory}, {sectorz}) 星系, 距离 {dist} ly. 我将支付 {cash}."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "感谢你提供了一个愉快的旅途. 钱已到帐请查收."
+   },
+   "FLAVOUR_5_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_5_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "你不知道吗? - 我可是家喻户晓的偶像明星啊."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "需要飞船: 可以飞到{system} 星系的客船. 我将支付 {cash}."
+   },
+   "FLAVOUR_6_DANGER" : {
+      "description" : "",
+      "message" : "不."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "这样不行了! 给你再多时间都不行. 别想从我这儿拿钱了."
+   },
+   "FLAVOUR_6_HOWMANY" : {
+      "description" : "",
+      "message" : "只有我啊."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨, 我是 {name}, 我要去 {system} ({sectorx}, {sectory}, {sectorz}) 星系, 离这儿 {dist} ly. 我出 {cash}."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "这是一段愉快的旅途,谢谢你. 这是你应得的. "
+   },
+   "FLAVOUR_6_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们还没到? 我再也没法儿等下去了 - 马上送我去最近的空间站!马上!"
+   },
+   "FLAVOUR_6_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我是自由职业记者."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "招租船只: 把我安全地送到 {system} 星系. 我会给你 {cash} 的."
+   },
+   "FLAVOUR_7_DANGER" : {
+      "description" : "",
+      "message" : "黑手党绝对不会饶过帮助他们敌人的人."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "不能接受! 你永远都完成不了这任务.我不愿意付钱给你."
+   },
+   "FLAVOUR_7_HOWMANY" : {
+      "description" : "",
+      "message" : "除了我没别人了."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "嗨, 我叫 {name} ,我需要安全地到达 {system} ({sectorx}, {sectory}, {sectorz}) 星系, 距离本星系 {dist} ly. 我会支付 {cash}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "谢谢你载着我安全到达这里. 我已经全额支付. 祝你好运!"
+   },
+   "FLAVOUR_7_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_7_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "黑手党想要我的命."
+   },
+   "FLAVOUR_8_ADTEXT" : {
+      "description" : "",
+      "message" : "飞船招租: 一艘能快速飞到 {system} 星系的客运船."
+   },
+   "FLAVOUR_8_DANGER" : {
+      "description" : "",
+      "message" : "不."
+   },
+   "FLAVOUR_8_FAILUREMSG" : {
+      "description" : "",
+      "message" : "不能接受! 你永远都完成不了这任务. 我不会再付钱给你."
+   },
+   "FLAVOUR_8_HOWMANY" : {
+      "description" : "",
+      "message" : "只有我."
+   },
+   "FLAVOUR_8_INTROTEXT" : {
+      "description" : "",
+      "message" : "我的名字是 {name}. 我需要尽快到达 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 距离 {dist} ly. 酬金{cash}."
+   },
+   "FLAVOUR_8_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "十分感谢你及时送我到这儿. 不然我就死定啦. 我这就转账给你."
+   },
+   "FLAVOUR_8_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_8_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "我要去探望一个生病的亲戚."
+   },
+   "FLAVOUR_9_ADTEXT" : {
+      "description" : "",
+      "message" : "需要船只: 快速把我送到 {system} 星系."
+   },
+   "FLAVOUR_9_DANGER" : {
+      "description" : "",
+      "message" : "警察可能会来找我们的麻烦."
+   },
+   "FLAVOUR_9_FAILUREMSG" : {
+      "description" : "",
+      "message" : "没用的家伙! 你已经用光我的时间了. 别想从我这里拿到一分钱."
+   },
+   "FLAVOUR_9_HOWMANY" : {
+      "description" : "",
+      "message" : "只有我."
+   },
+   "FLAVOUR_9_INTROTEXT" : {
+      "description" : "",
+      "message" : "我叫 {name}. 我现在急着去 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 距离 {dist} ly. 我给你 {cash} 块钱, 你能帮帮我吗?"
+   },
+   "FLAVOUR_9_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "十分感谢, 你帮了我大忙. 就按之前说好的价位给你钱."
+   },
+   "FLAVOUR_9_WHEREAREWE" : {
+      "description" : "",
+      "message" : "我们在哪儿? 我已经等够了 - 现在把我带到最近的空间站!"
+   },
+   "FLAVOUR_9_WHYSOMUCH" : {
+      "description" : "",
+      "message" : "警察要我协助他们的调查."
+   },
+   "FROM" : {
+      "description" : "",
+      "message" : "来自:"
+   },
+   "GROUP_DETAILS" : {
+      "description" : "",
+      "message" : "详细组信息:"
+   },
+   "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
+      "description" : "",
+      "message" : "喂!?! 你会付出代价的!!!"
+   },
+   "HOW_MANY_OF_YOU_ARE_THERE" : {
+      "description" : "",
+      "message" : "你们有多少人?"
+   },
+   "HOW_SOON_YOU_MUST_BE_THERE" : {
+      "description" : "",
+      "message" : "你要在什么时候之前到哪里?"
+   },
+   "I_MUST_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "最晚"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "ly"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "好的, 我同意."
+   },
+   "PIRATE_TAUNTS_0" : {
+      "description" : "",
+      "message" : "你会后悔跟 {client} 打交道的."
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "{client} 在你的船上? 那真是个坏主意."
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "今天幸运女神不在你那边! 准备去死吧."
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "你今天到不了!"
+   },
+   "TAXI" : {
+      "description" : "",
+      "message" : "的士"
+   },
+   "TO" : {
+      "description" : "",
+      "message" : "去:"
+   },
+   "WE_WANT_TO_BE_THERE_BEFORE" : {
+      "description" : "",
+      "message" : "我们想到到那里,最晚"
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "为什么这么多钱?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "我会有危险吗?"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "你的船上没有足够的客舱空间."
+   }
+}

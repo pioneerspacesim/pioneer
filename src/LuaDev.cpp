@@ -1,10 +1,11 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaDev.h"
 #include "LuaObject.h"
 #include "Pi.h"
 #include "WorldView.h"
+#include "Game.h"
 
 /*
  * Lua commands used in development & debugging
@@ -19,9 +20,9 @@
  */
 static int l_dev_set_camera_offset(lua_State *l)
 {
-	if (!Pi::worldView)
+	if (!Pi::game || !Pi::game->GetWorldView())
 		return luaL_error(l, "Dev.SetCameraOffset only works when there is a game running");
-	CameraController *cam = Pi::worldView->GetCameraController();
+	CameraController *cam = Pi::game->GetWorldView()->GetCameraController();
 	const float x = luaL_checknumber(l, 1);
 	const float y = luaL_checknumber(l, 2);
 	const float z = luaL_checknumber(l, 3);

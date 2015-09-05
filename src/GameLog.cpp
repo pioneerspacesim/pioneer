@@ -1,7 +1,7 @@
 #include "GameLog.h"
-#include "Colors.h"
 #include "StringF.h"
 #include "graphics/Renderer.h"
+#include "graphics/VertexArray.h"
 
 const Uint32 MESSAGE_TIMEOUT  = 8000;
 const Uint32 FADE_TIME  = 1000;
@@ -9,12 +9,13 @@ const Uint32 FADE_AFTER = MESSAGE_TIMEOUT - FADE_TIME;
 const Uint8 MAX_MESSAGES = 6;
 
 GameLog::Message::Message(const std::string &m, Uint32 t)
-: msg(m), time(t)
+	: msg(m), time(t), m_prevAlpha(0)
 {}
 
 GameLog::GameLog(RefCountedPtr<Text::TextureFont> font, vector2f scrSize)
 : m_font(font)
 , m_screenSize(scrSize)
+, m_prevMessages(0)
 {
 	m_lineHeight = m_font->GetHeight();
 
@@ -72,15 +73,33 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 	r->SetTransform(matrix4x4f::Identity());
 	r->SetRenderState(prsd);
 
-	const Color &c = Colors::HUD_MESSAGE;
+	const Color &c = Color::WHITE;
 
+	// (re)build buffers
+	const size_t numMessages = m_messages.size();
+	const bool bRefresh = (numMessages != m_prevMessages);
+	// update message loop
 	float y = 0;
-	for (auto it = m_messages.rbegin(); it != m_messages.rend(); ++it) {
+	for (auto it = m_messages.rbegin(), itEnd = m_messages.rend(); it != itEnd; ++it) {
 		float alpha = 1.f;
 		if (it->time > FADE_AFTER) {
-			alpha = 1.0f - (float(it->time - FADE_AFTER) / FADE_TIME);
+			alpha = 1.0f - (float(it->time - FADE_AFTER) / float(FADE_TIME));
 		}
-		m_font->RenderString(it->msg.c_str(), m_offset.x, m_offset.y + y, Color(c.r, c.g, c.b, alpha*255));
+		Uint32 iAlpha(Clamp(Uint32(alpha*255), 0U, 255U));
+		const Color textColour(c.r, c.g, c.b, iAlpha);
+
+		// update only if things have changed or the buffer does not exist
+		if (bRefresh || !it->m_vb.Valid() || iAlpha != it->m_prevAlpha || !it->m_prevoffset.ExactlyEqual(m_offset))
+		{
+			it->m_prevAlpha = iAlpha;
+			it->m_prevoffset = m_offset;
+			Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+			m_font->PopulateString(va, it->msg.c_str(), m_offset.x, m_offset.y + y, textColour);
+			it->m_vb.Reset( m_font->CreateVertexBuffer(va) );
+		}
+
+		m_font->RenderBuffer( it->m_vb.Get() );
 		y -= m_lineHeight;
 	}
+	m_prevMessages = numMessages;
 }

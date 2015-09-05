@@ -117,7 +117,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola, Soy {name} y necesito pasaje para un grupo pequeño al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}."
+      "message" : "Hola, Soy {name} y necesito pasaje para un grupo pequeño al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Pagaré {cash}."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
-      "message" : "Mi nombre es {name}. Quiero pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pago {cash}."
+      "message" : "Mi nombre es {name}. Quiero pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Pago {cash}."
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
-      "message" : "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Se pagarán {cash}."
+      "message" : "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Se pagarán {cash}."
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
-      "message" : "Mi nombre es {name}. Necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Se le pagará {cash}."
+      "message" : "Mi nombre es {name}. Necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Se le pagará {cash}."
    },
    "FLAVOUR_12_SUCCESSMSG" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Saludos, Soy {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Abonaré {cash}."
+      "message" : "Saludos, Soy {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Abonaré {cash}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola, Mi nombre es {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}."
+      "message" : "Hola, Mi nombre es {name} y necesito pasaje para un pequeño grupo al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Pagaré {cash}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola, Soy {name} y necesito pasaje al sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Le pagaré {cash}."
+      "message" : "Hola, Soy {name} y necesito pasaje al sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Le pagaré {cash}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}."
+      "message" : "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Pagaré {cash}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola, Soy {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}."
+      "message" : "Hola, Soy {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Pagaré {cash}."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -405,7 +405,7 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Abonaré {cash}."
+      "message" : "Saludos, Mi nombre es {name} y necesito pasaje al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Abonaré {cash}."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Hola, mi nombre es {name} y necesito pasaje seguro al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Le pagaré {cash}."
+      "message" : "Hola, mi nombre es {name} y necesito pasaje seguro al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Le pagaré {cash}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "La Mafia me quiere ver muerto."
+      "message" : "La Mafia me quiere muerto."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}."
+      "message" : "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Pagaré {cash}."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
@@ -501,7 +501,7 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly. Pagaré {cash}."
+      "message" : "Mi nombre es {name}. Necesito pasaje rápido al Sistema {system} ({sectorx}, {sectory}, {sectorz}), {dist} AL. Pagaré {cash}."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
@@ -523,13 +523,9 @@
       "description" : "",
       "message" : "Detalles del grupo:"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
-   },
    "HEY_YOU_ARE_GOING_TO_PAY_FOR_THIS" : {
       "description" : "",
-      "message" : "¡¿¡Ey!?! ¡¡¡Vas a pagar por esto!!!"
+      "message" : "¡¿¡Hey!?! ¡¡¡Vas a pagar por esto!!!"
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
@@ -545,7 +541,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "ly"
+      "message" : "AL"
    },
    "OK_AGREED" : {
       "description" : "",
@@ -573,7 +569,7 @@
    },
    "TO" : {
       "description" : "",
-      "message" : "En Sistema:"
+      "message" : "A:"
    },
    "WE_WANT_TO_BE_THERE_BEFORE" : {
       "description" : "",

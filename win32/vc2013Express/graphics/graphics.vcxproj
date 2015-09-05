@@ -107,7 +107,7 @@
     <ClCompile />
     <ClCompile>
       <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PIONEER_PROFILER;GLEW_STATIC;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
@@ -124,26 +124,36 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\FresnelColourMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GasGiantMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GeoSphereMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Material.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderState.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderTarget.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\MultiMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\Program.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\RingMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\ShieldMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\Uniform.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">CompileAsCpp</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\opengl\MaterialGL.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\Program.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\RendererGL.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\RenderStateGL.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\RenderTargetGL.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\RingMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\ShieldMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\TextureGL.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\UIMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\Uniform.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\VertexBufferGL.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\VtxColorMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Material.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Renderer.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\RendererGL2.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\Stats.cpp" />
     <ClCompile Include="..\..\..\src\graphics\TextureBuilder.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\TextureGL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\VertexArray.cpp" />
     <ClCompile Include="..\..\..\src\graphics\VertexBuffer.cpp" />
     <ClCompile Include="..\..\..\src\graphics\WindowSDL.cpp" />
@@ -157,31 +167,42 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\MaterialDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RendererDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderStateDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\RenderTargetDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\TextureDummy.h" />
+    <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\FresnelColourMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GasGiantMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GeoSphereMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Material.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderState.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderTarget.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\MultiMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\Program.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\RingMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\ShieldMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\SkyboxMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\StarfieldMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\Uniform.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\GLDebug.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\MaterialGL.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\MultiMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\Program.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\RendererGL.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\RenderStateGL.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\RenderTargetGL.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\RingMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\ShieldMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\SkyboxMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\StarfieldMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\TextureGL.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\UIMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\Uniform.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\VertexBufferGL.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\VtxColorMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />
     <ClInclude Include="..\..\..\src\graphics\Light.h" />
     <ClInclude Include="..\..\..\src\graphics\Material.h" />
     <ClInclude Include="..\..\..\src\graphics\Renderer.h" />
-    <ClInclude Include="..\..\..\src\graphics\RendererGL2.h" />
     <ClInclude Include="..\..\..\src\graphics\RenderState.h" />
     <ClInclude Include="..\..\..\src\graphics\RenderTarget.h" />
+    <ClInclude Include="..\..\..\src\graphics\Stats.h" />
     <ClInclude Include="..\..\..\src\graphics\Texture.h" />
     <ClInclude Include="..\..\..\src\graphics\TextureBuilder.h" />
-    <ClInclude Include="..\..\..\src\graphics\TextureGL.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexBuffer.h" />
     <ClInclude Include="..\..\..\src\graphics\WindowSDL.h" />

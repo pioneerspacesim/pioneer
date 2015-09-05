@@ -1,0 +1,31 @@
+{
+   "angular_thrust" : 2500000.0,
+   "capacity" : 15,
+   "cockpit" : "",
+   "down_thrust" : 1000000.0,
+   "effective_exhaust_velocity" : 8840000.0,
+   "forward_thrust" : 6000000.0,
+   "fuel_tank_mass" : 22,
+   "hull_mass" : 17,
+   "hyperdrive_class" : 0,
+   "left_thrust" : 1000000.0,
+   "manufacturer" : "mandarava_csepel",
+   "max_crew" : 2,
+   "min_crew" : 1,
+   "model" : "kanara",
+   "name" : "Kanara Police Interceptor",
+   "price" : 0.0,
+   "reverse_thrust" : 2000000.0,
+   "right_thrust" : 1000000.0,
+   "ship_class" : "light_fighter",
+   "slots" : {
+      "cargo" : 9,
+      "scoop" : 0,
+      "engine" : 0,
+      "laser_front" : 1,
+      "missile" : 8,
+      "sensor"  : 2
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 1000000.0
+}

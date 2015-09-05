@@ -1,0 +1,31 @@
+{
+   "angular_thrust" : 19500000.0,
+   "capacity" : 80,
+   "cockpit" : "",
+   "down_thrust" : 1800000.0,
+   "effective_exhaust_velocity" : 18200000.0,
+   "forward_thrust" : 6100000.0,
+   "fuel_tank_mass" : 60,
+   "hull_mass" : 50,
+   "hyperdrive_class" : 2,
+   "left_thrust" : 1800000.0,
+   "manufacturer" : "opli",
+   "max_crew" : 3,
+   "min_crew" : 1,
+   "model" : "natrix",
+   "name" : "Natrix",
+   "price" : 241000.0,
+   "reverse_thrust" : 3800000.0,
+   "right_thrust" : 1800000.0,
+   "ship_class" : "light_freighter",
+   "slots" : {
+      "atmo_shield" : 0,
+      "cargo" : 80,
+      "scoop" : 0,
+      "laser_front" : 1,
+      "missile" : 0,
+      "sensor"  : 2
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 3800000.0
+}

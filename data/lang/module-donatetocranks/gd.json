@@ -47,20 +47,16 @@
       "description" : "",
       "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Cuir crìoch air a' ghairm."
-   },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
-      "message" : "Thank you. All donations are welcome."
+      "message" : "Mòran taing. Cuiridh sinn fàilte air gach tìodhlac."
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "Wow! That was very generous."
+      "message" : "Mo chreach! Nach tusa a tha fiùghanta!"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "You do not have enough money."
+      "message" : "Chan eil airgead gu leòr agad."
    }
 }

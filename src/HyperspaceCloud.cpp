@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "HyperspaceCloud.h"
@@ -16,6 +16,7 @@
 #include "graphics/Renderer.h"
 #include "graphics/VertexArray.h"
 #include "graphics/RenderState.h"
+#include "json/JsonUtils.h"
 
 using namespace Graphics;
 
@@ -69,26 +70,47 @@ void HyperspaceCloud::SetIsArrival(bool isArrival)
 	SetLabel(isArrival ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 }
 
-void HyperspaceCloud::Save(Serializer::Writer &wr, Space *space)
+void HyperspaceCloud::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Body::Save(wr, space);
-	wr.Vector3d(m_vel);
-	wr.Double(m_birthdate);
-	wr.Double(m_due);
-	wr.Bool(m_isArrival);
-	wr.Bool(m_ship != 0);
-	if (m_ship) m_ship->Serialize(wr, space);
+	Body::SaveToJson(jsonObj, space);
+
+	Json::Value hyperspaceCloudObj(Json::objectValue); // Create JSON object to contain hyperspace cloud data.
+
+	VectorToJson(hyperspaceCloudObj, m_vel, "vel");
+	hyperspaceCloudObj["birth_date"] = DoubleToStr(m_birthdate);
+	hyperspaceCloudObj["due"] = DoubleToStr(m_due);
+	hyperspaceCloudObj["is_arrival"] = m_isArrival;
+	if (m_ship)
+	{
+		Json::Value shipObj(Json::objectValue); // Create JSON object to contain ship data.
+		m_ship->ToJson(shipObj, space);
+		hyperspaceCloudObj["ship"] = shipObj; // Add ship object to hyperpace cloud object.
+	}
+
+	jsonObj["hyperspace_cloud"] = hyperspaceCloudObj; // Add hyperspace cloud object to supplied object.
 }
 
-void HyperspaceCloud::Load(Serializer::Reader &rd, Space *space)
+void HyperspaceCloud::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	Body::Load(rd, space);
-	m_vel = rd.Vector3d();
-	m_birthdate = rd.Double();
-	m_due = rd.Double();
-	m_isArrival = rd.Bool();
-	if (rd.Bool()) {
-		m_ship = static_cast<Ship*>(Body::Unserialize(rd, space));
+	Body::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("hyperspace_cloud")) throw SavedGameCorruptException();
+	Json::Value hyperspaceCloudObj = jsonObj["hyperspace_cloud"];
+
+	if (!hyperspaceCloudObj.isMember("vel")) throw SavedGameCorruptException();
+	if (!hyperspaceCloudObj.isMember("birth_date")) throw SavedGameCorruptException();
+	if (!hyperspaceCloudObj.isMember("due")) throw SavedGameCorruptException();
+	if (!hyperspaceCloudObj.isMember("is_arrival")) throw SavedGameCorruptException();
+
+	JsonToVector(&m_vel, hyperspaceCloudObj, "vel");
+	m_birthdate = StrToDouble(hyperspaceCloudObj["birth_date"].asString());
+	m_due = StrToDouble(hyperspaceCloudObj["due"].asString());
+	m_isArrival = hyperspaceCloudObj["is_arrival"].asBool();
+
+	if (hyperspaceCloudObj.isMember("ship"))
+	{
+		Json::Value shipObj = hyperspaceCloudObj["ship"];
+		m_ship = static_cast<Ship*>(Body::FromJson(shipObj, space));
 	}
 }
 
@@ -167,7 +189,7 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 	vector3d zaxis = viewCoords.NormalizedSafe();
 	vector3d xaxis = vector3d(0,1,0).Cross(zaxis).Normalized();
 	vector3d yaxis = zaxis.Cross(xaxis);
-	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).InverseOf();
+	matrix4x4d rot = matrix4x4d::MakeRotMatrix(xaxis, yaxis, zaxis).Inverse();
 	renderer->SetTransform(trans * rot);
 
 	// precise to the rendered frame (better than PHYSICS_HZ granularity)

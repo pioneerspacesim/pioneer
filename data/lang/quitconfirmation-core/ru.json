@@ -1,0 +1,82 @@
+{
+   "MSG_1" : {
+      "description" : "",
+      "message" : "Скажите {yes}, что бы выйти отсюда и вернуться к своим скучным программам?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Пожалуйста, выберите {no} и потратьте ещё несколько продуктивных часов на игру. Ну пожалуйста!"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Исследователи никогда не отступают, но вперёд, кликните {yes}, если Вы не один из них."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Выберите {no}, если Вы упорный охотник за наградами, если нет, то можете выбрать {yes}."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "Мы больше не разговариваем. Вы присмотрели кого то другого?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Неужели у вас и правда есть занятие получше?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Уже сдались?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Ты понимаешь, что сейчас делаешь, Дэйв?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "\"Выход\" - это для слабаков!"
+   },
+   "MSG_2" : {
+      "description" : "",
+      "message" : "Не уходите сейчас, в другой программе вас поджидает пират."
+   },
+   "MSG_3" : {
+      "description" : "",
+      "message" : "Вы уверены, что хотите выйти из такой крутой игры, за которую вам даже платить не нужно?"
+   },
+   "MSG_4" : {
+      "description" : "",
+      "message" : "Неужели вы хотите так поспешно бросить?"
+   },
+   "MSG_5" : {
+      "description" : "(Inspired by Wolfenstein 3D)",
+      "message" : "Выбор {no} - оружие и слава, {yes} - работа и проблемы."
+   },
+   "MSG_6" : {
+      "description" : "",
+      "message" : "Покажите свою храбрость - кликните {no} или кликните {yes} что бы с позором бежать."
+   },
+   "MSG_7" : {
+      "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
+      "message" : "На вашем месте я бы не выходил. Командная строка намного хуже."
+   },
+   "MSG_8" : {
+      "description" : "",
+      "message" : "Думаю, Вы хотите кликнуть {no} и продолжить играть. Так сделайте это."
+   },
+   "MSG_9" : {
+      "description" : "",
+      "message" : "Клик {yes} означает, что Вы должны вернуться к скуке повседневности."
+   },
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "Нет"
+   },
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Выходите?"
+   },
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Да"
+   }
+}

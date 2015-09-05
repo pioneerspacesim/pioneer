@@ -5,7 +5,7 @@
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "¡HAGA UNA DONACION! La Iglesia de El Monstruo Celeste de Spaghetti Volante necesita TU dinero para propagar la palabra de dios."
+      "message" : "¡HAGA UNA DONACION! La Iglesia de El Monstruo Celeste del Spaghetti Volador necesita TU dinero para propagar la palabra de dios."
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
@@ -46,10 +46,6 @@
    "FLAVOUR_5_TITLE" : {
       "description" : "",
       "message" : "¡APOYE LA LIBERTAD! Acabe con la gran injusticia de que software propietario controle su nave."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
    },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",

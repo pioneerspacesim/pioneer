@@ -1,0 +1,618 @@
+{
+   "ACCEPTED_1" : {
+      "description" : "",
+      "message" : "Отлично! Я погружу товары на ваш корабль."
+   },
+   "ACCEPTED_2" : {
+      "description" : "",
+      "message" : "Прекрасно!"
+   },
+   "ACCEPTED_3" : {
+      "description" : "",
+      "message" : "Хорошо. Надеюсь я могу вам доверять."
+   },
+   "ACCEPTED_4" : {
+      "description" : "",
+      "message" : "По рукам!"
+   },
+   "ACCEPTED_PICKUP_1" : {
+      "description" : "",
+      "message" : "Хорошо, я проверю, что все товары подготовлены к погрузке."
+   },
+   "ACCEPTED_PICKUP_2" : {
+      "description" : "",
+      "message" : "Договорились! Я сообщу своим коллегам, что вы уже в пути."
+   },
+   "ADTEXT_1" : {
+      "description" : "",
+      "message" : "ГРУЗОВАЯ ДОСТАВКА. Необходимо доставить груз в систему {system}."
+   },
+   "ADTEXT_2" : {
+      "description" : "",
+      "message" : "ТРЕБУЕТСЯ ТРАНСПОРТИРОВКА. Транспортировка товаров в систему {system}. Оплата {cash}."
+   },
+   "ADTEXT_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "ДОСТАВКА. Ценный груз в систему {system}. {cash} опытному пилоту."
+   },
+   "ADTEXT_LOCAL_1" : {
+      "description" : "",
+      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка товаров в космопорт {starport}."
+   },
+   "ADTEXT_LOCAL_2" : {
+      "description" : "",
+      "message" : "ТРЕБУЕТСЯ ТРАНСПОРТ. Доставка груза в местный космопорт {starport}."
+   },
+   "ADTEXT_LOCAL_3" : {
+      "description" : "",
+      "message" : "МЕСТНАЯ ГРУЗОВАЯ ДОСТАВКА. Доставить груз в космопорт {starport}."
+   },
+   "ADTEXT_PICKUP_1" : {
+      "description" : "",
+      "message" : "ЗАБОР ГРУЗА. Необходимо забрать груз из {system} системы."
+   },
+   "ADTEXT_PICKUP_LOCAL_1" : {
+      "description" : "",
+      "message" : "ПЕРЕВОЗКА. Требуется вывезти груз из космопорта {starport}."
+   },
+   "ADTEXT_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "СЛУЖБА ДОСТАВКИ. Требуется корабль для доставки груза в систему {system}."
+   },
+   "ALUMINIUM_TUBES" : {
+      "description" : "custom cargo",
+      "message" : "Алюминиевые трубы"
+   },
+   "AMOUNT" : {
+      "description" : "Shown in mission summary. The amount of cargo",
+      "message" : "Количество:"
+   },
+   "ART_OBJECTS" : {
+      "description" : "custom cargo",
+      "message" : "Произведения искусства"
+   },
+   "CARGO" : {
+      "description" : "",
+      "message" : "Груз:"
+   },
+   "CARGORUN" : {
+      "description" : "Name of mission type",
+      "message" : "Доставка груза"
+   },
+   "CEASE_FIRE" : {
+      "description" : "",
+      "message" : "Не стрелять, не стрелять! Я на твоей стороне!"
+   },
+   "CLUS" : {
+      "description" : "custom cargo",
+      "message" : "Containerized living units"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Не могли бы вы повторить ваше предложение?"
+   },
+   "DANGER" : {
+      "description" : "the risk level",
+      "message" : "Опасность:"
+   },
+   "DEADLINE" : {
+      "description" : "Must be delivered by",
+      "message" : "Крайний срок:"
+   },
+   "DELIVER_TO" : {
+      "description" : "Deliver to this location",
+      "message" : "Доставить:"
+   },
+   "DENY_1" : {
+      "description" : "",
+      "message" : "Извините, но этот груз крайне ценен для меня, чтобы его можно было доверить такому неопытному пилоту как вы."
+   },
+   "DENY_2" : {
+      "description" : "",
+      "message" : "Я никогда раньше не слышал о вас. Я вас не знаю и я вам не доверяю."
+   },
+   "DENY_3" : {
+      "description" : "",
+      "message" : "Простите, но я ищу опытного пилота."
+   },
+   "DENY_4" : {
+      "description" : "",
+      "message" : "Извините меня, но я не думаю, что у вас есть что-то такое, чтобы получить работу."
+   },
+   "DENY_5" : {
+      "description" : "",
+      "message" : "Не трать впустую моё время! Ты ещё зелёный."
+   },
+   "DENY_6" : {
+      "description" : "",
+      "message" : "Возвращайтесь, когда станете более опытным."
+   },
+   "DIAMONDS" : {
+      "description" : "custom cargo",
+      "message" : "Бриллианты"
+   },
+   "DIGESTERS" : {
+      "description" : "custom cargo",
+      "message" : "Автоклавы"
+   },
+   "DISTANCE" : {
+      "description" : "distance in space, between two locations",
+      "message" : "Расстояние:"
+   },
+   "ELECTRICAL_APPLIANCES" : {
+      "description" : "custom cargo",
+      "message" : "Электрооборудование "
+   },
+   "ESCORT_CHATTER_1" : {
+      "description" : "",
+      "message" : "Замечен вражеский корабль. Атакуем его вместе."
+   },
+   "ESCORT_CHATTER_2" : {
+      "description" : "",
+      "message" : "Отлично! Этот пират будет первой моей добычей."
+   },
+   "ESCORT_CHATTER_3" : {
+      "description" : "",
+      "message" : "Враг обнаружен. Открываю огонь."
+   },
+   "ESCORT_CHATTER_4" : {
+      "description" : "",
+      "message" : "Продолжайте следовать к месту назначения. Я вас прикрою."
+   },
+   "ESCORT_CHATTER_5" : {
+      "description" : "",
+      "message" : "Ату его! Это будет моя первая добыча сегодня."
+   },
+   "EXPLOSIVES" : {
+      "description" : "custom cargo",
+      "message" : "Взрывчатые вещества"
+   },
+   "FAILUREMSG_1" : {
+      "description" : "",
+      "message" : "Я очень разочарован срывом сроков. Оплаты не будет."
+   },
+   "FAILUREMSG_2" : {
+      "description" : "",
+      "message" : "Вы опоздали! Что вы мне прикажете с этим делать?! Теперь оно ничего не стоит!"
+   },
+   "FAILUREMSG_3" : {
+      "description" : "",
+      "message" : "Послушайте, мы договаривались, что доставка будет в срок. Так что забудьте об оплате."
+   },
+   "FAILUREMSG_4" : {
+      "description" : "",
+      "message" : "Отныне, я больше не буду рассматривать ваши запросы о работе."
+   },
+   "FAILUREMSG_FLUFFY_1" : {
+      "description" : "",
+      "message" : "Ты чудовище! Ты слишком долго тянул с доставкой. Все мои пушистики изголодались!"
+   },
+   "FURNITURE" : {
+      "description" : "custom cargo",
+      "message" : "Мебель"
+   },
+   "GREENHOUSES" : {
+      "description" : "custom cargo",
+      "message" : "Теплицы"
+   },
+   "GUNS_GUNS_GUNS" : {
+      "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
+      "message" : "Guns, guns, guns."
+   },
+   "HAZARDOUS_SUBSTANCES" : {
+      "description" : "custom cargo",
+      "message" : "Опасные вещества"
+   },
+   "HOWMUCH_1" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "{amount} метротонн."
+   },
+   "HOWMUCH_2" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "{amount}т."
+   },
+   "HOWMUCH_3" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "Масса груза {amount}т."
+   },
+   "HOWMUCH_4" : {
+      "description" : "regarding mass, always more than 1t",
+      "message" : "Имеется {amount}т."
+   },
+   "HOWMUCH_SINGULAR_1" : {
+      "description" : "This string is only used for 1 metric tons (singular)",
+      "message" : "Всего лишь {amount}т."
+   },
+   "HOWMUCH_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Имеется {amount}т. {cargoname}."
+   },
+   "HOWMUCH_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "{amount}т. {cargoname}"
+   },
+   "HOW_MUCH_MASS" : {
+      "description" : "",
+      "message" : "Какова масса груза?"
+   },
+   "HOW_SOON_MUST_IT_BE_DELIVERED" : {
+      "description" : "",
+      "message" : "Каковы сроки доставки?"
+   },
+   "INTROTEXT_1" : {
+      "description" : "",
+      "message" : "Привет! Меня зовут {name}. Я заплачу {cash}, если вы доставите {cargoname} на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
+   },
+   "INTROTEXT_2" : {
+      "description" : "{name} is the full name of a person",
+      "message" : "Greetings! {name} Transport Services needs you to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away. We pay {cash} for a safe and complete delivery."
+   },
+   "INTROTEXT_3" : {
+      "description" : "",
+      "message" : "Добрый день. Я {name}, основатель {name} Ltd. Мне нужен надёжный пилот для доставки {cargoname} в {starport} в систему {system} ({sectorx}, {sectory}, {sectorz}). Я заплачу {cash} за перелёт длиной {dist} св.лет."
+   },
+   "INTROTEXT_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "Hello. We need someone experienced for a potentially dangerous run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We'll pay {cash}. The distance is {dist} ly."
+   },
+   "INTROTEXT_FLUFFY_1" : {
+      "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
+      "message" : "Hi, my name is {name}. I have a fluffy shipment of {cargoname} for delivery to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The distance is {dist} ly. For this delivery I will pay you {cash}."
+   },
+   "INTROTEXT_INFRASTRUCTURE_1" : {
+      "description" : "",
+      "message" : "Приветствую! Я {name}. Правительство системы {system} поручило доставить {cargoname} на станцию {starport}, та что в системе {system} ({sectorx}, {sectory}, {sectorz}). Система находится в {dist} св.лет отсюда. Оплата {cash}."
+   },
+   "INTROTEXT_LOCAL_1" : {
+      "description" : "",
+      "message" : "Nice to meet you. I'm {name} and I work for the {starport} administration. We pay {cash} to someone who is able to move {cargoname} to {starport}."
+   },
+   "INTROTEXT_LOCAL_2" : {
+      "description" : "",
+      "message" : "Привет! Я {name} и я заплачу {cash} за быструю доставку {cargoname} на станцию {starport}."
+   },
+   "INTROTEXT_LOCAL_3" : {
+      "description" : "",
+      "message" : "Меня зовут {name} и мне нужно доставить {cargoname} клиенту, который ожидает груз на станции {starport}. Плачу {cash} за доставку."
+   },
+   "INTROTEXT_MINING_1" : {
+      "description" : "{name} is the full name of a person",
+      "message" : "Здравствуйте. Шахтёрская Компания {name} хочет доставить {cargoname} в {starport}, в системе {system} ({sectorx}, {sectory}, {sectorz}), расстояние {dist} св.лет, для постройки новой шахты. Оплата {cash}."
+   },
+   "INTROTEXT_PICKUP_1" : {
+      "description" : "",
+      "message" : "How do you do? My name is {name}, and I need a ship that is able to fly to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, to pickup {cargoname} and return to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system for {cash}. The distance to {system} is {dist} ly."
+   },
+   "INTROTEXT_PICKUP_2" : {
+      "description" : "",
+      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from the {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+   },
+   "INTROTEXT_PICKUP_LOCAL_1" : {
+      "description" : "",
+      "message" : "Greetings. I'm {name}. I will pay {cash} to someone who will transport {cargoname} from {starport} to {dom_starport}."
+   },
+   "INTROTEXT_PICKUP_LOCAL_2" : {
+      "description" : "",
+      "message" : "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+   },
+   "INTROTEXT_WEDDING_1" : {
+      "description" : "",
+      "message" : "Приветствую! Вы слышали уже о свадебном буме на станции {starport} в системе {system} ({sectorx}, {sectory}, {sectorz})? Мы хотим доставить туда {cargoname}. Это в {dist} св.лет отсюда. Оплата {cash}. Как вам такое предложение?"
+   },
+   "INTROTEXT_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Hello, my name is {name} and I'm a wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly."
+   },
+   "INTROTEXT_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+   },
+   "I_AM_ON_MY_WAY" : {
+      "description" : "",
+      "message" : "Sensors show that you are taking damage. I'm on my way."
+   },
+   "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
+      "description" : "",
+      "message" : "Я списываю деньги с вашего счёта за утерю товара."
+   },
+   "I_NEED_HELP" : {
+      "description" : "",
+      "message" : "Меня подбили. Нужна помощь."
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "св.лет"
+   },
+   "MACHINE_TOOLS" : {
+      "description" : "custom cargo",
+      "message" : "Металлорежущие станки"
+   },
+   "NEPTUNIUM" : {
+      "description" : "custom cargo",
+      "message" : "Нептуний"
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Согласен, подписываю контракт."
+   },
+   "PICKUP_FROM" : {
+      "description" : "from a location",
+      "message" : "Забрать груз на:"
+   },
+   "PIRATE_GRIPES_1" : {
+      "description" : "",
+      "message" : "Проклятие! Вы поплатитесь за это!"
+   },
+   "PIRATE_GRIPES_2" : {
+      "description" : "",
+      "message" : "О нет. Мой бедный корабль!"
+   },
+   "PIRATE_GRIPES_3" : {
+      "description" : "said with vengeance",
+      "message" : "Погоди! Я ещё покажу тебе!"
+   },
+   "PIRATE_TAUNTS_1" : {
+      "description" : "",
+      "message" : "This will be your last run!"
+   },
+   "PIRATE_TAUNTS_2" : {
+      "description" : "",
+      "message" : "Работаешь на {client}? Это была плохая идея!"
+   },
+   "PIRATE_TAUNTS_3" : {
+      "description" : "",
+      "message" : "Эй дружок, гони свой груз сюда. Быстро!"
+   },
+   "PIRATE_TAUNTS_4" : {
+      "description" : "",
+      "message" : "Эй приятель, ты никогда не доберёшься до места назначения."
+   },
+   "PIRATE_TAUNTS_5" : {
+      "description" : "",
+      "message" : "Ах, ещё один жирный гусь, следующий к {location}."
+   },
+   "PIRATE_TAUNTS_6" : {
+      "description" : "",
+      "message" : "Похоже ты перевозишь больше, чем положено. Давай-ка я тебе помогу."
+   },
+   "PIRATE_TAUNTS_7" : {
+      "description" : "",
+      "message" : "Удача подвела тебя!"
+   },
+   "PLUTONIUM" : {
+      "description" : "custom cargo",
+      "message" : "Плутоний"
+   },
+   "QUIBBLES" : {
+      "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
+      "message" : "Quibbles"
+   },
+   "RISK_1" : {
+      "description" : "",
+      "message" : "Не думаю, что будут проблемы."
+   },
+   "RISK_2" : {
+      "description" : "",
+      "message" : "Не больше, чем обычно."
+   },
+   "RISK_3" : {
+      "description" : "",
+      "message" : "Это ценный груз, так что будьте настороже."
+   },
+   "RISK_4" : {
+      "description" : "",
+      "message" : "Вас могут поджидать опасности - убедитесь, что вы готовы к этому."
+   },
+   "RISK_5" : {
+      "description" : "",
+      "message" : "Дело довольно рискованное - скорее всего за грузом будут охотиться."
+   },
+   "RISK_6" : {
+      "description" : "",
+      "message" : "Не рассчитывайте достигнуть места назначения целым и невредимым. "
+   },
+   "RISK_ART_1" : {
+      "description" : "",
+      "message" : "Товары очень привлекают \"любителей искусства\"."
+   },
+   "RISK_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "Мы сделали всё, чтобы сохранить в тайне доставку. Но мы не можем гарантировать, что не было утечки информации."
+   },
+   "RISK_EXPENSIVE_2" : {
+      "description" : "",
+      "message" : "Полиция сообщила нам, что неизвестная группа пиратов действует в этой системе."
+   },
+   "RISK_GEMS_1" : {
+      "description" : "",
+      "message" : "Не исключено, что какой-нибудь беспринципный торговец драгоценными камнями захочет отнять груз."
+   },
+   "RISK_WHOLESALER_1" : {
+      "description" : "",
+      "message" : "Не волнуйтесь. Полицейский патруль готов будет оказать помощь."
+   },
+   "RISK_WHOLESALER_2" : {
+      "description" : "",
+      "message" : "Риск не исключён. Но полиция уверяет, что патрулирует область."
+   },
+   "RISK_WHOLESALER_3" : {
+      "description" : "",
+      "message" : "Риск высок. Но у вас будет сопровождение."
+   },
+   "SEMI_FINISHED_PRODUCTS" : {
+      "description" : "custom cargo",
+      "message" : "Полуфабрикат"
+   },
+   "SPACEPORT" : {
+      "description" : "",
+      "message" : "Станция получателя:"
+   },
+   "SPACESHIP_PARTS" : {
+      "description" : "custom cargo",
+      "message" : "Части космических кораблей"
+   },
+   "SUCCESSMSG_1" : {
+      "description" : "",
+      "message" : "Спасибо за доставку. Ваши услуги оплачены."
+   },
+   "SUCCESSMSG_2" : {
+      "description" : "",
+      "message" : "Благодарю за своевременную доставку. Деньги перечислены на ваш счёт."
+   },
+   "SUCCESSMSG_3" : {
+      "description" : "",
+      "message" : "Великолепно! С вами приятно было работать. Чек оплачен."
+   },
+   "SUCCESSMSG_4" : {
+      "description" : "",
+      "message" : "Спасибо! Я вас обязательно порекомендую. Деньги зачислены на ваш счёт."
+   },
+   "SUCCESSMSG_FLUFFY_1" : {
+      "description" : "Said when receiving a shipment of Quibbles (see wikipedia Tribble)",
+      "message" : "Ах, Боже мой, что делать с таким количеством пушистых существ. В любом случае, деньги перечислены на ваш счёт."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Система получателя:"
+   },
+   "TARGET_DESTROYED" : {
+      "description" : "",
+      "message" : "Цель уничтожена."
+   },
+   "TITANIUM" : {
+      "description" : "custom cargo",
+      "message" : "Титан"
+   },
+   "TUNGSTEN" : {
+      "description" : "custom cargo",
+      "message" : "Вольфрам"
+   },
+   "URANIUM" : {
+      "description" : "custom cargo",
+      "message" : "Уран"
+   },
+   "URGENCY_1" : {
+      "description" : "",
+      "message" : "Это не к спеху. Доставить нужно до {date}."
+   },
+   "URGENCY_2" : {
+      "description" : "",
+      "message" : "Обязательно нужно доставить до {date}."
+   },
+   "URGENCY_3" : {
+      "description" : "",
+      "message" : "Из-за плотного графика нужно доставить до {date}."
+   },
+   "URGENCY_4" : {
+      "description" : "",
+      "message" : "Мы спешим, поэтому доставить нужно до {date}."
+   },
+   "URGENCY_5" : {
+      "description" : "",
+      "message" : "Крайне важно, чтобы товары были доставлены до {date}."
+   },
+   "URGENCY_FLUFFY_1" : {
+      "description" : "",
+      "message" : "Because of the reproduction rate of the little animals and the limited food in the container, the delivery must be completed until {date}."
+   },
+   "URGENCY_RADIOACTIVE_1" : {
+      "description" : "",
+      "message" : "Ориентируемся по периоду полураспада этого изотопа, поэтому доставка должна быть завершена до {date}."
+   },
+   "WEDDING_DRESSES" : {
+      "description" : "custom cargo",
+      "message" : "Свадебные наряды"
+   },
+   "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "Мы погрузили товары на ваш корабль."
+   },
+   "WHAT_IS_THIS" : {
+      "description" : "",
+      "message" : "Что вы говорите? Вы выбросили мой груз? Вы что, сумасшедший?"
+   },
+   "WHYSOMUCH_1" : {
+      "description" : "",
+      "message" : "Это стандартная оплата за работу."
+   },
+   "WHYSOMUCH_2" : {
+      "description" : "",
+      "message" : "Либо примите работу, либо оставьте её."
+   },
+   "WHYSOMUCH_3" : {
+      "description" : "",
+      "message" : "Считаю понятие слова \"большая\" относительным."
+   },
+   "WHYSOMUCH_4" : {
+      "description" : "",
+      "message" : "Оплата отражает наше желание того, чтобы товар доставили вовремя и в целости и сохранности."
+   },
+   "WHYSOMUCH_5" : {
+      "description" : "",
+      "message" : "Давайте рассмотрим это как награду за ваше умение молчать об этой доставке."
+   },
+   "WHYSOMUCH_6" : {
+      "description" : "",
+      "message" : "Ну, мы были бы не против заплатить вам меньше."
+   },
+   "WHYSOMUCH_CENTRIFUGES_1" : {
+      "description" : "",
+      "message" : "Несколько {cargoname} было уничтожено из-за ошибки в программном обеспечении и теперь требуется срочная их замена."
+   },
+   "WHYSOMUCH_CHEMICAL_1" : {
+      "description" : "",
+      "message" : "The production in the chemical plant depends on these goods and must not be interrupted. Nothing must stop the machine."
+   },
+   "WHYSOMUCH_EXPENSIVE_1" : {
+      "description" : "",
+      "message" : "Ценные товары пользуются большим спросом."
+   },
+   "WHYSOMUCH_EXPENSIVE_2" : {
+      "description" : "",
+      "message" : "Эти товары весьма дорогие."
+   },
+   "WHYSOMUCH_FLUFFY_1" : {
+      "description" : "",
+      "message" : "{cargoname} is a fast seller this season. You should invest in {cargoname} shares if you want to make a lot of money."
+   },
+   "WHYSOMUCH_INFRASTRUCTURE_1" : {
+      "description" : "",
+      "message" : "Эти товары крайне важны для строительного проекта."
+   },
+   "WHYSOMUCH_MINING_1" : {
+      "description" : "",
+      "message" : "Эти товары важны для строительства новой шахты."
+   },
+   "WHYSOMUCH_URGENT_1" : {
+      "description" : "",
+      "message" : "Мой лучший пилот заболел, а сроки поджимают."
+   },
+   "WHYSOMUCH_URGENT_2" : {
+      "description" : "",
+      "message" : "Если мы не успеем доставить грузы вовремя, проект начнет простаивать."
+   },
+   "WHYSOMUCH_URGENT_3" : {
+      "description" : "",
+      "message" : "Эти товары крайне необходимы."
+   },
+   "WHYSOMUCH_WEDDING_1" : {
+      "description" : "",
+      "message" : "До сих пор я не мог найти никого для выполнения этой перевозки. Когда сезон закончится, мой товар ничего не будет стоить."
+   },
+   "WHY_SO_MUCH_MONEY" : {
+      "description" : "",
+      "message" : "Почему такая большая оплата?"
+   },
+   "WILL_I_BE_IN_ANY_DANGER" : {
+      "description" : "",
+      "message" : "Предвидятся какие-либо проблемы?"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
+      "description" : "",
+      "message" : "На вашем корабле недостаточно свободного места."
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "Возвращайтесь, когда у вас будет достаточно свободного места."
+   }
+}

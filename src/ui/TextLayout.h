@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_TEXTLAYOUT_H
@@ -11,7 +11,7 @@
 #include <vector>
 
 namespace Text { class TextureFont; }
-namespace Graphics { class Renderer; }
+namespace Graphics { class Renderer; class VertexBuffer; }
 
 namespace UI {
 
@@ -35,6 +35,9 @@ private:
 	Point m_lastSize;        // and the resulting size
 
 	RefCountedPtr<Text::TextureFont> m_font;
+	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
+
+	Color m_prevColor;
 };
 
 }

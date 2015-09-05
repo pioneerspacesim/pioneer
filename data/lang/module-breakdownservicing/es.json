@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Elimine el inconveniente de un motor hiperespacial averiado. Tenga hoy mismo el suyo revisado por la compañía homologada Revisión de Motores {name}.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 meses\n{lasttime}"
+      "message" : "Elimine el inconveniente de un hiperimpulsor averiado. Tenga hoy mismo el suyo revisado por la compañía homologada Revisión de Motores {name}.\n\nMotor: {drive}\nRevisión: {price}\nGarantía: 18 meses\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
@@ -13,19 +13,19 @@
    },
    "FLAVOUR_0_YESPLEASE" : {
       "description" : "",
-      "message" : "Revise el motor"
+      "message" : "Revise el motor de hiperespacio"
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "Soy {proprietor}.  Puedo revisar su {drive}, con garantía por un año.  El costo de la revisión será {price}\n{lasttime}"
+      "message" : "Soy {proprietor}.  Puedo revisar su {drive}, con garantía por un año libre de problemas.  El costo de la revisión será {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
-      "message" : "Acabo de revisar su motor de hiperimpulso."
+      "message" : "Acabo de revisar su hiperimpulsor."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "{proprietor}: Especialistas en mantenimiento de motores de Hiperimpulso"
+      "message" : "{proprietor}: Especialistas en mantenimiento de Hiperimpulsores"
    },
    "FLAVOUR_1_YESPLEASE" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Saludos.  En {proprietor} & Co ponemos nuestra reputación en el trabajo.\n\n{lasttime}\nPodemos afinar el {drive} de su nave, garantía por 12 meses, por la suma de {price}.  Estaré supervisando el trabajo yo mismo, por lo tanto puedo asegurarle un trabajo bien hecho."
+      "message" : "Saludos.  En {proprietor} & Co ponemos nuestra reputación en el trabajo.\n\n{lasttime}\nPodemos afinar el {drive} de su nave, con garantía por 12 meses, por la suma de {price}.  Estaré supervisando el trabajo yo mismo, por lo tanto puedo asegurarle un trabajo bien hecho."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
-      "message" : "Revisión completa.  Gracias."
+      "message" : "Revisión completa.  Gracias por su encargo."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
@@ -45,15 +45,15 @@
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
-      "message" : "Por favor afine mi motor al precio acordado"
+      "message" : "Por favor, revise mi motor al precio acordado"
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Bienvenido Mantenimiento SuperFix.\n\n{lasttime}\n¿Ha llegado el momento de su mantenimiento bianual? ¡Permítanos SuperReparar su motor de hiperimpulso!\nPodemos tunear su {drive} por solo {price}.  ¡No hay nada mas barato!"
+      "message" : "Bienvenido a Mantenimiento SuperFix.\n\n{lasttime}\n¿Ha llegado el momento de su mantenimiento bianual? ¡Permítanos Super-Reparar su hiperimpulsor!\nPodemos afinar su {drive} por solo {price}.  ¡No hay nada mas barato!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
-      "message" : "La SuperReparación está completa, ¡con garantía SuperFix!"
+      "message" : "La Super-Reparación está completa, ¡con garantía SuperFix!"
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
@@ -61,11 +61,11 @@
    },
    "FLAVOUR_3_YESPLEASE" : {
       "description" : "",
-      "message" : "¡SuperRepárame!"
+      "message" : "¡Super-Repárame!"
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Bienvenido a Motores Espacio Tiempo.\n\nNos especializamos en motores interestelares. Garantía por dos años.\n{lasttime}\nLa revisión de su {drive} le costará {price}.  ¿Quiere continuar?"
+      "message" : "Bienvenido a Tiempo y Espacio.\n\nNos especializamos en motores interestelares. Garantía por dos años.\n{lasttime}\nLa revisión de su {drive} le costará {price}.  ¿Quiere continuar?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
@@ -73,15 +73,15 @@
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "Motores Espacio Tiempo, Inc."
+      "message" : "Motores Tiempo y Espacio, Inc."
    },
    "FLAVOUR_4_YESPLEASE" : {
       "description" : "",
-      "message" : "Si, por favor proceda"
+      "message" : "Si, por favor, proceda"
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Elimine el inconveniente de un motor de hiperimpulso averiado.  Optimice hoy mismo el suyo.\n\nEngine: {drive}\nService: {price}\n{lasttime}"
+      "message" : "Elimine el inconveniente de un hiperimpulsor averiado.  Optimice hoy mismo el suyo.\n\nMotor: {drive}\nRevisión: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
@@ -93,11 +93,7 @@
    },
    "FLAVOUR_5_YESPLEASE" : {
       "description" : "",
-      "message" : "Revise el motor de hiperimpulso"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Colgar."
+      "message" : "Revise el motor de hiperespacio"
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
@@ -105,26 +101,26 @@
    },
    "I_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "Revisé el hipermotor para prevenir averías."
+      "message" : "Revisé el hiperimpulsor para prevenir averías."
    },
    "THE_SHIPS_HYPERDRIVE_HAS_BEEN_DESTROYED_BY_A_MALFUNCTION" : {
       "description" : "",
-      "message" : "El hipermotor de la nave se ha destruído por un mal funcionamiento"
+      "message" : "El hiperimpulsor de la nave ha resultado destruído por un mal funcionamiento"
    },
    "YOUR_DRIVE_HAS_NOT_BEEN_SERVICED" : {
       "description" : "",
-      "message" : "Su hipermotor no ha tenido ninguna revisión desde {date}"
+      "message" : "Su hiperimpulsor no ha tenido ninguna revisión desde el {date}"
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
-      "message" : "La última revisión de su hipermotor fue el {date} por {company}"
+      "message" : "La última revisión de su hiperimpulsor fue el {date} por {company}"
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",
-      "message" : "¡Su nave no tiene ningún hipermotor instalado para revisar!"
+      "message" : "¡Su nave no tiene ningún hiperimpulsor instalado que revisar!"
    },
    "YOU_FIXED_THE_HYPERDRIVE_BEFORE_IT_BROKE_DOWN" : {
       "description" : "",
-      "message" : "Debe hacer revisar el hipermotor antes de que se averíe."
+      "message" : "Debe hacer revisar el hiperimpulsor antes de que se averíe."
    }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Drawables.h"
@@ -8,43 +8,101 @@ namespace Graphics {
 
 namespace Drawables {
 
+Circle::Circle(Renderer *renderer, const float radius, const Color &c, RenderState *state) : m_color(c) {
+	PROFILE_SCOPED()
+	m_renderState = state;
+	VertexArray vertices (ATTRIB_POSITION);
+	for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
+		vertices.Add(vector3f(radius*sin(theta), radius*cos(theta), 0));
+	}
+	SetupVertexBuffer(vertices, renderer);
+}
+Circle::Circle(Renderer *renderer, const float radius, const float x, const float y, const float z, const Color &c, RenderState *state) : m_color(c) {
+	PROFILE_SCOPED()
+	m_renderState = state;
+	VertexArray vertices (ATTRIB_POSITION);
+	for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
+		vertices.Add(vector3f(radius*sin(theta) + x, radius*cos(theta) + y, z));
+	}
+	SetupVertexBuffer(vertices, renderer);
+}
+Circle::Circle(Renderer *renderer, const float radius, const vector3f &center, const Color &c, RenderState *state) : m_color(c) {
+	PROFILE_SCOPED()
+	m_renderState = state;
+	VertexArray vertices (ATTRIB_POSITION);
+	for (float theta=0; theta < 2*float(M_PI); theta += 0.05f*float(M_PI)) {
+		vertices.Add(vector3f(radius*sin(theta) + center.x, radius*cos(theta) + center.y, center.z));
+	}
+	SetupVertexBuffer(vertices, renderer);
+}
+
+void Circle::Draw(Renderer *renderer) {
+	PROFILE_SCOPED()
+	m_material->diffuse = m_color;
+	renderer->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), PrimitiveType::LINE_LOOP);
+}
+
+void Circle::SetupVertexBuffer(const Graphics::VertexArray& vertices, Graphics::Renderer *r)
+{
+	PROFILE_SCOPED()
+	MaterialDescriptor desc;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	//Create vtx & index buffers and copy data
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = ATTRIB_POSITION;
+	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
+	vbd.numVertices = vertices.GetNumVerts();
+	vbd.usage = BUFFER_USAGE_STATIC;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer->Populate(vertices);
+}
+//------------------------------------------------------------
+
 Disk::Disk(Graphics::Renderer *r, Graphics::RenderState *state, const Color &c, float rad)
 {
+	PROFILE_SCOPED()
 	m_renderState = state;
 
-	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
+	VertexArray vertices (ATTRIB_POSITION);
 	m_material.Reset(r->CreateMaterial(MaterialDescriptor()));
 	m_material->diffuse = c;
 
-	m_vertices->Add(vector3f(0.f, 0.f, 0.f));
+	vertices.Add(vector3f(0.f, 0.f, 0.f));
 	for (int i = 72; i >= 0; i--) {
-		m_vertices->Add(vector3f(
+		vertices.Add(vector3f(
 			0.f+sinf(DEG2RAD(i*5.f))*rad,
 			0.f+cosf(DEG2RAD(i*5.f))*rad,
 			0.f));
 	}
+
+	SetupVertexBuffer(vertices, r);
 }
 
-Disk::Disk(RefCountedPtr<Material> material, Graphics::RenderState *state, const int numEdges/*=72*/, const float radius/*=1.0f*/)
+Disk::Disk(Graphics::Renderer *r, RefCountedPtr<Material> material, Graphics::RenderState *state, const int edges, const float rad)
 	: m_material(material)
 {
+	PROFILE_SCOPED()
 	m_renderState = state;
 
-	m_vertices.reset(new VertexArray(ATTRIB_POSITION));
+	VertexArray vertices (ATTRIB_POSITION);
 
-	m_vertices->Add(vector3f(0.f, 0.f, 0.f));
-	const float edgeStep = 360.0f / float(numEdges);
-	for (int i = numEdges; i >= 0; i--) {
-		m_vertices->Add(vector3f(
-			0.f+sinf(DEG2RAD(i*edgeStep))*radius,
-			0.f+cosf(DEG2RAD(i*edgeStep))*radius,
+	vertices.Add(vector3f(0.f, 0.f, 0.f));
+	const float edgeStep = 360.0f / float(edges);
+	for (int i = edges; i >= 0; i--) {
+		vertices.Add(vector3f(
+			0.f+sinf(DEG2RAD(i*edgeStep))*rad,
+			0.f+cosf(DEG2RAD(i*edgeStep))*rad,
 			0.f));
 	}
+
+	SetupVertexBuffer(vertices, r);
 }
 
 void Disk::Draw(Renderer *r)
 {
-	r->DrawTriangles(m_vertices.get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
+	PROFILE_SCOPED()
+	r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
 }
 
 void Disk::SetColor(const Color &c)
@@ -52,40 +110,399 @@ void Disk::SetColor(const Color &c)
 	m_material->diffuse = c;
 }
 
-Line3D::Line3D()
+void Disk::SetupVertexBuffer(const Graphics::VertexArray& vertices, Graphics::Renderer *r)
 {
-	m_points[0] = vector3f(0.f);
-	m_points[1] = vector3f(0.f);
-	m_colors[0] = Color(0);
-	m_colors[1] = Color(255);
-	m_width     = 2.f; // XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
+	PROFILE_SCOPED()
+	//Create vtx & index buffers and copy data
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = ATTRIB_POSITION;
+	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
+	vbd.numVertices = vertices.GetNumVerts();
+	vbd.usage = BUFFER_USAGE_STATIC;
+	m_vertexBuffer.reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer->Populate(vertices);
+}
+//------------------------------------------------------------
+
+Line3D::Line3D() : m_refreshVertexBuffer(true), m_width(2.0f), m_va( new Graphics::VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE, 2) )
+{
+	PROFILE_SCOPED()
+	assert(m_va.get());
+	// XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
+	m_va->Add(vector3f(0.f), Color(0));
+	m_va->Add(vector3f(0.f), Color(255));
+}
+
+Line3D::Line3D(const Line3D& b) : Line3D()
+{
+	PROFILE_SCOPED()
+	m_refreshVertexBuffer = (b.m_refreshVertexBuffer);
+	m_width = (b.m_width);
+	m_material = (b.m_material);
+	m_vertexBuffer = (b.m_vertexBuffer);
+	(*m_va.get()) = (*b.m_va.get());
 }
 
 void Line3D::SetStart(const vector3f &s)
 {
-	m_points[0] = s;
+	PROFILE_SCOPED()
+	if(!m_va->position[0].ExactlyEqual(s)) {
+		m_va->Set(0, s);
+		Dirty();
+	}
 }
 
 void Line3D::SetEnd(const vector3f &e)
 {
-	m_points[1] = e;
+	PROFILE_SCOPED()
+	if(!m_va->position[1].ExactlyEqual(e)) {
+		m_va->Set(1, e);
+		Dirty();
+	}
 }
 
 void Line3D::SetColor(const Color &c)
 {
-	m_colors[0]  = c;
-	m_colors[1]  = c;
-	m_colors[1]  *= 0.5; //XXX hardcoded appearance
+	PROFILE_SCOPED()
+	if( !(m_va->diffuse[0]==c) ) {
+		m_va->Set(0, m_va->position[0], c);
+		m_va->Set(1, m_va->position[1], c * 0.5);
+		Dirty();
+	}
 }
 
-void Line3D::Draw(Renderer *renderer, RenderState *rs)
+void Line3D::Draw(Renderer *r, RenderState *rs)
 {
+	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
+	if( !m_vertexBuffer.Valid() ) {
+		CreateVertexBuffer(r, 2);
+	}
+	if( m_refreshVertexBuffer ) {
+		assert(m_va.get());
+		m_refreshVertexBuffer = false;
+		m_vertexBuffer->Populate( *m_va );
+	}
 	// XXX would be nicer to draw this as a textured triangle strip
 	// can't guarantee linewidth support
-	glLineWidth(m_width);
-	renderer->DrawLines(2, m_points, m_colors, rs);
-	glLineWidth(1.f);
+	// glLineWidth(m_width);
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::LINE_SINGLE);
+	// glLineWidth(1.f);
 }
+
+void Line3D::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
+{
+	PROFILE_SCOPED()
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.numVertices = size;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+	assert(m_vertexBuffer.Valid());
+}
+
+void Line3D::Dirty() {
+	m_refreshVertexBuffer = true;
+}
+//------------------------------------------------------------
+
+Lines::Lines() : m_refreshVertexBuffer(true), m_width(2.0f), m_va(new VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE))
+{
+	PROFILE_SCOPED()
+	// XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
+}
+
+void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Color &color)
+{
+	PROFILE_SCOPED()
+	assert( vertices );
+
+	// somethings changed so even if the number of verts is constant the data must be uploaded
+	m_refreshVertexBuffer = true;
+
+	// if the number of vert mismatches then clear the current vertex buffer
+	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetVertexCount() != vertCount ) {
+		// a new one will be created when it is drawn
+		m_vertexBuffer.Reset();
+	}
+
+	// populate the VertexArray
+	m_va->Clear();
+	for( Uint32 i=0; i<vertCount; i++ ) {
+		m_va->Add(vertices[i], color);
+	}
+}
+
+void Lines::SetData(const Uint32 vertCount, const vector3f *vertices, const Color *colors)
+{
+	PROFILE_SCOPED()
+	assert( vertices );
+
+	// somethings changed so even if the number of verts is constant the data must be uploaded
+	m_refreshVertexBuffer = true;
+
+	// if the number of vert mismatches then clear the current vertex buffer
+	if( m_vertexBuffer.Valid() && m_vertexBuffer->GetVertexCount() != vertCount ) {
+		// a new one will be created when it is drawn
+		m_vertexBuffer.Reset();
+	}
+
+	// populate the VertexArray
+	m_va->Clear();
+	for( Uint32 i=0; i<vertCount; i++ ) {
+		m_va->Add(vertices[i], colors[i]);
+	}
+}
+
+void Lines::Draw(Renderer *r, RenderState *rs, const PrimitiveType pt)
+{
+	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
+	if( !m_vertexBuffer.Valid() ) {
+		CreateVertexBuffer(r, m_va->GetNumVerts());
+	}
+	if( m_refreshVertexBuffer ) {
+		m_refreshVertexBuffer = false;
+		m_vertexBuffer->Populate( *m_va );
+	}
+	// XXX would be nicer to draw this as a textured triangle strip
+	// can't guarantee linewidth support
+	// glLineWidth(m_width);
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), pt);
+	// glLineWidth(1.f);
+}
+
+void Lines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
+{
+	PROFILE_SCOPED()
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.numVertices = size;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+}
+
+//------------------------------------------------------------
+PointSprites::PointSprites() : m_refreshVertexBuffer(true)
+{
+	PROFILE_SCOPED()
+}
+
+void PointSprites::SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const float size)
+{
+	PROFILE_SCOPED()
+	if (count < 1 ) 
+		return;
+
+	assert(positions);
+
+	m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, count * 6) );
+
+	matrix4x4f rot(trans);
+	rot.ClearToRotOnly();
+	rot = rot.Inverse();
+
+	const float sz = 0.5f * size;
+	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
+	//do two-triangle quads. Could also do indexed surfaces.
+	//PiGL renderer should use actual point sprites
+	//(see history of Render.cpp for point code remnants)
+	for (int i=0; i<count; i++) {
+		const vector3f &pos = positions[i];
+
+		m_va->Add(pos+rotv4, vector2f(0.f, 0.f)); //top left
+		m_va->Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
+		m_va->Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
+
+		m_va->Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
+		m_va->Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
+		m_va->Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
+	}
+
+	m_refreshVertexBuffer = true;
+}
+
+void PointSprites::Draw(Renderer *r, RenderState *rs, Material *mat)
+{
+	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
+	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
+		CreateVertexBuffer(r, mat, m_va->GetNumVerts());
+	}
+	if( m_refreshVertexBuffer ) {
+		m_refreshVertexBuffer = false;
+		m_vertexBuffer->Populate( *m_va );
+	}
+
+	// XXX would be nicer to draw this as a textured triangle strip
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, mat, Graphics::TRIANGLES);
+}
+
+void PointSprites::CreateVertexBuffer(Graphics::Renderer *r, Material *mat, const Uint32 size)
+{
+	PROFILE_SCOPED()
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
+	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.numVertices = size;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+}
+
+//------------------------------------------------------------
+Points::Points() : m_refreshVertexBuffer(true)
+{
+	PROFILE_SCOPED()
+}
+
+void Points::SetData(Renderer* r, const int count, const vector3f *positions, const matrix4x4f &trans, const Color &color, const float size)
+{
+	PROFILE_SCOPED()
+	if (count < 1 ) 
+		return;
+
+	assert(positions);
+	const unsigned int total = (count * 6);
+
+	if (m_va.get() && m_va->GetNumVerts() == total) {
+		m_va->Clear();
+	} else {
+		m_va.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, total));
+		CreateVertexBuffer(r, total);
+	}
+
+	matrix4x4f rot(trans);
+	rot.ClearToRotOnly();
+	rot = rot.Inverse();
+
+	const float sz = 0.5f * size;
+	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
+	//do two-triangle quads. Could also do indexed surfaces.
+	//PiGL renderer should use actual point sprites
+	//(see history of Render.cpp for point code remnants)
+	for (int i=0; i<count; i++) {
+		const vector3f &pos = positions[i];
+
+		m_va->Add(pos + rotv4, color); //top left
+		m_va->Add(pos + rotv3, color); //bottom left
+		m_va->Add(pos + rotv1, color); //top right
+
+		m_va->Add(pos + rotv1, color); //top right
+		m_va->Add(pos + rotv3, color); //bottom left
+		m_va->Add(pos + rotv2, color); //bottom right
+	}
+
+	m_refreshVertexBuffer = true;
+}
+
+void Points::SetData(Renderer* r, const int count, const vector3f *positions, const Color *color, const matrix4x4f &trans, const float size)
+{
+	PROFILE_SCOPED()
+	if (count < 1 ) 
+		return;
+
+	assert(positions);
+	const unsigned int total = (count * 6);
+
+	if (m_va.get() && m_va->GetNumVerts() == total) {
+		m_va->Clear();
+	} else {
+		m_va.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE, total));
+		CreateVertexBuffer(r, total);
+	}
+
+	matrix4x4f rot(trans);
+	rot.ClearToRotOnly();
+	rot = rot.Inverse();
+
+	const float sz = 0.5f * size;
+	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
+	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
+	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
+	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+
+	//do two-triangle quads. Could also do indexed surfaces.
+	//PiGL renderer should use actual point sprites
+	//(see history of Render.cpp for point code remnants)
+	for (int i=0; i<count; i++) {
+		const vector3f &pos = positions[i];
+
+		m_va->Add(pos + rotv4, color[i]); //top left
+		m_va->Add(pos + rotv3, color[i]); //bottom left
+		m_va->Add(pos + rotv1, color[i]); //top right
+
+		m_va->Add(pos + rotv1, color[i]); //top right
+		m_va->Add(pos + rotv3, color[i]); //bottom left
+		m_va->Add(pos + rotv2, color[i]); //bottom right
+	}
+
+	m_refreshVertexBuffer = true;
+}
+
+void Points::Draw(Renderer *r, RenderState *rs)
+{
+	PROFILE_SCOPED()
+	if (m_va->GetNumVerts() == 0)
+		return;
+
+	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
+		CreateVertexBuffer(r, m_va->GetNumVerts());
+	}
+	if( m_refreshVertexBuffer ) {
+		m_refreshVertexBuffer = false;
+		m_vertexBuffer->Populate( *m_va );
+	}
+
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::TRIANGLES);
+}
+
+void Points::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
+{
+	PROFILE_SCOPED()
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	Graphics::VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.numVertices = size;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+}
+//------------------------------------------------------------
 
 static const float ICOSX = 0.525731112119133f;
 static const float ICOSZ = 0.850650808352039f;
@@ -103,14 +520,9 @@ static const int icosahedron_faces[20][3] = {
 	{6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
 };
 
-struct Sphere3DVertex {
-	vector3f pos;
-	vector3f nrm;
-	vector2f uv;
-};
-
 Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::RenderState *state, int subdivs, float scale)
 {
+	PROFILE_SCOPED()
 	m_material = mat;
 	m_renderState = state;
 
@@ -146,26 +558,14 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 	VertexBufferDesc vbd;
 	vbd.attrib[0].semantic = ATTRIB_POSITION;
 	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[0].offset   = offsetof(Sphere3DVertex, pos);
 	vbd.attrib[1].semantic = ATTRIB_NORMAL;
 	vbd.attrib[1].format   = ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].offset   = offsetof(Sphere3DVertex, nrm);
 	vbd.attrib[2].semantic = ATTRIB_UV0;
 	vbd.attrib[2].format   = ATTRIB_FORMAT_FLOAT2;
-	vbd.attrib[2].offset   = offsetof(Sphere3DVertex, uv);
-	vbd.stride = sizeof(Sphere3DVertex);
 	vbd.numVertices = vts.GetNumVerts();
 	vbd.usage = BUFFER_USAGE_STATIC;
 	m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
-
-	auto vtxPtr = m_vertexBuffer->Map<Sphere3DVertex>(Graphics::BUFFER_MAP_WRITE);
-	for (Uint32 i = 0; i < vts.GetNumVerts(); i++) {
-		vtxPtr->pos = vts.position[i];
-		vtxPtr->nrm = vts.normal[i];
-		vtxPtr->uv = vts.uv0[i];
-		vtxPtr++;
-	}
-	m_vertexBuffer->Unmap();
+	m_vertexBuffer->Populate(vts);
 
 	m_indexBuffer.reset(renderer->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC));
 	Uint16 *idxPtr = m_indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
@@ -178,11 +578,13 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 
 void Sphere3D::Draw(Renderer *r)
 {
+	PROFILE_SCOPED()
 	r->DrawBufferIndexed(m_vertexBuffer.get(), m_indexBuffer.get(), m_renderState, m_material.Get());
 }
 
 int Sphere3D::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
 {
+	PROFILE_SCOPED()
 	vts.position.push_back(v);
 	vts.normal.push_back(n);
 	//http://www.mvps.org/directx/articles/spheremap.htm
@@ -192,6 +594,7 @@ int Sphere3D::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
 
 void Sphere3D::AddTriangle(std::vector<Uint16> &indices, int i1, int i2, int i3)
 {
+	PROFILE_SCOPED()
 	indices.push_back(i1);
 	indices.push_back(i2);
 	indices.push_back(i3);
@@ -201,6 +604,7 @@ void Sphere3D::Subdivide(VertexArray &vts, std::vector<Uint16> &indices,
 		const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		const int i1, const int i2, const int i3, int depth)
 {
+	PROFILE_SCOPED()
 	if (depth == 0) {
 		AddTriangle(indices, i1, i3, i2);
 		return;
@@ -217,15 +621,17 @@ void Sphere3D::Subdivide(VertexArray &vts, std::vector<Uint16> &indices,
 	Subdivide(vts, indices, trans, v3, v31, v23, i3, i31, i23, depth-1);
 	Subdivide(vts, indices, trans, v12, v23, v31, i12, i23, i31, depth-1);
 }
+//------------------------------------------------------------
 
 // a textured quad with reversed winding
 TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state)
 	: m_texture(RefCountedPtr<Graphics::Texture>(texture))
 {
+	PROFILE_SCOPED()
 	assert(state);
 	m_renderState = state;
 
-	m_vertices.reset(new VertexArray(ATTRIB_POSITION | ATTRIB_UV0));
+	VertexArray vertices(ATTRIB_POSITION | ATTRIB_UV0);
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
 	m_material.reset(r->CreateMaterial(desc));
@@ -235,10 +641,200 @@ TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, co
 	const vector2f texPos = vector2f(0.0f);
 	const vector2f texSize = m_texture->GetDescriptor().texSize;
 
-	m_vertices->Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
-	m_vertices->Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y));
-	m_vertices->Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
-	m_vertices->Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y));
+	vertices.Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
+	vertices.Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y));
+	vertices.Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+	vertices.Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y));
+
+	//Create vtx & index buffers and copy data
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = ATTRIB_POSITION;
+	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = ATTRIB_UV0;
+	vbd.attrib[1].format   = ATTRIB_FORMAT_FLOAT2;
+	vbd.numVertices = vertices.GetNumVerts();
+	vbd.usage = BUFFER_USAGE_STATIC;
+	m_vertexBuffer.reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer->Populate(vertices);
+}
+
+void TexturedQuad::Draw(Graphics::Renderer *r)
+{
+	PROFILE_SCOPED()
+	r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
+}
+//------------------------------------------------------------
+Rect::Rect(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const Color &c, RenderState *state, const bool bIsStatic /*= true*/) : m_renderState(state)
+{
+	PROFILE_SCOPED()
+			
+	using namespace Graphics;
+	VertexArray bgArr(ATTRIB_POSITION | ATTRIB_DIFFUSE, 4);
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	bgArr.Add(vector3f(pos.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,pos.y,0), c);
+	bgArr.Add(vector3f(pos.x,pos.y,0), c);
+
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic	= ATTRIB_POSITION;
+	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
+	vbd.attrib[1].format   = ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = 4;
+	vbd.usage = bIsStatic ? BUFFER_USAGE_STATIC : BUFFER_USAGE_DYNAMIC;
+	
+	// VertexBuffer
+	m_vertexBuffer.Reset( r->CreateVertexBuffer(vbd) );
+	m_vertexBuffer->Populate(bgArr);
+}
+
+void Rect::Update(const vector2f &pos, const vector2f &size, const Color &c)
+{
+	using namespace Graphics;
+	VertexArray bgArr(ATTRIB_POSITION | ATTRIB_DIFFUSE, 4);
+
+	bgArr.Add(vector3f(pos.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,size.y,0), c);
+	bgArr.Add(vector3f(size.x,pos.y,0), c);
+	bgArr.Add(vector3f(pos.x,pos.y,0), c);
+	
+	m_vertexBuffer->Populate(bgArr);
+}
+
+void Rect::Draw(Graphics::Renderer *r)
+{
+	PROFILE_SCOPED()
+	r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
+}
+	
+//------------------------------------------------------------
+RoundEdgedRect::RoundEdgedRect(Graphics::Renderer *r, const vector2f &size, const float rad, const Color &c, RenderState *state, const bool bIsStatic /*= true*/) : m_renderState(state)
+{
+	PROFILE_SCOPED()
+			
+	using namespace Graphics;
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic	= ATTRIB_POSITION;
+	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
+	vbd.attrib[1].format   = ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = 4 * (STEPS+1);
+	vbd.usage = bIsStatic ? BUFFER_USAGE_STATIC : BUFFER_USAGE_DYNAMIC;
+	m_vertexBuffer.Reset( r->CreateVertexBuffer(vbd) );
+
+	Update(size, rad, c);
+}
+
+void RoundEdgedRect::Update(const vector2f &size, float rad, const Color &c)
+{
+	Graphics::VertexArray vts(Graphics::ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	
+	if (rad > 0.5f*std::min(size.x, size.y)) 
+		rad = 0.5f*std::min(size.x, size.y);
+
+	// top left
+	// bottom left
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f(rad - rad*cos(ang), (size.y - rad) + rad*sin(ang), 0.f), c);
+	}
+	// bottom right
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI*0.5 + M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f(size.x - rad - rad*cos(ang), (size.y - rad) + rad*sin(ang), 0.f), c);
+	}
+	// top right
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI + M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f((size.x - rad) - rad*cos(ang), rad + rad*sin(ang), 0.f), c);
+	}
+
+	// top right
+	for (int i=0; i<=STEPS; i++) {
+		float ang = M_PI*1.5 + M_PI*0.5f*i/float(STEPS);
+		vts.Add(vector3f(rad - rad*cos(ang), rad + rad*sin(ang), 0.f), c);
+	}
+
+	m_vertexBuffer->Populate(vts);
+}
+
+void RoundEdgedRect::Draw(Graphics::Renderer *r)
+{
+	PROFILE_SCOPED()
+	r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), TRIANGLE_FAN);
+}
+	
+//------------------------------------------------------------
+Axes3D::Axes3D(Graphics::Renderer *r, Graphics::RenderState *state)
+{
+	PROFILE_SCOPED()
+	if( state ) {
+		m_renderState = state;
+	} else {
+		Graphics::RenderStateDesc rsd;
+		m_renderState = r->CreateRenderState(rsd);
+	}
+
+	VertexArray vertices(ATTRIB_POSITION | ATTRIB_DIFFUSE);
+	Graphics::MaterialDescriptor desc;
+	desc.vertexColors = true;
+	m_material.Reset(r->CreateMaterial(desc));
+	
+	//Draw plain XYZ axes using the current transform
+	static const vector3f vtsXYZ[] = {
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(1.f, 0.f, 0.f),
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(0.f, 1.f, 0.f),
+		vector3f(0.f, 0.f, 0.f),
+		vector3f(0.f, 0.f, 1.f),
+	};
+	static const Color colors[] = {
+		Color::RED,
+		Color::RED,
+		Color::BLUE,
+		Color::BLUE,
+		Color::GREEN,
+		Color::GREEN,
+	};
+
+	for( int i=0 ; i<6 ; i++ ) {
+		vertices.Add( vtsXYZ[i], colors[i] );
+	}
+
+	//Create vtx & index buffers and copy data
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = ATTRIB_POSITION;
+	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = ATTRIB_DIFFUSE;
+	vbd.attrib[1].format   = ATTRIB_FORMAT_UBYTE4;
+	vbd.numVertices = vertices.GetNumVerts();
+	vbd.usage = BUFFER_USAGE_STATIC;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer->Populate(vertices);
+}
+
+void Axes3D::Draw(Graphics::Renderer *r)
+{
+	PROFILE_SCOPED()
+	r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), LINE_SINGLE);
+}
+
+static Axes3D *s_axes = nullptr; 
+Axes3D* GetAxes3DDrawable(Graphics::Renderer *r) {
+	PROFILE_SCOPED()
+	if( !s_axes ) {
+		s_axes = new Axes3D(r);
+	}
+	return s_axes;
 }
 
 }

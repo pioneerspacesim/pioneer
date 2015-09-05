@@ -19,6 +19,7 @@
     <ClInclude Include="..\..\..\src\win32\pch.h">
       <Filter>win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\collider\Weld.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

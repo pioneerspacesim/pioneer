@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GuiTexturedQuad.h"
@@ -14,20 +14,6 @@ namespace Gui {
 void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const vector2f &size, const vector2f &texPos, const vector2f &texSize, const Color &tint)
 {
 	PROFILE_SCOPED()
-	if(!m_va.get()) {
-		PROFILE_SCOPED_RAW("!m_va.get()")
-		m_va.reset(new Graphics::VertexArray(ATTRIB_POSITION | ATTRIB_UV0));
-
-		m_va->Add(vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
-		m_va->Add(vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
-		m_va->Add(vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
-		m_va->Add(vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
-	} else {
-		m_va->Set(0, vector3f(pos.x,        pos.y,        0.0f), vector2f(texPos.x,           texPos.y));
-		m_va->Set(1, vector3f(pos.x,        pos.y+size.y, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
-		m_va->Set(2, vector3f(pos.x+size.x, pos.y,        0.0f), vector2f(texPos.x+texSize.x, texPos.y));
-		m_va->Set(3, vector3f(pos.x+size.x, pos.y+size.y, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
-	}
 
 	// Create material on first use. Bit of a hack.
 	if (!m_material) {
@@ -37,8 +23,42 @@ void TexturedQuad::Draw(Graphics::Renderer *renderer, const vector2f &pos, const
 		m_material.reset(renderer->CreateMaterial(desc));
 		m_material->texture0 = m_texture.Get();
 	}
-	m_material->diffuse = tint;
-	renderer->DrawTriangles(m_va.get(), Gui::Screen::alphaBlendState, m_material.get(), TRIANGLE_STRIP);
+
+	if(!m_vb.Get()) {
+		PROFILE_SCOPED_RAW("!m_vb.get()")
+		Graphics::VertexArray va(ATTRIB_POSITION | ATTRIB_UV0);
+
+		// Size is always the same, modify it's position using the transform
+		va.Add(vector3f(0.0f,		0.0f,      0.0f), vector2f(texPos.x,           texPos.y));
+		va.Add(vector3f(0.0f,		0.0f+1.0f, 0.0f), vector2f(texPos.x,           texPos.y+texSize.y));
+		va.Add(vector3f(0.0f+1.0f,	0.0f,      0.0f), vector2f(texPos.x+texSize.x, texPos.y));
+		va.Add(vector3f(0.0f+1.0f,	0.0f+1.0f, 0.0f), vector2f(texPos.x+texSize.x, texPos.y+texSize.y));
+
+		//create buffer and upload data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.numVertices = 4;
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+
+		m_vb.Reset(renderer->CreateVertexBuffer(vbd));
+
+		m_vb->Populate(va);
+	}
+
+	{
+		// move and scale the quad on-screen
+		Graphics::Renderer::MatrixTicket mt(renderer, Graphics::MatrixMode::MODELVIEW);
+		const matrix4x4f& mv = renderer->GetCurrentModelView();
+		matrix4x4f trans(matrix4x4f::Translation(vector3f(pos.x, pos.y, 0.0f)));
+		trans.Scale(size.x, size.y, 0.0f);
+		renderer->SetTransform(mv * trans);
+
+		m_material->diffuse = tint;
+		renderer->DrawBuffer(m_vb.Get(), Gui::Screen::alphaBlendState, m_material.get(), TRIANGLE_STRIP);
+	}
 }
 
 }

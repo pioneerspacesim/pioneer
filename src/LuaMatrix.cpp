@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -162,7 +162,7 @@ static int l_matrix_div (lua_State *L)
 static int l_matrix_inverse(lua_State *L)
 {
 	const matrix4x4f *m = LuaMatrix::CheckFromLua(L, 1);
-	LuaMatrix::PushToLua(L, m->InverseOf());
+	LuaMatrix::PushToLua(L, m->Inverse());
 	return 1;
 }
 

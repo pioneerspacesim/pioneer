@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -274,6 +274,38 @@ static int l_ship_set_label(lua_State *l)
 }
 
 /*
+ * Method: SetShipName
+ *
+ * Changes the ship's name text. 
+ * This is the name text that appears beside the ship in the HUD.
+ *
+ * > ship:SetShipName(newShipName)
+ *
+ * Parameters:
+ *
+ *   newShipName - the new name of the ship
+ *
+ * Example:
+ *
+ * > ship:SetShipName("Boris")
+ *
+ * Availability:
+ *
+ *  September 2014
+ *
+ * Status:
+ *
+ *  stable
+ */
+static int l_ship_set_ship_name(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	const std::string shipname(luaL_checkstring(l, 2));
+	s->SetShipName(shipname);
+	return 0;
+}
+
+/*
  * Method: SpawnCargo
  *
  * Spawns a container right next to the ship.
@@ -313,7 +345,7 @@ static int l_ship_spawn_cargo(lua_State *l) {
 	CargoBody * c_body;
 
 	if (lua_gettop(l) >= 3){
-		size_t lifeTime = lua_tointeger(l, 3);
+		float lifeTime = lua_tonumber(l, 3);
 		c_body = new CargoBody(LuaRef(l, 2), lifeTime);
 	}
 	else
@@ -901,6 +933,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetSkin",    l_ship_get_skin    },
 		{ "SetSkin",    l_ship_set_skin    },
 		{ "SetLabel",   l_ship_set_label   },
+		{ "SetShipName",	l_ship_set_ship_name   },
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
 

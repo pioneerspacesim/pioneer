@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _CITYONPLANET_H
@@ -7,12 +7,13 @@
 #include "libs.h"
 #include "Random.h"
 #include "Object.h"
+#include "CollMesh.h"
+#include "collider/Geom.h"
 #include "galaxy/StarSystem.h"
 
 class Planet;
 class SpaceStation;
 class Frame;
-class Geom;
 namespace Graphics { class Renderer; class Frustum; }
 namespace SceneGraph { class Model; }
 
@@ -35,7 +36,7 @@ private:
 	void RemoveStaticGeomsFromCollisionSpace();
 
 	struct BuildingDef {
-		SceneGraph::Model *model;
+		Uint32 instIndex;
 		float clipRadius;
 		int rotation; // 0-3
 		vector3d pos;
@@ -46,9 +47,42 @@ private:
 	Frame *m_frame;
 	std::vector<BuildingDef> m_buildings;
 	std::vector<BuildingDef> m_enabledBuildings;
+	std::vector<Uint32> m_buildingCounts;
 	int m_detailLevel;
 	vector3d m_realCentre;
 	float m_clipRadius;
+
+	// --------------------------------------------------------
+	// statics
+	static const unsigned int CITYFLAVOURS = 5;
+
+	struct citybuilding_t {
+		const char *modelname;
+		double xzradius;
+		SceneGraph::Model *resolvedModel;
+		RefCountedPtr<CollMesh> collMesh;
+		Uint32 instIndex;
+	};
+
+	struct citybuildinglist_t {
+		const char *modelTagName;
+		double minRadius, maxRadius;
+		unsigned int numBuildings;
+		citybuilding_t *buildings;
+	};
+
+	struct cityflavourdef_t {
+		vector3d center;
+		double size;
+	};
+
+	static bool s_cityBuildingsInitted;
+
+	static citybuildinglist_t s_buildingList;
+	static cityflavourdef_t cityflavour[CITYFLAVOURS];
+
+	static void EnumerateNewBuildings(std::set<std::string> &filenames);
+	static void LookupBuildingListModels(citybuildinglist_t *list);
 };
 
 #endif /* _CITYONPLANET_H */

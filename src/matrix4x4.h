@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIX4X4_H
@@ -354,7 +354,7 @@ class matrix4x4 {
 		m[14] = z;
 		return m;
 	}
-	matrix4x4 InverseOf () const {
+	matrix4x4 Inverse() const {
 		matrix4x4 m;
 		// this only works for matrices containing only rotation and transform
 		m[0] = cell[0]; m[1] = cell[4]; m[2] = cell[8];
@@ -366,6 +366,14 @@ class matrix4x4 {
 		m[3] = m[7] = m[11] = 0;
 		m[15] = 1.0f;
 
+		return m;
+	}
+	matrix4x4 Transpose() const {
+		matrix4x4 m;
+		m[0] = cell[0];		m[1] = cell[4];		m[2] = cell[8];		m[3] = cell[12];
+		m[4] = cell[1];		m[5] = cell[5];		m[6] = cell[9];		m[7] = cell[13];
+		m[8] = cell[2];		m[9] = cell[6];		m[10] = cell[10];	m[11] = cell[14];
+		m[12] = cell[3];	m[13] = cell[7];	m[14] = cell[11];	m[15] = cell[15];
 		return m;
 	}
 	void Print () const {

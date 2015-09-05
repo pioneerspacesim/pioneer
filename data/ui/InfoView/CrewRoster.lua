@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -77,11 +77,11 @@ local crewRoster = function ()
 							Game.player:CountEquip(Equipment.cargo.metal_alloys, cargo)
 						)
 						Game.player:RemoveEquip(Equipment.cargo.metal_alloys, repair) -- These will now be part of the hull.
-						repairPercent = math.min(math.ceil(100 * (repair + hullMassLeft) / hullMass), 100) -- Get new hull percentage...
+						local repairPercent = math.min(math.ceil(100 * (repair + hullMassLeft) / hullMass), 100) -- Get new hull percentage...
 						Game.player:SetHullPercent(repairPercent)   -- ...and set it.
 						feedback:SetText(l.HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT:interp({name = crewMember.name,repairPercent = repairPercent}))
 					else
-						repairPercent = math.max(math.floor(100 * (hullMassLeft - 1) / hullMass), 1) -- Get new hull percentage...
+						local repairPercent = math.max(math.floor(100 * (hullMassLeft - 1) / hullMass), 1) -- Get new hull percentage...
 						Game.player:SetHullPercent(repairPercent)   -- ...and set it.
 						feedback:SetText(l.HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE)
 					end
@@ -108,7 +108,7 @@ local crewRoster = function ()
 						feedback:SetText(l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
 						pilotLockout()
 					else
-						feedback:SetText(l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name,repairPercent = repairPercent}))
+						feedback:SetText(l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
 						Game.player:AIKill(Game.player:GetCombatTarget())
 					end
 				end
@@ -133,7 +133,7 @@ local crewRoster = function ()
 						feedback:SetText(l.THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP)
 						pilotLockout()
 					else
-						feedback:SetText(l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name,repairPercent = repairPercent}))
+						feedback:SetText(l.PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME:interp({name = crewMember.name}))
 						Game.player:AIDockWith(target)
 					end
 				end

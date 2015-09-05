@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_EVENT_H
@@ -39,6 +39,7 @@ public:
 	const Type type;
 
 	virtual void ToLuaTable(lua_State *l) const = 0;
+	virtual ~Event() {}
 protected:
 	Event(Type _type) : type(_type) {}
 };

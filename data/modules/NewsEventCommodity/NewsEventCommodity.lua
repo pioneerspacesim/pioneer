@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Create a news event on the BBS (to do: place it on
@@ -16,7 +16,7 @@ end
 
 -- copy table by value, rather than the default: by reference.
 local copyTable = function(T)
-	t2 = {}
+	local t2 = {}
 	for k,v in pairs(T) do
 		t2[k] = v
 	end
@@ -27,17 +27,12 @@ local Comms = import("Comms")
 local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
-local Space = import("Space")
 local Event = import("Event")
 local Format = import("Format")
 local Serializer = import("Serializer")
-local utils = import("utils")
 local Equipment = import ("Equipment")
 
 local l = Lang.GetResource("module-newseventcommodity")
-
--- Get the UI class
-local ui = Engine.ui
 
 local maxDist = 50          -- for spawning news (ly)
 local minTime = 15768000    -- no news the first 5 months of a new game (sec)
@@ -269,7 +264,6 @@ end
 -- check if we should remove any ads
 local checkAdvertsRemove = function(station)
 	for ref,ad in pairs(ads) do
-		local len = tableLength(ads)
 		if ad.n.expires < Game.time then
 			ad.station:RemoveAdvert(ref)
 		end
@@ -286,14 +280,12 @@ local checkAdvertsAdd = function(station)
 	for i,n in pairs(news) do
 		-- don't place ad if we're in the system of the event
 		if not currentSystem:IsSameSystem(n.syspath) then
-			ref = station:AddAdvert(
+			local ref = station:AddAdvert(
 				{description = n.description,
 				 icon = "news",
 				 onChat = onChat,
 				 onDelete = onDelete})
 			ads[ref] = {n=n, station=station}
-
-			local length = tableLength(ads)
 		end
 	end
 end
@@ -354,7 +346,7 @@ local onShipDocked = function (ship, station)
 		-- if this is the system of the news
 		if currentSystem:IsSameSystem(n.syspath) then
 			-- send a grateful greeting from the station if the player cargo is right
-			if ship:CountEquip(n.cargo, cargo) > 0 and n.demand > 0 then
+			if ship:CountEquip(n.cargo, "cargo") > 0 and n.demand > 0 then
 				local greeting = string.interp(l["GRATEFUL_GREETING_"..Engine.rand:Integer(0,maxIndexOfGreetings)],
 					{cargo = n.cargo:GetName()})
 				Comms.Message(greeting)

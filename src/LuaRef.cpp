@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaRef.h"
@@ -33,51 +33,6 @@ LuaRef::~LuaRef() {
 	}
 }
 
-void LuaRef::Save(Serializer::Writer &wr) {
-	assert(m_lua == Lua::manager->GetLuaState());
-	std::string out;
-	LUA_DEBUG_START(m_lua);
-	PushCopyToStack();
-	Pi::luaSerializer->pickle(m_lua, -1, out);
-	lua_pop(m_lua, 1);
-	wr.String(out);
-	LUA_DEBUG_END(m_lua, 0);
-}
-
-void LuaRef::Load(Serializer::Reader &rd) {
-	lua_State *l = Lua::manager->GetLuaState();
-	std::string pickled = rd.String();
-	Pi::luaSerializer->unpickle(l, pickled.c_str()); // loaded
-	lua_getfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable"); // loaded, reftable
-	lua_pushvalue(l, -2); // loaded, reftable, copy
-	lua_gettable(l, -2);  // loaded, reftable, luaref
-	// Check whether this table has been referenced before
-	if (lua_isnil(l, -1)) {
-		// If not, mark it as referenced
-		*this = LuaRef(l, -3);
-		lua_pushvalue(l, -3);
-		lua_pushlightuserdata(l, this);
-		lua_settable(l, -4);
-	} else {
-		LuaRef *origin = static_cast<LuaRef *>(lua_touserdata(l, -1));
-		*this = *origin;
-	}
-
-	lua_pop(l, 3);
-}
-
-void LuaRef::InitLoad() {
-	lua_State *l = Lua::manager->GetLuaState();
-	lua_newtable(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
-}
-
-void LuaRef::UninitLoad() {
-	lua_State *l = Lua::manager->GetLuaState();
-	lua_pushnil(l);
-	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
-}
-
 bool LuaRef::operator==(const LuaRef & ref) const {
 	if (ref.m_lua != m_lua)
 		return false;
@@ -104,6 +59,11 @@ void LuaRef::CheckCopyCount() {
 
 LuaRef::LuaRef(lua_State * l, int index): m_lua(l), m_id(0) {
 	assert(m_lua && index);
+	if (index == LUA_NOREF) {
+		m_copycount = new int(0);
+		return;
+	}
+
 	index = lua_absindex(m_lua, index);
 
 	PushGlobalToStack();
@@ -122,3 +82,67 @@ void LuaRef::PushCopyToStack() const {
 	lua_remove(m_lua, -2);
 }
 
+void LuaRef::SaveToJson(Json::Value &jsonObj)
+{
+	assert(m_lua && m_id != LUA_NOREF);
+
+	LUA_DEBUG_START(m_lua);
+
+	lua_getfield(m_lua, LUA_REGISTRYINDEX, "PiSerializer");
+	LuaSerializer *serializer = static_cast<LuaSerializer*>(lua_touserdata(m_lua, -1));
+	lua_pop(m_lua, 1);
+
+	if (!serializer) {
+		LUA_DEBUG_END(m_lua, 0);
+		return;
+	}
+
+	std::string out;
+	PushCopyToStack();
+	serializer->pickle(m_lua, -1, out);
+	lua_pop(m_lua, 1);
+	jsonObj["lua_ref"] = out;
+
+	LUA_DEBUG_END(m_lua, 0);
+}
+
+void LuaRef::LoadFromJson(const Json::Value &jsonObj)
+{
+	if (!m_lua) { m_lua = Lua::manager->GetLuaState(); }
+
+	if (!jsonObj.isMember("lua_ref")) throw SavedGameCorruptException();
+
+	std::string pickled = jsonObj["lua_ref"].asString();
+
+	LUA_DEBUG_START(m_lua);
+
+	lua_getfield(m_lua, LUA_REGISTRYINDEX, "PiSerializer");
+	LuaSerializer *serializer = static_cast<LuaSerializer*>(lua_touserdata(m_lua, -1));
+	lua_pop(m_lua, 1);
+
+	if (!serializer) {
+		LUA_DEBUG_END(m_lua, 0);
+		return;
+	}
+
+	serializer->unpickle(m_lua, pickled.c_str()); // loaded
+	lua_getfield(m_lua, LUA_REGISTRYINDEX, "PiLuaRefLoadTable"); // loaded, reftable
+	lua_pushvalue(m_lua, -2); // loaded, reftable, copy
+	lua_gettable(m_lua, -2);  // loaded, reftable, luaref
+	// Check whether this table has been referenced before
+	if (lua_isnil(m_lua, -1)) {
+		// If not, mark it as referenced
+		*this = LuaRef(m_lua, -3);
+		lua_pushvalue(m_lua, -3);
+		lua_pushlightuserdata(m_lua, this);
+		lua_settable(m_lua, -4);
+	}
+	else {
+		LuaRef *origin = static_cast<LuaRef *>(lua_touserdata(m_lua, -1));
+		*this = *origin;
+	}
+
+	lua_pop(m_lua, 3);
+
+	LUA_DEBUG_END(m_lua, 0);
+}

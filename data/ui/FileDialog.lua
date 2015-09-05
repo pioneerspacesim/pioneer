@@ -1,9 +1,10 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
 local Lang = import("Lang")
 local FileSystem = import("FileSystem")
+local Format = import("Format")
 
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core");
@@ -23,8 +24,15 @@ ui.templates.FileDialog = function (args)
 		files = {}
 	end
 
+	-- sort by modification time (most recent first)
+	table.sort(files, function (a, b)
+		return (a.mtime.timestamp > b.mtime.timestamp)
+	end)
+
 	local list = ui:List()
-	for i = 1,#files do list:AddOption(files[i]) end
+	for i = 1,#files do
+		list:AddOption(Format.Date(files[i].mtime.timestamp) .. ' - ' .. files[i].name)
+	end
 
 	local selectButton = ui:Button(ui:Label(selectLabel):SetFont("HEADING_NORMAL"))
 	local cancelButton = ui:Button(ui:Label(cancelLabel):SetFont("HEADING_NORMAL"))
@@ -41,7 +49,7 @@ ui.templates.FileDialog = function (args)
 	if args.allowNewFile then
 		fileEntry = ui:TextEntry()
 		if #files > 0 then
-			fileEntry:SetText(files[1])
+			fileEntry:SetText(files[1].name)
 		end
 		fileEntry.onChange:Connect(function (fileName)
 			fileName = util.trim(fileName)
@@ -49,19 +57,20 @@ ui.templates.FileDialog = function (args)
 		end)
 		list.onOptionSelected:Connect(function (index, fileName)
 			if fileName ~= '' then
-				fileEntry:SetText(fileName)
+				-- +1 because index is 0-based
+				fileEntry:SetText(files[index+1].name)
 				selectButton:Enable()
 			end
 		end)
 		selectButton.onClick:Connect(function ()
-			fileName = util.trim(fileEntry.text)
+			local fileName = util.trim(fileEntry.text)
 			if fileName ~= '' then
 				onSelect(fileName)
 			end
 		end)
 	else
 		selectButton.onClick:Connect(function ()
-			fileName = list.selectedOption
+			local fileName = files[list.selectedIndex].name
 			if fileName ~= '' then
 				onSelect(fileName)
 			end
@@ -83,7 +92,7 @@ ui.templates.FileDialog = function (args)
 
 	local dialog =
 		ui:ColorBackground(0,0,0,0.5,
-			ui:Grid({1,3,1}, {1,3,1})
+			ui:Grid({1,5,1}, {1,5,1})
 				:SetCell(1,1, ui:Background(content))
 		)
 

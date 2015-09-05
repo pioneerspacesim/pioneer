@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Ship = import_core("Ship")
@@ -172,7 +172,7 @@ function Ship:AddEquip(item, count, slot)
 	end
 	local ret = self.equipSet:Add(self, item, count, slot)
 	if ret > 0 then
-		Event.Queue("onShipEquipmentChange", self, item)
+		Event.Queue("onShipEquipmentChanged", self, item)
 	end
 	return ret
 end
@@ -281,7 +281,7 @@ compat.slots.old2new={
 	MISSILE="missile", ECM="ecm", SCANNER="scanner", RADARMAPPER="radar_mapper",
 	HYPERCLOUD="hypercloud", HULLAUTOREPAIR="hull_autorepair",
 	ENERGYBOOSTER="energy_booster", ATMOSHIELD="atmo_shield", CABIN="cabin",
-	SHIELD="shield", FUELSCOOP="fuel_scoop", CARGOSCOOP="cargo_scoop",
+	SHIELD="shield", FUELSCOOP="scoop", CARGOSCOOP="scoop",
 	LASERCOOLER="laser_cooler", CARGOLIFESUPPORT="cargo_life_support",
 	AUTOPILOT="autopilot"
 }
@@ -319,7 +319,7 @@ Ship.SetEquip = function (self, slot, index, item)
 		item = compat.equip.old2new[item]
 	end
 	self.equipSet:Set(self, slot, index, item)
-	Event.Queue("onShipEquipmentChange", self)
+	Event.Queue("onShipEquipmentChanged", self)
 end
 
 --
@@ -327,7 +327,7 @@ end
 --
 -- Remove one or more of a given equipment type from its appropriate cargo slot
 --
--- > num_removed = ship:RemoveEquip(item, count)
+-- > num_removed = ship:RemoveEquip(item, count, slot)
 --
 -- Parameters:
 --
@@ -361,7 +361,7 @@ Ship.RemoveEquip = function (self, item, count, slot)
 	end
 	local ret = self.equipSet:Remove(self, item, count, slot)
 	if ret > 0 then
-		Event.Queue("onShipEquipmentChange", self, item)
+		Event.Queue("onShipEquipmentChanged", self, item)
 	end
 	return ret
 end
@@ -533,6 +533,48 @@ function Ship:FireMissileAt(which_missile, target)
 	return missile_object
 end
 
+-- Method: StartSensor
+--
+-- Starts the equipped sensor
+--
+-- Parameters:
+--   idx - the index of the sensor in the equipment slots
+--
+-- Availability:
+--
+--   2015 June
+--
+-- Status:
+--
+--   experimental
+--
+
+function Ship:StartSensor(idx)
+	local sensor = self:GetEquip("sensor", idx)
+	sensor:BeginAcquisition(function(progress, state) end)
+end
+
+-- Method: StopSensor
+--
+-- Stops the equipped sensor
+--
+-- Parameters:
+--   idx - the index of the sensor in the equipment slots
+--
+-- Availability:
+--
+--   2015 June
+--
+-- Status:
+--
+--   experimental
+--
+
+function Ship:StopSensor(idx)
+	local sensor = self:GetEquip("sensor", idx)
+	sensor:ClearAcquisition()
+end
+
 --
 -- Method: Refuel
 --
@@ -568,7 +610,6 @@ Ship.Refuel = function (self,amount)
 	self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
 	return removed
 end
-
 
 --
 -- Method: Jettison

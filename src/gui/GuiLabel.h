@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GUILABEL_H
@@ -33,7 +33,7 @@ namespace Gui {
 		bool m_shadow;
 		GLuint m_dlist;
 		RefCountedPtr<Text::TextureFont> m_font;
-		TextLayout *m_layout;
+		std::unique_ptr<TextLayout> m_layout;
 		TextLayout::ColourMarkupMode m_colourMarkupMode;
 	};
 }

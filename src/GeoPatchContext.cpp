@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -15,7 +15,15 @@
 #include <deque>
 #include <algorithm>
 
-
+// static instances
+int GeoPatchContext::edgeLen = 0;
+int GeoPatchContext::numTris = 0;
+double GeoPatchContext::frac = 0.0;
+std::unique_ptr<unsigned short[]> GeoPatchContext::midIndices;
+std::unique_ptr<unsigned short[]> GeoPatchContext::loEdgeIndices[4];
+std::unique_ptr<unsigned short[]> GeoPatchContext::hiEdgeIndices[4];
+RefCountedPtr<Graphics::IndexBuffer> GeoPatchContext::indices_list[NUM_INDEX_LISTS];
+int GeoPatchContext::prevEdgeLen = 0;
 
 void GeoPatchContext::Cleanup() {
 	midIndices.reset();
@@ -25,7 +33,7 @@ void GeoPatchContext::Cleanup() {
 	}
 }
 
-int GeoPatchContext::getIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
+int GeoPatchContext::GetIndices(std::vector<unsigned short> &pl, const unsigned int edge_hi_flags)
 {
 	// calculate how many tri's there are
 	int tri_count = (VBO_COUNT_MID_IDX() / 3);
@@ -60,117 +68,121 @@ int GeoPatchContext::getIndices(std::vector<unsigned short> &pl, const unsigned 
 	return tri_count;
 }
 
-void GeoPatchContext::Init() {
-	frac = 1.0 / double(edgeLen-1);
+//static 
+void GeoPatchContext::GenerateIndices()
+{
+	if (prevEdgeLen == edgeLen)
+		return;
 
+	//
 	unsigned short *idx;
 	midIndices.reset(new unsigned short[VBO_COUNT_MID_IDX()]);
-	for (int i=0; i<4; i++) {
+	for (int i = 0; i<4; i++) {
 		loEdgeIndices[i].reset(new unsigned short[VBO_COUNT_LO_EDGE()]);
 		hiEdgeIndices[i].reset(new unsigned short[VBO_COUNT_HI_EDGE()]);
 	}
 	/* also want vtx indices for tris not touching edge of patch */
 	idx = midIndices.get();
-	for (int x=1; x<edgeLen-2; x++) {
-		for (int y=1; y<edgeLen-2; y++) {
+	for (int x = 1; x<edgeLen - 2; x++) {
+		for (int y = 1; y<edgeLen - 2; y++) {
 			idx[0] = x + edgeLen*y;
-			idx[1] = x+1 + edgeLen*y;
-			idx[2] = x + edgeLen*(y+1);
-			idx+=3;
+			idx[1] = x + 1 + edgeLen*y;
+			idx[2] = x + edgeLen*(y + 1);
+			idx += 3;
 
-			idx[0] = x+1 + edgeLen*y;
-			idx[1] = x+1 + edgeLen*(y+1);
-			idx[2] = x + edgeLen*(y+1);
-			idx+=3;
+			idx[0] = x + 1 + edgeLen*y;
+			idx[1] = x + 1 + edgeLen*(y + 1);
+			idx[2] = x + edgeLen*(y + 1);
+			idx += 3;
 		}
 	}
 	{
-		for (int x=1; x<edgeLen-3; x+=2) {
+		for (int x = 1; x<edgeLen - 3; x += 2) {
 			// razor teeth near edge 0
 			idx[0] = x + edgeLen;
-			idx[1] = x+1;
-			idx[2] = x+1 + edgeLen;
-			idx+=3;
-			idx[0] = x+1;
-			idx[1] = x+2 + edgeLen;
-			idx[2] = x+1 + edgeLen;
-			idx+=3;
+			idx[1] = x + 1;
+			idx[2] = x + 1 + edgeLen;
+			idx += 3;
+			idx[0] = x + 1;
+			idx[1] = x + 2 + edgeLen;
+			idx[2] = x + 1 + edgeLen;
+			idx += 3;
 		}
-		for (int x=1; x<edgeLen-3; x+=2) {
+		for (int x = 1; x<edgeLen - 3; x += 2) {
 			// near edge 2
-			idx[0] = x + edgeLen*(edgeLen-2);
-			idx[1] = x+1 + edgeLen*(edgeLen-2);
-			idx[2] = x+1 + edgeLen*(edgeLen-1);
-			idx+=3;
-			idx[0] = x+1 + edgeLen*(edgeLen-2);
-			idx[1] = x+2 + edgeLen*(edgeLen-2);
-			idx[2] = x+1 + edgeLen*(edgeLen-1);
-			idx+=3;
+			idx[0] = x + edgeLen*(edgeLen - 2);
+			idx[1] = x + 1 + edgeLen*(edgeLen - 2);
+			idx[2] = x + 1 + edgeLen*(edgeLen - 1);
+			idx += 3;
+			idx[0] = x + 1 + edgeLen*(edgeLen - 2);
+			idx[1] = x + 2 + edgeLen*(edgeLen - 2);
+			idx[2] = x + 1 + edgeLen*(edgeLen - 1);
+			idx += 3;
 		}
-		for (int y=1; y<edgeLen-3; y+=2) {
+		for (int y = 1; y<edgeLen - 3; y += 2) {
 			// near edge 1
-			idx[0] = edgeLen-2 + y*edgeLen;
-			idx[1] = edgeLen-1 + (y+1)*edgeLen;
-			idx[2] = edgeLen-2 + (y+1)*edgeLen;
-			idx+=3;
-			idx[0] = edgeLen-2 + (y+1)*edgeLen;
-			idx[1] = edgeLen-1 + (y+1)*edgeLen;
-			idx[2] = edgeLen-2 + (y+2)*edgeLen;
-			idx+=3;
+			idx[0] = edgeLen - 2 + y*edgeLen;
+			idx[1] = edgeLen - 1 + (y + 1)*edgeLen;
+			idx[2] = edgeLen - 2 + (y + 1)*edgeLen;
+			idx += 3;
+			idx[0] = edgeLen - 2 + (y + 1)*edgeLen;
+			idx[1] = edgeLen - 1 + (y + 1)*edgeLen;
+			idx[2] = edgeLen - 2 + (y + 2)*edgeLen;
+			idx += 3;
 		}
-		for (int y=1; y<edgeLen-3; y+=2) {
+		for (int y = 1; y<edgeLen - 3; y += 2) {
 			// near edge 3
 			idx[0] = 1 + y*edgeLen;
-			idx[1] = 1 + (y+1)*edgeLen;
-			idx[2] = (y+1)*edgeLen;
-			idx+=3;
-			idx[0] = 1 + (y+1)*edgeLen;
-			idx[1] = 1 + (y+2)*edgeLen;
-			idx[2] = (y+1)*edgeLen;
-			idx+=3;
+			idx[1] = 1 + (y + 1)*edgeLen;
+			idx[2] = (y + 1)*edgeLen;
+			idx += 3;
+			idx[0] = 1 + (y + 1)*edgeLen;
+			idx[1] = 1 + (y + 2)*edgeLen;
+			idx[2] = (y + 1)*edgeLen;
+			idx += 3;
 		}
 	}
 	// full detail edge triangles
 	{
 		idx = hiEdgeIndices[0].get();
-		for (int x=0; x<edgeLen-1; x+=2) {
-			idx[0] = x; idx[1] = x+1; idx[2] = x+1 + edgeLen;
-			idx+=3;
-			idx[0] = x+1; idx[1] = x+2; idx[2] = x+1 + edgeLen;
-			idx+=3;
+		for (int x = 0; x<edgeLen - 1; x += 2) {
+			idx[0] = x; idx[1] = x + 1; idx[2] = x + 1 + edgeLen;
+			idx += 3;
+			idx[0] = x + 1; idx[1] = x + 2; idx[2] = x + 1 + edgeLen;
+			idx += 3;
 		}
 		idx = hiEdgeIndices[1].get();
-		for (int y=0; y<edgeLen-1; y+=2) {
-			idx[0] = edgeLen-1 + y*edgeLen;
-			idx[1] = edgeLen-1 + (y+1)*edgeLen;
-			idx[2] = edgeLen-2 + (y+1)*edgeLen;
-			idx+=3;
-			idx[0] = edgeLen-1 + (y+1)*edgeLen;
-			idx[1] = edgeLen-1 + (y+2)*edgeLen;
-			idx[2] = edgeLen-2 + (y+1)*edgeLen;
-			idx+=3;
+		for (int y = 0; y<edgeLen - 1; y += 2) {
+			idx[0] = edgeLen - 1 + y*edgeLen;
+			idx[1] = edgeLen - 1 + (y + 1)*edgeLen;
+			idx[2] = edgeLen - 2 + (y + 1)*edgeLen;
+			idx += 3;
+			idx[0] = edgeLen - 1 + (y + 1)*edgeLen;
+			idx[1] = edgeLen - 1 + (y + 2)*edgeLen;
+			idx[2] = edgeLen - 2 + (y + 1)*edgeLen;
+			idx += 3;
 		}
 		idx = hiEdgeIndices[2].get();
-		for (int x=0; x<edgeLen-1; x+=2) {
-			idx[0] = x + (edgeLen-1)*edgeLen;
-			idx[1] = x+1 + (edgeLen-2)*edgeLen;
-			idx[2] = x+1 + (edgeLen-1)*edgeLen;
-			idx+=3;
-			idx[0] = x+1 + (edgeLen-2)*edgeLen;
-			idx[1] = x+2 + (edgeLen-1)*edgeLen;
-			idx[2] = x+1 + (edgeLen-1)*edgeLen;
-			idx+=3;
+		for (int x = 0; x<edgeLen - 1; x += 2) {
+			idx[0] = x + (edgeLen - 1)*edgeLen;
+			idx[1] = x + 1 + (edgeLen - 2)*edgeLen;
+			idx[2] = x + 1 + (edgeLen - 1)*edgeLen;
+			idx += 3;
+			idx[0] = x + 1 + (edgeLen - 2)*edgeLen;
+			idx[1] = x + 2 + (edgeLen - 1)*edgeLen;
+			idx[2] = x + 1 + (edgeLen - 1)*edgeLen;
+			idx += 3;
 		}
 		idx = hiEdgeIndices[3].get();
-		for (int y=0; y<edgeLen-1; y+=2) {
+		for (int y = 0; y<edgeLen - 1; y += 2) {
 			idx[0] = y*edgeLen;
-			idx[1] = 1 + (y+1)*edgeLen;
-			idx[2] = (y+1)*edgeLen;
-			idx+=3;
-			idx[0] = (y+1)*edgeLen;
-			idx[1] = 1 + (y+1)*edgeLen;
-			idx[2] = (y+2)*edgeLen;
-			idx+=3;
+			idx[1] = 1 + (y + 1)*edgeLen;
+			idx[2] = (y + 1)*edgeLen;
+			idx += 3;
+			idx[0] = (y + 1)*edgeLen;
+			idx[1] = 1 + (y + 1)*edgeLen;
+			idx[2] = (y + 2)*edgeLen;
+			idx += 3;
 		}
 	}
 	// these edge indices are for patches with no
@@ -178,31 +190,31 @@ void GeoPatchContext::Init() {
 	// their edge complexity by 1 division
 	{
 		idx = loEdgeIndices[0].get();
-		for (int x=0; x<edgeLen-2; x+=2) {
+		for (int x = 0; x<edgeLen - 2; x += 2) {
 			idx[0] = x;
-			idx[1] = x+2;
-			idx[2] = x+1+edgeLen;
+			idx[1] = x + 2;
+			idx[2] = x + 1 + edgeLen;
 			idx += 3;
 		}
 		idx = loEdgeIndices[1].get();
-		for (int y=0; y<edgeLen-2; y+=2) {
-			idx[0] = (edgeLen-1) + y*edgeLen;
-			idx[1] = (edgeLen-1) + (y+2)*edgeLen;
-			idx[2] = (edgeLen-2) + (y+1)*edgeLen;
+		for (int y = 0; y<edgeLen - 2; y += 2) {
+			idx[0] = (edgeLen - 1) + y*edgeLen;
+			idx[1] = (edgeLen - 1) + (y + 2)*edgeLen;
+			idx[2] = (edgeLen - 2) + (y + 1)*edgeLen;
 			idx += 3;
 		}
 		idx = loEdgeIndices[2].get();
-		for (int x=0; x<edgeLen-2; x+=2) {
-			idx[0] = x+edgeLen*(edgeLen-1);
-			idx[2] = x+2+edgeLen*(edgeLen-1);
-			idx[1] = x+1+edgeLen*(edgeLen-2);
+		for (int x = 0; x<edgeLen - 2; x += 2) {
+			idx[0] = x + edgeLen*(edgeLen - 1);
+			idx[2] = x + 2 + edgeLen*(edgeLen - 1);
+			idx[1] = x + 1 + edgeLen*(edgeLen - 2);
 			idx += 3;
 		}
 		idx = loEdgeIndices[3].get();
-		for (int y=0; y<edgeLen-2; y+=2) {
+		for (int y = 0; y<edgeLen - 2; y += 2) {
 			idx[0] = y*edgeLen;
-			idx[2] = (y+2)*edgeLen;
-			idx[1] = 1 + (y+1)*edgeLen;
+			idx[2] = (y + 2)*edgeLen;
+			idx[1] = 1 + (y + 1)*edgeLen;
 			idx += 3;
 		}
 	}
@@ -211,8 +223,8 @@ void GeoPatchContext::Init() {
 	std::vector<unsigned short> pl_short[NUM_INDEX_LISTS];
 	// populate the N indices lists from the arrays built during InitTerrainIndices()
 	// iterate over each index list and optimize it
-	for( unsigned int i=0; i<NUM_INDEX_LISTS; ++i ) {
-		unsigned int tri_count = getIndices(pl_short[i], i);
+	for (unsigned int i = 0; i<NUM_INDEX_LISTS; ++i) {
+		const unsigned int tri_count = GetIndices(pl_short[i], i);
 		VertexCacheOptimizerUShort vco;
 		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[i][0], tri_count);
 		assert(0 == res);
@@ -227,10 +239,20 @@ void GeoPatchContext::Init() {
 
 	if (midIndices) {
 		midIndices.reset();
-		for (int i=0; i<4; i++) {
+		for (int i = 0; i<4; i++) {
 			loEdgeIndices[i].reset();
 			hiEdgeIndices[i].reset();
 		}
 	}
+
+	prevEdgeLen = edgeLen;
+}
+
+void GeoPatchContext::Init() 
+{
+	frac = 1.0 / double(edgeLen-1);
+	numTris = 2*(edgeLen-1)*(edgeLen-1);
+
+	GenerateIndices();
 }
 

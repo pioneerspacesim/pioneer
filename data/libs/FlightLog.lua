@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 --
@@ -59,14 +59,14 @@ FlightLog = {
 
 	GetSystemPaths = function (maximum)
 		local counter = 0
-		local maximum = maximum or FlightLogSystemQueueLength
+		maximum = maximum or FlightLogSystemQueueLength
 		return function ()
 			if counter < maximum then
 				counter = counter + 1
 				if FlightLogSystem[counter] then
 					return FlightLogSystem[counter][1],
-				    	   FlightLogSystem[counter][2],
-				    	   FlightLogSystem[counter][3]
+						   FlightLogSystem[counter][2],
+						   FlightLogSystem[counter][3]
 				end
 			end
 			return nil, nil, nil
@@ -104,13 +104,13 @@ FlightLog = {
 
 	GetStationPaths = function (maximum)
 		local counter = 0
-		local maximum = maximum or FlightLogStationQueueLength
+		maximum = maximum or FlightLogStationQueueLength
 		return function ()
 			if counter < maximum then
 				counter = counter + 1
 				if FlightLogStation[counter] then
 					return FlightLogStation[counter][1],
-				    	   FlightLogStation[counter][2]
+						   FlightLogStation[counter][2]
 				end
 			end
 			return nil, nil
@@ -221,11 +221,11 @@ local onGameStart = function ()
 end
 
 local serialize = function ()
-    return { System = FlightLogSystem, Station = FlightLogStation }
+	return { System = FlightLogSystem, Station = FlightLogStation }
 end
 
 local unserialize = function (data)
-    loaded_data = data
+	loaded_data = data
 end
 
 Event.Register("onEnterSystem", AddSystemArrivalToLog)

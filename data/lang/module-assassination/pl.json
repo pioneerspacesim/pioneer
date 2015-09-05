@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "Wspaniałe wieści o zakończeniu kariery {target}. Przelewamy obiecane {cash}."
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Rozłącz się."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "Jak powinienem to zrobić?"

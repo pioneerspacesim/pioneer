@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIPTYPE_H
@@ -38,6 +38,9 @@ struct ShipType {
 	};
 	typedef std::string Id;
 
+	ShipType() {};
+	ShipType(const Id &id, const std::string &path);
+
 	////////
 	Tag tag;
 	Id id;
@@ -48,12 +51,6 @@ struct ShipType {
 	std::string cockpitName;
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
-	struct GunMount {
-		vector3f pos;
-		vector3f dir;
-		double sep;
-		DualLaserOrientation orient;
-	} gunMount[GUNMOUNT_MAX];
 	std::map<std::string, int> slots;
 	int capacity; // tonnes
 	int hullMass;
@@ -65,28 +62,26 @@ struct ShipType {
 	double baseprice;
 
 	int hyperdriveClass;
-	vector3d cameraOffset;
 	int minCrew, maxCrew; // XXX really only for Lua, but needs to be declared in the ship def
 	///////
 
 	// percentage (ie, 0--100) of tank used per second at full thrust
 	float GetFuelUseRate() const;
 
-	static std::string POLICE;
-	static std::string MISSILE_GUIDED;
-	static std::string MISSILE_NAVAL;
-	static std::string MISSILE_SMART;
-	static std::string MISSILE_UNGUIDED;
+	static const std::string POLICE;
+	static const std::string MISSILE_GUIDED;
+	static const std::string MISSILE_NAVAL;
+	static const std::string MISSILE_SMART;
+	static const std::string MISSILE_UNGUIDED;
 
-	static std::map<Id, ShipType> types;
+	static std::map<Id, const ShipType> types;
 	static std::vector<Id> player_ships;
 	static std::vector<Id> static_ships;
 	static std::vector<Id> missile_ships;
 
-	static const char *gunmountNames[GUNMOUNT_MAX];
 	static void Init();
 	static const ShipType *Get(const char *name) {
-		std::map<Id, ShipType>::iterator t = types.find(name);
+		std::map<Id, const ShipType>::iterator t = types.find(name);
 		if (t == types.end()) return 0;
 		else return &(*t).second;
 	}

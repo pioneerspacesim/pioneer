@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
@@ -28,13 +28,12 @@ class SpaceStation: public ModelBody {
 public:
 	OBJDEF(SpaceStation, ModelBody, SPACESTATION);
 	static void Init();
-	static void Uninit();
 
 	// Should point to SystemBody in Pi::currentSystem
 	SpaceStation(const SystemBody *);
 	SpaceStation() {}
 	virtual ~SpaceStation();
-	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->angVel,0); }
+	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->AngVel(),0); }
 	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 	virtual void StaticUpdate(const float timeStep);
@@ -48,12 +47,12 @@ public:
 
 	// should call Ship::Undock and Ship::SetDockedWith instead
 	// Returns true on success, false if permission denied
-	bool LaunchShip(Ship *ship, int port);
-	void SetDocked(Ship *ship, int port);
+	bool LaunchShip(Ship *ship, const int port);
+	void SetDocked(Ship *ship, const int port);
 	void SwapDockedShipsPort(const int oldPort, const int newPort);
 
 	bool GetDockingClearance(Ship *s, std::string &outMsg);
-	int GetDockingPortCount() const { return m_type->numDockingPorts; }
+	int GetDockingPortCount() const { return m_type->NumDockingPorts(); }
 	int GetFreeDockingPort(const Ship *s) const; // returns -1 if none free
 	int GetMyDockingPort(const Ship *s) const;
 	int NumShipsDocked() const;
@@ -70,8 +69,8 @@ public:
 	virtual void UpdateInterpTransform(double alpha);
 
 protected:
-	virtual void Save(Serializer::Writer &wr, Space *space);
-	virtual void Load(Serializer::Reader &rd, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 
 private:
 	void DockingUpdate(const double timeStep);
@@ -103,7 +102,7 @@ private:
 	typedef std::vector<shipDocking_t>::iterator		shipDockingIter;
 	std::vector<shipDocking_t> m_shipDocking;
 
-	SpaceStationType::TBayGroups mBayGroups;
+	SpaceStationType::TPorts m_ports;
 
 	double m_oldAngDisplacement;
 

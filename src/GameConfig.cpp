@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GameConfig.h"
@@ -23,6 +23,7 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 	map["FOVVertical"] = "65";
 	map["DisplayNavTunnel"] = "0";
 	map["CompactScanner"] = "1";
+	map["ConfirmQuit"] = "1";
 	map["MasterVolume"] = "0.8";
 	map["MusicVolume"] = "0.8";
 	map["MasterMuted"] = "0";
@@ -33,14 +34,16 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 	map["SectorViewZoom"] = "2.0";
 	map["MaxPhysicsCyclesPerRender"] = "4";
 	map["AntiAliasingMode"] = "2";
-	map["JoystickDeadzone"] = "0.1";
+	map["JoystickDeadzone"] = "0.2"; // 20% deadzone is common
 	map["DefaultLowThrustPower"] = "0.25";
-	map["VSync"] = "0";
+	map["VSync"] = "1";
 	map["UseTextureCompression"] = "1";
 	map["WorkerThreads"] = "0";
 	map["SpeedLines"] = "0";
 	map["EnableCockpit"] = "0";
 	map["HudTrails"] = "0";
+	map["EnableServerAgent"] = "0";
+	map["AmountOfBackgroundStars"] = "1.0";
 
 #ifdef _WIN32
 	map["RedirectStdio"] = "1";

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "utils.h"
@@ -8,6 +8,7 @@
 #include "gui/Gui.h"
 #include "Lang.h"
 #include "FileSystem.h"
+#include "DateTime.h"
 #include "PngWriter.h"
 #include <sstream>
 #include <cmath>
@@ -49,21 +50,7 @@ std::string format_money(double cents, bool showCents){
 	return result;
 }
 
-class timedate {
-public:
-	timedate() : hour(0), minute(0), second(0), day(0), month(0), year(3200) {}
-	timedate(int stamp) { *this = stamp; }
-	timedate &operator=(int stamp);
-	std::string fmt_time_date();
-	std::string fmt_date();
-private:
-	int hour, minute, second, day, month, year;
-
-	static const char * const months[12];
-	static const unsigned char days[2][12];
-};
-
-const char * const timedate::months[] = {
+static const char * const MONTH_NAMES[] = {
 	Lang::MONTH_JAN,
 	Lang::MONTH_FEB,
 	Lang::MONTH_MAR,
@@ -78,63 +65,28 @@ const char * const timedate::months[] = {
 	Lang::MONTH_DEC
 };
 
-const unsigned char timedate::days[2][12] = {
-	{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
-	{31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
-};
-
-timedate &timedate::operator=(int stamp)
-{
-	int i = int(stamp) % 86400;
-
-	hour   = (i / 3600 + 24)%24; i %= 3600;
-	minute = (i /   60 + 60)%60; i %=   60;
-	second = (i+60)%60;
-
-	i = int(stamp) / 86400 + 1168410 - ((stamp < 0)?1:0); // days since "year 0"
-
-	int n400 = i / 146097; i %= 146097;
-	int n100 = i /  36524; i %=  36524;
-	int n4   = i /   1461; i %=   1461;
-	int n1   = i /    365;
-
-	year = n1 + n4 * 4 + n100 * 100 + n400 * 400 + !(n100 == 4 || n1 == 4);
-	day = i % 365 + (n100 == 4 || n1 == 4) * 365;
-	int leap = (year % 4 == 0 && year % 100) || (year % 400 == 0);
-
-	month = 0;
-	while (day >= days[leap][month])
-		day -= days[leap][month++];
-
-	return *this;
-}
-
-std::string timedate::fmt_time_date()
-{
-	char buf[32];
-	snprintf(buf, sizeof (buf), "%02d:%02d:%02d %d %s %d",
-	         hour, minute, second, day + 1, months[month], year);
-	return buf;
-}
-
-std::string timedate::fmt_date()
-{
-	char buf[16];
-	snprintf(buf, sizeof (buf), "%d %s %d",
-	         day + 1, months[month], year);
-	return buf;
-}
-
 std::string format_date(double t)
 {
-	timedate stamp = int(t);
-	return stamp.fmt_time_date();
+	const Time::DateTime dt(t);
+	int year, month, day, hour, minute, second;
+	dt.GetDateParts(&year, &month, &day);
+	dt.GetTimeParts(&hour, &minute, &second);
+
+	char buf[32];
+	snprintf(buf, sizeof (buf), "%02d:%02d:%02d %d %s %d",
+	         hour, minute, second, day, MONTH_NAMES[month - 1], year);
+	return buf;
 }
 
 std::string format_date_only(double t)
 {
-	timedate stamp = int(t);
-	return stamp.fmt_date();
+	const Time::DateTime dt(t);
+	int year, month, day;
+	dt.GetDateParts(&year, &month, &day);
+
+	char buf[16];
+	snprintf(buf, sizeof (buf), "%d %s %d", day, MONTH_NAMES[month - 1], year);
+	return buf;
 }
 
 std::string string_join(std::vector<std::string> &v, std::string sep)
@@ -187,6 +139,17 @@ void Output(const char *format, ...)
 	fputs(buf, stderr);
 }
 
+void OpenGLDebugMsg(const char *format, ...)
+{
+	char buf[1024];
+	va_list ap;
+	va_start(ap, format);
+	vsnprintf(buf, sizeof(buf), format, ap);
+	va_end(ap);
+
+	fputs(buf, stderr);
+}
+
 std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;
@@ -205,23 +168,13 @@ std::string format_distance(double dist, int precision)
 	return ss.str();
 }
 
-void Screendump(const char* destFile, const int width, const int height)
+void write_screenshot(const Graphics::ScreendumpState &sd, const char* destFile)
 {
 	const std::string dir = "screenshots";
 	FileSystem::userFiles.MakeDirectory(dir);
 	const std::string fname = FileSystem::JoinPathBelow(dir, destFile);
 
-	// pad rows to 4 bytes, which is the default row alignment for OpenGL
-	const int stride = (3*width + 3) & ~3;
-
-	std::vector<Uint8> pixel_data(stride * height);
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
-	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, &pixel_data[0]);
-	glFinish();
-
-	write_png(FileSystem::userFiles, fname, &pixel_data[0], width, height, stride, 3);
+	write_png(FileSystem::userFiles, fname, sd.pixels.get(), sd.width, sd.height, sd.stride, sd.bpp);
 
 	Output("Screenshot %s saved\n", fname.c_str());
 }
@@ -260,6 +213,213 @@ const char *pi_strcasestr (const char *haystack, const char *needle)
 			}
 		}
 	}
+}
+
+std::string SInt64ToStr(Sint64 val)
+{
+	char str[128];
+	sprintf(str, "%" PRIu64, val);
+	return str;
+}
+
+std::string UInt64ToStr(Uint64 val)
+{
+	char str[128];
+	sprintf(str, "%" PRIu64, val);
+	return str;
+}
+
+std::string FloatToStr(float val)
+{
+	// Can't get hexfloats to work.
+	//char hex[128]; // Probably don't need such a large char array.
+	//std::sprintf(hex, "%a", val);
+	//return hex;
+
+	// Lossy method storing as decimal and exponent.
+	//char str[128]; // Probably don't need such a large char array.
+	//std::sprintf(str, "%.7e", val);
+	//return str;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(float) == 4 || sizeof(float) == 8, "float isn't 4 or 8 bytes");
+	if (sizeof(float) == 4)
+	{
+		uint32_t intVal;
+		memcpy(&intVal, &val, 4);
+		char str[64];
+		sprintf(str, "%" PRIu32, intVal);
+		return str;
+	}
+	else // sizeof(float) == 8
+	{
+		uint64_t intVal;
+		memcpy(&intVal, &val, 8);
+		char str[128];
+		sprintf(str, "%" PRIu64, intVal);
+		return str;
+	}
+}
+
+std::string DoubleToStr(double val)
+{
+	// Can't get hexfloats to work.
+	//char hex[128]; // Probably don't need such a large char array.
+	//std::sprintf(hex, "%la", val);
+	//return hex;
+
+	// Lossy method storing as decimal and exponent.
+	//char str[128]; // Probably don't need such a large char array.
+	//std::sprintf(str, "%.15le", val);
+	//return str;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(double) == 4 || sizeof(double) == 8, "double isn't 4 or 8 bytes");
+	if (sizeof(double) == 4)
+	{
+		uint32_t intVal;
+		memcpy(&intVal, &val, 4);
+		char str[64];
+		sprintf(str, "%" PRIu32, intVal);
+		return str;
+	}
+	else // sizeof(double) == 8
+	{
+		uint64_t intVal;
+		memcpy(&intVal, &val, 8);
+		char str[128];
+		sprintf(str, "%" PRIu64, intVal);
+		return str;
+	}
+}
+
+std::string AutoToStr(Sint32 val)
+{
+	char str[64];
+	//sprintf(str, "%I32d", val); // Windows
+	sprintf(str, "%" PRId32, val);
+	return str;
+}
+
+std::string AutoToStr(Sint64 val)
+{
+	char str[128];
+	sprintf(str, "%" PRId64, val);
+	return str;
+}
+
+std::string AutoToStr(float val)
+{
+	return FloatToStr(val);
+}
+
+std::string AutoToStr(double val)
+{
+	return DoubleToStr(val);
+}
+
+Sint64 StrToSInt64(const std::string &str)
+{
+	Sint64 val;
+	sscanf(str.c_str(), "%" SCNd64, &val);
+	return val;
+}
+
+Uint64 StrToUInt64(const std::string &str)
+{
+	Uint64 val;
+	sscanf(str.c_str(), "%" SCNu64, &val);
+	return val;
+}
+
+float StrToFloat(const std::string &str)
+{
+	// Can't get hexfloats to work.
+	//return std::strtof(str.c_str(), 0);
+
+	// Can't get hexfloats to work.
+	//float val;
+	//std::sscanf(str.c_str(), "%a", &val);
+	//return val;
+
+	// Lossy method storing as decimal and exponent.
+	//float val;
+	//std::sscanf(str.c_str(), "%e", &val);
+	//return val;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(float) == 4 || sizeof(float) == 8, "float isn't 4 or 8 bytes");
+	if (sizeof(float) == 4)
+	{
+		uint32_t intVal;
+		sscanf(str.c_str(), "%" SCNu32, &intVal);
+		float val;
+		memcpy(&val, &intVal, 4);
+		return val;
+	}
+	else // sizeof(float) == 8
+	{
+		uint64_t intVal;
+		sscanf(str.c_str(), "%" SCNu64, &intVal);
+		float val;
+		memcpy(&val, &intVal, 8);
+		return val;
+	}
+}
+
+double StrToDouble(const std::string &str)
+{
+	// Can't get hexfloats to work.
+	//return std::strtod(str.c_str(), 0);
+
+	// Can't get hexfloats to work.
+	//double val;
+	//std::sscanf(str.c_str(), "%la", &val);
+	//return val;
+
+	// Lossy method storing as decimal and exponent.
+	//double val;
+	//std::sscanf(str.c_str(), "%le", &val);
+	//return val;
+
+	// Exact representation (but not human readable).
+	static_assert(sizeof(double) == 4 || sizeof(double) == 8, "double isn't 4 or 8 bytes");
+	if (sizeof(double) == 4)
+	{
+		uint32_t intVal;
+		sscanf(str.c_str(), "%" SCNu32, &intVal);
+		double val;
+		memcpy(&val, &intVal, 4);
+		return val;
+	}
+	else // sizeof(double) == 8
+	{
+		uint64_t intVal;
+		sscanf(str.c_str(), "%" SCNu64, &intVal);
+		double val;
+		memcpy(&val, &intVal, 8);
+		return val;
+	}
+}
+
+void StrToAuto(Sint32 *pVal, const std::string &str)
+{
+	sscanf(str.c_str(), "%" SCNd32, pVal);
+}
+
+void StrToAuto(Sint64 *pVal, const std::string &str)
+{
+	sscanf(str.c_str(), "%" SCNd64, pVal);
+}
+
+void StrToAuto(float *pVal, const std::string &str)
+{
+	*pVal = StrToFloat(str);
+}
+
+void StrToAuto(double *pVal, const std::string &str)
+{
+	*pVal = StrToDouble(str);
 }
 
 static const int HEXDUMP_CHUNK = 16;

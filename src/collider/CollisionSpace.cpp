@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollisionSpace.h"
@@ -24,6 +24,7 @@ struct BvhNode {
 
 	bool CollideRay(const vector3d &start, const vector3d &invDir, isect_t *isect)
 	{
+		PROFILE_SCOPED()
 		double
                 l1      = (aabb.min.x - start.x) * invDir.x,
                 l2      = (aabb.max.x - start.x) * invDir.x,
@@ -75,6 +76,7 @@ private:
 
 BvhTree::BvhTree(const std::list<Geom*> &geoms)
 {
+	PROFILE_SCOPED()
 	m_geoms = 0;
 	m_nodesAlloc = 0;
 	int numGeoms = geoms.size();
@@ -94,6 +96,7 @@ BvhTree::BvhTree(const std::list<Geom*> &geoms)
 
 void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, void (*callback)(CollisionContact*))
 {
+	PROFILE_SCOPED()
 	if (!m_root) return;
 
 	// our big aabb
@@ -134,6 +137,7 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 
 void BvhTree::BuildNode(BvhNode *node, const std::list<Geom*> &a_geoms, int &outGeomPos)
 {
+	PROFILE_SCOPED()
 	const int numGeoms = a_geoms.size();
 	// make aabb from spheres
 	// XXX suboptimal for static objects, as they have fixed rotation so
@@ -198,6 +202,7 @@ int CollisionSpace::s_nextHandle = 1;
 
 CollisionSpace::CollisionSpace()
 {
+	PROFILE_SCOPED()
 	sphere.radius = 0;
 	m_needStaticGeomRebuild = true;
 	m_staticObjectTree = 0;
@@ -206,34 +211,40 @@ CollisionSpace::CollisionSpace()
 
 CollisionSpace::~CollisionSpace()
 {
+	PROFILE_SCOPED()
 	if (m_staticObjectTree) delete m_staticObjectTree;
 	if (m_dynamicObjectTree) delete m_dynamicObjectTree;
 }
 
 void CollisionSpace::AddGeom(Geom *geom)
 {
+	PROFILE_SCOPED()
 	m_geoms.push_back(geom);
 }
 
 void CollisionSpace::RemoveGeom(Geom *geom)
 {
+	PROFILE_SCOPED()
 	m_geoms.remove(geom);
 }
 
 void CollisionSpace::AddStaticGeom(Geom *geom)
 {
+	PROFILE_SCOPED()
 	m_staticGeoms.push_back(geom);
 	m_needStaticGeomRebuild = true;
 }
 
 void CollisionSpace::RemoveStaticGeom(Geom *geom)
 {
+	PROFILE_SCOPED()
 	m_staticGeoms.remove(geom);
 	m_needStaticGeomRebuild = true;
 }
 
 void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir, isect_t *isect)
 {
+	PROFILE_SCOPED()
 	if (sphere.radius > 0.0) {
 		/* Collide with lovely sphere! */
 		const vector3d v = start - sphere.pos;
@@ -264,6 +275,7 @@ void CollisionSpace::CollideRaySphere(const vector3d &start, const vector3d &dir
 
 void CollisionSpace::TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c, Geom *ignore)
 {
+	PROFILE_SCOPED()
 	vector3d invDir(1.0/dir.x, 1.0/dir.y, 1.0/dir.z);
 	c->dist = len;
 
@@ -372,6 +384,7 @@ pop_jizz:
  */
 void CollisionSpace::CollideGeoms(Geom *a, int minMailboxValue, void (*callback)(CollisionContact*))
 {
+	PROFILE_SCOPED()
 	if (!a->IsEnabled()) return;
 	// our big aabb
 	vector3d pos = a->GetPosition();
@@ -392,6 +405,7 @@ void CollisionSpace::CollideGeoms(Geom *a, int minMailboxValue, void (*callback)
 
 void CollisionSpace::RebuildObjectTrees()
 {
+	PROFILE_SCOPED()
 	if (m_needStaticGeomRebuild) {
 		if (m_staticObjectTree) delete m_staticObjectTree;
 		m_staticObjectTree = new BvhTree(m_staticGeoms);
@@ -404,6 +418,7 @@ void CollisionSpace::RebuildObjectTrees()
 
 void CollisionSpace::Collide(void (*callback)(CollisionContact*))
 {
+	PROFILE_SCOPED()
 	RebuildObjectTrees();
 
 	int mailboxMin = 0;

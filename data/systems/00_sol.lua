@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Sol', { 'STAR_G' })
@@ -29,6 +29,7 @@ local mercury = CustomSystemBody:new('Mercury', 'PLANET_TERRESTRIAL')
 	:ocean_cover(f(0,1))
 	:ice_cover(f(2,100))
 	:life(f(0,1))
+	:orbital_phase_at_start(fixed.deg2rad(f(286,1)))
 
 local venus = CustomSystemBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:radius(f(95,100))
@@ -46,6 +47,7 @@ local venus = CustomSystemBody:new('Venus', 'PLANET_TERRESTRIAL')
 	:ocean_cover(f(0,1))
 	:ice_cover(f(0,1))
 	:life(f(0,1))
+	:orbital_phase_at_start(fixed.deg2rad(f(248,1)))
 
 local earth = CustomSystemBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:radius(f(1,1))
@@ -64,6 +66,7 @@ local earth = CustomSystemBody:new('Earth', 'PLANET_TERRESTRIAL')
 	:ocean_cover(f(7,10))
 	:ice_cover(f(5,10))
 	:life(f(9,10))
+	:orbital_phase_at_start(fixed.deg2rad(f(336,1)))
 
 local earth_starports = {
 	CustomSystemBody:new('Shanghai', 'STARPORT_SURFACE')
@@ -129,6 +132,7 @@ local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
 	:ocean_cover(f(10,100))
 	:ice_cover(f(678,1000))
 	:life(f(15,100))
+	:orbital_phase_at_start(fixed.deg2rad(f(12,1)))
 
 local mars_starports = {
 	CustomSystemBody:new('Cydonia', 'STARPORT_SURFACE')
@@ -187,6 +191,7 @@ local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
 	:rotation_period(f(4,10))
 	:axial_tilt(fixed.deg2rad(f(313,100)))
 	:rings(f(11176,10000), f(11769,10000), {0.61, 0.48, 0.384, 0.8})
+	:orbital_phase_at_start(fixed.deg2rad(f(75,1)))
 
 local jupiter_moons = {
 	CustomSystemBody:new('Io', 'PLANET_TERRESTRIAL')
@@ -274,6 +279,7 @@ local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
 	:rotation_period(f(4,10))
 	:axial_tilt(fixed.deg2rad(f(2673,100)))
 	:rings(f(1298,1000), f(2383,1000), {0.435, 0.412, 0.335, 0.9})
+	:orbital_phase_at_start(fixed.deg2rad(f(217,1)))
 
 local saturn_moons = {
 	CustomSystemBody:new('Dione', 'PLANET_TERRESTRIAL')
@@ -341,6 +347,7 @@ local uranus = CustomSystemBody:new('Uranus', 'PLANET_GAS_GIANT')
 	:rotation_period(f(7,10))
 	:axial_tilt(fixed.deg2rad(f(9777,100)))
 	:rings(f(17528,10000), f(2,1), {0.51, 0.48, 0.384, 0.8})
+	:orbital_phase_at_start(fixed.deg2rad(f(245,1)))
 
 local uranus_moons = {
 	CustomSystemBody:new('Ariel', 'PLANET_TERRESTRIAL')
@@ -389,6 +396,7 @@ local neptune = CustomSystemBody:new('Neptune', 'PLANET_GAS_GIANT')
 	:rotation_period(f(75,100))
 	:axial_tilt(fixed.deg2rad(f(2832,100)))
 	:rings(f(2195,1000), f(236,100), {0.71, 0.68, 0.684, 0.75})
+	:orbital_phase_at_start(fixed.deg2rad(f(353,1)))
 
 local neptune_moons = {
 	CustomSystemBody:new('Proteus', 'PLANET_ASTEROID')
@@ -437,6 +445,7 @@ local pluto = CustomSystemBody:new('Pluto', 'PLANET_TERRESTRIAL')
 	:inclination(math.deg2rad(11.88))
 	:rotation_period(f(153,24))
 	:axial_tilt(fixed.deg2rad(f(296,10)))
+	:orbital_phase_at_start(fixed.deg2rad(f(315,1)))
 
 local pluto_starports = {
 	CustomSystemBody:new('Pluto Research Base', 'STARPORT_SURFACE')

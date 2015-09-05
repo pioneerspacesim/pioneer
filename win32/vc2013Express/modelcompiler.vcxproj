@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
+    <ClCompile Include="..\..\src\DateTime.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="..\..\src\buildopts.h" />
     <ClInclude Include="..\..\src\ByteRange.h" />
     <ClInclude Include="..\..\src\Color.h" />
+    <ClInclude Include="..\..\src\DateTime.h" />
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
@@ -88,14 +90,14 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -150,8 +152,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../contrib/breakpad/client/windows/Debug/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>common.lib;crash_generation_client.lib;exception_handler.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">
@@ -171,8 +173,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../contrib/breakpad/client/windows/Debug/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>common.lib;crash_generation_client.lib;exception_handler.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
@@ -196,8 +198,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../contrib/breakpad/client/windows/Release/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>common.lib;crash_generation_client.lib;exception_handler.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
@@ -219,8 +221,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../../win32/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;glew32.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../win32/lib;../../contrib/breakpad/client/windows/Release/lib;../../../pioneer-thirdparty/win32/lib;$(SolutionDir)$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>common.lib;crash_generation_client.lib;exception_handler.lib;json.lib;assimp.lib;lua.lib;jenkins.lib;shlwapi.lib;libogg_static_vc2013_release.lib;libvorbis_static_vc2013_release.lib;libvorbisfile_static_vc2013_release.lib;sdl2.lib;sdl2main.lib;opengl32.lib;glu32.lib;SDL2_image.lib;freetype2312MT.lib;sigc-vc120-2_0.lib;libpng15.lib;zlib.lib;text.lib;galaxy.lib;collider.lib;graphics.lib;terrain.lib;gui.lib;ui.lib;scenegraph.lib;gameui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

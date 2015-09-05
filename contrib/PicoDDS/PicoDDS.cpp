@@ -430,8 +430,13 @@ size_t DDSLoad(const char* filename, DDSImage& dds)
 		// read the dds file
 		const size_t sizeDDSRead = dds.Read(pData, sizeRead);
 		free(pData);
+
+		fclose(file);
 		return sizeDDSRead;
 	}
+
+	fclose(file);
+
 	return 0;
 }
 

@@ -1,0 +1,30 @@
+{
+   "angular_thrust" : 2000000.0,
+   "capacity" : 80,
+   "cockpit" : "",
+   "down_thrust" : 600000.0,
+   "effective_exhaust_velocity" : 23140000.0,
+   "forward_thrust" : 5000000.0,
+   "fuel_tank_mass" : 40,
+   "hull_mass" : 27,
+   "hyperdrive_class" : 1,
+   "left_thrust" : 600000.0,
+   "manufacturer" : "kaluri",
+   "max_crew" : 3,
+   "min_crew" : 1,
+   "model" : "molamola",
+   "name" : "Mola Mola",
+   "price" : 199000.0,
+   "reverse_thrust" : 2200000.0,
+   "right_thrust" : 600000.0,
+   "ship_class" : "light_freighter",
+   "slots" : {
+      "cargo" : 80,
+      "scoop" : 2,
+      "laser_front" : 1,
+      "missile" : 0,
+      "sensor"  : 2
+   },
+   "thruster_fuel_use" : -1.0,
+   "up_thrust" : 1900000.0
+}

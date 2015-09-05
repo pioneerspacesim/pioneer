@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -45,7 +45,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView() : UIView()
+SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
@@ -76,26 +76,43 @@ SectorView::SectorView() : UIView()
 	InitObject();
 }
 
-SectorView::SectorView(Serializer::Reader &rd) : UIView()
+SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
-	m_pos.x = m_posMovingTo.x = rd.Float();
-	m_pos.y = m_posMovingTo.y = rd.Float();
-	m_pos.z = m_posMovingTo.z = rd.Float();
-	m_rotX = m_rotXMovingTo = rd.Float();
-	m_rotZ = m_rotZMovingTo = rd.Float();
-	m_zoom = m_zoomMovingTo = rd.Float();
+	if (!jsonObj.isMember("sector_view")) throw SavedGameCorruptException();
+	Json::Value sectorViewObj = jsonObj["sector_view"];
+
+	if (!sectorViewObj.isMember("pos_x")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("pos_y")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("pos_z")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("rot_x")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("rot_z")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("zoom")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("in_system")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("current")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("selected")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("hyperspace")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("match_target_to_selection")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("automatic_system_selection")) throw SavedGameCorruptException();
+	if (!sectorViewObj.isMember("detail_box_visible")) throw SavedGameCorruptException();
+
+	m_pos.x = m_posMovingTo.x = StrToFloat(sectorViewObj["pos_x"].asString());
+	m_pos.y = m_posMovingTo.y = StrToFloat(sectorViewObj["pos_y"].asString());
+	m_pos.z = m_posMovingTo.z = StrToFloat(sectorViewObj["pos_z"].asString());
+	m_rotX = m_rotXMovingTo = StrToFloat(sectorViewObj["rot_x"].asString());
+	m_rotZ = m_rotZMovingTo = StrToFloat(sectorViewObj["rot_z"].asString());
+	m_zoom = m_zoomMovingTo = StrToFloat(sectorViewObj["zoom"].asString());
 	// XXX I have no idea if this is correct,
 	// I just copied it from the one other place m_zoomClamped is set
 	m_zoomClamped = Clamp(m_zoom, 1.f, FAR_LIMIT);
-	m_inSystem = rd.Bool();
-	m_current = SystemPath::Unserialize(rd);
-	m_selected = SystemPath::Unserialize(rd);
-	m_hyperspaceTarget = SystemPath::Unserialize(rd);
-	m_matchTargetToSelection = rd.Bool();
-	m_automaticSystemSelection = rd.Bool();
-	m_detailBoxVisible = rd.Byte();
+	m_inSystem = sectorViewObj["in_system"].asBool();
+	m_current = SystemPath::FromJson(sectorViewObj["current"]);
+	m_selected = SystemPath::FromJson(sectorViewObj["selected"]);
+	m_hyperspaceTarget = SystemPath::FromJson(sectorViewObj["hyperspace"]);
+	m_matchTargetToSelection = sectorViewObj["match_target_to_selection"].asBool();
+	m_automaticSystemSelection = sectorViewObj["automatic_system_selection"].asBool();
+	m_detailBoxVisible = sectorViewObj["detail_box_visible"].asUInt();
 
 	InitObject();
 }
@@ -118,7 +135,7 @@ void SectorView::InitDefaults()
 	m_cacheYMin = 0;
 	m_cacheYMax = 0;
 
-	m_sectorCache = Pi::GetGalaxy()->NewSectorSlaveCache();
+	m_sectorCache = m_galaxy->NewSectorSlaveCache();
 }
 
 void SectorView::InitObject()
@@ -174,6 +191,7 @@ void SectorView::InitObject()
 
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
+	rsd.cullMode = CULL_NONE;
 	m_alphaBlendState = m_renderer->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor bbMatDesc;
@@ -347,21 +365,35 @@ SectorView::~SectorView()
 	if (m_onKeyPressConnection.connected()) m_onKeyPressConnection.disconnect();
 }
 
-void SectorView::Save(Serializer::Writer &wr)
+void SectorView::SaveToJson(Json::Value &jsonObj)
 {
-	wr.Float(m_pos.x);
-	wr.Float(m_pos.y);
-	wr.Float(m_pos.z);
-	wr.Float(m_rotX);
-	wr.Float(m_rotZ);
-	wr.Float(m_zoom);
-	wr.Bool(m_inSystem);
-	m_current.Serialize(wr);
-	m_selected.Serialize(wr);
-	m_hyperspaceTarget.Serialize(wr);
-	wr.Bool(m_matchTargetToSelection);
-	wr.Bool(m_automaticSystemSelection);
-	wr.Byte(m_detailBoxVisible);
+	Json::Value sectorViewObj(Json::objectValue); // Create JSON object to contain sector view data.
+
+	sectorViewObj["pos_x"] = FloatToStr(m_pos.x);
+	sectorViewObj["pos_y"] = FloatToStr(m_pos.y);
+	sectorViewObj["pos_z"] = FloatToStr(m_pos.z);
+	sectorViewObj["rot_x"] = FloatToStr(m_rotX);
+	sectorViewObj["rot_z"] = FloatToStr(m_rotZ);
+	sectorViewObj["zoom"] = FloatToStr(m_zoom);
+	sectorViewObj["in_system"] = m_inSystem;
+
+	Json::Value currentSystemObj(Json::objectValue); // Create JSON object to contain current system data.
+	m_current.ToJson(currentSystemObj);
+	sectorViewObj["current"] = currentSystemObj; // Add current system object to sector view object.
+
+	Json::Value selectedSystemObj(Json::objectValue); // Create JSON object to contain selected system data.
+	m_selected.ToJson(selectedSystemObj);
+	sectorViewObj["selected"] = selectedSystemObj; // Add selected system object to sector view object.
+
+	Json::Value hyperspaceSystemObj(Json::objectValue); // Create JSON object to contain hyperspace system data.
+	m_hyperspaceTarget.ToJson(hyperspaceSystemObj);
+	sectorViewObj["hyperspace"] = hyperspaceSystemObj; // Add hyperspace system object to sector view object.
+
+	sectorViewObj["match_target_to_selection"] = m_matchTargetToSelection;
+	sectorViewObj["automatic_system_selection"] = m_automaticSystemSelection;
+	sectorViewObj["detail_box_visible"] = m_detailBoxVisible;
+
+	jsonObj["sector_view"] = sectorViewObj; // Add sector view object to supplied object.
 }
 
 void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
@@ -501,11 +533,15 @@ void SectorView::Draw3D()
 	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
 
 	//draw sector legs in one go
-	if (m_lineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0], m_alphaBlendState);
+	if(!m_lineVerts->IsEmpty()) {
+		m_lines.SetData(m_lineVerts->GetNumVerts(), &m_lineVerts->position[0], &m_lineVerts->diffuse[0]);
+		m_lines.Draw(m_renderer, m_alphaBlendState);
+	}
 
-	if (m_secLineVerts->GetNumVerts() > 2)
-		m_renderer->DrawLines(m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0], m_alphaBlendState);
+	if (!m_secLineVerts->IsEmpty()) {
+		m_sectorlines.SetData( m_secLineVerts->GetNumVerts(), &m_secLineVerts->position[0], &m_secLineVerts->diffuse[0]);
+		m_sectorlines.Draw(m_renderer, m_alphaBlendState);
+	}
 
 	UpdateFactionToggles();
 
@@ -590,7 +626,7 @@ void SectorView::SetSelected(const SystemPath &path)
 void SectorView::OnClickSystem(const SystemPath &path)
 {
 	if (path.IsSameSystem(m_selected)) {
-		RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(path);
+		RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
 		if (system->GetNumStars() > 1 && m_selected.IsBodyPath()) {
 			unsigned i;
 			for (i = 0; i < system->GetNumStars(); ++i)
@@ -606,7 +642,7 @@ void SectorView::OnClickSystem(const SystemPath &path)
 		if (m_automaticSystemSelection) {
 			GotoSystem(path);
 		} else {
-			RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(path);
+			RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(path);
 			SetSelected(system->GetStars()[0]->GetPath());
 		}
 	}
@@ -661,8 +697,16 @@ void SectorView::PutSystemLabels(RefCountedPtr<Sector> sec, const vector3f &orig
 void SectorView::PutFactionLabels(const vector3f &origin)
 {
 	PROFILE_SCOPED()
-	glDepthRange(0,1);
+
+	m_renderer->SetDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
+
+	if (!m_material)
+		m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
+
+	static const Color labelBorder(13, 13, 31, 166);
+	const auto renderState = Gui::Screen::alphaBlendState;
+
 	for (auto it = m_visibleFactions.begin(); it != m_visibleFactions.end(); ++it) {
 		if ((*it)->hasHomeworld && m_hiddenFactions.find((*it)) == m_hiddenFactions.end()) {
 
@@ -673,22 +717,20 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 			if (Gui::Screen::Project(vector3d(sys.GetFullPosition() - origin), pos)) {
 
 				std::string labelText    = sys.GetName() + "\n" + (*it)->name;
-				Color       labelColor  = (*it)->colour;
-				float       labelHeight = 0;
-				float       labelWidth  = 0;
+				Color labelColor  = (*it)->colour;
+				float labelHeight = 0;
+				float labelWidth  = 0;
 
 				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
 
-				if (!m_material) m_material.Reset(m_renderer->CreateMaterial(Graphics::MaterialDescriptor()));
-
-				auto renderState = Gui::Screen::alphaBlendState;
+				
 				{
 					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f + labelHeight, 0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f,               0));
 					va.Add(vector3f(pos.x + labelWidth + 5.f, pos.y - 5.f + labelHeight, 0));
-					m_material->diffuse = Color(13, 13, 31, 166);
+					m_material->diffuse = labelBorder;
 					m_renderer->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
 				}
 
@@ -787,7 +829,7 @@ void SectorView::UpdateSystemLabels(SystemLabels &labels, const SystemPath &path
 {
 	UpdateDistanceLabelAndLine(labels.distance, m_current, path);
 
-	RefCountedPtr<StarSystem> sys = Pi::GetGalaxy()->GetStarSystem(path);
+	RefCountedPtr<StarSystem> sys = m_galaxy->GetStarSystem(path);
 
 	std::string desc;
 	if (sys->GetNumStars() == 4) {
@@ -892,7 +934,7 @@ void SectorView::DrawNearSectors(const matrix4x4f& modelview)
 	const vector3f secOrigin = vector3f(int(floorf(m_pos.x)), int(floorf(m_pos.y)), int(floorf(m_pos.z)));
 
 	m_renderer->SetTransform(modelview);
-	glDepthRange(0,1);
+	m_renderer->SetDepthRange(0,1);
 	Gui::Screen::EnterOrtho();
 	for (int sx = -DRAW_RAD; sx <= DRAW_RAD; sx++) {
 		for (int sy = -DRAW_RAD; sy <= DRAW_RAD; sy++) {
@@ -910,16 +952,21 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 	m_renderer->SetTransform(trans);
 	RefCountedPtr<Sector> ps = GetCached(SystemPath(sx, sy, sz));
 
-	int cz = int(floor(m_pos.z+0.5f));
+	const int cz = int(floor(m_pos.z+0.5f));
 
 	if (cz == sz) {
-		const Color darkgreen(0, 51, 0, 255);
+		static const Color darkgreen(0, 51, 0, 255);
 		const vector3f vts[] = {
 			trans * vector3f(0.f, 0.f, 0.f),
 			trans * vector3f(0.f, Sector::SIZE, 0.f),
 			trans * vector3f(Sector::SIZE, Sector::SIZE, 0.f),
 			trans * vector3f(Sector::SIZE, 0.f, 0.f)
 		};
+
+		// reserve some more space
+		const size_t newNum = m_secLineVerts->GetNumVerts() + 8;
+		m_secLineVerts->position.reserve(newNum);
+		m_secLineVerts->diffuse.reserve(newNum);
 
 		m_secLineVerts->Add(vts[0], darkgreen);	// line segment 1
 		m_secLineVerts->Add(vts[1], darkgreen);
@@ -930,6 +977,10 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		m_secLineVerts->Add(vts[3], darkgreen);	// line segment 4
 		m_secLineVerts->Add(vts[0], darkgreen);
 	}
+
+	const size_t numLineVerts = ps->m_systems.size() * 8;
+	m_lineVerts->position.reserve(numLineVerts);
+	m_lineVerts->diffuse.reserve(numLineVerts);
 
 	Uint32 sysIdx = 0;
 	for (std::vector<Sector::System>::iterator i = ps->m_systems.begin(); i != ps->m_systems.end(); ++i, ++sysIdx) {
@@ -971,7 +1022,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			// Ideally, since this takes so f'ing long, it wants to be done as a threaded job but haven't written that yet.
 			if( (diff.x < 0.001f && diff.y < 0.001f && diff.z < 0.001f) ) {
 				SystemPath current = SystemPath(sx, sy, sz, sysIdx);
-				RefCountedPtr<StarSystem> pSS = Pi::GetGalaxy()->GetStarSystem(current);
+				RefCountedPtr<StarSystem> pSS = m_galaxy->GetStarSystem(current);
 				i->SetPopulation(pSS->GetTotalPop());
 			}
 
@@ -1045,21 +1096,21 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 
 		// player location indicator
 		if (m_inSystem && bIsCurrentSystem) {
-			glDepthRange(0.2,1.0);
+			m_renderer->SetDepthRange(0.2,1.0);
 			m_disk->SetColor(Color(0, 0, 204));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(3.f));
 			m_disk->Draw(m_renderer);
 		}
 		// selected indicator
 		if (bIsCurrentSystem) {
-			glDepthRange(0.1,1.0);
+			m_renderer->SetDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(0, 204, 0));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
-			glDepthRange(0.1,1.0);
+			m_renderer->SetDepthRange(0.1,1.0);
 			m_disk->SetColor(Color(77));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
@@ -1068,7 +1119,6 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 			const matrix4x4f sphTrans = trans * matrix4x4f::Translation(i->GetPosition().x, i->GetPosition().y, i->GetPosition().z);
 			m_renderer->SetTransform(sphTrans * matrix4x4f::ScaleMatrix(m_playerHyperspaceRange));
 			m_jumpSphere->Draw(m_renderer);
-			m_jumpDisk->Draw(m_renderer);
 		}
 	}
 }
@@ -1090,12 +1140,12 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 		for (int sx = secOrigin.x-buildRadius; sx <= secOrigin.x+buildRadius; sx++) {
 			for (int sy = secOrigin.y-buildRadius; sy <= secOrigin.y+buildRadius; sy++) {
 				for (int sz = secOrigin.z-buildRadius; sz <= secOrigin.z+buildRadius; sz++) {
-						if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
-							BuildFarSector(GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
-						}
+					if ((vector3f(sx,sy,sz) - secOrigin).Length() <= buildRadius){
+						BuildFarSector(GetCached(SystemPath(sx, sy, sz)), Sector::SIZE * secOrigin, m_farstars, m_farstarsColor);
 					}
 				}
 			}
+		}
 
 		m_secPosFar      = secOrigin;
 		m_radiusFar      = buildRadius;
@@ -1104,8 +1154,8 @@ void SectorView::DrawFarSectors(const matrix4x4f& modelview)
 
 	// always draw the stars, slightly altering their size for different different resolutions, so they still look okay
 	if (m_farstars.size() > 0) {
-		m_renderer->DrawPoints(m_farstars.size(), &m_farstars[0], &m_farstarsColor[0],
-			m_alphaBlendState, 1.f + (Graphics::GetScreenHeight() / 720.f));
+		m_farstarsPoints.SetData(m_renderer, m_farstars.size(), &m_farstars[0], &m_farstarsColor[0], modelview, 1.f * (Graphics::GetScreenHeight() / 720.f));
+		m_farstarsPoints.Draw(m_renderer, m_alphaBlendState);
 	}
 
 	// also add labels for any faction homeworlds among the systems we've drawn
@@ -1353,7 +1403,7 @@ void SectorView::Update()
 			}
 
 			if (!m_selected.IsSameSystem(new_selected)) {
-				RefCountedPtr<StarSystem> system = Pi::GetGalaxy()->GetStarSystem(new_selected);
+				RefCountedPtr<StarSystem> system = m_galaxy->GetStarSystem(new_selected);
 				SetSelected(system->GetStars()[0]->GetPath());
 			}
 		}
@@ -1374,9 +1424,9 @@ void SectorView::Update()
 
 		Graphics::MaterialDescriptor matdesc;
 		matdesc.effect = EFFECT_FRESNEL_SPHERE;
-		RefCountedPtr<Graphics::Material> fresnelMat(m_renderer->CreateMaterial(matdesc));
-		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(m_renderer, fresnelMat, m_jumpSphereState, 3, 1.0f) );
-		m_jumpDisk.reset( new Graphics::Drawables::Disk(fresnelMat, m_jumpSphereState, 72, 1.0f) );
+		m_fresnelMat.Reset(m_renderer->CreateMaterial(matdesc));
+		m_fresnelMat->diffuse = Color::WHITE;
+		m_jumpSphere.reset( new Graphics::Drawables::Sphere3D(m_renderer, m_fresnelMat, m_jumpSphereState, 4, 1.0f) );
 	}
 
 	UIView::Update();

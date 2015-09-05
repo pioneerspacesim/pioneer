@@ -23,10 +23,6 @@
       "description" : "",
       "message" : "Zurück"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Auflegen."
-   },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
       "message" : "Entschuldigung, Ich kann wirklich nicht mehr tiefer gehen."

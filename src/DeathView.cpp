@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "DeathView.h"
@@ -7,7 +7,7 @@
 #include "ShipCpanel.h"
 #include "graphics/Graphics.h"
 
-DeathView::DeathView(): View()
+DeathView::DeathView(Game* game): View(), m_game(game)
 {
 	float size[2];
 	GetSizeRequested(size);
@@ -35,7 +35,7 @@ void DeathView::Init()
 
 void DeathView::OnSwitchTo()
 {
-	Pi::cpan->HideAll();
+	m_game->GetCpan()->HideAll();
 }
 
 void DeathView::Update()

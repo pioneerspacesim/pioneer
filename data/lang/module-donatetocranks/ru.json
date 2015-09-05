@@ -47,17 +47,13 @@
       "description" : "",
       "message" : "ПОДДЕРЖИ СВОБОДУ! Скажи стоп платным программам контролирующие ваш корабль!"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Спасибо за информацию, конец связи."
-   },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
-      "message" : "Спасибо, мы ценим любую помощь."
+      "message" : "Спасибо! Мы ценим любую помощь."
    },
    "WOW_THAT_WAS_VERY_GENEROUS" : {
       "description" : "",
-      "message" : "О! Вы очень щедры! Спасибо.."
+      "message" : "Ого! Это очень благородно с вашей стороны."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",

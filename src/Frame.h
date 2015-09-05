@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FRAME_H
@@ -7,6 +7,7 @@
 #include "libs.h"
 #include "Serializer.h"
 #include "IterationProxy.h"
+#include "json/json.h"
 #include <string>
 #include <list>
 
@@ -27,9 +28,9 @@ public:
 	Frame(Frame *parent, const char *label);
 	Frame(Frame *parent, const char *label, unsigned int flags);
 	~Frame();
-	static void Serialize(Serializer::Writer &wr, Frame *f, Space *space);
+	static void ToJson(Json::Value &jsonObj, Frame *f, Space *space);
 	static void PostUnserializeFixup(Frame *f, Space *space);
-	static Frame *Unserialize(Serializer::Reader &rd, Space *space, Frame *parent, double at_time);
+	static Frame *FromJson(const Json::Value &jsonObj, Space *space, Frame *parent, double at_time);
 	const std::string &GetLabel() const { return m_label; }
 	void SetLabel(const char *label) { m_label = label; }
 

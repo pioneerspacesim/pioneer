@@ -167,10 +167,6 @@
       "description" : "",
       "message" : "{target}'ın kariyerinin sonlama haberi mutlulukla karşılandı. {cash} burada"
    },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
-   },
    "HOW_SOON_MUST_IT_BE_DONE" : {
       "description" : "",
       "message" : "En yakın ne zaman yapılması gerekiyor?"
@@ -193,7 +189,7 @@
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
-      "message" : "Sözleşme tamalandığında buraya dön ve ödemen yapılacak."
+      "message" : "Sözleşme tamamlandığında buraya dönün ve paranızı alacaksınız."
    },
    "SHIP" : {
       "description" : "",

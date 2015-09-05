@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -105,7 +105,7 @@ local onChat = function (form, ref, option)
 	price = price * 10
 
 	-- Replace those tokens into ad's intro text that can change during play
-	message = string.interp(ad.intro, {
+	local message = string.interp(ad.intro, {
 		drive = hyperdrive and hyperdrive:GetName() or "None",
 		price = Format.Money(price),
 	})

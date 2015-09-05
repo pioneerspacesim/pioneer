@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -15,13 +15,13 @@
 #include "graphics/Graphics.h"
 #include "graphics/VertexArray.h"
 #include "MathUtil.h"
+#include "Sphere.h"
 #include "vcacheopt/vcacheopt.h"
 #include <deque>
 #include <algorithm>
 
 // tri edge lengths
 static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
-#define GEOPATCH_MAX_DEPTH  15 + (2*Pi::detail.fracmult) //15
 //#define GEOPATCH_MAX_DEPTH  10
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
@@ -68,7 +68,7 @@ GeoPatch::~GeoPatch() {
 	colors.reset();
 }
 
-void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer) 
+void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 {
 	if (m_needUpdateVBOs) {
 		assert(renderer);
@@ -91,8 +91,8 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 		GeoPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(m_vertexBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
 
-		const Sint32 edgeLen = ctx->edgeLen;
-		const double frac = ctx->frac;
+		const Sint32 edgeLen = ctx->GetEdgeLen();
+		const double frac = ctx->GetFrac();
 		const double *pHts = heights.get();
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
@@ -124,32 +124,70 @@ void GeoPatch::_UpdateVBOs(Graphics::Renderer *renderer)
 			}
 		}
 		m_vertexBuffer->Unmap();
+
+#ifdef DEBUG_BOUNDING_SPHERES
+		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
+		m_boundsphere.reset( new Graphics::Drawables::Sphere3D(Pi::renderer, mat, Pi::renderer->CreateRenderState(Graphics::RenderStateDesc()), 0, clipRadius) );
+#endif
 	}
 }
 
-void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum) {
+// the default sphere we do the horizon culling against
+static const SSphere s_sph;
+void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
+{
+	// must update the VBOs to calculate the clipRadius...
+	UpdateVBOs(renderer);
+	// ...before doing the furstum culling that relies on it.
+	if (!frustum.TestPoint(clipCentroid, clipRadius))
+		return; // nothing below this patch is visible
+
+	// only want to horizon cull patches that can actually be over the horizon!
+	const vector3d camDir(campos - clipCentroid);
+	const vector3d camDirNorm(camDir.Normalized());
+	const vector3d cenDir(clipCentroid.Normalized());
+	const double dotProd = camDirNorm.Dot(cenDir);
+
+	if( dotProd < 0.25 && (camDir.LengthSqr() > (clipRadius*clipRadius)) ) {
+		SSphere obj;
+		obj.m_centre = clipCentroid;
+		obj.m_radius = clipRadius;
+
+		if( !s_sph.HorizonCulling(campos, obj) ) {
+			return; // nothing below this patch is visible
+		}
+	}
+
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights) {
-		_UpdateVBOs(renderer);
-
-		if (!frustum.TestPoint(clipCentroid, clipRadius))
-			return;
-
 		Graphics::Material *mat = geosphere->GetSurfaceMaterial();
 		Graphics::RenderState *rs = geosphere->GetSurfRenderState();
 
 		const vector3d relpos = clipCentroid - campos;
 		renderer->SetTransform(modelView * matrix4x4d::Translation(relpos));
 
-		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
+		Pi::statSceneTris += (ctx->GetNumTris());
+		++Pi::statNumPatches;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indices_list[determineIndexbuffer()].Get(), rs, mat);
+		// per-patch detail texture scaling value
+		geosphere->GetMaterialParameters().patchDepth = m_depth;
+
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
+#ifdef DEBUG_BOUNDING_SPHERES
+		if(m_boundsphere.get()) {
+			renderer->SetWireFrameMode(true);
+			m_boundsphere->Draw(renderer);
+			renderer->SetWireFrameMode(false);
 	}
+#endif
+		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
+}
 }
 
-void GeoPatch::LODUpdate(const vector3d &campos) {
-	// there should be no LODUpdate'ing when we have active split requests
+void GeoPatch::LODUpdate(const vector3d &campos) 
+{
+	// there should be no LOD update when we have active split requests
 	if(mHasJobRequest)
 		return;
 
@@ -157,6 +195,7 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	bool canMerge = bool(kids[0]);
 
 	// always split at first level
+	double centroidDist = DBL_MAX;
 	if (parent) {
 		for (int i=0; i<NUM_EDGES; i++) {
 			if (!edgeFriend[i]) {
@@ -167,9 +206,9 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 				break;
 			}
 		}
-		const float centroidDist = (campos - centroid).Length();
+		centroidDist = (campos - centroid).Length();
 		const bool errorSplit = (centroidDist < m_roughLength);
-		if( !(canSplit && (m_depth < GEOPATCH_MAX_DEPTH) && errorSplit) ) {
+		if( !(canSplit && (m_depth < std::min(GEOPATCH_MAX_DEPTH, geosphere->GetMaxDepth())) && errorSplit) ) {
 			canSplit = false;
 		}
 	}
@@ -177,13 +216,14 @@ void GeoPatch::LODUpdate(const vector3d &campos) {
 	if (canSplit) {
 		if (!kids[0]) {
             assert(!mHasJobRequest);
-            assert(!m_job.HasJob());
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen,
-						ctx->frac, geosphere->GetTerrain());
-			m_job = Pi::GetAsyncJobQueue()->Queue(new QuadPatchJob(ssrd));
+						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(),
+						ctx->GetFrac(), geosphere->GetTerrain());
+
+			// add to the GeoSphere to be processed at end of all LODUpdate requests
+			geosphere->AddQuadSplitRequest(centroidDist, ssrd, this);
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
 				kids[i]->LODUpdate(campos);
@@ -205,10 +245,9 @@ void GeoPatch::RequestSinglePatch()
 {
 	if( !heights ) {
         assert(!mHasJobRequest);
-        assert(!m_job.HasJob());
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->edgeLen, ctx->frac, geosphere->GetTerrain());
+					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(), ctx->GetFrac(), geosphere->GetTerrain());
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
 }
@@ -267,7 +306,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 		}
 		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
 		for (int i=0; i<NUM_KIDS; i++) {
-			kids[i]->UpdateVBOs();
+			kids[i]->NeedToUpdateVBOs();
 		}
 		mHasJobRequest = false;
 	}
@@ -285,4 +324,10 @@ void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 		colors.reset(data.colors);
 	}
 	mHasJobRequest = false;
+}
+
+void GeoPatch::ReceiveJobHandle(Job::Handle job)
+{
+	assert(!m_job.HasJob());
+	m_job = static_cast<Job::Handle&&>(job);
 }

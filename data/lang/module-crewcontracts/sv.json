@@ -1,11 +1,11 @@
 {
    "ASK_CANDIDATE_TO_SIT_A_TEST" : {
       "description" : "",
-      "message" : "Fråga kandidaten att utföra ett prov"
+      "message" : "Be kandidaten att utföra ett prov"
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Namn: {name}\nErfarenhet: {experience}\nEfterfrågad lön: {wage} per vecka\n\n{response}\n"
+      "message" : "Namn: {name}\nErfarenhet: {experience}\nBegärd lön: {wage} per vecka\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -13,19 +13,15 @@
    },
    "CREWTESTRESULTSBB" : {
       "description" : "",
-      "message" : "Undersökningsresultat:\n\nGenerell besättningskompetens: {general}%\nIngenjörskonst och reparation: {engineering}%\nPilot och rymdfart: {piloting}%\nNavigation och plottning: {navigation}%\nSensorer och försvar: {sensors}%\nÖvergripande provresultat: {overall}%"
+      "message" : "Testresultat:\n\nAllmän besättningskompetens: {general}%\nIngenjörsfärdighet och reparation: {engineering}%\nPilot och rymdfart: {piloting}%\nNavigation och kartografi: {navigation}%\nSensorer och försvar: {sensors}%\nÖvergripande provresultat: {overall}%"
    },
    "CREW_FOR_HIRE" : {
       "description" : "",
-      "message" : "Hyrbar besättning"
+      "message" : "Arbetssökande besättning"
    },
    "GO_BACK" : {
       "description" : "",
       "message" : "Tillbaka"
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Lägg på."
    },
    "IM_SORRY_IM_NOT_PREPARED_TO_GO_ANY_LOWER" : {
       "description" : "",
@@ -85,7 +81,7 @@
    },
    "THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY" : {
       "description" : "",
-      "message" : "Tack! Jag gör mig hemmastadd ombord direkt."
+      "message" : "Tack! Jag inkvarterar mig ombord direkt."
    },
    "THATS_EXTREMELY_GENEROUS_OF_YOU" : {
       "description" : "",

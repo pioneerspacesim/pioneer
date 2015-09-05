@@ -1,121 +1,289 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SpaceStationType.h"
 #include "FileSystem.h"
-#include "Lua.h"
-#include "LuaVector.h"
-#include "LuaVector.h"
-#include "LuaTable.h"
 #include "Pi.h"
 #include "MathUtil.h"
 #include "Ship.h"
 #include "StringF.h"
 #include "scenegraph/Model.h"
 #include "OS.h"
+#include "json/json.h"
 
 #include <algorithm>
 
-static lua_State *s_lua;
-static std::string s_currentStationFile = "";
-std::vector<SpaceStationType> SpaceStationType::surfaceStationTypes;
-std::vector<SpaceStationType> SpaceStationType::orbitalStationTypes;
+std::vector<SpaceStationType> SpaceStationType::surfaceTypes;
+std::vector<SpaceStationType> SpaceStationType::orbitalTypes;
 
-SpaceStationType::SpaceStationType()
-: id("")
-, model(0)
-, modelName("")
-, angVel(0.f)
-, dockMethod(SURFACE)
-, numDockingPorts(0)
-, numDockingStages(0)
-, numUndockStages(0)
-, shipLaunchStage(0)
-, dockAnimStageDuration(0)
-, undockAnimStageDuration(0)
-, parkingDistance(0)
-, parkingGapSize(0)
-{}
+SpaceStationType::SpaceStationType(const std::string &id_, const std::string &path_)
+	: id(id_)
+	, model(0)
+	, modelName("")
+	, angVel(0.f)
+	, dockMethod(SURFACE)
+	, numDockingPorts(0)
+	, numDockingStages(0)
+	, numUndockStages(0)
+	, shipLaunchStage(3)
+	, parkingDistance(0)
+	, parkingGapSize(0)
+{
+	Json::Reader reader;
+	Json::Value data;
+
+	auto fd = FileSystem::gameDataFiles.ReadFile(path_);
+	if (!fd) {
+		Output("couldn't open station def '%s'\n", path_.c_str());
+		return;
+	}
+
+	if (!reader.parse(fd->GetData(), fd->GetData()+fd->GetSize(), data)) {
+		Output("couldn't read station def '%s': %s\n", path_.c_str(), reader.getFormattedErrorMessages().c_str());
+		return;
+	}
+
+	modelName = data.get("model", "").asString();
+
+	const std::string type(data.get("type", "").asString());
+	if (type == "surface")
+		dockMethod = SURFACE;
+	else if (type == "orbital")
+		dockMethod = ORBITAL;
+	else {
+		Output("couldn't parse station def '%s': unknown type '%s'\n", path_.c_str(), type.c_str());
+		return;
+	}
+
+	angVel = data.get("angular_velocity", 0.0f).asFloat();
+
+	parkingDistance = data.get("parking_distance", 0.0f).asFloat();
+	parkingGapSize = data.get("parking_gap_size", 0.0f).asFloat();
+	
+	padOffset = data.get("pad_offset", 150.f).asFloat();
+
+	model = Pi::FindModel(modelName);
+	assert(model);
+	OnSetupComplete();
+}
 
 void SpaceStationType::OnSetupComplete()
 {
-	SceneGraph::Model::TVecMT approach_mts;
-	SceneGraph::Model::TVecMT docking_mts;
-	SceneGraph::Model::TVecMT leaving_mts;
-	model->FindTagsByStartOfName("approach_", approach_mts);
-	model->FindTagsByStartOfName("docking_", docking_mts);
-	model->FindTagsByStartOfName("leaving_", leaving_mts);
+	// Since the model contains (almost) all of the docking information we have to extract that
+	// and then generate any additional locators and information the station will need from it.
 
+	// First we gather the MatrixTransforms that contain the location and orientation of the docking
+	// locators/waypoints. We store some information within the name of these which needs parsing too.
+
+	// Next we build the additional information required for docking ships with SPACE stations
+	// on autopilot - this is the only option for docking with SPACE stations currently.
+	// This mostly means offsetting from one locator to create the next in the sequence.
+
+	// ground stations have a "special-fucking-case" 0 stage launch process
+	shipLaunchStage = ((SURFACE==dockMethod) ? 0 : 3);
+
+	// gather the tags
+	SceneGraph::Model::TVecMT entrance_mts;
+	SceneGraph::Model::TVecMT locator_mts;
+	SceneGraph::Model::TVecMT exit_mts;
+	model->FindTagsByStartOfName("entrance_", entrance_mts);
+	model->FindTagsByStartOfName("loc_", locator_mts);
+	model->FindTagsByStartOfName("exit_", exit_mts);
+
+	Output("%s has:\n %lu entrances,\n %lu pads,\n %lu exits\n", modelName.c_str(), entrance_mts.size(), locator_mts.size(), exit_mts.size());
+
+	// Add the partially initialised ports
+	for (auto apprIter : entrance_mts)
 	{
-		SceneGraph::Model::TVecMT::const_iterator apprIter = approach_mts.begin();
-		for (; apprIter!=approach_mts.end() ; ++apprIter)
-		{
-			int bay, stage;
-			PiVerify(2 == sscanf((*apprIter)->GetName().c_str(), "approach_stage%d_bay%d", &stage, &bay));
-			PiVerify(bay>0 && stage>0);
-			SBayGroup* pGroup = GetGroupByBay(bay-1);
-			assert(pGroup);
-			pGroup->m_approach[stage] = (*apprIter)->GetTransform();
+		int portId;
+		PiVerify(1 == sscanf(apprIter->GetName().c_str(), "entrance_port%d", &portId));
+		PiVerify(portId>0);
+
+		SPort new_port;
+		new_port.portId = portId;
+		new_port.name = apprIter->GetName();
+		if(SURFACE==dockMethod) {
+			const vector3f offDir = apprIter->GetTransform().Up().Normalized();
+			new_port.m_approach[1] = apprIter->GetTransform();
+			new_port.m_approach[1].SetTranslate( apprIter->GetTransform().GetTranslate() + (offDir * 500.0f) );
+		} else {
+			const vector3f offDir = -apprIter->GetTransform().Back().Normalized();
+			new_port.m_approach[1] = apprIter->GetTransform();
+			new_port.m_approach[1].SetTranslate( apprIter->GetTransform().GetTranslate() + (offDir * 1500.0f) );
 		}
+		new_port.m_approach[2] = apprIter->GetTransform();
+		m_ports.push_back( new_port );
+	}
 
-		SceneGraph::Model::TVecMT::const_iterator dockIter = docking_mts.begin();
-		for (; dockIter!=docking_mts.end() ; ++dockIter)
-		{
-			int bay, stage;
-			PiVerify(2 == sscanf((*dockIter)->GetName().c_str(), "docking_stage%d_bay%d", &stage, &bay));
-			PiVerify(bay>0 && stage>0);
-			m_ports[bay].m_docking[stage+1] = (*dockIter)->GetTransform();
+	int bay=0;
+	for (auto locIter : locator_mts)
+	{
+		int bayStr, portId;
+		int minSize, maxSize;
+		char padname[8];
+		const matrix4x4f &locTransform = locIter->GetTransform();
+
+		++bay;
+
+		// eg:loc_A001_p01_s0_500_b01
+		PiVerify(5 == sscanf(locIter->GetName().c_str(), "loc_%4s_p%d_s%d_%d_b%d", &padname[0], &portId, &minSize, &maxSize, &bayStr));
+		PiVerify(bay>0 && portId>0);
+
+		// find the port and setup the rest of it's information
+		bool bFoundPort = false;
+		matrix4x4f approach1;
+		matrix4x4f approach2;
+		for(auto &rPort : m_ports) {
+			if(rPort.portId == portId) {
+				rPort.minShipSize = std::min(minSize,rPort.minShipSize);
+				rPort.maxShipSize = std::max(maxSize,rPort.maxShipSize);
+				rPort.bayIDs.push_back( std::make_pair(bay-1, padname) );
+				bFoundPort = true;
+				approach1 = rPort.m_approach[1];
+				approach2 = rPort.m_approach[2];
+				break;
+			}
 		}
+		assert(bFoundPort);
 
-		SceneGraph::Model::TVecMT::const_iterator leaveIter = leaving_mts.begin();
-		for (; leaveIter!=leaving_mts.end() ; ++leaveIter)
+		// now build the docking/leaving waypoints
+		if( SURFACE == dockMethod )
 		{
-			int bay, stage;
-			PiVerify(2 == sscanf((*leaveIter)->GetName().c_str(), "leaving_stage%d_bay%d", &stage, &bay));
-			PiVerify(bay>0 && stage>0);
-			m_ports[bay].m_leaving[stage] = (*leaveIter)->GetTransform();
+			// ground stations don't have leaving waypoints.
+			m_portPaths[bay].m_docking[2] = locTransform; // final (docked)
+			numDockingStages = 2;
+			numUndockStages = 1;
 		}
-
-		assert(!m_ports.empty());
-		assert(numDockingStages > 0);
-		assert(numUndockStages > 0);
-
-		for (PortMap::const_iterator pIt = m_ports.begin(), pItEnd = m_ports.end(); pIt!=pItEnd; ++pIt)
+		else
 		{
-			if (Uint32(numDockingStages-1) < pIt->second.m_docking.size()) {
-				Error(
-					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n"
-					"Must have at least the same number of entries as the number of docking stages "
-					"PLUS the docking timeout at the start of the array.",
-					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+			struct TPointLine
+			{
+				// for reference: http://paulbourke.net/geometry/pointlineplane/
+				static bool ClosestPointOnLine( const vector3f &Point, const vector3f &LineStart, const vector3f &LineEnd, vector3f &Intersection )
+				{
+					const float LineMag = ( LineStart - LineEnd ).Length();
+ 
+					const float U = ( ( ( Point.x - LineStart.x ) * ( LineEnd.x - LineStart.x ) ) +
+									(   ( Point.y - LineStart.y ) * ( LineEnd.y - LineStart.y ) ) +
+									(   ( Point.z - LineStart.z ) * ( LineEnd.z - LineStart.z ) ) ) /
+									( LineMag * LineMag );
+ 
+					if( U < 0.0f || U > 1.0f )
+						return false;   // closest point does not fall within the line segment
+ 
+					Intersection.x = LineStart.x + U * ( LineEnd.x - LineStart.x );
+					Intersection.y = LineStart.y + U * ( LineEnd.y - LineStart.y );
+					Intersection.z = LineStart.z + U * ( LineEnd.z - LineStart.z );
+ 
+					return true;
+				}
+			};
 
-			} else if (Uint32(numDockingStages-1) != pIt->second.m_docking.size()) {
-				Warning(
-					"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n",
-					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+			// create the docking locators
+			// start
+			m_portPaths[bay].m_docking[2] = approach2;
+			m_portPaths[bay].m_docking[2].SetRotationOnly( locTransform.GetOrient() );
+			// above the pad
+			vector3f intersectionPos(0.0f);
+			const vector3f approach1Pos = approach1.GetTranslate();
+			const vector3f approach2Pos = approach2.GetTranslate();
+			{
+				const vector3f p0 = locTransform.GetTranslate(); // plane position
+				const vector3f l = (approach2Pos - approach1Pos).Normalized(); // ray direction
+				const vector3f l0 = approach1Pos + (l*10000.0f);
+
+				if(!TPointLine::ClosestPointOnLine(p0, approach1Pos, l0, intersectionPos)) {
+					Output("No point found on line segment");
+				} 
+			}
+			m_portPaths[bay].m_docking[3] = locTransform;
+			m_portPaths[bay].m_docking[3].SetTranslate( intersectionPos );
+			// final (docked)
+			m_portPaths[bay].m_docking[4] = locTransform;
+			numDockingStages = 4;
+
+			// leaving locators ...
+			matrix4x4f orient = locTransform.GetOrient(), EndOrient;
+			if( exit_mts.empty() )
+			{
+				// leaving locators need to face in the opposite direction
+				const matrix4x4f rot = matrix3x3f::Rotate(DEG2RAD(180.0f), orient.Back());
+				orient = orient * rot;
+				orient.SetTranslate( locTransform.GetTranslate() );
+				EndOrient = approach2;
+				EndOrient.SetRotationOnly(orient);
+			}
+			else
+			{
+				// leaving locators, use whatever orientation they have
+				orient.SetTranslate( locTransform.GetTranslate() );
+				int exitport = 0;
+				for( auto &exitIt : exit_mts ) {
+					PiVerify(1 == sscanf( exitIt->GetName().c_str(), "exit_port%d", &exitport ));
+					if( exitport == portId )
+					{
+						EndOrient = exitIt->GetTransform();
+						break;
+					}
+				}
+				if( exitport == 0 )
+				{
+					EndOrient = approach2;
+				}
 			}
 
-			if (0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) < pIt->second.m_leaving.size()) {
-				Error(
-					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n"
-					"Must have at least the same number of entries as the number of leaving stages.",
-					modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
-
-			} else if(0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) != pIt->second.m_leaving.size()) {
-				Warning(
-					"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n",
-					modelName.c_str(), numUndockStages, pIt->second.m_leaving.size());
-			}
-
+			// create the leaving locators
+			m_portPaths[bay].m_leaving[1] = locTransform; // start - maintain the same orientation and position as when docked.
+			m_portPaths[bay].m_leaving[2] = orient; // above the pad - reorient...
+			m_portPaths[bay].m_leaving[2].SetTranslate( intersectionPos ); //  ...and translate to new position
+			m_portPaths[bay].m_leaving[3] = EndOrient; // end (on manual after here)
+			numUndockStages = 3;
 		}
+	}
+	
+	numDockingPorts = m_portPaths.size();
+
+	// sanity
+	assert(!m_portPaths.empty());
+	assert(numDockingStages > 0);
+	assert(numUndockStages > 0);
+
+	// insanity
+	for (PortPathMap::const_iterator pIt = m_portPaths.begin(), pItEnd = m_portPaths.end(); pIt!=pItEnd; ++pIt)
+	{
+		if (Uint32(numDockingStages-1) < pIt->second.m_docking.size()) {
+			Error(
+				"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n"
+				"Must have at least the same number of entries as the number of docking stages "
+				"PLUS the docking timeout at the start of the array.",
+				modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+
+		} else if (Uint32(numDockingStages-1) != pIt->second.m_docking.size()) {
+			Warning(
+				"(%s): numDockingStages (%d) vs number of docking stages (" SIZET_FMT ")\n",
+				modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+		}
+
+		if (0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) < pIt->second.m_leaving.size()) {
+			Error(
+				"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n"
+				"Must have at least the same number of entries as the number of leaving stages.",
+				modelName.c_str(), (numDockingStages-1), pIt->second.m_docking.size());
+
+		} else if(0!=pIt->second.m_leaving.size() && Uint32(numUndockStages) != pIt->second.m_leaving.size()) {
+			Warning(
+				"(%s): numUndockStages (%d) vs number of leaving stages (" SIZET_FMT ")\n",
+				modelName.c_str(), numUndockStages, pIt->second.m_leaving.size());
+		}
+
 	}
 }
 
-const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int zeroBaseBayID) const
+const SpaceStationType::SPort* SpaceStationType::FindPortByBay(const int zeroBaseBayID) const
 {
-	for (TBayGroups::const_iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
-		for (std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin(), idIEnd = (*bayIter).bayIDs.end(); idIter!=idIEnd ; ++idIter ) {
-			if ((*idIter)==zeroBaseBayID) {
+	for (TPorts::const_iterator bayIter = m_ports.begin(), grpEnd=m_ports.end(); bayIter!=grpEnd ; ++bayIter ) {
+		for (auto idIter : (*bayIter).bayIDs ) {
+			if (idIter.first==zeroBaseBayID) {
 				return &(*bayIter);
 			}
 		}
@@ -124,11 +292,11 @@ const SpaceStationType::SBayGroup* SpaceStationType::FindGroupByBay(const int ze
 	return 0;
 }
 
-SpaceStationType::SBayGroup* SpaceStationType::GetGroupByBay(const int zeroBaseBayID)
+SpaceStationType::SPort* SpaceStationType::GetPortByBay(const int zeroBaseBayID)
 {
-	for (TBayGroups::iterator bayIter = bayGroups.begin(), grpEnd=bayGroups.end(); bayIter!=grpEnd ; ++bayIter ) {
-		for (std::vector<int>::const_iterator idIter = (*bayIter).bayIDs.begin(), idIEnd = (*bayIter).bayIDs.end(); idIter!=idIEnd ; ++idIter ) {
-			if ((*idIter)==zeroBaseBayID) {
+	for (TPorts::iterator bayIter = m_ports.begin(), grpEnd=m_ports.end(); bayIter!=grpEnd ; ++bayIter ) {
+		for (auto idIter : (*bayIter).bayIDs ) {
+			if (idIter.first==zeroBaseBayID) {
 				return &(*bayIter);
 			}
 		}
@@ -141,11 +309,11 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 {
 	bool gotOrient = false;
 
-	const SBayGroup* pGroup = FindGroupByBay(port);
-	if (pGroup && stage>0) {
-		TMapBayIDMat::const_iterator stageDataIt = pGroup->m_approach.find(stage);
-		if (stageDataIt != pGroup->m_approach.end()) {
-			const matrix4x4f &mt = pGroup->m_approach.at(stage);
+	const SPort* pPort = FindPortByBay(port);
+	if (pPort && stage>0) {
+		TMapBayIDMat::const_iterator stageDataIt = pPort->m_approach.find(stage);
+		if (stageDataIt != pPort->m_approach.end()) {
+			const matrix4x4f &mt = pPort->m_approach.at(stage);
 			outPosOrient.pos	= vector3d(mt.GetTranslate());
 			outPosOrient.xaxis	= vector3d(mt.GetOrient().VectorX());
 			outPosOrient.yaxis	= vector3d(mt.GetOrient().VectorY());
@@ -161,14 +329,12 @@ bool SpaceStationType::GetShipApproachWaypoints(const unsigned int port, const i
 
 double SpaceStationType::GetDockAnimStageDuration(const int stage) const
 {
-	assert(stage>=0 && stage<numDockingStages);
-	return dockAnimStageDuration[stage];
+	return (stage==0) ? 300.0 : ((SURFACE==dockMethod) ? 0.0 : 3.0);
 }
 
 double SpaceStationType::GetUndockAnimStageDuration(const int stage) const
 {
-	assert(stage>=0 && stage<numUndockStages);
-	return undockAnimStageDuration[stage];
+	return ((SURFACE==dockMethod) ? 0.0 : 5.0);
 }
 
 static bool GetPosOrient(const SpaceStationType::TMapBayIDMat &bayMap, const int stage, const double t, const vector3d &from,
@@ -212,15 +378,15 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 
 	bool gotOrient = false;
 
-	assert(port<=m_ports.size());
-	const Port &rPort = m_ports.at(port+1);
+	assert(port<=m_portPaths.size());
+	const PortPath &rPortPath = m_portPaths.at(port+1);
 	if (stage<0) {
 		const int leavingStage = (-1*stage);
-		gotOrient = GetPosOrient(rPort.m_leaving, leavingStage, t, from, outPosOrient);
+		gotOrient = GetPosOrient(rPortPath.m_leaving, leavingStage, t, from, outPosOrient);
 		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	} else if (stage>0) {
-		gotOrient = GetPosOrient(rPort.m_docking, stage, t, from, outPosOrient);
+		gotOrient = GetPosOrient(rPortPath.m_docking, stage, t, from, outPosOrient);
 		const vector3d up = outPosOrient.yaxis.Normalized() * ship->GetLandingPosOffset();
 		outPosOrient.pos = outPosOrient.pos - up;
 	}
@@ -228,154 +394,35 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 	return gotOrient;
 }
 
-static int _get_stage_durations(lua_State *L, const char *key, int &outNumStages, double **outDurationArray)
-{
-	LUA_DEBUG_START(L);
-	LuaTable stages = LuaTable(L, -1).Sub(key);
-	if (stages.GetLua() == 0) {
-		luaL_error(L, "Not a proper table (%s)", key);
-	}
-	if (stages.Size() < 1)
-		return luaL_error(L, "Station must have at least 1 stage in %s", key);
-	outNumStages = stages.Size();
-	*outDurationArray = new double[stages.Size()];
-	std::copy(stages.Begin<double>(), stages.End<double>(), *outDurationArray);
-	lua_pop(L, 1); // Popping t
-	LUA_DEBUG_END(L, 0);
-	return 0;
-}
-
-// Data format example:
-//	bay_groups = {
-//		{0, 500, {1}},
-//	},
-static int _get_bay_ids(lua_State *L, const char *key, SpaceStationType::TBayGroups &outBayGroups, unsigned int &outNumDockingPorts)
-{
-	LUA_DEBUG_START(L);
-	LuaTable t = LuaTable(L, -1).Sub(key);
-	if (t.GetLua() == 0) {
-		luaL_error(L, "The bay group isn't a proper table (%s)", key);
-	}
-	if (t.Size() < 1) {
-		return luaL_error(L, "Station must have at least 1 group of bays in %s", key);
-	}
-
-	LuaTable::VecIter<LuaTable> it_end = t.End<LuaTable>();
-	for (LuaTable::VecIter<LuaTable> it = t.Begin<LuaTable>(); it != it_end; ++it) {
-		SpaceStationType::SBayGroup newBay;
-		newBay.minShipSize = it->Get<int>(1);
-		newBay.maxShipSize = it->Get<int>(2);
-		LuaTable group = it->Sub(3);
-
-		if (group.GetLua() == 0) {
-			luaL_error(L, "A group is of the form {int, int, table} (%s)", key);
-		}
-
-		if (group.Size() == 0) {
-			return luaL_error(L, "Group must have at least 1 bay %s", key);
-		}
-
-		newBay.bayIDs.reserve(group.Size());
-		LuaTable::VecIter<int> jt_end = group.End<int>();
-		for (LuaTable::VecIter<int> jt = group.Begin<int>(); jt != jt_end; ++jt) {
-			if ((*jt) < 1) {
-				return luaL_error(L, "Valid bay ID ranges start from 1 %s", key);
-			}
-			newBay.bayIDs.push_back((*jt)-1);
-			++outNumDockingPorts;
-		}
-		lua_pop(L, 1); // Popping group
-		outBayGroups.push_back(newBay);
-	}
-	lua_pop(L, 1); // Popping t
-	LUA_DEBUG_END(L, 0);
-	return 0;
-}
-
-static int _define_station(lua_State *L, SpaceStationType &station)
-{
-	station.id = s_currentStationFile;
-
-	LUA_DEBUG_START(L);
-	LuaTable t(L, -1);
-	station.modelName = t.Get<std::string>("model");
-	station.angVel = t.Get("angular_velocity", 0.f);
-	station.parkingDistance = t.Get("parking_distance", 5000.f);
-	station.parkingGapSize = t.Get("parking_gap_size", 2000.f);
-	station.shipLaunchStage = t.Get<int>("ship_launch_stage");
-	_get_bay_ids(L, "bay_groups", station.bayGroups, station.numDockingPorts);
-	_get_stage_durations(L, "dock_anim_stage_duration", station.numDockingStages, &station.dockAnimStageDuration);
-	_get_stage_durations(L, "undock_anim_stage_duration", station.numUndockStages, &station.undockAnimStageDuration);
-	LUA_DEBUG_END(L, 0);
-
-	assert(!station.modelName.empty());
-
-	station.model = Pi::FindModel(station.modelName);
-	station.OnSetupComplete();
-	return 0;
-}
-
-static int define_orbital_station(lua_State *L)
-{
-	SpaceStationType station;
-	station.dockMethod = SpaceStationType::ORBITAL;
-	_define_station(L, station);
-	SpaceStationType::orbitalStationTypes.push_back(station);
-	return 0;
-}
-
-static int define_surface_station(lua_State *L)
-{
-	SpaceStationType station;
-	station.dockMethod = SpaceStationType::SURFACE;
-	_define_station(L, station);
-	SpaceStationType::surfaceStationTypes.push_back(station);
-	return 0;
-}
-
+/*static*/
 void SpaceStationType::Init()
 {
-	assert(s_lua == 0);
-	if (s_lua != 0) return;
+	static bool isInitted = false;
+	if (isInitted) 
+		return;
+	isInitted = true;
 
-	s_lua = luaL_newstate();
-	lua_State *L = s_lua;
-
-	LUA_DEBUG_START(L);
-	pi_lua_open_standard_base(L);
-
-	LuaVector::Register(L);
-
-	LUA_DEBUG_CHECK(L, 0);
-
-	lua_register(L, "define_orbital_station", define_orbital_station);
-	lua_register(L, "define_surface_station", define_surface_station);
-
+	// load all station definitions
 	namespace fs = FileSystem;
-	for (fs::FileEnumerator files(fs::gameDataFiles, "stations", fs::FileEnumerator::Recurse);
-			!files.Finished(); files.Next()) {
+	for (fs::FileEnumerator files(fs::gameDataFiles, "stations", 0); !files.Finished(); files.Next()) {
 		const fs::FileInfo &info = files.Current();
-		if (ends_with_ci(info.GetPath(), ".lua")) {
-			const std::string name = info.GetName();
-			s_currentStationFile = name.substr(0, name.size()-4);
-			pi_lua_dofile(L, info.GetPath());
-			s_currentStationFile.clear();
+		if (ends_with_ci(info.GetPath(), ".json")) {
+			const std::string id(info.GetName().substr(0, info.GetName().size()-5));
+			SpaceStationType st = SpaceStationType(id, info.GetPath());
+			switch (st.dockMethod) {
+				case SURFACE: surfaceTypes.push_back(st); break;
+				case ORBITAL: orbitalTypes.push_back(st); break;
+			}
 		}
 	}
-	LUA_DEBUG_END(L, 0);
 }
 
-void SpaceStationType::Uninit()
+/*static*/
+const SpaceStationType* SpaceStationType::RandomStationType(Random &random, const bool bIsGround)
 {
-	std::vector<SpaceStationType>::iterator i;
-	for (i=surfaceStationTypes.begin(); i!=surfaceStationTypes.end(); ++i) {
-		delete[] (*i).dockAnimStageDuration;
-		delete[] (*i).undockAnimStageDuration;
-	}
-	for (i=orbitalStationTypes.begin(); i!=orbitalStationTypes.end(); ++i) {
-		delete[] (*i).dockAnimStageDuration;
-		delete[] (*i).undockAnimStageDuration;
-	}
+	if (bIsGround) {
+		return &surfaceTypes[ random.Int32(SpaceStationType::surfaceTypes.size()) ];
+	} 
 
-	lua_close(s_lua); s_lua = 0;
+	return &orbitalTypes[ random.Int32(SpaceStationType::orbitalTypes.size()) ];
 }

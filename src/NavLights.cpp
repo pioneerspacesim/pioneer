@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NavLights.h"
@@ -77,6 +77,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 , m_period(period)
 , m_enabled(false)
 {
+	PROFILE_SCOPED();
 	assert(g_initted);
 
 	Graphics::Renderer *renderer = model->GetRenderer();
@@ -115,7 +116,16 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 		}
 		bblight->SetMaterial(get_material(color));
 
-		m_lights.push_back(LightBulb(group, mask, color, bblight));
+		GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
+		if(glit == m_groupLights.end()) {
+			// didn't find group, create a new one
+			m_groupLights.push_back(TGroupLights(group));
+			// now use it
+			glit = (m_groupLights.end() - 1);
+		}
+
+		assert(glit != m_groupLights.end());
+		glit->m_lights.push_back(LightBulb(group, mask, color, bblight));
 		mt->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
 		mt->AddChild(bblight);
 	}
@@ -125,53 +135,62 @@ NavLights::~NavLights()
 {
 }
 
-void NavLights::Save(Serializer::Writer &wr)
+void NavLights::SaveToJson(Json::Value &jsonObj)
 {
-	wr.Float(m_time);
-	wr.Bool(m_enabled);
+	Json::Value navLightsObj(Json::objectValue); // Create JSON object to contain nav lights data.
 
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
-		wr.Byte(it->color);
+	navLightsObj["time"] = FloatToStr(m_time);
+	navLightsObj["enabled"] = m_enabled;
+
+	jsonObj["nav_lights"] = navLightsObj; // Add nav lights object to supplied object.
 }
 
-void NavLights::Load(Serializer::Reader &rd)
+void NavLights::LoadFromJson(const Json::Value &jsonObj)
 {
-	m_time    = rd.Float();
-	m_enabled = rd.Bool();
+	if (!jsonObj.isMember("nav_lights")) throw SavedGameCorruptException();
+	Json::Value navLightsObj = jsonObj["nav_lights"];
 
-	RefCountedPtr<Graphics::Material> mat;
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
-		Uint8 c = rd.Byte();
-		it->billboard->SetMaterial(get_material(c));
-	}
+	if (!navLightsObj.isMember("time")) throw SavedGameCorruptException();
+	if (!navLightsObj.isMember("enabled")) throw SavedGameCorruptException();
+
+	m_time = StrToFloat(navLightsObj["time"].asString());
+	m_enabled = navLightsObj["enabled"].asBool();
 }
 
 void NavLights::Update(float time)
 {
+	PROFILE_SCOPED();
 	if (!m_enabled) {
-		for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it)
-			it->billboard->SetNodeMask(0x0);
+		for(auto glit : m_groupLights)
+			for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it)
+				it->billboard->SetNodeMask(0x0);
 		return;
 	}
 
 	m_time += time;
 
-	int phase((fmod(m_time, m_period) / m_period) * 8);
-	Uint8 mask = 1 << phase;
+	const int phase((fmod(m_time, m_period) / m_period) * 8);
+	const Uint8 mask = 1 << phase;
 
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
-		if (it->mask & mask)
-			it->billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
-		else
-			it->billboard->SetNodeMask(0x0);
+	for(auto glit : m_groupLights) {
+		for (LightIterator it = glit.m_lights.begin(), itEnd = glit.m_lights.end(); it != itEnd; ++it) {
+			if (it->mask & mask)
+				it->billboard->SetNodeMask(SceneGraph::NODE_TRANSPARENT);
+			else
+				it->billboard->SetNodeMask(0x0);
+		}
 	}
 }
 
 void NavLights::SetColor(unsigned int group, LightColor c)
 {
-	for (LightIterator it = m_lights.begin(); it != m_lights.end(); ++it) {
-		if (it->group != group || it->color == c) continue;
-		it->billboard->SetMaterial(get_material(c));
-		it->color = c;
+	PROFILE_SCOPED();
+	GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
+	if(glit != m_groupLights.end()) {
+		for (LightIterator it = glit->m_lights.begin(), itEnd = glit->m_lights.end(); it != itEnd; ++it) {
+			if (it->group != group || it->color == c) continue;
+			it->billboard->SetMaterial(get_material(c));
+			it->color = c;
+		}
 	}
 }

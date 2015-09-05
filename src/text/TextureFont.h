@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXT_TEXTUREFONT_H
@@ -9,14 +9,20 @@
 #include "RefCounted.h"
 #include "graphics/Texture.h"
 #include "graphics/Material.h"
-#include "graphics/VertexArray.h"
+#include "graphics/VertexBuffer.h"
 #include "graphics/RenderState.h"
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#include FT_STROKER_H
+#include <unordered_map>
 
 namespace FileSystem { class FileData; }
+
+// forward declarations for FreeType types
+struct FT_FaceRec_;
+struct FT_LibraryRec_;
+struct FT_StrokerRec_;
+typedef struct FT_FaceRec_ *FT_Face;
+typedef struct FT_LibraryRec_ *FT_Library;
+typedef struct FT_StrokerRec_ *FT_Stroker;
 
 namespace Text {
 
@@ -26,11 +32,16 @@ public:
 	TextureFont(const FontConfig &config, Graphics::Renderer *renderer, float scale = 1.0f);
 	~TextureFont();
 
-	void RenderString(const char *str, float x, float y, const Color &color = Color::WHITE);
-	Color RenderMarkup(const char *str, float x, float y, const Color &color = Color::WHITE);
-	void MeasureString(const char *str, float &w, float &h);
-	void MeasureCharacterPos(const char *str, int charIndex, float &x, float &y);
-	int PickCharacter(const char *str, float mouseX, float mouseY);
+	void RenderBuffer(Graphics::VertexBuffer *vb, const Color &color = Color::WHITE);
+	void MeasureString(const std::string &str, float &w, float &h);
+	void MeasureCharacterPos(const std::string &str, int charIndex, float &x, float &y);
+	int PickCharacter(const std::string &str, float mouseX, float mouseY);
+
+	void PopulateString(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
+	Color PopulateMarkup(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
+	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va) const;
+	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str);
+	Graphics::VertexBuffer* GetCachedVertexBuffer(const std::string &str);
 
 	// general baseline-to-baseline height
 	float GetHeight() const { return m_height; }
@@ -38,7 +49,7 @@ public:
 	float GetDescender() const { return m_descender; }
 
 	struct Glyph {
-		Glyph() : advX(0), advY(0), width(0), height(0), texWidth(0), texHeight(0), offX(0), offY(0), offU(0), offV(0), ftIndex(0) {}
+		Glyph() : advX(0), advY(0), width(0), height(0), texWidth(0), texHeight(0), offX(0), offY(0), offU(0), offV(0), ftFace(nullptr), ftIndex(0) {}
 		float advX, advY;
 		float width, height;
 		float texWidth, texHeight;
@@ -52,13 +63,15 @@ public:
 	static int GetGlyphCount() { return s_glyphCount; }
 	static void ClearGlyphCount() { s_glyphCount = 0; }
 
-	// fill a vertex array with single-colored text
-	void CreateGeometry(Graphics::VertexArray &, const char *str, float x, float y, const Color &color = Color::WHITE);
-	RefCountedPtr<Graphics::Texture> GetTexture() { return m_texture; }
+	RefCountedPtr<Graphics::Texture> GetTexture() const  { return m_texture; }
+	Graphics::Material* GetMaterial() const { return m_mat.get(); }
 
 private:
 	TextureFont(const TextureFont &);
 	TextureFont &operator=(const TextureFont &);
+
+	void AddCachedVertexBuffer(Graphics::VertexBuffer *pVB, const std::string &str);
+	Uint32 CleanVertexBufferCache();
 
 	FontConfig m_config;
 	Graphics::Renderer *m_renderer;
@@ -74,11 +87,10 @@ private:
 
 	float GetKern(const Glyph &a, const Glyph &b);
 
-	void AddGlyphGeometry(Graphics::VertexArray *va, const Glyph &glyph, float x, float y, const Color &color);
+	void AddGlyphGeometry(Graphics::VertexArray &va, const Glyph &glyph, const float x, const float y, const Color &color);
 	float m_height;
 	float m_descender;
 	std::unique_ptr<Graphics::Material> m_mat;
-	Graphics::VertexArray m_vertices;
 	Graphics::RenderState *m_renderState;
 
 	static int s_glyphCount;
@@ -86,9 +98,9 @@ private:
 	std::map<Uint32,Glyph> m_glyphs;
 
 	// UV offsets for glyphs
-	int m_atlasU;
-	int m_atlasV;
-	int m_atlasVIncrement;
+	unsigned int m_atlasU;
+	unsigned int m_atlasV;
+	unsigned int m_atlasVIncrement;
 
 	RefCountedPtr<Graphics::Texture> m_texture;
 	Graphics::TextureFormat m_texFormat;
@@ -96,6 +108,12 @@ private:
 	std::vector<unsigned char> m_buf;
 	int m_bufWidth, m_bufHeight;
 	int m_bpp;
+
+	typedef std::unordered_map<std::string, std::pair<double,RefCountedPtr<Graphics::VertexBuffer>>> VBHashMap;
+	typedef VBHashMap::iterator VBHashMapIter;
+	typedef VBHashMap::const_iterator VBHashMapConstIter;
+	VBHashMap m_vbTextCache;
+	double m_lfLastCacheCleanTime;
 };
 
 }

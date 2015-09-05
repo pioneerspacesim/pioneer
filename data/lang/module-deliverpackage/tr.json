@@ -53,7 +53,7 @@
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
-      "message" : "Mükemmel. Alıcıyı sizin yolda olduğunuzu bilmesini sağlayacağım."
+      "message" : "Mükemmel. Alıcının sizin yolda olduğunuzu bilmesini sağlayacağım."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Standart oranlar, marketle çalışıyoruz."
+      "message" : "Standart oranlar, piyasayla çalışıyoruz."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -254,10 +254,6 @@
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
       "message" : "Yaşamımız buna bağlı."
-   },
-   "HANG_UP" : {
-      "description" : "",
-      "message" : "Bekle."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -305,7 +301,7 @@
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "Eminim bu markette yüklüce bir para getirecek."
+      "message" : "Eminim bu piyasada yüklüce bir para getirecek."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
@@ -321,7 +317,7 @@
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
-      "message" : "Bugün {location}'a ulaşamayacaksınız!"
+      "message" : "Bugün {location}'a ulaşamayacaksın!"
    },
    "PIRATE_TAUNTS_9" : {
       "description" : "",

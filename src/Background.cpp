@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Background.h"
@@ -204,22 +204,39 @@ void Starfield::Init()
 	m_material->emissive = Color::WHITE;
 }
 
+const int Starfield::BG_STAR_MAX;
+const int Starfield::BG_STAR_MIN;
+
 void Starfield::Fill(Random &rand)
 {
+	const Sint32 NUM_BG_STARS = Clamp(Sint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);
+
+	// setup the animated stars buffer (streaks in Hyperspace)
+	{
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
+		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+		vbd.numVertices = NUM_BG_STARS*2;
+		m_animBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
+	}
+
 	Graphics::VertexBufferDesc vbd;
 	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
 	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
 	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-	vbd.numVertices = BG_STAR_MAX;
+	vbd.numVertices = NUM_BG_STARS;
 	m_vertexBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
 
 	assert(sizeof(StarVert) == 16);
 	assert(m_vertexBuffer->GetDesc().stride == sizeof(StarVert));
 	auto vtxPtr = m_vertexBuffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
 	//fill the array
-	for (int i=0; i<BG_STAR_MAX; i++) {
+	for (int i=0; i<NUM_BG_STARS; i++) {
 		const Uint8 col = rand.Double(0.2,0.7)*255;
 
 		// this is proper random distribution on a sphere's surface
@@ -233,8 +250,8 @@ void Starfield::Fill(Random &rand)
 		vtxPtr->col = Color(col, col, col,	255);
 
 		//need to keep data around for HS anim - this is stupid
-		m_hyperVtx[BG_STAR_MAX * 2 + i] = vtxPtr->pos;
-		m_hyperCol[BG_STAR_MAX * 2 + i] = vtxPtr->col;
+		m_hyperVtx[NUM_BG_STARS * 2 + i] = vtxPtr->pos;
+		m_hyperCol[NUM_BG_STARS * 2 + i] = vtxPtr->col;
 
 		vtxPtr++;
 	}
@@ -247,25 +264,32 @@ void Starfield::Draw(Graphics::RenderState *rs)
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		m_renderer->DrawBuffer(m_vertexBuffer.get(), rs, m_material.Get(), Graphics::POINTS);
 	} else {
+		assert(sizeof(StarVert) == 16);
+		assert(m_animBuffer->GetDesc().stride == sizeof(StarVert));
+		auto vtxPtr = m_animBuffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
+
 		// roughly, the multiplier gets smaller as the duration gets larger.
 		// the time-looking bits in this are completely arbitrary - I figured
 		// it out by tweaking the numbers until it looked sort of right
-		double mult = 0.0015 / (Pi::player->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
+		const double mult = 0.0015 / (Pi::player->GetHyperspaceDuration() / (60.0*60.0*24.0*7.0));
 
-		double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
+		const double hyperspaceProgress = Pi::game->GetHyperspaceProgress();
+
+		const Sint32 NUM_STARS = m_animBuffer->GetDesc().numVertices / 2;
 
 		const vector3d pz = Pi::player->GetOrient().VectorZ();	//back vector
-		for (int i=0; i<BG_STAR_MAX; i++) {
-			vector3f v = m_hyperVtx[BG_STAR_MAX * 2 + i] + vector3f(pz*hyperspaceProgress*mult);
-			const Color &c = m_hyperCol[BG_STAR_MAX * 2 + i];
+		for (int i=0; i<NUM_STARS; i++) {
+			vector3f v = m_hyperVtx[NUM_STARS * 2 + i] + vector3f(pz*hyperspaceProgress*mult);
+			const Color &c = m_hyperCol[NUM_STARS * 2 + i];
 
-			m_hyperVtx[i*2] = m_hyperVtx[BG_STAR_MAX * 2 + i] + v;
-			m_hyperCol[i*2] = c;
+			vtxPtr[i*2].pos = m_hyperVtx[i*2] = m_hyperVtx[NUM_STARS * 2 + i] + v;
+			vtxPtr[i*2].col = m_hyperCol[i*2] = c;
 
-			m_hyperVtx[i*2+1] = v;
-			m_hyperCol[i*2+1] = c;
+			vtxPtr[i*2+1].pos = m_hyperVtx[i*2+1] = v;
+			vtxPtr[i*2+1].col = m_hyperCol[i*2+1] = c;
 		}
-		m_renderer->DrawLines(BG_STAR_MAX*2, m_hyperVtx, m_hyperCol, rs);
+		m_animBuffer->Unmap();
+		m_renderer->DrawBuffer(m_animBuffer.get(), rs, m_material.Get(), Graphics::LINE_SINGLE);
 	}
 }
 

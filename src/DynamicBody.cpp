@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -8,11 +8,14 @@
 #include "Serializer.h"
 #include "Planet.h"
 #include "Pi.h"
+#include "json/JsonUtils.h"
 
 static const float KINETIC_ENERGY_MULT = 0.00001f;
+const double DynamicBody::DEFAULT_DRAG_COEFF = 0.1; // 'smooth sphere'
 
 DynamicBody::DynamicBody(): ModelBody()
 {
+	m_dragCoeff = DEFAULT_DRAG_COEFF;
 	m_flags = Body::FLAG_CAN_MOVE_FRAME;
 	m_oldPos = GetPosition();
 	m_oldAngDisplacement = vector3d(0.0);
@@ -56,30 +59,48 @@ void DynamicBody::AddRelTorque(const vector3d &t)
 	m_torque += GetOrient() * t;
 }
 
-void DynamicBody::Save(Serializer::Writer &wr, Space *space)
+void DynamicBody::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	ModelBody::Save(wr, space);
-	wr.Vector3d(m_force);
-	wr.Vector3d(m_torque);
-	wr.Vector3d(m_vel);
-	wr.Vector3d(m_angVel);
-	wr.Double(m_mass);
-	wr.Double(m_massRadius);
-	wr.Double(m_angInertia);
-	wr.Bool(m_isMoving);
+	ModelBody::SaveToJson(jsonObj, space);
+
+	Json::Value dynamicBodyObj(Json::objectValue); // Create JSON object to contain dynamic body data.
+
+	VectorToJson(dynamicBodyObj, m_force, "force");
+	VectorToJson(dynamicBodyObj, m_torque, "torque");
+	VectorToJson(dynamicBodyObj, m_vel, "vel");
+	VectorToJson(dynamicBodyObj, m_angVel, "ang_vel");
+	dynamicBodyObj["mass"] = DoubleToStr(m_mass);
+	dynamicBodyObj["mass_radius"] = DoubleToStr(m_massRadius);
+	dynamicBodyObj["ang_inertia"] = DoubleToStr(m_angInertia);
+	dynamicBodyObj["is_moving"] = m_isMoving;
+
+	jsonObj["dynamic_body"] = dynamicBodyObj; // Add dynamic body object to supplied object.
 }
 
-void DynamicBody::Load(Serializer::Reader &rd, Space *space)
+void DynamicBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	ModelBody::Load(rd, space);
-	m_force = rd.Vector3d();
-	m_torque = rd.Vector3d();
-	m_vel = rd.Vector3d();
-	m_angVel = rd.Vector3d();
-	m_mass = rd.Double();
-	m_massRadius = rd.Double();
-	m_angInertia = rd.Double();
-	m_isMoving = rd.Bool();
+	ModelBody::LoadFromJson(jsonObj, space);
+
+	if (!jsonObj.isMember("dynamic_body")) throw SavedGameCorruptException();
+	Json::Value dynamicBodyObj = jsonObj["dynamic_body"];
+
+	if (!dynamicBodyObj.isMember("force")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("torque")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("vel")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("ang_vel")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("mass")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("mass_radius")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("ang_inertia")) throw SavedGameCorruptException();
+	if (!dynamicBodyObj.isMember("is_moving")) throw SavedGameCorruptException();
+
+	JsonToVector(&m_force, dynamicBodyObj, "force");
+	JsonToVector(&m_torque, dynamicBodyObj, "torque");
+	JsonToVector(&m_vel, dynamicBodyObj, "vel");
+	JsonToVector(&m_angVel, dynamicBodyObj, "ang_vel");
+	m_mass = StrToDouble(dynamicBodyObj["mass"].asString());
+	m_massRadius = StrToDouble(dynamicBodyObj["mass_radius"].asString());
+	m_angInertia = StrToDouble(dynamicBodyObj["ang_inertia"].asString());
+	m_isMoving = dynamicBodyObj["is_moving"].asBool();
 }
 
 void DynamicBody::PostLoadFixup(Space *space)
@@ -108,6 +129,22 @@ void DynamicBody::SetFrame(Frame *f)
 	m_externalForce = m_gravityForce = m_atmosForce = vector3d(0.0);
 }
 
+double DynamicBody::CalcAtmosphericForce(double dragCoeff) const
+{
+	Body *body = GetFrame()->GetBody();
+	if (!body || !GetFrame()->IsRotFrame() || !body->IsType(Object::PLANET))
+		return 0.0;
+	Planet *planet = static_cast<Planet*>(body);
+	double dist = GetPosition().Length();
+	double speed = m_vel.Length();
+	double pressure, density;
+	planet->GetAtmosphericState(dist, &pressure, &density);
+	const double radius = GetClipRadius();		// bogus, preserving behaviour
+	const double area = radius;
+	// ^^^ yes that is as stupid as it looks
+	return 0.5*density*speed*speed*area*dragCoeff;
+}
+
 void DynamicBody::CalcExternalForce()
 {
 	// gravity
@@ -126,17 +163,8 @@ void DynamicBody::CalcExternalForce()
 	// atmospheric drag
 	if (body && GetFrame()->IsRotFrame() && body->IsType(Object::PLANET))
 	{
-		Planet *planet = static_cast<Planet*>(body);
-		double dist = GetPosition().Length();
-		double speed = m_vel.Length();
-		double pressure, density;
-		planet->GetAtmosphericState(dist, &pressure, &density);
-		const double radius = GetClipRadius();		// bogus, preserving behaviour
-		const double AREA = radius;
-		// ^^^ yes that is as stupid as it looks
-		const double DRAG_COEFF = 0.1; // 'smooth sphere'
 		vector3d dragDir = -m_vel.NormalizedSafe();
-		vector3d fDrag = 0.5*density*speed*speed*AREA*DRAG_COEFF*dragDir;
+		vector3d fDrag = CalcAtmosphericForce(m_dragCoeff)*dragDir;
 
 		// make this a bit less daft at high time accel
 		// only allow atmosForce to increase by .1g per frame
@@ -260,7 +288,7 @@ bool DynamicBody::OnCollision(Object *o, Uint32 flags, double relVel)
 	// damage (kineticEnergy is being passed as a damage value) is measured in kilograms
 	// ignore damage less than a gram except for cargo, which is very fragile.
 	CollisionContact dummy;
-	if (o->IsType(Object::CARGOBODY)){
+	if (this->IsType(Object::CARGOBODY)){
 		OnDamage(o, float(kineticEnergy), dummy);
 	}
 	else if (kineticEnergy > 1e-3){

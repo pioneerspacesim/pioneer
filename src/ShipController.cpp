@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ShipController.h"
@@ -35,8 +35,8 @@ PlayerShipController::PlayerShipController() :
 	m_lowThrustPower(0.25), // note: overridden by the default value in GameConfig.cpp (DefaultLowThrustPower setting)
 	m_mouseDir(0.0)
 {
-	float deadzone = Pi::config->Float("JoystickDeadzone");
-	m_joystickDeadzone = deadzone * deadzone;
+	const float deadzone = Pi::config->Float("JoystickDeadzone");
+	m_joystickDeadzone = Clamp(deadzone, 0.01f, 1.0f); // do not use (deadzone * deadzone) as values are 0<>1 range, aka: 0.1 * 0.1 = 0.01 or 1% deadzone!!! Not what player asked for!
 	m_fovY = Pi::config->Float("FOVVertical");
 	m_lowThrustPower = Pi::config->Float("DefaultLowThrustPower");
 
@@ -54,27 +54,40 @@ PlayerShipController::~PlayerShipController()
 	m_fireMissileKey.disconnect();
 }
 
-void PlayerShipController::Save(Serializer::Writer &wr, Space *space)
+void PlayerShipController::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	wr.Int32(static_cast<int>(m_flightControlState));
-	wr.Double(m_setSpeed);
-	wr.Float(m_lowThrustPower);
-	wr.Bool(m_rotationDamping);
-	wr.Int32(space->GetIndexForBody(m_combatTarget));
-	wr.Int32(space->GetIndexForBody(m_navTarget));
-	wr.Int32(space->GetIndexForBody(m_setSpeedTarget));
+	Json::Value playerShipControllerObj(Json::objectValue); // Create JSON object to contain player ship controller data.
+	playerShipControllerObj["flight_control_state"] = static_cast<int>(m_flightControlState);
+	playerShipControllerObj["set_speed"] = DoubleToStr(m_setSpeed);
+	playerShipControllerObj["low_thrust_power"] = FloatToStr(m_lowThrustPower);
+	playerShipControllerObj["rotation_damping"] = m_rotationDamping;
+	playerShipControllerObj["index_for_combat_target"] = space->GetIndexForBody(m_combatTarget);
+	playerShipControllerObj["index_for_nav_target"] = space->GetIndexForBody(m_navTarget);
+	playerShipControllerObj["index_for_set_speed_target"] = space->GetIndexForBody(m_setSpeedTarget);
+	jsonObj["player_ship_controller"] = playerShipControllerObj; // Add player ship controller object to supplied object.
 }
 
-void PlayerShipController::Load(Serializer::Reader &rd)
+void PlayerShipController::LoadFromJson(const Json::Value &jsonObj)
 {
-	m_flightControlState = static_cast<FlightControlState>(rd.Int32());
-	m_setSpeed = rd.Double();
-	m_lowThrustPower = rd.Float();
-	m_rotationDamping = rd.Bool();
+	if (!jsonObj.isMember("player_ship_controller")) throw SavedGameCorruptException();
+	Json::Value playerShipControllerObj = jsonObj["player_ship_controller"];
+
+	if (!playerShipControllerObj.isMember("flight_control_state")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("set_speed")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("low_thrust_power")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("rotation_damping")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("index_for_combat_target")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("index_for_nav_target")) throw SavedGameCorruptException();
+	if (!playerShipControllerObj.isMember("index_for_set_speed_target")) throw SavedGameCorruptException();
+
+	m_flightControlState = static_cast<FlightControlState>(playerShipControllerObj["flight_control_state"].asInt());
+	m_setSpeed = StrToDouble(playerShipControllerObj["set_speed"].asString());
+	m_lowThrustPower = StrToFloat(playerShipControllerObj["low_thrust_power"].asString());
+	m_rotationDamping = playerShipControllerObj["rotation_damping"].asBool();
 	//figure out actual bodies in PostLoadFixup - after Space body index has been built
-	m_combatTargetIndex = rd.Int32();
-	m_navTargetIndex = rd.Int32();
-	m_setSpeedTargetIndex = rd.Int32();
+	m_combatTargetIndex = playerShipControllerObj["index_for_combat_target"].asInt();
+	m_navTargetIndex = playerShipControllerObj["index_for_nav_target"].asInt();
+	m_setSpeedTargetIndex = playerShipControllerObj["index_for_set_speed_target"].asInt();
 }
 
 void PlayerShipController::PostLoadFixup(Space *space)
@@ -94,17 +107,14 @@ void PlayerShipController::StaticUpdate(const float timeStep)
 
 	// external camera mouselook
 	if (Pi::MouseButtonState(SDL_BUTTON_MIDDLE)) {
-		// not internal camera
-		if (Pi::worldView->GetCamType() != Pi::worldView->CAM_INTERNAL) {
-			MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::worldView->GetCameraController());
-			const double accel = 0.01; // XXX configurable?
-			mcc->RotateLeft(mouseMotion[0] * accel);
-			mcc->RotateUp(  mouseMotion[1] * accel);
-			// only mouselook if the player presses both mmb and rmb
-			mouseMotion[0] = 0;
-			mouseMotion[1] = 0;
-		}
-	}
+            MoveableCameraController *mcc = static_cast<MoveableCameraController*>(Pi::game->GetWorldView()->GetCameraController());
+            const double accel = 0.01; // XXX configurable?
+            mcc->RotateLeft(mouseMotion[0] * accel);
+            mcc->RotateUp(  mouseMotion[1] * accel);
+            // only mouselook if the player presses both mmb and rmb
+            mouseMotion[0] = 0;
+            mouseMotion[1] = 0;
+        }
 
 	if (m_ship->GetFlightState() == Ship::FLYING) {
 		switch (m_flightControlState) {
@@ -175,7 +185,7 @@ void PlayerShipController::CheckControlsLock()
 		|| Pi::player->IsDead()
 		|| (m_ship->GetFlightState() != Ship::FLYING)
 		|| Pi::IsConsoleActive()
-		|| (Pi::GetView() != Pi::worldView); //to prevent moving the ship in starmap etc.
+		|| (Pi::GetView() != Pi::game->GetWorldView()); //to prevent moving the ship in starmap etc.
 }
 
 // mouse wraparound control function
@@ -268,7 +278,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 
 		if (KeyBindings::fireLaser.IsActive() || (Pi::MouseButtonState(SDL_BUTTON_LEFT) && Pi::MouseButtonState(SDL_BUTTON_RIGHT))) {
 				//XXX worldview? madness, ask from ship instead
-				m_ship->SetGunState(Pi::worldView->GetActiveWeapon(), 1);
+				m_ship->SetGunState(Pi::game->GetWorldView()->GetActiveWeapon(), 1);
 		}
 
 		if (KeyBindings::yawLeft.IsActive()) wantAngVel.y += 1.0;
@@ -287,12 +297,16 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 		changeVec.y = KeyBindings::yawAxis.GetValue();
 		changeVec.z = KeyBindings::rollAxis.GetValue();
 
-		// Deadzone more accurate
+		// Deadzone per-axis with normalisation
+		const float dz = m_joystickDeadzone;
 		for (int axis=0; axis<3; axis++) {
-				if (fabs(changeVec[axis]) < m_joystickDeadzone)
-					changeVec[axis]=0.0;
-				else
-					changeVec[axis] = changeVec[axis] * 2.0;
+			if (fabs(changeVec[axis]) < dz) {
+				// no input
+				changeVec[axis] = 0.0f;
+			} else {
+				// subtract deadzone and re-normalise to full range
+				changeVec[axis] = (changeVec[axis] - dz) / (1.0f - dz);
+			}
 		}
 		
 		wantAngVel += changeVec;

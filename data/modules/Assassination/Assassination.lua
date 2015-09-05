@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -9,7 +9,6 @@ local Comms = import("Comms")
 local Timer = import("Timer")
 local Event = import("Event")
 local Mission = import("Mission")
-local Rand = import("Rand")
 local NameGen = import("NameGen")
 local Character = import("Character")
 local Format = import("Format")
@@ -116,8 +115,7 @@ local onChat = function (form, ref, option)
 		form:SetMessage(string.interp(l.IT_MUST_BE_DONE_AFTER, {
 		  target    = ad.target,
 		  spaceport = sbody.name,
-      })
-    )
+		}))
 
 	elseif option == 3 then
 		local backstation = Game.player:GetDockedWith().path
@@ -189,7 +187,6 @@ local makeAdvert = function (station)
 		due = due,
 		faceseed = Engine.rand:Integer(),
 		flavour = flavour,
-		isfemale = isfemale,
 		location = location,
 		dist = dist,
 		reward = reward,
@@ -457,7 +454,7 @@ local onGameStart = function ()
 	for k,ad in pairs(loaded_data.ads) do
 		local ref = ad.station:AddAdvert({
 			description = ad.desc,
-		    icon        = "assassination",
+			icon        = "assassination",
 			onChat      = onChat,
 			onDelete    = onDelete,
 			isEnabled   = isEnabled})

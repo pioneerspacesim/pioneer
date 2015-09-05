@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Context.h"
@@ -144,6 +144,11 @@ void Context::Update()
 void Context::Draw()
 {
 	Graphics::Renderer *r = GetRenderer();
+	r->ClearDepthBuffer();
+
+	// Ticket for the viewport mostly
+	Graphics::Renderer::StateTicket ticket(r);
+	r->SetViewport(0, 0, m_width, m_height);
 
 	// reset renderer for each layer
 	for (std::vector<Layer*>::iterator i = m_layers.begin(); i != m_layers.end(); ++i) {

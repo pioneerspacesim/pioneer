@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -99,6 +99,43 @@ static int l_rand_number(lua_State *l)
 		luaL_error(l, "Max must be bigger than min in random number range");
 
 	lua_pushnumber(l, rand->Double(min, max));
+	return 1;
+}
+
+/*
+ * Method: Poisson
+ *
+ * Generates a random integer drawn from a Poisson distribution.
+ *
+ * > number = rand:Poisson(lambda)
+ *
+ * Parameters:
+ *
+ *   lambda - the mean of the distribution.
+ *
+ * Return:
+ *
+ *   number - the random integer number
+ *
+ * Availability:
+ *
+ *   November 2014
+ *
+ * Status:
+ *
+ *   Experimental
+ */
+static int l_rand_poisson(lua_State *l)
+{
+	Random *rand = LuaObject<Random>::CheckFromLua(1);
+
+	double lambda = 0;
+	if (lua_isnumber(l, 2))
+		lambda = lua_tonumber(l, 2);
+	else
+		luaL_error(l, "Error reading mean for Poisson");
+
+	lua_pushnumber(l, rand->Poisson(lambda));
 	return 1;
 }
 
@@ -216,6 +253,7 @@ template <> void LuaObject<Random>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "New",     l_rand_new     },
 		{ "Number",  l_rand_number  },
+		{ "Poisson", l_rand_poisson },
 		{ "Normal",  l_rand_normal  },
 		{ "Integer", l_rand_integer },
 		{ 0, 0 }

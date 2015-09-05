@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef CAMERACONTROLLER_H
@@ -9,6 +9,7 @@
 #include "Lang.h"
 #include "Serializer.h"
 #include "Camera.h"
+#include "json/json.h"
 
 class Ship;
 
@@ -28,8 +29,8 @@ public:
 
 	virtual Type GetType() const = 0;
 	virtual const char *GetName() const { return ""; }
-	virtual void Save(Serializer::Writer &wr) { }
-	virtual void Load(Serializer::Reader &rd) { }
+	virtual void SaveToJson(Json::Value &jsonObj) { }
+	virtual void LoadFromJson(const Json::Value &jsonObj) { }
 	virtual bool IsExternal() const { return false; }
 
 	// camera position relative to the body
@@ -50,41 +51,6 @@ private:
 	vector3d m_pos;
 	matrix3x3d m_orient;
 };
-
-
-class InternalCameraController : public CameraController {
-public:
-	enum Mode {
-		MODE_FRONT,
-		MODE_REAR,
-		MODE_LEFT,
-		MODE_RIGHT,
-		MODE_TOP,
-		MODE_BOTTOM
-	};
-
-	InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
-	virtual void Reset();
-
-	Type GetType() const { return INTERNAL; }
-	const char *GetName() const { return m_name; }
-	void SetMode(Mode m);
-	Mode GetMode() const { return m_mode; }
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
-
-private:
-	Mode m_mode;
-	const char *m_name;
-
-	vector3d m_frontPos;  matrix3x3d m_frontOrient;
-	vector3d m_rearPos;   matrix3x3d m_rearOrient;
-	vector3d m_leftPos;   matrix3x3d m_leftOrient;
-	vector3d m_rightPos;  matrix3x3d m_rightOrient;
-	vector3d m_topPos;    matrix3x3d m_topOrient;
-	vector3d m_bottomPos; matrix3x3d m_bottomOrient;
-};
-
 
 class MoveableCameraController : public CameraController {
 public:
@@ -109,6 +75,51 @@ public:
 	virtual void ZoomEventUpdate(float frameTime) { }
 };
 
+class InternalCameraController : public MoveableCameraController {
+public:
+	enum Mode {
+		MODE_FRONT,
+		MODE_REAR,
+		MODE_LEFT,
+		MODE_RIGHT,
+		MODE_TOP,
+		MODE_BOTTOM
+	};
+
+	InternalCameraController(RefCountedPtr<CameraContext> camera, const Ship *ship);
+	virtual void Reset();
+       virtual void Update();
+
+	Type GetType() const { return INTERNAL; }
+	const char *GetName() const { return m_name; }
+	void SetMode(Mode m);
+	Mode GetMode() const { return m_mode; }
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
+
+	void RotateDown(float frameTime);
+	void RotateLeft(float frameTime);
+	void RotateRight(float frameTime);
+	void RotateUp(float frameTime);
+
+       void getRots(double &rotX, double &rotY);
+
+ private:
+	Mode m_mode;
+	const char *m_name;
+
+	vector3d m_frontPos;  matrix3x3d m_frontOrient;
+	vector3d m_rearPos;   matrix3x3d m_rearOrient;
+	vector3d m_leftPos;   matrix3x3d m_leftOrient;
+	vector3d m_rightPos;  matrix3x3d m_rightOrient;
+	vector3d m_topPos;    matrix3x3d m_topOrient;
+	vector3d m_bottomPos; matrix3x3d m_bottomOrient;
+
+	double m_rotX; //vertical rot
+	double m_rotY; //horizontal rot
+	matrix3x3d m_intOrient;
+	matrix3x3d m_viewOrient;
+};
 
 // Zoomable, rotatable orbit camera, always looks at the ship
 class ExternalCameraController : public MoveableCameraController {
@@ -133,8 +144,8 @@ public:
 		m_rotY = y;
 	}
 
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 	void Update();
 
@@ -167,8 +178,8 @@ public:
 	void Reset();
 	bool IsExternal() const { return true; }
 
-	void Save(Serializer::Writer &wr);
-	void Load(Serializer::Reader &rd);
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
 
 	void Update();
 

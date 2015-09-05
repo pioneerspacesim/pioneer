@@ -1,4 +1,28 @@
 {
+   "BASE" : {
+      "description" : "",
+      "message" : "base"
+   },
+   "BASES" : {
+      "description" : "",
+      "message" : "bases"
+   },
+   "BODIES" : {
+      "description" : "",
+      "message" : "corps majeurs"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "Corps"
+   },
+   "DISCOVERED_HIDDEN_BASES" : {
+      "description" : "",
+      "message" : "Vous avez découvert {portcount} {bases} secrètes!"
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : "Exploration du système avec {bodycount} {bodies} célestes principaux."
+   },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
       "message" : "Les reservoirs sont presque vides"

@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _HUDTRAIL_H
@@ -9,6 +9,7 @@
 #include "libs.h"
 #include "Body.h"
 #include "graphics/Renderer.h"
+#include "graphics/Drawables.h"
 
 class HudTrail
 {
@@ -29,6 +30,7 @@ private:
 	matrix4x4d m_transform;
 	std::deque<vector3d> m_trailPoints;
 	Graphics::RenderState *m_renderState;
+	Graphics::Drawables::Lines m_lines;
 };
 
 #endif
