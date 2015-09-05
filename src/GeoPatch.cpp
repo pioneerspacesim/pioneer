@@ -22,7 +22,6 @@
 
 // tri edge lengths
 static const double GEOPATCH_SUBDIVIDE_AT_CAMDIST = 5.0;
-//#define GEOPATCH_MAX_DEPTH  10
 
 GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_,
@@ -179,10 +178,10 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 			renderer->SetWireFrameMode(true);
 			m_boundsphere->Draw(renderer);
 			renderer->SetWireFrameMode(false);
-	}
+		}
 #endif
 		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
-}
+	}
 }
 
 void GeoPatch::LODUpdate(const vector3d &campos) 
