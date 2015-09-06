@@ -49,6 +49,7 @@ The Pioneer Developers are:
 * Kimmo Kotajärvi
 * Konrad Mruk
 * Krzysztof Niedźwiecki
+* Kyungdahm Yun
 * Lars Westerhoff
 * Lee Reilly
 * Leonardo Manna
