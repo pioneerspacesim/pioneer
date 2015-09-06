@@ -64,6 +64,9 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define TERRAIN_WITH_WATER\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
+	if (desc.quality & HAS_DETAIL_MAPS)
+		ss << "#define DETAIL_MAPS\n";
+
 	return new Graphics::OGL::GeoSphereProgram("geosphere_terrain", ss.str());
 }
 
