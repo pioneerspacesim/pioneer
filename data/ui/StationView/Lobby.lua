@@ -9,6 +9,7 @@ local Lang = import("Lang")
 local Comms = import("Comms")
 
 local InfoFace = import("ui/InfoFace")
+local MessageBox = import("ui/MessageBox")
 
 local l = Lang.GetResource("ui-core")
 
@@ -25,10 +26,13 @@ local lobby = function (tab)
 		local crimes, fine = Game.player:GetCrime()
 
 		if not Game.player:HasCorrectCrew() then
+			MessageBox.Message(l.LAUNCH_PERMISSION_DENIED_CREW)
 			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_CREW, station.label)
 		elseif fine > 0 then
+			MessageBox.Message(l.LAUNCH_PERMISSION_DENIED_FINED)
 			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_FINED, station.label)
 		elseif not Game.player:Undock() then
+			MessageBox.Message(l.LAUNCH_PERMISSION_DENIED_BUSY)
 			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		else
 			Game.SwitchView()
