@@ -309,6 +309,7 @@ pioneer_LDADD += \
 
 if BUILD_WIN32
 pioneer_LDFLAGS = -Wl,-Map=pioneer.map
+modelcompiler_LDFLAGS = -Wl,-Map=modelcompiler.map
 endif
 
 if !HAVE_LUA
