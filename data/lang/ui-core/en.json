@@ -196,7 +196,7 @@
       "message" : "Crew Roster"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Criminal record"
    },
    "DANGEROUS" : {
@@ -766,6 +766,10 @@
    "OWED" : {
       "description" : "Player owing money to crew members",
       "message" : "Owed"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Outstanding fines"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",

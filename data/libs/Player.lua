@@ -9,6 +9,7 @@ local utils = import("utils")
 local Legal = import("Legal")
 
 Player.record = {}
+Player.record_old = {}
 
 local CrimeRecord = {} -- the table representing the class, which will double as the metatable for the instances
 CrimeRecord.__index = CrimeRecord -- failed table lookups on the instances should fallback to the class table, to get methods
@@ -44,6 +45,17 @@ function CrimeRecord:SetFine(fine)
 	return self.fine
 end
 
+-- add two crime records together
+function CrimeRecord:Append(record)
+	self.fine = self.fine + record.fine
+
+	for k,v in pairs(record.crimetype) do
+		for i = 1, record.crimetype[k].count do
+			self:Add(k, 0)
+		end
+	end
+end
+
 
 --
 -- Method: AddCrime
@@ -58,7 +70,8 @@ end
 --
 --   fine - an amount to add to the player's fine
 --
---   faction - optional argument, defaults to the system the player is in
+--   faction - optional argument, defaults to the faction id of the system
+--             the player is currently in
 --
 --
 -- Availability:
@@ -82,34 +95,8 @@ function Player:AddCrime (crime, fine, faction)
 	-- todo: could have systemPath as faction for independent?
 end
 
---
--- Method: GetCrime
---
--- Get criminal record and total fine for player for faction
---
--- > criminalrecord, fine = Game.player:GetCrime(faction)
---
--- Parameters:
---
---   faction - optional argument, defaults to the system the player is in
---
--- Return:
---
---   criminalRecord - a table with count and fine for each crime committed
---
---   fine - the total fine of the player in faction
---
---
--- Availability:
---
---   2015 August
---
--- Status:
---
---   experimental
---
-function Player:GetCrime (faction)
-	local forFaction = (faction and faction.id) or Game.system.faction.id
+
+local function __GetCrime (record)
 
 	-- return crime record and total fine for faction
 	local listOfCrime, fine
@@ -118,16 +105,87 @@ function Player:GetCrime (faction)
 		-- no crime in hyperspace
 		listOfCrime = {}
 		fine = 0
-	elseif not self.record[forFaction] then
+	elseif not record then
 		-- first time for this faction, clean record
 		listOfCrime = {}
 		fine = 0
 	else
-		listOfCrime = self.record[forFaction].crimetype
-		fine = self.record[forFaction].fine
+		listOfCrime = record.crimetype
+		fine = record.fine
 	end
 
 	return listOfCrime, fine
+end
+
+--
+-- Method: GetCrimeRecord
+--
+-- Get players past criminal record of and total payed fine for faction
+--
+-- > criminalRecord, fine = Game.player:GetCrimeRecord()
+-- > criminalRecord, fine = Game.player:GetCrimeRecord(faction)
+--
+-- Parameters:
+--
+--   faction - optional argument, defaults to the faction id of the system
+--             the player is in
+--
+--
+-- Return:
+--
+--   criminalRecord - a table with key being "crime constant" and "count"
+--                    for each crime committed
+--
+--   fine - the total fine of the player in faction
+--
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+function Player:GetCrimeRecord (faction)
+	local forFaction = (faction and faction.id) or Game.system.faction.id
+	return __GetCrime(self.record_old[forFaction])
+end
+
+
+--
+-- Method: GetCrimeOutstanding
+--
+-- Get players current outstanding criminal record and total unpayed fine for faction
+--
+-- > criminalRecord, fine = Game.player:GetCrimeOutstanding()
+-- > criminalRecord, fine = Game.player:GetCrimeOutstanding(faction)
+--
+-- Parameters:
+--
+--   faction - optional argument, defaults to the faction id of the system
+--             the player is currently in
+--
+--
+-- Return:
+--
+--   criminalRecord - a table with key being "crime constant" and "count"
+--                    for each crime committed
+--
+--   fine - the total fine of the player in faction
+--
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+function Player:GetCrimeOutstanding (faction)
+	local forFaction = (faction and faction.id) or Game.system.faction.id
+	return __GetCrime(self.record[forFaction])
 end
 
 
@@ -135,29 +193,70 @@ end
 --
 -- Method: ClearCrimeFine
 --
--- Clear the crime record for player
+-- Clear the current record of outstanding fines and crimes for player
 --
+-- > Game.player:ClearCrimeFine()
 -- > Game.player:ClearCrimeFine(faction)
+-- > Game.player:ClearCrimeFine(faction, clean)
 --
 -- Parameters:
 --
---   faction - optional argument, defaults to the system the player is in
+--   faction - optional argument, defaults to the faction id of the system
+--             the player is currently in
+--
+--   clean - optional Boolean argument, defaults to false, resulting in the
+--           cleared fines to still be moved to the player's crime record
+--           over past offences
 --
 --
 -- Availability:
 --
---   2015 August
+--   2015 September
 --
 -- Status:
 --
 --   experimental
 --
-function Player:ClearCrimeFine (faction)
+function Player:ClearCrimeFine (faction, forget)
 	local forFaction = (faction and faction.id) or Game.system.faction.id
 
-	-- TODO: what about paying fine but keeping record?
+	self.record[forFaction].fine = 0		 -- Clear fine
 
-	self.record[forFaction] = nil
+	if not forget then
+		if not self.record_old[forFaction] then
+			self.record_old[forFaction] = CrimeRecord.New()
+		end
+		self.record_old[forFaction]:Append(self.record[forFaction], true)
+	end
+
+	self.record[forFaction] = nil			 -- Clear record
+end
+
+--
+-- Method: ClearCrimeRecordHistory
+--
+-- Clear the player's crime record history, excluding current unpayed offences
+--
+-- > Game.player:ClearCrimeRecordHistory()
+-- > Game.player:ClearCrimeRecordHistory(faction)
+--
+-- Parameters:
+--
+--   faction - optional argument, defaults to the faction if of the system
+--             the player is currently in
+--
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+function Player:ClearCrimeRecordHistory (faction)
+	local forFaction = (faction and faction.id) or Game.system.faction.id
+	self.record_old[forFaction] = nil
 end
 
 --
@@ -249,6 +348,7 @@ local serialize = function ()
 	local data = {
 		cash = Game.player.cash,
 		record = Game.player.record,
+		record_old = Game.player.record_old
 	}
 
 	return data
@@ -259,11 +359,13 @@ local unserialize = function (data)
 	loaded_data = data
 	Player.cash = data.cash
 	Player.record = data.record
+	Player.record_old = data.record_old
 end
 
 local onGameEnd = function ()
 	-- clean up for next game:
 	Player.record = {}
+	Player.record_old = {}
 end
 
 Event.Register("onGameEnd", onGameEnd)

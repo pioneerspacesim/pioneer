@@ -58,11 +58,11 @@ function Legal:notifyOfCrime (ship, crime)
 						   station.label)
 
 	local lawlessness = Game.system.lawlessness
-	local oldCrime, oldFine = Game.player:GetCrime()
+	local _, outstandingfines = Game.player:GetCrimeOutstanding()
 	local newFine = math.max(1, 1+math.floor(self.CrimeType[crime].basefine * (1.0-lawlessness)))
 
 	-- don't keep compounding fines, except for murder
-	if crime ~= "MURDER" and newFine < oldFine then newFine = 0 end
+	if crime ~= "MURDER" and newFine < outstandingfines then newFine = 0 end
 	Game.player:AddCrime(crime, newFine)
 end
 

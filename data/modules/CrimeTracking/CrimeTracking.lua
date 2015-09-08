@@ -18,7 +18,7 @@ local policeDispatched = false
 local function doLawAndOrder ()
 	if Game.player.flightState == "HYPERSPACE" then return end
 
-	local crimes, fine = Game.player:GetCrime()
+	local crimes, fine = Game.player:GetCrimeOutstanding()
 	if not policeDispatched then
 		if fine > maxFineTolerated and
 		Game.player.flightState == "FLYING" and
