@@ -52,14 +52,13 @@ private:
 	static void GenerateIndices();
 
 public:
-	#pragma pack(push, 4)
 	struct VBOVertex
 	{
 		vector3f pos;
 		vector3f norm;
 		Color4ub col;
+		vector2f uv;
 	};
-	#pragma pack(pop)
 
 	GeoPatchContext(const int _edgeLen) {
 		edgeLen = _edgeLen;

@@ -7,6 +7,7 @@
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include "RendererGL.h"
+#include "TextureGL.h"
 #include <sstream>
 
 namespace Graphics {
@@ -29,6 +30,9 @@ void GeoSphereProgram::InitUniforms()
 	geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
+	
+	detailScaleHi.Init("detailScaleHi", m_program);
+	detailScaleLo.Init("detailScaleLo", m_program);
 
 	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
@@ -60,6 +64,9 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define TERRAIN_WITH_WATER\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
+	if (desc.quality & HAS_DETAIL_MAPS)
+		ss << "#define DETAIL_MAPS\n";
+
 	return new Graphics::OGL::GeoSphereProgram("geosphere_terrain", ss.str());
 }
 
@@ -68,6 +75,16 @@ void GeoSphereSurfaceMaterial::Apply()
 	SetGSUniforms();
 }
 
+void GeoSphereSurfaceMaterial::Unapply()
+{
+	if(texture0) {
+		static_cast<TextureGL*>(texture1)->Unbind();
+		static_cast<TextureGL*>(texture0)->Unbind();
+	}
+}
+
+static const float hiScale = 4.0f;
+static const float loScale = 0.5f;
 void GeoSphereSurfaceMaterial::SetGSUniforms()
 {
 	OGL::Material::Apply();
@@ -84,6 +101,16 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereRadius.Set(ap.planetRadius);
+
+	if(this->texture0) {
+		p->texture0.Set(this->texture0, 0);
+		p->texture1.Set(this->texture1, 1);
+
+		const float fDetailFrequency = pow(2.0f, float(params.maxPatchDepth) - float(params.patchDepth));
+
+		p->detailScaleHi.Set(hiScale * fDetailFrequency);
+		p->detailScaleLo.Set(loScale * fDetailFrequency);
+	}
 
 	//Light uniform parameters
 	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {

@@ -99,6 +99,9 @@ private:
 
 	virtual void SetUpMaterials();
 
+	RefCountedPtr<Graphics::Texture> m_texHi;
+	RefCountedPtr<Graphics::Texture> m_texLo;
+
 	enum EGSInitialisationStage {
 		eBuildFirstPatches=0,
 		eRequestedFirstPatches,

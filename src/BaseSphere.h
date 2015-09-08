@@ -44,6 +44,8 @@ public:
 	struct MaterialParameters {
 		SystemBody::AtmosphereParameters atmosphere;
 		std::vector<Camera::Shadow> shadows;
+		Sint32 patchDepth;
+		Sint32 maxPatchDepth;
 	};
 
 	virtual void Reset()=0;
@@ -53,6 +55,7 @@ public:
 
 	Graphics::RenderState* GetSurfRenderState() const { return m_surfRenderState; }
 	Graphics::Material* GetSurfaceMaterial() const { return m_surfaceMaterial.get(); }
+	MaterialParameters& GetMaterialParameters() { return m_materialParameters; }
 
 protected:
 	const SystemBody *m_sbody;
