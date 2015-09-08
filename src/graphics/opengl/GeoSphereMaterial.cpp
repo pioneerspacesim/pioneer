@@ -106,7 +106,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 		p->texture0.Set(this->texture0, 0);
 		p->texture1.Set(this->texture1, 1);
 
-		const float fDetailFrequency = (float)pow(2.0f, float(params.maxPatchDepth) - float(params.patchDepth));
+		const float fDetailFrequency = pow(2.0f, float(params.maxPatchDepth) - float(params.patchDepth));
 
 		p->detailScaleHi.Set(hiScale * fDetailFrequency);
 		p->detailScaleLo.Set(loScale * fDetailFrequency);
