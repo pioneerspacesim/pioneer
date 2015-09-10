@@ -7,32 +7,28 @@ end-user use.
 
 Usage:
 ~~~~~~
-modelviewer <width> <height> <model>
+pioneer -mv <model>
 
-<width> 	- screen width (default 800)
-<height>	- screen height (default 600)
 <model>		- name of the model defined in lua
 
 	Example:
-	./modelviewer 1024 768 interdictor
-		- will load the model interdictor with screen resolution 1024x768
+	./pioneer -mv interdictor
+		- will load the model interdictor
 
-	./modelviewer
+	./pioneer -mv
 		- will launch modelviewer, prompting for a model name.
 
 Keyboard commands:
 ~~~~~~~~~~~~~~~~~~
 
-<cursor>			- Rotate the model
+<cursor>		- Rotate the model
 <shift> + <cursor>	- Rotate the camera
 <=> or <PgUp>		- Zoom In
 <-> or <PgDown>		- Zoom Out
-<c>					- Toggle view between normal mesh and collision mesh
-<r>					- Reset thruster and anim sliders
-<m>					- Rebuild collision mesh
-<p>					- Toggle performance test - CAUTION: this WILL cause 
-					  slowness
-<ESC>				- Exit model viewer, prompt for new name or ESC to Quit.
+<c>			- Toggle view between normal mesh and collision mesh
+<r>			- Reset thruster and anim sliders
+<m>			- Rebuild collision mesh
+<ESC>			- Exit model viewer, prompt for new name or ESC to Quit.
 
 Sliders:
 ~~~~~~~~
@@ -49,5 +45,3 @@ Angular thrust:
 Animations:
 	0 - Landing gear animation
 	(remaining unused)
-
-
