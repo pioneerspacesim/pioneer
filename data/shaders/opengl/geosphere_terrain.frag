@@ -79,8 +79,8 @@ float discCovered(const in float dist, const in float rad) {
 void main(void)
 {
 #ifdef DETAIL_MAPS
-	vec4 hidetail = texture2D(texture0, texCoord0 * detailScaleHi);
-	vec4 lodetail = texture2D(texture1, texCoord0 * detailScaleLo);
+	vec4 hidetail = texture(texture0, texCoord0 * detailScaleHi);
+	vec4 lodetail = texture(texture1, texCoord0 * detailScaleLo);
 #endif // DETAIL_MAPS
 	vec3 eyepos = varyingEyepos;
 	vec3 eyenorm = normalize(eyepos);
