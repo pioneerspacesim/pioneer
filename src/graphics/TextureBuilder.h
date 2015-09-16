@@ -37,7 +37,7 @@ public:
 		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, TEXTURE_CUBE_MAP);
 	}
 	static TextureBuilder Array(const std::string &filename, const size_t layers) {
-		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, TEXTURE_2D_ARRAY, layers);
+		return TextureBuilder(filename, LINEAR_REPEAT, true, true, false, true, TEXTURE_2D_ARRAY, layers);
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
