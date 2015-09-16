@@ -36,7 +36,7 @@ void ColorMap::Generate(Graphics::Renderer *r, const Color &a, const Color &b, c
 	AddColor(w, a, colors);
 	AddColor(w, b, colors);
 	AddColor(w, c, colors);
-	vector2f size(colors.size()/3, 1.f);
+	vector3f size(colors.size()/3, 1.f, 0.f);
 
 	const Graphics::TextureFormat format = Graphics::TEXTURE_RGB_888;
 

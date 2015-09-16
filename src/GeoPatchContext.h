@@ -56,8 +56,8 @@ public:
 	{
 		vector3f pos;
 		vector3f norm;
-		Color4ub col;
 		vector2f uv;
+		vector2f slopeHeight;
 	};
 
 	GeoPatchContext(const int _edgeLen) {

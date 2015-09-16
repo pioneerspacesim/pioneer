@@ -35,7 +35,6 @@ private:
 	const vector3d v0, v1, v2, v3;
 	std::unique_ptr<double[]> heights;
 	std::unique_ptr<vector3f[]> normals;
-	std::unique_ptr<Color3ub[]> colors;
 	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<GeoPatch> kids[NUM_KIDS];
 	GeoPatch *parent;

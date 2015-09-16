@@ -527,6 +527,11 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
 		++attribIdx;
 	}
+	if( v->HasAttrib(ATTRIB_UV1) ) {
+		vbd.attrib[attribIdx].semantic	= ATTRIB_UV1;
+		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
+		++attribIdx;
+	}
 	vbd.numVertices = v->position.size();
 	vbd.usage = BUFFER_USAGE_STATIC;
 	
@@ -796,7 +801,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 	if (desc.colorFormat != TEXTURE_NONE) {
 		Graphics::TextureDescriptor cdesc(
 			desc.colorFormat,
-			vector2f(desc.width, desc.height),
+			vector3f(desc.width, desc.height, 0.0f),
 			vector2f(desc.width, desc.height),
 			LINEAR_CLAMP,
 			false,
@@ -808,7 +813,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 		if (desc.allowDepthTexture) {
 			Graphics::TextureDescriptor ddesc(
 				TEXTURE_DEPTH,
-				vector2f(desc.width, desc.height),
+				vector3f(desc.width, desc.height, 0.0f),
 				vector2f(desc.width, desc.height),
 				LINEAR_CLAMP,
 				false,

@@ -416,7 +416,7 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 	if( bCreateTexture ) {
 		// create texture
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(uvDims, uvDims);
+		const vector3f dataSize(uvDims, uvDims, 0.0f);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
@@ -472,7 +472,7 @@ void GasGiant::GenerateTexture()
 	// create small texture
 	{
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(UV_DIMS_SMALL, UV_DIMS_SMALL);
+		const vector3f dataSize(UV_DIMS_SMALL, UV_DIMS_SMALL, 0.0f);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 

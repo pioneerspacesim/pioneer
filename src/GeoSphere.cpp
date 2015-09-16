@@ -524,16 +524,18 @@ void GeoSphere::SetUpMaterials()
 	if (bEnableEclipse) {
 		surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	}
-	const bool bEnableDetailMaps = (Pi::config->Int("DisableDetailMaps") == 0);
-	if (bEnableDetailMaps) {
-		surfDesc.quality |= Graphics::HAS_DETAIL_MAPS;
-	}
+	surfDesc.textures = 4;
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	m_texHi.Reset( Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model") );
 	m_texLo.Reset( Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model") );
+	m_surfaceLUT.Reset(	Graphics::TextureBuilder::UI("textures/terrain/terrainLUT.png").GetOrCreateTexture(	Pi::renderer, "ui") );
+	m_surfaceAtlas.Reset( Graphics::TextureBuilder::Array("textures/terrain/atlas.dds", 16).GetOrCreateTexture(Pi::renderer, "array") );
+	
 	m_surfaceMaterial->texture0 = m_texHi.Get();
 	m_surfaceMaterial->texture1 = m_texLo.Get();
+	m_surfaceMaterial->texture2 = m_surfaceLUT.Get();
+	m_surfaceMaterial->texture3 = m_surfaceAtlas.Get();
 
 	{
 		Graphics::MaterialDescriptor skyDesc;

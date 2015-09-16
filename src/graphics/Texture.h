@@ -35,7 +35,8 @@ enum TextureSampleMode {
 
 enum TextureType {
 	TEXTURE_2D,
-	TEXTURE_CUBE_MAP
+	TEXTURE_CUBE_MAP,
+	TEXTURE_2D_ARRAY
 };
 
 struct TextureCubeData {
@@ -53,16 +54,16 @@ public:
 		format(TEXTURE_RGBA_8888), dataSize(1.0f), texSize(1.0f), sampleMode(LINEAR_CLAMP), generateMipmaps(false), allowCompression(true), numberOfMipMaps(0), type(TEXTURE_2D)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
+	TextureDescriptor(TextureFormat _format, const vector3f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
 		format(_format), dataSize(_dataSize), texSize(1.0f), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
+	TextureDescriptor(TextureFormat _format, const vector3f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
 		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
 	{}
 
 	const TextureFormat format;
-	const vector2f dataSize;
+	const vector3f dataSize;
 	const vector2f texSize;
 	const TextureSampleMode sampleMode;
 	const bool generateMipmaps;
@@ -72,7 +73,7 @@ public:
 
 	TextureDescriptor& operator=(const TextureDescriptor &o) {
 		const_cast<TextureFormat&>(format) = o.format;
-		const_cast<vector2f&>(dataSize) = o.dataSize;
+		const_cast<vector3f&>(dataSize) = o.dataSize;
 		const_cast<vector2f&>(texSize) = o.texSize;
 		const_cast<TextureSampleMode&>(sampleMode) = o.sampleMode;
 		const_cast<bool&>(generateMipmaps) = o.generateMipmaps;
@@ -87,11 +88,13 @@ class Texture : public RefCounted {
 public:
 	const TextureDescriptor &GetDescriptor() const { return m_descriptor; }
 
-	virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
-	virtual void Update(const void *data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) {
+	virtual void Update(const void *data, const vector2f &pos, const vector3f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+	virtual void Update(const void *data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips = 0) {
         Update(data, vector2f(0,0), dataSize, format, numMips);
     }
-	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+	virtual void Update(const TextureCubeData &data, const vector3f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
+	typedef std::vector<void *> vecDataPtr;
+	virtual void Update(const vecDataPtr &data, const vector3f &dataSize, const TextureFormat format, const unsigned int numMips = 0) = 0;
 	virtual void SetSampleMode(TextureSampleMode) = 0;
 
 	virtual ~Texture() {}

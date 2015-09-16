@@ -73,9 +73,6 @@ public:
 private:
 	void BuildFirstPatches();
 	void CalculateMaxPatchDepth();
-	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
-		return m_terrain->GetColor(p, height, norm);
-	}
 	void ProcessQuadSplitRequests();
 
 	std::unique_ptr<GeoPatch> m_patches[6];
@@ -95,12 +92,18 @@ private:
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
 
+	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
+		return m_terrain->GetColor(p, height, norm);
+	}
+
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
 	virtual void SetUpMaterials();
 
 	RefCountedPtr<Graphics::Texture> m_texHi;
 	RefCountedPtr<Graphics::Texture> m_texLo;
+	RefCountedPtr<Graphics::Texture> m_surfaceLUT;
+	RefCountedPtr<Graphics::Texture> m_surfaceAtlas;
 
 	enum EGSInitialisationStage {
 		eBuildFirstPatches=0,
