@@ -15,7 +15,7 @@ uniform sampler2D texture1;	// lo detail
 uniform sampler2D texture2;	// lookup
 uniform sampler2DArray texture3; // atlas
 in vec2 texCoord0;
-in vec2 texCoord1;
+in vec2 slopeHeight;
 
 in float dist;
 uniform float detailScaleHi;
@@ -74,45 +74,6 @@ float discCovered(const in float dist, const in float rad) {
 	return clamp((th + radsq*th2 - dist*d)/PI, 0.0, 1.0);
 }
 #endif // ECLIPSE
-
-#if 0 //def TEXTURE0
-// This function evaluates the mipmap LOD level for a 2D texture using the given texture coordinates
-// and texture size (in pixels)
-float mipmapLevel(vec2 uv, vec2 textureSize) 
-{ 
-	vec2 dx = dFdx(uv * textureSize.x); 
-	vec2 dy = dFdy(uv * textureSize.y); 
-	float d = max(dot(dx, dx), dot(dy, dy)); 
-	return 0.5 * log2(d); 
-} 
-
-/// This function samples a texture with tiling and mipmapping from within a texture pack of the given
-/// attributes
-/// - uv are the texture coordinates of the pixel *inside the tile*
-/// - tile are the coordinates of the tile within the pack (ex.: 2, 1)
-/// - packTexFactors are some constants to perform the mipmapping and tiling
-/// Texture pack factors:
-/// - inverse of the number of horizontal tiles (ex.: 4 tiles -> 0.25)
-/// - inverse of the number of vertical tiles (ex.: 2 tiles -> 0.5)
-/// - size of a tile in pixels (ex.: 1024)
-/// - amount of bits representing the power-of-2 of the size of a tile (ex.: a 1024 tile is 10 bits).
-vec4 sampleTexturePackMipWrapped(in vec2 uv, const in vec4 packTexFactors, const in vec2 tile)
-{
-	/// estimate mipmap/LOD level
-	float lod = mipmapLevel(uv, vec2(packTexFactors.z));
-	lod = clamp(lod, 0.0, packTexFactors.w);
-	/// get width/height of the whole pack texture for the current lod level
-	float size = pow(2.0, packTexFactors.w - lod);
-	float sizex = size / packTexFactors.x; // width in pixels
-	float sizey = size / packTexFactors.y; // height in pixels
-	/// perform tiling
-	uv = fract(uv);
-	/// tweak pixels for correct bilinear filtering, and add offset for the wanted tile
-	uv.x = uv.x * ((sizex * packTexFactors.x - 1.0) / sizex) + 0.5 / sizex + packTexFactors.x * tile.x;
-	uv.y = uv.y * ((sizey * packTexFactors.y - 1.0) / sizey) + 0.5 / sizey + packTexFactors.y * tile.y;
-	return(textureLod(texture3, uv, lod));
-}
-#endif // TEXTURE0
 
 void main(void)
 {
@@ -176,16 +137,11 @@ void main(void)
 	
 #ifdef TEXTURE0
 	vec4 color = vec4( 0.125, 0.25, 1.0, 1.0);
-	vec4 diffPackFactors = vec4(0.25, 0.25 , 512.0, 9.0); 
-	int nbTiles = int(1.0 / diffPackFactors.x); 
 	// LookupTexture & slope/height texture coords
-	float terrainType = texture(texture0, texCoord1).x;
-	// mul by 16 because values are 0..1 but we need them 0..15
+	float terrainType = texture(texture0, slopeHeight).x;
+	// mul by 16 because values are 0..1 but we need them 0..15 for array indexing
 	int id0 = int(terrainType * 16.0); 
-	//vec2 offset0 = vec2( mod(float(id0), float(nbTiles)), float(id0) / float(nbTiles) );
-	color = texture(texture3, vec3(texCoord0, float(id0))).rgba;
-	
-	//color = sampleTexturePackMipWrapped(texCoord0 * detailScaleHi, diffPackFactors, offset0);
+	color = texture(texture3, vec3(texCoord0 * detailScaleLo, float(id0))).rgba;
 #else
 	vec4 color = vec4(0.313, 0.313, 0.313, 1.0);
 #endif

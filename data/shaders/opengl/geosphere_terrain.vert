@@ -8,7 +8,7 @@ uniform vec3 geosphereCenter;
 uniform float geosphereRadius;
 
 out vec2 texCoord0;
-out vec2 texCoord1;
+out vec2 slopeHeight;
 out float dist;
 
 #ifdef TERRAIN_WITH_LAVA
@@ -23,7 +23,7 @@ void main(void)
 	varyingNormal = normalize(uNormalMatrix * a_normal);
 	
 	texCoord0 = a_uv0.xy;
-	texCoord1 = a_uv1.xy;
+	slopeHeight = a_uv1.xy;
 	
 	dist = abs(varyingEyepos.z);
 
