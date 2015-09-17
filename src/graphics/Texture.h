@@ -5,6 +5,7 @@
 #define _TEXTURE_H
 
 #include "vector2.h"
+#include "vector3.h"
 #include "RefCounted.h"
 
 namespace Graphics {
