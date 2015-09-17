@@ -7,6 +7,7 @@
 #include "vector2.h"
 #include "vector3.h"
 #include "RefCounted.h"
+#include <vector>
 
 namespace Graphics {
 

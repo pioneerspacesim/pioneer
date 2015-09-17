@@ -84,7 +84,7 @@ static inline bool GetTargetFormat(const SDL_PixelFormat *sourcePixelFormat, Tex
 	*targetPixelFormat = &pixelFormatRGBA;
 	return false;
 }
-#pragma optimize("",off)
+
 void TextureBuilder::PrepareSurface()
 {
 	if (m_prepared) return;
@@ -269,7 +269,7 @@ void TextureBuilder::LoadDDS()
 	}
 	// XXX if we can't load the fallback texture, then what?
 }
-#pragma optimize("",off)
+
 void TextureBuilder::UpdateTexture(Texture *texture)
 {
 	if( m_surface ) {

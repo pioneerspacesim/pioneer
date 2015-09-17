@@ -75,7 +75,7 @@ inline int GetMinSize(TextureFormat flag) {
 inline bool IsCompressed(TextureFormat format) {
 	return (format == TEXTURE_DXT1 || format == TEXTURE_DXT5);
 }
-#pragma optimize("",off)
+
 TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
 	Texture(descriptor)
 {
