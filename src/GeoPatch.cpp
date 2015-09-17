@@ -115,7 +115,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				const float slope = Clamp(abs(p0.Dot(norma)), 0.0f, 1.0f);
 				const float normHeight = float(Clamp(height * radius, 0.0, 1.0));
 #else
-				const float slope = Clamp(abs(p0.Dot(norma)), 0.0f, 1.0f);
+				const float slope = Clamp(fabs(p0.Dot(norma)), 0.0f, 1.0f);
 				const float normHeight = float(height * 277.0f);// * radius);
 #endif
 				vtxPtr->slopeHeight = vector2f(slope, normHeight);
