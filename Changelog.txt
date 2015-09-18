@@ -7,6 +7,7 @@ September 2015
    * Fixes
      * Fix undefined symbols for static const members (#3446)
      * Resolve Detail Texturing abort (#3452)
+     * Fix compilation issue due to BG_STARS_MAX/MIN (#3457)
 
    * Internal Changes
      * Remove planetary scaling during rendering (#3434)
