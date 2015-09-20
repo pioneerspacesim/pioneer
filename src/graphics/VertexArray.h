@@ -21,7 +21,7 @@ typedef unsigned int AttributeSet;
 class VertexArray {
 public:
 	//specify attributes to be used, additionally reserve space for vertices
-	VertexArray(AttributeSet attribs, int size=0);
+	VertexArray(AttributeSet attribs, const unsigned int size=0);
 	~VertexArray();
 
 	//check presence of an attribute
@@ -41,7 +41,7 @@ public:
 	void Add(const vector3f &v, const Color &c, const vector2f &uv);
 	void Add(const vector3f &v, const vector2f &uv);
 	void Add(const vector3f &v, const vector3f &normal, const vector2f &uv);
-	//virtual void Reserve(unsigned int howmuch)
+	virtual void Reserve(const unsigned int howmuch);
 
 	// don't mix these
 	void Set(const Uint32 idx, const vector3f &v);
