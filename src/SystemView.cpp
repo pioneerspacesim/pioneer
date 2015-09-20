@@ -443,18 +443,37 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 		}
 	}
 
+	static const float startTrailPercent = 0.75;
+	static const float fadedColorParameter = 0.4;
+
 	vector3f vts[n_vertices_max];
+	Uint16 fadingColors = 0;
+	double t0 = m_game->GetTime();
 	for (unsigned short i = 0; i < n_vertices_max; ++i) {
 		const double t = double(i) / double(n_vertices_max) * maxT;
-		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
+		if(fadingColors == 0 && t >= startTrailPercent * maxT)
+			fadingColors = i;
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(t, m_time - t0);
 		vts[i] = vector3f(offset + pos * double(m_zoom));
 		++num_vertices;
 		if (pos.Length() < planetRadius)
 			break;
 	}
 
+	std::unique_ptr<Color[]> colors(new Color[num_vertices]);
+	Color fadedColor = color * fadedColorParameter;
+	std::fill_n(colors.get(), num_vertices, fadedColor);
+	Uint16 trailLength = num_vertices - fadingColors;
+
+	for (Uint16 currentColor = 0; currentColor < trailLength; ++currentColor)	
+	{
+		float scalingParameter = fadedColorParameter + static_cast<float>(currentColor) / trailLength * (1.f - fadedColorParameter);
+		colors[currentColor + fadingColors] = color * scalingParameter;
+	}
+
 	if (num_vertices > 1) {
-		m_orbits.SetData(num_vertices, vts, color);
+		m_orbits.SetData(num_vertices, vts, colors.get());
+
 		// don't close the loop for hyperbolas and parabolas and crashed ellipses
 		if (maxT < 1. || (orbit->GetEccentricity() > 1.0)) {
 			m_orbits.Draw(m_renderer, m_lineState, LINE_STRIP);
@@ -462,6 +481,7 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 			m_orbits.Draw(m_renderer, m_lineState, LINE_LOOP);
 		}
 	}
+	colors.reset();
 
 	Gui::Screen::EnterOrtho();
 	vector3d pos;
