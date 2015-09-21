@@ -183,7 +183,7 @@ onChat = function (form, ref, option)
 			"\n\t* "..string.interp(l.LIST_BENEFITS_FUEL, {fuel=Equipment.cargo.military_fuel:GetName()})..
 			"\n\t* "..string.interp(l.LIST_BENEFITS_DISPOSAL, {radioactives=Equipment.cargo.radioactives:GetName()})..
 			"\n\t* "..l.LIST_BENEFITS_FUEL_TANK..
-			"\n\n"  ..string.interp(l.LIST_BENEFITS_JOIN, {membership_fee=Format.Money(ad.flavour.annual_fee)})
+			"\n\n"  ..string.interp(l.LIST_BENEFITS_JOIN, {membership_fee=Format.Money(ad.flavour.annual_fee,false)})
 
 		form:SetMessage(message)
 		form:AddOption(l.WHAT_CONDITIONS_APPLY:interp({radioactives = Equipment.cargo.radioactives:GetName()}),1)
