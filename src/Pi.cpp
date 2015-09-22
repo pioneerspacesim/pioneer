@@ -470,16 +470,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	// Gui::Init shouldn't initialise any VBOs, since we haven't tested
 	// that the capability exists. (Gui does not use VBOs so far)
-	int xsize = Graphics::GetScreenWidth();
-	int ysize = Graphics::GetScreenHeight();
-	Gui::Init(renderer, xsize, ysize, 800, 600);
+	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
 
-	int xorigin = 0;
-	if (xsize > 700)
-	{
-		xorigin = (xsize - 700) / 2;
-		xsize = (xsize - (xorigin * 2));
-	}
 	UI::Box *box = Pi::ui->VBox(5);
 	UI::Label *label = Pi::ui->Label("");
 	UI::Gauge *gauge = Pi::ui->Gauge();
@@ -487,16 +479,20 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	label->SetFont(UI::Widget::FONT_HEADING_NORMAL);
 	
 	Pi::ui->GetTopLayer()->SetInnerWidget(
-		Pi::ui->Margin(10, UI::Margin::HORIZONTAL)->SetInnerWidget(
-			Pi::ui->Expand()->SetInnerWidget(
-				Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
-					box->PackEnd(UI::WidgetSet(
-					Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(label), gauge))
+		// expand the box to cover the whole screen
+		Pi::ui->Expand()->SetInnerWidget(
+			// align the box with label+gauge to the middle of the screen (horizontally AND vertically)
+			Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
+				// put label and gauge into one combined box
+				box->PackEnd(UI::WidgetSet(
+					// center the label in the inner box
+					Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(label),
+					// limit the gauge by adding a margin on both sides of (0.1666*screensize) effectively centering it on the screen
+					Pi::ui->Margin(0.1666*Graphics::GetScreenWidth(), UI::Margin::HORIZONTAL)->SetInnerWidget(gauge)
+					)
 				)
 			)
-		),
-		UI::Point(xorigin, 0),
-		UI::Point(xsize, ysize)
+		)
 	);
 	
 	draw_progress(gauge, label, 0.0f);
