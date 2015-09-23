@@ -67,6 +67,8 @@ public:
 	virtual void Reset();
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
+	inline double GetHeightNormaliserMin() const { return m_heightNormaliserMin; }
+	inline double GetHeightNormaliserMax() const { return m_heightNormaliserMax; }
 
 	void AddQuadSplitRequest(double, SQuadSplitRequest*, GeoPatch*);
 
@@ -114,6 +116,8 @@ private:
 	EGSInitialisationStage m_initStage;
 
 	Sint32 m_maxDepth;
+	double m_heightNormaliserMin;
+	double m_heightNormaliserMax;
 };
 
 #endif /* _GEOSPHERE_H */

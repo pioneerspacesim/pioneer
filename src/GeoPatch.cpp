@@ -89,6 +89,9 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		GeoPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(m_vertexBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
 
+		const double heightMin = geosphere->GetHeightNormaliserMin();
+		const double heightMul = geosphere->GetHeightNormaliserMax();
+
 		const Sint32 edgeLen = ctx->GetEdgeLen();
 		const double frac = ctx->GetFrac();
 		const double *pHts = heights.get();
@@ -116,7 +119,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				const float normHeight = float(Clamp(height * radius, 0.0, 1.0));
 #else
 				const float slope = Clamp(fabs(p0.Dot(norma)), 0.0f, 1.0f);
-				const float normHeight = float(height * 277.0f);// * radius);
+				const float normHeight = float(height * heightMul);
 #endif
 				vtxPtr->slopeHeight = vector2f(slope, normHeight);
 
