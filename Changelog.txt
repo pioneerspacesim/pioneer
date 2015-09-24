@@ -12,6 +12,7 @@ September 2015
    * Internal Changes
      * Remove planetary scaling during rendering (#3434)
      * Remove the animation Interpolate optimisation (#3435)
+     * Add license badge to README, markdown now supports it (#3464)
 
 August 2015
    * New Features
