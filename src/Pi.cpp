@@ -474,21 +474,27 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	UI::Box *box = Pi::ui->VBox(5);
 	UI::Label *label = Pi::ui->Label("");
-	label->SetFont(UI::Widget::FONT_HEADING_NORMAL);
 	UI::Gauge *gauge = Pi::ui->Gauge();
+
+	label->SetFont(UI::Widget::FONT_HEADING_NORMAL);
+	
 	Pi::ui->GetTopLayer()->SetInnerWidget(
-		Pi::ui->Margin(10, UI::Margin::HORIZONTAL)->SetInnerWidget(
-			Pi::ui->Expand()->SetInnerWidget(
-				Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
-					box->PackEnd(UI::WidgetSet(
-						label,
-						gauge
-					))
+		// expand the box to cover the whole screen
+		Pi::ui->Expand()->SetInnerWidget(
+			// align the box with label+gauge to the middle of the screen (horizontally AND vertically)
+			Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
+				// put label and gauge into one combined box
+				box->PackEnd(UI::WidgetSet(
+					// center the label in the inner box
+					Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(label),
+					// limit the gauge by adding a margin on both sides of (0.1666*screensize) effectively centering it on the screen
+					Pi::ui->Margin(0.1666*Graphics::GetScreenWidth(), UI::Margin::HORIZONTAL)->SetInnerWidget(gauge)
+					)
 				)
 			)
 		)
-    );
-
+	);
+	
 	draw_progress(gauge, label, 0.0f);
 
 	Output("GalaxyGenerator::Init()\n");
