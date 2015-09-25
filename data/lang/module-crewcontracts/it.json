@@ -55,6 +55,10 @@
       "description" : "",
       "message" : "Pilota"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Spiacente, Nessun candidato in cerca di lavoro a {station}"
+   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Possibili membri dell'equipaggio registrati come in cerca di lavoro a {station}:"

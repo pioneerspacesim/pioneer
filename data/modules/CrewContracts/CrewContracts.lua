@@ -208,9 +208,17 @@ local onChat = function (form,ref,option)
 		form:ClearFace()
 		form:Clear()
 		form:SetTitle(l.CREW_FOR_HIRE)
-		form:SetMessage("\n"..l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
+		local numCrewInThisStation = 0
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = Format.Money(c.estimatedWage)}),k)
+			numCrewInThisStation = numCrewInThisStation + 1
+		end
+		if numCrewInThisStation > 0 then
+			form:SetMessage("\n"..l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
+			for k,c in ipairs(crewInThisStation) do
+				form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = Format.Money(c.estimatedWage)}),k)
+			end
+		else 
+			form:SetMessage("\n"..l.NO_CREW_AVAILABLE:interp({station=station.label}))
 		end
 	end
 
@@ -357,6 +365,15 @@ local onChat = function (form,ref,option)
 	end
 end
 
+local isEnabled = function (ref) 
+	local station = stationsWithAdverts[ref]
+	local numCrewmenAvailable = 0
+	for k,v in pairs(nonPersistentCharactersForCrew[station]) do
+		numCrewmenAvailable = numCrewmenAvailable + 1
+	end
+	return numCrewmenAvailable > 0
+end
+
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -365,7 +382,8 @@ local onCreateBB = function (station)
 	stationsWithAdverts[station:AddAdvert({
 		description = l.CREW_FOR_HIRE,
 		icon        = "crew_contracts",
-		onChat      = onChat})] = station
+		onChat      = onChat,
+		isEnabled   = isEnabled})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
@@ -409,7 +427,8 @@ Event.Register("onGameStart", function()
 		stationsWithAdverts[station:AddAdvert({
 			description = l.CREW_FOR_HIRE,
 			icon        = "crew_contracts",
-			onChat      = onChat})] = station
+			onChat      = onChat,
+			isEnabled   = isEnabled})] = station
 		end
 		loaded_data = nil
 	end
