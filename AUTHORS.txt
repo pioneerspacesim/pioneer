@@ -8,6 +8,7 @@ The Pioneer Developers are:
 * Abram Hindle
 * Ae
 * Alan Briggs
+* Alan 'joonicks' Londa
 * Alessandro Giachi
 * Andrew Cook
 * Andrew Copland
