@@ -43,6 +43,10 @@
       "description" : "",
       "message" : "Navigatør"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+   },
    "NO_EXPERIENCE" : {
       "description" : "",
       "message" : "Ingen erfaring"
