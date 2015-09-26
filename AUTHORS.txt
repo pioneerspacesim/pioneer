@@ -51,6 +51,7 @@ The Pioneer Developers are:
 * Krzysztof Niedźwiecki
 * Kyungdahm Yun
 * Lars Westerhoff
+* Leandro Papi
 * Lee Reilly
 * Leonardo Manna
 * Luca Ganzerla
