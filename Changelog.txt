@@ -3,6 +3,7 @@ September 2015
      * Control how many stars in the sky (#3431)
      * Two state hyperspace button (#3438)
      * Terrain detail textures (#3448)
+     * Progress bar during start up better scaled (#3261, #3462)
 
    * Fixes
      * Fix undefined symbols for static const members (#3446)
