@@ -55,6 +55,10 @@
       "description" : "",
       "message" : "Pilot"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Potential crew members are registered as seeking employment at {station}:"
