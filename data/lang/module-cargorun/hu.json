@@ -49,15 +49,15 @@
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
+      "message" : "FUVAR. Rakomány szállítás {system} rendszerbe."
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "RELOCATION. Move of cargo from {starport} required."
+      "message" : "KÖLTÖZÉS. Szállítót keresek {starport} állomásról."
    },
    "ADTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+      "message" : "KISZÁLLÍTÓT KERES. Hajót keresünk áruszállításra {system} rendszerbe."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
@@ -89,7 +89,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you please repeat the original request?"
+      "message" : "Megismételnéd a hirdetést?"
    },
    "DANGER" : {
       "description" : "the risk level",
@@ -241,7 +241,7 @@
    },
    "INTROTEXT_1" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Üdv, {name} vagyok. Készpénzben fizetek {cash} $-t, ha leszállítod {cargoname} rakományomat {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fényévre)"
    },
    "INTROTEXT_2" : {
       "description" : "{name} is the full name of a person",

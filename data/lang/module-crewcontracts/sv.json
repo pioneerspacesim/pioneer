@@ -45,7 +45,7 @@
    },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+      "message" : "Inga arbetssökande vid {station} för tillfället"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
