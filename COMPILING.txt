@@ -122,7 +122,6 @@ irc.freenode.net.
      freetype
      libsdl2
      libsdl2_image
-     libsdl2_sound
      libsigcxx2
      libvorbis
      autoconf
@@ -152,8 +151,15 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
 1.5 OSX - XCode 4
 -----------------
 
-* The XCode project isn't as up to date as the 'autotools' method and may
-  be broken.
+1. You will need the following libraries installed. The best method I found
+   was to install macports (http://www.macports.org/) and install the
+   following ports (sudo port install xxxx):
+
+     assimp
+     freetype
+     libsigcxx2
+	
+   Alternatively you can also run the script in the ./osx folder install_ports.sh
 
 The latest XCode project files are located in ./osx. Simply build the
 aplication bundle. The XCode project uses the mac port libraries that you
@@ -221,7 +227,8 @@ To get it, clone git://github.com/pioneerspacesim/pioneer-thirdparty.git.
 2.4 OSX
 -------
 
-- pioneer-thirdparty currently not required.
+1. After cloning the repo, move it to a folder called "pioneer-thirdparty"
+   alongside your "pioneer" folder.
 
 
 
