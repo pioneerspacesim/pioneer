@@ -423,7 +423,7 @@ Event.Register("onGameStart", function()
 	stationsWithAdverts = {}
 	if loaded_data then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
-		for k,station in ipairs(loaded_data.stationsWithAdverts) do
+		for k,station in pairs(loaded_data.stationsWithAdverts) do
 		stationsWithAdverts[station:AddAdvert({
 			description = l.CREW_FOR_HIRE,
 			icon        = "crew_contracts",
