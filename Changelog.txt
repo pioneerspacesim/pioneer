@@ -12,6 +12,7 @@ September 2015
      * Fix compilation issue due to BG_STARS_MAX/MIN (#3457)
      * Fix empty crew for hire advert (#3465)
      * Fix crew for hire load glitch (#3468)
+     * Fix Crew-for-hire duplicate/disappear (#3466)
 
    * Internal Changes
      * Remove planetary scaling during rendering (#3434)
