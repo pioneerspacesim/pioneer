@@ -202,10 +202,10 @@ vector3d Orbit::OrbitalVelocityAtTime(double totalMass, double t) const
 // used for stepping through the orbit in small fractions
 // mean anomaly <-> true anomaly conversion doesn't have
 // to be taken into account
-vector3d Orbit::EvenSpacedPosTrajectory(double t) const
+vector3d Orbit::EvenSpacedPosTrajectory(double t, double timeOffset) const
 {
 	const double e = m_eccentricity;
-	double v = 2*M_PI*t + TrueAnomalyFromMeanAnomaly(m_orbitalPhaseAtStart);
+	double v = 2*M_PI*t + TrueAnomalyFromMeanAnomaly(MeanAnomalyAtTime(timeOffset));
 	double r;
 
 	if (e < 1.0) {

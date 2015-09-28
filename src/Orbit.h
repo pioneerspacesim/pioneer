@@ -40,7 +40,7 @@ public:
 	vector3d OrbitalVelocityAtTime(double totalMass, double t) const;
 
 	// 0.0 <= t <= 1.0. Not for finding orbital pos
-	vector3d EvenSpacedPosTrajectory(double t) const;
+	vector3d EvenSpacedPosTrajectory(double t, double timeOffset = 0) const;
 
 	double Period() const;
 	vector3d Apogeum() const;
