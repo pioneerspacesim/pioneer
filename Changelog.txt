@@ -4,6 +4,7 @@ September 2015
      * Two state hyperspace button (#3438)
      * Terrain detail textures (#3448)
      * Progress bar during start up better scaled (#3261, #3462)
+     * Orbit fading (#3460)
 
    * Fixes
      * Fix undefined symbols for static const members (#3446)
