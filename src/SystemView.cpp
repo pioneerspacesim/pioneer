@@ -445,8 +445,8 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 		}
 	}
 
-	static const float startTrailPercent = 0.75;
-	static const float fadedColorParameter = 0.4;
+	static const float startTrailPercent = 0.85;
+	static const float fadedColorParameter = 0.05;
 
 	Uint16 fadingColors = 0;
 	double t0 = m_game->GetTime();
@@ -463,7 +463,7 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 
 	Color fadedColor = color * fadedColorParameter;
 	std::fill_n(m_orbitColors.get(), num_vertices, fadedColor);
-	Uint16 trailLength = num_vertices - fadingColors;
+	const Uint16 trailLength = num_vertices - fadingColors;
 
 	for (Uint16 currentColor = 0; currentColor < trailLength; ++currentColor)	
 	{
