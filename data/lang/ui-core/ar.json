@@ -177,7 +177,7 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "التحكم"
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
@@ -673,11 +673,11 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "الاسم"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "الاسم"
    },
    "NAVIGATION" : {
       "description" : "",

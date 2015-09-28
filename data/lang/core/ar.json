@@ -125,7 +125,7 @@
    },
    "CAMERA_LEFT_VIEW" : {
       "description" : "",
-      "message" : "Left camera"
+      "message" : "كاميرا يسرى"
    },
    "CAMERA_REAR_VIEW" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "CLEARANCE_GRANTED_BAY_N" : {
       "description" : "",
-      "message" : "Clearance granted. Proceed to docking bay %bay."
+      "message" : "نم قبول اذن الهبوط. اذهب الى مهبط "
    },
    "CO2_ATMOSPHERE" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "CONTROLS" : {
       "description" : "",
-      "message" : "Controls"
+      "message" : "التحكم"
    },
    "CORPORATE_SYSTEM" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "DISTANCE_LY" : {
       "description" : "",
-      "message" : "Distance: %distance{f.2} ly"
+      "message" : "البعد: %distance{f.2} سنة ضوئية"
    },
    "DOCKED" : {
       "description" : "",
@@ -329,11 +329,11 @@
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
-      "message" : "Label uninhabited systems"
+      "message" : "تسمية الانظمة الغير مسكونة"
    },
    "DRAW_VERTICAL_LINES" : {
       "description" : "",
-      "message" : "Draw vertical lines"
+      "message" : "رسم خطوط عمودية"
    },
    "EARTH" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Equatorial to polar radius ratio"
+      "message" : "الاستوائية إلى نسبة نصف القطر القطبي"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FERTILIZER" : {
       "description" : "",
-      "message" : "Fertilizer"
+      "message" : "سماد"
    },
    "FINE_PAID_N" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "General View Controls"
+      "message" : "تحكم الروئية الرئيسي"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -613,7 +613,7 @@
    },
    "INT_LY" : {
       "description" : "integer number of light years",
-      "message" : "%scale ly"
+      "message" : "%scale سنة ضوئية"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
-      "message" : "Joystick input"
+      "message" : "ادخال من عصا تحكم"
    },
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
@@ -669,7 +669,7 @@
    },
    "LIQUID_OXYGEN" : {
       "description" : "",
-      "message" : "Liquid Oxygen"
+      "message" : "اوكسجين سائل"
    },
    "LIQUID_OXYGEN_DESCRIPTION" : {
       "description" : "",
@@ -717,31 +717,31 @@
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Lock Hyperspace Target"
+      "message" : "تحديد هدف القذف"
    },
    "MAP_TOGGLE_INFO_PANEL" : {
       "description" : "",
-      "message" : "Toggle Info Panel"
+      "message" : "اظهار\\اخفاء لوحة المعلومات"
    },
    "MAP_TOGGLE_SELECTION_FOLLOW_VIEW" : {
       "description" : "",
-      "message" : "Toggle Selection Following View"
+      "message" : "تبديل اختيار وعقب المشاهدة"
    },
    "MAP_VIEW_ROTATE_DOWN" : {
       "description" : "",
-      "message" : "Rotate View Down"
+      "message" : "دوران العرض الى الاسفل"
    },
    "MAP_VIEW_ROTATE_LEFT" : {
       "description" : "",
-      "message" : "Rotate View Left"
+      "message" : "دوران العرض الى اليسار"
    },
    "MAP_VIEW_ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate View Right"
+      "message" : "دوران العرض الى اليمين"
    },
    "MAP_VIEW_ROTATE_UP" : {
       "description" : "",
-      "message" : "Rotate View Up"
+      "message" : "دوران العرض الى الاعلى"
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
@@ -793,7 +793,7 @@
    },
    "MEDICINES" : {
       "description" : "",
-      "message" : "Medicines"
+      "message" : "ادوية"
    },
    "MEDIUM_GAS_GIANT" : {
       "description" : "",
@@ -925,11 +925,11 @@
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
-      "message" : "Name"
+      "message" : "الاسم"
    },
    "NAME_PERSON" : {
       "description" : "For a person",
-      "message" : "Name"
+      "message" : "الاسم"
    },
    "NARCOTICS" : {
       "description" : "",
@@ -981,7 +981,7 @@
    },
    "NO_TARGET_SELECTED" : {
       "description" : "",
-      "message" : "Ship Computer: No target selected"
+      "message" : "حاسوب السفينة: لا يوجد هدف محدد"
    },
    "NUMBER_DAYS" : {
       "description" : "",
@@ -1061,7 +1061,7 @@
    },
    "OCEANICWORLD" : {
       "description" : "",
-      "message" : "\" oceanic world\""
+      "message" : "\" عالم محيطي\""
    },
    "ORBITAL_PERIOD" : {
       "description" : "",
@@ -1253,7 +1253,7 @@
    },
    "ROTATE_RIGHT" : {
       "description" : "",
-      "message" : "Rotate Right"
+      "message" : "الاتفاف الى اليمين"
    },
    "ROTATE_UP" : {
       "description" : "",
@@ -1361,7 +1361,7 @@
    },
    "SHIELD_STRENGTH_N" : {
       "description" : "",
-      "message" : "Shield strength: %shields{f.2}"
+      "message" : "قوة الدرع: %shields{f.2}"
    },
    "SHIFT" : {
       "description" : "Shift key on keyboard",
@@ -1553,11 +1553,11 @@
    },
    "STAR_M_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Red super giant star"
+      "message" : "نجم احمر خارق ضخم"
    },
    "STAR_M_WF" : {
       "description" : "",
-      "message" : "Wolf-Rayet star - Unstable"
+      "message" : "نجم وولف رايت - غير مستقر"
    },
    "STAR_O" : {
       "description" : "",
@@ -1565,7 +1565,7 @@
    },
    "STAR_O_GIANT" : {
       "description" : "",
-      "message" : "Hot Blue giant star"
+      "message" : "نجم ازرق حار ضخم"
    },
    "STAR_O_HYPER_GIANT" : {
       "description" : "",
@@ -1593,7 +1593,7 @@
    },
    "SUGGESTED_RESPONSES" : {
       "description" : "",
-      "message" : "Suggested responses:"
+      "message" : "ردود مقترحة:"
    },
    "SURFACE_GRAVITY" : {
       "description" : "",
@@ -1629,7 +1629,7 @@
    },
    "S_ATMOSPHERE" : {
       "description" : "",
-      "message" : "\" Sulfuric atmosphere\""
+      "message" : "\" غلاف جوي مكون من غاز الكبريتيك\""
    },
    "TAKEOFF" : {
       "description" : "",
@@ -1665,7 +1665,7 @@
    },
    "THRUSTER_DORSAL" : {
       "description" : "",
-      "message" : "Thrust down"
+      "message" : "دفع الى الاسفل"
    },
    "THRUSTER_MAIN" : {
       "description" : "",
@@ -1821,7 +1821,7 @@
    },
    "YAW_LEFT" : {
       "description" : "",
-      "message" : "Yaw left"
+      "message" : "انعراج لليسار"
    },
    "YAW_RIGHT" : {
       "description" : "",
