@@ -169,7 +169,19 @@ local onChat = function (form,ref,option)
 		-- Re-initialise crew list, and build it fresh
 		crewInThisStation = {}
 
-		-- Look for any persistent characters that are available in this station
+		-- Add any non-persistent characters (which are persistent only in the sense
+		-- that this BB ad is storing them)
+		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
+			table.insert(crewInThisStation,c)
+			c.experience = c.engineering
+							+c.piloting
+							+c.navigation
+							+c.sensors
+			-- Base wage on experience
+			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
+		end
+
+		-- Now look for any persistent characters that are available in this station
 		-- and have some sort of crew experience (however minor)
 		-- and were last seen less than a month ago
 		for c in Character.Find(function (c)
@@ -192,17 +204,6 @@ local onChat = function (form,ref,option)
 			-- Either base wage on experience, or as a slight increase on their previous wage
 			-- (which should only happen if this candidate was dismissed with wages owing)
 			c.estimatedWage = math.max(c.contract and (c.contract.wage + 5) or 0, c.estimatedWage or wageFromScore(c.experience))
-		end
-		-- Now add any non-persistent characters (which are persistent only in the sense
-		-- that this BB ad is storing them)
-		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
-			table.insert(crewInThisStation,c)
-			c.experience = c.engineering
-							+c.piloting
-							+c.navigation
-							+c.sensors
-			-- Base wage on experience
-			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
 		end
 
 		form:ClearFace()
@@ -277,7 +278,7 @@ local onChat = function (form,ref,option)
 					}
 					form:SetMessage(l.THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY)
 					form:AddOption(l.GO_BACK, 0)
-					for k,v in ipairs(crewInThisStation) do
+					for k,v in ipairs(nonPersistentCharactersForCrew[station]) do
 						-- Take them off the available list in the ad
 						if v == candidate then table.remove(nonPersistentCharactersForCrew[station],k) end
 					end
