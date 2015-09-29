@@ -53,11 +53,11 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Pericol:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Termen limită:"
    },
    "DENY_0" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Întorceți-vă când sunteți mai calificați."
    },
    "DENY_2" : {
       "description" : "",

@@ -93,11 +93,11 @@
    },
    "DANGER" : {
       "description" : "the risk level",
-      "message" : "Danger:"
+      "message" : "Pericol:"
    },
    "DEADLINE" : {
       "description" : "Must be delivered by",
-      "message" : "Deadline:"
+      "message" : "Termen limită:"
    },
    "DELIVER_TO" : {
       "description" : "Deliver to this location",

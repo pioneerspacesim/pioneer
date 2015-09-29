@@ -5,11 +5,11 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Pericol:"
    },
    "DEADLINE" : {
       "description" : "",
-      "message" : "Deadline:"
+      "message" : "Termen limită:"
    },
    "DELIVERY" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Întorceți-vă când sunteți mai calificați."
    },
    "DENY_2" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "Looks like my paycheck has arrived!"
+      "message" : "Se pare că mi-a sosit plata!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",

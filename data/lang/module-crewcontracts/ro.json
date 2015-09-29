@@ -45,7 +45,7 @@
    },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+      "message" : "Ne pare rău, nu există candidați care să caute de muncă în stația {station}"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
