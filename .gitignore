@@ -64,3 +64,5 @@ gmon.out
 .dirstamp
 result
 *.sgm
+.vs/
+*.user
