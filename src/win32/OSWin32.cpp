@@ -119,8 +119,8 @@ const std::string GetHardwareInfo()
 		Number of processors: %u\n  \
 		Page size: %u\n  \
 		Processor type: %u\n  \
-		Minimum application address: %lx\n  \
-		Maximum application address: %lx\n  \
+		Minimum application address: %p\n  \
+		Maximum application address: %p\n  \
 		Active processor mask: %u\n\n", 
 		siSysInfo.dwOemId, 
 		siSysInfo.dwNumberOfProcessors, 
