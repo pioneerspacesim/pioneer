@@ -237,7 +237,7 @@
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
-      "message" : "How soon must it be delivered?"
+      "message" : "Cât de repede trebuie făcută livrarea?"
    },
    "INTROTEXT_1" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "RISK_2" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Nu mai mult ca de obicei."
    },
    "RISK_3" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "RISK_4" : {
       "description" : "",
-      "message" : "It could be dangerous, you should make sure you're adequately prepared."
+      "message" : "S-ar putea să fie periculos, ar trebui să te asiguri că ești bine pregătit pentru asta."
    },
    "RISK_5" : {
       "description" : "",
@@ -601,11 +601,11 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "De ce atât de mulți bani?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Voi fi în pericol?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

@@ -549,7 +549,7 @@
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
-      "message" : "You're going to regret dealing with {client}"
+      "message" : "O să regreți că ai lucrat cu {client}"
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "Today isn't your lucky day! Prepare to die."
+      "message" : "Azi nu e ziua ta norocoasă! Pregătește-te să mori."
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
@@ -577,11 +577,11 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "De ce atât de mulți bani?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Voi fi în pericol?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
