@@ -245,7 +245,7 @@
    },
    "INTROTEXT_2" : {
       "description" : "{name} is the full name of a person",
-      "message" : "Greetings! {name} Transport Services needs you to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away. We pay {cash} for a safe and complete delivery."
+      "message" : "Üdv! {name} Szállító Szolgálat-nak szüksege van valakire, {cargoname} rakomány szállítására, {system} rendszerbe. ({sectorx}, {sectory}, {sectorz}, {dist} fényév). A fizettség {cash}, amennyiben sértetlenül és hiánytalanul leszállítja a rakományt."
    },
    "INTROTEXT_3" : {
       "description" : "",

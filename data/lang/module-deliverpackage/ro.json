@@ -17,7 +17,7 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I can trust you with this delivery."
+      "message" : "Îmi pare rău, dar nu cred că pot să am încredere în dvs. pentru această livrare."
    },
    "DENY_1" : {
       "description" : "",
@@ -25,27 +25,27 @@
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I don't think you're the pilot I'm looking for."
+      "message" : "Nu cred că ești pilotul pe care îl caut."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone I can trust with this delivery."
+      "message" : "Nu arătați ca cineva căruia să-i pot încredința această livrare."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "You're not the kind of pilot I'm looking for."
+      "message" : "Nu ești tipul de pilot pe care îl caut."
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a task of this importance."
+      "message" : "Păreți mult prea neexperimentat ca să vă ocupați de o sarcină atât de importantă."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this delivery."
+      "message" : "Nu am auzit niciodată de dvs. Am nevoie de cineva cu experiență pentru această livrare."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk this delivery on someone without any qualifications like you."
+      "message" : "Nu sunt de acord să risc să acord această livrare cuiva fără nicio calificare ca dvs."
    },
    "DISTANCE" : {
       "description" : "",
@@ -57,7 +57,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "GOING TO the {system} system? Money paid for delivery of a small package."
+      "message" : "MERGEȚI ÎN sistemul {system}? Plătesc pentru livrarea unui mic pachet."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -113,11 +113,11 @@
    },
    "FLAVOUR_2_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "It is a research proposal and must be delivered by the deadline or we may not get funding."
+      "message" : "Este o propunere de cercetare și trebuie livrată la termen, altfel nu primim fonduri."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "DELIVERY. Documents to the {system} system. {cash} to an experienced pilot."
+      "message" : "LIVRARE. Documente de trimis în sistemul {system}. {cash} pentru un pilot experimentat."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -133,11 +133,11 @@
    },
    "FLAVOUR_3_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Some extremely sensitive documents have fallen into my hands, and I have reason to believe that the leak has been traced to me."
+      "message" : "Niște documente extrem de importante au ajuns în mâinile mele și am motive să cred că mi-a fost luată urma."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "POSTAL SERVICE. We require a ship for the delivery run to {system} system."
+      "message" : "SERVICIU POȘTAL. Avem nevoie de o navă care să facă o cursă de livrare până în sistemul {system}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_4_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "We would be happy to pay you less money."
+      "message" : "Am fi încântați să vă dăm mai puțini bani."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "What are these? Oh, you took so long that I forgot I'd even sent this!"
+      "message" : "Ce-i cu astea? O, v-a luat așa mult că am și uitat că le-am trimis."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -189,11 +189,11 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the package, you have been paid in full."
+      "message" : "Mulțumim pentru pachet, ați fost plătit integral."
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "I don't think it's a lot."
+      "message" : "Nu cred că e mult."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -213,23 +213,23 @@
    },
    "FLAVOUR_7_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Standard rates, we work with the market."
+      "message" : "Rate standard, lucrăm cu magazinul."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "NEARBY DELIVERY. Require quick delivery of an item to {starport}."
+      "message" : "LIVRARE ÎN APROPIERE. Vrem o livrare rapidă a unui obiect la {starport}."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
-      "message" : "You were offered a premium for quick delivery! I refuse to pay for this."
+      "message" : "Vi s-a oferit o răsplată pentru o livrare rapidă! Refuz să plătesc pentru asta."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} and I need this item delivered to a friend at {starport} pronto, I'll pay you {cash} credits if you get it there in a reasonable time."
+      "message" : "Numele meu este {name} și am nevoie să trimit acest obiect unui prieten din {starport} pronto. Vă voi plăti {cash} dacă ajungeți acolo în timp util."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Your prompt delivery is appreciated, I have credited your account accordingly."
+      "message" : "Livrarea dvs. punctuală este apreciată. V-am adăugat creditat contul în mod corespunzător."
    },
    "FLAVOUR_8_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelihood depends on it."
+      "message" : "Viața noastră depinde de asta."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
