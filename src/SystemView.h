@@ -63,6 +63,7 @@ public:
 	virtual void Draw3D();
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
+	static const Uint16 N_VERTICES_MAX;
 	void PutOrbit(const Orbit *orb, const vector3d &offset, const Color &color, double planetRadius = 0.0);
 	void PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans);
 	void PutLabel(const SystemBody *b, const vector3d &offset);
@@ -120,6 +121,9 @@ private:
 	Graphics::RenderState *m_lineState;
 	Graphics::Drawables::Lines m_orbits;
 	Graphics::Drawables::Lines m_selectBox;
+
+	std::unique_ptr<vector3f[]> m_orbitVts;
+	std::unique_ptr<Color[]> m_orbitColors;
 };
 
 #endif /* _SYSTEMVIEW_H */
