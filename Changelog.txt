@@ -1,3 +1,10 @@
+October 2015
+   * New Features
+     * Fade orbits faster and darker (#3469)
+
+   * Fixes
+     * Miscellaneous warnings fixes (#3472)
+
 September 2015
    * New Features
      * Control how many stars in the sky (#3431)
