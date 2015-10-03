@@ -181,11 +181,11 @@
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Skanowanie obiektu"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Skanowanie najbliższego obiektu pod względem zasobów."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
