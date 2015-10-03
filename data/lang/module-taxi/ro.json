@@ -9,15 +9,15 @@
    },
    "CORPORATIONS_10" : {
       "description" : "",
-      "message" : "Bulk Ships"
+      "message" : "Nave En-gros"
    },
    "CORPORATIONS_11" : {
       "description" : "",
-      "message" : "Arment Aerodynamics"
+      "message" : "Aerodinamice Arment"
    },
    "CORPORATIONS_2" : {
       "description" : "",
-      "message" : "Cool Cola"
+      "message" : "Cola Rece"
    },
    "CORPORATIONS_3" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "CORPORATIONS_4" : {
       "description" : "",
-      "message" : "Aquarian Shipbuilding"
+      "message" : "Constucții Nave Aquarian"
    },
    "CORPORATIONS_5" : {
       "description" : "",
@@ -41,7 +41,7 @@
    },
    "CORPORATIONS_8" : {
       "description" : "",
-      "message" : "Vega Line"
+      "message" : "Linia Vega"
    },
    "CORPORATIONS_9" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
    },
    "FLAVOUR_0_WHEREAREWE" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Doar unul."
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
    },
    "FLAVOUR_10_WHEREAREWE" : {
       "description" : "",
@@ -177,15 +177,15 @@
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Doar unul."
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l. Voi plăti {cash}."
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
    },
    "FLAVOUR_11_WHEREAREWE" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "FLAVOUR_12_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Doar unul."
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage for a small group to {system} system. Will pay {cash}."
+      "message" : "CAUT: Un mic grup caută traversarea în sistemul {system}. Vom plăti {cash}."
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FLAVOUR_5_WHYSOMUCH" : {
       "description" : "",
-      "message" : "Didn't you know - I'm a well known dream star."
+      "message" : "Nu știți - sunt un actor bine cunoscut."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the nice trip. You have been paid in full."
+      "message" : "Mulțumim pentru o călătorie plăcută. Ați fost plătit integral."
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Mafia want me dead."
+      "message" : "Mafia mă vrea mort."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -469,11 +469,11 @@
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l. Voi plăti {cash}."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
    },
    "FLAVOUR_8_WHEREAREWE" : {
       "description" : "",
@@ -501,11 +501,11 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l. Voi plăti {cash}."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the fast ride. You have been paid in full."
+      "message" : "Mulţumim pentru transportul rapid. Ați fost plătit integral."
    },
    "FLAVOUR_9_WHEREAREWE" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "FROM" : {
       "description" : "",
-      "message" : "From:"
+      "message" : "De la:"
    },
    "GROUP_DETAILS" : {
       "description" : "",
@@ -529,11 +529,11 @@
    },
    "HOW_MANY_OF_YOU_ARE_THERE" : {
       "description" : "",
-      "message" : "How many of you are there?"
+      "message" : "Câți sunteți?"
    },
    "HOW_SOON_YOU_MUST_BE_THERE" : {
       "description" : "",
-      "message" : "How soon you must be there?"
+      "message" : "Cât de repede trebuie să ajungeți?"
    },
    "I_MUST_BE_THERE_BEFORE" : {
       "description" : "",
@@ -541,7 +541,7 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "al"
+      "message" : "a.l."
    },
    "OK_AGREED" : {
       "description" : "",
