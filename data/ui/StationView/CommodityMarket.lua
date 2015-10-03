@@ -96,8 +96,8 @@ local commodityMarket = function (args)
 	local confirmtradesell = ui:Button("Confirm sale"):SetFont("HEADING_LARGE")
 	local nobutton = nil
 	local showbuysellbutton = confirmtradebuy
-	local sellfromcargo = ui:Button("Sell")
-	local buyfrommarket = ui:Button("Buy")
+	local sellfromcargo = ui:Button(l.SELL)
+	local buyfrommarket = ui:Button(l.BUY)
 
 	local commonHeader =
 		ui:HBox()						--blank header for right pane, filled in by code once user has selected which commodity to trade in
@@ -114,13 +114,13 @@ local commodityMarket = function (args)
 
 	-- calls to this function alter traded amount up or down, not absolute values
 	local changeTradeamount = function (delta)
-		
+
 		--get price of commodity after applying local effects of import/export modifiers
 		local price = Game.player:GetDockedWith():GetEquipmentPrice(tradecommodity)
 
 		--do you have any money?
 		local playercash = Game.player:GetMoney()
-		
+
 		--blank value, needs to be initialized or later on lua will complain
 		local stock
 
@@ -145,13 +145,13 @@ local commodityMarket = function (args)
 		else
 			stock = Game.player:CountEquip(tradecommodity)
 		end
-		
+
 		--dont alter tradeamount before checks have been made
 		local wantamount = tradeamount + delta
-		
+
 		--how much would the desired amount of merchandise cost?
 		local tradecost = wantamount * price
-		
+
 		--we cant trade more units than we have in stock
 		if delta > 0 and wantamount > stock then --this line is why stock needs to be initialized up there. its possible to get here without stock being set (?)
 			wantamount = stock
@@ -164,7 +164,7 @@ local commodityMarket = function (args)
 
 		--another empty initialized
 		local tradeword
-		
+
 		if trade_mode == trade_mode_buy then
 			local playerfreecargo = Game.player.freeCapacity
 			if tradecost > playercash then
@@ -185,13 +185,13 @@ local commodityMarket = function (args)
 			end
 			tradeword = "Sell "
 		end
-		
+
 		--wantamount is now checked and modified to a safe bounded amount
 		tradeamount = wantamount
-		
+
 		--current cost of market order if user confirms the deal
 		tradecost = tradeamount * price
-		
+
 		--its possible to get to this line without tradeword being initialized unless done 30 rows up
 		buysell:SetInnerWidget(ui:Label(tradeword..tradeamount.." units for "..Format.Money(tradecost)):SetFont("LARGE"))
 	end
@@ -315,7 +315,7 @@ local commodityMarket = function (args)
 		local stock = Game.player:GetDockedWith():GetEquipmentStock(tradecommodity)
 		local playerfreecargo = Game.player.freeCapacity
 		local orderamount = price * tradeamount
-	
+
 		--if commodity price is negative (radioactives, garbage), player needs to have enough cash
 		--todo: checks! needed? changetradeamount() already does checking
 		--all checks passed
@@ -323,13 +323,13 @@ local commodityMarket = function (args)
 		Game.player:AddMoney(orderamount) --grab the money
 		Game.player:GetDockedWith():AddEquipmentStock(tradecommodity, tradeamount)
 		changeTradeamount(-tradeamount) --reset the trade amount
-		
+
 		--if player sold all his cargo, switch to buy panel
 		if Game.player:CountEquip(tradecommodity) == 0 then
 			trade_mode = trade_mode_buy
 			showbuysellbutton = confirmtradebuy
 		end
-		
+
 		--update market rows
 		tradeamount = 0;
 		changeTradeamount(0) --update trade amount text
@@ -345,7 +345,7 @@ local commodityMarket = function (args)
 		changeTradeamount(0)
 		buyorsell()
 	end)
-	
+
 	--code to change from sell mode to buy, attached to button onclick
 	buyfrommarket.onClick:Connect(function ()
 		trade_mode = trade_mode_buy
@@ -358,7 +358,7 @@ local commodityMarket = function (args)
 	--attach code to confirm buttons
 	confirmtradebuy.onClick:Connect(doBuy)
 	confirmtradesell.onClick:Connect(doSell)
-	
+
 	-- when you click on a row in the stations commodity list
 	marketTable.onRowClicked:Connect(function(row)
 		local e = marketRows[row+1] --skip header row with the +1 (?)
@@ -407,4 +407,3 @@ local commodityMarket = function (args)
 end
 
 return commodityMarket
-
