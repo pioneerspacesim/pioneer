@@ -736,7 +736,7 @@ misc.hull_autorepair = EquipType.New({
 })
 misc.trade_analyzer = EquipType.New({
 	l10n_key="TRADE_ANALYZER", slots="trade_analyzer", price=400,
-	capabilities={mass=0, trade_analyzer=1}, purchasable=true
+	capabilities={mass=0, trade_analyzer=1, software=1}, purchasable=true
 })
 misc.planetscanner = BodyScannerType.New({
 	l10n_key = 'PLANETSCANNER', slots="sensor", price=15000,

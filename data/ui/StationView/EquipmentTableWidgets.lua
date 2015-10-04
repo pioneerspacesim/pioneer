@@ -89,6 +89,12 @@ local defaultStationColumnValue = {
 	name  = function (e, funcs) return e:GetName() end,
 	price = function (e, funcs) return Format.Money(funcs.getBuyPrice(e)) end,
 	buy   = function (e, funcs) return Format.Money(funcs.getBuyPrice(e)) end,
+	sell  = function (e, funcs)
+		if e.capabilities.software then
+			return "--"
+		end
+		return Format.Money(funcs.getSellPrice(e))
+	end,
 	sell  = function (e, funcs) return Format.Money(funcs.getSellPrice(e)) end,
 	stock = function (e, funcs) return funcs.getStock(e) end,
 	mass  = function (e, funcs) return string.format("%dt", e.capabilities.mass) end,
@@ -266,6 +272,11 @@ function EquipmentTableWidgets.Pair (config)
 
 	local function onSell (e)
 		if not funcs.onClickSell(e) then return end
+
+		if e.capabilities.software then
+			MessageBox.Message("System software upgrades can not be uninstalled and resold. Visit a ship service station if you want to purge the upgrade from your on board computer.")
+			return
+		end
 
 		local player = Game.player
 
