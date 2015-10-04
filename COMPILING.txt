@@ -26,7 +26,7 @@ Pioneer is known to build on the following platforms and build systems:
 Linux: GNU Autotools with GCC or Clang
 Windows: Microsoft Visual C++ 2013 (Express Edition or Pro)
 Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
-OS X: GNU Autotools or XCode 4
+OS X: XCode 4 or Homebrew or GNU Autotools
 
 The Autotools build system is usually the most up-to-date, and is what is used
 to produce the Linux and Windows builds. The others typically lag behind,

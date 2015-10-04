@@ -2,6 +2,7 @@ October 2015
    * New Features
      * Fade orbits faster and darker (#3469)
      * Commodity Market rewrite (#3467)
+     * OS X Homebrew Build script (#3447)
 
    * Fixes
      * Miscellaneous warnings fixes (#3472)
