@@ -317,7 +317,7 @@
    },
    "WHERE_CAN_I_FIND_X" : {
       "description" : "",
-      "message" : "Unde pot găsi {target}?"
+      "message" : "Unde pot găsi pe {target}?"
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",

@@ -105,19 +105,19 @@
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nu."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Inacceptabil! V-a luat o veșnicie. Nu suntem de acored să plătim."
    },
    "FLAVOUR_0_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Suntem {group}."
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -129,19 +129,19 @@
    },
    "FLAVOUR_0_WHYSOMUCH" : {
       "description" : "",
-      "message" : "We are visiting a friend."
+      "message" : "Vizităm un prieten."
    },
    "FLAVOUR_10_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
    },
    "FLAVOUR_10_DANGER" : {
       "description" : "",
-      "message" : "I think someone is following me."
+      "message" : "Cred că cineva mă urmărește."
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
-      "message" : "You are such an inexperienced pilot. I'm not going to pay for this."
+      "message" : "Sunteți un pilot atât de prost. Nu o să plătesc pentru asta."
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I want fast passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Paying {cash}."
+      "message" : "Numele meu este {name}. Vreau să ajung repede în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_10_SUCCESSMSG" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_10_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_10_WHYSOMUCH" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_11_ADTEXT" : {
       "description" : "",
-      "message" : "FAST SHIP: Passage on a fast ship to {system} system."
+      "message" : "NAVĂ RAPIDĂ: Transportul pe o navă rapidă până în sistemul {system}."
    },
    "FLAVOUR_11_DANGER" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
-      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l. Voi plăti {cash}."
+      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
    },
    "FLAVOUR_11_SUCCESSMSG" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_11_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_11_WHYSOMUCH" : {
       "description" : "",
@@ -217,15 +217,15 @@
    },
    "FLAVOUR_12_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you for the ride. You have been paid in full."
+      "message" : "Mulțumim pentru călătorie. Ați fost plătit integral."
    },
    "FLAVOUR_12_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_12_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I owe someone some money, and they're after me."
+      "message" : "Sunt dator cuiva și mă urmăresc."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -233,19 +233,19 @@
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nu."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Inacceptabil! V-a luat o veșnicie. Nu suntem de acord să plătim."
    },
    "FLAVOUR_1_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Suntem {group}."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "FLAVOUR_1_WHYSOMUCH" : {
       "description" : "",
-      "message" : "We work for {corp} corporation and they are paying."
+      "message" : "Lucrăm pentru firma {corp} și plătesc ei."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -265,19 +265,19 @@
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nu."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. We are not willing to pay you."
+      "message" : "Inacceptabil! V-a luat o veșnicie. Nu suntem de acored să plătim."
    },
    "FLAVOUR_2_HOWMANY" : {
       "description" : "",
-      "message" : "There are {group} of us."
+      "message" : "Suntem {group}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage for a small group to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, sunt {name} și am nevoie de cineva care să transporte un mic grup de oameni în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -301,15 +301,15 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
    },
    "FLAVOUR_3_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Sunt doar eu."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -317,19 +317,19 @@
    },
    "FLAVOUR_3_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_3_WHYSOMUCH" : {
       "description" : "",
-      "message" : "An old rival is trying to kill me."
+      "message" : "Un rival vechi de-al meu încearcă să mă omoare."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "CAUT NAVĂ: Călătorie în sistemul {system}. Plătesc {cash}."
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nu."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -337,11 +337,11 @@
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
-      "message" : "Just me."
+      "message" : "Doar eu."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "FLAVOUR_4_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_4_WHYSOMUCH" : {
       "description" : "",
@@ -357,11 +357,11 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "CAUT: Călătorie în sistemul {system}. Plătesc {cash}."
    },
    "FLAVOUR_5_DANGER" : {
       "description" : "",
-      "message" : "You might get some interest from the press. Just ignore them."
+      "message" : "S-ar putea să primiți atenție din partea presei. Vă rog să o ignorați."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -369,11 +369,11 @@
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Sunt doar eu."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -381,7 +381,7 @@
    },
    "FLAVOUR_5_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_5_WHYSOMUCH" : {
       "description" : "",
@@ -389,23 +389,23 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage to {system} system. Will pay {cash}."
+      "message" : "CAUT NAVĂ: Pentru o călătorie în sistemul {system}. Plătesc {cash}."
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nu."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
    },
    "FLAVOUR_6_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Sunt doar eu."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, I'm {name} and I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, sunt {name} și am nevoie să ajung în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "FLAVOUR_6_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Safe passage to {system} system. Will pay {cash}."
+      "message" : "CAUT NAVĂ: Pentru o călătorie în siguranță până în sistemul {system}."
    },
    "FLAVOUR_7_DANGER" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
@@ -437,15 +437,15 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Hi, my name is {name} and I need safe passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. I will pay {cash}."
+      "message" : "Salut, numele meu este {name} și am nevoie să ajung în siguranță în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Plătesc {cash}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me safely here. I've paid in full. Good Luck!"
+      "message" : "Mulțumesc că m-ai adus aici în siguranță. Am plătit integral. Mult noroc!"
    },
    "FLAVOUR_7_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
@@ -453,23 +453,23 @@
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
    },
    "FLAVOUR_8_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Nu."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable! You took forever. I'm not willing to pay you."
+      "message" : "Inacceptabil! V-a luat o veșnicie. Nu sunt de acord să plătesc."
    },
    "FLAVOUR_8_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Doar eu."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l. Voi plăti {cash}."
+      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
@@ -477,15 +477,15 @@
    },
    "FLAVOUR_8_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_8_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm visiting a sick relative."
+      "message" : "Vizitez o rudă bolnavă."
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP WANTED: Passage on a fast ship to {system} system."
+      "message" : "CAUT NAVĂ: Pentru o călătorie rapidă până în sistemul {system}."
    },
    "FLAVOUR_9_DANGER" : {
       "description" : "",
@@ -497,11 +497,11 @@
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Doar eu."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), la o distanță de {dist} a.l. Voi plăti {cash}."
+      "message" : "Numele meu este {name}. Am nevoie să ajung rapid în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
@@ -509,11 +509,11 @@
    },
    "FLAVOUR_9_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? I've waited enough - take me to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat destul! Du-mă la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_9_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Police want me to help them with their enquiries."
+      "message" : "Poliția are nevoie de ajutorul meu la niște cercetări."
    },
    "FROM" : {
       "description" : "",
