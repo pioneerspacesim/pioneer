@@ -187,7 +187,7 @@ void Table::Inner::Draw()
 {
 	int row_top, row_bottom;
 	if (m_mouseEnabled && IsMouseOver() && RowUnderPoint(GetMousePos(), &row_top, &row_bottom) >= 0) {
-		GetContext()->GetSkin().DrawRectHover(Point(0, row_top), Point(GetSize().x, row_bottom - row_top));
+		GetContext()->GetSkin().DrawRectColor(m_hovercolor, Point(0, row_top), Point(GetSize().x, row_bottom - row_top));
 	}
 
 	Container::Draw();
@@ -289,6 +289,7 @@ Table::Table(Context *context) : Container(context),
 	AddWidget(m_body.Get());
 
 	m_body->onRowClicked.connect(sigc::mem_fun(&onRowClicked, &sigc::signal<void,unsigned int>::emit));
+	m_body->SetHoverColor(Color(0, 0, 0, GetContext()->GetSkin().AlphaHover_ub()));
 
 	m_slider.Reset(GetContext()->VSlider());
 	m_slider->onValueChanged.connect(sigc::mem_fun(this, &Table::OnScroll));
@@ -436,6 +437,10 @@ Table *Table::SetMouseEnabled(bool enabled)
 	return this;
 }
 
+void Table::SetHoverColor(const Color &c)
+{
+	m_body->SetHoverColor(c);
+}
 
 void Table::OnScroll(float value)
 {

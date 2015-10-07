@@ -45,7 +45,7 @@ public:
 	Table *SetHeadingFont(Font font);
 
 	Table *SetMouseEnabled(bool enabled);
-
+	void SetHoverColor(const Color &c);
 	void SetScrollPosition(float v);
 
 	sigc::signal<void,unsigned int> onRowClicked;
@@ -102,6 +102,7 @@ private:
 		void SetRowAlignment(RowAlignDirection dir);
 
 		void SetMouseEnabled(bool enabled) { m_mouseEnabled = enabled; }
+		void SetHoverColor(const Color &c) { m_hovercolor = c;  }
 
 		sigc::signal<void,unsigned int> onRowClicked;
 
@@ -118,8 +119,8 @@ private:
 		int m_rowSpacing;
 		RowAlignDirection m_rowAlignment;
 		bool m_dirty;
-
 		bool m_mouseEnabled;
+		Color m_hovercolor;
 	};
 
 	LayoutAccumulator m_layout;
