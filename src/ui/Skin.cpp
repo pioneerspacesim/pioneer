@@ -19,9 +19,9 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	IniConfig cfg;
 	// set defaults
 	cfg.SetInt("ButtonMinInnerSize", 16);
-	cfg.SetFloat("AlphaNormal", 0.0);
-	cfg.SetFloat("AlphaHover", 0.4);
-	cfg.SetFloat("AlphaSelect", 0.6);
+	cfg.SetString("NormalColorRGBA", "0,0,0,0");
+	cfg.SetString("HoverColorRGBA", "0,0,0,102");
+	cfg.SetString("SelectColorRGBA", "0,0,0,153");
 	// load
 	cfg.Read(FileSystem::gameDataFiles, filename);
 
@@ -87,9 +87,9 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 
 	m_buttonMinInnerSize      = cfg.Int("ButtonMinInnerSize");
 
-	m_alphaNormal = cfg.Float("AlphaNormal");
-	m_alphaSelect = cfg.Float("AlphaSelect");
-	m_alphaHover  = cfg.Float("AlphaHover");
+	m_normalColor = LoadSkinColor(cfg.String("NormalColorRGBA"));
+	m_hoverColor  = LoadSkinColor(cfg.String("HoverColorRGBA"));
+	m_selectColor = LoadSkinColor(cfg.String("SelectColorRGBA"));
 }
 
 Graphics::RenderState *Skin::GetRenderState(Graphics::BlendMode mode) const
@@ -259,6 +259,13 @@ Skin::EdgedRectElement Skin::LoadEdgedRectElement(const std::string &spec)
 	std::vector<int> v(5);
 	SplitSpec(spec, v);
 	return EdgedRectElement(v[0], v[1], v[2], v[3], v[4]);
+}
+
+Color Skin::LoadSkinColor(const std::string &spec)
+{
+	std::vector<int> v(4);
+	SplitSpec(spec, v);
+	return Color(v[0], v[1], v[2], v[3]);
 }
 
 }
