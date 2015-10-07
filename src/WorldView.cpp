@@ -613,6 +613,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_flightControlButton->Hide();
 			break;
 
+		case Ship::UNDOCKING:
+			m_flightStatus->SetText(Lang::UNDOCKING);
+			m_launchButton->Hide();
+			m_flightControlButton->Hide();
+			break;
+
 		case Ship::DOCKED:
 			m_flightStatus->SetText(Lang::DOCKED);
 			m_launchButton->Show();

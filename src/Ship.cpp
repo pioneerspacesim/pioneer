@@ -735,6 +735,7 @@ void Ship::SetFlightState(Ship::FlightState newState)
 	{
 		case FLYING:		SetMoving(true);	SetColliding(true);		SetStatic(false);	break;
 		case DOCKING:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
+		case UNDOCKING:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 // TODO: set collision index? dynamic stations... use landed for open-air?
 		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	break;

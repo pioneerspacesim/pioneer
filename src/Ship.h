@@ -113,6 +113,7 @@ public:
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)
 		DOCKING,    // in docking animation
+		UNDOCKING,  // in docking animation
 		DOCKED,     // docked with station
 		LANDED,     // rough landed (not docked)
 		JUMPING,    // between space and hyperspace ;)
