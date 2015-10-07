@@ -345,7 +345,7 @@ private:
 	AIError m_aiMessage;
 	bool m_decelerating;
 
-	double m_thrusterFuel; 	// remaining fuel 0.0-1.0
+	double m_thrusterFuel;	// remaining fuel 0.0-1.0
 	double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 
 	double m_landingMinOffset;	// offset from the centre of the ship used during docking

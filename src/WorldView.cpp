@@ -384,8 +384,8 @@ void WorldView::SetCamType(enum CamType c)
 
 void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 {
-       if (m_internalCameraController->GetMode() != m)
-               Pi::BoinkNoise();
+	if (m_internalCameraController->GetMode() != m)
+		Pi::BoinkNoise();
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	UpdateCameraName();
@@ -1562,9 +1562,9 @@ void WorldView::UpdateProjectedObjects()
 
 			// only show labels on large or nearby bodies
 			if (b->IsType(Object::PLANET) ||
-			    b->IsType(Object::STAR) ||
-			    b->IsType(Object::SPACESTATION) ||
-			    Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+				b->IsType(Object::STAR) ||
+				b->IsType(Object::SPACESTATION) ||
+				Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
 			{
 				std::string bodyName = b->GetLabel();
 				// offset the label so it doesn't intersect with the icon drawn around the
@@ -2030,9 +2030,9 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		DrawEdgeMarker(marker, c);
 
 	m_targetIcon->Draw(Pi::renderer,
-			   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
-						marker.pos.y - HUD_CROSSHAIR_SIZE),
-			   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
+					   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
+								marker.pos.y - HUD_CROSSHAIR_SIZE),
+					   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c)
