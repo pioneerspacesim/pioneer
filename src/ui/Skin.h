@@ -230,7 +230,7 @@ private:
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
 	EdgedRectElement LoadEdgedRectElement(const std::string &spec);
-	Color Skin::LoadSkinColor(const std::string &spec);
+	Color LoadSkinColor(const std::string &spec);
 
 	BorderedRectElement m_backgroundNormal;
 	BorderedRectElement m_backgroundActive;
