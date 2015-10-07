@@ -61,7 +61,7 @@
    },
    "DENY_0" : {
       "description" : "",
-      "message" : "I'm sorry, but I don't think I could trust you with my safety."
+      "message" : "Imi cer scuze, dar nu cred că pot să-mi pun siguranța în mâinile dvs."
    },
    "DENY_1" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "You don't look like someone capable of transporting people."
+      "message" : "Nu păreți a fi cineva capabil să transportați oameni."
    },
    "DENY_4" : {
       "description" : "",
@@ -81,15 +81,15 @@
    },
    "DENY_5" : {
       "description" : "",
-      "message" : "You seem much too inexperienced to handle a transport of this importance."
+      "message" : "Păreți a fi prea lipsit de experiență pentru a vă ocupa de un transport atât de important."
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "I have never heard of you. I need someone experienced for this journey."
+      "message" : "Nu am auzit niciodată de dvs. Am nevoie de cineva cu experiență pentru această călătorie."
    },
    "DENY_7" : {
       "description" : "",
-      "message" : "I'm not willing to risk my life on someone without any qualifications like you."
+      "message" : "Nu sunt dispus(ă) să-mi risc viața cu cineva fără nicio calificare ca dvs."
    },
    "DISTANCE" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_0_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? We've waited enough - take us to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_0_WHYSOMUCH" : {
       "description" : "",
@@ -161,7 +161,7 @@
    },
    "FLAVOUR_10_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I would rather someone didn't find me."
+      "message" : "Aș prefera să nu mă găsească nimeni."
    },
    "FLAVOUR_11_ADTEXT" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "FLAVOUR_11_DANGER" : {
       "description" : "",
-      "message" : "Sometimes people don't want to be inspected."
+      "message" : "Uneori oamenii preferă să nu fie controlați."
    },
    "FLAVOUR_11_FAILUREMSG" : {
       "description" : "",
-      "message" : "I'm going to lose my job because of your incompetence. So I need that money more than you."
+      "message" : "O să-mi pierd slujba din cauza incompetenței tale. Așa că am nevoie de bani mai mult decât tine."
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
@@ -193,19 +193,19 @@
    },
    "FLAVOUR_11_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm a factory inspector doing my rounds."
+      "message" : "Sunt un inspector de fabrici care vreau să îmi fac turele."
    },
    "FLAVOUR_12_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP REQUIRED: Passage to {system} system."
+      "message" : "CAUT NAVĂ: Un drum până în sistemul {system}."
    },
    "FLAVOUR_12_DANGER" : {
       "description" : "",
-      "message" : "Someone is chasing me."
+      "message" : "Mă urmărește cineva."
    },
    "FLAVOUR_12_FAILUREMSG" : {
       "description" : "",
-      "message" : "I do not have enough money. Sorry."
+      "message" : "Nu am suficienți bani. Scuze."
    },
    "FLAVOUR_12_HOWMANY" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name}. I need passage to {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly. Will pay {cash}."
+      "message" : "Numele meu este {name}. Am nevoie să merg în sistemul {system} ({sectorx}, {sectory}, {sectorz}), care e la distanța de {dist} a.l. Voi plăti {cash}."
    },
    "FLAVOUR_12_SUCCESSMSG" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_1_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? We've waited enough - take us to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_1_WHYSOMUCH" : {
       "description" : "",
@@ -281,23 +281,23 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for bringing us here. We've now paid in full. Good Luck!"
+      "message" : "Mulțumim că ne-ați adus aici. Am plătit integral. Mult noroc!"
    },
    "FLAVOUR_2_WHEREAREWE" : {
       "description" : "",
-      "message" : "Where are we? We've waited enough - take us to the nearest station NOW!"
+      "message" : "Unde suntem? Am așteptat suficient! Du-ne la cea mai apropiată stație ACUM!"
    },
    "FLAVOUR_2_WHYSOMUCH" : {
       "description" : "",
-      "message" : "It's normal business trip."
+      "message" : "E o călătorie normală de afaceri."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP REQUIRED: Passage to {system} system. Will pay {cash}."
+      "message" : "CAUT NAVĂ: O cursă către sistemul {system}. Plătesc {cash}."
    },
    "FLAVOUR_3_DANGER" : {
       "description" : "",
-      "message" : "I think there is an assassin on my trail, and they may come after you."
+      "message" : "Cred că mă urmărește un asasin și s-ar putea să vă urmărească."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "Don't even ask for payment! I'm reporting you to the authorities."
+      "message" : "Nici să nu încerci să-mi ceri să plătesc! Te voi raporta la autorități."
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thanks for carrying me here. I've paid in full. Good Luck!"
+      "message" : "Mulțumesc că m-ați adus până aici. Am plătit integral. Mult noroc!"
    },
    "FLAVOUR_4_WHEREAREWE" : {
       "description" : "",
@@ -353,7 +353,7 @@
    },
    "FLAVOUR_4_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm traveling salesman."
+      "message" : "Sunt un vânzător ambulant."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "What have you done! My tour is all spoilt and I lost half of my fans."
+      "message" : "Ce ai făcut! Mi-ai stricat turneul și mi-am pierdut jumătate din fani."
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm freelance journalist."
+      "message" : "Sunt un jurnalist liber-profesionist."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "FLAVOUR_7_DANGER" : {
       "description" : "",
-      "message" : "The Mafia don't take kindly to people helping their enemies."
+      "message" : "Mafia nu iartă ușor oamenii care-i ajută pe inamicii lor."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
-      "message" : "Me and nobody else."
+      "message" : "Eu și atât."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -489,11 +489,11 @@
    },
    "FLAVOUR_9_DANGER" : {
       "description" : "",
-      "message" : "The Police may try to stop you."
+      "message" : "S-ar putea să vă oprească Poliția."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
-      "message" : "Useless! You took forever. I'm not willing to pay you."
+      "message" : "Inutil! V-a luat o veșnicie. Nu am de gând să plătesc."
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
