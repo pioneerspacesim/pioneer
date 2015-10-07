@@ -6,6 +6,7 @@ October 2015
 
    * Fixes
      * Miscellaneous warnings fixes (#3472)
+     * Commodity language fix (#3476)
 
 September 2015
    * New Features
