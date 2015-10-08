@@ -577,11 +577,11 @@
    },
    "MARKET_BUYLINE" : {
       "description" : "",
-      "message" : "Buy {amount} units for {price}"
+      "message" : "Acquista {amount} unità per {price}"
    },
    "MARKET_SELLINE" : {
       "description" : "",
-      "message" : "Sell {amount} units for {price}"
+      "message" : "Vendi {amount} unità per {price}"
    },
    "MASS" : {
       "description" : "",
