@@ -509,6 +509,7 @@ void GeoSphere::SetUpMaterials()
 		//normal star
 		surfDesc.lighting = false;
 		surfDesc.quality &= ~Graphics::HAS_ATMOSPHERE;
+		surfDesc.effect = Graphics::EFFECT_GEOSPHERE_STAR;
 	} else {
 		//planetoid with or without atmosphere
 		const SystemBody::AtmosphereParameters ap(GetSystemBody()->CalcAtmosphereParams());
