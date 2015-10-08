@@ -1,11 +1,11 @@
 {
    "BASE" : {
       "description" : "",
-      "message" : "base"
+      "message" : "قاعدة"
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "قاعدات"
    },
    "BODIES" : {
       "description" : "",
@@ -17,18 +17,18 @@
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : "لقد قمت باكتشاف {portcount} مخفي {bases}!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "استكشاف نظام بـ {bodycount} رائد {bodies}."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is almost empty."
+      "message" : "غزان الوقود سوف يفرغ قريبا."
    },
    "YOUR_FUEL_TANK_IS_EMPTY" : {
       "description" : "",
-      "message" : "Your fuel tank is empty."
+      "message" : "خزان الوقود فارغ."
    }
 }
