@@ -291,7 +291,9 @@ bool Game::UpdateTimeAccel()
 	}
 
 	// force down to timeaccel 1 during the docking sequence or when just initiating hyperspace
-	else if (m_player->GetFlightState() == Ship::DOCKING || m_player->GetFlightState() == Ship::JUMPING) {
+	else if (m_player->GetFlightState() == Ship::DOCKING ||
+			 m_player->GetFlightState() == Ship::JUMPING ||
+			 m_player->GetFlightState() == Ship::UNDOCKING) {
 		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
 		RequestTimeAccel(newTimeAccel);
 	}

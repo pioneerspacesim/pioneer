@@ -335,7 +335,7 @@ bool SpaceStation::LaunchShip(Ship *ship, const int port)
 	sd.fromPos = (ship->GetPosition() - GetPosition() + up) * GetOrient();	// station space
 	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * mt);
 
-	ship->SetFlightState(Ship::DOCKING);
+	ship->SetFlightState(Ship::UNDOCKING);
 
 	return true;
 }
@@ -567,7 +567,9 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_YELLOW);
 			continue;
 		}
-		if (dt.ship->GetFlightState() != Ship::DOCKED && dt.ship->GetFlightState() != Ship::DOCKING)
+		if (dt.ship->GetFlightState() != Ship::DOCKED
+			 && dt.ship->GetFlightState() != Ship::DOCKING
+			 && dt.ship->GetFlightState() != Ship::UNDOCKING)
 			continue;
 		PositionDockedShip(dt.ship, i);
 		m_navLights->SetColor(i+1, NavLights::NAVLIGHT_RED); //docked

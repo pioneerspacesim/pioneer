@@ -1699,6 +1699,10 @@
       "description" : "",
       "message" : "This system was explored on %date."
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<unknown>"

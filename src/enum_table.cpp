@@ -93,6 +93,7 @@ const struct EnumItem ENUM_PolitGovType[] = {
 const struct EnumItem ENUM_ShipFlightState[] = {
 	{ "FLYING", int(Ship::FLYING) },
 	{ "DOCKING", int(Ship::DOCKING) },
+	{ "UNDOCKING", int(Ship::UNDOCKING) },
 	{ "DOCKED", int(Ship::DOCKED) },
 	{ "LANDED", int(Ship::LANDED) },
 	{ "JUMPING", int(Ship::JUMPING) },
