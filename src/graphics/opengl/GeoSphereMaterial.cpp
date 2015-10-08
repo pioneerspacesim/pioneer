@@ -201,66 +201,8 @@ void GeoSphereStarMaterial::SetGSUniforms()
 	OGL::Material::Apply();
 
 	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
-	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
-	const SystemBody::AtmosphereParameters ap = params.atmosphere;
 
 	p->emission.Set(this->emissive);
-	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
-	p->atmosColor.Set(ap.atmosCol);
-	p->geosphereAtmosFogDensity.Set(ap.atmosDensity);
-	p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
-	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
-	p->geosphereCenter.Set(ap.center);
-	p->geosphereRadius.Set(ap.planetRadius);
-
-	if (this->texture0) {
-		p->texture0.Set(this->texture0, 0);
-		p->texture1.Set(this->texture1, 1);
-
-		const float fDetailFrequency = pow(2.0f, float(params.maxPatchDepth) - float(params.patchDepth));
-
-		p->detailScaleHi.Set(hiScale * fDetailFrequency);
-		p->detailScaleLo.Set(loScale * fDetailFrequency);
-	}
-
-	//Light uniform parameters
-	for (Uint32 i = 0; i<m_renderer->GetNumLights(); i++) {
-		const Light& Light = m_renderer->GetLight(i);
-		p->lights[i].diffuse.Set(Light.GetDiffuse());
-		p->lights[i].specular.Set(Light.GetSpecular());
-		const vector3f& pos = Light.GetPosition();
-		p->lights[i].position.Set(pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
-	}
-
-	// we handle up to three shadows at a time
-	/*int occultedLight[3] = { -1,-1,-1 };
-	vector3f shadowCentreX;
-	vector3f shadowCentreY;
-	vector3f shadowCentreZ;
-	vector3f srad;
-	vector3f lrad;
-	vector3f sdivlrad;
-	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
-	int j = 0;
-	while (j<3 && it != itEnd) {
-		occultedLight[j] = it->occultedLight;
-		shadowCentreX[j] = it->centre[0];
-		shadowCentreY[j] = it->centre[1];
-		shadowCentreZ[j] = it->centre[2];
-		srad[j] = it->srad;
-		lrad[j] = it->lrad;
-		sdivlrad[j] = it->srad / it->lrad;
-		++it;
-		++j;
-	}
-	p->shadows.Set(j);
-	p->occultedLight.Set(occultedLight);
-	p->shadowCentreX.Set(shadowCentreX);
-	p->shadowCentreY.Set(shadowCentreY);
-	p->shadowCentreZ.Set(shadowCentreZ);
-	p->srad.Set(srad);
-	p->lrad.Set(lrad);
-	p->sdivlrad.Set(sdivlrad);*/
 }
 
 }
