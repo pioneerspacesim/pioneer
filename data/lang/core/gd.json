@@ -1723,6 +1723,10 @@
       "description" : "",
       "message" : "Siostam trì-fillteach"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Siostam gun rùrachadh. Chan eil barrachd dàta ri làimh."

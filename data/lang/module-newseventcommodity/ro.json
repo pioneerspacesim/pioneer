@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "ȘTIRI {date}: Boală infecțioasă s-a răspândit în tot sistemul {system}. Numărul de morți crește."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Boală infecțioasă face ravagii în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Oficialii solicită ajutor medical."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "ȘTIRI {date}: Conflict escaladează în sistemul {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Conflictul de lungă durată din sistemul {system} ({sectorx}, {sectory}, {sectorz}) a escaladat în lupte deschise între armate."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "ȘTIRI {date}: Secetă în sistemul {system}. Recolta ruinată."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
