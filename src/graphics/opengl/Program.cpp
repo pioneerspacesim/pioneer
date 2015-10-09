@@ -84,7 +84,6 @@ struct Shader {
 
 		std::string strCode(filecode->AsStringRange().ToString());
 		size_t found = strCode.find("#include");
-		char incPathBuffer[4096];
 		while (found != std::string::npos) 
 		{
 			// find the name of the file to include
@@ -103,7 +102,7 @@ struct Shader {
 			}
 
 			// build path for include
-			sprintf(incPathBuffer, "shaders/opengl/%s", incFilename.c_str());
+			const std::string incPathBuffer = stringf("shaders/opengl/%0", incFilename);
 
 			// read included file
 			RefCountedPtr<FileSystem::FileData> incCode = FileSystem::gameDataFiles.ReadFile(incPathBuffer);
@@ -115,7 +114,7 @@ struct Shader {
 				found = strCode.find("#include");
 			}
 			else {
-				Error("Could not load %s", incPathBuffer);
+				Error("Could not load %s", incPathBuffer.c_str());
 			}
 		}
 		// Store the modified text with the included files (if any)
