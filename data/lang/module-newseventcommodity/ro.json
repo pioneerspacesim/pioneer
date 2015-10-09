@@ -133,7 +133,7 @@
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Secetă severă a ruinat recolta în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Lumea se teme că foametea va afecta tot sistemul."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
