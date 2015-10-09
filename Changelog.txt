@@ -8,6 +8,9 @@ October 2015
      * Miscellaneous warnings fixes (#3472)
      * Commodity language fix (#3476)
      * Split the flightstate DOCKING into an UNDOCKING state as well (#3481)
+  
+   * Internal Changes
+     * Exposing full color values instead of only alphas in skin.ini (#3486)
 
 September 2015
    * New Features
