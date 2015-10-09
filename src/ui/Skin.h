@@ -126,13 +126,13 @@ public:
 
 	void DrawRectColor(const Color &col, const Point &pos, const Point &size) const;
 	void DrawRectNormal(const Point &pos, const Point &size) const {
-		DrawRectColor(Color(0,0,0,AlphaNormal_ub()), pos, size);
+		DrawRectColor(m_normalColor, pos, size);
 	}
 	void DrawRectHover(const Point &pos, const Point &size) const {
-		DrawRectColor(Color(0,0,0,AlphaHover_ub()), pos, size);
+		DrawRectColor(m_hoverColor, pos, size);
 	}
 	void DrawRectSelect(const Point &pos, const Point &size) const {
-		DrawRectColor(Color(0,0,0,AlphaSelect_ub()), pos, size);
+		DrawRectColor(m_selectColor, pos, size);
 	}
 
 
@@ -200,13 +200,9 @@ public:
 
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
 
-	float AlphaNormal() const { return m_alphaNormal; }
-	float AlphaSelect() const { return m_alphaSelect; }
-	float AlphaHover()  const { return m_alphaHover; }
-
-	Uint8 AlphaNormal_ub() const { return m_alphaNormal * 255; }
-	Uint8 AlphaSelect_ub() const { return m_alphaSelect * 255; }
-	Uint8 AlphaHover_ub()  const { return m_alphaHover * 255; }
+	Color GetNormalColor() const { return m_normalColor; }
+	Color GetHoverColor() const { return m_hoverColor; }
+	Color GetSelectColor() const { return m_selectColor; }
 
 	Graphics::RenderState *GetAlphaBlendState() const { return m_alphaBlendState; }
 	Graphics::RenderState *GetRenderState(Graphics::BlendMode) const;
@@ -234,6 +230,7 @@ private:
 	RectElement LoadRectElement(const std::string &spec);
 	BorderedRectElement LoadBorderedRectElement(const std::string &spec);
 	EdgedRectElement LoadEdgedRectElement(const std::string &spec);
+	Color LoadSkinColor(const std::string &spec);
 
 	BorderedRectElement m_backgroundNormal;
 	BorderedRectElement m_backgroundActive;
@@ -275,9 +272,9 @@ private:
 
 	unsigned int m_buttonMinInnerSize;
 
-	float m_alphaNormal;
-	float m_alphaSelect;
-	float m_alphaHover;
+	Color m_normalColor;
+	Color m_hoverColor;
+	Color m_selectColor;
 };
 
 }
