@@ -313,7 +313,7 @@
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Dokuje"
+      "message" : "Dokowanie"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
@@ -1725,7 +1725,7 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "Odłączenie"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
