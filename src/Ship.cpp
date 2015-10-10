@@ -382,7 +382,7 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	SetMass((m_stats.total_mass + GetFuel()*GetShipType()->fuelTankMass)*1000);
+	SetMass((m_stats.static_mass + GetFuel()*GetShipType()->fuelTankMass)*1000);
 }
 
 void Ship::SetFuel(const double f)
@@ -575,12 +575,13 @@ void Ship::UpdateEquipStats()
 	m_stats.used_cargo = 0;
 
 	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
-	m_stats.total_mass = m_stats.used_capacity + m_type->hullMass;
+	m_stats.static_mass = m_stats.used_capacity + m_type->hullMass;
 
 	p.Set("usedCapacity", m_stats.used_capacity);
 
 	p.Set("freeCapacity", m_stats.free_capacity);
-	p.Set("totalMass", m_stats.total_mass);
+	p.Set("totalMass", m_stats.static_mass);
+	p.Set("staticMass", m_stats.static_mass);
 
 	int shield_cap = 0;
 	Properties().Get("shield_cap", shield_cap);

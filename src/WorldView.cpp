@@ -967,7 +967,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				lua_settop(l, clean_stack);
 
 				text += "\n";
-				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
 				text += "\n";
 				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
 					(sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
@@ -1001,7 +1001,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					RefCountedPtr<const Sector> s = m_game->GetGalaxy()->GetSector(dest);
 					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 					text += "\n";
-					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
+					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().static_mass));
 					text += "\n";
 					text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 					text += ": ";

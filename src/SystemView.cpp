@@ -602,7 +602,7 @@ void SystemView::OnClickShip(Ship *s) {
 			lua_settop(l, clean_stack);
 
 			text += "\n";
-			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
 			text += "\n";
 			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
 			text += "\n";

@@ -190,14 +190,14 @@ end
 local HyperdriveType = utils.inherits(EquipType, "HyperdriveType")
 
 HyperdriveType.GetMaximumRange = function (self, ship)
-	return 625.0*(self.capabilities.hyperclass ^ 2) / (ship.totalMass + ship.fuelMassLeft)
+	return 625.0*(self.capabilities.hyperclass ^ 2) / (ship.staticMass + ship.fuelMassLeft)
 end
 
 -- range_max is as usual optional
 HyperdriveType.GetDuration = function (self, ship, distance, range_max)
 	range_max = range_max or self:GetMaximumRange(ship)
 	local hyperclass = self.capabilities.hyperclass
-	return 0.36*distance^2/(range_max*hyperclass) * (3600*24*math.sqrt(ship.totalMass))
+	return 0.36*distance^2/(range_max*hyperclass) * (3600*24*math.sqrt(ship.staticMass + ship.fuelMassLeft))
 end
 
 -- range_max is optional, distance defaults to the maximal range.
