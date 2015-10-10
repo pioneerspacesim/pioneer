@@ -13,6 +13,7 @@ October 2015
    * Internal Changes
      * Exposing full color values instead of only alphas in skin.ini (#3486)
      * GLSL preprocessor includes (#3488)
+     * Simplified Star Shader (#3487)
 
 September 2015
    * New Features
