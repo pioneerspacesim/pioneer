@@ -717,7 +717,7 @@ void Ship::SetFlightState(Ship::FlightState newState)
 
 	if (newState == FLYING) {
 		m_testLanded = false;
-		if (m_flightState == DOCKING || m_flightState == DOCKED) 
+		if (m_flightState == DOCKING || m_flightState == DOCKED)
 			onUndock.emit();
 
 		m_dockedWith = nullptr;
@@ -735,6 +735,7 @@ void Ship::SetFlightState(Ship::FlightState newState)
 	{
 		case FLYING:		SetMoving(true);	SetColliding(true);		SetStatic(false);	break;
 		case DOCKING:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
+		case UNDOCKING:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 // TODO: set collision index? dynamic stations... use landed for open-air?
 		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	break;
@@ -890,7 +891,7 @@ void Ship::TimeAccelAdjust(const float timeStep)
 
 void Ship::FireWeapon(int num)
 {
-	if (m_flightState != FLYING) 
+	if (m_flightState != FLYING)
 		return;
 
 	std::string prefix(num?"laser_rear_":"laser_front_");
@@ -1026,7 +1027,7 @@ void Ship::UpdateAlertState()
 			if (ship_is_near) {
 				SetAlertState(ALERT_SHIP_NEARBY);
 				changed = true;
-            }
+			}
 			if (ship_is_firing) {
 				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);

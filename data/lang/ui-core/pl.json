@@ -575,6 +575,14 @@
       "description" : "",
       "message" : "Mężczyzna"
    },
+   "MARKET_BUYLINE" : {
+      "description" : "",
+      "message" : "Kupno: {amount} za {price}"
+   },
+   "MARKET_SELLINE" : {
+      "description" : "",
+      "message" : "Sprzedaż: {amount} za {price}"
+   },
    "MASS" : {
       "description" : "",
       "message" : "Masa"

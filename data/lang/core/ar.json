@@ -53,11 +53,11 @@
    },
    "AUTOMATIC_SYSTEM_SELECTION" : {
       "description" : "for star map, select star system when mouse close to it",
-      "message" : "Automatic system selection"
+      "message" : "تحديد نظام تلقائي"
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
+      "message" : "تحكم الطيار الالي"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -141,7 +141,7 @@
    },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
-      "message" : "Can't save game after the player has died"
+      "message" : "لايمكن حفظ اللعبة بعد موت الااعب"
    },
    "CANT_SAVE_IN_HYPERSPACE" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "Cargo scoop attempted. Not enough room in cargo hold."
+      "message" : "مغرفة البضائع حاولت. لا يوجد مكان في عنبر الشحن."
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -209,11 +209,11 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+      "message" : "تحليل تجارة السلع لـ #ff0%selected_system#fff (محدد) الى #ff0%current_system#fff (حالي)"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
+      "message" : "تحليل تجارة السلع لـ #fff%system#fff"
    },
    "COMMS" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
+      "message" : "امساك غير عادي"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
@@ -485,19 +485,19 @@
    },
    "HEADING_LOCK_KILLROT" : {
       "description" : "",
-      "message" : "Kill rotation"
+      "message" : "ايقاف الدوران"
    },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
-      "message" : "Hold normal"
+      "message" : "امساك عادي"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "Autopilot direction, relative to orbit (face towards planet)",
-      "message" : "Hold radially in"
+      "message" : "امساك شعاعي داخلي"
    },
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "Autopilot direction, relative to orbit (face away from palent)",
-      "message" : "Hold radially out"
+      "message" : "امساك شعاعي خارجي"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -549,7 +549,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "فك جهاز القذف"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "تركيب جهاز القذف"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "ILLEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Illegal (current system):"
+      "message" : "ممنوع (النظام الحالي):"
    },
    "ILLEGAL_GOODS" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
-      "message" : "Legal (current system):"
+      "message" : "متاح (النظام الحالي):"
    },
    "LIBERAL_DEMOCRACY" : {
       "description" : "",
@@ -685,7 +685,7 @@
    },
    "LOCAL_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
+      "message" : "الذراع المحلي"
    },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
@@ -697,7 +697,7 @@
    },
    "MAJOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major export (current system)"
+      "message" : "صادرات رائدة (النظام الحالي)"
    },
    "MAJOR_IMPORTS" : {
       "description" : "",
@@ -705,7 +705,7 @@
    },
    "MAJOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Major import (current system)"
+      "message" : "واردات رائدة (النظام الحالي)"
    },
    "MANUAL_CONTROL" : {
       "description" : "",
@@ -745,39 +745,39 @@
    },
    "MAP_VIEW_SHIFT_BACKWARD" : {
       "description" : "",
-      "message" : "Shift View Backwards"
+      "message" : "تحويل الروئية الى الوراء"
    },
    "MAP_VIEW_SHIFT_DOWN" : {
       "description" : "",
-      "message" : "Shift View Down"
+      "message" : "تحويل الروئية الى الاسفل"
    },
    "MAP_VIEW_SHIFT_FORWARD" : {
       "description" : "",
-      "message" : "Shift View Forwards"
+      "message" : "تحويل الروئية الى الامام"
    },
    "MAP_VIEW_SHIFT_LEFT" : {
       "description" : "",
-      "message" : "Shift View Left"
+      "message" : "تحويل الروئية الى اليسار"
    },
    "MAP_VIEW_SHIFT_RIGHT" : {
       "description" : "",
-      "message" : "Shift View Right"
+      "message" : "تحويل الروئية الى اليمين"
    },
    "MAP_VIEW_SHIFT_UP" : {
       "description" : "",
-      "message" : "Shift View Up"
+      "message" : "تحويل الروئية الى الاعلى"
    },
    "MAP_WARP_TO_CURRENT_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Current System"
+      "message" : "انتقل الى النظام الحالي"
    },
    "MAP_WARP_TO_HYPERSPACE_TARGET" : {
       "description" : "",
-      "message" : "Warp to Hyperspace Target"
+      "message" : "نقل الى هدف القذف"
    },
    "MAP_WARP_TO_SELECTED_SYSTEM" : {
       "description" : "",
-      "message" : "Warp to Selected System"
+      "message" : "انتقل الى النظام المحدد"
    },
    "MASS" : {
       "description" : "",
@@ -837,7 +837,7 @@
    },
    "MINOR_EXPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor export (current system)"
+      "message" : "صادرات ظفيفة (النظام الحالي)"
    },
    "MINOR_IMPORTS" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "MINOR_IMPORT_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of how much one commodity trades in the system the player is currently in",
-      "message" : "Minor import (current system)"
+      "message" : "واردات ظفيفة (النظام الحالي)"
    },
    "MISCELLANEOUS" : {
       "description" : "",
@@ -909,11 +909,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "مغرفة بضائع متعددة"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "على الرغم من ضعف مغرفة الوقودة الى انها تغرف الوقود و البضاعة"
    },
    "MURDER" : {
       "description" : "",
@@ -1049,7 +1049,7 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units radii (%radkm{f.0} km)"
+      "message" : "%radius{f.3} %units radii (%radkm{f.0} كم)"
    },
    "N_YEARS" : {
       "description" : "",
@@ -1145,11 +1145,11 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "معدل الزيادة في قيم دلتا-V. انقر لإعادة تعيين إلى الافتراضي."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "طبيعي دلتا-V. انقر لإعادة تعيين إلى صفر."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
@@ -1157,11 +1157,11 @@
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "شعاعي دلتا-V. انقر لإعادة تعيين إلى صفر."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "مناورة بدئية. انقر لاعادة تعيين الى الافتراضي."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1205,7 +1205,7 @@
    },
    "RECENTLY_EXPLORED_SYSTEM" : {
       "description" : "",
-      "message" : "This system was explored on %date."
+      "message" : "هذا النظام اكتشف في: %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1217,7 +1217,7 @@
    },
    "RESET_ORIENTATION_AND_ZOOM" : {
       "description" : "",
-      "message" : "Reset Orientation and Zoom"
+      "message" : "اعادة التوجية و التكبير"
    },
    "ROBOTS" : {
       "description" : "",
@@ -1285,7 +1285,7 @@
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
+      "message" : "مغرفة بضائع"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1301,7 +1301,7 @@
    },
    "SEARCH_MAP" : {
       "description" : "",
-      "message" : "Search Map"
+      "message" : "بحث الخريطة"
    },
    "SECTOR_COORDINATES" : {
       "description" : "",
@@ -1309,7 +1309,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Sector Map View"
+      "message" : "عرض خارطة القطاع"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1345,7 +1345,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Set navigation target to: "
+      "message" : "تحديد هدف التجوال الى:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1373,7 +1373,7 @@
    },
    "SHIPS_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
+      "message" : "تغيير وضع عرض السفينة."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1605,11 +1605,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "تم تغيير العرض الى احداثيات النظام."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "تم تغيير العرض الى احداثيات الكواكب."
    },
    "SYSTEM" : {
       "description" : "star system",
@@ -1657,7 +1657,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
+      "message" : "ذراع 3pkc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
@@ -1723,6 +1723,10 @@
       "description" : "",
       "message" : "نظام ثلاثي"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "النظام غير مستكشفة. لا توجد بيانات أخرى متوفرة."
@@ -1745,7 +1749,7 @@
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unset navigation target."
+      "message" : "هدف تجوال غير محدد."
    },
    "USE_LOW_THRUST" : {
       "description" : "",

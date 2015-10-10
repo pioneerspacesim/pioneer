@@ -575,6 +575,14 @@
       "description" : "",
       "message" : "Männlich"
    },
+   "MARKET_BUYLINE" : {
+      "description" : "",
+      "message" : "{amount} Einheiten für {price} kaufen"
+   },
+   "MARKET_SELLINE" : {
+      "description" : "",
+      "message" : "{amount} Einheiten für {price} verkaufen"
+   },
    "MASS" : {
       "description" : "",
       "message" : "Masse"

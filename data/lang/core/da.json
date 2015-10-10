@@ -1723,6 +1723,10 @@
       "description" : "",
       "message" : "Tertiært system"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Uudforsket system. Ikke mere data tilgængeligt."

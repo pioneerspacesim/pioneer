@@ -1199,7 +1199,8 @@ void Pi::MainLoop()
 			}
 			// rendering interpolation between frames: don't use when docked
 			int pstate = Pi::game->GetPlayer()->GetFlightState();
-			if (pstate == Ship::DOCKED || pstate == Ship::DOCKING) Pi::gameTickAlpha = 1.0;
+			if (pstate == Ship::DOCKED || pstate == Ship::DOCKING || pstate == Ship::UNDOCKING)
+				Pi::gameTickAlpha = 1.0;
 			else Pi::gameTickAlpha = accumulator / step;
 
 #if WITH_DEVKEYS

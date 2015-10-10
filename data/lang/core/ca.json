@@ -1723,6 +1723,10 @@
       "description" : "",
       "message" : "Sistema triple"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Sistema inexplorat. No se'n coneix informació."

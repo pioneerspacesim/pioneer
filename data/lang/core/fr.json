@@ -1723,6 +1723,10 @@
       "description" : "",
       "message" : "Système ternaire"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Système non-exploré. Aucune donnée disponible."
