@@ -3,6 +3,7 @@ October 2015
      * Fade orbits faster and darker (#3469)
      * Commodity Market rewrite (#3467)
      * OS X Homebrew Build script (#3447)
+     * Make trade analyzer module into a software module (#3474)
 
    * Fixes
      * Miscellaneous warnings fixes (#3472)
