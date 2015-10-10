@@ -38,7 +38,7 @@ struct shipstats_t {
 	int used_capacity;
 	int used_cargo;
 	int free_capacity;
-	int total_mass; // cargo, equipment + hull
+	int static_mass; // cargo, equipment + hull
 	float hull_mass_left; // effectively hitpoints
 	float hyperspace_range;
 	float hyperspace_range_max;
