@@ -54,6 +54,17 @@ namespace Graphics {
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
 		};
+
+
+		class GeoSphereStarMaterial : public Material {
+			virtual Program *CreateProgram(const MaterialDescriptor &);
+			virtual void Apply();
+			virtual void Unapply();
+
+		protected:
+			void SetGSUniforms();
+		};
+		
 	}
 }
 #endif

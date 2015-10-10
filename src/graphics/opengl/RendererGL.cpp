@@ -699,6 +699,9 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_GEOSPHERE_SKY:
 		mat = new OGL::GeoSphereSkyMaterial();
 		break;
+	case EFFECT_GEOSPHERE_STAR:
+		mat = new OGL::GeoSphereStarMaterial();
+		break;
 	case EFFECT_FRESNEL_SPHERE:
 		mat = new OGL::FresnelColourMaterial();
 		break;

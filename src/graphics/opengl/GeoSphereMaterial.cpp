@@ -173,5 +173,37 @@ void GeoSphereSkyMaterial::Apply()
 	SetGSUniforms();
 }
 
+Program *GeoSphereStarMaterial::CreateProgram(const MaterialDescriptor &desc)
+{
+	assert((desc.effect == EFFECT_GEOSPHERE_STAR));
+	assert(desc.dirLights < 5);
+	std::stringstream ss;
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
+
+	return new Graphics::OGL::GeoSphereProgram("geosphere_star", ss.str());
+}
+
+void GeoSphereStarMaterial::Apply()
+{
+	SetGSUniforms();
+}
+
+void GeoSphereStarMaterial::Unapply()
+{
+	if (texture0) {
+		static_cast<TextureGL*>(texture1)->Unbind();
+		static_cast<TextureGL*>(texture0)->Unbind();
+	}
+}
+
+void GeoSphereStarMaterial::SetGSUniforms()
+{
+	OGL::Material::Apply();
+
+	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
+
+	p->emission.Set(this->emissive);
+}
+
 }
 }
