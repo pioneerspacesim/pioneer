@@ -190,9 +190,9 @@ void Body::OrientOnSurface(double radius, double latitude, double longitude)
 
 void Body::SwitchToFrame(Frame *newFrame)
 {
-	vector3d vel = GetVelocityRelTo(newFrame);		// do this first because it uses position
-	vector3d fpos = m_frame->GetPositionRelTo(newFrame);
-	matrix3x3d forient = m_frame->GetOrientRelTo(newFrame);
+	const vector3d vel = GetVelocityRelTo(newFrame);		// do this first because it uses position
+	const vector3d fpos = m_frame->GetPositionRelTo(newFrame);
+	const matrix3x3d forient = m_frame->GetOrientRelTo(newFrame);
 	SetPosition(forient * GetPosition() + fpos);
 	SetOrient(forient * GetOrient());
 	SetVelocity(vel + newFrame->GetStasisVelocity(GetPosition()));
@@ -217,7 +217,7 @@ void Body::UpdateFrame()
 
 	// entering into frames
 	for (Frame* kid : m_frame->GetChildren()) {
-		vector3d pos = GetPositionRelTo(kid);
+		const vector3d pos = GetPositionRelTo(kid);
 		if (pos.Length() >= kid->GetRadius()) continue;
 		SwitchToFrame(kid);
 		Output("%s enters frame %s\n", GetLabel().c_str(), kid->GetLabel().c_str());
