@@ -716,15 +716,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 			vector3d pos = Pi::player->GetPosition();
 			vector3d abs_pos = Pi::player->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
 
+			const Frame *playerFrame = Pi::player->GetFrame();
+
 			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
 
-			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->GetPath());
+			const SystemPath &path(playerFrame->GetSystemBody()->GetPath());
 			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
-				Pi::player->GetFrame()->GetLabel(),
+				playerFrame->GetLabel(),
 				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
-			ss << stringf("(%0{f.2} km), rotating: %1\n",
-				pos.Length()/1000, (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no"));
+			ss << stringf("(%0{f.2} km), rotating: %1, has rotation: %2\n",
+				pos.Length()/1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
 
 			//Calculate lat/lon for ship position
 			const vector3d dir = pos.NormalizedSafe();
