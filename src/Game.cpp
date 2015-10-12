@@ -27,6 +27,7 @@
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
 
+
 static const int  s_saveVersion   = 81;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
@@ -301,14 +302,18 @@ bool Game::UpdateTimeAccel()
 	// normal flight
 	else if (m_player->GetFlightState() == Ship::FLYING) {
 
-		// special timeaccel lock rules while in alert
-		if (m_player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
-			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
-		else if (m_player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
+		// limit timeaccel to 1x when fired on (no forced acceleration allowed)
+  		if (m_player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
 			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+		
+		if (!m_forceTimeAccel)
 
-		else if (!m_forceTimeAccel) {
-			// check we aren't too near to objects for timeaccel //
+		        // if not forced - limit timeaccel to 10x when other ships are close	  
+		        if (m_player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
+			        newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+
+      			// if not forced - check if we aren't too near to objects for timeaccel
+			else {
 			for (const Body* b : m_space->GetBodies()) {
 				if (b == m_player.get()) continue;
 				if (b->IsType(Object::HYPERSPACECLOUD)) continue;
