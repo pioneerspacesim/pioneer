@@ -67,7 +67,10 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 		initted = true;
 
 		if (!ogl_LoadFunctions())
-			Error("glLoadGen failed to load functions.\n");
+			Error(
+				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.3\n"
+				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly."
+			);
 
 		if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED)
 			Error(
