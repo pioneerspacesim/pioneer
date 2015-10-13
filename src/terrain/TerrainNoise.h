@@ -95,7 +95,7 @@ namespace TerrainNoise {
 		//assert(persistence <= (1.0 / lacunarity));
 		double n = 0;
 		double amplitude = persistence;
-		double frequency = 1.0;
+		double frequency = 1.0/persistence;
 		while (octaves--) {
 			n += amplitude * noise(frequency*p);
 			amplitude *= persistence;
@@ -108,7 +108,7 @@ namespace TerrainNoise {
 		//assert(persistence <= (1.0 / lacunarity));
 		double n = 0;
 		double amplitude = persistence;
-		double frequency = 1.0;
+		double frequency = 1.0/persistence;
 		while (octaves--) {
 			n += amplitude * fabs(noise(frequency*p));
 			amplitude *= persistence;
@@ -121,7 +121,7 @@ namespace TerrainNoise {
 		//assert(persistence <= (1.0 / lacunarity));
 		double n = 0;
 		double amplitude = persistence;
-		double frequency = 1.0;
+		double frequency = 1.0/persistence;
 		while (octaves--) {
 			n += amplitude * noise(frequency*p);
 			amplitude *= persistence;
@@ -136,7 +136,7 @@ namespace TerrainNoise {
 		//assert(persistence <= (1.0 / lacunarity));
 		double n = 0;
 		double amplitude = persistence;
-		double frequency = 1.0;
+		double frequency = 1.0/persistence;
 		while (octaves--) {
 			n += amplitude * noise(frequency*p);
 			amplitude *= persistence;
@@ -149,7 +149,7 @@ namespace TerrainNoise {
 		//assert(persistence <= (1.0 / lacunarity));
 		double n = 0;
 		double amplitude = persistence;
-		double frequency = 1.0;
+		double frequency = 1.0/persistence;
 		while (octaves--) {
 			n += amplitude * noise(frequency*p);
 			amplitude *= persistence;
