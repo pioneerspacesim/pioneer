@@ -93,7 +93,7 @@
    },
    "DANGER" : {
       "description" : "the risk level",
-      "message" : "Danger:"
+      "message" : "Pavojus:"
    },
    "DEADLINE" : {
       "description" : "Must be delivered by",
@@ -137,7 +137,7 @@
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
-      "message" : "Distance:"
+      "message" : "Atstumas:"
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
@@ -601,11 +601,11 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Kodėl tiek daug pinigų?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Ar aš būsiu pavojuje?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
