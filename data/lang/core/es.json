@@ -1725,7 +1725,7 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "Desacoplando"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
