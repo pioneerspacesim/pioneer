@@ -17,6 +17,7 @@ October 2015
      * GLSL preprocessor includes (#3488)
      * Simplified Star Shader (#3487)
      * Change forced time acceleration around ships (#3445)
+     * Present a clearer warning to the user if OpenGL fails to initialise (#3496)
 
 September 2015
    * New Features
