@@ -32,6 +32,7 @@ public:
 	enum OverlayTextPos {
 		OVERLAY_TOP_LEFT,
 		OVERLAY_TOP_RIGHT,
+		OVERLAY_TOP_CENTER,
 		OVERLAY_BOTTOM_LEFT,
 		OVERLAY_BOTTOM_RIGHT
 	};
@@ -77,7 +78,7 @@ private:
 	Gui::MultiStateImageButton *m_rotationDampingButton;
 	Gui::Image *m_alertLights[3];
 
-	Gui::Label *m_overlay[4];
+	Gui::Label *m_overlay[5];
 };
 
 #endif /* _SHIP_CPANEL_H */

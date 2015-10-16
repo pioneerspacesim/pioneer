@@ -823,6 +823,11 @@ void WorldView::RefreshButtonStateAndVisibility()
 					else
 						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
+
+                        // show lat/long when within 10 km of planet/star
+                        const float lat = RAD2DEG(asin(surface_pos.y));
+                        const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, stringf("Lat: %0{f.6} / Lon: %1{f.6}", lat, lon));
 				} else {
 					// XXX does this need to be repeated 3 times?
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
