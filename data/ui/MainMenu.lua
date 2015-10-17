@@ -101,8 +101,6 @@ local buttonDefs = {
 	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,6),48600)   setupPlayerSol() end },
 	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEridani() end },
 	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerBarnard() end },
-	{ "Quila",      function () Game.StartGame(SystemPath.New(11,0,0,0,14)) setupPlayerEridani() end },
-	{ "Lo's Mine",      function () Game.StartGame(SystemPath.New(16,-2,-3,2,26)) setupPlayerEridani() end },
 	{ l.LOAD_GAME,              doLoadDialog },
 	{ l.OPTIONS,                doSettingsScreen },
 	{ l.QUIT,                   doQuitConfirmation },
