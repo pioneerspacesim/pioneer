@@ -575,6 +575,14 @@
       "description" : "",
       "message" : "Masculin"
    },
+   "MARKET_BUYLINE" : {
+      "description" : "",
+      "message" : "Cumpără {amount} unități pentru {price}"
+   },
+   "MARKET_SELLINE" : {
+      "description" : "",
+      "message" : "Vinde {amount} unități pentru {price}"
+   },
    "MASS" : {
       "description" : "",
       "message" : "Masă"

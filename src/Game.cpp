@@ -291,7 +291,9 @@ bool Game::UpdateTimeAccel()
 	}
 
 	// force down to timeaccel 1 during the docking sequence or when just initiating hyperspace
-	else if (m_player->GetFlightState() == Ship::DOCKING || m_player->GetFlightState() == Ship::JUMPING) {
+	else if (m_player->GetFlightState() == Ship::DOCKING ||
+			 m_player->GetFlightState() == Ship::JUMPING ||
+			 m_player->GetFlightState() == Ship::UNDOCKING) {
 		newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
 		RequestTimeAccel(newTimeAccel);
 	}
@@ -299,14 +301,18 @@ bool Game::UpdateTimeAccel()
 	// normal flight
 	else if (m_player->GetFlightState() == Ship::FLYING) {
 
-		// special timeaccel lock rules while in alert
+		// limit timeaccel to 1x when fired on (no forced acceleration allowed)
+  		if (m_player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
+			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+		
+		if (!m_forceTimeAccel)
+
+		        // if not forced - limit timeaccel to 10x when other ships are close	  
 		if (m_player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
 			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
-		else if (m_player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
-			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
 
-		else if (!m_forceTimeAccel) {
-			// check we aren't too near to objects for timeaccel //
+      			// if not forced - check if we aren't too near to objects for timeaccel
+			else {
 			for (const Body* b : m_space->GetBodies()) {
 				if (b == m_player.get()) continue;
 				if (b->IsType(Object::HYPERSPACECLOUD)) continue;

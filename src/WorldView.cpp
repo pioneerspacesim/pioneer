@@ -384,8 +384,8 @@ void WorldView::SetCamType(enum CamType c)
 
 void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 {
-       if (m_internalCameraController->GetMode() != m)
-               Pi::BoinkNoise();
+	if (m_internalCameraController->GetMode() != m)
+		Pi::BoinkNoise();
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	UpdateCameraName();
@@ -613,6 +613,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_flightControlButton->Hide();
 			break;
 
+		case Ship::UNDOCKING:
+			m_flightStatus->SetText(Lang::UNDOCKING);
+			m_launchButton->Hide();
+			m_flightControlButton->Hide();
+			break;
+
 		case Ship::DOCKED:
 			m_flightStatus->SetText(Lang::DOCKED);
 			m_launchButton->Show();
@@ -710,15 +716,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 			vector3d pos = Pi::player->GetPosition();
 			vector3d abs_pos = Pi::player->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
 
+			const Frame *playerFrame = Pi::player->GetFrame();
+
 			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
 
-			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->GetPath());
+			const SystemPath &path(playerFrame->GetSystemBody()->GetPath());
 			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
-				Pi::player->GetFrame()->GetLabel(),
+				playerFrame->GetLabel(),
 				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
-			ss << stringf("(%0{f.2} km), rotating: %1\n",
-				pos.Length()/1000, (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no"));
+			ss << stringf("(%0{f.2} km), rotating: %1, has rotation: %2\n",
+				pos.Length()/1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
 
 			//Calculate lat/lon for ship position
 			const vector3d dir = pos.NormalizedSafe();
@@ -961,7 +969,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				lua_settop(l, clean_stack);
 
 				text += "\n";
-				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
 				text += "\n";
 				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
 					(sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
@@ -995,7 +1003,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					RefCountedPtr<const Sector> s = m_game->GetGalaxy()->GetSector(dest);
 					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 					text += "\n";
-					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
+					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().static_mass));
 					text += "\n";
 					text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 					text += ": ";
@@ -1562,9 +1570,9 @@ void WorldView::UpdateProjectedObjects()
 
 			// only show labels on large or nearby bodies
 			if (b->IsType(Object::PLANET) ||
-			    b->IsType(Object::STAR) ||
-			    b->IsType(Object::SPACESTATION) ||
-			    Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+				b->IsType(Object::STAR) ||
+				b->IsType(Object::SPACESTATION) ||
+				Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
 			{
 				std::string bodyName = b->GetLabel();
 				// offset the label so it doesn't intersect with the icon drawn around the
@@ -2030,9 +2038,9 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		DrawEdgeMarker(marker, c);
 
 	m_targetIcon->Draw(Pi::renderer,
-			   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
-						marker.pos.y - HUD_CROSSHAIR_SIZE),
-			   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
+					   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
+								marker.pos.y - HUD_CROSSHAIR_SIZE),
+					   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c)

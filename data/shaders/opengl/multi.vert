@@ -3,6 +3,10 @@
 
 // #extension GL_ARB_gpu_shader5 : enable
 
+#include "attributes.glsl"
+#include "logz.glsl"
+#include "lib.glsl"
+
 #ifdef TEXTURE0
 out vec2 texCoord0;
 #endif

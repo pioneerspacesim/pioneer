@@ -163,7 +163,7 @@ local commodityMarket = function (args)
 		end
 
 		--another empty initialized
-		local tradeword
+		local tradetext
 
 		if trade_mode == trade_mode_buy then
 			local playerfreecargo = Game.player.freeCapacity
@@ -174,7 +174,7 @@ local commodityMarket = function (args)
 			if playerfreecargo < tradecargo then
 				wantamount = math.floor(playerfreecargo / tradecommodity.capabilities.mass)
 			end
-			tradeword = "Buy "
+			tradetext = l.MARKET_BUYLINE
 		else --mode = sell
 			--if market price is negative make sure player wont go below zero credits after the deal
 			if (playercash + tradecost) < 0 then
@@ -183,7 +183,7 @@ local commodityMarket = function (args)
 				--enough credits to sell 5, this kludge will ignore the +100 completely
 				--todo: change amount to 5 instead
 			end
-			tradeword = "Sell "
+			tradetext = l.MARKET_SELLINE
 		end
 
 		--wantamount is now checked and modified to a safe bounded amount
@@ -192,8 +192,8 @@ local commodityMarket = function (args)
 		--current cost of market order if user confirms the deal
 		tradecost = tradeamount * price
 
-		--its possible to get to this line without tradeword being initialized unless done 30 rows up
-		buysell:SetInnerWidget(ui:Label(tradeword..tradeamount.." units for "..Format.Money(tradecost)):SetFont("LARGE"))
+		--its possible to get to this line without tradetext being initialized unless done 30 rows up
+		buysell:SetInnerWidget(ui:Label(string.interp(tradetext,{ amount = string.format("%d", tradeamount), price = Format.Money(tradecost)})):SetFont("LARGE"))
 	end
 
 	--attach click actions to all the buttons

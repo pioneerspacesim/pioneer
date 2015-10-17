@@ -1723,6 +1723,10 @@
       "description" : "",
       "message" : "Dreier-Sternsystem"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Abdocken"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Unerforschtes System. Keine weiteren Daten verfügbar."

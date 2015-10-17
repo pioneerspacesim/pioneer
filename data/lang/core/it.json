@@ -313,7 +313,7 @@
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Attracco in corso"
+      "message" : "Ancoraggio"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
@@ -1722,6 +1722,10 @@
    "TRIPLE_SYSTEM" : {
       "description" : "",
       "message" : "Sistema ternario"
+   },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Disancoraggio"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",

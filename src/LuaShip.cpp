@@ -1110,7 +1110,7 @@ template <> void LuaObject<Ship>::RegisterClass()
  *   experimental
  *
  *
- * Attribute: totalMass
+ * Attribute: staticMass
  *
  * Mass of the ship including hull, equipment and cargo, but excluding
  * thruster fuel mass. Measured in tonnes.
