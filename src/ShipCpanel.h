@@ -34,7 +34,9 @@ public:
 		OVERLAY_TOP_RIGHT,
 		OVERLAY_TOP_CENTER,
 		OVERLAY_BOTTOM_LEFT,
-		OVERLAY_BOTTOM_RIGHT
+		OVERLAY_BOTTOM_RIGHT,
+		OVERLAY_TEST_1,
+		OVERLAY_TEST_2
 	};
 	void SetOverlayText(OverlayTextPos pos, const std::string &text);
 	void SetOverlayToolTip(OverlayTextPos pos, const std::string &text);
@@ -78,7 +80,7 @@ private:
 	Gui::MultiStateImageButton *m_rotationDampingButton;
 	Gui::Image *m_alertLights[3];
 
-	Gui::Label *m_overlay[5];
+	Gui::Label *m_overlay[7];
 };
 
 #endif /* _SHIP_CPANEL_H */

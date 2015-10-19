@@ -827,10 +827,13 @@ void WorldView::RefreshButtonStateAndVisibility()
                         // show lat/long when within 10 km of planet/star
                         const float lat = RAD2DEG(asin(surface_pos.y));
                         const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, stringf("Lat: %0{f.6} / Lon: %1{f.6}", lat, lon));
+                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, stringf("Lat: %0{f.4} / Lon: %1{f.4}", lat, lon));
+                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TEST_1, stringf("Lat: %0{f.6}", lat));
+                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TEST_2, stringf("Lon: %0{f.6}", lon));
 				} else {
 					// XXX does this need to be repeated 3 times?
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, "");
 					if(m_curPlane != NONE) {
 						m_curPlane = NONE;
 						m_hudDockTop->RemoveInnerWidget();
@@ -839,6 +842,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				}
 			} else {
 				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, "");
 				if(m_curPlane != NONE) {
 					m_curPlane = NONE;
 					m_hudDockTop->RemoveInnerWidget();
