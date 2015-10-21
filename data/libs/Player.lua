@@ -11,14 +11,15 @@ local Legal = import("Legal")
 Player.record = {}
 Player.record_old = {}
 
-local CrimeRecord = {} -- the table representing the class, which will double as the metatable for the instances
-CrimeRecord.__index = CrimeRecord -- failed table lookups on the instances should fallback to the class table, to get methods
+-- container for crimes committed
+local CrimeRecord = utils.inherits(nil, "CrimeRecord")
 
-function CrimeRecord.New()
-  local self = setmetatable({}, CrimeRecord)
-  self.fine = 0
-  self.crimetype = {}
-  return self
+function CrimeRecord.New(rec)
+	rec = rec or {}
+	setmetatable(rec, CrimeRecord.meta)
+	rec.fine = 0
+	rec.crimetype = {}
+  return rec
 end
 
 
@@ -57,6 +58,23 @@ function CrimeRecord:Append(record)
 end
 
 
+function CrimeRecord:Serialize()
+	local tmp = CrimeRecord.Super().Serialize(self)
+	local ret = {}
+	for k,v in pairs(tmp) do
+		ret[k] = v
+	end
+	return ret
+end
+
+
+function CrimeRecord.Unserialize(data)
+	obj = CrimeRecord.Super().Unserialize(data)
+	setmetatable(obj, CrimeRecord.meta)
+	return obj
+end
+
+
 --
 -- Method: AddCrime
 --
@@ -91,8 +109,6 @@ function Player:AddCrime (crime, fine, faction)
 	end
 
 	self.record[forFaction]:Add(crime, fine)
-
-	-- todo: could have systemPath as faction for independent?
 end
 
 
@@ -336,9 +352,20 @@ end
 local loaded_data
 
 local onGameStart = function ()
+
+	-- Don't reset these in onGameEnd (where they belong), since that
+	-- sometimes clears out the data before autosave-exit can get to it
+	-- (call order for event triggers is arbitrary)...
+	Player.record = {}
+	Player.record_old = {}
+
 	if (loaded_data) then
 		Game.player:setprop("cash", loaded_data.cash)
+
+		-- ...thus we need to manually unserialize them
 		Player.record = loaded_data.record
+		Player.record_old = loaded_data.record_old
+
 		loaded_data = nil
 	end
 end
@@ -364,12 +391,11 @@ end
 
 local onGameEnd = function ()
 	-- clean up for next game:
-	Player.record = {}
-	Player.record_old = {}
 end
 
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onGameStart", onGameStart)
+Serializer:RegisterClass("CrimeRecord", CrimeRecord)
 Serializer:Register("Player", serialize, unserialize)
 
 return Player
