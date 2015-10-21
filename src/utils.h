@@ -152,6 +152,9 @@ void StrToAuto(Sint64 *pVal, const std::string &str);
 void StrToAuto(float *pVal, const std::string &str);
 void StrToAuto(double *pVal, const std::string &str);
 
+// Convert decimal coordinates to degree/minute/second format and return as string
+std::string DecimalToDegMinSec(float dec);
+
 // add a few things that MSVC is missing
 #if defined(_MSC_VER) && (_MSC_VER < 1800)
 

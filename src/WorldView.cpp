@@ -35,6 +35,7 @@
 #include "matrix4x4.h"
 #include "Quaternion.h"
 #include "LuaObject.h"
+//#include "utils.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -230,8 +231,8 @@ void WorldView::InitObject()
 	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
-	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
-	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
+	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 124.0f);
+	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 164.0f);
 
 	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
 	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
@@ -824,16 +825,22 @@ void WorldView::RefreshButtonStateAndVisibility()
 						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
 
-                        // show lat/long when within 10 km of planet/star
-                        const float lat = RAD2DEG(asin(surface_pos.y));
-                        const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, stringf("Lat: %0{f.4} / Lon: %1{f.4}", lat, lon));
-                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TEST_1, stringf("Lat: %0{f.6}", lat));
-                        m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TEST_2, stringf("Lon: %0{f.6}", lon));
+                    // show lat/long when altitude is shownr
+                    const float lat = RAD2DEG(asin(surface_pos.y));
+                    const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+                    std::string lat_str = DecimalToDegMinSec(lat);
+                    std::string lon_str = DecimalToDegMinSec(lon);
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "Lat:");
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "Long:");
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
 				} else {
 					// XXX does this need to be repeated 3 times?
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, "");
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
+                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
 					if(m_curPlane != NONE) {
 						m_curPlane = NONE;
 						m_hudDockTop->RemoveInnerWidget();
@@ -842,7 +849,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 				}
 			} else {
 				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_CENTER, "");
+                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
+                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
+                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
+                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
 				if(m_curPlane != NONE) {
 					m_curPlane = NONE;
 					m_hudDockTop->RemoveInnerWidget();

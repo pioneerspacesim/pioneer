@@ -32,11 +32,12 @@ public:
 	enum OverlayTextPos {
 		OVERLAY_TOP_LEFT,
 		OVERLAY_TOP_RIGHT,
-		OVERLAY_TOP_CENTER,
 		OVERLAY_BOTTOM_LEFT,
 		OVERLAY_BOTTOM_RIGHT,
-		OVERLAY_TEST_1,
-		OVERLAY_TEST_2
+		OVERLAY_OVER_PANEL_RIGHT_1,
+		OVERLAY_OVER_PANEL_RIGHT_2,
+		OVERLAY_OVER_PANEL_RIGHT_3,
+		OVERLAY_OVER_PANEL_RIGHT_4,
 	};
 	void SetOverlayText(OverlayTextPos pos, const std::string &text);
 	void SetOverlayToolTip(OverlayTextPos pos, const std::string &text);
@@ -80,7 +81,7 @@ private:
 	Gui::MultiStateImageButton *m_rotationDampingButton;
 	Gui::Image *m_alertLights[3];
 
-	Gui::Label *m_overlay[7];
+	Gui::Label *m_overlay[8];
 };
 
 #endif /* _SHIP_CPANEL_H */

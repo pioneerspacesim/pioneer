@@ -211,18 +211,20 @@ void ShipCpanel::InitObject()
 
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
-    m_overlay[OVERLAY_TOP_CENTER]   = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_BOTTOM_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_BOTTOM_RIGHT] = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_TEST_1] = (new Gui::Label(""))->Color(s_hudTextColor);
-	m_overlay[OVERLAY_TEST_2] = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_OVER_PANEL_RIGHT_1] = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_OVER_PANEL_RIGHT_2] = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_OVER_PANEL_RIGHT_3] = (new Gui::Label(""))->Color(s_hudTextColor);
+	m_overlay[OVERLAY_OVER_PANEL_RIGHT_4] = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_overlay[OVERLAY_TOP_LEFT],     170.0f, 2.0f);
 	Add(m_overlay[OVERLAY_TOP_RIGHT],    500.0f, 2.0f);
-    Add(m_overlay[OVERLAY_TOP_CENTER],   328.0f, 0.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_LEFT],  150.0f, 62.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_RIGHT], 520.0f, 62.0f);
-	Add(m_overlay[OVERLAY_TEST_1], 691.0f, -13.0f);
-	Add(m_overlay[OVERLAY_TEST_2], 691.0f, 0.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_1], 691.0f, -13.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_2], 722.0f, -13.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_3], 691.0f, 0.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_4], 722.0f, 0.0f);
 
 	View::SetCpanel(this);
 }
