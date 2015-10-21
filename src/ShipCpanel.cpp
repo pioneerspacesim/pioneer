@@ -221,10 +221,10 @@ void ShipCpanel::InitObject()
 	Add(m_overlay[OVERLAY_TOP_RIGHT],    500.0f, 2.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_LEFT],  150.0f, 62.0f);
 	Add(m_overlay[OVERLAY_BOTTOM_RIGHT], 520.0f, 62.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_1], 691.0f, -13.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_2], 722.0f, -13.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_3], 691.0f, 0.0f);
-	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_4], 722.0f, 0.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_1], 691.0f, -17.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_2], 723.0f, -17.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_3], 691.0f, -4.0f);
+	Add(m_overlay[OVERLAY_OVER_PANEL_RIGHT_4], 723.0f, -4.0f);
 
 	View::SetCpanel(this);
 }

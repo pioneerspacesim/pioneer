@@ -35,7 +35,7 @@
 #include "matrix4x4.h"
 #include "Quaternion.h"
 #include "LuaObject.h"
-//#include "utils.h"
+#include "utils.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -231,8 +231,8 @@ void WorldView::InitObject()
 	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
-	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 124.0f);
-	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 164.0f);
+	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 135.0f);
+	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 175.0f);
 
 	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
 	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
