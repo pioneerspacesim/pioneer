@@ -115,4 +115,10 @@ float calcUneclipsedSky(const in int i, const in vec3 a, const in vec3 b, const 
 	}
 	return uneclipsed;
 }
+
+#else
+
+#define calcUneclipsed(a,b,c) 1.0
+#define calcUneclipsedSky(a,b,c,d) 1.0
+
 #endif // ECLIPSE
