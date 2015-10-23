@@ -577,11 +577,11 @@
    },
    "MARKET_BUYLINE" : {
       "description" : "",
-      "message" : "Buy {amount} units for {price}"
+      "message" : "Купить {amount} ед. за {price}"
    },
    "MARKET_SELLINE" : {
       "description" : "",
-      "message" : "Sell {amount} units for {price}"
+      "message" : "Продать {amount} ед. за {price}"
    },
    "MASS" : {
       "description" : "",
