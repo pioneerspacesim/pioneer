@@ -12,13 +12,18 @@ local l = Lang.GetResource("ui-core")
 
 local ui = Engine.ui
 
+local hasTech = function (e)
+	local station = Game.player:GetDockedWith()
+	local equip_tech_level = e.tech_level or 1 -- default to 1
+	return station.techLevel >= equip_tech_level
+end
 
 local equipmentMarket = function (args)
 	local stationTable, shipTable = EquipmentTableWidgets.Pair({
 		stationColumns = { "name", "buy", "sell", "mass", "stock" },
 		shipColumns = { "name", "amount", "mass", "massTotal" },
 
-		canTrade = function (e) return e.purchasable and not e:IsValidSlot("cargo", Game.player) end,
+		canTrade = function (e) return e.purchasable and hasTech(e) and not e:IsValidSlot("cargo", Game.player) end,
 	})
 
 	return
