@@ -35,11 +35,15 @@ local lobby = function (tab)
 		end
 	end)
 
+	local tech_certified
+	tech_certified = string.interp(l.TECH_CERTIFIED, { tech_level = station.techLevel})
+
 	return
 		ui:Grid({48,4,48},1)
 			:SetColumn(0, {
 				ui:VBox(10):PackEnd({
 					ui:Label(station.label):SetFont("HEADING_LARGE"),
+					ui:Align("LEFT", tech_certified),
 					ui:Expand(),
 					ui:Align("MIDDLE", launchButton),
 				})

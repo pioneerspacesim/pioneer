@@ -983,6 +983,10 @@
       "description" : "",
       "message" : "Status"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "This station holds a level {tech_level} technology certificate."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
       "message" : "Thank you for your purchase. Remember to fit equipment and buy fuel before you depart."
