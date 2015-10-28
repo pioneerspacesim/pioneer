@@ -350,9 +350,10 @@ local jupiter_moons = {
 		:inclination(math.deg2rad(29.1))
 		:rotation_period(f(12982,100))
 		:metallicity(f(2,1000))
-		:volcanicity(f(0,1)),
+		:volcanicity(f(0,1))
+		:orbital_phase_at_start(fixed.deg2rad(f(315,1))),
 		
-		CustomSystemBody:new('Himalia', 'PLANET_ASTEROID')
+	CustomSystemBody:new('Himalia', 'PLANET_ASTEROID')
 		:seed(1344978)
 		:radius(f(1334,100000))
 		:mass(f(1121,10000000000))
@@ -362,9 +363,10 @@ local jupiter_moons = {
 		:inclination(math.deg2rad(29.59))
 		:rotation_period(f(12982,100))
 		:metallicity(f(22,1000))
-		:volcanicity(f(1,1)),
+		:volcanicity(f(1,1))
+		:orbital_phase_at_start(fixed.deg2rad(f(105,1))),
 		
-		CustomSystemBody:new('Lysithea', 'PLANET_ASTEROID')
+	CustomSystemBody:new('Lysithea', 'PLANET_ASTEROID')
 		:seed(3934)
 		:radius(f(282,100000))
 		:mass(f(1054,10000000000))
@@ -374,9 +376,10 @@ local jupiter_moons = {
 		:inclination(math.deg2rad(25.77))
 		:rotation_period(f(1292,100))
 		:metallicity(f(2,1000))
-		:volcanicity(f(0,1)),
+		:volcanicity(f(0,1))
+		:orbital_phase_at_start(fixed.deg2rad(f(12,1))),
 		
-		CustomSystemBody:new('Elara', 'PLANET_ASTEROID')
+	CustomSystemBody:new('Elara', 'PLANET_ASTEROID')
 		:seed(128860219)
 		:radius(f(675,100000))
 		:mass(f(1456,10000000000))
@@ -386,9 +389,10 @@ local jupiter_moons = {
 		:inclination(math.deg2rad(30.66))
 		:rotation_period(f(5,10))
 		:metallicity(f(8,1000))
-		:volcanicity(f(0,1)),
+		:volcanicity(f(0,1))
+		:orbital_phase_at_start(fixed.deg2rad(f(92,1))),
 
-		CustomSystemBody:new('Aega', 'PLANET_ASTEROID')
+	CustomSystemBody:new('Aega', 'PLANET_ASTEROID')
 		:seed(6953)
 		:radius(f(313,1000000))
 		:mass(f(1456,100000000000000))
@@ -398,7 +402,8 @@ local jupiter_moons = {
 		:inclination(math.deg2rad(28.2))
 		:rotation_period(f(8,10))
 		:metallicity(f(8,1000))
-		:volcanicity(f(0,1)),
+		:volcanicity(f(0,1))
+		:orbital_phase_at_start(fixed.deg2rad(f(193,1))),
 
 }
 
