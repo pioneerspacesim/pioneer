@@ -34,7 +34,6 @@
     {"name": "Zeta Centauri", "stars": ["STAR_B"], "sector": [-16, 28, -36], "pos": [1.976, 4.432, 5.384]},
     {"name": "Polaris", "stars": ["STAR_F"], "otherNames": ["Alpha Ursae Minoris", "North Star"], "sector": [0, -1, 53], "pos": [3.408, 3.624, 7.4]},
     {"name": "Delta Corvi", "stars": ["STAR_B"], "sector": [-2, 10, -4], "pos": [5.048, 3.544, 7.016]},
-    {"name": "Delta Cassiopeiae", "stars": ["STAR_A"], "sector": [2, -6, 10], "pos": [2.048, 2.072, 6.296]},
     {"name": "57 Andromedae", "stars": ["STAR_B"], "sector": [16, -29, 29], "pos": [7.032, 7.04, 7.0]},
     {"name": "Delta Orionis", "stars": ["STAR_O"], "sector": [113, -14, -1], "pos": [5.352, 0.376, 3.216]},
     {"name": "Eta Ophiuchi", "stars": ["STAR_A"], "sector": [-10, 2, -3], "pos": [0.912, 1.4, 1.2]},
