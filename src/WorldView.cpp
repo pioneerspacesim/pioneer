@@ -837,10 +837,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 				} else {
 					// XXX does this need to be repeated 3 times?
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
 					if(m_curPlane != NONE) {
 						m_curPlane = NONE;
 						m_hudDockTop->RemoveInnerWidget();
@@ -849,10 +849,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 				}
 			} else {
 				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
-                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
-                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
-                m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
 				if(m_curPlane != NONE) {
 					m_curPlane = NONE;
 					m_hudDockTop->RemoveInnerWidget();
