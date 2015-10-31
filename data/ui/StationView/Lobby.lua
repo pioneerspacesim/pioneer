@@ -36,7 +36,12 @@ local lobby = function (tab)
 	end)
 
 	local tech_certified
-	tech_certified = string.interp(l.TECH_CERTIFIED, { tech_level = station.techLevel})
+
+	if station.techLevel == 11 then
+		tech_certified = l.TECH_CERTIFIED_MILITARY
+	else
+		tech_certified = string.interp(l.TECH_CERTIFIED, { tech_level = station.techLevel})
+	end
 
 	return
 		ui:Grid({48,4,48},1)

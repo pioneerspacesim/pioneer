@@ -658,7 +658,7 @@ misc.missile_smart = EquipType.New({
 })
 misc.missile_naval = EquipType.New({
 	l10n_key="MISSILE_NAVAL", slots="missile", price=160,
-	missile_type="missile_naval", tech_level=11,
+	missile_type="missile_naval", tech_level="MILITARY",
 	capabilities={mass=1}, purchasable=true,
 	icon_name="missile_naval"
 })
@@ -675,7 +675,7 @@ misc.ecm_basic = EquipType.New({
 misc.ecm_advanced = EquipType.New({
 	l10n_key="ECM_ADVANCED", slots="ecm", price=15200,
 	capabilities={mass=2, ecm_power=3, ecm_recharge=5},
-	purchasable=true, tech_level=11
+	purchasable=true, tech_level="MILITARY"
 })
 misc.scanner = EquipType.New({
 	l10n_key="SCANNER", slots="scanner", price=680,
@@ -713,7 +713,7 @@ misc.radar_mapper = EquipType.New({
 })
 misc.advanced_radar_mapper = EquipType.New({
 	l10n_key="ADVANCED_RADAR_MAPPER", slots="radar", price=1200,
-	capabilities={mass=1, radar_mapper_level=2}, purchasable=true, tech_level=11
+	capabilities={mass=1, radar_mapper_level=2}, purchasable=true, tech_level="MILITARY"
 })
 misc.fuel_scoop = EquipType.New({
 	l10n_key="FUEL_SCOOP", slots="scoop", price=3500,
@@ -737,7 +737,7 @@ misc.shield_energy_booster = EquipType.New({
 })
 misc.hull_autorepair = EquipType.New({
 	l10n_key="HULL_AUTOREPAIR", slots="hull_autorepair", price=16000,
-	capabilities={mass=40, hull_autorepair=1}, purchasable=true, tech_level=11
+	capabilities={mass=40, hull_autorepair=1}, purchasable=true, tech_level="MILITARY"
 })
 misc.trade_analyzer = EquipType.New({
 	l10n_key="TRADE_ANALYZER", slots="trade_analyzer", price=400,
@@ -794,7 +794,7 @@ hyperspace.hyperdrive_mil1 = HyperdriveType.New({
 })
 hyperspace.hyperdrive_mil2 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL2", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
-	price=47000, capabilities={mass=8, hyperclass=2}, purchasable=true, tech_level=11
+	price=47000, capabilities={mass=8, hyperclass=2}, purchasable=true, tech_level="MILITARY"
 })
 hyperspace.hyperdrive_mil3 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL3", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
@@ -853,7 +853,7 @@ laser.pulsecannon_20mw = LaserType.New({
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
 		lifespan=8, speed=1000, damage=20000, rechargeTime=0.25, length=30,
 		width=5, dual=0, mining=0, rgba_r = 0.1, rgba_g = 51, rgba_b = 255, rgba_a = 255
-	}, purchasable=true, tech_level=11
+	}, purchasable=true, tech_level="MILITARY"
 })
 laser.miningcannon_17mw = LaserType.New({
 	l10n_key="MININGCANNON_17MW", price=10600, capabilities={mass=10},

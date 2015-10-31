@@ -15,6 +15,16 @@ local ui = Engine.ui
 local hasTech = function (e)
 	local station = Game.player:GetDockedWith()
 	local equip_tech_level = e.tech_level or 1 -- default to 1
+
+	if type(equip_tech_level) == "string" then
+		if equip_tech_level == "MILITARY" then
+			return station.techLevel == 11
+		else
+			error("Unknown tech level:\t"..equip_tech_level)
+		end
+	end
+
+	assert(type(equip_tech_level) == "number")
 	return station.techLevel >= equip_tech_level
 end
 
