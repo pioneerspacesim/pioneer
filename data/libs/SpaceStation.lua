@@ -3,6 +3,7 @@
 
 local SpaceStation = import_core("SpaceStation")
 local Event = import("Event")
+local Rand = import("Rand")
 local Space = import("Space")
 local utils = import("utils")
 local ShipDef = import("ShipDef")
@@ -18,6 +19,15 @@ local Equipment = import("Equipment")
 --
 -- Class: SpaceStation
 --
+
+
+function SpaceStation:Constructor()
+	-- Use a variation of the space station seed itself to ensure consistency
+	local rand = Rand.New(util.hash_random(self.seed .. '-techLevel', 2^31)-1)
+	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
+	self:setprop("techLevel", techLevel)
+end
+
 
 local equipmentStock = {}
 
