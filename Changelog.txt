@@ -11,6 +11,7 @@ October 2015
      * Split the flightstate DOCKING into an UNDOCKING state as well (#3481)
      * Account for the fuel mass in hyperspace range calculation (#3489)
      * Bad Terrain, no cookie! (#3490)
+     * Small time acceleration limitation fix (#3506)
   
    * Internal Changes
      * Exposing full color values instead of only alphas in skin.ini (#3486)
