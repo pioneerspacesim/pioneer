@@ -600,7 +600,7 @@ void UseEquipWidget::UpdateEquip()
 
 ///////////////////////////////////////////////
 
-MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
+MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(104, 17)
 {
 	m_active = 0;
 	m_rg = new Gui::RadioGroup();
@@ -614,7 +614,7 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 	m_buttons[1] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_equip.png", "icons/multifunc_equip_on.png");
 	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
 	m_buttons[1]->SetShortcut(SDLK_F10, KMOD_NONE);
-	m_buttons[1]->SetRenderDimensions(34, 17);
+	m_buttons[0]->SetRenderDimensions(34, 17);
 
 	UpdateButtons();
 

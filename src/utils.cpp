@@ -422,6 +422,19 @@ void StrToAuto(double *pVal, const std::string &str)
 	*pVal = StrToDouble(str);
 }
 
+/**
+    Converts geographic coordinates from decimal to degree/minutes/seconds format
+    and returns a string.
+*/
+std::string DecimalToDegMinSec(float dec)
+{
+	int degrees = floor(dec);
+	int minutes = floor(60*(dec - degrees));
+	int seconds = floor(3600 * ((dec - degrees) - static_cast<float>(minutes) / 60));
+	std::string str = stringf("%0° %1' %2\"", degrees, minutes, seconds);
+	return str;
+}
+
 static const int HEXDUMP_CHUNK = 16;
 void hexdump(const unsigned char *buf, int len)
 {
