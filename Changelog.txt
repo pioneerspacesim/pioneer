@@ -4,6 +4,7 @@ October 2015
      * Commodity Market rewrite (#3467)
      * OS X Homebrew Build script (#3447)
      * Make trade analyzer module into a software module (#3474)
+	 * Show latitude/longitude ()#3499)
 
    * Fixes
      * Miscellaneous warnings fixes (#3472)
