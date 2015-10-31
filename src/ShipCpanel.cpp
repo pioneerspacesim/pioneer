@@ -443,7 +443,7 @@ void ShipCpanel::SetOverlayToolTip(OverlayTextPos pos, const std::string &text)
 
 void ShipCpanel::ClearOverlay()
 {
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < OVERLAY_MAX; i++) {
 		m_overlay[i]->SetText("");
 		m_overlay[i]->SetToolTip("");
 	}

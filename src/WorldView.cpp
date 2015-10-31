@@ -825,15 +825,15 @@ void WorldView::RefreshButtonStateAndVisibility()
 						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
 
-                    // show lat/long when altitude is shownr
-                    const float lat = RAD2DEG(asin(surface_pos.y));
-                    const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-                    std::string lat_str = DecimalToDegMinSec(lat);
-                    std::string lon_str = DecimalToDegMinSec(lon);
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "Lat:");
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "Long:");
-                    m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
+					// show lat/long when altitude is shownr
+					const float lat = RAD2DEG(asin(surface_pos.y));
+					const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+					std::string lat_str = DecimalToDegMinSec(lat);
+					std::string lon_str = DecimalToDegMinSec(lon);
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "Lat:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "Long:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
 				} else {
 					// XXX does this need to be repeated 3 times?
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
