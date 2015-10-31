@@ -306,32 +306,33 @@ bool Game::UpdateTimeAccel()
   		if (m_player->GetAlertState() == Ship::ALERT_SHIP_FIRING)
 			newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
 		
-		if (!m_forceTimeAccel)
+		if (!m_forceTimeAccel) {
 
 		        // if not forced - limit timeaccel to 10x when other ships are close	  
-		        if (m_player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
-			        newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+			if (m_player->GetAlertState() == Ship::ALERT_SHIP_NEARBY)
+				newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
 
       			// if not forced - check if we aren't too near to objects for timeaccel
 			else {
-			for (const Body* b : m_space->GetBodies()) {
-				if (b == m_player.get()) continue;
-				if (b->IsType(Object::HYPERSPACECLOUD)) continue;
+				for (const Body* b : m_space->GetBodies()) {
+					if (b == m_player.get()) continue;
+					if (b->IsType(Object::HYPERSPACECLOUD)) continue;
 
-				vector3d toBody = m_player->GetPosition() - b->GetPositionRelTo(m_player->GetFrame());
-				double dist = toBody.Length();
-				double rad = b->GetPhysRadius();
+					vector3d toBody = m_player->GetPosition() - b->GetPositionRelTo(m_player->GetFrame());
+					double dist = toBody.Length();
+					double rad = b->GetPhysRadius();
 
-				if (dist < 1000.0) {
-					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
-				} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
-					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
-				} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
-					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
-				} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
-					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
-				} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
-					newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
+					if (dist < 1000.0) {
+						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1X);
+					} else if (dist < std::min(rad+0.0001*AU, rad*1.1)) {
+						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10X);
+					} else if (dist < std::min(rad+0.001*AU, rad*5.0)) {
+						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_100X);
+					} else if (dist < std::min(rad+0.01*AU,rad*10.0)) {
+						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_1000X);
+					} else if (dist < std::min(rad+0.1*AU, rad*1000.0)) {
+						newTimeAccel = std::min(newTimeAccel, Game::TIMEACCEL_10000X);
+					}
 				}
 			}
 
