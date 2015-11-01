@@ -577,11 +577,11 @@
    },
    "MARKET_BUYLINE" : {
       "description" : "",
-      "message" : "Buy {amount} units for {price}"
+      "message" : "Venni: {amount}, Ár: {price}"
    },
    "MARKET_SELLINE" : {
       "description" : "",
-      "message" : "Sell {amount} units for {price}"
+      "message" : "Eladni: {amount}, Ár: {price}"
    },
    "MASS" : {
       "description" : "",

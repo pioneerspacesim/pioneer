@@ -4,6 +4,7 @@ October 2015
      * Commodity Market rewrite (#3467)
      * OS X Homebrew Build script (#3447)
      * Make trade analyzer module into a software module (#3474)
+	 * Show latitude/longitude ()#3499)
 
    * Fixes
      * Miscellaneous warnings fixes (#3472)
@@ -11,6 +12,7 @@ October 2015
      * Split the flightstate DOCKING into an UNDOCKING state as well (#3481)
      * Account for the fuel mass in hyperspace range calculation (#3489)
      * Bad Terrain, no cookie! (#3490)
+     * Small time acceleration limitation fix (#3506)
   
    * Internal Changes
      * Exposing full color values instead of only alphas in skin.ini (#3486)
@@ -18,6 +20,7 @@ October 2015
      * Simplified Star Shader (#3487)
      * Change forced time acceleration around ships (#3445)
      * Present a clearer warning to the user if OpenGL fails to initialise (#3496)
+     * Eclipse tidy (#3501)
 
 September 2015
    * New Features

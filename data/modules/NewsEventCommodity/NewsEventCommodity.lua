@@ -144,7 +144,7 @@ local onChat = function (form, ref, option)
 	local faction = ad.n.syspath:GetStarSystem().faction.name
 
 	local newspaper
-	if faction == "Federation" then
+	if faction == "Solar Federation" then
 		newspaper = l.NEWSPAPER_FED
 	elseif faction == "Commonwealth of Independent Worlds" then
 		newspaper = l.NEWSPAPER_CIW
