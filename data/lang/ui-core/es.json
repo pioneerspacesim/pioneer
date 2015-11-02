@@ -200,7 +200,7 @@
       "message" : "Listado de Tripulación"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Registro Criminal"
    },
    "DANGEROUS" : {
@@ -258,6 +258,10 @@
    "DUE" : {
       "description" : "mission deadline date",
       "message" : "Vencimiento"
+   },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -767,6 +771,10 @@
       "description" : "",
       "message" : "La velocidad de órbita circular es dada por una velocidad tangencial. La nave se debería mover en una dirección a 90° del eje de la nave/{name}.\n\nLa velocidad de descenso es un mínimo absoluto, y es también tangencial. Una velocidad o ángulo más bajos resultarán en un curso que intersecta con la superficie de {name}.\n\nLa velocidad de escape funcionará, en teoría, en cualquier dirección, mientras que la nave no colisione con {name} en la ruta.\n\t\t"
    },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Outstanding fines"
+   },
    "OWED" : {
       "description" : "Player owing money to crew members",
       "message" : "Deuda"
@@ -983,6 +991,14 @@
       "description" : "",
       "message" : "Estatus"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "This station holds a level {tech_level} technology certificate."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "This installation holds a military technology clearance."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
       "message" : "Gracias por su adquisición. Recuerde montar equipo y adquirir combustible antes de partir."
@@ -1082,6 +1098,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
       "message" : "No tenemos asuntos pendientes con usted."
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} cannot be tolerated here!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

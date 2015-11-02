@@ -200,7 +200,7 @@
       "message" : "Besætningsliste"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Straffeattest"
    },
    "DANGEROUS" : {
@@ -258,6 +258,10 @@
    "DUE" : {
       "description" : "mission deadline date",
       "message" : "Til"
+   },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -767,6 +771,10 @@
       "description" : "",
       "message" : "Cirkulært kredsløb er givet for en tangential hastighed. Skibet skal bevæge sig i en retning på 90° til skibets/{navn} akse.\n\nNedstigningshastighed er et absolut minimum og også tangential. En langsommere hastighed eller en lavere vinkel vil resultere i en kurs, der krydser med overfladen af {name}.\n\nUndslipningshastigheden vil i teorien virke i alle retninger, så længe skibet ikke kolliderer med {name} på vejen."
    },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Outstanding fines"
+   },
    "OWED" : {
       "description" : "Player owing money to crew members",
       "message" : "Skyldte"
@@ -983,6 +991,14 @@
       "description" : "",
       "message" : "Status"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "This station holds a level {tech_level} technology certificate."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "This installation holds a military technology clearance."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
       "message" : "Tak for dit køb. Husk at montere udstyr og tank op, inden du tager herfra."
@@ -1082,6 +1098,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
       "message" : "Vi har intet til dig lige nu."
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} cannot be tolerated here!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

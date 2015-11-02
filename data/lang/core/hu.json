@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Szep"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Kombinált szívó"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Bár kevésbé hatékony üzemanyagszívó üzemmódban, mint a hagyományos üzemanyagszívó de lehetővé teszi rakomány befogását is."
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Gyilkosság"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "Relatív sebesség (%frame): %speed{f.0} m/s"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Kalózkodás"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Dől"
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Plutokrata diktatúra"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "RENDŐRSÉG"
    },
    "POPULATION" : {
       "description" : "",
@@ -1743,10 +1723,6 @@
       "description" : "",
       "message" : "<ismeretlen>"
    },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Törvénytelen fegyverhasználat"
-   },
    "UNSET_NAVTARGET" : {
       "description" : "",
       "message" : "Navigációs cél törlése"
@@ -1810,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "A(z) %crime bűntény itt nem elfogadott."
    },
    "Y" : {
       "description" : "keybinding: y axis",
