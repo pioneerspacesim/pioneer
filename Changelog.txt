@@ -1,10 +1,24 @@
+November 2015
+   * New Features
+     * New random number generator! (#3485)
+     * More moons for Jupiter, and a low Earth orbit station (#3503)
+     * Three new faction specific police ships, and new crimes added (#3254)
+     * Three new faction specific fuel clubs (#3504)
+     * All stations now have a Tech Level, in range 1-12 (#3505)
+
+   * Fixes
+     * Fix stations placed on top of each other (#3498)
+
+   * Internal Changes
+     * All crime handling moved to Lua (#3254)
+
 October 2015
    * New Features
      * Fade orbits faster and darker (#3469)
      * Commodity Market rewrite (#3467)
      * OS X Homebrew Build script (#3447)
      * Make trade analyzer module into a software module (#3474)
-	 * Show latitude/longitude ()#3499)
+     * Show latitude/longitude ()#3499)
 
    * Fixes
      * Miscellaneous warnings fixes (#3472)
@@ -13,7 +27,7 @@ October 2015
      * Account for the fuel mass in hyperspace range calculation (#3489)
      * Bad Terrain, no cookie! (#3490)
      * Small time acceleration limitation fix (#3506)
-  
+
    * Internal Changes
      * Exposing full color values instead of only alphas in skin.ini (#3486)
      * GLSL preprocessor includes (#3488)
