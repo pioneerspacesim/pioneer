@@ -750,13 +750,55 @@ void LuaObjectBase::Register(LuaObjectBase *lo)
 	lua_pop(l, 1);                                              // lo userdata
 
 	luaL_getmetatable(l, lo->m_type);                           // lo userdata, lo metatable
-	lua_setmetatable(l, -2);                                    // lo userdata
 
+	lua_pushvalue(l, -1);										// Copy the metatable to begin the search.
+
+	// Now let's go digging around to find a suitable constructor.
+	// Shameless lift from l_dispatch_index
+	// XXX: polish a bit the code, because while(1) is ugly as hell.
+	// I blame robn for that ;-)
+	while (1) {
+		get_next_method_table(l);
+
+		lua_pushstring(l, "Constructor");
+		if (get_method_or_attr(l)) {
+			// Removing the metatable, the method table, and the name copy. Apparently.
+			lua_remove(l, -2);
+			lua_remove(l, -2);
+			lua_remove(l, -2);
+			break;
+		}
+
+		// not found. remove name copy and method table
+		lua_pop(l, 2);
+
+		// if there's no parent metatable, get out
+		if (lua_isnil(l, -1)) {
+			break;
+		}
+	}
+
+	lua_pushvalue(l, -2); // Copy the metatable over the constructor.
+	lua_setmetatable(l, -4); // lo userdata, lo mt, lua cons
+
+	//
 	// attach properties table if available
 	PropertiedObject *po = dynamic_cast<PropertiedObject*>(lo->GetObject());
 	if (po) {
 		po->Properties().PushLuaTable();
-		lua_setuservalue(l, -2);
+		lua_setuservalue(l, -4);
+	}
+
+
+	// Call the lua constructor if it ain't nil
+	// We didn't do this when we got it, because one might want to use the nice stuff
+	// such as the properties in the bloody constructor. Setprop, anyone? :)
+	if (lua_isfunction(l, -1)) {
+		lua_pushvalue(l, -3);			// lo userdata, lo mt, cons, lo userdata
+		lua_call(l, 1, 0);				// lo userdata, lo mt
+		lua_pop(l, 1); // Pop the metatable, we're done with it
+	} else {
+		lua_pop(l, 2); // Pop the junk AND the metatable.
 	}
 
 	LUA_DEBUG_END(l, 0);
