@@ -614,10 +614,8 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		Color oldAmbient;
 		SetLighting(r, camera, oldLights, oldAmbient);
 
-		Planet *planet = static_cast<Planet*>(b);
-
 		if (!m_adjacentCity) {
-			m_adjacentCity = new CityOnPlanet(planet, this, m_sbody->GetSeed());
+			m_adjacentCity = new CityOnPlanet(static_cast<Planet*>(b), this, m_sbody->GetSeed());
 		}
 		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
 
