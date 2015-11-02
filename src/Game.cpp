@@ -77,7 +77,6 @@ Game::Game(const SystemPath &path, double time) :
 		m_player->SetPosition(vector3d(0, 1.5*sbody->GetRadius(), 0));
 		m_player->SetVelocity(vector3d(0,0,0));
 	}
-	Polit::Init(m_galaxy);
 
 	CreateViews();
 
@@ -168,9 +167,6 @@ m_forceTimeAccel(false)
 	for (Uint32 i = 0; i < hyperspaceCloudArray.size(); i++)
 		m_hyperspaceClouds.push_back(static_cast<HyperspaceCloud*>(Body::FromJson(hyperspaceCloudArray[i], 0)));
 
-	// system political stuff
-	Polit::FromJson(jsonObj, m_galaxy);
-
 	// views
 	LoadViewsFromJson(jsonObj);
 
@@ -224,9 +220,6 @@ void Game::ToJson(Json::Value &jsonObj)
 		hyperspaceCloudArray.append(hyperspaceCloudArrayEl); // Append hyperspace cloud object to array.
 	}
 	jsonObj["hyperspace_clouds"] = hyperspaceCloudArray; // Add hyperspace cloud array to supplied object.
-
-	// system political data (crime etc)
-	Polit::ToJson(jsonObj);
 
 	// views. must be saved in init order
 	m_gameViews->m_cpan->SaveToJson(jsonObj);

@@ -9,6 +9,7 @@ local f = Faction:new('Commonwealth of Independent Worlds')
 	:expansionRate(1.0)
 	:military_name('Confederation Fleet')
 	:police_name('Confederal Police')
+	:police_ship('pumpkinseed_police')
 	:colour(0.4,1.0,0.4)
 
 f:govtype_weight('CISSOCDEM', 80)

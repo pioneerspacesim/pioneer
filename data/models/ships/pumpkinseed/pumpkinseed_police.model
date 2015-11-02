@@ -1,0 +1,21 @@
+material smallship_fuselage-material
+diffuse 1.0 1.0 1.0
+specular 0.9 0.9 0.9
+shininess 70
+tex_diff pumpkinseed_police_diff.dds
+tex_glow pumpkinseed_police_glow.dds
+tex_spec pumpkinseed_police_spec.dds
+
+lod 50
+mesh pumpkinseed_3low.dae
+
+lod 100
+mesh pumpkinseed_2med.dae
+
+lod 300
+mesh pumpkinseed_1hi.dae
+mesh pumpkinseed_shield.dae
+
+collision pumpkinseed_collision.dae
+
+anim gear_down 0 100

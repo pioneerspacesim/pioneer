@@ -205,25 +205,6 @@ void LuaConstants::Register(lua_State *l)
 	 */
 
 	/*
-	 * Constants: PolitCrime
-	 *
-	 * Crimes
-	 *
-	 * TRADING_ILLEGAL_GOODS - .
-	 * WEAPON_DISCHARGE - .
-	 * PIRACY - .
-	 * MURDER - .
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-
-	/*
 	 * Constants: PolitEcon
 	 *
 	 * Economy type
