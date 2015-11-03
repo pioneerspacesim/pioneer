@@ -29,7 +29,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
-      "message" : "Atmospheric shielding"
+      "message" : "Blindagem atmosférica"
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
@@ -93,7 +93,7 @@
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
-      "message" : "Cargo space used"
+      "message" : "Espaço de carga utilizado"
    },
    "CARGO_T_FREE" : {
       "description" : "t for tonne",
@@ -153,7 +153,7 @@
    },
    "COMPACT_SCANNER" : {
       "description" : "Game settings option",
-      "message" : "Compact scanner"
+      "message" : "Escaneador compacto"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -261,7 +261,7 @@
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Descarte"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -581,11 +581,11 @@
    },
    "MARKET_BUYLINE" : {
       "description" : "",
-      "message" : "Buy {amount} units for {price}"
+      "message" : "Comprar {amount} unidades por {price}"
    },
    "MARKET_SELLINE" : {
       "description" : "",
-      "message" : "Sell {amount} units for {price}"
+      "message" : "Vender {amount} unidades por {price}"
    },
    "MASS" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
+      "message" : "Multas pendentes"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -841,7 +841,7 @@
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
-      "message" : "Quit confirmation"
+      "message" : "Confirmação de saída"
    },
    "RANK" : {
       "description" : "",
@@ -905,7 +905,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Scoop mounts"
+      "message" : "Slots para coletores"
    },
    "SELECT" : {
       "description" : "",
@@ -981,7 +981,7 @@
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
-      "message" : "Density of Star field"
+      "message" : "Densidade do campo Estelar"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -993,11 +993,11 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "This station holds a level {tech_level} technology certificate."
+      "message" : "Esta estação possui um certificado de tecnologia de nível {tech_level}."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
-      "message" : "This installation holds a military technology clearance."
+      "message" : "Esta instalação possui uma autorização de tecnologia militar."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1077,7 +1077,7 @@
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
-      "message" : "VSync"
+      "message" : "Sincronização Vertical"
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
@@ -1101,7 +1101,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
+      "message" : "{crime} não será tolerado aqui!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

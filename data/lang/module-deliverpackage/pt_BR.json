@@ -53,7 +53,7 @@
    },
    "EXCELLENT_I_WILL_LET_THE_RECIPIENT_KNOW_YOU_ARE_ON_YOUR_WAY" : {
       "description" : "",
-      "message" : "Excelente. Vou avisar o destinatário que você está a caminho."
+      "message" : "Excelente. Avisarei ao destinatário que você está a caminho."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_9_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "Our livelihood depends on it."
+      "message" : "Nosso sustento depende disso."
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",

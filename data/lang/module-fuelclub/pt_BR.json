@@ -25,35 +25,35 @@
    },
    "FLAVOUR_1_CLUBNAME" : {
       "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
+      "message" : "A Fundação Federal de Combustíveis"
    },
    "FLAVOUR_1_NONMEMBER_INTRO" : {
       "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+      "message" : "{clubname} é o provedor líder de combustível descontado para as naves espaciais de seus membros na Federação Solar. Uma filiação intitulará você ao seguinte:"
    },
    "FLAVOUR_2_CLUBNAME" : {
       "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
+      "message" : "A União Confederada de Combustíveis"
    },
    "FLAVOUR_2_NONMEMBER_INTRO" : {
       "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+      "message" : "Por todo o vasto alcance da Comunidade de Mundos Independentes livre você descobrirá que {clubname} é o melhor provedor de combustível descontado e serviços de gerência de lixo. Para nossos membros, nós fazemos:"
    },
    "FLAVOUR_2_WELCOME" : {
       "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
+      "message" : "Saudações e cumprimentos! Esperamos que você aproveite nossos serviços."
    },
    "FLAVOUR_3_CLUBNAME" : {
       "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
+      "message" : "Divisão Haber de Propelentes e Perecíveis"
    },
    "FLAVOUR_3_MEMBER_INTRO" : {
       "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+      "message" : "Saudações, piloto. Seus privilégios de reabastecimento de combustível e eliminação condicional de subprodutos foram concedidos."
    },
    "FLAVOUR_3_NONMEMBER_INTRO" : {
       "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+      "message" : "Saudações, piloto. Está é a Divisão Haber de Propelentes e Perecíveis, a quem é confiada a gerência de distribuição de combustíveis por todo o espaço possuído pela Haber."
    },
    "GO_BACK" : {
       "description" : "",

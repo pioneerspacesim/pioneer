@@ -549,7 +549,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Désactiver l'hyper-propulsion."
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Activer l'hyper-propulsion."
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -1145,7 +1145,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Démarrage de la manœuvre. Cliquez pour réinitialisez aux valeurs par défaut."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1705,7 +1705,7 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "Désammarrage."
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
