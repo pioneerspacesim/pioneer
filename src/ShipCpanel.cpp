@@ -287,7 +287,7 @@ void ShipCpanel::Update()
 	int timeAccel = m_game->GetTimeAccel();
 	int requested = m_game->GetRequestedTimeAccel();
 
-	for (int i=0; i<7; i++) {
+	for (int i=0; i<Game::TimeAccel::TIMEACCEL_HYPERSPACE; i++) {
 		m_timeAccelButtons[i]->SetSelected(timeAccel == i);
 	}
 	// make requested but not selected icon blink
