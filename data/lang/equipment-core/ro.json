@@ -177,15 +177,15 @@
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Raza maximă de acțiune a scanării a fost depășită:"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Scanare corp ceresc"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Scanare cel mai apropiat corp ceresc pentru resurse."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Scanare completă"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Scanarea reluată"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Incepe scanarea, distanta la tinta e"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",

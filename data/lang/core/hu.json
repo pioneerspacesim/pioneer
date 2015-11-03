@@ -549,7 +549,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Hipermotor leállítása"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Hipermotor indítása"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Szep"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Kombinált szívó"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Bár kevésbé hatékony üzemanyagszívó üzemmódban, mint a hagyományos üzemanyagszívó de lehetővé teszi rakomány befogását is."
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Gyilkosság"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "Relatív sebesség (%frame): %speed{f.0} m/s"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Kalózkodás"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Dől"
@@ -1161,7 +1145,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Manőver időpontja. Kattints az alaphelyzetbe állításhoz."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Plutokrata diktatúra"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "RENDŐRSÉG"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "Hármas rendszer"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Leválás"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Felfedezetlen rendszer, nincs elérhető adat."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<ismeretlen>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Törvénytelen fegyverhasználat"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "A(z) %crime bűntény itt nem elfogadott."
    },
    "Y" : {
       "description" : "keybinding: y axis",

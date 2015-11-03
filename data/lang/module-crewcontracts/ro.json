@@ -43,6 +43,10 @@
       "description" : "",
       "message" : "Navigator"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Ne pare rău, nu există candidați care să caute de muncă în stația {station}"
+   },
    "NO_EXPERIENCE" : {
       "description" : "",
       "message" : "Fără experiență"

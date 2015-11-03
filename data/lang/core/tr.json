@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Eyl"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Çoklu Toplayıcı"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Yakıt toplayıcıdan daha az etkilli olsa da hem kargo hem de yakıt toplamaya izin verir"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Cinayet"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s görece %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Korsanlık"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Eğim"
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Plütokratik diktatörlük"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLİS"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "Üçlü sistem"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Keşfedilmemiş sistem. Daha fazla bilgi yok."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<bilinmeyen>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Kanun dışı silah kullanımı"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime burada hoş karşılanamaz."
    },
    "Y" : {
       "description" : "keybinding: y axis",

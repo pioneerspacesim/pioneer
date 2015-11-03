@@ -23,6 +23,38 @@
       "description" : "",
       "message" : "Benvindo a {nome do clube}"
    },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "A Fundação Federal de Combustíveis"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "{clubname} é o provedor líder de combustível descontado para as naves espaciais de seus membros na Federação Solar. Uma filiação intitulará você ao seguinte:"
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "A União Confederada de Combustíveis"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "Por todo o vasto alcance da Comunidade de Mundos Independentes livre você descobrirá que {clubname} é o melhor provedor de combustível descontado e serviços de gerência de lixo. Para nossos membros, nós fazemos:"
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "Saudações e cumprimentos! Esperamos que você aproveite nossos serviços."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Divisão Haber de Propelentes e Perecíveis"
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Saudações, piloto. Seus privilégios de reabastecimento de combustível e eliminação condicional de subprodutos foram concedidos."
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Saudações, piloto. Está é a Divisão Haber de Propelentes e Perecíveis, a quem é confiada a gerência de distribuição de combustíveis por todo o espaço possuído pela Haber."
+   },
    "GO_BACK" : {
       "description" : "",
       "message" : "Volte"

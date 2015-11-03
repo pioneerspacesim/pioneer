@@ -25,6 +25,7 @@ struct Settings;
 namespace OGL {
 	class GasGiantSurfaceMaterial;
 	class GeoSphereSkyMaterial;
+	class GeoSphereStarMaterial;
 	class GeoSphereSurfaceMaterial;
 	class Material;
 	class MultiMaterial;
@@ -139,6 +140,7 @@ protected:
 	friend class OGL::GasGiantSurfaceMaterial;
 	friend class OGL::GeoSphereSurfaceMaterial;
 	friend class OGL::GeoSphereSkyMaterial;
+	friend class OGL::GeoSphereStarMaterial;
 	friend class OGL::MultiMaterial;
 	friend class OGL::LitMultiMaterial;
 	friend class OGL::RingMaterial;

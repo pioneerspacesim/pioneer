@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Set."
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Assassinat"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s en rel. a %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Pirateria"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Pitch"
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Plutocràcia dictatorial"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLICIA"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "Sistema triple"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Sistema inexplorat. No se'n coneix informació."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<desconegut>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Disparar armes il·legals"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime no és tolerat aqui"
    },
    "Y" : {
       "description" : "keybinding: y axis",

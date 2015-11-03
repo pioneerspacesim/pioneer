@@ -5,7 +5,6 @@
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Player.h"
-#include "Polit.h"
 #include "Pi.h"
 #include "Game.h"
 #include "SectorView.h"
@@ -22,66 +21,6 @@ static int l_player_is_player(lua_State *l)
 {
     lua_pushboolean(l, true);
     return 1;
-}
-
-/*
- * Method: AddCrime
- *
- * Add a crime to the player's criminal record
- *
- * > player:AddCrime(crime, fine)
- *
- * Parameters:
- *
- *   crime - a <Constants.PolitCrime> string describing the crime
- *
- *   fine - an amount to add to the player's fine
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
- */
-static int l_player_add_crime(lua_State *l)
-{
-	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
-	Sint64 crimeBitset = LuaConstants::GetConstantFromArg(l, "PolitCrime", 2);
-	Sint64 fine = Sint64(luaL_checknumber(l, 3) * 100.0);
-	Polit::AddCrime(crimeBitset, fine);
-	return 0;
-}
-
-// XXX temporary until crime is moved out to Lua properly
-static int l_player_get_crime(lua_State *l)
-{
-	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
-
-	Sint64 crimeBitset, fine;
-	Polit::GetCrime(&crimeBitset, &fine);
-
-	lua_newtable(l);
-	for (Sint64 i = 0; i < 4; i++) { // hardcoding 4 possible Polit::Crime flags
-		if (crimeBitset & (Sint64(1)<<i)) {
-			lua_pushstring(l, EnumStrings::GetString("PolitCrime", 1<<i));
-			lua_rawseti(l, -2, lua_rawlen(l, -2)+1);
-		}
-	}
-
-	lua_pushnumber(l, double(fine) * 0.01);
-
-	return 2;
-}
-
-static int l_player_clear_crime_fine(lua_State *l)
-{
-	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
-	Sint64 crimeBitset, fine;
-	Polit::GetCrime(&crimeBitset, &fine);
-	Polit::AddCrime(0, -fine);
-	return 0;
 }
 
 /*
@@ -277,10 +216,6 @@ template <> void LuaObject<Player>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
-
-		{ "AddCrime",       l_player_add_crime },
-		{ "GetCrime",       l_player_get_crime },
-		{ "ClearCrimeFine", l_player_clear_crime_fine },
 
 		{ "GetNavTarget",    l_get_nav_target    },
 		{ "SetNavTarget",    l_set_nav_target    },

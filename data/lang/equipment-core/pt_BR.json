@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Mapeador Avançado de Radar"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Mapeador de radar de longa distância com cobertura total de sistema."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Analisa nuvens do hiper espaço para determinar destinos e tempo de chegada e partida."
+      "message" : "Analisa nuvens do hiperespaço para determinar destinos e tempo de chegada e partida."
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
@@ -169,23 +169,23 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Multi-Coletor"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Apesar de menos efetivo que um coletor de combustível, permite coletar tanto carga como combustível."
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Alcance máximo de escaneamento ultrapassado:"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Escanear corpo"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Escanear o corpo mais próximo por recursos."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Escaneamento completado"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Escaneamento resumido"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -261,15 +261,15 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Começando escaneamento, a distância para o alvo é de"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Analisador de comércio"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Mostra mercadorias lucrativas para se comercializar entre o sistema selecionado e o atual"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

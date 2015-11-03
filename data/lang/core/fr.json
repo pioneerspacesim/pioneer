@@ -549,7 +549,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Désactiver l'hyper-propulsion."
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Activer l'hyper-propulsion."
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Sept"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Malgré une efficacité moindre que celle d'une écope à carubrant, cela permet d'écoper et la cargaison, et le carburant."
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Meurtre"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s rel-à %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Piraterie"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Lancement"
@@ -1161,7 +1145,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Démarrage de la manœuvre. Cliquez pour réinitialisez aux valeurs par défaut."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Dictature ploutocratique"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLICE"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "Système ternaire"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Désammarrage."
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Système non-exploré. Aucune donnée disponible."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<inconnu>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Utilisation illégale d'armes"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime ne pourra être toléré ici."
    },
    "Y" : {
       "description" : "keybinding: y axis",

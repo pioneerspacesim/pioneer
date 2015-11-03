@@ -1,71 +1,71 @@
 {
    "MSG_1" : {
       "description" : "",
-      "message" : "Say {yes} to get out of here and go back to your boring programs?"
+      "message" : "Dizer {yes} para sair daqui e voltar aos seus programas entediantes?"
    },
    "MSG_10" : {
       "description" : "",
-      "message" : "Please choose {no} to waste a few more productive hours. Please?"
+      "message" : "Por favor escolha {no} para gastar mais algumas horas produtivas. Por favor?"
    },
    "MSG_11" : {
       "description" : "",
-      "message" : "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+      "message" : "Exploradores não desistem, mas vá em frente e clique em {yes} se você não é um."
    },
    "MSG_12" : {
       "description" : "",
-      "message" : "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+      "message" : "Escolha {no} se você é um caçador de recompensas durão, se não, clique meigamente em {yes}."
    },
    "MSG_13" : {
       "description" : "\"Seeing\" as in having an affair / being unfaithful",
-      "message" : "We never talk anymore. Are you seeing someone else?"
+      "message" : "Nós nunca mais conversamos. Você está saindo com outra pessoa?"
    },
    "MSG_14" : {
       "description" : "",
-      "message" : "Do you really have something better to do?"
+      "message" : "Você realmente tem algo melhor pra fazer?"
    },
    "MSG_15" : {
       "description" : "",
-      "message" : "Giving up already?"
+      "message" : "Desistindo tão rápido?"
    },
    "MSG_16" : {
       "description" : "A little homage to the movie 2001 A Space Odyssey",
-      "message" : "Just what do you think you're doing, Dave?"
+      "message" : "O que você pensa que está fazendo, Dave?"
    },
    "MSG_17" : {
       "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-      "message" : "Quitting is for WIMPs!"
+      "message" : "Fernão de Magalhães não desistiu."
    },
    "MSG_2" : {
       "description" : "",
-      "message" : "Don't go now, there's a pirate waiting for you in the other program."
+      "message" : "Não vá agora, tem um pirata esperando por você no outro programa."
    },
    "MSG_3" : {
       "description" : "",
-      "message" : "Are you sure you want to quit this great game that cost you nothing?"
+      "message" : "Você tem certeza de que quer sair desse ótimo jogo que não custa nada?"
    },
    "MSG_4" : {
       "description" : "",
-      "message" : "Doest thou wish to leave with such hasty abandon?"
+      "message" : "Desejas sair com tal abandono apressado?"
    },
    "MSG_5" : {
       "description" : "(Inspired by Wolfenstein 3D)",
-      "message" : "Choose {no} for guns and glory, {yes} for work and worry."
+      "message" : "Escolha {no} para armas de fogo e glória, {sim} para trabalho e preocupação."
    },
    "MSG_6" : {
       "description" : "",
-      "message" : "Click {no} to be brave, click {yes} to cower in shame."
+      "message" : "Clique em {no} para ser bravo, clique em {yes} para se acovardar com vergonha."
    },
    "MSG_7" : {
       "description" : "Doom 1 anyone? Although it said DOS instead of Command line",
-      "message" : "I wouldn't leave if I were you. The command line is much worse."
+      "message" : "Eu não sairia se fosse você. A linha de comando é muito pior."
    },
    "MSG_8" : {
       "description" : "",
-      "message" : "I'm thinking you want to click {no} to play more. You do it."
+      "message" : "Estou pensando que você quer clicar em {no} para jogar mais. Faça-o."
    },
    "MSG_9" : {
       "description" : "",
-      "message" : "Clicking {yes} means you must return to the humdrum workday world."
+      "message" : "Clicar em {yes} significa que você deve retornar à monotonia do mundo de trabalho."
    },
    "NO" : {
       "description" : "No, don't quit program",
@@ -73,7 +73,7 @@
    },
    "QUIT" : {
       "description" : "Quit game, as a question",
-      "message" : "Quit?"
+      "message" : "Sair?"
    },
    "YES" : {
       "description" : "Yes, quit program",

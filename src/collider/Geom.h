@@ -42,7 +42,6 @@ private:
 	void CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
 		Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*));
 	int m_mailboxIndex; // used to avoid duplicate collisions
-	void CollideEdges(const matrix4x4d &transToB, Geom *b, void (*callback)(CollisionContact*));
 	// double-buffer position so we can keep previous position
 	matrix4x4d m_orient, m_invOrient;
 	bool m_active;

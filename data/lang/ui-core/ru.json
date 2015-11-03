@@ -200,7 +200,7 @@
       "message" : "Список экипажа"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Досье"
    },
    "DANGEROUS" : {
@@ -258,6 +258,10 @@
    "DUE" : {
       "description" : "mission deadline date",
       "message" : "Сроки"
+   },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -575,6 +579,14 @@
       "description" : "",
       "message" : "Мужчина"
    },
+   "MARKET_BUYLINE" : {
+      "description" : "",
+      "message" : "Купить {amount} ед. за {price}"
+   },
+   "MARKET_SELLINE" : {
+      "description" : "",
+      "message" : "Продать {amount} ед. за {price}"
+   },
    "MASS" : {
       "description" : "",
       "message" : "Вес"
@@ -758,6 +770,10 @@
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
       "message" : "Круговая орбитальная скорость дана для тангенциальной скорости. Корабль должен двигаться под 90В° к оси корабля/{name}.\n\nСкорость снижения - минимальная и тангенциальная. Наиболее низка скорость или минимальный угол, которые приведут к пересечению с поверхностью {name}.\n\nСкорость отдаления - теоретическая для любого направления, на котором корабль не пересечется с поверхностью {name}.\n\t\t"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Outstanding fines"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -975,6 +991,14 @@
       "description" : "",
       "message" : "Статус"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "This station holds a level {tech_level} technology certificate."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "This installation holds a military technology clearance."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
       "message" : "Спасибо за покупку! Перед взлётом не забудьте заправить баки и отремонтировать повреждённое оборудование."
@@ -1074,6 +1098,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
       "message" : "Ваш правовой статус чист. Всего доброго, Командир!"
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} cannot be tolerated here!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

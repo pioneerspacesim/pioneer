@@ -43,6 +43,10 @@
       "description" : "",
       "message" : "Navigateur"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Désolé, personne n'est actuellement en recherche d'emploi à {station}."
+   },
    "NO_EXPERIENCE" : {
       "description" : "",
       "message" : "Inexpérimenté."

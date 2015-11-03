@@ -200,7 +200,7 @@
       "message" : "船员名册"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "犯罪记录"
    },
    "DANGEROUS" : {
@@ -258,6 +258,10 @@
    "DUE" : {
       "description" : "mission deadline date",
       "message" : "应有"
+   },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -575,6 +579,14 @@
       "description" : "",
       "message" : "男性"
    },
+   "MARKET_BUYLINE" : {
+      "description" : "",
+      "message" : "Buy {amount} units for {price}"
+   },
+   "MARKET_SELLINE" : {
+      "description" : "",
+      "message" : "Sell {amount} units for {price}"
+   },
    "MASS" : {
       "description" : "",
       "message" : "质量"
@@ -758,6 +770,10 @@
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
       "message" : "环绕速度是指飞船的轨道速度在垂直于(90度)飞船-{name}方向上的分量.\n\n下降速度取最小绝对值, 同时也是切向的. 一个较慢的轨道速度或较低的角度会导致飞船的轨道与 {name} 表面交会.\n\n逃逸速度在任何方向上都相同, 除非飞船的轨道与 {name} 表面交会.\n\\t\\t"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Outstanding fines"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -975,6 +991,14 @@
       "description" : "",
       "message" : "状态"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "This station holds a level {tech_level} technology certificate."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "This installation holds a military technology clearance."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
       "message" : "感谢你的购买.记得在出发之前装载设备和并添加燃料."
@@ -1074,6 +1098,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
       "message" : "我们现在跟你没生意做."
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} cannot be tolerated here!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

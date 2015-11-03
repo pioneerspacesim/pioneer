@@ -200,7 +200,7 @@
       "message" : "Listă Echipaj"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Cazier judiciar"
    },
    "DANGEROUS" : {
@@ -258,6 +258,10 @@
    "DUE" : {
       "description" : "mission deadline date",
       "message" : "Termen"
+   },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -575,6 +579,14 @@
       "description" : "",
       "message" : "Masculin"
    },
+   "MARKET_BUYLINE" : {
+      "description" : "",
+      "message" : "Cumpără {amount} unități pentru {price}"
+   },
+   "MARKET_SELLINE" : {
+      "description" : "",
+      "message" : "Vinde {amount} unități pentru {price}"
+   },
    "MASS" : {
       "description" : "",
       "message" : "Masă"
@@ -758,6 +770,10 @@
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
       "message" : "Viteza pentru orbita circulară este dată pentru o viteză tangențială. Nava ar trebui să se miște întro direcție la 90° față de axa navei/corpului ceresc {name}.\n\nViteza de coborâre este un minim absolut, și este de asemenea tangențială. O viteză mai mica sau un unghi mai mic va rezulta intr-un curs care se intersectează cu suprafața corpului ceresc {name}.\n\nViteza de ieșire din atmosferă va merge în teorie în orice direcție, atâta timp cât nava nu intră în {name} în drum.\n⇥⇥"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Outstanding fines"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -965,7 +981,7 @@
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
-      "message" : "Density of Star field"
+      "message" : "Densitatea câmpului de stele"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -974,6 +990,14 @@
    "STATUS" : {
       "description" : "",
       "message" : "Statut"
+   },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "This station holds a level {tech_level} technology certificate."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "This installation holds a military technology clearance."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1074,6 +1098,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
       "message" : "Nu avem nici o treabă cu dumneavoastră pentru moment."
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} cannot be tolerated here!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

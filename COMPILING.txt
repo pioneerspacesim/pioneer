@@ -5,8 +5,9 @@ Table of Contents
   1.2 Windows - MSVC
   1.3 Windows - Autotools (Linux cross-compile)
   1.4 OS X - Autotools
-  1.5 OSX - XCode 4
-  1.6 Nix - Autotools
+  1.5 OS X - XCode 4
+  1.6 OS X - Homebrew
+  1.7 Nix - Autotools
 2 pioneer-thirdparty
   2.1 Linux - Autotools
   2.2 Windows - MSVC
@@ -25,7 +26,7 @@ Pioneer is known to build on the following platforms and build systems:
 Linux: GNU Autotools with GCC or Clang
 Windows: Microsoft Visual C++ 2013 (Express Edition or Pro)
 Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
-OS X: GNU Autotools or XCode 4
+OS X: XCode 4 or Homebrew or GNU Autotools
 
 The Autotools build system is usually the most up-to-date, and is what is used
 to produce the Linux and Windows builds. The others typically lag behind,
@@ -149,8 +150,8 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
       bundle). It also isn't the 'Apple way', To do that you need to use XCode.
 
 
-1.5 OSX - XCode 4
------------------
+1.5 OS X - XCode 4
+------------------
 
 * The XCode project isn't as up to date as the 'autotools' method and may
   be broken.
@@ -161,7 +162,26 @@ have installed above. Once the pioneer.app bundle is complete you can move it
 around where you like (/Applications is a nice place for it).
 
 
-1.6 Nix - Autotools
+1.6 OS X - Homebrew
+-------------------
+
+1. Install Homebrew package manager (http://brew.sh/) if you don't have one yet.
+
+2. Build and install pioneer. Required dependencies will be installed together.
+
+     brew install homebrew/games/pioneer
+
+   Or you may want to tap homebrew-games first and then install.
+
+     brew tap homebrew/games
+     brew install pioneer
+
+   If you want master branch from GitHub, add '--HEAD' option.
+
+     brew install --HEAD pioneer
+
+
+1.7 Nix - Autotools
 -------------------
 
 1. Install the development environment using the included expressions.

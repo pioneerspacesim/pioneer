@@ -200,7 +200,7 @@
       "message" : "Clàr an sgioba"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Clàr nan eucoir"
    },
    "DANGEROUS" : {
@@ -258,6 +258,10 @@
    "DUE" : {
       "description" : "mission deadline date",
       "message" : "Ceann-latha pàighidh"
+   },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumpadh"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -575,6 +579,14 @@
       "description" : "",
       "message" : "Fireann"
    },
+   "MARKET_BUYLINE" : {
+      "description" : "",
+      "message" : "Ceannaich {amount} aonad(an) air {price}"
+   },
+   "MARKET_SELLINE" : {
+      "description" : "",
+      "message" : "Reic {amount} aonad(an) air {price}"
+   },
    "MASS" : {
       "description" : "",
       "message" : "Tomad"
@@ -758,6 +770,10 @@
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
       "message" : "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan long a bhith a' siubhal le 90° an comhair aiseal na luinge/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an long ri {name} air an t-slighe.\n\t\t"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Càintean ri am pàigheadh"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -965,7 +981,7 @@
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
-      "message" : "Density of Star field"
+      "message" : "Dùmhlachd an reul-raoin"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -974,6 +990,14 @@
    "STATUS" : {
       "description" : "",
       "message" : "Staid"
+   },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "Tha teisteanas teicneolais ìre {tech_level} aig an stèisean seo."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "Tha cead airson teicneolas an airm aig an ionad seo."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1074,6 +1098,10 @@
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
       "message" : "Chan eil gnothach againn ruibh aig an àm seo."
+   },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "Chan fhulaing sinn {crime} ann a sheo!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

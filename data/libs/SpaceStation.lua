@@ -3,6 +3,7 @@
 
 local SpaceStation = import_core("SpaceStation")
 local Event = import("Event")
+local Rand = import("Rand")
 local Space = import("Space")
 local utils = import("utils")
 local ShipDef = import("ShipDef")
@@ -14,10 +15,22 @@ local Model = import("SceneGraph.Model")
 local ModelSkin = import("SceneGraph.ModelSkin")
 local Serializer = import("Serializer")
 local Equipment = import("Equipment")
+local Faction = import("Faction")
+local Lang = import("Lang")
+local l = Lang.GetResource("ui-core")
 
 --
 -- Class: SpaceStation
 --
+
+
+function SpaceStation:Constructor()
+	-- Use a variation of the space station seed itself to ensure consistency
+	local rand = Rand.New(util.hash_random(self.seed .. '-techLevel', 2^31)-1)
+	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
+	self:setprop("techLevel", techLevel)
+end
+
 
 local equipmentStock = {}
 
@@ -280,6 +293,117 @@ end
 
 
 --
+-- Attribute: lawEnforcedRange
+--
+--   The distance, in meters, at which a station upholds the law,
+--   (is 100 km for all at the moment)
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+SpaceStation.lawEnforcedRange = 100000
+
+
+local police = {}
+
+--
+-- Method: LaunchPolice
+--
+-- Launch station police
+--
+-- > station:LaunchPolice(targetShip)
+--
+-- Parameters:
+--
+--   targetShip - the ship to intercept
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+function SpaceStation:LaunchPolice(targetShip)
+	if not targetShip then error("Ship targeted invalid") end
+
+	-- if no police created for this station yet:
+	if not police[self] then
+		police[self] = {}
+		-- decide how many to create
+		local lawlessness = Game.system.lawlessness
+		local maxPolice = math.min(9, self.numDocks)
+		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*lawlessness)
+		local shiptype = ShipDef[Game.system.faction.policeShip]
+
+		-- create and equip them
+		while numberPolice > 0 do
+			local policeShip = Space.SpawnShipDocked(shiptype.id, self)
+			if policeShip == nil then
+				return
+			else
+				numberPolice = numberPolice - 1
+				--policeShip:SetLabel(Game.system.faction.policeName) -- this is cool, but not translatable right now
+				policeShip:SetLabel(l.POLICE)
+				policeShip:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
+				policeShip:AddEquip(Equipment.misc.atmospheric_shielding)
+				policeShip:AddEquip(Equipment.misc.laser_cooling_booster)
+				policeShip:AddEquip(Equipment.cargo.hydrogen, 1)
+
+				table.insert(police[self], policeShip)
+			end
+		end
+	end
+
+	for _, policeShip in pairs(police[self]) do
+		-- if docked
+		if policeShip.flightState == "DOCKED" then
+			policeShip:Undock()
+		end
+		-- if not shot down
+		if policeShip:exists() then
+			policeShip:AIKill(targetShip)
+		end
+	end
+end
+
+
+--
+-- Method: LandPolice
+--
+-- Clear any target assigned and land flying station police.
+--
+-- > station:LandPolice()
+--
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+function SpaceStation:LandPolice()
+	-- land command issued before creation of police
+	if not police[self] then return end
+
+	for _, policeShip in pairs(police[self]) do
+		if not (policeShip.flightState == "DOCKED") and policeShip:exists() then
+			policeShip:CancelAI()
+			policeShip:AIDockWith(self)
+		end
+	end
+end
+
+
+--
 -- Group: Methods
 --
 
@@ -522,6 +646,8 @@ local function destroySystem ()
 	equipmentStock = {}
 	equipmentPrice = {}
 
+	police = {}
+
 	shipsOnSale = {}
 
 	for station,ads in pairs(SpaceStation.adverts) do
@@ -539,6 +665,7 @@ Event.Register("onGameStart", function ()
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
 		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
+		police = loaded_data.police
 		for station,list in pairs(loaded_data.shipsOnSale) do
 			shipsOnSale[station] = {}
 			for i,entry in pairs(loaded_data.shipsOnSale[station]) do
@@ -577,6 +704,7 @@ Event.Register("onGameEnd", function ()
 	nextRef = 0
 	equipmentStock = {}
 	equipmentPrice = {}
+	police = {}
 	shipsOnSale = {}
 end)
 
@@ -586,6 +714,7 @@ Serializer:Register("SpaceStation",
 		local data = {
 			equipmentStock = equipmentStock,
 			equipmentPrice = equipmentPrice,
+			police = police,  --todo fails if a police ship is killed
 			shipsOnSale = {},
 		}
 		for station,list in pairs(shipsOnSale) do

@@ -535,7 +535,7 @@ void UseEquipWidget::UpdateEquip()
 	int numSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "missile");
 
 	if (numSlots) {
-		float spacing = 380.0f / numSlots;
+		const float spacing = Pi::IsScannerCompact() ? 16 : (380.0f / numSlots);
 		lua_pushnil(l);
 		while(lua_next(l, -2)) {
 			if (lua_type(l, -2) == LUA_TNUMBER) {
@@ -556,8 +556,10 @@ void UseEquipWidget::UpdateEquip()
 		Pi::player->Properties().Get("ecm_power_cap", ecm_power_cap);
 		if (ecm_power_cap > 0) {
 			Gui::ImageButton *b = 0;
-			if (ecm_power_cap == 3) b = new Gui::ImageButton("icons/ecm_basic.png");
-			else b = new Gui::ImageButton("icons/ecm_advanced.png");
+			if (ecm_power_cap == 3) 
+				b = new Gui::ImageButton("icons/ecm_basic.png");
+			else 
+				b = new Gui::ImageButton("icons/ecm_advanced.png");
 
 			// Note, FireECM() is a wrapper around Ship::UseECM() and is only used here
 			b->onClick.connect(sigc::ptr_fun(&FireECM));
@@ -568,39 +570,37 @@ void UseEquipWidget::UpdateEquip()
 	}
 
 	LuaObject<Ship>::CallMethod<LuaRef>(Pi::player, "GetEquip", "sensor").PushCopyToStack();
-	int numSensorSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "sensor");
+	const int numSensorSlots = LuaObject<Ship>::CallMethod<int>(Pi::player, "GetEquipSlotCapacity", "sensor");
 	if (numSensorSlots) {
-	float spacing = 32.0f ;
-	lua_pushnil(l);
-	while(lua_next(l, -2)) {
-		if (lua_type(l, -2) == LUA_TNUMBER) {
-			int i = lua_tointeger(l, -2);
-			LuaTable sensor(l, -1);
-			Gui::MultiStateImageButton *b = new Gui::MultiStateImageButton();
-			b->AddState(0, (std::string("icons/")+sensor.Get<std::string>("icon_off_name", "")+".png").c_str());
-			b->AddState(1, (std::string("icons/")+sensor.Get<std::string>("icon_on_name", "")+".png").c_str());
-			const std::string sensor_label = sensor.CallMethod<std::string>("GetName");
-			b->SetToolTip(sensor_label);
-			b->onClick.connect([i](Gui::MultiStateImageButton *button){
-				if (button->GetState() == 1) {
-					LuaObject<Ship>::CallMethod(Pi::player, "StartSensor", i);
-				} else {
-					LuaObject<Ship>::CallMethod(Pi::player, "StopSensor", i);
-				}
-			});
-			b->SetRenderDimensions(30.0f, 22.0f);
-			Add(b, spacing*i, 38.0f);
+		const float spacing = 32.0f ;
+		lua_pushnil(l);
+		while(lua_next(l, -2)) {
+			if (lua_type(l, -2) == LUA_TNUMBER) {
+				int i = lua_tointeger(l, -2);
+				LuaTable sensor(l, -1);
+				Gui::MultiStateImageButton *b = new Gui::MultiStateImageButton();
+				b->AddState(0, (std::string("icons/")+sensor.Get<std::string>("icon_off_name", "")+".png").c_str());
+				b->AddState(1, (std::string("icons/")+sensor.Get<std::string>("icon_on_name", "")+".png").c_str());
+				const std::string sensor_label = sensor.CallMethod<std::string>("GetName");
+				b->SetToolTip(sensor_label);
+				b->onClick.connect([i](Gui::MultiStateImageButton *button){
+					if (button->GetState() == 1) {
+						LuaObject<Ship>::CallMethod(Pi::player, "StartSensor", i);
+					} else {
+						LuaObject<Ship>::CallMethod(Pi::player, "StopSensor", i);
+					}
+				});
+				b->SetRenderDimensions(30.0f, 22.0f);
+				Add(b, spacing*i, 38.0f);
+			}
+			lua_pop(l, 1);
 		}
-		lua_pop(l, 1);
 	}
-}
-
-
 }
 
 ///////////////////////////////////////////////
 
-MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
+MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(104, 17)
 {
 	m_active = 0;
 	m_rg = new Gui::RadioGroup();
@@ -614,7 +614,7 @@ MultiFuncSelectorWidget::MultiFuncSelectorWidget(): Gui::Fixed(144, 17)
 	m_buttons[1] = new Gui::ImageRadioButton(m_rg, "icons/multifunc_equip.png", "icons/multifunc_equip_on.png");
 	m_buttons[1]->onSelect.connect(sigc::bind(sigc::mem_fun(this, &MultiFuncSelectorWidget::OnClickButton), MFUNC_EQUIPMENT));
 	m_buttons[1]->SetShortcut(SDLK_F10, KMOD_NONE);
-	m_buttons[1]->SetRenderDimensions(34, 17);
+	m_buttons[0]->SetRenderDimensions(34, 17);
 
 	UpdateButtons();
 

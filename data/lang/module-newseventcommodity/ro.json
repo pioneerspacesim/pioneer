@@ -1,195 +1,195 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "ȘTIRI {date}: Boală infecțioasă s-a răspândit în tot sistemul {system}. Numărul de morți crește."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Boală infecțioasă face ravagii în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Oficialii solicită ajutor medical."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "ȘTIRI {date}: O companie pune în pericol supraviețuirea sistemului {system}."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "Prekall SRL încearcă să monopolizeze aerul însuși în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Luați o gură mare de aer căci s-ar putea să fie ultima pentru care nu plătiți."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "ȘTIRI {date}: Dispariție misterioasă a unor bovine în sistemul {system}."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "Ca și când ar fi fost loviți de o putere divină, fermierii din sistemul {system} ({sectorx}, {sectory}, {sectorz}) s-au trezit dimineața cu grajdurile goale. Poliția declară că: \"Este furtul de bovine al secolului\"."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "ȘTIRI {date}: Infrastructura a cedat în urma unor defecțiuni ale calculatoarelor din sistemul {system}."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "Un virus periculos a cauzat topirea tuturor hard-urilor calculatoarelor Nachosoft din sistemul {system} ({sectorx}, {sectory}, {sectorz}). Specialiștii IT spun că de acum acele hard-uri pot fi foarte bine folosite pe post de prespapiere."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "ȘTIRI {date}: Revoltă a roboților in sistemul {system}."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "În sistemul {system} ({sectorx}, {sectory}, {sectorz}) este o luptă între om și mașină pentru că o \"defecțiune de comportament\" cauzează persoanele fizice să nu mai aibă încredere în roboții casnici."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "ȘTIRI {date}: O explozie solară cauzează cea mai mare pană de curent din ultimul mileniu în sistemul {system} ."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "Pana de curent care a cuprins întregul sistem {system} ({sectorx}, {sectory}, {sectorz}) provoacă ravagii. Consumatorii stau la coadă să cumpere ultimul Trapperware ca să-și înlocuiască frigiderele întrucât producătorul a rămas fără materiale prime."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "ȘTIRI {date}: Poliția a făcut razie sindicatului crimei din sistemul {system}. Au fost arestați șefi importanți."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "Administrația sistemului {system} ({sectorx}, {sectory}, {sectorz}) speră să scadă criminalitatea mulțumită faptului că drogurile nu mai sunt disponibile pe piață din momentul arestării mai multori mafioți."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "ȘTIRI {date}: Accident grav în timpul Marelui Târg al Mașinilor cu Abur anual din sistemul {system}."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "În timpul Marelui Târg al Mașinilor cu Abur din sistemul {system} ({sectorx}, {sectory}, {sectorz}) o încercare în depașirea recordului galactic al tracțiunii la tractoare s-a terminat cu un masacru din cauză că unul din contestanți a pierdut controlul mașinăriei sale, distrugând toate mașinăriile celorlalți participanți. Administrația spune că soarta fermierilor locali stă în cumpănă."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "ȘTIRI {date}: Noi resurse găsite în sistemul {system}."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Minerii din sistemul {system} ({sectorx}, {sectory}, {sectorz}) au descoperit un mare deposit de minereu de dimensiuni nemaivăzute."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "ȘTIRI {date}: Reformă economică de mare succes în sistemul {system}."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Lucrurile merg mai fin în sistemul {system} ({sectorx}, {sectory}, {sectorz}) deoarece consumatorii au mai mulți bani de cheltuit."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "ȘTIRI {date}: Plouă cu aur în sistemul {system}."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Un om din sistemul {system} ({sectorx}, {sectory}, {sectorz}) a moștenit o invenție de la unchiul său decedat, care îi permite să transforme orice material solid în aur și platină. Economiștii se așteaptă la o destabilizare a economiei în sistem dacă nu se strică cumva mașinăria în curând."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "ȘTIRI {date}: Conflict escaladează în sistemul {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Conflictul de lungă durată din sistemul {system} ({sectorx}, {sectory}, {sectorz}) a escaladat în lupte deschise între armate."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "ȘTIRI {date}: Recolectarea algelor gigantului gazos din sistemul {system} atinge limite record."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "Din cauza că {system} ({sectorx}, {sectory}, {sectorz}) intră într-o fază favorabilă algelor galbene ce se găsesc în atmosfera gigantului gazos local, recoltarea a fost excepțională pentru compania de fertilizant Soylent Yellow."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "ȘTIRI {date}: Tratat semnat în sistemul {system} pentru război mai \"omenos\"."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Deși părțile combatante din sistemul {system} ({sectorx}, {sectory}, {sectorz}) nu au semnat un act oficial de armistițiu, au fost de acord să nu mai folosească arme chimice."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "ȘTIRI {date}: Poliția în grevă în sistemul {system}. Cetățenii lăsați să se descurce singuri."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "Într-un protest împotriva personalului redus în sistemul {system} ({sectorx}, {sectory}, {sectorz}), poliția refuză să muncească. Între timp, civilii formează grupuri organizate și se înarmează cu furci și arme de foc pregătindu-se pentru ce e mai rău."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "ȘTIRI {date}: Mare deschidere a unei noi fabrici în sistemul {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "Noua fabrică Amissionox din sistemul {system} ({sectorx}, {sectory}, {sectorz}) este acum funcțională. Va produce cuțite de calitate capabile să taie printr-un bocanc spațial; însă, din cauza unei surse mici de materiale necesare lamelor, nu-și va atinge încă potențialul maxim."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "ȘTIRI {date}: Secetă în sistemul {system}. Recolta ruinată."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Secetă severă a ruinat recolta în sistemul {system} ({sectorx}, {sectory}, {sectorz}). Lumea se teme că foametea va afecta tot sistemul."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "ȘTIRI {date}: Din ce în ce mai mulți adoptă stilul de viață vegetarian în sistemul {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "Administrația din sistemul {system} ({sectorx}, {sectory}, {sectorz}) caută să crească importurile pentru a întâmpina cererea în creștere de vegetale."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "ȘTIRI {date}: Război între grupuri de traficanți de narcotice în sistemul {system}. Forțele speciale fac tot posibilul să restabilească controlul."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Piața a fost inundată de droguri ieftine în sistemul {system} ({sectorx}, {sectory}, {sectorz}) pe măsură ce căpeteniile traficanților se luptă să-și sporească influența."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "ȘTIRI {date}: Sclavi s-au revoltat în sistemul {system}. Industria Agriculturală a fost suspendată."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Muncitori din sistemul {system} ({sectorx}, {sectory}, {sectorz}) au rupt lanțurile în rebeliune și refuză să mai lucreze câmpurile Lotus. Economia a ajuns într-un impas deoarece nu se pot găsi muncitori ieftini."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "ȘTIRI {date}: Festivalul Bucuriei al Pufoșeniilor în sistemul {system}."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Celebrațiile îmbibate de alcool din sistemul {system} ({sectorx}, {sectory}, {sectorz}) vor continua în cinstea micii vietăți pufoase."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "ȘTIRI {date}: Industria a început să scârțîie în sistemul {system}."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Neglijarea continuă a mentenanței mașinăriilor a cauzat stagnare industrială în sistemul {system} ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "ȘTIRI {date}: Accident minier raportat de sistemul {system}."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "O mină s-a prăbușit în sistemul {system} ({sectorx}, {sectory}, {sectorz}), omorând sute de muncitori și distrugând mașinării importante, vitale pentru economie."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "ȘTIRI {date}: Trend în modă în sistemul {system}."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "Ultimul trend în sistemul {system} ({sectorx}, {sectory}, {sectorz}) spune că să deții animale de companie este la modă."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",

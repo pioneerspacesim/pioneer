@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Сен"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Мультисборник"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Позволяет собирать как топливо, так и груз, но с меньшей эффективностью"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Убийство"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} м/с относительно %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Пиратство"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Управление тангажем"
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Плутократическая диктатура"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "ПОЛИЦИЯ"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "Тройная система"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Отстыковка"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Неисследованная система. Данные отсутствуют."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<неизвестно>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Стрельба в зоне станции"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime - вы объявлены в розыск!"
    },
    "Y" : {
       "description" : "keybinding: y axis",

@@ -43,6 +43,10 @@
       "description" : "",
       "message" : "Navigatör"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Inga arbetssökande vid {station} för tillfället"
+   },
    "NO_EXPERIENCE" : {
       "description" : "",
       "message" : "Ingen erfarenhet"

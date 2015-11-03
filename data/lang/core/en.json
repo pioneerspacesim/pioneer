@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Sep"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Murder"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s rel-to %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Piracy"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Pitch"
@@ -1150,10 +1134,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Plutocratic dictatorship"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLICE"
    },
    "POPULATION" : {
       "description" : "",
@@ -1699,13 +1679,13 @@
       "description" : "",
       "message" : "This system was explored on %date."
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<unknown>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Unlawful weapons discharge"
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -1766,10 +1746,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime cannot be tolerated here."
    },
    "Y" : {
       "description" : "keybinding: y axis",

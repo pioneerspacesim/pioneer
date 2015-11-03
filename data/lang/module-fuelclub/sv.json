@@ -23,6 +23,38 @@
       "description" : "",
       "message" : "Välkommen till {clubname}"
    },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "Den Federala bränsle-stiftelsen"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "{clubname} är den huvudsakliga leverantören av billigt bränsle till medlemmarnas skepp i Solfederationen. Ett medlemskap ger dig följande förmåner:"
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "Konfederationens drivmedelsunion"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "Genom hela vidda Konfederationens fria planeter finner man att {clubname} ger den bästa servicen åt sina piloter genom förmånliga erbjudanden för både bränsle och avfallshantering. Våra medlemmar erbjuds:  "
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "Vare hälsad! Vi hoppas du är nöjd med våra tjänster."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Haber drivmedel- och avfalls-divisionen"
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Hälsad pilot! Dina privilegier för tankning och avfallshantering är godkända."
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Hej pilot!! Detta är Haber drivmedel- och avfalls-division. Vi försörjer alla piloter med bränsle i hela Haber-ägda universum."
+   },
    "GO_BACK" : {
       "description" : "",
       "message" : "Tillbaka"

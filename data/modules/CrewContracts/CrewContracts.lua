@@ -169,7 +169,19 @@ local onChat = function (form,ref,option)
 		-- Re-initialise crew list, and build it fresh
 		crewInThisStation = {}
 
-		-- Look for any persistent characters that are available in this station
+		-- Add any non-persistent characters (which are persistent only in the sense
+		-- that this BB ad is storing them)
+		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
+			table.insert(crewInThisStation,c)
+			c.experience = c.engineering
+							+c.piloting
+							+c.navigation
+							+c.sensors
+			-- Base wage on experience
+			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
+		end
+
+		-- Now look for any persistent characters that are available in this station
 		-- and have some sort of crew experience (however minor)
 		-- and were last seen less than a month ago
 		for c in Character.Find(function (c)
@@ -193,24 +205,21 @@ local onChat = function (form,ref,option)
 			-- (which should only happen if this candidate was dismissed with wages owing)
 			c.estimatedWage = math.max(c.contract and (c.contract.wage + 5) or 0, c.estimatedWage or wageFromScore(c.experience))
 		end
-		-- Now add any non-persistent characters (which are persistent only in the sense
-		-- that this BB ad is storing them)
-		for k,c in ipairs(nonPersistentCharactersForCrew[station]) do
-			table.insert(crewInThisStation,c)
-			c.experience = c.engineering
-							+c.piloting
-							+c.navigation
-							+c.sensors
-			-- Base wage on experience
-			c.estimatedWage = c.estimatedWage or wageFromScore(c.experience)
-		end
 
 		form:ClearFace()
 		form:Clear()
 		form:SetTitle(l.CREW_FOR_HIRE)
-		form:SetMessage("\n"..l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
+		local numCrewInThisStation = 0
 		for k,c in ipairs(crewInThisStation) do
-			form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = Format.Money(c.estimatedWage)}),k)
+			numCrewInThisStation = numCrewInThisStation + 1
+		end
+		if numCrewInThisStation > 0 then
+			form:SetMessage("\n"..l.POTENTIAL_CREW_MEMBERS:interp({station=station.label}))
+			for k,c in ipairs(crewInThisStation) do
+				form:AddOption(l.CREWMEMBER_WAGE_PER_WEEK:interp({potentialCrewMember = c.name,wage = Format.Money(c.estimatedWage)}),k)
+			end
+		else
+			form:SetMessage("\n"..l.NO_CREW_AVAILABLE:interp({station=station.label}))
 		end
 	end
 
@@ -269,7 +278,7 @@ local onChat = function (form,ref,option)
 					}
 					form:SetMessage(l.THANKS_ILL_GET_SETTLED_ON_BOARD_IMMEDIATELY)
 					form:AddOption(l.GO_BACK, 0)
-					for k,v in ipairs(crewInThisStation) do
+					for k,v in ipairs(nonPersistentCharactersForCrew[station]) do
 						-- Take them off the available list in the ad
 						if v == candidate then table.remove(nonPersistentCharactersForCrew[station],k) end
 					end
@@ -357,6 +366,15 @@ local onChat = function (form,ref,option)
 	end
 end
 
+local isEnabled = function (ref)
+	local station = stationsWithAdverts[ref]
+	local numCrewmenAvailable = 0
+	for k,v in pairs(nonPersistentCharactersForCrew[station]) do
+		numCrewmenAvailable = numCrewmenAvailable + 1
+	end
+	return numCrewmenAvailable > 0
+end
+
 local onCreateBB = function (station)
 	-- Create non-persistent Characters as available crew
 	nonPersistentCharactersForCrew[station] = {}
@@ -365,7 +383,8 @@ local onCreateBB = function (station)
 	stationsWithAdverts[station:AddAdvert({
 		description = l.CREW_FOR_HIRE,
 		icon        = "crew_contracts",
-		onChat      = onChat})] = station
+		onChat      = onChat,
+		isEnabled   = isEnabled})] = station
 
 	-- Number is based on population, nicked from Assassinations.lua and tweaked
 	for i = 1, Engine.rand:Integer(0, math.ceil(Game.system.population) * 2 + 1) do
@@ -400,16 +419,17 @@ end)
 -- Load temporary crew from saved data
 local loaded_data
 Event.Register("onGameStart", function()
-    -- XXX Need to re-initialise these until Lua is re-initialised with a new game
-    nonPersistentCharactersForCrew = {}
-    stationsWithAdverts = {}
+	-- XXX Need to re-initialise these until Lua is re-initialised with a new game
+	nonPersistentCharactersForCrew = {}
+	stationsWithAdverts = {}
 	if loaded_data then
 		nonPersistentCharactersForCrew = loaded_data.nonPersistentCharactersForCrew
-		for k,station in ipairs(loaded_data.stationsWithAdverts) do
+		for k,station in pairs(loaded_data.stationsWithAdverts) do
 		stationsWithAdverts[station:AddAdvert({
 			description = l.CREW_FOR_HIRE,
 			icon        = "crew_contracts",
-			onChat      = onChat})] = station
+			onChat      = onChat,
+			isEnabled   = isEnabled})] = station
 		end
 		loaded_data = nil
 	end

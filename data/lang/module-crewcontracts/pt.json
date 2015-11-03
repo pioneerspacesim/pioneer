@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Nome: {nome}\nExperiênçia: {experiênçia}\nPerguntar o peso: {peso} por semana\n\n{resposta}\n"
+      "message" : "Nome: {name}\nExperiênçia: {experience}\nSalário pretendido: {wage} por semana\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -42,6 +42,10 @@
    "NAVIGATOR" : {
       "description" : "",
       "message" : "Navegador"
+   },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Desculpe, mas não há candidatos a procurar emprego na estação {station}"
    },
    "NO_EXPERIENCE" : {
       "description" : "",

@@ -22,6 +22,7 @@
 using namespace Graphics;
 
 const double SystemView::PICK_OBJECT_RECT_SIZE = 12.0;
+const Uint16 SystemView::N_VERTICES_MAX = 100;
 static const float MIN_ZOOM = 1e-30f;		// Just to avoid having 0
 static const float MAX_ZOOM = 1e30f;
 static const float ZOOM_IN_SPEED = 2;
@@ -385,6 +386,9 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	RefreshShips();
 	m_shipDrawing = OFF;
 	m_planner = Pi::planner;
+
+	m_orbitVts.reset( new vector3f[N_VERTICES_MAX] );
+	m_orbitColors.reset( new Color[N_VERTICES_MAX] );
 }
 
 SystemView::~SystemView()
@@ -429,12 +433,10 @@ void SystemView::ResetViewpoint()
 
 void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Color &color, double planetRadius)
 {
-	static const unsigned short n_vertices_max = 100;
-
 	double maxT = 1.;
 	unsigned short num_vertices = 0;
-	for (unsigned short i = 0; i < n_vertices_max; ++i) {
-		const double t = double(i) / double(n_vertices_max);
+	for (unsigned short i = 0; i < N_VERTICES_MAX; ++i) {
+		const double t = double(i) / double(N_VERTICES_MAX);
 		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
 		if (pos.Length() < planetRadius)
 		{
@@ -443,18 +445,35 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 		}
 	}
 
-	vector3f vts[n_vertices_max];
-	for (unsigned short i = 0; i < n_vertices_max; ++i) {
-		const double t = double(i) / double(n_vertices_max) * maxT;
-		const vector3d pos = orbit->EvenSpacedPosTrajectory(t);
-		vts[i] = vector3f(offset + pos * double(m_zoom));
+	static const float startTrailPercent = 0.85;
+	static const float fadedColorParameter = 0.05;
+
+	Uint16 fadingColors = 0;
+	double t0 = m_game->GetTime();
+	for (unsigned short i = 0; i < N_VERTICES_MAX; ++i) {
+		const double t = double(i) / double(N_VERTICES_MAX) * maxT;
+		if(fadingColors == 0 && t >= startTrailPercent * maxT)
+			fadingColors = i;
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(t, m_time - t0);
+		m_orbitVts[i] = vector3f(offset + pos * double(m_zoom));
 		++num_vertices;
 		if (pos.Length() < planetRadius)
 			break;
 	}
 
+	Color fadedColor = color * fadedColorParameter;
+	std::fill_n(m_orbitColors.get(), num_vertices, fadedColor);
+	const Uint16 trailLength = num_vertices - fadingColors;
+
+	for (Uint16 currentColor = 0; currentColor < trailLength; ++currentColor)	
+	{
+		float scalingParameter = fadedColorParameter + static_cast<float>(currentColor) / trailLength * (1.f - fadedColorParameter);
+		m_orbitColors[currentColor + fadingColors] = color * scalingParameter;
+	}
+
 	if (num_vertices > 1) {
-		m_orbits.SetData(num_vertices, vts, color);
+		m_orbits.SetData(num_vertices, m_orbitVts.get(), m_orbitColors.get());
+
 		// don't close the loop for hyperbolas and parabolas and crashed ellipses
 		if (maxT < 1. || (orbit->GetEccentricity() > 1.0)) {
 			m_orbits.Draw(m_renderer, m_lineState, LINE_STRIP);
@@ -583,7 +602,7 @@ void SystemView::OnClickShip(Ship *s) {
 			lua_settop(l, clean_stack);
 
 			text += "\n";
-			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+			text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
 			text += "\n";
 			text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
 			text += "\n";

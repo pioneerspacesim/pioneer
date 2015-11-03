@@ -193,7 +193,7 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Benvindo comerciante! Lhe daremos um bom preço por seu {carga}."
+      "message" : "Benvindo comerciante! Lhe daremos um bom preço por seu(ua) {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",

@@ -1,6 +1,11 @@
 // Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "attributes.glsl"
+#include "logz.glsl"
+#include "lib.glsl"
+#include "eclipse.glsl"
+
 uniform vec4 atmosColor;
 // to keep distances sane we do a nearer, smaller scam. this is how many times
 // smaller the geosphere has been made
@@ -9,17 +14,6 @@ uniform float geosphereAtmosTopRad;
 uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
-
-#ifdef ECLIPSE
-uniform int shadows;
-uniform ivec3 occultedLight;
-uniform vec3 shadowCentreX;
-uniform vec3 shadowCentreY;
-uniform vec3 shadowCentreZ;
-uniform vec3 srad;
-uniform vec3 lrad;
-uniform vec3 sdivlrad;
-#endif // ECLIPSE
 
 in vec4 varyingEyepos;
 
@@ -43,15 +37,6 @@ void sphereEntryExitDist(out float near, out float far, const in vec3 sphereCent
 			far = i2;
 		}
 	}
-}
-
-// integral used in shadow calculations:
-// \Int (m - \sqrt(d^2+t^2)) dt = (t\sqrt(d^2+t^2) + d^2 log(\sqrt(d^2+t^2)+t))/2
-float shadowInt(const in float t1, const in float t2, const in float dsq, const in float m)
-{
-	float s1 = sqrt(dsq+t1*t1);
-	float s2 = sqrt(dsq+t2*t2);
-	return m*(t2-t1) - (t2*s2 - t1*s1 + dsq*( log(max(0.000001, s2+t2)) - log(max(0.000001, s1+t1)))) * 0.5;
 }
 
 void main(void)
@@ -78,50 +63,7 @@ void main(void)
 
 		vec3 lightDir = normalize(vec3(uLight[i].position));
 
-		float uneclipsed = 1.0;
-#ifdef ECLIPSE
-		for (int j=0; j<shadows; j++) {
-			if (i != occultedLight[j])
-				continue;
-
-			// Eclipse handling:
-			// Calculate proportion of the in-atmosphere eyeline which is shadowed,
-			// weighting according to completeness of the shadow (penumbra vs umbra).
-			// This ignores variation in atmosphere density, and ignores outscatter along
-			// the eyeline, so is not very accurate. But it gives decent results.
-
-			vec3 centre = vec3( shadowCentreX[j], shadowCentreY[j], shadowCentreZ[j] );
-
-			vec3 ap = a - dot(a,lightDir)*lightDir - centre;
-			vec3 bp = b - dot(b,lightDir)*lightDir - centre;
-
-			vec3 dirp = normalize(bp-ap);
-			float ad = dot(ap,dirp);
-			float bd = dot(bp,dirp);
-			vec3 p = ap - dot(ap,dirp)*dirp;
-			float perpsq = dot(p,p);
-
-			// we now want to calculate the proportion of shadow on the horizontal line
-			// segment from ad to bd, shifted vertically from centre by \sqrt(perpsq). For
-			// the partially occluded segments, to have an analytic solution to the integral
-			// we estimate the light intensity to drop off linearly with radius between
-			// maximal occlusion and none.
-
-			float minr = srad[j]-lrad[j];
-			float maxr = srad[j]+lrad[j];
-			float maxd = sqrt( max(0.0, maxr*maxr - perpsq) );
-			float mind = sqrt( max(0.0, minr*minr - perpsq) );
-
-			float shadow = ( shadowInt(clamp(ad, -maxd, -mind), clamp(bd, -maxd, -mind), perpsq, maxr)
-				+ shadowInt(clamp(ad, mind, maxd), clamp(bd, mind, maxd), perpsq, maxr) )
-				/ (maxr-minr) + (clamp(bd, -mind, mind) - clamp(ad, -mind, mind));
-
-			float maxOcclusion = min(1.0, (sdivlrad[j])*(sdivlrad[j]));
-
-			uneclipsed -= maxOcclusion * shadow / (bd-ad);
-		}
-#endif // ECLIPSE
-		uneclipsed = clamp(uneclipsed, 0.0, 1.0);
+		float uneclipsed = clamp(calcUneclipsedSky(i, a, b, lightDir), 0.0, 1.0);
 
 		float nDotVP =  max(0.0, dot(surfaceNorm, lightDir));
 		float nnDotVP = max(0.0, dot(surfaceNorm, -lightDir));  //need backlight to increase horizon

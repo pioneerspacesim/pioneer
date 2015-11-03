@@ -204,9 +204,6 @@ void Starfield::Init()
 	m_material->emissive = Color::WHITE;
 }
 
-const int Starfield::BG_STAR_MAX;
-const int Starfield::BG_STAR_MIN;
-
 void Starfield::Fill(Random &rand)
 {
 	const Sint32 NUM_BG_STARS = Clamp(Sint32(Pi::GetAmountBackgroundStars() * BG_STAR_MAX), BG_STAR_MIN, BG_STAR_MAX);

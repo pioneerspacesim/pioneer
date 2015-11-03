@@ -382,7 +382,7 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	SetMass((m_stats.total_mass + GetFuel()*GetShipType()->fuelTankMass)*1000);
+	SetMass((m_stats.static_mass + GetFuel()*GetShipType()->fuelTankMass)*1000);
 }
 
 void Ship::SetFuel(const double f)
@@ -434,16 +434,10 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 			if (attacker) {
 				if (attacker->IsType(Object::BODY))
 					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body*>(attacker));
-
-				if (attacker->IsType(Object::SHIP))
-					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);
 			}
 
 			Explode();
 		} else {
-			if (attacker && attacker->IsType(Object::SHIP))
-				Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_PIRACY);
-
 			if (Pi::rng.Double() < kgDamage)
 				Sfx::Add(this, Sfx::TYPE_DAMAGE);
 
@@ -575,12 +569,13 @@ void Ship::UpdateEquipStats()
 	m_stats.used_cargo = 0;
 
 	m_stats.free_capacity = m_type->capacity - m_stats.used_capacity;
-	m_stats.total_mass = m_stats.used_capacity + m_type->hullMass;
+	m_stats.static_mass = m_stats.used_capacity + m_type->hullMass;
 
 	p.Set("usedCapacity", m_stats.used_capacity);
 
 	p.Set("freeCapacity", m_stats.free_capacity);
-	p.Set("totalMass", m_stats.total_mass);
+	p.Set("totalMass", m_stats.static_mass);
+	p.Set("staticMass", m_stats.static_mass);
 
 	int shield_cap = 0;
 	Properties().Get("shield_cap", shield_cap);
@@ -717,7 +712,7 @@ void Ship::SetFlightState(Ship::FlightState newState)
 
 	if (newState == FLYING) {
 		m_testLanded = false;
-		if (m_flightState == DOCKING || m_flightState == DOCKED) 
+		if (m_flightState == DOCKING || m_flightState == DOCKED)
 			onUndock.emit();
 
 		m_dockedWith = nullptr;
@@ -735,6 +730,7 @@ void Ship::SetFlightState(Ship::FlightState newState)
 	{
 		case FLYING:		SetMoving(true);	SetColliding(true);		SetStatic(false);	break;
 		case DOCKING:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
+		case UNDOCKING:	SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 // TODO: set collision index? dynamic stations... use landed for open-air?
 		case DOCKED:		SetMoving(false);	SetColliding(false);	SetStatic(false);	break;
 		case LANDED:		SetMoving(false);	SetColliding(true);		SetStatic(true);	break;
@@ -890,7 +886,7 @@ void Ship::TimeAccelAdjust(const float timeStep)
 
 void Ship::FireWeapon(int num)
 {
-	if (m_flightState != FLYING) 
+	if (m_flightState != FLYING)
 		return;
 
 	std::string prefix(num?"laser_rear_":"laser_front_");
@@ -929,7 +925,6 @@ void Ship::FireWeapon(int num)
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos, baseVel, dirVel);
 	}
 
-	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 	lua_pop(prop.GetLua(), 1);
 	LuaEvent::Queue("onShipFiring", this);
@@ -1026,7 +1021,7 @@ void Ship::UpdateAlertState()
 			if (ship_is_near) {
 				SetAlertState(ALERT_SHIP_NEARBY);
 				changed = true;
-            }
+			}
 			if (ship_is_firing) {
 				m_lastFiringAlert = Pi::game->GetTime();
 				SetAlertState(ALERT_SHIP_FIRING);

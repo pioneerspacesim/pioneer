@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "九月"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "联合收集器"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "虽然收集效率不及燃料收集器, 但它却可以同时收集燃料和货物"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "谋杀"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s 相对于 %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "先锋"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "海盗行为"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "俯仰"
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "富商独裁"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "警察"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "三星系统"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "未探索的星系.无可用数据."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<unknown>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "违法武器发射"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime 在这里是无法容忍的."
    },
    "Y" : {
       "description" : "keybinding: y axis",

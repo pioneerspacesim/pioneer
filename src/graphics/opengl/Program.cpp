@@ -8,6 +8,8 @@
 #include "OS.h"
 #include "graphics/Graphics.h"
 
+#include <set>
+
 namespace Graphics {
 
 namespace OGL {
@@ -73,20 +75,52 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 }
 
 struct Shader {
-	Shader(GLenum type, const std::string &filename, const std::string &defines) {
-		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
+	Shader(GLenum type, const std::string &filename, const std::string &defines) 
+	{
+		RefCountedPtr<FileSystem::FileData> filecode = FileSystem::gameDataFiles.ReadFile(filename);
 
-		if (!code.Valid())
+		if (!filecode.Valid())
 			Error("Could not load %s", filename.c_str());
 
-		// Load some common code
-		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/attributes.glsl");
-		assert(attributesCode.Valid());
-		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/logz.glsl");
-		assert(logzCode.Valid());
-		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/opengl/lib.glsl");
-		assert(libsCode.Valid());
+		std::string strCode(filecode->AsStringRange().ToString());
+		size_t found = strCode.find("#include");
+		while (found != std::string::npos) 
+		{
+			// find the name of the file to include
+			const size_t begFilename = strCode.find_first_of("\"", found + 8) + 1;
+			const size_t endFilename = strCode.find_first_of("\"", begFilename + 1);
 
+			const std::string incFilename = strCode.substr(begFilename, endFilename - begFilename);
+
+			// check we haven't it already included it (avoids circular dependencies)
+			const std::set<std::string>::const_iterator foundIt = previousIncludes.find(incFilename);
+			if (foundIt != previousIncludes.end()) {
+				Error("Circular, or multiple, include of %s\n", incFilename.c_str());
+			}
+			else {
+				previousIncludes.insert(incFilename);
+			}
+
+			// build path for include
+			const std::string incPathBuffer = stringf("shaders/opengl/%0", incFilename);
+
+			// read included file
+			RefCountedPtr<FileSystem::FileData> incCode = FileSystem::gameDataFiles.ReadFile(incPathBuffer);
+			assert(incCode.Valid());
+
+			if (incCode.Valid()) {
+				// replace the #include and filename with the included files text
+				strCode.replace(found, (endFilename + 1) - found, incCode->GetData(), incCode->GetSize());
+				found = strCode.find("#include");
+			}
+			else {
+				Error("Could not load %s", incPathBuffer.c_str());
+			}
+		}
+		// Store the modified text with the included files (if any)
+		const StringRange code(strCode.c_str(), strCode.size());
+
+		// Build the final shader text to be compiled
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
 		if (type == GL_VERTEX_SHADER) {
@@ -94,10 +128,7 @@ struct Shader {
 		} else {
 			AppendSource("#define FRAGMENT_SHADER\n");
 		}
-		AppendSource(attributesCode->AsStringRange().StripUTF8BOM());
-		AppendSource(logzCode->AsStringRange().StripUTF8BOM());
-		AppendSource(libsCode->AsStringRange().StripUTF8BOM());
-		AppendSource(code->AsStringRange().StripUTF8BOM());
+		AppendSource(code.StripUTF8BOM());
 #if 0
 		static bool s_bDumpShaderSource = true;
 		if (s_bDumpShaderSource) {
@@ -161,6 +192,7 @@ private:
 
 	std::vector<const char*> blocks;
 	std::vector<GLint> block_sizes;
+	std::set<std::string> previousIncludes;
 };
 
 Program::Program()

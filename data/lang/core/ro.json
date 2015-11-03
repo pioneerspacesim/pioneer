@@ -549,7 +549,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Oprește Motorul Superluminic"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Pornește Motorul Superluminic"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Sep"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Colector Multifuncțional"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Deși mai puțin eficient decât un colector de combustibil, el permite colectarea atat de marfă cât și de combustibil"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Crimă"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s relativ la %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Piraterie"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Înclinare"
@@ -1161,7 +1145,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Incepe manevra. Click pentru a reseta."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Dictatură plutocratică"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLIȚIA"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "Sistem terțiar"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Sistem neexporat. Nicio altă informație valabilă."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<necunoscut>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Foc de armă nepermis"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "Nu este tolerat(ă) %crime aici."
    },
    "Y" : {
       "description" : "keybinding: y axis",

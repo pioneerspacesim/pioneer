@@ -49,15 +49,15 @@
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
+      "message" : "FUVAR. Rakomány szállítás {system} rendszerbe."
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "RELOCATION. Move of cargo from {starport} required."
+      "message" : "KÖLTÖZÉS. Szállítót keresek {starport} állomásról."
    },
    "ADTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+      "message" : "KISZÁLLÍTÓT KERES. Hajót keresünk áruszállításra {system} rendszerbe."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
@@ -89,7 +89,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you please repeat the original request?"
+      "message" : "Megismételnéd a hirdetést?"
    },
    "DANGER" : {
       "description" : "the risk level",
@@ -141,7 +141,7 @@
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
-      "message" : "Electrical appliances"
+      "message" : "Háztartási gép"
    },
    "ESCORT_CHATTER_1" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "EXPLOSIVES" : {
       "description" : "custom cargo",
-      "message" : "Explosives"
+      "message" : "Robbanóanyag"
    },
    "FAILUREMSG_1" : {
       "description" : "",
@@ -189,11 +189,11 @@
    },
    "FURNITURE" : {
       "description" : "custom cargo",
-      "message" : "Furniture"
+      "message" : "Bútor"
    },
    "GREENHOUSES" : {
       "description" : "custom cargo",
-      "message" : "Greenhouses"
+      "message" : "Melegházak"
    },
    "GUNS_GUNS_GUNS" : {
       "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -201,7 +201,7 @@
    },
    "HAZARDOUS_SUBSTANCES" : {
       "description" : "custom cargo",
-      "message" : "Hazardous substances"
+      "message" : "Veszéles anyagok"
    },
    "HOWMUCH_1" : {
       "description" : "regarding mass, always more than 1t",
@@ -241,11 +241,11 @@
    },
    "INTROTEXT_1" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Üdv, {name} vagyok. Készpénzben fizetek {cash} $-t, ha leszállítod {cargoname} rakományomat {system} rendszerbe ({sectorx}, {sectory}, {sectorz}, {dist} fényévre)"
    },
    "INTROTEXT_2" : {
       "description" : "{name} is the full name of a person",
-      "message" : "Greetings! {name} Transport Services needs you to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away. We pay {cash} for a safe and complete delivery."
+      "message" : "Üdv! {name} Szállító Szolgálat-nak szüksege van valakire, {cargoname} rakomány szállítására, {system} rendszerbe. ({sectorx}, {sectory}, {sectorz}, {dist} fényév). A fizettség {cash}, amennyiben sértetlenül és hiánytalanul leszállítja a rakományt."
    },
    "INTROTEXT_3" : {
       "description" : "",
@@ -325,11 +325,11 @@
    },
    "MACHINE_TOOLS" : {
       "description" : "custom cargo",
-      "message" : "Machine tools"
+      "message" : "Szerszámgépek"
    },
    "NEPTUNIUM" : {
       "description" : "custom cargo",
-      "message" : "Neptunium"
+      "message" : "Neptúnium"
    },
    "OK_AGREED" : {
       "description" : "",
@@ -381,11 +381,11 @@
    },
    "PLUTONIUM" : {
       "description" : "custom cargo",
-      "message" : "Plutonium"
+      "message" : "Plutónium"
    },
    "QUIBBLES" : {
       "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
-      "message" : "Quibbles"
+      "message" : "Quibble-ek"
    },
    "RISK_1" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
-      "message" : "Semi-finished products"
+      "message" : "Félkész termékek"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "SPACESHIP_PARTS" : {
       "description" : "custom cargo",
-      "message" : "Spaceship parts"
+      "message" : "Űrhajó alkatrészek"
    },
    "SUCCESSMSG_1" : {
       "description" : "",
@@ -481,15 +481,15 @@
    },
    "TITANIUM" : {
       "description" : "custom cargo",
-      "message" : "Titanium"
+      "message" : "Titánium"
    },
    "TUNGSTEN" : {
       "description" : "custom cargo",
-      "message" : "Tungsten"
+      "message" : "Volfrám"
    },
    "URANIUM" : {
       "description" : "custom cargo",
-      "message" : "Uranium"
+      "message" : "Uránium"
    },
    "URGENCY_1" : {
       "description" : "",
@@ -521,7 +521,7 @@
    },
    "WEDDING_DRESSES" : {
       "description" : "custom cargo",
-      "message" : "Wedding dresses"
+      "message" : "Esküvői ruhák"
    },
    "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
       "description" : "",

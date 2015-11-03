@@ -43,6 +43,10 @@
       "description" : "",
       "message" : "Navigátor"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Sajnos jelenleg senki sem keres állást."
+   },
    "NO_EXPERIENCE" : {
       "description" : "",
       "message" : "Nincs tapasztalata"

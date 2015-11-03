@@ -35,6 +35,7 @@
 #include "matrix4x4.h"
 #include "Quaternion.h"
 #include "LuaObject.h"
+#include "utils.h"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -230,8 +231,8 @@ void WorldView::InitObject()
 	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
-	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 104.0f);
-	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 144.0f);
+	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 135.0f);
+	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 175.0f);
 
 	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
 	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
@@ -384,8 +385,8 @@ void WorldView::SetCamType(enum CamType c)
 
 void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 {
-       if (m_internalCameraController->GetMode() != m)
-               Pi::BoinkNoise();
+	if (m_internalCameraController->GetMode() != m)
+		Pi::BoinkNoise();
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	UpdateCameraName();
@@ -613,6 +614,12 @@ void WorldView::RefreshButtonStateAndVisibility()
 			m_flightControlButton->Hide();
 			break;
 
+		case Ship::UNDOCKING:
+			m_flightStatus->SetText(Lang::UNDOCKING);
+			m_launchButton->Hide();
+			m_flightControlButton->Hide();
+			break;
+
 		case Ship::DOCKED:
 			m_flightStatus->SetText(Lang::DOCKED);
 			m_launchButton->Show();
@@ -710,15 +717,17 @@ void WorldView::RefreshButtonStateAndVisibility()
 			vector3d pos = Pi::player->GetPosition();
 			vector3d abs_pos = Pi::player->GetPositionRelTo(m_game->GetSpace()->GetRootFrame());
 
+			const Frame *playerFrame = Pi::player->GetFrame();
+
 			ss << stringf("Pos: %0{f.2}, %1{f.2}, %2{f.2}\n", pos.x, pos.y, pos.z);
 			ss << stringf("AbsPos: %0{f.2}, %1{f.2}, %2{f.2}\n", abs_pos.x, abs_pos.y, abs_pos.z);
 
-			const SystemPath &path(Pi::player->GetFrame()->GetSystemBody()->GetPath());
+			const SystemPath &path(playerFrame->GetSystemBody()->GetPath());
 			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
-				Pi::player->GetFrame()->GetLabel(),
+				playerFrame->GetLabel(),
 				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
-			ss << stringf("(%0{f.2} km), rotating: %1\n",
-				pos.Length()/1000, (Pi::player->GetFrame()->IsRotFrame() ? "yes" : "no"));
+			ss << stringf("(%0{f.2} km), rotating: %1, has rotation: %2\n",
+				pos.Length()/1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
 
 			//Calculate lat/lon for ship position
 			const vector3d dir = pos.NormalizedSafe();
@@ -815,9 +824,23 @@ void WorldView::RefreshButtonStateAndVisibility()
 					else
 						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
 							formatarg("vspeed", vspeed)));
+
+					// show lat/long when altitude is shownr
+					const float lat = RAD2DEG(asin(surface_pos.y));
+					const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+					std::string lat_str = DecimalToDegMinSec(lat);
+					std::string lon_str = DecimalToDegMinSec(lon);
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "Lat:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "Long:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
 				} else {
 					// XXX does this need to be repeated 3 times?
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
 					if(m_curPlane != NONE) {
 						m_curPlane = NONE;
 						m_hudDockTop->RemoveInnerWidget();
@@ -826,6 +849,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 				}
 			} else {
 				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "");
+				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, "");
 				if(m_curPlane != NONE) {
 					m_curPlane = NONE;
 					m_hudDockTop->RemoveInnerWidget();
@@ -961,7 +988,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				lua_settop(l, clean_stack);
 
 				text += "\n";
-				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.total_mass));
+				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
 				text += "\n";
 				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
 					(sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
@@ -995,7 +1022,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 					RefCountedPtr<const Sector> s = m_game->GetGalaxy()->GetSector(dest);
 					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
 					text += "\n";
-					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().total_mass));
+					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().static_mass));
 					text += "\n";
 					text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
 					text += ": ";
@@ -1562,9 +1589,9 @@ void WorldView::UpdateProjectedObjects()
 
 			// only show labels on large or nearby bodies
 			if (b->IsType(Object::PLANET) ||
-			    b->IsType(Object::STAR) ||
-			    b->IsType(Object::SPACESTATION) ||
-			    Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+				b->IsType(Object::STAR) ||
+				b->IsType(Object::SPACESTATION) ||
+				Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
 			{
 				std::string bodyName = b->GetLabel();
 				// offset the label so it doesn't intersect with the icon drawn around the
@@ -2030,9 +2057,9 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		DrawEdgeMarker(marker, c);
 
 	m_targetIcon->Draw(Pi::renderer,
-			   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
-						marker.pos.y - HUD_CROSSHAIR_SIZE),
-			   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
+					   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
+								marker.pos.y - HUD_CROSSHAIR_SIZE),
+					   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c)

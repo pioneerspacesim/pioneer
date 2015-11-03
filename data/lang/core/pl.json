@@ -313,7 +313,7 @@
    },
    "DOCKING" : {
       "description" : "",
-      "message" : "Dokuje"
+      "message" : "Dokowanie"
    },
    "DOCKING_CLEARANCE_EXPIRED" : {
       "description" : "",
@@ -549,7 +549,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Wyłączenie hipernapędu"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Uruchomienie hipernapędu"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -907,18 +907,6 @@
       "description" : "",
       "message" : "Wrz"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Czerpak wielofunkcyjny"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Mniej skuteczny od czerpaka paliwowego, lecz mimo to pozwala przechwycić zarówno kontenery towarowe jak i paliwo."
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Morderstwo"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s względem: %frame"
@@ -1111,10 +1099,6 @@
       "description" : "",
       "message" : "PIONEER"
    },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Piractwo"
-   },
    "PITCH" : {
       "description" : "",
       "message" : "Odchylenie pionowe"
@@ -1161,7 +1145,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Rozpoczęcie manewru. Kliknij, aby przywrócić domyślne."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1170,10 +1154,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Dyktatura"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLICJA"
    },
    "POPULATION" : {
       "description" : "",
@@ -1723,6 +1703,10 @@
       "description" : "",
       "message" : "System potrójny."
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Odłączenie"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "System niezbadany. Brak danych."
@@ -1738,10 +1722,6 @@
    "UNKNOWN" : {
       "description" : "",
       "message" : "<nieznany>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Bezprawne użycie broni"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1806,10 +1786,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime nie będzie tu tolerowane."
    },
    "Y" : {
       "description" : "keybinding: y axis",

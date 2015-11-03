@@ -110,8 +110,6 @@ private:
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;
 	CityOnPlanet *m_adjacentCity;
-	double m_distFromPlanet;
-	int m_numPoliceDocked;
 	enum { NUM_STATIC_SLOTS = 4 };
 	bool m_staticSlot[NUM_STATIC_SLOTS];
 

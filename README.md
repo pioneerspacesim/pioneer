@@ -1,3 +1,5 @@
+[![License GPLv3](https://img.shields.io/badge/license-GPL_v3-green.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
+
 # Pioneer Space Simulator
 
 Pioneer is a space adventure game set in the Milky Way galaxy at the turn of

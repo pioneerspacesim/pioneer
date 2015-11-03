@@ -205,25 +205,6 @@ void LuaConstants::Register(lua_State *l)
 	 */
 
 	/*
-	 * Constants: PolitCrime
-	 *
-	 * Crimes
-	 *
-	 * TRADING_ILLEGAL_GOODS - .
-	 * WEAPON_DISCHARGE - .
-	 * PIRACY - .
-	 * MURDER - .
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-
-	/*
 	 * Constants: PolitEcon
 	 *
 	 * Economy type
@@ -451,6 +432,7 @@ void LuaConstants::Register(lua_State *l)
 	 *
 	 * FLYING     - open flight (includes autopilot)
 	 * DOCKING    - in docking animation
+	 * UNDOCKING  - in docking animation
 	 * DOCKED     - docked with station
 	 * LANDED     - rough landed (not docked)
 	 * JUMPING    - just initiating hyperjump (as of February 2014)

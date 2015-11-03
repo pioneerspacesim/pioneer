@@ -1,16 +1,62 @@
+November 2015
+   * New Features
+     * New random number generator! (#3485)
+     * More moons for Jupiter, and a low Earth orbit station (#3503)
+     * Three new faction specific police ships, and new crimes added (#3254)
+     * Three new faction specific fuel clubs (#3504)
+     * All stations now have a Tech Level, in range 1-12 (#3505)
+     * Compact Use Equip Widget (#3507)
+
+   * Fixes
+     * Fix stations placed on top of each other (#3498)
+
+   * Internal Changes
+     * All crime handling moved to Lua (#3254)
+
+October 2015
+   * New Features
+     * Fade orbits faster and darker (#3469)
+     * Commodity Market rewrite (#3467)
+     * OS X Homebrew Build script (#3447)
+     * Make trade analyzer module into a software module (#3474)
+     * Show latitude/longitude ()#3499)
+
+   * Fixes
+     * Miscellaneous warnings fixes (#3472)
+     * Commodity language fix (#3476)
+     * Split the flightstate DOCKING into an UNDOCKING state as well (#3481)
+     * Account for the fuel mass in hyperspace range calculation (#3489)
+     * Bad Terrain, no cookie! (#3490)
+     * Small time acceleration limitation fix (#3506)
+
+   * Internal Changes
+     * Exposing full color values instead of only alphas in skin.ini (#3486)
+     * GLSL preprocessor includes (#3488)
+     * Simplified Star Shader (#3487)
+     * Change forced time acceleration around ships (#3445)
+     * Present a clearer warning to the user if OpenGL fails to initialise (#3496)
+     * Eclipse tidy (#3501)
+
 September 2015
    * New Features
      * Control how many stars in the sky (#3431)
      * Two state hyperspace button (#3438)
      * Terrain detail textures (#3448)
+     * Progress bar during start up better scaled (#3261, #3462)
+     * Orbit fading (#3460)
 
    * Fixes
      * Fix undefined symbols for static const members (#3446)
      * Resolve Detail Texturing abort (#3452)
+     * Fix compilation issue due to BG_STARS_MAX/MIN (#3457)
+     * Fix empty crew for hire advert (#3465)
+     * Fix crew for hire load glitch (#3468)
+     * Fix Crew-for-hire duplicate/disappear (#3466)
 
    * Internal Changes
      * Remove planetary scaling during rendering (#3434)
      * Remove the animation Interpolate optimisation (#3435)
+     * Add license badge to README, markdown now supports it (#3464)
 
 August 2015
    * New Features

@@ -8,6 +8,7 @@ The Pioneer Developers are:
 * Abram Hindle
 * Ae
 * Alan Briggs
+* Alan 'joonicks' Londa
 * Alessandro Giachi
 * Andrew Cook
 * Andrew Copland
@@ -51,6 +52,7 @@ The Pioneer Developers are:
 * Krzysztof Niedźwiecki
 * Kyungdahm Yun
 * Lars Westerhoff
+* Leandro Papi
 * Lee Reilly
 * Leonardo Manna
 * Luca Ganzerla

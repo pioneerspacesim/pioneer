@@ -174,6 +174,16 @@ static int l_fac_police_name(lua_State *L)
 	return 1;
 }
 
+//preferred police ship model
+static int l_fac_police_ship(lua_State *L)
+{
+	Faction *fac = l_fac_check(L, 1);
+	std::string police_ship = luaL_checkstring(L, 2);
+	fac->police_ship = police_ship;
+	lua_settop(L, 1);
+	return 1;
+}
+
 //commodity legality
 static int l_fac_illegal_goods_probability(lua_State *L)
 {
@@ -268,6 +278,7 @@ static luaL_Reg LuaFaction_meta[] = {
 	{ "expansionRate",             &l_fac_expansionRate },
 	{ "military_name",             &l_fac_military_name },
 	{ "police_name",               &l_fac_police_name },
+	{ "police_ship",               &l_fac_police_ship },
 	{ "illegal_goods_probability", &l_fac_illegal_goods_probability },
 	{ "colour",                    &l_fac_colour },
 	{ "add_to_factions",           &l_fac_add_to_factions },

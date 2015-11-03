@@ -53,7 +53,7 @@
    },
    "DANGER" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Pavojus:"
    },
    "DEADLINE" : {
       "description" : "",
@@ -93,11 +93,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Atstumas:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Puiku."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_0_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Ne."
    },
    "FLAVOUR_0_FAILUREMSG" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "FLAVOUR_10_DANGER" : {
       "description" : "",
-      "message" : "I think someone is following me."
+      "message" : "Aš galvoju, kad mane seka kažkas."
    },
    "FLAVOUR_10_FAILUREMSG" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_10_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Tik vieną."
    },
    "FLAVOUR_10_INTROTEXT" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_11_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Tik vieną."
    },
    "FLAVOUR_11_INTROTEXT" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "FLAVOUR_12_HOWMANY" : {
       "description" : "",
-      "message" : "Just one."
+      "message" : "Tik vieną."
    },
    "FLAVOUR_12_INTROTEXT" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "FLAVOUR_1_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Ne."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "FLAVOUR_2_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Ne."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -305,7 +305,7 @@
    },
    "FLAVOUR_3_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Tai tik aš."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "FLAVOUR_4_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Ne."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "FLAVOUR_4_HOWMANY" : {
       "description" : "",
-      "message" : "Just me."
+      "message" : "Tik aš."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "FLAVOUR_5_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Tai tik aš."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FLAVOUR_5_WHYSOMUCH" : {
       "description" : "",
-      "message" : "Didn't you know - I'm a well known dream star."
+      "message" : "Ar nežinojote - aš gerai žinoma svajonių žvaigždė"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "FLAVOUR_6_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Ne."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "FLAVOUR_6_HOWMANY" : {
       "description" : "",
-      "message" : "It's only me."
+      "message" : "Tai tik aš."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "FLAVOUR_6_WHYSOMUCH" : {
       "description" : "",
-      "message" : "I'm freelance journalist."
+      "message" : "Aš laisvai samdomas žurnalistas."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "FLAVOUR_7_HOWMANY" : {
       "description" : "",
-      "message" : "Me and nobody else."
+      "message" : "Aš ir niekas daugiau."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "FLAVOUR_7_WHYSOMUCH" : {
       "description" : "",
-      "message" : "The Mafia want me dead."
+      "message" : "Mafija nori mano mirties."
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "FLAVOUR_8_DANGER" : {
       "description" : "",
-      "message" : "No."
+      "message" : "Ne."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "FLAVOUR_8_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Tik aš."
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
@@ -497,7 +497,7 @@
    },
    "FLAVOUR_9_HOWMANY" : {
       "description" : "",
-      "message" : "Only me."
+      "message" : "Tik aš."
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
@@ -517,7 +517,7 @@
    },
    "FROM" : {
       "description" : "",
-      "message" : "From:"
+      "message" : "Iš:"
    },
    "GROUP_DETAILS" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, sutinku."
    },
    "PIRATE_TAUNTS_0" : {
       "description" : "",
@@ -565,7 +565,7 @@
    },
    "TAXI" : {
       "description" : "",
-      "message" : "Taxi"
+      "message" : "Taksi"
    },
    "TO" : {
       "description" : "",
@@ -577,11 +577,11 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "Kodėl tiek daug pinigų?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
-      "message" : "Will I be in any danger?"
+      "message" : "Ar aš būsiu pavojuje?"
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

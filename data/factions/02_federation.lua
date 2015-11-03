@@ -9,6 +9,7 @@ local f = Faction:new('Solar Federation')
 	:expansionRate(1.0)
 	:military_name('SolFed Military')
 	:police_name('SolFed Police Force')
+	:police_ship('kanara')
 	:colour(0.4,0.4,1.0)
 
 f:govtype_weight('EARTHDEMOC',    60)

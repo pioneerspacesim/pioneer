@@ -100,7 +100,8 @@ Space::Space(Game *game, RefCountedPtr<Galaxy> galaxy, const SystemPath &path, S
 	m_rootFrame.reset(new Frame(0, Lang::SYSTEM));
 	m_rootFrame->SetRadius(FLT_MAX);
 
-	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get());
+	std::vector<vector3d> positionAccumulator;
+	GenBody(m_game->GetTime(), m_starSystem->GetRootBody().Get(), m_rootFrame.get(), positionAccumulator);
 	m_rootFrame->UpdateOrbitRails(m_game->GetTime(), m_game->GetTimeStep());
 
 	GenSectorCache(galaxy, &path);
@@ -417,7 +418,7 @@ Frame *Space::GetFrameWithSystemBody(const SystemBody *b) const
 	return find_frame_with_sbody(m_rootFrame.get(), b);
 }
 
-static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame, Planet *planet, vector3d &pos, matrix3x3d &rot)
+static void RelocateStarportIfNecessary(SystemBody *sbody, Frame *frame, Planet *planet, vector3d &pos, matrix3x3d &rot, const std::vector<vector3d> &prevPositions)
 {
 	const double radius = planet->GetSystemBody()->GetRadius();
 
@@ -449,7 +450,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	matrix3x3d rot_ = rot;
 	vector3d pos_ = pos;
 
-	bool manualRelocationIsEasy = !(planet->GetSystemBody()->GetType() == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
+	const bool manualRelocationIsEasy = !(planet->GetSystemBody()->GetType() == SystemBody::TYPE_PLANET_ASTEROID || terrainHeightVariation > heightVariationCheckThreshold);
 
 	// warn and leave it up to the user to relocate custom starports when it's easy to relocate manually, i.e. not on asteroids and other planets which are likely to have high variation in a lot of places
 	const bool isRelocatableIfBuried = !(sbody->IsCustomBody() && manualRelocationIsEasy);
@@ -459,7 +460,8 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 
 	Random r(sbody->GetSeed());
 
-	for (int tries = 0; tries < 200; tries++) {
+	for (int tries = 0; tries < 200; tries++) 
+	{
 		variationWithinLimits = true;
 
 		const double height = planet->GetTerrainHeight(pos_) - radius; // in m
@@ -488,6 +490,16 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 		//Output("%s: try no: %i, Match found: %i, best variation in previous results %f, variationMax this try: %f, maxHeightVariation: %f, Starport is underwater: %i\n",
 		//	sbody->name.c_str(), tries, (variationWithinLimits && !starportUnderwater), bestVariation, variationMax, maxHeightVariation, starportUnderwater);
 
+		bool tooCloseToOther = false;
+		for (vector3d oldPos : prevPositions)
+		{
+			// is the distance between points less than the delta distance?	
+			if ((pos_ - oldPos).LengthSqr() < (delta*delta)) {
+				tooCloseToOther = true; // then we're too close so try again
+				break;
+			}
+		}
+
 		if  (tries == 0) {
 			isInitiallyUnderwater = starportUnderwater;
 			initialVariationTooHigh = !variationWithinLimits;
@@ -499,13 +511,16 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 			rotNotUnderwaterWithLeastVariation = rot_;
 		}
 
-		if (variationWithinLimits && !starportUnderwater) break;
+		if (variationWithinLimits && !starportUnderwater && !tooCloseToOther) 
+			break;
 
 		// try new random position
+		const double r3 = r.Double();
 		const double r2 = r.Double(); 	// function parameter evaluation order is implementation-dependent
 		const double r1 = r.Double();	// can't put two rands in the same expression
-		rot_ = matrix3x3d::RotateZ(2*M_PI*r1)
-			* matrix3x3d::RotateY(2*M_PI*r2);
+		rot_ = matrix3x3d::RotateZ(2.0*M_PI*r1)
+			* matrix3x3d::RotateY(2.0*M_PI*r2)
+			* matrix3x3d::RotateX(2.0*M_PI*r3);
 		pos_ = rot_ * vector3d(0,1,0);
 	}
 
@@ -532,7 +547,7 @@ static void RelocateStarportIfUnderwaterOrBuried(SystemBody *sbody, Frame *frame
 	}
 }
 
-static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
+static Frame *MakeFrameFor(const double at_time, SystemBody *sbody, Body *b, Frame *f, std::vector<vector3d> &prevPositions)
 {
 	if (!sbody->GetParent()) {
 		if (b) b->SetFrame(f);
@@ -614,10 +629,12 @@ static Frame *MakeFrameFor(double at_time, SystemBody *sbody, Body *b, Frame *f)
 		matrix3x3d rot;
 		vector3d pos;
 		Planet *planet = static_cast<Planet*>(rotFrame->GetBody());
-		RelocateStarportIfUnderwaterOrBuried(sbody, rotFrame, planet, pos, rot);
+		RelocateStarportIfNecessary(sbody, rotFrame, planet, pos, rot, prevPositions);
 		sbody->SetOrbitPlane(rot);
 		b->SetPosition(pos * planet->GetTerrainHeight(pos));
 		b->SetOrient(rot);
+		// accumulate for testing against
+		prevPositions.push_back(pos);
 		return rotFrame;
 	} else {
 		assert(0);
@@ -747,7 +764,7 @@ void Space::UpdateStarSystemCache(const SystemPath* here)
 	m_starSystemCache->FillCache(paths);
 }
 
-void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
+void Space::GenBody(const double at_time, SystemBody *sbody, Frame *f, std::vector<vector3d> &posAccum)
 {
 	Body *b = 0;
 
@@ -762,15 +779,17 @@ void Space::GenBody(double at_time, SystemBody *sbody, Frame *f)
 		} else {
 			Planet *planet = new Planet(sbody);
 			b = planet;
+			// reset this
+			posAccum.clear();
 		}
 		b->SetLabel(sbody->GetName().c_str());
 		b->SetPosition(vector3d(0,0,0));
 		AddBody(b);
 	}
-	f = MakeFrameFor(at_time, sbody, b, f);
+	f = MakeFrameFor(at_time, sbody, b, f, posAccum);
 
 	for (SystemBody* kid : sbody->GetChildren()) {
-		GenBody(at_time, kid, f);
+		GenBody(at_time, kid, f, posAccum);
 	}
 }
 
