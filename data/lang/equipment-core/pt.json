@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Mapeador de Radar Avançado"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Mapeador de radar de longo alcance com sistema de cobertura larga."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Class 4 Military drive"
+      "message" : "Drive Militar de classe 4"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -129,7 +129,7 @@
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Analyze hyperspace clouds to determine destination and time of arrival or departure."
+      "message" : "Analiza as núvens de hiperespaço para determinar o destino e tempo de chegada ou partida."
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
@@ -169,23 +169,23 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Escavador Múltiplo"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Embora menos efeciente que um escavador de combustível, permite escavar combustível e mercadoria"
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Distância máxima de pesquisa excedida:"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Pesquisador de planeta"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Pesquisa recurso no planeta/lua mais próximo."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "PULSECANNON_DUAL_1MW" : {
       "description" : "",
-      "message" : "1MW dual-fire pulse cannon"
+      "message" : "Canhão de impulso de 1MW de duplo tiro"
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Pesquisa completada"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "A continuar a pesquisa"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -261,15 +261,15 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "A iniciar a pesquisa, a distância ao alvo é"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Analisador de negócio"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Mostra os bens rentáveis para negociar entre o sistema sekecionado e o atual"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
@@ -277,6 +277,6 @@
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Required for transport of a single passenger"
+      "message" : "Necessário para o transporte de um passageiro"
    }
 }

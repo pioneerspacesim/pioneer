@@ -5,7 +5,7 @@
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Ativo"
+      "message" : "Ativo(a)"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "ALLEGIANCE" : {
       "description" : "",
-      "message" : "Aliança:"
+      "message" : "Fidelidade:"
    },
    "ALL_UP_WEIGHT" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
-      "message" : "Mudar Contrato"
+      "message" : "Mudar Função"
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "Game graphics option",
-      "message" : "Nível de detalhamento da cidade"
+      "message" : "Nível de detalhamento de cidade"
    },
    "CLEAN" : {
       "description" : "Legal status of player",
@@ -185,7 +185,7 @@
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Não foi possível baixar o jogo:"
+      "message" : "Não foi possível carregar o jogo:"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -193,7 +193,7 @@
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Cabine de tripulação"
+      "message" : "Cabines de tripulação"
    },
    "CREW_ROSTER" : {
       "description" : "",
@@ -209,7 +209,7 @@
    },
    "DEADLY" : {
       "description" : "Player combat rating",
-      "message" : "Mortalmente"
+      "message" : "Mortal"
    },
    "DELTA_V" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Ativar controle"
+      "message" : "Ativar joystick"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
@@ -437,7 +437,7 @@
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Tentativa de reparo da fuselagem falhou. Fuselagem sofreu dano menor."
+      "message" : "Tentativa de reparo da fuselagem falhou. Fuselagem sofreu danos pouco significativos."
    },
    "HYPERDRIVE" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Variação no hiper espaço"
+      "message" : "Alcance de hiperespaço"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -469,7 +469,7 @@
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Inverter Mouse Y"
+      "message" : "Inverter Eixo Y do Mouse"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Mortes:"
+      "message" : "Assassinatos:"
    },
    "LANGUAGE" : {
       "description" : "",
@@ -545,11 +545,11 @@
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Baixar"
+      "message" : "Carregar"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Baixar jogo"
+      "message" : "Carregar jogo"
    },
    "LOBBY" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
-      "message" : "Localizado a {distância} km do centro de {nome}:"
+      "message" : "Localizado a {distance}km do centro de {name}:"
    },
    "LOCATION" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "MAX" : {
       "description" : "",
-      "message" : "máximo"
+      "message" : "máx"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "MEDIUM" : {
       "description" : "Game settings option: graphics resolution",
-      "message" : "Médio"
+      "message" : "Média"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
@@ -721,7 +721,7 @@
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Sem {liga} suficiente para tentar um reparo"
+      "message" : "Sem {alloy} suficiente para tentar um reparo"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
@@ -733,15 +733,15 @@
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{variação} anos-luz ({Variaçãomáxima} máxima)"
+      "message" : "{range} anos luz ({maxRange} máx)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantidade} Cabines de Passageiros Ocupadas"
+      "message" : "{quantity} Cabines de Passageiros Ocupadas"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantidade} Geradores de Defesa"
+      "message" : "{quantity} Geradores de Escudo"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -789,7 +789,7 @@
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Pilotando:"
+      "message" : "Pilotagem:"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
@@ -805,7 +805,7 @@
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Texturas do planeta"
+      "message" : "Texturas planetárias"
    },
    "POLICE" : {
       "description" : "",
@@ -845,7 +845,7 @@
    },
    "RANK" : {
       "description" : "",
-      "message" : "Classificado:"
+      "message" : "Classificação:"
    },
    "RATING" : {
       "description" : "",
@@ -921,7 +921,7 @@
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Selecione jogo para baixar..."
+      "message" : "Selecione jogo para carregar..."
    },
    "SELL" : {
       "description" : "Commodities and equipment prices",
@@ -937,7 +937,7 @@
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Informação sobre a Nave"
+      "message" : "Informações sobre a Nave"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
@@ -1013,7 +1013,7 @@
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
-      "message" : "Alternar masculino/ feminino"
+      "message" : "Alternar masculino/feminino"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
@@ -1061,7 +1061,7 @@
    },
    "VERY_LOW" : {
       "description" : "Game settings option: graphic resolution",
-      "message" : "Muito baixo"
+      "message" : "Muito baixa"
    },
    "VIDEO" : {
       "description" : "",

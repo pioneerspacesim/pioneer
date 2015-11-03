@@ -1,7 +1,7 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Excelente. Carregarei os produtos à sua nave."
+      "message" : "Excelente. Carregarei os bens à sua nave."
    },
    "ACCEPTED_2" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, me certificarei de que os produtos estarão prontos para a coleta."
+      "message" : "Ok, me certificarei de que os bens estarão prontos para a coleta."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "ADTEXT_2" : {
       "description" : "",
-      "message" : "PRECISO DE TRANSPORTE: Necessário transporte de produtos para o sistema {system}. Pagamento de {cash}."
+      "message" : "PRECISO DE TRANSPORTE: Necessário transporte de bens para o sistema {system}. Pagamento de {cash}."
    },
    "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "ENTREGA LOCAL: Movimentação de produtos para {starport}."
+      "message" : "ENTREGA LOCAL: Movimentação de bens para {starport}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "ENTREGA LOCAL DE CARGA: Entrega de produtos para {starport}."
+      "message" : "ENTREGA LOCAL DE CARGA: Entrega de bens para {starport}."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "I_HAVE_DEBITED_YOUR_ACCOUNT" : {
       "description" : "",
-      "message" : "Eu debitei sua conta com os produtos faltando."
+      "message" : "Eu debitei sua conta com os bens que estão faltando."
    },
    "I_NEED_HELP" : {
       "description" : "",
@@ -361,7 +361,7 @@
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Ei chapa, passa os produtos. Agora!"
+      "message" : "Ei chapa, passa os bens. Agora!"
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "RISK_ART_1" : {
       "description" : "",
-      "message" : "Os produtos são muito procurados por amantes da arte."
+      "message" : "Os bens são muito procurados por amantes da arte."
    },
    "RISK_EXPENSIVE_1" : {
       "description" : "",
@@ -509,7 +509,7 @@
    },
    "URGENCY_5" : {
       "description" : "",
-      "message" : "É essencial que os produtos tenham sido entregues antes de {date}."
+      "message" : "É essencial que os bens tenham sido entregues antes de {date}."
    },
    "URGENCY_FLUFFY_1" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "WHYSOMUCH_4" : {
       "description" : "",
-      "message" : "O pagamento reflete nosso desejo de que os produtos sejam entregues dentro do prazo e inteiros."
+      "message" : "O pagamento reflete nosso desejo de que os bens sejam entregues dentro do prazo e inteiros."
    },
    "WHYSOMUCH_5" : {
       "description" : "",
@@ -561,15 +561,15 @@
    },
    "WHYSOMUCH_CHEMICAL_1" : {
       "description" : "",
-      "message" : "A produção na usina química depende destes produtos e não deve ser interrompida. Nada deve parar a máquina."
+      "message" : "A produção na usina química depende destes bens e não deve ser interrompida. Nada deve parar a máquina."
    },
    "WHYSOMUCH_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "Produtos valiosos estão em grande demanda."
+      "message" : "Bens valiosos estão em grande demanda."
    },
    "WHYSOMUCH_EXPENSIVE_2" : {
       "description" : "",
-      "message" : "Pelo simples motivo de que estes produtos são bastante caros."
+      "message" : "Pelo simples motivo de que estes bens são bastante caros."
    },
    "WHYSOMUCH_FLUFFY_1" : {
       "description" : "",
@@ -577,11 +577,11 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Estes produtos cruciais para um projeto de construção."
+      "message" : "Estes bens cruciais para um projeto de construção."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",
-      "message" : "Estes produtos são essenciais para a construção de uma nova mina."
+      "message" : "Estes bens são essenciais para a construção de uma nova mina."
    },
    "WHYSOMUCH_URGENT_1" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "WHYSOMUCH_URGENT_3" : {
       "description" : "",
-      "message" : "Estes produtos são urgentemente necessários."
+      "message" : "Estes bens são urgentemente necessários."
    },
    "WHYSOMUCH_WEDDING_1" : {
       "description" : "",
