@@ -114,13 +114,8 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 
 				// slope & (normalised?) height
 				const vector3f p0(GetSpherePoint(xFrac, yFrac));
-#if 0
-				const float slope = Clamp(abs(p0.Dot(norma)), 0.0f, 1.0f);
-				const float normHeight = float(Clamp(height * radius, 0.0, 1.0));
-#else
 				const float slope = Clamp(float(fabs(float(p0.Dot(norma)))), 0.0f, 1.0f);
 				const float normHeight = float(height * heightMul);
-#endif
 				vtxPtr->slopeHeight = vector2f(slope, normHeight);
 
 				++vtxPtr; // next vertex
