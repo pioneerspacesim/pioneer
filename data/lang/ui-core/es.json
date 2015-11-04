@@ -261,7 +261,7 @@
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Vaciando"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
+      "message" : "Multas espectaculares"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -993,11 +993,11 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "This station holds a level {tech_level} technology certificate."
+      "message" : "Esta estación mantiene un certificado de tecnología de nivel {tech_level}."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
-      "message" : "This installation holds a military technology clearance."
+      "message" : "Esta instalación mantiene una autorización tecnológica militar."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1101,7 +1101,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
+      "message" : "¡Aquí el {crime} no está tolerado!"
    },
    "YES" : {
       "description" : "Positive answer to a question",
