@@ -101,6 +101,10 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
 			glEnableVertexAttribArray(3);	// Enable the attribute at that location
 			glVertexAttribPointer(3, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
 			break;
+		case ATTRIB_TANGENT:
+			glEnableVertexAttribArray(4);	// Enable the attribute at that location
+			glVertexAttribPointer(4, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
+			break;
 		case ATTRIB_NONE:
 		default:
 			break;
@@ -278,6 +282,7 @@ void VertexBuffer::Bind() {
 		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
 		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
 		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
+		case ATTRIB_TANGENT:		glEnableVertexAttribArray(4);		break;
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -290,10 +295,11 @@ void VertexBuffer::Release() {
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
 		const auto& attr = m_desc.attrib[i];
 		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);			break;
-		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);			break;
-		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);			break;
-		case ATTRIB_UV0:			glDisableVertexAttribArray(3);			break;
+		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);		break;
+		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);		break;
+		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);		break;
+		case ATTRIB_UV0:			glDisableVertexAttribArray(3);		break;
+		case ATTRIB_TANGENT:		glDisableVertexAttribArray(4);		break;
 		case ATTRIB_NONE:
 		default:
 			return;

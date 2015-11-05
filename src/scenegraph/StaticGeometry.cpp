@@ -133,6 +133,7 @@ void StaticGeometry::Save(NodeDatabase &db)
 		const Uint32 posOffset = vbDesc.GetOffset(Graphics::ATTRIB_POSITION);
 		const Uint32 nrmOffset = vbDesc.GetOffset(Graphics::ATTRIB_NORMAL);
 		const Uint32 uv0Offset = vbDesc.GetOffset(Graphics::ATTRIB_UV0);
+		const Uint32 tanOffset = vbDesc.GetOffset(Graphics::ATTRIB_TANGENT);
 		const Uint32 stride    = vbDesc.stride;
 		db.wr->Int32(vbDesc.numVertices);
 		Uint8 *vtxPtr = mesh.vertexBuffer->Map<Uint8>(Graphics::BUFFER_MAP_READ);
@@ -141,6 +142,7 @@ void StaticGeometry::Save(NodeDatabase &db)
             db.wr->Vector3f(*reinterpret_cast<vector3f*>(vtxPtr + i * stride + nrmOffset));
             db.wr->Float(reinterpret_cast<vector2f*>(vtxPtr + i * stride + uv0Offset)->x);
             db.wr->Float(reinterpret_cast<vector2f*>(vtxPtr + i * stride + uv0Offset)->y);
+			db.wr->Vector3f(*reinterpret_cast<vector3f*>(vtxPtr + i * stride + tanOffset));
 		}
 		mesh.vertexBuffer->Unmap();
 
@@ -183,7 +185,7 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 
 		//vertex format check
 		const Uint32 vtxFormat = db.rd->Int32();
-		if (vtxFormat != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0))
+		if (vtxFormat != (ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0 | ATTRIB_TANGENT))
 			throw LoadingError("Unsupported vertex format");
 
 		//vertex buffer
@@ -194,6 +196,8 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 		vbDesc.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbDesc.attrib[2].semantic = Graphics::ATTRIB_UV0;
 		vbDesc.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbDesc.attrib[3].semantic = Graphics::ATTRIB_TANGENT;
+		vbDesc.attrib[3].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbDesc.usage = Graphics::BUFFER_USAGE_STATIC;
 		vbDesc.numVertices = db.rd->Int32();
 
@@ -201,6 +205,7 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 		const Uint32 posOffset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_POSITION);
 		const Uint32 nrmOffset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_NORMAL);
 		const Uint32 uv0Offset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_UV0);
+		const Uint32 tanOffset = vtxBuffer->GetDesc().GetOffset(Graphics::ATTRIB_TANGENT);
 		const Uint32 stride = vtxBuffer->GetDesc().stride;
 		Uint8 *vtxPtr = vtxBuffer->Map<Uint8>(BUFFER_MAP_WRITE);
 		for (Uint32 i = 0; i < vbDesc.numVertices; i++) {
@@ -209,6 +214,7 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 			const float uvx = db.rd->Float();
 			const float uvy = db.rd->Float();
 			*reinterpret_cast<vector2f*>(vtxPtr + i * stride + uv0Offset) = vector2f(uvx, uvy);
+			*reinterpret_cast<vector3f*>(vtxPtr + i * stride + tanOffset) = db.rd->Vector3f();
 		}
 		vtxBuffer->Unmap();
 

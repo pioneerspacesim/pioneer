@@ -237,6 +237,8 @@ void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 		wr.String(m.tex_diff);
 		wr.String(m.tex_spec);
 		wr.String(m.tex_glow);
+		wr.String(m.tex_ambi);
+		wr.String(m.tex_norm);
 		wr.Color4UB(m.diffuse);
 		wr.Color4UB(m.specular);
 		wr.Color4UB(m.ambient);
@@ -257,6 +259,8 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 		m.tex_diff = rd.String();
 		m.tex_spec = rd.String();
 		m.tex_glow = rd.String();
+		m.tex_ambi = rd.String();
+		m.tex_norm = rd.String();
 		m.diffuse = rd.Color4UB();
 		m.specular = rd.Color4UB();
 		m.ambient = rd.Color4UB();
