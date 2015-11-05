@@ -768,8 +768,10 @@ end
 local onShipDocked = function (player, station)
 	if not player:IsPlayer() then return end
 
+	-- First drop off cargo (if any such missions)
 	for ref,mission in pairs(missions) do
-		if (mission.location == station.path and not mission.pickup) or (mission.domicile == station.path and mission.pickup and mission.cargo_picked_up) then
+		if (mission.location == station.path and not mission.pickup) or
+			(mission.domicile == station.path and mission.pickup and mission.cargo_picked_up) then
 			local reputation = mission.localdelivery and 1 or 1.5
 			local oldReputation = Character.persistent.player.reputation
 			local amount = Game.player:RemoveEquip(mission.cargotype, mission.amount, "cargo")
@@ -804,7 +806,14 @@ local onShipDocked = function (player, station)
 			mission:Remove()
 			missions[ref] = nil
 
-		elseif mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
+		elseif mission.status == "ACTIVE" and Game.time > mission.due then
+			mission.status = 'FAILED'
+		end
+	end
+
+	-- Now we have space pick up cargo as well
+	for ref,mission in pairs(missions) do
+		if mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
 			if Game.player.freeCapacity < mission.amount then
 				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
 			else
@@ -812,9 +821,6 @@ local onShipDocked = function (player, station)
 				mission.cargo_picked_up = true
 				Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
 			end
-
-		elseif mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
 	end
 end
