@@ -40,19 +40,17 @@ void main(void)
 #ifdef USE_INSTANCING
 	eyePos = vec3(uViewMatrix * (a_transform * a_vertex));
 	normal = normalize(uNormalMatrix * (mat3(a_transform) * a_normal));
+	#ifdef MAP_NORMAL
+		tangent = uNormalMatrix * (mat3(a_transform) * a_tangent);
+		bitangent = uNormalMatrix * (mat3(a_transform) * cross(a_normal, a_tangent));
+	#endif
 #else
 	eyePos = vec3(uViewMatrix * a_vertex);
 	normal = normalize(uNormalMatrix * a_normal);
-#endif
-
-#ifdef MAP_NORMAL
-#ifdef USE_INSTANCING
-	tangent = uNormalMatrix * (mat3(a_transform) * a_tangent);
-	bitangent = uNormalMatrix * (mat3(a_transform) * cross(a_normal, a_tangent));
-#else
-	tangent = uNormalMatrix * a_tangent;
-	bitangent = uNormalMatrix * cross(a_normal, a_tangent);
-#endif
+	#ifdef MAP_NORMAL
+		tangent = uNormalMatrix * a_tangent;
+		bitangent = uNormalMatrix * cross(a_normal, a_tangent);
+	#endif
 #endif
 
 #ifdef HEAT_COLOURING

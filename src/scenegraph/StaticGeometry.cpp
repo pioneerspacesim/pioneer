@@ -96,6 +96,7 @@ void StaticGeometry::Render(const std::vector<matrix4x4f> &trans, const RenderDa
 		mat->texture3 = it.material->texture3;
 		mat->texture4 = it.material->texture4;
 		mat->texture5 = it.material->texture5;
+		mat->texture6 = it.material->texture5;
 		mat->heatGradient = it.material->heatGradient;
 		mat->diffuse = it.material->diffuse;
 		mat->specular = it.material->specular;

@@ -63,6 +63,12 @@ public:
 	virtual void Release() override;
 
 protected:
+	enum InstOffs {
+		INSTOFFS_MAT0 = 5, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl
+		INSTOFFS_MAT1 = 6,
+		INSTOFFS_MAT2 = 7,
+		INSTOFFS_MAT3 = 8
+	};
 	std::unique_ptr<matrix4x4f> m_data;
 };
 
