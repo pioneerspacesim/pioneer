@@ -13,6 +13,7 @@ November 2015
    * Internal Changes
      * All crime handling moved to Lua (#3254)
      * CargoRun missions first unload all mission cargo (#3510)
+     * Change OpenGL Extensions from Compatibility to Core (#3514)
 
 October 2015
    * New Features
