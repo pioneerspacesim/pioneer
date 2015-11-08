@@ -15,6 +15,7 @@ November 2015
      * CargoRun missions first unload all mission cargo (#3510)
      * Change OpenGL Extensions from Compatibility to Core (#3514)
      * Direct buffer population (#3513)
+     * Deprecate Visual Studio 2013 (#3519)
 
 October 2015
    * New Features
