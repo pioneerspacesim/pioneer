@@ -283,6 +283,10 @@
       "description" : "",
       "message" : "Obair"
    },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Enable Autosave"
+   },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Cuir cockpit an comas (DEUCHAINNEACH)"
@@ -569,7 +573,7 @@
    },
    "LY" : {
       "description" : "Light year",
-      "message" : "bl-sol"
+      "message" : "bl-shol"
    },
    "MAKE_NEW_FACE" : {
       "description" : "",

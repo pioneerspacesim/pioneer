@@ -5,7 +5,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you repeat the original request?"
+      "message" : "Dè an t-iarrtas a bh' agaibh a-rithist?"
    },
    "DENY_0" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "Come back when you have some qualifications."
+      "message" : "Till nuair a bhios teisteanasan agad."
    },
    "DENY_2" : {
       "description" : "",
@@ -181,11 +181,11 @@
    },
    "LY" : {
       "description" : "",
-      "message" : "bl-sol"
+      "message" : "bl-shol"
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Seadh, nì sinn seo."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
@@ -321,6 +321,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "{target} will be leaving {spaceport} in the {system} system ({sectorX}, {sectorY}, {sectorZ}), distance {dist} ly, at {date}. The ship is {shipname} and has registration id {shipregid}."
+      "message" : "Bidh {target} a' fàgail {spaceport} ann an siostam {system} ({sectorX}, {sectorY}, {sectorZ}), {dist} bliadhna-solais a dh'astar {date}. Is {shipname} an soitheach agus is {shipregid} an t-aithnichear clàraidh a tha air."
    }
 }

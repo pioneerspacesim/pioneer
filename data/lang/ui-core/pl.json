@@ -283,6 +283,10 @@
       "description" : "",
       "message" : "Zatrudnienie"
    },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Enable Autosave"
+   },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
       "message" : "Pokaż kokpit (EKSPERYMENTALNE)"
