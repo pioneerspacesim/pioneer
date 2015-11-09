@@ -163,6 +163,7 @@ pioneer_SOURCES	= \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
+	CollMesh.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DateTime.cpp \
@@ -418,6 +419,7 @@ endif
 modelcompiler_SOURCES = \
 	modelcompiler.cpp \
 	Color.cpp \
+	CollMesh.cpp \
 	DateTime.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \

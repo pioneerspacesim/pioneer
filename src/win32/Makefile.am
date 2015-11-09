@@ -9,4 +9,5 @@ AM_CPPFLAGS += -I$(srcdir)/.. -isystem $(top_srcdir)/contrib
 noinst_LIBRARIES = libwin32.a
 libwin32_a_SOURCES = \
 	FileSystemWin32.cpp \
-	OSWin32.cpp
+	OSWin32.cpp \
+	TextUtils.cpp 
