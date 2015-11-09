@@ -85,7 +85,6 @@ private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 
 	bool m_refreshVertexBuffer;
-	float m_width;
 	RefCountedPtr<Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<VertexArray> m_va;
