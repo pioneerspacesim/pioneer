@@ -20,6 +20,7 @@ November 2015
      * Direct buffer population (#3513)
      * Deprecate Visual Studio 2013 (#3519)
      * Updated vs2015 libraries and DLLs (#3520)
+     * Clang warnings (#3524)
 
 October 2015
    * New Features

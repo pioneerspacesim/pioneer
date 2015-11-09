@@ -47,7 +47,6 @@ private:
 	std::list<Child> m_children;
 
 	Point m_preferredSize;
-	Uint32 m_minAllocation;
 	Uint32 m_numVariable;
 };
 

@@ -52,7 +52,7 @@ namespace {
 				case aiOrigin_END: offset += m_data->GetSize(); break;
 				default: assert(0); break;
 			}
-			if (offset < 0 || offset > m_data->GetSize())
+			if (offset > m_data->GetSize())
 				return aiReturn_FAILURE;
 			m_cursor = m_data->GetData() + offset;
 			return aiReturn_SUCCESS;

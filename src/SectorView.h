@@ -93,7 +93,6 @@ private:
 	void OnKeyPressed(SDL_Keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_Keysym *keysym);
 
-	Game* m_game;
 	RefCountedPtr<Galaxy> m_galaxy;
 
 	bool m_inSystem;
@@ -122,7 +121,6 @@ private:
 	Gui::Label *m_zoomLevelLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
-	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
 	Gui::Label *m_statusLabel;
 	Gui::ToggleButton *m_drawOutRangeLabelButton;

@@ -215,7 +215,7 @@ void Line3D::Dirty() {
 }
 //------------------------------------------------------------
 
-Lines::Lines() : m_refreshVertexBuffer(true), m_width(2.0f), m_va(new VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE))
+Lines::Lines() : m_refreshVertexBuffer(true), m_va(new VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE))
 {
 	PROFILE_SCOPED()
 	// XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
