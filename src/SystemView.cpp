@@ -725,9 +725,6 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 	Gui::Screen::LeaveOrtho();
 }
 
-static const GLfloat fogDensity = 0.1f;
-static const GLfloat fogColor[4] = { 0,0,0,1.0f };
-
 void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 {
 	if (b->GetParent()) {
