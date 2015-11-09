@@ -433,10 +433,13 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	// force terminate
 	joyUUIDBuf[JoyUUIDLength-1] = '\0';
 	// now, map the GUID to a joystick number
-	ab.joystick = Pi::JoystickFromGUIDString(joyUUIDBuf);
-	if (ab.joystick == -1) {
+	const int joystick = Pi::JoystickFromGUIDString(joyUUIDBuf);
+	if (joystick == -1) {
 		return false;
 	}
+	// found a joystick
+	assert(joystick < 256);
+	ab.joystick = Uint8(joystick);
 
 	if (strncmp(p, "Axis", 4) != 0)
 		return false;

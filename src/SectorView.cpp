@@ -45,7 +45,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
+SectorView::SectorView(Game* game) : UIView(), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
@@ -76,7 +76,7 @@ SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetG
 	InitObject();
 }
 
-SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
+SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 

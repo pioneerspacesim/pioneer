@@ -23,7 +23,7 @@ std::string format_money(double cents, bool showCents){
 
 	const char *format = (money < 0) ? "-$%.2f" : "$%.2f";
 	char buf[64];
-	snprintf(buf, sizeof(buf), format, std::abs(money));
+	snprintf(buf, sizeof(buf), format, fabs(money));
 	std::string result(buf);
 
 	size_t pos = result.find_first_of('.');      // pos to decimal point
@@ -36,7 +36,7 @@ std::string format_money(double cents, bool showCents){
 	size_t groupMin = strtol(Lang::NUMBER_GROUP_MIN, &end, 10);
 	assert(*end == 0);
 
-	if(groupDigits != 0 && std::abs(money) >= groupMin){
+	if(groupDigits != 0 && fabs(money) >= groupMin){
 
 		std::string groupSep = std::string(Lang::NUMBER_GROUP_SEP) == " " ?
 			"\u00a0" : Lang::NUMBER_GROUP_SEP;     // space should be fixed space

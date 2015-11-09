@@ -96,7 +96,7 @@ static std::string formatTime(double t)
 {
 	std::stringstream formattedTime;
 	formattedTime << std::setprecision(1) << std::fixed;
-	double absT = std::abs(t);
+	double absT = fabs(t);
 	if(absT < 60.)
 		formattedTime << t << "s";
 	else if(absT < 3600)
@@ -724,9 +724,6 @@ void SystemView::PutSelectionBox(const vector3d &worldPos, const Color &col)
 
 	Gui::Screen::LeaveOrtho();
 }
-
-static const GLfloat fogDensity = 0.1f;
-static const GLfloat fogColor[4] = { 0,0,0,1.0f };
 
 void SystemView::GetTransformTo(const SystemBody *b, vector3d &pos)
 {

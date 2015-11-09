@@ -23,7 +23,7 @@ union SGM_STRING_VALUE{
 	char name[4];
 	Uint32 value;
 };
-const SGM_STRING_VALUE SGM_STRING_ID = { 's', 'g', 'm', SGM_VERSION };
+const SGM_STRING_VALUE SGM_STRING_ID = { {'s', 'g', 'm', SGM_VERSION} };
 const std::string SGM_EXTENSION = ".sgm";
 const std::string SAVE_TARGET_DIR = "binarymodels";
 
