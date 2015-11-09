@@ -81,6 +81,13 @@
 #include <algorithm>
 #include <sstream>
 
+#ifdef _MSC_VER
+	// RegisterClassA and RegisterClassW are defined as macros in WinUser.h
+	#ifdef RegisterClass
+	#undef RegisterClass
+	#endif
+#endif
+
 float Pi::gameTickAlpha;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyPress;
 sigc::signal<void, SDL_Keysym*> Pi::onKeyRelease;

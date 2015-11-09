@@ -8,6 +8,8 @@
 
 #if defined(_WIN32)
 	#define _CRT_SECURE_NO_WARNINGS
+	#define WIN32_LEAN_AND_MEAN 
+	#define NOMINMAX
 	#define copystring _strdup
 	#include <windows.h>
 #else
