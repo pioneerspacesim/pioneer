@@ -6,7 +6,7 @@
 /*
  * Planet ring material
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "MaterialGL.h"
 #include "Program.h"
 namespace Graphics {

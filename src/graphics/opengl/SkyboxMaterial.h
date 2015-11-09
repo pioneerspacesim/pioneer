@@ -7,7 +7,7 @@
 /*
  * Renders a cube map as a skybox.
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "Program.h"
 
 namespace Graphics {

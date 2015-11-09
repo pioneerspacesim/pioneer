@@ -163,6 +163,9 @@
       <Filter>dummy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\Stats.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\OpenGLLibs.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

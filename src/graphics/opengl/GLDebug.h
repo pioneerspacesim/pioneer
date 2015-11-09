@@ -11,7 +11,7 @@
  * https://github.com/OpenGLInsights/ (Chapter 33)
  * which also includes stack printout
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 
 #ifdef _WIN32
 #define STDCALL __stdcall

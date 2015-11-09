@@ -12,7 +12,7 @@
  *
  * Programs are owned by the renderer, since they are shared between materials.
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "graphics/Material.h"
 
 namespace Graphics {

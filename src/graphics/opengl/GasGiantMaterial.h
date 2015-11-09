@@ -6,7 +6,7 @@
 /*
  * Programs & Materials used by terrain
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "MaterialGL.h"
 #include "Program.h"
 #include "galaxy/StarSystem.h"
