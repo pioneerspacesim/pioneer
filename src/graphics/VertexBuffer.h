@@ -19,7 +19,7 @@
  * Expansion possibilities: range-based Map
  */
 #include "libs.h"
-#include "graphics/Types.h"
+#include "Types.h"
 
 namespace Graphics {
 

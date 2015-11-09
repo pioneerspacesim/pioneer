@@ -5,7 +5,7 @@
 #define _VERTEXARRAY_H
 
 #include "libs.h"
-#include "graphics/Types.h"
+#include "Types.h"
 
 namespace Graphics {
 
