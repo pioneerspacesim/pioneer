@@ -120,10 +120,14 @@ ui.templates.Settings = function (args)
 			Engine.GetCockpitEnabled, Engine.SetCockpitEnabled,
 			l.ENABLE_COCKPIT)
 
+		local enableAutosave = optionCheckBox(
+			Engine.GetAutosaveEnabled, Engine.SetAutosaveEnabled,
+			l.ENABLE_AUTOSAVE)
+
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
-			
+
 		local starDensity = function (caption, getter, setter)
 			local initial_value = getter()
 			local slider = ui:HSlider()
@@ -153,6 +157,7 @@ ui.templates.Settings = function (args)
 				speedLinesCheckBox,
 				hudTrailsCheckBox,
 				cockpitCheckBox,
+				enableAutosave,
 				compactScannerCheckBox,
 				confirmQuit,
 				starDensity(l.STAR_FIELD_DENSITY, Engine.GetAmountStars, Engine.SetAmountStars),
