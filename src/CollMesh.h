@@ -21,62 +21,32 @@ public:
 			delete *it;
 		delete m_geomTree;
 	}
-	virtual Aabb &GetAabb() { return m_aabb; }
+	inline Aabb &GetAabb() { return m_aabb; }
 
-	virtual double GetRadius() const { return m_aabb.GetRadius(); }
-	virtual void SetRadius(double v) {
+	inline double GetRadius() const { return m_aabb.GetRadius(); }
+	inline void SetRadius(double v) {
 		//0 radius = trouble
 		m_aabb.radius = std::max(v, 0.1);
 	}
 
-	virtual GeomTree *GetGeomTree() const { return m_geomTree; }
-	void SetGeomTree(GeomTree *t) {
+	inline GeomTree *GetGeomTree() const { return m_geomTree; }
+	inline void SetGeomTree(GeomTree *t) {
 		assert(t);
 		m_geomTree = t;
 	}
 
-	const std::vector<GeomTree*> &GetDynGeomTrees() const { return m_dynGeomTrees; }
-	void AddDynGeomTree(GeomTree *t) {
+	inline const std::vector<GeomTree*> &GetDynGeomTrees() const { return m_dynGeomTrees; }
+	inline void AddDynGeomTree(GeomTree *t) {
 		assert(t);
 		m_dynGeomTrees.push_back(t);
 	}
 
 	//for statistics
-	unsigned int GetNumTriangles() const { return m_totalTris; }
-	void SetNumTriangles(unsigned int i) { m_totalTris = i; }
+	inline unsigned int GetNumTriangles() const { return m_totalTris; }
+	inline void SetNumTriangles(unsigned int i) { m_totalTris = i; }
 
-	void Save(Serializer::Writer &wr) const
-	{
-		wr.Vector3d(m_aabb.max);
-		wr.Vector3d(m_aabb.min);
-		wr.Double(m_aabb.radius);
-
-		m_geomTree->Save(wr);
-
-		wr.Int32(m_dynGeomTrees.size());
-		for (auto it : m_dynGeomTrees) {
-			it->Save(wr);
-		}
-
-		wr.Int32(m_totalTris);
-	}
-
-	void Load(Serializer::Reader &rd)
-	{
-		m_aabb.max = rd.Vector3d();
-		m_aabb.min = rd.Vector3d();
-		m_aabb.radius = rd.Double();
-
-		m_geomTree = new GeomTree(rd);
-
-		const Uint32 numDynGeomTrees = rd.Int32();
-		m_dynGeomTrees.reserve(numDynGeomTrees);
-		for (Uint32 it = 0; it < numDynGeomTrees; ++it) {
-			m_dynGeomTrees.push_back(new GeomTree(rd));
-		}
-
-		m_totalTris = rd.Int32();
-	}
+	void Save(Serializer::Writer &wr) const;
+	void Load(Serializer::Reader &rd);
 
 protected:
 	Aabb m_aabb;

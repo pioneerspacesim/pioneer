@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp" />
+    <ClCompile Include="..\..\src\CollMesh.cpp" />
     <ClCompile Include="..\..\src\Color.cpp" />
     <ClCompile Include="..\..\src\DateTime.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
@@ -36,6 +37,7 @@
     <ClCompile Include="..\..\src\utils.cpp" />
     <ClCompile Include="..\..\src\win32\FileSystemWin32.cpp" />
     <ClCompile Include="..\..\src\win32\OSWin32.cpp" />
+    <ClCompile Include="..\..\src\win32\TextUtils.cpp" />
     <ClCompile Include="..\..\src\win32\WinMath.cpp" />
   </ItemGroup>
   <ItemGroup>
