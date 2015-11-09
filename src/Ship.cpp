@@ -31,7 +31,6 @@
 #include <algorithm>
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
-static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
@@ -1246,7 +1245,7 @@ void Ship::StaticUpdate(const float timeStep)
 	//Add smoke trails for missiles on thruster state
 	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
 		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		const float speed = std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0);
+		const float speed = std::min(10.0*GetVelocity().Length()*std::abs(m_thrusters.z),100.0);
 		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, speed, pos);
 	}
 }
