@@ -96,7 +96,7 @@ static std::string formatTime(double t)
 {
 	std::stringstream formattedTime;
 	formattedTime << std::setprecision(1) << std::fixed;
-	double absT = std::abs(t);
+	double absT = fabs(t);
 	if(absT < 60.)
 		formattedTime << t << "s";
 	else if(absT < 3600)
