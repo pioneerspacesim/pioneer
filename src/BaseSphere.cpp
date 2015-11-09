@@ -111,7 +111,7 @@ void BaseSphere::DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const float sinLat = sin(lat);
 		const float cosLat2 = cos(lat+latDiff);
 		const float sinLat2 = sin(lat+latDiff);
-		PosVert* vtxPtr = m_LatitudinalStrips[j]->Map<PosVert>(Graphics::BUFFER_MAP_WRITE);
+		vtxPtr = m_LatitudinalStrips[j]->Map<PosVert>(Graphics::BUFFER_MAP_WRITE);
 		vtxPtr[0].pos = vector3f(0.f, 1.f, 0.f);
 		for (int i=0; i<=LONG_SEGS; i++) {
 			vtxPtr[(i*2)+0].pos = vector3f(sinLat*sinTable[i], cosLat, -sinLat*cosTable[i]);
