@@ -101,6 +101,10 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
 			glEnableVertexAttribArray(3);	// Enable the attribute at that location
 			glVertexAttribPointer(3, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
 			break;
+		case ATTRIB_TANGENT:
+			glEnableVertexAttribArray(4);	// Enable the attribute at that location
+			glVertexAttribPointer(4, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
+			break;
 		case ATTRIB_NONE:
 		default:
 			break;
@@ -278,6 +282,7 @@ void VertexBuffer::Bind() {
 		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
 		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
 		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
+		case ATTRIB_TANGENT:		glEnableVertexAttribArray(4);		break;
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -290,10 +295,11 @@ void VertexBuffer::Release() {
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
 		const auto& attr = m_desc.attrib[i];
 		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);			break;
-		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);			break;
-		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);			break;
-		case ATTRIB_UV0:			glDisableVertexAttribArray(3);			break;
+		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);		break;
+		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);		break;
+		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);		break;
+		case ATTRIB_UV0:			glDisableVertexAttribArray(3);		break;
+		case ATTRIB_TANGENT:		glDisableVertexAttribArray(4);		break;
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -436,27 +442,27 @@ void InstanceBuffer::Bind() {
 
 	// used to pass a matrix4x4f in, however each attrib array is max size of (GLSL) vec4 so must enable 4 arrays
 	const size_t sizeVec4 = (sizeof(float)*4);
-	glEnableVertexAttribArray(4);
-	glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(0));
-	glEnableVertexAttribArray(5);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(sizeVec4));
-	glEnableVertexAttribArray(6);
-	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(2 * sizeVec4));
-	glEnableVertexAttribArray(7);
-	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(3 * sizeVec4));
+	glEnableVertexAttribArray(INSTOFFS_MAT0);
+	glVertexAttribPointer(INSTOFFS_MAT0, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(0));
+	glEnableVertexAttribArray(INSTOFFS_MAT1);
+	glVertexAttribPointer(INSTOFFS_MAT1, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(sizeVec4));
+	glEnableVertexAttribArray(INSTOFFS_MAT2);
+	glVertexAttribPointer(INSTOFFS_MAT2, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(2 * sizeVec4));
+	glEnableVertexAttribArray(INSTOFFS_MAT3);
+	glVertexAttribPointer(INSTOFFS_MAT3, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(3 * sizeVec4));
 
-	glVertexAttribDivisor(4, 1);
-	glVertexAttribDivisor(5, 1);
-	glVertexAttribDivisor(6, 1);
-	glVertexAttribDivisor(7, 1);
+	glVertexAttribDivisor(INSTOFFS_MAT0, 1);
+	glVertexAttribDivisor(INSTOFFS_MAT1, 1);
+	glVertexAttribDivisor(INSTOFFS_MAT2, 1);
+	glVertexAttribDivisor(INSTOFFS_MAT3, 1);
 }
 
 void InstanceBuffer::Release() {
 	// see enable comment above
-	glDisableVertexAttribArray(4);
-	glDisableVertexAttribArray(5);
-	glDisableVertexAttribArray(6);
-	glDisableVertexAttribArray(7);
+	glDisableVertexAttribArray(INSTOFFS_MAT0);
+	glDisableVertexAttribArray(INSTOFFS_MAT1);
+	glDisableVertexAttribArray(INSTOFFS_MAT2);
+	glDisableVertexAttribArray(INSTOFFS_MAT3);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

@@ -16,6 +16,7 @@ struct MaterialDefinition {
 		tex_spec(""),
 		tex_glow(""),
 		tex_ambi(""),
+		tex_norm(""),
 		diffuse(Color(255)),
 		specular(Color(255)),
 		ambient(Color(0)),
@@ -31,6 +32,7 @@ struct MaterialDefinition {
 	std::string tex_spec;
 	std::string tex_glow;
 	std::string tex_ambi;
+	std::string tex_norm;
 	Color diffuse;
 	Color specular;
 	Color ambient;

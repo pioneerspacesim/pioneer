@@ -530,6 +530,11 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
 		++attribIdx;
 	}
+	if (v->HasAttrib(ATTRIB_TANGENT)) {
+		vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+		++attribIdx;
+	}
 	vbd.numVertices = v->position.size();
 	vbd.usage = BUFFER_USAGE_STATIC;
 	

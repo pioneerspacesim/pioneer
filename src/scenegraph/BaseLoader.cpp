@@ -23,6 +23,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	const std::string &specTex = mdef.tex_spec;
 	const std::string &glowTex = mdef.tex_glow;
 	const std::string &ambiTex = mdef.tex_ambi;
+	const std::string &normTex = mdef.tex_norm;
 
 	Graphics::MaterialDescriptor matDesc;
 	matDesc.lighting = !mdef.unlit;
@@ -35,6 +36,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	matDesc.specularMap = !specTex.empty();
 	matDesc.glowMap = !glowTex.empty();
 	matDesc.ambientMap = !ambiTex.empty();
+	matDesc.normalMap = !normTex.empty();
 	matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
 
 	//Create material and set parameters
@@ -60,9 +62,11 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 		mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
 	if (!ambiTex.empty())
 		mat->texture3 = Graphics::TextureBuilder::Model(ambiTex).GetOrCreateTexture(m_renderer, "model");
-	
 	//texture4 is reserved for pattern
 	//texture5 is reserved for color gradient
+	if (!normTex.empty())
+		mat->texture6 = Graphics::TextureBuilder::Model(normTex).GetOrCreateTexture(m_renderer, "model");
+	
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }
