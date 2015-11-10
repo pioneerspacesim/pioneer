@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <cerrno>
 
+#define WIN32_LEAN_AND_MEAN 
+#define NOMINMAX
 #include <windows.h>
 // GetPiUserDir() needs these
 #include <shlobj.h>

@@ -1,6 +1,8 @@
 // Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#define WIN32_LEAN_AND_MEAN 
+#define NOMINMAX
 #include "Win32Setup.h"
 
 #include "OS.h"
@@ -13,6 +15,10 @@
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
+
+#ifdef RegisterClass
+#undef RegisterClass
+#endif
 
 #ifdef WITH_BREAKPAD
 using namespace google_breakpad;

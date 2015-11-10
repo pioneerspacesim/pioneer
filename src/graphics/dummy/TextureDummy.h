@@ -17,7 +17,7 @@ public:
 	void Unbind() {}
 
 	virtual void SetSampleMode(TextureSampleMode) {}
-	GLuint GetTexture() const { return 0; }
+	Uint32 GetTexture() const { return 0U; }
 
 private:
 	friend class RendererDummy;

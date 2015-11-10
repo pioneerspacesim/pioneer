@@ -31,7 +31,7 @@ namespace Gui {
 		std::string m_text;
 		::Color m_color;
 		bool m_shadow;
-		GLuint m_dlist;
+		Uint32 m_dlist;
 		RefCountedPtr<Text::TextureFont> m_font;
 		std::unique_ptr<TextLayout> m_layout;
 		TextLayout::ColourMarkupMode m_colourMarkupMode;

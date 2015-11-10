@@ -6,8 +6,8 @@
 
 #include "WindowSDL.h"
 #include "libs.h"
-#include "graphics/Types.h"
-#include "graphics/Light.h"
+#include "Types.h"
+#include "Light.h"
 #include "Stats.h"
 #include <map>
 #include <memory>

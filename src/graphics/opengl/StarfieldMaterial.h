@@ -8,7 +8,7 @@
  * This does nothing very special except toggle POINT_SIZE
  * The Program requires setting intensity using the generic emission parameter
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "graphics/Material.h"
 #include "Program.h"
 

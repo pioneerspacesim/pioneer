@@ -116,7 +116,7 @@ public:
 		else return e->kids[we_are].get();
 	}
 
-	inline GLuint DetermineIndexbuffer() const {
+	inline Uint32 DetermineIndexbuffer() const {
 		return // index buffers are ordered by edge resolution flags
 			(edgeFriend[0] ? 1u : 0u) |
 			(edgeFriend[1] ? 2u : 0u) |

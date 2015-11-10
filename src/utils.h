@@ -4,6 +4,10 @@
 #ifndef _UTILS_H
 #define _UTILS_H
 
+#if defined(_MSC_VER) && !defined(NOMINMAX)
+#define NOMINMAX
+#endif
+
 #include <string>
 #include <vector>
 #include <stdio.h>
