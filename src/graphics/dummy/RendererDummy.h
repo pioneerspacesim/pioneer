@@ -34,7 +34,7 @@ public:
 	virtual bool SetRenderState(RenderState*) override { return true; }
 	virtual bool SetRenderTarget(RenderTarget*) override { return true; }
 
-	virtual bool SetDepthRange(double near, double far) override { return true; }
+	virtual bool SetDepthRange(double near_, double far_) override { return true; }
 
 	virtual bool ClearScreen() { return true; }
 	virtual bool ClearDepthBuffer() { return true; }

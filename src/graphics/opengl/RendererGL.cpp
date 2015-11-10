@@ -359,9 +359,9 @@ bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 	return true;
 }
 
-bool RendererOGL::SetDepthRange(double near, double far)
+bool RendererOGL::SetDepthRange(double near_, double far_)
 {
-	glDepthRange(near, far);
+	glDepthRange(near_, far_);
 	return true;
 }
 

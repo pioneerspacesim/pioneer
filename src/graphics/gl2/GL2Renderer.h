@@ -39,6 +39,8 @@ namespace GL2 {
 class RendererGL2 : public Renderer
 {
 public:
+	static void RegisterRenderer();
+
 	RendererGL2(WindowSDL *window, const Graphics::Settings &vs);
 	virtual ~RendererGL2();
 
@@ -58,6 +60,8 @@ public:
 	virtual bool SetRenderState(RenderState*) override;
 	virtual bool SetRenderTarget(RenderTarget*) override;
 
+	virtual bool SetDepthRange(double near_, double far_) override;
+
 	virtual bool ClearScreen();
 	virtual bool ClearDepthBuffer();
 	virtual bool SetClearColor(const Color &c);
@@ -72,7 +76,7 @@ public:
 
 	virtual bool SetWireFrameMode(bool enabled);
 
-	virtual bool SetLights(int numlights, const Light *l);
+	virtual bool SetLights(Uint32 numlights, const Light *l);
 	virtual bool SetAmbientColor(const Color &c);
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
@@ -81,6 +85,8 @@ public:
 	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override;
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType) override;
+	virtual bool DrawBufferInstanced(VertexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType type = TRIANGLES) override;
+	virtual bool DrawBufferIndexedInstanced(VertexBuffer*, IndexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType = TRIANGLES) override;
 
 	virtual Material *CreateMaterial(const MaterialDescriptor &descriptor) override;
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) override;
@@ -88,6 +94,7 @@ public:
 	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) override;
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) override;
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) override;
+	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) override;
 
 	virtual bool ReloadShaders();
 
@@ -123,6 +130,8 @@ protected:
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;
+
+	void SetMaterialShaderTransforms(Material *);
 
 	matrix4x4f& GetCurrentTransform() { return m_currentTransform; }
 	matrix4x4f m_currentTransform;

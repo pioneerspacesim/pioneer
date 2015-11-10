@@ -33,6 +33,14 @@
 
 namespace Graphics {
 
+static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
+	return new RendererGL2(win, vs);
+}
+
+void RendererGL2::RegisterRenderer() {
+	Graphics::RegisterRenderer(Graphics::RENDERER_GL2, CreateRenderer);
+}
+
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
 
 // for material-less line and point drawing
@@ -338,6 +346,12 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 	return true;
 }
 
+bool RendererGL2::SetDepthRange(double near_, double far_)
+{
+	gl::DepthRange(near_, far_);
+	return true;
+}
+
 bool RendererGL2::ClearScreen()
 {
 	m_activeRenderState = nullptr;
@@ -435,38 +449,28 @@ bool RendererGL2::SetWireFrameMode(bool enabled)
 	return true;
 }
 
-bool RendererGL2::SetLights(int numlights, const Light *lights)
+bool RendererGL2::SetLights(Uint32 numlights, const Light *lights)
 {
-	if (numlights < 1) return false;
-
-	// XXX move lighting out to shaders
-
-	//glLight depends on the current transform, but we have always
-	//relied on it being identity when setting lights.
-	Graphics::Renderer::MatrixTicket ticket(this, MatrixMode::MODELVIEW);
-	SetTransform(matrix4x4f::Identity());
+	numlights = std::min(numlights, TOTAL_NUM_LIGHTS);
+	if (numlights < 1) {
+		m_numLights = 0;
+		m_numDirLights = 0;
+		return false;
+	}
 
 	m_numLights = numlights;
 	m_numDirLights = 0;
 
-	for (int i=0; i < numlights; i++) {
+	for (Uint32 i = 0; i<numlights; i++) {
 		const Light &l = lights[i];
-		// directional lights have w of 0
-		const float pos[] = {
-			l.GetPosition().x,
-			l.GetPosition().y,
-			l.GetPosition().z,
-			l.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f
-		};
-		gl::Lightfv(gl::LIGHT0+i, gl::POSITION, pos);
-		gl::Lightfv(gl::LIGHT0+i, gl::DIFFUSE, l.GetDiffuse().ToColor4f());
-		gl::Lightfv(gl::LIGHT0+i, gl::SPECULAR, l.GetSpecular().ToColor4f());
-		gl::Enable(gl::LIGHT0+i);
+		m_lights[i].SetPosition(l.GetPosition());
+		m_lights[i].SetDiffuse(l.GetDiffuse());
+		m_lights[i].SetSpecular(l.GetSpecular());
 
 		if (l.GetType() == Light::LIGHT_DIRECTIONAL)
 			m_numDirLights++;
 
-		assert(m_numDirLights < 5);
+		assert(m_numDirLights <= TOTAL_NUM_LIGHTS);
 	}
 
 	return true;
@@ -489,12 +493,20 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 	return true;
 }
 
+void RendererGL2::SetMaterialShaderTransforms(Material *m)
+{
+	m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
+	CheckRenderErrors();
+}
+
 bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
 {
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
 	SetRenderState(rs);
+
+	SetMaterialShaderTransforms(m);
 
 	m->Apply();
 	EnableVertexAttributes(v);
@@ -550,6 +562,8 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	SetRenderState(state);
 	mat->Apply();
 
+	SetMaterialShaderTransforms(mat);
+
 	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
 
 	gvb->Bind();
@@ -569,6 +583,8 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	SetRenderState(state);
 	mat->Apply();
 
+	SetMaterialShaderTransforms(mat);
+
 	auto gvb = static_cast<GL2::VertexBuffer*>(vb);
 	auto gib = static_cast<GL2::IndexBuffer*>(ib);
 
@@ -582,6 +598,48 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0);
 	gvb->Release();
 	
+
+	return true;
+}
+
+bool RendererGL2::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Material* mat, InstanceBuffer* instb, PrimitiveType pt)
+{
+	PROFILE_SCOPED()
+	SetRenderState(state);
+	mat->Apply();
+
+	SetMaterialShaderTransforms(mat);
+
+	vb->Bind();
+	instb->Bind();
+	gl::DrawArraysInstancedARB(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
+	instb->Release();
+	vb->Release();
+	CheckRenderErrors();
+
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
+
+	return true;
+}
+
+bool RendererGL2::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, RenderState *state, Material *mat, InstanceBuffer* instb, PrimitiveType pt)
+{
+	PROFILE_SCOPED()
+	SetRenderState(state);
+	mat->Apply();
+
+	SetMaterialShaderTransforms(mat);
+
+	vb->Bind();
+	ib->Bind();
+	instb->Bind();
+	gl::DrawElementsInstancedARB(pt, ib->GetIndexCount(), gl::UNSIGNED_SHORT, 0, instb->GetInstanceCount());
+	instb->Release();
+	ib->Release();
+	vb->Release();
+	CheckRenderErrors();
+
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
 }
@@ -821,6 +879,12 @@ VertexBuffer *RendererGL2::CreateVertexBuffer(const VertexBufferDesc &desc)
 IndexBuffer *RendererGL2::CreateIndexBuffer(Uint32 size, BufferUsage usage)
 {
 	return new GL2::IndexBuffer(size, usage);
+}
+
+InstanceBuffer *RendererGL2::CreateInstanceBuffer(Uint32 size, BufferUsage usage)
+{
+	m_stats.AddToStatCount(Stats::STAT_CREATE_BUFFER, 1);
+	return new GL2::InstanceBuffer(size, usage);
 }
 
 // XXX very heavy. in the future when all GL calls are made through the
