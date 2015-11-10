@@ -14,6 +14,8 @@ namespace Graphics {
 
 namespace GL2 {
 
+using namespace gl;
+
 static const char *s_glslVersion = "#version 110\n";
 GLuint Program::s_curProgram = 0;
 
@@ -21,25 +23,26 @@ GLuint Program::s_curProgram = 0;
 static bool check_glsl_errors(const char *filename, GLuint obj)
 {
 	//check if shader or program
-	bool isShader = (glIsShader(obj) == GL_TRUE);
+	using gl::TRUE_;
+	bool isShader = (gl::IsShader(obj) == gl::TRUE_);
 
 	int infologLength = 0;
 	char infoLog[1024];
 
 	if (isShader)
-		glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
+		gl::GetShaderInfoLog(obj, 1024, &infologLength, infoLog);
 	else
-		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
+		gl::GetProgramInfoLog(obj, 1024, &infologLength, infoLog);
 
 	GLint status;
 	if (isShader)
-		glGetShaderiv(obj, GL_COMPILE_STATUS, &status);
+		gl::GetShaderiv(obj, gl::COMPILE_STATUS, &status);
 	else
-		glGetProgramiv(obj, GL_LINK_STATUS, &status);
+		gl::GetProgramiv(obj, gl::LINK_STATUS, &status);
 
-	if (status == GL_FALSE) {
+	if (status == gl::FALSE_) {
 		Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
-			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+			filename, infoLog, gl::GetString(gl::VENDOR), gl::GetString(gl::RENDERER));
 		return false;
 	}
 
@@ -102,18 +105,10 @@ struct Shader {
 		// Store the modified text with the included files (if any)
 		const StringRange code(strCode.c_str(), strCode.size());
 
-		// Load some common code
-		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/attributes.glsl");
-		assert(attributesCode);
-		RefCountedPtr<FileSystem::FileData> logzCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/logz.glsl");
-		assert(logzCode);
-		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/lib.glsl");
-		assert(libsCode);
-
 		// Build the final shader text to be compiled
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
-		if (type == GL_VERTEX_SHADER) {
+		if (type == gl::VERTEX_SHADER) {
 			AppendSource("#define VERTEX_SHADER\n");
 		}
 		else {
@@ -136,7 +131,7 @@ struct Shader {
 			fclose(tmp);
 		}
 #endif
-		shader = glCreateShader(type);
+		shader = gl::CreateShader(type);
 		Compile(shader);
 
 		// CheckGLSL may use OS::Warning instead of Error so the game may still (attempt to) run
@@ -145,7 +140,7 @@ struct Shader {
 	};
 
 	~Shader() {
-		glDeleteShader(shader);
+		gl::DeleteShader(shader);
 	}
 
 	GLuint shader;
@@ -166,8 +161,8 @@ private:
 	void Compile(GLuint shader_id)
 	{
 		assert(blocks.size() == block_sizes.size());
-		glShaderSource(shader_id, blocks.size(), &blocks[0], &block_sizes[0]);
-		glCompileShader(shader_id);
+		gl::ShaderSource(shader_id, blocks.size(), &blocks[0], &block_sizes[0]);
+		gl::CompileShader(shader_id);
 	}
 
 	std::vector<const char*> blocks;
@@ -193,13 +188,13 @@ Program::Program(const std::string &name, const std::string &defines)
 
 Program::~Program()
 {
-	glDeleteProgram(m_program);
+	gl::DeleteProgram(m_program);
 }
 
 void Program::Reload()
 {
 	Unuse();
-	glDeleteProgram(m_program);
+	gl::DeleteProgram(m_program);
 	LoadShaders(m_name, m_defines);
 	InitUniforms();
 }
@@ -207,13 +202,13 @@ void Program::Reload()
 void Program::Use()
 {
 	if (s_curProgram != m_program)
-		glUseProgram(m_program);
+		gl::UseProgram(m_program);
 	s_curProgram = m_program;
 }
 
 void Program::Unuse()
 {
-	glUseProgram(0);
+	gl::UseProgram(0);
 	s_curProgram = 0;
 }
 
@@ -223,22 +218,22 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	const std::string filename = std::string("shaders/gl2/") + name;
 
 	//load, create and compile shaders
-	Shader vs(GL_VERTEX_SHADER, filename + ".vert", defines);
-	Shader fs(GL_FRAGMENT_SHADER, filename + ".frag", defines);
+	Shader vs(gl::VERTEX_SHADER, filename + ".vert", defines);
+	Shader fs(gl::FRAGMENT_SHADER, filename + ".frag", defines);
 
 	//create program, attach shaders and link
-	m_program = glCreateProgram();
-	glAttachShader(m_program, vs.shader);
-	glAttachShader(m_program, fs.shader);
+	m_program = gl::CreateProgram();
+	gl::AttachShader(m_program, vs.shader);
+	gl::AttachShader(m_program, fs.shader);
 
 	//extra attribs, if they exist
-	glBindAttribLocation(m_program, 0, "a_vertex");
-	glBindAttribLocation(m_program, 1, "a_normal");
-	glBindAttribLocation(m_program, 2, "a_color");
-	glBindAttribLocation(m_program, 3, "a_uv0");
-	glBindAttribLocation(m_program, 4, "a_transform");
+	gl::BindAttribLocation(m_program, 0, "a_vertex");
+	gl::BindAttribLocation(m_program, 1, "a_normal");
+	gl::BindAttribLocation(m_program, 2, "a_color");
+	gl::BindAttribLocation(m_program, 3, "a_uv0");
+	gl::BindAttribLocation(m_program, 4, "a_transform");
 
-	glLinkProgram(m_program);
+	gl::LinkProgram(m_program);
 
 	check_glsl_errors(name.c_str(), m_program);
 

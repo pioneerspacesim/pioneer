@@ -9,12 +9,12 @@
 
 namespace Graphics {
 
-class TextureGL : public Texture {
+class GL2Texture : public Texture {
 public:
 	virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
 	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
 
-	virtual ~TextureGL();
+	virtual ~GL2Texture();
 
 	void Bind();
 	void Unbind();
@@ -24,7 +24,7 @@ public:
 
 private:
 	friend class RendererGL2;
-	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed);
+	GL2Texture(const TextureDescriptor &descriptor, const bool useCompressed);
 
 	GLenum m_target;
 	GLuint m_texture;

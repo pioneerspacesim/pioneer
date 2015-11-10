@@ -24,13 +24,13 @@ void RingMaterial::Apply()
 	m_program->Use();
 	m_program->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	assert(this->texture0);
-	static_cast<TextureGL*>(texture0)->Bind();
+	static_cast<GL2Texture*>(texture0)->Bind();
 	m_program->texture0.Set(0);
 }
 
 void RingMaterial::Unapply()
 {
-	static_cast<TextureGL*>(texture0)->Unbind();
+	static_cast<GL2Texture*>(texture0)->Unbind();
 }
 
 }

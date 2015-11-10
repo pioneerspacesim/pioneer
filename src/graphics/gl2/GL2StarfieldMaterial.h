@@ -8,7 +8,7 @@
  * This does nothing very special except toggle POINT_SIZE
  * The Program requires setting intensity using the generic emission parameter
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "GL2Material.h"
 #include "GL2Program.h"
 
@@ -21,13 +21,13 @@ namespace Graphics {
 			}
 
 			virtual void Apply() {
-				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+				gl::Enable(gl::VERTEX_PROGRAM_POINT_SIZE);
 				m_program->Use();
 				m_program->emission.Set(this->emissive);
 			}
 
 			virtual void Unapply() {
-				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
+				gl::Disable(gl::VERTEX_PROGRAM_POINT_SIZE);
 			}
 		};
 	}

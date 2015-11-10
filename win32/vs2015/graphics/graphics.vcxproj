@@ -142,7 +142,7 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2Texture.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2Uniform.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\gl_core_2_1.c" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\gl_core_2_1.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
@@ -203,7 +203,7 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2Texture.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2Uniform.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\gl_core_2_1.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\gl_core_2_1.hpp" />
     <ClInclude Include="..\..\..\src\graphics\gl2\OpenGLLibs.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />

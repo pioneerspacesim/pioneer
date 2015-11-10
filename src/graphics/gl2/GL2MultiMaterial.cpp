@@ -125,31 +125,35 @@ void MultiMaterial::Unapply()
 {
 	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
 	if (heatGradient) {
-		static_cast<TextureGL*>(heatGradient)->Unbind();
-		glActiveTexture(GL_TEXTURE5);
+		static_cast<GL2Texture*>(heatGradient)->Unbind();
+		gl::ActiveTexture(gl::TEXTURE6);
+	}
+	if (texture6) {
+		static_cast<GL2Texture*>(texture6)->Unbind();
+		gl::ActiveTexture(gl::TEXTURE5);
 	}
 	if (texture5) {
-		static_cast<TextureGL*>(texture5)->Unbind();
-		glActiveTexture(GL_TEXTURE4);
+		static_cast<GL2Texture*>(texture5)->Unbind();
+		gl::ActiveTexture(gl::TEXTURE4);
 	}
 	if (texture4) {
-		static_cast<TextureGL*>(texture4)->Unbind();
-		glActiveTexture(GL_TEXTURE3);
+		static_cast<GL2Texture*>(texture4)->Unbind();
+		gl::ActiveTexture(gl::TEXTURE3);
 	}
 	if (texture3) {
-		static_cast<TextureGL*>(texture3)->Unbind();
-		glActiveTexture(GL_TEXTURE2);
+		static_cast<GL2Texture*>(texture3)->Unbind();
+		gl::ActiveTexture(gl::TEXTURE2);
 	}
 	if (texture2) {
-		static_cast<TextureGL*>(texture2)->Unbind();
-		glActiveTexture(GL_TEXTURE1);
+		static_cast<GL2Texture*>(texture2)->Unbind();
+		gl::ActiveTexture(gl::TEXTURE1);
 	}
 	if (texture1) {
-		static_cast<TextureGL*>(texture1)->Unbind();
-		glActiveTexture(GL_TEXTURE0);
+		static_cast<GL2Texture*>(texture1)->Unbind();
+		gl::ActiveTexture(gl::TEXTURE0);
 	}
 	if (texture0) {
-		static_cast<TextureGL*>(texture0)->Unbind();
+		static_cast<GL2Texture*>(texture0)->Unbind();
 	}
 }
 
