@@ -1,83 +1,83 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Excellent. I'll load the goods on to your ship."
+      "message" : "Sgoinneil. Luchdaidh mi am bathar dhan t-soitheach agad."
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Very good."
+      "message" : "Glè mhath."
    },
    "ACCEPTED_3" : {
       "description" : "",
-      "message" : "Ok, good. I hope I can trust you."
+      "message" : "Ceart ma-thà. Tha mi 'n dòchas gu bheil thu earbsach."
    },
    "ACCEPTED_4" : {
       "description" : "",
-      "message" : "It's a deal!"
+      "message" : "Fhuair thu an cùmhnant!"
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, I will make sure that the goods are ready for collection."
+      "message" : "Ceart ma-thà, nì mi cinnteach gum bi am bathar deiseil airson a thogail."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "It's a deal! I will let my colleagues know that you are on your way."
+      "message" : "Fhuair thu an cùmhnant! Innsidh mi dha na co-obraichean agam gu bheil thu air an rathad."
    },
    "ADTEXT_1" : {
       "description" : "",
-      "message" : "CARGO RUN. Delivery of cargo to the {system} system."
+      "message" : "LÌBHRIGEADH CARAGO. Lìbhrigeadh carago gu siostam {system}."
    },
    "ADTEXT_2" : {
       "description" : "",
-      "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+      "message" : "FEUM AIR GIÙLAN. Feum air giùlan bathair gu siostam {system}. Pàighidh sinn {cash}."
    },
    "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+      "message" : "LÌBHRIGEADH. Carago prìseil gu siostam {system}. {cash} dha phaidhleat eòlach."
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "LOCAL DELIVERY. Move of goods to {starport}."
+      "message" : "LÌBHRIGEADH IONADAIL. Gluasad carago gu {starport}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+      "message" : "FEUM AIR GIÙLAN. Giùlan carago ionadail gu {starport}."
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "LOCAL CARGO RUN. Delivery of goods to {starport}."
+      "message" : "CARAGO IONADAIL. Lìbhrigeadh bathair gu {starport}."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "CARGO PICKUP. Pickup of cargo from the {system} system required."
+      "message" : "TOGAIL CARAGO. Feum air togail carago o shiostam {system}."
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "RELOCATION. Move of cargo from {starport} required."
+      "message" : "IMRICH. Feum air gluasad carago o {starport}."
    },
    "ADTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "CARGO SERVICE. We require a ship for a delivery to {system} system."
+      "message" : "SEIRBHEIS CARAGO. Tha sinn feumach air soitheach airson lìbhrigeadh gu {system}."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
-      "message" : "Aluminium tubes"
+      "message" : "Pìoban almain"
    },
    "AMOUNT" : {
       "description" : "Shown in mission summary. The amount of cargo",
-      "message" : "Amount:"
+      "message" : "Uiread:"
    },
    "ART_OBJECTS" : {
       "description" : "custom cargo",
-      "message" : "Art objects"
+      "message" : "Obair-ealain"
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo:"
+      "message" : "Carago:"
    },
    "CARGORUN" : {
       "description" : "Name of mission type",
-      "message" : "Cargo run"
+      "message" : "Ruith carago"
    },
    "CEASE_FIRE" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "CLUS" : {
       "description" : "custom cargo",
-      "message" : "Containerized living units"
+      "message" : "Bogsaichean-fuirich"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you please repeat the original request?"
+      "message" : "Dè an t-iarrtas a bh' agaibh a-rithist?"
    },
    "DANGER" : {
       "description" : "the risk level",
@@ -101,23 +101,23 @@
    },
    "DELIVER_TO" : {
       "description" : "Deliver to this location",
-      "message" : "Deliver to:"
+      "message" : "Lìbhrig gu:"
    },
    "DENY_1" : {
       "description" : "",
-      "message" : "I'm sorry, but this cargo is too valuable for me to hand over to an inexperienced pilot."
+      "message" : "Tha mi duilich ach tha an carago ro phrìseil ach an cuirinn ann an làmhan paidhleit gun eòlas e."
    },
    "DENY_2" : {
       "description" : "",
-      "message" : "I've never heard of you. I don't know you and I don't trust you."
+      "message" : "Chan eil sgot agam cò thusa. Chan eil mi eòlach ort 's chan eil earbsa agam annad."
    },
    "DENY_3" : {
       "description" : "",
-      "message" : "I'm sorry, I'm looking for an experienced pilot."
+      "message" : "Tha mi duilich ach tha mi a' sireadh seann-phaidhleat."
    },
    "DENY_4" : {
       "description" : "",
-      "message" : "Excuse me, but I don't think you have what it takes to get the job done."
+      "message" : "Gabh mo leisgeul ach cha chreid mi gu bheil comas agad gus an obair seo a dhèanamh."
    },
    "DENY_5" : {
       "description" : "",
@@ -129,11 +129,11 @@
    },
    "DIAMONDS" : {
       "description" : "custom cargo",
-      "message" : "Diamonds"
+      "message" : "Daoimeanan"
    },
    "DIGESTERS" : {
       "description" : "custom cargo",
-      "message" : "Digesters"
+      "message" : "Innealan-meirbhidh"
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
@@ -141,7 +141,7 @@
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
-      "message" : "Electrical appliances"
+      "message" : "Innealan leatronach"
    },
    "ESCORT_CHATTER_1" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "EXPLOSIVES" : {
       "description" : "custom cargo",
-      "message" : "Explosives"
+      "message" : "Stuth-spreadhaidh"
    },
    "FAILUREMSG_1" : {
       "description" : "",
@@ -189,11 +189,11 @@
    },
    "FURNITURE" : {
       "description" : "custom cargo",
-      "message" : "Furniture"
+      "message" : "Àirneas"
    },
    "GREENHOUSES" : {
       "description" : "custom cargo",
-      "message" : "Greenhouses"
+      "message" : "Seòmraichean-glainne"
    },
    "GUNS_GUNS_GUNS" : {
       "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
@@ -201,7 +201,7 @@
    },
    "HAZARDOUS_SUBSTANCES" : {
       "description" : "custom cargo",
-      "message" : "Hazardous substances"
+      "message" : "Stuthan cunnartach"
    },
    "HOWMUCH_1" : {
       "description" : "regarding mass, always more than 1t",
@@ -241,71 +241,71 @@
    },
    "INTROTEXT_1" : {
       "description" : "",
-      "message" : "Hi, I'm {name}. I'll pay you {cash} if you will deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Haoigh, 's mise {name}. Pàighidh mi {cash} dhut ma bheir thu {cargoname} gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
    },
    "INTROTEXT_2" : {
       "description" : "{name} is the full name of a person",
-      "message" : "Greetings! {name} Transport Services needs you to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away. We pay {cash} for a safe and complete delivery."
+      "message" : "Latha math! Tha Seirbheisean Giùlain {name} feumach ort ach an lìbhrig thu {cargoname} gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh sinn {cash} airson lìbhrigeadh slàn sàbhailte."
    },
    "INTROTEXT_3" : {
       "description" : "",
-      "message" : "Good day. I'm {name}, founder of the {name} Ltd. I need someone trustworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash} for the {dist} ly long flight."
+      "message" : "Latha math. Is mise {name} a stèidhich {name} earr. Tha mi feumach air cuideigin earbsach a bheir {cargoname} gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Pàighidh mi {cash} airson an astair fhada de {dist} bliadhna-sholais."
    },
    "INTROTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "Hello. We need someone experienced for a potentially dangerous run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We'll pay {cash}. The distance is {dist} ly."
+      "message" : "Shin thu. Tha sinn feumach air eòlaiche airson turas gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a dh'fhaodas a bhith cunnartach. Pàighidh sinn {cash}. Tha e {dist} bliadhna-sholais a dh'astar."
    },
    "INTROTEXT_FLUFFY_1" : {
       "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Hi, my name is {name}. I have a fluffy shipment of {cargoname} for delivery to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The distance is {dist} ly. For this delivery I will pay you {cash}."
+      "message" : "Haoigh, is mise {name}. Tha carago clòimheach dhe {cargoname} agam gus a thoirt gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh mi {cash} airson na lìbhrigidh seo."
    },
    "INTROTEXT_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Greetings. I'm {name}. The {system} government wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The pay is {cash}. {system} is located {dist} ly from here."
+      "message" : "Fàilte ort. Is mise {name}. Tha riaghaltas {system} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thèid {cash} a phàigheadh. Tha {system} {dist} bliadhna-sholais a dh'astar."
    },
    "INTROTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "Nice to meet you. I'm {name} and I work for the {starport} administration. We pay {cash} to someone who is able to move {cargoname} to {starport}."
+      "message" : "'S math do choinneachadh. 'S mise {name} 's tha mi ag obair airson rianachd {starport}. Pàighidh sinn {cash} do chuideigin aig a bhios comas {cargoname} a ghluasad gu {starport}."
    },
    "INTROTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "Hi. I'm {name} and I will pay {cash} for a short delivery of {cargoname} to {starport}."
+      "message" : "Haoigh. 'S mise {name} 's pàighidh mi {cash} airson lìbhrigeadh dlùth dhe  {cargoname} gu {starport}."
    },
    "INTROTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "My name is {name} and I need {cargoname} delivered to a client at {starport}. I'll pay you {cash} for this run."
+      "message" : "'S mise {name} is feumaidh mi gun lìbhrigear {cargoname} gu cliant ann an {starport}. Pàighidh mi {cash} airson seo."
    },
    "INTROTEXT_MINING_1" : {
       "description" : "{name} is the full name of a person",
-      "message" : "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
+      "message" : "Shin thu. Tha Companaidh Mèinearrachd {name} airson {cargoname} a lìbhrigeadh gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ach an tog iad mèinn ùr, tha seo {dist} bliadhna-sholais a dh'astar. Thèid {cash} a phàigheadh."
    },
    "INTROTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "How do you do? My name is {name}, and I need a ship that is able to fly to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, to pickup {cargoname} and return to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system for {cash}. The distance to {system} is {dist} ly."
+      "message" : "Ciamar a tha thu? Is mise {name} is tha mi feumach air soitheach a tha comasach air dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) gus {cargoname} a thogail 's a thilleadh gu {dom_starport} ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) air {cash}. Tha {system} {dist} bliadhna-sholais a dh'astar."
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from the {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "Ciamar a tha thu? 'S mise {name}. Tha fear dhe na cliantan agam airson {cargoname} ion-phortadh o {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar. Pàighidh e {cash} airson an lìbhrigidh carago seo. Till gu {dom_starport} an-seo ann an siostam {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) gus an carago a dhì-luchdadh."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "Greetings. I'm {name}. I will pay {cash} to someone who will transport {cargoname} from {starport} to {dom_starport}."
+      "message" : "Fàilte ort. 'S mise {name}. Pàighidh mi {cash} do chuideigin a bheir {cargoname} o {starport} gu {dom_starport}."
    },
    "INTROTEXT_PICKUP_LOCAL_2" : {
       "description" : "",
-      "message" : "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+      "message" : "Halò. 'S mise {name}. Tha am fastaiche agam deònach d' fhastadh air {cash} ach an cuidich thu gus an taigh-stòrais agad imrich 's tu a' toirt {cargoname} o {starport} dhan taigh ùr againn ann an  {dom_starport}."
    },
    "INTROTEXT_WEDDING_1" : {
       "description" : "",
-      "message" : "Greetings. Have you heard of the wedding season of {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system? We want to transport {cargoname} there. It's {dist} ly away. The pay is {cash}. How about it?"
+      "message" : "Fàilte ort. An cuala tu mu ràith nam bainnsean aig {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz})? Tha sinn airson {cargoname} a thoirt a-null. Tha e {dist} a dh'astar. Thèid {cash} a phàigheadh. A bheil thu dèidheil air?"
    },
    "INTROTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "Hello, my name is {name} and I'm a wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly."
+      "message" : "Shin thu, 's mise {name} agus nì mi mòr-reic ann an siostam {system}. Pàighidh mi {cash} airson dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
    },
    "INTROTEXT_WHOLESALER_2" : {
       "description" : "",
-      "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Shin thu, is mise {name} 's tha mi ag obair airson Corp. Thàbair. Pàighidh sinn {cash} airson dol gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
    },
    "I_AM_ON_MY_WAY" : {
       "description" : "",
@@ -325,11 +325,11 @@
    },
    "MACHINE_TOOLS" : {
       "description" : "custom cargo",
-      "message" : "Machine tools"
+      "message" : "Beart-innealan"
    },
    "NEPTUNIUM" : {
       "description" : "custom cargo",
-      "message" : "Neptunium"
+      "message" : "Neiptiunium"
    },
    "OK_AGREED" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "PICKUP_FROM" : {
       "description" : "from a location",
-      "message" : "Pickup cargo from:"
+      "message" : "Tog carago o:"
    },
    "PIRATE_GRIPES_1" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "RISK_2" : {
       "description" : "",
-      "message" : "Not any more than usual."
+      "message" : "Cha bhi ach mar as àbhaist."
    },
    "RISK_3" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "RISK_4" : {
       "description" : "",
-      "message" : "It could be dangerous, you should make sure you're adequately prepared."
+      "message" : "B' urrainn dha bhith cunnartach, dèan cinnteach gu bheil thu ullamh."
    },
    "RISK_5" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
-      "message" : "Semi-finished products"
+      "message" : "Bathar leth-dhèanta"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -449,7 +449,7 @@
    },
    "SPACESHIP_PARTS" : {
       "description" : "custom cargo",
-      "message" : "Spaceship parts"
+      "message" : "Co-phàirtean soithich-fhànais"
    },
    "SUCCESSMSG_1" : {
       "description" : "",
@@ -485,7 +485,7 @@
    },
    "TUNGSTEN" : {
       "description" : "custom cargo",
-      "message" : "Tungsten"
+      "message" : "Tungstan"
    },
    "URANIUM" : {
       "description" : "custom cargo",
@@ -521,7 +521,7 @@
    },
    "WEDDING_DRESSES" : {
       "description" : "custom cargo",
-      "message" : "Wedding dresses"
+      "message" : "Trusganan bainnse"
    },
    "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",
-      "message" : "Carson a gheibhear torr airgid?"
+      "message" : "Carson a gheibh mi torr airgid?"
    },
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",

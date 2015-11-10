@@ -285,7 +285,7 @@
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
-      "message" : "Enable Autosave"
+      "message" : "Activer la sauvegarde automatique"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
