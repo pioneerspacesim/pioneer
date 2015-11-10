@@ -153,9 +153,110 @@ typedef unsigned int GLhandleARB;
 extern "C" {
 #endif /*__cplusplus*/
 
+extern int ogl_ext_ARB_seamless_cube_map;
+extern int ogl_ext_ARB_seamless_cubemap_per_texture;
+extern int ogl_ext_ARB_draw_instanced;
+extern int ogl_ext_ARB_uniform_buffer_object;
+extern int ogl_ext_ARB_instanced_arrays;
+extern int ogl_ext_ARB_vertex_array_object;
+extern int ogl_ext_EXT_framebuffer_object;
 extern int ogl_ext_EXT_texture_compression_s3tc;
 extern int ogl_ext_EXT_texture_sRGB;
 extern int ogl_ext_EXT_texture_filter_anisotropic;
+
+#define GL_TEXTURE_CUBE_MAP_SEAMLESS 0x884F
+
+/*Copied GL_TEXTURE_CUBE_MAP_SEAMLESS From: ARB_seamless_cube_map*/
+
+#define GL_ACTIVE_UNIFORM_BLOCKS 0x8A36
+#define GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH 0x8A35
+#define GL_INVALID_INDEX 0xFFFFFFFF
+#define GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS 0x8A33
+#define GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS 0x8A32
+#define GL_MAX_COMBINED_UNIFORM_BLOCKS 0x8A2E
+#define GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS 0x8A31
+#define GL_MAX_FRAGMENT_UNIFORM_BLOCKS 0x8A2D
+#define GL_MAX_GEOMETRY_UNIFORM_BLOCKS 0x8A2C
+#define GL_MAX_UNIFORM_BLOCK_SIZE 0x8A30
+#define GL_MAX_UNIFORM_BUFFER_BINDINGS 0x8A2F
+#define GL_MAX_VERTEX_UNIFORM_BLOCKS 0x8A2B
+#define GL_UNIFORM_ARRAY_STRIDE 0x8A3C
+#define GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS 0x8A42
+#define GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES 0x8A43
+#define GL_UNIFORM_BLOCK_BINDING 0x8A3F
+#define GL_UNIFORM_BLOCK_DATA_SIZE 0x8A40
+#define GL_UNIFORM_BLOCK_INDEX 0x8A3A
+#define GL_UNIFORM_BLOCK_NAME_LENGTH 0x8A41
+#define GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER 0x8A46
+#define GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER 0x8A45
+#define GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER 0x8A44
+#define GL_UNIFORM_BUFFER 0x8A11
+#define GL_UNIFORM_BUFFER_BINDING 0x8A28
+#define GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT 0x8A34
+#define GL_UNIFORM_BUFFER_SIZE 0x8A2A
+#define GL_UNIFORM_BUFFER_START 0x8A29
+#define GL_UNIFORM_IS_ROW_MAJOR 0x8A3E
+#define GL_UNIFORM_MATRIX_STRIDE 0x8A3D
+#define GL_UNIFORM_NAME_LENGTH 0x8A39
+#define GL_UNIFORM_OFFSET 0x8A3B
+#define GL_UNIFORM_SIZE 0x8A38
+#define GL_UNIFORM_TYPE 0x8A37
+
+#define GL_VERTEX_ATTRIB_ARRAY_DIVISOR_ARB 0x88FE
+
+#define GL_VERTEX_ARRAY_BINDING 0x85B5
+
+#define GL_COLOR_ATTACHMENT0_EXT 0x8CE0
+#define GL_COLOR_ATTACHMENT10_EXT 0x8CEA
+#define GL_COLOR_ATTACHMENT11_EXT 0x8CEB
+#define GL_COLOR_ATTACHMENT12_EXT 0x8CEC
+#define GL_COLOR_ATTACHMENT13_EXT 0x8CED
+#define GL_COLOR_ATTACHMENT14_EXT 0x8CEE
+#define GL_COLOR_ATTACHMENT15_EXT 0x8CEF
+#define GL_COLOR_ATTACHMENT1_EXT 0x8CE1
+#define GL_COLOR_ATTACHMENT2_EXT 0x8CE2
+#define GL_COLOR_ATTACHMENT3_EXT 0x8CE3
+#define GL_COLOR_ATTACHMENT4_EXT 0x8CE4
+#define GL_COLOR_ATTACHMENT5_EXT 0x8CE5
+#define GL_COLOR_ATTACHMENT6_EXT 0x8CE6
+#define GL_COLOR_ATTACHMENT7_EXT 0x8CE7
+#define GL_COLOR_ATTACHMENT8_EXT 0x8CE8
+#define GL_COLOR_ATTACHMENT9_EXT 0x8CE9
+#define GL_DEPTH_ATTACHMENT_EXT 0x8D00
+#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME_EXT 0x8CD1
+#define GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE_EXT 0x8CD0
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_3D_ZOFFSET_EXT 0x8CD4
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE_EXT 0x8CD3
+#define GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL_EXT 0x8CD2
+#define GL_FRAMEBUFFER_BINDING_EXT 0x8CA6
+#define GL_FRAMEBUFFER_COMPLETE_EXT 0x8CD5
+#define GL_FRAMEBUFFER_EXT 0x8D40
+#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT 0x8CD6
+#define GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT 0x8CD9
+#define GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT 0x8CDB
+#define GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT 0x8CDA
+#define GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT 0x8CD7
+#define GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT 0x8CDC
+#define GL_FRAMEBUFFER_UNSUPPORTED_EXT 0x8CDD
+#define GL_INVALID_FRAMEBUFFER_OPERATION_EXT 0x0506
+#define GL_MAX_COLOR_ATTACHMENTS_EXT 0x8CDF
+#define GL_MAX_RENDERBUFFER_SIZE_EXT 0x84E8
+#define GL_RENDERBUFFER_ALPHA_SIZE_EXT 0x8D53
+#define GL_RENDERBUFFER_BINDING_EXT 0x8CA7
+#define GL_RENDERBUFFER_BLUE_SIZE_EXT 0x8D52
+#define GL_RENDERBUFFER_DEPTH_SIZE_EXT 0x8D54
+#define GL_RENDERBUFFER_EXT 0x8D41
+#define GL_RENDERBUFFER_GREEN_SIZE_EXT 0x8D51
+#define GL_RENDERBUFFER_HEIGHT_EXT 0x8D43
+#define GL_RENDERBUFFER_INTERNAL_FORMAT_EXT 0x8D44
+#define GL_RENDERBUFFER_RED_SIZE_EXT 0x8D50
+#define GL_RENDERBUFFER_STENCIL_SIZE_EXT 0x8D55
+#define GL_RENDERBUFFER_WIDTH_EXT 0x8D42
+#define GL_STENCIL_ATTACHMENT_EXT 0x8D20
+#define GL_STENCIL_INDEX16_EXT 0x8D49
+#define GL_STENCIL_INDEX1_EXT 0x8D46
+#define GL_STENCIL_INDEX4_EXT 0x8D47
+#define GL_STENCIL_INDEX8_EXT 0x8D48
 
 #define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT 0x83F1
 #define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT 0x83F2
@@ -1049,6 +1150,90 @@ extern int ogl_ext_EXT_texture_filter_anisotropic;
 #define GL_SRGB8 0x8C41
 #define GL_SRGB8_ALPHA8 0x8C43
 #define GL_SRGB_ALPHA 0x8C42
+
+
+
+#ifndef GL_ARB_draw_instanced
+#define GL_ARB_draw_instanced 1
+extern void (CODEGEN_FUNCPTR *_ptrc_glDrawArraysInstancedARB)(GLenum, GLint, GLsizei, GLsizei);
+#define glDrawArraysInstancedARB _ptrc_glDrawArraysInstancedARB
+extern void (CODEGEN_FUNCPTR *_ptrc_glDrawElementsInstancedARB)(GLenum, GLsizei, GLenum, const GLvoid *, GLsizei);
+#define glDrawElementsInstancedARB _ptrc_glDrawElementsInstancedARB
+#endif /*GL_ARB_draw_instanced*/ 
+
+#ifndef GL_ARB_uniform_buffer_object
+#define GL_ARB_uniform_buffer_object 1
+extern void (CODEGEN_FUNCPTR *_ptrc_glGetActiveUniformBlockName)(GLuint, GLuint, GLsizei, GLsizei *, GLchar *);
+#define glGetActiveUniformBlockName _ptrc_glGetActiveUniformBlockName
+extern void (CODEGEN_FUNCPTR *_ptrc_glGetActiveUniformBlockiv)(GLuint, GLuint, GLenum, GLint *);
+#define glGetActiveUniformBlockiv _ptrc_glGetActiveUniformBlockiv
+extern void (CODEGEN_FUNCPTR *_ptrc_glGetActiveUniformName)(GLuint, GLuint, GLsizei, GLsizei *, GLchar *);
+#define glGetActiveUniformName _ptrc_glGetActiveUniformName
+extern void (CODEGEN_FUNCPTR *_ptrc_glGetActiveUniformsiv)(GLuint, GLsizei, const GLuint *, GLenum, GLint *);
+#define glGetActiveUniformsiv _ptrc_glGetActiveUniformsiv
+extern GLuint (CODEGEN_FUNCPTR *_ptrc_glGetUniformBlockIndex)(GLuint, const GLchar *);
+#define glGetUniformBlockIndex _ptrc_glGetUniformBlockIndex
+extern void (CODEGEN_FUNCPTR *_ptrc_glGetUniformIndices)(GLuint, GLsizei, const GLchar *const*, GLuint *);
+#define glGetUniformIndices _ptrc_glGetUniformIndices
+extern void (CODEGEN_FUNCPTR *_ptrc_glUniformBlockBinding)(GLuint, GLuint, GLuint);
+#define glUniformBlockBinding _ptrc_glUniformBlockBinding
+#endif /*GL_ARB_uniform_buffer_object*/ 
+
+#ifndef GL_ARB_instanced_arrays
+#define GL_ARB_instanced_arrays 1
+extern void (CODEGEN_FUNCPTR *_ptrc_glVertexAttribDivisorARB)(GLuint, GLuint);
+#define glVertexAttribDivisorARB _ptrc_glVertexAttribDivisorARB
+#endif /*GL_ARB_instanced_arrays*/ 
+
+#ifndef GL_ARB_vertex_array_object
+#define GL_ARB_vertex_array_object 1
+extern void (CODEGEN_FUNCPTR *_ptrc_glBindVertexArray)(GLuint);
+#define glBindVertexArray _ptrc_glBindVertexArray
+extern void (CODEGEN_FUNCPTR *_ptrc_glDeleteVertexArrays)(GLsizei, const GLuint *);
+#define glDeleteVertexArrays _ptrc_glDeleteVertexArrays
+extern void (CODEGEN_FUNCPTR *_ptrc_glGenVertexArrays)(GLsizei, GLuint *);
+#define glGenVertexArrays _ptrc_glGenVertexArrays
+extern GLboolean (CODEGEN_FUNCPTR *_ptrc_glIsVertexArray)(GLuint);
+#define glIsVertexArray _ptrc_glIsVertexArray
+#endif /*GL_ARB_vertex_array_object*/ 
+
+#ifndef GL_EXT_framebuffer_object
+#define GL_EXT_framebuffer_object 1
+extern void (CODEGEN_FUNCPTR *_ptrc_glBindFramebufferEXT)(GLenum, GLuint);
+#define glBindFramebufferEXT _ptrc_glBindFramebufferEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glBindRenderbufferEXT)(GLenum, GLuint);
+#define glBindRenderbufferEXT _ptrc_glBindRenderbufferEXT
+extern GLenum (CODEGEN_FUNCPTR *_ptrc_glCheckFramebufferStatusEXT)(GLenum);
+#define glCheckFramebufferStatusEXT _ptrc_glCheckFramebufferStatusEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glDeleteFramebuffersEXT)(GLsizei, const GLuint *);
+#define glDeleteFramebuffersEXT _ptrc_glDeleteFramebuffersEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glDeleteRenderbuffersEXT)(GLsizei, const GLuint *);
+#define glDeleteRenderbuffersEXT _ptrc_glDeleteRenderbuffersEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glFramebufferRenderbufferEXT)(GLenum, GLenum, GLenum, GLuint);
+#define glFramebufferRenderbufferEXT _ptrc_glFramebufferRenderbufferEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glFramebufferTexture1DEXT)(GLenum, GLenum, GLenum, GLuint, GLint);
+#define glFramebufferTexture1DEXT _ptrc_glFramebufferTexture1DEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glFramebufferTexture2DEXT)(GLenum, GLenum, GLenum, GLuint, GLint);
+#define glFramebufferTexture2DEXT _ptrc_glFramebufferTexture2DEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glFramebufferTexture3DEXT)(GLenum, GLenum, GLenum, GLuint, GLint, GLint);
+#define glFramebufferTexture3DEXT _ptrc_glFramebufferTexture3DEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glGenFramebuffersEXT)(GLsizei, GLuint *);
+#define glGenFramebuffersEXT _ptrc_glGenFramebuffersEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glGenRenderbuffersEXT)(GLsizei, GLuint *);
+#define glGenRenderbuffersEXT _ptrc_glGenRenderbuffersEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glGenerateMipmapEXT)(GLenum);
+#define glGenerateMipmapEXT _ptrc_glGenerateMipmapEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glGetFramebufferAttachmentParameterivEXT)(GLenum, GLenum, GLenum, GLint *);
+#define glGetFramebufferAttachmentParameterivEXT _ptrc_glGetFramebufferAttachmentParameterivEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glGetRenderbufferParameterivEXT)(GLenum, GLenum, GLint *);
+#define glGetRenderbufferParameterivEXT _ptrc_glGetRenderbufferParameterivEXT
+extern GLboolean (CODEGEN_FUNCPTR *_ptrc_glIsFramebufferEXT)(GLuint);
+#define glIsFramebufferEXT _ptrc_glIsFramebufferEXT
+extern GLboolean (CODEGEN_FUNCPTR *_ptrc_glIsRenderbufferEXT)(GLuint);
+#define glIsRenderbufferEXT _ptrc_glIsRenderbufferEXT
+extern void (CODEGEN_FUNCPTR *_ptrc_glRenderbufferStorageEXT)(GLenum, GLenum, GLsizei, GLsizei);
+#define glRenderbufferStorageEXT _ptrc_glRenderbufferStorageEXT
+#endif /*GL_EXT_framebuffer_object*/ 
 
 
 

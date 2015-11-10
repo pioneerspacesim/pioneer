@@ -7,7 +7,7 @@
 #define _GL2_OPENGLIBS_H
 
 // The glLoadGen header was generated using the following command line:
-// lua LoadGen.lua -style=pointer_c -spec=gl -version=2.1 core_2_1
+// lua LoadGen.lua -style=pointer_c -spec=gl -version=2.1 core_2_1 -stdext=gl_ubiquitous.txt -ext ARB_seamless_cube_map -ext ARB_seamless_cubemap_per_texture -ext ARB_draw_instanced -ext ARB_uniform_buffer_object -ext ARB_instanced_arrays -ext ARB_vertex_array_object -ext EXT_framebuffer_object
 #include "graphics/gl2/gl_core_2_1.h"
 
 #endif

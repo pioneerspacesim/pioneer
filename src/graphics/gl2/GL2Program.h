@@ -25,8 +25,13 @@ namespace Graphics {
 			virtual void Use();
 			virtual void Unuse();
 
-			// Some generic uniforms.
-			// to be added: matrices etc.
+			// Uniforms.
+			Uniform uProjectionMatrix;
+			Uniform uViewMatrix;
+			Uniform uViewMatrixInverse;
+			Uniform uViewProjectionMatrix;
+			Uniform uNormalMatrix;
+
 			Uniform invLogZfarPlus1;
 			Uniform diffuse;
 			Uniform emission;
@@ -38,12 +43,21 @@ namespace Graphics {
 			Uniform texture3;
 			Uniform texture4;
 			Uniform texture5;
+			Uniform texture6;
 			Uniform heatGradient;
 			Uniform heatingMatrix;
 			Uniform heatingNormal;
 			Uniform heatingAmount;
 
 			Uniform sceneAmbient;
+
+			//Light uniform parameters
+			struct UniformLight {
+				Uniform diffuse;
+				Uniform specular;
+				Uniform position;
+			};
+			UniformLight lights[4];
 
 		protected:
 			static GLuint s_curProgram;

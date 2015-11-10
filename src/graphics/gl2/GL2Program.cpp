@@ -8,6 +8,8 @@
 #include "OS.h"
 #include "graphics/Graphics.h"
 
+#include <set>
+
 namespace Graphics {
 
 namespace GL2 {
@@ -55,11 +57,50 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 }
 
 struct Shader {
-	Shader(GLenum type, const std::string &filename, const std::string &defines) {
-		RefCountedPtr<FileSystem::FileData> code = FileSystem::gameDataFiles.ReadFile(filename);
+	Shader(GLenum type, const std::string &filename, const std::string &defines) 
+	{
+		RefCountedPtr<FileSystem::FileData> filecode = FileSystem::gameDataFiles.ReadFile(filename);
 
-		if (!code)
-			Error("Could not load %s", filename.c_str());
+		if (!filecode)
+			Error("Could not load %s", filename.c_str()); 
+		
+		std::string strCode(filecode->AsStringRange().ToString());
+		size_t found = strCode.find("#include");
+		while (found != std::string::npos)
+		{
+			// find the name of the file to include
+			const size_t begFilename = strCode.find_first_of("\"", found + 8) + 1;
+			const size_t endFilename = strCode.find_first_of("\"", begFilename + 1);
+
+			const std::string incFilename = strCode.substr(begFilename, endFilename - begFilename);
+
+			// check we haven't it already included it (avoids circular dependencies)
+			const std::set<std::string>::const_iterator foundIt = previousIncludes.find(incFilename);
+			if (foundIt != previousIncludes.end()) {
+				Error("Circular, or multiple, include of %s\n", incFilename.c_str());
+			}
+			else {
+				previousIncludes.insert(incFilename);
+			}
+
+			// build path for include
+			const std::string incPathBuffer = stringf("shaders/gl2/%0", incFilename);
+
+			// read included file
+			RefCountedPtr<FileSystem::FileData> incCode = FileSystem::gameDataFiles.ReadFile(incPathBuffer);
+			assert(incCode.Valid());
+
+			if (incCode.Valid()) {
+				// replace the #include and filename with the included files text
+				strCode.replace(found, (endFilename + 1) - found, incCode->GetData(), incCode->GetSize());
+				found = strCode.find("#include");
+			}
+			else {
+				Error("Could not load %s", incPathBuffer.c_str());
+			}
+		}
+		// Store the modified text with the included files (if any)
+		const StringRange code(strCode.c_str(), strCode.size());
 
 		// Load some common code
 		RefCountedPtr<FileSystem::FileData> attributesCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/attributes.glsl");
@@ -69,17 +110,16 @@ struct Shader {
 		RefCountedPtr<FileSystem::FileData> libsCode = FileSystem::gameDataFiles.ReadFile("shaders/gl2/lib.glsl");
 		assert(libsCode);
 
+		// Build the final shader text to be compiled
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
 		if (type == GL_VERTEX_SHADER) {
 			AppendSource("#define VERTEX_SHADER\n");
-		} else {
+		}
+		else {
 			AppendSource("#define FRAGMENT_SHADER\n");
 		}
-		AppendSource(attributesCode->AsStringRange().StripUTF8BOM());
-		AppendSource(logzCode->AsStringRange().StripUTF8BOM());
-		AppendSource(libsCode->AsStringRange().StripUTF8BOM());
-		AppendSource(code->AsStringRange().StripUTF8BOM());
+		AppendSource(code.StripUTF8BOM());
 #if 0
 		static bool s_bDumpShaderSource = true;
 		if (s_bDumpShaderSource) {
@@ -132,6 +172,7 @@ private:
 
 	std::vector<const char*> blocks;
 	std::vector<GLint> block_sizes;
+	std::set<std::string> previousIncludes;
 };
 
 Program::Program()
@@ -195,6 +236,7 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	glBindAttribLocation(m_program, 1, "a_normal");
 	glBindAttribLocation(m_program, 2, "a_color");
 	glBindAttribLocation(m_program, 3, "a_uv0");
+	glBindAttribLocation(m_program, 4, "a_transform");
 
 	glLinkProgram(m_program);
 
@@ -206,6 +248,22 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 void Program::InitUniforms()
 {
 	//Init generic uniforms, like matrices
+	uProjectionMatrix.Init("uProjectionMatrix", m_program);
+	uViewMatrix.Init("uViewMatrix", m_program);
+	uViewMatrixInverse.Init("uViewMatrixInverse", m_program);
+	uViewProjectionMatrix.Init("uViewProjectionMatrix", m_program);
+	uNormalMatrix.Init("uNormalMatrix", m_program);
+
+	//Light uniform parameters
+	char cLight[64];
+	for (int i = 0; i<4; i++) {
+		snprintf(cLight, 64, "uLight[%d]", i);
+		const std::string strLight(cLight);
+		lights[i].diffuse.Init((strLight + ".diffuse").c_str(), m_program);
+		lights[i].specular.Init((strLight + ".specular").c_str(), m_program);
+		lights[i].position.Init((strLight + ".position").c_str(), m_program);
+	}
+
 	invLogZfarPlus1.Init("invLogZfarPlus1", m_program);
 	diffuse.Init("material.diffuse", m_program);
 	emission.Init("material.emission", m_program);
@@ -217,6 +275,7 @@ void Program::InitUniforms()
 	texture3.Init("texture3", m_program);
 	texture4.Init("texture4", m_program);
 	texture5.Init("texture5", m_program);
+	texture6.Init("texture6", m_program);
 	heatGradient.Init("heatGradient", m_program);
 	heatingMatrix.Init("heatingMatrix", m_program);
 	heatingNormal.Init("heatingNormal", m_program);

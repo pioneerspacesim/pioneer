@@ -39,7 +39,48 @@ typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterat
 GL2::MultiProgram *vtxColorProg;
 GL2::MultiProgram *flatColorProg;
 
+
 bool RendererGL2::initted = false;
+
+static std::string glerr_to_string(GLenum err)
+{
+	switch (err)
+	{
+	case GL_INVALID_ENUM:
+		return "GL_INVALID_ENUM";
+	case GL_INVALID_VALUE:
+		return "GL_INVALID_VALUE";
+	case GL_INVALID_OPERATION:
+		return "GL_INVALID_OPERATION";
+	case GL_OUT_OF_MEMORY:
+		return "GL_OUT_OF_MEMORY";
+	case GL_STACK_OVERFLOW: //deprecated in GL3
+		return "GL_STACK_OVERFLOW";
+	case GL_STACK_UNDERFLOW: //deprecated in GL3
+		return "GL_STACK_UNDERFLOW";
+	default:
+		return stringf("Unknown error 0x0%0{x}", err);
+	}
+}
+
+void RendererGL2::CheckErrors()
+{
+	GLenum err = glGetError();
+	if (err) {
+		std::stringstream ss;
+		ss << "OpenGL error(s) during frame:\n";
+		while (err != GL_NO_ERROR) {
+			ss << glerr_to_string(err) << '\n';
+			err = glGetError();
+			if (err == GL_OUT_OF_MEMORY) {
+				ss << "Out-of-memory on graphics card." << std::endl
+					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
+					<< "Also try reducing City and Planet detail settings." << std::endl;
+			}
+		}
+		Warning("%s", ss.str().c_str());
+	}
+}
 
 RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
@@ -110,6 +151,128 @@ RendererGL2::~RendererGL2()
 		delete state.second;
 }
 
+static const char *gl_error_to_string(GLenum err)
+{
+	switch (err) {
+	case GL_NO_ERROR: return "(no error)";
+	case GL_INVALID_ENUM: return "invalid enum";
+	case GL_INVALID_VALUE: return "invalid value";
+	case GL_INVALID_OPERATION: return "invalid operation";
+	//case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
+	case GL_OUT_OF_MEMORY: return "out of memory";
+	default: return "(unknown error)";
+	}
+}
+
+static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = GL_NO_ERROR)
+{
+	GLenum err = ((first_error == GL_NO_ERROR) ? glGetError() : first_error);
+	if (err != GL_NO_ERROR) {
+		out << "errors: ";
+		do {
+			out << gl_error_to_string(err) << " ";
+			err = glGetError();
+		} while (err != GL_NO_ERROR);
+		out << std::endl;
+	}
+}
+
+static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, int num_elems)
+{
+	assert(num_elems > 0 && num_elems <= 4);
+	assert(name);
+
+	GLdouble e[4];
+	glGetDoublev(id, e);
+
+	GLenum err = glGetError();
+	if (err == GL_NO_ERROR) {
+		out << name << " = " << e[0];
+		for (int i = 1; i < num_elems; ++i)
+			out << ", " << e[i];
+		out << "\n";
+	}
+	else {
+		while (err != GL_NO_ERROR) {
+			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
+			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
+			err = glGetError();
+		}
+	}
+}
+
+void RendererGL2::WriteRendererInfo(std::ostream &out) const
+{
+	out << "OpenGL version " << glGetString(GL_VERSION);
+	out << ", running on " << glGetString(GL_VENDOR);
+	out << " " << glGetString(GL_RENDERER) << "\n";
+
+	out << "Shading language version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+
+	out << "\nImplementation Limits:\n";
+
+	// first, clear all OpenGL error flags
+	dump_and_clear_opengl_errors(out);
+
+#define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
+#define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
+
+	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(GL_SAMPLES);
+	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
+
+#undef DUMP_GL_VALUE
+#undef DUMP_GL_VALUE2
+
+	// enumerate compressed texture formats
+	{
+		dump_and_clear_opengl_errors(out);
+		out << "\nCompressed texture formats:\n";
+
+		GLint nformats;
+		GLint formats[128]; // XXX 128 should be enough, right?
+
+		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
+		GLenum err = glGetError();
+		if (err != GL_NO_ERROR) {
+			out << "Get NUM_COMPRESSED_TEXTURE_FORMATS failed\n";
+			dump_and_clear_opengl_errors(out, err);
+		}
+		else {
+			assert(nformats >= 0 && nformats < int(COUNTOF(formats)));
+			glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
+			err = glGetError();
+			if (err != GL_NO_ERROR) {
+				out << "Get COMPRESSED_TEXTURE_FORMATS failed\n";
+				dump_and_clear_opengl_errors(out, err);
+			}
+			else {
+				for (int i = 0; i < nformats; ++i) {
+					out << stringf("  %0{x#}\n", unsigned(formats[i]));
+				}
+			}
+		}
+	}
+	// one last time
+	dump_and_clear_opengl_errors(out);
+}
+
 bool RendererGL2::GetNearFarRange(float &near, float &far) const
 {
 	near = m_minZNear;
@@ -128,27 +291,6 @@ bool RendererGL2::BeginFrame()
 bool RendererGL2::EndFrame()
 {
 	return true;
-}
-
-static std::string glerr_to_string(GLenum err)
-{
-	switch (err)
-	{
-	case GL_INVALID_ENUM:
-		return "GL_INVALID_ENUM";
-	case GL_INVALID_VALUE:
-		return "GL_INVALID_VALUE";
-	case GL_INVALID_OPERATION:
-		return "GL_INVALID_OPERATION";
-	case GL_OUT_OF_MEMORY:
-		return "GL_OUT_OF_MEMORY";
-	case GL_STACK_OVERFLOW: //deprecated in GL3
-		return "GL_STACK_OVERFLOW";
-	case GL_STACK_UNDERFLOW: //deprecated in GL3
-		return "GL_STACK_UNDERFLOW";
-	default:
-		return stringf("Unknown error 0x0%0{x}", err);
-	}
 }
 
 bool RendererGL2::SwapBuffers()
@@ -351,59 +493,6 @@ bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 	else
 		glDisable(GL_SCISSOR_TEST);
 	return true;
-}
-
-bool RendererGL2::DrawLines(int count, const vector3f *v, const Color *c, RenderState* state, PrimitiveType t)
-{
-	PROFILE_SCOPED()
-	Drawables::Lines lines;
-	lines.SetData(count, v, c);
-	lines.Draw(this, state, t);
-	return true;
-}
-
-bool RendererGL2::DrawLines(int count, const vector3f *v, const Color &c, RenderState *state, PrimitiveType t)
-{
-	PROFILE_SCOPED()
-	Drawables::Lines lines;
-	lines.SetData(count, v, c);
-	lines.Draw(this, state, t);
-	return true;
-}
-
-bool RendererGL2::DrawPoints(int count, const vector3f *points, const Color *colors, Graphics::RenderState *state, float size)
-{
-	struct TPos {
-		vector3f pos;
-		Color4ub col;
-	};
-
-	MaterialDescriptor md;
-	md.vertexColors = true;
-	static std::unique_ptr<Material> mat(CreateMaterial(md));
-	
-	// Create vtx & index buffers and copy data
-	VertexBufferDesc vbd;
-	vbd.attrib[0].semantic	= ATTRIB_POSITION;
-	vbd.attrib[0].format	= ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic	= ATTRIB_DIFFUSE;
-	vbd.attrib[1].format	= ATTRIB_FORMAT_UBYTE4;
-	vbd.numVertices = count;
-	vbd.usage = BUFFER_USAGE_STATIC;
-	
-	// VertexBuffer
-	std::unique_ptr<VertexBuffer> vb;
-	vb.reset(CreateVertexBuffer(vbd));
-	TPos* vtxPtr = vb->Map<TPos>(BUFFER_MAP_WRITE);
-	assert(vb->GetDesc().stride == sizeof(TPos));
-	for(Sint32 i=0 ; i<count ; i++)
-	{
-		vtxPtr[i].pos = points[i];
-		vtxPtr[i].col = colors[i];
-	}
-	vb->Unmap();
-
-	return DrawBuffer(vb.get(), state, mat.get(), POINTS);
 }
 
 bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)

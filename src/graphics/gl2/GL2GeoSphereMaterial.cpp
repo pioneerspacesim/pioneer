@@ -28,8 +28,7 @@ void GeoSphereProgram::InitUniforms()
 	geosphereAtmosInvScaleHeight.Init("geosphereAtmosInvScaleHeight", m_program);
 	geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
 	geosphereCenter.Init("geosphereCenter", m_program);
-	geosphereScale.Init("geosphereScale", m_program);
-	geosphereScaledRadius.Init("geosphereScaledRadius", m_program);
+	geosphereRadius.Init("geosphereRadius", m_program);
 
 	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
@@ -84,8 +83,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
 	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
 	p->geosphereCenter.Set(ap.center);
-	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
-	p->geosphereScale.Set(ap.scale);
+	p->geosphereRadius.Set(ap.planetRadius);
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};

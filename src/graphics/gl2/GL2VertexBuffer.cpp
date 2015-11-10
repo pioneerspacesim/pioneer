@@ -36,9 +36,9 @@ GLenum get_component_type(VertexAttribFormat fmt)
 	}
 }
 
-VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
+VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
+	Graphics::VertexBuffer(desc)
 {
-	m_desc = desc;
 	//update offsets in desc
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (m_desc.attrib[i].offset == 0)
@@ -100,6 +100,10 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc)
 		case ATTRIB_UV0:
 			glEnableVertexAttribArray(3);	// Enable the attribute at that location
 			glVertexAttribPointer(3, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
+			break;
+		case ATTRIB_TANGENT:
+			glEnableVertexAttribArray(4);	// Enable the attribute at that location
+			glVertexAttribPointer(4, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
 			break;
 		case ATTRIB_NONE:
 		default:
@@ -256,6 +260,7 @@ void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 bool VertexBuffer::Populate(const VertexArray &va)
 {
 	assert(va.GetNumVerts()>0);
+	assert(va.GetNumVerts()==m_numVertices);
 	bool result = false;
 	const Graphics::AttributeSet as = va.GetAttributeSet();
 	switch( as ) {
@@ -270,12 +275,43 @@ bool VertexBuffer::Populate(const VertexArray &va)
 
 void VertexBuffer::Bind() {
 	glBindVertexArray(m_vao);
+
+	// Enable the Vertex attributes
+	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
+		const auto& attr = m_desc.attrib[i];
+		switch (attr.semantic) {
+		case ATTRIB_POSITION:		glEnableVertexAttribArray(0);		break;
+		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
+		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
+		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
+		case ATTRIB_TANGENT:		glEnableVertexAttribArray(4);		break;
+		case ATTRIB_NONE:
+		default:
+			return;
+		}
+	}
 }
 
 void VertexBuffer::Release() {
+	// Enable the Vertex attributes
+	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
+		const auto& attr = m_desc.attrib[i];
+		switch (attr.semantic) {
+		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);		break;
+		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);		break;
+		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);		break;
+		case ATTRIB_UV0:			glDisableVertexAttribArray(3);		break;
+		case ATTRIB_TANGENT:		glDisableVertexAttribArray(4);		break;
+		case ATTRIB_NONE:
+		default:
+			return;
+		}
+	}
+
 	glBindVertexArray(0);
 }
 
+// ------------------------------------------------------------
 IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	: Graphics::IndexBuffer(size, hint)
 {
@@ -334,6 +370,96 @@ void IndexBuffer::Unmap()
 	}
 
 	m_mapMode = BUFFER_MAP_NONE;
+}
+
+// ------------------------------------------------------------
+InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage hint)
+	: Graphics::InstanceBuffer(size, hint)
+{
+	assert(size > 0);
+
+	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
+	glGenBuffers(1, &m_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+	m_data.reset(new matrix4x4f[size]);
+	memset(m_data.get(), 0, sizeof(matrix4x4f) * size);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(matrix4x4f) * m_size, m_data.get(), usage);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	//Don't keep client data around for static buffers
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		m_data.reset();
+	}
+}
+
+InstanceBuffer::~InstanceBuffer()
+{
+	glDeleteBuffers(1, &m_buffer);
+}
+
+matrix4x4f* InstanceBuffer::Map(BufferMapMode mode)
+{
+	assert(mode != BUFFER_MAP_NONE); //makes no sense
+	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
+	m_mapMode = mode;
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+		if (mode == BUFFER_MAP_READ)
+			return reinterpret_cast<matrix4x4f*>(glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY));
+		else if (mode == BUFFER_MAP_WRITE)
+			return reinterpret_cast<matrix4x4f*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+	}
+
+	return m_data.get();
+}
+
+void InstanceBuffer::Unmap()
+{
+	assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
+
+	if (GetUsage() == BUFFER_USAGE_STATIC) {
+		glUnmapBuffer(GL_ARRAY_BUFFER);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	else {
+		if (m_mapMode == BUFFER_MAP_WRITE) {
+			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(matrix4x4f) * m_size, m_data.get());
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+		}
+	}
+
+	m_mapMode = BUFFER_MAP_NONE;
+}
+
+void InstanceBuffer::Bind() {
+	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+
+	// used to pass a matrix4x4f in, however each attrib array is max size of (GLSL) vec4 so must enable 4 arrays
+	const size_t sizeVec4 = (sizeof(float) * 4);
+	glEnableVertexAttribArray(INSTOFFS_MAT0);
+	glVertexAttribPointer(INSTOFFS_MAT0, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(0));
+	glEnableVertexAttribArray(INSTOFFS_MAT1);
+	glVertexAttribPointer(INSTOFFS_MAT1, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(sizeVec4));
+	glEnableVertexAttribArray(INSTOFFS_MAT2);
+	glVertexAttribPointer(INSTOFFS_MAT2, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(2 * sizeVec4));
+	glEnableVertexAttribArray(INSTOFFS_MAT3);
+	glVertexAttribPointer(INSTOFFS_MAT3, 4, GL_FLOAT, GL_FALSE, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(3 * sizeVec4));
+
+	//glVertexAttribDivisor(INSTOFFS_MAT0, 1);
+	//glVertexAttribDivisor(INSTOFFS_MAT1, 1);
+	//glVertexAttribDivisor(INSTOFFS_MAT2, 1);
+	//glVertexAttribDivisor(INSTOFFS_MAT3, 1);
+}
+
+void InstanceBuffer::Release() {
+	// see enable comment above
+	glDisableVertexAttribArray(INSTOFFS_MAT0);
+	glDisableVertexAttribArray(INSTOFFS_MAT1);
+	glDisableVertexAttribArray(INSTOFFS_MAT2);
+	glDisableVertexAttribArray(INSTOFFS_MAT3);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 } //namespace GL2

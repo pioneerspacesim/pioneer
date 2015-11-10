@@ -18,5 +18,19 @@ void Material::Unapply()
 {
 }
 
+void Material::SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj)
+{
+	const matrix4x4f ViewProjection = proj * mv;
+	const matrix3x3f orient(mv.GetOrient());
+	const matrix3x3f NormalMatrix(orient.Inverse());
+
+	m_program->uProjectionMatrix.Set(proj);
+	m_program->uViewMatrix.Set(mv);
+	m_program->uViewMatrixInverse.Set(mv.Inverse());
+	m_program->uViewProjectionMatrix.Set(ViewProjection);
+	m_program->uNormalMatrix.Set(NormalMatrix);
+	RendererGL2::CheckErrors();
+}
+
 }
 }

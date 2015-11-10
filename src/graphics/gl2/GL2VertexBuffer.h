@@ -26,8 +26,8 @@ public:
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) override;
 	
-	virtual void Bind();
-	virtual void Release();
+	virtual void Bind() override;
+	virtual void Release() override;
 
 protected:
 	virtual Uint8 *MapInternal(BufferMapMode) override;
@@ -44,9 +44,33 @@ public:
 
 	virtual Uint16 *Map(BufferMapMode) override;
 	virtual void Unmap() override;
+	
+	virtual void Bind() override;
+	virtual void Release() override;
 
 private:
 	Uint16 *m_data;
+};
+
+// Instance buffer
+class InstanceBuffer : public Graphics::InstanceBuffer, public GLBufferBase {
+public:
+	InstanceBuffer(Uint32 size, BufferUsage);
+	virtual ~InstanceBuffer() override;
+	virtual matrix4x4f* Map(BufferMapMode) override;
+	virtual void Unmap() override;
+
+	virtual void Bind() override;
+	virtual void Release() override;
+
+protected:
+	enum InstOffs {
+		INSTOFFS_MAT0 = 5, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl
+		INSTOFFS_MAT1 = 6,
+		INSTOFFS_MAT2 = 7,
+		INSTOFFS_MAT3 = 8
+	};
+	std::unique_ptr<matrix4x4f> m_data;
 };
 
 } }

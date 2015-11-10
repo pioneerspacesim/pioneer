@@ -22,8 +22,7 @@ namespace Graphics {
 			Uniform geosphereAtmosInvScaleHeight;
 			Uniform geosphereAtmosTopRad; // in planet radii
 			Uniform geosphereCenter;
-			Uniform geosphereScale;
-			Uniform geosphereScaledRadius; // (planet radius) / scale
+			Uniform geosphereRadius; // planet radius
 
 			Uniform shadows;
 			Uniform occultedLight;

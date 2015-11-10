@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GL2GasGiantMaterial.h"
@@ -29,8 +29,7 @@ void GasGiantProgram::InitUniforms()
 	geosphereAtmosInvScaleHeight.Init("geosphereAtmosInvScaleHeight", m_program);
 	geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
 	geosphereCenter.Init("geosphereCenter", m_program);
-	geosphereScale.Init("geosphereScale", m_program);
-	geosphereScaledRadius.Init("geosphereScaledRadius", m_program);
+	geosphereRadius.Init("geosphereRadius", m_program);
 
 	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
@@ -69,6 +68,8 @@ void GasGiantSurfaceMaterial::Apply()
 
 void GasGiantSurfaceMaterial::SetGSUniforms()
 {
+	GL2::Material::Apply();
+
 	GasGiantProgram *p = static_cast<GasGiantProgram*>(m_program);
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
 	const SystemBody::AtmosphereParameters ap = params.atmosphere;
@@ -82,8 +83,16 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 	p->geosphereAtmosInvScaleHeight.Set(ap.atmosInvScaleHeight);
 	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
 	p->geosphereCenter.Set(ap.center);
-	p->geosphereScaledRadius.Set(ap.planetRadius / ap.scale);
-	p->geosphereScale.Set(ap.scale);
+	p->geosphereRadius.Set(ap.planetRadius);
+
+	//Light uniform parameters
+	for (Uint32 i = 0; i<m_renderer->GetNumLights(); i++) {
+		const Light& Light = m_renderer->GetLight(i);
+		p->lights[i].diffuse.Set(Light.GetDiffuse());
+		p->lights[i].specular.Set(Light.GetSpecular());
+		const vector3f& pos = Light.GetPosition();
+		p->lights[i].position.Set(pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+	}
 
 	p->diffuse.Set(this->diffuse);
 	p->texture0.Set(this->texture0, 0);
