@@ -101,7 +101,7 @@
    },
    "TIME_SERVED_CREW_MEMBER" : {
       "description" : "",
-      "message" : "Periodo di servizio come membro di equipaggio"
+      "message" : "Media esperienza come membro di equipaggio"
    },
    "VETERAN_TIME_SERVED_CREW_MEMBER" : {
       "description" : "",

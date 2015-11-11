@@ -285,7 +285,7 @@
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
-      "message" : "Enable Autosave"
+      "message" : "Cuir fèin-sàbhaladh an comas"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -1009,7 +1009,7 @@
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Chan eil duine sam bith aile air bòrd a bhiodh comasach air an t-soitheach seo a stiùireadh."
+      "message" : "Chan eil duine sam bith eile air bòrd air a bhiodh comas gus an soitheach seo a stiùireadh."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
@@ -1113,7 +1113,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "Bidh sibh duilich gun tug sibh a' bhròg dhomh!"
+      "message" : "Bidh sibh duilich gun dug sibh a' bhròg dhomh!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",

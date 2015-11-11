@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "NAIDHEACHD {date}: Tha siostam {system} air fad a' fulang fo phlàigh. Tha reat-bhàsan a' meudachadh."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Tha plàigh ag adhbharachadh bàs ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha na h-ùghdarrasan a' sireadh cobhair mheadaigeach gu h-èiginneach."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
@@ -89,11 +89,11 @@
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "NAIDHEACHD {date}: Tha còmhstri air èirigh ann an siostam {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Tha a' chòmhstri fhada ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air dol am miosad leis na feachdan ag èirigh gu cath a-nis."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
@@ -129,51 +129,51 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "NAIDHEACHD {date}: Tart ann an siostam {system}. Chaidh am barr a mhilleadh."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Tha mòr-thart air a' bharr a mhilleadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thathar fo chunnart goirt air feadh an t-siostaim."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "NAIDHEACHD {date}: Fèill mòr air dòigh-beatha an fheòil-sheachnair ann an siostam {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "Tha an rianachd ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ag amas barrachd glasraich ion-phortadh gus an t-iarrtas mòr a choileanadh."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "NAIDHEACHD {date}: Cogadh dhrugaichean ann an siostam {system}. Tha am poileas a' strì gus làmh an uachdair fhaighinn air ais."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Tha am margadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a lìonadh le drugaichean saora fhad 's a tha tighearnan dhrugaichean ann an còmhstri airson an cumhachd a mheudachadh."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "NAIDHEACHD {date}: Aramach nan tràillean ann an siostam {system}. Chaidh stad a chur air gach gnìomhachas àrachais."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Shaor an luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) iad fhèin o na slabhraidhean 's iad a' diùltadh ri obair ann an achaidhean lòtais. Thug seo stad air an eaconamaidh o nach eil luchd-obrach saor ri fhaighinn."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "NAIDHEACHD {date}: Fèille àigheach nan Quibbles ann an siostam {system}."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Tha subhachas raoiteach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a' dol air adhart fhathast dhad 's a thathar a' toirt urram air na creutairean beaga clòimheach."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "NAIDHEACHD {date}: Thàinig stad air a' ghnìomhachas ann an siostam {system}."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Tha mòr-dhearmad nan innealan ag adhbharachadh stad a' ghnìomhachais ann an siostam {system} ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
