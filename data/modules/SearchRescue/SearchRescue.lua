@@ -1,0 +1,1965 @@
+--######################################################################
+--# This module encodes several flavors of search and rescue missions. #
+--# Claudius Mueller 2015                                              #
+--######################################################################
+
+-- Notes:
+-- - All station/planet location references in ad/mission are stored as paths for consistency because
+--   some can't be accessed as bodies until the player enters the respective system and getting a path from
+--   systembody needs to go through body.
+
+
+-- TODO:
+-- - update target flying
+-- - add realism by having other ships take up offers and actually go do the mission
+--   + or remove random ads after a time to simulate that (make sure over time not all ads are not removed)
+-- - add degToDegMinSec function to src/LuaFormat.cpp
+-- - redo wording for scripts:
+--   [x] 1
+--   [x] 2
+--   [x] 3
+--   [ ] 4
+--   [ ] 5
+--   [ ] 6 - add ship label to message
+-- - re-create target ships if player left the system and returns again (works - except for look of ship)
+-- - handle situation where player buys a new ship or sells/buys passenger cabins and loaded passengers
+--   need to follow into the new ship/cabin
+
+
+-- text: "Don't tell me flight {shiplabel} is still waiting out there?! Forget about your payment!"
+
+-- Explanations
+-- ============
+-- Variable flavour.pickup_crew, etc. is the goal, while variable mission.pickup_crew is the meter for 
+-- actually accomplished parts of the task.
+-- Variable mission.pickup_crew_check provides the level of completion:
+-- - "NOT"      = not started
+-- - "PARTIAL"  = partially completed, but can't do more for now
+-- - "ABORT"    = aborted, but can work on it again
+-- - "COMPLETE" = finished task
+-- Variable "locaction" is a SystemsBody
+
+local Engine = import("Engine")
+local Lang = import("Lang")
+local Game = import("Game")
+local Space = import("Space")
+local Comms = import("Comms")
+local Event = import("Event")
+local Mission = import("Mission")
+local Format = import("Format")
+local Serializer = import("Serializer")
+local Character = import("Character")
+local Equipment = import("Equipment")
+local ShipDef = import("ShipDef")
+local Ship = import("Ship")
+local utils = import("utils")
+local Timer = import("Timer")
+local InfoFace = import("ui/InfoFace")
+local l = Lang.GetResource("module-searchrescue")
+
+-- Get the UI class
+local ui = Engine.ui
+
+-- basic variables for mission creation
+local max_mission_dist = 30        -- max distance for long distance mission target location [ly]
+local max_close_dist = 5000        -- max distance for "CLOSE_PLANET" target location [km]
+local max_close_space_dist = 10000 -- max distance for "CLOSE_SPACE" target location [km]
+local far_space_orbit_dist = 100000  -- orbital distance around planet for "FAR_SPACE" target location [km]
+local min_interaction_dist = 50    -- min distance for successful interaction with target [meters]
+local target_interaction_time = 3  -- target interaction time to load/unload one unit of cargo/person [sec]
+local max_pass = 2                 -- max number of passengers on target ship (high max: 10)
+local max_crew = 4                 -- max number of crew on target ship (high max: 8)
+local reward_close = 200           -- basic reward for "CLOSE" mission (+/- random half of that)
+local reward_medium = 1000         -- basic reward for "MEDIUM" mission (+/- random half of that)
+local reward_far = 2000            -- basic reward for "FAR" mission (+/- random half of that)
+
+-- ===== just copied from DeliverPackage.lua for now =====
+-- typical time for travel to a system max_mission_dist away
+--	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
+-- local typical_travel_time = (1.6 * max_mission_dist + 4) * 24 * 60 * 60
+-- typical reward for delivery to a system max_mission_dist away
+-- local typical_reward = 25 * max_mission_dist
+
+-- global containers and variables
+local aircontrol_chars = {}        -- saving specific aircontrol character per spacestation
+local ads = {}                     -- currently active ads in the system
+local missions = {}                -- accepted missions that are currently active
+local leaving_system = false       -- needed for last minute cleanup before leaving system (searchForTarget)
+
+-- Flavour Variables
+-- =================
+
+-- Use with caution! There are checks in place but impossible combinations can still break this script.
+-- An appropriate ship type will be chosen depending on the mission. Make sure a ship exists that can do
+-- what is requested (i.e. has the necessary crew number).
+
+-- id        = 1          : ID to help pull the right ad texts in
+
+-- loctype assumptions       : a) "CLOSE" means there are stations within the system (i.e. target ships don't
+--                                necessarily need hyperdrives
+--                             b) "PLANET" means any target ship has to have an atmo_shield
+
+-- loctype  = "CLOSE_PLANET" : target on the same planet the player is on (not applicable to non-ground stations)
+-- loctype  = "MEDIUM_PLANET": target on a planet within the same system as the player is in
+-- loctype  = "CLOSE_SPACE"  : target close to space station player is docked at - but drifting in space
+-- loctype  = "FAR_SPACE"    : target in a different system - drifting in space
+
+-- pickup_crew = 0        : how many crew members of the target ship to pick up
+-- pickup_pass = 0        : how many passengers of the target ship to pick up
+-- pickup_comm = {}       : type and amount of commodity to pick up from target ship
+
+-- deliver_crew = 0       : how many crew members to deliver to target ship
+-- deliver_pass = 0       : how many passengers to deliver to target ship
+-- deliver_comm = {}      : type and amount of commodity to deliver to target ship
+
+-- urgency   = 1          : factor for how urgent transport ist (most urgent time multiplied by factor)
+
+-- reward_immediate = false : should the mission reward be provided immediately or upon return to station
+
+local flavours = {
+
+   -- rescue all crew + passengers from ship stranded close to starport
+   -- SPECIAL: number of crew/pass to pickup is picked randomly during ad creation
+   {
+      id               = 1,
+      loctype          = "MEDIUM_PLANET",
+      pickup_crew      = 0,
+      pickup_pass      = 0,
+      pickup_comm      = {},
+      deliver_crew     = 0,
+      deliver_pass     = 0,
+      deliver_comm     = {},
+      urgency          = 1,
+      reward_immediate = false,
+   },
+
+   -- deliver fuel to ship stranded close to starport
+   {
+      id               = 2,
+      loctype          = "CLOSE_PLANET",
+      pickup_crew      = 0,
+      pickup_pass      = 0,
+      pickup_comm      = {},
+      deliver_crew     = 0,
+      deliver_pass     = 0,
+      deliver_comm     = {[Equipment.cargo.hydrogen] = 1},
+      urgency          = 5,
+      reward_immediate = true
+   },
+
+   -- deliver 1 crew to ship stranded close to starport
+   {
+      id               = 3,
+      loctype          = "CLOSE_PLANET",
+      pickup_crew      = 0,
+      pickup_pass      = 0,
+      pickup_comm      = {},
+      deliver_crew     = 1,
+      deliver_pass     = 0,
+      deliver_comm     = {},
+      urgency          = 5,
+      reward_immediate = true
+   },
+
+   -- deliver fuel to ship stranded on planet within same system
+   {
+      id               = 4,
+      loctype          = "MEDIUM_PLANET",
+      pickup_crew      = 0,
+      pickup_pass      = 0,
+      pickup_comm      = {},
+      deliver_crew     = 0,
+      deliver_pass     = 0,
+      deliver_comm     = {[Equipment.cargo.hydrogen] = 1},
+      urgency          = 5,
+      reward_immediate = true
+   },
+
+      -- deliver fuel to ship stranded in space close to station player is docked at
+   {
+      id               = 5,
+      loctype          = "CLOSE_SPACE",
+      pickup_crew      = 0,
+      pickup_pass      = 0,
+      pickup_comm      = {},
+      deliver_crew     = 0,
+      deliver_pass     = 0,
+      deliver_comm     = {[Equipment.cargo.hydrogen] = 1},
+      urgency          = 5,
+      reward_immediate = true
+   },
+
+   -- rescue all crew + passengers from ship stranded in unoccupied system
+   -- SPECIAL: number of crew/pass to pickup is picked randomly during ad creation
+   {
+      id               = 6,
+      loctype          = "FAR_SPACE",
+      pickup_crew      = 0,
+      pickup_pass      = 0,
+      pickup_comm      = {},
+      deliver_crew     = 0,
+      deliver_pass     = 0,
+      deliver_comm     = {},
+      urgency          = 5,
+      reward_immediate = false
+   },
+
+   -- take replacment crew to ship stranded in unoccupied system
+   -- SPECIAL: number of crew to deliver is picked randomly during ad creation
+   {
+      id               = 7,
+      loctype          = "FAR_SPACE",
+      pickup_crew      = 0,
+      pickup_pass      = 0,
+      pickup_comm      = {},
+      deliver_crew     = 0,
+      deliver_pass     = 0,
+      deliver_comm     = {},
+      urgency          = 5,
+      reward_immediate = true
+   }
+}
+
+-- add strings to flavours
+for i = 1,#flavours do
+   local f = flavours[i]
+   f.adtext          = l["FLAVOUR_" .. f.id .. "_ADTEXT"]
+   f.introtext       = l["FLAVOUR_" .. f.id .. "_INTROTEXT"]
+   f.whysomuchtext   = l["FLAVOUR_" .. f.id .. "_WHYSOMUCHTEXT"]
+   f.howmuchtimetext = l["FLAVOUR_" .. f.id .. "_HOWMUCHTIMETEXT"]
+   f.successmsg      = l["FLAVOUR_" .. f.id .. "_SUCCESSMSG"]
+   f.failuremsg      = l["FLAVOUR_" .. f.id .. "_FAILUREMSG"]
+   f.transfermsg     = l["FLAVOUR_" .. f.id .. "_TRANSFERMSG"]
+end
+
+
+
+-- basic lua helper functions
+-- ==========================
+
+local arraySize = function (array)
+   -- Return the size (length) of an array that contains arbitrary entries.
+   count = 0
+   for _,k in pairs(array) do
+      count = count + 1
+   end
+   return count
+end
+
+local round = function (num, nearest)
+   -- Rounds the supplied number to the supplied nearest number.
+   num = num / nearest
+   num = math.floor(num + 0.5)
+   num = num * nearest
+   return num
+end
+
+local containerContainsKey = function (container, key)
+   -- Return true if key is in container and false if not.
+   return container[key] ~= nil
+end
+
+local copyTable = function (orig)
+   -- Return a copy of a table. Copies only the direct children (no deep copy!).
+   -- Taken from http://lua-users.org/wiki/CopyTable.
+   local orig_type = type(orig)
+   local copy
+   if orig_type == 'table' then
+      copy = {}
+      for orig_key, orig_value in pairs(orig) do
+	 copy[orig_key] = orig_value
+      end
+   else -- number, string, boolean, etc
+      copy = orig
+   end
+   return copy
+end
+
+local compressTableKeys = function (t)
+   -- Return the table with all keys in numerical order without gaps.
+   -- Taken from http://www.computercraft.info/forums2/index.php?/topic/18380-how-do-i-remove-gaps-in-an-ordered-list/.
+    local keySet = {}
+    for i in pairs(t) do
+        table.insert(keySet, i)
+    end
+    
+    table.sort(keySet)
+    
+    local retVal = {}
+    for i = 1, #keySet do
+        retVal[i] = t[keySet[i]]
+    end
+    
+    return retVal
+end
+
+-- housekeeping mission functions
+-- ==============================
+
+local addMission = function (mission)
+   -- Add the supplied mission to the player, generate a unique ID and store this mission within the script.
+   table.insert(missions,Mission.New(mission))
+end
+
+local removeMission = function (mission)
+   -- Remove the supplied mission from the player and from the internal mission storage within the script.
+   local ref
+   for i,v in pairs(missions) do
+      if v == mission then
+	 ref = i
+	 break
+      end
+   end
+   mission:Remove()
+   missions[ref] = nil
+end 
+
+
+-- basic mission functions
+-- =======================
+
+-- This function returns the number of flavours of the given string str
+-- It is assumed that the first flavour has suffix '_1'
+local getNumberOfFlavours = function (str)
+   -- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
+   -- Taken from CargoRun.lua.
+	local num = 1
+	while l[str .. "_" .. num] do
+		num = num + 1
+	end
+	return num - 1
+end
+
+local mToAU = function (meters)
+   -- Transform meters into AU.
+   return meters/149598000000
+end
+
+local splitName = function (name)
+   -- Splits the supplied name into first and last name and returns a table of both separately.
+   -- Idea from http://stackoverflow.com/questions/2779700/lua-split-into-words.
+   local names = {}
+   for word in name:gmatch("%w+") do table.insert(names, word) end
+   return names
+end
+
+local decToDegMinSec = function (coord)
+   -- Converts geographic coordinates from decimal to degree/minutes/seconds format
+   -- and returns a string.
+   local degrees = math.floor(coord)
+   local minutes = math.floor(60*(coord - degrees))
+   local seconds = math.floor(3600 * ((coord - degrees) - minutes / 60))
+   local str = string.format("%i° %i' %i\"", degrees, minutes, seconds)
+   return str
+end
+
+local getAircontrolChar = function (spacestation)
+   -- Get the correct aircontrol character for the supplied spacestation. If it does not exist
+   -- create one and store it.
+   if containerContainsKey(aircontrol_chars, spacestation) then
+      return aircontrol_chars[spacestation]
+   else
+      local char = Character.New()
+      aircontrol_chars[spacestation] = char
+      return char
+   end
+end
+
+local randomLatLong = function (station)
+   -- Provide a set of random latitude and longitude coordinates for ship placement that are:
+   -- (a) random, within max_close_dist from starting base if base is provided, or
+   -- (b) completely random.
+   local lat, long, dist
+
+   -- calc new lat/lon based on distance and bearing
+   -- formulas taken from http://www.movable-type.co.uk/scripts/latlong.html
+   if station then
+      local old_lat, old_long = station:GetGroundPosition()
+      local planet_radius = station.path:GetSystemBody().parent.radius / 1000
+      local bearing = math.rad(Engine.rand:Number(0,360))
+      dist = Engine.rand:Integer(1,max_close_dist)  -- min distance is 1 km
+      lat = math.asin(math.sin(old_lat) * math.cos(dist/planet_radius) + math.cos(old_lat) *
+			 math.sin(dist/planet_radius) * math.cos(bearing))
+      long = old_long + math.atan2(math.sin(bearing) * math.sin(dist/planet_radius) * math.cos(old_lat),
+				   math.cos(dist/planet_radius) - math.sin(old_lat) * math.sin(lat))
+   else
+      lat = Engine.rand:Number(-90,90)
+      lat = math.rad(lat)
+      long = Engine.rand:Number(-180,180)
+      long = math.rad(long)
+   end
+   return lat, long, dist
+end
+
+local shipdefFromName = function (shipdef_name)
+   -- Return the corresponding shipdef for the supplied shipdef name. Necessary because serialization
+   -- crashes if actual shipdef is stored in ad. There may be a smarter way to do this!
+   local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
+					    and def.name == shipdef_name end, pairs(ShipDef)))
+   return shipdefs[1]
+end
+
+local crewPresent = function (ship)
+   -- Check if any crew is present on the ship.
+   if ship:CrewNumber() > 0 then
+      return true
+   else
+      return false
+   end
+end
+ 
+local passengersPresent = function (ship)
+   -- Check if any passengers are present on the ship.
+   if ship:CountEquip(Equipment.misc.cabin_occupied) > 0 then
+      return true
+   else
+      return false
+   end
+end
+
+local passengerSpace = function (ship)
+   -- Check if the ship has space for passengers.
+   if ship:CountEquip(Equipment.misc.cabin) > 0 then
+      return true
+   else
+      return false
+   end
+end
+
+local cargoPresent = function (ship, item)
+   -- Check if this cargo item is present on the ship.
+   if ship:CountEquip(item) > 0 then
+      return true
+   else
+      return false
+   end
+end
+
+local cargoSpace = function (ship)
+   -- Check if the ship has space for additional cargo.
+   -- TODO: GetEquipFree("cargo") does not seem to work right - issue submitted.
+   if ship:GetEquipFree("cargo") > 0 then
+      return true
+   else
+      return false
+   end
+end
+
+local addCrew = function (ship, crew_member)
+   -- Add a crew member to the supplied ship.
+   if ship:CrewNumber() == ship.maxCrew then return end
+   if not crew_member then
+      crew_member = Character.New()
+   end
+   ship:Enroll(crew_member)
+end
+
+local removeCrew = function (ship)
+   -- Remove a crew member from the supplied ship.
+   if ship:CrewNumber() == 0 then return end
+   local crew_member
+   for member in ship:EachCrewMember() do
+      crew_member = member
+      break
+   end
+   ship:Dismiss(crew_member)
+   return crew_member
+end
+
+local addPassenger = function (ship)
+   -- Add a passenger to the supplied ship.
+   if not passengerSpace(ship) then return end
+   ship:RemoveEquip(Equipment.misc.cabin, 1)
+   ship:AddEquip(Equipment.misc.cabin_occupied, 1)
+end
+
+local removePassenger = function (ship)
+   -- Remove a passenger from the supplied ship.
+   if not passengersPresent(ship) then return end
+   ship:RemoveEquip(Equipment.misc.cabin_occupied, 1)
+   ship:AddEquip(Equipment.misc.cabin, 1)
+end
+
+local addCargo = function (ship, item)
+   -- Add a ton of the supplied cargo item to the ship.
+   if not cargoSpace(ship) then return end
+   ship:AddEquip(Equipment.cargo.hydrogen, 1)
+end
+
+local removeCargo = function (ship, item)
+   -- Remove a ton of the supplied cargo item from the ship.
+   if not cargoPresent(ship, item) then return end
+   ship:RemoveEquip(item, 1)
+end
+
+local passEquipmentRequirements = function (requirements)
+   -- Check if player ship passes equipment requirements for this mission.
+   if requirements == {} then return true end
+   for equipment,amount in pairs(requirements) do
+      if Game.player:CountEquip(equipment) < amount then return false end
+   end
+   return true
+end
+
+local isQualifiedFor = function(ad)
+   -- Return if player is qualified for this mission. Used for example by ads to determine if they are
+   -- enabled or disabled for selection on the banter board of if certain missions can be accepted.
+   -- TODO: enable reputation based qualifications
+
+   -- collect equipment requirements per mission flavor
+   local requirements = {}
+   local empty_cabins = ad.pickup_crew + ad.deliver_crew + ad.pickup_pass + ad.deliver_pass
+   if empty_cabins > 0 then requirements[Equipment.misc.cabin] = empty_cabins end
+   if not passEquipmentRequirements(requirements) then return false end
+   return true
+end
+
+-- extended mission functions
+-- ==========================
+
+local calcReward = function (flavour)
+   -- Calculate the appropriate reward for this mission.
+   -- TODO: Extend for other mission types.
+   -- TODO: Adjust based on urgency + risk?
+   if flavour.loctype == "CLOSE_PLANET" or flavour.loctype == "CLOSE_SPACE" then
+      reward = reward_close + Engine.rand:Number(reward_close / 2 * -1, reward_close / 2)
+   elseif flavour.loctype == "MEDIUM_PLANET" then
+      reward = reward_medium + Engine.rand:Number(reward_medium / 2 * -1, reward_medium / 2)
+   elseif flavour.loctype == "FAR_SPACE" then
+      reward = reward_far + Engine.rand:Number(reward_far / 2 * -1, reward_far / 2)
+   end
+   return reward
+end
+
+local createTargetShipParameters = function (flavour, deliver_crew, pickup_crew, pickup_pass)
+   -- Create the basic parameters for the target ship. It is important to set these before ad creation
+   -- so certain info can be included in the ad text. The actual ship is created once the mission has
+   -- been accepted.
+   local shipdef, crew_num, shiplabel
+
+   -- pick appropriate hull type
+   -- TODO: Make sure ships in distant systems normally have a hyperdrive
+   local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
+						   end, pairs(ShipDef)))
+
+   ----> hyperdrive if stranded in "far space" (possibility of uninhabited system)
+   if flavour.loctype == "FAR_SPACE" then
+      for i,shipdef in pairs(shipdefs) do
+	 local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
+	 if not default_drive then shipdefs[i] = nil end
+      end
+   end
+   
+   ----> atmo-shield if ship stranded on planet
+   if flavour.loctype == "CLOSE_PLANET" or flavour.loctype == "MEDIUM_PLANET" then
+      for i,shipdef in pairs(shipdefs) do
+	 if shipdef.equipSlotCapacity.atmo_shield == 0 then shipdefs[i] = nil end
+      end
+   end
+   ----> crew quarters for crew delivery missions
+   if deliver_crew > 0 then
+      for i,shipdef in pairs(shipdefs) do
+	 if shipdef.maxCrew <= deliver_crew+1 then shipdefs[i] = nil end
+      end
+   end
+   ----> crew quarters for crew pickup missions
+   if pickup_crew > 0 then
+      for i,shipdef in pairs(shipdefs) do
+	 if shipdef.maxCrew < pickup_crew then shipdefs[i] = nil end
+      end
+   end
+   ----> cargo space for passenger pickup missions
+   ----  (this is just an estimate to make sure enough space remains after loading drive, weapons etc.
+   if pickup_pass > 0 then
+      for i,shipdef in pairs(shipdefs) do
+	 if shipdef.capacity * 10 < pickup_pass then shipdefs[i] = nil end
+      end
+   end
+   
+   if arraySize(shipdefs) == 0 then
+      print("Could not find appropriate ship type for this mission!")
+      return
+   end
+   shipdefs = compressTableKeys(shipdefs)
+   shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+
+   -- number of crew
+   if pickup_crew > 0 then
+      crew_num = pickup_crew
+   else
+      crew_num = Engine.rand:Integer(shipdef.minCrew,shipdef.maxCrew)
+      crew_num = crew_num - flavour.deliver_crew
+      if crew_num <= 0 then crew_num = 1 end
+   end
+
+   -- label
+   shiplabel = Ship.MakeRandomLabel()
+
+   return shipdef, crew_num, shiplabel
+end
+
+local createTargetShip = function (mission)
+   -- Create the target ship to be search for.
+   local ship
+   local shipdef = shipdefFromName(mission.shipdef_name)
+
+   -- create ship
+   if mission.flavour.loctype == "CLOSE_PLANET" then
+      ship = Space.SpawnShipLanded(shipdef.id, Space.GetBody(mission.planet_target.bodyIndex), mission.lat, mission.long)
+   elseif mission.flavour.loctype == "MEDIUM_PLANET" then
+      ship = Space.SpawnShipLanded(shipdef.id, Space.GetBody(mission.planet_target.bodyIndex), mission.lat, mission.long)
+   elseif mission.flavour.loctype == "CLOSE_SPACE" then
+      ship = Space.SpawnShipNear(shipdef.id, Space.GetBody(mission.station_target.bodyIndex), mission.dist, mission.dist)
+   elseif mission.flavour.loctype == "FAR_SPACE" then
+      ship = Space.SpawnShipNear(shipdef.id, Space.GetBody(mission.planet_target.bodyIndex), far_space_orbit_dist, far_space_orbit_dist)
+      ship:AIEnterHighOrbit(Space.GetBody(mission.planet_target.bodyIndex))
+   end
+   
+      
+   -- misc ship settings (label, crew)
+   ship:SetLabel(mission.shiplabel)
+   for i = 1, mission.crew_num do
+      ship:Enroll(Character.New())
+   end
+       
+   -- load a hyperdrive (if appropriate)
+   local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
+   if default_drive then ship:AddEquip(default_drive) end
+   
+
+   -- load a laser
+   local max_laser_size
+   if default_drive then
+      max_laser_size = shipdef.capacity - default_drive.capabilities.mass
+   else
+      max_laser_size = shipdef.capacity
+   end
+   local laserdefs = utils.build_array(utils.filter(function (k,l) return l:IsValidSlot('laser_front')
+						and l.capabilities.mass <= max_laser_size
+					     and l.l10n_key:find("PULSECANNON") end, pairs(Equipment.laser)))
+   local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
+   ship:AddEquip(laserdef)
+   
+   -- load passengers
+   if mission.pickup_pass > 0 then
+      ship:AddEquip(Equipment.misc.cabin_occupied, mission.pickup_pass)
+   end
+
+   -- load atmo_shield
+   local shipdef = shipdefFromName(mission.shipdef_name)
+   if shipdef.equipSlotCapacity.atmo_shield ~= 0 then
+      ship:AddEquip(Equipment.misc.atmospheric_shielding)
+   end
+
+   return ship
+end
+
+local onChat = function (form, ref, option)
+   -- Ad has been clicked on in banter board.
+   local ad = ads[ref]
+   form:Clear()
+   
+   if option == -1 then
+      form:Close()
+      return
+   end
+
+   form:SetFace(ad.client)
+
+--   TODO: work out a better system for equipment qualification check
+--   local qualified = isQualifiedFor(ad)
+--   if not qualified then
+--      local denytext = string.interp(l.EQUIPMENT, {cabins = ad.pickup_crew + ad.deliver_crew +
+--						      ad.pickup_pass + ad.deliver_pass})
+--      form:SetMessage(denytext)
+--      return
+   --   end
+
+   if option == 0 then
+
+      local dist
+      if ad.flavour.loctype == "CLOSE_PLANET" or ad.flavour.loctype == "CLOSE_SPACE" then
+	 dist = string.format("%.0f", ad.dist)
+      else
+	 dist = string.format("%.2f", ad.dist)
+      end
+      
+      local introtext = string.interp(ad.flavour.introtext, {
+					 name         = ad.client.name,
+					 entity       = ad.entity,
+					 problem      = ad.problem,
+					 cash         = Format.Money(ad.reward),
+					 ship         = ad.shipdef_name,
+					 crew         = ad.crew_num,
+					 pass         = ad.pickup_pass,
+					 deliver_crew = ad.deliver_crew,
+					 starport     = ad.station_local:GetSystemBody().name,
+					 shiplabel    = ad.shiplabel,
+					 system       = ad.system_target:GetStarSystem().name,
+					 sectorx      = ad.system_target.sectorX,
+					 sectory      = ad.system_target.sectorY,
+					 sectorz      = ad.system_target.sectorZ,
+					 dist         = dist,
+					 lat          = decToDegMinSec(math.rad2deg(ad.lat)),
+					 long         = decToDegMinSec(math.rad2deg(ad.long)),
+					 planet       = ad.planet_target:GetSystemBody().name
+      })
+      form:SetMessage(introtext)
+      
+   elseif option == 1 then
+      form:SetMessage(ad.flavour.whysomuchtext)
+
+   elseif option == 2 then
+      local howmuchtimetext = string.interp(ad.flavour.howmuchtimetext, {due = Format.Date(ad.due)})
+      form:SetMessage(howmuchtimetext)
+
+   elseif option == 3 then
+      form:SetMessage(l.I_HIGHLY_DOUBT_IT)
+      
+   elseif option == 4 then
+
+      -- TODO: work out a better system for equipment qualification check (add cargo space check + reputation)
+      local qualified = isQualifiedFor(ad)
+      if not qualified then
+	 local cabins = ad.pickup_crew + ad.deliver_crew + ad.pickup_pass + ad.deliver_pass
+	 local denytext = string.interp(l.EQUIPMENT, {unit = cabins, equipment = l.UNOCCUPIED_PASSENGER_CABINS})
+	 form:SetMessage(denytext)
+	 return
+      end
+
+
+      form:RemoveAdvertOnClose()
+      ads[ref] = nil
+	 
+      local mission = {
+	 -- these variables are hardcoded and need to be filled
+	 type	            = "searchrescue",
+	 client             = ad.client,
+	 location           = ad.location,
+	 due                = ad.due,
+	 reward             = ad.reward,
+	 status             = "ACTIVE",
+
+	 -- these variables are script specific
+	 station_local      = ad.station_local,
+	 planet_local       = ad.planet_local,
+	 system_local       = ad.system_local,
+	 station_target     = ad.station_target,
+	 planet_target      = ad.planet_target,
+	 system_target      = ad.system_target,
+	 entity             = ad.entity,
+	 problem            = ad.problem,
+	 dist               = ad.dist,
+	 flavour            = ad.flavour,
+	 target             = "NIL",
+	 lat                = ad.lat,
+	 long               = ad.long,
+	 shipdef_name       = ad.shipdef_name,
+	 shiplabel          = ad.shiplabel,
+	 crew_num           = ad.crew_num,
+
+	 -- "..._orig" => original variables from ad
+	 pickup_crew_orig   = ad.pickup_crew,
+	 pickup_pass_orig   = ad.pickup_pass,
+	 pickup_comm_orig   = copyTable(ad.pickup_comm),
+	 deliver_crew_orig  = ad.deliver_crew,
+	 deliver_pass_orig  = ad.deliver_pass,
+	 deliver_comm_orig  = copyTable(ad.deliver_comm),
+
+	 -- variables are changed based on completion status
+	 pickup_crew        = ad.pickup_crew,
+	 pickup_pass        = ad.pickup_pass,
+	 pickup_comm        = copyTable(ad.pickup_comm),
+	 deliver_crew       = ad.deliver_crew,
+	 deliver_pass       = ad.deliver_pass,
+	 deliver_comm       = copyTable(ad.deliver_comm),
+	 
+	 pickup_crew_check  = "NOT",
+	 pickup_pass_check  = "NOT",
+	 pickup_comm_check  = {},
+	 deliver_crew_check = "NOT",
+	 deliver_pass_check = "NOT",
+	 deliver_comm_check = {},
+	 cargo_pass         = {},
+	 cargo_comm         = {},
+	 searching          = false    -- makes sure only one search is active for this mission (function "searchForTarget")
+      }
+
+      -- create target ship if in the same systems, otherwise create when jumping there
+      if mission.flavour.loctype ~= "FAR_SPACE" then
+	 mission.target = createTargetShip(mission)
+      end
+
+      -- load crew/passenger
+      if ad.deliver_crew > 0 then
+	 for i=1,ad.deliver_crew do
+	    local passenger = Character.New()
+	    addPassenger(Game.player)
+	    table.insert(mission.cargo_pass, passenger)
+	 end
+      end
+      if ad.deliver_pass > 0 then
+	 for i=1,ad.deliver_pass do
+	    local passenger = Character.New()
+	    addPassenger(Game.player)
+	    table.insert(mission.cargo_pass, passenger)
+	 end
+      end
+
+      form:SetMessage(l.THANK_YOU_ACCEPTANCE_TXT)
+      addMission(mission)
+      return
+   end
+
+   form:AddOption(l.WHY_SO_MUCH_MONEY, 1)
+   form:AddOption(l.HOW_MUCH_TIME, 2)
+   form:AddOption(l.WILL_I_BE_IN_ANY_DANGER, 3)
+   form:AddOption(l.COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST, 0)
+   form:AddOption(l.OK_AGREED, 4)
+end
+
+local onDelete = function (ref)
+   ads[ref] = nil
+end
+
+local isEnabled = function (ref)
+   -- Called from within ad to enable or disable it for selecton on the banter board.
+   -- TODO: possibly integrate reputation based qualification filter
+   return true
+end
+
+--local nearbysystems
+
+local findNearbyStations = function (vacuum, body)
+   -- Return a list with stations within this system sorted by distance from supplied body (ascending). If vacuum is set to true
+   -- then only return orbital stations
+   local nearbystations_raw = {}
+   local nearbystations_dist = {}
+   local nearbystations = {}
+
+   -- get station bodies within current system depending on vacuum variable
+   if vacuum == true then
+      nearbystations_raw = Space.GetBodies(function (body)
+	    return body.superType == 'STARPORT' and (body.type == 'STARPORT_ORBITAL' or (not body.path:GetSystemBody().parent.hasAtmosphere)) end)
+   else
+      nearbystations_raw = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
+   end
+
+   -- determine distance to body
+   for _,station in pairs(nearbystations_raw) do
+      if station ~= body then
+	 local dist = body:DistanceTo(station)
+	 table.insert(nearbystations_dist, {station, dist})
+      end
+   end
+
+   -- sort stations by distance to body (ascending)
+   table.sort(nearbystations_dist, function (a,b) return a[2] < b[2] end)
+   count = 1
+   for _,data in ipairs(nearbystations_dist) do
+      table.insert(nearbystations, data[1].path)
+   end
+   return nearbystations
+end
+
+local findNearbyPlanets = function (station)
+   -- Return list of all rocky planets in the system (excluding the planet the station is on), sorted by
+   -- distance from the station.
+   local nearbyplanets_raw = {}
+   local nearbyplanets_dist = {}
+   local nearbyplanets = {}
+
+   -- get rocky planets (except the one the station is on)
+   for _,path in pairs(Game.system:GetBodyPaths()) do
+      local sbody = path:GetSystemBody()
+      if sbody.superType == "ROCKY_PLANET" then
+	 if sbody ~= station.path:GetSystemBody().parent then
+	    table.insert(nearbyplanets_raw, Space.GetBody(sbody.index))
+	 end
+      end
+   end
+
+   -- determine distance to player system
+   for _,planet in pairs(nearbyplanets_raw) do
+      local dist = station:DistanceTo(planet)
+      table.insert(nearbyplanets_dist, {planet, dist})
+   end
+
+   -- sort planets by distance to station (ascending)
+   table.sort(nearbyplanets_dist, function (a,b) return a[2] < b[2] end)
+   count = 1
+   for _,data in ipairs(nearbyplanets_dist) do
+      table.insert(nearbyplanets, data[1].path)
+   end
+
+   return nearbyplanets
+end
+
+local findNearbySystems = function (with_stations)
+   -- Return list of systems within max_mission_dist distance and sorted by distance from player system (ascending).
+   local nearbysystems_raw = {}
+   local nearbysystems_dist = {}
+   local nearbysystems = {}
+
+   -- get systems (either inhabited or not - depending on variable with_stations)
+   if with_stations == true then
+      nearbysystems_raw = Game.system:GetNearbySystems(max_mission_dist, function (s) return #s:GetStationPaths() > 0 end)
+   else
+      nearbysystems_raw = Game.system:GetNearbySystems(max_mission_dist, function (s) return #s:GetStationPaths() == 0 end)
+   end
+
+   -- determine distance to player system
+   for _,system in pairs(nearbysystems_raw) do
+      local dist = Game.system:DistanceTo(system)
+      table.insert(nearbysystems_dist, {system, dist})
+   end
+
+   -- sort systems by distance to player system (ascending)
+   table.sort(nearbysystems_dist, function (a,b) return a[2] < b[2] end)
+   count = 1
+   for _,data in ipairs(nearbysystems_dist) do
+      table.insert(nearbysystems, data[1].path)
+   end
+   return nearbysystems
+end
+
+local randomPlanet = function (system)
+   -- Return random planet located in the provided system.
+   local planets = {}
+   local paths = system:GetBodyPaths()
+   for i,path in pairs(paths) do
+      local sbody = path:GetSystemBody()
+      local supertype = sbody.superType
+      if supertype == "ROCKY_PLANET" or supertype == "GAS_GIANT" then
+	 table.insert(planets, path)
+      end
+   end
+   if #planets > 0 then return planets[Engine.rand:Integer(1,#planets)] else return nil end
+end
+
+local flyToNearbyStation =  function (ship)
+   -- Fly the supplied ship to the closest station. If no station is in the system then jump to the
+   -- closest system that does have a station and fly there.
+
+   --TODO: Test for hyperjumping
+   
+   -- check if ship has atmo shield and limit to vacuum starports if not
+   local vacuum = false
+   if ship:CountEquip(Equipment.misc.atmospheric_shielding) == 0 then
+      vacuum = true
+   end
+
+   local nearbysystems   
+   local nearbystations = findNearbyStations(vacuum, ship)
+
+   if #nearbystations > 0 then
+
+      -- blast off ship if LANDED
+      if ship.flightState == "LANDED" then
+	 ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
+	 Timer:CallAt(Game.time + 5, function () ship:AIDockWith(Space.GetBody(nearbystations[1].bodyIndex)) end)
+      else
+	 ship:AIDockWith(Space.GetBody(nearbystations[1].bodyIndex))
+      end
+   else
+      local with_stations = true
+      nearbysystems = findNearbySystems(with_stations)
+      if #nearbysystems > 0 then
+	 local status, fuel, duration = ship:HyperjumpTo(nearbysystems[1])
+      else
+	 return
+      end
+   end
+end
+
+local makeAdvert = function (station, manualFlavour)
+   local reward, due, dist, client, entity, problem, location
+   local lat = 0
+   local long = 0
+   -- Make advertisement for bulletin board.
+
+   -- set flavour (manually if a second arg is given)
+   local flavour = flavours[manualFlavour] or flavours[Engine.rand:Integer(1,#flavours)]
+
+   -- abort if flavour incompatible with space station type
+   if flavour.loctype == "CLOSE_PLANET" and station.isGroundStation == false then return end
+   if flavour.loctype == "CLOSE_SPACE" and station.isGroundStation == true then return end
+   
+   local urgency = flavour.urgency
+   local reward = calcReward(flavour)
+
+   -- TODO: this will have to be adjusted for missions outside of BBS announcements
+   local station_local = station.path
+   local planet_local = Space.GetBody(station_local:GetSystemBody().parent.index).path
+   local system_local = Game.system.path
+
+   local station_target, planet_target, system_target
+   if flavour.loctype == "CLOSE_PLANET" then
+      station_target = station_local
+      planet_target = planet_local
+      system_target = system_local
+      location = planet_target
+      lat, long, dist = randomLatLong(station)
+      due = Game.time + 60 * 60 * Engine.rand:Number(2,24)        --TODO: adjust due date based on urgency
+
+   elseif flavour.loctype == "MEDIUM_PLANET" then
+      local nearbyplanets = findNearbyPlanets(station)
+      if #nearbyplanets == 0 then return nil end
+      station_target = nil
+      planet_target = nearbyplanets[Engine.rand:Integer(1,#nearbyplanets)]
+      system_target = system_local
+      location = planet_target
+      lat, long, dist = randomLatLong()
+      dist = Space.GetBody(planet_local.bodyIndex):DistanceTo(Space.GetBody(planet_target.bodyIndex))  -- overriding empty dist from randomLatLong()
+      due = Game.time + (mToAU(dist) * 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
+      
+   elseif flavour.loctype == "CLOSE_SPACE" then
+      station_target = station_local
+      planet_target = planet_local
+      system_target = system_local
+      location = planet_target
+      dist = Engine.rand:Integer(1,max_close_space_dist)  -- minimum of 1 km distance from station
+      due = Game.time + (60 * 60 * Engine.rand:Number(2,24))        --TODO: adjust due date based on urgency
+
+   elseif flavour.loctype == "FAR_SPACE" then
+      local nearbysystems = findNearbySystems(false)  -- setup to only return systems without stations
+      station_target = nil
+      system_target = nearbysystems[Engine.rand:Integer(1,#nearbysystems)]
+      if not system_target then return nil end
+      planet_target = randomPlanet(system_target:GetStarSystem())
+      if not planet_target then return nil end
+      location = planet_target
+      dist = system_local:DistanceTo(system_target)
+      due = Game.time + (5 * dist + 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
+   end
+
+   -- determine pickup and deliver of items/personnel based on flavour
+   -- appropriate target ship size will be selected later based on this
+   local pickup_crew, pickup_pass, pickup_comm, deliver_crew, deliver_pass, deliver_comm
+   if flavour.id == 1 or flavour.id == 6 then
+      pickup_crew  = Engine.rand:Integer(1, max_crew)
+      pickup_pass  = Engine.rand:Integer(0, max_pass)
+   else
+      pickup_crew  = flavour.pickup_crew
+      pickup_pass  = flavour.pickup_pass
+   end
+
+   if flavour.id == 7 then
+      deliver_crew = Engine.rand:Integer(1, max_crew-1)
+   else
+      deliver_crew = flavour.deliver_crew
+   end
+
+   deliver_pass = flavour.deliver_pass
+   pickup_comm = copyTable(flavour.pickup_comm)
+   deliver_comm = copyTable(flavour.deliver_comm)
+
+   -- collect possible local localities for interesting ad texts
+   local localities_local = {system_local:GetStarSystem().name}
+   if station_local then
+      table.insert(localities_local, station_local:GetSystemBody().name)
+   end
+   if planet_local then
+      table.insert(localities_local, planet_local:GetSystemBody().name)
+   end
+   
+   -- collect possible target localities for interesting ad texts
+   local localities_target = {system_target:GetStarSystem().name}
+   if station_target then
+      table.insert(localities_target, station_target:GetSystemBody().name)
+   end
+   if planet_target then
+      table.insert(localities_target, planet_target:GetSystemBody().name)
+   end
+
+   -- select appropriate posting client, entity, problem
+   if flavour.id == 6 then
+      client = Character.New()
+
+      -- select posting entity
+      local entity_types = {"ENTITY_RESEARCH", "ENTITY_GENERAL"}
+      local entity_type = entity_types[Engine.rand:Integer(1, #entity_types)]
+      entity = string.interp(l[entity_type .. "_" .. Engine.rand:Integer(1, getNumberOfFlavours(entity_type))],
+				   {locality = localities_local[Engine.rand:Integer(1,#localities_local)]})
+
+      -- select problem
+      local problem_type
+      if entity_type == "ENTITY_RESEARCH" then problem_type = "PROBLEM_RESEARCH"
+      else problem_type = "PROBLEM_GENERAL" end
+      problem = string.interp(l[problem_type .. "_" ..Engine.rand:Integer(1, getNumberOfFlavours(problem_type))],
+			      {locality = localities_target[Engine.rand:Integer(1,#localities_target)]})
+
+   elseif flavour.id == 7 then
+      client = Character.New()
+      local lastname = splitName(client.name)[2]
+
+      -- select posting entity
+      entity = string.interp(l["ENTITY_FAMILY_BUSINESS_" .. Engine.rand:Integer(1, getNumberOfFlavours("ENTITY_FAMILY_BUSINESS"))],
+			     {locality = localities_local[Engine.rand:Integer(1,#localities_local)],
+			      name = lastname})
+
+      -- select problem
+      problem = string.interp(l["PROBLEM_CREW_" .. Engine.rand:Integer(1, getNumberOfFlavours("PROBLEM_CREW"))],
+				    {locality = localities_target[Engine.rand:Integer(1,#localities_target)]})
+   else
+      client = getAircontrolChar(station)
+   end
+   
+   -- set target ship parameters
+   local shipdef, crew_num, shiplabel = createTargetShipParameters(flavour, deliver_crew, pickup_crew, pickup_pass)
+
+   local ad = {
+      location       = location,
+      station_local  = station_local,
+      planet_local   = planet_local,
+      system_local   = system_local,
+      station_target = station_target,
+      planet_target  = planet_target,
+      system_target  = system_target,
+      flavour	     = flavour,
+      client	     = client,
+      entity         = entity,
+      problem        = problem,
+      dist           = dist,
+      due	     = due,
+      urgency	     = urgency,
+      reward         = reward,
+      shipdef_name   = shipdef.name, -- saving the actual shipdef causes crash at serialization (ship undock)
+      crew_num       = crew_num,
+      pickup_crew    = pickup_crew,
+      pickup_pass    = pickup_pass,
+      pickup_comm    = pickup_comm,
+      deliver_crew   = deliver_crew,
+      deliver_pass   = deliver_pass,
+      deliver_comm   = deliver_comm,
+      shiplabel      = shiplabel,
+      lat            = lat,
+      long           = long
+   }
+
+   local staport_label, planet_label, system_label
+   if station_target then starport_label = station_target:GetSystemBody().name else starport_label = nil end
+   if planet_target then planet_label = planet_target:GetSystemBody().name else planet_label = nil end
+   if system_target then system_label = system_target:GetStarSystem().name else system_label = nil end
+   ad.desc = string.interp(flavour.adtext, {starport = starport_label,
+					    planet = planet_label,
+					    system = system_label})
+   
+   local ref = station:AddAdvert({
+	 description = ad.desc,
+	 icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+	 onChat      = onChat,
+	 onDelete    = onDelete,
+	 isEnabled   = isEnabled })
+   ads[ref] = ad
+   
+   -- successfully created an advert, return non-nil
+   return ad
+end
+
+local missionStatus = function (mission)
+   -- Return the completion status of the mission.
+   local status = "NOT"
+   if mission.pickup_crew_check == "COMPLETE" or mission.pickup_pass_check == "COMPLETE" or
+   mission.deliver_crew_check == "COMPLETE" or mission.pickup_pass_check == "COMPLETE" then
+      status = "COMPLETE"
+   end
+   for commodity,_ in pairs(mission.pickup_comm_check) do
+      if mission.pickup_comm_check[commodity] == "COMPLETE" then
+	 status = "COMPLETE"
+      end
+   end
+   for commodity,_ in pairs(mission.deliver_comm_check) do
+      if mission.deliver_comm_check[commodity] == "COMPLETE" then
+	 status = "COMPLETE"
+      end
+   end
+   if mission.pickup_crew_check == "PARTIAL" or mission.pickup_crew_check == "ABORT" or
+      mission.pickup_pass_check == "PARTIAL" or mission.pickup_pass_check == "ABORT" or
+      mission.deliver_crew_check == "PARTIAL" or mission.deliver_crew_check == "ABORT" or
+   mission.deliver_pass_check == "PARTIAL" or mission.deliver_pass_check == "ABORT" then
+      status = "PARTIAL"
+   end
+   for commodity,_ in pairs(mission.pickup_comm_check) do
+      if mission.pickup_comm_check[commodity] == "PARTIAL" or mission.pickup_comm_check[commodity] == "ABORT" then
+	 status = "PARTIAL"
+      end
+   end
+   for commodity,_ in pairs(mission.deliver_comm_check) do
+      if mission.deliver_comm_check[commodity] == "PARTIAL" or mission.pickup_comm_check[commodity] == "ABORT" then
+	 status = "PARTIAL"
+      end
+   end
+   return status
+end
+
+local missionStatusReset = function (mission)
+   -- Reset the mission status to "NOT". This is important when cargo for a partially completed
+   -- mission has been unloaded.
+   if mission.pickup_crew_check == "PARTIAL" then mission.pickup_crew_check = "NOT" end
+   if mission.pickup_pass_check == "PARTIAL" then mission.pickup_pass_check = "NOT" end
+   if mission.deliver_crew_check == "PARTIAL" then mission.deliver_crew_check = "NOT" end
+   if mission.deliver_pass_check == "PARTIAL" then mission.deliver_pass_check = "NOT" end
+   for commodity,_ in pairs(mission.pickup_comm_check) do
+      if mission.pickup_comm_check[commodity] == "PARTIAL" then mission.pickup_comm_check[commodity] = "NOT" end
+   end
+   for commodity,_ in pairs(mission.deliver_comm_check) do
+      if mission.deliver_comm_check[commodity] == "PARTIAL" then mission.pickup_comm_check[commodity] = "NOT" end
+   end
+end
+
+-- TODO: Test new mission closure
+local closeMission = function (mission)
+   -- Close mission and provide reward if appropriate.
+   local reward
+
+   -- determine reward points to add to or subtract from player's records
+   local oldReputation = Character.persistent.player.reputation
+   if mission.loctype == "CLOSE_PLANET" or mission.loctype == "CLOSE_SPACE" then
+      delta_reputation = 0.5
+   elseif mission.loctype == "MEDIUM_PLANET" then
+      delta_reputation = 0.75
+   else
+      delta_reputation = 1
+   end
+
+   -- if mission due date has passed
+   if Game.time > mission.due then
+      Comms.ImportantMessage(mission.flavour.failuremsg)
+      Character.persistent.player.reputation = Character.persistent.player.reputation - delta_reputation
+      Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+		  Character.persistent.player.reputation, Character.persistent.player.killcount)
+      removeMission(mission)
+
+      -- if mission is still on time
+   else
+      -- mission has been completed
+      if missionStatus(mission) == "COMPLETE" then
+	 local successtxt = string.interp(mission.flavour.successmsg, {cash = Format.Money(mission.reward)})
+	 Comms.ImportantMessage(successtxt)
+	 Game.player:AddMoney(mission.reward)
+	 Character.persistent.player.reputation = Character.persistent.player.reputation + delta_reputation
+	 Event.Queue("onReputationChanged", oldReputation, Character.persistent.player.killcount,
+		     Character.persistent.player.reputation, Character.persistent.player.killcount)
+	 removeMission(mission)
+	 
+      -- if mission has been partially completed
+      elseif missionStatus(mission) == "PARTIAL" then
+	 Comms.ImportantMessage(l.PARTIAL)
+	 missionStatusReset(mission)
+      end
+   end
+   
+   -- clear player cargo
+   -- TODO: what to do if player got rid of mission commodity cargo in between (sold?)
+   for i=1,arraySize(mission.cargo_pass) do
+      removePassenger(Game.player)
+   end
+   for commodity,amount in pairs(mission.cargo_comm) do
+      for i=1,mission.cargo_comm[commodity] do
+	 removeCargo(Game.player, commodity)
+      end
+   end
+end
+
+local targetInteractionDistance = function (mission)
+   -- Determine if player is within interaction distance from mission target.
+   if Game.player:DistanceTo(mission.target) <= min_interaction_dist then
+      return true
+   else
+      return false
+   end
+end
+
+local pickupCrew = function (mission)
+   -- Pickup a single crew member from the target ship.
+   -- Called during timer loop within "interactWithTarget".
+   local todo = mission.pickup_crew_orig
+   
+   -- error messages if not all parameters met
+   if not crewPresent(mission.target) then
+      Comms.ImportantMessage(l.MISSING_CREW)
+      mission.pickup_crew_check = "PARTIAL"
+      return
+   elseif not passengerSpace(Game.player) then
+      Comms.ImportantMessage(l.FULL_PASSENGERS)
+      local done = mission.pickup_crew_orig - mission.pickup_crew
+      local resulttxt = string.interp(l.RESULT_PICKUP_CREW, {todo = todo, done = done})
+      Comms.ImportantMessage(resulttxt)
+      if mission.pickup_pass > 0 then
+	 local todo = mission.pickup_pass_orig
+	 local done = mission.pickup_pass_orig - mission.pickup_pass
+	 local resulttxt = string.interp(l.RESULT_PICKUP_PASS, {todo = todo, done = done})
+	 Comms.ImportantMessage(resulttxt)
+      end
+      mission.pickup_crew_check = "PARTIAL"
+      return
+      
+      -- pickup crew
+   else
+      local crew_member = removeCrew(mission.target)
+      addPassenger(Game.player)
+      table.insert(mission.cargo_pass, crew_member)
+      local boardedtxt = string.interp(l.BOARDED_PASSENGER, {name = crew_member.name})
+      Comms.ImportantMessage(boardedtxt)
+      mission.crew_num = mission.crew_num - 1
+      
+      -- if all necessary crew transferred print result message
+      mission.pickup_crew = mission.pickup_crew - 1
+      local done = mission.pickup_crew_orig - mission.pickup_crew
+      if todo == done then
+	 local resulttxt = string.interp(l.RESULT_PICKUP_CREW, {todo = todo, done = done})
+	 Comms.ImportantMessage(resulttxt)
+	 mission.pickup_crew_check = "COMPLETE"
+      end
+   end
+end
+
+local pickupPassenger = function (mission)
+   -- Pickup a single passenger from the target ship.
+   -- Called during timer loop within "interactWithTarget".
+   local todo = mission.pickup_pass_orig
+   
+   -- error messages if not all parameters met
+   if not passengersPresent(mission.target) then
+      Comms.ImportantMessage(l.MISSING_PASS)
+      mission.pickup_pass_check = "PARTIAL"
+      return
+   elseif not passengerSpace(Game.player) then
+      Comms.ImportantMessage(l.FULL_PASSENGERS)
+      local done = mission.pickup_pass_orig - mission.pickup_pass
+      local resulttxt = string.interp(l.RESULT_PICKUP_PASS, {todo = todo, done = done})
+      Comms.ImportantMessage(resulttxt)
+      mission.pickup_pass_check = "PARTIAL"
+      return
+      
+      -- pickup passenger   
+   else
+      local passenger = Character.New()
+      removePassenger(mission.target)
+      addPassenger(Game.player)
+      table.insert(mission.cargo_pass, passenger)
+      local boardedtxt = string.interp(l.BOARDED_PASSENGER, {name = passenger.name})
+      Comms.ImportantMessage(boardedtxt)
+      
+      -- if all necessary passengers have been picked up show result message
+      mission.pickup_pass = mission.pickup_pass - 1
+      local done = mission.pickup_pass_orig - mission.pickup_pass
+      if todo == done then
+	 local resulttxt = string.interp(l.RESULT_PICKUP_PASS, {todo = todo, done = done})
+	 Comms.ImportantMessage(resulttxt)
+	 mission.pickup_pass_check = "COMPLETE"
+      end
+   end
+end
+   
+local pickupCommodity = function (mission, commodity)
+   -- Pickup a single ton of the supplied commodity from the target ship.
+   -- Called during timer loop within "interactWithTarget".
+   local todo = mission.pickup_comm_orig[commodity]
+   local commodity_name = commodity:GetName()
+   
+   -- error messages if parameters not met
+   if not cargoPresent(mission.target, commodity) then
+      local missingtxt = string.interp(l.MISSING_COMM, {cargotype = commodity_name})
+      Comms.ImportantMessage(missingtxt)
+      mission.pickup_comm_check[commodity] = "PARTIAL"
+      return
+   elseif not cargoSpace(Game.player) then
+      Comms.ImportantMessage(l.FULL_CARGO)
+      mission.pickup_comm_check[commodity] = "PARTIAL"
+      return
+      
+      -- pickup 1 ton of commodity
+   else
+      removeCargo(mission.target, commodity)
+      addCargo(Game.player, commodity)
+      if mission.cargo_comm[commodity] == nil then
+	 mission.cargo_comm[commodity] = 1
+      else
+	 mission.cargo_comm[commodity] = mission.cargo_comm[commodity] + 1
+      end
+      
+      -- show result message if done picking up this commodity
+      mission.pickup_comm[commodity] = mission.pickup_comm[commodity] - 1
+      local done = mission.pickup_comm_orig[commodity] - mission.pickup_comm[commodity]
+      if todo == done then
+	 local resulttxt = string.interp(l.RESULT_PICKUP_COMM, {cargotype = commodity_name, todo = todo, done = done})
+	 Comms.ImportantMessage(resulttxt)
+	 mission.pickup_comm_check[commodity] = "COMPLETE"
+      end
+   end
+end
+
+local deliverCrew = function (mission)
+   -- Transfer a single crew member to the target ship.
+   -- Called during timer loop within "interactWithTarget".
+   local todo = mission.deliver_crew_orig
+
+   shipdef = shipdefFromName(mission.shipdef_name)
+
+   local maxcrew = shipdefFromName(mission.shipdef_name).maxCrew
+
+   -- error messages if not all parameters met
+   if not passengersPresent(Game.player) then
+      Comms.ImportantMessage(l.MISSING_PASSENGER)
+      mission.deliver_crew_check = "PARTIAL"
+      return
+   elseif mission.target:CrewNumber() == maxcrew then
+      Comms.ImportantMessage(l.FULL_CREW)
+      mission.deliver_crew_check = "PARTIAL"
+      return
+      
+      -- transfer crew
+   else
+      local crew_member
+      for _,passenger in pairs(mission.cargo_pass) do
+	 crew_member = passenger
+	 break
+      end
+      mission.cargo_pass[crew_member] = nil
+      removePassenger(Game.player)
+      addCrew(mission.target, crew_member)
+      mission.crew_num = mission.crew_num + 1
+      local deliverytxt = string.interp(l.DELIVERED_PASSENGER, {name = crew_member.name})
+      Comms.ImportantMessage(deliverytxt)
+      
+      -- if all necessary crew transferred print result message
+      mission.deliver_crew = mission.deliver_crew - 1
+      local done = mission.deliver_crew_orig - mission.deliver_crew
+      if todo == done then
+	 local resulttxt = string.interp(l.RESULT_DELIVERY_CREW, {todo = todo, done = done})
+	 Comms.ImportantMessage(resulttxt)
+	 mission.deliver_crew_check = "COMPLETE"
+      end
+   end
+end
+
+local deliverPassenger = function (mission)
+   -- Transfer a single passenger to the target ship.
+   -- Called during timer loop within "interactWithTarget".
+   local todo = mission.deliver_pass_orig
+
+   -- error messages if not all parameters met
+   if not passengersPresent(Game.player) then
+      Comms.ImportantMessage(l.MISSING_PASS)
+      mission.deliver_pass_check = "PARTIAL"
+      return
+   elseif not passengerSpace(mission.target) then
+      Comms.ImportantMessage(l.FULL_PASSENGERS)
+      mission.deliver_pass_check = "PARTIAL"
+      return
+      
+      -- transfer passenger   
+   else
+      local passenger
+      for _,person in pairs(mission.cargo_pass) do
+	 passenger = person
+	 break
+      end
+      mission.cargo_pass[passenger] = nil
+      removePassenger(Game.player)
+      addPassenger(mission.target)
+      local deliverytxt = string.interp(l.DELIVERED_PASSENGER, {name = crew_member.name})
+      Comms.ImportantMessage(deliverytxt)
+      
+      -- if all necessary passengers have been transferred show result message
+      mission.deliver_pass = mission.deliver_pass - 1
+      local done = mission.deliver_pass_orig - mission.deliver_pass
+      if todo == done then
+	 local resulttxt = string.interp(l.RESULT_DELIVERY_PASS, {todo = todo, done = done})
+	 Comms.ImportantMessage(resulttxt)
+	 mission.deliver_pass_check = "COMPLETE"
+      end
+   end
+end
+
+local deliverCommodity = function (mission, commodity)
+   -- Transfer a single ton of the supplied commodity to the target ship.
+   -- Called during timer loop within "interactWithTarget".
+   local todo = mission.deliver_comm_orig[commodity]
+   local commodity_name = commodity:GetName()
+   
+   -- error messages if parameters not met
+   if not cargoPresent(Game.player, commodity) then
+      local missingtxt = string.interp(l.MISSING_COMM, {cargotype = commodity_name})
+      Comms.ImportantMessage(missingtxt)
+      mission.deliver_comm_check[commodity] = "PARTIAL"
+      return
+   elseif not cargoSpace(mission.target) then
+      Comms.ImportantMessage(l.FULL_CARGO)
+      mission.deliver_comm_check[commodity] = "PARTIAL"
+      return
+      
+      -- transfer 1 ton of commodity
+   else
+      removeCargo(Game.player, commodity)
+      addCargo(mission.target, commodity)
+      if mission.cargo_comm[commodity] == nil then
+	 mission.cargo_comm[commodity] = 1
+      else
+	 mission.cargo_comm[commodity] = mission.cargo_comm[commodity] + 1
+      end
+      
+      -- show result message if done delivering this commodity
+      mission.deliver_comm[commodity] = mission.deliver_comm[commodity] - 1
+      local done = mission.deliver_comm_orig[commodity] - mission.deliver_comm[commodity]
+      if todo == done then
+	 local resulttxt = string.interp(l.RESULT_DELIVERY_COMM, {done = done, todo = todo, cargotype = commodity_name})
+	 Comms.ImportantMessage(resulttxt)
+	 mission.deliver_comm_check[commodity] = "COMPLETE"
+      end
+   end
+end
+
+local interactionCounter = function (counter)
+   -- Check if target_interaction_time is reached.
+   -- Called during timer loop inside "interactWithTarget".
+   counter = counter + 1
+   if counter >= target_interaction_time then
+      count = 0
+      return true, counter
+   else
+      return false, counter
+   end
+end
+
+local searchForTarget  -- need to initialize function variable for use in interactWithTarget function
+local interactWithTarget = function (mission)
+   -- Handle all interaction with mission target once the player ship is within interaction distance.
+   if not targetInteractionDistance then
+      return false
+   elseif Game.time > mission.due then
+      Comms.ImportantMessage(l.SHIP_UNRESPONSIVE)
+      return true
+   else
+      -- calculate and display total interaction time
+      local packages
+      packages = mission.pickup_crew + mission.pickup_pass +
+	 mission.deliver_crew + mission.deliver_pass
+      for _,num in pairs(mission.pickup_comm) do
+	 packages = packages + num
+      end
+      for _,num in pairs(mission.deliver_comm) do
+	 packages = packages + num
+      end
+      local total_interaction_time = target_interaction_time * packages
+      local distance_reached_txt = string.interp(l.INTERACTION_DISTANCE_REACHED, {minutes = total_interaction_time/60})
+      Comms.ImportantMessage(distance_reached_txt)
+   end
+
+   local counter = 0
+   local transfer_finished = false
+   Timer:CallEvery(1, function ()
+		      local done = true
+		      
+		      -- abort if interaciton distance was not held or target ship destroyed
+		      -- TODO: set the check mark for each mission right
+		      if not targetInteractionDistance(mission) or mission.target == "NIL" then
+			 Comms.ImportantMessage(l.INTERACTION_ABORTED)
+			 searchForTarget(mission)
+			 return true
+		      end
+
+		      -- perform action if time limit has passed
+		      actiontime, counter = interactionCounter(counter)
+		      if actiontime then
+			 
+			 -- pickup crew from target ship
+			 if mission.pickup_crew > 0 and mission.pickup_crew_check ~= "PARTIAL" then
+			    done = false
+			    pickupCrew(mission)
+
+			    -- transfer crew to target ship
+			 elseif mission.deliver_crew > 0 and mission.deliver_crew_check ~= "PARTIAL" then
+			    done = false
+			    deliverCrew(mission)
+
+			    -- pickup passengers from target ship
+			 elseif mission.pickup_pass > 0 and mission.pickup_pass_check ~= "PARTIAL" then
+			    done = false
+			    pickupPassenger(mission)
+			    
+			    -- transfer passengers to target ship
+			 elseif mission.deliver_pass > 0 and mission.deliver_pass_check ~= "PARTIAL" then
+			    done = false
+			    deliverPassenger(mission)
+
+			    -- pickup commodity-cargo from target ship
+			 elseif arraySize(mission.pickup_comm) > 0 then
+			    for commodity,amount in pairs(mission.pickup_comm) do
+			       if mission.pickup_comm[commodity] > 0 and
+			       mission.pickup_comm_check[commodity] ~= "PARTIAL" then
+				  done = false
+				  pickupCommodity(mission, commodity)
+			       end
+			    end
+
+			    -- transfer commodity-cargo to target ship
+			 elseif arraySize(mission.deliver_comm) > 0 then
+			    for commodity,amount in pairs(mission.deliver_comm) do
+			       if mission.deliver_comm[commodity] > 0 and
+			       mission.deliver_comm_check[commodity] ~= "PARTIAL" then
+				  done = false
+				  deliverCommodity(mission, commodity)
+			       end
+			    end
+			 end
+
+			 if done then
+
+			    -- if mission should close right after transfer do so and send target ship on its way
+			    if mission.flavour.reward_immediate == true then
+			       closeMission(mission)
+
+			       -- wait for random time then fly off
+			       local wait_secs = Engine.rand:Integer(2,5)
+			       Timer:CallAt(Game.time + wait_secs, function () flyToNearbyStation(mission.target) end)
+			    end
+			    return true
+			 end
+   		      end
+   end)
+end
+
+-- "searchForTarget" has been declared before!
+function searchForTarget (mission)
+   -- Measure distance to target every second until interaction distance reached.
+   if mission.searching == true or mission.target == "NIL" then return end
+   mission.searching = true
+   
+   Timer:CallEvery(1, function ()
+
+		      -- abort if player is about to leave system
+		      if leaving_system == true then
+			 mission.searching = false
+			 return true
+
+		      -- abort if player leaves the target frame
+		      elseif Game.player.frameBody ~= mission.target.frameBody then
+			 mission.searching = false
+			 return true
+
+		      else
+			 -- if distance to target has not been reached keep searching
+			 if not targetInteractionDistance(mission) then return false
+
+			 -- if distance to target has been reached start target interaction
+			 else
+			    interactWithTarget(mission)
+			    mission.searching = false
+			    return true
+			 end
+		      end
+   end)
+end
+
+local onFrameChanged = function (body)
+   -- Start a new search for target every time the reference frame for player changes.
+   if not body:isa("Ship") or not body:IsPlayer() then return end
+   for ref,mission in pairs(missions) do
+      if Game.system == mission.system_target:GetStarSystem() then
+	 if body.frameBody == mission.target.frameBody then
+	    searchForTarget(mission)
+	 end
+      end
+   end
+end	    
+
+local onShipUndocked = function (ship, station)
+   -- Start search immediately if the target is on the same planet as the station.
+   if not ship:IsPlayer() then return end
+   for ref,mission in pairs(missions) do
+      if mission.target and ship.frameBody == mission.target.frameBody then
+	 searchForTarget(mission)
+      end
+   end
+end
+
+local onCreateBB = function (station)
+--   if nearbysystems == nil then
+--      nearbysystems = Game.system:GetNearbySystems(max_mission_dist, function (s) return #s:GetStationPaths() > 0 end)
+--   end
+--   local nearbystations = findNearbyStations(false, station)
+--   local numAchievableJobs = 0
+--   local reputation = Character.persistent.player.reputation
+--   local canHyperspace = Game.player.maxHyperspaceRange > 0
+
+   -- make 2 ads each time for testing
+   local num = 3
+   --local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
+   
+   for i = 1,num do
+--      local ad = makeAdvert(station, nil, nearbystations)
+      local ad = makeAdvert(station, 1)
+      local ad = makeAdvert(station, 2)
+      local ad = makeAdvert(station, 3)
+      local ad = makeAdvert(station, 4)
+      local ad = makeAdvert(station, 5)
+      local ad = makeAdvert(station, 6)
+      local ad = makeAdvert(station, 7)
+   --   local ad = makeAdvert(station, nil, nearbystations)
+   --   if ad and isQualifiedFor(reputation, ad) and (ad.localdelivery or canHyperspace) then
+--	 numAchievableJobs = numAchievableJobs + 1
+  --    end
+   end
+
+   -- make sure a player with low reputation will have at least one
+   -- job that does not require reputation on the BBS
+  -- if numAchievableJobs < 1 and (#nearbystations > 0 or (#nearbysystems > 0 and canHyperspace)) then
+    --  local ad
+    --  if #nearbystations > 0 and #nearbysystems > 0 and canHyperspace then
+--	 ad = makeAdvert(station, easyJobs[Engine.rand:Integer(1,#easyJobs)], nearbystations)
+  --    elseif #nearbystations > 0 then
+--	 ad = makeAdvert(station, easyLocalJobs[Engine.rand:Integer(1,#easyLocalJobs)], nearbystations)
+  --    else
+--	 ad = makeAdvert(station, easyNonLocalJobs[Engine.rand:Integer(1,#easyNonLocalJobs)], nearbystations)
+  --    end
+    --  assert(ad, "Could not create easy job")   -- We checked preconditions, so we should have a job now
+   --end
+end
+
+local onUpdateBB = function (station)
+   -- Called by game every 1-2 hours to update current banter boards. Ads are removed based on due date and new ones added here.
+
+   -- remove ads based on time until due
+   for ref,ad in pairs(ads) do
+
+      -- one hour timeout for very close missions (same planet)  --TODO: check if appropriate
+      if ad.flavour.loctype == "CLOSE_PLANET" or ad.flavour.loctype == "CLOSE_SPACE" then
+	 if ad.due < Game.time + 60*60 then
+	    Space.GetBody(ad.station_local.bodyIndex):RemoveAdvert(ref)
+	 end
+
+	 -- one day timeout for medium distance missions (same system)   --TODO: check if appropriate
+      elseif ad.flavour.loctype == "MEDIUM_PLANET" then
+	 if ad.due < Game.time + 60*60*24 then
+	    Space.GetBody(ad.station_local.bodyIndex):RemoveAdvert(ref)
+	 end
+
+	 -- five day timeout as catch-all for everything else   --TODO: check if appropriate
+      else
+	 if ad.due < Game.time + 5*60*60*24 then
+	    Space.GetBody(ad.station_local.bodyIndex):RemoveAdvert(ref)
+	 end
+      end
+   end
+
+   -- add ads randomly about every six hours
+   if Engine.rand:Integer(6*60*60) < 60*60 then
+      makeAdvert(station)
+   end
+end
+
+local onEnterSystem = function (player)
+   if (not player:IsPlayer()) then return end
+   leaving_system = false
+
+   local syspath = Game.system.path
+
+   -- spawn mission target ships in this system unless due time expired
+   for ref,mission in pairs(missions) do
+      if mission.due > Game.time and mission.system_target:IsSameSystem(syspath) then
+	 mission.target = createTargetShip(mission)
+      end
+   end
+end
+
+local onLeaveSystem = function (ship)
+   if ship:IsPlayer() then
+      leaving_system = true    --checked by searchForTarget to abort search
+
+      local syspath = Game.system.path
+      
+      -- remove references to ships that are left behind (cause serialization crash otherwise)
+      for ref,mission in pairs(missions) do
+	 if mission.system_target:IsSameSystem(syspath) then
+	    mission.target = 'NIL'
+	 end
+      end
+      
+      -- TODO: put in tracker to recreate mission targets (already transferred personnel, cargo, etc.)
+   end
+end
+
+local onShipDocked = function (player, station)
+   if not player:IsPlayer() then return end
+   for ref, mission in pairs(missions) do
+      if Space.GetBody(mission.station_local.bodyIndex) == station then
+	 closeMission(mission)
+      end
+   end
+end
+
+local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
+--   TODO: possibly include if reputation based ad filtering is set up   
+--   for ref,ad in pairs(ads) do
+--      local oldQualified = isQualifiedFor(oldRep, ad)
+--      if isQualifiedFor(newRep, ad) ~= oldQualified then
+--	 Event.Queue("onAdvertChanged", ad.station, ref);
+--      end
+--   end
+end
+
+local loaded_data
+local onGameStart = function ()
+
+   -- create ads and missions containers
+   ads = {}
+   missions = {}
+   if not loaded_data then return end
+
+   -- fill the ads and missions containers with previously saved data if this is a reload
+   for k,ad in pairs(loaded_data.ads) do
+      local ref = Space.GetBody(ad.station_local.bodyIndex):AddAdvert({
+	    description = ad.desc,
+	    icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+	    onChat      = onChat,
+	    onDelete    = onDelete,
+	    isEnabled   = isEnabled })
+      ads[ref] = ad
+   end
+   missions = loaded_data.missions
+   loaded_data = nil
+
+   -- check if player is within frame of any mission targets to resume search
+   for ref,mission in pairs(missions) do
+      if Game.player.frameBody == mission.target.frameBody then
+	 searchForTarget(mission)
+      end
+   end
+   
+end
+
+local onClick = function (mission)
+   local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
+      
+   local danger = (l.I_HIGHLY_DOUBT_IT)
+   
+   local dist_for_text
+   if mission.flavour.loctype == "CLOSE_PLANET" or mission.flavour.loctype == "CLOSE_SPACE" then
+      dist_for_text = string.format("%.0f", mission.dist)
+   else
+      dist_for_text = string.format("%.2f", mission.dist)
+   end
+      
+   
+   return ui:Grid(2,1)
+      :SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.flavour.introtext):interp({
+						  name         = mission.client.name,
+						  entity       = mission.entity,
+						  problem      = mission.problem,
+						  cash         = Format.Money(mission.reward),
+						  ship         = mission.shipdef_name,
+						  crew         = mission.crew_num,
+						  pass         = mission.pickup_pass_orig,
+						  deliver_crew = mission.deliver_crew_orig,
+						  starport     = mission.station_local:GetSystemBody().name,
+						  shiplabel    = mission.shiplabel,
+						  system       = mission.system_target:GetStarSystem().name,
+						  sectorx      = mission.system_target.sectorX,
+						  sectory      = mission.system_target.sectorY,
+						  sectorz      = mission.system_target.sectorZ,
+						  dist         = dist_for_text,
+						  lat          = decToDegMinSec(math.rad2deg(mission.lat)),
+						  long         = decToDegMinSec(math.rad2deg(mission.long)),
+						  planet       = mission.planet_target:GetSystemBody().name})
+							 ),
+					 ui:Margin(10),
+					 ui:Grid(2,1)
+					    :SetColumn(0, {
+							  ui:VBox():PackEnd({
+								ui:Label(l.LOCATION)
+									   })
+						      })
+					    :SetColumn(1, {
+							  ui:VBox():PackEnd({
+								ui:MultiLineText(mission.location:GetSystemBody().name)
+									   })
+						      }),
+					 ui:Grid(2,1)
+					    :SetColumn(0, {
+							  ui:VBox():PackEnd({
+								ui:Label(l.SYSTEM)
+									   })
+						      })
+					    :SetColumn(1, {
+							  ui:VBox():PackEnd({
+								ui:MultiLineText(mission.system_target:GetStarSystem().name.." ("..mission.system_target.sectorX..","..mission.system_target.sectorY..","..mission.system_target.sectorZ..")")
+									   })
+						      }),
+					 ui:Grid(2,1)
+					    :SetColumn(0, {
+							  ui:VBox():PackEnd({
+								ui:Label(l.DEADLINE)
+									   })
+						      })
+					    :SetColumn(1, {
+							  ui:VBox():PackEnd({
+								ui:Label(Format.Date(mission.due))
+									   })
+						      }),
+					 ui:Grid(2,1)
+					    :SetColumn(0, {
+							  ui:VBox():PackEnd({
+								ui:Label(l.DANGER)
+									   })
+						      })
+					    :SetColumn(1, {
+							  ui:VBox():PackEnd({
+								ui:MultiLineText(danger)
+									   })
+						      }),
+					 ui:Margin(5),
+					 ui:Grid(2,1)
+					    :SetColumn(0, {
+							  ui:VBox():PackEnd({
+								ui:Label(l.DISTANCE)
+									   })
+						      })
+					    :SetColumn(1, {
+							  ui:VBox():PackEnd({
+								ui:Label(dist.." "..l.LY)
+									   })
+						      }),
+		})})
+      :SetColumn(1, {
+		    ui:VBox(10):PackEnd(InfoFace.New(mission.client))
+		})
+end
+
+local onGameEnd = function ()
+   nearbysystems = nil
+end
+
+local onShipDestroyed = function (ship, attacker)
+   for ref,mission in pairs(missions) do
+      if ship == mission.target then
+	 mission.target = "NIL"
+      end
+   end
+end
+
+local serialize = function ()
+   return { ads = ads, missions = missions }
+end
+
+local unserialize = function (data)
+   loaded_data = data
+end
+
+Event.Register("onCreateBB", onCreateBB)
+Event.Register("onUpdateBB", onUpdateBB)
+Event.Register("onEnterSystem", onEnterSystem)
+Event.Register("onLeaveSystem", onLeaveSystem)
+Event.Register("onShipDocked", onShipDocked)
+Event.Register("onGameStart", onGameStart)
+Event.Register("onGameEnd", onGameEnd)
+Event.Register("onReputationChanged", onReputationChanged)
+Event.Register("onShipUndocked", onShipUndocked)
+Event.Register("onFrameChanged", onFrameChanged)
+Event.Register("onShipDestroyed", onShipDestroyed)
+
+Mission.RegisterType("searchrescue",l.SEARCH_RESCUE,onClick)
+
+Serializer:Register("searchrescue", serialize, unserialize)
