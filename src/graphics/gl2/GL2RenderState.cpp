@@ -18,56 +18,56 @@ void RenderState::Apply()
 {
 	switch (m_desc.blendMode) {
 	case BLEND_SOLID:
-		gl::Disable(gl::BLEND);
-		gl::BlendFunc(gl::ONE, gl::ZERO);
+		glDisable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ZERO);
 		break;
 	case BLEND_ADDITIVE:
-		gl::Enable(gl::BLEND);
-		gl::BlendFunc(gl::ONE, gl::ONE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE);
 		break;
 	case BLEND_ALPHA:
-		gl::Enable(gl::BLEND);
-		gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		break;
 	case BLEND_ALPHA_ONE:
-		gl::Enable(gl::BLEND);
-		gl::BlendFunc(gl::SRC_ALPHA, gl::ONE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 		break;
 	case BLEND_ALPHA_PREMULT:
-		gl::Enable(gl::BLEND);
-		gl::BlendFunc(gl::ONE, gl::ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 		break;
 	case BLEND_SET_ALPHA:
-		gl::Enable(gl::BLEND);
-		gl::BlendFuncSeparate(gl::ZERO, gl::ONE, gl::SRC_COLOR, gl::ZERO);
+		glEnable(GL_BLEND);
+		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
 		break;
 	case BLEND_DEST_ALPHA:
-		gl::Enable(gl::BLEND);
-		gl::BlendFunc(gl::DST_ALPHA, gl::ONE_MINUS_DST_ALPHA);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 	default:
 		break;
 	}
 
 	if (m_desc.cullMode == CULL_BACK) {
-		gl::Enable(gl::CULL_FACE);
-		gl::CullFace(gl::BACK);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 	} else if (m_desc.cullMode == CULL_FRONT) {
-		gl::Enable(gl::CULL_FACE);
-		gl::CullFace(gl::FRONT);
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
 	} else {
-		gl::Disable(gl::CULL_FACE);
+		glDisable(GL_CULL_FACE);
 	}
 
 
 	if (m_desc.depthTest)
-		gl::Enable(gl::DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 	else
-		gl::Disable(gl::DEPTH_TEST);
+		glDisable(GL_DEPTH_TEST);
 
 	if (m_desc.depthWrite)
-		gl::DepthMask(gl::TRUE_);
+		glDepthMask(GL_TRUE);
 	else
-		gl::DepthMask(gl::FALSE_);
+		glDepthMask(GL_FALSE);
 }
 
 }

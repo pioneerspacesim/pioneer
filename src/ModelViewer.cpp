@@ -3,6 +3,7 @@
 
 #include "ModelViewer.h"
 #include "FileSystem.h"
+#include "graphics/gl2/GL2Renderer.h"
 #include "graphics/opengl/RendererGL.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
@@ -142,6 +143,7 @@ void ModelViewer::Run(const std::string &modelName)
 
 	ModManager::Init();
 
+	Graphics::RendererGL2::RegisterRenderer();
 	Graphics::RendererOGL::RegisterRenderer();
 
 	//video

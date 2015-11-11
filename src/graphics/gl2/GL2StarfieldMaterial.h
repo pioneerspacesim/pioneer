@@ -21,13 +21,13 @@ namespace Graphics {
 			}
 
 			virtual void Apply() {
-				gl::Enable(gl::VERTEX_PROGRAM_POINT_SIZE);
+				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 				m_program->Use();
 				m_program->emission.Set(this->emissive);
 			}
 
 			virtual void Unapply() {
-				gl::Disable(gl::VERTEX_PROGRAM_POINT_SIZE);
+				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		};
 	}
