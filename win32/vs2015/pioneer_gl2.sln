@@ -40,7 +40,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "collider", "collider\collid
 		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics", "graphics\graphics.vcxproj", "{DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "graphics", "graphics_gl2\graphics_gl2.vcxproj", "{DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FFDC1809-F67B-4933-B4E0-5298EA5DDB7E} = {FFDC1809-F67B-4933-B4E0-5298EA5DDB7E}
 	EndProjectSection

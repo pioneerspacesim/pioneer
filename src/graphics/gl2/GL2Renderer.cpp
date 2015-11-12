@@ -38,7 +38,7 @@ static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
 }
 
 void RendererGL2::RegisterRenderer() {
-	Graphics::RegisterRenderer(Graphics::RENDERER_GL2, CreateRenderer);
+	Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
 }
 
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
@@ -310,7 +310,7 @@ bool RendererGL2::SwapBuffers()
 		while (err != GL_NO_ERROR) {
 			ss << glerr_to_string(err) << std::endl;
 			err = glGetError();
-			if( err == OUT_OF_MEMORY ) {
+			if( err == GL_OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;

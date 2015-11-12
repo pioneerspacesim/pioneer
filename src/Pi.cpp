@@ -68,7 +68,11 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
+#ifdef USE_GL2_RENDERER
+#include "graphics/gl2/GL2Renderer.h"
+#else
 #include "graphics/opengl/RendererGL.h"
+#endif
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
@@ -402,7 +406,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	SDL_GetVersion(&ver);
 	Output("SDL Version %d.%d.%d\n", ver.major, ver.minor, ver.patch);
 
+#ifdef USE_GL2_RENDERER
+	Graphics::RendererGL2::RegisterRenderer();
+#else
 	Graphics::RendererOGL::RegisterRenderer();
+#endif
 
 	// Do rest of SDL video initialization and create Renderer
 	Graphics::Settings videoSettings = {};

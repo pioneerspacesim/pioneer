@@ -3,8 +3,11 @@
 
 #include "ModelViewer.h"
 #include "FileSystem.h"
+#ifdef USE_GL2_RENDERER
 #include "graphics/gl2/GL2Renderer.h"
+#else
 #include "graphics/opengl/RendererGL.h"
+#endif
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
@@ -143,8 +146,11 @@ void ModelViewer::Run(const std::string &modelName)
 
 	ModManager::Init();
 
+#ifdef USE_GL2_RENDERER
 	Graphics::RendererGL2::RegisterRenderer();
+#else
 	Graphics::RendererOGL::RegisterRenderer();
+#endif
 
 	//video
 	Graphics::Settings videoSettings = {};
