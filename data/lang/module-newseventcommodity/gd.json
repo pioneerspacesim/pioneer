@@ -65,27 +65,27 @@
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "NAIDHEACHD {date}: Chaidh stòras ùr a lorg ann an siostam {system}."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Tha mèinnearan air stòras mòr de chlach-mhèinnear a lorg ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) nach fhacas a leithid a-riamh."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "NAIDHEACHD {date}: Ath-leasachadh an eaconamaidh ann an siostam {system} 'na phiseach mòr."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Tha na cuibhlean a' dol mun cuairt ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fiù 's nas luaithe a-nis on a tha barrachd airgead aig an luchd-ceannach gus a chosg."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "NAIDHEACHD {date}: Tha dìle òir ann an siostam {system}."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Fhuair duine ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) nuadh-innleachd o bhràthair-athar mar dhìleab a leigeas leis òr 's platinum a dhèanamh de theann-stuth sam bith. Tha an luchd-eaconamaidh dhen bheachd gun tuislich an eaconamaidh san t-siostam mura bris an t-inneal a dh'aithghearr."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -97,35 +97,35 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "NAIDHEACHD {date}: Tha buain feamainn famhair gasa ann an siostam {system} nas torraiche na bha i riamh."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "On a tha {system} ({sectorx}, {sectory}, {sectorz}) air tamall a ruigsinn a bhios fàbharach dhan bhuidhe-fheamainn ann an àile an fhuamhair gasa ionadail, bha a' bhuain nas fhearr nas àbhaist airson companaidh todhair Soylent Yellow earr."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "NAIDHEACHD {date}: Chaidh cùmhnant a rèiteachadh ann an siostam {system} airson cogadh nas \"daonndaiche\"."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Ged nach do chuir na buidhnean a tha ann an còmhstri ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) an làmhan ri fois-losgaidh oifigeil, dh'aontaich iad nach cleachd iad airm cheimigeach tuilleadh."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "NAIDHEACHD {date}: Ghairm am poileas stailc ann an siostam {system}. Feumaidh na saoranaich 'gan dìon fhèin."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "A chum fianais a thogail an aghaidh dìth luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha am poileas a' diùltadh a bhith ag obair. San eadar-àm, tha saoranaich air buidhnean fèin-dhìona a stèidheachadh is air gobhlagan is gunnachan a thogail an aghaidh na thig orra."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "NAODHEACHD {date}: Fosgladh mòr factaraidh ùir ann an siostam {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "Thòisich factaraidh Amissionox ùr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a h-obair a-nis. Nì i sgianan as àirde càileachd a bhios comasach air bòtanan-fànais a ghearradh. Co-dhiù, o nach eil iad a' faighinn stòras gu leòr airson nan lannan, chan eil iad a' dèanamh an t-uiread a b' urrainn dhaibh fhathast."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
@@ -193,102 +193,102 @@
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Fàilte, a reiceadair! Bheir sinn deagh-phrìs dhut airson na th' agad dhe {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Tha sinn glè thoilichte gun dàinig thu mar a tha sinn mun longas dhe {cargo} agad!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Fàilte ort! Tha sinn an dùil gun reic thu {cargo} gun duilgheadas an-seo."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Fàilte ort! {cargo} mu dheireadh thall."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Bha fadachd oirnn air {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Fàilte! Reicidh tu na th' agad dhe {cargo} gu luath an-seo."
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "Chroinic Fheadarail"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
-      "message" : "The Federal Times"
+      "message" : "Fheadarail"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
-      "message" : "The Imperial Herald"
+      "message" : "Bhollsgaire Impireil"
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
-      "message" : "The Pioneer Courier"
+      "message" : "Teachdaire Tùsaireach"
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
-      "message" : "The Independent Tribune"
+      "message" : "Treubhan Neo-eisimeileach"
    },
    "NEWSPAPER_IND_10" : {
       "description" : "",
-      "message" : "The Orbital Observer"
+      "message" : "Chuairt-coimheadaiche"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "The Galactic Post"
+      "message" : "Phost Reul-chriosa"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
-      "message" : "The Universal Sun"
+      "message" : "Ghrian Dhomhainn"
    },
    "NEWSPAPER_IND_4" : {
       "description" : "",
-      "message" : "The Planetary Press"
+      "message" : "Naidheachd Phlanaideach"
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
-      "message" : "The Royal Gazette"
+      "message" : "Ghasaet Rìoghail"
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "Phost Domhainn"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
-      "message" : "The Daily Express"
+      "message" : "Teachdaire Làitheil"
    },
    "NEWSPAPER_IND_8" : {
       "description" : "",
-      "message" : "The Tellurian Telegraph"
+      "message" : "Teileagraf Talmhanta"
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "Chraoladair Làitheil"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Aithris ùr on {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Naidheachd on {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Aithris on {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Na tha as ùire on {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Nòtaichean on {newspaper}"
    }
 }

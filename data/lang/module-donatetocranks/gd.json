@@ -1,51 +1,51 @@
 {
    "FLAVOUR_0_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to the Church of the Celestial Flying Spaghetti Monster."
+      "message" : "Tagh uiread gus a thoirt mar thìodhlac gu Eaglais an Uilebheist Sgiathaich Nèamhaidh Spaghetti."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "DONATE! The Church of The Celestial Flying Spaghetti Monster needs YOUR money to spread the word of god."
+      "message" : "THOIR TÌODHLAC! Tha Eaglais an Uilebheist Sgiathaich Nèamhaidh Spaghetti feumach air an airgead AGADSA gus facal dhè a sgaoileadh."
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
-      "message" : "Peace be with you, brother. Please select an amount to donate to the Guardians of the Free Spirit."
+      "message" : "Sìth gun robh ort, a charaid. Tagh uiread gus a thoirt mar thìodhlac gu Dìonadairean an Spioraid Shaoir."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "DONATE. The Guardians of the Free Spirit humbly request your charity to support our monasteries."
+      "message" : "THOIR TÌODLAC. Tha Dìonadairean an Spioraid Shaoir ag iarraidh do charthannas gu h-umhail gus taic a thoirt dha na manachainn againn."
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to War Orphan's Support, and end the suffering of children all over the galaxy."
+      "message" : "Tagh uiread an tìodhlaic a tha thu airson toirt do Chobhair Dìlleachdan Cogaidh is cuir crìoch air fulang na cloinne air feadh an reul-chriosa."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "FEELING GENEROUS? War Orphan's Support needs your help to keep up its essential work."
+      "message" : "'EIL DO MHIANN AIR FIAL? Tha Cobhair Dìlleachdan Cogaidh feumach air taic uat gus an obair chudromach aice a chumail a' dol."
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate to the GreenWatch, and end the pollution of our galaxy."
+      "message" : "Tagh uiread gus a thoirt mar thìodhlac gun FhaireUaine is cuir crìoch air truailleadh ar reul-chriosa."
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "CONTRIBUTE. The Friends of the Galaxy 'Ban Military Drives' campaign needs your money."
+      "message" : "TABHAIR. Tha iomairt \"Toirmeasg draibhean an airm\" aig Caraidean an Reul-chriosa feumach air d' airgead."
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
-      "message" : "Please select an amount to donate."
+      "message" : "Tagh uiread gus a thoirt mar thìodhlac."
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "DONATE! Save our species. Stop the carnage of newly settled worlds."
+      "message" : "THOR TÌODHLAC! Sàbhail ar cineal. Sguir dhen fheòlach air saoghalan air an ùr-tuineachadh. "
    },
    "FLAVOUR_5_MESSAGE" : {
       "description" : "",
-      "message" : "Liberate your ship! Please choose amount to donate. Happy hacking."
+      "message" : "Saor do shoitheach! Tagh uiread gus a thoirt mar thìodhlac. Hackigeadh math dhut."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "SUPPORT FREEDOM! Stop the great injustice of proprietary software controlling your ship."
+      "message" : "TAIC DON SAORSA! Cuir stad air ana-cheartas mòr a' bhathair-bhog fo shealbh a tha a' cumail smachd air an t-soitheach agad."
    },
    "THANK_YOU_ALL_DONATIONS_ARE_WELCOME" : {
       "description" : "",
