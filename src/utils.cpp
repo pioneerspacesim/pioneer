@@ -428,10 +428,10 @@ void StrToAuto(double *pVal, const std::string &str)
 */
 std::string DecimalToDegMinSec(float dec)
 {
-	int degrees = floor(dec);
-	int minutes = floor(60*(dec - degrees));
-	int seconds = floor(3600 * ((dec - degrees) - static_cast<float>(minutes) / 60));
-	std::string str = stringf("%0° %1' %2\"", degrees, minutes, seconds);
+	int degrees = dec;
+	int minutes = 60 * (dec - degrees);
+	int seconds = 3600 * ((dec - degrees) - static_cast<float>(minutes) / 60);
+	std::string str = stringf("%0° %1' %2\"", degrees, std::abs(minutes), std::abs(seconds));
 	return str;
 }
 
