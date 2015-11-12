@@ -29,6 +29,9 @@ void GeoSphereProgram::InitUniforms()
 	geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
+	
+	detailScaleHi.Init("detailScaleHi", m_program);
+	detailScaleLo.Init("detailScaleLo", m_program);
 
 	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
@@ -60,6 +63,9 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define TERRAIN_WITH_WATER\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
+	if (desc.quality & HAS_DETAIL_MAPS)
+		ss << "#define DETAIL_MAPS\n";
+
 	return new Graphics::GL2::GeoSphereProgram("geosphere_terrain", ss.str());
 }
 
@@ -68,14 +74,24 @@ void GeoSphereSurfaceMaterial::Apply()
 	SetGSUniforms();
 }
 
+void GeoSphereSurfaceMaterial::Unapply()
+{
+	if(texture0) {
+		static_cast<GL2Texture*>(texture1)->Unbind();
+		static_cast<GL2Texture*>(texture0)->Unbind();
+	}
+}
+
+static const float hiScale = 4.0f;
+static const float loScale = 0.5f;
 void GeoSphereSurfaceMaterial::SetGSUniforms()
 {
+	GL2::Material::Apply();
+
 	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
 	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
 	const SystemBody::AtmosphereParameters ap = params.atmosphere;
 
-	p->Use();
-	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 	p->emission.Set(this->emissive);
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
 	p->atmosColor.Set(ap.atmosCol);
@@ -84,6 +100,25 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereRadius.Set(ap.planetRadius);
+
+	if(this->texture0) {
+		p->texture0.Set(this->texture0, 0);
+		p->texture1.Set(this->texture1, 1);
+
+		const float fDetailFrequency = pow(2.0f, float(params.maxPatchDepth) - float(params.patchDepth));
+
+		p->detailScaleHi.Set(hiScale * fDetailFrequency);
+		p->detailScaleLo.Set(loScale * fDetailFrequency);
+	}
+
+	//Light uniform parameters
+	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+		const Light& Light = m_renderer->GetLight(i);
+		p->lights[i].diffuse.Set( Light.GetDiffuse() );
+		p->lights[i].specular.Set( Light.GetSpecular() );
+		const vector3f& pos = Light.GetPosition();
+		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+	}
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};
@@ -135,6 +170,38 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 void GeoSphereSkyMaterial::Apply()
 {
 	SetGSUniforms();
+}
+
+Program *GeoSphereStarMaterial::CreateProgram(const MaterialDescriptor &desc)
+{
+	assert((desc.effect == EFFECT_GEOSPHERE_STAR));
+	assert(desc.dirLights < 5);
+	std::stringstream ss;
+	ss << stringf("#define NUM_LIGHTS %0{u}\n", desc.dirLights);
+
+	return new Graphics::GL2::GeoSphereProgram("geosphere_star", ss.str());
+}
+
+void GeoSphereStarMaterial::Apply()
+{
+	SetGSUniforms();
+}
+
+void GeoSphereStarMaterial::Unapply()
+{
+	if (texture0) {
+		static_cast<GL2Texture*>(texture1)->Unbind();
+		static_cast<GL2Texture*>(texture0)->Unbind();
+	}
+}
+
+void GeoSphereStarMaterial::SetGSUniforms()
+{
+	GL2::Material::Apply();
+
+	GeoSphereProgram *p = static_cast<GeoSphereProgram*>(m_program);
+
+	p->emission.Set(this->emissive);
 }
 
 }

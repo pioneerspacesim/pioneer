@@ -1,4 +1,4 @@
-// Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GL2_GEOSPHEREMATERIAL_H
@@ -6,9 +6,10 @@
 /*
  * Programs & Materials used by terrain
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "GL2Material.h"
 #include "GL2Program.h"
+#include "GL2Texture.h"
 #include "galaxy/StarSystem.h"
 
 namespace Graphics {
@@ -22,7 +23,10 @@ namespace Graphics {
 			Uniform geosphereAtmosInvScaleHeight;
 			Uniform geosphereAtmosTopRad; // in planet radii
 			Uniform geosphereCenter;
-			Uniform geosphereRadius; // planet radius
+			Uniform geosphereRadius; // (planet radius)
+			
+			Uniform detailScaleHi;
+			Uniform detailScaleLo;
 
 			Uniform shadows;
 			Uniform occultedLight;
@@ -40,6 +44,7 @@ namespace Graphics {
 		class GeoSphereSurfaceMaterial : public Material {
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
+			virtual void Unapply();
 
 		protected:
 			void SetGSUniforms();
@@ -50,6 +55,16 @@ namespace Graphics {
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
 		};
+
+		class GeoSphereStarMaterial : public Material {
+			virtual Program *CreateProgram(const MaterialDescriptor &);
+			virtual void Apply();
+			virtual void Unapply();
+
+		protected:
+			void SetGSUniforms();
+		};
+		
 	}
 }
 #endif

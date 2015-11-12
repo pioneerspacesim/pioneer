@@ -63,6 +63,12 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\gl_core_2_1.c">
       <Filter>gl2</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2UIMaterial.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.cpp">
+      <Filter>gl2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -156,6 +162,12 @@
     <ClInclude Include="..\..\..\src\graphics\RenderTarget.h" />
     <ClInclude Include="..\..\..\src\graphics\WindowSDL.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\gl_core_2_1.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2UIMaterial.h">
+      <Filter>gl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.h">
       <Filter>gl2</Filter>
     </ClInclude>
   </ItemGroup>

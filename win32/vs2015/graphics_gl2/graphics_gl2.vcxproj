@@ -155,8 +155,10 @@
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2RingMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2ShieldMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2Texture.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2UIMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2Uniform.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\gl2\gl_core_2_1.c" />
     <ClCompile Include="..\..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
@@ -194,8 +196,10 @@
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2SphereImpostorMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2StarfieldMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2Texture.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2UIMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2Uniform.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.h" />
+    <ClInclude Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\gl_core_2_1.h" />
     <ClInclude Include="..\..\..\src\graphics\gl2\OpenGLLibs.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />

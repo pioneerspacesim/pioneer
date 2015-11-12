@@ -25,6 +25,8 @@
 #include "GL2ShieldMaterial.h"
 #include "GL2SkyboxMaterial.h"
 #include "GL2SphereImpostorMaterial.h"
+#include "GL2UIMaterial.h"
+#include "GL2VtxColorMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -42,11 +44,6 @@ void RendererGL2::RegisterRenderer() {
 }
 
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
-
-// for material-less line and point drawing
-GL2::MultiProgram *vtxColorProg;
-GL2::MultiProgram *flatColorProg;
-
 
 bool RendererGL2::initted = false;
 
@@ -137,13 +134,6 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 
 	if (vs.enableDebugMessages)
 		GLDebug::Enable();
-
-	MaterialDescriptor desc;
-	flatColorProg = new GL2::MultiProgram(desc);
-	m_programs.push_back(std::make_pair(desc, flatColorProg));
-	desc.vertexColors = true;
-	vtxColorProg = new GL2::MultiProgram(desc);
-	m_programs.push_back(std::make_pair(desc, vtxColorProg));
 }
 
 RendererGL2::~RendererGL2()
@@ -740,6 +730,12 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 	// Create the material. It will be also used to create the shader,
 	// like a tiny factory
 	switch (desc.effect) {
+	case EFFECT_VTXCOLOR:
+		mat = new GL2::VtxColorMaterial();
+		break;
+	case EFFECT_UI:
+		mat = new GL2::UIMaterial();
+		break;
 	case EFFECT_PLANETRING:
 		mat = new GL2::RingMaterial();
 		break;
@@ -753,6 +749,9 @@ Material *RendererGL2::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_GEOSPHERE_SKY:
 		mat = new GL2::GeoSphereSkyMaterial();
+		break;
+	case EFFECT_GEOSPHERE_STAR:
+		mat = new GL2::GeoSphereStarMaterial();
 		break;
 	case EFFECT_FRESNEL_SPHERE:
 		mat = new GL2::FresnelColourMaterial();
