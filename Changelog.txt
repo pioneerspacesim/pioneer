@@ -12,6 +12,7 @@ November 2015
    * Fixes
      * Fix stations placed on top of each other (#3498)
      * Updated premake script to generate usable CodeBlocks project (#3521)
+     * Fix negative latitude longitude issue (#3531)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
