@@ -31,8 +31,8 @@ attribute vec4 a_vertex;
 attribute vec3 a_normal;
 attribute vec4 a_color;
 attribute vec4 a_uv0;
-attribute in vec3 a_tangent;
-attribute in mat4 a_transform;
+attribute vec3 a_tangent;
+attribute mat4 a_transform;
 // shadows 6, 7, and 8
 // next available is layout (location = 9) 
 
