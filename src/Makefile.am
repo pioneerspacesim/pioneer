@@ -39,8 +39,6 @@ noinst_HEADERS = \
 	Factions.h \
 	FileSystem.h \
 	FontCache.h \
-	Form.h \
-	FormController.h \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
@@ -175,7 +173,6 @@ pioneer_SOURCES	= \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
-	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
