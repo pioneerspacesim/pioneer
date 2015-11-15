@@ -25,6 +25,7 @@ November 2015
      * Clang warnings (#3524)
      * Clean up OpenGL pollution (#3526)
      * Fix the last real Clang warning (#3528)
+     * Delete Form/FormController, which are no longer used (#3533)
 
 October 2015
    * New Features
