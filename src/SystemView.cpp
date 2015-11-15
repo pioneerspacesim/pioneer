@@ -446,7 +446,7 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	}
 
 	static const float startTrailPercent = 0.85;
-	static const float fadedColorParameter = 0.05;
+	static const float fadedColorParameter = 0.1;
 
 	Uint16 fadingColors = 0;
 	double t0 = m_game->GetTime();
@@ -616,10 +616,13 @@ void SystemView::OnClickShip(Ship *s) {
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
 {
-	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE) return;
-	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
+	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE) 
+		return;
 
-		if (!m_bodyIcon) {
+	if (b->GetType() != SystemBody::TYPE_GRAVPOINT)
+	{
+		if (!m_bodyIcon) 
+		{
 			Graphics::RenderStateDesc rsd;
 			auto solidState = m_renderer->CreateRenderState(rsd);
 			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, solidState, Color::WHITE, 1.0f));
@@ -643,15 +646,19 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	}
 
 	Frame *frame = Pi::player->GetFrame();
-	if(frame->IsRotFrame()) frame = frame->GetNonRotFrame();
-	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
+	if(frame->IsRotFrame()) 
+		frame = frame->GetNonRotFrame();
+
+	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) 
+	{
 		const double t0 = m_game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
 
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
 
-		double plannerStartTime = m_planner->GetStartTime();
-		if(!m_planner->GetPosition().ExactlyEqual(vector3d(0,0,0))) {
+		const double plannerStartTime = m_planner->GetStartTime();
+		if(!m_planner->GetPosition().ExactlyEqual(vector3d(0,0,0))) 
+		{
 			Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 								  m_planner->GetVel(),
 								  frame->GetSystemBody()->GetMass());
@@ -666,10 +673,15 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
-	if (b->HasChildren()) {
-		for(const SystemBody* kid : b->GetChildren()) {
-			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) continue;
-			if (kid->GetOrbit().GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
+	if (b->HasChildren()) 
+	{
+		for(const SystemBody* kid : b->GetChildren()) 
+		{
+			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) 
+				continue;
+
+			if (kid->GetOrbit().GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) 
+			{
 				PutOrbit(&(kid->GetOrbit()), offset, Color(0, 255, 0, 255));
 			}
 
