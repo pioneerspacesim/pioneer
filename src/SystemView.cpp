@@ -242,6 +242,13 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_toggleShipsButton->SetRenderDimensions(30, 22);
 	m_toggleShipsButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleShipsButtonClick));
 	Add(m_toggleShipsButton, 660, 5);
+
+	m_toggleL4L5Button = new Gui::ImageButton("icons/toggle_l4l5_display.png");
+	m_toggleL4L5Button->SetToolTip(Lang::L4L5_DISPLAY_MODE_TOGGLE);
+	m_toggleL4L5Button->SetRenderDimensions(30, 22);
+	m_toggleL4L5Button->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleL4L5ButtonClick));
+	Add(m_toggleL4L5Button, 628, 5);
+
 	// orbital transfer planner UI
 	int dx = 670;
 	int dy = 40;
@@ -388,6 +395,7 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 
 	RefreshShips();
 	m_shipDrawing = OFF;
+	m_showL4L5 = false;
 	m_planner = Pi::planner;
 
 	m_orbitVts.reset( new vector3f[N_VERTICES_MAX] );
@@ -416,6 +424,10 @@ void SystemView::OnToggleShipsButtonClick(void) {
 	case BOXES:  m_shipDrawing = ORBITS; RefreshShips(); break;
 	case ORBITS: m_shipDrawing = OFF; m_shipLabels->Clear(); break;
 	}
+}
+
+void SystemView::OnToggleL4L5ButtonClick(void) {
+	m_showL4L5 = !m_showL4L5;
 }
 
 void SystemView::OnClickRealt()
@@ -492,7 +504,7 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	if(Gui::Screen::Project(offset + orbit->Apogeum() * double(m_zoom), pos))
 		m_apoapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
 
-	if (showLagrange)
+	if (showLagrange && m_showL4L5)
 	{
 		const vector3d posL4 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 60.0, tMinust0);
 		if (Gui::Screen::Project(offset + posL4 * double(m_zoom), pos)) {
