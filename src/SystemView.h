@@ -64,13 +64,14 @@ public:
 private:
 	static const double PICK_OBJECT_RECT_SIZE;
 	static const Uint16 N_VERTICES_MAX;
-	void PutOrbit(const Orbit *orb, const vector3d &offset, const Color &color, double planetRadius = 0.0);
+	void PutOrbit(const Orbit *orb, const vector3d &offset, const Color &color, const double planetRadius = 0.0, const bool showLagrange = false);
 	void PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans);
 	void PutLabel(const SystemBody *b, const vector3d &offset);
 	void PutSelectionBox(const SystemBody *b, const vector3d &rootPos, const Color &col);
 	void PutSelectionBox(const vector3d &worldPos, const Color &col);
 	void GetTransformTo(const SystemBody *b, vector3d &pos);
 	void OnClickObject(const SystemBody *b);
+	void OnClickLagrange();
 	void OnClickAccel(float step);
 	void OnClickRealt();
 	void OnIncreaseFactorButtonClick(void), OnResetFactorButtonClick(void), OnDecreaseFactorButtonClick(void);
@@ -116,6 +117,7 @@ private:
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_lagrangeIcon;
 	std::unique_ptr<Gui::TexturedQuad> m_periapsisIcon;
 	std::unique_ptr<Gui::TexturedQuad> m_apoapsisIcon;
 	Graphics::RenderState *m_lineState;
