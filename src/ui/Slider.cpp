@@ -176,7 +176,7 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 			travel = float(pos) / effectiveLength;
 		}
 
-		SetValue(travel);
+		SetValue(travel*(m_rangeMax - m_rangeMin) + m_rangeMin);
 	}
 
 	else {
