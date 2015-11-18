@@ -27,6 +27,12 @@ enum ShipDrawing {
 	OFF
 };
 
+enum ShowLagrange {
+	LAG_ICON,
+	LAG_ICONTEXT,
+	LAG_OFF
+};
+
 class TransferPlanner {
 public:
 	TransferPlanner();
@@ -89,7 +95,7 @@ private:
 	RefCountedPtr<StarSystem> m_system;
 	const SystemBody *m_selectedObject;
 	bool m_unexplored;
-	bool m_showL4L5;
+	ShowLagrange m_showL4L5;
 	TransferPlanner *m_planner;
 	std::list<std::pair<Ship*, Orbit>> m_contacts;
 	Gui::LabelSet *m_shipLabels;
@@ -120,7 +126,8 @@ private:
 	sigc::connection m_onMouseWheelCon;
 
 	std::unique_ptr<Graphics::Drawables::Disk> m_bodyIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_lagrangeIcon;
+	std::unique_ptr<Gui::TexturedQuad> m_l4Icon;
+	std::unique_ptr<Gui::TexturedQuad> m_l5Icon;
 	std::unique_ptr<Gui::TexturedQuad> m_periapsisIcon;
 	std::unique_ptr<Gui::TexturedQuad> m_apoapsisIcon;
 	Graphics::RenderState *m_lineState;

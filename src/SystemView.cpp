@@ -388,14 +388,16 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	Graphics::TextureBuilder b2 = Graphics::TextureBuilder::UI("icons/apoapsis.png");
 	m_apoapsisIcon.reset(new Gui::TexturedQuad(b2.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
-	Graphics::TextureBuilder lag = Graphics::TextureBuilder::UI("icons/lagrange.png");
-	m_lagrangeIcon.reset(new Gui::TexturedQuad(lag.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder l4 = Graphics::TextureBuilder::UI("icons/l4.png");
+	m_l4Icon.reset(new Gui::TexturedQuad(l4.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder l5 = Graphics::TextureBuilder::UI("icons/l5.png");
+	m_l5Icon.reset(new Gui::TexturedQuad(l5.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
 	ResetViewpoint();
 
 	RefreshShips();
 	m_shipDrawing = OFF;
-	m_showL4L5 = false;
+	m_showL4L5 = LAG_OFF;
 	m_planner = Pi::planner;
 
 	m_orbitVts.reset( new vector3f[N_VERTICES_MAX] );
@@ -427,7 +429,12 @@ void SystemView::OnToggleShipsButtonClick(void) {
 }
 
 void SystemView::OnToggleL4L5ButtonClick(void) {
-	m_showL4L5 = !m_showL4L5;
+	switch (m_showL4L5)
+	{
+	case LAG_OFF:	m_showL4L5 = LAG_ICON;		break;
+	case LAG_ICON:	m_showL4L5 = LAG_ICONTEXT;	break;
+	case LAG_ICONTEXT:	m_showL4L5 = LAG_OFF;	break;
+	}
 }
 
 void SystemView::OnClickRealt()
@@ -504,18 +511,20 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	if(Gui::Screen::Project(offset + orbit->Apogeum() * double(m_zoom), pos))
 		m_apoapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
 
-	if (showLagrange && m_showL4L5)
+	if (showLagrange && m_showL4L5!=LAG_OFF)
 	{
 		const vector3d posL4 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 60.0, tMinust0);
 		if (Gui::Screen::Project(offset + posL4 * double(m_zoom), pos)) {
-			m_lagrangeIcon->Draw(Pi::renderer, vector2f(pos.x - 3, pos.y - 5), vector2f(6, 10), color);
-			m_objectLabels->Add(std::string("L4"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
+			m_l4Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), color);
+			if(m_showL4L5==LAG_ICONTEXT)
+				m_objectLabels->Add(std::string("L4"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
 		}
 
 		const vector3d posL5 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 300.0, tMinust0);
 		if (Gui::Screen::Project(offset + posL5 * double(m_zoom), pos)) {
-			m_lagrangeIcon->Draw(Pi::renderer, vector2f(pos.x - 3, pos.y - 5), vector2f(6, 10), color);
-			m_objectLabels->Add(std::string("L5"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
+			m_l5Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), color);
+			if (m_showL4L5 == LAG_ICONTEXT)
+				m_objectLabels->Add(std::string("L5"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
 		}
 	}
 	Gui::Screen::LeaveOrtho();
