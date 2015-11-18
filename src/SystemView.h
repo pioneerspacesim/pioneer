@@ -83,7 +83,7 @@ private:
 	void OnIncreaseFactorButtonClick(void), OnResetFactorButtonClick(void), OnDecreaseFactorButtonClick(void);
 	void OnIncreaseStartTimeButtonClick(void), OnResetStartTimeButtonClick(void), OnDecreaseStartTimeButtonClick(void);
 	void OnToggleShipsButtonClick(void);
-	void OnToggleL4L5ButtonClick(void);
+	void OnToggleL4L5ButtonClick(Gui::MultiStateImageButton *);
 	void ResetViewpoint();
 	void MouseWheel(bool up);
 	void RefreshShips(void);
@@ -108,7 +108,7 @@ private:
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
 	Gui::ImageButton *m_toggleShipsButton;
-	Gui::ImageButton *m_toggleL4L5Button;
+	Gui::MultiStateImageButton *m_toggleL4L5Button;
 	Gui::ImageButton *m_plannerIncreaseStartTimeButton, *m_plannerResetStartTimeButton, *m_plannerDecreaseStartTimeButton;
 	Gui::ImageButton *m_plannerIncreaseFactorButton, *m_plannerResetFactorButton, *m_plannerDecreaseFactorButton;
 	Gui::ImageButton *m_plannerAddProgradeVelButton;

@@ -243,11 +243,16 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_toggleShipsButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleShipsButtonClick));
 	Add(m_toggleShipsButton, 660, 5);
 
-	m_toggleL4L5Button = new Gui::ImageButton("icons/toggle_l4l5_display.png");
+	// Add the 3 Lagrange button stations
+	m_toggleL4L5Button = new Gui::MultiStateImageButton();
+	m_toggleL4L5Button->AddState(LAG_ICON,		"icons/toggle_lag_icon.png");
+	m_toggleL4L5Button->AddState(LAG_ICONTEXT,	"icons/toggle_lag_icon_text.png");
+	m_toggleL4L5Button->AddState(LAG_OFF,		"icons/toggle_lag_off.png");
 	m_toggleL4L5Button->SetToolTip(Lang::L4L5_DISPLAY_MODE_TOGGLE);
 	m_toggleL4L5Button->SetRenderDimensions(30, 22);
 	m_toggleL4L5Button->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleL4L5ButtonClick));
 	Add(m_toggleL4L5Button, 628, 5);
+	m_toggleL4L5Button->SetActiveState(LAG_OFF);
 
 	// orbital transfer planner UI
 	int dx = 670;
@@ -428,12 +433,12 @@ void SystemView::OnToggleShipsButtonClick(void) {
 	}
 }
 
-void SystemView::OnToggleL4L5ButtonClick(void) {
+void SystemView::OnToggleL4L5ButtonClick(Gui::MultiStateImageButton *b) {
 	switch (m_showL4L5)
 	{
-	case LAG_OFF:	m_showL4L5 = LAG_ICON;		break;
-	case LAG_ICON:	m_showL4L5 = LAG_ICONTEXT;	break;
-	case LAG_ICONTEXT:	m_showL4L5 = LAG_OFF;	break;
+	case LAG_OFF:		m_showL4L5 = LAG_ICON;		m_toggleL4L5Button->SetActiveState(LAG_ICON);		break;
+	case LAG_ICON:		m_showL4L5 = LAG_ICONTEXT;	m_toggleL4L5Button->SetActiveState(LAG_ICONTEXT);	break;
+	case LAG_ICONTEXT:	m_showL4L5 = LAG_OFF;		m_toggleL4L5Button->SetActiveState(LAG_OFF);		break;
 	}
 }
 
