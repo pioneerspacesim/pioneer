@@ -734,7 +734,8 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 			const double axisZoom = kid->GetOrbit().GetSemiMajorAxis() * m_zoom;
 			if (axisZoom < DEFAULT_VIEW_DISTANCE)
 			{
-				const bool showLagrange = kid->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET || b->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT;
+				const SystemBody::BodySuperType bst = kid->GetSuperType();
+				const bool showLagrange = (bst == SystemBody::SUPERTYPE_ROCKY_PLANET || bst == SystemBody::SUPERTYPE_GAS_GIANT);
 				PutOrbit(&(kid->GetOrbit()), offset, Color::GREEN, 0.0, showLagrange);
 			}
 
