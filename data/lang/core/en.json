@@ -1822,5 +1822,9 @@
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
       "message" : "Switched heading display to system-wide coordinates."
+   },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Switch between Lagrange L4/L5 point display modes."
    }
 }

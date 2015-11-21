@@ -8,6 +8,7 @@ November 2015
      * Compact Use Equip Widget (#3507)
      * Normal Mapping for objects (ships, stations etc) (#3515)
      * Make Autosave optional (#3518)
+     * Show stable Lagrange point in system view (#3536)
 
    * Fixes
      * Fix stations placed on top of each other (#3498)
