@@ -88,12 +88,12 @@ local commodityMarket = function (args)
 	local sub100 = ui:Button("-100")
 	local subten = ui:Button("-10")
 	local subone = ui:Button("-1")
-	local tradereset = ui:Button("Reset")
+	local tradereset = ui:Button(l.RESET)
 	local addone = ui:Button("+1")
 	local addten = ui:Button("+10")
 	local add100 = ui:Button("+100")
-	local confirmtradebuy = ui:Button("Confirm purchase"):SetFont("HEADING_LARGE")
-	local confirmtradesell = ui:Button("Confirm sale"):SetFont("HEADING_LARGE")
+	local confirmtradebuy = ui:Button(l.CONFIRM_PURCHASE):SetFont("HEADING_LARGE")
+	local confirmtradesell = ui:Button(l.CONFIRM_SALE):SetFont("HEADING_LARGE")
 	local nobutton = nil
 	local showbuysellbutton = confirmtradebuy
 	local sellfromcargo = ui:Button(l.SELL)
@@ -127,7 +127,7 @@ local commodityMarket = function (args)
 		if trade_mode == trade_mode_buy then
 			stock = Game.player:GetDockedWith():GetEquipmentStock(tradecommodity)
 			if stock == 0 then
-				buysell:SetInnerWidget(ui:Label("None for sale in this station.")
+				buysell:SetInnerWidget(ui:Label(l.NONE_FOR_SALE_IN_THIS_STATION)
 					:SetFont("LARGE")
 					:SetColor({ r = 1.0, g = 0.0, b = 0.0 }) --set the color of the message to fullblown red
 				)
@@ -135,7 +135,7 @@ local commodityMarket = function (args)
 				return
 			end
 			if price > playercash then
-				buysell:SetInnerWidget(ui:Label("Insufficient funds.")
+				buysell:SetInnerWidget(ui:Label(l.INSUFFICIENT_FUNDS)
 					:SetFont("LARGE")
 					:SetColor({ r = 1.0, g = 1.0, b = 0.0 }) --set the color of the message to lovely yellow
 				)
@@ -226,7 +226,7 @@ local commodityMarket = function (args)
 						--this widgetset is only show if the player has an amount of the commodity in cargo to sell
 						ui:Margin(32,"VERTICAL", --add some margins to separate it from the text above and confirm button below
 							ui:HBox():PackEnd({ --hbox lines up elements horizontally (left to right)
-								ui:Align("MIDDLE",ui:Label("You have "..n.." units in your cargohold")), --horizontally aligned as there is no free space left and right (no expand)
+								ui:Align("MIDDLE",ui:Label(string.interp(l.YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD, {units = n}))), --horizontally aligned as there is no free space left and right (no expand)
 								ui:Margin(16,"LEFT",sellfromcargo), --button to switch pane to selling
 							})
 						),
