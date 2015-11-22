@@ -24,7 +24,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	using Graphics::Light;
 
 	m_background.reset(new Background::Container(r, Pi::rng));
-	m_ambientColor = Color(0);
+	m_ambientColor = Color::BLANK;
 
 	const Color one = Color::WHITE;
 	const Color two = Color(77, 77, 204, 0);

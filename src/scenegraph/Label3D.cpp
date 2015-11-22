@@ -21,7 +21,7 @@ Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> f
 	m_material.Reset(r->CreateMaterial(matdesc));
 	m_material->texture0 = font->GetTexture();
 	m_material->diffuse = Color::WHITE;
-	m_material->emissive = Color(38);
+	m_material->emissive = Color(38, 38, 38);
 	m_material->specular = Color::WHITE;
 
 	Graphics::RenderStateDesc rsd;
