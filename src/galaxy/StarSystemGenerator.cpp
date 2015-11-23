@@ -311,7 +311,7 @@ void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody* sbody)
 			sbody->m_atmosDensity = 14.0;
 			break;
 		case SystemBody::TYPE_PLANET_ASTEROID:
-			sbody->m_atmosColor = Color(0);
+			sbody->m_atmosColor = Color::BLANK;
 			sbody->m_atmosDensity = 0.0;
 			break;
 		default:
@@ -367,7 +367,7 @@ void StarSystemLegacyGeneratorBase::PickAtmosphere(SystemBody* sbody)
 				}
 				sbody->m_atmosColor = Color(r*255, g*255, b*255, 255);
 			} else {
-				sbody->m_atmosColor = Color(0);
+				sbody->m_atmosColor = Color::BLANK;
 			}
 			sbody->m_atmosDensity = sbody->GetVolatileGas();
 			//Output("| Atmosphere :\n|      red   : [%f] \n|      green : [%f] \n|      blue  : [%f] \n", r, g, b);

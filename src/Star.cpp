@@ -73,7 +73,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//render star halo
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	const Color bright(StarSystem::starRealColors[GetSystemBody()->GetType()]);
-	const Color dark(0);
+	const Color dark(Color::BLANK);
 
 	va.Add(vector3f(0.f), bright);
 	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {

@@ -27,7 +27,7 @@ void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMar
 	m_layout = 0;
 	m_dlist = 0;
 	m_font = Gui::Screen::GetFont();
-	m_color = ::Color(255);
+	m_color = ::Color::WHITE;
 	SetText(text);
 }
 

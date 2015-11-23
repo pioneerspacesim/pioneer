@@ -68,7 +68,7 @@ struct SkyboxVert {
 
 void BackgroundElement::SetIntensity(float intensity)
 {
-	m_material->emissive = Color(intensity*255);
+	m_material->emissive = Color(intensity * 255, intensity * 255, intensity*255);
 }
 
 UniverseBox::UniverseBox(Graphics::Renderer *renderer)
@@ -298,7 +298,7 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	std::unique_ptr<Graphics::VertexArray> bottom(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
 	std::unique_ptr<Graphics::VertexArray> top(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
 
-	const Color dark(0);
+	const Color dark(Color::BLANK);
 	const Color bright(13, 13, 13, 13);
 
 	//bottom

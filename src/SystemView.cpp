@@ -518,16 +518,17 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 
 	if (showLagrange && m_showL4L5!=LAG_OFF)
 	{
+		const Color LPointColor(0x00d6e2ff);
 		const vector3d posL4 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 60.0, tMinust0);
 		if (Gui::Screen::Project(offset + posL4 * double(m_zoom), pos)) {
-			m_l4Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), color);
+			m_l4Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
 			if(m_showL4L5==LAG_ICONTEXT)
 				m_objectLabels->Add(std::string("L4"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
 		}
 
 		const vector3d posL5 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 300.0, tMinust0);
 		if (Gui::Screen::Project(offset + posL5 * double(m_zoom), pos)) {
-			m_l5Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), color);
+			m_l5Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
 			if (m_showL4L5 == LAG_ICONTEXT)
 				m_objectLabels->Add(std::string("L5"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
 		}
