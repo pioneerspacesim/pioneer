@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Textúrák tömörítése"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirm purchase"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirm sale"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Főtörzs"
@@ -471,6 +479,10 @@
       "description" : "For player reputation",
       "message" : "Tapasztalatlan"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Insufficient funds."
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Egér Y tengely megfordítása"
@@ -719,6 +731,10 @@
       "description" : "",
       "message" : "Nincs"
    },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "None for sale in this station."
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Megjegyzés:"
@@ -882,6 +898,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Felszállási engedély kérése"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1122,6 +1142,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Nincs elég pénzed ehhez az összeállításhoz."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "You have {units} units in your cargohold"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",

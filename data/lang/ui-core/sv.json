@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Komprimera texturer"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirm purchase"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirm sale"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Konstapel"
@@ -471,6 +479,10 @@
       "description" : "For player reputation",
       "message" : "Oerfaren"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Insufficient funds."
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Invertera mus Y"
@@ -719,6 +731,10 @@
       "description" : "",
       "message" : "Inget"
    },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "None for sale in this station."
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Anteckningar:"
@@ -882,6 +898,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Uppskjutningstillstånd"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1122,6 +1142,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Du har inte tillräckligt med pengar för det valet."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "You have {units} units in your cargohold"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
