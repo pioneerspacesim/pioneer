@@ -1034,8 +1034,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// for out-of-range systems draw leg only if we draw label
 		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed()) && (i->GetPopulation() > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip) {
 
-			const Color light(Uint8(128));
-			const Color dark(Uint8(51));
+			const Color light(128, 128, 128);
+			const Color dark(51, 51, 51);
 
 			// draw system "leg"
 			float z = -i->GetPosition().z;
