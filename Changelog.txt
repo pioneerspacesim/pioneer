@@ -16,6 +16,7 @@ November 2015
      * Fix negative latitude longitude issue (#3531)
      * Fix AIWarning giving the wrong errror msg (#3532)
      * Fix strings not in translation system (#3538)
+     * Lagrange Points in turquoise-ish (#3539)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
