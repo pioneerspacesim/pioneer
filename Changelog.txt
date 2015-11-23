@@ -15,6 +15,7 @@ November 2015
      * Updated premake script to generate usable CodeBlocks project (#3521)
      * Fix negative latitude longitude issue (#3531)
      * Fix AIWarning giving the wrong errror msg (#3532)
+     * Fix strings not in translation system (#3538)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
