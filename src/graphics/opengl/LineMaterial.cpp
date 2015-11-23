@@ -13,7 +13,7 @@ namespace Graphics {
 namespace OGL {
 
 // LineProgram -------------------------------------------
-LineProgram::LineProgram(const std::string &filename, const std::string &defines) : Program(filename, defines, true)
+LineProgram::LineProgram(const std::string &filename, const std::string &defines) : Program(filename, defines)
 {
 }
 
@@ -26,7 +26,7 @@ void LineProgram::InitUniforms()
 // LineMaterial -----------------------------------
 Program *LineMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	assert(desc.effect == EFFECT_LINE);
+	//assert(desc.effect == EFFECT_LINE);
 	return new Graphics::OGL::LineProgram("line", "");
 }
 
