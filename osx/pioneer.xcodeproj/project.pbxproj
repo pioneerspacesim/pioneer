@@ -215,7 +215,6 @@
 		521EDA231C00D3430092B2E9 /* GasGiantMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 521ED9DD1C00D3430092B2E9 /* GasGiantMaterial.cpp */; };
 		521EDA241C00D3430092B2E9 /* GeoSphereMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 521ED9DF1C00D3430092B2E9 /* GeoSphereMaterial.cpp */; };
 		521EDA251C00D3430092B2E9 /* gl_core_3_x.c in Sources */ = {isa = PBXBuildFile; fileRef = 521ED9E11C00D3430092B2E9 /* gl_core_3_x.c */; };
-		521EDA261C00D3430092B2E9 /* LineMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 521ED9E41C00D3430092B2E9 /* LineMaterial.cpp */; };
 		521EDA281C00D3430092B2E9 /* MaterialGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 521ED9E71C00D3430092B2E9 /* MaterialGL.cpp */; };
 		521EDA291C00D3430092B2E9 /* MultiMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 521ED9E91C00D3430092B2E9 /* MultiMaterial.cpp */; };
 		521EDA2A1C00D3430092B2E9 /* Program.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 521ED9EC1C00D3430092B2E9 /* Program.cpp */; };
@@ -921,8 +920,6 @@
 		521ED9E11C00D3430092B2E9 /* gl_core_3_x.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_core_3_x.c; sourceTree = "<group>"; };
 		521ED9E21C00D3430092B2E9 /* gl_core_3_x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl_core_3_x.h; sourceTree = "<group>"; };
 		521ED9E31C00D3430092B2E9 /* GLDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLDebug.h; sourceTree = "<group>"; };
-		521ED9E41C00D3430092B2E9 /* LineMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LineMaterial.cpp; sourceTree = "<group>"; };
-		521ED9E51C00D3430092B2E9 /* LineMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LineMaterial.h; sourceTree = "<group>"; };
 		521ED9E61C00D3430092B2E9 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
 		521ED9E71C00D3430092B2E9 /* MaterialGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialGL.cpp; sourceTree = "<group>"; };
 		521ED9E81C00D3430092B2E9 /* MaterialGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialGL.h; sourceTree = "<group>"; };
@@ -2238,8 +2235,6 @@
 				521ED9E11C00D3430092B2E9 /* gl_core_3_x.c */,
 				521ED9E21C00D3430092B2E9 /* gl_core_3_x.h */,
 				521ED9E31C00D3430092B2E9 /* GLDebug.h */,
-				521ED9E41C00D3430092B2E9 /* LineMaterial.cpp */,
-				521ED9E51C00D3430092B2E9 /* LineMaterial.h */,
 				521ED9E61C00D3430092B2E9 /* Makefile.am */,
 				521ED9E71C00D3430092B2E9 /* MaterialGL.cpp */,
 				521ED9E81C00D3430092B2E9 /* MaterialGL.h */,
@@ -2585,7 +2580,6 @@
 				521EDC011C00D3A20092B2E9 /* LuaSingle.cpp in Sources */,
 				521EDC061C00D3A20092B2E9 /* LuaWidget.cpp in Sources */,
 				521ED9311C00D14E0092B2E9 /* LuaRef.cpp in Sources */,
-				521EDA261C00D3430092B2E9 /* LineMaterial.cpp in Sources */,
 				521ED9B71C00D3240092B2E9 /* SystemPath.cpp in Sources */,
 				521ED9471C00D14E0092B2E9 /* NavLights.cpp in Sources */,
 				521ED95E1C00D14E0092B2E9 /* ShipController.cpp in Sources */,
