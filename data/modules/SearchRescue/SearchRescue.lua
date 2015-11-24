@@ -59,6 +59,8 @@ local max_crew = 4                 -- max number of crew on target ship (high ma
 local reward_close = 200           -- basic reward for "CLOSE" mission (+/- random half of that)
 local reward_medium = 1000         -- basic reward for "MEDIUM" mission (+/- random half of that)
 local reward_far = 2000            -- basic reward for "FAR" mission (+/- random half of that)
+local ad_freq_max = 0.5             -- maximum frequency for ad creation
+local ad_freq_min = 0.1             -- minimum frequency for ad creation
 
 -- ===== just copied from DeliverPackage.lua for now =====
 -- typical time for travel to a system max_mission_dist away
@@ -296,8 +298,19 @@ end
 -- basic mission functions
 -- =======================
 
--- This function returns the number of flavours of the given string str
--- It is assumed that the first flavour has suffix '_1'
+local checkAdFrequency = function ()
+   -- Return if ad should be created based on lawlessness and min/max frequency values.
+   local freq = Game.system.lawlessness * ad_freq_max
+   if freq < ad_freq_min then freq = ad_freq_min end
+   local rand_num = Engine.rand:Number(0,1)
+   print("===>Lawlessness/frequency/random:", Game.system.lawlessness, freq, rand_num)
+   if rand_num < freq then
+      return true
+   else
+      return false
+   end
+end
+
 local getNumberOfFlavours = function (str)
    -- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
    -- Taken from CargoRun.lua.
@@ -1698,46 +1711,23 @@ local onShipUndocked = function (ship, station)
 end
 
 local onCreateBB = function (station)
---   if nearbysystems == nil then
---      nearbysystems = Game.system:GetNearbySystems(max_mission_dist, function (s) return #s:GetStationPaths() > 0 end)
---   end
---   local nearbystations = findNearbyStations(false, station)
---   local numAchievableJobs = 0
---   local reputation = Character.persistent.player.reputation
---   local canHyperspace = Game.player.maxHyperspaceRange > 0
 
-   -- make 2 ads each time for testing
-   local num = 3
-   --local num = Engine.rand:Integer(0, math.ceil(Game.system.population))
-   
-   for _ = 1,num do
---      local ad = makeAdvert(station, nil, nearbystations)
-      makeAdvert(station, 1)
-      makeAdvert(station, 2)
-      makeAdvert(station, 3)
-      makeAdvert(station, 4)
-      makeAdvert(station, 5)
-      makeAdvert(station, 6)
-      makeAdvert(station, 7)
-   --   local ad = makeAdvert(station, nil, nearbystations)
-   --   if ad and isQualifiedFor(reputation, ad) and (ad.localdelivery or canHyperspace) then
---	 numAchievableJobs = numAchievableJobs + 1
-  --    end
-   end
-
-   -- make sure a player with low reputation will have at least one
-   -- job that does not require reputation on the BBS
-  -- if numAchievableJobs < 1 and (#nearbystations > 0 or (#nearbysystems > 0 and canHyperspace)) then
-    --  local ad
-    --  if #nearbystations > 0 and #nearbysystems > 0 and canHyperspace then
---	 ad = makeAdvert(station, easyJobs[Engine.rand:Integer(1,#easyJobs)], nearbystations)
-  --    elseif #nearbystations > 0 then
---	 ad = makeAdvert(station, easyLocalJobs[Engine.rand:Integer(1,#easyLocalJobs)], nearbystations)
-  --    else
---	 ad = makeAdvert(station, easyNonLocalJobs[Engine.rand:Integer(1,#easyNonLocalJobs)], nearbystations)
-  --    end
-    --  assert(ad, "Could not create easy job")   -- We checked preconditions, so we should have a job now
+   -- make 3 ads each time for testing
+   --local num = 3
+   --for _ = 1,num do
+   --   makeAdvert(station, 1)
+   --   makeAdvert(station, 2)
+   --   makeAdvert(station, 3)
+   --   makeAdvert(station, 4)
+   --   makeAdvert(station, 5)
+   --   makeAdvert(station, 6)
+   --   makeAdvert(station, 7)
    --end
+
+   if checkAdFrequency() then
+      print("Ad created at station:", station.label)
+      makeAdvert(station, nil)
+   end
 end
 
 local onUpdateBB = function (station)
@@ -1746,19 +1736,19 @@ local onUpdateBB = function (station)
    -- remove ads based on time until due
    for ref,ad in pairs(ads) do
 
-      -- one hour timeout for very close missions (same planet)  --TODO: check if appropriate
+      -- 30 minute timeout for very close missions (same planet)
       if ad.flavour.loctype == "CLOSE_PLANET" or ad.flavour.loctype == "CLOSE_SPACE" then
-	 if ad.due < Game.time + 60*60 then
+	 if ad.due < Game.time + 30*60 then
 	    Space.GetBody(ad.station_local.bodyIndex):RemoveAdvert(ref)
 	 end
 
-	 -- one day timeout for medium distance missions (same system)   --TODO: check if appropriate
+	 -- one day timeout for medium distance missions (same system)
       elseif ad.flavour.loctype == "MEDIUM_PLANET" then
 	 if ad.due < Game.time + 60*60*24 then
 	    Space.GetBody(ad.station_local.bodyIndex):RemoveAdvert(ref)
 	 end
 
-	 -- five day timeout as catch-all for everything else   --TODO: check if appropriate
+	 -- five day timeout as catch-all for everything else
       else
 	 if ad.due < Game.time + 5*60*60*24 then
 	    Space.GetBody(ad.station_local.bodyIndex):RemoveAdvert(ref)
@@ -1768,7 +1758,10 @@ local onUpdateBB = function (station)
 
    -- add ads randomly about every six hours
    if Engine.rand:Integer(6*60*60) < 60*60 then
-      makeAdvert(station)
+      if checkAdFrequency then
+	 print("Ad created at station:", station.label)
+	 makeAdvert(station, nil)
+      end
    end
 end
 
