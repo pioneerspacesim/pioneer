@@ -17,6 +17,7 @@ November 2015
      * Fix AIWarning giving the wrong errror msg (#3532)
      * Fix strings not in translation system (#3538)
      * Lagrange Points in turquoise-ish (#3539)
+     * Fix the broken win32 cross compile (#3542)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
