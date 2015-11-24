@@ -81,7 +81,7 @@
 #include <algorithm>
 #include <sstream>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32__)
 	// RegisterClassA and RegisterClassW are defined as macros in WinUser.h
 	#ifdef RegisterClass
 	#undef RegisterClass
