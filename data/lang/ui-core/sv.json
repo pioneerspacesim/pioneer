@@ -169,11 +169,11 @@
    },
    "CONFIRM_PURCHASE" : {
       "description" : "",
-      "message" : "Confirm purchase"
+      "message" : "Bekräfta köp"
    },
    "CONFIRM_SALE" : {
       "description" : "",
-      "message" : "Confirm sale"
+      "message" : "Bekräfta försäljning"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -481,7 +481,7 @@
    },
    "INSUFFICIENT_FUNDS" : {
       "description" : "",
-      "message" : "Insufficient funds."
+      "message" : "Otillräcklig likvid"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -733,7 +733,7 @@
    },
    "NONE_FOR_SALE_IN_THIS_STATION" : {
       "description" : "",
-      "message" : "None for sale in this station."
+      "message" : "Inget tillsalu vid denna station"
    },
    "NOTES" : {
       "description" : "",
@@ -901,7 +901,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Återställ"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1145,7 +1145,7 @@
    },
    "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
       "description" : "",
-      "message" : "You have {units} units in your cargohold"
+      "message" : "Du har {units} enheter i din last"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",

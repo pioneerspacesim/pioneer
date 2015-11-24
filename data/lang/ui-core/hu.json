@@ -269,7 +269,7 @@
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Illegális szemétlerakás"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -793,7 +793,7 @@
    },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
+      "message" : "Kiszabott bírságok"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -901,7 +901,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Alaphelyzet"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1017,7 +1017,7 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "This station holds a level {tech_level} technology certificate."
+      "message" : "Állomásunk technológiai engedélyének szintje: {tech_level}."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
