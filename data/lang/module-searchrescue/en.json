@@ -33,15 +33,19 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship with ship ID {shiplabel} on {planet} at the following latitude/longitude coordinates: {lat} / {long}. Status of life support systems is unknown. A crew of {crew} and {pass} passengers are reported to be on board the ship. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement if you can locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
    },
     "FLAVOUR_1_SUCCESSMSG" : {
        "description" : "",
        "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
     },
-    "FLAVOUR_1_WHYSOMUCHTEXT" : {
+    "FLAVOUR_1_LOCATIONTEXT" : {
 	"description" : "",
-	"message" : "The owner of the ship has good insurance coverage."
+	"message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+    },
+    "FLAVOUR_1_TYPEOFHELPTEXT" : {
+	"description" : "",
+	"message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
     },
     "FLAVOUR_1_HOWMUCHTIMETEXT" : {
 	"description" : "",
@@ -61,15 +65,19 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land at latitude {lat} / longitude {long}. The pilot is willing to pay {cash} if you can deliver 1 ton of hydrogen fuel to the stranded ship."
+      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
    },
     "FLAVOUR_2_SUCCESSMSG" : {
        "description" : "",
        "message" : "Thank you so much! I have transfered the full reward."
     },
-    "FLAVOUR_2_WHYSOMUCHTEXT" : {
+    "FLAVOUR_2_LOCATIONTEXT" : {
 	"description" : "",
-	"message" : "The ship has valuable cargo on board. It will cost the pilot a lot if it does not get delivered soon."
+	"message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+    },
+    "FLAVOUR_2_TYPEOFHELPTEXT" : {
+	"description" : "",
+	"message" : "The pilot is requesting 1 ton of hydrogen fuel."
     },
     "FLAVOUR_2_HOWMUCHTIMETEXT" : {
 	"description" : "",
@@ -82,22 +90,26 @@
     "FLAVOUR_3_ADTEXT" : {
 	"description" : "",
 	"message" : "MEDICAL EMERGENCY on ship close to {starport}."
-   },
-   "FLAVOUR_3_FAILUREMSG" : {
-      "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
-   },
-   "FLAVOUR_3_INTROTEXT" : {
-      "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. There has been a medical emergency involving the pilot of flight {shiplabel} headed for {starport}. The ship had to emergency land at the coordinates: {lat} / {long}. The owner of the ship will pay {cash} if you can transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
-   },
-    "FLAVOUR_3_SUCCESSMSG" : {
-       "description" : "",
-       "message" : "Thank you, commander! I have been authorized by the ship owner to transmit {cash}."
     },
-    "FLAVOUR_3_WHYSOMUCHTEXT" : {
+    "FLAVOUR_3_FAILUREMSG" : {
 	"description" : "",
-	"message" : "This is really not a large fee."
+	"message" : "Unacceptable performance! We will update our records accordingly."
+    },
+    "FLAVOUR_3_INTROTEXT" : {
+	"description" : "",
+	"message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+    },
+    "FLAVOUR_3_SUCCESSMSG" : {
+	"description" : "",
+	"message" : "Thank you, commander! Your help has been duly noted."
+    },
+    "FLAVOUR_3_LOCATIONTEXT" : {
+	"description" : "",
+	"message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+    },
+    "FLAVOUR_3_TYPEOFHELPTEXT" : {
+	"description" : "",
+	"message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
     },
     "FLAVOUR_3_HOWMUCHTIMETEXT" : {
 	"description" : "",
@@ -117,15 +129,19 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
        "description" : "",
-       "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank on {planet} at coordinates {lat} / {long}. The pilot has promised to pay {cash} to anyone that will deliver 1 ton of hydrogen fuel to the stranded ship."
+       "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
    },
     "FLAVOUR_4_SUCCESSMSG" : {
        "description" : "",
        "message" : "Very good. We will recommend you for future assignments.."
     },
-    "FLAVOUR_4_WHYSOMUCHTEXT" : {
+    "FLAVOUR_4_LOCATIONTEXT" : {
 	"description" : "",
-	"message" : "When you are stranded out there this does not seem like a large sum to pay."
+	"message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+    },
+    "FLAVOUR_4_TYPEOFHELPTEXT" : {
+	"description" : "",
+	"message" : "The pilot is asking for 1 ton of hydrogen fuel."
     },
     "FLAVOUR_4_HOWMUCHTIMETEXT" : {
 	"description" : "",
@@ -145,15 +161,19 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
        "description" : "",
-       "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel {dist} km from here. We will pay {cash} to anyone who will refuel the ship with 1 ton of hydrogen fuel so they can move on."
+       "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
    },
     "FLAVOUR_5_SUCCESSMSG" : {
        "description" : "",
        "message" : "We will make record of your timely completion of the task."
     },
-    "FLAVOUR_5_WHYSOMUCHTEXT" : {
+    "FLAVOUR_5_LOCATIONTEXT" : {
 	"description" : "",
-	"message" : "We like to keep our own backyard clean."
+	"message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+    },
+    "FLAVOUR_5_TYPEOFHELPTEXT" : {
+	"description" : "",
+	"message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
     },
     "FLAVOUR_5_HOWMUCHTIMETEXT" : {
 	"description" : "",
@@ -173,15 +193,19 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
        "description" : "",
-       "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here. We will pay {cash} to anyone willing to leave immediately to help our colleagues and bring them back to {starport}. The ship had {crew} crew and {pass} passengers on board."
+       "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
    },
     "FLAVOUR_6_SUCCESSMSG" : {
        "description" : "",
        "message" : "Thank you! You can't imagine how relieved we are."
     },
-    "FLAVOUR_6_WHYSOMUCHTEXT" : {
+    "FLAVOUR_6_LOCATIONTEXT" : {
 	"description" : "",
-	"message" : "We had a collection among colleagues and everyone chipped in."
+	"message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+    },
+    "FLAVOUR_6_TYPEOFHELPTEXT" : {
+	"description" : "",
+	"message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
     },
     "FLAVOUR_6_HOWMUCHTIMETEXT" : {
 	"description" : "",
@@ -201,15 +225,19 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
        "description" : "",
-       "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. Only one crew member is left on board the ship after {problem}. The ship is being kept in orbit around {planet}, but can't return without minimal crew present. I am willing to pay {cash} to anyone transporting a replacement crew of {deliver_crew} to our starship immediately."
+       "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
    },
     "FLAVOUR_7_SUCCESSMSG" : {
        "description" : "",
        "message" : "Thank you! I have been authorized to transmit the full payment."
     },
-    "FLAVOUR_7_WHYSOMUCHTEXT" : {
+    "FLAVOUR_7_LOCATIONTEXT" : {
 	"description" : "",
-	"message" : "The future of our whole business depends on this starship. I would offer more if I had the funds right now."
+	"message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+    },
+    "FLAVOUR_7_TYPEOFHELPTEXT" : {
+	"description" : "",
+	"message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
     },
     "FLAVOUR_7_HOWMUCHTIMETEXT" : {
 	"description" : "",
@@ -549,15 +577,23 @@
     },
     "INTERACTION_DISTANCE_REACHED" : {
 	"description" : "",
-	"message" : "Interaction distance reached. Please allow {minutes} minutes for transfer."
+	"message" : "Interaction distance reached."
     },
     "INTERACTION_ABORTED" : {
 	"description" : "",
 	"message" : "Interaction aborted. Please come closer and try again."
     },
+    "PLEASE_LAND" : {
+	"description" : "",
+	"message" : "Please land ship to allow transfer."
+    },
     "SHIP_UNRESPONSIVE" : {
 	"description" : "",
 	"message" : "Target ship unresponsive."
+    },
+    "TRANSFER_TIME" : {
+	"description" : "",
+	"message" : "Please allow {minutes} minutes for transfer."
     },
     "HOW_MUCH_TIME": {
 	"description" : "",
@@ -571,10 +607,6 @@
 	"description" : "",
 	"message" : "How far away is the target?"
     },
-   "I_HIGHLY_DOUBT_IT" : {
-      "description" : "",
-      "message" : "I highly doubt it."
-    },
    "OK_AGREED" : {
       "description" : "",
       "message" : "Ok, agreed."
@@ -587,14 +619,14 @@
       "description" : "",
        "message" : "System:"
    },
-   "WHY_SO_MUCH_MONEY" : {
+   "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "Why so much money?"
+      "message" : "What type of help is needed?"
    },
-    "WILL_I_BE_IN_ANY_DANGER" : {
-       "description" : "",
-       "message" : "Will I be in any danger?"
-   },
+    "WHERE_IS_THE_TARGET" : {
+	"description" : "",
+	"message" : "Where do I find the target?"
+    },
     "LY" : {
        "description" : "",
        "message" : "ly"
