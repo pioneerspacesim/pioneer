@@ -150,11 +150,23 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
       bundle). It also isn't the 'Apple way', To do that you need to use XCode.
 
 
-1.5 OS X - XCode 4
+1.5 OS X - XCode 6
 ------------------
 
-* The XCode project isn't as up to date as the 'autotools' method and may
-  be broken.
+You will need the following libraries installed. The best method I found was to install macports (http://www.macports.org/) and install the following ports (sudo port install xxxx):
+
+     autoconf
+     automake
+     pkgconfig
+     assimp
+     freetype
+     libsigcxx2
+     libsdl2
+     libsdl2_image
+     libvorbis
+     libvorbisfile
+	
+Alternatively you can also run the script in the ./osx folder install_ports.sh
 
 The latest XCode project files are located in ./osx. Simply build the
 aplication bundle. The XCode project uses the mac port libraries that you
