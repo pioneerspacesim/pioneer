@@ -8,8 +8,8 @@ namespace Graphics {
 Light::Light() :
 	m_type(LIGHT_POINT),
 	m_position(0.f),
-	m_diffuse(Color(255)),
-	m_specular(Color(0))
+	m_diffuse(Color::WHITE),
+	m_specular(Color::BLANK)
 {
 
 }

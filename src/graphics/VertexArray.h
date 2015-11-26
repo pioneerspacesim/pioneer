@@ -5,7 +5,7 @@
 #define _VERTEXARRAY_H
 
 #include "libs.h"
-#include "graphics/Types.h"
+#include "Types.h"
 
 namespace Graphics {
 
@@ -21,7 +21,7 @@ typedef unsigned int AttributeSet;
 class VertexArray {
 public:
 	//specify attributes to be used, additionally reserve space for vertices
-	VertexArray(AttributeSet attribs, const unsigned int size=0);
+	VertexArray(AttributeSet attribs, int size=0);
 	~VertexArray();
 
 	//check presence of an attribute
@@ -41,7 +41,8 @@ public:
 	void Add(const vector3f &v, const Color &c, const vector2f &uv);
 	void Add(const vector3f &v, const vector2f &uv);
 	void Add(const vector3f &v, const vector3f &normal, const vector2f &uv);
-	virtual void Reserve(const unsigned int howmuch);
+	void Add(const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang);
+	void Reserve(const unsigned int howmuch);
 
 	// don't mix these
 	void Set(const Uint32 idx, const vector3f &v);
@@ -50,13 +51,16 @@ public:
 	void Set(const Uint32 idx, const vector3f &v, const Color &c, const vector2f &uv);
 	void Set(const Uint32 idx, const vector3f &v, const vector2f &uv);
 	void Set(const Uint32 idx, const vector3f &v, const vector3f &normal, const vector2f &uv);
+	void Set(const Uint32 idx, const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang);
 
 	//could make these private, but it is nice to be able to
 	//add attributes separately...
-	std::vector<vector3f> position;
-	std::vector<vector3f> normal;
-	std::vector<Color> diffuse;
-	std::vector<vector2f> uv0;
+	std::vector<vector3f>	position;
+	std::vector<vector3f>	normal;
+	std::vector<Color>		diffuse;
+	std::vector<vector2f>	uv0;
+	std::vector<vector2f>	uv1;
+	std::vector<vector3f>	tangent;
 
 private:
 	AttributeSet m_attribs;

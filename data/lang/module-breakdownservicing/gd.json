@@ -1,23 +1,23 @@
 {
    "FLAVOUR_0_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today, by the officially endorsed {name} Engine Servicing Company.\n\nEngine: {drive}\nService: {price}\nGuarantee: 18 months\n{lasttime}"
+      "message" : "Seachain am mì-ghoireas a bheireadh einnsein os-fhànais briste dhut.  Faigh obair-càraidh air an fhear agad an-diugh, le cùl-sgrìobhadh oifigeil Companaidh Càradh Einnsean {name}.\n\nEinnsean: {drive}\nObair-càraidh: {price}\nBarantas: 18 mìosan\n{lasttime}"
    },
    "FLAVOUR_0_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Chaidh obair-càraidh a dhèanamh air an einnsean agad."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "{name} Engine Servicing Company"
+      "message" : "Companaidh Càradh Einnsean {name}"
    },
    "FLAVOUR_0_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Obair-càraidh air einnsean os-fhànais"
    },
    "FLAVOUR_1_INTRO" : {
       "description" : "",
-      "message" : "I'm {proprietor}.  I can service your {drive}, guaranteeing at least a year of trouble-free performance.  The cost for this service will be {price}\n{lasttime}"
+      "message" : "Is mise {proprietor}. Cuiridh mi gleus air {drive} dhut is geallaidh mi gun obraich e gun trioblaid fad corr is bliadhna.  Cosgaidh an t-seirbheis seo {price}\n{lasttime}"
    },
    "FLAVOUR_1_RESPONSE" : {
       "description" : "",
@@ -33,15 +33,15 @@
    },
    "FLAVOUR_2_INTRO" : {
       "description" : "",
-      "message" : "Hi there.  We at {proprietor} & Co stake our reputation on our work.\n\n{lasttime}\nWe can tune your ship's {drive}, ensuring 12 months of trouble-free operation, for the sum of {price}.  I'll be supervising the work myself, so you can be sure that a good job will be done."
+      "message" : "Shin thu. Tha sinne aig {proprietor} ⁊ Co a' gealltainn deagh-obair chliùiteach.\n\n{lasttime}\nCuiridh sinn gleus air {drive} an t-soithich, a' gealltainn 12 mhìos dhe dh'obrachadh gun trioblaid, air {price}.  Bidh mi fhìn a stiùireadh na h-obrach, mar sin feumaidh tu bhith cinnteach gun dèan sinn deagh-obair."
    },
    "FLAVOUR_2_RESPONSE" : {
       "description" : "",
-      "message" : "Service complete.  Thanks for your custom."
+      "message" : "Tha an obair-càraidh deiseil. Mòran taing airson ar seirbheisean a chleachdadh."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "{proprietor} & Co HyperMechanics"
+      "message" : "Os-mheacanaig {proprietor} ⁊ Co"
    },
    "FLAVOUR_2_YESPLEASE" : {
       "description" : "",
@@ -49,23 +49,23 @@
    },
    "FLAVOUR_3_INTRO" : {
       "description" : "",
-      "message" : "Fàilte dhan t-sàr-cheàrdach càraidh.\n\n{lasttime}\nAn tàinig àm na h-obrach-càraidh leth-bhliadhnail agad? Nach dèan sinn sàr-chàradh air an draibh os-fhànais agaibh!\nGleusaidh sinn a' {drive} agad 's cha bhi e ach {price}. Chan fhaigh thu obair nas saoire àite sam bith!"
+      "message" : "Fàilte dhan Cheàrdach Sàr-chàraidh.\n\n{lasttime}\nAn dàinig àm na h-obrach-càraidh leth-bhliadhnail agad? Nach dèan sinn sàr-chàradh air an draibh os-fhànais agaibh!\nGleusaidh sinn a' {drive} agad 's cha bhi e ach {price}. Chan fhaigh thu obair nas saoire àite sam bith!"
    },
    "FLAVOUR_3_RESPONSE" : {
       "description" : "",
-      "message" : "Your SuperFix service is complete, with SuperFix guarantee!"
+      "message" : "Tha an Sàr-chàrachadh deiseil, le barantas Sàr-chàrachaidh!"
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "SuperFix Maintenance ({name} branch)"
+      "message" : "Ceàrdach Sàr-chàraidh ({name} branch)"
    },
    "FLAVOUR_3_YESPLEASE" : {
       "description" : "",
-      "message" : "SuperFix me!"
+      "message" : "Sàr-chàraich mi!"
    },
    "FLAVOUR_4_INTRO" : {
       "description" : "",
-      "message" : "Welcome to Time and Space.\n\nWe specialise in interstellar engines. All maintenance work guaranteed for two years.\n{lasttime}\nServicing your {drive} will cost {price}.  Would you like to proceed?"
+      "message" : "Fàilte gu Àm is Fànas.\n\nTha eòlas àraidh againn air einnseanan eadar-reultail. Bidh gach obair-càraidh fo bharantas fad dà bhliadhna.\n{lasttime}\nBidh an obair-càraidh air {drive} a' cosg {price}.  Am bu toigh leat leantainn air adhart leis?"
    },
    "FLAVOUR_4_RESPONSE" : {
       "description" : "",
@@ -73,27 +73,27 @@
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "Time and Space Engines, Inc."
+      "message" : "Einnseanan Àm is Fànas Corpaichte."
    },
    "FLAVOUR_4_YESPLEASE" : {
       "description" : "",
-      "message" : "Yes, please proceed"
+      "message" : "Bu toigh leam an obair-càraidh"
    },
    "FLAVOUR_5_INTRO" : {
       "description" : "",
-      "message" : "Avoid the inconvenience of a broken-down hyperspace engine.  Get yours serviced today.\n\nEngine: {drive}\nService: {price}\n{lasttime}"
+      "message" : "Seachain am mì-ghoireas a bheireadh einnsein os-fhànais briste dhut.  Faigh obair-càraidh air an fhear agad an-diugh.\n\nEinnsean: {drive}\nObair-càraidh: {price}\n{lasttime}"
    },
    "FLAVOUR_5_RESPONSE" : {
       "description" : "",
-      "message" : "Your engine has been serviced."
+      "message" : "Chaidh obair-càraidh a dhèanamh air an einnsean agad."
    },
    "FLAVOUR_5_TITLE" : {
       "description" : "",
-      "message" : "{proprietor} Engine Servicing Company"
+      "message" : "Companaidh Càradh Einnsean {proprietor}"
    },
    "FLAVOUR_5_YESPLEASE" : {
       "description" : "",
-      "message" : "Service hyperspace engine"
+      "message" : "Obair-càraidh air einnsean os-fhànais"
    },
    "I_DONT_HAVE_ENOUGH_MONEY" : {
       "description" : "",

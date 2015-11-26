@@ -67,15 +67,15 @@ void ShipCockpit::Update(float timeStep)
 
 	//---------------------------------------- Acceleration
 	float cur_vel = CalculateSignedForwardVelocity(-cur_dir, Pi::player->GetVelocity()); // Forward is -Z
-	float gforce = Clamp(floorf(((abs(cur_vel) - m_shipVel) / timeStep) / 9.8f), -COCKPIT_MAX_GFORCE, COCKPIT_MAX_GFORCE);
-	if (abs(cur_vel) > 500000.0f ||      // Limit gforce measurement so we don't get astronomical fluctuations
-		abs(gforce - m_gForce) > 100.0) { // Smooth out gforce one frame spikes, sometimes happens when hitting max speed due to the thrust limiters
+	float gforce = Clamp(floorf(((fabs(cur_vel) - m_shipVel) / timeStep) / 9.8f), -COCKPIT_MAX_GFORCE, COCKPIT_MAX_GFORCE);
+	if (fabs(cur_vel) > 500000.0f ||      // Limit gforce measurement so we don't get astronomical fluctuations
+		fabs(gforce - m_gForce) > 100.0) { // Smooth out gforce one frame spikes, sometimes happens when hitting max speed due to the thrust limiters
 		gforce = 0.0f;
 	}
-	if (abs(gforce - m_gForce) > 100.0) {
+	if (fabs(gforce - m_gForce) > 100.0) {
 		gforce = 0.0f;
 	}
-	if (abs(m_translate.z - m_offset) < 0.001f) {
+	if (fabs(m_translate.z - m_offset) < 0.001f) {
 		m_transInterp = 0.0f;
 	}
 	float offset = (gforce > 14.0f ? -1.0f : (gforce < -14.0f ? 1.0f : 0.0f)) * COCKPIT_ACCEL_OFFSET;

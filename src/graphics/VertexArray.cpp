@@ -5,7 +5,7 @@
 
 namespace Graphics {
 
-VertexArray::VertexArray(AttributeSet attribs, const unsigned int size)
+VertexArray::VertexArray(AttributeSet attribs, int size)
 {
 	PROFILE_SCOPED()
 	m_attribs = attribs;
@@ -34,6 +34,7 @@ void VertexArray::Clear()
 	diffuse.clear();
 	normal.clear();
 	uv0.clear();
+	tangent.clear();
 }
 
 void VertexArray::Add(const vector3f &v)
@@ -74,7 +75,6 @@ void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv)
 	uv0.push_back(uv);
 }
 	
-//virtual 
 void VertexArray::Reserve(const unsigned int howmuch)
 {
 	if (howmuch > 0) {
@@ -87,7 +87,19 @@ void VertexArray::Reserve(const unsigned int howmuch)
 			normal.reserve(howmuch);
 		if (m_attribs & ATTRIB_UV0)
 			uv0.reserve(howmuch);
+		if (m_attribs & ATTRIB_UV1)
+			uv1.reserve(howmuch);
+		if (m_attribs & ATTRIB_TANGENT)
+			tangent.reserve(howmuch);
 	}
+}
+
+void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang)
+{
+	position.push_back(v);
+	normal.push_back(n);
+	uv0.push_back(uv);
+	tangent.push_back(tang);
 }
 
 void VertexArray::Set(const Uint32 idx, const vector3f &v)
@@ -126,6 +138,14 @@ void VertexArray::Set(const Uint32 idx, const vector3f &v, const vector3f &n, co
 	position[idx] = v;
 	normal[idx] = n;
 	uv0[idx] = uv;
+}
+
+void VertexArray::Set(const Uint32 idx, const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang)
+{
+	position[idx] = v;
+	normal[idx] = n;
+	uv0[idx] = uv;
+	tangent[idx] = tang;
 }
 
 }

@@ -8,6 +8,7 @@
  * In theory you should use one texture format and size per FBO
  * 2013-May-05 left out stencil buffer because we don't need it now
  */
+#include "OpenGLLibs.h"
 #include "graphics/RenderTarget.h"
 
 namespace Graphics {

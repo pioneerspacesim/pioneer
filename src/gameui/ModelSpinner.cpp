@@ -22,7 +22,7 @@ ModelSpinner::ModelSpinner(Context *context, SceneGraph::Model *model, const Sce
 	m_model->SetPattern(pattern);
 	m_shields.reset(new Shields(model));
 
-	Color lc(255);
+	Color lc(Color::WHITE);
 	m_light.SetDiffuse(lc);
 	m_light.SetSpecular(lc);
 	m_light.SetPosition(vector3f(0.f, 1.f, 1.f));

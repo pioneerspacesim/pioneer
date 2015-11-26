@@ -302,6 +302,7 @@ void Program::InitUniforms()
 	texture3.Init("texture3", m_program);
 	texture4.Init("texture4", m_program);
 	texture5.Init("texture5", m_program);
+	texture6.Init("texture6", m_program);
 	heatGradient.Init("heatGradient", m_program);
 	heatingMatrix.Init("heatingMatrix", m_program);
 	heatingNormal.Init("heatingNormal", m_program);

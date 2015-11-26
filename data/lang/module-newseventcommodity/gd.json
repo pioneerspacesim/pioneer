@@ -1,294 +1,294 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: System wide plague in the {system} system. Death toll rises."
+      "message" : "NAIDHEACHD {date}: Tha siostam {system} air fad a' fulang fo phlàigh. Tha reat-bhàsan a' meudachadh."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
-      "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
+      "message" : "Tha plàigh ag adhbharachadh bàs ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha na h-ùghdarrasan a' sireadh cobhair mheadaigeach gu h-èiginneach."
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Company threatening continual survival of {system} system."
+      "message" : "NAIDHEACHD {date}: Tha beòshlaint siostam {system} fo bhagairt companaidh."
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. are seeking to monopolize air itself throughout {system} ({sectorx}, {sectory}, {sectorz}). Take a deep breath, it might be the last one that is free of charge."
+      "message" : "Tha Prekall earr. a' feuchainn ri lèir-shealbhachd a ghabhail air an adhar fhèin air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}). Gabh anail dhomhainn, dh'fhaoidte gur e sin an tè mu dheireadh nach bi air airgead."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mysterious disappearance of cattle in the {system} system."
+      "message" : "NAIDHEACHD {date}: Chaidh sprèidh a-mach à sealladh gu dìomhair ann an siostam {system}."
    },
    "FLAVOUR_11_NEWSBODY" : {
       "description" : "Imply high demand of ANIMAL_MEAT.",
-      "message" : "As if by a stroke of a higher power, the farmers in the {system} system ({sectorx}, {sectory}, {sectorz}) woke up to empty barns. \"It's the cattle theft of the century\", police reports."
+      "message" : "Mar an robh làmh an t-seilbh ris, bha na sabhalan falamh nuair an do dhùisg na tuathanaich ann an siostam {system} system ({sectorx}, {sectory}, {sectorz}). Dh'aithris am poileas gur \"Seo togail bò na linne\"."
    },
    "FLAVOUR_12_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Infrastructure breakdown as computers malfunction in the {system} system."
+      "message" : "NAIDHEACHDAN {date}: Bun-structar air a bhriseadh le mearachd-obrachaidh nan coimpiutairean ann an siostam {system}."
    },
    "FLAVOUR_12_NEWSBODY" : {
       "description" : "Keep clear of the too obvious names Microsoft, or Macrosoft, etc.",
-      "message" : "A nasty virus caused all Nachosoft computers in the {system} system ({sectorx}, {sectory}, {sectorz}) to suffer a complete hard drive meltdown. The faulty units make excellent paper weights, computer scientists say."
+      "message" : "Tha droch-bhìoras ag adhbharachadh gun deach gach clàr-cruaidh aig coimpiutairean Taigeisbuig a bhriseadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Tha luchd na coimpiutaireachd ag aithris gun gabh deagh chlachan-pàipeir a dhèanamh dhe na h-aonadan mearachdach."
    },
    "FLAVOUR_13_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Robot uprising in the {system} system."
+      "message" : "NAIDHEACHD {date}: Aramach nan robotairean ann an siostam {system}."
    },
    "FLAVOUR_13_NEWSBODY" : {
       "description" : "Imply that nobody wants to buy ROBOTS anymore.",
-      "message" : "It is now man against machine in the {system} system ({sectorx}, {sectory}, {sectorz}), as \"behavioural malfunction\" causes home consumers to loose faith in robot servants."
+      "message" : "Tha daoine a' strì an aghaidh nan innealan ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fhad 's a tha \" mearachd-giùlain\" air adhbharachadh gun do chaill an luchd-ceannach an earbsa ann an robotairean seirbheiseach."
    },
    "FLAVOUR_14_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Solar flare causes biggest black out in a millennium in the {system} system."
+      "message" : "NAIDHEACHD {date}: Lasan-grèine ag adhbharachadh an dubh-sgàil as motha ar linne ann an siostam {system}."
    },
    "FLAVOUR_14_NEWSBODY" : {
       "description" : "Avoid using word Tupperware, say tuppenware, blooperware, tooperwar or plastic containers etc. If translation doesn't work, feel free to be creative, as long as it is implying a high demand of PLASTICS.",
-      "message" : "The system wide power outage wrecks havoc to the {system} system ({sectorx}, {sectory}, {sectorz}). Consumers line up to buy the last Trapperware to replace their fridges, as producer has run out of raw material."
+      "message" : "Dh'adhbhraich call cumhachd air feadh siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh mòr. Tha an luchd-ceannachd a' feitheamh gus an Trapperware as ùire a cheannach gus a chur an àite nam fridsichean aca on a tha an stuth amh air a ruith air an dèanadair."
    },
    "FLAVOUR_15_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police raids crime syndicate in the {system} system, key leaders arrested."
+      "message" : "NAIDHEACHD {date}: Ruaig am poileas siondacaid eucorach ann an siostam {system}, chaidh ceannardan mòra a chur an làimh."
    },
    "FLAVOUR_15_NEWSBODY" : {
       "description" : "imply high demand of NARCOTICS.",
-      "message" : "The administration in the {system} system ({sectorx}, {sectory}, {sectorz}) hopes crime will diminish as drugs are no longer available, since the arrest of several mobsters."
+      "message" : "Tha rianachd siostam {system} ({sectorx}, {sectory}, {sectorz}) an dòchas gun lùghdaich na h-eucoirean air sgàth 's nach eil drugaichean ri am faighinn tuilleadh às dèidh cur an làimh cheannardan siondacaid eucoirich."
    },
    "FLAVOUR_16_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Serious accident during the annual {system} Great Steam Fair."
+      "message" : "NEWS {date}: Mòr-thubaist rè Fèill Smùide Mhòr {system} bliadhnail."
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "During the Great Steam Fair in the {system} system ({sectorx}, {sectory}, {sectorz}) an attempt for the galactic record in biggest tractor pulling contest ended in mayhem as one of the contestants lost control of his contraption, destroying all other participants' machines. Administration says it could spell doom for the local farmers."
+      "message" : "Dh'adhbharaich feuchainn air clàr curaidh an reul-chriosa ann an co-fharpais tarraing tractair as motha rè Fèill Smùide Mhòr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh nuair an do chaill fear dhe na co-fharpaisichean a smachd air an tionnsgal aige, a' milleadh innealan nan co-fharpaisichean eile uile. 'S eagal leis an rianachd gun daoraich seo na tuathanaich ionadail."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: New found riches in the {system} system."
+      "message" : "NAIDHEACHD {date}: Chaidh stòras ùr a lorg ann an siostam {system}."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
-      "message" : "Miners in the {system} system ({sectorx}, {sectory}, {sectorz}) discovered a vast deposit of ore of never before seen proportions."
+      "message" : "Tha mèinnearan air stòras mòr de chlach-mhèinnear a lorg ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) nach fhacas a leithid a-riamh."
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Economic reform in the {system} system a great success."
+      "message" : "NAIDHEACHD {date}: Ath-leasachadh an eaconamaidh ann an siostam {system} 'na phiseach mòr."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "The wheels are spinning ever faster in the {system} system ({sectorx}, {sectory}, {sectorz}) as consumers have more money to spend."
+      "message" : "Tha na cuibhlean a' dol mun cuairt ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) fiù 's nas luaithe a-nis on a tha barrachd airgead aig an luchd-ceannach gus a chosg."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: It is raining gold in the {system} system."
+      "message" : "NAIDHEACHD {date}: Tha dìle òir ann an siostam {system}."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
+      "message" : "Fhuair duine ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) nuadh-innleachd o bhràthair-athar mar dhìleab a leigeas leis òr 's platinum a dhèanamh de theann-stuth sam bith. Tha an luchd-eaconamaidh dhen bheachd gun tuislich an eaconamaidh san t-siostam mura bris an t-inneal a dh'aithghearr."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
+      "message" : "NAIDHEACHD {date}: Tha còmhstri air èirigh ann an siostam {system}."
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+      "message" : "Tha a' chòmhstri fhada ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air dol am miosad leis na feachdan ag èirigh gu cath a-nis."
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
+      "message" : "NAIDHEACHD {date}: Tha buain feamainn famhair gasa ann an siostam {system} nas torraiche na bha i riamh."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
-      "message" : "As {system} ({sectorx}, {sectory}, {sectorz}) enters a phase favourable to the yellow algae found in the atmosphere of a local gas giant, the harvest has be exceptionally good for the fertilizer company Soylent Yellow Inc."
+      "message" : "On a tha {system} ({sectorx}, {sectory}, {sectorz}) air tamall a ruigsinn a bhios fàbharach dhan bhuidhe-fheamainn ann an àile an fhuamhair gasa ionadail, bha a' bhuain nas fhearr nas àbhaist airson companaidh todhair Soylent Yellow earr."
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Treaty signed in the {system} system for more \"humane\" warfare."
+      "message" : "NAIDHEACHD {date}: Chaidh cùmhnant a rèiteachadh ann an siostam {system} airson cogadh nas \"daonndaiche\"."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
-      "message" : "Although the conflicting parties in the {system} system ({sectorx}, {sectory}, {sectorz}) have not signed an official cease fire, they have agreed to stop using chemical weapons."
+      "message" : "Ged nach do chuir na buidhnean a tha ann an còmhstri ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) an làmhan ri fois-losgaidh oifigeil, dh'aontaich iad nach cleachd iad airm cheimigeach tuilleadh."
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Police on strike in the {system} system. Citizens left to fend for themselves."
+      "message" : "NAIDHEACHD {date}: Ghairm am poileas stailc ann an siostam {system}. Feumaidh na saoranaich 'gan dìon fhèin."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In a protest against understaffing the {system} system ({sectorx}, {sectory}, {sectorz}) police refuse to work. Meanwhile, civilians form vigilante groups and arm themselves with pitchforks and firearms as they prepare for the worst."
+      "message" : "A chum fianais a thogail an aghaidh dìth luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha am poileas a' diùltadh a bhith ag obair. San eadar-àm, tha saoranaich air buidhnean fèin-dhìona a stèidheachadh is air gobhlagan is gunnachan a thogail an aghaidh na thig orra."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Grand opening of a new factory in the {system} system."
+      "message" : "NAODHEACHD {date}: Fosgladh mòr factaraidh ùir ann an siostam {system}."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "Thòisich factaraidh Amissionox ùr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a h-obair a-nis. Nì i sgianan as àirde càileachd a bhios comasach air bòtanan-fànais a ghearradh. Co-dhiù, o nach eil iad a' faighinn stòras gu leòr airson nan lannan, chan eil iad a' dèanamh an t-uiread a b' urrainn dhaibh fhathast."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+      "message" : "NAIDHEACHD {date}: Tart ann an siostam {system}. Chaidh am barr a mhilleadh."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+      "message" : "Tha mòr-thart air a' bharr a mhilleadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}). Thathar fo chunnart goirt air feadh an t-siostaim."
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+      "message" : "NAIDHEACHD {date}: Fèill mòr air dòigh-beatha an fheòil-sheachnair ann an siostam {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+      "message" : "Tha an rianachd ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) ag amas barrachd glasraich ion-phortadh gus an t-iarrtas mòr a choileanadh."
    },
    "FLAVOUR_4_HEADLINE" : {
       "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+      "message" : "NAIDHEACHD {date}: Cogadh dhrugaichean ann an siostam {system}. Tha am poileas a' strì gus làmh an uachdair fhaighinn air ais."
    },
    "FLAVOUR_4_NEWSBODY" : {
       "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+      "message" : "Tha am margadh ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a lìonadh le drugaichean saora fhad 's a tha tighearnan dhrugaichean ann an còmhstri airson an cumhachd a mheudachadh."
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+      "message" : "NAIDHEACHD {date}: Aramach nan tràillean ann an siostam {system}. Chaidh stad a chur air gach gnìomhachas àrachais."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+      "message" : "Shaor an luchd-obrach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) iad fhèin o na slabhraidhean 's iad a' diùltadh ri obair ann an achaidhean lòtais. Thug seo stad air an eaconamaidh o nach eil luchd-obrach saor ri fhaighinn."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+      "message" : "NAIDHEACHD {date}: Fèille àigheach nan Quibbles ann an siostam {system}."
    },
    "FLAVOUR_6_NEWSBODY" : {
       "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+      "message" : "Tha subhachas raoiteach ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) a' dol air adhart fhathast dhad 's a thathar a' toirt urram air na creutairean beaga clòimheach."
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+      "message" : "NAIDHEACHD {date}: Thàinig stad air a' ghnìomhachas ann an siostam {system}."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+      "message" : "Tha mòr-dhearmad nan innealan ag adhbharachadh stad a' ghnìomhachais ann an siostam {system} ({sectorx}, {sectory}, {sectorz})."
    },
    "FLAVOUR_8_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+      "message" : "NAIDHEACHD {date}: Chaidh tubaist mèinnearachd aithris o shiostam {system}."
    },
    "FLAVOUR_8_NEWSBODY" : {
       "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+      "message" : "Thuit mèinn ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) agus chaidh ceudan dhen luchd-obrach a mharbhadh is innleadaireachd cudromach a mhilleadh a tha èiginneach airson an eaconamaidh."
    },
    "FLAVOUR_9_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
+      "message" : "NAIDHEACHD {date}: Dèidheileachd fàsain ann an siostam {system}."
    },
    "FLAVOUR_9_NEWSBODY" : {
       "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
+      "message" : "A-rèir treand ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) 's e fìor-pheataichean beòtha a tha san fhasan as ùire."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
-      "message" : "Welcome trader! We will give you a good price for your {cargo}."
+      "message" : "Fàilte, a reiceadair! Bheir sinn deagh-phrìs dhut airson na th' agad dhe {cargo}."
    },
    "GRATEFUL_GREETING_1" : {
       "description" : "",
-      "message" : "Your arrival is most welcome, as is your shipment of {cargo}!"
+      "message" : "Tha sinn glè thoilichte gun dàinig thu mar a tha sinn mun longas dhe {cargo} agad!"
    },
    "GRATEFUL_GREETING_2" : {
       "description" : "",
-      "message" : "Greetings and salutations! You should have no trouble selling {cargo} here."
+      "message" : "Fàilte ort! Tha sinn an dùil gun reic thu {cargo} gun duilgheadas an-seo."
    },
    "GRATEFUL_GREETING_3" : {
       "description" : "",
-      "message" : "Welcome! Finally some {cargo}."
+      "message" : "Fàilte ort! {cargo} mu dheireadh thall."
    },
    "GRATEFUL_GREETING_4" : {
       "description" : "",
-      "message" : "How we've longed for some {cargo}."
+      "message" : "Bha fadachd oirnn air {cargo}."
    },
    "GRATEFUL_GREETING_5" : {
       "description" : "",
-      "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
+      "message" : "Fàilte! Reicidh tu na th' agad dhe {cargo} gu luath an-seo."
    },
    "NEWSPAPER_CIW" : {
       "description" : "",
-      "message" : "The Confederate Chronicle"
+      "message" : "Chroinic Fheadarail"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
-      "message" : "The Federal Times"
+      "message" : "Fheadarail"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
-      "message" : "The Imperial Herald"
+      "message" : "Bhollsgaire Impireil"
    },
    "NEWSPAPER_IND_0" : {
       "description" : "",
-      "message" : "The Pioneer Courier"
+      "message" : "Teachdaire Tùsaireach"
    },
    "NEWSPAPER_IND_1" : {
       "description" : "",
-      "message" : "The Independent Tribune"
+      "message" : "Treubhan Neo-eisimeileach"
    },
    "NEWSPAPER_IND_10" : {
       "description" : "",
-      "message" : "The Orbital Observer"
+      "message" : "Chuairt-coimheadaiche"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
-      "message" : "The Galactic Post"
+      "message" : "Phost Reul-chriosa"
    },
    "NEWSPAPER_IND_3" : {
       "description" : "",
-      "message" : "The Universal Sun"
+      "message" : "Ghrian Dhomhainn"
    },
    "NEWSPAPER_IND_4" : {
       "description" : "",
-      "message" : "The Planetary Press"
+      "message" : "Naidheachd Phlanaideach"
    },
    "NEWSPAPER_IND_5" : {
       "description" : "",
-      "message" : "The Royal Gazette"
+      "message" : "Ghasaet Rìoghail"
    },
    "NEWSPAPER_IND_6" : {
       "description" : "",
-      "message" : "The Universal Mail"
+      "message" : "Phost Domhainn"
    },
    "NEWSPAPER_IND_7" : {
       "description" : "",
-      "message" : "The Daily Express"
+      "message" : "Teachdaire Làitheil"
    },
    "NEWSPAPER_IND_8" : {
       "description" : "",
-      "message" : "The Tellurian Telegraph"
+      "message" : "Teileagraf Talmhanta"
    },
    "NEWSPAPER_IND_9" : {
       "description" : "",
-      "message" : "The Satellite Journal"
+      "message" : "Chraoladair Làitheil"
    },
    "TITLE_0" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
+      "message" : "Aithris ùr on {newspaper}"
    },
    "TITLE_1" : {
       "description" : "",
-      "message" : "News from {newspaper}"
+      "message" : "Naidheachd on {newspaper}"
    },
    "TITLE_2" : {
       "description" : "",
-      "message" : "Report from {newspaper}"
+      "message" : "Aithris on {newspaper}"
    },
    "TITLE_3" : {
       "description" : "",
-      "message" : "The latest from {newspaper}"
+      "message" : "Na tha as ùire on {newspaper}"
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "Nòtaichean on {newspaper}"
    }
 }

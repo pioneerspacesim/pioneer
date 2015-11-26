@@ -76,7 +76,7 @@ size_t DDSImage::Read(const char* pData, const size_t dataSize)
 {
 	// Read in header and decode
 	if (!ReadHeader(pData, surfacedata_))
-		return -1;
+		return 0;
 
 	if (surfacedata_.mipmapcount==0)
 		surfacedata_.mipmapcount=1;
@@ -95,10 +95,10 @@ size_t DDSImage::Read(const char* pData, const size_t dataSize)
 	imgdata_.numImages = GetNumImages();
 	imgdata_.size = CalculateStoreageSize();
 	if(0 >= imgdata_.size)
-		return -1;
+		return 0;
 			
-	if(-1 == imgdata_.format)
-		return -1;
+	if(FORMAT_NONE == imgdata_.format)
+		return 0;
 
 	const long headerSize=128;
 	const size_t DDSStructSize = sizeof(DDS::DDSStruct)+4;
@@ -321,7 +321,7 @@ ImgFormat DDSImage::GetDXTFormat() const
 #ifdef PICODDS_OPENGL
 int DDSImage::GetOpenGLFormat()
 {
-	int format = -1;
+	int format = 0;
 	switch(surfacedata_.pixelformat.fourCC) 
 	{
 	case FOURCC('D','X','T','1'):

@@ -39,8 +39,6 @@ noinst_HEADERS = \
 	Factions.h \
 	FileSystem.h \
 	FontCache.h \
-	Form.h \
-	FormController.h \
 	Frame.h \
 	GalacticView.h \
 	Game.h \
@@ -163,6 +161,7 @@ pioneer_SOURCES	= \
 	CameraController.cpp \
 	CargoBody.cpp \
 	Color.cpp \
+	CollMesh.cpp \
 	CityOnPlanet.cpp \
 	CRC32.cpp \
 	DateTime.cpp \
@@ -174,7 +173,6 @@ pioneer_SOURCES	= \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
 	FontCache.cpp \
-	FormController.cpp \
 	Frame.cpp \
 	GalacticView.cpp \
 	Game.cpp \
@@ -418,6 +416,7 @@ endif
 modelcompiler_SOURCES = \
 	modelcompiler.cpp \
 	Color.cpp \
+	CollMesh.cpp \
 	DateTime.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \

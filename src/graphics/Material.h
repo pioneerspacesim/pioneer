@@ -59,6 +59,7 @@ public:
 	bool glowMap;
 	bool ambientMap;
 	bool lighting;
+	bool normalMap;
 	bool specularMap;
 	bool usePatterns; //pattern/color system
 	bool vertexColors;
@@ -84,6 +85,7 @@ public:
 	Texture *texture3;
 	Texture *texture4;
 	Texture *texture5;
+	Texture *texture6;
 	Texture *heatGradient;
 
 	Color diffuse;

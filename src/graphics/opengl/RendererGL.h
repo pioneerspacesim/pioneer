@@ -13,6 +13,7 @@
  *  - use glvertexattribpointer instead of glvertexpointer etc
  *  - get rid of built-in glMaterial, glMatrix use
  */
+#include "OpenGLLibs.h"
 #include "graphics/Renderer.h"
 #include <stack>
 #include <unordered_map>

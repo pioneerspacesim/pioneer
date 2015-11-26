@@ -2143,8 +2143,6 @@ void NavTunnelWidget::Draw() {
 		const vector3d eyevec = rotmat * m_worldView->m_activeCameraController->GetOrient().VectorZ();
 		if (eyevec.Dot(navpos) >= 0.0) return;
 
-		const Color green = Color(0, 255, 0, 204);
-
 		const double distToDest = Pi::player->GetPositionRelTo(navtarget).Length();
 
 		const int maxSquareHeight = std::max(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) / 2;

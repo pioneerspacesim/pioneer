@@ -45,7 +45,7 @@ enum DetailSelection {
 static const float ZOOM_SPEED = 15;
 static const float WHEEL_SENSITIVITY = .03f;		// Should be a variable in user settings.
 
-SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
+SectorView::SectorView(Game* game) : UIView(), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
@@ -76,7 +76,7 @@ SectorView::SectorView(Game* game) : UIView(), m_game(game), m_galaxy(game->GetG
 	InitObject();
 }
 
-SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_game(game), m_galaxy(game->GetGalaxy())
+SectorView::SectorView(const Json::Value &jsonObj, Game* game) : UIView(), m_galaxy(game->GetGalaxy())
 {
 	InitDefaults();
 
@@ -529,7 +529,7 @@ void SectorView::Draw3D()
 	m_renderer->SetTransform(matrix4x4f::Identity());
 
 	//draw star billboards in one go
-	m_renderer->SetAmbientColor(Color(30));
+	m_renderer->SetAmbientColor(Color(30, 30, 30));
 	m_renderer->DrawTriangles(m_starVerts.get(), m_solidState, m_starMaterial.Get());
 
 	//draw sector legs in one go
@@ -1034,8 +1034,8 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// for out-of-range systems draw leg only if we draw label
 		if ((m_drawSystemLegButton->GetPressed() && (inRange || m_drawOutRangeLabelButton->GetPressed()) && (i->GetPopulation() > 0 || m_drawUninhabitedLabelButton->GetPressed())) || !can_skip) {
 
-			const Color light(128);
-			const Color dark(51);
+			const Color light(128, 128, 128);
+			const Color dark(51, 51, 51);
 
 			// draw system "leg"
 			float z = -i->GetPosition().z;
@@ -1111,7 +1111,7 @@ void SectorView::DrawNearSector(const int sx, const int sy, const int sz, const 
 		// hyperspace target indicator (if different from selection)
 		if (i->IsSameSystem(m_hyperspaceTarget) && m_hyperspaceTarget != m_selected && (!m_inSystem || m_hyperspaceTarget != m_current)) {
 			m_renderer->SetDepthRange(0.1,1.0);
-			m_disk->SetColor(Color(77));
+			m_disk->SetColor(Color(77, 77, 77));
 			m_renderer->SetTransform(systrans * matrix4x4f::ScaleMatrix(2.f));
 			m_disk->Draw(m_renderer);
 		}

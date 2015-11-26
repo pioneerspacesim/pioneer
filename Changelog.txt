@@ -6,12 +6,30 @@ November 2015
      * Three new faction specific fuel clubs (#3504)
      * All stations now have a Tech Level, in range 1-12 (#3505)
      * Compact Use Equip Widget (#3507)
+     * Normal Mapping for objects (ships, stations etc) (#3515)
+     * Make Autosave optional (#3518)
+     * Show stable Lagrange point in system view (#3536)
 
    * Fixes
      * Fix stations placed on top of each other (#3498)
+     * Updated premake script to generate usable CodeBlocks project (#3521)
+     * Fix negative latitude longitude issue (#3531)
+     * Fix AIWarning giving the wrong errror msg (#3532)
+     * Fix strings not in translation system (#3538)
+     * Lagrange Points in turquoise-ish (#3539)
+     * Fix the broken win32 cross compile (#3542)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
+     * CargoRun missions first unload all mission cargo (#3510)
+     * Change OpenGL Extensions from Compatibility to Core (#3514)
+     * Direct buffer population (#3513)
+     * Deprecate Visual Studio 2013 (#3519)
+     * Updated vs2015 libraries and DLLs (#3520)
+     * Clang warnings (#3524)
+     * Clean up OpenGL pollution (#3526)
+     * Fix the last real Clang warning (#3528)
+     * Delete Form/FormController, which are no longer used (#3533)
 
 October 2015
    * New Features

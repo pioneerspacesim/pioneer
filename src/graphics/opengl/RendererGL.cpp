@@ -103,6 +103,15 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 
 	if (vs.enableDebugMessages)
 		GLDebug::Enable();
+
+	// check enum PrimitiveType matches OpenGL values
+	assert(POINTS == GL_POINTS);
+	assert(LINE_SINGLE == GL_LINES);
+	assert(LINE_LOOP == GL_LINE_LOOP);
+	assert(LINE_STRIP == GL_LINE_STRIP);
+	assert(TRIANGLES == GL_TRIANGLES);
+	assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
+	assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
 }
 
 RendererOGL::~RendererOGL()
@@ -533,6 +542,11 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	if( v->HasAttrib(ATTRIB_UV1) ) {
 		vbd.attrib[attribIdx].semantic	= ATTRIB_UV1;
 		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
+		++attribIdx;
+	}
+	if (v->HasAttrib(ATTRIB_TANGENT)) {
+		vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
 		++attribIdx;
 	}
 	vbd.numVertices = v->position.size();

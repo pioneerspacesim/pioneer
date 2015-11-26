@@ -1,8 +1,9 @@
 // Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef GL2_VERTEXBUFFER_H
-#define GL2_VERTEXBUFFER_H
+#ifndef OGL_VERTEXBUFFER_H
+#define OGL_VERTEXBUFFER_H
+#include "OpenGLLibs.h"
 #include "graphics/VertexBuffer.h"
 
 namespace Graphics { namespace OGL {
@@ -63,9 +64,15 @@ public:
 	virtual void Release() override;
 
 protected:
+	enum InstOffs {
+		INSTOFFS_MAT0 = 6, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl
+		INSTOFFS_MAT1 = 7,
+		INSTOFFS_MAT2 = 8,
+		INSTOFFS_MAT3 = 9
+	};
 	std::unique_ptr<matrix4x4f> m_data;
 };
 
 } }
 
-#endif // GL2_VERTEXBUFFER_H
+#endif // OGL_VERTEXBUFFER_H

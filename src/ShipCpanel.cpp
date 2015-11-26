@@ -280,7 +280,7 @@ void ShipCpanel::Update()
 	int timeAccel = m_game->GetTimeAccel();
 	int requested = m_game->GetRequestedTimeAccel();
 
-	for (int i=0; i<6; i++) {
+	for (int i=0; i<Game::TimeAccel::TIMEACCEL_HYPERSPACE; i++) {
 		m_timeAccelButtons[i]->SetSelected(timeAccel == i);
 	}
 	// make requested but not selected icon blink
@@ -293,7 +293,7 @@ void ShipCpanel::Update()
 
 	View *cur = Pi::GetView();
 	if ((cur != m_game->GetSectorView()) && (cur != m_game->GetSystemView()) &&
-	    (cur != m_game->GetSystemInfoView()) && (cur != m_game->GetGalacticView())) {
+		(cur != m_game->GetSystemInfoView()) && (cur != m_game->GetGalacticView())) {
 		HideMapviewButtons();
 	}
 }

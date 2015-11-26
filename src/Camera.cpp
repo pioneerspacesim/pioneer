@@ -200,8 +200,7 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
-		const Color col(255);
-		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
+		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), Color::WHITE, Color::WHITE)));
 	}
 
 	//fade space background based on atmosphere thickness and light angle

@@ -639,6 +639,10 @@
       "description" : "",
       "message" : "%speed{f.2} km/s względem: %frame"
    },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Przełączanie między trybami wyświetlania punktów libracji L4/L5."
+   },
    "LANDED" : {
       "description" : "",
       "message" : "Wylądował"

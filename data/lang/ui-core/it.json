@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Compressione Texture"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Conferma acquisto"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Conferma vendita"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Conestabile"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Impiego"
+   },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Abilita salvataggio automatico"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -466,6 +478,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Inesperto"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Fondi insufficienti."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -715,6 +731,10 @@
       "description" : "",
       "message" : "Vuoto"
    },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Nulla in vendita, in questa stazione."
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Note:"
@@ -878,6 +898,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Richiesta autorizzazione al lancio"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Azzera Zoom"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1118,6 +1142,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Non ha abbastanza crediti per questa opzione."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Hai {units} unità nella tua stiva"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",

@@ -37,7 +37,7 @@
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "LOKALLEVERANS: Flytt av varor till {starport}."
+      "message" : "LOKAL LEVERANS: Flytt av varor till {starport}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "LOKALTRANSPORT. Leverans av varor till {starport}."
+      "message" : "LOKAL VARUTRANSPORT. Leverans av varor till {starport}."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
@@ -133,7 +133,7 @@
    },
    "DIGESTERS" : {
       "description" : "custom cargo",
-      "message" : "Digesters"
+      "message" : "Idisslare"
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
@@ -197,7 +197,7 @@
    },
    "GUNS_GUNS_GUNS" : {
       "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-      "message" : "Guns, guns, guns."
+      "message" : "Vapen, vapen, vapen."
    },
    "HAZARDOUS_SUBSTANCES" : {
       "description" : "custom cargo",
@@ -249,63 +249,63 @@
    },
    "INTROTEXT_3" : {
       "description" : "",
-      "message" : "Good day. I'm {name}, founder of the {name} Ltd. I need someone trustworthy to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. I will pay {cash} for the {dist} ly long flight."
+      "message" : "God dag. Jag är {name} Ltd. Jag behöver någon pålitlig som levererar {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Jag betalar {cash} för det {dist} ly långa flygningen."
    },
    "INTROTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "Hello. We need someone experienced for a potentially dangerous run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. We'll pay {cash}. The distance is {dist} ly."
+      "message" : "Hej! Vi behöver någon erfaren för en potentiellt farligt transport till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Vi betalar {cash}. Avståndet är {dist} ly."
    },
    "INTROTEXT_FLUFFY_1" : {
       "description" : "this is used for the delivery of Quibbles, which is a nod to Tribble (star trek ref. see wikipedia)",
-      "message" : "Hi, my name is {name}. I have a fluffy shipment of {cargoname} for delivery to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The distance is {dist} ly. For this delivery I will pay you {cash}."
+      "message" : "Hej, mitt namn är {name}. Jag har ett fluffig transport {cargoname} för leverans till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Avståndet är {dist} ly. För den här leveransen betalar jag dig {cash}."
    },
    "INTROTEXT_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Greetings. I'm {name}. The {system} government wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system. The pay is {cash}. {system} is located {dist} ly from here."
+      "message" : "Hälsningar. Jag är {name}. Regeringen i {system} vill leverera {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}). Betalningen är {cash}. {system} befinner sig {dist} ly härifrån."
    },
    "INTROTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "Nice to meet you. I'm {name} and I work for the {starport} administration. We pay {cash} to someone who is able to move {cargoname} to {starport}."
+      "message" : "Trevligt att träffa dig. Jag är {name} och jag jobbar för {starport} administrationen. Vi betalar {cash} till någon som kan flytta {cargoname} till {starport}."
    },
    "INTROTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "Hi. I'm {name} and I will pay {cash} for a short delivery of {cargoname} to {starport}."
+      "message" : "Hej. Jag är {name} och jag betalar {cash} för en kort leverans av {cargoname} till {starport}."
    },
    "INTROTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "My name is {name} and I need {cargoname} delivered to a client at {starport}. I'll pay you {cash} for this run."
+      "message" : "Mitt namn är {name} och jag behöver få {cargoname} levererat till en klient på {starport}. Jag betalar dig {cash} för den här leveransen."
    },
    "INTROTEXT_MINING_1" : {
       "description" : "{name} is the full name of a person",
-      "message" : "Hello. The {name} Mining Company wants to deliver {cargoname} to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly away, to build a new mine. The pay is {cash}."
+      "message" : "Hej. Gruvföretaget {name} vill leverera {cargoname} till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly bort, för att bygga en ny gruva. Betalningen är {cash}."
    },
    "INTROTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "How do you do? My name is {name}, and I need a ship that is able to fly to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, to pickup {cargoname} and return to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system for {cash}. The distance to {system} is {dist} ly."
+      "message" : "Hur är det med dig? Mitt namn är {name}, och jag behöver ett skepp som kan flyga till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}) för att hämta upp {cargoname} och komma tillbaka till {dom_starport} i systemet {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) för {cash}. Avståndet till {system} är {dist} ly."
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from the {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "Hur är det med dig? Jag är {name}. En av mina klienter vill importera {cargoname} från {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), på {dist} ly avstånd. Han betalar {cash} för den här lasten. Kom tillbaka hit till {dom_starport} i systemet {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) för att lasta av."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "Greetings. I'm {name}. I will pay {cash} to someone who will transport {cargoname} from {starport} to {dom_starport}."
+      "message" : "Hälsningar. Jag är {name}. Jag betalar {cash} till någon som vill transportera {cargoname} från {starport} till {dom_starport}."
    },
    "INTROTEXT_PICKUP_LOCAL_2" : {
       "description" : "",
-      "message" : "Hello. My name is {name}. My employer is willing to hire you for {cash} to help us relocate our warehouse by moving {cargoname} from {starport} to our new domicile {dom_starport}."
+      "message" : "Hej. Mitt namn är {name}. Min arbetsgivare är beredd att hyra dig för {cash} för att hjälpa oss att omlokalisera vårt lager genom att flytta {cargoname} från {starport} till vår nya hemvist i {dom_starport}."
    },
    "INTROTEXT_WEDDING_1" : {
       "description" : "",
-      "message" : "Greetings. Have you heard of the wedding season of {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system? We want to transport {cargoname} there. It's {dist} ly away. The pay is {cash}. How about it?"
+      "message" : "Hälsningar. Har du hört talas om bröllopssäsongen på {startport} i systemet {system} ({sectorx}, {sectory}, {sectorz})? Vi vill transportera {cargoname} dit. Det är {dist} ly bort. Betalningen är {cash}. Vad säger du?"
    },
    "INTROTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "Hello, my name is {name} and I'm a wholesale dealer in the {system} system. I pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly."
+      "message" : "Hej, mitt namn är {name}. Jag är en grossist i systemet {system}. Jag betalar {cash} för leveransen till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), {dist} ly."
    },
    "INTROTEXT_WHOLESALER_2" : {
       "description" : "",
-      "message" : "Greetings, my name is {name} and I work for Haber Corp. We pay {cash} for the run to {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, a distance of {dist} ly."
+      "message" : "Hälsningar, mitt namn är {name} och jag jobbar för hamnföretaget. Vi betalar {cash} för en leverans till {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), ett avstånd på {dist} ly."
    },
    "I_AM_ON_MY_WAY" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "WHYSOMUCH_CENTRIFUGES_1" : {
       "description" : "",
-      "message" : "Some {cargoname} were destroyed due to a software error and have to be replaced urgently."
+      "message" : "Några {cargoname} blev förstörda på grund av mjukvarufel och måste ersättas omgående."
    },
    "WHYSOMUCH_CHEMICAL_1" : {
       "description" : "",
@@ -573,7 +573,7 @@
    },
    "WHYSOMUCH_FLUFFY_1" : {
       "description" : "",
-      "message" : "{cargoname} is a fast seller this season. You should invest in {cargoname} shares if you want to make a lot of money."
+      "message" : "{cargoname} är storsäljaren den här säsongen. Du borde investera i {cargoname} aktier om du vill tjäna massor av pengar."
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
@@ -597,7 +597,7 @@
    },
    "WHYSOMUCH_WEDDING_1" : {
       "description" : "",
-      "message" : "So far I could not find anyone to perform this transport. When the season is over, my merchandise is worthless."
+      "message" : "Än så länge har jag inte kunnat hitta någon som utför den här leveransen. När säsongen är över är mina handelsvaror värdelösa."
    },
    "WHY_SO_MUCH_MONEY" : {
       "description" : "",

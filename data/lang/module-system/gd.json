@@ -1,11 +1,11 @@
 {
    "BASE" : {
       "description" : "",
-      "message" : "base"
+      "message" : "bunait"
    },
    "BASES" : {
       "description" : "",
-      "message" : "bases"
+      "message" : "bunait(ean)"
    },
    "BODIES" : {
       "description" : "",
@@ -17,11 +17,11 @@
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : "Lorg thu {portcount} {bases} f(h)alaichte!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "A' rùrachadh siostam le {bodycount} {bodies} mòra."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",

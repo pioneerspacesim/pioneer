@@ -13,6 +13,9 @@
 #	ifdef WINVER
 #		undef WINVER
 #	endif
+#	ifdef RegisterClass
+#		undef RegisterClass
+#	endif
 #	define WINVER Windows2000
 #	define _WIN32_IE IE5
 #endif

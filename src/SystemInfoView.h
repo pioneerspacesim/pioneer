@@ -72,8 +72,6 @@ private:
 	std::vector<std::pair<Uint32, BodyIcon*> > m_bodyIcons;
 	bool m_unexplored;
 	bool m_hasTradeAnalyzer;
-
-	Graphics::RenderState *m_solidState;
 };
 
 #endif /* _SYSTEMINFOVIEW_H */

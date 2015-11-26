@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Texturen komprimieren"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Kauf bestätigen"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Verkauf bestätigen"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Polizist"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Anstellung"
+   },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Autospeichern aktivieren"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -466,6 +478,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Unerfahren"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Unzureichendes Kapital."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -715,6 +731,10 @@
       "description" : "",
       "message" : "keine"
    },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Keine zum Verkauf in dieser Station."
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Notizen:"
@@ -878,6 +898,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Starterlaubnis anfordern"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Zurücksetzen"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1118,6 +1142,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Sie haben dafür nicht genug Geld."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Du hast {units} Einheiten in deinem Frachtraum"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",

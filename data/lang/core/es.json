@@ -639,6 +639,10 @@
       "description" : "",
       "message" : "%speed{f.2} km/s relativo a %frame"
    },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Alternar entre modos de pantalla punto Lagrange L4/L5"
+   },
    "LANDED" : {
       "description" : "",
       "message" : "En tierra"

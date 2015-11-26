@@ -17,7 +17,13 @@ using namespace SceneGraph;
 // 2: converted StaticMesh to VertexBuffer
 // 3: store processed collision mesh
 // 4: compressed SGM files and instancing support
-const Uint32 SGM_VERSION = 4;
+// 5: normal mapping
+const Uint32 SGM_VERSION = 5;
+union SGM_STRING_VALUE{
+	char name[4];
+	Uint32 value;
+};
+const SGM_STRING_VALUE SGM_STRING_ID = { {'s', 'g', 'm', SGM_VERSION} };
 const std::string SGM_EXTENSION = ".sgm";
 const std::string SAVE_TARGET_DIR = "binarymodels";
 
@@ -101,10 +107,7 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 
 	Serializer::Writer wr;
 
-	wr.Byte('S');
-	wr.Byte('G');
-	wr.Byte('M');
-	wr.Byte('4');
+	wr.Int32(SGM_STRING_ID.value);
 
 	wr.Int32(SGM_VERSION);
 
@@ -192,7 +195,7 @@ Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
 {
 	//verify signature
 	const Uint32 sig = rd.Int32();
-	if (sig != 0x344D4753) //'SGM4'
+	if (sig != SGM_STRING_ID.value) //'SGM#'
 		throw LoadingError("Not a binary model file");
 
 	const Uint32 version = rd.Int32();
@@ -237,6 +240,8 @@ void BinaryConverter::SaveMaterials(Serializer::Writer& wr, Model* model)
 		wr.String(m.tex_diff);
 		wr.String(m.tex_spec);
 		wr.String(m.tex_glow);
+		wr.String(m.tex_ambi);
+		wr.String(m.tex_norm);
 		wr.Color4UB(m.diffuse);
 		wr.Color4UB(m.specular);
 		wr.Color4UB(m.ambient);
@@ -257,6 +262,8 @@ void BinaryConverter::LoadMaterials(Serializer::Reader &rd)
 		m.tex_diff = rd.String();
 		m.tex_spec = rd.String();
 		m.tex_glow = rd.String();
+		m.tex_ambi = rd.String();
+		m.tex_norm = rd.String();
 		m.diffuse = rd.Color4UB();
 		m.specular = rd.Color4UB();
 		m.ambient = rd.Color4UB();

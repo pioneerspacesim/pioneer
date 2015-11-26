@@ -413,7 +413,7 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 	}
 
 	oldAmbient = r->GetAmbientColor();
-	r->SetAmbientColor(Color(ambient*255));
+	r->SetAmbientColor(Color(ambient*255, ambient * 255, ambient * 255));
 	r->SetLights(newLights.size(), &newLights[0]);
 }
 

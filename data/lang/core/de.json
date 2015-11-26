@@ -639,6 +639,10 @@
       "description" : "",
       "message" : "%speed{f.2} km/s relativ zu %frame"
    },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Anzeigemodus zwischen den Lagrangepunkten L4 und L5 wechseln."
+   },
    "LANDED" : {
       "description" : "",
       "message" : "Gelandet"

@@ -1,11 +1,11 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Advanced Radar Mapper"
+      "message" : "Rèidear-mapachaidh adhartadh"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Rèidear-mapachaidh aig astar mòr le còmhdachadh an t-siostaim gu lèir."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -13,7 +13,7 @@
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shields your spaceship from the heat of atmospheric re-entry."
+      "message" : "Dìonaidh e an soitheach agad on teas nuair a thilleas e dhan àile."
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -33,47 +33,47 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Cargo Scoop"
+      "message" : "Sgiob carago"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Permits scooping cargo pods from space."
+      "message" : "Leigidh e leat bogsaichean carago a thogail on fhànas."
    },
    "DRIVE_CLASS1" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 1"
+      "message" : "Os-fhànais clas 1"
    },
    "DRIVE_CLASS2" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 2"
+      "message" : "Os-fhànais clas 2"
    },
    "DRIVE_CLASS3" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 3"
+      "message" : "Os-fhànais clas 3"
    },
    "DRIVE_CLASS4" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 4"
+      "message" : "Os-fhànais clas 4"
    },
    "DRIVE_CLASS5" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 5"
+      "message" : "Os-fhànais clas 5"
    },
    "DRIVE_CLASS6" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 6"
+      "message" : "Os-fhànais clas 6"
    },
    "DRIVE_CLASS7" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 7"
+      "message" : "Os-fhànais clas 7"
    },
    "DRIVE_CLASS8" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 8"
+      "message" : "Os-fhànais clas 8"
    },
    "DRIVE_CLASS9" : {
       "description" : "",
-      "message" : "Draibh os-fhànais clas 9"
+      "message" : "Os-fhànais clas 9"
    },
    "DRIVE_MIL1" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "An electronic countermeasure missile defence system, capable of destroying more advanced types of homing missiles."
+      "message" : "Siostam dìon astasan-bacaidh leatronach aig a bheil comas seòrsaichean nas adhartaiche de dh'astasan-iùil a sgrios."
    },
    "ECM_BASIC" : {
       "description" : "",
@@ -109,7 +109,7 @@
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Fuel Scoop"
+      "message" : "Sgiob connaidh"
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Laser Cooling Booster"
+      "message" : "Neartachadh air fuarachadh nan leusair"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -145,11 +145,11 @@
    },
    "MININGCANNON_17MW" : {
       "description" : "",
-      "message" : "17MW blast-mining cannon"
+      "message" : "Canan mèinnearachd 17MW"
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Used to blast-mine mineral rich asteroids."
+      "message" : "Losgaidh tu air dreagan beartach leis a chum mèinnearachd."
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -177,43 +177,43 @@
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Tha e nas fhaide air falbh na ghabhas sganadh:"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Sganair bodhaige"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Sganaich a' bhodhaig as faisge airson stòrasan."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
-      "message" : "Canan buille-chuisle 100MW"
+      "message" : "Canan cuisle 100MW"
    },
    "PULSECANNON_1MW" : {
       "description" : "",
-      "message" : "Canan buille-chuisle 1MW"
+      "message" : "Canan cuisle 1MW"
    },
    "PULSECANNON_20MW" : {
       "description" : "",
-      "message" : "Canan buille-chuisle 20MW"
+      "message" : "Canan cuisle 20MW"
    },
    "PULSECANNON_2MW" : {
       "description" : "",
-      "message" : "Canan buille-chuisle 2MW"
+      "message" : "Canan cuisle 2MW"
    },
    "PULSECANNON_4MW" : {
       "description" : "",
-      "message" : "Canan buille-chuisle 4MW"
+      "message" : "Canan cuisle 4MW"
    },
    "PULSECANNON_DUAL_1MW" : {
       "description" : "",
-      "message" : "Canan buille-chuisle dùbailte 1MW"
+      "message" : "Canan dà-chuisle 1MW"
    },
    "PULSECANNON_RAPID_2MW" : {
       "description" : "",
-      "message" : "Canan buille-chuisle luaith 2MW"
+      "message" : "Canan cuisle luath 2MW"
    },
    "RADAR_MAPPER" : {
       "description" : "",
@@ -221,7 +221,7 @@
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
+      "message" : "Cleachdaidh tu e gus uidheamachd, carago is cor shoithichean eile a sgrùdadh aig astar."
    },
    "SCANNER" : {
       "description" : "",
@@ -233,19 +233,19 @@
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Tha an sganadh deiseil"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Chaidh leantainn air an sganadh"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Shield Energy Booster"
+      "message" : "Neartachadh air lùths nan sgiath"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Increases the rate at which shields recharge."
+      "message" : "Tillidh teàirrds dha na sgiathan nas luaithe."
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
@@ -261,15 +261,15 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "A' tòiseachadh air an sganadh, astar amais:"
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Sgrùdaiche na malairt"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Seallaidh e bathar-amh dhut a bhios prothaideach airson malart eadar an siostam a thagh thu is am fear làithreach"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

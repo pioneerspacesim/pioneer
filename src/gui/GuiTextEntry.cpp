@@ -249,7 +249,7 @@ void TextEntry::Draw()
 		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()), 0.f),
 		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()), 0.f),
 	};
-	m_cursorLines.SetData(2, &cursorVts[0], Color(128));
+	m_cursorLines.SetData(2, &cursorVts[0], Color(128, 128, 128));
 	m_cursorLines.Draw(pRenderer, Screen::alphaBlendState);
 }
 

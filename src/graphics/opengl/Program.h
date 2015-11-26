@@ -1,14 +1,16 @@
 // Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef _GRAPHICS_GL2PROGRAM_H
-#define _GRAPHICS_GL2PROGRAM_H
+#ifndef _GRAPHICS_OGLPROGRAM_H
+#define _GRAPHICS_OGLPROGRAM_H
 /*
  * The new 'Shader' class
  * This is a base class without specific uniforms
  */
-#include "libs.h"
+#include "OpenGLLibs.h"
 #include "Uniform.h"
+
+#include <string>
 
 namespace Graphics {
 
@@ -45,6 +47,7 @@ namespace Graphics {
 			Uniform texture3;
 			Uniform texture4;
 			Uniform texture5;
+			Uniform texture6;
 			Uniform heatGradient;
 			Uniform heatingMatrix;
 			Uniform heatingNormal;

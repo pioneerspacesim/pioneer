@@ -20,7 +20,7 @@ Gui::Fixed *Screen::baseContainer;
 Gui::Widget *Screen::focusedWidget;
 matrix4x4f Screen::modelMatrix;
 matrix4x4f Screen::projMatrix;
-GLint Screen::viewport[4];
+Sint32 Screen::viewport[4];
 
 FontCache Screen::s_fontCache;
 std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;

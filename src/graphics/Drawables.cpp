@@ -129,8 +129,8 @@ Line3D::Line3D() : m_refreshVertexBuffer(true), m_width(2.0f), m_va( new Graphic
 	PROFILE_SCOPED()
 	assert(m_va.get());
 	// XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3
-	m_va->Add(vector3f(0.f), Color(0));
-	m_va->Add(vector3f(0.f), Color(255));
+	m_va->Add(vector3f(0.f), Color::BLANK);
+	m_va->Add(vector3f(0.f), Color::WHITE);
 }
 
 Line3D::Line3D(const Line3D& b) : Line3D()
@@ -215,7 +215,7 @@ void Line3D::Dirty() {
 }
 //------------------------------------------------------------
 
-Lines::Lines() : m_refreshVertexBuffer(true), m_width(2.0f), m_va(new VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE))
+Lines::Lines() : m_refreshVertexBuffer(true), m_va(new VertexArray(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE))
 {
 	PROFILE_SCOPED()
 	// XXX bug in Radeon drivers will cause crash in glLineWidth if width >= 3

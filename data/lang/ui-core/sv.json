@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Komprimera texturer"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Bekräfta köp"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Bekräfta försäljning"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Konstapel"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Anställning"
+   },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Spara automatiskt"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -466,6 +478,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Oerfaren"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Otillräcklig likvid"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -715,6 +731,10 @@
       "description" : "",
       "message" : "Inget"
    },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Inget tillsalu vid denna station"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Anteckningar:"
@@ -878,6 +898,10 @@
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Uppskjutningstillstånd"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Återställ"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1118,6 +1142,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Du har inte tillräckligt med pengar för det valet."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Du har {units} enheter i din last"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
