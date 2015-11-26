@@ -73,7 +73,7 @@
                BlueprintIdentifier = "4A20B0DD135319770020F43E"
                BuildableName = "pioneer.app"
                BlueprintName = "pioneer"
-               ReferencedContainer = "container:pioneer.xcodeproj">
+               ReferencedContainer = "container:Pioneer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -91,14 +91,14 @@
             BlueprintIdentifier = "4A20B0DD135319770020F43E"
             BuildableName = "pioneer.app"
             BlueprintName = "pioneer"
-            ReferencedContainer = "container:pioneer.xcodeproj">
+            ReferencedContainer = "container:Pioneer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -116,7 +116,7 @@
             BlueprintIdentifier = "4A20B0DD135319770020F43E"
             BuildableName = "pioneer.app"
             BlueprintName = "pioneer"
-            ReferencedContainer = "container:pioneer.xcodeproj">
+            ReferencedContainer = "container:Pioneer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -135,7 +135,7 @@
             BlueprintIdentifier = "4A20B0DD135319770020F43E"
             BuildableName = "pioneer.app"
             BlueprintName = "pioneer"
-            ReferencedContainer = "container:pioneer.xcodeproj">
+            ReferencedContainer = "container:Pioneer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -22,9 +22,9 @@
 
 /* Begin PBXBuildFile section */
 		3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
-		37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; };
+		37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
-		37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; };
+		37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; };
 		37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
 		37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; };
@@ -433,12 +433,13 @@
 		4AFBD7B91641265D002928CB /* PngWriter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBD7B71641265D002928CB /* PngWriter.cpp */; };
 		4AFBD7BD16412676002928CB /* LuaTextEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */; };
 		4AFBD7BE16412676002928CB /* TextEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AFBD7BB16412676002928CB /* TextEntry.cpp */; };
-		52025F6F1C05B63E00254BB5 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F6E1C05B63E00254BB5 /* libcurl.4.dylib */; };
 		52025F741C05B74B00254BB5 /* libSDL2_image-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F721C05B74B00254BB5 /* libSDL2_image-2.0.0.dylib */; };
 		52025F751C05B74B00254BB5 /* libSDL2-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F731C05B74B00254BB5 /* libSDL2-2.0.0.dylib */; };
 		52025F791C05BA7100254BB5 /* CollMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52025F781C05BA7100254BB5 /* CollMesh.cpp */; };
 		52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */; };
 		52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; };
+		522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
+		522B22CC1C06324A00109BB0 /* libcurl.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -485,6 +486,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				522B22CC1C06324A00109BB0 /* libcurl.4.dylib in Copy Libraries */,
 			);
 			name = "Copy Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1258,12 +1260,12 @@
 		4AFBD7BA16412676002928CB /* LuaTextEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaTextEntry.cpp; sourceTree = "<group>"; };
 		4AFBD7BB16412676002928CB /* TextEntry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextEntry.cpp; sourceTree = "<group>"; };
 		4AFBD7BC16412676002928CB /* TextEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextEntry.h; sourceTree = "<group>"; };
-		52025F6E1C05B63E00254BB5 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = /opt/local/lib/libcurl.4.dylib; sourceTree = "<absolute>"; };
 		52025F721C05B74B00254BB5 /* libSDL2_image-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2_image-2.0.0.dylib"; path = "../../../../../opt/local/lib/libSDL2_image-2.0.0.dylib"; sourceTree = "<group>"; };
 		52025F731C05B74B00254BB5 /* libSDL2-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2-2.0.0.dylib"; path = "../../../../../opt/local/lib/libSDL2-2.0.0.dylib"; sourceTree = "<group>"; };
 		52025F781C05BA7100254BB5 /* CollMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollMesh.cpp; sourceTree = "<group>"; };
 		52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = ../../../../../opt/local/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = ../../../../../opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
+		522B22CA1C06323C00109BB0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../opt/local/lib/libcurl.4.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1272,11 +1274,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
-				52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */,
 				37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */,
+				522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */,
 				37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */,
+				52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */,
 				52025F751C05B74B00254BB5 /* libSDL2-2.0.0.dylib in Frameworks */,
-				52025F6F1C05B63E00254BB5 /* libcurl.4.dylib in Frameworks */,
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
 				52025F741C05B74B00254BB5 /* libSDL2_image-2.0.0.dylib in Frameworks */,
@@ -1543,11 +1545,11 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				522B22CA1C06323C00109BB0 /* libcurl.4.dylib */,
 				52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */,
 				52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */,
 				52025F721C05B74B00254BB5 /* libSDL2_image-2.0.0.dylib */,
 				52025F731C05B74B00254BB5 /* libSDL2-2.0.0.dylib */,
-				52025F6E1C05B63E00254BB5 /* libcurl.4.dylib */,
 				4A20B0E4135319770020F43E /* Other Frameworks */,
 				4A671B851388C04700657F38 /* SubLibraries */,
 			);
@@ -2319,7 +2321,7 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 			};
-			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2821,6 +2823,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				HEADER_SEARCH_PATHS = "";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
+				PRODUCT_NAME = "${PRODUCT_NAME:c99extidentifier}";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -2832,6 +2836,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				HEADER_SEARCH_PATHS = "";
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
+				PRODUCT_NAME = "${PRODUCT_NAME:c99extidentifier}";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -2885,7 +2891,7 @@
 					"\"$(SRCROOT)/../contrib/lua\"",
 					/opt/local/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-headerpad_max_install_names";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
@@ -2941,7 +2947,7 @@
 					/opt/local/lib,
 				);
 				LLVM_LTO = NO;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-headerpad_max_install_names";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
@@ -2966,7 +2972,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A20B0D51353194B0020F43E /* Debug */,
