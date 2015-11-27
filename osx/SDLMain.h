@@ -13,7 +13,3 @@
 - (IBAction)openAboutPanel:(id)sender;
 
 @end
-
-@interface SDLApplication : NSApplication
-
-@end
