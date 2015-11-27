@@ -78,6 +78,7 @@ The Pioneer Developers are:
 * Robert Norris
 * Robert Pallier
 * Roland Mas
+* Sal Borrelli
 * Sean Bailey
 * Simon Chopin
 * SolCommand
