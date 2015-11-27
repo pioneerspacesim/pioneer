@@ -626,6 +626,50 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 	m_forceTimeAccel = force;
 }
 
+void Game::RequestTimeAccelInc(bool force)
+{
+    switch(m_requestedTimeAccel) {
+        case Game::TIMEACCEL_1X:
+            m_requestedTimeAccel = Game::TIMEACCEL_10X;
+            break;
+        case Game::TIMEACCEL_10X:
+            m_requestedTimeAccel = Game::TIMEACCEL_100X;
+            break;
+        case Game::TIMEACCEL_100X:
+            m_requestedTimeAccel = Game::TIMEACCEL_1000X;
+            break;
+        case Game::TIMEACCEL_1000X:
+            m_requestedTimeAccel = Game::TIMEACCEL_10000X;
+            break;
+        default:
+            // ignore if paused, hyperspace or 10000X
+            break;
+    }
+    m_forceTimeAccel = force;
+}
+
+void Game::RequestTimeAccelDec(bool force)
+{
+    switch(m_requestedTimeAccel) {
+        case Game::TIMEACCEL_10X:
+            m_requestedTimeAccel = Game::TIMEACCEL_1X;
+            break;
+        case Game::TIMEACCEL_100X:
+            m_requestedTimeAccel = Game::TIMEACCEL_10X;
+            break;
+        case Game::TIMEACCEL_1000X:
+            m_requestedTimeAccel = Game::TIMEACCEL_100X;
+            break;
+        case Game::TIMEACCEL_10000X:
+            m_requestedTimeAccel = Game::TIMEACCEL_1000X;
+            break;
+        default:
+            // ignore if paused, hyperspace or 1X
+            break;
+    }
+    m_forceTimeAccel = force;
+}
+
 Game::Views::Views()
 	: m_sectorView(nullptr)
 	, m_galacticView(nullptr)
