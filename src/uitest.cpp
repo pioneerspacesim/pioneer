@@ -7,6 +7,7 @@
 #include "FileSystem.h"
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
+#include "graphics/opengl/RendererGL.h"
 #include "Lua.h"
 #include "PropertiedObject.h"
 #include "OS.h"
@@ -118,6 +119,8 @@ int main(int argc, char **argv)
 		Output("sdl init failed: %s\n", SDL_GetError());
 		exit(-1);
 	}
+
+	Graphics::RendererOGL::RegisterRenderer();
 
 	Graphics::Settings videoSettings;
 	videoSettings.rendererType = Graphics::RENDERER_OPENGL;

@@ -25,7 +25,7 @@ class Container: public Widget {
 
 protected:
 	// can't instantiate a base container directly
-	Container(Context *context) : Widget(context), m_needsLayout(false) {}
+	Container(Context *context) : Widget(context) {}
 
 public:
 	virtual ~Container();
@@ -67,7 +67,6 @@ private:
 	void EnableChildren();
 	void DisableChildren();
 
-	bool m_needsLayout;
 	std::vector< RefCountedPtr<Widget> > m_widgets;
 };
 
