@@ -169,11 +169,11 @@
    },
    "CONFIRM_PURCHASE" : {
       "description" : "",
-      "message" : "Confirm purchase"
+      "message" : "Potwierdzenie zakupu"
    },
    "CONFIRM_SALE" : {
       "description" : "",
-      "message" : "Confirm sale"
+      "message" : "Potwierdzenie sprzedaży"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -481,7 +481,7 @@
    },
    "INSUFFICIENT_FUNDS" : {
       "description" : "",
-      "message" : "Insufficient funds."
+      "message" : "Za mało pieniędzy."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -733,7 +733,7 @@
    },
    "NONE_FOR_SALE_IN_THIS_STATION" : {
       "description" : "",
-      "message" : "None for sale in this station."
+      "message" : "Na tej stacji nie ma nic na sprzedaż."
    },
    "NOTES" : {
       "description" : "",
@@ -1145,7 +1145,7 @@
    },
    "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
       "description" : "",
-      "message" : "You have {units} units in your cargohold"
+      "message" : "Posiadasz {units} w swojej ładowni "
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
