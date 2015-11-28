@@ -348,6 +348,7 @@ tests_LDADD = \
 uitest_SOURCES = \
 	uitest.cpp \
 	Color.cpp \
+	DateTime.cpp \
 	FileSystem.cpp \
 	SDLWrappers.cpp \
 	FontCache.cpp \
@@ -372,6 +373,7 @@ uitest_LDADD = \
 	gui/libgui.a \
 	text/libtext.a \
 	graphics/libgraphics.a \
+	graphics/opengl/libgraphicsopengl.a \
 	posix/libposix.a \
 	../contrib/jenkins/libjenkins.a \
 	../contrib/PicoDDS/libpicodds.a \
