@@ -31,6 +31,7 @@ November 2015
      * Clean up OpenGL pollution (#3526)
      * Fix the last real Clang warning (#3528)
      * Delete Form/FormController, which are no longer used (#3533)
+     * Minor code cleanup (#3545)
 
 October 2015
    * New Features
