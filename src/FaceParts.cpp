@@ -196,9 +196,19 @@ void PartDb::ScanGenderedParts(std::vector<Part> &output, const int species_idx,
 	for (fs::FileEnumerator files(fs::gameDataFiles, path); !files.Finished(); files.Next()) {
 		const std::string &name = files.Current().GetName();
 		if (starts_with(name, prefix)) {
-			int gender_idx = (name[prefix_len] - '0');
-			assert(gender_idx == 0 || gender_idx == 1); // currently we enforce two genders
-			const Uint32 sel = _make_selector(species_idx, race_idx, gender_idx);
+			char *end = nullptr;
+			int gender_idx = strtol(name.c_str() + prefix_len, &end, 10);
+			Uint32 sel;
+			// HACK -- attempt to recognise `foo_3.png' style names
+			if (strcmp(end, ".png") == 0) {
+				sel = _make_selector(species_idx, race_idx, -1);
+			} else {
+				if (gender_idx < 0 || gender_idx >= MAX_GENDERS) {
+					Output("Gender out of range: %s\n", files.Current().GetPath().c_str());
+					continue;
+				}
+				sel = _make_selector(species_idx, race_idx, gender_idx);
+			}
 
 			SDLSurfacePtr im = LoadSurfaceFromFile(files.Current().GetPath());
 			if (im) {
