@@ -19,6 +19,7 @@ November 2015
      * Lagrange Points in turquoise-ish (#3539)
      * Fix the broken win32 cross compile (#3542)
      * Fixed XCode Project file (#3540)
+     * Fix cockpit loading (#3546)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
