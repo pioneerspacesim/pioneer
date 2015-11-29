@@ -1,20 +1,21 @@
 facegen directory structure
 
-(documentation as of 2015-11-29 / commit @47a4c37ad49bf129a9b0)
-
 Video-link images are built out of a set of layered parts. Each part is
 centered horizontally and offset vertically when it's built into the face.
 
 Parts (in the order they're drawn; i.e., bottom layer first):
-  - Background   -- There's only one of these. Size 295 x 285 pixels.
-  - Head         -- size 295 x 285 (no offset)
-  - Clothes      -- size 295 x 150 (offset y + 135). only drawn if not armoured
-  - Eyes         -- size 127 x 148 (offset y + 41)
-  - Nose         -- size  63 x 132 (offset y + 89)
-  - Mouth        -- size  80 x  70 (offset y + 155)
-  - Accessories  -- size 295 x 285 (no offset). only drawn if not armoured
-  - Hair         -- size 295 x 285 (no offset). only drawn if not armoured
-  - Armour       -- size 295 x 285 (no offset)
+  - Background   -- There's only one of these.
+  - Head
+  - Clothes      -- only drawn if not armoured
+  - Eyes
+  - Nose
+  - Mouth
+  - Accessories  -- only drawn if not armoured
+  - Hair         -- only drawn if not armoured
+  - Armour
+
+All parts should be exactly 295 x 285 pixels so that their positions all
+match up.
 
 Parts are grouped by species, race and gender.
 There can be up to 10 species, and up to 16 races. There should be 2 genders
@@ -55,3 +56,7 @@ $G is the gender index (0 or 1), $N is the part number. You don't have to
 match up the number of items between the genders or between races -- e.g.,
 one race could have just one hairstyle for each gender and another race could
 have 3 hairstyles for gender 0 and 7 hairstyles for gender 1.
+
+For the eyes, hair, head, mouth and nose, it is possible to create non-gendered
+parts by naming them e.g., eyes_$N.png (ie, just put one number in the file name
+rather than two). Parts named like that will be assumed to work for any gender.
