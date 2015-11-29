@@ -77,7 +77,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	shipClass = data.get("ship_class", "").asString();
 	manufacturer = data.get("manufacturer", "").asString();
 	modelName = data.get("model", "").asString();
-	cockpitName = data.get("cockpit_model", "").asString();
+	cockpitName = data.get("cockpit", "").asString();
 
 	linThrust[THRUSTER_REVERSE] = data.get("reverse_thrust", 0.0f).asFloat();
 	linThrust[THRUSTER_FORWARD] = data.get("forward_thrust", 0.0f).asFloat();
