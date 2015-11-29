@@ -98,8 +98,15 @@ namespace {
 		assert(target);
 		if (!source) return;
 		SDL_Rect destrec = { 0, 0, 0, 0 };
-		destrec.x = ((FaceParts::FACE_WIDTH - source->w) / 2) + xoff;
-		destrec.y = yoff;
+		// if the source is the full size, then ignore the offset
+		if ((source->w == FaceParts::FACE_WIDTH) &&
+		    (source->h == FaceParts::FACE_HEIGHT)) {
+			destrec.x = 0;
+			destrec.y = 0;
+		} else {
+			destrec.x = ((FaceParts::FACE_WIDTH - source->w) / 2) + xoff;
+			destrec.y = yoff;
+		}
 		SDL_BlitSurface(source, 0, target, &destrec);
 	}
 
