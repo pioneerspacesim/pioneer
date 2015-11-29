@@ -1,7 +1,7 @@
 // Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#define ALLOW_LUA_SHIP_DEF 1
+#define ALLOW_LUA_SHIP_DEF 0
 
 #include "ShipType.h"
 #if ALLOW_LUA_SHIP_DEF
