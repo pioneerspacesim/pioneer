@@ -800,20 +800,6 @@ void Pi::HandleEvents()
 					}
 					break;
 				}
-                else if (event.key.keysym.sym == SDLK_PAGEUP) {
-                    if ((Pi::game) && (currentView == Pi::game->GetWorldView())) {
-                        // request an increase in time acceleration
-                        Pi::game->RequestTimeAccelInc();
-                        break;
-                    }
-                }
-                else if (event.key.keysym.sym == SDLK_PAGEDOWN) {
-                    if ((Pi::game) && (currentView == Pi::game->GetWorldView())) {
-                        // request a decrease in time acceleration
-                        Pi::game->RequestTimeAccelDec();
-                        break;
-                    }
-                }
 				// special keys. LCTRL+turd
 				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
 					switch (event.key.keysym.sym) {

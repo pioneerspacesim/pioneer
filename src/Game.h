@@ -99,16 +99,12 @@ public:
 	void SetTimeAccel(TimeAccel t);
 	void RequestTimeAccel(TimeAccel t, bool force = false);
 
-    /**
-     * Requests an increase in time acceleration
-     * @param force if set to false the system can reject the request under certain conditions
-     */
-    void RequestTimeAccelInc(bool force = false);
-    /**
-     * Requests a decrease in time acceleration
-     * @param force if set to false the system can reject the request under certain conditions
-     */
-    void RequestTimeAccelDec(bool force = false);
+	/// Requests an increase in time acceleration
+	/// @param force if set to false the system can reject the request under certain conditions
+	void RequestTimeAccelInc(bool force = false);
+	/// Requests a decrease in time acceleration
+	/// @param force if set to false the system can reject the request under certain conditions
+	void RequestTimeAccelDec(bool force = false);
 
 	TimeAccel GetTimeAccel() const { return m_timeAccel; }
 	TimeAccel GetRequestedTimeAccel() const { return m_requestedTimeAccel; }
