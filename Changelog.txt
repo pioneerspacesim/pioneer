@@ -18,6 +18,8 @@ November 2015
      * Fix strings not in translation system (#3538)
      * Lagrange Points in turquoise-ish (#3539)
      * Fix the broken win32 cross compile (#3542)
+     * Fixed XCode Project file (#3540)
+     * Fix cockpit loading (#3546)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
@@ -30,6 +32,7 @@ November 2015
      * Clean up OpenGL pollution (#3526)
      * Fix the last real Clang warning (#3528)
      * Delete Form/FormController, which are no longer used (#3533)
+     * Minor code cleanup (#3545)
 
 October 2015
    * New Features

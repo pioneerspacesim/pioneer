@@ -218,7 +218,6 @@ private:
 	Graphics::RenderState *m_blendState;
 
 	Graphics::Drawables::Line3D m_edgeMarker;
-	Graphics::Drawables::Lines m_crossHair;
 	Graphics::Drawables::Lines m_indicator;
 };
 
