@@ -72,12 +72,9 @@ void Container::RemoveWidget(Widget *widget)
 
 void Container::RemoveAllWidgets()
 {
-	std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin();
-	while (i != m_widgets.end()) {
-		(*i)->Detach();
-		i = m_widgets.erase(i);
-	}
-
+	for (auto end = m_widgets.end(), it = m_widgets.begin(); it != end; ++it)
+		(*it)->Detach();
+	m_widgets.clear();
 	GetContext()->RequestLayout();
 }
 
