@@ -549,7 +549,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Деактивировать гипердвигатель"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -557,7 +557,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Активировать гипердвигатель"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -641,7 +641,7 @@
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
+      "message" : "Переключение между режимами отображения точек Лагранжа L4/L5"
    },
    "LANDED" : {
       "description" : "",

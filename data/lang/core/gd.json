@@ -641,7 +641,7 @@
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
+      "message" : "Gearr leum eadar modhan sealltainn puing Lagrange L4/L5."
    },
    "LANDED" : {
       "description" : "",

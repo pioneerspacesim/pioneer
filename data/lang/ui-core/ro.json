@@ -169,11 +169,11 @@
    },
    "CONFIRM_PURCHASE" : {
       "description" : "",
-      "message" : "Confirm purchase"
+      "message" : "Confirmați cumpărarea"
    },
    "CONFIRM_SALE" : {
       "description" : "",
-      "message" : "Confirm sale"
+      "message" : "Confirmați vânzarea"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -269,7 +269,7 @@
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Aruncare gunoi"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
-      "message" : "Enable Autosave"
+      "message" : "Activează salvarea automată"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -793,7 +793,7 @@
    },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
+      "message" : "Amenzi neplătite"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -901,7 +901,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Reset"
+      "message" : "Resetare"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -1017,11 +1017,11 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "This station holds a level {tech_level} technology certificate."
+      "message" : "Această stație deține un certificat de tehnologie de nivelul {tech_level}."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
-      "message" : "This installation holds a military technology clearance."
+      "message" : "Această unitate deține autorizație de tehnologie militară."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1125,7 +1125,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
+      "message" : "Nu este tolerat(ă) {crime} aici!"
    },
    "YES" : {
       "description" : "Positive answer to a question",
