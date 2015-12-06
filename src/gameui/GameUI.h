@@ -8,6 +8,7 @@
 
 #include "Face.h"
 #include "GalaxyMap.h"
+#include "LabelOverlay.h"
 #include "ModelSpinner.h"
 #include "BindingCapture.h"
 

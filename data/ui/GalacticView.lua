@@ -10,6 +10,14 @@ local l = Lang.GetResource("ui-core");
 
 local zoomSlider = ui:VSlider()
 local map = GalaxyMap.New(ui)
+		:SetFont('LARGE')
+		:AddAreaLabel(-3250,  1875, "3kpc arm")
+		:AddAreaLabel(-3900,  2812, "Norma arm")
+		:AddAreaLabel( 1500,  1200, "Perseus arm")
+		:AddAreaLabel(-2600, -5100, "Outer arm")
+		:AddAreaLabel(-4100,  4375, "Sagittarius arm")
+		:AddAreaLabel(-4300,  3450, "Scutum Centaurus arm")
+		:AddAreaLabel(  100, -1100, "Local arm")
 
 zoomSlider:SetRange(-1, 3.322)
 zoomSlider.onValueChanged:Connect(function (new_zoom_pos)

@@ -5,11 +5,13 @@
 #define GAMEUI_GALAXYMAP_H
 
 #include "ui/Context.h"
-#include "ui/Single.h"
+#include "ui/OverlayStack.h"
 
 namespace GameUI {
 
-class GalaxyMap : public UI::Single {
+class LabelOverlay;
+
+class GalaxyMap : public UI::OverlayStack {
 public:
 	GalaxyMap(UI::Context *context);
 
@@ -20,8 +22,13 @@ public:
 	GalaxyMap *SetZoom(float v);
 	GalaxyMap *SetCentreSector(const vector2f &at);
 
+	void ClearLabels();
+
+	// Position is in sector X,Y coordinates.
+	GalaxyMap *AddAreaLabel(const vector2f &at, const std::string &text);
 private:
 	UI::Image *m_baseImage;
+	GameUI::LabelOverlay *m_labelOverlay;
 	float m_zoom;
 	vector2f m_centreSector;
 };

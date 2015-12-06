@@ -2,6 +2,7 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "GalaxyMap.h"
+#include "LabelOverlay.h"
 #include "galaxy/Galaxy.h"
 #include "Game.h"
 #include "Pi.h"
@@ -18,8 +19,9 @@ static const char GALAXY_IMAGE_FILE[] = "galaxy_colour.png";
 namespace GameUI {
 
 GalaxyMap::GalaxyMap(Context *context):
-	Single(context),
+	OverlayStack(context),
 	m_baseImage(nullptr),
+	m_labelOverlay(nullptr),
 	m_zoom(1.0f),
 	m_centreSector(0.0f, 0.0f)
 {
@@ -27,7 +29,11 @@ GalaxyMap::GalaxyMap(Context *context):
 		std::string(GALAXY_IMAGE_FILE),
 		UI::Widget::EXPAND_WIDTH | UI::Widget::EXPAND_HEIGHT);
 	m_baseImage->SetPreserveAspect(true);
-	SetInnerWidget(m_baseImage);
+	AddLayer(m_baseImage);
+
+	m_labelOverlay = new GameUI::LabelOverlay(context);
+	AddLayer(m_labelOverlay);
+
 	GetContext()->RequestLayout();
 }
 
@@ -53,11 +59,34 @@ void GalaxyMap::Update()
 	const vector2f sol_offset(galaxy->SOL_OFFSET_X * inv_sector_size,
 	                          galaxy->SOL_OFFSET_Y * inv_sector_size);
 
+	const Graphics::Frustum frustum(
+		matrix4x4d::Translation(-m_centreSector.x, -m_centreSector.y, 0.0),
+		matrix4x4d::ScaleMatrix(m_zoom) *
+		matrix4x4d::OrthoFrustum(-viewport_sectors.x,  viewport_sectors.x, // left, right
+		                          viewport_sectors.y, -viewport_sectors.y, // top, bottom
+		                         -1.0, 1.0));
+	m_labelOverlay->SetView(frustum);
+
 	m_baseImage->SetTransform(m_zoom, vector2f(
 		(m_centreSector.x + sol_offset.x) / radius_sectors,
 		(m_centreSector.y + sol_offset.y) / radius_sectors));
 
-	Single::Update();
+	OverlayStack::Update();
+}
+
+void GalaxyMap::ClearLabels()
+{
+	m_labelOverlay->Clear();
+}
+
+GalaxyMap *GalaxyMap::AddAreaLabel(const vector2f &at, const std::string &text)
+{
+	const vector3f at3(at, 0.0f);
+	LabelOverlay::Marker *m = m_labelOverlay->AddMarker(text, at3);
+	m->color = Color4ub(255,255,255,255);
+	m->style = LabelOverlay::MARKER_NONE;
+	m->textAnchor = UI::Align::MIDDLE;
+	return this;
 }
 
 GalaxyMap *GalaxyMap::SetZoom(float v)

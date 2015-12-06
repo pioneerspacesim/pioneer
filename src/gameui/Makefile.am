@@ -16,6 +16,7 @@ noinst_HEADERS = \
 	Panel.h \
 	Face.h \
 	GalaxyMap.h \
+	LabelOverlay.h \
 	ModelSpinner.h \
 	BindingCapture.h
 
@@ -23,6 +24,7 @@ libgameui_a_SOURCES = \
 	Panel.cpp \
 	Face.cpp \
 	GalaxyMap.cpp \
+	LabelOverlay.cpp \
 	ModelSpinner.cpp \
 	BindingCapture.cpp \
 	Lua.cpp \

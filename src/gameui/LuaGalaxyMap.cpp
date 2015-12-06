@@ -26,6 +26,23 @@ public:
 		return 1;
 	}
 
+	static int l_clear_labels(lua_State *l) {
+		GalaxyMap *map = LuaObject<GalaxyMap>::CheckFromLua(1);
+		map->ClearLabels();
+		return 0;
+	}
+
+	static int l_add_area_label(lua_State *l) {
+		GalaxyMap *map = LuaObject<GalaxyMap>::CheckFromLua(1);
+		float x = luaL_checknumber(l, 2);
+		float y = luaL_checknumber(l, 3);
+		std::string text;
+		pi_lua_generic_pull(l, 4, text);
+		map->AddAreaLabel(vector2f(x, y), text);
+		lua_settop(l, 1);
+		return 1;
+	}
+
 	static int l_set_centre_sector(lua_State *l) {
 		GalaxyMap *map = LuaObject<GalaxyMap>::CheckFromLua(1);
 		float x = luaL_checknumber(l, 2);
@@ -50,6 +67,8 @@ template <> void LuaObject<GameUI::GalaxyMap>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "New",             &LuaGalaxyMap::l_new },
 		{ "SetZoom",         &LuaGalaxyMap::l_set_zoom },
+		{ "ClearLabels",     &LuaGalaxyMap::l_clear_labels },
+		{ "AddAreaLabel",    &LuaGalaxyMap::l_add_area_label },
 		{ "SetCentreSector", &LuaGalaxyMap::l_set_centre_sector },
 		{ 0, 0 }
 	};
