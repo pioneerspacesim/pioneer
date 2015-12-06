@@ -127,8 +127,11 @@ local FLIP_DIR = { ['HBox'] = 'VBox', ['VBox'] = 'HBox' }
 local function collectGridWidgets(body, offset, icons, labels)
 	local icon = pickIcon(body)
 	if icon ~= nil then
-		icons[#icons+1] = ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'}))
-		labels[#labels+1] = ui:Align('LEFT', ui:Margin(offset, 'LEFT', ui:Label(body.name)))
+		icons[#icons+1] =
+			ui:Align('LEFT', ui:Margin(offset, 'LEFT', ui:Image(icon, {'PRESERVE_ASPECT'})))
+			--ui:Align('MIDDLE', )
+		labels[#labels+1] =
+			ui:Align('LEFT', ui:Margin(offset, 'LEFT', ui:Label(body.name)))
 	end
 
 	local children = body:GetChildren()
@@ -179,12 +182,74 @@ local function buildIconTree(body, dir, level)
 	end
 end
 
+local function bodyIconImage(body)
+	local icon = pickIcon(body)
+	if icon ~= nil then
+		return ui:Image(icon, {'PRESERVE_ASPECT'})
+	else
+		return nil
+	end
+end
+
+local function buildMagicMoonLayout(body)
+	local icon = bodyIconImage(body)
+	if icon == nil then return nil end
+	local rows = { icon }
+	local children = body:GetChildren()
+	for i = 1, #children do
+		local icon = bodyIconImage(children[i])
+		if icon ~= nil then
+			rows[#rows + 1] = icon
+		end
+	end
+	return ui:VBox(1):PackEnd(rows)
+end
+
+local function buildMagicPlanetLayout(body)
+	local icon = bodyIconImage(body)
+	if icon == nil then return nil end
+	local cols = {}
+	local children = body:GetChildren()
+	for i = 1, #children do
+		local tree = buildMagicMoonLayout(children[i])
+		if tree ~= nil then
+			cols[#cols + 1] = tree
+		end
+	end
+
+	return ui:HBox(5):PackEnd({
+			ui:Align('LEFT', icon),
+			ui:VBox(2):PackEnd({
+				ui:Margin(2, 'VERTICAL', ui:Align('TOP_LEFT', body.name)),
+				ui:HBox(2):PackEnd(cols)
+			})
+		})
+end
+
+local function buildMagicStarLayout(body)
+	local rows = {
+		ui:HBox(10):PackEnd({
+			ui:Align('LEFT', bodyIconImage(body)),
+			ui:Margin(10, 'TOP', ui:Align('TOP_LEFT', body.name))
+		})
+	}
+	local children = body:GetChildren()
+	for i = 1, #children do
+		local tree = buildMagicPlanetLayout(children[i])
+		if tree ~= nil then
+			rows[#rows + 1] = tree
+		end
+	end
+	return ui:VBox(10):PackEnd(rows)
+end
+
 local currentSystem
 
 ui.templates.SystemInfoView = function ()
 	if currentSystem ~= Game.system then
 		currentSystem = Game.system
-		iconsContainer:SetInnerWidget(buildIconGrid(currentSystem.rootBody))
+		iconsContainer:SetInnerWidget(buildMagicStarLayout(currentSystem.rootBody))
+		--iconsContainer:SetInnerWidget(buildIconGrid(currentSystem.rootBody))
 		--iconsContainer:SetInnerWidget(buildIconTree(currentSystem.rootBody, 'VBox'))
 	end
 	return sysInfoView
