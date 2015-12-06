@@ -26,7 +26,6 @@ struct InvalidGameStartLocation {
 };
 
 class SectorView;
-class GalacticView;
 class UIView;
 class SystemInfoView;
 class SystemView;

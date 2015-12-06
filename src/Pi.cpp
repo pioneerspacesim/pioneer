@@ -11,7 +11,6 @@
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
-#include "GalacticView.h"
 #include "Game.h"
 #include "BaseSphere.h"
 #include "Intro.h"

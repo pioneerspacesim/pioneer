@@ -3,7 +3,6 @@
 
 #include "libs.h"
 #include "Factions.h"
-#include "GalacticView.h"
 #include "Game.h"
 #include "Lang.h"
 #include "LuaConstants.h"
