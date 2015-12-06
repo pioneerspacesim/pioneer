@@ -709,7 +709,7 @@ void Game::Views::Init(Game* game)
 	m_worldView = new WorldView(game);
 	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
-	m_systemInfoView = new SystemInfoView(game);
+	m_systemInfoView = new UIView("SystemInfoView");
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
@@ -730,7 +730,7 @@ void Game::Views::LoadFromJson(const Json::Value &jsonObj, Game* game)
 
 	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
-	m_systemInfoView = new SystemInfoView(game);
+	m_systemInfoView = new UIView("SystemInfoView");
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
