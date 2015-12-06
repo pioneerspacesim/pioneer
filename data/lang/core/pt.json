@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "Diminuir velocidade definida"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "Demografia"
@@ -594,6 +598,10 @@
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Aumentar velocidade definida"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",

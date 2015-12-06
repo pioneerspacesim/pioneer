@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "Disminuir velocitat"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "Població"
@@ -594,6 +598,10 @@
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Incrementar velocitat"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",

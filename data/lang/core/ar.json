@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "خفض تثبيت السرعة"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "التركية السكانية"
@@ -594,6 +598,10 @@
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "رفع ضبط السرعة"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",

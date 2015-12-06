@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "减小设定速度"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "人口统计"
@@ -594,6 +598,10 @@
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "增加设定速度"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",

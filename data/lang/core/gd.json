@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "Ìslich an luaths suidhichte"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "Eòlas-sluaigh"
@@ -594,6 +598,10 @@
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Suidhich luaths nas àirde"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
