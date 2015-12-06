@@ -7,14 +7,9 @@ local l = Lang.GetResource("ui-core")
 local iconsContainer = ui:Align('TOP_LEFT')
 
 local sysInfoView =
-	ui:Expand('BOTH',
-		ui:Align('MIDDLE',
-			ui:VBox(10):PackEnd({
-				ui:Label('System Info View!'):SetFont('HEADING_LARGE'),
-				iconsContainer,
-			})
-		)
-	)
+	ui:Grid(2,1)
+		:SetCell(0,0, ui:Margin(20, 'ALL', ui:Scroller(iconsContainer)))
+		:SetCell(1,0, ui:Margin(20, 'ALL', ui:Label('System Information'):SetFont('HEADING_LARGE')))
 
 local ICON_MAP = {
 	BROWN_DWARF = 'icons/object_brown_dwarf.png',
@@ -129,24 +124,46 @@ end
 
 local FLIP_DIR = { ['HBox'] = 'VBox', ['VBox'] = 'HBox' }
 
+local function collectGridWidgets(body, offset, icons, labels)
+	local icon = pickIcon(body)
+	if icon ~= nil then
+		icons[#icons+1] = ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'}))
+		labels[#labels+1] = ui:Align('LEFT', ui:Margin(offset, 'LEFT', ui:Label(body.name)))
+	end
+
+	local children = body:GetChildren()
+	local noffset = offset + 20
+	for i = 1, #children do
+		collectGridWidgets(children[i], noffset, icons, labels)
+	end
+end
+
+local function buildIconGrid(root)
+	local icons, labels = {}, {}
+	collectGridWidgets(root, 0, icons, labels)
+	local grid = ui:Table():SetRowAlignment('CENTER'):SetColumnAlignment('CENTER')
+	for i = 1, #icons do
+		grid:AddRow({icons[i], labels[i]})
+	end
+	return grid
+end
+
 local function buildIconTree(body, dir, level)
 	level = level or '0'
 	local icon = pickIcon(body)
 	local iconWidget
 	if icon ~= nil then
 		iconWidget =
-			ui:Align('TOP_LEFT',
-				ui:VBox(2):PackEnd({
-					ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'})),
-					ui:Align('TOP', ui:Label(body.name):SetFont('SMALL')),
-				})
-			)
+			ui:HBox(2):PackEnd({
+				ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'})),
+				ui:Align('LEFT', ui:Label(body.name)),
+			})
 	end
 	print(string.format('%s %s (%s)', string.rep('+', level), body.name, tostring(icon)))
 
 	local children = body:GetChildren()
 	local nlevel = level + 1
-	local ndir = FLIP_DIR[dir]
+	local ndir = dir --FLIP_DIR[dir]
 	local subwidgets = {}
 	for i = 1, #children do
 		local sw = buildIconTree(children[i], ndir, nlevel)
@@ -167,7 +184,8 @@ local currentSystem
 ui.templates.SystemInfoView = function ()
 	if currentSystem ~= Game.system then
 		currentSystem = Game.system
-		iconsContainer:SetInnerWidget(buildIconTree(currentSystem.rootBody, 'HBox'))
+		iconsContainer:SetInnerWidget(buildIconGrid(currentSystem.rootBody))
+		--iconsContainer:SetInnerWidget(buildIconTree(currentSystem.rootBody, 'VBox'))
 	end
 	return sysInfoView
 end
