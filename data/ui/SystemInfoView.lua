@@ -4,7 +4,7 @@ local Lang = import("Lang")
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
 
-local iconsContainer = ui:Align('TOP_LEFT')
+local iconsContainer = ui:Align('TOP_LEFT'):SetFont('SMALL')
 
 local sysInfoView =
 	ui:Grid(2,1)
