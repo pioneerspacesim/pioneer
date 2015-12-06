@@ -11,6 +11,13 @@ local l = Lang.GetResource("ui-core");
 
 local zoomSlider = ui:VSlider()
 local map = GalaxyMap.New(ui):SetFont('LARGE')
+local scaleIndicator =
+		ui:Image("icons/map_scale_indicator.png", { "PRESERVE_ASPECT" })
+local scaleLabel = ui:NumberLabel('DISTANCE_LY')
+
+map.onMapScaleChanged:Connect(function (new_scale)
+	scaleLabel:SetValue(scaleIndicator.width * new_scale * 8)
+end)
 
 local resetCurrentSector = function (map)
 	local sysPath = Game.system.path
@@ -38,9 +45,12 @@ end)
 local controls =
 	ui:Margin(30, 'ALL',
 		ui:Align('LEFT',
-			ui:VBox(10):PackEnd({
-				l.ZOOM,
-				ui:Expand('VERTICAL', ui:Align('MIDDLE', zoomSlider))
+			ui:HBox():PackEnd({
+				ui:VBox(10):PackEnd({
+					l.ZOOM,
+					ui:Expand('VERTICAL', ui:Align('MIDDLE', zoomSlider)),
+				}),
+				ui:Align('BOTTOM', ui:HBox(10):PackEnd({scaleIndicator, scaleLabel}))
 			})
 		)
 	)

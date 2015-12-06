@@ -22,6 +22,8 @@ public:
 	GalaxyMap *SetZoom(float v);
 	GalaxyMap *SetCentreSector(const vector2f &at);
 
+	float GetDisplayScale() const { return m_displayScale; }
+
 	void ClearLabels();
 
 	// Position is in sector X,Y coordinates.
@@ -29,10 +31,13 @@ public:
 
 	// Position is in sector X,Y coordinates.
 	GalaxyMap *AddPointLabel(const vector2f &at, const std::string &text);
+
+	sigc::signal<void, float> onDisplayScaleChanged;
 private:
 	UI::Image *m_baseImage;
 	GameUI::LabelOverlay *m_labelOverlay;
 	float m_zoom;
+	float m_displayScale;
 	vector2f m_centreSector;
 };
 

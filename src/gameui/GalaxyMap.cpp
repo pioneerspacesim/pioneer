@@ -23,6 +23,7 @@ GalaxyMap::GalaxyMap(Context *context):
 	m_baseImage(nullptr),
 	m_labelOverlay(nullptr),
 	m_zoom(1.0f),
+	m_displayScale(0.0f),
 	m_centreSector(0.0f, 0.0f)
 {
 	m_baseImage = context->Image(
@@ -50,10 +51,18 @@ void GalaxyMap::Update()
 	const UI::Point widget_size = m_baseImage->GetSize();
 	const float widget_aspect = float(widget_size.x) / float(widget_size.y);
 	vector2f viewport_sectors(radius_sectors, radius_sectors);
+	float display_scale;
 	if (widget_size.x > widget_size.y) {
 		viewport_sectors.x *= widget_aspect;
+		display_scale = radius_sectors / float(widget_size.y);
 	} else {
 		viewport_sectors.y /= widget_aspect;
+		display_scale = radius_sectors / float(widget_size.x);
+	}
+	display_scale *= 2.0f / m_zoom;
+	if (!is_equal_exact(m_displayScale, display_scale)) {
+		m_displayScale = display_scale;
+		onDisplayScaleChanged.emit(m_displayScale);
 	}
 
 	const vector2f sol_offset(galaxy->SOL_OFFSET_X * inv_sector_size,

@@ -63,6 +63,18 @@ public:
 		return 1;
 	}
 
+	static int l_attr_map_scale(lua_State *l) {
+		GalaxyMap *map = LuaObject<GalaxyMap>::CheckFromLua(1);
+		lua_pushnumber(l, map->GetDisplayScale());
+		return 1;
+	}
+
+	static int l_attr_on_map_scale_changed(lua_State *l) {
+		GalaxyMap *map = LuaObject<GalaxyMap>::CheckFromLua(1);
+		UI::LuaSignal<float>().Wrap(l, map->onDisplayScaleChanged);
+		return 1;
+	}
+
 };
 
 }
@@ -85,6 +97,12 @@ template <> void LuaObject<GameUI::GalaxyMap>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "mapScale",          &LuaGalaxyMap::l_attr_map_scale },
+		{ "onMapScaleChanged", &LuaGalaxyMap::l_attr_on_map_scale_changed },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<GameUI::GalaxyMap>::DynamicCastPromotionTest);
 }
