@@ -405,6 +405,8 @@ const struct EnumItem ENUM_UINumberLabelFormat[] = {
 	{ "PERCENT_INTEGER", int(UI::NumberLabel::FORMAT_PERCENT_INTEGER) },
 	{ "MONEY", int(UI::NumberLabel::FORMAT_MONEY) },
 	{ "MASS_TONNES", int(UI::NumberLabel::FORMAT_MASS_TONNES) },
+	{ "DISTANCE_M", int(UI::NumberLabel::FORMAT_DISTANCE_M) },
+	{ "DISTANCE_LY", int(UI::NumberLabel::FORMAT_DISTANCE_LY) },
 	{ 0, 0 },
 };
 
