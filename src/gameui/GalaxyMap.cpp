@@ -89,6 +89,16 @@ GalaxyMap *GalaxyMap::AddAreaLabel(const vector2f &at, const std::string &text)
 	return this;
 }
 
+GalaxyMap *GalaxyMap::AddPointLabel(const vector2f &at, const std::string &text)
+{
+	const vector3f at3(at, 0.0f);
+	LabelOverlay::Marker *m = m_labelOverlay->AddMarker(text, at3);
+	m->color = Color4ub(0,255,0,255);
+	m->style = LabelOverlay::MARKER_DOT;
+	m->textAnchor = UI::Align::LEFT;
+	return this;
+}
+
 GalaxyMap *GalaxyMap::SetZoom(float v)
 {
 	m_zoom = Clamp(v, 0.5f, 20.0f);

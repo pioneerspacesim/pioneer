@@ -3,6 +3,31 @@
 
 #include "LabelOverlay.h"
 
+namespace {
+
+static vector2f label_offset(const GameUI::LabelOverlay::Marker &m) {
+	if (m.style == GameUI::LabelOverlay::MARKER_NONE) {
+		return vector2f(0.0f, 0.0f);
+	}
+
+	const float val = 15.0f;
+
+	switch (m.textAnchor) {
+		case UI::Align::TOP_LEFT:      return vector2f( val,  val);
+		case UI::Align::TOP:           return vector2f(0.0f,  val);
+		case UI::Align::TOP_RIGHT:     return vector2f(-val,  val);
+		case UI::Align::LEFT:          return vector2f( val, 0.0f);
+		case UI::Align::MIDDLE:        return vector2f(0.0f, 0.0f);
+		case UI::Align::RIGHT:         return vector2f(-val, 0.0f);
+		case UI::Align::BOTTOM_LEFT:   return vector2f( val, -val);
+		case UI::Align::BOTTOM:        return vector2f(0.0f, -val);
+		case UI::Align::BOTTOM_RIGHT:  return vector2f(-val, -val);
+		default: assert(0 && "unpossible!"); return vector2f(0.0f, 0.0f);
+	}
+}
+
+} // anonymous namespace
+
 namespace GameUI {
 
 LabelOverlay::LabelOverlay(UI::Context *context) : UI::Widget(context)
@@ -10,6 +35,8 @@ LabelOverlay::LabelOverlay(UI::Context *context) : UI::Widget(context)
 	, m_view(matrix4x4d::Identity(), matrix4x4d::Identity())
 {
 	SetSizeControlFlags(UI::Widget::NO_WIDTH | UI::Widget::NO_HEIGHT);
+	m_markerDot.reset(new Graphics::Drawables::TexturedQuad(
+		context->GetRenderer(), "icons/marker_dot.png"));
 }
 
 void LabelOverlay::Draw()
@@ -27,8 +54,24 @@ void LabelOverlay::Draw()
 		if (!ok) { continue; }
 		screen_pos.x *= sx;
 		screen_pos.y *= sy;
-		const vector2f screen_posf(screen_pos.x, screen_pos.y);
+
+		vector2f screen_posf(screen_pos.x, screen_pos.y);
+		DrawMarker(*m, screen_posf);
 		DrawLabelText(*m, screen_posf);
+	}
+}
+
+void LabelOverlay::DrawMarker(const Marker &m, const vector2f &screen_pos)
+{
+	if (m.style == MARKER_NONE) { return; }
+	Graphics::Renderer *r = GetContext()->GetRenderer();
+	Graphics::Renderer::MatrixTicket saveModelView(r, Graphics::MatrixMode::MODELVIEW);
+	r->Translate(screen_pos.x, screen_pos.y, 0.0f);
+	switch (m.style) {
+		case MARKER_DOT:
+			m_markerDot->Draw(r, m.color);
+			break;
+		default: assert(0 && "invalid marker style"); break;
 	}
 }
 
@@ -37,10 +80,40 @@ void LabelOverlay::DrawLabelText(const Marker &m, const vector2f &screen_pos)
 	Graphics::Renderer *r = GetContext()->GetRenderer();
 	Graphics::Renderer::MatrixTicket saveModelView(r, Graphics::MatrixMode::MODELVIEW);
 
-	vector2f text_size;
+	vector2f text_size, text_pos = screen_pos;
+
 	m_font->MeasureString(m.text, text_size.x, text_size.y);
 
-	const vector2f text_pos = screen_pos - text_size*0.5f;
+	switch (m.textAnchor) {
+		case UI::Align::TOP_LEFT:
+		case UI::Align::TOP:
+		case UI::Align::TOP_RIGHT:
+			break;
+		case UI::Align::LEFT:
+		case UI::Align::MIDDLE:
+		case UI::Align::RIGHT:
+			text_pos.y -= text_size.y*0.5f; break;
+		case UI::Align::BOTTOM_LEFT:
+		case UI::Align::BOTTOM:
+		case UI::Align::BOTTOM_RIGHT:
+			text_pos.y -= text_size.y; break;
+	}
+
+	switch (m.textAnchor) {
+		case UI::Align::TOP_LEFT:
+		case UI::Align::LEFT:
+		case UI::Align::BOTTOM_LEFT:	break;
+		case UI::Align::TOP:
+		case UI::Align::MIDDLE:
+		case UI::Align::BOTTOM:
+			text_pos.x -= text_size.x*0.5f; break;
+		case UI::Align::TOP_RIGHT:
+		case UI::Align::RIGHT:
+		case UI::Align::BOTTOM_RIGHT:
+			text_pos.x -= text_size.x; break;
+	}
+
+	text_pos += label_offset(m);
 
 	// Align to pixels (assumes that the rest of the transform stack doesn't
 	// apply any scaling or rotation or non-integer translations...)

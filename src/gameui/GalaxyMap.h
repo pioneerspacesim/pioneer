@@ -26,6 +26,9 @@ public:
 
 	// Position is in sector X,Y coordinates.
 	GalaxyMap *AddAreaLabel(const vector2f &at, const std::string &text);
+
+	// Position is in sector X,Y coordinates.
+	GalaxyMap *AddPointLabel(const vector2f &at, const std::string &text);
 private:
 	UI::Image *m_baseImage;
 	GameUI::LabelOverlay *m_labelOverlay;
