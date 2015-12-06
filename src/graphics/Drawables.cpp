@@ -3,6 +3,7 @@
 
 #include "Drawables.h"
 #include "Texture.h"
+#include "TextureBuilder.h"
 
 namespace Graphics {
 
@@ -623,6 +624,48 @@ void Sphere3D::Subdivide(VertexArray &vts, std::vector<Uint16> &indices,
 }
 //------------------------------------------------------------
 
+TexturedQuad::TexturedQuad(Graphics::Renderer *r, const std::string &filename)
+{
+	PROFILE_SCOPED()
+
+	Graphics::TextureBuilder texbuilder(filename, Graphics::LINEAR_CLAMP, false, false, true, false);
+	m_texture.Reset(texbuilder.GetOrCreateTexture(r, "ui"));
+	Graphics::RenderStateDesc rsd;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	rsd.depthTest = false;
+	rsd.depthWrite = false;
+	m_renderState = r->CreateRenderState(rsd);
+
+	VertexArray vertices(ATTRIB_POSITION | ATTRIB_UV0);
+	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_DEFAULT;
+	desc.textures = 1;
+	desc.lighting = false;
+	desc.vertexColors = false;
+	m_material.reset(r->CreateMaterial(desc));
+	m_material->texture0 = m_texture.Get();
+
+	// these might need to be reversed
+	const vector2f texSize = m_texture->GetDescriptor().texSize;
+	const vector2f halfsz = 0.5f * m_texture->GetDescriptor().GetOriginalSize();
+
+	vertices.Add(vector3f(-halfsz.x, -halfsz.y, 0.0f), vector2f(0.0f,      texSize.y));
+	vertices.Add(vector3f(-halfsz.x,  halfsz.y, 0.0f), vector2f(0.0f,      0.0f));
+	vertices.Add(vector3f( halfsz.x, -halfsz.y, 0.0f), vector2f(texSize.x, texSize.y));
+	vertices.Add(vector3f( halfsz.x,  halfsz.y, 0.0f), vector2f(texSize.x, 0.0f));
+
+	//Create vtx & index buffers and copy data
+	VertexBufferDesc vbd;
+	vbd.attrib[0].semantic = ATTRIB_POSITION;
+	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[1].semantic = ATTRIB_UV0;
+	vbd.attrib[1].format   = ATTRIB_FORMAT_FLOAT2;
+	vbd.numVertices = vertices.GetNumVerts();
+	vbd.usage = BUFFER_USAGE_STATIC;
+	m_vertexBuffer.reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer->Populate(vertices);
+}
+
 // a textured quad with reversed winding
 TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state)
 	: m_texture(RefCountedPtr<Graphics::Texture>(texture))
@@ -661,8 +704,17 @@ TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, co
 void TexturedQuad::Draw(Graphics::Renderer *r)
 {
 	PROFILE_SCOPED()
+	m_material->diffuse = Color4ub(255, 255, 255, 255);
 	r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
 }
+
+void TexturedQuad::Draw(Graphics::Renderer *r, const Color4ub &tint)
+{
+	PROFILE_SCOPED()
+	m_material->diffuse = tint;
+	r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
+}
+
 //------------------------------------------------------------
 Rect::Rect(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const Color &c, RenderState *state, const bool bIsStatic /*= true*/) : m_renderState(state)
 {
