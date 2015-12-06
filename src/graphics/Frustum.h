@@ -20,12 +20,6 @@ public:
 	Frustum(float width, float height, float fovAng, float nearClip, float farClip);
 	Frustum(const matrix4x4d &modelview, const matrix4x4d &projection);
 
-	// apply the saved frustum
-	void Enable();
-
-	// restore the previous state
-	void Disable();
-
 	// test if point (sphere) is in the frustum
 	bool TestPoint(const vector3d &p, double radius) const;
 	// test if point (sphere) is in the frustum, ignoring the far plane
