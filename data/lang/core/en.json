@@ -1826,5 +1826,13 @@
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
       "message" : "Switch between Lagrange L4/L5 point display modes."
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
+   },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
    }
 }

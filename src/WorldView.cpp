@@ -328,6 +328,8 @@ void WorldView::InitObject()
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
+	KeyBindings::increaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
+	KeyBindings::decreaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
 }
 
 WorldView::~WorldView()
@@ -474,6 +476,18 @@ void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
 		SystemPath path = m_game->GetSectorView()->GetHyperspaceTarget();
 		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
 	}
+}
+
+void WorldView::OnRequestTimeAccelInc()
+{
+	// requests an increase in time acceleration
+	Pi::game->RequestTimeAccelInc();
+}
+
+void WorldView::OnRequestTimeAccelDec()
+{
+	// requests a decrease in time acceleration
+    Pi::game->RequestTimeAccelDec();
 }
 
 void WorldView::ResetHyperspaceButton()
