@@ -123,15 +123,16 @@ Point Widget::CalcSize(const Point &avail)
 
 	const Point preferredSize = PreferredSize();
 
-	float wantRatio = float(preferredSize.x) / float(preferredSize.y);
+	const float wantRatio = float(preferredSize.x) / float(preferredSize.y);
+	const float haveRatio = float(avail.x) / float(avail.y);
 
-	// more room on X than Y, use full X, scale Y
-	if (avail.x > avail.y)
-		return Point(float(avail.y) * wantRatio, avail.y);
-
-	// more room on Y than X, use full Y, scale X
-	else
+	if (wantRatio > haveRatio) {
+		// limited by width
 		return Point(avail.x, float(avail.x) / wantRatio);
+	} else {
+		// limited by height
+		return Point(float(avail.y) * wantRatio, avail.y);
+	}
 }
 
 Widget::Font Widget::GetFont() const
