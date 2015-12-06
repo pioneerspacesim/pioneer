@@ -24,7 +24,7 @@
 -- - "PARTIAL"  = partially completed, but can't do more for now
 -- - "ABORT"    = aborted, but can work on it again
 -- - "COMPLETE" = finished task
--- Variable "locaction" is a SystemsBody
+-- Variable "location" is a SystemsBody
 
 local Engine = import("Engine")
 local Lang = import("Lang")
@@ -48,26 +48,19 @@ local l = Lang.GetResource("module-searchrescue")
 local ui = Engine.ui
 
 -- basic variables for mission creation
-local max_mission_dist = 30        -- max distance for long distance mission target location [ly]
-local max_close_dist = 5000        -- max distance for "CLOSE_PLANET" target location [km]
-local max_close_space_dist = 10000 -- max distance for "CLOSE_SPACE" target location [km]
+local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
+local max_close_dist = 5000          -- max distance for "CLOSE_PLANET" target location [km]
+local max_close_space_dist = 10000   -- max distance for "CLOSE_SPACE" target location [km]
 local far_space_orbit_dist = 100000  -- orbital distance around planet for "FAR_SPACE" target location [km]
-local min_interaction_dist = 50    -- min distance for successful interaction with target [meters]
-local target_interaction_time = 10  -- target interaction time to load/unload one unit of cargo/person [sec]
-local max_pass = 2                 -- max number of passengers on target ship (high max: 10)
-local max_crew = 4                 -- max number of crew on target ship (high max: 8)
-local reward_close = 200           -- basic reward for "CLOSE" mission (+/- random half of that)
-local reward_medium = 1000         -- basic reward for "MEDIUM" mission (+/- random half of that)
-local reward_far = 2000            -- basic reward for "FAR" mission (+/- random half of that)
-local ad_freq_max = 0.5             -- maximum frequency for ad creation
-local ad_freq_min = 0.1             -- minimum frequency for ad creation
-
--- ===== just copied from DeliverPackage.lua for now =====
--- typical time for travel to a system max_mission_dist away
---	Irigi: ~ 4 days for in-system travel, the rest is FTL travel time
--- local typical_travel_time = (1.6 * max_mission_dist + 4) * 24 * 60 * 60
--- typical reward for delivery to a system max_mission_dist away
--- local typical_reward = 25 * max_mission_dist
+local min_interaction_dist = 50      -- min distance for successful interaction with target [meters]
+local target_interaction_time = 10   -- target interaction time to load/unload one unit of cargo/person [sec]
+local max_pass = 2                   -- max number of passengers on target ship (high max: 10)
+local max_crew = 4                   -- max number of crew on target ship (high max: 8)
+local reward_close = 200             -- basic reward for "CLOSE" mission (+/- random half of that)
+local reward_medium = 1000           -- basic reward for "MEDIUM" mission (+/- random half of that)
+local reward_far = 2000              -- basic reward for "FAR" mission (+/- random half of that)
+local ad_freq_max = 0.9              -- maximum frequency for ad creation
+local ad_freq_min = 0.2              -- minimum frequency for ad creation
 
 -- global containers and variables
 local aircontrol_chars = {}        -- saving specific aircontrol character per spacestation
@@ -298,12 +291,11 @@ end
 -- basic mission functions
 -- =======================
 
-local checkAdFrequency = function ()
+local triggerAdCreation = function ()
    -- Return if ad should be created based on lawlessness and min/max frequency values.
    local freq = Game.system.lawlessness * ad_freq_max
    if freq < ad_freq_min then freq = ad_freq_min end
    local rand_num = Engine.rand:Number(0,1)
-   print("===>Lawlessness/frequency/random:", Game.system.lawlessness, freq, rand_num)
    if rand_num < freq then
       return true
    else
@@ -1712,7 +1704,7 @@ end
 
 local onCreateBB = function (station)
 
-   -- make 3 ads each time for testing
+   -- force ad creation for debugging
    --local num = 3
    --for _ = 1,num do
    --   makeAdvert(station, 1)
@@ -1724,10 +1716,7 @@ local onCreateBB = function (station)
    --   makeAdvert(station, 7)
    --end
 
-   if checkAdFrequency() then
-      print("Ad created at station:", station.label)
-      makeAdvert(station, nil)
-   end
+   if triggerAdCreation() then makeAdvert(station, nil) end
 end
 
 local onUpdateBB = function (station)
@@ -1758,10 +1747,7 @@ local onUpdateBB = function (station)
 
    -- add ads randomly about every six hours
    if Engine.rand:Integer(6*60*60) < 60*60 then
-      if checkAdFrequency then
-	 print("Ad created at station:", station.label)
-	 makeAdvert(station, nil)
-      end
+      if triggerAdCreation() then makeAdvert(station, nil) end
    end
 end
 
@@ -1821,6 +1807,7 @@ local onGameStart = function ()
    -- create ads and missions containers
    ads = {}
    missions = {}
+
    if not loaded_data then return end
 
    -- fill the ads and missions containers with previously saved data if this is a reload
