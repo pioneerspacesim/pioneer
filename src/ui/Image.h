@@ -22,6 +22,10 @@ public:
 	// specified number of text lines in the widget's current font.
 	Image *SetHeightLines(Uint32 lines);
 
+	// SetNaturalSize sets the widget's preferred size to match the size of
+	// the image data.
+	Image *SetNaturalSize();
+
 protected:
 	friend class Context;
 	Image(Context *context, const std::string &filename, Uint32 sizeControlFlags);

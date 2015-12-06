@@ -47,6 +47,13 @@ Image *Image::SetHeightLines(Uint32 lines)
 	return this;
 }
 
+Image *Image::SetNaturalSize()
+{
+	m_initialSize = GetImageSize();
+	GetContext()->RequestLayout();
+	return this;
+}
+
 void Image::Draw()
 {
 	const Point &offset = GetActiveOffset();
