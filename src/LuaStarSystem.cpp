@@ -465,6 +465,20 @@ static int l_starsystem_attr_path(lua_State *l)
 }
 
 /*
+ * Attribute: rootBody
+ *
+ * The root <SystemBody> in the star system.
+ */
+static int l_starsystem_attr_rootBody(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	RefCountedPtr<SystemBody> root = s->GetRootBody();
+	LuaObject<SystemBody>::PushToLua(root.Get());
+	return 1;
+}
+
+/*
  * Attribute: lawlessness
  *
  * The lawlessness value for the system, 0 for peaceful, 1 for raging
@@ -577,8 +591,9 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "name", l_starsystem_attr_name },
-		{ "path", l_starsystem_attr_path },
+		{ "name",     l_starsystem_attr_name },
+		{ "path",     l_starsystem_attr_path },
+		{ "rootBody", l_starsystem_attr_rootBody },
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
