@@ -173,6 +173,13 @@ public:
 		return 1;
 	}
 
+	static int l_overlay_stack(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::OverlayStack *s = c->OverlayStack();
+		LuaObject<UI::OverlayStack>::PushToLua(s);
+		return 1;
+	}
+
 	static int l_scroller(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		UI::Scroller *s = c->Scroller();
@@ -398,6 +405,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Expand",          LuaContext::l_expand          },
 		{ "Margin",          LuaContext::l_margin          },
 		{ "Align",           LuaContext::l_align           },
+		{ "OverlayStack",    LuaContext::l_overlay_stack   },
 		{ "Scroller",        LuaContext::l_scroller        },
 		{ "Icon",            LuaContext::l_icon            },
 		{ "Image",           LuaContext::l_image           },

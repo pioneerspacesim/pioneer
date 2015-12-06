@@ -38,6 +38,7 @@
 #include "Icon.h"
 #include "Gauge.h"
 #include "Table.h"
+#include "OverlayStack.h"
 
 #include "MousePointer.h"
 
@@ -77,6 +78,7 @@ public:
 	UI::VBox *VBox(float spacing = 0.0f) { return new UI::VBox(this, spacing); }
 	UI::Grid *Grid(const UI::CellSpec &rowSpec, const UI::CellSpec &colSpec) { return new UI::Grid(this, rowSpec, colSpec); }
 	UI::Table *Table() { return new UI::Table(this); }
+	UI::OverlayStack *OverlayStack() { return new UI::OverlayStack(this); }
 
 	// single containers
 	UI::Background *Background() { return new UI::Background(this); }

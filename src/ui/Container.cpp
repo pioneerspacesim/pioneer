@@ -135,7 +135,8 @@ Widget *Container::GetWidgetAt(const Point &pos)
 {
 	if (!Contains(pos)) return 0;
 
-	for (RefCountedPtr<Widget> widget : GetWidgets()) {
+	for (auto end = m_widgets.rend(), it = m_widgets.rbegin(); it != end; ++it) {
+		const auto widget = *it;
 		const Point relpos = pos - widget->GetPosition() - widget->GetDrawOffset();
 		if (widget->IsContainer()) {
 			Widget* w = static_cast<Container*>(widget.Get())->GetWidgetAt(relpos);
@@ -156,7 +157,8 @@ void Container::CollectShortcuts(std::map<KeySym,Widget*> &shortcuts)
 			shortcuts[*j] = this;
 	}
 
-	for (RefCountedPtr<Widget> widget : GetWidgets()) {
+	for (auto end = m_widgets.rend(), it = m_widgets.rbegin(); it != end; ++it) {
+		const auto widget = *it;
 		if (widget->IsContainer())
 			static_cast<Container*>(widget.Get())->CollectShortcuts(shortcuts);
 		else {
