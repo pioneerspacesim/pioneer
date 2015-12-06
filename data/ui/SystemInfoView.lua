@@ -194,12 +194,12 @@ end
 local function buildMagicMoonLayout(body)
 	local icon = bodyIconImage(body)
 	if icon == nil then return nil end
-	local rows = { icon }
+	local rows = { ui:Align('TOP', icon) }
 	local children = body:GetChildren()
 	for i = 1, #children do
 		local icon = bodyIconImage(children[i])
 		if icon ~= nil then
-			rows[#rows + 1] = icon
+			rows[#rows + 1] = ui:Align('TOP', icon)
 		end
 	end
 	return ui:VBox(1):PackEnd(rows)
@@ -240,7 +240,7 @@ local function buildMagicStarLayout(body)
 			rows[#rows + 1] = tree
 		end
 	end
-	return ui:VBox(10):PackEnd(rows)
+	return ui:VBox(5):PackEnd(rows)
 end
 
 local currentSystem
