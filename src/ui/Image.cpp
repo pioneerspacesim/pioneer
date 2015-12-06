@@ -12,8 +12,8 @@ Image::Image(Context *context, const std::string &filename, Uint32 sizeControlFl
 	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(filename);
 	m_texture.Reset(b.GetOrCreateTexture(GetContext()->GetRenderer(), "ui"));
 
-	const Graphics::TextureDescriptor &descriptor = b.GetDescriptor();
-	m_initialSize = Point(descriptor.dataSize.x*descriptor.texSize.x,descriptor.dataSize.y*descriptor.texSize.y);
+	const auto image_size = b.GetDescriptor().GetOriginalSize();
+	m_initialSize = Point(image_size.x, image_size.y);
 
 	Graphics::MaterialDescriptor material_desc;
 	material_desc.textures = 1;
@@ -28,11 +28,21 @@ Point Image::PreferredSize()
 	return m_initialSize;
 }
 
+Point Image::GetImageSize() const
+{
+	const auto sz = m_texture->GetDescriptor().GetOriginalSize();
+	return Point(sz.x, sz.y);
+}
+
 Image *Image::SetHeightLines(Uint32 lines)
 {
 	const Text::TextureFont *font = GetContext()->GetFont(GetFont()).Get();
 	const float height = font->GetHeight() * lines;
-	m_initialSize = UI::Point(height * float(m_initialSize.x) / float(m_initialSize.y), height);
+
+	const vector2f sz = m_texture->GetDescriptor().GetOriginalSize();
+	const float width = height * sz.x/sz.y;
+
+	m_initialSize = UI::Point(width, height);
 	GetContext()->RequestLayout();
 	return this;
 }

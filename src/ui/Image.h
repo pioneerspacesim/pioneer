@@ -13,9 +13,13 @@ namespace UI {
 
 class Image: public Widget {
 public:
+	Point GetImageSize() const;
+
 	virtual Point PreferredSize();
 	virtual void Draw();
 
+	// SetHeightLines sets the widget's preferred size to fit the image to a
+	// specified number of text lines in the widget's current font.
 	Image *SetHeightLines(Uint32 lines);
 
 protected:
