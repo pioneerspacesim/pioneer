@@ -4,8 +4,6 @@
 #ifndef UI_POINT_H
 #define UI_POINT_H
 
-#include "vector2.h"
-
 namespace UI {
 
 class Point {
