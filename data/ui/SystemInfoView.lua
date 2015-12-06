@@ -4,10 +4,15 @@ local Lang = import("Lang")
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
 
+local iconsContainer = ui:Align('TOP_LEFT')
+
 local sysInfoView =
 	ui:Expand('BOTH',
-		 ui:Align('MIDDLE',
-			 ui:Label('System Info View!'):SetFont('HEADING_LARGE')
+		ui:Align('MIDDLE',
+			ui:VBox(10):PackEnd({
+				ui:Label('System Info View!'):SetFont('HEADING_LARGE'),
+				iconsContainer,
+			})
 		)
 	)
 
@@ -122,18 +127,38 @@ local function pickIcon(body)
 	return filepath
 end
 
-local function buildIconTree(body, level)
+local FLIP_DIR = { ['HBox'] = 'VBox', ['VBox'] = 'HBox' }
+
+local function buildIconTree(body, dir, level)
 	level = level or '0'
 	local icon = pickIcon(body)
+	local iconWidget = icon and ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'}))
 	print(string.format('%s %s (%s)', string.rep('+', level), body.name, tostring(icon)))
+
 	local children = body:GetChildren()
 	local nlevel = level + 1
+	local ndir = FLIP_DIR[dir]
+	local subwidgets = {}
 	for i = 1, #children do
-		buildIconTree(children[i], nlevel)
+		local sw = buildIconTree(children[i], ndir, nlevel)
+		if sw ~= nil then
+			subwidgets[#subwidgets+1] = sw
+		end
+	end
+
+	if #subwidgets > 0 then
+		return ui[dir](ui, 5):PackEnd(iconWidget):PackEnd(subwidgets)
+	else
+		return iconWidget -- may be nil
 	end
 end
 
+local currentSystem
+
 ui.templates.SystemInfoView = function ()
-	buildIconTree(Game.system.rootBody)
+	if currentSystem ~= Game.system then
+		currentSystem = Game.system
+		iconsContainer:SetInnerWidget(buildIconTree(currentSystem.rootBody, 'HBox'))
+	end
 	return sysInfoView
 end
