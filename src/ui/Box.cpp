@@ -18,6 +18,12 @@ static inline void GetComponentsForOrient(bool horiz, Point::Component &variable
 	}
 }
 
+Box::Box(Context *context, BoxOrientation orient, int spacing):
+	Container(context),
+	m_orient(orient),
+	m_spacing(context->GetScale() * spacing)
+{}
+
 Point Box::PreferredSize()
 {
 	if (m_children.empty()) return Point();

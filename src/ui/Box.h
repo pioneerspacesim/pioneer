@@ -15,7 +15,7 @@ protected:
 		BOX_VERTICAL
 	};
 
-	Box(Context *context, BoxOrientation orient, int spacing) : Container(context), m_orient(orient), m_spacing(spacing) {}
+	Box(Context *context, BoxOrientation orient, int spacing);
 
 public:
 	virtual Point PreferredSize();

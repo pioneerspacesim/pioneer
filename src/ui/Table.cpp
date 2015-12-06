@@ -392,7 +392,7 @@ void Table::ClearRows()
 
 Table *Table::SetRowSpacing(int spacing)
 {
-	m_body->SetRowSpacing(spacing);
+	m_body->SetRowSpacing(GetContext()->GetScale() * spacing);
 	m_dirty = true;
 	GetContext()->RequestLayout();
 	return this;
@@ -400,7 +400,7 @@ Table *Table::SetRowSpacing(int spacing)
 
 Table *Table::SetColumnSpacing(int spacing)
 {
-	m_layout.SetColumnSpacing(spacing);
+	m_layout.SetColumnSpacing(GetContext()->GetScale() * spacing);
 	m_dirty = true;
 	GetContext()->RequestLayout();
 	return this;

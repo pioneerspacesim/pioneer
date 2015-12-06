@@ -25,7 +25,7 @@ public:
 
 protected:
 	friend class Context;
-	Margin(Context *context, int margin, Direction direction) : Single(context), m_margin(margin), m_direction(direction) {}
+	Margin(Context *context, int margin, Direction direction);
 
 private:
 	int m_margin;

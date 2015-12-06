@@ -2,8 +2,15 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Margin.h"
+#include "Context.h"
 
 namespace UI {
+
+Margin::Margin(Context *context, int margin, Direction direction):
+	Single(context),
+	m_margin(context->GetScale() * margin),
+	m_direction(direction)
+{}
 
 Point Margin::PreferredSize()
 {
