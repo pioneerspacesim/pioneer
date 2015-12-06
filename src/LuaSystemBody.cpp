@@ -22,6 +22,37 @@
  */
 
 /*
+ * Method: GetChildren
+ *
+ * Get the <SystemBody> to bodies (planets, stations, starports) that orbit
+ * this <SystemBody>.
+ *
+ * > children = systembody:GetChildren()
+ *
+ * Return:
+ *
+ *   children - an array of <SystemBody> objects
+ */
+static int l_sbody_get_children(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+
+	lua_newtable(l);
+	int i = 1;
+	for (SystemBody *sb : sbody->GetChildren()) {
+		lua_pushinteger(l, i++);
+		LuaObject<SystemBody>::PushToLua(sb);
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+/*
  * Attribute: index
  *
  * The body index of the body in its system
@@ -376,6 +407,48 @@ static int l_sbody_attr_average_temp(lua_State *l)
 	return 1;
 }
 
+static int l_sbody_attr_volatile_liquid(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetVolatileLiquid());
+	return 1;
+}
+
+static int l_sbody_attr_volatile_gas(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetVolatileGas());
+	return 1;
+}
+
+static int l_sbody_attr_volatile_ices(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetVolatileIces());
+	return 1;
+}
+
+static int l_sbody_attr_volcanicity(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetVolcanicity());
+	return 1;
+}
+
+static int l_sbody_attr_atmos_oxidizing(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetAtmosOxidizing());
+	return 1;
+}
+
+static int l_sbody_attr_life(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetLife());
+	return 1;
+}
+
 /*
  * Attribute: hasAtmosphere
  *
@@ -422,6 +495,11 @@ template <> const char *LuaObject<SystemBody>::s_type = "SystemBody";
 
 template <> void LuaObject<SystemBody>::RegisterClass()
 {
+	static const luaL_Reg l_methods[] = {
+		{ "GetChildren",    l_sbody_get_children         },
+		{ 0, 0 }
+	};
+
 	static const luaL_Reg l_attrs[] = {
 		{ "index",          l_sbody_attr_index           },
 		{ "name",           l_sbody_attr_name            },
@@ -440,10 +518,16 @@ template <> void LuaObject<SystemBody>::RegisterClass()
 		{ "eccentricity",   l_sbody_attr_eccentricty     },
 		{ "axialTilt",      l_sbody_attr_axial_tilt      },
 		{ "averageTemp",    l_sbody_attr_average_temp    },
+		{ "volatileLiquid", l_sbody_attr_volatile_liquid },
+		{ "volatileGas",    l_sbody_attr_volatile_gas    },
+		{ "volatileIces",   l_sbody_attr_volatile_ices   },
+		{ "volcanicity",    l_sbody_attr_volcanicity     },
+		{ "atmosOxidizing", l_sbody_attr_atmos_oxidizing },
+		{ "life",           l_sbody_attr_life            },
 		{ "hasAtmosphere",  l_sbody_attr_has_atmosphere  },
 		{ "isScoopable",    l_sbody_attr_is_scoopable    },
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, 0, 0, l_attrs, 0);
+	LuaObjectBase::CreateClass(s_type, 0, l_methods, l_attrs, 0);
 }
