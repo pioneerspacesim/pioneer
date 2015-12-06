@@ -28,14 +28,14 @@ void Container::Draw()
 {
 	Context *c = GetContext();
 
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
-		c->DrawWidget((*i).Get());
+	for (auto end = m_widgets.end(), it = m_widgets.begin(); it != end; ++it)
+		c->DrawWidget((*it).Get());
 }
 
 void Container::LayoutChildren()
 {
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
-		(*i)->Layout();
+	for (auto end = m_widgets.end(), it = m_widgets.begin(); it != end; ++it)
+		(*it)->Layout();
 }
 
 void Container::AddWidget(Widget *widget)

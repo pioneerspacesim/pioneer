@@ -343,13 +343,13 @@ void Widget::RegisterBindPoint(const std::string &bindName, sigc::slot<void,Prop
 
 void Widget::Bind(const std::string &bindName, PropertiedObject *object, const std::string &propertyName)
 {
-	std::map< std::string,sigc::slot<void,PropertyMap &,const std::string &> >::const_iterator bindPointIter = m_bindPoints.find(bindName);
+	const auto bindPointIter = m_bindPoints.find(bindName);
 	if (bindPointIter == m_bindPoints.end())
 		return;
 
 	sigc::connection conn = object->Properties().Connect(propertyName, (*bindPointIter).second);
 
-	std::map<std::string,sigc::connection>::iterator bindIter = m_binds.find(bindName);
+	const auto bindIter = m_binds.find(bindName);
 	if (bindIter != m_binds.end()) {
 		(*bindIter).second.disconnect();
 		(*bindIter).second = conn;
