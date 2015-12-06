@@ -628,7 +628,11 @@
 	"message" : "Where do I find the target?"
     },
     "LY" : {
-       "description" : "",
-       "message" : "ly"
-   }
+	"description" : "",
+	"message" : "ly"
+    },
+    "I_HIGHLY_DOUBT_IT" : {
+	"description" : "",
+	"message" : "I highly doubt it."
+    }
 }

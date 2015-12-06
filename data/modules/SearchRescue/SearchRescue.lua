@@ -1599,6 +1599,7 @@ end
 -- "searchForTarget" has been locally declared before!
 function searchForTarget (mission)
    -- Measure distance to target every second until interaction distance reached.
+
    if mission.searching == true or mission.target == "NIL" then return end
    mission.searching = true
 
@@ -1705,16 +1706,16 @@ end
 local onCreateBB = function (station)
 
    -- force ad creation for debugging
-   --local num = 3
-   --for _ = 1,num do
-   --   makeAdvert(station, 1)
-   --   makeAdvert(station, 2)
-   --   makeAdvert(station, 3)
-   --   makeAdvert(station, 4)
-   --   makeAdvert(station, 5)
-   --   makeAdvert(station, 6)
-   --   makeAdvert(station, 7)
-   --end
+--   local num = 3
+--   for _ = 1,num do
+--      makeAdvert(station, 1)
+--      makeAdvert(station, 2)
+--      makeAdvert(station, 3)
+--      makeAdvert(station, 4)
+--      makeAdvert(station, 5)
+--      makeAdvert(station, 6)
+--      makeAdvert(station, 7)
+--   end
 
    if triggerAdCreation() then makeAdvert(station, nil) end
 end
@@ -1823,6 +1824,11 @@ local onGameStart = function ()
    missions = loaded_data.missions
    loaded_data = nil
 
+   -- reset searching status for all missions
+   for _,mission in pairs(missions) do
+      mission.searching = false
+   end
+
    -- check if player is within frame of any mission targets to resume search
    for _,mission in pairs(missions) do
       if Game.player.frameBody == mission.target.frameBody then
@@ -1930,7 +1936,7 @@ local onClick = function (mission)
 end
 
 local onGameEnd = function ()
---   nearbysystems = nil
+   -- Currently just placeholder.
 end
 
 local onShipDestroyed = function (ship, attacker)
