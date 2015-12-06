@@ -132,7 +132,16 @@ local FLIP_DIR = { ['HBox'] = 'VBox', ['VBox'] = 'HBox' }
 local function buildIconTree(body, dir, level)
 	level = level or '0'
 	local icon = pickIcon(body)
-	local iconWidget = icon and ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'}))
+	local iconWidget
+	if icon ~= nil then
+		iconWidget =
+			ui:Align('TOP_LEFT',
+				ui:VBox(2):PackEnd({
+					ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'})),
+					ui:Align('TOP', ui:Label(body.name):SetFont('SMALL')),
+				})
+			)
+	end
 	print(string.format('%s %s (%s)', string.rep('+', level), body.name, tostring(icon)))
 
 	local children = body:GetChildren()
