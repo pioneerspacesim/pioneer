@@ -7,6 +7,7 @@
 #include "ui/Context.h"
 
 #include "Face.h"
+#include "GalaxyMap.h"
 #include "ModelSpinner.h"
 #include "BindingCapture.h"
 
