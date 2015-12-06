@@ -115,7 +115,7 @@ std::string TransferPlanner::printDeltaTime() {
 	out << std::setw(9);
 	double deltaT = m_startTime - Pi::game->GetTime();
 	if(std::fabs(m_startTime) < 1.)
-		out << "Now";
+		out << Lang::NOW;
 	else
 		out << formatTime(deltaT); 
 

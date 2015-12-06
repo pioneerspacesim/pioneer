@@ -955,6 +955,10 @@
       "description" : "",
       "message" : "Not found, best match: %system"
    },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Now"
+   },
    "NO_ALERT" : {
       "description" : "",
       "message" : "No alert"
