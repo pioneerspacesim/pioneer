@@ -671,6 +671,10 @@
       "description" : "",
       "message" : "Laserild oppdaget."
    },
+   "LATITUDE" : {
+      "description" : "",
+      "message" : "Lat:"
+   },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
       "message" : "Legal (current system):"
@@ -702,6 +706,10 @@
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "locked"
+   },
+   "LONGTITUDE" : {
+      "description" : "",
+      "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -958,6 +966,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "Not found, best match: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Now"
    },
    "NO_ALERT" : {
       "description" : "",

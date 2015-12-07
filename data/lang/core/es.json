@@ -61,23 +61,23 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Piloto automático: Atracar en la estación espacial"
+      "message" : "Piloto automático: Atraca en la estación espacial"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita alta alrededor de %target"
+      "message" : "Piloto automático: Entra en órbita alta alrededor de %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita baja alrededor de %target"
+      "message" : "Piloto automático: Entra en órbita baja alrededor de %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita media alrededor de %target"
+      "message" : "Piloto automático: Entra en órbita media alrededor de %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Piloto automático: Aproximación a %target"
+      "message" : "Piloto automático: Aproximarse a %target"
    },
    "AUTOPILOT_ON" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Disminuir Aceleración Temporal"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Incrementar Aceleración Temporal"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "LANDED" : {
       "description" : "",
-      "message" : "En tierra"
+      "message" : "Aterrizado"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
@@ -670,6 +670,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Disparo de láser detectado."
+   },
+   "LATITUDE" : {
+      "description" : "",
+      "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -702,6 +706,10 @@
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "fijado"
+   },
+   "LONGTITUDE" : {
+      "description" : "",
+      "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -958,6 +966,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "No encontrado. Mejor correspondencia: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Now"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1777,11 +1789,11 @@
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Tren de aterrizaje abajo"
+      "message" : "Tren de aterrizaje bajado"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
-      "message" : "Tren de aterrizaje arriba"
+      "message" : "Tren de aterrizaje subido"
    },
    "WHITE_DWARF" : {
       "description" : "",

@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "Thòisich factaraidh Amissionox ùr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) air a h-obair a-nis. Nì i sgianan as àirde càileachd a bhios comasach air bòtanan-fànais a ghearradh. Co-dhiù, o nach eil iad a' faighinn stòras gu leòr airson nan lannan, chan eil iad a' dèanamh an t-uiread a b' urrainn dhaibh fhathast."
+      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",

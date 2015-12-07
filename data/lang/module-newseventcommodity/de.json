@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "Die neue Amissionox-Fabrik im »{system}«-System ({sectorx}, {sectory}, {sectorz}) ist nun fertiggestellt und betriebsbereit. Sie wird hochwertige Messer, die sogar Weltraumstiefel durchschendien können, herstellen; allerdings läuft die Produktion nicht auf höchsten Niveau, da Materialen zur Messerherstellung fehlen."
+      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",

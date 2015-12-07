@@ -313,7 +313,7 @@
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "Ce colis n'arriveras pas a destination aujourd'hui."
+      "message" : "That package isn't going to reach its destination today."
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",

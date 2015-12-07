@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "你可以在这里采购燃料和处理 {radioactives}."
+      "message" : "You may purchase fuel and dispose of {radioactives} here."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
