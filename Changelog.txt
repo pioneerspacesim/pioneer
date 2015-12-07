@@ -7,6 +7,7 @@ December 2015
    * Internal Changes
      * Face parts (head/hair/eyes/nose/mouth) can now be non-gendered (#3548)
      * Face parts can now all be the same size to make alignment easier (#3548)
+     * Added forgotten strings to translation system (#3551)
 
 November 2015
    * New Features
