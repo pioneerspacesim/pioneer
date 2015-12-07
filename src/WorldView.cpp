@@ -844,9 +844,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 					const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
 					std::string lat_str = DecimalToDegMinSec(lat);
 					std::string lon_str = DecimalToDegMinSec(lon);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "Lat:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, Lang::LATITUDE);
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "Long:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, Lang::LONGTITUDE);
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
 				} else {
 					// XXX does this need to be repeated 3 times?
