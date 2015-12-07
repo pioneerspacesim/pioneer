@@ -289,7 +289,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Zwolnienie upływu czasu"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Przyśpieszenie upływu czasu"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
