@@ -22,25 +22,72 @@
 
 RefCountedPtr<GeoPatchContext> GeoSphere::s_patchContext;
 
-// must be odd numbers
-static const int detail_edgeLen[5] = {
-	7, 15, 25, 35, 55
+namespace {
+
+	const vector3d g_samplePoints[] = {
+		{ vector3d( -0.160622,	-0.160622,	-0.160622)		},
+		{ vector3d( -0.16246,	-0.16246,	-0.16246)		},
+		{ vector3d( -0.259892,	-0.259892,	-0.259892)		},
+		{ vector3d( -0.262866,	-0.262866,	-0.262866)		},
+		{ vector3d( -0.273266,	-0.273266,	-0.273266)		},
+		{ vector3d( -0.309017,	-0.309017,	-0.309017)		},
+		{ vector3d( -0.425325,	-0.425325,	-0.425325)		},
+		{ vector3d( -0.433889,	-0.433889,	-0.433889)		},
+		{ vector3d( -0.525731,	-0.525731,	-0.525731)		},
+		{ vector3d( -0.587785,	-0.587785,	-0.587785)		},
+		{ vector3d( -0.5,		-0.5,		-0.5)			},
+		{ vector3d( -0.688191,	-0.688191,	-0.688191)		},
+		{ vector3d( -0.69378,	-0.69378,	-0.69378)		},
+		{ vector3d( -0.702046,	-0.702046,	-0.702046)		},
+		{ vector3d( -0.809017,	-0.809017,	-0.809017)		},
+		{ vector3d( -0.850651,	-0.850651,	-0.850651)		},
+		{ vector3d( -0.862669,	-0.862669,	-0.862669)		},
+		{ vector3d( -0.951057,	-0.951057,	-0.951057)		},
+		{ vector3d( -0.961938,	-0.961938,	-0.961938)		},
+		{ vector3d( -1.,		-1.,		-1.)			},
+		{ vector3d( 0.160622,	0.160622,	0.160622)		},
+		{ vector3d( 0.16246,	0.16246,	0.16246)		},
+		{ vector3d( 0.259892,	0.259892,	0.259892)		},
+		{ vector3d( 0.262866,	0.262866,	0.262866)		},
+		{ vector3d( 0.273266,	0.273266,	0.273266)		},
+		{ vector3d( 0.309017,	0.309017,	0.309017)		},
+		{ vector3d( 0.425325,	0.425325,	0.425325)		},
+		{ vector3d( 0.433889,	0.433889,	0.433889)		},
+		{ vector3d( 0.525731,	0.525731,	0.525731)		},
+		{ vector3d( 0.587785,	0.587785,	0.587785)		},
+		{ vector3d( 0.5,		0.5,		0.5)			},
+		{ vector3d( 0.688191,	0.688191,	0.688191)		},
+		{ vector3d( 0.69378,	0.69378,	0.69378)		},
+		{ vector3d( 0.702046,	0.702046,	0.702046)		},
+		{ vector3d( 0.809017,	0.809017,	0.809017)		},
+		{ vector3d( 0.850651,	0.850651,	0.850651)		},
+		{ vector3d( 0.862669,	0.862669,	0.862669)		},
+		{ vector3d( 0.951057,	0.951057,	0.951057)		},
+		{ vector3d( 0.961938,	0.961938,	0.961938)		},
+		{ vector3d( 0.,			0.,			0.)				},
+		{ vector3d( 1.,			1.,			1.)				},
+	};
+
+	// must be odd numbers
+	static const int detail_edgeLen[5] = {
+		7, 15, 25, 35, 55
+	};
+
+	static const double gs_targetPatchTriLength(100.0);
+
+	#define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
+
+	static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
+		{ 3, 4, 1, 2 },
+		{ 0, 4, 5, 2 },
+		{ 0, 1, 5, 3 },
+		{ 0, 2, 5, 4 },
+		{ 0, 3, 5, 1 },
+		{ 1, 4, 3, 2 }
+	};
+
+	static std::vector<GeoSphere*> s_allGeospheres;
 };
-
-static const double gs_targetPatchTriLength(100.0);
-
-#define PRINT_VECTOR(_v) Output("%f,%f,%f\n", (_v).x, (_v).y, (_v).z);
-
-static const int geo_sphere_edge_friends[NUM_PATCHES][4] = {
-	{ 3, 4, 1, 2 },
-	{ 0, 4, 5, 2 },
-	{ 0, 1, 5, 3 },
-	{ 0, 2, 5, 4 },
-	{ 0, 3, 5, 1 },
-	{ 1, 4, 3, 2 }
-};
-
-static std::vector<GeoSphere*> s_allGeospheres;
 
 void GeoSphere::Init()
 {
@@ -525,16 +572,18 @@ void GeoSphere::SetUpMaterials()
 	if (bEnableEclipse) {
 		surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	}
-	const bool bEnableDetailMaps = (Pi::config->Int("DisableDetailMaps") == 0);
-	if (bEnableDetailMaps) {
-		surfDesc.quality |= Graphics::HAS_DETAIL_MAPS;
-	}
+	surfDesc.textures = 4;
 	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	m_texHi.Reset( Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model") );
 	m_texLo.Reset( Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model") );
+	m_surfaceLUT.Reset(	Graphics::TextureBuilder::UI("textures/terrain/terrainLUT.png").GetOrCreateTexture(	Pi::renderer, "ui") );
+	m_surfaceAtlas.Reset( Graphics::TextureBuilder::Array("textures/terrain/atlas.dds", 16).GetOrCreateTexture(Pi::renderer, "array") );
+	
 	m_surfaceMaterial->texture0 = m_texHi.Get();
 	m_surfaceMaterial->texture1 = m_texLo.Get();
+	m_surfaceMaterial->texture2 = m_surfaceLUT.Get();
+	m_surfaceMaterial->texture3 = m_surfaceAtlas.Get();
 
 	{
 		Graphics::MaterialDescriptor skyDesc;
@@ -547,4 +596,16 @@ void GeoSphere::SetUpMaterials()
 		m_atmosphereMaterial->texture0 = nullptr;
 		m_atmosphereMaterial->texture1 = nullptr;
 	}
+
+	const size_t numSamplePts = sizeof(g_samplePoints) / sizeof(vector3d);
+	double minh = DBL_MAX, maxh = DBL_MIN;
+	for( int sp=0; sp<numSamplePts; sp++)
+	{
+		const double h = m_terrain->GetHeight(g_samplePoints[sp]);
+		minh = std::min(minh, h);
+		maxh = std::max(maxh, h);
+	}
+	//Output("min (%.3lf), max (%.3lf), inverse max (%.3lf)\n", minh, maxh, 1.0 / maxh);
+	m_heightNormaliserMin = minh;
+	m_heightNormaliserMax = 1.0 / maxh;
 }

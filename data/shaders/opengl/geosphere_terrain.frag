@@ -15,11 +15,12 @@ uniform vec3 geosphereCenter;
 uniform float geosphereAtmosFogDensity;
 uniform float geosphereAtmosInvScaleHeight;
 
-#ifdef DETAIL_MAPS
-uniform sampler2D texture0;
-uniform sampler2D texture1;
+uniform sampler2D texture0;	// hi detail
+uniform sampler2D texture1;	// lo detail
+uniform sampler2D texture2;	// lookup
+uniform sampler2DArray texture3; // atlas
 in vec2 texCoord0;
-#endif // DETAIL_MAPS
+in vec2 slopeHeight;
 
 in float dist;
 uniform float detailScaleHi;
@@ -30,7 +31,6 @@ uniform Scene scene;
 
 in vec3 varyingEyepos;
 in vec3 varyingNormal;
-in vec4 vertexColor;
 
 #ifdef TERRAIN_WITH_LAVA
 in vec4 varyingEmission;
@@ -40,22 +40,18 @@ out vec4 frag_color;
 
 void main(void)
 {
-#ifdef DETAIL_MAPS
 	vec4 hidetail = texture(texture0, texCoord0 * detailScaleHi);
 	vec4 lodetail = texture(texture1, texCoord0 * detailScaleLo);
-#endif // DETAIL_MAPS
 	vec3 eyepos = varyingEyepos;
 	vec3 eyenorm = normalize(eyepos);
 	vec3 tnorm = normalize(varyingNormal);
 	vec4 diff = vec4(0.0);
 
-#ifdef DETAIL_MAPS
 	// calculte the detail texture contribution from hi and lo textures
 	float hiloMix = exp(-0.004 * dist);
 	float detailMix = exp(-0.001 * dist);
 	vec4 detailVal = mix(lodetail, hidetail, hiloMix);
 	vec4 detailMul = mix(vec4(1.0), detailVal, detailMix);
-#endif // DETAIL_MAPS
 
 	float nDotVP=0.0;
 	float nnDotVP=0.0;
@@ -74,22 +70,29 @@ void main(void)
 
 #ifdef TERRAIN_WITH_WATER
 		//Specular reflection
-		vec3 L = normalize(uLight[i].position.xyz - eyepos); 
+		/*vec3 L = normalize(uLight[i].position.xyz - eyepos); 
 		vec3 E = normalize(-eyepos);
 		vec3 R = normalize(-reflect(L,tnorm)); 
 		//water only for specular
 	    if (vertexColor.b > 0.05 && vertexColor.r < 0.05) {
 			specularReflection += pow(max(dot(R,E),0.0),16.0)*0.4 * INV_NUM_LIGHTS;
-		}
+		}*/
 #endif
 	}
-
-#ifdef DETAIL_MAPS
-	// Use the detail value to multiply the final colour before lighting
-	vec4 final = vertexColor * detailMul;
+	
+#ifdef TEXTURE0
+	vec4 color = vec4( 0.125, 0.25, 1.0, 1.0);
+	// LookupTexture & slope/height texture coords
+	float terrainType = texture(texture0, slopeHeight).x;
+	// mul by 16 because values are 0..1 but we need them 0..15 for array indexing
+	int id0 = int(terrainType * 16.0); 
+	color = texture(texture3, vec3(texCoord0 * detailScaleLo, float(id0))).rgba;
 #else
-	vec4 final = vertexColor;
-#endif // DETAIL_MAPS
+	vec4 color = vec4(0.313, 0.313, 0.313, 1.0);
+#endif
+
+	// Use the detail value to multiply the final colour before lighting
+	vec4 final = color * detailMul;
 	
 #ifdef ATMOSPHERE
 	// when does the eye ray intersect atmosphere
@@ -116,7 +119,7 @@ void main(void)
 		varyingEmission +
 #endif
 		fogFactor *
-		((scene.ambient * vertexColor) +
+		((scene.ambient * color) +
 		(diff * final)) +
 		(1.0-fogFactor)*(diff*atmosColor) +
 #ifdef TERRAIN_WITH_WATER
@@ -130,13 +133,14 @@ void main(void)
 #ifdef TERRAIN_WITH_LAVA
 		varyingEmission +
 #endif
-		(scene.ambient * vertexColor) +
+		(scene.ambient * color) +
 		(diff * final * 2.0);
 #endif //ATMOSPHERE
 
 #else // NUM_LIGHTS > 0 -- unlit rendering - stars
+	vec4 color = vec4(1.0, 1.0, 1.0, 1.0);
 	//emission is used to boost colour of stars, which is a bit odd
-	frag_color = material.emission + vertexColor;
+	frag_color = material.emission + color;
 #endif
 	SetFragDepth();
 }

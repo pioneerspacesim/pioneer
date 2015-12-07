@@ -518,7 +518,7 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 		glyph.texWidth = float(glyph.width) / float(ATLAS_SIZE);
 		glyph.texHeight = float(glyph.height) / float(ATLAS_SIZE);
 
-		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glyph.width, glyph.height), m_texFormat);
+		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector3f(glyph.width, glyph.height, 0.0f), m_texFormat);
 
 		m_atlasU += bmStrokeGlyph->bitmap.width;
 
@@ -559,7 +559,7 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 		glyph.texWidth = float(glyph.width) / float(ATLAS_SIZE);
 		glyph.texHeight = float(glyph.height) / float(ATLAS_SIZE);
 
-		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector2f(glyph.width, glyph.height), m_texFormat);
+		m_texture->Update(&m_buf[0], vector2f(m_atlasU, m_atlasV), vector3f(glyph.width, glyph.height, 0.0f), m_texFormat);
 
 		m_atlasU += glyph.width;
 	}
@@ -617,7 +617,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.reset(m_renderer->CreateMaterial(desc));
-	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false);
+	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector3f(ATLAS_SIZE, ATLAS_SIZE, 0.0f), Graphics::NEAREST_CLAMP, false, false);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat->texture0 = m_texture.Get();
 

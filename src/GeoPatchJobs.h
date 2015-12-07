@@ -56,7 +56,7 @@ public:
 		{
 			heights[i] = new double[numVerts];
 			normals[i] = new vector3f[numVerts];
-			colors[i] = new Color3ub[numVerts];
+			UVs[i] = new vector2f[numVerts];
 
 			borderHeights[i].reset(new double[numBorderedVerts]);
 			borderVertexs[i].reset(new vector3d[numBorderedVerts]);
@@ -65,7 +65,7 @@ public:
 
 	// these are created with the request and are given to the resulting patches
 	vector3f *normals[4];
-	Color3ub *colors[4];
+	vector2f *UVs[4];
 	double *heights[4];
 
 	// these are created with the request but are destroyed when the request is finished
@@ -87,7 +87,7 @@ public:
 		const int numVerts = NUMVERTICES(edgeLen_);
 		heights = new double[numVerts];
 		normals = new vector3f[numVerts];
-		colors = new Color3ub[numVerts];
+		UVs = new vector2f[numVerts];
 		
 		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
 		borderHeights.reset(new double[numBorderedVerts]);
@@ -96,7 +96,7 @@ public:
 
 	// these are created with the request and are given to the resulting patches
 	vector3f *normals;
-	Color3ub *colors;
+	vector2f *UVs;
 	double *heights;
 
 	// these are created with the request but are destroyed when the request is finished
@@ -112,16 +112,16 @@ class SBaseSplitResult {
 public:
 	struct SSplitResultData {
 		SSplitResultData() : patchID(0) {}
-		SSplitResultData(double *heights_, vector3f *n_, Color3ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
-			heights(heights_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
+		SSplitResultData(double *heights_, vector3f *n_, vector2f *uv_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
+			heights(heights_), normals(n_), UVs(uv_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
 		{}
 		SSplitResultData(const SSplitResultData &r) : 
-			normals(r.normals), colors(r.colors), v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), patchID(r.patchID)
+			normals(r.normals), UVs(r.UVs), v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), patchID(r.patchID)
 		{}
 
 		double *heights;
 		vector3f *normals;
-		Color3ub *colors;
+		vector2f *UVs;
 		vector3d v0, v1, v2, v3;
 		GeoPatchID patchID;
 	};
@@ -149,10 +149,10 @@ public:
 	{
 	}
 
-	void addResult(const int kidIdx, double *h_, vector3f *n_, Color3ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(const int kidIdx, double *h_, vector3f *n_, vector2f *uv_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
 		assert(kidIdx>=0 && kidIdx<NUM_RESULT_DATA);
-		mData[kidIdx] = (SSplitResultData(h_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
+		mData[kidIdx] = (SSplitResultData(h_, n_, uv_, v0_, v1_, v2_, v3_, patchID_));
 	}
 
 	inline const SSplitResultData& data(const int32_t idx) const { return mData[idx]; }
@@ -160,9 +160,9 @@ public:
 	virtual void OnCancel()
 	{
 		for( int i=0; i<NUM_RESULT_DATA; ++i ) {
-			if( mData[i].heights ) {delete [] mData[i].heights;		mData[i].heights = NULL;}
-			if( mData[i].normals ) {delete [] mData[i].normals;		mData[i].normals = NULL;}
-			if( mData[i].colors ) {delete [] mData[i].colors;		mData[i].colors = NULL;}
+			if( mData[i].heights )	{delete [] mData[i].heights;		mData[i].heights = NULL;}
+			if( mData[i].normals )	{delete [] mData[i].normals;		mData[i].normals = NULL;}
+			if( mData[i].UVs )		{delete [] mData[i].UVs;			mData[i].UVs = NULL;}
 		}
 	}
 
@@ -179,9 +179,9 @@ public:
 	{
 	}
 
-	void addResult(double *h_, vector3f *n_, Color3ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
+	void addResult(double *h_, vector3f *n_, vector2f *uv_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_)
 	{
-		mData = (SSplitResultData(h_, n_, c_, v0_, v1_, v2_, v3_, patchID_));
+		mData = (SSplitResultData(h_, n_, uv_, v0_, v1_, v2_, v3_, patchID_));
 	}
 
 	inline const SSplitResultData& data() const { return mData; }
@@ -191,7 +191,7 @@ public:
 		{
 			if( mData.heights ) {delete [] mData.heights;	mData.heights = NULL;}
 			if( mData.normals ) {delete [] mData.normals;	mData.normals = NULL;}
-			if( mData.colors ) {delete [] mData.colors;		mData.colors = NULL;}
+			if( mData.UVs )		{delete [] mData.UVs;		mData.UVs = NULL;}
 		}
 	}
 
@@ -221,8 +221,8 @@ protected:
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
 	}
 
-	// Generates full-detail vertices, and also non-edge normals and colors 
-	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
+	// Generates full-detail vertices, and also non-edge normals and UVs 
+	void GenerateMesh(double *heights, vector3f *normals, vector2f *UVs, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
 };
