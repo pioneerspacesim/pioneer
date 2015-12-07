@@ -46,6 +46,14 @@ NumberLabel *NumberLabel::SetValue(double v)
 			SetText(format_money(Sint64(v*100)));
 			break;
 
+		case FORMAT_DISTANCE_M:
+			SetText(format_distance(v, 3));
+			break;
+
+		case FORMAT_DISTANCE_LY:
+			SetText(stringf(Lang::NUMBER_LY, formatarg("distance", v)));
+			break;
+
 		default:
 		case FORMAT_NUMBER:
 			SetText(to_string(v, "f"));

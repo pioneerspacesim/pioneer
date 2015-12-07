@@ -40,7 +40,6 @@ noinst_HEADERS = \
 	FileSystem.h \
 	FontCache.h \
 	Frame.h \
-	GalacticView.h \
 	Game.h \
 	GameLog.h \
 	GasGiant.h \
@@ -174,7 +173,6 @@ pioneer_SOURCES	= \
 	FileSystem.cpp \
 	FontCache.cpp \
 	Frame.cpp \
-	GalacticView.cpp \
 	Game.cpp \
 	GameLog.cpp \
 	GasGiant.cpp \

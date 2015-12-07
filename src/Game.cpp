@@ -15,7 +15,6 @@
 #include "SectorView.h"
 #include "WorldView.h"
 #include "DeathView.h"
-#include "GalacticView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "UIView.h"
@@ -686,7 +685,6 @@ Game::Views::Views()
 void Game::Views::SetRenderer(Graphics::Renderer *r)
 {
 	// view manager will handle setting this probably
-	m_galacticView->SetRenderer(r);
 	m_infoView->SetRenderer(r);
 	m_sectorView->SetRenderer(r);
 	m_systemInfoView->SetRenderer(r);
@@ -704,7 +702,7 @@ void Game::Views::Init(Game* game)
 	m_cpan = new ShipCpanel(Pi::renderer, game);
 	m_sectorView = new SectorView(game);
 	m_worldView = new WorldView(game);
-	m_galacticView = new GalacticView(game);
+	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");
@@ -725,7 +723,7 @@ void Game::Views::LoadFromJson(const Json::Value &jsonObj, Game* game)
 	m_sectorView = new SectorView(jsonObj, game);
 	m_worldView = new WorldView(jsonObj, game);
 
-	m_galacticView = new GalacticView(game);
+	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");

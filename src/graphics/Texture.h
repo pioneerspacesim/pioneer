@@ -61,6 +61,8 @@ public:
 		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
 	{}
 
+	vector2f GetOriginalSize() const { return vector2f(dataSize.x * texSize.x, dataSize.y * texSize.y); }
+
 	const TextureFormat format;
 	const vector2f dataSize;
 	const vector2f texSize;

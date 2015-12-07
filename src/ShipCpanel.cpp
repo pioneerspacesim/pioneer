@@ -11,7 +11,6 @@
 #include "SectorView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
-#include "GalacticView.h"
 #include "UIView.h"
 #include "Lang.h"
 #include "Game.h"

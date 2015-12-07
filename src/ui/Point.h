@@ -4,7 +4,7 @@
 #ifndef UI_POINT_H
 #define UI_POINT_H
 
-#include "vector2.h"
+#include <algorithm>
 
 namespace UI {
 
@@ -33,6 +33,11 @@ public:
 	enum Component { X, Y };
 	const int &operator[](Component c) const { return c == X ? x : y; }
 	int &operator[](Component c) { return c == X ? x : y; }
+
+	static Point Max(const Point &a, const Point &b)
+	{ return Point(std::max(a.x, b.x), std::max(a.y, b.y)); }
+	static Point Min(const Point &a, const Point &b)
+	{ return Point(std::min(a.x, b.x), std::min(a.y, b.y)); }
 };
 
 }
