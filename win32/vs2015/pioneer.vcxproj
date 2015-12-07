@@ -209,7 +209,6 @@
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
-    <ClCompile Include="..\..\src\GalacticView.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameLog.cpp" />
@@ -364,7 +363,6 @@
     <ClInclude Include="..\..\src\fixed.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\Frame.h" />
-    <ClInclude Include="..\..\src\GalacticView.h" />
     <ClInclude Include="..\..\src\Game.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\gameconsts.h" />
