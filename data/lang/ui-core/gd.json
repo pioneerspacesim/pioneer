@@ -525,7 +525,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew to handle this ship."
+      "message" : "Chaidh cead losgaidh a dhiùltadh: tha an sgioba agad ro bheag gus an soitheach seo a làimhseachadh."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -1169,6 +1169,6 @@
    },
    "ZOOM" : {
       "description" : "Label for a zoom (magnification) control bar.",
-      "message" : "Zoom"
+      "message" : "Sùm"
    }
 }

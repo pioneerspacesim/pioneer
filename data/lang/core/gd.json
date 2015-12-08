@@ -289,7 +289,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Lùghdaich luathachadh an ama"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Meudaich luathachadh an ama"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "%speed{f.2} km/s a-rèir %frame"
+      "message" : "%speed{f.2} km/s an taca ri %frame"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
@@ -673,7 +673,7 @@
    },
    "LATITUDE" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "D-leud:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -709,7 +709,7 @@
    },
    "LONGTITUDE" : {
       "description" : "",
-      "message" : "Long:"
+      "message" : "D-fhad:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -929,7 +929,7 @@
    },
    "M_S_RELATIVE_TO" : {
       "description" : "",
-      "message" : "%speed{f.0} m/s a-rèir %frame"
+      "message" : "%speed{f.0} m/s an taca ri %frame"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -969,7 +969,7 @@
    },
    "NOW" : {
       "description" : "In System Orbit View",
-      "message" : "Now"
+      "message" : "An-dràsta"
    },
    "NO_ALERT" : {
       "description" : "",

@@ -289,7 +289,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Замедлить время"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Ускорить время"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -673,7 +673,7 @@
    },
    "LATITUDE" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "Ш.:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -709,7 +709,7 @@
    },
    "LONGTITUDE" : {
       "description" : "",
-      "message" : "Long:"
+      "message" : "Д.:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",

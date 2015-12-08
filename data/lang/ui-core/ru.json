@@ -525,7 +525,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew to handle this ship."
+      "message" : "В разрешении на взлёт отказано: на вашем корабле не укомплектован экипаж."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -793,7 +793,7 @@
    },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
+      "message" : "Неоплаченные штрафы"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -1169,6 +1169,6 @@
    },
    "ZOOM" : {
       "description" : "Label for a zoom (magnification) control bar.",
-      "message" : "Zoom"
+      "message" : "Масштаб"
    }
 }

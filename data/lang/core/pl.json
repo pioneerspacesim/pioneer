@@ -673,7 +673,7 @@
    },
    "LATITUDE" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "Szer.:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -709,7 +709,7 @@
    },
    "LONGTITUDE" : {
       "description" : "",
-      "message" : "Long:"
+      "message" : "Dł.:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -969,7 +969,7 @@
    },
    "NOW" : {
       "description" : "In System Orbit View",
-      "message" : "Now"
+      "message" : "Teraz"
    },
    "NO_ALERT" : {
       "description" : "",
