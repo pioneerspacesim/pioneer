@@ -25,7 +25,7 @@
    },
    "ADTEXT_1" : {
       "description" : "",
-      "message" : "ГРУЗОВАЯ ДОСТАВКА. Необходимо доставить груз в систему {system}."
+      "message" : "ГРУЗОВАЯ ДОСТАВКА. Необходимо доставить груз в систему {system}. Оплата {cash}."
    },
    "ADTEXT_2" : {
       "description" : "",
@@ -37,27 +37,27 @@
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка товаров в космопорт {starport}."
+      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка товаров в космопорт {starport}. Оплата {cash}."
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "ТРЕБУЕТСЯ ТРАНСПОРТ. Доставка груза в местный космопорт {starport}."
+      "message" : "ТРЕБУЕТСЯ ТРАНСПОРТ. Доставка груза в местный космопорт {starport}. Оплата {cash}."
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "МЕСТНАЯ ГРУЗОВАЯ ДОСТАВКА. Доставить груз в космопорт {starport}."
+      "message" : "МЕСТНАЯ ГРУЗОВАЯ ДОСТАВКА. Доставить груз в космопорт {starport}. Оплата {cash}."
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
-      "message" : "ЗАБОР ГРУЗА. Необходимо забрать груз из {system} системы."
+      "message" : "ЗАБОР ГРУЗА. Необходимо забрать груз из системы {system}. Оплата {cash}."
    },
    "ADTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
-      "message" : "ПЕРЕВОЗКА. Требуется вывезти груз из космопорта {starport}."
+      "message" : "ПЕРЕВОЗКА. Требуется вывезти груз из космопорта {starport}. Оплата {cash}."
    },
    "ADTEXT_WHOLESALER_1" : {
       "description" : "",
-      "message" : "СЛУЖБА ДОСТАВКИ. Требуется корабль для доставки груза в систему {system}."
+      "message" : "СЛУЖБА ДОСТАВКИ. Требуется корабль для доставки груза в систему {system}. Оплата {cash}."
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
@@ -241,7 +241,7 @@
    },
    "INTROTEXT_1" : {
       "description" : "",
-      "message" : "Привет! Меня зовут {name}. Я заплачу {cash}, если вы доставите {cargoname} на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
+      "message" : "Привет! Меня зовут {name}. \nЯ заплачу {cash}, если вы доставите {cargoname} на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
    },
    "INTROTEXT_2" : {
       "description" : "{name} is the full name of a person",
@@ -249,7 +249,7 @@
    },
    "INTROTEXT_3" : {
       "description" : "",
-      "message" : "Добрый день. Я {name}, основатель {name} Ltd. Мне нужен надёжный пилот для доставки {cargoname} в {starport} в систему {system} ({sectorx}, {sectory}, {sectorz}). Я заплачу {cash} за перелёт длиной {dist} св.лет."
+      "message" : "Добрый день. Я {name}, основатель ООО {name}. \nМне нужен надёжный пилот для доставки {cargoname} в {starport} в систему {system} ({sectorx}, {sectory}, {sectorz}). Я заплачу {cash} за перелёт длиной {dist} св.лет."
    },
    "INTROTEXT_EXPENSIVE_1" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "INTROTEXT_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Приветствую! Я {name}. Правительство системы {system} поручило доставить {cargoname} на станцию {starport}, та что в системе {system} ({sectorx}, {sectory}, {sectorz}). Система находится в {dist} св.лет отсюда. Оплата {cash}."
+      "message" : "Приветствую! Я {name}. \nПравительство системы {system} поручило доставить {cargoname} на станцию {starport}, та что в системе {system} ({sectorx}, {sectory}, {sectorz}). Система находится в {dist} св.лет отсюда. Оплата {cash}."
    },
    "INTROTEXT_LOCAL_1" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "INTROTEXT_MINING_1" : {
       "description" : "{name} is the full name of a person",
-      "message" : "Здравствуйте. Шахтёрская Компания {name} хочет доставить {cargoname} в {starport}, в системе {system} ({sectorx}, {sectory}, {sectorz}), расстояние {dist} св.лет, для постройки новой шахты. Оплата {cash}."
+      "message" : "Здравствуйте. \nШахтёрская Компания {name} хочет доставить {cargoname} в {starport}, в системе {system} ({sectorx}, {sectory}, {sectorz}), расстояние {dist} св.лет, для постройки новой шахты. Оплата {cash}."
    },
    "INTROTEXT_PICKUP_1" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "INTROTEXT_WEDDING_1" : {
       "description" : "",
-      "message" : "Приветствую! Вы слышали уже о свадебном буме на станции {starport} в системе {system} ({sectorx}, {sectory}, {sectorz})? Мы хотим доставить туда {cargoname}. Это в {dist} св.лет отсюда. Оплата {cash}. Как вам такое предложение?"
+      "message" : "Приветствую! \nВы слышали уже о свадебном буме на станции {starport} в системе {system} ({sectorx}, {sectory}, {sectorz})? Мы хотим доставить туда {cargoname}. Это в {dist} св.лет отсюда. Оплата {cash}. Как вам такое предложение?"
    },
    "INTROTEXT_WHOLESALER_1" : {
       "description" : "",
@@ -353,7 +353,7 @@
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "This will be your last run!"
+      "message" : "Эта была твоя последняя работа!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
