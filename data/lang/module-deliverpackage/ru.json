@@ -65,7 +65,7 @@
    },
    "FLAVOUR_0_INTROTEXT" : {
       "description" : "",
-      "message" : "Здравствуйте, меня зовут {name}.\nЗаплачу {cash} за доставку небольшой посылки на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
+      "message" : "Здравствуйте, меня зовут {name}.\nЗаплачу {cash} за доставку небольшой посылки в космопорт {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
    },
    "FLAVOUR_0_SUCCESSMSG" : {
       "description" : "",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_0_WHYSOMUCHTEXT" : {
       "description" : "",
-      "message" : "На днях меня навещал мой друг и она забыла кое-какие вещи: одежду да старые бумажные книги. Я хотел бы возвратить их ей."
+      "message" : "На днях меня навещал мой друг и она забыла кое-какие вещи: одежду да старые бумажные книги. Я хочу возвратить их ей."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -85,7 +85,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Приветствую, я {name}.\nЗаплачу {cash} капитану корабля за быструю доставку пакета на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}) . Расстояние {dist} св.л."
+      "message" : "Приветствую, я {name}.\nЗаплачу {cash} капитану корабля за быструю доставку пакета в космопорт {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}) . Расстояние {dist} св.л."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Здравствуйте, моё имя {name}. \nЗаплачу {cash} капитану, который быстро доставит посылку на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}) . Расстояние {dist} св.л."
+      "message" : "Здравствуйте, моё имя {name}. \nЗаплачу {cash} капитану, который быстро доставит посылку в космопорт {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}) . Расстояние {dist} св.л."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Здравствуйте, я {name}. \nЗаплачу {cash} за доставку документов на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}) . Расстояние {dist} св.л."
+      "message" : "Здравствуйте, я {name}. \nЗаплачу {cash} за доставку документов в космопорт {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}) . Расстояние {dist} св.л."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "ПОЧТОВАЯ СЛУЖБА. Требуется корабль для быстрой доставки в систему {system}. Оплата {cash}."
+      "message" : "КУРЬЕР. Требуется для полёта в систему {system}. Оплата {cash}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Доброго времени суток!\nЭто автоматическое сообщение от Курьерской Фирмы Бедфорд и {name}. Заплатим {cash} за доставку груза на станцию {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
+      "message" : "Доброго времени суток!\nЭто автоматическое сообщение от Курьерской Фирмы Бедфорд и {name}. Заплатим {cash} за доставку груза в космопорт {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}). Расстояние {dist} св.л."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "ПЕРЕВОЗКА. Необходимо доставить оборудование со склада на станцию {starport}. Оплата {cash}."
+      "message" : "ПЕРЕВОЗКА. Необходимо доставить оборудование со склада в космопорт {starport}. Оплата {cash}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "Приятно познакомиться. Я {name}. \nЗаплачу {cash} за помощь в перевозке моих вещей на станцию {starport}. Можно не торопиться, там кое-какие оставшиеся пожитки с переезда."
+      "message" : "Приятно познакомиться. Я {name}. \nЗаплачу {cash} за помощь в перевозке моих вещей в космопорт {starport}. Можно не торопиться, там кое-какие оставшиеся пожитки с переезда."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "МЕЖПЛАНЕТНЫЙ КУРЬЕР. Доставка небольшой посылки на станцию {starport}. Оплата {cash}."
+      "message" : "МЕЖПЛАНЕТНЫЙ КУРЬЕР. Доставка небольшой посылки в космопорт {starport}. Оплата {cash}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -185,11 +185,11 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Приветствую, я {name}. \nЗаплачу {cash} за доставку посылки на станцию {starport}."
+      "message" : "Приветствую, я {name}. \nЗаплачу {cash} за доставку посылки в космопорт {starport}."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Спасибо за доставку, оплата как договорились."
+      "message" : "Спасибо за доставку, плачу как договорились."
    },
    "FLAVOUR_6_WHYSOMUCHTEXT" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "МЕЖПЛАНЕТНАЯ ПЕРЕВОЗКА. Нужен транспорт для доставки груза на станцию {starport}. Оплата {cash}."
+      "message" : "МЕЖПЛАНЕТНАЯ ПЕРЕВОЗКА. Нужен транспорт для доставки груза в космопорт {starport}. Оплата {cash}."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
@@ -205,7 +205,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Привет!\nКонтейнеры должны быть доставлены на станцию {starport} как можно скорее. Стандартная оплата за доставку - {cash}."
+      "message" : "Привет!\nКонтейнеры должны быть доставлены в космопорт {starport} как можно скорее. Стандартная оплата за доставку - {cash}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "FLAVOUR_8_ADTEXT" : {
       "description" : "",
-      "message" : "МЕСТНАЯ ДОСТАВКА. Требуется быстро доставить груз на станцию {starport}. Оплата {cash}."
+      "message" : "МЕСТНАЯ ДОСТАВКА. Требуется быстро доставить груз в космопорт {starport}. Оплата {cash}."
    },
    "FLAVOUR_8_FAILUREMSG" : {
       "description" : "",
@@ -225,7 +225,7 @@
    },
    "FLAVOUR_8_INTROTEXT" : {
       "description" : "",
-      "message" : "Зовите меня {name}.\nМне нужно быстро доставить груз другу на станцию {starport}. Заплачу {cash}, если успеете в разумные сроки."
+      "message" : "Зовите меня {name}.\nМне нужно быстро доставить груз другу в космопорт {starport}. Заплачу {cash}, если успеете в разумные сроки."
    },
    "FLAVOUR_8_SUCCESSMSG" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "FLAVOUR_9_ADTEXT" : {
       "description" : "",
-      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка скоропортящихся продуктов на станцию {starport}. "
+      "message" : "МЕСТНАЯ ДОСТАВКА. Перевозка скоропортящихся продуктов в космопорт {starport}. Оплата {cash}."
    },
    "FLAVOUR_9_FAILUREMSG" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_9_INTROTEXT" : {
       "description" : "",
-      "message" : "Привет. Мы отстаём с отправкой груза, нужно срочно доставить продукты на станцию {starport}. Заплатим {cash} за скорость."
+      "message" : "Привет. Мы отстаём с отправкой груза, нужно срочно доставить продукты в космопорт {starport}. Заплатим {cash} за скорость."
    },
    "FLAVOUR_9_SUCCESSMSG" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "Сегодня эта посылка не достигнет адресата."
+      "message" : "Эта посылка не достигнет адресата!"
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
