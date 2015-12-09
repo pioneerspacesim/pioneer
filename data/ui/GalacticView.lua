@@ -55,7 +55,9 @@ local controls =
 		)
 	)
 
-local galacticView = ui:OverlayStack():AddLayer(map):AddLayer(controls)
+local galacticView =
+	ui:ColorBackground(0,0,0,1,
+		ui:OverlayStack():AddLayer(map):AddLayer(controls))
 
 ui.templates.GalacticView = function ()
 	resetCurrentSector(map)
