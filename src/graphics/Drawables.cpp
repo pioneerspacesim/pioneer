@@ -628,7 +628,7 @@ TexturedQuad::TexturedQuad(Graphics::Renderer *r, const std::string &filename)
 {
 	PROFILE_SCOPED()
 
-	Graphics::TextureBuilder texbuilder(filename, Graphics::LINEAR_CLAMP, false, false, true, false);
+	Graphics::TextureBuilder texbuilder = Graphics::TextureBuilder::UI(filename);
 	m_texture.Reset(texbuilder.GetOrCreateTexture(r, "ui"));
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
