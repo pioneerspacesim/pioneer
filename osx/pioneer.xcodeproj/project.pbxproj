@@ -195,7 +195,6 @@
 		4A6C4DDC13532FC300FDD53F /* GeomTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C1713532FC300FDD53F /* GeomTree.cpp */; };
 		4A6C4DE213532FC300FDD53F /* DynamicBody.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2113532FC300FDD53F /* DynamicBody.cpp */; };
 		4A6C4DE413532FC300FDD53F /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2613532FC300FDD53F /* Frame.cpp */; };
-		4A6C4DE513532FC300FDD53F /* GalacticView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C2813532FC300FDD53F /* GalacticView.cpp */; };
 		4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */; };
 		4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6A13532FC300FDD53F /* HyperspaceCloud.cpp */; };
 		4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4C6E13532FC300FDD53F /* IniConfig.cpp */; };
@@ -440,6 +439,11 @@
 		52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; };
 		522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
 		522B22CC1C06324A00109BB0 /* libcurl.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
+		52B054A11C184CAE00BAAE57 /* LuaOverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */; };
+		52B054A21C184CAE00BAAE57 /* OverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */; };
+		52B054A81C184D0800BAAE57 /* GalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */; };
+		52B054A91C184D0800BAAE57 /* LabelOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */; };
+		52B054AA1C184D0800BAAE57 /* LuaGalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -841,8 +845,6 @@
 		4A6C4C2513532FC300FDD53F /* fixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fixed.h; sourceTree = "<group>"; };
 		4A6C4C2613532FC300FDD53F /* Frame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cpp; sourceTree = "<group>"; };
 		4A6C4C2713532FC300FDD53F /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
-		4A6C4C2813532FC300FDD53F /* GalacticView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GalacticView.cpp; sourceTree = "<group>"; };
-		4A6C4C2913532FC300FDD53F /* GalacticView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalacticView.h; sourceTree = "<group>"; };
 		4A6C4C2C13532FC300FDD53F /* gameconsts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gameconsts.h; sourceTree = "<group>"; };
 		4A6C4C3113532FC300FDD53F /* GeoSphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeoSphere.cpp; sourceTree = "<group>"; };
 		4A6C4C3213532FC300FDD53F /* GeoSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoSphere.h; sourceTree = "<group>"; };
@@ -1266,6 +1268,14 @@
 		52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = ../../../../../opt/local/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = ../../../../../opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
 		522B22CA1C06323C00109BB0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../opt/local/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaOverlayStack.cpp; sourceTree = "<group>"; };
+		52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayStack.cpp; sourceTree = "<group>"; };
+		52B054A01C184CAE00BAAE57 /* OverlayStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlayStack.h; sourceTree = "<group>"; };
+		52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GalaxyMap.cpp; sourceTree = "<group>"; };
+		52B054A41C184D0800BAAE57 /* GalaxyMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalaxyMap.h; sourceTree = "<group>"; };
+		52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LabelOverlay.cpp; sourceTree = "<group>"; };
+		52B054A61C184D0800BAAE57 /* LabelOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelOverlay.h; sourceTree = "<group>"; };
+		52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGalaxyMap.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1587,7 +1597,12 @@
 			children = (
 				378564291B197E7A0039F2BC /* BindingCapture.cpp */,
 				3785642A1B197E7A0039F2BC /* BindingCapture.h */,
+				52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */,
+				52B054A41C184D0800BAAE57 /* GalaxyMap.h */,
+				52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */,
+				52B054A61C184D0800BAAE57 /* LabelOverlay.h */,
 				3785642B1B197E7A0039F2BC /* LuaBindingCapture.cpp */,
+				52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */,
 				4AA527FB16E9EB650036D4CB /* LuaModelSpinner.cpp */,
 				4AA527FC16E9EB650036D4CB /* ModelSpinner.cpp */,
 				4AA527FD16E9EB650036D4CB /* ModelSpinner.h */,
@@ -1717,8 +1732,6 @@
 				4A94CA4214F26875002CA792 /* FontCache.h */,
 				4A6C4C2613532FC300FDD53F /* Frame.cpp */,
 				4A6C4C2713532FC300FDD53F /* Frame.h */,
-				4A6C4C2813532FC300FDD53F /* GalacticView.cpp */,
-				4A6C4C2913532FC300FDD53F /* GalacticView.h */,
 				4ADF517F1557473400ACF5A0 /* galaxy */,
 				4AF9999D1496D51F009821AF /* Game.cpp */,
 				4AF9999E1496D51F009821AF /* Game.h */,
@@ -2134,6 +2147,7 @@
 				4ABF305E16335A1100664653 /* LuaList.cpp */,
 				4ABF305F16335A1100664653 /* LuaMargin.cpp */,
 				4ABF306016335A1100664653 /* LuaMultiLineText.cpp */,
+				52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */,
 				4ABF306116335A1100664653 /* LuaScroller.cpp */,
 				4ABF306216335A1100664653 /* LuaSignal.h */,
 				4ABF306316335A1100664653 /* LuaSingle.cpp */,
@@ -2145,6 +2159,8 @@
 				4ABF306816335A1100664653 /* Margin.h */,
 				4ABF306916335A1100664653 /* MultiLineText.cpp */,
 				4ABF306A16335A1100664653 /* MultiLineText.h */,
+				52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */,
+				52B054A01C184CAE00BAAE57 /* OverlayStack.h */,
 				4ABF306B16335A1100664653 /* Point.h */,
 				4ABF306C16335A1100664653 /* Scroller.cpp */,
 				4ABF306D16335A1100664653 /* Scroller.h */,
@@ -2403,7 +2419,6 @@
 				4A6C4DE213532FC300FDD53F /* DynamicBody.cpp in Sources */,
 				4A6C4DE413532FC300FDD53F /* Frame.cpp in Sources */,
 				3785639F1B197D740039F2BC /* Plane.cpp in Sources */,
-				4A6C4DE513532FC300FDD53F /* GalacticView.cpp in Sources */,
 				4A6C4DE913532FC300FDD53F /* GeoSphere.cpp in Sources */,
 				4A6C4E0413532FC300FDD53F /* HyperspaceCloud.cpp in Sources */,
 				4A6C4E0613532FC300FDD53F /* IniConfig.cpp in Sources */,
@@ -2422,6 +2437,7 @@
 				4A6C4E7F13532FC300FDD53F /* Serializer.cpp in Sources */,
 				4A6C4E8013532FC300FDD53F /* Sfx.cpp in Sources */,
 				4A6C4E8113532FC300FDD53F /* Ship-AI.cpp in Sources */,
+				52B054A21C184CAE00BAAE57 /* OverlayStack.cpp in Sources */,
 				378564521B197FAE0039F2BC /* LuaServerAgent.cpp in Sources */,
 				378563C11B197DBB0039F2BC /* Animation.cpp in Sources */,
 				4A6C4E8213532FC300FDD53F /* Ship.cpp in Sources */,
@@ -2471,6 +2487,7 @@
 				4A190392138AA33300E0229C /* GuiContainer.cpp in Sources */,
 				4A190394138AA33300E0229C /* GuiFixed.cpp in Sources */,
 				378563C51B197DBB0039F2BC /* LuaGauge.cpp in Sources */,
+				52B054A91C184D0800BAAE57 /* LabelOverlay.cpp in Sources */,
 				4A190396138AA33300E0229C /* GuiImage.cpp in Sources */,
 				4A190398138AA33300E0229C /* GuiImageButton.cpp in Sources */,
 				4A19039A138AA33300E0229C /* GuiImageRadioButton.cpp in Sources */,
@@ -2534,9 +2551,11 @@
 				378563A51B197D740039F2BC /* Sphere.cpp in Sources */,
 				378563981B197D740039F2BC /* GeoPatchID.cpp in Sources */,
 				4A24077413F5240F002A5C12 /* Lang.cpp in Sources */,
+				52B054AA1C184D0800BAAE57 /* LuaGalaxyMap.cpp in Sources */,
 				378564531B197FAE0039F2BC /* ServerAgent.cpp in Sources */,
 				4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */,
 				4A6B59CC1429F14500ADC7C8 /* StringF.cpp in Sources */,
+				52B054A11C184CAE00BAAE57 /* LuaOverlayStack.cpp in Sources */,
 				4A8DD53B142E19B6006DD821 /* LuaConsole.cpp in Sources */,
 				4AB3DF8914346952001B783A /* TerrainBody.cpp in Sources */,
 				4AE9706714369D7500424F91 /* LuaLang.cpp in Sources */,
@@ -2674,6 +2693,7 @@
 				4ABF308116335A1100664653 /* Context.cpp in Sources */,
 				4ABF308216335A1100664653 /* DropDown.cpp in Sources */,
 				378563C41B197DBB0039F2BC /* LuaAnimation.cpp in Sources */,
+				52B054A81C184D0800BAAE57 /* GalaxyMap.cpp in Sources */,
 				4ABF308316335A1100664653 /* Event.cpp in Sources */,
 				4ABF308416335A1100664653 /* EventDispatcher.cpp in Sources */,
 				4ABF308616335A1100664653 /* Grid.cpp in Sources */,
