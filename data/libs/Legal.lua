@@ -49,6 +49,9 @@ function Legal:notifyOfCrime (ship, crime)
 	-- find closest law enforcing station
 	local station = Game.player:FindNearestTo("SPACESTATION")
 
+	-- no plaintiff no judgement
+	if station == nil then return end
+
 	-- too far away for crime to be noticed
 	if station.lawEnforcedRange < station:DistanceTo(Game.player) then
 		return
