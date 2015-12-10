@@ -1,7 +1,5 @@
---######################################################################
---# This module encodes several flavors of search and rescue missions. #
---# Claudius Mueller 2015                                              #
---######################################################################
+-- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Notes:
 -- - All station/planet location references in ad/mission are stored as paths for consistency because
