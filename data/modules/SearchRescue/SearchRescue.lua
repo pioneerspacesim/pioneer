@@ -1136,7 +1136,7 @@ local makeAdvert = function (station, manualFlavour)
    
    local ref = station:AddAdvert({
 	 description = ad.desc,
-	 icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+	 icon        = "searchrescue",
 	 onChat      = onChat,
 	 onDelete    = onDelete,
 	 isEnabled   = isEnabled })
