@@ -118,14 +118,9 @@ public:
 		float r = luaL_checknumber(l, 2);
 		float g = luaL_checknumber(l, 3);
 		float b = luaL_checknumber(l, 4);
-		float a = 1.0f;
-		int implicit = 5;
-		if (lua_gettop(l) > 4) {
-			a = luaL_checknumber(l, 5);
-			implicit = 6;
-		}
+		float a = luaL_checknumber(l, 5);
 		UI::ColorBackground *cb = c->ColorBackground(Color(r*255,g*255,b*255,a*255));
-		_implicit_set_inner_widget(l, cb, implicit);
+		_implicit_set_inner_widget(l, cb, 6);
 		LuaObject<UI::ColorBackground>::PushToLua(cb);
 		return 1;
 	}
