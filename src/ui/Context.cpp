@@ -34,16 +34,20 @@ static const float FONT_SCALE[] = {
 	1.8f   // MONO_XLARGE
 };
 
-Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Container(this),
+Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height):
+	Context(lua, renderer, width, height, std::min(float(height)/SCALE_CUTOFF_HEIGHT, 1.0f))
+{}
+
+Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, float scale) : Container(this),
 	m_renderer(renderer),
 	m_width(width),
 	m_height(height),
-	m_scale(std::min(float(m_height)/SCALE_CUTOFF_HEIGHT, 1.0f)),
+	m_scale(scale),
 	m_needsLayout(false),
 	m_mousePointer(nullptr),
 	m_mousePointerEnabled(true),
 	m_eventDispatcher(this),
-	m_skin("ui/Skin.ini", renderer, GetScale()),
+	m_skin("ui/Skin.ini", renderer, scale),
 	m_lua(lua)
 {
 	lua_State *l = m_lua->GetLuaState();

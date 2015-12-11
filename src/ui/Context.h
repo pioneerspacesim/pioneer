@@ -72,6 +72,7 @@ namespace UI {
 class Context : public Container {
 public:
 	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height);
+	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, float scale);
 
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
