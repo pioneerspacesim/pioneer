@@ -7,6 +7,17 @@
 
 namespace UI {
 
+namespace {
+
+static Point CalcDisplayDimensions(const UI::Context *context, const Graphics::Texture *texture)
+{
+	const auto image_size = texture->GetDescriptor().GetOriginalSize();
+	const float scale = context->GetScale();
+	return Point(scale * image_size.x, scale * image_size.y);
+}
+
+}
+
 Image::Image(Context *context, const std::string &filename, Uint32 sizeControlFlags): Widget(context)
 	, m_centre(0.0f, 0.0f)
 	, m_scale(1.0f)
@@ -15,8 +26,7 @@ Image::Image(Context *context, const std::string &filename, Uint32 sizeControlFl
 	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(filename);
 	m_texture.Reset(b.GetOrCreateTexture(GetContext()->GetRenderer(), "ui"));
 
-	const auto image_size = b.GetDescriptor().GetOriginalSize();
-	m_initialSize = Point(image_size.x, image_size.y);
+	m_initialSize = CalcDisplayDimensions(GetContext(), m_texture.Get());
 
 	Graphics::MaterialDescriptor material_desc;
 	material_desc.textures = 1;
@@ -46,9 +56,7 @@ Image *Image::SetHeightLines(Uint32 lines)
 
 Image *Image::SetNaturalSize()
 {
-	const auto image_size = m_texture->GetDescriptor().GetOriginalSize();
-	m_initialSize = Point(image_size.x, image_size.y);
-
+	m_initialSize = CalcDisplayDimensions(GetContext(), m_texture.Get());
 	GetContext()->RequestLayout();
 	return this;
 }
