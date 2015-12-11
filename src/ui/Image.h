@@ -14,8 +14,6 @@ namespace UI {
 
 class Image: public Widget {
 public:
-	Point GetImageSize() const;
-
 	virtual Point PreferredSize();
 	virtual void Draw();
 

@@ -31,12 +31,6 @@ Point Image::PreferredSize()
 	return m_initialSize;
 }
 
-Point Image::GetImageSize() const
-{
-	const auto sz = m_texture->GetDescriptor().GetOriginalSize();
-	return Point(sz.x, sz.y);
-}
-
 Image *Image::SetHeightLines(Uint32 lines)
 {
 	const Text::TextureFont *font = GetContext()->GetFont(GetFont()).Get();
@@ -52,7 +46,9 @@ Image *Image::SetHeightLines(Uint32 lines)
 
 Image *Image::SetNaturalSize()
 {
-	m_initialSize = GetImageSize();
+	const auto image_size = m_texture->GetDescriptor().GetOriginalSize();
+	m_initialSize = Point(image_size.x, image_size.y);
+
 	GetContext()->RequestLayout();
 	return this;
 }
