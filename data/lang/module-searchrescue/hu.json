@@ -149,131 +149,131 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "HAJÓ LEZUHANT - {planet}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you are just returning now! How much time has been wasted!"
+      "message" : "Nem hiszem el, hogy csak most ért vissza! Elvesztegetett idő!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "A költségek teljes megtérítéséhez {due}-ig vissza kell érnie."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "{starport} repülésirányítása AZONNALI segítséget kér. {planet}-n lezuhant egy hajó. A létfenntartó rendszerek állapota ismeretlen. A hajó a {starport} kikötői biztosítással rendelkezik, {cash} mentési fedezettel vészhelyzet esetére."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+      "message" : "A hajó utolsó ismert helyzete: {lat} szélesség, {long} hosszúság. Lajstromjele a következő: {shiplabel}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
+      "message" : "Micsoda megkönnyebbülés! Hálás köszönet! Azonnal utaljuk a pénzt."
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} fő a fedélzeten."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "A hajón a jelentések szerint {crew} tagú legénység, és {pass} utas tartózkodik. Szükségünk van valakire, aki sürgősen megtalálja a hajót, és elszállítja ide a túlélőket."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "HAJÓ HAJTÓANYAG NÉLKÜL útban {startport} felé."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "Nem hiszem el, hogy ennyi ideig kellett várnunk magára. Felejtse el a fizetséget."
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "A teljes kifizetésért {due} előtt le kell szállítani a hajtóanyagot."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "{starport} torony információi szerint a bejövő {shiplabel} űrhajó hajtóanyagkészletei kifogytak, és kényszerleszállást kellett végrehajtania. A pilóta {cash} fizetséget ajánl sürgősségi hajtóanyagutántöltésért."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "A hajó jelenleg a {lat} szélesség, {long} hosszúság koordinátákon vesztegel, {planet} bolygón. "
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transfered the full reward."
+      "message" : "Köszönöm! Átutaltam a fizetséget."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonna hidrogén áttöltve."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting 1 ton of hydrogen fuel."
+      "message" : "A pilóta 1 tonna hidrogént kér."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "EGÉSZSÉGÜGYI VÉSZHELYZET egy űrhajón {starport} közelében."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "Elfogadhatatlan teljesítmény! Ennek megfelelően iktatjuk az adatbázisunkba."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "A csere pilótának {due} előtt el kell jutnia a hajóra."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "A nevem {name}, {starport} repülésirányításától. Segítségre van szükségem. {shiplabel} lajstromjelű hajó pilótája egészségügyi vészhejzetett jelentett útban {starport} felé."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "A hajó kényszerleszállást hajtott végre a következő koordinátákon: {lat} szélesség, {long} hosszúság."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Köszönöm kapitány! Nem felejtjük el amit értünk tett!"
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} elhagyta a fedélzetet."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Kérem juttasson egy csere pilótát {starport} állomásról a hajóra, hogy vissza tudjanak térni az állomásra."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "HAJÓ HAJTÓANYAG NÉLKÜL {planet} bolygón."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Ne is fáradj tovább. Inkább küldök valaki mást."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "A teljes fizetségért a pilot {due} előtt számít a hajtóanyagra."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Kapcsolatba lépett {starport} repülésirányításával kapcsolatba lépett {shiplabel} lajstromjelű űrhajó pilótája, . Földre kényszerült, mert kifogyott a hajtóanyag, és {cash}-t ajánl annak, aki megtankolja a hajóját."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "A hajó a {planet} bolygón, a {lat}, {long} koordinátákon tartózkodik."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments.."
+      "message" : "Remek. Ajánlani fogjuk későbbi műveletekhez."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonna hidrogén áttöltve."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "A pilóta 1 tonna hidrogént kér."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonna hidrogén áttöltve."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} fő a fedélzeten."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Kutatás és mentés"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Hálás köszönet a segítségért."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",

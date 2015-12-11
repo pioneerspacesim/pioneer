@@ -17,7 +17,7 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "{name} hat das Schiff verlassen."
    },
    "DISTANCE" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Sie haben nicht das nötige Equipment, um diese Mission zu bewältigen. {unit} {equipment} benötigt."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Für die volle Bezahlung erwartet der Pilot von Ihnen, den Treibstoff bis zu {due} zu liefern."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -277,11 +277,11 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "SCHIFF OHNE TREIBSTOFF in der Nähe von {starport}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Auf die Leute ist heutzutage einfach kein Verlass mehr."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "Die Raumverkehrskontrolle von {starport} hat in der Nähe ein Raumschiff ohne Treibstoff mit der ID {shiplabel} identifiziert. Wir werden {cash} an jede beliebige Person zahlen, die das Schiff auftankt, damit es in die Nähe von {starport} fliegen kann."
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
@@ -313,11 +313,11 @@
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a desaster! This is the death sentence to our poor colleagues!"
+      "message" : "Was für eine Katastrophe! Das ist ein Todesurteil für unsere armen Kollegen!"
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "Sie müssen bis {due} zurück sein."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Vielen dank, aber Sie sind zu spät!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "FULL_CARGO" : {
       "description" : "",
-      "message" : "Ship full. No more room for additional cargo."
+      "message" : "Schiff voll. Kein Platz mehr für weitere Ladung."
    },
    "FULL_CREW" : {
       "description" : "",
@@ -385,15 +385,15 @@
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "Wie weit ist das Ziel entfernt?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Wieviel Zeit habe ich?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Interaktion abgebrochen. Bitte kommen Sie näher und versuchen Sie es erneut."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Es muss fertiggestellt werden bis"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location:"
+      "message" : "Ort:"
    },
    "LY" : {
       "description" : "",
@@ -633,6 +633,6 @@
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Wo finde ich das Ziel?"
    }
 }
