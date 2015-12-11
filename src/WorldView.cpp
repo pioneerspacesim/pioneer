@@ -580,10 +580,15 @@ void WorldView::RefreshHeadingPitch(void) {
 	// heading and pitch
 	auto headingPitch = calculateHeadingPitch(m_curPlane);
 	char buf[6];
+	const double heading_deg = RAD2DEG(headingPitch.first);
+	const double pitch_deg = RAD2DEG(headingPitch.second);
 	// \xC2\xB0 is the UTF-8 degree symbol
-	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
+	// normal rounding (as performed by printf) is incorrect for the heading
+	// because it rounds x >= 359.5 *up* to 360 without wrapping back to zero.
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0",
+		(heading_deg < 359.5 ? heading_deg : 0.0));
 	m_headingInfo->SetText(buf);
-	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", pitch_deg);
 	m_pitchInfo->SetText(buf);
 }
 
