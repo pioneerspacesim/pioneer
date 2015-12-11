@@ -3,6 +3,7 @@ December 2015
      * PgUp/PgDn increments time acceleration (configurable) (#3544)
      * New-UI galactic view (#3549)
      * Search & Rescue mission script (#3529)
+     * New config value UIScaleFactor to scale text and images in the UI (#3552)
 
    * Fixes
      * Fix typo in language strings (#3382)
