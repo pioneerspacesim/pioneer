@@ -711,6 +711,10 @@
       "description" : "",
       "message" : "Navigation:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigator"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Verhandeln"
@@ -806,6 +810,10 @@
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Persönliche Informationen"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
    },
    "PILOTING" : {
       "description" : "",
@@ -955,9 +963,17 @@
       "description" : "",
       "message" : "Sensoren:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensoren und Abwehr"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Schiff"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Schiffsingenieur"
    },
    "SHIP_INFORMATION" : {
       "description" : "",

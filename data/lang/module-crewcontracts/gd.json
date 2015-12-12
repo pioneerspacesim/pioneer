@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Ball-sgioba le beagan eòlais"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Seòladair"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Duilich ach chan eil duine a' sireadh fastadh aig {station}:"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "Ceart gu leòr ma-thà."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Paidhleat"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Clàraich daoine a' sireadh fastadh mar sgioba aig {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Mothaichearan 's dìon"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Innleadair luinge"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

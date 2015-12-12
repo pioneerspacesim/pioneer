@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Gemi güvertesinde çok az süre hizmet"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Dümenci"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Sorry, no candidates are currently seeking employment at {station}"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "Tamam, sanırım bu iyi."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilot"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "{station} üstünde iş arıyor olarak kaydolan potansiyel mürettebat üyeleri:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Algılayıcılar ve savunma"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Gemi Mühendisi"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

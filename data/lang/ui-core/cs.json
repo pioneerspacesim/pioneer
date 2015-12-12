@@ -711,6 +711,10 @@
       "description" : "",
       "message" : "Navigace:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigátor"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Vyjenávat"
@@ -806,6 +810,10 @@
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Osobní informace"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
    },
    "PILOTING" : {
       "description" : "",
@@ -955,9 +963,17 @@
       "description" : "",
       "message" : "Senzory:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Senzory a obrana lodi"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Loď"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Údržba lodi"
    },
    "SHIP_INFORMATION" : {
       "description" : "",

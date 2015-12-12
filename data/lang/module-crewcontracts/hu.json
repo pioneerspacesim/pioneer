@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Minimális időt szolgált űrhajón."
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigátor"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Sajnos jelenleg senki sem keres állást."
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "Rendben, azt hiszem jó lesz így."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilóta"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "{station} regisztrált állást kereső űrhajósai:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Érzékelők és védelem"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Hajógépész"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

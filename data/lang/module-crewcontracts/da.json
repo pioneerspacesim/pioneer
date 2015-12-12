@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Minimal tid tjent ombord"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigatør"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Sorry, no candidates are currently seeking employment at {station}"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "OK, det er vel i orden."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilot"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Potentielle besætningsmedlemmer er registreret som jobsøgende på {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Sensorer og forsvar"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Skibets mekaniker"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

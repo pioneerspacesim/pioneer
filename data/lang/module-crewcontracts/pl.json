@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Krótki czas służby na statku"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Nawigator"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Niestety, obecnie nie ma kandydatów poszukujących zatrudnienia na stacji {station}"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "OK, myślę że stawka jest w porządku."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilot"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Potencjalni członkowie załogi, zarejestrowani jako poszukujący zatrudnienia na stacji {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Sensory i obrona"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Mechanik pokładowy"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

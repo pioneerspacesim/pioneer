@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Minsta tjänstgöringstid ombord på skeppet"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigatör"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Inga arbetssökande vid {station} för tillfället"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "OK, jag antar att det är korrekt."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilot"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Potentiella bestättningsmän är registrerade som jobbsökande på {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Sensorer och försvar"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Skeppsingenjör"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",
