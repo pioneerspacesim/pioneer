@@ -443,6 +443,49 @@ static int l_starsystem_attr_name(lua_State *l)
 }
 
 /*
+ * Attribute: description
+ *
+ * A general free-text description of the system.
+ */
+static int l_starsystem_attr_description(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	const std::string &desc = s->GetLongDescription();
+	lua_pushlstring(l, desc.c_str(), desc.size());
+	return 1;
+}
+
+/*
+ * Attribute: shortDescription
+ *
+ * A shorter general free-text description of the system.
+ */
+static int l_starsystem_attr_shortDescription(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	const std::string &desc = s->GetShortDescription();
+	lua_pushlstring(l, desc.c_str(), desc.size());
+	return 1;
+}
+
+/*
+ * Attribute: governmentType
+ *
+ * A <PolitGovType> enum value indicating what form of government this star
+ * system uses.
+ */
+static int l_starsystem_attr_governmentType(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	const SysPolit &sp = s->GetSysPolit();
+	lua_pushstring(l, EnumStrings::GetString("PolitGovType", sp.govType));
+	return 1;
+}
+
+/*
  * Attribute: path
  *
  * The <SystemPath> to the system
@@ -591,9 +634,12 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "name",     l_starsystem_attr_name },
-		{ "path",     l_starsystem_attr_path },
-		{ "rootBody", l_starsystem_attr_rootBody },
+		{ "name",             l_starsystem_attr_name },
+		{ "path",             l_starsystem_attr_path },
+		{ "rootBody",         l_starsystem_attr_rootBody },
+		{ "description",      l_starsystem_attr_description },
+		{ "shortDescription", l_starsystem_attr_shortDescription },
+		{ "governmentType",   l_starsystem_attr_governmentType },
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
