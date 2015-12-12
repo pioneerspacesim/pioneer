@@ -190,8 +190,61 @@ local function buildMagicStarLayout(body)
 	return ui:Expand('HORIZONTAL', ui:VBox(5):PackEnd(rows))
 end
 
+local sysInfoWidgets = {
+	title = ui:Label('SYSTEM NAME'):SetFont('HEADING_LARGE'),
+	sector = ui:Label('[1, 2, 3]'),
+	physicalDesc = ui:Label('Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}'),
+	desc = ui:MultiLineText('System description.'),
+	shortDesc = ui:MultiLineText('Stable system with some stuff.'),
+	govEcon = ui:Label('gov / econ'),
+	allegiance = ui:Label('allegiance'),
+	population = ui:Label('popluation'),
+}
+
+local function HumanizePopulation(pop)
+	if pop >= 1 then
+		return string.format('Over %d billion', pop)
+	elseif pop >= 1e-3 then
+		return string.format('Over %d million', pop * 1000)
+	elseif pop > 0 then
+		return string.format('Only a few thousand')
+	else
+		return 'No registered inhabitants'
+	end
+end
+
+local function initSystemInfo(sys)
+	sysInfoWidgets.title:SetText(sys.name)
+	local path = sys.path
+	sysInfoWidgets.sector:SetText(string.format(
+		'[%d, %d, %d]', path.sectorX, path.sectorY, path.sectorZ))
+	sysInfoWidgets.desc:SetText(sys.description)
+	sysInfoWidgets.shortDesc:SetText(sys.shortDescription)
+	sysInfoWidgets.govEcon:SetText(sys.governmentType)
+	sysInfoWidgets.allegiance:SetText(sys.faction.name)
+	sysInfoWidgets.population:SetText(HumanizePopulation(sys.population))
+end
+
 local currentSystem
-local systemInfoTab = ui:Label('System info goes here')
+local systemInfoTab =
+	ui:Scroller(ui:VBox(5):PackEnd({
+		ui:HBox():PackEnd({
+			sysInfoWidgets.title,
+			ui:Expand('HORIZONTAL', ui:Align('RIGHT', sysInfoWidgets.sector)),
+		}),
+		sysInfoWidgets.shortDesc,
+		"",
+		ui:Label('Quick Info'):SetFont('HEADING_NORMAL'),
+		sysInfoWidgets.physicalDesc,
+		ui:Table():SetColumnAlignment('LEFT'):SetColumnSpacing(20):AddRows({
+			{ui:Label('Government / Economy:'), sysInfoWidgets.govEcon},
+			{ui:Label('Allegiance:'), sysInfoWidgets.allegiance},
+			{ui:Label('Population:'), sysInfoWidgets.population},
+		}),
+		"",
+		ui:Label('Notes'):SetFont('HEADING_NORMAL'),
+		sysInfoWidgets.desc,
+	}))
 local bodyInfoTab = ui:Label('Body info goes here')
 
 local infoTabs = TabView.New()
@@ -219,6 +272,7 @@ ui.templates.SystemInfoView = function ()
 	end
 	if sys ~= currentSystem then
 		currentSystem = sys
+		initSystemInfo(sys)
 		iconsContainer:SetInnerWidget(buildMagicStarLayout(sys.rootBody))
 	end
 	return sysInfoView
