@@ -282,11 +282,13 @@ end
 local currentSystem
 
 ui.templates.SystemInfoView = function ()
-	if currentSystem ~= Game.system then
-		currentSystem = Game.system
-		iconsContainer:SetInnerWidget(buildMagicStarLayout(currentSystem.rootBody))
-		--iconsContainer:SetInnerWidget(buildIconGrid(currentSystem.rootBody))
-		--iconsContainer:SetInnerWidget(buildIconTree(currentSystem.rootBody, 'VBox'))
+	local sys = Game.player:GetHyperspaceTarget() or Game.system
+	if sys:isa('SystemPath') then
+		sys = sys:SystemOnly():GetStarSystem()
+	end
+	if sys ~= currentSystem then
+		currentSystem = sys
+		iconsContainer:SetInnerWidget(buildMagicStarLayout(sys.rootBody))
 	end
 	return sysInfoView
 end
