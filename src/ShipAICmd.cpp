@@ -905,22 +905,30 @@ AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOC
 
 bool AICmdDock::TimeStepUpdate()
 {
-	if (m_ship->GetFlightState() == Ship::JUMPING ||
-	    m_ship->GetFlightState() == Ship::HYPERSPACE) return false;
-
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
-	if (m_state == eDockFlyToStart) IncrementState();				// finished moving into dock start pos
 
+	// finished moving into dock start pos (done by child FlyTo command)
+	if (m_state == eDockFlyToStart) IncrementState();
+
+	// If we're docked with the target, then we're finished!
 	if (m_ship->GetDockedWith() == m_target) {
 		m_ship->ClearThrusterState();
 		return true;
 	}
 
-	if (m_ship->GetFlightState() == Ship::LANDED ||
-	    m_ship->GetFlightState() == Ship::DOCKED) {
+	switch (m_ship->GetFlightState()) {
+	case Ship::UNDOCKING: return false; // allow undock animation to proceed
+	case Ship::DOCKED:
+	case Ship::LANDED:
 		LaunchShip(m_ship);
 		return false;
+	case Ship::JUMPING:
+	case Ship::HYPERSPACE:
+		return false;
+	case Ship::FLYING:
+	case Ship::DOCKING:
+		break;
 	}
 
 	// if we're not close to target, do a flyto first
@@ -968,7 +976,7 @@ bool AICmdDock::TimeStepUpdate()
 		// should have m_dockpos in target frame, dirs relative to target orient
 	}
 
-	if (m_state == 1) {			// fly to first docking waypoint
+	if (m_state == eDockFlyToStart) {			// fly to first docking waypoint
 		m_child.reset(new AICmdFlyTo(m_ship, m_target->GetFrame(), m_dockpos, 0.0, false));
 		ProcessChild(); return false;
 	}
