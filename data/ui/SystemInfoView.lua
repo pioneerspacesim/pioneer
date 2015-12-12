@@ -3,13 +3,31 @@ local Game = import("Game")
 local Lang = import("Lang")
 local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
+local TabView = import("ui/TabView")
 
 local iconsContainer = ui:Align('TOP_LEFT'):SetFont('SMALL')
 
+local systemInfoTab = ui:Label('System info goes here')
+local bodyInfoTab = ui:Label('Body info goes here')
+
+local infoTabs = TabView.New()
+infoTabs:AddTab({
+	id = 'System', title = 'System', icon = 'Star',
+	template = function () return systemInfoTab; end
+})
+infoTabs:AddTab({
+	id = 'Body', title = 'Body', icon = 'Planet',
+	template = function () return bodyInfoTab; end
+})
+
 local sysInfoView =
-	ui:Grid(2,1)
-		:SetCell(0,0, ui:Margin(20, 'ALL', ui:Scroller(iconsContainer)))
-		:SetCell(1,0, ui:Margin(20, 'ALL', ui:Label('System Information'):SetFont('HEADING_LARGE')))
+	ui:Margin(4, 'ALL',
+		ui:Grid({3,7}, 1)
+			:SetCell(0,0, ui:Margin(2, 'RIGHT', ui:Background(ui:Scroller(iconsContainer))))
+			:SetCell(1,0, ui:Margin(2, 'LEFT', ui:Background(infoTabs)))
+	)
+
+-- ui:Label('System Information'):SetFont('HEADING_LARGE')
 
 local ICON_MAP = {
 	BROWN_DWARF = 'icons/object_brown_dwarf.png',
@@ -122,13 +140,17 @@ local function pickIcon(body)
 	return filepath
 end
 
+local function iconWidget(ui, iconPath)
+	return ui:Image(iconPath, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5)
+end
+
 local FLIP_DIR = { ['HBox'] = 'VBox', ['VBox'] = 'HBox' }
 
 local function collectGridWidgets(body, offset, icons, labels)
 	local icon = pickIcon(body)
 	if icon ~= nil then
 		icons[#icons+1] =
-			ui:Align('LEFT', ui:Margin(offset, 'LEFT', ui:Image(icon, {'PRESERVE_ASPECT'})))
+			ui:Align('LEFT', ui:Margin(offset, 'LEFT', iconWidget(ui, icon)))
 			--ui:Align('MIDDLE', )
 		labels[#labels+1] =
 			ui:Align('LEFT', ui:Margin(offset, 'LEFT', ui:Label(body.name)))
@@ -158,7 +180,7 @@ local function buildIconTree(body, dir, level)
 	if icon ~= nil then
 		iconWidget =
 			ui:HBox(2):PackEnd({
-				ui:Align('MIDDLE', ui:Image(icon, {'PRESERVE_ASPECT'})),
+				ui:Align('MIDDLE', iconWidget(ui, icon)),
 				ui:Align('LEFT', ui:Label(body.name)),
 			})
 	end
@@ -185,7 +207,7 @@ end
 local function bodyIconImage(body)
 	local icon = pickIcon(body)
 	if icon ~= nil then
-		return ui:Image(icon, {'PRESERVE_ASPECT'})
+		return iconWidget(ui, icon)
 	else
 		return nil
 	end
@@ -217,22 +239,35 @@ local function buildMagicPlanetLayout(body)
 		end
 	end
 
-	return ui:HBox(5):PackEnd({
-			ui:Align('LEFT', icon),
-			ui:VBox(2):PackEnd({
-				ui:Margin(2, 'VERTICAL', ui:Align('TOP_LEFT', body.name)),
-				ui:HBox(2):PackEnd(cols)
-			})
+	local info =
+		ui:VBox(2):PackEnd({
+			ui:Align('TOP_LEFT', body.name),
+			ui:HBox(2):PackEnd(cols)
 		})
+	return icon, info
 end
 
 local function buildMagicStarLayout(body)
 	local rows = {
-		ui:HBox(10):PackEnd({
-			ui:Align('LEFT', bodyIconImage(body)),
-			ui:Margin(10, 'TOP', ui:Align('TOP_LEFT', body.name))
-		})
+		ui:Align('MIDDLE', ui:Label(body.name):SetFont('HEADING_SMALL')),
+		ui:Align('MIDDLE', bodyIconImage(body)),
 	}
+	-- table layout
+	local planetTable = ui:Table()
+			:SetRowAlignment('CENTER')
+			:SetColumnAlignment('LEFT')
+			:SetColumnSpacing(5)
+			:SetRowSpacing(2)
+	local children = body:GetChildren()
+	for i = 1, #children do
+		local icon, info = buildMagicPlanetLayout(children[i])
+		if icon ~= nil then
+			planetTable:AddRow({ui:Align('MIDDLE', icon), info})
+		end
+	end
+	rows[#rows + 1] = planetTable
+--[[
+	-- tree of boxes layout
 	local children = body:GetChildren()
 	for i = 1, #children do
 		local tree = buildMagicPlanetLayout(children[i])
@@ -240,7 +275,8 @@ local function buildMagicStarLayout(body)
 			rows[#rows + 1] = tree
 		end
 	end
-	return ui:VBox(5):PackEnd(rows)
+--]]
+	return ui:Expand('HORIZONTAL', ui:VBox(5):PackEnd(rows))
 end
 
 local currentSystem
