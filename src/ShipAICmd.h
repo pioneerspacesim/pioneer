@@ -10,18 +10,18 @@
 #include "Pi.h"
 #include "Game.h"
 #include "json/JsonUtils.h"
+#include "libs.h"
 
 class AICommand {
 public:
 	// This enum is solely to make the serialization work
 	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
 
-	AICommand(Ship *ship, CmdName name) {
-	   	m_ship = ship; m_cmdName = name;
-		m_child = 0;
+	AICommand(Ship *ship, CmdName name):
+		m_ship(ship), m_cmdName(name) {
 		m_ship->AIMessage(Ship::AIERROR_NONE);
 	}
-	virtual ~AICommand() { if (m_child) delete m_child; }
+	virtual ~AICommand() {}
 
 	virtual bool TimeStepUpdate() = 0;
 	bool ProcessChild();				// returns false if child is active
@@ -40,9 +40,9 @@ public:
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
 protected:
-	CmdName m_cmdName;
 	Ship *m_ship;
-	AICommand *m_child;
+	std::unique_ptr<AICommand> m_child;
+	CmdName m_cmdName;
 
 	int m_shipIndex; // deserialisation
 };
@@ -130,7 +130,7 @@ public:
 			m_targframe->GetLabel().c_str(), m_posoff.Length()/1000.0, m_endvel/1000.0, m_state);
 	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
-		if (m_child) { delete m_child; m_child = 0; }
+		if (m_child) { m_child.reset(); }
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
 		AICommand::SaveToJson(aiCommandObj);
 		aiCommandObj["index_for_target"] = Pi::game->GetSpace()->GetIndexForBody(m_target);
@@ -197,7 +197,7 @@ public:
 			m_alt/1000.0, m_vel/1000.0, m_targmode);
 	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
-		if (m_child) { delete m_child; m_child = 0; }
+		if (m_child) { m_child.reset(); }
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
 		AICommand::SaveToJson(aiCommandObj);
 		aiCommandObj["index_for_obstructor"] = Pi::game->GetSpace()->GetIndexForBody(m_obstructor);
@@ -329,7 +329,7 @@ public:
 			m_target->GetLabel().c_str(), m_posoff.Length()/1000.0);
 	}
 	virtual void SaveToJson(Json::Value &jsonObj) {
-		if (m_child) { delete m_child; m_child = 0; }
+		if (m_child) { m_child.reset(); }
 		Json::Value aiCommandObj(Json::objectValue); // Create JSON object to contain ai command data.
 		AICommand::SaveToJson(aiCommandObj);
 		aiCommandObj["index_for_target"] = Pi::game->GetSpace()->GetIndexForBody(m_target);
