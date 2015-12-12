@@ -10,6 +10,7 @@ December 2015
      * Fix crash upon illegal activity in uninhabited system (#3555)
      * Fix BBS icon for new S-R mission module (#3558)
      * Galactic view fixes (#3557)
+     * Fix rounding of the 'heading' display (#3550, #3561)
 
    * Internal Changes
      * Face parts (head/hair/eyes/nose/mouth) can now be non-gendered (#3548)
