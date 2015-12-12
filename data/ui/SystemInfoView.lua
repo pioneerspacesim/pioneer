@@ -109,81 +109,17 @@ local ICON_MAP = {
 }
 
 local function pickIcon(body)
-	local filepath = ICON_MAP[body.type]
-	if type(filepath) == 'function' then
-		filepath = filepath(body)
+	local icon = ICON_MAP[body.type]
+	if type(icon) == 'function' then
+		icon = icon(body)
 	end
-	return filepath
-end
-
-local function iconWidget(ui, iconPath)
-	return ui:Image(iconPath, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5)
-end
-
-local FLIP_DIR = { ['HBox'] = 'VBox', ['VBox'] = 'HBox' }
-
-local function collectGridWidgets(body, offset, icons, labels)
-	local icon = pickIcon(body)
-	if icon ~= nil then
-		icons[#icons+1] =
-			ui:Align('LEFT', ui:Margin(offset, 'LEFT', iconWidget(ui, icon)))
-			--ui:Align('MIDDLE', )
-		labels[#labels+1] =
-			ui:Align('LEFT', ui:Margin(offset, 'LEFT', ui:Label(body.name)))
-	end
-
-	local children = body:GetChildren()
-	local noffset = offset + 20
-	for i = 1, #children do
-		collectGridWidgets(children[i], noffset, icons, labels)
-	end
-end
-
-local function buildIconGrid(root)
-	local icons, labels = {}, {}
-	collectGridWidgets(root, 0, icons, labels)
-	local grid = ui:Table():SetRowAlignment('CENTER'):SetColumnAlignment('CENTER')
-	for i = 1, #icons do
-		grid:AddRow({icons[i], labels[i]})
-	end
-	return grid
-end
-
-local function buildIconTree(body, dir, level)
-	level = level or '0'
-	local icon = pickIcon(body)
-	local iconWidget
-	if icon ~= nil then
-		iconWidget =
-			ui:HBox(2):PackEnd({
-				ui:Align('MIDDLE', iconWidget(ui, icon)),
-				ui:Align('LEFT', ui:Label(body.name)),
-			})
-	end
-	print(string.format('%s %s (%s)', string.rep('+', level), body.name, tostring(icon)))
-
-	local children = body:GetChildren()
-	local nlevel = level + 1
-	local ndir = dir --FLIP_DIR[dir]
-	local subwidgets = {}
-	for i = 1, #children do
-		local sw = buildIconTree(children[i], ndir, nlevel)
-		if sw ~= nil then
-			subwidgets[#subwidgets+1] = sw
-		end
-	end
-
-	if #subwidgets > 0 then
-		return ui[dir](ui, 5):PackEnd(iconWidget):PackEnd(subwidgets)
-	else
-		return iconWidget -- may be nil
-	end
+	return icon
 end
 
 local function bodyIconImage(body)
 	local icon = pickIcon(body)
 	if icon ~= nil then
-		return iconWidget(ui, icon)
+		return ui:Image(icon, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5)
 	else
 		return nil
 	end
