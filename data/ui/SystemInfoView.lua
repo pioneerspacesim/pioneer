@@ -190,6 +190,25 @@ local function buildMagicStarLayout(body)
 	return ui:Expand('HORIZONTAL', ui:VBox(5):PackEnd(rows))
 end
 
+local GOVTYPE_DESCRIPTIONS = {
+	['NONE'] = 'No central governance / No economic order',
+	['EARTHCOLONIAL'] = 'Earth Federation Colonial Rule / Capitalism',
+	['EARTHDEMOC'] = 'Earth Federation Democracy / Capitalism',
+	['EMPIRERULE'] = 'Imperial Rule / Planned economy',
+	['CISLIBDEM'] = 'Liberal Democracy / Capitalism',
+	['CISSOCDEM'] = 'Social Democracy / Mixed economy',
+	['LIBDEM'] = 'Liberal Democracy / Capitalism',
+	['CORPORATE'] = 'Corporate system / Capitalism',
+	['SOCDEM'] = 'Social Democracy / Mixed economy',
+	['EARTHMILDICT'] = 'Military dictatorship / Capitalism',
+	['MILDICT1'] = 'Military dictatorship / Capitalism',
+	['MILDICT2'] = 'Military dictatorship / Mixed economy',
+	['EMPIREMILDICT'] = 'Military dictatorship / Mixed economy',
+	['COMMUNIST'] = 'Communism / Planned economy',
+	['PLUTOCRATIC'] = 'Plutocratic dictatorship / Hard capitalism (no welfare provision)',
+	['DISORDER'] = 'Anarchy / No economic order',
+}
+
 local sysInfoWidgets = {
 	title = ui:Label('SYSTEM NAME'):SetFont('HEADING_LARGE'),
 	sector = ui:Label('[1, 2, 3]'),
@@ -220,7 +239,7 @@ local function initSystemInfo(sys)
 		'[%d, %d, %d]', path.sectorX, path.sectorY, path.sectorZ))
 	sysInfoWidgets.desc:SetText(sys.description)
 	sysInfoWidgets.shortDesc:SetText(sys.shortDescription)
-	sysInfoWidgets.govEcon:SetText(sys.governmentType)
+	sysInfoWidgets.govEcon:SetText(GOVTYPE_DESCRIPTIONS[sys.governmentType])
 	sysInfoWidgets.allegiance:SetText(sys.faction.name)
 	sysInfoWidgets.population:SetText(HumanizePopulation(sys.population))
 end
