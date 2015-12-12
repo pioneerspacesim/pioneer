@@ -905,13 +905,22 @@ AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOC
 
 bool AICmdDock::TimeStepUpdate()
 {
-	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
+	if (m_ship->GetFlightState() == Ship::JUMPING ||
+	    m_ship->GetFlightState() == Ship::HYPERSPACE) return false;
+
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
 	if (m_state == eDockFlyToStart) IncrementState();				// finished moving into dock start pos
-	if (m_ship->GetFlightState() != Ship::FLYING) {		// todo: should probably launch if docked with something else
+
+	if (m_ship->GetDockedWith() == m_target) {
 		m_ship->ClearThrusterState();
-		return true; // docked, hopefully
+		return true;
+	}
+
+	if (m_ship->GetFlightState() == Ship::LANDED ||
+	    m_ship->GetFlightState() == Ship::DOCKED) {
+		LaunchShip(m_ship);
+		return false;
 	}
 
 	// if we're not close to target, do a flyto first
