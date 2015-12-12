@@ -396,11 +396,12 @@ local onCreateBB = function (station)
 									hopefulCrew.piloting,
 									hopefulCrew.navigation,
 									hopefulCrew.sensors)
+		hopefulCrew.title = 'GENERAL_CREW'
 		if maxScore > 45 then
-			if hopefulCrew.engineering == maxScore then hopefulCrew.title = l.SHIPS_ENGINEER end
-			if hopefulCrew.piloting == maxScore then hopefulCrew.title = l.PILOT end
-			if hopefulCrew.navigation == maxScore then hopefulCrew.title = l.NAVIGATOR end
-			if hopefulCrew.sensors == maxScore then hopefulCrew.title = l.SENSORS_AND_DEFENCE end
+			if hopefulCrew.engineering == maxScore then hopefulCrew.title = 'SHIPS_ENGINEER' end
+			if hopefulCrew.piloting == maxScore then hopefulCrew.title = 'PILOT' end
+			if hopefulCrew.navigation == maxScore then hopefulCrew.title = 'NAVIGATOR' end
+			if hopefulCrew.sensors == maxScore then hopefulCrew.title = 'SENSORS_AND_DEFENCE' end
 		end
 		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
 	end
