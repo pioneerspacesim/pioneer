@@ -16,7 +16,7 @@ Point OverlayStack::PreferredSize()
 void OverlayStack::Layout()
 {
 	Point sz = GetSize();
-	for (auto it : Container::GetWidgets()) {
+	for (auto it : GetWidgets()) {
 		SetWidgetDimensions(it.Get(), Point(), it->CalcSize(sz));
 		it->Layout();
 	}
