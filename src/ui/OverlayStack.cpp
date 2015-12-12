@@ -5,8 +5,10 @@ namespace UI {
 Point OverlayStack::PreferredSize()
 {
 	Point sz(0, 0);
-	for (auto it : Container::GetWidgets()) {
-		sz = Point::Max(sz, it->CalcLayoutContribution());
+	for (auto it : GetWidgets()) {
+		Point wantSize = it->CalcLayoutContribution();
+		if (wantSize.x != SIZE_EXPAND) { sz.x = std::max(sz.x, wantSize.x); }
+		if (wantSize.y != SIZE_EXPAND) { sz.y = std::max(sz.y, wantSize.y); }
 	}
 	return sz;
 }
