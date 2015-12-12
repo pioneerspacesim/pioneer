@@ -116,22 +116,42 @@ local function pickIcon(body)
 	return icon
 end
 
-local function bodyIconImage(body)
+local selectionRing =
+	ui:Image('textures/green_selection_ring.png',
+		{'EXPAND_WIDTH', 'EXPAND_HEIGHT'})
+
+local currentBody, currentBodyIconStack
+local function handleClickBodyIcon(body, iconStack)
+	print('clicked ', body.name)
+	if currentBody == body then return end
+	-- if currentBodyIconStack ~= nil then
+	-- 	currentBodyIconStack:PopLayer()
+	-- end
+	iconStack:AddLayer(selectionRing)
+	currentBody = body
+	-- currentBodyIconStack = iconStack
+end
+
+local function bodyIconButton(body, onClick)
 	local icon = pickIcon(body)
 	if icon ~= nil then
-		return ui:Image(icon, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5)
+		local stack = ui:OverlayStack()
+			:AddLayer(ui:Margin(3, 'ALL',
+				ui:Image(icon, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5)))
+		stack.onClick:Connect(function () onClick(body, stack); end)
+		return stack
 	else
 		return nil
 	end
 end
 
 local function buildMagicMoonLayout(body)
-	local icon = bodyIconImage(body)
+	local icon = bodyIconButton(body, handleClickBodyIcon)
 	if icon == nil then return nil end
 	local rows = { ui:Align('TOP', icon) }
 	local children = body:GetChildren()
 	for i = 1, #children do
-		local icon = bodyIconImage(children[i])
+		local icon = bodyIconButton(children[i], handleClickBodyIcon)
 		if icon ~= nil then
 			rows[#rows + 1] = ui:Align('TOP', icon)
 		end
@@ -140,7 +160,7 @@ local function buildMagicMoonLayout(body)
 end
 
 local function buildMagicPlanetLayout(body)
-	local icon = bodyIconImage(body)
+	local icon = bodyIconButton(body, handleClickBodyIcon)
 	if icon == nil then return nil end
 	local cols = {}
 	local children = body:GetChildren()
@@ -154,7 +174,7 @@ local function buildMagicPlanetLayout(body)
 	local info =
 		ui:VBox(2):PackEnd({
 			ui:Align('TOP_LEFT', body.name),
-			ui:HBox(2):PackEnd(cols)
+			ui:HBox(0):PackEnd(cols)
 		})
 	return icon, info
 end
@@ -170,14 +190,14 @@ local function buildMagicStarLayout(body)
 	for istar = 1, #stars do
 		local star = stars[istar]
 		rows[#rows + 1] = ui:Align('MIDDLE', ui:Label(star.name):SetFont('HEADING_SMALL'))
-		rows[#rows + 1] = ui:Align('MIDDLE', bodyIconImage(star))
+		rows[#rows + 1] = ui:Align('MIDDLE', bodyIconButton(star, handleClickBodyIcon))
 		local children = star:GetChildren()
 		if #children > 0 then
 			local planetTable = ui:Table()
 					:SetRowAlignment('CENTER')
 					:SetColumnAlignment('LEFT')
-					:SetColumnSpacing(5)
-					:SetRowSpacing(2)
+					:SetColumnSpacing(3)
+					:SetRowSpacing(0)
 			for ichild = 1, #children do
 				local icon, info = buildMagicPlanetLayout(children[ichild])
 				if icon ~= nil then
@@ -187,7 +207,7 @@ local function buildMagicStarLayout(body)
 			rows[#rows + 1] = planetTable
 		end
 	end
-	return ui:Expand('HORIZONTAL', ui:VBox(5):PackEnd(rows))
+	return ui:Expand('HORIZONTAL', ui:VBox(3):PackEnd(rows))
 end
 
 local GOVTYPE_DESCRIPTIONS = {
