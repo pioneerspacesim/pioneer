@@ -28,6 +28,13 @@ OverlayStack *OverlayStack::AddLayer(Widget *widget)
 	return this;
 }
 
+void OverlayStack::PopLayer()
+{
+	if (GetNumWidgets() < 1) { return; }
+	const auto it = (GetWidgets().end() - 1);
+	RemoveWidget(it->Get());
+}
+
 void OverlayStack::Clear()
 {
 	RemoveAllWidgets();
