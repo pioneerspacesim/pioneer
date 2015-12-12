@@ -5,30 +5,6 @@ local ui = Engine.ui
 local l = Lang.GetResource("ui-core")
 local TabView = import("ui/TabView")
 
-local iconsContainer = ui:Align('TOP_LEFT'):SetFont('SMALL')
-
-local systemInfoTab = ui:Label('System info goes here')
-local bodyInfoTab = ui:Label('Body info goes here')
-
-local infoTabs = TabView.New()
-infoTabs:AddTab({
-	id = 'System', title = 'System', icon = 'Star',
-	template = function () return systemInfoTab; end
-})
-infoTabs:AddTab({
-	id = 'Body', title = 'Body', icon = 'Planet',
-	template = function () return bodyInfoTab; end
-})
-
-local sysInfoView =
-	ui:Margin(4, 'ALL',
-		ui:Grid({3,7}, 1)
-			:SetCell(0,0, ui:Margin(2, 'RIGHT', ui:Background(ui:Scroller(iconsContainer))))
-			:SetCell(1,0, ui:Margin(2, 'LEFT', ui:Background(infoTabs)))
-	)
-
--- ui:Label('System Information'):SetFont('HEADING_LARGE')
-
 local ICON_MAP = {
 	BROWN_DWARF = 'icons/object_brown_dwarf.png',
 	WHITE_DWARF = 'icons/object_white_dwarf.png',
@@ -248,38 +224,57 @@ local function buildMagicPlanetLayout(body)
 end
 
 local function buildMagicStarLayout(body)
-	local rows = {
-		ui:Align('MIDDLE', ui:Label(body.name):SetFont('HEADING_SMALL')),
-		ui:Align('MIDDLE', bodyIconImage(body)),
-	}
-	-- table layout
-	local planetTable = ui:Table()
-			:SetRowAlignment('CENTER')
-			:SetColumnAlignment('LEFT')
-			:SetColumnSpacing(5)
-			:SetRowSpacing(2)
-	local children = body:GetChildren()
-	for i = 1, #children do
-		local icon, info = buildMagicPlanetLayout(children[i])
-		if icon ~= nil then
-			planetTable:AddRow({ui:Align('MIDDLE', icon), info})
+	local stars
+	if body.type == 'GRAVPOINT' then
+		stars = body:GetChildren()
+	else
+		stars = { body }
+	end
+	local rows = {}
+	for istar = 1, #stars do
+		local star = stars[istar]
+		rows[#rows + 1] = ui:Align('MIDDLE', ui:Label(star.name):SetFont('HEADING_SMALL'))
+		rows[#rows + 1] = ui:Align('MIDDLE', bodyIconImage(star))
+		local children = star:GetChildren()
+		if #children > 0 then
+			local planetTable = ui:Table()
+					:SetRowAlignment('CENTER')
+					:SetColumnAlignment('LEFT')
+					:SetColumnSpacing(5)
+					:SetRowSpacing(2)
+			for ichild = 1, #children do
+				local icon, info = buildMagicPlanetLayout(children[ichild])
+				if icon ~= nil then
+					planetTable:AddRow({ui:Align('MIDDLE', icon), info})
+				end
+			end
+			rows[#rows + 1] = planetTable
 		end
 	end
-	rows[#rows + 1] = planetTable
---[[
-	-- tree of boxes layout
-	local children = body:GetChildren()
-	for i = 1, #children do
-		local tree = buildMagicPlanetLayout(children[i])
-		if tree ~= nil then
-			rows[#rows + 1] = tree
-		end
-	end
---]]
 	return ui:Expand('HORIZONTAL', ui:VBox(5):PackEnd(rows))
 end
 
 local currentSystem
+local systemInfoTab = ui:Label('System info goes here')
+local bodyInfoTab = ui:Label('Body info goes here')
+
+local infoTabs = TabView.New()
+infoTabs:AddTab({
+	id = 'System', title = 'System', icon = 'Star',
+	template = function () return systemInfoTab; end
+})
+infoTabs:AddTab({
+	id = 'Body', title = 'Body', icon = 'Planet',
+	template = function () return bodyInfoTab; end
+})
+
+local iconsContainer = ui:Scroller():SetFont('SMALL')
+local sysInfoView =
+	ui:Margin(4, 'ALL',
+		ui:Grid({3,7}, 1)
+			:SetCell(0,0, ui:Margin(2, 'RIGHT', ui:Background(iconsContainer)))
+			:SetCell(1,0, ui:Margin(2, 'LEFT', ui:Background(infoTabs)))
+	)
 
 ui.templates.SystemInfoView = function ()
 	local sys = Game.player:GetHyperspaceTarget() or Game.system
