@@ -88,7 +88,7 @@ local ICON_MAP = {
 		local mass, averageTemp = body.mass, body.averageTemp
 		local volatileGas, volatileLiquid, volatileIces =
 				body.volatileGas, body.volatileLiquid, body.volatileIces
-		local volcanicity, atmosOxidising = body.volcanicity, body.atmosOxidising
+		local volcanicity, atmosOxidizing = body.volcanicity, body.atmosOxidizing
 		local life = body.life
 		if volatileLiquid > 0.7 then
 			if averageTemp > 250 then return 'icons/object_planet_water.png'
@@ -109,7 +109,7 @@ local ICON_MAP = {
 			if volatileIces > volatileLiquid or averageTemp < 250 then return 'icons/object_planet_ice.png'
 			else return 'icons/object_planet_water.png' end
 		elseif volatileGas > 0.5 then
-			if atmosOxidising > 0.5 then
+			if atmosOxidizing > 0.5 then
 				if averageTemp > 300 then
 					return 'icons/object_planet_co2_2.png'
 				elseif averageTemp > 250 then
