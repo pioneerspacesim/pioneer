@@ -22,9 +22,9 @@ public:
 	// specified number of text lines in the widget's current font.
 	Image *SetHeightLines(Uint32 lines);
 
-	// SetNaturalSize sets the widget's preferred size to match the size of
-	// the image data.
-	Image *SetNaturalSize();
+	// SetNaturalSize sets the widget's preferred size to match the display
+	// dimensions, scaled by the given factor.
+	Image *SetNaturalSize(float scale = 1.0f);
 
 	// SetTransform applies a uniform scaling and an offset operation to the
 	// image at display time (this can be used to zoom in on the image).

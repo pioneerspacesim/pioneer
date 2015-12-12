@@ -9,11 +9,11 @@ namespace UI {
 
 namespace {
 
-static Point CalcDisplayDimensions(const UI::Context *context, const Graphics::Texture *texture)
+static Point CalcDisplayDimensions(const UI::Context *context, const Graphics::Texture *texture, float scale)
 {
-	const auto image_size = texture->GetDescriptor().GetOriginalSize();
-	const float scale = context->GetScale();
-	return Point(scale * image_size.x, scale * image_size.y);
+	const auto size =
+		(context->GetScale() * scale) * texture->GetDescriptor().GetOriginalSize();
+	return Point(size.x, size.y);
 }
 
 }
@@ -27,7 +27,7 @@ Image::Image(Context *context, const std::string &filename, Uint32 sizeControlFl
 	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(filename);
 	m_texture.Reset(b.GetOrCreateTexture(GetContext()->GetRenderer(), "ui"));
 
-	m_initialSize = CalcDisplayDimensions(GetContext(), m_texture.Get());
+	m_initialSize = CalcDisplayDimensions(GetContext(), m_texture.Get(), 1.0f);
 
 	Graphics::MaterialDescriptor material_desc;
 	material_desc.textures = 1;
@@ -56,10 +56,10 @@ Image *Image::SetHeightLines(Uint32 lines)
 	return this;
 }
 
-Image *Image::SetNaturalSize()
+Image *Image::SetNaturalSize(float scale)
 {
 	m_needsRefresh = true;
-	m_initialSize = CalcDisplayDimensions(GetContext(), m_texture.Get());
+	m_initialSize = CalcDisplayDimensions(GetContext(), m_texture.Get(), scale);
 	GetContext()->RequestLayout();
 	return this;
 }
