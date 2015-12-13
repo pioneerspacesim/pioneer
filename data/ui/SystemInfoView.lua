@@ -120,26 +120,26 @@ local selectionRing =
 	ui:Image('textures/green_selection_ring.png',
 		{'EXPAND_WIDTH', 'EXPAND_HEIGHT'})
 
-local currentBody, currentBodyIconStack
-local function handleClickBodyIcon(body, iconStack)
+local currentBody, currentBodyIconSelector
+local function handleClickBodyIcon(body, selector)
 	print('clicked ', body.name)
 	if currentBody == body then return end
-	-- if currentBodyIconStack ~= nil then
-	-- 	currentBodyIconStack:PopLayer()
-	-- end
-	iconStack:AddLayer(selectionRing)
+	if currentBodyIconSelector ~= nil then
+		currentBodyIconSelector:SetShown(false)
+	end
+	selector:SetShown(true)
 	currentBody = body
-	-- currentBodyIconStack = iconStack
+	currentBodyIconSelector = selector
 end
 
 local function bodyIconButton(body, onClick)
 	local icon = pickIcon(body)
 	if icon ~= nil then
-		local stack = ui:OverlayStack()
-			:AddLayer(ui:Margin(3, 'ALL',
-				ui:Image(icon, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5)))
-		stack.onClick:Connect(function () onClick(body, stack); end)
-		return stack
+		local selector = ui:SelectorBox('RECT',
+			ui:Image(icon, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5))
+		selector:SetColor(0,0.9,0):SetShown(false)
+		selector.onClick:Connect(function () onClick(body, selector); end)
+		return selector
 	else
 		return nil
 	end
@@ -156,7 +156,7 @@ local function buildMagicMoonLayout(body)
 			rows[#rows + 1] = ui:Align('TOP', icon)
 		end
 	end
-	return ui:VBox(1):PackEnd(rows)
+	return ui:VBox(0):PackEnd(rows)
 end
 
 local function buildMagicPlanetLayout(body)
@@ -172,7 +172,7 @@ local function buildMagicPlanetLayout(body)
 	end
 
 	local info =
-		ui:VBox(2):PackEnd({
+		ui:VBox(1):PackEnd({
 			ui:Align('TOP_LEFT', body.name),
 			ui:HBox(0):PackEnd(cols)
 		})
