@@ -27,6 +27,12 @@ public:
 		return 1;
 	}
 
+	static int l_attr_shown(lua_State *l) {
+		UI::SelectorBox *sbox = LuaObject<UI::SelectorBox>::CheckFromLua(1);
+		lua_pushboolean(l, sbox->IsShown());
+		return 1;
+	}
+
 };
 
 }
@@ -45,6 +51,11 @@ template <> void LuaObject<UI::SelectorBox>::RegisterClass()
 		{ 0, 0 }
 	};
 
-	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	static const luaL_Reg l_attrs[] = {
+		{ "shown", LuaSelectorBox::l_attr_shown },
+		{ 0, 0 }
+	};
+
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, l_attrs, 0);
 	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<UI::SelectorBox>::DynamicCastPromotionTest);
 }
