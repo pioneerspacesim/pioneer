@@ -569,7 +569,7 @@
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Гиперпрыжок через %countdown{f.0} сек."
+      "message" : "Обратный отсчёт до гиперпрыжка: %countdown{f.0} сек."
    },
    "H_ATMOSPHERE" : {
       "description" : "",
