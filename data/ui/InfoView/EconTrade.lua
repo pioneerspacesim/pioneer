@@ -5,6 +5,7 @@ local Engine = import("Engine")
 local Lang = import("Lang")
 local Game = import("Game")
 local Equipment = import("Equipment")
+local ShipDef = import("ShipDef")
 
 local SmallLabeledButton = import("ui/SmallLabeledButton")
 local InfoGauge = import("ui/InfoGauge")
@@ -96,11 +97,14 @@ local econTrade = function ()
 	-- Define the refuel button
 	local refuelButton = SmallLabeledButton.New(l.REFUEL)
 	local refuelMaxButton = SmallLabeledButton.New(l.REFUEL_FULL)
+	local pumpDownButton = SmallLabeledButton.New(l.PUMP_DOWN)
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:CountEquip(Equipment.cargo.hydrogen) == 0 then
 			refuelButton.widget:Disable()
 			refuelMaxButton.widget:Disable()
+		elseif Game.player.fuel == 0 then
+			pumpDownButton.widget:Disable()
 		end
 		local fuel_percent = Game.player.fuel/100
 		fuelGauge.gauge:SetValue(fuel_percent)
@@ -128,8 +132,18 @@ local econTrade = function ()
 		refuelButtonRefresh()
 	end
 
+	local pumpDown = function ()
+		local fuelTankMass = ShipDef[Game.player.shipId].fuelTankMass
+		local drainedFuel = Game.player:AddEquip(Equipment.cargo.hydrogen, 1)
+		Game.player:SetFuelPercent(Game.player.fuel - drainedFuel * 100 / fuelTankMass)
+		cargoListWidget:SetInnerWidget(updateCargoListWidget())
+
+		refuelButtonRefresh()
+	end
+
 	refuelButton.button.onClick:Connect(refuel)
 	refuelMaxButton.button.onClick:Connect(refuelMax)
+	pumpDownButton.button.onClick:Connect(pumpDown)
 
 	return ui:Expand():SetInnerWidget(
 		ui:Grid({48,4,48},1)
@@ -178,6 +192,7 @@ local econTrade = function ()
 								ui:VBox(5):PackEnd({
 									refuelButton.widget,
 									refuelMaxButton.widget,
+									pumpDownButton.widget,
 								}),
 							})
 					})
