@@ -687,10 +687,6 @@
       "description" : "",
       "message" : "Live Animals"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "locked"
@@ -943,10 +939,6 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Norma arm"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Not found"
@@ -1075,10 +1067,6 @@
       "description" : "",
       "message" : "Outdoor agricultural world."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Outer arm"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Over %population billion"
@@ -1102,10 +1090,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsis distance"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Perseus arm"
    },
    "PIONEER" : {
       "description" : "",
@@ -1243,10 +1227,6 @@
       "description" : "",
       "message" : "Rubbish"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Sagittarius arm"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Scanner control"
@@ -1258,10 +1238,6 @@
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Scoop"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Scutum-Centaurus arm"
    },
    "SEARCH" : {
       "description" : "",
@@ -1606,10 +1582,6 @@
    "THIN" : {
       "description" : "",
       "message" : "thin"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
