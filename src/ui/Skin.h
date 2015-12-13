@@ -31,6 +31,13 @@ public:
 		DrawBorderedRectElement(m_backgroundActive, pos, size);
 	}
 
+	void DrawSelectorRect(const Point &pos, const Point &size, const Color &color) const {
+		DrawBorderedRectElementTinted(m_selectorRect, pos, size, color);
+	}
+	void DrawSelectorBracket(const Point &pos, const Point &size, const Color &color) const {
+		DrawBorderedRectElementTinted(m_selectorBracket, pos, size, color);
+	}
+
 	void DrawButtonDisabled(const Point &pos, const Point &size) const {
 		DrawBorderedRectElement(m_buttonDisabled, pos, size);
 	}
@@ -171,6 +178,9 @@ public:
 	const BorderedRectElement &BackgroundNormal() const { return m_backgroundNormal; }
 	const BorderedRectElement &BackgroundActive() const { return m_backgroundActive; }
 
+	const BorderedRectElement &SelectorRect() const { return m_selectorRect; }
+	const BorderedRectElement &SelectorBracket() const { return m_selectorBracket; }
+
 	const BorderedRectElement &ButtonDisabled() const { return m_buttonDisabled; }
 	const BorderedRectElement &ButtonNormal()   const { return m_buttonNormal; }
 	const BorderedRectElement &ButtonHover()    const { return m_buttonHover; }
@@ -209,6 +219,8 @@ public:
 	const RectElement &GaugeFillCritical()    const { return m_gaugeFillCritical; }
 
 	unsigned int ButtonMinInnerSize() const { return m_buttonMinInnerSize; }
+	unsigned int SelectorRectMinInnerSize() const { return m_selectorRectMinInnerSize; }
+	unsigned int SelectorBracketMinInnerSize() const { return m_selectorRectMinInnerSize; }
 
 	Color GetNormalColor() const { return m_normalColor; }
 	Color GetHoverColor() const { return m_hoverColor; }
@@ -234,6 +246,7 @@ private:
 
 	void DrawRectElement(const RectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 	void DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
+	void DrawBorderedRectElementTinted(const BorderedRectElement &element, const Point &pos, const Point &size, const Color &tint, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 	void DrawVerticalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 	void DrawHorizontalEdgedRectElement(const EdgedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode = Graphics::BLEND_ALPHA) const;
 
@@ -244,6 +257,9 @@ private:
 
 	BorderedRectElement m_backgroundNormal;
 	BorderedRectElement m_backgroundActive;
+
+	BorderedRectElement m_selectorRect;
+	BorderedRectElement m_selectorBracket;
 
 	BorderedRectElement m_buttonDisabled;
 	BorderedRectElement m_buttonNormal;
@@ -285,6 +301,7 @@ private:
 	RectElement m_gaugeFillCritical;
 
 	unsigned int m_buttonMinInnerSize;
+	unsigned int m_selectorRectMinInnerSize;
 
 	Color m_normalColor;
 	Color m_hoverColor;

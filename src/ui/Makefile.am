@@ -42,6 +42,7 @@ noinst_HEADERS = \
 	OverlayStack.h \
 	Point.h \
 	Scroller.h \
+	SelectorBox.h \
 	Single.h \
 	Skin.h \
 	Slider.h \
@@ -80,6 +81,7 @@ libui_a_SOURCES = \
 	NumberLabel.cpp \
 	OverlayStack.cpp \
 	Scroller.cpp \
+	SelectorBox.cpp \
 	Single.cpp \
 	Skin.cpp \
 	Slider.cpp \
@@ -113,6 +115,7 @@ libui_a_SOURCES = \
 	LuaNumberLabel.cpp \
 	LuaOverlayStack.cpp \
 	LuaScroller.cpp \
+	LuaSelectorBox.cpp \
 	LuaSingle.cpp \
 	LuaSlider.cpp \
 	LuaSmallButton.cpp \

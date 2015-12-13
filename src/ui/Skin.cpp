@@ -52,6 +52,9 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_backgroundNormal        = LoadBorderedRectElement(cfg.String("BackgroundNormal"));
 	m_backgroundActive        = LoadBorderedRectElement(cfg.String("BackgroundActive"));
 
+	m_selectorRect            = LoadBorderedRectElement(cfg.String("SelectorRect"));
+	m_selectorBracket         = LoadBorderedRectElement(cfg.String("SelectorBracket"));
+
 	m_buttonDisabled          = LoadBorderedRectElement(cfg.String("ButtonDisabled"));
 	m_buttonNormal            = LoadBorderedRectElement(cfg.String("ButtonNormal"));
 	m_buttonHover             = LoadBorderedRectElement(cfg.String("ButtonHover"));
@@ -89,7 +92,8 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_gaugeFillWarning = LoadRectElement(cfg.String("GaugeFillWarning"));
 	m_gaugeFillCritical = LoadRectElement(cfg.String("GaugeFillCritical"));
 
-	m_buttonMinInnerSize      = cfg.Int("ButtonMinInnerSize");
+	m_buttonMinInnerSize       = cfg.Int("ButtonMinInnerSize");
+	m_selectorRectMinInnerSize = cfg.Int("SelectorRectMinInnerSize");
 
 	m_normalColor = LoadSkinColor(cfg.String("NormalColorRGBA"));
 	m_hoverColor  = LoadSkinColor(cfg.String("HoverColorRGBA"));
@@ -125,6 +129,11 @@ void Skin::DrawRectElement(const RectElement &element, const Point &pos, const P
 }
 
 void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Point &pos, const Point &size, Graphics::BlendMode blendMode) const
+{
+	DrawBorderedRectElementTinted(element, pos, size, Color(255,255,255,255), blendMode);
+}
+
+void Skin::DrawBorderedRectElementTinted(const BorderedRectElement &element, const Point &pos, const Point &size, const Color &tint, Graphics::BlendMode blendMode) const
 {
 	const float width = element.borderWidth;
 	const float height = element.borderHeight;
@@ -166,7 +175,7 @@ void Skin::DrawBorderedRectElement(const BorderedRectElement &element, const Poi
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y-height, 0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y-height)));
 	va.Add(vector3f(pos.x+size.x,       pos.y+size.y,        0.0f), scaled(vector2f(element.pos.x+element.size.x,       element.pos.y+element.size.y)));
 
-	m_textureMaterial->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, m_opacity*Color::WHITE.a);
+	m_textureMaterial->diffuse = Color(tint.r, tint.g, tint.b, m_opacity*tint.a);
 	m_renderer->DrawTriangles(&va, GetRenderState(blendMode), m_textureMaterial.Get(), Graphics::TRIANGLE_STRIP);
 }
 

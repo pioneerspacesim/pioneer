@@ -233,6 +233,16 @@ public:
 		return 1;
 	}
 
+	static int l_selectorbox(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::SelectorBox::Shape shape =
+			static_cast<UI::SelectorBox::Shape>(LuaConstants::GetConstantFromArg(l, "UISelectorShape", 2));
+		UI::SelectorBox *sb = c->SelectorBox(shape);
+		_implicit_set_inner_widget(l, sb, 3);
+		LuaObject<UI::SelectorBox>::PushToLua(sb);
+		return 1;
+	}
+
 	static int l_smallbutton(lua_State *l) {
 		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
 		LuaObject<UI::SmallButton>::PushToLua(c->SmallButton());
@@ -410,6 +420,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Button",          LuaContext::l_button          },
 		{ "CheckBox",        LuaContext::l_checkbox        },
 		{ "SmallButton",     LuaContext::l_smallbutton     },
+		{ "SelectorBox",     LuaContext::l_selectorbox     },
 		{ "HSlider",         LuaContext::l_hslider         },
 		{ "VSlider",         LuaContext::l_vslider         },
 		{ "List",            LuaContext::l_list            },

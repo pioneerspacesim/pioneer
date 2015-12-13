@@ -45,6 +45,7 @@ extern const struct EnumItem ENUM_UIExpandDirection[];
 extern const struct EnumItem ENUM_UIGradientDirection[];
 extern const struct EnumItem ENUM_UIMarginDirection[];
 extern const struct EnumItem ENUM_UINumberLabelFormat[];
+extern const struct EnumItem ENUM_UISelectorShape[];
 extern const struct EnumItem ENUM_UITableRowAlignDirection[];
 extern const struct EnumItem ENUM_UITableColumnAlignDirection[];
 extern const struct EnumItem ENUM_UISizeControl[];
