@@ -116,10 +116,6 @@ local function pickIcon(body)
 	return icon
 end
 
-local selectionRing =
-	ui:Image('textures/green_selection_ring.png',
-		{'EXPAND_WIDTH', 'EXPAND_HEIGHT'})
-
 local currentBody, currentBodyIconSelector
 local function handleClickBodyIcon(body, selector)
 	print('clicked ', body.name)
