@@ -103,8 +103,14 @@ local econTrade = function ()
 		if Game.player.fuel == 100 or Game.player:CountEquip(Equipment.cargo.hydrogen) == 0 then
 			refuelButton.widget:Disable()
 			refuelMaxButton.widget:Disable()
-		elseif Game.player.fuel == 0 then
+		else
+			refuelButton.widget:Enable()
+			refuelMaxButton.widget:Enable()
+		end
+		if Game.player.fuel == 0 or Game.player:GetEquipFree("cargo") == 0 then
 			pumpDownButton.widget:Disable()
+		else
+			pumpDownButton.widget:Enable()
 		end
 		local fuel_percent = Game.player.fuel/100
 		fuelGauge.gauge:SetValue(fuel_percent)
