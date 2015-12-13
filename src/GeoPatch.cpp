@@ -283,7 +283,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	}
 }
 
-void GeoPatch::LODUpdate(const vector3d &campos) 
+void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustum)
 {
 	// there should be no LOD update when we have active split requests
 	if(mHasJobRequest)
@@ -304,7 +304,27 @@ void GeoPatch::LODUpdate(const vector3d &campos)
 
 	if (canSplit) {
 		if (!kids[0]) {
-            assert(!mHasJobRequest);
+			// ...before doing the frustum culling that relies on it.
+			if (!frustum.TestPoint(clipCentroid, clipRadius))
+				return; // nothing below this patch is visible
+
+						// only want to horizon cull patches that can actually be over the horizon!
+			const vector3d camDir(campos - clipCentroid);
+			const vector3d camDirNorm(camDir.Normalized());
+			const vector3d cenDir(clipCentroid.Normalized());
+			const double dotProd = camDirNorm.Dot(cenDir);
+
+			if (dotProd < 0.25 && (camDir.LengthSqr() >(clipRadius*clipRadius))) {
+				SSphere obj;
+				obj.m_centre = clipCentroid;
+				obj.m_radius = clipRadius;
+
+				if (!s_sph.HorizonCulling(campos, obj)) {
+					return; // nothing below this patch is visible
+				}
+			}
+
+			assert(!mHasJobRequest);
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
@@ -315,7 +335,7 @@ void GeoPatch::LODUpdate(const vector3d &campos)
 			geosphere->AddQuadSplitRequest(centroidDist, ssrd, this);
 		} else {
 			for (int i=0; i<NUM_KIDS; i++) {
-				kids[i]->LODUpdate(campos);
+				kids[i]->LODUpdate(campos, frustum);
 			}
 		}
 	} else if (canMerge) {

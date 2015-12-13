@@ -9,6 +9,7 @@
 #include "vector3.h"
 #include "Random.h"
 #include "galaxy/StarSystem.h"
+#include "graphics/Frustum.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
@@ -18,7 +19,7 @@
 
 // #define DEBUG_BOUNDING_SPHERES
 
-namespace Graphics { class Renderer; class Frustum; }
+namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatchContext;
 class GeoSphere;
@@ -91,7 +92,7 @@ public:
 		return merge;
 	}
 
-	void LODUpdate(const vector3d &campos);
+	void LODUpdate(const vector3d &campos, const Graphics::Frustum &frustum);
 
 	void RequestSinglePatch();
 	void ReceiveHeightmaps(SQuadSplitResult *psr);

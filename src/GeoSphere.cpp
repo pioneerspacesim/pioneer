@@ -183,7 +183,8 @@ void GeoSphere::Reset()
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches), m_maxDepth(0)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0),
+	m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
 
@@ -353,7 +354,7 @@ void GeoSphere::Update()
 		if(m_hasTempCampos) {
 			ProcessSplitResults();
 			for (int i=0; i<NUM_PATCHES; i++) {
-				m_patches[i]->LODUpdate(m_tempCampos);
+				m_patches[i]->LODUpdate(m_tempCampos, m_tempFrustum);
 			}
 			ProcessQuadSplitRequests();
 		}
@@ -401,6 +402,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	matrix4x4ftod(renderer->GetCurrentModelView(), modv);
 	matrix4x4ftod(renderer->GetCurrentProjection(), proj);
 	Graphics::Frustum frustum( modv, proj );
+	m_tempFrustum = frustum;
 
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
