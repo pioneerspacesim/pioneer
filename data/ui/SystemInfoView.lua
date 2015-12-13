@@ -281,6 +281,7 @@ local systemInfoTab =
 		sysInfoWidgets.desc,
 	}))
 local bodyInfoTab = ui:Label('Body info goes here')
+local tradeInfoTab = ui:Label('Market info goes here')
 
 local infoTabs = TabView.New()
 infoTabs:AddTab({
@@ -290,6 +291,10 @@ infoTabs:AddTab({
 infoTabs:AddTab({
 	id = 'Body', title = 'Body', icon = 'Planet',
 	template = function () return bodyInfoTab; end
+})
+infoTabs:AddTab({
+	id = 'Trade', title = 'Trade', icon = 'ChartClipboard',
+	template = function () return tradeInfoTab; end
 })
 
 local iconsContainer = ui:Scroller():SetFont('SMALL')
