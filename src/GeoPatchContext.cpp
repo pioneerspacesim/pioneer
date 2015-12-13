@@ -22,23 +22,6 @@ double GeoPatchContext::frac = 0.0;
 RefCountedPtr<Graphics::IndexBuffer> GeoPatchContext::indices;
 int GeoPatchContext::prevEdgeLen = 0;
 
-void GeoPatchContext::Cleanup() {
-}
-
-int GeoPatchContext::GetIndices(std::vector<unsigned short> &pl)
-{
-	// calculate how many tri's there are
-	int tri_count = (VBO_COUNT_MID_IDX() / 3);
-	for( int i=0; i<4; ++i ) {
-		tri_count += (VBO_COUNT_HI_EDGE() / 3);
-	}
-
-	// pre-allocate enough space
-	pl.reserve(tri_count);
-
-	return tri_count;
-}
-
 //static 
 void GeoPatchContext::GenerateIndices()
 {
@@ -109,7 +92,7 @@ void GeoPatchContext::GenerateIndices()
 
 void GeoPatchContext::Init() 
 {
-	frac = 1.0 / double(edgeLen-1);
+	frac = 1.0 / double(edgeLen-3);
 	numTris = 2*(edgeLen-1)*(edgeLen-1);
 
 	GenerateIndices();

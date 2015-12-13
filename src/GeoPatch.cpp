@@ -80,7 +80,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 		m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
 
-		GeoPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
+		GeoPatchContext::VBOVertex* VBOVtxPtr = m_vertexBuffer->Map<GeoPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(m_vertexBuffer->GetDesc().stride == sizeof(GeoPatchContext::VBOVertex));
 
 		const Sint32 edgeLen = ctx->GetEdgeLen();
@@ -88,13 +88,28 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		const double *pHts = heights.get();
 		const vector3f *pNorm = normals.get();
 		const Color3ub *pColr = colors.get();
-		for (Sint32 y=0; y<edgeLen; y++) {
-			for (Sint32 x=0; x<edgeLen; x++) {
+
+		const Sint32 innerTop = 1;
+		const Sint32 innerBottom = edgeLen - 2;
+		const Sint32 innerLeft = 1;
+		const Sint32 innerRight = edgeLen - 2;
+
+		const Sint32 outerTop = 0;
+		const Sint32 outerBottom = edgeLen - 1;
+		const Sint32 outerLeft = 0;
+		const Sint32 outerRight = edgeLen - 1;
+
+		// ----------------------------------------------------
+		// inner loops
+		for (Sint32 y = 1; y<edgeLen-1; y++) {
+			for (Sint32 x = 1; x<edgeLen-1; x++) {
 				const double height = *pHts;
-				const double xFrac = double(x)*frac;
-				const double yFrac = double(y)*frac;
+				const double xFrac = double(x - 1) * frac;
+				const double yFrac = double(y - 1) * frac;
 				const vector3d p((GetSpherePoint(xFrac, yFrac) * (height + 1.0)) - clipCentroid);
 				clipRadius = std::max(clipRadius, p.Length());
+
+				GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[x + (y*edgeLen)];
 				vtxPtr->pos = vector3f(p);
 				++pHts;	// next height
 
@@ -109,12 +124,103 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				++pColr; // next colour
 
 				// uv coords
-				vtxPtr->uv.x = 1.0f - float(x) / float(edgeLen);
-				vtxPtr->uv.y = float(y) / float(edgeLen);
+				vtxPtr->uv.x = 1.0f - xFrac;
+				vtxPtr->uv.y = yFrac;
 
 				++vtxPtr; // next vertex
 			}
 		}
+		// ----------------------------------------------------
+		// vertical edges
+		// left-edge
+		for (Sint32 y = 1; y < edgeLen - 1; y++) {
+			const Sint32 x = innerLeft;
+			const double xFrac = double(x - 1) * frac;
+			const double yFrac = double(y - 1) * frac;
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+
+			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[outerLeft + (y*edgeLen)];
+			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[innerLeft + (y*edgeLen)];
+			vtxPtr->pos = vector3f(p);
+			vtxPtr->norm = vtxInr->norm;
+			vtxPtr->col = vtxInr->col;
+			vtxPtr->uv = vtxInr->uv;
+		}
+		// right-edge
+		for (Sint32 y = 1; y < edgeLen - 1; y++) {
+			const Sint32 x = innerRight;
+			const double xFrac = double(x - 1) * frac;
+			const double yFrac = double(y - 1) * frac;
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+
+			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[outerRight + (y*edgeLen)];
+			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[innerRight + (y*edgeLen)];
+			vtxPtr->pos = vector3f(p);
+			vtxPtr->norm = vtxInr->norm;
+			vtxPtr->col = vtxInr->col;
+			vtxPtr->uv = vtxInr->uv;
+		}
+		// ----------------------------------------------------
+		// horizontal edges
+		// top-edge
+		for (Sint32 x = 1; x < edgeLen - 1; x++) 
+		{
+			const Sint32 y = innerTop;
+			const double xFrac = double(x - 1) * frac;
+			const double yFrac = double(y - 1) * frac;
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+
+			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[x + (outerTop*edgeLen)];
+			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[x + (innerTop*edgeLen)];
+			vtxPtr->pos = vector3f(p);
+			vtxPtr->norm = vtxInr->norm;
+			vtxPtr->col = vtxInr->col;
+			vtxPtr->uv = vtxInr->uv;
+		}
+		// bottom-edge
+		for (Sint32 x = 1; x < edgeLen - 1; x++)
+		{
+			const Sint32 y = innerBottom;
+			const double xFrac = double(x - 1) * frac;
+			const double yFrac = double(y - 1) * frac;
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+
+			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[x + (outerBottom * edgeLen)];
+			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[x + (innerBottom * edgeLen)];
+			vtxPtr->pos = vector3f(p);
+			vtxPtr->norm = vtxInr->norm;
+			vtxPtr->col = vtxInr->col;
+			vtxPtr->uv = vtxInr->uv;
+		}
+		// ----------------------------------------------------
+		// corners
+		{
+			// top left
+			GeoPatchContext::VBOVertex* tarPtr = &VBOVtxPtr[0];
+			GeoPatchContext::VBOVertex* srcPtr = &VBOVtxPtr[1];
+			(*tarPtr) = (*srcPtr);
+		}
+		{
+			// top right
+			GeoPatchContext::VBOVertex* tarPtr = &VBOVtxPtr[(edgeLen - 1)];
+			GeoPatchContext::VBOVertex* srcPtr = &VBOVtxPtr[(edgeLen - 2)];
+			(*tarPtr) = (*srcPtr);
+		}
+		{
+			// bottom left
+			GeoPatchContext::VBOVertex* tarPtr = &VBOVtxPtr[(edgeLen - 1) * edgeLen];
+			GeoPatchContext::VBOVertex* srcPtr = &VBOVtxPtr[(edgeLen - 2) * edgeLen];
+			(*tarPtr) = (*srcPtr);
+		}
+		{
+			// bottom right
+			GeoPatchContext::VBOVertex* tarPtr = &VBOVtxPtr[(edgeLen - 1) + ((edgeLen - 1) * edgeLen)];
+			GeoPatchContext::VBOVertex* srcPtr = &VBOVtxPtr[(edgeLen - 1) + ((edgeLen - 2) * edgeLen)];
+			(*tarPtr) = (*srcPtr);
+		}
+
+		// ----------------------------------------------------
+		// end of mapping
 		m_vertexBuffer->Unmap();
 
 #ifdef DEBUG_BOUNDING_SPHERES
@@ -202,7 +308,7 @@ void GeoPatch::LODUpdate(const vector3d &campos)
 			mHasJobRequest = true;
 
 			SQuadSplitRequest *ssrd = new SQuadSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(),
+						geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen()-2,
 						ctx->GetFrac(), geosphere->GetTerrain());
 
 			// add to the GeoSphere to be processed at end of all LODUpdate requests
@@ -230,7 +336,7 @@ void GeoPatch::RequestSinglePatch()
         assert(!mHasJobRequest);
 		mHasJobRequest = true;
 		SSingleSplitRequest *ssrd = new SSingleSplitRequest(v0, v1, v2, v3, centroid.Normalized(), m_depth,
-					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen(), ctx->GetFrac(), geosphere->GetTerrain());
+					geosphere->GetSystemBody()->GetPath(), mPatchID, ctx->GetEdgeLen()-2, ctx->GetFrac(), geosphere->GetTerrain());
 		m_job = Pi::GetAsyncJobQueue()->Queue(new SinglePatchJob(ssrd));
 	}
 }

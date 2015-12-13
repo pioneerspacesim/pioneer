@@ -41,7 +41,6 @@ private:
 	static RefCountedPtr<Graphics::IndexBuffer> indices;
 	static int prevEdgeLen;
 
-	static int GetIndices(std::vector<unsigned short> &pl);
 	static void GenerateIndices();
 
 public:
@@ -54,20 +53,14 @@ public:
 	};
 
 	GeoPatchContext(const int _edgeLen) {
-		edgeLen = _edgeLen;
+		edgeLen = _edgeLen + 2; // +2 for the skirt
 		Init();
-	}
-
-	~GeoPatchContext() {
-		Cleanup();
 	}
 
 	static void Refresh() {
-		Cleanup();
 		Init();
 	}
 
-	static void Cleanup();
 	static void Init();
 
 	static inline Graphics::IndexBuffer* GetIndexBuffer() { return indices.Get(); }
