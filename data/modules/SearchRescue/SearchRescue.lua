@@ -4,7 +4,7 @@
 -- Notes:
 -- - All station/planet location references in ad/mission are stored as paths for consistency because
 --   some can't be accessed as bodies until the player enters the respective system and getting a path from
---   systembody needs to go through body.
+--   systembody needs to go through body. Variable "location" is a SystemsBody.
 
 
 -- TODO:
@@ -22,7 +22,7 @@
 -- - "PARTIAL"  = partially completed, but can't do more for now
 -- - "ABORT"    = aborted, but can work on it again
 -- - "COMPLETE" = finished task
--- Variable "location" is a SystemsBody
+
 
 local Engine = import("Engine")
 local Lang = import("Lang")
@@ -1704,16 +1704,16 @@ end
 local onCreateBB = function (station)
 
    -- force ad creation for debugging
---   local num = 3
---   for _ = 1,num do
---      makeAdvert(station, 1)
---      makeAdvert(station, 2)
---      makeAdvert(station, 3)
---      makeAdvert(station, 4)
---      makeAdvert(station, 5)
---      makeAdvert(station, 6)
---      makeAdvert(station, 7)
---   end
+   local num = 3
+   for _ = 1,num do
+      makeAdvert(station, 1)
+      makeAdvert(station, 2)
+      makeAdvert(station, 3)
+      makeAdvert(station, 4)
+      makeAdvert(station, 5)
+      makeAdvert(station, 6)
+      makeAdvert(station, 7)
+   end
 
    if triggerAdCreation() then makeAdvert(station, nil) end
 end
@@ -1847,91 +1847,112 @@ local onClick = function (mission)
    else
       dist_for_text = string.format("%.2f", mission.dist)
    end
-      
-   
-   return ui:Grid(2,1)
-      :SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.flavour.introtext):interp({
-						  name         = mission.client.name,
-						  entity       = mission.entity,
-						  problem      = mission.problem,
-						  cash         = Format.Money(mission.reward),
-						  ship         = mission.shipdef_name,
-						  crew         = mission.crew_num,
-						  pass         = mission.pickup_pass_orig,
-						  deliver_crew = mission.deliver_crew_orig,
-						  starport     = mission.station_local:GetSystemBody().name,
-						  shiplabel    = mission.shiplabel,
-						  system       = mission.system_target:GetStarSystem().name,
-						  sectorx      = mission.system_target.sectorX,
-						  sectory      = mission.system_target.sectorY,
-						  sectorz      = mission.system_target.sectorZ,
-						  dist         = dist_for_text,
-						  lat          = decToDegMinSec(math.rad2deg(mission.lat)),
-						  long         = decToDegMinSec(math.rad2deg(mission.long)),
-						  planet       = mission.planet_target:GetSystemBody().name})
-							 ),
-					 ui:Margin(10),
-					 ui:Grid(2,1)
-					    :SetColumn(0, {
-							  ui:VBox():PackEnd({
-								ui:Label(l.LOCATION)
-									   })
-						      })
-					    :SetColumn(1, {
-							  ui:VBox():PackEnd({
-								ui:MultiLineText(mission.location:GetSystemBody().name)
-									   })
-						      }),
-					 ui:Grid(2,1)
-					    :SetColumn(0, {
-							  ui:VBox():PackEnd({
-								ui:Label(l.SYSTEM)
-									   })
-						      })
-					    :SetColumn(1, {
-							  ui:VBox():PackEnd({
-								ui:MultiLineText(mission.system_target:GetStarSystem().name.." ("..mission.system_target.sectorX..","..mission.system_target.sectorY..","..mission.system_target.sectorZ..")")
-									   })
-						      }),
-					 ui:Grid(2,1)
-					    :SetColumn(0, {
-							  ui:VBox():PackEnd({
-								ui:Label(l.DEADLINE)
-									   })
-						      })
-					    :SetColumn(1, {
-							  ui:VBox():PackEnd({
-								ui:Label(Format.Date(mission.due))
-									   })
-						      }),
-					 ui:Grid(2,1)
-					    :SetColumn(0, {
-							  ui:VBox():PackEnd({
-								ui:Label(l.DANGER)
-									   })
-						      })
-					    :SetColumn(1, {
-							  ui:VBox():PackEnd({
-								ui:MultiLineText(danger)
-									   })
-						      }),
-					 ui:Margin(5),
-					 ui:Grid(2,1)
-					    :SetColumn(0, {
-							  ui:VBox():PackEnd({
-								ui:Label(l.DISTANCE)
-									   })
-						      })
-					    :SetColumn(1, {
-							  ui:VBox():PackEnd({
-								ui:Label(dist.." "..l.LY)
-									   })
-						      }),
+
+   -- show mission screen without "return base" data
+   if mission.flavour.reward_immediate == true then
+      return ui:Grid(2,1)
+	 :SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.flavour.introtext):interp({
+						     name         = mission.client.name,
+						     entity       = mission.entity,
+						     problem      = mission.problem,
+						     cash         = Format.Money(mission.reward),
+						     ship         = mission.shipdef_name,
+						     crew         = mission.crew_num,
+						     pass         = mission.pickup_pass_orig,
+						     deliver_crew = mission.deliver_crew_orig,
+						     starport     = mission.station_local:GetSystemBody().name,
+						     shiplabel    = mission.shiplabel,
+						     system       = mission.system_target:GetStarSystem().name,
+						     sectorx      = mission.system_target.sectorX,
+						     sectory      = mission.system_target.sectorY,
+						     sectorz      = mission.system_target.sectorZ,
+						     dist         = dist_for_text,
+						     lat          = decToDegMinSec(math.rad2deg(mission.lat)),
+						     long         = decToDegMinSec(math.rad2deg(mission.long)),
+						     planet       = mission.planet_target:GetSystemBody().name})),
+					    ui:Margin(10),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.LOCATION)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.location:GetSystemBody().name)})}),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.IN_SYSTEM)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
+										    mission.system_target:GetStarSystem().name.."("
+										       ..mission.system_target.sectorX..","
+										       ..mission.system_target.sectorY..","
+										       ..mission.system_target.sectorZ..")")})}),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DANGER)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(danger)})}),
+					    ui:Margin(5),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist.." "..l.LY)})}),
 		})})
-      :SetColumn(1, {
-		    ui:VBox(10):PackEnd(InfoFace.New(mission.client))
-		})
+	 :SetColumn(1, {ui:VBox(10):PackEnd(InfoFace.New(mission.client))})
+
+   -- show mission screen with "return base" data
+   elseif mission.flavour.reward_immediate == false then
+      return ui:Grid(2,1)
+	 :SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.flavour.introtext):interp({
+						     name         = mission.client.name,
+						     entity       = mission.entity,
+						     problem      = mission.problem,
+						     cash         = Format.Money(mission.reward),
+						     ship         = mission.shipdef_name,
+						     crew         = mission.crew_num,
+						     pass         = mission.pickup_pass_orig,
+						     deliver_crew = mission.deliver_crew_orig,
+						     starport     = mission.station_local:GetSystemBody().name,
+						     shiplabel    = mission.shiplabel,
+						     system       = mission.system_target:GetStarSystem().name,
+						     sectorx      = mission.system_target.sectorX,
+						     sectory      = mission.system_target.sectorY,
+						     sectorz      = mission.system_target.sectorZ,
+						     dist         = dist_for_text,
+						     lat          = decToDegMinSec(math.rad2deg(mission.lat)),
+						     long         = decToDegMinSec(math.rad2deg(mission.long)),
+						     planet       = mission.planet_target:GetSystemBody().name})),
+					    ui:Margin(10),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.LOCATION)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.location:GetSystemBody().name)})}),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.IN_SYSTEM)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
+										    mission.system_target:GetStarSystem().name.."("
+										       ..mission.system_target.sectorX..","
+										       ..mission.system_target.sectorY..","
+										       ..mission.system_target.sectorZ..")")})}),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.RETURN_TO)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.station_local:GetSystemBody().name)})}),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.IN_SYSTEM)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
+										    mission.system_local:GetStarSystem().name.."("
+										       ..mission.system_target.sectorX..","
+										       ..mission.system_target.sectorY..","
+										       ..mission.system_target.sectorZ..")")})}),
+
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DANGER)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(danger)})}),
+					    ui:Margin(5),
+					    ui:Grid(2,1)
+					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
+					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist.." "..l.LY)})}),
+		})})
+	 :SetColumn(1, {ui:VBox(10):PackEnd(InfoFace.New(mission.client))})
+   end
 end
+
 
 local onGameEnd = function ()
    -- Currently just placeholder.

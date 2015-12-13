@@ -611,14 +611,18 @@
       "description" : "",
       "message" : "Ok, agreed."
    },
-   "LOCATION" : {
-      "description" : "",
-       "message" : "Location:"
-   },
-   "SYSTEM" : {
-      "description" : "",
-       "message" : "System:"
-   },
+    "LOCATION" : {
+	"description" : "",
+	"message" : "Location:"
+    },
+    "IN_SYSTEM" : {
+	"description" : "",
+	"message" : "In System:"
+    },
+    "RETURN_TO" : {
+	"description" : "",
+	"message" : "Return To:"
+    },
    "TYPE_OF_HELP" : {
       "description" : "",
       "message" : "What type of help is needed?"
