@@ -185,7 +185,25 @@ local function buildMagicStarLayout(body)
 	local rows = {}
 	for istar = 1, #stars do
 		local star = stars[istar]
-		rows[#rows + 1] = ui:Align('MIDDLE', ui:Label(star.name):SetFont('HEADING_SMALL'))
+		local starTargetIcon = ui:Icon('Share')
+		local starSelector =
+			ui:SelectorBox('BRACKET', ui:Margin(3, 'HORIZONTAL',
+				ui:Label(star.name):SetFont('HEADING_SMALL')))
+		starSelector:SetShown(false)
+		starSelector:SetColor(0.8, 0.8, 0.8)
+		starTargetIcon:SetColor({r=0.6,g=0.6,b=0.6})
+		local starTitleWithIcon = ui:HBox(5):PackEnd({
+				ui:Align('MIDDLE', starTargetIcon:SetSize(12)),
+				starSelector,
+		})
+		starTitleWithIcon.onClick:Connect(function ()
+			local shown = not starSelector.shown
+			local v = shown and 1 or 0.6
+			starTargetIcon:SetColor({r=v,g=v,b=v})
+			starSelector:SetShown(shown)
+		end)
+
+		rows[#rows + 1] = ui:Align('MIDDLE', starTitleWithIcon)
 		rows[#rows + 1] = ui:Align('MIDDLE', bodyIconButton(star, handleClickBodyIcon))
 		local children = star:GetChildren()
 		if #children > 0 then
