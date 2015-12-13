@@ -304,11 +304,6 @@ void GeoSphere::BuildFirstPatches()
 	m_patches[3].reset(new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3ULL << maxShiftDepth)));
 	m_patches[4].reset(new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4ULL << maxShiftDepth)));
 	m_patches[5].reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5ULL << maxShiftDepth)));
-	for (int i=0; i<NUM_PATCHES; i++) {
-		for (int j=0; j<4; j++) {
-			m_patches[i]->SetEdgeFriend(j, m_patches[geo_sphere_edge_friends[i][j]].get());
-		}
-	}
 
 	for (int i=0; i<NUM_PATCHES; i++) {
 		m_patches[i]->RequestSinglePatch();

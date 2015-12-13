@@ -32,9 +32,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 	m_depth(depth), mPatchID(ID_),
 	mHasJobRequest(false)
 {
-	for (int i=0; i<NUM_KIDS; ++i) {
-		edgeFriend[i]	= NULL;
-	}
 
 	clipCentroid = (v0+v1+v2+v3) * 0.25;
 	centroid = clipCentroid.Normalized();
@@ -55,10 +52,6 @@ GeoPatch::GeoPatch(const RefCountedPtr<GeoPatchContext> &ctx_, GeoSphere *gs,
 
 GeoPatch::~GeoPatch() {
 	mHasJobRequest = false;
-
-	for (int i=0; i<NUM_KIDS; i++) {
-		if (edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendDeleted(this);
-	}
 	for (int i=0; i<NUM_KIDS; i++) {
 		kids[i].reset();
 	}
@@ -172,7 +165,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		// per-patch detail texture scaling value
 		geosphere->GetMaterialParameters().patchDepth = m_depth;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(DetermineIndexbuffer()), rs, mat);
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(), rs, mat);
 #ifdef DEBUG_BOUNDING_SPHERES
 		if(m_boundsphere.get()) {
 			renderer->SetWireFrameMode(true);
@@ -196,15 +189,6 @@ void GeoPatch::LODUpdate(const vector3d &campos)
 	// always split at first level
 	double centroidDist = DBL_MAX;
 	if (parent) {
-		for (int i=0; i<NUM_EDGES; i++) {
-			if (!edgeFriend[i]) {
-				canSplit = false;
-				break;
-			} else if (edgeFriend[i]->m_depth < m_depth) {
-				canSplit = false;
-				break;
-			}
-		}
 		centroidDist = (campos - centroid).Length();
 		const bool errorSplit = (centroidDist < m_roughLength);
 		if( !(canSplit && (m_depth < std::min(GEOPATCH_MAX_DEPTH, geosphere->GetMaxDepth())) && errorSplit) ) {
@@ -275,25 +259,6 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 				data.v0, data.v1, data.v2, data.v3,
 				nD, data.patchID));
 		}
-
-		// hm.. edges. Not right to pass this
-		// edgeFriend...
-		kids[0]->edgeFriend[0] = GetEdgeFriendForKid(0, 0);
-		kids[0]->edgeFriend[1] = kids[1].get();
-		kids[0]->edgeFriend[2] = kids[3].get();
-		kids[0]->edgeFriend[3] = GetEdgeFriendForKid(0, 3);
-		kids[1]->edgeFriend[0] = GetEdgeFriendForKid(1, 0);
-		kids[1]->edgeFriend[1] = GetEdgeFriendForKid(1, 1);
-		kids[1]->edgeFriend[2] = kids[2].get();
-		kids[1]->edgeFriend[3] = kids[0].get();
-		kids[2]->edgeFriend[0] = kids[1].get();
-		kids[2]->edgeFriend[1] = GetEdgeFriendForKid(2, 1);
-		kids[2]->edgeFriend[2] = GetEdgeFriendForKid(2, 2);
-		kids[2]->edgeFriend[3] = kids[3].get();
-		kids[3]->edgeFriend[0] = kids[0].get();
-		kids[3]->edgeFriend[1] = kids[2].get();
-		kids[3]->edgeFriend[2] = GetEdgeFriendForKid(3, 2);
-		kids[3]->edgeFriend[3] = GetEdgeFriendForKid(3, 3);
 		kids[0]->parent = kids[1]->parent = kids[2]->parent = kids[3]->parent = this;
 
 		for (int i=0; i<NUM_KIDS; i++)
@@ -303,7 +268,6 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 			kids[i]->normals.reset(data.normals);
 			kids[i]->colors.reset(data.colors);
 		}
-		for (int i=0; i<NUM_EDGES; i++) { if(edgeFriend[i]) edgeFriend[i]->NotifyEdgeFriendSplit(this); }
 		for (int i=0; i<NUM_KIDS; i++) {
 			kids[i]->NeedToUpdateVBOs();
 		}
