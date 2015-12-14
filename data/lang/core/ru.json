@@ -569,7 +569,7 @@
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Обратный отсчёт до гиперпрыжка: %countdown{f.0} сек."
+      "message" : "Гиперпрыжок через %countdown{f.0} сек."
    },
    "H_ATMOSPHERE" : {
       "description" : "",
@@ -1505,7 +1505,7 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Белая звезда класса \"F\""
+      "message" : "Белая звезда спектрального класса \"F\""
    },
    "STAR_G" : {
       "description" : "",
@@ -1721,7 +1721,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Торговая нелегальными товарами"
+      "message" : "Торговля нелегальными товарами"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1829,7 +1829,7 @@
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Молодая сельскохозяйственная колония"
+      "message" : "Молодая сельскохозяйственная колония."
    },
    "YOU_NO_MONEY" : {
       "description" : "",

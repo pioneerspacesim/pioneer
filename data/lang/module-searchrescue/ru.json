@@ -149,7 +149,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "КОРАБЛЬ СОВЕРШИЛ АВАРИЙНУЮ ПОСАДКУ на планете {planet}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+      "message" : "Сигнал корабля был зафиксирован на планете {planet} на широте/долготе координат: {lat} / {long}. Идентификатор корабля: {shiplabel}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "КОРАБЛЬ БЕЗ ТОПЛИВА на пути к космопорту {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -245,7 +245,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "КОРАБЛЬ БЕЗ ТОПЛИВА на планете {planet}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "КОРАБЛЬ БЕЗ ТОПЛИВА вблизи от космопорта {starport}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -385,11 +385,11 @@
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "Как далеко от нас цель?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Сколько у меня есть времени?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
@@ -401,7 +401,7 @@
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Это должно быть завершено не позднее"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
@@ -409,7 +409,7 @@
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location:"
+      "message" : "Местоположение:"
    },
    "LY" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Поиск и Спасение"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Спасибо вам большое! Мы очень признательны за помощь."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "Какая помощь необходима?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -633,6 +633,6 @@
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Где находится цель?"
    }
 }
