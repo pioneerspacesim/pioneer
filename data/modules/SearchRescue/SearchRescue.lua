@@ -1704,16 +1704,16 @@ end
 local onCreateBB = function (station)
 
    -- force ad creation for debugging
-   local num = 3
-   for _ = 1,num do
-      makeAdvert(station, 1)
-      makeAdvert(station, 2)
-      makeAdvert(station, 3)
-      makeAdvert(station, 4)
-      makeAdvert(station, 5)
-      makeAdvert(station, 6)
-      makeAdvert(station, 7)
-   end
+--   local num = 3
+--   for _ = 1,num do
+--      makeAdvert(station, 1)
+--      makeAdvert(station, 2)
+--      makeAdvert(station, 3)
+--      makeAdvert(station, 4)
+--      makeAdvert(station, 5)
+--      makeAdvert(station, 6)
+--      makeAdvert(station, 7)
+--   end
 
    if triggerAdCreation() then makeAdvert(station, nil) end
 end
