@@ -457,12 +457,17 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Output("Lua::Init()\n");
 	Lua::Init();
 
+	float ui_scale = config->Float("UIScaleFactor", 1.0f);
+	if (Graphics::GetScreenHeight() < 768) {
+		ui_scale = float(Graphics::GetScreenHeight()) / 768.0f;
+	}
+
 	Pi::ui.Reset(new UI::Context(
 		Lua::manager,
 		Pi::renderer,
 		Graphics::GetScreenWidth(),
 		Graphics::GetScreenHeight(),
-		config->Float("UIScaleFactor", 1.0f)));
+		ui_scale));
 
 	Pi::serverAgent = 0;
 	if (config->Int("EnableServerAgent")) {
