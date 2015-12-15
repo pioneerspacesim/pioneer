@@ -20,6 +20,7 @@ December 2015
      * Face parts can now all be the same size to make alignment easier (#3548)
      * Added forgotten strings to translation system (#3551)
      * Minor code adjustment to make ccache effective again (#3562)
+     * Remove the neighbour system from GeoPatch (#3569)
 
 November 2015
    * New Features
