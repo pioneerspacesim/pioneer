@@ -401,7 +401,7 @@
    },
    "IN_SYSTEM" : {
       "description" : "",
-      "message" : "In System:"
+      "message" : "Nel Sistema:"
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "RETURN_TO" : {
       "description" : "",
-      "message" : "Return To:"
+      "message" : "Ritorna A:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
