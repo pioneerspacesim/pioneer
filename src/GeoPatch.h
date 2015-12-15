@@ -9,6 +9,7 @@
 #include "vector3.h"
 #include "Random.h"
 #include "galaxy/StarSystem.h"
+#include "graphics/Frustum.h"
 #include "graphics/Material.h"
 #include "terrain/Terrain.h"
 #include "GeoPatchID.h"
@@ -18,7 +19,7 @@
 
 // #define DEBUG_BOUNDING_SPHERES
 
-namespace Graphics { class Renderer; class Frustum; }
+namespace Graphics { class Renderer; }
 class SystemBody;
 class GeoPatchContext;
 class GeoSphere;
@@ -28,8 +29,7 @@ class SSingleSplitResult;
 
 class GeoPatch {
 private:
-	static const int NUM_EDGES = 4;
-	static const int NUM_KIDS = NUM_EDGES;
+	static const int NUM_KIDS = 4;
 
 	RefCountedPtr<GeoPatchContext> ctx;
 	const vector3d v0, v1, v2, v3;
@@ -39,7 +39,6 @@ private:
 	std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<GeoPatch> kids[NUM_KIDS];
 	GeoPatch *parent;
-	GeoPatch *edgeFriend[NUM_EDGES]; // [0]=v01, [1]=v12, [2]=v20
 	GeoSphere *geosphere;
 	double m_roughLength;
 	vector3d clipCentroid, centroid;
@@ -67,12 +66,6 @@ public:
 
 	void UpdateVBOs(Graphics::Renderer *renderer);
 
-	inline int GetEdgeIdxOf(const GeoPatch *e) const {
-		for (int i=0; i<NUM_KIDS; i++) {if (edgeFriend[i] == e) {return i;}}
-		abort();
-		return -1;
-	}
-
 	int GetChildIdx(const GeoPatch *child) const {
 		for (int i=0; i<NUM_KIDS; i++) {
 			if (kids[i].get() == child) return i;
@@ -84,44 +77,6 @@ public:
 	// in patch surface coords, [0,1]
 	inline vector3d GetSpherePoint(const double x, const double y) const {
 		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
-	}
-
-	inline void OnEdgeFriendChanged(const int edge, GeoPatch *e) {
-		edgeFriend[edge] = e;
-	}
-
-	inline void NotifyEdgeFriendSplit(GeoPatch *e) {
-		if (!kids[0]) {return;}
-		const int idx = GetEdgeIdxOf(e);
-		const int we_are = e->GetEdgeIdxOf(this);
-		// match e's new kids to our own... :/
-		kids[idx]->OnEdgeFriendChanged(idx, e->kids[(we_are+1)%NUM_KIDS].get());
-		kids[(idx+1)%NUM_KIDS]->OnEdgeFriendChanged(idx, e->kids[we_are].get());
-	}
-
-	void NotifyEdgeFriendDeleted(const GeoPatch *e) {
-		const int idx = GetEdgeIdxOf(e);
-		assert(idx>=0 && idx<NUM_EDGES);
-		edgeFriend[idx] = NULL;
-	}
-
-	inline GeoPatch *GetEdgeFriendForKid(const int kid, const int edge) const {
-		const GeoPatch *e = edgeFriend[edge];
-		if (!e) return NULL;
-		//assert (e);// && (e->m_depth >= m_depth));
-		const int we_are = e->GetEdgeIdxOf(this);
-		// neighbour patch has not split yet (is at depth of this patch), so kids of this patch do
-		// not have same detail level neighbours yet
-		if (edge == kid) return e->kids[(we_are+1)%NUM_KIDS].get();
-		else return e->kids[we_are].get();
-	}
-
-	inline Uint32 DetermineIndexbuffer() const {
-		return // index buffers are ordered by edge resolution flags
-			(edgeFriend[0] ? 1u : 0u) |
-			(edgeFriend[1] ? 2u : 0u) |
-			(edgeFriend[2] ? 4u : 0u) |
-			(edgeFriend[3] ? 8u : 0u);
 	}
 
 	void Render(Graphics::Renderer *r, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum);
@@ -137,14 +92,13 @@ public:
 		return merge;
 	}
 
-	void LODUpdate(const vector3d &campos);
+	void LODUpdate(const vector3d &campos, const Graphics::Frustum &frustum);
 
 	void RequestSinglePatch();
 	void ReceiveHeightmaps(SQuadSplitResult *psr);
 	void ReceiveHeightmap(const SSingleSplitResult *psr);
 	void ReceiveJobHandle(Job::Handle job);
 
-	inline void SetEdgeFriend(const int idx, GeoPatch *pPatch) { edgeFriend[idx] = pPatch; }
 	inline bool HasHeightData() const { return (heights.get()!=nullptr); }
 };
 

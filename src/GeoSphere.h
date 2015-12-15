@@ -94,6 +94,7 @@ private:
 
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;
+	Graphics::Frustum m_tempFrustum;
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
