@@ -304,11 +304,11 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 
 	if (canSplit) {
 		if (!kids[0]) {
-			// ...before doing the frustum culling that relies on it.
+			// Test if this patch is visible
 			if (!frustum.TestPoint(clipCentroid, clipRadius))
 				return; // nothing below this patch is visible
 
-						// only want to horizon cull patches that can actually be over the horizon!
+			// only want to horizon cull patches that can actually be over the horizon!
 			const vector3d camDir(campos - clipCentroid);
 			const vector3d camDirNorm(camDir.Normalized());
 			const vector3d cenDir(clipCentroid.Normalized());
@@ -324,6 +324,7 @@ void GeoPatch::LODUpdate(const vector3d &campos, const Graphics::Frustum &frustu
 				}
 			}
 
+			// we can see this patch so submit the jobs!
 			assert(!mHasJobRequest);
 			mHasJobRequest = true;
 
