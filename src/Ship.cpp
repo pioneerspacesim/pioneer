@@ -315,7 +315,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
 	m_wheelState = 0;
-	m_dockedWith = 0;
+	m_dockedWith = nullptr;
 	m_dockedWithPort = 0;
 	SetShipId(shipId);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;

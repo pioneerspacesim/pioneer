@@ -67,7 +67,7 @@ AICommand::AICommand(const Json::Value &jsonObj, CmdName name)
 	if (!commonAiCommandObj.isMember("index_for_body")) throw SavedGameCorruptException();
 	m_shipIndex = commonAiCommandObj["index_for_body"].asInt();
 
-	m_child = LoadFromJson(commonAiCommandObj);
+	m_child.reset(LoadFromJson(commonAiCommandObj));
 }
 
 void AICommand::PostLoadFixup(Space *space)
@@ -81,7 +81,7 @@ bool AICommand::ProcessChild()
 {
 	if (!m_child) return true;						// no child present
 	if (!m_child->TimeStepUpdate()) return false;	// child still active
-	delete m_child; m_child = 0;
+	m_child.reset();
 	return true;								// child finished
 }
 
@@ -278,7 +278,7 @@ bool AICmdKill::TimeStepUpdate()
 
 	if (targpos.Length() >= VICINITY_MIN+1000.0) {	// if really far from target, intercept
 //		Output("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
-		m_child = new AICmdFlyTo(m_ship, m_target);
+		m_child.reset(new AICmdFlyTo(m_ship, m_target));
 		ProcessChild(); return false;
 	}
 
@@ -764,7 +764,7 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 
 	// frame switch stuff - clear children/collision state
 	if (m_frame != m_ship->GetFrame()) {
-		if (m_child) { delete m_child; m_child = 0; }
+		if (m_child) { m_child.reset(); }
 		if (m_tangent && m_frame) return true;		// regen tangent on frame switch
 		m_reldir = reldir;							// for +vel termination condition
 		m_frame = m_ship->GetFrame();
@@ -779,15 +779,15 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 	{
 		int coll = CheckCollision(m_ship, reldir, targdist, targpos, m_endvel, erad);
 		if (coll == 0) {				// no collision
-			if (m_child) { delete m_child; m_child = 0; }
+			if (m_child) { m_child.reset(); }
 		}
 		else if (coll == 1) {			// below feature height, target not below
 			double ang = m_ship->AIFaceDirection(m_ship->GetPosition());
 			m_ship->AIMatchVel(ang < 0.05 ? 1000.0 * m_ship->GetPosition().Normalized() : vector3d(0.0));
 		}
 		else {							// same thing for 2/3/4
-			if (!m_child) m_child = new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0);
-			static_cast<AICmdFlyAround*>(m_child)->SetTargPos(targpos);
+			if (!m_child) m_child.reset(new AICmdFlyAround(m_ship, m_frame->GetBody(), erad*1.05, 0.0));
+			static_cast<AICmdFlyAround*>(m_child.get())->SetTargPos(targpos);
 			ProcessChild();
 		}
 		if (coll) { m_state = -coll; return false; }
@@ -905,19 +905,36 @@ AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOC
 
 bool AICmdDock::TimeStepUpdate()
 {
-	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
-	if (m_state == eDockFlyToStart) IncrementState();				// finished moving into dock start pos
-	if (m_ship->GetFlightState() != Ship::FLYING) {		// todo: should probably launch if docked with something else
+
+	// finished moving into dock start pos (done by child FlyTo command)
+	if (m_state == eDockFlyToStart) IncrementState();
+
+	// If we're docked with the target, then we're finished!
+	if (m_ship->GetDockedWith() == m_target) {
 		m_ship->ClearThrusterState();
-		return true; // docked, hopefully
+		return true;
+	}
+
+	switch (m_ship->GetFlightState()) {
+	case Ship::UNDOCKING: return false; // allow undock animation to proceed
+	case Ship::DOCKED:
+	case Ship::LANDED:
+		LaunchShip(m_ship);
+		return false;
+	case Ship::JUMPING:
+	case Ship::HYPERSPACE:
+		return false;
+	case Ship::FLYING:
+	case Ship::DOCKING:
+		break;
 	}
 
 	// if we're not close to target, do a flyto first
 	double targdist = m_target->GetPositionRelTo(m_ship).Length();
 	if (targdist > 16000.0) {
-		m_child = new AICmdFlyTo(m_ship, m_target);
+		m_child.reset(new AICmdFlyTo(m_ship, m_target));
 		ProcessChild(); return false;
 	}
 
@@ -959,8 +976,8 @@ bool AICmdDock::TimeStepUpdate()
 		// should have m_dockpos in target frame, dirs relative to target orient
 	}
 
-	if (m_state == 1) {			// fly to first docking waypoint
-		m_child = new AICmdFlyTo(m_ship, m_target->GetFrame(), m_dockpos, 0.0, false);
+	if (m_state == eDockFlyToStart) {			// fly to first docking waypoint
+		m_child.reset(new AICmdFlyTo(m_ship, m_target->GetFrame(), m_dockpos, 0.0, false));
 		ProcessChild(); return false;
 	}
 
@@ -1088,7 +1105,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 		if (m_targmode) v = m_vel;
 		else if (relpos.LengthSqr() < obsdist + tpos_obs.LengthSqr()) v = 0.0;
 		else v = MaxVel((tpos_obs-tangent).Length(), tpos_obs.Length());
-		m_child = new AICmdFlyTo(m_ship, obsframe, tangent, v, true);
+		m_child.reset(new AICmdFlyTo(m_ship, obsframe, tangent, v, true));
 		ProcessChild(); return false;
 	}
 
@@ -1145,7 +1162,7 @@ bool AICmdFormation::TimeStepUpdate()
 	// if too far away, do an intercept first
 	// TODO: adjust distance cap by timestep so we don't bounce?
 	if (m_target->GetPositionRelTo(m_ship).Length() > 30000.0) {
-		m_child = new AICmdFlyTo(m_ship, m_target);
+		m_child.reset(new AICmdFlyTo(m_ship, m_target));
 		ProcessChild(); return false;
 	}
 
