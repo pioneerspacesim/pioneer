@@ -399,6 +399,10 @@
       "description" : "",
       "message" : "Raggiunta la distanza d'interazione."
    },
+   "IN_SYSTEM" : {
+      "description" : "",
+      "message" : "In System:"
+   },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
       "message" : "Dev'essere completato entro"
@@ -587,6 +591,10 @@
       "description" : "",
       "message" : "Raccolti {done} su {todo} passeggeri dalla nave obiettivo."
    },
+   "RETURN_TO" : {
+      "description" : "",
+      "message" : "Return To:"
+   },
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Ricerca & Soccorso"
@@ -594,10 +602,6 @@
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
       "message" : "La nave bersaglio non risponde."
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Sistema:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",

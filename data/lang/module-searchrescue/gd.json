@@ -399,6 +399,10 @@
       "description" : "",
       "message" : "Interaction distance reached."
    },
+   "IN_SYSTEM" : {
+      "description" : "",
+      "message" : "In System:"
+   },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
       "message" : "It must be completed by "
@@ -587,6 +591,10 @@
       "description" : "",
       "message" : "Picked up {done} of {todo} passengers from target ship."
    },
+   "RETURN_TO" : {
+      "description" : "",
+      "message" : "Return To:"
+   },
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Lorg ⁊ teasairginn"
@@ -594,10 +602,6 @@
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
       "message" : "Target ship unresponsive."
-   },
-   "SYSTEM" : {
-      "description" : "",
-      "message" : "Siostam:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
