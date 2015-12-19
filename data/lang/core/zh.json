@@ -1699,6 +1699,10 @@
       "description" : "",
       "message" : "微小的"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Equipment View"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "切换 HUD 模式"
@@ -1710,6 +1714,10 @@
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "切换旋转消除"
+   },
+   "TOGGLE_SCANNER_VIEW" : {
+      "description" : "Tooltip for the Scanner View button",
+      "message" : "Scanner View"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
