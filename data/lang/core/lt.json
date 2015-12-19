@@ -672,7 +672,7 @@
       "message" : "Aptiktas Lazerių panaudojimas."
    },
    "LATITUDE" : {
-      "description" : "",
+      "description" : "Short for latitude",
       "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
@@ -707,8 +707,8 @@
       "description" : "to lock a hyperspace target",
       "message" : "užrakinta"
    },
-   "LONGTITUDE" : {
-      "description" : "",
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
       "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {

@@ -672,7 +672,7 @@
       "message" : "Statek pod ostrzałem!"
    },
    "LATITUDE" : {
-      "description" : "",
+      "description" : "Short for latitude",
       "message" : "Szer.:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
@@ -707,8 +707,8 @@
       "description" : "to lock a hyperspace target",
       "message" : "zablokowany"
    },
-   "LONGTITUDE" : {
-      "description" : "",
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
       "message" : "Dł.:"
    },
    "MAJOR_EXPORTS" : {

@@ -672,7 +672,7 @@
       "message" : "Detekována střelba z laseru."
    },
    "LATITUDE" : {
-      "description" : "",
+      "description" : "Short for latitude",
       "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
@@ -707,8 +707,8 @@
       "description" : "to lock a hyperspace target",
       "message" : "zaměřen"
    },
-   "LONGTITUDE" : {
-      "description" : "",
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
       "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {

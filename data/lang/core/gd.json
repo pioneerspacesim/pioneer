@@ -672,7 +672,7 @@
       "message" : "Mhothaich sinn air losgadh leusair."
    },
    "LATITUDE" : {
-      "description" : "",
+      "description" : "Short for latitude",
       "message" : "D-leud:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
@@ -707,8 +707,8 @@
       "description" : "to lock a hyperspace target",
       "message" : "glaiste"
    },
-   "LONGTITUDE" : {
-      "description" : "",
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
       "message" : "D-fhad:"
    },
    "MAJOR_EXPORTS" : {

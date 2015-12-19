@@ -672,7 +672,7 @@
       "message" : "Waffenfeuer detektiert."
    },
    "LATITUDE" : {
-      "description" : "",
+      "description" : "Short for latitude",
       "message" : "Breite:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
@@ -707,8 +707,8 @@
       "description" : "to lock a hyperspace target",
       "message" : "Eingerastet"
    },
-   "LONGTITUDE" : {
-      "description" : "",
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
       "message" : "Länge:"
    },
    "MAJOR_EXPORTS" : {
