@@ -668,7 +668,7 @@
       "message" : "Laser fire detected."
    },
    "LATITUDE" : {
-      "description" : "",
+      "description" : "Short for latitude",
       "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
@@ -704,7 +704,7 @@
       "message" : "locked"
    },
    "LONGTITUDE" : {
-      "description" : "",
+      "description" : "Short for longitude",
       "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
