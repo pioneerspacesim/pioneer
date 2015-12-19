@@ -1701,7 +1701,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Widok ekwipunku"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1717,7 +1717,7 @@
    },
    "TOGGLE_SCANNER_VIEW" : {
       "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+      "message" : "Widok skanera"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",

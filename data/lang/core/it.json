@@ -1701,7 +1701,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Vista Equipaggiamento"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1717,7 +1717,7 @@
    },
    "TOGGLE_SCANNER_VIEW" : {
       "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+      "message" : "Vista Scanner"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
