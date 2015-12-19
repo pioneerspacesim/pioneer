@@ -95,22 +95,31 @@ local econTrade = function ()
 	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
 
 	-- Define the refuel button
-	local refuelButton = SmallLabeledButton.New(l.REFUEL)
-	local refuelMaxButton = SmallLabeledButton.New(l.REFUEL_FULL)
-	local pumpDownButton = SmallLabeledButton.New(l.PUMP_DOWN)
+	local refuelOne = ui:Button("+1")
+	local refuelTen = ui:Button("+10")
+	local refuel100 = ui:Button("+100")
+	local pumpDownOne = ui:Button("-1")
+	local pumpDownTen = ui:Button("-10")
+	local pumpDown100 = ui:Button("-100")
 
 	local refuelButtonRefresh = function ()
 		if Game.player.fuel == 100 or Game.player:CountEquip(Equipment.cargo.hydrogen) == 0 then
-			refuelButton.widget:Disable()
-			refuelMaxButton.widget:Disable()
+			refuelOne:Disable()
+			refuelTen:Disable()
+			refuel100:Disable()
 		else
-			refuelButton.widget:Enable()
-			refuelMaxButton.widget:Enable()
+			refuelOne:Enable()
+			refuelTen:Enable()
+			refuel100:Enable()
 		end
 		if Game.player.fuel == 0 or Game.player:GetEquipFree("cargo") == 0 then
-			pumpDownButton.widget:Disable()
+			pumpDownOne:Disable()
+			pumpDownTen:Disable()
+			pumpDown100:Disable()
 		else
-			pumpDownButton.widget:Enable()
+			pumpDownOne:Enable()
+			pumpDownTen:Enable()
+			pumpDown100:Enable()
 		end
 		local fuel_percent = Game.player.fuel/100
 		fuelGauge.gauge:SetValue(fuel_percent)
@@ -118,38 +127,30 @@ local econTrade = function ()
 	end
 	refuelButtonRefresh()
 
-	local refuel = function ()
+	local refuel = function (fuel)
 		-- UI button where the player clicks to refuel...
-		Game.player:Refuel(1)
+		Game.player:Refuel(fuel)
 		-- ...then we update the cargo list widget...
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
 		refuelButtonRefresh()
 	end
-	local refuelMax = function ()
-		while Game.player.fuel < 100 do
-			local removed = Game.player:Refuel(1)
-			if removed == 0 then
-				break
-			end
-		end
-		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
-		refuelButtonRefresh()
-	end
-
-	local pumpDown = function ()
+	local pumpDown = function (fuel)
 		local fuelTankMass = ShipDef[Game.player.shipId].fuelTankMass
-		local drainedFuel = Game.player:AddEquip(Equipment.cargo.hydrogen, 1)
+		local drainedFuel = Game.player:AddEquip(Equipment.cargo.hydrogen, fuel)
 		Game.player:SetFuelPercent(Game.player.fuel - drainedFuel * 100 / fuelTankMass)
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
 		refuelButtonRefresh()
 	end
 
-	refuelButton.button.onClick:Connect(refuel)
-	refuelMaxButton.button.onClick:Connect(refuelMax)
-	pumpDownButton.button.onClick:Connect(pumpDown)
+	refuelOne.onClick:Connect(function () refuel(1) end)
+	refuelTen.onClick:Connect(function () refuel(10) end)
+	refuel100.onClick:Connect(function () refuel(100) end)
+	pumpDownOne.onClick:Connect(function () pumpDown(1) end)
+	pumpDownTen.onClick:Connect(function () pumpDown(10) end)
+	pumpDown100.onClick:Connect(function () pumpDown(100) end)
 
 	return ui:Expand():SetInnerWidget(
 		ui:Grid({48,4,48},1)
@@ -196,9 +197,18 @@ local econTrade = function ()
 								}),
 								nil,
 								ui:VBox(5):PackEnd({
-									refuelButton.widget,
-									refuelMaxButton.widget,
-									pumpDownButton.widget,
+									ui:Label(l.REFUEL),
+									ui:HBox(5):PackEnd({
+										refuelOne,
+										refuelTen,
+										refuel100,
+									}):SetFont("XSMALL"),
+									ui:Label(l.PUMP_DOWN),
+									ui:HBox(5):PackEnd({
+										pumpDownOne,
+										pumpDownTen,
+										pumpDown100,
+									}):SetFont("XSMALL"),
 								}),
 							})
 					})
