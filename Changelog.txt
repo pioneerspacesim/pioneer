@@ -5,6 +5,7 @@ December 2015
      * Search & Rescue mission script (#3529)
      * New config value UIScaleFactor to scale text and images in the UI (#3552)
      * Add return location to mission screen for Search & Rescue missions (#3570)
+     * One button (F9) is sufficient for changing missile/scanner view (#3556)
 
    * Fixes
      * Fix typo in language strings (#3382)
