@@ -703,7 +703,7 @@
       "description" : "to lock a hyperspace target",
       "message" : "locked"
    },
-   "LONGTITUDE" : {
+   "LONGITUDE" : {
       "description" : "Short for longitude",
       "message" : "Long:"
    },
