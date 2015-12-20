@@ -15,6 +15,7 @@ December 2015
      * Fix rounding of the 'heading' display (#3550, #3561)
      * Fix UI scaling for small displays (#3568)
      * Launch ship if necessary at start of AIDockWith (#3563)
+     * Deimos Seed (#3572)
 
    * Internal Changes
      * Face parts (head/hair/eyes/nose/mouth) can now be non-gendered (#3548)
