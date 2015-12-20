@@ -169,6 +169,7 @@ local mars_moons = {
 			:longitude(math.deg2rad(-5)),
 	},
 	CustomSystemBody:new('Deimos', 'PLANET_ASTEROID')
+		:seed(439771126)
 		:radius(f(12,10000))
 		:mass(f(25,1000000))
 		:temp(233)

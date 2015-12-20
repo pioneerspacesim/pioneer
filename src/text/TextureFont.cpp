@@ -72,7 +72,8 @@ void TextureFont::MeasureString(const std::string &str, float &w, float &h)
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if (n == 0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
