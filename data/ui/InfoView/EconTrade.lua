@@ -138,8 +138,10 @@ local econTrade = function ()
 
 	local pumpDown = function (fuel)
 		local fuelTankMass = ShipDef[Game.player.shipId].fuelTankMass
+		local availableFuel = math.floor(Game.player.fuel / 100 * fuelTankMass)
+		if fuel > availableFuel then fuel = availableFuel end
 		local drainedFuel = Game.player:AddEquip(Equipment.cargo.hydrogen, fuel)
-		Game.player:SetFuelPercent(Game.player.fuel - drainedFuel * 100 / fuelTankMass)
+		Game.player:SetFuelPercent(math.clamp(Game.player.fuel - drainedFuel * 100 / fuelTankMass, 0, 100))
 		cargoListWidget:SetInnerWidget(updateCargoListWidget())
 
 		refuelButtonRefresh()
