@@ -605,7 +605,7 @@ Ship.Refuel = function (self,amount)
 		return 0
 	end
 	local fuelTankMass = ShipDef[self.shipId].fuelTankMass
-	local needed = math.clamp(math.ceil(fuelTankMass - self.fuelMassLeft), 0, amount)
+	local needed = math.clamp(math.floor(fuelTankMass - self.fuelMassLeft), 0, amount)
 	local removed = self:RemoveEquip(Equipment.cargo.hydrogen, needed)
 	self:SetFuelPercent(math.clamp(self.fuel + removed * 100 / fuelTankMass, 0, 100))
 	return removed

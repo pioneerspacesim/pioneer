@@ -180,17 +180,17 @@ static int l_ship_set_fuel_percent(lua_State *l)
 
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 
-	float percent = 100;
+	double percent = 100;
 	if (lua_isnumber(l, 2)) {
-		percent = float(luaL_checknumber(l, 2));
-		if (percent < 0.0f || percent > 100.0f) {
+		percent = luaL_checknumber(l, 2);
+		if (percent < 0.0 || percent > 100.0) {
 			pi_lua_warn(l,
 				"argument out of range: Ship{%s}:SetFuelPercent(%g)",
 				s->GetLabel().c_str(), percent);
 		}
 	}
 
-	s->SetFuel(percent/100.f);
+	s->SetFuel(percent/100.0);
 
 	LUA_DEBUG_END(l, 0);
 
