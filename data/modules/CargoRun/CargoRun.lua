@@ -343,7 +343,8 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmuch)
 
 	elseif option == 3 then
-		if Game.player.freeCapacity < ad.amount then
+		if (not ad.pickup and Game.player.freeCapacity < ad.amount) or
+			(ad.pickup and Game.player.totalCargo < ad.amount) then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP)
 			return
 		end
