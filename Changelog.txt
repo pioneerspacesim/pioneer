@@ -6,6 +6,7 @@ December 2015
      * New config value UIScaleFactor to scale text and images in the UI (#3552)
      * Add return location to mission screen for Search & Rescue missions (#3570)
      * One button (F9) is sufficient for changing missile/scanner view (#3556)
+     * Added pump down button to the EconTrade screen (#3567)
 
    * Fixes
      * Fix typo in language strings (#3382)
@@ -16,6 +17,7 @@ December 2015
      * Fix UI scaling for small displays (#3568)
      * Launch ship if necessary at start of AIDockWith (#3563)
      * Deimos Seed (#3572)
+     * Flying empty fix (#3516)
 
    * Internal Changes
      * Face parts (head/hair/eyes/nose/mouth) can now be non-gendered (#3548)
