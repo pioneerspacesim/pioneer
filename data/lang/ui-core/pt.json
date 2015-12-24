@@ -859,6 +859,10 @@
       "description" : "For player reputation",
       "message" : "Professional"
    },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Pump down"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Pontuações de qualificação"
