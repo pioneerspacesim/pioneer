@@ -861,7 +861,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pump down"
+      "message" : "Scarica"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -889,7 +889,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Rifornimento"
+      "message" : "Rifornisci"
    },
    "REFUEL_FULL" : {
       "description" : "",
