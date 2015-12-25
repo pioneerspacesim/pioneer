@@ -18,6 +18,7 @@ December 2015
      * Launch ship if necessary at start of AIDockWith (#3563)
      * Deimos Seed (#3572)
      * Flying empty fix (#3516)
+     * Fixed translations for the names of the Galactic arms (#3566)
 
    * Internal Changes
      * Face parts (head/hair/eyes/nose/mouth) can now be non-gendered (#3548)
