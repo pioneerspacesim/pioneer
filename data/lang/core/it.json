@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Animali vivi"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio locale"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "acquisito"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Gas nervini"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Regolo-Cigno"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Non trovato"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Mondo esterno agricolo."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Esterno"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Oltre %population miliardi"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distanza dal periapside"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio di Perseo"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Rifiuti"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Carena-Sagittario"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Controllo scanner"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "schermata%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Scudo-Croce"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "sottile"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio dei 3-kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Информационный центр"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Ориона"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Положение: {distance}км от центра {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Лебедя"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Примечание:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Круговая орбитальная скорость дана для тангенциальной скорости. Корабль должен двигаться под 90В° к оси корабля/{name}.\n\nСкорость снижения - минимальная и тангенциальная. Наиболее низка скорость или минимальный угол, которые приведут к пересечению с поверхностью {name}.\n\nСкорость отдаления - теоретическая для любого направления, на котором корабль не пересечется с поверхностью {name}.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Внешний рукав"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Неоплаченные штрафы"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Оплатить штраф в размере {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Персея"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Награда"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Стрельца"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Сохранить игру"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Крепления для заборника"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Центавра"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Корабль под контролем станции, Командир."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав в 3 кпк от центра"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Animais Vivos"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "bloqueado"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Norma arm"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Não encontrado"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Outdoor agricultural world."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Outer arm"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Mais de %population mil milhões"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsis distance"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Perseus arm"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Lixo"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Sagittarius arm"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Scanner control"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Scutum-Centaurus arm"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "fino"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

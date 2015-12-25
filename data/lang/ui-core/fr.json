@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Hall"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la voie lactée local"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Localisation {distance}km du centre de {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "Aucun à vendre dans cette station"
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la Règle"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Notes:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "La vitesse orbitale est donnée pour un vecteur tangenciel : La trajectoire doit etre de 90° par rapport a l'axe  vaisseau/{name}.\n\nLa vitesse de descente est un minimum absolu, et c'est aussi la vitesse tangencielle : Une vitesse plus base ou un angle plus bas donneront a coup sur une collision avec {name}.\n\nLa vitesse de libération fonctionne en théorie dans toute les directions, tant que le vaisseau n'entre pas en collision avec {name}."
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras externe"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Amendes impayées"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Payer l'amende de {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de Persée"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Récompense"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras du Sagittaire"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Sauvegarder"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Scoop mounts"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras Écu-Croix"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Le vaisseau est sous le contrôle de la station, Commandant."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la voie lactée 3kpc"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

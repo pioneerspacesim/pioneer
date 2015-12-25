@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "活动物"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "猎户臂"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "锁定"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "神经毒气"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "天鹅臂"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "未找到"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "可在户外活动的农业星球."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "外部臂"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "超过 %population 000000000"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "近拱点距离"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "英仙臂"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "废料"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "射手臂"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "扫描仪控制"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "截图 %index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "半人马臂"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "较薄的"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3k秒差距旋臂"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

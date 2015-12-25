@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Beathaichean beò"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal ionadail"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "glaiste"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Nearbh-ghas"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal na Riaghailte"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Cha deach a lorg"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Saoghal àiteachais le sluagh a' fuireach a-muigh."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal a-muigh"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Còrr is %population billean "
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Astar a' pheriapsis"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal Pherseus"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Sgudal"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal a' Bhoghadair"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Smachd an sganair"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "glacadh-sgrìn%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal Scutum-Centaurus"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "tana"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Gobhal 3kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

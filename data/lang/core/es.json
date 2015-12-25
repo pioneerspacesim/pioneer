@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Animales vivos"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Orión"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "fijado"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Gas nervioso"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Norma"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "No encontrado"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Mundo agrícola exterior."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo Exterior"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Alrededor de %{population}000 millones"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distancia de Periapsis"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Perseo"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Basura"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Sagitario"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Escáner"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Escudo-Centauro"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "delgada"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo 3KPC"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

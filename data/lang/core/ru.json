@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Животные"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Ориона"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "закрыто"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Парализующий газ"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Лебедя"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Не обнаружено"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Открытый сельскохозяйственный мир."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Внешний рукав"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Свыше %population млрд."
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Расстояние периапсида"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Персея"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Мусор"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Стрельца"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Управление сканером:"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Центавра"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "тонкой"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав в 3 кпк от центра"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

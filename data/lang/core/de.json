@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Lebendige Tiere"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Lokaler Arm"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "Eingerastet"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Chemische Kampfstoffe"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Norma-Arm"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Nicht gefunden"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Planet mit Agrarwirtschaft unter freiem Himmel."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Cygnus-Arm"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Mehr als %population Milliarden"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsisdistanz"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Perseus-Arm"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Abfälle"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Sagittarius-Arm"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Scanner-Einstellungen"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "Pioneer-Screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Scutum-Crux-Arm"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "dünnen"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc Arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

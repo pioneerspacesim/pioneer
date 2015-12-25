@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Lobby"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Localitzat a {distance}km del centre de {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Anell de Norma"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Notes:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Anell Exterior"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Outstanding fines"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Pay fine of {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Anell de Perseus"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Recompensa"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Anell de Sagitari"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Guardar"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Scoop mounts"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Anell de Scutum-Centaure"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "La nau esta sota control de l'estació, Comandant."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

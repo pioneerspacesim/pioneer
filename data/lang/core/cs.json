@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Živá zvířata"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "zaměřen"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Nervový plyn"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Pravítko"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Nenalezen"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Planeta se zemědělstvím pod širým nebem."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Labuť"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Více než %population miliard"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Perihel (přísluní)"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Perseus"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Odpadky"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Střelec"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Ovládání radaru"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "pioneer_screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "rameno Štít/Jižní kříž"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "řídkou"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

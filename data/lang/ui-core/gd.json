@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Lobaidh"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Gobhal ionadail"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "{distance}km air falbh o mheadhan {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "Chan eil gin 'ga reic san stèisean seo."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Gobhal na Riaghailte"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Nòtaichean:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Thèid luaths cearcallach na reul-cuairte a shealltainn mar luaths beantanach. Mu chòir dhan long a bhith a' siubhal le 90° an comhair aiseal na luinge/{name}.\n\nTha an luaths teàrnaidh cho beag 's a ghabhas agus tha e beantanach cuideachd. Bheir luaths as ìsle le ceum as ìsle cùrsa dhut a dh'eadar-ghearras ris an uachdar aig {name}.\n\nBu chòir don luaths teichidh obrachadh air comhair sam bith cho fad 's nach buail an long ri {name} air an t-slighe.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Gobhal a-muigh"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Càintean ri am pàigheadh"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Pàigh càin de {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Gobhal Pherseus"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Duais"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Gobhal a' Bhoghadair"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Sàbhail"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Tàthaidhean sgioba"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Gobhal Scutum-Centaurus"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Tha an soitheach fo smachd an stèisein, a Chomandair."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Gobhal 3kpc"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

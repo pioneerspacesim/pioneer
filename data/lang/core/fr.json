@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Animaux vivants"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la voie lactée local"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "verrouillé"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Gaz neurotox."
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la Règle"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Non trouvé"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Monde agricole à l'air libre."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras externe"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Plus de %population milliards"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distance de périhélie"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de Persée"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Détritus"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras du Sagittaire"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Senseurs"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "capture_d_ecran%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras Écu-Croix"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "fine"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la voie lactée 3kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

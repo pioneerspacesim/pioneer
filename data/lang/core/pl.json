@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Żywe zwierzęta"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Lokalne"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "zablokowany"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Gaz paraliżujący"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Normy"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Nie znaleziono"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Zewnętrzny rolniczy świat."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Zewnętrzne"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Ponad %population miliardów"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Perycentrum"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Perseusza"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Odpady"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Strzelca"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Opcje skanera"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Centaura"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "rozrzedzona"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Trzech Kiloparseków"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

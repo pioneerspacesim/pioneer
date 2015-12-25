@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "大厅"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "猎户臂"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "与 {name} 相距 {distance} km:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "天鹅臂"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "笔记:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "环绕速度是指飞船的轨道速度在垂直于(90度)飞船-{name}方向上的分量.\n\n下降速度取最小绝对值, 同时也是切向的. 一个较慢的轨道速度或较低的角度会导致飞船的轨道与 {name} 表面交会.\n\n逃逸速度在任何方向上都相同, 除非飞船的轨道与 {name} 表面交会.\n\\t\\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "外部臂"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Outstanding fines"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "缴纳 {amount} 罚金"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "英仙臂"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "报酬"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "射手臂"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "保存"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "收集器挂点"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "半人马臂"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "飞船处于空间站控制下了, 指挥官."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3k秒差距旋臂"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

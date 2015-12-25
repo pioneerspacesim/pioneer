@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Saguão"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço local"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Localizado a {distance}km do centro de {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Norma"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Notas:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Velocidade da órbita circular é dada pela velocidade tangencial. A nave deveria estar se movendo em em uma direção a 90° para a nave/{nome} eixo.%s\n%s\nVelocidade descentee é um mínimo absoluto, e é também tangencial. Uma velocidade mais baixa ou um ângulo mais baixo resultará em um caminho que cruza a superfície de {nome}.%s\n%s\nVelocidade de escape teoricamente trabalhará em qualquer direção, enquanto a nave não colidir com {nome} no caminho.%s\n⇥⇥"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Outer"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Multas pendentes"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Pagar multa de {quantia}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Perseu"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Recompensa"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Sagitário"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Salvar"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Slots para coletores"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Scutum-Centaurus"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "A nave está sob controle da estação, Comandante."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "braço 3kpc"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

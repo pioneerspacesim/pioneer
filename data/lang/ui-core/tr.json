@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Lobi"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Yerel kol"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : " {name} merkezinden {distance}km uzaklıkta:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Norma kolu"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Notlar:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n "
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Dış kol"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Outstanding fines"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "{amount} ceza öde"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Perseus kolu"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Ödül"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Sagittarius kolu"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Kaydet"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Toplayıcı bağlantıları"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Scutum-Centaurus kolu"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Komutanım, gemi istasyon kontrolünde."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc kolu"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

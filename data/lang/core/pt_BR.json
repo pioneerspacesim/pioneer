@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Animais Vivos"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braço local"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "trancado"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Gás Sarin"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braço de Norma"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Não encontrado"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Mundo externo agricultor"
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braço de Outer"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Mais de %population bilhão(ões)"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distância do Periastro"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braço de Perseu"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Besteira"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braço de Sagitário"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Controle de escaneador"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braço de Scutum-Centaurus"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "fino"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "braço 3kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

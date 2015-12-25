@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Lobby"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Lokal arm"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Befinner sig {distance}km från centrum av {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "Inget tillsalu vid denna station"
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Norma arm"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Anteckningar:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Cirkulär omloppshastighet är angiven för en tangerande hastighet. Skeppet borde röras i 90° riktning mot skep/{name} axeln.\n\nNedstigningshastighet är ett absolut minimum och är också tangerande. En lägre hastighet eller lägre vinkel kommer att resultera i en kurs som korsar ytan på {name}.\n\nFlykthastighet fungerar i teorin i alla riktningar så länge inte skeppet krockar med {name} på vägen.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Yttre arm"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Obetalda böter"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Betala böter på {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Perseus arm"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Belöning"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Sagittarius arm"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Spara"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Skopfästen"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Scutum-Centaurus arm"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Skeppet är under stationens kontroll kapten."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

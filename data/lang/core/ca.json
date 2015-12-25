@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Animals vius"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "bloquejat"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Gas lacrimogen"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Anell de Norma"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "No s'ha trobat"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Món rural a l'aire lliure."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Anell Exterior"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Més de %population.000 milions"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periàpsis"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Anell de Perseus"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Deixalles"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Anell de Sagitari"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Mode d'escaneig"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "captura%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Anell de Scutum-Centaure"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "prim"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

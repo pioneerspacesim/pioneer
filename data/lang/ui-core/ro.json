@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Antreu"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braț local"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Situat la {distance}km față de centrul {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brațul Norma"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Note:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Viteza pentru orbita circulară este dată pentru o viteză tangențială. Nava ar trebui să se miște întro direcție la 90° față de axa navei/corpului ceresc {name}.\n\nViteza de coborâre este un minim absolut, și este de asemenea tangențială. O viteză mai mica sau un unghi mai mic va rezulta intr-un curs care se intersectează cu suprafața corpului ceresc {name}.\n\nViteza de ieșire din atmosferă va merge în teorie în orice direcție, atâta timp cât nava nu intră în {name} în drum.\n⇥⇥"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brațul exterior"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Amenzi neplătite"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Plătește amenda de {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brațul Perseus"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Recompensă"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brațul Sagittarius"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Salvează"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Monturi colectoare"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brațul Scutum-Centaurus"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Nava este sub controlul stației, Comandante."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "braț de 3kpc"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

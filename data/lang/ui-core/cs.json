@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Lobby"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "{distance}km od centra {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Pravítko"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Poznámky:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat v úhlu 90° k ose lodi/{name}.\n\nRychlost sestupu je absolutní minimum a je taktéž tangenciální. Menší rychlost nebo menší úhel bude mít za následek trajektorii, která se protíná s povrchem {name}.\n\nÚniková rychlost může být teoreticky libovolná ve všech směrech, dokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Labuť"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Outstanding fines"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Zaplať pokutu {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Perseus"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Odměna"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Střelec"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Uložit"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Podvěsy sběračů"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Štít/Jižní kříž"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Loď je pod kontrolou stanice, veliteli."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Animale Vii"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braț local"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "blocat"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Gaz Paralizant"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brațul Norma"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Nu a fost găsit"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Lume cu agricultură de exterior."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brațul exterior"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Peste %population mii de milioane"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distanța pericentrică"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brațul Perseus"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Gunoi"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brațul Sagittarius"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Control scaner"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "captura%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brațul Scutum-Centaurus"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "subțire"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "braț de 3kpc"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

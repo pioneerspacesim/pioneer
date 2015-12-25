@@ -699,10 +699,6 @@
       "description" : "",
       "message" : "Canlı Hayvan"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Yerel kol"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "kilitli"
@@ -955,10 +951,6 @@
       "description" : "",
       "message" : "Sinir Gazı"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Norma kolu"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Bulunamadı"
@@ -1087,10 +1079,6 @@
       "description" : "",
       "message" : "Dış tarım dünyası."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Dış kol"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "%population milyarın üstünde"
@@ -1114,10 +1102,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Periapsis uzaklığı"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Perseus kolu"
    },
    "PIONEER" : {
       "description" : "",
@@ -1279,10 +1263,6 @@
       "description" : "",
       "message" : "Çöp"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Sagittarius kolu"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Tarayıcı kontrolü"
@@ -1294,10 +1274,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "ekran%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Scutum-Centaurus kolu"
    },
    "SEARCH" : {
       "description" : "",
@@ -1658,10 +1634,6 @@
    "THIN" : {
       "description" : "",
       "message" : "ince"
-   },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc kolu"
    },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",

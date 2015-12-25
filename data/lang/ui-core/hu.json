@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Előcsarnok"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Helyi kar"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "{distance}km-re található a {name} középpontjától:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "None for sale in this station."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Norma kar"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Megjegyzés:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "A körpályához megadott sebesség párhuzamos a bolygó felszínével. A hajónak 90°-os szögben kell haladnia a ship/{name} tengelyhez képest.\n\nAz ereszkedési sebesség a lehető legalacsonyabb, és szintén párhuzamos a felszínnel. Lassabb sebesség vagy nagyobb ereszkedési szög ütközőpályát eredményez.\n\nA szökési sebesség elméletben bármely irányba működik, ütközőpályákat kivéve."
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Külső kar"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Kiszabott bírságok"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "{amount} büntetés befizetése"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Perseus kar"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Jutalom"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Sagittarius kar"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Ment"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Szívó felfüggesztés"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Scutum-Centaurus kar"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Vezérlést átvette az állomás, parancsnok."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpsz kar"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",

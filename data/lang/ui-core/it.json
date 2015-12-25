@@ -571,6 +571,10 @@
       "description" : "",
       "message" : "Anticamera"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio locale"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Localizzato a {distance}km dal centro di {name}:"
@@ -739,6 +743,10 @@
       "description" : "",
       "message" : "Nulla in vendita, in questa stazione."
    },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Regolo-Cigno"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Note:"
@@ -795,6 +803,10 @@
       "description" : "",
       "message" : "La velocità di orbita circolare è data come velocità tangenziale. L'astronave deve muoversi in una direzione di 90° rispetto all'asse astronave/{name}.\n\nLa velocità di discesa è un minimo assoluto, ed è anch'essa tangenziale. Una velocità od un angolo inferiori porteranno ad una traiettoria che interseca con la superficie di {name}.\n\nLa velocità di fuga si applica teoricamente ad ogni direzione, fintanto che l'astronave non entra in rotta di collisione con {name}."
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Esterno"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Multe pendenti"
@@ -806,6 +818,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Paga multa di {amount}"
+   },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio di Perseo"
    },
    "PERSONAL_INFORMATION" : {
       "description" : "",
@@ -935,6 +951,10 @@
       "description" : "",
       "message" : "Ricompensa"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Carena-Sagittario"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Salva"
@@ -942,6 +962,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Supporti per raccoglitori"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Scudo-Croce"
    },
    "SELECT" : {
       "description" : "",
@@ -1054,6 +1078,10 @@
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "La sua astronave è sotto il controllo della stazione, Comandante."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio dei 3-kpc"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
