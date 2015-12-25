@@ -1,19 +1,39 @@
 {
-   "NO" : {
-      "description" : "No, don't quit program",
-      "message" : "No"
-   },
-   "YES" : {
-      "description" : "Yes, quit program",
-      "message" : "Yes"
-   },
-   "QUIT" : {
-      "description" : "Quit game, as a question",
-      "message" : "Quit?"
-   },
    "MSG_1" : {
       "description" : "",
       "message" : "Say {yes} to get out of here and go back to your boring programs?"
+   },
+   "MSG_10" : {
+      "description" : "",
+      "message" : "Please choose {no} to waste a few more productive hours. Please?"
+   },
+   "MSG_11" : {
+      "description" : "",
+      "message" : "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+   },
+   "MSG_12" : {
+      "description" : "",
+      "message" : "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
+   },
+   "MSG_13" : {
+      "description" : "\"Seeing\" as in having an affair / being unfaithful",
+      "message" : "We never talk anymore. Are you seeing someone else?"
+   },
+   "MSG_14" : {
+      "description" : "",
+      "message" : "Do you really have something better to do?"
+   },
+   "MSG_15" : {
+      "description" : "",
+      "message" : "Giving up already?"
+   },
+   "MSG_16" : {
+      "description" : "A little homage to the movie 2001 A Space Odyssey",
+      "message" : "Just what do you think you're doing, Dave?"
+   },
+   "MSG_17" : {
+      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
+      "message" : "Quitting is for WIMPs!"
    },
    "MSG_2" : {
       "description" : "",
@@ -47,36 +67,16 @@
       "description" : "",
       "message" : "Clicking {yes} means you must return to the humdrum workday world."
    },
-   "MSG_10" : {
-      "description" : "",
-      "message" : "Please choose {no} to waste a few more productive hours. Please?"
+   "NO" : {
+      "description" : "No, don't quit program",
+      "message" : "No"
    },
-   "MSG_11" : {
-      "description" : "",
-      "message" : "Explorers don't quit, but go ahead and click {yes} if you aren't one."
+   "QUIT" : {
+      "description" : "Quit game, as a question",
+      "message" : "Quit?"
    },
-   "MSG_12" : {
-      "description" : "",
-      "message" : "Choose {no} If you are a tough bounty hunter, if not, click {yes} daintily."
-   },
-   "MSG_13" : {
-      "description" : "\"Seeing\" as in having an affair / being unfaithful",
-      "message" : "We never talk anymore. Are you seeing someone else?"
-   },
-   "MSG_14" : {
-      "description" : "",
-      "message" : "Do you really have something better to do?"
-   },
-   "MSG_15" : {
-      "description" : "",
-      "message" : "Giving up already?"
-   },
-   "MSG_16" : {
-      "description" : "A little homage to the movie 2001 A Space Odyssey",
-      "message" : "Just what do you think you're doing, Dave?"
-   },
-   "MSG_17" : {
-      "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
-      "message" : "Quitting is for WIMPs!"
+   "YES" : {
+      "description" : "Yes, quit program",
+      "message" : "Yes"
    }
 }

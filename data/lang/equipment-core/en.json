@@ -175,6 +175,10 @@
       "description" : "",
       "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
    },
+   "OUT_OF_SCANRANGE" : {
+      "description" : "",
+      "message" : "Max scan range exceeded:"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Body scan"
@@ -227,6 +231,14 @@
       "description" : "",
       "message" : "Provides a 3D map of nearby ships."
    },
+   "SCAN_COMPLETED" : {
+      "description" : "",
+      "message" : "Scanning completed"
+   },
+   "SCAN_RESUMED" : {
+      "description" : "",
+      "message" : "Scanning resumed"
+   },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
       "message" : "Shield Energy Booster"
@@ -247,6 +259,10 @@
       "description" : "",
       "message" : "Small plasma accelerator"
    },
+   "STARTING_SCAN" : {
+      "description" : "",
+      "message" : "Starting scan, target distance is"
+   },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
       "message" : "Trade analyzer"
@@ -262,21 +278,5 @@
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
       "message" : "Required for transport of a single passenger"
-   },
-   "STARTING_SCAN" : {
-      "description" : "",
-      "message" : "Starting scan, target distance is"
-   },
-   "OUT_OF_SCANRANGE" : {
-      "description" : "",
-      "message" : "Max scan range exceeded:"
-   },
-   "SCAN_COMPLETED" : {
-      "description" : "",
-      "message" : "Scanning completed"
-   },
-   "SCAN_RESUMED" : {
-      "description" : "",
-      "message" : "Scanning resumed"
    }
 }

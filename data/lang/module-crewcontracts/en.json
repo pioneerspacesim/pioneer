@@ -39,6 +39,10 @@
       "description" : "",
       "message" : "Minimal time served aboard ship"
    },
+   "NO_CREW_AVAILABLE" : {
+      "description" : "",
+      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+   },
    "NO_EXPERIENCE" : {
       "description" : "",
       "message" : "No experience"
@@ -46,10 +50,6 @@
    "OK_I_SUPPOSE_THATS_ALL_RIGHT" : {
       "description" : "",
       "message" : "OK, I suppose that's all right."
-   },
-   "NO_CREW_AVAILABLE" : {
-      "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
    },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",

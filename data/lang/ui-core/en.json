@@ -51,13 +51,13 @@
       "description" : "",
       "message" : "Bulletin Board"
    },
-   "BUY_SHIP" : {
-      "description" : "",
-      "message" : "Buy Ship"
-   },
    "BUY" : {
       "description" : "Commodities and equipment prices",
       "message" : "Buy"
+   },
+   "BUY_SHIP" : {
+      "description" : "",
+      "message" : "Buy Ship"
    },
    "CABINS" : {
       "description" : "For passengers",
@@ -151,6 +151,10 @@
       "description" : "",
       "message" : "Commodity Market"
    },
+   "COMPACT_SCANNER" : {
+      "description" : "Game settings option",
+      "message" : "Compact scanner"
+   },
    "COMPETENT" : {
       "description" : "Combat rating",
       "message" : "Competent"
@@ -162,6 +166,14 @@
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
       "message" : "Compress Textures"
+   },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirm purchase"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirm sale"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -178,14 +190,6 @@
    "CONTROL_OPTIONS" : {
       "description" : "",
       "message" : "Control Options"
-   },
-   "CONFIRM_PURCHASE" : {
-      "description" : "",
-      "message" : "Confirm purchase"
-   },
-   "CONFIRM_SALE" : {
-      "description" : "",
-      "message" : "Confirm sale"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
@@ -483,10 +487,6 @@
       "description" : "",
       "message" : "Invert Mouse Y"
    },
-   "COMPACT_SCANNER" : {
-      "description" : "Game settings option",
-      "message" : "Compact scanner"
-   },
    "IN_CARGO_HOLD" : {
       "description" : "",
       "message" : "In cargo hold"
@@ -723,6 +723,10 @@
       "description" : "",
       "message" : "Next paid"
    },
+   "NO" : {
+      "description" : "Negative answer to a question",
+      "message" : "No"
+   },
    "NOBODY" : {
       "description" : "For player reputation",
       "message" : "Nobody"
@@ -742,10 +746,6 @@
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
       "message" : "Not enough {alloy} to attempt a repair"
-   },
-   "NO" : {
-      "description" : "Negative answer to a question",
-      "message" : "No"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
@@ -795,13 +795,13 @@
       "description" : "",
       "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
-   "OWED" : {
-      "description" : "Player owing money to crew members",
-      "message" : "Owed"
-   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Outstanding fines"
+   },
+   "OWED" : {
+      "description" : "Player owing money to crew members",
+      "message" : "Owed"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
@@ -907,13 +907,13 @@
       "description" : "",
       "message" : "Reputation"
    },
-   "RESET" : {
-      "description" : "",
-      "message" : "Reset"
-   },
    "REQUEST_LAUNCH" : {
       "description" : "",
       "message" : "Request Launch"
+   },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
@@ -975,6 +975,10 @@
       "description" : "",
       "message" : "Ship"
    },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Ship's Engineer"
+   },
    "SHIP_INFORMATION" : {
       "description" : "",
       "message" : "Ship Information"
@@ -1003,17 +1007,9 @@
       "description" : "",
       "message" : "The ship you were viewing has been sold"
    },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Ship's Engineer"
-   },
    "SOUND" : {
       "description" : "",
       "message" : "Sound"
-   },
-   "STAR_FIELD_DENSITY" : {
-      "description" : "",
-      "message" : "Density of Star field"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -1026,6 +1022,10 @@
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
       "message" : "Start at New Hope"
+   },
+   "STAR_FIELD_DENSITY" : {
+      "description" : "",
+      "message" : "Density of Star field"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -1143,6 +1143,10 @@
       "description" : "Said by the police to law abiding player",
       "message" : "We have no business with you at the moment."
    },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} cannot be tolerated here!"
+   },
    "YES" : {
       "description" : "Positive answer to a question",
       "message" : "Yes"
@@ -1183,11 +1187,7 @@
       "description" : "",
       "message" : "You do not have enough money"
    },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
-   },
-   "ZOOM": {
+   "ZOOM" : {
       "description" : "Label for a zoom (magnification) control bar.",
       "message" : "Zoom"
    }
