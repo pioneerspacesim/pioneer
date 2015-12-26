@@ -877,7 +877,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pump down"
+      "message" : "Pumpa tillbaka"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
