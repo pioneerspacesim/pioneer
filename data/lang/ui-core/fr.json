@@ -525,7 +525,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permission to launch denied: not enough crew to handle this ship."
+      "message" : "Décollage non autorisé : votre équipage n'est pas au complet."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
