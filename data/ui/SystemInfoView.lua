@@ -315,19 +315,19 @@ local systemInfoTab =
 		sysInfoWidgets.desc,
 	}))
 local bodyInfoTab = ui:Label('Body info goes here')
-local tradeInfoTab = ui:Label('Market info goes here')
+local tradeInfoTab = ui:Label('Trade info goes here')
 
 local infoTabs = TabView.New()
 infoTabs:AddTab({
-	id = 'System', title = 'System', icon = 'Star',
+	id = 'System Info', title = l.SYSTEM_INFO, icon = 'Star',
 	template = function () return systemInfoTab; end
 })
 infoTabs:AddTab({
-	id = 'Body', title = 'Body', icon = 'Planet',
+	id = 'Body Info', title = l.BODY_INFO, icon = 'Planet',
 	template = function () return bodyInfoTab; end
 })
 infoTabs:AddTab({
-	id = 'Trade', title = 'Trade', icon = 'ChartClipboard',
+	id = 'Trade Info', title = l.TRADE_INFO, icon = 'ChartClipboard',
 	template = function () return tradeInfoTab; end
 })
 

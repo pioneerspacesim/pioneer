@@ -55,6 +55,10 @@
       "description" : "",
       "message" : "body"
    },
+   "BODY_INFO" : {
+      "description" : "Title-case space body (star, planet, asteroid, etc)",
+      "message" : "Body Info"
+   },
    "BULLETIN_BOARD" : {
       "description" : "",
       "message" : "Bulletin Board"
@@ -1159,6 +1163,14 @@
       "description" : "",
       "message" : "Status"
    },
+   "SYSTEM" : {
+      "description" : "star system",
+      "message" : "System"
+   },
+   "SYSTEM_INFO" : {
+      "description" : "",
+      "message" : "System Info"
+   },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
       "message" : "This station holds a level {tech_level} technology certificate."
@@ -1198,6 +1210,10 @@
    "TOTAL_MASS" : {
       "description" : "",
       "message" : "Total mass"
+   },
+   "TRADE_INFO" : {
+      "description" : "",
+      "message" : "Trade Info"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
