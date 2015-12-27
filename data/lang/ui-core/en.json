@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "An error has occurred"
    },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Apoapsis distance"
+   },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
       "message" : "Atmospheric shielding"
@@ -42,6 +46,10 @@
    "AVERAGE" : {
       "description" : "",
       "message" : "Average"
+   },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Axial tilt"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
@@ -315,6 +323,10 @@
       "description" : "",
       "message" : "Earth Federation Democracy"
    },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Eccentricity"
+   },
    "ECONOMY_TRADE" : {
       "description" : "",
       "message" : "Economy & Trade"
@@ -350,6 +362,10 @@
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
       "message" : "Engineering:"
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Equatorial to polar radius ratio"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -839,9 +855,37 @@
       "description" : "",
       "message" : "No missions."
    },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "{temperature} C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "{days} days"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "{angle} degrees"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "{days} earth days"
+   },
+   "N_EARTH_MASSES" : {
+      "description" : "Format mass relative to mass of the Earth.",
+      "message" : "{mass} Earth masses"
+   },
+   "N_EARTH_RADII" : {
+      "description" : "Format radius relative to radius of the Earth.",
+      "message" : "{radius} Earth radii ({radiuskm} km)"
+   },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
       "message" : "{range} light years ({maxRange} max)"
+   },
+   "N_M_PER_S_PER_S" : {
+      "description" : "Format an acceleration value in metres per second per second.",
+      "message" : "{acceleration} m/s^2"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -851,9 +895,21 @@
       "description" : "",
       "message" : "{quantity} Shield Generators"
    },
+   "N_SOLAR_MASSES" : {
+      "description" : "Format mass relative to mass of the Sun.",
+      "message" : "{mass} Solar masses"
+   },
+   "N_SOLAR_RADII" : {
+      "description" : "Format radius relative to radius of the Sun.",
+      "message" : "{radius} Solar radii ({radiuskm} km)"
+   },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
       "message" : "{quantity} Unoccupied Passenger Cabins"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "{years} years"
    },
    "OFF" : {
       "description" : "",
@@ -879,6 +935,10 @@
       "description" : "",
       "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Orbital period"
+   },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Outer arm"
@@ -894,6 +954,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Pay fine of {amount}"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Periapsis distance"
    },
    "PERSEUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -983,6 +1047,10 @@
       "description" : "For the checkbox in settings window",
       "message" : "Quit confirmation"
    },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Radius"
+   },
    "RANK" : {
       "description" : "",
       "message" : "Rank:"
@@ -1042,6 +1110,10 @@
    "REWARD" : {
       "description" : "",
       "message" : "Reward"
+   },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "Rotational period"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1139,6 +1211,10 @@
       "description" : "",
       "message" : "starport"
    },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Starports"
+   },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
       "message" : "Start at Barnard's Star"
@@ -1162,6 +1238,14 @@
    "STATUS" : {
       "description" : "",
       "message" : "Status"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Surface gravity"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Surface temperature"
    },
    "SYSTEM" : {
       "description" : "star system",

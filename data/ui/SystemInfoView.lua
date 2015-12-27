@@ -146,6 +146,22 @@ local sysInfoWidgets = {
 	population = ui:Label('popluation'),
 }
 
+local bodyInfoWidgets = {
+	shortDesc = ui:Label('{bodyname}: {shortDesc}'),
+	mass = ui:Label('x.xxx Earth masses'),
+	radius = ui:Label('x.xxx Earth radii (xxx km)'),
+	surfaceTemp = ui:Label('xxx C'),
+	surfaceGrav = ui:Label('xxx m/s^2'),
+	aspectRatio = ui:Label('1.0'),
+	orbitalPeriod = ui:Label('xxx days'),
+	periapsisDistance = ui:Label('xxxx km'),
+	apopapsisDistance = ui:Label('xxxx km'),
+	eccentricity = ui:Label('x.xx'),
+	axialTilt = ui:Label('x.x degrees'),
+	rotationalPeriod = ui:Label('x.x Earth days'),
+	starports = ui:Label('Foo Port'),
+}
+
 local function humanisePopulation(pop)
 	if pop >= 1 then
 		return string.format('Over %d billion', pop)
@@ -155,6 +171,52 @@ local function humanisePopulation(pop)
 		return string.format('Only a few thousand')
 	else
 		return 'No registered inhabitants'
+	end
+end
+
+local function humaniseMass(mass)
+	local earth_mass = 5.9742e24
+	local sol_mass = 1.98892e30
+	if mass >= 2e29 then
+		return string.interp(l.N_SOLAR_MASSES, { mass = mass / sol_mass })
+	else
+		return string.interp(l.N_EARTH_MASSES, { mass = mass / earth_mass })
+	end
+end
+
+local function humaniseRadius(radius)
+	local earth_radius = 6378135.0
+	local sol_radius = 6.955e8
+	if radius >= 7e7 then
+		return string.interp(l.N_SOLAR_RADII, {
+			radius = radius / sol_radius,
+			radiuskm = radius * 1e-3
+		})
+	else
+		return string.interp(l.N_EARTH_RADII, {
+			radius = radius / earth_radius,
+			radiuskm = radius * 1e-3
+		})
+	end
+end
+
+local function humanisePeriod(period)
+	local days = period / (60*60*24)
+	if days >= 1000 then
+		return string.interp(l.N_YEARS, { years = days / 365.25 })
+	else
+		return string.interp(l.N_DAYS, { days = days })
+	end
+end
+
+local function humaniseDistance(dist)
+	local au = 149598000000.0
+	if dist >= 0.1*au then
+		return tostring(dist / au) .. ' AU'
+	elseif dist >= 10000 then
+		return tostring(dist / 1000) .. ' km'
+	else
+		return tostring(dist) .. ' m'
 	end
 end
 
@@ -186,10 +248,34 @@ local function initSystemInfo(sys)
 	sysInfoWidgets.population:SetText(humanisePopulation(sys.population))
 end
 
+local function initBodyInfo(body)
+	bodyInfoWidgets.shortDesc:SetText(body.name .. ': ' .. body.shortDescription)
+	bodyInfoWidgets.mass:SetText(humaniseMass(body.mass))
+	bodyInfoWidgets.radius:SetText(humaniseRadius(body.radius))
+	bodyInfoWidgets.aspectRatio:SetText(body.aspectRatio)
+	bodyInfoWidgets.surfaceTemp:SetText(string.interp(l.N_CELSIUS, { temperature = body.averageTemp - 273 }))
+	bodyInfoWidgets.surfaceGrav:SetText(string.interp(l.N_M_PER_S_PER_S, { acceleration = body.gravity }))
+	bodyInfoWidgets.orbitalPeriod:SetText(humanisePeriod(body.orbitalPeriod))
+	bodyInfoWidgets.periapsisDistance:SetText(humaniseDistance(body.periapsis))
+	bodyInfoWidgets.apopapsisDistance:SetText(humaniseDistance(body.apoapsis))
+	bodyInfoWidgets.eccentricity:SetText(body.eccentricity)
+	bodyInfoWidgets.axialTilt:SetText(string.interp(l.N_DEGREES, { angle = body.axialTilt}))
+	bodyInfoWidgets.rotationalPeriod:SetText(humanisePeriod(body.rotationPeriod * (60*60*24)))
+	local children = body:GetChildren()
+	local surface_ports = {}
+	for i = 1, #children do
+		if children[i].type == 'STARPORT_SURFACE' then
+			surface_ports[#surface_ports + 1] = children[i].name
+		end
+	end
+	bodyInfoWidgets.starports:SetText(table.concat(surface_ports, ', '))
+end
+
 local currentBody, currentBodyIconSelector
 local function handleClickBodyIcon(body, selector)
-	print('clicked ', body.name)
 	if currentBody == body then return end
+	print('clicked ', body.name)
+	initBodyInfo(body)
 	if currentBodyIconSelector ~= nil then
 		currentBodyIconSelector:SetShown(false)
 	end
@@ -314,7 +400,25 @@ local systemInfoTab =
 		ui:Label(l.NOTES):SetFont('HEADING_NORMAL'),
 		sysInfoWidgets.desc,
 	}))
-local bodyInfoTab = ui:Label('Body info goes here')
+local bodyInfoTab =
+	ui:Scroller(ui:VBox(5):PackEnd({
+		bodyInfoWidgets.shortDesc,
+		"",
+		ui:Table():SetColumnAlignment('LEFT'):SetColumnSpacing(20):AddRows({
+			{ui:Label(l.MASS .. ':'), bodyInfoWidgets.mass},
+			{ui:Label(l.RADIUS .. ':'), bodyInfoWidgets.radius},
+			{ui:Label(l.EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO .. ':'), bodyInfoWidgets.aspectRatio},
+			{ui:Label(l.SURFACE_TEMPERATURE .. ':'), bodyInfoWidgets.surfaceTemp},
+			{ui:Label(l.SURFACE_GRAVITY .. ':'), bodyInfoWidgets.surfaceGrav},
+			{ui:Label(l.ORBITAL_PERIOD .. ':'), bodyInfoWidgets.orbitalPeriod},
+			{ui:Label(l.PERIAPSIS_DISTANCE .. ':'), bodyInfoWidgets.periapsisDistance},
+			{ui:Label(l.APOAPSIS_DISTANCE .. ':'), bodyInfoWidgets.apoapsisDistance},
+			{ui:Label(l.ECCENTRICITY .. ':'), bodyInfoWidgets.eccentricity},
+			{ui:Label(l.AXIAL_TILT .. ':'), bodyInfoWidgets.axialTilt},
+			{ui:Label(l.ROTATIONAL_PERIOD .. ':'), bodyInfoWidgets.rotationalPeriod},
+			{ui:Label(l.STARPORTS .. ':'), bodyInfoWidgets.starports},
+		}),
+	}))
 local tradeInfoTab = ui:Label('Trade info goes here')
 
 local infoTabs = TabView.New()
