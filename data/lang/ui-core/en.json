@@ -47,6 +47,14 @@
       "description" : "",
       "message" : "Backward acceleration"
    },
+   "BODIES" : {
+      "description" : "space bodies",
+      "message" : "bodies"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "body"
+   },
    "BULLETIN_BOARD" : {
       "description" : "",
       "message" : "Bulletin Board"
@@ -206,6 +214,14 @@
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
       "message" : "Could not load game: "
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" ({surfacecount} on surface)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "starports"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -1110,6 +1126,14 @@
    "SOUND" : {
       "description" : "",
       "message" : "Sound"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Stable system with {bodycount} major {body(s)} and {portcount} {starport(s)}"
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "starport"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",

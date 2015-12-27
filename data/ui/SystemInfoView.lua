@@ -246,7 +246,7 @@ local GOVTYPE_DESCRIPTIONS = {
 local sysInfoWidgets = {
 	title = ui:Label('SYSTEM NAME'):SetFont('HEADING_LARGE'),
 	sector = ui:Label('[1, 2, 3]'),
-	physicalDesc = ui:Label('Stable system with %bodycount major %{body(s)} and %portcount %{starport(s)}'),
+	physicalDesc = ui:Label('Stable system with...'),
 	desc = ui:MultiLineText('System description.'),
 	shortDesc = ui:MultiLineText('Stable system with some stuff.'),
 	govEcon = ui:Label('gov / econ'),
@@ -271,6 +271,22 @@ local function initSystemInfo(sys)
 	local path = sys.path
 	sysInfoWidgets.sector:SetText(string.format(
 		'[%d, %d, %d]', path.sectorX, path.sectorY, path.sectorZ))
+	local nstations = sys:GetStationCount()
+	local nsurface = 0
+	local nbodies = sys:GetBodyCount() - nstations
+	local quickInfo = string.interp(
+		l.STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS, {
+			['bodycount'] = nbodies,
+			['body(s)'] = (nbodies == 1 and l.BODY or l.BODIES),
+			['portcount'] = nstations,
+			['starport(s)'] = (nstations == 1 and l.STARPORT or l.COUNT_STARPORTS),
+		})
+	if nstations > 0 then
+		quickInfo = quickInfo .. string.interp(l.COUNT_ON_SURFACE, {
+			['surfacecount'] = nsurface,
+		})
+	end
+	sysInfoWidgets.physicalDesc:SetText(quickInfo)
 	sysInfoWidgets.desc:SetText(sys.description)
 	sysInfoWidgets.shortDesc:SetText(sys.shortDescription)
 	sysInfoWidgets.govEcon:SetText(GOVTYPE_DESCRIPTIONS[sys.governmentType])
