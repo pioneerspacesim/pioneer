@@ -77,6 +77,51 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_get_station_count(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	auto stations = s->GetSpaceStations();
+	int nstations = static_cast<int>(stations.end() - stations.begin());
+	lua_pushinteger(l, nstations);
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+static int l_starsystem_get_star_paths(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+
+	lua_newtable(l);
+
+	for (const SystemBody *sb : s->GetStars())
+	{
+		lua_pushinteger(l, lua_rawlen(l, -1)+1);
+		LuaObject<SystemPath>::PushToLua(&sb->GetPath());
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+static int l_starsystem_get_star_count(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	auto stars = s->GetStars();
+	int nstars = static_cast<int>(stars.end() - stars.begin());
+	lua_pushinteger(l, nstars);
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
 /*
  * Method: GetBodyPaths
  *
@@ -114,6 +159,18 @@ static int l_starsystem_get_body_paths(lua_State *l)
 
 	LUA_DEBUG_END(l, 1);
 
+	return 1;
+}
+
+static int l_starsystem_get_body_count(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	auto bodies = s->GetBodies();
+	int nbodies = static_cast<int>(bodies.end() - bodies.begin());
+	lua_pushinteger(l, nbodies);
+	LUA_DEBUG_END(l, 1);
 	return 1;
 }
 
@@ -617,7 +674,11 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "GetStationPaths", l_starsystem_get_station_paths },
+		{ "GetStationCount", l_starsystem_get_station_count },
+		{ "GetStarPaths", l_starsystem_get_star_paths },
+		{ "GetStarCount", l_starsystem_get_star_count },
 		{ "GetBodyPaths", l_starsystem_get_body_paths },
+		{ "GetBodyCount", l_starsystem_get_body_count },
 
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
 		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
