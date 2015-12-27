@@ -403,6 +403,10 @@
       "description" : "",
       "message" : "Good riddance to you, too."
    },
+   "GOVERNMENT_AND_ECONOMY" : {
+      "description" : "",
+      "message" : "Government / Economy:"
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Hang up."
@@ -863,6 +867,10 @@
       "description" : "Player combat rating",
       "message" : "Poor"
    },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Population:"
+   },
    "POSITION" : {
       "description" : "The job title/position of crew memeber",
       "message" : "Position"
@@ -886,6 +894,10 @@
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Qualification scores"
+   },
+   "QUICK_INFO" : {
+      "description" : "Heading for System Info summary",
+      "message" : "Quick Info"
    },
    "QUIT" : {
       "description" : "",

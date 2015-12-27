@@ -287,15 +287,15 @@ local systemInfoTab =
 		}),
 		sysInfoWidgets.shortDesc,
 		"",
-		ui:Label('Quick Info'):SetFont('HEADING_NORMAL'),
+		ui:Label(l.QUICK_INFO):SetFont('HEADING_NORMAL'),
 		sysInfoWidgets.physicalDesc,
 		ui:Table():SetColumnAlignment('LEFT'):SetColumnSpacing(20):AddRows({
-			{ui:Label('Government / Economy:'), sysInfoWidgets.govEcon},
-			{ui:Label('Allegiance:'), sysInfoWidgets.allegiance},
-			{ui:Label('Population:'), sysInfoWidgets.population},
+			{ui:Label(l.GOVERNMENT_AND_ECONOMY), sysInfoWidgets.govEcon},
+			{ui:Label(l.ALLEGIANCE), sysInfoWidgets.allegiance},
+			{ui:Label(l.POPULATION), sysInfoWidgets.population},
 		}),
 		"",
-		ui:Label('Notes'):SetFont('HEADING_NORMAL'),
+		ui:Label(l.NOTES):SetFont('HEADING_NORMAL'),
 		sysInfoWidgets.desc,
 	}))
 local bodyInfoTab = ui:Label('Body info goes here')
