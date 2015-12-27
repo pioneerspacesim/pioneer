@@ -367,6 +367,20 @@ static int l_sbody_attr_eccentricty(lua_State *l)
 	return 1;
 }
 
+static int l_sbody_attr_orbital_period(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetOrbit().Period());
+	return 1;
+}
+
+static int l_sbody_attr_aspect_ratio(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	lua_pushnumber(l, sbody->GetAspectRatio());
+	return 1;
+}
+
 /*
  * Attribute: axialTilt
  *
@@ -491,6 +505,14 @@ static int l_sbody_attr_is_scoopable(lua_State *l)
 	return 1;
 }
 
+static int l_sbody_attr_short_description(lua_State *l)
+{
+	SystemBody *sbody = LuaObject<SystemBody>::CheckFromLua(1);
+	const std::string &desc = sbody->GetAstroDescription();
+	lua_pushlstring(l, desc.c_str(), desc.size());
+	return 1;
+}
+
 template <> const char *LuaObject<SystemBody>::s_type = "SystemBody";
 
 template <> void LuaObject<SystemBody>::RegisterClass()
@@ -501,31 +523,34 @@ template <> void LuaObject<SystemBody>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "index",          l_sbody_attr_index           },
-		{ "name",           l_sbody_attr_name            },
-		{ "type",           l_sbody_attr_type            },
-		{ "superType",      l_sbody_attr_super_type      },
-		{ "seed",           l_sbody_attr_seed            },
-		{ "parent",         l_sbody_attr_parent          },
-		{ "population",     l_sbody_attr_population      },
-		{ "radius",         l_sbody_attr_radius          },
-		{ "mass",           l_sbody_attr_mass            },
-		{ "gravity",        l_sbody_attr_gravity         },
-		{ "periapsis",      l_sbody_attr_periapsis       },
-		{ "apoapsis",       l_sbody_attr_apoapsis        },
-		{ "rotationPeriod", l_sbody_attr_rotation_period },
-		{ "semiMajorAxis",  l_sbody_attr_semi_major_axis },
-		{ "eccentricity",   l_sbody_attr_eccentricty     },
-		{ "axialTilt",      l_sbody_attr_axial_tilt      },
-		{ "averageTemp",    l_sbody_attr_average_temp    },
-		{ "volatileLiquid", l_sbody_attr_volatile_liquid },
-		{ "volatileGas",    l_sbody_attr_volatile_gas    },
-		{ "volatileIces",   l_sbody_attr_volatile_ices   },
-		{ "volcanicity",    l_sbody_attr_volcanicity     },
-		{ "atmosOxidizing", l_sbody_attr_atmos_oxidizing },
-		{ "life",           l_sbody_attr_life            },
-		{ "hasAtmosphere",  l_sbody_attr_has_atmosphere  },
-		{ "isScoopable",    l_sbody_attr_is_scoopable    },
+		{ "index",            l_sbody_attr_index             },
+		{ "name",             l_sbody_attr_name              },
+		{ "type",             l_sbody_attr_type              },
+		{ "superType",        l_sbody_attr_super_type        },
+		{ "seed",             l_sbody_attr_seed              },
+		{ "parent",           l_sbody_attr_parent            },
+		{ "population",       l_sbody_attr_population        },
+		{ "radius",           l_sbody_attr_radius            },
+		{ "mass",             l_sbody_attr_mass              },
+		{ "gravity",          l_sbody_attr_gravity           },
+		{ "periapsis",        l_sbody_attr_periapsis         },
+		{ "apoapsis",         l_sbody_attr_apoapsis          },
+		{ "rotationPeriod",   l_sbody_attr_rotation_period   },
+		{ "semiMajorAxis",    l_sbody_attr_semi_major_axis   },
+		{ "eccentricity",     l_sbody_attr_eccentricty       },
+		{ "orbitalPeriod",    l_sbody_attr_orbital_period    },
+		{ "aspectRatio",      l_sbody_attr_aspect_ratio      },
+		{ "axialTilt",        l_sbody_attr_axial_tilt        },
+		{ "averageTemp",      l_sbody_attr_average_temp      },
+		{ "volatileLiquid",   l_sbody_attr_volatile_liquid   },
+		{ "volatileGas",      l_sbody_attr_volatile_gas      },
+		{ "volatileIces",     l_sbody_attr_volatile_ices     },
+		{ "volcanicity",      l_sbody_attr_volcanicity       },
+		{ "atmosOxidizing",   l_sbody_attr_atmos_oxidizing   },
+		{ "life",             l_sbody_attr_life              },
+		{ "hasAtmosphere",    l_sbody_attr_has_atmosphere    },
+		{ "isScoopable",      l_sbody_attr_is_scoopable      },
+		{ "shortDescription", l_sbody_attr_short_description },
 		{ 0, 0 }
 	};
 
