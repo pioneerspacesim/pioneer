@@ -116,6 +116,76 @@ local function pickIcon(body)
 	return icon
 end
 
+local GOVTYPE_DESCRIPTIONS = {
+	['NONE']          = l.NO_CENTRAL_GOVERNANCE          ..' / '.. l.NO_ECONOMIC_ORDER,
+	['EARTHCOLONIAL'] = l.EARTH_FEDERATION_COLONIAL_RULE ..' / '.. l.CAPITALISM,
+	['EARTHDEMOC']    = l.EARTH_FEDERATION_DEMOCRACY     ..' / '.. l.CAPITALISM,
+	['EMPIRERULE']    = l.IMPERIAL_RULE                  ..' / '.. l.PLANNED_ECONOMY,
+	['CISLIBDEM']     = l.LIBERAL_DEMOCRACY              ..' / '.. l.CAPITALISM,
+	['CISSOCDEM']     = l.SOCIAL_DEMOCRACY               ..' / '.. l.MIXED_ECONOMY,
+	['LIBDEM']        = l.LIBERAL_DEMOCRACY              ..' / '.. l.CAPITALISM,
+	['CORPORATE']     = l.CORPORATE_SYSTEM               ..' / '.. l.CAPITALISM,
+	['SOCDEM']        = l.SOCIAL_DEMOCRACY               ..' / '.. l.MIXED_ECONOMY,
+	['EARTHMILDICT']  = l.MILITARY_DICTATORSHIP          ..' / '.. l.CAPITALISM,
+	['MILDICT1']      = l.MILITARY_DICTATORSHIP          ..' / '.. l.CAPITALISM,
+	['MILDICT2']      = l.MILITARY_DICTATORSHIP          ..' / '.. l.MIXED_ECONOMY,
+	['EMPIREMILDICT'] = l.MILITARY_DICTATORSHIP          ..' / '.. l.MIXED_ECONOMY,
+	['COMMUNIST']     = l.COMMUNISM                      ..' / '.. l.PLANNED_ECONOMY,
+	['PLUTOCRATIC']   = l.PLUTOCRATIC_DICTATORSHIP       ..' / '.. l.HARD_CAPITALISM,
+	['DISORDER']      = l.VIOLENT_ANARCHY                ..' / '.. l.NO_ECONOMIC_ORDER,
+}
+
+local sysInfoWidgets = {
+	title = ui:Label('SYSTEM NAME'):SetFont('HEADING_LARGE'),
+	sector = ui:Label('[1, 2, 3]'),
+	physicalDesc = ui:Label('Stable system with...'),
+	desc = ui:MultiLineText('System description.'),
+	shortDesc = ui:MultiLineText('Stable system with some stuff.'),
+	govEcon = ui:Label('gov / econ'),
+	allegiance = ui:Label('allegiance'),
+	population = ui:Label('popluation'),
+}
+
+local function humanizePopulation(pop)
+	if pop >= 1 then
+		return string.format('Over %d billion', pop)
+	elseif pop >= 1e-3 then
+		return string.format('Over %d million', pop * 1000)
+	elseif pop > 0 then
+		return string.format('Only a few thousand')
+	else
+		return 'No registered inhabitants'
+	end
+end
+
+local function initSystemInfo(sys)
+	sysInfoWidgets.title:SetText(sys.name)
+	local path = sys.path
+	sysInfoWidgets.sector:SetText(string.format(
+		'[%d, %d, %d]', path.sectorX, path.sectorY, path.sectorZ))
+	local nstations = sys:GetStationCount()
+	local nsurface = 0
+	local nbodies = sys:GetBodyCount() - nstations
+	local quickInfo = string.interp(
+		l.STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS, {
+			['bodycount'] = nbodies,
+			['body(s)'] = (nbodies == 1 and l.BODY or l.BODIES),
+			['portcount'] = nstations,
+			['starport(s)'] = (nstations == 1 and l.STARPORT or l.COUNT_STARPORTS),
+		})
+	if nstations > 0 then
+		quickInfo = quickInfo .. string.interp(l.COUNT_ON_SURFACE, {
+			['surfacecount'] = nsurface,
+		})
+	end
+	sysInfoWidgets.physicalDesc:SetText(quickInfo)
+	sysInfoWidgets.desc:SetText(sys.description)
+	sysInfoWidgets.shortDesc:SetText(sys.shortDescription)
+	sysInfoWidgets.govEcon:SetText(GOVTYPE_DESCRIPTIONS[sys.governmentType])
+	sysInfoWidgets.allegiance:SetText(sys.faction.name)
+	sysInfoWidgets.population:SetText(humanizePopulation(sys.population))
+end
+
 local currentBody, currentBodyIconSelector
 local function handleClickBodyIcon(body, selector)
 	print('clicked ', body.name)
@@ -222,76 +292,6 @@ local function buildMagicStarLayout(body)
 		end
 	end
 	return ui:Expand('HORIZONTAL', ui:VBox(3):PackEnd(rows))
-end
-
-local GOVTYPE_DESCRIPTIONS = {
-	['NONE']          = l.NO_CENTRAL_GOVERNANCE          ..' / '.. l.NO_ECONOMIC_ORDER,
-	['EARTHCOLONIAL'] = l.EARTH_FEDERATION_COLONIAL_RULE ..' / '.. l.CAPITALISM,
-	['EARTHDEMOC']    = l.EARTH_FEDERATION_DEMOCRACY     ..' / '.. l.CAPITALISM,
-	['EMPIRERULE']    = l.IMPERIAL_RULE                  ..' / '.. l.PLANNED_ECONOMY,
-	['CISLIBDEM']     = l.LIBERAL_DEMOCRACY              ..' / '.. l.CAPITALISM,
-	['CISSOCDEM']     = l.SOCIAL_DEMOCRACY               ..' / '.. l.MIXED_ECONOMY,
-	['LIBDEM']        = l.LIBERAL_DEMOCRACY              ..' / '.. l.CAPITALISM,
-	['CORPORATE']     = l.CORPORATE_SYSTEM               ..' / '.. l.CAPITALISM,
-	['SOCDEM']        = l.SOCIAL_DEMOCRACY               ..' / '.. l.MIXED_ECONOMY,
-	['EARTHMILDICT']  = l.MILITARY_DICTATORSHIP          ..' / '.. l.CAPITALISM,
-	['MILDICT1']      = l.MILITARY_DICTATORSHIP          ..' / '.. l.CAPITALISM,
-	['MILDICT2']      = l.MILITARY_DICTATORSHIP          ..' / '.. l.MIXED_ECONOMY,
-	['EMPIREMILDICT'] = l.MILITARY_DICTATORSHIP          ..' / '.. l.MIXED_ECONOMY,
-	['COMMUNIST']     = l.COMMUNISM                      ..' / '.. l.PLANNED_ECONOMY,
-	['PLUTOCRATIC']   = l.PLUTOCRATIC_DICTATORSHIP       ..' / '.. l.HARD_CAPITALISM,
-	['DISORDER']      = l.VIOLENT_ANARCHY                ..' / '.. l.NO_ECONOMIC_ORDER,
-}
-
-local sysInfoWidgets = {
-	title = ui:Label('SYSTEM NAME'):SetFont('HEADING_LARGE'),
-	sector = ui:Label('[1, 2, 3]'),
-	physicalDesc = ui:Label('Stable system with...'),
-	desc = ui:MultiLineText('System description.'),
-	shortDesc = ui:MultiLineText('Stable system with some stuff.'),
-	govEcon = ui:Label('gov / econ'),
-	allegiance = ui:Label('allegiance'),
-	population = ui:Label('popluation'),
-}
-
-local function humanizePopulation(pop)
-	if pop >= 1 then
-		return string.format('Over %d billion', pop)
-	elseif pop >= 1e-3 then
-		return string.format('Over %d million', pop * 1000)
-	elseif pop > 0 then
-		return string.format('Only a few thousand')
-	else
-		return 'No registered inhabitants'
-	end
-end
-
-local function initSystemInfo(sys)
-	sysInfoWidgets.title:SetText(sys.name)
-	local path = sys.path
-	sysInfoWidgets.sector:SetText(string.format(
-		'[%d, %d, %d]', path.sectorX, path.sectorY, path.sectorZ))
-	local nstations = sys:GetStationCount()
-	local nsurface = 0
-	local nbodies = sys:GetBodyCount() - nstations
-	local quickInfo = string.interp(
-		l.STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS, {
-			['bodycount'] = nbodies,
-			['body(s)'] = (nbodies == 1 and l.BODY or l.BODIES),
-			['portcount'] = nstations,
-			['starport(s)'] = (nstations == 1 and l.STARPORT or l.COUNT_STARPORTS),
-		})
-	if nstations > 0 then
-		quickInfo = quickInfo .. string.interp(l.COUNT_ON_SURFACE, {
-			['surfacecount'] = nsurface,
-		})
-	end
-	sysInfoWidgets.physicalDesc:SetText(quickInfo)
-	sysInfoWidgets.desc:SetText(sys.description)
-	sysInfoWidgets.shortDesc:SetText(sys.shortDescription)
-	sysInfoWidgets.govEcon:SetText(GOVTYPE_DESCRIPTIONS[sys.governmentType])
-	sysInfoWidgets.allegiance:SetText(sys.faction.name)
-	sysInfoWidgets.population:SetText(humanizePopulation(sys.population))
 end
 
 local currentSystem
