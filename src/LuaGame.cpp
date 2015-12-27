@@ -103,7 +103,9 @@ static int l_game_load_game(lua_State *l)
 		luaL_error(l, Lang::GAME_LOAD_WRONG_VERSION);
 	}
 	catch (CouldNotOpenFileException) {
-		luaL_error(l, Lang::GAME_LOAD_CANNOT_OPEN);
+		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN,
+			formatarg("filename", filename));
+		luaL_error(l, msg.c_str());
 	}
 
 	return 0;
