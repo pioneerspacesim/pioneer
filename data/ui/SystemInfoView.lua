@@ -254,7 +254,7 @@ local sysInfoWidgets = {
 	population = ui:Label('popluation'),
 }
 
-local function HumanizePopulation(pop)
+local function humanizePopulation(pop)
 	if pop >= 1 then
 		return string.format('Over %d billion', pop)
 	elseif pop >= 1e-3 then
@@ -291,7 +291,7 @@ local function initSystemInfo(sys)
 	sysInfoWidgets.shortDesc:SetText(sys.shortDescription)
 	sysInfoWidgets.govEcon:SetText(GOVTYPE_DESCRIPTIONS[sys.governmentType])
 	sysInfoWidgets.allegiance:SetText(sys.faction.name)
-	sysInfoWidgets.population:SetText(HumanizePopulation(sys.population))
+	sysInfoWidgets.population:SetText(humanizePopulation(sys.population))
 end
 
 local currentSystem
