@@ -288,7 +288,7 @@ local function bodyIconButton(body, onClick)
 	local icon = pickIcon(body)
 	if icon ~= nil then
 		local selector = ui:SelectorBox('RECT',
-			ui:Image(icon, {'PRESERVE_ASPECT'}):SetNaturalSize(1.5))
+			ui:Image(icon, {'PRESERVE_ASPECT'}):SetNaturalSize(1.25))
 		selector:SetColor(0,0.9,0):SetShown(false)
 		selector.onClick:Connect(function () onClick(body, selector); end)
 		return selector
