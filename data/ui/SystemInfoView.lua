@@ -225,22 +225,22 @@ local function buildMagicStarLayout(body)
 end
 
 local GOVTYPE_DESCRIPTIONS = {
-	['NONE'] = 'No central governance / No economic order',
-	['EARTHCOLONIAL'] = 'Earth Federation Colonial Rule / Capitalism',
-	['EARTHDEMOC'] = 'Earth Federation Democracy / Capitalism',
-	['EMPIRERULE'] = 'Imperial Rule / Planned economy',
-	['CISLIBDEM'] = 'Liberal Democracy / Capitalism',
-	['CISSOCDEM'] = 'Social Democracy / Mixed economy',
-	['LIBDEM'] = 'Liberal Democracy / Capitalism',
-	['CORPORATE'] = 'Corporate system / Capitalism',
-	['SOCDEM'] = 'Social Democracy / Mixed economy',
-	['EARTHMILDICT'] = 'Military dictatorship / Capitalism',
-	['MILDICT1'] = 'Military dictatorship / Capitalism',
-	['MILDICT2'] = 'Military dictatorship / Mixed economy',
-	['EMPIREMILDICT'] = 'Military dictatorship / Mixed economy',
-	['COMMUNIST'] = 'Communism / Planned economy',
-	['PLUTOCRATIC'] = 'Plutocratic dictatorship / Hard capitalism (no welfare provision)',
-	['DISORDER'] = 'Anarchy / No economic order',
+	['NONE']          = l.NO_CENTRAL_GOVERNANCE          ..' / '.. l.NO_ECONOMIC_ORDER,
+	['EARTHCOLONIAL'] = l.EARTH_FEDERATION_COLONIAL_RULE ..' / '.. l.CAPITALISM,
+	['EARTHDEMOC']    = l.EARTH_FEDERATION_DEMOCRACY     ..' / '.. l.CAPITALISM,
+	['EMPIRERULE']    = l.IMPERIAL_RULE                  ..' / '.. l.PLANNED_ECONOMY,
+	['CISLIBDEM']     = l.LIBERAL_DEMOCRACY              ..' / '.. l.CAPITALISM,
+	['CISSOCDEM']     = l.SOCIAL_DEMOCRACY               ..' / '.. l.MIXED_ECONOMY,
+	['LIBDEM']        = l.LIBERAL_DEMOCRACY              ..' / '.. l.CAPITALISM,
+	['CORPORATE']     = l.CORPORATE_SYSTEM               ..' / '.. l.CAPITALISM,
+	['SOCDEM']        = l.SOCIAL_DEMOCRACY               ..' / '.. l.MIXED_ECONOMY,
+	['EARTHMILDICT']  = l.MILITARY_DICTATORSHIP          ..' / '.. l.CAPITALISM,
+	['MILDICT1']      = l.MILITARY_DICTATORSHIP          ..' / '.. l.CAPITALISM,
+	['MILDICT2']      = l.MILITARY_DICTATORSHIP          ..' / '.. l.MIXED_ECONOMY,
+	['EMPIREMILDICT'] = l.MILITARY_DICTATORSHIP          ..' / '.. l.MIXED_ECONOMY,
+	['COMMUNIST']     = l.COMMUNISM                      ..' / '.. l.PLANNED_ECONOMY,
+	['PLUTOCRATIC']   = l.PLUTOCRATIC_DICTATORSHIP       ..' / '.. l.HARD_CAPITALISM,
+	['DISORDER']      = l.VIOLENT_ANARCHY                ..' / '.. l.NO_ECONOMIC_ORDER,
 }
 
 local sysInfoWidgets = {

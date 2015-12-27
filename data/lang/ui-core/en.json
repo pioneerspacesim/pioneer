@@ -83,6 +83,10 @@
       "description" : "",
       "message" : "Capacity used"
    },
+   "CAPITALISM" : {
+      "description" : "",
+      "message" : "Capitalism"
+   },
    "CARGO" : {
       "description" : "",
       "message" : "Cargo"
@@ -151,6 +155,10 @@
       "description" : "",
       "message" : "Commodity Market"
    },
+   "COMMUNISM" : {
+      "description" : "",
+      "message" : "Communism"
+   },
    "COMPACT_SCANNER" : {
       "description" : "Game settings option",
       "message" : "Compact scanner"
@@ -190,6 +198,10 @@
    "CONTROL_OPTIONS" : {
       "description" : "",
       "message" : "Control Options"
+   },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Corporate system"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
@@ -274,6 +286,14 @@
    "D_DAYS_LEFT" : {
       "description" : "",
       "message" : "Days left: %d"
+   },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Earth Federation Colonial Rule"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Earth Federation Democracy"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
@@ -411,6 +431,10 @@
       "description" : "",
       "message" : "Hang up."
    },
+   "HARD_CAPITALISM" : {
+      "description" : "",
+      "message" : "Hard capitalism (no welfare provision)"
+   },
    "HARMLESS" : {
       "description" : "Player combat rating",
       "message" : "Harmless"
@@ -470,6 +494,10 @@
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Hyperspace range"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Imperial Rule"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -542,6 +570,10 @@
    "LEGAL_STATUS" : {
       "description" : "",
       "message" : "Legal status"
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Liberal democracy"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -671,6 +703,10 @@
       "description" : "",
       "message" : "Military"
    },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Military dictatorship"
+   },
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Minimum crew"
@@ -686,6 +722,10 @@
    "MISSION_DETAILS" : {
       "description" : "",
       "message" : "Mission Details"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Mixed economy"
    },
    "MORE_INFO" : {
       "description" : "",
@@ -766,6 +806,14 @@
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
       "message" : "{equipment} is not supported on this ship model"
+   },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "No central governance"
+   },
+   "NO_ECONOMIC_ORDER" : {
+      "description" : "",
+      "message" : "No economic order"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -858,6 +906,14 @@
    "PLANET_TEXTURES" : {
       "description" : "",
       "message" : "Planet textures"
+   },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Centrally planned economy"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Plutocratic dictatorship"
    },
    "POLICE" : {
       "description" : "",
@@ -1047,6 +1103,10 @@
       "description" : "",
       "message" : "The ship you were viewing has been sold"
    },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Social democracy"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Sound"
@@ -1162,6 +1222,10 @@
    "VIDEO_RESOLUTION" : {
       "description" : "",
       "message" : "Video resolution"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Disorder - Overall governance contested by armed factions"
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
