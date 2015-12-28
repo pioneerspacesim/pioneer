@@ -41,7 +41,9 @@ namespace UI { class Context; }
 class ObjectViewerView;
 #endif
 
-struct DetailLevel {
+class DetailLevel {
+public:
+	DetailLevel() : planets(0), textures(0), fracmult(0), cities(0) {}
 	int planets;
 	int textures;
 	int fracmult;
@@ -165,7 +167,7 @@ public:
 
 	static Game *game;
 
-	static struct DetailLevel detail;
+	static DetailLevel detail;
 	static GameConfig *config;
 
 	static JobQueue *GetAsyncJobQueue() { return asyncJobQueue.get();}

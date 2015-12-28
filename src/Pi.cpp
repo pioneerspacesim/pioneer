@@ -124,7 +124,7 @@ bool Pi::doProfileOne = false;
 int Pi::statSceneTris = 0;
 int Pi::statNumPatches = 0;
 GameConfig *Pi::config;
-struct DetailLevel Pi::detail = { 0, 0 };
+DetailLevel Pi::detail;
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 bool Pi::compactScanner;
