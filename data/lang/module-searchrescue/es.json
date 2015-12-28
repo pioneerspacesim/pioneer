@@ -149,7 +149,7 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "UNA NAVE SE HA ESTRELLADO en {planet}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
@@ -597,7 +597,7 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Búsqueda y Rescate"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -605,7 +605,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Muchas Gracias. Apreciamos realmente tu ayuda."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
