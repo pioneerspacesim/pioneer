@@ -155,7 +155,7 @@ local bodyInfoWidgets = {
 	aspectRatio = ui:Label('1.0'),
 	orbitalPeriod = ui:Label('xxx days'),
 	periapsisDistance = ui:Label('xxxx km'),
-	apopapsisDistance = ui:Label('xxxx km'),
+	apoapsisDistance = ui:Label('xxxx km'),
 	eccentricity = ui:Label('x.xx'),
 	axialTilt = ui:Label('x.x degrees'),
 	rotationalPeriod = ui:Label('x.x Earth days'),
@@ -269,7 +269,7 @@ local function initBodyInfo(body)
 	}))
 	bodyInfoWidgets.orbitalPeriod:SetText(humanisePeriod(body.orbitalPeriod))
 	bodyInfoWidgets.periapsisDistance:SetText(humaniseDistance(body.periapsis))
-	bodyInfoWidgets.apopapsisDistance:SetText(humaniseDistance(body.apoapsis))
+	bodyInfoWidgets.apoapsisDistance:SetText(humaniseDistance(body.apoapsis))
 	bodyInfoWidgets.eccentricity:SetText(string.format('%.2f', body.eccentricity))
 	bodyInfoWidgets.axialTilt:SetText(string.interp(l.N_DEGREES, {
 		angle = string.format('%.0f', body.axialTilt),
