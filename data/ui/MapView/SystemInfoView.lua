@@ -178,9 +178,13 @@ local function humaniseMass(mass)
 	local earth_mass = 5.9742e24
 	local sol_mass = 1.98892e30
 	if mass >= 2e29 then
-		return string.interp(l.N_SOLAR_MASSES, { mass = mass / sol_mass })
+		return string.interp(l.N_SOLAR_MASSES, {
+			mass = string.format('%.1f', mass / sol_mass)
+		})
 	else
-		return string.interp(l.N_EARTH_MASSES, { mass = mass / earth_mass })
+		return string.interp(l.N_EARTH_MASSES, {
+			mass = string.format('%.1f', mass / earth_mass)
+		})
 	end
 end
 
@@ -189,13 +193,13 @@ local function humaniseRadius(radius)
 	local sol_radius = 6.955e8
 	if radius >= 7e7 then
 		return string.interp(l.N_SOLAR_RADII, {
-			radius = radius / sol_radius,
-			radiuskm = radius * 1e-3
+			radius = string.format('%.1f', radius / sol_radius),
+			radiuskm = string.format('%.0f', radius * 1e-3),
 		})
 	else
 		return string.interp(l.N_EARTH_RADII, {
-			radius = radius / earth_radius,
-			radiuskm = radius * 1e-3
+			radius = string.format('%.1f', radius / earth_radius),
+			radiuskm = string.format('%.0f', radius * 1e-3),
 		})
 	end
 end
@@ -203,20 +207,24 @@ end
 local function humanisePeriod(period)
 	local days = period / (60*60*24)
 	if days >= 1000 then
-		return string.interp(l.N_YEARS, { years = days / 365.25 })
+		return string.interp(l.N_YEARS, {
+			years = string.format('%.0f', days / 365.25),
+		})
 	else
-		return string.interp(l.N_DAYS, { days = days })
+		return string.interp(l.N_DAYS, {
+			days = string.format('%.0f', days),
+		})
 	end
 end
 
 local function humaniseDistance(dist)
 	local au = 149598000000.0
 	if dist >= 0.1*au then
-		return tostring(dist / au) .. ' AU'
+		return string.format('%.1f', dist / au) .. ' AU'
 	elseif dist >= 10000 then
-		return tostring(dist / 1000) .. ' km'
+		return string.format('%.0f', dist / 1000) .. ' km'
 	else
-		return tostring(dist) .. ' m'
+		return string.format('%.0f', dist) .. ' m'
 	end
 end
 
@@ -253,13 +261,19 @@ local function initBodyInfo(body)
 	bodyInfoWidgets.mass:SetText(humaniseMass(body.mass))
 	bodyInfoWidgets.radius:SetText(humaniseRadius(body.radius))
 	bodyInfoWidgets.aspectRatio:SetText(body.aspectRatio)
-	bodyInfoWidgets.surfaceTemp:SetText(string.interp(l.N_CELSIUS, { temperature = body.averageTemp - 273 }))
-	bodyInfoWidgets.surfaceGrav:SetText(string.interp(l.N_M_PER_S_PER_S, { acceleration = body.gravity }))
+	bodyInfoWidgets.surfaceTemp:SetText(string.interp(l.N_CELSIUS, {
+		temperature = string.format('%.1f', body.averageTemp - 273),
+	}))
+	bodyInfoWidgets.surfaceGrav:SetText(string.interp(l.N_M_PER_S_PER_S, {
+		acceleration = string.format('%.2f', body.gravity),
+	}))
 	bodyInfoWidgets.orbitalPeriod:SetText(humanisePeriod(body.orbitalPeriod))
 	bodyInfoWidgets.periapsisDistance:SetText(humaniseDistance(body.periapsis))
 	bodyInfoWidgets.apopapsisDistance:SetText(humaniseDistance(body.apoapsis))
-	bodyInfoWidgets.eccentricity:SetText(body.eccentricity)
-	bodyInfoWidgets.axialTilt:SetText(string.interp(l.N_DEGREES, { angle = body.axialTilt}))
+	bodyInfoWidgets.eccentricity:SetText(string.format('%.2f', body.eccentricity))
+	bodyInfoWidgets.axialTilt:SetText(string.interp(l.N_DEGREES, {
+		angle = string.format('%.0f', body.axialTilt),
+	}))
 	bodyInfoWidgets.rotationalPeriod:SetText(humanisePeriod(body.rotationPeriod * (60*60*24)))
 	local children = body:GetChildren()
 	local surface_ports = {}
