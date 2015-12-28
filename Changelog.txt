@@ -28,6 +28,7 @@ December 2015
      * Added forgotten strings to translation system (#3551)
      * Minor code adjustment to make ccache effective again (#3562)
      * Remove the neighbour system from GeoPatch (#3569)
+     * Make DetailLevel a class and initialise all members (#3575)
 
 November 2015
    * New Features
