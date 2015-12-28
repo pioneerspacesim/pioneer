@@ -29,6 +29,7 @@ December 2015
      * Minor code adjustment to make ccache effective again (#3562)
      * Remove the neighbour system from GeoPatch (#3569)
      * Make DetailLevel a class and initialise all members (#3575)
+     * Improve the error message when a save game cannot be opened (#3578)
 
 November 2015
    * New Features
