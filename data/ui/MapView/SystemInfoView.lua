@@ -147,7 +147,7 @@ local sysInfoWidgets = {
 }
 
 local bodyInfoWidgets = {
-	shortDesc = ui:Label('{bodyname}: {shortDesc}'),
+	shortDesc = ui:MultiLineText('{bodyname}: {shortDesc}'),
 	mass = ui:Label('x.xxx Earth masses'),
 	radius = ui:Label('x.xxx Earth radii (xxx km)'),
 	surfaceTemp = ui:Label('xxx C'),
@@ -159,7 +159,7 @@ local bodyInfoWidgets = {
 	eccentricity = ui:Label('x.xx'),
 	axialTilt = ui:Label('x.x degrees'),
 	rotationalPeriod = ui:Label('x.x Earth days'),
-	starports = ui:Label('Foo Port'),
+	starports = ui:MultiLineText('Foo Port'),
 }
 
 local function humanisePopulation(pop)
