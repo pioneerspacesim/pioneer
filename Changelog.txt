@@ -19,6 +19,7 @@ December 2015
      * Deimos Seed (#3572)
      * Flying empty fix (#3516)
      * Fixed translations for the names of the Galactic arms (#3566)
+     * Fixed OS X 10.11 OpenSSL issue (#3579)
 
    * Internal Changes
      * Face parts (head/hair/eyes/nose/mouth) can now be non-gendered (#3548)
