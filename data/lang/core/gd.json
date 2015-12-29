@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Cha do lorg sinn am faidhle air a shàbhaladh \"%filename\" (no chan eil inntrigeadh aig a' gheama dha gus fhosgladh)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",

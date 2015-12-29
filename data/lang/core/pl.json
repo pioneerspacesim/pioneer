@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Zapisany plik '%filename' nie został odnaleziony (lub gra nie ma uprawnień do jego otwarcia)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
