@@ -148,18 +148,7 @@ local sysInfoWidgets = {
 
 local bodyInfoWidgets = {
 	shortDesc = ui:MultiLineText('{bodyname}: {shortDesc}'),
-	mass = ui:Label('x.xxx Earth masses'),
-	radius = ui:Label('x.xxx Earth radii (xxx km)'),
-	surfaceTemp = ui:Label('xxx C'),
-	surfaceGrav = ui:Label('xxx m/s^2'),
-	aspectRatio = ui:Label('1.0'),
-	orbitalPeriod = ui:Label('xxx days'),
-	periapsisDistance = ui:Label('xxxx km'),
-	apoapsisDistance = ui:Label('xxxx km'),
-	eccentricity = ui:Label('x.xx'),
-	axialTilt = ui:Label('x.x degrees'),
-	rotationalPeriod = ui:Label('x.x Earth days'),
-	starports = ui:MultiLineText('Foo Port'),
+	propertyTable = ui:Table():SetColumnAlignment('LEFT'):SetColumnSpacing(20),
 }
 
 local function humanisePopulation(pop)
@@ -177,13 +166,17 @@ end
 local function humaniseMass(mass)
 	local earth_mass = 5.9742e24
 	local sol_mass = 1.98892e30
-	if mass >= 2e29 then
+	if mass >= 2e28 then
 		return string.interp(l.N_SOLAR_MASSES, {
-			mass = string.format('%.1f', mass / sol_mass)
+			mass = string.format('%.2f', mass / sol_mass)
+		})
+	elseif mass >= 1e22 then
+		return string.interp(l.N_EARTH_MASSES, {
+			mass = string.format('%.2f', mass / earth_mass)
 		})
 	else
-		return string.interp(l.N_EARTH_MASSES, {
-			mass = string.format('%.1f', mass / earth_mass)
+		return string.interp(l.N_TONNES, {
+			mass = string.format('%.2e', mass / 1000)
 		})
 	end
 end
@@ -210,9 +203,13 @@ local function humanisePeriod(period)
 		return string.interp(l.N_YEARS, {
 			years = string.format('%.0f', days / 365.25),
 		})
+	elseif days >= 10 then
+		return string.interp(l.N_DAYS, { days = string.format('%.0f', days) })
+	elseif days >= 3 then
+		return string.interp(l.N_DAYS, { days = string.format('%.1f', days) })
 	else
-		return string.interp(l.N_DAYS, {
-			days = string.format('%.0f', days),
+		return string.interp(l.N_HOURS, {
+			hours = string.format('%.0f', period/(60*60))
 		})
 	end
 end
@@ -258,23 +255,10 @@ end
 
 local function initBodyInfo(body)
 	bodyInfoWidgets.shortDesc:SetText(body.name .. ': ' .. body.shortDescription)
-	bodyInfoWidgets.mass:SetText(humaniseMass(body.mass))
-	bodyInfoWidgets.radius:SetText(humaniseRadius(body.radius))
-	bodyInfoWidgets.aspectRatio:SetText(body.aspectRatio)
-	bodyInfoWidgets.surfaceTemp:SetText(string.interp(l.N_CELSIUS, {
-		temperature = string.format('%.1f', body.averageTemp - 273),
-	}))
-	bodyInfoWidgets.surfaceGrav:SetText(string.interp(l.N_M_PER_S_PER_S, {
-		acceleration = string.format('%.2f', body.gravity),
-	}))
-	bodyInfoWidgets.orbitalPeriod:SetText(humanisePeriod(body.orbitalPeriod))
-	bodyInfoWidgets.periapsisDistance:SetText(humaniseDistance(body.periapsis))
-	bodyInfoWidgets.apoapsisDistance:SetText(humaniseDistance(body.apoapsis))
-	bodyInfoWidgets.eccentricity:SetText(string.format('%.2f', body.eccentricity))
-	bodyInfoWidgets.axialTilt:SetText(string.interp(l.N_DEGREES, {
-		angle = string.format('%.0f', body.axialTilt),
-	}))
-	bodyInfoWidgets.rotationalPeriod:SetText(humanisePeriod(body.rotationPeriod * (60*60*24)))
+	local ptable = bodyInfoWidgets.propertyTable
+	ptable:ClearRows()
+
+	-- Surface starports
 	local children = body:GetChildren()
 	local surface_ports = {}
 	for i = 1, #children do
@@ -282,7 +266,64 @@ local function initBodyInfo(body)
 			surface_ports[#surface_ports + 1] = children[i].name
 		end
 	end
-	bodyInfoWidgets.starports:SetText(table.concat(surface_ports, ', '))
+	if #surface_ports > 0 then
+		ptable:AddRows({{l.STARPORTS, table.concat(surface_ports, ', ')},{"",""}})
+	end
+
+	-- Basic physical properties (mass, radius, rotational period)
+	if body.superType ~= 'STARPORT' then
+		ptable:AddRows({
+			{l.MASS, humaniseMass(body.mass)},
+			{l.RADIUS, humaniseRadius(body.radius)},
+		})
+	end
+	if body.rotationPeriod > 0 then
+		ptable:AddRow({
+			l.ROTATIONAL_PERIOD, humanisePeriod(body.rotationPeriod * (60*60*24))
+		})
+	end
+
+	-- More basic physical properties
+	-- (surface temp & gravity, axial tilt, equatorial bulging)
+	if body.superType ~= 'STARPORT' then
+		ptable:AddRows({
+			{"",""},
+			{l.SURFACE_TEMPERATURE, string.interp(l.N_CELSIUS, {
+				temperature = string.format('%.1f', body.averageTemp - 273),
+			})},
+			{l.SURFACE_GRAVITY, string.interp(l.N_M_PER_S_PER_S, {
+				acceleration = string.format('%.2f', body.gravity),
+			})},
+		})
+		if body.axialTilt ~= 0 then
+			ptable:AddRow({
+				l.AXIAL_TILT, string.interp(l.N_DEGREES, {
+					angle = string.format('%.0f', body.axialTilt),
+				})
+			})
+		end
+
+		if body.aspectRatio ~= 1.0 then
+			ptable:AddRow({
+				l.EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO,
+				string.format('%.2f', body.aspectRatio)
+			})
+		end
+	end
+
+	-- Orbital properties
+	if body.parent ~= nil then
+		ptable:AddRows({{"",""},{l.ORBITAL_PERIOD, humanisePeriod(body.orbitalPeriod)}})
+		if body.eccentricity < 0.01 then
+			ptable:AddRow({l.SEMI_MAJOR_AXIS, humaniseDistance(body.periapsis)})
+		else
+			ptable:AddRows({
+				{l.PERIAPSIS_DISTANCE, humaniseDistance(body.periapsis)},
+				{l.APOAPSIS_DISTANCE, humaniseDistance(body.apoapsis)},
+				{l.ECCENTRICITY, string.format('%.2f', body.eccentricity)},
+			})
+		end
+	end
 end
 
 local currentBody, currentBodyIconSelector
@@ -418,20 +459,7 @@ local bodyInfoTab =
 	ui:Scroller(ui:VBox(5):PackEnd({
 		bodyInfoWidgets.shortDesc,
 		"",
-		ui:Table():SetColumnAlignment('LEFT'):SetColumnSpacing(20):AddRows({
-			{l.MASS, bodyInfoWidgets.mass},
-			{l.RADIUS, bodyInfoWidgets.radius},
-			{l.EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO, bodyInfoWidgets.aspectRatio},
-			{l.SURFACE_TEMPERATURE, bodyInfoWidgets.surfaceTemp},
-			{l.SURFACE_GRAVITY, bodyInfoWidgets.surfaceGrav},
-			{l.ORBITAL_PERIOD, bodyInfoWidgets.orbitalPeriod},
-			{l.PERIAPSIS_DISTANCE, bodyInfoWidgets.periapsisDistance},
-			{l.APOAPSIS_DISTANCE, bodyInfoWidgets.apoapsisDistance},
-			{l.ECCENTRICITY, bodyInfoWidgets.eccentricity},
-			{l.AXIAL_TILT, bodyInfoWidgets.axialTilt},
-			{l.ROTATIONAL_PERIOD, bodyInfoWidgets.rotationalPeriod},
-			{l.STARPORTS, bodyInfoWidgets.starports},
-		}),
+		bodyInfoWidgets.propertyTable,
 	}))
 local tradeInfoTab = ui:Label('Trade info goes here')
 

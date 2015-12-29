@@ -879,6 +879,10 @@
       "description" : "Format radius relative to radius of the Earth.",
       "message" : "{radius} Earth radii ({radiuskm} km)"
    },
+   "N_HOURS" : {
+      "description" : "",
+      "message" : "{hours} hours"
+   },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
       "message" : "{range} light years ({maxRange} max)"
@@ -902,6 +906,10 @@
    "N_SOLAR_RADII" : {
       "description" : "Format radius relative to radius of the Sun.",
       "message" : "{radius} Solar radii ({radiuskm} km)"
+   },
+   "N_TONNES" : {
+      "description" : "Format mass in tonnes.",
+      "message" : "{mass} t"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -1150,6 +1158,10 @@
    "SELL" : {
       "description" : "Commodities and equipment prices",
       "message" : "Sell"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Semi-major axis"
    },
    "SENSORS" : {
       "description" : "",
