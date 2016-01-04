@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Spielstandsdatei „%filename“ konnte nicht gefunden werden (oder das Spiel hat keine Zugriffsberechtigung, um sie zu öffnen)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
