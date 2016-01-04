@@ -435,6 +435,8 @@
 		52025F791C05BA7100254BB5 /* CollMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52025F781C05BA7100254BB5 /* CollMesh.cpp */; };
 		52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */; };
 		52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; };
+		52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52161F511C343532005D3B25 /* libogg.0.dylib */; };
+		52161F531C34354B005D3B25 /* libogg.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 52161F511C343532005D3B25 /* libogg.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
 		522B22CC1C06324A00109BB0 /* libcurl.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
 		522E333C1C1B1E9400AB01D3 /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; };
@@ -443,6 +445,8 @@
 		522E334D1C1B26AD00AB01D3 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; };
 		522E334E1C1B26C300AB01D3 /* SDL2_image.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		522E334F1C1B26C300AB01D3 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */; };
+		523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
 		525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		52B054A11C184CAE00BAAE57 /* LuaOverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */; };
@@ -469,6 +473,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				52161F531C34354B005D3B25 /* libogg.0.dylib in Copy SubLibraries */,
+				523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */,
 				525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */,
 				37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */,
 				37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */,
@@ -1276,9 +1282,11 @@
 		52025F781C05BA7100254BB5 /* CollMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollMesh.cpp; sourceTree = "<group>"; };
 		52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = ../../../../../opt/local/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = ../../../../../opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
+		52161F511C343532005D3B25 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = ../../../../../opt/local/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		522B22CA1C06323C00109BB0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../../opt/local/lib/libcurl.4.dylib; sourceTree = "<group>"; };
 		522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		522E334B1C1B26AD00AB01D3 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.1.0.0.dylib; path = ../../../../../opt/local/lib/libcrypto.1.0.0.dylib; sourceTree = "<group>"; };
 		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../opt/local/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
 		52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaOverlayStack.cpp; sourceTree = "<group>"; };
 		52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayStack.cpp; sourceTree = "<group>"; };
@@ -1297,7 +1305,9 @@
 			files = (
 				522E334C1C1B26AD00AB01D3 /* SDL2_image.framework in Frameworks */,
 				522E334D1C1B26AD00AB01D3 /* SDL2.framework in Frameworks */,
+				52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */,
 				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
+				523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */,
 				37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */,
 				522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */,
 				37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */,
@@ -1678,6 +1688,8 @@
 		4A671B851388C04700657F38 /* SubLibraries */ = {
 			isa = PBXGroup;
 			children = (
+				52161F511C343532005D3B25 /* libogg.0.dylib */,
+				523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */,
 				525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */,
 				37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */,
 				37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */,
@@ -2396,7 +2408,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libpng16.16.dylib\n\n# libassimp\nlnk libassimp.3.0.0.dylib libassimp.3.dylib\nrelocateLibInApp /opt/local/lib/ libassimp.3.dylib\nrelocateSubLib /opt/local/lib/ libassimp.3.0.0.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# png\nidLib libpng16.16.dylib\nrelocateSubLib /opt/local/lib/ libpng16.16.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng16.16.dylib\n\n# vorbis\nrelocateLibInApp /opt/local/lib/ libvorbis.0.dylib\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\n\n# zlib\nlnk libz.1.2.8.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.8.dylib\n\n# curl\nrelocateLibInApp /opt/local/lib/ libcurl.4.dylib\n\n# OpenSSL\nrelocateLibInApp /opt/local/lib/ libssl.1.0.0.dylib\n";
+			shellScript = "#\n# The following script is used to update all the included libraries with the install_name_tool so that we can create a self\n# contained app bundle with all the included libraries without the user having to hunt down extra libraries etc. Just launch\n# and go! (its the apple way!).\n#\nfunction relocateLibInApp() {\n    install_name_tool -change $1$2 @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$EXECUTABLE_PATH\n    install_name_tool -id @executable_path/../Frameworks/$2 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\nfunction idLib() {\n    install_name_tool -id @executable_path/../Frameworks/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1\n}\n\nfunction relocateSubLib() {\n    install_name_tool -change $1$3 @executable_path/../Frameworks/$3 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2   \n}\n\nfunction lnk() {\n    ln -f $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$1 $CONFIGURATION_BUILD_DIR/$FRAMEWORKS_FOLDER_PATH/$2\n}\n\n# freetype dylibs\nrelocateLibInApp /opt/local/lib/ libfreetype.6.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libz.1.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libbz2.1.0.dylib\nrelocateSubLib /opt/local/lib/ libfreetype.6.dylib libpng16.16.dylib\n\n# libassimp\nlnk libassimp.3.0.0.dylib libassimp.3.dylib\nrelocateLibInApp /opt/local/lib/ libassimp.3.dylib\nrelocateSubLib /opt/local/lib/ libassimp.3.0.0.dylib libz.1.dylib\n\n# sigcxx\nrelocateLibInApp /opt/local/lib/ libsigc-2.0.0.dylib\n\n#bz2\nlnk libbz2.1.0.6.dylib libbz2.1.0.dylib\nrelocateLibInApp /opt/local/lib/ libbz2.1.0.dylib\n\n# png\nidLib libpng16.16.dylib\nrelocateSubLib /opt/local/lib/ libpng16.16.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libpng16.16.dylib\n\n# ogg\nrelocateLibInApp /opt/local/lib/ libogg.0.dylib\n\n# vorbis\nrelocateLibInApp /opt/local/lib/ libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbis.0.dylib libogg.0.dylib\nrelocateLibInApp /opt/local/lib/ libvorbisfile.3.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libvorbis.0.dylib\nrelocateSubLib /opt/local/lib/ libvorbisfile.3.dylib libogg.0.dylib\n\n# zlib\nlnk libz.1.2.8.dylib libz.1.dylib\nrelocateLibInApp /opt/local/lib/ libz.1.dylib\nidLib libz.1.2.8.dylib\n\n# Crypto\nrelocateLibInApp /opt/local/lib/ libcrypto.1.0.0.dylib\n\n# OpenSSL\nrelocateLibInApp /opt/local/lib/ libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libssl.1.0.0.dylib libcrypto.1.0.0.dylib\n\n# curl\nrelocateLibInApp /opt/local/lib/ libcurl.4.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libssl.1.0.0.dylib\nrelocateSubLib /opt/local/lib/ libcurl.4.dylib libcrypto.1.0.0.dylib\n";
 		};
 		4AE970701436A65D00424F91 /* GenGitVersion */ = {
 			isa = PBXShellScriptBuildPhase;
