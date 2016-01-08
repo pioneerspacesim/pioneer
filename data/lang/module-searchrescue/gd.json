@@ -213,43 +213,43 @@
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "ÈIGINN MHEADAIGEACH air soitheach faisg air {starport}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "'S ann sgriosail a bha seo! Ùraichidh sinn na clàran agad mar as iomchaidh."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Feumaidh am paidhleat ionaid an soitheach a ruigsinn gu ruige {due}."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Is mise {name} o stiùireadh trafaige aig {starport}. Tha mi ag iarraidh cobhair a thaobh èiginn mheadaigeach a' gabhail a-steach paidhleat iteil {shiplabel} air slighe {starport}."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "Bha aig soitheach ri tìr a bhualadh gu h-èiginneach air na co-chomharran seo: {lat} / {long}. "
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Mòran taing, a chomandair! Thug sinn aire air an taic a fhuair sinn uaibh."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "Dh'fhàg {unit} an soitheach."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Thoir paidhleat ionaid o {starport} dhan t-soitheach ach an toir e an soitheach air ais gu {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "DH'FHALBH AN CONNADH AIR SOITHEACH air {planet}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Cuiridh mi cuideigin eile. Na bodraig tuilleadh."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Bhruidhinn am paidhleat aig iteal {shiplabel} ri stiùireadh trafaige aig {starport}. Chan urrainn dhaibh gluasad ri linn tanca connaidh falaimh agus gheall iad {cash} a phàigheadh dha dhuine sam bith a bheir connadh dhan t-soitheach aca."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments.."
+      "message" : "Glè math. Molaidh sinn thu airson obair san àm ri teachd."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "DH'FHALBH AN CONNADH AIR SOITHEACH faisg air {starport}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
