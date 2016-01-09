@@ -29,8 +29,8 @@ void GeoPatchContext::GenerateIndices()
 		return;
 
 	//
-	unsigned short *idx;
-	std::vector<unsigned short> pl_short;
+	Uint32 *idx;
+	std::vector<Uint32> pl_short;
 
 	int tri_count = 0;
 	{
@@ -75,12 +75,12 @@ void GeoPatchContext::GenerateIndices()
 	// populate the N indices lists from the arrays built during InitTerrainIndices()
 	// iterate over each index list and optimize it
 	{
-		VertexCacheOptimizerUShort vco;
-		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[0], tri_count);
+		VertexCacheOptimizerUInt vco;
+		VertexCacheOptimizerUInt::Result res = vco.Optimize(&pl_short[0], tri_count);
 		assert(0 == res);
 		//create buffer & copy
 		indices.Reset(Pi::renderer->CreateIndexBuffer(pl_short.size(), Graphics::BUFFER_USAGE_STATIC));
-		Uint16* idxPtr = indices->Map(Graphics::BUFFER_MAP_WRITE);
+		Uint32* idxPtr = indices->Map(Graphics::BUFFER_MAP_WRITE);
 		for (Uint32 j = 0; j < pl_short.size(); j++) {
 			idxPtr[j] = pl_short[j];
 		}

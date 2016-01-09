@@ -94,12 +94,12 @@ protected:
 	Uint32 m_numVertices;
 };
 
-// Index buffer, limited to Uint16 index format for better portability
+// Index buffer
 class IndexBuffer : public RefCounted, public Mappable {
 public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	virtual ~IndexBuffer();
-	virtual Uint16 *Map(BufferMapMode) = 0;
+	virtual Uint32 *Map(BufferMapMode) = 0;
 
 	Uint32 GetSize() const { return m_size; }
 	Uint32 GetIndexCount() const { return m_indexCount; }

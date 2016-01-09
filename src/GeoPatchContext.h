@@ -35,8 +35,8 @@ private:
 	static inline int VBO_COUNT_MID_IDX() { return (4*3*(edgeLen-3)) + 2*(edgeLen-3)*(edgeLen-3)*3; }
 	//                                            ^^ serrated teeth bit  ^^^ square inner bit
 
-	static inline int IDX_VBO_LO_OFFSET(const int i) { return i*sizeof(unsigned short)*3*(edgeLen/2); }
-	static inline int IDX_VBO_HI_OFFSET(const int i) { return (i*sizeof(unsigned short)*VBO_COUNT_HI_EDGE())+IDX_VBO_LO_OFFSET(4); }
+	static inline int IDX_VBO_LO_OFFSET(const int i) { return i*sizeof(Uint32)*3*(edgeLen/2); }
+	static inline int IDX_VBO_HI_OFFSET(const int i) { return (i*sizeof(Uint32)*VBO_COUNT_HI_EDGE())+IDX_VBO_LO_OFFSET(4); }
 
 	static RefCountedPtr<Graphics::IndexBuffer> indices;
 	static int prevEdgeLen;

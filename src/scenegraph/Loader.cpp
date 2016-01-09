@@ -321,7 +321,7 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 
 	//Removing components is suggested to optimize loading. We do not care about vtx colors now.
 	importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS);
-	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, 65536);
+	importer.SetPropertyInteger(AI_CONFIG_PP_SLM_VERTEX_LIMIT, AI_SLM_DEFAULT_MAX_VERTICES);
 
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
@@ -331,7 +331,6 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 		aiProcess_SortByPType		| //ignore point, line primitive types (collada dummy nodes seem to be fine)
 		aiProcess_GenUVCoords		|
 		aiProcess_FlipUVs			|
-		aiProcess_SplitLargeMeshes	|
 		aiProcess_CalcTangentSpace	|
 		aiProcess_GenSmoothNormals);  //only if normals not specified
 
@@ -440,7 +439,6 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 	for (unsigned int i=0; i<scene->mNumMeshes; i++) {
 		const aiMesh *mesh = scene->mMeshes[i];
 		assert(mesh->HasNormals());
-		assert(mesh->mNumVertices <= 65536);
 
 		RefCountedPtr<StaticGeometry> geom(new StaticGeometry(m_renderer));
 		geom->SetName(stringf("sgMesh%0{u}", i));
@@ -502,7 +500,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 		RefCountedPtr<Graphics::VertexBuffer> vb(m_renderer->CreateVertexBuffer(vbd));
 
 		// huge meshes are split by the importer so this should not exceed 65K indices
-		std::vector<Uint16> indices;
+		std::vector<Uint32> indices;
 		if (mesh->mNumFaces > 0)
 		{
 			indices.reserve(mesh->mNumFaces * 3);
@@ -524,7 +522,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 		//create buffer & copy
 		RefCountedPtr<Graphics::IndexBuffer> ib(m_renderer->CreateIndexBuffer(indices.size(), Graphics::BUFFER_USAGE_STATIC));
-		Uint16* idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
+		Uint32* idxPtr = ib->Map(Graphics::BUFFER_MAP_WRITE);
 		for (Uint32 j = 0; j < indices.size(); j++)
 			idxPtr[j] = indices[j];
 		ib->Unmap();
@@ -805,10 +803,10 @@ RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<S
 	mesh.vertexBuffer->Unmap();
 
 	//copy indices from buffer
-	std::vector<unsigned short> idx;
+	std::vector<Uint32> idx;
 	idx.reserve(numIdx);
 
-	Uint16 *idxPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
+	Uint32 *idxPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
 	for (Uint32 i = 0; i < numIdx; i++)
 		idx.push_back(idxPtr[i]);
 	mesh.indexBuffer->Unmap();
@@ -925,11 +923,11 @@ void Loader::LoadCollision(const std::string &filename)
 	if(scene->mNumMeshes == 0)
 		throw LoadingError("No geometry found");
 
-	std::vector<unsigned short> indices;
+	std::vector<Uint32> indices;
 	std::vector<vector3f> vertices;
-	unsigned int indexOffset = 0;
+	Uint32 indexOffset = 0;
 
-	for(unsigned int i=0; i<scene->mNumMeshes; i++) {
+	for(Uint32 i=0; i<scene->mNumMeshes; i++) {
 		aiMesh* mesh = scene->mMeshes[i];
 
 		//copy indices

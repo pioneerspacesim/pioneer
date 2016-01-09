@@ -34,10 +34,10 @@ private:
 class IndexBuffer : public Graphics::IndexBuffer {
 public:
 	IndexBuffer(Uint32 size, BufferUsage bu) : Graphics::IndexBuffer(size, bu),
-	m_buffer(new Uint16[size])
+	m_buffer(new Uint32[size])
 	{};
 
-	virtual Uint16 *Map(BufferMapMode) override { return m_buffer.get(); }
+	virtual Uint32 *Map(BufferMapMode) override { return m_buffer.get(); }
 
 	virtual void Unmap() override {}
 
@@ -45,7 +45,7 @@ public:
 	virtual void Release() {}
 
 private:
-    std::unique_ptr<Uint16[]> m_buffer;
+    std::unique_ptr<Uint32[]> m_buffer;
 };
 
 // Instance buffer
