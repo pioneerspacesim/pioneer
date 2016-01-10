@@ -176,12 +176,7 @@ local crewRoster = function ()
 			wageTotal = wageTotal + crewWage
 			owedTotal = owedTotal + crewOwed
 
-			if crewMember.title == 'GENERAL_CREW' then crewMember.titleTranslate = l.GENERAL_CREW end
-			if crewMember.title == 'COMMANDER' then crewMember.titleTranslate = l.COMMANDER end
-			if crewMember.title == 'SHIPS_ENGINEER' then crewMember.titleTranslate = l.SHIPS_ENGINEER end
-			if crewMember.title == 'PILOT' then crewMember.titleTranslate = l.PILOT end
-			if crewMember.title == 'NAVIGATOR' then crewMember.titleTranslate = l.NAVIGATOR end
-			if crewMember.title == 'SENSORS_AND_DEFENCE' then crewMember.titleTranslate = l.SENSORS_AND_DEFENCE end
+			crewMember.titleTranslate = l[crewMember.title]
 
 			crewTable:AddRow({
 				crewMember.name,

@@ -15,7 +15,7 @@ local personalInfo = function ()
 	local player = Character.persistent.player
 	local faceFlags = { player.female and "FEMALE" or "MALE" }
 
-	if player.title == 'COMMANDER' then player.titleTranslate = l.COMMANDER end
+	player.titleTranslate = l[player.title]
 
 	-- for updating the caption
 	local faceWidget = InfoFace.New(player)
