@@ -130,6 +130,7 @@ protected:
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;
+	bool m_useAnisotropicFiltering;
 	
 	void SetMaterialShaderTransforms(Material *);
 

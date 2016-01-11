@@ -75,15 +75,14 @@ inline bool IsCompressed(TextureFormat format) {
 	return (format == TEXTURE_DXT1 || format == TEXTURE_DXT5);
 }
 
-TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed) :
-	Texture(descriptor)
+TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering) :
+	Texture(descriptor), m_useAnisoFiltering(useAnisoFiltering)
 {
 	m_target = GLTextureType(descriptor.type);
 
 	glGenTextures(1, &m_texture);
 	glBindTexture(m_target, m_texture);
 	RendererOGL::CheckErrors();
-
 
 	// useCompressed is the global scope flag whereas descriptor.allowCompression is the local texture mode flag
 	// either both or neither might be true however only compress the texture when both are true.
@@ -234,11 +233,13 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
 
 	// Anisotropic texture filtering
-	GLfloat maxAniso = 0.0f;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
-	glTexParameterf(m_target, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
-	RendererOGL::CheckErrors();
+	if (m_useAnisoFiltering) {
+		GLfloat maxAniso = 0.0f;
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
+		glTexParameterf(m_target, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
+	}
 
+	RendererOGL::CheckErrors();
 }
 
 TextureGL::~TextureGL()
@@ -376,7 +377,7 @@ void TextureGL::SetSampleMode(TextureSampleMode mode)
 
 		case NEAREST_REPEAT:
 			magFilter = GL_NEAREST;
-			minFilter =mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+			minFilter = mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
 			break;
 	}
 	glBindTexture(m_target, m_texture);
@@ -384,9 +385,11 @@ void TextureGL::SetSampleMode(TextureSampleMode mode)
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
 
 	// Anisotropic texture filtering
-	GLfloat maxAniso = 0.0f;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
-	glTexParameterf(m_target, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
+	if (m_useAnisoFiltering) {
+		GLfloat maxAniso = 0.0f;
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
+		glTexParameterf(m_target, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
+	}
 
 	glBindTexture(m_target, 0);
 }

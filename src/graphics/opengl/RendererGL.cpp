@@ -84,6 +84,9 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	const bool useDXTnTextures = vs.useTextureCompression;
 	m_useCompressedTextures = useDXTnTextures;
 
+	const bool useAnisotropicFiltering = vs.useAnisotropicFiltering;
+	m_useAnisotropicFiltering = useAnisotropicFiltering;
+
 	//XXX bunch of fixed function states here!
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
@@ -789,7 +792,7 @@ OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
 {
 	CheckRenderErrors();
-	return new TextureGL(descriptor, m_useCompressedTextures);
+	return new TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 }
 
 RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
@@ -821,7 +824,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 			LINEAR_CLAMP,
 			false,
 			false);
-		TextureGL *colorTex = new TextureGL(cdesc, false);
+		TextureGL *colorTex = new TextureGL(cdesc, false, false);
 		rt->SetColorTexture(colorTex);
 	}
 	if (desc.depthFormat != TEXTURE_NONE) {
@@ -833,7 +836,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 				LINEAR_CLAMP,
 				false,
 				false);
-			TextureGL *depthTex = new TextureGL(ddesc, false);
+			TextureGL *depthTex = new TextureGL(ddesc, false, false);
 			rt->SetDepthTexture(depthTex);
 		} else {
 			rt->CreateDepthRenderbuffer();
