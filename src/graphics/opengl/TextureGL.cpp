@@ -232,6 +232,11 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 	glTexParameteri(m_target, GL_TEXTURE_WRAP_T, wrapS);
 	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
+
+	// Anisotropic texture filtering
+	GLfloat maxAniso = 0.0f;
+	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
+	glTexParameterf(m_target, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
 	RendererOGL::CheckErrors();
 
 }
@@ -377,6 +382,12 @@ void TextureGL::SetSampleMode(TextureSampleMode mode)
 	glBindTexture(m_target, m_texture);
 	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
 	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
+
+	// Anisotropic texture filtering
+	GLfloat maxAniso = 0.0f;
+	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
+	glTexParameterf(m_target, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
+
 	glBindTexture(m_target, 0);
 }
 
