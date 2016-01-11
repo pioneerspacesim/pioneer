@@ -1,3 +1,7 @@
+January 2016
+   * New Features
+     * Barnard's star update (#3584)
+
 December 2015
    * New Features
      * PgUp/PgDn increments time acceleration (configurable) (#3544)
