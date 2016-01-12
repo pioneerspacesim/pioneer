@@ -412,6 +412,11 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 		newLights.push_back(light);
 	}
 
+	if (newLights.empty()) {
+		// no lights means we're somewhere weird (eg hyperspace, ObjectViewer). fake one
+		newLights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), Color::WHITE, Color::WHITE));
+	}
+
 	oldAmbient = r->GetAmbientColor();
 	r->SetAmbientColor(Color(ambient*255, ambient * 255, ambient * 255));
 	r->SetLights(newLights.size(), &newLights[0]);
