@@ -76,7 +76,7 @@ inline bool IsCompressed(TextureFormat format) {
 }
 
 TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering) :
-	Texture(descriptor), m_useAnisoFiltering(useAnisoFiltering)
+	Texture(descriptor), m_useAnisoFiltering(useAnisoFiltering && descriptor.useAnisotropicFiltering)
 {
 	m_target = GLTextureType(descriptor.type);
 
