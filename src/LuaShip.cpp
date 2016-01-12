@@ -528,6 +528,7 @@ static int l_ship_use_ecm(lua_State *l)
  *   path - a <SystemPath> for the destination system
  *
  *   warmup - the time, in seconds, needed for the engines to warm up.
+ *            Minimum time is one second, for saftey reasons.
  *
  *   duration - travel time, in seconds.
  *
