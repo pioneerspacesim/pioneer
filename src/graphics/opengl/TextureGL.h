@@ -24,10 +24,11 @@ public:
 
 private:
 	friend class RendererOGL;
-	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed);
+	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering);
 
 	GLenum m_target;
 	GLuint m_texture;
+	const bool m_useAnisoFiltering;
 };
 
 }

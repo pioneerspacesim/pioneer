@@ -127,6 +127,10 @@ ui.templates.Settings = function (args)
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
+			
+		local anisoCheckBox = optionCheckBox(
+			Engine.GetAnisoFiltering, Engine.SetAnisoFiltering,
+			l.ENABLE_ANISOTROPIC_FILTERING)
 
 		local starDensity = function (caption, getter, setter)
 			local initial_value = getter()
@@ -147,6 +151,7 @@ ui.templates.Settings = function (args)
 				aaDropDown,
 				fullScreenCheckBox,
 				vsyncCheckBox,
+				anisoCheckBox,
 			})))
 			:SetCell(1,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				planetDetailDropDown,

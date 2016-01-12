@@ -56,6 +56,7 @@ void SetupRenderer()
 	videoSettings.requestedSamples = s_config->Int("AntiAliasingMode");
 	videoSettings.vsync = false;
 	videoSettings.useTextureCompression = true;
+	videoSettings.useAnisotropicFiltering = true;
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Model Compiler";
 	s_renderer.reset(Graphics::Init(videoSettings));
