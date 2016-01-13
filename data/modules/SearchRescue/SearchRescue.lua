@@ -13,6 +13,7 @@
 -- - handle situation where player buys a new ship or sells/buys passenger cabins and loaded passengers
 --   need to follow into the new ship/cabin
 
+
 -- Explanations
 -- ============
 -- Variable flavour.pickup_crew, etc. is the goal, while variable mission.pickup_crew is the meter for 
@@ -65,6 +66,7 @@ local aircontrol_chars = {}        -- saving specific aircontrol character per s
 local ads = {}                     -- currently active ads in the system
 local missions = {}                -- accepted missions that are currently active
 local leaving_system = false       -- needed for last minute cleanup before leaving system (searchForTarget)
+local discarded_ships = {}         -- ships that are not needed any longer
 
 -- Flavour Variables
 -- =================
@@ -365,6 +367,7 @@ local randomLatLong = function (station)
 			 math.sin(dist/planet_radius) * math.cos(bearing))
       long = old_long + math.atan2(math.sin(bearing) * math.sin(dist/planet_radius) * math.cos(old_lat),
 				   math.cos(dist/planet_radius) - math.sin(old_lat) * math.sin(lat))
+      dist = dist * 1000  -- convert to m for downstream consistency
    else
       lat = Engine.rand:Number(-90,90)
       lat = math.rad(lat)
@@ -521,18 +524,15 @@ local createTargetShipParameters = function (flavour, deliver_crew, pickup_crew,
    -- been accepted.
 
    -- pick appropriate hull type
-   -- TODO: Make sure ships in distant systems normally have a hyperdrive
+
    local shipdefs = utils.build_array(utils.filter(function (_,def) return def.tag == 'SHIP'
 						   end, pairs(ShipDef)))
 
-   ----> hyperdrive if stranded in "far space" (possibility of uninhabited system)
-   if flavour.loctype == "FAR_SPACE" then
-      for i,shipdef in pairs(shipdefs) do
-	 local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
-	 if not default_drive then shipdefs[i] = nil end
-      end
-   end
-   
+   ----> hyperdrive mandatory (for clean exiting of ships)
+   for i,shipdef in pairs(shipdefs) do
+       if shipdef.equipSlotCapacity.engine == 0 then shipdefs[i] = nil end
+    end
+    
    ----> atmo-shield if ship stranded on planet
    if flavour.loctype == "CLOSE_PLANET" or flavour.loctype == "MEDIUM_PLANET" then
       for i,shipdef in pairs(shipdefs) do
@@ -593,23 +593,25 @@ local createTargetShip = function (mission)
    elseif mission.flavour.loctype == "MEDIUM_PLANET" then
       ship = Space.SpawnShipLanded(shipdef.id, Space.GetBody(mission.planet_target.bodyIndex), mission.lat, mission.long)
    elseif mission.flavour.loctype == "CLOSE_SPACE" then
-      ship = Space.SpawnShipNear(shipdef.id, Space.GetBody(mission.station_target.bodyIndex), mission.dist, mission.dist)
+      ship = Space.SpawnShipNear(shipdef.id, Space.GetBody(mission.station_target.bodyIndex), mission.dist/1000, mission.dist/1000)
    elseif mission.flavour.loctype == "FAR_SPACE" then
       ship = Space.SpawnShipNear(shipdef.id, Space.GetBody(mission.planet_target.bodyIndex), far_space_orbit_dist, far_space_orbit_dist)
       ship:AIEnterHighOrbit(Space.GetBody(mission.planet_target.bodyIndex))
    end
    
-      
    -- misc ship settings (label, crew)
    ship:SetLabel(mission.shiplabel)
    for _ = 1, mission.crew_num do
       ship:Enroll(Character.New())
    end
        
-   -- load a hyperdrive (if appropriate)
+   -- load a hyperdrive
    local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
-   if default_drive then ship:AddEquip(default_drive) end
-   
+   if default_drive then 
+      ship:AddEquip(default_drive) 
+   else
+      ship:AddEquip(Equipment.hyperspace['hyperdrive_1'])
+   end
 
    -- load a laser
    local max_laser_size
@@ -675,9 +677,9 @@ local onChat = function (form, ref, option)
 
       local dist
       if ad.flavour.loctype == "CLOSE_PLANET" or ad.flavour.loctype == "CLOSE_SPACE" then
-	 dist = string.format("%.0f", ad.dist)
+	 dist = string.format("%.0f", ad.dist/1000)
       else
-	 dist = string.format("%.2f", ad.dist)
+	 dist = string.format("%.2f", ad.dist/1000)
       end
       
       local locationtext = string.interp(ad.flavour.locationtext, {
@@ -928,10 +930,8 @@ end
 
 local flyToNearbyStation =  function (ship)
    -- Fly the supplied ship to the closest station. If no station is in the system then jump to the
-   -- closest system that does have a station and fly there.
+   -- closest system that does have a station.
 
-   --TODO: Test for hyperjumping
-   
    -- check if ship has atmo shield and limit to vacuum starports if not
    local vacuum = false
    if ship:CountEquip(Equipment.misc.atmospheric_shielding) == 0 then
@@ -942,6 +942,9 @@ local flyToNearbyStation =  function (ship)
    local nearbystations = findNearbyStations(vacuum, ship)
 
    if #nearbystations > 0 then
+
+      -- add ship to discard pile to jump away later
+      table.insert(discarded_ships, ship)
 
       -- blast off ship if LANDED
       if ship.flightState == "LANDED" then
@@ -954,9 +957,30 @@ local flyToNearbyStation =  function (ship)
       local with_stations = true
       nearbysystems = findNearbySystems(with_stations)
       if #nearbysystems > 0 then
-	 ship:HyperjumpTo(nearbysystems[1])
+	 ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR"))
+	 Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1]) end)
       else
 	 return
+      end
+   end
+end
+
+local discardShip = function (ship)
+   -- Gracefully discard ship that is not needed any longer for the ship by hyperjumping
+   -- away to nearby (if possible populated) system.
+   local with_stations = true
+   local nearbysystems = findNearbySystems(with_stations)
+   if #nearbysystems > 0 then
+      Timer:CallAt(Game.time + Engine.rand:Integer(1,10), function () 
+		      ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR")) end)
+      Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
+   else
+      with_stations = false
+      nearbysystems = findNearbySystems(with_stations)
+      if #nearbysystems > 0 then
+	 Timer:CallAt(Game.time + Engine.rand:Integer(1,10), function ()
+			 ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR")) end)
+	 Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
       end
    end
 end
@@ -1007,7 +1031,7 @@ local makeAdvert = function (station, manualFlavour)
       planet_target = planet_local
       system_target = system_local
       location = planet_target
-      dist = Engine.rand:Integer(1,max_close_space_dist)  -- minimum of 1 km distance from station
+      dist = 1000 * Engine.rand:Integer(1,max_close_space_dist)     -- minimum of 1 km distance from station
       due = Game.time + (60 * 60 * Engine.rand:Number(2,24))        --TODO: adjust due date based on urgency
 
    elseif flavour.loctype == "FAR_SPACE" then
@@ -1703,17 +1727,17 @@ end
 
 local onCreateBB = function (station)
 
-   -- force ad creation for debugging
---   local num = 3
---   for _ = 1,num do
---      makeAdvert(station, 1)
---      makeAdvert(station, 2)
---      makeAdvert(station, 3)
---      makeAdvert(station, 4)
---      makeAdvert(station, 5)
---      makeAdvert(station, 6)
---      makeAdvert(station, 7)
---   end
+   -- -- force ad creation for debugging
+   -- local num = 3
+   -- for _ = 1,num do
+   --    makeAdvert(station, 1)
+   --    makeAdvert(station, 2)
+   --    makeAdvert(station, 3)
+   --    makeAdvert(station, 4)
+   --    makeAdvert(station, 5)
+   --    makeAdvert(station, 6)
+   --    makeAdvert(station, 7)
+   -- end
 
    if triggerAdCreation() then makeAdvert(station, nil) end
 end
@@ -1744,8 +1768,8 @@ local onUpdateBB = function (station)
       end
    end
 
-   -- add ads randomly about every six hours
-   if Engine.rand:Integer(6*60*60) < 60*60 then
+   -- accumulative chance for new ad for 24 hour period is ~0.5
+   if Engine.rand:Number(0,1) < 0.05 then
       if triggerAdCreation() then makeAdvert(station, nil) end
    end
 end
@@ -1781,11 +1805,18 @@ local onLeaveSystem = function (ship)
    end
 end
 
-local onShipDocked = function (player, station)
-   if not player:IsPlayer() then return end
-   for _,mission in pairs(missions) do
-      if Space.GetBody(mission.station_local.bodyIndex) == station then
-	 closeMission(mission)
+local onShipDocked = function (ship, station)
+   if ship:IsPlayer() then
+      for _,mission in pairs(missions) do
+	 if Space.GetBody(mission.station_local.bodyIndex) == station then
+	    closeMission(mission)
+	 end
+      end
+   else
+      for _,discarded_ship in pairs(discarded_ships) do
+	 if ship == discarded_ship then
+	    discardShip(ship)
+	 end
       end
    end
 end
@@ -1809,7 +1840,7 @@ local onGameStart = function ()
 
    if not loaded_data then return end
 
-   -- fill the ads and missions containers with previously saved data if this is a reload
+   -- fill the global containers with previously saved data if this is a reload
    for _,ad in pairs(loaded_data.ads) do
       local ref = Space.GetBody(ad.station_local.bodyIndex):AddAdvert({
 	    description = ad.desc,
@@ -1820,6 +1851,8 @@ local onGameStart = function ()
       ads[ref] = ad
    end
    missions = loaded_data.missions
+   aircontrol_chars = loaded_data.aircontrol_chars
+   discarded_ships = loaded_data.discarded_ships
    loaded_data = nil
 
    -- reset searching status for all missions
@@ -1839,120 +1872,112 @@ end
 local onClick = function (mission)
    local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
       
-   local danger = (l.I_HIGHLY_DOUBT_IT)
-   
    local dist_for_text
-   if mission.flavour.loctype == "CLOSE_PLANET" or mission.flavour.loctype == "CLOSE_SPACE" then
-      dist_for_text = string.format("%.0f", mission.dist)
+   if mission.flavour.loctype ~= "FAR_SPACE" then
+      local au = mToAU(mission.dist)
+      if au > 0.01 then
+	 dist_for_text = string.format("%.2f", au).." "..l.AU
+      else
+	 dist_for_text = string.format("%.0f", mission.dist).." "..l.KM
+      end
    else
-      dist_for_text = string.format("%.2f", mission.dist)
+      dist_for_text = dist.." "..l.LY
    end
 
-   -- show mission screen without "return base" data
-   if mission.flavour.reward_immediate == true then
-      return ui:Grid(2,1)
-	 :SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.flavour.introtext):interp({
-						     name         = mission.client.name,
-						     entity       = mission.entity,
-						     problem      = mission.problem,
-						     cash         = Format.Money(mission.reward),
-						     ship         = mission.shipdef_name,
-						     crew         = mission.crew_num,
-						     pass         = mission.pickup_pass_orig,
-						     deliver_crew = mission.deliver_crew_orig,
-						     starport     = mission.station_local:GetSystemBody().name,
-						     shiplabel    = mission.shiplabel,
-						     system       = mission.system_target:GetStarSystem().name,
-						     sectorx      = mission.system_target.sectorX,
-						     sectory      = mission.system_target.sectorY,
-						     sectorz      = mission.system_target.sectorZ,
-						     dist         = dist_for_text,
-						     lat          = decToDegMinSec(math.rad2deg(mission.lat)),
-						     long         = decToDegMinSec(math.rad2deg(mission.long)),
-						     planet       = mission.planet_target:GetSystemBody().name})),
-					    ui:Margin(10),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.LOCATION)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.location:GetSystemBody().name)})}),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.IN_SYSTEM)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-										    mission.system_target:GetStarSystem().name.."("
-										       ..mission.system_target.sectorX..","
-										       ..mission.system_target.sectorY..","
-										       ..mission.system_target.sectorZ..")")})}),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DANGER)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(danger)})}),
-					    ui:Margin(5),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist.." "..l.LY)})}),
-		})})
-	 :SetColumn(1, {ui:VBox(10):PackEnd(InfoFace.New(mission.client))})
-
-   -- show mission screen with "return base" data
-   elseif mission.flavour.reward_immediate == false then
-      return ui:Grid(2,1)
-	 :SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.flavour.introtext):interp({
-						     name         = mission.client.name,
-						     entity       = mission.entity,
-						     problem      = mission.problem,
-						     cash         = Format.Money(mission.reward),
-						     ship         = mission.shipdef_name,
-						     crew         = mission.crew_num,
-						     pass         = mission.pickup_pass_orig,
-						     deliver_crew = mission.deliver_crew_orig,
-						     starport     = mission.station_local:GetSystemBody().name,
-						     shiplabel    = mission.shiplabel,
-						     system       = mission.system_target:GetStarSystem().name,
-						     sectorx      = mission.system_target.sectorX,
-						     sectory      = mission.system_target.sectorY,
-						     sectorz      = mission.system_target.sectorZ,
-						     dist         = dist_for_text,
-						     lat          = decToDegMinSec(math.rad2deg(mission.lat)),
-						     long         = decToDegMinSec(math.rad2deg(mission.long)),
-						     planet       = mission.planet_target:GetSystemBody().name})),
-					    ui:Margin(10),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.LOCATION)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.location:GetSystemBody().name)})}),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.IN_SYSTEM)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-										    mission.system_target:GetStarSystem().name.."("
-										       ..mission.system_target.sectorX..","
-										       ..mission.system_target.sectorY..","
-										       ..mission.system_target.sectorZ..")")})}),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.RETURN_TO)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.station_local:GetSystemBody().name)})}),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.IN_SYSTEM)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-										    mission.system_local:GetStarSystem().name.."("
-										       ..mission.system_target.sectorX..","
-										       ..mission.system_target.sectorY..","
-										       ..mission.system_target.sectorZ..")")})}),
-
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DANGER)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(danger)})}),
-					    ui:Margin(5),
-					    ui:Grid(2,1)
-					       :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
-					       :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist.." "..l.LY)})}),
-		})})
-	 :SetColumn(1, {ui:VBox(10):PackEnd(InfoFace.New(mission.client))})
+   local location_for_text
+   if mission.lat == 0 and mission.long == 0 then
+      location_for_text = mission.planet_target:GetSystemBody().name.."\n"..l.ORBIT
+   else
+      location_for_text = mission.planet_target:GetSystemBody().name.."\n"..
+	 l.LAT.." "..decToDegMinSec(math.rad2deg(mission.lat)).." / "..
+	 l.LON.." "..decToDegMinSec(math.rad2deg(mission.long))
    end
+
+   local payment_address = mission.station_local:GetSystemBody().name
+   if mission.flavour.reward_immediate == true then payment_address = l.PLACE_OF_ASSISTANCE end
+
+   local pickup_comm_text = 0
+   local count = 0
+   for commodity, amount in pairs(mission.pickup_comm) do
+      if count == 0 then
+	 pickup_comm_text = commodity:GetName().." ("..amount..")"
+      else
+	 pickup_comm_text = pickup_comm_text.."\n"..commodity:GetName().." ("..amount..")"
+      end
+   end
+
+   local deliver_comm_text = 0
+   local count = 0
+   for commodity, amount in pairs(mission.deliver_comm) do
+      if count == 0 then
+	 deliver_comm_text = commodity:GetName().." ("..amount..")"
+      else
+	 deliver_comm_text = deliver_comm_text.."\n"..commodity:GetName().." ("..amount..")"
+      end
+   end
+
+   return ui:Grid(2,1)
+      :SetColumn(0,{ui:VBox():PackEnd({
+			  ui:Margin(10),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.TARGET_SHIP_ID)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.shipdef_name.." <"..mission.shiplabel..">")})}),
+			  ui:Margin(10),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.LAST_KNOWN_LOCATION)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(location_for_text)})}),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.SYSTEM)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
+								  mission.system_target:GetStarSystem().name.." ("
+								     ..mission.system_target.sectorX..","
+								     ..mission.system_target.sectorY..","
+								     ..mission.system_target.sectorZ..")")})}),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist_for_text)})}),
+			  ui:Margin(10),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.REWARD)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Money(mission.reward))})}),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.PAYMENT_LOCATION)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(payment_address)})}),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.SYSTEM)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
+								  mission.system_local:GetStarSystem().name.." ("
+								     ..mission.system_local.sectorX..","
+								     ..mission.system_local.sectorY..","
+								     ..mission.system_local.sectorZ..")")})}),
+			  ui:Grid(2,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
+			  ui:Margin(10),
+			  ui:Grid(1,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.PICKUP)})}),
+			  ui:Grid(3,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.CREW)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(l.PASSENGERS)})})
+			     :SetColumn(2, {ui:VBox():PackEnd({ui:Label(l.COMMODITIES)})}),
+			  ui:Grid(3,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:MultiLineText(mission.pickup_crew)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.pickup_pass)})})
+			     :SetColumn(2, {ui:VBox():PackEnd({ui:MultiLineText(pickup_comm_text)})}),
+			  ui:Margin(5),
+			  ui:Grid(1,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DELIVERY)})}),
+			  ui:Grid(3,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.CREW)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(l.PASSENGERS)})})
+			     :SetColumn(2, {ui:VBox():PackEnd({ui:Label(l.COMMODITIES)})}),
+			  ui:Grid(3,1)
+			     :SetColumn(0, {ui:VBox():PackEnd({ui:MultiLineText(mission.deliver_crew)})})
+			     :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(mission.deliver_pass)})})
+			     :SetColumn(2, {ui:VBox():PackEnd({ui:MultiLineText(deliver_comm_text)})})
+		})})
+      :SetColumn(1, {ui:VBox(10):PackEnd(InfoFace.New(mission.client))})
 end
-
 
 local onGameEnd = function ()
    -- Currently just placeholder.
@@ -1967,7 +1992,10 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 local serialize = function ()
-   return { ads = ads, missions = missions }
+   return {ads              = ads, 
+	   missions         = missions,
+	   aircontrol_chars = aircontrol_chars,
+	   discarded_ships  = discarded_ships}
 end
 
 local unserialize = function (data)
