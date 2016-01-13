@@ -1,7 +1,7 @@
 {
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has boarded the ship."
+      "message" : "{name} ha abordado la nave."
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "{name} ha abandonado la nave."
    },
    "DISTANCE" : {
       "description" : "",
@@ -153,7 +153,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you are just returning now! How much time has been wasted!"
+      "message" : "¡No me puedo creer que estés de vuelta! ¡Cuánto tiempo perdido!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -161,27 +161,27 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "Control de tráfico aereo de {starport} necesita su ayuda INMEDIATAMENTE respondiendo al accidente de una nave tipo {ship} en {planet}. El estatus de los soportes vitales es desconocido. La nave ha sido asegurada por el puerto estelar {starport} y está cubierta por {cash} en caso de emergencia."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+      "message" : "La última posición conocida de esta nave fué en {planet} en las coordenadas latitud/longitud: {lat} / {long}. La ID de la nave es {shiplabel}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
+      "message" : "Gracias, Buen trabajo. Le transmitiremos el dinero en un momento."
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} ha abordado la nave."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "Se cree que a bordo hay una tripulación de {crew} y {pass} pasajeros. Necesitamos que alguien localice la nave, rescate los posibles supervivientes y los devuelva aquí inmediatamente."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "NAVE SIN FUEL en ruta a {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -205,15 +205,15 @@
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "Se han transferido {unit} toneladas de fuel."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting 1 ton of hydrogen fuel."
+      "message" : "El piloto requiere 1 tonelada de fuel de hidrógeno."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "EMERGENCIA MÉDICA en nave cercana a {starport}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -273,11 +273,11 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "El piloto pide una tonelada de fuel de hidrógeno."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "BARCO SIN FUEL cerca de {starport}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "Por favor complete el repostaje por {due}."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
@@ -305,11 +305,11 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "Requerimos el envio de 1 tonelada de fuel de hidrógeno a la nave."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "NAVE SIN RESPUESTA A LAS LLAMADAS en el sistema {system}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -377,19 +377,19 @@
    },
    "FULL_CREW" : {
       "description" : "",
-      "message" : "Crew roster full. No more space for more crew."
+      "message" : "Tripulación al completo. No se dispone de mas espacio para tripulación."
    },
    "FULL_PASSENGERS" : {
       "description" : "",
-      "message" : "All cabins full. No more space for more passengers."
+      "message" : "Camarotes al completo. No se dispone de más espacio para pasajeros."
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "¿A qué distancia se encuentra el objetivo?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "¿De cuánto tiempo dispongo?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
@@ -405,7 +405,7 @@
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Debe completarse en"
    },
    "I_HIGHLY_DOUBT_IT" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "LOCATION" : {
       "description" : "",
-      "message" : "Location:"
+      "message" : "Situación:"
    },
    "LY" : {
       "description" : "",
@@ -425,7 +425,7 @@
    },
    "MISSING_CREW" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Crew missing."
+      "message" : "Imposible completar transferencia. Falta tripulante."
    },
    "MISSING_PASS" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "MISSING_PASSENGER" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passenger missing."
+      "message" : "No se puede completar la transferencia. Falta pasajero."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Target ship unresponsive."
+      "message" : "El objetivo no responde."
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "toneladas de espacio de carga libres"
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
@@ -629,14 +629,14 @@
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "¿Qué tipo de ayuda se necesita?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "Camarotes desocupados"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "¿Dónde encuentro el obetivo?"
    }
 }
