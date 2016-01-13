@@ -157,7 +157,7 @@
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "Pour un remboursement complet des dépenses vous devez être de retour pour {due}."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -173,19 +173,19 @@
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} est monté(e) à bord du vaisseau."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "Un équipage de {crew} et de passagers {pass} sont à bord du vaisseau. Nous avons besoin de quelqu'un pour localiser le vaisseau, récupérer les survivants et les ramener ici immédiatement. "
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "VAISSEAU SANS CARBURANT en route vers {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "Je n'arrive pas à croire que vous m'ayez fait attendre ici aussi longtemps! Vous pouvez oublier votre paiement."
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "Le contrôle aérien de {starport} viens juste de recevoir un message d'alerte l'informant que le vol {shiplabel} a épuisé tout son carburant et a du faire un atterrissage forcé. Le pilote est prêt à payer {cash} pour faire le plein."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transfered the full reward."
+      "message" : "Merci beaucoup! J'ai transféré la récompense complète."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",

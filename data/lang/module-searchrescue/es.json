@@ -269,7 +269,7 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "Se han transferido {unit} toneladas de fuel."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -301,7 +301,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "Se han transferido {unit} toneladas de fuel."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} ha abordado la nave."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
