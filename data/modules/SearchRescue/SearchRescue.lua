@@ -1727,17 +1727,17 @@ end
 
 local onCreateBB = function (station)
 
-   -- -- force ad creation for debugging
-   -- local num = 3
-   -- for _ = 1,num do
-   --    makeAdvert(station, 1)
-   --    makeAdvert(station, 2)
-   --    makeAdvert(station, 3)
-   --    makeAdvert(station, 4)
-   --    makeAdvert(station, 5)
-   --    makeAdvert(station, 6)
-   --    makeAdvert(station, 7)
-   -- end
+   -- force ad creation for debugging
+   local num = 3
+   for _ = 1,num do
+      makeAdvert(station, 1)
+      makeAdvert(station, 2)
+      makeAdvert(station, 3)
+      makeAdvert(station, 4)
+      makeAdvert(station, 5)
+      makeAdvert(station, 6)
+      makeAdvert(station, 7)
+   end
 
    if triggerAdCreation() then makeAdvert(station, nil) end
 end
@@ -1894,7 +1894,11 @@ local onClick = function (mission)
    end
 
    local payment_address = mission.station_local:GetSystemBody().name
-   if mission.flavour.reward_immediate == true then payment_address = l.PLACE_OF_ASSISTANCE end
+   local payment_system = mission.system_local:GetStarSystem().name
+   if mission.flavour.reward_immediate == true then 
+      payment_address = l.PLACE_OF_ASSISTANCE
+      payment_system = mission.system_target:GetStarSystem().name
+   end
 
    local pickup_comm_text = 0
    local count = 0
@@ -1946,7 +1950,7 @@ local onClick = function (mission)
 			  ui:Grid(2,1)
 			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.SYSTEM)})})
 			     :SetColumn(1, {ui:VBox():PackEnd({ui:MultiLineText(
-								  mission.system_local:GetStarSystem().name.." ("
+								  payment_system.." ("
 								     ..mission.system_local.sectorX..","
 								     ..mission.system_local.sectorY..","
 								     ..mission.system_local.sectorZ..")")})}),
