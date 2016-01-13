@@ -10,6 +10,9 @@
 #undef noinline
 #undef fastcall
 
+//#define USE_CHRONO
+#include <chrono>
+
 #if defined(_MSC_VER)
 	#undef __PRETTY_FUNCTION__
 	#define __PRETTY_FUNCTION__ __FUNCSIG__
@@ -141,15 +144,6 @@ namespace Profiler {
 			calls += b.calls;
 		}
 
-		static inline u64 getticks_serial() {
-	#if defined(__GNUC__)
-			asm volatile("cpuid" : : : "%eax", "%ebx", "%ecx", "%edx" );
-	#else
-			__asm cpuid;
-	#endif
-			return getticks();			
-		}
-
 	#if defined(__GNUC__)
 		static inline u64 getticks() {
 			u32 __a,__d;
@@ -158,8 +152,10 @@ namespace Profiler {
 		}
 	#elif defined(__ICC) || defined(__ICL)
 		static inline u64 getticks() { return _rdtsc(); }
-	#else
+	#elif defined(_MSC_VER) && !defined(USE_CHRONO)
 		static inline u64 getticks() { __asm { rdtsc }; }
+	#else
+		static inline u64 getticks() { return std::chrono::high_resolution_clock::now().time_since_epoch().count(); }
 	#endif
 
 		u64 ticks, started;
