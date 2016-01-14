@@ -181,7 +181,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "VAISSEAU SANS CARBURANT en route vers {starport}."
+      "message" : "VAISSEAU EN PANNE DE CARBURANT en route vers {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "Pour recevoir le paiement complet vous devez délivrer le carburant pour {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "Le vaisseau est actuellement en attente à la latitude {lat} / longitude {long} sur la planète {planet}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -205,115 +205,115 @@
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonne(s) de carburant ont été transférées."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting 1 ton of hydrogen fuel."
+      "message" : "Le pilote demande 1 tonne de carburant hydrogène."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "URGENCE MÉDICALE sur le vaisseau à proximité de {starport}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "Performance inacceptable! Nous allons mettre à jour nos fichiers en conséquence. "
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Le pilote de remplacement a besoin d'atteindre le vaisseau pour {due}."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Mon nom est {name} du contrôle aérien de {starport}. Je demande de l'aide en réponse à une urgence médicale impliquant le pilote du vol {shiplabel} se dirigeant vers {starport}."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "Le vaisseau a dû atterrir en urgence aux coordonnées: {lat} / {long}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Merci commandant! Votre aide a été dûment notée."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} a quitté le vaisseau."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "SVP transportez le pilote de remplacement depuis {starport} vers le vaisseau afin qu'ils puissent le ramener à {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "VAISSEAU EN PANNE DE CARBURANT sur {planet}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "J'enverrai quelqu'un d'autre. Plus besoin de vous occuper."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Pour une paye complète, le pilote s'attend à ce que vous délivriez le carburant pour {due}."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Le contrôle aérien de {starport} a été contacté par le pilote du vol {shiplabel}. Ils sont échoués avec un réservoir de carburant vide et ont promis de payer {cash} quiconque leur fournira un plein de carburant pour le vaisseau."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Le vaisseau s'est échoué sur {planet} aux coordonnées {lat} / {long}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments.."
+      "message" : "Très bien. Nous vous recommanderons pour de futures missions."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonne(s) de carburant ont été transférées."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "Le pilote demande 1 tonne de carburant hydrogène."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "VAISSEAU EN PANNE DE CARBURANT près de {starport}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "On ne peut plus faire confiance à personne."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "SVP complétez le plein de carburant pour {due}."
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "Le contrôle aérien de {starport} a identifié un vaisseau identifié en tant que {shiplabel} dérivant sans carburant à proximité. Nous paierons {cash} toute personne leur fournissant le carburant nécessaire pour refaire le plein, afin qu'ils puissent quitter les environs de {starport}."
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "Le vaisseau ciblé est dérive actuellement à {dist} km d'ici. Vous aurez à trouver sa position exacte vous-même."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Nous prenons bonne note de l'accomplissement de votre tâche en temps et en heure."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonne(s) de carburant ont été transférées."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "Nous demandons la livraison de 1 tonne de carburant hydrogène au vaisseau."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "VAISSEAU NE RÉPONDANT PAS dans le système {system}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a desaster! This is the death sentence to our poor colleagues!"
+      "message" : "Quel désastre! C'est une condamnation à mort pour nos pauvres collègues."
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} est monté(e) à bord du vaisseau."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
