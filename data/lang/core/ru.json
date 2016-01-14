@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Сохранение '%filename' не найдено или у игры нет доступа к файлу."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
