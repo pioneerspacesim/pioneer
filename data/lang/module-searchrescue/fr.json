@@ -25,31 +25,31 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} et Fils"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "Services de Taxi {name}"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} et Filles"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "Fleurs {name} de {locality}"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
-      "message" : "{name} Custom Painted Missiles"
+      "message" : "Missiles Peints Personnalisés {name}"
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "Services Courrier {name}"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "Animaux de Compagnie de l'Espace {name}"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
@@ -57,91 +57,91 @@
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
-      "message" : "{name} Authentic {locality} Foods"
+      "message" : "Cuisine {locality} Authentique {name}"
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "Transports {name}"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "la Société Générale des Prospecteurs de {locality}"
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
-      "message" : "{locality} Infinity Energy One"
+      "message" : "Infinity Energy One de {locality}"
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "la Société pour la Préservation Écologique"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "les Groupements d'Intérêts de {locality}"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "le Bureau des Droits Minier de {locality}"
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "l'Association des Propriétaires Terriens de {locality}"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "l'Institut de Statistique de {locality}"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "le bureau de branche de SpaceCruise Inc de {locality}"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
-      "message" : "{locality} iSatellite Ltd"
+      "message" : "iSatellite Ltd de {locality}"
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "la corporation des Services d'Enterrement de {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "la Société Biologique de {locality}"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "le Centre de Recherche Zoologique de {locality}"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "la Société Microbiologique de {locality}"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "la Société Chimique de {locality}"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "la Société Astrobiologique de {locality}"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "la Société Geologique de {locality}"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "la Société Astropaléontologique de {locality}"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "le Centre de Recherche d'Astrophysique de {locality}"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "le Centre de Recherche d'Astrochimie de {locality}"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "le Centre de Botanique de {locality}"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -449,43 +449,43 @@
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "un combat mortel entre des membres d'équipages"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "une mutinerie"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "les membres d'équipages ont eu à pourchasser un serpent venimeux retrouvé à bord du vaisseau et provenant de {locality} "
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "une araignée de {locality} a tué tous les autres"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "ce qu'il semblerait être un scorpion de {locality} s'est immiscé dans le quartier d'équipage pendant la nuit"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "une forme sévère de fièvre de {locality} a tué tous les autres"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "les autre membres d'équipages ne sont pas revenus de leur sortie spatiale"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "une forme sévère d'intoxication alimentaire sur le vaisseau"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "un accident terrible qui a conduit à l'éjection des autres dans l'espace"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "une circonstance que je ne peux pas commenter publiquement"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
@@ -493,7 +493,7 @@
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "la réception d'un signal de détresse depuis {locality}"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
@@ -521,11 +521,11 @@
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "une dispute avec un vaisseau concurrent"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "le redémarrage de l'ordinateur principal"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
