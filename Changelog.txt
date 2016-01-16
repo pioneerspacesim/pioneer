@@ -11,6 +11,7 @@ January 2016
      * Optional use of std::chrono for Profiler (#3593)
      * SGM graceful failure (#3592)
      * Convert geometry to use 32-bit indices (#3585)
+     * Remove TextureDescriptor default constructor arguments (#3594)
 
 December 2015
    * New Features
