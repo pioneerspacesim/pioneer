@@ -25,31 +25,31 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} e Hijos"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "Servicios de Taxi {name}"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} e Hijas"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "Flores de {locality} {name}"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
-      "message" : "{name} Custom Painted Missiles"
+      "message" : "Misiles Pintados Personalizados {name}"
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "Servicios de Mensajería {name}"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "Cosmomascotas {name}"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
@@ -57,11 +57,11 @@
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
-      "message" : "{name} Authentic {locality} Foods"
+      "message" : "Auténticas Comidas de {locality} {name}"
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "Transportes {name}"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
@@ -69,39 +69,39 @@
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
-      "message" : "{locality} Infinity Energy One"
+      "message" : "Infinity Energy One {locality} "
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "la Sociedad de Preservacion Ecológica de {locality}"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "el Grupo de Interés para los Derechos de {locality}"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "la Oficina de Derechos Mineros de {locality} "
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "la Asociacion de Terratenientes de {locality}"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "el Instituto Estadistico de {locality}"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "La sucursal en {locality} de SpaceCruise Inc"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
-      "message" : "{locality} iSatellite Ltd"
+      "message" : "iSatellite Ltd {locality} "
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "Burrial-Services Corp {locality} "
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "Para un reembolso completo de los gastos tiene que estar de vuelta en {due}."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -185,23 +185,23 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "¡No me puedo creer que me haya tenido esperando tanto tiermpo! ¡Olvídese del pago!"
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "Para recibir el pago completo debe enviar el combustible en {due}. "
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "Control de tráfico aereo de {starport} acaba de recibir la noticia de que el vuelo {shiplabel} se ha quedado sin combustible y ha tenido que hacer un aterrizaje de emergencia. El piloto tiene intención de pagar {cash} por los servicios de repostaje."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "La nave espera en latitud {lat} / longitud {long} en el planeta {planet}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transfered the full reward."
+      "message" : "¡Muchísimas gracias! He transferido el pago completo."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
@@ -217,55 +217,55 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "¡Una actuación inaceptable! Actualizaremos sus archivos en consecuencia."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "El piloto sustituto necesita llegar a la nave en {due}."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Me llamo {name} desde Control de tráfico aereo de {starport}. Estoy solicitando ayuda en respuesta a una emergencia médica involucrando al piloto del vuelo {shiplabel} en dirección a {starport}."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "La nave tuvo que ejecutar un aterrizaje de emergencia en las coordenadas: {lat} / {long}. "
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "¡Gracias Capitán! Su ayuda ha sido debidamente anotada."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} ha abandonado la nave."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Por favor, transporte a un piloto sustituto desde {starport} a la nave y que así puedan pilotarla de vuelta a {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "NAVE SIN COMBUSTIBLE en {planet}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Enviaré a otro. Deje de molestar."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Para un pago completo el piloto espera que le envíe el fuel en {due}."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Control de tráfico aereo de {starport} ha contactado con el piloto del vuelo {shiplabel}. Se encuentran varados con el tanque de combustible vacío y han prometido pagar {cash} a quien reposte la nave."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "La nave está varada en {planet} en las coordinadas {lat} / {long}. "
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments.."
+      "message" : "Muy bien. Le recomendaremos para próximos encargos."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "La gente ya no es confiable."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -289,15 +289,15 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "Control de tráfico aereo de {starport} ha idenificado una nave estelar con ID {shiplabel} a deriva a punto de quedarse sin fuel. Pagaremos {cash} a cualquiera que reposte la nave para que  puedan acercarse a {starport}."
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "En este momento la nave se encuentra a deriva a {dist} km de aquí. Debe localizar la posición exacta por su cuenta."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Registraremos que ha completado la labor a tiempo."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
@@ -313,23 +313,23 @@
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a desaster! This is the death sentence to our poor colleagues!"
+      "message" : "¡Menudo desastre! ¡Esto es una sentencia de muerte para nuestros colegas!"
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "Debe estar de vuelta en {due}. "
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "Mi nombre es {name} de {entity}. Acabamos de perder contacto con nuetra nave {ship} {shiplabel} siguiente {problem}. Tenemos intención de pagarle {cash} por ayuda inmediata."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "La última posición conocida fue en las cercanías de {planet} en el sistema {system} [{sectorx},{sectory},{sectorz}], A {dist} años luz de aquí."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! You can't imagine how relieved we are."
+      "message" : "¡Gracias! No se puede imaginar lo aliviados que nos quedamos."
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
@@ -337,15 +337,15 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Necesito a alguien con intención de partir inmediatamente y traer de vuelta a nuestros colegas a {starport}, en caso de que hayan sobrevivido. La nave disponia de {crew} tripulantes y {pass} pasajeros a bordo."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "Se pide TRANPORTE INMEDIATO DE TRIPULACIÓN al sistema {system}."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "¡Muchas gracias, pero ha llegado demasiado tarde!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -453,7 +453,7 @@
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "un motín"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "un incendio en la bahia de carga"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
@@ -497,11 +497,11 @@
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "un fallo de energía en el núcleo del motor"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "un escape de aire"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
@@ -509,7 +509,7 @@
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "un pequeño impacto de meteoro"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
