@@ -53,11 +53,11 @@ public:
 		format(TEXTURE_RGBA_8888), dataSize(1.0f), texSize(1.0f), sampleMode(LINEAR_CLAMP), generateMipmaps(false), allowCompression(true), useAnisotropicFiltering(true), numberOfMipMaps(0), type(TEXTURE_2D)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, bool _useAnisotropicFiltering = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
 		format(_format), dataSize(_dataSize), texSize(1.0f), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), useAnisotropicFiltering(_useAnisotropicFiltering), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, bool _useAnisotropicFiltering = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
 		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), useAnisotropicFiltering(_useAnisotropicFiltering), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
 	{}
 
