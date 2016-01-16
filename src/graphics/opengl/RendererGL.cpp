@@ -823,6 +823,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 			vector2f(desc.width, desc.height),
 			LINEAR_CLAMP,
 			false,
+			false, 
 			false);
 		TextureGL *colorTex = new TextureGL(cdesc, false, false);
 		rt->SetColorTexture(colorTex);
@@ -834,6 +835,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 				vector2f(desc.width, desc.height),
 				vector2f(desc.width, desc.height),
 				LINEAR_CLAMP,
+				false,
 				false,
 				false);
 			TextureGL *depthTex = new TextureGL(ddesc, false, false);

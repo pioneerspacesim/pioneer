@@ -618,7 +618,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.reset(m_renderer->CreateMaterial(desc));
-	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false);
+	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false, false);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat->texture0 = m_texture.Get();
 

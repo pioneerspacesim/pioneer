@@ -420,7 +420,7 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
-			true, false, 0, Graphics::TEXTURE_CUBE_MAP);
+			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_surfaceTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 
 		// update with buffer from above
@@ -476,7 +476,7 @@ void GasGiant::GenerateTexture()
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
-			false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+			false, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
 
 		const Terrain *pTerrain = GetTerrain();
