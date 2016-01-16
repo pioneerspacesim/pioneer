@@ -156,7 +156,10 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 				//binary loader expects extension-less name. Might want to change this.
 				SceneGraph::BinaryConverter bc(m_renderer);
 				m_model = bc.Load(shortname);
-				return m_model;
+				if (m_model)
+					return m_model;
+				else
+					break; // we'll have to load the non-sgm file
 			}
 		}
 	}
