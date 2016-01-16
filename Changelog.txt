@@ -2,6 +2,9 @@ January 2016
    * New Features
      * Barnard's star update (#3584)
      * Anisotropic Texture Filtering (#3586)
+     
+   * Fixes
+     * TextureDescriptor usage updated (#3591)
 
 December 2015
    * New Features
