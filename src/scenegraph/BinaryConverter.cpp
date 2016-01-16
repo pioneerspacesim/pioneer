@@ -18,7 +18,8 @@ using namespace SceneGraph;
 // 3: store processed collision mesh
 // 4: compressed SGM files and instancing support
 // 5: normal mapping
-const Uint32 SGM_VERSION = 5;
+// 6: 32-bit indicies
+const Uint32 SGM_VERSION = 6;
 union SGM_STRING_VALUE{
 	char name[4];
 	Uint32 value;

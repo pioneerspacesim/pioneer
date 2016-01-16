@@ -535,7 +535,7 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 	//m_surface.reset(new Surface(TRIANGLES, new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0), mat));
 	//reserve some data
 	VertexArray vts(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0, 256);
-	std::vector<Uint16> indices;
+	std::vector<Uint32> indices;
 
 	//initial vertices
 	int vi[12];
@@ -569,7 +569,7 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 	m_vertexBuffer->Populate(vts);
 
 	m_indexBuffer.reset(renderer->CreateIndexBuffer(indices.size(), BUFFER_USAGE_STATIC));
-	Uint16 *idxPtr = m_indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
+	Uint32 *idxPtr = m_indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
 	for (auto it : indices) {
 		*idxPtr = it;
 		idxPtr++;
@@ -593,7 +593,7 @@ int Sphere3D::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
 	return vts.GetNumVerts() - 1;
 }
 
-void Sphere3D::AddTriangle(std::vector<Uint16> &indices, int i1, int i2, int i3)
+void Sphere3D::AddTriangle(std::vector<Uint32> &indices, int i1, int i2, int i3)
 {
 	PROFILE_SCOPED()
 	indices.push_back(i1);
@@ -601,7 +601,7 @@ void Sphere3D::AddTriangle(std::vector<Uint16> &indices, int i1, int i2, int i3)
 	indices.push_back(i3);
 }
 
-void Sphere3D::Subdivide(VertexArray &vts, std::vector<Uint16> &indices,
+void Sphere3D::Subdivide(VertexArray &vts, std::vector<Uint32> &indices,
 		const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		const int i1, const int i2, const int i3, int depth)
 {

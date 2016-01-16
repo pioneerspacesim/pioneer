@@ -318,9 +318,9 @@ IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-	m_data = new Uint16[size];
-	memset(m_data, 0, sizeof(Uint16) * size);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16) * m_size, m_data, usage);
+	m_data = new Uint32[size];
+	memset(m_data, 0, sizeof(Uint32) * size);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint32) * m_size, m_data, usage);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//Don't keep client data around for static buffers
@@ -336,7 +336,7 @@ IndexBuffer::~IndexBuffer()
 	delete[] m_data;
 }
 
-Uint16 *IndexBuffer::Map(BufferMapMode mode)
+Uint32 *IndexBuffer::Map(BufferMapMode mode)
 {
 	assert(mode != BUFFER_MAP_NONE); //makes no sense
 	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
@@ -344,9 +344,9 @@ Uint16 *IndexBuffer::Map(BufferMapMode mode)
 	if (GetUsage() == BUFFER_USAGE_STATIC) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
 		if (mode == BUFFER_MAP_READ)
-			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY));
+			return reinterpret_cast<Uint32*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY));
 		else if (mode == BUFFER_MAP_WRITE)
-			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+			return reinterpret_cast<Uint32*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	}
 
 	return m_data;
@@ -362,7 +362,7 @@ void IndexBuffer::Unmap()
 	} else {
 		if (m_mapMode == BUFFER_MAP_WRITE) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-			glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint16) * m_size, m_data);
+			glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint32) * m_size, m_data);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}
