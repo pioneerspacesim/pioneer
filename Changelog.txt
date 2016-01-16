@@ -7,6 +7,11 @@ January 2016
      * TextureDescriptor usage updated (#3591)
      * Fix ObjectViewer crash/hang (#3588)
 
+   * Internal Changes
+     * Optional use of std::chrono for Profiler (#3593)
+     * SGM graceful failure (#3592)
+     * Convert geometry to use 32-bit indices (#3585)
+
 December 2015
    * New Features
      * PgUp/PgDn increments time acceleration (configurable) (#3544)
