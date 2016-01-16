@@ -35,7 +35,7 @@ public:
 	void RegisterLoader(const std::string &typeName, std::function<Node*(NodeDatabase&)>);
 
 private:
-	Model *CreateModel(Serializer::Reader&);
+	Model *CreateModel(const std::string& filename, Serializer::Reader&);
 	void SaveMaterials(Serializer::Writer&, Model* m);
 	void LoadMaterials(Serializer::Reader&);
 	void SaveAnimations(Serializer::Writer&, Model* m);
