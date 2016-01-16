@@ -5,6 +5,7 @@ January 2016
      
    * Fixes
      * TextureDescriptor usage updated (#3591)
+     * Fix ObjectViewer crash/hang (#3588)
 
 December 2015
    * New Features
