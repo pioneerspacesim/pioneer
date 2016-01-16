@@ -824,7 +824,8 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 			LINEAR_CLAMP,
 			false,
 			false, 
-			false);
+			false,
+			0, Graphics::TEXTURE_2D);
 		TextureGL *colorTex = new TextureGL(cdesc, false, false);
 		rt->SetColorTexture(colorTex);
 	}
@@ -837,7 +838,8 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 				LINEAR_CLAMP,
 				false,
 				false,
-				false);
+				false,
+				0, Graphics::TEXTURE_2D);
 			TextureGL *depthTex = new TextureGL(ddesc, false, false);
 			rt->SetDepthTexture(depthTex);
 		} else {
