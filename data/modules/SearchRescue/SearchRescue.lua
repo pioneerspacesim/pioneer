@@ -1,6 +1,9 @@
 -- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+-- CHECK: planets without stations
+
+
 -- Notes:
 -- - All station/planet location references in ad/mission are stored as paths for consistency because
 --   some can't be accessed as bodies until the player enters the respective system and getting a path from
@@ -856,7 +859,7 @@ local findNearbyStations = function (vacuum, body)
 end
 
 local findNearbyPlanets = function (station)
-   -- Return list of all rocky planets in the system (excluding the planet the station is on), sorted by
+   -- Return list of all rocky planets in the system (excluding any planets with stations), sorted by
    -- distance from the station.
 
    -- get rocky planets (except the one the station is on)
@@ -870,7 +873,23 @@ local findNearbyPlanets = function (station)
       end
    end
 
-   -- determine distance to player system
+   -- get planets with stations and remove from planet list
+   local stations = Space.GetBodies(function (body)
+	 return body.superType == 'STARPORT' and body.path:GetSystemBody().parent.hasAtmosphere end)
+   for _,station in pairs(stations) do
+      for i,planet in ipairs(nearbyplanets_raw) do
+	 if planet == station.path:GetSystemBody().parent then
+	    nearbyplanets_raw[i] = nil
+	 end
+      end
+   end
+      
+-- debug continue here
+   else
+      nearbystations_raw = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
+   end
+
+   -- determine distance to player station
    local nearbyplanets_dist = {}
    for _,planet in pairs(nearbyplanets_raw) do
       local dist = station:DistanceTo(planet)
@@ -971,16 +990,18 @@ local discardShip = function (ship)
    local with_stations = true
    local nearbysystems = findNearbySystems(with_stations)
    if #nearbysystems > 0 then
-      Timer:CallAt(Game.time + Engine.rand:Integer(1,10), function () 
-		      ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR")) end)
-      Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
+      Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function () 
+		      ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR"))
+		      Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
+      end)
    else
       with_stations = false
       nearbysystems = findNearbySystems(with_stations)
       if #nearbysystems > 0 then
-	 Timer:CallAt(Game.time + Engine.rand:Integer(1,10), function ()
-			 ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR")) end)
-	 Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
+	 Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
+			 ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR"))
+			 Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
+	 end)
       end
    end
 end
