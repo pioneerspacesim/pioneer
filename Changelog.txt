@@ -6,6 +6,7 @@ January 2016
    * Fixes
      * TextureDescriptor usage updated (#3591)
      * Fix ObjectViewer crash/hang (#3588)
+     * Fix for broken SGM file loading (#3597)
 
    * Internal Changes
      * Optional use of std::chrono for Profiler (#3593)
