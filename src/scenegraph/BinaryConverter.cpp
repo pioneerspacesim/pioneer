@@ -202,9 +202,10 @@ Model *BinaryConverter::CreateModel(const std::string& filename, Serializer::Rea
 	}
 
 	const Uint32 version = rd.Int32();
-	if (version != SGM_VERSION)
+	if (version != SGM_VERSION) {
 		Warning("Error whilst loading %s\nSGM versioning (%u) did not match the supported SGM_VERSION (%u)\nSGM file will be ignored\n", filename.c_str(), version, SGM_VERSION);
 		return nullptr;
+	}
 
 	const std::string modelName = rd.String();
 
