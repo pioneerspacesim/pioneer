@@ -1,8 +1,6 @@
 -- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
--- CHECK: planets without stations
-
 
 -- Notes:
 -- - All station/planet location references in ad/mission are stored as paths for consistency because
@@ -61,8 +59,8 @@ local max_crew = 4                   -- max number of crew on target ship (high 
 local reward_close = 200             -- basic reward for "CLOSE" mission (+/- random half of that)
 local reward_medium = 1000           -- basic reward for "MEDIUM" mission (+/- random half of that)
 local reward_far = 2000              -- basic reward for "FAR" mission (+/- random half of that)
-local ad_freq_max = 0.9              -- maximum frequency for ad creation
-local ad_freq_min = 0.2              -- minimum frequency for ad creation
+local ad_freq_max = 3.0              -- maximum frequency for ad creation
+local ad_freq_min = 0.3              -- minimum frequency for ad creation
 
 -- global containers and variables
 local aircontrol_chars = {}        -- saving specific aircontrol character per spacestation
@@ -296,14 +294,18 @@ end
 
 local triggerAdCreation = function ()
    -- Return if ad should be created based on lawlessness and min/max frequency values.
+   -- Ad number per system is based on how many stations a system has so a player will
+   -- be met with a certain number of stations that have one or more ads. 
+   local stations = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
    local freq = Game.system.lawlessness * ad_freq_max
    if freq < ad_freq_min then freq = ad_freq_min end
-   local rand_num = Engine.rand:Number(0,1)
-   if rand_num < freq then
-      return true
-   else
-      return false
+   local ad_num_max = freq * #stations
+   if arraySize(ads) < ad_num_max then
+      if Engine.rand:Integer(0,1) == 1 then
+	 return true
+      end
    end
+   return false
 end
 
 local getNumberOfFlavours = function (str)
@@ -875,18 +877,14 @@ local findNearbyPlanets = function (station)
 
    -- get planets with stations and remove from planet list
    local stations = Space.GetBodies(function (body)
-	 return body.superType == 'STARPORT' and body.path:GetSystemBody().parent.hasAtmosphere end)
+	 return body.type == 'STARPORT_SURFACE' end)
    for _,station in pairs(stations) do
-      for i,planet in ipairs(nearbyplanets_raw) do
-	 if planet == station.path:GetSystemBody().parent then
-	    nearbyplanets_raw[i] = nil
+      for i=#nearbyplanets_raw, 1, -1 do
+	 if nearbyplanets_raw[i] == Space.GetBody(station.path:GetSystemBody().parent.index) then
+	    table.remove(nearbyplanets_raw, i)
+	    break
 	 end
       end
-   end
-      
--- debug continue here
-   else
-      nearbystations_raw = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
    end
 
    -- determine distance to player station
@@ -1749,16 +1747,16 @@ end
 local onCreateBB = function (station)
 
    -- force ad creation for debugging
-   local num = 3
-   for _ = 1,num do
-      makeAdvert(station, 1)
-      makeAdvert(station, 2)
-      makeAdvert(station, 3)
-      makeAdvert(station, 4)
-      makeAdvert(station, 5)
-      makeAdvert(station, 6)
-      makeAdvert(station, 7)
-   end
+   -- local num = 3
+   -- for _ = 1,num do
+   --    makeAdvert(station, 1)
+   --    makeAdvert(station, 2)
+   --    makeAdvert(station, 3)
+   --    makeAdvert(station, 4)
+   --    makeAdvert(station, 5)
+   --    makeAdvert(station, 6)
+   --    makeAdvert(station, 7)
+   -- end
 
    if triggerAdCreation() then makeAdvert(station, nil) end
 end
@@ -1768,7 +1766,7 @@ local onUpdateBB = function (station)
 
    -- remove ads based on time until due
    for ref,ad in pairs(ads) do
-
+      
       -- 30 minute timeout for very close missions (same planet)
       if ad.flavour.loctype == "CLOSE_PLANET" or ad.flavour.loctype == "CLOSE_SPACE" then
 	 if ad.due < Game.time + 30*60 then
@@ -1789,10 +1787,8 @@ local onUpdateBB = function (station)
       end
    end
 
-   -- accumulative chance for new ad for 24 hour period is ~0.5
-   if Engine.rand:Number(0,1) < 0.05 then
-      if triggerAdCreation() then makeAdvert(station, nil) end
-   end
+   -- trigger new ad creation if appropriate
+   if triggerAdCreation() then makeAdvert(station, nil) end
 end
 
 local onEnterSystem = function (player)
