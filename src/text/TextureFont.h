@@ -39,8 +39,8 @@ public:
 
 	void PopulateString(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
 	Color PopulateMarkup(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
-	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va) const;
-	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str);
+	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va, const bool bIsStatic) const;
+	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str, const bool bIsStatic);
 	Graphics::VertexBuffer* GetCachedVertexBuffer(const std::string &str);
 
 	// general baseline-to-baseline height

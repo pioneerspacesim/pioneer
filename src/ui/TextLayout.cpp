@@ -126,7 +126,7 @@ void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point
 		}
 
 		if (!m_vbuffer.Valid()) {
-			m_vbuffer.Reset(m_font->CreateVertexBuffer(va));
+			m_vbuffer.Reset(m_font->CreateVertexBuffer(va, true));
 		}
 	}
 
