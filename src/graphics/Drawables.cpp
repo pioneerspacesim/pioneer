@@ -642,7 +642,7 @@ TexturedQuad::TexturedQuad(Graphics::Renderer *r, const std::string &filename)
 	desc.textures = 1;
 	desc.lighting = false;
 	desc.vertexColors = false;
-	m_material.reset(r->CreateMaterial(desc));
+	m_material.Reset(r->CreateMaterial(desc));
 	m_material->texture0 = m_texture.Get();
 
 	// these might need to be reversed
@@ -662,7 +662,7 @@ TexturedQuad::TexturedQuad(Graphics::Renderer *r, const std::string &filename)
 	vbd.attrib[1].format   = ATTRIB_FORMAT_FLOAT2;
 	vbd.numVertices = vertices.GetNumVerts();
 	vbd.usage = BUFFER_USAGE_STATIC;
-	m_vertexBuffer.reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
 	m_vertexBuffer->Populate(vertices);
 }
 
@@ -677,7 +677,7 @@ TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, co
 	VertexArray vertices(ATTRIB_POSITION | ATTRIB_UV0);
 	Graphics::MaterialDescriptor desc;
 	desc.textures = 1;
-	m_material.reset(r->CreateMaterial(desc));
+	m_material.Reset(r->CreateMaterial(desc));
 	m_material->texture0 = m_texture.Get();
 
 	// these might need to be reversed
@@ -697,22 +697,65 @@ TexturedQuad::TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, co
 	vbd.attrib[1].format   = ATTRIB_FORMAT_FLOAT2;
 	vbd.numVertices = vertices.GetNumVerts();
 	vbd.usage = BUFFER_USAGE_STATIC;
-	m_vertexBuffer.reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
 	m_vertexBuffer->Populate(vertices);
+}
+
+TexturedQuad::TexturedQuad(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> &material, const Graphics::VertexArray &va, RenderState *state)
+	: m_material(material)
+{
+	PROFILE_SCOPED()
+	assert(state);
+	m_renderState = state;
+
+	//Create vtx & index buffers and copy data
+	VertexBufferDesc vbd;
+	
+	Uint32 attribIdx = 0;
+	assert(va.HasAttrib(ATTRIB_POSITION));
+	vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
+	vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+	++attribIdx;
+
+	if (va.HasAttrib(ATTRIB_NORMAL)) {
+		vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+		++attribIdx;
+	}
+	if (va.HasAttrib(ATTRIB_DIFFUSE)) {
+		vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
+		++attribIdx;
+	}
+	if (va.HasAttrib(ATTRIB_UV0)) {
+		vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
+		++attribIdx;
+	}
+	if (va.HasAttrib(ATTRIB_TANGENT)) {
+		vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+		++attribIdx;
+	}
+
+	vbd.numVertices = va.GetNumVerts();
+	vbd.usage = BUFFER_USAGE_STATIC;
+	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
+	m_vertexBuffer->Populate(va);
 }
 
 void TexturedQuad::Draw(Graphics::Renderer *r)
 {
 	PROFILE_SCOPED()
-	m_material->diffuse = Color4ub(255, 255, 255, 255);
-	r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
+	m_material->diffuse = Color::WHITE;
+	r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), TRIANGLE_STRIP);
 }
 
 void TexturedQuad::Draw(Graphics::Renderer *r, const Color4ub &tint)
 {
 	PROFILE_SCOPED()
 	m_material->diffuse = tint;
-	r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), TRIANGLE_STRIP);
+	r->DrawBuffer(m_vertexBuffer.Get(), m_renderState, m_material.Get(), TRIANGLE_STRIP);
 }
 
 //------------------------------------------------------------

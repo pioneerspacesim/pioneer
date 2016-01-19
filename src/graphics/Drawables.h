@@ -163,13 +163,15 @@ public:
 
 	// Build a textured quad to display an arbitrary texture.
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state);
+	TexturedQuad(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> &material, const Graphics::VertexArray &va, RenderState *state);
+
 	virtual void Draw(Graphics::Renderer *r);
 	virtual void Draw(Graphics::Renderer *r, const Color4ub &tint);
 	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
-	std::unique_ptr<Graphics::Material> m_material;
-	std::unique_ptr<VertexBuffer> m_vertexBuffer;
+	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	Graphics::RenderState *m_renderState;
 };
 //------------------------------------------------------------
