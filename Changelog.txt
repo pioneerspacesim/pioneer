@@ -7,6 +7,7 @@ January 2016
      * TextureDescriptor usage updated (#3591)
      * Fix ObjectViewer crash/hang (#3588)
      * Fix for broken SGM file loading (#3597)
+     * Show the correct pattern on the ship info screen (#3598)
 
    * Internal Changes
      * Optional use of std::chrono for Profiler (#3593)
