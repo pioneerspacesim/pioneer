@@ -2,20 +2,20 @@
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Barnard\'s star',{ 'STAR_M' })
-    :faction('Solar Federation')
-    :govtype('EARTHCOLONIAL')
+	:faction('Solar Federation')
+	:govtype('EARTHCOLONIAL')
 	:lawlessness(f(0,100)) -- 1/100th from a peaceful eden
-    :short_desc('Earth Federation prison colony')
-    :long_desc([[Barnard's Star is a very low-mass red dwarf star.  Somewhere between 7 and 12 billion years old, it is probably one of the most ancient stars in the galaxy.  Despite that, it is still fairly active.  Pilots entering the system are warned that there might be consideral stellar activity, including flares and massive coronal ejections.
+	:short_desc('Earth Federation prison colony')
+	:long_desc([[Barnard's Star is a very low-mass red dwarf star.  Somewhere between 7 and 12 billion years old, it is probably one of the most ancient stars in the galaxy.  Despite that, it is still fairly active.  Pilots entering the system are warned that there might be considerable stellar activity, including flares and massive coronal ejections.
 
 One of the first stars to be visited after the introduction of interstellar travel, Barnard's Star was found to be a much smaller system compared to Sol, with only twelve bodies. Named after the Twelve Causes of Suffering from Buddhist suttas.  Habitats were built here to serve as Federal prison colonies.
 
 A permit is normally required in order to enter this system whilst carrying weapons.]])
 
 local barnard = CustomSystemBody:new('Barnard\'s Star', 'STAR_M')
-    :radius(f(17,100))
-    :mass(f(16,100))
-    :temp(3134)
+	:radius(f(17,100))
+	:mass(f(16,100))
+	:temp(3134)
 
 local formations = CustomSystemBody:new('Formations', 'PLANET_TERRESTRIAL')
 	:seed(42)
@@ -40,7 +40,7 @@ local formations_starport =	{
 			:latitude(math.deg2rad(5.7541))
 			:longitude(math.deg2rad(4.14))
 	}
-	
+
 local ignorance = CustomSystemBody:new('Ignorance', 'PLANET_TERRESTRIAL')
 	:seed(42312)
 	:radius(f(566,1000))
@@ -60,7 +60,7 @@ local ignorance = CustomSystemBody:new('Ignorance', 'PLANET_TERRESTRIAL')
 	:life(f(43,1000))
 	:orbital_phase_at_start(fixed.deg2rad(f(261,1)))
 	:orbital_offset(fixed.deg2rad(f(144,1)))
-	
+
 	local death = CustomSystemBody:new('Death', 'PLANET_TERRESTRIAL')
 	:seed(-1322064465)
 	:radius(f(273,10000))
@@ -80,7 +80,7 @@ local ignorance = CustomSystemBody:new('Ignorance', 'PLANET_TERRESTRIAL')
 	:life(f(13,10000))
 	:orbital_phase_at_start(fixed.deg2rad(f(161,1)))
 	:orbital_offset(fixed.deg2rad(f(32,1)))
-	
+
 local consciousness = {
 	CustomSystemBody:new('Consciousness', 'PLANET_TERRESTRIAL')
 		:seed(1913859659)
@@ -110,7 +110,7 @@ local impression = CustomSystemBody:new('Impression', 'PLANET_GAS_GIANT')
 	:rings(f(11176,10000), f(11769,10000), {0.61, 0.48, 0.384, 0.8})
 	:orbital_offset(fixed.deg2rad(f(60,1)))
 	:eccentricity(f(120,10000))
-	
+
 local impression_moons = {
 		CustomSystemBody:new('Name and Form', 'PLANET_ASTEROID')
 		:seed(-9812342)
@@ -142,7 +142,7 @@ local impression_moons = {
 		:metallicity(f(7,10))
 		:volcanicity(f(1,1)),
 		{
-		CustomSystemBody:new('OPLI Awekeing', 'STARPORT_SURFACE')
+		CustomSystemBody:new('OPLI Awakening', 'STARPORT_SURFACE')
 			:latitude(math.deg2rad(5.7541))
 			:longitude(math.deg2rad(4.14))
 	},
@@ -170,7 +170,7 @@ local impression_moons = {
 		:rotation_period(f(674536,1000000))
 		:metallicity(f(7,10))
 		:volcanicity(f(1,1)),
-		
+
 		CustomSystemBody:new('Clinging', 'PLANET_ASTEROID')
 		:seed(515932)
 		:radius(f(173,100000))
@@ -187,7 +187,7 @@ local impression_moons = {
 			:latitude(math.deg2rad(35.71))
 			:longitude(math.deg2rad(41.4))
 		},
-		
+
 		CustomSystemBody:new('Emotion', 'PLANET_ASTEROID')
 		:seed(-989983562342)
 		:radius(f(133,100000))
@@ -208,20 +208,20 @@ local impression_moons = {
 		:orbital_phase_at_start(fixed.deg2rad(f(0,1)))
 		:axial_tilt(fixed.deg2rad(f(668,100))),
 	}
-	
-		
+
+
 	local tranquility = CustomSystemBody:new('High Security Prison Tranquility', 'STARPORT_ORBITAL')
-    :semi_major_axis(f(32,10))
-    :rotation_period(f(1,24*60*3))
-    :orbital_offset(fixed.deg2rad(f(0,1)))
+	:semi_major_axis(f(32,10))
+	:rotation_period(f(1,24*60*3))
+	:orbital_offset(fixed.deg2rad(f(0,1)))
 	:eccentricity(f(120,10000))
-	
+
 	local serenity = CustomSystemBody:new('High Security Prison Serenity', 'STARPORT_ORBITAL')
-    :semi_major_axis(f(32,10))
-    :orbital_offset(fixed.deg2rad(f(120,1)))
-    :rotation_period(f(1,24*120*4))
+	:semi_major_axis(f(32,10))
+	:orbital_offset(fixed.deg2rad(f(120,1)))
+	:rotation_period(f(1,24*120*4))
 	:eccentricity(f(120,10000))
-	
+
 	local birth = CustomSystemBody:new('Birth', 'PLANET_TERRESTRIAL')
 	:seed(22312521)
 	:radius(f(229,1000))
@@ -243,8 +243,8 @@ local impression_moons = {
 	:orbital_offset(fixed.deg2rad(f(351,10)))
 
 s:bodies(barnard, {
-	 
-	formations, 
+
+	formations,
 		formations_starport,
 	ignorance,
 		consciousness,
@@ -252,7 +252,7 @@ s:bodies(barnard, {
 	impression,
 		impression_moons,
 		impression_station,
-	tranquility, 
+	tranquility,
 	serenity,
 	birth,
 	})
