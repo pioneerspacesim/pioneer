@@ -22,6 +22,7 @@ Image::Image(Context *context, const std::string &filename, Uint32 sizeControlFl
 	, m_centre(0.0f, 0.0f)
 	, m_scale(1.0f)
 	, m_preserveAspect(false)
+	, m_needsRefresh(false)
 {
 	Graphics::TextureBuilder b = Graphics::TextureBuilder::UI(filename);
 	m_texture.Reset(b.GetOrCreateTexture(GetContext()->GetRenderer(), "ui"));
@@ -43,6 +44,7 @@ Point Image::PreferredSize()
 
 Image *Image::SetHeightLines(Uint32 lines)
 {
+	m_needsRefresh = true;
 	const Text::TextureFont *font = GetContext()->GetFont(GetFont()).Get();
 	const float height = font->GetHeight() * lines;
 
@@ -56,6 +58,7 @@ Image *Image::SetHeightLines(Uint32 lines)
 
 Image *Image::SetNaturalSize()
 {
+	m_needsRefresh = true;
 	m_initialSize = CalcDisplayDimensions(GetContext(), m_texture.Get());
 	GetContext()->RequestLayout();
 	return this;
@@ -63,62 +66,69 @@ Image *Image::SetNaturalSize()
 
 void Image::SetTransform(float scale, const vector2f &centre)
 {
+	m_needsRefresh = true;
 	m_scale = scale;
 	m_centre = centre;
 }
 
 void Image::SetPreserveAspect(bool preserve_aspect)
 {
+	m_needsRefresh = true;
 	m_preserveAspect = preserve_aspect;
 }
 
 void Image::Draw()
 {
-	const Point &offset = GetActiveOffset();
-	const Point &area = GetActiveArea();
-	const auto &descriptor = m_texture->GetDescriptor();
+	Graphics::Renderer *r = GetContext()->GetRenderer();
+	if (!m_quad || m_needsRefresh) {
+		m_needsRefresh = false;
+		const Point &offset = GetActiveOffset();
+		const Point &area = GetActiveArea();
+		const auto &descriptor = m_texture->GetDescriptor();
 
-	const float half_sx = area.x*0.5f;
-	const float half_sy = area.y*0.5f;
+		const float half_sx = area.x*0.5f;
+		const float half_sy = area.y*0.5f;
 
-	float cx = offset.x + half_sx;
-	float cy = offset.y + half_sy;
-	float rx, ry;
+		float cx = offset.x + half_sx;
+		float cy = offset.y + half_sy;
+		float rx, ry;
 
-	if (m_preserveAspect) {
-		const vector2f sz = descriptor.GetOriginalSize();
-		const float wantRatio = sz.x / sz.y;
-		const float haveRatio = float(area.x) / float(area.y);
-		if (wantRatio > haveRatio) {
-			// limited by width
+		if (m_preserveAspect) {
+			const vector2f sz = descriptor.GetOriginalSize();
+			const float wantRatio = sz.x / sz.y;
+			const float haveRatio = float(area.x) / float(area.y);
+			if (wantRatio > haveRatio) {
+				// limited by width
+				rx = half_sx;
+				ry = half_sx / wantRatio;
+			}
+			else {
+				// limited by height
+				rx = half_sy * wantRatio;
+				ry = half_sy;
+			}
+		}
+		else {
 			rx = half_sx;
-			ry = half_sx / wantRatio;
-		} else {
-			// limited by height
-			rx = half_sy * wantRatio;
 			ry = half_sy;
 		}
-	} else {
-		rx = half_sx;
-		ry = half_sy;
+
+		rx *= m_scale;
+		ry *= m_scale;
+		cx -= rx*m_centre.x;
+		cy -= ry*m_centre.y;
+		const vector2f texSize = descriptor.texSize;
+
+		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		va.Add(vector3f(cx - rx, cy - ry, 0.0f), vector2f(0.0f, 0.0f));
+		va.Add(vector3f(cx - rx, cy + ry, 0.0f), vector2f(0.0f, texSize.y));
+		va.Add(vector3f(cx + rx, cy - ry, 0.0f), vector2f(texSize.x, 0.0f));
+		va.Add(vector3f(cx + rx, cy + ry, 0.0f), vector2f(texSize.x, texSize.y));
+
+		auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+		m_quad.reset(new Graphics::Drawables::TexturedQuad(r, m_material, va, renderState));
 	}
-
-	rx *= m_scale;
-	ry *= m_scale;
-	cx -= rx*m_centre.x;
-	cy -= ry*m_centre.y;
-	const vector2f texSize = descriptor.texSize;
-
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-	va.Add(vector3f(cx-rx, cy-ry, 0.0f), vector2f(0.0f,      0.0f));
-	va.Add(vector3f(cx-rx, cy+ry, 0.0f), vector2f(0.0f,      texSize.y));
-	va.Add(vector3f(cx+rx, cy-ry, 0.0f), vector2f(texSize.x, 0.0f));
-	va.Add(vector3f(cx+rx, cy+ry, 0.0f), vector2f(texSize.x, texSize.y));
-
-	Graphics::Renderer *r = GetContext()->GetRenderer();
-	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
-	m_material->diffuse = Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, GetContext()->GetOpacity()*Color::WHITE.a);
-	r->DrawTriangles(&va, renderState, m_material.Get(), Graphics::TRIANGLE_STRIP);
+	m_quad->Draw(r, Color(Color::WHITE.r, Color::WHITE.g, Color::WHITE.b, GetContext()->GetOpacity()*Color::WHITE.a));
 }
 
 }

@@ -6,6 +6,7 @@
 
 #include "Widget.h"
 #include "SmartPtr.h"
+#include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
 #include "vector2.h"
@@ -49,11 +50,13 @@ protected:
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
 	RefCountedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 	Point m_initialSize;
 
 	vector2f m_centre;
 	float m_scale;
 	bool m_preserveAspect;
+	bool m_needsRefresh;
 };
 
 }
