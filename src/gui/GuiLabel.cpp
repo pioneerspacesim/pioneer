@@ -22,6 +22,7 @@ Label::~Label()
 
 void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
+	m_needsUpdate = true;
 	m_colourMarkupMode = colourMarkupMode;
 	m_shadow = false;
 	m_layout = 0;
@@ -33,7 +34,10 @@ void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMar
 
 void Label::UpdateLayout()
 {
-	m_layout.reset(new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode));
+	if (!m_layout.get() || m_needsUpdate) {
+		m_needsUpdate = false;
+		m_layout.reset(new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode));
+	}
 }
 
 void Label::RecalcSize()
@@ -43,13 +47,20 @@ void Label::RecalcSize()
 
 Label *Label::Color(Uint8 r, Uint8 g, Uint8 b)
 {
-	m_color = ::Color(r, g, b);
+	::Color c(r, g, b);
+	if (m_color != c) {
+		m_color = c;
+		m_needsUpdate = true;
+	}
 	return this;
 }
 
 Label *Label::Color(const ::Color &c)
 {
-	m_color = c;
+	if (m_color != c) {
+		m_color = c;
+		m_needsUpdate = true;
+	}
 	return this;
 }
 
@@ -60,9 +71,12 @@ void Label::SetText(const char *text)
 
 void Label::SetText(const std::string &text)
 {
-	m_text = text;
-	UpdateLayout();
-	RecalcSize();
+	if (m_text != text || m_needsUpdate) {
+		m_text = text;
+		m_needsUpdate = true;
+		UpdateLayout();
+		RecalcSize();
+	}
 }
 
 void Label::Draw()
