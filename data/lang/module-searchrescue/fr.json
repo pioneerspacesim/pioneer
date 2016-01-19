@@ -145,7 +145,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Vous n'êtes pas équipé pour entreprendre cette mission. {unit} {equipment} requis."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -609,7 +609,7 @@
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
-      "message" : "tons of free cargo space"
+      "message" : "tonnes d'espace en soute libre"
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "cabines passagers inoccupées"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
