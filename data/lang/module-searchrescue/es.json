@@ -65,7 +65,7 @@
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "Prosprecciones Generales Inc de {locality} "
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
@@ -105,47 +105,47 @@
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "La Sociedad Biológica de {locality}"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "El Centro de Desarrollo Zoológico de {locality}"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "La Sociedad Microbiológica de {locality}"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "La Sociedad Química de {locality}"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "La Sociedad Astrobiológica de {locality}"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "La Sociedad Geológica de {locality}"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "La Sociedad para la Astropaleontología de {locality}"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "El Centro de Desarrollo Astrofísico de {locality}"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "El Centro de Desarrollo de Astroquímica de {locality}"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "El Centro para la Botánica de {locality}"
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "No está equipado para esta misión. Se requiere {unit} {equipment}"
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
-      "message" : "Interaction aborted. Please come closer and try again."
+      "message" : "Interacción abortada. Por favor acérquese más e intente de nuevo."
    },
    "INTERACTION_DISTANCE_REACHED" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "MISSING_PASS" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passengers missing."
+      "message" : "No se puede completar transferencia. Faltan pasajeros."
    },
    "MISSING_PASSENGER" : {
       "description" : "",
@@ -441,7 +441,7 @@
    },
    "PARTIAL" : {
       "description" : "",
-      "message" : "Thank you for your efforts. I hope you will return to complete the task!"
+      "message" : "Gracias por sus esfuerzos. Espero que regrese para acabar el trabajo."
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -473,19 +473,19 @@
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "los demás miembros de la tripulación no han regresado de un paseo espacial"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "una forma severa de intoxicacion alimentaria a bordo"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "un terrible accidente que obligó que los demás se ejectaran al espacio"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "una circunstancia que no puedo comentar en público"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
@@ -545,7 +545,7 @@
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "exposición de la tripulación a un especimen recogido en {locality}"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
@@ -569,27 +569,27 @@
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} tons of {cargotype} to target ship."
+      "message" : "Transferida/s {done} de {todo} toneladas de {cargotype} a la nave."
    },
    "RESULT_DELIVERY_CREW" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} crew members to target ship."
+      "message" : "Transferido/s {done} de {todo} tripulantes a la nave."
    },
    "RESULT_DELIVERY_PASS" : {
       "description" : "",
-      "message" : "Transferred {done} of {todo} passengers to target ship."
+      "message" : "Transferido/s {done} de {todo} pasajeros a la nave."
    },
    "RESULT_PICKUP_COMM" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} tons of {cargotype} from target ship."
+      "message" : "Recogida/s {done} de {todo} toneladas de {cargotype} desde la nave objetivo."
    },
    "RESULT_PICKUP_CREW" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} crew members from target ship."
+      "message" : "Recogido/s {done} de {todo} tripulantes desde la nave objetivo."
    },
    "RESULT_PICKUP_PASS" : {
       "description" : "",
-      "message" : "Picked up {done} of {todo} passengers from target ship."
+      "message" : "Recogido/s {done} de {todo} pasajeros de la nave."
    },
    "RETURN_TO" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Por favor espere {minutes} minutos para la transferencia."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
