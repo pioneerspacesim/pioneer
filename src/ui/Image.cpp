@@ -66,9 +66,11 @@ Image *Image::SetNaturalSize()
 
 void Image::SetTransform(float scale, const vector2f &centre)
 {
-	m_needsRefresh = true;
-	m_scale = scale;
-	m_centre = centre;
+	if (m_scale != scale || !(m_centre == centre)) {
+		m_needsRefresh = true;
+		m_scale = scale;
+		m_centre = centre;
+	}
 }
 
 void Image::SetPreserveAspect(bool preserve_aspect)
