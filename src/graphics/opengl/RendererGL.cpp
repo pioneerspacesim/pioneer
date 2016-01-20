@@ -520,42 +520,60 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
-	VertexBufferDesc vbd;
-	Uint32 attribIdx = 0;
-	assert(v->HasAttrib(ATTRIB_POSITION));
-	vbd.attrib[attribIdx].semantic	= ATTRIB_POSITION;
-	vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
-	++attribIdx;
+	const AttributeSet attribs = v->GetAttributeSet();
+	RefCountedPtr<VertexBuffer> drawVB;
 
-	if( v->HasAttrib(ATTRIB_NORMAL) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_NORMAL;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
-		++attribIdx;
-	}
-	if( v->HasAttrib(ATTRIB_DIFFUSE) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_DIFFUSE;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_UBYTE4;
-		++attribIdx;
-	}
-	if( v->HasAttrib(ATTRIB_UV0) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_UV0;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
-		++attribIdx;
-	}
-	if (v->HasAttrib(ATTRIB_TANGENT)) {
-		vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+	typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
+	typedef AttribBufferMap::iterator AttribBufferIter;
+	static AttribBufferMap s_AttribBufferMap;
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(attribs, v->position.size()));
+	if (iter == s_AttribBufferMap.end()) {
+		// not found so create
+		VertexBufferDesc vbd;
+		Uint32 attribIdx = 0;
+		assert(v->HasAttrib(ATTRIB_POSITION));
+		vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
 		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
 		++attribIdx;
-	}
-	vbd.numVertices = v->position.size();
-	vbd.usage = BUFFER_USAGE_STATIC;
-	
-	// VertexBuffer
-	std::unique_ptr<VertexBuffer> vb;
-	vb.reset(CreateVertexBuffer(vbd));
-	vb->Populate(*v);
 
-	const bool res = DrawBuffer(vb.get(), rs, m, t);
+		if (v->HasAttrib(ATTRIB_NORMAL)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_DIFFUSE)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_UV0)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_TANGENT)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		vbd.numVertices = v->position.size();
+		vbd.usage = BUFFER_USAGE_STATIC;
+
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
+		vb->Populate(*v);
+
+		// add to map
+		s_AttribBufferMap[std::make_pair(attribs, v->position.size())] = vb;
+		drawVB = vb;
+	}
+	else {
+		drawVB = iter->second;
+		drawVB->Populate(*v);
+	}
+
+	const bool res = DrawBuffer(drawVB.Get(), rs, m, t);
 	CheckRenderErrors();
 	
 	m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
