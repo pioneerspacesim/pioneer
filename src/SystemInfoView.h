@@ -35,6 +35,7 @@ private:
 		Graphics::Renderer *m_renderer;
 		Graphics::RenderState *m_renderState;
 		Graphics::Drawables::Lines m_selectBox;
+		std::unique_ptr<Graphics::Drawables::Circle> m_circle;
 		bool m_hasStarport;
 		Color m_selectColor;
 	};
