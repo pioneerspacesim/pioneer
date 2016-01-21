@@ -9,8 +9,6 @@
 
 namespace Graphics {
 
-typedef unsigned int AttributeSet;
-
 /*
  * VertexArray is a multi-purpose vertex container. Users specify
  * the attributes they intend to use and then add vertices. Renderers
