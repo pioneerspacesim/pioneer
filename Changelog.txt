@@ -15,6 +15,7 @@ January 2016
      * Convert geometry to use 32-bit indices (#3585)
      * Remove TextureDescriptor default constructor arguments (#3594)
      * Text rendering performance improvements (#3599)
+     * Fix #ifdef to allow compilation on various BSDs (#3600)
 
 December 2015
    * New Features
