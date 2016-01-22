@@ -166,6 +166,10 @@ protected:
 
 private:
 	static bool initted;
+
+	typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
+	typedef AttribBufferMap::iterator AttribBufferIter;
+	static AttribBufferMap s_AttribBufferMap;
 };
 
 }

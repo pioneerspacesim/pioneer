@@ -648,6 +648,10 @@ SystemInfoView::BodyIcon::BodyIcon(const char *img, Graphics::Renderer *r)
 	};
 	m_selectBox.SetData(COUNTOF(vts), vts, m_selectColor);
 	
+	static const Color portColor = Color(64, 128, 128, 255);
+	// The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
+	// and not overlapping to much with asteroids
+	m_circle.reset(new Graphics::Drawables::Circle(m_renderer, size[0] * 0.5f, size[0] * 0.5f - 0.1f, size[1] * 0.5f, 0.f, portColor, m_renderState));
 }
 
 void SystemInfoView::BodyIcon::Draw()
@@ -657,13 +661,7 @@ void SystemInfoView::BodyIcon::Draw()
 	float size[2];
 	GetSize(size);
 	if (HasStarport()) {
-	    Color portColor = Color(64, 128, 128, 255);
-	    // The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
-	    // and not overlapping to much with asteroids
-	    Graphics::Drawables::Circle circle =
-			Graphics::Drawables::Circle(m_renderer, size[0]*0.5f, size[0]*0.5f-0.1f, size[1]*0.5f, 0.f,
-			portColor, m_renderState);
-	    circle.Draw(m_renderer);
+		m_circle->Draw(m_renderer);
 	}
 	if (GetSelected()) {
 		m_selectBox.Draw(m_renderer, m_renderState, Graphics::LINE_LOOP);

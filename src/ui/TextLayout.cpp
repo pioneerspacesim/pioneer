@@ -12,7 +12,7 @@
 namespace UI {
 
 TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text)
-	: m_font(font), m_prevColor(Color::WHITE)
+	: m_font(font),	m_lastDrawPos(Point(INT_MIN, INT_MIN)), m_lastDrawSize(Point(INT_MIN, INT_MIN)), m_prevColor(Color::BLACK)
 {
 	if (!text.size())
 		return;
@@ -109,26 +109,33 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 
 void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color)
 {
-	// cache this before Computing the size
-	const bool bNewSize = (layoutSize != m_lastRequested);
-	ComputeSize(layoutSize);
+	// Has anything changed between passes
+	const bool bAllNew = (layoutSize != m_lastRequested) || (m_lastDrawPos != drawPos) || (m_lastDrawSize != drawSize) || (m_prevColor != color);
+	if (bAllNew)
+	{
+		ComputeSize(layoutSize);
+		const int top = -drawPos.y - m_font->GetHeight();
+		const int bottom = -drawPos.y + drawSize.y;
 
-	const int top = -drawPos.y - m_font->GetHeight();
-	const int bottom = -drawPos.y + drawSize.y;
+		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
+		for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
+			if ((*i).pos.y >= top && (*i).pos.y < bottom) {
+				m_font->PopulateString(va, (*i).text, (*i).pos.x, (*i).pos.y, color);
+			}
+		}
 
-	for (std::vector<Word>::iterator i = m_words.begin(); i != m_words.end(); ++i) {
-		if ((*i).pos.y >= top && (*i).pos.y < bottom) {
-			m_font->PopulateString(va, (*i).text, (*i).pos.x, (*i).pos.y, color);
+		if (!m_vbuffer.Valid()) {
+			m_vbuffer.Reset(m_font->CreateVertexBuffer(va, true));
 		}
 	}
 
-	if (bNewSize || !m_vbuffer.Valid() || m_prevColor != color) {
-		m_vbuffer.Reset( m_font->CreateVertexBuffer(va) );
-	}
-
 	m_font->RenderBuffer( m_vbuffer.Get() );
+
+	// store current params
+	m_lastRequested = layoutSize;
+	m_lastDrawPos = drawPos;
+	m_lastDrawSize = drawSize;
 	m_prevColor = color;
 }
 

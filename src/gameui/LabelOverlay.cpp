@@ -125,7 +125,7 @@ void LabelOverlay::DrawLabelText(const Marker &m, const vector2f &screen_pos)
 		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 		m_font->PopulateString(va, m.text, 0.0f, 0.0f, Color::WHITE);
 		if (va.GetNumVerts() > 0) {
-			vb = m_font->CreateVertexBuffer(va, m.text);
+			vb = m_font->CreateVertexBuffer(va, m.text, true);
 			m_font->RenderBuffer(vb, m.color);
 		}
 	}

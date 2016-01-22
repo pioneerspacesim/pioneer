@@ -6,6 +6,7 @@
 
 #include "ui/Context.h"
 #include "SmartPtr.h"
+#include "graphics/Drawables.h"
 #include "graphics/Texture.h"
 
 namespace GameUI {
@@ -38,6 +39,7 @@ private:
 	static RefCountedPtr<Graphics::Material> s_material;
 
 	std::unique_ptr<Graphics::Texture> m_texture;
+	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 
 }

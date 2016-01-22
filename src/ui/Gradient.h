@@ -6,6 +6,7 @@
 
 #include "Single.h"
 #include "Color.h"
+#include "graphics/Drawables.h"
 #include "graphics/Material.h"
 
 namespace UI {
@@ -29,7 +30,8 @@ private:
 	Color m_endColor;
 	Direction m_direction;
 
-	std::unique_ptr<Graphics::Material> m_material;
+	RefCountedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 
 }

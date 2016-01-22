@@ -39,15 +39,19 @@ static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
     return new RendererOGL(win, vs);
 }
 
+// static method instantiations
 void RendererOGL::RegisterRenderer() {
     Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
 }
 
-
+// static member instantiations
 bool RendererOGL::initted = false;
+RendererOGL::AttribBufferMap RendererOGL::s_AttribBufferMap;
 
+// typedefs
 typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
 
+// ----------------------------------------------------------------------------
 RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
 , m_numLights(0)
@@ -520,42 +524,59 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
-	VertexBufferDesc vbd;
-	Uint32 attribIdx = 0;
-	assert(v->HasAttrib(ATTRIB_POSITION));
-	vbd.attrib[attribIdx].semantic	= ATTRIB_POSITION;
-	vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
-	++attribIdx;
+	const AttributeSet attribs = v->GetAttributeSet();
+	RefCountedPtr<VertexBuffer> drawVB;
 
-	if( v->HasAttrib(ATTRIB_NORMAL) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_NORMAL;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
-		++attribIdx;
-	}
-	if( v->HasAttrib(ATTRIB_DIFFUSE) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_DIFFUSE;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_UBYTE4;
-		++attribIdx;
-	}
-	if( v->HasAttrib(ATTRIB_UV0) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_UV0;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
-		++attribIdx;
-	}
-	if (v->HasAttrib(ATTRIB_TANGENT)) {
-		vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+	// see if we have a buffer to re-use
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(attribs, v->position.size()));
+	if (iter == s_AttribBufferMap.end()) {
+		// not found a buffer so create a new one
+		VertexBufferDesc vbd;
+		Uint32 attribIdx = 0;
+		assert(v->HasAttrib(ATTRIB_POSITION));
+		vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
 		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
 		++attribIdx;
-	}
-	vbd.numVertices = v->position.size();
-	vbd.usage = BUFFER_USAGE_STATIC;
-	
-	// VertexBuffer
-	std::unique_ptr<VertexBuffer> vb;
-	vb.reset(CreateVertexBuffer(vbd));
-	vb->Populate(*v);
 
-	const bool res = DrawBuffer(vb.get(), rs, m, t);
+		if (v->HasAttrib(ATTRIB_NORMAL)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_DIFFUSE)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_UV0)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_TANGENT)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		vbd.numVertices = v->position.size();
+		vbd.usage = BUFFER_USAGE_DYNAMIC;	// dynamic since we'll be reusing these buffers if possible
+
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
+		vb->Populate(*v);
+
+		// add to map
+		s_AttribBufferMap[std::make_pair(attribs, v->position.size())] = vb;
+		drawVB = vb;
+	}
+	else {
+		// got a buffer so use it and fill it with newest data
+		drawVB = iter->second;
+		drawVB->Populate(*v);
+	}
+
+	const bool res = DrawBuffer(drawVB.Get(), rs, m, t);
 	CheckRenderErrors();
 	
 	m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);

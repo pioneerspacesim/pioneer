@@ -35,6 +35,7 @@ namespace Gui {
 		RefCountedPtr<Text::TextureFont> m_font;
 		std::unique_ptr<TextLayout> m_layout;
 		TextLayout::ColourMarkupMode m_colourMarkupMode;
+		bool m_needsUpdate;
 	};
 }
 

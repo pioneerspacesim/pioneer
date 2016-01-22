@@ -72,10 +72,13 @@ Uint32 VertexBuffer::GetVertexCount() const
 	return m_numVertices;
 }
 
-void VertexBuffer::SetVertexCount(Uint32 v)
+bool VertexBuffer::SetVertexCount(Uint32 v)
 {
-	assert(v <= m_desc.numVertices);
-	m_numVertices = v;
+	if (v <= m_desc.numVertices) {
+		m_numVertices = v;
+		return true;
+	}
+	return false;
 }
 
 // ------------------------------------------------------------

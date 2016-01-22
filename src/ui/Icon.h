@@ -8,6 +8,7 @@
 #include "IniConfig.h"
 #include "SmartPtr.h"
 #include "vector2.h"
+#include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
 
@@ -34,6 +35,7 @@ private:
 
 	Point m_texPos;
 	Color m_color;
+	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 
 }

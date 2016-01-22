@@ -80,7 +80,7 @@ public:
 	//By default the maximum set in description, but
 	//you may set a smaller count for partial rendering
 	Uint32 GetVertexCount() const;
-	void SetVertexCount(Uint32);
+	bool SetVertexCount(Uint32);
 
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) = 0;
