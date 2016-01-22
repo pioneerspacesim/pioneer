@@ -2,7 +2,10 @@ January 2016
    * New Features
      * Barnard's star update (#3584)
      * Anisotropic Texture Filtering (#3586)
-     
+
+   * Minor changes and tweaks
+     * Search and rescue missions tweaked and fixed #3589
+
    * Fixes
      * TextureDescriptor usage updated (#3591)
      * Fix ObjectViewer crash/hang (#3588)
