@@ -14,6 +14,7 @@ January 2016
      * SGM graceful failure (#3592)
      * Convert geometry to use 32-bit indices (#3585)
      * Remove TextureDescriptor default constructor arguments (#3594)
+     * Text rendering performance improvements (#3599)
 
 December 2015
    * New Features
