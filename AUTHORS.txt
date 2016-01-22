@@ -24,6 +24,7 @@ The Pioneer Developers are:
 * Chip Richards
 * Chris Collins
 * Chris Dennett
+* Christian Koch
 * Connor Findlay
 * Craig Thomson
 * Dan Bennett
