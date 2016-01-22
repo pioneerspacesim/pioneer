@@ -7,10 +7,6 @@
       "description" : "",
       "message" : "Could you repeat the original request?"
    },
-   "DANGER" : {
-      "description" : "",
-      "message" : "Danger:"
-   },
    "DEADLINE" : {
       "description" : "",
       "message" : "Deadline:"
@@ -18,10 +14,6 @@
    "DELIVERED_PASSENGER" : {
       "description" : "",
       "message" : "{name} has left the ship."
-   },
-   "DISTANCE" : {
-      "description" : "",
-      "message" : "Distance:"
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
@@ -265,7 +257,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments.."
+      "message" : "Very good. We will recommend you for future assignments."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -399,25 +391,9 @@
       "description" : "",
       "message" : "Interaction distance reached."
    },
-   "IN_SYSTEM" : {
-      "description" : "",
-      "message" : "In System:"
-   },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
       "message" : "It must be completed by "
-   },
-   "I_HIGHLY_DOUBT_IT" : {
-      "description" : "",
-      "message" : "I highly doubt it."
-   },
-   "LOCATION" : {
-      "description" : "",
-      "message" : "Location:"
-   },
-   "LY" : {
-      "description" : "",
-      "message" : "ly"
    },
    "MISSING_COMM" : {
       "description" : "",
@@ -638,5 +614,77 @@
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
       "message" : "Where do I find the target?"
-   }
+   },
+    "TARGET_SHIP_ID" : {
+	"description" : "",
+	"message" : "Target ship ID:"
+    },
+    "LAST_KNOWN_LOCATION" : {
+	"description" : "",
+	"message" : "Last known location:"
+    },
+    "ORBIT" : {
+	"description" : "",
+	"message" : "Orbit"
+    },
+    "LAT" : {
+	"description" : "",
+	"message" : "Lat:"
+    },
+    "LON" : {
+	"description" : "",
+	"message" : "Lon:"
+    },
+    "SYSTEM" : {
+	"description" : "",
+	"message" : "System:"
+    },
+    "DISTANCE" : {
+	"description" : "",
+	"message" : "Distance:"
+    },
+    "LY" : {
+	"description" : "",
+	"message" : "ly"
+    },
+    "AU" : {
+	"description" : "",
+	"message" : "AU"
+    },
+    "KM" : {
+	"description" : "",
+	"message" : "km"
+    },
+    "REWARD" : {
+	"description" : "",
+	"message" : "Reward:"
+    },
+    "PAYMENT_LOCATION" : {
+	"description" : "",
+	"message" : "Payment location:"
+    },
+    "PLACE_OF_ASSISTANCE" : {
+	"description" : "",
+	"message" : "At the place of assistance"
+    },
+    "PICKUP" : {
+	"description" : "",
+	"message" : "PICKUP"
+    },
+    "DELIVERY" : {
+	"description" : "",
+	"message" : "DELIVERY"
+    },
+    "CREW" : {
+	"description" : "",
+	"message" : "Crew"
+    },
+    "PASSENGERS" : {
+	"description" : "",
+	"message" : "Passengers"
+    },
+    "COMMODITIES" : {
+	"description" : "",
+	"message" : "Commodities"
+    }
 }
