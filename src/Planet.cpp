@@ -226,7 +226,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	const vector2f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH);
 	const Graphics::TextureDescriptor texDesc(
-			Graphics::TEXTURE_RGBA_8888, texSize, Graphics::LINEAR_REPEAT, true);
+			Graphics::TEXTURE_RGBA_8888, texSize, Graphics::LINEAR_REPEAT, true, true, true, 0, Graphics::TEXTURE_2D);
 
 	m_ringTexture.Reset(renderer->CreateTexture(texDesc));
 	m_ringTexture->Update(

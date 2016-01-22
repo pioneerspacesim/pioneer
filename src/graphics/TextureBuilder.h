@@ -16,25 +16,25 @@ namespace Graphics {
 
 class TextureBuilder {
 public:
-	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true);
-	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, TextureType textureType = TEXTURE_2D);
+	TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true);
+	TextureBuilder(const std::string &filename, TextureSampleMode sampleMode = LINEAR_CLAMP, bool generateMipmaps = false, bool potExtend = false, bool forceRGBA = true, bool compressTextures = true, bool anisoFiltering = true, TextureType textureType = TEXTURE_2D);
 	~TextureBuilder();
 
 	// convenience constructors for common texture types
 	static TextureBuilder Model(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_REPEAT, true, false, false, true);
+		return TextureBuilder(filename, LINEAR_REPEAT, true, false, false, true, true);
 	}
 	static TextureBuilder Billboard(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_CLAMP, true, false, false, true);
+		return TextureBuilder(filename, LINEAR_CLAMP, true, false, false, true, false);
 	}
 	static TextureBuilder UI(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_CLAMP, false, true, true, false);
+		return TextureBuilder(filename, LINEAR_CLAMP, false, true, true, false, false);
 	}
 	static TextureBuilder Decal(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true);
+		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, true);
 	}
 	static TextureBuilder Cube(const std::string &filename) {
-		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, TEXTURE_CUBE_MAP);
+		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, false, TEXTURE_CUBE_MAP);
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
@@ -72,6 +72,7 @@ private:
 	bool m_potExtend;
 	bool m_forceRGBA;
 	bool m_compressTextures;
+	bool m_anisotropicFiltering;
 	TextureType m_textureType;
 
 	TextureDescriptor m_descriptor;

@@ -163,11 +163,11 @@ void StaticGeometry::Save(NodeDatabase &db)
 		mesh.vertexBuffer->Unmap();
 
 		//indices
-		const Uint16 *indexPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
+		const Uint32 *indexPtr = mesh.indexBuffer->Map(Graphics::BUFFER_MAP_READ);
 		const Uint32 numIndices = mesh.indexBuffer->GetSize();
 		db.wr->Int32(numIndices);
 		for (Uint32 i = 0; i < numIndices; i++)
-			db.wr->Int16(indexPtr[i]);
+			db.wr->Int32(indexPtr[i]);
 		mesh.indexBuffer->Unmap();
     }
 }
@@ -256,9 +256,9 @@ StaticGeometry *StaticGeometry::Load(NodeDatabase &db)
 		//index buffer
 		const Uint32 numIndices = db.rd->Int32();
 		RefCountedPtr<Graphics::IndexBuffer> idxBuffer(db.loader->GetRenderer()->CreateIndexBuffer(numIndices, Graphics::BUFFER_USAGE_STATIC));
-		Uint16 *idxPtr = idxBuffer->Map(BUFFER_MAP_WRITE);
+		Uint32 *idxPtr = idxBuffer->Map(BUFFER_MAP_WRITE);
 		for (Uint32 i = 0; i < numIndices; i++)
-			idxPtr[i] = db.rd->Int16();
+			idxPtr[i] = db.rd->Int32();
 		idxBuffer->Unmap();
 
 		sg->AddMesh(vtxBuffer, idxBuffer, material);

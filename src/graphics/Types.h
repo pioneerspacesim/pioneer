@@ -7,6 +7,8 @@
 
 namespace Graphics {
 
+typedef Uint32 AttributeSet;
+
 //Vertex attribute semantic
 enum VertexAttrib {
 	ATTRIB_NONE      = 0,

@@ -107,7 +107,7 @@ const std::string GetOSInfoString()
 	}
 
 	char infoString[2048];
-#if defined(__APPLE__)
+#if !defined(_GNU_SOURCE)
 	snprintf(infoString, 2048, "System Name: %s\nHost Name: %s\nRelease(Kernel) Version: %s\nKernel Build Timestamp: %s\nMachine Arch: %s\n",
 		uts.sysname, uts.nodename, uts.release, uts.version, uts.machine);
 #else

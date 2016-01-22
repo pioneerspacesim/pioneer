@@ -37,6 +37,8 @@ private:
 	RefCountedPtr<Text::TextureFont> m_font;
 	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
 
+	Point m_lastDrawPos;
+	Point m_lastDrawSize;
 	Color m_prevColor;
 };
 

@@ -1861,7 +1861,7 @@ local onGameStart = function ()
    for _,ad in pairs(loaded_data.ads) do
       local ref = Space.GetBody(ad.station_local.bodyIndex):AddAdvert({
 	    description = ad.desc,
-	    icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
+	    icon        = "searchrescue",
 	    onChat      = onChat,
 	    onDelete    = onDelete,
 	    isEnabled   = isEnabled })

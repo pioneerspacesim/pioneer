@@ -8,7 +8,7 @@
 
 namespace SceneGraph {
 
-CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f> &vts, const std::vector<unsigned short> &idx,
+CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f> &vts, const std::vector<Uint32> &idx,
 	unsigned int geomflag)
 : Node(r)
 , m_triFlag(geomflag)
@@ -57,7 +57,7 @@ void CollisionGeometry::Save(NodeDatabase &db)
 		db.wr->Vector3f(pos);
     db.wr->Int32(m_indices.size());
     for (const auto idx : m_indices)
-		db.wr->Int16(idx);
+		db.wr->Int32(idx);
     db.wr->Int32(m_triFlag);
     db.wr->Bool(m_dynamic);
 }
@@ -65,7 +65,7 @@ void CollisionGeometry::Save(NodeDatabase &db)
 CollisionGeometry *CollisionGeometry::Load(NodeDatabase &db)
 {
 	std::vector<vector3f> pos;
-	std::vector<unsigned short> idx;
+	std::vector<Uint32> idx;
 	Serializer::Reader &rd = *db.rd;
 
 	Uint32 n = rd.Int32();
@@ -76,7 +76,7 @@ CollisionGeometry *CollisionGeometry::Load(NodeDatabase &db)
 	n = rd.Int32();
 	idx.reserve(n);
 	for (Uint32 i = 0; i < n; i++)
-		idx.push_back(rd.Int16());
+		idx.push_back(rd.Int32());
 
 	const Uint32 flag  = rd.Int32();
 	const bool dynamic = rd.Bool();
@@ -87,7 +87,7 @@ CollisionGeometry *CollisionGeometry::Load(NodeDatabase &db)
 	return cg;
 }
 
-void CollisionGeometry::CopyData(const std::vector<vector3f> &vts, const std::vector<unsigned short> &idx)
+void CollisionGeometry::CopyData(const std::vector<vector3f> &vts, const std::vector<Uint32> &idx)
 {
 	//copy vertices and indices from surface. Add flag for every three indices.
 	using std::vector;
@@ -95,7 +95,7 @@ void CollisionGeometry::CopyData(const std::vector<vector3f> &vts, const std::ve
 	for (vector<vector3f>::const_iterator it = vts.begin(); it != vts.end(); ++it)
 		m_vertices.push_back(*it);
 
-	for (vector<unsigned short>::const_iterator it = idx.begin(); it != idx.end(); ++it)
+	for (vector<Uint32>::const_iterator it = idx.begin(); it != idx.end(); ++it)
 		m_indices.push_back(*it);
 }
 }

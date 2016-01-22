@@ -18,7 +18,8 @@ using namespace SceneGraph;
 // 3: store processed collision mesh
 // 4: compressed SGM files and instancing support
 // 5: normal mapping
-const Uint32 SGM_VERSION = 5;
+// 6: 32-bit indicies
+const Uint32 SGM_VERSION = 6;
 union SGM_STRING_VALUE{
 	char name[4];
 	Uint32 value;
@@ -178,7 +179,7 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 					if (pDecompressedData) {
 						// now parse in-memory representation as new ByteRange.
 						Serializer::Reader rd(ByteRange(static_cast<char*>(pDecompressedData), outSize));
-						model = CreateModel(rd);
+						model = CreateModel(name, rd);
 						mz_free(pDecompressedData);
 					}
 					return model;
@@ -191,16 +192,20 @@ Model *BinaryConverter::Load(const std::string &shortname, const std::string &ba
 	return nullptr;
 }
 
-Model *BinaryConverter::CreateModel(Serializer::Reader &rd)
+Model *BinaryConverter::CreateModel(const std::string& filename, Serializer::Reader &rd)
 {
 	//verify signature
 	const Uint32 sig = rd.Int32();
-	if (sig != SGM_STRING_ID.value) //'SGM#'
-		throw LoadingError("Not a binary model file");
+	if (sig != SGM_STRING_ID.value) { //'SGM#'
+		Warning("Error whilst loading %s\nSGM versioning (%u) did not match the supported SGM STRING ID (%u)\nSGM file will be ignored\n", filename.c_str(), sig, SGM_STRING_ID.value);
+		return nullptr;
+	}
 
 	const Uint32 version = rd.Int32();
-	if (version != SGM_VERSION)
-		throw LoadingError("Unsupported file version");
+	if (version != SGM_VERSION) {
+		Warning("Error whilst loading %s\nSGM versioning (%u) did not match the supported SGM_VERSION (%u)\nSGM file will be ignored\n", filename.c_str(), version, SGM_VERSION);
+		return nullptr;
+	}
 
 	const std::string modelName = rd.String();
 

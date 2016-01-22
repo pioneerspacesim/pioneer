@@ -133,7 +133,7 @@ local shipInfo = function (args)
 							ui:Expand("HORIZONTAL", shipNameEntry),
 						})
 					}))
-					:PackEnd(ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin()))
+					:PackEnd(ModelSpinner.New(ui, shipDef.modelName, Game.player:GetSkin(), Game.player.model.pattern))
 			})
 end
 

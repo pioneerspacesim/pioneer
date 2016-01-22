@@ -297,7 +297,7 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 	return c;
 }
 
-Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va) const
+Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va, const bool bIsStatic) const
 {
 	if (va.GetNumVerts() > 0)
 	{
@@ -310,7 +310,7 @@ Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexAr
 		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
 		vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_FLOAT2;
 		vbd.numVertices = va.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+		vbd.usage = bIsStatic ? Graphics::BUFFER_USAGE_STATIC : Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
 		Graphics::VertexBuffer *vbuffer = m_renderer->CreateVertexBuffer(vbd);
 		vbuffer->Populate(va);
 
@@ -319,7 +319,7 @@ Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexAr
 	return nullptr;
 }
 
-Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str)
+Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str, const bool bIsStatic)
 {
 	if( va.GetNumVerts() > 0 )
 	{
@@ -328,7 +328,7 @@ Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexAr
 			return pVB;
 
 		//create buffer and upload data
-		Graphics::VertexBuffer *vbuffer = CreateVertexBuffer(va);
+		Graphics::VertexBuffer *vbuffer = CreateVertexBuffer(va, bIsStatic);
 		AddCachedVertexBuffer(vbuffer, str);
 
 		return vbuffer;
@@ -618,7 +618,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.reset(m_renderer->CreateMaterial(desc));
-	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false);
+	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false, false, 0, Graphics::TEXTURE_2D);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat->texture0 = m_texture.Get();
 

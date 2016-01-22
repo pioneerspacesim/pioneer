@@ -143,8 +143,8 @@ private:
 	//add a new vertex, return the index
 	int AddVertex(VertexArray&, const vector3f &v, const vector3f &n);
 	//add three vertex indices to form a triangle
-	void AddTriangle(std::vector<Uint16>&, int i1, int i2, int i3);
-	void Subdivide(VertexArray&, std::vector<Uint16>&,
+	void AddTriangle(std::vector<Uint32>&, int i1, int i2, int i3);
+	void Subdivide(VertexArray&, std::vector<Uint32>&,
 		const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		int i1, int i2, int i3, int depth);
 };
@@ -163,13 +163,15 @@ public:
 
 	// Build a textured quad to display an arbitrary texture.
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state);
+	TexturedQuad(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> &material, const Graphics::VertexArray &va, RenderState *state);
+
 	virtual void Draw(Graphics::Renderer *r);
 	virtual void Draw(Graphics::Renderer *r, const Color4ub &tint);
 	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
-	std::unique_ptr<Graphics::Material> m_material;
-	std::unique_ptr<VertexBuffer> m_vertexBuffer;
+	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	Graphics::RenderState *m_renderState;
 };
 //------------------------------------------------------------

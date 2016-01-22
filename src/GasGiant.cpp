@@ -188,7 +188,7 @@ public:
 
 	double frac;
 
-	std::unique_ptr<unsigned short[]> indices;
+	std::unique_ptr<Uint32[]> indices;
 	RefCountedPtr<Graphics::IndexBuffer> indexBuffer;
 
 	GasPatchContext(const int _edgeLen) : edgeLen(_edgeLen) {
@@ -208,7 +208,7 @@ public:
 		indices.reset();
 	}
 
-	int GetIndices(std::vector<unsigned short> &pl)
+	int GetIndices(std::vector<Uint32> &pl)
 	{
 		// calculate how many tri's there are
 		const int tri_count = IDX_VBO_COUNT_ALL_IDX()/3;
@@ -229,8 +229,8 @@ public:
 		frac = 1.0 / double(edgeLen-1);
 
 		// also want vtx indices for tris not touching edge of patch 
-		indices.reset(new unsigned short[IDX_VBO_COUNT_ALL_IDX()]);
-		unsigned short *idx = indices.get();
+		indices.reset(new Uint32[IDX_VBO_COUNT_ALL_IDX()]);
+		Uint32 *idx = indices.get();
 		for (int x=0; x<edgeLen-1; x++) {
 			for (int y=0; y<edgeLen-1; y++) {
 				idx[0] = x + edgeLen*y;
@@ -246,18 +246,18 @@ public:
 		}
 
 		// these will hold the optimised indices
-		std::vector<unsigned short> pl_short;
+		std::vector<Uint32> pl_short;
 
 		// populate the N indices lists from the arrays built during InitTerrainIndices()
 		// iterate over each index list and optimize it
-		unsigned int tri_count = GetIndices(pl_short);
-		VertexCacheOptimizerUShort vco;
-		VertexCacheOptimizerUShort::Result res = vco.Optimize(&pl_short[0], tri_count);
+		Uint32 tri_count = GetIndices(pl_short);
+		VertexCacheOptimizerUInt vco;
+		VertexCacheOptimizerUInt::Result res = vco.Optimize(&pl_short[0], tri_count);
 		assert(0 == res);
 
 		//create buffer & copy
 		indexBuffer.Reset(Pi::renderer->CreateIndexBuffer(pl_short.size(), Graphics::BUFFER_USAGE_STATIC));
-		Uint16* idxPtr = indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
+		Uint32* idxPtr = indexBuffer->Map(Graphics::BUFFER_MAP_WRITE);
 		for (Uint32 j = 0; j < pl_short.size(); j++) {
 			idxPtr[j] = pl_short[j];
 		}
@@ -420,7 +420,7 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
-			true, false, 0, Graphics::TEXTURE_CUBE_MAP);
+			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_surfaceTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 
 		// update with buffer from above
@@ -476,7 +476,7 @@ void GasGiant::GenerateTexture()
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
-			false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+			false, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
 
 		const Terrain *pTerrain = GetTerrain();

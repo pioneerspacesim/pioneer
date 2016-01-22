@@ -26,7 +26,7 @@ ToolTip::ToolTip(Widget *owner, std::string &text)
 
 ToolTip::~ToolTip()
 {
-	delete m_layout;
+	m_layout.reset();
 }
 
 void ToolTip::CalcSize()
@@ -40,10 +40,11 @@ void ToolTip::CalcSize()
 
 void ToolTip::SetText(const char *text)
 {
-	m_text = text;
-	if (m_layout) delete m_layout;
-	m_layout = new TextLayout(text);
-	CalcSize();
+	if (m_text != text) {
+		m_text = text;
+		m_layout.reset(new TextLayout(text));
+		CalcSize();
+	}
 }
 
 void ToolTip::SetText(std::string &text)

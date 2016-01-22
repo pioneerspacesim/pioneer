@@ -76,7 +76,7 @@ void SpeedLines::Update(float time)
 	if (d > MAX_VEL)
 		vel = m_dir * MAX_VEL;
 
-	for (Uint16 i = 0; i < m_points.size(); i++) {
+	for (size_t i = 0; i < m_points.size(); i++) {
 
 		vector3f &pt = m_points[i];
 

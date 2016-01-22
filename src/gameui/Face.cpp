@@ -64,26 +64,30 @@ void Face::Layout()
 
 void Face::Draw()
 {
-	const Point &offset = GetActiveOffset();
-	const Point &area = GetActiveArea();
-
-	const float x = offset.x;
-	const float y = offset.y;
-	const float sx = area.x;
-	const float sy = area.y;
-
-	const vector2f texSize = m_texture->GetDescriptor().texSize;
-
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-	va.Add(vector3f(x,    y,    0.0f), vector2f(0.0f,      0.0f));
-	va.Add(vector3f(x,    y+sy, 0.0f), vector2f(0.0f,      texSize.y));
-	va.Add(vector3f(x+sx, y,    0.0f), vector2f(texSize.x, 0.0f));
-	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(texSize.x, texSize.y));
-
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	s_material->texture0 = m_texture.get();
-	auto state = GetContext()->GetSkin().GetAlphaBlendState();
-	r->DrawTriangles(&va, state, s_material.Get(), Graphics::TRIANGLE_STRIP);
+	if (!m_quad) {
+		const Point &offset = GetActiveOffset();
+		const Point &area = GetActiveArea();
+
+		const float x = offset.x;
+		const float y = offset.y;
+		const float sx = area.x;
+		const float sy = area.y;
+
+		const vector2f texSize = m_texture->GetDescriptor().texSize;
+
+		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		va.Add(vector3f(x, y, 0.0f), vector2f(0.0f, 0.0f));
+		va.Add(vector3f(x, y + sy, 0.0f), vector2f(0.0f, texSize.y));
+		va.Add(vector3f(x + sx, y, 0.0f), vector2f(texSize.x, 0.0f));
+		va.Add(vector3f(x + sx, y + sy, 0.0f), vector2f(texSize.x, texSize.y));
+
+		Graphics::Renderer *r = GetContext()->GetRenderer();
+		s_material->texture0 = m_texture.get();
+		auto state = GetContext()->GetSkin().GetAlphaBlendState();
+		m_quad.reset(new Graphics::Drawables::TexturedQuad(r, s_material, va, state));
+	}
+	m_quad->Draw(r);
 
 	Single::Draw();
 }

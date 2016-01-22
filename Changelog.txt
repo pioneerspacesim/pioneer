@@ -1,3 +1,22 @@
+January 2016
+   * New Features
+     * Barnard's star update (#3584)
+     * Anisotropic Texture Filtering (#3586)
+     
+   * Fixes
+     * TextureDescriptor usage updated (#3591)
+     * Fix ObjectViewer crash/hang (#3588)
+     * Fix for broken SGM file loading (#3597)
+     * Show the correct pattern on the ship info screen (#3598)
+
+   * Internal Changes
+     * Optional use of std::chrono for Profiler (#3593)
+     * SGM graceful failure (#3592)
+     * Convert geometry to use 32-bit indices (#3585)
+     * Remove TextureDescriptor default constructor arguments (#3594)
+     * Text rendering performance improvements (#3599)
+     * Fix #ifdef to allow compilation on various BSDs (#3600)
+
 December 2015
    * New Features
      * PgUp/PgDn increments time acceleration (configurable) (#3544)

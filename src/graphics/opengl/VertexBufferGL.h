@@ -42,14 +42,14 @@ public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	~IndexBuffer();
 
-	virtual Uint16 *Map(BufferMapMode) override;
+	virtual Uint32 *Map(BufferMapMode) override;
 	virtual void Unmap() override;
 	
 	virtual void Bind() override;
 	virtual void Release() override;
 
 private:
-	Uint16 *m_data;
+	Uint32 *m_data;
 };
 
 // Instance buffer

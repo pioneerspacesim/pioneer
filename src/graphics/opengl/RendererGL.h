@@ -130,6 +130,7 @@ protected:
 	float m_minZNear;
 	float m_maxZFar;
 	bool m_useCompressedTextures;
+	bool m_useAnisotropicFiltering;
 	
 	void SetMaterialShaderTransforms(Material *);
 
@@ -165,6 +166,10 @@ protected:
 
 private:
 	static bool initted;
+
+	typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
+	typedef AttribBufferMap::iterator AttribBufferIter;
+	static AttribBufferMap s_AttribBufferMap;
 };
 
 }
