@@ -56,6 +56,9 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_buttonHover             = LoadBorderedRectElement(cfg.String("ButtonHover"));
 	m_buttonActive            = LoadBorderedRectElement(cfg.String("ButtonActive"));
 
+	m_buttonHidden         = LoadSkinColor(cfg.String("NormalColorRGBA"));
+	m_smallButtonHidden    = LoadSkinColor(cfg.String("NormalColorRGBA"));
+
 	m_smallButtonDisabled     = LoadRectElement(cfg.String("SmallButtonDisabled"));
 	m_smallButtonNormal       = LoadRectElement(cfg.String("SmallButtonNormal"));
 	m_smallButtonHover        = LoadRectElement(cfg.String("SmallButtonHover"));

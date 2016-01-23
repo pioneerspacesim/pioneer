@@ -18,6 +18,7 @@ Widget::Widget(Context *context) :
 	m_activeArea(0),
 	m_font(FONT_INHERIT),
 	m_disabled(false),
+	m_hidden(false),
 	m_mouseOver(false),
 	m_visible(false),
 	m_animatedOpacity(1.0f),
@@ -161,8 +162,8 @@ bool Widget::IsOnTopLayer() const
 	while (scan) {
 		if (scan == topLayer)
 			return true;
-        scan = scan->GetContainer();
-    }
+		  scan = scan->GetContainer();
+	 }
 	return false;
 }
 
@@ -172,9 +173,16 @@ void Widget::Disable()
 	GetContext()->DisableWidget(this);
 }
 
+void Widget::Hidden()
+{
+	SetHidden(true);
+	GetContext()->DisableWidget(this);
+}
+
 void Widget::Enable()
 {
 	SetDisabled(false);
+	SetHidden(false);
 	GetContext()->EnableWidget(this);
 }
 
