@@ -166,7 +166,7 @@ local commodityMarket = function (args)
 		local tradetext
 
 		if trade_mode == trade_mode_buy then
-			local playerfreecargo = Game.player.freeCapacity
+			local playerfreecargo = Game.player.totalCargo - Game.player.usedCargo
 			if tradecost > playercash then
 				wantamount = math.floor(playercash / price)
 			end
@@ -215,6 +215,12 @@ local commodityMarket = function (args)
 				commodityTrade:SetInnerWidget(
 					--expand the widget to use all vertical space available to it
 					ui:Expand("VERTICAL",ui:VBox():PackEnd({ --vbox lines up elements vertically (up to down)
+						ui:Margin(16,"VERTICAL",
+							ui:HBox():PackEnd({
+								buyfrommarket,
+								ui:Margin(32,"LEFT",sellfromcargo),
+							})
+						),
 						--common header contains icon, commodity name and description (if there is one)
 						commonHeader,
 						ui:Margin(32,"VERTICAL", --add some margin above and below buttons+buy/sell text-line
@@ -227,16 +233,22 @@ local commodityMarket = function (args)
 						ui:Margin(32,"VERTICAL", --add some margins to separate it from the text above and confirm button below
 							ui:HBox():PackEnd({ --hbox lines up elements horizontally (left to right)
 								ui:Align("MIDDLE",ui:Label(string.interp(l.YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD, {units = n}))), --horizontally aligned as there is no free space left and right (no expand)
-								ui:Margin(16,"LEFT",sellfromcargo), --button to switch pane to selling
 							})
 						),
 						showbuysellbutton, --button to confirm buying the selected amount
 					}))
 				)
+				sellfromcargo:Enable()
 			else
 				--player has none of the selected commodity in cargo, dont bother showing option to sell
 				commodityTrade:SetInnerWidget(
 					ui:Expand("VERTICAL",ui:VBox():PackEnd({ --expand to fill vertical space, vbox lines up elements vertically
+						ui:Margin(16,"VERTICAL",
+							ui:HBox():PackEnd({
+								buyfrommarket,
+								ui:Margin(32,"LEFT",sellfromcargo),
+							})
+						),
 						commonHeader, --icon, commodity name, (optional) description
 						ui:Margin(32,"VERTICAL", --margins above and below buttons+text
 							ui:VBox():PackEnd({ --vbox lines up elements vertically
@@ -247,6 +259,7 @@ local commodityMarket = function (args)
 						showbuysellbutton, --button to confirm buying
 					}))
 				)
+				sellfromcargo:Disable()
 			end
 			return
 		end
@@ -255,6 +268,12 @@ local commodityMarket = function (args)
 		if trade_mode == trade_mode_sell then
 			commodityTrade:SetInnerWidget(
 				ui:VBox():PackEnd({
+					ui:Margin(16,"VERTICAL",
+						ui:HBox():PackEnd({
+							buyfrommarket,
+							ui:Margin(32,"LEFT",sellfromcargo),
+						})
+					),
 					commonHeader, --icon, commodity name, (optional) description
 					ui:Margin(32,"VERTICAL", --margin separates it from header above
 						ui:VBox():PackEnd({ --vbox lines up elements vertically
@@ -262,7 +281,6 @@ local commodityMarket = function (args)
 							ui:Margin(16,"TOP",buysell), --margin separates text from buttons above
 						})
 					),
-					ui:Margin(32,"VERTICAL",buyfrommarket), --button for buying always present
 					showbuysellbutton, --confirm selling
 				})
 			)
@@ -274,7 +292,7 @@ local commodityMarket = function (args)
 	local doBuy = function ()
 		local price = Game.player:GetDockedWith():GetEquipmentPrice(tradecommodity)
 		local stock = Game.player:GetDockedWith():GetEquipmentStock(tradecommodity)
-		local playerfreecargo = Game.player.freeCapacity
+		local playerfreecargo = Game.player.totalCargo - Game.player.usedCargo
 		local orderamount = price * tradeamount
 
 		--check cash (should never happen since trade amount buttons wont let it happen)
@@ -313,7 +331,7 @@ local commodityMarket = function (args)
 	local doSell = function ()
 		local price = Game.player:GetDockedWith():GetEquipmentPrice(tradecommodity)
 		local stock = Game.player:GetDockedWith():GetEquipmentStock(tradecommodity)
-		local playerfreecargo = Game.player.freeCapacity
+		local playerfreecargo = Game.player.totalCargo - Game.player.usedCargo
 		local orderamount = price * tradeamount
 
 		--if commodity price is negative (radioactives, garbage), player needs to have enough cash
@@ -328,6 +346,10 @@ local commodityMarket = function (args)
 		if Game.player:CountEquip(tradecommodity) == 0 then
 			trade_mode = trade_mode_buy
 			showbuysellbutton = confirmtradebuy
+			buyfrommarket:Disable()
+			buyfrommarket:SetFont("LARGE")
+			sellfromcargo:Enable()
+			sellfromcargo:SetFont("SMALL")
 		end
 
 		--update market rows
@@ -342,6 +364,10 @@ local commodityMarket = function (args)
 		trade_mode = trade_mode_sell
 		tradeamount = 0
 		showbuysellbutton = confirmtradesell --change which confirm button to show
+		sellfromcargo:Disable()
+		sellfromcargo:SetFont("LARGE")
+		buyfrommarket:Enable()
+		buyfrommarket:SetFont("SMALL")
 		changeTradeamount(0)
 		buyorsell()
 	end)
@@ -351,6 +377,10 @@ local commodityMarket = function (args)
 		trade_mode = trade_mode_buy
 		tradeamount = 0
 		showbuysellbutton = confirmtradebuy --change which confirm button to show
+		buyfrommarket:Disable()
+		buyfrommarket:SetFont("LARGE")
+		sellfromcargo:Enable()
+		sellfromcargo:SetFont("SMALL")
 		changeTradeamount(0)
 		buyorsell()
 	end)
@@ -393,6 +423,10 @@ local commodityMarket = function (args)
 			})
 		end
 		showbuysellbutton = confirmtradebuy
+		buyfrommarket:Disable()
+		buyfrommarket:SetFont("LARGE")
+		sellfromcargo:Enable()
+		sellfromcargo:SetFont("SMALL")
 		changeTradeamount(0)
 		buyorsell()
 
