@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Sauvegarde '%filename' introuvable (ou le jeu n'a pas les droits nécessaires)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -1673,7 +1673,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Vue équipement"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1689,7 +1689,7 @@
    },
    "TOGGLE_SCANNER_VIEW" : {
       "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+      "message" : "Vue scanner"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",

@@ -1,15 +1,23 @@
 {
+   "AU" : {
+      "description" : "",
+      "message" : "AU"
+   },
    "BOARDED_PASSENGER" : {
       "description" : "",
       "message" : "{name} has boarded the ship."
+   },
+   "COMMODITIES" : {
+      "description" : "",
+      "message" : "Commodities"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
       "message" : "Could you repeat the original request?"
    },
-   "DANGER" : {
+   "CREW" : {
       "description" : "",
-      "message" : "Danger:"
+      "message" : "Crew"
    },
    "DEADLINE" : {
       "description" : "",
@@ -18,6 +26,10 @@
    "DELIVERED_PASSENGER" : {
       "description" : "",
       "message" : "{name} has left the ship."
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "DELIVERY"
    },
    "DISTANCE" : {
       "description" : "",
@@ -265,7 +277,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments.."
+      "message" : "Very good. We will recommend you for future assignments."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -399,21 +411,25 @@
       "description" : "",
       "message" : "Interaction distance reached."
    },
-   "IN_SYSTEM" : {
-      "description" : "",
-      "message" : "In System:"
-   },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
       "message" : "It must be completed by "
    },
-   "I_HIGHLY_DOUBT_IT" : {
+   "KM" : {
       "description" : "",
-      "message" : "I highly doubt it."
+      "message" : "km"
    },
-   "LOCATION" : {
+   "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Location:"
+      "message" : "Last known location:"
+   },
+   "LAT" : {
+      "description" : "",
+      "message" : "Lat:"
+   },
+   "LON" : {
+      "description" : "",
+      "message" : "Lon:"
    },
    "LY" : {
       "description" : "",
@@ -439,9 +455,29 @@
       "description" : "",
       "message" : "Ok, agreed."
    },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Orbit"
+   },
    "PARTIAL" : {
       "description" : "",
       "message" : "Thank you for your efforts. I hope you will return to complete the task!"
+   },
+   "PASSENGERS" : {
+      "description" : "",
+      "message" : "Passengers"
+   },
+   "PAYMENT_LOCATION" : {
+      "description" : "",
+      "message" : "Payment location:"
+   },
+   "PICKUP" : {
+      "description" : "",
+      "message" : "PICKUP"
+   },
+   "PLACE_OF_ASSISTANCE" : {
+      "description" : "",
+      "message" : "At the place of assistance"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -595,6 +631,10 @@
       "description" : "",
       "message" : "Return To:"
    },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Reward:"
+   },
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Search & Rescue"
@@ -602,6 +642,14 @@
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
       "message" : "Target ship unresponsive."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System:"
+   },
+   "TARGET_SHIP_ID" : {
+      "description" : "",
+      "message" : "Target ship ID:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",

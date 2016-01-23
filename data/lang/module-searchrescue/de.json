@@ -1,15 +1,23 @@
 {
+   "AU" : {
+      "description" : "",
+      "message" : "AU"
+   },
    "BOARDED_PASSENGER" : {
       "description" : "",
       "message" : "{name} hat das Schiff bestiegen."
+   },
+   "COMMODITIES" : {
+      "description" : "",
+      "message" : "Commodities"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
       "message" : "Was war nochmal die anfängliche Frage?"
    },
-   "DANGER" : {
+   "CREW" : {
       "description" : "",
-      "message" : "Gefahr:"
+      "message" : "Crew"
    },
    "DEADLINE" : {
       "description" : "",
@@ -18,6 +26,10 @@
    "DELIVERED_PASSENGER" : {
       "description" : "",
       "message" : "{name} hat das Schiff verlassen."
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "DELIVERY"
    },
    "DISTANCE" : {
       "description" : "",
@@ -265,7 +277,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Sehr gut. Wir werden dich für weitere Aufträge empfehlen."
+      "message" : "Very good. We will recommend you for future assignments."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -399,21 +411,25 @@
       "description" : "",
       "message" : "Interaktionsdistanz erreicht."
    },
-   "IN_SYSTEM" : {
-      "description" : "",
-      "message" : "Im System:"
-   },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
       "message" : "Es muss fertiggestellt werden bis"
    },
-   "I_HIGHLY_DOUBT_IT" : {
+   "KM" : {
       "description" : "",
-      "message" : "Ich bezweifele das."
+      "message" : "km"
    },
-   "LOCATION" : {
+   "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Ort:"
+      "message" : "Last known location:"
+   },
+   "LAT" : {
+      "description" : "",
+      "message" : "Lat:"
+   },
+   "LON" : {
+      "description" : "",
+      "message" : "Lon:"
    },
    "LY" : {
       "description" : "",
@@ -439,9 +455,29 @@
       "description" : "",
       "message" : "Okay, ich werde den Flug übernehmen."
    },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Orbit"
+   },
    "PARTIAL" : {
       "description" : "",
       "message" : "Danke für Ihre Mühen. Ich hoffe, dass Sie zurückkehren werden, um die Aufgabe abzuschließen!"
+   },
+   "PASSENGERS" : {
+      "description" : "",
+      "message" : "Passengers"
+   },
+   "PAYMENT_LOCATION" : {
+      "description" : "",
+      "message" : "Payment location:"
+   },
+   "PICKUP" : {
+      "description" : "",
+      "message" : "PICKUP"
+   },
+   "PLACE_OF_ASSISTANCE" : {
+      "description" : "",
+      "message" : "At the place of assistance"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -595,6 +631,10 @@
       "description" : "",
       "message" : "Zurückkehren nach:"
    },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Reward:"
+   },
    "SEARCH_RESCUE" : {
       "description" : "",
       "message" : "Such-und Rettungsdienst"
@@ -602,6 +642,14 @@
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
       "message" : "Zielschiff reagiert nicht."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "System:"
+   },
+   "TARGET_SHIP_ID" : {
+      "description" : "",
+      "message" : "Target ship ID:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
