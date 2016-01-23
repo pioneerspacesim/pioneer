@@ -425,7 +425,7 @@
    },
    "LAT" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "Ш.:"
    },
    "LON" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Орбита"
    },
    "PARTIAL" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Система получателя:"
    },
    "TARGET_SHIP_ID" : {
       "description" : "",

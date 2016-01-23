@@ -425,7 +425,7 @@
    },
    "LAT" : {
       "description" : "",
-      "message" : "Lat:"
+      "message" : "D-leud:"
    },
    "LON" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Reul-chuairt"
    },
    "PARTIAL" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Siostam:"
    },
    "TARGET_SHIP_ID" : {
       "description" : "",

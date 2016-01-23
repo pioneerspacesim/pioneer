@@ -457,7 +457,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Orbita"
    },
    "PARTIAL" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Systém:"
    },
    "TARGET_SHIP_ID" : {
       "description" : "",

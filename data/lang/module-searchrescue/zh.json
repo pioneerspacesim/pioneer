@@ -457,7 +457,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "轨道"
    },
    "PARTIAL" : {
       "description" : "",
@@ -645,7 +645,7 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "星系:"
    },
    "TARGET_SHIP_ID" : {
       "description" : "",

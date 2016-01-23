@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "UA"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -9,7 +9,7 @@
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Merci"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Equipaggio"
    },
    "DEADLINE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "CONSEGNA"
    },
    "DISTANCE" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Molto bene. La raccomanderemo per i futuri incarichi."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Ultima posizione conosciuta:"
    },
    "LAT" : {
       "description" : "",
@@ -457,7 +457,7 @@
    },
    "ORBIT" : {
       "description" : "",
-      "message" : "Orbit"
+      "message" : "Orbita"
    },
    "PARTIAL" : {
       "description" : "",
@@ -465,19 +465,19 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Passeggeri"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Luogo di pagamento:"
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "RECUPERA"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "Al luogo di assistenza"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Ricompensa:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
@@ -645,11 +645,11 @@
    },
    "SYSTEM" : {
       "description" : "",
-      "message" : "System:"
+      "message" : "Sistema:"
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "ID nave bersaglio:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
