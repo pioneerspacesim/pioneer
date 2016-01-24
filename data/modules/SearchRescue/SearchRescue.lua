@@ -343,14 +343,14 @@ local decToDegMinSec = function (coord_orig)
    return str
 end
 
-local getAircontrolChar = function (spacestation)
-   -- Get the correct aircontrol character for the supplied spacestation. If it does not exist
+local getAircontrolChar = function (station)
+   -- Get the correct aircontrol character for the supplied station. If it does not exist
    -- create one and store it.
-   if containerContainsKey(aircontrol_chars, spacestation) then
-      return aircontrol_chars[spacestation]
+   if containerContainsKey(aircontrol_chars, station.path) then
+      return aircontrol_chars[station.path]
    else
       local char = Character.New()
-      aircontrol_chars[spacestation] = char
+      aircontrol_chars[station.path] = char
       return char
    end
 end
