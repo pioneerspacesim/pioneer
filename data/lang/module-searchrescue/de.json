@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "AE"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -9,7 +9,7 @@
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Waren"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "LIEFERUNG"
    },
    "DISTANCE" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Sehr gut. Wir werden Sie für weitere Aufträge weiterempfehlen."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Letzte bekannte Position:"
    },
    "LAT" : {
       "description" : "",
@@ -465,19 +465,19 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Passagiere"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Bezahlungsort:"
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "ABHOLUNG"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "Am Ort der Unterstützung"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Belohnung:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "Zielschiffs-ID:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
