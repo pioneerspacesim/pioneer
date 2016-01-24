@@ -12,7 +12,7 @@
 namespace UI {
 
 TextLayout::TextLayout(const RefCountedPtr<Text::TextureFont> &font, const std::string &text)
-	: m_font(font),	m_lastDrawPos(Point(INT_MIN, INT_MIN)), m_lastDrawSize(Point(INT_MIN, INT_MIN)), m_prevColor(Color::BLACK)
+	: m_font(font),	m_lastDrawPos(Point(INT_MIN, INT_MIN)), m_lastDrawSize(Point(INT_MIN, INT_MIN)), m_prevColor(Color::WHITE)
 {
 	if (!text.size())
 		return;
@@ -110,8 +110,8 @@ Point TextLayout::ComputeSize(const Point &layoutSize)
 void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point &drawSize, const Color &color)
 {
 	// Has anything changed between passes
-	const bool bAllNew = (layoutSize != m_lastRequested) || (m_lastDrawPos != drawPos) || (m_lastDrawSize != drawSize) || (m_prevColor != color);
-	if (bAllNew)
+	const bool bAnyNew = (layoutSize != m_lastRequested) || (m_lastDrawPos != drawPos) || (m_lastDrawSize != drawSize) || (m_prevColor != color);
+	if (bAnyNew)
 	{
 		ComputeSize(layoutSize);
 		const int top = -drawPos.y - m_font->GetHeight();
@@ -127,6 +127,9 @@ void TextLayout::Draw(const Point &layoutSize, const Point &drawPos, const Point
 
 		if (!m_vbuffer.Valid()) {
 			m_vbuffer.Reset(m_font->CreateVertexBuffer(va, true));
+		}
+		else {
+			m_vbuffer->Populate(va);
 		}
 	}
 
