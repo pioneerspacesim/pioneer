@@ -13,6 +13,7 @@ January 2016
      * Show the correct pattern on the ship info screen (#3598)
      * Fix serialization bug in S&R missions (#3607)
      * Missing text fix (#3608)
+     * Fix for console window crash (#3611)
 
    * Internal Changes
      * Optional use of std::chrono for Profiler (#3593)
