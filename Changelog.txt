@@ -16,6 +16,7 @@ January 2016
      * Fix for console window crash (#3611)
      * Fix for #3602 and #3517 (#3603)
      * Fix bad text size (#3612)
+     * Fix the vcacheopt type narrowing conversions that I caused (#3613)
 
    * Internal Changes
      * Optional use of std::chrono for Profiler (#3593)
