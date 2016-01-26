@@ -67,8 +67,8 @@ public:
 	}
 };
 typedef TVertexCacheData<int, INT_MAX >					VertexCacheDataInt;
-typedef TVertexCacheData<unsigned int, UINT_MAX >		VertexCacheDataUInt;
-typedef TVertexCacheData<unsigned short, USHRT_MAX >	VertexCacheDataUShort;
+typedef TVertexCacheData<unsigned int, INT_MAX >		VertexCacheDataUInt;
+typedef TVertexCacheData<unsigned short, INT_MAX >		VertexCacheDataUShort;
 
 template <typename T, int ERR_VAL>
 class TTriangleCacheData
@@ -84,8 +84,8 @@ public:
 	}
 };
 typedef TTriangleCacheData<int, INT_MAX >				TriangleCacheDataInt;
-typedef TTriangleCacheData<unsigned int, UINT_MAX >		TriangleCacheDataUInt;
-typedef TTriangleCacheData<unsigned short, USHRT_MAX >	TriangleCacheDataUShort;
+typedef TTriangleCacheData<unsigned int, INT_MAX >		TriangleCacheDataUInt;
+typedef TTriangleCacheData<unsigned short, INT_MAX >	TriangleCacheDataUShort;
 
 template <typename T, int N, int ERR_VAL>
 class TVertexCache
@@ -168,8 +168,8 @@ public:
 	}
 };
 typedef TVertexCache<int, 40, INT_MAX >					VertexCacheInt;
-typedef TVertexCache<unsigned int, 40, UINT_MAX >		VertexCacheUInt;
-typedef TVertexCache<unsigned short, 40, USHRT_MAX >	VertexCacheUShort;
+typedef TVertexCache<unsigned int, 40, INT_MAX >		VertexCacheUInt;
+typedef TVertexCache<unsigned short, 40, INT_MAX >		VertexCacheUShort;
 
 template <typename T, int N, int ERR_VAL>
 class TVertexCacheOptimizer
@@ -505,7 +505,7 @@ public:
 	}
 };
 typedef TVertexCacheOptimizer<int, 40, INT_MAX >				VertexCacheOptimizerInt;
-typedef TVertexCacheOptimizer<unsigned int, 40, UINT_MAX >		VertexCacheOptimizerUInt;
-typedef TVertexCacheOptimizer<unsigned short, 40, USHRT_MAX >	VertexCacheOptimizerUShort;
+typedef TVertexCacheOptimizer<unsigned int, 40, INT_MAX >		VertexCacheOptimizerUInt;
+typedef TVertexCacheOptimizer<unsigned short, 40, INT_MAX >		VertexCacheOptimizerUShort;
 
 #endif // ndef _VCACHEOPT_H_
