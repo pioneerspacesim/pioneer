@@ -82,9 +82,15 @@ void Label::SetText(const std::string &text)
 void Label::Draw()
 {
 	PROFILE_SCOPED()
-	if (!m_layout) UpdateLayout();
+	if (!m_layout || m_needsUpdate)
+		UpdateLayout();
+
+	// the size might not have bene updated, poke it until it is
 	float size[2]; GetSize(size);
+	if (is_equal_exact(size[0], 0.0f)) 
+		RecalcSize();
 	m_layout->Update(size[0], m_color);
+
 	if (m_shadow) {
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 		r->Translate(1,1,0);
