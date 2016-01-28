@@ -339,7 +339,7 @@ function SpaceStation:LaunchPolice(targetShip)
 		-- decide how many to create
 		local lawlessness = Game.system.lawlessness
 		local maxPolice = math.min(9, self.numDocks)
-		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*lawlessness)
+		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*(1-lawlessness))
 		local shiptype = ShipDef[Game.system.faction.policeShip]
 
 		-- create and equip them
