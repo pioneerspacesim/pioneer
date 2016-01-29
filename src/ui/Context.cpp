@@ -102,6 +102,7 @@ void Context::DropLayer()
 	m_needsLayout = true;
 }
 
+
 void Context::DropAllLayers()
 {
 	for (std::vector<Layer*>::iterator i = m_layers.begin(); i != m_layers.end(); ++i)
@@ -109,6 +110,15 @@ void Context::DropAllLayers()
 	m_layers.clear();
 	NewLayer();
 	m_needsLayout = true;
+}
+	
+void Context::HandleKeyDown(const KeyboardEvent &event) {
+	if (event.keysym.sym == SDLK_ESCAPE) {
+		if (m_layers.size()>1) {
+			// go back to previous layer
+			DropLayer();
+		}
+	}
 }
 
 Widget *Context::GetWidgetAt(const Point &pos)

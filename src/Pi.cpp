@@ -796,11 +796,15 @@ void Pi::HandleEvents()
 					if (Pi::game) {
 						// only accessible once game started
 						if (currentView != 0) {
-							if (currentView != Pi::game->GetSettingsView()) {
-								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
-								SetView(Pi::game->GetSettingsView());
+							if (currentView == Pi::game->GetWorldView()) {
+								if (!Pi::game->IsPaused()) {
+									Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
+								}
+								else {
+									SetView(Pi::game->GetSettingsView());
+								}
 							}
-							else {
+							else if (currentView == Pi::game->GetSettingsView()){
 								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 								SetView(Pi::player->IsDead()
 										? static_cast<View*>(Pi::game->GetDeathView())
