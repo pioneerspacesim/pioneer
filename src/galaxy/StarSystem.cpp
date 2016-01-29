@@ -988,7 +988,7 @@ void StarSystem::ExportToLua(const char *filename) {
 	if(f == 0)
 		return;
 
-	fprintf(f,"-- Copyright © 2008-2012 Pioneer Developers. See AUTHORS.txt for details\n");
+	fprintf(f,"-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details\n");
 	fprintf(f,"-- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt\n\n");
 
 	std::string stars_in_system = GetStarTypes(m_rootBody.Get());
