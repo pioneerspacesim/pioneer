@@ -10,6 +10,7 @@ local ShipDef = import("ShipDef")
 local Equipment = import("Equipment")
 local Timer = import("Timer")
 local Lang = import("Lang")
+local Character = import("Character")
 
 local l = Lang.GetResource("ui-core")
 
