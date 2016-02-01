@@ -43,6 +43,10 @@ public:
 	void SetOverlayText(OverlayTextPos pos, const std::string &text);
 	void SetOverlayToolTip(OverlayTextPos pos, const std::string &text);
 	void ClearOverlay();
+	// Selects the specified button
+	// @param int gid the buttons group (0 = left, 1 = right)
+	// @param int idx the 0-based button index within the specified group
+	void SelectGroupButton(int gid, int idx);
 
 private:
 	void InitObject();
