@@ -1017,6 +1017,10 @@ void Pi::HandleEscKey() {
 					Pi::game->GetCpan()->SelectGroupButton(1, 0);
 					SetView(Pi::game->GetSectorView());
 				}
+				else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
+					Pi::game->GetCpan()->SelectGroupButton(0, 0);
+					SetView(Pi::game->GetWorldView());
+				}
 			}
 		}
 	}

@@ -102,7 +102,6 @@ void Context::DropLayer()
 	m_needsLayout = true;
 }
 
-
 void Context::DropAllLayers()
 {
 	for (std::vector<Layer*>::iterator i = m_layers.begin(); i != m_layers.end(); ++i)

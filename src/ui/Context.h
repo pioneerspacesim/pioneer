@@ -128,7 +128,7 @@ public:
 
 	void SetMousePointer(const std::string &filename, const Point &hotspot);
 	void SetMousePointerEnabled(bool enabled) { m_mousePointerEnabled = enabled; }
-	
+	// handler for keydown events
 	void HandleKeyDown(const KeyboardEvent &event);
 
 	// event dispatch delegates
