@@ -1,3 +1,7 @@
+February 2016
+   * Fixes
+     * Fix Character.lua / Ship.lua import relationship (#3617)
+
 January 2016
    * New Features
      * Barnard's star update (#3584)
