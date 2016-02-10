@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "AE"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -9,7 +9,7 @@
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Goederen"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Bemanning"
    },
    "DEADLINE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "LEVERING"
    },
    "DISTANCE" : {
       "description" : "",
@@ -161,11 +161,11 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "SCHIP GECRASHED op {planet}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you are just returning now! How much time has been wasted!"
+      "message" : "Ik snap werkelijk niet dat u nu pas terug bent! Hoeveel tijd is er verspild!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "SCHIP ZONDER BRANDSTOF op weg naar {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -225,7 +225,7 @@
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "MEDISCH NOODGEVAL op schip nabij {starport}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Laatst bekende plaats:"
    },
    "LAT" : {
       "description" : "",
@@ -465,19 +465,19 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Passagiers"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Plaats van betaling:"
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "OPHALEN"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "At the place of assistance"
+      "message" : "Op de plek van hulpverlening"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -629,15 +629,15 @@
    },
    "RETURN_TO" : {
       "description" : "",
-      "message" : "Return To:"
+      "message" : "Keer terug naar:"
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Beloning:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Zoeken & Redden"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -649,11 +649,11 @@
    },
    "TARGET_SHIP_ID" : {
       "description" : "",
-      "message" : "Target ship ID:"
+      "message" : "Doel schip ID:"
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Dankuwel. Uw hulp wordt op prijs gesteld."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",

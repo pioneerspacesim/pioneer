@@ -57,7 +57,7 @@
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Autopilot control"
+      "message" : "Automatische piloot"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -101,7 +101,7 @@
    },
    "BODIES" : {
       "description" : "space bodies",
-      "message" : "lichamen"
+      "message" : "hemellichamen"
    },
    "BODY" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "CARGO_BAY_LIFE_SUPPORT_LOST" : {
       "description" : "",
-      "message" : "Sensoren rapporteren kritische condities m.b.t. levenssignalen in vrachtruimte."
+      "message" : "Sensoren rapporteren kritische condities m.b.t. levenssignalen in laadruim."
    },
    "CARGO_N" : {
       "description" : "",
@@ -173,11 +173,11 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Cargo scoop active. Collected 1 tonne of %item."
+      "message" : "Vrachtinlaat bezig. 1 ton %item binnengehaald."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
-      "message" : "vracht opscheppen geprobeerd. Niet genoeg ruimte in vrachtruim"
+      "message" : "vrachtinlaat geprobeerd. Niet genoeg ruimte in vrachtruim"
    },
    "CH4_ATMOSPHERE" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "COUNT_STARPORTS" : {
       "description" : "",
-      "message" : "sterrehavens"
+      "message" : "ruimtehavens"
    },
    "CO_ATMOSPHERE" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "CTRL" : {
       "description" : "Ctrl key on keyboard",
-      "message" : "Ctrl"
+      "message" : "Bst"
    },
    "CURRENT_SYSTEM" : {
       "description" : "selected current star system",
@@ -289,7 +289,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Verklein tijdversnelling"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "EXTENSIVE_MINING" : {
       "description" : "",
-      "message" : "Extensieve mijnbouw."
+      "message" : "Grootschalige mijnbouw."
    },
    "EXTERNAL_ATMOSPHERIC_PRESSURE" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Brandstofschep actief. U heeft nu %quantity ton waterstof."
+      "message" : "Brandstofinlaat bezig. U heeft nu %quantity ton waterstof."
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Bewaard spel '%filename' niet gevonden (of het spel heeft geen toegang)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -553,7 +553,7 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Stop hyperaandrijving"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Start hyperaandrijving"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Vergroot tijdversnelling"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
+      "message" : "Wissel tussen Lagrange L4/L5-punt afbeeldingswijze"
    },
    "LANDED" : {
       "description" : "",
@@ -665,7 +665,7 @@
    },
    "LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Grote gas gigant"
+      "message" : "Grote gasreus"
    },
    "LASER_FIRE_DETECTED" : {
       "description" : "",
@@ -701,7 +701,7 @@
    },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
-      "message" : "gesloten"
+      "message" : "vastgezet"
    },
    "LONGITUDE" : {
       "description" : "Short for longitude",
@@ -813,7 +813,7 @@
    },
    "MEDIUM_GAS_GIANT" : {
       "description" : "",
-      "message" : "Middelgrote gas gigant"
+      "message" : "Middelgrote gasreus"
    },
    "MESSAGE_FROM_X" : {
       "description" : "",
@@ -961,7 +961,7 @@
    },
    "NOW" : {
       "description" : "In System Orbit View",
-      "message" : "Now"
+      "message" : "Nu"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1073,7 +1073,7 @@
    },
    "ORBITAL_STARPORT" : {
       "description" : "",
-      "message" : "Sterrehaven in omloopbaan"
+      "message" : "Ruimtehaven in omloopbaan"
    },
    "OUTDOOR_AGRICULTURAL_WORLD" : {
       "description" : "",
@@ -1081,11 +1081,11 @@
    },
    "OVER_N_BILLION" : {
       "description" : "",
-      "message" : "Groter dan %population miljard"
+      "message" : "Meer dan %population miljard"
    },
    "OVER_N_MILLION" : {
       "description" : "",
-      "message" : "Groter dan %population miljoen"
+      "message" : "Meer dan %population miljoen"
    },
    "PASSENGER_CABIN" : {
       "description" : "",
@@ -1093,7 +1093,7 @@
    },
    "PAUSED" : {
       "description" : "",
-      "message" : "GEPAUSEERD"
+      "message" : "GEPAUZEERD"
    },
    "PAY_FINE_REMOTELY" : {
       "description" : "",
@@ -1253,11 +1253,11 @@
    },
    "ROTATION_DAMPING_OFF" : {
       "description" : "",
-      "message" : "Rotation damping off"
+      "message" : "Draaistop uit"
    },
    "ROTATION_DAMPING_ON" : {
       "description" : "",
-      "message" : "Rotation damping on"
+      "message" : "Draaistop aan"
    },
    "RUBBISH" : {
       "description" : "",
@@ -1265,11 +1265,11 @@
    },
    "SCANNER_CONTROL" : {
       "description" : "",
-      "message" : "Scanner control"
+      "message" : "Scanner"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Scoop"
+      "message" : "Inlaat"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1321,7 +1321,7 @@
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
-      "message" : "Set low thrust power level to %power%%"
+      "message" : "Stel laag vermogen in op %power%%"
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
@@ -1385,7 +1385,7 @@
    },
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
-      "message" : "Sidereal view"
+      "message" : "Zicht op de sterren"
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
@@ -1409,7 +1409,7 @@
    },
    "SMALL_SCALE_PROSPECTING_NO_SETTLEMENTS" : {
       "description" : "",
-      "message" : "Grondstofwinning op kleine schaal. Geen geregistreerde nederzettingen."
+      "message" : "Kleinschalige grondstofwinning. Geen geregistreerde nederzettingen."
    },
    "SOCIAL_DEMOCRACY" : {
       "description" : "",
@@ -1437,11 +1437,11 @@
    },
    "STARPORT" : {
       "description" : "",
-      "message" : "Sterrehaven"
+      "message" : "Ruimtehaven"
    },
    "STARPORTS" : {
       "description" : "",
-      "message" : "Sterrehavens"
+      "message" : "Ruimtehavens"
    },
    "STAR_A" : {
       "description" : "",
@@ -1673,7 +1673,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Uitrusting"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1689,7 +1689,7 @@
    },
    "TOGGLE_SCANNER_VIEW" : {
       "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+      "message" : "Scanner"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1709,19 +1709,19 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "Opstijging"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
-      "message" : "Onverkend systeem. Geen gegevens beschikbaar."
+      "message" : "Niet verkend stelsel. Geen gegevens beschikbaar."
    },
    "UNEXPLORED_SYSTEM_NO_SYSTEM_VIEW" : {
       "description" : "",
-      "message" : "Onverkend systeem. Systeem-overzicht niet beschikbaar."
+      "message" : "Niet verkend stelsel. Stelseloverzicht niet beschikbaar."
    },
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
-      "message" : "Onverkend systeem. Sterre-informatie vergaard via telescopie, maar geen planetaire informatie aanwezig."
+      "message" : "Niet verkend stelsel. Sterren onderzocht met telescopen, maar geen planeetgegevens aanwezig."
    },
    "UNKNOWN" : {
       "description" : "",
@@ -1745,7 +1745,7 @@
    },
    "VERY_LARGE_GAS_GIANT" : {
       "description" : "",
-      "message" : "Zeer grote gas gigant"
+      "message" : "Zeer grote gasreus"
    },
    "VIEW" : {
       "description" : "",

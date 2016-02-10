@@ -25,7 +25,7 @@
    },
    "CARGO_LIFE_SUPPORT" : {
       "description" : "",
-      "message" : "Vrachtruimte levens-systeem"
+      "message" : "Laadruim Life Support"
    },
    "CARGO_LIFE_SUPPORT_DESCRIPTION" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Vrachtschep"
+      "message" : "Vrachtinlaat"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Staat toe vrachtcontainers op te scheppen uit de ruimte."
+      "message" : "Maakt het mogelijk vrachtcontainers binnen te halen uit de ruimte."
    },
    "DRIVE_CLASS1" : {
       "description" : "",
@@ -109,11 +109,11 @@
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Brandstofschep"
+      "message" : "Brandstofinlaat"
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Maakt het mogelijk om waterstof te scheppen van gasreuzen."
+      "message" : "Maakt het mogelijk om waterstof binnen te halen van gasreuzen."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multischep"
+      "message" : "Multi-inlaat"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Hoewel minder effectief dan een brandstofschep maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
+      "message" : "Hoewel minder effectief dan een brandstofinlaat maakt het het binnenhalen van zowel brandstof als vracht mogelijk"
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",

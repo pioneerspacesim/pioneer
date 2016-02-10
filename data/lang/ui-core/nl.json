@@ -1,15 +1,15 @@
 {
    "ABOVE_AVERAGE" : {
       "description" : "",
-      "message" : "Above Average"
+      "message" : "Bovengemiddeld"
    },
    "ACTIVE" : {
       "description" : "",
-      "message" : "Active"
+      "message" : "Actief"
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "After trade-in"
+      "message" : "Na inruilen"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -21,11 +21,11 @@
    },
    "AMOUNT" : {
       "description" : "",
-      "message" : "Amount"
+      "message" : "Bedrag"
    },
    "AN_ERROR_HAS_OCCURRED" : {
       "description" : "",
-      "message" : "An error has occurred"
+      "message" : "Er is een fout opgetreden"
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
@@ -33,23 +33,23 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Attempt to repair hull"
+      "message" : "Romp repareren"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
-      "message" : "Available for purchase"
+      "message" : "Te koop"
    },
    "AVERAGE" : {
       "description" : "",
-      "message" : "Average"
+      "message" : "Gemiddeld"
    },
    "BACKWARD_ACCEL" : {
       "description" : "",
-      "message" : "Backward acceleration"
+      "message" : "Achterwaardse versnelling"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
-      "message" : "Bekijk prikbord"
+      "message" : "Prikbord"
    },
    "BUY" : {
       "description" : "Commodities and equipment prices",
@@ -57,11 +57,11 @@
    },
    "BUY_SHIP" : {
       "description" : "",
-      "message" : "Buy Ship"
+      "message" : "Koop schip"
    },
    "CABINS" : {
       "description" : "For passengers",
-      "message" : "Cabins"
+      "message" : "Cabines"
    },
    "CABIN_FREE" : {
       "description" : "Free capacity for passengers",
@@ -73,7 +73,7 @@
    },
    "CANCEL" : {
       "description" : "",
-      "message" : "Cancel"
+      "message" : "Afbreken"
    },
    "CAPACITY" : {
       "description" : "Capacity of ship to fit more equipment",
@@ -81,7 +81,7 @@
    },
    "CAPACITY_USED" : {
       "description" : "",
-      "message" : "Capacity used"
+      "message" : "Capaciteit benut"
    },
    "CARGO" : {
       "description" : "",
@@ -89,7 +89,7 @@
    },
    "CARGO_SPACE" : {
       "description" : "",
-      "message" : "Vrachtruimte"
+      "message" : "Laadruim"
    },
    "CARGO_SPACE_USED" : {
       "description" : "",
@@ -105,11 +105,11 @@
    },
    "CASH" : {
       "description" : "",
-      "message" : "Geld"
+      "message" : "Balans"
    },
    "CASH_N" : {
       "description" : "",
-      "message" : "Cash: {money}"
+      "message" : "Balans: {money}"
    },
    "CHANGE_BINDING" : {
       "description" : "Key binding option",
@@ -117,15 +117,15 @@
    },
    "CHIEF_MECHANIC" : {
       "description" : "",
-      "message" : "Chief Mechanic"
+      "message" : "Hoofdwerktuigbouwkundige"
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Circular orbit speed"
+      "message" : "Snelheid cirkelvormige omloopbaan"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "Game graphics option",
-      "message" : "City detail level"
+      "message" : "Detailniveau stad"
    },
    "CLEAN" : {
       "description" : "Legal status of player",
@@ -133,23 +133,23 @@
    },
    "CLEAR" : {
       "description" : "Clear an option in game settings/options menu",
-      "message" : "Clear"
+      "message" : "Helder"
    },
    "CLIENT" : {
       "description" : "",
-      "message" : "Client"
+      "message" : "Klant"
    },
    "COMBAT" : {
       "description" : "Headline for kills and combat rating",
-      "message" : "Combat"
+      "message" : "Gevecht"
    },
    "COMMANDER" : {
       "description" : "",
-      "message" : "Commander"
+      "message" : "Commandant"
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Commodity Market"
+      "message" : "Goederenmarkt"
    },
    "COMPACT_SCANNER" : {
       "description" : "Game settings option",
@@ -161,7 +161,7 @@
    },
    "COMPLETED" : {
       "description" : "",
-      "message" : "Completed"
+      "message" : "Afgemaakt"
    },
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
@@ -177,7 +177,7 @@
    },
    "CONSTABLE" : {
       "description" : "",
-      "message" : "Constable"
+      "message" : "Veldwachter"
    },
    "CONTINUE_GAME" : {
       "description" : "",
@@ -189,11 +189,11 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Control Options"
+      "message" : "Besturing"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
-      "message" : "Could not load game: "
+      "message" : "Kon spel niet laden:"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -201,23 +201,23 @@
    },
    "CREW_CABINS" : {
       "description" : "",
-      "message" : "Crew cabins"
+      "message" : "Bemanningscabines"
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Crew Roster"
+      "message" : "Bemanning"
    },
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
-      "message" : "Criminal record"
+      "message" : "Strafblad"
    },
    "DANGEROUS" : {
       "description" : "Player combat rating",
-      "message" : "Dangerous"
+      "message" : "Gevaarlijk"
    },
    "DEADLY" : {
       "description" : "Player combat rating",
-      "message" : "Deadly"
+      "message" : "Dodelijk"
    },
    "DELTA_V" : {
       "description" : "",
@@ -237,15 +237,15 @@
    },
    "DESCENT_TO_GROUND_SPEED" : {
       "description" : "",
-      "message" : "Descent-to-ground speed:"
+      "message" : "Daal-naar-oppervlaksnelheid:"
    },
    "DESTROY_ENEMY_SHIP" : {
       "description" : "",
-      "message" : "Destroy enemy ship"
+      "message" : "Vernietig vijandelijk schip"
    },
    "DISMISS" : {
       "description" : "Terminate crew memeber's contract",
-      "message" : "Dismiss"
+      "message" : "Ontsla"
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
@@ -253,15 +253,15 @@
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "Settings option: hyperspace tunnel effect",
-      "message" : "Display nav tunnels"
+      "message" : "Toon nav tunnels"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "Settings option: effect when travelling in space",
-      "message" : "Display speed lines"
+      "message" : "Toon snelheidslijnen"
    },
    "DOCK_AT_CURRENT_TARGET" : {
       "description" : "",
-      "message" : "Dock at current target"
+      "message" : "Meer aan bij huidig doel"
    },
    "DUE" : {
       "description" : "mission deadline date",
@@ -273,15 +273,15 @@
    },
    "D_DAYS_LEFT" : {
       "description" : "",
-      "message" : "Days left: %d"
+      "message" : "Dagen over: %d"
    },
    "ECONOMY_TRADE" : {
       "description" : "",
-      "message" : "Economy & Trade"
+      "message" : "Economie & Handel"
    },
    "EFFECTS" : {
       "description" : "",
-      "message" : "Effects:"
+      "message" : "Effecten:"
    },
    "ELITE" : {
       "description" : "Player combat rating",
@@ -305,7 +305,7 @@
    },
    "ENABLE_JOYSTICK" : {
       "description" : "",
-      "message" : "Enable joystick"
+      "message" : "Gebruik joystick"
    },
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
@@ -313,27 +313,27 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "Equipment"
+      "message" : "Uitrusting"
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Equipment Market"
+      "message" : "Uitrustingmarkt"
    },
    "EQUIPPED" : {
       "description" : "",
-      "message" : "Equipped"
+      "message" : "Uitgerust"
    },
    "ERROR" : {
       "description" : "",
-      "message" : "Error"
+      "message" : "Fout"
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Escape speed:"
+      "message" : "Ontsnappingssnelheid:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
-      "message" : "Exit this game"
+      "message" : "Stop dit spel"
    },
    "EXPERIENCED" : {
       "description" : "For player reputation",
@@ -345,35 +345,35 @@
    },
    "FAILED" : {
       "description" : "When failed mission",
-      "message" : "Failed"
+      "message" : "Gefaald"
    },
    "FEMALE" : {
       "description" : "",
-      "message" : "Female"
+      "message" : "Vrouwelijk"
    },
    "FORWARD_ACCEL" : {
       "description" : "",
-      "message" : "Forward acceleration"
+      "message" : "Voorwaardse versnelling"
    },
    "FORWARD_ACCEL_EMPTY" : {
       "description" : "",
-      "message" : "Voorwaartse acceleratie (leeg)"
+      "message" : "Voorwaardse versnelling (leeg)"
    },
    "FORWARD_ACCEL_FULL" : {
       "description" : "",
-      "message" : "Forward accel (full)"
+      "message" : "Voorwaardse versnelling (vol)"
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Fractal detail"
+      "message" : "Fractaldetail"
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "free"
+      "message" : "vrij"
    },
    "FRONT_WEAPON" : {
       "description" : "",
-      "message" : "Front weapon"
+      "message" : "Wapen voorkant"
    },
    "FUEL" : {
       "description" : "",
@@ -381,11 +381,11 @@
    },
    "FUEL_TANK_FULL" : {
       "description" : "",
-      "message" : "Fuel tank full."
+      "message" : "Brandstoftank vol"
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Fuel weight"
+      "message" : "Brandstofgewicht"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -393,15 +393,15 @@
    },
    "GENERAL_CREW" : {
       "description" : "",
-      "message" : "General crew"
+      "message" : "Algemene bemanning"
    },
    "GIVE_ORDERS_TO_CREW" : {
       "description" : "",
-      "message" : "Give orders to crew"
+      "message" : "Geef orders aan bemanning"
    },
    "GOOD_RIDDANCE_TO_YOU_TOO" : {
       "description" : "",
-      "message" : "Good riddance to you, too."
+      "message" : "Ook fijn dat ik van jou af ben."
    },
    "HANG_UP" : {
       "description" : "",
@@ -409,55 +409,55 @@
    },
    "HARMLESS" : {
       "description" : "Player combat rating",
-      "message" : "Harmless"
+      "message" : "Ongevaarlijk"
    },
    "HEAVY_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy cargo shuttle"
+      "message" : "Grote vrachtshuttle"
    },
    "HEAVY_COURIER" : {
       "description" : "",
-      "message" : "Heavy courier"
+      "message" : "Groot koerierschip"
    },
    "HEAVY_FIGHTER" : {
       "description" : "",
-      "message" : "Heavy fighter"
+      "message" : "Groot jachttoestel"
    },
    "HEAVY_FREIGHTER" : {
       "description" : "",
-      "message" : "Heavy freighter"
+      "message" : "Groot vrachtship"
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Heavy passenger shuttle"
+      "message" : "Zware passagiersshuttle"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Heavy passenger transport"
+      "message" : "Groot passagiersschip"
    },
    "HIGH" : {
       "description" : "Game settings option: for graphics resolution",
-      "message" : "High"
+      "message" : "Hoog"
    },
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
-      "message" : "Hull does not require repair."
+      "message" : "Romp hoeft niet gerepareerd te worden."
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Romp integriteit"
+      "message" : "Rompconditie"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
-      "message" : "Hull repaired by {name}, now at {repairPercent}%"
+      "message" : "Rom gerepareerd door {name}, nu op {repairPercent}%"
    },
    "HULL_REPAIR_ATTEMPT_FAILED_HULL_SUFFERED_MINOR_DAMAGE" : {
       "description" : "",
-      "message" : "Hull repair attempt failed. Hull suffered minor damage."
+      "message" : "Reparatie romp mislukt. Romp leed weinig schade."
    },
    "HYPERDRIVE" : {
       "description" : "",
-      "message" : "Hyperaandrijving"
+      "message" : "Hyperruimteaandrijving"
    },
    "HYPERDRIVE_FITTED" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Hyperspace range"
+      "message" : "Hyperspace-bereik"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -473,7 +473,7 @@
    },
    "INACTIVE" : {
       "description" : "",
-      "message" : "Inactief"
+      "message" : "Niet actief"
    },
    "INCOMPETENT" : {
       "description" : "For player reputation",
@@ -489,19 +489,19 @@
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
-      "message" : "Invert Mouse Y"
+      "message" : "Keer Muis Y om"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
-      "message" : "In cargo hold"
+      "message" : "In laadruim"
    },
    "IN_STOCK" : {
       "description" : "",
-      "message" : "In stock"
+      "message" : "In voorraad"
    },
    "ITEM_IS_OUT_OF_STOCK" : {
       "description" : "",
-      "message" : "Dit artikel is niet op voorraad."
+      "message" : "Dit artikel is niet in voorraad."
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
@@ -509,19 +509,19 @@
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Jettison"
+      "message" : "Uitwerpen"
    },
    "KILLS" : {
       "description" : "",
-      "message" : "Kills:"
+      "message" : "Verslagen:"
    },
    "LANGUAGE" : {
       "description" : "",
-      "message" : "Language"
+      "message" : "Taal"
    },
    "LANGUAGE_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Language (restart game to apply)"
+      "message" : "Taal (herstarten spel benodigd)"
    },
    "LAUNCH_PERMISSION_DENIED_BUSY" : {
       "description" : "",
@@ -541,35 +541,35 @@
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
-      "message" : "Light cargo shuttle"
+      "message" : "Kleine vrachtshuttle"
    },
    "LIGHT_COURIER" : {
       "description" : "",
-      "message" : "Light courier"
+      "message" : "Light koerierschip"
    },
    "LIGHT_FIGHTER" : {
       "description" : "",
-      "message" : "Light fighter"
+      "message" : "Klein jachttoestel"
    },
    "LIGHT_FREIGHTER" : {
       "description" : "",
-      "message" : "Light freighter"
+      "message" : "Klein vrachtschip"
    },
    "LIGHT_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Light passenger shuttle"
+      "message" : "Kleine passagiersshuttle"
    },
    "LIGHT_PASSENGER_TRANSPORT" : {
       "description" : "",
-      "message" : "Light passenger transport"
+      "message" : "Klein passagierstransport"
    },
    "LOAD" : {
       "description" : "",
-      "message" : "Load"
+      "message" : "Laad"
    },
    "LOAD_GAME" : {
       "description" : "",
-      "message" : "Load game"
+      "message" : "Laad spel"
    },
    "LOBBY" : {
       "description" : "",
@@ -597,11 +597,11 @@
    },
    "MAKE_NEW_FACE" : {
       "description" : "",
-      "message" : "Make new face"
+      "message" : "Maak nieuw gezicht"
    },
    "MALE" : {
       "description" : "",
-      "message" : "Male"
+      "message" : "Mannelijk"
    },
    "MARKET_BUYLINE" : {
       "description" : "",
@@ -617,7 +617,7 @@
    },
    "MASTER" : {
       "description" : "For player reputation",
-      "message" : "Master"
+      "message" : "Meester"
    },
    "MASTER_VOL" : {
       "description" : "Master sound in settings option",
@@ -633,7 +633,7 @@
    },
    "MEDIUM" : {
       "description" : "Game settings option: graphics resolution",
-      "message" : "Medium"
+      "message" : "Midden"
    },
    "MEDIUM_CARGO_SHUTTLE" : {
       "description" : "",
@@ -661,15 +661,15 @@
    },
    "METAL_ALLOYS" : {
       "description" : "",
-      "message" : "Metaal legeringen"
+      "message" : "Legeringen"
    },
    "MILITARY" : {
       "description" : "",
-      "message" : "Military"
+      "message" : "Militair"
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Minimum crew"
+      "message" : "Minimum bemanning"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -677,19 +677,19 @@
    },
    "MISSIONS" : {
       "description" : "",
-      "message" : "Missions"
+      "message" : "Missies"
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Mission Details"
+      "message" : "Missiedetails"
    },
    "MORE_INFO" : {
       "description" : "",
-      "message" : "More info..."
+      "message" : "Meer info..."
    },
    "MOSTLY_HARMLESS" : {
       "description" : "",
-      "message" : "Mostly Harmless"
+      "message" : "Vrijwel ongevaarlijk"
    },
    "MULTISAMPLING" : {
       "description" : "",
@@ -701,11 +701,11 @@
    },
    "MUSIC" : {
       "description" : "",
-      "message" : "Music:"
+      "message" : "Muziek:"
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Mute"
+      "message" : "Gedempt"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -717,7 +717,7 @@
    },
    "NAVIGATION" : {
       "description" : "",
-      "message" : "Navigation:"
+      "message" : "Navigatie:"
    },
    "NAVIGATOR" : {
       "description" : "",
@@ -725,7 +725,7 @@
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Negotiate"
+      "message" : "Onderhandel"
    },
    "NEXT_PAID" : {
       "description" : "",
@@ -753,11 +753,11 @@
    },
    "NOTES" : {
       "description" : "",
-      "message" : "Notes:"
+      "message" : "Notities:"
    },
    "NOT_ENOUGH_ALLOY_TO_ATTEMPT_A_REPAIR" : {
       "description" : "",
-      "message" : "Not enough {alloy} to attempt a repair"
+      "message" : "Te weinig {alloy} om te repareren"
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
@@ -765,19 +765,19 @@
    },
    "NO_MISSIONS" : {
       "description" : "",
-      "message" : "No missions."
+      "message" : "Geen missies."
    },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
-      "message" : "{range} light years ({maxRange} max)"
+      "message" : "{range} lichtjaar ({maxRange} max)"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} Occupied Passenger Cabins"
+      "message" : "{quantity} Bezette passagierscabines"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Shield Generators"
+      "message" : "{quantity} Schildgenerator"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -801,7 +801,7 @@
    },
    "ORBITAL_ANALYSIS" : {
       "description" : "",
-      "message" : "Orbital Analysis"
+      "message" : "Analyse omloopbaan"
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
@@ -817,11 +817,11 @@
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
-      "message" : "Owed"
+      "message" : "Was schuldig"
    },
    "PAY_FINE_OF_N" : {
       "description" : "",
-      "message" : "Pay fine of {amount}"
+      "message" : "Betaal {amount} boete"
    },
    "PERSEUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -837,7 +837,7 @@
    },
    "PILOTING" : {
       "description" : "",
-      "message" : "Piloting:"
+      "message" : "Piloot"
    },
    "PILOT_SEAT_IS_NOW_OCCUPIED_BY_NAME" : {
       "description" : "",
@@ -849,27 +849,27 @@
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Planet detail distance"
+      "message" : "Afstand planeetdetail"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Planet textures"
+      "message" : "Planeet-textures"
    },
    "POLICE" : {
       "description" : "",
-      "message" : "Police"
+      "message" : "Politie"
    },
    "POOR" : {
       "description" : "Player combat rating",
-      "message" : "Poor"
+      "message" : "Arm"
    },
    "POSITION" : {
       "description" : "The job title/position of crew memeber",
-      "message" : "Position"
+      "message" : "Positie"
    },
    "PRESS_A_KEY_OR_CONTROLLER_BUTTON" : {
       "description" : "",
-      "message" : "Press a key or controller button"
+      "message" : "Druk een toets op het toetsenbord of de controller"
    },
    "PRICE" : {
       "description" : "",
@@ -881,15 +881,15 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Pump down"
+      "message" : "Terugpompen"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
-      "message" : "Qualification scores"
+      "message" : "Qualificatiescores"
    },
    "QUIT" : {
       "description" : "",
-      "message" : "Quit"
+      "message" : "Stoppen"
    },
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
@@ -897,19 +897,19 @@
    },
    "RANK" : {
       "description" : "",
-      "message" : "Rank:"
+      "message" : "Rang:"
    },
    "RATING" : {
       "description" : "",
-      "message" : "Rating:"
+      "message" : "Klasse:"
    },
    "REAR_WEAPON" : {
       "description" : "",
-      "message" : "Rear weapon"
+      "message" : "Achterwaards wapen"
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Refuel"
+      "message" : "Tanken"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -941,7 +941,7 @@
    },
    "RETURN_TO_MENU" : {
       "description" : "",
-      "message" : "Return to menu"
+      "message" : "Terug naar menu"
    },
    "REVERSE_ACCEL_EMPTY" : {
       "description" : "",
@@ -953,7 +953,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward"
+      "message" : "Beloning"
    },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -965,7 +965,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Scoop mounts"
+      "message" : "Inlaatbevestigingpunten"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -973,7 +973,7 @@
    },
    "SELECT" : {
       "description" : "",
-      "message" : "Select"
+      "message" : "Selecteer"
    },
    "SELECT_A_FILE_TO_SAVE_TO_OR_ENTER_A_NEW_FILENAME" : {
       "description" : "",
@@ -981,11 +981,11 @@
    },
    "SELECT_FILE" : {
       "description" : "",
-      "message" : "Select file..."
+      "message" : "Kies bestand..."
    },
    "SELECT_GAME_TO_LOAD" : {
       "description" : "",
-      "message" : "Select game to load..."
+      "message" : "Selecteer spel om te laden…"
    },
    "SELL" : {
       "description" : "Commodities and equipment prices",
@@ -993,7 +993,7 @@
    },
    "SENSORS" : {
       "description" : "",
-      "message" : "Sensors:"
+      "message" : "Sensoren:"
    },
    "SENSORS_AND_DEFENCE" : {
       "description" : "",
@@ -1005,11 +1005,11 @@
    },
    "SHIPS_ENGINEER" : {
       "description" : "",
-      "message" : "Sheepswerktuigbouwkundige"
+      "message" : "Scheepswerktuigbouwkundige"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
-      "message" : "Ship Information"
+      "message" : "Schip info"
    },
    "SHIP_IS_ALREADY_FULLY_REPAIRED" : {
       "description" : "",
@@ -1037,11 +1037,11 @@
    },
    "SOUND" : {
       "description" : "",
-      "message" : "Sound"
+      "message" : "Geluid"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
-      "message" : "Start at Barnard's Star"
+      "message" : "Begin op Barnard's Star"
    },
    "START_AT_EARTH" : {
       "description" : "",
@@ -1049,7 +1049,7 @@
    },
    "START_AT_NEW_HOPE" : {
       "description" : "New Hope is an in game location",
-      "message" : "Start at New Hope"
+      "message" : "Begin op New Hope"
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
@@ -1089,7 +1089,7 @@
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
-      "message" : "Toggle male/female"
+      "message" : "Wissel man/vrouw"
    },
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
@@ -1097,7 +1097,7 @@
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Total: "
+      "message" : "Totaal: "
    },
    "TOTAL_MASS" : {
       "description" : "",
@@ -1125,7 +1125,7 @@
    },
    "UP_ACCEL" : {
       "description" : "",
-      "message" : "Up acceleration"
+      "message" : "Opwaardse versnelling"
    },
    "USED" : {
       "description" : "",
@@ -1133,7 +1133,7 @@
    },
    "VERY_HIGH" : {
       "description" : "Game settings option: graphic resolution",
-      "message" : "Very high"
+      "message" : "Zeer hoog"
    },
    "VERY_LOW" : {
       "description" : "Game settings option: graphic resolution",
@@ -1145,11 +1145,11 @@
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
-      "message" : "Video configuration (restart game to apply)"
+      "message" : "Beeldinstellingen (herstarten spel nodig)"
    },
    "VIDEO_RESOLUTION" : {
       "description" : "",
-      "message" : "Video resolution"
+      "message" : "Videoresolutie"
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",
@@ -1157,11 +1157,11 @@
    },
    "WAGE" : {
       "description" : "Salary of crew shown in crew roster",
-      "message" : "Wage"
+      "message" : "Gage"
    },
    "WEIGHT_EMPTY" : {
       "description" : "",
-      "message" : "Gewicht onbeladen"
+      "message" : "Gewicht ledig"
    },
    "WEIGHT_FULLY_LOADED" : {
       "description" : "",
@@ -1169,7 +1169,7 @@
    },
    "WE_ARE_IN_HYPERSPACE_COMMANDER" : {
       "description" : "",
-      "message" : "We are in hyperspace, Commander."
+      "message" : "We zijn in de hyperruimte, Commandant."
    },
    "WE_HAVE_NO_BUSINESS_WITH_YOU" : {
       "description" : "Said by the police to law abiding player",
@@ -1185,7 +1185,7 @@
    },
    "YOURE_GOING_TO_REGRET_SACKING_ME" : {
       "description" : "",
-      "message" : "You're going to regret sacking me!"
+      "message" : "Het zal je bezuren mij te ontslaan!"
    },
    "YOUR_HULL_IS_AT_X_INTEGRITY" : {
       "description" : "",
@@ -1197,23 +1197,23 @@
    },
    "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
       "description" : "",
-      "message" : "You have {units} units in your cargohold"
+      "message" : "U heeft {units} units in uw laadruim"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a combat target, Commander."
+      "message" : "U moet eerst een vuurdoel kiezen, Commandant."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "You must first select a suitable navigation target, Commander."
+      "message" : "U moet eerst een geschikt navigatiedoel kiezen, Commandant."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must launch first, Commander."
+      "message" : "U moet eerst opstijgen, Commandant."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "You must request launch clearance first, Commander."
+      "message" : "U moet eerst toestemming vragen om op te stijgen, Commandant."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",

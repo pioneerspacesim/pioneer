@@ -933,7 +933,7 @@
    },
    "RESET" : {
       "description" : "",
-      "message" : "Azzera Zoom"
+      "message" : "Azzera"
    },
    "RETURN_TO_GAME" : {
       "description" : "",
