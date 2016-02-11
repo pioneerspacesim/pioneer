@@ -456,3 +456,10 @@ void ShipCpanel::ClearOverlay()
 		m_overlay[i]->SetToolTip("");
 	}
 }
+
+void ShipCpanel::SelectGroupButton(int gid, int idx)
+{
+	Pi::BoinkNoise();
+	Gui::RadioGroup* group = (gid==1) ? m_rightButtonGroup : m_leftButtonGroup;
+	group->SetSelected(idx);
+}

@@ -110,6 +110,15 @@ void Context::DropAllLayers()
 	NewLayer();
 	m_needsLayout = true;
 }
+	
+void Context::HandleKeyDown(const KeyboardEvent &event) {
+	if (event.keysym.sym == SDLK_ESCAPE) {
+		if (m_layers.size()>1) {
+			// go back to previous layer
+			DropLayer();
+		}
+	}
+}
 
 Widget *Context::GetWidgetAt(const Point &pos)
 {

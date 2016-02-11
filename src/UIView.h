@@ -20,6 +20,7 @@ public:
 
 	virtual void Update() {}
 	virtual void Draw3D() {}
+	const char* GetTemplateName() { return m_templateName; }
 
 protected:
 	virtual void BuildUI(UI::Single *container);

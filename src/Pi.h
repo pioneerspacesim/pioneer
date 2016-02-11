@@ -177,6 +177,8 @@ public:
 
 private:
 	static void HandleEvents();
+	// Handler for ESC key press
+	static void HandleEscKey();
 	static void InitJoysticks();
 
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
