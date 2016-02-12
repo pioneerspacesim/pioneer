@@ -161,11 +161,11 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "O NAVĂ S-A PRĂBUȘIT pe {planet}."
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you are just returning now! How much time has been wasted!"
+      "message" : "Nu pot să cred că abia acum vă întoarceți! Cât timp a fost irosit!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "Controlul aerian al portului stelar {starport} are nevoie de ajutorul dvs. URGENT pentru a salva o navă de tip {ship} care a aterizat forţat pe {planet}. Condiția sistemelor de susţinere a vieţii e necunoscută. Nava a fost asigurată de către portul stelar {starport} și este acoperită cu suma {cash} privind acţiunile de răspuns în situaţii de urgenţă."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
+      "message" : "Mulțumim, ne-ați luat o piatră de pe inimă! Vă vom trece banii imediat în cont."
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
@@ -637,7 +637,7 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Căutare & Salvare"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Mulțumesc foarte mult. Ajutorul dvs. este foarte apreciat."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
