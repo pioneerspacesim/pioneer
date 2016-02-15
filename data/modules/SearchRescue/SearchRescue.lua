@@ -1581,50 +1581,60 @@ local interactWithTarget = function (mission)
 		      if actiontime then
 			 
 			 -- pickup crew from target ship
-			 if mission.pickup_crew > 0 and mission.pickup_crew_check ~= "PARTIAL" then
-			    done = false
+			 if mission.pickup_crew > 0 then
 			    pickupCrew(mission)
+			    if mission.pickup_crew_check ~= "PARTIAL" then
+			       done = false
+			    end
 
 			    -- transfer crew to target ship
-			 elseif mission.deliver_crew > 0 and mission.deliver_crew_check ~= "PARTIAL" then
-			    done = false
+			 elseif mission.deliver_crew > 0 then
 			    deliverCrew(mission)
+			    if mission.deliver_crew_check ~= "PARTIAL" then
+			       done = false
+			    end
 
 			    -- pickup passengers from target ship
-			 elseif mission.pickup_pass > 0 and mission.pickup_pass_check ~= "PARTIAL" then
-			    done = false
+			 elseif mission.pickup_pass > 0 then
 			    pickupPassenger(mission)
+			    if mission.pickup_pass_check ~= "PARTIAL" then
+			       done = false
+			    end
 			    
 			    -- transfer passengers to target ship
-			 elseif mission.deliver_pass > 0 and mission.deliver_pass_check ~= "PARTIAL" then
-			    done = false
+			 elseif mission.deliver_pass > 0 then
 			    deliverPassenger(mission)
+			    if mission.deliver_pass_check ~= "PARTIAL" then
+			       done = false
+			    end
 
 			    -- pickup commodity-cargo from target ship
 			 elseif arraySize(mission.pickup_comm) > 0 then
 			    for commodity,_ in pairs(mission.pickup_comm) do
-			       if mission.pickup_comm[commodity] > 0 and
-			       mission.pickup_comm_check[commodity] ~= "PARTIAL" then
-				  done = false
+			       if mission.pickup_comm[commodity] > 0 then
 				  pickupCommodity(mission, commodity)
+				  if mission.pickup_comm_check[commodity] == "PARTIAL" then
+				     done = false
+				  end
 			       end
 			    end
 
 			    -- transfer commodity-cargo to target ship
 			 elseif arraySize(mission.deliver_comm) > 0 then
 			    for commodity,_ in pairs(mission.deliver_comm) do
-			       if mission.deliver_comm[commodity] > 0 and
-			       mission.deliver_comm_check[commodity] ~= "PARTIAL" then
-				  done = false
+			       if mission.deliver_comm[commodity] > 0 then
 				  deliverCommodity(mission, commodity)
+				  if mission.deliver_comm_check[commodity] ~= "PARTIAL" then
+				     done = false
+				  end
 			       end
 			    end
 			 end
 
-			 if done then
+			 if done then 
 
 			    -- if mission should close right after transfer do so and send target ship on its way
-			    if mission.flavour.reward_immediate == true then
+			    if missionStatus(mission) == "COMPLETE" and mission.flavour.reward_immediate == true then
 			       closeMission(mission)
 
 			       -- wait for random time then fly off
