@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "+ цена вашего корпуса"
+      "message" : "С учетом вашего судна"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Попытаться отремонтировать корпус"
+      "message" : "Попытка отремонтировать корпус"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -65,11 +65,11 @@
    },
    "CABIN_FREE" : {
       "description" : "Free capacity for passengers",
-      "message" : "свободно"
+      "message" : "{amount} свободно"
    },
    "CABIN_USED" : {
       "description" : "Passengers using cabins",
-      "message" : "используется"
+      "message" : "{amount} используется"
    },
    "CANCEL" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Скорость круговой орбиты"
+      "message" : "Круговая скорость орбиты"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "Game graphics option",
@@ -165,7 +165,7 @@
    },
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
-      "message" : "Сжатие текстур"
+      "message" : "Сжимать текстуры"
    },
    "CONFIRM_PURCHASE" : {
       "description" : "",
@@ -197,7 +197,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Значимый"
+      "message" : "Заслуживающий доверия"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Отображать тоннель в HUD"
+      "message" : "Отображать HUD-тоннель"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "Settings option: hyperspace tunnel effect",
@@ -329,7 +329,7 @@
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Скорость отдаления:"
+      "message" : "Параболическая скорость:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Детализация частиц"
+      "message" : "Фрактальная детализация"
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -385,7 +385,7 @@
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Количество топлива"
+      "message" : "Масса топлива"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Возможный радиус прыжка"
+      "message" : "Дальность гиперпрыжка"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -505,11 +505,11 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Работать на вас было одним удовольствием. Если вновь захотите меня нанять - некоторое время я буду здесь."
+      "message" : "Было приятно поработать на вас. Если я вам понадоблюсь снова, то я еще побуду здесь."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Выбросить груз"
+      "message" : "Сброс груза"
    },
    "KILLS" : {
       "description" : "",
@@ -669,7 +669,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Минимум экипажа"
+      "message" : "Минимальный экипаж"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Детали миссии"
+      "message" : "Подробности миссии"
    },
    "MORE_INFO" : {
       "description" : "",
@@ -705,7 +705,7 @@
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Отключить"
+      "message" : "Заглушить"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -725,7 +725,7 @@
    },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Условия"
+      "message" : "Обсудить условия"
    },
    "NEXT_PAID" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "Занятых пассажирских кают {quantity}"
+      "message" : "{quantity} пассажирских кают занято"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
@@ -781,7 +781,7 @@
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "Свободных пассажирских кают {quantity}"
+      "message" : "{quantity} Свободных Пассажирских Кают"
    },
    "OFF" : {
       "description" : "",
@@ -805,7 +805,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Круговая орбитальная скорость дана для тангенциальной скорости. Корабль должен двигаться под 90В° к оси корабля/{name}.\n\nСкорость снижения - минимальная и тангенциальная. Наиболее низка скорость или минимальный угол, которые приведут к пересечению с поверхностью {name}.\n\nСкорость отдаления - теоретическая для любого направления, на котором корабль не пересечется с поверхностью {name}.\n\t\t"
+      "message" : "Круговая скорость орбиты выражает тангенциальную скорость. Корабль должен двигаться в направлении 90° к оси корабля-{name}.\n\nСкорость снижения это абсолютный минимум скорости, так-же являющейся тангенциальной. Меньшая скорость или меньший угол приведут к пересечению с поверхностью {name}.\n\nПараболическая скорость теоретически будет справедлива для любого направления, до тех пор пока корабль не пересекается с поверхностью {name}."
    },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -849,7 +849,7 @@
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Детализация планет на расстоянии"
+      "message" : "Расстояние детализации планет"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
@@ -909,7 +909,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Закачать"
+      "message" : "Заправить"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -1073,11 +1073,11 @@
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Спасибо за покупку! Перед взлётом не забудьте заправить баки и отремонтировать повреждённое оборудование."
+      "message" : "Спасибо за покупку! Перед взлётом не забудьте оборудовать корабль и заправиться топливом."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Больше никто на борту не умеет управлять этим кораблем."
+      "message" : "На борту никого нет способного летать на этом корабле."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
@@ -1101,7 +1101,7 @@
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Общая"
+      "message" : "Общая масса"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1117,7 +1117,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Стрельба в зоне станции"
+      "message" : "Незаконное применение орудия"
    },
    "UNRELIABLE" : {
       "description" : "",
@@ -1201,19 +1201,19 @@
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала вы должны указать боевую цель."
+      "message" : "Сначала вы должны указать боевую цель, Командир."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала вы должны указать цель навигации."
+      "message" : "Сначала вы должны указать навигационную цель, Командир."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала мы должны взлететь."
+      "message" : "Сначала вы должны взлететь, Командир."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала вы должны запросить разрешение на взлёт."
+      "message" : "Сначала вы должны запросить разрешение на взлет, Командир."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
