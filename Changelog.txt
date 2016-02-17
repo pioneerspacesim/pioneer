@@ -4,6 +4,7 @@ February 2016
 
    * Fixes
      * Fix Character.lua / Ship.lua import relationship (#3617)
+     * Fix Search and Rescue bug not recognizing a competed mission (#3621)
 
 January 2016
    * New Features
