@@ -77,19 +77,19 @@
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Гипердвигатель военный 1 кл."
+      "message" : "Военный гипердвигатель 1 кл."
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Гипердвигатель военный 2 кл."
+      "message" : "Военный гипердвигатель 2 кл."
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Гипердвигатель военный 3 кл."
+      "message" : "Военный гипердвигатель 3 кл."
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Гипердвигатель военный 4 кл."
+      "message" : "Военный гипердвигатель 4 кл."
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -181,11 +181,11 @@
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Сканер Небесных Тел"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Исследует ближайшее Небесное Тело на предмет ресурсов."
    },
    "PULSECANNON_10MW" : {
       "description" : "",

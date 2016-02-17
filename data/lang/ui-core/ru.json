@@ -269,7 +269,7 @@
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Сбрасывание"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
-      "message" : "Включить автосохранения"
+      "message" : "Включить автосохранение"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -485,7 +485,7 @@
    },
    "INSUFFICIENT_FUNDS" : {
       "description" : "",
-      "message" : "Недостаточно средств."
+      "message" : "Недостаточно финансов."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "NONE_FOR_SALE_IN_THIS_STATION" : {
       "description" : "",
-      "message" : "None for sale in this station."
+      "message" : "Не подлежит продаже на этой станции."
    },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -761,7 +761,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} невозможно установить на данной модели корабля"
+      "message" : "{equipment} неподдерживается на данной модели корабля"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -1177,7 +1177,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
+      "message" : "Здесь не потерпят {crime}!"
    },
    "YES" : {
       "description" : "Positive answer to a question",
