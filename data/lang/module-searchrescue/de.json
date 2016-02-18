@@ -173,7 +173,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} Raumverkehrskontrolle braucht deine SOFORTIGE Hilfe an der Absturzstelle eines Raumschiffes des Types {ship} auf {planet}. Der Status der Lebenserhaltungssysteme ist unbekannt. Das Schiff ist bei {starport} Versicherungen versichert, diese zahlt die Summe von {cash} für die sichere Bergung des Schiffes."
+      "message" : "{starport} Raumverkehrskontrolle braucht deine SOFORTIGE Hilfe an der Absturzstelle eines Raumschiffes des Typs {ship} auf {planet}. Der Status der Lebenserhaltungssysteme ist unbekannt. Das Schiff ist bei {starport} Versicherungen versichert, diese zahlt die Summe von {cash} für die sichere Bergung des Schiffes."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Länge:"
    },
    "LY" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "einem Neustart des Haupscomputers"
+      "message" : "einem Neustart des Hauptcomputers"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
@@ -637,7 +637,7 @@
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Such-und Rettungsdienst"
+      "message" : "Such- und Rettungsdienst"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",

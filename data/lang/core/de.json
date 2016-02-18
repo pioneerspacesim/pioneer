@@ -21,7 +21,7 @@
    },
    "ALT_IN_METRES" : {
       "description" : "",
-      "message" : "Höhe: %altitude{f.0}m"
+      "message" : "Höhe: %altitude{f.0}m (%vspeed{f.1}m/s)"
    },
    "AND_HIGHLY_COMPLEX_ECOSYSTEM" : {
       "description" : "",
