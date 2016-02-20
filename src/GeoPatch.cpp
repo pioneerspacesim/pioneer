@@ -99,11 +99,14 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		const Sint32 outerLeft = 0;
 		const Sint32 outerRight = edgeLen - 1;
 
+		double minh = DBL_MAX;
+
 		// ----------------------------------------------------
 		// inner loops
 		for (Sint32 y = 1; y<edgeLen-1; y++) {
 			for (Sint32 x = 1; x<edgeLen-1; x++) {
 				const double height = *pHts;
+				minh = std::min(height, minh);
 				const double xFrac = double(x - 1) * frac;
 				const double yFrac = double(y - 1) * frac;
 				const vector3d p((GetSpherePoint(xFrac, yFrac) * (height + 1.0)) - clipCentroid);
@@ -130,6 +133,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				++vtxPtr; // next vertex
 			}
 		}
+		const double minhScale = (minh + 1.0) * 0.9999999;
 		// ----------------------------------------------------
 		// vertical edges
 		// left-edge
@@ -137,7 +141,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 x = innerLeft;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
 
 			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[outerLeft + (y*edgeLen)];
 			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[innerLeft + (y*edgeLen)];
@@ -151,7 +155,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 x = innerRight;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
 
 			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[outerRight + (y*edgeLen)];
 			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[innerRight + (y*edgeLen)];
@@ -168,7 +172,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 y = innerTop;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
 
 			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[x + (outerTop*edgeLen)];
 			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[x + (innerTop*edgeLen)];
@@ -183,7 +187,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 			const Sint32 y = innerBottom;
 			const double xFrac = double(x - 1) * frac;
 			const double yFrac = double(y - 1) * frac;
-			const vector3d p((GetSpherePoint(xFrac, yFrac) * (0.9999999)) - clipCentroid);
+			const vector3d p((GetSpherePoint(xFrac, yFrac) * minhScale) - clipCentroid);
 
 			GeoPatchContext::VBOVertex* vtxPtr = &VBOVtxPtr[x + (outerBottom * edgeLen)];
 			GeoPatchContext::VBOVertex* vtxInr = &VBOVtxPtr[x + (innerBottom * edgeLen)];
