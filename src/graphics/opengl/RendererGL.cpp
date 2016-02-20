@@ -307,6 +307,13 @@ void RendererOGL::CheckErrors()
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
 			}
+#ifdef _WIN32
+			else if (err == GL_INVALID_OPERATION) {
+				ss << "Invalid operations can occur if you are using overlay software." << std::endl
+					<< "Such as FRAPS, RivaTuner, MSI Afterburner etc." << std::endl
+					<< "Please try disabling this kind of software and testing again, thankyou." << std::endl;
+			}
+#endif
 		}
 		Warning("%s", ss.str().c_str());
 	}
