@@ -6,6 +6,9 @@ February 2016
      * Fix Character.lua / Ship.lua import relationship (#3617)
      * Fix Search and Rescue bug not recognizing a competed mission (#3621)
 
+   * Internal Changes
+     * GL_INVALID_OPERATION warning (win32) (#3620)
+
 January 2016
    * New Features
      * Barnard's star update (#3584)
