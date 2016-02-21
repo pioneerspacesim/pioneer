@@ -133,7 +133,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 				++vtxPtr; // next vertex
 			}
 		}
-		const double minhScale = (minh + 1.0) * 0.9999999;
+		const double minhScale = (minh + 1.0) * 0.99999;
 		// ----------------------------------------------------
 		// vertical edges
 		// left-edge
