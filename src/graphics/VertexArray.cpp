@@ -30,7 +30,7 @@ VertexArray::~VertexArray()
 
 }
 
-bool VertexArray::HasAttrib(VertexAttrib v) const
+bool VertexArray::HasAttrib(const VertexAttrib v) const
 {
 	return (m_attribs & v) != 0;
 }

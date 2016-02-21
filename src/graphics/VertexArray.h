@@ -23,11 +23,11 @@ public:
 	~VertexArray();
 
 	//check presence of an attribute
-	bool HasAttrib(VertexAttrib v) const;
-	unsigned int GetNumVerts() const;
-	AttributeSet GetAttributeSet() const { return m_attribs; }
+	__inline bool HasAttrib(const VertexAttrib v) const;
+	__inline unsigned int GetNumVerts() const;
+	__inline AttributeSet GetAttributeSet() const { return m_attribs; }
 
-	bool IsEmpty() const { return position.empty(); }
+	__inline bool IsEmpty() const { return position.empty(); }
 
 	//removes vertices, does not deallocate space
 	void Clear();
