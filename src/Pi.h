@@ -57,7 +57,6 @@ class Pi {
 public:
 	static void Init(const std::map<std::string,std::string> &options, bool no_gui = false);
 	static void InitGame();
-	static void StarportStart(Uint32 starport);
 	static void StartGame();
 	static void RequestEndGame(); // request that the game is ended as soon as safely possible
 	static void EndGame();
@@ -96,14 +95,13 @@ public:
 	static bool AreHudTrailsDisplayed() { return hudTrailsDisplayed; }
 	static void SetHudTrailsDisplayed(bool state) { hudTrailsDisplayed = state; }
 	static int MouseButtonState(int button) { return mouseButton[button]; }
-	/// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
-	/// This is a default value only, centralized here to promote uniform user expericience.
+	// Get the default speed modifier to apply to movement (scrolling, zooming...), depending on the "shift" keys.
+	// This is a default value only, centralized here to promote uniform user expericience.
 	static float GetMoveSpeedShiftModifier();
 	static void GetMouseMotion(int motion[2]) {
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void SetMouseGrab(bool on);
-	static void FlushCaches();
 	static void BoinkNoise();
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
