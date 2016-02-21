@@ -8,6 +8,7 @@ February 2016
 
    * Internal Changes
      * GL_INVALID_OPERATION warning (win32) (#3620)
+     * Reduce size of terrain patch skirts (#3622)
 
 January 2016
    * New Features
