@@ -62,6 +62,7 @@ GeoPatch::~GeoPatch() {
 
 void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 {
+	PROFILE_SCOPED()
 	if (m_needUpdateVBOs) {
 		assert(renderer);
 		m_needUpdateVBOs = false;
@@ -238,6 +239,7 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 static const SSphere s_sph;
 void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, const matrix4x4d &modelView, const Graphics::Frustum &frustum)
 {
+	PROFILE_SCOPED()
 	// must update the VBOs to calculate the clipRadius...
 	UpdateVBOs(renderer);
 	// ...before doing the furstum culling that relies on it.
@@ -263,7 +265,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 	if (kids[0]) {
 		for (int i=0; i<NUM_KIDS; i++) kids[i]->Render(renderer, campos, modelView, frustum);
 	} else if (heights) {
-		Graphics::Material *mat = geosphere->GetSurfaceMaterial();
+		RefCountedPtr<Graphics::Material> mat = geosphere->GetSurfaceMaterial();
 		Graphics::RenderState *rs = geosphere->GetSurfRenderState();
 
 		const vector3d relpos = clipCentroid - campos;
@@ -275,7 +277,7 @@ void GeoPatch::Render(Graphics::Renderer *renderer, const vector3d &campos, cons
 		// per-patch detail texture scaling value
 		geosphere->GetMaterialParameters().patchDepth = m_depth;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(), rs, mat);
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->GetIndexBuffer(), rs, mat.Get());
 #ifdef DEBUG_BOUNDING_SPHERES
 		if(m_boundsphere.get()) {
 			renderer->SetWireFrameMode(true);
@@ -368,6 +370,7 @@ void GeoPatch::RequestSinglePatch()
 
 void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 {
+	PROFILE_SCOPED()
 	assert(NULL!=psr);
 	if (m_depth<psr->depth()) {
 		// this should work because each depth should have a common history
@@ -408,6 +411,7 @@ void GeoPatch::ReceiveHeightmaps(SQuadSplitResult *psr)
 
 void GeoPatch::ReceiveHeightmap(const SSingleSplitResult *psr)
 {
+	PROFILE_SCOPED()
 	assert(nullptr == parent);
 	assert(nullptr != psr);
 	assert(mHasJobRequest);
