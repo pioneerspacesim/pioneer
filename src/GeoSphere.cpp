@@ -385,6 +385,7 @@ void GeoSphere::ProcessQuadSplitRequests()
 
 void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
 {
+	PROFILE_SCOPED()
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
 	m_hasTempCampos = true;
@@ -430,7 +431,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(renderer, trans, campos,
 				m_materialParameters.atmosphere.atmosRadius*1.01,
-				m_atmosRenderState, m_atmosphereMaterial.get());
+				m_atmosRenderState, m_atmosphereMaterial);
 		}
 	}
 
@@ -480,6 +481,7 @@ void GeoSphere::SetUpMaterials()
 
 	//blended
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.depthWrite = false;
 	m_atmosRenderState = Pi::renderer->CreateRenderState(rsd);
 
@@ -524,7 +526,7 @@ void GeoSphere::SetUpMaterials()
 	if (bEnableDetailMaps) {
 		surfDesc.quality |= Graphics::HAS_DETAIL_MAPS;
 	}
-	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	m_texHi.Reset( Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model") );
 	m_texLo.Reset( Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model") );
@@ -538,7 +540,7 @@ void GeoSphere::SetUpMaterials()
 		if (bEnableEclipse) {
 			skyDesc.quality |= Graphics::HAS_ECLIPSES;
 		}
-		m_atmosphereMaterial.reset(Pi::renderer->CreateMaterial(skyDesc));
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
 		m_atmosphereMaterial->texture0 = nullptr;
 		m_atmosphereMaterial->texture1 = nullptr;
 	}

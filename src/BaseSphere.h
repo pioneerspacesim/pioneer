@@ -37,7 +37,7 @@ public:
 
 	void DrawAtmosphereSurface(Graphics::Renderer *renderer,
 		const matrix4x4d &modelView, const vector3d &campos, float rad,
-		Graphics::RenderState *rs, Graphics::Material *mat);
+		Graphics::RenderState *rs, RefCountedPtr<Graphics::Material> mat);
 
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const { return 0.0; }
@@ -55,7 +55,7 @@ public:
 	Terrain* GetTerrain() const { return m_terrain.Get(); }
 
 	Graphics::RenderState* GetSurfRenderState() const { return m_surfRenderState; }
-	Graphics::Material* GetSurfaceMaterial() const { return m_surfaceMaterial.get(); }
+	RefCountedPtr<Graphics::Material> GetSurfaceMaterial() const { return m_surfaceMaterial; }
 	MaterialParameters& GetMaterialParameters() { return m_materialParameters; }
 
 protected:
@@ -68,14 +68,11 @@ protected:
 
 	Graphics::RenderState *m_surfRenderState;
 	Graphics::RenderState *m_atmosRenderState;
-	std::unique_ptr<Graphics::Material> m_surfaceMaterial;
-	std::unique_ptr<Graphics::Material> m_atmosphereMaterial;
+	RefCountedPtr<Graphics::Material> m_surfaceMaterial;
+	RefCountedPtr<Graphics::Material> m_atmosphereMaterial;
 
 	// atmosphere geometry
-	static const int LAT_SEGS = 20;
-	static const int LONG_SEGS = 20;
-	RefCountedPtr<Graphics::VertexBuffer> m_TriFanAbove;
-	RefCountedPtr<Graphics::VertexBuffer> m_LatitudinalStrips[LAT_SEGS];
+	std::unique_ptr<Graphics::Drawables::Sphere3D> m_atmos;
 
 	//special parameters for shaders
 	MaterialParameters m_materialParameters;

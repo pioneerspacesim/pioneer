@@ -521,9 +521,11 @@ static const int icosahedron_faces[20][3] = {
 	{6,1,10}, {9,0,11}, {9,11,2}, {9,2,5}, {7,2,11}
 };
 
-Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::RenderState *state, int subdivs, float scale)
+Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::RenderState *state, int subdivs, float scale, const Uint32 attribs)
 {
 	PROFILE_SCOPED()
+	assert(attribs & ATTRIB_POSITION);
+
 	m_material = mat;
 	m_renderState = state;
 
@@ -532,9 +534,8 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 	matrix4x4f trans = matrix4x4f::Identity();
 	trans.Scale(scale, scale, scale);
 
-	//m_surface.reset(new Surface(TRIANGLES, new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0), mat));
-	//reserve some data
-	VertexArray vts(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0, 256);
+	//reserve some data - ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0
+	VertexArray vts(attribs, (subdivs * subdivs) * 20 * 3);
 	std::vector<Uint32> indices;
 
 	//initial vertices
@@ -557,12 +558,20 @@ Sphere3D::Sphere3D(Renderer *renderer, RefCountedPtr<Material> mat, Graphics::Re
 
 	//Create vtx & index buffers and copy data
 	VertexBufferDesc vbd;
-	vbd.attrib[0].semantic = ATTRIB_POSITION;
-	vbd.attrib[0].format   = ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic = ATTRIB_NORMAL;
-	vbd.attrib[1].format   = ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[2].semantic = ATTRIB_UV0;
-	vbd.attrib[2].format   = ATTRIB_FORMAT_FLOAT2;
+	Uint32 attIdx = 0;
+	vbd.attrib[attIdx].semantic = ATTRIB_POSITION;
+	vbd.attrib[attIdx].format   = ATTRIB_FORMAT_FLOAT3;
+	++attIdx;
+	if (attribs & ATTRIB_NORMAL) {
+		vbd.attrib[attIdx].semantic = ATTRIB_NORMAL;
+		vbd.attrib[attIdx].format = ATTRIB_FORMAT_FLOAT3;
+		++attIdx;
+	}
+	if (attribs & ATTRIB_UV0) {
+		vbd.attrib[attIdx].semantic = ATTRIB_UV0;
+		vbd.attrib[attIdx].format = ATTRIB_FORMAT_FLOAT2;
+		++attIdx;
+	}
 	vbd.numVertices = vts.GetNumVerts();
 	vbd.usage = BUFFER_USAGE_STATIC;
 	m_vertexBuffer.reset(renderer->CreateVertexBuffer(vbd));
@@ -587,9 +596,13 @@ int Sphere3D::AddVertex(VertexArray &vts, const vector3f &v, const vector3f &n)
 {
 	PROFILE_SCOPED()
 	vts.position.push_back(v);
-	vts.normal.push_back(n);
-	//http://www.mvps.org/directx/articles/spheremap.htm
-	vts.uv0.push_back(vector2f(asinf(n.x)/M_PI+0.5f, asinf(n.y)/M_PI+0.5f));
+	if (vts.HasAttrib(ATTRIB_NORMAL)) {
+		vts.normal.push_back(n);
+	}
+	if (vts.HasAttrib(ATTRIB_UV0)) {
+		//http://www.mvps.org/directx/articles/spheremap.htm
+		vts.uv0.push_back(vector2f(asinf(n.x) / M_PI + 0.5f, asinf(n.y) / M_PI + 0.5f));
+	}
 	return vts.GetNumVerts() - 1;
 }
 

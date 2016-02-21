@@ -24,7 +24,7 @@ public:
 	Circle(Renderer *renderer, const float radius, const Color &c, RenderState *state);
 	Circle(Renderer *renderer, const float radius, const float x, const float y, const float z, const Color &c, RenderState *state);
 	Circle(Renderer *renderer, const float radius, const vector3f &center, const Color &c, RenderState *state);
-	virtual void Draw(Renderer *renderer);
+	void Draw(Renderer *renderer);
 
 private:
 	void SetupVertexBuffer(const Graphics::VertexArray&, Graphics::Renderer *);
@@ -40,7 +40,7 @@ class Disk {
 public:
 	Disk(Graphics::Renderer *r, Graphics::RenderState*, const Color &c, float radius);
 	Disk(Graphics::Renderer *r, RefCountedPtr<Material>, Graphics::RenderState*, const int edges=72, const float radius=1.0f);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 
 	void SetColor(const Color&);
 
@@ -57,11 +57,11 @@ class Line3D {
 public:
 	Line3D();
 	Line3D(const Line3D& b); // this needs an explicit copy constructor due to the std::unique_ptr below
-	virtual ~Line3D() {}
+	~Line3D() {}
 	void SetStart(const vector3f &);
 	void SetEnd(const vector3f &);
 	void SetColor(const Color &);
-	virtual void Draw(Renderer*, RenderState*);
+	void Draw(Renderer*, RenderState*);
 private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 	void Dirty();
@@ -128,8 +128,8 @@ private:
 class Sphere3D {
 public:
 	//subdivisions must be 0-4
-	Sphere3D(Renderer*, RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f);
-	virtual void Draw(Renderer *r);
+	Sphere3D(Renderer*, RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f, const Uint32 attribs=(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
+	void Draw(Renderer *r);
 
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 
@@ -165,8 +165,8 @@ public:
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state);
 	TexturedQuad(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> &material, const Graphics::VertexArray &va, RenderState *state);
 
-	virtual void Draw(Graphics::Renderer *r);
-	virtual void Draw(Graphics::Renderer *r, const Color4ub &tint);
+	void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r, const Color4ub &tint);
 	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
@@ -181,7 +181,7 @@ class Rect {
 public:
 	Rect(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const Color &c, RenderState *state, const bool bIsStatic = true);
 	void Update(const vector2f &pos, const vector2f &size, const Color &c);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 private:
 	RefCountedPtr<Graphics::Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
@@ -194,7 +194,7 @@ class RoundEdgedRect {
 public:
 	RoundEdgedRect(Graphics::Renderer *r, const vector2f &size, const float rad, const Color &c, RenderState *state, const bool bIsStatic = true);
 	void Update(const vector2f &size, float rad, const Color &c);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 private:
 	static const int STEPS = 6;
 	RefCountedPtr<Graphics::Material> m_material;
@@ -207,7 +207,7 @@ private:
 class Axes3D {
 public:
 	Axes3D(Graphics::Renderer *r, Graphics::RenderState *state = nullptr);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 private:
 	RefCountedPtr<Graphics::Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;

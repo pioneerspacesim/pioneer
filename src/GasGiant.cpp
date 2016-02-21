@@ -333,7 +333,7 @@ public:
 		if (!frustum.TestPoint(clipCentroid, clipRadius))
 			return;
 
-		Graphics::Material *mat = gasSphere->GetSurfaceMaterial();
+		RefCountedPtr<Graphics::Material> mat = gasSphere->GetSurfaceMaterial();
 		Graphics::RenderState *rs = gasSphere->GetSurfRenderState();
 
 		const vector3d relpos = clipCentroid - campos;
@@ -342,7 +342,7 @@ public:
 		Pi::statSceneTris += 2*(ctx->edgeLen-1)*(ctx->edgeLen-1);
 		++Pi::statNumPatches;
 
-		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indexBuffer.Get(), rs, mat);
+		renderer->DrawBufferIndexed(m_vertexBuffer.get(), ctx->indexBuffer.Get(), rs, mat.Get());
 		renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PATCHES, 1);
 	}
 };
@@ -439,7 +439,7 @@ bool GasGiant::AddTextureFaceResult(STextureFaceResult *res)
 		}
 
 		// change the planet texture for the new higher resolution texture
-		if( m_surfaceMaterial.get() ) {
+		if( m_surfaceMaterial.Get() ) {
 			m_surfaceMaterial->texture0 = m_surfaceTexture.Get();
 		}
 	}
@@ -549,6 +549,7 @@ void GasGiant::Update()
 
 void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
 {
+	PROFILE_SCOPED()
 	if( !m_surfaceTexture.Valid() )
 	{
 		// Use the fact that we have a patch as a latch to prevent repeat generation requests.
@@ -595,7 +596,7 @@ void GasGiant::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView,
 			// make atmosphere sphere slightly bigger than required so
 			// that the edges of the pixel shader atmosphere jizz doesn't
 			// show ugly polygonal angles
-			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosRenderState, m_atmosphereMaterial.get());
+			DrawAtmosphereSurface(renderer, trans, campos, m_materialParameters.atmosphere.atmosRadius*1.01, m_atmosRenderState, m_atmosphereMaterial);
 		}
 	}
 
@@ -638,6 +639,7 @@ void GasGiant::SetUpMaterials()
 
 	//blended
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.depthWrite = false;
 	m_atmosRenderState = Pi::renderer->CreateRenderState(rsd);
 
@@ -659,7 +661,7 @@ void GasGiant::SetUpMaterials()
 		surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	}
 	surfDesc.textures = 1;
-	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 	assert(m_surfaceTextureSmall.Valid());
 	m_surfaceMaterial->texture0 = m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get();
 
@@ -670,7 +672,7 @@ void GasGiant::SetUpMaterials()
 		if (bEnableEclipse) {
 			skyDesc.quality |= Graphics::HAS_ECLIPSES;
 		}
-		m_atmosphereMaterial.reset(Pi::renderer->CreateMaterial(skyDesc));
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
 	}
 }
 

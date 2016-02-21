@@ -30,16 +30,6 @@ VertexArray::~VertexArray()
 
 }
 
-bool VertexArray::HasAttrib(VertexAttrib v) const
-{
-	return (m_attribs & v) != 0;
-}
-
-unsigned int VertexArray::GetNumVerts() const
-{
-	return position.size();
-}
-
 void VertexArray::Clear()
 {
 	position.clear();
