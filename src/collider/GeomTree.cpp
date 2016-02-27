@@ -6,8 +6,6 @@
 #include "BVHTree.h"
 #include "Weld.h"
 
-static const Uint32 IGNORE_FLAG = 0x8000;
-
 GeomTree::~GeomTree()
 {
 }
@@ -38,10 +36,8 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	// activeTris = tris we are still trying to put into leaves
 	std::vector<int> activeTris;
 	activeTris.reserve(numTris);
-	// So, we ignore tris with flag >= 0x8000
 	for (int i=0; i<numTris; i++)
 	{
-		if (triflags[i] >= IGNORE_FLAG) continue;
 		activeTris.push_back(i*3);
 	}
 
@@ -76,27 +72,24 @@ GeomTree::GeomTree(const int numVerts, const int numTris, const std::vector<vect
 	for (int i=0; i<numTris; i++)
 	{
 		const Uint32 triflag = m_triFlags[i];
-		if (triflag < IGNORE_FLAG)
-		{
-			const int vi1 = m_indices[3*i+0];
-			const int vi2 = m_indices[3*i+1];
-			const int vi3 = m_indices[3*i+2];
+		const int vi1 = m_indices[3*i+0];
+		const int vi2 = m_indices[3*i+1];
+		const int vi3 = m_indices[3*i+2];
 
-			ADD_EDGE(vi1, vi2, triflag);
-			ADD_EDGE(vi1, vi3, triflag);
-			ADD_EDGE(vi2, vi3, triflag);
+		ADD_EDGE(vi1, vi2, triflag);
+		ADD_EDGE(vi1, vi3, triflag);
+		ADD_EDGE(vi2, vi3, triflag);
 
-			vector3d v[3];
-			v[0] = vector3d(m_vertices[vi1]);
-			v[1] = vector3d(m_vertices[vi2]);
-			v[2] = vector3d(m_vertices[vi3]);
-			m_aabb.Update(v[0]);
-			m_aabb.Update(v[1]);
-			m_aabb.Update(v[2]);
-			for (int j=0; j<3; j++) {
-				const double rad = v[j].x*v[j].x + v[j].y*v[j].y + v[j].z*v[j].z;
-				if (rad>m_radius) m_radius = rad;
-			}
+		vector3d v[3];
+		v[0] = vector3d(m_vertices[vi1]);
+		v[1] = vector3d(m_vertices[vi2]);
+		v[2] = vector3d(m_vertices[vi3]);
+		m_aabb.Update(v[0]);
+		m_aabb.Update(v[1]);
+		m_aabb.Update(v[2]);
+		for (int j=0; j<3; j++) {
+			const double rad = v[j].x*v[j].x + v[j].y*v[j].y + v[j].z*v[j].z;
+			if (rad>m_radius) m_radius = rad;
 		}
 	}
 	m_radius = sqrt(m_radius);
@@ -201,12 +194,11 @@ GeomTree::GeomTree(Serializer::Reader &rd)
 	// activeTris = tris we are still trying to put into leaves
 	std::vector<int> activeTris;
 	activeTris.reserve(m_numTris);
-	// So, we ignore tris with flag >= 0x8000
 	for (int i = 0; i<m_numTris; i++)
 	{
-		if (m_triFlags[i] >= IGNORE_FLAG) continue;
 		activeTris.push_back(i * 3);
 	}
+
 	// regenerate the aabb data
 	Aabb *aabbs = new Aabb[activeTris.size()];
 	for (Uint32 i = 0; i<activeTris.size(); i++)
@@ -281,76 +273,26 @@ pop_bstack:
 	}
 }
 
-struct bvhstack {
-	BVHNode *node;
-	int activeRay;
-};
-
-/*
- * Bundle of rays with common origin
- */
-/*void GeomTree::TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const
-{
-	PROFILE_SCOPED()
-	TraceCoherentRays(m_triTree->GetRoot(), numRays, a_origin, a_dirs, isects);
-}
-
-void GeomTree::TraceCoherentRays(const BVHNode *currnode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const
-{
-	PROFILE_SCOPED()
-	bvhstack stack[32];
-	int stackpos = -1;
-	vector3f *invDirs = static_cast<vector3f*>(alloca(sizeof(vector3f)*numRays));
-	for (int i=0; i<numRays; i++) {
-		invDirs[i] = vector3f(1.0f/a_dirs[i].x, 1.0f/a_dirs[i].y, 1.0f/a_dirs[i].z);
-	}
-	int activeRay = numRays - 1;
-
-	for (;;) {
-		while (!currnode->IsLeaf()) {
-			do {
-				if (SlabsRayAabbTest(currnode, a_origin, invDirs[activeRay], &isects[activeRay])) break;
-			} while (activeRay-- > 0);
-			if (activeRay < 0) goto pop_bstack;
-
-			stackpos++;
-			stack[stackpos].node = currnode->kids[1];
-			stack[stackpos].activeRay = activeRay;
-			currnode = currnode->kids[0];
-		}
-		// triangle intersection jizz
-		for (int i=0; i<currnode->numTris; i++) {
-			RayTriIntersect(activeRay+1, a_origin, a_dirs, currnode->triIndicesStart[i], isects);
-		}
-pop_bstack:
-		if (stackpos < 0) break;
-		currnode = stack[stackpos].node;
-		activeRay = stack[stackpos].activeRay;
-		stackpos--;
-	}
-}*/
-
 void GeomTree::RayTriIntersect(int numRays, const vector3f &origin, const vector3f *dirs, int triIdx, isect_t *isects) const
 {
 	const vector3f a(m_vertices[m_indices[triIdx+0]]);
 	const vector3f b(m_vertices[m_indices[triIdx+1]]);
 	const vector3f c(m_vertices[m_indices[triIdx+2]]);
 
-	vector3f v0_cross, v1_cross, v2_cross;
 	const vector3f n = (c-a).Cross(b-a);
 	const float nominator = n.Dot(a-origin);
 
-	v0_cross = (c-origin).Cross(b-origin);
-	v1_cross = (b-origin).Cross(a-origin);
-	v2_cross = (a-origin).Cross(c-origin);
+	const vector3f v0_cross((c-origin).Cross(b-origin));
+	const vector3f v1_cross((b-origin).Cross(a-origin));
+	const vector3f v2_cross((a-origin).Cross(c-origin));
 
 	for (int i=0; i<numRays; i++) {
 		const float v0d = v0_cross.Dot(dirs[i]);
 		const float v1d = v1_cross.Dot(dirs[i]);
 		const float v2d = v2_cross.Dot(dirs[i]);
 
-		if (((v0d > 0) && (v1d > 0) && (v2d > 0)) ||
-			 ((v0d < 0) && (v1d < 0) && (v2d < 0))) {
+		if ( ((v0d > 0) && (v1d > 0) && (v2d > 0)) ||
+			 ((v0d < 0) && (v1d < 0) && (v2d < 0)) ) {
 			const float dist = nominator / dirs[i].Dot(n);
 			if ((dist > 0) && (dist < isects[i].dist)) {
 				isects[i].dist = dist;
