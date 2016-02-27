@@ -12,6 +12,7 @@ February 2016
      * Rendering cleanup, possible perf improvements (#3623)
      * Cleaning up Pi.h (#3624)
      * Fix terrain cracks (#3625)
+     * Remove IGNORE_FLAG etc (#3628)
 
 January 2016
    * New Features
