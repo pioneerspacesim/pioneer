@@ -243,6 +243,7 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, con
 
 void Projectile::StaticUpdate(const float timeStep)
 {
+	PROFILE_SCOPED()
 	CollisionContact c;
 	vector3d vel = (m_baseVel+m_dirVel) * timeStep;
 	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c);
@@ -285,6 +286,7 @@ void Projectile::StaticUpdate(const float timeStep)
 
 void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	PROFILE_SCOPED()
 	vector3d _from = viewTransform * GetInterpPosition();
 	vector3d _to = viewTransform * (GetInterpPosition() + m_dirVel);
 	vector3d _dir = _to - _from;

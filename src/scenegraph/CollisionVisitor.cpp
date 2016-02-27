@@ -21,6 +21,7 @@ CollisionVisitor::CollisionVisitor()
 
 void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 {
+	PROFILE_SCOPED()
 	if (m_matrixStack.empty()) {
 		m_collMesh->GetAabb().Update(g.m_boundingBox.min);
 		m_collMesh->GetAabb().Update(g.m_boundingBox.max);
@@ -35,6 +36,7 @@ void CollisionVisitor::ApplyStaticGeometry(StaticGeometry &g)
 
 void CollisionVisitor::ApplyMatrixTransform(MatrixTransform &m)
 {
+	PROFILE_SCOPED()
 	matrix4x4f matrix = matrix4x4f::Identity();
 	if (!m_matrixStack.empty()) matrix = m_matrixStack.back();
 
@@ -45,6 +47,7 @@ void CollisionVisitor::ApplyMatrixTransform(MatrixTransform &m)
 
 void CollisionVisitor::ApplyCollisionGeometry(CollisionGeometry &cg)
 {
+	PROFILE_SCOPED()
 	using std::vector;
 
 	if (cg.IsDynamic()) return ApplyDynamicCollisionGeometry(cg);
@@ -72,6 +75,7 @@ void CollisionVisitor::ApplyCollisionGeometry(CollisionGeometry &cg)
 
 void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 {
+	PROFILE_SCOPED()
 	//don't transform geometry, one geomtree per cg, create tree right away
 
 	const int numVertices = cg.GetVertices().size();
@@ -105,6 +109,7 @@ void CollisionVisitor::ApplyDynamicCollisionGeometry(CollisionGeometry &cg)
 
 void CollisionVisitor::AabbToMesh(const Aabb &bb)
 {
+	PROFILE_SCOPED()
 	std::vector<vector3f> &vts = m_vertices;
 	std::vector<Uint32> &ind = m_indices;
 	const int offs = vts.size();
@@ -166,6 +171,7 @@ void CollisionVisitor::AabbToMesh(const Aabb &bb)
 
 RefCountedPtr<CollMesh> CollisionVisitor::CreateCollisionMesh()
 {
+	PROFILE_SCOPED()
 	Profiler::Timer timer;
 	timer.Start();
 

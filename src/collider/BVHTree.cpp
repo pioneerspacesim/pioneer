@@ -34,7 +34,6 @@ BVHTree::BVHTree(int numObjs, const objPtr_t *objPtrs, const Aabb *objAabbs)
 
 void BVHTree::MakeLeaf(BVHNode *node, const objPtr_t *objPtrs, std::vector<objPtr_t> &objs)
 {
-	PROFILE_SCOPED()
 	const size_t numTris = objs.size();
 	if (numTris <= 0) Error("MakeLeaf called with no elements in objs.");
 
@@ -57,7 +56,6 @@ void BVHTree::BuildNode(BVHNode *node,
 			const Aabb *objAabbs,
 			std::vector<objPtr_t> &activeObjIdx)
 {
-	PROFILE_SCOPED()
 	const int numTris = activeObjIdx.size();
 	if (numTris <= 0) Error("BuildNode called with no elements in activeObjIndex.");
 

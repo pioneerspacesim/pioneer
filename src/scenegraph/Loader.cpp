@@ -124,12 +124,14 @@ Loader::Loader(Graphics::Renderer *r, bool logWarnings, bool loadSGMfiles)
 
 Model *Loader::LoadModel(const std::string &filename)
 {
+	PROFILE_SCOPED()
 	Model *m = LoadModel(filename, "models");
 	return m;
 }
 
 Model *Loader::LoadModel(const std::string &shortname, const std::string &basepath)
 {
+	PROFILE_SCOPED()
 	m_logMessages.clear();
 
 	std::vector<std::string> list_model;
@@ -200,6 +202,7 @@ Model *Loader::LoadModel(const std::string &shortname, const std::string &basepa
 
 Model *Loader::CreateModel(ModelDefinition &def)
 {
+	PROFILE_SCOPED()
 	using Graphics::Material;
 	if (def.matDefs.empty()) return 0;
 	if (def.lodDefs.empty()) return 0;
@@ -315,6 +318,7 @@ Model *Loader::CreateModel(ModelDefinition &def)
 
 RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList &animDefs)
 {
+	PROFILE_SCOPED()
 	//remove path from filename for nicer logging
 	size_t slashpos = filename.rfind("/");
 	m_curMeshDef = filename.substr(slashpos+1, filename.length()-slashpos);
@@ -433,6 +437,7 @@ struct ModelTangentVtx {
 
 void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms, const aiScene *scene)
 {
+	PROFILE_SCOPED()
 	//XXX sigh, workaround for obj loader
 	int matIdxOffs = 0;
 	if (scene->mNumMaterials > scene->mNumMeshes)
@@ -577,6 +582,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 void Loader::ConvertAnimations(const aiScene* scene, const AnimList &animDefs, Node *meshRoot)
 {
+	PROFILE_SCOPED()
 	//Split convert assimp animations according to anim defs
 	//This is very limited, and all animdefs are processed for all
 	//meshes, potentially leading to duplicate and wrongly split animations
@@ -737,6 +743,7 @@ matrix4x4f Loader::ConvertMatrix(const aiMatrix4x4& trans) const
 
 void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 {
+	PROFILE_SCOPED()
 	MatrixTransform *trans = new MatrixTransform(m_renderer, m);
 	Label3D *label = new Label3D(m_renderer, m_labelFont);
 	label->SetText("Bananas");
@@ -746,6 +753,7 @@ void Loader::CreateLabel(Group *parent, const matrix4x4f &m)
 
 void Loader::CreateThruster(const std::string &name, const matrix4x4f &m)
 {
+	PROFILE_SCOPED()
 	if (!m_mostDetailedLod) return AddLog("Thruster outside highest LOD, ignored");
 
 	const bool linear = starts_with(name, "thruster_linear");
@@ -770,6 +778,7 @@ void Loader::CreateThruster(const std::string &name, const matrix4x4f &m)
 
 void Loader::CreateNavlight(const std::string &name, const matrix4x4f &m)
 {
+	PROFILE_SCOPED()
 	if (!m_mostDetailedLod) return AddLog("Navlight outside highest LOD, ignored");
 
 	//Create a MT, lights are attached by client
@@ -785,6 +794,7 @@ void Loader::CreateNavlight(const std::string &name, const matrix4x4f &m)
 
 RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<StaticGeometry> geom, unsigned int collFlag)
 {
+	PROFILE_SCOPED()
 	//Convert StaticMesh points & indices into cgeom
 	//note: it's not slow, but the amount of data being copied is just stupid:
 	//assimp to vtxbuffer, vtxbuffer to vector, vector to cgeom, cgeom to geomtree...
@@ -819,6 +829,7 @@ RefCountedPtr<CollisionGeometry> Loader::CreateCollisionGeometry(RefCountedPtr<S
 
 void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPtr<StaticGeometry> >& geoms, const matrix4x4f &accum)
 {
+	PROFILE_SCOPED()
 	Group *parent = _parent;
 	const std::string nodename(node->mName.C_Str());
 	const aiMatrix4x4& trans = node->mTransformation;
@@ -899,6 +910,7 @@ void Loader::ConvertNodes(aiNode *node, Group *_parent, std::vector<RefCountedPt
 
 void Loader::LoadCollision(const std::string &filename)
 {
+	PROFILE_SCOPED()
 	//Convert all found aiMeshes into a geomtree. Materials,
 	//Animations and node structure can be ignored
 	assert(m_model);
@@ -959,6 +971,7 @@ void Loader::LoadCollision(const std::string &filename)
 
 unsigned int Loader::GetGeomFlagForNodeName(const std::string &nodename)
 {
+	PROFILE_SCOPED()
 	//special names after collision_
 	if (nodename.length() > 10) {
 		//landing pads

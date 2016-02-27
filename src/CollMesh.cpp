@@ -8,6 +8,7 @@
 
 void CollMesh::Save(Serializer::Writer &wr) const
 {
+	PROFILE_SCOPED()
 	wr.Vector3d(m_aabb.max);
 	wr.Vector3d(m_aabb.min);
 	wr.Double(m_aabb.radius);
@@ -24,6 +25,7 @@ void CollMesh::Save(Serializer::Writer &wr) const
 
 void CollMesh::Load(Serializer::Reader &rd)
 {
+	PROFILE_SCOPED()
 	m_aabb.max = rd.Vector3d();
 	m_aabb.min = rd.Vector3d();
 	m_aabb.radius = rd.Double();
