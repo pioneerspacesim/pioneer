@@ -362,6 +362,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	FileSystem::userFiles.MakeDirectory("profiler");
 	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
+	PROFILE_SCOPED()
 
 	Pi::config = new GameConfig(options);
 
@@ -692,6 +693,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	planner = new TransferPlanner();
 
 	timer.Stop();
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 	Output("\n\nLoading took: %lf milliseconds\n", timer.millicycles());
 }
 

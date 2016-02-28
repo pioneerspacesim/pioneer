@@ -16,6 +16,7 @@ CollisionGeometry::CollisionGeometry(Graphics::Renderer *r, const std::vector<ve
 , m_geomTree(0)
 , m_geom(0)
 {
+	PROFILE_SCOPED()
 	CopyData(vts, idx);
 }
 
@@ -28,6 +29,7 @@ CollisionGeometry::CollisionGeometry(const CollisionGeometry &cg, NodeCopyCache 
 , m_geomTree(cg.m_geomTree)
 , m_geom(cg.m_geom)
 {
+	PROFILE_SCOPED()
 }
 
 CollisionGeometry::~CollisionGeometry()
@@ -36,6 +38,7 @@ CollisionGeometry::~CollisionGeometry()
 
 Node* CollisionGeometry::Clone(NodeCopyCache *cache)
 {
+	PROFILE_SCOPED()
 	//static collgeoms are shared,
 	//dynamic geoms are copied (they should be tiny)
 	if (IsDynamic())
@@ -46,11 +49,13 @@ Node* CollisionGeometry::Clone(NodeCopyCache *cache)
 
 void CollisionGeometry::Accept(NodeVisitor &nv)
 {
+	PROFILE_SCOPED()
 	nv.ApplyCollisionGeometry(*this);
 }
 
 void CollisionGeometry::Save(NodeDatabase &db)
 {
+	PROFILE_SCOPED()
 	Node::Save(db);
     db.wr->Int32(m_vertices.size());
     for (const auto& pos : m_vertices)
@@ -64,6 +69,7 @@ void CollisionGeometry::Save(NodeDatabase &db)
 
 CollisionGeometry *CollisionGeometry::Load(NodeDatabase &db)
 {
+	PROFILE_SCOPED()
 	std::vector<vector3f> pos;
 	std::vector<Uint32> idx;
 	Serializer::Reader &rd = *db.rd;
@@ -89,6 +95,7 @@ CollisionGeometry *CollisionGeometry::Load(NodeDatabase &db)
 
 void CollisionGeometry::CopyData(const std::vector<vector3f> &vts, const std::vector<Uint32> &idx)
 {
+	PROFILE_SCOPED()
 	//copy vertices and indices from surface. Add flag for every three indices.
 	using std::vector;
 

@@ -295,6 +295,8 @@ static std::string glerr_to_string(GLenum err)
 
 void RendererOGL::CheckErrors()
 {
+	PROFILE_SCOPED()
+#ifndef PIONEER_PROFILER
 	GLenum err = glGetError();
 	if( err ) {
 		std::stringstream ss;
@@ -317,6 +319,7 @@ void RendererOGL::CheckErrors()
 		}
 		Warning("%s", ss.str().c_str());
 	}
+#endif
 }
 
 bool RendererOGL::SwapBuffers()
@@ -795,6 +798,7 @@ bool RendererOGL::ReloadShaders()
 
 OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 {
+	PROFILE_SCOPED()
 	CheckRenderErrors();
 	const MaterialDescriptor &desc = mat->GetDescriptor();
 	OGL::Program *p = 0;
@@ -819,12 +823,14 @@ OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 
 Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
 {
+	PROFILE_SCOPED()
 	CheckRenderErrors();
 	return new TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 }
 
 RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 {
+	PROFILE_SCOPED()
 	CheckRenderErrors();
 	const uint32_t hash = lookup3_hashlittle(&desc, sizeof(RenderStateDesc), 0);
 	auto it = m_renderStates.find(hash);
@@ -841,6 +847,7 @@ RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 
 RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 {
+	PROFILE_SCOPED()
 	CheckRenderErrors();
 	OGL::RenderTarget* rt = new OGL::RenderTarget(desc);
 	rt->Bind();

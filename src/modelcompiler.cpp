@@ -33,6 +33,7 @@ static const std::string s_dummyPath("");
 
 void SetupRenderer()
 {
+	PROFILE_SCOPED()
 	s_config.reset(new GameConfig);
 
 	OS::RedirectStdio();
@@ -64,6 +65,7 @@ void SetupRenderer()
 
 void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
 {
+	PROFILE_SCOPED()
 	Profiler::Timer timer;
 	timer.Start();
 	Output("\n---\nStarting compiler for (%s)\n", modelName.c_str());
@@ -144,6 +146,11 @@ start:
 	
 	// Init here since we'll need it for both batch and RunCompiler modes.
 	FileSystem::Init();
+	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
+#ifdef PIONEER_PROFILER
+	FileSystem::userFiles.MakeDirectory("profiler");
+	const std::string profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+#endif
 
 	// what mode are we in?
 	switch (mode) {
@@ -238,6 +245,10 @@ start:
 			);
 			break;
 	}
+
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 
 	return 0;
 }
