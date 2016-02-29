@@ -5,6 +5,7 @@ February 2016
    * Fixes
      * Fix Character.lua / Ship.lua import relationship (#3617)
      * Fix Search and Rescue bug not recognizing a competed mission (#3621)
+     * Only get the SystemBody pointer on system bodies and NOT on ships (#3632)
 
    * Internal Changes
      * GL_INVALID_OPERATION warning (win32) (#3620)
