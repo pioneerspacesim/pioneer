@@ -607,7 +607,8 @@ void SystemInfoView::UpdateIconSelections()
 		RefCountedPtr<StarSystem> currentSys = m_game->GetSpace()->GetStarSystem();
 		if (currentSys && currentSys->GetPath() == m_system->GetPath()) {
 			//navtarget can be only set in current system
-			if (Body* navtarget = Pi::player->GetNavTarget()) {
+			Body* navtarget = Pi::player->GetNavTarget();
+			if ( navtarget && !navtarget->IsType(Body::SHIP) ) {
 				const SystemPath& navpath = navtarget->GetSystemBody()->GetPath();
 				if (bodyIcon.first == navpath.bodyIndex) {
 					bodyIcon.second->SetSelectColor(Color(0, 255, 0, 255));
