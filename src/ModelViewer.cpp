@@ -888,6 +888,7 @@ void ModelViewer::SetModel(const std::string &filename)
 		//set decal textures, max 4 supported.
 		//Identical texture at the moment
 		OnDecalChanged(0, "pioneer");
+		Output("\n\n");
 
 		SceneGraph::DumpVisitor d(m_model);
 		m_model->GetRoot()->Accept(d);
