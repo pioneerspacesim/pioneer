@@ -99,6 +99,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 , m_model(0)
 , m_modelName("")
 {
+	OS::RedirectStdio();
 	m_ui.Reset(new UI::Context(lm, r, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
 	m_ui->SetMousePointer("icons/cursors/mouse_cursor_2.png", UI::Point(15, 8));
 
@@ -878,6 +879,7 @@ void ModelViewer::SetModel(const std::string &filename)
 				it != loader.GetLogMessages().end(); ++it)
 			{
 				AddLog(*it);
+				Output((*it).c_str());
 			}
 		}
 
