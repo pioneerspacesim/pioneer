@@ -1,6 +1,6 @@
 March 2016
    * New Features
-     * Ship stat planner addon for Blender. Exports ship.json
+     * Ship stat planner addon for Blender. Exports ship.json (#3639)
 
    * Minor changes and tweaks
      * gun locator tag fix (#3633)
