@@ -5,6 +5,7 @@ March 2016
    * Minor changes and tweaks
      * gun locator tag fix (#3633)
      * Ability to set Combat and Nav targets to null validly (#3634)
+     * Redirect stdout for modelviewer mode (#3640)
 
 February 2016
    * Minor changes and tweaks
