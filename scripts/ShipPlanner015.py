@@ -151,7 +151,7 @@ class VesselExport(bpy.types.Operator): # , bpy_extras.io_utils.ExportHelper .Ex
 			fw('\t"hyperdrive_class" : ' + str(scene.Hyperdrive) + ',\n')
 		#thrust values
 		fw('\t"forward_thrust" : ' + str(int(scene.FWD*1000)) + ',\n')
-		fw('\t"reverse_thrust" : ' + str(int(scene.BWD*1000)) + '2,\n')
+		fw('\t"reverse_thrust" : ' + str(int(scene.BWD*1000)) + ',\n')
 		fw('\t"up_thrust" : ' + str(int(scene.UP*1000)) + ',\n')
 		fw('\t"down_thrust" : ' + str(int(scene.DWN*1000)) + ',\n')
 		fw('\t"left_thrust" : ' + str(int(scene.LEFT*1000)) + ',\n')
