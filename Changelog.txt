@@ -1,11 +1,13 @@
 March 2016
    * New Features
      * Ship stat planner addon for Blender. Exports ship.json (#3639)
+     * Bowfin fighter for Kaluri/CIW (#3641)
 
    * Minor changes and tweaks
      * gun locator tag fix (#3633)
      * Ability to set Combat and Nav targets to null validly (#3634)
      * Redirect stdout for modelviewer mode (#3640)
+     * Kanara resize (75%) (#3642)
 
 February 2016
    * Minor changes and tweaks
