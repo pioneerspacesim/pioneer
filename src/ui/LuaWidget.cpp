@@ -19,17 +19,6 @@ public:
 		return 1;
 	}
 
-	static int l_set_enabled(lua_State *l) {
-		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
-		const bool enable = lua_toboolean(l, 2);
-		if (enable) {
-			w->Enable();
-		} else {
-			w->Disable();
-		}
-		return 0;
-	}
-
 	static int l_disable(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
 		w->Disable();
@@ -164,7 +153,6 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "SetFont", LuaWidget::l_set_font_size },
 
-		{ "SetEnabled", LuaWidget::l_set_enabled },
 		{ "Disable", LuaWidget::l_disable       },
 		{ "Enable",  LuaWidget::l_enable        },
 

@@ -39,10 +39,10 @@ ui.templates.FileDialog = function (args)
 	cancelButton.onClick:Connect(onCancel)
 
 	if #files > 0 then
-		selectButton:SetEnabled(true)
+		selectButton:Enable()
 		list:SetSelectedIndex(1)
 	else
-		selectButton:SetEnabled(false)
+		selectButton:Disable()
 	end
 
 	local fileEntry
@@ -53,7 +53,11 @@ ui.templates.FileDialog = function (args)
 		end
 		fileEntry.onChange:Connect(function (fileName)
 			fileName = util.trim(fileName)
-			selectButton:SetEnabled(fileName ~= '')
+			if fileName ~= '' then
+				selectButton:Enable()
+			else
+				selectButton:Disable()
+			end
 		end)
 		list.onOptionSelected:Connect(function (index, fileName)
 			if fileName ~= '' then
