@@ -9,6 +9,9 @@ March 2016
      * Redirect stdout for modelviewer mode (#3640)
      * Kanara resize (75%) (#3642)
 
+   * Internal Changes
+     * Remove redundant LuaAPI function: SetEnabled() (#3491)
+
 February 2016
    * Minor changes and tweaks
      * New behaviour of ESC button (#3618)
