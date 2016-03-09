@@ -1,0 +1,35 @@
+material Fuselage-material
+diffuse 1.0 1.0 1.0
+specular 0.9 0.9 0.9
+shininess 69
+#use_patterns
+tex_diff bowfin_diff.dds
+#tex_glow bowfin_glow.dds
+tex_spec bowfin_spec.dds
+tex_norm bowfin_norm.dds
+
+material Canopy-material
+diffuse 1.0 1.0 1.0
+specular 0.9 0.9 0.9
+shininess 69
+opacity 46
+#use_patterns
+tex_diff bowfin_diff.dds
+tex_glow bowfin_glow.dds
+tex_spec bowfin_spec.dds
+#tex_norm bowfin_norm.dds
+
+
+lod 300
+mesh bowfin_hi.dae
+mesh bowfin_shield.dae
+
+lod 50
+mesh bowfin_med.dae
+
+lod 10
+mesh bowfin_low.dae
+
+collision bowfin_col.dae
+
+anim gear_down 0 100
