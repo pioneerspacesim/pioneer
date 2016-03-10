@@ -1017,13 +1017,15 @@ void Pi::HandleEscKey() {
 			if (view) {
 				// checks the template name
 				const char* tname = view->GetTemplateName();
-				if (!strcmp(tname, "GalacticView")) {
-					Pi::game->GetCpan()->SelectGroupButton(1, 0);
-					SetView(Pi::game->GetSectorView());
-				}
-				else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
-					Pi::game->GetCpan()->SelectGroupButton(0, 0);
-					SetView(Pi::game->GetWorldView());
+				if(tname) {
+					if (!strcmp(tname, "GalacticView")) {
+						Pi::game->GetCpan()->SelectGroupButton(1, 0);
+						SetView(Pi::game->GetSectorView());
+					}
+					else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
+						Pi::game->GetCpan()->SelectGroupButton(0, 0);
+						SetView(Pi::game->GetWorldView());
+					}
 				}
 			}
 		}
