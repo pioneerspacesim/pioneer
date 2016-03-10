@@ -106,6 +106,8 @@ noinst_HEADERS = \
 	PropertyMap.h \
 	Quaternion.h \
 	Random.h \
+	RandomColor.h \
+	Range.h \
 	RefCounted.h \
 	SDLWrappers.h \
 	SectorView.h \
@@ -246,6 +248,7 @@ pioneer_SOURCES	= \
 	Polit.cpp \
 	Projectile.cpp \
 	PropertyMap.cpp \
+	RandomColor.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \
 	Sensors.cpp \
