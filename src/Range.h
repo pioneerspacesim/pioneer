@@ -28,6 +28,7 @@
 // Description: See header of /src/RandomColor.h for licnses and origin of code discussion
 
 #include <cassert>
+#include <cstdio>
 
 namespace RandomColorGenerator
 {
