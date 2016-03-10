@@ -2,18 +2,21 @@ March 2016
    * New Features
      * Ship stat planner addon for Blender. Exports ship.json (#3639)
      * Bowfin fighter for Kaluri/CIW (#3641)
+     * Invisible disabled button for commodity market (#3605)
 
    * Minor changes and tweaks
      * gun locator tag fix (#3633)
      * Ability to set Combat and Nav targets to null validly (#3634)
      * Redirect stdout for modelviewer mode (#3640)
      * Kanara resize (75%) (#3642)
+     * RandomColor Port for better random colours (#3644)
 
    * Fixes
      * Fix rare crash. #3645
 
    * Internal Changes
      * Remove redundant LuaAPI function: SetEnabled() (#3491)
+     * vector2 template class (#3646)
      * vector2 template class (#3646)
 
 February 2016
