@@ -9,8 +9,12 @@ March 2016
      * Redirect stdout for modelviewer mode (#3640)
      * Kanara resize (75%) (#3642)
 
+   * Fixes
+     * Fix rare crash. #3645
+
    * Internal Changes
      * Remove redundant LuaAPI function: SetEnabled() (#3491)
+     * vector2 template class (#3646)
 
 February 2016
    * Minor changes and tweaks
