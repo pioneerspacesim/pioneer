@@ -106,7 +106,6 @@ namespace RandomColorGenerator
 		};
 
 		static std::map<ColorScheme, DefinedColor> ColorDictionary;
-		static Random _rng;
 
 	public:
 		RandomColor();
@@ -120,7 +119,7 @@ namespace RandomColorGenerator
 		/// <param name="scheme">Which color schemed to use when generating the color.</param>
 		/// <param name="luminosity">The desired luminosity of the color.</param>
 		/// <param name="count">How many colors to generate</param>
-		static std::vector<Color> GetColors(ColorScheme scheme, Luminosity luminosity, int count);
+		static std::vector<Color> GetColors(Random &rand, ColorScheme scheme, Luminosity luminosity, int count);
 
 		static int PickHue(ColorScheme scheme);
 

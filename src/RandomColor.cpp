@@ -9,8 +9,7 @@ namespace RandomColorGenerator
 {
 	//static 
 	std::map<ColorScheme, RandomColor::DefinedColor> RandomColor::ColorDictionary;
-	//static 
-	Random RandomColor::_rng;
+	static Random *pRNG = nullptr;
 
 	RandomColor::RandomColor()
 	{
@@ -44,14 +43,16 @@ namespace RandomColorGenerator
 	/// <param name="luminosity">The desired luminosity of the color.</param>
 	/// <param name="count">How many colors to generate</param>
 	//static 
-	std::vector<Color> RandomColor::GetColors(ColorScheme scheme, Luminosity luminosity, int count)
+	std::vector<Color> RandomColor::GetColors(Random &rand, ColorScheme scheme, Luminosity luminosity, int count)
 	{
+		pRNG = &rand;
 		std::vector<Color> ret;
 		ret.resize(count);
 		for ( int i = 0; i < count; i++ )
 		{
 			ret[i] = GetColor(scheme, luminosity);
 		}
+		pRNG = nullptr;
 		return ret;
 	}
 
@@ -192,7 +193,8 @@ namespace RandomColorGenerator
 	//static 
 	int RandomColor::RandomWithin(int lower, int upper)
 	{
-		return _rng.Int32(lower, upper + 1);
+		assert(pRNG);
+		return pRNG->Int32(lower, upper + 1);
 	}
 
 	//static 
