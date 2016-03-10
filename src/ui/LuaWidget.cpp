@@ -25,6 +25,12 @@ public:
 		return 0;
 	}
 
+	static int l_hide(lua_State *l) {
+		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
+		w->Hidden();
+		return 0;
+	}
+
 	static int l_enable(lua_State *l) {
 		UI::Widget *w = LuaObject<UI::Widget>::CheckFromLua(1);
 		w->Enable();
@@ -154,6 +160,7 @@ template <> void LuaObject<UI::Widget>::RegisterClass()
 		{ "SetFont", LuaWidget::l_set_font_size },
 
 		{ "Disable", LuaWidget::l_disable       },
+		{ "Hide", LuaWidget::l_hide             },
 		{ "Enable",  LuaWidget::l_enable        },
 
 		{ "AddShortcut",    LuaWidget::l_add_shortcut    },

@@ -21,6 +21,8 @@ void SmallButton::Draw()
 {
 	if (IsDisabled())
 		GetContext()->GetSkin().DrawSmallButtonDisabled(GetActiveOffset(), GetActiveArea());
+	else if (IsHidden())
+		GetContext()->GetSkin().DrawSmallButtonHidden(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseActive())
 		GetContext()->GetSkin().DrawSmallButtonActive(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseOver())

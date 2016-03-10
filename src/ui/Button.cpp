@@ -57,6 +57,8 @@ void Button::Draw()
 {
 	if (IsDisabled())
 		GetContext()->GetSkin().DrawButtonDisabled(GetActiveOffset(), GetActiveArea());
+	else if (IsHidden())
+		GetContext()->GetSkin().DrawButtonHidden(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseActive())
 		GetContext()->GetSkin().DrawButtonActive(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseOver())

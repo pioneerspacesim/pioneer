@@ -346,7 +346,7 @@ local commodityMarket = function (args)
 		if Game.player:CountEquip(tradecommodity) == 0 then
 			trade_mode = trade_mode_buy
 			showbuysellbutton = confirmtradebuy
-			buyfrommarket:Disable()
+			buyfrommarket:Hide()
 			buyfrommarket:SetFont("LARGE")
 			sellfromcargo:Enable()
 			sellfromcargo:SetFont("SMALL")
@@ -364,7 +364,7 @@ local commodityMarket = function (args)
 		trade_mode = trade_mode_sell
 		tradeamount = 0
 		showbuysellbutton = confirmtradesell --change which confirm button to show
-		sellfromcargo:Disable()
+		sellfromcargo:Hide()
 		sellfromcargo:SetFont("LARGE")
 		buyfrommarket:Enable()
 		buyfrommarket:SetFont("SMALL")
@@ -377,7 +377,7 @@ local commodityMarket = function (args)
 		trade_mode = trade_mode_buy
 		tradeamount = 0
 		showbuysellbutton = confirmtradebuy --change which confirm button to show
-		buyfrommarket:Disable()
+		buyfrommarket:Hide()
 		buyfrommarket:SetFont("LARGE")
 		sellfromcargo:Enable()
 		sellfromcargo:SetFont("SMALL")
@@ -423,7 +423,7 @@ local commodityMarket = function (args)
 			})
 		end
 		showbuysellbutton = confirmtradebuy
-		buyfrommarket:Disable()
+		buyfrommarket:Hide()
 		buyfrommarket:SetFont("LARGE")
 		sellfromcargo:Enable()
 		sellfromcargo:SetFont("SMALL")

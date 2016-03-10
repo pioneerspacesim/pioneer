@@ -157,7 +157,11 @@ public:
 	// disabled widgets do not receive input
 	virtual void Disable();
 	virtual void Enable();
+	virtual void Hidden();
+
 	bool IsDisabled() const { return m_disabled; }
+
+	bool IsHidden() const { return m_hidden; }
 
 	bool IsMouseOver() const { return m_mouseOver; }
 
@@ -285,6 +289,7 @@ protected:
 	bool IsVisible() const { return m_visible; }
 
 	void SetDisabled(bool disabled) { m_disabled = disabled; }
+	void SetHidden(bool hidden) { m_hidden = hidden; }
 
 	// internal event handlers. override to handle events. unlike the external
 	// on* signals, every widget in the stack is guaranteed to receive a call
@@ -422,6 +427,7 @@ private:
 	Font m_font;
 
 	bool m_disabled;
+	bool m_hidden;
 
 	bool m_mouseOver;
 	bool m_visible;

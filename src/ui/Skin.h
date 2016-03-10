@@ -44,6 +44,13 @@ public:
 		DrawBorderedRectElement(m_buttonActive, pos, size);
 	}
 
+	void DrawButtonHidden(const Point &pos, const Point &size) const {
+		DrawRectColor(m_buttonHidden, pos, size);
+	}
+	void DrawSmallButtonHidden(const Point &pos, const Point &size) const {
+		DrawRectColor(m_smallButtonHidden, pos, size);
+	}
+
 	void DrawSmallButtonDisabled(const Point &pos, const Point &size) const {
 		DrawRectElement(m_smallButtonDisabled, pos, size);
 	}
@@ -146,7 +153,7 @@ public:
 	struct BorderedRectElement : public RectElement {
 		BorderedRectElement() : borderWidth(0), borderHeight(0), paddingX(0), paddingY(0) {}
 		BorderedRectElement(unsigned int x, unsigned int y, unsigned int w, unsigned int h,
-				            unsigned int _borderWidth, unsigned int _borderHeight, unsigned int _paddingX, unsigned int _paddingY) :
+								unsigned int _borderWidth, unsigned int _borderHeight, unsigned int _paddingX, unsigned int _paddingY) :
 			RectElement(x, y, w, h), borderWidth(_borderWidth), borderHeight(_borderHeight), paddingX(_paddingX), paddingY(_paddingY) {}
 		unsigned int borderWidth;
 		unsigned int borderHeight;
@@ -168,6 +175,9 @@ public:
 	const BorderedRectElement &ButtonNormal()   const { return m_buttonNormal; }
 	const BorderedRectElement &ButtonHover()    const { return m_buttonHover; }
 	const BorderedRectElement &ButtonActive()   const { return m_buttonActive; }
+
+	const Color &ButtonHidden() const { return m_buttonHidden; }
+	const Color &SmallButtonHidden() const { return m_smallButtonHidden; }
 
 	const RectElement &SmallButtonDisabled() const { return m_smallButtonDisabled; }
 	const RectElement &SmallButtonNormal()   const { return m_smallButtonNormal; }
@@ -239,6 +249,10 @@ private:
 	BorderedRectElement m_buttonNormal;
 	BorderedRectElement m_buttonHover;
 	BorderedRectElement m_buttonActive;
+
+	// Used by Disable() button, to also hide border, and fill color
+	Color m_buttonHidden;
+	Color m_smallButtonHidden;
 
 	RectElement m_smallButtonDisabled;
 	RectElement m_smallButtonNormal;
