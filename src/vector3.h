@@ -54,10 +54,16 @@ public:
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
 	}
 
-	friend vector3 operator*(const vector3 &a, const float  scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
-	friend vector3 operator*(const vector3 &a, const double scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
-	friend vector3 operator*(const float  scalar, const vector3 &a) { return a*scalar; }
-	friend vector3 operator*(const double scalar, const vector3 &a) { return a*scalar; }
+	friend vector3 operator+(const vector3 &a, const T &scalar) { return vector3(a.x + scalar, a.y + scalar, a.z + scalar); }
+	friend vector3 operator+(const T scalar, const vector3 &a) { return a+scalar; }
+	friend vector3 operator-(const vector3 &a, const T &scalar) { return vector3(a.x - scalar, a.y - scalar, a.z - scalar); }
+	friend vector3 operator-(const T scalar, const vector3 &a) { return a - scalar; }
+
+	friend vector3 operator*(const vector3 &a, const vector3 &b) { return vector3(T(a.x*b.x), T(a.y*b.y), T(a.z*b.z)); }
+	friend vector3 operator*(const vector3 &a, const T scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
+	//friend vector3 operator*(const vector3 &a, const double scalar) { return vector3(T(a.x*scalar), T(a.y*scalar), T(a.z*scalar)); }
+	friend vector3 operator*(const T scalar, const vector3 &a) { return a*scalar; }
+	//friend vector3 operator*(const double scalar, const vector3 &a) { return a*scalar; }
 	friend vector3 operator/(const vector3 &a, const float  scalar) { const T inv = 1.0/scalar; return vector3(a.x*inv, a.y*inv, a.z*inv); }
 	friend vector3 operator/(const vector3 &a, const double scalar) { const T inv = 1.0/scalar; return vector3(a.x*inv, a.y*inv, a.z*inv); }
 
@@ -122,6 +128,16 @@ public:
 		t.z *= inv_poo;
 		*this = t;
 	}
+
+	void xy(const vector2<T> v2) { x = v2.x; y = v2.y; }
+	void xz(const vector2<T> v2) { x = v2.x; z = v2.y; }
+	void yz(const vector2<T> v2) { y = v2.x; z = v2.y; }
+
+	vector2<T> xy() { return vector2<T>(x,y); }
+	vector2<T> xz() { return vector2<T>(x,z); }
+	vector2<T> yz() { return vector2<T>(y,z); }
+	vector2<T> yx() { return vector2<T>(y,x); }
+	vector2<T> zx() { return vector2<T>(z,x); }
 };
 
 // These are here in this manner to enforce that only float and double versions are possible.
