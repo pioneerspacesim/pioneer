@@ -38,6 +38,8 @@ public:
 	void Save(Serializer::Writer &wr) const;
 	void SaveToJson(Json::Value &jsonObj) const;
 
+	const std::vector<Color>& GetColors() const { return m_colors; }
+
 private:
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 
