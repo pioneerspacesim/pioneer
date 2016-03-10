@@ -296,6 +296,7 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\PropertyMap.cpp" />
+    <ClCompile Include="..\..\src\RandomColor.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
     <ClCompile Include="..\..\src\Sensors.cpp" />
@@ -435,6 +436,8 @@
     <ClInclude Include="..\..\src\PropertyMap.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\Random.h" />
+    <ClInclude Include="..\..\src\RandomColor.h" />
+    <ClInclude Include="..\..\src\Range.h" />
     <ClInclude Include="..\..\src\RefCounted.h" />
     <ClInclude Include="..\..\src\SDLWrappers.h" />
     <ClInclude Include="..\..\src\SectorView.h" />
