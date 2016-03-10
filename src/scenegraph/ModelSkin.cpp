@@ -6,6 +6,9 @@
 #include "StringF.h"
 #include "graphics/TextureBuilder.h"
 #include "json/JsonUtils.h"
+
+#include "RandomColor.h"
+
 #include <SDL_stdinc.h>
 
 namespace SceneGraph {
@@ -50,18 +53,9 @@ void ModelSkin::SetTrimColor(const Color &color)
 
 void ModelSkin::SetRandomColors(Random &rand)
 {
-	// primary colour is random, but try to avoid ridiculous extremes
-	m_colors[0] = Color(rand.Int32(192)+32, rand.Int32(192)+32, rand.Int32(192)+32);
-
-	// secondary is the inverse of the primary, so has identical hue
-	m_colors[1] = Color(256-m_colors[0].r, 256-m_colors[0].g, 256-m_colors[0].b);
-
-	// trim is a darker version of the primary
-	m_colors[2] = Color(
-		std::max(m_colors[0].r,static_cast<Uint8>(32))-32,
-		std::max(m_colors[0].g,static_cast<Uint8>(32))-32,
-		std::max(m_colors[0].b,static_cast<Uint8>(32))-32
-	);
+	using namespace RandomColorGenerator;
+	static RandomColor s_randomColor;
+	m_colors = RandomColor::GetColors(rand, SCHEME_RANDOM, LUMINOSITY_RANDOM, 3);
 }
 
 void ModelSkin::SetDecal(const std::string &name, unsigned int index)

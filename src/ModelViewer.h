@@ -28,6 +28,7 @@ private:
 	bool OnToggleShowShields(UI::CheckBox*);
 	bool OnToggleGrid(UI::Widget*);
 	bool OnToggleGuns(UI::CheckBox*);
+	bool OnRandomColor(UI::Widget*);
 	void UpdateShield();
 	bool OnHitIt(UI::Widget*);
 	void HitImpl();
@@ -85,6 +86,7 @@ private:
 	bool m_done;
 	bool m_screenshotQueued;
 	bool m_shieldIsHit;
+	bool m_settingColourSliders;
 	float m_shieldHitPan;
 	double m_frameTime;
 	Graphics::Renderer *m_renderer;

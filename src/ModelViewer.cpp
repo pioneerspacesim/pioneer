@@ -12,6 +12,7 @@
 #include "scenegraph/DumpVisitor.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/BinaryConverter.h"
+#include "scenegraph/ModelSkin.h"
 #include "OS.h"
 #include "Pi.h"
 #include "StringF.h"
@@ -88,6 +89,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 : m_done(false)
 , m_screenshotQueued(false)
 , m_shieldIsHit(false)
+, m_settingColourSliders(false)
 , m_shieldHitPan(-1.48f)
 , m_frameTime(0.0)
 , m_renderer(r)
@@ -262,6 +264,28 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 			tag->RemoveChildAt(0);
 		}
 	}
+	return true;
+}
+
+bool ModelViewer::OnRandomColor(UI::Widget*)
+{
+	if (!m_model) return false;
+
+	SceneGraph::ModelSkin skin;
+	skin.SetRandomColors(m_rng);
+	skin.Apply(m_model);
+
+	// We need this flag setting so that we don't override what we're changing in OnModelColorsChanged
+	m_settingColourSliders = true;
+	const std::vector<Color> &colors = skin.GetColors();
+	for(unsigned int i=0; i<3; i++) {
+		for(unsigned int j=0; j<3; j++) {
+			// use ToColor4f to get the colours in 0..1 range required
+			colorSliders[(i*3)+j]->SetValue(colors[i].ToColor4f()[j]);
+		}
+	}
+	m_settingColourSliders = false;
+
 	return true;
 }
 
@@ -618,7 +642,8 @@ void ModelViewer::OnLightPresetChanged(unsigned int index, const std::string&)
 
 void ModelViewer::OnModelColorsChanged(float)
 {
-	if (!m_model) return;
+	if (!m_model || m_settingColourSliders) return;
+
 	//don't care about the float. Fetch values from all sliders.
 	std::vector<Color> colors;
 	colors.push_back(get_slider_color(colorSliders[0], colorSliders[1], colorSliders[2]));
@@ -974,6 +999,7 @@ void ModelViewer::SetupUI()
 	UI::SmallButton *reloadButton = nullptr;
 	UI::SmallButton *toggleGridButton = nullptr;
 	UI::SmallButton *hitItButton = nullptr;
+	UI::SmallButton *randomColours = nullptr;
 	UI::CheckBox *collMeshCheck = nullptr;
 	UI::CheckBox *showShieldsCheck = nullptr;
 	UI::CheckBox *gunsCheck = nullptr;
@@ -1015,6 +1041,11 @@ void ModelViewer::SetupUI()
 		add_pair(c, mainBox, hitItButton = c->SmallButton(), "Hit it!");
 		hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
 	}
+
+	
+	add_pair(c, mainBox, randomColours = c->SmallButton(), "Random Colours");
+	randomColours->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnRandomColor), randomColours));
+	
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {

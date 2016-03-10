@@ -63,6 +63,7 @@ The Pioneer Developers are:
 * Marcus de Roos
 * Michele Botticelli
 * Miha Vitorovič
+* Nathan Jones
 * Nic
 * Nick Wanstall
 * Oleg Ovcharenko
@@ -199,5 +200,6 @@ and services, without which Pioneer would not be possible:
   assimp        http://assimp.sourceforge.net/
   MXE           http://mxe.cc/
 
-  GitHub        https://github.com/
-  SourceForge   https://sourceforge.net/
+  GitHub        		https://github.com/
+  SourceForge   		https://sourceforge.net/
+  randomColorSharped	https://github.com/nathanpjones/randomColorSharped
