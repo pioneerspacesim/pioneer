@@ -13,6 +13,7 @@ March 2016
 
    * Fixes
      * Fix rare crash. #3645
+     * Fix OSX shader compilation (#3652)
 
    * Internal Changes
      * Remove redundant LuaAPI function: SetEnabled() (#3491)
