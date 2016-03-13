@@ -454,6 +454,7 @@
 		52B054A81C184D0800BAAE57 /* GalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */; };
 		52B054A91C184D0800BAAE57 /* LabelOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */; };
 		52B054AA1C184D0800BAAE57 /* LuaGalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */; };
+		6148835F1C95A91400390A84 /* RandomColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6148835C1C95A91400390A84 /* RandomColor.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1296,6 +1297,9 @@
 		52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LabelOverlay.cpp; sourceTree = "<group>"; };
 		52B054A61C184D0800BAAE57 /* LabelOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelOverlay.h; sourceTree = "<group>"; };
 		52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGalaxyMap.cpp; sourceTree = "<group>"; };
+		6148835C1C95A91400390A84 /* RandomColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomColor.cpp; sourceTree = "<group>"; };
+		6148835D1C95A91400390A84 /* RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomColor.h; sourceTree = "<group>"; };
+		6148835E1C95A91400390A84 /* Range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1704,6 +1708,9 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				6148835C1C95A91400390A84 /* RandomColor.cpp */,
+				6148835D1C95A91400390A84 /* RandomColor.h */,
+				6148835E1C95A91400390A84 /* Range.h */,
 				4A6C4BFE13532FC300FDD53F /* Aabb.h */,
 				4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */,
 				4A6C4C0013532FC300FDD53F /* AmbientSounds.h */,
@@ -2363,7 +2370,7 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 			};
-			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2578,6 +2585,7 @@
 				378563981B197D740039F2BC /* GeoPatchID.cpp in Sources */,
 				4A24077413F5240F002A5C12 /* Lang.cpp in Sources */,
 				52B054AA1C184D0800BAAE57 /* LuaGalaxyMap.cpp in Sources */,
+				6148835F1C95A91400390A84 /* RandomColor.cpp in Sources */,
 				378564531B197FAE0039F2BC /* ServerAgent.cpp in Sources */,
 				4A24078513F524E6002A5C12 /* GuiStack.cpp in Sources */,
 				4A6B59CC1429F14500ADC7C8 /* StringF.cpp in Sources */,
@@ -3020,14 +3028,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */ = {
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A20B0D51353194B0020F43E /* Debug */,
 				4A20B0D61353194B0020F43E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		4A20B0FA135319780020F43E /* Build configuration list for PBXNativeTarget "pioneer" */ = {
 			isa = XCConfigurationList;
@@ -3036,7 +3044,7 @@
 				4A20B0FC135319780020F43E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		4AE9706B1436A64000424F91 /* Build configuration list for PBXAggregateTarget "GenGitVersion" */ = {
 			isa = XCConfigurationList;
@@ -3045,7 +3053,7 @@
 				4AE9706D1436A64000424F91 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
