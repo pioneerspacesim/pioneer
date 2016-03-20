@@ -10,6 +10,7 @@ March 2016
      * Redirect stdout for modelviewer mode (#3640)
      * Kanara resize (75%) (#3642)
      * RandomColor Port for better random colours (#3644)
+     * Bowfin: Deleting some duplicate .dae mesh files (#3653)
 
    * Fixes
      * Fix rare crash. #3645
