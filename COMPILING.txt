@@ -16,6 +16,8 @@ Table of Contents
 3 Building documentation
   3.1 Lua API - Natural Docs
   3.2 C++ source - Doxygen
+4 Faster startup
+  4.1 precompile models
 
 
 1 How to compile Pioneer
@@ -165,7 +167,7 @@ You will need the following libraries installed. The best method I found was to 
      libsdl2_image
      libvorbis
      libvorbisfile
-	
+
 Alternatively you can also run the script in the ./osx folder install_ports.sh
 
 The latest XCode project files are located in ./osx. Simply build the
@@ -292,3 +294,17 @@ visualizing inheritance as graphs. To enable LaTeX output, set GENERATE_LATEX
 1. Run doxygen from the doxygen/ folder.
 
 2. The html documentation will be available from doxygen/html/index.html
+
+
+
+4 Faster startup
+================
+
+4.1 Precompile model files
+--------------------------
+
+Long startup times for pioneer this can be alleviated by precompiling all
+models into *.sgm files. This uses the modelcompiler located in src/. From the
+pioneer root directory the following will batch compile all models
+
+1. ./src/modelcompiler -b inplace
