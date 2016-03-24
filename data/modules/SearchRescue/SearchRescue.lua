@@ -1814,9 +1814,7 @@ local onEnterSystem = function (player)
       end
    end
 	  
-      for _,discarded_ship in pairs(discarded_ships) do
-		table.remove(discarded_ships, discarded_ship)
-	  end
+      discarded_ships = {}
 end
 
 local onLeaveSystem = function (ship)
@@ -1832,9 +1830,7 @@ local onLeaveSystem = function (ship)
 	 end
       end
 	  
-      for _,discarded_ship in pairs(discarded_ships) do
-		table.remove(discarded_ships, discarded_ship)
-	  end
+      discarded_ships = {}
       -- TODO: put in tracker to recreate mission targets (already transferred personnel, cargo, etc.)
    end
 end
@@ -1847,11 +1843,11 @@ local onShipDocked = function (ship, station)
 	 end
       end
    else
-      for _,discarded_ship in pairs(discarded_ships) do
-	 if ship == discarded_ship then
-	    discardShip(ship)
-	 end
-      end
+	for i,discarded_ship in pairs(discarded_ships) do
+	if ship == discarded_ship then
+		discardShip(ship)
+		table.remove(discarded_ship,i)
+	end
    end
 end
 
