@@ -1836,19 +1836,20 @@ local onLeaveSystem = function (ship)
 end
 
 local onShipDocked = function (ship, station)
-   if ship:IsPlayer() then
-      for _,mission in pairs(missions) do
-	 if Space.GetBody(mission.station_local.bodyIndex) == station then
-	    closeMission(mission)
-	 end
-      end
-   else
-	for i,discarded_ship in pairs(discarded_ships) do
-	if ship == discarded_ship then
-		discardShip(ship)
-		table.remove(discarded_ship,i)
+	if ship:IsPlayer() then
+		for _,mission in pairs(missions) do
+			if Space.GetBody(mission.station_local.bodyIndex) == station then
+				closeMission(mission)
+			end
+		end
+	else
+		for i,discarded_ship in pairs(discarded_ships) do
+			if ship == discarded_ship then
+				discardShip(ship)
+				table.remove(discarded_ship,i)
+			end
+		end
 	end
-   end
 end
 
 local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
