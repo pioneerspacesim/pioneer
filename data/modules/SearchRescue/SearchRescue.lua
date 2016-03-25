@@ -1846,7 +1846,7 @@ local onShipDocked = function (ship, station)
 		for i,discarded_ship in pairs(discarded_ships) do
 			if ship == discarded_ship then
 				discardShip(ship)
-				table.remove(discarded_ship,i)
+				table.remove(discarded_ships,i)
 			end
 		end
 	end
