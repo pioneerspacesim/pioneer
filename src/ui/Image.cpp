@@ -66,7 +66,7 @@ Image *Image::SetNaturalSize()
 
 void Image::SetTransform(float scale, const vector2f &centre)
 {
-	if (m_scale != scale || !(m_centre == centre)) {
+	if (!is_equal_exact(m_scale, scale) || !m_centre.ExactlyEqual(centre)) {
 		m_needsRefresh = true;
 		m_scale = scale;
 		m_centre = centre;

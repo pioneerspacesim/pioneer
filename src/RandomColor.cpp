@@ -291,13 +291,13 @@ namespace RandomColorGenerator
 		// this doesn't work for the values of 0 and 360
 		// here's the hacky fix
 		auto h = double(hue);
-		if ( h == 0 )
+		if ( is_equal_exact(h, 0.0) )
 		{
-			h = 1;
+			h = 1.0;
 		}
-		if ( h == 360 )
+		if ( is_equal_exact(h, 360.0) )
 		{
-			h = 359;
+			h = 359.0;
 		}
 
 		// Rebase the h,s,v values
