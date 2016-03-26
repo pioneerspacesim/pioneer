@@ -82,7 +82,6 @@ void Face::Draw()
 		va.Add(vector3f(x + sx, y, 0.0f), vector2f(texSize.x, 0.0f));
 		va.Add(vector3f(x + sx, y + sy, 0.0f), vector2f(texSize.x, texSize.y));
 
-		Graphics::Renderer *r = GetContext()->GetRenderer();
 		s_material->texture0 = m_texture.get();
 		auto state = GetContext()->GetSkin().GetAlphaBlendState();
 		m_quad.reset(new Graphics::Drawables::TexturedQuad(r, s_material, va, state));
