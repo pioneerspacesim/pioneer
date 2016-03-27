@@ -904,7 +904,7 @@ void ModelViewer::SetModel(const std::string &filename)
 				it != loader.GetLogMessages().end(); ++it)
 			{
 				AddLog(*it);
-				Output((*it).c_str());
+				Output("%s\n", (*it).c_str());
 			}
 		}
 
