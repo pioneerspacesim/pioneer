@@ -3,6 +3,7 @@ March 2016
      * Ship stat planner addon for Blender. Exports ship.json (#3639)
      * Bowfin fighter for Kaluri/CIW (#3641)
      * Invisible disabled button for commodity market (#3605)
+     * Include modelcompiler in OSX build (#3660)
 
    * Minor changes and tweaks
      * gun locator tag fix (#3633)
@@ -20,6 +21,7 @@ March 2016
      * Remove redundant LuaAPI function: SetEnabled() (#3491)
      * vector2 template class (#3646)
      * vector2 template class (#3646)
+     * Fix some GCC build warnings (#3661)
 
 February 2016
    * Minor changes and tweaks
