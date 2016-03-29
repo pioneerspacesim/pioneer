@@ -169,7 +169,7 @@
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "Pentru rambursarea completă a cheltuielilor trebuie să vă întoarceți până pe {due}."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+      "message" : "Ultima locație cunoscută a navei a fost pe {planet} la coordonatele latitudine/longitudine: {lat} / {long}. ID-ul navei este {shiplabel}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -185,43 +185,43 @@
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} s-a îmbarcat pe navă."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "S-a raportat a fi la bordul navei un echipaj de {crew} și {pass} pasageri. Avem nevoie de cineva să localizeze nava, să salveze orice supraviețuitori și să-i aducă aici cât mai repede."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "NAVĂ RĂMASĂ FĂRĂ COMBUSTIBIL în drum spre {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "Nu-mi vine să cred că m-ați lăsat să aștept atât de mult în mijlocul pustietății! Puteți uita de plată."
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "Pentru a primi plata integrală sunteți rugat să faceți livrarea până pe {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "Controlul aerian al portului stelar {starport} a primit de veste că nava așteptată {shiplabel} a rămas fără combustibil și a trebuit să aterizeze de urgență. Pilotul oferă {cash} pentru cine îl poate realimenta."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "Nava așteaptă la latitudine {lat} / longitudine {long} pe planeta {planet}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transfered the full reward."
+      "message" : "Mulțumesc foarte mult! Am transferat recompensa în întregime."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonă de combustibil a fost transferată."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting 1 ton of hydrogen fuel."
+      "message" : "Pilotul cere o tonă de combustibil din hidrogen."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonă de combustibil a fost transferată."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "{unit} tonă de combustibil a fost transferată."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} s-a îmbarcat pe navă."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
