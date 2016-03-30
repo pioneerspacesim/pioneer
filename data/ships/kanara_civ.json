@@ -1,12 +1,12 @@
 {
-	"model" : "kanara",
+	"model" : "kanara_civ",
 	"name" : "Kanara Inteceptor",
 	"cockpit" : "",
 	"manufacturer" : "mandarava_csepel",
 	"ship_class" : "light_fighter",
 	"min_crew" : 1,
 	"max_crew" : 2,
-	"price" : 1,
+	"price" : 156000,
 	"hull_mass" : 10,
 	"capacity" : 8,
 	"slots" : {
