@@ -24,6 +24,7 @@ March 2016
      * vector2 template class (#3646)
      * vector2 template class (#3646)
      * Fix some GCC build warnings (#3661)
+     * Don't compress normal maps (#3663)
 
 February 2016
    * Minor changes and tweaks
