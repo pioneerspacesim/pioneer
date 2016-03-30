@@ -24,6 +24,9 @@ public:
 	static TextureBuilder Model(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_REPEAT, true, false, false, true, true);
 	}
+	static TextureBuilder Normal(const std::string &filename) {
+		return TextureBuilder(filename, LINEAR_REPEAT, true, false, false, false, true);
+	}
 	static TextureBuilder Billboard(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_CLAMP, true, false, false, true, false);
 	}
