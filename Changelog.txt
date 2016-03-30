@@ -16,6 +16,8 @@ March 2016
    * Fixes
      * Fix rare crash. #3645
      * Fix OSX shader compilation (#3652)
+     * Fix wrong price for Kanara (#3666)
+     * Fix crash on del/bkspc in sector map search for non-UTF8 char (#3662)
 
    * Internal Changes
      * Remove redundant LuaAPI function: SetEnabled() (#3491)
