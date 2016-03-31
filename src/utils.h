@@ -136,6 +136,29 @@ inline bool ends_with_ci(const std::string &s, const std::string &t) {
 	return ends_with_ci(s.c_str(), s.size(), t.c_str(), t.size());
 }
 
+static inline size_t SplitSpec(const std::string &spec, std::vector<int> &output)
+{
+	static const std::string delim(",");
+
+	size_t i = 0, start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = spec.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// find the end - next delim or end of string
+		end = spec.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		output[i++] = atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+	}
+
+	return i;
+}
+
 // 'Numeric type' to string conversions.
 std::string SInt64ToStr(Sint64 val);
 std::string UInt64ToStr(Uint64 val);
