@@ -5,29 +5,38 @@
 #include "graphics/TextureBuilder.h"
 #include "scenegraph/FindNodeVisitor.h"
 #include "scenegraph/SceneGraph.h"
+#include "IniConfig.h"
+#include "FileSystem.h"
 
 const float BILLBOARD_SIZE = 5.f;
 
 static bool g_initted = false;
-
-static RefCountedPtr<Graphics::Material> matWhite;
-static RefCountedPtr<Graphics::Material> matRed;
-static RefCountedPtr<Graphics::Material> matGreen;
-static RefCountedPtr<Graphics::Material> matBlue;
-static RefCountedPtr<Graphics::Material> matYellow;
+static Color m_lightColors[(NavLights::NAVLIGHT_YELLOW+1)] = {
+	Color::RED,
+	Color::GREEN,
+	Color::BLUE,
+	Color::YELLOW
+};
 
 typedef std::vector<NavLights::LightBulb>::iterator LightIterator;
-
-static RefCountedPtr<Graphics::Material> get_material(Uint8 c)
+static Color get_color(Uint8 c)
 {
+	return m_lightColors[c];
 	if (c == NavLights::NAVLIGHT_RED)
-		return matRed;
+		return Color::RED;
 	else if (c == NavLights::NAVLIGHT_GREEN)
-		return matGreen;
+		return Color::GREEN;
 	else if (c == NavLights::NAVLIGHT_YELLOW)
-		return matYellow;
+		return Color::YELLOW;
 	else
-		return matBlue;
+		return Color::BLUE;
+}
+
+static inline Color LoadLightColor(const std::string &spec)
+{
+	std::vector<int> v(4);
+	SplitSpec(spec, v);
+	return Color(v[0], v[1], v[2], v[3]);
 }
 
 NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGraph::Billboard *_bb)
@@ -41,20 +50,20 @@ NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGr
 void NavLights::Init(Graphics::Renderer *renderer)
 {
 	assert(!g_initted);
-	Graphics::MaterialDescriptor desc;
-	desc.textures = 1;
-	matWhite.Reset(renderer->CreateMaterial(desc));
-	matRed.Reset(renderer->CreateMaterial(desc));
-	matGreen.Reset(renderer->CreateMaterial(desc));
-	matBlue.Reset(renderer->CreateMaterial(desc));
-	matYellow.Reset(renderer->CreateMaterial(desc));
 
-	//not cached because modelviewer clears everything...
-	matWhite->texture0  = Graphics::TextureBuilder::Billboard("textures/halo.png").CreateTexture(renderer);
-	matRed->texture0    = Graphics::TextureBuilder::Billboard("textures/halo_red.png").CreateTexture(renderer);
-	matGreen->texture0  = Graphics::TextureBuilder::Billboard("textures/halo_green.png").CreateTexture(renderer);
-	matBlue->texture0   = Graphics::TextureBuilder::Billboard("textures/halo_blue.png").CreateTexture(renderer);
-	matYellow->texture0 = Graphics::TextureBuilder::Billboard("textures/halo_yellow.png").CreateTexture(renderer);
+	IniConfig cfg;
+	// set defaults
+	cfg.SetString("LeftOrOccupiedColorRGBA", "255,0,0,255");
+	cfg.SetString("RightOrFreeColorRGBA", "0,255,0,255");
+	cfg.SetString("StaticColorRGBA", "0,0,255,255");
+	cfg.SetString("DockingColorRGBA", "255,255,0,255");
+	// load
+	cfg.Read(FileSystem::gameDataFiles, "textures/NavLights.ini");
+
+	m_lightColors[NAVLIGHT_RED   ] = LoadLightColor(cfg.String("LeftOrOccupiedColorRGBA"));
+	m_lightColors[NAVLIGHT_GREEN ] = LoadLightColor(cfg.String("RightOrFreeColorRGBA"));
+	m_lightColors[NAVLIGHT_BLUE  ] = LoadLightColor(cfg.String("StaticColorRGBA"));
+	m_lightColors[NAVLIGHT_YELLOW] = LoadLightColor(cfg.String("DockingColorRGBA"));
 
 	g_initted = true;
 }
@@ -62,12 +71,6 @@ void NavLights::Init(Graphics::Renderer *renderer)
 void NavLights::Uninit()
 {
 	assert(g_initted);
-
-	delete matWhite->texture0;
-	delete matRed->texture0;
-	delete matGreen->texture0;
-	delete matBlue->texture0;
-	delete matYellow->texture0;
 
 	g_initted = false;
 }
@@ -95,13 +98,12 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 	for (unsigned int i=0; i < results.size(); i++) {
 		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
 		assert(mt);
-		Billboard *bblight = new Billboard(renderer, matBlue, vector3f(0.f), BILLBOARD_SIZE);
+		Billboard *bblight = new Billboard(model, renderer, BILLBOARD_SIZE);
 		Uint32 group = 0;
 		Uint8 mask  = 0xff; //always on
 		Uint8 color = NAVLIGHT_BLUE;
 
 		if (mt->GetName().substr(9, 3) == "red") {
-			bblight->SetMaterial(matRed);
 			mask  = 0x0f;
 			color = NAVLIGHT_RED;
 		} else if (mt->GetName().substr(9, 5) == "green") {
@@ -114,7 +116,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%u", &group));
 			mask  = 0xf0;
 		}
-		bblight->SetMaterial(get_material(color));
+		bblight->SetColor(get_color(color));
 
 		GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
 		if(glit == m_groupLights.end()) {
@@ -189,7 +191,7 @@ void NavLights::SetColor(unsigned int group, LightColor c)
 	if(glit != m_groupLights.end()) {
 		for (LightIterator it = glit->m_lights.begin(), itEnd = glit->m_lights.end(); it != itEnd; ++it) {
 			if (it->group != group || it->color == c) continue;
-			it->billboard->SetMaterial(get_material(c));
+			it->billboard->SetColor(get_color(c));
 			it->color = c;
 		}
 	}

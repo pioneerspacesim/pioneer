@@ -156,6 +156,8 @@ public:
 	void SaveToJson(Json::Value &jsonObj) const;
 	void LoadFromJson(const Json::Value &jsonObj);
 
+	Graphics::VertexArray& GetBillboardVA() { return m_billboardTris; }
+
 	//serialization aid
 	std::string GetNameForMaterial(Graphics::Material*) const;
 
@@ -171,6 +173,7 @@ public:
 
 private:
 	Model(const Model&);
+	void DrawBillboards();
 
 	static const unsigned int MAX_DECAL_MATERIALS = 4;
 	ColorMap m_colorMap;
@@ -205,6 +208,9 @@ private:
 	RefCountedPtr<Graphics::VertexBuffer> m_aabbVB;
 	RefCountedPtr<Graphics::Material> m_aabbMat;
 	Graphics::RenderState* m_state;
+	Graphics::VertexArray m_billboardTris;
+	RefCountedPtr<Graphics::VertexBuffer> m_billboardVB;
+	Graphics::RenderState *m_billboardRS;
 };
 
 }
