@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "Dh'adhbharaich feuchainn air clàr curaidh an reul-chriosa ann an co-fharpais tarraing tractair as motha rè Fèill Smùide Mhòr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh nuair an do chaill fear dhe na co-fharpaisichean a smachd air an tionnsgal aige, a' milleadh innealan nan co-fharpaisichean eile uile. 'S eagal leis an rianachd gun daoraich seo na tuathanaich ionadail."
+      "message" : "Dh'adhbharaich feuchainn air clàr curaidh an reul-chriosa ann an co-fharpais tarraing tractair as motha rè Fèill Smùide Mhòr ann an siostam {system} ({sectorx}, {sectory}, {sectorz}) milleadh nuair an do chaill fear dhe na co-fharpaisich a smachd air an tionnsgal aige, a' milleadh innealan nan co-fharpaiseach eile uile. 'S eagal leis an rianachd gun daoraich seo na tuathanaich ionadail."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
