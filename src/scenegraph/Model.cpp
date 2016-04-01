@@ -222,8 +222,9 @@ void Model::DrawBillboards()
 	}
 
 	const bool bVBValid = m_billboardVB.Valid();
+	const bool bHasVerts = !m_billboardTris.IsEmpty();
 	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetVertexCount() == m_billboardTris.GetNumVerts());
-	if( !bVBValid || !bVertCountEqual)
+	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
 	{
 		//create buffer
 		Graphics::VertexBufferDesc vbd;
@@ -240,8 +241,8 @@ void Model::DrawBillboards()
 	
 	if(m_billboardVB.Valid())
 	{
-		m_billboardVB->Populate(m_billboardTris);
-		if(!m_billboardTris.IsEmpty()) {
+		if(bHasVerts) {
+			m_billboardVB->Populate(m_billboardTris);
 			m_renderer->SetTransform(matrix4x4f::Identity());
 			m_renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matWhite.Get());
 			m_renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
