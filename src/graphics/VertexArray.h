@@ -35,10 +35,11 @@ public:
 	// don't mix these
 	void Add(const vector3f &v);
 	void Add(const vector3f &v, const Color &c);
-	void Add(const vector3f &v, const Color &c, const vector3f &normal);
+	void Add(const vector3f &v, const Color &c, const vector3f &n);
 	void Add(const vector3f &v, const Color &c, const vector2f &uv);
 	void Add(const vector3f &v, const vector2f &uv);
-	void Add(const vector3f &v, const vector3f &normal, const vector2f &uv);
+	void Add(const vector3f &v, const vector3f &n);
+	void Add(const vector3f &v, const vector3f &n, const vector2f &uv);
 	void Add(const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang);
 	//virtual void Reserve(unsigned int howmuch)
 
@@ -48,6 +49,7 @@ public:
 	void Set(const Uint32 idx, const vector3f &v, const Color &c, const vector3f &normal);
 	void Set(const Uint32 idx, const vector3f &v, const Color &c, const vector2f &uv);
 	void Set(const Uint32 idx, const vector3f &v, const vector2f &uv);
+	void Set(const Uint32 idx, const vector3f &v, const vector3f &n);
 	void Set(const Uint32 idx, const vector3f &v, const vector3f &normal, const vector2f &uv);
 	void Set(const Uint32 idx, const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang);
 

@@ -174,6 +174,11 @@ struct PosUVVert {
 	vector2f uv;
 };
 
+struct PosNormVert {
+	vector3f pos;
+	vector3f norm;
+};
+
 struct PosColVert {
 	vector3f pos;
 	Color4ub col;
@@ -196,7 +201,19 @@ struct PosNormUVVert {
 };
 #pragma pack(pop)
 
-void CopyPosUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosNorm(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+{
+	PosNormVert* vtxPtr = vb->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(vb->GetDesc().stride == sizeof(PosNormVert));
+	for(Uint32 i=0 ; i<va.GetNumVerts() ; i++)
+	{
+		vtxPtr[i].pos	= va.position[i];
+		vtxPtr[i].norm	= va.normal[i];
+	}
+	vb->Unmap();
+}
+
+static inline void CopyPosUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosUVVert* vtxPtr = vb->Map<PosUVVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosUVVert));
@@ -208,7 +225,7 @@ void CopyPosUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPosCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosColVert* vtxPtr = vb->Map<PosColVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosColVert));
@@ -220,7 +237,7 @@ void CopyPosCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPos(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPos(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosVert* vtxPtr = vb->Map<PosVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosVert));
@@ -231,7 +248,7 @@ void CopyPos(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPosColUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosColUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosColUVVert* vtxPtr = vb->Map<PosColUVVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosColUVVert));
@@ -244,7 +261,7 @@ void CopyPosColUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosNormUVVert* vtxPtr = vb->Map<PosNormUVVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosNormUVVert));
@@ -268,6 +285,7 @@ bool VertexBuffer::Populate(const VertexArray &va)
 	switch( as ) {
 	case Graphics::ATTRIB_POSITION:														CopyPos(this, va);			result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE:							CopyPosCol(this, va);		result = true;	break;
+	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL:							CopyPosNorm(this, va);		result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0:								CopyPosUV0(this, va);		result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0:	CopyPosColUV0(this, va);	result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0:	CopyPosNormUV0(this, va);	result = true;	break;
