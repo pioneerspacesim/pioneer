@@ -24,12 +24,12 @@ public:
 	virtual void Accept(NodeVisitor &v);
 	virtual const char *GetTypeName() const { return "Billboard"; }
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	void SetColor(const Color& c) { m_color = c; }
+	void SetColorUVoffset(const vector2f& c) { m_colorUVoffset = c; }
 
 private:
 	SceneGraph::Model *m_model;
 	float m_size;
-	Color m_color;
+	vector2f m_colorUVoffset;
 };
 
 }

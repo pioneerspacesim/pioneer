@@ -43,19 +43,10 @@ void Billboard::Render(const matrix4x4f &trans, const RenderData *rd)
 	PROFILE_SCOPED()
 
 	Graphics::VertexArray& bbVA = m_model->GetBillboardVA();
-	const matrix3x3f rot = trans.GetOrient().Transpose();
-
-	//some hand-tweaked scaling, to make the lights seem larger from distance
-	const float size = m_size * Graphics::GetFovFactor() * Clamp(trans.GetTranslate().Length() / 500.f, 0.25f, 15.f);
-
-	const vector3f rotv1 = rot * vector3f(size*0.5f, -size*0.5f, 0.0f);
-	const vector3f rotv2 = rot * vector3f(size*0.5f, size*0.5f, 0.0f);
-	bbVA.Add(trans * (-rotv1), m_color, vector2f(0.f, 0.f)); //top left
-	bbVA.Add(trans * (-rotv2), m_color, vector2f(0.f, 1.f)); //bottom left
-	bbVA.Add(trans * ( rotv2), m_color, vector2f(1.f, 0.f)); //top right
-	bbVA.Add(trans * ( rotv2), m_color, vector2f(1.f, 0.f)); //top right
-	bbVA.Add(trans * (-rotv2), m_color, vector2f(0.f, 1.f)); //bottom left
-	bbVA.Add(trans * ( rotv1), m_color, vector2f(1.f, 1.f)); //bottom right
+	//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
+	const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.GetTranslate().Length(), 1.0f, 15.0f);
+	const float size = (m_size * Graphics::GetFovFactor()) * pixrad;
+	bbVA.Add(trans * vector3f(0.0f), vector3f(m_colorUVoffset, size));
 }
 
 }

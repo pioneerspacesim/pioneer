@@ -12,7 +12,7 @@
 
 namespace SceneGraph {
 
-static RefCountedPtr<Graphics::Material> matWhite;
+static RefCountedPtr<Graphics::Material> matHalos4x4;
 
 class LabelUpdateVisitor : public NodeVisitor {
 public:
@@ -30,7 +30,7 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 , m_curPatternIndex(0)
 , m_curPattern(0)
 , m_debugFlags(0)
-, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0)
+, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
 , m_billboardRS(nullptr)
 {
 	m_root.Reset(new Group(m_renderer));
@@ -48,7 +48,7 @@ Model::Model(const Model &model)
 , m_curPatternIndex(model.m_curPatternIndex)
 , m_curPattern(model.m_curPattern)
 , m_debugFlags(0)
-, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE  | Graphics::ATTRIB_UV0)
+, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
 , m_billboardRS(nullptr)
 {
 	//selective copying of node structure
@@ -210,10 +210,10 @@ void Model::DrawBillboards()
 {
 	if(!m_billboardRS) {
 		Graphics::MaterialDescriptor desc;
+		desc.effect = Graphics::EFFECT_BILLBOARD;
 		desc.textures = 1;
-		desc.vertexColors = true;
-		matWhite.Reset(m_renderer->CreateMaterial(desc));
-		matWhite->texture0 = Graphics::TextureBuilder::Billboard("textures/halo.png").CreateTexture(m_renderer);
+		matHalos4x4.Reset(m_renderer->CreateMaterial(desc));
+		matHalos4x4->texture0 = Graphics::TextureBuilder::Billboard("textures/halo_4x4.png").CreateTexture(m_renderer);
 	
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ADDITIVE;
@@ -227,13 +227,12 @@ void Model::DrawBillboards()
 	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
 	{
 		//create buffer
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
 		Graphics::VertexBufferDesc vbd;
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_UBYTE4;
-		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[2].format   = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
 		vbd.numVertices = m_billboardTris.GetNumVerts();
 		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
 		m_billboardVB.Reset( m_renderer->CreateVertexBuffer(vbd) );
@@ -244,7 +243,7 @@ void Model::DrawBillboards()
 		if(bHasVerts) {
 			m_billboardVB->Populate(m_billboardTris);
 			m_renderer->SetTransform(matrix4x4f::Identity());
-			m_renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matWhite.Get());
+			m_renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);
 			m_renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
 		}
 		m_billboardTris.Clear();

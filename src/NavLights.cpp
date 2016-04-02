@@ -8,35 +8,27 @@
 #include "IniConfig.h"
 #include "FileSystem.h"
 
-const float BILLBOARD_SIZE = 5.f;
+const float BILLBOARD_SIZE = 2.5f;
 
 static bool g_initted = false;
-static Color m_lightColors[(NavLights::NAVLIGHT_YELLOW+1)] = {
-	Color::RED,
-	Color::GREEN,
-	Color::BLUE,
-	Color::YELLOW
+static vector2f m_lightColorsUVoffsets[(NavLights::NAVLIGHT_YELLOW+1)] = {
+	vector2f(0.0f,0.0f),
+	vector2f(0.5f,0.0f),
+	vector2f(0.0f,0.5f),
+	vector2f(0.5f,0.5f)
 };
 
 typedef std::vector<NavLights::LightBulb>::iterator LightIterator;
-static Color get_color(Uint8 c)
+static vector2f get_color(Uint8 c)
 {
-	return m_lightColors[c];
-	if (c == NavLights::NAVLIGHT_RED)
-		return Color::RED;
-	else if (c == NavLights::NAVLIGHT_GREEN)
-		return Color::GREEN;
-	else if (c == NavLights::NAVLIGHT_YELLOW)
-		return Color::YELLOW;
-	else
-		return Color::BLUE;
+	return m_lightColorsUVoffsets[c];
 }
 
-static inline Color LoadLightColor(const std::string &spec)
+static inline vector2f LoadLightColorUVoffset(const std::string &spec)
 {
-	std::vector<int> v(4);
+	std::vector<float> v(2);
 	SplitSpec(spec, v);
-	return Color(v[0], v[1], v[2], v[3]);
+	return vector2f(v[0], v[1]);
 }
 
 NavLights::LightBulb::LightBulb(Uint8 _group, Uint8 _mask, Uint8 _color, SceneGraph::Billboard *_bb)
@@ -53,17 +45,17 @@ void NavLights::Init(Graphics::Renderer *renderer)
 
 	IniConfig cfg;
 	// set defaults
-	cfg.SetString("LeftOrOccupiedColorRGBA", "255,0,0,255");
-	cfg.SetString("RightOrFreeColorRGBA", "0,255,0,255");
-	cfg.SetString("StaticColorRGBA", "0,0,255,255");
-	cfg.SetString("DockingColorRGBA", "255,255,0,255");
+	cfg.SetString("LeftOrOccupiedUVOffset", "0,0");
+	cfg.SetString("RightOrFreeUVOffset", "0.5,0");
+	cfg.SetString("StaticUVOffset", "0,0.5");
+	cfg.SetString("DockingUVOffset", "0.5,0.5");
 	// load
 	cfg.Read(FileSystem::gameDataFiles, "textures/NavLights.ini");
 
-	m_lightColors[NAVLIGHT_RED   ] = LoadLightColor(cfg.String("LeftOrOccupiedColorRGBA"));
-	m_lightColors[NAVLIGHT_GREEN ] = LoadLightColor(cfg.String("RightOrFreeColorRGBA"));
-	m_lightColors[NAVLIGHT_BLUE  ] = LoadLightColor(cfg.String("StaticColorRGBA"));
-	m_lightColors[NAVLIGHT_YELLOW] = LoadLightColor(cfg.String("DockingColorRGBA"));
+	m_lightColorsUVoffsets[NAVLIGHT_RED   ] = LoadLightColorUVoffset(cfg.String("LeftOrOccupiedUVOffset"));
+	m_lightColorsUVoffsets[NAVLIGHT_GREEN ] = LoadLightColorUVoffset(cfg.String("RightOrFreeUVOffset"));
+	m_lightColorsUVoffsets[NAVLIGHT_BLUE  ] = LoadLightColorUVoffset(cfg.String("StaticUVOffset"));
+	m_lightColorsUVoffsets[NAVLIGHT_YELLOW] = LoadLightColorUVoffset(cfg.String("DockingUVOffset"));
 
 	g_initted = true;
 }
@@ -116,7 +108,7 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 			PiVerify(1 == sscanf(mt->GetName().c_str(), "navlight_pad%u", &group));
 			mask  = 0xf0;
 		}
-		bblight->SetColor(get_color(color));
+		bblight->SetColorUVoffset(get_color(color));
 
 		GroupLightsVecIter glit = std::find_if(m_groupLights.begin(), m_groupLights.end(), GroupMatch(group));
 		if(glit == m_groupLights.end()) {
@@ -191,7 +183,7 @@ void NavLights::SetColor(unsigned int group, LightColor c)
 	if(glit != m_groupLights.end()) {
 		for (LightIterator it = glit->m_lights.begin(), itEnd = glit->m_lights.end(); it != itEnd; ++it) {
 			if (it->group != group || it->color == c) continue;
-			it->billboard->SetColor(get_color(c));
+			it->billboard->SetColorUVoffset(get_color(c));
 			it->color = c;
 		}
 	}
