@@ -27,6 +27,7 @@
 #include "SphereImpostorMaterial.h"
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
+#include "BillboardMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -99,6 +100,7 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	glEnable(GL_PROGRAM_POINT_SIZE);
 
 	SetMatrixMode(MatrixMode::MODELVIEW);
 
@@ -767,6 +769,9 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_GASSPHERE_TERRAIN:
 		mat = new OGL::GasGiantSurfaceMaterial();
+		break;
+	case EFFECT_BILLBOARD:
+		mat = new OGL::BillboardMaterial();
 		break;
 	default:
 		if (desc.lighting)
