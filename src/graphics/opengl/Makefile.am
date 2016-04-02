@@ -28,7 +28,8 @@ noinst_HEADERS = \
 	TextureGL.h \
 	UIMaterial.h \
 	Uniform.h \
-	VtxColorMaterial.h
+	VtxColorMaterial.h \
+	BillboardMaterial.h
 
 libgraphicsopengl_a_SOURCES = \
 	gl_core_3_x.c \
@@ -47,4 +48,5 @@ libgraphicsopengl_a_SOURCES = \
 	TextureGL.cpp \
 	UIMaterial.cpp \
 	Uniform.cpp \
-	VtxColorMaterial.cpp
+	VtxColorMaterial.cpp \
+	BillboardMaterial.cpp
