@@ -1,4 +1,4 @@
-material fuselage-material
+material fuselage
 diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69

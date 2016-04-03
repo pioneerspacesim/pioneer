@@ -1,4 +1,4 @@
-material Starport-material
+material Starport
 diffuse 1.0 1.0 1.0
 specular 0.3 0.3 0.3
 shininess 40
@@ -7,7 +7,7 @@ tex_diff station_diff.dds
 tex_glow station_glow.dds
 tex_spec station_spec.dds
 
-material Pipes-material
+material Pipes
 diffuse 0.7 0.7 0.7
 specular 0.0 0.0 0.0
 shininess 10
@@ -15,7 +15,7 @@ tex_diff station_diff.dds
 tex_glow station_glow.dds
 tex_spec station_spec.dds
 
-material Tanks-material
+material Tanks
 diffuse 1.0 1.0 1.0
 specular 0.1 0.1 0.1
 shininess 40

@@ -1,4 +1,4 @@
-material fuselage-material
+material fuselage
 tex_diff dsminer_diff.dds
 tex_spec dsminer_spec.dds
 tex_glow dsminer_glow.dds

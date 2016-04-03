@@ -8,24 +8,24 @@
 #
 # New textures and materials were made by me and new geometry for the 4 lifts.
 
-material rim-material
+material rim
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff Steelplt.dds
 
-material column-material
+material column
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.dds
 tex_glow LiftColumn_illum.dds
 
-material lamp_glow-material
+material lamp_glow
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff LiftColumn.dds
 tex_glow LiftColumn_illum.dds
 
-material pad-material
+material pad
 diffuse 1.0 1.0 1.0
 specular 0.5 0.5 0.5
 tex_diff c_metall.dds

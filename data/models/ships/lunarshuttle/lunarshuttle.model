@@ -1,6 +1,6 @@
 # Lunar Shuttle
 
-material lunarshuttle_fuselage-material
+material lunarshuttle_fuselage
 tex_diff lunarshuttle_diff.dds
 tex_spec lunarshuttle_spec.dds
 tex_glow lunarshuttle_glow.dds

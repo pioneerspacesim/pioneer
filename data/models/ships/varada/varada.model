@@ -1,4 +1,4 @@
-material keszeg_fuselage-material
+material keszeg_fuselage
 diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69
