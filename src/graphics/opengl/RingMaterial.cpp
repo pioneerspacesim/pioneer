@@ -24,8 +24,7 @@ void RingMaterial::Apply()
 	OGL::Material::Apply();
 
 	assert(this->texture0);
-	static_cast<TextureGL*>(texture0)->Bind();
-	m_program->texture0.Set(0);
+	m_program->texture0.Set(this->texture0, 0);
 
 	//Light uniform parameters
 	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {

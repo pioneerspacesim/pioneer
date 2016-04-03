@@ -24,8 +24,7 @@ void BillboardMaterial::Apply()
 	OGL::Material::Apply();
 
 	assert(this->texture0);
-	static_cast<TextureGL*>(texture0)->Bind();
-	m_program->texture0.Set(0);
+	m_program->texture0.Set(this->texture0, 0);
 }
 
 void BillboardMaterial::Unapply()
