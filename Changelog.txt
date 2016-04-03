@@ -1,6 +1,7 @@
 April 2016
    * Internal Changes
      * NavLight Billboard Gathering (#3667)
+     * Change DrawPointSprites to really use Point Sprites (#3670)
 
 March 2016
    * New Features
