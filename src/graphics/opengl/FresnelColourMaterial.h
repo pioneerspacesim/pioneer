@@ -21,8 +21,8 @@ namespace Graphics {
 
 		class FresnelColourMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
 		};
 	}
 }

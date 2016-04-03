@@ -21,9 +21,9 @@ namespace Graphics {
 
 		class MultiMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
-			virtual void Unapply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
+			virtual void Unapply() override;
 		};
 
 		/*
@@ -33,9 +33,9 @@ namespace Graphics {
 		class LitMultiMaterial : public MultiMaterial {
 		public:
 			LitMultiMaterial();
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void SetProgram(Program *p);
-			virtual void Apply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void SetProgram(Program *p) override;
+			virtual void Apply() override;
 
 		private:
 			Program* m_programs[5];

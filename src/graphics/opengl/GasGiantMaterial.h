@@ -38,8 +38,8 @@ namespace Graphics {
 		};
 
 		class GasGiantSurfaceMaterial : public Material {
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
 
 		protected:
 			void SetGSUniforms();

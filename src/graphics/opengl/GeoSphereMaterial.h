@@ -41,9 +41,9 @@ namespace Graphics {
 		};
 
 		class GeoSphereSurfaceMaterial : public Material {
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
-			virtual void Unapply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
+			virtual void Unapply() override;
 
 		protected:
 			void SetGSUniforms();
@@ -51,15 +51,15 @@ namespace Graphics {
 
 		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
 		};
 
 
 		class GeoSphereStarMaterial : public Material {
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
-			virtual void Unapply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
+			virtual void Unapply() override;
 
 		protected:
 			void SetGSUniforms();

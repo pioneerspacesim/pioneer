@@ -25,13 +25,13 @@ namespace Graphics {
 			Uniform radii[MAX_SHIELD_HITS];
 			Uniform numHits;
 		protected:
-			virtual void InitUniforms();
+			virtual void InitUniforms() override;
 		};
 
 		class ShieldMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
 		};
 	}
 }
