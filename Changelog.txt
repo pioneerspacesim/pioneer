@@ -1,3 +1,7 @@
+April 2016
+   * Internal Changes
+     * NavLight Billboard Gathering (#3667)
+
 March 2016
    * New Features
      * Ship stat planner addon for Blender. Exports ship.json (#3639)
