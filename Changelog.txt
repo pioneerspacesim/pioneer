@@ -1,4 +1,7 @@
 April 2016
+   * Fixes
+     * Fix ModelViewer crash (#3672)
+
    * Internal Changes
      * NavLight Billboard Gathering (#3667)
      * Change DrawPointSprites to really use Point Sprites (#3670)
