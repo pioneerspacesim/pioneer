@@ -1,4 +1,4 @@
-material Fuselage-material
+material Fuselage
 diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69
@@ -8,7 +8,7 @@ tex_diff bowfin_diff.dds
 tex_spec bowfin_spec.dds
 tex_norm bowfin_norm.dds
 
-material Canopy-material
+material Canopy
 diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69
