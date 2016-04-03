@@ -105,6 +105,7 @@ private:
 	std::unique_ptr<SceneGraph::Model> m_gunModel;
 	std::unique_ptr<SceneGraph::Model> m_scaleModel;
 	std::string m_modelName;
+	std::string m_requestedModelName;
 	RefCountedPtr<UI::Context> m_ui;
 	Graphics::RenderState *m_bgState;
 	RefCountedPtr<Graphics::VertexBuffer> m_bgBuffer;

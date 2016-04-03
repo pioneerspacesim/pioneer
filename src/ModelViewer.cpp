@@ -184,8 +184,7 @@ void ModelViewer::Run(const std::string &modelName)
 
 bool ModelViewer::OnPickModel(UI::List *list)
 {
-	SetModel(list->GetSelectedOption());
-	ResetCamera();
+	m_requestedModelName = list->GetSelectedOption();
 	return true;
 }
 
@@ -595,6 +594,13 @@ void ModelViewer::MainLoop()
 
 		// end scene
 		m_renderer->SwapBuffers();
+
+		// if we've requested a different model then switch too it
+		if(!m_requestedModelName.empty()) {
+			SetModel(m_requestedModelName);
+			m_requestedModelName.clear();
+			ResetCamera();
+		}
 	}
 }
 
