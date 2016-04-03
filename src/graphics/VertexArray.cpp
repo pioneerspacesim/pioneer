@@ -70,6 +70,12 @@ void VertexArray::Add(const vector3f &v, const vector2f &uv)
 	uv0.push_back(uv);
 }
 
+void VertexArray::Add(const vector3f &v, const vector3f &n)
+{
+	position.push_back(v);
+	normal.push_back(n);
+}
+
 void VertexArray::Add(const vector3f &v, const vector3f &n, const vector2f &uv)
 {
 	position.push_back(v);
@@ -114,6 +120,12 @@ void VertexArray::Set(const Uint32 idx, const vector3f &v, const vector2f &uv)
 {
 	position[idx] = v;
 	uv0[idx] = uv;
+}
+
+void VertexArray::Set(const Uint32 idx, const vector3f &v, const vector3f &n)
+{
+	position[idx] = v;
+	normal[idx] = n;
 }
 
 void VertexArray::Set(const Uint32 idx, const vector3f &v, const vector3f &n, const vector2f &uv)

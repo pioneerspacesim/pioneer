@@ -21,11 +21,11 @@ namespace Graphics {
 				fSkyboxFactor = 0.8f;
 			}
 
-			Program *CreateProgram(const MaterialDescriptor &) {
+			virtual Program *CreateProgram(const MaterialDescriptor &) override {
 				return new Program("skybox", "");
 			}
 
-			virtual void Apply() {
+			virtual void Apply() override {
 				m_program->Use();
 				if(texture0) {
 					m_program->texture0.Set(texture0, 0);

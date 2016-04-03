@@ -15,9 +15,9 @@ namespace Graphics {
 
 		class RingMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &);
-			void Apply();
-			void Unapply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
+			virtual void Unapply() override;
 		};
 	}
 }

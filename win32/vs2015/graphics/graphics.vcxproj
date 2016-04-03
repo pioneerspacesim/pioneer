@@ -128,6 +128,7 @@
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
     <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\BillboardMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="..\..\..\src\graphics\dummy\TextureDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\BillboardMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h" />

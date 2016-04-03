@@ -18,20 +18,18 @@ namespace SceneGraph {
 
 class Billboard : public Node {
 public:
-	Billboard(Graphics::Renderer *r, RefCountedPtr<Graphics::Material>, const vector3f &offset, float size);
+	Billboard(SceneGraph::Model *model, Graphics::Renderer *r, float size);
 	Billboard(const Billboard&, NodeCopyCache *cache = 0);
 	virtual Node *Clone(NodeCopyCache *cache = 0);
 	virtual void Accept(NodeVisitor &v);
 	virtual const char *GetTypeName() const { return "Billboard"; }
 	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	void SetMaterial(RefCountedPtr<Graphics::Material> mat) { m_material = mat; }
+	void SetColorUVoffset(const vector2f& c) { m_colorUVoffset = c; }
 
 private:
+	SceneGraph::Model *m_model;
 	float m_size;
-	RefCountedPtr<Graphics::Material> m_material;
-	RefCountedPtr<Graphics::VertexBuffer> m_vbuffer;
-	Graphics::RenderState *m_renderState;
-	vector3f m_offset;
+	vector2f m_colorUVoffset;
 };
 
 }

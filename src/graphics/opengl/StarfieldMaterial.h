@@ -16,17 +16,17 @@ namespace Graphics {
 	namespace OGL {
 		class StarfieldMaterial : public Material {
 		public:
-			Program *CreateProgram(const MaterialDescriptor &) {
+			virtual Program *CreateProgram(const MaterialDescriptor &) override {
 				return new Program("starfield", "");
 			}
 
-			virtual void Apply() {
+			virtual void Apply() override {
 				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
 				m_program->Use();
 				m_program->emission.Set(this->emissive);
 			}
 
-			virtual void Unapply() {
+			virtual void Unapply() override {
 				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		};
