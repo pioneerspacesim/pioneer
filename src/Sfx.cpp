@@ -207,6 +207,8 @@ void Sfx::AddExplosion(Body *b, TYPE t)
 	if (b->IsType(Object::SHIP)) {
 		Ship *s = static_cast<Ship*>(b);
 		sfx->m_speed = s->GetAabb().radius*8.0;
+	} else {
+		sfx->m_speed = 200.0f;
 	}
 }
 
@@ -266,15 +268,18 @@ void Sfx::Init(Graphics::Renderer *r)
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
 	alphaState = r->CreateRenderState(rsd);
+
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
 	additiveAlphaState = r->CreateRenderState(rsd);
+
 	rsd.depthWrite = true;
 	alphaOneState = r->CreateRenderState(rsd);
 
 	Graphics::MaterialDescriptor desc;
+	desc.effect = Graphics::EFFECT_BILLBOARD;
+	desc.textures = 1;
 	RefCountedPtr<Graphics::Material> explosionMat(r->CreateMaterial(desc));
 
-	desc.textures = 1;
 	damageParticle.reset( r->CreateMaterial(desc) );
 	damageParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
 	ecmParticle.reset( r->CreateMaterial(desc) );

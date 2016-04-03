@@ -12,6 +12,10 @@ out vec4 frag_color;
 
 void main(void)
 {
+#ifdef USE_SPRITE_ATLAS
 	frag_color = texture(texture0, (gl_PointCoord * 0.5) + uv);
+#else
+	frag_color = texture(texture0, gl_PointCoord);
+#endif
 	SetFragDepth();
 }

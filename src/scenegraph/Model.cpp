@@ -210,7 +210,7 @@ void Model::DrawBillboards()
 {
 	if(!m_billboardRS) {
 		Graphics::MaterialDescriptor desc;
-		desc.effect = Graphics::EFFECT_BILLBOARD;
+		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
 		desc.textures = 1;
 		matHalos4x4.Reset(m_renderer->CreateMaterial(desc));
 		matHalos4x4->texture0 = Graphics::TextureBuilder::Billboard("textures/halo_4x4.png").CreateTexture(m_renderer);

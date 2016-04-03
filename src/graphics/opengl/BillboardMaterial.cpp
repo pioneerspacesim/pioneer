@@ -13,7 +13,10 @@ namespace OGL {
 Program *BillboardMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	assert(desc.textures == 1);
-	return new Program("billboards", "");
+	std::string defines;
+	if(desc.effect == EFFECT_BILLBOARD_ATLAS)
+		defines = stringf("#define USE_SPRITE_ATLAS\n");
+	return new Program("billboards", defines);
 }
 
 void BillboardMaterial::Apply()
@@ -21,8 +24,7 @@ void BillboardMaterial::Apply()
 	OGL::Material::Apply();
 
 	assert(this->texture0);
-	static_cast<TextureGL*>(texture0)->Bind();
-	m_program->texture0.Set(0);
+	m_program->texture0.Set(this->texture0, 0);
 }
 
 void BillboardMaterial::Unapply()
