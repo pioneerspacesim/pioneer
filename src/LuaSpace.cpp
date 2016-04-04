@@ -226,7 +226,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 
 	thing->SetFrame(newframe);;
 	thing->SetPosition(newPosition);
-	thing->SetVelocity(vector3d(0,0,0));
+	thing->SetVelocity(nearbody->GetVelocity());
 	Pi::game->GetSpace()->AddBody(thing);
 
 	LuaObject<Ship>::PushToLua(ship);
