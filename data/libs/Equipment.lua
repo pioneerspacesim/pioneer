@@ -10,6 +10,11 @@ local Timer = import("Timer")
 local Space = import_core("Space")
 local Comms = import("Comms")
 
+local cargo
+local laser
+local hyperspace
+local misc
+
 --
 -- Class: EquipType
 --
@@ -59,6 +64,16 @@ function EquipType:Serialize()
 			ret[k] = v
 		end
 	end
+	
+	if debug.dmodeenabled() and self.slots == "cargo" then
+		for _,v in pairs(cargo) do
+			if (v.l10n_key == self.key and v.l10n_resource == self.l10n_resource) then
+				assert(v == self)
+				break
+			end
+		end
+	end
+	
 	ret.volatile = nil
 	return ret
 end
@@ -453,7 +468,7 @@ end
 -- autopilot - autopilot
 -- trade_analyzer - commodity trade analyzer computer module
 
-local cargo = {
+cargo = {
 	hydrogen = EquipType.New({
 		l10n_key = 'HYDROGEN', l10n_resource = "core", slots="cargo", price=1,
 		capabilities={mass=1}, economy_type="mining",
@@ -637,7 +652,7 @@ cargo.fertilizer.requirements = { cargo.carbon_ore }
 cargo.medicines.requirements = { cargo.computers, cargo.carbon_ore }
 cargo.consumer_goods.requirements = { cargo.plastics, cargo.textiles }
 
-local misc = {}
+misc = {}
 misc.missile_unguided = EquipType.New({
 	l10n_key="MISSILE_UNGUIDED", slots="missile", price=30,
 	missile_type="missile_unguided", tech_level=1,
@@ -751,7 +766,7 @@ misc.planetscanner = BodyScannerType.New({
 	bodyscanner_stats={scan_speed=3, scan_tolerance=0.05}
 })
 
-local hyperspace = {}
+hyperspace = {}
 hyperspace.hyperdrive_1 = HyperdriveType.New({
 	l10n_key="DRIVE_CLASS1", fuel=cargo.hydrogen, slots="engine",
 	price=700, capabilities={mass=4, hyperclass=1}, purchasable=true, tech_level=3
@@ -805,7 +820,7 @@ hyperspace.hyperdrive_mil4 = HyperdriveType.New({
 	price=214000, capabilities={mass=30, hyperclass=4}, purchasable=true, tech_level=12
 })
 
-local laser = {}
+laser = {}
 laser.pulsecannon_1mw = LaserType.New({
 	l10n_key="PULSECANNON_1MW", price=600, capabilities={mass=1},
 	slots = {"laser_front", "laser_rear"}, laser_stats = {
