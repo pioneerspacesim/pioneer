@@ -5,6 +5,7 @@
 #include "LuaSpace.h"
 #include "LuaManager.h"
 #include "LuaUtils.h"
+#include "LuaVector.h"
 #include "Space.h"
 #include "Ship.h"
 #include "HyperspaceCloud.h"
@@ -171,14 +172,20 @@ static int l_space_spawn_ship(lua_State *l)
  *                the system the ship is travelling from, and the due
  *                date/time that the ship should emerge from the cloud.
  *
+ *   velocity - vector containing the velocity to give to the ship
+ *
+ *
  * Return:
  *
  *   ship - a <Ship> object for the new ship
  *
- * Example:
+ * Examples:
  *
  * > -- spawn a ship 10km from the player
  * > local ship = Ship.SpawnNear("viper_police_craft", Game.player, 10, 10)
+ * 
+ * > -- spawn a ship 10km from the player with the players velocity
+ * > local ship = Ship.SpawnNear("viper_police_craft", Game.player, 10, 10, nil, Game.player:velocity)
  *
  * Availability:
  *
@@ -207,6 +214,9 @@ static int l_space_spawn_ship_near(lua_State *l)
 	double due = -1;
 	_unpack_hyperspace_args(l, 5, path, due);
 
+	vector3d newVelocity = nearbody->GetVelocity();
+	pi_lua_strict_pull(l, 6, newVelocity); // velocity is optional
+
 	Ship *ship = new Ship(type);
 	assert(ship);
 
@@ -226,7 +236,7 @@ static int l_space_spawn_ship_near(lua_State *l)
 
 	thing->SetFrame(newframe);;
 	thing->SetPosition(newPosition);
-	thing->SetVelocity(nearbody->GetVelocity());
+	thing->SetVelocity(newVelocity);
 	Pi::game->GetSpace()->AddBody(thing);
 
 	LuaObject<Ship>::PushToLua(ship);
