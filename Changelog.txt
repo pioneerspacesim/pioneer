@@ -1,4 +1,7 @@
 April 2016
+   * New Features
+     * First commit of the Bluenose frieghter (#3668)
+
    * Fixes
      * Fix ModelViewer crash (#3672)
 
