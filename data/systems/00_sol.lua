@@ -196,7 +196,7 @@ local mars_moons = {
 }
 
 local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
-	:seed(1365118446)
+	:seed(786424632)
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
