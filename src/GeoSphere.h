@@ -33,10 +33,10 @@ public:
 	GeoSphere(const SystemBody *body);
 	virtual ~GeoSphere();
 
-	virtual void Update();
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows);
+	virtual void Update() override;
+	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
 
-	virtual double GetHeight(const vector3d &p) const {
+	virtual double GetHeight(const vector3d &p) const override {
 		const double h = m_terrain->GetHeight(p);
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
@@ -64,7 +64,7 @@ public:
 	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
 
-	virtual void Reset();
+	virtual void Reset() override;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
 
@@ -98,7 +98,7 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
-	virtual void SetUpMaterials();
+	virtual void SetUpMaterials() override;
 
 	RefCountedPtr<Graphics::Texture> m_texHi;
 	RefCountedPtr<Graphics::Texture> m_texLo;
