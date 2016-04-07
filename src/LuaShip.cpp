@@ -4,6 +4,7 @@
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "LuaVector.h"
 #include "EnumStrings.h"
 #include "Ship.h"
 #include "Missile.h"
@@ -918,6 +919,51 @@ static int l_ship_update_equip_stats(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GetVelocity
+ *
+ * Get the ships velocity
+ *
+ * > ship:GetVelocity()
+ *
+ * Availability:
+ *
+ *  April 2016
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_get_velocity(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaVector::PushToLua(l, s->GetVelocity());
+	return 1;
+}
+
+/*
+ * Method: GetPosition
+ *
+ * Get the ships velocity
+ *
+ * > ship:GetPosition()
+ *
+ * Availability:
+ *
+ *  April 2016
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_get_position(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaVector::PushToLua(l, s->GetPosition());
+	return 1;
+}
+
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -963,6 +1009,9 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetInvulnerable", l_ship_set_invulnerable },
 
 		{ "UpdateEquipStats", l_ship_update_equip_stats },
+
+		{ "GetVelocity", l_ship_get_velocity },
+ 		{ "GetPosition", l_ship_get_position },
 
 		{ 0, 0 }
 	};
