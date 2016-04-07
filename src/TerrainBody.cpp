@@ -133,4 +133,5 @@ bool TerrainBody::IsSuperType(SystemBody::BodySuperType t) const
 void TerrainBody::OnChangeDetailLevel()
 {
 	GeoSphere::OnChangeDetailLevel();
+	GasGiant::OnChangeDetailLevel();
 }

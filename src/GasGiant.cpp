@@ -357,6 +357,22 @@ void GasGiant::UpdateAllGasGiants()
 	}
 }
 
+// static
+void GasGiant::OnChangeDetailLevel()
+{
+	s_patchContext.Reset(new GasPatchContext(127));
+
+	// reinit the geosphere terrain data
+	for(std::vector<GasGiant*>::iterator i = s_allGasGiants.begin(); i != s_allGasGiants.end(); ++i)
+	{
+		// clearout anything we don't need
+		(*i)->Reset();
+
+		// reinit the terrain with the new settings
+		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->GetSystemBody()));
+	}
+}
+
 GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0), m_timeDelay(s_initialDelayTime)
 {
@@ -375,6 +391,28 @@ GasGiant::~GasGiant()
 	// update thread should not be able to access us now, so we can safely continue to delete
 	assert(std::count(s_allGasGiants.begin(), s_allGasGiants.end(), this) == 1);
 	s_allGasGiants.erase(std::find(s_allGasGiants.begin(), s_allGasGiants.end(), this));
+}
+
+void GasGiant::Reset()
+{
+	{
+		for(int i=0; i<NUM_PATCHES; i++) {
+			if(m_hasJobRequest[i] && m_job[i].HasJob())
+				m_job[i].GetJob()->OnCancel();
+			m_hasJobRequest[i] = false;
+		}
+	}
+
+	for (int p=0; p<NUM_PATCHES; p++) {
+		// delete patches
+		if (m_patches[p]) {
+			m_patches[p].reset();
+		}
+	}
+
+	m_surfaceTextureSmall.Reset();
+	m_surfaceTexture.Reset();
+	m_surfaceMaterial.Reset();
 }
 
 //static
