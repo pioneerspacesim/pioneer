@@ -319,6 +319,26 @@ static int l_base_import_core(lua_State *L)
 	return 1;
 }
 
+static int l_enable_d_mode(lua_State *L)
+{
+	lua_pushboolean(L, true);
+	lua_setfield(L, LUA_REGISTRYINDEX, "debug_enabled");
+	return 0;
+}
+
+static int l_disable_d_mode(lua_State *L)
+{
+	lua_pushboolean(L, false);
+	lua_setfield(L, LUA_REGISTRYINDEX, "debug_enabled");
+	return 0;
+}
+
+static int l_d_mode_enabled(lua_State *L)
+{
+	lua_getfield(L, LUA_REGISTRYINDEX, "debug_enabled");
+	return 1;
+}
+
 static const luaL_Reg STANDARD_LIBS[] = {
 	{ "_G", luaopen_base },
 	{ LUA_COLIBNAME, luaopen_coroutine },
@@ -409,6 +429,22 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setfield(L, -2, "rad2deg");
 
 	lua_pop(L, 1); // pop the math table
+
+	// debug library adjustments (adding our own debug mode)
+	lua_getglobal(L, LUA_DBLIBNAME);
+	lua_pushcfunction(L, l_enable_d_mode);
+	lua_pushcclosure(L, secure_trampoline, 1);
+	lua_setfield(L, -2, "enabledmode");
+
+	lua_pushcfunction(L, l_disable_d_mode);
+	lua_pushcclosure(L, secure_trampoline, 1);
+	lua_setfield(L, -2, "disabledmode");
+
+	// That one should NOT be trampolined, since it is intended to be used all over.
+	lua_pushcfunction(L, l_d_mode_enabled);
+	lua_setfield(L, -2, "dmodeenabled");
+
+	lua_pop(L, 1); // pop the debug table
 }
 
 static int l_readonly_table_newindex(lua_State *l)
@@ -697,3 +733,30 @@ bool pi_lua_split_table_path(lua_State *l, const std::string &path)
 
 	return true;
 }
+
+int secure_trampoline(lua_State *l)
+{
+	// walk the stack
+	// pass through any C functions
+	// if we reach a non-C function, then check whether it's trusted and we're done
+	// (note: trusted defaults to true because if the loop bottoms out then we've only gone through C functions)
+
+	bool trusted = true;
+
+	lua_Debug ar;
+	int stack_pos = 1;
+	while (lua_getstack(l, stack_pos, &ar) && lua_getinfo(l, "S", &ar)) {
+		if (strcmp(ar.what, "C") != 0) {
+			trusted = (strncmp(ar.source, "[T]", 3) == 0);
+			break;
+		}
+		++stack_pos;
+	}
+
+	if (!trusted)
+		luaL_error(l, "attempt to access protected method or attribute from untrusted script blocked");
+
+	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
+	return fn(l);
+}
+
