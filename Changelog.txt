@@ -11,6 +11,7 @@ April 2016
    * Internal Changes
      * NavLight Billboard Gathering (#3667)
      * Change DrawPointSprites to really use Point Sprites (#3670)
+     * Lua debug tools, part one (#3675)
 
 March 2016
    * New Features
