@@ -302,7 +302,6 @@ private:
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
-	void UpdateLuaDynamics();
 	void SetShipId(const ShipType::Id &shipId);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);

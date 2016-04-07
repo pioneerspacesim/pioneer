@@ -7,7 +7,6 @@
 #include "EnumStrings.h"
 #include "LuaEvent.h"
 #include "LuaUtils.h"
-#include "LuaVector.h"
 #include "Missile.h"
 #include "Player.h"
 #include "Projectile.h"
@@ -196,8 +195,6 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 
 	m_shipName = shipObj["name"].asString();
 	Properties().Set("shipName", m_shipName);
-
-	UpdateLuaDynamics();
 }
 
 void Ship::InitEquipSet() {
@@ -831,7 +828,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep, thrust);
-	UpdateLuaDynamics();
 
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);
@@ -1077,13 +1073,6 @@ void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 
 	if (currentState != lastState)
 		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", currentState));
-}
-
-void Ship::UpdateLuaDynamics()
-{
-	PropertyMap &p = Properties();
-	p.Set(std::string("position"), GetPosition());
-	p.Set(std::string("velocity"), GetVelocity());
 }
 
 void Ship::StaticUpdate(const float timeStep)
