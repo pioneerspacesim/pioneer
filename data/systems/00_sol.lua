@@ -87,14 +87,21 @@ local earth_starports = {
 	CustomSystemBody:new('Los Angeles', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(34))
 		:longitude(math.deg2rad(118)),
-		CustomSystemBody:new('Torvalds Platform', 'STARPORT_ORBITAL')
+	CustomSystemBody:new('Gates Spaceport', 'STARPORT_ORBITAL')
+		:seed(1)		
+		:semi_major_axis(f(100,100000))
+		:rotation_period(f(1,24*60*3)),
+	CustomSystemBody:new('Jobs Pad', 'STARPORT_ORBITAL')
+		:seed(13)		
+		:semi_major_axis(f(100,100000))
+		:rotation_period(f(1,24*60*3)),
+	CustomSystemBody:new('Torvalds Platform', 'STARPORT_ORBITAL')
+		:seed(0)
 		:semi_major_axis(f(5.0,100000))
 		:rotation_period(f(1,24*60*3))
 		:orbital_phase_at_start(fixed.deg2rad(f(0,1)))
 		:axial_tilt(fixed.deg2rad(f(668,100))),
-	CustomSystemBody:new('Gates Spaceport', 'STARPORT_ORBITAL')
-		:semi_major_axis(f(100,100000))
-		:rotation_period(f(1,24*60*3)),
+
 }
 
 local moon = {
@@ -120,32 +127,36 @@ local moon = {
 }
 
 local mars = CustomSystemBody:new('Mars', 'PLANET_TERRESTRIAL')
-	:seed(-3)
+	:seed(-1317315059)
 	:radius(f(533,1000))
 	:mass(f(107,1000))
 	:temp(278)
 	:semi_major_axis(f(152,100))
 	:eccentricity(f(933,10000))
+	:height_map('mars.hmap',0)  --	
 	:inclination(math.deg2rad(1.85))
 	:rotation_period(f(1027,1000))
 	:axial_tilt(fixed.deg2rad(f(2519,100)))
 	-- XXX composition copied from earth until there's a way to indicate terraformed
-	:metallicity(f(4,5))
+	:metallicity(f(14.5,5))
 	:volcanicity(f(2,10))
 	:atmos_density(f(489,1000))
 	:atmos_oxidizing(f(950001,1000000))
 	:ocean_cover(f(10,100))
-	:ice_cover(f(678,1000))
-	:life(f(15,100))
+	:ice_cover(f(440,1000))
+	:life(f(10,100))
 	:orbital_phase_at_start(fixed.deg2rad(f(12,1)))
 
 local mars_starports = {
+	CustomSystemBody:new('Bradbury Landing', 'STARPORT_SURFACE')
+		:latitude(math.deg2rad(-4.5895))
+		:longitude(math.deg2rad(-137.4417)),
 	CustomSystemBody:new('Cydonia', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(-29))
 		:longitude(math.deg2rad(124)),
 	CustomSystemBody:new('Olympus Mons', 'STARPORT_SURFACE')
-		:latitude(math.deg2rad(30))
-		:longitude(math.deg2rad(-37)),
+		:latitude(math.deg2rad(25.60955))
+		:longitude(math.deg2rad(-41.35269)),
 	CustomSystemBody:new('Mars High', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(5068,100000000))
 		:rotation_period(f(11,24)),
@@ -177,15 +188,15 @@ local mars_moons = {
 		:eccentricity(f(2,10000))
 		:inclination(math.deg2rad(0.93))
 		:rotation_period(f(30,24))
-		:metallicity(f(2,5))
-		:volcanicity(f(0,1)),
+		:metallicity(f(7,10))
+		:volcanicity(f(1,1)),
 	{
 		CustomSystemBody:new('Tomm\'s Sanctuary', 'STARPORT_SURFACE'),
 	},
 }
 
 local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
-	:seed(786424627)
+	:seed(786424632)
 	:radius(f(11,1))
 	:mass(f(3178,10))
 	:temp(165)
@@ -257,7 +268,7 @@ local jupiter_moons = {
 	},
 
 	CustomSystemBody:new('Io', 'PLANET_TERRESTRIAL')
-		:seed(-4)
+		:seed(-4955979)
 		:radius(f(286,1000))
 		:mass(f(15,1000))
 		:temp(130)
@@ -265,17 +276,17 @@ local jupiter_moons = {
 		:eccentricity(f(41,10000))
 		:inclination(math.deg2rad(2.21))
 		:rotation_period(f(177,100))
-		:metallicity(f(7,10))
-		:volcanicity(f(1,1))
+		:metallicity(f(9,10))
+		:volcanicity(f(7,10))
 		:atmos_density(f(100,1225))
 		:atmos_oxidizing(f(12,100))
 		:ocean_cover(f(0,1))
 		:ice_cover(f(0,1))
-		:life(f(0,1)),
+		:life(f(1,10)),
 	{
 		CustomSystemBody:new('Dante\'s Base', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(-0.5))
-			:longitude(math.deg2rad(26.2)),
+			:latitude(math.deg2rad(-56.38))
+			:longitude(math.deg2rad(9.51)),
 	},
 	CustomSystemBody:new('Europa', 'PLANET_TERRESTRIAL')
 		:seed(2102431459)
@@ -325,6 +336,7 @@ local jupiter_moons = {
 		:eccentricity(f(74,10000))
 		:inclination(math.deg2rad(0.192))
 		:rotation_period(f(167,10)),
+
 	CustomSystemBody:new('Discovery Base', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(14,1000))
 		:rotation_period(f(204,10)),
@@ -409,7 +421,7 @@ local jupiter_moons = {
 }
 
 local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
-	:seed(1)
+	:seed(1742495375)
 	:radius(f(9,1))
 	:mass(f(95152,1000))
 	:temp(134)
@@ -454,11 +466,11 @@ local saturn_moons = {
 		:rotation_period(f(15945,1000)),
 	{
 		CustomSystemBody:new('Oasis City', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(18.4))
-			:longitude(math.deg2rad(196)),
+			:latitude(math.deg2rad(-65.4))
+			:longitude(math.deg2rad(83)),
 		CustomSystemBody:new('Port Makenzie', 'STARPORT_SURFACE')
-			:latitude(math.deg2rad(1))
-			:longitude(math.deg2rad(14)),
+			:latitude(math.deg2rad(31))
+			:longitude(math.deg2rad(121)),
 		CustomSystemBody:new('Daniel\'s Haven', 'STARPORT_ORBITAL')
 			:semi_major_axis(f(12,500000))
 			:eccentricity(f(50,1000))
@@ -477,7 +489,7 @@ local saturn_moons = {
 }
 
 local uranus = CustomSystemBody:new('Uranus', 'PLANET_GAS_GIANT')
-	:seed(4)
+	:seed(1365118445)
 	:radius(f(4,1))
 	:mass(f(145,10))
 	:temp(76)
@@ -526,7 +538,7 @@ local uranus_moons = {
 }
 
 local neptune = CustomSystemBody:new('Neptune', 'PLANET_GAS_GIANT')
-	:seed(42)
+	:seed(1365118445)
 	:radius(f(38,10))
 	:mass(f(17147,1000))
 	:temp(72)
@@ -579,7 +591,7 @@ local pluto = CustomSystemBody:new('Pluto', 'PLANET_TERRESTRIAL')
 	:radius(f(18,100))
 	:mass(f(21,10000))
 	:temp(44)
-	:atmos_oxidizing(f(66,100))
+--	:atmos_oxidizing(f(66,100))
 	:semi_major_axis(f(394,10))
 	:eccentricity(f(249,1000))
 	:inclination(math.deg2rad(11.88))
