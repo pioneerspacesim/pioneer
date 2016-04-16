@@ -184,6 +184,7 @@ m_forceTimeAccel(false)
 
 void Game::ToJson(Json::Value &jsonObj)
 {
+	PROFILE_SCOPED()
 	// preparing the lua serializer
 	Pi::luaSerializer->InitTableRefs();
 
@@ -835,6 +836,7 @@ Game *Game::LoadGame(const std::string &filename)
 
 void Game::SaveGame(const std::string &filename, Game *game)
 {
+	PROFILE_SCOPED()
 	assert(game);
 
 	if (game->IsHyperspace())
@@ -847,9 +849,21 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotOpenFileException();
 	}
 
+#ifdef PIONEER_PROFILER
+	std::string profilerPath;
+	FileSystem::userFiles.MakeDirectory("profiler");
+	FileSystem::userFiles.MakeDirectory("profiler/saving");
+	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler/saving");
+	Profiler::reset();
+#endif
+
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
+#if 0
 	Json::StyledWriter jsonWriter; // Create writer for writing the JSON data to string.
+#else
+	Json::FastWriter jsonWriter; // Create writer for writing the JSON data to string.
+#endif
 	const std::string jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
 
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
@@ -859,4 +873,8 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	fclose(f);
 
 	if (nwritten != 1) throw CouldNotWriteToFileException();
+	
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 }

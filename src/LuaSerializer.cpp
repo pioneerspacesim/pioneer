@@ -354,8 +354,10 @@ void LuaSerializer::UninitTableRefs() {
 	lua_setfield(l, LUA_REGISTRYINDEX, "PiLuaRefLoadTable");
 }
 
+#define JSON_RAW_STRING
 void LuaSerializer::ToJson(Json::Value &jsonObj)
 {
+	PROFILE_SCOPED()
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
@@ -387,7 +389,11 @@ void LuaSerializer::ToJson(Json::Value &jsonObj)
 	std::string pickled;
 	pickle(l, savetable, pickled);
 
+#ifdef JSON_RAW_STRING
+	jsonObj["lua_modules"] = pickled;
+#else
 	BinStrToJson(jsonObj, pickled, "lua_modules");
+#endif
 
 	lua_pop(l, 1);
 
@@ -402,7 +408,12 @@ void LuaSerializer::FromJson(const Json::Value &jsonObj)
 
 	LUA_DEBUG_START(l);
 
+	
+#ifdef JSON_RAW_STRING
+	std::string pickled = jsonObj["lua_modules"].asString();
+#else
 	std::string pickled = JsonToBinStr(jsonObj, "lua_modules");
+#endif
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
 	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();
