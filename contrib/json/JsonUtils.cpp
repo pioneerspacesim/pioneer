@@ -235,7 +235,7 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 		binStrArray.resize(outSize/4); // Pre-Allocate (packed) space for it
 		const uint32_t remainder = outSize%4;// Does everything fit into the packing scheme?
 		size_t charIndex = 0;
-		size_t binStrIdx = 0;
+		uint32_t binStrIdx = 0;
 		// Packed everything that fits into our 4-byte packing
 		for (; charIndex < (outSize-remainder); charIndex+=4, ++binStrIdx) {
 			const uint32_t packed = pack4char(
