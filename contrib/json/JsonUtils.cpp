@@ -9,28 +9,59 @@
 #include "../../src/utils.h"
 #include "../../src/Serializer.h" // Need this for the exceptions
 
+extern "C" {
+#include "miniz/miniz.h"
+}
+
+namespace {
+	uint32_t pack4char(const uint8_t a, const uint8_t b, const uint8_t c, const uint8_t d)
+	{
+		return ((a << 24) | (b << 16) | (c << 8) | d);
+	}
+
+	void unpack4char(const uint32_t packed, uint8_t &a, uint8_t &b, uint8_t &c, uint8_t &d)
+	{
+		a = ((packed >> 24) & 0xff);
+		b = ((packed >> 16) & 0xff);
+		c = ((packed >> 8) & 0xff);
+		d = (packed & 0xff);
+	}
+};
+
+#define USE_STRING_VERSIONS
+
 void VectorToJson(Json::Value &jsonObj, const vector3f &vec, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	char str[128];
+	Vector3fToStr(vec, str, 128);
+	jsonObj[name] = str; // Add vector array to supplied object.
+#else
 	Json::Value vecArray(Json::arrayValue); // Create JSON array to contain vector data.
 	vecArray[0] = FloatToStr(vec.x);
 	vecArray[1] = FloatToStr(vec.y);
 	vecArray[2] = FloatToStr(vec.z);
 	jsonObj[name] = vecArray; // Add vector array to supplied object.
+#endif
 }
 
 void VectorToJson(Json::Value &jsonObj, const vector3d &vec, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	char str[128];
+	Vector3dToStr(vec, str, 128);
+	jsonObj[name] = str; // Add vector array to supplied object.
+#else
 	Json::Value vecArray(Json::arrayValue); // Create JSON array to contain vector data.
 	vecArray[0] = DoubleToStr(vec.x);
 	vecArray[1] = DoubleToStr(vec.y);
 	vecArray[2] = DoubleToStr(vec.z);
 	jsonObj[name] = vecArray; // Add vector array to supplied object.
+#endif
 }
 
 void QuaternionToJson(Json::Value &jsonObj, const Quaternionf &quat, const std::string &name)
@@ -63,7 +94,11 @@ void MatrixToJson(Json::Value &jsonObj, const matrix3x3f &mat, const std::string
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	char str[512];
+	Matrix3x3fToStr(mat, str, 512);
+	jsonObj[name] = str;
+#else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = FloatToStr(mat[0]);
 	matArray[1] = FloatToStr(mat[1]);
@@ -75,13 +110,18 @@ void MatrixToJson(Json::Value &jsonObj, const matrix3x3f &mat, const std::string
 	matArray[7] = FloatToStr(mat[7]);
 	matArray[8] = FloatToStr(mat[8]);
 	jsonObj[name] = matArray; // Add matrix array to supplied object.
+#endif
 }
 
 void MatrixToJson(Json::Value &jsonObj, const matrix3x3d &mat, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	char str[512];
+	Matrix3x3dToStr(mat, str, 512);
+	jsonObj[name] = str;
+#else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = DoubleToStr(mat[0]);
 	matArray[1] = DoubleToStr(mat[1]);
@@ -93,13 +133,18 @@ void MatrixToJson(Json::Value &jsonObj, const matrix3x3d &mat, const std::string
 	matArray[7] = DoubleToStr(mat[7]);
 	matArray[8] = DoubleToStr(mat[8]);
 	jsonObj[name] = matArray; // Add matrix array to supplied object.
+#endif
 }
 
 void MatrixToJson(Json::Value &jsonObj, const matrix4x4f &mat, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	char str[512];
+	Matrix4x4fToStr(mat, str, 512);
+	jsonObj[name] = str;
+#else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = FloatToStr(mat[0]);
 	matArray[1] = FloatToStr(mat[1]);
@@ -118,13 +163,18 @@ void MatrixToJson(Json::Value &jsonObj, const matrix4x4f &mat, const std::string
 	matArray[14] = FloatToStr(mat[14]);
 	matArray[15] = FloatToStr(mat[15]);
 	jsonObj[name] = matArray; // Add matrix array to supplied object.
+#endif
 }
 
 void MatrixToJson(Json::Value &jsonObj, const matrix4x4d &mat, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	char str[512];
+	Matrix4x4dToStr(mat, str, 512);
+	jsonObj[name] = str;
+#else
 	Json::Value matArray(Json::arrayValue); // Create JSON array to contain matrix data.
 	matArray[0] = DoubleToStr(mat[0]);
 	matArray[1] = DoubleToStr(mat[1]);
@@ -143,6 +193,7 @@ void MatrixToJson(Json::Value &jsonObj, const matrix4x4d &mat, const std::string
 	matArray[14] = DoubleToStr(mat[14]);
 	matArray[15] = DoubleToStr(mat[15]);
 	jsonObj[name] = matArray; // Add matrix array to supplied object.
+#endif
 }
 
 void ColorToJson(Json::Value &jsonObj, const Color3ub &col, const std::string &name)
@@ -175,17 +226,53 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
 
-	Json::Value binStrArray(Json::arrayValue); // Create JSON array to contain binary string data.
-	for (unsigned int charIndex = 0; charIndex < binStr.size(); ++charIndex)
-		binStrArray[charIndex] = int(binStr[charIndex]);
-	jsonObj[name] = binStrArray; // Add binary string array to supplied object.
+	// compress in memory, write to open file 
+	size_t outSize = 0;
+	void *pCompressedData = tdefl_compress_mem_to_heap(binStr.data(), binStr.length(), &outSize, 128);
+
+	if (pCompressedData) {
+		Json::Value binStrArray(Json::arrayValue); // Create JSON array to contain binary string data.
+		binStrArray.resize(outSize/4); // Pre-Allocate (packed) space for it
+		const size_t remainder = outSize%4;// Does everything fit into the packing scheme?
+		size_t charIndex = 0;
+		size_t binStrIdx = 0;
+		// Packed everything that fits into our 4-byte packing
+		for (; charIndex < (outSize-remainder); charIndex+=4, ++binStrIdx) {
+			const uint32_t packed = pack4char(
+				((uint8_t*)pCompressedData)[charIndex+0],
+				((uint8_t*)pCompressedData)[charIndex+1],
+				((uint8_t*)pCompressedData)[charIndex+2],
+				((uint8_t*)pCompressedData)[charIndex+3]);
+			binStrArray[binStrIdx] = packed;
+		}
+		if(remainder) {
+			// package the remaining bytes (1-to-3 really) into 4-bytes
+			const uint32_t packed = pack4char(
+				((uint8_t*)pCompressedData)[charIndex+0],
+				(remainder>1) ? ((uint8_t*)pCompressedData)[charIndex+1] : '\0',
+				(remainder>2) ? ((uint8_t*)pCompressedData)[charIndex+2] : '\0',
+				(remainder>3) ? ((uint8_t*)pCompressedData)[charIndex+3] : '\0');
+			binStrArray[binStrIdx] = packed;
+		}
+		// Add compressed and packed binary string array to supplied object.
+		jsonObj[name] = binStrArray; 
+		jsonObj["remainder"] = remainder;
+		// release the compressed data
+		mz_free(pCompressedData);
+	}
 }
 
 void JsonToVector(vector3f *pVec, const Json::Value &jsonObj, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-	
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	Json::Value vecStr = jsonObj[name.c_str()];
+	if (!vecStr.isString()) throw SavedGameCorruptException();
+
+	StrToVector3f(vecStr.asCString(), *pVec);
+#else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value vecArray = jsonObj[name.c_str()];
 	if (!vecArray.isArray()) throw SavedGameCorruptException();
@@ -194,13 +281,20 @@ void JsonToVector(vector3f *pVec, const Json::Value &jsonObj, const std::string 
 	pVec->x = StrToFloat(vecArray[0].asString());
 	pVec->y = StrToFloat(vecArray[1].asString());
 	pVec->z = StrToFloat(vecArray[2].asString());
+#endif
 }
 
 void JsonToVector(vector3d *pVec, const Json::Value &jsonObj, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	Json::Value vecStr = jsonObj[name.c_str()];
+	if (!vecStr.isString()) throw SavedGameCorruptException();
 
+	StrToVector3d(vecStr.asCString(), *pVec);
+#else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value vecArray = jsonObj[name.c_str()];
 	if (!vecArray.isArray()) throw SavedGameCorruptException();
@@ -209,6 +303,7 @@ void JsonToVector(vector3d *pVec, const Json::Value &jsonObj, const std::string 
 	pVec->x = StrToDouble(vecArray[0].asString());
 	pVec->y = StrToDouble(vecArray[1].asString());
 	pVec->z = StrToDouble(vecArray[2].asString());
+#endif
 }
 
 void JsonToQuaternion(Quaternionf *pQuat, const Json::Value &jsonObj, const std::string &name)
@@ -247,7 +342,12 @@ void JsonToMatrix(matrix3x3f *pMat, const Json::Value &jsonObj, const std::strin
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	Json::Value matStr = jsonObj[name.c_str()];
+	if (!matStr.isString()) throw SavedGameCorruptException();
+	StrToMatrix3x3f(matStr.asCString(), *pMat);
+#else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];
 	if (!matArray.isArray()) throw SavedGameCorruptException();
@@ -262,13 +362,19 @@ void JsonToMatrix(matrix3x3f *pMat, const Json::Value &jsonObj, const std::strin
 	(*pMat)[6] = StrToFloat(matArray[6].asString());
 	(*pMat)[7] = StrToFloat(matArray[7].asString());
 	(*pMat)[8] = StrToFloat(matArray[8].asString());
+#endif
 }
 
 void JsonToMatrix(matrix3x3d *pMat, const Json::Value &jsonObj, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	Json::Value matStr = jsonObj[name.c_str()];
+	if (!matStr.isString()) throw SavedGameCorruptException();
+	StrToMatrix3x3d(matStr.asCString(), *pMat);
+#else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];
 	if (!matArray.isArray()) throw SavedGameCorruptException();
@@ -283,13 +389,19 @@ void JsonToMatrix(matrix3x3d *pMat, const Json::Value &jsonObj, const std::strin
 	(*pMat)[6] = StrToDouble(matArray[6].asString());
 	(*pMat)[7] = StrToDouble(matArray[7].asString());
 	(*pMat)[8] = StrToDouble(matArray[8].asString());
+#endif
 }
 
 void JsonToMatrix(matrix4x4f *pMat, const Json::Value &jsonObj, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	Json::Value matStr = jsonObj[name.c_str()];
+	if (!matStr.isString()) throw SavedGameCorruptException();
+	StrToMatrix4x4f(matStr.asCString(), *pMat);
+#else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];
 	if (!matArray.isArray()) throw SavedGameCorruptException();
@@ -311,13 +423,19 @@ void JsonToMatrix(matrix4x4f *pMat, const Json::Value &jsonObj, const std::strin
 	(*pMat)[13] = StrToFloat(matArray[13].asString());
 	(*pMat)[14] = StrToFloat(matArray[14].asString());
 	(*pMat)[15] = StrToFloat(matArray[15].asString());
+#endif
 }
 
 void JsonToMatrix(matrix4x4d *pMat, const Json::Value &jsonObj, const std::string &name)
 {
 	PROFILE_SCOPED()
 	assert(!name.empty()); // Can't do anything if no name supplied.
-
+#ifdef USE_STRING_VERSIONS
+	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
+	Json::Value matStr = jsonObj[name.c_str()];
+	if (!matStr.isString()) throw SavedGameCorruptException();
+	StrToMatrix4x4d(matStr.asCString(), *pMat);
+#else
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value matArray = jsonObj[name.c_str()];
 	if (!matArray.isArray()) throw SavedGameCorruptException();
@@ -339,6 +457,7 @@ void JsonToMatrix(matrix4x4d *pMat, const Json::Value &jsonObj, const std::strin
 	(*pMat)[13] = StrToDouble(matArray[13].asString());
 	(*pMat)[14] = StrToDouble(matArray[14].asString());
 	(*pMat)[15] = StrToDouble(matArray[15].asString());
+#endif
 }
 
 void JsonToColor(Color3ub *pCol, const Json::Value &jsonObj, const std::string &name)
@@ -380,9 +499,28 @@ std::string JsonToBinStr(const Json::Value &jsonObj, const std::string &name)
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value binStrArray = jsonObj[name.c_str()];
 	if (!binStrArray.isArray()) throw SavedGameCorruptException();
+	
+	const size_t arraySize = binStrArray.size();
+	std::unique_ptr<uint8_t[]> compStr(new uint8_t[arraySize*4]);
+	for (size_t charIndex = 0; charIndex < arraySize; ++charIndex) {
+		const uint32_t packed = binStrArray[charIndex].asUInt();
+		uint8_t a,b,c,d;
+		unpack4char(packed,
+			compStr[(charIndex*4)+0],
+			compStr[(charIndex*4)+1],
+			compStr[(charIndex*4)+2],
+			compStr[(charIndex*4)+3]);
+	}
 
+	const size_t remainder = jsonObj["remainder"].asUInt();
 	std::string binStr;
-	for (unsigned int charIndex = 0; charIndex < binStrArray.size(); ++charIndex)
-		binStr += char(binStrArray[charIndex].asInt());
+	size_t outSize = 0;
+	void *pDecompressedData = tinfl_decompress_mem_to_heap(&compStr[0], (arraySize*4)-remainder, &outSize, 0);
+	if (pDecompressedData) {
+		for (size_t charIndex = 0; charIndex < outSize; ++charIndex) {
+			binStr += static_cast<char*>(pDecompressedData)[charIndex];
+		}
+		mz_free(pDecompressedData);
+	}
 	return binStr;
 }
