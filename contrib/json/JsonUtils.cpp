@@ -233,7 +233,7 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 	if (pCompressedData) {
 		Json::Value binStrArray(Json::arrayValue); // Create JSON array to contain binary string data.
 		binStrArray.resize(outSize/4); // Pre-Allocate (packed) space for it
-		const size_t remainder = outSize%4;// Does everything fit into the packing scheme?
+		const uint32_t remainder = outSize%4;// Does everything fit into the packing scheme?
 		size_t charIndex = 0;
 		size_t binStrIdx = 0;
 		// Packed everything that fits into our 4-byte packing
@@ -256,7 +256,7 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 		}
 		// Add compressed and packed binary string array to supplied object.
 		jsonObj[name] = binStrArray; 
-		jsonObj["remainder"] = remainder;
+		jsonObj["remainder"] = Json::Value(remainder);
 		// release the compressed data
 		mz_free(pCompressedData);
 	}
@@ -500,9 +500,9 @@ std::string JsonToBinStr(const Json::Value &jsonObj, const std::string &name)
 	Json::Value binStrArray = jsonObj[name.c_str()];
 	if (!binStrArray.isArray()) throw SavedGameCorruptException();
 	
-	const size_t arraySize = binStrArray.size();
+	const uint32_t arraySize = binStrArray.size();
 	std::unique_ptr<uint8_t[]> compStr(new uint8_t[arraySize*4]);
-	for (size_t charIndex = 0; charIndex < arraySize; ++charIndex) {
+	for (uint32_t charIndex = 0; charIndex < arraySize; ++charIndex) {
 		const uint32_t packed = binStrArray[charIndex].asUInt();
 		uint8_t a,b,c,d;
 		unpack4char(packed,
