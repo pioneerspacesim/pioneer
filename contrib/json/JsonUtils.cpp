@@ -234,7 +234,7 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 		Json::Value binStrArray(Json::arrayValue); // Create JSON array to contain binary string data.
 		binStrArray.resize(outSize); // Pre-Allocate (packed) space for it
 		// Packed everything that fits into our 4-byte packing
-		for (size_t charIndex = 0; charIndex < outSize; ++charIndex) {
+		for (uint32_t charIndex = 0; charIndex < outSize; ++charIndex) {
 			binStrArray[charIndex] = int(((uint8_t*)pCompressedData)[charIndex]);
 		}
 		// Add compressed and packed binary string array to supplied object.
