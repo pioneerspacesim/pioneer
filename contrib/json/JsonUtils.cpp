@@ -229,34 +229,16 @@ void BinStrToJson(Json::Value &jsonObj, const std::string &binStr, const std::st
 	// compress in memory, write to open file 
 	size_t outSize = 0;
 	void *pCompressedData = tdefl_compress_mem_to_heap(binStr.data(), binStr.length(), &outSize, 128);
-
+	assert(pCompressedData); // can we fail to compress?
 	if (pCompressedData) {
 		Json::Value binStrArray(Json::arrayValue); // Create JSON array to contain binary string data.
-		binStrArray.resize(outSize/4); // Pre-Allocate (packed) space for it
-		const uint32_t remainder = outSize%4;// Does everything fit into the packing scheme?
-		size_t charIndex = 0;
-		uint32_t binStrIdx = 0;
+		binStrArray.resize(outSize); // Pre-Allocate (packed) space for it
 		// Packed everything that fits into our 4-byte packing
-		for (; charIndex < (outSize-remainder); charIndex+=4, ++binStrIdx) {
-			const uint32_t packed = pack4char(
-				((uint8_t*)pCompressedData)[charIndex+0],
-				((uint8_t*)pCompressedData)[charIndex+1],
-				((uint8_t*)pCompressedData)[charIndex+2],
-				((uint8_t*)pCompressedData)[charIndex+3]);
-			binStrArray[binStrIdx] = packed;
-		}
-		if(remainder) {
-			// package the remaining bytes (1-to-3 really) into 4-bytes
-			const uint32_t packed = pack4char(
-				((uint8_t*)pCompressedData)[charIndex+0],
-				(remainder>1) ? ((uint8_t*)pCompressedData)[charIndex+1] : '\0',
-				(remainder>2) ? ((uint8_t*)pCompressedData)[charIndex+2] : '\0',
-				(remainder>3) ? ((uint8_t*)pCompressedData)[charIndex+3] : '\0');
-			binStrArray[binStrIdx] = packed;
+		for (size_t charIndex = 0; charIndex < outSize; ++charIndex) {
+			binStrArray[charIndex] = int(((uint8_t*)pCompressedData)[charIndex]);
 		}
 		// Add compressed and packed binary string array to supplied object.
 		jsonObj[name] = binStrArray; 
-		jsonObj["remainder"] = Json::Value(remainder);
 		// release the compressed data
 		mz_free(pCompressedData);
 	}
@@ -499,28 +481,24 @@ std::string JsonToBinStr(const Json::Value &jsonObj, const std::string &name)
 	if (!jsonObj.isMember(name.c_str())) throw SavedGameCorruptException();
 	Json::Value binStrArray = jsonObj[name.c_str()];
 	if (!binStrArray.isArray()) throw SavedGameCorruptException();
-	
-	const uint32_t arraySize = binStrArray.size();
-	std::unique_ptr<uint8_t[]> compStr(new uint8_t[arraySize*4]);
-	for (uint32_t charIndex = 0; charIndex < arraySize; ++charIndex) {
-		const uint32_t packed = binStrArray[charIndex].asUInt();
-		uint8_t a,b,c,d;
-		unpack4char(packed,
-			compStr[(charIndex*4)+0],
-			compStr[(charIndex*4)+1],
-			compStr[(charIndex*4)+2],
-			compStr[(charIndex*4)+3]);
-	}
 
-	const size_t remainder = jsonObj["remainder"].asUInt();
-	std::string binStr;
+	const uint32_t arraySize = binStrArray.size();
+	std::unique_ptr<uint8_t[]> compStr(new uint8_t[arraySize]);
+	for (uint32_t charIndex = 0; charIndex < arraySize; ++charIndex) {
+		compStr[charIndex] = uint8_t(binStrArray[charIndex].asInt());
+	}
 	size_t outSize = 0;
-	void *pDecompressedData = tinfl_decompress_mem_to_heap(&compStr[0], (arraySize*4)-remainder, &outSize, 0);
+	void *pDecompressedData = tinfl_decompress_mem_to_heap(&compStr[0], arraySize, &outSize, 0);
+	assert(pDecompressedData);
+	std::string binStr;
 	if (pDecompressedData) {
 		for (size_t charIndex = 0; charIndex < outSize; ++charIndex) {
 			binStr += static_cast<char*>(pDecompressedData)[charIndex];
 		}
 		mz_free(pDecompressedData);
+	} else {
+		throw SavedGameCorruptException();
 	}
+
 	return binStr;
 }
