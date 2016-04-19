@@ -121,32 +121,40 @@ void Sfx::TimeStepUpdate(const float timeStep)
 		case TYPE_NONE: break;
 	}
 }
-
+#pragma optimize("",off)
+float SizeToPixels(const matrix4x4d &trans, const float size)
+{
+	//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
+	const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.GetTranslate().Length(), 1.0, 15.0);
+	return (size * Graphics::GetFovFactor()) * pixrad;
+}
+#pragma optimize("",off)
 void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 {
 	PROFILE_SCOPED()
 	const vector3d fpos = ftransform * GetPosition();
 	const vector3f pos(fpos);
+	const matrix4x4d fposTrans(matrix4x4d::Translation(fpos));
 
 	switch (m_type) 
 	{
 		case TYPE_NONE: break;
 		case TYPE_EXPLOSION: 
 		{
-			renderer->SetTransform(matrix4x4d::Translation(fpos));
+			renderer->SetTransform(fposTrans);
 			const int spriteframe = Clamp( Uint32(m_age*20.0f), Uint32(0), NUM_EXPLOSION_TEXTURES-1 );
 			assert(explosionTextures[spriteframe]);
 			explosionParticle->texture0 = explosionTextures[spriteframe];
 			//face camera
 			renderer->SetTransform(matrix4x4f::Identity());
-			renderer->DrawPointSprites(1, &pos, alphaOneState, explosionParticle.get(), m_speed);
+			renderer->DrawPointSprites(1, &pos, alphaOneState, explosionParticle.get(), SizeToPixels(fposTrans, m_speed));
 			break;
 		} 
 		case TYPE_DAMAGE: 
 		{
-			renderer->SetTransform(matrix4x4d::Translation(fpos));
+			renderer->SetTransform(fposTrans);
 			damageParticle->diffuse = Color(255, 255, 0, (1.0f-(m_age/2.0f))*255);
-			renderer->DrawPointSprites(1, &pos, additiveAlphaState, damageParticle.get(), 20.f);
+			renderer->DrawPointSprites(1, &pos, additiveAlphaState, damageParticle.get(), SizeToPixels(fposTrans, 20.f));
 			break;
 		} 
 		case TYPE_SMOKE: 
@@ -158,10 +166,10 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 				smokeParticle->diffuse = Color((0.75-var)*255, (0.75f-var)*255, (0.75f-var)*255, Clamp(0.5*0.5-(m_age/16.0),0.0,1.0)*255);
 			}
 
-			renderer->SetTransform(matrix4x4d::Translation(fpos));
+			renderer->SetTransform(fposTrans);
 
 			damageParticle->diffuse*=0.05;
-			renderer->DrawPointSprites(1, &pos, alphaState, smokeParticle.get(), (m_speed*m_age));
+			renderer->DrawPointSprites(1, &pos, alphaState, smokeParticle.get(), Clamp(SizeToPixels(fposTrans, (m_speed*m_age)), 0.1f, 50.0f));
 			break;
 		}
 	}
