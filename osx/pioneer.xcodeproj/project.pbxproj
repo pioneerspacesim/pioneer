@@ -496,6 +496,10 @@
 		525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
 		525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		528422911CC0E80700A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
+		528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
+		528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
+		528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
 		52B054A11C184CAE00BAAE57 /* LuaOverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */; };
 		52B054A21C184CAE00BAAE57 /* OverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */; };
 		52B054A81C184D0800BAAE57 /* GalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */; };
@@ -1462,6 +1466,8 @@
 		525515711CA6EE1C0055DAB8 /* RandomColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomColor.cpp; sourceTree = "<group>"; };
 		525515721CA6EE1C0055DAB8 /* RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomColor.h; sourceTree = "<group>"; };
 		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../opt/local/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
+		5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardMaterial.cpp; sourceTree = "<group>"; };
+		528422901CC0E80700A9BFA8 /* BillboardMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardMaterial.h; sourceTree = "<group>"; };
 		52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaOverlayStack.cpp; sourceTree = "<group>"; };
 		52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayStack.cpp; sourceTree = "<group>"; };
 		52B054A01C184CAE00BAAE57 /* OverlayStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlayStack.h; sourceTree = "<group>"; };
@@ -1639,6 +1645,8 @@
 		378563DE1B197E600039F2BC /* opengl */ = {
 			isa = PBXGroup;
 			children = (
+				5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */,
+				528422901CC0E80700A9BFA8 /* BillboardMaterial.h */,
 				378563DF1B197E600039F2BC /* FresnelColourMaterial.cpp */,
 				378563E01B197E600039F2BC /* FresnelColourMaterial.h */,
 				378563E11B197E600039F2BC /* GLDebug.h */,
@@ -2653,6 +2661,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				525515741CA6EE1C0055DAB8 /* RandomColor.h in Headers */,
+				528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3041,6 +3050,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */,
+				528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */,
 				525515751CA6EEE30055DAB8 /* RandomColor.cpp in Sources */,
 				525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */,
 				4A6C4DD113532FC300FDD53F /* AmbientSounds.cpp in Sources */,
@@ -3522,6 +3533,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				528422911CC0E80700A9BFA8 /* BillboardMaterial.cpp in Sources */,
 				525515731CA6EE1C0055DAB8 /* RandomColor.cpp in Sources */,
 				52F4041D1C9490C70082B1F3 /* JsonUtils.cpp in Sources */,
 				52F4041E1C9490C70082B1F3 /* jsoncpp.cpp in Sources */,
