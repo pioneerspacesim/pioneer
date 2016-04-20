@@ -192,6 +192,13 @@ std::string AutoToStr(Sint64 val);
 std::string AutoToStr(float val);
 std::string AutoToStr(double val);
 
+void Vector3fToStr(const vector3f &val, char *out, size_t size);
+void Vector3dToStr(const vector3d &val, char *out, size_t size);
+void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size);
+void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size);
+void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size);
+void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size);
+
 // String to 'Numeric type' conversions.
 Sint64 StrToSInt64(const std::string &str);
 Uint64 StrToUInt64(const std::string &str);
@@ -201,6 +208,13 @@ void StrToAuto(Sint32 *pVal, const std::string &str);
 void StrToAuto(Sint64 *pVal, const std::string &str);
 void StrToAuto(float *pVal, const std::string &str);
 void StrToAuto(double *pVal, const std::string &str);
+
+void StrToVector3f(const char *str, vector3f &val);
+void StrToVector3d(const char *str, vector3d &val);
+void StrToMatrix3x3f(const char *str, matrix3x3f &val);
+void StrToMatrix3x3d(const char *str, matrix3x3d &val);
+void StrToMatrix4x4f(const char *str, matrix4x4f &val);
+void StrToMatrix4x4d(const char *str, matrix4x4d &val);
 
 // Convert decimal coordinates to degree/minute/second format and return as string
 std::string DecimalToDegMinSec(float dec);

@@ -169,6 +169,7 @@ void Space::RefreshBackground()
 
 void Space::ToJson(Json::Value &jsonObj)
 {
+	PROFILE_SCOPED()
 	RebuildFrameIndex();
 	RebuildBodyIndex();
 	RebuildSystemBodyIndex();
