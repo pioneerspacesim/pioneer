@@ -12,6 +12,7 @@ April 2016
      * NavLight Billboard Gathering (#3667)
      * Change DrawPointSprites to really use Point Sprites (#3670)
      * Lua debug tools, part one (#3675)
+     * Updated Xcode project to fix "missing vtable" error (#3686)
 
 March 2016
    * New Features
