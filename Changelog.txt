@@ -15,6 +15,7 @@ April 2016
      * Updated Xcode project to fix "missing vtable" error (#3686)
      * Saving changes (#3684)
      * SpawnShipNear velocity matching (#3674)
+     * Pre-convert to DDS more textures (#3687)
 
 March 2016
    * New Features
