@@ -225,59 +225,59 @@
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "URGENȚĂ MEDICALĂ pe o navă aproape de {starport}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "Performanță inacceptabilă! Vom actualiza înregistrările noastre în mod corespunzător."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Pilotul înlocuitor va trebui să ajungă la navă pana la {due}."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Numele meu este {name}, de la controlul aerian din {starport}. Cer ajutor în numele unui pilot al zborului {shiplabel} către portul stelar {starport}, care ne-a anunțat că are o urgență medicală."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "Nava a trebuit să aterizeze de urgență la coordonatele: {lat} / {long}."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Mulțumim, comandante! Ajutorul dvs. a fost apreciat corespunzător."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} a părăsit nava."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Vă rog să aduceți un pilot înlocuitor de la {starport} la navă ca să poată duce nava înapoi la {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "NAVĂ FĂRĂ COMBUSTIBIL pe {planet}."
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "O să trimit pe altcineva. Nu vă mai deranjați."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Pentru plata completă, pilotul așteaptă livrarea combustibilului până la {due}."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Controlul aerian {starport} a fost contactat de un pilot al zborului {shiplabel}. Sunt sinistrați cu un rezervor gol și au promis să plătească {cash} oricui poate să le realimenteze nava."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Nava este sinistrată pe {planet} la coordonatele {lat} / {long}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Foarte bine. Vă vom recomanda pe viitor pentru misiuni viitoare."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -285,15 +285,15 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "Pilotul cere 1 tonă de combustibil din hidrogen."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "NAVĂ FĂRĂ COMBUSTIBIL aproape de {starport}."
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Nu te mai poți baza pe oameni în ziua de azi."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
