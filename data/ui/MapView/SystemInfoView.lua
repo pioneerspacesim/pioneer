@@ -330,10 +330,59 @@ local function initBodyInfo(body)
 	end
 end
 
+local currentSystem
+local systemInfoTab =
+	ui:Scroller(ui:VBox(5):PackEnd({
+		ui:HBox():PackEnd({
+			sysInfoWidgets.title,
+			ui:Expand('HORIZONTAL', ui:Align('RIGHT', sysInfoWidgets.sector)),
+		}),
+		sysInfoWidgets.shortDesc,
+		"",
+		ui:Label(l.QUICK_INFO):SetFont('HEADING_NORMAL'),
+		sysInfoWidgets.physicalDesc,
+		ui:Table():SetColumnAlignment('LEFT'):SetColumnSpacing(20):AddRows({
+			{ui:Label(l.GOVERNMENT_AND_ECONOMY), sysInfoWidgets.govEcon},
+			{ui:Label(l.ALLEGIANCE), sysInfoWidgets.allegiance},
+			{ui:Label(l.POPULATION), sysInfoWidgets.population},
+		}),
+		"",
+		ui:Label(l.NOTES):SetFont('HEADING_NORMAL'),
+		sysInfoWidgets.desc,
+	}))
+local bodyInfoTab =
+	ui:Scroller(ui:VBox(5):PackEnd({
+		bodyInfoWidgets.shortDesc,
+		"",
+		bodyInfoWidgets.propertyTable,
+	}))
+local tradeInfoTab = ui:Label('Trade info goes here')
+
+local infoTabs = TabView.New()
+infoTabs:AddTab({
+	id = 'System Info', title = l.SYSTEM_INFO, icon = 'Star',
+	template = function () return systemInfoTab; end
+})
+infoTabs:AddTab({
+	id = 'Body Info', title = l.BODY_INFO, icon = 'Planet',
+	template = function () return bodyInfoTab; end
+})
+infoTabs:AddTab({
+	id = 'Trade Info', title = l.TRADE_INFO, icon = 'ChartClipboard',
+	template = function () return tradeInfoTab; end
+})
+
+local iconsContainer = ui:Scroller():SetFont('SMALL')
+local sysInfoView =
+	ui:Margin(4, 'ALL',
+		ui:Grid({3,7}, 1)
+			:SetCell(0,0, ui:Margin(2, 'RIGHT', ui:Background(iconsContainer)))
+			:SetCell(1,0, ui:Margin(2, 'LEFT', ui:Background(infoTabs)))
+	)
+
 local currentBody, currentBodyIconSelector
 local function handleClickBodyIcon(body, selector)
 	if currentBody == body then return end
-	print('clicked ', body.name)
 	initBodyInfo(body)
 	if currentBodyIconSelector ~= nil then
 		currentBodyIconSelector:SetShown(false)
@@ -341,6 +390,7 @@ local function handleClickBodyIcon(body, selector)
 	selector:SetShown(true)
 	currentBody = body
 	currentBodyIconSelector = selector
+	infoTabs:SwitchTo('Body Info')
 end
 
 local function bodyIconButton(body, onClick)
@@ -438,56 +488,6 @@ local function buildMagicStarLayout(body)
 	end
 	return ui:Expand('HORIZONTAL', ui:VBox(3):PackEnd(rows))
 end
-
-local currentSystem
-local systemInfoTab =
-	ui:Scroller(ui:VBox(5):PackEnd({
-		ui:HBox():PackEnd({
-			sysInfoWidgets.title,
-			ui:Expand('HORIZONTAL', ui:Align('RIGHT', sysInfoWidgets.sector)),
-		}),
-		sysInfoWidgets.shortDesc,
-		"",
-		ui:Label(l.QUICK_INFO):SetFont('HEADING_NORMAL'),
-		sysInfoWidgets.physicalDesc,
-		ui:Table():SetColumnAlignment('LEFT'):SetColumnSpacing(20):AddRows({
-			{ui:Label(l.GOVERNMENT_AND_ECONOMY), sysInfoWidgets.govEcon},
-			{ui:Label(l.ALLEGIANCE), sysInfoWidgets.allegiance},
-			{ui:Label(l.POPULATION), sysInfoWidgets.population},
-		}),
-		"",
-		ui:Label(l.NOTES):SetFont('HEADING_NORMAL'),
-		sysInfoWidgets.desc,
-	}))
-local bodyInfoTab =
-	ui:Scroller(ui:VBox(5):PackEnd({
-		bodyInfoWidgets.shortDesc,
-		"",
-		bodyInfoWidgets.propertyTable,
-	}))
-local tradeInfoTab = ui:Label('Trade info goes here')
-
-local infoTabs = TabView.New()
-infoTabs:AddTab({
-	id = 'System Info', title = l.SYSTEM_INFO, icon = 'Star',
-	template = function () return systemInfoTab; end
-})
-infoTabs:AddTab({
-	id = 'Body Info', title = l.BODY_INFO, icon = 'Planet',
-	template = function () return bodyInfoTab; end
-})
-infoTabs:AddTab({
-	id = 'Trade Info', title = l.TRADE_INFO, icon = 'ChartClipboard',
-	template = function () return tradeInfoTab; end
-})
-
-local iconsContainer = ui:Scroller():SetFont('SMALL')
-local sysInfoView =
-	ui:Margin(4, 'ALL',
-		ui:Grid({3,7}, 1)
-			:SetCell(0,0, ui:Margin(2, 'RIGHT', ui:Background(iconsContainer)))
-			:SetCell(1,0, ui:Margin(2, 'LEFT', ui:Background(infoTabs)))
-	)
 
 ui.templates.SystemInfoView = function ()
 	local sys = Game.player:GetHyperspaceTarget() or Game.system
