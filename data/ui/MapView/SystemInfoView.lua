@@ -246,7 +246,11 @@ local function initSystemInfo(sys)
 		})
 	end
 	sysInfoWidgets.physicalDesc:SetText(quickInfo)
-	sysInfoWidgets.desc:SetText(sys.description)
+	local desc = sys.description
+	if desc == '' then
+		desc = l.NO_SYSTEM_DESCRIPTION_FOUND
+	end
+	sysInfoWidgets.desc:SetText(desc)
 	sysInfoWidgets.shortDesc:SetText(sys.shortDescription)
 	sysInfoWidgets.govEcon:SetText(GOVTYPE_DESCRIPTIONS[sys.governmentType])
 	sysInfoWidgets.allegiance:SetText(sys.faction.name)

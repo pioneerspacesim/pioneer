@@ -855,6 +855,10 @@
       "description" : "",
       "message" : "No missions."
    },
+   "NO_SYSTEM_DESCRIPTION_FOUND" : {
+      "description" : "Text used in the System Info 'Notes' field when there is no description for the system.",
+      "message" : "No system description found."
+   },
    "N_CELSIUS" : {
       "description" : "",
       "message" : "{temperature} C"
