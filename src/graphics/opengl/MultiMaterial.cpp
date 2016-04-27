@@ -132,7 +132,7 @@ void LitMultiMaterial::Apply()
 		const vector3f pos = Light.GetPosition();
 		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
 	}
-	RendererOGL::CheckErrors();
+	CHECKERRORS();
 }
 
 void MultiMaterial::Unapply()

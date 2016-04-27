@@ -15,7 +15,7 @@ namespace OGL {
 UIProgram::UIProgram(const MaterialDescriptor &desc)
 {
 	m_name = "ui";
-	RendererOGL::CheckErrors();
+	CHECKERRORS();
 
 	LoadShaders(m_name, m_defines);
 	InitUniforms();
