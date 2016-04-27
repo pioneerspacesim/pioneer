@@ -287,6 +287,7 @@ void TextureGL::Update(const void *data, const vector2f &pos, const vector2f &da
 		glGenerateMipmap(m_target);
 
 	glBindTexture(m_target, 0);
+	CHECKERRORS();
 }
 
 void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
@@ -344,6 +345,7 @@ void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, Te
 		glGenerateMipmap(m_target);
 
 	glBindTexture(m_target, 0);
+	CHECKERRORS();
 }
 
 void TextureGL::Bind()
@@ -395,6 +397,7 @@ void TextureGL::SetSampleMode(TextureSampleMode mode)
 	}
 
 	glBindTexture(m_target, 0);
+	CHECKERRORS();
 }
 
 }

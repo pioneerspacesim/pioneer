@@ -750,7 +750,6 @@ bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors(__FUNCTION__,__LINE__);
 	MaterialDescriptor desc = d;
 
 	OGL::Material *mat = 0;
@@ -836,7 +835,6 @@ bool RendererOGL::ReloadShaders()
 OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors(__FUNCTION__,__LINE__);
 	const MaterialDescriptor &desc = mat->GetDescriptor();
 	OGL::Program *p = 0;
 
@@ -861,14 +859,12 @@ OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors(__FUNCTION__,__LINE__);
 	return new TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 }
 
 RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors(__FUNCTION__,__LINE__);
 	const uint32_t hash = lookup3_hashlittle(&desc, sizeof(RenderStateDesc), 0);
 	auto it = m_renderStates.find(hash);
 	if (it != m_renderStates.end()) {
@@ -885,8 +881,8 @@ RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors(__FUNCTION__,__LINE__);
 	OGL::RenderTarget* rt = new OGL::RenderTarget(desc);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	rt->Bind();
 	if (desc.colorFormat != TEXTURE_NONE) {
 		Graphics::TextureDescriptor cdesc(
