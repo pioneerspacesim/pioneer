@@ -325,11 +325,11 @@
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a disaster! This is the death sentence to our poor colleagues!"
+      "message" : "Ce dezastru! Colegii noștri sunt sortiți pieirii."
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "Trebuie să vă întoarceți înainte de {due}."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -337,7 +337,7 @@
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "Ultima poziție cunoscută a fost în apropierea planetei {planet} din sistemul {system} [{sectorx},{sectory},{sectorz}], la {dist} a.l. de aici."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -349,15 +349,15 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Am nevoie de cineva dispus să plece imediat și să ne aducă colegii înapoi la {starport} dacă mai trăiesc. Nava avea un echipaj de {crew} oameni și {pass} pasageri la bord."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "CER TRANSFER ECHIPAJ IMEDIAT către sistemul {system}."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Mulțumesc foarte mult, dar e prea târziu!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -365,15 +365,15 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Numele meu este {name} de pe {entity}. Singura noastră navă, {ship} {shiplabel}, plutește în spațiu cu un singur membru din echipaj rămas la bord după ce au avut o problemă({problem}). Sunt dispus să plătesc {cash} pentru ajutor imediat."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "Veți găsi nava în sistemul {system} [{sectorx},{sectory},{sectorz}], la {dist} a.l. de aici. Orbitează în jurul planetei {planet}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Mulțumesc! Am fost autorizat să vă transfer plata completă."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
