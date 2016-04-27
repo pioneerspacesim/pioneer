@@ -319,7 +319,12 @@ void RendererOGL::CheckErrors()
 			}
 #endif
 		}
-		Warning("%s", ss.str().c_str());
+		static GLenum s_prevErr = GL_NO_ERROR;
+		if(s_prevErr == err)
+			Output("%s", ss.str().c_str());
+		else
+			Warning("%s", ss.str().c_str());
+		s_prevErr = err;
 	}
 #endif
 }
