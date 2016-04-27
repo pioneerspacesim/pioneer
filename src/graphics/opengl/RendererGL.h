@@ -54,7 +54,7 @@ public:
 	virtual void WriteRendererInfo(std::ostream &out) const;
 
 	virtual void CheckRenderErrors() const { CheckErrors(); }
-	static void CheckErrors(const char *func = nullptr);
+	static void CheckErrors(const char *func = nullptr, const int line = -1);
 
 	virtual bool GetNearFarRange(float &near_, float &far_) const;
 
@@ -173,7 +173,7 @@ private:
 	typedef AttribBufferMap::iterator AttribBufferIter;
 	static AttribBufferMap s_AttribBufferMap;
 };
-#define CHECKERRORS() RendererOGL::CheckErrors(__PRETTY_FUNCTION__)
+#define CHECKERRORS() RendererOGL::CheckErrors(__FUNCTION__, __LINE__)
 
 }
 

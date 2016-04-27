@@ -295,7 +295,7 @@ static std::string glerr_to_string(GLenum err)
 	}
 }
 
-void RendererOGL::CheckErrors(const char *func /*= nullptr*/)
+void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*= nullptr*/)
 {
 	PROFILE_SCOPED()
 #ifndef PIONEER_PROFILER
@@ -308,7 +308,7 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/)
 		// now build info string
 		std::stringstream ss;
 		if(func) {
-			ss << "In function " << std::string(func) << "\n";
+			ss << "In function " << std::string(func) << "\nOn line " << std::to_string(line) << "\n";
 		}
 		ss << "OpenGL error(s) during frame:\n";
 		while (err != GL_NO_ERROR) {
