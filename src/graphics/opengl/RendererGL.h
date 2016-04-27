@@ -53,7 +53,7 @@ public:
 
 	virtual void WriteRendererInfo(std::ostream &out) const;
 
-	virtual void CheckRenderErrors() const { CheckErrors(); }
+	virtual void CheckRenderErrors(const char *func = nullptr, const int line = -1) const final { CheckErrors(func, line); }
 	static void CheckErrors(const char *func = nullptr, const int line = -1);
 
 	virtual bool GetNearFarRange(float &near_, float &far_) const;
