@@ -295,13 +295,16 @@ static std::string glerr_to_string(GLenum err)
 	}
 }
 
-void RendererOGL::CheckErrors()
+void RendererOGL::CheckErrors(const char *func /*= nullptr*/)
 {
 	PROFILE_SCOPED()
 #ifndef PIONEER_PROFILER
 	GLenum err = glGetError();
 	if( err ) {
 		std::stringstream ss;
+		if(func) {
+			ss << "In function " << std::string(func) << "\n";
+		}
 		ss << "OpenGL error(s) during frame:\n";
 		while (err != GL_NO_ERROR) {
 			ss << glerr_to_string(err) << '\n';
