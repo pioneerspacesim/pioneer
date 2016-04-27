@@ -301,6 +301,11 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/)
 #ifndef PIONEER_PROFILER
 	GLenum err = glGetError();
 	if( err ) {
+		// static-cache current err that sparked this
+		static GLenum s_prevErr = GL_NO_ERROR;
+		const bool showWarning = (s_prevErr != err);
+		s_prevErr = err;
+		// now build info string
 		std::stringstream ss;
 		if(func) {
 			ss << "In function " << std::string(func) << "\n";
@@ -322,12 +327,11 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/)
 			}
 #endif
 		}
-		static GLenum s_prevErr = GL_NO_ERROR;
-		if(s_prevErr == err)
-			Output("%s", ss.str().c_str());
-		else
+		// show warning dialog or just log to output
+		if(showWarning)
 			Warning("%s", ss.str().c_str());
-		s_prevErr = err;
+		else
+			Output("%s", ss.str().c_str());
 	}
 #endif
 }
