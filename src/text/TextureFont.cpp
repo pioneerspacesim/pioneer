@@ -581,7 +581,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	, m_atlasVIncrement(0)
 	, m_lfLastCacheCleanTime(0.0)
 {
-	renderer->CheckRenderErrors();
+	renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	FT_Error err; // used to store freetype error return codes
 
@@ -601,12 +601,12 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	renderer->CheckRenderErrors();
+	renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_texFormat = m_config.IsOutline() ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
 	m_bpp = m_config.IsOutline() ? 2 : 1;
 
-	renderer->CheckRenderErrors();
+	renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
