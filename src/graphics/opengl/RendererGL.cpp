@@ -102,6 +102,9 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glEnable(GL_PROGRAM_POINT_SIZE);
 
+	glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
+	glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
+
 	SetMatrixMode(MatrixMode::MODELVIEW);
 
 	m_modelViewStack.push(matrix4x4f::Identity());
