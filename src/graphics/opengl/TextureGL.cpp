@@ -246,6 +246,7 @@ void TextureGL::Update(const void *data, const vector2f &pos, const vector2f &da
 {
 	PROFILE_SCOPED()
 	assert(m_target == GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(m_target, m_texture);
 
 	switch (m_target) {
@@ -288,7 +289,7 @@ void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, Te
 {
 	PROFILE_SCOPED()
 	assert(m_target == GL_TEXTURE_CUBE_MAP);
-
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(m_target, m_texture);
 
 	switch (m_target) {
