@@ -102,9 +102,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
 				CHECKERRORS();
-				if (descriptor.generateMipmaps)
-					glGenerateMipmap(m_target);
-				CHECKERRORS();
 			} else {
 				const GLint oglFormatMinSize = GetMinSize(descriptor.format);
 				size_t Width = descriptor.dataSize.x;
@@ -163,9 +160,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				CHECKERRORS();
-				if (descriptor.generateMipmaps)
-					glGenerateMipmap(m_target);
 				CHECKERRORS();
 			} else {
 				const GLint oglFormatMinSize = GetMinSize(descriptor.format);
