@@ -33,7 +33,7 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context), m_pre
 	FaceParts::PickFaceParts(face, m_seed);
 	FaceParts::BuildFaceImage(faceim.Get(), face, (flags & ARMOUR));
 
-	m_texture.reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer()));
+	m_texture.reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).GetOrCreateTexture(GetContext()->GetRenderer(), std::string("face")));
 
 	if (!s_material) {
 		Graphics::MaterialDescriptor matDesc;

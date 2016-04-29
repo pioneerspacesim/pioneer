@@ -213,7 +213,7 @@ void Model::DrawBillboards()
 		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
 		desc.textures = 1;
 		matHalos4x4.Reset(m_renderer->CreateMaterial(desc));
-		matHalos4x4->texture0 = Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").CreateTexture(m_renderer);
+		matHalos4x4->texture0 = Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(m_renderer, std::string("billboard"));
 	
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ADDITIVE;

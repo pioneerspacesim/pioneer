@@ -86,7 +86,7 @@ void UniverseBox::Init()
 	// Load default cubemap
 	if(!s_defaultCubeMap.get()) {
 		TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
-		s_defaultCubeMap.reset( texture_builder.CreateTexture(m_renderer) );
+		s_defaultCubeMap.reset( texture_builder.GetOrCreateTexture(m_renderer,std::string("cube")) );
 	}
 
 	// Create skybox geometry
@@ -178,7 +178,7 @@ void UniverseBox::LoadCubeMap(Random &rand)
 			// Load new one
 			const std::string os = stringf("textures/skybox/ub%0{d}.dds", (new_ubox_index - 1));
 			TextureBuilder texture_builder = TextureBuilder::Cube(os.c_str());
-			m_cubemap.reset( texture_builder.CreateTexture(m_renderer) );
+			m_cubemap.reset( texture_builder.GetOrCreateTexture(m_renderer, std::string("cube")) );
 			m_material->texture0 = m_cubemap.get();
 		}
 	} else {
