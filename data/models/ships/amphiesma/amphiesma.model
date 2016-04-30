@@ -1,4 +1,4 @@
-material Amph_hull-material
+material Amph_hull
 diffuse 1.0 1.0 1.0
 specular 0.9 0.9 0.9
 shininess 69

@@ -268,7 +268,7 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 
 bool ModelViewer::OnRandomColor(UI::Widget*)
 {
-	if (!m_model) return false;
+	if (!m_model || !m_model->SupportsPatterns()) return false;
 
 	SceneGraph::ModelSkin skin;
 	skin.SetRandomColors(m_rng);
@@ -280,7 +280,8 @@ bool ModelViewer::OnRandomColor(UI::Widget*)
 	for(unsigned int i=0; i<3; i++) {
 		for(unsigned int j=0; j<3; j++) {
 			// use ToColor4f to get the colours in 0..1 range required
-			colorSliders[(i*3)+j]->SetValue(colors[i].ToColor4f()[j]);
+			if( colorSliders[(i*3)+j] )
+				colorSliders[(i*3)+j]->SetValue(colors[i].ToColor4f()[j]);
 		}
 	}
 	m_settingColourSliders = false;

@@ -1,4 +1,4 @@
-material Material-material
+material Material
 diffuse 1.0 1.0 1.0
 specular 0.8 0.8 0.8
 use_patterns
