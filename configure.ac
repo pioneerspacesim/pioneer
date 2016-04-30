@@ -247,7 +247,7 @@ AC_ARG_WITH([thirdparty], AS_HELP_STRING([--with-thirdparty], [Location of pione
     else
 	    PKG_CONFIG_PATH="$withval/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 	    export PKG_CONFIG_PATH
-	    EXTRA_LIBS="$EXTRA_LIBS -ldl -lrt"
+	    EXTRA_LIBS="$EXTRA_LIBS -ldl -lrt -lz"
     fi
 	CFLAGS="-isystem $withval/usr/include"
 	LIBS="-L$withval/usr/lib -Wl,-rpath,$withval/usr/lib"
@@ -277,21 +277,20 @@ ASSIMP_CFLAGS=`echo $ASSIMP_CFLAGS | sed -e 's/\/assimp$//'`
 
 if test "x$cross_compiling" = "xno" ; then
 
-	dnl Extra version checks for assimp. Last release was 2.0, we need 3.0+ (git
-	dnl version). Unfortunately the pkg-config version has not yet been updated
-	dnl upstream, so we have to test the library directly
-	AC_MSG_CHECKING(for ASSIMP version >= 3.0)
+	dnl Extra version checks for assimp. Last release was 2.0, we need
+	dnl 3.2+. The .pc file is unversioned, so we need extra tests
+	AC_MSG_CHECKING(for ASSIMP version >= 3.2)
 	dnl Convert -Lfoo to -rpath=, as the wanted dir might not be visible to the dynamic linker
 	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath,/g'`
 	old_cxxflags="$CXXFLAGS"
 	old_libs="$LIBS"
 	CXXFLAGS="$ASSIMP_CFLAGS"
-	LIBS="$ASSIMP_LIBS $assimp_rpath"
+	LIBS="$ASSIMP_LIBS $EXTRA_LIBS $assimp_rpath"
 	AC_LANG_PUSH([C++])
 	AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <assimp/defs.h>
 	                                 #include <assimp/version.h>]],
 	                            [[do {
-	                                if (aiGetVersionMajor() >= 3 && aiGetVersionMinor() >= 0)
+	                                if (aiGetVersionMajor() >= 3 && aiGetVersionMinor() >= 2)
 	                                    return 0;
 	                                return 1;
 	                              } while(0)]])],
@@ -300,7 +299,7 @@ if test "x$cross_compiling" = "xno" ; then
 	                            [AC_MSG_RESULT(no)])
 	AC_LANG_POP
 	if test "x$have_assimp_version" != "xyes" ; then
-		AC_MSG_ERROR("assimp version >= 3.0 not found. Get it from https://assimp.sourceforge.net/")
+		AC_MSG_ERROR("assimp version >= 3.2 not found. Get it from https://assimp.sourceforge.net/")
 	fi
 	CXXFLAGS="$old_cxxflags"
 	LIBS="$old_libs"
