@@ -214,7 +214,7 @@ namespace PicoDDS
 
 		int GetMinDXTSize() const;
 
-		inline int GetMipLevelSize( const unsigned int width, const unsigned int height, unsigned int depth, const ImgFormat format) const
+		static int GetMipLevelSize( const unsigned int width, const unsigned int height, unsigned int depth, const ImgFormat format)
 		{
 			if (!depth)
 				depth=1;
@@ -278,7 +278,7 @@ namespace PicoDDS
 			return 0;
 		}
 
-		int CalculateStoreageSize() const;
+		int CalculateStorageSize() const;
 
 		ImgFormat GetTextureFormat() const;
 
