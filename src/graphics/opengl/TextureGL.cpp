@@ -126,7 +126,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 
 		case GL_TEXTURE_CUBE_MAP:
 			if(!IsCompressed(descriptor.format)) {
-				if(descriptor.generateMipmaps)
+				if(!descriptor.generateMipmaps)
 					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
 				CHECKERRORS();
 
