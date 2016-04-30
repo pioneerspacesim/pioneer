@@ -7,6 +7,7 @@ April 2016
    * Fixes
      * Fix ModelViewer crash (#3672)
      * Fix editing the gas giants in ObjectViewer editor mode (#3677)
+     * Legal custom cargo (#3692)
 
    * Internal Changes
      * NavLight Billboard Gathering (#3667)

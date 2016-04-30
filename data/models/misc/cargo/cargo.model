@@ -1,4 +1,4 @@
-material cargo-material
+material cargo
 tex_diff cargopod.dds
 tex_glow glow.dds
 tex_spec specular.dds
