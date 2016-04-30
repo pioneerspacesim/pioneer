@@ -102,9 +102,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
 				CHECKERRORS();
-				if (descriptor.generateMipmaps)
-					glGenerateMipmap(m_target);
-				CHECKERRORS();
 			} else {
 				const GLint oglFormatMinSize = GetMinSize(descriptor.format);
 				size_t Width = descriptor.dataSize.x;
@@ -129,7 +126,7 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 
 		case GL_TEXTURE_CUBE_MAP:
 			if(!IsCompressed(descriptor.format)) {
-				if(descriptor.generateMipmaps)
+				if(!descriptor.generateMipmaps)
 					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
 				CHECKERRORS();
 
@@ -163,9 +160,6 @@ TextureGL::TextureGL(const TextureDescriptor &descriptor, const bool useCompress
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				CHECKERRORS();
-				if (descriptor.generateMipmaps)
-					glGenerateMipmap(m_target);
 				CHECKERRORS();
 			} else {
 				const GLint oglFormatMinSize = GetMinSize(descriptor.format);
@@ -252,6 +246,7 @@ void TextureGL::Update(const void *data, const vector2f &pos, const vector2f &da
 {
 	PROFILE_SCOPED()
 	assert(m_target == GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(m_target, m_texture);
 
 	switch (m_target) {
@@ -283,7 +278,7 @@ void TextureGL::Update(const void *data, const vector2f &pos, const vector2f &da
 			assert(0);
 	}
 
-	if (GetDescriptor().generateMipmaps)
+	if (GetDescriptor().generateMipmaps && !IsCompressed(format))
 		glGenerateMipmap(m_target);
 
 	glBindTexture(m_target, 0);
@@ -294,7 +289,7 @@ void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, Te
 {
 	PROFILE_SCOPED()
 	assert(m_target == GL_TEXTURE_CUBE_MAP);
-
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(m_target, m_texture);
 
 	switch (m_target) {
@@ -341,7 +336,7 @@ void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, Te
 			assert(0);
 	}
 	
-	if (GetDescriptor().generateMipmaps)
+	if (GetDescriptor().generateMipmaps && !IsCompressed(format))
 		glGenerateMipmap(m_target);
 
 	glBindTexture(m_target, 0);
