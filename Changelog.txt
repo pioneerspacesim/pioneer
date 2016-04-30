@@ -18,6 +18,7 @@ April 2016
      * SpawnShipNear velocity matching (#3674)
      * Pre-convert to DDS more textures (#3687)
      * Fire once warnings (#3689)
+     * Texture code tidy (#3691)
 
 March 2016
    * New Features
