@@ -214,12 +214,9 @@ namespace PicoDDS
 
 		int GetMinDXTSize() const;
 
-		static int GetMipLevelSize( const unsigned int width, const unsigned int height, unsigned int depth, const ImgFormat format)
+		static int GetMipLevelSize( const unsigned int width, const unsigned int height, const ImgFormat format)
 		{
-			if (!depth)
-				depth=1;
-
-			const int numPixels=width*height*depth;
+			const int numPixels=width*height;
 			
 			switch( format)
 			{
@@ -264,13 +261,13 @@ namespace PicoDDS
 				return numPixels*16;
 			
 			case FORMAT_DXT1:
-				return ((width+3)/4) * ((height+3)/4) * depth * 8;
+				return ((width+3)/4) * ((height+3)/4) * 8;
 			case FORMAT_DXT2:
 			case FORMAT_DXT3:
 			case FORMAT_DXT4:
 			case FORMAT_DXT5:
 			case FORMAT_3DC:
-				return ((width+3)/4) * ((height+3)/4) * depth * 16;
+				return ((width+3)/4) * ((height+3)/4) * 16;
 
 			case FORMAT_NONE:
 				return 0;

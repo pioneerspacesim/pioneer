@@ -123,14 +123,12 @@ int DDSImage::CalculateStorageSize() const
 	{
 		int width=imgdata_.width;
 		int height=imgdata_.height;
-		int depth=imgdata_.depth;
 
 		for (int m=0; m<imgdata_.numMipMaps; ++m)
 		{
-			size+=GetMipLevelSize(width, height, depth, imgdata_.format);
+			size+=GetMipLevelSize(width, height, imgdata_.format);
 			width = std::max(width>>1, 1);
 			height = std::max(height>>1, 1);
-			depth = std::max(depth>>1, 1);
 		}
 	}
 
