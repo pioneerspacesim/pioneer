@@ -43,7 +43,9 @@ public:
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
 
 	Texture *GetOrCreateTexture(Renderer *r, const std::string &type) {
-		assert(!m_filename.empty());
+		if(m_filename.empty()) {
+			return CreateTexture(r);
+		}
 		Texture *t = r->GetCachedTexture(type, m_filename);
 		if (t) return t;
 		t = CreateTexture(r);
