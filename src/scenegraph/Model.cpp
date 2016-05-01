@@ -12,6 +12,7 @@
 
 namespace SceneGraph {
 
+static RefCountedPtr<Graphics::Texture> texHalos4x4;
 static RefCountedPtr<Graphics::Material> matHalos4x4;
 
 class LabelUpdateVisitor : public NodeVisitor {
@@ -213,7 +214,8 @@ void Model::DrawBillboards()
 		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
 		desc.textures = 1;
 		matHalos4x4.Reset(m_renderer->CreateMaterial(desc));
-		matHalos4x4->texture0 = Graphics::TextureBuilder::Billboard("textures/halo_4x4.png").CreateTexture(m_renderer);
+		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(m_renderer, std::string("billboard")));
+		matHalos4x4->texture0 = texHalos4x4.Get();
 	
 		Graphics::RenderStateDesc rsd;
 		rsd.blendMode = Graphics::BLEND_ADDITIVE;

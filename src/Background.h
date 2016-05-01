@@ -44,7 +44,7 @@ namespace Background
 		void Init();
 
 		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
-		std::unique_ptr<Graphics::Texture> m_cubemap;
+		RefCountedPtr<Graphics::Texture> m_cubemap;
 
 		Uint32 m_numCubemaps;
 	};

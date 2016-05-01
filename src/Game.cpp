@@ -26,7 +26,11 @@
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
 
-static const int  s_saveVersion   = 82;
+extern "C" {
+#include "miniz/miniz.h"
+}
+
+static const int  s_saveVersion   = 83;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -184,6 +188,7 @@ m_forceTimeAccel(false)
 
 void Game::ToJson(Json::Value &jsonObj)
 {
+	PROFILE_SCOPED()
 	// preparing the lua serializer
 	Pi::luaSerializer->InitTableRefs();
 
@@ -827,14 +832,22 @@ Game *Game::LoadGame(const std::string &filename)
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	Json::Reader jsonReader; // Create reader for parsing the JSON string.
 	const auto data = file->AsByteRange();
-	jsonReader.parse(data.begin, data.end, rootNode); // Parse the JSON string.
-	if (!rootNode.isObject()) throw SavedGameCorruptException();
-	return new Game(rootNode); // Decode the game data from JSON and create the game.
+	size_t outSize = 0;
+	void *pDecompressedData = tinfl_decompress_mem_to_heap(&data[0], data.Size(), &outSize, 0);
+	if (pDecompressedData) {
+		jsonReader.parse(static_cast<char*>(pDecompressedData), static_cast<char*>(pDecompressedData)+outSize, rootNode); // Parse the JSON string.
+		mz_free(pDecompressedData);
+		if (!rootNode.isObject()) throw SavedGameCorruptException();
+		return new Game(rootNode); // Decode the game data from JSON and create the game.
+	} else {
+		throw SavedGameCorruptException();
+	}
 	// file data is freed here
 }
 
 void Game::SaveGame(const std::string &filename, Game *game)
 {
+	PROFILE_SCOPED()
 	assert(game);
 
 	if (game->IsHyperspace())
@@ -847,16 +860,39 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotOpenFileException();
 	}
 
+#ifdef PIONEER_PROFILER
+	std::string profilerPath;
+	FileSystem::userFiles.MakeDirectory("profiler");
+	FileSystem::userFiles.MakeDirectory("profiler/saving");
+	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler/saving");
+	Profiler::reset();
+#endif
+
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
-	Json::StyledWriter jsonWriter; // Create writer for writing the JSON data to string.
+	Json::FastWriter jsonWriter; // Create writer for writing the JSON data to string.
 	const std::string jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
 
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
 
-	size_t nwritten = fwrite(jsonDataStr.data(), jsonDataStr.length(), 1, f);
-	fclose(f);
-
-	if (nwritten != 1) throw CouldNotWriteToFileException();
+	// compress in memory, write to open file 
+	size_t outSize = 0;
+	void *pCompressedData = tdefl_compress_mem_to_heap(jsonDataStr.data(), jsonDataStr.length(), &outSize, 128);
+	if (pCompressedData) 
+	{
+		size_t nwritten = fwrite(pCompressedData, outSize, 1, f);
+		mz_free(pCompressedData);
+		fclose(f);
+		if (nwritten != 1) throw CouldNotWriteToFileException();
+	}
+	else
+	{
+		fclose(f);
+		throw CouldNotWriteToFileException();
+	}
+	
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 }

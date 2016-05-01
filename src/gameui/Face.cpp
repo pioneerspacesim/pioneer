@@ -33,7 +33,7 @@ Face::Face(Context *context, Uint32 flags, Uint32 seed) : Single(context), m_pre
 	FaceParts::PickFaceParts(face, m_seed);
 	FaceParts::BuildFaceImage(faceim.Get(), face, (flags & ARMOUR));
 
-	m_texture.reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).CreateTexture(GetContext()->GetRenderer()));
+	m_texture.Reset(Graphics::TextureBuilder(faceim, Graphics::LINEAR_CLAMP, true, true).GetOrCreateTexture(GetContext()->GetRenderer(), std::string("face")));
 
 	if (!s_material) {
 		Graphics::MaterialDescriptor matDesc;
@@ -82,7 +82,7 @@ void Face::Draw()
 		va.Add(vector3f(x + sx, y, 0.0f), vector2f(texSize.x, 0.0f));
 		va.Add(vector3f(x + sx, y + sy, 0.0f), vector2f(texSize.x, texSize.y));
 
-		s_material->texture0 = m_texture.get();
+		s_material->texture0 = m_texture.Get();
 		auto state = GetContext()->GetSkin().GetAlphaBlendState();
 		m_quad.reset(new Graphics::Drawables::TexturedQuad(r, s_material, va, state));
 	}

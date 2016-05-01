@@ -1,4 +1,4 @@
-material Body-material
+material Body
 
 tex_diff deneb.dds
 tex_glow deneb_glow.dds

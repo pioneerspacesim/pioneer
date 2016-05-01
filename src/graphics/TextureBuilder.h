@@ -41,21 +41,15 @@ public:
 	}
 
 	const TextureDescriptor &GetDescriptor() { PrepareSurface(); return m_descriptor; }
-	void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles
 
-	Texture *CreateTexture(Renderer *r) {
-		Texture *t = r->CreateTexture(GetDescriptor());
-		UpdateTexture(t);
-		return t;
-	}
-
-	Texture *GetOrCreateTexture(Renderer *r, const std::string &type, const std::string &name = "") {
-		const std::string &cacheName = name.length() > 0 ? name : m_filename;
-		assert(cacheName.length() > 0);
-		Texture *t = r->GetCachedTexture(type, cacheName);
+	Texture *GetOrCreateTexture(Renderer *r, const std::string &type) {
+		if(m_filename.empty()) {
+			return CreateTexture(r);
+		}
+		Texture *t = r->GetCachedTexture(type, m_filename);
 		if (t) return t;
 		t = CreateTexture(r);
-		r->AddCachedTexture(type, cacheName, t);
+		r->AddCachedTexture(type, m_filename, t);
 		return t;
 	}
 
@@ -79,7 +73,13 @@ private:
 	TextureType m_textureType;
 
 	TextureDescriptor m_descriptor;
-
+	
+	Texture *CreateTexture(Renderer *r) {
+		Texture *t = r->CreateTexture(GetDescriptor());
+		UpdateTexture(t);
+		return t;
+	}
+	void UpdateTexture(Texture *texture); // XXX pass src/dest rectangles
 	void PrepareSurface();
 	bool m_prepared;
 

@@ -38,7 +38,7 @@ private:
 
 	static RefCountedPtr<Graphics::Material> s_material;
 
-	std::unique_ptr<Graphics::Texture> m_texture;
+	RefCountedPtr<Graphics::Texture> m_texture;
 	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 

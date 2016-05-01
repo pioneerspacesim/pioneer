@@ -1,3 +1,7 @@
+May 2016
+   * Fixes
+     * Textures can be anonymous (#3693)
+
 April 2016
    * New Features
      * First commit of the Bluenose frieghter (#3668)
@@ -7,11 +11,18 @@ April 2016
    * Fixes
      * Fix ModelViewer crash (#3672)
      * Fix editing the gas giants in ObjectViewer editor mode (#3677)
+     * Legal custom cargo (#3692)
 
    * Internal Changes
      * NavLight Billboard Gathering (#3667)
      * Change DrawPointSprites to really use Point Sprites (#3670)
      * Lua debug tools, part one (#3675)
+     * Updated Xcode project to fix "missing vtable" error (#3686)
+     * Saving changes (#3684)
+     * SpawnShipNear velocity matching (#3674)
+     * Pre-convert to DDS more textures (#3687)
+     * Fire once warnings (#3689)
+     * Texture code tidy (#3691)
 
 March 2016
    * New Features

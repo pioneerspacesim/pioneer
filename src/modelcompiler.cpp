@@ -74,8 +74,14 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 	//and then save it into binary
 	std::unique_ptr<SceneGraph::Model> model;
 	try {
-		SceneGraph::Loader ld(s_renderer.get(), false, false);
+		SceneGraph::Loader ld(s_renderer.get(), true, false);
 		model.reset(ld.LoadModel(modelName));
+		//dump warnings
+		for (std::vector<std::string>::const_iterator it = ld.GetLogMessages().begin();
+			it != ld.GetLogMessages().end(); ++it)
+		{
+			Output("%s\n", (*it).c_str());
+		}
 	} catch (...) {
 		//minimal error handling, this is not expected to happen since we got this far.
 		return;

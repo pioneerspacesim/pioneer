@@ -15,7 +15,7 @@ namespace OGL {
 VtxColorProgram::VtxColorProgram(const MaterialDescriptor &desc)
 {
 	m_name = "vtxColor";
-	RendererOGL::CheckErrors();
+	CHECKERRORS();
 
 	LoadShaders(m_name, m_defines);
 	InitUniforms();
