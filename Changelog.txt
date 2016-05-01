@@ -1,6 +1,6 @@
 May 2016
    * Fixes
-     * Textures can be anonymous #3693
+     * Textures can be anonymous (#3693)
 
 April 2016
    * New Features
