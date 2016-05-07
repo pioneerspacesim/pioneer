@@ -361,7 +361,7 @@
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "Echipajul înlocuitor trebuie să ajungă la navă până la {due}."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
@@ -377,11 +377,11 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transfered to the target ship."
+      "message" : "{unit} a fost transferat pe nava destinată."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Nu putem returna nava fără un echipaj minim pe ea. Caut pe cineva dispus să transporte un echipaj înlocuitor de {deliver_crew} persoane pe nava noastră imediat."
    },
    "FULL_CARGO" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "un incendiu în depozitul navei"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
@@ -533,75 +533,75 @@
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "o pană de curent în nucleul motorului"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "o scurgere de aer"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "o formă gravă de intoxicație alimentară care a afectat tot personalul de la bordul navei"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "a small meteor impact"
+      "message" : "un impact cu un meteorit mic"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "o bătaie între membrii echipajului"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "contactul cu un obiect zburător neidentificat"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
-      "message" : "a dispute with a competitor's vessel"
+      "message" : "o dispută cu o navă a unui competitor"
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "o repornire a calculatorului principal"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "o reacție chimicală neașteptată în una din camerele de reacție"
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
-      "message" : "a major discovery at {locality} that I am not at liberty to disclose at this time"
+      "message" : "o descoperire majoră la {locality} pe care nu am libertatea să o divulg acum"
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "o infecție a unui membru al echipajului cu un patogen local din {locality}"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "o scurgere de patogeni experimentali în sursa principală de aer"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "expunerea echipajului la un specimen colectat din {locality}"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
-      "message" : "a chemical explosion in one of the on-board fume hoods"
+      "message" : "o explozie chimică în una din nișele chimice de la bord"
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "an experimental recreation of {locality} atmospheric gases"
+      "message" : "o recreere experimentală a gazelor atmosferice din {locality}"
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "a heated dispute between scientists on board the ship"
+      "message" : "o dispută aprinsă între oamenii de știință de la bordul navei"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "the sudden disappearance of a lead investigator on board the ship"
+      "message" : "dispariția subită a anchetatorului șef de la bordul navei"
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
-      "message" : "the accidental combination of incompatible specimens from {locality}"
+      "message" : "combinarea accidentala de specimene incompatibile din {locality}"
    },
    "RESULT_DELIVERY_COMM" : {
       "description" : "",
