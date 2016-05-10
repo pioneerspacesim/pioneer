@@ -127,7 +127,7 @@ void Missile::Explode()
 		}
 	}
 
-	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+	SfxManager::Add(this, TYPE_EXPLOSION);
 }
 
 void Missile::NotifyRemoved(const Body* const removedBody)

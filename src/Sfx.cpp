@@ -18,21 +18,23 @@
 
 using namespace Graphics;
 
-static const int MAX_SFX_PER_FRAME = 1024;
+std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
+std::unique_ptr<Graphics::Material> SfxManager::ecmParticle;
+std::unique_ptr<Graphics::Material> SfxManager::smokeParticle;
+std::unique_ptr<Graphics::Material> SfxManager::explosionParticle;
+Graphics::RenderState *SfxManager::alphaState = nullptr;
+Graphics::RenderState *SfxManager::additiveAlphaState = nullptr;
+Graphics::RenderState *SfxManager::alphaOneState = nullptr;
 
-std::unique_ptr<Graphics::Material> Sfx::damageParticle;
-std::unique_ptr<Graphics::Material> Sfx::ecmParticle;
-std::unique_ptr<Graphics::Material> Sfx::smokeParticle;
-std::unique_ptr<Graphics::Material> Sfx::explosionParticle;
-Graphics::RenderState *Sfx::alphaState = nullptr;
-Graphics::RenderState *Sfx::additiveAlphaState = nullptr;
-Graphics::RenderState *Sfx::alphaOneState = nullptr;
+Graphics::Texture* SfxManager::explosionTextures[NUM_EXPLOSION_TEXTURES];
 
-Graphics::Texture* Sfx::explosionTextures[Sfx::NUM_EXPLOSION_TEXTURES];
-
-Sfx::Sfx()
+Sfx::Sfx() : m_speed(200.0f), m_type(TYPE_NONE)
 {
-	m_type = TYPE_NONE;
+}
+
+Sfx::Sfx(vector3d &pos, vector3d &vel, float speed, SFX_TYPE type) :
+	m_pos(pos),	m_vel(vel),	m_age(0.0f), m_speed(speed), m_type(type)
+{
 }
 
 void Sfx::SaveToJson(Json::Value &jsonObj)
@@ -59,40 +61,7 @@ void Sfx::LoadFromJson(const Json::Value &jsonObj)
 	JsonToVector(&m_pos, sfxObj, "pos");
 	JsonToVector(&m_vel, sfxObj, "vel");
 	m_age = StrToFloat(sfxObj["age"].asString());
-	m_type = static_cast<Sfx::TYPE>(sfxObj["type"].asInt());
-}
-
-void Sfx::ToJson(Json::Value &jsonObj, const Frame *f)
-{
-	Json::Value sfxArray(Json::arrayValue); // Create JSON array to contain sfx data.
-
-	if (f->m_sfx)
-	{
-		for (int i = 0; i < MAX_SFX_PER_FRAME; i++)
-		{
-			if (f->m_sfx[i].m_type != TYPE_NONE)
-			{
-				Json::Value sfxArrayEl(Json::objectValue); // Create JSON object to contain sfx element.
-				f->m_sfx[i].SaveToJson(sfxArrayEl);
-				sfxArray.append(sfxArrayEl); // Append sfx object to array.
-			}
-		}
-	}
-
-	jsonObj["sfx_array"] = sfxArray; // Add sfx array to supplied object.
-}
-
-void Sfx::FromJson(const Json::Value &jsonObj, Frame *f)
-{
-	if (!jsonObj.isMember("sfx_array")) throw SavedGameCorruptException();
-	Json::Value sfxArray = jsonObj["sfx_array"];
-	if (!sfxArray.isArray()) throw SavedGameCorruptException();
-
-	if (sfxArray.size()) f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];
-	for (unsigned int i = 0; i < sfxArray.size(); ++i)
-	{
-		f->m_sfx[i].LoadFromJson(sfxArray[i]);
-	}
+	m_type = static_cast<SFX_TYPE>(sfxObj["type"].asInt());
 }
 
 void Sfx::SetPosition(const vector3d &p)
@@ -107,28 +76,21 @@ void Sfx::TimeStepUpdate(const float timeStep)
 	m_pos += m_vel * double(timeStep);
 
 	switch (m_type) {
-		case TYPE_EXPLOSION:
-			//if (m_age > 0.5) m_type = TYPE_NONE;
-			if (m_age > 3.2) m_type = TYPE_NONE;
-			break;
-		case TYPE_DAMAGE:
-			if (m_age > 2.0) m_type = TYPE_NONE;
-			break;
-		case TYPE_SMOKE:
-			if (m_age > 8.0)
-				m_type = TYPE_NONE;
-			break;
+		case TYPE_EXPLOSION:	if (m_age > 3.2) m_type = TYPE_NONE;	break;
+		case TYPE_DAMAGE:		if (m_age > 2.0) m_type = TYPE_NONE;	break;
+		case TYPE_SMOKE:		if (m_age > 8.0) m_type = TYPE_NONE;	break;
 		case TYPE_NONE: break;
 	}
 }
-#pragma optimize("",off)
+
 float SizeToPixels(const matrix4x4d &trans, const float size)
 {
 	//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
-	const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.GetTranslate().Length(), 1.0, 15.0);
+	// gl_PointSize = pixels_per_radian * point_diameter / distance( camera, pointcenter );
+	const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.GetTranslate().Length(), 0.1, 50.0);
 	return (size * Graphics::GetFovFactor()) * pixrad;
 }
-#pragma optimize("",off)
+
 void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 {
 	PROFILE_SCOPED()
@@ -143,104 +105,127 @@ void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
 		{
 			renderer->SetTransform(fposTrans);
 			const int spriteframe = Clamp( Uint32(m_age*20.0f), Uint32(0), NUM_EXPLOSION_TEXTURES-1 );
-			assert(explosionTextures[spriteframe]);
-			explosionParticle->texture0 = explosionTextures[spriteframe];
+			assert(SfxManager::explosionTextures[spriteframe]);
+			SfxManager::explosionParticle->texture0 = SfxManager::explosionTextures[spriteframe];
 			//face camera
 			renderer->SetTransform(matrix4x4f::Identity());
-			renderer->DrawPointSprites(1, &pos, alphaOneState, explosionParticle.get(), SizeToPixels(fposTrans, m_speed));
+			renderer->DrawPointSprites(1, &pos, SfxManager::alphaState, SfxManager::explosionParticle.get(), SizeToPixels(fposTrans, m_speed));
 			break;
 		} 
 		case TYPE_DAMAGE: 
 		{
 			renderer->SetTransform(fposTrans);
-			damageParticle->diffuse = Color(255, 255, 0, (1.0f-(m_age/2.0f))*255);
-			renderer->DrawPointSprites(1, &pos, additiveAlphaState, damageParticle.get(), SizeToPixels(fposTrans, 20.f));
+			SfxManager::damageParticle->diffuse = Color(255, 255, 0, (1.0f-(m_age/2.0f))*255);
+			renderer->DrawPointSprites(1, &pos, SfxManager::additiveAlphaState, SfxManager::damageParticle.get(), SizeToPixels(fposTrans, 20.f));
 			break;
 		} 
 		case TYPE_SMOKE: 
 		{
 			float var = Pi::rng.Double()*0.05f; //slightly variation to trail color
 			if (m_age < 0.5) { //start trail
-				smokeParticle->diffuse = Color((0.75f-var)*255, (0.75f-var)*255, (0.75f-var)*255, (m_age*0.5-(m_age/2.0f))*255);
+				SfxManager::smokeParticle->diffuse = Color((0.75f-var)*255, (0.75f-var)*255, (0.75f-var)*255, (m_age*0.5-(m_age/2.0f))*255);
 			} else { //end trail
-				smokeParticle->diffuse = Color((0.75-var)*255, (0.75f-var)*255, (0.75f-var)*255, Clamp(0.5*0.5-(m_age/16.0),0.0,1.0)*255);
+				SfxManager::smokeParticle->diffuse = Color((0.75-var)*255, (0.75f-var)*255, (0.75f-var)*255, Clamp(0.5*0.5-(m_age/16.0),0.0,1.0)*255);
 			}
 
 			renderer->SetTransform(fposTrans);
 
-			damageParticle->diffuse*=0.05;
-			renderer->DrawPointSprites(1, &pos, alphaState, smokeParticle.get(), Clamp(SizeToPixels(fposTrans, (m_speed*m_age)), 0.1f, 50.0f));
+			SfxManager::smokeParticle->diffuse*=0.05;
+			renderer->DrawPointSprites(1, &pos, SfxManager::alphaState, SfxManager::smokeParticle.get(), Clamp(SizeToPixels(fposTrans, (m_speed*m_age)), 0.1f, 50.0f));
 			break;
 		}
 	}
 }
 
-Sfx *Sfx::AllocSfxInFrame(Frame *f)
+void SfxManager::ToJson(Json::Value &jsonObj, const Frame *f)
 {
-	if (!f->m_sfx) {
-		f->m_sfx = new Sfx[MAX_SFX_PER_FRAME];
-	}
+	Json::Value sfxArray(Json::arrayValue); // Create JSON array to contain sfx data.
 
-	for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
-		if (f->m_sfx[i].m_type == TYPE_NONE) {
-			return &f->m_sfx[i];
+	if (f->m_sfx)
+	{
+		for(size_t t=0; t<TYPE_NONE; t++) 
+		{
+			for (size_t i = 0; i < f->m_sfx->GetNumberInstances(SFX_TYPE(t)); i++)
+			{
+				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
+				if (inst.m_type != TYPE_NONE)
+				{
+					Json::Value sfxArrayEl(Json::objectValue); // Create JSON object to contain sfx element.
+					inst.SaveToJson(sfxArrayEl);
+					sfxArray.append(sfxArrayEl); // Append sfx object to array.
+				}
+			}
 		}
 	}
-	return 0;
+
+	jsonObj["sfx_array"] = sfxArray; // Add sfx array to supplied object.
 }
 
-void Sfx::Add(const Body *b, TYPE t)
+void SfxManager::FromJson(const Json::Value &jsonObj, Frame *f)
 {
-	Sfx *sfx = AllocSfxInFrame(b->GetFrame());
-	if (!sfx) return;
+	if (!jsonObj.isMember("sfx_array")) throw SavedGameCorruptException();
+	Json::Value sfxArray = jsonObj["sfx_array"];
+	if (!sfxArray.isArray()) throw SavedGameCorruptException();
 
-	sfx->m_type = t;
-	sfx->m_age = 0;
-	sfx->SetPosition(b->GetPosition());
-	sfx->m_vel = b->GetVelocity() + 200.0*vector3d(
-			Pi::rng.Double()-0.5,
-			Pi::rng.Double()-0.5,
-			Pi::rng.Double()-0.5);
-}
-
-void Sfx::AddExplosion(Body *b, TYPE t)
-{
-	Sfx *sfx = AllocSfxInFrame(b->GetFrame());
-	if (!sfx) return;
-
-	sfx->m_type = t;
-	sfx->m_age = 0;
-	sfx->SetPosition(b->GetPosition());
-	sfx->m_vel = b->GetVelocity();
-	if (b->IsType(Object::SHIP)) {
-		Ship *s = static_cast<Ship*>(b);
-		sfx->m_speed = s->GetAabb().radius*8.0;
-	} else {
-		sfx->m_speed = 200.0f;
+	if (sfxArray.size()) f->m_sfx.reset(new SfxManager);
+	for (unsigned int i = 0; i < sfxArray.size(); ++i)
+	{
+		Sfx inst; inst.LoadFromJson(sfxArray[i]);
+		f->m_sfx->AddInstance(inst);
 	}
 }
 
-
-void Sfx::AddThrustSmoke(const Body *b, TYPE t, const float speed, vector3d adjustpos)
+SfxManager *SfxManager::AllocSfxInFrame(Frame *f)
 {
-	Sfx *sfx = AllocSfxInFrame(b->GetFrame());
-	if (!sfx) return;
+	if (!f->m_sfx) {
+		f->m_sfx.reset(new SfxManager);
+	}
 
-	sfx->m_type = t;
-	sfx->m_age = 0;
-	sfx->m_speed = speed;
-	vector3d npos = b->GetPosition();
-	sfx->SetPosition(npos+adjustpos);
-	sfx->m_vel = vector3d(0,0,0);
+	return f->m_sfx.get();
 }
 
-void Sfx::TimeStepAll(const float timeStep, Frame *f)
+void SfxManager::Add(const Body *b, SFX_TYPE t)
+{
+	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
+	if (!sfxman) return;
+	vector3d vel(b->GetVelocity() + 200.0*vector3d(Pi::rng.Double()-0.5,Pi::rng.Double()-0.5,Pi::rng.Double()-0.5));
+	Sfx sfx(b->GetPosition(), vel, 200, t);
+	sfxman->AddInstance(sfx);
+}
+
+void SfxManager::AddExplosion(Body *b)
+{
+	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
+	if (!sfxman) return;
+	
+	float speed = 200.0f;
+	if (b->IsType(Object::SHIP)) {
+		Ship *s = static_cast<Ship*>(b);
+		speed = s->GetAabb().radius*8.0;
+	}
+	Sfx sfx(b->GetPosition(), b->GetVelocity(), speed, TYPE_EXPLOSION);
+	sfxman->AddInstance(sfx);
+}
+
+void SfxManager::AddThrustSmoke(const Body *b, const float speed, const vector3d &adjustpos)
+{
+	SfxManager *sfxman = AllocSfxInFrame(b->GetFrame());
+	if (!sfxman) return;
+
+	Sfx sfx(b->GetPosition()+adjustpos, vector3d(0,0,0), speed, TYPE_SMOKE);
+	sfxman->AddInstance(sfx);
+}
+
+void SfxManager::TimeStepAll(const float timeStep, Frame *f)
 {
 	PROFILE_SCOPED()
 	if (f->m_sfx) {
-		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
-			if (f->m_sfx[i].m_type != TYPE_NONE) {
-				f->m_sfx[i].TimeStepUpdate(timeStep);
+		for(size_t t=0; t<TYPE_NONE; t++) 
+		{
+			for (size_t i = 0; i < f->m_sfx->GetNumberInstances(SFX_TYPE(t)); i++)
+			{
+				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
+				inst.TimeStepUpdate(timeStep);
 			}
 		}
 	}
@@ -250,16 +235,34 @@ void Sfx::TimeStepAll(const float timeStep, Frame *f)
 	}
 }
 
-void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
+void SfxManager::Cleanup()
+{
+	for(size_t t=0; t<TYPE_NONE; t++) 
+	{
+		for (size_t i = 0; i < GetNumberInstances(SFX_TYPE(t)); i++)
+		{
+			Sfx &inst(GetInstanceByIndex(SFX_TYPE(t), i));
+			if (inst.m_type == TYPE_NONE)
+			{
+				m_instances[t].erase(m_instances[t].begin()+i);
+			}
+		}
+	}
+}
+
+void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 {
 	PROFILE_SCOPED()
 	if (f->m_sfx) {
 		matrix4x4d ftran;
 		Frame::GetFrameTransform(f, camFrame, ftran);
 
-		for (int i=0; i<MAX_SFX_PER_FRAME; i++) {
-			if (f->m_sfx[i].m_type != TYPE_NONE) {
-				f->m_sfx[i].Render(renderer, ftran);
+		for(size_t t=0; t<TYPE_NONE; t++) 
+		{
+			for (size_t i = 0; i < f->m_sfx->GetNumberInstances(SFX_TYPE(t)); i++)
+			{
+				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
+				inst.Render(renderer, ftran);
 			}
 		}
 	}
@@ -269,7 +272,7 @@ void Sfx::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 	}
 }
 
-void Sfx::Init(Graphics::Renderer *r)
+void SfxManager::Init(Graphics::Renderer *r)
 {
 	//shared render states
 	Graphics::RenderStateDesc rsd;
@@ -305,7 +308,7 @@ void Sfx::Init(Graphics::Renderer *r)
 	}
 }
 
-void Sfx::Uninit()
+void SfxManager::Uninit()
 {
 	damageParticle.reset();
 	ecmParticle.reset();

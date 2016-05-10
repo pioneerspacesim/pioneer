@@ -249,7 +249,7 @@ void Game::TimeStep(float step)
 
 	// XXX ui updates, not sure if they belong here
 	m_gameViews->m_cpan->TimeStepUpdate(step);
-	Sfx::TimeStepAll(step, m_space->GetRootFrame());
+	SfxManager::TimeStepAll(step, m_space->GetRootFrame());
 	log->Update(m_timeAccel == Game::TIMEACCEL_PAUSED);
 
 	if (m_state == STATE_HYPERSPACE) {

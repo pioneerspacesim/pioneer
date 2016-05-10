@@ -49,7 +49,7 @@ void Frame::ToJson(Json::Value &jsonObj, Frame *f, Space *space)
 	}
 	frameObj["child_frames"] = childFrameArray; // Add child frame array to frame object.
 
-	Sfx::ToJson(frameObj, f);
+	SfxManager::ToJson(frameObj, f);
 
 	jsonObj["frame"] = frameObj; // Add frame object to supplied object.
 }
@@ -89,7 +89,7 @@ Frame *Frame::FromJson(const Json::Value &jsonObj, Space *space, Frame *parent, 
 	for (unsigned int i = 0; i < childFrameArray.size(); ++i) {
 		f->m_children.push_back(FromJson(childFrameArray[i], space, f, at_time));
 	}
-	Sfx::FromJson(frameObj, f);
+	SfxManager::FromJson(frameObj, f);
 
 	f->ClearMovement();
 	return f;
@@ -125,7 +125,7 @@ void Frame::Init(Frame *parent, const char *label, unsigned int flags)
 
 Frame::~Frame()
 {
-	if (m_sfx) delete [] m_sfx;
+	m_sfx.reset();
 	delete m_collisionSpace;
 	for (Frame* kid : m_children)
 		delete kid;
