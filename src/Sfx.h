@@ -15,7 +15,8 @@ namespace Graphics {
 }
 
 const enum SFX_TYPE { TYPE_EXPLOSION=1, TYPE_DAMAGE, TYPE_SMOKE, TYPE_NONE };
-static const Uint32 NUM_EXPLOSION_TEXTURES = 32;
+
+//#define USE_INDIVIDUAL_SFX_DRAWCALLS 1
 
 class Sfx {
 public:
@@ -27,8 +28,9 @@ public:
 	const vector3d& GetPosition() const { return m_pos; }
 
 private:
-
+#ifdef USE_INDIVIDUAL_SFX_DRAWCALLS
 	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
+#endif
 	void TimeStepUpdate(const float timeStep);
 	void SaveToJson(Json::Value &jsonObj);
 	void LoadFromJson(const Json::Value &jsonObj);
@@ -64,6 +66,8 @@ public:
 	static Graphics::RenderState *additiveAlphaState;
 	static Graphics::RenderState *alphaOneState;
 
+	SfxManager();
+
 	size_t GetNumberInstances(const SFX_TYPE t) const { return m_instances[t].size(); }
 	Sfx& GetInstanceByIndex(const SFX_TYPE t, const size_t i) { return m_instances[t][i]; }
 	void AddInstance(Sfx &inst) { return m_instances[inst.m_type].push_back(inst); }
@@ -71,7 +75,6 @@ public:
 
 private:
 	static SfxManager *AllocSfxInFrame(Frame *f);
-	static Graphics::Texture* explosionTextures[NUM_EXPLOSION_TEXTURES];
 
 	// per-frame
 	std::deque<Sfx> m_instances[TYPE_NONE];

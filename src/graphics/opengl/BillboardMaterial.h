@@ -15,6 +15,14 @@ namespace Graphics {
 
 	namespace OGL {
 
+		class BillboardProgram : public Program {
+		public:
+			BillboardProgram(const MaterialDescriptor &);
+			Uniform coordDownScale;
+		protected:
+			virtual void InitUniforms() override;
+		};
+
 		class BillboardMaterial : public Material {
 		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
