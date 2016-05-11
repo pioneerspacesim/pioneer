@@ -35,7 +35,7 @@ Program *BillboardMaterial::CreateProgram(const MaterialDescriptor &desc)
 	assert(desc.textures == 1);
 	return new BillboardProgram(desc);
 }
-#pragma optimize("",off)
+
 void BillboardMaterial::Apply()
 {
 	OGL::Material::Apply();
