@@ -248,6 +248,7 @@ public:
 
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
+	sigc::signal<void> onLanded;
 
 	// mutable because asking to know when state changes is not the same as
 	// actually changing state
