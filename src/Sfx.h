@@ -16,8 +16,6 @@ namespace Graphics {
 
 const enum SFX_TYPE { TYPE_EXPLOSION=1, TYPE_DAMAGE, TYPE_SMOKE, TYPE_NONE };
 
-//#define USE_INDIVIDUAL_SFX_DRAWCALLS 1
-
 class Sfx {
 public:
 	
@@ -28,9 +26,6 @@ public:
 	const vector3d& GetPosition() const { return m_pos; }
 
 private:
-#ifdef USE_INDIVIDUAL_SFX_DRAWCALLS
-	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
-#endif
 	void TimeStepUpdate(const float timeStep);
 	void SaveToJson(Json::Value &jsonObj);
 	void LoadFromJson(const Json::Value &jsonObj);

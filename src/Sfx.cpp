@@ -18,6 +18,20 @@
 
 using namespace Graphics;
 
+namespace {
+	float SizeToPixels(const vector3f &trans, const float size)
+	{
+		//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
+		// gl_PointSize = pixels_per_radian * point_diameter / distance( camera, pointcenter );
+		const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.Length(), 0.1f, 50.0f);
+		return (size * Graphics::GetFovFactor()) * pixrad;
+	}
+
+	static const Uint32 NUM_EXPLOSION_TEXTURES = 32;
+	static const int NUM_EXPLOSION_IMGS_WIDE = 6;
+	static const float EXPLOSION_COORD_DOWNSCALE = 1.0f/6.0f;
+};
+
 std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
 std::unique_ptr<Graphics::Material> SfxManager::ecmParticle;
 std::unique_ptr<Graphics::Material> SfxManager::smokeParticle;
@@ -25,10 +39,6 @@ std::unique_ptr<Graphics::Material> SfxManager::explosionParticle;
 Graphics::RenderState *SfxManager::alphaState = nullptr;
 Graphics::RenderState *SfxManager::additiveAlphaState = nullptr;
 Graphics::RenderState *SfxManager::alphaOneState = nullptr;
-
-static const Uint32 NUM_EXPLOSION_TEXTURES = 32;
-static const int NUM_EXPLOSION_IMGS_WIDE = 6;
-static const float EXPLOSION_COORD_DOWNSCALE = 1.0f/6.0f;
 
 Sfx::Sfx() : m_speed(200.0f), m_type(TYPE_NONE)
 {
@@ -84,45 +94,6 @@ void Sfx::TimeStepUpdate(const float timeStep)
 		case TYPE_NONE: break;
 	}
 }
-
-float SizeToPixels(const vector3f &trans, const float size)
-{
-	//some hand-tweaked scaling, to make the lights seem larger from distance (final size is in pixels)
-	// gl_PointSize = pixels_per_radian * point_diameter / distance( camera, pointcenter );
-	const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.Length(), 0.1f, 50.0f);
-	return (size * Graphics::GetFovFactor()) * pixrad;
-}
-
-#ifdef USE_INDIVIDUAL_SFX_DRAWCALLS
-void Sfx::Render(Renderer *renderer, const matrix4x4d &ftransform)
-{
-	PROFILE_SCOPED()
-	const vector3d fpos = ftransform * GetPosition();
-	const vector3f pos(fpos);
-
-	switch (m_type) 
-	{
-		case TYPE_NONE: break;
-		case TYPE_EXPLOSION: 
-		{
-			const int spriteframe = Clamp( Uint32(m_age*20.0f), Uint32(0), NUM_EXPLOSION_TEXTURES-1 );
-			//face camera
-			renderer->DrawPointSprites(1, &pos, SfxManager::alphaState, SfxManager::explosionParticle.get(), SizeToPixels(pos, m_speed));
-			break;
-		} 
-		case TYPE_DAMAGE: 
-		{
-			renderer->DrawPointSprites(1, &pos, SfxManager::additiveAlphaState, SfxManager::damageParticle.get(), SizeToPixels(pos, 20.f));
-			break;
-		} 
-		case TYPE_SMOKE: 
-		{
-			renderer->DrawPointSprites(1, &pos, SfxManager::alphaState, SfxManager::smokeParticle.get(), Clamp(SizeToPixels(pos, (m_speed*m_age)), 0.1f, 50.0f));
-			break;
-		}
-	}
-}
-#endif
 
 SfxManager::SfxManager()
 {
@@ -254,22 +225,6 @@ void SfxManager::Cleanup()
 void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 {
 	PROFILE_SCOPED()
-#if USE_INDIVIDUAL_SFX_DRAWCALLS
-	if (f->m_sfx) {
-		matrix4x4d ftran;
-		Frame::GetFrameTransform(f, camFrame, ftran);
-
-		for(size_t t=TYPE_EXPLOSION; t<TYPE_NONE; t++) 
-		{
-			const size_t numInstances = f->m_sfx->GetNumberInstances(SFX_TYPE(t));
-			for (size_t i = 0; i < numInstances; i++)
-			{
-				Sfx &inst(f->m_sfx->GetInstanceByIndex(SFX_TYPE(t), i));
-				inst.Render(renderer, ftran);
-			}
-		}
-	}
-#else
 	if (f->m_sfx) {
 		matrix4x4d ftran;
 		Frame::GetFrameTransform(f, camFrame, ftran);
@@ -329,7 +284,6 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 			renderer->DrawPointSprites(numInstances, &positions[0], &offsets[0], &sizes[0], rs, material);
 		}
 	}
-#endif
 
 	for (Frame* kid : f->GetChildren()) {
 		RenderAll(renderer, kid, camFrame);
