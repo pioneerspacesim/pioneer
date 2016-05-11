@@ -44,8 +44,13 @@ Sfx::Sfx() : m_speed(200.0f), m_type(TYPE_NONE)
 {
 }
 
-Sfx::Sfx(vector3d &pos, vector3d &vel, float speed, SFX_TYPE type) :
+Sfx::Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type) :
 	m_pos(pos),	m_vel(vel),	m_age(0.0f), m_speed(speed), m_type(type)
+{
+}
+
+Sfx::Sfx(const Sfx &b) : 
+	m_pos(b.m_pos),	m_vel(b.m_vel),	m_age(b.m_age), m_speed(b.m_speed), m_type(b.m_type)
 {
 }
 
@@ -319,7 +324,7 @@ void SfxManager::Init(Graphics::Renderer *r)
 	desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
 	explosionParticle.reset( r->CreateMaterial(desc) );
 	explosionParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/explosions/explosions.png").GetOrCreateTexture(r, "billboard");
-	explosionParticle->specialParameter0 = (void*)&EXPLOSION_COORD_DOWNSCALE;
+	explosionParticle->specialParameter0 = const_cast<float*>(&EXPLOSION_COORD_DOWNSCALE);
 }
 
 void SfxManager::Uninit()

@@ -21,7 +21,8 @@ public:
 	
 	friend class SfxManager;
 	Sfx();
-	Sfx(vector3d &pos, vector3d &vel, float speed, SFX_TYPE type);
+	Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type);
+	Sfx(const Sfx&);
 	void SetPosition(const vector3d &p);
 	const vector3d& GetPosition() const { return m_pos; }
 
