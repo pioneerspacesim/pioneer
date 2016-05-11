@@ -211,7 +211,7 @@ void SfxManager::Cleanup()
 		if(!numInstances)
 			continue;
 
-		for (Sint64 i = Sint64(numInstances-1); i >= 0 ; i--)
+		for (Sint64 i = Sint64(numInstances-1); i>=0; i--)
 		{
 			Sfx &inst(GetInstanceByIndex(SFX_TYPE(t), i));
 			if (inst.m_type == TYPE_NONE)

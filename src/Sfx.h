@@ -14,7 +14,7 @@ namespace Graphics {
 	class Renderer;
 }
 
-const enum SFX_TYPE { TYPE_EXPLOSION=1, TYPE_DAMAGE, TYPE_SMOKE, TYPE_NONE };
+enum SFX_TYPE { TYPE_EXPLOSION=1, TYPE_DAMAGE, TYPE_SMOKE, TYPE_NONE };
 
 class Sfx {
 public:
