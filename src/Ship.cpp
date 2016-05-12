@@ -438,7 +438,7 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 			Explode();
 		} else {
 			if (Pi::rng.Double() < kgDamage)
-				Sfx::Add(this, Sfx::TYPE_DAMAGE);
+				SfxManager::Add(this, TYPE_DAMAGE);
 
 			if (dam < 0.01 * float(GetShipType()->hullMass))
 				Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
@@ -467,7 +467,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 			Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 			if (this->IsType(Object::PLAYER))
 				Pi::game->log->Add(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", ScopedTable(item).CallMethod<std::string>("GetName"))));
-			// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
+			// XXX SfxManager::Add(this, TYPE_SCOOP);
 			UpdateEquipStats();
 			return true;
 		}
@@ -509,7 +509,7 @@ void Ship::Explode()
 
 	Pi::game->GetSpace()->KillBody(this);
 	if (this->GetFrame() == Pi::player->GetFrame()) {
-		Sfx::AddExplosion(this, Sfx::TYPE_EXPLOSION);
+		SfxManager::AddExplosion(this);
 		Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 	}
 	ClearThrusterState();
@@ -1245,10 +1245,13 @@ void Ship::StaticUpdate(const float timeStep)
 	}
 
 	//Add smoke trails for missiles on thruster state
-	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
+	static double s_timeAccum = 0.0;
+	s_timeAccum += timeStep;
+	if (m_type->tag == ShipType::TAG_MISSILE && !is_equal_exact(m_thrusters.LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
+		s_timeAccum = 0.0;
 		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		const float speed = std::min(10.0*GetVelocity().Length()*fabs(m_thrusters.z),100.0);
-		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, speed, pos);
+		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(m_thrusters.z)),100.0);
+		SfxManager::AddThrustSmoke(this, speed, pos);
 	}
 }
 
@@ -1333,7 +1336,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			c.a = (m_ecmRecharge / totalRechargeTime) * 255;
 		}
 
-		Sfx::ecmParticle->diffuse = c;
+		SfxManager::ecmParticle->diffuse = c;
 
 		matrix4x4f t;
 		for (int i=0; i<12; i++) t[i] = float(viewTransform[i]);
@@ -1343,7 +1346,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		t[15] = 1.0f;
 
 		renderer->SetTransform(t);
-		renderer->DrawPointSprites(100, v, Sfx::additiveAlphaState, Sfx::ecmParticle.get(), 50.f);
+		renderer->DrawPointSprites(100, v, SfxManager::additiveAlphaState, SfxManager::ecmParticle.get(), 50.f);
 	}
 }
 

@@ -6,25 +6,50 @@
 #include "graphics/Graphics.h"
 #include "RendererGL.h"
 #include "TextureGL.h"
+#include <sstream>
 
 namespace Graphics {
 namespace OGL {
 
+BillboardProgram::BillboardProgram(const MaterialDescriptor &desc)
+{
+	//build some defines
+	std::stringstream ss;
+
+	m_name = "billboards";
+	if(desc.effect == EFFECT_BILLBOARD_ATLAS)
+		m_defines = stringf("#define USE_SPRITE_ATLAS\n");
+
+	LoadShaders(m_name, m_defines);
+	InitUniforms();
+}
+
+void BillboardProgram::InitUniforms()
+{
+	Program::InitUniforms();
+	coordDownScale.Init("coordDownScale", m_program);
+}
+
 Program *BillboardMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	assert(desc.textures == 1);
-	std::string defines;
-	if(desc.effect == EFFECT_BILLBOARD_ATLAS)
-		defines = stringf("#define USE_SPRITE_ATLAS\n");
-	return new Program("billboards", defines);
+	return new BillboardProgram(desc);
 }
 
 void BillboardMaterial::Apply()
 {
 	OGL::Material::Apply();
 
+	BillboardProgram *p = static_cast<BillboardProgram*>(m_program);
+
 	assert(this->texture0);
-	m_program->texture0.Set(this->texture0, 0);
+	p->texture0.Set(this->texture0, 0);
+	if(this->specialParameter0) {
+		const float coordDownScale = *static_cast<float*>(this->specialParameter0);
+		p->coordDownScale.Set(coordDownScale);
+	} else {
+		p->coordDownScale.Set(0.5f);
+	}
 }
 
 void BillboardMaterial::Unapply()

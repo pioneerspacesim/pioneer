@@ -58,6 +58,7 @@ public:
 
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override { return true; }
 	virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override { return true; }
+	virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override { return true; }
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override { return true; }
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType) override { return true; }
 	virtual bool DrawBufferInstanced(VertexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType type=TRIANGLES) override { return true; }

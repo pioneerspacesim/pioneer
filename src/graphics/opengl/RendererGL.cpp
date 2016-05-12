@@ -670,6 +670,63 @@ bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions
 	return true;
 }
 
+bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material)
+{
+	PROFILE_SCOPED()
+	if (count == 0 || !material || !material->texture0) 
+		return false;
+
+	#pragma pack(push, 4)
+	struct PosNormVert {
+		vector3f pos;
+		vector3f norm;
+	};
+	#pragma pack(pop)
+	
+	RefCountedPtr<VertexBuffer> drawVB;
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
+	if (iter == s_AttribBufferMap.end()) 
+	{
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = count;
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
+
+		// add to map
+		s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
+		drawVB = vb;
+	}
+	else
+	{
+		drawVB = iter->second;
+	}
+
+	// got a buffer so use it and fill it with newest data
+	PosNormVert* vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
+	for(Uint32 i=0 ; i<count ; i++)
+	{
+		vtxPtr[i].pos	= positions[i];
+		vtxPtr[i].norm	= vector3f(offsets[i], Clamp(sizes[i], 0.1f, FLT_MAX));
+	}
+	drawVB->Unmap();
+
+	SetTransform(matrix4x4f::Identity());
+	DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
+	GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
+
+	return true;
+}
+
 bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat, PrimitiveType pt)
 {
 	PROFILE_SCOPED()

@@ -15,7 +15,7 @@ class Body;
 class CollisionSpace;
 class Geom;
 class SystemBody;
-class Sfx;
+class SfxManager;
 class Space;
 
 // Frame of reference.
@@ -92,7 +92,7 @@ public:
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
 
-	Sfx *m_sfx;			// the last survivor. actually m_children is pretty grim too.
+	std::unique_ptr<SfxManager> m_sfx;			// the last survivor. actually m_children is pretty grim too.
 
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);
