@@ -781,6 +781,7 @@ void Ship::TestLanded()
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
 				LuaEvent::Queue("onShipLanded", this, GetFrame()->GetBody());
+				onLanded.emit();
 			}
 		}
 	}
@@ -802,6 +803,7 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	ClearThrusterState();
 	SetFlightState(LANDED);
 	LuaEvent::Queue("onShipLanded", this, p);
+	onLanded.emit();
 }
 
 void Ship::SetFrame(Frame *f)
