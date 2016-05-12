@@ -77,7 +77,7 @@
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "Prospector General S.R.L. {locality} "
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
@@ -117,43 +117,43 @@
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "Societatea Biologică {locality}"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "Centrul de Cercetări Zoologice {locality}"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "Societatea Microbiologică {locality}"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "Societatea Chimică {locality}"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "Societatea Astrobiologică {locality}"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "Societatea Geologică {locality}"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "Societatea de Astropaleontologie {locality}"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "Centrul de Cercetări Astrofizice {locality}"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "Centrul de Cercetări de Astrochimie {locality}"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "Centrul Botanic {locality}"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -485,43 +485,43 @@
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "o luptă mortală între membrii echipajului"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "o răscoală"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
-      "message" : "the crew had to chase a deadly {locality} snake found loose on the ship"
+      "message" : "echipajul a trebuit să vâneze un șarpe veninos din {locality} care a scăpat liber pe navă"
    },
    "PROBLEM_CREW_3" : {
       "description" : "",
-      "message" : "a {locality} spider killed all the others"
+      "message" : "un păianjen din {locality} a omorât pe ceilalţi"
    },
    "PROBLEM_CREW_4" : {
       "description" : "",
-      "message" : "what it seems like a {locality} scorpion got into the crew quarters at night"
+      "message" : "ce pare a fi un scorpion din {locality} a ajuns în cabinele echipajului noaptea"
    },
    "PROBLEM_CREW_5" : {
       "description" : "",
-      "message" : "a severe form of {locality} fever killed the others"
+      "message" : "o formă severă a febrei din {locality} a omorât pe ceilalţi"
    },
    "PROBLEM_CREW_6" : {
       "description" : "",
-      "message" : "the other crew members did not return from a space walk"
+      "message" : "ceilalți membri ai echipajului nu s-au întors dintro ieșire în spațiu"
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "o formă severă de intoxicație alimentară pe navă"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
-      "message" : "a terrible accident that lead to the ejection of the others into space"
+      "message" : "un accident teribil care a dus la aruncarea celorlalți în spațiu"
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "o circumstanță pe care nu o pot spune în public"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
@@ -529,7 +529,7 @@
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
-      "message" : "the receipt of a distress call from within {locality}"
+      "message" : "primirea unui apel de urgență din {locality}"
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
