@@ -2,6 +2,9 @@ May 2016
    * Fixes
      * Textures can be anonymous (#3693)
 
+   * Internal Changes
+     * Landing resets time compression (#3696)
+
 April 2016
    * New Features
      * First commit of the Bluenose frieghter (#3668)
