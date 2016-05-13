@@ -74,6 +74,16 @@ private:
 
 	// per-frame
 	std::deque<Sfx> m_instances[TYPE_NONE];
+
+	struct MaterialData {
+		MaterialData() : effect(Graphics::EFFECT_BILLBOARD), num_textures(1), num_imgs_wide(1), coord_downscale(1.0f) {}
+		Graphics::EffectType effect;
+		Uint32 num_textures;
+		int num_imgs_wide;
+		float coord_downscale;
+	};
+	static MaterialData m_materialData[TYPE_NONE];
+	static bool SplitMaterialData(const std::string &spec, MaterialData &output);
 };
 
 #endif /* _SFX_H */
