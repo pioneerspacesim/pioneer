@@ -37,31 +37,31 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} și Fii"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "Servicii de Taximetrie {name}"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} și Fiicele"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "{name} Flori din {locality}"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
-      "message" : "{name} Custom Painted Missiles"
+      "message" : "Rachete Pictate Personalizate {name}"
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "Servicii de Curierat {name}"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "Animale de Companie Spațiale {name}"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
@@ -69,11 +69,11 @@
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
-      "message" : "{name} Authentic {locality} Foods"
+      "message" : "Specialități Culinare Autentice {name} {locality}"
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "Transporturi {name}"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
@@ -81,39 +81,39 @@
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
-      "message" : "{locality} Infinity Energy One"
+      "message" : "Energie Infinită {locality}"
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "Societatea de Prezervare Ecologică {locality}"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "Grupurile Drepturilor Acționarilor pentru {locality}"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "Agenția de Drepturi Miniere {locality}"
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "Asociația Proprietarilor Funciari {locality}"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "Institutul Statistic din {locality}"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "agenția filială SpaceCruise S.R.L. {locality}"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
-      "message" : "{locality} iSatellite Ltd"
+      "message" : "iSateliți S.A. {locality}"
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "Servicii Funerare S.A. {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "EQUIPMENT" : {
       "description" : "",
-      "message" : "You are not equipped to handle this mission. {unit} {equipment} required."
+      "message" : "Nu sunteți echipat corespunzător pentru a vă ocupa de această misiune. Aveți nevoie de {unit} {equipment}."
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "cabine de pasageri neocupate"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
