@@ -99,6 +99,17 @@ void Sfx::TimeStepUpdate(const float timeStep)
 	}
 }
 
+float Sfx::AgeBlend() const
+{
+	switch (m_type) {
+		case TYPE_EXPLOSION:	return (3.2 - m_age) / 3.2;
+		case TYPE_DAMAGE:		return (2.0 - m_age) / 2.0;
+		case TYPE_SMOKE:		return (8.0 - m_age) / 8.0;
+		case TYPE_NONE:			return 0.0f;
+	}
+	return 0.0f;
+}
+
 SfxManager::SfxManager()
 {
 	for(size_t t=0; t<TYPE_NONE; t++) 
@@ -254,19 +265,12 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 				positions.push_back(pos);
 
 				float speed = 0.0f;
-				vector2f offset(0.0f);
+				const vector2f offset(CalculateOffset(SFX_TYPE(t), inst));
 				switch (t) 
 				{
 					case TYPE_NONE: assert(false); break;
 					case TYPE_EXPLOSION: {
 						speed = SizeToPixels(pos, inst.m_speed); 
-						const int spriteframe = Clamp( Uint32(inst.m_age*20.0f), Uint32(0), m_materialData[TYPE_EXPLOSION].num_textures-1 );
-						const Sint32 numImgsWide = m_materialData[TYPE_EXPLOSION].num_imgs_wide;
-						const int u = (spriteframe % numImgsWide);    // % is the "modulo operator", the remainder of i / width;
-						const int v = (spriteframe / numImgsWide);    // where "/" is an integer division
-						offset = vector2f(
-							float(u) / float(numImgsWide), 
-							float(v) / float(numImgsWide));
 						rs = SfxManager::alphaState;
 						material = explosionParticle.get();
 						break;
@@ -293,6 +297,20 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 	for (Frame* kid : f->GetChildren()) {
 		RenderAll(renderer, kid, camFrame);
 	}
+}
+
+vector2f SfxManager::CalculateOffset(const enum SFX_TYPE type, const Sfx &inst)
+{
+	if(m_materialData[type].effect == Graphics::EFFECT_BILLBOARD_ATLAS) {
+		const int spriteframe = inst.AgeBlend() * (m_materialData[type].num_textures-1);
+		const Sint32 numImgsWide = m_materialData[type].num_imgs_wide;
+		const int u = (spriteframe % numImgsWide);    // % is the "modulo operator", the remainder of i / width;
+		const int v = (spriteframe / numImgsWide);    // where "/" is an integer division
+		return vector2f(
+			float(u) / float(numImgsWide), 
+			float(v) / float(numImgsWide));
+	}
+	return vector2f(0.0f);
 }
 
 bool SfxManager::SplitMaterialData(const std::string &spec, MaterialData &output)
