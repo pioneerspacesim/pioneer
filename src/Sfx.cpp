@@ -6,6 +6,8 @@
 #include "galaxy/StarSystem.h"
 #include "libs.h"
 #include "Pi.h"
+#include "IniConfig.h"
+#include "FileSystem.h"
 #include "Ship.h"
 #include "Space.h"
 #include "StringF.h"
@@ -26,10 +28,6 @@ namespace {
 		const float pixrad = Clamp(Graphics::GetScreenHeight() / trans.Length(), 0.1f, 50.0f);
 		return (size * Graphics::GetFovFactor()) * pixrad;
 	}
-
-	static const Uint32 NUM_EXPLOSION_TEXTURES = 32;
-	static const int NUM_EXPLOSION_IMGS_WIDE = 6;
-	static const float EXPLOSION_COORD_DOWNSCALE = 1.0f/6.0f;
 };
 
 std::unique_ptr<Graphics::Material> SfxManager::damageParticle;
@@ -39,6 +37,7 @@ std::unique_ptr<Graphics::Material> SfxManager::explosionParticle;
 Graphics::RenderState *SfxManager::alphaState = nullptr;
 Graphics::RenderState *SfxManager::additiveAlphaState = nullptr;
 Graphics::RenderState *SfxManager::alphaOneState = nullptr;
+SfxManager::MaterialData SfxManager::m_materialData[TYPE_NONE];
 
 Sfx::Sfx() : m_speed(200.0f), m_type(TYPE_NONE)
 {
@@ -98,6 +97,17 @@ void Sfx::TimeStepUpdate(const float timeStep)
 		case TYPE_SMOKE:		if (m_age > 8.0) m_type = TYPE_NONE;	break;
 		case TYPE_NONE: break;
 	}
+}
+
+float Sfx::AgeBlend() const
+{
+	switch (m_type) {
+		case TYPE_EXPLOSION:	return (3.2 - m_age) / 3.2;
+		case TYPE_DAMAGE:		return (2.0 - m_age) / 2.0;
+		case TYPE_SMOKE:		return (8.0 - m_age) / 8.0;
+		case TYPE_NONE:			return 0.0f;
+	}
+	return 0.0f;
 }
 
 SfxManager::SfxManager()
@@ -255,18 +265,12 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 				positions.push_back(pos);
 
 				float speed = 0.0f;
-				vector2f offset(0.0f);
+				const vector2f offset(CalculateOffset(SFX_TYPE(t), inst));
 				switch (t) 
 				{
 					case TYPE_NONE: assert(false); break;
 					case TYPE_EXPLOSION: {
 						speed = SizeToPixels(pos, inst.m_speed); 
-						const int spriteframe = Clamp( Uint32(inst.m_age*20.0f), Uint32(0), NUM_EXPLOSION_TEXTURES-1 );
-						const int u = (spriteframe % NUM_EXPLOSION_IMGS_WIDE);    // % is the "modulo operator", the remainder of i / width;
-						const int v = (spriteframe / NUM_EXPLOSION_IMGS_WIDE);    // where "/" is an integer division
-						offset = vector2f(
-							float(u) / float(NUM_EXPLOSION_IMGS_WIDE), 
-							float(v) / float(NUM_EXPLOSION_IMGS_WIDE));
 						rs = SfxManager::alphaState;
 						material = explosionParticle.get();
 						break;
@@ -295,9 +299,82 @@ void SfxManager::RenderAll(Renderer *renderer, Frame *f, const Frame *camFrame)
 	}
 }
 
+vector2f SfxManager::CalculateOffset(const enum SFX_TYPE type, const Sfx &inst)
+{
+	if(m_materialData[type].effect == Graphics::EFFECT_BILLBOARD_ATLAS) {
+		const int spriteframe = inst.AgeBlend() * (m_materialData[type].num_textures-1);
+		const Sint32 numImgsWide = m_materialData[type].num_imgs_wide;
+		const int u = (spriteframe % numImgsWide);    // % is the "modulo operator", the remainder of i / width;
+		const int v = (spriteframe / numImgsWide);    // where "/" is an integer division
+		return vector2f(
+			float(u) / float(numImgsWide), 
+			float(v) / float(numImgsWide));
+	}
+	return vector2f(0.0f);
+}
+
+bool SfxManager::SplitMaterialData(const std::string &spec, MaterialData &output)
+{
+	static const std::string delim(",");
+
+	enum dataEntries {
+		eEFFECT=0,
+		eNUM_IMGS_WIDE,
+		eNUM_TEXTURES,
+		eCOORD_DOWNSCALE
+	};
+
+	size_t i = 0, start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = spec.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// find the end - next delim or end of string
+		end = spec.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		switch(i)
+		{
+		case eEFFECT:
+			output.effect = (spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start) == "billboard") ? Graphics::EFFECT_BILLBOARD : Graphics::EFFECT_BILLBOARD_ATLAS;
+			break;
+		case eNUM_IMGS_WIDE:
+			output.num_imgs_wide = atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+			break;
+		case eNUM_TEXTURES:
+			output.num_textures = atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+			break;
+		default:
+		case eCOORD_DOWNSCALE:
+			assert(false);
+			break;
+		}
+		i++;
+	}
+
+	output.coord_downscale = 1.0f / float(output.num_imgs_wide);
+	return i==eCOORD_DOWNSCALE;
+}
+
 void SfxManager::Init(Graphics::Renderer *r)
 {
-	//shared render states
+	IniConfig cfg;
+	// set defaults in case they're missing from the file
+	cfg.SetString("damageFile", "textures/smoke.png");
+	cfg.SetString("smokeFile", "textures/smoke.png");
+	cfg.SetString("explosionFile", "textures/explosions/explosions.png");
+	
+	cfg.SetString("damagePacking", "billboard,1,1");
+	cfg.SetString("smokePacking", "billboard,1,1");
+	cfg.SetString("explosionPacking", "atlas,6,32");
+	// load
+	cfg.Read(FileSystem::gameDataFiles, "textures/Sfx.ini");
+
+	// shared render states
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
 	rsd.depthWrite = false;
@@ -309,22 +386,37 @@ void SfxManager::Init(Graphics::Renderer *r)
 	rsd.depthWrite = true;
 	alphaOneState = r->CreateRenderState(rsd);
 
+	// materials
 	Graphics::MaterialDescriptor desc;
-	desc.effect = Graphics::EFFECT_BILLBOARD;
 	desc.textures = 1;
-	RefCountedPtr<Graphics::Material> explosionMat(r->CreateMaterial(desc));
-
-	damageParticle.reset( r->CreateMaterial(desc) );
-	damageParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
+	
+	// ECM effect is different, not managed by Sfx at all, should it be factored out?
+	desc.effect = Graphics::EFFECT_BILLBOARD;
 	ecmParticle.reset( r->CreateMaterial(desc) );
 	ecmParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/ecm.png").GetOrCreateTexture(r, "billboard");
-	smokeParticle.reset( r->CreateMaterial(desc) );
-	smokeParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/smoke.png").GetOrCreateTexture(r, "billboard");
 
-	desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
+	// load material definition data
+	SplitMaterialData(cfg.String("explosionPacking"), m_materialData[TYPE_EXPLOSION]);
+	SplitMaterialData(cfg.String("damagePacking"), m_materialData[TYPE_DAMAGE]);
+	SplitMaterialData(cfg.String("smokePacking"), m_materialData[TYPE_SMOKE]);
+	
+	desc.effect = m_materialData[TYPE_DAMAGE].effect;
+	damageParticle.reset( r->CreateMaterial(desc) );
+	damageParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("damageFile")).GetOrCreateTexture(r, "billboard");
+	if(desc.effect==Graphics::EFFECT_BILLBOARD_ATLAS)
+		damageParticle->specialParameter0 = &m_materialData[TYPE_DAMAGE].coord_downscale;
+	
+	desc.effect = m_materialData[TYPE_SMOKE].effect;
+	smokeParticle.reset( r->CreateMaterial(desc) );
+	smokeParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("smokeFile")).GetOrCreateTexture(r, "billboard");
+	if(desc.effect==Graphics::EFFECT_BILLBOARD_ATLAS)
+		smokeParticle->specialParameter0 = &m_materialData[TYPE_SMOKE].coord_downscale;
+
+	desc.effect = m_materialData[TYPE_EXPLOSION].effect;
 	explosionParticle.reset( r->CreateMaterial(desc) );
-	explosionParticle->texture0 = Graphics::TextureBuilder::Billboard("textures/explosions/explosions.png").GetOrCreateTexture(r, "billboard");
-	explosionParticle->specialParameter0 = const_cast<float*>(&EXPLOSION_COORD_DOWNSCALE);
+	explosionParticle->texture0 = Graphics::TextureBuilder::Billboard(cfg.String("explosionFile")).GetOrCreateTexture(r, "billboard");
+	if(desc.effect==Graphics::EFFECT_BILLBOARD_ATLAS)
+		explosionParticle->specialParameter0 = &m_materialData[TYPE_EXPLOSION].coord_downscale;
 }
 
 void SfxManager::Uninit()

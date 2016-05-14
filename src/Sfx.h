@@ -26,6 +26,8 @@ public:
 	void SetPosition(const vector3d &p);
 	const vector3d& GetPosition() const { return m_pos; }
 
+	float AgeBlend() const;
+
 private:
 	void TimeStepUpdate(const float timeStep);
 	void SaveToJson(Json::Value &jsonObj);
@@ -70,8 +72,24 @@ public:
 	void Cleanup();
 
 private:
-	static SfxManager *AllocSfxInFrame(Frame *f);
+	// types
+	struct MaterialData {
+		MaterialData() : effect(Graphics::EFFECT_BILLBOARD), num_textures(1), num_imgs_wide(1), coord_downscale(1.0f) {}
+		Graphics::EffectType effect;
+		Uint32 num_textures;
+		int num_imgs_wide;
+		float coord_downscale;
+	};
 
+	// methods
+	static SfxManager *AllocSfxInFrame(Frame *f);
+	static vector2f CalculateOffset(const enum SFX_TYPE, const Sfx&);
+	static bool SplitMaterialData(const std::string &spec, MaterialData &output);
+
+	// static members
+	static MaterialData m_materialData[TYPE_NONE];
+
+	// members
 	// per-frame
 	std::deque<Sfx> m_instances[TYPE_NONE];
 };
