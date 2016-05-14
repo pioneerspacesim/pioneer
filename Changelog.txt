@@ -1,4 +1,7 @@
 May 2016
+   * New Features
+     * Sfx ini configuration file (#3697)
+
    * Fixes
      * Textures can be anonymous (#3693)
      * Fix ship systeminfo crash (#3699)
