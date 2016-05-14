@@ -1,6 +1,7 @@
 May 2016
    * Fixes
      * Textures can be anonymous (#3693)
+     * Fix ship systeminfo crash (#3699)
 
    * Internal Changes
      * Landing resets time compression (#3696)
