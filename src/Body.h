@@ -66,7 +66,7 @@ public:
 	matrix3x3d GetOrientRelTo(const Frame *) const;
 
 	// Should return pointer in Pi::currentSystem
-	virtual const SystemBody *GetSystemBody() const { return 0; }
+	virtual const SystemBody *GetSystemBody() const { return nullptr; }
 	// for putting on planet surface, oriented +y up
 	void OrientOnSurface(double radius, double latitude, double longitude);
 

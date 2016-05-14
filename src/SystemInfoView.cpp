@@ -508,6 +508,7 @@ void SystemInfoView::Draw3D()
 
 static bool IsShownInInfoView(const SystemBody* sb)
 {
+	if(!sb) return false; // sanity check
 	SystemBody::BodySuperType superType = sb->GetSuperType();
 	return superType == SystemBody::SUPERTYPE_STAR || superType == SystemBody::SUPERTYPE_GAS_GIANT ||
 		superType == SystemBody::SUPERTYPE_ROCKY_PLANET ||
@@ -546,7 +547,7 @@ SystemInfoView::RefreshType SystemInfoView::NeedsRefresh()
 		}
 	} else {
 		Body *navTarget = Pi::player->GetNavTarget();
-		if (navTarget && IsShownInInfoView(navTarget->GetSystemBody())) {
+		if (navTarget && (navTarget->GetSystemBody()!=nullptr) && IsShownInInfoView(navTarget->GetSystemBody())) {
 			// Navigation target is something we show in the info view
 			if (navTarget->GetSystemBody()->GetPath() != m_selectedBodyPath)
 				return REFRESH_SELECTED_BODY; // and wasn't selected, yet
