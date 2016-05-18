@@ -84,18 +84,4 @@ template <typename T, size_t N>
 char ( &COUNTOF_Helper( T (&array)[N] ))[N];
 #define COUNTOF( array ) (sizeof( COUNTOF_Helper( array ) ))
 
-#ifdef _WIN32
-// Why oh why!
-// MSVC thinks near and far are actually supposed to be used with pointers
-// but because they are no longer used, it consequently causes an error
-#undef near
-#define near ex_near
-#undef far
-#define far ex_far
-#undef FAR
-#define FAR
-#undef NEAR
-#define NEAR
-#endif // _WIN32
-
 #endif /* _LIBS_H */
