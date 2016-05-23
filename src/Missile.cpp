@@ -135,6 +135,7 @@ void Missile::NotifyRemoved(const Body* const removedBody)
 	if (m_owner == removedBody) {
 		m_owner = 0;
 	}
+	Ship::NotifyRemoved(removedBody);
 }
 
 void Missile::Arm()
