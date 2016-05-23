@@ -750,7 +750,7 @@ local onChat = function (form, ref, option)
 	 problem            = ad.problem,
 	 dist               = ad.dist,
 	 flavour            = ad.flavour,
-	 target             = "NIL",
+	 target             = nil,
 	 lat                = ad.lat,
 	 long               = ad.long,
 	 shipdef_name       = ad.shipdef_name,
@@ -1569,7 +1569,7 @@ local interactWithTarget = function (mission)
 		      
 		      -- abort if interaciton distance was not held or target ship destroyed
 		      -- TODO: set the check mark for each mission right
-		      if not targetInteractionDistance(mission) or mission.target == "NIL" then
+		      if not targetInteractionDistance(mission) or mission.target == nil then
 			 Comms.ImportantMessage(l.INTERACTION_ABORTED)
 			 searchForTarget(mission)
 			 return true
@@ -1651,7 +1651,7 @@ end
 function searchForTarget (mission)
    -- Measure distance to target every second until interaction distance reached.
 
-   if mission.searching == true or mission.target == "NIL" then return end
+   if mission.searching == true or mission.target == nil then return end
    mission.searching = true
 
    -- Counter to show messages only once and not every loop
@@ -1813,6 +1813,8 @@ local onEnterSystem = function (player)
 	 mission.target = createTargetShip(mission)
       end
    end
+	  
+      discarded_ships = {}
 end
 
 local onLeaveSystem = function (ship)
@@ -1824,28 +1826,30 @@ local onLeaveSystem = function (ship)
       -- remove references to ships that are left behind (cause serialization crash otherwise)
       for _,mission in pairs(missions) do
 	 if mission.system_target:IsSameSystem(syspath) then
-	    mission.target = 'NIL'
+	    mission.target = nil
 	 end
       end
-      
+	  
+      discarded_ships = {}
       -- TODO: put in tracker to recreate mission targets (already transferred personnel, cargo, etc.)
    end
 end
 
 local onShipDocked = function (ship, station)
-   if ship:IsPlayer() then
-      for _,mission in pairs(missions) do
-	 if Space.GetBody(mission.station_local.bodyIndex) == station then
-	    closeMission(mission)
-	 end
-      end
-   else
-      for _,discarded_ship in pairs(discarded_ships) do
-	 if ship == discarded_ship then
-	    discardShip(ship)
-	 end
-      end
-   end
+	if ship:IsPlayer() then
+		for _,mission in pairs(missions) do
+			if Space.GetBody(mission.station_local.bodyIndex) == station then
+				closeMission(mission)
+			end
+		end
+	else
+		for i,discarded_ship in pairs(discarded_ships) do
+			if ship == discarded_ship then
+				discardShip(ship)
+				table.remove(discarded_ships,i)
+			end
+		end
+	end
 end
 
 local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
@@ -1889,7 +1893,7 @@ local onGameStart = function ()
 
    -- check if player is within frame of any mission targets to resume search
    for _,mission in pairs(missions) do
-      if Game.player.frameBody == mission.target.frameBody then
+      if mission.target and Game.player.frameBody == mission.target.frameBody then
 	 searchForTarget(mission)
       end
    end
@@ -2017,7 +2021,7 @@ end
 local onShipDestroyed = function (ship, attacker)
    for _,mission in pairs(missions) do
       if ship == mission.target then
-	 mission.target = "NIL"
+	 mission.target = nil
       end
    end
 end
