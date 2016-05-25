@@ -1962,7 +1962,6 @@ void WorldView::Draw()
 {
 	assert(m_game);
 	assert(Pi::player);
-	assert(!Pi::player->IsDead());
 
 	m_renderer->ClearDepthBuffer();
 
