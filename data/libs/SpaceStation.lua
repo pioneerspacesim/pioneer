@@ -701,7 +701,7 @@ end)
 Event.Register("onShipDestroyed", function (ship, _)
 	for _,local_police in pairs(police) do
 		for k,police_ship in pairs(local_police) do
-			if (v == police_ship) then
+			if (ship == police_ship) then
 				table.remove(local_police, k)
 			end
 		end
