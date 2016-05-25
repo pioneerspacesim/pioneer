@@ -8,6 +8,7 @@ May 2016
      * Make Autopilot purchasable from everywhere (#3701)
      * Fix CTD for missile target hyperjumps (#3704)
      * Fix CTD caused by S&R after-mission states (#3648)
+     * Fix crash when player explodes in-dock (#3710)
 
    * Internal Changes
      * Landing resets time compression (#3696)
