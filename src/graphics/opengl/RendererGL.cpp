@@ -28,6 +28,7 @@
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
 #include "BillboardMaterial.h"
+#include "CloudSphereMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -867,6 +868,9 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_BILLBOARD_ATLAS:
 	case EFFECT_BILLBOARD:
 		mat = new OGL::BillboardMaterial();
+		break;
+	case EFFECT_CLOUD_SPHERE:
+		mat = new OGL::CloudSphereMaterial();
 		break;
 	default:
 		if (desc.lighting)

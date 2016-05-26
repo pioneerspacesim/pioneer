@@ -410,6 +410,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	if (!m_surfaceMaterial)
 		SetUpMaterials();
 
+	bool bHasAtmosphere = false;
 	{
 		//Update material parameters
 		//XXX no need to calculate AP every frame
@@ -422,8 +423,9 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		m_materialParameters.maxPatchDepth = GetMaxDepth();
 
 		m_surfaceMaterial->specialParameter0 = &m_materialParameters;
-
-		if (m_materialParameters.atmosphere.atmosDensity > 0.0) {
+		
+		bHasAtmosphere = (m_materialParameters.atmosphere.atmosDensity > 0.0);
+		if (bHasAtmosphere) {
 			m_atmosphereMaterial->specialParameter0 = &m_materialParameters;
 
 			// make atmosphere sphere slightly bigger than required so
@@ -431,8 +433,36 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(renderer, trans, campos,
 				m_materialParameters.atmosphere.atmosRadius*1.01,
-				m_atmosRenderState, m_atmosphereMaterial);
+				m_atmosRenderState, m_atmosphereMaterial );
 		}
+	}
+
+	// display the terrain height control-mesh
+	
+	const float rad = m_materialParameters.atmosphere.atmosRadius * 0.99f;
+	const matrix4x4d cloudsTrans(trans * matrix4x4d::ScaleMatrix(rad, rad, rad));
+	if(bHasAtmosphere)
+	{
+		// bunny, ball ball!
+		if( !m_cloudSphere.get() ) {
+			if(!m_cloudMaterial.Valid()) {
+				Graphics::MaterialDescriptor matDesc;
+				matDesc.effect = Graphics::EFFECT_CLOUD_SPHERE;
+				matDesc.textures = 2;
+				m_cloudMaterial.Reset(Pi::renderer->CreateMaterial(matDesc));
+				m_cloudMaterial->diffuse = Color4f(0.7f, 0.7f, 0.7f, 0.5f);
+				m_cloudMaterial->texture0 = Graphics::TextureBuilder::Raw("textures/permTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
+				m_cloudMaterial->texture1 = Graphics::TextureBuilder::Raw("textures/gradTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
+			}
+
+			//blended
+			Graphics::RenderStateDesc rsd;
+			rsd.blendMode = Graphics::BLEND_ALPHA;
+			rsd.depthWrite = false;
+			rsd.cullMode = Graphics::CULL_NONE;
+			m_cloudSphere.reset( new Graphics::Drawables::Sphere3D(Pi::renderer, m_cloudMaterial, Pi::renderer->CreateRenderState(rsd), 5, 1.0) );
+		}
+		m_cloudMaterial->specialParameter0 = &m_materialParameters;
 	}
 
 	Color ambient;
@@ -469,6 +499,13 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	}
 
 	renderer->SetAmbientColor(oldAmbient);
+	
+	if( bHasAtmosphere && m_cloudSphere )
+	{
+		// draw it
+		renderer->SetTransform(cloudsTrans);
+		m_cloudSphere->Draw( Pi::renderer );
+	}
 
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_PLANETS, 1);
 }

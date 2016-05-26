@@ -37,7 +37,7 @@ public:
 	virtual double GetHeight(const vector3d &p) const override { return 0.0; }
 
 	// in sbody radii
-	virtual double GetMaxFeatureHeight() const override { return 0.0; }
+	virtual double GetMaxFeatureHeight() const override final { return 0.0; }
 
 	virtual void Reset() override;
 
