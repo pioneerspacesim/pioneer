@@ -30,6 +30,7 @@ void GasGiantProgram::InitUniforms()
 	geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
+	geosphereInvRadius.Init("geosphereInvRadius", m_program);
 
 	shadows.Init("shadows", m_program);
 	occultedLight.Init("occultedLight", m_program);
@@ -82,6 +83,7 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereRadius.Set(ap.planetRadius);
+	p->geosphereInvRadius.Set(1.0f / ap.planetRadius);
 
 	//Light uniform parameters
 	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {

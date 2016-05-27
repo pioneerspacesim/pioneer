@@ -23,6 +23,7 @@ namespace Graphics {
 			Uniform geosphereAtmosTopRad; // in planet radii
 			Uniform geosphereCenter;
 			Uniform geosphereRadius; // planet radius
+			Uniform geosphereInvRadius; // 1.0 / (planet radius)
 
 			Uniform shadows;
 			Uniform occultedLight;
