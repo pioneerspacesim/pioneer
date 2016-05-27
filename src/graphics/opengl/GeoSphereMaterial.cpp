@@ -30,6 +30,7 @@ void GeoSphereProgram::InitUniforms()
 	geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
+	geosphereInvRadius.Init("geosphereInvRadius", m_program);
 	
 	detailScaleHi.Init("detailScaleHi", m_program);
 	detailScaleLo.Init("detailScaleLo", m_program);
@@ -101,6 +102,7 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereRadius.Set(ap.planetRadius);
+	p->geosphereInvRadius.Set(1.0f / ap.planetRadius);
 
 	if(this->texture0) {
 		p->texture0.Set(this->texture0, 0);
