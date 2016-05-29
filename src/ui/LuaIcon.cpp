@@ -17,6 +17,20 @@ public:
 		return 1;
 	}
 
+	static int l_set_size(lua_State *l) {
+		UI::Icon *icon = LuaObject<UI::Icon>::CheckFromLua(1);
+		int size = luaL_checkinteger(l, 2);
+		icon->SetSize(size);
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
+	static int l_set_sizescaletoheight(lua_State *l) {
+		UI::Icon *icon = LuaObject<UI::Icon>::CheckFromLua(1);
+		icon->SetSizeScaleToHeight();
+		return 1;
+	}
+
 };
 
 }
@@ -31,6 +45,8 @@ template <> void LuaObject<UI::Icon>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "SetColor", LuaIcon::l_set_color },
+		{ "SetSize", LuaIcon::l_set_size },
+		{ "SetSizeScaleToHeight", LuaIcon::l_set_sizescaletoheight },
 		{ 0, 0 }
 	};
 

@@ -17,6 +17,14 @@ public:
 		return 1;
 	}
 
+	static int l_set_natural_size(lua_State *l) {
+		Image *img = LuaObject<UI::Image>::CheckFromLua(1);
+		double scale = luaL_optnumber(l, 2, 1.0);
+		img->SetNaturalSize(float(scale));
+		lua_pushvalue(l, 1);
+		return 1;
+	}
+
 };
 
 }
@@ -31,6 +39,7 @@ template <> void LuaObject<UI::Image>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "SetHeightLines", LuaImage::l_set_height_lines },
+		{ "SetNaturalSize", LuaImage::l_set_natural_size },
 		{ 0, 0 }
 	};
 

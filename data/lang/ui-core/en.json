@@ -27,6 +27,10 @@
       "description" : "",
       "message" : "An error has occurred"
    },
+   "APOAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Apoapsis distance"
+   },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "Used in ShipInfo view, followed by a yes/no depending on if the ship can carry atmospheric shields",
       "message" : "Atmospheric shielding"
@@ -43,9 +47,25 @@
       "description" : "",
       "message" : "Average"
    },
+   "AXIAL_TILT" : {
+      "description" : "",
+      "message" : "Axial tilt"
+   },
    "BACKWARD_ACCEL" : {
       "description" : "",
       "message" : "Backward acceleration"
+   },
+   "BODIES" : {
+      "description" : "space bodies",
+      "message" : "bodies"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "body"
+   },
+   "BODY_INFO" : {
+      "description" : "Title-case space body (star, planet, asteroid, etc)",
+      "message" : "Body Info"
    },
    "BULLETIN_BOARD" : {
       "description" : "",
@@ -82,6 +102,10 @@
    "CAPACITY_USED" : {
       "description" : "",
       "message" : "Capacity used"
+   },
+   "CAPITALISM" : {
+      "description" : "",
+      "message" : "Capitalism"
    },
    "CARGO" : {
       "description" : "",
@@ -151,6 +175,10 @@
       "description" : "",
       "message" : "Commodity Market"
    },
+   "COMMUNISM" : {
+      "description" : "",
+      "message" : "Communism"
+   },
    "COMPACT_SCANNER" : {
       "description" : "Game settings option",
       "message" : "Compact scanner"
@@ -191,9 +219,21 @@
       "description" : "",
       "message" : "Control Options"
    },
+   "CORPORATE_SYSTEM" : {
+      "description" : "",
+      "message" : "Corporate system"
+   },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",
       "message" : "Could not load game: "
+   },
+   "COUNT_ON_SURFACE" : {
+      "description" : "",
+      "message" : "\" ({surfacecount} on surface)\""
+   },
+   "COUNT_STARPORTS" : {
+      "description" : "",
+      "message" : "starports"
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
@@ -275,6 +315,18 @@
       "description" : "",
       "message" : "Days left: %d"
    },
+   "EARTH_FEDERATION_COLONIAL_RULE" : {
+      "description" : "",
+      "message" : "Earth Federation Colonial Rule"
+   },
+   "EARTH_FEDERATION_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Earth Federation Democracy"
+   },
+   "ECCENTRICITY" : {
+      "description" : "",
+      "message" : "Eccentricity"
+   },
    "ECONOMY_TRADE" : {
       "description" : "",
       "message" : "Economy & Trade"
@@ -310,6 +362,10 @@
    "ENGINEERING" : {
       "description" : "Engineering skills of crew",
       "message" : "Engineering:"
+   },
+   "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
+      "description" : "",
+      "message" : "Equatorial to polar radius ratio"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -403,9 +459,17 @@
       "description" : "",
       "message" : "Good riddance to you, too."
    },
+   "GOVERNMENT_AND_ECONOMY" : {
+      "description" : "",
+      "message" : "Government / Economy:"
+   },
    "HANG_UP" : {
       "description" : "",
       "message" : "Hang up."
+   },
+   "HARD_CAPITALISM" : {
+      "description" : "",
+      "message" : "Hard capitalism (no welfare provision)"
    },
    "HARMLESS" : {
       "description" : "Player combat rating",
@@ -466,6 +530,10 @@
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Hyperspace range"
+   },
+   "IMPERIAL_RULE" : {
+      "description" : "",
+      "message" : "Imperial Rule"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -538,6 +606,10 @@
    "LEGAL_STATUS" : {
       "description" : "",
       "message" : "Legal status"
+   },
+   "LIBERAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Liberal democracy"
    },
    "LIGHT_CARGO_SHUTTLE" : {
       "description" : "",
@@ -667,6 +739,10 @@
       "description" : "",
       "message" : "Military"
    },
+   "MILITARY_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Military dictatorship"
+   },
    "MINIMUM_CREW" : {
       "description" : "",
       "message" : "Minimum crew"
@@ -682,6 +758,10 @@
    "MISSION_DETAILS" : {
       "description" : "",
       "message" : "Mission Details"
+   },
+   "MIXED_ECONOMY" : {
+      "description" : "",
+      "message" : "Mixed economy"
    },
    "MORE_INFO" : {
       "description" : "",
@@ -763,13 +843,57 @@
       "description" : "",
       "message" : "{equipment} is not supported on this ship model"
    },
+   "NO_CENTRAL_GOVERNANCE" : {
+      "description" : "",
+      "message" : "No central governance"
+   },
+   "NO_ECONOMIC_ORDER" : {
+      "description" : "",
+      "message" : "No economic order"
+   },
    "NO_MISSIONS" : {
       "description" : "",
       "message" : "No missions."
    },
+   "NO_SYSTEM_DESCRIPTION_FOUND" : {
+      "description" : "Text used in the System Info 'Notes' field when there is no description for the system.",
+      "message" : "No system description found."
+   },
+   "N_CELSIUS" : {
+      "description" : "",
+      "message" : "{temperature} C"
+   },
+   "N_DAYS" : {
+      "description" : "",
+      "message" : "{days} days"
+   },
+   "N_DEGREES" : {
+      "description" : "",
+      "message" : "{angle} degrees"
+   },
+   "N_EARTH_DAYS" : {
+      "description" : "",
+      "message" : "{days} earth days"
+   },
+   "N_EARTH_MASSES" : {
+      "description" : "Format mass relative to mass of the Earth.",
+      "message" : "{mass} Earth masses"
+   },
+   "N_EARTH_RADII" : {
+      "description" : "Format radius relative to radius of the Earth.",
+      "message" : "{radius} Earth radii ({radiuskm} km)"
+   },
+   "N_HOURS" : {
+      "description" : "",
+      "message" : "{hours} hours"
+   },
    "N_LIGHT_YEARS_N_MAX" : {
       "description" : "",
       "message" : "{range} light years ({maxRange} max)"
+   },
+   "N_M_PER_S_PER_S" : {
+      "description" : "Format an acceleration value in metres per second per second.",
+      "message" : "{acceleration} m/s^2"
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -779,9 +903,25 @@
       "description" : "",
       "message" : "{quantity} Shield Generators"
    },
+   "N_SOLAR_MASSES" : {
+      "description" : "Format mass relative to mass of the Sun.",
+      "message" : "{mass} Solar masses"
+   },
+   "N_SOLAR_RADII" : {
+      "description" : "Format radius relative to radius of the Sun.",
+      "message" : "{radius} Solar radii ({radiuskm} km)"
+   },
+   "N_TONNES" : {
+      "description" : "Format mass in tonnes.",
+      "message" : "{mass} t"
+   },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
       "message" : "{quantity} Unoccupied Passenger Cabins"
+   },
+   "N_YEARS" : {
+      "description" : "",
+      "message" : "{years} years"
    },
    "OFF" : {
       "description" : "",
@@ -807,6 +947,10 @@
       "description" : "",
       "message" : "Circular orbit speed is given for a tangential velocity. The ship should be moving in a direction at 90° to the ship/{name} axis.\n\nDescent speed is an absolute minimum, and is also tangential. A slower speed or a lower angle will result in a course which intersects with the surface of {name}.\n\nEscape speed will in theory work in any direction, as long as the ship does not collide with {name} on the way.\n\t\t"
    },
+   "ORBITAL_PERIOD" : {
+      "description" : "",
+      "message" : "Orbital period"
+   },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Outer arm"
@@ -822,6 +966,10 @@
    "PAY_FINE_OF_N" : {
       "description" : "",
       "message" : "Pay fine of {amount}"
+   },
+   "PERIAPSIS_DISTANCE" : {
+      "description" : "",
+      "message" : "Periapsis distance"
    },
    "PERSEUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -855,6 +1003,14 @@
       "description" : "",
       "message" : "Planet textures"
    },
+   "PLANNED_ECONOMY" : {
+      "description" : "",
+      "message" : "Centrally planned economy"
+   },
+   "PLUTOCRATIC_DICTATORSHIP" : {
+      "description" : "",
+      "message" : "Plutocratic dictatorship"
+   },
    "POLICE" : {
       "description" : "",
       "message" : "Police"
@@ -862,6 +1018,10 @@
    "POOR" : {
       "description" : "Player combat rating",
       "message" : "Poor"
+   },
+   "POPULATION" : {
+      "description" : "",
+      "message" : "Population:"
    },
    "POSITION" : {
       "description" : "The job title/position of crew memeber",
@@ -887,6 +1047,10 @@
       "description" : "",
       "message" : "Qualification scores"
    },
+   "QUICK_INFO" : {
+      "description" : "Heading for System Info summary",
+      "message" : "Quick Info"
+   },
    "QUIT" : {
       "description" : "",
       "message" : "Quit"
@@ -894,6 +1058,10 @@
    "QUIT_CONFIRMATION" : {
       "description" : "For the checkbox in settings window",
       "message" : "Quit confirmation"
+   },
+   "RADIUS" : {
+      "description" : "",
+      "message" : "Radius"
    },
    "RANK" : {
       "description" : "",
@@ -955,6 +1123,10 @@
       "description" : "",
       "message" : "Reward"
    },
+   "ROTATIONAL_PERIOD" : {
+      "description" : "",
+      "message" : "Rotational period"
+   },
    "SAGITTARIUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
       "message" : "Sagittarius arm"
@@ -990,6 +1162,10 @@
    "SELL" : {
       "description" : "Commodities and equipment prices",
       "message" : "Sell"
+   },
+   "SEMI_MAJOR_AXIS" : {
+      "description" : "",
+      "message" : "Semi-major axis"
    },
    "SENSORS" : {
       "description" : "",
@@ -1035,9 +1211,25 @@
       "description" : "",
       "message" : "The ship you were viewing has been sold"
    },
+   "SOCIAL_DEMOCRACY" : {
+      "description" : "",
+      "message" : "Social democracy"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Sound"
+   },
+   "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
+      "description" : "",
+      "message" : "Stable system with {bodycount} major {body(s)} and {portcount} {starport(s)}"
+   },
+   "STARPORT" : {
+      "description" : "",
+      "message" : "starport"
+   },
+   "STARPORTS" : {
+      "description" : "",
+      "message" : "Starports"
    },
    "START_AT_BARNARDS_STAR" : {
       "description" : "",
@@ -1062,6 +1254,22 @@
    "STATUS" : {
       "description" : "",
       "message" : "Status"
+   },
+   "SURFACE_GRAVITY" : {
+      "description" : "",
+      "message" : "Surface gravity"
+   },
+   "SURFACE_TEMPERATURE" : {
+      "description" : "",
+      "message" : "Surface temperature"
+   },
+   "SYSTEM" : {
+      "description" : "star system",
+      "message" : "System"
+   },
+   "SYSTEM_INFO" : {
+      "description" : "",
+      "message" : "System Info"
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
@@ -1102,6 +1310,10 @@
    "TOTAL_MASS" : {
       "description" : "",
       "message" : "Total mass"
+   },
+   "TRADE_INFO" : {
+      "description" : "",
+      "message" : "Trade Info"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1150,6 +1362,10 @@
    "VIDEO_RESOLUTION" : {
       "description" : "",
       "message" : "Video resolution"
+   },
+   "VIOLENT_ANARCHY" : {
+      "description" : "",
+      "message" : "Disorder - Overall governance contested by armed factions"
    },
    "VSYNC" : {
       "description" : "For the checkbox in settings window",

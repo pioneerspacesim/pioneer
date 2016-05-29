@@ -343,7 +343,7 @@ void ShipCpanel::OnChangeMapView(enum MapView view)
 		case MAP_SYSTEM: Pi::SetView(m_game->GetSystemView()); break;
 		case MAP_INFO:
 			if (Pi::GetView() == m_game->GetSystemInfoView()) {
-				m_game->GetSystemInfoView()->NextPage();
+				//m_game->GetSystemInfoView()->NextPage();
 			} else {
 				Pi::SetView(m_game->GetSystemInfoView());
 			}

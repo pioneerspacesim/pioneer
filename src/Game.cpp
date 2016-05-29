@@ -679,6 +679,7 @@ Game::Views::Views()
 	, m_galacticView(nullptr)
 	, m_settingsView(nullptr)
 	, m_systemInfoView(nullptr)
+	, m_oldSystemInfoView(nullptr)
 	, m_systemView(nullptr)
 	, m_worldView(nullptr)
 	, m_deathView(nullptr)
@@ -692,7 +693,7 @@ void Game::Views::SetRenderer(Graphics::Renderer *r)
 	// view manager will handle setting this probably
 	m_infoView->SetRenderer(r);
 	m_sectorView->SetRenderer(r);
-	m_systemInfoView->SetRenderer(r);
+	m_oldSystemInfoView->SetRenderer(r);
 	m_systemView->SetRenderer(r);
 	m_worldView->SetRenderer(r);
 	m_deathView->SetRenderer(r);
@@ -709,7 +710,8 @@ void Game::Views::Init(Game* game)
 	m_worldView = new WorldView(game);
 	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
-	m_systemInfoView = new SystemInfoView(game);
+	m_systemInfoView = new UIView("SystemInfoView");
+	m_oldSystemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
@@ -730,7 +732,8 @@ void Game::Views::LoadFromJson(const Json::Value &jsonObj, Game* game)
 
 	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
-	m_systemInfoView = new SystemInfoView(game);
+	m_systemInfoView = new UIView("SystemInfoView");
+	m_oldSystemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");
 	m_infoView = new UIView("InfoView");
 	m_deathView = new DeathView(game);
@@ -754,6 +757,7 @@ Game::Views::~Views()
 	delete m_infoView;
 	delete m_spaceStationView;
 	delete m_systemInfoView;
+	delete m_oldSystemInfoView;
 	delete m_systemView;
 	delete m_galacticView;
 	delete m_worldView;

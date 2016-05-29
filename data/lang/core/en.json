@@ -7,10 +7,6 @@
       "description" : "",
       "message" : "Alert cancelled."
    },
-   "ALLEGIANCE" : {
-      "description" : "",
-      "message" : "Allegiance:"
-   },
    "ALT" : {
       "description" : "Alt key on keyboard",
       "message" : "Alt"
@@ -1162,10 +1158,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Plutocratic dictatorship"
-   },
-   "POPULATION" : {
-      "description" : "",
-      "message" : "Population:"
    },
    "PRECIOUS_METALS" : {
       "description" : "",

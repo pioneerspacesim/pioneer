@@ -115,9 +115,9 @@ public:
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
 
 	SectorView* GetSectorView() const { return m_gameViews->m_sectorView; }
-	UIView* GetGalacticView() const { return m_gameViews->m_galacticView; }
+	SystemInfoView* GetGalacticView() const { return m_gameViews->m_oldSystemInfoView; }
 	UIView* GetSettingsView() const { return m_gameViews->m_settingsView; }
-	SystemInfoView* GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
+	UIView* GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
 	SystemView* GetSystemView() const { return m_gameViews->m_systemView; }
 	WorldView* GetWorldView() const { return m_gameViews->m_worldView; }
 	DeathView* GetDeathView() const { return m_gameViews->m_deathView; }
@@ -143,7 +143,8 @@ private:
 		SectorView* m_sectorView;
 		UIView* m_galacticView;
 		UIView* m_settingsView;
-		SystemInfoView* m_systemInfoView;
+		SystemInfoView* m_oldSystemInfoView;
+		UIView* m_systemInfoView;
 		SystemView* m_systemView;
 		WorldView* m_worldView;
 		DeathView* m_deathView;

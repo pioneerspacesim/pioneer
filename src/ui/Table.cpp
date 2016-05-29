@@ -12,10 +12,7 @@ namespace UI {
 void Table::LayoutAccumulator::AddRow(const std::vector<Widget*> &widgets)
 {
 	if (m_columnWidth.size() < widgets.size()) {
-		std::size_t i = m_columnWidth.size();
-		m_columnWidth.resize(widgets.size());
-		for (; i < widgets.size(); i++)
-			m_columnWidth[i] = 0;
+		m_columnWidth.resize(widgets.size(), 0);
 	}
 
 	m_preferredWidth = 0;

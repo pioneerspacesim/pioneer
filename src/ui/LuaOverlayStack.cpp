@@ -18,6 +18,12 @@ public:
 		return 1;
 	}
 
+	static int l_pop_layer(lua_State *l) {
+		OverlayStack *s = LuaObject<UI::OverlayStack>::CheckFromLua(1);
+		s->PopLayer();
+		return 0;
+	}
+
 	static int l_clear(lua_State *l) {
 		OverlayStack *s = LuaObject<UI::OverlayStack>::CheckFromLua(1);
 		s->Clear();
@@ -36,8 +42,9 @@ template <> void LuaObject<UI::OverlayStack>::RegisterClass()
 	static const char *l_parent = "UI.Container";
 
 	static const luaL_Reg l_methods[] = {
-		{ "AddLayer",   LuaOverlayStack::l_add_layer   },
-		{ "Clear",      LuaOverlayStack::l_clear       },
+		{ "AddLayer",  LuaOverlayStack::l_add_layer    },
+		{ "PopLayer",  LuaOverlayStack::l_pop_layer },
+		{ "Clear",     LuaOverlayStack::l_clear        },
 		{ 0, 0 }
 	};
 

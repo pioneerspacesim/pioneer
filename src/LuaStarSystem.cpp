@@ -77,6 +77,51 @@ static int l_starsystem_get_station_paths(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_get_station_count(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	auto stations = s->GetSpaceStations();
+	int nstations = static_cast<int>(stations.end() - stations.begin());
+	lua_pushinteger(l, nstations);
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+static int l_starsystem_get_star_paths(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+
+	lua_newtable(l);
+
+	for (const SystemBody *sb : s->GetStars())
+	{
+		lua_pushinteger(l, lua_rawlen(l, -1)+1);
+		LuaObject<SystemPath>::PushToLua(&sb->GetPath());
+		lua_rawset(l, -3);
+	}
+
+	LUA_DEBUG_END(l, 1);
+
+	return 1;
+}
+
+static int l_starsystem_get_star_count(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	auto stars = s->GetStars();
+	int nstars = static_cast<int>(stars.end() - stars.begin());
+	lua_pushinteger(l, nstars);
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
 /*
  * Method: GetBodyPaths
  *
@@ -114,6 +159,18 @@ static int l_starsystem_get_body_paths(lua_State *l)
 
 	LUA_DEBUG_END(l, 1);
 
+	return 1;
+}
+
+static int l_starsystem_get_body_count(lua_State *l)
+{
+	PROFILE_SCOPED()
+	LUA_DEBUG_START(l);
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	auto bodies = s->GetBodies();
+	int nbodies = static_cast<int>(bodies.end() - bodies.begin());
+	lua_pushinteger(l, nbodies);
+	LUA_DEBUG_END(l, 1);
 	return 1;
 }
 
@@ -452,6 +509,49 @@ static int l_starsystem_attr_name(lua_State *l)
 }
 
 /*
+ * Attribute: description
+ *
+ * A general free-text description of the system.
+ */
+static int l_starsystem_attr_description(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	const std::string &desc = s->GetLongDescription();
+	lua_pushlstring(l, desc.c_str(), desc.size());
+	return 1;
+}
+
+/*
+ * Attribute: shortDescription
+ *
+ * A shorter general free-text description of the system.
+ */
+static int l_starsystem_attr_shortDescription(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	const std::string &desc = s->GetShortDescription();
+	lua_pushlstring(l, desc.c_str(), desc.size());
+	return 1;
+}
+
+/*
+ * Attribute: governmentType
+ *
+ * A <PolitGovType> enum value indicating what form of government this star
+ * system uses.
+ */
+static int l_starsystem_attr_governmentType(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	const SysPolit &sp = s->GetSysPolit();
+	lua_pushstring(l, EnumStrings::GetString("PolitGovType", sp.govType));
+	return 1;
+}
+
+/*
  * Attribute: path
  *
  * The <SystemPath> to the system
@@ -470,6 +570,20 @@ static int l_starsystem_attr_path(lua_State *l)
 	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
 	SystemPath path = s->GetPath();
 	LuaObject<SystemPath>::PushToLua(&path);
+	return 1;
+}
+
+/*
+ * Attribute: rootBody
+ *
+ * The root <SystemBody> in the star system.
+ */
+static int l_starsystem_attr_rootBody(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	RefCountedPtr<SystemBody> root = s->GetRootBody();
+	LuaObject<SystemBody>::PushToLua(root.Get());
 	return 1;
 }
 
@@ -569,7 +683,11 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 {
 	static const luaL_Reg l_methods[] = {
 		{ "GetStationPaths", l_starsystem_get_station_paths },
+		{ "GetStationCount", l_starsystem_get_station_count },
+		{ "GetStarPaths", l_starsystem_get_star_paths },
+		{ "GetStarCount", l_starsystem_get_star_count },
 		{ "GetBodyPaths", l_starsystem_get_body_paths },
+		{ "GetBodyCount", l_starsystem_get_body_count },
 
 		{ "GetCommodityBasePriceAlterations", l_starsystem_get_commodity_base_price_alterations },
 		{ "IsCommodityLegal",                 l_starsystem_is_commodity_legal                   },
@@ -586,8 +704,12 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "name", l_starsystem_attr_name },
-		{ "path", l_starsystem_attr_path },
+		{ "name",             l_starsystem_attr_name },
+		{ "path",             l_starsystem_attr_path },
+		{ "rootBody",         l_starsystem_attr_rootBody },
+		{ "description",      l_starsystem_attr_description },
+		{ "shortDescription", l_starsystem_attr_shortDescription },
+		{ "governmentType",   l_starsystem_attr_governmentType },
 
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },

@@ -811,6 +811,7 @@ void Pi::HandleEvents()
 								Pi::EndGame();
 							Pi::Quit();
 							break;
+						case SDLK_F11:
 						case SDLK_PRINTSCREEN: // print
 						case SDLK_KP_MULTIPLY: // screen
 						{
@@ -900,6 +901,7 @@ void Pi::HandleEvents()
 							Pi::SetView(Pi::game->GetObjectViewerView());
 							break;
 #endif
+#if 0 // disable the normal CTRL+F11 combo, because I need a print-screen combo that works on my laptop
 						case SDLK_F11:
 							// XXX only works on X11
 							//SDL_WM_ToggleFullScreen(Pi::scrSurface);
@@ -907,6 +909,7 @@ void Pi::HandleEvents()
 							renderer->ReloadShaders();
 #endif
 							break;
+#endif
 						case SDLK_F9: // Quicksave
 						{
 							if(Pi::game) {

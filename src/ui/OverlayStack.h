@@ -14,6 +14,7 @@ public:
 	virtual void Layout();
 
 	OverlayStack *AddLayer(Widget *widget);
+	void PopLayer();
 	void Clear();
 
 protected:

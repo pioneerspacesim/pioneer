@@ -30,6 +30,7 @@
 #include "MultiLineText.h"
 #include "Button.h"
 #include "CheckBox.h"
+#include "SelectorBox.h"
 #include "Slider.h"
 #include "List.h"
 #include "DropDown.h"
@@ -101,6 +102,7 @@ public:
 	UI::Button *Button() { return new UI::Button(this); }
 	UI::SmallButton *SmallButton() { return new UI::SmallButton(this); }
 	UI::CheckBox *CheckBox() { return new UI::CheckBox(this); }
+	UI::SelectorBox *SelectorBox(SelectorBox::Shape shape) { return new UI::SelectorBox(this, shape); }
 
 	UI::HSlider *HSlider() { return new UI::HSlider(this); }
 	UI::VSlider *VSlider() { return new UI::VSlider(this); }

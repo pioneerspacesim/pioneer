@@ -40,7 +40,7 @@ static void SplitSpec(const std::string &spec, std::vector<int> &output)
 }
 
 Icon::Icon(Context *context, const std::string &iconName): Widget(context),
-	m_color(Color::WHITE)
+	m_color(Color::WHITE), m_fixedSize(0)
 {
 	if (!s_texture) {
 		s_config.Read(FileSystem::gameDataFiles, CONFIG_FILE);
@@ -64,12 +64,39 @@ Icon::Icon(Context *context, const std::string &iconName): Widget(context),
 	std::vector<int> v(2);
 	SplitSpec(spec, v);
 	m_texPos = Point(v[0], v[1]);
+
+	SetSizeControlFlags(NO_HEIGHT | PRESERVE_ASPECT);
+}
+
+Icon *Icon::SetSize(int size)
+{
+	assert(size > 0);
+	size = GetContext()->GetScale() * size;
+	if (m_fixedSize != size) {
+		m_fixedSize = size;
+		SetSizeControlFlags(0);
+		GetContext()->RequestLayout();
+	}
+	return this;
+}
+
+Icon *Icon::SetSizeScaleToHeight()
+{
+	if (m_fixedSize != 0) {
+		m_fixedSize = 0;
+		SetSizeControlFlags(NO_HEIGHT | PRESERVE_ASPECT);
+		GetContext()->RequestLayout();
+	}
+	return this;
 }
 
 Point Icon::PreferredSize()
 {
-	SetSizeControlFlags(NO_HEIGHT | PRESERVE_ASPECT);
-	return Point(48);
+	if (m_fixedSize > 0) {
+		return Point(m_fixedSize);
+	} else {
+		return Point(48);
+	}
 }
 
 void Icon::Draw()

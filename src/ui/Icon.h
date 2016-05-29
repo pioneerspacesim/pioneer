@@ -20,6 +20,8 @@ public:
 	virtual void Draw();
 
 	Icon *SetColor(const Color &c) { m_color = c; return this; }
+	Icon *SetSize(int size);
+	Icon *SetSizeScaleToHeight();
 
 protected:
 	friend class Context;
@@ -35,6 +37,7 @@ private:
 
 	Point m_texPos;
 	Color m_color;
+	int m_fixedSize;
 	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 

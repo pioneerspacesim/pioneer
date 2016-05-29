@@ -469,15 +469,15 @@ void SystemInfoView::SystemChanged(const SystemPath &path)
 		col1->Add((new Gui::Label(Lang::SYSTEM_TYPE))->Color(255,255,0), 0, 0);
 		col2->Add(new Gui::Label(m_system->GetShortDescription()), 0, 0);
 
-		col1->Add((new Gui::Label(Lang::GOVERNMENT_TYPE))->Color(255,255,0), 0, 2*YSEP);
+		col1->Add((new Gui::Label("Government type:"))->Color(255,255,0), 0, 2*YSEP);
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetGovernmentDesc()), 0, 2*YSEP);
 
-		col1->Add((new Gui::Label(Lang::ECONOMY_TYPE))->Color(255,255,0), 0, 3*YSEP);
+		col1->Add((new Gui::Label("Economy type:"))->Color(255,255,0), 0, 3*YSEP);
 		col2->Add(new Gui::Label(m_system->GetSysPolit().GetEconomicDesc()), 0, 3*YSEP);
 
-		col1->Add((new Gui::Label(Lang::ALLEGIANCE))->Color(255,255,0), 0, 4*YSEP);
+		col1->Add((new Gui::Label("Allegiance:"))->Color(255,255,0), 0, 4*YSEP);
 		col2->Add(new Gui::Label(m_system->GetFaction()->name.c_str()), 0, 4*YSEP);
-		col1->Add((new Gui::Label(Lang::POPULATION))->Color(255,255,0), 0, 5*YSEP);
+		col1->Add((new Gui::Label("Population:"))->Color(255,255,0), 0, 5*YSEP);
 		std::string popmsg;
 		fixed pop = m_system->GetTotalPop();
 		if (pop >= fixed(1,1)) { popmsg = stringf(Lang::OVER_N_BILLION, formatarg("population", pop.ToInt32())); }
