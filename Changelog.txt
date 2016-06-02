@@ -1,3 +1,7 @@
+June 2016
+   * Fixes
+     * Prevent the galaxy map from crashing if in hyperspace (#3714)
+
 May 2016
    * New Features
      * Sfx ini configuration file (#3697)
