@@ -4,6 +4,7 @@
 #include "attributes.glsl"
 #include "logz.glsl"
 #include "lib.glsl"
+#include "noise.glsl"
 
 out vec3 varyingEyepos;
 out vec3 varyingNormal;
@@ -17,5 +18,13 @@ void main(void)
 	gl_Position = logarithmicTransform();
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
 	varyingNormal = vec3(uNormalMatrix * a_normal);
-	v_texCoord3D = a_normal.xyz;
+	
+	// Animate rotating the clouds around the planet
+	float c = cos(time);
+	float s = sin(time);
+	mat3 m = mat3(	vec3(c, 0, -s), 
+					vec3(0, 1, 0),
+					vec3(s, 0, c) );
+			
+	v_texCoord3D = m * a_normal.xyz;
 }

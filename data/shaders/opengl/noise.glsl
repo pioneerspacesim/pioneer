@@ -74,9 +74,11 @@ uniform float time; // Used for texture animation
 /*
  * Both 2D and 3D texture coordinates are defined, for testing purposes.
  */
+#ifdef FRAGMENT_SHADER
 in vec2 v_texCoord2D;
 in vec3 v_texCoord3D;
 in vec4 v_color;
+#endif // FRAGMENT_SHADER
 
 /*
  * To create offsets of one texel and one half texel in the

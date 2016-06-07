@@ -103,7 +103,7 @@ void CloudSphereMaterial::SetGSUniforms()
 	p->diffuse.Set(this->diffuse);
 	p->permTexture.Set(this->texture0, 0);
 	p->gradTexture.Set(this->texture1, 1);
-	p->time.Set(float(1.0 + Pi::game->GetTime() * 0.0005));
+	p->time.Set(float(1.0 + Pi::game->GetTime() * 0.00005));
 
 	// we handle up to three shadows at a time
 	int occultedLight[3] = {-1,-1,-1};

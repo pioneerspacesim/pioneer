@@ -18,11 +18,21 @@ uniform float geosphereAtmosInvScaleHeight;
 
 uniform Material material;
 uniform Scene scene;
+const float CloudCover = 0.25;
+const float CloudSharpness = 0.25;
+const float nScale = 1.4; // Uniform?
+const float Density = 0.02;
 
 in vec3 varyingEyepos;
 in vec3 varyingNormal;
 
 out vec4 frag_color;
+
+float CloudExpCurve(float v)
+{
+	float c = max(v - CloudCover,0.0);
+	return 1.0 - pow(CloudSharpness, c);
+}
 
 void main(void)
 {
@@ -31,17 +41,21 @@ void main(void)
 	vec3 tnorm = normalize(varyingNormal);
 	
 	// generate some noise clouds
-	const float nScale = 1.4; // Uniform?
-	const float Density = 0.02;
 		
+	// 1st cloud set
+	float curvenoise = fbm(v_texCoord3D, 8, 8.0, 0.5) * 2.0;
+	float curve = CloudExpCurve(curvenoise);
+	
+	// 2nd cloud set
 	vec3 noisePosition = v_texCoord3D * 10.0;
 	float noise = fbm(noisePosition, 8, 8.0, 0.5) * nScale;
 	float rnoise = ridgedNoise(noisePosition, 4, 1.0, 0.5) * nScale;
 	rnoise -= (1.0 - Density);
 	
+	// combine
 	float thickness = max(rnoise * 2.0 + noise, 0.0);
-	thickness *= thickness;
-	vec4 texColor = vec4(max(vec3(1.0, 1.0, 1.0) * thickness, 0.0) * 2.0, 1.0);
+	thickness = ((thickness * thickness)) + curve;
+	vec4 texColor = vec4(vec3(thickness,thickness,thickness)*2.0, 1.0);
 	// end of noise clouds
 	
 	vec4 diff = texColor;
