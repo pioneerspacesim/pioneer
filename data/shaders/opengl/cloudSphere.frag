@@ -22,6 +22,7 @@ const float CloudCover = 0.25;
 const float CloudSharpness = 0.25;
 const float nScale = 1.4; // Uniform?
 const float Density = 0.02;
+const float ESun = 1.0;
 
 in vec3 varyingEyepos;
 in vec3 varyingNormal;
@@ -41,6 +42,12 @@ void main(void)
 	vec3 tnorm = normalize(varyingNormal);
 	
 	// generate some noise clouds
+	// calculate solar heating + height & water contributions
+	float lat = -asin(v_texCoord3D.y);
+	float sinlat = sin(lat);
+	float distort = fbm(v_texCoord3D, 5, 2, 0.5) * 0.15;
+	float intensity = clamp((1.0 - abs(sinlat)) + distort, 0.0, 1.0);
+	float heatAbsorption = ((0.5*intensity*intensity)+(intensity*0.5))*ESun;
 		
 	// 1st cloud set
 	float curvenoise = fbm(v_texCoord3D, 8, 8.0, 0.5) * 2.0;
@@ -54,7 +61,7 @@ void main(void)
 	
 	// combine
 	float thickness = max(rnoise * 2.0 + noise, 0.0);
-	thickness = ((thickness * thickness)) + curve;
+	thickness = min(heatAbsorption * (((thickness * thickness)) + curve), 1.0);
 	vec4 texColor = vec4(vec3(thickness,thickness,thickness)*2.0, 1.0);
 	// end of noise clouds
 	
