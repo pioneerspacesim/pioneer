@@ -43,19 +43,17 @@ void main(void)
 	
 	// generate some noise clouds
 	// calculate solar heating + height & water contributions
-	float lat = -asin(v_texCoord3D.y);
-	float sinlat = sin(lat);
-	float distort = fbm(v_texCoord3D, 5, 2, 0.5) * 0.15;
-	float intensity = clamp((1.0 - abs(sinlat)) + distort, 0.0, 1.0);
-	float heatAbsorption = ((0.5*intensity*intensity)+(intensity*0.5))*ESun;
+	float distort = fbm(v_texCoord3D, 5, 2, 0.5) * 0.25;
+	float intensity = clamp((1.0 - abs(v_texCoord3D.y)) + distort, 0.0, 1.0);
+	float heatAbsorption = intensity*1.5*ESun;
 		
 	// 1st cloud set
-	float curvenoise = fbm(v_texCoord3D, 8, 8.0, 0.5) * 2.0;
+	float curvenoise = fbm(v_texCoord3D, 6, 8.0, 0.5) * 2.0;
 	float curve = CloudExpCurve(curvenoise);
 	
 	// 2nd cloud set
 	vec3 noisePosition = v_texCoord3D * 10.0;
-	float noise = fbm(noisePosition, 8, 8.0, 0.5) * nScale;
+	float noise = fbm(noisePosition, 6, 8.0, 0.5) * nScale;
 	float rnoise = ridgedNoise(noisePosition, 4, 1.0, 0.5) * nScale;
 	rnoise -= (1.0 - Density);
 	
