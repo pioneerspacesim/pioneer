@@ -305,34 +305,34 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	float theta;
 	for (theta=0.0; theta < 2.f*float(M_PI); theta+=0.1f) {
 		bottom->Add(
-				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
+				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(vector3d(sin(theta),1.0,cos(theta)))), 100.0f*cos(theta)),
 				dark);
 		bottom->Add(
-			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 			bright);
 	}
 	theta = 2.f*float(M_PI);
 	bottom->Add(
-		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(vector3d(sin(theta),1.0,cos(theta)))), 100.0f*cos(theta)),
 		dark);
 	bottom->Add(
-		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 		bright);
 	//top
 	for (theta=0; theta < 2.f*float(M_PI); theta+=0.1f) {
 		top->Add(
-			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 			bright);
 		top->Add(
-			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(vector3d(sin(theta),-1.0,cos(theta)))), 100.0f*cos(theta)),
 			dark);
 	}
 	theta = 2.f*float(M_PI);
 	top->Add(
-		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 		bright);
 	top->Add(
-		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(vector3d(sin(theta),-1.0,cos(theta)))), 100.0f*cos(theta)),
 		dark);
 
 	Graphics::MaterialDescriptor desc;

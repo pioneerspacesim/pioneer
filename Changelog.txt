@@ -1,3 +1,11 @@
+June 2016
+   * Fixes
+     * Prevent the galaxy map from crashing if in hyperspace (#3714)
+
+   * Internal Changes
+     * Enable using dedicated nVidia GPUs in Windows laptops with Optimus (#3715)
+     * Minor Noise library improvements (#3716)
+
 May 2016
    * New Features
      * Sfx ini configuration file (#3697)
@@ -9,12 +17,15 @@ May 2016
      * Fix CTD for missile target hyperjumps (#3704)
      * Fix CTD caused by S&R after-mission states (#3648)
      * Fix crash when player explodes in-dock (#3710)
+     * Clean up the police tables on ship destruction (#3709)
 
    * Internal Changes
      * Landing resets time compression (#3696)
      * Rework SFX rendering to fix giant sprites (#3695)
      * Internal renderer cleanup (#3702)
      * Small filename consistency fix (#3707)
+     * Change the Lua AIKill command to check how legit is its target (#3708)
+     * Optimise Eclipse Calculations (#3711)
 
 April 2016
    * New Features

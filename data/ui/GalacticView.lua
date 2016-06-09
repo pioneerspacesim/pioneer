@@ -20,6 +20,7 @@ map.onMapScaleChanged:Connect(function (new_scale)
 end)
 
 local resetCurrentSector = function (map)
+	if not Game.system then return end
 	local sysPath = Game.system.path
 	local x = sysPath.sectorX
 	local y = sysPath.sectorY
