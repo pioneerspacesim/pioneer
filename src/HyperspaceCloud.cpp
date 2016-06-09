@@ -197,7 +197,7 @@ void HyperspaceCloud::Render(Renderer *renderer, const Camera *camera, const vec
 
 	// Flickering gradient circle, departure clouds are red and arrival clouds blue
 	// XXX could just alter the scale instead of recreating the model
-	const float radius = 1000.0f + 200.0f*float(noise(10.0*preciseTime, 0, 0));
+	const float radius = 1000.0f + 200.0f*float(noise(vector3d(10.0*preciseTime, 0, 0)));
 	m_graphic.vertices->Clear();
 	Color outerColor = m_isArrival ? Color::BLUE : Color::RED;
 	outerColor.a = 0;

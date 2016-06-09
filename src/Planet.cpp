@@ -197,8 +197,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
 		const float n = 0.25 +
-			0.60 * noise( 5.0 * alpha, noiseOffset, 0.0) +
-			0.15 * noise(10.0 * alpha, noiseOffset, 0.0);
+			0.60 * noise(vector3d( 5.0 * alpha, noiseOffset, 0.0)) +
+			0.15 * noise(vector3d(10.0 * alpha, noiseOffset, 0.0));
 
 		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1p(1.0f)));
 		const float v = LOG_SCALE*sqrtf(sqrtf(log1p(n)));
