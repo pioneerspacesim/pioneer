@@ -16,6 +16,13 @@
 #include <wchar.h>
 #include <windows.h>
 
+// This is the quickest and easiest way to enable using the nVidia GPU on a Windows laptop with a dedicated nVidia GPU and Optimus tech.
+// enable optimus!
+extern "C" {
+    _declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+}
+
+
 #ifdef RegisterClass
 #undef RegisterClass
 #endif
