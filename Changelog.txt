@@ -5,6 +5,7 @@ June 2016
    * Internal Changes
      * Enable using dedicated nVidia GPUs in Windows laptops with Optimus (#3715)
      * Minor Noise library improvements (#3716)
+     * Add AMD Power Xpress performance flag keyword and value (#3717)
 
 May 2016
    * New Features
