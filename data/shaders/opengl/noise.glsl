@@ -160,19 +160,19 @@ float noise(const in vec2 P)
   vec2 Pf = fract(P);             // Fractional part for interpolation
 
   // Noise contribution from lower left corner
-  vec2 grad00 = texture2D(permTexture, Pi).rg * 4.0 - 1.0;
+  vec2 grad00 = texture(permTexture, Pi).rg * 4.0 - 1.0;
   float n00 = dot(grad00, Pf);
 
   // Noise contribution from lower right corner
-  vec2 grad10 = texture2D(permTexture, Pi + vec2(ONE, 0.0)).rg * 4.0 - 1.0;
+  vec2 grad10 = texture(permTexture, Pi + vec2(ONE, 0.0)).rg * 4.0 - 1.0;
   float n10 = dot(grad10, Pf - vec2(1.0, 0.0));
 
   // Noise contribution from upper left corner
-  vec2 grad01 = texture2D(permTexture, Pi + vec2(0.0, ONE)).rg * 4.0 - 1.0;
+  vec2 grad01 = texture(permTexture, Pi + vec2(0.0, ONE)).rg * 4.0 - 1.0;
   float n01 = dot(grad01, Pf - vec2(0.0, 1.0));
 
   // Noise contribution from upper right corner
-  vec2 grad11 = texture2D(permTexture, Pi + vec2(ONE, ONE)).rg * 4.0 - 1.0;
+  vec2 grad11 = texture(permTexture, Pi + vec2(ONE, ONE)).rg * 4.0 - 1.0;
   float n11 = dot(grad11, Pf - vec2(1.0, 1.0));
 
   // Blend contributions along x
@@ -196,31 +196,31 @@ float noise(const in vec3 P)
   vec3 Pf = fract(P);     // Fractional part for interpolation
 
   // Noise contributions from (x=0, y=0), z=0 and z=1
-  float perm00 = texture2D(permTexture, Pi.xy).a ;
-  vec3  grad000 = texture2D(permTexture, vec2(perm00, Pi.z)).rgb * 4.0 - 1.0;
+  float perm00 = texture(permTexture, Pi.xy).a ;
+  vec3  grad000 = texture(permTexture, vec2(perm00, Pi.z)).rgb * 4.0 - 1.0;
   float n000 = dot(grad000, Pf);
-  vec3  grad001 = texture2D(permTexture, vec2(perm00, Pi.z + ONE)).rgb * 4.0 - 1.0;
+  vec3  grad001 = texture(permTexture, vec2(perm00, Pi.z + ONE)).rgb * 4.0 - 1.0;
   float n001 = dot(grad001, Pf - vec3(0.0, 0.0, 1.0));
 
   // Noise contributions from (x=0, y=1), z=0 and z=1
-  float perm01 = texture2D(permTexture, Pi.xy + vec2(0.0, ONE)).a ;
-  vec3  grad010 = texture2D(permTexture, vec2(perm01, Pi.z)).rgb * 4.0 - 1.0;
+  float perm01 = texture(permTexture, Pi.xy + vec2(0.0, ONE)).a ;
+  vec3  grad010 = texture(permTexture, vec2(perm01, Pi.z)).rgb * 4.0 - 1.0;
   float n010 = dot(grad010, Pf - vec3(0.0, 1.0, 0.0));
-  vec3  grad011 = texture2D(permTexture, vec2(perm01, Pi.z + ONE)).rgb * 4.0 - 1.0;
+  vec3  grad011 = texture(permTexture, vec2(perm01, Pi.z + ONE)).rgb * 4.0 - 1.0;
   float n011 = dot(grad011, Pf - vec3(0.0, 1.0, 1.0));
 
   // Noise contributions from (x=1, y=0), z=0 and z=1
-  float perm10 = texture2D(permTexture, Pi.xy + vec2(ONE, 0.0)).a ;
-  vec3  grad100 = texture2D(permTexture, vec2(perm10, Pi.z)).rgb * 4.0 - 1.0;
+  float perm10 = texture(permTexture, Pi.xy + vec2(ONE, 0.0)).a ;
+  vec3  grad100 = texture(permTexture, vec2(perm10, Pi.z)).rgb * 4.0 - 1.0;
   float n100 = dot(grad100, Pf - vec3(1.0, 0.0, 0.0));
-  vec3  grad101 = texture2D(permTexture, vec2(perm10, Pi.z + ONE)).rgb * 4.0 - 1.0;
+  vec3  grad101 = texture(permTexture, vec2(perm10, Pi.z + ONE)).rgb * 4.0 - 1.0;
   float n101 = dot(grad101, Pf - vec3(1.0, 0.0, 1.0));
 
   // Noise contributions from (x=1, y=1), z=0 and z=1
-  float perm11 = texture2D(permTexture, Pi.xy + vec2(ONE, ONE)).a ;
-  vec3  grad110 = texture2D(permTexture, vec2(perm11, Pi.z)).rgb * 4.0 - 1.0;
+  float perm11 = texture(permTexture, Pi.xy + vec2(ONE, ONE)).a ;
+  vec3  grad110 = texture(permTexture, vec2(perm11, Pi.z)).rgb * 4.0 - 1.0;
   float n110 = dot(grad110, Pf - vec3(1.0, 1.0, 0.0));
-  vec3  grad111 = texture2D(permTexture, vec2(perm11, Pi.z + ONE)).rgb * 4.0 - 1.0;
+  vec3  grad111 = texture(permTexture, vec2(perm11, Pi.z + ONE)).rgb * 4.0 - 1.0;
   float n111 = dot(grad111, Pf - vec3(1.0, 1.0, 1.0));
 
   // Blend contributions along x
@@ -252,60 +252,60 @@ float noise(const in vec4 P)
   vec4 Pf = fract(P);      // Fractional part for interpolation
 
   // "n0000" is the noise contribution from (x=0, y=0, z=0, w=0), and so on
-  float perm00xy = texture2D(permTexture, Pi.xy).a ;
-  float perm00zw = texture2D(permTexture, Pi.zw).a ;
-  vec4 grad0000 = texture2D(gradTexture, vec2(perm00xy, perm00zw)).rgba * 4.0 -1.0;
+  float perm00xy = texture(permTexture, Pi.xy).a ;
+  float perm00zw = texture(permTexture, Pi.zw).a ;
+  vec4 grad0000 = texture(gradTexture, vec2(perm00xy, perm00zw)).rgba * 4.0 -1.0;
   float n0000 = dot(grad0000, Pf);
 
-  float perm01zw = texture2D(permTexture, Pi.zw  + vec2(0.0, ONE)).a ;
-  vec4  grad0001 = texture2D(gradTexture, vec2(perm00xy, perm01zw)).rgba * 4.0 - 1.0;
+  float perm01zw = texture(permTexture, Pi.zw  + vec2(0.0, ONE)).a ;
+  vec4  grad0001 = texture(gradTexture, vec2(perm00xy, perm01zw)).rgba * 4.0 - 1.0;
   float n0001 = dot(grad0001, Pf - vec4(0.0, 0.0, 0.0, 1.0));
 
-  float perm10zw = texture2D(permTexture, Pi.zw  + vec2(ONE, 0.0)).a ;
-  vec4  grad0010 = texture2D(gradTexture, vec2(perm00xy, perm10zw)).rgba * 4.0 - 1.0;
+  float perm10zw = texture(permTexture, Pi.zw  + vec2(ONE, 0.0)).a ;
+  vec4  grad0010 = texture(gradTexture, vec2(perm00xy, perm10zw)).rgba * 4.0 - 1.0;
   float n0010 = dot(grad0010, Pf - vec4(0.0, 0.0, 1.0, 0.0));
 
-  float perm11zw = texture2D(permTexture, Pi.zw  + vec2(ONE, ONE)).a ;
-  vec4  grad0011 = texture2D(gradTexture, vec2(perm00xy, perm11zw)).rgba * 4.0 - 1.0;
+  float perm11zw = texture(permTexture, Pi.zw  + vec2(ONE, ONE)).a ;
+  vec4  grad0011 = texture(gradTexture, vec2(perm00xy, perm11zw)).rgba * 4.0 - 1.0;
   float n0011 = dot(grad0011, Pf - vec4(0.0, 0.0, 1.0, 1.0));
 
-  float perm01xy = texture2D(permTexture, Pi.xy + vec2(0.0, ONE)).a ;
-  vec4  grad0100 = texture2D(gradTexture, vec2(perm01xy, perm00zw)).rgba * 4.0 - 1.0;
+  float perm01xy = texture(permTexture, Pi.xy + vec2(0.0, ONE)).a ;
+  vec4  grad0100 = texture(gradTexture, vec2(perm01xy, perm00zw)).rgba * 4.0 - 1.0;
   float n0100 = dot(grad0100, Pf - vec4(0.0, 1.0, 0.0, 0.0));
 
-  vec4  grad0101 = texture2D(gradTexture, vec2(perm01xy, perm01zw)).rgba * 4.0 - 1.0;
+  vec4  grad0101 = texture(gradTexture, vec2(perm01xy, perm01zw)).rgba * 4.0 - 1.0;
   float n0101 = dot(grad0101, Pf - vec4(0.0, 1.0, 0.0, 1.0));
 
-  vec4  grad0110 = texture2D(gradTexture, vec2(perm01xy, perm10zw)).rgba * 4.0 - 1.0;
+  vec4  grad0110 = texture(gradTexture, vec2(perm01xy, perm10zw)).rgba * 4.0 - 1.0;
   float n0110 = dot(grad0110, Pf - vec4(0.0, 1.0, 1.0, 0.0));
 
-  vec4  grad0111 = texture2D(gradTexture, vec2(perm01xy, perm11zw)).rgba * 4.0 - 1.0;
+  vec4  grad0111 = texture(gradTexture, vec2(perm01xy, perm11zw)).rgba * 4.0 - 1.0;
   float n0111 = dot(grad0111, Pf - vec4(0.0, 1.0, 1.0, 1.0));
 
-  float perm10xy = texture2D(permTexture, Pi.xy + vec2(ONE, 0.0)).a ;
-  vec4  grad1000 = texture2D(gradTexture, vec2(perm10xy, perm00zw)).rgba * 4.0 - 1.0;
+  float perm10xy = texture(permTexture, Pi.xy + vec2(ONE, 0.0)).a ;
+  vec4  grad1000 = texture(gradTexture, vec2(perm10xy, perm00zw)).rgba * 4.0 - 1.0;
   float n1000 = dot(grad1000, Pf - vec4(1.0, 0.0, 0.0, 0.0));
 
-  vec4  grad1001 = texture2D(gradTexture, vec2(perm10xy, perm01zw)).rgba * 4.0 - 1.0;
+  vec4  grad1001 = texture(gradTexture, vec2(perm10xy, perm01zw)).rgba * 4.0 - 1.0;
   float n1001 = dot(grad1001, Pf - vec4(1.0, 0.0, 0.0, 1.0));
 
-  vec4  grad1010 = texture2D(gradTexture, vec2(perm10xy, perm10zw)).rgba * 4.0 - 1.0;
+  vec4  grad1010 = texture(gradTexture, vec2(perm10xy, perm10zw)).rgba * 4.0 - 1.0;
   float n1010 = dot(grad1010, Pf - vec4(1.0, 0.0, 1.0, 0.0));
 
-  vec4  grad1011 = texture2D(gradTexture, vec2(perm10xy, perm11zw)).rgba * 4.0 - 1.0;
+  vec4  grad1011 = texture(gradTexture, vec2(perm10xy, perm11zw)).rgba * 4.0 - 1.0;
   float n1011 = dot(grad1011, Pf - vec4(1.0, 0.0, 1.0, 1.0));
 
-  float perm11xy = texture2D(permTexture, Pi.xy + vec2(ONE, ONE)).a ;
-  vec4  grad1100 = texture2D(gradTexture, vec2(perm11xy, perm00zw)).rgba * 4.0 - 1.0;
+  float perm11xy = texture(permTexture, Pi.xy + vec2(ONE, ONE)).a ;
+  vec4  grad1100 = texture(gradTexture, vec2(perm11xy, perm00zw)).rgba * 4.0 - 1.0;
   float n1100 = dot(grad1100, Pf - vec4(1.0, 1.0, 0.0, 0.0));
 
-  vec4  grad1101 = texture2D(gradTexture, vec2(perm11xy, perm01zw)).rgba * 4.0 - 1.0;
+  vec4  grad1101 = texture(gradTexture, vec2(perm11xy, perm01zw)).rgba * 4.0 - 1.0;
   float n1101 = dot(grad1101, Pf - vec4(1.0, 1.0, 0.0, 1.0));
 
-  vec4  grad1110 = texture2D(gradTexture, vec2(perm11xy, perm10zw)).rgba * 4.0 - 1.0;
+  vec4  grad1110 = texture(gradTexture, vec2(perm11xy, perm10zw)).rgba * 4.0 - 1.0;
   float n1110 = dot(grad1110, Pf - vec4(1.0, 1.0, 1.0, 0.0));
 
-  vec4  grad1111 = texture2D(gradTexture, vec2(perm11xy, perm11zw)).rgba * 4.0 - 1.0;
+  vec4  grad1111 = texture(gradTexture, vec2(perm11xy, perm11zw)).rgba * 4.0 - 1.0;
   float n1111 = dot(grad1111, Pf - vec4(1.0, 1.0, 1.0, 1.0));
 
   // Blend contributions along x
@@ -357,7 +357,7 @@ float snoise(const in vec2 P) {
   else o1 = vec2(0.0, 1.0);               // +y, +x traversal order
 
   // Noise contribution from simplex origin
-  vec2 grad0 = texture2D(permTexture, Pi).rg * 4.0 - 1.0;
+  vec2 grad0 = texture(permTexture, Pi).rg * 4.0 - 1.0;
   float t0 = 0.5 - dot(Pf0, Pf0);
   float n0;
   if (t0 < 0.0) n0 = 0.0;
@@ -368,7 +368,7 @@ float snoise(const in vec2 P) {
 
   // Noise contribution from middle corner
   vec2 Pf1 = Pf0 - o1 + G2;
-  vec2 grad1 = texture2D(permTexture, Pi + o1*ONE).rg * 4.0 - 1.0;
+  vec2 grad1 = texture(permTexture, Pi + o1*ONE).rg * 4.0 - 1.0;
   float t1 = 0.5 - dot(Pf1, Pf1);
   float n1;
   if (t1 < 0.0) n1 = 0.0;
@@ -379,7 +379,7 @@ float snoise(const in vec2 P) {
   
   // Noise contribution from last corner
   vec2 Pf2 = Pf0 - vec2(1.0-2.0*G2);
-  vec2 grad2 = texture2D(permTexture, Pi + vec2(ONE, ONE)).rg * 4.0 - 1.0;
+  vec2 grad2 = texture(permTexture, Pi + vec2(ONE, ONE)).rg * 4.0 - 1.0;
   float t2 = 0.5 - dot(Pf2, Pf2);
   float n2;
   if(t2 < 0.0) n2 = 0.0;
@@ -419,8 +419,8 @@ float snoise(const in vec3 P) {
   simplex(Pf0, o1, o2);
 
   // Noise contribution from simplex origin
-  float perm0 = texture2D(permTexture, Pi.xy).a;
-  vec3  grad0 = texture2D(permTexture, vec2(perm0, Pi.z)).rgb * 4.0 - 1.0;
+  float perm0 = texture(permTexture, Pi.xy).a;
+  vec3  grad0 = texture(permTexture, vec2(perm0, Pi.z)).rgb * 4.0 - 1.0;
   float t0 = 0.6 - dot(Pf0, Pf0);
   float n0;
   if (t0 < 0.0) n0 = 0.0;
@@ -431,8 +431,8 @@ float snoise(const in vec3 P) {
 
   // Noise contribution from second corner
   vec3 Pf1 = Pf0 - o1 + G3;
-  float perm1 = texture2D(permTexture, Pi.xy + o1.xy*ONE).a;
-  vec3  grad1 = texture2D(permTexture, vec2(perm1, Pi.z + o1.z*ONE)).rgb * 4.0 - 1.0;
+  float perm1 = texture(permTexture, Pi.xy + o1.xy*ONE).a;
+  vec3  grad1 = texture(permTexture, vec2(perm1, Pi.z + o1.z*ONE)).rgb * 4.0 - 1.0;
   float t1 = 0.6 - dot(Pf1, Pf1);
   float n1;
   if (t1 < 0.0) n1 = 0.0;
@@ -443,8 +443,8 @@ float snoise(const in vec3 P) {
   
   // Noise contribution from third corner
   vec3 Pf2 = Pf0 - o2 + 2.0 * G3;
-  float perm2 = texture2D(permTexture, Pi.xy + o2.xy*ONE).a;
-  vec3  grad2 = texture2D(permTexture, vec2(perm2, Pi.z + o2.z*ONE)).rgb * 4.0 - 1.0;
+  float perm2 = texture(permTexture, Pi.xy + o2.xy*ONE).a;
+  vec3  grad2 = texture(permTexture, vec2(perm2, Pi.z + o2.z*ONE)).rgb * 4.0 - 1.0;
   float t2 = 0.6 - dot(Pf2, Pf2);
   float n2;
   if (t2 < 0.0) n2 = 0.0;
@@ -455,8 +455,8 @@ float snoise(const in vec3 P) {
   
   // Noise contribution from last corner
   vec3 Pf3 = Pf0 - vec3(1.0-3.0*G3);
-  float perm3 = texture2D(permTexture, Pi.xy + vec2(ONE, ONE)).a;
-  vec3  grad3 = texture2D(permTexture, vec2(perm3, Pi.z + ONE)).rgb * 4.0 - 1.0;
+  float perm3 = texture(permTexture, Pi.xy + vec2(ONE, ONE)).a;
+  vec3  grad3 = texture(permTexture, vec2(perm3, Pi.z + ONE)).rgb * 4.0 - 1.0;
   float t3 = 0.6 - dot(Pf3, Pf3);
   float n3;
   if(t3 < 0.0) n3 = 0.0;
@@ -500,9 +500,9 @@ float snoise(const in vec4 P) {
   simplex(Pf0, o1, o2, o3);  
 
   // Noise contribution from simplex origin
-  float perm0xy = texture2D(permTexture, Pi.xy).a;
-  float perm0zw = texture2D(permTexture, Pi.zw).a;
-  vec4  grad0 = texture2D(gradTexture, vec2(perm0xy, perm0zw)).rgba * 4.0 - 1.0;
+  float perm0xy = texture(permTexture, Pi.xy).a;
+  float perm0zw = texture(permTexture, Pi.zw).a;
+  vec4  grad0 = texture(gradTexture, vec2(perm0xy, perm0zw)).rgba * 4.0 - 1.0;
   float t0 = 0.6 - dot(Pf0, Pf0);
   float n0;
   if (t0 < 0.0) n0 = 0.0;
@@ -514,9 +514,9 @@ float snoise(const in vec4 P) {
   // Noise contribution from second corner
   vec4 Pf1 = Pf0 - o1 + G4;
   o1 = o1 * ONE;
-  float perm1xy = texture2D(permTexture, Pi.xy + o1.xy).a;
-  float perm1zw = texture2D(permTexture, Pi.zw + o1.zw).a;
-  vec4  grad1 = texture2D(gradTexture, vec2(perm1xy, perm1zw)).rgba * 4.0 - 1.0;
+  float perm1xy = texture(permTexture, Pi.xy + o1.xy).a;
+  float perm1zw = texture(permTexture, Pi.zw + o1.zw).a;
+  vec4  grad1 = texture(gradTexture, vec2(perm1xy, perm1zw)).rgba * 4.0 - 1.0;
   float t1 = 0.6 - dot(Pf1, Pf1);
   float n1;
   if (t1 < 0.0) n1 = 0.0;
@@ -528,9 +528,9 @@ float snoise(const in vec4 P) {
   // Noise contribution from third corner
   vec4 Pf2 = Pf0 - o2 + 2.0 * G4;
   o2 = o2 * ONE;
-  float perm2xy = texture2D(permTexture, Pi.xy + o2.xy).a;
-  float perm2zw = texture2D(permTexture, Pi.zw + o2.zw).a;
-  vec4  grad2 = texture2D(gradTexture, vec2(perm2xy, perm2zw)).rgba * 4.0 - 1.0;
+  float perm2xy = texture(permTexture, Pi.xy + o2.xy).a;
+  float perm2zw = texture(permTexture, Pi.zw + o2.zw).a;
+  vec4  grad2 = texture(gradTexture, vec2(perm2xy, perm2zw)).rgba * 4.0 - 1.0;
   float t2 = 0.6 - dot(Pf2, Pf2);
   float n2;
   if (t2 < 0.0) n2 = 0.0;
@@ -542,9 +542,9 @@ float snoise(const in vec4 P) {
   // Noise contribution from fourth corner
   vec4 Pf3 = Pf0 - o3 + 3.0 * G4;
   o3 = o3 * ONE;
-  float perm3xy = texture2D(permTexture, Pi.xy + o3.xy).a;
-  float perm3zw = texture2D(permTexture, Pi.zw + o3.zw).a;
-  vec4  grad3 = texture2D(gradTexture, vec2(perm3xy, perm3zw)).rgba * 4.0 - 1.0;
+  float perm3xy = texture(permTexture, Pi.xy + o3.xy).a;
+  float perm3zw = texture(permTexture, Pi.zw + o3.zw).a;
+  vec4  grad3 = texture(gradTexture, vec2(perm3xy, perm3zw)).rgba * 4.0 - 1.0;
   float t3 = 0.6 - dot(Pf3, Pf3);
   float n3;
   if (t3 < 0.0) n3 = 0.0;
@@ -555,9 +555,9 @@ float snoise(const in vec4 P) {
   
   // Noise contribution from last corner
   vec4 Pf4 = Pf0 - vec4(1.0-4.0*G4);
-  float perm4xy = texture2D(permTexture, Pi.xy + vec2(ONE, ONE)).a;
-  float perm4zw = texture2D(permTexture, Pi.zw + vec2(ONE, ONE)).a;
-  vec4  grad4 = texture2D(gradTexture, vec2(perm4xy, perm4zw)).rgba * 4.0 - 1.0;
+  float perm4xy = texture(permTexture, Pi.xy + vec2(ONE, ONE)).a;
+  float perm4zw = texture(permTexture, Pi.zw + vec2(ONE, ONE)).a;
+  vec4  grad4 = texture(gradTexture, vec2(perm4xy, perm4zw)).rgba * 4.0 - 1.0;
   float t4 = 0.6 - dot(Pf4, Pf4);
   float n4;
   if(t4 < 0.0) n4 = 0.0;
