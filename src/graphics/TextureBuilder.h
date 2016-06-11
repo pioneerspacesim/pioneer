@@ -36,6 +36,9 @@ public:
 	static TextureBuilder Decal(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, true);
 	}
+	static TextureBuilder Raw(const std::string &filename) {
+		return TextureBuilder(filename, NEAREST_REPEAT, false, false, false, false, false);
+	}
 	static TextureBuilder Cube(const std::string &filename) {
 		return TextureBuilder(filename, LINEAR_CLAMP, true, true, false, true, false, TEXTURE_CUBE_MAP);
 	}

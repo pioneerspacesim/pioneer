@@ -129,7 +129,7 @@ bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 bool Pi::compactScanner;
 std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
-bool Pi::navTunnelDisplayed;
+bool Pi::navTunnelDisplayed = false;
 bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
 bool Pi::bRefreshBackgroundStars = true;
@@ -449,7 +449,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
 	syncJobQueue.reset(new SyncJobQueue);
-
+	
 	Output("ShipType::Init()\n");
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -1223,12 +1223,12 @@ void Pi::MainLoop()
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
+#ifdef PIONEER_PROFILER
+	Profiler::reset();
+#endif
+
 	while (Pi::game) {
 		PROFILE_SCOPED()
-
-#ifdef PIONEER_PROFILER
-		Profiler::reset();
-#endif
 
 		Pi::serverAgent->ProcessResponses();
 
@@ -1287,7 +1287,7 @@ void Pi::MainLoop()
 		}
 
 		Pi::BeginRenderTarget();
-
+		Pi::renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
@@ -1445,6 +1445,10 @@ void Pi::MainLoop()
 			Screendump(fname.c_str(), Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		}
 #endif /* MAKING_VIDEO */
+
+#ifdef PIONEER_PROFILER
+		Profiler::reset();
+#endif
 	}
 }
 

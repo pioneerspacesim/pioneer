@@ -131,6 +131,7 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\BillboardMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
@@ -174,6 +175,7 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\BillboardMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GLDebug.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.h" />

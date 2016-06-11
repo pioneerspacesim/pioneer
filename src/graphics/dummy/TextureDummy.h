@@ -17,6 +17,7 @@ public:
 	void Unbind() {}
 
 	virtual void SetSampleMode(TextureSampleMode) {}
+	virtual void BuildMipmaps() {}
 	Uint32 GetTexture() const { return 0U; }
 
 private:

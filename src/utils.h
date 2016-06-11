@@ -44,9 +44,9 @@ struct MsgTimer {
 
 	void Mark(const char *identifier) {
 		mTimer.SoftStop();
-		const double lastTiming = mTimer.millicycles();
+		const double lastTiming = mTimer.avgms();
 		mTimer.SoftReset();
-		Output("(%lf) millicycles in %s\n", lastTiming, identifier);
+		Output("(%lf) avgms in %s\n", lastTiming, identifier);
 	}
 protected:
 	Profiler::Timer mTimer;

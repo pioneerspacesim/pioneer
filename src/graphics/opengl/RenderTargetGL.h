@@ -37,8 +37,9 @@ public:
 	~RenderTarget();
 	virtual Texture *GetColorTexture() const;
 	virtual Texture *GetDepthTexture() const;
-	virtual void SetColorTexture(Texture*);
-	virtual void SetDepthTexture(Texture*);
+	virtual void SetCubeFaceTexture(const Uint32 face, Texture* t) final;
+	virtual void SetColorTexture(Texture*) final;
+	virtual void SetDepthTexture(Texture*) final;
 
 protected:
 	friend class Graphics::RendererOGL;
