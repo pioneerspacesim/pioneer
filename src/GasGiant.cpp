@@ -5,6 +5,8 @@
 #include "GasGiant.h"
 #include "perlin.h"
 #include "Pi.h"
+#include "IniConfig.h"
+#include "FileSystem.h"
 #include "Game.h"
 #include "RefCounted.h"
 #include "graphics/Material.h"
@@ -24,10 +26,11 @@ RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 
 namespace
 {
-	static const Uint32 UV_DIMS_SMALL = 16;
-	static const Uint32 UV_DIMS = 1024;
-	static const float s_initialCPUDelayTime = 60.0f; // (perhaps) 60 seconds seems like a reasonable default
-	static const float s_initialGPUDelayTime = 5.0f; // (perhaps) 60 seconds seems like a reasonable default
+	static Uint32 TEXTURE_SIZE_SMALL = 16;
+	static Uint32 TEXTURE_SIZE_CPU = 512;
+	static Uint32 TEXTURE_SIZE_GPU = 1024;
+	static float s_initialCPUDelayTime = 60.0f; // (perhaps) 60 seconds seems like a reasonable default
+	static float s_initialGPUDelayTime = 5.0f; // (perhaps) 5 seconds seems like a reasonable default
 	static std::vector<GasGiant*> s_allGasGiants;
 
 	static const std::string GGJupiter("GGJupiter");
@@ -471,7 +474,7 @@ void GasGiant::GenerateTexture()
 	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 
 	const vector2f texSize(1.0f, 1.0f);
-	const vector2f dataSize(UV_DIMS_SMALL, UV_DIMS_SMALL);
+	const vector2f dataSize(TEXTURE_SIZE_SMALL, TEXTURE_SIZE_SMALL);
 	const Graphics::TextureDescriptor texDesc(
 		Graphics::TEXTURE_RGBA_8888, 
 		dataSize, texSize, Graphics::LINEAR_CLAMP, 
@@ -479,14 +482,14 @@ void GasGiant::GenerateTexture()
 	m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
 
 	const Terrain *pTerrain = GetTerrain();
-	const double fracStep = 1.0 / double(UV_DIMS_SMALL-1);
+	const double fracStep = 1.0 / double(TEXTURE_SIZE_SMALL-1);
 
 	Graphics::TextureCubeData tcd;
 	std::unique_ptr<Color> bufs[NUM_PATCHES];
 	for(int i=0; i<NUM_PATCHES; i++) {
-		Color *colors = new Color[ (UV_DIMS_SMALL*UV_DIMS_SMALL) ];
-		for( Uint32 v=0; v<UV_DIMS_SMALL; v++ ) {
-			for( Uint32 u=0; u<UV_DIMS_SMALL; u++ ) {
+		Color *colors = new Color[ (TEXTURE_SIZE_SMALL*TEXTURE_SIZE_SMALL) ];
+		for( Uint32 v=0; v<TEXTURE_SIZE_SMALL; v++ ) {
+			for( Uint32 u=0; u<TEXTURE_SIZE_SMALL; u++ ) {
 				// where in this row & colum are we now.
 				const double ustep = double(u) * fracStep;
 				const double vstep = double(v) * fracStep;
@@ -497,7 +500,7 @@ void GasGiant::GenerateTexture()
 				const vector3d colour = pTerrain->GetColor(p, 0.0, p);
 
 				// convert to ubyte and store
-				Color* col = colors + (u + (v * UV_DIMS_SMALL));
+				Color* col = colors + (u + (v * TEXTURE_SIZE_SMALL));
 				col[0].r = Uint8(colour.x * 255.0);
 				col[0].g = Uint8(colour.y * 255.0);
 				col[0].b = Uint8(colour.z * 255.0);
@@ -524,7 +527,7 @@ void GasGiant::GenerateTexture()
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
 			m_hasJobRequest[i] = true;
-			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, UV_DIMS, GetTerrain());
+			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, TEXTURE_SIZE_CPU, GetTerrain());
 			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new GasGiantJobs::SingleTextureFaceJob(ssrd));
 		}
 	}
@@ -533,7 +536,7 @@ void GasGiant::GenerateTexture()
 		// use m_surfaceTexture texture?
 		// create texture
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(UV_DIMS, UV_DIMS);
+		const vector2f dataSize(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
@@ -563,9 +566,9 @@ void GasGiant::GenerateTexture()
 		const std::string parentname = GetSystemBody()->GetParent()->GetName();
 		const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
 
-		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(UV_DIMS, UV_DIMS), s_quadRenderState, GasGiantType );
+		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU), s_quadRenderState, GasGiantType );
 			
-		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), UV_DIMS, GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
+		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), TEXTURE_SIZE_GPU, GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new GasGiantJobs::SingleGPUGenJob(pGPUReq));
 		m_hasGpuJobRequest = true;
 	}
@@ -740,10 +743,20 @@ void GasGiant::BuildFirstPatches()
 
 void GasGiant::Init()
 {
+	IniConfig cfg;
+	cfg.Read(FileSystem::gameDataFiles, "configs/GasGiants.ini");
+	// NB: limit the ranges of all values loaded from the file
+	// NB: round to the nearest power of 2 for all texture sizes
+	TEXTURE_SIZE_SMALL		= ceil_pow2(Clamp(cfg.Int("texture_size_small", 16), 16, 64));
+	TEXTURE_SIZE_CPU		= ceil_pow2(Clamp(cfg.Int("texture_size_cpu", 512), 128, 4096));
+	s_initialCPUDelayTime	= Clamp(cfg.Float("cpu_delay_time", 60.0f), 0.0f, 120.0f);
+	TEXTURE_SIZE_GPU		= ceil_pow2(Clamp(cfg.Int("texture_size_gpu", 1024), 128, 4096));
+	s_initialGPUDelayTime	= Clamp(cfg.Float("gpu_delay_time", 5.0f), 0.0f, 120.0f);
+
 	if( s_patchContext.Get() == nullptr ) {
 		s_patchContext.Reset(new GasPatchContext(127));
 	}
-	CreateRenderTarget(UV_DIMS, UV_DIMS);
+	CreateRenderTarget(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU);
 }
 
 void GasGiant::Uninit()
