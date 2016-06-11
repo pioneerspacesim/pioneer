@@ -37,12 +37,6 @@ namespace GasGiantJobs
 		PROFILE_SCOPED()
 		//MsgTimer timey;
 
-#ifdef DUMP_PARAMS
-		if (0 == face) {
-			DumpParams();
-		}
-#endif
-
 		assert( corners != nullptr );
 		double fracStep = 1.0 / double(UVDims()-1);
 		for( Sint32 v=0; v<UVDims(); v++ ) {
@@ -168,11 +162,28 @@ namespace GasGiantJobs
 	}
 
 	// ********************************************************************************
-	SGPUGenRequest::SGPUGenRequest(const SystemPath &sysPath_, const Sint32 uvDIMs_, Terrain *pTerrain_, const float planetRadius_, GenFaceQuad* pQuad_, Graphics::Texture *pTex_) :
-		m_texture(pTex_), sysPath(sysPath_), uvDIMs(uvDIMs_), pTerrain(pTerrain_), planetRadius(planetRadius_), pQuad(pQuad_)
+	SGPUGenRequest::SGPUGenRequest(const SystemPath &sysPath_, const Sint32 uvDIMs_, Terrain *pTerrain_, const float planetRadius_, const float hueAdjust_, GenFaceQuad* pQuad_, Graphics::Texture *pTex_) :
+		m_texture(pTex_), sysPath(sysPath_), uvDIMs(uvDIMs_), pTerrain(pTerrain_), planetRadius(planetRadius_), hueAdjust(hueAdjust_), pQuad(pQuad_)
 	{
 		PROFILE_SCOPED()
 		assert(m_texture.Valid());
+	}
+	
+	void SGPUGenRequest::SetupMaterialParams(const int face)
+	{
+		PROFILE_SCOPED()
+		m_specialParams.v = &s_patchFaces[face][0];
+		m_specialParams.fracStep = 1.0f / float(uvDIMs);
+		m_specialParams.planetRadius = planetRadius;
+		m_specialParams.time = 0.0f;
+			
+		for(Uint32 i=0; i<3; i++) {
+			m_specialParams.frequency[i] = (float)pTerrain->GetFracDef(i).frequency;
+		}
+
+		m_specialParams.hueAdjust = hueAdjust;
+
+		pQuad->GetMaterial()->specialParameter0 = &m_specialParams;
 	}
 
 	// ********************************************************************************
@@ -231,13 +242,6 @@ namespace GasGiantJobs
 			// render the scene
 			GasGiant::SetRenderTargetCubemap(iFace, mData->Texture());
 			Pi::renderer->BeginFrame();
-
-#ifdef DUMP_PARAMS
-			if (0 == iFace) {
-				// dump the params
-				mData->DumpParams(iFace);
-			}
-#endif
 
 			// draw to the texture here
 			mData->SetupMaterialParams( iFace );

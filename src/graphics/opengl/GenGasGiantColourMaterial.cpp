@@ -65,13 +65,12 @@ void GenGasGiantColourProgram::InitUniforms()
 	v3.Init("v3", m_program);
 	fracStep.Init("fracStep", m_program);
 
-	// XXX omg hacking galore
 	permTexture.Init("permTexture", m_program);
 	gradTexture.Init("gradTexture", m_program);
 	time.Init("time", m_program);
 	
 	frequency.Init("frequency", m_program);
-	// XXX omg hacking galore
+	hueAdjust.Init("hueAdjust", m_program);
 }
 
 Program *GenGasGiantColourMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -101,6 +100,7 @@ void GenGasGiantColourMaterial::Apply()
 	p->gradTexture.Set(this->texture1, 1);
 	p->time.Set(params.time);
 	p->frequency.Set(params.frequency);
+	p->hueAdjust.Set(params.hueAdjust);
 
 	//Light uniform parameters
 	for (Uint32 i = 0; i<m_renderer->GetNumLights(); i++) {

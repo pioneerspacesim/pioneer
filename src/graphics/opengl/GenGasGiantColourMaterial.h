@@ -19,6 +19,7 @@ namespace Graphics {
 		float fracStep;
 		float planetRadius;
 		float time;
+		float hueAdjust;
 		vector3f frequency;
 	};
 
@@ -40,12 +41,11 @@ namespace Graphics {
 
 			Uniform v0, v1, v2, v3;
 			Uniform fracStep;
-			
 			Uniform permTexture;
 			Uniform gradTexture;
 			Uniform time;
-
 			Uniform frequency;
+			Uniform hueAdjust;
 
 		protected:
 			virtual void InitUniforms();

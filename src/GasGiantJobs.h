@@ -58,25 +58,6 @@ namespace GasGiantJobs
 		inline Sint32 UVDims() const { return uvDIMs; }
 		Color* Colors() const { return colors; }
 		const SystemPath& SysPath() const { return sysPath; }
-#ifdef DUMP_PARAMS
-		void DumpParams()
-		{
-			//
-			Output("--face-%d------------\n", face);
-			const vector3d *v = corners;
-			for (int i = 0; i < 4; i++)
-				Output("v(%.4f,%.4f,%.4f)\n", v[i].x, v[i].y, v[i].z);
-
-			Output("fracStep = %.4f\n", 1.0f / float(uvDIMs));
-			Output("time = 0.0f\n");
-
-			for (Uint32 i = 0; i<3; i++) {
-				const fracdef_t &fd = pTerrain->GetFracDef(i);
-				Output("frequency[%u] = %.4f\n", i, fd.frequency);
-			}
-			// XXX omg hacking galore
-		}
-#endif
 
 	protected:
 		// deliberately prevent copy constructor access
@@ -170,46 +151,13 @@ namespace GasGiantJobs
 	// ********************************************************************************
 	class SGPUGenRequest {
 	public:
-		SGPUGenRequest(const SystemPath &sysPath_, const Sint32 uvDIMs_, Terrain *pTerrain_, const float planetRadius_, GenFaceQuad* pQuad_, Graphics::Texture *pTex_);
+		SGPUGenRequest(const SystemPath &sysPath_, const Sint32 uvDIMs_, Terrain *pTerrain_, const float planetRadius_, const float hueAdjust_, GenFaceQuad* pQuad_, Graphics::Texture *pTex_);
 
 		inline Sint32 UVDims() const { return uvDIMs; }
 		Graphics::Texture* Texture() const { return m_texture.Get(); }
 		GenFaceQuad* Quad() const { return pQuad; }
 		const SystemPath& SysPath() const { return sysPath; }
-
-		void SetupMaterialParams(const int face)
-		{
-			PROFILE_SCOPED()
-			m_specialParams.v = &s_patchFaces[face][0];
-			m_specialParams.fracStep = 1.0f / float(uvDIMs);
-			m_specialParams.planetRadius = planetRadius;
-			m_specialParams.time = 0.0f;
-			
-			for(Uint32 i=0; i<3; i++) {
-				m_specialParams.frequency[i] = (float)pTerrain->GetFracDef(i).frequency;
-			}
-			pQuad->GetMaterial()->specialParameter0 = &m_specialParams;
-		}
-
-#ifdef DUMP_PARAMS
-		void DumpParams(const int face)
-		{
-			//
-			Output("--face-%d------------\n", face);
-			const vector3d *v = &s_patchFaces[face][0];
-			for (int i = 0; i < 4;i++)
-				Output("v(%.4f,%.4f,%.4f)\n", v[i].x, v[i].y, v[i].z);
-
-			Output("fracStep = %.4f\n", 1.0f / float(uvDIMs));
-			Output("time = 0.0f\n");
-
-			for (Uint32 i = 0; i<10; i++) {
-				const fracdef_t &fd = pTerrain->GetFracDef(i);
-				Output("frequency[%u] = %.4f\n", i, fd.frequency);
-			}
-			// XXX omg hacking galore
-		}
-#endif
+		void SetupMaterialParams(const int face);
 
 	protected:
 		// deliberately prevent copy constructor access
@@ -224,6 +172,7 @@ namespace GasGiantJobs
 		const Sint32 uvDIMs;
 		Terrain *pTerrain;
 		const float planetRadius;
+		const float hueAdjust;
 		GenFaceQuad* pQuad;
 		Graphics::GenGasGiantColourMaterialParameters m_specialParams;
 	};
