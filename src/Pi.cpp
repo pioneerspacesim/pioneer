@@ -439,6 +439,25 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
 	hudTrailsDisplayed = (config->Int("HudTrails")) ? true : false;
 
+	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
+	if (supportsGPUJobs) {
+		for (Uint32 i = 0; i<6; i++)	{
+			std::unique_ptr<Graphics::Material> material;
+			Graphics::MaterialDescriptor desc;
+			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
+			desc.quality = i;
+			desc.textures = 3;
+			material.reset(Pi::renderer->CreateMaterial(desc));
+			supportsGPUJobs |= material->IsProgramLoaded();
+		}
+		if (!supportsGPUJobs) {
+			// failed
+			Warning("EnableGPUJobs DISABLED");
+			Pi::config->SetInt("EnableGPUJobs", 0);
+			Pi::config->Save();
+		}
+	}
+
 	EnumStrings::Init();
 
 	// get threads up
