@@ -3,8 +3,6 @@
 
 #include "attributes.glsl"
 #include "logz.glsl"
-#include "lib.glsl"
-#include "noise.glsl"
 
 out vec3 vertex;
 out vec2 uv;

@@ -3,7 +3,6 @@
 
 #include "attributes.glsl"
 #include "logz.glsl"
-#include "lib.glsl"
 #include "noise.glsl"
 
 uniform sampler2D texture2; // ???
