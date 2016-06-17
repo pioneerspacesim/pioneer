@@ -344,6 +344,57 @@ std::string Pi::GetSaveDir()
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
+void TestGPUJobsSupport()
+{
+	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
+	if (supportsGPUJobs) 
+	{
+		Uint32 octaves = (Pi::config->Int("DisableEclipse") == 0) ? 8 : 5;
+		for (Uint32 i = 0; i<6; i++) 
+		{
+			std::unique_ptr<Graphics::Material> material;
+			Graphics::MaterialDescriptor desc;
+			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
+			desc.quality = (octaves << 16) | i;
+			desc.textures = 3;
+			material.reset(Pi::renderer->CreateMaterial(desc));
+			supportsGPUJobs &= material->IsProgramLoaded();
+		}
+		if (!supportsGPUJobs) 
+		{
+			// failed - retry
+			Warning("Disabling Eclipse flag, retrying.");
+			Pi::config->SetInt("DisableEclipse", 1);
+			Pi::config->Save();
+
+			// reset the GPU jobs flag
+			supportsGPUJobs = true;
+
+			// retry the shader compilation
+			Uint32 octaves = (Pi::config->Int("DisableEclipse") == 0) ? 8 : 5;
+			for (Uint32 i = 0; i<6; i++)
+			{
+				std::unique_ptr<Graphics::Material> material;
+				Graphics::MaterialDescriptor desc;
+				desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
+				desc.quality = (octaves << 16) | i;
+				desc.textures = 3;
+				material.reset(Pi::renderer->CreateMaterial(desc));
+				supportsGPUJobs &= material->IsProgramLoaded();
+			}
+			
+			if (!supportsGPUJobs)
+			{
+				// failed
+				Warning("EnableGPUJobs DISABLED");
+				Pi::config->SetInt("EnableGPUJobs", 0);		// disable GPU Jobs
+				Pi::config->SetInt("DisableEclipse", 1);	// make sure eclipse is also disabled
+				Pi::config->Save();
+			}
+		}
+	}
+}
+
 void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 {
 #ifdef PIONEER_PROFILER
@@ -439,24 +490,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
 	hudTrailsDisplayed = (config->Int("HudTrails")) ? true : false;
 
-	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
-	if (supportsGPUJobs) {
-		for (Uint32 i = 0; i<6; i++)	{
-			std::unique_ptr<Graphics::Material> material;
-			Graphics::MaterialDescriptor desc;
-			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-			desc.quality = i;
-			desc.textures = 3;
-			material.reset(Pi::renderer->CreateMaterial(desc));
-			supportsGPUJobs |= material->IsProgramLoaded();
-		}
-		if (!supportsGPUJobs) {
-			// failed
-			Warning("EnableGPUJobs DISABLED");
-			Pi::config->SetInt("EnableGPUJobs", 0);
-			Pi::config->Save();
-		}
-	}
+	TestGPUJobsSupport();
 
 	EnumStrings::Init();
 

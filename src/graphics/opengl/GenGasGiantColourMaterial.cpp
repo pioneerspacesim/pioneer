@@ -21,7 +21,9 @@ GenGasGiantColourProgram::GenGasGiantColourProgram(const MaterialDescriptor &des
 	if (desc.textures > 0)
 		ss << "#define TEXTURE0\n";
 
-	switch( desc.quality )
+	// this masking hack is because I also need to encode data in the UPPER 16-bits
+	const Uint32 quality = desc.quality & 0x0000FFFF;
+	switch( quality )
 	{
 	default:
 	case GEN_JUPITER_TEXTURE:
@@ -44,6 +46,9 @@ GenGasGiantColourProgram::GenGasGiantColourProgram(const MaterialDescriptor &des
 		ss << "#define GEN_URANUS_ESQUE\n";
 		break;
 	}
+	// extract the top 16-bits to get how many octaves we can use
+	const Uint32 octaves = (desc.quality & 0xFFFF0000) >> 16;
+	ss << "#define FBM_OCTAVES " << std::to_string(octaves) << std::endl;
 	
 	// No lights
 	ss << "#define NUM_LIGHTS 0\n";
