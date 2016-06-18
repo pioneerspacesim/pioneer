@@ -32,8 +32,6 @@ void GasGiantProgram::InitUniforms()
 	geosphereRadius.Init("geosphereRadius", m_program);
 	geosphereInvRadius.Init("geosphereInvRadius", m_program);
 
-	shadows.Init("shadows", m_program);
-	occultedLight.Init("occultedLight", m_program);
 	shadowCentreX.Init("shadowCentreX", m_program);
 	shadowCentreY.Init("shadowCentreY", m_program);
 	shadowCentreZ.Init("shadowCentreZ", m_program);
@@ -43,6 +41,12 @@ void GasGiantProgram::InitUniforms()
 }
 
 // GasGiantSurfaceMaterial -----------------------------------
+GasGiantSurfaceMaterial::GasGiantSurfaceMaterial() : m_curNumShadows(0)
+{
+	for(int i=0;i<4;i++)
+		m_programs[i] = nullptr;
+}
+
 Program *GasGiantSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	assert(desc.effect == EFFECT_GASSPHERE_TERRAIN);
@@ -59,11 +63,21 @@ Program *GasGiantSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define ATMOSPHERE\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
+
+	ss << stringf("#define NUM_SHADOWS %0{u}\n", m_curNumShadows);
+
 	return new Graphics::OGL::GasGiantProgram("gassphere_base", ss.str());
+}
+
+void GasGiantSurfaceMaterial::SetProgram(Program *p)
+{
+	m_programs[m_curNumShadows] = p;
+	m_program = p;
 }
 
 void GasGiantSurfaceMaterial::Apply()
 {
+	SwitchShadowVariant();
 	SetGSUniforms();
 }
 
@@ -118,14 +132,27 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 		++it;
 		++j;
 	}
-	p->shadows.Set(j);
-	p->occultedLight.Set(occultedLight);
 	p->shadowCentreX.Set(shadowCentreX);
 	p->shadowCentreY.Set(shadowCentreY);
 	p->shadowCentreZ.Set(shadowCentreZ);
 	p->srad.Set(srad);
 	p->lrad.Set(lrad);
 	p->sdivlrad.Set(sdivlrad);
+}
+
+void GasGiantSurfaceMaterial::SwitchShadowVariant()
+{
+	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
+	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
+	//request a new shadow variation
+	if (m_curNumShadows != params.shadows.size()) {
+		m_curNumShadows = params.shadows.size();
+		if (m_programs[m_curNumShadows] == nullptr) {
+			m_descriptor.numShadows = m_curNumShadows; //hax - so that GetOrCreateProgram will create a NEW shader instead of reusing the existing one
+			m_programs[m_curNumShadows] = m_renderer->GetOrCreateProgram(this);
+		}
+		m_program = m_programs[m_curNumShadows];
+	}
 }
 
 }

@@ -25,8 +25,6 @@ namespace Graphics {
 			Uniform geosphereRadius; // planet radius
 			Uniform geosphereInvRadius; // 1.0 / (planet radius)
 
-			Uniform shadows;
-			Uniform occultedLight;
 			Uniform shadowCentreX;
 			Uniform shadowCentreY;
 			Uniform shadowCentreZ;
@@ -39,11 +37,16 @@ namespace Graphics {
 		};
 
 		class GasGiantSurfaceMaterial : public Material {
+			GasGiantSurfaceMaterial();
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void SetProgram(Program *p) override;
 			virtual void Apply() override;
 
 		protected:
 			void SetGSUniforms();
+			void SwitchShadowVariant();
+			Program* m_programs[4];	// 0 to 3 shadows
+			Uint32 m_curNumShadows;
 		};
 	}
 }
