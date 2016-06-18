@@ -137,7 +137,6 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	}
 
 	// we handle up to three shadows at a time
-	int occultedLight[3] = {-1,-1,-1};
 	vector3f shadowCentreX;
 	vector3f shadowCentreY;
 	vector3f shadowCentreZ;
@@ -147,7 +146,6 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	int j = 0;
 	while (j<3 && it != itEnd) {
-		occultedLight[j] = it->occultedLight;
 		shadowCentreX[j] = it->centre[0];
 		shadowCentreY[j] = it->centre[1];
 		shadowCentreZ[j] = it->centre[2];
@@ -171,7 +169,7 @@ void GeoSphereSurfaceMaterial::SwitchShadowVariant()
 	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	//request a new shadow variation
 	if (m_curNumShadows != params.shadows.size()) {
-		m_curNumShadows = std::min(params.shadows.size(), 4U);
+		m_curNumShadows = std::min(Uint32(params.shadows.size()), 4U);
 		if (m_programs[m_curNumShadows] == nullptr) {
 			m_descriptor.numShadows = m_curNumShadows; //hax - so that GetOrCreateProgram will create a NEW shader instead of reusing the existing one
 			m_programs[m_curNumShadows] = m_renderer->GetOrCreateProgram(this);
