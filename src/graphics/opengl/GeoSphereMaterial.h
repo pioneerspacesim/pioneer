@@ -63,6 +63,7 @@ namespace Graphics {
 
 
 		class GeoSphereStarMaterial : public Material {
+		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void Apply() override;
 			virtual void Unapply() override;
