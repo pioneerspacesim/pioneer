@@ -35,14 +35,18 @@ void GeoSphereProgram::InitUniforms()
 	detailScaleHi.Init("detailScaleHi", m_program);
 	detailScaleLo.Init("detailScaleLo", m_program);
 
-	shadows.Init("shadows", m_program);
-	occultedLight.Init("occultedLight", m_program);
 	shadowCentreX.Init("shadowCentreX", m_program);
 	shadowCentreY.Init("shadowCentreY", m_program);
 	shadowCentreZ.Init("shadowCentreZ", m_program);
 	srad.Init("srad", m_program);
 	lrad.Init("lrad", m_program);
 	sdivlrad.Init("sdivlrad", m_program);
+}
+
+GeoSphereSurfaceMaterial::GeoSphereSurfaceMaterial() : m_curNumShadows(0)
+{
+	for(int i=0;i<4;i++)
+		m_programs[i] = nullptr;
 }
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -68,11 +72,20 @@ Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 	if (desc.quality & HAS_DETAIL_MAPS)
 		ss << "#define DETAIL_MAPS\n";
 
+	ss << stringf("#define NUM_SHADOWS %0{u}\n", m_curNumShadows);
+
 	return new Graphics::OGL::GeoSphereProgram("geosphere_terrain", ss.str());
+}
+
+void GeoSphereSurfaceMaterial::SetProgram(Program *p)
+{
+	m_programs[m_curNumShadows] = p;
+	m_program = p;
 }
 
 void GeoSphereSurfaceMaterial::Apply()
 {
+	SwitchShadowVariant();
 	SetGSUniforms();
 }
 
@@ -124,7 +137,6 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	}
 
 	// we handle up to three shadows at a time
-	int occultedLight[3] = {-1,-1,-1};
 	vector3f shadowCentreX;
 	vector3f shadowCentreY;
 	vector3f shadowCentreZ;
@@ -134,7 +146,6 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	int j = 0;
 	while (j<3 && it != itEnd) {
-		occultedLight[j] = it->occultedLight;
 		shadowCentreX[j] = it->centre[0];
 		shadowCentreY[j] = it->centre[1];
 		shadowCentreZ[j] = it->centre[2];
@@ -144,14 +155,31 @@ void GeoSphereSurfaceMaterial::SetGSUniforms()
 		++it;
 		++j;
 	}
-	p->shadows.Set(j);
-	p->occultedLight.Set(occultedLight);
 	p->shadowCentreX.Set(shadowCentreX);
 	p->shadowCentreY.Set(shadowCentreY);
 	p->shadowCentreZ.Set(shadowCentreZ);
 	p->srad.Set(srad);
 	p->lrad.Set(lrad);
 	p->sdivlrad.Set(sdivlrad);
+}
+
+void GeoSphereSurfaceMaterial::SwitchShadowVariant()
+{
+	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
+	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
+	//request a new shadow variation
+	if (m_curNumShadows != params.shadows.size()) {
+		m_curNumShadows = std::min(Uint32(params.shadows.size()), 4U);
+		if (m_programs[m_curNumShadows] == nullptr) {
+			m_descriptor.numShadows = m_curNumShadows; //hax - so that GetOrCreateProgram will create a NEW shader instead of reusing the existing one
+			m_programs[m_curNumShadows] = m_renderer->GetOrCreateProgram(this);
+		}
+		m_program = m_programs[m_curNumShadows];
+	}
+}
+
+GeoSphereSkyMaterial::GeoSphereSkyMaterial() : GeoSphereSurfaceMaterial()
+{
 }
 
 Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -167,11 +195,15 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 	ss << "#define ATMOSPHERE\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
+
+	ss << stringf("#define NUM_SHADOWS %0{u}\n", m_curNumShadows);
+	
 	return new Graphics::OGL::GeoSphereProgram("geosphere_sky", ss.str());
 }
 
 void GeoSphereSkyMaterial::Apply()
 {
+	SwitchShadowVariant();
 	SetGSUniforms();
 }
 

@@ -70,6 +70,7 @@ public:
 	Sint32 textures; //texture count
 	Uint32 dirLights; //set by RendererOGL if lighting == true
 	Uint32 quality; // see: Graphics::MaterialQuality
+	Uint32 numShadows; //use by GeoSphere/GasGiant for eclipse
 
 	friend bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b);
 };

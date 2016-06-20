@@ -56,7 +56,7 @@ local atlantica = CustomSystemBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 
 
 local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
-	:seed(0)
+	:seed(79853798543)
 	:radius(f(4,3))
 	:mass(f(5,4))
 	:temp(287)

@@ -28,8 +28,6 @@ namespace Graphics {
 			Uniform detailScaleHi;
 			Uniform detailScaleLo;
 
-			Uniform shadows;
-			Uniform occultedLight;
 			Uniform shadowCentreX;
 			Uniform shadowCentreY;
 			Uniform shadowCentreZ;
@@ -42,22 +40,32 @@ namespace Graphics {
 		};
 
 		class GeoSphereSurfaceMaterial : public Material {
+		public:
+			GeoSphereSurfaceMaterial();
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void SetProgram(Program *p) override;
 			virtual void Apply() override;
 			virtual void Unapply() override;
 
 		protected:
 			void SetGSUniforms();
+			// We actually have multiple programs at work here, one compiled for each of the number of shadows.
+			// They are chosen/created based on what the current parameters passed in by the specialParameter0 are.
+			void SwitchShadowVariant();
+			Program* m_programs[4];	// 0 to 3 shadows
+			Uint32 m_curNumShadows;
 		};
 
 		class GeoSphereSkyMaterial : public GeoSphereSurfaceMaterial {
 		public:
+			GeoSphereSkyMaterial();
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void Apply() override;
 		};
 
 
 		class GeoSphereStarMaterial : public Material {
+		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &) override;
 			virtual void Apply() override;
 			virtual void Unapply() override;
