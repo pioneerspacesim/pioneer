@@ -1,6 +1,7 @@
 June 2016
    * Fixes
      * Prevent the galaxy map from crashing if in hyperspace (#3714)
+     * Eclipse r600 (#3721)
 
    * Internal Changes
      * Enable using dedicated nVidia GPUs in Windows laptops with Optimus (#3715)

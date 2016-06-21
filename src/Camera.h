@@ -90,7 +90,6 @@ public:
 	};
 
 	struct Shadow {
-		int occultedLight;
 		vector3d centre;
 		float srad;
 		float lrad;

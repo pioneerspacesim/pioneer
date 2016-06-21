@@ -36,6 +36,7 @@ MaterialDescriptor::MaterialDescriptor()
 , textures(0)
 , dirLights(0)
 , quality(0)
+, numShadows(0)
 {
 }
 
@@ -54,7 +55,8 @@ bool operator==(const MaterialDescriptor &a, const MaterialDescriptor &b)
 		a.instanced == b.instanced &&
 		a.textures == b.textures &&
 		a.dirLights == b.dirLights &&
-		a.quality == b.quality
+		a.quality == b.quality &&
+		a.numShadows == b.numShadows
 	);
 }
 
