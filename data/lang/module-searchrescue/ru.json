@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "АЕ"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -9,7 +9,7 @@
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Товары"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Команда"
    },
    "DEADLINE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "ДОСТАВКА"
    },
    "DISTANCE" : {
       "description" : "",
@@ -417,7 +417,7 @@
    },
    "KM" : {
       "description" : "",
-      "message" : "km"
+      "message" : "км"
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
@@ -425,11 +425,11 @@
    },
    "LAT" : {
       "description" : "",
-      "message" : "Ш.:"
+      "message" : "Шир:"
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Дол:"
    },
    "LY" : {
       "description" : "",
@@ -465,7 +465,7 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Пассажиры"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
@@ -633,7 +633,7 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Награда:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
