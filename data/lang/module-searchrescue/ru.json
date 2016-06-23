@@ -165,7 +165,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Не могу поверить, что вы возвращаетесь только сейчас! Как много времени было потрачено впустую!"
+      "message" : "Не могу поверить, что вы вернулись только сейчас! Как много времени было потрачено впустую!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -185,7 +185,7 @@
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} взошел на борт корабля."
+      "message" : "{unit} уже на борту корабля."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -225,7 +225,7 @@
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "ЧРЕЗВЫЧАЙНАЯ МЕДИЦИНСКАЯ СИТУАЦИЯ на корабле неподалеку от {starport}."
+      "message" : "ЧРЕЗВЫЧАЙНАЯ МЕДИЦИНСКАЯ СИТУАЦИЯ на корабле неподалеку от космопорта {starport}."
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} покинул(а) корабль."
+      "message" : "{unit} покидает корабль."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} взошел на борт корабля."
+      "message" : "{unit} уже на борту корабля."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
