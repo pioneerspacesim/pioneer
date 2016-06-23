@@ -705,7 +705,7 @@
    },
    "LONGITUDE" : {
       "description" : "Short for longitude",
-      "message" : "Long:"
+      "message" : "Lon:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
