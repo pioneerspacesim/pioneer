@@ -349,7 +349,7 @@ void TestGPUJobsSupport()
 	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 	if (supportsGPUJobs) 
 	{
-		Uint32 octaves = (Pi::config->Int("DisableEclipse") == 0) ? 8 : 5;
+		Uint32 octaves = 8;
 		for (Uint32 i = 0; i<6; i++) 
 		{
 			std::unique_ptr<Graphics::Material> material;
@@ -363,15 +363,12 @@ void TestGPUJobsSupport()
 		if (!supportsGPUJobs) 
 		{
 			// failed - retry
-			Warning("Disabling Eclipse flag, retrying.");
-			Pi::config->SetInt("DisableEclipse", 1);
-			Pi::config->Save();
 
 			// reset the GPU jobs flag
 			supportsGPUJobs = true;
 
 			// retry the shader compilation
-			Uint32 octaves = (Pi::config->Int("DisableEclipse") == 0) ? 8 : 5;
+			octaves = 5; // reduce the number of octaves
 			for (Uint32 i = 0; i<6; i++)
 			{
 				std::unique_ptr<Graphics::Material> material;
@@ -388,7 +385,6 @@ void TestGPUJobsSupport()
 				// failed
 				Warning("EnableGPUJobs DISABLED");
 				Pi::config->SetInt("EnableGPUJobs", 0);		// disable GPU Jobs
-				Pi::config->SetInt("DisableEclipse", 1);	// make sure eclipse is also disabled
 				Pi::config->Save();
 			}
 		}
