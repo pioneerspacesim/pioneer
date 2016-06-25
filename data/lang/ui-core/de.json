@@ -369,7 +369,7 @@
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "Verfügbar"
+      "message" : "verfügbar"
    },
    "FRONT_WEAPON" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "MAX" : {
       "description" : "",
-      "message" : "Maximum"
+      "message" : "maximum"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
@@ -965,7 +965,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Schaufel-Slots"
+      "message" : "Schöpferslots"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1141,7 +1141,7 @@
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Grafik"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",

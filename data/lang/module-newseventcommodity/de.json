@@ -85,7 +85,7 @@
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "Ein Mann im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat mit einer Erfindung seines Uronkels Gold in Platin fusionieren können. Wirtschaftswisssenschaftler erwarten eine Destabilisierung der Wirschaft im System, wenn die Maschine nicht bald einem Defekt erliegt."
+      "message" : "Ein Mann im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat eine Erfindung seines Uronkels geerbt, wodurch er jeden Feststoff zu Gold und Platin fusionieren kann. Wirtschaftswisssenschaftler erwarten eine Destabilisierung der Wirtschaft im System, außer, wenn die Maschine bald einem Defekt erliegt."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Arbeiter im »{system}«-System ({sectorx}, {sectory}, {sectorz}) sprengen mit einem Aufstand ihre Ketten. Sie weigern sich, die Lotusfelder zu bewirtschafften. Die Wirtschaft kommt zum erliegen, weil keine billigen Arbeitskräfte zur Verfügung stehen."
+      "message" : "Arbeiter im »{system}«-System ({sectorx}, {sectory}, {sectorz}) sprengen mit einem Aufstand ihre Ketten. Sie weigern sich, die Lotusfelder zu bewirtschafften. Die Wirtschaft kommt zum Erliegen, weil keine billigen Arbeitskräfte zur Verfügung stehen."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
