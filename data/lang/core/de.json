@@ -37,7 +37,7 @@
    },
    "ANIMAL_MEAT" : {
       "description" : "",
-      "message" : "Fleisch"
+      "message" : "Tierfleisch"
    },
    "APOAPSIS_DISTANCE" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Frachtschaufel aktiv. Sie haben jetzt 1t von %item."
+      "message" : "Frachtschöpfer aktiv. 1t von %item aufgesammelt."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
@@ -405,7 +405,7 @@
    },
    "FIRE_MISSILE" : {
       "description" : "",
-      "message" : "Rakete starten"
+      "message" : "Rakete feuern"
    },
    "FOLLOWING_SELECTION" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "FUEL_SCOOP_ACTIVE_N_TONNES_H_COLLECTED" : {
       "description" : "",
-      "message" : "Treibstoffschaufel aktiv. Sie haben jetzt %quantity t Wasserstoff."
+      "message" : "Treibstoffschöpfer aktiv. Sie haben jetzt %quantity t Wasserstoff."
    },
    "GALACTIC_VIEW" : {
       "description" : "view galactic map",
@@ -473,7 +473,7 @@
    },
    "HAT" : {
       "description" : "Hat switch: Is the top button on a joystick",
-      "message" : "-Hut"
+      "message" : "\"-Hat\""
    },
    "HEADING_LOCK_ANTINORMAL" : {
       "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
@@ -693,7 +693,7 @@
    },
    "LIQUOR" : {
       "description" : "",
-      "message" : "Alkoholische Getränke"
+      "message" : "Spirituosen"
    },
    "LIVE_ANIMALS" : {
       "description" : "",
@@ -837,7 +837,7 @@
    },
    "MILITARY_FUEL" : {
       "description" : "",
-      "message" : "Militär-Treibstoff"
+      "message" : "Militärtreibstoff"
    },
    "MINING_COLONY" : {
       "description" : "",
@@ -949,7 +949,7 @@
    },
    "NERVE_GAS" : {
       "description" : "",
-      "message" : "Chemische Kampfstoffe"
+      "message" : "Nervengas"
    },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
@@ -1053,7 +1053,7 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %{units}radii"
+      "message" : "%radius{f.3} %units Radien (%radkm{f.0} km)"
    },
    "N_YEARS" : {
       "description" : "",
@@ -1089,7 +1089,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Belegte Passagier-Kabinen"
+      "message" : "Belegte Passagierkabinen"
    },
    "PAUSED" : {
       "description" : "",
@@ -1269,7 +1269,7 @@
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
-      "message" : "Schaufel"
+      "message" : "Schöpfer"
    },
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
@@ -1697,7 +1697,7 @@
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
-      "message" : "Ruhe in Frieden, Kumpel"
+      "message" : "RUHE IN FRIEDEN"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1753,7 +1753,7 @@
    },
    "VIOLENT_ANARCHY" : {
       "description" : "",
-      "message" : "Anarchie – Verschiedene bewaffnete Gruppierungen kämpfen um die hoheitliche Kontrolle."
+      "message" : "Chaos – Bewaffnete Gruppen kämpfen um die Herrschaft"
    },
    "WATER" : {
       "description" : "",
