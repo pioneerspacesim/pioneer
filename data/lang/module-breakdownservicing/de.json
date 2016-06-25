@@ -113,7 +113,7 @@
    },
    "YOUR_DRIVE_WAS_LAST_SERVICED_ON" : {
       "description" : "",
-      "message" : "Der Antrieb wurde zuletzt am {date} von {company} gewartet"
+      "message" : "Der Antrieb wurde zuletzt am {date} von {company} gewartet."
    },
    "YOU_DO_NOT_HAVE_A_DRIVE_TO_SERVICE" : {
       "description" : "",

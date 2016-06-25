@@ -1089,7 +1089,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Belegte Passagier-Kabinen"
+      "message" : "Belegte Passagierkabinen"
    },
    "PAUSED" : {
       "description" : "",

@@ -9,7 +9,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Atmosphären-Hitzeschild"
+      "message" : "Atmosphärenhitzeschild"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Rumpf-Auto-Reparatur"
+      "message" : "Rumpf-Autoreparatursystem"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Schildenergie-Booster"
+      "message" : "Schildenergiebooster"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Schild-Generator"
+      "message" : "Schildgenerator"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Handels-Analyseeinheit"
+      "message" : "Handelsanalyseeinheit"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
@@ -273,7 +273,7 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Zusätzliche Passagier-Kabinen"
+      "message" : "Zusätzliche Passagierkabinen"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",

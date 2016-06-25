@@ -777,7 +777,7 @@
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Schild-Generatoren"
+      "message" : "{quantity} Schildgeneratoren"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
