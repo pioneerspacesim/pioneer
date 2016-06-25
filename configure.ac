@@ -284,7 +284,7 @@ if test "x$cross_compiling" = "xno" ; then
 	assimp_rpath=`echo $ASSIMP_LIBS | sed -e 's/-[^L] *[^ ]\+ *//g' | sed -e 's/-L */-Wl,-rpath,/g'`
 	old_cxxflags="$CXXFLAGS"
 	old_libs="$LIBS"
-	CXXFLAGS="$ASSIMP_CFLAGS"
+	CXXFLAGS="$ASSIMP_CFLAGS $EXTRA_CXXFLAGS"
 	LIBS="$ASSIMP_LIBS $EXTRA_LIBS $assimp_rpath"
 	AC_LANG_PUSH([C++])
 	AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <assimp/defs.h>
