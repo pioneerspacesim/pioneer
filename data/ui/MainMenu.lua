@@ -115,6 +115,11 @@ for i = 1,#buttonDefs do
 	button.onClick:Connect(def[2])
 	if i < 10 then button:AddShortcut(i) end
 	if i == 10 then button:AddShortcut("0") end
+	if 1 == i then
+		if not Game.CanLoadGame("_exit") then
+			button:Disable()
+		end
+	end
 	buttonSet[i] = button
 	table.insert(anims, {
 		widget = button,

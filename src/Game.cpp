@@ -845,6 +845,17 @@ Game *Game::LoadGame(const std::string &filename)
 	// file data is freed here
 }
 
+bool Game::CanLoadGame(const std::string &filename)
+{
+	Output("Game::CanLoadGame('%s')\n", filename.c_str());
+	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!file) 
+		return false;
+
+	return true;
+	// file data is freed here
+}
+
 void Game::SaveGame(const std::string &filename, Game *game)
 {
 	PROFILE_SCOPED()
