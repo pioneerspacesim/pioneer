@@ -13,6 +13,7 @@ local Serializer = import("Serializer")
 local Equipment = import("Equipment")
 
 local l = Lang.GetResource("module-breakdownservicing")
+local lui = Lang.GetResource("ui-core")
 
 -- Default numeric values --
 ----------------------------
@@ -106,7 +107,7 @@ local onChat = function (form, ref, option)
 
 	-- Replace those tokens into ad's intro text that can change during play
 	local message = string.interp(ad.intro, {
-		drive = hyperdrive and hyperdrive:GetName() or "None",
+		drive = hyperdrive and hyperdrive:GetName() or lui.NONE,
 		price = Format.Money(price),
 	})
 
