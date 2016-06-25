@@ -10,6 +10,7 @@ June 2016
      * Add EXTRA_CXXFLAGS to CXXFLAGS for assimp's version check (#3718)
      * Keep cargo if buying a new ship (#3725)
      * Disable Continue button if no saved game to load (#3731)
+     * Don't hard code strings we already have in translation system (#3728)
 
 May 2016
    * New Features
