@@ -104,7 +104,7 @@ namespace GasGiantJobs
 
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-		const Uint32 octaves = (Pi::config->Int("DisableEclipse") == 0) ? 8 : 5;
+		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? 8 : 5;
 		desc.quality = (octaves << 16) | GGQuality;
 		desc.textures = 3;
 		m_material.reset(r->CreateMaterial(desc));

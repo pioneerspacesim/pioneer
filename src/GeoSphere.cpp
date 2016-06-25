@@ -518,10 +518,7 @@ void GeoSphere::SetUpMaterials()
 		}
 	}
 
-	const bool bEnableEclipse = (Pi::config->Int("DisableEclipse") == 0);
-	if (bEnableEclipse) {
-		surfDesc.quality |= Graphics::HAS_ECLIPSES;
-	}
+	surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	const bool bEnableDetailMaps = (Pi::config->Int("DisableDetailMaps") == 0);
 	if (bEnableDetailMaps) {
 		surfDesc.quality |= Graphics::HAS_DETAIL_MAPS;
@@ -537,9 +534,7 @@ void GeoSphere::SetUpMaterials()
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
-		if (bEnableEclipse) {
-			skyDesc.quality |= Graphics::HAS_ECLIPSES;
-		}
+		skyDesc.quality |= Graphics::HAS_ECLIPSES;
 		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
 		m_atmosphereMaterial->texture0 = nullptr;
 		m_atmosphereMaterial->texture1 = nullptr;

@@ -702,10 +702,7 @@ void GasGiant::SetUpMaterials()
 		surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
 	} 
 
-	const bool bEnableEclipse = (Pi::config->Int("DisableEclipse") == 0);
-	if (bEnableEclipse) {
-		surfDesc.quality |= Graphics::HAS_ECLIPSES;
-	}
+	surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	surfDesc.textures = 1;
 	
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
@@ -716,9 +713,7 @@ void GasGiant::SetUpMaterials()
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
-		if (bEnableEclipse) {
-			skyDesc.quality |= Graphics::HAS_ECLIPSES;
-		}
+		skyDesc.quality |= Graphics::HAS_ECLIPSES;
 		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
 	}
 }
