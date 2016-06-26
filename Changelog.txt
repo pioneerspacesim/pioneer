@@ -11,6 +11,7 @@ June 2016
      * Keep cargo if buying a new ship (#3725)
      * Disable Continue button if no saved game to load (#3731)
      * Don't hard code strings we already have in translation system (#3728)
+     * Make trade analyzer removable again. Undo #3474, close #3742 (#3743)
 
 May 2016
    * New Features
