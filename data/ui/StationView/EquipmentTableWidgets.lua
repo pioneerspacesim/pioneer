@@ -273,11 +273,6 @@ function EquipmentTableWidgets.Pair (config)
 	local function onSell (e)
 		if not funcs.onClickSell(e) then return end
 
-		if e.capabilities.software then
-			MessageBox.Message("System software upgrades can not be uninstalled and resold. Visit a ship service station if you want to purge the upgrade from your on board computer.")
-			return
-		end
-
 		local player = Game.player
 
 		-- remove from last free slot (reverse table)
