@@ -473,51 +473,54 @@ void GasGiant::GenerateTexture()
 
 	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 
-	const vector2f texSize(1.0f, 1.0f);
-	const vector2f dataSize(TEXTURE_SIZE_SMALL, TEXTURE_SIZE_SMALL);
-	const Graphics::TextureDescriptor texDesc(
-		Graphics::TEXTURE_RGBA_8888, 
-		dataSize, texSize, Graphics::LINEAR_CLAMP, 
-		false, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
-	m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
+	// scope the small texture generation
+	{
+		const vector2f texSize(1.0f, 1.0f);
+		const vector2f dataSize(TEXTURE_SIZE_SMALL, TEXTURE_SIZE_SMALL);
+		const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA_8888, 
+			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			false, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+		m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
 
-	const Terrain *pTerrain = GetTerrain();
-	const double fracStep = 1.0 / double(TEXTURE_SIZE_SMALL-1);
+		const Terrain *pTerrain = GetTerrain();
+		const double fracStep = 1.0 / double(TEXTURE_SIZE_SMALL-1);
 
-	Graphics::TextureCubeData tcd;
-	std::unique_ptr<Color> bufs[NUM_PATCHES];
-	for(int i=0; i<NUM_PATCHES; i++) {
-		Color *colors = new Color[ (TEXTURE_SIZE_SMALL*TEXTURE_SIZE_SMALL) ];
-		for( Uint32 v=0; v<TEXTURE_SIZE_SMALL; v++ ) {
-			for( Uint32 u=0; u<TEXTURE_SIZE_SMALL; u++ ) {
-				// where in this row & colum are we now.
-				const double ustep = double(u) * fracStep;
-				const double vstep = double(v) * fracStep;
+		Graphics::TextureCubeData tcd;
+		std::unique_ptr<Color> bufs[NUM_PATCHES];
+		for(int i=0; i<NUM_PATCHES; i++) {
+			Color *colors = new Color[ (TEXTURE_SIZE_SMALL*TEXTURE_SIZE_SMALL) ];
+			for( Uint32 v=0; v<TEXTURE_SIZE_SMALL; v++ ) {
+				for( Uint32 u=0; u<TEXTURE_SIZE_SMALL; u++ ) {
+					// where in this row & colum are we now.
+					const double ustep = double(u) * fracStep;
+					const double vstep = double(v) * fracStep;
 
-				// get point on the surface of the sphere
-				const vector3d p = GetSpherePointFromCorners(ustep, vstep, &s_patchFaces[i][0]);
-				// get colour using `p`
-				const vector3d colour = pTerrain->GetColor(p, 0.0, p);
+					// get point on the surface of the sphere
+					const vector3d p = GetSpherePointFromCorners(ustep, vstep, &s_patchFaces[i][0]);
+					// get colour using `p`
+					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
 
-				// convert to ubyte and store
-				Color* col = colors + (u + (v * TEXTURE_SIZE_SMALL));
-				col[0].r = Uint8(colour.x * 255.0);
-				col[0].g = Uint8(colour.y * 255.0);
-				col[0].b = Uint8(colour.z * 255.0);
-				col[0].a = 255;
+					// convert to ubyte and store
+					Color* col = colors + (u + (v * TEXTURE_SIZE_SMALL));
+					col[0].r = Uint8(colour.x * 255.0);
+					col[0].g = Uint8(colour.y * 255.0);
+					col[0].b = Uint8(colour.z * 255.0);
+					col[0].a = 255;
+				}
 			}
+			bufs[i].reset(colors);
 		}
-		bufs[i].reset(colors);
-	}
 
-	// update with buffer from above
-	tcd.posX = bufs[0].get();
-	tcd.negX = bufs[1].get();
-	tcd.posY = bufs[2].get();
-	tcd.negY = bufs[3].get();
-	tcd.posZ = bufs[4].get();
-	tcd.negZ = bufs[5].get();
-	m_surfaceTextureSmall->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
+		// update with buffer from above
+		tcd.posX = bufs[0].get();
+		tcd.negX = bufs[1].get();
+		tcd.posY = bufs[2].get();
+		tcd.negY = bufs[3].get();
+		tcd.posZ = bufs[4].get();
+		tcd.negZ = bufs[5].get();
+		m_surfaceTextureSmall->Update(tcd, dataSize, Graphics::TEXTURE_RGBA_8888);
+	}
 
 	// create small texture
 	if( !bEnableGPUJobs )
