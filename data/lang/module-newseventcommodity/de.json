@@ -13,7 +13,7 @@
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. versuchen im {system}- System ({sectorx}, {sectory}, {sectorz}), das Monopol auf Luft durchzusetzen. Nehmen Sie noch einmal einen tiefen Atemzug, es könnte der letzte kostenlose sein."
+      "message" : "Prekall Inc. versuchen im {system}- System ({sectorx}, {sectory}, {sectorz}), das Monopol auf Luft durchzusetzen. Nehmen Sie noch einmal einen tiefen Atemzug, es könnte der letzte sein, der nichts kostet."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",

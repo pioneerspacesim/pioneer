@@ -33,7 +33,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Versuch, den Rumpf zu reparieren"
+      "message" : "Versuchen, den Rumpf zu reparieren"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -881,7 +881,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Nach unten pumpen"
+      "message" : "Abpumpen"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -1095,9 +1095,13 @@
       "description" : "",
       "message" : "Das Schiff ist zu klein für die aktuelle Anzahl an Crewmitgliedern."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Ship is too small to transship your cargo."
+   },
    "TOTAL" : {
       "description" : "",
-      "message" : "Komplett: "
+      "message" : "Summe: "
    },
    "TOTAL_MASS" : {
       "description" : "",

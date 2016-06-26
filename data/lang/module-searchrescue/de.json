@@ -165,11 +165,11 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich kann nicht glauben, dass du erst jetzt zurückkommst! So viel verschwendete Zeit!"
+      "message" : "Ich kann nicht glauben, dass Sie erst jetzt zurückkommen! So viel verschwendete Zeit!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Für die komplette Erstattung der Auslagen musst du bis {due} zurück sein."
+      "message" : "Für die komplette Erstattung der Auslagen müssen Sie bis {due} zurück sein."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -197,11 +197,11 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich kann nicht glauben, dass du mich so lange warten lassen hast! Deine Zahlung kannst du vergessen!"
+      "message" : "Ich kann nicht glauben, dass Sie mich so lange warten gelassen haben! Ihre Zahlung können Sie vergessen!"
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Um volle Zahlung zu erhalten sollst du bis {due} liefern."
+      "message" : "Um volle Zahlung zu erhalten, sollten Sie bis {due} liefern."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",

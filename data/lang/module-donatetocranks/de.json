@@ -1,11 +1,11 @@
 {
    "FLAVOUR_0_MESSAGE" : {
       "description" : "",
-      "message" : "Bitte wähle eine Summe, um an die Kirche des Fliegenden Himmel-Spagettimonsters zu spenden."
+      "message" : "Bitte wähle eine Summe, um an die Kirche des Fliegenden Himmelspagettimonsters zu spenden."
    },
    "FLAVOUR_0_TITLE" : {
       "description" : "",
-      "message" : "SPENDE! Die Kirche des Fliegenden Himmel-Spagettimonsters braucht DEIN Geld, um das Wort Gottes zu verbreiten!"
+      "message" : "SPENDE! Die Kirche des Fliegenden Himmelspagettimonsters braucht DEIN Geld, um das Wort Gottes zu verbreiten!"
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
-      "message" : "Bitte wähle die Summe, die du der Kriegswaisen-Unterstützung spenden willst, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern."
+      "message" : "Bitte wählen Sie die Summe, die Sie der Kriegswaisen-Unterstützung spenden wollen, um damit das Leiden von Kindern aus der ganzen Galaxie zu lindern."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "FLAVOUR_3_TITLE" : {
       "description" : "",
-      "message" : "SPENDE! Die Freunde der Galaktischen Kampagne »Verbot Militärischer Antriebe« braucht Ihr Geld."
+      "message" : "SPENDET! Die Freunde der Galaktischen Kampagne »Verbot Militärischer Antriebe« braucht Ihr Geld."
    },
    "FLAVOUR_4_MESSAGE" : {
       "description" : "",
@@ -37,7 +37,7 @@
    },
    "FLAVOUR_4_TITLE" : {
       "description" : "",
-      "message" : "SPENDE! Rette unsere Art. Stoppe das Massensterben auf neu besiedelten Welten."
+      "message" : "SPENDET! Rettet unsere Art. Stoppt das Massensterben auf neu besiedelten Welten."
    },
    "FLAVOUR_5_MESSAGE" : {
       "description" : "",

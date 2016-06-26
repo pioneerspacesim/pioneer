@@ -209,7 +209,7 @@
    },
    "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
       "description" : "",
-      "message" : "Handelsanalyse von #ff0%selected_system#fff (selektiert) im Vergleich zu #ff0%current_system#fff (aktuell):"
+      "message" : "Handelsanalyse von #ff0%selected_system#fff (ausgewählt) im Vergleich zu #ff0%current_system#fff (aktuell):"
    },
    "COMMODITY_TRADE_ANALYSIS_SELF" : {
       "description" : "",
@@ -1053,7 +1053,7 @@
    },
    "N_WHATEVER_RADII" : {
       "description" : "Used in system info view. E.g. for Barnard's star: \"0.17 Solar radii (118235 km)\"",
-      "message" : "%radius{f.3} %units Radien (%radkm{f.0} km)"
+      "message" : "%radius{f.3} %{units}radien (%radkm{f.0} km)"
    },
    "N_YEARS" : {
       "description" : "",
@@ -1433,7 +1433,7 @@
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
-      "message" : "Stabiles System mit %bodycount großen %{body(s)} und %portcount %{starport(s)}."
+      "message" : "Stabiles System mit %bodycount großen %{body(s)} und %portcount %{starport(s)}"
    },
    "STARPORT" : {
       "description" : "",
