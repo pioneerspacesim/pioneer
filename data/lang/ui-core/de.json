@@ -745,7 +745,7 @@
    },
    "NONE_FOR_SALE_IN_THIS_STATION" : {
       "description" : "",
-      "message" : "Keine zum Verkauf in dieser Station."
+      "message" : "Keine Einheiten stehen zum Verkauf in dieser Station."
    },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -805,7 +805,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs, der die Oberfläche von {name} schneidet, resultieren.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t"
+      "message" : "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das Schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs, der die Oberfläche von {name} schneidet, resultieren.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t"
    },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1065,7 +1065,7 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "Diese Station hat ein Level {tech_level} Technologie-Zertifikat."
+      "message" : "Diese Station hat ein Technologie-Zertifikat der Stufe {tech_level}."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
@@ -1085,7 +1085,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc Arm"
+      "message" : "3kpc-Arm"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
@@ -1097,11 +1097,11 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "",
-      "message" : "Ship is too small to transship your cargo."
+      "message" : "Das Schiff ist zu klein, um die Ladung umzuladen."
    },
    "TOTAL" : {
       "description" : "",
-      "message" : "Summe: "
+      "message" : "Gesamt: "
    },
    "TOTAL_MASS" : {
       "description" : "",

@@ -97,7 +97,7 @@
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Raketen zerstören."
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Arten von Lenkraketen zerstören."
    },
    "ECM_BASIC" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann gelenkte Raketen zerstören."
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann einige Lenkraketen zerstören."
    },
    "FUEL_SCOOP" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Dient zum Abbau mineralienreicher Asteroiden."
+      "message" : "Dient zum Abbau mineralienreicher Asteroiden mittels Sprengung."
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Radar-Scanner"
+      "message" : "Radar-Kartierer"
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
@@ -273,10 +273,10 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Zusätzliche Passagierkabinen"
+      "message" : "Zusätzliche Passagierkabine"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Benötigt für den Transport von einem Passagier"
+      "message" : "Benötigt für den Transport eines einzelnen Passagiers"
    }
 }

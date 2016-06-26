@@ -61,7 +61,7 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "Während des großen Dampftreffen im System {system} ({sectorx}, {sectory}, {sectorz}) ist ein Versuch, den galaktischen Rekord im größten Traktortauziehen zu schlagen, in einer Katastrophe geendet. Ein Teilnehmer verlor die Kontrolle über sein Fahrzeug und zerstörte alle Maschinen der anderen Teilnehmer. Die Verwaltung fürchtet Probleme für lokale Bauern."
+      "message" : "Während des großen Dampftreffens im System {system} ({sectorx}, {sectory}, {sectorz}) ist ein Versuch, den galaktischen Rekord im größten Traktortauziehen zu schlagen, in einer Katastrophe geendet. Ein Teilnehmer verlor die Kontrolle über sein Fahrzeug und zerstörte alle Maschinen der anderen Teilnehmer. Die Verwaltung fürchtet Probleme für lokale Bauern."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
@@ -117,7 +117,7 @@
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In einem Protest gegen aktuelle Budgetkürzungen im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat die Polizei die Arbeit niedergelegt. Das Schlimmste befürchtend rufen die Bewohner zur Bildung von Bürgerwehren auf und bewaffnen sich mit Heugabeln und Feuerwaffen."
+      "message" : "In einem Protest gegen aktuelle Budgetkürzungen im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat die Polizei die Arbeit niedergelegt. Das Schlimmste befürchtend, rufen die Bewohner zur Bildung von Bürgerwehren auf und bewaffnen sich mit Heugabeln und Schusswaffen."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",

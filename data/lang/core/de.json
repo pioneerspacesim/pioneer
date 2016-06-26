@@ -85,7 +85,7 @@
    },
    "AXIAL_TILT" : {
       "description" : "",
-      "message" : "Neigung der Rotationsachse"
+      "message" : "Achsenneigung"
    },
    "A_FEW_THOUSAND" : {
       "description" : "regarding population",
@@ -173,7 +173,7 @@
    },
    "CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED" : {
       "description" : "",
-      "message" : "Frachtschöpfer aktiv. 1t von %item aufgesammelt."
+      "message" : "Frachtschöpfer aktiv. 1 Tonne von %item aufgesammelt."
    },
    "CARGO_SCOOP_ATTEMPTED" : {
       "description" : "",
@@ -533,7 +533,7 @@
    },
    "HYDROGEN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Wasserstoff wird vor allem als Fusionsbrennstoff verwendet."
+      "message" : "Wasserstoff wird vor allem als Fusionstreibstoff verwendet."
    },
    "HYPERSPACE" : {
       "description" : "",
@@ -1089,7 +1089,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Belegte Passagierkabinen"
+      "message" : "Belegte Passagierkabine"
    },
    "PAUSED" : {
       "description" : "",
@@ -1137,19 +1137,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Wachstumsrate der delta-v-Werte. Klicken um auf Null zurückzusetzen."
+      "message" : "Wachstumsrate der delta-v-Werte. Klicken, um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normales delta-v. Klicken um auf Null zurückzusetzen."
+      "message" : "Normales delta-v. Klicken, um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Rechtläufiges delta-v. Klicken um auf Null zurückzusetzen."
+      "message" : "Rechtläufiges delta-v. Klicken, um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radiales delta-v. Klicken um auf Null zurückzusetzen."
+      "message" : "Radiales delta-v. Klicken, um auf Null zurückzusetzen."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
@@ -1305,7 +1305,7 @@
    },
    "SELECT_LOW_THRUST_POWER_LEVEL" : {
       "description" : "",
-      "message" : "Wähle Niedrigschub-Energielevel"
+      "message" : "Niedrigschubenergiepegel wählen"
    },
    "SEMI_MAJOR_AXIS" : {
       "description" : "",
@@ -1321,7 +1321,7 @@
    },
    "SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT" : {
       "description" : "",
-      "message" : "Niedrigschub-Energielevel auf %power%% setzen"
+      "message" : "Niedrigschubenergiepegel auf %power%% setzen"
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
@@ -1361,7 +1361,7 @@
    },
    "SHIP_DETECTED_NEARBY" : {
       "description" : "",
-      "message" : "Nahes Schiff detektiert."
+      "message" : "Nahes Schiff erfasst."
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1517,7 +1517,7 @@
    },
    "STAR_K_SUPER_GIANT" : {
       "description" : "",
-      "message" : "Orangfarbeneer Überriese"
+      "message" : "Orange Überriese"
    },
    "STAR_M" : {
       "description" : "",
