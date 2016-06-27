@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Internal view"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale ly"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "In transit"
