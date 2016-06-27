@@ -167,9 +167,9 @@ std::string format_distance(double dist, int precision)
 		else if (dist < AU*0.01)
 			ss << (dist*1e-6) << " Mm";
 		else if (dist < LY*0.1)
-			ss << (dist/AU) << " AU";
+			ss << (dist/AU) << " " << Lang::UNIT_AU;
 		else
-			ss << (dist/LY) << " ly";
+			ss << (dist/LY) << " " << Lang::UNIT_LY;
 	}
 	return ss.str();
 }
