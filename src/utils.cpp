@@ -154,16 +154,22 @@ std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;
 	ss.setf(std::ios::fixed, std::ios::floatfield);
-	if (dist < 1000) {
+	if (dist < 1e3) {
 		ss.precision(0);
 		ss << dist << " m";
-	} else {
+	}
+	else {
+		const float LY = 9.4607e15;
 		ss.precision(precision);
-		if (dist < AU*0.1) {
-			ss << (dist*0.001) << " km";
-		} else {
+
+		if (dist < 1e6)
+			ss << (dist*1e-3) << " km";
+		else if (dist < AU*0.01)
+			ss << (dist*1e-6) << " Mm";
+		else if (dist < LY*0.1)
 			ss << (dist/AU) << " AU";
-		}
+		else
+			ss << (dist/LY) << " ly";
 	}
 	return ss.str();
 }
