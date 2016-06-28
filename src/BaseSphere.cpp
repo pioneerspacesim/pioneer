@@ -16,12 +16,14 @@ BaseSphere::~BaseSphere() {}
 void BaseSphere::Init()
 {
 	GeoSphere::Init();
+	GasGiant::Init();
 }
 
 //static 
 void BaseSphere::Uninit()
 {
 	GeoSphere::Uninit();
+	GasGiant::Uninit();
 }
 
 //static 

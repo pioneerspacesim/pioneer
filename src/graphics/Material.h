@@ -39,6 +39,7 @@ enum EffectType {
 	EFFECT_SHIELD,
 	EFFECT_SKYBOX,
 	EFFECT_SPHEREIMPOSTOR,
+	EFFECT_GEN_GASGIANT_TEXTURE,
 	EFFECT_BILLBOARD_ATLAS,
 	EFFECT_BILLBOARD
 };
@@ -99,6 +100,7 @@ public:
 
 	virtual void Apply() { }
 	virtual void Unapply() { }
+	virtual bool IsProgramLoaded() const = 0;
 
 	virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) = 0;
 

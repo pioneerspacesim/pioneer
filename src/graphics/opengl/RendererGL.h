@@ -27,7 +27,8 @@ namespace OGL {
 	class GasGiantSurfaceMaterial;
 	class GeoSphereSkyMaterial;
 	class GeoSphereStarMaterial;
-	class GeoSphereSurfaceMaterial;
+	class GeoSphereSurfaceMaterial; 
+	class GenGasGiantColourMaterial;
 	class Material;
 	class MultiMaterial;
 	class LitMultiMaterial;
@@ -145,6 +146,7 @@ protected:
 	friend class OGL::GeoSphereSurfaceMaterial;
 	friend class OGL::GeoSphereSkyMaterial;
 	friend class OGL::GeoSphereStarMaterial;
+	friend class OGL::GenGasGiantColourMaterial;
 	friend class OGL::MultiMaterial;
 	friend class OGL::LitMultiMaterial;
 	friend class OGL::RingMaterial;

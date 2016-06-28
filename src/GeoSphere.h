@@ -58,7 +58,7 @@ public:
 	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
 	// in sbody radii
-	virtual double GetMaxFeatureHeight() const { return m_terrain->GetMaxHeight(); }
+	virtual double GetMaxFeatureHeight() const override final { return m_terrain->GetMaxHeight(); }
 
 	bool AddQuadSplitResult(SQuadSplitResult *res);
 	bool AddSingleSplitResult(SSingleSplitResult *res);

@@ -14,6 +14,7 @@
 #include "terrain/Terrain.h"
 #include "BaseSphere.h"
 #include "JobQueue.h"
+#include "GasGiantJobs.h"
 
 #include <deque>
 
@@ -22,7 +23,10 @@ class SystemBody;
 class GasGiant;
 class GasPatch;
 class GasPatchContext;
-namespace { class STextureFaceResult; }
+namespace { 
+	class STextureFaceResult; 
+	class SGPUGenResult;
+}
 
 #define NUM_PATCHES 6
 
@@ -41,18 +45,29 @@ public:
 
 	virtual void Reset() override;
 
-	static bool OnAddTextureFaceResult(const SystemPath &path, STextureFaceResult *res);
+	static bool OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STextureFaceResult *res);
+	static bool OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenResult *res);
+	static void Init();
+	static void Uninit();
 	static void UpdateAllGasGiants();
 	static void OnChangeDetailLevel();
+
+	static void CreateRenderTarget(const Uint16 width, const Uint16 height);
+	static void SetRenderTargetCubemap(const Uint32, Graphics::Texture*, const bool unBind = true);
+	static void BeginRenderTarget();
+	static void EndRenderTarget();
 
 private:
 	void BuildFirstPatches();
 	void GenerateTexture();
-	bool AddTextureFaceResult(STextureFaceResult *res);
+	bool AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res);
+	bool AddGPUGenResult(GasGiantJobs::SGPUGenResult *res);
 
 	static RefCountedPtr<GasPatchContext> s_patchContext;
 
-	//std::unique_ptr<Graphics::Drawables::Sphere3D> m_baseCloudSurface;
+	static Graphics::RenderTarget *s_renderTarget;
+	static Graphics::RenderState *s_quadRenderState;
+
 	std::unique_ptr<GasPatch> m_patches[NUM_PATCHES];
 
 	bool m_hasTempCampos;
@@ -61,10 +76,15 @@ private:
 	virtual void SetUpMaterials() override;
 	RefCountedPtr<Graphics::Texture> m_surfaceTextureSmall;
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
+	RefCountedPtr<Graphics::Texture> m_builtTexture;
 	
 	std::unique_ptr<Color[]> m_jobColorBuffers[NUM_PATCHES];
 	Job::Handle m_job[NUM_PATCHES];
 	bool m_hasJobRequest[NUM_PATCHES];
+
+	Job::Handle m_gpuJob;
+	bool m_hasGpuJobRequest;
+
 	float m_timeDelay;
 };
 

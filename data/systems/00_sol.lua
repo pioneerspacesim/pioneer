@@ -421,7 +421,7 @@ local jupiter_moons = {
 }
 
 local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
-	:seed(1742495375)
+	:seed(174249538)
 	:radius(f(9,1))
 	:mass(f(95152,1000))
 	:temp(134)
@@ -538,7 +538,7 @@ local uranus_moons = {
 }
 
 local neptune = CustomSystemBody:new('Neptune', 'PLANET_GAS_GIANT')
-	:seed(1365118445)
+	:seed(1365118457)
 	:radius(f(38,10))
 	:mass(f(17147,1000))
 	:temp(72)

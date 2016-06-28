@@ -18,6 +18,11 @@ void Material::Unapply()
 {
 }
 
+bool Material::IsProgramLoaded() const
+{
+	return m_program->Loaded();
+}
+
 void Material::SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj)
 {
 	const matrix4x4f ViewProjection = proj * mv;

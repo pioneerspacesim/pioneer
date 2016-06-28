@@ -13,6 +13,7 @@
 #include "GLDebug.h"
 #include "GasGiantMaterial.h"
 #include "GeoSphereMaterial.h"
+#include "GenGasGiantColourMaterial.h"
 #include "MaterialGL.h"
 #include "RenderStateGL.h"
 #include "RenderTargetGL.h"
@@ -863,6 +864,9 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 		break;
 	case EFFECT_GASSPHERE_TERRAIN:
 		mat = new OGL::GasGiantSurfaceMaterial();
+		break;
+	case EFFECT_GEN_GASGIANT_TEXTURE:
+		mat = new OGL::GenGasGiantColourMaterial();
 		break;
 	case EFFECT_BILLBOARD_ATLAS:
 	case EFFECT_BILLBOARD:

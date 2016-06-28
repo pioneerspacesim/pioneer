@@ -40,7 +40,7 @@ public:
 		Graphics::RenderState *rs, RefCountedPtr<Graphics::Material> mat);
 
 	// in sbody radii
-	virtual double GetMaxFeatureHeight() const { return 0.0; }
+	virtual double GetMaxFeatureHeight() const = 0;
 
 	struct MaterialParameters {
 		SystemBody::AtmosphereParameters atmosphere;

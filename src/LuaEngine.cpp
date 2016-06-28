@@ -536,6 +536,22 @@ static int l_engine_set_music_volume(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_gpu_jobs_enabled(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("EnableGPUJobs") != 0);
+	return 1;
+}
+
+static int l_engine_set_gpu_jobs_enabled(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetGpuJobsEnabled takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("EnableGPUJobs", (enabled ? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
+
 static void push_bindings(lua_State *l, const KeyBindings::BindingPrototype *protos) {
 	LUA_DEBUG_START(l);
 
@@ -819,6 +835,9 @@ void LuaEngine::Register()
 		{ "SetTextureCompressionEnabled", l_engine_set_texture_compression_enabled },
 		{ "GetMultisampling", l_engine_get_multisampling },
 		{ "SetMultisampling", l_engine_set_multisampling },
+
+		{ "GetGpuJobsEnabled", l_engine_get_gpu_jobs_enabled },
+		{ "SetGpuJobsEnabled", l_engine_set_gpu_jobs_enabled },
 
 		{ "GetPlanetDetailLevel", l_engine_get_planet_detail_level },
 		{ "SetPlanetDetailLevel", l_engine_set_planet_detail_level },
