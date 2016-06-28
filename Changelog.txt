@@ -1,4 +1,10 @@
 June 2016
+   * New Features
+     * Improve distance format, by introducing ly and Mm (#3745)
+     * GPU jobs for generating gas giant textures (#3719)
+     * Add some flare for black market, through flavoured slogans (#3744)
+     * Passenger warns when jumping to wrong system with right name (#3746)
+
    * Fixes
      * Prevent the galaxy map from crashing if in hyperspace (#3714)
      * Eclipse r600 (#3721)
