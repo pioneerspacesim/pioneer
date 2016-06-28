@@ -310,6 +310,17 @@ local onEnterSystem = function (player)
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
+
+		-- Since system names are not unique, player might jump into
+		-- system with right name, but wrong coordinates
+		if mission.status == "ACTIVE" and not mission.location:IsSameSystem(syspath) then
+			local mission_system = mission.location:GetStarSystem()
+			local current_system = syspath:GetStarSystem()
+			if mission_system.name == current_system.name then
+				Comms.ImportantMessage(l.WRONG_SYSTEM, mission.client.name)
+			end
+		end
+
 		if mission.status == "ACTIVE" and mission.location:IsSameSystem(syspath) then
 
 			local risk = flavours[mission.flavour].risk
