@@ -33,8 +33,6 @@ void CloudSphereProgram::InitUniforms()
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
 
-	shadows.Init("shadows", m_program);
-	occultedLight.Init("occultedLight", m_program);
 	shadowCentreX.Init("shadowCentreX", m_program);
 	shadowCentreY.Init("shadowCentreY", m_program);
 	shadowCentreZ.Init("shadowCentreZ", m_program);
@@ -106,7 +104,6 @@ void CloudSphereMaterial::SetGSUniforms()
 	p->time.Set(float(1.0 + Pi::game->GetTime() * 0.00005));
 
 	// we handle up to three shadows at a time
-	int occultedLight[3] = {-1,-1,-1};
 	vector3f shadowCentreX;
 	vector3f shadowCentreY;
 	vector3f shadowCentreZ;
@@ -116,7 +113,6 @@ void CloudSphereMaterial::SetGSUniforms()
 	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	int j = 0;
 	while (j<3 && it != itEnd) {
-		occultedLight[j] = it->occultedLight;
 		shadowCentreX[j] = it->centre[0];
 		shadowCentreY[j] = it->centre[1];
 		shadowCentreZ[j] = it->centre[2];
@@ -126,8 +122,6 @@ void CloudSphereMaterial::SetGSUniforms()
 		++it;
 		++j;
 	}
-	p->shadows.Set(j);
-	p->occultedLight.Set(occultedLight);
 	p->shadowCentreX.Set(shadowCentreX);
 	p->shadowCentreY.Set(shadowCentreY);
 	p->shadowCentreZ.Set(shadowCentreZ);

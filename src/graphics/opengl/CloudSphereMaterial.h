@@ -24,8 +24,6 @@ namespace Graphics {
 			Uniform geosphereCenter;
 			Uniform geosphereRadius; // (planet radius)
 
-			Uniform shadows;
-			Uniform occultedLight;
 			Uniform shadowCentreX;
 			Uniform shadowCentreY;
 			Uniform shadowCentreZ;
