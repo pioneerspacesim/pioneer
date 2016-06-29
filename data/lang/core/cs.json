@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Pohled zevnitř"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale ly"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Na cestě"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Neprozkoumaný systém. Informace o hvězdě získány pomocí dálkového teleskopu, ale nejsou k dispozici žádné informace o planetách."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
    },
    "UNKNOWN" : {
       "description" : "",

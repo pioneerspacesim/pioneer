@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Innenansicht"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale Lj"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Auf dem Weg"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Unerforschtes System. Informationen über den Zentralstern wurden per Teleskop gesammelt, aber es sind keine Informationen über Planeten verfügbar."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AE"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "Lj"
    },
    "UNKNOWN" : {
       "description" : "",

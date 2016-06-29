@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "内部视角"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale ly"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "正在中转"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "未探索的星系.已使用远程探测器收集到恒星信息,但行星信息仍不可用."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
    },
    "UNKNOWN" : {
       "description" : "",

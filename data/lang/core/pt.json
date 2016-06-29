@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Vista interna"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale al"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Em transito"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Sistema inexplorado. As informações sobre a estrela foram recolhidas pelo telescópio remoto, mas não está disponível nenhuma informação planetária."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
    },
    "UNKNOWN" : {
       "description" : "",

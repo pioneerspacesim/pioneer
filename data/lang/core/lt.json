@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Vidinis vaizdas"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale šviesm."
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Pakeliui"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Neištirta sistema. Žvaigždės informacija surinkta naudojant teleskopą, bet nėra informacijos apie planetas."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
    },
    "UNKNOWN" : {
       "description" : "",

@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Binnenste uitzicht"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale lj"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Onderweg"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Niet verkend stelsel. Sterren onderzocht met telescopen, maar geen planeetgegevens aanwezig."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AE"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "lj"
    },
    "UNKNOWN" : {
       "description" : "",

@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Обзор"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale СвЛ"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Проход через гипертоннель"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Неизведанная система. Информация о звезде была собрана с удалённого телескопа, по этому информация о планетах не доступна."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "АЕ"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "св.лет"
    },
    "UNKNOWN" : {
       "description" : "",

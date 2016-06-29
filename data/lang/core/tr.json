@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "İç görünüm"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale Iy"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Yolculukta"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Keşfedilmemiş Sistem. Yıldız bilgisi uzak bir teleskop tarafından toplandı, fakat gezegen bilgisi mecut değil."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "Iy"
    },
    "UNKNOWN" : {
       "description" : "",

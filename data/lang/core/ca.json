@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Internal view"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale anys llum"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "En trànsit"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Sistema inexplorat. La informació de les estrelles s'ha recollit per telescopi, però no tenim informació dels planetes."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
    },
    "UNKNOWN" : {
       "description" : "",

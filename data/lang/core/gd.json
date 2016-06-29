@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Sealladh taobh a-staigh"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale bl-shol"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "A' siubhal"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Siostam gun rùrachadh. Chaidh fiosrachadh rèile a chruinneachadh le prosbaig aig astar, ach chan eil fiosrachadh mu na planaidean ri làimh."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "bl-shol"
    },
    "UNKNOWN" : {
       "description" : "",
