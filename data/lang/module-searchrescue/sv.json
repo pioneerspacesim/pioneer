@@ -1,7 +1,7 @@
 {
    "AU" : {
       "description" : "",
-      "message" : "AU"
+      "message" : "AE"
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
@@ -9,7 +9,7 @@
    },
    "COMMODITIES" : {
       "description" : "",
-      "message" : "Commodities"
+      "message" : "Varor"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "CREW" : {
       "description" : "",
-      "message" : "Crew"
+      "message" : "Besättning"
    },
    "DEADLINE" : {
       "description" : "",
@@ -29,7 +29,7 @@
    },
    "DELIVERY" : {
       "description" : "",
-      "message" : "DELIVERY"
+      "message" : "LEVERANS"
    },
    "DISTANCE" : {
       "description" : "",
@@ -161,15 +161,15 @@
    },
    "FLAVOUR_1_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP CRASH LANDED on {planet}."
+      "message" : "SKEPP STÖRTLANDAT på {planet}"
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you are just returning now! How much time has been wasted!"
+      "message" : "jag kan inte tro att du bara återvänder nu! Vilket slöseri med tid!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "Du måste vara tillbaka {due} för full ersättning av utgifterna."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -177,15 +177,15 @@
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known location for this ship was {planet} at latitude/longitude coordinates: {lat} / {long}. Ship ID is {shiplabel}."
+      "message" : "Senaste kända position för skeppet var {planet} vid breddgrad/längdgrad {lat}/{long}. Skepp-ID är {shiplabel}."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
+      "message" : "Tack så mycket, vilken lättnad. Vi överför pengarna strax."
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} har bordat skeppet."
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -193,7 +193,7 @@
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL en route to {starport}."
+      "message" : "SKEPP HAR SLUT PÅ BRÄNSLE påväg till {starport}."
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transfered the full reward."
+      "message" : "Tack så mycket! Jag har överfört hela betalningen."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
@@ -221,11 +221,11 @@
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting 1 ton of hydrogen fuel."
+      "message" : "Piloten begär 1 ton väte-bränsle."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
-      "message" : "MEDICAL EMERGENCY on ship close to {starport}."
+      "message" : "AKUT MEDICINSK SITUATION på skepp nära {starport}"
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
@@ -257,7 +257,7 @@
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL on {planet}."
+      "message" : "SKEPP HAR SLUT PÅ BRÄNSLE på {panet}"
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
@@ -289,7 +289,7 @@
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
-      "message" : "SHIP OUT OF FUEL close to {starport}."
+      "message" : "SKEPP HAR SLUT PÅ BRÄNSLE nära {starport}"
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
@@ -345,7 +345,7 @@
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has boarded the ship."
+      "message" : "{unit} har bordat skeppet."
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -353,7 +353,7 @@
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "OMEDELBAR BESÄTTNINGSFÖRFLYTTNING till {system} efterfrågas."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
@@ -397,11 +397,11 @@
    },
    "HOW_FAR" : {
       "description" : "",
-      "message" : "How far away is the target?"
+      "message" : "Hur långt bort är det?"
    },
    "HOW_MUCH_TIME" : {
       "description" : "",
-      "message" : "How much time do I have?"
+      "message" : "Hur mycket tid har jag på mig?"
    },
    "INTERACTION_ABORTED" : {
       "description" : "",
@@ -421,7 +421,7 @@
    },
    "LAST_KNOWN_LOCATION" : {
       "description" : "",
-      "message" : "Last known location:"
+      "message" : "Sist kända position:"
    },
    "LAT" : {
       "description" : "",
@@ -465,15 +465,15 @@
    },
    "PASSENGERS" : {
       "description" : "",
-      "message" : "Passengers"
+      "message" : "Passagerare"
    },
    "PAYMENT_LOCATION" : {
       "description" : "",
-      "message" : "Payment location:"
+      "message" : "Betalningsplats:"
    },
    "PICKUP" : {
       "description" : "",
-      "message" : "PICKUP"
+      "message" : "UPPHÄMTNING"
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
@@ -633,11 +633,11 @@
    },
    "REWARD" : {
       "description" : "",
-      "message" : "Reward:"
+      "message" : "Belöning:"
    },
    "SEARCH_RESCUE" : {
       "description" : "",
-      "message" : "Search & Rescue"
+      "message" : "Sök och rädda insats"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
@@ -653,7 +653,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Thank you so much. Your help is greatly appreciated."
+      "message" : "Tak så hjärtligt. Din hjälp uppskattas."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
@@ -677,7 +677,7 @@
    },
    "TYPE_OF_HELP" : {
       "description" : "",
-      "message" : "What type of help is needed?"
+      "message" : "Vilken slags hjälp behövs?"
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -685,6 +685,6 @@
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
-      "message" : "Where do I find the target?"
+      "message" : "Var kan jag hitta det?"
    }
 }
