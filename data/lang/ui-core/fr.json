@@ -1095,6 +1095,10 @@
       "description" : "",
       "message" : "Ce vaisseau est trop petit pour votre équipage."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Le vaisseau est trop petit pour transférer votre cargaison."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Total:"

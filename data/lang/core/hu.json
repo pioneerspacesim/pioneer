@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Belső nézet"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale fényév"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Utazás"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Felfedezetlen rendszer. Csillaginformációkat ugyan gyűjtött a távolsági teleszkóp, de bolygóinformációk nem érhetőek el."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "fé"
    },
    "UNKNOWN" : {
       "description" : "",

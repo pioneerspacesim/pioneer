@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "{name} & Söner"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Vi handlar där andra inte gör det."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "En verkligt fri marknad."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Tillhandahåller dig med de mest okonventionella varorna!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Vi tror på en gränslös marknad."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "En oreglerad marknad, för din frihet."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "Den ärliga handlaren."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Alltid specialpris, bara för dig."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Välkommen till"

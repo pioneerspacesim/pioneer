@@ -20,6 +20,7 @@ public:
 	void Unbind();
 
 	virtual void SetSampleMode(TextureSampleMode);
+	virtual void BuildMipmaps();
 	GLuint GetTexture() const { return m_texture; }
 
 private:

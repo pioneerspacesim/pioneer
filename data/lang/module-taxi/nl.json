@@ -583,6 +583,10 @@
       "description" : "",
       "message" : "Is het gevaarlijk?"
    },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "The system name is right, but not the coordinates."
+   },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
       "message" : "Je hebt niet genoeg cabine ruimte aanboord jouw schip."

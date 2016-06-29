@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Vista interna"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale AL"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "In transito"
@@ -705,7 +701,7 @@
    },
    "LONGITUDE" : {
       "description" : "Short for longitude",
-      "message" : "Long:"
+      "message" : "Lon:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Sistema inesplorato. Le informazioni sulla stella sono state raccolte per mezzo di osservazioni telescopiche, ma non sono disponibili informazioni sul sistema planetario."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "UA"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "AL"
    },
    "UNKNOWN" : {
       "description" : "",

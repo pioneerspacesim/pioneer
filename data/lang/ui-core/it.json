@@ -1095,6 +1095,10 @@
       "description" : "",
       "message" : "L'astronave è troppo piccola per questo equipaggio."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "L'astronave è troppo piccola per trasbordarvi il carico."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Totale:"

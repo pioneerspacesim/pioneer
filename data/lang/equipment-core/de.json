@@ -9,7 +9,7 @@
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Atmosphären-Hitzeschild"
+      "message" : "Atmosphärenhitzeschild"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Frachtschaufel"
+      "message" : "Frachtschöpfer"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Erlaubt es, abgeworfene Fracht im Weltraum aufzusammeln"
+      "message" : "Ermöglicht es, abgeworfene Fracht im Weltraum aufzusammeln."
    },
    "DRIVE_CLASS1" : {
       "description" : "",
@@ -97,7 +97,7 @@
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Raketen zerstören."
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Arten von Lenkraketen zerstören."
    },
    "ECM_BASIC" : {
       "description" : "",
@@ -105,19 +105,19 @@
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann gelenkte Raketen zerstören."
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann einige Lenkraketen zerstören."
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Treibstoffschaufel"
+      "message" : "Treibstoffschöpfer"
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Erlaubt es, Wasserstofftreibstoff von Gasriesen zu sammeln."
+      "message" : "Ermöglicht es, Wasserstofftreibstoff von Gasriesen zu sammeln."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Rumpf-Auto-Reparatur"
+      "message" : "Rumpf-Autoreparatursystem"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -149,7 +149,7 @@
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Dient zum Abbau mineralienreicher Asteroiden."
+      "message" : "Dient zum Abbau mineralienreicher Asteroiden mittels Sprengung."
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -169,11 +169,11 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Mehrzweckschaufel"
+      "message" : "Mehrzweckschöpfer"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ist zwar weniger effizient als die Treibstoffschaufel, kann aber sowohl Fracht als auch Treibstoff aufnehmen"
+      "message" : "Ist zwar weniger effizient als der Treibstoffschöpfer, kann aber sowohl Fracht als auch Treibstoff aufnehmen"
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Radar-Scanner"
+      "message" : "Radar-Kartierer"
    },
    "RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
@@ -241,7 +241,7 @@
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Schildenergie-Booster"
+      "message" : "Schildenergiebooster"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -249,7 +249,7 @@
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Schild-Generator"
+      "message" : "Schildgenerator"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Handels-Analyseeinheit"
+      "message" : "Handelsanalyseeinheit"
    },
    "TRADE_ANALYZER_DESCRIPTION" : {
       "description" : "",
@@ -273,10 +273,10 @@
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Zusätzliche Passagier-Kabinen"
+      "message" : "Zusätzliche Passagierkabine"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Benötigt für den Transport von einem Passagier"
+      "message" : "Benötigt für den Transport eines einzelnen Passagiers"
    }
 }

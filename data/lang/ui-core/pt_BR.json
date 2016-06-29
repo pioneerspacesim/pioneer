@@ -1095,6 +1095,10 @@
       "description" : "",
       "message" : "Nave pequena demais para a tripulação atual."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Ship is too small to transship your cargo."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Total:"

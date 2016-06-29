@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "Kunde inte hitta (eller saknar möjlighet att öppna) sparad fil \"%filename."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -618,10 +618,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "Intern vy"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -1673,7 +1669,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Visa utrustning"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1689,7 +1685,7 @@
    },
    "TOGGLE_SCANNER_VIEW" : {
       "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+      "message" : "Visa Scanner läge"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Outforskat system. Information om stjärnan har blivit insamlad via teleskop men ingen planetinformation finns tillgänglig."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AE"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
    },
    "UNKNOWN" : {
       "description" : "",

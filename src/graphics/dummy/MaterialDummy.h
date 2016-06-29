@@ -22,6 +22,7 @@ namespace Graphics {
 			// bind textures, set uniforms
 			virtual void Apply() {}
 			virtual void Unapply() {}
+			virtual bool IsProgramLoaded() const override final { return false; }
 			virtual void SetProgram(Program *p) { }
 			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) {}
 		};

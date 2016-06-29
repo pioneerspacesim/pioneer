@@ -213,6 +213,7 @@
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\GameLog.cpp" />
     <ClCompile Include="..\..\src\GasGiant.cpp" />
+    <ClCompile Include="..\..\src\GasGiantJobs.cpp" />
     <ClCompile Include="..\..\src\GeoPatch.cpp" />
     <ClCompile Include="..\..\src\GeoPatchContext.cpp" />
     <ClCompile Include="..\..\src\GeoPatchID.cpp" />
@@ -369,6 +370,7 @@
     <ClInclude Include="..\..\src\gameconsts.h" />
     <ClInclude Include="..\..\src\GameLog.h" />
     <ClInclude Include="..\..\src\GasGiant.h" />
+    <ClInclude Include="..\..\src\GasGiantJobs.h" />
     <ClInclude Include="..\..\src\GeoPatch.h" />
     <ClInclude Include="..\..\src\GeoPatchContext.h" />
     <ClInclude Include="..\..\src\GeoPatchID.h" />

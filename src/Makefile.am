@@ -43,6 +43,7 @@ noinst_HEADERS = \
 	Game.h \
 	GameLog.h \
 	GasGiant.h \
+	GasGiantJobs.h \
 	GeoSphere.h \
 	HudTrail.h \
 	HyperspaceCloud.h \
@@ -178,6 +179,7 @@ pioneer_SOURCES	= \
 	Game.cpp \
 	GameLog.cpp \
 	GasGiant.cpp \
+	GasGiantJobs.cpp \
 	GeoPatch.cpp \
 	GeoPatchContext.cpp \
 	GeoPatchID.cpp \

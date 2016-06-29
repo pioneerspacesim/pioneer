@@ -117,7 +117,7 @@ public:
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 	virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
 	//returns 0 if unsupported
-	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
+	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0;
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) = 0;
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
 	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;

@@ -1,7 +1,7 @@
 {
    "FLAVOUR_0_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Systemweite Seuche im System {system}. Todesfälle steigen rasant."
+      "message" : "SCHLAGZEILE ({date}): Systemweite Seuche im System {system}. Todesfälle steigen rasant."
    },
    "FLAVOUR_0_NEWSBODY" : {
       "description" : "Imply high demand for MEDICINE commodity.",
@@ -9,11 +9,11 @@
    },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
-      "message" : "NACHRICHTEN {date}: Großunternehmen gefährdet Überleben des »{system}«-Systems!"
+      "message" : "SCHLAGZEILE ({date}): Großunternehmen gefährdet Überleben des »{system}«-Systems!"
    },
    "FLAVOUR_10_NEWSBODY" : {
       "description" : "Imply high demand of AIR_PROCESSORS commodity. (Prekall as in Rekall, the fictional company from the Schwarzenegger-movie Total Recall (1990)).",
-      "message" : "Prekall Inc. versuchen im {system}- System ({sectorx}, {sectory}, {sectorz}), das Monopol auf Luft durchzusetzen. Nehmen Sie noch einmal einen tiefen Atemzug, es könnte der letzte kostenlose sein."
+      "message" : "Prekall Inc. versuchen im {system}- System ({sectorx}, {sectory}, {sectorz}), das Monopol auf Luft durchzusetzen. Nehmen Sie noch einmal einen tiefen Atemzug, es könnte der letzte sein, der nichts kostet."
    },
    "FLAVOUR_11_HEADLINE" : {
       "description" : "",
@@ -61,11 +61,11 @@
    },
    "FLAVOUR_16_NEWSBODY" : {
       "description" : "Imply high demand of FARM_MACHINERY.",
-      "message" : "Während des großen Dampftreffen im System {system} ({sectorx}, {sectory}, {sectorz}) ist ein Versuch, den galaktischen Rekord im größten Traktortauziehen zu schlagen, in einer Katastrophe geendet. Ein Teilnehmer verlor die Kontrolle über sein Fahrzeug und zerstörte alle Maschinen der anderen Teilnehmer. Die Verwaltung fürchtet Probleme für lokale Bauern."
+      "message" : "Während des großen Dampftreffens im System {system} ({sectorx}, {sectory}, {sectorz}) ist ein Versuch, den galaktischen Rekord im größten Traktortauziehen zu schlagen, in einer Katastrophe geendet. Ein Teilnehmer verlor die Kontrolle über sein Fahrzeug und zerstörte alle Maschinen der anderen Teilnehmer. Die Verwaltung fürchtet Probleme für lokale Bauern."
    },
    "FLAVOUR_17_HEADLINE" : {
       "description" : "",
-      "message" : "NACHRICHTEN {date}: Neue Reichtümer im »{system}«-System entdeckt."
+      "message" : "SCHLAGZEILE ({date}): Neue Reichtümer im »{system}«-System entdeckt."
    },
    "FLAVOUR_17_NEWSBODY" : {
       "description" : "Imply vast abundance of METAL_ORE.",
@@ -73,7 +73,7 @@
    },
    "FLAVOUR_18_HEADLINE" : {
       "description" : "",
-      "message" : "SCHLAGZEILE {date}: Die Wirtschaftsreform in {system} ist ein großer Erfolg."
+      "message" : "SCHLAGZEILE ({date}): Die Wirtschaftsreform in {system} ist ein großer Erfolg."
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
@@ -81,15 +81,15 @@
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
-      "message" : "NACHRICHTEN {date}: Es regnet Gold im »{system}«-System."
+      "message" : "NACHRICHTEN ({date}): Es regnet Gold im »{system}«-System."
    },
    "FLAVOUR_19_NEWSBODY" : {
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
-      "message" : "Ein Mann im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat mit einer Erfindung seines Uronkels Gold in Platin fusionieren können. Wirtschaftswisssenschaftler erwarten eine Destabilisierung der Wirschaft im System, wenn die Maschine nicht bald einem Defekt erliegt."
+      "message" : "Ein Mann im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat eine Erfindung seines Uronkels geerbt, wodurch er jeden Feststoff zu Gold und Platin fusionieren kann. Wirtschaftswisssenschaftler erwarten eine Destabilisierung der Wirtschaft im System, außer, wenn die Maschine bald einem Defekt erliegt."
    },
    "FLAVOUR_1_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Konflikt eskaliert im System {system}. "
+      "message" : "SCHLAGZEILE ({date}): Konflikt eskaliert im System {system}. "
    },
    "FLAVOUR_1_NEWSBODY" : {
       "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
@@ -97,7 +97,7 @@
    },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
-      "message" : "NACHRICHTEN {date}: Die Ernteerträge der Gasgigant-Algenzucht in {system} haben einen neuen Rekord erzielt."
+      "message" : "NACHRICHTEN ({date}): Die Ernteerträge der Gasgigant-Algenzucht in {system} haben einen neuen Rekord erzielt."
    },
    "FLAVOUR_20_NEWSBODY" : {
       "description" : "Imply vast abundance of FERTILIZER. Soylent is a reference to the book/movie Soylent Green.",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_21_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vereinbarung im »{system}«-System unterzeichnet für »menschlichere« Kriegsführung."
+      "message" : "SCHLAGZEILE ({date}): Vereinbarung im »{system}«-System unterzeichnet für »menschlichere« Kriegsführung."
    },
    "FLAVOUR_21_NEWSBODY" : {
       "description" : "Imply vast abundance of NERVE_GAS.",
@@ -113,15 +113,15 @@
    },
    "FLAVOUR_22_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Polizei streikt im »{system}«-System. Bürger müssen selbst für die EInhaltung des Gesetzes sorgen."
+      "message" : "SCHLAGZEILE ({date}): Polizei streikt im »{system}«-System. Bürger müssen selbst für die EInhaltung des Gesetzes sorgen."
    },
    "FLAVOUR_22_NEWSBODY" : {
       "description" : "Imply high demand of HAND_WEAPONS.",
-      "message" : "In einem Protest gegen aktuelle Budgetkürzungen im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat die Polizei die Arbeit niedergelegt. Das Schlimmste befürchtend rufen die Bewohner zur Bildung von Bürgerwehren auf und bewaffnen sich mit Heugabeln und Feuerwaffen."
+      "message" : "In einem Protest gegen aktuelle Budgetkürzungen im »{system}«-System ({sectorx}, {sectory}, {sectorz}) hat die Polizei die Arbeit niedergelegt. Das Schlimmste befürchtend, rufen die Bewohner zur Bildung von Bürgerwehren auf und bewaffnen sich mit Heugabeln und Schusswaffen."
    },
    "FLAVOUR_23_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Große Eröffnung einer neuen Fabrik im {system} System."
+      "message" : "SCHLAGZEILE ({date}): Große Eröffnung einer neuen Fabrik im {system} System."
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
@@ -129,7 +129,7 @@
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date]: Dürre im System {system}. Ernte ruiniert."
+      "message" : "SCHLAGZEILE ({date}): Dürre im System {system}. Ernte ruiniert."
    },
    "FLAVOUR_2_NEWSBODY" : {
       "description" : "Hint there will be high demand of GRAIN.",
@@ -137,7 +137,7 @@
    },
    "FLAVOUR_3_HEADLINE" : {
       "description" : "",
-      "message" : "NEWS {date}: Vegane Lebensweise immer beliebter im System {system}."
+      "message" : "SCHLAGZEILE ({date}): Vegane Lebensweise immer beliebter im System {system}."
    },
    "FLAVOUR_3_NEWSBODY" : {
       "description" : "Imply high demand of FRUIT_AND_VEG.",
@@ -153,11 +153,11 @@
    },
    "FLAVOUR_5_HEADLINE" : {
       "description" : "",
-      "message" : "SCHLAGZEILE {date}: Sklavenaufstand im »{system}«-System. Agrarindustrie stillgelegt."
+      "message" : "SCHLAGZEILE ({date}): Sklavenaufstand im »{system}«-System. Agrarindustrie stillgelegt."
    },
    "FLAVOUR_5_NEWSBODY" : {
       "description" : "Imply high demand of SLAVES.",
-      "message" : "Arbeiter im »{system}«-System ({sectorx}, {sectory}, {sectorz}) sprengen mit einem Aufstand ihre Ketten. Sie weigern sich, die Lotusfelder zu bewirtschafften. Die Wirtschaft kommt zum erliegen, weil keine billigen Arbeitskräfte zur Verfügung stehen."
+      "message" : "Arbeiter im »{system}«-System ({sectorx}, {sectory}, {sectorz}) sprengen mit einem Aufstand ihre Ketten. Sie weigern sich, die Lotusfelder zu bewirtschafften. Die Wirtschaft kommt zum Erliegen, weil keine billigen Arbeitskräfte zur Verfügung stehen."
    },
    "FLAVOUR_6_HEADLINE" : {
       "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
@@ -169,7 +169,7 @@
    },
    "FLAVOUR_7_HEADLINE" : {
       "description" : "",
-      "message" : "NACHRICHTEN {date}: Die Industrie kommt zu einem Stillstand im »{system}«-System."
+      "message" : "SCHLAGZEILE ({date}): Die Industrie kommt zu einem Stillstand im »{system}«-System."
    },
    "FLAVOUR_7_NEWSBODY" : {
       "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
@@ -289,6 +289,6 @@
    },
    "TITLE_4" : {
       "description" : "",
-      "message" : "Kurznachrichten aus dem Magazin {newspaper}"
+      "message" : "Kurznachrichten aus {newspaper}"
    }
 }

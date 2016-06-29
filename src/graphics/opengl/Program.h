@@ -28,6 +28,7 @@ namespace Graphics {
 			void Reload();
 			virtual void Use();
 			virtual void Unuse();
+			bool Loaded() const { return success; }
 
 			// Uniforms.
 			Uniform uProjectionMatrix;
@@ -71,6 +72,7 @@ namespace Graphics {
 			std::string m_name;
 			std::string m_defines;
 			GLuint m_program;
+			bool success;
 		};
 
 	}

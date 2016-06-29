@@ -1095,6 +1095,10 @@
       "description" : "",
       "message" : "Tha an soitheach ro bheag airson an sgioba agad."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Tha an soitheach ro bheag airson an carago agad a ghiùlan."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Iomlan:"

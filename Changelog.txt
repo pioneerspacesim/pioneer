@@ -1,11 +1,23 @@
 June 2016
+   * New Features
+     * Improve distance format, by introducing ly and Mm (#3745)
+     * GPU jobs for generating gas giant textures (#3719)
+     * Add some flare for black market, through flavoured slogans (#3744)
+     * Passenger warns when jumping to wrong system with right name (#3746)
+
    * Fixes
      * Prevent the galaxy map from crashing if in hyperspace (#3714)
+     * Eclipse r600 (#3721)
 
    * Internal Changes
      * Enable using dedicated nVidia GPUs in Windows laptops with Optimus (#3715)
      * Minor Noise library improvements (#3716)
      * Add AMD Power Xpress performance flag keyword and value (#3717)
+     * Add EXTRA_CXXFLAGS to CXXFLAGS for assimp's version check (#3718)
+     * Keep cargo if buying a new ship (#3725)
+     * Disable Continue button if no saved game to load (#3731)
+     * Don't hard code strings we already have in translation system (#3728)
+     * Make trade analyzer removable again. Undo #3474, close #3742 (#3743)
 
 May 2016
    * New Features

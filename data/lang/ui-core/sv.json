@@ -293,7 +293,7 @@
    },
    "ENABLE_ANISOTROPIC_FILTERING" : {
       "description" : "Use Anisotropic Filtering",
-      "message" : "Anisotropic Filtering"
+      "message" : "Anisotropiskt filter"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -1094,6 +1094,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "Skeppet för litet för nuvarande besättning"
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Skeppet är förlitet för att rymma din last."
    },
    "TOTAL" : {
       "description" : "",

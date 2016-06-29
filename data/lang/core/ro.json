@@ -619,10 +619,6 @@
       "description" : "",
       "message" : "Vizionare internă"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale a.l."
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "În tranzit"
@@ -1722,6 +1718,14 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Sistem Neexplorat. Informații despre stea au fost adunate prin intermediul telescopului, dar nu sunt disponibile informații despre planete."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "a.l."
    },
    "UNKNOWN" : {
       "description" : "",

@@ -41,6 +41,7 @@ public:
 	//any existing texture's count
 	//Setting a depth texture is not allowed if the render target is not
 	//created with allowDepthTexture
+	virtual void SetCubeFaceTexture(const Uint32, Texture*) = 0;
 	virtual void SetColorTexture(Texture*) = 0;
 	virtual void SetDepthTexture(Texture*) = 0;
 

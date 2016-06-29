@@ -165,11 +165,11 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich kann nicht glauben, dass du erst jetzt zurückkommst! So viel verschwendete Zeit!"
+      "message" : "Ich kann nicht glauben, dass Sie erst jetzt zurückkommen! So viel verschwendete Zeit!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Für die komplette Erstattung der Auslagen musst du bis {due} zurück sein."
+      "message" : "Für die komplette Erstattung der Auslagen müssen Sie bis {due} zurück sein."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
@@ -197,11 +197,11 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "Ich kann nicht glauben, dass du mich so lange warten lassen hast! Deine Zahlung kannst du vergessen!"
+      "message" : "Ich kann nicht glauben, dass Sie mich so lange warten gelassen haben! Ihre Zahlung können Sie vergessen!"
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Um volle Zahlung zu erhalten sollst du bis {due} liefern."
+      "message" : "Um volle Zahlung zu erhalten, sollten Sie bis {due} liefern."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -333,7 +333,7 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "Mein Name ist {name} und ich komme von {entitiy}. Wir haben Kontakt mit unserem {ship} {shiplabel} aufgrund von {problem} verloren. Wir sind bereit, {cash} für sofortige Hilfe zu zahlen."
+      "message" : "Mein Name ist {name} und ich komme von {entity}. Wir haben Kontakt mit unserem {ship} {shiplabel} aufgrund von {problem} verloren. Wir sind bereit, {cash} für sofortige Hilfe zu zahlen."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "Ich bin {name} von {entitiy}. Unser einziges Schiff, genannt „{shiplabel}“ und vom Typ {ship}, treibt mit einem verbleibenden Crewmitglied an Bord, aufgrund von {problem}. Ich bin bereit, {cash} für sofortige Hilfe zu zahlen."
+      "message" : "Ich bin {name} von {entity}. Unser einziges Schiff, genannt „{shiplabel}“ und vom Typ {ship}, treibt mit einem verbleibenden Crewmitglied an Bord, aufgrund von {problem}. Ich bin bereit, {cash} für sofortige Hilfe zu zahlen."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Länge:"
+      "message" : "L.:"
    },
    "LY" : {
       "description" : "",

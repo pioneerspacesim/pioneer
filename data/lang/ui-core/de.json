@@ -33,7 +33,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Versuch, den Rumpf zu reparieren"
+      "message" : "Versuchen, den Rumpf zu reparieren"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -369,7 +369,7 @@
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "Verfügbar"
+      "message" : "verfügbar"
    },
    "FRONT_WEAPON" : {
       "description" : "",
@@ -625,7 +625,7 @@
    },
    "MAX" : {
       "description" : "",
-      "message" : "Maximum"
+      "message" : "maximum"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
@@ -745,7 +745,7 @@
    },
    "NONE_FOR_SALE_IN_THIS_STATION" : {
       "description" : "",
-      "message" : "Keine zum Verkauf in dieser Station."
+      "message" : "Keine Einheiten stehen zum Verkauf in dieser Station."
    },
    "NORMA_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -777,7 +777,7 @@
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Schild-Generatoren"
+      "message" : "{quantity} Schildgeneratoren"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -805,7 +805,7 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs, der die Oberfläche von {name} schneidet, resultieren.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t"
+      "message" : "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das Schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs, der die Oberfläche von {name} schneidet, resultieren.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t"
    },
    "OUTER_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -881,7 +881,7 @@
    },
    "PUMP_DOWN" : {
       "description" : "Drain the fuel tank",
-      "message" : "Nach unten pumpen"
+      "message" : "Abpumpen"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -965,7 +965,7 @@
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Schaufel-Slots"
+      "message" : "Schöpferslots"
    },
    "SCUTUM_CENTAURUS_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
@@ -1065,7 +1065,7 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "Diese Station hat ein Level {tech_level} Technologie-Zertifikat."
+      "message" : "Diese Station hat ein Technologie-Zertifikat der Stufe {tech_level}."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
@@ -1085,7 +1085,7 @@
    },
    "THREE_KPC_ARM" : {
       "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc Arm"
+      "message" : "3kpc-Arm"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
@@ -1095,9 +1095,13 @@
       "description" : "",
       "message" : "Das Schiff ist zu klein für die aktuelle Anzahl an Crewmitgliedern."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Das Schiff ist zu klein, um die Ladung umzuladen."
+   },
    "TOTAL" : {
       "description" : "",
-      "message" : "Komplett: "
+      "message" : "Gesamt: "
    },
    "TOTAL_MASS" : {
       "description" : "",
@@ -1141,7 +1145,7 @@
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Grafik"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",

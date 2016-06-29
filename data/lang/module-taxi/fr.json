@@ -583,6 +583,10 @@
       "description" : "",
       "message" : "Serait-je en danger?"
    },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "The system name is right, but not the coordinates."
+   },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
       "message" : "Vous n'avez pas assez de cabines voyageur à bord de votre vaisseau."

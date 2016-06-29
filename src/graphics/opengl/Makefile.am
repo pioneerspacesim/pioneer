@@ -17,6 +17,7 @@ noinst_HEADERS = \
 	VertexBufferGL.h \
 	FresnelColourMaterial.h \
 	GasGiantMaterial.h \
+	GenGasGiantColourMaterial.h \
 	GeoSphereMaterial.h \
 	MultiMaterial.h \
 	Program.h \
@@ -39,6 +40,7 @@ libgraphicsopengl_a_SOURCES = \
 	VertexBufferGL.cpp \
 	FresnelColourMaterial.cpp \
 	GasGiantMaterial.cpp \
+	GenGasGiantColourMaterial.cpp \
 	GeoSphereMaterial.cpp \
 	MultiMaterial.cpp \
 	Program.cpp \

@@ -3,8 +3,6 @@
 
 #ifdef ECLIPSE
 
-uniform int shadows;
-uniform ivec3 occultedLight;
 uniform vec3 shadowCentreX;
 uniform vec3 shadowCentreY;
 uniform vec3 shadowCentreZ;
@@ -53,10 +51,8 @@ float shadowInt(const in float t1, const in float t2, const in float dsq, const 
 float calcUneclipsed(const in int i, const in vec3 v, const in vec3 lightDir) 
 {
 	float uneclipsed = 1.0;
-	for (int j=0; j<shadows; j++) {
-		if (i != occultedLight[j])
-			continue;
-			
+	for (int j=0; j<NUM_SHADOWS; j++) 
+	{
 		vec3 centre = vec3( shadowCentreX[j], shadowCentreY[j], shadowCentreZ[j] );
 		
 		// Apply eclipse:
@@ -73,10 +69,8 @@ float calcUneclipsed(const in int i, const in vec3 v, const in vec3 lightDir)
 float calcUneclipsedSky(const in int i, const in vec3 a, const in vec3 b, const in vec3 lightDir) 
 {
 	float uneclipsed = 1.0;
-	for (int j=0; j<shadows; j++) {
-		if (i != occultedLight[j])
-			continue;
-
+	for (int j=0; j<NUM_SHADOWS; j++) 
+	{
 		// Eclipse handling:
 		// Calculate proportion of the in-atmosphere eyeline which is shadowed,
 		// weighting according to completeness of the shadow (penumbra vs umbra).
