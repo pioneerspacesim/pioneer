@@ -28,7 +28,7 @@ local onChat = function (form, ref, option)
 	form:Clear()
 	form:SetTitle(ad.flavour)
 	form:SetFace({ seed = ad.faceseed })
-	form:SetMessage(l.WELCOME_TO..ad.flavour.."\n"..ad.slogan)
+	form:SetMessage(l.WELCOME_TO..ad.flavour..".\n"..ad.slogan)
 
 	local onClick = function (ref)
 		if not ads[ref].ispolice then
