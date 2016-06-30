@@ -953,7 +953,11 @@ static int l_ship_update_equip_stats(lua_State *l)
 static int l_ship_get_velocity(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaVector::PushToLua(l, s->GetVelocity());
+	vector3d v = s->GetVelocity();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
 	return 1;
 }
 
@@ -975,7 +979,11 @@ static int l_ship_get_velocity(lua_State *l)
 static int l_ship_get_position(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	LuaVector::PushToLua(l, s->GetPosition());
+	vector3d v = s->GetPosition();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
 	return 1;
 }
 
