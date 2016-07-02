@@ -3,8 +3,8 @@
 
 #pragma once
 
-#ifndef _OGL_GENGASGIANTCOLOURMATERIAL_H
-#define _OGL_GENGASGIANTCOLOURMATERIAL_H
+#ifndef _OGL_GENCLOUDSPHEREMATERIAL_H
+#define _OGL_GENCLOUDSPHEREMATERIAL_H
 /*
  * Material(s) used to generate 
  *
@@ -14,30 +14,18 @@
 
 namespace Graphics {
 
-	struct GenGasGiantColourMaterialParameters {
+	struct GenCloudSphereMaterialParameters {
 		const vector3d *v;
 		float fracStep;
 		float planetRadius;
 		float time;
 		float hueAdjust;
-		vector3f frequency;
 	};
 
 	namespace OGL {
-
-		enum GasGiantQuality {
-			GEN_JUPITER_TEXTURE = 0,
-			GEN_SATURN_TEXTURE,
-			GEN_SATURN2_TEXTURE,
-			// technically Ice Giants not Gas Giants...
-			GEN_NEPTUNE_TEXTURE,
-			GEN_NEPTUNE2_TEXTURE,
-			GEN_URANUS_TEXTURE
-		};
-
-		class GenGasGiantColourProgram : public Program {
+		class GenCloudSphereProgram : public Program {
 		public:
-			GenGasGiantColourProgram(const MaterialDescriptor &);
+			GenCloudSphereProgram(const MaterialDescriptor &);
 
 			Uniform v0, v1, v2, v3;
 			Uniform fracStep;
@@ -51,7 +39,7 @@ namespace Graphics {
 			virtual void InitUniforms();
 		};
 
-		class GenGasGiantColourMaterial : public Material { //unlit
+		class GenCloudSphereMaterial : public Material { //unlit
 		public:
 			virtual Program *CreateProgram(const MaterialDescriptor &);
 			virtual void Apply();
