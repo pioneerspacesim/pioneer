@@ -298,7 +298,7 @@ void GasGiant::Reset()
 //static
 bool GasGiant::OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STextureFaceResult *res)
 {
-	// Find the correct GeoSphere via it's system path, and give it the split result
+	// Find the correct GasGiant via it's system path, and give it the split result
 	for(std::vector<GasGiant*>::iterator i=s_allGasGiants.begin(), iEnd=s_allGasGiants.end(); i!=iEnd; ++i) {
 		if( path == (*i)->GetSystemBody()->GetPath() ) {
 			(*i)->AddTextureFaceResult(res);
@@ -316,7 +316,7 @@ bool GasGiant::OnAddTextureFaceResult(const SystemPath &path, GasGiantJobs::STex
 //static
 bool GasGiant::OnAddGPUGenResult(const SystemPath &path, GasGiantJobs::SGPUGenResult *res)
 {
-	// Find the correct GeoSphere via it's system path, and give it the split result
+	// Find the correct GasGiant via it's system path, and give it the split result
 	for(std::vector<GasGiant*>::iterator i=s_allGasGiants.begin(), iEnd=s_allGasGiants.end(); i!=iEnd; ++i) {
 		if( path == (*i)->GetSystemBody()->GetPath() ) {
 			(*i)->AddGPUGenResult(res);
