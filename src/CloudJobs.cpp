@@ -152,6 +152,12 @@ namespace CloudJobs
 	Uint32 GPUCloudSphereContext::m_textureSizeCpu = 512;
 	Uint32 GPUCloudSphereContext::m_textureSizeGpu = 1024;
 
+	Uint32 GetGPUTextureDimensions()
+	{
+		GPUCloudSphereContext *inst = GPUCloudSphereContext::Instance();
+		return GPUCloudSphereContext::GPUTextureSize();
+	}
+
 	// ********************************************************************************
 	// 
 	// ********************************************************************************
@@ -334,19 +340,11 @@ namespace CloudJobs
 	}
 
 	// ********************************************************************************
-	CloudGPUGenRequest::CloudGPUGenRequest(const SystemPath &sysPath_, const float planetRadius_, bool (*callback)(const SystemPath &, CloudGPUGenResult *)) :
-		sysPath(sysPath_), planetRadius(planetRadius_), m_callback(callback)
+	CloudGPUGenRequest::CloudGPUGenRequest(const SystemPath &sysPath_, const float planetRadius_, Graphics::Texture *texture, bool (*callback)(const SystemPath &, CloudGPUGenResult *)) :
+		sysPath(sysPath_), planetRadius(planetRadius_), m_texture(texture), m_callback(callback)
 	{
 		PROFILE_SCOPED()
-
-		// create texture
-		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(GPUCloudSphereContext::GPUTextureSize2f());
-		const Graphics::TextureDescriptor texDesc(
-			Graphics::TEXTURE_RGBA_8888, 
-			dataSize, texSize, Graphics::LINEAR_CLAMP, 
-			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
-		m_texture.Reset(Pi::renderer->CreateTexture(texDesc));
+		assert(texture);
 	}
 	
 	void CloudGPUGenRequest::SetupMaterialParams(const int face)

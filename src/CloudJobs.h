@@ -27,6 +27,8 @@ namespace CloudJobs
 	// fwd declarations
 	class CloudCPUGenResult;
 	class CloudGPUGenResult;
+	
+	Uint32 GetGPUTextureDimensions();
 
 	class CloudCPUGenRequest {
 	public:
@@ -137,7 +139,7 @@ namespace CloudJobs
 	// ********************************************************************************
 	class CloudGPUGenRequest {
 	public:
-		CloudGPUGenRequest(const SystemPath &sysPath_, const float planetRadius_, bool (*callback)(const SystemPath &, CloudGPUGenResult *));
+		CloudGPUGenRequest(const SystemPath &sysPath_, const float planetRadius_, Graphics::Texture *texture, bool (*callback)(const SystemPath &, CloudGPUGenResult *));
 
 		Graphics::Texture* Texture() const { return m_texture.Get(); }
 		GenFaceQuad& Quad() { return m_quad; }

@@ -426,9 +426,10 @@ bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
 	}
 #endif
 
-	if (res->data().texture.Valid()) 
+	if (m_builtTexture.Valid()) 
 	{
-		m_cloudsTexture = res->data().texture;
+		m_cloudsTexture = m_builtTexture;
+		m_builtTexture.Reset();
 
 		// these won't be automatically generated otherwise since we used it as a render target
 		m_cloudsTexture->BuildMipmaps();
@@ -444,7 +445,7 @@ bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
 
 	return result;
 }
-#pragma optimize("",off)
+
 void GeoSphere::RequestCloudSphereTexture()
 {
 	SystemBody::AtmosphereParameters atmosphere = GetSystemBody()->CalcAtmosphereParams();
@@ -477,7 +478,17 @@ void GeoSphere::RequestCloudSphereTexture()
 		// use m_cloudsTexture texture?
 		assert(!m_hasGpuJobRequest);
 		assert(!m_gpuJob.HasJob());
-		CloudJobs::CloudGPUGenRequest *pGPUReq = new CloudJobs::CloudGPUGenRequest(GetSystemBody()->GetPath(), GetSystemBody()->GetRadius(), GeoSphere::OnAddGPUGenResult);
+		
+		// create texture
+		const vector2f texSize(1.0f, 1.0f);
+		const vector2f dataSize(CloudJobs::GetGPUTextureDimensions());
+		const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA_8888, 
+			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+		m_builtTexture.Reset(Pi::renderer->CreateTexture(texDesc));
+
+		CloudJobs::CloudGPUGenRequest *pGPUReq = new CloudJobs::CloudGPUGenRequest(GetSystemBody()->GetPath(), GetSystemBody()->GetRadius(), m_builtTexture.Get(), GeoSphere::OnAddGPUGenResult);
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new CloudJobs::GPUCloudSphereJob(pGPUReq));
 		m_hasGpuJobRequest = true;
 	}
@@ -645,8 +656,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		}
 	}
 
-	// display the terrain height control-mesh
-	
+	// create the cloud materials, mesh and renderstate
 	const float rad = m_materialParameters.atmosphere.atmosRadius * 0.99f;
 	const matrix4x4d cloudsTrans(trans * matrix4x4d::ScaleMatrix(rad, rad, rad));
 	if(bHasAtmosphere && m_cloudsTexture.Valid())
@@ -667,7 +677,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 			rsd.blendMode = Graphics::BLEND_ALPHA;
 			rsd.depthWrite = false;
 			rsd.cullMode = Graphics::CULL_NONE;
-			m_cloudSphere.reset( new Graphics::Drawables::Sphere3D(Pi::renderer, m_cloudMaterial, Pi::renderer->CreateRenderState(rsd), 5, 1.0) );
+			m_cloudSphere.reset( new Graphics::Drawables::Sphere3D(Pi::renderer, m_cloudMaterial, Pi::renderer->CreateRenderState(rsd), 5, 1.0, Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL) );
 		}
 		m_cloudMaterial->specialParameter0 = &m_materialParameters;
 	}
