@@ -48,9 +48,6 @@ void GenCloudSphereProgram::InitUniforms()
 	permTexture.Init("permTexture", m_program);
 	gradTexture.Init("gradTexture", m_program);
 	time.Init("time", m_program);
-	
-	frequency.Init("frequency", m_program);
-	hueAdjust.Init("hueAdjust", m_program);
 }
 
 Program *GenCloudSphereMaterial::CreateProgram(const MaterialDescriptor &desc)
@@ -78,7 +75,6 @@ void GenCloudSphereMaterial::Apply()
 	p->permTexture.Set(this->texture0, 0);
 	p->gradTexture.Set(this->texture1, 1);
 	p->time.Set(params.time);
-	p->hueAdjust.Set(params.hueAdjust);
 }
 
 void GenCloudSphereMaterial::Unapply()

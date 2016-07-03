@@ -19,7 +19,6 @@ namespace Graphics {
 		float fracStep;
 		float planetRadius;
 		float time;
-		float hueAdjust;
 	};
 
 	namespace OGL {
@@ -32,8 +31,6 @@ namespace Graphics {
 			Uniform permTexture;
 			Uniform gradTexture;
 			Uniform time;
-			Uniform frequency;
-			Uniform hueAdjust;
 
 		protected:
 			virtual void InitUniforms();

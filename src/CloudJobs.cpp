@@ -53,225 +53,15 @@ namespace CloudJobs
 	const float Density = 0.02;
 	const float ESun = 1.0;
 
-	double fbm(const vector3d &position, const int octaves, float frequency, const float persistence) 
-	{
-		PROFILE_SCOPED()
-		double total = 0.0;
-		double maxAmplitude = 0.0;
-		double amplitude = 1.0;
-		for (int i = 0; i < octaves; i++) 
-		{
-			total += noise(position * frequency) * amplitude;
-			frequency *= 2.0;
-			maxAmplitude += amplitude;
-			amplitude *= persistence;
-		}
-		return total / maxAmplitude;
-	}
-
-	
-	double ridgedNoise(const vector3d &position, const int octaves, float frequency, const float persistence) 
-	{
-		double total = 0.0;
-		double maxAmplitude = 0.0;
-		double amplitude = 1.0;
-		for (int i = 0; i < octaves; i++) {
-			total += ((1.0 - abs(noise(position * frequency))) * 2.0 - 1.0) * amplitude;
-			frequency *= 2.0;
-			maxAmplitude += amplitude;
-			amplitude *= persistence;
-		}
-		return total / maxAmplitude;
-	}
-
-	float CloudExpCurve(float v)
-	{
-		float c = std::max(v - CloudCover,0.0f);
-		return 1.0 - pow(CloudSharpness, c);
-	}
-
-	CloudCPUGenRequest::CloudCPUGenRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_) :
-		corners(v_), sysPath(sysPath_), face(face_), uvDIMs(uvDIMs_)
-	{
-		colors = new Color[NumTexels()];
-	}
-
-	// RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	// Use only data local to this object
-	void CloudCPUGenRequest::OnRun()
-	{
-		PROFILE_SCOPED()
-		//MsgTimer timey;
-
-		assert( corners != nullptr );
-		double fracStep = 1.0 / double(UVDims()-1);
-		for( Sint32 v=0; v<UVDims(); v++ ) {
-			for( Sint32 u=0; u<UVDims(); u++ ) {
-				// where in this row & colum are we now.
-				const double ustep = double(u) * fracStep;
-				const double vstep = double(v) * fracStep;
-
-				// get point on the surface of the sphere
-				const vector3d v_texCoord3D = GetSpherePoint(ustep, vstep);
-
-				// generate some noise clouds
-				// calculate solar heating + height & water contributions
-				float distort = fbm(v_texCoord3D, 5, 2, 0.5) * 0.25;
-				float intensity = Clamp((1.0 - abs(v_texCoord3D.y)) + distort, 0.0, 1.0);
-				float heatAbsorption = intensity*1.5*ESun;
-		
-				// 1st cloud set
-				float curvenoise = fbm(v_texCoord3D, 6, 8.0, 0.5) * 2.0;
-				float curve = CloudExpCurve(curvenoise);
-	
-				// 2nd cloud set
-				vector3d noisePosition = v_texCoord3D * 10.0;
-				float noise = fbm(noisePosition, 6, 8.0, 0.5) * nScale;
-				float rnoise = ridgedNoise(noisePosition, 4, 1.0, 0.5) * nScale;
-				rnoise -= (1.0 - Density);
-	
-				// combine
-				float thickness = std::max(rnoise * 2.0 + noise, 0.0);
-				thickness = std::min(heatAbsorption * (((thickness * thickness)) + curve), 1.0f);
-				vector3d texColor = vector3d(thickness,thickness,thickness)*2.0;
-				// end of noise clouds
-
-				// convert to ubyte and store
-				Color* col = colors + (u + (v * UVDims()));
-				col[0].r = Uint8(texColor.x * 255.0);
-				col[0].g = Uint8(texColor.y * 255.0);
-				col[0].b = Uint8(texColor.z * 255.0);
-				col[0].a = 255;
-			}
-		}
-
-		//timey.Mark("SingleTextureFaceCPUJob::OnRun");
-	}
-
-	// ********************************************************************************
-	// Overloaded PureJob class to handle generating the mesh for each patch
-	// ********************************************************************************
-	CPUCloudSphereJob::~CPUCloudSphereJob()
-	{
-		PROFILE_SCOPED()
-		if(mpResults) {
-			mpResults->OnCancel();
-			delete mpResults;
-			mpResults = nullptr;
-		}
-	}
-
-	void CPUCloudSphereJob::OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
-	{
-		PROFILE_SCOPED()
-		mData->OnRun();
-
-		// add this patches data
-		CloudCPUGenResult *sr = new CloudCPUGenResult(mData->Face());
-		sr->addResult(mData->Colors(), mData->UVDims());
-
-		// store the result
-		mpResults = sr;
-	}
-
-	void CPUCloudSphereJob::OnFinish() // runs in primary thread of the context
-	{
-		PROFILE_SCOPED()
-		mData->InvokeCallback( mData->SysPath(), mpResults );
-		mpResults = nullptr;
-	}
-
-	// ********************************************************************************
-	GenFaceQuad::GenFaceQuad(Graphics::Renderer *r, const vector2f &size, Graphics::RenderState *state, const Uint32 quality)
-	{
-		PROFILE_SCOPED()
-		assert(state);
-		m_renderState = state;
-
-		Graphics::MaterialDescriptor desc;
-		desc.effect = Graphics::EFFECT_GEN_CLOUDSPHERE_TEXTURE;
-		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? 8 : 5;
-		desc.quality = quality;
-		desc.textures = 2;
-		m_material.reset(r->CreateMaterial(desc));
-
-		// setup noise textures
-		m_material->texture0 = Graphics::TextureBuilder::Raw("textures/permTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
-		m_material->texture1 = Graphics::TextureBuilder::Raw("textures/gradTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
-		
-		// these might need to be reversed
-		const vector2f &texSize(size);
-
-		Graphics::VertexArray vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-
-		vertices.Add(vector3f(0.0f,   0.0f,   0.0f), vector2f(0.0f,      texSize.y));
-		vertices.Add(vector3f(0.0f,   size.y, 0.0f), vector2f(0.0f,      0.0f));
-		vertices.Add(vector3f(size.x, 0.0f,   0.0f), vector2f(texSize.x, texSize.y));
-		vertices.Add(vector3f(size.x, size.y, 0.0f), vector2f(texSize.x, 0.0f));
-
-		//Create vtx & index buffers and copy data
-		Graphics::VertexBufferDesc vbd;
-		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-		vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
-		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
-		vbd.numVertices = vertices.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-		m_vertexBuffer.reset(r->CreateVertexBuffer(vbd));
-		m_vertexBuffer->Populate(vertices);
-	}
-
-	void GenFaceQuad::Draw(Graphics::Renderer *r) {
-		PROFILE_SCOPED()
-		r->DrawBuffer(m_vertexBuffer.get(), m_renderState, m_material.get(), Graphics::TRIANGLE_STRIP);
-	}
-
-	// ********************************************************************************
-	CloudGPUGenRequest::CloudGPUGenRequest(const SystemPath &sysPath_, const Sint32 uvDIMs_, const float planetRadius_, const float hueAdjust_, GenFaceQuad* pQuad_, Graphics::Texture *pTex_) :
-		m_texture(pTex_), sysPath(sysPath_), uvDIMs(uvDIMs_), planetRadius(planetRadius_), hueAdjust(hueAdjust_), pQuad(pQuad_)
-	{
-		PROFILE_SCOPED()
-		assert(m_texture.Valid());
-	}
-	
-	void CloudGPUGenRequest::SetupMaterialParams(const int face)
-	{
-		PROFILE_SCOPED()
-		m_specialParams.v = &s_patchFaces[face][0];
-		m_specialParams.fracStep = 1.0f / float(uvDIMs);
-		m_specialParams.planetRadius = planetRadius;
-		m_specialParams.time = 0.0f;
-
-		m_specialParams.hueAdjust = hueAdjust;
-
-		pQuad->GetMaterial()->specialParameter0 = &m_specialParams;
-	}
-
-	bool CloudGPUGenRequest::InvokeCallback(const SystemPath &sp, CloudGPUGenResult *cggr)
-	{
-		return m_callback(sp, cggr);
-	}
-
-	// ********************************************************************************
-	void CloudGPUGenResult::addResult(Graphics::Texture *t_, Sint32 uvDims_) {
-		PROFILE_SCOPED()
-		mData = CloudGPUGenData(t_, uvDims_);
-	}
-
-	void CloudGPUGenResult::OnCancel()	{
-		if( mData.texture ) { mData.texture.Reset(); }
-	}
-
 	
 	// ********************************************************************************
 	// 
 	// ********************************************************************************
 	class GPUCloudSphereContext {
 	private:
-		static GPUCloudSphereContext *m_instance;
+		static GPUCloudSphereContext	*m_instance;
 		static Graphics::RenderTarget	*s_renderTarget;
 		static Graphics::RenderState	*s_quadRenderState;
-		static Uint32 m_textureSizeSmall;
 		static Uint32 m_textureSizeCpu;
 		static Uint32 m_textureSizeGpu;
 
@@ -295,7 +85,6 @@ namespace CloudJobs
 			cfg.Read(FileSystem::gameDataFiles, "configs/Cloud.ini");
 			// NB: limit the ranges of all values loaded from the file
 			// NB: round to the nearest power of 2 for all texture sizes
-			m_textureSizeSmall		= ceil_pow2(Clamp(cfg.Int("texture_size_small", 16), 16, 64));
 			m_textureSizeCpu		= ceil_pow2(Clamp(cfg.Int("texture_size_cpu", 512), 128, 4096));
 			m_textureSizeGpu		= ceil_pow2(Clamp(cfg.Int("texture_size_gpu", 1024), 128, 4096));
 
@@ -348,13 +137,245 @@ namespace CloudJobs
 		static void EndRenderTarget() {
 			Pi::renderer->SetRenderTarget(nullptr);
 		}
+
+		static Graphics::RenderState* GetdRenderState() { return s_quadRenderState; }
+
+		static Uint32 CPUTextureSize() { return m_textureSizeCpu; }
+		static vector2f CPUTextureSize2f() { return vector2f(float(m_textureSizeCpu)); }
+
+		static Uint32 GPUTextureSize() { return m_textureSizeGpu; }
+		static vector2f GPUTextureSize2f() { return vector2f(float(m_textureSizeGpu)); }
 	};
 	GPUCloudSphereContext	*GPUCloudSphereContext::m_instance = nullptr;
 	Graphics::RenderTarget	*GPUCloudSphereContext::s_renderTarget = nullptr;
 	Graphics::RenderState	*GPUCloudSphereContext::s_quadRenderState = nullptr;
-	Uint32 GPUCloudSphereContext::m_textureSizeSmall = 64;
 	Uint32 GPUCloudSphereContext::m_textureSizeCpu = 512;
 	Uint32 GPUCloudSphereContext::m_textureSizeGpu = 1024;
+
+	// ********************************************************************************
+	// 
+	// ********************************************************************************
+	double fbm(const vector3d &position, const int octaves, float frequency, const float persistence) 
+	{
+		PROFILE_SCOPED()
+		double total = 0.0;
+		double maxAmplitude = 0.0;
+		double amplitude = 1.0;
+		for (int i = 0; i < octaves; i++) 
+		{
+			total += noise(position * frequency) * amplitude;
+			frequency *= 2.0;
+			maxAmplitude += amplitude;
+			amplitude *= persistence;
+		}
+		return total / maxAmplitude;
+	}
+
+	
+	double ridgedNoise(const vector3d &position, const int octaves, float frequency, const float persistence) 
+	{
+		double total = 0.0;
+		double maxAmplitude = 0.0;
+		double amplitude = 1.0;
+		for (int i = 0; i < octaves; i++) {
+			total += ((1.0 - abs(noise(position * frequency))) * 2.0 - 1.0) * amplitude;
+			frequency *= 2.0;
+			maxAmplitude += amplitude;
+			amplitude *= persistence;
+		}
+		return total / maxAmplitude;
+	}
+
+	float CloudExpCurve(float v)
+	{
+		float c = std::max(v - CloudCover,0.0f);
+		return 1.0 - pow(CloudSharpness, c);
+	}
+	
+
+	// ********************************************************************************
+	// 
+	// ********************************************************************************
+	CloudCPUGenRequest::CloudCPUGenRequest(const SystemPath &sysPath_, const Sint32 face_, bool (*callback)(const SystemPath &, CloudCPUGenResult *)) :
+		corners(&s_patchFaces[Clamp(face_,0,NUM_PATCHES)][0]), sysPath(sysPath_), face(face_), m_callback(callback)
+	{
+		GPUCloudSphereContext *pt = GPUCloudSphereContext::Instance();
+		const Uint32 xyDims = GPUCloudSphereContext::CPUTextureSize();
+		colors = new Color[xyDims*xyDims];
+	}
+
+	// RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	// Use only data local to this object
+	void CloudCPUGenRequest::OnRun()
+	{
+		PROFILE_SCOPED()
+		//MsgTimer timey;
+		const Uint32 xyDims = GPUCloudSphereContext::CPUTextureSize();
+
+		assert( corners != nullptr );
+		const double fracStep = 1.0 / double(xyDims-1);
+		for( Uint32 v=0; v<xyDims; v++ ) {
+			for( Uint32 u=0; u<xyDims; u++ ) {
+				// where in this row & colum are we now.
+				const double ustep = double(u) * fracStep;
+				const double vstep = double(v) * fracStep;
+
+				// get point on the surface of the sphere
+				const vector3d v_texCoord3D = GetSpherePoint(ustep, vstep);
+
+				// generate some noise clouds
+				// calculate solar heating + height & water contributions
+				float distort = fbm(v_texCoord3D, 5, 2, 0.5) * 0.25;
+				float intensity = Clamp((1.0 - abs(v_texCoord3D.y)) + distort, 0.0, 1.0);
+				float heatAbsorption = intensity*1.5*ESun;
+		
+				// 1st cloud set
+				float curvenoise = fbm(v_texCoord3D, 6, 8.0, 0.5) * 2.0;
+				float curve = CloudExpCurve(curvenoise);
+	
+				// 2nd cloud set
+				vector3d noisePosition = v_texCoord3D * 10.0;
+				float noise = fbm(noisePosition, 6, 8.0, 0.5) * nScale;
+				float rnoise = ridgedNoise(noisePosition, 4, 1.0, 0.5) * nScale;
+				rnoise -= (1.0 - Density);
+	
+				// combine
+				float thickness = std::max(rnoise * 2.0 + noise, 0.0);
+				thickness = std::min(heatAbsorption * (((thickness * thickness)) + curve), 1.0f);
+				vector3d texColor = vector3d(thickness,thickness,thickness)*2.0;
+				// end of noise clouds
+
+				// convert to ubyte and store
+				Color* col = colors + (u + (v * xyDims));
+				col[0].r = Uint8(texColor.x * 255.0);
+				col[0].g = Uint8(texColor.y * 255.0);
+				col[0].b = Uint8(texColor.z * 255.0);
+				col[0].a = 255;
+			}
+		}
+
+		//timey.Mark("SingleTextureFaceCPUJob::OnRun");
+	}
+
+	// ********************************************************************************
+	// Overloaded PureJob class to handle generating the mesh for each patch
+	// ********************************************************************************
+	CPUCloudSphereJob::~CPUCloudSphereJob()
+	{
+		PROFILE_SCOPED()
+		if(mpResults) {
+			mpResults->OnCancel();
+			delete mpResults;
+			mpResults = nullptr;
+		}
+	}
+
+	void CPUCloudSphereJob::OnRun() // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	{
+		PROFILE_SCOPED()
+		mData->OnRun();
+
+		// add this patches data
+		CloudCPUGenResult *sr = new CloudCPUGenResult(mData->Face());
+		sr->AddResult(mData->Colors(), GPUCloudSphereContext::CPUTextureSize());
+
+		// store the result
+		mpResults = sr;
+	}
+
+	void CPUCloudSphereJob::OnFinish() // runs in primary thread of the context
+	{
+		PROFILE_SCOPED()
+		mData->InvokeCallback( mData->SysPath(), mpResults );
+		mpResults = nullptr;
+	}
+
+	// ********************************************************************************
+	GenFaceQuad::GenFaceQuad()
+	{
+		PROFILE_SCOPED()
+
+		Graphics::MaterialDescriptor desc;
+		desc.effect = Graphics::EFFECT_GEN_CLOUDSPHERE_TEXTURE;
+		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? 8 : 5;
+		desc.quality = octaves;
+		desc.textures = 2;
+		m_material.reset(Pi::renderer->CreateMaterial(desc));
+
+		// setup noise textures
+		m_material->texture0 = Graphics::TextureBuilder::Raw("textures/permTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
+		m_material->texture1 = Graphics::TextureBuilder::Raw("textures/gradTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
+		
+		// these might need to be reversed
+		const vector2f &size(GPUCloudSphereContext::GPUTextureSize2f());
+
+		Graphics::VertexArray vertices(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+
+		vertices.Add(vector3f(0.0f,   0.0f,   0.0f), vector2f(0.0f,   size.y));
+		vertices.Add(vector3f(0.0f,   size.y, 0.0f), vector2f(0.0f,   0.0f));
+		vertices.Add(vector3f(size.x, 0.0f,   0.0f), vector2f(size.x, size.y));
+		vertices.Add(vector3f(size.x, size.y, 0.0f), vector2f(size.x, 0.0f));
+
+		//Create vtx & index buffers and copy data
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
+		vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
+		vbd.numVertices = vertices.GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
+		m_vertexBuffer.reset(Pi::renderer->CreateVertexBuffer(vbd));
+		m_vertexBuffer->Populate(vertices);
+	}
+
+	void GenFaceQuad::Draw() {
+		PROFILE_SCOPED()
+		Pi::renderer->DrawBuffer(m_vertexBuffer.get(), GPUCloudSphereContext::GetdRenderState(), m_material.get(), Graphics::TRIANGLE_STRIP);
+	}
+
+	// ********************************************************************************
+	CloudGPUGenRequest::CloudGPUGenRequest(const SystemPath &sysPath_, const float planetRadius_, bool (*callback)(const SystemPath &, CloudGPUGenResult *)) :
+		sysPath(sysPath_), planetRadius(planetRadius_), m_callback(callback)
+	{
+		PROFILE_SCOPED()
+
+		// create texture
+		const vector2f texSize(1.0f, 1.0f);
+		const vector2f dataSize(GPUCloudSphereContext::GPUTextureSize2f());
+		const Graphics::TextureDescriptor texDesc(
+			Graphics::TEXTURE_RGBA_8888, 
+			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
+		m_texture.Reset(Pi::renderer->CreateTexture(texDesc));
+	}
+	
+	void CloudGPUGenRequest::SetupMaterialParams(const int face)
+	{
+		PROFILE_SCOPED()
+		m_specialParams.v = &s_patchFaces[face][0];
+		m_specialParams.fracStep = 1.0f / float(GPUCloudSphereContext::GPUTextureSize());
+		m_specialParams.planetRadius = planetRadius;
+		m_specialParams.time = 0.0f;
+
+		m_quad.GetMaterial()->specialParameter0 = &m_specialParams;
+	}
+
+	bool CloudGPUGenRequest::InvokeCallback(const SystemPath &sp, CloudGPUGenResult *cggr)
+	{
+		if(m_callback)
+			return m_callback(sp, cggr);
+		return false;
+	}
+
+	// ********************************************************************************
+	void CloudGPUGenResult::AddResult(Graphics::Texture *t_, Sint32 uvDims_) {
+		PROFILE_SCOPED()
+		mData = CloudGPUGenData(t_, uvDims_);
+	}
+
+	void CloudGPUGenResult::OnCancel()	{
+		if( mData.texture ) { mData.texture.Reset(); }
+	}
 
 	// ********************************************************************************
 	// Overloaded JobGPU class to handle generating the mesh for each patch
@@ -380,14 +401,14 @@ namespace CloudJobs
 		PROFILE_SCOPED()
 		//MsgTimer timey;
 
-		Pi::renderer->SetViewport(0, 0, mData->UVDims(), mData->UVDims());
+		Pi::renderer->SetViewport(0, 0, GPUCloudSphereContext::GPUTextureSize(), GPUCloudSphereContext::GPUTextureSize());
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 		// enter ortho
 		{
 			Pi::renderer->SetMatrixMode(Graphics::MatrixMode::PROJECTION);
 			Pi::renderer->PushMatrix();
-			Pi::renderer->SetOrthographicProjection(0, mData->UVDims(), mData->UVDims(), 0, -1, 1);
+			Pi::renderer->SetOrthographicProjection(0, GPUCloudSphereContext::GPUTextureSize(), GPUCloudSphereContext::GPUTextureSize(), 0, -1, 1);
 			Pi::renderer->SetMatrixMode(Graphics::MatrixMode::MODELVIEW);
 			Pi::renderer->PushMatrix();
 			Pi::renderer->LoadIdentity();
@@ -402,7 +423,7 @@ namespace CloudJobs
 
 			// draw to the texture here
 			mData->SetupMaterialParams( iFace );
-			mData->Quad()->Draw(Pi::renderer);
+			mData->Quad().Draw();
 
 			Pi::renderer->EndFrame();
 			GPUCloudSphereContext::SetRenderTargetCubemap(iFace, nullptr);
@@ -419,7 +440,7 @@ namespace CloudJobs
 
 		// add this patches data
 		CloudGPUGenResult *sr = new CloudGPUGenResult();
-		sr->addResult( mData->Texture(), mData->UVDims() );
+		sr->AddResult( mData->Texture(), GPUCloudSphereContext::GPUTextureSize() );
 
 		// store the result
 		mpResults = sr;

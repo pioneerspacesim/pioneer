@@ -30,27 +30,27 @@ namespace CloudJobs
 
 	class CloudCPUGenRequest {
 	public:
-		CloudCPUGenRequest(const vector3d *v_, const SystemPath &sysPath_, const Sint32 face_, const Sint32 uvDIMs_);
+		CloudCPUGenRequest(const SystemPath &sysPath_, const Sint32 face_, bool (*callback)(const SystemPath &, CloudCPUGenResult *));
 
 		// RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		// Use only data local to this object
 		void OnRun();
 
 		Sint32 Face() const { return face; }
-		inline Sint32 UVDims() const { return uvDIMs; }
+		//inline Sint32 UVDims() const { return uvDIMs; }
 		Color* Colors() const { return colors; }
 		const SystemPath& SysPath() const { return sysPath; }
 
 		bool InvokeCallback(const SystemPath &sp, CloudCPUGenResult *stfr)
 		{
-			return m_callback(sp, stfr);
+			if(m_callback)
+				return m_callback(sp, stfr);
+			return false;
 		}
 
 	protected:
 		// deliberately prevent copy constructor access
 		CloudCPUGenRequest(const CloudCPUGenRequest &r) = delete;
-
-		inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
 
 		// in patch surface coords, [0,1]
 		inline vector3d GetSpherePoint(const double x, const double y) const {
@@ -63,7 +63,6 @@ namespace CloudJobs
 		const vector3d *corners;
 		const SystemPath sysPath;
 		const Sint32 face;
-		const Sint32 uvDIMs;
 
 		std::function<bool(const SystemPath &, CloudCPUGenResult *)> m_callback;
 	};
@@ -80,7 +79,7 @@ namespace CloudJobs
 
 		CloudCPUGenResult(const int32_t face_) : mFace(face_) {}
 
-		void addResult(Color *c_, Sint32 uvDims_) {
+		void AddResult(Color *c_, Sint32 uvDims_) {
 			PROFILE_SCOPED()
 			mData = STextureFaceData(c_, uvDims_);
 		}
@@ -125,25 +124,23 @@ namespace CloudJobs
 	// a quad with reversed winding
 	class GenFaceQuad {
 	public:
-		GenFaceQuad(Graphics::Renderer *r, const vector2f &size, Graphics::RenderState *state, const Uint32 GGQuality);
-		virtual void Draw(Graphics::Renderer *r);
+		GenFaceQuad();
+		void Draw();
 
 		void SetMaterial(Graphics::Material *mat) { assert(mat); m_material.reset(mat); }
 		Graphics::Material* GetMaterial() const { return m_material.get(); }
 	private:
 		std::unique_ptr<Graphics::Material> m_material;
 		std::unique_ptr<Graphics::VertexBuffer> m_vertexBuffer;
-		Graphics::RenderState *m_renderState;
 	};
 
 	// ********************************************************************************
 	class CloudGPUGenRequest {
 	public:
-		CloudGPUGenRequest(const SystemPath &sysPath_, const Sint32 uvDIMs_, const float planetRadius_, const float hueAdjust_, GenFaceQuad* pQuad_, Graphics::Texture *pTex_);
+		CloudGPUGenRequest(const SystemPath &sysPath_, const float planetRadius_, bool (*callback)(const SystemPath &, CloudGPUGenResult *));
 
-		inline Sint32 UVDims() const { return uvDIMs; }
 		Graphics::Texture* Texture() const { return m_texture.Get(); }
-		GenFaceQuad* Quad() const { return pQuad; }
+		GenFaceQuad& Quad() { return m_quad; }
 		const SystemPath& SysPath() const { return sysPath; }
 		void SetupMaterialParams(const int face);
 
@@ -153,16 +150,12 @@ namespace CloudJobs
 		// deliberately prevent copy constructor access
 		CloudGPUGenRequest(const CloudGPUGenRequest &r) = delete;
 
-		inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
-
 		// this is created with the request and are given to the resulting patches
 		RefCountedPtr<Graphics::Texture> m_texture;
 
 		const SystemPath sysPath;
-		const Sint32 uvDIMs;
 		const float planetRadius;
-		const float hueAdjust;
-		GenFaceQuad* pQuad;
+		GenFaceQuad m_quad;
 		Graphics::GenCloudSphereMaterialParameters m_specialParams;
 
 		std::function<bool(const SystemPath &, CloudGPUGenResult *)> m_callback;
@@ -181,7 +174,7 @@ namespace CloudJobs
 
 		CloudGPUGenResult() {}
 
-		void addResult(Graphics::Texture *t_, Sint32 uvDims_);
+		void AddResult(Graphics::Texture *t_, Sint32 uvDims_);
 
 		inline const CloudGPUGenData& data() const { return mData; }
 

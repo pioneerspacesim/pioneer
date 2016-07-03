@@ -19,6 +19,10 @@
 #include <deque>
 
 namespace Graphics { class Renderer; }
+namespace CloudJobs { 
+	class CloudCPUGenResult;
+	class CloudGPUGenResult;
+}
 class SystemBody;
 class GeoPatch;
 class GeoPatchContext;
@@ -33,10 +37,10 @@ public:
 	GeoSphere(const SystemBody *body);
 	virtual ~GeoSphere();
 
-	virtual void Update() override;
-	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override;
+	virtual void Update() override final;
+	virtual void Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows) override final;
 
-	virtual double GetHeight(const vector3d &p) const override {
+	virtual double GetHeight(const vector3d &p) const override final {
 		const double h = m_terrain->GetHeight(p);
 #ifdef DEBUG
 		// XXX don't remove this. Fix your fractals instead
@@ -57,6 +61,9 @@ public:
 	static void OnChangeDetailLevel();
 	static bool OnAddQuadSplitResult(const SystemPath &path, SQuadSplitResult *res);
 	static bool OnAddSingleSplitResult(const SystemPath &path, SSingleSplitResult *res);
+	static bool OnAddCPUGenResult(const SystemPath &path, CloudJobs::CloudCPUGenResult *res);
+	static bool OnAddGPUGenResult(const SystemPath &path, CloudJobs::CloudGPUGenResult *res);
+
 	// in sbody radii
 	virtual double GetMaxFeatureHeight() const override final { return m_terrain->GetMaxHeight(); }
 
@@ -64,21 +71,25 @@ public:
 	bool AddSingleSplitResult(SSingleSplitResult *res);
 	void ProcessSplitResults();
 
-	virtual void Reset() override;
+	virtual void Reset() override final;
 
 	inline Sint32 GetMaxDepth() const { return m_maxDepth; }
 
 	void AddQuadSplitRequest(double, SQuadSplitRequest*, GeoPatch*);
 
 private:
+	virtual void SetUpMaterials() override final;
 	void BuildFirstPatches();
 	void CalculateMaxPatchDepth();
 	inline vector3d GetColor(const vector3d &p, double height, const vector3d &norm) const {
 		return m_terrain->GetColor(p, height, norm);
 	}
 	void ProcessQuadSplitRequests();
+	bool AddCPUGenResult(CloudJobs::CloudCPUGenResult *res);
+	bool AddGPUGenResult(CloudJobs::CloudGPUGenResult *res);
+	void RequestCloudSphereTexture();
 
-	std::unique_ptr<GeoPatch> m_patches[6];
+	std::unique_ptr<GeoPatch> m_patches[NUM_PATCHES];
 	struct TDistanceRequest {
 		TDistanceRequest(double dist, SQuadSplitRequest *pRequest, GeoPatch *pRequester) :
 			mDistance(dist), mpRequest(pRequest), mpRequester(pRequester) {}
@@ -98,10 +109,17 @@ private:
 
 	static RefCountedPtr<GeoPatchContext> s_patchContext;
 
-	virtual void SetUpMaterials() override;
-
 	RefCountedPtr<Graphics::Texture> m_texHi;
 	RefCountedPtr<Graphics::Texture> m_texLo;
+	RefCountedPtr<Graphics::Texture> m_cloudsTexture;
+	RefCountedPtr<Graphics::Texture> m_builtTexture;
+	
+	std::unique_ptr<Color[]> m_jobColorBuffers[NUM_PATCHES];
+	Job::Handle m_job[NUM_PATCHES];
+	bool m_hasJobRequest[NUM_PATCHES];
+
+	Job::Handle m_gpuJob;
+	bool m_hasGpuJobRequest;
 
 	enum EGSInitialisationStage {
 		eBuildFirstPatches=0,
