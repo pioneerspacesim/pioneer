@@ -12,13 +12,14 @@ out vec3 varyingTexCoord0;
 uniform vec3 geosphereCenter;
 uniform float geosphereRadius;
 
+uniform float time;
+
 void main(void)
 {
 	gl_Position = logarithmicTransform();
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
 	varyingNormal = vec3(uNormalMatrix * a_normal);
 	
-#if 0
 	// Animate rotating the clouds around the planet
 	float c = cos(time);
 	float s = sin(time);
@@ -27,7 +28,4 @@ void main(void)
 					vec3(s, 0, c) );
 			
 	varyingTexCoord0 = m * a_normal.xyz;
-#else
-	varyingTexCoord0 = a_normal.xyz;
-#endif
 }

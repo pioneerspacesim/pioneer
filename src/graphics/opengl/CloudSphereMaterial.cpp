@@ -7,6 +7,8 @@
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include "RendererGL.h"
+#include "Pi.h"
+#include "Game.h"
 #include <sstream>
 
 namespace Graphics {
@@ -38,6 +40,7 @@ void CloudSphereProgram::InitUniforms()
 	srad.Init("srad", m_program);
 	lrad.Init("lrad", m_program);
 	sdivlrad.Init("sdivlrad", m_program);
+	time.Init("time", m_program);
 }
 
 // CloudSphereMaterial -----------------------------------
@@ -122,6 +125,8 @@ void CloudSphereMaterial::SetGSUniforms()
 	p->srad.Set(srad);
 	p->lrad.Set(lrad);
 	p->sdivlrad.Set(sdivlrad);
+
+	p->time.Set(float(1.0 + Pi::game->GetTime() * 0.00005));
 }
 
 }
