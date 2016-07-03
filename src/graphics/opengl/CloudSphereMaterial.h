@@ -4,7 +4,7 @@
 #ifndef _OGL_CLOUDSPHERETERIAL_H
 #define _OGL_CLOUDSPHERETERIAL_H
 /*
- * Programs & Materials used by terrain
+ * Programs & Materials used by cloud sphere
  */
 #include "libs.h"
 #include "MaterialGL.h"
@@ -23,6 +23,7 @@ namespace Graphics {
 			Uniform geosphereAtmosTopRad; // in planet radii
 			Uniform geosphereCenter;
 			Uniform geosphereRadius; // (planet radius)
+			Uniform geosphereInvRadius; // 1.0 / (planet radius)
 
 			Uniform shadowCentreX;
 			Uniform shadowCentreY;
@@ -30,10 +31,6 @@ namespace Graphics {
 			Uniform srad;
 			Uniform lrad;
 			Uniform sdivlrad;
-
-			Uniform permTexture;
-			Uniform gradTexture;
-			Uniform time;
 
 		protected:
 			virtual void InitUniforms();

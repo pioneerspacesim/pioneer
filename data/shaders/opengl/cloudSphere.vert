@@ -4,11 +4,10 @@
 #include "attributes.glsl"
 #include "logz.glsl"
 #include "lib.glsl"
-#include "noise.glsl"
 
 out vec3 varyingEyepos;
 out vec3 varyingNormal;
-out vec3 v_texCoord3D;
+out vec3 varyingTexCoord0;
 
 uniform vec3 geosphereCenter;
 uniform float geosphereRadius;
@@ -19,6 +18,7 @@ void main(void)
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
 	varyingNormal = vec3(uNormalMatrix * a_normal);
 	
+#if 0
 	// Animate rotating the clouds around the planet
 	float c = cos(time);
 	float s = sin(time);
@@ -26,5 +26,8 @@ void main(void)
 					vec3(0, 1, 0),
 					vec3(s, 0, c) );
 			
-	v_texCoord3D = m * a_normal.xyz;
+	varyingTexCoord0 = m * a_normal.xyz;
+#else
+	varyingTexCoord0 = a_normal.xyz;
+#endif
 }

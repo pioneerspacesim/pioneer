@@ -7,8 +7,6 @@
 #include "StringF.h"
 #include "graphics/Graphics.h"
 #include "RendererGL.h"
-#include "Pi.h"
-#include "Game.h"
 #include <sstream>
 
 namespace Graphics {
@@ -32,6 +30,7 @@ void CloudSphereProgram::InitUniforms()
 	geosphereAtmosTopRad.Init("geosphereAtmosTopRad", m_program);
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
+	geosphereInvRadius.Init("geosphereInvRadius", m_program);
 
 	shadowCentreX.Init("shadowCentreX", m_program);
 	shadowCentreY.Init("shadowCentreY", m_program);
@@ -39,10 +38,6 @@ void CloudSphereProgram::InitUniforms()
 	srad.Init("srad", m_program);
 	lrad.Init("lrad", m_program);
 	sdivlrad.Init("sdivlrad", m_program);
-	
-	permTexture.Init("permTexture", m_program);
-	gradTexture.Init("gradTexture", m_program);
-	time.Init("time", m_program);
 }
 
 // CloudSphereMaterial -----------------------------------
@@ -88,6 +83,7 @@ void CloudSphereMaterial::SetGSUniforms()
 	p->geosphereAtmosTopRad.Set(ap.atmosRadius);
 	p->geosphereCenter.Set(ap.center);
 	p->geosphereRadius.Set(ap.planetRadius);
+	p->geosphereInvRadius.Set(1.0f / ap.planetRadius);
 
 	//Light uniform parameters
 	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
@@ -99,9 +95,7 @@ void CloudSphereMaterial::SetGSUniforms()
 	}
 
 	p->diffuse.Set(this->diffuse);
-	p->permTexture.Set(this->texture0, 0);
-	p->gradTexture.Set(this->texture1, 1);
-	p->time.Set(float(1.0 + Pi::game->GetTime() * 0.00005));
+	p->texture0.Set(this->texture0, 0);
 
 	// we handle up to three shadows at a time
 	vector3f shadowCentreX;

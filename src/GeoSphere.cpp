@@ -21,7 +21,7 @@
 #include <deque>
 #include <algorithm>
 
-#define DUMP_TO_TEXTURE true
+#define DUMP_TO_TEXTURE false
 #if DUMP_TO_TEXTURE
 #include "FileSystem.h"
 #include "PngWriter.h"
@@ -240,10 +240,14 @@ void GeoSphere::Reset()
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0),
+	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0), m_hasGpuJobRequest(false),
 	m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
+
+	for(int i=0; i<NUM_PATCHES; i++) {
+		m_hasJobRequest[i] = false;
+	}
 
 	s_allGeospheres.push_back(this);
 
@@ -390,8 +394,8 @@ bool GeoSphere::AddCPUGenResult(CloudJobs::CloudCPUGenResult *res)
 		}
 
 		// change the planet texture for the new higher resolution texture
-		if( m_surfaceMaterial.Get() ) {
-			m_surfaceMaterial->texture0 = m_cloudsTexture.Get();
+		if( m_cloudMaterial.Get() ) {
+			m_cloudMaterial->texture0 = m_cloudsTexture.Get();
 		}
 	}
 
@@ -430,8 +434,8 @@ bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
 		m_cloudsTexture->BuildMipmaps();
 
 		// change the planet texture for the new higher resolution texture
-		if( m_surfaceMaterial.Get() ) {
-			m_surfaceMaterial->texture0 = m_cloudsTexture.Get();
+		if( m_cloudMaterial.Get() ) {
+			m_cloudMaterial->texture0 = m_cloudsTexture.Get();
 		}
 	}
 
@@ -440,7 +444,7 @@ bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
 
 	return result;
 }
-
+#pragma optimize("",off)
 void GeoSphere::RequestCloudSphereTexture()
 {
 	SystemBody::AtmosphereParameters atmosphere = GetSystemBody()->CalcAtmosphereParams();
@@ -645,18 +649,17 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	
 	const float rad = m_materialParameters.atmosphere.atmosRadius * 0.99f;
 	const matrix4x4d cloudsTrans(trans * matrix4x4d::ScaleMatrix(rad, rad, rad));
-	if(bHasAtmosphere)
+	if(bHasAtmosphere && m_cloudsTexture.Valid())
 	{
 		// bunny, ball ball!
 		if( !m_cloudSphere.get() ) {
 			if(!m_cloudMaterial.Valid()) {
 				Graphics::MaterialDescriptor matDesc;
 				matDesc.effect = Graphics::EFFECT_CLOUD_SPHERE;
-				matDesc.textures = 2;
+				matDesc.textures = 1;
 				m_cloudMaterial.Reset(Pi::renderer->CreateMaterial(matDesc));
 				m_cloudMaterial->diffuse = Color4f(0.7f, 0.7f, 0.7f, 0.5f);
-				m_cloudMaterial->texture0 = Graphics::TextureBuilder::Raw("textures/permTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
-				m_cloudMaterial->texture1 = Graphics::TextureBuilder::Raw("textures/gradTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
+				m_cloudMaterial->texture0 = m_cloudsTexture.Get();
 			}
 
 			//blended
