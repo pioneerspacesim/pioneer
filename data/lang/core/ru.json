@@ -329,7 +329,7 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Маркеры далёких систем"
+      "message" : "Маркеры систем все досягаемости"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Соотн. экваториального к полярному радиусу"
+      "message" : "Соотн. экваториального радиуса к полярному"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -629,7 +629,7 @@
    },
    "JOY" : {
       "description" : "Short for Joystick",
-      "message" : "Joy"
+      "message" : "Джойстик"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
@@ -1149,7 +1149,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Начало маневра. Нажмите, чтобы сбросить настройки."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1581,7 +1581,7 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "Передний экран переключен в режим координат системы."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
