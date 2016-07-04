@@ -229,7 +229,7 @@
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Автоматическое управление положением"
+      "message" : "Автоматическое управление направлением"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -1133,19 +1133,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Скорость изменения величины Дельта-V. Нажмите на кнопку, чтобы вернуть скорость по умолчанию."
+      "message" : "Скорость изменения значений дельта-v. Нажмите, чтобы cбрость на значение по умолчанию."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Нормальная дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Прямая дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Радиальная дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
@@ -1581,11 +1581,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Передний экран переключен в режим координат системы."
+      "message" : "Направление показано в сетке координат системы."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "Направление показано в сетке планетарных координат."
    },
    "SYSTEM" : {
       "description" : "star system",
@@ -1669,7 +1669,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Вид: оборудование"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1685,7 +1685,7 @@
    },
    "TOGGLE_SCANNER_VIEW" : {
       "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+      "message" : "Вид: сканер"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
