@@ -118,7 +118,6 @@ local onCreateBB = function (station)
 
 			local flavour = string.interp(l["GOODS_TRADER_"..rand:Integer(1, num_names)-1], {name = NameGen.Surname(rand)})
 			local slogan = l["SLOGAN_"..rand:Integer(1, num_slogans)-1]
-			print("slogan", slogan)
 
 			local ad = {
 				station  = station,
