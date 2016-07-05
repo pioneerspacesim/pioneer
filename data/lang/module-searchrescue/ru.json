@@ -37,7 +37,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} и Сыновья"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
@@ -45,11 +45,11 @@
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} и Дочери"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "{name} Цветы {locality}"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
-      "message" : "{name} & {name}"
+      "message" : "{name} и {name}"
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, this is a great relief! We will transmit the money momentarily."
+      "message" : "Спасибо вам, это огромное облегчение! Мы переведем деньги сейчас же."
    },
    "FLAVOUR_1_TRANSFERMSG" : {
       "description" : "",
@@ -213,7 +213,7 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transfered the full reward."
+      "message" : "Спасибо огромное! Вознаграждение переведено в полном объеме."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "К сожалению, в наше время людям уже нельзя доверять."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -333,11 +333,11 @@
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "Меня зовут {name} из {entity}. Мы потеряли связь с нашим кораблем {ship} {shiplabel} в результате {problem}. Мы готовы заплатить {cash} за немедленную помощь."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "Последнее известное местоположение - вблизи планеты {planet} в системе {system} [{sectorx},{sectory},{sectorz}], на расстоянии {dist} св. лет отсюда."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
@@ -373,7 +373,7 @@
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Спасибо! Я уполномочен перевести оплату в полном объеме."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
@@ -533,7 +533,7 @@
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "a power failure in the engine core"
+      "message" : "сбой питания в сердечнике двигателя"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
@@ -565,7 +565,7 @@
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "неожиданная химическая реакция в одной из реакционных камер"
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
@@ -573,11 +573,11 @@
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "an infection of a crew member with a pathogen local to {locality}"
+      "message" : "инфицирование члена команды патогеном, распространенным в {locality}"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "утечка экспериментальных патогенов в систему подачи воздуха"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "unoccupied passenger cabins"
+      "message" : "свободных пассажирских кают"
    },
    "WHERE_IS_THE_TARGET" : {
       "description" : "",
