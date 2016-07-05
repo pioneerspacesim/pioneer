@@ -37,7 +37,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} и Сыновья"
+      "message" : "компания {name} и Сыновья"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
@@ -45,7 +45,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} и Дочери"
+      "message" : "компания {name} и Дочери"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
@@ -65,7 +65,7 @@
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
-      "message" : "{name} и {name}"
+      "message" : "компания {name} и {name}"
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",

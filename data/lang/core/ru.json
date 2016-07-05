@@ -329,7 +329,7 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Маркеры систем все досягаемости"
+      "message" : "Маркеры систем вне досягаемости"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
@@ -1149,7 +1149,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Начало маневра. Нажмите, чтобы сбросить настройки."
+      "message" : "Начало манёвра. Нажмите, чтобы сбросить настройки."
    },
    "PLASTICS" : {
       "description" : "",
