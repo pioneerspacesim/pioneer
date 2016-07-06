@@ -265,7 +265,7 @@ std::string FloatToStr(float val)
 	static_assert(sizeof(float) == 4, "float isn't 4bytes");
 	fu32 uval(val);
 	char str[64];
-	const int amt = sprintf(str, "%" PRIu32, uval.u);
+	//const int amt = sprintf(str, "%" PRIu32, uval.u);
 	return str;
 #endif
 }
@@ -282,7 +282,7 @@ std::string DoubleToStr(double val)
 	static_assert(sizeof(double) == 8, "double isn't 8 bytes");
 	fu64 uval(val);
 	char str[128];
-	const int amt = sprintf(str, "%" PRIu64, uval.u);
+	//const int amt = sprintf(str, "%" PRIu64, uval.u);
 	return str;
 #endif
 }
