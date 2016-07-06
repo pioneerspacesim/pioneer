@@ -1,6 +1,7 @@
 July 2016
    * Internal Changes
      * Swap LuaVector for a table (#3747)
+     * Faster float convert (#3751)
 
 June 2016
    * New Features
