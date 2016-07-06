@@ -265,7 +265,7 @@ std::string FloatToStr(float val)
 	static_assert(sizeof(float) == 4, "float isn't 4bytes");
 	fu32 uval(val);
 	char str[64];
-	const int amt = sprintf(str, "%" PRIu32, uval.u);
+	itoa(uval.u, str, 10);
 	return str;
 #endif
 }
@@ -282,7 +282,7 @@ std::string DoubleToStr(double val)
 	static_assert(sizeof(double) == 8, "double isn't 8 bytes");
 	fu64 uval(val);
 	char str[128];
-	const int amt = sprintf(str, "%" PRIu64, uval.u);
+	SDL_ulltoa(uval.u, str, 10);
 	return str;
 #endif
 }
@@ -460,8 +460,7 @@ float StrToFloat(const std::string &str)
 	// Exact representation (but not human readable).
 	static_assert(sizeof(float) == 4, "float isn't 4 bytes");
 	fu32 uval;
-	const int amt = sscanf(str.c_str(), "%" SCNu32, &uval.u);
-	assert(amt==1);
+	uval.u = atoi(str.c_str());
 	return uval.f;
 #endif
 }
@@ -476,9 +475,9 @@ double StrToDouble(const std::string &str)
 #else
 	// Exact representation (but not human readable).
 	static_assert(sizeof(double) == 8, "double isn't 8 bytes");
+	static_assert(sizeof(long long) == sizeof(uint64_t), "long long isn't equal in size to uint64_t");
 	fu64 uval;
-	const int amt = sscanf(str.c_str(), "%" SCNu64, &uval.u);
-	assert(amt==1);
+	uval.u = atoll(str.c_str());
 	return uval.d;
 #endif
 }
