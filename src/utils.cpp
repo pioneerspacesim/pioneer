@@ -265,7 +265,7 @@ std::string FloatToStr(float val)
 	static_assert(sizeof(float) == 4, "float isn't 4bytes");
 	fu32 uval(val);
 	char str[64];
-	itoa(uval.u, str, 10);
+	SDL_itoa(uval.u, str, 10);
 	return str;
 #endif
 }
@@ -293,13 +293,13 @@ void Vector3fToStr(const vector3f &val, char *out, size_t size)
 	static_assert(sizeof(vector3f) == 12, "vector3f isn't 12 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a", val.x, val.y, val.z);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu32 a(val.x);
 	fu32 b(val.y);
 	fu32 c(val.z);
 	const int amt = sprintf(out, "(%" PRIu32",%" PRIu32",%" PRIu32")", a.u, b.u, c.u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -309,13 +309,13 @@ void Vector3dToStr(const vector3d &val, char *out, size_t size)
 	static_assert(sizeof(vector3d) == 24, "vector3d isn't 24 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%la,%la,%la", val.x, val.y, val.z);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu64 a(val.x);
 	fu64 b(val.y);
 	fu64 c(val.z);
 	const int amt = sprintf(out, "(%" PRIu64",%" PRIu64",%" PRIu64")", a.u, b.u, c.u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -325,7 +325,7 @@ void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size)
 	static_assert(sizeof(matrix3x3f) == 36, "matrix3x3f isn't 36 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu32 fuvals[9];
 	for(int i=0; i<9; i++)
@@ -337,7 +337,7 @@ void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size)
 		fuvals[0].u, fuvals[1].u, fuvals[2].u, 
 		fuvals[3].u, fuvals[4].u, fuvals[5].u, 
 		fuvals[6].u, fuvals[7].u, fuvals[8].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -347,7 +347,7 @@ void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size)
 	static_assert(sizeof(matrix3x3d) == 72, "matrix3x3d isn't 72 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu64 fuvals[9];
 	for(int i=0; i<9; i++)
@@ -359,7 +359,7 @@ void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size)
 		fuvals[0].u, fuvals[1].u, fuvals[2].u, 
 		fuvals[3].u, fuvals[4].u, fuvals[5].u, 
 		fuvals[6].u, fuvals[7].u, fuvals[8].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -369,7 +369,7 @@ void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size)
 	static_assert(sizeof(matrix4x4f) == 64, "matrix4x4f isn't 64 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8], val[9], val[10], val[11], val[12], val[13], val[14], val[15]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu32 fuvals[16];
 	for(int i=0; i<16; i++)
@@ -383,7 +383,7 @@ void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size)
 		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u, 
 		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u, 
 		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
@@ -393,7 +393,7 @@ void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size)
 	static_assert(sizeof(matrix4x4d) == 128, "matrix4x4d isn't 128 bytes");
 #ifdef USE_HEX_FLOATS
 	const int amt = std::sprintf(out, "%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a,%a", val[0], val[1], val[2], val[3], val[4], val[5], val[6], val[7], val[8], val[9], val[10], val[11], val[12], val[13], val[14], val[15]);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #else
 	fu64 fuvals[16];
 	for(int i=0; i<16; i++)
@@ -407,7 +407,7 @@ void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size)
 		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u, 
 		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u, 
 		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
-	assert((size_t)amt<=size);
+	assert(static_cast<size_t>(amt)<=size);
 #endif
 }
 
