@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Меня зовут {name} из {entity}. Наш единственный корабль, {ship} {shiplabel}, дрейфует с одним членом команды после {problem}. Я готов заплатить {cash} за немедленную помощь."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -485,11 +485,11 @@
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
-      "message" : "a deadly fight among the crew members"
+      "message" : "драки между членами команды со смертельным исходом"
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "мятеж"
+      "message" : "мятежа"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
@@ -513,7 +513,7 @@
    },
    "PROBLEM_CREW_7" : {
       "description" : "",
-      "message" : "a severe form of food poisoning on the ship"
+      "message" : "тяжелой формы пищевого отравления на корабле"
    },
    "PROBLEM_CREW_8" : {
       "description" : "",
@@ -521,11 +521,11 @@
    },
    "PROBLEM_CREW_9" : {
       "description" : "",
-      "message" : "a circumstance that I can't comment on publicly"
+      "message" : "обстоятельств, которые я не могу озвучить публично"
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "пожар в грузовом отсеке"
+      "message" : "пожара в грузовом отсеке"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
@@ -533,27 +533,27 @@
    },
    "PROBLEM_GENERAL_2" : {
       "description" : "",
-      "message" : "сбой питания в сердечнике двигателя"
+      "message" : "сбоя питания в сердечнике двигателя"
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "утечка воздуха"
+      "message" : "утечки воздуха"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
-      "message" : "a severe form of food poisoning involving all personnel on board the ship"
+      "message" : "тяжелой формы пищевого отравления, затронувшей весь персонал на борту корабля"
    },
    "PROBLEM_GENERAL_5" : {
       "description" : "",
-      "message" : "попадание микрометеорита"
+      "message" : "попадания микрометеорита"
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "драка между членами команды"
+      "message" : "драки между членами команды"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "встреча с неопознанным летающим объектом"
+      "message" : "встречи с неопознанным летающим объектом"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
@@ -561,11 +561,11 @@
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "перезагрузка главного компьютера"
+      "message" : "перезагрузки главного компьютера"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "неожиданная химическая реакция в одной из реакционных камер"
+      "message" : "неожиданной химической реакции в одной из реакционных камер"
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
@@ -573,11 +573,11 @@
    },
    "PROBLEM_RESEARCH_2" : {
       "description" : "",
-      "message" : "инфицирование члена команды патогеном, распространенным в {locality}"
+      "message" : "инфицирования члена команды патогеном, распространенным в {locality}"
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "утечка экспериментальных патогенов в систему подачи воздуха"
+      "message" : "утечки экспериментальных патогенов в систему подачи воздуха"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
@@ -585,19 +585,19 @@
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
-      "message" : "a chemical explosion in one of the on-board fume hoods"
+      "message" : "химического взрыва в одном из вытяжных шкафов"
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
-      "message" : "an experimental recreation of {locality} atmospheric gases"
+      "message" : "эксперимента во воссозданию атмосферных газов {locality}"
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "жаркий спор между учеными на борту корабля"
+      "message" : "жаркого спора между учеными на борту корабля"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",
-      "message" : "the sudden disappearance of a lead investigator on board the ship"
+      "message" : "внезапного исчезновения ведущего исследователя на борту корабля"
    },
    "PROBLEM_RESEARCH_9" : {
       "description" : "",
