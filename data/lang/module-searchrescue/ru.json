@@ -169,11 +169,11 @@
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full reimbursement of expenses you have to be back by {due}."
+      "message" : "Для полного возмещения затрат, вы должны вернуться до {due}."
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "Служба управления воздушным движением космопорта {starport} просит вашей НЕЗАМЕДЛИТЕЛЬНОЙ помощи в связи с аварийной посадкой корабля межзвездного класса {ship} на {planet}. Состояние систем жизнеобеспечения корабля неизвестно. Корабль застрахован в космопорте {starport} на сумму {cash} для выплаты возмещения сторонним лицам при реагировании на чрезвычайные ситуации."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "Сообщается, что на борту корабля находятся {crew} членов команды и {pass} пассажиров. Мы ищем того, кто сможет найти корабль, подобрать выживших и доставить их сюда как можно скорее."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -201,15 +201,15 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "Для получения выплаты в полном объеме, у вас было запрошено доставить топливо до {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "Служба управления воздушным движением космопорта {starport} только что получила уведомлением, что у входящего рейса {shiplabel} закончилось топливо и он совершил вынужденную посадку. Пилот готов заплатить {cash} за услуги по дозаправке."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "В настоящее время корабль ожидает в координатах шир. {lat} / дол. {long} на планете {planet}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -233,11 +233,11 @@
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Пилот на замену должен достичь корабля до {due}."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Я {name} из службы управления воздушным движением космопорта {starport}. Запрашиваю медицинскую помощь для пилота рейса {shiplabel}, направляющегося в {starport}."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Привезите пилота на замену из {starport} на корабль, для того, чтобы корабль мог вернуться в {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -265,15 +265,15 @@
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Для оплаты в полном объеме, пилот ожидает,  что вы доставите топливо до {due}."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Со службой управления воздушным движением космопорта {starport} вышел на связь пилот рейса {shiplabel}. Они оказались в затруднительном положении с пустыми топливными баками и обещали заплатить {cash} любому, что сможет заправить их корабль."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Корабль в затруднительном положении на {planet} в координатах {lat} / {long}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -301,11 +301,11 @@
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "Служба управления воздушным движением космопорта {starport} определила, что звездолет ID {shiplabel} дрейфует без топлива в опасной близости от косморта. Мы готовы заплатить {cash} любому, кто сможет заправить корабль, чтобы он смог покинуть окрестности космопорта {starport}."
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "В настоящее время целевой корабль дрейфует в пределах {dist} км. отсюда. Вы должны определить его точное местоположение самостоятельно."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
@@ -349,7 +349,7 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Мне нужен кто-нибудь готовый к отправке немедленно, чтобы вернуть наших коллег в {starport} - если они еще живы. На борту корабля было {crew} членов команды и {pass} пассажиров."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
@@ -581,7 +581,7 @@
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
-      "message" : "crew exposure to a specimen collected at {locality}"
+      "message" : "взаимодействия команды с образцом, взятым в {locality}"
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
