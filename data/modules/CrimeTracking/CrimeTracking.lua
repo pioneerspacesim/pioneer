@@ -105,6 +105,10 @@ local onLeaveSystem = function(ship)
 	if not ship:IsPlayer() then return end
 	-- if we leave the system, the space station object will be invalid
 	policeDispatched = nil
+
+	if not ship:IsHyperjumpAllowed() then
+		Legal:notifyOfCrime(ship,"ILLEGAL_JUMP")
+	end
 end
 
 
@@ -120,5 +124,6 @@ Event.Register("onJettison", onJettison)
 Event.Register("onGameStart", onGameStart)
 Event.Register("onGameEnd", onGameEnd)
 Event.Register("onLeaveSystem", onLeaveSystem)
+
 
 Serializer:Register("CrimeTracking", serialize, unserialize)
