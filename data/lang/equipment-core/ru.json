@@ -1,7 +1,7 @@
 {
    "ADVANCED_RADAR_MAPPER" : {
       "description" : "",
-      "message" : "Расширенный радарный топограф"
+      "message" : "Улучшенный радарный топограф"
    },
    "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
       "description" : "",
@@ -137,7 +137,7 @@
    },
    "LASER_COOLING_BOOSTER" : {
       "description" : "",
-      "message" : "Доп.орудийный охладитель"
+      "message" : "Доп. орудийный охладитель"
    },
    "LASER_COOLING_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -181,7 +181,7 @@
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Сканер Небесных Тел"
+      "message" : "Сканер небесных тел"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
