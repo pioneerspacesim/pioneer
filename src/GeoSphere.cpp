@@ -240,7 +240,7 @@ void GeoSphere::Reset()
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0), m_hasGpuJobRequest(false),
+	mCloudProcessDelay(-1), m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0), m_hasGpuJobRequest(false),
 	m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
@@ -346,14 +346,55 @@ bool GeoSphere::AddCPUGenResult(CloudJobs::CloudCPUGenResult *res)
 {
 	bool result = false;
 	assert(res);
+	if(res) {
+		mCPUCloudResults.push_back(res);
+		mCloudProcessDelay = 30;
+		result = true;
+	}
+	return result;
+}
+
+bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
+{
+	bool result = false;
+	assert(res);
+	if(res) {
+		mGPUCloudResults.push_back(res);
+		mCloudProcessDelay = 30;
+		result = true;
+	}
+	return result;
+}
+
+bool GeoSphere::ProcessCloudResults()
+{
+	if (mCloudProcessDelay>0) {
+		--mCloudProcessDelay;
+		return false;
+	} else if (mCloudProcessDelay==0) {
+		mCloudProcessDelay = -1;
+		ProcessCPUCloudResults();
+		ProcessGPUCloudResults();
+		return true;
+	}
+	assert(false && "how did it get here?");
+	return false;
+}
+
+bool GeoSphere::ProcessCPUCloudResults()
+{
+	if (mCPUCloudResults.empty())
+		return false;
+
+	std::unique_ptr<CloudJobs::CloudCPUGenResult> res(mCPUCloudResults[0]);
+	mCPUCloudResults.pop_front();
+	bool result = false;
+	assert(res);
 	assert(res->face() >= 0 && res->face() < NUM_PATCHES);
 	m_jobColorBuffers[res->face()].reset( res->data().colors );
 	m_hasJobRequest[res->face()] = false;
 	const Sint32 uvDims = res->data().uvDims;
 	assert( uvDims > 0 && uvDims <= 4096 );
-
-	// tidyup
-	delete res;
 
 	bool bCreateTexture = true;
 	for(int i=0; i<NUM_PATCHES; i++) {
@@ -397,13 +438,20 @@ bool GeoSphere::AddCPUGenResult(CloudJobs::CloudCPUGenResult *res)
 		if( m_cloudMaterial.Get() ) {
 			m_cloudMaterial->texture0 = m_cloudsTexture.Get();
 		}
+
+		result = true;
 	}
 
 	return result;
 }
 
-bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
+bool GeoSphere::ProcessGPUCloudResults()
 {
+	if (mGPUCloudResults.empty())
+		return false;
+
+	std::unique_ptr<CloudJobs::CloudGPUGenResult> res(mGPUCloudResults[0]);
+	mGPUCloudResults.pop_front();
 	bool result = false;
 	assert(res);
 	m_hasGpuJobRequest = false;
@@ -438,10 +486,9 @@ bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
 		if( m_cloudMaterial.Get() ) {
 			m_cloudMaterial->texture0 = m_cloudsTexture.Get();
 		}
-	}
 
-	// tidyup
-	delete res;
+		result = true;
+	}
 
 	return result;
 }
@@ -552,6 +599,7 @@ void GeoSphere::Update()
 	case eRequestedFirstPatches:
 		{
 			ProcessSplitResults();
+			ProcessCloudResults();
 			uint8_t numValidPatches = 0;
 			for (int i=0; i<NUM_PATCHES; i++) {
 				if(m_patches[i]->HasHeightData()) {
@@ -570,6 +618,7 @@ void GeoSphere::Update()
 	case eDefaultUpdateState:
 		if(m_hasTempCampos) {
 			ProcessSplitResults();
+			ProcessCloudResults();
 			for (int i=0; i<NUM_PATCHES; i++) {
 				m_patches[i]->LODUpdate(m_tempCampos, m_tempFrustum);
 			}

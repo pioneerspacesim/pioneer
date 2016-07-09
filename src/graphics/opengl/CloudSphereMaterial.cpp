@@ -44,6 +44,13 @@ void CloudSphereProgram::InitUniforms()
 }
 
 // CloudSphereMaterial -----------------------------------
+CloudSphereMaterial::CloudSphereMaterial() : m_curNumShadows(0), m_curNumLights(0)
+{
+	for(int j=0;j<5;j++)
+		for(int i=0;i<4;i++)
+			m_programs[i][j] = nullptr;
+}
+
 Program *CloudSphereMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
 	assert(desc.effect == EFFECT_CLOUD_SPHERE);
@@ -62,11 +69,21 @@ Program *CloudSphereMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define ATMOSPHERE\n";
 	if (desc.quality & HAS_ECLIPSES)
 		ss << "#define ECLIPSE\n";
+	
+	ss << stringf("#define NUM_SHADOWS %0{u}\n", m_curNumShadows);
+
 	return new Graphics::OGL::CloudSphereProgram("cloudSphere", ss.str());
+}
+
+void CloudSphereMaterial::SetProgram(Program *p)
+{
+	m_programs[m_curNumShadows][m_curNumLights] = p;
+	m_program = p;
 }
 
 void CloudSphereMaterial::Apply()
 {
+	SwitchShadowAndLightingVariant();
 	SetGSUniforms();
 }
 
@@ -127,6 +144,24 @@ void CloudSphereMaterial::SetGSUniforms()
 	p->sdivlrad.Set(sdivlrad);
 
 	p->time.Set(float(1.0 + Pi::game->GetTime() * 0.00005));
+}
+
+void CloudSphereMaterial::SwitchShadowAndLightingVariant()
+{
+	const Uint32 numLights = Clamp(m_renderer->GetNumLights(), 0U, 4U);
+	const GeoSphere::MaterialParameters params = *static_cast<GeoSphere::MaterialParameters*>(this->specialParameter0);
+	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
+	//request a new shadow & lighting variation
+	if (m_curNumShadows != params.shadows.size() || m_curNumLights != numLights) {
+		m_curNumShadows = std::min(Uint32(params.shadows.size()), 4U);
+		m_curNumLights = numLights;
+		if (m_programs[m_curNumShadows][numLights] == nullptr) {
+			m_descriptor.numShadows = m_curNumShadows; //hax - so that GetOrCreateProgram will create a NEW shader instead of reusing the existing one
+			m_descriptor.dirLights = numLights;
+			m_programs[m_curNumShadows][numLights] = m_renderer->GetOrCreateProgram(this);
+		}
+		m_program = m_programs[m_curNumShadows][numLights];
+	}
 }
 
 }

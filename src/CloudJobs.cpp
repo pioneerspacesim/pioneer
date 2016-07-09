@@ -427,6 +427,7 @@ namespace CloudJobs
 			GPUCloudSphereContext::SetRenderTargetCubemap(iFace, nullptr);
 		}
 		GPUCloudSphereContext::EndRenderTarget();
+		Pi::renderer->SwapBuffers();
 
 		// leave ortho?
 		{

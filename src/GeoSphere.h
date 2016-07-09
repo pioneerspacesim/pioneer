@@ -85,9 +85,13 @@ private:
 		return m_terrain->GetColor(p, height, norm);
 	}
 	void ProcessQuadSplitRequests();
+
 	bool AddCPUGenResult(CloudJobs::CloudCPUGenResult *res);
 	bool AddGPUGenResult(CloudJobs::CloudGPUGenResult *res);
 	void RequestCloudSphereTexture();
+	bool ProcessCloudResults();
+	bool ProcessCPUCloudResults();
+	bool ProcessGPUCloudResults();
 
 	std::unique_ptr<GeoPatch> m_patches[NUM_PATCHES];
 	struct TDistanceRequest {
@@ -102,6 +106,9 @@ private:
 	static const uint32_t MAX_SPLIT_OPERATIONS = 128;
 	std::deque<SQuadSplitResult*> mQuadSplitResults;
 	std::deque<SSingleSplitResult*> mSingleSplitResults;
+	std::deque<CloudJobs::CloudCPUGenResult*> mCPUCloudResults;
+	std::deque<CloudJobs::CloudGPUGenResult*> mGPUCloudResults;
+	Sint32 mCloudProcessDelay;
 
 	bool m_hasTempCampos;
 	vector3d m_tempCampos;

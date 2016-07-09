@@ -35,15 +35,24 @@ namespace Graphics {
 			Uniform time;
 
 		protected:
-			virtual void InitUniforms();
+			virtual void InitUniforms() override final;
 		};
 
 		class CloudSphereMaterial : public Material {
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
+		public:
+			CloudSphereMaterial();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
+			virtual void SetProgram(Program *p) override final;
+			virtual void Apply() override final;
 
 		protected:
 			void SetGSUniforms();
+			// We actually have multiple programs at work here, one compiled for each of the number of shadows.
+			// They are chosen/created based on what the current parameters passed in by the specialParameter0 are.
+			void SwitchShadowAndLightingVariant();
+			Program* m_programs[4][5];	// 0 to 3 shadows, 0 to 4 lights
+			Uint32 m_curNumShadows;
+			Uint32 m_curNumLights;
 		};
 	}
 }

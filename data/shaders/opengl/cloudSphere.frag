@@ -65,6 +65,7 @@ void main(void)
 	
 	vec4 texColor = texture(texture0, varyingTexCoord0);
 
+	float amb = texColor.g;
 	frag_color =
 		material.emission +
 		fogFactor *
@@ -75,7 +76,7 @@ void main(void)
 		  (pow((1.0-pow(fogFactor,0.75)),256.0)*0.4*diff*atmosColor)*sunset;  //distant fog.
 	
 	// The alpha channel is a decoy! Use the red to determine alpha.
-	frag_color.a = texColor.r;
+	frag_color.a = amb;
 	
 	SetFragDepth();
 }

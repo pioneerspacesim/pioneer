@@ -18,7 +18,7 @@ void main(void)
 {
 	gl_Position = logarithmicTransform();
 	varyingEyepos = vec3(uViewMatrix * a_vertex);
-	varyingNormal = vec3(uNormalMatrix * a_normal);
+	varyingNormal = normalize(uNormalMatrix * a_normal);
 	
 	// Animate rotating the clouds around the planet
 	float c = cos(time);

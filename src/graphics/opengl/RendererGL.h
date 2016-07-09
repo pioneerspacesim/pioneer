@@ -24,6 +24,7 @@ class Texture;
 struct Settings;
 
 namespace OGL {
+	class CloudSphereMaterial;
 	class GasGiantSurfaceMaterial;
 	class GeoSphereSkyMaterial;
 	class GeoSphereStarMaterial;
@@ -142,6 +143,7 @@ protected:
 
 	OGL::Program* GetOrCreateProgram(OGL::Material*);
 	friend class OGL::Material;
+	friend class OGL::CloudSphereMaterial;
 	friend class OGL::GasGiantSurfaceMaterial;
 	friend class OGL::GeoSphereSurfaceMaterial;
 	friend class OGL::GeoSphereSkyMaterial;
