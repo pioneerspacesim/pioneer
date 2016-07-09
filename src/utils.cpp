@@ -159,7 +159,7 @@ std::string format_distance(double dist, int precision)
 		ss << dist << " m";
 	}
 	else {
-		const float LY = 9.4607e15;
+		const float LY = 9.4607e15f;
 		ss.precision(precision);
 
 		if (dist < 1e6)
@@ -460,7 +460,8 @@ float StrToFloat(const std::string &str)
 	// Exact representation (but not human readable).
 	static_assert(sizeof(float) == 4, "float isn't 4 bytes");
 	fu32 uval;
-	uval.u = atoi(str.c_str());
+	const int amt = sscanf(str.c_str(), "%" SCNu32, &uval.u);
+	assert(amt==1);
 	return uval.f;
 #endif
 }
@@ -477,7 +478,8 @@ double StrToDouble(const std::string &str)
 	static_assert(sizeof(double) == 8, "double isn't 8 bytes");
 	static_assert(sizeof(long long) == sizeof(uint64_t), "long long isn't equal in size to uint64_t");
 	fu64 uval;
-	uval.u = atoll(str.c_str());
+	const int amt = sscanf(str.c_str(), "%" SCNu64, &uval.u);
+	assert(amt==1);
 	return uval.d;
 #endif
 }
