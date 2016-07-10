@@ -6,7 +6,8 @@
 -- - All station/planet location references in ad/mission are stored as paths for consistency because
 --   some can't be accessed as bodies until the player enters the respective system and getting a path from
 --   systembody needs to go through body. Variable "location" is a SystemsBody.
-
+-- - Any cargo commodity that needs to be delivered/picked up needs to be intered into "verifyCommodity" function.
+--   Some users have issues with commodities not beeing recognized otherwise. 
 
 -- TODO:
 -- - add degToDegMinSec function to src/LuaFormat.cpp
@@ -292,6 +293,15 @@ end
 -- basic mission functions
 -- =======================
 
+local verifyCommodity = function (item)
+   -- Reloads the actual cargo equipment as object. Somehow that can get lost in some
+   -- setups and for some users. All commodities used for any mission flavor have to
+   -- be accounted for here.
+   if item.l10n_key == 'HYDROGEN' then
+      return Equipment.cargo.hydrogen
+   end
+end
+
 local triggerAdCreation = function ()
    -- Return if ad should be created based on lawlessness and min/max frequency values.
    -- Ad number per system is based on how many stations a system has so a player will
@@ -419,7 +429,8 @@ end
 
 local cargoPresent = function (ship, item)
    -- Check if this cargo item is present on the ship.
-   if ship:CountEquip(item) > 0 then
+   cargotype = verifyCommodity(item)  -- necessary for some users
+   if ship:CountEquip(cargotype) > 0 then
       return true
    else
       return false
@@ -474,13 +485,15 @@ end
 local addCargo = function (ship, item)
    -- Add a ton of the supplied cargo item to the ship.
    if not cargoSpace(ship) then return end
-   ship:AddEquip(item, 1)
+   cargotype = verifyCommodity(item)  -- necessary for some users
+   ship:AddEquip(cargotype, 1)
 end
 
 local removeCargo = function (ship, item)
    -- Remove a ton of the supplied cargo item from the ship.
    if not cargoPresent(ship, item) then return end
-   ship:RemoveEquip(item, 1)
+   cargotype = verifyCommodity(item)  -- necessary for some users
+   ship:RemoveEquip(cargotype, 1)
 end
 
 local passEquipmentRequirements = function (requirements)
