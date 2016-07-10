@@ -253,9 +253,9 @@ namespace CloudJobs
 
 				// convert to ubyte and store
 				Color* col = colors + (u + (v * xyDims));
-				col[0].r = Uint8(texColor.x * 255.0);
-				col[0].g = Uint8(texColor.y * 255.0);
-				col[0].b = Uint8(texColor.z * 255.0);
+				col[0].r = Uint8(Clamp(texColor.x * 255.0, 0.0, 255.0));
+				col[0].g = Uint8(Clamp(texColor.y * 255.0, 0.0, 255.0));
+				col[0].b = Uint8(Clamp(texColor.z * 255.0, 0.0, 255.0));
 				col[0].a = 255;
 			}
 		}
