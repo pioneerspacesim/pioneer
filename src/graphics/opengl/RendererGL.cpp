@@ -283,6 +283,7 @@ bool RendererOGL::BeginFrame()
 
 bool RendererOGL::EndFrame()
 {
+	glFlush();
 	return true;
 }
 
