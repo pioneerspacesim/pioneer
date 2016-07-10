@@ -348,7 +348,8 @@ bool GeoSphere::AddCPUGenResult(CloudJobs::CloudCPUGenResult *res)
 	assert(res);
 	if(res) {
 		mCPUCloudResults.push_back(res);
-		mCloudProcessDelay = 30;
+		if(mCPUCloudResults.size() == NUM_PATCHES)
+			mCloudProcessDelay = 30;
 		result = true;
 	}
 	return result;
@@ -368,7 +369,9 @@ bool GeoSphere::AddGPUGenResult(CloudJobs::CloudGPUGenResult *res)
 
 bool GeoSphere::ProcessCloudResults()
 {
-	if (mCloudProcessDelay>0) {
+	if (mCloudProcessDelay<0) {
+		return false;
+	} else if (mCloudProcessDelay>0) {
 		--mCloudProcessDelay;
 		return false;
 	} else if (mCloudProcessDelay==0) {
@@ -385,20 +388,22 @@ bool GeoSphere::ProcessCPUCloudResults()
 {
 	if (mCPUCloudResults.empty())
 		return false;
-
-	std::unique_ptr<CloudJobs::CloudCPUGenResult> res(mCPUCloudResults[0]);
-	mCPUCloudResults.pop_front();
+	
 	bool result = false;
-	assert(res);
-	assert(res->face() >= 0 && res->face() < NUM_PATCHES);
-	m_jobColorBuffers[res->face()].reset( res->data().colors );
-	m_hasJobRequest[res->face()] = false;
-	const Sint32 uvDims = res->data().uvDims;
-	assert( uvDims > 0 && uvDims <= 4096 );
 
 	bool bCreateTexture = true;
+	Sint32 uvDims = -1;
 	for(int i=0; i<NUM_PATCHES; i++) {
-		bCreateTexture = bCreateTexture & (!m_hasJobRequest[i]);
+		
+		std::unique_ptr<CloudJobs::CloudCPUGenResult> res(mCPUCloudResults[i]);
+		assert(res);
+		assert(res->face() >= 0 && res->face() < NUM_PATCHES);
+		m_jobColorBuffers[res->face()].reset( res->data().colors );
+		m_hasJobRequest[res->face()] = false;
+		uvDims = res->data().uvDims;
+		assert( uvDims > 0 && uvDims <= 4096 );
+
+		bCreateTexture = bCreateTexture & (m_jobColorBuffers[res->face()] != nullptr);
 	}
 
 	if( bCreateTexture ) {
@@ -441,6 +446,7 @@ bool GeoSphere::ProcessCPUCloudResults()
 
 		result = true;
 	}
+	mCPUCloudResults.clear();
 
 	return result;
 }
@@ -495,7 +501,11 @@ bool GeoSphere::ProcessGPUCloudResults()
 
 void GeoSphere::RequestCloudSphereTexture()
 {
-	SystemBody::AtmosphereParameters atmosphere = GetSystemBody()->CalcAtmosphereParams();
+	const SystemBody *pSysBody = GetSystemBody();
+	if(pSysBody==nullptr || SystemBody::SUPERTYPE_ROCKY_PLANET != pSysBody->GetSuperType())
+		return;
+
+	SystemBody::AtmosphereParameters atmosphere = pSysBody->CalcAtmosphereParams();
 	if (m_materialParameters.atmosphere.atmosDensity <= 0.0) {
 		// no atmosphere, so no clouds
 		return;
@@ -515,7 +525,7 @@ void GeoSphere::RequestCloudSphereTexture()
 		{
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
-			CloudJobs::CloudCPUGenRequest *ccgr = new CloudJobs::CloudCPUGenRequest(GetSystemBody()->GetPath(), i, GeoSphere::OnAddCPUGenResult);
+			CloudJobs::CloudCPUGenRequest *ccgr = new CloudJobs::CloudCPUGenRequest(pSysBody->GetPath(), i, GeoSphere::OnAddCPUGenResult);
 			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new CloudJobs::CPUCloudSphereJob(ccgr));
 			m_hasJobRequest[i] = true;
 		}
@@ -535,7 +545,7 @@ void GeoSphere::RequestCloudSphereTexture()
 			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_builtTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 
-		CloudJobs::CloudGPUGenRequest *pGPUReq = new CloudJobs::CloudGPUGenRequest(GetSystemBody()->GetPath(), GetSystemBody()->GetRadius(), m_builtTexture.Get(), GeoSphere::OnAddGPUGenResult);
+		CloudJobs::CloudGPUGenRequest *pGPUReq = new CloudJobs::CloudGPUGenRequest(pSysBody->GetPath(), pSysBody->GetRadius(), m_builtTexture.Get(), GeoSphere::OnAddGPUGenResult);
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new CloudJobs::GPUCloudSphereJob(pGPUReq));
 		m_hasGpuJobRequest = true;
 	}
@@ -571,8 +581,6 @@ void GeoSphere::BuildFirstPatches()
 	for (int i=0; i<NUM_PATCHES; i++) {
 		m_patches[i]->RequestSinglePatch();
 	}
-
-	RequestCloudSphereTexture();
 
 	m_initStage = eRequestedFirstPatches;
 }
@@ -694,6 +702,9 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 		
 		bHasAtmosphere = (m_materialParameters.atmosphere.atmosDensity > 0.0);
 		if (bHasAtmosphere) {
+			if(!m_atmosphereMaterial->specialParameter0) 
+				RequestCloudSphereTexture();
+
 			m_atmosphereMaterial->specialParameter0 = &m_materialParameters;
 
 			// make atmosphere sphere slightly bigger than required so
