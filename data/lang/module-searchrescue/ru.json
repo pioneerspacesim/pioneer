@@ -5,7 +5,7 @@
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} взошел на борт корабля."
+      "message" : "{name} уже на борту корабля."
    },
    "COMMODITIES" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{unit} покинул корабль."
+      "message" : "{name} покидает корабль."
    },
    "DELIVERY" : {
       "description" : "",
