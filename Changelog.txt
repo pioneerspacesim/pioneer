@@ -1,4 +1,7 @@
 July 2016
+   * Fixes
+     * SAR: fix fuel transfer (#3755)
+
    * Internal Changes
      * Swap LuaVector for a table (#3747)
      * Faster float convert (#3751)
