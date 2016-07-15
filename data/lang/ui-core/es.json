@@ -1097,7 +1097,7 @@
    },
    "TOO_SMALL_TO_TRANSSHIP" : {
       "description" : "",
-      "message" : "Ship is too small to transship your cargo."
+      "message" : "La nave es demasiado pequeña para transbordar su carga."
    },
    "TOTAL" : {
       "description" : "",
