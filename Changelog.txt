@@ -1,6 +1,7 @@
 July 2016
    * Fixes
      * SAR: fix fuel transfer (#3755)
+     * SAR: fix wrong distance (#3650)
 
    * Internal Changes
      * Swap LuaVector for a table (#3747)
