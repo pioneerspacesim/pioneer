@@ -697,7 +697,7 @@ local onChat = function (form, ref, option)
       if ad.flavour.loctype == "CLOSE_PLANET" or ad.flavour.loctype == "CLOSE_SPACE" then
 	 dist = string.format("%.0f", ad.dist/1000)
       else
-	 dist = string.format("%.2f", ad.dist/1000)
+	 dist = string.format("%.2f", ad.dist)
       end
       
       local locationtext = string.interp(ad.flavour.locationtext, {
@@ -1922,7 +1922,7 @@ local onClick = function (mission)
       if au > 0.01 then
 	 dist_for_text = string.format("%.2f", au).." "..l.AU
       else
-	 dist_for_text = string.format("%.0f", mission.dist).." "..l.KM
+	 dist_for_text = string.format("%.0f", mission.dist/1000).." "..l.KM
       end
    else
       dist_for_text = dist.." "..l.LY
