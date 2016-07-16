@@ -585,7 +585,7 @@
    },
    "WRONG_SYSTEM" : {
       "description" : "Shown if system name is right, but coordinates are wrong",
-      "message" : "The system name is right, but not the coordinates."
+      "message" : "Numele sistemului este corect, dar nu și coordonatele."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
