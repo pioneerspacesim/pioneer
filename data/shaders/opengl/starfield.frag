@@ -5,11 +5,13 @@
 #include "logz.glsl"
 #include "lib.glsl"
 
-in vec4 color;
+uniform sampler2D texture0;
+uniform Material material;
 
 out vec4 frag_color;
 
 void main(void)
 {
-	frag_color = color;
+	frag_color = texture(texture0, gl_PointCoord) * material.emission;
 }
+
