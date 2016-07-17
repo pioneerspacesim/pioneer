@@ -64,7 +64,7 @@ namespace Background
 		#define BG_STAR_MAX 100000
 		#define BG_STAR_MIN 1000
 		std::unique_ptr<Graphics::Drawables::PointSprites> m_pointSprites;
-		std::unique_ptr<Graphics::RenderState> m_renderState;
+		Graphics::RenderState* m_renderState; // NB: we don't own RenderState pointers, just borrow them
 
 		//hyperspace animation vertex data
 		vector3f m_hyperVtx[BG_STAR_MAX*3];

@@ -224,7 +224,6 @@ void Starfield::Fill(Random &rand)
 	m_pointSprites.reset( new Graphics::Drawables::PointSprites );
 
 	assert(sizeof(StarVert) == 16);
-	assert(m_vertexBuffer->GetDesc().stride == sizeof(StarVert));
 	std::unique_ptr<vector3f[]> stars( new vector3f[NUM_BG_STARS] );
 	std::unique_ptr<float[]> sizes( new float[NUM_BG_STARS] );
 	//fill the array
@@ -249,14 +248,14 @@ void Starfield::Fill(Random &rand)
 	rsd.depthTest  = false;
 	rsd.depthWrite = false;
 	rsd.blendMode = Graphics::BLEND_ALPHA;
-	m_renderState.reset(m_renderer->CreateRenderState(rsd));
+	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
 void Starfield::Draw(Graphics::RenderState *rs)
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_pointSprites->Draw(m_renderer, m_renderState.get());
+		m_pointSprites->Draw(m_renderer, m_renderState);
 	} else {
 		assert(sizeof(StarVert) == 16);
 		assert(m_animBuffer->GetDesc().stride == sizeof(StarVert));
