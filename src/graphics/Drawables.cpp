@@ -304,10 +304,9 @@ void Lines::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 //------------------------------------------------------------
 PointSprites::PointSprites() : m_refreshVertexBuffer(true)
 {
-	PROFILE_SCOPED()
 }
 
-void PointSprites::SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const float size)
+void PointSprites::SetData(const int count, const vector3f *positions, const float *sizes, Graphics::Material *pMaterial)
 {
 	PROFILE_SCOPED()
 	if (count < 1 ) 
@@ -315,63 +314,42 @@ void PointSprites::SetData(const int count, const vector3f *positions, const mat
 
 	assert(positions);
 
-	m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_UV0, count * 6) );
-
-	matrix4x4f rot(trans);
-	rot.ClearToRotOnly();
-	rot = rot.Inverse();
-
-	const float sz = 0.5f * size;
-	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
-	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
-	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
-	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
-
-	//do two-triangle quads. Could also do indexed surfaces.
-	//PiGL renderer should use actual point sprites
-	//(see history of Render.cpp for point code remnants)
+	m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL, count) );
+	
 	for (int i=0; i<count; i++) {
-		const vector3f &pos = positions[i];
-
-		m_va->Add(pos+rotv4, vector2f(0.f, 0.f)); //top left
-		m_va->Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
-		m_va->Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
-
-		m_va->Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
-		m_va->Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
-		m_va->Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
+		vector3f vSize(sizes[i]);
+		m_va->Add(positions[i], vSize);
 	}
 
 	m_refreshVertexBuffer = true;
+	m_material.Reset(pMaterial);
 }
 
-void PointSprites::Draw(Renderer *r, RenderState *rs, Material *mat)
+void PointSprites::Draw(Renderer *r, RenderState *rs)
 {
 	PROFILE_SCOPED()
 	if (m_va->GetNumVerts() == 0)
 		return;
 
-	if (!m_vertexBuffer.Valid() || (m_va->GetNumVerts() != m_vertexBuffer->GetVertexCount())) {
-		CreateVertexBuffer(r, mat, m_va->GetNumVerts());
+	if (!m_vertexBuffer.Valid() || !m_material.Valid()) {
+		CreateVertexBuffer(r, m_va->GetNumVerts());
 	}
 	if( m_refreshVertexBuffer ) {
 		m_refreshVertexBuffer = false;
 		m_vertexBuffer->Populate( *m_va );
 	}
-
-	// XXX would be nicer to draw this as a textured triangle strip
-	r->DrawBuffer(m_vertexBuffer.Get(), rs, mat, Graphics::TRIANGLES);
+	r->DrawBuffer(m_vertexBuffer.Get(), rs, m_material.Get(), Graphics::POINTS);
 }
 
-void PointSprites::CreateVertexBuffer(Graphics::Renderer *r, Material *mat, const Uint32 size)
+void PointSprites::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 {
 	PROFILE_SCOPED()
 	Graphics::VertexBufferDesc vbd;
 	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
 	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic = Graphics::ATTRIB_UV0;
-	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT2;
-	vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;
+	vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 	vbd.numVertices = size;
 	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
 }
