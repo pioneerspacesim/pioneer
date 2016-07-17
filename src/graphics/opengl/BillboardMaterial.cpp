@@ -44,11 +44,13 @@ void BillboardMaterial::Apply()
 
 	assert(this->texture0);
 	p->texture0.Set(this->texture0, 0);
-	if(this->specialParameter0) {
-		const float coordDownScale = *static_cast<float*>(this->specialParameter0);
-		p->coordDownScale.Set(coordDownScale);
-	} else {
-		p->coordDownScale.Set(0.5f);
+	if (p->coordDownScale.IsValid()) {
+		if(this->specialParameter0) {
+			const float coordDownScale = *static_cast<float*>(this->specialParameter0);
+			p->coordDownScale.Set(coordDownScale);
+		} else {
+			p->coordDownScale.Set(0.5f);
+		}
 	}
 }
 
