@@ -396,10 +396,10 @@ void Container::Draw(const matrix4x4d &transform)
 	PROFILE_SCOPED()
 	m_renderer->SetTransform(transform);
 	if( DRAW_SKYBOX & m_drawFlags ) {
-		//m_universeBox.Draw(m_renderState);
+		m_universeBox.Draw(m_renderState);
 	}
 	if( DRAW_MILKY & m_drawFlags ) {
-		//m_milkyWay.Draw(m_renderState);
+		m_milkyWay.Draw(m_renderState);
 	}
 	if( DRAW_STARS & m_drawFlags ) {
 		// squeeze the starfield a bit to get more density near horizon
