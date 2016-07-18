@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string>pioneer-logo.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>net.pioneerspacesim.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
