@@ -25,9 +25,9 @@
 		37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
 		37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
-		37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; };
-		37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
-		37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; };
+		37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563511B19769A0039F2BC /* OpenGL.framework */; };
 		3785635D1B197CF90039F2BC /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
 		3785635F1B197CF90039F2BC /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
@@ -96,9 +96,9 @@
 		3785644D1B197EB60039F2BC /* Profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564471B197EB60039F2BC /* Profiler.cpp */; };
 		378564521B197FAE0039F2BC /* LuaServerAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785644E1B197FAE0039F2BC /* LuaServerAgent.cpp */; };
 		378564531B197FAE0039F2BC /* ServerAgent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564501B197FAE0039F2BC /* ServerAgent.cpp */; };
-		44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
-		44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; };
-		44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; };
+		44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4A01889715A59908002F540B /* SystemPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A01889615A59908002F540B /* SystemPath.cpp */; };
 		4A0F25CE165CF00D00208507 /* LuaSmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CB165CF00D00208507 /* LuaSmallButton.cpp */; };
 		4A0F25CF165CF00D00208507 /* SmallButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A0F25CC165CF00D00208507 /* SmallButton.cpp */; };
@@ -480,11 +480,9 @@
 		5221A75A1C958923002F4CD1 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 4A190433138AA39C00E0229C /* lzio.c */; };
 		5221A75B1C958949002F4CD1 /* libliblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5221A7301C9588D8002F4CD1 /* libliblua.a */; };
 		522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
-		522B22CC1C06324A00109BB0 /* libcurl.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; };
-		522E333C1C1B1E9400AB01D3 /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; };
-		522E333D1C1B1E9400AB01D3 /* libvorbis.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */; };
-		522E334C1C1B26AD00AB01D3 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; };
-		522E334D1C1B26AD00AB01D3 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; };
+		522B22CC1C06324A00109BB0 /* libcurl.4.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522B22CA1C06323C00109BB0 /* libcurl.4.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		522E333C1C1B1E9400AB01D3 /* libvorbisfile.3.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		522E333D1C1B1E9400AB01D3 /* libvorbis.0.dylib in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		522E334E1C1B26C300AB01D3 /* SDL2_image.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		522E334F1C1B26C300AB01D3 /* SDL2.framework in Copy Libraries */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */; };
@@ -506,8 +504,6 @@
 		52B054A91C184D0800BAAE57 /* LabelOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */; };
 		52B054AA1C184D0800BAAE57 /* LuaGalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */; };
 		52F310271C90810E00F8A082 /* modelcompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F3101A1C907E2800F8A082 /* modelcompiler.cpp */; };
-		52F310281C90834B00F8A082 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334B1C1B26AD00AB01D3 /* SDL2.framework */; };
-		52F310291C90835D00F8A082 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */; };
 		52F3102B1C90937400F8A082 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174FD15187C17006A15A9 /* Color.cpp */; };
 		52F3102C1C90937400F8A082 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
 		52F3102D1C90937400F8A082 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A305FCC151341170076D414 /* FileSystem.cpp */; };
@@ -608,6 +604,17 @@
 		52F404FA1C9498F90082B1F3 /* liblibscenegraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404631C9496AA0082B1F3 /* liblibscenegraph.a */; };
 		52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404431C9495FD0082B1F3 /* liblibtext.a */; };
 		52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
+		F87E479A1D35E63A0008F233 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47981D35E63A0008F233 /* SDL2_image.framework */; };
+		F87E479B1D35E63A0008F233 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47991D35E63A0008F233 /* SDL2.framework */; };
+		F87E479C1D35E7480008F233 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47981D35E63A0008F233 /* SDL2_image.framework */; };
+		F87E479D1D35E7480008F233 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47991D35E63A0008F233 /* SDL2.framework */; };
+		F87E47A01D36A46F0008F233 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
+		F87E47A11D36A46F0008F233 /* GasGiantJobs.h in Headers */ = {isa = PBXBuildFile; fileRef = F87E479F1D36A46F0008F233 /* GasGiantJobs.h */; };
+		F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
+		F8FD8D771D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */; };
+		F8FD8D781D3C13920075FEA1 /* GenGasGiantColourMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */; };
+		F8FD8D7B1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */; };
+		F8FD8D7C1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1487,6 +1494,12 @@
 		52F4049F1C9497440082B1F3 /* liblibgraphicsdummy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphicsdummy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404A91C9497820082B1F3 /* liblibgraphics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404DA1C94985F0082B1F3 /* liblibgui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgui.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F87E47981D35E63A0008F233 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../Desktop/SDL2_image.framework; sourceTree = "<group>"; };
+		F87E47991D35E63A0008F233 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../Desktop/SDL2.framework; sourceTree = "<group>"; };
+		F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GasGiantJobs.cpp; sourceTree = "<group>"; };
+		F87E479F1D36A46F0008F233 /* GasGiantJobs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasGiantJobs.h; sourceTree = "<group>"; };
+		F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenGasGiantColourMaterial.cpp; path = opengl/GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
+		F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenGasGiantColourMaterial.h; path = opengl/GenGasGiantColourMaterial.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1494,8 +1507,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				522E334C1C1B26AD00AB01D3 /* SDL2_image.framework in Frameworks */,
-				522E334D1C1B26AD00AB01D3 /* SDL2.framework in Frameworks */,
+				F87E479C1D35E7480008F233 /* SDL2_image.framework in Frameworks */,
+				F87E479D1D35E7480008F233 /* SDL2.framework in Frameworks */,
 				52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */,
 				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
 				523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */,
@@ -1531,8 +1544,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52F310291C90835D00F8A082 /* SDL2_image.framework in Frameworks */,
-				52F310281C90834B00F8A082 /* SDL2.framework in Frameworks */,
+				F87E479A1D35E63A0008F233 /* SDL2_image.framework in Frameworks */,
+				F87E479B1D35E63A0008F233 /* SDL2.framework in Frameworks */,
 				52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */,
 				5221A6E11C9583B3002F4CD1 /* libsigc-2.0.0.dylib in Frameworks */,
 				5221A6E21C9583DB002F4CD1 /* libassimp.3.0.0.dylib in Frameworks */,
@@ -1884,6 +1897,8 @@
 		4A20B0E1135319770020F43E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F87E47981D35E63A0008F233 /* SDL2_image.framework */,
+				F87E47991D35E63A0008F233 /* SDL2.framework */,
 				522E334A1C1B26AD00AB01D3 /* SDL2_image.framework */,
 				522E334B1C1B26AD00AB01D3 /* SDL2.framework */,
 				522B22CA1C06323C00109BB0 /* libcurl.4.dylib */,
@@ -1975,6 +1990,8 @@
 				4A4F25BB14F524D400FD14A6 /* Frustum.cpp */,
 				4A4F25BC14F524D400FD14A6 /* Frustum.h */,
 				4A4F25BD14F524D400FD14A6 /* Graphics.cpp */,
+				F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */,
+				F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */,
 				4A4F25BE14F524D400FD14A6 /* Graphics.h */,
 				4AEC8A1815C7886A00B281C3 /* Light.cpp */,
 				4AEC8A1915C7886A00B281C3 /* Light.h */,
@@ -2021,6 +2038,8 @@
 				4A6C4C0213532FC300FDD53F /* Body.cpp */,
 				4A6C4C0313532FC300FDD53F /* Body.h */,
 				4A6392C4136BD51E008352F1 /* buildopts.h */,
+				F87E479F1D36A46F0008F233 /* GasGiantJobs.h */,
+				F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */,
 				4A305FCB151341170076D414 /* ByteRange.h */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
@@ -2660,7 +2679,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8FD8D781D3C13920075FEA1 /* GenGasGiantColourMaterial.h in Headers */,
 				525515741CA6EE1C0055DAB8 /* RandomColor.h in Headers */,
+				F87E47A11D36A46F0008F233 /* GasGiantJobs.h in Headers */,
 				528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2957,7 +2978,7 @@
 		4A20B0D01353194B0020F43E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0730;
 				TargetAttributes = {
 					5221A72F1C9588D8002F4CD1 = {
 						CreatedOnToolsVersion = 7.2;
@@ -2970,7 +2991,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3050,6 +3071,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8FD8D7B1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */,
+				F8FD8D7C1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.h in Sources */,
+				F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */,
 				528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */,
 				528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */,
 				525515751CA6EEE30055DAB8 /* RandomColor.cpp in Sources */,
@@ -3534,9 +3558,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				528422911CC0E80700A9BFA8 /* BillboardMaterial.cpp in Sources */,
+				F87E47A01D36A46F0008F233 /* GasGiantJobs.cpp in Sources */,
 				525515731CA6EE1C0055DAB8 /* RandomColor.cpp in Sources */,
 				52F4041D1C9490C70082B1F3 /* JsonUtils.cpp in Sources */,
 				52F4041E1C9490C70082B1F3 /* jsoncpp.cpp in Sources */,
+				F8FD8D771D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3705,7 +3731,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_CXX0X_EXTENSIONS = YES;
+				ENABLE_TESTABILITY = YES;
 				HEADER_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME)";
 				PRODUCT_NAME = "${PRODUCT_NAME:c99extidentifier}";
 				SDKROOT = macosx;
@@ -3729,6 +3757,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3777,6 +3806,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-headerpad_max_install_names";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.pioneerspacesim.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
@@ -3787,6 +3817,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3834,6 +3865,7 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = "-headerpad_max_install_names";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.pioneerspacesim.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				WRAPPER_EXTENSION = app;
@@ -3871,6 +3903,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3929,6 +3962,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3980,6 +4014,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4023,6 +4058,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4176,6 +4212,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4234,6 +4271,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4285,6 +4323,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4343,6 +4382,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4394,6 +4434,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4452,6 +4493,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4503,6 +4545,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4561,6 +4604,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4612,6 +4656,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4670,6 +4715,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4721,6 +4767,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4779,6 +4826,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4830,6 +4878,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4888,6 +4937,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -4939,6 +4989,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -4997,6 +5048,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -5048,6 +5100,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -5106,6 +5159,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -5143,7 +5197,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */ = {
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A20B0D51353194B0020F43E /* Debug */,

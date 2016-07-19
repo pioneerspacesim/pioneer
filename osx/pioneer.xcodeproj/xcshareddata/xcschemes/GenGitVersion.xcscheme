@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0630"
+   LastUpgradeVersion = "0730"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,7 +17,7 @@
                BlueprintIdentifier = "4AE9706A1436A64000424F91"
                BuildableName = "GenGitVersion"
                BlueprintName = "GenGitVersion"
-               ReferencedContainer = "container:Pioneer.xcodeproj">
+               ReferencedContainer = "container:pioneer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "4AE9706A1436A64000424F91"
             BuildableName = "GenGitVersion"
             BlueprintName = "GenGitVersion"
-            ReferencedContainer = "container:Pioneer.xcodeproj">
+            ReferencedContainer = "container:pioneer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,7 +66,7 @@
             BlueprintIdentifier = "4AE9706A1436A64000424F91"
             BuildableName = "GenGitVersion"
             BlueprintName = "GenGitVersion"
-            ReferencedContainer = "container:Pioneer.xcodeproj">
+            ReferencedContainer = "container:pioneer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
