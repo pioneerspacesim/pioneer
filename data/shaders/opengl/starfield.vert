@@ -5,13 +5,9 @@
 #include "logz.glsl"
 #include "lib.glsl"
 
-out vec4 color;
-
-uniform Material material;
-
 void main(void)
 {
 	gl_Position = uViewProjectionMatrix * a_vertex;
-	gl_PointSize = 1.0 + pow(a_color.r,3.0);
-	color = a_color * material.emission;
+	gl_PointSize = 1.0 + pow(a_normal.z,3.0);
 }
+

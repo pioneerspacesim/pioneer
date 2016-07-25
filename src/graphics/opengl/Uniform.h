@@ -33,8 +33,9 @@ namespace Graphics {
 			void Set(const matrix3x3f&);
 			void Set(const matrix4x4f&);
 			void Set(Texture *t, unsigned int unit);
+			bool IsValid() const { return (m_location != -1); }
 
-		//private:
+		private:
 			GLint m_location;
 		};
 	}

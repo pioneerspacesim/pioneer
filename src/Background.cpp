@@ -199,9 +199,10 @@ void Starfield::Init()
 {
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_STARFIELD;
-	desc.vertexColors = true;
+	desc.textures = 1;
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
+	m_material->texture0 = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
 }
 
 void Starfield::Fill(Random &rand)
@@ -220,46 +221,41 @@ void Starfield::Fill(Random &rand)
 		m_animBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
 	}
 
-	Graphics::VertexBufferDesc vbd;
-	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-	vbd.numVertices = NUM_BG_STARS;
-	m_vertexBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
+	m_pointSprites.reset( new Graphics::Drawables::PointSprites );
 
 	assert(sizeof(StarVert) == 16);
-	assert(m_vertexBuffer->GetDesc().stride == sizeof(StarVert));
-	auto vtxPtr = m_vertexBuffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
+	std::unique_ptr<vector3f[]> stars( new vector3f[NUM_BG_STARS] );
+	std::unique_ptr<float[]> sizes( new float[NUM_BG_STARS] );
 	//fill the array
 	for (int i=0; i<NUM_BG_STARS; i++) {
-		const Uint8 col = rand.Double(0.2,0.7)*255;
+		const double size = rand.Double(0.2,0.9);
+		const Uint8 col = size*255;
 
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
 
-		vtxPtr->pos = vector3f(
-			1000.0f * sqrt(1.0f - u*u) * cos(theta),
-			1000.0f * u,
-			1000.0f * sqrt(1.0f - u*u) * sin(theta));
-		vtxPtr->col = Color(col, col, col,	255);
+		sizes[i] = size;
+		stars[i] = vector3f(sqrt(1.0f - u*u) * cos(theta), u, sqrt(1.0f - u*u) * sin(theta)).Normalized() * 1000.0f;
 
 		//need to keep data around for HS anim - this is stupid
-		m_hyperVtx[NUM_BG_STARS * 2 + i] = vtxPtr->pos;
-		m_hyperCol[NUM_BG_STARS * 2 + i] = vtxPtr->col;
-
-		vtxPtr++;
+		m_hyperVtx[NUM_BG_STARS * 2 + i] = stars[i];
+		m_hyperCol[NUM_BG_STARS * 2 + i] = Color(col, col, col,	255);
 	}
-	m_vertexBuffer->Unmap();
+	m_pointSprites->SetData(NUM_BG_STARS, stars.get(), sizes.get(), m_material.Get());
+
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest  = false;
+	rsd.depthWrite = false;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
 void Starfield::Draw(Graphics::RenderState *rs)
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_renderer->DrawBuffer(m_vertexBuffer.get(), rs, m_material.Get(), Graphics::POINTS);
+		m_pointSprites->Draw(m_renderer, m_renderState);
 	} else {
 		assert(sizeof(StarVert) == 16);
 		assert(m_animBuffer->GetDesc().stride == sizeof(StarVert));
