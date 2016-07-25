@@ -1,6 +1,6 @@
 July 2016
    * New Features
-     * Point sprite background stars #3757
+     * Point sprite background stars (#3757)
 
    * Fixes
      * SAR: fix fuel transfer (#3755)
