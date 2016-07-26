@@ -5,6 +5,7 @@ July 2016
    * Fixes
      * SAR: fix fuel transfer (#3755)
      * SAR: fix wrong distance (#3650)
+     * Fix grammar error in module-cargorun (#3748)
 
    * Internal Changes
      * Swap LuaVector for a table (#3747)
