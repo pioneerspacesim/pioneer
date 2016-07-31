@@ -17,6 +17,7 @@ local eq = import("Equipment")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
@@ -151,6 +152,8 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	form:AddNavButton(ad.location)
+
 	if option == 0 then
 		local sys   = ad.location:GetStarSystem()
 
@@ -184,6 +187,7 @@ local onChat = function (form, ref, option)
 	elseif option == 3 then
 		if not Game.player.cabin_cap or Game.player.cabin_cap < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
+			form:RemoveNavButton()
 			return
 		end
 
@@ -546,6 +550,8 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										ui:Margin(5),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(InfoFace.New(mission.client))

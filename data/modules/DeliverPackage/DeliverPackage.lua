@@ -17,6 +17,7 @@ local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 
 local l = Lang.GetResource("module-deliverpackage")
 
@@ -135,6 +136,8 @@ local onChat = function (form, ref, option)
 		form:SetMessage(introtext)
 		return
 	end
+
+	form:AddNavButton(ad.location)
 
 	if option == 0 then
 
@@ -558,6 +561,8 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										ui:Margin(5),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
