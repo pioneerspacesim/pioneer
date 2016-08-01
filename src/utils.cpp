@@ -150,6 +150,30 @@ void OpenGLDebugMsg(const char *format, ...)
 	fputs(buf, stderr);
 }
 
+std::string format_duration(double seconds)
+{
+	std::ostringstream ss;
+	int duration = seconds;
+	int secs = duration % 60;
+	int minutes = (duration / 60) % 60;
+	int hours = (duration / 60 / 60) % 24;
+	int days = (duration / 60 / 60 / 24) % 7;
+	int weeks = (duration / 60 / 60 / 24 / 7);
+	if(weeks != 0)
+		ss << weeks << Lang::UNIT_WEEKS;
+	if(days != 0)
+		ss << days << Lang::UNIT_DAYS;
+	if(hours != 0)
+		ss << hours << Lang::UNIT_HOURS;
+	if(minutes != 0)
+		ss << minutes << Lang::UNIT_MINUTES;
+	// do not show seconds unless the largest unit shown is minutes
+	if(weeks == 0 && days == 0 && hours == 0)
+		if(minutes == 0 || secs != 0)
+			ss << secs << Lang::UNIT_SECONDS;
+	return ss.str();
+}
+
 std::string format_distance(double dist, int precision)
 {
 	std::ostringstream ss;
