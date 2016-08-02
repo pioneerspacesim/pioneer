@@ -70,6 +70,7 @@ The Pioneer Developers are:
 * Oleg Ovcharenko
 * Paul Mahol
 * Paul Roberts
+* Peter Feigl
 * Pedro Gimeno
 * Peter Kurucz
 * Phil Howlett
