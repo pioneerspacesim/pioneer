@@ -1,3 +1,7 @@
+August 2016
+   * Internal Changes
+     * Add a function for typesetting time intervals (#3764)
+
 July 2016
    * New Features
      * Point sprite background stars (#3757)
