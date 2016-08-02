@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "Pi.h"
 #include "Game.h"
+#include "SpaceStation.h"
+#include "Body.h"
 #include "SectorView.h"
 #include "EnumStrings.h"
 #include "galaxy/Galaxy.h"
@@ -208,6 +210,108 @@ static int l_set_hyperspace_target(lua_State *l)
 		return luaL_error(l, "Player:SetHyperspaceTarget() cannot be used while in hyperspace");
 }
 
+/*
+ * Method: AutopilotFlyTo
+ *
+ * Activate the autopilot to fly to the vicinity of a target body.
+ *
+ * > player.AutopilotFlyTo(body)
+ *
+ * Parameters:
+ *
+ *   body - a <Body> to which to fly to.
+ *
+ * Availability:
+ *
+ *   alpha XX
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_autopilot_fly_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if(!b) {
+		Output("Warning: lua AutopilotFlyTo called with a parameter that is not a Body.\n");
+		return 0;
+	}
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
+	Pi::player->AIFlyTo(b);
+	return 0;
+}
+
+/*
+ * Method: AutopilotOrbitAt
+ *
+ * Activate the autopilot to orbit a target body at a distance.
+ *
+ * > player.AutopilotOrbitAt(body, altitude)
+ *
+ * Parameters:
+ *
+ *   body - a <Body> which to orbit.
+ *   altitude - an altitude number.
+ *
+ * Availability:
+ *
+ *   alpha XX
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_autopilot_orbit_at(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if(!b) {
+		Output("Warning: lua AutopilotOrbitAt called with a parameter that is not a Body.\n");
+		return 0;
+	}
+	double alt = luaL_checknumber(l, 2);
+	Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
+	Pi::player->AIOrbit(b, alt);
+	return 0;
+}
+
+/*
+ * Method: AutopilotDockWith
+ *
+ * Activate the autopilot to dock at a target body (must be a station).
+ *
+ * > player.AutopilotDockWith(body)
+ *
+ * Parameters:
+ *
+ *   body - a <Body> which to dock with.
+ *
+ * Availability:
+ *
+ *   alpha XX
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_autopilot_dock_with(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if(!b) {
+		Output("Warning: lua AutopilotDockWith called with a parameter that is not a Body.\n");
+		return 0;
+	}
+	if(Pi::player->GetFlightState() != Ship::FLYING)
+		return 0;
+	SpaceStation *space_station = dynamic_cast<SpaceStation*>(b);
+	if(space_station != nullptr) {
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
+		Pi::player->AIDock(space_station);
+	} else {
+		Output("Warning: lua AutopilotDockWith called with a parameter that is not a SpaceStation.\n");
+	}
+	return 0;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -217,6 +321,9 @@ template <> void LuaObject<Player>::RegisterClass()
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
 
+		{ "AutopilotFlyTo",     l_autopilot_fly_to    },
+		{ "AutopilotDockWith",  l_autopilot_dock_with },
+		{ "AutopilotOrbitAt",   l_autopilot_orbit_at  },
 		{ "GetNavTarget",    l_get_nav_target    },
 		{ "SetNavTarget",    l_set_nav_target    },
 		{ "GetCombatTarget", l_get_combat_target },
