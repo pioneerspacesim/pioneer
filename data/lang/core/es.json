@@ -1723,9 +1723,29 @@
       "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
       "message" : "AU"
    },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "d"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
       "message" : "AL"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "w"
    },
    "UNKNOWN" : {
       "description" : "",
