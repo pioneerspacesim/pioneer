@@ -1725,7 +1725,7 @@
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
+      "message" : "j"
    },
    "UNIT_HOURS" : {
       "description" : "Duration unit: one 60-minute hour",
@@ -1741,11 +1741,11 @@
    },
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
-      "message" : "s"
+      "message" : "sec."
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "sem."
    },
    "UNKNOWN" : {
       "description" : "",

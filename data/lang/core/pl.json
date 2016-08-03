@@ -1745,7 +1745,7 @@
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "t"
    },
    "UNKNOWN" : {
       "description" : "",

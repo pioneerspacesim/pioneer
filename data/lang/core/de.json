@@ -1737,7 +1737,7 @@
    },
    "UNIT_MINUTES" : {
       "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
+      "message" : "min"
    },
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
@@ -1745,7 +1745,7 @@
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "W."
    },
    "UNKNOWN" : {
       "description" : "",
