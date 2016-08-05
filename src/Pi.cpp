@@ -79,12 +79,14 @@
 #include "ui/Lua.h"
 #include <algorithm>
 #include <sstream>
+#include "imgui.h"
+#include "imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
-	// RegisterClassA and RegisterClassW are defined as macros in WinUser.h
-	#ifdef RegisterClass
-	#undef RegisterClass
-	#endif
+// RegisterClassA and RegisterClassW are defined as macros in WinUser.h
+#ifdef RegisterClass
+#undef RegisterClass
+#endif
 #endif
 
 float Pi::gameTickAlpha;
@@ -157,13 +159,13 @@ std::unique_ptr<SyncJobQueue> Pi::syncJobQueue;
 //static
 void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 	/*	@fluffyfreak here's a rendertarget implementation you can use for oculusing and other things. It's pretty simple:
-		 - fill out a RenderTargetDesc struct and call Renderer::CreateRenderTarget
-		 - pass target to Renderer::SetRenderTarget to start rendering to texture
-		 - set up viewport, clear etc, then draw as usual
-		 - SetRenderTarget(0) to resume render to screen
-		 - you can access the attached texture with GetColorTexture to use it with a material
-		You can reuse the same target with multiple textures.
-		In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
+			- fill out a RenderTargetDesc struct and call Renderer::CreateRenderTarget
+			- pass target to Renderer::SetRenderTarget to start rendering to texture
+			- set up viewport, clear etc, then draw as usual
+			- SetRenderTarget(0) to resume render to screen
+			- you can access the attached texture with GetColorTexture to use it with a material
+			You can reuse the same target with multiple textures.
+			In that case, leave the color format to NONE so the initial texture is not created, then use SetColorTexture to attach your own.
 	*/
 #if USE_RTT
 	Graphics::RenderStateDesc rsd;
@@ -173,23 +175,23 @@ void Pi::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 	quadRenderState = Pi::renderer->CreateRenderState(rsd);
 
 	Graphics::TextureDescriptor texDesc(
-		Graphics::TEXTURE_RGBA_8888,
-		vector2f(width, height),
-		Graphics::LINEAR_CLAMP, false, false, 0);
+																			Graphics::TEXTURE_RGBA_8888,
+																			vector2f(width, height),
+																			Graphics::LINEAR_CLAMP, false, false, 0);
 	Pi::renderTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 	Pi::renderQuad.reset(new Graphics::Drawables::TexturedQuad(
-		Pi::renderer, Pi::renderTexture.Get(),
-		vector2f(0.0f,0.0f), vector2f(float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight())),
-		quadRenderState));
+																														 Pi::renderer, Pi::renderTexture.Get(),
+																														 vector2f(0.0f,0.0f), vector2f(float(Graphics::GetScreenWidth()), float(Graphics::GetScreenHeight())),
+																														 quadRenderState));
 
 	// Complete the RT description so we can request a buffer.
 	// NB: we don't want it to create use a texture because we share it with the textured quad created above.
 	Graphics::RenderTargetDesc rtDesc(
-		width,
-		height,
-		Graphics::TEXTURE_NONE,		// don't create a texture
-		Graphics::TEXTURE_DEPTH,
-		false);
+																		width,
+																		height,
+																		Graphics::TEXTURE_NONE,		// don't create a texture
+																		Graphics::TEXTURE_DEPTH,
+																		false);
 	Pi::renderTarget = Pi::renderer->CreateRenderTarget(rtDesc);
 
 	Pi::renderTarget->SetColorTexture(Pi::renderTexture.Get());
@@ -347,48 +349,48 @@ std::string Pi::GetSaveDir()
 void TestGPUJobsSupport()
 {
 	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
-	if (supportsGPUJobs) 
-	{
-		Uint32 octaves = 8;
-		for (Uint32 i = 0; i<6; i++) 
+	if (supportsGPUJobs)
 		{
-			std::unique_ptr<Graphics::Material> material;
-			Graphics::MaterialDescriptor desc;
-			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-			desc.quality = (octaves << 16) | i;
-			desc.textures = 3;
-			material.reset(Pi::renderer->CreateMaterial(desc));
-			supportsGPUJobs &= material->IsProgramLoaded();
-		}
-		if (!supportsGPUJobs) 
-		{
-			// failed - retry
-
-			// reset the GPU jobs flag
-			supportsGPUJobs = true;
-
-			// retry the shader compilation
-			octaves = 5; // reduce the number of octaves
+			Uint32 octaves = 8;
 			for (Uint32 i = 0; i<6; i++)
-			{
-				std::unique_ptr<Graphics::Material> material;
-				Graphics::MaterialDescriptor desc;
-				desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-				desc.quality = (octaves << 16) | i;
-				desc.textures = 3;
-				material.reset(Pi::renderer->CreateMaterial(desc));
-				supportsGPUJobs &= material->IsProgramLoaded();
-			}
-			
+				{
+					std::unique_ptr<Graphics::Material> material;
+					Graphics::MaterialDescriptor desc;
+					desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
+					desc.quality = (octaves << 16) | i;
+					desc.textures = 3;
+					material.reset(Pi::renderer->CreateMaterial(desc));
+					supportsGPUJobs &= material->IsProgramLoaded();
+				}
 			if (!supportsGPUJobs)
-			{
-				// failed
-				Warning("EnableGPUJobs DISABLED");
-				Pi::config->SetInt("EnableGPUJobs", 0);		// disable GPU Jobs
-				Pi::config->Save();
-			}
+				{
+					// failed - retry
+
+					// reset the GPU jobs flag
+					supportsGPUJobs = true;
+
+					// retry the shader compilation
+					octaves = 5; // reduce the number of octaves
+					for (Uint32 i = 0; i<6; i++)
+						{
+							std::unique_ptr<Graphics::Material> material;
+							Graphics::MaterialDescriptor desc;
+							desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
+							desc.quality = (octaves << 16) | i;
+							desc.textures = 3;
+							material.reset(Pi::renderer->CreateMaterial(desc));
+							supportsGPUJobs &= material->IsProgramLoaded();
+						}
+
+					if (!supportsGPUJobs)
+						{
+							// failed
+							Warning("EnableGPUJobs DISABLED");
+							Pi::config->SetInt("EnableGPUJobs", 0);		// disable GPU Jobs
+							Pi::config->Save();
+						}
+				}
 		}
-	}
 }
 
 void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
@@ -411,7 +413,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 #endif
 	PROFILE_SCOPED()
 
-	Pi::config = new GameConfig(options);
+		Pi::config = new GameConfig(options);
 
 	if (config->Int("RedirectStdio"))
 		OS::RedirectStdio();
@@ -498,7 +500,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
 	syncJobQueue.reset(new SyncJobQueue);
-	
+
 	Output("ShipType::Init()\n");
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -514,11 +516,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	}
 
 	Pi::ui.Reset(new UI::Context(
-		Lua::manager,
-		Pi::renderer,
-		Graphics::GetScreenWidth(),
-		Graphics::GetScreenHeight(),
-		ui_scale));
+															 Lua::manager,
+															 Pi::renderer,
+															 Graphics::GetScreenWidth(),
+															 Graphics::GetScreenHeight(),
+															 ui_scale));
 
 	Pi::serverAgent = 0;
 	if (config->Int("EnableServerAgent")) {
@@ -546,28 +548,28 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	label->SetFont(UI::Widget::FONT_HEADING_NORMAL);
 
 	Pi::ui->GetTopLayer()->SetInnerWidget(
-		// expand the box to cover the whole screen
-		Pi::ui->Expand()->SetInnerWidget(
-			// align the box with label+gauge to the middle of the screen (horizontally AND vertically)
-			Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
-				// put label and gauge into one combined box
-				box->PackEnd(UI::WidgetSet(
-					// center the label in the inner box
-					Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(label),
-					// limit the gauge by adding a margin on both sides of (0.1666*screensize) effectively centering it on the screen
-					Pi::ui->Margin(0.1666*Graphics::GetScreenWidth(), UI::Margin::HORIZONTAL)->SetInnerWidget(gauge)
-					)
-				)
-			)
-		)
-	);
+																				// expand the box to cover the whole screen
+																				Pi::ui->Expand()->SetInnerWidget(
+																																				 // align the box with label+gauge to the middle of the screen (horizontally AND vertically)
+																																				 Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(
+																																																													// put label and gauge into one combined box
+																																																													box->PackEnd(UI::WidgetSet(
+																																																																										 // center the label in the inner box
+																																																																										 Pi::ui->Align(UI::Align::MIDDLE)->SetInnerWidget(label),
+																																																																										 // limit the gauge by adding a margin on both sides of (0.1666*screensize) effectively centering it on the screen
+																																																																										 Pi::ui->Margin(0.1666*Graphics::GetScreenWidth(), UI::Margin::HORIZONTAL)->SetInnerWidget(gauge)
+																																																																										 )
+																																																																			 )
+																																																													)
+																																				 )
+																				);
 
 	draw_progress(gauge, label, 0.0f);
 
 	Output("GalaxyGenerator::Init()\n");
 	if (config->HasEntry("GalaxyGenerator"))
 		GalaxyGenerator::Init(config->String("GalaxyGenerator"),
-			config->Int("GalaxyGeneratorVersion", GalaxyGenerator::LAST_VERSION));
+													config->Int("GalaxyGeneratorVersion", GalaxyGenerator::LAST_VERSION));
 	else
 		GalaxyGenerator::Init();
 
@@ -585,10 +587,10 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Shields::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.4f);
 
-//unsigned int control_word;
-//_clearfp();
-//_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
-//double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
+	//unsigned int control_word;
+	//_clearfp();
+	//_controlfp_s(&control_word, _EM_INEXACT | _EM_UNDERFLOW | _EM_ZERODIVIDE, _MCW_EM);
+	//double fpexcept = Pi::timeAccelRates[1] / Pi::timeAccelRates[0];
 
 	Output("BaseSphere::Init\n");
 	BaseSphere::Init();
@@ -651,11 +653,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	CargoBody *c1 = new CargoBody(Equip::Type::SLAVES);
 	c1->SetFrame(p1r);
 	c1->SetPosition(vector3d(0,180,0));
-//	c1->SetVelocity(vector3d(1,0,0));
+	//	c1->SetVelocity(vector3d(1,0,0));
 	CargoBody *c2 = new CargoBody(Equip::Type::SLAVES);
 	c2->SetFrame(p1r);
 	c2->SetPosition(vector3d(0,200,0));
-//	c2->SetVelocity(vector3d(1,0,0));
+	//	c2->SetVelocity(vector3d(1,0,0));
 
 	vector3d pos = c1->GetPositionRelTo(p1);
 	vector3d vel = c1->GetVelocityRelTo(p1);
@@ -676,15 +678,15 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	matrix3x3d m = matrix3x3d::BuildRotate(M_PI/2, vector3d(0,0,1));
 	vector3d v = m * vector3d(1,0,0);
 
-/*	vector3d pos = p1r->GetPositionRelTo(p2r);
-	vector3d vel = p1r->GetVelocityRelTo(p2r);
-	matrix3x3d o1 = p1r->GetOrientRelTo(p2r);
-	double speed = vel.Length();
-	vector3d pos2 = p2r->GetPositionRelTo(p1r);
-	vector3d vel2 = p2r->GetVelocityRelTo(p1r);
-	matrix3x3d o2 = p2r->GetOrientRelTo(p1r);
-	double speed2 = vel2.Length();
-*/	root->UpdateOrbitRails(0, 1.0/60);
+	/*	vector3d pos = p1r->GetPositionRelTo(p2r);
+			vector3d vel = p1r->GetVelocityRelTo(p2r);
+			matrix3x3d o1 = p1r->GetOrientRelTo(p2r);
+			double speed = vel.Length();
+			vector3d pos2 = p2r->GetPositionRelTo(p1r);
+			vector3d vel2 = p2r->GetVelocityRelTo(p1r);
+			matrix3x3d o2 = p2r->GetOrientRelTo(p1r);
+			double speed2 = vel2.Length();
+	*/	root->UpdateOrbitRails(0, 1.0/60);
 
 	delete p2r; delete p2; delete m1r; delete m1; delete p1r; delete p1; delete root;
 	delete c1; delete c2;
@@ -696,44 +698,44 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 
 	FILE *pStatFile = fopen("shipstat.csv","wt");
 	if (pStatFile)
-	{
-		fprintf(pStatFile, "name,modelname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
-		for (auto iter : ShipType::types)
 		{
-			const ShipType *shipdef = &(iter.second);
-			SceneGraph::Model *model = Pi::FindModel(shipdef->modelName, false);
+			fprintf(pStatFile, "name,modelname,hullmass,capacity,fakevol,rescale,xsize,ysize,zsize,facc,racc,uacc,sacc,aacc,exvel\n");
+			for (auto iter : ShipType::types)
+				{
+					const ShipType *shipdef = &(iter.second);
+					SceneGraph::Model *model = Pi::FindModel(shipdef->modelName, false);
 
-			double hullmass = shipdef->hullMass;
-			double capacity = shipdef->capacity;
+					double hullmass = shipdef->hullMass;
+					double capacity = shipdef->capacity;
 
-			double xsize = 0.0, ysize = 0.0, zsize = 0.0, fakevol = 0.0, rescale = 0.0, brad = 0.0;
-			if (model) {
-				std::unique_ptr<SceneGraph::Model> inst(model->MakeInstance());
-				model->CreateCollisionMesh();
-				Aabb aabb = model->GetCollisionMesh()->GetAabb();
-				xsize = aabb.max.x-aabb.min.x;
-				ysize = aabb.max.y-aabb.min.y;
-				zsize = aabb.max.z-aabb.min.z;
-				fakevol = xsize*ysize*zsize;
-				brad = aabb.GetRadius();
-				rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
-			}
+					double xsize = 0.0, ysize = 0.0, zsize = 0.0, fakevol = 0.0, rescale = 0.0, brad = 0.0;
+					if (model) {
+						std::unique_ptr<SceneGraph::Model> inst(model->MakeInstance());
+						model->CreateCollisionMesh();
+						Aabb aabb = model->GetCollisionMesh()->GetAabb();
+						xsize = aabb.max.x-aabb.min.x;
+						ysize = aabb.max.y-aabb.min.y;
+						zsize = aabb.max.z-aabb.min.z;
+						fakevol = xsize*ysize*zsize;
+						brad = aabb.GetRadius();
+						rescale = pow(fakevol/(100 * (hullmass+capacity)), 0.3333333333);
+					}
 
-			double simass = (hullmass + capacity) * 1000.0;
-			double angInertia = (2/5.0)*simass*brad*brad;
-			double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
-			double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
-			double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
-			double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
-			double acca = shipdef->angThrust/angInertia;
-			double exvel = shipdef->effectiveExhaustVelocity;
+					double simass = (hullmass + capacity) * 1000.0;
+					double angInertia = (2/5.0)*simass*brad*brad;
+					double acc1 = shipdef->linThrust[ShipType::THRUSTER_FORWARD] / (9.81*simass);
+					double acc2 = shipdef->linThrust[ShipType::THRUSTER_REVERSE] / (9.81*simass);
+					double acc3 = shipdef->linThrust[ShipType::THRUSTER_UP] / (9.81*simass);
+					double acc4 = shipdef->linThrust[ShipType::THRUSTER_RIGHT] / (9.81*simass);
+					double acca = shipdef->angThrust/angInertia;
+					double exvel = shipdef->effectiveExhaustVelocity;
 
-			fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f,%.1f\n",
-				shipdef->name.c_str(), shipdef->modelName.c_str(), hullmass, capacity,
-				fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca, exvel);
+					fprintf(pStatFile, "%s,%s,%.1f,%.1f,%.1f,%.3f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%.1f,%f,%.1f\n",
+									shipdef->name.c_str(), shipdef->modelName.c_str(), hullmass, capacity,
+									fakevol, rescale, xsize, ysize, zsize, acc1, acc2, acc3, acc4, acca, exvel);
+				}
+			fclose(pStatFile);
 		}
-		fclose(pStatFile);
-	}
 #endif
 
 	luaConsole = new LuaConsole();
@@ -801,7 +803,7 @@ void Pi::OnChangeDetailLevel()
 void Pi::HandleEvents()
 {
 	PROFILE_SCOPED()
-	SDL_Event event;
+		SDL_Event event;
 
 	// XXX for most keypresses SDL will generate KEYUP/KEYDOWN and TEXTINPUT
 	// events. keybindings run off KEYUP/KEYDOWN. the console is opened/closed
@@ -844,9 +846,9 @@ void Pi::HandleEvents()
 		Gui::HandleSDLEvent(&event);
 
 		switch (event.type) {
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE) {
-					if (Pi::game) {
+		case SDL_KEYDOWN:
+			if (event.key.keysym.sym == SDLK_ESCAPE) {
+				if (Pi::game) {
 						// only accessible once game started
 						HandleEscKey();
 					}
@@ -1279,9 +1281,15 @@ void Pi::MainLoop()
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
+	ImGui_ImplSdlGL3_Init(Pi::renderer->GetWindow()->GetSDLWindow());
+
 #ifdef PIONEER_PROFILER
 	Profiler::reset();
 #endif
+
+	bool show_test_window = true;
+    bool show_another_window = false;
+    ImVec4 clear_color = ImColor(114, 144, 154);
 
 	while (Pi::game) {
 		PROFILE_SCOPED()
@@ -1421,6 +1429,37 @@ void Pi::MainLoop()
 
 		Pi::EndRenderTarget();
 		Pi::DrawRenderTarget();
+
+
+		ImGui_ImplSdlGL3_NewFrame(Pi::renderer->GetWindow()->GetSDLWindow());
+
+        // 1. Show a simple window
+        // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
+        {
+            static float f = 0.0f;
+            ImGui::Text("Hello, world!");
+            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+            ImGui::ColorEdit3("clear color", (float*)&clear_color);
+            if (ImGui::Button("Test Window")) show_test_window ^= 1;
+            if (ImGui::Button("Another Window")) show_another_window ^= 1;
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        }
+        if (show_another_window)
+        {
+            ImGui::SetNextWindowSize(ImVec2(200,100), ImGuiSetCond_FirstUseEver);
+            ImGui::Begin("Another Window", &show_another_window);
+            ImGui::Text("Hello");
+            ImGui::End();
+        }
+
+				if (show_test_window)
+        {
+            ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
+            ImGui::ShowTestWindow(&show_test_window);
+        }
+
+        ImGui::Render();
+
 		Pi::renderer->SwapBuffers();
 
 		// game exit will have cleared Pi::game. we can't continue.

@@ -16,6 +16,8 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 
+	SDL_Window *GetSDLWindow() const { return m_window; }
+	
 	void SetGrab(bool grabbed);
 
 	void SwapBuffers();
