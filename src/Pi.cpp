@@ -1257,6 +1257,8 @@ void Pi::EndGame()
 	player = 0;
 }
 
+Body *selected = nullptr;
+
 void Pi::MainLoop()
 {
 	double time_player_died = 0;
@@ -1287,7 +1289,7 @@ void Pi::MainLoop()
 	Profiler::reset();
 #endif
 
-	bool show_test_window = true;
+	bool show_test_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImColor(114, 144, 154);
 
@@ -1447,8 +1449,36 @@ void Pi::MainLoop()
         if (show_another_window)
         {
             ImGui::SetNextWindowSize(ImVec2(200,100), ImGuiSetCond_FirstUseEver);
-            ImGui::Begin("Another Window", &show_another_window);
-            ImGui::Text("Hello");
+            ImGui::Begin("Navigation", &show_another_window);
+          // only do all this if the window is shown and not minimized
+          std::vector<std::pair<const SystemBody*,double>> thelist;
+          StarSystem *starsystem = Pi::game->GetSpace()->GetStarSystem().Get();
+          for(RefCountedPtr<const SystemBody> sb : starsystem->GetBodies()) {
+            Body *player = Pi::player;
+            Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
+            double distance = player->GetPositionRelTo(body).Length();
+            thelist.push_back(std::pair<const SystemBody *, double>(sb.Get(), distance));
+          }
+          // sort by distance
+          std::sort(thelist.begin(), thelist.end(), [](const std::pair<const SystemBody*,double> &a, const std::pair<const SystemBody*,double> &b) { return a.second < b.second; });
+          // create rows
+					ImGui::Columns(2,"mycolumns3", false);
+					selected = Pi::player->GetNavTarget();
+          for(std::pair<const SystemBody*,double> data : thelist) {
+            const SystemBody *sb=data.first;
+            // if(nk_widget_is_mouse_clicked(ctx, NK_BUTTON_LEFT)) {
+            //   Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
+            //   Pi::player->SetNavTarget(body);
+            // }
+						Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
+						if(ImGui::Selectable(sb->GetName().c_str(), selected == body, ImGuiSelectableFlags_SpanAllColumns)) {
+							selected = body;
+							Pi::player->SetNavTarget(body);
+						}
+						ImGui::NextColumn();
+						ImGui::Text(format_distance(data.second, 2).c_str()); ImGui::NextColumn();
+
+          }
             ImGui::End();
         }
 
