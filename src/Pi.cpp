@@ -1470,13 +1470,19 @@ void Pi::MainLoop()
             //   Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
             //   Pi::player->SetNavTarget(body);
             // }
+						ImGui::BeginGroup();
 						Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
 						if(ImGui::Selectable(sb->GetName().c_str(), selected == body, ImGuiSelectableFlags_SpanAllColumns)) {
 							selected = body;
 							Pi::player->SetNavTarget(body);
 						}
 						ImGui::NextColumn();
-						ImGui::Text(format_distance(data.second, 2).c_str()); ImGui::NextColumn();
+						ImGui::Text(format_distance(data.second, 2).c_str()); 
+						ImGui::NextColumn();
+						ImGui::EndGroup();
+						if(ImGui::IsItemClicked(1)) {
+							Output("button 1 clicked.\n");
+						}
 
           }
             ImGui::End();
