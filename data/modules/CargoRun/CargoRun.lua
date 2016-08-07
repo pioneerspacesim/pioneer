@@ -17,6 +17,7 @@ local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 
 local l = Lang.GetResource("module-cargorun")
 
@@ -296,6 +297,8 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	form:AddNavButton(ad.location)
+
 	if option == 0 then
 		local introtext  = string.interp(ad.introtext, {
 			name         = ad.client.name,
@@ -346,6 +349,7 @@ local onChat = function (form, ref, option)
 		if (not ad.pickup and Game.player.freeCapacity < ad.amount) or
 			(ad.pickup and Game.player.totalCargo < ad.amount) then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP)
+			form:RemoveNavButton()
 			return
 		end
 		local cargo_picked_up
@@ -923,6 +927,7 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 										ui:Margin(5),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -973,7 +978,7 @@ local onClick = function (mission)
 			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
 		})
 	else return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
+		:SetColumn(0,{ui:VBox():PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
 											cargoname = mission.cargotype:GetName(),
 											starport = mission.location:GetSystemBody().name,
 											system = mission.location:GetStarSystem().name,
@@ -989,12 +994,9 @@ local onClick = function (mission)
 											dist = dist})
 										),
 										ui:Margin(10),
-										ui:Grid(1,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.PICKUP_FROM)
-												})
-											}),
+										ui:VBox():PackEnd({
+											ui:Label(l.PICKUP_FROM)
+										}),
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
@@ -1028,13 +1030,11 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 										ui:Margin(5),
-										ui:Grid(1,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DELIVER_TO)
-												})
-											}),
+										ui:VBox():PackEnd({
+											ui:Label(l.DELIVER_TO)
+										}),
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
@@ -1068,6 +1068,7 @@ local onClick = function (mission)
 													ui:Label((string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???") .. " " .. l.LY)
 												})
 											}),
+										NavButton.New(l.SET_RETURN_ROUTE, mission.domicile),
 										ui:Margin(5),
 										ui:Grid(2,1)
 											:SetColumn(0, {
