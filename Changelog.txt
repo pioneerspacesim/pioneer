@@ -2,6 +2,7 @@ August 2016
    * New Features
      * F3 and F4 Toggles between worldview and their thing (#3765)
      * Navbutton added to mission screens (#3736)
+     * Fix crash in by Search & Rescue missions (#3770)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
