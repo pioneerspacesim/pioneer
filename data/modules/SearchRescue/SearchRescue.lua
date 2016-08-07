@@ -43,6 +43,7 @@ local Ship = import("Ship")
 local utils = import("utils")
 local Timer = import("Timer")
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 local l = Lang.GetResource("module-searchrescue")
 
 -- Get the UI class
@@ -678,6 +679,8 @@ local onChat = function (form, ref, option)
 --      return
    --   end
 
+   form:AddNavButton(ad.planet_target)
+
    if option == 0 then      
       local introtext = string.interp(ad.flavour.introtext, {
 					 name         = ad.client.name,
@@ -736,6 +739,7 @@ local onChat = function (form, ref, option)
 	 local cabins = ad.pickup_crew + ad.deliver_crew + ad.pickup_pass + ad.deliver_pass
 	 local denytext = string.interp(l.EQUIPMENT, {unit = cabins, equipment = l.UNOCCUPIED_PASSENGER_CABINS})
 	 form:SetMessage(denytext)
+	 form:RemoveNavButton()
 	 return
       end
 
@@ -1937,11 +1941,15 @@ local onClick = function (mission)
 	 l.LON.." "..decToDegMinSec(math.rad2deg(mission.long))
    end
 
-   local payment_address = mission.station_local:GetSystemBody().name
-   local payment_system = mission.system_local:GetStarSystem().name
+   local payment_address, payment_system, navbutton
    if mission.flavour.reward_immediate == true then 
       payment_address = l.PLACE_OF_ASSISTANCE
       payment_system = mission.system_target:GetStarSystem().name
+      navbutton = ui:Margin(0)
+   else
+      payment_address = mission.station_local:GetSystemBody().name
+      payment_system = mission.system_local:GetStarSystem().name
+      navbutton = NavButton.New(l.SET_RETURN_ROUTE, mission.station_local)
    end
 
    local pickup_comm_text = 0
@@ -1984,6 +1992,8 @@ local onClick = function (mission)
 			  ui:Grid(2,1)
 			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
 			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist_for_text)})}),
+			  ui:Margin(5),
+			  NavButton.New(l.SET_AS_TARGET, mission.planet_target),
 			  ui:Margin(10),
 			  ui:Grid(2,1)
 			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.REWARD)})})
@@ -2001,6 +2011,8 @@ local onClick = function (mission)
 			  ui:Grid(2,1)
 			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DEADLINE)})})
 			     :SetColumn(1, {ui:VBox():PackEnd({ui:Label(Format.Date(mission.due))})}),
+			  ui:Margin(5),
+			  navbutton,
 			  ui:Margin(10),
 			  ui:Grid(1,1)
 			     :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.PICKUP)})}),

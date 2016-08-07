@@ -623,6 +623,14 @@
 	"description" : "",
 	"message" : "Last known location:"
     },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
     "ORBIT" : {
 	"description" : "",
 	"message" : "Orbit"
