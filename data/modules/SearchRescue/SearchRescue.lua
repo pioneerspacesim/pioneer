@@ -7,7 +7,7 @@
 --   some can't be accessed as bodies until the player enters the respective system and getting a path from
 --   systembody needs to go through body. Variable "location" is a SystemsBody.
 -- - Any cargo commodity that needs to be delivered/picked up needs to be intered into "verifyCommodity" function.
---   Some users have issues with commodities not beeing recognized otherwise. 
+--   Some users have issues with commodities not beeing recognized otherwise.
 
 -- TODO:
 -- - add degToDegMinSec function to src/LuaFormat.cpp
@@ -18,7 +18,7 @@
 
 -- Explanations
 -- ============
--- Variable flavour.pickup_crew, etc. is the goal, while variable mission.pickup_crew is the meter for 
+-- Variable flavour.pickup_crew, etc. is the goal, while variable mission.pickup_crew is the meter for
 -- actually accomplished parts of the task.
 -- Variable mission.pickup_crew_check provides the level of completion:
 -- - "NOT"      = not started
@@ -288,7 +288,7 @@ local removeMission = function (mission)
 	end
 	mission:Remove()
 	missions[ref] = nil
-end 
+end
 
 
 -- basic mission functions
@@ -306,7 +306,7 @@ end
 local triggerAdCreation = function ()
 	-- Return if ad should be created based on lawlessness and min/max frequency values.
 	-- Ad number per system is based on how many stations a system has so a player will
-	-- be met with a certain number of stations that have one or more ads. 
+	-- be met with a certain number of stations that have one or more ads.
 	local stations = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
 	local freq = Game.system.lawlessness * ad_freq_max
 	if freq < ad_freq_min then freq = ad_freq_min end
@@ -409,7 +409,7 @@ local crewPresent = function (ship)
 		return false
 	end
 end
- 
+
 local passengersPresent = function (ship)
 	-- Check if any passengers are present on the ship.
 	if ship:CountEquip(Equipment.misc.cabin_occupied) > 0 then
@@ -625,8 +625,8 @@ local createTargetShip = function (mission)
 
 	-- load a hyperdrive
 	local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
-	if default_drive then 
-		ship:AddEquip(default_drive) 
+	if default_drive then
+		ship:AddEquip(default_drive)
 	else
 		ship:AddEquip(Equipment.hyperspace['hyperdrive_1'])
 	end
@@ -680,7 +680,7 @@ local onChat = function (form, ref, option)
 
 	form:AddNavButton(ad.planet_target)
 
-	if option == 0 then      
+	if option == 0 then
 		local introtext = string.interp(ad.flavour.introtext, {
 			                                name         = ad.client.name,
 			                                entity       = ad.entity,
@@ -969,7 +969,7 @@ local flyToNearbyStation =  function (ship)
 		vacuum = true
 	end
 
-	local nearbysystems   
+	local nearbysystems
 	local nearbystations = findNearbyStations(vacuum, ship)
 
 	if #nearbystations > 0 then
@@ -1002,7 +1002,7 @@ local discardShip = function (ship)
 	local with_stations = true
 	local nearbysystems = findNearbySystems(with_stations)
 	if #nearbysystems > 0 then
-		Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function () 
+		Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
 			             ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
 			             Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
 		end)
@@ -1378,7 +1378,7 @@ local pickupPassenger = function (mission)
 		mission.pickup_pass_check = "PARTIAL"
 		return
 
-	-- pickup passenger   
+	-- pickup passenger
 	else
 		local passenger = Character.New()
 		removePassenger(mission.target)
@@ -1397,7 +1397,7 @@ local pickupPassenger = function (mission)
 		end
 	end
 end
-   
+
 local pickupCommodity = function (mission, commodity)
 	-- Pickup a single ton of the supplied commodity from the target ship.
 	-- Called during timer loop within "interactWithTarget".
@@ -1487,7 +1487,7 @@ local deliverPassenger = function (mission)
 		mission.deliver_pass_check = "PARTIAL"
 		return
 
-	-- transfer passenger   
+	-- transfer passenger
 	else
 		local passenger = table.remove(mission.cargo_pass, 1)
 		removePassenger(Game.player)
@@ -1756,7 +1756,7 @@ local onFrameChanged = function (body)
 			end
 		end
 	end
-end 
+end
 
 local onShipUndocked = function (ship, station)
 	-- Start search immediately if the target is on the same planet as the station.
@@ -1867,7 +1867,7 @@ local onShipDocked = function (ship, station)
 end
 
 local onReputationChanged = function (oldRep, oldKills, newRep, newKills)
-	--   TODO: possibly include if reputation based ad filtering is set up   
+	--   TODO: possibly include if reputation based ad filtering is set up
 	--   for ref,ad in pairs(ads) do
 	--      local oldQualified = isQualifiedFor(oldRep, ad)
 	--      if isQualifiedFor(newRep, ad) ~= oldQualified then
@@ -1938,7 +1938,7 @@ local onClick = function (mission)
 	end
 
 	local payment_address, payment_system, navbutton
-	if mission.flavour.reward_immediate == true then 
+	if mission.flavour.reward_immediate == true then
 		payment_address = l.PLACE_OF_ASSISTANCE
 		payment_system = mission.system_target:GetStarSystem().name
 		navbutton = ui:Margin(0)
@@ -2053,7 +2053,7 @@ local onShipDestroyed = function (ship, attacker)
 end
 
 local serialize = function ()
-	return {ads              = ads, 
+	return {ads              = ads,
 	        missions         = missions,
 	        aircontrol_chars = aircontrol_chars,
 	        discarded_ships  = discarded_ships}
