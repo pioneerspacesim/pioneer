@@ -1321,7 +1321,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Выбрана цель для навигации:"
+      "message" : "Установить цель для навигации:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1725,11 +1725,11 @@
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
+      "message" : "дн"
    },
    "UNIT_HOURS" : {
       "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
+      "message" : "ч"
    },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
@@ -1737,15 +1737,15 @@
    },
    "UNIT_MINUTES" : {
       "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
+      "message" : "м"
    },
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
-      "message" : "s"
+      "message" : "с"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "нед"
    },
    "UNKNOWN" : {
       "description" : "",

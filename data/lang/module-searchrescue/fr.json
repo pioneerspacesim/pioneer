@@ -641,11 +641,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Définir comme cible de navigation."
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Définir le trajet de retour."
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",

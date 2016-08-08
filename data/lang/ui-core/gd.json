@@ -1001,7 +1001,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "Suidhich an ceann-uidhe mar cheann-uidhe na seòladaireachd."
    },
    "SHIP" : {
       "description" : "",

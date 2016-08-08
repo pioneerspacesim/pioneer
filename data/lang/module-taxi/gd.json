@@ -565,7 +565,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
    },
    "TAXI" : {
       "description" : "",
@@ -589,7 +589,7 @@
    },
    "WRONG_SYSTEM" : {
       "description" : "Shown if system name is right, but coordinates are wrong",
-      "message" : "The system name is right, but not the coordinates."
+      "message" : "Tha ainm an t-siostaim ceart ach chan eil na co-chomharran."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

@@ -193,11 +193,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Suidhich cùrsa tillidh"
    },
    "SHIP" : {
       "description" : "",

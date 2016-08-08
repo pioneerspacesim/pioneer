@@ -197,11 +197,11 @@
    },
    "FLAVOUR_2_FAILUREMSG" : {
       "description" : "",
-      "message" : "I can't believe you kept me waiting out here this long! Forget about your payment!"
+      "message" : "Det är otroloigt att du har låtit mig vänta såhär länge. Du kan glömma din lön."
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To recieve full payment you are asked to deliver the fuel by {due}."
+      "message" : "För att erhålla full betalning måste bränslet vara levererat till {date}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "[unit] ton bränsle har överförts."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -281,11 +281,11 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "[unit] ton bränsle har överförts."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "Piloten begär 1 ton väte till bränsle."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -293,7 +293,7 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Man kan inte lite på människor längre."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transfered."
+      "message" : "[unit] ton bränsle har överförts."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -329,7 +329,7 @@
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "Du måste vara tillbaka till {due}."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
@@ -357,7 +357,7 @@
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Tack så mycket, men du är försen!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -641,11 +641,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Använd destination som navigationsmål"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Sätt som returmål"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",

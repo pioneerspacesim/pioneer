@@ -193,11 +193,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Ustaw jako cel nawigacyjny."
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Ustaw drogę powrotną."
    },
    "SHIP" : {
       "description" : "",

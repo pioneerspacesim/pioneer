@@ -193,11 +193,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Установить как цель для навигации"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Задать маршрут возвращения"
    },
    "SHIP" : {
       "description" : "",
