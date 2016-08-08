@@ -639,6 +639,14 @@
       "description" : "",
       "message" : "Search & Rescue"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
       "message" : "Target ship unresponsive."

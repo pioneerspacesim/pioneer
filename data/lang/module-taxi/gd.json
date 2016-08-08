@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "Cha dèan thu docadh an-diugh!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Tagsaidh"

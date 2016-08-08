@@ -999,6 +999,10 @@
       "description" : "",
       "message" : "Sensores e defesa"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set destination as navigation target."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Nave"

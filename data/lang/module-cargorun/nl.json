@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Semi-finished products"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Ruimtehaven:"

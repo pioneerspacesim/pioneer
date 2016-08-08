@@ -323,6 +323,10 @@
       "description" : "",
       "message" : "You'll pay for that cargo, with your life."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Porto espacial:"
