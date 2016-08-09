@@ -8,6 +8,7 @@
 #include "imgui/imgui_internal.h"
 
 class PiGui : public RefCounted {
+	static ImFont *inpionata;
 public:
 	PiGui() {
 		lua_State *l = Lua::manager->GetLuaState();
@@ -18,10 +19,14 @@ public:
 	// }
 	LuaRef GetHandlers() const { return m_handlers; }
 	void RenderHUD(double delta) {
+		ImGui::PushFont(inpionata);
 		ScopedTable(m_handlers).Call<bool>("HUD", delta);
+		ImGui::PopFont();
 	}
 	static void Init(SDL_Window *window) {
  		ImGui_ImplSdlGL3_Init(window);
+		ImGuiIO &io = ImGui::GetIO();
+		inpionata = io.Fonts->AddFontFromFileTTF("data/fonts/Inpionata.ttf", 15.0f);
  	}
  	static void NewFrame(SDL_Window *window) {
  		ImGui_ImplSdlGL3_NewFrame(window);
@@ -29,6 +34,18 @@ public:
 	static void Render() {
 		ImGui::Render();
 	}
+	static bool ProcessEvent(SDL_Event *event) {
+		return ImGui_ImplSdlGL3_ProcessEvent(event);
+	}
+
+	static bool WantCaptureMouse() {
+		return ImGui::GetIO().WantCaptureMouse;
+	}
+
+	static bool WantCaptureKeyboard() {
+		return ImGui::GetIO().WantCaptureKeyboard;
+	}
+
 private:
 	LuaRef m_handlers;
 };

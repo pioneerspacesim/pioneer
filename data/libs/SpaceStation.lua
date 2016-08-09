@@ -477,6 +477,7 @@ SpaceStation.adverts = {}
 --   stable
 --
 local nextRef = 0
+
 function SpaceStation:AddAdvert (description, onChat, onDelete)
 	-- XXX legacy arg unpacking
 	local args
@@ -499,6 +500,12 @@ function SpaceStation:AddAdvert (description, onChat, onDelete)
 		onChat      = args.onChat,
 		onDelete    = args.onDelete,
 		isEnabled   = args.isEnabled,
+		deadline    = args.deadline,
+		payout      = args.payout,
+		distance    = args.distance,
+		location    = args.location,
+		body        = args.body,
+		system      = args.system
 	}
 	Event.Queue("onAdvertAdded", self, nextRef)
 	return nextRef

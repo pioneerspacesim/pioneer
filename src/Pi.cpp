@@ -827,6 +827,12 @@ void Pi::HandleEvents()
 			Pi::Quit();
 		}
 
+		Pi::pigui->ProcessEvent(&event);
+
+		if(Pi::pigui->WantCaptureMouse() || Pi::pigui->WantCaptureKeyboard()) {
+			continue;
+		}
+
 		if (skipTextInput && event.type == SDL_TEXTINPUT) {
 			skipTextInput = false;
 			continue;

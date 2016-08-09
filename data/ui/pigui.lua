@@ -111,27 +111,100 @@ function print_r ( t )
    print()
 end
 print("****************************** PIGUI *******************************")
-local center = Vector(1920/2, 1200/2)
+
 local radius = 80
 local function markerPos(name, distance)
+	 local center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 local side, dir, pos = pigui.GetHUDMarker(name)
 	 local point = center + Vector(dir.x, dir.y) * distance
 	 if side == "hidden" then
 			return nil
 	 end
-	 if Vector(pos.x, pos.y):magnitude() < distance / 1920 * 800 then
+	 if Vector(pos.x, pos.y):magnitude() < distance / pigui.screen_width * 800 then
 			return nil
 	 else
 			return point,Vector(dir.x, dir.y)
 	 end
 end
 
+local mission_selected
+
+function show_missions()
+	 local windowbg = {r=0,g=0,b=50,a=200}
+	 local SpaceStation = import("SpaceStation")
+	 local Game = import('Game')
+	 local Space = import('Space')
+	 local Format = import('Format')
+	 local station = Game.player:GetDockedWith()
+	 if not station then
+			return
+	 end
+	 pigui.PushStyleColor("WindowBg", windowbg)
+	 pigui.Begin("Missions", {})
+	 pigui.Columns(2, "missionscolumns", true)
+	 pigui.BeginChild("foo");
+--	 pigui.BeginGroup()
+	 for k,v in pairs(station.adverts[station]) do
+			pigui.BeginGroup()
+			pigui.Text(v.description)
+			pigui.Text(v.payout and Format.Money(v.payout) or "-")
+			pigui.SameLine()
+			if v.system
+			then
+				 if v.system.index == Game.system.index
+				 and v.system.sector.x == Game.system.sector.x
+				 and v.system.sector.y == Game.system.sector.y
+						and v.system.sector.z == Game.system.sector.z
+				 then
+						pigui.Text(Format.Distance(Space.GetBody(v.body.index):DistanceTo(Game.player)))
+				 else
+						pigui.Text(v.system:DistanceTo(Game.system) .. "ly")
+				 end
+			else
+				 pigui.Text("-")
+			end
+			pigui.SameLine()
+			pigui.Text(v.deadline and Format.Duration(v.deadline - Game.time) or "-")
+--			pigui.Separator()
+			pigui.EndGroup()
+			if pigui.IsItemClicked(0) then
+				 mission_selected = v
+			end
+			pigui.Dummy(Vector(0,20))
+	 end
+	 --	 pigui.EndGroup()
+	 pigui.EndChild()
+	 pigui.NextColumn()
+	 if mission_selected then
+			local m = mission_selected
+			pigui.Text(m.description)
+			pigui.Text("Payout: " .. (m.payout and Format.Money(m.payout) or "-"))
+
+			pigui.Text("System: " .. (m.system and m.system.name or "-"))
+			pigui.Text("Body: " .. (m.body and m.body.name or "-"))
+
+			if m.system.index == Game.system.index
+				 and m.system.sector.x == Game.system.sector.x
+				 and m.system.sector.y == Game.system.sector.y
+				 and m.system.sector.z == Game.system.sector.z
+			then
+				 pigui.Text("Distance: " .. Format.Distance(Space.GetBody(m.body.index):DistanceTo(Game.player)))
+			else
+				 pigui.Text("Jump Distance: " .. m.system:DistanceTo(Game.system) .. "ly")
+			end
+	 end
+	 pigui.End()
+	 pigui.PopStyleColor(1)
+end
+
 local selected
 
 pigui.handlers.HUD = function(delta)
+	 local center = Vector(pigui.screen_width/2, pigui.screen_height/2)
+	 local windowbg = {r=0,g=0,b=50,a=200}
 	 -- transparent full-size window, no inputs
 	 pigui.SetNextWindowPos(Vector(0, 0), "Always")
-	 pigui.SetNextWindowSize(Vector(1920, 1200), "Always")
+	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
 	 pigui.PushStyleColor("WindowBg", {r=0,g=0,b=0,a=0})
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
 	 -- reticule
@@ -162,7 +235,6 @@ pigui.handlers.HUD = function(delta)
 			local top = dir * 14 + pos
 			pigui.AddTriangleFilled(left, right, top, {r=200,g=200,b=200})
 	 end
-
 	 pigui.End()
 	 pigui.PopStyleColor(1);
 
@@ -170,6 +242,7 @@ pigui.handlers.HUD = function(delta)
 	 -- nav window
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
+	 pigui.PushStyleColor("WindowBg", windowbg)
 	 pigui.Begin("Navigation", {})
 	 pigui.Columns(2, "navcolumns", false)
 	 local Game = import('Game')
@@ -199,5 +272,8 @@ pigui.handlers.HUD = function(delta)
 			pigui.NextColumn()
 	 end
 	 pigui.End()
+	 pigui.PopStyleColor(1)
+	 
+	 -- Missions, these should *not* be part of the regular HUD
+	 show_missions()
 end
-

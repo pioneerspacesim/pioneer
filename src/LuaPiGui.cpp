@@ -8,6 +8,7 @@
 #include "WorldView.h"
 #include "Pi.h"
 #include "Game.h"
+#include "graphics/Graphics.h"
 // #include "FileSystem.h"
 // #include "Player.h"
 // #include "Pi.h"
@@ -574,9 +575,74 @@ static int l_pigui_add_triangle_filled(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_same_line(lua_State *l) {
+	ImGui::SameLine();
+	return 0;
+}
+
+static int l_pigui_begin_group(lua_State *l) {
+	ImGui::BeginGroup();
+	return 0;
+}
+
+static int l_pigui_end_group(lua_State *l) {
+	ImGui::EndGroup();
+	return 0;
+}
+
+static int l_pigui_separator(lua_State *l) {
+	ImGui::Separator();
+	return 0;
+}
+
+static int l_pigui_spacing(lua_State *l) {
+	ImGui::Spacing();
+	return 0;
+}
+
+static int l_pigui_dummy(lua_State *l) {
+	ImVec2 size = luaL_checkImVec2(l, 1);
+	ImGui::Dummy(size);
+	return 0;
+}
+
+static int l_pigui_begin_child(lua_State *l) {
+	std::string id = luaL_checkstring(l, 1);
+	ImGui::BeginChild(id.c_str());
+	return 0;
+}
+
+static int l_pigui_end_child(lua_State *l) {
+	ImGui::EndChild();
+	return 0;
+}
+
+static int l_pigui_is_item_hovered(lua_State *l) {
+	lua_pushboolean(l, ImGui::IsItemHovered());
+	return 1;
+}
+
+static int l_pigui_is_item_clicked(lua_State *l) {
+	int button = luaL_checkinteger(l, 1);
+	lua_pushboolean(l, ImGui::IsItemClicked(button));
+	return 1;
+}
+
 static int l_attr_handlers(lua_State *l) {
 	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	pigui->GetHandlers().PushCopyToStack();
+	return 1;
+}
+
+static int l_attr_screen_width(lua_State *l) {
+	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	lua_pushinteger(l,Graphics::GetScreenWidth());
+	return 1;
+}
+
+static int l_attr_screen_height(lua_State *l) {
+	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	lua_pushinteger(l,Graphics::GetScreenHeight());
 	return 1;
 }
 
@@ -604,11 +670,23 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "NextColumn",             l_pigui_next_column },
 		{ "Text",                   l_pigui_text },
 		{ "Selectable",             l_pigui_selectable },
+		{ "BeginGroup",             l_pigui_begin_group },
+		{ "EndGroup",               l_pigui_end_group },
+		{ "SameLine",               l_pigui_same_line },
+		{ "Separator",              l_pigui_separator },
+		{ "IsItemHovered",          l_pigui_is_item_hovered },
+		{ "IsItemClicked",          l_pigui_is_item_clicked },
+		{ "Spacing",                l_pigui_spacing },
+		{ "Dummy",                  l_pigui_dummy },
+		{ "BeginChild",             l_pigui_begin_child },
+		{ "EndChild",               l_pigui_end_child },
 		{ 0, 0 }
 	};
 
 	static const luaL_Reg l_attrs[] = {
 		{ "handlers", l_attr_handlers },
+		{ "screen_width", l_attr_screen_width },
+		{ "screen_height", l_attr_screen_height },
 		{ 0, 0 }
 	};
 

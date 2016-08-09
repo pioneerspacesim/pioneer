@@ -245,6 +245,7 @@ pioneer_SOURCES	= \
 	ObjectViewerView.cpp \
 	Orbit.cpp \
 	Pi.cpp \
+  PiGui.cpp \
 	Plane.cpp \
 	Planet.cpp \
 	Player.cpp \

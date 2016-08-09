@@ -288,7 +288,14 @@ local makeAdvert = function (station, manualFlavour, nearbystations)
 		icon        = ad.urgency >=  0.8 and "delivery_urgent" or "delivery",
 		onChat      = onChat,
 		onDelete    = onDelete,
-		isEnabled   = isEnabled })
+		isEnabled   = isEnabled,
+	  payout      = reward,
+		location    = ad.location,
+		body        = ad.location:GetSystemBody(),
+		system      = nearbysystem,
+	  deadline    = due,
+	  distance    = dist
+	})
 	ads[ref] = ad
 
 	-- successfully created an advert, return non-nil

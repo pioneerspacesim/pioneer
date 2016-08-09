@@ -451,6 +451,25 @@ static int l_starsystem_attr_name(lua_State *l)
 	return 1;
 }
 
+static int l_starsystem_attr_index(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	lua_pushinteger(l, s->GetPath().systemIndex);
+	return 1;
+}
+
+static int l_starsystem_attr_sector(lua_State *l)
+{
+	PROFILE_SCOPED()
+	StarSystem *s = LuaObject<StarSystem>::CheckFromLua(1);
+	LuaTable sector(l);
+	sector.Set<int>("x", s->GetPath().sectorX);
+	sector.Set<int>("y", s->GetPath().sectorY);
+	sector.Set<int>("z", s->GetPath().sectorZ);
+	return 1;
+}
+
 /*
  * Attribute: path
  *
@@ -586,9 +605,11 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 	};
 
 	static const luaL_Reg l_attrs[] = {
-		{ "name", l_starsystem_attr_name },
-		{ "path", l_starsystem_attr_path },
-
+		{ "name",   l_starsystem_attr_name },
+		{ "path",   l_starsystem_attr_path },
+		{ "index",  l_starsystem_attr_index },
+		{ "sector", l_starsystem_attr_sector },
+		
 		{ "lawlessness", l_starsystem_attr_lawlessness },
 		{ "population",  l_starsystem_attr_population  },
 		{ "faction",     l_starsystem_attr_faction     },

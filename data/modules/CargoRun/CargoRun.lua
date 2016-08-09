@@ -547,12 +547,20 @@ local makeAdvert = function (station)
 		starport = ad.location:GetSystemBody().name,
 	})
 
-	local ref = station:AddAdvert({
+	local data = {
 		description = ad.desc,
 		icon        = ad.urgency >=  0.8 and "haul_fast" or "haul",
 		onChat      = onChat,
 		onDelete    = onDelete,
-		isEnabled   = isEnabled })
+		isEnabled   = isEnabled,
+		payout      = ad.reward,
+		location    = location,
+		body        = location:GetSystemBody(),
+		distance    = dist,
+		system      = nearbysystem,
+		deadline    = due
+	}
+	local ref = station:AddAdvert(data)
 	ads[ref] = ad
 
 	return ad
