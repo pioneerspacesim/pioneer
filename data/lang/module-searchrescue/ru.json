@@ -645,7 +645,7 @@
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Задать маршрут возвращения."
+      "message" : "Задать маршрут возвращения"
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
