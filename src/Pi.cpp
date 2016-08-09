@@ -1434,8 +1434,8 @@ void Pi::MainLoop()
 		Pi::DrawRenderTarget();
 
 
-
-		PiGuiUI(Pi::frameTime);
+		if(Pi::game && !Pi::player->IsDead())
+			PiGuiUI(Pi::frameTime);
 
 		Pi::renderer->SwapBuffers();
 

@@ -168,6 +168,8 @@ pigui.handlers.HUD = function(delta)
 
 
 	 -- nav window
+	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
+	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
 	 pigui.Begin("Navigation", {})
 	 pigui.Columns(2, "navcolumns", false)
 	 local Game = import('Game')
