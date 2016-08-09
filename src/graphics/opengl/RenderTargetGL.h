@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_RENDERTARGET_H
@@ -37,8 +37,9 @@ public:
 	~RenderTarget();
 	virtual Texture *GetColorTexture() const;
 	virtual Texture *GetDepthTexture() const;
-	virtual void SetColorTexture(Texture*);
-	virtual void SetDepthTexture(Texture*);
+	virtual void SetCubeFaceTexture(const Uint32 face, Texture* t) final;
+	virtual void SetColorTexture(Texture*) final;
+	virtual void SetDepthTexture(Texture*) final;
 
 protected:
 	friend class Graphics::RendererOGL;

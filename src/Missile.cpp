@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Missile.h"
@@ -127,7 +127,7 @@ void Missile::Explode()
 		}
 	}
 
-	Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+	SfxManager::Add(this, TYPE_EXPLOSION);
 }
 
 void Missile::NotifyRemoved(const Body* const removedBody)
@@ -135,6 +135,7 @@ void Missile::NotifyRemoved(const Body* const removedBody)
 	if (m_owner == removedBody) {
 		m_owner = 0;
 	}
+	Ship::NotifyRemoved(removedBody);
 }
 
 void Missile::Arm()

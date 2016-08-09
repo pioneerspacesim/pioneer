@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -26,7 +26,7 @@ ToolTip::ToolTip(Widget *owner, std::string &text)
 
 ToolTip::~ToolTip()
 {
-	delete m_layout;
+	m_layout.reset();
 }
 
 void ToolTip::CalcSize()
@@ -40,10 +40,11 @@ void ToolTip::CalcSize()
 
 void ToolTip::SetText(const char *text)
 {
-	m_text = text;
-	if (m_layout) delete m_layout;
-	m_layout = new TextLayout(text);
-	CalcSize();
+	if (m_text != text) {
+		m_text = text;
+		m_layout.reset(new TextLayout(text));
+		CalcSize();
+	}
 }
 
 void ToolTip::SetText(std::string &text)

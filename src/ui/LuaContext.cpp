@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Context.h"
@@ -118,14 +118,9 @@ public:
 		float r = luaL_checknumber(l, 2);
 		float g = luaL_checknumber(l, 3);
 		float b = luaL_checknumber(l, 4);
-		float a = 1.0f;
-		int implicit = 5;
-		if (lua_gettop(l) > 4) {
-			a = luaL_checknumber(l, 5);
-			implicit = 6;
-		}
+		float a = luaL_checknumber(l, 5);
 		UI::ColorBackground *cb = c->ColorBackground(Color(r*255,g*255,b*255,a*255));
-		_implicit_set_inner_widget(l, cb, implicit);
+		_implicit_set_inner_widget(l, cb, 6);
 		LuaObject<UI::ColorBackground>::PushToLua(cb);
 		return 1;
 	}
@@ -170,6 +165,13 @@ public:
 		UI::Align *a = c->Align(dir);
 		_implicit_set_inner_widget(l, a, 3);
 		LuaObject<UI::Align>::PushToLua(a);
+		return 1;
+	}
+
+	static int l_overlay_stack(lua_State *l) {
+		UI::Context *c = LuaObject<UI::Context>::CheckFromLua(1);
+		UI::OverlayStack *s = c->OverlayStack();
+		LuaObject<UI::OverlayStack>::PushToLua(s);
 		return 1;
 	}
 
@@ -398,6 +400,7 @@ template <> void LuaObject<UI::Context>::RegisterClass()
 		{ "Expand",          LuaContext::l_expand          },
 		{ "Margin",          LuaContext::l_margin          },
 		{ "Align",           LuaContext::l_align           },
+		{ "OverlayStack",    LuaContext::l_overlay_stack   },
 		{ "Scroller",        LuaContext::l_scroller        },
 		{ "Icon",            LuaContext::l_icon            },
 		{ "Image",           LuaContext::l_image           },

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "NumberLabel.h"
@@ -44,6 +44,14 @@ NumberLabel *NumberLabel::SetValue(double v)
 
 		case FORMAT_MONEY:
 			SetText(format_money(Sint64(v*100)));
+			break;
+
+		case FORMAT_DISTANCE_M:
+			SetText(format_distance(v, 3));
+			break;
+
+		case FORMAT_DISTANCE_LY:
+			SetText(stringf(Lang::NUMBER_LY, formatarg("distance", v)));
 			break;
 
 		default:

@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "{name} & Hijos"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Nos ocupamos de lo que otros no."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "Un auténtico libre comercio."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "¡Ofreciéndole los mejores productos menos convencionales!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Creemos en un comercio sin restricciones."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "El comercio desregularizado para usted, por su libertad."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "El distribuidor confiable."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Siempre un precio justo solo para usted."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Bienvenido a "

@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Semi-finished products"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Ustaw jako cel nawigacyjny."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Ustaw drogę powrotną."
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Port kosmiczny:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "These goods crucial for a construction project."
+      "message" : "These goods are crucial for a construction project."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

@@ -584,26 +584,9 @@ public:
     }
 };
 
-/*
- * Sometimes you might want a distinct seed based on when the program
- * was compiled.  That way, a particular instance of the program will
- * behave the same way, but when recompiled it'll produce a different
- * value.
- */
-
-template <typename IntType>
-struct static_arbitrary_seed {
-private:
-    static constexpr IntType fnv(IntType hash, const char* pos) {
-        return *pos == '\0'
-             ? hash
-             : fnv((hash * IntType(16777619U)) ^ *pos, (pos+1));
-    }
-
-public:
-    static constexpr IntType value = fnv(IntType(2166136261U ^ sizeof(IntType)),
-                        __DATE__ __TIME__ __FILE__);
-};
+// note(jpab): static_arbitrary_seed used to be defined here.
+//             I've pulled it out into a separate header
+//             pcg_static_arbitrary_seed.hpp
 
 // Sometimes, when debugging or testing, it's handy to be able print the name
 // of a (in human-readable form).  This code allows the idiom:

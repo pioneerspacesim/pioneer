@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GEOMTREE_H
@@ -19,7 +19,7 @@ struct BVHNode;
 
 class GeomTree {
 public:
-	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const Uint16 *indices, const unsigned int *triflags);
+	GeomTree(const int numVerts, const int numTris, const std::vector<vector3f> &vertices, const Uint32 *indices, const Uint32 *triflags);
 	GeomTree(Serializer::Reader &rd);
 	~GeomTree();
 
@@ -27,13 +27,10 @@ public:
 	// dir should be unit length,
 	// isect.dist should be ray length
 	// isect.triIdx should be -1 unless repeat calls with same isect_t
-	void CollideEdgesWithTrisOf(const GeomTree *other, const matrix4x4d &transTo, void (*callback)(CollisionContact*)) const;
 	void TraceRay(const vector3f &start, const vector3f &dir, isect_t *isect) const;
 	void TraceRay(const BVHNode *startNode, const vector3f &a_origin, const vector3f &a_dir, isect_t *isect) const;
-	//void TraceCoherentRays(int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
-	//void TraceCoherentRays(const BVHNode *startNode, int numRays, const vector3f &a_origin, const vector3f *a_dirs, isect_t *isects) const;
 	vector3f GetTriNormal(int triIdx) const;
-	unsigned int GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
+	Uint32 GetTriFlag(int triIdx) const { return m_triFlags[triIdx]; }
 	double GetRadius() const { return m_radius; }
 	struct Edge {
 		int v1i, v2i;
@@ -45,6 +42,7 @@ public:
 
 		void Save(Serializer::Writer &wr) const
 		{
+			PROFILE_SCOPED()
 			wr.Int32(v1i);
 			wr.Int32(v2i);
 			wr.Float(len);
@@ -53,6 +51,7 @@ public:
 		}
 		void Load(Serializer::Reader &rd)
 		{
+			PROFILE_SCOPED()
 			v1i = rd.Int32();
 			v2i = rd.Int32();
 			len = rd.Float();
@@ -67,8 +66,8 @@ public:
 	BVHTree* GetEdgeTree() const { return m_edgeTree.get(); }
 
 	const std::vector<vector3f>& GetVertices() const { return m_vertices; }
-	const Uint16 *GetIndices() const { return &m_indices[0]; }
-	const unsigned int *GetTriFlags() const { return &m_triFlags[0]; }
+	const Uint32 *GetIndices() const { return &m_indices[0]; }
+	const Uint32 *GetTriFlags() const { return &m_triFlags[0]; }
 	int GetNumVertices() const { return m_numVertices; }
 	int GetNumTris() const { return m_numTris; }
 
@@ -91,8 +90,8 @@ private:
 	std::vector<Edge> m_edges;
 
 	std::vector<vector3f> m_vertices;
-	std::vector<Uint16> m_indices;
-	std::vector<unsigned int> m_triFlags;
+	std::vector<Uint32> m_indices;
+	std::vector<Uint32> m_triFlags;
 };
 
 #endif /* _GEOMTREE_H */

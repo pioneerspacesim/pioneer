@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Kommen Sie hierhin zurück, um den Vertrag abzuschließen und Ihre Belohnung zu bekommen."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Schiff:"

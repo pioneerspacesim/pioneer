@@ -313,7 +313,7 @@
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "Oggi quel pacco non arriverà a destinazione."
+      "message" : "Questo pacco oggi non riuscirà a raggiungere il proprio destinatario."
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
@@ -322,6 +322,10 @@
    "PIRATE_TAUNTS_9" : {
       "description" : "",
       "message" : "Pagherai per quel carico, con la tua vita."
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Imposta come destinazione di navigazione"
    },
    "SPACEPORT" : {
       "description" : "",

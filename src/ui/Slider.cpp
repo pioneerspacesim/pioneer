@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Slider.h"
@@ -176,7 +176,7 @@ void Slider::HandleMouseMove(const MouseMotionEvent &event)
 			travel = float(pos) / effectiveLength;
 		}
 
-		SetValue(travel);
+		SetValue(travel*(m_rangeMax - m_rangeMin) + m_rangeMin);
 	}
 
 	else {

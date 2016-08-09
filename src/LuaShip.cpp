@@ -1,9 +1,10 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
+#include "LuaVector.h"
 #include "EnumStrings.h"
 #include "Ship.h"
 #include "Missile.h"
@@ -180,17 +181,17 @@ static int l_ship_set_fuel_percent(lua_State *l)
 
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 
-	float percent = 100;
+	double percent = 100;
 	if (lua_isnumber(l, 2)) {
-		percent = float(luaL_checknumber(l, 2));
-		if (percent < 0.0f || percent > 100.0f) {
+		percent = luaL_checknumber(l, 2);
+		if (percent < 0.0 || percent > 100.0) {
 			pi_lua_warn(l,
 				"argument out of range: Ship{%s}:SetFuelPercent(%g)",
 				s->GetLabel().c_str(), percent);
 		}
 	}
 
-	s->SetFuel(percent/100.f);
+	s->SetFuel(percent/100.0);
 
 	LUA_DEBUG_END(l, 0);
 
@@ -528,6 +529,7 @@ static int l_ship_use_ecm(lua_State *l)
  *   path - a <SystemPath> for the destination system
  *
  *   warmup - the time, in seconds, needed for the engines to warm up.
+ *            Minimum time is one second, for saftey reasons.
  *
  *   duration - travel time, in seconds.
  *
@@ -665,6 +667,9 @@ static int l_ship_set_invulnerable(lua_State *l)
  *
  *   target - the <Ship> to destroy
  *
+ * Returns:
+ *   true if the command could be enacted, false otherwise
+ *
  * Availability:
  *
  *  alpha 10
@@ -678,9 +683,14 @@ static int l_ship_ai_kill(lua_State *l)
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIKill() cannot be called on a ship in hyperspace");
-	Ship *target = LuaObject<Ship>::CheckFromLua(2);
-	s->AIKill(target);
-	return 0;
+	Ship *target = LuaObject<Ship>::GetFromLua(2);
+	if (target != nullptr) {
+		s->AIKill(target);
+		lua_pushboolean(l, true);
+	} else {
+		lua_pushboolean(l, false);
+	}
+	return 1;
 }
 
 /*
@@ -693,6 +703,9 @@ static int l_ship_ai_kill(lua_State *l)
  * Parameters:
  *
  *   target - the <Ship> to destroy
+ *
+ * Returns:
+ *   true if the command could be enacted, false otherwise
  *
  * Availability:
  *
@@ -708,8 +721,13 @@ static int l_ship_ai_kamikaze(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIKamikaze() cannot be called on a ship in hyperspace");
 	Ship *target = LuaObject<Ship>::GetFromLua(2);
-	s->AIKamikaze(target);
-	return 0;
+	if (target != nullptr) {
+		s->AIKamikaze(target);
+		lua_pushboolean(l, true);
+	} else {
+		lua_pushboolean(l, false);
+	}
+	return 1;
 }
 
 /*
@@ -917,6 +935,59 @@ static int l_ship_update_equip_stats(lua_State *l)
 	return 0;
 }
 
+/*
+ * Method: GetVelocity
+ *
+ * Get the ships velocity
+ *
+ * > ship:GetVelocity()
+ *
+ * Availability:
+ *
+ *  April 2016
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_get_velocity(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	vector3d v = s->GetVelocity();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
+	return 1;
+}
+
+/*
+ * Method: GetPosition
+ *
+ * Get the ships velocity
+ *
+ * > ship:GetPosition()
+ *
+ * Availability:
+ *
+ *  April 2016
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_ship_get_position(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	vector3d v = s->GetPosition();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
+	return 1;
+}
+
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -962,6 +1033,9 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetInvulnerable", l_ship_set_invulnerable },
 
 		{ "UpdateEquipStats", l_ship_update_equip_stats },
+
+		{ "GetVelocity", l_ship_get_velocity },
+ 		{ "GetPosition", l_ship_get_position },
 
 		{ 0, 0 }
 	};

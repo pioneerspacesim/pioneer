@@ -95,7 +95,7 @@ void GameLog::DrawHudMessages(Graphics::Renderer *r)
 			it->m_prevoffset = m_offset;
 			Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0);
 			m_font->PopulateString(va, it->msg.c_str(), m_offset.x, m_offset.y + y, textColour);
-			it->m_vb.Reset( m_font->CreateVertexBuffer(va) );
+			it->m_vb.Reset( m_font->CreateVertexBuffer(va, true) );
 		}
 
 		m_font->RenderBuffer( it->m_vb.Get() );

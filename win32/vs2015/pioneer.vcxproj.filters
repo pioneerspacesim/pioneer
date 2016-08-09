@@ -30,9 +30,6 @@
     <ClCompile Include="..\..\src\Frame.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\GalacticView.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\GameConfig.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -199,9 +196,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LuaSystemPath.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\FormController.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\Lang.cpp">
@@ -426,10 +420,16 @@
     <ClCompile Include="..\..\src\LuaServerAgent.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\GasGiantJobs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\win32\TextUtils.cpp">
       <Filter>src\win32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\CollMesh.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\RandomColor.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -468,9 +468,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Frame.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\GalacticView.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GameConfig.h">
@@ -633,9 +630,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaMusic.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\FormController.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaConsole.h">
@@ -867,6 +861,15 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LuaServerAgent.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\GasGiantJobs.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Range.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\RandomColor.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

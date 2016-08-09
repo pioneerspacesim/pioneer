@@ -21,7 +21,7 @@
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "Abgemacht! Ich werde meine Kollegen wissen lassen, dass du auf dem Weg bist."
+      "message" : "Abgemacht! Ich werde meine Kollegen wissen lassen, dass Sie auf dem Weg sind."
    },
    "ADTEXT_1" : {
       "description" : "",
@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Halbfertige Produkte"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Raumhafen:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Diese Güter sind wichtig für ein Bauvorhaben."
+      "message" : "Diese Güter sind wichtig für ein Bauprojekt."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "Diminue vitesse auto"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Diminuer l'accélération du temps"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "Démographie"
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Cette sauvegarde ne peut être chargée - problème de permissions ou autre…"
+      "message" : "Sauvegarde '%filename' introuvable (ou le jeu n'a pas les droits nécessaires)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -595,6 +599,10 @@
       "description" : "",
       "message" : "Augmenter vitesse auto"
    },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Augmenter l'accélération du temps"
+   },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
       "message" : "Colonie Industrielle."
@@ -610,10 +618,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "Vue cockpit"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale al"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -639,6 +643,10 @@
       "description" : "",
       "message" : "%speed{f.2} km/s rel-à %frame"
    },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Afficher/Cacher les points Lagrange L4/L5."
+   },
    "LANDED" : {
       "description" : "",
       "message" : "Au sol"
@@ -658,6 +666,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Détection de tirs laser."
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +695,13 @@
       "description" : "",
       "message" : "Animaux vivants"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la voie lactée local"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "verrouillé"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -935,10 +947,6 @@
       "description" : "",
       "message" : "Gaz neurotox."
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la Règle"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Non trouvé"
@@ -946,6 +954,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "Non trouvé, meilleur choix: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Maintenant"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1063,10 +1075,6 @@
       "description" : "",
       "message" : "Monde agricole à l'air libre."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras externe"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Plus de %population milliards"
@@ -1090,10 +1098,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distance de périhélie"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de Persée"
    },
    "PIONEER" : {
       "description" : "",
@@ -1255,10 +1259,6 @@
       "description" : "",
       "message" : "Détritus"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras du Sagittaire"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Senseurs"
@@ -1270,10 +1270,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "capture_d_ecran%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras Écu-Croix"
    },
    "SEARCH" : {
       "description" : "",
@@ -1635,10 +1631,6 @@
       "description" : "",
       "message" : "fine"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la voie lactée 3kpc"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "Monde avec une faune impressionnante."
@@ -1675,6 +1667,10 @@
       "description" : "",
       "message" : "Minuscule"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Vue équipement"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "regl mode HUD"
@@ -1686,6 +1682,10 @@
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Réglage de l'amortisseur de rotation"
+   },
+   "TOGGLE_SCANNER_VIEW" : {
+      "description" : "Tooltip for the Scanner View button",
+      "message" : "Vue scanner"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1718,6 +1718,34 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Système non-exploré. Les informations ont été réunies par un téléscope distant, mais aucune information planétaire n'est disponible."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "UA"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "j"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "al"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "sec."
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "sem."
    },
    "UNKNOWN" : {
       "description" : "",

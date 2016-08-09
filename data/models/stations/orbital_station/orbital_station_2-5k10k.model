@@ -1,42 +1,42 @@
-material facade-material
+material facade
 tex_diff facades_diff.dds
 tex_glow facades_diff.dds
 specular 0.1 0.1 0.1
 unlit
 
-material floor-material
+material floor
 tex_diff floors_diff.dds
 tex_glow floors_diff.dds
 specular 0.1 0.1 0.1
 unlit
 
-material tunnels-material
+material tunnels
 tex_diff spoke_n_misc_diff.dds
 tex_glow spoke_n_misc_diff.dds
 specular 0.1 0.1 0.1
 unlit
 
-material facade_window-material
+material facade_window
 tex_diff facades_diff.dds
 tex_glow facades_diff.dds
 specular 0.6 0.6 0.6
 opacity 13
 
-material ring-material
+material ring
 tex_diff ring_diff.dds
 tex_glow ring_glow.dds
 specular 0.1 0.1 0.1
 
-material ring_glass-material
+material ring_glass
 tex_diff ring_diff.dds
 specular 0.7 0.7 0.7
 opacity 20
 
-material strut-material
+material strut
 tex_diff struts_diff.dds
 specular 0.1 0.1 0.1
 
-material spokes-material
+material spokes
 tex_diff spoke_n_misc_diff.dds
 specular 0.1 0.1 0.1
 

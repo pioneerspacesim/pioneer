@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Здесь вы можете приобрести топливо и сдать радиоактивные отходы на утилизацию."
+      "message" : "Здесь вы можете приобрести топливо и сдать {radioactives} на утилизацию."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -21,19 +21,19 @@
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
-      "message" : "Космическое Топливное Содружество Пилотов приветствует вас, капитан!"
+      "message" : "{clubname} приветствует вас, капитан!"
    },
    "FLAVOUR_1_CLUBNAME" : {
       "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
+      "message" : "Федеральный Топливный Фонд"
    },
    "FLAVOUR_1_NONMEMBER_INTRO" : {
       "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+      "message" : "{clubname} является ведущим поставщиком топлива в Солнечной Федерации, предоставляющая своим членам хорошие скидки на топливо для кораблей. Членство даст вам следующие преимущества:"
    },
    "FLAVOUR_2_CLUBNAME" : {
       "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
+      "message" : "Конфедеративный Топливный Союз"
    },
    "FLAVOUR_2_NONMEMBER_INTRO" : {
       "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
@@ -41,7 +41,7 @@
    },
    "FLAVOUR_2_WELCOME" : {
       "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
+      "message" : "Приветствуем вас! Надеемся, вам понравятся наши услуги."
    },
    "FLAVOUR_3_CLUBNAME" : {
       "description" : "Fuel club for the Haber faction",
@@ -81,11 +81,11 @@
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "Вы можете сдать на утилизацию столько же тонн радиоактивных отходов, сколько тонн военного топлива вы у нас приобрели."
+      "message" : "Вы можете сдать на утилизацию столько же тонн {radioactives}, сколько тонн {military_fuel} вы у нас приобрели."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
-      "message" : "Какие ограничения имеются для реализации бесплатной утилизации радиоактивных отходов?"
+      "message" : "Какие ограничения имеются для реализации бесплатной утилизации {radioactives}?"
    },
    "YOUR_MEMBERSHIP_APPLICATION_HAS_BEEN_DECLINED" : {
       "description" : "",

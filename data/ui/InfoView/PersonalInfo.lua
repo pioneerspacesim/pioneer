@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -23,7 +23,7 @@ local personalInfo = function ()
 	local nameEntry = ui:TextEntry(player.name):SetFont("HEADING_LARGE")
 	nameEntry.onChange:Connect(function (newName)
 		player.name = newName
-        faceWidget:UpdateInfo(player)
+		faceWidget:UpdateInfo(player)
 	end )
 
 	local genderToggle = SmallLabeledButton.New(l.TOGGLE_MALE_FEMALE)
@@ -52,7 +52,7 @@ local personalInfo = function ()
 					"",
 					ui:Label(l.REPUTATION):SetFont("HEADING_LARGE"),
 					ui:Table():SetColumnSpacing(10):AddRows({
-						{ "Status:", l[player:GetReputationRating()] },
+						{ l.STATUS..":", l[player:GetReputationRating()] },
 					}),
 					"",
 					ui:Label(l.MILITARY):SetFont("HEADING_LARGE"),

@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "压缩贴图文件"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirm purchase"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirm sale"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "警官"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "雇佣"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Anisotropic Filtering"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -471,6 +483,10 @@
       "description" : "For player reputation",
       "message" : "缺乏经验的"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Insufficient funds."
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "反转鼠标Y轴"
@@ -513,7 +529,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "发射请求驳回:船员不足无法控制飞船."
+      "message" : "Permission to launch denied: not enough crew to handle this ship."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -558,6 +574,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "大厅"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "猎户臂"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -699,6 +719,10 @@
       "description" : "",
       "message" : "导航:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "导航员"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "谈判"
@@ -718,6 +742,14 @@
    "NONE" : {
       "description" : "",
       "message" : "无"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "None for sale in this station."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "天鹅臂"
    },
    "NOTES" : {
       "description" : "",
@@ -775,6 +807,10 @@
       "description" : "",
       "message" : "环绕速度是指飞船的轨道速度在垂直于(90度)飞船-{name}方向上的分量.\n\n下降速度取最小绝对值, 同时也是切向的. 一个较慢的轨道速度或较低的角度会导致飞船的轨道与 {name} 表面交会.\n\n逃逸速度在任何方向上都相同, 除非飞船的轨道与 {name} 表面交会.\n\\t\\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "外部臂"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Outstanding fines"
@@ -787,9 +823,17 @@
       "description" : "",
       "message" : "缴纳 {amount} 罚金"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "英仙臂"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "个人信息"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "飞行员"
    },
    "PILOTING" : {
       "description" : "",
@@ -834,6 +878,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "专家"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Pump down"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -883,6 +931,10 @@
       "description" : "",
       "message" : "请求发射"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "重置"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "返回游戏"
@@ -903,6 +955,10 @@
       "description" : "",
       "message" : "报酬"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "射手臂"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "保存"
@@ -910,6 +966,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "收集器挂点"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "半人马臂"
    },
    "SELECT" : {
       "description" : "",
@@ -935,9 +995,21 @@
       "description" : "",
       "message" : "传感器:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "传感器与防御"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set destination as navigation target."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "飞船"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "飞船工程师"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1015,6 +1087,10 @@
       "description" : "",
       "message" : "飞船处于空间站控制下了, 指挥官."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3k秒差距旋臂"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "切换 男/女"
@@ -1022,6 +1098,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "飞船对于现在的船员来说太小了."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Ship is too small to transship your cargo."
    },
    "TOTAL" : {
       "description" : "",
@@ -1123,6 +1203,10 @@
       "description" : "",
       "message" : "你没有足够的钱购买."
    },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "You have {units} units in your cargohold"
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
       "message" : "你必须选择一个战斗目标,指挥官."
@@ -1142,5 +1226,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "你没有足够的钱."
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

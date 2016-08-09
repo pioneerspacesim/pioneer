@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -45,7 +45,6 @@ static std::vector<GeoSphere*> s_allGeospheres;
 void GeoSphere::Init()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 }
 
 void GeoSphere::Uninit()
@@ -78,7 +77,6 @@ void GeoSphere::UpdateAllGeoSpheres()
 void GeoSphere::OnChangeDetailLevel()
 {
 	s_patchContext.Reset(new GeoPatchContext(detail_edgeLen[Pi::detail.planets > 4 ? 4 : Pi::detail.planets]));
-	assert(s_patchContext->GetEdgeLen() <= detail_edgeLen[4]);
 
 	// reinit the geosphere terrain data
 	for(std::vector<GeoSphere*>::iterator i = s_allGeospheres.begin(); i != s_allGeospheres.end(); ++i)
@@ -183,7 +181,8 @@ void GeoSphere::Reset()
 #define GEOSPHERE_TYPE	(GetSystemBody()->type)
 
 GeoSphere::GeoSphere(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_initStage(eBuildFirstPatches), m_maxDepth(0)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_tempFrustum(800, 600, 0.5, 1.0, 1000.0),
+	m_initStage(eBuildFirstPatches), m_maxDepth(0)
 {
 	print_info(body, m_terrain.Get());
 
@@ -304,11 +303,6 @@ void GeoSphere::BuildFirstPatches()
 	m_patches[3].reset(new GeoPatch(s_patchContext, this, p2, p1, p5, p6, 0, (3ULL << maxShiftDepth)));
 	m_patches[4].reset(new GeoPatch(s_patchContext, this, p3, p2, p6, p7, 0, (4ULL << maxShiftDepth)));
 	m_patches[5].reset(new GeoPatch(s_patchContext, this, p8, p7, p6, p5, 0, (5ULL << maxShiftDepth)));
-	for (int i=0; i<NUM_PATCHES; i++) {
-		for (int j=0; j<4; j++) {
-			m_patches[i]->SetEdgeFriend(j, m_patches[geo_sphere_edge_friends[i][j]].get());
-		}
-	}
 
 	for (int i=0; i<NUM_PATCHES; i++) {
 		m_patches[i]->RequestSinglePatch();
@@ -358,7 +352,7 @@ void GeoSphere::Update()
 		if(m_hasTempCampos) {
 			ProcessSplitResults();
 			for (int i=0; i<NUM_PATCHES; i++) {
-				m_patches[i]->LODUpdate(m_tempCampos);
+				m_patches[i]->LODUpdate(m_tempCampos, m_tempFrustum);
 			}
 			ProcessQuadSplitRequests();
 		}
@@ -391,6 +385,7 @@ void GeoSphere::ProcessQuadSplitRequests()
 
 void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView, vector3d campos, const float radius, const std::vector<Camera::Shadow> &shadows)
 {
+	PROFILE_SCOPED()
 	// store this for later usage in the update method.
 	m_tempCampos = campos;
 	m_hasTempCampos = true;
@@ -406,6 +401,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 	matrix4x4ftod(renderer->GetCurrentModelView(), modv);
 	matrix4x4ftod(renderer->GetCurrentProjection(), proj);
 	Graphics::Frustum frustum( modv, proj );
+	m_tempFrustum = frustum;
 
 	// no frustum test of entire geosphere, since Space::Render does this
 	// for each body using its GetBoundingRadius() value
@@ -435,7 +431,7 @@ void GeoSphere::Render(Graphics::Renderer *renderer, const matrix4x4d &modelView
 			// show ugly polygonal angles
 			DrawAtmosphereSurface(renderer, trans, campos,
 				m_materialParameters.atmosphere.atmosRadius*1.01,
-				m_atmosRenderState, m_atmosphereMaterial.get());
+				m_atmosRenderState, m_atmosphereMaterial);
 		}
 	}
 
@@ -485,6 +481,7 @@ void GeoSphere::SetUpMaterials()
 
 	//blended
 	rsd.blendMode = Graphics::BLEND_ALPHA_ONE;
+	rsd.cullMode = Graphics::CULL_NONE;
 	rsd.depthWrite = false;
 	m_atmosRenderState = Pi::renderer->CreateRenderState(rsd);
 
@@ -521,15 +518,12 @@ void GeoSphere::SetUpMaterials()
 		}
 	}
 
-	const bool bEnableEclipse = (Pi::config->Int("DisableEclipse") == 0);
-	if (bEnableEclipse) {
-		surfDesc.quality |= Graphics::HAS_ECLIPSES;
-	}
+	surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	const bool bEnableDetailMaps = (Pi::config->Int("DisableDetailMaps") == 0);
 	if (bEnableDetailMaps) {
 		surfDesc.quality |= Graphics::HAS_DETAIL_MAPS;
 	}
-	m_surfaceMaterial.reset(Pi::renderer->CreateMaterial(surfDesc));
+	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 
 	m_texHi.Reset( Graphics::TextureBuilder::Model("textures/high.dds").GetOrCreateTexture(Pi::renderer, "model") );
 	m_texLo.Reset( Graphics::TextureBuilder::Model("textures/low.dds").GetOrCreateTexture(Pi::renderer, "model") );
@@ -540,10 +534,8 @@ void GeoSphere::SetUpMaterials()
 		Graphics::MaterialDescriptor skyDesc;
 		skyDesc.effect = Graphics::EFFECT_GEOSPHERE_SKY;
 		skyDesc.lighting = true;
-		if (bEnableEclipse) {
-			skyDesc.quality |= Graphics::HAS_ECLIPSES;
-		}
-		m_atmosphereMaterial.reset(Pi::renderer->CreateMaterial(skyDesc));
+		skyDesc.quality |= Graphics::HAS_ECLIPSES;
+		m_atmosphereMaterial.Reset(Pi::renderer->CreateMaterial(skyDesc));
 		m_atmosphereMaterial->texture0 = nullptr;
 		m_atmosphereMaterial->texture1 = nullptr;
 	}

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pi.h"
@@ -11,7 +11,6 @@
 #include "Factions.h"
 #include "FileSystem.h"
 #include "Frame.h"
-#include "GalacticView.h"
 #include "Game.h"
 #include "BaseSphere.h"
 #include "Intro.h"
@@ -85,7 +84,7 @@
 #include <algorithm>
 #include <sstream>
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32__)
 	// RegisterClassA and RegisterClassW are defined as macros in WinUser.h
 	#ifdef RegisterClass
 	#undef RegisterClass
@@ -129,12 +128,12 @@ bool Pi::doProfileOne = false;
 int Pi::statSceneTris = 0;
 int Pi::statNumPatches = 0;
 GameConfig *Pi::config;
-struct DetailLevel Pi::detail = { 0, 0 };
+DetailLevel Pi::detail;
 bool Pi::joystickEnabled;
 bool Pi::mouseYInvert;
 bool Pi::compactScanner;
 std::map<SDL_JoystickID,Pi::JoystickState> Pi::joysticks;
-bool Pi::navTunnelDisplayed;
+bool Pi::navTunnelDisplayed = false;
 bool Pi::speedLinesDisplayed = false;
 bool Pi::hudTrailsDisplayed = false;
 bool Pi::bRefreshBackgroundStars = true;
@@ -349,6 +348,53 @@ std::string Pi::GetSaveDir()
 	return FileSystem::JoinPath(FileSystem::GetUserDir(), Pi::SAVE_DIR_NAME);
 }
 
+void TestGPUJobsSupport()
+{
+	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
+	if (supportsGPUJobs) 
+	{
+		Uint32 octaves = 8;
+		for (Uint32 i = 0; i<6; i++) 
+		{
+			std::unique_ptr<Graphics::Material> material;
+			Graphics::MaterialDescriptor desc;
+			desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
+			desc.quality = (octaves << 16) | i;
+			desc.textures = 3;
+			material.reset(Pi::renderer->CreateMaterial(desc));
+			supportsGPUJobs &= material->IsProgramLoaded();
+		}
+		if (!supportsGPUJobs) 
+		{
+			// failed - retry
+
+			// reset the GPU jobs flag
+			supportsGPUJobs = true;
+
+			// retry the shader compilation
+			octaves = 5; // reduce the number of octaves
+			for (Uint32 i = 0; i<6; i++)
+			{
+				std::unique_ptr<Graphics::Material> material;
+				Graphics::MaterialDescriptor desc;
+				desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
+				desc.quality = (octaves << 16) | i;
+				desc.textures = 3;
+				material.reset(Pi::renderer->CreateMaterial(desc));
+				supportsGPUJobs &= material->IsProgramLoaded();
+			}
+			
+			if (!supportsGPUJobs)
+			{
+				// failed
+				Warning("EnableGPUJobs DISABLED");
+				Pi::config->SetInt("EnableGPUJobs", 0);		// disable GPU Jobs
+				Pi::config->Save();
+			}
+		}
+	}
+}
+
 void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 {
 #ifdef PIONEER_PROFILER
@@ -367,6 +413,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	FileSystem::userFiles.MakeDirectory("profiler");
 	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
 #endif
+	PROFILE_SCOPED()
 
 	Pi::config = new GameConfig(options);
 
@@ -422,6 +469,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	videoSettings.requestedSamples = config->Int("AntiAliasingMode");
 	videoSettings.vsync = (config->Int("VSync") != 0);
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
+	videoSettings.useAnisotropicFiltering = (config->Int("UseAnisotropicFiltering") != 0);
 	videoSettings.enableDebugMessages = (config->Int("EnableGLDebug") != 0);
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Pioneer";
@@ -446,6 +494,8 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	speedLinesDisplayed = (config->Int("SpeedLines")) ? true : false;
 	hudTrailsDisplayed = (config->Int("HudTrails")) ? true : false;
 
+	TestGPUJobsSupport();
+
 	EnumStrings::Init();
 
 	// get threads up
@@ -456,7 +506,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
 	syncJobQueue.reset(new SyncJobQueue);
-
+	
 	Output("ShipType::Init()\n");
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -466,7 +516,17 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	Output("Lua::Init()\n");
 	Lua::Init();
 
-	Pi::ui.Reset(new UI::Context(Lua::manager, Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
+	float ui_scale = config->Float("UIScaleFactor", 1.0f);
+	if (Graphics::GetScreenHeight() < 768) {
+		ui_scale = float(Graphics::GetScreenHeight()) / 768.0f;
+	}
+
+	Pi::ui.Reset(new UI::Context(
+		Lua::manager,
+		Pi::renderer,
+		Graphics::GetScreenWidth(),
+		Graphics::GetScreenHeight(),
+		ui_scale));
 
 	Pi::serverAgent = 0;
 	if (config->Int("EnableServerAgent")) {
@@ -555,7 +615,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	draw_progress(gauge, label, 0.75f);
 
 	Output("Sfx::Init\n");
-	Sfx::Init(Pi::renderer);
+	SfxManager::Init(Pi::renderer);
 	draw_progress(gauge, label, 0.8f);
 
 	if (!no_gui && !config->Int("DisableSound")) {
@@ -690,6 +750,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	planner = new TransferPlanner();
 
 	timer.Stop();
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 	Output("\n\nLoading took: %lf milliseconds\n", timer.millicycles());
 }
 
@@ -705,7 +768,7 @@ void Pi::Quit()
 	delete Pi::luaConsole;
 	NavLights::Uninit();
 	Shields::Uninit();
-	Sfx::Uninit();
+	SfxManager::Uninit();
 	Sound::Uninit();
 	CityOnPlanet::Uninit();
 	BaseSphere::Uninit();
@@ -793,18 +856,7 @@ void Pi::HandleEvents()
 				if (event.key.keysym.sym == SDLK_ESCAPE) {
 					if (Pi::game) {
 						// only accessible once game started
-						if (currentView != 0) {
-							if (currentView != Pi::game->GetSettingsView()) {
-								Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
-								SetView(Pi::game->GetSettingsView());
-							}
-							else {
-								Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-								SetView(Pi::player->IsDead()
-										? static_cast<View*>(Pi::game->GetDeathView())
-										: static_cast<View*>(Pi::game->GetWorldView()));
-							}
-						}
+						HandleEscKey();
 					}
 					break;
 				}
@@ -992,6 +1044,51 @@ void Pi::HandleEvents()
 	}
 }
 
+void Pi::HandleEscKey() {
+	if (currentView != 0) {
+		if (currentView == Pi::game->GetWorldView()) {
+			static_cast<WorldView*>(currentView)->HideTargetActions();
+			if (!Pi::game->IsPaused()) {
+				Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
+			}
+			else {
+				SetView(Pi::game->GetSettingsView());
+			}
+		}
+		else if (currentView == Pi::game->GetSectorView()) {
+			Pi::game->GetCpan()->SelectGroupButton(0, 0);
+			SetView(Pi::game->GetWorldView());
+		}
+		else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
+			Pi::game->GetCpan()->SelectGroupButton(1, 0);
+			SetView(Pi::game->GetSectorView());
+		}
+		else if (currentView == Pi::game->GetSettingsView()){
+			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
+			SetView(Pi::player->IsDead()
+					? static_cast<View*>(Pi::game->GetDeathView())
+					: static_cast<View*>(Pi::game->GetWorldView()));
+		}
+		else {
+			UIView* view = dynamic_cast<UIView*>(currentView);
+			if (view) {
+				// checks the template name
+				const char* tname = view->GetTemplateName();
+				if(tname) {
+					if (!strcmp(tname, "GalacticView")) {
+						Pi::game->GetCpan()->SelectGroupButton(1, 0);
+						SetView(Pi::game->GetSectorView());
+					}
+					else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
+						Pi::game->GetCpan()->SelectGroupButton(0, 0);
+						SetView(Pi::game->GetWorldView());
+					}
+				}
+			}
+		}
+	}
+}
+
 void Pi::TombStoneLoop()
 {
 	std::unique_ptr<Tombstone> tombstone(new Tombstone(Pi::renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight()));
@@ -1050,6 +1147,7 @@ void Pi::StartGame()
 {
 	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
+	Pi::player->onLanded.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::game->GetCpan()->ShowAll();
 	DrawGUI = true;
 	Pi::game->GetCpan()->SetAlertState(Ship::ALERT_NONE);
@@ -1182,12 +1280,12 @@ void Pi::MainLoop()
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
+#ifdef PIONEER_PROFILER
+	Profiler::reset();
+#endif
+
 	while (Pi::game) {
 		PROFILE_SCOPED()
-
-#ifdef PIONEER_PROFILER
-		Profiler::reset();
-#endif
 
 		Pi::serverAgent->ProcessResponses();
 
@@ -1246,7 +1344,7 @@ void Pi::MainLoop()
 		}
 
 		Pi::BeginRenderTarget();
-
+		Pi::renderer->SetViewport(0, 0, Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		Pi::renderer->BeginFrame();
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
@@ -1404,6 +1502,10 @@ void Pi::MainLoop()
 			Screendump(fname.c_str(), Graphics::GetScreenWidth(), Graphics::GetScreenHeight());
 		}
 #endif /* MAKING_VIDEO */
+
+#ifdef PIONEER_PROFILER
+		Profiler::reset();
+#endif
 	}
 }
 

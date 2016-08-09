@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "attributes.glsl"
@@ -83,7 +83,7 @@ void main(void)
 //directional lighting
 #if (NUM_LIGHTS > 0)
 #ifdef MAP_NORMAL
-	vec3 bump = (texture2D(texture6, texCoord0).xyz * 2.0) - vec3(1.0);
+	vec3 bump = (texture(texture6, texCoord0).xyz * 2.0) - vec3(1.0);
 	mat3 tangentFrame = mat3(tangent, bitangent, normal);
 	vec3 vNormal = tangentFrame * bump;
 #else

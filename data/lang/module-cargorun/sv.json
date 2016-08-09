@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Halvfärdiga produkter"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Använd destination som navigationsmål"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Sätt som returmål"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Rymdstation:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Dessa varor är avgörande för ett byggprojekt."
+      "message" : "Ett byggprojekt är avhängigt dessa varor"
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

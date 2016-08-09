@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -11,7 +11,6 @@
 #include "SectorView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
-#include "GalacticView.h"
 #include "UIView.h"
 #include "Lang.h"
 #include "Game.h"
@@ -59,10 +58,14 @@ void ShipCpanel::InitObject()
 	m_scanner->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_SCANNER));
 	m_useEquipWidget->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_EQUIPMENT));
 
-	// where the scanner is
-	m_mfsel = new MultiFuncSelectorWidget();
-	m_mfsel->onSelect.connect(sigc::mem_fun(this, &ShipCpanel::OnUserChangeMultiFunctionDisplay));
-	Add(m_mfsel, 656, 18);
+	// Toggle Scanner / Equipment View
+	m_scannerEquipButton = new Gui::MultiStateImageButton();
+	m_scannerEquipButton->SetShortcut(SDLK_F9, KMOD_NONE);
+	m_scannerEquipButton->AddState(0, "icons/multifunc_scanner.png", Lang::TOGGLE_SCANNER_VIEW);
+	m_scannerEquipButton->AddState(1, "icons/multifunc_equip.png", Lang::TOGGLE_EQUIPMENT_VIEW);
+	m_scannerEquipButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickScannerEquip));
+	m_scannerEquipButton->SetRenderDimensions(34, 17);
+	Add(m_scannerEquipButton, 675, 35);
 	ChangeMultiFunctionDisplay(MFUNC_SCANNER);
 
 //	Gui::RadioGroup *g = new Gui::RadioGroup();
@@ -236,10 +239,10 @@ ShipCpanel::~ShipCpanel()
 	delete m_rightButtonGroup;
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
-	Remove(m_mfsel);
+	Remove(m_scannerEquipButton);
 	delete m_scanner;
 	delete m_useEquipWidget;
-	delete m_mfsel;
+	delete m_scannerEquipButton;
 	m_connOnRotationDampingChanged.disconnect();
 }
 
@@ -258,7 +261,6 @@ void ShipCpanel::ChangeMultiFunctionDisplay(multifuncfunc_t f)
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
 	if (selected) {
-		m_mfsel->SetSelected(f);
 		Add(selected, 200, 18);
 		selected->ShowAll();
 	}
@@ -280,7 +282,7 @@ void ShipCpanel::Update()
 	int timeAccel = m_game->GetTimeAccel();
 	int requested = m_game->GetRequestedTimeAccel();
 
-	for (int i=0; i<6; i++) {
+	for (int i=0; i<Game::TimeAccel::TIMEACCEL_HYPERSPACE; i++) {
 		m_timeAccelButtons[i]->SetSelected(timeAccel == i);
 	}
 	// make requested but not selected icon blink
@@ -293,7 +295,7 @@ void ShipCpanel::Update()
 
 	View *cur = Pi::GetView();
 	if ((cur != m_game->GetSectorView()) && (cur != m_game->GetSystemView()) &&
-	    (cur != m_game->GetSystemInfoView()) && (cur != m_game->GetGalacticView())) {
+		(cur != m_game->GetSystemInfoView()) && (cur != m_game->GetGalacticView())) {
 		HideMapviewButtons();
 	}
 }
@@ -325,6 +327,8 @@ void ShipCpanel::OnChangeInfoView(Gui::MultiStateImageButton *b)
 	Pi::BoinkNoise();
 	if (Pi::GetView() != m_game->GetInfoView())
 		Pi::SetView(m_game->GetInfoView());
+	else
+		Pi::SetView(m_game->GetWorldView());
 }
 
 void ShipCpanel::OnChangeToMapView(Gui::MultiStateImageButton *b)
@@ -375,7 +379,11 @@ void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 {
 	Pi::BoinkNoise();
-	if (Pi::player->GetFlightState() == Ship::DOCKED) Pi::SetView(m_game->GetSpaceStationView());
+	if (Pi::player->GetFlightState() == Ship::DOCKED)
+		if (Pi::GetView() == m_game->GetSpaceStationView())
+			Pi::SetView(m_game->GetWorldView());
+		else
+			Pi::SetView(m_game->GetSpaceStationView());
 	else {
 		Pi::SetView(m_game->GetWorldView());
 		m_game->GetWorldView()->ToggleTargetActions();
@@ -385,6 +393,12 @@ void ShipCpanel::OnClickComms(Gui::MultiStateImageButton *b)
 void ShipCpanel::OnClickRotationDamping(Gui::MultiStateImageButton *b)
 {
 	Pi::player->GetPlayerController()->ToggleRotationDamping();
+}
+
+void ShipCpanel::OnClickScannerEquip(Gui::MultiStateImageButton *b)
+{
+	int state = m_scannerEquipButton->GetState();
+	ChangeMultiFunctionDisplay((0==state) ? MFUNC_SCANNER : MFUNC_EQUIPMENT);
 }
 
 void ShipCpanel::OnRotationDampingChanged()
@@ -447,4 +461,11 @@ void ShipCpanel::ClearOverlay()
 		m_overlay[i]->SetText("");
 		m_overlay[i]->SetToolTip("");
 	}
+}
+
+void ShipCpanel::SelectGroupButton(int gid, int idx)
+{
+	Pi::BoinkNoise();
+	Gui::RadioGroup* group = (gid==1) ? m_rightButtonGroup : m_leftButtonGroup;
+	group->SetSelected(idx);
 }

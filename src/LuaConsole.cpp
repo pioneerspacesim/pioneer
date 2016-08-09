@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaConsole.h"
@@ -159,6 +159,11 @@ LuaConsole::~LuaConsole() {}
 bool LuaConsole::OnKeyDown(const UI::KeyboardEvent &event) {
 
 	switch (event.keysym.sym) {
+		case SDLK_ESCAPE: {
+			// pressing the ESC key will drop our layer, but we still have to make sure we are marked as not active anymore
+			m_active = false;
+			break;
+		}
 		case SDLK_UP:
 		case SDLK_DOWN: {
 			if (m_historyPosition == -1) {

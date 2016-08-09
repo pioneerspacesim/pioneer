@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FRAME_H
@@ -15,7 +15,7 @@ class Body;
 class CollisionSpace;
 class Geom;
 class SystemBody;
-class Sfx;
+class SfxManager;
 class Space;
 
 // Frame of reference.
@@ -92,7 +92,7 @@ public:
 
 	static void GetFrameTransform(const Frame *fFrom, const Frame *fTo, matrix4x4d &m);
 
-	Sfx *m_sfx;			// the last survivor. actually m_children is pretty grim too.
+	std::unique_ptr<SfxManager> m_sfx;			// the last survivor. actually m_children is pretty grim too.
 
 private:
 	void Init(Frame *parent, const char *label, unsigned int flags);

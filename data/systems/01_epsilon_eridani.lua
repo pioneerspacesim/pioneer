@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local s = CustomSystem:new('Epsilon Eridani', { 'STAR_K' })
@@ -56,7 +56,7 @@ local atlantica = CustomSystemBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 
 
 local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
-	:seed(0)
+	:seed(79853798543)
 	:radius(f(4,3))
 	:mass(f(5,4))
 	:temp(287)

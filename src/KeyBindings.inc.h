@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef KEY_BINDING
@@ -55,6 +55,8 @@ BINDING_GROUP(Lang::MISCELLANEOUS)
 KEY_BINDING(toggleHudMode, "BindToggleHudMode", Lang::TOGGLE_HUD_MODE, SDLK_TAB, 0)
 KEY_BINDING(toggleLuaConsole, "BindToggleLuaConsole", Lang::TOGGLE_LUA_CONSOLE, SDLK_BACKQUOTE, 0)
 KEY_BINDING(toggleRotationDamping, "BindToggleRotationDamping", Lang::TOGGLE_ROTATION_DAMPING, SDLK_r, 0)
+KEY_BINDING(increaseTimeAcceleration, "BindIncreaseTimeAcceleration", Lang::INCREASE_TIME_ACCELERATION, SDLK_PAGEUP, 0)
+KEY_BINDING(decreaseTimeAcceleration, "BindDecreaseTimeAcceleration", Lang::DECREASE_TIME_ACCELERATION, SDLK_PAGEDOWN, 0)
 
 BINDING_GROUP(Lang::JOYSTICK_INPUT)
 AXIS_BINDING(pitchAxis, "BindAxisPitch", Lang::PITCH, "")
@@ -79,8 +81,8 @@ KEY_BINDING(frontCamera, "BindFrontCamera", Lang::CAMERA_FRONT_VIEW, SDLK_KP_8, 
 KEY_BINDING(rearCamera, "BindRearCamera", Lang::CAMERA_REAR_VIEW, SDLK_KP_2, SDLK_DOWN)
 KEY_BINDING(leftCamera, "BindLeftCamera", Lang::CAMERA_LEFT_VIEW, SDLK_KP_4, SDLK_LEFT)
 KEY_BINDING(rightCamera, "BindRightCamera", Lang::CAMERA_RIGHT_VIEW, SDLK_KP_6, SDLK_RIGHT)
-KEY_BINDING(topCamera, "BindTopCamera", Lang::CAMERA_TOP_VIEW, SDLK_KP_9, SDLK_PAGEUP)
-KEY_BINDING(bottomCamera, "BindBottomCamera", Lang::CAMERA_BOTTOM_VIEW, SDLK_KP_3, SDLK_PAGEDOWN)
+KEY_BINDING(topCamera, "BindTopCamera", Lang::CAMERA_TOP_VIEW, SDLK_KP_9, SDLK_t)
+KEY_BINDING(bottomCamera, "BindBottomCamera", Lang::CAMERA_BOTTOM_VIEW, SDLK_KP_3, SDLK_b)
 
 BINDING_GROUP(Lang::EXTERNAL_VIEW)
 KEY_BINDING(cameraRollLeft, "BindCameraRollLeft", Lang::ROLL_LEFT, SDLK_KP_1, 0)
@@ -100,8 +102,8 @@ KEY_BINDING(mapWarpToCurrent, "BindMapWarpToCurrent", Lang::MAP_WARP_TO_CURRENT_
 KEY_BINDING(mapWarpToSelected, "BindMapWarpToSelection", Lang::MAP_WARP_TO_SELECTED_SYSTEM, SDLK_g, 0)
 KEY_BINDING(mapWarpToHyperspaceTarget, "BindMapWarpToHyperspaceTarget", Lang::MAP_WARP_TO_HYPERSPACE_TARGET, SDLK_h, 0)
 
-KEY_BINDING(mapViewShiftForward, "BindMapViewShiftForward", Lang::MAP_VIEW_SHIFT_FORWARD, SDLK_PAGEUP, 0)
-KEY_BINDING(mapViewShiftBackward, "BindMapViewShiftBackward", Lang::MAP_VIEW_SHIFT_BACKWARD, SDLK_PAGEDOWN, 0)
+KEY_BINDING(mapViewShiftForward, "BindMapViewShiftForward", Lang::MAP_VIEW_SHIFT_FORWARD, SDLK_f, 0)
+KEY_BINDING(mapViewShiftBackward, "BindMapViewShiftBackward", Lang::MAP_VIEW_SHIFT_BACKWARD, SDLK_b, 0)
 KEY_BINDING(mapViewShiftLeft, "BindMapViewShiftLeft", Lang::MAP_VIEW_SHIFT_LEFT, SDLK_LEFT, 0)
 KEY_BINDING(mapViewShiftRight, "BindMapViewShiftRight", Lang::MAP_VIEW_SHIFT_RIGHT, SDLK_RIGHT, 0)
 KEY_BINDING(mapViewShiftUp, "BindMapViewShiftUp", Lang::MAP_VIEW_SHIFT_UP, SDLK_UP, 0)

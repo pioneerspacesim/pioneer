@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Komprimovat textury"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirm purchase"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirm sale"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Policista"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Zaměstnanost"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Anisotropic Filtering"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -471,6 +483,10 @@
       "description" : "For player reputation",
       "message" : "Nezkušený"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Insufficient funds."
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Invertovat osu Y"
@@ -513,7 +529,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Povolení ke startu zamítnuto: nedostatek posádky k ovládání této lodi."
+      "message" : "Permission to launch denied: not enough crew to handle this ship."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -558,6 +574,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Lobby"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Local arm"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -699,6 +719,10 @@
       "description" : "",
       "message" : "Navigace:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigátor"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Vyjenávat"
@@ -718,6 +742,14 @@
    "NONE" : {
       "description" : "",
       "message" : "Nic"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "None for sale in this station."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Pravítko"
    },
    "NOTES" : {
       "description" : "",
@@ -775,6 +807,10 @@
       "description" : "",
       "message" : "Úhlová orbitální rychlost je vztažena k tangenciální rychlosti. Loď by se měla pohybovat v úhlu 90° k ose lodi/{name}.\n\nRychlost sestupu je absolutní minimum a je taktéž tangenciální. Menší rychlost nebo menší úhel bude mít za následek trajektorii, která se protíná s povrchem {name}.\n\nÚniková rychlost může být teoreticky libovolná ve všech směrech, dokud se trajektorie lodi nenáchází na kolizním kurzu s {name}.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Labuť"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Outstanding fines"
@@ -787,9 +823,17 @@
       "description" : "",
       "message" : "Zaplať pokutu {amount}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Perseus"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Osobní informace"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
    },
    "PILOTING" : {
       "description" : "",
@@ -834,6 +878,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Profesionál"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Pump down"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -883,6 +931,10 @@
       "description" : "",
       "message" : "Požádat o povolení k odletu"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Návrat do hry"
@@ -903,6 +955,10 @@
       "description" : "",
       "message" : "Odměna"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Střelec"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Uložit"
@@ -910,6 +966,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Podvěsy sběračů"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "rameno Štít/Jižní kříž"
    },
    "SELECT" : {
       "description" : "",
@@ -935,9 +995,21 @@
       "description" : "",
       "message" : "Senzory:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Senzory a obrana lodi"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set destination as navigation target."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Loď"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Údržba lodi"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1015,6 +1087,10 @@
       "description" : "",
       "message" : "Loď je pod kontrolou stanice, veliteli."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc arm"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "Změnit muž/žena"
@@ -1022,6 +1098,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "Loď je pro současnou posádku příliš malá."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Ship is too small to transship your cargo."
    },
    "TOTAL" : {
       "description" : "",
@@ -1123,6 +1203,10 @@
       "description" : "",
       "message" : "Nemáš dostatek peněz."
    },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "You have {units} units in your cargohold"
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
       "message" : "Nejdříve je nutné označit cíl, veliteli."
@@ -1142,5 +1226,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Nemáš dostatek peněz"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

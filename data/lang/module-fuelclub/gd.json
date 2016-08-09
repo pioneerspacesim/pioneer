@@ -9,15 +9,15 @@
    },
    "FLAVOUR_0_CLUBNAME" : {
       "description" : "",
-      "message" : "Interstellar Pilots' Fuel Co-operative"
+      "message" : "Co-chomann Connaidh nam Paidhleat Eadar-reultail"
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Faodaidh sibh connadh a cheannach is cuidhteas fhaighinn de {radioactives} an-seo."
+      "message" : "Faodaidh sibh connadh a cheannach is cuidhteas fhaighinn dhe {radioactives} an-seo."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
-      "message" : "{clubname} is an independent organisation dedicated to providing discounted starship fuel to its members. Branches can be found throughout the galaxy. Benefits of membership include:"
+      "message" : "Tha {clubname} 'na bhuidheann neo-eisimeileach a tha ag amas connadh soithich-fhànais saor a thoirt dha bhuill. Tha meuran againn air feadh an reul-chriosa. Seo na buannachdan a gheibh thu ma ghabhas tu ballrachd:"
    },
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
@@ -25,35 +25,35 @@
    },
    "FLAVOUR_1_CLUBNAME" : {
       "description" : "Fuel club for the Federation faction",
-      "message" : "The Federal Fuel Foundation"
+      "message" : "Fonndas Connaidh Feadarail"
    },
    "FLAVOUR_1_NONMEMBER_INTRO" : {
       "description" : "For the Solar Federation faction",
-      "message" : "{clubname} is the leading provider of discounted fuel to its members' starships in the Solar Federation. A membership will entitle you for the following:"
+      "message" : "Tha {clubname} 'na phrìomh-sholaraiche airson connadh saor dha shoithichean-fànais a bhall ann an Caidreachas na Grèine. Seo na gheibh sibh às a' bhallrachd:"
    },
    "FLAVOUR_2_CLUBNAME" : {
       "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
-      "message" : "The Confederate Fuel Union"
+      "message" : "Aonadh Com-pàirteachaidh Connaidh"
    },
    "FLAVOUR_2_NONMEMBER_INTRO" : {
       "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
-      "message" : "Throughout the vast reach of the free Commonwealth of Independent Worlds you will find {clubname} as the best provider of discounted fuel and waste management services. For our members, we do:"
+      "message" : "Air feadh fànais aibhsich Co-fhlaidheas nan Saoghal Neo-eisimeileach saor, 's e {clubname} a tha san t-solaraiche as fhearr dhut airson seirbheisean connaidh is stiùiridh sgudail saora. Seo na nì sinn airson ar ball:"
    },
    "FLAVOUR_2_WELCOME" : {
       "description" : "",
-      "message" : "Greetings and salutations! We hope you enjoy our services."
+      "message" : "Fàilte! Tha sinn an dòchas gun còrd an t-seirbheis againn dhut."
    },
    "FLAVOUR_3_CLUBNAME" : {
       "description" : "Fuel club for the Haber faction",
-      "message" : "Haber Propellant and Perishables Division"
+      "message" : "Roinn Stutha-iomain is Meathach Haber"
    },
    "FLAVOUR_3_MEMBER_INTRO" : {
       "description" : "For the greedy Haber faction, very corporate formulated",
-      "message" : "Greetings pilot. Your refueling and conditional side-product disposal privileges are granted."
+      "message" : "Fàilte, a phaidhleit. Chaidh na còirichean ath-chonnachaidh is glanaidh sgudail chumhaich a thoirt dhuibh."
    },
    "FLAVOUR_3_NONMEMBER_INTRO" : {
       "description" : "for the Haber faction",
-      "message" : "Greetings pilot. This is the Haber Propellant and Perishables Division, entrusted with managing the fuel distribution throughout Haber owned space."
+      "message" : "Fàilte, a' phaidhleit. Seo Roinn Stutha-iomain is Meathach Haber agus tha sinn an urra ri sgaoileadh a' chonnaidh air feadh fànas muinntir Thàbair."
    },
    "GO_BACK" : {
       "description" : "",
@@ -61,19 +61,19 @@
    },
    "LIST_BENEFITS_DISPOSAL" : {
       "description" : "",
-      "message" : "{radioactives}, free disposal (conditions apply)"
+      "message" : "{radioactives}, glanadh sgudail an-asgaidh (fo chumhaichean)"
    },
    "LIST_BENEFITS_FUEL" : {
       "description" : "",
-      "message" : "{fuel} at discount prices"
+      "message" : "{fuel} air prìsean saora"
    },
    "LIST_BENEFITS_FUEL_INTRO" : {
       "description" : "",
-      "message" : "Our own stocks of fuel, independent of the general market"
+      "message" : "Stòrasan connaidh againn fhèin nach eil an eisimeil air a' mhargadh choitcheann"
    },
    "LIST_BENEFITS_FUEL_TANK" : {
       "description" : "",
-      "message" : "Fuel tank refilling, where necessary"
+      "message" : "Lìonadh an tanca connaidh nuair a bhios feum air"
    },
    "LIST_BENEFITS_JOIN" : {
       "description" : "",
@@ -81,7 +81,7 @@
    },
    "WE_WILL_ONLY_DISPOSE_OF" : {
       "description" : "",
-      "message" : "Cha ghabh sinn cùram air an uiread de {radioactives} ach na cheannaich sibh de {military_fuel} uainn."
+      "message" : "Cha ghabh sinn cùram air an uiread de {radioactives} ach na cheannaich sibh dhe {military_fuel} uainn."
    },
    "WHAT_CONDITIONS_APPLY" : {
       "description" : "",
@@ -97,6 +97,6 @@
    },
    "YOU_MUST_BUY" : {
       "description" : "",
-      "message" : "Feumaidh sibh {military_fuel} a cheannach uainn mus gabh sinn ri ur {radioactives}"
+      "message" : "Feumaidh tu {military_fuel} a cheannach uainn mus gabh sinn ris na {radioactives} agaibh"
    }
 }

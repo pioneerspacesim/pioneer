@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -17,6 +17,7 @@ local eq = import("Equipment")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 
 -- Get the language resource
 local l = Lang.GetResource("module-taxi")
@@ -151,6 +152,8 @@ local onChat = function (form, ref, option)
 		return
 	end
 
+	form:AddNavButton(ad.location)
+
 	if option == 0 then
 		local sys   = ad.location:GetStarSystem()
 
@@ -184,6 +187,7 @@ local onChat = function (form, ref, option)
 	elseif option == 3 then
 		if not Game.player.cabin_cap or Game.player.cabin_cap < ad.group then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP)
+			form:RemoveNavButton()
 			return
 		end
 
@@ -310,6 +314,17 @@ local onEnterSystem = function (player)
 	local syspath = Game.system.path
 
 	for ref,mission in pairs(missions) do
+
+		-- Since system names are not unique, player might jump into
+		-- system with right name, but wrong coordinates
+		if mission.status == "ACTIVE" and not mission.location:IsSameSystem(syspath) then
+			local mission_system = mission.location:GetStarSystem()
+			local current_system = syspath:GetStarSystem()
+			if mission_system.name == current_system.name then
+				Comms.ImportantMessage(l.WRONG_SYSTEM, mission.client.name)
+			end
+		end
+
 		if mission.status == "ACTIVE" and mission.location:IsSameSystem(syspath) then
 
 			local risk = flavours[mission.flavour].risk
@@ -535,6 +550,8 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										ui:Margin(5),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 		})})
 		:SetColumn(1, {
 			ui:VBox(10):PackEnd(InfoFace.New(mission.client))

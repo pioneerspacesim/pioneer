@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "chez {name} & Fils"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Ce que la concurrence n'a pas de disponible, nous le vendons."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "Un marché véritablement libre."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Nous vous apportons les meilleurs produits exotiques."
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Nous croyons en un marché sans restrictions."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "Le marché non régulé, pour votre liberté."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "Le marchant de confiance."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Toujours un prix spécial, juste pour vous."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Bienvenue à "

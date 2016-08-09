@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "StringF.h"
@@ -368,7 +368,7 @@ static inline const char* scan_unformatted(const char* fmt) {
 static inline const char* scan_int(const char* fmt, int& value) {
 	value = 0;
 	const char *c = fmt;
-	while (isdigit(*c)) {
+	while (*c>=0 && isdigit(*c)) {
 		value *= 10;
 		value += (*c - '0');
 		++c;

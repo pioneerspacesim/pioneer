@@ -61,23 +61,23 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Piloto automático: Atracar en la estación espacial"
+      "message" : "Piloto automático: Atraca en la estación espacial"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita alta alrededor de %target"
+      "message" : "Piloto automático: Entra en órbita alta alrededor de %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita baja alrededor de %target"
+      "message" : "Piloto automático: Entra en órbita baja alrededor de %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Piloto automático: Establecer órbita media alrededor de %target"
+      "message" : "Piloto automático: Entra en órbita media alrededor de %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Piloto automático: Aproximación a %target"
+      "message" : "Piloto automático: Aproximarse a %target"
    },
    "AUTOPILOT_ON" : {
       "description" : "",
@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "Reducir velocidad"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Disminuir Aceleración Temporal"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "Demografía"
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Este juego no se puede abrir debido a permisos o algo..."
+      "message" : "El archivo guardado '%filename' no se ha encontrado (o el ordenador no tiene acceso para abrirlo)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -595,6 +599,10 @@
       "description" : "",
       "message" : "Aumentar velocidad"
    },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Incrementar Aceleración Temporal"
+   },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
       "message" : "Colonia industrial."
@@ -610,10 +618,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "Vista Interna"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale AL"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -639,9 +643,13 @@
       "description" : "",
       "message" : "%speed{f.2} km/s relativo a %frame"
    },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Alternar entre modos de pantalla punto Lagrange L4/L5"
+   },
    "LANDED" : {
       "description" : "",
-      "message" : "En tierra"
+      "message" : "Aterrizado"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
@@ -658,6 +666,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Disparo de láser detectado."
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +695,13 @@
       "description" : "",
       "message" : "Animales vivos"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Orión"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "fijado"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -935,10 +947,6 @@
       "description" : "",
       "message" : "Gas nervioso"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Norma"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "No encontrado"
@@ -946,6 +954,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "No encontrado. Mejor correspondencia: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Ahora"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1063,10 +1075,6 @@
       "description" : "",
       "message" : "Mundo agrícola exterior."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo Exterior"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Alrededor de %{population}000 millones"
@@ -1090,10 +1098,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Distancia de Periapsis"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Perseo"
    },
    "PIONEER" : {
       "description" : "",
@@ -1255,10 +1259,6 @@
       "description" : "",
       "message" : "Basura"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Sagitario"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Escáner"
@@ -1270,10 +1270,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo de Escudo-Centauro"
    },
    "SEARCH" : {
       "description" : "",
@@ -1635,10 +1631,6 @@
       "description" : "",
       "message" : "delgada"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Brazo 3KPC"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "Mundo exterior floreciente."
@@ -1675,6 +1667,10 @@
       "description" : "",
       "message" : "Enano"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Vista de Equipo"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "Alternar HUD"
@@ -1686,6 +1682,10 @@
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Amortiguar Rotación"
+   },
+   "TOGGLE_SCANNER_VIEW" : {
+      "description" : "Tooltip for the Scanner View button",
+      "message" : "Vista de Escáner"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1718,6 +1718,34 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "Sistema inexplorado. Información estelar recogida por medio de telescopio remoto. No existe información planetaria."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "d"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "AL"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "w"
    },
    "UNKNOWN" : {
       "description" : "",
@@ -1765,11 +1793,11 @@
    },
    "WHEELS_ARE_DOWN" : {
       "description" : "",
-      "message" : "Tren de aterrizaje abajo"
+      "message" : "Tren de aterrizaje bajado"
    },
    "WHEELS_ARE_UP" : {
       "description" : "",
-      "message" : "Tren de aterrizaje arriba"
+      "message" : "Tren de aterrizaje subido"
    },
    "WHITE_DWARF" : {
       "description" : "",

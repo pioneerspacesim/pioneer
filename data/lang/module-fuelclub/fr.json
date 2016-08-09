@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Vous pouvez acheter le carburant et deposer vos {radioactives} ici."
+      "message" : "Vous pouvez acheter du carburant et déposer des {radioactives} ici."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",

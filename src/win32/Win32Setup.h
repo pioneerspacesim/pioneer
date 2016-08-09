@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _WIN32_WIN32SETUP_H
@@ -12,6 +12,9 @@
 #	include <w32api.h>
 #	ifdef WINVER
 #		undef WINVER
+#	endif
+#	ifdef RegisterClass
+#		undef RegisterClass
 #	endif
 #	define WINVER Windows2000
 #	define _WIN32_IE IE5

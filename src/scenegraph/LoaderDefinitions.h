@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LOADERDEFINITIONS_H_
@@ -17,10 +17,10 @@ struct MaterialDefinition {
 		tex_glow(""),
 		tex_ambi(""),
 		tex_norm(""),
-		diffuse(Color(255)),
-		specular(Color(255)),
-		ambient(Color(0)),
-		emissive(Color(0)),
+		diffuse(Color::WHITE),
+		specular(Color::WHITE),
+		ambient(Color::BLANK),
+		emissive(Color::BLANK),
 		shininess(100),
 		opacity(100),
 		alpha_test(false),

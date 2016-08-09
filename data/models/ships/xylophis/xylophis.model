@@ -1,4 +1,4 @@
-material Material-material
+material Material
 diffuse 1.0 1.0 1.0
 specular 0.7 0.7 0.7
 shininess 69
@@ -7,7 +7,7 @@ tex_diff xylophis_diff.dds
 tex_spec xylophis_spec.dds
 tex_glow xylophis_glow.dds
 
-material Exaust-material
+material Exaust
 diffuse 1.0 1.0 1.0
 specular 0.1 0.1 0.1
 shininess 40

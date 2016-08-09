@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_SKYBOX_MATERIAL_H_
@@ -21,11 +21,11 @@ namespace Graphics {
 				fSkyboxFactor = 0.8f;
 			}
 
-			Program *CreateProgram(const MaterialDescriptor &) {
+			virtual Program *CreateProgram(const MaterialDescriptor &) override {
 				return new Program("skybox", "");
 			}
 
-			virtual void Apply() {
+			virtual void Apply() override {
 				m_program->Use();
 				if(texture0) {
 					m_program->texture0.Set(texture0, 0);

@@ -1,0 +1,33 @@
+{
+	"model" : "bowfin",
+	"name" : "Bowfin fighter",
+	"cockpit" : "",
+	"manufacturer" : "kaluri",
+	"ship_class" : "medium_fighter",
+	"min_crew" : 1,
+	"max_crew" : 1,
+	"price" : 189000,
+	"hull_mass" : 25,
+	"capacity" : 12,
+	"slots" : {
+		"cargo" : 6,
+		"engine" : 13,
+		"scoop" : 1,
+		"laser_front" : 1,
+		"laser_rear" : 0,
+		"missile" : 20,
+		"cargo_life_support" : 0,
+		"atmo_shield" : 1
+	},
+	"effective_exhaust_velocity" : 8540000,
+	"thruster_fuel_use" : -1.0,
+	"fuel_tank_mass" : 26,
+	"hyperdrive_class" : 1,
+	"forward_thrust" : 6000000,
+	"reverse_thrust" : 1250000,
+	"up_thrust" : 1300000,
+	"down_thrust" : 1000000,
+	"left_thrust" : 1000000,
+	"right_thrust" : 1000000,
+	"angular_thrust" : 3000000
+}

@@ -1,3 +1,201 @@
+August 2016
+   * New Features
+     * F3 and F4 Toggles between worldview and their thing (#3765)
+     * Navbutton added to mission screens (#3736)
+     * Fix crash in by Search & Rescue missions (#3770)
+
+   * Internal Changes
+     * Add a function for typesetting time intervals (#3764)
+
+July 2016
+   * New Features
+     * Point sprite background stars (#3757)
+
+   * Fixes
+     * SAR: fix fuel transfer (#3755)
+     * SAR: fix wrong distance (#3650)
+     * Fix grammar error in module-cargorun (#3748)
+
+   * Internal Changes
+     * Swap LuaVector for a table (#3747)
+     * Faster float convert (#3751)
+     * Revert my changes to use atoi and atoll (#3754)
+     * XCode now compiles again (#3759)
+
+June 2016
+   * New Features
+     * Improve distance format, by introducing ly and Mm (#3745)
+     * GPU jobs for generating gas giant textures (#3719)
+     * Add some flare for black market, through flavoured slogans (#3744)
+     * Passenger warns when jumping to wrong system with right name (#3746)
+
+   * Fixes
+     * Prevent the galaxy map from crashing if in hyperspace (#3714)
+     * Eclipse r600 (#3721)
+
+   * Internal Changes
+     * Enable using dedicated nVidia GPUs in Windows laptops with Optimus (#3715)
+     * Minor Noise library improvements (#3716)
+     * Add AMD Power Xpress performance flag keyword and value (#3717)
+     * Add EXTRA_CXXFLAGS to CXXFLAGS for assimp's version check (#3718)
+     * Keep cargo if buying a new ship (#3725)
+     * Disable Continue button if no saved game to load (#3731)
+     * Don't hard code strings we already have in translation system (#3728)
+     * Make trade analyzer removable again. Undo #3474, close #3742 (#3743)
+
+May 2016
+   * New Features
+     * Sfx ini configuration file (#3697)
+
+   * Fixes
+     * Textures can be anonymous (#3693)
+     * Fix ship systeminfo crash (#3699)
+     * Make Autopilot purchasable from everywhere (#3701)
+     * Fix CTD for missile target hyperjumps (#3704)
+     * Fix CTD caused by S&R after-mission states (#3648)
+     * Fix crash when player explodes in-dock (#3710)
+     * Clean up the police tables on ship destruction (#3709)
+
+   * Internal Changes
+     * Landing resets time compression (#3696)
+     * Rework SFX rendering to fix giant sprites (#3695)
+     * Internal renderer cleanup (#3702)
+     * Small filename consistency fix (#3707)
+     * Change the Lua AIKill command to check how legit is its target (#3708)
+     * Optimise Eclipse Calculations (#3711)
+
+April 2016
+   * New Features
+     * First commit of the Bluenose frieghter (#3668)
+     * Change to GetPosition and GetVelocity LuaShip functions (#3679)
+     * Back port some of Marcels hometowns mod (#3676)
+
+   * Fixes
+     * Fix ModelViewer crash (#3672)
+     * Fix editing the gas giants in ObjectViewer editor mode (#3677)
+     * Legal custom cargo (#3692)
+
+   * Internal Changes
+     * NavLight Billboard Gathering (#3667)
+     * Change DrawPointSprites to really use Point Sprites (#3670)
+     * Lua debug tools, part one (#3675)
+     * Updated Xcode project to fix "missing vtable" error (#3686)
+     * Saving changes (#3684)
+     * SpawnShipNear velocity matching (#3674)
+     * Pre-convert to DDS more textures (#3687)
+     * Fire once warnings (#3689)
+     * Texture code tidy (#3691)
+
+March 2016
+   * New Features
+     * Ship stat planner addon for Blender. Exports ship.json (#3639)
+     * Bowfin fighter for Kaluri/CIW (#3641)
+     * Invisible disabled button for commodity market (#3605)
+     * Include modelcompiler in OSX build (#3660)
+
+   * Minor changes and tweaks
+     * gun locator tag fix (#3633)
+     * Ability to set Combat and Nav targets to null validly (#3634)
+     * Redirect stdout for modelviewer mode (#3640)
+     * Kanara resize (75%) (#3642)
+     * RandomColor Port for better random colours (#3644)
+     * Bowfin: Deleting some duplicate .dae mesh files (#3653)
+
+   * Fixes
+     * Fix rare crash. #3645
+     * Fix OSX shader compilation (#3652)
+     * Fix wrong price for Kanara (#3666)
+     * Fix crash on del/bkspc in sector map search for non-UTF8 char (#3662)
+
+   * Internal Changes
+     * Remove redundant LuaAPI function: SetEnabled() (#3491)
+     * vector2 template class (#3646)
+     * vector2 template class (#3646)
+     * Fix some GCC build warnings (#3661)
+     * Don't compress normal maps (#3663)
+
+February 2016
+   * Minor changes and tweaks
+     * New behaviour of ESC button (#3618)
+
+   * Fixes
+     * Fix Character.lua / Ship.lua import relationship (#3617)
+     * Fix Search and Rescue bug not recognizing a competed mission (#3621)
+     * Only get the SystemBody pointer on system bodies and NOT on ships (#3632)
+
+   * Internal Changes
+     * GL_INVALID_OPERATION warning (win32) (#3620)
+     * Reduce size of terrain patch skirts (#3622)
+     * Rendering cleanup, possible perf improvements (#3623)
+     * Cleaning up Pi.h (#3624)
+     * Fix terrain cracks (#3625)
+     * Remove IGNORE_FLAG etc (#3628)
+     * Moar profiling (#3629)
+
+January 2016
+   * New Features
+     * Barnard's star update (#3584)
+     * Anisotropic Texture Filtering (#3586)
+
+   * Minor changes and tweaks
+     * Search and rescue missions tweaked and fixed #3589
+
+   * Fixes
+     * TextureDescriptor usage updated (#3591)
+     * Fix ObjectViewer crash/hang (#3588)
+     * Fix for broken SGM file loading (#3597)
+     * Show the correct pattern on the ship info screen (#3598)
+     * Fix serialization bug in S&R missions (#3607)
+     * Missing text fix (#3608)
+     * Fix for console window crash (#3611)
+     * Fix for #3602 and #3517 (#3603)
+     * Fix bad text size (#3612)
+     * Fix the vcacheopt type narrowing conversions that I caused (#3613)
+     * Fix number of police ships being opposite of lawlessness (#3614)
+
+   * Internal Changes
+     * Optional use of std::chrono for Profiler (#3593)
+     * SGM graceful failure (#3592)
+     * Convert geometry to use 32-bit indices (#3585)
+     * Remove TextureDescriptor default constructor arguments (#3594)
+     * Text rendering performance improvements (#3599)
+     * Fix #ifdef to allow compilation on various BSDs (#3600)
+     * MERRY HAPPY 2016 (#3615)
+
+December 2015
+   * New Features
+     * PgUp/PgDn increments time acceleration (configurable) (#3544)
+     * New-UI galactic view (#3549)
+     * Search & Rescue mission script (#3529)
+     * New config value UIScaleFactor to scale text and images in the UI (#3552)
+     * Add return location to mission screen for Search & Rescue missions (#3570)
+     * One button (F9) is sufficient for changing missile/scanner view (#3556)
+     * Added pump down button to the EconTrade screen (#3567)
+
+   * Fixes
+     * Fix typo in language strings (#3382)
+     * Fix crash upon illegal activity in uninhabited system (#3555)
+     * Fix BBS icon for new S-R mission module (#3558)
+     * Galactic view fixes (#3557)
+     * Fix rounding of the 'heading' display (#3550, #3561)
+     * Fix UI scaling for small displays (#3568)
+     * Launch ship if necessary at start of AIDockWith (#3563)
+     * Deimos Seed (#3572)
+     * Flying empty fix (#3516)
+     * Fixed translations for the names of the Galactic arms (#3566)
+     * Fixed OS X 10.11 OpenSSL issue (#3579)
+     * Remove incorrect assertion on max planet detail (#3577)
+     * Fixed deprecated libraries in OS X 10.11 (#3580)
+
+   * Internal Changes
+     * Face parts (head/hair/eyes/nose/mouth) can now be non-gendered (#3548)
+     * Face parts can now all be the same size to make alignment easier (#3548)
+     * Added forgotten strings to translation system (#3551)
+     * Minor code adjustment to make ccache effective again (#3562)
+     * Remove the neighbour system from GeoPatch (#3569)
+     * Make DetailLevel a class and initialise all members (#3575)
+     * Improve the error message when a save game cannot be opened (#3578)
+
 November 2015
    * New Features
      * New random number generator! (#3485)
@@ -8,10 +206,18 @@ November 2015
      * Compact Use Equip Widget (#3507)
      * Normal Mapping for objects (ships, stations etc) (#3515)
      * Make Autosave optional (#3518)
+     * Show stable Lagrange point in system view (#3536)
 
    * Fixes
      * Fix stations placed on top of each other (#3498)
      * Updated premake script to generate usable CodeBlocks project (#3521)
+     * Fix negative latitude longitude issue (#3531)
+     * Fix AIWarning giving the wrong errror msg (#3532)
+     * Fix strings not in translation system (#3538)
+     * Lagrange Points in turquoise-ish (#3539)
+     * Fix the broken win32 cross compile (#3542)
+     * Fixed XCode Project file (#3540)
+     * Fix cockpit loading (#3546)
 
    * Internal Changes
      * All crime handling moved to Lua (#3254)
@@ -22,6 +228,9 @@ November 2015
      * Updated vs2015 libraries and DLLs (#3520)
      * Clang warnings (#3524)
      * Clean up OpenGL pollution (#3526)
+     * Fix the last real Clang warning (#3528)
+     * Delete Form/FormController, which are no longer used (#3533)
+     * Minor code cleanup (#3545)
 
 October 2015
    * New Features

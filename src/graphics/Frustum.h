@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FRUSTUM_H
@@ -19,12 +19,6 @@ public:
 	// create for specified values
 	Frustum(float width, float height, float fovAng, float nearClip, float farClip);
 	Frustum(const matrix4x4d &modelview, const matrix4x4d &projection);
-
-	// apply the saved frustum
-	void Enable();
-
-	// restore the previous state
-	void Disable();
 
 	// test if point (sphere) is in the frustum
 	bool TestPoint(const vector3d &p, double radius) const;

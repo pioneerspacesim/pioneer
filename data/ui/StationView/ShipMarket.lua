@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -90,6 +90,13 @@ local function buyShip (sos)
 		return
 	end
 
+	local hdrive = def.hyperdriveClass > 0 and Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass].capabilities.mass or 0
+	if def.equipSlotCapacity.cargo < player.usedCargo or def.capacity < (player.usedCargo + hdrive) then
+		MessageBox.Message(l.TOO_SMALL_TO_TRANSSHIP)
+		return
+	end
+
+	local manifest = player:GetEquip("cargo")
 	player:AddMoney(-cost)
 
 	station:ReplaceShipOnSale(sos, {
@@ -105,6 +112,9 @@ local function buyShip (sos)
 	player:SetLabel(sos.label)
 	if def.hyperdriveClass > 0 then
 		player:AddEquip(Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass])
+	end
+	for _, e in pairs(manifest) do
+		player:AddEquip(e)
 	end
 	player:SetFuelPercent(100)
 

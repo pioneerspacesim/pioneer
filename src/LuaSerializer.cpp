@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaSerializer.h"
@@ -356,6 +356,7 @@ void LuaSerializer::UninitTableRefs() {
 
 void LuaSerializer::ToJson(Json::Value &jsonObj)
 {
+	PROFILE_SCOPED()
 	lua_State *l = Lua::manager->GetLuaState();
 
 	LUA_DEBUG_START(l);
@@ -403,6 +404,7 @@ void LuaSerializer::FromJson(const Json::Value &jsonObj)
 	LUA_DEBUG_START(l);
 
 	std::string pickled = JsonToBinStr(jsonObj, "lua_modules");
+
 	const char *start = pickled.c_str();
 	const char *end = unpickle(l, start);
 	if (size_t(end - start) != pickled.length()) throw SavedGameCorruptException();

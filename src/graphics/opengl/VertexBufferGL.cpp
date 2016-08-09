@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/opengl/VertexBufferGL.h"
@@ -39,6 +39,7 @@ GLenum get_component_type(VertexAttribFormat fmt)
 VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
 	Graphics::VertexBuffer(desc)
 {
+	PROFILE_SCOPED()
 	//update offsets in desc
 	for (Uint32 i = 0; i < MAX_ATTRIBS; i++) {
 		if (m_desc.attrib[i].offset == 0)
@@ -130,6 +131,7 @@ VertexBuffer::~VertexBuffer()
 
 Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
 {
+	PROFILE_SCOPED()
 	assert(mode != BUFFER_MAP_NONE); //makes no sense
 	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
 	m_mapMode = mode;
@@ -147,6 +149,7 @@ Uint8 *VertexBuffer::MapInternal(BufferMapMode mode)
 
 void VertexBuffer::Unmap()
 {
+	PROFILE_SCOPED()
 	assert(m_mapMode != BUFFER_MAP_NONE); //not currently mapped
 
 	if (GetDesc().usage == BUFFER_USAGE_STATIC) {
@@ -171,6 +174,11 @@ struct PosUVVert {
 	vector2f uv;
 };
 
+struct PosNormVert {
+	vector3f pos;
+	vector3f norm;
+};
+
 struct PosColVert {
 	vector3f pos;
 	Color4ub col;
@@ -193,7 +201,19 @@ struct PosNormUVVert {
 };
 #pragma pack(pop)
 
-void CopyPosUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosNorm(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+{
+	PosNormVert* vtxPtr = vb->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(vb->GetDesc().stride == sizeof(PosNormVert));
+	for(Uint32 i=0 ; i<va.GetNumVerts() ; i++)
+	{
+		vtxPtr[i].pos	= va.position[i];
+		vtxPtr[i].norm	= va.normal[i];
+	}
+	vb->Unmap();
+}
+
+static inline void CopyPosUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosUVVert* vtxPtr = vb->Map<PosUVVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosUVVert));
@@ -205,7 +225,7 @@ void CopyPosUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPosCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosColVert* vtxPtr = vb->Map<PosColVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosColVert));
@@ -217,7 +237,7 @@ void CopyPosCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPos(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPos(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosVert* vtxPtr = vb->Map<PosVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosVert));
@@ -228,7 +248,7 @@ void CopyPos(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPosColUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosColUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosColUVVert* vtxPtr = vb->Map<PosColUVVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosColUVVert));
@@ -241,7 +261,7 @@ void CopyPosColUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 	vb->Unmap();
 }
 
-void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+static inline void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 {
 	PosNormUVVert* vtxPtr = vb->Map<PosNormUVVert>(Graphics::BUFFER_MAP_WRITE);
 	assert(vb->GetDesc().stride == sizeof(PosNormUVVert));
@@ -257,6 +277,7 @@ void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
 // copies the contents of the VertexArray into the buffer
 bool VertexBuffer::Populate(const VertexArray &va)
 {
+	PROFILE_SCOPED()
 	assert(va.GetNumVerts()>0);
 	assert(va.GetNumVerts()==m_numVertices);
 	bool result = false;
@@ -264,6 +285,7 @@ bool VertexBuffer::Populate(const VertexArray &va)
 	switch( as ) {
 	case Graphics::ATTRIB_POSITION:														CopyPos(this, va);			result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE:							CopyPosCol(this, va);		result = true;	break;
+	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL:							CopyPosNorm(this, va);		result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0:								CopyPosUV0(this, va);		result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0:	CopyPosColUV0(this, va);	result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0:	CopyPosNormUV0(this, va);	result = true;	break;
@@ -318,9 +340,9 @@ IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-	m_data = new Uint16[size];
-	memset(m_data, 0, sizeof(Uint16) * size);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint16) * m_size, m_data, usage);
+	m_data = new Uint32[size];
+	memset(m_data, 0, sizeof(Uint32) * size);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint32) * m_size, m_data, usage);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	//Don't keep client data around for static buffers
@@ -336,7 +358,7 @@ IndexBuffer::~IndexBuffer()
 	delete[] m_data;
 }
 
-Uint16 *IndexBuffer::Map(BufferMapMode mode)
+Uint32 *IndexBuffer::Map(BufferMapMode mode)
 {
 	assert(mode != BUFFER_MAP_NONE); //makes no sense
 	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
@@ -344,9 +366,9 @@ Uint16 *IndexBuffer::Map(BufferMapMode mode)
 	if (GetUsage() == BUFFER_USAGE_STATIC) {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
 		if (mode == BUFFER_MAP_READ)
-			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY));
+			return reinterpret_cast<Uint32*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_READ_ONLY));
 		else if (mode == BUFFER_MAP_WRITE)
-			return reinterpret_cast<Uint16*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
+			return reinterpret_cast<Uint32*>(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	}
 
 	return m_data;
@@ -362,7 +384,7 @@ void IndexBuffer::Unmap()
 	} else {
 		if (m_mapMode == BUFFER_MAP_WRITE) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-			glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint16) * m_size, m_data);
+			glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint32) * m_size, m_data);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
 	}

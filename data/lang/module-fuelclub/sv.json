@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Du får köpa bränsle och göra dig av med {radioactives} här."
+      "message" : "Du kan köpa drivmedel och lämna {radioactives} här."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",

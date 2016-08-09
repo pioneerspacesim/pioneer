@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_NUMBERLABEL_H
@@ -18,7 +18,9 @@ public:
 		FORMAT_PERCENT,
 		FORMAT_PERCENT_INTEGER,
 		FORMAT_MONEY,
-		FORMAT_MASS_TONNES
+		FORMAT_MASS_TONNES,
+		FORMAT_DISTANCE_M,
+		FORMAT_DISTANCE_LY,
 	};
 
 	NumberLabel *SetValue(double v);

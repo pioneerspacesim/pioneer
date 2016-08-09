@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "WorldView.h"
@@ -328,6 +328,8 @@ void WorldView::InitObject()
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(GetCamType() == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
 	KeyBindings::toggleHudMode.onPress.connect(sigc::mem_fun(this, &WorldView::OnToggleLabels));
+	KeyBindings::increaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelInc));
+	KeyBindings::decreaseTimeAcceleration.onPress.connect(sigc::mem_fun(this, &WorldView::OnRequestTimeAccelDec));
 }
 
 WorldView::~WorldView()
@@ -476,6 +478,18 @@ void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
 	}
 }
 
+void WorldView::OnRequestTimeAccelInc()
+{
+	// requests an increase in time acceleration
+	Pi::game->RequestTimeAccelInc();
+}
+
+void WorldView::OnRequestTimeAccelDec()
+{
+	// requests a decrease in time acceleration
+    Pi::game->RequestTimeAccelDec();
+}
+
 void WorldView::ResetHyperspaceButton()
 {
 	if(m_hyperspaceButton->GetState() == 1)
@@ -566,10 +580,15 @@ void WorldView::RefreshHeadingPitch(void) {
 	// heading and pitch
 	auto headingPitch = calculateHeadingPitch(m_curPlane);
 	char buf[6];
+	const double heading_deg = RAD2DEG(headingPitch.first);
+	const double pitch_deg = RAD2DEG(headingPitch.second);
 	// \xC2\xB0 is the UTF-8 degree symbol
-	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.first));
+	// normal rounding (as performed by printf) is incorrect for the heading
+	// because it rounds x >= 359.5 *up* to 360 without wrapping back to zero.
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0",
+		(heading_deg < 359.5 ? heading_deg : 0.0));
 	m_headingInfo->SetText(buf);
-	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", RAD2DEG(headingPitch.second));
+	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", pitch_deg);
 	m_pitchInfo->SetText(buf);
 }
 
@@ -830,9 +849,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 					const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
 					std::string lat_str = DecimalToDegMinSec(lat);
 					std::string lon_str = DecimalToDegMinSec(lon);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, "Lat:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, Lang::LATITUDE);
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, "Long:");
+					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, Lang::LONGITUDE);
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
 				} else {
 					// XXX does this need to be repeated 3 times?
@@ -1943,7 +1962,6 @@ void WorldView::Draw()
 {
 	assert(m_game);
 	assert(Pi::player);
-	assert(!Pi::player->IsDead());
 
 	m_renderer->ClearDepthBuffer();
 
@@ -1975,7 +1993,7 @@ void WorldView::Draw()
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);
 
 	// glLineWidth(1.0f);
-	m_renderer->CheckRenderErrors();
+	m_renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {

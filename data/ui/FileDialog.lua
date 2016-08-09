@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -39,10 +39,10 @@ ui.templates.FileDialog = function (args)
 	cancelButton.onClick:Connect(onCancel)
 
 	if #files > 0 then
-		selectButton:SetEnabled(true)
+		selectButton:Enable()
 		list:SetSelectedIndex(1)
 	else
-		selectButton:SetEnabled(false)
+		selectButton:Disable()
 	end
 
 	local fileEntry
@@ -53,7 +53,11 @@ ui.templates.FileDialog = function (args)
 		end
 		fileEntry.onChange:Connect(function (fileName)
 			fileName = util.trim(fileName)
-			selectButton:SetEnabled(fileName ~= '')
+			if fileName ~= '' then
+				selectButton:Enable()
+			else
+				selectButton:Disable()
+			end
 		end)
 		list.onOptionSelected:Connect(function (index, fileName)
 			if fileName ~= '' then

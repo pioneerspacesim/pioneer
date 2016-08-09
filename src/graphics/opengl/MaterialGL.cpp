@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MaterialGL.h"
@@ -18,6 +18,11 @@ void Material::Unapply()
 {
 }
 
+bool Material::IsProgramLoaded() const
+{
+	return m_program->Loaded();
+}
+
 void Material::SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj)
 {
 	const matrix4x4f ViewProjection = proj * mv;
@@ -29,7 +34,7 @@ void Material::SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj)
 	m_program->uViewMatrixInverse.Set( mv.Inverse() );
 	m_program->uViewProjectionMatrix.Set( ViewProjection );
 	m_program->uNormalMatrix.Set( NormalMatrix );
-	RendererOGL::CheckErrors();
+	CHECKERRORS();
 }
 
 }

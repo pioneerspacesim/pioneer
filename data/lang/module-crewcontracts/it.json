@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Breve periodo di servizio a bordo di un'astronave"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigatore"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Spiacente, nessun candidato è in cerca di lavoro a {station}"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "OK, suppongo che sia tutto a posto."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilota"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Possibili membri dell'equipaggio registrati come in cerca di lavoro a {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Sensori e difesa"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Ingegnere di bordo"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

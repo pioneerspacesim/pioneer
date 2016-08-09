@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BaseLoader.h"
@@ -65,7 +65,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	//texture4 is reserved for pattern
 	//texture5 is reserved for color gradient
 	if (!normTex.empty())
-		mat->texture6 = Graphics::TextureBuilder::Model(normTex).GetOrCreateTexture(m_renderer, "model");
+		mat->texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
 	
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _UTILS_H
@@ -44,9 +44,9 @@ struct MsgTimer {
 
 	void Mark(const char *identifier) {
 		mTimer.SoftStop();
-		const double lastTiming = mTimer.millicycles();
+		const double lastTiming = mTimer.avgms();
 		mTimer.SoftReset();
-		Output("(%lf) millicycles in %s\n", lastTiming, identifier);
+		Output("(%lf) avgms in %s\n", lastTiming, identifier);
 	}
 protected:
 	Profiler::Timer mTimer;
@@ -57,6 +57,7 @@ std::string format_date(double time);
 std::string format_date_only(double time);
 std::string format_distance(double dist, int precision = 2);
 std::string format_money(double cents, bool showCents=true);
+std::string format_duration(double seconds);
 
 
 static inline Sint64 isqrt(Sint64 a)
@@ -136,6 +137,52 @@ inline bool ends_with_ci(const std::string &s, const std::string &t) {
 	return ends_with_ci(s.c_str(), s.size(), t.c_str(), t.size());
 }
 
+static inline size_t SplitSpec(const std::string &spec, std::vector<int> &output)
+{
+	static const std::string delim(",");
+
+	size_t i = 0, start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = spec.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// find the end - next delim or end of string
+		end = spec.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		output[i++] = atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+	}
+
+	return i;
+}
+
+static inline size_t SplitSpec(const std::string &spec, std::vector<float> &output)
+{
+	static const std::string delim(",");
+
+	size_t i = 0, start = 0, end = 0;
+	while (end != std::string::npos) {
+		// get to the first non-delim char
+		start = spec.find_first_not_of(delim, end);
+
+		// read the end, no more to do
+		if (start == std::string::npos)
+			break;
+
+		// find the end - next delim or end of string
+		end = spec.find_first_of(delim, start);
+
+		// extract the fragment and remember it
+		output[i++] = atof(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
+	}
+
+	return i;
+}
+
 // 'Numeric type' to string conversions.
 std::string SInt64ToStr(Sint64 val);
 std::string UInt64ToStr(Uint64 val);
@@ -146,6 +193,13 @@ std::string AutoToStr(Sint64 val);
 std::string AutoToStr(float val);
 std::string AutoToStr(double val);
 
+void Vector3fToStr(const vector3f &val, char *out, size_t size);
+void Vector3dToStr(const vector3d &val, char *out, size_t size);
+void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size);
+void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size);
+void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size);
+void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size);
+
 // String to 'Numeric type' conversions.
 Sint64 StrToSInt64(const std::string &str);
 Uint64 StrToUInt64(const std::string &str);
@@ -155,6 +209,13 @@ void StrToAuto(Sint32 *pVal, const std::string &str);
 void StrToAuto(Sint64 *pVal, const std::string &str);
 void StrToAuto(float *pVal, const std::string &str);
 void StrToAuto(double *pVal, const std::string &str);
+
+void StrToVector3f(const char *str, vector3f &val);
+void StrToVector3d(const char *str, vector3d &val);
+void StrToMatrix3x3f(const char *str, matrix3x3f &val);
+void StrToMatrix3x3d(const char *str, matrix3x3d &val);
+void StrToMatrix4x4f(const char *str, matrix4x4f &val);
+void StrToMatrix4x4d(const char *str, matrix4x4d &val);
 
 // Convert decimal coordinates to degree/minute/second format and return as string
 std::string DecimalToDegMinSec(float dec);

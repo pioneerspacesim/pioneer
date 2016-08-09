@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -158,10 +158,15 @@ static int l_starsystem_get_commodity_base_price_alterations(lua_State *l)
 		return 0;
 	}
 	equip.PushValueToStack("l10n_key"); // For now let's just use this poor man's hack.
-	GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
-			LuaConstants::GetConstantFromArg(l, "CommodityType", -1));
-	lua_pop(l, 1);
-	lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
+	int commId;
+	if (!LuaConstants::CheckConstantFromArg(l, "CommodityType", -1, &commId)) {
+		lua_pop(l, 1);
+		lua_pushnumber(l, 0);
+	} else {
+		GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(commId);
+		lua_pop(l, 1);
+		lua_pushnumber(l, s->GetCommodityBasePriceModPercent(e));
+	}
 
 	LUA_DEBUG_END(l, 1);
 	return 1;
@@ -197,9 +202,13 @@ static int l_starsystem_is_commodity_legal(lua_State *l)
 	// XXX: Don't use the l10n_key hack, this is just UGLY!!
 	luaL_checktype(l, 2, LUA_TTABLE);
 	LuaTable(l, 2).PushValueToStack("l10n_key");
-	GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(
-			LuaConstants::GetConstantFromArg(l, "CommodityType", -1));
-	lua_pushboolean(l, s->IsCommodityLegal(e));
+	int commId;
+	if (!LuaConstants::CheckConstantFromArg(l, "CommodityType", -1, &commId))
+		lua_pushboolean(l, true);
+	else {
+		GalacticEconomy::Commodity e = static_cast<GalacticEconomy::Commodity>(commId);
+		lua_pushboolean(l, s->IsCommodityLegal(e));
+	}
 	return 1;
 }
 

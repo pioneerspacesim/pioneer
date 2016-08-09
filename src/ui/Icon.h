@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_ICON_H
@@ -8,6 +8,7 @@
 #include "IniConfig.h"
 #include "SmartPtr.h"
 #include "vector2.h"
+#include "graphics/Drawables.h"
 #include "graphics/Material.h"
 #include "graphics/Texture.h"
 
@@ -34,6 +35,7 @@ private:
 
 	Point m_texPos;
 	Color m_color;
+	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 
 }

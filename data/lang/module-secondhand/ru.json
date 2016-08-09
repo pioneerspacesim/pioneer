@@ -25,7 +25,7 @@
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Приветвую! Я {name} и у меня есть очень хороший {equipment}, который будет вашим всего за {price}."
+      "message" : "Приветствую! Я {name} и у меня есть очень хороший {equipment}, который будет вашим всего за {price}."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",

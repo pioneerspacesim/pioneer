@@ -287,6 +287,10 @@
       "description" : "",
       "message" : "Zmniejsz ustawioną prędkość"
    },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Zwolnienie upływu czasu"
+   },
    "DEMOGRAPHICS" : {
       "description" : "",
       "message" : "Demografia"
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Ten zapis nie może być wczytany z powodu braku uprawnień bądź z innej przyczyny..."
+      "message" : "Zapisany plik '%filename' nie został odnaleziony (lub gra nie ma uprawnień do jego otwarcia)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -595,6 +599,10 @@
       "description" : "",
       "message" : "Zwiększ ustawioną prędkość"
    },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Przyśpieszenie upływu czasu"
+   },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
       "message" : "Kolonia przemysłowa."
@@ -610,10 +618,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "Widok wewnętrzny"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale lś"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -639,6 +643,10 @@
       "description" : "",
       "message" : "%speed{f.2} km/s względem: %frame"
    },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Przełączanie między trybami wyświetlania punktów libracji L4/L5."
+   },
    "LANDED" : {
       "description" : "",
       "message" : "Wylądował"
@@ -658,6 +666,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Statek pod ostrzałem!"
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Szer.:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +695,13 @@
       "description" : "",
       "message" : "Żywe zwierzęta"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Lokalne"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "zablokowany"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Dł.:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -935,10 +947,6 @@
       "description" : "",
       "message" : "Gaz paraliżujący"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Normy"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Nie znaleziono"
@@ -946,6 +954,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "Nie znaleziono, najlepszy wynik: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Teraz"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1063,10 +1075,6 @@
       "description" : "",
       "message" : "Zewnętrzny rolniczy świat."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Zewnętrzne"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Ponad %population miliardów"
@@ -1090,10 +1098,6 @@
    "PERIAPSIS_DISTANCE" : {
       "description" : "",
       "message" : "Perycentrum"
-   },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Perseusza"
    },
    "PIONEER" : {
       "description" : "",
@@ -1255,10 +1259,6 @@
       "description" : "",
       "message" : "Odpady"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Strzelca"
-   },
    "SCANNER_CONTROL" : {
       "description" : "",
       "message" : "Opcje skanera"
@@ -1270,10 +1270,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Centaura"
    },
    "SEARCH" : {
       "description" : "",
@@ -1635,10 +1631,6 @@
       "description" : "",
       "message" : "rozrzedzona"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Ramię Trzech Kiloparseków"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "Zewnętrzny świat tętniący życiem."
@@ -1675,6 +1667,10 @@
       "description" : "",
       "message" : "Średnia"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Widok ekwipunku"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "Zmiana trybu HUD"
@@ -1686,6 +1682,10 @@
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Tłumienie rotacji"
+   },
+   "TOGGLE_SCANNER_VIEW" : {
+      "description" : "Tooltip for the Scanner View button",
+      "message" : "Widok skanera"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1718,6 +1718,34 @@
    "UNEXPLORED_SYSTEM_STAR_INFO_ONLY" : {
       "description" : "",
       "message" : "System niezbadany. Informacje o gwieździe uzyskano przez teleskop, brak danych o planetach."
+   },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "d"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "lś"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "t"
    },
    "UNKNOWN" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Game.h"
@@ -15,7 +15,6 @@
 #include "SectorView.h"
 #include "WorldView.h"
 #include "DeathView.h"
-#include "GalacticView.h"
 #include "SystemView.h"
 #include "SystemInfoView.h"
 #include "UIView.h"
@@ -27,7 +26,11 @@
 #include "ui/Context.h"
 #include "galaxy/GalaxyGenerator.h"
 
-static const int  s_saveVersion   = 82;
+extern "C" {
+#include "miniz/miniz.h"
+}
+
+static const int  s_saveVersion   = 83;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
@@ -185,6 +188,7 @@ m_forceTimeAccel(false)
 
 void Game::ToJson(Json::Value &jsonObj)
 {
+	PROFILE_SCOPED()
 	// preparing the lua serializer
 	Pi::luaSerializer->InitTableRefs();
 
@@ -245,7 +249,7 @@ void Game::TimeStep(float step)
 
 	// XXX ui updates, not sure if they belong here
 	m_gameViews->m_cpan->TimeStepUpdate(step);
-	Sfx::TimeStepAll(step, m_space->GetRootFrame());
+	SfxManager::TimeStepAll(step, m_space->GetRootFrame());
 	log->Update(m_timeAccel == Game::TIMEACCEL_PAUSED);
 
 	if (m_state == STATE_HYPERSPACE) {
@@ -626,6 +630,50 @@ void Game::RequestTimeAccel(TimeAccel t, bool force)
 	m_forceTimeAccel = force;
 }
 
+void Game::RequestTimeAccelInc(bool force)
+{
+    switch(m_requestedTimeAccel) {
+        case Game::TIMEACCEL_1X:
+            m_requestedTimeAccel = Game::TIMEACCEL_10X;
+            break;
+        case Game::TIMEACCEL_10X:
+            m_requestedTimeAccel = Game::TIMEACCEL_100X;
+            break;
+        case Game::TIMEACCEL_100X:
+            m_requestedTimeAccel = Game::TIMEACCEL_1000X;
+            break;
+        case Game::TIMEACCEL_1000X:
+            m_requestedTimeAccel = Game::TIMEACCEL_10000X;
+            break;
+        default:
+            // ignore if paused, hyperspace or 10000X
+            break;
+    }
+    m_forceTimeAccel = force;
+}
+
+void Game::RequestTimeAccelDec(bool force)
+{
+    switch(m_requestedTimeAccel) {
+        case Game::TIMEACCEL_10X:
+            m_requestedTimeAccel = Game::TIMEACCEL_1X;
+            break;
+        case Game::TIMEACCEL_100X:
+            m_requestedTimeAccel = Game::TIMEACCEL_10X;
+            break;
+        case Game::TIMEACCEL_1000X:
+            m_requestedTimeAccel = Game::TIMEACCEL_100X;
+            break;
+        case Game::TIMEACCEL_10000X:
+            m_requestedTimeAccel = Game::TIMEACCEL_1000X;
+            break;
+        default:
+            // ignore if paused, hyperspace or 1X
+            break;
+    }
+    m_forceTimeAccel = force;
+}
+
 Game::Views::Views()
 	: m_sectorView(nullptr)
 	, m_galacticView(nullptr)
@@ -642,7 +690,6 @@ Game::Views::Views()
 void Game::Views::SetRenderer(Graphics::Renderer *r)
 {
 	// view manager will handle setting this probably
-	m_galacticView->SetRenderer(r);
 	m_infoView->SetRenderer(r);
 	m_sectorView->SetRenderer(r);
 	m_systemInfoView->SetRenderer(r);
@@ -660,7 +707,7 @@ void Game::Views::Init(Game* game)
 	m_cpan = new ShipCpanel(Pi::renderer, game);
 	m_sectorView = new SectorView(game);
 	m_worldView = new WorldView(game);
-	m_galacticView = new GalacticView(game);
+	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");
@@ -681,7 +728,7 @@ void Game::Views::LoadFromJson(const Json::Value &jsonObj, Game* game)
 	m_sectorView = new SectorView(jsonObj, game);
 	m_worldView = new WorldView(jsonObj, game);
 
-	m_galacticView = new GalacticView(game);
+	m_galacticView = new UIView("GalacticView");
 	m_systemView = new SystemView(game);
 	m_systemInfoView = new SystemInfoView(game);
 	m_spaceStationView = new UIView("StationView");
@@ -785,14 +832,33 @@ Game *Game::LoadGame(const std::string &filename)
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	Json::Reader jsonReader; // Create reader for parsing the JSON string.
 	const auto data = file->AsByteRange();
-	jsonReader.parse(data.begin, data.end, rootNode); // Parse the JSON string.
-	if (!rootNode.isObject()) throw SavedGameCorruptException();
-	return new Game(rootNode); // Decode the game data from JSON and create the game.
+	size_t outSize = 0;
+	void *pDecompressedData = tinfl_decompress_mem_to_heap(&data[0], data.Size(), &outSize, 0);
+	if (pDecompressedData) {
+		jsonReader.parse(static_cast<char*>(pDecompressedData), static_cast<char*>(pDecompressedData)+outSize, rootNode); // Parse the JSON string.
+		mz_free(pDecompressedData);
+		if (!rootNode.isObject()) throw SavedGameCorruptException();
+		return new Game(rootNode); // Decode the game data from JSON and create the game.
+	} else {
+		throw SavedGameCorruptException();
+	}
+	// file data is freed here
+}
+
+bool Game::CanLoadGame(const std::string &filename)
+{
+	Output("Game::CanLoadGame('%s')\n", filename.c_str());
+	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
+	if (!file) 
+		return false;
+
+	return true;
 	// file data is freed here
 }
 
 void Game::SaveGame(const std::string &filename, Game *game)
 {
+	PROFILE_SCOPED()
 	assert(game);
 
 	if (game->IsHyperspace())
@@ -805,16 +871,39 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		throw CouldNotOpenFileException();
 	}
 
+#ifdef PIONEER_PROFILER
+	std::string profilerPath;
+	FileSystem::userFiles.MakeDirectory("profiler");
+	FileSystem::userFiles.MakeDirectory("profiler/saving");
+	profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler/saving");
+	Profiler::reset();
+#endif
+
 	Json::Value rootNode; // Create the root JSON value for receiving the game data.
 	game->ToJson(rootNode); // Encode the game data as JSON and give to the root value.
-	Json::StyledWriter jsonWriter; // Create writer for writing the JSON data to string.
+	Json::FastWriter jsonWriter; // Create writer for writing the JSON data to string.
 	const std::string jsonDataStr = jsonWriter.write(rootNode); // Write the JSON data.
 
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
 
-	size_t nwritten = fwrite(jsonDataStr.data(), jsonDataStr.length(), 1, f);
-	fclose(f);
-
-	if (nwritten != 1) throw CouldNotWriteToFileException();
+	// compress in memory, write to open file 
+	size_t outSize = 0;
+	void *pCompressedData = tdefl_compress_mem_to_heap(jsonDataStr.data(), jsonDataStr.length(), &outSize, 128);
+	if (pCompressedData) 
+	{
+		size_t nwritten = fwrite(pCompressedData, outSize, 1, f);
+		mz_free(pCompressedData);
+		fclose(f);
+		if (nwritten != 1) throw CouldNotWriteToFileException();
+	}
+	else
+	{
+		fclose(f);
+		throw CouldNotWriteToFileException();
+	}
+	
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 }

@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local SpaceStation = import_core("SpaceStation")
@@ -339,7 +339,7 @@ function SpaceStation:LaunchPolice(targetShip)
 		-- decide how many to create
 		local lawlessness = Game.system.lawlessness
 		local maxPolice = math.min(9, self.numDocks)
-		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*lawlessness)
+		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*(1-lawlessness))
 		local shiptype = ShipDef[Game.system.faction.policeShip]
 
 		-- create and equip them
@@ -697,6 +697,17 @@ Event.Register("onLeaveSystem", function (ship)
 	if ship ~= Game.player then return end
 	destroySystem()
 end)
+
+Event.Register("onShipDestroyed", function (ship, _)
+	for _,local_police in pairs(police) do
+		for k,police_ship in pairs(local_police) do
+			if (ship == police_ship) then
+				table.remove(local_police, k)
+			end
+		end
+	end
+end)
+
 Event.Register("onGameEnd", function ()
 	destroySystem()
 

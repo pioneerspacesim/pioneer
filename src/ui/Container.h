@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_CONTAINER_H
@@ -25,7 +25,7 @@ class Container: public Widget {
 
 protected:
 	// can't instantiate a base container directly
-	Container(Context *context) : Widget(context), m_needsLayout(false) {}
+	Container(Context *context) : Widget(context) {}
 
 public:
 	virtual ~Container();
@@ -67,7 +67,6 @@ private:
 	void EnableChildren();
 	void DisableChildren();
 
-	bool m_needsLayout;
 	std::vector< RefCountedPtr<Widget> > m_widgets;
 };
 

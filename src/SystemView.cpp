@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SystemView.h"
@@ -13,6 +13,7 @@
 #include "FloatComparison.h"
 #include "Game.h"
 #include "AnimationCurves.h"
+#include "MathUtil.h"
 #include "graphics/Material.h"
 #include "graphics/Renderer.h"
 #include "graphics/TextureBuilder.h"
@@ -28,8 +29,7 @@ static const float MAX_ZOOM = 1e30f;
 static const float ZOOM_IN_SPEED = 2;
 static const float ZOOM_OUT_SPEED = 1.f/ZOOM_IN_SPEED;
 static const float WHEEL_SENSITIVITY = .1f;		// Should be a variable in user settings.
-// i don't know how to name it
-static const double ROUGH_SIZE_OF_TURD = 10.0;
+static const double DEFAULT_VIEW_DISTANCE = 10.0;
 
 TransferPlanner::TransferPlanner() :
 	m_position(0., 0., 0.), m_velocity(0., 0., 0.)
@@ -115,7 +115,7 @@ std::string TransferPlanner::printDeltaTime() {
 	out << std::setw(9);
 	double deltaT = m_startTime - Pi::game->GetTime();
 	if(std::fabs(m_startTime) < 1.)
-		out << "Now";
+		out << Lang::NOW;
 	else
 		out << formatTime(deltaT); 
 
@@ -242,6 +242,18 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	m_toggleShipsButton->SetRenderDimensions(30, 22);
 	m_toggleShipsButton->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleShipsButtonClick));
 	Add(m_toggleShipsButton, 660, 5);
+
+	// Add the 3 Lagrange button stations
+	m_toggleL4L5Button = new Gui::MultiStateImageButton();
+	m_toggleL4L5Button->AddState(LAG_ICON,		"icons/toggle_lag_icon.png");
+	m_toggleL4L5Button->AddState(LAG_ICONTEXT,	"icons/toggle_lag_icon_text.png");
+	m_toggleL4L5Button->AddState(LAG_OFF,		"icons/toggle_lag_off.png");
+	m_toggleL4L5Button->SetToolTip(Lang::L4L5_DISPLAY_MODE_TOGGLE);
+	m_toggleL4L5Button->SetRenderDimensions(30, 22);
+	m_toggleL4L5Button->onClick.connect(sigc::mem_fun(this, &SystemView::OnToggleL4L5ButtonClick));
+	Add(m_toggleL4L5Button, 628, 5);
+	m_toggleL4L5Button->SetActiveState(LAG_OFF);
+
 	// orbital transfer planner UI
 	int dx = 670;
 	int dy = 40;
@@ -381,10 +393,16 @@ SystemView::SystemView(Game* game) : UIView(), m_game(game)
 	Graphics::TextureBuilder b2 = Graphics::TextureBuilder::UI("icons/apoapsis.png");
 	m_apoapsisIcon.reset(new Gui::TexturedQuad(b2.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
 
+	Graphics::TextureBuilder l4 = Graphics::TextureBuilder::UI("icons/l4.png");
+	m_l4Icon.reset(new Gui::TexturedQuad(l4.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+	Graphics::TextureBuilder l5 = Graphics::TextureBuilder::UI("icons/l5.png");
+	m_l5Icon.reset(new Gui::TexturedQuad(l5.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
+
 	ResetViewpoint();
 
 	RefreshShips();
 	m_shipDrawing = OFF;
+	m_showL4L5 = LAG_OFF;
 	m_planner = Pi::planner;
 
 	m_orbitVts.reset( new vector3f[N_VERTICES_MAX] );
@@ -415,6 +433,15 @@ void SystemView::OnToggleShipsButtonClick(void) {
 	}
 }
 
+void SystemView::OnToggleL4L5ButtonClick(Gui::MultiStateImageButton *b) {
+	switch (m_showL4L5)
+	{
+	case LAG_OFF:		m_showL4L5 = LAG_ICON;		m_toggleL4L5Button->SetActiveState(LAG_ICON);		break;
+	case LAG_ICON:		m_showL4L5 = LAG_ICONTEXT;	m_toggleL4L5Button->SetActiveState(LAG_ICONTEXT);	break;
+	case LAG_ICONTEXT:	m_showL4L5 = LAG_OFF;		m_toggleL4L5Button->SetActiveState(LAG_OFF);		break;
+	}
+}
+
 void SystemView::OnClickRealt()
 {
 	m_realtime = true;
@@ -431,7 +458,7 @@ void SystemView::ResetViewpoint()
 	m_time = m_game->GetTime();
 }
 
-void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Color &color, double planetRadius)
+void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Color &color, const double planetRadius, const bool showLagrange)
 {
 	double maxT = 1.;
 	unsigned short num_vertices = 0;
@@ -446,22 +473,22 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 	}
 
 	static const float startTrailPercent = 0.85;
-	static const float fadedColorParameter = 0.05;
+	static const float fadedColorParameter = 0.1;
 
 	Uint16 fadingColors = 0;
-	double t0 = m_game->GetTime();
+	const double tMinust0 = m_time - m_game->GetTime();
 	for (unsigned short i = 0; i < N_VERTICES_MAX; ++i) {
 		const double t = double(i) / double(N_VERTICES_MAX) * maxT;
 		if(fadingColors == 0 && t >= startTrailPercent * maxT)
 			fadingColors = i;
-		const vector3d pos = orbit->EvenSpacedPosTrajectory(t, m_time - t0);
+		const vector3d pos = orbit->EvenSpacedPosTrajectory(t, tMinust0);
 		m_orbitVts[i] = vector3f(offset + pos * double(m_zoom));
 		++num_vertices;
 		if (pos.Length() < planetRadius)
 			break;
 	}
 
-	Color fadedColor = color * fadedColorParameter;
+	const Color fadedColor = color * fadedColorParameter;
 	std::fill_n(m_orbitColors.get(), num_vertices, fadedColor);
 	const Uint16 trailLength = num_vertices - fadingColors;
 
@@ -488,6 +515,24 @@ void SystemView::PutOrbit(const Orbit *orbit, const vector3d &offset, const Colo
 		m_periapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
 	if(Gui::Screen::Project(offset + orbit->Apogeum() * double(m_zoom), pos))
 		m_apoapsisIcon->Draw(Pi::renderer, vector2f(pos.x-3, pos.y-5), vector2f(6,10), color);
+
+	if (showLagrange && m_showL4L5!=LAG_OFF)
+	{
+		const Color LPointColor(0x00d6e2ff);
+		const vector3d posL4 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 60.0, tMinust0);
+		if (Gui::Screen::Project(offset + posL4 * double(m_zoom), pos)) {
+			m_l4Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
+			if(m_showL4L5==LAG_ICONTEXT)
+				m_objectLabels->Add(std::string("L4"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
+		}
+
+		const vector3d posL5 = orbit->EvenSpacedPosTrajectory((1.0 / 360.0) * 300.0, tMinust0);
+		if (Gui::Screen::Project(offset + posL5 * double(m_zoom), pos)) {
+			m_l5Icon->Draw(Pi::renderer, vector2f(pos.x - 2, pos.y - 2), vector2f(4, 4), LPointColor);
+			if (m_showL4L5 == LAG_ICONTEXT)
+				m_objectLabels->Add(std::string("L5"), sigc::mem_fun(this, &SystemView::OnClickLagrange), pos.x, pos.y);
+		}
+	}
 	Gui::Screen::LeaveOrtho();
 }
 
@@ -538,6 +583,11 @@ void SystemView::OnClickObject(const SystemBody *b)
 			}
 		}
 	}
+}
+
+void SystemView::OnClickLagrange()
+{
+
 }
 
 void SystemView::PutLabel(const SystemBody *b, const vector3d &offset)
@@ -616,10 +666,13 @@ void SystemView::OnClickShip(Ship *s) {
 
 void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matrix4x4f &trans)
 {
-	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE) return;
-	if (b->GetType() != SystemBody::TYPE_GRAVPOINT) {
+	if (b->GetType() == SystemBody::TYPE_STARPORT_SURFACE) 
+		return;
 
-		if (!m_bodyIcon) {
+	if (b->GetType() != SystemBody::TYPE_GRAVPOINT)
+	{
+		if (!m_bodyIcon) 
+		{
 			Graphics::RenderStateDesc rsd;
 			auto solidState = m_renderer->CreateRenderState(rsd);
 			m_bodyIcon.reset(new Graphics::Drawables::Disk(m_renderer, solidState, Color::WHITE, 1.0f));
@@ -643,15 +696,20 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 	}
 
 	Frame *frame = Pi::player->GetFrame();
-	if(frame->IsRotFrame()) frame = frame->GetNonRotFrame();
-	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) {
+	if(frame->IsRotFrame()) 
+		frame = frame->GetNonRotFrame();
+
+	// display the players orbit(?)
+	if(frame->GetSystemBody() == b && frame->GetSystemBody()->GetMass() > 0) 
+	{
 		const double t0 = m_game->GetTime();
 		Orbit playerOrbit = Pi::player->ComputeOrbit();
 
 		PutOrbit(&playerOrbit, offset, Color::RED, b->GetRadius());
 
-		double plannerStartTime = m_planner->GetStartTime();
-		if(!m_planner->GetPosition().ExactlyEqual(vector3d(0,0,0))) {
+		const double plannerStartTime = m_planner->GetStartTime();
+		if(!m_planner->GetPosition().ExactlyEqual(vector3d(0,0,0))) 
+		{
 			Orbit plannedOrbit = Orbit::FromBodyState(m_planner->GetPosition(),
 								  m_planner->GetVel(),
 								  frame->GetSystemBody()->GetMass());
@@ -666,17 +724,24 @@ void SystemView::PutBody(const SystemBody *b, const vector3d &offset, const matr
 		PutSelectionBox(offset + playerOrbit.OrbitalPosAtTime(m_time - t0)* double(m_zoom), Color::RED);
 	}
 
-	if (b->HasChildren()) {
-		for(const SystemBody* kid : b->GetChildren()) {
-			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) continue;
-			if (kid->GetOrbit().GetSemiMajorAxis() * m_zoom < ROUGH_SIZE_OF_TURD) {
-				PutOrbit(&(kid->GetOrbit()), offset, Color(0, 255, 0, 255));
+	// display all child bodies and their orbits
+	if (b->HasChildren()) 
+	{
+		for(const SystemBody* kid : b->GetChildren()) 
+		{
+			if (is_zero_general(kid->GetOrbit().GetSemiMajorAxis())) 
+				continue;
+
+			const double axisZoom = kid->GetOrbit().GetSemiMajorAxis() * m_zoom;
+			if (axisZoom < DEFAULT_VIEW_DISTANCE)
+			{
+				const SystemBody::BodySuperType bst = kid->GetSuperType();
+				const bool showLagrange = (bst == SystemBody::SUPERTYPE_ROCKY_PLANET || bst == SystemBody::SUPERTYPE_GAS_GIANT);
+				PutOrbit(&(kid->GetOrbit()), offset, Color::GREEN, 0.0, showLagrange);
 			}
 
 			// not using current time yet
-			vector3d pos = kid->GetOrbit().OrbitalPosAtTime(m_time);
-			pos *= double(m_zoom);
-
+			const vector3d pos = kid->GetOrbit().OrbitalPosAtTime(m_time) * double(m_zoom);
 			PutBody(kid, offset + pos, trans);
 		}
 	}
@@ -762,7 +827,7 @@ void SystemView::Draw3D()
 	}
 
 	matrix4x4f trans = matrix4x4f::Identity();
-	trans.Translate(0,0,-ROUGH_SIZE_OF_TURD);
+	trans.Translate(0,0,-DEFAULT_VIEW_DISTANCE);
 	trans.Rotate(DEG2RAD(m_rot_x), 1, 0, 0);
 	trans.Rotate(DEG2RAD(m_rot_z), 0, 0, 1);
 	m_renderer->SetTransform(trans);
@@ -866,7 +931,6 @@ void SystemView::RefreshShips(void) {
 
 			const auto c = static_cast<Ship*>(*s);
 			m_contacts.push_back(std::make_pair(c, c->ComputeOrbit()));
-
 		}
 	}
 }

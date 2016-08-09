@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -40,7 +40,7 @@ static int l_player_is_player(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_get_nav_target(lua_State *l)
@@ -59,7 +59,7 @@ static int l_get_nav_target(lua_State *l)
  *
  * Parameters:
  *
- *   target - a <Body> to which to set the navigation target
+ *   target - a <Body> to which to set the navigation target, or nil
  *
  * Availability:
  *
@@ -67,13 +67,13 @@ static int l_get_nav_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_set_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
-	Body *target = LuaObject<Body>::CheckFromLua(2);
+	Body *target = LuaObject<Body>::GetFromLua(2);
     p->SetNavTarget(target);
     return 0;
 }
@@ -95,7 +95,7 @@ static int l_set_nav_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_get_combat_target(lua_State *l)
@@ -114,7 +114,7 @@ static int l_get_combat_target(lua_State *l)
  *
  * Parameters:
  *
- *   target - a <Body> to which to set the combat target
+ *   target - a <Body> to which to set the combat target, or nil
  *
  * Availability:
  *
@@ -122,13 +122,13 @@ static int l_get_combat_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
-	Body *target = LuaObject<Body>::CheckFromLua(2);
+	Body *target = LuaObject<Body>::GetFromLua(2);
     p->SetCombatTarget(target);
     return 0;
 }
@@ -150,7 +150,7 @@ static int l_set_combat_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_get_hyperspace_target(lua_State *l)
@@ -182,7 +182,7 @@ static int l_get_hyperspace_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_set_hyperspace_target(lua_State *l)

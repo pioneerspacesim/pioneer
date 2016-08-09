@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SFX_H
@@ -12,26 +12,46 @@
 class Frame;
 namespace Graphics {
 	class Renderer;
-	namespace Drawables {
-		class Sphere3D;
-	}
 }
+
+enum SFX_TYPE { TYPE_EXPLOSION=1, TYPE_DAMAGE, TYPE_SMOKE, TYPE_NONE };
 
 class Sfx {
 public:
-	enum TYPE { TYPE_NONE, TYPE_EXPLOSION, TYPE_DAMAGE, TYPE_SMOKE };
+	
+	friend class SfxManager;
+	Sfx();
+	Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type);
+	Sfx(const Sfx&);
+	void SetPosition(const vector3d &p);
+	const vector3d& GetPosition() const { return m_pos; }
 
-	static void Add(const Body *, TYPE);
-	static void AddExplosion(Body *, TYPE);
-	static void AddThrustSmoke(const Body *b, TYPE, float speed, vector3d adjustpos);
+	float AgeBlend() const;
+
+private:
+	void TimeStepUpdate(const float timeStep);
+	void SaveToJson(Json::Value &jsonObj);
+	void LoadFromJson(const Json::Value &jsonObj);
+
+	vector3d m_pos;
+	vector3d m_vel;
+	float m_age;
+	float m_speed;
+	enum SFX_TYPE m_type;
+};
+
+
+class SfxManager {
+public:
+	friend class Sfx;
+
+	static void Add(const Body *, SFX_TYPE);
+	static void AddExplosion(Body *);
+	static void AddThrustSmoke(const Body *b, float speed, const vector3d &adjustpos);
 	static void TimeStepAll(const float timeStep, Frame *f);
 	static void RenderAll(Graphics::Renderer *r, Frame *f, const Frame *camFrame);
 	static void ToJson(Json::Value &jsonObj, const Frame *f);
 	static void FromJson(const Json::Value &jsonObj, Frame *f);
-
-	Sfx();
-	void SetPosition(const vector3d &p);
-	vector3d GetPosition() const { return m_pos; }
 
 	//create shared models
 	static void Init(Graphics::Renderer *r);
@@ -44,21 +64,34 @@ public:
 	static Graphics::RenderState *additiveAlphaState;
 	static Graphics::RenderState *alphaOneState;
 
+	SfxManager();
+
+	size_t GetNumberInstances(const SFX_TYPE t) const { return m_instances[t].size(); }
+	Sfx& GetInstanceByIndex(const SFX_TYPE t, const size_t i) { return m_instances[t][i]; }
+	void AddInstance(Sfx &inst) { return m_instances[inst.m_type].push_back(inst); }
+	void Cleanup();
+
 private:
-	static Sfx *AllocSfxInFrame(Frame *f);
-	static const Uint32 NUM_EXPLOSION_TEXTURES = 32;
-	static Graphics::Texture* explosionTextures[NUM_EXPLOSION_TEXTURES];
+	// types
+	struct MaterialData {
+		MaterialData() : effect(Graphics::EFFECT_BILLBOARD), num_textures(1), num_imgs_wide(1), coord_downscale(1.0f) {}
+		Graphics::EffectType effect;
+		Uint32 num_textures;
+		int num_imgs_wide;
+		float coord_downscale;
+	};
 
-	void Render(Graphics::Renderer *r, const matrix4x4d &transform);
-	void TimeStepUpdate(const float timeStep);
-	void SaveToJson(Json::Value &jsonObj);
-	void LoadFromJson(const Json::Value &jsonObj);
+	// methods
+	static SfxManager *AllocSfxInFrame(Frame *f);
+	static vector2f CalculateOffset(const enum SFX_TYPE, const Sfx&);
+	static bool SplitMaterialData(const std::string &spec, MaterialData &output);
 
-	vector3d m_pos;
-	vector3d m_vel;
-	float m_age;
-	float m_speed;
-	enum TYPE m_type;
+	// static members
+	static MaterialData m_materialData[TYPE_NONE];
+
+	// members
+	// per-frame
+	std::deque<Sfx> m_instances[TYPE_NONE];
 };
 
 #endif /* _SFX_H */

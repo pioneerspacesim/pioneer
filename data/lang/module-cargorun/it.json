@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Prodotti semilavorati"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Imposta come destinazione di navigazione"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Imposta rotta di ritorno"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Astroporto:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Questa merce è cruciale per un progetto in costruzione."
+      "message" : "Questa merce è criciale per un progetto di costruzione."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

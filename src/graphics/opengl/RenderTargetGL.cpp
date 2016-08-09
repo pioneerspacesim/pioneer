@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RenderTargetGL.h"
@@ -52,6 +52,18 @@ Texture *RenderTarget::GetDepthTexture() const
 {
 	assert(GetDesc().allowDepthTexture);
 	return m_depthTexture.Get();
+}
+
+void RenderTarget::SetCubeFaceTexture(const Uint32 face, Texture* t)
+{
+	const bool bound = m_active;
+	if (!bound) Bind();
+	//texture format should match the intended fbo format (aka. the one attached first)
+	GLuint texId = 0;
+	if (t) texId = static_cast<TextureGL*>(t)->GetTexture();
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, texId, 0);
+	m_colorTexture.Reset(t);
+	if (!bound) Unbind();
 }
 
 void RenderTarget::SetColorTexture(Texture* t)

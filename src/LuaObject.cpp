@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -473,32 +473,6 @@ void LuaObjectBase::GetNames(std::vector<std::string> &names, const std::string 
 	lua_pop(l, 1);
 
 	LUA_DEBUG_END(l, 0);
-}
-
-static int secure_trampoline(lua_State *l)
-{
-	// walk the stack
-	// pass through any C functions
-	// if we reach a non-C function, then check whether it's trusted and we're done
-	// (note: trusted defaults to true because if the loop bottoms out then we've only gone through C functions)
-
-	bool trusted = true;
-
-	lua_Debug ar;
-	int stack_pos = 1;
-	while (lua_getstack(l, stack_pos, &ar) && lua_getinfo(l, "S", &ar)) {
-		if (strcmp(ar.what, "C") != 0) {
-			trusted = (strncmp(ar.source, "[T]", 3) == 0);
-			break;
-		}
-		++stack_pos;
-	}
-
-	if (!trusted)
-		luaL_error(l, "attempt to access protected method or attribute from untrusted script blocked");
-
-	lua_CFunction fn = lua_tocfunction(l, lua_upvalueindex(1));
-	return fn(l);
 }
 
 static void register_functions(lua_State *l, const luaL_Reg *methods, bool protect, const char *prefix)

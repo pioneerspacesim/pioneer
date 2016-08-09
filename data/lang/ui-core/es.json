@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Comprimir Texturas"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirmar adquisición"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirmar venta"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Agente"
@@ -197,7 +205,7 @@
    },
    "CREW_ROSTER" : {
       "description" : "",
-      "message" : "Listado de Tripulación"
+      "message" : "Tripulación"
    },
    "CRIMINAL_RECORD" : {
       "description" : "Past crimes / crime history of character",
@@ -245,7 +253,7 @@
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "Settings option: hyperspace tunnel effect",
-      "message" : "Mostrar túnel de navegación"
+      "message" : "Mostrar túneles de navegación"
    },
    "DISPLAY_SPEED_LINES" : {
       "description" : "Settings option: effect when travelling in space",
@@ -283,9 +291,13 @@
       "description" : "",
       "message" : "Ocupación"
    },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Filtro Anisotrópico"
+   },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
-      "message" : "Enable Autosave"
+      "message" : "Habilitar autosalvado"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -433,7 +445,7 @@
    },
    "HULL_INTEGRITY" : {
       "description" : "",
-      "message" : "Integridad del casco"
+      "message" : "Casco"
    },
    "HULL_REPAIRED_BY_NAME_NOW_AT_N_PERCENT" : {
       "description" : "",
@@ -470,6 +482,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Novato"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Fondos insuficientes."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -513,7 +529,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permiso para despegar denegado: no dispone de suficiente tripulación."
+      "message" : "Permission to launch denied: not enough crew to handle this ship."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -558,6 +574,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Recibidor"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo de Orión"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -699,6 +719,10 @@
       "description" : "",
       "message" : "Navegación:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navegante"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Negociar"
@@ -718,6 +742,14 @@
    "NONE" : {
       "description" : "",
       "message" : "No"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "No hay nada a la venta en esta estación."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo de Norma"
    },
    "NOTES" : {
       "description" : "",
@@ -775,6 +807,10 @@
       "description" : "",
       "message" : "La velocidad de órbita circular es dada por una velocidad tangencial. La nave se debería mover en una dirección a 90° del eje de la nave/{name}.\n\nLa velocidad de descenso es un mínimo absoluto, y es también tangencial. Una velocidad o ángulo más bajos resultarán en un curso que intersecta con la superficie de {name}.\n\nLa velocidad de escape funcionará, en teoría, en cualquier dirección, mientras que la nave no colisione con {name} en la ruta.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo Exterior"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Multas espectaculares"
@@ -787,9 +823,17 @@
       "description" : "",
       "message" : "Pagar multa de {amount}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo de Perseo"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Información personal"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Piloto"
    },
    "PILOTING" : {
       "description" : "",
@@ -809,7 +853,7 @@
    },
    "PLANET_TEXTURES" : {
       "description" : "",
-      "message" : "Texturas del planeta"
+      "message" : "Texturas planetarias"
    },
    "POLICE" : {
       "description" : "",
@@ -834,6 +878,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Profesional"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Bombear"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -883,6 +931,10 @@
       "description" : "",
       "message" : "Solicitar permiso para despegar"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reiniciar"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Volver al juego"
@@ -903,6 +955,10 @@
       "description" : "",
       "message" : "Recompensa"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo de Sagitario"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Guardar"
@@ -910,6 +966,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Monturas de colector"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo de Escudo-Centauro"
    },
    "SELECT" : {
       "description" : "",
@@ -935,9 +995,21 @@
       "description" : "",
       "message" : "Sensores:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Detección y defensa"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set destination as navigation target."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Nave"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Ingeniero"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1015,6 +1087,10 @@
       "description" : "",
       "message" : "La nave está bajo el control de la estación, Comandante."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Brazo 3KPC"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "Hombre/Mujer"
@@ -1022,6 +1098,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "La nave es demasiado pequeña para la tripulación actual."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "La nave es demasiado pequeña para transbordar su carga."
    },
    "TOTAL" : {
       "description" : "",
@@ -1123,6 +1203,10 @@
       "description" : "",
       "message" : "No dispone de suficiente dinero para esa opción."
    },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Dispone de {units} unidad/es en su bahía de carga"
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
       "message" : "Primero debe seleccionar un objetivo de combate, Comandante."
@@ -1142,5 +1226,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Dinero insuficiente"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

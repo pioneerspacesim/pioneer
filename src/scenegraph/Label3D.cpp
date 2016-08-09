@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Label3D.h"
@@ -21,7 +21,7 @@ Label3D::Label3D(Graphics::Renderer *r, RefCountedPtr<Text::DistanceFieldFont> f
 	m_material.Reset(r->CreateMaterial(matdesc));
 	m_material->texture0 = font->GetTexture();
 	m_material->diffuse = Color::WHITE;
-	m_material->emissive = Color(38);
+	m_material->emissive = Color(38, 38, 38);
 	m_material->specular = Color::WHITE;
 
 	Graphics::RenderStateDesc rsd;

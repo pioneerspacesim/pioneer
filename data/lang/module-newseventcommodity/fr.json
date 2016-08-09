@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "La nouvelle usine Amissionox dans le système {system} ({sectorx}, {sectory}, {sectorz}) vient d'ouvrir ses portes. Elle produira des couteaux de haute qualitée capables de découper une botte spatiale; néanmoins, à cause de la pénurie de ressources nécessaires pour la fabrication des lames, elle n'a pas encore atteint tout son potentiel de production."
+      "message" : "La nouvelle usine Amissionox dans le système {system} ({sectorx}, {sectory}, {sectorz}) est maintenant opérationnelle. Elle produira des couteaux de hautes qualités capable de trancher les bottes de votre combinaison spatiale; cependant, à cause des faible réserves de matières premières requises pour les lames, l'usine n'a pas encore atteint son plein potentiel de production."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",

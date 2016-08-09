@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include <float.h>
@@ -101,6 +101,7 @@ void Geom::Collide(Geom *b, void (*callback)(CollisionContact*))
 
 static bool rotatedAabbIsectsNormalOne(Aabb &a, const matrix4x4d &transA, Aabb &b)
 {
+	PROFILE_SCOPED()
 	Aabb arot;
 	vector3d p[8];
 	p[0] = transA * vector3d(a.min.x, a.min.y, a.min.z);

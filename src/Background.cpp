@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Background.h"
@@ -25,7 +25,7 @@ using namespace Graphics;
 
 namespace
 {
-	static std::unique_ptr<Graphics::Texture> s_defaultCubeMap;
+	static RefCountedPtr<Graphics::Texture> s_defaultCubeMap;
 
 	static Uint32 GetNumSkyboxes()
 	{
@@ -68,7 +68,7 @@ struct SkyboxVert {
 
 void BackgroundElement::SetIntensity(float intensity)
 {
-	m_material->emissive = Color(intensity*255);
+	m_material->emissive = Color(intensity * 255, intensity * 255, intensity*255);
 }
 
 UniverseBox::UniverseBox(Graphics::Renderer *renderer)
@@ -84,9 +84,9 @@ UniverseBox::~UniverseBox()
 void UniverseBox::Init()
 {
 	// Load default cubemap
-	if(!s_defaultCubeMap.get()) {
+	if(!s_defaultCubeMap.Valid()) {
 		TextureBuilder texture_builder = TextureBuilder::Cube("textures/skybox/default.dds");
-		s_defaultCubeMap.reset( texture_builder.CreateTexture(m_renderer) );
+		s_defaultCubeMap.Reset( texture_builder.GetOrCreateTexture(m_renderer,std::string("cube")) );
 	}
 
 	// Create skybox geometry
@@ -178,13 +178,13 @@ void UniverseBox::LoadCubeMap(Random &rand)
 			// Load new one
 			const std::string os = stringf("textures/skybox/ub%0{d}.dds", (new_ubox_index - 1));
 			TextureBuilder texture_builder = TextureBuilder::Cube(os.c_str());
-			m_cubemap.reset( texture_builder.CreateTexture(m_renderer) );
-			m_material->texture0 = m_cubemap.get();
+			m_cubemap.Reset( texture_builder.GetOrCreateTexture(m_renderer, std::string("cube")) );
+			m_material->texture0 = m_cubemap.Get();
 		}
 	} else {
 		// use default cubemap
-		m_cubemap.reset();
-		m_material->texture0 = s_defaultCubeMap.get();
+		m_cubemap.Reset();
+		m_material->texture0 = s_defaultCubeMap.Get();
 	}
 }
 
@@ -199,9 +199,10 @@ void Starfield::Init()
 {
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_STARFIELD;
-	desc.vertexColors = true;
+	desc.textures = 1;
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
+	m_material->texture0 = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
 }
 
 void Starfield::Fill(Random &rand)
@@ -220,46 +221,41 @@ void Starfield::Fill(Random &rand)
 		m_animBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
 	}
 
-	Graphics::VertexBufferDesc vbd;
-	vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
-	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
-	vbd.attrib[1].semantic = Graphics::ATTRIB_DIFFUSE;
-	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_UBYTE4;
-	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-	vbd.numVertices = NUM_BG_STARS;
-	m_vertexBuffer.reset(m_renderer->CreateVertexBuffer(vbd));
+	m_pointSprites.reset( new Graphics::Drawables::PointSprites );
 
 	assert(sizeof(StarVert) == 16);
-	assert(m_vertexBuffer->GetDesc().stride == sizeof(StarVert));
-	auto vtxPtr = m_vertexBuffer->Map<StarVert>(Graphics::BUFFER_MAP_WRITE);
+	std::unique_ptr<vector3f[]> stars( new vector3f[NUM_BG_STARS] );
+	std::unique_ptr<float[]> sizes( new float[NUM_BG_STARS] );
 	//fill the array
 	for (int i=0; i<NUM_BG_STARS; i++) {
-		const Uint8 col = rand.Double(0.2,0.7)*255;
+		const double size = rand.Double(0.2,0.9);
+		const Uint8 col = size*255;
 
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
 		const float u = float(rand.Double(-1.0, 1.0));
 
-		vtxPtr->pos = vector3f(
-			1000.0f * sqrt(1.0f - u*u) * cos(theta),
-			1000.0f * u,
-			1000.0f * sqrt(1.0f - u*u) * sin(theta));
-		vtxPtr->col = Color(col, col, col,	255);
+		sizes[i] = size;
+		stars[i] = vector3f(sqrt(1.0f - u*u) * cos(theta), u, sqrt(1.0f - u*u) * sin(theta)).Normalized() * 1000.0f;
 
 		//need to keep data around for HS anim - this is stupid
-		m_hyperVtx[NUM_BG_STARS * 2 + i] = vtxPtr->pos;
-		m_hyperCol[NUM_BG_STARS * 2 + i] = vtxPtr->col;
-
-		vtxPtr++;
+		m_hyperVtx[NUM_BG_STARS * 2 + i] = stars[i];
+		m_hyperCol[NUM_BG_STARS * 2 + i] = Color(col, col, col,	255);
 	}
-	m_vertexBuffer->Unmap();
+	m_pointSprites->SetData(NUM_BG_STARS, stars.get(), sizes.get(), m_material.Get());
+
+	Graphics::RenderStateDesc rsd;
+	rsd.depthTest  = false;
+	rsd.depthWrite = false;
+	rsd.blendMode = Graphics::BLEND_ALPHA;
+	m_renderState = m_renderer->CreateRenderState(rsd);
 }
 
 void Starfield::Draw(Graphics::RenderState *rs)
 {
 	// XXX would be nice to get rid of the Pi:: stuff here
 	if (!Pi::game || Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_renderer->DrawBuffer(m_vertexBuffer.get(), rs, m_material.Get(), Graphics::POINTS);
+		m_pointSprites->Draw(m_renderer, m_renderState);
 	} else {
 		assert(sizeof(StarVert) == 16);
 		assert(m_animBuffer->GetDesc().stride == sizeof(StarVert));
@@ -298,41 +294,41 @@ MilkyWay::MilkyWay(Graphics::Renderer *renderer)
 	std::unique_ptr<Graphics::VertexArray> bottom(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
 	std::unique_ptr<Graphics::VertexArray> top(new VertexArray(ATTRIB_POSITION | ATTRIB_DIFFUSE));
 
-	const Color dark(0);
+	const Color dark(Color::BLANK);
 	const Color bright(13, 13, 13, 13);
 
 	//bottom
 	float theta;
 	for (theta=0.0; theta < 2.f*float(M_PI); theta+=0.1f) {
 		bottom->Add(
-				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
+				vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(vector3d(sin(theta),1.0,cos(theta)))), 100.0f*cos(theta)),
 				dark);
 		bottom->Add(
-			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 			bright);
 	}
 	theta = 2.f*float(M_PI);
 	bottom->Add(
-		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(sin(theta),1.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(-40.0 - 30.0*noise(vector3d(sin(theta),1.0,cos(theta)))), 100.0f*cos(theta)),
 		dark);
 	bottom->Add(
-		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 		bright);
 	//top
 	for (theta=0; theta < 2.f*float(M_PI); theta+=0.1f) {
 		top->Add(
-			vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 			bright);
 		top->Add(
-			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
+			vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(vector3d(sin(theta),-1.0,cos(theta)))), 100.0f*cos(theta)),
 			dark);
 	}
 	theta = 2.f*float(M_PI);
 	top->Add(
-		vector3f(100.0f*sin(theta), float(5.0*noise(sin(theta),0.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(5.0*noise(vector3d(sin(theta),0.0,cos(theta)))), 100.0f*cos(theta)),
 		bright);
 	top->Add(
-		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(sin(theta),-1.0,cos(theta))), 100.0f*cos(theta)),
+		vector3f(100.0f*sin(theta), float(40.0 + 30.0*noise(vector3d(sin(theta),-1.0,cos(theta)))), 100.0f*cos(theta)),
 		dark);
 
 	Graphics::MaterialDescriptor desc;

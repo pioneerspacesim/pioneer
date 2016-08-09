@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SYSTEMINFOVIEW_H
@@ -35,6 +35,7 @@ private:
 		Graphics::Renderer *m_renderer;
 		Graphics::RenderState *m_renderState;
 		Graphics::Drawables::Lines m_selectBox;
+		std::unique_ptr<Graphics::Drawables::Circle> m_circle;
 		bool m_hasStarport;
 		Color m_selectColor;
 	};

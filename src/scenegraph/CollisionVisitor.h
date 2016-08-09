@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLLISIONVISITOR_H
@@ -39,10 +39,10 @@ private:
 
 	//temporary arrays for static geometry
 	std::vector<vector3f> m_vertices;
-	std::vector<Uint16> m_indices;
-	std::vector<unsigned int> m_flags;
+	std::vector<Uint32> m_indices;
+	std::vector<Uint32> m_flags;
 
-	unsigned int m_totalTris;
+	Uint32 m_totalTris;
 };
 }
 #endif

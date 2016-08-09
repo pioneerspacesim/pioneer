@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Program.h"
@@ -199,6 +199,7 @@ Program::Program()
 : m_name("")
 , m_defines("")
 , m_program(0)
+, success(false)
 {
 }
 
@@ -206,6 +207,7 @@ Program::Program(const std::string &name, const std::string &defines)
 : m_name(name)
 , m_defines(defines)
 , m_program(0)
+, success(false)
 {
 	LoadShaders(name, defines);
 	InitUniforms();
@@ -240,6 +242,7 @@ void Program::Unuse()
 //load, compile and link
 void Program::LoadShaders(const std::string &name, const std::string &defines)
 {
+	PROFILE_SCOPED()
 	const std::string filename = std::string("shaders/opengl/") + name;
 
 	//load, create and compile shaders
@@ -266,13 +269,14 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 
 	glLinkProgram(m_program);
 
-	check_glsl_errors(name.c_str(), m_program);
+	success = check_glsl_errors(name.c_str(), m_program);
 
 	//shaders may now be deleted by Shader destructor
 }
 
 void Program::InitUniforms()
 {
+	PROFILE_SCOPED()
 	//Init generic uniforms, like matrices
 	uProjectionMatrix.Init("uProjectionMatrix", m_program);
 	uViewMatrix.Init("uViewMatrix", m_program);

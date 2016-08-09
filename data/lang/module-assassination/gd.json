@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Till an-seo nuair a bhios tu air an cùmhnant a choileanadh is thèid do phàigheadh."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Suidhich cùrsa tillidh"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Soitheach:"
@@ -321,6 +329,6 @@
    },
    "X_WILL_BE_LEAVING" : {
       "description" : "",
-      "message" : "Bidh {target} a' fàgail {spaceport} ann an siostam {system} ({sectorX}, {sectorY}, {sectorZ}), {dist} bliadhna-solais a dh'astar {date}. Is {shipname} an soitheach agus is {shipregid} an t-aithnichear clàraidh a tha air."
+      "message" : "Bidh {target} a' fàgail {spaceport} ann an siostam {system} ({sectorX}, {sectorY}, {sectorZ}), {dist} bliadhna-sholais a dh'astar {date}. Is {shipname} an soitheach agus is {shipregid} an t-aithnichear clàraidh a tha air."
    }
 }

@@ -85,7 +85,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-solais a dh'astar."
+      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -105,7 +105,7 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-solais a dh'astar."
+      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-solais a dh'astar."
+      "message" : "Shin thu. Is mise {name}. Bidh mi deònach {cash} a phàigheadh do shoitheach a bheir pacaid gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -145,7 +145,7 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "Fàilte. Seo teachdaireachd fhèin-obrachail o Seirbheisean Gille-ruith Àth na Beithe agus {name}. Pàighidh sinn {cash} airson ruith gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-solais a dh'astar."
+      "message" : "Fàilte. Seo teachdaireachd fhèin-obrachail o Seirbheisean Teachdaire Àth na Beithe agus {name}. Pàighidh sinn {cash} airson ruith gu {starport} ann an siostam {system} ({sectorx}, {sectory}, {sectorz}), tha seo {dist} bliadhna-sholais a dh'astar."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "GILLE-RUITH ASTAIR BHIG. Lìbhrigeadh pacaide bige gu {starport}."
+      "message" : "TEACHDAIRE ASTAIR BHIG. Lìbhrigeadh pacaide bige gu {starport}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "Cha ruig a' phacaid ud a ceann-uidhe an-diugh."
+      "message" : "Cha ruig a' phacaid seo a cheann-uidhe an-diugh."
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
@@ -322,6 +322,10 @@
    "PIRATE_TAUNTS_9" : {
       "description" : "",
       "message" : "Pàighidh tu airson a' charago seo le do bheatha."
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
    },
    "SPACEPORT" : {
       "description" : "",

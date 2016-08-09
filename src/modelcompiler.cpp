@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -33,6 +33,7 @@ static const std::string s_dummyPath("");
 
 void SetupRenderer()
 {
+	PROFILE_SCOPED()
 	s_config.reset(new GameConfig);
 
 	OS::RedirectStdio();
@@ -56,6 +57,7 @@ void SetupRenderer()
 	videoSettings.requestedSamples = s_config->Int("AntiAliasingMode");
 	videoSettings.vsync = false;
 	videoSettings.useTextureCompression = true;
+	videoSettings.useAnisotropicFiltering = true;
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Model Compiler";
 	s_renderer.reset(Graphics::Init(videoSettings));
@@ -63,6 +65,7 @@ void SetupRenderer()
 
 void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
 {
+	PROFILE_SCOPED()
 	Profiler::Timer timer;
 	timer.Start();
 	Output("\n---\nStarting compiler for (%s)\n", modelName.c_str());
@@ -71,8 +74,14 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 	//and then save it into binary
 	std::unique_ptr<SceneGraph::Model> model;
 	try {
-		SceneGraph::Loader ld(s_renderer.get(), false, false);
+		SceneGraph::Loader ld(s_renderer.get(), true, false);
 		model.reset(ld.LoadModel(modelName));
+		//dump warnings
+		for (std::vector<std::string>::const_iterator it = ld.GetLogMessages().begin();
+			it != ld.GetLogMessages().end(); ++it)
+		{
+			Output("%s\n", (*it).c_str());
+		}
 	} catch (...) {
 		//minimal error handling, this is not expected to happen since we got this far.
 		return;
@@ -143,6 +152,11 @@ start:
 	
 	// Init here since we'll need it for both batch and RunCompiler modes.
 	FileSystem::Init();
+	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
+#ifdef PIONEER_PROFILER
+	FileSystem::userFiles.MakeDirectory("profiler");
+	const std::string profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+#endif
 
 	// what mode are we in?
 	switch (mode) {
@@ -237,6 +251,10 @@ start:
 			);
 			break;
 	}
+
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 
 	return 0;
 }

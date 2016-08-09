@@ -93,7 +93,7 @@ size_t DDSImage::Read(const char* pData, const size_t dataSize)
 	imgdata_.numMipMaps = surfacedata_.mipmapcount;
 	imgdata_.format = GetTextureFormat();
 	imgdata_.numImages = GetNumImages();
-	imgdata_.size = CalculateStoreageSize();
+	imgdata_.size = CalculateStorageSize();
 	if(0 >= imgdata_.size)
 		return 0;
 			
@@ -116,21 +116,19 @@ int DDSImage::GetMinDXTSize() const
 	return GetMinSize(GetDXTFormat());
 }
 
-int DDSImage::CalculateStoreageSize() const
+int DDSImage::CalculateStorageSize() const
 {
 	int size = 0;
 	for(int i = 0; i < imgdata_.numImages; ++i)
 	{
 		int width=imgdata_.width;
 		int height=imgdata_.height;
-		int depth=imgdata_.depth;
 
 		for (int m=0; m<imgdata_.numMipMaps; ++m)
 		{
-			size+=GetMipLevelSize(width, height, depth, imgdata_.format);
+			size+=GetMipLevelSize(width, height, imgdata_.format);
 			width = std::max(width>>1, 1);
 			height = std::max(height>>1, 1);
-			depth = std::max(depth>>1, 1);
 		}
 	}
 

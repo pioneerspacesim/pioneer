@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -272,11 +272,6 @@ function EquipmentTableWidgets.Pair (config)
 
 	local function onSell (e)
 		if not funcs.onClickSell(e) then return end
-
-		if e.capabilities.software then
-			MessageBox.Message("System software upgrades can not be uninstalled and resold. Visit a ship service station if you want to purge the upgrade from your on board computer.")
-			return
-		end
 
 		local player = Game.player
 

@@ -323,6 +323,10 @@
       "description" : "",
       "message" : "Du skal betale for den last, med dit liv."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Rumhavn:"

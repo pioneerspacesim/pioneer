@@ -6,6 +6,7 @@ PreRelease/
 Profile/
 Release/
 ipch/
+__pycache__/
 src/data
 debian/autoreconf*
 debian/files

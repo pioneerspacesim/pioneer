@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MultiMaterial.h"
@@ -132,7 +132,7 @@ void LitMultiMaterial::Apply()
 		const vector3f pos = Light.GetPosition();
 		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
 	}
-	RendererOGL::CheckErrors();
+	CHECKERRORS();
 }
 
 void MultiMaterial::Unapply()

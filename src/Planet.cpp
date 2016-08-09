@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Planet.h"
@@ -197,8 +197,8 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 	for (int i = 0; i < RING_TEXTURE_LENGTH; ++i) {
 		const float alpha = (float(i) / float(RING_TEXTURE_LENGTH)) * ringScale;
 		const float n = 0.25 +
-			0.60 * noise( 5.0 * alpha, noiseOffset, 0.0) +
-			0.15 * noise(10.0 * alpha, noiseOffset, 0.0);
+			0.60 * noise(vector3d( 5.0 * alpha, noiseOffset, 0.0)) +
+			0.15 * noise(vector3d(10.0 * alpha, noiseOffset, 0.0));
 
 		const float LOG_SCALE = 1.0f/sqrtf(sqrtf(log1p(1.0f)));
 		const float v = LOG_SCALE*sqrtf(sqrtf(log1p(n)));
@@ -226,7 +226,7 @@ void Planet::GenerateRings(Graphics::Renderer *renderer)
 
 	const vector2f texSize(RING_TEXTURE_WIDTH, RING_TEXTURE_LENGTH);
 	const Graphics::TextureDescriptor texDesc(
-			Graphics::TEXTURE_RGBA_8888, texSize, Graphics::LINEAR_REPEAT, true);
+			Graphics::TEXTURE_RGBA_8888, texSize, Graphics::LINEAR_REPEAT, true, true, true, 0, Graphics::TEXTURE_2D);
 
 	m_ringTexture.Reset(renderer->CreateTexture(texDesc));
 	m_ringTexture->Update(

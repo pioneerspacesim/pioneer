@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef OGL_VERTEXBUFFER_H
@@ -42,14 +42,14 @@ public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	~IndexBuffer();
 
-	virtual Uint16 *Map(BufferMapMode) override;
+	virtual Uint32 *Map(BufferMapMode) override;
 	virtual void Unmap() override;
 	
 	virtual void Bind() override;
 	virtual void Release() override;
 
 private:
-	Uint16 *m_data;
+	Uint32 *m_data;
 };
 
 // Instance buffer

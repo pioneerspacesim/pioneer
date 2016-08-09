@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Texturas de Compressão"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirm purchase"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirm sale"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Policial"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Emprego"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Anisotropic Filtering"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -471,6 +483,10 @@
       "description" : "For player reputation",
       "message" : "Inexperiente"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Insufficient funds."
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Inverter Eixo Y do Mouse"
@@ -513,7 +529,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permissão para lançamento negada: tripulação insuficiente para manejar esta nave."
+      "message" : "Permission to launch denied: not enough crew to handle this ship."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -558,6 +574,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Saguão"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço local"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -699,6 +719,10 @@
       "description" : "",
       "message" : "Navegação:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navegador"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Negociar"
@@ -718,6 +742,14 @@
    "NONE" : {
       "description" : "",
       "message" : "Nenhum"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "None for sale in this station."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Norma"
    },
    "NOTES" : {
       "description" : "",
@@ -775,6 +807,10 @@
       "description" : "",
       "message" : "Velocidade da órbita circular é dada pela velocidade tangencial. A nave deveria estar se movendo em em uma direção a 90° para a nave/{nome} eixo.%s\n%s\nVelocidade descentee é um mínimo absoluto, e é também tangencial. Uma velocidade mais baixa ou um ângulo mais baixo resultará em um caminho que cruza a superfície de {nome}.%s\n%s\nVelocidade de escape teoricamente trabalhará em qualquer direção, enquanto a nave não colidir com {nome} no caminho.%s\n⇥⇥"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Outer"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Multas pendentes"
@@ -787,9 +823,17 @@
       "description" : "",
       "message" : "Pagar multa de {quantia}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Perseu"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Informações Pessoais"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Piloto"
    },
    "PILOTING" : {
       "description" : "",
@@ -834,6 +878,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Profissional"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Pump down"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -883,6 +931,10 @@
       "description" : "",
       "message" : "Soliciitar Lançamento"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Voltar ao jogo"
@@ -903,6 +955,10 @@
       "description" : "",
       "message" : "Recompensa"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Sagitário"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Salvar"
@@ -910,6 +966,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Slots para coletores"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braço de Scutum-Centaurus"
    },
    "SELECT" : {
       "description" : "",
@@ -935,9 +995,21 @@
       "description" : "",
       "message" : "Sensores:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensores e defesa"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set destination as navigation target."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Nave"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Engenheiro espacial"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1015,6 +1087,10 @@
       "description" : "",
       "message" : "A nave está sob controle da estação, Comandante."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "braço 3kpc"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "Alternar masculino/feminino"
@@ -1022,6 +1098,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "Nave pequena demais para a tripulação atual."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Ship is too small to transship your cargo."
    },
    "TOTAL" : {
       "description" : "",
@@ -1123,6 +1203,10 @@
       "description" : "",
       "message" : "Você não tem dinheiro suficiente para aquela opção."
    },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "You have {units} units in your cargohold"
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
       "message" : "Primeiro você precisa selecionar um alvo de combate, Comandante."
@@ -1142,5 +1226,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Você não tem dinheiro suficiente."
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

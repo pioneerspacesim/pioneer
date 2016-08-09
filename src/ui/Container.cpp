@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Container.h"
@@ -28,14 +28,14 @@ void Container::Draw()
 {
 	Context *c = GetContext();
 
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
-		c->DrawWidget((*i).Get());
+	for (auto end = m_widgets.end(), it = m_widgets.begin(); it != end; ++it)
+		c->DrawWidget((*it).Get());
 }
 
 void Container::LayoutChildren()
 {
-	for (std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin(); i != m_widgets.end(); ++i)
-		(*i)->Layout();
+	for (auto end = m_widgets.end(), it = m_widgets.begin(); it != end; ++it)
+		(*it)->Layout();
 }
 
 void Container::AddWidget(Widget *widget)
@@ -72,12 +72,9 @@ void Container::RemoveWidget(Widget *widget)
 
 void Container::RemoveAllWidgets()
 {
-	std::vector< RefCountedPtr<Widget> >::iterator i = m_widgets.begin();
-	while (i != m_widgets.end()) {
-		(*i)->Detach();
-		i = m_widgets.erase(i);
-	}
-
+	for (auto end = m_widgets.end(), it = m_widgets.begin(); it != end; ++it)
+		(*it)->Detach();
+	m_widgets.clear();
 	GetContext()->RequestLayout();
 }
 
@@ -138,7 +135,8 @@ Widget *Container::GetWidgetAt(const Point &pos)
 {
 	if (!Contains(pos)) return 0;
 
-	for (RefCountedPtr<Widget> widget : GetWidgets()) {
+	for (auto end = m_widgets.rend(), it = m_widgets.rbegin(); it != end; ++it) {
+		const auto widget = *it;
 		const Point relpos = pos - widget->GetPosition() - widget->GetDrawOffset();
 		if (widget->IsContainer()) {
 			Widget* w = static_cast<Container*>(widget.Get())->GetWidgetAt(relpos);
@@ -159,7 +157,8 @@ void Container::CollectShortcuts(std::map<KeySym,Widget*> &shortcuts)
 			shortcuts[*j] = this;
 	}
 
-	for (RefCountedPtr<Widget> widget : GetWidgets()) {
+	for (auto end = m_widgets.rend(), it = m_widgets.rbegin(); it != end; ++it) {
+		const auto widget = *it;
 		if (widget->IsContainer())
 			static_cast<Container*>(widget.Get())->CollectShortcuts(shortcuts);
 		else {

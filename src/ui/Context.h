@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_CONTEXT_H
@@ -38,6 +38,7 @@
 #include "Icon.h"
 #include "Gauge.h"
 #include "Table.h"
+#include "OverlayStack.h"
 
 #include "MousePointer.h"
 
@@ -71,12 +72,14 @@ namespace UI {
 class Context : public Container {
 public:
 	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height);
+	Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, float scale);
 
 	// general purpose containers
 	UI::HBox *HBox(float spacing = 0.0f) { return new UI::HBox(this, spacing); }
 	UI::VBox *VBox(float spacing = 0.0f) { return new UI::VBox(this, spacing); }
 	UI::Grid *Grid(const UI::CellSpec &rowSpec, const UI::CellSpec &colSpec) { return new UI::Grid(this, rowSpec, colSpec); }
 	UI::Table *Table() { return new UI::Table(this); }
+	UI::OverlayStack *OverlayStack() { return new UI::OverlayStack(this); }
 
 	// single containers
 	UI::Background *Background() { return new UI::Background(this); }
@@ -125,6 +128,8 @@ public:
 
 	void SetMousePointer(const std::string &filename, const Point &hotspot);
 	void SetMousePointerEnabled(bool enabled) { m_mousePointerEnabled = enabled; }
+	// handler for keydown events
+	void HandleKeyDown(const KeyboardEvent &event);
 
 	// event dispatch delegates
 	bool Dispatch(const Event &event) { return m_eventDispatcher.Dispatch(event); }

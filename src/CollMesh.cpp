@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "CollMesh.h"
@@ -8,6 +8,7 @@
 
 void CollMesh::Save(Serializer::Writer &wr) const
 {
+	PROFILE_SCOPED()
 	wr.Vector3d(m_aabb.max);
 	wr.Vector3d(m_aabb.min);
 	wr.Double(m_aabb.radius);
@@ -24,6 +25,7 @@ void CollMesh::Save(Serializer::Writer &wr) const
 
 void CollMesh::Load(Serializer::Reader &rd)
 {
+	PROFILE_SCOPED()
 	m_aabb.max = rd.Vector3d();
 	m_aabb.min = rd.Vector3d();
 	m_aabb.radius = rd.Double();

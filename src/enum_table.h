@@ -1,4 +1,4 @@
-/* Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 #ifndef HX_GEN_ENUM_TABLES
@@ -28,6 +28,7 @@ extern const struct EnumItem ENUM_CommodityType[];
 extern const struct EnumItem ENUM_BodyType[];
 extern const struct EnumItem ENUM_BodySuperType[];
 extern const struct EnumItem ENUM_GameUIFaceFlags[];
+extern const struct EnumItem ENUM_GameUIMarkerStyle[];
 extern const struct EnumItem ENUM_ModelDebugFlags[];
 extern const struct EnumItem ENUM_UIAlignDirection[];
 extern const struct EnumItem ENUM_UIAnimationType[];

@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Torni qui a contratto completato e verrà pagato."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Imposta come destinazione di navigazione"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Imposta rotta di ritorno"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Astronave:"

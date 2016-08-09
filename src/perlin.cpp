@@ -1,6 +1,7 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "perlin.h"
 #include <math.h>
 
 /* Simplex.cpp
@@ -52,10 +53,10 @@
  * Eliot
  */
 
-static int fastfloor( const double x ) { return int(x > 0 ? x : x - 1); }
+inline int fastfloor(const double x) { return int(x > 0 ? x : x - 1); }
 
 //static double dot( const int* g, const double x, const double y ) { return g[0]*x + g[1]*y; }
-static double dot( const double* g, const double x, const double y, const double z ) { return g[0]*x + g[1]*y + g[2]*z; }
+inline double dot(const double* g, const double x, const double y, const double z) { return g[0] * x + g[1] * y + g[2] * z; }
 //static double dot( const int* g, const double x, const double y, const double z, const double w ) { return g[0]*x + g[1]*y + g[2]*z + g[3]*w; }
 
 // The gradients are the midpoints of the vertices of a cube.
@@ -102,96 +103,98 @@ static const unsigned char mod12[] = {
 	8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,
 	7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,
 	6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,
-	5,6,7,8,9,10,11,0,1,2,3,
+	5,6,7,8,9,10,11,0,1,2,3
 };
 
+const double F3 = 1.0 / 3.0;
+const double G3 = 1.0 / 6.0; // Very nice and simple unskew factor, too
+const double G3mul2 = 0.3333333333333333;
+const double G3mul3 = 0.5;
 // 3D raw Simplex noise
-double noise( const double x, const double y, const double z ) {
-	double n0, n1, n2, n3; // Noise contributions from the four corners
-
+double noise(const vector3d &p)
+{
 	// Skew the input space to determine which simplex cell we're in
-	const double F3 = 1.0/3.0;
-	double s = (x+y+z)*F3; // Very nice and simple skew factor for 3D
-	int i = fastfloor(x+s);
-	int j = fastfloor(y+s);
-	int k = fastfloor(z+s);
+	const double s = (p.x + p.y + p.z)*F3; // Very nice and simple skew factor for 3D
+	const int i = fastfloor(p.x + s);
+	const int j = fastfloor(p.y + s);
+	const int k = fastfloor(p.z + s);
 
-	const double G3 = 1.0/6.0; // Very nice and simple unskew factor, too
-	double t = (i+j+k)*G3;
-	double X0 = i-t; // Unskew the cell origin back to (x,y,z) space
-	double Y0 = j-t;
-	double Z0 = k-t;
-	double x0 = x-X0; // The x,y,z distances from the cell origin
-	double y0 = y-Y0;
-	double z0 = z-Z0;
+	const double t = (i + j + k)*G3;
+	const double X0 = i - t; // Unskew the cell origin back to (x,y,z) space
+	const double Y0 = j - t;
+	const double Z0 = k - t;
+	const double x0 = p.x - X0; // The x,y,z distances from the cell origin
+	const double y0 = p.y - Y0;
+	const double z0 = p.z - Z0;
 
 	// For the 3D case, the simplex shape is a slightly irregular tetrahedron.
 	// Determine which simplex we are in.
 	int i1, j1, k1; // Offsets for second corner of simplex in (i,j,k) coords
 	int i2, j2, k2; // Offsets for third corner of simplex in (i,j,k) coords
 
-	if(x0>=y0) {
-	if(y0>=z0)
-	{ i1=1; j1=0; k1=0; i2=1; j2=1; k2=0; } // X Y Z order
-	else if(x0>=z0) { i1=1; j1=0; k1=0; i2=1; j2=0; k2=1; } // X Z Y order
-	else { i1=0; j1=0; k1=1; i2=1; j2=0; k2=1; } // Z X Y order
-	}
-	else { // x0<y0
-	if(y0<z0) { i1=0; j1=0; k1=1; i2=0; j2=1; k2=1; } // Z Y X order
-	else if(x0<z0) { i1=0; j1=1; k1=0; i2=0; j2=1; k2=1; } // Y Z X order
-	else { i1=0; j1=1; k1=0; i2=1; j2=1; k2=0; } // Y X Z order
+	if ( x0 >= y0 ) {
+		if (y0 >= z0)		{ i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // X Y Z order
+		else if ( x0 >= z0 ) { i1 = 1; j1 = 0; k1 = 0; i2 = 1; j2 = 0; k2 = 1; } // X Z Y order
+		else { i1 = 0; j1 = 0; k1 = 1; i2 = 1; j2 = 0; k2 = 1; } // Z X Y order
+	} else { // x0<y0
+		if ( y0 < z0 ) { i1 = 0; j1 = 0; k1 = 1; i2 = 0; j2 = 1; k2 = 1; } // Z Y X order
+		else if ( x0 < z0 ) { i1 = 0; j1 = 1; k1 = 0; i2 = 0; j2 = 1; k2 = 1; } // Y Z X order
+		else { i1 = 0; j1 = 1; k1 = 0; i2 = 1; j2 = 1; k2 = 0; } // Y X Z order
 	}
 
 	// A step of (1,0,0) in (i,j,k) means a step of (1-c,-c,-c) in (x,y,z),
 	// a step of (0,1,0) in (i,j,k) means a step of (-c,1-c,-c) in (x,y,z), and
 	// a step of (0,0,1) in (i,j,k) means a step of (-c,-c,1-c) in (x,y,z), where
 	// c = 1/6.
-	double x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coords
-	double y1 = y0 - j1 + G3;
-	double z1 = z0 - k1 + G3;
-	double x2 = x0 - i2 + 2.0*G3; // Offsets for third corner in (x,y,z) coords
-	double y2 = y0 - j2 + 2.0*G3;
-	double z2 = z0 - k2 + 2.0*G3;
-	double x3 = x0 - 1.0 + 3.0*G3; // Offsets for last corner in (x,y,z) coords
-	double y3 = y0 - 1.0 + 3.0*G3;
-	double z3 = z0 - 1.0 + 3.0*G3;
+	const double x1 = x0 - i1 + G3; // Offsets for second corner in (x,y,z) coords
+	const double y1 = y0 - j1 + G3;
+	const double z1 = z0 - k1 + G3;
+	const double x2 = x0 - i2 + G3mul2; // Offsets for third corner in (x,y,z) coords
+	const double y2 = y0 - j2 + G3mul2;
+	const double z2 = z0 - k2 + G3mul2;
+	const double x3 = x0 - 1.0 + G3mul3; // Offsets for last corner in (x,y,z) coords
+	const double y3 = y0 - 1.0 + G3mul3;
+	const double z3 = z0 - 1.0 + G3mul3;
 
 	// Work out the hashed gradient indices of the four simplex corners
-	int ii = i & 255;
-	int jj = j & 255;
-	int kk = k & 255;
-	int gi0 = mod12[perm[ii+perm[jj+perm[kk]]]];
-	int gi1 = mod12[perm[ii+i1+perm[jj+j1+perm[kk+k1]]]];
-	int gi2 = mod12[perm[ii+i2+perm[jj+j2+perm[kk+k2]]]];
-	int gi3 = mod12[perm[ii+1+perm[jj+1+perm[kk+1]]]];
+	const int ii = i & 255;
+	const int jj = j & 255;
+	const int kk = k & 255;
+	const int gi0 = mod12[perm[ii + perm[jj + perm[kk]]]];
+	const int gi1 = mod12[perm[ii + i1 + perm[jj + j1 + perm[kk + k1]]]];
+	const int gi2 = mod12[perm[ii + i2 + perm[jj + j2 + perm[kk + k2]]]];
+	const int gi3 = mod12[perm[ii + 1 + perm[jj + 1 + perm[kk + 1]]]];
+
+	 // Noise contributions from the four corners
+	double n0, n1, n2, n3;
 
 	// Calculate the contribution from the four corners
 	double t0 = 0.6 - x0*x0 - y0*y0 - z0*z0;
-	if(t0<0) n0 = 0.0;
+	if ( t0 < 0 ) n0 = 0.0;
 	else {
-	t0 *= t0;
-	n0 = t0 * t0 * dot(grad3[gi0], x0, y0, z0);
+		t0 *= t0;
+		n0 = t0 * t0 * dot(grad3[gi0], x0, y0, z0);
 	}
 
 	double t1 = 0.6 - x1*x1 - y1*y1 - z1*z1;
-	if(t1<0) n1 = 0.0;
+	if ( t1 < 0 ) n1 = 0.0;
 	else {
-	t1 *= t1;
-	n1 = t1 * t1 * dot(grad3[gi1], x1, y1, z1);
+		t1 *= t1;
+		n1 = t1 * t1 * dot(grad3[gi1], x1, y1, z1);
 	}
 
 	double t2 = 0.6 - x2*x2 - y2*y2 - z2*z2;
-	if(t2<0) n2 = 0.0;
+	if ( t2 < 0 ) n2 = 0.0;
 	else {
-	t2 *= t2;
-	n2 = t2 * t2 * dot(grad3[gi2], x2, y2, z2);
+		t2 *= t2;
+		n2 = t2 * t2 * dot(grad3[gi2], x2, y2, z2);
 	}
 
 	double t3 = 0.6 - x3*x3 - y3*y3 - z3*z3;
-	if(t3<0) n3 = 0.0;
+	if ( t3 < 0 ) n3 = 0.0;
 	else {
-	t3 *= t3;
-	n3 = t3 * t3 * dot(grad3[gi3], x3, y3, z3);
+		t3 *= t3;
+		n3 = t3 * t3 * dot(grad3[gi3], x3, y3, z3);
 	}
 
 	// Add contributions from each corner to get the final noise value.

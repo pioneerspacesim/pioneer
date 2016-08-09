@@ -39,6 +39,7 @@ noinst_HEADERS = \
 	MousePointer.h \
 	MultiLineText.h \
 	NumberLabel.h \
+	OverlayStack.h \
 	Point.h \
 	Scroller.h \
 	Single.h \
@@ -77,6 +78,7 @@ libui_a_SOURCES = \
 	Margin.cpp \
 	MultiLineText.cpp \
 	NumberLabel.cpp \
+	OverlayStack.cpp \
 	Scroller.cpp \
 	Single.cpp \
 	Skin.cpp \
@@ -109,6 +111,7 @@ libui_a_SOURCES = \
 	LuaMargin.cpp \
 	LuaMultiLineText.cpp \
 	LuaNumberLabel.cpp \
+	LuaOverlayStack.cpp \
 	LuaScroller.cpp \
 	LuaSingle.cpp \
 	LuaSlider.cpp \

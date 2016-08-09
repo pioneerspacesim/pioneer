@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Intro.h"
@@ -24,7 +24,7 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	using Graphics::Light;
 
 	m_background.reset(new Background::Container(r, Pi::rng));
-	m_ambientColor = Color(0);
+	m_ambientColor = Color::BLANK;
 
 	const Color one = Color::WHITE;
 	const Color two = Color(77, 77, 204, 0);

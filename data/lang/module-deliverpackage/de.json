@@ -313,7 +313,7 @@
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "Dieses Paket wird heute nicht seinen Ankunftsort erreichen."
+      "message" : "Dieses Paket wird heute nicht sein Ziel erreichen."
    },
    "PIRATE_TAUNTS_8" : {
       "description" : "",
@@ -322,6 +322,10 @@
    "PIRATE_TAUNTS_9" : {
       "description" : "",
       "message" : "Du wirst für diese Fracht mit deinem Leben bezahlen."
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
    },
    "SPACEPORT" : {
       "description" : "",

@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Compressione Texture"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Conferma acquisto"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Conferma vendita"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Conestabile"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Impiego"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Filtro Anisotropico"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -471,6 +483,10 @@
       "description" : "For player reputation",
       "message" : "Inesperto"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Fondi insufficienti."
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Inverti Mouse Y"
@@ -513,7 +529,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Permesso di lancio negato: equipaggio insufficiente per poter pilotare questa astronave."
+      "message" : "Permesso di lancio negato: non avete sufficiente equipaggio per manovrare questa astronave."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -558,6 +574,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Anticamera"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio locale"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -699,6 +719,10 @@
       "description" : "",
       "message" : "Navigazione"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigatore"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Negoziare"
@@ -718,6 +742,14 @@
    "NONE" : {
       "description" : "",
       "message" : "Vuoto"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Nulla in vendita, in questa stazione."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Regolo-Cigno"
    },
    "NOTES" : {
       "description" : "",
@@ -775,6 +807,10 @@
       "description" : "",
       "message" : "La velocità di orbita circolare è data come velocità tangenziale. L'astronave deve muoversi in una direzione di 90° rispetto all'asse astronave/{name}.\n\nLa velocità di discesa è un minimo assoluto, ed è anch'essa tangenziale. Una velocità od un angolo inferiori porteranno ad una traiettoria che interseca con la superficie di {name}.\n\nLa velocità di fuga si applica teoricamente ad ogni direzione, fintanto che l'astronave non entra in rotta di collisione con {name}."
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Esterno"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Multe pendenti"
@@ -787,9 +823,17 @@
       "description" : "",
       "message" : "Paga multa di {amount}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio di Perseo"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Informazioni personali"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilota"
    },
    "PILOTING" : {
       "description" : "",
@@ -835,6 +879,10 @@
       "description" : "For player reputation",
       "message" : "Professionista"
    },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Scarica"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Punteggi qualifiche"
@@ -861,7 +909,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Rifornimento"
+      "message" : "Rifornisci"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -883,6 +931,10 @@
       "description" : "",
       "message" : "Richiesta autorizzazione al lancio"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Azzera"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Torna al gioco"
@@ -903,6 +955,10 @@
       "description" : "",
       "message" : "Ricompensa"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Carena-Sagittario"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Salva"
@@ -910,6 +966,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Supporti per raccoglitori"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio Scudo-Croce"
    },
    "SELECT" : {
       "description" : "",
@@ -935,9 +995,21 @@
       "description" : "",
       "message" : "Sensori:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensori e difesa"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Imposta la destinazione come destinazione di navigazione."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Astronave"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Ingegnere di bordo"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1015,6 +1087,10 @@
       "description" : "",
       "message" : "La sua astronave è sotto il controllo della stazione, Comandante."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Braccio dei 3-kpc"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "Cambia maschio/femmina"
@@ -1022,6 +1098,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "L'astronave è troppo piccola per questo equipaggio."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "L'astronave è troppo piccola per trasbordarvi il carico."
    },
    "TOTAL" : {
       "description" : "",
@@ -1123,6 +1203,10 @@
       "description" : "",
       "message" : "Non ha abbastanza crediti per questa opzione."
    },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Hai {units} unità nella tua stiva"
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
       "message" : "Deve prima selezionare un bersaglio per il combattimento, Comandante."
@@ -1142,5 +1226,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Crediti insufficienti"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Context.h"
@@ -34,16 +34,20 @@ static const float FONT_SCALE[] = {
 	1.8f   // MONO_XLARGE
 };
 
-Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height) : Container(this),
+Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height):
+	Context(lua, renderer, width, height, std::min(float(height)/SCALE_CUTOFF_HEIGHT, 1.0f))
+{}
+
+Context::Context(LuaManager *lua, Graphics::Renderer *renderer, int width, int height, float scale) : Container(this),
 	m_renderer(renderer),
 	m_width(width),
 	m_height(height),
-	m_scale(std::min(float(m_height)/SCALE_CUTOFF_HEIGHT, 1.0f)),
+	m_scale(scale),
 	m_needsLayout(false),
 	m_mousePointer(nullptr),
 	m_mousePointerEnabled(true),
 	m_eventDispatcher(this),
-	m_skin("ui/Skin.ini", renderer, GetScale()),
+	m_skin("ui/Skin.ini", renderer, scale),
 	m_lua(lua)
 {
 	lua_State *l = m_lua->GetLuaState();
@@ -105,6 +109,15 @@ void Context::DropAllLayers()
 	m_layers.clear();
 	NewLayer();
 	m_needsLayout = true;
+}
+	
+void Context::HandleKeyDown(const KeyboardEvent &event) {
+	if (event.keysym.sym == SDLK_ESCAPE) {
+		if (m_layers.size()>1) {
+			// go back to previous layer
+			DropLayer();
+		}
+	}
 }
 
 Widget *Context::GetWidgetAt(const Point &pos)

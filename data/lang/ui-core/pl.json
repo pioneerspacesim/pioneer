@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Kompresja Tekstur"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Potwierdzenie zakupu"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Potwierdzenie sprzedaży"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Posterunkowy"
@@ -261,7 +269,7 @@
    },
    "DUMPING" : {
       "description" : "The illegal act of dumping waste",
-      "message" : "Dumping"
+      "message" : "Wyrzucanie odpadów"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -283,9 +291,13 @@
       "description" : "",
       "message" : "Zatrudnienie"
    },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Filtrowanie anizotropowe"
+   },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
-      "message" : "Enable Autosave"
+      "message" : "Autozapis włączony"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -471,6 +483,10 @@
       "description" : "For player reputation",
       "message" : "Niedoświadczony"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Za mało pieniędzy."
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Odwróć Oś Y"
@@ -513,7 +529,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Brak pozwolenia na lądowanie: brak wystarczającej ilości załogi by poprowadzić ten statek."
+      "message" : "Brak pozwolenia na start: niewystarczająca ilość załogi do pilotowania statku."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -558,6 +574,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Recepcja"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Ramię Lokalne"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -699,6 +719,10 @@
       "description" : "",
       "message" : "Nawigacja:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Nawigator"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Negocjacje"
@@ -718,6 +742,14 @@
    "NONE" : {
       "description" : "",
       "message" : "Brak"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Na tej stacji nie ma nic na sprzedaż."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Ramię Normy"
    },
    "NOTES" : {
       "description" : "",
@@ -775,9 +807,13 @@
       "description" : "",
       "message" : "Prędkość orbitalna to stała prędkość z jaką powinien poruszać się statek pod kątem 90° względem osi statek/{name}.\n\nPrędkość graniczna, jest minimalną prędkością przy której statek pozostaje na orbicie.  Przy mniejszej prędkości lub kącie, rozpocznie się opadanie ku powierzchni {name}.\n\nPrędkość ucieczki teoretycznie powoduje opuszczenie orbity, jeśli tylko statek nie jest na kursie kolizyjnym z {name}.\n\t\t"
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Ramię Zewnętrzne"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
-      "message" : "Outstanding fines"
+      "message" : "Zaległe grzywny"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -787,9 +823,17 @@
       "description" : "",
       "message" : "Zapłać {amount}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Ramię Perseusza"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Informacje o pilocie"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
    },
    "PILOTING" : {
       "description" : "",
@@ -834,6 +878,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Profesjonalista"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Wypompuj"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -883,6 +931,10 @@
       "description" : "",
       "message" : "Pozwolenie na start"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Powrót do gry"
@@ -903,6 +955,10 @@
       "description" : "",
       "message" : "Zapłata"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Ramię Strzelca"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Zapisz"
@@ -910,6 +966,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Mocowania czerpaków"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Ramię Centaura"
    },
    "SELECT" : {
       "description" : "",
@@ -935,9 +995,21 @@
       "description" : "",
       "message" : "Sensory:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensory i obrona"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Ustaw jako cel nawigacyjny."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Statek"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Mechanik pokładowy"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -997,11 +1069,11 @@
    },
    "TECH_CERTIFIED" : {
       "description" : "Lobby screen shows the tech level (an integer number) of the station",
-      "message" : "This station holds a level {tech_level} technology certificate."
+      "message" : "Ta stacja posiada certyfikat technologiczny {tech_level}. poziomu."
    },
    "TECH_CERTIFIED_MILITARY" : {
       "description" : "Lobby screen shows the tech level of the station",
-      "message" : "This installation holds a military technology clearance."
+      "message" : "Na tej stacji oficjalnie dostępna jest technologia militarna."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -1015,6 +1087,10 @@
       "description" : "",
       "message" : "Kapitanie, statek jest pod kontrolą stacji."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Ramię Trzech Kiloparseków"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "Mężczyzna/Kobieta"
@@ -1022,6 +1098,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "Statek jest zbyt mały dla obecnej ilości załogi."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Statek jest zbyt mały na to by przeładować ładunek."
    },
    "TOTAL" : {
       "description" : "",
@@ -1105,7 +1185,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "{crime} cannot be tolerated here!"
+      "message" : "{crime} nie będzie tu tolerowane!"
    },
    "YES" : {
       "description" : "Positive answer to a question",
@@ -1122,6 +1202,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Nie masz dość pieniędzy na tę opcję."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Posiadasz {units} w swojej ładowni "
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -1142,5 +1226,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Nie masz dość pieniędzy"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zbliżenie"
    }
 }

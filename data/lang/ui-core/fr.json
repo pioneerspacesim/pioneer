@@ -167,6 +167,14 @@
       "description" : "graphics option in game settings menu ",
       "message" : "Compresser les textures"
    },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirmer l'achat"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirmer la vente"
+   },
    "CONSTABLE" : {
       "description" : "",
       "message" : "Agent de police"
@@ -282,6 +290,10 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Fonction"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Filtrage Anisotropique"
    },
    "ENABLE_AUTOSAVE" : {
       "description" : "Allow the game to autosave when docking",
@@ -471,6 +483,10 @@
       "description" : "For player reputation",
       "message" : "Inexpérimenté"
    },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Fonds insuffisants"
+   },
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Inverser souris Y"
@@ -558,6 +574,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Hall"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la voie lactée local"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -699,6 +719,10 @@
       "description" : "",
       "message" : "Navigation:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigateur"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Négocier"
@@ -718,6 +742,14 @@
    "NONE" : {
       "description" : "",
       "message" : "Aucun"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Aucun à vendre dans cette station"
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la Règle"
    },
    "NOTES" : {
       "description" : "",
@@ -775,6 +807,10 @@
       "description" : "",
       "message" : "La vitesse orbitale est donnée pour un vecteur tangenciel : La trajectoire doit etre de 90° par rapport a l'axe  vaisseau/{name}.\n\nLa vitesse de descente est un minimum absolu, et c'est aussi la vitesse tangencielle : Une vitesse plus base ou un angle plus bas donneront a coup sur une collision avec {name}.\n\nLa vitesse de libération fonctionne en théorie dans toute les directions, tant que le vaisseau n'entre pas en collision avec {name}."
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras externe"
+   },
    "OUTSTANDING_FINES" : {
       "description" : "Unpaid fines for crimes committed",
       "message" : "Amendes impayées"
@@ -787,9 +823,17 @@
       "description" : "",
       "message" : "Payer l'amende de {amount}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de Persée"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Info. Perso."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilote"
    },
    "PILOTING" : {
       "description" : "",
@@ -834,6 +878,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Professionel"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Vidange"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -883,6 +931,10 @@
       "description" : "",
       "message" : "Requête de lancement"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Reprendre la partie"
@@ -903,6 +955,10 @@
       "description" : "",
       "message" : "Récompense"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras du Sagittaire"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Sauvegarder"
@@ -910,6 +966,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Scoop mounts"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras Écu-Croix"
    },
    "SELECT" : {
       "description" : "",
@@ -935,9 +995,21 @@
       "description" : "",
       "message" : "Senseurs:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Senseurs et défense"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Régler la destination comme cible de navigation."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Vaisseau"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Ingénieur de vaisseau"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -1015,6 +1087,10 @@
       "description" : "",
       "message" : "Le vaisseau est sous le contrôle de la station, Commandant."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la voie lactée 3kpc"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "basculer mâle/femelle"
@@ -1022,6 +1098,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "Ce vaisseau est trop petit pour votre équipage."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Le vaisseau est trop petit pour transférer votre cargaison."
    },
    "TOTAL" : {
       "description" : "",
@@ -1123,6 +1203,10 @@
       "description" : "",
       "message" : "Vous n'avez pas assez d'argent pour cette option"
    },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Vous avez {units} unités dans votre soute"
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
       "message" : "Vous devez d'abord sélectionner une cible pour le combat, Commandant."
@@ -1142,5 +1226,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Vous n'avez pas assez d'argent"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Model.h"
@@ -11,6 +11,9 @@
 #include "json/JsonUtils.h"
 
 namespace SceneGraph {
+
+static RefCountedPtr<Graphics::Texture> texHalos4x4;
+static RefCountedPtr<Graphics::Material> matHalos4x4;
 
 class LabelUpdateVisitor : public NodeVisitor {
 public:
@@ -28,6 +31,8 @@ Model::Model(Graphics::Renderer *r, const std::string &name)
 , m_curPatternIndex(0)
 , m_curPattern(0)
 , m_debugFlags(0)
+, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
+, m_billboardRS(nullptr)
 {
 	m_root.Reset(new Group(m_renderer));
 	m_root->SetName(name);
@@ -44,6 +49,8 @@ Model::Model(const Model &model)
 , m_curPatternIndex(model.m_curPatternIndex)
 , m_curPattern(model.m_curPattern)
 , m_debugFlags(0)
+, m_billboardTris(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL)
+, m_billboardRS(nullptr)
 {
 	//selective copying of node structure
 	NodeCopyCache cache;
@@ -129,6 +136,8 @@ void Model::Render(const matrix4x4f &trans, const RenderData *rd)
 		m_root->Render(trans, &params);
 		params.nodemask = NODE_TRANSPARENT;
 		m_root->Render(trans, &params);
+
+		DrawBillboards();
 	}
 
 	if (!m_debugFlags)
@@ -180,8 +189,6 @@ void Model::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 	//Override renderdata if this model is called from ModelNode
 	RenderData params = (rd != 0) ? (*rd) : m_renderData;
 
-	//m_renderer->SetTransform(trans);
-
 	//using the entire model bounding radius for all nodes at the moment.
 	//BR could also be a property of Node.
 	params.boundingRadius = GetDrawClipRadius();
@@ -197,6 +204,51 @@ void Model::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 		m_root->Render(trans, &params);
 		params.nodemask = NODE_TRANSPARENT;
 		m_root->Render(trans, &params);
+	}
+}
+
+void Model::DrawBillboards()
+{
+	if(!m_billboardRS) {
+		Graphics::MaterialDescriptor desc;
+		desc.effect = Graphics::EFFECT_BILLBOARD_ATLAS;
+		desc.textures = 1;
+		matHalos4x4.Reset(m_renderer->CreateMaterial(desc));
+		texHalos4x4.Reset(Graphics::TextureBuilder::Billboard("textures/halo_4x4.dds").GetOrCreateTexture(m_renderer, std::string("billboard")));
+		matHalos4x4->texture0 = texHalos4x4.Get();
+	
+		Graphics::RenderStateDesc rsd;
+		rsd.blendMode = Graphics::BLEND_ADDITIVE;
+		rsd.depthWrite = false;
+		m_billboardRS = m_renderer->CreateRenderState(rsd);
+	}
+
+	const bool bVBValid = m_billboardVB.Valid();
+	const bool bHasVerts = !m_billboardTris.IsEmpty();
+	const bool bVertCountEqual = bVBValid && (m_billboardVB->GetVertexCount() == m_billboardTris.GetNumVerts());
+	if( bHasVerts && (!bVBValid || !bVertCountEqual) )
+	{
+		//create buffer
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = m_billboardTris.GetNumVerts();
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+		m_billboardVB.Reset( m_renderer->CreateVertexBuffer(vbd) );
+	}
+	
+	if(m_billboardVB.Valid())
+	{
+		if(bHasVerts) {
+			m_billboardVB->Populate(m_billboardTris);
+			m_renderer->SetTransform(matrix4x4f::Identity());
+			m_renderer->DrawBuffer(m_billboardVB.Get(), m_billboardRS, matHalos4x4.Get(), Graphics::POINTS);
+			m_renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_BILLBOARD, 1);
+		}
+		m_billboardTris.Clear();
 	}
 }
 
@@ -278,7 +330,7 @@ void Model::DrawCollisionMesh()
 	if( !m_collisionMeshVB.Valid() )
 	{
 		const std::vector<vector3f> &vertices = m_collMesh->GetGeomTree()->GetVertices();
-		const Uint16 *indices = m_collMesh->GetGeomTree()->GetIndices();
+		const Uint32 *indices = m_collMesh->GetGeomTree()->GetIndices();
 		const unsigned int *triFlags = m_collMesh->GetGeomTree()->GetTriFlags();
 		const unsigned int numIndices = m_collMesh->GetGeomTree()->GetNumTris() * 3;
 
