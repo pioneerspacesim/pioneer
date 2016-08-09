@@ -556,7 +556,6 @@ local makeAdvert = function (station)
 		payout      = ad.reward,
 		location    = location,
 		body        = location:GetSystemBody(),
-		distance    = dist,
 		system      = nearbysystem,
 		deadline    = due
 	}
