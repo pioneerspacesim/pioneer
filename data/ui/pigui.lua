@@ -147,6 +147,7 @@ function show_missions()
 	 for k,v in pairs(station.adverts[station]) do
 			pigui.BeginGroup()
 			pigui.Text(v.description)
+			pigui.Text("öäüßñΔкщфгыер日本")
 			pigui.Text(v.payout and Format.Money(v.payout) or "-")
 			pigui.SameLine()
 			if v.system
