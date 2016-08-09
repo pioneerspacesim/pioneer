@@ -84,6 +84,7 @@ noinst_HEADERS = \
 	LuaTimer.h \
 	LuaUtils.h \
 	LuaWrappable.h \
+  LuaPiGui.h \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
@@ -233,6 +234,7 @@ pioneer_SOURCES	= \
 	LuaStarSystem.cpp \
 	LuaTimer.cpp \
 	LuaUtils.cpp \
+  LuaPiGui.cpp \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \

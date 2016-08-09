@@ -1719,6 +1719,8 @@ void WorldView::UpdateProjectedObjects()
 	} else
 		HideIndicator(m_mouseDirIndicator);
 
+	UpdateIndicator(m_frameIndicator, Pi::player->GetFrame()->GetBody()->GetTargetIndicatorPosition(cam_frame));
+
 	// navtarget info
 	if (Body *navtarget = Pi::player->GetNavTarget()) {
 		// if navtarget and body frame are the same,
@@ -1732,6 +1734,7 @@ void WorldView::UpdateProjectedObjects()
 			- Pi::player->GetPositionRelTo(cam_frame)).Length();
 		m_navTargetIndicator.label->SetText(format_distance(dist).c_str());
 		UpdateIndicator(m_navTargetIndicator, navtarget->GetTargetIndicatorPosition(cam_frame));
+
 
 		// velocity relative to navigation target
 		vector3d navvelocity = -navtarget->GetVelocityRelTo(Pi::player);
@@ -2051,10 +2054,10 @@ void WorldView::Draw()
 
 		switch (m_internalCameraController->GetMode()) {
 			case InternalCameraController::MODE_FRONT:
-				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
+				//				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
 				break;
 			case InternalCameraController::MODE_REAR:
-				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
+				//				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
 				break;
 			default:
 				break;

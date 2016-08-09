@@ -29,6 +29,7 @@
 #include "LuaMissile.h"
 #include "LuaMusic.h"
 #include "LuaNameGen.h"
+#include "LuaPiGui.h"
 #include "LuaRef.h"
 #include "LuaServerAgent.h"
 #include "LuaShipDef.h"
@@ -79,8 +80,8 @@
 #include "ui/Lua.h"
 #include <algorithm>
 #include <sstream>
-#include "imgui.h"
-#include "imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h"
+#include "utils.h"
+#include "PiGui.h"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 // RegisterClassA and RegisterClassW are defined as macros in WinUser.h
@@ -140,6 +141,7 @@ Gui::Fixed *Pi::menu;
 bool Pi::DrawGUI = true;
 Graphics::Renderer *Pi::renderer;
 RefCountedPtr<UI::Context> Pi::ui;
+RefCountedPtr<PiGui> Pi::pigui;
 ModelCache *Pi::modelCache;
 Intro *Pi::intro;
 SDLGraphics *Pi::sdl;
@@ -292,11 +294,13 @@ static void LuaInit()
 	LuaMusic::Register();
 	LuaDev::Register();
 	LuaConsole::Register();
-
+	
 	// XXX sigh
 	UI::Lua::Init();
 	GameUI::Lua::Init();
 	SceneGraph::Lua::Init();
+
+	LuaObject<PiGui>::RegisterClass();
 
 	// XXX load everything. for now, just modules
 	lua_State *l = Lua::manager->GetLuaState();
@@ -514,7 +518,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	if (Graphics::GetScreenHeight() < 768) {
 		ui_scale = float(Graphics::GetScreenHeight()) / 768.0f;
 	}
-
+	Pi::pigui.Reset(new PiGui);
 	Pi::ui.Reset(new UI::Context(
 															 Lua::manager,
 															 Pi::renderer,
@@ -849,191 +853,191 @@ void Pi::HandleEvents()
 		case SDL_KEYDOWN:
 			if (event.key.keysym.sym == SDLK_ESCAPE) {
 				if (Pi::game) {
-						// only accessible once game started
-						HandleEscKey();
-					}
-					break;
+					// only accessible once game started
+					HandleEscKey();
 				}
-				// special keys. LCTRL+turd
-				if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
-					switch (event.key.keysym.sym) {
-						case SDLK_q: // Quit
-							if (Pi::game)
-								Pi::EndGame();
-							Pi::Quit();
-							break;
-						case SDLK_PRINTSCREEN: // print
-						case SDLK_KP_MULTIPLY: // screen
-						{
-							char buf[256];
-							const time_t t = time(0);
-							struct tm *_tm = localtime(&t);
-							strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
-							Graphics::ScreendumpState sd;
-							Pi::renderer->Screendump(sd);
-							write_screenshot(sd, buf);
-							break;
-						}
+				break;
+			}
+			// special keys. LCTRL+turd
+			if ((KeyState(SDLK_LCTRL) || (KeyState(SDLK_RCTRL)))) {
+				switch (event.key.keysym.sym) {
+				case SDLK_q: // Quit
+					if (Pi::game)
+						Pi::EndGame();
+					Pi::Quit();
+					break;
+				case SDLK_PRINTSCREEN: // print
+				case SDLK_KP_MULTIPLY: // screen
+					{
+						char buf[256];
+						const time_t t = time(0);
+						struct tm *_tm = localtime(&t);
+						strftime(buf, sizeof(buf), "screenshot-%Y%m%d-%H%M%S.png", _tm);
+						Graphics::ScreendumpState sd;
+						Pi::renderer->Screendump(sd);
+						write_screenshot(sd, buf);
+						break;
+					}
 #if WITH_DEVKEYS
-						case SDLK_i: // Toggle Debug info
-							Pi::showDebugInfo = !Pi::showDebugInfo;
-							break;
+				case SDLK_i: // Toggle Debug info
+					Pi::showDebugInfo = !Pi::showDebugInfo;
+					break;
 
 #ifdef PIONEER_PROFILER
-						case SDLK_p: // alert it that we want to profile
-							if (KeyState(SDLK_LSHIFT) || KeyState(SDLK_RSHIFT))
-								Pi::doProfileOne = true;
-							else {
-								Pi::doProfileSlow = !Pi::doProfileSlow;
-								Output("slow frame profiling %s\n", Pi::doProfileSlow ? "enabled" : "disabled");
-							}
-							break;
+				case SDLK_p: // alert it that we want to profile
+					if (KeyState(SDLK_LSHIFT) || KeyState(SDLK_RSHIFT))
+						Pi::doProfileOne = true;
+					else {
+						Pi::doProfileSlow = !Pi::doProfileSlow;
+						Output("slow frame profiling %s\n", Pi::doProfileSlow ? "enabled" : "disabled");
+					}
+					break;
 #endif
 
-						case SDLK_F12:
-						{
-							if(Pi::game) {
-								vector3d dir = -Pi::player->GetOrient().VectorZ();
-								/* add test object */
-								if (KeyState(SDLK_RSHIFT)) {
-									Missile *missile =
-										new Missile(ShipType::MISSILE_GUIDED, Pi::player);
-									missile->SetOrient(Pi::player->GetOrient());
-									missile->SetFrame(Pi::player->GetFrame());
-									missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
-									missile->SetVelocity(Pi::player->GetVelocity());
-									game->GetSpace()->AddBody(missile);
-									missile->AIKamikaze(Pi::player->GetCombatTarget());
-								} else if (KeyState(SDLK_LSHIFT)) {
-									SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
-									if (s) {
-										Ship *ship = new Ship(ShipType::POLICE);
-										int port = s->GetFreeDockingPort(ship);
-										if (port != -1) {
-											Output("Putting ship into station\n");
-											// Make police ship intent on killing the player
-											ship->AIKill(Pi::player);
-											ship->SetFrame(Pi::player->GetFrame());
-											ship->SetDockedWith(s, port);
-											game->GetSpace()->AddBody(ship);
-										} else {
-											delete ship;
-											Output("No docking ports free dude\n");
-										}
+				case SDLK_F12:
+					{
+						if(Pi::game) {
+							vector3d dir = -Pi::player->GetOrient().VectorZ();
+							/* add test object */
+							if (KeyState(SDLK_RSHIFT)) {
+								Missile *missile =
+									new Missile(ShipType::MISSILE_GUIDED, Pi::player);
+								missile->SetOrient(Pi::player->GetOrient());
+								missile->SetFrame(Pi::player->GetFrame());
+								missile->SetPosition(Pi::player->GetPosition()+50.0*dir);
+								missile->SetVelocity(Pi::player->GetVelocity());
+								game->GetSpace()->AddBody(missile);
+								missile->AIKamikaze(Pi::player->GetCombatTarget());
+							} else if (KeyState(SDLK_LSHIFT)) {
+								SpaceStation *s = static_cast<SpaceStation*>(Pi::player->GetNavTarget());
+								if (s) {
+									Ship *ship = new Ship(ShipType::POLICE);
+									int port = s->GetFreeDockingPort(ship);
+									if (port != -1) {
+										Output("Putting ship into station\n");
+										// Make police ship intent on killing the player
+										ship->AIKill(Pi::player);
+										ship->SetFrame(Pi::player->GetFrame());
+										ship->SetDockedWith(s, port);
+										game->GetSpace()->AddBody(ship);
 									} else {
-											Output("Select a space station...\n");
+										delete ship;
+										Output("No docking ports free dude\n");
 									}
 								} else {
-									Ship *ship = new Ship(ShipType::POLICE);
-									if( KeyState(SDLK_LCTRL) )
-										ship->AIFlyTo(Pi::player);	// a less lethal option
-									else
-										ship->AIKill(Pi::player);	// a really lethal option!
-									lua_State *l = Lua::manager->GetLuaState();
-									pi_lua_import(l, "Equipment");
-									LuaTable equip(l, -1);
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("laser_cooling_booster"));
-									LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("atmospheric_shielding"));
-									lua_pop(l, 5);
-									ship->SetFrame(Pi::player->GetFrame());
-									ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
-									ship->SetVelocity(Pi::player->GetVelocity());
-									ship->UpdateEquipStats();
-									game->GetSpace()->AddBody(ship);
+									Output("Select a space station...\n");
 								}
+							} else {
+								Ship *ship = new Ship(ShipType::POLICE);
+								if( KeyState(SDLK_LCTRL) )
+									ship->AIFlyTo(Pi::player);	// a less lethal option
+								else
+									ship->AIKill(Pi::player);	// a really lethal option!
+								lua_State *l = Lua::manager->GetLuaState();
+								pi_lua_import(l, "Equipment");
+								LuaTable equip(l, -1);
+								LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("laser").Sub("pulsecannon_dual_1mw"));
+								LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("laser_cooling_booster"));
+								LuaObject<Ship>::CallMethod<>(ship, "AddEquip", equip.Sub("misc").Sub("atmospheric_shielding"));
+								lua_pop(l, 5);
+								ship->SetFrame(Pi::player->GetFrame());
+								ship->SetPosition(Pi::player->GetPosition()+100.0*dir);
+								ship->SetVelocity(Pi::player->GetVelocity());
+								ship->UpdateEquipStats();
+								game->GetSpace()->AddBody(ship);
 							}
-							break;
 						}
+						break;
+					}
 #endif /* DEVKEYS */
 #if WITH_OBJECTVIEWER
-						case SDLK_F10:
-							Pi::SetView(Pi::game->GetObjectViewerView());
-							break;
+				case SDLK_F10:
+					Pi::SetView(Pi::game->GetObjectViewerView());
+					break;
 #endif
-						case SDLK_F11:
-							// XXX only works on X11
-							//SDL_WM_ToggleFullScreen(Pi::scrSurface);
+				case SDLK_F11:
+					// XXX only works on X11
+					//SDL_WM_ToggleFullScreen(Pi::scrSurface);
 #if WITH_DEVKEYS
-							renderer->ReloadShaders();
+					renderer->ReloadShaders();
 #endif
-							break;
-						case SDLK_F9: // Quicksave
-						{
-							if(Pi::game) {
-								if (Pi::game->IsHyperspace())
-									Pi::game->log->Add(Lang::CANT_SAVE_IN_HYPERSPACE);
+					break;
+				case SDLK_F9: // Quicksave
+					{
+						if(Pi::game) {
+							if (Pi::game->IsHyperspace())
+								Pi::game->log->Add(Lang::CANT_SAVE_IN_HYPERSPACE);
 
-								else {
-									const std::string name = "_quicksave";
-									const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
-									try {
-										Game::SaveGame(name, Pi::game);
-										Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
-									} catch (CouldNotOpenFileException) {
-										Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
-									}
-									catch (CouldNotWriteToFileException) {
-										Pi::game->log->Add(Lang::GAME_SAVE_CANNOT_WRITE);
-									}
+							else {
+								const std::string name = "_quicksave";
+								const std::string path = FileSystem::JoinPath(GetSaveDir(), name);
+								try {
+									Game::SaveGame(name, Pi::game);
+									Pi::game->log->Add(Lang::GAME_SAVED_TO + path);
+								} catch (CouldNotOpenFileException) {
+									Pi::game->log->Add(stringf(Lang::COULD_NOT_OPEN_FILENAME, formatarg("path", path)));
+								}
+								catch (CouldNotWriteToFileException) {
+									Pi::game->log->Add(Lang::GAME_SAVE_CANNOT_WRITE);
 								}
 							}
-							break;
 						}
-						default:
-							break; // This does nothing but it stops the compiler warnings
+						break;
 					}
+				default:
+					break; // This does nothing but it stops the compiler warnings
 				}
-				Pi::keyState[event.key.keysym.sym] = true;
-				Pi::keyModState = event.key.keysym.mod;
-				Pi::onKeyPress.emit(&event.key.keysym);
+			}
+			Pi::keyState[event.key.keysym.sym] = true;
+			Pi::keyModState = event.key.keysym.mod;
+			Pi::onKeyPress.emit(&event.key.keysym);
+			break;
+		case SDL_KEYUP:
+			Pi::keyState[event.key.keysym.sym] = false;
+			Pi::keyModState = event.key.keysym.mod;
+			Pi::onKeyRelease.emit(&event.key.keysym);
+			break;
+		case SDL_MOUSEBUTTONDOWN:
+			if (event.button.button < COUNTOF(Pi::mouseButton)) {
+				Pi::mouseButton[event.button.button] = 1;
+				Pi::onMouseButtonDown.emit(event.button.button,
+																	 event.button.x, event.button.y);
+			}
+			break;
+		case SDL_MOUSEBUTTONUP:
+			if (event.button.button < COUNTOF(Pi::mouseButton)) {
+				Pi::mouseButton[event.button.button] = 0;
+				Pi::onMouseButtonUp.emit(event.button.button,
+																 event.button.x, event.button.y);
+			}
+			break;
+		case SDL_MOUSEWHEEL:
+			Pi::onMouseWheel.emit(event.wheel.y > 0); // true = up
+			break;
+		case SDL_MOUSEMOTION:
+			Pi::mouseMotion[0] += event.motion.xrel;
+			Pi::mouseMotion[1] += event.motion.yrel;
+			//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
+			break;
+		case SDL_JOYAXISMOTION:
+			if (!joysticks[event.jaxis.which].joystick)
 				break;
-			case SDL_KEYUP:
-				Pi::keyState[event.key.keysym.sym] = false;
-				Pi::keyModState = event.key.keysym.mod;
-				Pi::onKeyRelease.emit(&event.key.keysym);
+			if (event.jaxis.value == -32768)
+				joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
+			else
+				joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
+			break;
+		case SDL_JOYBUTTONUP:
+		case SDL_JOYBUTTONDOWN:
+			if (!joysticks[event.jaxis.which].joystick)
 				break;
-			case SDL_MOUSEBUTTONDOWN:
-				if (event.button.button < COUNTOF(Pi::mouseButton)) {
-					Pi::mouseButton[event.button.button] = 1;
-					Pi::onMouseButtonDown.emit(event.button.button,
-							event.button.x, event.button.y);
-				}
+			joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
+			break;
+		case SDL_JOYHATMOTION:
+			if (!joysticks[event.jaxis.which].joystick)
 				break;
-			case SDL_MOUSEBUTTONUP:
-				if (event.button.button < COUNTOF(Pi::mouseButton)) {
-					Pi::mouseButton[event.button.button] = 0;
-					Pi::onMouseButtonUp.emit(event.button.button,
-							event.button.x, event.button.y);
-				}
-				break;
-			case SDL_MOUSEWHEEL:
-				Pi::onMouseWheel.emit(event.wheel.y > 0); // true = up
-				break;
-			case SDL_MOUSEMOTION:
-				Pi::mouseMotion[0] += event.motion.xrel;
-				Pi::mouseMotion[1] += event.motion.yrel;
-		//		SDL_GetRelativeMouseState(&Pi::mouseMotion[0], &Pi::mouseMotion[1]);
-				break;
-			case SDL_JOYAXISMOTION:
-				if (!joysticks[event.jaxis.which].joystick)
-					break;
-				if (event.jaxis.value == -32768)
-					joysticks[event.jaxis.which].axes[event.jaxis.axis] = 1.f;
-				else
-					joysticks[event.jaxis.which].axes[event.jaxis.axis] = -event.jaxis.value / 32767.f;
-				break;
-			case SDL_JOYBUTTONUP:
-			case SDL_JOYBUTTONDOWN:
-				if (!joysticks[event.jaxis.which].joystick)
-					break;
-				joysticks[event.jbutton.which].buttons[event.jbutton.button] = event.jbutton.state != 0;
-				break;
-			case SDL_JOYHATMOTION:
-				if (!joysticks[event.jaxis.which].joystick)
-					break;
-				joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
-				break;
+			joysticks[event.jhat.which].hats[event.jhat.hat] = event.jhat.value;
+			break;
 		}
 	}
 }
@@ -1060,8 +1064,8 @@ void Pi::HandleEscKey() {
 		else if (currentView == Pi::game->GetSettingsView()){
 			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
 			SetView(Pi::player->IsDead()
-					? static_cast<View*>(Pi::game->GetDeathView())
-					: static_cast<View*>(Pi::game->GetWorldView()));
+							? static_cast<View*>(Pi::game->GetDeathView())
+							: static_cast<View*>(Pi::game->GetWorldView()));
 		}
 		else {
 			UIView* view = dynamic_cast<UIView*>(currentView);
@@ -1283,20 +1287,17 @@ void Pi::MainLoop()
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
-	ImGui_ImplSdlGL3_Init(Pi::renderer->GetWindow()->GetSDLWindow());
+	PiGui::Init(Pi::renderer->GetWindow()->GetSDLWindow());
 
 #ifdef PIONEER_PROFILER
 	Profiler::reset();
 #endif
 
-	bool show_test_window = false;
-    bool show_another_window = false;
-    ImVec4 clear_color = ImColor(114, 144, 154);
-
 	while (Pi::game) {
 		PROFILE_SCOPED()
 
-		Pi::serverAgent->ProcessResponses();
+			Pi::serverAgent->ProcessResponses();
+		PiGui::NewFrame(Pi::renderer->GetWindow()->GetSDLWindow());
 
 		const Uint32 newTicks = SDL_GetTicks();
 		double newTime = 0.001 * double(newTicks);
@@ -1308,7 +1309,7 @@ void Pi::MainLoop()
 		const float step = Pi::game->GetTimeStep();
 		if (step > 0.0f) {
 			PROFILE_SCOPED_RAW("unpaused")
-			int phys_ticks = 0;
+				int phys_ticks = 0;
 			while (accumulator >= step) {
 				if (++phys_ticks >= MAX_PHYSICS_TICKS) {
 					accumulator = 0.0;
@@ -1331,7 +1332,7 @@ void Pi::MainLoop()
 		} else {
 			// paused
 			PROFILE_SCOPED_RAW("paused")
-			BaseSphere::UpdateAllBaseSphereDerivatives();
+				BaseSphere::UpdateAllBaseSphereDerivatives();
 		}
 		frame_stat++;
 
@@ -1358,7 +1359,7 @@ void Pi::MainLoop()
 		Pi::renderer->SetTransform(matrix4x4f::Identity());
 
 		/* Calculate position for this rendered frame (interpolated between two physics ticks */
-		  // XXX should this be here? what is this anyway?
+		// XXX should this be here? what is this anyway?
 		for (Body* b : game->GetSpace()->GetBodies()) {
 			b->UpdateInterpTransform(Pi::GetGameTickAlpha());
 		}
@@ -1433,70 +1434,11 @@ void Pi::MainLoop()
 		Pi::DrawRenderTarget();
 
 
-		ImGui_ImplSdlGL3_NewFrame(Pi::renderer->GetWindow()->GetSDLWindow());
 
-        // 1. Show a simple window
-        // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
-        {
-            static float f = 0.0f;
-            ImGui::Text("Hello, world!");
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-            ImGui::ColorEdit3("clear color", (float*)&clear_color);
-            if (ImGui::Button("Test Window")) show_test_window ^= 1;
-            if (ImGui::Button("Another Window")) show_another_window ^= 1;
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        }
-        if (show_another_window)
-        {
-            ImGui::SetNextWindowSize(ImVec2(200,100), ImGuiSetCond_FirstUseEver);
-            ImGui::Begin("Navigation", &show_another_window);
-          // only do all this if the window is shown and not minimized
-          std::vector<std::pair<const SystemBody*,double>> thelist;
-          StarSystem *starsystem = Pi::game->GetSpace()->GetStarSystem().Get();
-          for(RefCountedPtr<const SystemBody> sb : starsystem->GetBodies()) {
-            Body *player = Pi::player;
-            Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
-            double distance = player->GetPositionRelTo(body).Length();
-            thelist.push_back(std::pair<const SystemBody *, double>(sb.Get(), distance));
-          }
-          // sort by distance
-          std::sort(thelist.begin(), thelist.end(), [](const std::pair<const SystemBody*,double> &a, const std::pair<const SystemBody*,double> &b) { return a.second < b.second; });
-          // create rows
-					ImGui::Columns(2,"mycolumns3", false);
-					selected = Pi::player->GetNavTarget();
-          for(std::pair<const SystemBody*,double> data : thelist) {
-            const SystemBody *sb=data.first;
-            // if(nk_widget_is_mouse_clicked(ctx, NK_BUTTON_LEFT)) {
-            //   Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
-            //   Pi::player->SetNavTarget(body);
-            // }
-						ImGui::BeginGroup();
-						Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
-						if(ImGui::Selectable(sb->GetName().c_str(), selected == body, ImGuiSelectableFlags_SpanAllColumns)) {
-							selected = body;
-							Pi::player->SetNavTarget(body);
-						}
-						ImGui::NextColumn();
-						ImGui::Text(format_distance(data.second, 2).c_str()); 
-						ImGui::NextColumn();
-						ImGui::EndGroup();
-						if(ImGui::IsItemClicked(1)) {
-							Output("button 1 clicked.\n");
-						}
-
-          }
-            ImGui::End();
-        }
-
-				if (show_test_window)
-        {
-            ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
-            ImGui::ShowTestWindow(&show_test_window);
-        }
-
-        ImGui::Render();
+		PiGuiUI(Pi::frameTime);
 
 		Pi::renderer->SwapBuffers();
+
 
 		// game exit will have cleared Pi::game. we can't continue.
 		if (!Pi::game)
@@ -1540,20 +1482,20 @@ void Pi::MainLoop()
 			const Uint32 numDrawShips			= stats.m_stats[Graphics::Stats::STAT_SHIPS];
 			const Uint32 numDrawBillBoards		= stats.m_stats[Graphics::Stats::STAT_BILLBOARD];
 			snprintf(
-				fps_readout, sizeof(fps_readout),
-				"%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec, %d patches/frame\n"
-				"Lua mem usage: %d MB + %d KB + %d bytes (stack top: %d)\n\n"
-				"Draw Calls (%u), of which were:\n Tris (%u)\n Point Sprites (%u)\n Billboards (%u)\n"
-				"Buildings (%u), Cities (%u), GroundStations (%u), SpaceStations (%u), Atmospheres (%u)\n"
-				"Patches (%u), Planets (%u), GasGiants (%u), Stars (%u), Ships (%u)\n"
-				"Buffers Created(%u)\n",
-				frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
-				Text::TextureFont::GetGlyphCount(), Pi::statNumPatches,
-				lua_memMB, lua_memKB, lua_memB, lua_gettop(Lua::manager->GetLuaState()),
-				numDrawCalls, numDrawTris, numDrawPointSprites, numDrawBillBoards,
-				numDrawBuildings, numDrawCities, numDrawGroundStations, numDrawSpaceStations, numDrawAtmospheres,
-				numDrawPatches, numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips, numBuffersCreated
-			);
+							 fps_readout, sizeof(fps_readout),
+							 "%d fps (%.1f ms/f), %d phys updates, %d triangles, %.3f M tris/sec, %d glyphs/sec, %d patches/frame\n"
+							 "Lua mem usage: %d MB + %d KB + %d bytes (stack top: %d)\n\n"
+							 "Draw Calls (%u), of which were:\n Tris (%u)\n Point Sprites (%u)\n Billboards (%u)\n"
+							 "Buildings (%u), Cities (%u), GroundStations (%u), SpaceStations (%u), Atmospheres (%u)\n"
+							 "Patches (%u), Planets (%u), GasGiants (%u), Stars (%u), Ships (%u)\n"
+							 "Buffers Created(%u)\n",
+							 frame_stat, (1000.0/frame_stat), phys_stat, Pi::statSceneTris, Pi::statSceneTris*frame_stat*1e-6,
+							 Text::TextureFont::GetGlyphCount(), Pi::statNumPatches,
+							 lua_memMB, lua_memKB, lua_memB, lua_gettop(Lua::manager->GetLuaState()),
+							 numDrawCalls, numDrawTris, numDrawPointSprites, numDrawBillBoards,
+							 numDrawBuildings, numDrawCities, numDrawGroundStations, numDrawSpaceStations, numDrawAtmospheres,
+							 numDrawPatches, numDrawPlanets, numDrawGasGiants, numDrawStars, numDrawShips, numBuffersCreated
+							 );
 			frame_stat = 0;
 			phys_stat = 0;
 			Text::TextureFont::ClearGlyphCount();
@@ -1699,4 +1641,400 @@ float Pi::GetMoveSpeedShiftModifier() {
 	if (Pi::KeyState(SDLK_LSHIFT)) return 100.f;
 	if (Pi::KeyState(SDLK_RSHIFT)) return 10.f;
 	return 1;
+}
+
+// static int PiePopupSelectMenu(const ImVec2& center, const char* popup_id, const char** items, int items_count, int* p_selected)
+// {
+//   int ret = -1;
+
+//   // FIXME: Missing a call to query if Popup is open so we can move the PushStyleColor inside the BeginPopupBlock (e.g. IsPopupOpen() in imgui.cpp)
+//   // FIXME: Our PathFill function only handle convex polygons, so we can't have items spanning an arc too large else inner concave edge artifact is too visible, hence the ImMax(7,items_count)
+//   PiGui::PushStyleColor(PiGuiCol_WindowBg, ImVec4(0,0,0,0));
+//   PiGui::PushStyleColor(PiGuiCol_Border, ImVec4(0,0,0,0));
+//   if (PiGui::BeginPopup(popup_id))
+//     {
+//       const ImVec2 drag_delta = ImVec2(PiGui::GetIO().MousePos.x - center.x, PiGui::GetIO().MousePos.y - center.y);
+//       const float drag_dist2 = drag_delta.x*drag_delta.x + drag_delta.y*drag_delta.y;
+
+//       const PiGuiStyle& style = PiGui::GetStyle();
+//       const float RADIUS_MIN = 30.0f;
+//       const float RADIUS_MAX = 100.0f;
+//       const float RADIUS_INTERACT_MIN = 20.0f;
+//       const int ITEMS_MIN = 5;
+
+//       ImDrawList* draw_list = PiGui::GetWindowDrawList();
+//       //PiGuiWindow* window = PiGui::GetCurrentWindow();
+//       draw_list->PushClipRectFullScreen();
+//       draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX)*0.5f, 0.0f, IM_PI*2.0f*0.99f, 64);   // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
+//       draw_list->PathStroke(ImColor(0,0,0), true, RADIUS_MAX - RADIUS_MIN);
+
+//       const float item_arc_span = 2*IM_PI / ImMax(ITEMS_MIN, items_count);
+//       float drag_angle = atan2f(drag_delta.y, drag_delta.x);
+//       if (drag_angle < -0.5f*item_arc_span)
+//         drag_angle += 2.0f*IM_PI;
+//       //PiGui::Text("%f", drag_angle);    // [Debug]
+
+//       int item_hovered = -1;
+//       // for (int item_n = 0; item_n < items_count; item_n++)
+//       //   {
+//       //     const char* item_label = items[item_n];
+//       //     const float item_ang_min = item_arc_span * (item_n+0.02f) - item_arc_span*0.5f; // FIXME: Could calculate padding angle based on how many pixels they'll take
+//       //     const float item_ang_max = item_arc_span * (item_n+0.98f) - item_arc_span*0.5f;
+
+//       //     bool hovered = false;
+//       //     if (drag_dist2 >= RADIUS_INTERACT_MIN*RADIUS_INTERACT_MIN)
+//       //       {
+//       //         if (drag_angle >= item_ang_min && drag_angle < item_ang_max)
+//       //           hovered = true;
+//       //       }
+//       //     bool selected = p_selected && (*p_selected == item_n);
+
+//       //     int arc_segments = (int)(32 * item_arc_span / (2*IM_PI)) + 1;
+//       //     draw_list->PathArcTo(center, RADIUS_MAX - style.ItemInnerSpacing.x, item_ang_min, item_ang_max, arc_segments);
+//       //     draw_list->PathArcTo(center, RADIUS_MIN + style.ItemInnerSpacing.x, item_ang_max, item_ang_min, arc_segments);
+//       //     //draw_list->PathFill(window->Color(hovered ? PiGuiCol_HeaderHovered : PiGuiCol_FrameBg));
+//       //     draw_list->PathFill(hovered ? ImColor(100,100,150) : selected ? ImColor(120,120,140) : ImColor(70,70,70));
+
+//       //     ImVec2 text_size = PiGui::GetWindowFont()->CalcTextSizeA(PiGui::GetWindowFontSize(), FLT_MAX, 0.0f, item_label);
+//       //     ImVec2 text_pos = ImVec2(
+//       //                              center.x + cosf((item_ang_min + item_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.x * 0.5f,
+//       //                              center.y + sinf((item_ang_min + item_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.y * 0.5f);
+//       //     draw_list->AddText(text_pos, ImColor(255,255,255), item_label);
+
+//       //     if (hovered)
+//       //       item_hovered = item_n;
+//       //   }
+//       for (int item_n = 0; item_n < items_count; item_n++)
+//         {
+//           const char* item_label = items[item_n];
+//           const float inner_spacing = style.ItemInnerSpacing.x / RADIUS_MIN / 2;
+//           const float item_inner_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing);
+//           const float item_inner_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing);
+//           const float item_outer_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing * (RADIUS_MIN / RADIUS_MAX));
+//           const float item_outer_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing * (RADIUS_MIN / RADIUS_MAX));
+
+//           bool hovered = false;
+//           if (drag_dist2 >= RADIUS_INTERACT_MIN*RADIUS_INTERACT_MIN)
+//             {
+//               if (drag_angle >= item_inner_ang_min && drag_angle < item_inner_ang_max)
+//                 hovered = true;
+//             }
+//           bool selected = p_selected && (*p_selected == item_n);
+
+//           int arc_segments = (int)(64 * item_arc_span / (2*IM_PI)) + 1;
+//           draw_list->PathArcTo(center, RADIUS_MAX - style.ItemInnerSpacing.x, item_outer_ang_min, item_outer_ang_max, arc_segments);
+//           draw_list->PathArcTo(center, RADIUS_MIN + style.ItemInnerSpacing.x, item_inner_ang_max, item_inner_ang_min, arc_segments);
+//           //draw_list->PathFill(window->Color(hovered ? PiGuiCol_HeaderHovered : PiGuiCol_FrameBg));
+//           draw_list->PathFill(hovered ? ImColor(100,100,150) : selected ? ImColor(120,120,140) : ImColor(70,70,70));
+
+//           ImVec2 text_size = PiGui::GetWindowFont()->CalcTextSizeA(PiGui::GetWindowFontSize(), FLT_MAX, 0.0f, item_label);
+//           ImVec2 text_pos = ImVec2(
+//                                    center.x + cosf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.x * 0.5f,
+//                                    center.y + sinf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.y * 0.5f);
+// 					//          draw_list->AddImage((void*)m_texture, text_pos, ImVec2(text_pos.x+x,text_pos.y+y)); PiGui::SameLine();
+// 					draw_list->AddText(text_pos, ImColor(255,255,255), item_label);
+
+//           if (hovered) {
+//             item_hovered = item_n;
+// 						//   draw_list->AddText(text_pos, ImColor(255,255,255), item_label);
+
+//           }
+//         }
+//       draw_list->PopClipRect();
+
+//       if (PiGui::IsMouseReleased(1))
+//         {
+//           PiGui::CloseCurrentPopup();
+//           ret = item_hovered;
+//           if (p_selected)
+//             *p_selected = item_hovered;
+//         }
+//       PiGui::EndPopup();
+//     }
+//   PiGui::PopStyleColor(2);
+//   return ret;
+// }
+
+void Pi::PiGuiUI(double delta) {
+	Pi::pigui->RenderHUD(delta);
+	// PiGui::GetStyle().WindowRounding = 0.0f;
+	// static int pie_selected = -1;
+	// static bool show_test_window = false;
+	// static bool show_another_window = true;
+	// static bool show_hud = true;
+	// static Body *piemenubody = nullptr;
+	// static ImVec4 clear_color = ImColor(114, 144, 154);
+	// static const char *items[] = {"Dock", "Low Orbit", "High Orbit", "Fly to", "Comms"};
+	// int items_count = 5;
+	// // 1. Show a simple window
+	// // Tip: if we don't call PiGui::Begin()/PiGui::End() the widgets appears in a window automatically called "Debug"
+	// // {
+	// // 	static float f = 0.0f;
+	// // 	PiGui::Text("Hello, world!");
+	// // 	PiGui::SliderFloat("float", &f, 0.0f, 1.0f);
+	// // 	PiGui::ColorEdit3("clear color", (float*)&clear_color);
+	// // 	if (PiGui::Button("Test Window")) show_test_window ^= 1;
+	// // 	if (PiGui::Button("Another Window")) show_another_window ^= 1;
+	// // 	PiGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / PiGui::GetIO().Framerate, PiGui::GetIO().Framerate);
+	// // }
+	// { // navigation window
+	// 	PiGui::SetNextWindowPos(ImVec2(0,0), PiGuiSetCond_FirstUseEver);
+	// 	PiGui::SetNextWindowSize(ImVec2(300,600), PiGuiSetCond_FirstUseEver);
+	// 	PiGui::Begin("Navigation", &show_another_window);
+	// 	std::vector<std::pair<const SystemBody*,double>> thelist;
+	// 	StarSystem *starsystem = Pi::game->GetSpace()->GetStarSystem().Get();
+	// 	for(RefCountedPtr<const SystemBody> sb : starsystem->GetBodies()) {
+	// 		Body *player = Pi::player;
+	// 		Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
+	// 		double distance = player->GetPositionRelTo(body).Length();
+	// 		thelist.push_back(std::pair<const SystemBody *, double>(sb.Get(), distance));
+	// 	}
+	// 	// sort by distance
+	// 	std::sort(thelist.begin(), thelist.end(), [](const std::pair<const SystemBody*,double> &a, const std::pair<const SystemBody*,double> &b) { return a.second < b.second; });
+	// 	// create rows
+	// 	PiGui::Columns(2,"mycolumns3", false);
+	// 	selected = Pi::player->GetNavTarget();
+	// 	for(std::pair<const SystemBody*,double> data : thelist) {
+	// 		const SystemBody *sb=data.first;
+	// 		PiGui::BeginGroup();
+	// 		Body *body = Pi::game->GetSpace()->FindBodyForPath(&sb->GetPath());
+	// 		if(PiGui::Selectable(sb->GetName().c_str(), selected == body, PiGuiSelectableFlags_SpanAllColumns)) {
+	// 			selected = body;
+	// 			Pi::player->SetNavTarget(body);
+	// 		}
+	// 		PiGui::NextColumn();
+	// 		PiGui::Text(format_distance(data.second, 2).c_str());
+	// 		PiGui::NextColumn();
+	// 		PiGui::EndGroup();
+	// 		if(PiGui::IsItemClicked(1)) {
+	// 			PiGui::OpenPopup("##piepopup");
+	// 			piemenubody = body;
+	// 		}
+	// 		ImVec2 pie_menu_center = PiGui::GetIO().MouseClickedPos[1];
+	// 		int n = PiePopupSelectMenu(pie_menu_center, "##piepopup", items, items_count, &pie_selected);
+	// 		if(n >= 0) {
+	// 			Pi::player->SetNavTarget(piemenubody);
+	// 			selected = Pi::player->GetNavTarget();
+	// 			pie_selected = -1;
+	// 			Output("selected option %d.\n", n);
+	// 			switch(n) {
+	// 			case 0: // dock
+	// 				Pi::player->AIDock((SpaceStation*)piemenubody);
+	// 				break;
+	// 			case 1: // low orbit
+	// 				Pi::player->AIOrbit(piemenubody, 1.2);
+	// 				break;
+	// 			case 2: // high orbit
+	// 				Pi::player->AIOrbit(piemenubody, 3.2);
+	// 				break;
+	// 			case 3: // fly to
+	// 				Pi::player->AIFlyTo(piemenubody);
+	// 				break;
+	// 			case 4: // comms
+	// 				break;
+	// 			}
+
+	// 		}
+	// 	}
+	// 	PiGui::End();
+	// }
+	// { // target window
+	// 	Body *player = Pi::player;
+	// 	Body *target = Pi::player->GetNavTarget();
+	// 	if(target) {
+	// 		std::string label = target->GetLabel();
+	// 		double distance = player->GetPositionRelTo(target).Length();
+	// 		int velocity = player->GetVelocityRelTo(target).Length() / 1000;
+	// 		PiGui::Begin("Target",nullptr,PiGuiWindowFlags_NoTitleBar);
+	// 		PiGui::Text((std::string("Target: ") + label).c_str());
+	// 		PiGui::Text((std::string("Distance: ") + format_distance(distance)).c_str());
+	// 		PiGui::Text((std::string("Velocity: ") + std::to_string(velocity) + std::string("km/s")).c_str());
+	// 		PiGui::End();
+	// 	}
+	// }
+	// { // contacts window
+	// 	Body *player = Pi::player;
+	// 	std::vector<std::pair<Body *, double>> thelist;
+	// 	Space::BodyNearList nearbybodies;
+	// 	Pi::game->GetSpace()->GetBodiesMaybeNear(player, 10000000, nearbybodies);
+	// 	for(Body *body : nearbybodies) {
+	// 		double distance = player->GetPositionRelTo(body).Length();
+	// 		thelist.push_back(std::pair<Body *, double>(body, distance));
+	// 	}
+
+	// 	PiGui::SetNextWindowPos(ImVec2(0,600), PiGuiSetCond_FirstUseEver);
+	// 	PiGui::SetNextWindowSize(ImVec2(300,600), PiGuiSetCond_FirstUseEver);
+	// 	PiGui::Begin((std::string("Contacts (") + std::to_string(thelist.size()) + std::string(")##contacts")).c_str(), &show_another_window);
+
+	// 	// sort by distance
+	// 	std::sort(thelist.begin(), thelist.end(), [](const std::pair<Body*,double> &a, const std::pair<Body*,double> &b) { return a.second < b.second; });
+	// 	// create rows
+	// 	PiGui::Columns(3,"mycolumnsxx", false);
+	// 	for(std::pair<Body*,double> data : thelist) {
+	// 		Body *body=data.first;
+	// 		PiGui::BeginGroup();
+	// 		Ship *ship = dynamic_cast<Ship *>(body);
+	// 		if(ship) {
+	// 			PiGui::Text("S"); PiGui::NextColumn();
+	// 		} else {
+	// 			PiGui::Text("B"); PiGui::NextColumn();
+	// 		}
+	// 		if(PiGui::Selectable(body->GetLabel().c_str(), selected == body, PiGuiSelectableFlags_SpanAllColumns)) {
+	// 			selected = body;
+	// 			Pi::player->SetNavTarget(body);
+	// 		}
+	// 		PiGui::NextColumn();
+	// 		PiGui::Text(format_distance(data.second, 2).c_str());
+	// 		PiGui::NextColumn();
+	// 		PiGui::EndGroup();
+	// 	}
+	// 	PiGui::End();
+	// }
+
+	// { // HUD
+	// 	int fullwidth=PiGui::GetIO().DisplaySize.x;
+	// 	int fullheight=PiGui::GetIO().DisplaySize.y;
+
+	// 	PiGui::SetNextWindowPos(ImVec2(0,0),PiGuiSetCond_Always);
+	// 	PiGui::SetNextWindowSize(ImVec2(fullwidth,fullheight),PiGuiSetCond_Always);
+	// 	PiGui::PushStyleColor(PiGuiCol_WindowBg, ImColor(0,0,0,0));
+	// 	PiGui::Begin("HUD", &show_hud, PiGuiWindowFlags_NoTitleBar | PiGuiWindowFlags_NoInputs |PiGuiWindowFlags_NoMove | PiGuiWindowFlags_NoResize |PiGuiWindowFlags_NoSavedSettings | PiGuiWindowFlags_NoFocusOnAppearing | PiGuiWindowFlags_NoBringToFrontOnFocus);
+	// 	ImDrawList* draw_list = PiGui::GetWindowDrawList();
+	// 	draw_list->PushClipRectFullScreen();
+	// 	ImVec2 center(fullwidth/2,fullheight/2);
+	// 	ImColor color(200,200,200);
+	// 	{ // reticule
+	// 		int diff=6;
+	// 		int radius=93;
+	// 		int innerRadius=84;
+	// 		draw_list->AddCircle(center, radius, color, 128, 2.0f);
+	// 		draw_list->AddCircle(center, innerRadius, ImColor(160,160,160), 128);
+	// 		draw_list->AddLine(ImVec2(center.x+-diff,center.y+0), ImVec2(center.x+diff,center.y+0), color, 3.0f);
+	// 		draw_list->AddLine(ImVec2(center.x+0,center.y+diff), ImVec2(center.x+0,center.y+-diff), color, 3.0f);
+	// 		// draw_list->AddTriangle(ImVec2(center.x-3,center.y+radius+4),
+	// 		// 											 ImVec2(center.x+3,center.y+radius+4),
+	// 		// 											 ImVec2(center.x, center.y+radius+10), color, 2.0f);
+	// 		if(Pi::player->GetNavTarget()) {
+	// 			// target nav pointer
+	// 			const Indicator &indicator = Pi::game->GetWorldView()->GetNavTargetIndicator();
+	// 			vector2f rel_center = (indicator.pos - vector2f(400,300));
+	// 			vector2f direction = rel_center.Normalized();
+	// 			if(rel_center.Length() > radius / 1920.0 * 800.0) {
+
+	// 				vector2f normal = vector2f(-direction.y, direction.x);
+	// 				int size = 7;
+	// 				vector2f triangle_base = vector2f(center.x, center.y) + direction * (radius + 5);
+	// 				vector2f left = triangle_base + (normal * size);
+	// 				vector2f right = triangle_base - (normal * size);
+	// 				vector2f top = triangle_base + (direction * size * 2);
+	// 				draw_list->AddTriangleFilled(ImVec2(left.x,left.y),
+	// 																		 ImVec2(right.x,right.y),
+	// 																		 ImVec2(top.x, top.y),
+	// 																		 color);
+
+	// 				//			Output("nav indicator: side: %s, pos: %f/%f\n", (indicator.side==INDICATOR_HIDDEN ? "hidden" : (indicator.side==INDICATOR_ONSCREEN ? "onscreen" : "other" )), indicator.pos.x, indicator.pos.y);
+	// 			}
+	// 		}
+	// 		{
+	// 			// frame pointer
+	// 			const Indicator &indicator = Pi::game->GetWorldView()->GetFrameIndicator();
+	// 			vector2f rel_center = (indicator.pos - vector2f(400,300));
+	// 			vector2f direction = rel_center.Normalized();
+	// 			ImColor darkcolor(150,150,150);
+	// 			if(rel_center.Length() > radius / 1920.0 * 800.0) {
+	// 				vector2f normal = vector2f(-direction.y, direction.x);
+	// 				int size = 4;
+	// 				vector2f triangle_base = vector2f(center.x, center.y) + direction * (radius + 5);
+	// 				vector2f left = triangle_base + (normal * size);
+	// 				vector2f right = triangle_base - (normal * size);
+	// 				vector2f top = triangle_base + (direction * size * 2);
+	// 				draw_list->AddTriangleFilled(ImVec2(left.x,left.y),
+	// 																		 ImVec2(right.x,right.y),
+	// 																		 ImVec2(top.x, top.y),
+	// 																		 darkcolor);
+
+	// 				//			Output("nav indicator: side: %s, pos: %f/%f\n", (indicator.side==INDICATOR_HIDDEN ? "hidden" : (indicator.side==INDICATOR_ONSCREEN ? "onscreen" : "other" )), indicator.pos.x, indicator.pos.y);
+	// 			}
+	// 		}
+	// 		{ // prograde pointer
+	// 			const Indicator &indicator = Pi::game->GetWorldView()->GetProgradeIndicator();
+	// 			vector2f rel_center = (indicator.pos - vector2f(400,300));
+	// 			vector2f direction = rel_center.Normalized();
+	// 			if(rel_center.Length() > innerRadius / 1920.0 * 800.0) {
+
+	// 				vector2f normal = vector2f(-direction.y, direction.x);
+	// 				int size = 5;
+	// 				vector2f quad_center = vector2f(center.x, center.y) + direction * innerRadius;
+	// 				vector2f left = quad_center + vector2f(-5,0);
+	// 				vector2f right = quad_center + vector2f(5,0);
+	// 				vector2f top = quad_center + vector2f(0,5);
+	// 				vector2f bottom = quad_center + vector2f(0,-5);
+	// 				draw_list->AddQuad(ImVec2(left.x,left.y),
+	// 													 ImVec2(top.x, top.y),
+	// 													 ImVec2(right.x,right.y),
+	// 													 ImVec2(bottom.x, bottom.y),
+	// 													 color);
+
+	// 				//			Output("nav indicator: side: %s, pos: %f/%f\n", (indicator.side==INDICATOR_HIDDEN ? "hidden" : (indicator.side==INDICATOR_ONSCREEN ? "onscreen" : "other" )), indicator.pos.x, indicator.pos.y);
+	// 			}
+	// 		}
+				
+	// 	}
+	// 	{ // navball
+	// 		int navball_radius = 190 / 2;
+	// 		ImVec2 nav_center(center.x, fullheight - navball_radius - 25);
+	// 		ImVec2 zoom_center(center.x-25, fullheight - 20);
+	// 		std::string zoom_text = std::string("R: ") + std::to_string(253) + std::string("km");
+	// 		draw_list->AddCircle(nav_center, navball_radius, color, 128, 1.0f);
+	// 		draw_list->AddText(zoom_center, color, zoom_text.c_str());
+
+	// 		vector3d vel = Pi::player->GetVelocity();
+	// 		int _vel = (int)vel.Length();
+	// 		std::string velocity = (_vel > 1000) ? (std::to_string(_vel/1000) + std::string("km/s")) : (std::to_string(_vel) + std::string("m/s"));
+	// 		std::string rel_to = std::string("rel ") + Pi::player->GetFrame()->GetLabel();
+	// 		ImVec2 velocity_size = PiGui::CalcTextSize(velocity.c_str());
+	// 		ImVec2 rel_to_size = PiGui::CalcTextSize(rel_to.c_str());
+	// 		draw_list->AddText(ImVec2(nav_center.x - navball_radius + 10 - velocity_size.x,
+	// 															nav_center.y - navball_radius/2 - 20 - velocity_size.y),
+	// 											 color,
+	// 											 velocity.c_str());
+	// 		draw_list->AddText(ImVec2(nav_center.x - navball_radius + 10 - rel_to_size.x,
+	// 															nav_center.y - navball_radius/2 - 20 ),
+	// 											 color,
+	// 											 rel_to.c_str());
+
+	// 		int _delta_v = Pi::player->GetSpeedReachedWithFuel() * 0.001;
+	// 		std::string delta_v = std::string("delta-v: ") + std::to_string(_delta_v) + std::string("km/s");
+	// 		std::string delta_v_perc = std::to_string((int)(Pi::player->GetFuel()*100)) + std::string("%");
+	// 		ImVec2 delta_v_size = PiGui::CalcTextSize(delta_v.c_str());
+	// 		ImVec2 delta_v_perc_size = PiGui::CalcTextSize(delta_v_perc.c_str());
+	// 		draw_list->AddText(ImVec2(nav_center.x - navball_radius - delta_v_size.x,
+	// 															nav_center.y),
+	// 											 color,
+	// 											 delta_v.c_str());
+	// 		draw_list->AddText(ImVec2(nav_center.x - navball_radius - delta_v_perc_size.x - 80,
+	// 															nav_center.y + delta_v_size.y),
+	// 											 color,
+	// 											 delta_v_perc.c_str());
+
+	// 		int _time_delta_v = _delta_v * 1000 / Pi::player->GetAccelFwd();
+	// 		std::string time_delta_v = format_duration(_time_delta_v);
+	// 		ImVec2 time_delta_v_size = PiGui::CalcTextSize(time_delta_v.c_str());
+	// 		draw_list->AddText(ImVec2(nav_center.x - navball_radius - time_delta_v_size.x,
+	// 															nav_center.y + delta_v_size.y),
+	// 											 color,
+	// 											 time_delta_v.c_str());
+
+	// 	}
+	// 	draw_list->PopClipRect();
+	// 	PiGui::End();
+	// 	PiGui::PopStyleColor(1);
+	// }
+	//	// if (show_test_window)
+	//	// 	{
+	//	// 		PiGui::SetNextWindowPos(ImVec2(650, 20), PiGuiSetCond_FirstUseEver);
+	//	// 		PiGui::ShowTestWindow(&show_test_window);
+	//	// 	}
+
+	PiGui::Render();
 }

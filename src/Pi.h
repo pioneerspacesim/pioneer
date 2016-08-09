@@ -32,6 +32,7 @@ class UIView;
 class View;
 class SDLGraphics;
 class ServerAgent;
+class PiGui;
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
@@ -129,6 +130,7 @@ public:
 	static ServerAgent *serverAgent;
 
 	static RefCountedPtr<UI::Context> ui;
+	static RefCountedPtr<PiGui> pigui;
 
 	static Random rng;
 	static int statSceneTris;
@@ -178,7 +180,8 @@ private:
 	// Handler for ESC key press
 	static void HandleEscKey();
 	static void InitJoysticks();
-
+	static void PiGuiUI(double delta);
+	
 	static const Uint32 SYNC_JOBS_PER_LOOP = 1;
 	static std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 	static std::unique_ptr<SyncJobQueue> syncJobQueue;

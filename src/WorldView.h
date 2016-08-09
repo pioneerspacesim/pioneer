@@ -41,6 +41,23 @@ namespace UI {
 	class Label;
 }
 
+		enum IndicatorSide {
+		INDICATOR_HIDDEN,
+		INDICATOR_ONSCREEN,
+		INDICATOR_LEFT,
+		INDICATOR_RIGHT,
+		INDICATOR_TOP,
+		INDICATOR_BOTTOM
+	};
+
+ struct Indicator {
+		vector2f pos;
+		vector2f realpos;
+		IndicatorSide side;
+		Gui::Label *label;
+		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
+	};
+
 class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
@@ -71,6 +88,10 @@ public:
 
 	sigc::signal<void> onChangeCamType;
 
+	const Indicator *GetNavTargetIndicator() const { return &m_navTargetIndicator; }
+	const Indicator *GetProgradeIndicator() const { return &m_velIndicator; }
+	const Indicator *GetFrameIndicator() const { return &m_frameIndicator; }
+
 protected:
 	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
@@ -85,22 +106,6 @@ private:
 	void ChangeInternalCameraMode(InternalCameraController::Mode m);
 	void UpdateCameraName();
 
-	enum IndicatorSide {
-		INDICATOR_HIDDEN,
-		INDICATOR_ONSCREEN,
-		INDICATOR_LEFT,
-		INDICATOR_RIGHT,
-		INDICATOR_TOP,
-		INDICATOR_BOTTOM
-	};
-
-	struct Indicator {
-		vector2f pos;
-		vector2f realpos;
-		IndicatorSide side;
-		Gui::Label *label;
-		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
-	};
 
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
@@ -209,6 +214,7 @@ private:
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
+	Indicator m_frameIndicator;
 
 	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
 	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;

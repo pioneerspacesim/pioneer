@@ -43,6 +43,7 @@ void Init()
 	LuaObject<UI::Widget>::RegisterClass();
 
 	LuaObject<UI::Animation>::RegisterClass();
+
 }
 
 UI::Widget *GetWidget(UI::Context *c, lua_State *l, int idx)
