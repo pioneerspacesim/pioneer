@@ -140,6 +140,7 @@ function show_missions()
 			return
 	 end
 	 pigui.PushStyleColor("WindowBg", windowbg)
+	 pigui.SetNextWindowSize(Vector(pigui.screen_width / 2, pigui.screen_height / 1.5), "FirstUseEver")
 	 pigui.Begin("Missions", {})
 	 pigui.Columns(2, "missionscolumns", true)
 	 pigui.BeginChild("foo");
@@ -147,7 +148,6 @@ function show_missions()
 	 for k,v in pairs(station.adverts[station]) do
 			pigui.BeginGroup()
 			pigui.Text(v.description)
-			pigui.Text("öäüßñΔкщфгыер日本")
 			pigui.Text(v.payout and Format.Money(v.payout) or "-")
 			pigui.SameLine()
 			if v.system
@@ -184,14 +184,16 @@ function show_missions()
 			pigui.Text("System: " .. (m.system and m.system.name or "-"))
 			pigui.Text("Body: " .. (m.body and m.body.name or "-"))
 
-			if m.system.index == Game.system.index
-				 and m.system.sector.x == Game.system.sector.x
-				 and m.system.sector.y == Game.system.sector.y
-				 and m.system.sector.z == Game.system.sector.z
-			then
-				 pigui.Text("Distance: " .. Format.Distance(Space.GetBody(m.body.index):DistanceTo(Game.player)))
-			else
-				 pigui.Text("Jump Distance: " .. m.system:DistanceTo(Game.system) .. "ly")
+			if m.system then
+				 if m.system.index == Game.system.index
+						and m.system.sector.x == Game.system.sector.x
+						and m.system.sector.y == Game.system.sector.y
+						and m.system.sector.z == Game.system.sector.z
+				 then
+						pigui.Text("Distance: " .. Format.Distance(Space.GetBody(m.body.index):DistanceTo(Game.player)))
+				 else
+						pigui.Text("Jump Distance: " .. m.system:DistanceTo(Game.system) .. "ly")
+				 end
 			end
 	 end
 	 pigui.End()
