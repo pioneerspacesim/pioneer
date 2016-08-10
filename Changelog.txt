@@ -5,7 +5,8 @@ August 2016
      * Fix crash in by Search & Rescue missions (#3770)
 
    * Fixes
-     *NaN in your numbers #3772
+     * NaN in your numbers (#3772)
+     * Fix hyperspace star streaks (#3773)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
