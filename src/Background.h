@@ -30,6 +30,7 @@ namespace Background
 	protected:
 		Graphics::Renderer *m_renderer;
 		RefCountedPtr<Graphics::Material> m_material;
+		RefCountedPtr<Graphics::Material> m_materialStreaks;
 	};
 
 	class UniverseBox : public BackgroundElement

@@ -203,6 +203,12 @@ void Starfield::Init()
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
 	m_material->texture0 = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
+
+	Graphics::MaterialDescriptor descStreaks;
+	descStreaks.effect = Graphics::EFFECT_VTXCOLOR;
+	descStreaks.vertexColors = true;
+	m_materialStreaks.Reset(m_renderer->CreateMaterial(descStreaks));
+	m_materialStreaks->emissive = Color::WHITE;
 }
 
 void Starfield::Fill(Random &rand)
@@ -282,7 +288,7 @@ void Starfield::Draw(Graphics::RenderState *rs)
 			vtxPtr[i*2+1].col = m_hyperCol[i*2+1] = c;
 		}
 		m_animBuffer->Unmap();
-		m_renderer->DrawBuffer(m_animBuffer.get(), rs, m_material.Get(), Graphics::LINE_SINGLE);
+		m_renderer->DrawBuffer(m_animBuffer.get(), rs, m_materialStreaks.Get(), Graphics::LINE_SINGLE);
 	}
 }
 
