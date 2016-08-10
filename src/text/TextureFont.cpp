@@ -214,7 +214,8 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if(n<=0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
@@ -223,7 +224,8 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 			if (str[i]) {
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
-				assert(n);
+				if(n<=0)
+					break;
 
 				px += GetKern(glyph, GetGlyph(chr2));
 			}
@@ -275,7 +277,8 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if(n<=0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
@@ -285,7 +288,8 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 			if (str[i]) {
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
-				assert(n);
+				if(n<=0)
+					break;
 
 				px += GetKern(glyph, GetGlyph(chr2));
 			}
