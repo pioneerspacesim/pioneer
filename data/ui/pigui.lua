@@ -120,10 +120,11 @@ local function markerPos(name, distance)
 	 if side == "hidden" then
 			return nil
 	 end
-	 if Vector(pos.x, pos.y):magnitude() < distance / pigui.screen_width * 800 then
-			return nil
+         -- don't show if inside reticule
+	 if Vector(pos.x - center.x, pos.y - center.y):magnitude() < distance then
+			return nil, Vector(dir.x, dir.y), pos, side
 	 else
-			return point,Vector(dir.x, dir.y)
+			return point, Vector(dir.x, dir.y), pos, side
 	 end
 end
 
@@ -215,7 +216,7 @@ pigui.handlers.HUD = function(delta)
 	 pigui.AddLine(center - Vector(5,0), center + Vector(5,0), {r=200,g=200,b=200}, 4.0)
 	 pigui.AddLine(center - Vector(0,5), center + Vector(0,5), {r=200,g=200,b=200}, 4.0)
 	 -- various markers
-	 local pos,dir = markerPos("prograde", radius - 10)
+	 local pos,dir,point,side = markerPos("prograde", radius - 10)
 	 if pos then
 			local size = 4
 			local left = pos + Vector(-1,0) * size
@@ -224,6 +225,34 @@ pigui.handlers.HUD = function(delta)
 			local bottom = pos + Vector(0,-1) * size
 			pigui.AddQuad(left, top, right, bottom, {r=200,g=200,b=200}, 1.0)
 	 end
+         if side == "onscreen" and point then
+			local size = 12
+			local left = point + Vector(-1,0) * size
+			local right = point + Vector(1,0) * size
+			local top = point + Vector(0,1) * size
+			local bottom = point + Vector(0,-1) * size
+			pigui.AddQuad(left, top, right, bottom, {r=200,g=200,b=200}, 3.0)
+         end
+         	 local pos,dir,point,side = markerPos("retrograde", radius - 10)
+	 if pos then
+			local size = 3
+			local leftTop = pos + Vector(-1,1) * size
+			local rightTop = pos + Vector(1,1) * size
+			local leftBottom = pos + Vector(-1,-1) * size
+			local rightBottom = pos + Vector(1,-1) * size
+			pigui.AddLine(leftTop, rightBottom, {r=200,g=200,b=200}, 1.0)
+                        pigui.AddLine(leftBottom, rightTop, {r=200,g=200,b=200}, 1.0)
+	 end
+         if side == "onscreen" and point then
+			local size = 12
+			local leftTop = point + Vector(-1,1) * size
+			local rightTop = point + Vector(1,1) * size
+			local leftBottom = point + Vector(-1,-1) * size
+			local rightBottom = point + Vector(1,-1) * size
+			pigui.AddLine(leftTop, rightBottom, {r=200,g=200,b=200}, 3.0)
+                        pigui.AddLine(leftBottom, rightTop, {r=200,g=200,b=200}, 3.0)
+         end
+
 	 local pos,dir = markerPos("frame", radius + 5)
 	 if pos then
 			local left = dir:left() * 4 + pos
@@ -276,7 +305,7 @@ pigui.handlers.HUD = function(delta)
 	 end
 	 pigui.End()
 	 pigui.PopStyleColor(1)
-	 
+
 	 -- Missions, these should *not* be part of the regular HUD
 	 show_missions()
 end

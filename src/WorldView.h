@@ -90,6 +90,7 @@ public:
 
 	const Indicator *GetNavTargetIndicator() const { return &m_navTargetIndicator; }
 	const Indicator *GetProgradeIndicator() const { return &m_velIndicator; }
+	const Indicator *GetRetrogradeIndicator() const { return &m_retroVelIndicator; }
 	const Indicator *GetFrameIndicator() const { return &m_frameIndicator; }
 
 protected:

@@ -2031,8 +2031,8 @@ void WorldView::Draw()
 	// glLineWidth(1.0f);
 
 	// velocity indicators
-	DrawVelocityIndicator(m_velIndicator, V_PROGRADE, white);
-	DrawVelocityIndicator(m_retroVelIndicator, V_RETROGRADE, retroIconColor);
+        //	DrawVelocityIndicator(m_velIndicator, V_PROGRADE, white);
+        //	DrawVelocityIndicator(m_retroVelIndicator, V_RETROGRADE, retroIconColor);
 	DrawVelocityIndicator(m_navVelIndicator, V_PROGRADE, green);
 	DrawVelocityIndicator(m_burnIndicator, V_BURN, Color::STEELBLUE);
 

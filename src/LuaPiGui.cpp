@@ -512,6 +512,8 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 	
 	if(!name.compare("prograde"))
 		marker = wv->GetProgradeIndicator();
+	else if(!name.compare("retrograde"))
+		marker = wv->GetRetrogradeIndicator();
 	else if(!name.compare("frame"))
 		marker = wv->GetFrameIndicator();
 	else if(!name.compare("nav_target"))
@@ -528,8 +530,8 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 	dir.Set("x", direction.x);
 	dir.Set("y", direction.y);
 	LuaTable pos(l);
-	pos.Set("x", position.x);
-	pos.Set("y", position.y);
+	pos.Set("x", marker->pos.x / 800 * Graphics::GetScreenWidth());
+	pos.Set("y", marker->pos.y / 600 * Graphics::GetScreenHeight());
 	return 3;
 }
 
