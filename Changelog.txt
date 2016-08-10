@@ -4,6 +4,9 @@ August 2016
      * Navbutton added to mission screens (#3736)
      * Fix crash in by Search & Rescue missions (#3770)
 
+   * Fixes
+     *NaN in your numbers #3772
+
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
 
