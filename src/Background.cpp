@@ -200,6 +200,7 @@ void Starfield::Init()
 	Graphics::MaterialDescriptor desc;
 	desc.effect = Graphics::EFFECT_STARFIELD;
 	desc.textures = 1;
+	desc.vertexColors = true;
 	m_material.Reset(m_renderer->CreateMaterial(desc));
 	m_material->emissive = Color::WHITE;
 	m_material->texture0 = Graphics::TextureBuilder::Billboard("textures/star_point.png").GetOrCreateTexture(m_renderer, "billboard");
@@ -231,6 +232,7 @@ void Starfield::Fill(Random &rand)
 
 	assert(sizeof(StarVert) == 16);
 	std::unique_ptr<vector3f[]> stars( new vector3f[NUM_BG_STARS] );
+	std::unique_ptr<Color[]> colors( new Color[NUM_BG_STARS] );
 	std::unique_ptr<float[]> sizes( new float[NUM_BG_STARS] );
 	//fill the array
 	for (int i=0; i<NUM_BG_STARS; i++) {
@@ -243,12 +245,13 @@ void Starfield::Fill(Random &rand)
 
 		sizes[i] = size;
 		stars[i] = vector3f(sqrt(1.0f - u*u) * cos(theta), u, sqrt(1.0f - u*u) * sin(theta)).Normalized() * 1000.0f;
+		colors[i] = Color(rand.Double(0.3, 0.5)*255, rand.Double(0.4,0.7 )*255, col, 255);
 
 		//need to keep data around for HS anim - this is stupid
 		m_hyperVtx[NUM_BG_STARS * 2 + i] = stars[i];
 		m_hyperCol[NUM_BG_STARS * 2 + i] = Color(col, col, col,	255);
 	}
-	m_pointSprites->SetData(NUM_BG_STARS, stars.get(), sizes.get(), m_material.Get());
+	m_pointSprites->SetData(NUM_BG_STARS, stars.get(), colors.get(), sizes.get(), m_material.Get());
 
 	Graphics::RenderStateDesc rsd;
 	rsd.depthTest  = false;
