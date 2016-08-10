@@ -37,123 +37,123 @@
    },
    "ENTITY_FAMILY_BUSINESS_1" : {
       "description" : "",
-      "message" : "{name} and Sons"
+      "message" : "{name} 's a Mhic"
    },
    "ENTITY_FAMILY_BUSINESS_10" : {
       "description" : "",
-      "message" : "{name} Taxi Services"
+      "message" : "Seirbheisean Tagsaidh {name}"
    },
    "ENTITY_FAMILY_BUSINESS_2" : {
       "description" : "",
-      "message" : "{name} and Daughters"
+      "message" : "{name} 's a Nigheannan"
    },
    "ENTITY_FAMILY_BUSINESS_3" : {
       "description" : "",
-      "message" : "{name} Flowers of {locality}"
+      "message" : "Flùraichean {name} aig {locality}"
    },
    "ENTITY_FAMILY_BUSINESS_4" : {
       "description" : "",
-      "message" : "{name} Custom Painted Missiles"
+      "message" : "Astasan Gnàthaichte Dathte {name}"
    },
    "ENTITY_FAMILY_BUSINESS_5" : {
       "description" : "",
-      "message" : "{name} Courier Services"
+      "message" : "Seirbheisean Teachdaire {name}"
    },
    "ENTITY_FAMILY_BUSINESS_6" : {
       "description" : "",
-      "message" : "{name} Space Pets"
+      "message" : "Peataichean-fànais {name}"
    },
    "ENTITY_FAMILY_BUSINESS_7" : {
       "description" : "",
-      "message" : "{name} & {name}"
+      "message" : "{name} ⁊ {name}"
    },
    "ENTITY_FAMILY_BUSINESS_8" : {
       "description" : "",
-      "message" : "{name} Authentic {locality} Foods"
+      "message" : "Biadh Dualchasach {locality} {name}"
    },
    "ENTITY_FAMILY_BUSINESS_9" : {
       "description" : "",
-      "message" : "{name} Transports"
+      "message" : "Giùlan {name}"
    },
    "ENTITY_GENERAL_1" : {
       "description" : "",
-      "message" : "the {locality} General Prospectors Inc"
+      "message" : "Tochladh Coitcheann {locality} corpaichte"
    },
    "ENTITY_GENERAL_10" : {
       "description" : "",
-      "message" : "{locality} Infinity Energy One"
+      "message" : "Cuibheas Cumhachd {locality}"
    },
    "ENTITY_GENERAL_2" : {
       "description" : "",
-      "message" : "the {locality} Society for Ecological Preservation"
+      "message" : "Comann airson Glèidheadh Àrainneachd {locality}"
    },
    "ENTITY_GENERAL_3" : {
       "description" : "",
-      "message" : "the Interest Rights Groups for {locality}"
+      "message" : "Buidhnean nan Còraichean-uidhe airson {locality}"
    },
    "ENTITY_GENERAL_4" : {
       "description" : "",
-      "message" : "the {locality} Mining Rights Office"
+      "message" : "Oifis Còraichean-tochlaidh {locality}"
    },
    "ENTITY_GENERAL_5" : {
       "description" : "",
-      "message" : "the Landowners Association of {locality}"
+      "message" : "Comann Luchd-fearainn {locality}"
    },
    "ENTITY_GENERAL_6" : {
       "description" : "",
-      "message" : "the Statistical Institute of {locality}"
+      "message" : "Institiud Stadastaireachd {locality}"
    },
    "ENTITY_GENERAL_7" : {
       "description" : "",
-      "message" : "the {locality} branch office of SpaceCruise Inc"
+      "message" : "Oifis meur {locality} aig CùrsaFànais corpaichte"
    },
    "ENTITY_GENERAL_8" : {
       "description" : "",
-      "message" : "{locality} iSatellite Ltd"
+      "message" : "iSaideal {locality} earr"
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "Seirbheisean Tìodhlacaidh {locality} corpaichte"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
-      "message" : "the {locality} Biological Society"
+      "message" : "Comann Bith-eòlas {locality}"
    },
    "ENTITY_RESEARCH_10" : {
       "description" : "",
-      "message" : "the {locality} Center of Zoological Research"
+      "message" : "Ionad Rannsachadh Ainmh-eòlas {locality}"
    },
    "ENTITY_RESEARCH_2" : {
       "description" : "",
-      "message" : "the {locality} Microbiological Society"
+      "message" : "Comann Meanbh Bhith-eòlas {locality}"
    },
    "ENTITY_RESEARCH_3" : {
       "description" : "",
-      "message" : "the {locality} Chemical Society"
+      "message" : "Comann Ceimigeachd {locality}"
    },
    "ENTITY_RESEARCH_4" : {
       "description" : "",
-      "message" : "the {locality} Astrobiological Society"
+      "message" : "Comann Reul Bhith-eòlas {locality}"
    },
    "ENTITY_RESEARCH_5" : {
       "description" : "",
-      "message" : "the {locality} Geological Society"
+      "message" : "Comann Geòlas {locality}"
    },
    "ENTITY_RESEARCH_6" : {
       "description" : "",
-      "message" : "the {locality} Society for Astropaleontology"
+      "message" : "Comann Reul Pailleon-eòlas {locality}"
    },
    "ENTITY_RESEARCH_7" : {
       "description" : "",
-      "message" : "the {locality} Astrophysics Research Center"
+      "message" : "Ionad Rannsachadh Reul-fhiosaigs {locality}"
    },
    "ENTITY_RESEARCH_8" : {
       "description" : "",
-      "message" : "the {locality} Astrochemistry Research Center"
+      "message" : "Ionad Rannsachadh Reul-cheimigeachd {locality}"
    },
    "ENTITY_RESEARCH_9" : {
       "description" : "",
-      "message" : "the {locality} Center for Botany"
+      "message" : "Ionad Luibh-eòlas {locality}"
    },
    "EQUIPMENT" : {
       "description" : "",
@@ -177,7 +177,7 @@
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "'S e {planet} aig co-chomharran domhan-leud/domhan-fhad: {lat} / {long} a tha san t-ionad mu dheireadh aig an t-soitheach seo air a bheil tinn eòlach. 'S e {shiplabel} a th' ann an ID an t-soithich."
+      "message" : "'S e {planet} aig co-chomharran domhan-leud/domhan-fhaid: {lat} / {long} a tha san t-ionad mu dheireadh aig an t-soitheach seo air a bheil tinn eòlach. 'S e {shiplabel} a th' ann an ID an t-soithich."
    },
    "FLAVOUR_1_SUCCESSMSG" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "For full pay the pilot expects you to deliver the fuel by {due}."
+      "message" : "Tha am paidhleat an dùil gum bi thu air a' chonnadh a lìbhrigeadh {due} air neo chan fhaigh thu pàigheadh slàn."
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
@@ -273,11 +273,11 @@
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Thàinig ruith-chladaich air an t-soitheach air {planet} aig na co-chomharran {lat} / {long}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Glè mhath. Molaidh sinn thu airson obair ri teachd."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "Tha am paidhleat ag iarraidh 1 tunna dhe chonnadh hàidhdreaidein."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -293,23 +293,23 @@
    },
    "FLAVOUR_5_FAILUREMSG" : {
       "description" : "",
-      "message" : "People are just not dependable anymore."
+      "message" : "Chan urrainn dhut earbsa a chur ann an duine sam bith tuilleadh."
    },
    "FLAVOUR_5_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Please complete refueling by {due}."
+      "message" : "An lìon thu an connadh ro {due}?"
    },
    "FLAVOUR_5_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has identified a starship with ID {shiplabel} drifting without fuel close-by. We will pay {cash} to anyone who will refuel the ship so they can vacate {starport} vicinity."
+      "message" : "Dh'aithnich stiùireadh trafaige {starport} soitheach-fànais air a bheil an t-aithnichear {shiplabel} am fagas 's an connadh air a ruith orra. Pàighidh sinn {cash} do dhuine sam bith a bheir connadh dhan t-soitheach ud ach an urrainn dhaibh fochair {starport} fhàgail."
    },
    "FLAVOUR_5_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The target ship is currently drifting within {dist} km from here. You will have to track down the exact location yourself."
+      "message" : "Tha an soitheach-amais am badeigin mu {dist} km on a sheo. Feumaidh tu fhèin a lorg far a bheil i gu pongail."
    },
    "FLAVOUR_5_SUCCESSMSG" : {
       "description" : "",
-      "message" : "We will make record of your timely completion of the task."
+      "message" : "Clàraichidh sinn gun do choilean thu an t-saothair."
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
@@ -317,31 +317,31 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "Tha sinn ag iarraidh gun dèid 1 tunna dhe chonnadh hàidhdreaidein a lìbhrigeadh dhan t-soitheach."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
-      "message" : "VESSEL UNRESPONSIVE in the {system} system."
+      "message" : "SOITHEACH GUN FHREAGAIRT ann an siostam {system}."
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a disaster! This is the death sentence to our poor colleagues!"
+      "message" : "Tha mòr-thubaist air tighinn oirnn! Cha mhair na co-obraichean bochda againn beò!"
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "You have to be back by {due}."
+      "message" : "Feumaidh tu tilleadh ro {due}."
    },
    "FLAVOUR_6_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. We lost contact with our {ship} {shiplabel} following {problem}. We are willing to pay {cash} for immediate help."
+      "message" : "Is mise {name} aig {entity}. Chaill sinn an conaltradh leis an t-soitheach {ship} {shiplabel} againn às dèidh {problem} a thighinn air. Bidh sinn deònach {cash} a phàigheadh dhut ma chuidicheas tu sa bhad."
    },
    "FLAVOUR_6_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "Last known position was the vicinity of {planet} in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly away from here."
+      "message" : "'S ann faisg air {planet} ann an siotam {system} [{sectorx},{sectory},{sectorz}] a bha iad an turas mu dheireadh a bhruidhinn sinn riutha, {dist} ly air falbh on a sheo."
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! You can't imagine how relieved we are."
+      "message" : "Mòran taing! Abair faochadh!"
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
@@ -349,39 +349,39 @@
    },
    "FLAVOUR_6_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "I need someone willing to leave immediately and bring our colleagues back to {starport}, should they be alive. The ship had {crew} crew and {pass} passengers on board."
+      "message" : "Tha mi feumach air cuideigin a dh'fhalbhas sa bhad agus a thilleas na co-obraichean agad gu {starport} ma tha iad fhathast beò. Bha {crew} san sgioba agus {pass} dhe thaistealaich air bhòrd."
    },
    "FLAVOUR_7_ADTEXT" : {
       "description" : "",
-      "message" : "IMMEDIATE CREW TRANSPORT to the {system} system requested."
+      "message" : "GIÙLAN SGIOBA DA BHAD dhan t-siostam {system} 'ga iarraidh."
    },
    "FLAVOUR_7_FAILUREMSG" : {
       "description" : "",
-      "message" : "Thank you very much, but you are too late!"
+      "message" : "Gun robh math agad ach tha thu ro anmoch!"
    },
    "FLAVOUR_7_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The replacement crew has to reach the ship by {due}."
+      "message" : "Feumaidh an sgioba ionaid an soitheach a ruigsinn {due}."
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Is mise {name} aig {entity}. Dh'fhalbh an connadh air an aon soitheach againn, {ship} {shiplabel} às dèidh {problem} a thighinn air agus chan eil ach aonar air bhòrd a-nis. Bidh mi deònach {cash} a phàigheadh dhut ma chuidicheas tu sa bhad."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "You will find the ship in the {system} [{sectorx},{sectory},{sectorz}] system, {dist} ly from here. It is being kept in orbit around {planet}."
+      "message" : "Lorgaidh tu an soitheach ann an siostam {system} [{sectorx},{sectory},{sectorz}], {dist} ly air falbh uainn. Tha e a' cuairteachadh timcheall air {planet}."
    },
    "FLAVOUR_7_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! I have been authorized to transmit the full payment."
+      "message" : "Mòran taing! Chaidh m' ùghdarrachadh gus am pàigheadh slàn a thoirt dhut."
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transfered to the target ship."
+      "message" : "Chaidh {unit} a chur dhan t-soitheach-amais."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We can't return the ship without minimal crew present. I am searching for someone willing to transport a replacement crew of {deliver_crew} to our starship immediately."
+      "message" : "Chan urrainn dhuinn an soitheach a thilleadh gun an sgioba riatanach a bhith ann. Tha mi a' lorg cuideigin a bhios deònach sgioba ionaid dhe {deliver_crew} a thoirt a-null dhan t-soitheach-fhànais againn sa bhad."
    },
    "FULL_CARGO" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "teine san roinn carago"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
@@ -549,7 +549,7 @@
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "còmhstri am measg an sgioba"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
@@ -561,7 +561,7 @@
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "am prìomh-choimpiutair ath-thòiseacadh"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",

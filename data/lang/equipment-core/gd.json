@@ -13,7 +13,7 @@
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
-      "message" : "Dìonaidh e an soitheach agad on teas nuair a thilleas e dhan àile."
+      "message" : "Dìonaidh e an soitheach-fànais agad on teas nuair a thilleas e dhan àile."
    },
    "AUTOPILOT" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Leigidh seo leat connadh hàidhdreaidean a sgobadh o mhòr-phlanaidean gasa."
+      "message" : "Leigidh seo leat connadh hàidhdreaidein a sgobadh o mhòr-phlanaidean gasa."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
