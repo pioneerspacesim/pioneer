@@ -8,6 +8,7 @@ August 2016
    * Fixes
      * NaN in your numbers (#3772)
      * Fix hyperspace star streaks (#3773)
+     * prefix std:: to isnan so it builds on Linux (#3775)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
