@@ -306,7 +306,7 @@ PointSprites::PointSprites() : m_refreshVertexBuffer(true)
 {
 }
 
-void PointSprites::SetData(const int count, const vector3f *positions, const float *sizes, Graphics::Material *pMaterial)
+void PointSprites::SetData(const int count, const vector3f *positions, const Color *colours, const float *sizes, Graphics::Material *pMaterial)
 {
 	PROFILE_SCOPED()
 	if (count < 1 ) 
@@ -314,11 +314,11 @@ void PointSprites::SetData(const int count, const vector3f *positions, const flo
 
 	assert(positions);
 
-	m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL, count) );
+	m_va.reset( new VertexArray(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_DIFFUSE, count) );
 	
 	for (int i=0; i<count; i++) {
 		vector3f vSize(sizes[i]);
-		m_va->Add(positions[i], vSize);
+		m_va->Add(positions[i], colours[i], vSize);
 	}
 
 	m_refreshVertexBuffer = true;
@@ -349,6 +349,8 @@ void PointSprites::CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size)
 	vbd.attrib[0].format = Graphics::ATTRIB_FORMAT_FLOAT3;
 	vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
 	vbd.attrib[1].format = Graphics::ATTRIB_FORMAT_FLOAT3;
+	vbd.attrib[2].semantic = Graphics::ATTRIB_DIFFUSE;
+	vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_UBYTE4;
 	vbd.usage = Graphics::BUFFER_USAGE_STATIC;
 	vbd.numVertices = size;
 	m_vertexBuffer.Reset(r->CreateVertexBuffer(vbd));
