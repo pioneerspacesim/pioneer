@@ -149,7 +149,7 @@
    },
    "COMMODITY_MARKET" : {
       "description" : "",
-      "message" : "Margaid bathair-àmh"
+      "message" : "Margadh bathair-àmh"
    },
    "COMPACT_SCANNER" : {
       "description" : "Game settings option",
@@ -317,7 +317,7 @@
    },
    "EQUIPMENT_MARKET" : {
       "description" : "",
-      "message" : "Margaid uidheamachd"
+      "message" : "Margadh uidheamachd"
    },
    "EQUIPPED" : {
       "description" : "",
@@ -773,7 +773,7 @@
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} cèibinnean taistealaich air an còmhnadh"
+      "message" : "{quantity} cèibinn(ean) taistealaich air an còmhnadh"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
@@ -781,7 +781,7 @@
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "{quantity} cèibinnean taistealaich gun chòmhnadh"
+      "message" : "{quantity} cèibinn(ean) taistealaich gun chòmhnadh"
    },
    "OFF" : {
       "description" : "",
@@ -1029,7 +1029,7 @@
    },
    "SHIP_MARKET" : {
       "description" : "",
-      "message" : "Margaidh shoithichean"
+      "message" : "Margadh shoithichean"
    },
    "SHIP_REPAIRS" : {
       "description" : "",

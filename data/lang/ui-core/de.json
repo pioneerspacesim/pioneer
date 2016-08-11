@@ -1001,7 +1001,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "Ziel als Navigationsziel setzen."
    },
    "SHIP" : {
       "description" : "",

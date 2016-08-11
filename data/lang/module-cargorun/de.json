@@ -445,11 +445,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Als Navigationsziel setzen"
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Rückkehrroute setzen"
    },
    "SPACEPORT" : {
       "description" : "",
