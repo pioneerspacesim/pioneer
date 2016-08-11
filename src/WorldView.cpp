@@ -2279,6 +2279,6 @@ static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
 	const double heading = wrapAngleToPositive(atan2(hedEast, hedNorth));
 
 	return std::make_pair(
-		isnan(heading) ? 0.0 : heading, 
-		isnan(pitch) ? 0.0 : pitch);
+		std::isnan(heading) ? 0.0 : heading, 
+		std::isnan(pitch) ? 0.0 : pitch);
 }
