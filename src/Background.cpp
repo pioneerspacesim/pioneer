@@ -210,6 +210,16 @@ void Starfield::Init()
 	descStreaks.vertexColors = true;
 	m_materialStreaks.Reset(m_renderer->CreateMaterial(descStreaks));
 	m_materialStreaks->emissive = Color::WHITE;
+
+	IniConfig cfg;
+	cfg.Read(FileSystem::gameDataFiles, "configs/Starfield.ini");
+	// NB: limit the ranges of all values loaded from the file
+	m_rMin		= Clamp(cfg.Float("rMin", 0.2), 0.2f, 1.0f);
+	m_rMax		= Clamp(cfg.Float("rMax", 0.9), 0.2f, 1.0f);
+	m_gMin		= Clamp(cfg.Float("gMin", 0.2), 0.2f, 1.0f);
+	m_gMax		= Clamp(cfg.Float("gMax", 0.9), 0.2f, 1.0f);
+	m_bMin		= Clamp(cfg.Float("bMin", 0.2), 0.2f, 1.0f);
+	m_bMax		= Clamp(cfg.Float("bMax", 0.9), 0.2f, 1.0f);
 }
 
 void Starfield::Fill(Random &rand)
@@ -237,7 +247,13 @@ void Starfield::Fill(Random &rand)
 	//fill the array
 	for (int i=0; i<NUM_BG_STARS; i++) {
 		const double size = rand.Double(0.2,0.9);
-		const Uint8 col = size*255;
+		const Uint8 colScale = size*255;
+
+		const Color col(
+			rand.Double(m_rMin, m_rMax)*colScale,
+			rand.Double(m_gMin, m_gMax)*colScale,
+			rand.Double(m_bMin, m_bMax)*colScale,
+			255);
 
 		// this is proper random distribution on a sphere's surface
 		const float theta = float(rand.Double(0.0, 2.0*M_PI));
@@ -245,11 +261,11 @@ void Starfield::Fill(Random &rand)
 
 		sizes[i] = size;
 		stars[i] = vector3f(sqrt(1.0f - u*u) * cos(theta), u, sqrt(1.0f - u*u) * sin(theta)).Normalized() * 1000.0f;
-		colors[i] = Color(rand.Double(0.3, 0.5)*255, rand.Double(0.4,0.7 )*255, col, 255);
+		colors[i] = col;
 
 		//need to keep data around for HS anim - this is stupid
 		m_hyperVtx[NUM_BG_STARS * 2 + i] = stars[i];
-		m_hyperCol[NUM_BG_STARS * 2 + i] = Color(col, col, col,	255);
+		m_hyperCol[NUM_BG_STARS * 2 + i] = col;
 	}
 	m_pointSprites->SetData(NUM_BG_STARS, stars.get(), colors.get(), sizes.get(), m_material.Get());
 
