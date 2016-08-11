@@ -89,8 +89,10 @@ public:
 	sigc::signal<void> onChangeCamType;
 
 	const Indicator *GetNavTargetIndicator() const { return &m_navTargetIndicator; }
-	const Indicator *GetProgradeIndicator() const { return &m_velIndicator; }
-	const Indicator *GetRetrogradeIndicator() const { return &m_retroVelIndicator; }
+	const Indicator *GetFrameProgradeIndicator() const { return &m_velIndicator; }
+	const Indicator *GetFrameRetrogradeIndicator() const { return &m_retroVelIndicator; }
+	const Indicator *GetProgradeIndicator() const { return &m_navVelIndicator; }
+	const Indicator *GetRetrogradeIndicator() const { return &m_retroNavVelIndicator; }
 	const Indicator *GetFrameIndicator() const { return &m_frameIndicator; }
 
 protected:
@@ -211,6 +213,7 @@ private:
 	Indicator m_navVelIndicator;
 	Indicator m_burnIndicator;
 	Indicator m_retroVelIndicator;
+  	Indicator m_retroNavVelIndicator;
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;

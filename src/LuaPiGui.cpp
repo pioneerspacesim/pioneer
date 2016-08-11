@@ -510,7 +510,11 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 	WorldView *wv = Pi::game->GetWorldView();
 	const Indicator *marker;
 	
-	if(!name.compare("prograde"))
+	if(!name.compare("frame_prograde"))
+		marker = wv->GetFrameProgradeIndicator();
+	else if(!name.compare("frame_retrograde"))
+		marker = wv->GetFrameRetrogradeIndicator();
+	else if(!name.compare("prograde"))
 		marker = wv->GetProgradeIndicator();
 	else if(!name.compare("retrograde"))
 		marker = wv->GetRetrogradeIndicator();

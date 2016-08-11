@@ -213,10 +213,11 @@ pigui.handlers.HUD = function(delta)
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
 	 -- reticule
 	 pigui.AddCircle(center, radius, {r=200, g=200, b=200}, 128, 2.0)
-	 pigui.AddLine(center - Vector(5,0), center + Vector(5,0), {r=200,g=200,b=200}, 4.0)
-	 pigui.AddLine(center - Vector(0,5), center + Vector(0,5), {r=200,g=200,b=200}, 4.0)
+         local size=8
+	 pigui.AddLine(center - Vector(size,0), center + Vector(size,0), {r=200,g=200,b=200}, 3.0)
+	 pigui.AddLine(center - Vector(0,size), center + Vector(0,size), {r=200,g=200,b=200}, 3.0)
 	 -- various markers
-	 local pos,dir,point,side = markerPos("prograde", radius - 10)
+	 local pos,dir,point,side = markerPos("frame_prograde", radius - 10)
 	 if pos then
 			local size = 4
 			local left = pos + Vector(-1,0) * size
@@ -224,24 +225,25 @@ pigui.handlers.HUD = function(delta)
 			local top = pos + Vector(0,1) * size
 			local bottom = pos + Vector(0,-1) * size
 			pigui.AddQuad(left, top, right, bottom, {r=200,g=200,b=200}, 1.0)
-	 end
-         if side == "onscreen" and point then
+	end
+	if side == "onscreen" and point then
 			local size = 12
 			local left = point + Vector(-1,0) * size
 			local right = point + Vector(1,0) * size
 			local top = point + Vector(0,1) * size
 			local bottom = point + Vector(0,-1) * size
 			pigui.AddQuad(left, top, right, bottom, {r=200,g=200,b=200}, 3.0)
-         end
-         	 local pos,dir,point,side = markerPos("retrograde", radius - 10)
-	 if pos then
+	end
+	local pos,dir,point,side = markerPos("frame_retrograde", radius - 10)
+	local color = {r=200,g=200,b=200}
+	if pos then
 			local size = 3
 			local leftTop = pos + Vector(-1,1) * size
 			local rightTop = pos + Vector(1,1) * size
 			local leftBottom = pos + Vector(-1,-1) * size
 			local rightBottom = pos + Vector(1,-1) * size
-			pigui.AddLine(leftTop, rightBottom, {r=200,g=200,b=200}, 1.0)
-                        pigui.AddLine(leftBottom, rightTop, {r=200,g=200,b=200}, 1.0)
+			pigui.AddLine(leftTop, rightBottom, color, 1.0)
+                        pigui.AddLine(leftBottom, rightTop, color, 1.0)
 	 end
          if side == "onscreen" and point then
 			local size = 12
@@ -249,23 +251,69 @@ pigui.handlers.HUD = function(delta)
 			local rightTop = point + Vector(1,1) * size
 			local leftBottom = point + Vector(-1,-1) * size
 			local rightBottom = point + Vector(1,-1) * size
-			pigui.AddLine(leftTop, rightBottom, {r=200,g=200,b=200}, 3.0)
-                        pigui.AddLine(leftBottom, rightTop, {r=200,g=200,b=200}, 3.0)
+			pigui.AddLine(leftTop, rightBottom, color, 3.0)
+                        pigui.AddLine(leftBottom, rightTop, color, 3.0)
          end
-
+	local pos,dir,point,side = markerPos("prograde", radius - 10)
+	local color = {r=50,g=200,b=50}
+	if pos then
+			local size = 4
+			local left = pos + Vector(-1,0) * size
+			local right = pos + Vector(1,0) * size
+			local top = pos + Vector(0,1) * size
+			local bottom = pos + Vector(0,-1) * size
+			pigui.AddQuad(left, top, right, bottom, color, 1.0)
+	end
+	if side == "onscreen" and point then
+			local size = 12
+			local left = point + Vector(-1,0) * size
+			local right = point + Vector(1,0) * size
+			local top = point + Vector(0,1) * size
+			local bottom = point + Vector(0,-1) * size
+			pigui.AddQuad(left, top, right, bottom, color, 3.0)
+	end
+	local pos,dir,point,side = markerPos("retrograde", radius - 10)
+	local color = {r=50,g=200,b=50}
+	if pos then
+			local size = 3
+			local leftTop = pos + Vector(-1,1) * size
+			local rightTop = pos + Vector(1,1) * size
+			local leftBottom = pos + Vector(-1,-1) * size
+			local rightBottom = pos + Vector(1,-1) * size
+			pigui.AddLine(leftTop, rightBottom, color, 1.0)
+                        pigui.AddLine(leftBottom, rightTop, color, 1.0)
+	 end
+         if side == "onscreen" and point then
+			local size = 12
+			local leftTop = point + Vector(-1,1) * size
+			local rightTop = point + Vector(1,1) * size
+			local leftBottom = point + Vector(-1,-1) * size
+			local rightBottom = point + Vector(1,-1) * size
+			pigui.AddLine(leftTop, rightBottom, color, 3.0)
+                        pigui.AddLine(leftBottom, rightTop, color, 3.0)
+         end
+	local pos,dir,point,side = markerPos("nav_target", radius + 5)
+	 if pos then
+			local left = dir:left() * 7 + pos
+			local right = dir:right() * 7 + pos
+			local top = dir * 14 + pos
+			pigui.AddTriangleFilled(left, right, top, {r=200,g=200,b=200})
+	 end
+	local color = {r=50,g=200,b=50}
+	if side == "onscreen" and point then
+			local size = 12
+			local leftTop = point + Vector(-1,1) * size
+			local rightTop = point + Vector(1,1) * size
+			local leftBottom = point + Vector(-1,-1) * size
+			local rightBottom = point + Vector(1,-1) * size
+			pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, color, 3.0)
+	end
 	 local pos,dir = markerPos("frame", radius + 5)
 	 if pos then
 			local left = dir:left() * 4 + pos
 			local right = dir:right() * 4 + pos
 			local top = dir * 8 + pos
 			pigui.AddTriangle(left, right, top, {r=200,g=200,b=200}, 2.0)
-	 end
-	 local pos,dir = markerPos("nav_target", radius + 5)
-	 if pos then
-			local left = dir:left() * 7 + pos
-			local right = dir:right() * 7 + pos
-			local top = dir * 14 + pos
-			pigui.AddTriangleFilled(left, right, top, {r=200,g=200,b=200})
 	 end
 	 pigui.End()
 	 pigui.PopStyleColor(1);

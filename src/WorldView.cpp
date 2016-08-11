@@ -1749,7 +1749,7 @@ void WorldView::UpdateProjectedObjects()
 				snprintf(buf, sizeof(buf), "%.0f m/s", navspeed);
 			m_navVelIndicator.label->SetText(buf);
 			UpdateIndicator(m_navVelIndicator, camSpaceNavVel);
-			UpdateIndicator(m_retroVelIndicator, -camSpaceNavVel);
+			UpdateIndicator(m_retroNavVelIndicator, -camSpaceNavVel);
 
 			assert(m_navTargetIndicator.side != INDICATOR_HIDDEN);
 			assert(m_navVelIndicator.side != INDICATOR_HIDDEN);
