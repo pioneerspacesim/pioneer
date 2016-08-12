@@ -477,7 +477,7 @@
    },
    "PLACE_OF_ASSISTANCE" : {
       "description" : "",
-      "message" : "Au lieu de secours"
+      "message" : "À l'endroit où ont eu lieu les secours"
    },
    "PLEASE_LAND" : {
       "description" : "",
@@ -649,7 +649,7 @@
    },
    "SHIP_UNRESPONSIVE" : {
       "description" : "",
-      "message" : "Vaisseau cible sans réponse."
+      "message" : "Le vaisseau cible ne répond pas."
    },
    "SYSTEM" : {
       "description" : "",
