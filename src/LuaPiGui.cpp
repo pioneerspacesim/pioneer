@@ -2,9 +2,10 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaPiGui.h"
-#include "PiGui.h"
 #include "LuaObject.h"
 #include "LuaUtils.h"
+#include "LuaConstants.h"
+#include "PiGui.h"
 #include "WorldView.h"
 #include "Pi.h"
 #include "Game.h"
@@ -17,6 +18,8 @@
 // #include "StringF.h"
 // #include "WorldView.h"
 // #include "DeathView.h"
+
+#undef RegisterClass
 
 static ImVec2 luaL_checkImVec2(lua_State *l, int index) {
 	ScopedTable vec = LuaTable(l, index);

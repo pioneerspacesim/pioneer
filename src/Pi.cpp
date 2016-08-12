@@ -42,6 +42,7 @@
 #include "Shields.h"
 #include "ObjectViewerView.h"
 #include "OS.h"
+#include "PiGui.h"
 #include "Planet.h"
 #include "Player.h"
 #include "Projectile.h"
@@ -81,7 +82,6 @@
 #include <algorithm>
 #include <sstream>
 #include "utils.h"
-#include "PiGui.h"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 // RegisterClassA and RegisterClassW are defined as macros in WinUser.h
