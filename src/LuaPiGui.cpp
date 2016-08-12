@@ -538,6 +538,13 @@ static int l_pigui_text(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_button(lua_State *l) {
+	std::string text = luaL_checkstring(l, 1);
+	bool ret = ImGui::Button(text.c_str());
+	lua_pushboolean(l, ret);
+	return 1;
+}
+
 static int l_pigui_text_wrapped(lua_State *l) {
 	std::string text = luaL_checkstring(l, 1);
 	ImGui::TextWrapped(text.c_str());
@@ -743,6 +750,17 @@ static int l_pigui_checkbox(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_push_item_width(lua_State *l) {
+	double width = luaL_checknumber(l, 1);
+	ImGui::PushItemWidth(width);
+	return 0;
+}
+
+static int l_pigui_pop_item_width(lua_State *l) {
+	ImGui::PopItemWidth();
+	return 0;
+}
+
 static int l_attr_handlers(lua_State *l) {
 	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	pigui->GetHandlers().PushCopyToStack();
@@ -787,6 +805,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "NextColumn",             l_pigui_next_column },
 		{ "Text",                   l_pigui_text },
 		{ "TextWrapped",            l_pigui_text_wrapped },
+		{ "Button",                 l_pigui_button },
 		{ "Selectable",             l_pigui_selectable },
 		{ "BeginGroup",             l_pigui_begin_group },
 		{ "EndGroup",               l_pigui_end_group },
@@ -806,6 +825,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "GetMousePos",            l_pigui_get_mouse_pos },
 		{ "PathArcTo",              l_pigui_path_arc_to },
 		{ "PathStroke",             l_pigui_path_stroke },
+		{ "PushItemWidth",          l_pigui_push_item_width },
+		{ "PopItemWidth",           l_pigui_pop_item_width },
 		{ 0, 0 }
 	};
 

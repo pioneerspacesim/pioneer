@@ -240,24 +240,39 @@ function show_missions()
 				 pigui.TextWrapped(m.details)
 			end
 			pigui.Spacing()
-			pigui.Text("Destination: " .. (m.system and m.system.name or "-") .. ", " .. (m.body and m.body.name or "-"))
-			pigui.Text("Deadline: " .. (m.deadline and Format.Duration(m.deadline - Game.time) or "-"))
-			pigui.Text("Wage: " .. (m.payout and Format.Money(m.payout) or "-"))
-			pigui.Spacing()
-
-			if m.system then
+			local distance
+						if m.system then
 				 if m.system.index == Game.system.index
 						and m.system.sector.x == Game.system.sector.x
 						and m.system.sector.y == Game.system.sector.y
 						and m.system.sector.z == Game.system.sector.z
 				 then
-						pigui.Text("Distance: " .. Format.Distance(Space.GetBody(m.body.index):DistanceTo(player)))
+						distance = Format.Distance(Space.GetBody(m.body.index):DistanceTo(player))
 				 else
-						pigui.Text("Jump Distance: " .. m.system:DistanceTo(Game.system) .. "ly")
+						distance = math.floor(m.system:DistanceTo(Game.system) * 10) / 10 .. "ly"
 				 end
 			end
+
+			pigui.Text("Destination: " .. (m.system and m.system.name or "-") .. ", " .. (m.body and m.body.name or "-") .. " (" .. distance .. ")")
+			pigui.Text("Deadline: " .. Format.Date(m.deadline) .. " (" .. (m.deadline and Format.Duration(m.deadline - Game.time) or "-") .. ")")
+			pigui.Text("Wage: " .. (m.payout and Format.Money(m.payout) or "-"))
+			pigui.Spacing()
+
 			pigui.NextColumn()
+			pigui.Dummy(Vector(100,100))
 			pigui.Text("Image")
+			pigui.PushFont("pionillium", 18)
+			pigui.Text(m.client or "Anonymous")
+			pigui.PopFont()
+			pigui.PushItemWidth(-1)
+			if pigui.Button("OK, I'll do it.") then
+				 print("cool")
+			end
+			if pigui.Button("Hang up") then
+				 mission_selected = nil
+				 print("then not")
+			end
+		  pigui.PopItemWidth()
 			pigui.EndChild()
 	 end
 	 pigui.End()
