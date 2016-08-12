@@ -229,12 +229,21 @@ function show_missions()
 	 pigui.EndChild()
 	 pigui.NextColumn()
 	 if mission_selected then
+			pigui.BeginChild("bar")
+			pigui.Columns(2, "desccolumns", false)
 			local m = mission_selected
+			pigui.PushFont("pionillium", 18)
 			pigui.Text(m.description)
-			pigui.Text("Payout: " .. (m.payout and Format.Money(m.payout) or "-"))
-
-			pigui.Text("System: " .. (m.system and m.system.name or "-"))
-			pigui.Text("Body: " .. (m.body and m.body.name or "-"))
+			pigui.PopFont()
+			pigui.Spacing()
+			if m.details then
+				 pigui.TextWrapped(m.details)
+			end
+			pigui.Spacing()
+			pigui.Text("Destination: " .. (m.system and m.system.name or "-") .. ", " .. (m.body and m.body.name or "-"))
+			pigui.Text("Deadline: " .. (m.deadline and Format.Duration(m.deadline - Game.time) or "-"))
+			pigui.Text("Wage: " .. (m.payout and Format.Money(m.payout) or "-"))
+			pigui.Spacing()
 
 			if m.system then
 				 if m.system.index == Game.system.index
@@ -247,6 +256,9 @@ function show_missions()
 						pigui.Text("Jump Distance: " .. m.system:DistanceTo(Game.system) .. "ly")
 				 end
 			end
+			pigui.NextColumn()
+			pigui.Text("Image")
+			pigui.EndChild()
 	 end
 	 pigui.End()
 	 pigui.PopStyleColor(1)
@@ -600,5 +612,5 @@ pigui.handlers.HUD = function(delta)
 
 	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
-	 -- show_missions()
+	 show_missions()
 end

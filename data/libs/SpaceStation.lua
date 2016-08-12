@@ -505,7 +505,8 @@ function SpaceStation:AddAdvert (description, onChat, onDelete)
 		distance    = args.distance,
 		location    = args.location,
 		body        = args.body,
-		system      = args.system
+		system      = args.system,
+		details     = args.details
 	}
 	Event.Queue("onAdvertAdded", self, nextRef)
 	return nextRef

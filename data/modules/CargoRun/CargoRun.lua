@@ -557,7 +557,8 @@ local makeAdvert = function (station)
 		location    = location,
 		body        = location:GetSystemBody(),
 		system      = nearbysystem,
-		deadline    = due
+		deadline    = due,
+		details     = introtext
 	}
 	local ref = station:AddAdvert(data)
 	ads[ref] = ad

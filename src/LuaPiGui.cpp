@@ -535,6 +535,12 @@ static int l_pigui_text(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_text_wrapped(lua_State *l) {
+	std::string text = luaL_checkstring(l, 1);
+	ImGui::TextWrapped(text.c_str());
+	return 0;
+}
+
 static int l_pigui_get_velocity(lua_State *l) {
 	std::string name = luaL_checkstring(l, 1);
 	WorldView *wv = Pi::game->GetWorldView();
@@ -777,6 +783,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "Columns",                l_pigui_columns },
 		{ "NextColumn",             l_pigui_next_column },
 		{ "Text",                   l_pigui_text },
+		{ "TextWrapped",            l_pigui_text_wrapped },
 		{ "Selectable",             l_pigui_selectable },
 		{ "BeginGroup",             l_pigui_begin_group },
 		{ "EndGroup",               l_pigui_end_group },
