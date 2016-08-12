@@ -15,7 +15,7 @@ class Planet;
 class SpaceStation;
 class Frame;
 namespace Graphics { class Renderer; class Frustum; }
-namespace SceneGraph { class Model; }
+namespace SceneGraph { class Model; class Animation; }
 
 #define CITY_ON_PLANET_RADIUS 5000.0
 
@@ -60,6 +60,7 @@ private:
 		const char *modelname;
 		double xzradius;
 		SceneGraph::Model *resolvedModel;
+		SceneGraph::Animation *idle;
 		RefCountedPtr<CollMesh> collMesh;
 		Uint32 instIndex;
 	};
