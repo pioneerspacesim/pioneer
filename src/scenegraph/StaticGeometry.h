@@ -50,6 +50,7 @@ protected:
 	~StaticGeometry();
 	void DrawBoundingBox(const Aabb &bb);
 	std::vector<Mesh> m_meshes;
+	std::vector<RefCountedPtr<Graphics::Material>> m_instanceMaterials;
 	Graphics::RenderState *m_renderState;
 	RefCountedPtr<Graphics::InstanceBuffer> m_instBuffer;
 };
