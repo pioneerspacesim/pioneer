@@ -97,7 +97,8 @@ public:
 
 	const vector3d GetNavProgradeVelocity() const;
 	const vector3d GetFrameProgradeVelocity() const;
-	
+
+	const vector3d GetProjectedScreenPos(Body *body) const { if(m_projectedPos.find(body) != m_projectedPos.end()) return m_projectedPos.at(body); else return vector3d(0,0,0); }
 protected:
 	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();

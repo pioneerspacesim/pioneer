@@ -489,6 +489,16 @@ static int l_pigui_add_circle(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_add_circle_filled(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 center = luaL_checkImVec2(l, 1);
+	int radius = luaL_checkinteger(l, 2);
+	ImColor color = luaL_checkImColor(l, 3);
+	int segments = luaL_checkinteger(l, 4);
+	draw_list->AddCircleFilled(center, radius, color, segments);
+	return 0;
+}
+
 static int l_pigui_path_arc_to(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImVec2 center = luaL_checkImVec2(l, 1);
@@ -752,6 +762,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "PushClipRectFullScreen", l_pigui_push_clip_rect_full_screen },
 		{ "PushClipRect",           l_pigui_pop_clip_rect },
 		{ "AddCircle",              l_pigui_add_circle },
+		{ "AddCircleFilled",        l_pigui_add_circle_filled },
 		{ "AddLine",                l_pigui_add_line },
 		{ "AddText",                l_pigui_add_text },
 		{ "AddTriangle",            l_pigui_add_triangle },

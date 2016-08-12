@@ -3,7 +3,8 @@ local Game = import('Game')
 local Space = import('Space')
 local Engine = import('Engine')
 
-local player = Game.player
+local player
+local system
 local pigui = Engine.pigui
 
 local show_retrograde_indicators = false
@@ -284,7 +285,7 @@ local function drawWithUnit(leftCenter, number, unit, color, centerIsActuallyRig
 			pigui.AddText(topLeft, color, prefix)
 			pigui.PopFont()
 	 end
-	 
+
 	 pigui.PushFont("pionillium", 36)
 	 local topLeft = leftCenter + Vector(prefixsize.x + (prefix and 3 or 0), - numbersize.y / 2)
 	 pigui.AddText(topLeft, color, number)
@@ -330,6 +331,7 @@ end
 
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
+	 system = Game.system
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
 	 local windowbg = colors.windowbg
@@ -486,6 +488,21 @@ pigui.handlers.HUD = function(delta)
 			pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
 	 end
 	 show_navball()
+	 for key,data in pairs(system:GetBodyPaths()) do
+			local system_body = data:GetSystemBody()
+			local body = Space.GetBody(system_body.index)
+			local pos = body:GetProjectedScreenPosition()
+			if pos then
+				 local supertype = body.superType
+				 if pos.x > 0 and pos.y > 0 then
+						pigui.AddCircleFilled(Vector(pos.x, pos.y), 5, colors.lightgrey, 32)
+						local mp = pigui.GetMousePos()
+						if (Vector(mp.x,mp.y) - Vector(pos.x, pos.y)):magnitude() < 15 then
+							 pigui.SetTooltip(body.label)
+						end
+				 end
+			end
+	 end
 	 pigui.End()
 	 pigui.PopStyleColor(1);
 
@@ -496,7 +513,6 @@ pigui.handlers.HUD = function(delta)
 	 pigui.PushStyleColor("WindowBg", windowbg)
 	 pigui.Begin("Navigation", {})
 	 pigui.Columns(2, "navcolumns", false)
-	 local system = Game.system
 	 local body_paths = system:GetBodyPaths()
 	 -- create intermediate structure
 	 local data = map(function(system_path)

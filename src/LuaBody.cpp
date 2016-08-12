@@ -394,6 +394,22 @@ static int l_body_find_nearest_to(lua_State *l)
 	return 1;
 }
 
+static int l_body_get_projected_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->GetProjectedScreenPos(b);
+	if(vector3d(0,0,0) == p) {
+		lua_pushnil(l);
+		return 1;
+	}
+		
+	LuaTable pos(l);
+	pos.Set("x", p.x / 800.0 * Graphics::GetScreenWidth());
+	pos.Set("y", p.y / 600.0 * Graphics::GetScreenHeight());
+	return 1;
+}
+
 static std::string _body_serializer(LuaWrappable *o)
 {
 	static char buf[256];
@@ -456,6 +472,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "DistanceTo", l_body_distance_to },
 		{ "GetGroundPosition", l_body_get_ground_position },
 		{ "FindNearestTo", l_body_find_nearest_to },
+		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
 		{ 0, 0 }
 	};
 
