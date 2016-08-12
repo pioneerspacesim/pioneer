@@ -123,8 +123,8 @@ void WorldView::InitObject()
 		const int ypos = i*32;
 
 		Gui::Label *label = new Gui::Label(
-				stringf(Lang::SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT,
-					formatarg("power", 100.0f * LOW_THRUST_LEVELS[i], "f.0")));
+																			 stringf(Lang::SET_LOW_THRUST_POWER_LEVEL_TO_X_PERCENT,
+																							 formatarg("power", 100.0f * LOW_THRUST_LEVELS[i], "f.0")));
 		m_lowThrustPowerOptions->Add(label, 50, float(ypos));
 
 		char buf[8];
@@ -206,9 +206,9 @@ void WorldView::InitObject()
 	UI::VBox *hud_root = Pi::ui->VBox();
 	hud_root->PackEnd(m_hudDockTop.Get());
 	hud_root->PackEnd(Pi::ui->HBox()->
-		PackEnd(m_hudDockLeft.Get())->
-		PackEnd(Pi::ui->Expand()->SetInnerWidget(m_hudDockCentre.Get()))->
-		PackEnd(m_hudDockRight.Get()));
+										PackEnd(m_hudDockLeft.Get())->
+										PackEnd(Pi::ui->Expand()->SetInnerWidget(m_hudDockCentre.Get()))->
+										PackEnd(m_hudDockRight.Get()));
 	hud_root->PackEnd(m_hudDockBottom.Get());
 
 	m_hudRoot.Reset(hud_root);
@@ -265,8 +265,8 @@ void WorldView::InitObject()
 	m_burnIndicator.label = (new Gui::Label(""))->Color(0, 153, 255);
 
 	// these labels are repositioned during Draw3D()
-	Add(m_navTargetIndicator.label, 0, 0);
-	Add(m_navVelIndicator.label, 0, 0);
+	//	Add(m_navTargetIndicator.label, 0, 0);
+	//	Add(m_navVelIndicator.label, 0, 0);
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
 	Add(m_burnIndicator.label, 0, 0);
@@ -367,16 +367,16 @@ void WorldView::SetCamType(enum CamType c)
 	m_camType = c;
 
 	switch(m_camType) {
-		case CAM_INTERNAL:
-			m_activeCameraController = m_internalCameraController.get();
-			Pi::player->OnCockpitActivated();
-			break;
-		case CAM_EXTERNAL:
-			m_activeCameraController = m_externalCameraController.get();
-			break;
-		case CAM_SIDEREAL:
-			m_activeCameraController = m_siderealCameraController.get();
-			break;
+	case CAM_INTERNAL:
+		m_activeCameraController = m_internalCameraController.get();
+		Pi::player->OnCockpitActivated();
+		break;
+	case CAM_EXTERNAL:
+		m_activeCameraController = m_externalCameraController.get();
+		break;
+	case CAM_SIDEREAL:
+		m_activeCameraController = m_siderealCameraController.get();
+		break;
 	}
 
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
@@ -431,17 +431,17 @@ void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
 	if (Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL)) {
 		// skip certain states
 		switch (newState) {
-			case CONTROL_FIXSPEED: newState = CONTROL_FIXHEADING_FORWARD; break;
-			case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
-			default: break;
+		case CONTROL_FIXSPEED: newState = CONTROL_FIXHEADING_FORWARD; break;
+		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
+		default: break;
 		}
 	} else {
 		// skip certain states
 		switch (newState) {
-			case CONTROL_FIXHEADING_FORWARD: // fallthrough
-			case CONTROL_FIXHEADING_BACKWARD: newState = CONTROL_MANUAL; break;
-			case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
-			default: break;
+		case CONTROL_FIXHEADING_FORWARD: // fallthrough
+		case CONTROL_FIXHEADING_BACKWARD: newState = CONTROL_MANUAL; break;
+		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
+		default: break;
 		}
 	}
 	b->SetActiveState(newState);
@@ -508,7 +508,7 @@ void WorldView::ResetHyperspaceButton()
 void WorldView::Draw3D()
 {
 	PROFILE_SCOPED()
-	assert(m_game);
+		assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
@@ -634,7 +634,7 @@ void WorldView::RefreshHeadingPitch(void) {
 	// normal rounding (as performed by printf) is incorrect for the heading
 	// because it rounds x >= 359.5 *up* to 360 without wrapping back to zero.
 	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0",
-		(heading_deg < 359.5 ? heading_deg : 0.0));
+					 (heading_deg < 359.5 ? heading_deg : 0.0));
 	m_headingInfo->SetText(buf);
 	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", pitch_deg);
 	m_pitchInfo->SetText(buf);
@@ -669,87 +669,87 @@ void WorldView::RefreshButtonStateAndVisibility()
 	RefreshHyperspaceButton();
 
 	switch(Pi::player->GetFlightState()) {
-		case Ship::LANDED:
-			m_flightStatus->SetText(Lang::LANDED);
-			m_launchButton->Show();
-			m_flightControlButton->Hide();
-			break;
+	case Ship::LANDED:
+		m_flightStatus->SetText(Lang::LANDED);
+		m_launchButton->Show();
+		m_flightControlButton->Hide();
+		break;
 
-		case Ship::DOCKING:
-			m_flightStatus->SetText(Lang::DOCKING);
-			m_launchButton->Hide();
-			m_flightControlButton->Hide();
-			break;
+	case Ship::DOCKING:
+		m_flightStatus->SetText(Lang::DOCKING);
+		m_launchButton->Hide();
+		m_flightControlButton->Hide();
+		break;
 
-		case Ship::UNDOCKING:
-			m_flightStatus->SetText(Lang::UNDOCKING);
-			m_launchButton->Hide();
-			m_flightControlButton->Hide();
-			break;
+	case Ship::UNDOCKING:
+		m_flightStatus->SetText(Lang::UNDOCKING);
+		m_launchButton->Hide();
+		m_flightControlButton->Hide();
+		break;
 
-		case Ship::DOCKED:
-			m_flightStatus->SetText(Lang::DOCKED);
-			m_launchButton->Show();
-			m_flightControlButton->Hide();
-			break;
+	case Ship::DOCKED:
+		m_flightStatus->SetText(Lang::DOCKED);
+		m_launchButton->Show();
+		m_flightControlButton->Hide();
+		break;
 
-		case Ship::JUMPING:
-		case Ship::HYPERSPACE:
-			m_flightStatus->SetText(Lang::HYPERSPACE);
-			m_launchButton->Hide();
-			m_flightControlButton->Hide();
-			break;
+	case Ship::JUMPING:
+	case Ship::HYPERSPACE:
+		m_flightStatus->SetText(Lang::HYPERSPACE);
+		m_launchButton->Hide();
+		m_flightControlButton->Hide();
+		break;
 
-		case Ship::FLYING:
-		default:
-			const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
-			switch (fstate) {
-				case CONTROL_MANUAL:
-					m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
+	case Ship::FLYING:
+	default:
+		const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
+		switch (fstate) {
+		case CONTROL_MANUAL:
+			m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
 
-				case CONTROL_FIXSPEED: {
-					std::string msg;
-					const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
-					if (setspeed > 1000) {
-						msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
-					} else {
-						msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
-					}
-					m_flightStatus->SetText(msg);
-					break;
-				}
-
-				case CONTROL_FIXHEADING_FORWARD:
-					m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
-					break;
-				case CONTROL_FIXHEADING_BACKWARD:
-					m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
-					break;
-				case CONTROL_FIXHEADING_NORMAL:
-					m_flightStatus->SetText(Lang::HEADING_LOCK_NORMAL);
-					break;
-				case CONTROL_FIXHEADING_ANTINORMAL:
-					m_flightStatus->SetText(Lang::HEADING_LOCK_ANTINORMAL);
-					break;
-				case CONTROL_FIXHEADING_RADIALLY_INWARD:
-					m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_INWARD);
-					break;
-				case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
-					m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_OUTWARD);
-					break;
-				case CONTROL_FIXHEADING_KILLROT:
-					m_flightStatus->SetText(Lang::HEADING_LOCK_KILLROT);
-					break;
-
-				case CONTROL_AUTOPILOT:
-					m_flightStatus->SetText(Lang::AUTOPILOT_CONTROL);
-					break;
-
-				default: assert(0); break;
+		case CONTROL_FIXSPEED: {
+			std::string msg;
+			const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
+			if (setspeed > 1000) {
+				msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
+			} else {
+				msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
 			}
+			m_flightStatus->SetText(msg);
+			break;
+		}
 
-			m_launchButton->Hide();
-			m_flightControlButton->Show();
+		case CONTROL_FIXHEADING_FORWARD:
+			m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
+			break;
+		case CONTROL_FIXHEADING_BACKWARD:
+			m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
+			break;
+		case CONTROL_FIXHEADING_NORMAL:
+			m_flightStatus->SetText(Lang::HEADING_LOCK_NORMAL);
+			break;
+		case CONTROL_FIXHEADING_ANTINORMAL:
+			m_flightStatus->SetText(Lang::HEADING_LOCK_ANTINORMAL);
+			break;
+		case CONTROL_FIXHEADING_RADIALLY_INWARD:
+			m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_INWARD);
+			break;
+		case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
+			m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_OUTWARD);
+			break;
+		case CONTROL_FIXHEADING_KILLROT:
+			m_flightStatus->SetText(Lang::HEADING_LOCK_KILLROT);
+			break;
+
+		case CONTROL_AUTOPILOT:
+			m_flightStatus->SetText(Lang::AUTOPILOT_CONTROL);
+			break;
+
+		default: assert(0); break;
+		}
+
+		m_launchButton->Hide();
+		m_flightControlButton->Show();
 	}
 
 	// Direction indicator
@@ -791,10 +791,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 			const SystemPath &path(playerFrame->GetSystemBody()->GetPath());
 			ss << stringf("Rel-to: %0 [%1{d},%2{d},%3{d},%4{u},%5{u}] ",
-				playerFrame->GetLabel(),
-				path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
+										playerFrame->GetLabel(),
+										path.sectorX, path.sectorY, path.sectorZ, path.systemIndex, path.bodyIndex);
 			ss << stringf("(%0{f.2} km), rotating: %1, has rotation: %2\n",
-				pos.Length()/1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
+										pos.Length()/1000, (playerFrame->IsRotFrame() ? "yes" : "no"), (playerFrame->HasRotFrame() ? "yes" : "no"));
 
 			//Calculate lat/lon for ship position
 			const vector3d dir = pos.NormalizedSafe();
@@ -819,10 +819,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 		RefCountedPtr<StarSystem> s = m_game->GetGalaxy()->GetStarSystem(dest);
 
 		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
-			formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
-			formatarg("x", dest.sectorX),
-			formatarg("y", dest.sectorY),
-			formatarg("z", dest.sectorZ)));
+																																						formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
+																																						formatarg("x", dest.sectorX),
+																																						formatarg("y", dest.sectorY),
+																																						formatarg("z", dest.sectorZ)));
 
 		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::JUMP_COMPLETE,
 			formatarg("percent", m_game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
@@ -852,7 +852,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 		if (Body *navtarget = Pi::player->GetNavTarget()) {
 			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
 			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
-				formatarg("distance", format_distance(dist))));
+																																							 formatarg("distance", format_distance(dist))));
 		}
 		else
 			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
@@ -887,10 +887,10 @@ void WorldView::RefreshButtonStateAndVisibility()
 					if (altitude < 0) altitude = 0;
 					if (altitude >= 100000.0)
 						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
-							formatarg("vspeed", vspeed / 1000.0)));
+																																												formatarg("vspeed", vspeed / 1000.0)));
 					else
 						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
-							formatarg("vspeed", vspeed)));
+																																												formatarg("vspeed", vspeed)));
 
 					// show lat/long when altitude is shownr
 					const float lat = RAD2DEG(asin(surface_pos.y));
@@ -1058,7 +1058,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
 				text += "\n";
 				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
-					(sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
+																													 (sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
 				text += "\n";
 				text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
 				text += "\n";
@@ -1138,7 +1138,7 @@ bool WorldView::OnClickHeadingLabel(void) {
 void WorldView::Update()
 {
 	PROFILE_SCOPED()
-	assert(m_game);
+		assert(m_game);
 	assert(Pi::player);
 	assert(!Pi::player->IsDead());
 
@@ -1222,13 +1222,13 @@ void WorldView::Update()
 	}
 
 	if( Pi::AreHudTrailsDisplayed() )
-	{
-		matrix4x4d trans;
-		Frame::GetFrameTransform(playerFrame, camFrame, trans);
+		{
+			matrix4x4d trans;
+			Frame::GetFrameTransform(playerFrame, camFrame, trans);
 
-		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
-			it->trail->SetTransform(trans);
-	} else {
+			for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
+				it->trail->SetTransform(trans);
+		} else {
 		for (auto it = Pi::player->GetSensors()->GetContacts().begin(); it != Pi::player->GetSensors()->GetContacts().end(); ++it)
 			it->trail->Reset(playerFrame);
 	}
@@ -1378,27 +1378,27 @@ static void PlayerRequestDockingClearance(SpaceStation *s)
 // worldview are in Lua. I'm leaving this code here so its not
 // forgotten
 /*
-static void PlayerPayFine()
-{
+	static void PlayerPayFine()
+	{
 	Sint64 crime, fine;
 	Polit::GetCrime(&crime, &fine);
 	if (Pi::player->GetMoney() == 0) {
-		m_game->log->Add(Lang::YOU_NO_MONEY);
+	m_game->log->Add(Lang::YOU_NO_MONEY);
 	} else if (fine > Pi::player->GetMoney()) {
-		Polit::AddCrime(0, -Pi::player->GetMoney());
-		Polit::GetCrime(&crime, &fine);
-		m_game->log->Add(stringf(
-			Lang::FINE_PAID_N_BUT_N_REMAINING,
-				formatarg("paid", format_money(Pi::player->GetMoney())),
-				formatarg("fine", format_money(fine))));
-		Pi::player->SetMoney(0);
+	Polit::AddCrime(0, -Pi::player->GetMoney());
+	Polit::GetCrime(&crime, &fine);
+	m_game->log->Add(stringf(
+	Lang::FINE_PAID_N_BUT_N_REMAINING,
+	formatarg("paid", format_money(Pi::player->GetMoney())),
+	formatarg("fine", format_money(fine))));
+	Pi::player->SetMoney(0);
 	} else {
-		Pi::player->SetMoney(Pi::player->GetMoney() - fine);
-		m_game->log->Add(stringf(Lang::FINE_PAID_N,
-				formatarg("fine", format_money(fine))));
-		Polit::AddCrime(0, -fine);
+	Pi::player->SetMoney(Pi::player->GetMoney() - fine);
+	m_game->log->Add(stringf(Lang::FINE_PAID_N,
+	formatarg("fine", format_money(fine))));
+	Polit::AddCrime(0, -fine);
 	}
-}
+	}
 */
 
 // XXX belongs in some sort of hyperspace controller
@@ -1459,9 +1459,9 @@ void WorldView::UpdateCommsOptions()
 	if (m_showTargetActionsTimeout == 0) return;
 
 	if (m_game->GetSpace()->GetStarSystem()->HasSpaceStations())
-	{
-		BuildCommsNavOptions();
-	}
+		{
+			BuildCommsNavOptions();
+		}
 
 	Body * const navtarget = Pi::player->GetNavTarget();
 	Body * const comtarget = Pi::player->GetCombatTarget();
@@ -1483,31 +1483,31 @@ void WorldView::UpdateCommsOptions()
 		if (navtarget->IsType(Object::SPACESTATION)) {
 			SpaceStation *pStation = static_cast<SpaceStation *>(navtarget);
 			if( pStation->GetMyDockingPort(Pi::player) == -1 )
-			{
-				button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, 0, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), static_cast<SpaceStation*>(navtarget)));
-				ypos += 32;
-			}
+				{
+					button = AddCommsOption(Lang::REQUEST_DOCKING_CLEARANCE, ypos, 0, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(&PlayerRequestDockingClearance), static_cast<SpaceStation*>(navtarget)));
+					ypos += 32;
+				}
 
 			if( hasAutopilot )
-			{
-				button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, 0, optnum++);
-				button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
-				ypos += 32;
-			}
+				{
+					button = AddCommsOption(Lang::AUTOPILOT_DOCK_WITH_STATION, ypos, 0, optnum++);
+					button->onClick.connect(sigc::bind(sigc::ptr_fun(&autopilot_dock), navtarget));
+					ypos += 32;
+				}
 
 			// XXX paying fine remotely can't really be done until crime and
 			// worldview are in Lua. I'm leaving this code here so its not
 			// forgotten
 			/*
-			Sint64 crime, fine;
-			Polit::GetCrime(&crime, &fine);
-			if (fine) {
+				Sint64 crime, fine;
+				Polit::GetCrime(&crime, &fine);
+				if (fine) {
 				button = AddCommsOption(stringf(Lang::PAY_FINE_REMOTELY,
-							formatarg("amount", format_money(fine))), ypos, optnum++);
+				formatarg("amount", format_money(fine))), ypos, optnum++);
 				button->onClick.connect(sigc::ptr_fun(&PlayerPayFine));
 				ypos += 32;
-			}
+				}
 			*/
 		}
 		if (hasAutopilot) {
@@ -1597,7 +1597,7 @@ void WorldView::SelectBody(Body *target, bool reselectIsDeselect)
 Body* WorldView::PickBody(const double screenX, const double screenY) const
 {
 	for (std::map<Body*,vector3d>::const_iterator
-		i = m_projectedPos.begin(); i != m_projectedPos.end(); ++i) {
+				 i = m_projectedPos.begin(); i != m_projectedPos.end(); ++i) {
 		Body *b = i->first;
 
 		if (b == Pi::player || b->IsType(Object::PROJECTILE))
@@ -1617,13 +1617,13 @@ Body* WorldView::PickBody(const double screenX, const double screenY) const
 int WorldView::GetActiveWeapon() const
 {
 	switch (GetCamType()) {
-		case CAM_INTERNAL:
-			return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
+	case CAM_INTERNAL:
+		return m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR ? 1 : 0;
 
-		case CAM_EXTERNAL:
-		case CAM_SIDEREAL:
-		default:
-			return 0;
+	case CAM_EXTERNAL:
+	case CAM_SIDEREAL:
+	default:
+		return 0;
 	}
 }
 
@@ -1656,19 +1656,19 @@ void WorldView::UpdateProjectedObjects()
 
 			// only show labels on large or nearby bodies
 			if (b->IsType(Object::PLANET) ||
-				b->IsType(Object::STAR) ||
-				b->IsType(Object::SPACESTATION) ||
-				Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
-			{
-				std::string bodyName = b->GetLabel();
-				// offset the label so it doesn't intersect with the icon drawn around the
-				// navtarget. XXX this probably isn't the most elegant solution
-				if(b == Pi::player->GetNavTarget()) { bodyName = "    " + bodyName; }
-				m_bodyLabels->Add(bodyName,
-						  sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true),
-						  float(pos.x),
-						  float(pos.y));
-			}
+					b->IsType(Object::STAR) ||
+					b->IsType(Object::SPACESTATION) ||
+					Pi::player->GetPositionRelTo(b).LengthSqr() < 1000000.0*1000000.0)
+				{
+					std::string bodyName = b->GetLabel();
+					// offset the label so it doesn't intersect with the icon drawn around the
+					// navtarget. XXX this probably isn't the most elegant solution
+					if(b == Pi::player->GetNavTarget()) { bodyName = "    " + bodyName; }
+					m_bodyLabels->Add(bodyName,
+														sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true),
+														float(pos.x),
+														float(pos.y));
+				}
 			m_projectedPos[b] = pos;
 		}
 	}
@@ -1731,7 +1731,7 @@ void WorldView::UpdateProjectedObjects()
 
 		// navtarget distance/target square indicator (displayed with navtarget label)
 		double dist = (navtarget->GetTargetIndicatorPosition(cam_frame)
-			- Pi::player->GetPositionRelTo(cam_frame)).Length();
+									 - Pi::player->GetPositionRelTo(cam_frame)).Length();
 		m_navTargetIndicator.label->SetText(format_distance(dist).c_str());
 		UpdateIndicator(m_navTargetIndicator, navtarget->GetTargetIndicatorPosition(cam_frame));
 
@@ -1753,7 +1753,7 @@ void WorldView::UpdateProjectedObjects()
 
 			assert(m_navTargetIndicator.side != INDICATOR_HIDDEN);
 			assert(m_navVelIndicator.side != INDICATOR_HIDDEN);
-			SeparateLabels(m_navTargetIndicator.label, m_navVelIndicator.label);
+			//			SeparateLabels(m_navTargetIndicator.label, m_navVelIndicator.label);
 		} else
 			HideIndicator(m_navVelIndicator);
 
@@ -1782,9 +1782,9 @@ void WorldView::UpdateProjectedObjects()
 		double projspeed = 0;
 		if (GetCamType() == CAM_INTERNAL) {
 			switch (m_internalCameraController->GetMode()) {
-				case InternalCameraController::MODE_FRONT: laser = 0; break;
-				case InternalCameraController::MODE_REAR:  laser = 1; break;
-				default: break;
+			case InternalCameraController::MODE_FRONT: laser = 0; break;
+			case InternalCameraController::MODE_REAR:  laser = 1; break;
+			default: break;
 			}
 		}
 
@@ -2026,14 +2026,14 @@ void WorldView::Draw()
 	const Color retroIconColor( (Pi::player->GetNavTarget()) ? green : white );
 
 	// nav target square
-	DrawTargetSquare(m_navTargetIndicator, green);
+	//	DrawTargetSquare(m_navTargetIndicator, green);
 
 	// glLineWidth(1.0f);
 
 	// velocity indicators
-        //	DrawVelocityIndicator(m_velIndicator, V_PROGRADE, white);
-        //	DrawVelocityIndicator(m_retroVelIndicator, V_RETROGRADE, retroIconColor);
-	DrawVelocityIndicator(m_navVelIndicator, V_PROGRADE, green);
+	//	DrawVelocityIndicator(m_velIndicator, V_PROGRADE, white);
+	//	DrawVelocityIndicator(m_retroVelIndicator, V_RETROGRADE, retroIconColor);
+	//	DrawVelocityIndicator(m_navVelIndicator, V_PROGRADE, green);
 	DrawVelocityIndicator(m_burnIndicator, V_BURN, Color::STEELBLUE);
 
 	// glLineWidth(2.0f);
@@ -2053,14 +2053,14 @@ void WorldView::Draw()
 		const vector2f crosshairPos  = center - crosshairSize * 0.5f;
 
 		switch (m_internalCameraController->GetMode()) {
-			case InternalCameraController::MODE_FRONT:
-				//				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
-				break;
-			case InternalCameraController::MODE_REAR:
-				//				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
-				break;
-			default:
-				break;
+		case InternalCameraController::MODE_FRONT:
+			//				m_frontCrosshair->Draw(Pi::renderer, crosshairPos, crosshairSize, white);
+			break;
+		case InternalCameraController::MODE_REAR:
+			//				m_rearCrosshair->Draw(Pi::renderer,  crosshairPos, crosshairSize, white);
+			break;
+		default:
+			break;
 		}
 	}
 }
@@ -2184,16 +2184,16 @@ void WorldView::DrawEdgeMarker(const Indicator &marker, const Color &c)
 void WorldView::MouseWheel(bool up)
 {
 	if (this == Pi::GetView())
-	{
-		if (m_activeCameraController->IsExternal()) {
-			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
+		{
+			if (m_activeCameraController->IsExternal()) {
+				MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 
-			if (!up)	// Zoom out
-				cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
-			else
-				cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
+				if (!up)	// Zoom out
+					cam->ZoomEvent( ZOOM_SPEED * WHEEL_SENSITIVITY);
+				else
+					cam->ZoomEvent(-ZOOM_SPEED * WHEEL_SENSITIVITY);
+			}
 		}
-	}
 }
 NavTunnelWidget::NavTunnelWidget(WorldView *worldview, Graphics::RenderState *rs)
 	: Widget()
@@ -2332,4 +2332,19 @@ static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
 	return std::make_pair(
 		std::isnan(heading) ? 0.0 : heading,
 		std::isnan(pitch) ? 0.0 : pitch);
+}
+
+const vector3d WorldView::GetNavProgradeVelocity() const {
+	Body *navTarget = Pi::player->GetNavTarget();
+	if(navTarget)
+		return Pi::player->GetVelocityRelTo(navTarget);
+	else
+		return vector3d(0,0,0); }
+
+const vector3d WorldView::GetFrameProgradeVelocity() const {
+	Frame *frame = Pi::player->GetFrame();
+	if(frame)
+		return Pi::player->GetVelocityRelTo(frame);
+	else
+		return vector3d(0,0,0);
 }

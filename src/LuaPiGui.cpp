@@ -489,6 +489,26 @@ static int l_pigui_add_circle(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_path_arc_to(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 center = luaL_checkImVec2(l, 1);
+	double radius = luaL_checknumber(l, 2);
+	double amin = luaL_checknumber(l, 3);
+	double amax = luaL_checknumber(l, 4);
+	int segments = luaL_checkinteger(l, 5);
+	draw_list->PathArcTo(center, radius, amin, amax, segments);
+	return 0;
+}
+
+static int l_pigui_path_stroke(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImColor color = luaL_checkImColor(l, 1);
+	bool closed = luaL_checkbool(l, 2);
+	double thickness = luaL_checknumber(l, 3);
+	draw_list->PathStroke(color, closed, thickness);
+	return 0;
+}
+
 static int l_pigui_selectable(lua_State *l) {
 	std::string label = luaL_checkstring(l, 1);
 	bool selected = luaL_checkbool(l, 2);
@@ -505,6 +525,23 @@ static int l_pigui_text(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_get_velocity(lua_State *l) {
+	std::string name = luaL_checkstring(l, 1);
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d velocity;
+	if(!name.compare("nav_prograde")) {
+		velocity = wv->GetNavProgradeVelocity();
+	} else if(!name.compare("frame_prograde")) {
+		velocity = wv->GetFrameProgradeVelocity();
+	} else
+		return 0;
+	LuaTable vel(l);
+	vel.Set("x", velocity.x);
+	vel.Set("y", velocity.y);
+	vel.Set("z", velocity.z);
+	return 1;
+}
+
 static int l_pigui_get_hud_marker(lua_State *l) {
 	std::string name = luaL_checkstring(l, 1);
 	WorldView *wv = Pi::game->GetWorldView();
@@ -514,14 +551,14 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 		marker = wv->GetFrameProgradeIndicator();
 	else if(!name.compare("frame_retrograde"))
 		marker = wv->GetFrameRetrogradeIndicator();
-	else if(!name.compare("prograde"))
-		marker = wv->GetProgradeIndicator();
-	else if(!name.compare("retrograde"))
-		marker = wv->GetRetrogradeIndicator();
+	else if(!name.compare("nav_prograde"))
+		marker = wv->GetNavProgradeIndicator();
+	else if(!name.compare("nav_retrograde"))
+		marker = wv->GetNavRetrogradeIndicator();
 	else if(!name.compare("frame"))
 		marker = wv->GetFrameIndicator();
-	else if(!name.compare("nav_target"))
-		marker = wv->GetNavTargetIndicator();
+	else if(!name.compare("nav"))
+		marker = wv->GetNavIndicator();
 	else
 		// TODO: error
 		return 0;
@@ -634,6 +671,59 @@ static int l_pigui_is_item_clicked(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_push_font(lua_State *l) {
+	std::string fontname = luaL_checkstring(l, 1);
+	int size = luaL_checkinteger(l, 2);
+	ImFont *font;
+	if(!fontname.compare("pionillium")) {
+		switch(size) {
+		case 12: font = PiGui::pionillium12; break;
+		case 18: font = PiGui::pionillium18; break;
+		case 36: font = PiGui::pionillium36; break;
+		default: return 0;
+		}
+	} else
+		return 0;
+	ImGui::PushFont(font);
+	return 0;
+}
+
+static int l_pigui_pop_font(lua_State *l) {
+	ImGui::PopFont();
+	return 0;
+}
+
+static int l_pigui_calc_text_size(lua_State *l) {
+	std::string text = luaL_checkstring(l, 1);
+	ImVec2 size = ImGui::CalcTextSize(text.c_str());
+	LuaTable s(l);
+	s.Set("x", size.x);
+	s.Set("y", size.y);
+	return 1;
+}
+
+static int l_pigui_get_mouse_pos(lua_State *l) {
+	ImVec2 pos = ImGui::GetMousePos();
+	LuaTable p(l);
+	p.Set("x", pos.x);
+	p.Set("y", pos.y);
+	return 1;
+}
+
+static int l_pigui_set_tooltip(lua_State *l) {
+	std::string text = luaL_checkstring(l, 1);
+	ImGui::SetTooltip(text.c_str());
+	return 0;
+}
+
+static int l_pigui_checkbox(lua_State *l) {
+	std::string label = luaL_checkstring(l, 1);
+	bool checked = luaL_checkbool(l, 2);
+	ImGui::Checkbox(label.c_str(), &checked);
+	lua_pushboolean(l, checked);
+	return 1;
+}
+
 static int l_attr_handlers(lua_State *l) {
 	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	pigui->GetHandlers().PushCopyToStack();
@@ -641,13 +731,13 @@ static int l_attr_handlers(lua_State *l) {
 }
 
 static int l_attr_screen_width(lua_State *l) {
-	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	//	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	lua_pushinteger(l,Graphics::GetScreenWidth());
 	return 1;
 }
 
 static int l_attr_screen_height(lua_State *l) {
-	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	//	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	lua_pushinteger(l,Graphics::GetScreenHeight());
 	return 1;
 }
@@ -670,6 +760,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "SetNextWindowPos",       l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize",      l_pigui_set_next_window_size },
 		{ "GetHUDMarker",           l_pigui_get_hud_marker },
+		{ "GetVelocity",            l_pigui_get_velocity },
 		{ "PushStyleColor",         l_pigui_push_style_color },
 		{ "PopStyleColor",          l_pigui_pop_style_color },
 		{ "Columns",                l_pigui_columns },
@@ -686,6 +777,14 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "Dummy",                  l_pigui_dummy },
 		{ "BeginChild",             l_pigui_begin_child },
 		{ "EndChild",               l_pigui_end_child },
+		{ "PushFont",               l_pigui_push_font },
+		{ "PopFont",                l_pigui_pop_font },
+		{ "CalcTextSize",           l_pigui_calc_text_size },
+		{ "SetTooltip",             l_pigui_set_tooltip },
+		{ "Checkbox",               l_pigui_checkbox },
+		{ "GetMousePos",            l_pigui_get_mouse_pos },
+		{ "PathArcTo",              l_pigui_path_arc_to },
+		{ "PathStroke",             l_pigui_path_stroke },
 		{ 0, 0 }
 	};
 

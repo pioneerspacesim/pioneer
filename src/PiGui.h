@@ -8,8 +8,11 @@
 #include "imgui/imgui_internal.h"
 
 class PiGui : public RefCounted {
-	static ImFont *inpionata;
 public:
+	static ImFont *pionillium12;
+	static ImFont *pionillium18;
+	static ImFont *pionillium36;
+	
 	PiGui() {
 		lua_State *l = Lua::manager->GetLuaState();
 		lua_newtable(l);
@@ -19,14 +22,15 @@ public:
 	// }
 	LuaRef GetHandlers() const { return m_handlers; }
 	void RenderHUD(double delta) {
-		ImGui::PushFont(inpionata);
 		ScopedTable(m_handlers).Call<bool>("HUD", delta);
-		ImGui::PopFont();
 	}
 	static void Init(SDL_Window *window) {
  		ImGui_ImplSdlGL3_Init(window);
 		ImGuiIO &io = ImGui::GetIO();
-		inpionata = io.Fonts->AddFontFromFileTTF("data/fonts/Inpionata.ttf", 15.0f);
+		static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
+		pionillium12 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 12.0f, nullptr, glyph_ranges);
+		pionillium18 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 18.0f, nullptr, glyph_ranges);
+	  pionillium36 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 36.0f, nullptr, glyph_ranges);
  	}
  	static void NewFrame(SDL_Window *window) {
  		ImGui_ImplSdlGL3_NewFrame(window);

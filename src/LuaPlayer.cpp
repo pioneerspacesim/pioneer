@@ -208,6 +208,59 @@ static int l_set_hyperspace_target(lua_State *l)
 		return luaL_error(l, "Player:SetHyperspaceTarget() cannot be used while in hyperspace");
 }
 
+static int l_get_current_delta_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetVelocityRelTo(player->GetFrame()).Length());
+	return 1;
+}
+
+static int l_get_remaining_delta_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetSpeedReachedWithFuel());
+	return 1;
+}
+
+static int l_get_max_delta_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	const ShipType *st = player->GetShipType();
+	lua_pushnumber(l, st->effectiveExhaustVelocity * log((st->hullMass + st->fuelTankMass) / st->hullMass));
+	return 1;
+}
+
+static int l_get_distance_to_zero_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string target = luaL_checkstring(l, 2); // "nav", "frame"
+	std::string direction = luaL_checkstring(l, 3); // "prograde", "retrograde"
+	double v, a;
+	if(!target.compare("nav")) {
+		if(!direction.compare("prograde")) {
+			v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
+			a = player->GetAccelRev();
+		} else if(!direction.compare("retrograde")) {
+			v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
+			a = player->GetAccelFwd();
+		} else {
+			return 0;
+		}
+	} else if(!target.compare("frame")) {
+		if(!direction.compare("prograde")) {
+			v = player->GetVelocityRelTo(player->GetFrame()).Length();
+			a = player->GetAccelRev();
+		} else if(!direction.compare("retrograde")) {
+			v = player->GetVelocityRelTo(player->GetFrame()).Length();
+			a = player->GetAccelFwd();
+		} else {
+			return 0;
+		}
+	}
+	lua_pushnumber(l, v*v/(2*a));
+	return 1;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -223,6 +276,10 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetCombatTarget", l_set_combat_target },
 		{ "GetHyperspaceTarget", l_get_hyperspace_target },
 		{ "SetHyperspaceTarget", l_set_hyperspace_target },
+		{ "GetMaxDeltaV",        l_get_max_delta_v },
+		{ "GetCurrentDeltaV",    l_get_current_delta_v },
+		{ "GetRemainingDeltaV",  l_get_remaining_delta_v },
+		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
 		{ 0, 0 }
 	};
 

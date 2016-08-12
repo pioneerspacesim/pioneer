@@ -88,13 +88,16 @@ public:
 
 	sigc::signal<void> onChangeCamType;
 
-	const Indicator *GetNavTargetIndicator() const { return &m_navTargetIndicator; }
+	const Indicator *GetNavIndicator() const { return &m_navTargetIndicator; }
+	const Indicator *GetNavProgradeIndicator() const { return &m_navVelIndicator; }
+	const Indicator *GetNavRetrogradeIndicator() const { return &m_retroNavVelIndicator; }
+	const Indicator *GetFrameIndicator() const { return &m_frameIndicator; }
 	const Indicator *GetFrameProgradeIndicator() const { return &m_velIndicator; }
 	const Indicator *GetFrameRetrogradeIndicator() const { return &m_retroVelIndicator; }
-	const Indicator *GetProgradeIndicator() const { return &m_navVelIndicator; }
-	const Indicator *GetRetrogradeIndicator() const { return &m_retroNavVelIndicator; }
-	const Indicator *GetFrameIndicator() const { return &m_frameIndicator; }
 
+	const vector3d GetNavProgradeVelocity() const;
+	const vector3d GetFrameProgradeVelocity() const;
+	
 protected:
 	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
