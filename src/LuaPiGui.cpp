@@ -585,6 +585,18 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 		marker = wv->GetFrameIndicator();
 	else if(!name.compare("nav"))
 		marker = wv->GetNavIndicator();
+	else if(!name.compare("forward"))
+		marker = wv->GetForwardIndicator();
+	else if(!name.compare("backward"))
+		marker = wv->GetBackwardIndicator();
+	else if(!name.compare("up"))
+		marker = wv->GetUpIndicator();
+	else if(!name.compare("down"))
+		marker = wv->GetDownIndicator();
+	else if(!name.compare("left"))
+		marker = wv->GetLeftIndicator();
+	else if(!name.compare("right"))
+		marker = wv->GetRightIndicator();
 	else
 		// TODO: error
 		return 0;

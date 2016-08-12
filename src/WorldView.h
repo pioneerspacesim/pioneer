@@ -94,7 +94,13 @@ public:
 	const Indicator *GetFrameIndicator() const { return &m_frameIndicator; }
 	const Indicator *GetFrameProgradeIndicator() const { return &m_velIndicator; }
 	const Indicator *GetFrameRetrogradeIndicator() const { return &m_retroVelIndicator; }
-
+	const Indicator *GetForwardIndicator() const { return &m_forwardIndicator; }
+	const Indicator *GetBackwardIndicator() const { return &m_backwardIndicator; }
+	const Indicator *GetLeftIndicator() const { return &m_leftIndicator; }
+	const Indicator *GetRightIndicator() const { return &m_rightIndicator; }
+	const Indicator *GetUpIndicator() const { return &m_upIndicator; }
+	const Indicator *GetDownIndicator() const { return &m_downIndicator; }
+	
 	const vector3d GetNavProgradeVelocity() const;
 	const vector3d GetFrameProgradeVelocity() const;
 
@@ -217,12 +223,18 @@ private:
 	Indicator m_navVelIndicator;
 	Indicator m_burnIndicator;
 	Indicator m_retroVelIndicator;
-  	Indicator m_retroNavVelIndicator;
+	Indicator m_retroNavVelIndicator;
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
 	Indicator m_frameIndicator;
+	Indicator m_forwardIndicator;
+	Indicator m_backwardIndicator;
+	Indicator m_upIndicator;
+	Indicator m_downIndicator;
+	Indicator m_leftIndicator;
+	Indicator m_rightIndicator;
 
 	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
 	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;

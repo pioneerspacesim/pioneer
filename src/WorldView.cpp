@@ -1672,6 +1672,30 @@ void WorldView::UpdateProjectedObjects()
 			m_projectedPos[b] = pos;
 		}
 	}
+	{
+		const vector3d x = Pi::player->GetOrient() * vector3d(0,0,1) * cam_rot;
+		UpdateIndicator(m_backwardIndicator, x);
+	}
+	{
+		const vector3d x = Pi::player->GetOrient() * vector3d(0,0,-1) * cam_rot;
+		UpdateIndicator(m_forwardIndicator, x);
+	}
+	{
+		const vector3d x = Pi::player->GetOrient() * vector3d(0,1,0) * cam_rot;
+		UpdateIndicator(m_upIndicator, x);
+	}
+	{
+		const vector3d x = Pi::player->GetOrient() * vector3d(0,-1,0) * cam_rot;
+		UpdateIndicator(m_downIndicator, x);
+	}
+	{
+		const vector3d x = Pi::player->GetOrient() * vector3d(1,0,0) * cam_rot;
+		UpdateIndicator(m_rightIndicator, x);
+	}
+	{
+		const vector3d x = Pi::player->GetOrient() * vector3d(-1,0,0) * cam_rot;
+		UpdateIndicator(m_leftIndicator, x);
+	}
 
 	// velocity relative to current frame (white)
 	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
@@ -2038,7 +2062,7 @@ void WorldView::Draw()
 
 	// glLineWidth(2.0f);
 
-	DrawImageIndicator(m_mouseDirIndicator, m_indicatorMousedir.get(), yellow);
+	// DrawImageIndicator(m_mouseDirIndicator, m_indicatorMousedir.get(), yellow);
 
 	// combat target indicator
 	DrawCombatTargetIndicator(m_combatTargetIndicator, m_targetLeadIndicator, red);

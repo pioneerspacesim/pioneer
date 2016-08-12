@@ -230,6 +230,24 @@ static int l_get_max_delta_v(lua_State *l)
 	return 1;
 }
 
+static int l_get_frame(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaObject<Body>::PushToLua(player->GetFrame()->GetBody());
+	return 1;
+}
+
+static int l_get_oriented_velocity(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto vel = player->GetVelocity() * player->GetOrient();
+	LuaTable v(l);
+	v.Set("x", vel.x);
+	v.Set("y", vel.y);
+	v.Set("z", vel.z);
+	return 1;
+}
+
 static int l_get_distance_to_zero_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -256,7 +274,8 @@ static int l_get_distance_to_zero_v(lua_State *l)
 		} else {
 			return 0;
 		}
-	}
+	} else
+		return 0;
 	lua_pushnumber(l, v*v/(2*a));
 	return 1;
 }
@@ -280,6 +299,8 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetCurrentDeltaV",    l_get_current_delta_v },
 		{ "GetRemainingDeltaV",  l_get_remaining_delta_v },
 		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
+		{ "GetFrame",            l_get_frame },
+		{ "GetOrientedVelocity", l_get_oriented_velocity },
 		{ 0, 0 }
 	};
 
