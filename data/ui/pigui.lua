@@ -8,6 +8,14 @@ local system
 local pigui = Engine.pigui
 
 local show_retrograde_indicators = false
+local show_nav_distance_with_marker = false
+local show_nav_distance_with_reticule = true
+local show_nav_speed_with_marker = false
+local show_nav_speed_with_reticule = true
+local show_frame_speed_with_marker = false
+local show_frame_speed_with_reticule = true
+
+
 local center
 local mission_selected
 local navball_center
@@ -19,7 +27,8 @@ local pi_2 = pi / 2
 local pi_4 = pi / 4
 
 local colors = {
-	 green = {r=0, g=255, b=0},
+	 darkgreen = {r=0, g=150, b=0},
+	 lightgreen = {r=0, g=255, b=0},
 	 deltav_total = {r=100,g=100,b=100,a=200},
 	 deltav_remaining = {r=250,g=250,b=250},
 	 deltav_current = {r=150,g=150,b=150},
@@ -248,6 +257,12 @@ local selected
 local function show_settings()
 	 pigui.Begin("Settings", {})
 	 show_retrograde_indicators = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
+	 show_nav_distance_with_marker = pigui.Checkbox("Show nav distance with nav target marker", show_nav_distance_with_marker);
+	 show_nav_distance_with_reticule = pigui.Checkbox("Show nav distance with reticule", show_nav_distance_with_reticule);
+	 show_nav_speed_with_marker = pigui.Checkbox("Show nav speed with nav target marker", show_nav_speed_with_marker);
+	 show_nav_speed_with_reticule = pigui.Checkbox("Show nav speed with reticule", show_nav_speed_with_reticule);
+	 show_frame_speed_with_marker = pigui.Checkbox("Show frame speed with frame prograde marker", show_frame_speed_with_marker);
+	 show_frame_speed_with_reticule = pigui.Checkbox("Show frame speed with reticule", show_frame_speed_with_reticule);
 	 pigui.End()
 end
 
@@ -345,6 +360,42 @@ pigui.handlers.HUD = function(delta)
 	 local size=8
 	 pigui.AddLine(center - Vector(size,0), center + Vector(size,0), colors.lightgrey, 3.0)
 	 pigui.AddLine(center - Vector(0,size), center + Vector(0,size), colors.lightgrey, 3.0)
+	 local navTarget = player:GetNavTarget()
+	 if navTarget then
+			if show_nav_distance_with_reticule then
+				 local distance = player:DistanceTo(navTarget)
+				 local dist,unit = MyFormat.Distance(distance)
+				 drawWithUnit(Vector(center.x + reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), dist, unit, colors.lightgreen)
+			end
+			if show_nav_speed_with_reticule then
+				 local speed = pigui.GetVelocity("nav_prograde")
+				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+				 drawWithUnit(Vector(center.x - reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), spd, unit .. "/s", colors.lightgreen, true)
+				 local brakeDist = player:GetDistanceToZeroV("nav", "prograde")
+				 pigui.PushFont("pionillium", 18)
+				 pigui.AddText(Vector(center.x - reticule_radius / 2 * 1.7 - 100, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
+				 pigui.PopFont()
+			end
+			-- target name
+			pigui.PushFont("pionillium", 18)
+			local leftTop = Vector(center.x + reticule_radius + 20, center.y - 10)
+			pigui.AddText(leftTop, colors.darkgreen, "Target")
+			pigui.PopFont()
+			leftTop = leftTop + Vector(-20,20)
+			pigui.PushFont("pionillium", 36)
+			pigui.AddText(leftTop, colors.lightgreen, navTarget.label)
+			pigui.PopFont()
+	 end
+	 if show_frame_speed_with_reticule then
+			local speed = pigui.GetVelocity("frame_prograde")
+			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+			drawWithUnit(Vector(center.x - reticule_radius - 20, center.y), spd, unit .. "/s", colors.lightgrey, true)
+			local brakeDist = player:GetDistanceToZeroV("frame", "prograde")
+			pigui.PushFont("pionillium", 18)
+			pigui.AddText(Vector(center.x - reticule_radius - 20 - 50, center.y + 20), colors.darkgrey, "~" .. Format.Distance(brakeDist))
+			pigui.PopFont()
+	 end
+
 	 -- ******************** Frame Prograde marker ********************
 	 local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
 	 local color = colors.lightgrey
@@ -363,13 +414,15 @@ pigui.handlers.HUD = function(delta)
 			local top = point + Vector(0,1) * size
 			local bottom = point + Vector(0,-1) * size
 			pigui.AddQuad(left, top, right, bottom, color, 3.0)
-			local speed = pigui.GetVelocity("frame_prograde")
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgrey)
-			local brakeDist = player:GetDistanceToZeroV("frame", "prograde")
-			pigui.PushFont("pionillium", 18)
-			pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-			pigui.PopFont()
+			if show_frame_speed_with_marker then
+				 local speed = pigui.GetVelocity("frame_prograde")
+				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgrey)
+				 local brakeDist = player:GetDistanceToZeroV("frame", "prograde")
+				 pigui.PushFont("pionillium", 18)
+				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
+				 pigui.PopFont()
+			end
 	 end
 	 -- ******************** Frame Retrograde marker ********************
 	 local pos,dir,point,side = markerPos("frame_retrograde", reticule_radius - 10)
@@ -391,17 +444,19 @@ pigui.handlers.HUD = function(delta)
 			local rightBottom = point + Vector(1,-1) * size
 			pigui.AddLine(leftTop, rightBottom, color, 3.0)
 			pigui.AddLine(leftBottom, rightTop, color, 3.0)
-			local speed = pigui.GetVelocity("frame_prograde")
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgrey)
-			local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
-			pigui.PushFont("pionillium", 18)
-			pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-			pigui.PopFont()
+			if show_frame_speed_with_marker then
+				 local speed = pigui.GetVelocity("frame_prograde")
+				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgrey)
+				 local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
+				 pigui.PushFont("pionillium", 18)
+				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
+				 pigui.PopFont()
+			end
 	 end
 	 -- ******************** NavTarget Prograde marker ********************
 	 local pos,dir,point,side = markerPos("nav_prograde", reticule_radius - 10)
-	 local color = colors.green
+	 local color = colors.lightgreen
 	 if pos then
 			local size = 4
 			local left = pos + Vector(-1,0) * size
@@ -417,17 +472,19 @@ pigui.handlers.HUD = function(delta)
 			local top = point + Vector(0,1) * size
 			local bottom = point + Vector(0,-1) * size
 			pigui.AddQuad(left, top, right, bottom, color, 3.0)
-			local speed = pigui.GetVelocity("nav_prograde")
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.green)
-			local brakeDist = player:GetDistanceToZeroV("nav", "prograde")
-			pigui.PushFont("pionillium", 18)
-			pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-			pigui.PopFont()
+			if show_nav_speed_with_marker then
+				 local speed = pigui.GetVelocity("nav_prograde")
+				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgreen)
+				 local brakeDist = player:GetDistanceToZeroV("nav", "prograde")
+				 pigui.PushFont("pionillium", 18)
+				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
+				 pigui.PopFont()
+			end
 	 end
 	 -- ******************** NavTarget Retrograde marker ********************
 	 local pos,dir,point,side = markerPos("nav_retrograde", reticule_radius - 10)
-	 local color = colors.green
+	 local color = colors.lightgreen
 	 if pos and show_retrograde_indicators then
 			local size = 3
 			local leftTop = pos + Vector(-1,1) * size
@@ -445,13 +502,15 @@ pigui.handlers.HUD = function(delta)
 			local rightBottom = point + Vector(1,-1) * size
 			pigui.AddLine(leftTop, rightBottom, color, 3.0)
 			pigui.AddLine(leftBottom, rightTop, color, 3.0)
-			local speed = pigui.GetVelocity("nav_prograde")
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.green)
-			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-			pigui.PushFont("pionillium", 18)
-			pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-			pigui.PopFont()
+			if show_nav_speed_with_marker then
+				 local speed = pigui.GetVelocity("nav_prograde")
+				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgreen)
+				 local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+				 pigui.PushFont("pionillium", 18)
+				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
+				 pigui.PopFont()
+			end
 	 end
 	 -- ******************** NavTarget marker ********************
 	 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
@@ -462,7 +521,7 @@ pigui.handlers.HUD = function(delta)
 			local top = dir * size * 2 + pos
 			pigui.AddTriangleFilled(left, right, top, colors.lightgrey)
 	 end
-	 local color = colors.green
+	 local color = colors.lightgreen
 	 if side == "onscreen" and point then
 			local size = 16
 			local leftTop = point + Vector(-1,1) * size
@@ -470,15 +529,17 @@ pigui.handlers.HUD = function(delta)
 			local leftBottom = point + Vector(-1,-1) * size
 			local rightBottom = point + Vector(1,-1) * size
 			pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, color, 3.0)
-			local distance = player:DistanceTo(player:GetNavTarget())
-			local dist,unit = MyFormat.Distance(distance)
-			drawWithUnit(Vector(point.x + size + 5, point.y), dist, unit, colors.green)
-			local mp = pigui.GetMousePos()
-			if (Vector(mp.x,mp.y) - point):magnitude() < 15 then
-				 pigui.SetTooltip("Nav target\nThis shows the current navigational target")
+			if show_nav_distance_with_marker then
+				 local distance = player:DistanceTo(player:GetNavTarget())
+				 local dist,unit = MyFormat.Distance(distance)
+				 drawWithUnit(Vector(point.x + size + 5, point.y), dist, unit, colors.lightgreen)
+				 local mp = pigui.GetMousePos()
+				 if (Vector(mp.x,mp.y) - point):magnitude() < 15 then
+						pigui.SetTooltip("Nav target\nThis shows the current navigational target")
+				 end
 			end
 	 end
-	 -- ******************** Frame marker ********************
+	 -- ******************** Frame indicator ********************
 	 local pos,dir = markerPos("frame", reticule_radius + 5)
 	 if pos then
 			local size = 6
