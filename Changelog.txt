@@ -13,6 +13,7 @@ August 2016
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
      * Restore Starfield colourisation (#3774)
+     * Animated city buildings, instancing improvement (#3777)
 
 July 2016
    * New Features
