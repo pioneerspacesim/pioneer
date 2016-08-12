@@ -192,6 +192,7 @@ void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 	for (auto m = models.begin(), itEnd = models.end(); m != itEnd; ++m, i++) {
 		list->buildings[i].instIndex = i;
 		list->buildings[i].resolvedModel = *m;
+		list->buildings[i].idle = (*m)->FindAnimation("idle");
 		list->buildings[i].collMesh = (*m)->CreateCollisionMesh();
 		const Aabb &aabb = list->buildings[i].collMesh->GetAabb();
 		const double maxx = std::max(fabs(aabb.max.x), fabs(aabb.min.x));
@@ -379,6 +380,15 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 		}
 	}
 
+	// update any idle animations
+	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
+		SceneGraph::Animation *pAnim = s_buildingList.buildings[i].idle;
+		if(pAnim) {
+			pAnim->SetProgress(fmod(pAnim->GetProgress() + (Pi::game->GetTimeStep() / pAnim->GetDuration()), 1.0));
+			pAnim->Interpolate();
+		}
+	}
+	
 	Uint32 uCount = 0;
 	std::vector<Uint32> instCount;
 	std::vector< std::vector<matrix4x4f> > transform;
@@ -408,7 +418,10 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 	
 	// render the building models using instancing
 	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-		s_buildingList.buildings[i].resolvedModel->Render(transform[i]);
+		SceneGraph::Model *pModel = s_buildingList.buildings[i].resolvedModel;
+		for(size_t wtf = 0; wtf<transform[i].size(); wtf++) {
+			pModel->Render(transform[i][wtf]);
+		}
 	}
 
 	r->GetStats().AddToStatCount(Graphics::Stats::STAT_BUILDINGS, uCount);
