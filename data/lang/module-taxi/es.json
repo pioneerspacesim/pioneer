@@ -565,7 +565,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Establecer como objetivo de navegación"
    },
    "TAXI" : {
       "description" : "",
