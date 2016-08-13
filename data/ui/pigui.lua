@@ -106,7 +106,8 @@ do
 	 end
 
 	 function meta:normalized()
-			return Vector(self / math.abs(self.magnitude()))
+			local len = math.abs(self:magnitude())
+			return Vector(self.x / len, self.y / len)
 	 end
 
 	 function meta:left()
@@ -420,6 +421,8 @@ pigui.handlers.HUD = function(delta)
 	 -- ******************** Reticule ********************
 	 pigui.AddCircleFilled(center, 2, colors.lightgrey, 8)
 	 pigui.AddCircle(center, reticule_radius, colors.lightgrey, 128, 2.0)
+	 pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:left()):normalized() * size / 1.7, colors.lightgrey, 1.5)
+	 pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:right()):normalized() * size / 1.7, colors.lightgrey, 1.5)
 	 local navTarget = player:GetNavTarget()
 	 if navTarget then
 			-- target name
