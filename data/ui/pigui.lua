@@ -386,6 +386,7 @@ pigui.handlers.HUD = function(delta)
 	 -- ******************** Ship Directional Markers ********************
 	 local size=8
 	 local side, dir, pos = pigui.GetHUDMarker("forward")
+	 local dir_fwd = Vector(dir.x, dir.y)
 	 if side == "onscreen" then
 			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), colors.lightgrey, 3.0)
 			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), colors.lightgrey, 3.0)
@@ -407,13 +408,13 @@ pigui.handlers.HUD = function(delta)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("up")
 	 if side == "onscreen" then
-			pigui.AddLine(pos + Vector(0,0), pos + Vector(0,-size), colors.lightgrey, 3.0)
-			pigui.AddLine(pos + Vector(-size, 0), pos + Vector(size,0), colors.lightgrey, 3.0)
+			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
+			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("down")
 	 if side == "onscreen" then
-			pigui.AddLine(pos + Vector(0,0), pos + Vector(0,size), colors.lightgrey, 3.0)
-			pigui.AddLine(pos + Vector(-size, 0), pos + Vector(size,0), colors.lightgrey, 3.0)
+			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
+			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
 	 end
 
 	 -- ******************** Reticule ********************
