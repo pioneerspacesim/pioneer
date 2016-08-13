@@ -2,10 +2,10 @@ August 2016
    * New Features
      * F3 and F4 Toggles between worldview and their thing (#3765)
      * Navbutton added to mission screens (#3736)
-     * Fix crash in by Search & Rescue missions (#3770)
      * Add a TCP Lua console (#3768)
 
    * Fixes
+     * Fix crash in by Search & Rescue missions (#3770)
      * NaN in your numbers (#3772)
      * Fix hyperspace star streaks (#3773)
      * prefix std:: to isnan so it builds on Linux (#3775)
