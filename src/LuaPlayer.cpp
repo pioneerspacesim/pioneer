@@ -248,6 +248,25 @@ static int l_get_oriented_velocity(lua_State *l)
 	return 1;
 }
 
+static int l_get_orbit(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto orbit = player->ComputeOrbit();
+	lua_pushnumber(l, orbit.GetEccentricity());
+	lua_pushnumber(l, orbit.GetSemiMajorAxis());
+	auto aa = orbit.Apogeum();
+	LuaTable apoapsis(l);
+	apoapsis.Set("x", aa.x);
+	apoapsis.Set("y", aa.y);
+	apoapsis.Set("z", aa.z);
+	auto pa = orbit.Perigeum();
+	LuaTable periapsis(l);
+	periapsis.Set("x", pa.x);
+	periapsis.Set("y", pa.x);
+	periapsis.Set("z", pa.x);
+	return 4;
+}
+
 static int l_get_distance_to_zero_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -301,6 +320,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
 		{ "GetFrame",            l_get_frame },
 		{ "GetOrientedVelocity", l_get_oriented_velocity },
+		{ "GetOrbit",            l_get_orbit },
 		{ 0, 0 }
 	};
 

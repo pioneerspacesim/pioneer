@@ -371,6 +371,18 @@ local function show_navball()
 	 --	 drawWithUnit(navball_center + Vector(- navball_radius * 1.25, - navball_radius / 2), spd, unit .. "/s", colors.lightgrey, true)
 	 local spd,unit = MyFormat.Distance(deltav_remaining)
 	 drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 0), spd, unit .. "/s", colors.lightgrey, true, "Δv")
+	 pigui.AddText(navball_center + Vector(- navball_radius * 1.5 - 100, 20), colors.lightgrey, math.floor(dvr*100) .. "%")
+end
+
+local function show_orbit()
+	 	 local eccentricity, semimajoraxis, apoapsis, periapsis = player:GetOrbit()
+	 pigui.Begin("Orbit", {})
+	 pigui.Text("Eccentricity: " .. eccentricity)
+	 pigui.Text("Semi-Major Axis: " .. semimajoraxis)
+	 pigui.Text("Apoapsis: " .. apoapsis.x .. "," .. apoapsis.y .. "," .. apoapsis.z)
+	 pigui.Text("Periapsis: " .. periapsis.x .. "," .. periapsis.y .. "," .. periapsis.z)
+	 pigui.End()
+
 end
 
 pigui.handlers.HUD = function(delta)
@@ -614,14 +626,14 @@ pigui.handlers.HUD = function(delta)
 			local leftBottom = point + Vector(-1,-1) * size
 			local rightBottom = point + Vector(1,-1) * size
 			pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, color, 3.0)
+			local mp = pigui.GetMousePos()
+			if (Vector(mp.x,mp.y) - point):magnitude() < 30 then
+				 pigui.SetTooltip("Nav target\nThis shows the current navigational target")
+			end
 			if show_nav_distance_with_marker then
 				 local distance = player:DistanceTo(player:GetNavTarget())
 				 local dist,unit = MyFormat.Distance(distance)
 				 drawWithUnit(Vector(point.x + size + 5, point.y), dist, unit, colors.lightgreen)
-				 local mp = pigui.GetMousePos()
-				 if (Vector(mp.x,mp.y) - point):magnitude() < 15 then
-						pigui.SetTooltip("Nav target\nThis shows the current navigational target")
-				 end
 			end
 	 end
 	 -- ******************** Frame indicator ********************
@@ -649,6 +661,7 @@ pigui.handlers.HUD = function(delta)
 				 end
 			end
 	 end
+	 -- ******************** directional spaceship markers ********************
 	 do
 			local vel = player:GetOrientedVelocity()
 			local max = math.max(math.abs(vel.x),(math.max(math.abs(vel.y), math.abs(vel.z))))
@@ -675,7 +688,8 @@ pigui.handlers.HUD = function(delta)
 	 pigui.End()
 	 pigui.PopStyleColor(1);
 
-
+	 -- show_orbit()
+	 
 	 -- ******************** Navigation Window ********************
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
@@ -706,7 +720,7 @@ pigui.handlers.HUD = function(delta)
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 
-	 show_settings()
+--	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
-	 show_missions()
+--	 show_missions()
 end
