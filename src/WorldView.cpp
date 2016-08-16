@@ -582,14 +582,15 @@ void WorldView::RefreshHyperspaceButton() {
 
 	SystemPath target = m_game->GetSectorView()->GetHyperspaceTarget();
 	if (LuaObject<Ship>::CallMethod<bool>(Pi::player, "CanHyperjumpTo", &target)){
-
+//		std::cout << "ONE" << std::endl;
 		if(Pi::player->GetFlightState() == Ship::FLYING || Pi::player->GetFlightState() == Ship::JUMPING)
 		{
+//			std::cout << "TWO" << std::endl;
 			// leave the "disabled" state if not landed:
 			if(m_hyperspaceButton->GetState() == 0)
 				m_hyperspaceButton->StateNext();
 
-			if(!Pi::player->IsHyperspaceAllowed()){
+			if(!LuaObject<Ship>::CallMethod<bool>(Pi::player, "IsHyperjumpAllowed")){
 				// If crossing boundary from above
 				if(3 <= m_hyperspaceButton->GetState()){
 					m_hyperspaceButton->StatePrev();
