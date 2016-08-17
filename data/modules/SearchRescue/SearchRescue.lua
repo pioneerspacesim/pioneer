@@ -841,8 +841,6 @@ local isEnabled = function (ref)
 	return true
 end
 
---local nearbysystems
-
 local findNearbyStations = function (vacuum, body)
 	-- Return a list with stations within this system sorted by distance from supplied body (ascending). If vacuum is set to true
 	-- then only return orbital stations
@@ -871,51 +869,46 @@ local findNearbyStations = function (vacuum, body)
 	for _,data in ipairs(nearbystations_dist) do
 		table.insert(nearbystations, data[1].path)
 	end
+
 	return nearbystations
 end
 
-local findNearbyPlanets = function (station)
-	-- Return list of all rocky planets in the system (excluding any planets with stations), sorted by
-	-- distance from the station.
+local findClosestPlanets = function ()
+	-- Return dictionary of stations with the corresponding rocky planets they are closer
+	-- to than any other station. Planets with a station are excluded.
 
-	-- get rocky planets (except the one the station is on)
-	local nearbyplanets_raw = {}
+	-- get rocky planets
+	local rockyplanets = {}
 	for _,path in pairs(Game.system:GetBodyPaths()) do
 		local sbody = path:GetSystemBody()
 		if sbody.superType == "ROCKY_PLANET" then
-			if sbody ~= station.path:GetSystemBody().parent then
-				table.insert(nearbyplanets_raw, Space.GetBody(sbody.index))
-			end
+			table.insert(rockyplanets, Space.GetBody(sbody.index))
 		end
 	end
 
 	-- get planets with stations and remove from planet list
-	local stations = Space.GetBodies(function (body)
-			return body.type == 'STARPORT_SURFACE' end)
-	for _,station in pairs(stations) do
-		for i=#nearbyplanets_raw, 1, -1 do
-			if nearbyplanets_raw[i] == Space.GetBody(station.path:GetSystemBody().parent.index) then
-				table.remove(nearbyplanets_raw, i)
+	local ground_stations = Space.GetBodies(function (body) return body.type == 'STARPORT_SURFACE' end)
+	for _,ground_station in pairs(ground_stations) do
+		for i=#rockyplanets, 1, -1 do
+			if rockyplanets[i] == Space.GetBody(ground_station.path:GetSystemBody().parent.index) then
+				table.remove(rockyplanets, i)
 				break
 			end
 		end
 	end
 
-	-- determine distance to player station
-	local nearbyplanets_dist = {}
-	for _,planet in pairs(nearbyplanets_raw) do
-		local dist = station:DistanceTo(planet)
-		table.insert(nearbyplanets_dist, {planet, dist})
+	-- create dictionary of stations
+	local closestplanets = {}
+	local stations = Space.GetBodies(function (body) return body.superType == 'STARPORT' end)
+	for _,station in pairs(stations) do closestplanets[station] = {} end
+
+	-- pick closest planets to stations
+	for _,planet in pairs(rockyplanets) do
+		nearest_station = planet:FindNearestTo("SPACESTATION")
+		table.insert(closestplanets[nearest_station], planet.path)
 	end
 
-	-- sort planets by distance to station (ascending)
-	local nearbyplanets = {}
-	table.sort(nearbyplanets_dist, function (a,b) return a[2] < b[2] end)
-	for _,data in ipairs(nearbyplanets_dist) do
-		table.insert(nearbyplanets, data[1].path)
-	end
-
-	return nearbyplanets
+	return closestplanets
 end
 
 local findNearbySystems = function (with_stations)
@@ -1018,11 +1011,11 @@ local discardShip = function (ship)
 	end
 end
 
-local makeAdvert = function (station, manualFlavour)
+local makeAdvert = function (station, manualFlavour, closestplanets)
+	-- Make a single advertisement for the bulletin board of the supplied station.
 	local due, dist, client, entity, problem, location
 	local lat = 0
 	local long = 0
-	-- Make advertisement for bulletin board.
 
 	-- set flavour (manually if a second arg is given)
 	local flavour = flavours[manualFlavour] or flavours[Engine.rand:Integer(1,#flavours)]
@@ -1049,14 +1042,22 @@ local makeAdvert = function (station, manualFlavour)
 		due = Game.time + 60 * 60 * Engine.rand:Number(2,24)        --TODO: adjust due date based on urgency
 
 	elseif flavour.loctype == "MEDIUM_PLANET" then
-		local nearbyplanets = findNearbyPlanets(station)
-		if #nearbyplanets == 0 then return nil end
 		station_target = nil
-		planet_target = nearbyplanets[Engine.rand:Integer(1,#nearbyplanets)]
+
+		-- pick an uninhabited, rocky planet this station is closer to than any other station
+		if not closestplanets then closestplanets = findClosestPlanets() end
+		if #closestplanets[station] == 0 then
+			return nil
+		elseif #closestplanets[station] == 1 then
+			planet_target = closestplanets[station][1]
+		else
+			planet_target = closestplanets[station][Engine.rand:Integer(1,#closestplanets[station])]
+		end
+
 		system_target = system_local
 		location = planet_target
 		lat, long, dist = randomLatLong()
-		dist = Space.GetBody(planet_local.bodyIndex):DistanceTo(Space.GetBody(planet_target.bodyIndex))  -- overriding empty dist from randomLatLong()
+		dist = station:DistanceTo(Space.GetBody(planet_target.bodyIndex))  --overwrite empty dist from randomLatLong()
 		due = Game.time + (mToAU(dist) * 4) * Engine.rand:Integer(20,24) * 60 * 60     -- TODO: adjust due date based on urgency
 
 	elseif flavour.loctype == "CLOSE_SPACE" then
@@ -1769,20 +1770,24 @@ local onShipUndocked = function (ship, station)
 end
 
 local onCreateBB = function (station)
+	-- Initial creation of banter boards for current system.
 
-	-- force ad creation for debugging
+	-- more efficient to determine closest planets per station once per banter board creation
+	closestplanets = findClosestPlanets()
+
+	-- -- force ad creation for debugging
 	-- local num = 3
 	-- for _ = 1,num do
-	--    makeAdvert(station, 1)
-	--    makeAdvert(station, 2)
-	--    makeAdvert(station, 3)
-	--    makeAdvert(station, 4)
-	--    makeAdvert(station, 5)
-	--    makeAdvert(station, 6)
-	--    makeAdvert(station, 7)
+	--    makeAdvert(station, 1, closestplanets)
+	--    makeAdvert(station, 2, closestplanets)
+	--    makeAdvert(station, 3, closestplanets)
+	--    makeAdvert(station, 4, closestplanets)
+	--    makeAdvert(station, 5, closestplanets)
+	--    makeAdvert(station, 6, closestplanets)
+	--    makeAdvert(station, 7, closestplanets)
 	-- end
 
-	if triggerAdCreation() then makeAdvert(station, nil) end
+	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
 end
 
 local onUpdateBB = function (station)
@@ -1812,7 +1817,7 @@ local onUpdateBB = function (station)
 	end
 
 	-- trigger new ad creation if appropriate
-	if triggerAdCreation() then makeAdvert(station, nil) end
+	if triggerAdCreation() then makeAdvert(station, nil, nil) end
 end
 
 local onEnterSystem = function (player)
