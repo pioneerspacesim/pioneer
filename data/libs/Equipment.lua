@@ -295,7 +295,8 @@ HyperdriveType.HyperjumpTo = function (self, ship, destination)
 		return "INSUFFICIENT_FUEL"
 	end
 	ship:setprop('nextJumpFuelUse', fuel_use)
-	return ship:InitiateHyperjumpTo(destination, self.capabilities.hyperclass, duration), fuel_use, duration
+	local warmup_time = 5 + self.capabilities.hyperclass*1.5
+	return ship:InitiateHyperjumpTo(destination, warmup_time, duration), fuel_use, duration
 end
 
 HyperdriveType.OnEnterHyperspace = function (self, ship)
