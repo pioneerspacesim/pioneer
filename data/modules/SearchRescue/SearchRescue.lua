@@ -57,7 +57,7 @@ local far_space_orbit_dist = 100000  -- orbital distance around planet for "FAR_
 local min_interaction_dist = 50      -- min distance for successful interaction with target [meters]
 local target_interaction_time = 10   -- target interaction time to load/unload one unit of cargo/person [sec]
 local max_pass = 2                   -- max number of passengers on target ship (high max: 10)
-local max_crew = 4                   -- max number of crew on target ship (high max: 8)
+local max_crew = 8                   -- max number of crew on target ship (high max: 8)
 local reward_close = 200             -- basic reward for "CLOSE" mission (+/- random half of that)
 local reward_medium = 1000           -- basic reward for "MEDIUM" mission (+/- random half of that)
 local reward_far = 2000              -- basic reward for "FAR" mission (+/- random half of that)
@@ -537,7 +537,7 @@ local calcReward = function (flavour)
 	return reward
 end
 
-local createTargetShipParameters = function (flavour, deliver_crew, pickup_crew, pickup_pass)
+local createTargetShipParameters = function (flavour)
 	-- Create the basic parameters for the target ship. It is important to set these before ad creation
 	-- so certain info can be included in the ad text. The actual ship is created once the mission has
 	-- been accepted.
@@ -558,22 +558,32 @@ local createTargetShipParameters = function (flavour, deliver_crew, pickup_crew,
 		end
 	end
 	----> crew quarters for crew delivery missions
-	if deliver_crew > 0 then
+	if flavour.id == 7 then
 		for i,shipdef in pairs(shipdefs) do
-			if shipdef.maxCrew <= deliver_crew+1 then shipdefs[i] = nil end
+			if shipdef.maxCrew < 2 or shipdef.minCrew < 2 then shipdefs[i] = nil end
+		end
+	elseif flavour.deliver_crew > 0 then
+		for i,shipdef in pairs(shipdefs) do
+			if shipdef.maxCrew <= flavour.deliver_crew+1 then shipdefs[i] = nil end
 		end
 	end
 	----> crew quarters for crew pickup missions
-	if pickup_crew > 0 then
+	if flavour.pickup_crew > 0 then
 		for i,shipdef in pairs(shipdefs) do
-			if shipdef.maxCrew < pickup_crew then shipdefs[i] = nil end
+			if shipdef.maxCrew < flavour.pickup_crew then shipdefs[i] = nil end
 		end
 	end
 	----> cargo space for passenger pickup missions
-	----  (this is just an estimate to make sure enough space remains after loading drive, weapons etc.
-	if pickup_pass > 0 then
+	---- (this is just an estimate to make sure enough space remains after
+	---- loading drive, weapons etc.
+	if flavour.id == 1 or flavour.id == 6 then
 		for i,shipdef in pairs(shipdefs) do
-			if shipdef.capacity * 10 < pickup_pass then shipdefs[i] = nil end
+			print("capacity per ship: "..shipdef.name..shipdef.capacity)
+			if shipdef.capacity * 10 < 1 then shipdefs[i] = nil end
+		end
+	elseif flavour.pickup_pass > 0 then
+		for i,shipdef in pairs(shipdefs) do
+			if shipdef.capacity * 10 < flavour.pickup_pass then shipdefs[i] = nil end
 		end
 	end
 
@@ -585,19 +595,40 @@ local createTargetShipParameters = function (flavour, deliver_crew, pickup_crew,
 	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
 
 	-- number of crew
-	local crew_num
-	if pickup_crew > 0 then
+	local crew_num, pickup_crew, deliver_crew
+	if flavour.id == 1 or flavour.id == 6 then
+		crew_num = Engine.rand:Integer(shipdef.minCrew,shipdef.maxCrew)
+		pickup_crew = crew_num
+		deliver_crew = flavour.deliver_crew
+	elseif flavour.id == 7 then
+		if shipdef.maxCrew == 2 then
+			crew_num = 1
+		else
+			crew_num = Engine.rand:Integer(1,shipdef.minCrew-1)
+		end
+		pickup_crew = flavour.pickup_crew
+		deliver_crew = shipdef.minCrew - crew_num
+	elseif pickup_crew > 0 then
 		crew_num = pickup_crew
 	else
 		crew_num = Engine.rand:Integer(shipdef.minCrew,shipdef.maxCrew)
 		crew_num = crew_num - flavour.deliver_crew
-		if crew_num <= 0 then crew_num = 1 end
+		pickup_crew = flavour.pickup_crew
+		deliver_crew = flavour.deliver_crew
+	end
+
+	-- determine passengers
+	local pickup_pass
+	if flavour.id == 1 or flavour.id == 6 then
+		pickup_pass = Engine.rand:Integer(1, min(shipdef.capacity * 10, max_pass))
+	else
+		pickup_pass = flavour.pickup_pass
 	end
 
 	-- label
 	local shiplabel = Ship.MakeRandomLabel()
 
-	return shipdef, crew_num, shiplabel
+	return shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew
 end
 
 local createTargetShip = function (mission)
@@ -658,7 +689,7 @@ local createTargetShip = function (mission)
 end
 
 local onChat = function (form, ref, option)
-	-- Ad has been clicked on in banter board.
+	-- Show ad on the banter board.
 	local ad = ads[ref]
 	form:Clear()
 
@@ -680,7 +711,7 @@ local onChat = function (form, ref, option)
 
 	form:AddNavButton(ad.planet_target)
 
-	if option == 0 then
+	if option == 0 then  -- repeat original request
 		local introtext = string.interp(ad.flavour.introtext, {
 			                                name         = ad.client.name,
 			                                entity       = ad.entity,
@@ -689,11 +720,12 @@ local onChat = function (form, ref, option)
 			                                ship         = ad.shipdef_name,
 			                                starport     = ad.station_local:GetSystemBody().name,
 			                                shiplabel    = ad.shiplabel,
-			                                planet       = ad.planet_target:GetSystemBody().name
+			                                planet       = ad.planet_target:GetSystemBody().name,
+			                                crew         = ad.crew_num,
 		})
 		form:SetMessage(introtext)
 
-	elseif option == 1 then
+	elseif option == 1 then  -- where is the target
 
 		local dist
 		if ad.flavour.loctype == "CLOSE_PLANET" or ad.flavour.loctype == "CLOSE_SPACE" then
@@ -716,7 +748,7 @@ local onChat = function (form, ref, option)
 		})
 		form:SetMessage(locationtext)
 
-	elseif option == 2 then
+	elseif option == 2 then  -- type of help needed
 		local typeofhelptext = string.interp(ad.flavour.typeofhelptext, {
 			                                     starport     = ad.station_local:GetSystemBody().name,
 			                                     crew         = ad.crew_num,
@@ -725,11 +757,11 @@ local onChat = function (form, ref, option)
 		})
 		form:SetMessage(typeofhelptext)
 
-	elseif option == 3 then
+	elseif option == 3 then  -- how much time
 		local howmuchtimetext = string.interp(ad.flavour.howmuchtimetext, {due = Format.Date(ad.due)})
 		form:SetMessage(howmuchtimetext)
 
-	elseif option == 5 then
+	elseif option == 5 then  -- agree to mission
 
 		-- TODO: work out a better system for equipment qualification check (add cargo space check + reputation)
 		local qualified = isQualifiedFor(ad)
@@ -980,9 +1012,17 @@ local flyToNearbyStation =  function (ship)
 	else
 		local with_stations = true
 		nearbysystems = findNearbySystems(with_stations)
+
+		-- blast off ship if LANDED, otherwise hyp away directly
 		if #nearbysystems > 0 then
-			ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR"))
-			Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1]) end)
+			if ship.flightState == "LANDED" then
+				ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindeNearestTo("STAR"))
+			end
+			Timer:CallAt(Game.time + 5, function ()
+				             --debug
+				             starsystem = nearbysystems[1]:GetStarSystem()
+				             print("Jumping to: "..starsystem.name)
+				             ship.HyperjumpTo(nearbysystems[1]) end)
 		else
 			return
 		end
@@ -1083,23 +1123,30 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	-- determine pickup and deliver of items/personnel based on flavour
 	-- appropriate target ship size will be selected later based on this
 	local pickup_crew, pickup_pass, pickup_comm, deliver_crew, deliver_pass, deliver_comm
-	if flavour.id == 1 or flavour.id == 6 then
-		pickup_crew  = Engine.rand:Integer(1, max_crew)
-		pickup_pass  = Engine.rand:Integer(0, max_pass)
-	else
-		pickup_crew  = flavour.pickup_crew
-		pickup_pass  = flavour.pickup_pass
-	end
+	-- debug
+	-- if flavour.id == 1 or flavour.id == 6 then
+	-- 	pickup_crew  = Engine.rand:Integer(1, max_crew)
+	-- 	pickup_pass  = Engine.rand:Integer(0, max_pass)
+	-- else
+	-- 	pickup_crew  = flavour.pickup_crew
+	-- 	pickup_pass  = flavour.pickup_pass
+	-- end
 
-	if flavour.id == 7 then
-		deliver_crew = Engine.rand:Integer(1, max_crew-1)
-	else
-		deliver_crew = flavour.deliver_crew
-	end
+	-- if flavour.id == 7 then
+	-- 	deliver_crew = Engine.rand:Integer(1, max_crew-1)
+	-- else
+	-- 	deliver_crew = flavour.deliver_crew
+	-- end
 
 	deliver_pass = flavour.deliver_pass
 	pickup_comm = copyTable(flavour.pickup_comm)
 	deliver_comm = copyTable(flavour.deliver_comm)
+
+	-- set target ship parameters
+	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew = createTargetShipParameters(flavour, deliver_crew, pickup_crew, pickup_pass)
+
+	-- terminate ad creation if no suitable target ship could be created
+	if not shipdef then return nil end
 
 	-- collect possible local localities for interesting ad texts
 	local localities_local = {system_local:GetStarSystem().name}
@@ -1152,9 +1199,6 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		client = getAircontrolChar(station)
 	end
 
-	-- set target ship parameters
-	local shipdef, crew_num, shiplabel = createTargetShipParameters(flavour, deliver_crew, pickup_crew, pickup_pass)
-
 	local ad = {
 		location       = location,
 		station_local  = station_local,
@@ -1163,13 +1207,13 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		station_target = station_target,
 		planet_target  = planet_target,
 		system_target  = system_target,
-		flavour	     = flavour,
-		client	     = client,
+		flavour	       = flavour,
+		client	       = client,
 		entity         = entity,
 		problem        = problem,
 		dist           = dist,
-		due	     = due,
-		urgency	     = urgency,
+		due	       = due,
+		urgency	       = urgency,
 		reward         = reward,
 		shipdef_name   = shipdef.name, -- saving the actual shipdef causes crash at serialization (ship undock)
 		crew_num       = crew_num,
@@ -1775,17 +1819,17 @@ local onCreateBB = function (station)
 	-- more efficient to determine closest planets per station once per banter board creation
 	closestplanets = findClosestPlanets()
 
-	-- -- force ad creation for debugging
-	-- local num = 3
-	-- for _ = 1,num do
-	--    makeAdvert(station, 1, closestplanets)
-	--    makeAdvert(station, 2, closestplanets)
-	--    makeAdvert(station, 3, closestplanets)
-	--    makeAdvert(station, 4, closestplanets)
-	--    makeAdvert(station, 5, closestplanets)
-	--    makeAdvert(station, 6, closestplanets)
-	--    makeAdvert(station, 7, closestplanets)
-	-- end
+	-- force ad creation for debugging
+	local num = 10
+	for _ = 1,num do
+	   -- makeAdvert(station, 1, closestplanets)
+	   -- makeAdvert(station, 2, closestplanets)
+	   -- makeAdvert(station, 3, closestplanets)
+	   -- makeAdvert(station, 4, closestplanets)
+	   -- makeAdvert(station, 5, closestplanets)
+	   -- makeAdvert(station, 6, closestplanets)
+	   makeAdvert(station, 7, closestplanets)
+	end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
 end
@@ -1919,6 +1963,7 @@ local onGameStart = function ()
 end
 
 local onClick = function (mission)
+	-- Show mission details on the mission info screen once accepted.
 	local dist = Game.system and string.format("%.2f", Game.system:DistanceTo(mission.system_target:GetStarSystem())) or "???"
 
 	local dist_for_text
