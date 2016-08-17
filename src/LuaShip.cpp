@@ -520,7 +520,10 @@ static int l_ship_use_ecm(lua_State *l)
 /*
  * Method: InitiateHyperjumpTo
  *
- *   Ready the ship to jump to the given system.
+ *   Ready the ship to jump to the given system. This does not perform
+ *   any check regarding hyperdrive class, range, fuel. Nor does it
+ *   respect minimum legal distance for hyperjump. For those features use
+ *   <Ship.HyperjumpTo> instead.
  *
  * > status = ship:InitiateHyperjumpTo(path, warmup, duration, checks)
  *

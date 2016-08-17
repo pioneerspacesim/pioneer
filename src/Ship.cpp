@@ -1240,6 +1240,11 @@ void Ship::StaticUpdate(const float timeStep)
 				m_hyperspace.countdown = 0;
 				m_hyperspace.now = true;
 				SetFlightState(JUMPING);
+
+				// We have to fire it here, because the event isn't actually fired until
+				// after the whole physics update, which means the flight state on next
+				// step would be HYPERSPACE, thus breaking quite a few things.
+				LuaEvent::Queue("onLeaveSystem", this);
 			}
 		}
 	}
@@ -1364,6 +1369,7 @@ bool Ship::SpawnCargo(CargoBody * c_body) const
 void Ship::EnterHyperspace() {
 	assert(GetFlightState() != Ship::HYPERSPACE);
 
+	// Is it still a good idea, with the onLeaveSystem moved elsewhere?
 	Ship::HyperjumpStatus status = CheckHyperjumpCapability();
 	if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
 		if (m_flightState == JUMPING)
@@ -1373,8 +1379,6 @@ void Ship::EnterHyperspace() {
 
 	// Clear ships cached list of nearby bodies so we don't try to access them.
 	m_nearbyBodies.clear();
-
-	LuaEvent::Queue("onLeaveSystem", this);
 
 	SetFlightState(Ship::HYPERSPACE);
 
