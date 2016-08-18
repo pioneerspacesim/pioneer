@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Zasięg w nadprzestrzeni"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Reckless hyperjump registered"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Odczuwam zmęczenie pracując za darmo. Czy Ty wiesz co to kontrakt?"
