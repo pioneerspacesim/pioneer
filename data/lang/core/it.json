@@ -561,7 +561,7 @@
    },
    "HYPERSPACE_JUMP_DISABLED" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive disabled"
+      "message" : "Iperguida disabilitata"
    },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
@@ -569,7 +569,7 @@
    },
    "HYPERSPACE_JUMP_FORBIDDEN" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Hyperdrive forbidden zone"
+      "message" : "Iperguida: Zona vietata"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
