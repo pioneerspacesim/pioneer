@@ -51,7 +51,8 @@ local ui = Engine.ui
 
 -- basic variables for mission creation
 local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
-local max_close_dist = 5000          -- max distance for "CLOSE_PLANET" target location [km]
+--debug
+local max_close_dist = 100          -- max distance for "CLOSE_PLANET" target location [km]
 local max_close_space_dist = 10000   -- max distance for "CLOSE_SPACE" target location [km]
 local far_space_orbit_dist = 100000  -- orbital distance around planet for "FAR_SPACE" target location [km]
 local min_interaction_dist = 50      -- min distance for successful interaction with target [meters]
@@ -678,8 +679,6 @@ local onChat = function (form, ref, option)
 	--      return
 	--   end
 
-	form:AddNavButton(ad.planet_target)
-
 	if option == 0 then
 		local introtext = string.interp(ad.flavour.introtext, {
 			                                name         = ad.client.name,
@@ -821,6 +820,7 @@ local onChat = function (form, ref, option)
 
 		form:SetMessage(l.THANK_YOU_ACCEPTANCE_TXT)
 		addMission(mission)
+		form:AddNavButton(mission.target)
 		return
 	end
 
@@ -1775,17 +1775,17 @@ local onCreateBB = function (station)
 	-- more efficient to determine closest planets per station once per banter board creation
 	closestplanets = findClosestPlanets()
 
-	-- -- force ad creation for debugging
-	-- local num = 3
-	-- for _ = 1,num do
-	--    makeAdvert(station, 1, closestplanets)
-	--    makeAdvert(station, 2, closestplanets)
-	--    makeAdvert(station, 3, closestplanets)
-	--    makeAdvert(station, 4, closestplanets)
-	--    makeAdvert(station, 5, closestplanets)
-	--    makeAdvert(station, 6, closestplanets)
-	--    makeAdvert(station, 7, closestplanets)
-	-- end
+	-- force ad creation for debugging
+	local num = 3
+	for _ = 1,num do
+	   makeAdvert(station, 1, closestplanets)
+	   makeAdvert(station, 2, closestplanets)
+	   makeAdvert(station, 3, closestplanets)
+	   makeAdvert(station, 4, closestplanets)
+	   makeAdvert(station, 5, closestplanets)
+	   makeAdvert(station, 6, closestplanets)
+	   makeAdvert(station, 7, closestplanets)
+	end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
 end
