@@ -51,7 +51,8 @@ local ui = Engine.ui
 
 -- basic variables for mission creation
 local max_mission_dist = 30          -- max distance for long distance mission target location [ly]
-local max_close_dist = 5000          -- max distance for "CLOSE_PLANET" target location [km]
+--debug
+local max_close_dist = 10          -- max distance for "CLOSE_PLANET" target location [km]
 local max_close_space_dist = 10000   -- max distance for "CLOSE_SPACE" target location [km]
 local far_space_orbit_dist = 100000  -- orbital distance around planet for "FAR_SPACE" target location [km]
 local min_interaction_dist = 50      -- min distance for successful interaction with target [meters]
@@ -608,7 +609,7 @@ local createTargetShipParameters = function (flavour)
 		end
 		pickup_crew = flavour.pickup_crew
 		deliver_crew = shipdef.minCrew - crew_num
-	elseif pickup_crew > 0 then
+	elseif flavour.pickup_crew > 0 then
 		crew_num = pickup_crew
 	else
 		crew_num = Engine.rand:Integer(shipdef.minCrew,shipdef.maxCrew)
@@ -660,6 +661,18 @@ local createTargetShip = function (mission)
 		ship:AddEquip(default_drive)
 	else
 		ship:AddEquip(Equipment.hyperspace['hyperdrive_1'])
+	end
+
+	-- add thruster fuel
+	if not mission.flavour == 2 and not mission.flavour == 4 and not mission.flavour == 5 then
+		ship:SetFuelPercent(100)
+	end
+
+	-- add hydrogen for hyperjumping
+	if not mission.flavour == 2 and not mission.flavour == 4 and not mission.flavour == 5 then
+		local drive = ship:GetEquip('engine', 1)
+		local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
+		ship:AddEquip(Equipment.cargo.hydrogen, hypfuel)
 	end
 
 	-- load a laser
@@ -1022,7 +1035,7 @@ local flyToNearbyStation =  function (ship)
 				             --debug
 				             starsystem = nearbysystems[1]:GetStarSystem()
 				             print("Jumping to: "..starsystem.name)
-				             ship:HyperjumpTo(nearbysystems[1], true) end)
+				             ship:HyperjumpTo(nearbysystems[1]) end)
 		else
 			return
 		end
@@ -1037,7 +1050,7 @@ local discardShip = function (ship)
 	if #nearbysystems > 0 then
 		Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
 			             ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
-			             Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
+			             Timer:CallAt(Game.time + 5, function () ship:HyperjumpTo(nearbysystems[1]) end)
 		end)
 	else
 		with_stations = false
@@ -1045,7 +1058,7 @@ local discardShip = function (ship)
 		if #nearbysystems > 0 then
 			Timer:CallAt(Game.time + Engine.rand:Integer(5,10), function ()
 				             ship:AIEnterLowOrbit(ship:FindNearestTo("PLANET") or ship:FindNearestTo("STAR"))
-				             Timer:CallAt(Game.time + 5, function () ship:InitiateHyperjumpTo(nearbysystems[1], 3, 10) end)
+				             Timer:CallAt(Game.time + 5, function () ship:HyperjumpTo(nearbysystems[1]) end)
 			end)
 		end
 	end
@@ -1823,12 +1836,12 @@ local onCreateBB = function (station)
 	local num = 10
 	for _ = 1,num do
 	   -- makeAdvert(station, 1, closestplanets)
-	   -- makeAdvert(station, 2, closestplanets)
+		makeAdvert(station, 2, closestplanets)
 	   -- makeAdvert(station, 3, closestplanets)
 	   -- makeAdvert(station, 4, closestplanets)
 	   -- makeAdvert(station, 5, closestplanets)
 	   -- makeAdvert(station, 6, closestplanets)
-	   makeAdvert(station, 7, closestplanets)
+	   -- makeAdvert(station, 7, closestplanets)
 	end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
@@ -1908,9 +1921,19 @@ local onShipDocked = function (ship, station)
 	else
 		for i,discarded_ship in pairs(discarded_ships) do
 			if ship == discarded_ship then
-				discardShip(ship)
-				table.remove(discarded_ships,i)
+
+				-- add thruster fuel
+				ship:SetFuelPercent(100)
+
+				-- add hydrogen for hyperjumping
+				local drive = ship:GetEquip('engine', 1)
+				local hypfuel = drive.capabilities.hyperclass ^ 2  -- fuel for max range
+				hypfuel = hypfuel - ship:CountEquip(Equipment.cargo.hydrogen)
+				ship:AddEquip(Equipment.cargo.hydrogen, hypfuel)
 			end
+
+			discardShip(ship)
+			table.remove(discarded_ships,i)
 		end
 	end
 end
