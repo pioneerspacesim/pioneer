@@ -459,20 +459,30 @@ end
 --  experimental
 --
 Ship.HyperjumpTo = function (self, path, is_legal)
+	print("trying to jump ship: "..self.label)
 	local engine = self:GetEquip("engine", 1)
 	if not engine then
+		print("found no engine")
 		return "NO_DRIVE"
 	end
+	print("found an engine")
 
 	-- default to false, if nil:
 	is_legal = not (is_legal == nil) or is_legal
 
+	if is_legal then print("jumping is legal") else print("jumping ILLEGAL") end
+
 	-- only jump from safe distance
 	local is_allowed, distance = self:IsHyperjumpAllowed()
+
+	if is_allowed then print("jumping is allowed") else print("jumping is NOT ALLOWED") end
+
 	if is_legal and self.frameBody and not is_allowed then
 		print("---> Engage AI for safe distance of hyperjump")
 		self:AIEnterLowOrbit(self.frameBody)
 	end
+
+	print("setting up jump...")
 
 	return engine:HyperjumpTo(self, path)
 end

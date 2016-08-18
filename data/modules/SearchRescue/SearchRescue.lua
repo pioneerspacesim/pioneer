@@ -1022,7 +1022,7 @@ local flyToNearbyStation =  function (ship)
 				             --debug
 				             starsystem = nearbysystems[1]:GetStarSystem()
 				             print("Jumping to: "..starsystem.name)
-				             ship.HyperjumpTo(nearbysystems[1]) end)
+				             ship:HyperjumpTo(nearbysystems[1], true) end)
 		else
 			return
 		end
