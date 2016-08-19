@@ -123,4 +123,15 @@ void EnableBreakpad()
 	// Support for Mac and Linux should be added
 }
 
+// Open the Explorer/Finder/etc
+bool SupportsFolderBrowser()
+{
+	return false;
+}
+
+void OpenUserFolderBrowser()
+{
+	// Support for Mac and Linux should be added
+}
+
 } // namespace OS
