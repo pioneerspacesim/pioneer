@@ -132,6 +132,8 @@ bool SupportsFolderBrowser()
 void OpenUserFolderBrowser()
 {
 	// Support for Mac and Linux should be added
+	// Display the path instead for now
+	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Pioneer", FileSystem::userFiles.GetRoot().c_str(), 0);
 }
 
 } // namespace OS
