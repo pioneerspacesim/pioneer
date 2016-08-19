@@ -354,6 +354,12 @@ local function show_navball()
 	 local dvm = deltav_maneuver / deltav_max
 	 local deltav_current = player:GetCurrentDeltaV()
 	 local dvc = deltav_current / deltav_max
+	 -- -- debugging
+	 -- pigui.Begin("DeltaV", {})
+	 -- pigui.Text("delta v max: " .. deltav_max)
+	 -- pigui.Text("delta v remaining: " .. deltav_remaining)
+	 -- pigui.Text("delta v current: " .. deltav_current)
+	 -- pigui.End()
 	 deltav_gauge(1.0, navball_center, navball_radius + 5, colors.deltav_total, thickness)
 	 if dvr > 0 then
 			deltav_gauge(dvr, navball_center, navball_radius + 5, colors.deltav_remaining, thickness)

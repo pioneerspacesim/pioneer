@@ -218,7 +218,8 @@ static int l_get_current_delta_v(lua_State *l)
 static int l_get_remaining_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
-	lua_pushnumber(l, player->GetSpeedReachedWithFuel());
+	double remaining = player->GetSpeedReachedWithFuel();
+	lua_pushnumber(l, remaining);
 	return 1;
 }
 
@@ -226,7 +227,10 @@ static int l_get_max_delta_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	const ShipType *st = player->GetShipType();
-	lua_pushnumber(l, st->effectiveExhaustVelocity * log((st->hullMass + st->fuelTankMass) / st->hullMass));
+	// Output("hull Mass: %f, fuel tank mass: %f, exhaust velocity: %f\nmass: %f, static_mass: %f, used_capacity: %f, fuel: %f\n",
+	// 			 (float)st->hullMass, (float)st->fuelTankMass, (float)st->effectiveExhaustVelocity,
+	// 			 (float)player->GetMass(), (float)player->GetStats().static_mass, (float)player->GetStats().used_capacity, (float)player->GetFuel());
+	lua_pushnumber(l, st->effectiveExhaustVelocity * log((double(player->GetStats().static_mass + st->fuelTankMass)) / (player->GetStats().static_mass)));
 	return 1;
 }
 
