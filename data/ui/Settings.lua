@@ -387,13 +387,7 @@ ui.templates.Settings = function (args)
 		end
 	end
 
-	if #close_buttons > 1 then
-		close_buttons = ui:HBox(5):PackEnd(close_buttons)
-	else
-		close_buttons = close_buttons[1]
-	end
-
-	return ui:VBox():PackEnd({setTabs, ui:Margin(10, "ALL", close_buttons)})
+	return ui:VBox():PackEnd({setTabs, ui:Margin(10, "ALL", ui:HBox(5):PackEnd(close_buttons))})
 end
 
 ui.templates.SettingsInGame = function ()
@@ -428,7 +422,8 @@ ui.templates.SettingsInGame = function ()
 				end
 			},
 			{ text = l.RETURN_TO_GAME, onClick = Game.SwitchView },
-			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame }
+			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame },
+			{ text = l.OPEN_USER_FOLDER, onClick = Engine.OpenBrowseUserFolder, toDisable = function () return Engine.CanBrowseUserFolder==false end }
 		}
 	})
 end

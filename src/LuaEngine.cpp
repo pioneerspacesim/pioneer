@@ -7,6 +7,7 @@
 #include "LuaConstants.h"
 #include "EnumStrings.h"
 #include "Random.h"
+#include "OS.h"
 #include "Pi.h"
 #include "utils.h"
 #include "FloatComparison.h"
@@ -815,6 +816,18 @@ static int l_engine_get_model(lua_State *l)
 	return 1;
 }
 
+static int l_get_can_browse_user_folders(lua_State *l)
+{
+	lua_pushboolean(l, OS::SupportsFolderBrowser());
+	return 1;
+}
+
+static int l_browse_user_folders(lua_State *l)
+{
+	OS::OpenUserFolderBrowser();
+	return 0;
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -894,6 +907,9 @@ void LuaEngine::Register()
 		{ "SetMouseYInverted", l_engine_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
+		
+		{ "CanBrowseUserFolder", l_get_can_browse_user_folders },
+		{ "OpenBrowseUserFolder", l_browse_user_folders },
 
 		{ "GetModel", l_engine_get_model },
 

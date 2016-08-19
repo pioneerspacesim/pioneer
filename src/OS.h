@@ -36,6 +36,10 @@ namespace OS {
 
 	// Enable Google breakpad for crash minidumps
 	void EnableBreakpad();
+
+	// Open the Explorer/Finder/etc
+	bool SupportsFolderBrowser();
+	void OpenUserFolderBrowser();
 }
 
 #endif

@@ -77,7 +77,8 @@ local doSettingsScreen = function()
 	ui.layer:SetInnerWidget(
 		ui.templates.Settings({
 			closeButtons = {
-				{ text = l.RETURN_TO_MENU, onClick = function () ui.layer:SetInnerWidget(ui.templates.MainMenu()) end }
+				{ text = l.RETURN_TO_MENU, onClick = function () ui.layer:SetInnerWidget(ui.templates.MainMenu()) end },
+				{ text = l.OPEN_USER_FOLDER, onClick = Engine.OpenBrowseUserFolder, toDisable = function () return Engine.CanBrowseUserFolder==false end }
 			}
 		})
 	)
