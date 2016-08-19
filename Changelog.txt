@@ -4,6 +4,7 @@ August 2016
      * Navbutton added to mission screens (#3736)
      * Add a TCP Lua console (#3768)
      * Low altitude hyperjumps are illegal (#3753)
+     * Add button to Settings menus so user can open their Pioneer folder (#3790)
 
    * Fixes
      * Fix crash in by Search & Rescue missions (#3770)
