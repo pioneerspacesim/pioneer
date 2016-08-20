@@ -25,6 +25,7 @@ local reticule_radius = 80
 local pi = 3.14159264
 local pi_2 = pi / 2
 local pi_4 = pi / 4
+local two_pi = pi * 2
 
 local colors = {
 	 darkgreen = {r=0, g=150, b=0},
@@ -60,66 +61,76 @@ local Vector = {}
 do
 	 local meta = {
 			_metatable = "Private metatable",
-			_DESCRIPTION = "Vectors in 2D"
+			_DESCRIPTION = "Vectors in 3D"
 	 }
 
 	 meta.__index = meta
 
 	 function meta:__add( v )
 			if(type(v) == "number") then
-				 return Vector(self.x + v, self.y + v)
+				 return Vector(self.x + v, self.y + v, self.z + v)
 			else
-				 return Vector(self.x + v.x, self.y + v.y)
+				 return Vector(self.x + v.x, self.y + v.y, self.z + v.z)
 			end
 	 end
 
 	 function meta:__sub( v )
 			if(type(v) == "number") then
-				 return Vector(self.x - v, self.y - v)
+				 return Vector(self.x - v, self.y - v, self.z - v)
 			else
-				 return Vector(self.x - v.x, self.y - v.y)
+				 return Vector(self.x - v.x, self.y - v.y, self.z - v.z)
 			end
 	 end
 
 	 function meta:__mul( v )
 			if(type(v) == "number") then
-				 return Vector(self.x * v, self.y * v)
+				 return Vector(self.x * v, self.y * v, self.z * v)
 			else
-				 return Vector(self.x * v.x, self.y * v.y)
+				 return Vector(self.x * v.x, self.y * v.y, self.z * v.z)
 			end
 	 end
 
 	 function meta:__div( v )
 			if(type(v) == "number") then
-				 return Vector(self.x / v, self.y / v)
+				 return Vector(self.x / v, self.y / v, self.z / v)
 			else
-				 return Vector(self.x / v.x, self.y / v.y)
+				 return Vector(self.x / v.x, self.y / v.y, self.z / v.z)
 			end
 	 end
 
 	 function meta:__tostring()
-			return ("<%g, %g>"):format(self.x, self.y)
+			return ("<%g, %g, %g>"):format(self.x, self.y, self.z)
 	 end
 
 	 function meta:magnitude()
-			return math.sqrt( self.x * self.x + self.y * self.y )
+			return math.sqrt( self.x * self.x + self.y * self.y + self.z * self.z)
 	 end
 
 	 function meta:normalized()
 			local len = math.abs(self:magnitude())
-			return Vector(self.x / len, self.y / len)
+			return Vector(self.x / len, self.y / len, self.z / len)
 	 end
 
 	 function meta:left()
-			return Vector(-self.y, self.x)
+			return Vector(-self.y, self.x, 0)
 	 end
 
 	 function meta:right()
-			return Vector(self.y, -self.x)
+			return Vector(self.y, -self.x, 0)
 	 end
 
+	 function meta:dot(other)
+			return self.x * other.x + self.y * other.y + self.z * other.z
+	 end
+
+	 function meta:cross(other)
+			return Vector(self.y * other.z - self.z * other.y,
+										self.x * other.z - self.z * other.x,
+										self.x * other.y - self.y * other.x)
+	 end
+	 
 	 setmetatable( Vector, {
-										__call = function( V, x ,y ) return setmetatable( {x = x, y = y}, meta ) end
+										__call = function( V, x ,y ,z ) return setmetatable( {x = x or 0, y = y or 0, z = z or 0}, meta ) end
 	 } )
 end
 
@@ -389,6 +400,41 @@ local function show_orbit()
 	 pigui.Text("Periapsis: " .. periapsis.x .. "," .. periapsis.y .. "," .. periapsis.z)
 	 pigui.End()
 
+end
+
+local function square(x)
+	 return x * x
+end
+
+-- based on http://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto and https://github.com/RazerM/orbital/blob/0.7.0/orbital/utilities.py#L252
+local function show_debug()
+	 pigui.Begin("Debug", {})
+	 pigui.Text("Self")
+	 local p = player:GetPosition()
+	 local pos = Vector(p.x, p.y, p.z)
+	 pigui.Text("pos: " .. pos:magnitude() .. ", " .. math.floor(pos.x) .. "/" .. math.floor(pos.y) .. "/" .. math.floor(pos.z))
+	 local v = player:GetVelocity()
+	 local vel = Vector(v.x, v.y, v.z)
+	 pigui.Text("vel: " .. vel:magnitude() .. ", " .. math.floor(vel.x) .. "/" .. math.floor(vel.y) .. "/" .. math.floor(vel.z))
+	 local G = 6.674e-11
+	 local M = player:GetFrame():GetMass()
+	 pigui.Text("frame mass: " .. math.floor(M))
+	 local mu = G * M
+	 local eccentricity_vector = (pos * (square(vel:magnitude()) - mu / pos:magnitude()) - vel * (pos:dot(vel))) / mu
+	 local eccentricity = eccentricity_vector:magnitude()
+	 pigui.Text("eccentricity: " .. eccentricity)
+--	 local specific_orbital_energy = square(vel:magnitude()) / 2 - mu / pos:magnitude()
+--	 pigui.Text("specific orbital energy: " .. specific_orbital_energy)
+--	 local semimajoraxis = -mu / 2 * specific_orbital_energy
+	 local semimajoraxis = 1 / (2 / pos:magnitude() - square(vel:magnitude()) / mu) -- based on http://orbitsimulator.com/formulas/OrbitalElements.html
+	 pigui.Text("semi-major axis: " .. Format.Distance(semimajoraxis))
+	 local angular_momentum = pos:cross(vel)
+	 local inclination = math.acos(angular_momentum.z / angular_momentum:magnitude())
+	 pigui.Text("inclination: " .. math.floor(inclination / two_pi * 360))
+	 local periapsis = semimajoraxis * (1 - eccentricity)
+	 local apoapsis = semimajoraxis * (1 + eccentricity)
+	 pigui.Text("Periapsis: " .. Format.Distance(periapsis) .. ", Apoapsis: " .. Format.Distance(apoapsis))
+	 pigui.End()
 end
 
 pigui.handlers.HUD = function(delta)
@@ -729,4 +775,5 @@ pigui.handlers.HUD = function(delta)
 --	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
 --	 show_missions()
+	 show_debug()
 end

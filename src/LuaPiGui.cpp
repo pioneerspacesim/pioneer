@@ -608,9 +608,11 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 	LuaTable dir(l);
 	dir.Set("x", direction.x);
 	dir.Set("y", direction.y);
+	dir.Set("z", 0);
 	LuaTable pos(l);
 	pos.Set("x", marker->pos.x / 800 * Graphics::GetScreenWidth());
 	pos.Set("y", marker->pos.y / 600 * Graphics::GetScreenHeight());
+	pos.Set("z", 0);
 	return 3;
 }
 
@@ -737,6 +739,7 @@ static int l_pigui_calc_text_size(lua_State *l) {
 	LuaTable s(l);
 	s.Set("x", size.x);
 	s.Set("y", size.y);
+	s.Set("z", 0);
 	return 1;
 }
 
@@ -745,6 +748,7 @@ static int l_pigui_get_mouse_pos(lua_State *l) {
 	LuaTable p(l);
 	p.Set("x", pos.x);
 	p.Set("y", pos.y);
+	p.Set("z", 0);
 	return 1;
 }
 

@@ -410,6 +410,36 @@ static int l_body_get_projected_screen_position(lua_State *l)
 	return 1;
 }
 
+static int l_body_get_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	vector3d p = b->GetPosition();
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", p.z);
+	return 1;	
+}
+
+static int l_body_get_velocity(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	vector3d p = b->GetVelocity();
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", p.z);
+	return 1;	
+}
+
+static int l_body_get_mass(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	double m = b->GetSystemBody()->GetMass();
+	lua_pushnumber(l, m);
+	return 1;	
+}
+
 static std::string _body_serializer(LuaWrappable *o)
 {
 	static char buf[256];
@@ -473,6 +503,9 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetGroundPosition", l_body_get_ground_position },
 		{ "FindNearestTo", l_body_find_nearest_to },
 		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
+		{ "GetPosition", l_body_get_position },
+		{ "GetVelocity", l_body_get_velocity },
+		{ "GetMass", l_body_get_mass },
 		{ 0, 0 }
 	};
 
