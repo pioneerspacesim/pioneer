@@ -24,7 +24,8 @@ local function doLawAndOrder ()
 		Game.player.flightState == "FLYING" and
 		Engine.rand:Integer(0,1) > Game.system.lawlessness then
 			local station = Game.player:FindNearestTo("SPACESTATION")
-			if station.lawEnforcedRange >= station:DistanceTo(Game.player) then
+			-- check that station exists, since apparently empty systems can have lawlessness > 0
+			if station and station.lawEnforcedRange >= station:DistanceTo(Game.player) then
 				station:LaunchPolice(Game.player)
 				policeDispatched = station
 			end
