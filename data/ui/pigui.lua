@@ -406,6 +406,10 @@ local function square(x)
 	 return x * x
 end
 
+local function cube(x)
+	 return x * x * x
+end
+
 -- based on http://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto and https://github.com/RazerM/orbital/blob/0.7.0/orbital/utilities.py#L252
 local function show_debug()
 	 pigui.Begin("Debug", {})
@@ -434,6 +438,9 @@ local function show_debug()
 	 local periapsis = semimajoraxis * (1 - eccentricity)
 	 local apoapsis = semimajoraxis * (1 + eccentricity)
 	 pigui.Text("Periapsis: " .. Format.Distance(periapsis) .. ", Apoapsis: " .. Format.Distance(apoapsis))
+	 -- based on http://space.stackexchange.com/questions/16891/how-to-calculate-the-time-to-apoapsis-periapsis-given-the-orbital-elements
+	 local period = two_pi * math.sqrt(cube(semimajoraxis) / mu)
+	 pigui.Text("Period: " .. Format.Duration(period))
 	 pigui.End()
 end
 
