@@ -247,7 +247,7 @@ void GasGiant::OnChangeDetailLevel()
 		(*i)->m_terrain.Reset(Terrain::InstanceTerrain((*i)->GetSystemBody()));
 	}
 }
-
+#pragma optimize("",off)
 GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0), m_timeDelay(s_initialCPUDelayTime), m_hasGpuJobRequest(false)
 {
@@ -257,9 +257,11 @@ GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 		m_hasJobRequest[i] = false;
 	}
 
+	Random rng(GetSystemBody()->GetSeed()+4609837);
+
 	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 	if(bEnableGPUJobs)
-		m_timeDelay = s_initialGPUDelayTime;
+		m_timeDelay = s_initialGPUDelayTime + (rng.Double() * (s_initialGPUDelayTime * 0.5));
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
