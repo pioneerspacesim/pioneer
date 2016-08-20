@@ -438,9 +438,29 @@ local function show_debug()
 	 local periapsis = semimajoraxis * (1 - eccentricity)
 	 local apoapsis = semimajoraxis * (1 + eccentricity)
 	 pigui.Text("Periapsis: " .. Format.Distance(periapsis) .. ", Apoapsis: " .. Format.Distance(apoapsis))
+	 local Ex = 1 - pos:magnitude() / semimajoraxis
+	 local Ey = vel:dot(pos) / math.sqrt(semimajoraxis * mu)
+	 --	 local eccentric_anomaly = math.atan(Ey, Ex) -- WRONG
 	 -- based on http://space.stackexchange.com/questions/16891/how-to-calculate-the-time-to-apoapsis-periapsis-given-the-orbital-elements
 	 local period = two_pi * math.sqrt(cube(semimajoraxis) / mu)
-	 pigui.Text("Period: " .. Format.Duration(period))
+	 local true_anomaly = math.acos(eccentricity_vector:dot(pos) / (eccentricity * pos:magnitude()))
+	 -- local mean_anomaly = eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly)  -- WRONG
+	 -- local eccentric_anomaly = math.atan(math.sqrt(1 - square(eccentricity)) * math.sin(true_anomaly), eccentricity + math.cos(true_anomaly))
+	 -- eccentric_anomaly = math.fmod(eccentric_anomaly, two_pi)
+	 -- works, but strange
+	 if pos:dot(vel) < 0 then
+			true_anomaly = two_pi - true_anomaly
+	 end
+	 local eccentric_anomaly = math.fmod(math.acos((eccentricity + math.cos(true_anomaly)) / (1 + eccentricity * math.cos(true_anomaly))), two_pi)
+	 if true_anomaly > pi then
+			eccentric_anomaly = two_pi - eccentric_anomaly
+	 end
+	 local mean_anomaly = math.fmod(eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly), two_pi)
+	 local n = period / two_pi
+	 local to_periapsis = math.fmod(two_pi - mean_anomaly, two_pi) * n
+	 local to_apoapsis = math.fmod(two_pi + pi - mean_anomaly, two_pi) * n
+	 pigui.Text("Period: " .. Format.Duration(period) .. ", true anom: " .. math.floor(true_anomaly / two_pi * 360) .. ", ecc anom: " .. math.floor(eccentric_anomaly / two_pi * 360) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
+	 pigui.Text("Time to periapsis: " .. Format.Duration(to_periapsis) .. ", time to apoapsis: " .. Format.Duration(to_apoapsis))
 	 pigui.End()
 end
 
