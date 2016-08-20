@@ -27,8 +27,9 @@ RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 namespace
 {
 	static Uint32 TEXTURE_SIZE_SMALL = 16;
-	static Uint32 TEXTURE_SIZE_CPU = 512;
-	static Uint32 TEXTURE_SIZE_GPU = 1024;
+	static Uint32 s_texture_size_cpu[5];
+	static Uint32 s_texture_size_gpu[5];
+	static Uint32 s_noiseOctaves = 8;
 	static float s_initialCPUDelayTime = 60.0f; // (perhaps) 60 seconds seems like a reasonable default
 	static float s_initialGPUDelayTime = 5.0f; // (perhaps) 5 seconds seems like a reasonable default
 	static std::vector<GasGiant*> s_allGasGiants;
@@ -532,7 +533,7 @@ void GasGiant::GenerateTexture()
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
 			m_hasJobRequest[i] = true;
-			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, TEXTURE_SIZE_CPU, GetTerrain());
+			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
 			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new GasGiantJobs::SingleTextureFaceJob(ssrd));
 		}
 	}
@@ -541,7 +542,7 @@ void GasGiant::GenerateTexture()
 		// use m_surfaceTexture texture?
 		// create texture
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU);
+		const vector2f dataSize(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
@@ -563,6 +564,8 @@ void GasGiant::GenerateTexture()
 		} else if( ColorFracName == GGUranus ) {
 			GasGiantType = Graphics::OGL::GEN_URANUS_TEXTURE;
 		}
+		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? 8 : 5;
+		GasGiantType = (octaves << 16) | GasGiantType;
 
 		assert(!m_hasGpuJobRequest);
 		assert(!m_gpuJob.HasJob());
@@ -571,9 +574,9 @@ void GasGiant::GenerateTexture()
 		const std::string parentname = GetSystemBody()->GetParent()->GetName();
 		const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
 
-		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU), s_quadRenderState, GasGiantType );
+		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]), s_quadRenderState, GasGiantType );
 			
-		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), TEXTURE_SIZE_GPU, GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
+		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), s_texture_size_gpu[Pi::detail.planets], GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new GasGiantJobs::SingleGPUGenJob(pGPUReq));
 		m_hasGpuJobRequest = true;
 	}
@@ -748,15 +751,26 @@ void GasGiant::Init()
 	// NB: limit the ranges of all values loaded from the file
 	// NB: round to the nearest power of 2 for all texture sizes
 	TEXTURE_SIZE_SMALL		= ceil_pow2(Clamp(cfg.Int("texture_size_small", 16), 16, 64));
-	TEXTURE_SIZE_CPU		= ceil_pow2(Clamp(cfg.Int("texture_size_cpu", 512), 128, 4096));
+	s_texture_size_cpu[0]	= ceil_pow2(Clamp(cfg.Int("texture_size_cpu_very_low", 64), 64, 4096));
+	s_texture_size_cpu[1]	= ceil_pow2(Clamp(cfg.Int("texture_size_cpu_low", 64), 64, 4096));
+	s_texture_size_cpu[2]	= ceil_pow2(Clamp(cfg.Int("texture_size_cpu_medium", 128), 64, 4096));
+	s_texture_size_cpu[3]	= ceil_pow2(Clamp(cfg.Int("texture_size_cpu_high", 256), 64, 4096));
+	s_texture_size_cpu[4]	= ceil_pow2(Clamp(cfg.Int("texture_size_cpu_very_high", 512), 64, 4096));
 	s_initialCPUDelayTime	= Clamp(cfg.Float("cpu_delay_time", 60.0f), 0.0f, 120.0f);
-	TEXTURE_SIZE_GPU		= ceil_pow2(Clamp(cfg.Int("texture_size_gpu", 1024), 128, 4096));
+	//
+	s_texture_size_gpu[0]	= ceil_pow2(Clamp(cfg.Int("texture_size_gpu_very_low", 128), 128, 4096));
+	s_texture_size_gpu[1]	= ceil_pow2(Clamp(cfg.Int("texture_size_gpu_low", 128), 128, 4096));
+	s_texture_size_gpu[2]	= ceil_pow2(Clamp(cfg.Int("texture_size_gpu_medium", 512), 128, 4096));
+	s_texture_size_gpu[3]	= ceil_pow2(Clamp(cfg.Int("texture_size_gpu_high", 512), 128, 4096));
+	s_texture_size_gpu[4]	= ceil_pow2(Clamp(cfg.Int("texture_size_gpu_very_high", 1024), 128, 4096));
 	s_initialGPUDelayTime	= Clamp(cfg.Float("gpu_delay_time", 5.0f), 0.0f, 120.0f);
+	// NB: 16 is a lot
+	s_noiseOctaves	= Clamp(cfg.Int("noise_octaves", 5), 1, 16);
 
 	if( s_patchContext.Get() == nullptr ) {
 		s_patchContext.Reset(new GasPatchContext(127));
 	}
-	CreateRenderTarget(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU);
+	CreateRenderTarget(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
 }
 
 void GasGiant::Uninit()
