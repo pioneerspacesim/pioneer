@@ -795,6 +795,10 @@
       "description" : "",
       "message" : "Tamam"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Seçenekler"

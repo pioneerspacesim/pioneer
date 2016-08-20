@@ -795,6 +795,10 @@
       "description" : "",
       "message" : "Ceart ma-thà"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Roghainnean"

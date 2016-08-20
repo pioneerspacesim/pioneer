@@ -795,6 +795,10 @@
       "description" : "",
       "message" : "Хорошо"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Настройки"
