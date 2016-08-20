@@ -12,6 +12,7 @@ August 2016
      * Fix hyperspace star streaks (#3773)
      * prefix std:: to isnan so it builds on Linux (#3775)
      * Use ImageMagick to fix the iCCP profile problem (#3778)
+     * Fix crash when jumping into empty system (#3791)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
