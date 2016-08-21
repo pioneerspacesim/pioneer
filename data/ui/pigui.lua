@@ -464,11 +464,13 @@ local function show_orbit()
 	 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
 	 pigui.End()
 end
+
+local radial_nav_target = nil
+
 local function show_nav_window()
 	 	 -- ******************** Navigation Window ********************
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
-	 pigui.PushStyleColor("WindowBg", colors.windowbg)
 	 pigui.Begin("Navigation", {})
 	 pigui.Columns(2, "navcolumns", false)
 	 local body_paths = system:GetBodyPaths()
@@ -484,6 +486,7 @@ local function show_nav_window()
 	 table.sort(data, function(a,b) return a.distance < b.distance end)
 	 -- display
 	 for key,data in pairs(data) do
+			pigui.BeginGroup()
 			if(pigui.Selectable(data.name, selected == data.body, {"SpanAllColumns"})) then
 				 selected = data.body
 				 player:SetNavTarget(data.body)
@@ -491,9 +494,62 @@ local function show_nav_window()
 			pigui.NextColumn()
 			pigui.Text(Format.Distance(data.distance))
 			pigui.NextColumn()
+			pigui.EndGroup()
+			if pigui.IsItemClicked(1) then
+				 pigui.OpenPopup("##piepopup")
+				 radial_nav_target = data.body
+			end
+	 end
+	 local radial_menu_center = pigui.GetMouseClickedPos(1)
+	 local radial_menu_size = 100
+	 if radial_menu_center.x < radial_menu_size then
+			radial_menu_center.x = radial_menu_size
+	 end
+	 if radial_menu_center.y < radial_menu_size then
+			radial_menu_center.y = radial_menu_size
+	 end
+	 if radial_menu_center.x > (pigui.screen_width - radial_menu_size) then
+			radial_menu_center.x = (pigui.screen_width - radial_menu_size)
+	 end
+	 if radial_menu_center.y > (pigui.screen_height - radial_menu_size) then
+			radial_menu_center.y = (pigui.screen_height - radial_menu_size)
+	 end
+	 local items = { "Dock", "Fly to", "Low orbit", "Medium orbit", "High orbit", "Clearance" }
+	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items)
+	 if n >= 0 then
+			print("selected " .. items[n + 1])
 	 end
 	 pigui.End()
-	 pigui.PopStyleColor(1)
+end
+local function show_thrust()
+	 			-- thrusters
+			pigui.Begin("Thrusters", {})
+			local thrust = player:GetThrusterState()
+			-- y = 1 -> up
+			-- z = -1 -> fwd
+			-- x = -1 -> left
+			local thrust_forward = (thrust.z < 0) and math.abs(thrust.z) * math.abs(player:GetAccel("forward")) or 0
+			local thrust_backward = (thrust.z > 0) and math.abs(thrust.z) * math.abs(player:GetAccel("backward")) or 0
+			local thrust_left = (thrust.x < 0) and math.abs(thrust.x) * math.abs(player:GetAccel("left")) or 0
+			local thrust_right = (thrust.x > 0) and math.abs(thrust.x) * math.abs(player:GetAccel("right")) or 0
+			local thrust_up = (thrust.y > 0) and math.abs(thrust.y) * math.abs(player:GetAccel("up")) or 0
+			local thrust_down = (thrust.y < 0) and math.abs(thrust.y) * math.abs(player:GetAccel("down")) or 0
+			pigui.Text("Thrust: " .. thrust.x .. "/" .. thrust.y .. "/" .. thrust.z)
+			pigui.Text("Accel Forward: " .. player:GetAccel("forward"))
+			pigui.Text("Accel Backward: " .. player:GetAccel("backward"))
+			pigui.Text("Accel Up: " .. player:GetAccel("up"))
+			pigui.Text("Accel Down: " .. player:GetAccel("down"))
+			pigui.Text("Accel Left: " .. player:GetAccel("left"))
+			pigui.Text("Accel Right: " .. player:GetAccel("right"))
+			pigui.Text("Thrust Forward: " .. thrust_forward)
+			pigui.Text("Thrust Backward: " .. thrust_backward)
+			pigui.Text("Thrust Up: " .. thrust_up)
+			pigui.Text("Thrust Down: " .. thrust_down)
+			pigui.Text("Thrust Left: " .. thrust_left)
+			pigui.Text("Thrust Right: " .. thrust_right)
+			local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
+			pigui.Text("Total thrust: " .. total_thrust)
+			pigui.End()
 end
 
 pigui.handlers.HUD = function(delta)
@@ -704,34 +760,6 @@ pigui.handlers.HUD = function(delta)
 				 end
 			end
 
-			-- thrusters
-			pigui.Begin("Thrusters", {})
-			local thrust = player:GetThrusterState()
-			-- y = 1 -> up
-			-- z = -1 -> fwd
-			-- x = -1 -> left
-			local thrust_forward = (thrust.z < 0) and math.abs(thrust.z) * math.abs(player:GetAccel("forward")) or 0
-			local thrust_backward = (thrust.z > 0) and math.abs(thrust.z) * math.abs(player:GetAccel("backward")) or 0
-			local thrust_left = (thrust.x < 0) and math.abs(thrust.x) * math.abs(player:GetAccel("left")) or 0
-			local thrust_right = (thrust.x > 0) and math.abs(thrust.x) * math.abs(player:GetAccel("right")) or 0
-			local thrust_up = (thrust.y > 0) and math.abs(thrust.y) * math.abs(player:GetAccel("up")) or 0
-			local thrust_down = (thrust.y < 0) and math.abs(thrust.y) * math.abs(player:GetAccel("down")) or 0
-			pigui.Text("Thrust: " .. thrust.x .. "/" .. thrust.y .. "/" .. thrust.z)
-			pigui.Text("Accel Forward: " .. player:GetAccel("forward"))
-			pigui.Text("Accel Backward: " .. player:GetAccel("backward"))
-			pigui.Text("Accel Up: " .. player:GetAccel("up"))
-			pigui.Text("Accel Down: " .. player:GetAccel("down"))
-			pigui.Text("Accel Left: " .. player:GetAccel("left"))
-			pigui.Text("Accel Right: " .. player:GetAccel("right"))
-			pigui.Text("Thrust Forward: " .. thrust_forward)
-			pigui.Text("Thrust Backward: " .. thrust_backward)
-			pigui.Text("Thrust Up: " .. thrust_up)
-			pigui.Text("Thrust Down: " .. thrust_down)
-			pigui.Text("Thrust Left: " .. thrust_left)
-			pigui.Text("Thrust Right: " .. thrust_right)
-			local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
-			pigui.Text("Total thrust: " .. total_thrust)
-			pigui.End()
 			-- ******************** Frame Prograde marker ********************
 			local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
 			local color = colors.orbital_marker
@@ -947,9 +975,12 @@ pigui.handlers.HUD = function(delta)
 	 pigui.End()
 	 pigui.PopStyleColor(1);
 
+	 pigui.PushStyleColor("WindowBg", colors.windowbg)
 	 show_nav_window()
 	 --	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	 show_missions()
 	 show_orbit()
+	 show_thrust()
+	 pigui.PopStyleColor(1)
 end

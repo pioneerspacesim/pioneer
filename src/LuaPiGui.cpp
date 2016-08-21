@@ -834,6 +834,28 @@ static int l_attr_screen_height(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_get_mouse_clicked_pos(lua_State *l) {
+	int n = luaL_checkinteger(l, 1);
+	ImVec2 pos = ImGui::GetIO().MouseClickedPos[n];
+	LuaTable v(l);
+	v.Set("x", pos.x);
+	v.Set("y", pos.y);
+	return 1;
+}
+
+static int l_pigui_radial_menu(lua_State *l) {
+	ImVec2 center = luaL_checkImVec2(l, 1);
+	std::string id = luaL_checkstring(l, 2);
+	std::vector<std::string> items;
+	LuaTable strings(l, 3);
+	for(LuaTable::VecIter<std::string> iter = strings.Begin<std::string>(); iter != strings.End<std::string>(); ++iter) {
+		items.push_back(*iter);
+	}
+	int n = PiGui::RadialPopupSelectMenu(center, id, items);
+	lua_pushinteger(l, n);
+	return 1;
+}
+
 template <> const char *LuaObject<PiGui>::s_type = "PiGui";
 
 template <> void LuaObject<PiGui>::RegisterClass()
@@ -887,6 +909,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "OpenPopup",              l_pigui_open_popup },
 		{ "IsMouseReleased",        l_pigui_is_mouse_released },
 		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
+		{ "RadialMenu",             l_pigui_radial_menu },
+		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
 		{ 0, 0 }
 	};
 

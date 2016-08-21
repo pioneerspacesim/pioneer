@@ -50,6 +50,8 @@ public:
 		return ImGui::GetIO().WantCaptureKeyboard;
 	}
 
+	static int RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items);
+	
 private:
 	LuaRef m_handlers;
 };
