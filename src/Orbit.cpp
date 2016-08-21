@@ -4,6 +4,7 @@
 #include "Orbit.h"
 #include "libs.h"
 #include "gameconsts.h"
+#include "utils.h"
 
 #ifdef _MSC_VER
 	#include "win32/WinMath.h"
@@ -316,6 +317,7 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	//  3. orbitalPhaseAtStart (=offset) is calculated from r = a ((e^2 - 1)/(1 + e cos(v) ))
 	const double angle1 = acos(Clamp(ang.z/LL ,-1 + 1e-6,1 - 1e-6)) * (ang.x > 0 ? -1 : 1);
 	const double angle2 = asin(Clamp(ang.y / (LL * sqrt(1.0 - ang.z*ang.z / LLSqr)), -1 + 1e-6, 1 - 1e-6) ) * (ang.x > 0 ? -1 : 1);
+	ret.m_inclination = -angle1;
 
 	// There are two possible solutions of the equation and the only way how to find the correct one
 	// I know about is to try both and check if the position is transformed correctly. We minimize the difference

@@ -256,19 +256,28 @@ static int l_get_orbit(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	auto orbit = player->ComputeOrbit();
-	lua_pushnumber(l, orbit.GetEccentricity());
+	double eccentricity = orbit.GetEccentricity();
+	lua_pushnumber(l, eccentricity);
 	lua_pushnumber(l, orbit.GetSemiMajorAxis());
+	lua_pushnumber(l, orbit.GetInclination());
+	if(eccentricity <= 1.0)
+		lua_pushnumber(l, orbit.Period());
+	else
+		lua_pushnil(l);
 	auto aa = orbit.Apogeum();
+	lua_pushnumber(l, orbit.OrbitalTimeAtPos(aa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
 	LuaTable apoapsis(l);
 	apoapsis.Set("x", aa.x);
 	apoapsis.Set("y", aa.y);
 	apoapsis.Set("z", aa.z);
 	auto pa = orbit.Perigeum();
+	lua_pushnumber(l, orbit.OrbitalTimeAtPos(pa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
 	LuaTable periapsis(l);
 	periapsis.Set("x", pa.x);
-	periapsis.Set("y", pa.x);
-	periapsis.Set("z", pa.x);
-	return 4;
+	periapsis.Set("y", pa.y);
+	periapsis.Set("z", pa.z);
+	
+	return 8;
 }
 
 static int l_get_distance_to_zero_v(lua_State *l)

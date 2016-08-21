@@ -22,7 +22,8 @@ public:
 		m_semiMajorAxis(0.0),
 		m_orbitalPhaseAtStart(0.0),
 		m_velocityAreaPerSecond(0.0),
-		m_orient(matrix3x3d::Identity())
+		m_orient(matrix3x3d::Identity()),
+		m_inclination(0.0)
 	{}
 
 	void SetShapeAroundBarycentre(double semiMajorAxis, double totalMass, double bodyMass, double eccentricity);
@@ -50,6 +51,7 @@ public:
 	double GetEccentricity() const { return m_eccentricity; }
 	double GetSemiMajorAxis() const { return m_semiMajorAxis; }
 	double GetOrbitalPhaseAtStart() const { return m_orbitalPhaseAtStart; }
+	double GetInclination() const { return m_inclination; }
 	const matrix3x3d &GetPlane() const { return m_orient; }
 
 private:
@@ -63,6 +65,7 @@ private:
 	/* dup " " --------------------------------------- */
 	double m_velocityAreaPerSecond; // seconds
 	matrix3x3d m_orient;
+	double m_inclination;
 };
 
 #endif

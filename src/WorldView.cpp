@@ -1696,6 +1696,18 @@ void WorldView::UpdateProjectedObjects()
 		const vector3d x = Pi::player->GetOrient() * vector3d(-1,0,0) * cam_rot;
 		UpdateIndicator(m_leftIndicator, x);
 	}
+	{
+		Body *navtarget = Pi::player->GetNavTarget();
+		if(navtarget) {
+			vector3d navvelocity = -navtarget->GetVelocityRelTo(Pi::player);
+			const vector3d normal = Pi::player->GetPosition().Cross(navvelocity).Normalized();
+			UpdateIndicator(m_normalIndicator, normal * cam_rot);
+			UpdateIndicator(m_antiNormalIndicator, -(normal * cam_rot));
+			const vector3d radial = normal.Cross(navvelocity).Normalized();
+			UpdateIndicator(m_radialInIndicator, radial * cam_rot);
+			UpdateIndicator(m_radialOutIndicator, -(radial * cam_rot));
+		}
+	}
 
 	// velocity relative to current frame (white)
 	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;

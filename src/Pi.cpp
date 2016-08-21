@@ -1762,7 +1762,8 @@ float Pi::GetMoveSpeedShiftModifier() {
 // }
 
 void Pi::PiGuiUI(double delta) {
-	Pi::pigui->RenderHUD(delta);
+	if(!Pi::game->IsHyperspace())
+		Pi::pigui->RenderHUD(delta);
 	// PiGui::GetStyle().WindowRounding = 0.0f;
 	// static int pie_selected = -1;
 	// static bool show_test_window = false;

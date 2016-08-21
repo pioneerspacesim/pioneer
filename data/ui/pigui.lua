@@ -391,17 +391,6 @@ local function show_navball()
 	 pigui.AddText(navball_center + Vector(- navball_radius * 1.5 - 100, 20), colors.lightgrey, math.floor(dvr*100) .. "%")
 end
 
-local function show_orbit()
-	 	 local eccentricity, semimajoraxis, apoapsis, periapsis = player:GetOrbit()
-	 pigui.Begin("Orbit", {})
-	 pigui.Text("Eccentricity: " .. eccentricity)
-	 pigui.Text("Semi-Major Axis: " .. semimajoraxis)
-	 pigui.Text("Apoapsis: " .. apoapsis.x .. "," .. apoapsis.y .. "," .. apoapsis.z)
-	 pigui.Text("Periapsis: " .. periapsis.x .. "," .. periapsis.y .. "," .. periapsis.z)
-	 pigui.End()
-
-end
-
 local function square(x)
 	 return x * x
 end
@@ -410,57 +399,74 @@ local function cube(x)
 	 return x * x * x
 end
 
--- based on http://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto and https://github.com/RazerM/orbital/blob/0.7.0/orbital/utilities.py#L252
 local function show_debug()
-	 pigui.Begin("Debug", {})
-	 pigui.Text("Self")
-	 local p = player:GetPosition()
-	 local pos = Vector(p.x, p.y, p.z)
-	 pigui.Text("pos: " .. pos:magnitude() .. ", " .. math.floor(pos.x) .. "/" .. math.floor(pos.y) .. "/" .. math.floor(pos.z))
-	 local v = player:GetVelocity()
-	 local vel = Vector(v.x, v.y, v.z)
-	 pigui.Text("vel: " .. vel:magnitude() .. ", " .. math.floor(vel.x) .. "/" .. math.floor(vel.y) .. "/" .. math.floor(vel.z))
-	 local G = 6.674e-11
-	 local M = player:GetFrame():GetMass()
-	 pigui.Text("frame mass: " .. math.floor(M))
-	 local mu = G * M
-	 local eccentricity_vector = (pos * (square(vel:magnitude()) - mu / pos:magnitude()) - vel * (pos:dot(vel))) / mu
-	 local eccentricity = eccentricity_vector:magnitude()
-	 pigui.Text("eccentricity: " .. eccentricity)
+end
+
+-- based on http://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto and https://github.com/RazerM/orbital/blob/0.7.0/orbital/utilities.py#L252
+local function show_orbit()
+	 pigui.Begin("Orbit", {})
+	 -- pigui.Text("Self")
+	 -- pigui.Text("Time: " .. Game.time)
+	 local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
+	 -- local p = player:GetPosition()
+	 -- local pos = Vector(p.x, p.y, p.z)
+	 -- pigui.Text("pos: " .. pos:magnitude() .. ", " .. math.floor(pos.x) .. "/" .. math.floor(pos.y) .. "/" .. math.floor(pos.z))
+	 -- local v = player:GetVelocity()
+	 -- local vel = Vector(v.x, v.y, v.z)
+	 -- pigui.Text("vel: " .. vel:magnitude() .. ", " .. math.floor(vel.x) .. "/" .. math.floor(vel.y) .. "/" .. math.floor(vel.z))
+	 -- local G = 6.674e-11
+	 -- local M = player:GetFrame():GetMass()
+	 -- pigui.Text("frame mass: " .. math.floor(M))
+	 -- local mu = G * M
+	 -- local eccentricity_vector = (pos * (square(vel:magnitude()) - mu / pos:magnitude()) - vel * (pos:dot(vel))) / mu
+	 -- local eccentricity = eccentricity_vector:magnitude()
+	 -- pigui.Text("eccentricity: " .. eccentricity)
+	 pigui.Text("o eccentricity: " .. o_eccentricity)
 --	 local specific_orbital_energy = square(vel:magnitude()) / 2 - mu / pos:magnitude()
 --	 pigui.Text("specific orbital energy: " .. specific_orbital_energy)
 --	 local semimajoraxis = -mu / 2 * specific_orbital_energy
-	 local semimajoraxis = 1 / (2 / pos:magnitude() - square(vel:magnitude()) / mu) -- based on http://orbitsimulator.com/formulas/OrbitalElements.html
-	 pigui.Text("semi-major axis: " .. Format.Distance(semimajoraxis))
-	 local angular_momentum = pos:cross(vel)
-	 local inclination = math.acos(angular_momentum.z / angular_momentum:magnitude())
-	 pigui.Text("inclination: " .. math.floor(inclination / two_pi * 360))
-	 local periapsis = semimajoraxis * (1 - eccentricity)
-	 local apoapsis = semimajoraxis * (1 + eccentricity)
-	 pigui.Text("Periapsis: " .. Format.Distance(periapsis) .. ", Apoapsis: " .. Format.Distance(apoapsis))
-	 local Ex = 1 - pos:magnitude() / semimajoraxis
-	 local Ey = vel:dot(pos) / math.sqrt(semimajoraxis * mu)
-	 --	 local eccentric_anomaly = math.atan(Ey, Ex) -- WRONG
-	 -- based on http://space.stackexchange.com/questions/16891/how-to-calculate-the-time-to-apoapsis-periapsis-given-the-orbital-elements
-	 local period = two_pi * math.sqrt(cube(semimajoraxis) / mu)
-	 local true_anomaly = math.acos(eccentricity_vector:dot(pos) / (eccentricity * pos:magnitude()))
-	 -- local mean_anomaly = eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly)  -- WRONG
-	 -- local eccentric_anomaly = math.atan(math.sqrt(1 - square(eccentricity)) * math.sin(true_anomaly), eccentricity + math.cos(true_anomaly))
-	 -- eccentric_anomaly = math.fmod(eccentric_anomaly, two_pi)
-	 -- works, but strange
-	 if pos:dot(vel) < 0 then
-			true_anomaly = two_pi - true_anomaly
-	 end
-	 local eccentric_anomaly = math.fmod(math.acos((eccentricity + math.cos(true_anomaly)) / (1 + eccentricity * math.cos(true_anomaly))), two_pi)
-	 if true_anomaly > pi then
-			eccentric_anomaly = two_pi - eccentric_anomaly
-	 end
-	 local mean_anomaly = math.fmod(eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly), two_pi)
-	 local n = period / two_pi
-	 local to_periapsis = math.fmod(two_pi - mean_anomaly, two_pi) * n
-	 local to_apoapsis = math.fmod(two_pi + pi - mean_anomaly, two_pi) * n
-	 pigui.Text("Period: " .. Format.Duration(period) .. ", true anom: " .. math.floor(true_anomaly / two_pi * 360) .. ", ecc anom: " .. math.floor(eccentric_anomaly / two_pi * 360) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
-	 pigui.Text("Time to periapsis: " .. Format.Duration(to_periapsis) .. ", time to apoapsis: " .. Format.Duration(to_apoapsis))
+	 -- local semimajoraxis = 1 / (2 / pos:magnitude() - square(vel:magnitude()) / mu) -- based on http://orbitsimulator.com/formulas/OrbitalElements.html
+	 -- pigui.Text("semi-major axis: " .. Format.Distance(semimajoraxis))
+	 pigui.Text("o semi-major axis: " .. Format.Distance(o_semimajoraxis))
+	 -- local angular_momentum = pos:cross(vel)
+	 -- local inclination = math.acos(angular_momentum.z / angular_momentum:magnitude())
+	 -- pigui.Text("inclination: " .. math.floor(inclination / two_pi * 360))
+	 pigui.Text("O inclination: " .. math.floor(o_inclination / two_pi * 360))
+	 -- local periapsis = semimajoraxis * (1 - eccentricity)
+	 -- local apoapsis = semimajoraxis * (1 + eccentricity)
+	 -- pigui.Text("Periapsis: " .. Format.Distance(periapsis) .. ", Apoapsis: " .. Format.Distance(apoapsis))
+	 local frame = player:GetFrame():GetSystemBody()
+	 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
+	 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
+	 pigui.Text("O Periapsis: " .. Format.Distance(pa) .. " (" .. Format.Distance(pa - frame.radius) .. "), O Apoapsis: " .. Format.Distance(aa) .. " (" .. Format.Distance(aa - frame.radius) .. ")")
+-- 	 local Ex = 1 - pos:magnitude() / semimajoraxis
+-- 	 local Ey = vel:dot(pos) / math.sqrt(semimajoraxis * mu)
+-- 	 --	 local eccentric_anomaly = math.atan(Ey, Ex) -- WRONG
+-- 	 -- based on http://space.stackexchange.com/questions/16891/how-to-calculate-the-time-to-apoapsis-periapsis-given-the-orbital-elements
+-- 	 local period = two_pi * math.sqrt(cube(semimajoraxis) / mu)
+-- 	 local true_anomaly = math.acos(eccentricity_vector:dot(pos) / (eccentricity * pos:magnitude()))
+-- 	 -- local mean_anomaly = eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly)  -- WRONG
+-- 	 -- local eccentric_anomaly = math.atan(math.sqrt(1 - square(eccentricity)) * math.sin(true_anomaly), eccentricity + math.cos(true_anomaly))
+-- 	 -- eccentric_anomaly = math.fmod(eccentric_anomaly, two_pi)
+-- 	 -- works, but strange
+-- 	 if pos:dot(vel) < 0 then
+-- 			true_anomaly = two_pi - true_anomaly
+-- 	 end
+-- 	 local eccentric_anomaly = math.fmod(math.acos((eccentricity + math.cos(true_anomaly)) / (1 + eccentricity * math.cos(true_anomaly))), two_pi)
+-- 	 if true_anomaly > pi then
+-- 			eccentric_anomaly = two_pi - eccentric_anomaly
+-- 	 end
+-- 	 local mean_anomaly = math.fmod(eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly), two_pi)
+-- 	 local n = period / two_pi
+-- 	 local to_periapsis = math.fmod(two_pi - mean_anomaly, two_pi) * n
+-- 	 local to_apoapsis = math.fmod(two_pi + pi - mean_anomaly, two_pi) * n
+-- --	 pigui.Text("Period: " .. Format.Duration(period) .. ", true anom: " .. math.floor(true_anomaly / two_pi * 360) .. ", ecc anom: " .. math.floor(eccentric_anomaly / two_pi * 360) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
+-- 	 pigui.Text("Period: " .. Format.Duration(period) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
+	 pigui.Text("O Period: " .. (o_period and Format.Duration(o_period) or "none"))
+--	 pigui.Text("Time to periapsis: " .. Format.Duration(to_periapsis) .. ", time to apoapsis: " .. Format.Duration(to_apoapsis))
+	 pigui.Text("Time to O periapsis: " .. Format.Duration(o_time_at_periapsis) .. ", O time to apoapsis: " .. Format.Duration(o_time_at_apoapsis))
+	 pigui.Text("Has Atmosphere: " .. (frame.hasAtmosphere and "yes" or "no"))
+	 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
 	 pigui.End()
 end
 
@@ -507,6 +513,19 @@ pigui.handlers.HUD = function(delta)
 	 if side == "onscreen" then
 			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
 			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
+	 end
+	 local side, dir, pos = pigui.GetHUDMarker("normal")
+	 local dir_fwd = Vector(dir.x, dir.y)
+	 if side == "onscreen" then
+			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), colors.red, 3.0)
+			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), colors.red, 3.0)
+	 end
+
+	 local side, dir, pos = pigui.GetHUDMarker("radial_in")
+	 local dir_fwd = Vector(dir.x, dir.y)
+	 if side == "onscreen" then
+			pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), colors.red, 3.0)
+			pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), colors.red, 3.0)
 	 end
 
 	 -- ******************** Reticule ********************
@@ -802,5 +821,5 @@ pigui.handlers.HUD = function(delta)
 --	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
 --	 show_missions()
-	 show_debug()
+	 show_orbit()
 end

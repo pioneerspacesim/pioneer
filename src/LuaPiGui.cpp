@@ -597,6 +597,15 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 		marker = wv->GetLeftIndicator();
 	else if(!name.compare("right"))
 		marker = wv->GetRightIndicator();
+	else if(!name.compare("normal"))
+		marker = wv->GetNormalIndicator();
+	else if(!name.compare("anti_normal"))
+		marker = wv->GetAntiNormalIndicator();
+	else if(!name.compare("radial_in"))
+		marker = wv->GetRadialOutIndicator();
+	else if(!name.compare("radial_out"))
+		marker = wv->GetRadialInIndicator();
+
 	else
 		// TODO: error
 		return 0;

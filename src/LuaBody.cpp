@@ -394,6 +394,13 @@ static int l_body_find_nearest_to(lua_State *l)
 	return 1;
 }
 
+static int l_body_get_system_body(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	LuaObject<SystemBody>::PushToLua(const_cast<SystemBody*>(b->GetSystemBody()));
+	return 1;
+}
+
 static int l_body_get_projected_screen_position(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -506,6 +513,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetPosition", l_body_get_position },
 		{ "GetVelocity", l_body_get_velocity },
 		{ "GetMass", l_body_get_mass },
+		{ "GetSystemBody", l_body_get_system_body },
 		{ 0, 0 }
 	};
 

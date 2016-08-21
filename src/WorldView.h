@@ -100,6 +100,10 @@ public:
 	const Indicator *GetRightIndicator() const { return &m_rightIndicator; }
 	const Indicator *GetUpIndicator() const { return &m_upIndicator; }
 	const Indicator *GetDownIndicator() const { return &m_downIndicator; }
+	const Indicator *GetNormalIndicator() const { return &m_normalIndicator; }
+	const Indicator *GetAntiNormalIndicator() const { return &m_antiNormalIndicator; }
+	const Indicator *GetRadialInIndicator() const { return &m_radialInIndicator; }
+	const Indicator *GetRadialOutIndicator() const { return &m_radialOutIndicator; }
 	
 	const vector3d GetNavProgradeVelocity() const;
 	const vector3d GetFrameProgradeVelocity() const;
@@ -235,6 +239,10 @@ private:
 	Indicator m_downIndicator;
 	Indicator m_leftIndicator;
 	Indicator m_rightIndicator;
+	Indicator m_normalIndicator;
+	Indicator m_antiNormalIndicator;
+	Indicator m_radialInIndicator;
+	Indicator m_radialOutIndicator;
 
 	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
 	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;
