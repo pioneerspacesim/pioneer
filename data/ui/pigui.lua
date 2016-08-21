@@ -8,11 +8,8 @@ local system
 local pigui = Engine.pigui
 
 local show_retrograde_indicators = true
-local show_nav_distance_with_marker = false
 local show_nav_distance_with_reticule = true
-local show_nav_speed_with_marker = false
 local show_nav_speed_with_reticule = true
-local show_frame_speed_with_marker = false
 local show_frame_speed_with_reticule = true
 
 
@@ -35,6 +32,7 @@ local colors = {
 	 deltav_current = {r=150,g=150,b=150},
 	 deltav_maneuver = {r=168,g=168,b=255},
 	 darkgrey = {r=150,g=150,b=150},
+	 orbital_marker = {r=150,g=150,b=150},
 	 lightgrey = {r=200,g=200,b=200},
 	 windowbg = {r=0,g=0,b=50,a=200},
 	 transparent = {r=0,g=0,b=0,a=0},
@@ -128,7 +126,7 @@ do
 										self.x * other.z - self.z * other.x,
 										self.x * other.y - self.y * other.x)
 	 end
-	 
+
 	 setmetatable( Vector, {
 										__call = function( V, x ,y ,z ) return setmetatable( {x = x or 0, y = y or 0, z = z or 0}, meta ) end
 	 } )
@@ -297,11 +295,8 @@ local selected
 local function show_settings()
 	 pigui.Begin("Settings", {})
 	 show_retrograde_indicators = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
-	 show_nav_distance_with_marker = pigui.Checkbox("Show nav distance with nav target marker", show_nav_distance_with_marker);
 	 show_nav_distance_with_reticule = pigui.Checkbox("Show nav distance with reticule", show_nav_distance_with_reticule);
-	 show_nav_speed_with_marker = pigui.Checkbox("Show nav speed with nav target marker", show_nav_speed_with_marker);
 	 show_nav_speed_with_reticule = pigui.Checkbox("Show nav speed with reticule", show_nav_speed_with_reticule);
-	 show_frame_speed_with_marker = pigui.Checkbox("Show frame speed with frame prograde marker", show_frame_speed_with_marker);
 	 show_frame_speed_with_reticule = pigui.Checkbox("Show frame speed with reticule", show_frame_speed_with_reticule);
 	 pigui.End()
 end
@@ -366,11 +361,11 @@ local function show_navball()
 	 local deltav_current = player:GetCurrentDeltaV()
 	 local dvc = deltav_current / deltav_max
 	 -- -- debugging
-	 -- pigui.Begin("DeltaV", {})
-	 -- pigui.Text("delta v max: " .. deltav_max)
-	 -- pigui.Text("delta v remaining: " .. deltav_remaining)
-	 -- pigui.Text("delta v current: " .. deltav_current)
-	 -- pigui.End()
+	 pigui.Begin("DeltaV", {})
+	 pigui.Text("delta v max: " .. deltav_max)
+	 pigui.Text("delta v remaining: " .. deltav_remaining)
+	 pigui.Text("delta v current: " .. deltav_current)
+	 pigui.End()
 	 deltav_gauge(1.0, navball_center, navball_radius + 5, colors.deltav_total, thickness)
 	 if dvr > 0 then
 			deltav_gauge(dvr, navball_center, navball_radius + 5, colors.deltav_remaining, thickness)
@@ -422,9 +417,9 @@ local function show_orbit()
 	 -- local eccentricity = eccentricity_vector:magnitude()
 	 -- pigui.Text("eccentricity: " .. eccentricity)
 	 pigui.Text("o eccentricity: " .. o_eccentricity)
---	 local specific_orbital_energy = square(vel:magnitude()) / 2 - mu / pos:magnitude()
---	 pigui.Text("specific orbital energy: " .. specific_orbital_energy)
---	 local semimajoraxis = -mu / 2 * specific_orbital_energy
+	 --	 local specific_orbital_energy = square(vel:magnitude()) / 2 - mu / pos:magnitude()
+	 --	 pigui.Text("specific orbital energy: " .. specific_orbital_energy)
+	 --	 local semimajoraxis = -mu / 2 * specific_orbital_energy
 	 -- local semimajoraxis = 1 / (2 / pos:magnitude() - square(vel:magnitude()) / mu) -- based on http://orbitsimulator.com/formulas/OrbitalElements.html
 	 -- pigui.Text("semi-major axis: " .. Format.Distance(semimajoraxis))
 	 pigui.Text("o semi-major axis: " .. Format.Distance(o_semimajoraxis))
@@ -439,31 +434,31 @@ local function show_orbit()
 	 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
 	 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
 	 pigui.Text("O Periapsis: " .. Format.Distance(pa) .. " (" .. Format.Distance(pa - frame.radius) .. "), O Apoapsis: " .. Format.Distance(aa) .. " (" .. Format.Distance(aa - frame.radius) .. ")")
--- 	 local Ex = 1 - pos:magnitude() / semimajoraxis
--- 	 local Ey = vel:dot(pos) / math.sqrt(semimajoraxis * mu)
--- 	 --	 local eccentric_anomaly = math.atan(Ey, Ex) -- WRONG
--- 	 -- based on http://space.stackexchange.com/questions/16891/how-to-calculate-the-time-to-apoapsis-periapsis-given-the-orbital-elements
--- 	 local period = two_pi * math.sqrt(cube(semimajoraxis) / mu)
--- 	 local true_anomaly = math.acos(eccentricity_vector:dot(pos) / (eccentricity * pos:magnitude()))
--- 	 -- local mean_anomaly = eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly)  -- WRONG
--- 	 -- local eccentric_anomaly = math.atan(math.sqrt(1 - square(eccentricity)) * math.sin(true_anomaly), eccentricity + math.cos(true_anomaly))
--- 	 -- eccentric_anomaly = math.fmod(eccentric_anomaly, two_pi)
--- 	 -- works, but strange
--- 	 if pos:dot(vel) < 0 then
--- 			true_anomaly = two_pi - true_anomaly
--- 	 end
--- 	 local eccentric_anomaly = math.fmod(math.acos((eccentricity + math.cos(true_anomaly)) / (1 + eccentricity * math.cos(true_anomaly))), two_pi)
--- 	 if true_anomaly > pi then
--- 			eccentric_anomaly = two_pi - eccentric_anomaly
--- 	 end
--- 	 local mean_anomaly = math.fmod(eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly), two_pi)
--- 	 local n = period / two_pi
--- 	 local to_periapsis = math.fmod(two_pi - mean_anomaly, two_pi) * n
--- 	 local to_apoapsis = math.fmod(two_pi + pi - mean_anomaly, two_pi) * n
--- --	 pigui.Text("Period: " .. Format.Duration(period) .. ", true anom: " .. math.floor(true_anomaly / two_pi * 360) .. ", ecc anom: " .. math.floor(eccentric_anomaly / two_pi * 360) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
--- 	 pigui.Text("Period: " .. Format.Duration(period) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
+	 -- 	 local Ex = 1 - pos:magnitude() / semimajoraxis
+	 -- 	 local Ey = vel:dot(pos) / math.sqrt(semimajoraxis * mu)
+	 -- 	 --	 local eccentric_anomaly = math.atan(Ey, Ex) -- WRONG
+	 -- 	 -- based on http://space.stackexchange.com/questions/16891/how-to-calculate-the-time-to-apoapsis-periapsis-given-the-orbital-elements
+	 -- 	 local period = two_pi * math.sqrt(cube(semimajoraxis) / mu)
+	 -- 	 local true_anomaly = math.acos(eccentricity_vector:dot(pos) / (eccentricity * pos:magnitude()))
+	 -- 	 -- local mean_anomaly = eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly)  -- WRONG
+	 -- 	 -- local eccentric_anomaly = math.atan(math.sqrt(1 - square(eccentricity)) * math.sin(true_anomaly), eccentricity + math.cos(true_anomaly))
+	 -- 	 -- eccentric_anomaly = math.fmod(eccentric_anomaly, two_pi)
+	 -- 	 -- works, but strange
+	 -- 	 if pos:dot(vel) < 0 then
+	 -- 			true_anomaly = two_pi - true_anomaly
+	 -- 	 end
+	 -- 	 local eccentric_anomaly = math.fmod(math.acos((eccentricity + math.cos(true_anomaly)) / (1 + eccentricity * math.cos(true_anomaly))), two_pi)
+	 -- 	 if true_anomaly > pi then
+	 -- 			eccentric_anomaly = two_pi - eccentric_anomaly
+	 -- 	 end
+	 -- 	 local mean_anomaly = math.fmod(eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly), two_pi)
+	 -- 	 local n = period / two_pi
+	 -- 	 local to_periapsis = math.fmod(two_pi - mean_anomaly, two_pi) * n
+	 -- 	 local to_apoapsis = math.fmod(two_pi + pi - mean_anomaly, two_pi) * n
+	 -- --	 pigui.Text("Period: " .. Format.Duration(period) .. ", true anom: " .. math.floor(true_anomaly / two_pi * 360) .. ", ecc anom: " .. math.floor(eccentric_anomaly / two_pi * 360) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
+	 -- 	 pigui.Text("Period: " .. Format.Duration(period) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
 	 pigui.Text("O Period: " .. (o_period and Format.Duration(o_period) or "none"))
---	 pigui.Text("Time to periapsis: " .. Format.Duration(to_periapsis) .. ", time to apoapsis: " .. Format.Duration(to_apoapsis))
+	 --	 pigui.Text("Time to periapsis: " .. Format.Duration(to_periapsis) .. ", time to apoapsis: " .. Format.Duration(to_apoapsis))
 	 pigui.Text("Time to O periapsis: " .. Format.Duration(o_time_at_periapsis) .. ", O time to apoapsis: " .. Format.Duration(o_time_at_apoapsis))
 	 pigui.Text("Has Atmosphere: " .. (frame.hasAtmosphere and "yes" or "no"))
 	 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
@@ -484,55 +479,129 @@ pigui.handlers.HUD = function(delta)
 	 -- ******************** Ship Directional Markers ********************
 	 local size=8
 	 local side, dir, pos = pigui.GetHUDMarker("forward")
+	 local pos_fwd = pos
+	 local side_fwd = side
 	 local dir_fwd = Vector(dir.x, dir.y)
+	 local show_extra_reticule = true
 	 if side == "onscreen" then
+			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+				 show_extra_reticule = false
+			end
 			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), colors.lightgrey, 3.0)
 			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("backward")
 	 if side == "onscreen" then
+			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+				 show_extra_reticule = false
+			end
 			pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), colors.lightgrey, 3.0)
 			pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("left")
 	 if side == "onscreen" then
+			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+				 show_extra_reticule = false
+			end
 			pigui.AddLine(pos + Vector(0,size), pos + Vector(0,-size), colors.lightgrey, 3.0)
 			pigui.AddLine(pos + Vector(0, 0), pos + Vector(size,0), colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("right")
 	 if side == "onscreen" then
+			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+				 show_extra_reticule = false
+			end
 			pigui.AddLine(pos + Vector(0,size), pos + Vector(0,-size), colors.lightgrey, 3.0)
 			pigui.AddLine(pos + Vector(0, 0), pos + Vector(-size,0), colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("up")
 	 if side == "onscreen" then
+			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+				 show_extra_reticule = false
+			end
 			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
 			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("down")
 	 if side == "onscreen" then
+			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+				 show_extra_reticule = false
+			end
 			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
 			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("normal")
-	 local dir_fwd = Vector(dir.x, dir.y)
 	 if side == "onscreen" then
-			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), colors.red, 3.0)
-			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), colors.red, 3.0)
+			local factor = 2
+			local lineLeft = pos + Vector(-1,-1) * size
+			local lineRight = pos + Vector(1,-1) * size
+			local triCenter = pos + Vector(0,1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, 1) * (size / factor)
+			local triRight = lineRight + Vector(0, 1) * (size / factor)
+			pigui.AddLine(lineLeft, lineRight, colors.orbital_marker, 2.0)
+			pigui.AddLine(triLeft, triCenter , colors.orbital_marker, 2.0)
+			pigui.AddLine(triRight, triCenter , colors.orbital_marker, 2.0)
+	 end
+
+	 local side, dir, pos = pigui.GetHUDMarker("anti_normal")
+	 if side == "onscreen" then
+			local factor = 2
+			local lineLeft = pos + Vector(-1,1) * size
+			local lineRight = pos + Vector(1,1) * size
+			local triCenter = pos + Vector(0,-1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, -1) * (size / factor)
+			local triRight = lineRight + Vector(0, -1) * (size / factor)
+			pigui.AddLine(lineLeft, lineRight, colors.orbital_marker, 2.0)
+			pigui.AddLine(triLeft, triCenter , colors.orbital_marker, 2.0)
+			pigui.AddLine(triRight, triCenter , colors.orbital_marker, 2.0)
 	 end
 
 	 local side, dir, pos = pigui.GetHUDMarker("radial_in")
-	 local dir_fwd = Vector(dir.x, dir.y)
 	 if side == "onscreen" then
-			pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), colors.red, 3.0)
-			pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), colors.red, 3.0)
+			local factor = 6
+			local leftTop = pos + Vector(-1,1) * size
+			local rightTop = pos + Vector(1,1) * size
+			local leftBottom = pos + Vector(-1,-1) * size
+			local rightBottom = pos + Vector(1,-1) * size
+			local leftCenter = pos + Vector(-1, 0) * (size / factor)
+			local rightCenter = pos + Vector(1, 0) * (size / factor)
+			pigui.AddLine(leftTop, leftBottom, colors.orbital_marker, 2.0)
+			pigui.AddLine(leftBottom, leftCenter, colors.orbital_marker, 2.0)
+			pigui.AddLine(leftTop, leftCenter, colors.orbital_marker, 2.0)
+			pigui.AddLine(rightTop, rightBottom, colors.orbital_marker, 2.0)
+			pigui.AddLine(rightBottom, rightCenter, colors.orbital_marker, 2.0)
+			pigui.AddLine(rightTop, rightCenter, colors.orbital_marker, 2.0)
+	 end
+
+	 local side, dir, pos = pigui.GetHUDMarker("radial_out")
+	 if side == "onscreen" then
+			local factor = 5
+			local leftTop = pos + Vector(-1 * size / factor, 1 * size)
+			local rightTop = pos + Vector(1 * size / factor, 1 * size)
+			local leftBottom = pos + Vector(-1 * size / factor, -1 * size)
+			local rightBottom = pos + Vector(1 * size / factor, -1 * size)
+			local leftCenter = pos + Vector(-1, 0) * size
+			local rightCenter = pos + Vector(1, 0) * size
+			pigui.AddLine(leftTop, leftBottom, colors.orbital_marker, 2.0)
+			pigui.AddLine(leftBottom, leftCenter, colors.orbital_marker, 2.0)
+			pigui.AddLine(leftTop, leftCenter, colors.orbital_marker, 2.0)
+			pigui.AddLine(rightTop, rightBottom, colors.orbital_marker, 2.0)
+			pigui.AddLine(rightBottom, rightCenter, colors.orbital_marker, 2.0)
+			pigui.AddLine(rightTop, rightCenter, colors.orbital_marker, 2.0)
 	 end
 
 	 -- ******************** Reticule ********************
-	 pigui.AddCircleFilled(center, 2, colors.lightgrey, 8)
+
+	 if show_extra_reticule then
+			-- center of screen marker, small circle
+			pigui.AddCircleFilled(center, 2, colors.lightgrey, 8)
+			-- pointer to forward, small triangle
+			pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:left()):normalized() * size / 1.7, colors.lightgrey, 1.5)
+			pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:right()):normalized() * size / 1.7, colors.lightgrey, 1.5)
+	 end
+	 -- navigation circle
 	 pigui.AddCircle(center, reticule_radius, colors.lightgrey, 128, 2.0)
-	 pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:left()):normalized() * size / 1.7, colors.lightgrey, 1.5)
-	 pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:right()):normalized() * size / 1.7, colors.lightgrey, 1.5)
+
 	 local navTarget = player:GetNavTarget()
 	 if navTarget then
 			-- target name
@@ -545,23 +614,17 @@ pigui.handlers.HUD = function(delta)
 			pigui.AddText(leftTop, colors.lightgreen, navTarget.label)
 			pigui.PopFont()
 
-			if show_nav_speed_with_reticule then
-				 local speed = pigui.GetVelocity("nav_prograde")
-				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-				 drawWithUnit(Vector(center.x + reticule_radius + 10, center.y), spd, unit .. "/s", colors.lightgreen)
-			end
+			local speed = pigui.GetVelocity("nav_prograde")
+			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+			drawWithUnit(Vector(center.x + reticule_radius + 10, center.y), spd, unit .. "/s", colors.lightgreen)
 
-			if show_nav_distance_with_reticule then
-				 local distance = player:DistanceTo(navTarget)
-				 local dist,unit = MyFormat.Distance(distance)
-				 drawWithUnit(Vector(center.x + reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), dist, unit, colors.lightgreen)
-				 local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-				 pigui.PushFont("pionillium", 18)
-				 pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
-				 pigui.PopFont()
-
-			end
-
+			local distance = player:DistanceTo(navTarget)
+			local dist,unit = MyFormat.Distance(distance)
+			drawWithUnit(Vector(center.x + reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), dist, unit, colors.lightgreen)
+			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+			pigui.PushFont("pionillium", 18)
+			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
+			pigui.PopFont()
 	 end
 
 	 local frame = player:GetFrame()
@@ -585,15 +648,13 @@ pigui.handlers.HUD = function(delta)
 	 pigui.AddText(Vector(center.x - reticule_radius /2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgrey, "~" .. Format.Distance(brakeDist))
 	 pigui.PopFont()
 
-	 if show_frame_speed_with_reticule then
-			local speed = pigui.GetVelocity("frame_prograde")
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			drawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
-	 end
+	 local speed = pigui.GetVelocity("frame_prograde")
+	 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+	 drawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
 
 	 -- ******************** Frame Prograde marker ********************
 	 local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
-	 local color = colors.lightgrey
+	 local color = colors.orbital_marker
 	 if pos then
 			local size = 4
 			local left = pos + Vector(-1,0) * size
@@ -609,19 +670,10 @@ pigui.handlers.HUD = function(delta)
 			local top = point + Vector(0,1) * size
 			local bottom = point + Vector(0,-1) * size
 			pigui.AddQuad(left, top, right, bottom, color, 3.0)
-			if show_frame_speed_with_marker then
-				 local speed = pigui.GetVelocity("frame_prograde")
-				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgrey)
-				 local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
-				 pigui.PushFont("pionillium", 18)
-				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-				 pigui.PopFont()
-			end
 	 end
 	 -- ******************** Frame Retrograde marker ********************
 	 local pos,dir,point,side = markerPos("frame_retrograde", reticule_radius - 10)
-	 local color = colors.lightgrey
+	 local color = colors.orbital_marker
 	 if pos and show_retrograde_indicators then
 			local size = 3
 			local leftTop = pos + Vector(-1,1) * size
@@ -639,15 +691,6 @@ pigui.handlers.HUD = function(delta)
 			local rightBottom = point + Vector(1,-1) * size
 			pigui.AddLine(leftTop, rightBottom, color, 3.0)
 			pigui.AddLine(leftBottom, rightTop, color, 3.0)
-			if show_frame_speed_with_marker then
-				 local speed = pigui.GetVelocity("frame_prograde")
-				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgrey)
-				 local brakeDist = player:GetDistanceToZeroV("frame", "prograde")
-				 pigui.PushFont("pionillium", 18)
-				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-				 pigui.PopFont()
-			end
 	 end
 	 -- ******************** NavTarget Prograde marker ********************
 	 local pos,dir,point,side = markerPos("nav_prograde", reticule_radius - 10)
@@ -667,15 +710,6 @@ pigui.handlers.HUD = function(delta)
 			local top = point + Vector(0,1) * size
 			local bottom = point + Vector(0,-1) * size
 			pigui.AddQuad(left, top, right, bottom, color, 3.0)
-			if show_nav_speed_with_marker then
-				 local speed = pigui.GetVelocity("nav_prograde")
-				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgreen)
-				 local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-				 pigui.PushFont("pionillium", 18)
-				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-				 pigui.PopFont()
-			end
 	 end
 	 -- ******************** NavTarget Retrograde marker ********************
 	 local pos,dir,point,side = markerPos("nav_retrograde", reticule_radius - 10)
@@ -697,15 +731,6 @@ pigui.handlers.HUD = function(delta)
 			local rightBottom = point + Vector(1,-1) * size
 			pigui.AddLine(leftTop, rightBottom, color, 3.0)
 			pigui.AddLine(leftBottom, rightTop, color, 3.0)
-			if show_nav_speed_with_marker then
-				 local speed = pigui.GetVelocity("nav_prograde")
-				 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-				 drawWithUnit(Vector(point.x + size + 5, point.y), spd, unit .. "/s", colors.lightgreen)
-				 local brakeDist = player:GetDistanceToZeroV("nav", "prograde")
-				 pigui.PushFont("pionillium", 18)
-				 pigui.AddText(Vector(point.x + size + 5, point.y + 15), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-				 pigui.PopFont()
-			end
 	 end
 	 -- ******************** NavTarget marker ********************
 	 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
@@ -727,11 +752,6 @@ pigui.handlers.HUD = function(delta)
 			local mp = pigui.GetMousePos()
 			if (Vector(mp.x,mp.y) - point):magnitude() < 30 then
 				 pigui.SetTooltip("Nav target\nThis shows the current navigational target")
-			end
-			if show_nav_distance_with_marker then
-				 local distance = player:DistanceTo(player:GetNavTarget())
-				 local dist,unit = MyFormat.Distance(distance)
-				 drawWithUnit(Vector(point.x + size + 5, point.y), dist, unit, colors.lightgreen)
 			end
 	 end
 	 -- ******************** Frame indicator ********************
@@ -770,9 +790,9 @@ pigui.handlers.HUD = function(delta)
 			if max < size then
 				 max = size
 			end
-			
+
 			local vx,vy,vz = vel.x/max, -vel.y/max, vel.z/max
-			
+
 			pigui.AddText(velocity_center + Vector(-13,-size*1.5-8), colors.darkgrey, "L")
 			pigui.AddText(velocity_center + Vector(-13,size*1.5), colors.darkgrey, "R")
 			pigui.AddLine(velocity_center + Vector(-10,0), velocity_center + Vector(-10, vx * size), colors.lightgrey, thickness)
@@ -787,7 +807,7 @@ pigui.handlers.HUD = function(delta)
 	 pigui.PopStyleColor(1);
 
 	 -- show_orbit()
-	 
+
 	 -- ******************** Navigation Window ********************
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
@@ -818,8 +838,8 @@ pigui.handlers.HUD = function(delta)
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 
---	 show_settings()
+	 --	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
---	 show_missions()
+	 --	 show_missions()
 	 show_orbit()
 end
