@@ -684,6 +684,7 @@ pigui.handlers.HUD = function(delta)
 			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
 			drawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
 
+			-- ******************** GPS data ********************
 			do
 				 local pressure, density = frame:GetAtmosphericState()
 				 if pressure > 0.001 then
@@ -702,6 +703,35 @@ pigui.handlers.HUD = function(delta)
 						drawWithUnit(Vector(center.x - 100, center.y + reticule_radius + 50 + offset * 4), lon, "", colors.darkgrey, false, "Lon: ")
 				 end
 			end
+
+			-- thrusters
+			pigui.Begin("Thrusters", {})
+			local thrust = player:GetThrusterState()
+			-- y = 1 -> up
+			-- z = -1 -> fwd
+			-- x = -1 -> left
+			local thrust_forward = (thrust.z < 0) and math.abs(thrust.z) * math.abs(player:GetAccel("forward")) or 0
+			local thrust_backward = (thrust.z > 0) and math.abs(thrust.z) * math.abs(player:GetAccel("backward")) or 0
+			local thrust_left = (thrust.x < 0) and math.abs(thrust.x) * math.abs(player:GetAccel("left")) or 0
+			local thrust_right = (thrust.x > 0) and math.abs(thrust.x) * math.abs(player:GetAccel("right")) or 0
+			local thrust_up = (thrust.y > 0) and math.abs(thrust.y) * math.abs(player:GetAccel("up")) or 0
+			local thrust_down = (thrust.y < 0) and math.abs(thrust.y) * math.abs(player:GetAccel("down")) or 0
+			pigui.Text("Thrust: " .. thrust.x .. "/" .. thrust.y .. "/" .. thrust.z)
+			pigui.Text("Accel Forward: " .. player:GetAccel("forward"))
+			pigui.Text("Accel Backward: " .. player:GetAccel("backward"))
+			pigui.Text("Accel Up: " .. player:GetAccel("up"))
+			pigui.Text("Accel Down: " .. player:GetAccel("down"))
+			pigui.Text("Accel Left: " .. player:GetAccel("left"))
+			pigui.Text("Accel Right: " .. player:GetAccel("right"))
+			pigui.Text("Thrust Forward: " .. thrust_forward)
+			pigui.Text("Thrust Backward: " .. thrust_backward)
+			pigui.Text("Thrust Up: " .. thrust_up)
+			pigui.Text("Thrust Down: " .. thrust_down)
+			pigui.Text("Thrust Left: " .. thrust_left)
+			pigui.Text("Thrust Right: " .. thrust_right)
+			local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
+			pigui.Text("Total thrust: " .. total_thrust)
+			pigui.End()
 			-- ******************** Frame Prograde marker ********************
 			local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
 			local color = colors.orbital_marker

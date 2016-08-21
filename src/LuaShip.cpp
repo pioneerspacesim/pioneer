@@ -1062,6 +1062,31 @@ static int l_ship_get_position(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_thruster_state(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	vector3d v = s->GetThrusterState();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
+	return 1;
+}
+
+static int l_ship_get_accel(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	double accel;
+	std::string type = luaL_checkstring(l, 2);
+	if(!type.compare("forward")) { accel = s->GetAccelFwd(); }
+	else if(!type.compare("backward")) { accel = s->GetAccelRev(); }
+	else if(!type.compare("up")) { accel = s->GetAccelUp(); }
+	else if(!type.compare("down")) { accel = s->GetAccelDown(); }
+	else if(!type.compare("left")) { accel = s->GetAccelLeft(); }
+	else if(!type.compare("right")) { accel = s->GetAccelRight(); }
+	// TODO else error
+	lua_pushnumber(l, accel);
+	return 1;
+}
 
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
@@ -1112,7 +1137,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetVelocity", l_ship_get_velocity },
  		{ "GetPosition", l_ship_get_position },
-
+		{ "GetThrusterState", l_ship_get_thruster_state },
+		{ "GetAccel", l_ship_get_accel },
 		{ 0, 0 }
 	};
 
