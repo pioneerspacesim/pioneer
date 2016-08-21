@@ -698,6 +698,23 @@ static int l_pigui_dummy(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_begin_popup(lua_State *l) {
+	std::string id = luaL_checkstring(l, 1);
+	lua_pushboolean(l, ImGui::BeginPopup(id.c_str()));
+	return 1;
+}
+
+static int l_pigui_open_popup(lua_State *l) {
+	std::string id = luaL_checkstring(l, 1);
+	ImGui::OpenPopup(id.c_str());
+	return 0;
+}
+
+static int l_pigui_end_popup(lua_State *l) {
+	ImGui::EndPopup();
+	return 0;
+}
+
 static int l_pigui_begin_child(lua_State *l) {
 	std::string id = luaL_checkstring(l, 1);
 	ImGui::BeginChild(id.c_str());
@@ -717,6 +734,18 @@ static int l_pigui_is_item_hovered(lua_State *l) {
 static int l_pigui_is_item_clicked(lua_State *l) {
 	int button = luaL_checkinteger(l, 1);
 	lua_pushboolean(l, ImGui::IsItemClicked(button));
+	return 1;
+}
+
+static int l_pigui_is_mouse_released(lua_State *l) {
+	int button = luaL_checkinteger(l, 1);
+	lua_pushboolean(l, ImGui::IsMouseReleased(button));
+	return 1;
+}
+
+static int l_pigui_is_mouse_clicked(lua_State *l) {
+	int button = luaL_checkinteger(l, 1);
+	lua_pushboolean(l, ImGui::IsMouseClicked(button));
 	return 1;
 }
 
@@ -852,6 +881,11 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "PathStroke",             l_pigui_path_stroke },
 		{ "PushItemWidth",          l_pigui_push_item_width },
 		{ "PopItemWidth",           l_pigui_pop_item_width },
+		{ "BeginPopup",             l_pigui_begin_popup },
+		{ "EndPopup",               l_pigui_end_popup },
+		{ "OpenPopup",              l_pigui_open_popup },
+		{ "IsMouseReleased",        l_pigui_is_mouse_released },
+		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
 		{ 0, 0 }
 	};
 

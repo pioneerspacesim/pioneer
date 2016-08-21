@@ -361,11 +361,11 @@ local function show_navball()
 	 local deltav_current = player:GetCurrentDeltaV()
 	 local dvc = deltav_current / deltav_max
 	 -- -- debugging
-	 pigui.Begin("DeltaV", {})
-	 pigui.Text("delta v max: " .. deltav_max)
-	 pigui.Text("delta v remaining: " .. deltav_remaining)
-	 pigui.Text("delta v current: " .. deltav_current)
-	 pigui.End()
+	 -- pigui.Begin("DeltaV", {})
+	 -- pigui.Text("delta v max: " .. deltav_max)
+	 -- pigui.Text("delta v remaining: " .. deltav_remaining)
+	 -- pigui.Text("delta v current: " .. deltav_current)
+	 -- pigui.End()
 	 deltav_gauge(1.0, navball_center, navball_radius + 5, colors.deltav_total, thickness)
 	 if dvr > 0 then
 			deltav_gauge(dvr, navball_center, navball_radius + 5, colors.deltav_remaining, thickness)
@@ -628,69 +628,71 @@ pigui.handlers.HUD = function(delta)
 	 end
 
 	 local frame = player:GetFrame()
-	 pigui.PushFont("pionillium", 12)
-	 local size = pigui.CalcTextSize("rel-to")
-	 local rightTop = Vector(center.x - reticule_radius / 2 * 1.3 - size.x, center.y - reticule_radius)
-	 pigui.AddText(rightTop, colors.darkgrey, "rel-to")
-	 pigui.PopFont()
-	 pigui.PushFont("pionillium", 18)
-	 local size = pigui.CalcTextSize(frame.label)
-	 rightTop = rightTop + Vector(-size.x,20)
-	 pigui.AddText(rightTop, colors.darkgrey, frame.label)
-	 pigui.PopFont()
+	 if frame then
+			pigui.PushFont("pionillium", 12)
+			local size = pigui.CalcTextSize("rel-to")
+			local rightTop = Vector(center.x - reticule_radius / 2 * 1.3 - size.x, center.y - reticule_radius)
+			pigui.AddText(rightTop, colors.darkgrey, "rel-to")
+			pigui.PopFont()
+			pigui.PushFont("pionillium", 18)
+			local size = pigui.CalcTextSize(frame.label)
+			rightTop = rightTop + Vector(-size.x,20)
+			pigui.AddText(rightTop, colors.darkgrey, frame.label)
+			pigui.PopFont()
 
-	 local distance = player:DistanceTo(frame)
-	 local dist,unit = MyFormat.Distance(distance)
-	 drawWithUnit(Vector(center.x - reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), dist, unit, colors.lightgrey, true)
+			local distance = player:DistanceTo(frame)
+			local dist,unit = MyFormat.Distance(distance)
+			drawWithUnit(Vector(center.x - reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), dist, unit, colors.lightgrey, true)
 
-	 local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
-	 pigui.PushFont("pionillium", 18)
-	 pigui.AddText(Vector(center.x - reticule_radius /2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-	 pigui.PopFont()
+			local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
+			pigui.PushFont("pionillium", 18)
+			pigui.AddText(Vector(center.x - reticule_radius /2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgrey, "~" .. Format.Distance(brakeDist))
+			pigui.PopFont()
 
-	 local speed = pigui.GetVelocity("frame_prograde")
-	 local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-	 drawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
+			local speed = pigui.GetVelocity("frame_prograde")
+			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+			drawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
 
-	 -- ******************** Frame Prograde marker ********************
-	 local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
-	 local color = colors.orbital_marker
-	 if pos then
-			local size = 4
-			local left = pos + Vector(-1,0) * size
-			local right = pos + Vector(1,0) * size
-			local top = pos + Vector(0,1) * size
-			local bottom = pos + Vector(0,-1) * size
-			pigui.AddQuad(left, top, right, bottom, color, 1.0)
-	 end
-	 if side == "onscreen" and point then
-			local size = 12
-			local left = point + Vector(-1,0) * size
-			local right = point + Vector(1,0) * size
-			local top = point + Vector(0,1) * size
-			local bottom = point + Vector(0,-1) * size
-			pigui.AddQuad(left, top, right, bottom, color, 3.0)
-	 end
-	 -- ******************** Frame Retrograde marker ********************
-	 local pos,dir,point,side = markerPos("frame_retrograde", reticule_radius - 10)
-	 local color = colors.orbital_marker
-	 if pos and show_retrograde_indicators then
-			local size = 3
-			local leftTop = pos + Vector(-1,1) * size
-			local rightTop = pos + Vector(1,1) * size
-			local leftBottom = pos + Vector(-1,-1) * size
-			local rightBottom = pos + Vector(1,-1) * size
-			pigui.AddLine(leftTop, rightBottom, color, 1.0)
-			pigui.AddLine(leftBottom, rightTop, color, 1.0)
-	 end
-	 if side == "onscreen" and point then
-			local size = 12
-			local leftTop = point + Vector(-1,1) * size
-			local rightTop = point + Vector(1,1) * size
-			local leftBottom = point + Vector(-1,-1) * size
-			local rightBottom = point + Vector(1,-1) * size
-			pigui.AddLine(leftTop, rightBottom, color, 3.0)
-			pigui.AddLine(leftBottom, rightTop, color, 3.0)
+			-- ******************** Frame Prograde marker ********************
+			local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
+			local color = colors.orbital_marker
+			if pos then
+				 local size = 4
+				 local left = pos + Vector(-1,0) * size
+				 local right = pos + Vector(1,0) * size
+				 local top = pos + Vector(0,1) * size
+				 local bottom = pos + Vector(0,-1) * size
+				 pigui.AddQuad(left, top, right, bottom, color, 1.0)
+			end
+			if side == "onscreen" and point then
+				 local size = 12
+				 local left = point + Vector(-1,0) * size
+				 local right = point + Vector(1,0) * size
+				 local top = point + Vector(0,1) * size
+				 local bottom = point + Vector(0,-1) * size
+				 pigui.AddQuad(left, top, right, bottom, color, 3.0)
+			end
+			-- ******************** Frame Retrograde marker ********************
+			local pos,dir,point,side = markerPos("frame_retrograde", reticule_radius - 10)
+			local color = colors.orbital_marker
+			if pos and show_retrograde_indicators then
+				 local size = 3
+				 local leftTop = pos + Vector(-1,1) * size
+				 local rightTop = pos + Vector(1,1) * size
+				 local leftBottom = pos + Vector(-1,-1) * size
+				 local rightBottom = pos + Vector(1,-1) * size
+				 pigui.AddLine(leftTop, rightBottom, color, 1.0)
+				 pigui.AddLine(leftBottom, rightTop, color, 1.0)
+			end
+			if side == "onscreen" and point then
+				 local size = 12
+				 local leftTop = point + Vector(-1,1) * size
+				 local rightTop = point + Vector(1,1) * size
+				 local leftBottom = point + Vector(-1,-1) * size
+				 local rightBottom = point + Vector(1,-1) * size
+				 pigui.AddLine(leftTop, rightBottom, color, 3.0)
+				 pigui.AddLine(leftBottom, rightTop, color, 3.0)
+			end
 	 end
 	 -- ******************** NavTarget Prograde marker ********************
 	 local pos,dir,point,side = markerPos("nav_prograde", reticule_radius - 10)
@@ -763,19 +765,68 @@ pigui.handlers.HUD = function(delta)
 			local top = dir * 8 + pos
 			pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
 	 end
+
 	 show_navball()
+	 -- ******************** Bodies on Screen ********************
+	 local body_groups = {}
+	 local cutoff = 5
 	 for key,data in pairs(system:GetBodyPaths()) do
 			local system_body = data:GetSystemBody()
 			local body = Space.GetBody(system_body.index)
-			local pos = body:GetProjectedScreenPosition()
-			if pos then
-				 local supertype = body.superType
-				 if pos.x > 0 and pos.y > 0 then
-						pigui.AddCircleFilled(Vector(pos.x, pos.y), 2, colors.lightgrey, 8)
-						local mp = pigui.GetMousePos()
-						if (Vector(mp.x,mp.y) - Vector(pos.x, pos.y)):magnitude() < 15 then
-							 pigui.SetTooltip(body.label)
+			if body then
+				 local pos = body:GetProjectedScreenPosition()
+				 if pos then
+						local group = nil
+						for _,bodies in pairs(body_groups) do
+							 for p,b in pairs(bodies) do
+									if Vector(p.x-pos.x,p.y-pos.y):magnitude() < cutoff then
+										 group = bodies
+									end
+							 end
 						end
+						if group then
+							 group[pos] = body
+						else
+							 local t = {}
+							 t[pos] = body
+							 body_groups[pos] = t
+						end
+				 end
+			end
+	 end
+	 local labels
+	 for pos,group in pairs(body_groups) do
+			local size = 5
+			pigui.AddCircleFilled(pos, size, colors.lightgrey, 8)
+			local mp = pigui.GetMousePos()
+			labels = {}
+			for p,body in pairs(group) do
+				 table.insert(labels, body)
+			end
+			table.sort(labels, function (a,b) return a.label < b.label end)
+			local label = table.concat(map(function (a) return a.label end, labels), "\n")
+			local show_tooltip = false
+			if (Vector(mp.x - pos.x,mp.y - pos.y)):magnitude() < size then
+				 if pigui.IsMouseReleased(0) then
+						if #labels == 1 then
+							 player:SetNavTarget(labels[1])
+						else
+							 pigui.OpenPopup("navtarget" .. label)
+						end
+				 else
+						show_tooltip = true
+				 end
+			end
+			if pigui.BeginPopup("navtarget" .. label) then
+				 for _,body in pairs(labels) do
+						if pigui.Selectable(body.label, false, {}) then
+							 player:SetNavTarget(body)
+						end
+				 end
+				 pigui.EndPopup()
+			else
+				 if show_tooltip then
+						pigui.SetTooltip(label)
 				 end
 			end
 	 end
@@ -805,8 +856,6 @@ pigui.handlers.HUD = function(delta)
 	 end
 	 pigui.End()
 	 pigui.PopStyleColor(1);
-
-	 -- show_orbit()
 
 	 -- ******************** Navigation Window ********************
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
@@ -841,5 +890,5 @@ pigui.handlers.HUD = function(delta)
 	 --	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	 show_missions()
-	 show_orbit()
+	 -- show_orbit()
 end

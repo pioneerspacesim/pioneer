@@ -248,7 +248,7 @@ void WorldView::InitObject()
 	Gui::Screen::PushFont("OverlayFont");
 	m_bodyLabels = new Gui::LabelSet();
 	m_bodyLabels->SetLabelColor(Color(255, 255, 255, 230));
-	Add(m_bodyLabels, 0, 0);
+	// Add(m_bodyLabels, 0, 0);
 
 	{
 		m_pauseText = new Gui::Label(std::string("#f7f") + Lang::PAUSED);
@@ -846,13 +846,14 @@ void WorldView::RefreshButtonStateAndVisibility()
 			} else {
 				str = stringf(Lang::M_S_RELATIVE_TO, formatarg("speed", _vel), formatarg("frame", rel_to));
 			}
-			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, str);
+			// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, str);
 		}
 
 		if (Body *navtarget = Pi::player->GetNavTarget()) {
-			double dist = Pi::player->GetPositionRelTo(navtarget).Length();
-			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
-																																							 formatarg("distance", format_distance(dist))));
+			// double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+			// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
+			// 																																				 formatarg("distance", format_distance(dist))))
+				;
 		}
 		else
 			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
@@ -1664,10 +1665,10 @@ void WorldView::UpdateProjectedObjects()
 					// offset the label so it doesn't intersect with the icon drawn around the
 					// navtarget. XXX this probably isn't the most elegant solution
 					if(b == Pi::player->GetNavTarget()) { bodyName = "    " + bodyName; }
-					m_bodyLabels->Add(bodyName,
-														sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true),
-														float(pos.x),
-														float(pos.y));
+					// m_bodyLabels->Add(bodyName,
+					// 									sigc::bind(sigc::mem_fun(this, &WorldView::SelectBody), b, true),
+					// 									float(pos.x),
+					// 									float(pos.y));
 				}
 			m_projectedPos[b] = pos;
 		}
@@ -1751,8 +1752,8 @@ void WorldView::UpdateProjectedObjects()
 		UpdateIndicator(m_mouseDirIndicator, (Pi::player->GetPhysRadius() * 1.5) * mouseDir);
 	} else
 		HideIndicator(m_mouseDirIndicator);
-
-	UpdateIndicator(m_frameIndicator, Pi::player->GetFrame()->GetBody()->GetTargetIndicatorPosition(cam_frame));
+	if(Pi::player && Pi::player->GetFrame() && Pi::player->GetFrame()->GetBody())
+		UpdateIndicator(m_frameIndicator, Pi::player->GetFrame()->GetBody()->GetTargetIndicatorPosition(cam_frame));
 
 	// navtarget info
 	if (Body *navtarget = Pi::player->GetNavTarget()) {
@@ -2081,9 +2082,9 @@ void WorldView::Draw()
 
 	// normal crosshairs
 	if (GetCamType() == CAM_INTERNAL) {
-		const vector2f center        = vector2f(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) * 0.5f;
-		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f;
-		const vector2f crosshairPos  = center - crosshairSize * 0.5f;
+		//		const vector2f center        = vector2f(Gui::Screen::GetWidth(), Gui::Screen::GetHeight()) * 0.5f;
+		//		const vector2f crosshairSize = vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f;
+		//		const vector2f crosshairPos  = center - crosshairSize * 0.5f;
 
 		switch (m_internalCameraController->GetMode()) {
 		case InternalCameraController::MODE_FRONT:

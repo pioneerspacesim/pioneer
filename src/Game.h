@@ -76,7 +76,8 @@ public:
 
 	// request switch to hyperspace
 	void WantHyperspace();
-
+	bool IsWantHyperspace() const { return m_wantHyperspace; }
+	
 	// hyperspace parameters. only meaningful when IsHyperspace() is true
 	float GetHyperspaceProgress() const { return m_hyperspaceProgress; }
 	double GetHyperspaceDuration() const { return m_hyperspaceDuration; }
