@@ -11,6 +11,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
   // FIXME: Missing a call to query if Popup is open so we can move the PushStyleColor inside the BeginPopupBlock (e.g. IsPopupOpen() in imgui.cpp)
   // FIXME: Our PathFill function only handle convex polygons, so we can't have items spanning an arc too large else inner concave edge artifact is too visible, hence the ImMax(7,items_count)
   ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0,0,0,0));
+	ImGui::PushStyleColor(ImGuiCol_PopupBg, ImVec4(0,0,0,0));
   ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0,0,0,0));
   if (ImGui::BeginPopup(popup_id.c_str()))
     {
@@ -80,6 +81,6 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
         }
       ImGui::EndPopup();
     }
-  ImGui::PopStyleColor(2);
+  ImGui::PopStyleColor(3);
   return ret;
 }

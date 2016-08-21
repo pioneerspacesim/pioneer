@@ -548,7 +548,8 @@ local function show_thrust()
 			pigui.Text("Thrust Left: " .. thrust_left)
 			pigui.Text("Thrust Right: " .. thrust_right)
 			local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
-			pigui.Text("Total thrust: " .. total_thrust)
+			local g = 9.80665
+			pigui.Text("Total thrust: " .. total_thrust / g .. "g")
 			pigui.End()
 end
 
@@ -643,7 +644,7 @@ pigui.handlers.HUD = function(delta)
 			pigui.AddLine(triRight, triCenter , colors.orbital_marker, 2.0)
 	 end
 
-	 local side, dir, pos = pigui.GetHUDMarker("radial_in")
+	 local side, dir, pos = pigui.GetHUDMarker("radial_out")
 	 if side == "onscreen" then
 			local factor = 6
 			local leftTop = pos + Vector(-1,1) * size
@@ -660,7 +661,7 @@ pigui.handlers.HUD = function(delta)
 			pigui.AddLine(rightTop, rightCenter, colors.orbital_marker, 2.0)
 	 end
 
-	 local side, dir, pos = pigui.GetHUDMarker("radial_out")
+	 local side, dir, pos = pigui.GetHUDMarker("radial_in")
 	 if side == "onscreen" then
 			local factor = 5
 			local leftTop = pos + Vector(-1 * size / factor, 1 * size)
@@ -743,7 +744,7 @@ pigui.handlers.HUD = function(delta)
 			-- ******************** GPS data ********************
 			do
 				 local pressure, density = frame:GetAtmosphericState()
-				 if pressure > 0.001 then
+				 if pressure and pressure > 0.001 then
 						drawWithUnit(Vector(center.x - 100, center.y + reticule_radius + 50), math.floor(pressure*100)/100, "atm", colors.darkgrey, false, "Pressure: ")
 				 end
 			end
