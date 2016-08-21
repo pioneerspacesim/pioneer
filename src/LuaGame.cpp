@@ -13,6 +13,7 @@
 #include "WorldView.h"
 #include "DeathView.h"
 #include "galaxy/Galaxy.h"
+#include "DateTime.h"
 
 /*
  * Interface: Game
@@ -325,6 +326,21 @@ static int l_game_switch_view(lua_State *l)
 	return 0;
 }
 
+static int l_game_get_date_time(lua_State *l)
+{
+	Time::DateTime t(Pi::game->GetTime());
+	int year, month, day, hour, minute, second;
+	t.GetDateParts(&year, &month, &day);
+	t.GetTimeParts(&hour, &minute, &second);
+	lua_pushinteger(l, year);
+	lua_pushinteger(l, month);
+	lua_pushinteger(l, day);
+	lua_pushinteger(l, hour);
+	lua_pushinteger(l, minute);
+	lua_pushinteger(l, second);
+	return 6;
+}
+
 void LuaGame::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -340,6 +356,7 @@ void LuaGame::Register()
 
 		{ "SwitchView", l_game_switch_view },
 
+		{ "GetDateTime", l_game_get_date_time },
 		{ 0, 0 }
 	};
 

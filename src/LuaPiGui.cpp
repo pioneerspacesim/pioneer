@@ -438,6 +438,15 @@ static int l_pigui_pop_clip_rect(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_push_clip_rect(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 min = luaL_checkImVec2(l, 1);
+	ImVec2 max = luaL_checkImVec2(l, 2);
+	bool intersect = luaL_checkbool(l, 3);
+	draw_list->PushClipRect(min, max, intersect);
+	return 0;
+}
+
 static int l_pigui_push_clip_rect_full_screen(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	draw_list->PushClipRectFullScreen();
@@ -758,6 +767,7 @@ static int l_pigui_push_font(lua_State *l) {
 		switch(size) {
 		case 12: font = PiGui::pionillium12; break;
 		case 18: font = PiGui::pionillium18; break;
+		case 30: font = PiGui::pionillium30; break;
 		case 36: font = PiGui::pionillium36; break;
 		default: return 0;
 		}
@@ -856,6 +866,38 @@ static int l_pigui_radial_menu(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_circular_slider(lua_State *l) {
+	ImVec2 center = luaL_checkImVec2(l, 1);
+	float v = luaL_checknumber(l, 2);
+	float v_min = luaL_checknumber(l, 3);
+	float v_max = luaL_checknumber(l, 4);
+	bool res = PiGui::CircularSlider(center, &v, v_min, v_max);
+	if(res)
+		lua_pushnumber(l, v);
+	else
+		lua_pushnil(l);
+	return 1;
+}
+
+static int l_pigui_add_convex_poly_filled(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	LuaTable pnts(l, 1);
+	ImColor col = luaL_checkImColor(l, 2);
+	bool anti_aliased = luaL_checkbool(l, 3);
+	std::vector<ImVec2> ps;
+	int i = 0;
+	double x = 0.0, y = 0.0;
+	for(LuaTable::VecIter<double> iter = pnts.Begin<double>(); iter != pnts.End<double>(); ++iter) {
+		if(i++ % 2) {
+			y = *iter;
+			ps.push_back(ImVec2(x, y));
+		} else
+			x = *iter;
+	}
+	draw_list->AddConvexPolyFilled(ps.data(), ps.size(), col, anti_aliased);
+	return 0;
+}
+
 template <> const char *LuaObject<PiGui>::s_type = "PiGui";
 
 template <> void LuaObject<PiGui>::RegisterClass()
@@ -864,7 +906,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "Begin",                  l_pigui_begin },
 		{ "End",                    l_pigui_end   },
 		{ "PushClipRectFullScreen", l_pigui_push_clip_rect_full_screen },
-		{ "PushClipRect",           l_pigui_pop_clip_rect },
+		{ "PopClipRect",            l_pigui_pop_clip_rect },
+		{ "PushClipRect",           l_pigui_push_clip_rect },
 		{ "AddCircle",              l_pigui_add_circle },
 		{ "AddCircleFilled",        l_pigui_add_circle_filled },
 		{ "AddLine",                l_pigui_add_line },
@@ -910,7 +953,9 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "IsMouseReleased",        l_pigui_is_mouse_released },
 		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
 		{ "RadialMenu",             l_pigui_radial_menu },
+		{ "CircularSlider",         l_pigui_circular_slider },
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
+		{ "AddConvexPolyFilled",    l_pigui_add_convex_poly_filled },
 		{ 0, 0 }
 	};
 

@@ -1073,6 +1073,12 @@ static int l_ship_get_thruster_state(lua_State *l)
 	return 1;
 }
 
+static int l_ship_is_docked(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsDocked());
+	return 1;
+}
+
 static int l_ship_get_accel(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	double accel;
@@ -1139,6 +1145,7 @@ template <> void LuaObject<Ship>::RegisterClass()
  		{ "GetPosition", l_ship_get_position },
 		{ "GetThrusterState", l_ship_get_thruster_state },
 		{ "GetAccel", l_ship_get_accel },
+		{ "IsDocked", l_ship_is_docked },
 		{ 0, 0 }
 	};
 

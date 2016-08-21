@@ -320,6 +320,13 @@ static int l_get_orbit(lua_State *l)
 	return 8;
 }
 
+static int l_get_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetPlayerController()->GetLowThrustPower());
+	return 1;
+}
+
 static int l_get_distance_to_zero_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -375,6 +382,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetOrientedVelocity", l_get_oriented_velocity },
 		{ "GetOrbit",            l_get_orbit },
 		{ "GetGPS",              l_get_gps },
+		{ "GetLowThrustPower",   l_get_low_thrust_power },
 		{ 0, 0 }
 	};
 

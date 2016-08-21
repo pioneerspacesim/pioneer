@@ -65,6 +65,8 @@ public:
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
+	bool IsDocked() const { return GetFlightState() == Ship::DOCKED; }
+	
 	int GetDockingPort() const { return m_dockedWithPort; }
 
 	virtual void SetLandedOn(Planet *p, float latitude, float longitude);

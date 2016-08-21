@@ -5,12 +5,12 @@
 #include "LuaTable.h"
 #include "imgui.h"
 #include "imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h"
-#include "imgui/imgui_internal.h"
 
 class PiGui : public RefCounted {
 public:
 	static ImFont *pionillium12;
 	static ImFont *pionillium18;
+	static ImFont *pionillium30;
 	static ImFont *pionillium36;
 	
 	PiGui() {
@@ -30,6 +30,7 @@ public:
 		static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
 		pionillium12 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 12.0f, nullptr, glyph_ranges);
 		pionillium18 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 18.0f, nullptr, glyph_ranges);
+		pionillium30 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 30.0f, nullptr, glyph_ranges);
 	  pionillium36 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 36.0f, nullptr, glyph_ranges);
  	}
  	static void NewFrame(SDL_Window *window) {
@@ -51,7 +52,7 @@ public:
 	}
 
 	static int RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items);
-	
+	static bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
 private:
 	LuaRef m_handlers;
 };

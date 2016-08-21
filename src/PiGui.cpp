@@ -1,7 +1,9 @@
 #include "PiGui.h"
+#include "imgui/imgui_internal.h"
 
 ImFont *PiGui::pionillium12 = nullptr;
 ImFont *PiGui::pionillium18 = nullptr;
+ImFont *PiGui::pionillium30 = nullptr;
 ImFont *PiGui::pionillium36 = nullptr;
 
 int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items)
@@ -83,4 +85,14 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
     }
   ImGui::PopStyleColor(3);
   return ret;
+}
+
+bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max) {
+      ImDrawList* draw_list = ImGui::GetWindowDrawList();
+			ImGuiWindow* window = ImGui::GetCurrentWindow();
+			const ImGuiID id = window->GetID("circularslider");
+			draw_list->AddCircle(center, 17, ImColor(100, 100, 100), 128, 12.0);
+			draw_list->PathArcTo(center, 17, 0, M_PI * 2.0 * (*v - v_min) / (v_max - v_min), 64);
+			draw_list->PathStroke(ImColor(200,200,200), false, 12.0);
+			return ImGui::SliderBehavior(ImRect(center.x - 17, center.y - 17, center.x + 17, center.y + 17), id, v, v_min, v_max, 1.0, 4);
 }
