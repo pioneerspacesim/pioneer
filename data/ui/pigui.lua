@@ -464,6 +464,37 @@ local function show_orbit()
 	 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
 	 pigui.End()
 end
+local function show_nav_window()
+	 	 -- ******************** Navigation Window ********************
+	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
+	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
+	 pigui.PushStyleColor("WindowBg", colors.windowbg)
+	 pigui.Begin("Navigation", {})
+	 pigui.Columns(2, "navcolumns", false)
+	 local body_paths = system:GetBodyPaths()
+	 -- create intermediate structure
+	 local data = map(function(system_path)
+				 local system_body = system_path:GetSystemBody()
+				 local body = Space.GetBody(system_body.index)
+				 local distance = player:DistanceTo(body)
+				 return { systemBody = system_body, body = body, distance = distance, name = system_body.name }
+										end,
+			body_paths)
+	 -- sort by distance
+	 table.sort(data, function(a,b) return a.distance < b.distance end)
+	 -- display
+	 for key,data in pairs(data) do
+			if(pigui.Selectable(data.name, selected == data.body, {"SpanAllColumns"})) then
+				 selected = data.body
+				 player:SetNavTarget(data.body)
+			end
+			pigui.NextColumn()
+			pigui.Text(Format.Distance(data.distance))
+			pigui.NextColumn()
+	 end
+	 pigui.End()
+	 pigui.PopStyleColor(1)
+end
 
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
@@ -653,6 +684,24 @@ pigui.handlers.HUD = function(delta)
 			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
 			drawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
 
+			do
+				 local pressure, density = frame:GetAtmosphericState()
+				 if pressure > 0.001 then
+						drawWithUnit(Vector(center.x - 100, center.y + reticule_radius + 50), math.floor(pressure*100)/100, "atm", colors.darkgrey, false, "Pressure: ")
+				 end
+			end
+			do
+				 local alt, vspd, lat, lon = player:GetGPS()
+				 if alt and alt < 10000000 then
+						local altitude,unit = MyFormat.Distance(alt)
+						local offset = 28
+						drawWithUnit(Vector(center.x - 100, center.y + reticule_radius + 50 + offset), altitude, unit, colors.darkgrey, false, "Altitude: ")
+						local vspeed,unit = MyFormat.Distance(vspd)
+						drawWithUnit(Vector(center.x - 100, center.y + reticule_radius + 50 + offset * 2), vspeed, unit .. "/s", colors.darkgrey, false, "Vertical Speed: ")
+						drawWithUnit(Vector(center.x - 100, center.y + reticule_radius + 50 + offset * 3), lat, "", colors.darkgrey, false, "Lat: ")
+						drawWithUnit(Vector(center.x - 100, center.y + reticule_radius + 50 + offset * 4), lon, "", colors.darkgrey, false, "Lon: ")
+				 end
+			end
 			-- ******************** Frame Prograde marker ********************
 			local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
 			local color = colors.orbital_marker
@@ -671,6 +720,17 @@ pigui.handlers.HUD = function(delta)
 				 local top = point + Vector(0,1) * size
 				 local bottom = point + Vector(0,-1) * size
 				 pigui.AddQuad(left, top, right, bottom, color, 3.0)
+			end
+			-- ******************** Away from Frame marker ********************
+		  local pos,dir,point,side = markerPos("away_from_frame", reticule_radius - 10)
+			local color = colors.orbital_marker
+			if pos then
+				 local size = 4
+				 pigui.AddCircle(pos, size, color, 8, 1.0)
+			end
+			if side == "onscreen" and point then
+				 local size = 12
+				 pigui.AddCircle(point, size, color, 32, 3.0)
 			end
 			-- ******************** Frame Retrograde marker ********************
 			local pos,dir,point,side = markerPos("frame_retrograde", reticule_radius - 10)
@@ -857,38 +917,9 @@ pigui.handlers.HUD = function(delta)
 	 pigui.End()
 	 pigui.PopStyleColor(1);
 
-	 -- ******************** Navigation Window ********************
-	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
-	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
-	 pigui.PushStyleColor("WindowBg", windowbg)
-	 pigui.Begin("Navigation", {})
-	 pigui.Columns(2, "navcolumns", false)
-	 local body_paths = system:GetBodyPaths()
-	 -- create intermediate structure
-	 local data = map(function(system_path)
-				 local system_body = system_path:GetSystemBody()
-				 local body = Space.GetBody(system_body.index)
-				 local distance = player:DistanceTo(body)
-				 return { systemBody = system_body, body = body, distance = distance, name = system_body.name }
-										end,
-			body_paths)
-	 -- sort by distance
-	 table.sort(data, function(a,b) return a.distance < b.distance end)
-	 -- display
-	 for key,data in pairs(data) do
-			if(pigui.Selectable(data.name, selected == data.body, {"SpanAllColumns"})) then
-				 selected = data.body
-				 player:SetNavTarget(data.body)
-			end
-			pigui.NextColumn()
-			pigui.Text(Format.Distance(data.distance))
-			pigui.NextColumn()
-	 end
-	 pigui.End()
-	 pigui.PopStyleColor(1)
-
+	 show_nav_window()
 	 --	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	 show_missions()
-	 -- show_orbit()
+	 show_orbit()
 end

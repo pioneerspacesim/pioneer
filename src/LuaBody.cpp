@@ -439,6 +439,22 @@ static int l_body_get_velocity(lua_State *l)
 	return 1;	
 }
 
+static int l_body_get_atmospheric_state(lua_State *l) {
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	//	const SystemBody *sb = b->GetSystemBody();
+	vector3d pos = Pi::player->GetPosition();
+	double center_dist = pos.Length();
+	if (b->IsType(Object::PLANET)) {
+		double pressure, density;
+		static_cast<Planet*>(b)->GetAtmosphericState(center_dist, &pressure, &density);
+		lua_pushnumber(l, pressure);
+		lua_pushnumber(l, density);
+		return 2;
+	} else {
+		return 0;
+	}
+}
+
 static int l_body_get_mass(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -514,6 +530,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetVelocity", l_body_get_velocity },
 		{ "GetMass", l_body_get_mass },
 		{ "GetSystemBody", l_body_get_system_body },
+		{ "GetAtmosphericState", l_body_get_atmospheric_state },
 		{ 0, 0 }
 	};
 

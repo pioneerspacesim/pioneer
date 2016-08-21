@@ -19,8 +19,8 @@
 
 static int l_player_is_player(lua_State *l)
 {
-    lua_pushboolean(l, true);
-    return 1;
+	lua_pushboolean(l, true);
+	return 1;
 }
 
 /*
@@ -74,8 +74,8 @@ static int l_set_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
 	Body *target = LuaObject<Body>::GetFromLua(2);
-    p->SetNavTarget(target);
-    return 0;
+	p->SetNavTarget(target);
+	return 0;
 }
 
 /*
@@ -129,8 +129,8 @@ static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
 	Body *target = LuaObject<Body>::GetFromLua(2);
-    p->SetCombatTarget(target);
-    return 0;
+	p->SetCombatTarget(target);
+	return 0;
 }
 
 /*
@@ -255,6 +255,43 @@ static int l_get_oriented_velocity(lua_State *l)
 	return 1;
 }
 
+static int l_get_gps(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	vector3d pos = Pi::player->GetPosition();
+	double center_dist = pos.Length();
+	auto frame = player->GetFrame();
+	Body *astro = frame->GetBody();
+	assert(astro->IsType(Object::TERRAINBODY));
+	TerrainBody* terrain = static_cast<TerrainBody*>(astro);
+	if (!frame->IsRotFrame())
+		frame = frame->GetRotFrame();
+	if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+		vector3d surface_pos = pos.Normalized();
+		double radius = terrain->GetTerrainHeight(surface_pos);
+		double altitude = center_dist - radius;
+		if (altitude < 10000000.0 && altitude < 0.5 * radius) {
+			vector3d velocity = player->GetVelocity();
+			double vspeed = velocity.Dot(surface_pos);
+			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+			//			RefreshHeadingPitch();
+
+			if (altitude < 0) altitude = 0;
+			lua_pushnumber(l, altitude);
+			lua_pushnumber(l, vspeed);
+			const float lat = RAD2DEG(asin(surface_pos.y));
+			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+			std::string lat_str = DecimalToDegMinSec(lat);
+			std::string lon_str = DecimalToDegMinSec(lon);
+			lua_pushstring(l, lat_str.c_str());
+			lua_pushstring(l, lon_str.c_str());
+			return 4;
+		}
+	}
+	return 0;
+}
+
 static int l_get_orbit(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -279,7 +316,7 @@ static int l_get_orbit(lua_State *l)
 	periapsis.Set("x", pa.x);
 	periapsis.Set("y", pa.y);
 	periapsis.Set("z", pa.z);
-	
+
 	return 8;
 }
 
@@ -337,6 +374,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetFrame",            l_get_frame },
 		{ "GetOrientedVelocity", l_get_oriented_velocity },
 		{ "GetOrbit",            l_get_orbit },
+		{ "GetGPS",              l_get_gps },
 		{ 0, 0 }
 	};
 

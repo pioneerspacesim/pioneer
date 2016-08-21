@@ -849,13 +849,13 @@ void WorldView::RefreshButtonStateAndVisibility()
 			// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, str);
 		}
 
-		if (Body *navtarget = Pi::player->GetNavTarget()) {
-			// double dist = Pi::player->GetPositionRelTo(navtarget).Length();
-			// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
-			// 																																				 formatarg("distance", format_distance(dist))))
-				;
-		}
-		else
+		// if (Body *navtarget = Pi::player->GetNavTarget()) {
+		// 	// double dist = Pi::player->GetPositionRelTo(navtarget).Length();
+		// 	// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::N_DISTANCE_TO_TARGET,
+		// 	// 																																				 formatarg("distance", format_distance(dist))))
+		// 		;
+		// }
+		// else
 			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, "");
 
 		// altitude
@@ -886,22 +886,22 @@ void WorldView::RefreshButtonStateAndVisibility()
 					RefreshHeadingPitch();
 
 					if (altitude < 0) altitude = 0;
-					if (altitude >= 100000.0)
-						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
-																																												formatarg("vspeed", vspeed / 1000.0)));
-					else
-						m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
-																																												formatarg("vspeed", vspeed)));
+					// if (altitude >= 100000.0)
+					// 	m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_KM, formatarg("altitude", altitude / 1000.0),
+					// 																																							formatarg("vspeed", vspeed / 1000.0)));
+					// else
+					// 	m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, stringf(Lang::ALT_IN_METRES, formatarg("altitude", altitude),
+					// 																																							formatarg("vspeed", vspeed)));
 
 					// show lat/long when altitude is shownr
 					const float lat = RAD2DEG(asin(surface_pos.y));
 					const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
 					std::string lat_str = DecimalToDegMinSec(lat);
 					std::string lon_str = DecimalToDegMinSec(lon);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, Lang::LATITUDE);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, Lang::LONGITUDE);
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
+					// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_1, Lang::LATITUDE);
+					// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_2, lat_str);
+					// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_3, Lang::LONGITUDE);
+					// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_OVER_PANEL_RIGHT_4, lon_str);
 				} else {
 					// XXX does this need to be repeated 3 times?
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
@@ -932,9 +932,9 @@ void WorldView::RefreshButtonStateAndVisibility()
 				double pressure, density;
 				static_cast<Planet*>(astro)->GetAtmosphericState(center_dist, &pressure, &density);
 
-				if (pressure > 0.001)
-					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
-				else
+				// if (pressure > 0.001)
+				// 	m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
+				// else
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 				if (Pi::player->GetHullTemperature() > 0.01) {
 					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
@@ -1706,7 +1706,6 @@ void WorldView::UpdateProjectedObjects()
 		UpdateIndicator(m_radialInIndicator, radial * cam_rot);
 		UpdateIndicator(m_radialOutIndicator, -(radial * cam_rot));
 	}
-
 	// velocity relative to current frame (white)
 	const vector3d camSpaceVel = Pi::player->GetVelocity() * cam_rot;
 	if (camSpaceVel.LengthSqr() >= 1e-4) {
@@ -1721,7 +1720,10 @@ void WorldView::UpdateProjectedObjects()
 	if(frame->IsRotFrame())
 		frame = frame->GetNonRotFrame();
 	const SystemBody* systemBody = frame->GetSystemBody();
-
+	if(systemBody) {
+		const vector3d pos = Pi::player->GetPosition();
+		UpdateIndicator(m_awayFromFrameIndicator, (pos + pos.Normalized()) * cam_rot);
+	}
 	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
 		HideIndicator(m_burnIndicator);
 	} else if(systemBody) {
@@ -1871,7 +1873,7 @@ void WorldView::UpdateIndicator(Indicator &indicator, const vector3d &cameraSpac
 	const Graphics::Frustum frustum = m_cameraContext->GetFrustum();
 
 	const float BORDER = 10.0;
-	const float BORDER_BOTTOM = 90.0;
+	const float BORDER_BOTTOM = 10.0;
 	// XXX BORDER_BOTTOM is 10+the control panel height and shouldn't be needed at all
 
 	const float w = Gui::Screen::GetWidth();

@@ -605,7 +605,8 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 		marker = wv->GetRadialOutIndicator();
 	else if(!name.compare("radial_out"))
 		marker = wv->GetRadialInIndicator();
-
+	else if(!name.compare("away_from_frame"))
+		marker = wv->GetAwayFromFrameIndicator();
 	else
 		// TODO: error
 		return 0;
