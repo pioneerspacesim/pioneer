@@ -532,100 +532,10 @@ local function show_navball()
 	 end
 end
 
-local function square(x)
-	 return x * x
-end
-
-local function cube(x)
-	 return x * x * x
-end
-
-local function show_debug()
-end
-
--- based on http://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto and https://github.com/RazerM/orbital/blob/0.7.0/orbital/utilities.py#L252
-local function show_debug_orbit()
-	 pigui.Begin("Orbit", {})
-	 -- pigui.Text("Self")
-	 -- pigui.Text("Time: " .. Game.time)
-	 local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
-	 -- local p = player:GetPosition()
-	 -- local pos = Vector(p.x, p.y, p.z)
-	 -- pigui.Text("pos: " .. pos:magnitude() .. ", " .. math.floor(pos.x) .. "/" .. math.floor(pos.y) .. "/" .. math.floor(pos.z))
-	 -- local v = player:GetVelocity()
-	 -- local vel = Vector(v.x, v.y, v.z)
-	 -- pigui.Text("vel: " .. vel:magnitude() .. ", " .. math.floor(vel.x) .. "/" .. math.floor(vel.y) .. "/" .. math.floor(vel.z))
-	 -- local G = 6.674e-11
-	 -- local M = player:GetFrame():GetMass()
-	 -- pigui.Text("frame mass: " .. math.floor(M))
-	 -- local mu = G * M
-	 -- local eccentricity_vector = (pos * (square(vel:magnitude()) - mu / pos:magnitude()) - vel * (pos:dot(vel))) / mu
-	 -- local eccentricity = eccentricity_vector:magnitude()
-	 -- pigui.Text("eccentricity: " .. eccentricity)
-	 pigui.Text("o eccentricity: " .. o_eccentricity)
-	 --	 local specific_orbital_energy = square(vel:magnitude()) / 2 - mu / pos:magnitude()
-	 --	 pigui.Text("specific orbital energy: " .. specific_orbital_energy)
-	 --	 local semimajoraxis = -mu / 2 * specific_orbital_energy
-	 -- local semimajoraxis = 1 / (2 / pos:magnitude() - square(vel:magnitude()) / mu) -- based on http://orbitsimulator.com/formulas/OrbitalElements.html
-	 -- pigui.Text("semi-major axis: " .. Format.Distance(semimajoraxis))
-	 pigui.Text("o semi-major axis: " .. Format.Distance(o_semimajoraxis))
-	 -- local angular_momentum = pos:cross(vel)
-	 -- local inclination = math.acos(angular_momentum.z / angular_momentum:magnitude())
-	 -- pigui.Text("inclination: " .. math.floor(inclination / two_pi * 360))
-	 pigui.Text("O inclination: " .. math.floor(o_inclination / two_pi * 360))
-	 -- local periapsis = semimajoraxis * (1 - eccentricity)
-	 -- local apoapsis = semimajoraxis * (1 + eccentricity)
-	 -- pigui.Text("Periapsis: " .. Format.Distance(periapsis) .. ", Apoapsis: " .. Format.Distance(apoapsis))
-	 local frame = player:GetFrame():GetSystemBody()
-	 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
-	 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
-	 pigui.Text("O Periapsis: " .. Format.Distance(pa) .. " (" .. Format.Distance(pa - frame.radius) .. "), O Apoapsis: " .. Format.Distance(aa) .. " (" .. Format.Distance(aa - frame.radius) .. ")")
-	 -- 	 local Ex = 1 - pos:magnitude() / semimajoraxis
-	 -- 	 local Ey = vel:dot(pos) / math.sqrt(semimajoraxis * mu)
-	 -- 	 --	 local eccentric_anomaly = math.atan(Ey, Ex) -- WRONG
-	 -- 	 -- based on http://space.stackexchange.com/questions/16891/how-to-calculate-the-time-to-apoapsis-periapsis-given-the-orbital-elements
-	 -- 	 local period = two_pi * math.sqrt(cube(semimajoraxis) / mu)
-	 -- 	 local true_anomaly = math.acos(eccentricity_vector:dot(pos) / (eccentricity * pos:magnitude()))
-	 -- 	 -- local mean_anomaly = eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly)  -- WRONG
-	 -- 	 -- local eccentric_anomaly = math.atan(math.sqrt(1 - square(eccentricity)) * math.sin(true_anomaly), eccentricity + math.cos(true_anomaly))
-	 -- 	 -- eccentric_anomaly = math.fmod(eccentric_anomaly, two_pi)
-	 -- 	 -- works, but strange
-	 -- 	 if pos:dot(vel) < 0 then
-	 -- 			true_anomaly = two_pi - true_anomaly
-	 -- 	 end
-	 -- 	 local eccentric_anomaly = math.fmod(math.acos((eccentricity + math.cos(true_anomaly)) / (1 + eccentricity * math.cos(true_anomaly))), two_pi)
-	 -- 	 if true_anomaly > pi then
-	 -- 			eccentric_anomaly = two_pi - eccentric_anomaly
-	 -- 	 end
-	 -- 	 local mean_anomaly = math.fmod(eccentric_anomaly - eccentricity * math.sin(eccentric_anomaly), two_pi)
-	 -- 	 local n = period / two_pi
-	 -- 	 local to_periapsis = math.fmod(two_pi - mean_anomaly, two_pi) * n
-	 -- 	 local to_apoapsis = math.fmod(two_pi + pi - mean_anomaly, two_pi) * n
-	 -- --	 pigui.Text("Period: " .. Format.Duration(period) .. ", true anom: " .. math.floor(true_anomaly / two_pi * 360) .. ", ecc anom: " .. math.floor(eccentric_anomaly / two_pi * 360) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
-	 -- 	 pigui.Text("Period: " .. Format.Duration(period) .. ", mean anom: " .. math.floor(mean_anomaly / two_pi * 360))
-	 pigui.Text("O Period: " .. (o_period and Format.Duration(o_period) or "none"))
-	 --	 pigui.Text("Time to periapsis: " .. Format.Duration(to_periapsis) .. ", time to apoapsis: " .. Format.Duration(to_apoapsis))
-	 pigui.Text("Time to O periapsis: " .. Format.Duration(o_time_at_periapsis) .. ", O time to apoapsis: " .. Format.Duration(o_time_at_apoapsis))
-	 pigui.Text("Has Atmosphere: " .. (frame.hasAtmosphere and "yes" or "no"))
-	 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
-	 pigui.End()
-end
-
 local radial_nav_target = nil
 
 local selected_combat = nil
 local function show_contacts()
-	 -- ******************** Contacts Window ********************
-	 -- // { // contacts window
-	 -- // 	Body *player = Pi::player;
-	 -- // 	std::vector<std::pair<Body *, double>> thelist;
-	 -- // 	Space::BodyNearList nearbybodies;
-	 -- // 	Pi::game->GetSpace()->GetBodiesMaybeNear(player, 10000000, nearbybodies);
-	 -- // 	for(Body *body : nearbybodies) {
-	 -- // 		double distance = player->GetPositionRelTo(body).Length();
-	 -- // 		thelist.push_back(std::pair<Body *, double>(body, distance));
-	 -- // 	}
-
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
 	 pigui.Begin("Contacts", {})
@@ -659,6 +569,7 @@ local radial_actions = {
 	 prograde = function(body) print("implement prograde") end,
 	 retrograde = function(body) print("implement retrograde") end
 }
+
 local function show_radial_menu()
 	 local radial_menu_center = pigui.GetMouseClickedPos(1)
 	 local radial_menu_size = 100
@@ -676,41 +587,33 @@ local function show_radial_menu()
 	 end
 	 local items = {}
 	 local actions = {}
+	 local function addItem(item, action)
+			table.insert(items, item)
+			table.insert(actions, action)
+	 end
+
 	 if radial_nav_target then
 			local typ = radial_nav_target.superType
 			if typ == "STARPORT" then
-				 table.insert(items, "Docking Clearance")
-				 table.insert(actions, "clearance")
-				 table.insert(items, "Auto-Dock")
-				 table.insert(actions, "dock")
+				 addItem("Docking Clearance", "clearance")
+				 addItem("Auto-Dock", "dock")
 			end
-			table.insert(items, "Fly to")
-			table.insert(actions, "fly_to")
+			addItem("Fly to", "fly_to")
 			if typ == "STAR" or typ == "ROCKY_PLANET" or typ == "GAS_GIANT" then
-				 table.insert(items, "Low Orbit")
-				 table.insert(actions, "low_orbit")
-				 table.insert(items, "Medium Orbit")
-				 table.insert(actions, "medium_orbit")
-				 table.insert(items, "High Orbit")
-				 table.insert(actions, "high_orbit")
+				 addItem("Low Orbit", "low_orbit")
+				 addItem("Medium Orbit", "medium_orbit")
+				 addItem("High Orbit", "high_orbit")
 			end
-			table.insert(items, "Hold radial in")
-			table.insert(actions, "radial_in")
-			table.insert(items, "Hold radial out")
-			table.insert(actions, "radial_out")
-			table.insert(items, "Hold normal")
-			table.insert(actions, "normal")
-			table.insert(items, "Hold anti-normal")
-			table.insert(actions, "anti_normal")
-			table.insert(items, "Hold prograde")
-			table.insert(actions, "prograde")
-			table.insert(items, "Hold retrograde")
-			table.insert(actions, "retrograde")
+			addItem("Hold Radial in", "radial_in")
+			addItem("Hold radial out", "radial_out")
+			addItem("Hold normal", "normal")
+			addItem("Hold anti-normal", "anti_normal")
+			addItem("Hold prograde", "prograde")
+			addItem("Hold retrograde", "retrograde")
 	 end
 	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items)
 	 if n >= 0 then
 			local action = actions[n + 1]
-			print("selected " .. action)
 			radial_actions[action](radial_nav_target)
 	 end
 end
@@ -809,7 +712,6 @@ local function draw_thrust_right(position, step, ratio)
 	 pigui.PopClipRect()
 end
 
-local foo_thrust = 50
 local function show_thrust()
 	 local thrust = player:GetThrusterState()
 	 local thrust_forward = (thrust.z < 0) and math.abs(thrust.z) * math.abs(player:GetAccel("forward")) or 0
@@ -824,10 +726,6 @@ local function show_thrust()
 	 local xsize = drawWithUnit(position
 															, total_g, fontsizes.large, colors.lightgrey
 															, "G", fontsizes.medium, colors.lightgrey)
-	 -- local foo_new_thrust = pigui.CircularSlider(Vector(400,400), foo_thrust, 0, 100)
-	 -- if foo_new_thrust then
-	 -- 		foo_thrust = foo_new_thrust
-	 -- end
 	 local low_thrust_power = player:GetLowThrustPower()
 	 position = position + Vector(xsize.x / 2, -50)
 	 local thickness = 12.0
@@ -868,6 +766,23 @@ local function show_thrust()
 	 draw_thrust_down(position + Vector(0, -distance), step, thrust.y < 0 and math.abs(thrust.y) or 0)
 	 draw_thrust_left(position + Vector(-distance, 0), step, thrust.x > 0 and math.abs(thrust.x) or 0)
 	 draw_thrust_right(position + Vector(distance, 0), step, thrust.x < 0 and math.abs(thrust.x) or 0)
+end
+
+local function show_debug_orbit()
+	 pigui.Begin("Orbit", {})
+	 local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
+	 pigui.Text("o eccentricity: " .. o_eccentricity)
+	 pigui.Text("o semi-major axis: " .. Format.Distance(o_semimajoraxis))
+	 pigui.Text("O inclination: " .. math.floor(o_inclination / two_pi * 360))
+	 local frame = player:GetFrame():GetSystemBody()
+	 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
+	 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
+	 pigui.Text("O Periapsis: " .. Format.Distance(pa) .. " (" .. Format.Distance(pa - frame.radius) .. "), O Apoapsis: " .. Format.Distance(aa) .. " (" .. Format.Distance(aa - frame.radius) .. ")")
+	 pigui.Text("O Period: " .. (o_period and Format.Duration(o_period) or "none"))
+	 pigui.Text("Time to O periapsis: " .. Format.Duration(o_time_at_periapsis) .. ", O time to apoapsis: " .. Format.Duration(o_time_at_apoapsis))
+	 pigui.Text("Has Atmosphere: " .. (frame.hasAtmosphere and "yes" or "no"))
+	 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
+	 pigui.End()
 end
 
 local function show_debug_thrust()
@@ -919,11 +834,10 @@ local function show_debug_gravity()
 	 pigui.End()
 end
 
-local should_show_hud = true
 
+local should_show_hud = true
 local cam_types = { "internal", "external", "sidereal" }
 local current_cam_type = 1
-
 local function handle_global_keys()
 	 if pigui.IsKeyReleased(keys.f1) then -- ShipCpanel.cpp:317
 			if Game.GetView() == "world" then
@@ -954,7 +868,6 @@ local function handle_global_keys()
 end
 
 local function show_ships_on_screen()
-	 -- ******************** Ships on Screen ********************
 	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
 	 for _,body in pairs(bodies) do
 			local pos = body:GetProjectedScreenPosition()
@@ -982,7 +895,6 @@ local function circle_segments(size)
 end
 
 local function show_bodies_on_screen()
-	 -- ******************** Bodies on Screen ********************
 	 local body_groups = {}
 	 local cutoff = 5
 	 for key,data in pairs(system:GetBodyPaths()) do
@@ -1223,26 +1135,6 @@ local function show_hud()
 			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
 			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
 	 end
-	 local side, dir, pos = pigui.GetHUDMarker("normal")
-	 if side == "onscreen" then
-			icons.normal(pos, size, colors.orbital_marker, 2.0)
-	 end
-
-	 local side, dir, pos = pigui.GetHUDMarker("anti_normal")
-	 if side == "onscreen" then
-			icons.anti_normal(pos, size, colors.orbital_marker, 2.0)
-	 end
-
-	 local side, dir, pos = pigui.GetHUDMarker("radial_out")
-	 if side == "onscreen" then
-			icons.radial_out(pos, size, colors.orbital_marker, 2.0)
-	 end
-
-	 local side, dir, pos = pigui.GetHUDMarker("radial_in")
-	 if side == "onscreen" then
-			icons.radial_in(pos, size, colors.orbital_marker, 2.0)
-	 end
-
 	 -- ******************** Reticule ********************
 
 	 if show_forward_direction_in_reticule then
@@ -1341,21 +1233,29 @@ local function show_hud()
 			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
 			xdrawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
 
-			-- ******************** Frame Prograde marker ********************
+			-- ******************** Frame markers ********************
 			show_marker("frame_prograde", icons.diamond, colors.orbital_marker, true)
-			-- ******************** Away from Frame marker ********************
+			show_marker("frame_retrograde", icons.cross, colors.orbital_marker, show_retrograde_indicators)
+			show_marker("normal", icons.normal, colors.orbital_marker, false)
+			show_marker("anti_normal", icons.anti_normal, colors.orbital_marker, false)
+			show_marker("radial_out", icons.radial_out, colors.orbital_marker, false)
+			show_marker("radial_in", icons.radial_in, colors.orbital_marker, false)
 			show_marker("away_from_frame", icons.circle, colors.orbital_marker, true)
+			local pos,dir = markerPos("frame", reticule_radius + 5)
+			if pos then
+				 local size = 6
+				 local left = dir:left() * 4 + pos
+				 local right = dir:right() * 4 + pos
+				 local top = dir * 8 + pos
+				 pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
+			end
 			-- ******************** Combat target ********************
 			show_marker("combat_target", icons.circle, colors.combat_target, true)
 			show_marker("combat_target_lead", icons.emptyBullseye, colors.combat_target, false)
-			-- ******************** Frame Retrograde marker ********************
-			show_marker("frame_retrograde", icons.cross, colors.orbital_marker, show_retrograde_indicators)
 	 end
-	 -- ******************** NavTarget Prograde marker ********************
+	 -- ******************** NavTarget markers ********************
 	 show_marker("nav_prograde", icons.diamond, colors.lightgreen, true)
-	 -- ******************** NavTarget Retrograde marker ********************
 	 show_marker("nav_retrograde", icons.cross, colors.lightgreen, show_retrograde_indicators)
-	 -- ******************** NavTarget marker ********************
 	 show_marker("nav", icons.square, colors.lightgreen, false)
 	 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
 	 if pos then
@@ -1367,15 +1267,6 @@ local function show_hud()
 	 end
 	 -- ******************** Maneuver Node ********************
 	 show_marker("maneuver", icons.bullseye, colors.maneuver, true)
-	 -- ******************** Frame indicator ********************
-	 local pos,dir = markerPos("frame", reticule_radius + 5)
-	 if pos then
-			local size = 6
-			local left = dir:left() * 4 + pos
-			local right = dir:right() * 4 + pos
-			local top = dir * 8 + pos
-			pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
-	 end
 
 	 show_ships_on_screen()
 	 show_bodies_on_screen()
