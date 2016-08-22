@@ -91,7 +91,7 @@ local shipRepairs = function (args)
 	-- XXX need a better way of seeding this
 	local station = Game.player:GetDockedWith()
 	local rand = Rand.New(util.hash_random(station.seed .. '-repair-guy', 2^31-1) - 1)
-	local face = InfoFace.New(Character.New({ title = l.CHIEF_MECHANIC }, rand))
+	local face = InfoFace.New(Character.New({ titleTranslate = l.CHIEF_MECHANIC }, rand))
 
 	return
 		ui:Grid({48,4,48},1)

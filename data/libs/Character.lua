@@ -1178,7 +1178,7 @@ local onGameStart = function ()
 		-- the average values.  We'll find some way to ask the
 		-- player for a new name in the future.
 		local PlayerCharacter = Character.New()
-		PlayerCharacter.title = 'Commander'
+		PlayerCharacter.title = 'COMMANDER'
 		PlayerCharacter.player = true
 		-- Gave the player a missions table (for Misssions.lua)
 		PlayerCharacter.missions = {}

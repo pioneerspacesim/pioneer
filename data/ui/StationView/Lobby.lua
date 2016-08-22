@@ -19,7 +19,7 @@ local lobby = function (tab)
 	local station = Game.player:GetDockedWith()
 
 	local rand = Rand.New(station.seed)
-	local face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand))
+	local face = InfoFace.New(Character.New({ titleTranslate = l.STATION_MANAGER }, rand))
 
 	local launchButton = ui:Button(l.REQUEST_LAUNCH):SetFont("HEADING_LARGE")
 	launchButton.onClick:Connect(function ()

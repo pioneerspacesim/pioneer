@@ -176,9 +176,11 @@ local crewRoster = function ()
 			wageTotal = wageTotal + crewWage
 			owedTotal = owedTotal + crewOwed
 
+			crewMember.titleTranslate = l[crewMember.title]
+
 			crewTable:AddRow({
 				crewMember.name,
-				crewMember.title or l.GENERAL_CREW,
+				crewMember.titleTranslate or '',
 				ui:Label(Format.Money(crewWage)):SetColor({ r = 0.0, g = 1.0, b = 0.2 }), -- green
 				ui:Label(Format.Money(crewOwed)):SetColor({ r = 1.0, g = 0.0, b = 0.0 }), -- red
 				Format.Date(crewMember.contract and crewMember.contract.payday or 0),

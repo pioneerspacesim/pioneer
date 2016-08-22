@@ -24,7 +24,7 @@ local police = function (tab)
 
 	local rand = Rand.New(util.hash_random(station.seed .. '-police', 2^31-1) - 1)
 	local face = InfoFace.New(Character.New({
-		title  = l.CONSTABLE,
+		titleTranslate  = l.CONSTABLE,
 		armour = true,
 	}, rand))
 
