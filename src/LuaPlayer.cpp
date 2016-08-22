@@ -262,34 +262,37 @@ static int l_get_gps(lua_State *l)
 	double center_dist = pos.Length();
 	auto frame = player->GetFrame();
 	Body *astro = frame->GetBody();
-	assert(astro->IsType(Object::TERRAINBODY));
-	TerrainBody* terrain = static_cast<TerrainBody*>(astro);
-	if (!frame->IsRotFrame())
-		frame = frame->GetRotFrame();
-	if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
-		vector3d surface_pos = pos.Normalized();
-		double radius = terrain->GetTerrainHeight(surface_pos);
-		double altitude = center_dist - radius;
-		if (altitude < 10000000.0 && altitude < 0.5 * radius) {
-			vector3d velocity = player->GetVelocity();
-			double vspeed = velocity.Dot(surface_pos);
-			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+	if(astro->IsType(Object::TERRAINBODY)) {
+		TerrainBody* terrain = static_cast<TerrainBody*>(astro);
+		if (!frame->IsRotFrame())
+			frame = frame->GetRotFrame();
+		if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+			vector3d surface_pos = pos.Normalized();
+			double radius = terrain->GetTerrainHeight(surface_pos);
+			double altitude = center_dist - radius;
+			if (altitude < 10000000.0 && altitude < 0.5 * radius) {
+				vector3d velocity = player->GetVelocity();
+				double vspeed = velocity.Dot(surface_pos);
+				if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
 
-			//			RefreshHeadingPitch();
+				//			RefreshHeadingPitch();
 
-			if (altitude < 0) altitude = 0;
-			lua_pushnumber(l, altitude);
-			lua_pushnumber(l, vspeed);
-			const float lat = RAD2DEG(asin(surface_pos.y));
-			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-			std::string lat_str = DecimalToDegMinSec(lat);
-			std::string lon_str = DecimalToDegMinSec(lon);
-			lua_pushstring(l, lat_str.c_str());
-			lua_pushstring(l, lon_str.c_str());
-			return 4;
+				if (altitude < 0) altitude = 0;
+				lua_pushnumber(l, altitude);
+				lua_pushnumber(l, vspeed);
+				const float lat = RAD2DEG(asin(surface_pos.y));
+				const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+				std::string lat_str = DecimalToDegMinSec(lat);
+				std::string lon_str = DecimalToDegMinSec(lon);
+				lua_pushstring(l, lat_str.c_str());
+				lua_pushstring(l, lon_str.c_str());
+				return 4;
+			}
 		}
+		return 0;
+	} else {
+		return 0;
 	}
-	return 0;
 }
 
 static int l_get_orbit(lua_State *l)

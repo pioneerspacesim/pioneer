@@ -616,6 +616,13 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 		marker = wv->GetRadialInIndicator();
 	else if(!name.compare("away_from_frame"))
 		marker = wv->GetAwayFromFrameIndicator();
+	else if(!name.compare("combat_target"))
+		marker = wv->GetCombatTargetIndicator();
+	else if(!name.compare("combat_target_lead"))
+		marker = wv->GetCombatTargetLeadIndicator();
+	else if(!name.compare("maneuver"))
+		marker = wv->GetManeuverIndicator();
+
 	else
 		// TODO: error
 		return 0;

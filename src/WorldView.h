@@ -105,6 +105,9 @@ public:
 	const Indicator *GetRadialInIndicator() const { return &m_radialInIndicator; }
 	const Indicator *GetRadialOutIndicator() const { return &m_radialOutIndicator; }
 	const Indicator *GetAwayFromFrameIndicator() const { return &m_awayFromFrameIndicator; }
+	const Indicator *GetCombatTargetIndicator() const { return &m_combatTargetIndicator; }
+	const Indicator *GetCombatTargetLeadIndicator() const { return &m_targetLeadIndicator; }
+	const Indicator *GetManeuverIndicator() const { return &m_burnIndicator; }
 	
 	const vector3d GetNavProgradeVelocity() const;
 	const vector3d GetFrameProgradeVelocity() const;

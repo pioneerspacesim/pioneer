@@ -38,7 +38,8 @@ local colors = {
 	 windowbg = {r=0,g=0,b=50,a=200},
 	 transparent = {r=0,g=0,b=0,a=0},
 	 lightred = { r=255, g=150, b=150},
-	 red = { r=255, g=0, b=0 }
+	 red = { r=255, g=0, b=0 },
+	 combat_target = { r=200, g=100, b=100 }
 }
 
 local fontsizes = {
@@ -411,13 +412,16 @@ local function show_navball()
 	 -- apoapsis
 	 if not player:IsDocked() then
 			local right_upper = navball_center + Vector(navball_radius * 1.2, -navball_radius * 0.9)
-			local dist_apo, unit_apo = MyFormat.Distance(aa - frame_sb.radius)
-			local xsize = drawWithUnit(right_upper
-																 , dist_apo, fontsizes.medium, colors.lightgrey
-																 , unit_apo, fontsizes.small, colors.darkgrey
-																 , false
-																 , "a", fontsizes.small, colors.darkgrey)
-			pigui.AddText(right_upper + xsize + Vector(10,-5), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), "t-" .. Format.Duration(o_time_at_apoapsis))
+			local aa_d = aa - frame_sb.radius
+			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
+			if aa_d > 0 then
+				 local xsize = drawWithUnit(right_upper
+																		, dist_apo, fontsizes.medium, colors.lightgrey
+																		, unit_apo, fontsizes.small, colors.darkgrey
+																		, false
+																		, "a", fontsizes.small, colors.darkgrey)
+				 pigui.AddText(right_upper + xsize + Vector(10,-5), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), "t-" .. Format.Duration(o_time_at_apoapsis))
+			end
 	 end
 	 -- altitude
 	 local alt, vspd, lat, lon = player:GetGPS()
@@ -438,13 +442,16 @@ local function show_navball()
 	 -- periapsis
 	 if not player:IsDocked() then
 			local right_upper = navball_center + Vector(navball_radius * 1.4, -navball_radius * 0.25)
-			local dist_per, unit_per = MyFormat.Distance(pa - frame_sb.radius)
-			local xsize = drawWithUnit(right_upper
-																 , dist_per, fontsizes.medium, (pa - frame_sb.radius < 0 and colors.lightred or colors.lightgrey)
-																 , unit_per, fontsizes.small, colors.darkgrey
-																 , false
-																 , "p", fontsizes.small, colors.darkgrey)
-			pigui.AddText(right_upper + xsize + Vector(10,-5), (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey), "t-" .. Format.Duration(o_time_at_periapsis))
+			local pa_d = pa - frame_sb.radius
+			local dist_per, unit_per = MyFormat.Distance(pa_d)
+			if pa_d ~= 0 then
+				 local xsize = drawWithUnit(right_upper
+																		, dist_per, fontsizes.medium, (pa - frame_sb.radius < 0 and colors.lightred or colors.lightgrey)
+																		, unit_per, fontsizes.small, colors.darkgrey
+																		, false
+																		, "p", fontsizes.small, colors.darkgrey)
+				 pigui.AddText(right_upper + xsize + Vector(10,-5), (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey), "t-" .. Format.Duration(o_time_at_periapsis))
+			end
 	 end
 	 -- inclination, eccentricity
 	 if not player:IsDocked() then
@@ -462,25 +469,29 @@ local function show_navball()
 	 end
 	 -- latitude, longitude
 	 local right_upper = navball_center + Vector(navball_radius * 1.2, navball_radius * 0.8)
-	 drawWithUnit(right_upper
-								, lat, fontsizes.medium, colors.lightgrey
-								, "", fontsizes.small, colors.lightgrey
-								, false
-								, "Lat:", fontsizes.small, colors.darkgrey)
-	 drawWithUnit(right_upper + Vector(0, 20)
-								, lon, fontsizes.medium, colors.lightgrey
-								, "", fontsizes.small, colors.lightgrey
-								, false
-								, "Lon:", fontsizes.small, colors.darkgrey)
+	 if lat then
+			drawWithUnit(right_upper
+									 , lat, fontsizes.medium, colors.lightgrey
+									 , "", fontsizes.small, colors.lightgrey
+									 , false
+									 , "Lat:", fontsizes.small, colors.darkgrey)
+	 end
+	 if lon then
+			drawWithUnit(right_upper + Vector(0, 20)
+									 , lon, fontsizes.medium, colors.lightgrey
+									 , "", fontsizes.small, colors.lightgrey
+									 , false
+									 , "Lon:", fontsizes.small, colors.darkgrey)
+	 end
 	 -- pressure
 	 local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.35)
 	 local pressure, density = frame:GetAtmosphericState()
 	 if pressure and pressure > 0.001 then
 			drawWithUnit(right_upper
-									 , math.floor(pressure*100)/100, fontsizes.large, colors.lightgrey
-									 , "atm", fontsizes.medium, colors.lightgrey
+									 , math.floor(pressure*100)/100, fontsizes.medium, colors.lightgrey
+									 , "atm", fontsizes.small, colors.lightgrey
 									 , false
-									 , "pr", fontsizes.medium, colors.darkgrey)
+									 , "pr", fontsizes.small, colors.darkgrey)
 	 end
 end
 
@@ -564,6 +575,38 @@ local function show_debug_orbit()
 end
 
 local radial_nav_target = nil
+
+local selected_combat = nil
+local function show_contacts()
+	 -- ******************** Contacts Window ********************
+	 -- // { // contacts window
+	 -- // 	Body *player = Pi::player;
+	 -- // 	std::vector<std::pair<Body *, double>> thelist;
+	 -- // 	Space::BodyNearList nearbybodies;
+	 -- // 	Pi::game->GetSpace()->GetBodiesMaybeNear(player, 10000000, nearbybodies);
+	 -- // 	for(Body *body : nearbybodies) {
+	 -- // 		double distance = player->GetPositionRelTo(body).Length();
+	 -- // 		thelist.push_back(std::pair<Body *, double>(body, distance));
+	 -- // 	}
+
+	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
+	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
+	 pigui.Begin("Contacts", {})
+	 pigui.Columns(2, "contactcolumns", false)
+	 local bodies = Space.GetBodies(function (body) return body:IsShip() end)
+	 table.sort(bodies, function(a,b) return player:DistanceTo(a) < player:DistanceTo(b) end)
+	 for _,body in pairs(bodies) do
+			if(pigui.Selectable(body.label, selected_combat == body, {"SpanAllColumns"})) then
+				 player:SetCombatTarget(body)
+				 selected_combat = body
+			end
+			pigui.NextColumn()
+			local distance = player:DistanceTo(body)
+			pigui.Text(Format.Distance(distance))
+			pigui.NextColumn()
+	 end
+	 pigui.End()
+end
 
 local function show_nav_window()
 	 -- ******************** Navigation Window ********************
@@ -688,8 +731,8 @@ local function show_thrust()
 	 local total_g = string.format("%0.1f", total_thrust / g)
 	 local position = Vector(200, pigui.screen_height - 100)
 	 local xsize = drawWithUnit(position
-								, total_g, fontsizes.large, colors.lightgrey
-								, "G", fontsizes.medium, colors.lightgrey)
+															, total_g, fontsizes.large, colors.lightgrey
+															, "G", fontsizes.medium, colors.lightgrey)
 	 -- local foo_new_thrust = pigui.CircularSlider(Vector(400,400), foo_thrust, 0, 100)
 	 -- if foo_new_thrust then
 	 -- 		foo_thrust = foo_new_thrust
@@ -973,6 +1016,23 @@ pigui.handlers.HUD = function(delta)
 				 local size = 12
 				 pigui.AddCircle(point, size, color, 32, 3.0)
 			end
+			-- ******************** Combat target ********************
+		  local pos,dir,point,side = markerPos("combat_target", reticule_radius - 10)
+			local color = colors.combat_target
+			if pos then
+				 local size = 4
+				 pigui.AddCircle(pos, size, color, 8, 1.0)
+			end
+			if side == "onscreen" and point then
+				 local size = 12
+				 pigui.AddCircle(point, size, color, 32, 3.0)
+			end
+			local pos,dir,point,side = markerPos("combat_target_lead", reticule_radius - 10)
+			if side == "onscreen" and point then
+				 local size = 10
+				 pigui.AddCircle(point, size, color, 32, 3.0)
+				 pigui.AddCircle(point, size - 6, color, 32, 3.0)
+			end
 			-- ******************** Frame Retrograde marker ********************
 			local pos,dir,point,side = markerPos("frame_retrograde", reticule_radius - 10)
 			local color = colors.orbital_marker
@@ -1163,6 +1223,7 @@ pigui.handlers.HUD = function(delta)
 
 	 pigui.PushStyleColor("WindowBg", colors.windowbg)
 	 show_nav_window()
+	 show_contacts()
 	 --	 show_settings()
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	 show_missions()

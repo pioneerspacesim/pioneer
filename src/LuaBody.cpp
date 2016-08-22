@@ -455,6 +455,13 @@ static int l_body_get_atmospheric_state(lua_State *l) {
 	}
 }
 
+static int l_body_is_ship(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	lua_pushboolean(l, b->GetType() == Object::SHIP);
+	return 1;
+}
+
 static int l_body_get_mass(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -521,16 +528,17 @@ template <> void LuaObject<Body>::RegisterClass()
 	const char *l_parent = "PropertiedObject";
 
 	static luaL_Reg l_methods[] = {
-		{ "IsDynamic",  l_body_is_dynamic  },
-		{ "DistanceTo", l_body_distance_to },
-		{ "GetGroundPosition", l_body_get_ground_position },
-		{ "FindNearestTo", l_body_find_nearest_to },
+		{ "IsDynamic",           l_body_is_dynamic  },
+		{ "DistanceTo",          l_body_distance_to },
+		{ "GetGroundPosition",   l_body_get_ground_position },
+		{ "FindNearestTo",       l_body_find_nearest_to },
 		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
-		{ "GetPosition", l_body_get_position },
-		{ "GetVelocity", l_body_get_velocity },
-		{ "GetMass", l_body_get_mass },
-		{ "GetSystemBody", l_body_get_system_body },
+		{ "GetPosition",         l_body_get_position },
+		{ "GetVelocity",         l_body_get_velocity },
+		{ "GetMass",             l_body_get_mass },
+		{ "GetSystemBody",       l_body_get_system_body },
 		{ "GetAtmosphericState", l_body_get_atmospheric_state },
+		{ "IsShip",              l_body_is_ship },
 		{ 0, 0 }
 	};
 
