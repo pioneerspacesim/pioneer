@@ -824,8 +824,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 			formatarg("y", dest.sectorY),
 			formatarg("z", dest.sectorZ)));
 
-		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::PROBABILITY_OF_ARRIVAL_X_PERCENT,
-			formatarg("probability", m_game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
+		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::JUMP_COMPLETE,
+			formatarg("percent", m_game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
 	}
 
 	else {
@@ -2123,9 +2123,9 @@ void WorldView::DrawTargetSquare(const Indicator &marker, const Color &c)
 		DrawEdgeMarker(marker, c);
 
 	m_targetIcon->Draw(Pi::renderer,
-					   vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
+						vector2f(marker.pos.x - HUD_CROSSHAIR_SIZE,
 								marker.pos.y - HUD_CROSSHAIR_SIZE),
-					   vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
+						vector2f(HUD_CROSSHAIR_SIZE, HUD_CROSSHAIR_SIZE) * 2.0f, c);
 }
 
 void WorldView::DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c)
@@ -2327,6 +2327,6 @@ static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
 	const double heading = wrapAngleToPositive(atan2(hedEast, hedNorth));
 
 	return std::make_pair(
-		std::isnan(heading) ? 0.0 : heading, 
+		std::isnan(heading) ? 0.0 : heading,
 		std::isnan(pitch) ? 0.0 : pitch);
 }
