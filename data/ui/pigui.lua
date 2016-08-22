@@ -643,7 +643,7 @@ local function show_navball()
 	 end
 	 -- altitude
 	 local alt, vspd, lat, lon = player:GetGPS()
-	 if alt and alt < 10000000 then
+	 if alt then
 			local altitude,unit = MyFormat.Distance(alt)
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 2.6)
 			local textsize = show_text_fancy(position, { "alt", altitude, unit }, {colors.darkgrey, colors.lightgrey, colors.darkgrey }, {pionillium.medium, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline)
@@ -732,16 +732,18 @@ local function show_navball()
 			local thickness = 10
 			local ends = 0.05
 			local my_height = clamp((my_position - min_height) / range, ends/2, 1 - ends/2)
-			local apoapsis = clamp((aa - min_height) / range, ends/2, 1 - ends/2)
-			local periapsis = clamp((pa - min_height) / range, ends/2, 1 - ends/2)
-			local atmosphere_ratio = math.max(ends, (atmosphere_height - min_height) / range - 2 * ends)
+			local apoapsis = aa > 0 and clamp((aa - min_height) / range, ends, 1 - ends/2) or nil
+			local periapsis = clamp((pa - min_height) / range, ends, 1 - ends/2)
+			local atmosphere_ratio = frame_sb.hasAtmosphere and math.max(ends, (atmosphere_height - min_height) / range - 2 * ends) or 0
+			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness, 0.0, 1.0)
 			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_ground, thickness, 0, ends)
 			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_atmosphere, thickness, ends, ends + atmosphere_ratio)
-			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness, ends + atmosphere_ratio, 1.0 - ends)
-			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness, 1.0 - ends, 1.0)
-			icons.circle(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, my_height), thickness / 2.3, colors.lightgrey, 1)
-			icons.chevron_up(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, apoapsis), thickness / 2.3, colors.lightgrey, 1)
-			icons.chevron_down(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, periapsis), thickness / 2.3, colors.lightgrey, 1)
+
+			icons.circle(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, my_height), thickness / 2.3, colors.lightgrey, 2)
+			if apoapsis then
+				 icons.chevron_up(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, apoapsis), thickness / 2.3, colors.lightgrey, 2)
+			end
+			icons.chevron_down(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, periapsis), thickness / 2.3, colors.lightgrey, 2)
 	 end
 end
 
