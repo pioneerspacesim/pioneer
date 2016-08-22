@@ -16,7 +16,9 @@ local center
 local mission_selected
 local navball_center
 local navball_radius = 80
+local navball_text_radius = navball_radius * 1.4
 local reticule_radius = 80
+local reticule_text_radius = reticule_radius * 1.2
 
 local pi = 3.14159264
 local pi_2 = pi / 2
@@ -46,14 +48,15 @@ local colors = {
 	 transparent = {r=0,g=0,b=0,a=0},
 	 lightred = { r=255, g=150, b=150},
 	 red = { r=255, g=0, b=0 },
+	 green = { r=0, g=255, b=0 },
 	 combat_target = { r=200, g=100, b=100 },
 	 maneuver = { r=163, g=163, b=255 }
 }
 
-local fontsizes = {
-	 large = { size = 30, offset = 10 },
-	 medium = { size = 18, offset = 4 },
-	 small = { size = 12, offset = 3 }
+local pionillium = {
+	 large = { name = "pionillium", size = 30, offset = 24 }, -- 10
+	 medium = { name = "pionillium", size = 18, offset = 14 }, -- 4
+	 small = { name = "pionillium", size = 12, offset = 10 } -- 3
 }
 
 local MyFormat = {
@@ -145,7 +148,14 @@ do
 	 end
 
 	 setmetatable( Vector, {
-										__call = function( V, x ,y ,z ) return setmetatable( {x = x or 0, y = y or 0, z = z or 0}, meta ) end
+										__call = function( V, x ,y ,z )
+											 local result
+											 if type(x) == "table" then
+													result = { x = x.x or 0, y = x.y or 0, z = x.z or 0 }
+											 else
+													result = {x = x or 0, y = y or 0, z = z or 0}
+											 end
+											 return setmetatable( result, meta ) end
 	 } )
 end
 
@@ -193,6 +203,200 @@ function print_r ( t )
    print()
 end
 
+-- ******************** Utils ********************
+local function point_on_circle_radius(center, radius, hours)
+	 -- 0 hours is top, going rightwards, negative goes leftwards
+	 local a = math.fmod(hours / 12 * two_pi, two_pi)
+	 local p = Vector(0, -radius)
+	 return Vector(center.x, center.y) + Vector(p.x * math.cos(a) - p.y * math.sin(a), p.y * math.cos(a) + p.x * math.sin(a))
+end
+
+local anchor = { left = 1, right = 2, center = 3, top = 4, bottom = 5, baseline = 6 }
+
+local function calc_alignment(pos, size, anchor_horizontal, anchor_vertical)
+	 local position = Vector(pos.x, pos.y)
+	 if anchor_horizontal == anchor.left or anchor_horizontal == nil then
+			position.x = position.x -- do nothing
+	 elseif anchor_horizontal == anchor.right then
+			position.x = position.x - size.x
+	 elseif anchor_horizontal == anchor.center then
+			position.x = position.x - size.x/2
+	 else
+			error("show_text: incorrect horizontal anchor " .. anchor_horizontal)
+	 end
+	 if anchor_vertical == anchor.top or anchor_vertical == nil then
+			position.y = position.y -- do nothing
+	 elseif anchor_vertical == anchor.center then
+			position.y = position.y - size.y/2
+	 elseif anchor_vertical == anchor.bottom then
+			position.y = position.y - size.y
+	 else
+			error("show_text: incorrect vertical anchor " .. anchor_vertical)
+	 end
+	 return position
+end
+
+local function show_text(pos, text, color, anchor_horizontal, anchor_vertical, font)
+	 local position = Vector(pos.x, pos.y)
+	 -- AddText aligns to upper left
+	 pigui.PushFont(font.name, font.size)
+	 local size = pigui.CalcTextSize(text)
+	 local foo
+	 if anchor_vertical == anchor.baseline then
+			foo = nil
+	 else
+			foo = anchor_vertical
+	 end
+	 position = calc_alignment(position, size, anchor_horizontal, foo) -- ignore vertical if baseline
+	 if anchor_vertical == anchor.baseline then
+			position.y = position.y - font.offset
+	 end
+	 pigui.AddText(position, color, text)
+--	 pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
+	 pigui.PopFont()
+	 return Vector(size.x, size.y)
+end
+
+local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal, anchor_vertical)
+	 -- always align texts at baseline
+	 local spacing = 2
+	 local size = Vector(0, 0)
+	 local max_offset = 0
+	 assert(#texts == #colors and #texts == #fonts)
+	 for i=1,#texts do
+			pigui.PushFont(fonts[i].name, fonts[i].size)
+			local s = pigui.CalcTextSize(texts[i])
+			size.x = size.x + s.x
+			size.x = size.x + spacing -- spacing
+			size.y = math.max(size.y, s.y)
+			max_offset = math.max(max_offset, fonts[i].offset)
+			pigui.PopFont()
+	 end
+	 size.x = size.x - spacing -- remove last spacing
+	 position = calc_alignment(position, size, anchor_horizontal, nil)
+	 if anchor_vertical == anchor.top then
+			position.y = position.y + max_offset
+	 elseif anchor_vertical == anchor.bottom then
+			position.y = position.y - (size.y - max_offset)
+	 end
+	 for i=1,#texts do
+			pigui.PushFont(fonts[i].name, fonts[i].size)
+			local s = show_text(position, texts[i], colors[i], anchor.left, anchor.baseline, fonts[i])
+			position.x = position.x + s.x + spacing
+			pigui.PopFont()
+	 end
+	 return size
+end
+
+local function circle_segments(size)
+	 -- just guessing, feel free to change
+	 if size < 5 then
+			return 8
+	 elseif size < 20 then
+			return 16
+	 elseif size < 50 then
+			return 32
+	 elseif size < 100 then
+			return 64
+	 else
+			return 128
+	 end
+end
+
+local icons = {
+	 cross = function(pos, size, col, thickness)
+			pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), col, thickness)
+			pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), col, thickness)
+	 end,
+	 plus = function(pos, size, col, thickness)
+			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), col, thickness)
+			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), col, thickness)
+	 end,
+	 normal = function(pos, size, col, thickness)
+			local factor = 2
+			local lineLeft = pos + Vector(-1,-1) * size
+			local lineRight = pos + Vector(1,-1) * size
+			local triCenter = pos + Vector(0,1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, 1) * (size / factor)
+			local triRight = lineRight + Vector(0, 1) * (size / factor)
+			pigui.AddLine(lineLeft, lineRight, col, thickness)
+			pigui.AddLine(triLeft, triCenter , col, thickness)
+			pigui.AddLine(triRight, triCenter , col, thickness)
+	 end,
+	 anti_normal = function(pos, size, col, thickness)
+			local factor = 2
+			local lineLeft = pos + Vector(-1,1) * size
+			local lineRight = pos + Vector(1,1) * size
+			local triCenter = pos + Vector(0,-1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, -1) * (size / factor)
+			local triRight = lineRight + Vector(0, -1) * (size / factor)
+			pigui.AddLine(lineLeft, lineRight, col, thickness)
+			pigui.AddLine(triLeft, triCenter , col, thickness)
+			pigui.AddLine(triRight, triCenter , col, thickness)
+	 end,
+	 radial_out = function(pos, size, col, thickness)
+			local factor = 6
+			local leftTop = pos + Vector(-1,1) * size
+			local rightTop = pos + Vector(1,1) * size
+			local leftBottom = pos + Vector(-1,-1) * size
+			local rightBottom = pos + Vector(1,-1) * size
+			local leftCenter = pos + Vector(-1, 0) * (size / factor)
+			local rightCenter = pos + Vector(1, 0) * (size / factor)
+			pigui.AddLine(leftTop, leftBottom, col, thickness)
+			pigui.AddLine(leftBottom, leftCenter, col, thickness)
+			pigui.AddLine(leftTop, leftCenter, col, thickness)
+			pigui.AddLine(rightTop, rightBottom, col, thickness)
+			pigui.AddLine(rightBottom, rightCenter, col, thickness)
+			pigui.AddLine(rightTop, rightCenter, col, thickness)
+	 end,
+	 radial_in = function(pos, size, col, thickness)
+			local factor = 5
+			local leftTop = pos + Vector(-1 * size / factor, 1 * size)
+			local rightTop = pos + Vector(1 * size / factor, 1 * size)
+			local leftBottom = pos + Vector(-1 * size / factor, -1 * size)
+			local rightBottom = pos + Vector(1 * size / factor, -1 * size)
+			local leftCenter = pos + Vector(-1, 0) * size
+			local rightCenter = pos + Vector(1, 0) * size
+			pigui.AddLine(leftTop, leftBottom, col, thickness)
+			pigui.AddLine(leftBottom, leftCenter, col, thickness)
+			pigui.AddLine(leftTop, leftCenter, col, thickness)
+			pigui.AddLine(rightTop, rightBottom, col, thickness)
+			pigui.AddLine(rightBottom, rightCenter, col, thickness)
+			pigui.AddLine(rightTop, rightCenter, col, thickness)
+	 end,
+	 disk = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircleFilled(pos, size, col, segments)
+	 end,
+	 circle = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircle(pos, size, col, segments, thickness)
+	 end,
+	 diamond = function(pos, size, col, thickness)
+			local left = pos + Vector(-1,0) * size
+			local right = pos + Vector(1,0) * size
+			local top = pos + Vector(0,1) * size
+			local bottom = pos + Vector(0,-1) * size
+			pigui.AddQuad(left, top, right, bottom, col, thickness)
+	 end,
+	 square = function(pos, size, col, thickness)
+			local leftTop = pos + Vector(-1,1) * size
+			local rightTop = pos + Vector(1,1) * size
+			local leftBottom = pos + Vector(-1,-1) * size
+			local rightBottom = pos + Vector(1,-1) * size
+			pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, col, thickness)
+	 end,
+	 bullseye = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircle(pos, size, col, segments, thickness)
+			pigui.AddCircleFilled(pos, size / 2, col, segments)
+	 end,
+	 emptyBullseye = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircle(pos, size, col, segments, thickness)
+			pigui.AddCircle(pos, size / 2, col, segments, thickness)
+	 end
+}
 
 -- ****************************** PIGUI *******************************
 
@@ -335,44 +539,6 @@ local function deltav_gauge(ratio, center, radius, color, thickness)
 	 pigui.PathStroke(color, false, thickness)
 end
 
-local function drawWithUnit(leftCenter, number, numberfontsize, numbercolor, unit, unitfontsize, unitcolor, centerIsActuallyRight, prefix, prefixfontsize, prefixcolor)
-	 local magic_number = numberfontsize.offset -- magic number to offset the unit to baseline-align with the number. Should be fixed somehow :-/
-	 pigui.PushFont("pionillium",numberfontsize.size)
-	 local numbersize = pigui.CalcTextSize(number)
-	 pigui.PopFont()
-	 pigui.PushFont("pionillium",unitfontsize.size)
-	 local unitsize = pigui.CalcTextSize(unit)
-	 local prefixsize = prefix and pigui.CalcTextSize(prefix) or Vector(0,0)
-	 pigui.PopFont()
-	 local totalsize = Vector(numbersize.x + unitsize.x + prefixsize.x + 3 + (prefix and 3 or 0), 0)
-	 if centerIsActuallyRight then
-			leftCenter.x = leftCenter.x - numbersize.x - unitsize.x - prefixsize.x - 3 + (prefix and -3 or 0)
-	 end
-	 if prefix then
-			pigui.PushFont("pionillium", prefixfontsize.size)
-			local topLeft = leftCenter + Vector(0, magic_number - numbersize.y / 2)
-			pigui.AddText(topLeft, prefixcolor, prefix)
-			pigui.PopFont()
-	 end
-
-	 pigui.PushFont("pionillium", numberfontsize.size)
-	 local topLeft = leftCenter + Vector(prefixsize.x + (prefix and 3 or 0), - numbersize.y / 2)
-	 pigui.AddText(topLeft, numbercolor, number)
-	 --	 pigui.AddQuad(topLeft, topLeft + Vector(0,numbersize.y), topLeft + Vector(numbersize.x, numbersize.y), topLeft + Vector(numbersize.x, 0), colors.darkgrey, 1.0)
-	 pigui.PopFont()
-
-	 pigui.PushFont("pionillium", unitfontsize.size)
-	 local xtopLeft = topLeft + Vector(numbersize.x + 3, magic_number)
-	 pigui.AddText(xtopLeft, unitcolor, unit)
-	 --	 pigui.AddQuad(xtopLeft, xtopLeft + Vector(0,unitsize.y), xtopLeft + Vector(unitsize.x, unitsize.y), xtopLeft + Vector(unitsize.x, 0), colors.darkgrey, 1.0)
-	 pigui.PopFont()
-	 return totalsize
-end
-
-local function xdrawWithUnit(center, number, unit, color, centerIsActuallyRight, prefix)
-	 return drawWithUnit(center, number, fontsizes.large, color, unit, fontsizes.medium, color, centerIsActuallyRight, prefix, fontsizes.medium, color)
-end
-
 local function show_navball()
 	 pigui.AddCircle(navball_center, navball_radius, colors.lightgrey, 128, 1.0)
 	 pigui.AddText(Vector(navball_center.x, navball_center.y + navball_radius + 5), colors.lightgrey, "R: 100km")
@@ -401,28 +567,18 @@ local function show_navball()
 			deltav_gauge(dvc, navball_center, navball_radius + 5 + thickness, colors.deltav_current, thickness)
 	 end
 
-	 -- pigui.AddText(navball_center + Vector(- navball_radius - 150, -50), colors.lightgrey, 'dvc: ' .. deltav_current)
-	 -- pigui.AddText(navball_center + Vector(- navball_radius - 150, -30), colors.lightgrey, 'dvr: ' .. deltav_remaining)
-	 -- pigui.AddText(navball_center + Vector(- navball_radius - 150, -10), colors.lightgrey, 'dvm: ' .. deltav_max)
-	 --   local spd,unit = MyFormat.Distance(deltav_current)
-	 --	 drawWithUnit(navball_center + Vector(- navball_radius * 1.25, - navball_radius / 2), spd, unit .. "/s", colors.lightgrey, true)
-
 	 -- delta-v remaining
 	 local spd,unit = MyFormat.Distance(deltav_remaining)
-	 drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 0)
-								, spd , fontsizes.large , colors.lightgrey
-								, unit .. "/s" , fontsizes.medium , colors.darkgrey
-								, true
-								, "Δv" , fontsizes.medium , colors.darkgrey)
-
-	 pigui.AddText(navball_center + Vector(- navball_radius * 1.5 - 100, 20), colors.lightgrey, math.floor(dvr*100) .. "%")
+	 local position = point_on_circle_radius(navball_center, navball_text_radius, -3)
+	 show_text_fancy(position, { "Δv", spd, unit .. "/s" }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+	 local time_until_empty = deltav_remaining / player:GetAccel("forward")
+	 show_text_fancy(position, { math.floor(dvr*100) .. "%     " .. Format.Duration(time_until_empty) }, { colors.lightgrey }, { pionillium.small }, anchor.right, anchor.top)
 	 if deltav_maneuver > 0 then
 	 		local spd,unit = MyFormat.Distance(deltav_maneuver)
-	 		drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 50)
-	 								 , spd , fontsizes.large , colors.maneuver
-	 								 , unit .. "/s" , fontsizes.medium , colors.maneuver
-	 								 , true
-	 								 , "mΔv" , fontsizes.medium , colors.maneuver)
+			position = point_on_circle_radius(navball_center, navball_text_radius, -4)
+			show_text_fancy(position, { "mΔv", spd, unit .. "/s" }, { colors.maneuver, colors.maneuver, colors.maneuver }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+			local maneuver_time = deltav_maneuver / player:GetAccel("forward")
+			show_text_fancy(position, { math.floor(dvm/dvr*100) .. "%     " .. Format.Duration(maneuver_time) }, { colors.maneuver }, { pionillium.small }, anchor.right, anchor.top)
 	 end
 
 
@@ -434,101 +590,93 @@ local function show_navball()
 	 local frame_radius = frame and frame:GetSystemBody().radius or 0
 	 -- apoapsis
 	 if not player:IsDocked() then
-			local right_upper = navball_center + Vector(navball_radius * 1.2, -navball_radius * 0.9)
+			local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
 			local aa_d = aa - frame_radius
 			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
 			if aa_d > 0 then
-				 local xsize = drawWithUnit(right_upper
-																		, dist_apo, fontsizes.medium, colors.lightgrey
-																		, unit_apo, fontsizes.small, colors.darkgrey
-																		, false
-																		, "a", fontsizes.small, colors.darkgrey)
-				 pigui.AddText(right_upper + xsize + Vector(10,-5), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), "t-" .. Format.Duration(o_time_at_apoapsis))
+				 local textsize = show_text_fancy(position, { "a", dist_apo, unit_apo }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, {pionillium.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline)
+				 show_text(position + Vector(textsize.x * 1.2), "t-" .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), anchor.left, anchor.baseline, pionillium.small)
 			end
 	 end
 	 -- altitude
 	 local alt, vspd, lat, lon = player:GetGPS()
-	 local right_upper = navball_center + Vector(navball_radius * 1.3, -navball_radius * 0.6)
 	 if alt and alt < 10000000 then
 			local altitude,unit = MyFormat.Distance(alt)
-			local xsize = drawWithUnit(right_upper
-																 , altitude, fontsizes.large, colors.lightgrey
-																 , unit, fontsizes.medium, colors.darkgrey
-																 , false
-																 , "alt", fontsizes.medium, colors.darkgrey)
+			local position = point_on_circle_radius(navball_center, navball_text_radius, 2.6)
+			local textsize = show_text_fancy(position, { "alt", altitude, unit }, {colors.darkgrey, colors.lightgrey, colors.darkgrey }, {pionillium.medium, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline)
 			local vspeed, unit = MyFormat.Distance(vspd)
-			drawWithUnit(right_upper + xsize + Vector(10, fontsizes.medium.offset)
-									 , (vspd > 0 and "+" or "") .. vspeed, fontsizes.medium, (vspd < 0 and colors.lightred or colors.lightgreen)
-									 , unit .. "/s", fontsizes.small, colors.darkgrey
-									 , false)
+			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit .. "/s" }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline)
 	 end
 	 -- periapsis
 	 if not player:IsDocked() then
-			local right_upper = navball_center + Vector(navball_radius * 1.4, -navball_radius * 0.25)
+			local position = point_on_circle_radius(navball_center, navball_text_radius, 3)
 			local pa_d = pa - frame_radius
 			local dist_per, unit_per = MyFormat.Distance(pa_d)
-			if pa_d ~= 0 then
-				 local xsize = drawWithUnit(right_upper
-																		, dist_per, fontsizes.medium, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey)
-																		, unit_per, fontsizes.small, colors.darkgrey
-																		, false
-																		, "p", fontsizes.small, colors.darkgrey)
-				 pigui.AddText(right_upper + xsize + Vector(10,-5), (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey), "t-" .. Format.Duration(o_time_at_periapsis))
+			if pa and pa_d ~= 0 then
+				 local textsize = show_text_fancy(position,
+																					{ "p", dist_per, unit_per, "     t-" .. Format.Duration(o_time_at_periapsis) },
+																					{ colors.darkgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
+																					{pionillium.small, pionillium.medium, pionillium.small, pionillium.small },
+																					anchor.left,
+																					anchor.baseline)
 			end
 	 end
 	 -- inclination, eccentricity
 	 if not player:IsDocked() then
-			local right_upper = navball_center + Vector(navball_radius * 1.5, -navball_radius * 0)
-			local xsize = drawWithUnit(right_upper
-																 , math.floor(o_inclination / two_pi * 360), fontsizes.medium, colors.lightgrey
-																 , "°", fontsizes.medium, colors.lightgrey
-																 , false
-																 , "inc", fontsizes.small, colors.lightgrey)
-			drawWithUnit(right_upper + xsize + Vector(10)
-									 , math.floor(o_eccentricity * 100) / 100, fontsizes.medium, colors.lightgrey
-									 , "", fontsizes.medium, colors.lightgrey
-									 , false
-									 , "ecc", fontsizes.small, colors.lightgrey)
+			local position = point_on_circle_radius(navball_center, navball_text_radius, 3.4)
+			show_text_fancy(position,
+											{ "inc", math.floor(o_inclination / two_pi * 360) .. "°", "    ecc", math.floor(o_eccentricity * 100) / 100},
+											{ colors.darkgrey, colors.lightgrey, colors.darkgrey, colors.lightgrey },
+											{ pionillium.small, pionillium.medium, pionillium.small, pionillium.medium },
+											anchor.left, anchor.baseline)
 	 end
-	 -- latitude, longitude
-	 local right_upper = navball_center + Vector(navball_radius * 1.2, navball_radius * 0.8)
-	 if lat then
-			drawWithUnit(right_upper
-									 , lat, fontsizes.medium, colors.lightgrey
-									 , "", fontsizes.small, colors.lightgrey
-									 , false
-									 , "Lat:", fontsizes.small, colors.darkgrey)
-	 end
-	 if lon then
-			drawWithUnit(right_upper + Vector(0, 20)
-									 , lon, fontsizes.medium, colors.lightgrey
-									 , "", fontsizes.small, colors.lightgrey
-									 , false
-									 , "Lon:", fontsizes.small, colors.darkgrey)
-	 end
-	 -- pressure
-	 local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.3)
+	 -- pressure, gravity
 	 if frame then
+			local position = point_on_circle_radius(navball_center, navball_text_radius, 3.8)
 			local pressure, density = frame:GetAtmosphericState()
-			if pressure and pressure > 0.001 then
-				 drawWithUnit(right_upper
-											, math.floor(pressure*100)/100, fontsizes.medium, colors.lightgrey
-											, "atm", fontsizes.small, colors.lightgrey
-											, false
-											, "pr", fontsizes.small, colors.darkgrey)
+			local g = player:GetGravity()
+			local grav = Vector(g.x, g.y, g.z):magnitude() / standard_gravity
+			local gravity
+			if grav > 0.01 then
+				 gravity = string.format("%0.2f", grav)
 			end
-	 end
-	 -- gravity
-	 local g = player:GetGravity()
-	 local grav = Vector(g.x, g.y, g.z):magnitude() / standard_gravity
-	 if grav > 0.01 then
-			local gravity = string.format("%0.2f", grav)
-			local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.5)
-			drawWithUnit(right_upper
-									 , gravity, fontsizes.medium, colors.lightgrey
-									 , "g", fontsizes.small, colors.lightgrey
-									 , false
-									 , "grav", fontsizes.small, colors.darkgrey)
+			local txts = {}
+			local cols = {}
+			local fnts = {}
+			if pressure and pressure > 0.001 then
+				 table.insert(txts, "pr")
+				 table.insert(txts, math.floor(pressure*100)/100)
+				 table.insert(txts, "atm")
+				 table.insert(cols, colors.darkgrey)
+				 table.insert(cols, colors.lightgrey)
+				 table.insert(cols, colors.darkgrey)
+				 table.insert(fnts, pionillium.small)
+				 table.insert(fnts, pionillium.medium)
+				 table.insert(fnts, pionillium.small)
+			end
+			if pressure and pressure > 0.001 and gravity then
+				 table.insert(txts, "    ")
+				 table.insert(cols, colors.darkgrey)
+				 table.insert(fnts, pionillium.small)
+			end
+			if gravity then
+				 table.insert(txts, "grav")
+				 table.insert(txts, gravity)
+				 table.insert(txts, "g")
+				 table.insert(cols, colors.darkgrey)
+				 table.insert(cols, colors.lightgrey)
+				 table.insert(cols, colors.darkgrey)
+				 table.insert(fnts, pionillium.small)
+				 table.insert(fnts, pionillium.medium)
+				 table.insert(fnts, pionillium.small)
+			end
+			show_text_fancy(position, txts, cols, fnts, anchor.left, anchor,baseline)
+			-- latitude, longitude
+			position = point_on_circle_radius(navball_center, navball_text_radius, 4.5)
+			if lat and lon then
+				 local textsize = show_text_fancy(position, { "Lat:", lat }, { colors.darkgrey, colors.lightgrey }, { pionillium.small, pionillium.medium }, anchor.left, anchor.baseline)
+				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "Lon:", lon }, { colors.darkgrey, colors.lightgrey }, { pionillium.small, pionillium.medium }, anchor.left, anchor.baseline)
+			end
 	 end
 end
 
@@ -723,11 +871,9 @@ local function show_thrust()
 	 local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
 	 local total_g = string.format("%0.1f", total_thrust / standard_gravity)
 	 local position = Vector(200, pigui.screen_height - 100)
-	 local xsize = drawWithUnit(position
-															, total_g, fontsizes.large, colors.lightgrey
-															, "G", fontsizes.medium, colors.lightgrey)
+	 local textsize = show_text_fancy(position, { total_g, "G" }, { colors.lightgrey, colors.lightgrey }, { pionillium.large, pionillium.medium }, anchor.center, anchor.center)
 	 local low_thrust_power = player:GetLowThrustPower()
-	 position = position + Vector(xsize.x / 2, -50)
+	 position = position + Vector(0,-50)
 	 local thickness = 12.0
 	 pigui.AddCircle(position, 17, colors.darkergrey, 128, thickness)
 	 pigui.PathArcTo(position, 17, 0, two_pi * low_thrust_power, 64)
@@ -879,21 +1025,6 @@ local function show_ships_on_screen()
 	 end
 end
 
-local function circle_segments(size)
-	 -- just guessing, feel free to change
-	 if size < 5 then
-			return 8
-	 elseif size < 20 then
-			return 16
-	 elseif size < 50 then
-			return 32
-	 elseif size < 100 then
-			return 64
-	 else
-			return 128
-	 end
-end
-
 local function show_bodies_on_screen()
 	 local body_groups = {}
 	 local cutoff = 5
@@ -967,100 +1098,6 @@ local function show_bodies_on_screen()
 	 end
 end
 
-local icons = {
-	 cross = function(pos, size, col, thickness)
-			pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), col, thickness)
-			pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), col, thickness)
-	 end,
-	 plus = function(pos, size, col, thickness)
-			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), col, thickness)
-			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), col, thickness)
-	 end,
-	 normal = function(pos, size, col, thickness)
-			local factor = 2
-			local lineLeft = pos + Vector(-1,-1) * size
-			local lineRight = pos + Vector(1,-1) * size
-			local triCenter = pos + Vector(0,1) * (size / factor)
-			local triLeft = lineLeft + Vector(0, 1) * (size / factor)
-			local triRight = lineRight + Vector(0, 1) * (size / factor)
-			pigui.AddLine(lineLeft, lineRight, col, thickness)
-			pigui.AddLine(triLeft, triCenter , col, thickness)
-			pigui.AddLine(triRight, triCenter , col, thickness)
-	 end,
-	 anti_normal = function(pos, size, col, thickness)
-			local factor = 2
-			local lineLeft = pos + Vector(-1,1) * size
-			local lineRight = pos + Vector(1,1) * size
-			local triCenter = pos + Vector(0,-1) * (size / factor)
-			local triLeft = lineLeft + Vector(0, -1) * (size / factor)
-			local triRight = lineRight + Vector(0, -1) * (size / factor)
-			pigui.AddLine(lineLeft, lineRight, col, thickness)
-			pigui.AddLine(triLeft, triCenter , col, thickness)
-			pigui.AddLine(triRight, triCenter , col, thickness)
-	 end,
-	 radial_out = function(pos, size, col, thickness)
-			local factor = 6
-			local leftTop = pos + Vector(-1,1) * size
-			local rightTop = pos + Vector(1,1) * size
-			local leftBottom = pos + Vector(-1,-1) * size
-			local rightBottom = pos + Vector(1,-1) * size
-			local leftCenter = pos + Vector(-1, 0) * (size / factor)
-			local rightCenter = pos + Vector(1, 0) * (size / factor)
-			pigui.AddLine(leftTop, leftBottom, col, thickness)
-			pigui.AddLine(leftBottom, leftCenter, col, thickness)
-			pigui.AddLine(leftTop, leftCenter, col, thickness)
-			pigui.AddLine(rightTop, rightBottom, col, thickness)
-			pigui.AddLine(rightBottom, rightCenter, col, thickness)
-			pigui.AddLine(rightTop, rightCenter, col, thickness)
-	 end,
-	 radial_in = function(pos, size, col, thickness)
-			local factor = 5
-			local leftTop = pos + Vector(-1 * size / factor, 1 * size)
-			local rightTop = pos + Vector(1 * size / factor, 1 * size)
-			local leftBottom = pos + Vector(-1 * size / factor, -1 * size)
-			local rightBottom = pos + Vector(1 * size / factor, -1 * size)
-			local leftCenter = pos + Vector(-1, 0) * size
-			local rightCenter = pos + Vector(1, 0) * size
-			pigui.AddLine(leftTop, leftBottom, col, thickness)
-			pigui.AddLine(leftBottom, leftCenter, col, thickness)
-			pigui.AddLine(leftTop, leftCenter, col, thickness)
-			pigui.AddLine(rightTop, rightBottom, col, thickness)
-			pigui.AddLine(rightBottom, rightCenter, col, thickness)
-			pigui.AddLine(rightTop, rightCenter, col, thickness)
-	 end,
-	 disk = function(pos, size, col, thickness)
-			local segments = circle_segments(size)
-			pigui.AddCircleFilled(pos, size, col, segments)
-	 end,
-	 circle = function(pos, size, col, thickness)
-			local segments = circle_segments(size)
-			pigui.AddCircle(pos, size, col, segments, thickness)
-	 end,
-	 diamond = function(pos, size, col, thickness)
-			local left = pos + Vector(-1,0) * size
-			local right = pos + Vector(1,0) * size
-			local top = pos + Vector(0,1) * size
-			local bottom = pos + Vector(0,-1) * size
-			pigui.AddQuad(left, top, right, bottom, col, thickness)
-	 end,
-	 square = function(pos, size, col, thickness)
-			local leftTop = pos + Vector(-1,1) * size
-			local rightTop = pos + Vector(1,1) * size
-			local leftBottom = pos + Vector(-1,-1) * size
-			local rightBottom = pos + Vector(1,-1) * size
-			pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, col, thickness)
-	 end,
-	 bullseye = function(pos, size, col, thickness)
-			local segments = circle_segments(size)
-			pigui.AddCircle(pos, size, col, segments, thickness)
-			pigui.AddCircleFilled(pos, size / 2, col, segments)
-	 end,
-	 emptyBullseye = function(pos, size, col, thickness)
-			local segments = circle_segments(size)
-			pigui.AddCircle(pos, size, col, segments, thickness)
-			pigui.AddCircle(pos, size / 2, col, segments, thickness)
-	 end
-}
 
 local function show_marker(name, painter, color, show_in_reticule)
 	 local pos,dir,point,side = markerPos(name, reticule_radius - 10)
@@ -1083,11 +1120,15 @@ local function show_hud()
 	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
+
+	 -- icons.disk(Vector(100,100), 2, colors.red, 1.0)
+	 -- show_text_fancy(Vector(100,100), { "bot", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.right, anchor.bottom)
+	 -- show_text_fancy(Vector(100,100), { "top", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.left, anchor.top)
+	 -- show_text(Vector(100,100), "foo", colors.green, anchor.right, anchor.baseline, pionillium.large)
+	 -- show_text(Vector(100,100), "bar", colors.green, anchor.left, anchor.baseline, pionillium.small)
 	 -- ******************** Ship Directional Markers ********************
 	 local size=8
 	 local side, dir, pos = pigui.GetHUDMarker("forward")
-	 local pos_fwd = pos
-	 local side_fwd = side
 	 local dir_fwd = Vector(dir.x, dir.y)
 	 local show_forward_direction_in_reticule = true
 	 if side == "onscreen" then
@@ -1151,55 +1192,47 @@ local function show_hud()
 	 local navTarget = player:GetNavTarget()
 	 if navTarget then
 			-- target name
-			pigui.PushFont("pionillium", 12)
-			local leftTop = Vector(center.x + reticule_radius / 2 * 1.3, center.y - reticule_radius)
-			pigui.AddText(leftTop, colors.darkgreen, "Nav Target")
-			pigui.PopFont()
-			leftTop = leftTop + Vector(20,20)
-			pigui.PushFont("pionillium", 18)
-			pigui.AddText(leftTop, colors.lightgreen, navTarget.label)
-			pigui.PopFont()
+			local position = point_on_circle_radius(center, reticule_text_radius, 1.35)
+			show_text(position, "Nav Target", colors.darkgreen, anchor.left, anchor.bottom, pionillium.small)
+			position = point_on_circle_radius(center, reticule_text_radius, 2)
+			show_text(position, navTarget.label, colors.lightgreen, anchor.left, anchor.bottom, pionillium.medium)
 
-			local speed = pigui.GetVelocity("nav_prograde")
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			xdrawWithUnit(Vector(center.x + reticule_radius + 10, center.y), spd, unit .. "/s", colors.lightgreen)
+			local speed = Vector(pigui.GetVelocity("nav_prograde"))
+			local spd,unit = MyFormat.Distance(speed:magnitude())
+			position = point_on_circle_radius(center, reticule_text_radius, 2.9)
+			show_text_fancy(position, { spd, unit .. "/s" }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
 
 			local distance = player:DistanceTo(navTarget)
 			local dist,unit = MyFormat.Distance(distance)
-			xdrawWithUnit(Vector(center.x + reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), dist, unit, colors.lightgreen)
+			position = point_on_circle_radius(center, reticule_text_radius, 3.1)
+			local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top )
 			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-			pigui.PushFont("pionillium", 18)
-			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
-			pigui.PopFont()
+			position.y = position.y + textsize.y * 1.1
+			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, anchor.left, anchor.top, pionillium.medium)
 	 end
 
 	 -- ******************** Maneuver speed ********************
 	 local spd = player:GetManeuverSpeed()
 	 if spd then
-			pigui.PushFont("pionillium", 30)
-			local leftTop = Vector(center.x - 30, center.y - reticule_radius * 1.1)
+			local position = point_on_circle_radius(center, reticule_text_radius, 0)
 			local speed,unit = MyFormat.Distance(spd)
-			xdrawWithUnit(leftTop, speed, unit .. "/s", colors.maneuver)
-			pigui.PopFont()
+			show_text_fancy(position, { speed, unit .. "/s" }, { colors.maneuver, colors.maneuver }, { pionillium.large, pionillium.medium }, anchor.center, anchor.bottom)
 	 end
 	 -- ******************** Combat Target speed / distance ********************
 	 local combatTarget = player:GetCombatTarget()
 	 if combatTarget then
 			-- target name
 
-			pigui.PushFont("pionillium", 18)
-			local leftTop = Vector(center.x, center.y + reticule_radius * 1.2)
-			local xsize = pigui.CalcTextSize(combatTarget.label)
-			pigui.AddText(leftTop - Vector(xsize.x/2, 0), colors.lightred, combatTarget.label)
-			pigui.PopFont()
+			local position = point_on_circle_radius(center, reticule_text_radius, 6)
+			local textsize = show_text(position, combatTarget.label, colors.lightred, anchor.center, anchor.top, pionillium.medium)
 
+			position.y = position.y + textsize.y * 1.1
 			local speed = combatTarget:GetVelocityRelTo(player)
 			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			xdrawWithUnit(Vector(center.x + 5, center.y + reticule_radius * 1.6), spd, unit .. "/s", colors.lightred)
-
+			show_text_fancy(position + Vector(-5.0), { spd, unit .. "/s" }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top)
 			local distance = player:DistanceTo(combatTarget)
 			local dist,unit = MyFormat.Distance(distance)
-			xdrawWithUnit(Vector(center.x - 5, center.y + reticule_radius * 1.6), dist, unit, colors.lightred, true)
+			show_text_fancy(position + Vector(5,0), { dist, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top)
 			--			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
 			--			pigui.PushFont("pionillium", 18)
 			--			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
@@ -1209,29 +1242,24 @@ local function show_hud()
 	 -- ******************** Frame speed / distance ********************
 	 local frame = player:GetFrame()
 	 if frame then
-			pigui.PushFont("pionillium", 12)
-			local size = pigui.CalcTextSize("rel-to")
-			local rightTop = Vector(center.x - reticule_radius / 2 * 1.3 - size.x, center.y - reticule_radius)
-			pigui.AddText(rightTop, colors.darkgrey, "rel-to")
-			pigui.PopFont()
-			pigui.PushFont("pionillium", 18)
-			local size = pigui.CalcTextSize(frame.label)
-			rightTop = rightTop + Vector(-size.x,20)
-			pigui.AddText(rightTop, colors.darkgrey, frame.label)
-			pigui.PopFont()
+			local position = point_on_circle_radius(center, reticule_text_radius, -1.35)
+			show_text(position, "Frame", colors.darkgrey, anchor.right, anchor.bottom, pionillium.small)
+			position = point_on_circle_radius(center, reticule_text_radius, -2)
+			show_text(position, frame.label, colors.lightgrey, anchor.right, anchor.bottom, pionillium.medium)
+
+			local speed = Vector(pigui.GetVelocity("frame_prograde"))
+			local spd,unit = MyFormat.Distance(speed:magnitude())
+			position = point_on_circle_radius(center, reticule_text_radius, -2.9)
+			show_text_fancy(position, { spd, unit .. "/s" }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 
 			local distance = player:DistanceTo(frame)
 			local dist,unit = MyFormat.Distance(distance)
-			xdrawWithUnit(Vector(center.x - reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.3), dist, unit, colors.lightgrey, true)
+			position = point_on_circle_radius(center, reticule_text_radius, -3.1)
+			local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top )
 
 			local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
-			pigui.PushFont("pionillium", 18)
-			pigui.AddText(Vector(center.x - reticule_radius /2 * 1.7 - 50, center.y + reticule_radius / 2 * 1.3 + 20), colors.darkgrey, "~" .. Format.Distance(brakeDist))
-			pigui.PopFont()
-
-			local speed = pigui.GetVelocity("frame_prograde")
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			xdrawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
+			position.y = position.y + textsize.y * 1.1
+			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, anchor.right, anchor.top, pionillium.medium)
 
 			-- ******************** Frame markers ********************
 			show_marker("frame_prograde", icons.diamond, colors.orbital_marker, true)
