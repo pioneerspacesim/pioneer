@@ -886,6 +886,12 @@ static int l_pigui_circular_slider(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_is_key_released(lua_State *l) {
+	int key = luaL_checkinteger(l, 1);
+	lua_pushboolean(l, ImGui::IsKeyReleased(key));
+	return 1;
+}
+
 static int l_pigui_add_convex_poly_filled(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	LuaTable pnts(l, 1);
@@ -963,6 +969,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "CircularSlider",         l_pigui_circular_slider },
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
 		{ "AddConvexPolyFilled",    l_pigui_add_convex_poly_filled },
+		{ "IsKeyReleased",          l_pigui_is_key_released },
 		{ 0, 0 }
 	};
 

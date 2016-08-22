@@ -122,7 +122,7 @@ void ShipCpanel::InitObject()
 	m_camButton->SetShortcut(SDLK_F1, KMOD_NONE);
 	m_camButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
 	m_camButton->SetRenderDimensions(30, 22);
-	Add(m_camButton, 2, 56);
+	// Add(m_camButton, 2, 56);
 
 	Gui::MultiStateImageButton *map_button = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(map_button);
@@ -131,7 +131,7 @@ void ShipCpanel::InitObject()
 	map_button->AddState(0, "icons/cpan_f2_map.png", "icons/cpan_f2_map_on.png", Lang::NAVIGATION_STAR_MAPS);
 	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeToMapView));
 	map_button->SetRenderDimensions(30, 22);
-	Add(map_button, 34, 56);
+	// Add(map_button, 34, 56);
 
 	Gui::MultiStateImageButton *info_button = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(info_button);
@@ -149,7 +149,7 @@ void ShipCpanel::InitObject()
 	comms_button->AddState(0, "icons/comms_f4.png", "icons/comms_f4_on.png", Lang::COMMS);
 	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
 	comms_button->SetRenderDimensions(30, 22);
-	Add(comms_button, 98, 56);
+	//	Add(comms_button, 98, 56);
 
 	m_clock = (new Gui::Label(""))->Color(255,178,0);
 	// Add(m_clock, 3, 15);

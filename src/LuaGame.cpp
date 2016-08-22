@@ -14,6 +14,8 @@
 #include "DeathView.h"
 #include "galaxy/Galaxy.h"
 #include "DateTime.h"
+#include "SectorView.h"
+#include "ShipCpanel.h"
 
 /*
  * Interface: Game
@@ -326,6 +328,51 @@ static int l_game_switch_view(lua_State *l)
 	return 0;
 }
 
+static int l_game_set_view(lua_State *l)
+{
+	if (!Pi::game)
+		return luaL_error(l, "can't set view when no game is running");
+	std::string target = luaL_checkstring(l, 1);
+	if(!target.compare("world")) {
+		Pi::SetView(Pi::game->GetWorldView());
+	} else if(!target.compare("space_station")) {
+		Pi::SetView(Pi::game->GetSpaceStationView());
+	} else if(!target.compare("info")) {
+		Pi::SetView(Pi::game->GetInfoView());
+	} else if(!target.compare("sector")) {
+		// Pi::SetView(Pi::game->GetSectorView());
+		Pi::game->GetCpan()->OnChangeToMapView(nullptr);
+	} // TODO else error
+	return 0;
+}
+
+static int l_game_get_view(lua_State *l)
+{
+	if(Pi::GetView() == Pi::game->GetWorldView())
+		lua_pushstring(l, "world");
+	else if(Pi::GetView() == Pi::game->GetSpaceStationView())
+		lua_pushstring(l, "space_station");
+	else if(Pi::GetView() == Pi::game->GetInfoView())
+		lua_pushstring(l, "info");
+	else if(Pi::GetView() == Pi::game->GetSectorView())
+		lua_pushstring(l, "sector");
+	// TODO else error
+	return 1;
+}
+
+static int l_game_set_world_cam_type(lua_State *l)
+{
+	std::string cam = luaL_checkstring(l, 1);
+	if(!cam.compare("internal"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_INTERNAL);
+	else if(!cam.compare("external"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_EXTERNAL);
+	else if(!cam.compare("sidereal"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_SIDEREAL);
+	// TODO else error
+	return 0;
+}
+
 static int l_game_get_date_time(lua_State *l)
 {
 	Time::DateTime t(Pi::game->GetTime());
@@ -355,8 +402,10 @@ void LuaGame::Register()
 		{ "EndGame",        l_game_end_game         },
 
 		{ "SwitchView", l_game_switch_view },
-
+		{ "SetView",    l_game_set_view },
+		{ "GetView",    l_game_get_view },
 		{ "GetDateTime", l_game_get_date_time },
+		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ 0, 0 }
 	};
 

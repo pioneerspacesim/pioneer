@@ -25,6 +25,13 @@ local pi_4 = pi / 4
 local two_pi = pi * 2
 local standard_gravity = 9.80665
 
+local keys = {
+	 f1 = 58,
+	 f2 = 59,
+	 f3 = 60,
+	 f4 = 61
+}
+
 local colors = {
 	 darkgreen = {r=0, g=150, b=0},
 	 lightgreen = {r=0, g=255, b=0},
@@ -638,12 +645,12 @@ local function show_contacts()
 end
 
 local radial_actions = {
-	 dock = function(body) player:AIDockWith(body) end,
-	 fly_to = function(body) player:AIFlyTo(body) end,
-	 low_orbit = function(body) player:AIEnterLowOrbit(body) end,
-	 medium_orbit = function(body) player:AIEnterMediumOrbit(body) end,
-	 high_orbit = function(body) player:AIEnterHighOrbit(body) end,
-	 clearance = function(body) player:RequestDockingClearance(body) end,
+	 dock = function(body) player:AIDockWith(body); player:SetNavTarget(body) end,
+	 fly_to = function(body) player:AIFlyTo(body); player:SetNavTarget(body)  end,
+	 low_orbit = function(body) player:AIEnterLowOrbit(body); player:SetNavTarget(body)  end,
+	 medium_orbit = function(body) player:AIEnterMediumOrbit(body); player:SetNavTarget(body)  end,
+	 high_orbit = function(body) player:AIEnterHighOrbit(body); player:SetNavTarget(body)  end,
+	 clearance = function(body) player:RequestDockingClearance(body); player:SetNavTarget(body)  end,
 	 radial_in = function(body) print("implement radial_in") end,
 	 radial_out = function(body) print("implement radial_out") end,
 	 normal = function(body) print("implement normal") end,
@@ -910,9 +917,16 @@ local function show_debug_gravity()
 	 pigui.Text("Gravity: " .. string.format("%0.2f", gr:magnitude() / standard_gravity) .. ", " .. g.x .. "/" .. g.y .. "/" .. g.z)
 	 pigui.End()
 end
+
+local show_hud = true
+
+local cam_types = { "internal", "external", "sidereal" }
+local current_cam_type = 1
+
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
+	 if show_hud then
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
 	 local windowbg = colors.windowbg
@@ -1407,6 +1421,33 @@ pigui.handlers.HUD = function(delta)
 
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	show_missions()
-	 
 	 pigui.PopStyleColor(1)
+   end
+
+	 if pigui.IsKeyReleased(keys.f1) then -- ShipCpanel.cpp:317
+			if Game.GetView() == "world" then
+				 current_cam_type = current_cam_type + 1
+				 if current_cam_type > #cam_types then
+						current_cam_type = 1
+				 end
+				 Game.SetWorldCamType(cam_types[current_cam_type])
+			else
+				 Game.SetView("world")
+				 current_cam_type = 1
+				 Game.SetWorldCamType(cam_types[current_cam_type])
+				 show_hud = true
+			end
+	 end
+	 if pigui.IsKeyReleased(keys.f2) then
+			Game.SetView("sector")
+			show_hud = false
+	 end
+	 if pigui.IsKeyReleased(keys.f3) then
+			Game.SetView("info")
+			show_hud = false
+	 end
+	 if pigui.IsKeyReleased(keys.f4) and player:IsDocked() then
+			Game.SetView("space_station")
+			show_hud = false
+	 end
 end

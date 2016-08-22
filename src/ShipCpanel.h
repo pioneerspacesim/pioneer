@@ -47,6 +47,8 @@ public:
 	// @param int gid the buttons group (0 = left, 1 = right)
 	// @param int idx the 0-based button index within the specified group
 	void SelectGroupButton(int gid, int idx);
+	
+	void OnChangeToMapView(Gui::MultiStateImageButton *b);
 
 private:
 	void InitObject();
@@ -55,7 +57,6 @@ private:
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
 	void OnChangeCamView(Gui::MultiStateImageButton *b);
-	void OnChangeToMapView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(enum MapView);
 	void OnChangeInfoView(Gui::MultiStateImageButton *b);
 	void OnClickTimeaccel(Game::TimeAccel val);
