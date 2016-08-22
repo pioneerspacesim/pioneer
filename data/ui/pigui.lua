@@ -50,7 +50,10 @@ local colors = {
 	 red = { r=255, g=0, b=0 },
 	 green = { r=0, g=255, b=0 },
 	 combat_target = { r=200, g=100, b=100 },
-	 maneuver = { r=163, g=163, b=255 }
+	 maneuver = { r=163, g=163, b=255 },
+	 orbit_gauge_ground = { r=112, g=46, b=48 },
+	 orbit_gauge_atmosphere = { r=18, g=25, b=164 },
+	 orbit_gauge_space = { r=77, g=77, b=81 }
 }
 
 local pionillium = {
@@ -204,6 +207,16 @@ function print_r ( t )
 end
 
 -- ******************** Utils ********************
+local function clamp(value, min, max)
+	 if value < min then
+			return min
+	 elseif value > max then
+			return max
+	 else
+			return value
+	 end
+end
+
 local function point_on_circle_radius(center, radius, hours)
 	 -- 0 hours is top, going rightwards, negative goes leftwards
 	 local a = math.fmod(hours / 12 * two_pi, two_pi)
@@ -311,6 +324,26 @@ local icons = {
 	 plus = function(pos, size, col, thickness)
 			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), col, thickness)
 			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), col, thickness)
+	 end,
+	 chevron_up = function(pos, size, col, thickness)
+			local factor = 2
+			local lineLeft = pos + Vector(-1,1) * size
+			local lineRight = pos + Vector(1,1) * size
+			local triCenter = pos + Vector(0,-1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, -1) * (size / factor)
+			local triRight = lineRight + Vector(0, -1) * (size / factor)
+			pigui.AddLine(triLeft, triCenter , col, thickness)
+			pigui.AddLine(triRight, triCenter , col, thickness)
+	 end,
+	 chevron_down = function(pos, size, col, thickness)
+			local factor = 2
+			local lineLeft = pos + Vector(-1,-1) * size
+			local lineRight = pos + Vector(1,-1) * size
+			local triCenter = pos + Vector(0,1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, 1) * (size / factor)
+			local triRight = lineRight + Vector(0, 1) * (size / factor)
+			pigui.AddLine(triLeft, triCenter , col, thickness)
+			pigui.AddLine(triRight, triCenter , col, thickness)
 	 end,
 	 normal = function(pos, size, col, thickness)
 			local factor = 2
@@ -539,6 +572,16 @@ local function deltav_gauge(ratio, center, radius, color, thickness)
 	 pigui.PathStroke(color, false, thickness)
 end
 
+-- ratio is 1.0 for full, 0.0 for empty
+local function orbit_gauge(center, radius, color, thickness, start_ratio, end_ratio)
+	 pigui.PathArcTo(center, radius + thickness / 2, -pi_4 + pi_2 * (1 - end_ratio), -pi_4 + pi_2 * (1 - start_ratio), 64)
+	 pigui.PathStroke(color, false, thickness)
+end
+
+local function orbit_gauge_position(center, radius, ratio)
+	 return point_on_circle_radius(center, radius, 4.5 - 3 * ratio)
+end
+
 local function show_navball()
 	 pigui.AddCircle(navball_center, navball_radius, colors.lightgrey, 128, 1.0)
 	 pigui.AddText(Vector(navball_center.x, navball_center.y + navball_radius + 5), colors.lightgrey, "R: 100km")
@@ -581,13 +624,13 @@ local function show_navball()
 			show_text_fancy(position, { math.floor(dvm/dvr*100) .. "%     " .. Format.Duration(maneuver_time) }, { colors.maneuver }, { pionillium.small }, anchor.right, anchor.top)
 	 end
 
+	 local frame = player:GetFrame()
+	 local frame_radius = frame and frame:GetSystemBody().radius or 0
 
 	 -- ******************** Orbital stats ********************
 	 local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
 	 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
 	 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
-	 local frame = player:GetFrame()
-	 local frame_radius = frame and frame:GetSystemBody().radius or 0
 	 -- apoapsis
 	 if not player:IsDocked() then
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
@@ -677,6 +720,28 @@ local function show_navball()
 				 local textsize = show_text_fancy(position, { "Lat:", lat }, { colors.darkgrey, colors.lightgrey }, { pionillium.small, pionillium.medium }, anchor.left, anchor.baseline)
 				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "Lon:", lon }, { colors.darkgrey, colors.lightgrey }, { pionillium.small, pionillium.medium }, anchor.left, anchor.baseline)
 			end
+	 end
+	 -- ******************** orbit display ********************
+	 if frame then
+			local frame_sb = frame:GetSystemBody()
+			local atmosphere_height = frame_sb.hasAtmosphere and frame_radius * frame_sb.atmosphereRadius or frame_radius
+			local my_position = Vector(player:GetPosition()):magnitude()
+			local min_height = frame_radius
+			local max_height = math.max(math.max(atmosphere_height, aa), my_position)
+			local range = max_height - min_height
+			local thickness = 10
+			local ends = 0.05
+			local my_height = clamp((my_position - min_height) / range, ends/2, 1 - ends/2)
+			local apoapsis = clamp((aa - min_height) / range, ends/2, 1 - ends/2)
+			local periapsis = clamp((pa - min_height) / range, ends/2, 1 - ends/2)
+			local atmosphere_ratio = math.max(ends, (atmosphere_height - min_height) / range - 2 * ends)
+			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_ground, thickness, 0, ends)
+			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_atmosphere, thickness, ends, ends + atmosphere_ratio)
+			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness, ends + atmosphere_ratio, 1.0 - ends)
+			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness, 1.0 - ends, 1.0)
+			icons.circle(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, my_height), thickness / 2.3, colors.lightgrey, 1)
+			icons.chevron_up(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, apoapsis), thickness / 2.3, colors.lightgrey, 1)
+			icons.chevron_down(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, periapsis), thickness / 2.3, colors.lightgrey, 1)
 	 end
 end
 
