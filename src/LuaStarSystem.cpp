@@ -352,6 +352,29 @@ static int l_starsystem_distance_to(lua_State *l)
 	LUA_DEBUG_END(l, 1);
 	return 1;
 }
+/*
+ * Method: IsUnexplored
+ *
+ *   Determine if the StarSystem has been explored yet.
+ *
+ * Return:
+ *
+ *   true if the system is unexplored.
+ *
+ * Availability:
+ *
+ *   alpha 30
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_starsystem_is_unexplored(lua_State *l)
+{
+	StarSystem *s = LuaStarSystem::CheckFromLua(1);
+	lua_pushboolean(l, s->GetUnexplored());
+	return 1;
+}
 
 /*
  * Method: ExportToLua
@@ -577,6 +600,7 @@ template <> void LuaObject<StarSystem>::RegisterClass()
 		{ "GetNearbySystems", l_starsystem_get_nearby_systems },
 
 		{ "DistanceTo", l_starsystem_distance_to },
+		{ "IsUnexplored", l_starsystem_is_unexplored },
 
 		{ "ExportToLua", l_starsystem_export_to_lua },
 
