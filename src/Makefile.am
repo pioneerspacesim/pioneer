@@ -317,6 +317,45 @@ if !HAVE_LUA
 pioneer_LDADD += ../contrib/lua/liblua.a
 endif
 
+modelcompiler_SOURCES = \
+	modelcompiler.cpp \
+	Color.cpp \
+	CollMesh.cpp \
+	DateTime.cpp \
+	FileSourceZip.cpp \
+	FileSystem.cpp \
+	FontCache.cpp \
+	IniConfig.cpp \
+	GameConfig.cpp \
+	Lang.cpp \
+	ModManager.cpp \
+	NavLights.cpp \
+	PngWriter.cpp \
+	SDLWrappers.cpp \
+	Serializer.cpp \
+	StringF.cpp \
+	utils.cpp
+
+modelcompiler_LDADD = \
+	gui/libgui.a \
+	graphics/libgraphics.a \
+	graphics/dummy/libgraphicsdummy.a \
+	scenegraph/libscenegraph.a \
+	collider/libcollider.a \
+	text/libtext.a \
+	../contrib/PicoDDS/libpicodds.a \
+	../contrib/json/libjson.a \
+	../contrib/profiler/libprofiler.a
+
+modelcompiler_LDADD += \
+	$(FREETYPE_LIBS) $(GL_LIBS) \
+	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) $(VORBIS_LIBS) \
+	$(PNG_LIBS) $(CURL_LIBS) $(ASSIMP_LIBS) $(EXTRA_LIBS)
+
+if !HAVE_LUA
+modelcompiler_LDADD += ../contrib/lua/liblua.a
+endif
+
 if DO_STRIP
 PIONEER_V_STRIP = $(PIONEER_V_STRIP_@AM_V@)
 PIONEER_V_STRIP_ = $(PIONEER_V_STRIP_@AM_DEFAULT_V@)
@@ -418,45 +457,6 @@ if !HAVE_LUA
 textstress_LDADD += ../contrib/lua/liblua.a
 endif
 
-modelcompiler_SOURCES = \
-	modelcompiler.cpp \
-	Color.cpp \
-	CollMesh.cpp \
-	DateTime.cpp \
-	FileSourceZip.cpp \
-	FileSystem.cpp \
-	FontCache.cpp \
-	IniConfig.cpp \
-	GameConfig.cpp \
-	Lang.cpp \
-	ModManager.cpp \
-	NavLights.cpp \
-	PngWriter.cpp \
-	SDLWrappers.cpp \
-	Serializer.cpp \
-	StringF.cpp \
-	utils.cpp
-
-modelcompiler_LDADD = \
-	gui/libgui.a \
-	graphics/libgraphics.a \
-	graphics/dummy/libgraphicsdummy.a \
-	scenegraph/libscenegraph.a \
-	collider/libcollider.a \
-	text/libtext.a \
-	../contrib/PicoDDS/libpicodds.a \
-	../contrib/json/libjson.a \
-	../contrib/profiler/libprofiler.a
-
-modelcompiler_LDADD += \
-	$(FREETYPE_LIBS) \
-	$(SDL2_LIBS) $(SIGC_LIBS) $(LUA_LIBS) \
-	$(PNG_LIBS) $(ASSIMP_LIBS) $(EXTRA_LIBS)
-
-if !HAVE_LUA
-modelcompiler_LDADD += ../contrib/lua/liblua.a
-endif
-
 AM_CPPFLAGS += -isystem @top_srcdir@/contrib
 if !HAVE_LUA
 AM_CPPFLAGS += -isystem @top_srcdir@/contrib/lua
@@ -476,6 +476,7 @@ if HAVE_WINDRES
 # note: this can't be correctly packed into libwin32.a
 SUFFIXES = .rc
 pioneer_SOURCES += win32/pioneer.rc
+modelcompiler_SOURCES += win32/pioneer.rc
 .rc.o:
 	$(AM_V_GEN)$(MXE_WINDRES) $< $@
 endif
