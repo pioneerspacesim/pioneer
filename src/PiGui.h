@@ -35,6 +35,8 @@ public:
  	}
  	static void NewFrame(SDL_Window *window) {
  		ImGui_ImplSdlGL3_NewFrame(window);
+		ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+		ImGui::GetIO().MouseDrawCursor = true;
  	}
 	static void Render() {
 		ImGui::Render();

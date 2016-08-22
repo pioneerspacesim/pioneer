@@ -757,6 +757,19 @@ local function show_thrust()
 	 pigui.AddCircle(position, 17, colors.darkergrey, 128, thickness)
 	 pigui.PathArcTo(position, 17, 0, two_pi * low_thrust_power, 64)
 	 pigui.PathStroke(colors.lightgrey, false, thickness)
+	 local mp = pigui.GetMousePos()
+	 if (Vector(mp.x,mp.y) - position):magnitude() < 17 and pigui.IsMouseReleased(1) then
+			pigui.OpenPopup("thrustsettings")
+	 end
+	 if pigui.BeginPopup("thrustsettings") then
+			local settings = { 1, 5, 10, 25, 50, 75 }
+			for _,setting in pairs(settings) do
+						if pigui.Selectable("Set low thrust to " .. setting .. "%", false, {}) then
+							 player:SetLowThrustPower(setting / 100)
+						end
+				 end
+				 pigui.EndPopup()
+	 end
 	 local size = pigui.CalcTextSize(math.floor(low_thrust_power * 100))
 	 pigui.AddText(position - Vector(size.x/2, size.y/2), colors.lightgrey, math.floor(low_thrust_power * 100))
 	 local time_position = Vector(30, pigui.screen_height - 70)
@@ -821,6 +834,7 @@ local function show_debug_temp()
 	 pigui.Text("Shields percent: " .. player:GetShieldsPercent())
 	 pigui.End()
 end
+
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
@@ -1305,11 +1319,12 @@ pigui.handlers.HUD = function(delta)
 	 pigui.PushStyleColor("WindowBg", colors.windowbg)
 	 show_nav_window()
 	 show_contacts()
-	 --	 show_settings()
-	 -- Missions, these should *not* be part of the regular HUD
-	 --	 show_missions()
+	 -- show_settings()
 	 -- show_debug_orbit()
-	 --	 show_debug_thrust()
-	 show_debug_temp()
+	 --	show_debug_thrust()
+	 -- show_debug_temp()
+
+	 -- Missions, these should *not* be part of the regular HUD
+	 --	show_missions()
 	 pigui.PopStyleColor(1)
 end

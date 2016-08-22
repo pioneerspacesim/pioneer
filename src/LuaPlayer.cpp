@@ -331,6 +331,14 @@ static int l_get_low_thrust_power(lua_State *l)
 	return 1;
 }
 
+static int l_set_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	double thrust = luaL_checknumber(l, 2);
+	player->GetPlayerController()->SetLowThrustPower(thrust);
+	return 0;
+}
+
 static int l_get_maneuver_speed(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -410,6 +418,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetOrbit",            l_get_orbit },
 		{ "GetGPS",              l_get_gps },
 		{ "GetLowThrustPower",   l_get_low_thrust_power },
+		{ "SetLowThrustPower",   l_set_low_thrust_power },
 		{ "GetManeuverSpeed",    l_get_maneuver_speed },
 		{ 0, 0 }
 	};

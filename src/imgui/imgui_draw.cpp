@@ -1454,7 +1454,7 @@ void ImFontAtlas::RenderCustomTexData(int pass, void* p_rects)
     // The white texels on the top left are the ones we'll use everywhere in ImGui to render filled shapes.
     const int TEX_DATA_W = 90;
     const int TEX_DATA_H = 27;
-    const char texture_data[TEX_DATA_W*TEX_DATA_H+1] =
+		/*    const char texture_data[TEX_DATA_W*TEX_DATA_H+1] =
     {
         "..-         -XXXXXXX-    X    -           X           -XXXXXXX          -          XXXXXXX"
         "..-         -X.....X-   X.X   -          X.X          -X.....X          -          X.....X"
@@ -1478,6 +1478,36 @@ void ImFontAtlas::RenderCustomTexData(int pass, void* p_rects)
         "XX    X..X  -       - X.....X -        X.....X        -   X.X           X.X   -           "
         "      X..X          -  X...X  -         X...X         -  X..X           X..X  -           "
         "       XX           -   X.X   -          X.X          - X...XXXXXXXXXXXXX...X -           "
+        "------------        -    X    -           X           -X.....................X-           "
+        "                    ----------------------------------- X...XXXXXXXXXXXXX...X -           "
+        "                                                      -  X..X           X..X  -           "
+        "                                                      -   X.X           X.X   -           "
+        "                                                      -    XX           XX    -           "
+    }; */
+    const char texture_data[TEX_DATA_W*TEX_DATA_H+1] =
+    {
+        "..-         -XXXXXXX-    X    -           X           -XXXXXXX          -          XXXXXXX"
+        "..-         -X.....X-   X.X   -          X.X          -X.....X          -          X.....X"
+        "---         -XXX.XXX-  X...X  -         X...X         -X....X           -           X....X"
+        "XXXXX       -  X.X  - X.....X -        X.....X        -X...X            -            X...X"
+        "X....X      -  X.X  -X.......X-       X.......X       -X..X.X           -           X.X..X"
+        "X.....X     -  X.X  -XXXX.XXXX-       XXXX.XXXX       -X.X X.X          -          X.X X.X"
+        "X......X    -  X.X  -   X.X   -          X.X          -XX   X.X         -         X.X   XX"
+        "X.......X   -  X.X  -   X.X   -    XX    X.X    XX    -      X.X        -        X.X      "
+        " X.......X  -  X.X  -   X.X   -   X.X    X.X    X.X   -       X.X       -       X.X       "
+        "  X.... ..X -  X.X  -   X.X   -  X..X    X.X    X..X  -        X.X      -      X.X        "
+        "   X..   ..X-  X.X  -   X.X   - X...XXXXXX.XXXXXX...X -         X.X   XX-XX   X.X         "
+        "    X.. ..X -  X.X  -   X.X   -X.....................X-          X.X X.X-X.X X.X          "
+        "     X...X  -  X.X  -   X.X   - X...XXXXXX.XXXXXX...X -           X.X..X-X..X.X           "
+        "      X.X   -XXX.XXX-   X.X   -  X..X    X.X    X..X  -            X...X-X...X            "
+        "       X    -X.....X-   X.X   -   X.X    X.X    X.X   -           X....X-X....X           "
+        "            -XXXXXXX-   X.X   -    XX    X.X    XX    -          X.....X-X.....X          "
+        "            ---------   X.X   -          X.X          -          XXXXXXX-XXXXXXX          "
+        "            -       -XXXX.XXXX-       XXXX.XXXX       ------------------------------------"
+        "            -       -X.......X-       X.......X       -    XX           XX    -           "
+        "            -       - X.....X -        X.....X        -   X.X           X.X   -           "
+        "                    -  X...X  -         X...X         -  X..X           X..X  -           "
+        "                    -   X.X   -          X.X          - X...XXXXXXXXXXXXX...X -           "
         "------------        -    X    -           X           -X.....................X-           "
         "                    ----------------------------------- X...XXXXXXXXXXXXX...X -           "
         "                                                      -  X..X           X..X  -           "
