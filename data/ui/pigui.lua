@@ -499,7 +499,7 @@ local function show_navball()
 									 , "Lon:", fontsizes.small, colors.darkgrey)
 	 end
 	 -- pressure
-	 local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.35)
+	 local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.3)
 	 if frame then
 			local pressure, density = frame:GetAtmosphericState()
 			if pressure and pressure > 0.001 then
@@ -509,6 +509,18 @@ local function show_navball()
 											, false
 											, "pr", fontsizes.small, colors.darkgrey)
 			end
+	 end
+	 -- gravity
+	 local g = player:GetGravity()
+	 local grav = Vector(g.x, g.y, g.z):magnitude() / standard_gravity
+	 if grav > 0.01 then
+	 local gravity = string.format("%0.2f", grav)
+	 local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.5)
+	 drawWithUnit(right_upper
+								, gravity, fontsizes.medium, colors.lightgrey
+								, "g", fontsizes.small, colors.lightgrey
+								, false
+								, "grav", fontsizes.small, colors.darkgrey)
 	 end
 end
 
@@ -1335,8 +1347,10 @@ pigui.handlers.HUD = function(delta)
 	 -- show_debug_orbit()
 	 --	show_debug_thrust()
 	 -- show_debug_temp()
-	 show_debug_gravity()
+	 -- show_debug_gravity()
+
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	show_missions()
+	 
 	 pigui.PopStyleColor(1)
 end
