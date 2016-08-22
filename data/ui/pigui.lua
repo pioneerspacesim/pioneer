@@ -193,7 +193,9 @@ function print_r ( t )
    end
    print()
 end
-print("****************************** PIGUI *******************************")
+
+
+-- ****************************** PIGUI *******************************
 
 
 local function markerPos(name, distance)
@@ -521,13 +523,13 @@ local function show_navball()
 	 local g = player:GetGravity()
 	 local grav = Vector(g.x, g.y, g.z):magnitude() / standard_gravity
 	 if grav > 0.01 then
-	 local gravity = string.format("%0.2f", grav)
-	 local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.5)
-	 drawWithUnit(right_upper
-								, gravity, fontsizes.medium, colors.lightgrey
-								, "g", fontsizes.small, colors.lightgrey
-								, false
-								, "grav", fontsizes.small, colors.darkgrey)
+			local gravity = string.format("%0.2f", grav)
+			local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.5)
+			drawWithUnit(right_upper
+									 , gravity, fontsizes.medium, colors.lightgrey
+									 , "g", fontsizes.small, colors.lightgrey
+									 , false
+									 , "grav", fontsizes.small, colors.darkgrey)
 	 end
 end
 
@@ -918,15 +920,127 @@ local function show_debug_gravity()
 	 pigui.End()
 end
 
-local show_hud = true
+local should_show_hud = true
 
 local cam_types = { "internal", "external", "sidereal" }
 local current_cam_type = 1
 
-pigui.handlers.HUD = function(delta)
-	 player = Game.player
-	 system = Game.system
-	 if show_hud then
+local function handle_global_keys()
+	 if pigui.IsKeyReleased(keys.f1) then -- ShipCpanel.cpp:317
+			if Game.GetView() == "world" then
+				 current_cam_type = current_cam_type + 1
+				 if current_cam_type > #cam_types then
+						current_cam_type = 1
+				 end
+				 Game.SetWorldCamType(cam_types[current_cam_type])
+			else
+				 Game.SetView("world")
+				 current_cam_type = 1
+				 Game.SetWorldCamType(cam_types[current_cam_type])
+				 should_show_hud = true
+			end
+	 end
+	 if pigui.IsKeyReleased(keys.f2) then
+			Game.SetView("sector")
+			should_show_hud = false
+	 end
+	 if pigui.IsKeyReleased(keys.f3) then
+			Game.SetView("info")
+			should_show_hud = false
+	 end
+	 if pigui.IsKeyReleased(keys.f4) and player:IsDocked() then
+			Game.SetView("space_station")
+			should_show_hud = false
+	 end
+end
+local function show_ships_on_screen()
+	 -- ******************** Ships on Screen ********************
+	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
+	 for _,body in pairs(bodies) do
+			local pos = body:GetProjectedScreenPosition()
+			local size = 8
+			if pos then
+				 pigui.AddCircleFilled(pos, size, colors.lightgreen, 8)
+				 pigui.AddText(pos + Vector(size*1.5, -size/2), colors.lightgreen, body.label)
+			end
+	 end
+end
+
+local function show_bodies_on_screen()
+	 -- ******************** Bodies on Screen ********************
+	 local body_groups = {}
+	 local cutoff = 5
+	 for key,data in pairs(system:GetBodyPaths()) do
+			local system_body = data:GetSystemBody()
+			local body = Space.GetBody(system_body.index)
+			if body then
+				 local pos = body:GetProjectedScreenPosition()
+				 if pos then
+						local group = nil
+						for _,bodies in pairs(body_groups) do
+							 for p,b in pairs(bodies) do
+									if Vector(p.x-pos.x,p.y-pos.y):magnitude() < cutoff then
+										 group = bodies
+									end
+							 end
+						end
+						if group then
+							 group[pos] = body
+						else
+							 local t = {}
+							 t[pos] = body
+							 body_groups[pos] = t
+						end
+				 end
+			end
+	 end
+
+	 local labels
+
+	 for pos,group in pairs(body_groups) do
+			local size = 5
+			pigui.AddCircleFilled(pos, size, colors.lightgrey, 8)
+			local mp = pigui.GetMousePos()
+			labels = {}
+			for p,body in pairs(group) do
+				 table.insert(labels, body)
+			end
+			table.sort(labels, function (a,b) return a.label < b.label end)
+			local label = table.concat(map(function (a) return a.label end, labels), "\n")
+			local show_tooltip = false
+			if (Vector(mp.x - pos.x,mp.y - pos.y)):magnitude() < size then
+				 if pigui.IsMouseClicked(1) and #labels == 1 then
+						pigui.OpenPopup("##piepopup")
+						radial_nav_target = labels[1]
+				 end
+				 if pigui.IsMouseReleased(0) then
+						if #labels == 1 then
+							 player:SetNavTarget(labels[1])
+						else
+							 pigui.OpenPopup("navtarget" .. label)
+						end
+				 else
+						show_tooltip = true
+				 end
+			end
+			show_radial_menu()
+
+			if pigui.BeginPopup("navtarget" .. label) then
+				 for _,body in pairs(labels) do
+						if pigui.Selectable(body.label, false, {}) then
+							 player:SetNavTarget(body)
+						end
+				 end
+				 pigui.EndPopup()
+			else
+				 if show_tooltip then
+						pigui.SetTooltip(label)
+				 end
+			end
+	 end
+end
+
+local function show_hud()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
 	 local windowbg = colors.windowbg
@@ -940,7 +1054,7 @@ pigui.handlers.HUD = function(delta)
 	 local side, dir, pos = pigui.GetHUDMarker("forward")
 	 local pos_fwd = pos
 	 local side_fwd = side
-	 local dir_fwd = Vector(dir.x, dir.y)
+	 p	 local dir_fwd = Vector(dir.x, dir.y)
 	 local show_extra_reticule = true
 	 if side == "onscreen" then
 			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
@@ -1301,84 +1415,8 @@ pigui.handlers.HUD = function(delta)
 			pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
 	 end
 
-	 -- ******************** Ships on Screen ********************
-	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
-	 for _,body in pairs(bodies) do
-			local pos = body:GetProjectedScreenPosition()
-			local size = 8
-			if pos then
-				 pigui.AddCircleFilled(pos, size, colors.lightgreen, 8)
-				 pigui.AddText(pos + Vector(size*1.5, -size/2), colors.lightgreen, body.label)
-			end
-	 end
-	 -- ******************** Bodies on Screen ********************
-	 local body_groups = {}
-	 local cutoff = 5
-	 for key,data in pairs(system:GetBodyPaths()) do
-			local system_body = data:GetSystemBody()
-			local body = Space.GetBody(system_body.index)
-			if body then
-				 local pos = body:GetProjectedScreenPosition()
-				 if pos then
-						local group = nil
-						for _,bodies in pairs(body_groups) do
-							 for p,b in pairs(bodies) do
-									if Vector(p.x-pos.x,p.y-pos.y):magnitude() < cutoff then
-										 group = bodies
-									end
-							 end
-						end
-						if group then
-							 group[pos] = body
-						else
-							 local t = {}
-							 t[pos] = body
-							 body_groups[pos] = t
-						end
-				 end
-			end
-	 end
-	 local labels
-	 for pos,group in pairs(body_groups) do
-			local size = 5
-			pigui.AddCircleFilled(pos, size, colors.lightgrey, 8)
-			local mp = pigui.GetMousePos()
-			labels = {}
-			for p,body in pairs(group) do
-				 table.insert(labels, body)
-			end
-			table.sort(labels, function (a,b) return a.label < b.label end)
-			local label = table.concat(map(function (a) return a.label end, labels), "\n")
-			local show_tooltip = false
-			if (Vector(mp.x - pos.x,mp.y - pos.y)):magnitude() < size then
-				 if pigui.IsMouseClicked(1) and #labels == 1then
-						pigui.OpenPopup("##piepopup")
-						radial_nav_target = labels[1]
-				 end
-				 if pigui.IsMouseReleased(0) then
-						if #labels == 1 then
-							 player:SetNavTarget(labels[1])
-						else
-							 pigui.OpenPopup("navtarget" .. label)
-						end
-				 else
-						show_tooltip = true
-				 end
-			end
-			show_radial_menu()
-			if pigui.BeginPopup("navtarget" .. label) then
-				 for _,body in pairs(labels) do
-						if pigui.Selectable(body.label, false, {}) then
-							 player:SetNavTarget(body)
-						end
-				 end
-				 pigui.EndPopup()
-			else
-				 if show_tooltip then
-						pigui.SetTooltip(label)
-				 end
-			end
-	 end
+	 show_ships_on_screen()
+	 show_bodies_on_screen()
 	 -- ******************** directional spaceship markers ********************
 	 do
 			local vel = player:GetOrientedVelocity()
@@ -1422,32 +1460,12 @@ pigui.handlers.HUD = function(delta)
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	show_missions()
 	 pigui.PopStyleColor(1)
-   end
-
-	 if pigui.IsKeyReleased(keys.f1) then -- ShipCpanel.cpp:317
-			if Game.GetView() == "world" then
-				 current_cam_type = current_cam_type + 1
-				 if current_cam_type > #cam_types then
-						current_cam_type = 1
-				 end
-				 Game.SetWorldCamType(cam_types[current_cam_type])
-			else
-				 Game.SetView("world")
-				 current_cam_type = 1
-				 Game.SetWorldCamType(cam_types[current_cam_type])
-				 show_hud = true
-			end
+end
+pigui.handlers.HUD = function(delta)
+	 player = Game.player
+	 system = Game.system
+	 if should_show_hud then
+			show_hud()
 	 end
-	 if pigui.IsKeyReleased(keys.f2) then
-			Game.SetView("sector")
-			show_hud = false
-	 end
-	 if pigui.IsKeyReleased(keys.f3) then
-			Game.SetView("info")
-			show_hud = false
-	 end
-	 if pigui.IsKeyReleased(keys.f4) and player:IsDocked() then
-			Game.SetView("space_station")
-			show_hud = false
-	 end
+   handle_global_keys()
 end
