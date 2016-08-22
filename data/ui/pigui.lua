@@ -12,7 +12,6 @@ local show_nav_distance_with_reticule = true
 local show_nav_speed_with_reticule = true
 local show_frame_speed_with_reticule = true
 
-
 local center
 local mission_selected
 local navball_center
@@ -418,12 +417,12 @@ local function show_navball()
 
 	 pigui.AddText(navball_center + Vector(- navball_radius * 1.5 - 100, 20), colors.lightgrey, math.floor(dvr*100) .. "%")
 	 if deltav_maneuver > 0 then
-			local spd,unit = MyFormat.Distance(deltav_maneuver)
-			drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 50)
-									 , spd , fontsizes.large , colors.maneuver
-									 , unit .. "/s" , fontsizes.medium , colors.maneuver
-									 , true
-									 , "mΔv" , fontsizes.medium , colors.maneuver)
+	 		local spd,unit = MyFormat.Distance(deltav_maneuver)
+	 		drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 50)
+	 								 , spd , fontsizes.large , colors.maneuver
+	 								 , unit .. "/s" , fontsizes.medium , colors.maneuver
+	 								 , true
+	 								 , "mΔv" , fontsizes.medium , colors.maneuver)
 	 end
 
 
@@ -953,6 +952,7 @@ local function handle_global_keys()
 			should_show_hud = false
 	 end
 end
+
 local function show_ships_on_screen()
 	 -- ******************** Ships on Screen ********************
 	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
@@ -963,6 +963,21 @@ local function show_ships_on_screen()
 				 pigui.AddCircleFilled(pos, size, colors.lightgreen, 8)
 				 pigui.AddText(pos + Vector(size*1.5, -size/2), colors.lightgreen, body.label)
 			end
+	 end
+end
+
+local function circle_segments(size)
+	 -- just guessing, feel free to change
+	 if size < 5 then
+			return 8
+	 elseif size < 20 then
+			return 16
+	 elseif size < 50 then
+			return 32
+	 elseif size < 100 then
+			return 64
+	 else
+			return 128
 	 end
 end
 
@@ -1040,6 +1055,113 @@ local function show_bodies_on_screen()
 	 end
 end
 
+local icons = {
+	 cross = function(pos, size, col, thickness)
+			pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), col, thickness)
+			pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), col, thickness)
+	 end,
+	 plus = function(pos, size, col, thickness)
+			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), col, thickness)
+			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), col, thickness)
+	 end,
+	 normal = function(pos, size, col, thickness)
+			local factor = 2
+			local lineLeft = pos + Vector(-1,-1) * size
+			local lineRight = pos + Vector(1,-1) * size
+			local triCenter = pos + Vector(0,1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, 1) * (size / factor)
+			local triRight = lineRight + Vector(0, 1) * (size / factor)
+			pigui.AddLine(lineLeft, lineRight, col, thickness)
+			pigui.AddLine(triLeft, triCenter , col, thickness)
+			pigui.AddLine(triRight, triCenter , col, thickness)
+	 end,
+	 anti_normal = function(pos, size, col, thickness)
+			local factor = 2
+			local lineLeft = pos + Vector(-1,1) * size
+			local lineRight = pos + Vector(1,1) * size
+			local triCenter = pos + Vector(0,-1) * (size / factor)
+			local triLeft = lineLeft + Vector(0, -1) * (size / factor)
+			local triRight = lineRight + Vector(0, -1) * (size / factor)
+			pigui.AddLine(lineLeft, lineRight, col, thickness)
+			pigui.AddLine(triLeft, triCenter , col, thickness)
+			pigui.AddLine(triRight, triCenter , col, thickness)
+	 end,
+	 radial_out = function(pos, size, col, thickness)
+			local factor = 6
+			local leftTop = pos + Vector(-1,1) * size
+			local rightTop = pos + Vector(1,1) * size
+			local leftBottom = pos + Vector(-1,-1) * size
+			local rightBottom = pos + Vector(1,-1) * size
+			local leftCenter = pos + Vector(-1, 0) * (size / factor)
+			local rightCenter = pos + Vector(1, 0) * (size / factor)
+			pigui.AddLine(leftTop, leftBottom, col, thickness)
+			pigui.AddLine(leftBottom, leftCenter, col, thickness)
+			pigui.AddLine(leftTop, leftCenter, col, thickness)
+			pigui.AddLine(rightTop, rightBottom, col, thickness)
+			pigui.AddLine(rightBottom, rightCenter, col, thickness)
+			pigui.AddLine(rightTop, rightCenter, col, thickness)
+	 end,
+	 radial_in = function(pos, size, col, thickness)
+			local factor = 5
+			local leftTop = pos + Vector(-1 * size / factor, 1 * size)
+			local rightTop = pos + Vector(1 * size / factor, 1 * size)
+			local leftBottom = pos + Vector(-1 * size / factor, -1 * size)
+			local rightBottom = pos + Vector(1 * size / factor, -1 * size)
+			local leftCenter = pos + Vector(-1, 0) * size
+			local rightCenter = pos + Vector(1, 0) * size
+			pigui.AddLine(leftTop, leftBottom, col, thickness)
+			pigui.AddLine(leftBottom, leftCenter, col, thickness)
+			pigui.AddLine(leftTop, leftCenter, col, thickness)
+			pigui.AddLine(rightTop, rightBottom, col, thickness)
+			pigui.AddLine(rightBottom, rightCenter, col, thickness)
+			pigui.AddLine(rightTop, rightCenter, col, thickness)
+	 end,
+	 disk = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircleFilled(pos, size, col, segments)
+	 end,
+	 circle = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircle(pos, size, col, segments, thickness)
+	 end,
+	 diamond = function(pos, size, col, thickness)
+			local left = pos + Vector(-1,0) * size
+			local right = pos + Vector(1,0) * size
+			local top = pos + Vector(0,1) * size
+			local bottom = pos + Vector(0,-1) * size
+			pigui.AddQuad(left, top, right, bottom, col, thickness)
+	 end,
+	 square = function(pos, size, col, thickness)
+			local leftTop = pos + Vector(-1,1) * size
+			local rightTop = pos + Vector(1,1) * size
+			local leftBottom = pos + Vector(-1,-1) * size
+			local rightBottom = pos + Vector(1,-1) * size
+			pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, col, thickness)
+	 end,
+	 bullseye = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircle(pos, size, col, segments, thickness)
+			pigui.AddCircleFilled(pos, size / 2, col, segments)
+	 end,
+	 emptyBullseye = function(pos, size, col, thickness)
+			local segments = circle_segments(size)
+			pigui.AddCircle(pos, size, col, segments, thickness)
+			pigui.AddCircle(pos, size / 2, col, segments, thickness)
+	 end
+}
+
+local function show_marker(name, painter, color, show_in_reticule)
+	 local pos,dir,point,side = markerPos(name, reticule_radius - 10)
+	 if pos and show_in_reticule then
+			local size = 4
+			painter(pos, size, color, 1.0)
+	 end
+	 if side == "onscreen" and point then
+			local size = 12
+			painter(point, size, color, 3.0)
+	 end
+end
+
 local function show_hud()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
@@ -1054,27 +1176,25 @@ local function show_hud()
 	 local side, dir, pos = pigui.GetHUDMarker("forward")
 	 local pos_fwd = pos
 	 local side_fwd = side
-	 p	 local dir_fwd = Vector(dir.x, dir.y)
-	 local show_extra_reticule = true
+	 local dir_fwd = Vector(dir.x, dir.y)
+	 local show_forward_direction_in_reticule = true
 	 if side == "onscreen" then
 			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_extra_reticule = false
+				 show_forward_direction_in_reticule = false
 			end
-			pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), colors.lightgrey, 3.0)
-			pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), colors.lightgrey, 3.0)
+			icons.plus(pos, size, colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("backward")
 	 if side == "onscreen" then
 			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_extra_reticule = false
+				 show_forward_direction_in_reticule = false
 			end
-			pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), colors.lightgrey, 3.0)
-			pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), colors.lightgrey, 3.0)
+			icons.cross(pos, size, colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("left")
 	 if side == "onscreen" then
 			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_extra_reticule = false
+				 show_forward_direction_in_reticule = false
 			end
 			pigui.AddLine(pos + Vector(0,size), pos + Vector(0,-size), colors.lightgrey, 3.0)
 			pigui.AddLine(pos + Vector(0, 0), pos + Vector(size,0), colors.lightgrey, 3.0)
@@ -1082,7 +1202,7 @@ local function show_hud()
 	 local side, dir, pos = pigui.GetHUDMarker("right")
 	 if side == "onscreen" then
 			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_extra_reticule = false
+				 show_forward_direction_in_reticule = false
 			end
 			pigui.AddLine(pos + Vector(0,size), pos + Vector(0,-size), colors.lightgrey, 3.0)
 			pigui.AddLine(pos + Vector(0, 0), pos + Vector(-size,0), colors.lightgrey, 3.0)
@@ -1090,7 +1210,7 @@ local function show_hud()
 	 local side, dir, pos = pigui.GetHUDMarker("up")
 	 if side == "onscreen" then
 			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_extra_reticule = false
+				 show_forward_direction_in_reticule = false
 			end
 			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
 			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
@@ -1098,82 +1218,42 @@ local function show_hud()
 	 local side, dir, pos = pigui.GetHUDMarker("down")
 	 if side == "onscreen" then
 			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_extra_reticule = false
+				 show_forward_direction_in_reticule = false
 			end
 			pigui.AddLine(pos + Vector(0,0), pos + dir_fwd * size, colors.lightgrey, 3.0)
 			pigui.AddLine(pos + dir_fwd:left() * size, pos + dir_fwd:right() * size, colors.lightgrey, 3.0)
 	 end
 	 local side, dir, pos = pigui.GetHUDMarker("normal")
 	 if side == "onscreen" then
-			local factor = 2
-			local lineLeft = pos + Vector(-1,-1) * size
-			local lineRight = pos + Vector(1,-1) * size
-			local triCenter = pos + Vector(0,1) * (size / factor)
-			local triLeft = lineLeft + Vector(0, 1) * (size / factor)
-			local triRight = lineRight + Vector(0, 1) * (size / factor)
-			pigui.AddLine(lineLeft, lineRight, colors.orbital_marker, 2.0)
-			pigui.AddLine(triLeft, triCenter , colors.orbital_marker, 2.0)
-			pigui.AddLine(triRight, triCenter , colors.orbital_marker, 2.0)
+			icons.normal(pos, size, colors.orbital_marker, 2.0)
 	 end
 
 	 local side, dir, pos = pigui.GetHUDMarker("anti_normal")
 	 if side == "onscreen" then
-			local factor = 2
-			local lineLeft = pos + Vector(-1,1) * size
-			local lineRight = pos + Vector(1,1) * size
-			local triCenter = pos + Vector(0,-1) * (size / factor)
-			local triLeft = lineLeft + Vector(0, -1) * (size / factor)
-			local triRight = lineRight + Vector(0, -1) * (size / factor)
-			pigui.AddLine(lineLeft, lineRight, colors.orbital_marker, 2.0)
-			pigui.AddLine(triLeft, triCenter , colors.orbital_marker, 2.0)
-			pigui.AddLine(triRight, triCenter , colors.orbital_marker, 2.0)
+			icons.anti_normal(pos, size, colors.orbital_marker, 2.0)
 	 end
 
 	 local side, dir, pos = pigui.GetHUDMarker("radial_out")
 	 if side == "onscreen" then
-			local factor = 6
-			local leftTop = pos + Vector(-1,1) * size
-			local rightTop = pos + Vector(1,1) * size
-			local leftBottom = pos + Vector(-1,-1) * size
-			local rightBottom = pos + Vector(1,-1) * size
-			local leftCenter = pos + Vector(-1, 0) * (size / factor)
-			local rightCenter = pos + Vector(1, 0) * (size / factor)
-			pigui.AddLine(leftTop, leftBottom, colors.orbital_marker, 2.0)
-			pigui.AddLine(leftBottom, leftCenter, colors.orbital_marker, 2.0)
-			pigui.AddLine(leftTop, leftCenter, colors.orbital_marker, 2.0)
-			pigui.AddLine(rightTop, rightBottom, colors.orbital_marker, 2.0)
-			pigui.AddLine(rightBottom, rightCenter, colors.orbital_marker, 2.0)
-			pigui.AddLine(rightTop, rightCenter, colors.orbital_marker, 2.0)
+			icons.radial_out(pos, size, colors.orbital_marker, 2.0)
 	 end
 
 	 local side, dir, pos = pigui.GetHUDMarker("radial_in")
 	 if side == "onscreen" then
-			local factor = 5
-			local leftTop = pos + Vector(-1 * size / factor, 1 * size)
-			local rightTop = pos + Vector(1 * size / factor, 1 * size)
-			local leftBottom = pos + Vector(-1 * size / factor, -1 * size)
-			local rightBottom = pos + Vector(1 * size / factor, -1 * size)
-			local leftCenter = pos + Vector(-1, 0) * size
-			local rightCenter = pos + Vector(1, 0) * size
-			pigui.AddLine(leftTop, leftBottom, colors.orbital_marker, 2.0)
-			pigui.AddLine(leftBottom, leftCenter, colors.orbital_marker, 2.0)
-			pigui.AddLine(leftTop, leftCenter, colors.orbital_marker, 2.0)
-			pigui.AddLine(rightTop, rightBottom, colors.orbital_marker, 2.0)
-			pigui.AddLine(rightBottom, rightCenter, colors.orbital_marker, 2.0)
-			pigui.AddLine(rightTop, rightCenter, colors.orbital_marker, 2.0)
+			icons.radial_in(pos, size, colors.orbital_marker, 2.0)
 	 end
 
 	 -- ******************** Reticule ********************
 
-	 if show_extra_reticule then
+	 if show_forward_direction_in_reticule then
 			-- center of screen marker, small circle
-			pigui.AddCircleFilled(center, 2, colors.lightgrey, 8)
+			icons.disk(center, 2, colors.lightgrey)
 			-- pointer to forward, small triangle
 			pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:left()):normalized() * size / 1.7, colors.lightgrey, 1.5)
 			pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:right()):normalized() * size / 1.7, colors.lightgrey, 1.5)
 	 end
 	 -- navigation circle
-	 pigui.AddCircle(center, reticule_radius, colors.lightgrey, 128, 2.0)
+	 icons.circle(center, reticule_radius, colors.lightgrey, 2.0)
 
 	 -- ******************** Nav Target speed / distance ********************
 	 local navTarget = player:GetNavTarget()
@@ -1262,115 +1342,21 @@ local function show_hud()
 			xdrawWithUnit(Vector(center.x - reticule_radius - 10, center.y), spd, unit .. "/s", colors.lightgrey, true)
 
 			-- ******************** Frame Prograde marker ********************
-			local pos,dir,point,side = markerPos("frame_prograde", reticule_radius - 10)
-			local color = colors.orbital_marker
-			if pos then
-				 local size = 4
-				 local left = pos + Vector(-1,0) * size
-				 local right = pos + Vector(1,0) * size
-				 local top = pos + Vector(0,1) * size
-				 local bottom = pos + Vector(0,-1) * size
-				 pigui.AddQuad(left, top, right, bottom, color, 1.0)
-			end
-			if side == "onscreen" and point then
-				 local size = 12
-				 local left = point + Vector(-1,0) * size
-				 local right = point + Vector(1,0) * size
-				 local top = point + Vector(0,1) * size
-				 local bottom = point + Vector(0,-1) * size
-				 pigui.AddQuad(left, top, right, bottom, color, 3.0)
-			end
+			show_marker("frame_prograde", icons.diamond, colors.orbital_marker, true)
 			-- ******************** Away from Frame marker ********************
-		  local pos,dir,point,side = markerPos("away_from_frame", reticule_radius - 10)
-			local color = colors.orbital_marker
-			if pos then
-				 local size = 4
-				 pigui.AddCircle(pos, size, color, 8, 1.0)
-			end
-			if side == "onscreen" and point then
-				 local size = 12
-				 pigui.AddCircle(point, size, color, 32, 3.0)
-			end
+			show_marker("away_from_frame", icons.circle, colors.orbital_marker, true)
 			-- ******************** Combat target ********************
-		  local pos,dir,point,side = markerPos("combat_target", reticule_radius - 10)
-			local color = colors.combat_target
-			if pos then
-				 local size = 4
-				 pigui.AddCircle(pos, size, color, 8, 1.0)
-			end
-			if side == "onscreen" and point then
-				 local size = 12
-				 pigui.AddCircle(point, size, color, 32, 3.0)
-			end
-			local pos,dir,point,side = markerPos("combat_target_lead", reticule_radius - 10)
-			if side == "onscreen" and point then
-				 local size = 10
-				 pigui.AddCircle(point, size, color, 32, 3.0)
-				 pigui.AddCircle(point, size - 6, color, 32, 3.0)
-			end
+			show_marker("combat_target", icons.circle, colors.combat_target, true)
+			show_marker("combat_target_lead", icons.emptyBullseye, colors.combat_target, false)
 			-- ******************** Frame Retrograde marker ********************
-			local pos,dir,point,side = markerPos("frame_retrograde", reticule_radius - 10)
-			local color = colors.orbital_marker
-			if pos and show_retrograde_indicators then
-				 local size = 3
-				 local leftTop = pos + Vector(-1,1) * size
-				 local rightTop = pos + Vector(1,1) * size
-				 local leftBottom = pos + Vector(-1,-1) * size
-				 local rightBottom = pos + Vector(1,-1) * size
-				 pigui.AddLine(leftTop, rightBottom, color, 1.0)
-				 pigui.AddLine(leftBottom, rightTop, color, 1.0)
-			end
-			if side == "onscreen" and point then
-				 local size = 12
-				 local leftTop = point + Vector(-1,1) * size
-				 local rightTop = point + Vector(1,1) * size
-				 local leftBottom = point + Vector(-1,-1) * size
-				 local rightBottom = point + Vector(1,-1) * size
-				 pigui.AddLine(leftTop, rightBottom, color, 3.0)
-				 pigui.AddLine(leftBottom, rightTop, color, 3.0)
-			end
+			show_marker("frame_retrograde", icons.cross, colors.orbital_marker, show_retrograde_indicators)
 	 end
 	 -- ******************** NavTarget Prograde marker ********************
-	 local pos,dir,point,side = markerPos("nav_prograde", reticule_radius - 10)
-	 local color = colors.lightgreen
-	 if pos then
-			local size = 4
-			local left = pos + Vector(-1,0) * size
-			local right = pos + Vector(1,0) * size
-			local top = pos + Vector(0,1) * size
-			local bottom = pos + Vector(0,-1) * size
-			pigui.AddQuad(left, top, right, bottom, color, 1.0)
-	 end
-	 if side == "onscreen" and point then
-			local size = 12
-			local left = point + Vector(-1,0) * size
-			local right = point + Vector(1,0) * size
-			local top = point + Vector(0,1) * size
-			local bottom = point + Vector(0,-1) * size
-			pigui.AddQuad(left, top, right, bottom, color, 3.0)
-	 end
+	 show_marker("nav_prograde", icons.diamond, colors.lightgreen, true)
 	 -- ******************** NavTarget Retrograde marker ********************
-	 local pos,dir,point,side = markerPos("nav_retrograde", reticule_radius - 10)
-	 local color = colors.lightgreen
-	 if pos and show_retrograde_indicators then
-			local size = 3
-			local leftTop = pos + Vector(-1,1) * size
-			local rightTop = pos + Vector(1,1) * size
-			local leftBottom = pos + Vector(-1,-1) * size
-			local rightBottom = pos + Vector(1,-1) * size
-			pigui.AddLine(leftTop, rightBottom, color, 1.0)
-			pigui.AddLine(leftBottom, rightTop, color, 1.0)
-	 end
-	 if side == "onscreen" and point then
-			local size = 12
-			local leftTop = point + Vector(-1,1) * size
-			local rightTop = point + Vector(1,1) * size
-			local leftBottom = point + Vector(-1,-1) * size
-			local rightBottom = point + Vector(1,-1) * size
-			pigui.AddLine(leftTop, rightBottom, color, 3.0)
-			pigui.AddLine(leftBottom, rightTop, color, 3.0)
-	 end
+	 show_marker("nav_retrograde", icons.cross, colors.lightgreen, show_retrograde_indicators)
 	 -- ******************** NavTarget marker ********************
+	 show_marker("nav", icons.square, colors.lightgreen, false)
 	 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
 	 if pos then
 			local size = 9
@@ -1379,32 +1365,8 @@ local function show_hud()
 			local top = dir * size * 2 + pos
 			pigui.AddTriangleFilled(left, right, top, colors.lightgrey)
 	 end
-	 local color = colors.lightgreen
-	 if side == "onscreen" and point then
-			local size = 16
-			local leftTop = point + Vector(-1,1) * size
-			local rightTop = point + Vector(1,1) * size
-			local leftBottom = point + Vector(-1,-1) * size
-			local rightBottom = point + Vector(1,-1) * size
-			pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, color, 3.0)
-			local mp = pigui.GetMousePos()
-			if (Vector(mp.x,mp.y) - point):magnitude() < 30 then
-				 pigui.SetTooltip("Nav target\nThis shows the current navigational target")
-			end
-	 end
 	 -- ******************** Maneuver Node ********************
-	 local pos,dir,point,side = markerPos("maneuver", reticule_radius - 10)
-	 local color = colors.maneuver
-	 if pos then
-			local size = 4
-			pigui.AddCircle(pos, size, color, 8, 1.0)
-			pigui.AddCircleFilled(pos, size - 3, color, 8)
-	 end
-	 if side == "onscreen" and point then
-			local size = 12
-			pigui.AddCircle(point, size, color, 32, 3.0)
-			pigui.AddCircleFilled(point, size - 8, color, 16)
-	 end
+	 show_marker("maneuver", icons.bullseye, colors.maneuver, true)
 	 -- ******************** Frame indicator ********************
 	 local pos,dir = markerPos("frame", reticule_radius + 5)
 	 if pos then

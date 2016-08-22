@@ -15,6 +15,7 @@
 #include "galaxy/Galaxy.h"
 #include "DateTime.h"
 #include "SectorView.h"
+#include "SystemView.h"
 #include "ShipCpanel.h"
 
 /*
@@ -356,7 +357,12 @@ static int l_game_get_view(lua_State *l)
 		lua_pushstring(l, "info");
 	else if(Pi::GetView() == Pi::game->GetSectorView())
 		lua_pushstring(l, "sector");
-	// TODO else error
+	else if(Pi::GetView() == Pi::game->GetSystemView())
+		lua_pushstring(l, "system");
+	else if(Pi::GetView() == Pi::game->GetGalacticView())
+		lua_pushstring(l, "galaxy");
+	else
+		lua_pushnil(l);
 	return 1;
 }
 
