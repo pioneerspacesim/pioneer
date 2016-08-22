@@ -1081,7 +1081,7 @@ static int l_ship_is_docked(lua_State *l) {
 
 static int l_ship_get_accel(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	double accel;
+	double accel = 0.0;
 	std::string type = luaL_checkstring(l, 2);
 	if(!type.compare("forward")) { accel = s->GetAccelFwd(); }
 	else if(!type.compare("backward")) { accel = s->GetAccelRev(); }
@@ -1091,6 +1091,31 @@ static int l_ship_get_accel(lua_State *l) {
 	else if(!type.compare("right")) { accel = s->GetAccelRight(); }
 	// TODO else error
 	lua_pushnumber(l, accel);
+	return 1;
+}
+
+static int l_ship_get_hull_temperature(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetHullTemperature());
+	return 1;
+}
+
+static int l_ship_get_gun_temperature(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	lua_pushnumber(l, s->GetGunTemperature(gun));
+	return 1;
+}
+
+static int l_ship_get_hull_percent(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetPercentHull());
+	return 1;
+}
+
+static int l_ship_get_shields_percent(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetPercentShields());
 	return 1;
 }
 
@@ -1107,6 +1132,11 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetHullPercent", l_ship_set_hull_percent },
 		{ "SetFuelPercent", l_ship_set_fuel_percent },
 
+		{ "GetHullTemperature", l_ship_get_hull_temperature },
+		{ "GetGunTemperature",  l_ship_get_gun_temperature },
+		{ "GetHullPercent",     l_ship_get_hull_percent },
+		{ "GetShieldsPercent",  l_ship_get_shields_percent },
+		
 		{ "GetSkin",    l_ship_get_skin    },
 		{ "SetSkin",    l_ship_set_skin    },
 		{ "SetPattern", l_ship_set_pattern },

@@ -812,6 +812,15 @@ local function show_debug_thrust()
 	 pigui.End()
 end
 
+local function show_debug_temp()
+	 pigui.Begin("Temperatures", {})
+	 pigui.Text("Hull Temperature: " .. player:GetHullTemperature())
+	 pigui.Text("Gun 0 Temperature: " .. player:GetGunTemperature(0))
+	 pigui.Text("Gun 1 Temperature: " .. player:GetGunTemperature(1))
+	 pigui.Text("Hull percent: " .. player:GetHullPercent())
+	 pigui.Text("Shields percent: " .. player:GetShieldsPercent())
+	 pigui.End()
+end
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
@@ -1301,5 +1310,6 @@ pigui.handlers.HUD = function(delta)
 	 --	 show_missions()
 	 -- show_debug_orbit()
 	 --	 show_debug_thrust()
+	 show_debug_temp()
 	 pigui.PopStyleColor(1)
 end
