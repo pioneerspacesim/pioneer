@@ -1119,6 +1119,17 @@ static int l_ship_get_shields_percent(lua_State *l) {
 	return 1;
 }
 
+static int l_ship_get_gravity(lua_State *l)
+{
+	Ship *b = LuaObject<Ship>::CheckFromLua(1);
+	vector3d gravity = b->GetGravityForce() / b->GetMass();
+	LuaTable g(l);
+	g.Set("x", gravity.x);
+	g.Set("y", gravity.y);
+	g.Set("z", gravity.z);
+	return 1;
+}
+
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
 template <> void LuaObject<Ship>::RegisterClass()
@@ -1171,6 +1182,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "UpdateEquipStats", l_ship_update_equip_stats },
 
+		{ "GetGravity",     l_ship_get_gravity },
 		{ "GetVelocity", l_ship_get_velocity },
  		{ "GetPosition", l_ship_get_position },
 		{ "GetThrusterState", l_ship_get_thruster_state },

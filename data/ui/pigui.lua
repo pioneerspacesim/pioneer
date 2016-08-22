@@ -23,6 +23,7 @@ local pi = 3.14159264
 local pi_2 = pi / 2
 local pi_4 = pi / 4
 local two_pi = pi * 2
+local standard_gravity = 9.80665
 
 local colors = {
 	 darkgreen = {r=0, g=150, b=0},
@@ -408,12 +409,12 @@ local function show_navball()
 
 	 pigui.AddText(navball_center + Vector(- navball_radius * 1.5 - 100, 20), colors.lightgrey, math.floor(dvr*100) .. "%")
 	 if deltav_maneuver > 0 then
-	 local spd,unit = MyFormat.Distance(deltav_maneuver)
-	 drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 50)
-								, spd , fontsizes.large , colors.maneuver
-								, unit .. "/s" , fontsizes.medium , colors.maneuver
-								, true
-								, "mΔv" , fontsizes.medium , colors.maneuver)
+			local spd,unit = MyFormat.Distance(deltav_maneuver)
+			drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 50)
+									 , spd , fontsizes.large , colors.maneuver
+									 , unit .. "/s" , fontsizes.medium , colors.maneuver
+									 , true
+									 , "mΔv" , fontsizes.medium , colors.maneuver)
 	 end
 
 
@@ -422,11 +423,11 @@ local function show_navball()
 	 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
 	 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
 	 local frame = player:GetFrame()
-	 local frame_sb = frame:GetSystemBody()
+	 local frame_radius = frame and frame:GetSystemBody().radius or 0
 	 -- apoapsis
 	 if not player:IsDocked() then
 			local right_upper = navball_center + Vector(navball_radius * 1.2, -navball_radius * 0.9)
-			local aa_d = aa - frame_sb.radius
+			local aa_d = aa - frame_radius
 			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
 			if aa_d > 0 then
 				 local xsize = drawWithUnit(right_upper
@@ -456,11 +457,11 @@ local function show_navball()
 	 -- periapsis
 	 if not player:IsDocked() then
 			local right_upper = navball_center + Vector(navball_radius * 1.4, -navball_radius * 0.25)
-			local pa_d = pa - frame_sb.radius
+			local pa_d = pa - frame_radius
 			local dist_per, unit_per = MyFormat.Distance(pa_d)
 			if pa_d ~= 0 then
 				 local xsize = drawWithUnit(right_upper
-																		, dist_per, fontsizes.medium, (pa - frame_sb.radius < 0 and colors.lightred or colors.lightgrey)
+																		, dist_per, fontsizes.medium, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey)
 																		, unit_per, fontsizes.small, colors.darkgrey
 																		, false
 																		, "p", fontsizes.small, colors.darkgrey)
@@ -499,13 +500,15 @@ local function show_navball()
 	 end
 	 -- pressure
 	 local right_upper = navball_center + Vector(navball_radius * 1.4, navball_radius * 0.35)
-	 local pressure, density = frame:GetAtmosphericState()
-	 if pressure and pressure > 0.001 then
-			drawWithUnit(right_upper
-									 , math.floor(pressure*100)/100, fontsizes.medium, colors.lightgrey
-									 , "atm", fontsizes.small, colors.lightgrey
-									 , false
-									 , "pr", fontsizes.small, colors.darkgrey)
+	 if frame then
+			local pressure, density = frame:GetAtmosphericState()
+			if pressure and pressure > 0.001 then
+				 drawWithUnit(right_upper
+											, math.floor(pressure*100)/100, fontsizes.medium, colors.lightgrey
+											, "atm", fontsizes.small, colors.lightgrey
+											, false
+											, "pr", fontsizes.small, colors.darkgrey)
+			end
 	 end
 end
 
@@ -630,13 +633,17 @@ local function show_nav_window()
 	 pigui.Columns(2, "navcolumns", false)
 	 local body_paths = system:GetBodyPaths()
 	 -- create intermediate structure
-	 local data = map(function(system_path)
-				 local system_body = system_path:GetSystemBody()
+	 local data = {}
+	 for _,system_path in pairs(body_paths) do
+			local system_body = system_path:GetSystemBody()
+			if system_body then
 				 local body = Space.GetBody(system_body.index)
-				 local distance = player:DistanceTo(body)
-				 return { systemBody = system_body, body = body, distance = distance, name = system_body.name }
-										end,
-			body_paths)
+				 if body then
+						local distance = player:DistanceTo(body)
+						table.insert(data, { systemBody = system_body, body = body, distance = distance, name = system_body.name })
+				 end
+			end
+	 end
 	 -- sort by distance
 	 table.sort(data, function(a,b) return a.distance < b.distance end)
 	 -- display
@@ -741,8 +748,7 @@ local function show_thrust()
 	 local thrust_up = (thrust.y > 0) and math.abs(thrust.y) * math.abs(player:GetAccel("up")) or 0
 	 local thrust_down = (thrust.y < 0) and math.abs(thrust.y) * math.abs(player:GetAccel("down")) or 0
 	 local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
-	 local g = 9.80665
-	 local total_g = string.format("%0.1f", total_thrust / g)
+	 local total_g = string.format("%0.1f", total_thrust / standard_gravity)
 	 local position = Vector(200, pigui.screen_height - 100)
 	 local xsize = drawWithUnit(position
 															, total_g, fontsizes.large, colors.lightgrey
@@ -764,11 +770,11 @@ local function show_thrust()
 	 if pigui.BeginPopup("thrustsettings") then
 			local settings = { 1, 5, 10, 25, 50, 75 }
 			for _,setting in pairs(settings) do
-						if pigui.Selectable("Set low thrust to " .. setting .. "%", false, {}) then
-							 player:SetLowThrustPower(setting / 100)
-						end
+				 if pigui.Selectable("Set low thrust to " .. setting .. "%", false, {}) then
+						player:SetLowThrustPower(setting / 100)
 				 end
-				 pigui.EndPopup()
+			end
+			pigui.EndPopup()
 	 end
 	 local size = pigui.CalcTextSize(math.floor(low_thrust_power * 100))
 	 pigui.AddText(position - Vector(size.x/2, size.y/2), colors.lightgrey, math.floor(low_thrust_power * 100))
@@ -820,8 +826,7 @@ local function show_debug_thrust()
 	 pigui.Text("Thrust Left: " .. thrust_left)
 	 pigui.Text("Thrust Right: " .. thrust_right)
 	 local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
-	 local g = 9.80665
-	 pigui.Text("Total thrust: " .. total_thrust / g .. "g")
+	 pigui.Text("Total thrust: " .. total_thrust / standard_gravity .. "g")
 	 pigui.End()
 end
 
@@ -835,6 +840,13 @@ local function show_debug_temp()
 	 pigui.End()
 end
 
+local function show_debug_gravity()
+	 pigui.Begin("Gravity", {})
+	 local g = player:GetGravity()
+	 local gr = Vector(g.x, g.y, g.z)
+	 pigui.Text("Gravity: " .. string.format("%0.2f", gr:magnitude() / standard_gravity) .. ", " .. g.x .. "/" .. g.y .. "/" .. g.z)
+	 pigui.End()
+end
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
@@ -1001,11 +1013,11 @@ pigui.handlers.HUD = function(delta)
 	 -- ******************** Maneuver speed ********************
 	 local spd = player:GetManeuverSpeed()
 	 if spd then
-	 pigui.PushFont("pionillium", 30)
-	 local leftTop = Vector(center.x - 30, center.y - reticule_radius * 1.1)
-	 local speed,unit = MyFormat.Distance(spd)
-	 xdrawWithUnit(leftTop, speed, unit .. "/s", colors.maneuver)
-	 pigui.PopFont()
+			pigui.PushFont("pionillium", 30)
+			local leftTop = Vector(center.x - 30, center.y - reticule_radius * 1.1)
+			local speed,unit = MyFormat.Distance(spd)
+			xdrawWithUnit(leftTop, speed, unit .. "/s", colors.maneuver)
+			pigui.PopFont()
 	 end
 	 -- ******************** Combat Target speed / distance ********************
 	 local combatTarget = player:GetCombatTarget()
@@ -1025,12 +1037,12 @@ pigui.handlers.HUD = function(delta)
 			local distance = player:DistanceTo(combatTarget)
 			local dist,unit = MyFormat.Distance(distance)
 			xdrawWithUnit(Vector(center.x - 5, center.y + reticule_radius * 1.6), dist, unit, colors.lightred, true)
---			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
---			pigui.PushFont("pionillium", 18)
---			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
---			pigui.PopFont()
+			--			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+			--			pigui.PushFont("pionillium", 18)
+			--			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
+			--			pigui.PopFont()
 	 end
-	 
+
 	 -- ******************** Frame speed / distance ********************
 	 local frame = player:GetFrame()
 	 if frame then
@@ -1323,7 +1335,7 @@ pigui.handlers.HUD = function(delta)
 	 -- show_debug_orbit()
 	 --	show_debug_thrust()
 	 -- show_debug_temp()
-
+	 show_debug_gravity()
 	 -- Missions, these should *not* be part of the regular HUD
 	 --	show_missions()
 	 pigui.PopStyleColor(1)
