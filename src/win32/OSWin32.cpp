@@ -184,7 +184,13 @@ const std::string GetOSInfoString()
 	if (name.empty())
 		return hwInfo + s_NoOSIdentified;
 
+#ifdef UNICODE
+	// Visual Studio WCHAR->std::string funtasticness
+	std::wstring ws( osv.szCSDVersion );
+	std::string patchName( ws.begin(), ws.end() );
+#else
 	std::string patchName(osv.szCSDVersion);
+#endif
 
 	if (patchName.empty())
 		return hwInfo + name;
