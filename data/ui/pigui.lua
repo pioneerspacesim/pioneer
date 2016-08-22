@@ -39,7 +39,8 @@ local colors = {
 	 transparent = {r=0,g=0,b=0,a=0},
 	 lightred = { r=255, g=150, b=150},
 	 red = { r=255, g=0, b=0 },
-	 combat_target = { r=200, g=100, b=100 }
+	 combat_target = { r=200, g=100, b=100 },
+	 maneuver = { r=163, g=163, b=255 }
 }
 
 local fontsizes = {
@@ -370,7 +371,7 @@ local function show_navball()
 	 local deltav_max = player:GetMaxDeltaV()
 	 local deltav_remaining = player:GetRemainingDeltaV()
 	 local dvr = deltav_remaining / deltav_max
-	 local deltav_maneuver = 0.0
+	 local deltav_maneuver = player:GetManeuverSpeed() or 0
 	 local dvm = deltav_maneuver / deltav_max
 	 local deltav_current = player:GetCurrentDeltaV()
 	 local dvc = deltav_current / deltav_max
@@ -390,18 +391,31 @@ local function show_navball()
 	 if dvc > 0 then
 			deltav_gauge(dvc, navball_center, navball_radius + 5 + thickness, colors.deltav_current, thickness)
 	 end
+
 	 -- pigui.AddText(navball_center + Vector(- navball_radius - 150, -50), colors.lightgrey, 'dvc: ' .. deltav_current)
 	 -- pigui.AddText(navball_center + Vector(- navball_radius - 150, -30), colors.lightgrey, 'dvr: ' .. deltav_remaining)
 	 -- pigui.AddText(navball_center + Vector(- navball_radius - 150, -10), colors.lightgrey, 'dvm: ' .. deltav_max)
 	 --   local spd,unit = MyFormat.Distance(deltav_current)
 	 --	 drawWithUnit(navball_center + Vector(- navball_radius * 1.25, - navball_radius / 2), spd, unit .. "/s", colors.lightgrey, true)
+
+	 -- delta-v remaining
 	 local spd,unit = MyFormat.Distance(deltav_remaining)
 	 drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 0)
 								, spd , fontsizes.large , colors.lightgrey
 								, unit .. "/s" , fontsizes.medium , colors.darkgrey
 								, true
 								, "Δv" , fontsizes.medium , colors.darkgrey)
+
 	 pigui.AddText(navball_center + Vector(- navball_radius * 1.5 - 100, 20), colors.lightgrey, math.floor(dvr*100) .. "%")
+	 if deltav_maneuver > 0 then
+	 local spd,unit = MyFormat.Distance(deltav_maneuver)
+	 drawWithUnit(navball_center + Vector(- navball_radius * 1.5, 50)
+								, spd , fontsizes.large , colors.maneuver
+								, unit .. "/s" , fontsizes.medium , colors.maneuver
+								, true
+								, "mΔv" , fontsizes.medium , colors.maneuver)
+	 end
+
 
 	 -- ******************** Orbital stats ********************
 	 local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
@@ -593,7 +607,7 @@ local function show_contacts()
 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
 	 pigui.Begin("Contacts", {})
 	 pigui.Columns(2, "contactcolumns", false)
-	 local bodies = Space.GetBodies(function (body) return body:IsShip() end)
+	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
 	 table.sort(bodies, function(a,b) return player:DistanceTo(a) < player:DistanceTo(b) end)
 	 for _,body in pairs(bodies) do
 			if(pigui.Selectable(body.label, selected_combat == body, {"SpanAllColumns"})) then
@@ -935,12 +949,13 @@ pigui.handlers.HUD = function(delta)
 	 -- navigation circle
 	 pigui.AddCircle(center, reticule_radius, colors.lightgrey, 128, 2.0)
 
+	 -- ******************** Nav Target speed / distance ********************
 	 local navTarget = player:GetNavTarget()
 	 if navTarget then
 			-- target name
 			pigui.PushFont("pionillium", 12)
 			local leftTop = Vector(center.x + reticule_radius / 2 * 1.3, center.y - reticule_radius)
-			pigui.AddText(leftTop, colors.darkgreen, "Target")
+			pigui.AddText(leftTop, colors.darkgreen, "Nav Target")
 			pigui.PopFont()
 			leftTop = leftTop + Vector(20,20)
 			pigui.PushFont("pionillium", 18)
@@ -960,6 +975,40 @@ pigui.handlers.HUD = function(delta)
 			pigui.PopFont()
 	 end
 
+	 -- ******************** Maneuver speed ********************
+	 local spd = player:GetManeuverSpeed()
+	 if spd then
+	 pigui.PushFont("pionillium", 30)
+	 local leftTop = Vector(center.x - 30, center.y - reticule_radius * 1.1)
+	 local speed,unit = MyFormat.Distance(spd)
+	 xdrawWithUnit(leftTop, speed, unit .. "/s", colors.maneuver)
+	 pigui.PopFont()
+	 end
+	 -- ******************** Combat Target speed / distance ********************
+	 local combatTarget = player:GetCombatTarget()
+	 if combatTarget then
+			-- target name
+
+			pigui.PushFont("pionillium", 18)
+			local leftTop = Vector(center.x, center.y + reticule_radius * 1.2)
+			local xsize = pigui.CalcTextSize(combatTarget.label)
+			pigui.AddText(leftTop - Vector(xsize.x/2, 0), colors.lightred, combatTarget.label)
+			pigui.PopFont()
+
+			local speed = combatTarget:GetVelocityRelTo(player)
+			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+			xdrawWithUnit(Vector(center.x + 5, center.y + reticule_radius * 1.6), spd, unit .. "/s", colors.lightred)
+
+			local distance = player:DistanceTo(combatTarget)
+			local dist,unit = MyFormat.Distance(distance)
+			xdrawWithUnit(Vector(center.x - 5, center.y + reticule_radius * 1.6), dist, unit, colors.lightred, true)
+--			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+--			pigui.PushFont("pionillium", 18)
+--			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
+--			pigui.PopFont()
+	 end
+	 
+	 -- ******************** Frame speed / distance ********************
 	 local frame = player:GetFrame()
 	 if frame then
 			pigui.PushFont("pionillium", 12)
@@ -975,11 +1024,11 @@ pigui.handlers.HUD = function(delta)
 
 			local distance = player:DistanceTo(frame)
 			local dist,unit = MyFormat.Distance(distance)
-			xdrawWithUnit(Vector(center.x - reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.7), dist, unit, colors.lightgrey, true)
+			xdrawWithUnit(Vector(center.x - reticule_radius / 2 * 1.7, center.y + reticule_radius / 2 * 1.3), dist, unit, colors.lightgrey, true)
 
 			local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
 			pigui.PushFont("pionillium", 18)
-			pigui.AddText(Vector(center.x - reticule_radius /2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgrey, "~" .. Format.Distance(brakeDist))
+			pigui.AddText(Vector(center.x - reticule_radius /2 * 1.7 - 50, center.y + reticule_radius / 2 * 1.3 + 20), colors.darkgrey, "~" .. Format.Distance(brakeDist))
 			pigui.PopFont()
 
 			local speed = pigui.GetVelocity("frame_prograde")
@@ -1117,6 +1166,19 @@ pigui.handlers.HUD = function(delta)
 				 pigui.SetTooltip("Nav target\nThis shows the current navigational target")
 			end
 	 end
+	 -- ******************** Maneuver Node ********************
+	 local pos,dir,point,side = markerPos("maneuver", reticule_radius - 10)
+	 local color = colors.maneuver
+	 if pos then
+			local size = 4
+			pigui.AddCircle(pos, size, color, 8, 1.0)
+			pigui.AddCircleFilled(pos, size - 3, color, 8)
+	 end
+	 if side == "onscreen" and point then
+			local size = 12
+			pigui.AddCircle(point, size, color, 32, 3.0)
+			pigui.AddCircleFilled(point, size - 8, color, 16)
+	 end
 	 -- ******************** Frame indicator ********************
 	 local pos,dir = markerPos("frame", reticule_radius + 5)
 	 if pos then
@@ -1127,6 +1189,16 @@ pigui.handlers.HUD = function(delta)
 			pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
 	 end
 
+	 -- ******************** Ships on Screen ********************
+	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
+	 for _,body in pairs(bodies) do
+			local pos = body:GetProjectedScreenPosition()
+			local size = 8
+			if pos then
+				 pigui.AddCircleFilled(pos, size, colors.lightgreen, 8)
+				 pigui.AddText(pos + Vector(size*1.5, -size/2), colors.lightgreen, body.label)
+			end
+	 end
 	 -- ******************** Bodies on Screen ********************
 	 local body_groups = {}
 	 local cutoff = 5

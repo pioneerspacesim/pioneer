@@ -10,6 +10,7 @@
 #include "SectorView.h"
 #include "EnumStrings.h"
 #include "galaxy/Galaxy.h"
+#include "SystemView.h" // for the transfer planner
 
 /*
  * Class: Player
@@ -330,6 +331,29 @@ static int l_get_low_thrust_power(lua_State *l)
 	return 1;
 }
 
+static int l_get_maneuver_speed(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+
+	// see WorldView.cpp:1688
+	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
+		return 0;
+	} else {
+		Orbit playerOrbit = player->ComputeOrbit();
+		const SystemBody* systemBody = player->GetFrame()->GetSystemBody();
+		if(!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
+			double mass = systemBody->GetMass();
+			// XXX The best solution would be to store the mass(es) on Orbit
+			const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))); // * cam_rot
+			double relativeSpeed = camSpacePlanSpeed.Length();
+			lua_pushnumber(l, relativeSpeed);
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+}
+
 static int l_get_distance_to_zero_v(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -386,6 +410,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetOrbit",            l_get_orbit },
 		{ "GetGPS",              l_get_gps },
 		{ "GetLowThrustPower",   l_get_low_thrust_power },
+		{ "GetManeuverSpeed",    l_get_maneuver_speed },
 		{ 0, 0 }
 	};
 

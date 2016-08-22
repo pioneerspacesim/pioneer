@@ -414,6 +414,7 @@ static int l_body_get_projected_screen_position(lua_State *l)
 	LuaTable pos(l);
 	pos.Set("x", p.x / 800.0 * Graphics::GetScreenWidth());
 	pos.Set("y", p.y / 600.0 * Graphics::GetScreenHeight());
+	pos.Set("z", 0);
 	return 1;
 }
 
@@ -432,6 +433,18 @@ static int l_body_get_velocity(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	vector3d p = b->GetVelocity();
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", p.z);
+	return 1;	
+}
+
+static int l_body_get_velocity_rel_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	Body *target = LuaObject<Body>::CheckFromLua(2);
+	vector3d p = b->GetVelocityRelTo(target);
 	LuaTable pos(l);
 	pos.Set("x", p.x);
 	pos.Set("y", p.y);
@@ -539,6 +552,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetSystemBody",       l_body_get_system_body },
 		{ "GetAtmosphericState", l_body_get_atmospheric_state },
 		{ "IsShip",              l_body_is_ship },
+		{ "GetVelocityRelTo",    l_body_get_velocity_rel_to },
 		{ 0, 0 }
 	};
 

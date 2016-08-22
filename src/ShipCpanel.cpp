@@ -73,7 +73,7 @@ void ShipCpanel::InitObject()
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_PAUSED));
 	b->SetShortcut(SDLK_ESCAPE, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 0, 34);
+	Add(b, 0, 60);
 	m_timeAccelButtons[0] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel1.png", "icons/timeaccel1_on.png");
@@ -81,35 +81,35 @@ void ShipCpanel::InitObject()
 	b->SetShortcut(SDLK_F1, KMOD_LSHIFT);
 	b->SetSelected(true);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 22, 34);
+	Add(b, 22, 60);
 	m_timeAccelButtons[1] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel2.png", "icons/timeaccel2_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10X));
 	b->SetShortcut(SDLK_F2, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 44, 34);
+	Add(b, 44, 60);
 	m_timeAccelButtons[2] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel3.png", "icons/timeaccel3_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_100X));
 	b->SetShortcut(SDLK_F3, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 66, 34);
+	Add(b, 66, 60);
 	m_timeAccelButtons[3] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel4.png", "icons/timeaccel4_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_1000X));
 	b->SetShortcut(SDLK_F4, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 88, 34);
+	Add(b, 88, 60);
 	m_timeAccelButtons[4] = b;
 
 	b = new Gui::ImageRadioButton(0, "icons/timeaccel5.png", "icons/timeaccel5_on.png");
 	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnClickTimeaccel), Game::TIMEACCEL_10000X));
 	b->SetShortcut(SDLK_F5, KMOD_LSHIFT);
 	b->SetRenderDimensions(22, 18);
-	Add(b, 110, 34);
+	Add(b, 110, 60);
 	m_timeAccelButtons[5] = b;
 
 	m_leftButtonGroup = new Gui::RadioGroup();
@@ -140,7 +140,7 @@ void ShipCpanel::InitObject()
 	info_button->AddState(0, "icons/cpan_f3_shipinfo.png", "icons/cpan_f3_shipinfo_on.png", Lang::SHIP_INFORMATION);
 	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
 	info_button->SetRenderDimensions(30, 22);
-	Add(info_button, 66, 56);
+	// Add(info_button, 66, 56);
 
 	Gui::MultiStateImageButton *comms_button = new Gui::MultiStateImageButton();
 	m_leftButtonGroup->Add(comms_button);
@@ -152,7 +152,7 @@ void ShipCpanel::InitObject()
 	Add(comms_button, 98, 56);
 
 	m_clock = (new Gui::Label(""))->Color(255,178,0);
-	Add(m_clock, 3, 15);
+	// Add(m_clock, 3, 15);
 
 	m_rightButtonGroup = new Gui::RadioGroup();
 	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_sector_view.png", "icons/map_sector_view_on.png");

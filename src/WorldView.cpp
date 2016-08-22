@@ -230,7 +230,7 @@ void WorldView::InitObject()
 	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(255, 255, 0, 204));
 	m_hudSensorGaugeStack = new Gui::VBox();
 	m_hudSensorGaugeStack->SetSpacing(2.0f);
-	Add(m_hudFuelGauge, 5.0f, Gui::Screen::GetHeight() - 104.0f);
+	//	Add(m_hudFuelGauge, 5.0f, Gui::Screen::GetHeight() - 104.0f);
 	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
@@ -262,14 +262,14 @@ void WorldView::InitObject()
 	m_navVelIndicator.label = (new Gui::Label(""))->Color(0, 255, 0);
 	m_combatTargetIndicator.label = new Gui::Label(""); // colour set dynamically
 	m_targetLeadIndicator.label = new Gui::Label("");
-	m_burnIndicator.label = (new Gui::Label(""))->Color(0, 153, 255);
+	//	m_burnIndicator.label = (new Gui::Label(""))->Color(0, 153, 255);
 
 	// these labels are repositioned during Draw3D()
 	//	Add(m_navTargetIndicator.label, 0, 0);
 	//	Add(m_navVelIndicator.label, 0, 0);
 	Add(m_combatTargetIndicator.label, 0, 0);
 	Add(m_targetLeadIndicator.label, 0, 0);
-	Add(m_burnIndicator.label, 0, 0);
+	//	Add(m_burnIndicator.label, 0, 0);
 
 	// XXX m_renderer not set yet
 	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
@@ -410,7 +410,7 @@ void WorldView::UpdateCameraName()
 
 	float w, h;
 	Gui::Screen::MeasureString(cameraName, w, h);
-	Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
+	// Add(m_showCameraName, 0.5f*(Gui::Screen::GetWidth()-w), 20);
 
 	m_showCameraNameTimeout = SDL_GetTicks();
 }
@@ -1740,7 +1740,7 @@ void WorldView::UpdateProjectedObjects()
 				ddV << relativeSpeed / 1000. << " km/s";
 			else
 				ddV << relativeSpeed << " m/s";
-			m_burnIndicator.label->SetText(ddV.str());
+			//			m_burnIndicator.label->SetText(ddV.str());
 			m_burnIndicator.side = INDICATOR_TOP;
 			UpdateIndicator(m_burnIndicator, camSpacePlanSpeed);
 		}
@@ -2070,7 +2070,7 @@ void WorldView::Draw()
 	//	DrawVelocityIndicator(m_velIndicator, V_PROGRADE, white);
 	//	DrawVelocityIndicator(m_retroVelIndicator, V_RETROGRADE, retroIconColor);
 	//	DrawVelocityIndicator(m_navVelIndicator, V_PROGRADE, green);
-	DrawVelocityIndicator(m_burnIndicator, V_BURN, Color::STEELBLUE);
+	//	DrawVelocityIndicator(m_burnIndicator, V_BURN, Color::STEELBLUE);
 
 	// glLineWidth(2.0f);
 
