@@ -830,6 +830,8 @@ static int l_ship_ai_fly_to(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIFlyTo() cannot be called on a ship in hyperspace");
 	Body *target = LuaObject<Body>::CheckFromLua(2);
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIFlyTo(target);
 	return 0;
 }
@@ -859,6 +861,8 @@ static int l_ship_ai_dock_with(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIDockWith() cannot be called on a ship in hyperspace");
 	SpaceStation *target = LuaObject<SpaceStation>::CheckFromLua(2);
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIDock(target);
 	return 0;
 }
@@ -890,6 +894,8 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 	Body *target = LuaObject<Body>::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIOrbit(target, 1.2);
 	return 0;
 }
@@ -921,6 +927,8 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 	Body *target = LuaObject<Body>::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIOrbit(target, 1.6);
 	return 0;
 }
@@ -952,6 +960,8 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	Body *target = LuaObject<Body>::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIOrbit(target, 3.2);
 	return 0;
 }
@@ -1100,6 +1110,15 @@ static int l_ship_get_hull_temperature(lua_State *l) {
 	return 1;
 }
 
+static int l_ship_request_docking_clearance(lua_State *l) {
+	Ship *player = LuaObject<Ship>::CheckFromLua(1);
+	SpaceStation *s = static_cast<SpaceStation*>(LuaObject<Body>::CheckFromLua(2));
+	std::string msg;
+	s->GetDockingClearance(player, msg);
+	Pi::game->log->Add(s->GetLabel(), msg);
+	return 0;
+}
+
 static int l_ship_get_gun_temperature(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	int gun = luaL_checkinteger(l, 2);
@@ -1161,6 +1180,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "UseECM", l_ship_use_ecm },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
+		{ "RequestDockingClearance", l_ship_request_docking_clearance },
 		{ "Undock",        l_ship_undock          },
 
 		{ "Explode", l_ship_explode },

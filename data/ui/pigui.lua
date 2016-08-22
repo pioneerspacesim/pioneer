@@ -637,6 +637,75 @@ local function show_contacts()
 	 pigui.End()
 end
 
+local radial_actions = {
+	 dock = function(body) player:AIDockWith(body) end,
+	 fly_to = function(body) player:AIFlyTo(body) end,
+	 low_orbit = function(body) player:AIEnterLowOrbit(body) end,
+	 medium_orbit = function(body) player:AIEnterMediumOrbit(body) end,
+	 high_orbit = function(body) player:AIEnterHighOrbit(body) end,
+	 clearance = function(body) player:RequestDockingClearance(body) end,
+	 radial_in = function(body) print("implement radial_in") end,
+	 radial_out = function(body) print("implement radial_out") end,
+	 normal = function(body) print("implement normal") end,
+	 anti_normal = function(body) print("implement anti_normal") end,
+	 prograde = function(body) print("implement prograde") end,
+	 retrograde = function(body) print("implement retrograde") end
+}
+local function show_radial_menu()
+	 local radial_menu_center = pigui.GetMouseClickedPos(1)
+	 local radial_menu_size = 100
+	 if radial_menu_center.x < radial_menu_size then
+			radial_menu_center.x = radial_menu_size
+	 end
+	 if radial_menu_center.y < radial_menu_size then
+			radial_menu_center.y = radial_menu_size
+	 end
+	 if radial_menu_center.x > (pigui.screen_width - radial_menu_size) then
+			radial_menu_center.x = (pigui.screen_width - radial_menu_size)
+	 end
+	 if radial_menu_center.y > (pigui.screen_height - radial_menu_size) then
+			radial_menu_center.y = (pigui.screen_height - radial_menu_size)
+	 end
+	 local items = {}
+	 local actions = {}
+	 if radial_nav_target then
+			local typ = radial_nav_target.superType
+			if typ == "STARPORT" then
+				 table.insert(items, "Docking Clearance")
+				 table.insert(actions, "clearance")
+				 table.insert(items, "Auto-Dock")
+				 table.insert(actions, "dock")
+			end
+			table.insert(items, "Fly to")
+			table.insert(actions, "fly_to")
+			if typ == "STAR" or typ == "ROCKY_PLANET" or typ == "GAS_GIANT" then
+				 table.insert(items, "Low Orbit")
+				 table.insert(actions, "low_orbit")
+				 table.insert(items, "Medium Orbit")
+				 table.insert(actions, "medium_orbit")
+				 table.insert(items, "High Orbit")
+				 table.insert(actions, "high_orbit")
+			end
+			table.insert(items, "Hold radial in")
+			table.insert(actions, "radial_in")
+			table.insert(items, "Hold radial out")
+			table.insert(actions, "radial_out")
+			table.insert(items, "Hold normal")
+			table.insert(actions, "normal")
+			table.insert(items, "Hold anti-normal")
+			table.insert(actions, "anti_normal")
+			table.insert(items, "Hold prograde")
+			table.insert(actions, "prograde")
+			table.insert(items, "Hold retrograde")
+			table.insert(actions, "retrograde")
+	 end
+	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items)
+	 if n >= 0 then
+			local action = actions[n + 1]
+			print("selected " .. action)
+			radial_actions[action](radial_nav_target)
+	 end
+end
 local function show_nav_window()
 	 -- ******************** Navigation Window ********************
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
@@ -674,25 +743,7 @@ local function show_nav_window()
 				 radial_nav_target = data.body
 			end
 	 end
-	 local radial_menu_center = pigui.GetMouseClickedPos(1)
-	 local radial_menu_size = 100
-	 if radial_menu_center.x < radial_menu_size then
-			radial_menu_center.x = radial_menu_size
-	 end
-	 if radial_menu_center.y < radial_menu_size then
-			radial_menu_center.y = radial_menu_size
-	 end
-	 if radial_menu_center.x > (pigui.screen_width - radial_menu_size) then
-			radial_menu_center.x = (pigui.screen_width - radial_menu_size)
-	 end
-	 if radial_menu_center.y > (pigui.screen_height - radial_menu_size) then
-			radial_menu_center.y = (pigui.screen_height - radial_menu_size)
-	 end
-	 local items = { "Dock", "Fly to", "Low orbit", "Medium orbit", "High orbit", "Clearance" }
-	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items)
-	 if n >= 0 then
-			print("selected " .. items[n + 1])
-	 end
+	 show_radial_menu()
 	 pigui.End()
 end
 
@@ -1286,6 +1337,10 @@ pigui.handlers.HUD = function(delta)
 			local label = table.concat(map(function (a) return a.label end, labels), "\n")
 			local show_tooltip = false
 			if (Vector(mp.x - pos.x,mp.y - pos.y)):magnitude() < size then
+				 if pigui.IsMouseClicked(1) and #labels == 1then
+						pigui.OpenPopup("##piepopup")
+						radial_nav_target = labels[1]
+				 end
 				 if pigui.IsMouseReleased(0) then
 						if #labels == 1 then
 							 player:SetNavTarget(labels[1])
@@ -1296,6 +1351,7 @@ pigui.handlers.HUD = function(delta)
 						show_tooltip = true
 				 end
 			end
+			show_radial_menu()
 			if pigui.BeginPopup("navtarget" .. label) then
 				 for _,body in pairs(labels) do
 						if pigui.Selectable(body.label, false, {}) then
