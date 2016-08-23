@@ -60,6 +60,7 @@ local colors = {
 	 shield_gauge = { r=0, g=255, b=255 },
 	 hull_gauge = { r=200, g=200, b=200 },
 	 tmp_gauge = { r=255, g=0, b=0 },
+	 gun_tmp_gauge = { r=200, g=200, b=200 },
 	 gauge_darkergrey = {r=20,g=20,b=20},
 	 gauge_darkgrey = {r=35,g=35,b=35},
 }
@@ -807,7 +808,9 @@ local function show_navball()
 			show_circular_gauge(position + Vector(-180, 0), player:GetShieldsPercent() / 100, colors.shield_gauge, "Shield")
 	 end
 	 -- gun stats, left side
-
+	 local position = Vector(45, pigui.screen_height - 290)
+	 show_circular_gauge(position, player:GetGunTemperature(0), colors.gun_tmp_gauge, "Blaster", "Front")
+	 show_circular_gauge(position + Vector(0, 90), player:GetGunTemperature(1), colors.gun_tmp_gauge, "Blaster", "Rear")
 end
 
 local radial_nav_target = nil
