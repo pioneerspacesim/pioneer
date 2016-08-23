@@ -678,8 +678,6 @@ local onChat = function (form, ref, option)
 	--      return
 	--   end
 
-	form:AddNavButton(ad.planet_target)
-
 	if option == 0 then
 		local introtext = string.interp(ad.flavour.introtext, {
 			                                name         = ad.client.name,
@@ -821,6 +819,15 @@ local onChat = function (form, ref, option)
 
 		form:SetMessage(l.THANK_YOU_ACCEPTANCE_TXT)
 		addMission(mission)
+
+		-- setup navbutton target (ships in other system don't exist yet!)
+		local navbutton_target
+		if mission.planet_target:IsSameSystem(Game.system.path) then
+			navbutton_target = mission.target
+		else
+			navbutton_target = mission.planet_target
+		end
+		form:AddNavButton(navbutton_target)
 		return
 	end
 
@@ -1775,7 +1782,7 @@ local onCreateBB = function (station)
 	-- more efficient to determine closest planets per station once per banter board creation
 	closestplanets = findClosestPlanets()
 
-	-- -- force ad creation for debugging
+	-- force ad creation for debugging
 	-- local num = 3
 	-- for _ = 1,num do
 	--    makeAdvert(station, 1, closestplanets)
@@ -1953,6 +1960,14 @@ local onClick = function (mission)
 		navbutton = NavButton.New(l.SET_RETURN_ROUTE, mission.station_local)
 	end
 
+	-- navbutton target (system if out-of-system jump, target ship if in system)
+	local navbutton_target
+	if mission.planet_target:IsSameSystem(Game.system.path) then
+		navbutton_target = mission.target
+	else
+		navbutton_target = mission.planet_target
+	end
+
 	local pickup_comm_text = 0
 	local count = 0
 	for commodity, amount in pairs(mission.pickup_comm) do
@@ -1994,7 +2009,7 @@ local onClick = function (mission)
 					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.DISTANCE)})})
 					              :SetColumn(1, {ui:VBox():PackEnd({ui:Label(dist_for_text)})}),
 				              ui:Margin(5),
-				              NavButton.New(l.SET_AS_TARGET, mission.planet_target),
+				              NavButton.New(l.SET_AS_TARGET, navbutton_target),
 				              ui:Margin(10),
 				              ui:Grid(2,1)
 					              :SetColumn(0, {ui:VBox():PackEnd({ui:Label(l.REWARD)})})
