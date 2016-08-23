@@ -647,6 +647,10 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Jump complete: %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.2} km/s rel.t. %frame"
@@ -1178,10 +1182,6 @@
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
-   },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Sandsynlighed for ankomst: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",

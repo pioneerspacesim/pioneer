@@ -647,6 +647,10 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis tengely"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Jump complete: %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "Relatív sebesség (%frame): %speed{f.2} km/s"
@@ -1178,10 +1182,6 @@
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
       "message" : "LNy: %pressure{f.2} atm"
-   },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Az érkezés valószínűsége: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
