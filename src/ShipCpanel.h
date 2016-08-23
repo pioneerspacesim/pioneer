@@ -75,15 +75,13 @@ private:
 
 	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;
-	Gui::Label *m_clock;
 
 	sigc::connection m_connOnRotationDampingChanged;
 
 	ScannerWidget *m_scanner;
 	UseEquipWidget *m_useEquipWidget;
-	Gui::MultiStateImageButton *m_camButton;
 	Gui::MultiStateImageButton *m_scannerEquipButton;
-	Gui::RadioGroup *m_leftButtonGroup, *m_rightButtonGroup;
+	Gui::RadioGroup *m_rightButtonGroup;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
 	Gui::MultiStateImageButton *m_rotationDampingButton;

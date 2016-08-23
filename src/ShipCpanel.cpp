@@ -36,7 +36,6 @@ m_game(game)
 	InitObject();
 
 	if (!shipCPanelObj.isMember("cam_button_state")) throw SavedGameCorruptException();
-	m_camButton->SetActiveState(shipCPanelObj["cam_button_state"].asInt());
 }
 
 void ShipCpanel::InitObject()
@@ -111,48 +110,6 @@ void ShipCpanel::InitObject()
 	b->SetRenderDimensions(22, 18);
 	Add(b, 110, 60);
 	m_timeAccelButtons[5] = b;
-
-	m_leftButtonGroup = new Gui::RadioGroup();
-	m_camButton = new Gui::MultiStateImageButton();
-	m_leftButtonGroup->Add(m_camButton);
-	m_camButton->SetSelected(true);
-	m_camButton->AddState(WorldView::CAM_INTERNAL, "icons/cam_internal.png", "icons/cam_internal_on.png", Lang::INTERNAL_VIEW);
-	m_camButton->AddState(WorldView::CAM_EXTERNAL, "icons/cam_external.png", "icons/cam_external_on.png", Lang::EXTERNAL_VIEW);
-	m_camButton->AddState(WorldView::CAM_SIDEREAL, "icons/cam_sidereal.png", "icons/cam_sidereal_on.png", Lang::SIDEREAL_VIEW);
-	m_camButton->SetShortcut(SDLK_F1, KMOD_NONE);
-	m_camButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeCamView));
-	m_camButton->SetRenderDimensions(30, 22);
-	// Add(m_camButton, 2, 56);
-
-	Gui::MultiStateImageButton *map_button = new Gui::MultiStateImageButton();
-	m_leftButtonGroup->Add(map_button);
-	map_button->SetSelected(false);
-	map_button->SetShortcut(SDLK_F2, KMOD_NONE);
-	map_button->AddState(0, "icons/cpan_f2_map.png", "icons/cpan_f2_map_on.png", Lang::NAVIGATION_STAR_MAPS);
-	map_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeToMapView));
-	map_button->SetRenderDimensions(30, 22);
-	// Add(map_button, 34, 56);
-
-	Gui::MultiStateImageButton *info_button = new Gui::MultiStateImageButton();
-	m_leftButtonGroup->Add(info_button);
-	info_button->SetSelected(false);
-	info_button->SetShortcut(SDLK_F3, KMOD_NONE);
-	info_button->AddState(0, "icons/cpan_f3_shipinfo.png", "icons/cpan_f3_shipinfo_on.png", Lang::SHIP_INFORMATION);
-	info_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnChangeInfoView));
-	info_button->SetRenderDimensions(30, 22);
-	// Add(info_button, 66, 56);
-
-	Gui::MultiStateImageButton *comms_button = new Gui::MultiStateImageButton();
-	m_leftButtonGroup->Add(comms_button);
-	comms_button->SetSelected(false);
-	comms_button->SetShortcut(SDLK_F4, KMOD_NONE);
-	comms_button->AddState(0, "icons/comms_f4.png", "icons/comms_f4_on.png", Lang::COMMS);
-	comms_button->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickComms));
-	comms_button->SetRenderDimensions(30, 22);
-	//	Add(comms_button, 98, 56);
-
-	m_clock = (new Gui::Label(""))->Color(255,178,0);
-	// Add(m_clock, 3, 15);
 
 	m_rightButtonGroup = new Gui::RadioGroup();
 	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_sector_view.png", "icons/map_sector_view_on.png");
@@ -235,7 +192,6 @@ void ShipCpanel::InitObject()
 ShipCpanel::~ShipCpanel()
 {
 	View::SetCpanel(nullptr);
-	delete m_leftButtonGroup;
 	delete m_rightButtonGroup;
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
@@ -303,12 +259,6 @@ void ShipCpanel::Update()
 void ShipCpanel::Draw()
 {
 	static double prevTime = -1.0;
-	const double currTime = m_game->GetTime();
-	if(!is_equal_exact(prevTime, currTime)) {
-		prevTime = currTime;
-		const std::string time = format_date(currTime);
-		m_clock->SetText(time);
-	}
 
 	Gui::Fixed::Draw();
 }
@@ -437,7 +387,6 @@ void ShipCpanel::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value shipCPanelObj(Json::objectValue); // Create JSON object to contain ship control panel data.
 	m_scanner->SaveToJson(shipCPanelObj);
-	shipCPanelObj["cam_button_state"] = m_camButton->GetState();
 	jsonObj["ship_c_panel"] = shipCPanelObj; // Add ship control panel object to supplied object.
 }
 
@@ -466,6 +415,6 @@ void ShipCpanel::ClearOverlay()
 void ShipCpanel::SelectGroupButton(int gid, int idx)
 {
 	Pi::BoinkNoise();
-	Gui::RadioGroup* group = (gid==1) ? m_rightButtonGroup : m_leftButtonGroup;
+	Gui::RadioGroup* group = m_rightButtonGroup;
 	group->SetSelected(idx);
 }

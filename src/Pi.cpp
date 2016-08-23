@@ -1060,7 +1060,6 @@ void Pi::HandleEscKey() {
 			}
 		}
 		else if (currentView == Pi::game->GetSectorView()) {
-			Pi::game->GetCpan()->SelectGroupButton(0, 0);
 			SetView(Pi::game->GetWorldView());
 		}
 		else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
@@ -1084,7 +1083,6 @@ void Pi::HandleEscKey() {
 						SetView(Pi::game->GetSectorView());
 					}
 					else if (!strcmp(tname, "InfoView") || !strcmp(tname, "StationView")) {
-						Pi::game->GetCpan()->SelectGroupButton(0, 0);
 						SetView(Pi::game->GetWorldView());
 					}
 				}
