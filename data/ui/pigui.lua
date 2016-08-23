@@ -220,6 +220,14 @@ local function clamp(value, min, max)
 	 end
 end
 
+local function count(tab)
+	 local i = 0
+	 for _,v in pairs(tab) do
+			i = i + 1
+	 end
+	 return i
+end
+
 local function point_on_circle_radius(center, radius, hours)
 	 -- 0 hours is top, going rightwards, negative goes leftwards
 	 local a = math.fmod(hours / 12 * two_pi, two_pi)
@@ -268,7 +276,7 @@ local function show_text(pos, text, color, anchor_horizontal, anchor_vertical, f
 			position.y = position.y - font.offset
 	 end
 	 pigui.AddText(position, color, text)
---	 pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
+	 --	 pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
 	 pigui.PopFont()
 	 return Vector(size.x, size.y)
 end
@@ -541,8 +549,6 @@ function show_missions()
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 end
-
-local selected
 
 local function show_settings()
 	 pigui.Begin("Settings", {})
@@ -858,46 +864,105 @@ local function get_body_icon_letter(body)
 			end
 	 end
 end
-local function show_nav_window()
-	 -- ******************** Navigation Window ********************
-	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
-	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
-	 pigui.Begin("Navigation", {})
-	 pigui.Columns(2, "navcolumns", false)
+
+local function get_hierarchical_bodies()
+	 local count = 0
 	 local body_paths = system:GetBodyPaths()
 	 -- create intermediate structure
 	 local data = {}
+	 local index = {}
+	 local lookup = {}
+--	 local body_path_count = 0
 	 for _,system_path in pairs(body_paths) do
+--			body_path_count = body_path_count + 1
 			local system_body = system_path:GetSystemBody()
 			if system_body then
+				 local parent = system_body.parent
+				 if parent then
+						local parent_children = index[parent.index] or {}
+						table.insert(parent_children, system_body)
+						index[parent.index] = parent_children
+				 end
 				 local body = Space.GetBody(system_body.index)
 				 if body then
 						local distance = player:DistanceTo(body)
-						table.insert(data, { systemBody = system_body, body = body, distance = distance, name = system_body.name })
+						local item = { systemBody = system_body, body = body, distance = distance, name = system_body.name, parent = parent, children = children }
+						count = count + 1
+						table.insert(data, item)
+						lookup[system_body.index] = item
 				 end
+			end
+	 end
+--	 print("body path count: " .. body_path_count)
+	 for _,body in pairs(data) do
+			local ch = index[body.systemBody.index]
+			local children = {}
+			if ch then
+				 for _,sb in pairs(ch) do
+						table.insert(children, lookup[sb.index])
+				 end
+				 body.children = children
+			end
+	 end
+	 local suns = {}
+	 for _,body in pairs(data) do
+			if body.parent == nil then
+				 table.insert(suns, body)
+			end
+	 end
+	 return suns, count
+end
+
+local function spaces(n)
+	 local res = ""
+	 for i=1,n+1 do
+			res = res .. " "
+	 end
+	 return res
+end
+local function show_nav_window()
+	 -- ******************** Navigation Window ********************
+--	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
+--	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
+	 pigui.Begin("Navigation", {})
+	 pigui.Columns(2, "navcolumns", false)
+	 local data,count = get_hierarchical_bodies()
+	 local nav_target = player:GetNavTarget()
+	 local lines = 0
+	 local function AddLine(data, indent)
+--			print("AddLine " .. spaces(indent) .. data.body.label)
+			lines = lines + 1
+--			pigui.BeginGroup()
+			pigui.PushFont("pionicons", 12)
+			pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
+--			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
+--				 player:SetNavTarget(data.body)
+--			end
+			pigui.PopFont()
+			pigui.SameLine()
+			if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
+				 player:SetNavTarget(data.body)
+			end
+			pigui.NextColumn()
+			pigui.Text(Format.Distance(data.distance))
+			pigui.NextColumn()
+--			pigui.EndGroup()
+			if pigui.IsItemClicked(1) then
+				 pigui.OpenPopup("##piepopup")
+				 radial_nav_target = data.body
+			end
+			for _,data in pairs(data.children or {}) do
+				 AddLine(data, indent + 1)
 			end
 	 end
 	 -- sort by distance
 	 table.sort(data, function(a,b) return a.distance < b.distance end)
 	 -- display
 	 for key,data in pairs(data) do
-			pigui.BeginGroup()
-			pigui.PushFont("pionicons", 12)
-			pigui.Text(get_body_icon_letter(data.body))
-			pigui.PopFont()
-			pigui.SameLine()
-			if(pigui.Selectable(data.name, selected == data.body, {"SpanAllColumns"})) then
-				 selected = data.body
-				 player:SetNavTarget(data.body)
-			end
-			pigui.NextColumn()
-			pigui.Text(Format.Distance(data.distance))
-			pigui.NextColumn()
-			pigui.EndGroup()
-			if pigui.IsItemClicked(1) then
-				 pigui.OpenPopup("##piepopup")
-				 radial_nav_target = data.body
-			end
+			AddLine(data, 0)
+	 end
+	 if lines ~= count then
+			error("nok: " .. count .. " count vs. lines " .. lines)
 	 end
 	 show_radial_menu()
 	 pigui.End()
@@ -1183,7 +1248,6 @@ local function show_bodies_on_screen()
 	 local labels
 
 	 for pos,group in pairs(body_groups) do
-			local size = 5
 			do
 				 local best_body, count = get_body_group_max_body(group)
 				 local textsize = show_text(pos, get_body_icon_letter(best_body), colors.lightgrey, anchor.center, anchor.center, pionicons.small)
@@ -1197,7 +1261,7 @@ local function show_bodies_on_screen()
 			table.sort(labels, function (a,b) return a.label < b.label end)
 			local label = table.concat(map(function (a) return a.label end, labels), "\n")
 			local show_tooltip = false
-			if (Vector(mp.x - pos.x,mp.y - pos.y)):magnitude() < size then
+			if (Vector(mp.x - pos.x,mp.y - pos.y)):magnitude() < cutoff then
 				 if pigui.IsMouseClicked(1) and #labels == 1 then
 						pigui.OpenPopup("##piepopup")
 						radial_nav_target = labels[1]
