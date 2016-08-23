@@ -223,19 +223,19 @@ void WorldView::InitObject()
 	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
-	m_hudHullTemp = new Gui::MeterBar(100.0f, Lang::HULL_TEMP, Color(255,0,0,204));
+	//	m_hudHullTemp = new Gui::MeterBar(100.0f, Lang::HULL_TEMP, Color(255,0,0,204));
 	m_hudWeaponTemp = new Gui::MeterBar(100.0f, Lang::WEAPON_TEMP, Color(255,128,0,204));
-	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
-	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
-	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(255, 255, 0, 204));
+	//	m_hudHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
+	//	m_hudShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
+	//	m_hudFuelGauge = new Gui::MeterBar(100.f, Lang::FUEL, Color(255, 255, 0, 204));
 	m_hudSensorGaugeStack = new Gui::VBox();
 	m_hudSensorGaugeStack->SetSpacing(2.0f);
 	//	Add(m_hudFuelGauge, 5.0f, Gui::Screen::GetHeight() - 104.0f);
-	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
+	//	Add(m_hudHullTemp, 5.0f, Gui::Screen::GetHeight() - 144.0f);
 	Add(m_hudWeaponTemp, 5.0f, Gui::Screen::GetHeight() - 184.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
-	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 135.0f);
-	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 175.0f);
+	//	Add(m_hudHullIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 135.0f);
+	//	Add(m_hudShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, Gui::Screen::GetHeight() - 175.0f);
 
 	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
 	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
@@ -936,19 +936,19 @@ void WorldView::RefreshButtonStateAndVisibility()
 				// 	m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, stringf(Lang::PRESSURE_N_ATMOSPHERES, formatarg("pressure", pressure)));
 				// else
 					m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
-				if (Pi::player->GetHullTemperature() > 0.01) {
-					m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
-					m_hudHullTemp->Show();
-				} else {
-					m_hudHullTemp->Hide();
-				}
+				// if (Pi::player->GetHullTemperature() > 0.01) {
+				// 	m_hudHullTemp->SetValue(float(Pi::player->GetHullTemperature()));
+				// 	m_hudHullTemp->Show();
+				// } else {
+				// 	m_hudHullTemp->Hide();
+					//}
 			} else {
 				m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, ""); // No atmosphere, no pressure
 			}
 		} else {
 			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_LEFT, "");
 			m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_BOTTOM_RIGHT, "");
-			m_hudHullTemp->Hide();
+			//			m_hudHullTemp->Hide();
 			if(m_curPlane != NONE) {
 				m_curPlane = NONE;
 				m_hudDockTop->RemoveInnerWidget();
@@ -956,7 +956,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 			}
 		}
 
-		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
+	//		m_hudFuelGauge->SetValue(Pi::player->GetFuel());
 
 		int hasSensors = 0;
 		Pi::player->Properties().Get("sensor_cap", hasSensors);
@@ -994,22 +994,22 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudWeaponTemp->Hide();
 	}
 
-	float hull = Pi::player->GetPercentHull();
-	if (hull <= 99.9f) { //visible when hull integrity <= 99.9%
-		m_hudHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
-		m_hudHullIntegrity->SetValue(hull*0.01f);
-		m_hudHullIntegrity->Show();
-	} else {
-		m_hudHullIntegrity->Hide();
-	}
-	float shields = Pi::player->GetPercentShields();
-	if (shields < 100.0f) {
-		m_hudShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
-		m_hudShieldIntegrity->SetValue(shields*0.01f);
-		m_hudShieldIntegrity->Show();
-	} else {
-		m_hudShieldIntegrity->Hide();
-	}
+	// float hull = Pi::player->GetPercentHull();
+	// if (hull <= 99.9f) { //visible when hull integrity <= 99.9%
+	// 	m_hudHullIntegrity->SetColor(get_color_for_warning_meter_bar(hull));
+	// 	m_hudHullIntegrity->SetValue(hull*0.01f);
+	// 	m_hudHullIntegrity->Show();
+	// } else {
+	// 	m_hudHullIntegrity->Hide();
+	// }
+	// float shields = Pi::player->GetPercentShields();
+	// if (shields < 100.0f) {
+	// 	m_hudShieldIntegrity->SetColor(get_color_for_warning_meter_bar(shields));
+	// 	m_hudShieldIntegrity->SetValue(shields*0.01f);
+	// 	m_hudShieldIntegrity->Show();
+	// } else {
+	// 	m_hudShieldIntegrity->Hide();
+	// }
 
 	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
 	if (b) {
