@@ -559,9 +559,17 @@
       "description" : "",
       "message" : "Balzo annullato."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Iperguida disabilitata"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Attiva Iperguida"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Iperguida: Zona vietata"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -638,6 +646,10 @@
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname Asse %axis"
+   },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Completamento salto: %percent%%"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1170,10 +1182,6 @@
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
-   },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Probabilità di arrivo: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",

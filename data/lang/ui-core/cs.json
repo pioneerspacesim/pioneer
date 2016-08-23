@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Hyperprostorový dosah"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Reckless hyperjump registered"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Už mě unavuje pracovat pro nic za nic. Víš vůbec co je to smlouva?"
@@ -790,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "Ok"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
    },
    "OPTIONS" : {
       "description" : "",

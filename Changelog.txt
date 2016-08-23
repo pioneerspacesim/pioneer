@@ -4,6 +4,8 @@ August 2016
      * Navbutton added to mission screens (#3736)
      * Add a TCP Lua console (#3768)
      * Low altitude hyperjumps are illegal (#3753)
+     * Add button to Settings menus so user can open their Pioneer folder (#3790)
+     * Navigation button update to allow for dynamicBodies as nav targets (SAR and general) (#3789)
 
    * Fixes
      * Fix crash in by Search & Rescue missions (#3770)
@@ -11,6 +13,7 @@ August 2016
      * Fix hyperspace star streaks (#3773)
      * prefix std:: to isnan so it builds on Linux (#3775)
      * Use ImageMagick to fix the iCCP profile problem (#3778)
+     * Fix crash when jumping into empty system (#3791)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
