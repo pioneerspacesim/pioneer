@@ -9,10 +9,13 @@
 class PiGui : public RefCounted {
 public:
 	static ImFont *pionillium12;
+	static ImFont *pionillium15;
 	static ImFont *pionillium18;
 	static ImFont *pionillium30;
 	static ImFont *pionillium36;
 	static ImFont *pionicons12;
+	//	static ImFont *pionicons18;
+	static ImFont *pionicons30;
 	
 	PiGui() {
 		lua_State *l = Lua::manager->GetLuaState();
@@ -30,10 +33,13 @@ public:
 		ImGuiIO &io = ImGui::GetIO();
 		static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
 		pionillium12 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 12.0f, nullptr, glyph_ranges);
-		pionicons12 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 12.0f, nullptr, glyph_ranges);
+		pionillium15 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 15.0f, nullptr, glyph_ranges);
 		pionillium18 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 18.0f, nullptr, glyph_ranges);
 		pionillium30 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 30.0f, nullptr, glyph_ranges);
 	  pionillium36 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 36.0f, nullptr, glyph_ranges);
+		pionicons12 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 12.0f, nullptr, glyph_ranges);
+		//		pionicons18 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 18.0f, nullptr, glyph_ranges);
+		pionicons30 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 30.0f, nullptr, glyph_ranges);
  	}
  	static void NewFrame(SDL_Window *window) {
  		ImGui_ImplSdlGL3_NewFrame(window);
@@ -55,7 +61,7 @@ public:
 		return ImGui::GetIO().WantCaptureKeyboard;
 	}
 
-	static int RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items);
+	static int RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items, ImFont *itemfont, std::vector<std::string> tooltips);
 	static bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
 private:
 	LuaRef m_handlers;

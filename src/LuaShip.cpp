@@ -1134,7 +1134,11 @@ static int l_ship_get_hull_percent(lua_State *l) {
 
 static int l_ship_get_shields_percent(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	lua_pushnumber(l, s->GetPercentShields());
+	double shields = s->GetPercentShields();
+	if(s->GetStats().shield_mass <= 0)
+		lua_pushnil(l);
+	else
+		lua_pushnumber(l, shields);
 	return 1;
 }
 

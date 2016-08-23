@@ -51,18 +51,28 @@ local colors = {
 	 green = { r=0, g=255, b=0 },
 	 combat_target = { r=200, g=100, b=100 },
 	 maneuver = { r=163, g=163, b=255 },
-	 orbit_gauge_ground = { r=112, g=46, b=48 },
-	 orbit_gauge_atmosphere = { r=18, g=25, b=164 },
-	 orbit_gauge_space = { r=77, g=77, b=81 }
+	 orbit_gauge_ground = { r=95, g=95, b=0 },
+	 orbit_gauge_atmosphere = { r=97, g=97, b=241 },
+	 orbit_gauge_space = { r=84, g=84, b=84 },
+	 noz_darkblue = { r=6, g=7, b=38 , a=180 },
+	 noz_mediumblue = { r=3, g=63, b=113 },
+	 noz_lightblue = { r=49, g=102, b=144 },
+	 shield_gauge = { r=0, g=255, b=255 },
+	 hull_gauge = { r=200, g=200, b=200 },
+	 tmp_gauge = { r=255, g=0, b=0 },
+	 gauge_darkergrey = {r=20,g=20,b=20},
+	 gauge_darkgrey = {r=35,g=35,b=35},
 }
 
 local pionicons = {
-	 small = { name = "pionicons", size = 12, offset = 0 }
+	 small = { name = "pionicons", size = 12, offset = nil },
+	 large = { name = "pionicons", size = 30, offset = nil }
 }
 local pionillium = {
-	 large = { name = "pionillium", size = 30, offset = 24 }, -- 10
-	 medium = { name = "pionillium", size = 18, offset = 14 }, -- 4
-	 small = { name = "pionillium", size = 12, offset = 10 } -- 3
+	 large = { name = "pionillium", size = 30, offset = 24 },
+	 medium = { name = "pionillium", size = 18, offset = 14 },
+	 medsmall = { name = "pionillium", size = 15, offset = 12 },
+	 small = { name = "pionillium", size = 12, offset = 10 }
 }
 
 local MyFormat = {
@@ -584,6 +594,40 @@ local function orbit_gauge_position(center, radius, ratio)
 	 return point_on_circle_radius(center, radius, 4.5 - 3 * ratio)
 end
 
+local function show_circular_gauge(center, ratio, color, main_text, small_text)
+	 local radius = 23
+	 local thickness = 10
+	 local segments = circle_segments(radius)
+	 local center_text_font = pionillium.medium
+	 local main_text_font = pionillium.medsmall
+	 local small_text_font = pionillium.small
+	 local arc_start = pi_2
+	 local arc_end = two_pi
+	 local range = arc_end - arc_start
+	 local first_quarter = arc_start + range * 0.25
+	 local second_quarter = arc_start + range * 0.50
+	 local third_quarter = arc_start + range * 0.75
+	 local ratio_end = arc_start + range * clamp(ratio, 0, 1)
+
+	 -- quarters
+	 pigui.PathArcTo(center, radius, arc_start, first_quarter, segments)
+	 pigui.PathStroke(colors.gauge_darkergrey, false, thickness * 0.99)
+	 pigui.PathArcTo(center, radius, first_quarter, second_quarter, segments)
+	 pigui.PathStroke(colors.gauge_darkgrey, false, thickness * 0.99)
+	 pigui.PathArcTo(center, radius, second_quarter, third_quarter, segments)
+	 pigui.PathStroke(colors.gauge_darkergrey, false, thickness * 0.99)
+	 pigui.PathArcTo(center, radius, third_quarter, arc_end, segments)
+	 pigui.PathStroke(colors.gauge_darkgrey, false, thickness * 0.99)
+
+	 pigui.PathArcTo(center, radius, arc_start, ratio_end, segments)
+	 pigui.PathStroke(color, false, thickness)
+	 show_text(center, math.ceil(ratio * 100), colors.lightgrey, anchor.center, anchor.center, center_text_font)
+	 show_text(center + Vector(4, radius), main_text, colors.lightgrey, anchor.left, anchor.center, main_text_font)
+	 if small_text then
+			show_text(center + Vector(radius, radius):normalized()*radius, small_text, colors.lightgrey, anchor.left, anchor.bottom, small_text_font)
+	 end
+end
+
 local function show_navball()
 	 pigui.AddCircle(navball_center, navball_radius, colors.lightgrey, 128, 1.0)
 	 pigui.AddText(Vector(navball_center.x, navball_center.y + navball_radius + 5), colors.lightgrey, "R: 100km")
@@ -755,6 +799,15 @@ local function show_navball()
 				 symbol.chevron(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, periapsis), thickness / 2.3, colors.lightgrey, 2, dir)
 			end
 	 end
+	 -- circular stats, lower left
+	 local position = Vector(navball_center.x - 180,pigui.screen_height - 40)
+	 show_circular_gauge(position, player:GetHullTemperature(), colors.tmp_gauge, "Temp", "Hull")
+	 show_circular_gauge(position + Vector(-90, 0), player:GetHullPercent() / 100, colors.hull_gauge, "Hull", "Integrity")
+	 if player:GetShieldsPercent() then
+			show_circular_gauge(position + Vector(-180, 0), player:GetShieldsPercent() / 100, colors.shield_gauge, "Shield")
+	 end
+	 -- gun stats, left side
+
 end
 
 local radial_nav_target = nil
@@ -812,31 +865,33 @@ local function show_radial_menu()
 	 end
 	 local items = {}
 	 local actions = {}
-	 local function addItem(item, action)
-			table.insert(items, item)
+	 local tooltips = {}
+	 local function addItem(icon, item, action)
+			table.insert(items, icon)
 			table.insert(actions, action)
+			table.insert(tooltips, item)
 	 end
 
 	 if radial_nav_target then
 			local typ = radial_nav_target.superType
 			if typ == "STARPORT" then
-				 addItem("Docking Clearance", "clearance")
-				 addItem("Auto-Dock", "dock")
+				 addItem("6", "Docking Clearance", "clearance")
+				 addItem("4", "Auto-Dock", "dock")
 			end
-			addItem("Fly to", "fly_to")
+			addItem("5", "Fly to", "fly_to")
 			if typ == "STAR" or typ == "ROCKY_PLANET" or typ == "GAS_GIANT" then
-				 addItem("Low Orbit", "low_orbit")
-				 addItem("Medium Orbit", "medium_orbit")
-				 addItem("High Orbit", "high_orbit")
+				 addItem("1", "Low Orbit", "low_orbit")
+				 addItem("2", "Medium Orbit", "medium_orbit")
+				 addItem("3", "High Orbit", "high_orbit")
 			end
-			addItem("Hold Radial in", "radial_in")
-			addItem("Hold radial out", "radial_out")
-			addItem("Hold normal", "normal")
-			addItem("Hold anti-normal", "anti_normal")
-			addItem("Hold prograde", "prograde")
-			addItem("Hold retrograde", "retrograde")
+			-- addItem("Hold Radial in", "radial_in")
+			-- addItem("Hold radial out", "radial_out")
+			-- addItem("Hold normal", "normal")
+			-- addItem("Hold anti-normal", "anti_normal")
+			-- addItem("Hold prograde", "prograde")
+			-- addItem("Hold retrograde", "retrograde")
 	 end
-	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items)
+	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items, pionicons.large.name, pionicons.large.size, tooltips)
 	 if n >= 0 then
 			local action = actions[n + 1]
 			radial_actions[action](radial_nav_target)
@@ -872,9 +927,9 @@ local function get_hierarchical_bodies()
 	 local data = {}
 	 local index = {}
 	 local lookup = {}
---	 local body_path_count = 0
+	 --	 local body_path_count = 0
 	 for _,system_path in pairs(body_paths) do
---			body_path_count = body_path_count + 1
+			--			body_path_count = body_path_count + 1
 			local system_body = system_path:GetSystemBody()
 			if system_body then
 				 local parent = system_body.parent
@@ -893,7 +948,7 @@ local function get_hierarchical_bodies()
 				 end
 			end
 	 end
---	 print("body path count: " .. body_path_count)
+	 --	 print("body path count: " .. body_path_count)
 	 for _,body in pairs(data) do
 			local ch = index[body.systemBody.index]
 			local children = {}
@@ -922,22 +977,22 @@ local function spaces(n)
 end
 local function show_nav_window()
 	 -- ******************** Navigation Window ********************
---	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
---	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
+	 --	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
+	 --	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
 	 pigui.Begin("Navigation", {})
 	 pigui.Columns(2, "navcolumns", false)
 	 local data,count = get_hierarchical_bodies()
 	 local nav_target = player:GetNavTarget()
 	 local lines = 0
 	 local function AddLine(data, indent)
---			print("AddLine " .. spaces(indent) .. data.body.label)
+			--			print("AddLine " .. spaces(indent) .. data.body.label)
 			lines = lines + 1
---			pigui.BeginGroup()
+			pigui.BeginGroup()
 			pigui.PushFont("pionicons", 12)
 			pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
---			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
---				 player:SetNavTarget(data.body)
---			end
+			--			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
+			--				 player:SetNavTarget(data.body)
+			--			end
 			pigui.PopFont()
 			pigui.SameLine()
 			if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
@@ -946,7 +1001,7 @@ local function show_nav_window()
 			pigui.NextColumn()
 			pigui.Text(Format.Distance(data.distance))
 			pigui.NextColumn()
---			pigui.EndGroup()
+			pigui.EndGroup()
 			if pigui.IsItemClicked(1) then
 				 pigui.OpenPopup("##piepopup")
 				 radial_nav_target = data.body
@@ -1310,7 +1365,7 @@ end
 local function show_hud()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
-	 local windowbg = colors.windowbg
+	 local windowbg = colors.noz_darkblue
 	 -- transparent full-size window, no inputs
 	 pigui.SetNextWindowPos(Vector(0, 0), "Always")
 	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
@@ -1391,7 +1446,15 @@ local function show_hud()
 			local speed = Vector(pigui.GetVelocity("nav_prograde"))
 			local spd,unit = MyFormat.Distance(speed:magnitude())
 			position = point_on_circle_radius(center, reticule_text_radius, 2.9)
-			show_text_fancy(position, { spd, unit .. "/s" }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
+			local textsize = show_text_fancy(position, { spd, unit .. "/s" }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
+			do
+				 local pos = Vector(player:GetPositionRelTo(navTarget))
+				 local vel = Vector(player:GetVelocityRelTo(navTarget))
+				 local proj = pos:dot(vel) / pos:magnitude()
+				 local spd,unit = MyFormat.Distance(proj)
+				 show_text_fancy(position + Vector(textsize.x * 1.1, 0), { spd, unit .. "/s" }, { colors.lightgreen, colors.darkgreen }, { pionillium.medium, pionillium.small }, anchor.left, anchor.bottom)
+			end
+
 
 			local distance = player:DistanceTo(navTarget)
 			local dist,unit = MyFormat.Distance(distance)
@@ -1520,7 +1583,7 @@ local function show_hud()
 	 pigui.End()
 	 pigui.PopStyleColor(1);
 
-	 pigui.PushStyleColor("WindowBg", colors.windowbg)
+	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
 	 show_nav_window()
 	 show_contacts()
 	 -- show_settings()
@@ -1536,8 +1599,11 @@ end
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
+	 pigui.PushStyleVar("WindowRounding", 0)
 	 if should_show_hud then
 			show_hud()
 	 end
+
    handle_global_keys()
+	 pigui.PopStyleVar(1)
 end

@@ -37,12 +37,12 @@ static ImGuiSelectableFlags luaL_checkImGuiSelectableFlags(lua_State *l, int ind
 	int theflags = 0;
 	for(LuaTable::VecIter<std::string> iter = flags.Begin<std::string>(); iter != flags.End<std::string>(); ++iter) {
 		std::string flag = *iter;
-	if(!flag.compare("DontClosePopups"))
-		theflags |= ImGuiSelectableFlags_DontClosePopups;
-	else if (!flag.compare("SpanAllColumns"))
-		theflags |= ImGuiSelectableFlags_SpanAllColumns;
-	else if (!flag.compare("AllowDoubleClick"))
-		theflags |= ImGuiSelectableFlags_AllowDoubleClick;
+		if(!flag.compare("DontClosePopups"))
+			theflags |= ImGuiSelectableFlags_DontClosePopups;
+		else if (!flag.compare("SpanAllColumns"))
+			theflags |= ImGuiSelectableFlags_SpanAllColumns;
+		else if (!flag.compare("AllowDoubleClick"))
+			theflags |= ImGuiSelectableFlags_AllowDoubleClick;
 	}
 	return theflags;
 }
@@ -59,7 +59,7 @@ static ImGuiSetCond luaL_checkImGuiSetCond(lua_State *l, int index) {
 	else if (!condstr.compare("Appearing"))
 		return ImGuiSetCond_Appearing;
 	// TODO: else error
-	return -1; 
+	return -1;
 }
 
 static ImGuiCol luaL_checkImGuiCol(lua_State *l, int index) {
@@ -70,12 +70,20 @@ static ImGuiCol luaL_checkImGuiCol(lua_State *l, int index) {
 	return -1;
 }
 
+static ImGuiStyleVar luaL_checkImGuiStyleVar(lua_State *l, int index) {
+	std::string stylestr = luaL_checkstring(l, index);
+	if(!stylestr.compare("WindowRounding"))
+		return ImGuiStyleVar_WindowRounding;
+	// TODO: else error
+	return -1;
+}
+
 static bool luaL_checkbool(lua_State *l, int index) {
-   if ( lua_isboolean( l, index ) )
-		 return lua_toboolean( l, index );
-    else
-			Output("Error: Cannot convert non 'boolean' value to bool");
-	 return false;
+	if ( lua_isboolean( l, index ) )
+		return lua_toboolean( l, index );
+	else
+		Output("Error: Cannot convert non 'boolean' value to bool");
+	return false;
 }
 
 // /*
@@ -480,6 +488,19 @@ static int l_pigui_pop_style_color(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_push_style_var(lua_State *l) {
+	int style = luaL_checkImGuiStyleVar(l, 1);
+	float val = luaL_checknumber(l, 2);
+	ImGui::PushStyleVar(style, val);
+	return 0;
+}
+
+static int l_pigui_pop_style_var(lua_State *l) {
+	int num = luaL_checkinteger(l, 1);
+	ImGui::PopStyleVar(num);
+	return 0;
+}
+
 static int l_pigui_add_line(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = luaL_checkImVec2(l, 1);
@@ -581,7 +602,7 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 	std::string name = luaL_checkstring(l, 1);
 	WorldView *wv = Pi::game->GetWorldView();
 	const Indicator *marker;
-	
+
 	if(!name.compare("frame_prograde"))
 		marker = wv->GetFrameProgradeIndicator();
 	else if(!name.compare("frame_retrograde"))
@@ -766,13 +787,12 @@ static int l_pigui_is_mouse_clicked(lua_State *l) {
 	return 1;
 }
 
-static int l_pigui_push_font(lua_State *l) {
-	std::string fontname = luaL_checkstring(l, 1);
-	int size = luaL_checkinteger(l, 2);
+static ImFont *get_font(std::string fontname, int size) {
 	ImFont *font;
 	if(!fontname.compare("pionillium")) {
 		switch(size) {
 		case 12: font = PiGui::pionillium12; break;
+		case 15: font = PiGui::pionillium15; break;
 		case 18: font = PiGui::pionillium18; break;
 		case 30: font = PiGui::pionillium30; break;
 		case 36: font = PiGui::pionillium36; break;
@@ -781,10 +801,19 @@ static int l_pigui_push_font(lua_State *l) {
 	} else if (!fontname.compare("pionicons")) {
 		switch(size) {
 		case 12: font = PiGui::pionicons12; break;
+			//		case 18: font = PiGui::pionicons18; break;
+		case 30: font = PiGui::pionicons30; break;
 		default: return 0;
 		}
 	} else
 		return 0;
+	return font;
+}
+
+static int l_pigui_push_font(lua_State *l) {
+	std::string fontname = luaL_checkstring(l, 1);
+	int size = luaL_checkinteger(l, 2);
+	ImFont *font = get_font(fontname, size);
 	ImGui::PushFont(font);
 	return 0;
 }
@@ -873,7 +902,16 @@ static int l_pigui_radial_menu(lua_State *l) {
 	for(LuaTable::VecIter<std::string> iter = strings.Begin<std::string>(); iter != strings.End<std::string>(); ++iter) {
 		items.push_back(*iter);
 	}
-	int n = PiGui::RadialPopupSelectMenu(center, id, items);
+	std::string fontname = luaL_checkstring(l, 4);
+	int size = luaL_checkinteger(l, 5);
+	ImFont *font = get_font(fontname, size);
+	std::vector<std::string> tooltips;
+	LuaTable tts(l, 6);
+	for(LuaTable::VecIter<std::string> iter = tts.Begin<std::string>(); iter != tts.End<std::string>(); ++iter) {
+		tooltips.push_back(*iter);
+	}
+
+	int n = PiGui::RadialPopupSelectMenu(center, id, items, font, tooltips);
 	lua_pushinteger(l, n);
 	return 1;
 }
@@ -939,6 +977,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "GetVelocity",            l_pigui_get_velocity },
 		{ "PushStyleColor",         l_pigui_push_style_color },
 		{ "PopStyleColor",          l_pigui_pop_style_color },
+		{ "PushStyleVar",           l_pigui_push_style_var },
+		{ "PopStyleVar",            l_pigui_pop_style_var },
 		{ "Columns",                l_pigui_columns },
 		{ "NextColumn",             l_pigui_next_column },
 		{ "Text",                   l_pigui_text },
