@@ -56,6 +56,9 @@ local colors = {
 	 orbit_gauge_space = { r=77, g=77, b=81 }
 }
 
+local pionicons = {
+	 small = { name = "pionicons", size = 12, offset = 0 }
+}
 local pionillium = {
 	 large = { name = "pionillium", size = 30, offset = 24 }, -- 10
 	 medium = { name = "pionillium", size = 18, offset = 14 }, -- 4
@@ -413,7 +416,7 @@ local symbol = {
 			pigui.AddCircle(pos, size, col, segments, thickness)
 			pigui.AddCircleFilled(pos, size / 2, col, segments)
 	 end,
-	 emptyBullseye = function(pos, size, col, thickness, direction)
+	 empty_bullseye = function(pos, size, col, thickness, direction)
 			local segments = circle_segments(size)
 			pigui.AddCircle(pos, size, col, segments, thickness)
 			pigui.AddCircle(pos, size / 2, col, segments, thickness)
@@ -728,7 +731,7 @@ local function show_navball()
 			local apoapsis = aa > 0 and clamp((aa - min_height) / range, ends, 1 - ends/2) or nil
 			local periapsis = clamp((pa - min_height) / range, ends, 1 - ends/2)
 			local atmosphere_ratio = frame_sb.hasAtmosphere and math.max(ends, (atmosphere_height - min_height) / range - 2 * ends) or 0
-			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness, 0.0, 1.0)
+			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness * 0.99, 0.0, 1.0)
 			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_ground, thickness, 0, ends)
 			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_atmosphere, thickness, ends, ends + atmosphere_ratio)
 
@@ -833,6 +836,28 @@ local function show_radial_menu()
 			radial_actions[action](radial_nav_target)
 	 end
 end
+local function get_body_icon_letter(body)
+	 local typ = body.type
+	 local superType = body.superType
+	 if superType == "STAR" then
+			return "S"
+	 elseif superType == "GAS_GIANT" then
+			return "P"
+	 elseif superType == "ROCKY_PLANET" then
+			sb = body:GetSystemBody()
+			if sb.parent.superType == "STAR" then
+				 return "P"
+			else
+				 return "M"
+			end
+	 else -- if superType == "STARPORT" then
+			if typ == "STARPORT_ORBITAL" then
+				 return "s"
+			else -- if typ == "STARPORT_SURFACE"
+				 return "p"
+			end
+	 end
+end
 local function show_nav_window()
 	 -- ******************** Navigation Window ********************
 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
@@ -857,6 +882,10 @@ local function show_nav_window()
 	 -- display
 	 for key,data in pairs(data) do
 			pigui.BeginGroup()
+			pigui.PushFont("pionicons", 12)
+			pigui.Text(get_body_icon_letter(data.body))
+			pigui.PopFont()
+			pigui.SameLine()
 			if(pigui.Selectable(data.name, selected == data.body, {"SpanAllColumns"})) then
 				 selected = data.body
 				 player:SetNavTarget(data.body)
@@ -1093,9 +1122,39 @@ local function show_ships_on_screen()
 	 end
 end
 
+-- return the "larger" body
+local function get_max_body(body_a, body_b)
+	 -- feel free to change
+	 local order = { "S", "P", "M", "s", "p" }
+	 local icon_a = get_body_icon_letter(body_a)
+	 local icon_b = get_body_icon_letter(body_b)
+	 for _,letter in pairs(order) do
+			if icon_a == letter then
+				 return body_a
+			elseif icon_b == letter then
+				 return body_b
+			end
+	 end
+	 return body_a
+end
+
+local function get_body_group_max_body(group)
+	 local best_body
+	 local i = 0
+	 for _,body in pairs(group) do
+			if not best_body then
+				 best_body = body
+			else
+				 best_body = get_max_body(best_body, body)
+			end
+			i = i + 1
+	 end
+	 return best_body, i
+end
+
 local function show_bodies_on_screen()
 	 local body_groups = {}
-	 local cutoff = 5
+	 local cutoff = 15
 	 for key,data in pairs(system:GetBodyPaths()) do
 			local system_body = data:GetSystemBody()
 			local body = Space.GetBody(system_body.index)
@@ -1125,7 +1184,11 @@ local function show_bodies_on_screen()
 
 	 for pos,group in pairs(body_groups) do
 			local size = 5
-			pigui.AddCircleFilled(pos, size, colors.lightgrey, 8)
+			do
+				 local best_body, count = get_body_group_max_body(group)
+				 local textsize = show_text(pos, get_body_icon_letter(best_body), colors.lightgrey, anchor.center, anchor.center, pionicons.small)
+				 show_text(pos + Vector(textsize.x * 1.1), best_body.label .. (count > 1 and " +" or ""), colors.lightgrey, anchor.left, anchor.center, pionillium.small)
+			end
 			local mp = pigui.GetMousePos()
 			labels = {}
 			for p,body in pairs(group) do
@@ -1167,15 +1230,16 @@ local function show_bodies_on_screen()
 end
 
 
-local function show_marker(name, painter, color, show_in_reticule, direction)
+local function show_marker(name, painter, color, show_in_reticule, direction, size)
+	 local siz = size and size or 12
 	 local pos,dir,point,side = markerPos(name, reticule_radius - 10)
 	 if pos and show_in_reticule then
-			local size = 4
-			painter(pos, size, color, 1.0, direction)
+			local thesize = siz / 3
+			painter(pos, thesize, color, 1.0, direction)
 	 end
 	 if side == "onscreen" and point then
-			local size = 12
-			painter(point, size, color, 3.0, direction)
+			local thesize = siz
+			painter(point, thesize, color, 3.0, direction)
 	 end
 end
 
@@ -1327,10 +1391,10 @@ local function show_hud()
 			-- ******************** Frame markers ********************
 			show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true)
 			show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators)
-			show_marker("normal", symbol.normal, colors.orbital_marker, false)
-			show_marker("anti_normal", symbol.anti_normal, colors.orbital_marker, false)
-			show_marker("radial_out", symbol.radial_out, colors.orbital_marker, false)
-			show_marker("radial_in", symbol.radial_in, colors.orbital_marker, false)
+			show_marker("normal", symbol.normal, colors.orbital_marker, false, nil, 8)
+			show_marker("anti_normal", symbol.anti_normal, colors.orbital_marker, false, nil, 8)
+			show_marker("radial_out", symbol.radial_out, colors.orbital_marker, false, nil, 8)
+			show_marker("radial_in", symbol.radial_in, colors.orbital_marker, false, nil, 8)
 			show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true)
 			local pos,dir = markerPos("frame", reticule_radius + 5)
 			if pos then
@@ -1342,7 +1406,7 @@ local function show_hud()
 			end
 			-- ******************** Combat target ********************
 			show_marker("combat_target", symbol.circle, colors.combat_target, true)
-			show_marker("combat_target_lead", symbol.emptyBullseye, colors.combat_target, false)
+			show_marker("combat_target_lead", symbol.empty_bullseye, colors.combat_target, false)
 	 end
 	 -- ******************** NavTarget markers ********************
 	 show_marker("nav_prograde", symbol.diamond, colors.lightgreen, true)

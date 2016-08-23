@@ -5,6 +5,7 @@ ImFont *PiGui::pionillium12 = nullptr;
 ImFont *PiGui::pionillium18 = nullptr;
 ImFont *PiGui::pionillium30 = nullptr;
 ImFont *PiGui::pionillium36 = nullptr;
+ImFont *PiGui::pionicons12 = nullptr;
 
 int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items)
 {

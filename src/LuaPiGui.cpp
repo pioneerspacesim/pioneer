@@ -778,6 +778,11 @@ static int l_pigui_push_font(lua_State *l) {
 		case 36: font = PiGui::pionillium36; break;
 		default: return 0;
 		}
+	} else if (!fontname.compare("pionicons")) {
+		switch(size) {
+		case 12: font = PiGui::pionicons12; break;
+		default: return 0;
+		}
 	} else
 		return 0;
 	ImGui::PushFont(font);
