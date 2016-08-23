@@ -1,3 +1,22 @@
+-- TODO:
+-- pause
+-- time accel
+-- map sub buttons
+-- rotation dampening button
+-- alerts
+-- comms log
+-- multi-function-display / scanner?
+-- speed lines
+-- wheels up/down button
+-- hyperspace button
+-- blastoff / undock
+-- set speed / autopilot / manual
+-- heading/pitch indicator
+-- target hull/shield, general info
+-- combat target / lead indicators + line
+-- hyperspace
+-- lua console?
+
 local Format = import('Format')
 local Game = import('Game')
 local Space = import('Space')
@@ -287,7 +306,7 @@ local function show_text(pos, text, color, anchor_horizontal, anchor_vertical, f
 			position.y = position.y - font.offset
 	 end
 	 pigui.AddText(position, color, text)
-	 --	 pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
+	 -- pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
 	 pigui.PopFont()
 	 return Vector(size.x, size.y)
 end
@@ -837,18 +856,19 @@ local function show_contacts()
 end
 
 local radial_actions = {
-	 dock = function(body) player:AIDockWith(body); player:SetNavTarget(body) end,
-	 fly_to = function(body) player:AIFlyTo(body); player:SetNavTarget(body)  end,
-	 low_orbit = function(body) player:AIEnterLowOrbit(body); player:SetNavTarget(body)  end,
-	 medium_orbit = function(body) player:AIEnterMediumOrbit(body); player:SetNavTarget(body)  end,
-	 high_orbit = function(body) player:AIEnterHighOrbit(body); player:SetNavTarget(body)  end,
-	 clearance = function(body) player:RequestDockingClearance(body); player:SetNavTarget(body)  end,
-	 radial_in = function(body) print("implement radial_in") end,
+	 dock = function(body) player:AIDockWith(body); player:SetNavTarget(body) end, -- TODO check for autopilot
+	 fly_to = function(body) player:AIFlyTo(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
+	 low_orbit = function(body) player:AIEnterLowOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
+	 medium_orbit = function(body) player:AIEnterMediumOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
+	 high_orbit = function(body) player:AIEnterHighOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
+	 clearance = function(body) player:RequestDockingClearance(body); player:SetNavTarget(body)  end, -- TODO check for room for docking, or make it so you can be denied
+	 radial_in = function(body) print("implement radial_in") end, -- 	Pi::player->GetPlayerController()->SetFlightControlState(s); CONTROL_FIXHEADING_FORWARD
 	 radial_out = function(body) print("implement radial_out") end,
 	 normal = function(body) print("implement normal") end,
 	 anti_normal = function(body) print("implement anti_normal") end,
 	 prograde = function(body) print("implement prograde") end,
-	 retrograde = function(body) print("implement retrograde") end
+	 retrograde = function(body) print("implement retrograde") end,
+	 -- hypercloud_analyzer: 	Pi::game->GetSectorView()->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
 local function show_radial_menu()
@@ -906,7 +926,7 @@ local function get_body_icon_letter(body)
 	 if superType == "STAR" then
 			return "S"
 	 elseif superType == "GAS_GIANT" then
-			return "P"
+			return "G"
 	 elseif superType == "ROCKY_PLANET" then
 			sb = body:GetSystemBody()
 			if sb.parent.superType == "STAR" then
@@ -1248,7 +1268,7 @@ end
 -- return the "larger" body
 local function get_max_body(body_a, body_b)
 	 -- feel free to change
-	 local order = { "S", "P", "M", "s", "p" }
+	 local order = { "S", "G", "P", "M", "s", "p" }
 	 local icon_a = get_body_icon_letter(body_a)
 	 local icon_b = get_body_icon_letter(body_b)
 	 for _,letter in pairs(order) do
@@ -1587,9 +1607,12 @@ local function show_hud()
 	 pigui.PopStyleColor(1);
 
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
+
 	 show_nav_window()
-	 show_contacts()
+	 -- show_contacts()
+
 	 -- show_settings()
+	 
 	 -- show_debug_orbit()
 	 --	show_debug_thrust()
 	 -- show_debug_temp()
