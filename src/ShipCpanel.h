@@ -56,11 +56,8 @@ private:
 
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
-	void OnChangeCamView(Gui::MultiStateImageButton *b);
 	void OnChangeMapView(enum MapView);
-	void OnChangeInfoView(Gui::MultiStateImageButton *b);
 	void OnClickTimeaccel(Game::TimeAccel val);
-	void OnClickComms(Gui::MultiStateImageButton *b);
 	void OnClickRotationDamping(Gui::MultiStateImageButton *b);
 	// Handler for scanner view / equipment view toggle button
 	void OnClickScannerEquip(Gui::MultiStateImageButton *b);

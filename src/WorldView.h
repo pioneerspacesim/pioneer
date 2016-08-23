@@ -78,9 +78,6 @@ public:
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	CameraController *GetCameraController() const { return m_activeCameraController; }
-	void ToggleTargetActions();
-	void ShowTargetActions();
-	void HideTargetActions();
 	int GetActiveWeapon() const;
 	void OnClickBlastoff();
 
@@ -122,29 +119,14 @@ private:
 
 	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
-	void UpdateCommsOptions();
 
 	void ChangeInternalCameraMode(InternalCameraController::Mode m);
-	void UpdateCameraName();
-
 
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
 	void HideIndicator(Indicator &indicator);
-	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
 	void OnToggleLabels();
-
-	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
-	void DrawTargetSquare(const Indicator &marker, const Color &c);
-	void DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c);
-	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
-	void DrawEdgeMarker(const Indicator &marker, const Color &c);
-
-	Gui::Button *AddCommsOption(const std::string &msg, int ypos, int xoffset, int optnum);
-	void AddCommsNavOption(const std::string &msg, Body *target);
-	void OnClickCommsNavOption(Body *target);
-	void BuildCommsNavOptions();
 
 	void OnClickHyperspace(Gui::MultiStateImageButton *b);
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
@@ -170,10 +152,6 @@ private:
 	std::unique_ptr<SpeedLines> m_speedLines;
 
 	Gui::Label *m_pauseText;
-	Gui::Label *m_showCameraName;
-	Gui::Fixed *m_commsOptions;
-	Gui::VBox *m_commsNavOptions;
-	Gui::HBox *m_commsNavOptionsContainer;
 	Gui::Label *m_flightStatus, *m_debugText;
 	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
@@ -181,8 +159,6 @@ private:
 	Gui::MultiStateImageButton *m_hyperspaceButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
-	Uint32 m_showTargetActionsTimeout;
-	Uint32 m_showCameraNameTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;

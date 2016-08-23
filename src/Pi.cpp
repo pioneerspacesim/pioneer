@@ -1051,7 +1051,6 @@ void Pi::HandleEvents()
 void Pi::HandleEscKey() {
 	if (currentView != 0) {
 		if (currentView == Pi::game->GetWorldView()) {
-			static_cast<WorldView*>(currentView)->HideTargetActions();
 			if (!Pi::game->IsPaused()) {
 				Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
 			}
