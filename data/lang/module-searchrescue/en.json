@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting 1 ton of hydrogen fuel."
+      "message" : "The pilot is requesting {unit} tons of hydrogen fuel."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -265,7 +265,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for 1 ton of hydrogen fuel."
+      "message" : "The pilot is asking for {unit} tons of hydrogen fuel."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -297,7 +297,7 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "We request the delivery of {unit} tons of hydrogen fuel to the ship."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
