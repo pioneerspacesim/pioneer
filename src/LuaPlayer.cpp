@@ -268,161 +268,161 @@ static int l_get_gps(lua_State *l)
 			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
 			if (!frame->IsRotFrame())
 				frame = frame->GetRotFrame();
+			vector3d surface_pos = pos.Normalized();
+			double radius = 0.0;
 			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
-				vector3d surface_pos = pos.Normalized();
-				double radius = terrain->GetTerrainHeight(surface_pos);
-				double altitude = center_dist - radius;
-				if (altitude < 10000000.0 && altitude < 0.5 * radius) {
-					vector3d velocity = player->GetVelocity();
-					double vspeed = velocity.Dot(surface_pos);
-					if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
-
-					//			RefreshHeadingPitch();
-
-					if (altitude < 0) altitude = 0;
-					lua_pushnumber(l, altitude);
-					lua_pushnumber(l, vspeed);
-					const float lat = RAD2DEG(asin(surface_pos.y));
-					const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
-					std::string lat_str = DecimalToDegMinSec(lat);
-					std::string lon_str = DecimalToDegMinSec(lon);
-					lua_pushstring(l, lat_str.c_str());
-					lua_pushstring(l, lon_str.c_str());
-					return 4;
-				}
+				radius = terrain->GetTerrainHeight(surface_pos);
 			}
-		}
+			double altitude = center_dist - radius;
+			vector3d velocity = player->GetVelocity();
+			double vspeed = velocity.Dot(surface_pos);
+			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+			//			RefreshHeadingPitch();
+
+			if (altitude < 0) altitude = 0;
+			lua_pushnumber(l, altitude);
+			lua_pushnumber(l, vspeed);
+			const float lat = RAD2DEG(asin(surface_pos.y));
+			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+			std::string lat_str = DecimalToDegMinSec(lat);
+			std::string lon_str = DecimalToDegMinSec(lon);
+			lua_pushstring(l, lat_str.c_str());
+			lua_pushstring(l, lon_str.c_str());
+			return 4;
+			//				}
 	}
+}
+return 0;
+}
+
+static int l_get_orbit(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto orbit = player->ComputeOrbit();
+	double eccentricity = orbit.GetEccentricity();
+	lua_pushnumber(l, eccentricity);
+	lua_pushnumber(l, orbit.GetSemiMajorAxis());
+	lua_pushnumber(l, orbit.GetInclination());
+	if(eccentricity <= 1.0)
+		lua_pushnumber(l, orbit.Period());
+	else
+		lua_pushnil(l);
+	auto aa = orbit.Apogeum();
+	lua_pushnumber(l, orbit.OrbitalTimeAtPos(aa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
+	LuaTable apoapsis(l);
+	apoapsis.Set("x", aa.x);
+	apoapsis.Set("y", aa.y);
+	apoapsis.Set("z", aa.z);
+	auto pa = orbit.Perigeum();
+	lua_pushnumber(l, orbit.OrbitalTimeAtPos(pa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
+	LuaTable periapsis(l);
+	periapsis.Set("x", pa.x);
+	periapsis.Set("y", pa.y);
+	periapsis.Set("z", pa.z);
+
+	return 8;
+}
+
+static int l_get_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetPlayerController()->GetLowThrustPower());
+	return 1;
+}
+
+static int l_set_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	double thrust = luaL_checknumber(l, 2);
+	player->GetPlayerController()->SetLowThrustPower(thrust);
 	return 0;
 }
 
-	static int l_get_orbit(lua_State *l)
-	{
-		Player *player = LuaObject<Player>::CheckFromLua(1);
-		auto orbit = player->ComputeOrbit();
-		double eccentricity = orbit.GetEccentricity();
-		lua_pushnumber(l, eccentricity);
-		lua_pushnumber(l, orbit.GetSemiMajorAxis());
-		lua_pushnumber(l, orbit.GetInclination());
-		if(eccentricity <= 1.0)
-			lua_pushnumber(l, orbit.Period());
-		else
-			lua_pushnil(l);
-		auto aa = orbit.Apogeum();
-		lua_pushnumber(l, orbit.OrbitalTimeAtPos(aa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
-		LuaTable apoapsis(l);
-		apoapsis.Set("x", aa.x);
-		apoapsis.Set("y", aa.y);
-		apoapsis.Set("z", aa.z);
-		auto pa = orbit.Perigeum();
-		lua_pushnumber(l, orbit.OrbitalTimeAtPos(pa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
-		LuaTable periapsis(l);
-		periapsis.Set("x", pa.x);
-		periapsis.Set("y", pa.y);
-		periapsis.Set("z", pa.z);
+static int l_get_maneuver_speed(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
 
-		return 8;
-	}
-
-	static int l_get_low_thrust_power(lua_State *l)
-	{
-		Player *player = LuaObject<Player>::CheckFromLua(1);
-		lua_pushnumber(l, player->GetPlayerController()->GetLowThrustPower());
-		return 1;
-	}
-
-	static int l_set_low_thrust_power(lua_State *l)
-	{
-		Player *player = LuaObject<Player>::CheckFromLua(1);
-		double thrust = luaL_checknumber(l, 2);
-		player->GetPlayerController()->SetLowThrustPower(thrust);
+	// see WorldView.cpp:1688
+	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
 		return 0;
-	}
-
-	static int l_get_maneuver_speed(lua_State *l)
-	{
-		Player *player = LuaObject<Player>::CheckFromLua(1);
-
-		// see WorldView.cpp:1688
-		if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
-			return 0;
+	} else {
+		Orbit playerOrbit = player->ComputeOrbit();
+		const SystemBody* systemBody = player->GetFrame()->GetSystemBody();
+		if(!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
+			double mass = systemBody->GetMass();
+			// XXX The best solution would be to store the mass(es) on Orbit
+			const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))); // * cam_rot
+			double relativeSpeed = camSpacePlanSpeed.Length();
+			lua_pushnumber(l, relativeSpeed);
+			return 1;
 		} else {
-			Orbit playerOrbit = player->ComputeOrbit();
-			const SystemBody* systemBody = player->GetFrame()->GetSystemBody();
-			if(!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
-				double mass = systemBody->GetMass();
-				// XXX The best solution would be to store the mass(es) on Orbit
-				const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))); // * cam_rot
-				double relativeSpeed = camSpacePlanSpeed.Length();
-				lua_pushnumber(l, relativeSpeed);
-				return 1;
-			} else {
-				return 0;
-			}
+			return 0;
 		}
 	}
+}
 
-	static int l_get_distance_to_zero_v(lua_State *l)
-	{
-		Player *player = LuaObject<Player>::CheckFromLua(1);
-		std::string target = luaL_checkstring(l, 2); // "nav", "frame"
-		std::string direction = luaL_checkstring(l, 3); // "prograde", "retrograde"
-		double v, a;
-		if(!target.compare("nav")) {
-			if(!direction.compare("prograde")) {
-				v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
-				a = player->GetAccelRev();
-			} else if(!direction.compare("retrograde")) {
-				v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
-				a = player->GetAccelFwd();
-			} else {
-				return 0;
-			}
-		} else if(!target.compare("frame")) {
-			if(!direction.compare("prograde")) {
-				v = player->GetVelocityRelTo(player->GetFrame()).Length();
-				a = player->GetAccelRev();
-			} else if(!direction.compare("retrograde")) {
-				v = player->GetVelocityRelTo(player->GetFrame()).Length();
-				a = player->GetAccelFwd();
-			} else {
-				return 0;
-			}
-		} else
+static int l_get_distance_to_zero_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string target = luaL_checkstring(l, 2); // "nav", "frame"
+	std::string direction = luaL_checkstring(l, 3); // "prograde", "retrograde"
+	double v, a;
+	if(!target.compare("nav")) {
+		if(!direction.compare("prograde")) {
+			v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
+			a = player->GetAccelRev();
+		} else if(!direction.compare("retrograde")) {
+			v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
+			a = player->GetAccelFwd();
+		} else {
 			return 0;
-		lua_pushnumber(l, v*v/(2*a));
-		return 1;
-	}
+		}
+	} else if(!target.compare("frame")) {
+		if(!direction.compare("prograde")) {
+			v = player->GetVelocityRelTo(player->GetFrame()).Length();
+			a = player->GetAccelRev();
+		} else if(!direction.compare("retrograde")) {
+			v = player->GetVelocityRelTo(player->GetFrame()).Length();
+			a = player->GetAccelFwd();
+		} else {
+			return 0;
+		}
+	} else
+		return 0;
+	lua_pushnumber(l, v*v/(2*a));
+	return 1;
+}
 
-	template <> const char *LuaObject<Player>::s_type = "Player";
+template <> const char *LuaObject<Player>::s_type = "Player";
 
-	template <> void LuaObject<Player>::RegisterClass()
-	{
-		static const char *l_parent = "Ship";
+template <> void LuaObject<Player>::RegisterClass()
+{
+	static const char *l_parent = "Ship";
 
-		static const luaL_Reg l_methods[] = {
-			{ "IsPlayer", l_player_is_player },
+	static const luaL_Reg l_methods[] = {
+		{ "IsPlayer", l_player_is_player },
 
-			{ "GetNavTarget",    l_get_nav_target    },
-			{ "SetNavTarget",    l_set_nav_target    },
-			{ "GetCombatTarget", l_get_combat_target },
-			{ "SetCombatTarget", l_set_combat_target },
-			{ "GetHyperspaceTarget", l_get_hyperspace_target },
-			{ "SetHyperspaceTarget", l_set_hyperspace_target },
-			{ "GetMaxDeltaV",        l_get_max_delta_v },
-			{ "GetCurrentDeltaV",    l_get_current_delta_v },
-			{ "GetRemainingDeltaV",  l_get_remaining_delta_v },
-			{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
-			{ "GetFrame",            l_get_frame },
-			{ "GetOrientedVelocity", l_get_oriented_velocity },
-			{ "GetOrbit",            l_get_orbit },
-			{ "GetGPS",              l_get_gps },
-			{ "GetLowThrustPower",   l_get_low_thrust_power },
-			{ "SetLowThrustPower",   l_set_low_thrust_power },
-			{ "GetManeuverSpeed",    l_get_maneuver_speed },
-			{ 0, 0 }
-		};
+		{ "GetNavTarget",    l_get_nav_target    },
+		{ "SetNavTarget",    l_set_nav_target    },
+		{ "GetCombatTarget", l_get_combat_target },
+		{ "SetCombatTarget", l_set_combat_target },
+		{ "GetHyperspaceTarget", l_get_hyperspace_target },
+		{ "SetHyperspaceTarget", l_set_hyperspace_target },
+		{ "GetMaxDeltaV",        l_get_max_delta_v },
+		{ "GetCurrentDeltaV",    l_get_current_delta_v },
+		{ "GetRemainingDeltaV",  l_get_remaining_delta_v },
+		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
+		{ "GetFrame",            l_get_frame },
+		{ "GetOrientedVelocity", l_get_oriented_velocity },
+		{ "GetOrbit",            l_get_orbit },
+		{ "GetGPS",              l_get_gps },
+		{ "GetLowThrustPower",   l_get_low_thrust_power },
+		{ "SetLowThrustPower",   l_set_low_thrust_power },
+		{ "GetManeuverSpeed",    l_get_maneuver_speed },
+		{ 0, 0 }
+	};
 
-		LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
-		LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Player>::DynamicCastPromotionTest);
-	}
+	LuaObjectBase::CreateClass(s_type, l_parent, l_methods, 0, 0);
+	LuaObjectBase::RegisterPromotion(l_parent, s_type, LuaObject<Player>::DynamicCastPromotionTest);
+}
