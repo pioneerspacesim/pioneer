@@ -128,7 +128,6 @@ private:
 	void OnToggleLabels();
 
 	void OnClickHyperspace(Gui::MultiStateImageButton *b);
-	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
 	void OnPlayerChangeTarget();
@@ -150,7 +149,6 @@ private:
 	std::unique_ptr<SpeedLines> m_speedLines;
 
 	Gui::Label *m_flightStatus, *m_debugText;
-	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
 	Gui::MultiStateImageButton *m_hyperspaceButton;
 	bool m_labelsOn;
@@ -170,8 +168,7 @@ private:
 	// new-ui HUD components
 	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
 
-	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
-		   *m_hudHyperspaceInfo, *m_hudTargetInfo;
+	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
 	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
 	Gui::MeterBar *m_hudFuelGauge;

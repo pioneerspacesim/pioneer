@@ -1647,8 +1647,7 @@ float Pi::GetMoveSpeedShiftModifier() {
 }
 
 void Pi::PiGuiUI(double delta) {
-	if(Pi::game->IsNormalSpace() && !Pi::game->IsWantHyperspace()) {
-		Pi::pigui->RenderHUD(delta);
+	Pi::pigui->RenderHUD(delta);
 		// int key = SDLK_F2 & ~SDLK_SCANCODE_MASK;
 		// if(ImGui::IsKeyReleased(key)) {
 		// 	Output("delta: %f, time: %f\n", delta, Pi::game->GetTime());
@@ -1934,5 +1933,4 @@ void Pi::PiGuiUI(double delta) {
 	//	// 	}
 
 		PiGui::Render();
-	}
 }

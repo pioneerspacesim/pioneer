@@ -403,6 +403,16 @@ static int l_game_set_time_acceleration(lua_State *l)
 	return 0;
 }
 
+static int l_game_in_hyperspace(lua_State *l) {
+	lua_pushboolean(l, Pi::game->IsHyperspace() || Pi::player->GetFlightState() == Ship::HYPERSPACE);
+	return 1;
+}
+
+static int l_game_get_hyperspace_travelled_percentage(lua_State *l) {
+	lua_pushnumber(l, Pi::game->GetHyperspaceArrivalProbability());
+	return 1;
+}
+
 static int l_game_get_time_acceleration(lua_State *l)
 {
 	Game::TimeAccel accel = Pi::game->GetTimeAccel();
@@ -454,6 +464,8 @@ void LuaGame::Register()
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "SetTimeAcceleration", l_game_set_time_acceleration },
 		{ "GetTimeAcceleration", l_game_get_time_acceleration },
+		{ "InHyperspace",        l_game_in_hyperspace },
+		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
 		{ 0, 0 }
 	};
 

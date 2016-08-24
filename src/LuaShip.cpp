@@ -1130,6 +1130,26 @@ static int l_ship_set_wheel_state(lua_State *l) {
 	return 1;
 }
 
+static int l_ship_toggle_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->SetWheelState(s->GetWheelState() == 0.0);
+	return 0;
+}
+
+static int l_ship_get_hyperspace_countdown(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetHyperspaceCountdown());
+	return 1;
+}
+
+static int l_ship_is_hyperspace_active(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsHyperspaceActive());
+	return 1;
+}
+
 static int l_ship_get_accel(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	double accel = 0.0;
@@ -1227,6 +1247,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "GetWheelState", l_ship_get_wheel_state },
 		{ "SetWheelState", l_ship_set_wheel_state },
+		{ "ToggleWheelState", l_ship_toggle_wheel_state },
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
@@ -1267,6 +1288,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetFlightState", l_ship_get_flight_state },
 		{ "IsDocked", l_ship_is_docked },
 		{ "IsLanded", l_ship_is_landed },
+		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
+		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
 		{ 0, 0 }
 	};
 

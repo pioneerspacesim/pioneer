@@ -5,19 +5,24 @@
 -- comms log
 -- multi-function-display / scanner?
 -- speed lines
--- wheels up/down button
 -- hyperspace button
--- blastoff / undock
 -- set speed / autopilot / manual
 -- heading/pitch indicator
 -- target hull/shield, general info
 -- combat target / lead indicators + line
--- hyperspace
+-- contacts
 -- lua console?
 
 -- DONE?
 -- pause
 -- rotation dampening button
+-- wheels up/down button
+-- blastoff / undock
+-- hyperspace
+-- 		const SystemPath dest = Pi::player->GetHyperspaceDest();
+--  	RefCountedPtr<StarSystem> s = m_game->GetGalaxy()->GetStarSystem(dest);
+--    name: dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()
+--    m_game->GetHyperspaceArrivalProbability()*100.0
 
 local Format = import('Format')
 local Game = import('Game')
@@ -1000,10 +1005,11 @@ local function get_hierarchical_bodies()
 	 end
 	 local suns = {}
 	 for _,body in pairs(data) do
-			if body.parent == nil then
+			if body.systemBody.superType == "STAR" then
 				 table.insert(suns, body)
 			end
 	 end
+	 
 	 return suns, count
 end
 
@@ -1056,6 +1062,7 @@ local function show_nav_window()
 			AddLine(data, 0)
 	 end
 	 if lines ~= count then
+			print_r(data)
 			error("nok: " .. count .. " count vs. lines " .. lines)
 	 end
 	 show_radial_menu()
@@ -1237,21 +1244,16 @@ local function show_debug_gravity()
 end
 
 
-local paused = false
-local should_show_hud = true
 local cam_types = { "internal", "external", "sidereal" }
 local current_cam_type = 1
 local function handle_global_keys()
 	 if pigui.IsKeyReleased(keys.f12) then
-			paused = not paused
-			if paused then
-				 Game.SetTimeAcceleration("paused", true)
+			if Game.GetTimeAcceleration() == "paused" then
+				 Game.SetTimeAcceleration("1x", true)
 			else
-				 Game.SetTimeAcceleration("1x", false)
+				 Game.SetTimeAcceleration("paused", false)
+				 return
 			end
-	 end
-	 if paused then
-			return
 	 end
 	 if pigui.IsKeyReleased(keys.f1) then -- ShipCpanel.cpp:317
 			if Game.GetView() == "world" then
@@ -1264,25 +1266,25 @@ local function handle_global_keys()
 				 Game.SetView("world")
 				 current_cam_type = 1
 				 Game.SetWorldCamType(cam_types[current_cam_type])
-				 should_show_hud = true
 			end
 	 end
 	 if pigui.IsKeyReleased(keys.f2) then
 			Game.SetView("sector")
-			should_show_hud = false
 	 end
 	 if pigui.IsKeyReleased(keys.f3) then
 			Game.SetView("info")
-			should_show_hud = false
 	 end
 	 if pigui.IsKeyReleased(keys.f4) and player:IsDocked() then
 			Game.SetView("space_station")
-			should_show_hud = false
 	 end
 	 if pigui.IsKeyReleased(keys.f5) and (player:IsDocked() or player:IsLanded()) then
 			player:TakeOff()
 	 end
+	 if pigui.IsKeyReleased(keys.f6) then
+			player:ToggleWheelState()
+	 end
 end
+
 
 local function show_ships_on_screen()
 	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
@@ -1440,8 +1442,23 @@ local function show_stuff()
 				 player:TakeOff()
 			end
 	 end
-	 
+ 	 local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
+	 if wheelstate == 0.0 then
+			if pigui.Button("Wheels down") then
+				 player:SetWheelState(true)
+			end
+	 elseif wheelstate == 1.0 then
+			if pigui.Button("Wheels up") then
+				 player:SetWheelState(false)
+			end
+	 else	 
+			pigui.Text("Wheelstate: " .. wheelstate)
+	 end
 	 pigui.End()
+end
+
+local function show_hyperspace_countdown()
+	 show_text(Vector(pigui.screen_width/2, pigui.screen_height/3), "Hyperspace in " .. math.ceil(player:GetHyperspaceCountdown()) .. " seconds", colors.green, anchor.center, anchor.center, pionillium.large)
 end
 
 local function show_hud()
@@ -1661,12 +1678,13 @@ local function show_hud()
 
 	 show_navball()
 	 show_thrust()
-
+	 if player:IsHyperspaceActive() then
+			show_hyperspace_countdown()
+	 end
 	 pigui.End()
 	 pigui.PopStyleColor(1);
 
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
-
 	 show_nav_window()
 	 -- show_contacts()
 	 show_stuff()
@@ -1692,16 +1710,34 @@ local function show_pause_screen()
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 end
+
+local function show_hyperspace()
+	 pigui.PushStyleColor("WindowBg", colors.transparent)
+	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 2), "In Hyperspace", colors.red, anchor.center, anchor.center, pionillium.large)
+	 local systempath_target = player:GetHyperspaceTarget()
+	 local starsystem = systempath_target:GetStarSystem()
+	 local sector = starsystem.sector
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2), "Going to " .. starsystem.name .. " (" .. sector.x .. "/" .. sector.y .. "/" .. sector.z ..")", colors.green, anchor.center, anchor.center, pionillium.large)
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2.3), "Complete " .. math.ceil(100 * Game.GetHyperspaceTravelledPercentage()) .. " %", colors.green, anchor.center, anchor.center, pionillium.large)
+	 pigui.End()
+	 pigui.PopStyleColor(1)
+end
+
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
 	 pigui.PushStyleVar("WindowRounding", 0)
 
-	 if should_show_hud then
-			show_hud()
+	 if Game.GetView() == "world" then
+			if Game.InHyperspace() then
+				 show_hyperspace()
+			else
+				 show_hud()
+			end
 	 end
 	 handle_global_keys()
-	 if paused then
+	 if Game.GetTimeAcceleration() == "paused" then
 			show_pause_screen()
 	 end
 	 pigui.PopStyleVar(1)

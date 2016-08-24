@@ -90,14 +90,6 @@ void WorldView::InitObject()
 	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
-	m_wheelsButton = new Gui::MultiStateImageButton();
-	m_wheelsButton->SetShortcut(SDLK_F6, KMOD_NONE);
-	m_wheelsButton->AddState(0, "icons/wheels_up.png", Lang::WHEELS_ARE_UP);
-	m_wheelsButton->AddState(1, "icons/wheels_down.png", Lang::WHEELS_ARE_DOWN);
-	m_wheelsButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeWheelsState));
-	m_wheelsButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_wheelsButton, 34, 2);
-
 	m_hyperspaceButton = new Gui::MultiStateImageButton();
 	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
 	m_hyperspaceButton->AddState(0, "icons/hyperspace_disabled_f8.png", Lang::HYPERSPACE_JUMP_DISABLED);
@@ -159,9 +151,6 @@ void WorldView::InitObject()
 	m_curPlane = NONE;
 
 	// --
-
-	m_hudHyperspaceInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_hudHyperspaceInfo, Gui::Screen::GetWidth()*0.4f, Gui::Screen::GetHeight()*0.3f);
 
 	m_hudSensorGaugeStack = new Gui::VBox();
 	m_hudSensorGaugeStack->SetSpacing(2.0f);
@@ -272,14 +261,6 @@ void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 		Pi::BoinkNoise();
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
-}
-
-void WorldView::OnChangeWheelsState(Gui::MultiStateImageButton *b)
-{
-	Pi::BoinkNoise();
-	if (!Pi::player->SetWheelState(b->GetState()!=0)) {
-		b->StatePrev();
-	}
 }
 
 /* This is UI click to change flight control state (manual, speed ctrl) */
@@ -503,12 +484,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
 	}
-
-	if (is_equal_exact(Pi::player->GetWheelState(), 0.0f) && Pi::player->ExtrapolateHullTemperature() > 0.7)
-		m_wheelsButton->Hide();
-	else
-		m_wheelsButton->Show();
-	m_wheelsButton->SetActiveState(int(Pi::player->GetWheelState()) || Pi::player->GetWheelTransition() == 1);
 
 	RefreshHyperspaceButton();
 
@@ -799,18 +774,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudTargetInfo->Hide();
 	}
 
-	if (Pi::player->IsHyperspaceActive()) {
-		float val = Pi::player->GetHyperspaceCountdown();
-
-		if (!(int(ceil(val*2.0)) % 2)) {
-			m_hudHyperspaceInfo->SetText(stringf(Lang::HYPERSPACING_IN_N_SECONDS, formatarg("countdown", ceil(val))));
-			m_hudHyperspaceInfo->Show();
-		} else {
-			m_hudHyperspaceInfo->Hide();
-		}
-	} else {
-		m_hudHyperspaceInfo->Hide();
-	}
 }
 
 bool WorldView::OnClickHeadingLabel(void) {
