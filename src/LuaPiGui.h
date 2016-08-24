@@ -3,6 +3,8 @@
 
 #ifndef _LUAPIGUI_H
 #define _LUAPIGUI_H
+#include "LuaObject.h"
 
+bool luaL_checkbool(lua_State *l, int index);
 
 #endif

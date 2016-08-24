@@ -11,6 +11,7 @@
 #include "EnumStrings.h"
 #include "galaxy/Galaxy.h"
 #include "SystemView.h" // for the transfer planner
+#include "LuaPiGui.h" // for luaL_checkbool
 
 /*
  * Class: Player
@@ -245,6 +246,29 @@ static int l_get_frame(lua_State *l)
 	return 1;
 }
 
+static int l_set_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	bool rot = luaL_checkbool(l, 2);
+	player->GetPlayerController()->SetRotationDamping(rot);
+	return 0;
+}
+
+static int l_get_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushboolean(l, player->GetPlayerController()->GetRotationDamping());
+	return 1;
+}
+
+static int l_toggle_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	Output("Toggling\n");
+	player->GetPlayerController()->ToggleRotationDamping();
+	return 0;
+}
+
 static int l_get_oriented_velocity(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -420,6 +444,9 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetLowThrustPower",   l_get_low_thrust_power },
 		{ "SetLowThrustPower",   l_set_low_thrust_power },
 		{ "GetManeuverSpeed",    l_get_maneuver_speed },
+		{ "GetRotationDamping",  l_get_rotation_damping },
+		{ "SetRotationDamping",  l_set_rotation_damping },
+		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
 		{ 0, 0 }
 	};
 

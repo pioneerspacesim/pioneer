@@ -63,6 +63,8 @@ public:
 
 	static int RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items, ImFont *itemfont, std::vector<std::string> tooltips);
 	static bool CircularSlider(const ImVec2 &center, float *v, float v_min, float v_max);
+
+	void Cleanup();
 private:
 	LuaRef m_handlers;
 };

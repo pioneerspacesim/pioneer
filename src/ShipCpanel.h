@@ -52,13 +52,11 @@ public:
 
 private:
 	void InitObject();
-	void OnRotationDampingChanged();
 
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
 	void OnChangeMapView(enum MapView);
 	void OnClickTimeaccel(Game::TimeAccel val);
-	void OnClickRotationDamping(Gui::MultiStateImageButton *b);
 	// Handler for scanner view / equipment view toggle button
 	void OnClickScannerEquip(Gui::MultiStateImageButton *b);
 
@@ -73,15 +71,12 @@ private:
 	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;
 
-	sigc::connection m_connOnRotationDampingChanged;
-
 	ScannerWidget *m_scanner;
 	UseEquipWidget *m_useEquipWidget;
 	Gui::MultiStateImageButton *m_scannerEquipButton;
 	Gui::RadioGroup *m_rightButtonGroup;
 	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
-	Gui::MultiStateImageButton *m_rotationDampingButton;
 	Gui::Image *m_alertLights[3];
 
 	Gui::Label *m_overlay[OVERLAY_MAX];

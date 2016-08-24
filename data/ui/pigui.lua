@@ -1,8 +1,6 @@
 -- TODO:
--- pause
 -- time accel
 -- map sub buttons
--- rotation dampening button
 -- alerts
 -- comms log
 -- multi-function-display / scanner?
@@ -16,6 +14,10 @@
 -- combat target / lead indicators + line
 -- hyperspace
 -- lua console?
+
+-- DONE?
+-- pause
+-- rotation dampening button
 
 local Format = import('Format')
 local Game = import('Game')
@@ -46,7 +48,15 @@ local keys = {
 	 f1 = 58,
 	 f2 = 59,
 	 f3 = 60,
-	 f4 = 61
+	 f4 = 61,
+	 f5 = 62,
+	 f6 = 63,
+	 f7 = 64,
+	 f8 = 65,
+	 f9 = 66,
+	 f10 = 67,
+	 f11 = 68,
+	 f12 = 69,
 }
 
 local colors = {
@@ -79,6 +89,8 @@ local colors = {
 	 gun_tmp_gauge = { r=200, g=200, b=200 },
 	 gauge_darkergrey = {r=20,g=20,b=20},
 	 gauge_darkgrey = {r=35,g=35,b=35},
+	 paused_background = {r=0, b=0, g=0, a=150},
+	 paused_text = {r=200, b=150, g=50, a=150},
 }
 
 local pionicons = {
@@ -579,7 +591,7 @@ end
 
 local function show_settings()
 	 pigui.Begin("Settings", {})
-	 show_retrograde_indicators = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
+	 local _,show_retrograde_indicators = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
 	 for k,v in pairs(colors) do
 			
 			local changed, r, g, b, a = pigui.DragInt4(k, v.r or 0, v.g or 0, v.b or 0, v.a or 255, 1.0, 0, 255)
@@ -1225,10 +1237,22 @@ local function show_debug_gravity()
 end
 
 
+local paused = false
 local should_show_hud = true
 local cam_types = { "internal", "external", "sidereal" }
 local current_cam_type = 1
 local function handle_global_keys()
+	 if pigui.IsKeyReleased(keys.f12) then
+			paused = not paused
+			if paused then
+				 Game.SetTimeAcceleration("paused", true)
+			else
+				 Game.SetTimeAcceleration("1x", false)
+			end
+	 end
+	 if paused then
+			return
+	 end
 	 if pigui.IsKeyReleased(keys.f1) then -- ShipCpanel.cpp:317
 			if Game.GetView() == "world" then
 				 current_cam_type = current_cam_type + 1
@@ -1387,6 +1411,15 @@ local function show_marker(name, painter, color, show_in_reticule, direction, si
 			local thesize = siz
 			painter(point, thesize, color, 3.0, direction)
 	 end
+end
+
+local function show_stuff()
+	 pigui.Begin("Stuff",{})
+	 local rd = player:GetRotationDamping()
+	 if pigui.Checkbox("Rotation Damping", rd) then
+			player:ToggleRotationDamping()
+	 end
+	 pigui.End()
 end
 
 local function show_hud()
@@ -1614,7 +1647,7 @@ local function show_hud()
 
 	 show_nav_window()
 	 -- show_contacts()
-
+	 show_stuff()
 	 show_settings()
 	 
 	 -- show_debug_orbit()
@@ -1626,14 +1659,28 @@ local function show_hud()
 	 --	show_missions()
 	 pigui.PopStyleColor(1)
 end
+
+local function show_pause_screen()
+	 pigui.SetNextWindowPos(Vector(0, 0), "Always")
+	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
+	 pigui.PushStyleColor("WindowBg", colors.paused_background)
+	 pigui.Begin("Pause", {"NoTitleBar","NoMove","NoResize","NoSavedSettings"})
+	 local center = Vector(pigui.screen_width / 2, pigui.screen_height / 4)
+	 show_text(center, "Paused", colors.paused_text, anchor.center, anchor.center, pionillium.large)
+	 pigui.End()
+	 pigui.PopStyleColor(1)
+end
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
 	 pigui.PushStyleVar("WindowRounding", 0)
+
 	 if should_show_hud then
 			show_hud()
 	 end
-
-   handle_global_keys()
+	 handle_global_keys()
+	 if paused then
+			show_pause_screen()
+	 end
 	 pigui.PopStyleVar(1)
 end

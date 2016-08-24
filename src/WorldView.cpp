@@ -182,20 +182,6 @@ void WorldView::InitObject()
 	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
 	Add(m_hudTargetInfo, 0, 85.0f);
 
-	Gui::Screen::PushFont("OverlayFont");
-
-	{
-		m_pauseText = new Gui::Label(std::string("#f7f") + Lang::PAUSED);
-		float w, h;
-		Gui::Screen::MeasureString(Lang::PAUSED, w, h);
-		Add(m_pauseText, 0.5f * (Gui::Screen::GetWidth() - w), 100);
-	}
-	Gui::Screen::PopFont();
-
-	// these labels are repositioned during Draw3D()
-	// Add(m_combatTargetIndicator.label, 0, 0);
-	// Add(m_targetLeadIndicator.label, 0, 0);
-
 	// XXX m_renderer not set yet
 	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
 	m_indicatorMousedir.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
@@ -527,11 +513,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 	assert(!Pi::player->IsDead());
 
 	m_game->GetCpan()->ClearOverlay();
-
-	if (m_game->IsPaused())
-		m_pauseText->Show();
-	else
-		m_pauseText->Hide();
 
 	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);

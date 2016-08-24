@@ -142,17 +142,6 @@ void ShipCpanel::InitObject()
 	Add(b, 770, 56);
 	m_mapViewButtons[3] = b;
 
-	m_rotationDampingButton = new Gui::MultiStateImageButton();
-	m_rotationDampingButton->SetSelected(false);
-	m_rotationDampingButton->AddState(0, "icons/rotation_damping_off.png", Lang::ROTATION_DAMPING_OFF);
-	m_rotationDampingButton->AddState(1, "icons/rotation_damping_on.png", Lang::ROTATION_DAMPING_ON);
-	m_rotationDampingButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickRotationDamping));
-	m_rotationDampingButton->SetRenderDimensions(20, 13);
-	m_rotationDampingButton->SetActiveState(Pi::player->GetPlayerController()->GetRotationDamping());
-	Add(m_rotationDampingButton, 760, 39);
-	m_connOnRotationDampingChanged = Pi::player->GetPlayerController()->onRotationDampingChanged.connect(
-			sigc::mem_fun(this, &ShipCpanel::OnRotationDampingChanged));
-
 	img = new Gui::Image("icons/alert_green.png");
 	img->SetToolTip(Lang::NO_ALERT);
 	img->SetRenderDimensions(20, 13);
@@ -199,7 +188,6 @@ ShipCpanel::~ShipCpanel()
 	delete m_scanner;
 	delete m_useEquipWidget;
 	delete m_scannerEquipButton;
-	m_connOnRotationDampingChanged.disconnect();
 }
 
 void ShipCpanel::OnUserChangeMultiFunctionDisplay(multifuncfunc_t f)
@@ -306,20 +294,10 @@ void ShipCpanel::OnClickTimeaccel(Game::TimeAccel val)
 	}
 }
 
-void ShipCpanel::OnClickRotationDamping(Gui::MultiStateImageButton *b)
-{
-	Pi::player->GetPlayerController()->ToggleRotationDamping();
-}
-
 void ShipCpanel::OnClickScannerEquip(Gui::MultiStateImageButton *b)
 {
 	int state = m_scannerEquipButton->GetState();
 	ChangeMultiFunctionDisplay((0==state) ? MFUNC_SCANNER : MFUNC_EQUIPMENT);
-}
-
-void ShipCpanel::OnRotationDampingChanged()
-{
-	m_rotationDampingButton->SetActiveState(Pi::player->GetPlayerController()->GetRotationDamping());
 }
 
 void ShipCpanel::SetAlertState(Ship::AlertState as)

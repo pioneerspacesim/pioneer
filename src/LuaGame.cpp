@@ -17,7 +17,7 @@
 #include "SectorView.h"
 #include "SystemView.h"
 #include "ShipCpanel.h"
-
+#include "LuaPiGui.h" // for luaL_checkbool
 /*
  * Interface: Game
  *
@@ -108,7 +108,7 @@ static int l_game_load_game(lua_State *l)
 	}
 	catch (CouldNotOpenFileException) {
 		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN,
-			formatarg("filename", filename));
+																		formatarg("filename", filename));
 		luaL_error(l, msg.c_str());
 	}
 
@@ -124,7 +124,7 @@ static int l_game_load_game(lua_State *l)
  *
  * Parameters:
  *
- *   filename - Filename to find. 
+ *   filename - Filename to find.
  *
  * Return:
  *
@@ -379,6 +379,46 @@ static int l_game_set_world_cam_type(lua_State *l)
 	return 0;
 }
 
+static int l_game_set_time_acceleration(lua_State *l)
+{
+	std::string accel = luaL_checkstring(l, 1);
+	bool force = luaL_checkbool(l, 2);
+	Game::TimeAccel a = Game::TIMEACCEL_PAUSED;
+	if(!accel.compare("paused"))
+		a = Game::TIMEACCEL_PAUSED;
+	else if(!accel.compare("1x"))
+		a = Game::TIMEACCEL_1X;
+	else if(!accel.compare("10x"))
+		a = Game::TIMEACCEL_10X;
+	else if(!accel.compare("100x"))
+		a = Game::TIMEACCEL_100X;
+	else if(!accel.compare("1000x"))
+		a = Game::TIMEACCEL_1000X;
+	else if(!accel.compare("10000x"))
+		a = Game::TIMEACCEL_10000X;
+	else if(!accel.compare("hyperspace"))
+		a = Game::TIMEACCEL_HYPERSPACE;
+	// else TODO error
+	Pi::game->RequestTimeAccel(a, force);
+	return 0;
+}
+
+static int l_game_get_time_acceleration(lua_State *l)
+{
+	Game::TimeAccel accel = Pi::game->GetTimeAccel();
+	switch(accel) {
+	case Game::TIMEACCEL_PAUSED: lua_pushstring(l,"paused"); break;
+	case Game::TIMEACCEL_1X: lua_pushstring(l,"1x"); break;
+	case Game::TIMEACCEL_10X: lua_pushstring(l,"10x"); break;
+	case Game::TIMEACCEL_100X: lua_pushstring(l,"100x"); break;
+	case Game::TIMEACCEL_1000X: lua_pushstring(l,"1000x"); break;
+	case Game::TIMEACCEL_10000X: lua_pushstring(l,"10000x"); break;
+	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l,"hyperspace"); break;
+	default: break; // TODO error
+	}
+	return 1;
+}
+
 static int l_game_get_date_time(lua_State *l)
 {
 	Time::DateTime t(Pi::game->GetTime());
@@ -412,6 +452,8 @@ void LuaGame::Register()
 		{ "GetView",    l_game_get_view },
 		{ "GetDateTime", l_game_get_date_time },
 		{ "SetWorldCamType", l_game_set_world_cam_type },
+		{ "SetTimeAcceleration", l_game_set_time_acceleration },
+		{ "GetTimeAcceleration", l_game_get_time_acceleration },
 		{ 0, 0 }
 	};
 

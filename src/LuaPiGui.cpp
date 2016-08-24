@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaPiGui.h"
-#include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "PiGui.h"
@@ -78,7 +77,7 @@ static ImGuiStyleVar luaL_checkImGuiStyleVar(lua_State *l, int index) {
 	return -1;
 }
 
-static bool luaL_checkbool(lua_State *l, int index) {
+bool luaL_checkbool(lua_State *l, int index) {
 	if ( lua_isboolean( l, index ) )
 		return lua_toboolean( l, index );
 	else
@@ -851,9 +850,10 @@ static int l_pigui_set_tooltip(lua_State *l) {
 static int l_pigui_checkbox(lua_State *l) {
 	std::string label = luaL_checkstring(l, 1);
 	bool checked = luaL_checkbool(l, 2);
-	ImGui::Checkbox(label.c_str(), &checked);
+	bool changed = ImGui::Checkbox(label.c_str(), &checked);
+	lua_pushboolean(l, changed);
 	lua_pushboolean(l, checked);
-	return 1;
+	return 2;
 }
 
 static int l_pigui_push_item_width(lua_State *l) {
