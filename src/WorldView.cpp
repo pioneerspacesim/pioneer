@@ -109,13 +109,6 @@ void WorldView::InitObject()
 	m_hyperspaceButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
 
-	m_launchButton = new Gui::ImageButton("icons/blastoff.png");
-	m_launchButton->SetShortcut(SDLK_F5, KMOD_NONE);
-	m_launchButton->SetToolTip(Lang::TAKEOFF);
-	m_launchButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickBlastoff));
-	m_launchButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_launchButton, 2, 2);
-
 	m_flightControlButton = new Gui::MultiStateImageButton();
 	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
 	// these states must match Player::FlightControlState (so that the enum values match)
@@ -320,16 +313,6 @@ void WorldView::OnPlayerChangeFlightControlState()
 	m_flightControlButton->SetActiveState(Pi::player->GetPlayerController()->GetFlightControlState());
 }
 
-void WorldView::OnClickBlastoff()
-{
-	Pi::BoinkNoise();
-	if (Pi::player->GetFlightState() == Ship::DOCKED) {
-		Pi::player->Undock();
-	} else {
-		Pi::player->Blastoff();
-	}
-}
-
 void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
 {
 	if(Pi::player->GetFlightState() == Ship::DOCKED || Pi::player->GetFlightState() == Ship::LANDED){
@@ -532,32 +515,27 @@ void WorldView::RefreshButtonStateAndVisibility()
 	switch(Pi::player->GetFlightState()) {
 	case Ship::LANDED:
 		m_flightStatus->SetText(Lang::LANDED);
-		m_launchButton->Show();
 		m_flightControlButton->Hide();
 		break;
 
 	case Ship::DOCKING:
 		m_flightStatus->SetText(Lang::DOCKING);
-		m_launchButton->Hide();
 		m_flightControlButton->Hide();
 		break;
 
 	case Ship::UNDOCKING:
 		m_flightStatus->SetText(Lang::UNDOCKING);
-		m_launchButton->Hide();
 		m_flightControlButton->Hide();
 		break;
 
 	case Ship::DOCKED:
 		m_flightStatus->SetText(Lang::DOCKED);
-		m_launchButton->Show();
 		m_flightControlButton->Hide();
 		break;
 
 	case Ship::JUMPING:
 	case Ship::HYPERSPACE:
 		m_flightStatus->SetText(Lang::HYPERSPACE);
-		m_launchButton->Hide();
 		m_flightControlButton->Hide();
 		break;
 
@@ -609,7 +587,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		default: assert(0); break;
 		}
 
-		m_launchButton->Hide();
 		m_flightControlButton->Show();
 	}
 

@@ -1279,6 +1279,9 @@ local function handle_global_keys()
 			Game.SetView("space_station")
 			should_show_hud = false
 	 end
+	 if pigui.IsKeyReleased(keys.f5) and (player:IsDocked() or player:IsLanded()) then
+			player:TakeOff()
+	 end
 end
 
 local function show_ships_on_screen()
@@ -1419,6 +1422,25 @@ local function show_stuff()
 	 if pigui.Checkbox("Rotation Damping", rd) then
 			player:ToggleRotationDamping()
 	 end
+	 pigui.Text(player:GetFlightState())
+	 local takeoff=false
+	 if player:IsLanded() then
+			takeoff=true
+			if pigui.Button("Blastoff") then
+				 player:Blastoff()
+			end
+	 elseif player:IsDocked() then
+			takeoff=true
+			if pigui.Button("Undock") then
+				 player:Undock()
+			end
+	 end
+	 if takeoff then
+			if pigui.Button("Take Off") then
+				 player:TakeOff()
+			end
+	 end
+	 
 	 pigui.End()
 end
 

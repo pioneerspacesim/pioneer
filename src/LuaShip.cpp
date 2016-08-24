@@ -18,7 +18,7 @@
 #include "Player.h"
 #include "HyperspaceCloud.h"
 #include "Game.h"
-
+#include "LuaPiGui.h" // for luaL_checkbool
 /*
  * Class: Ship
  *
@@ -482,11 +482,32 @@ static int l_ship_get_docked_with(lua_State *l)
 static int l_ship_undock(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	if (!s->GetDockedWith())
-		luaL_error(l, "Can't undock if not already docked");
+	if (!s->IsDocked())
+		luaL_error(l, "Can't undock if not docked");
 	bool undocking = s->Undock();
 	lua_pushboolean(l, undocking);
 	return 1;
+}
+
+static int l_ship_blastoff(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if(!s->IsLanded())
+		luaL_error(l, "Can't blast off if not landed");
+	s->Blastoff();
+	return 0;
+}
+
+static int l_ship_take_off(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if(s->IsLanded())
+		s->Blastoff();
+	else if(s->IsDocked())
+		s->Undock();
+	else
+		luaL_error(l, "Cannot take off, not docked or landed");
+	return 0;
 }
 
 /* Method: SpawnMissile
@@ -1089,6 +1110,26 @@ static int l_ship_is_docked(lua_State *l) {
 	return 1;
 }
 
+static int l_ship_is_landed(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsLanded());
+	return 1;
+}
+
+static int l_ship_get_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetWheelState());
+	return 1;
+}
+
+static int l_ship_set_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	bool state = luaL_checkbool(l, 2);
+	bool ret = s->SetWheelState(state);
+	lua_pushboolean(l, ret);
+	return 1;
+}
+
 static int l_ship_get_accel(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	double accel = 0.0;
@@ -1142,6 +1183,13 @@ static int l_ship_get_shields_percent(lua_State *l) {
 	return 1;
 }
 
+static int l_ship_get_flight_state(lua_State *l)
+{
+	Ship *b = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushstring(l, EnumStrings::GetString("ShipFlightState", b->GetFlightState()));
+	return 1;
+}
+
 static int l_ship_get_gravity(lua_State *l)
 {
 	Ship *b = LuaObject<Ship>::CheckFromLua(1);
@@ -1177,6 +1225,9 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetLabel",   l_ship_set_label   },
 		{ "SetShipName",	l_ship_set_ship_name   },
 
+		{ "GetWheelState", l_ship_get_wheel_state },
+		{ "SetWheelState", l_ship_set_wheel_state },
+
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
 		{ "SpawnMissile", l_ship_spawn_missile },
@@ -1186,6 +1237,8 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetDockedWith", l_ship_get_docked_with },
 		{ "RequestDockingClearance", l_ship_request_docking_clearance },
 		{ "Undock",        l_ship_undock          },
+		{ "Blastoff",      l_ship_blastoff        },
+		{ "TakeOff",       l_ship_take_off        },
 
 		{ "Explode", l_ship_explode },
 
@@ -1211,7 +1264,9 @@ template <> void LuaObject<Ship>::RegisterClass()
  		{ "GetPosition", l_ship_get_position },
 		{ "GetThrusterState", l_ship_get_thruster_state },
 		{ "GetAccel", l_ship_get_accel },
+		{ "GetFlightState", l_ship_get_flight_state },
 		{ "IsDocked", l_ship_is_docked },
+		{ "IsLanded", l_ship_is_landed },
 		{ 0, 0 }
 	};
 

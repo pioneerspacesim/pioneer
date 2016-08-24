@@ -79,7 +79,6 @@ public:
 	enum CamType GetCamType() const { return m_camType; }
 	CameraController *GetCameraController() const { return m_activeCameraController; }
 	int GetActiveWeapon() const;
-	void OnClickBlastoff();
 
 	void ResetHyperspaceButton();
 
@@ -132,7 +131,6 @@ private:
 	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
-	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
 	/// Handler for "requestTimeAccelerationInc" event
@@ -152,7 +150,6 @@ private:
 	std::unique_ptr<SpeedLines> m_speedLines;
 
 	Gui::Label *m_flightStatus, *m_debugText;
-	Gui::ImageButton *m_launchButton;
 	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
 	Gui::MultiStateImageButton *m_hyperspaceButton;
