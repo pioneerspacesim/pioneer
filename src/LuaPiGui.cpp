@@ -935,6 +935,25 @@ static int l_pigui_is_key_released(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_drag_int_4(lua_State *l) {
+	std::string label = luaL_checkstring(l, 1);
+	int v[4];
+	v[0] = luaL_checkinteger(l, 2);
+	v[1] = luaL_checkinteger(l, 3);
+	v[2] = luaL_checkinteger(l, 4);
+	v[3] = luaL_checkinteger(l, 5);
+	float v_speed = luaL_checknumber(l, 6);
+	int v_min = luaL_checknumber(l, 7);
+	int v_max = luaL_checknumber(l, 8);
+	bool res = ImGui::DragInt4(label.c_str(), v, v_speed, v_min, v_max);
+	lua_pushboolean(l, res);
+	lua_pushinteger(l, v[0]);
+	lua_pushinteger(l, v[1]);
+	lua_pushinteger(l, v[2]);
+	lua_pushinteger(l, v[3]);
+	return 5;
+}
+
 static int l_pigui_add_convex_poly_filled(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	LuaTable pnts(l, 1);
@@ -1015,6 +1034,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
 		{ "AddConvexPolyFilled",    l_pigui_add_convex_poly_filled },
 		{ "IsKeyReleased",          l_pigui_is_key_released },
+		{ "DragInt4",               l_pigui_drag_int_4 },
 		{ 0, 0 }
 	};
 

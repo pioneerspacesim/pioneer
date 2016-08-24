@@ -27,9 +27,6 @@ local system
 local pigui = Engine.pigui
 
 local show_retrograde_indicators = true
-local show_nav_distance_with_reticule = true
-local show_nav_speed_with_reticule = true
-local show_frame_speed_with_reticule = true
 
 local center
 local mission_selected
@@ -583,9 +580,16 @@ end
 local function show_settings()
 	 pigui.Begin("Settings", {})
 	 show_retrograde_indicators = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
-	 show_nav_distance_with_reticule = pigui.Checkbox("Show nav distance with reticule", show_nav_distance_with_reticule);
-	 show_nav_speed_with_reticule = pigui.Checkbox("Show nav speed with reticule", show_nav_speed_with_reticule);
-	 show_frame_speed_with_reticule = pigui.Checkbox("Show frame speed with reticule", show_frame_speed_with_reticule);
+	 for k,v in pairs(colors) do
+			
+			local changed, r, g, b, a = pigui.DragInt4(k, v.r or 0, v.g or 0, v.b or 0, v.a or 255, 1.0, 0, 255)
+			if changed then
+				 v.r = r
+				 v.g = g
+				 v.b = b
+				 v.a = a
+			end
+	 end
 	 pigui.End()
 end
 
@@ -1611,7 +1615,7 @@ local function show_hud()
 	 show_nav_window()
 	 -- show_contacts()
 
-	 -- show_settings()
+	 show_settings()
 	 
 	 -- show_debug_orbit()
 	 --	show_debug_thrust()
