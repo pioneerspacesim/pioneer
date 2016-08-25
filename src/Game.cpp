@@ -447,6 +447,7 @@ void Game::SwitchToHyperspace()
 	m_state = STATE_HYPERSPACE;
 	m_wantHyperspace = false;
 
+	LuaEvent::Queue("onHyperspace", Pi::game->GetGalaxy()->GetStarSystem(m_hyperspaceDest).Get());
 	Output("Started hyperspacing...\n");
 }
 

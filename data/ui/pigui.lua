@@ -28,6 +28,7 @@ local Format = import('Format')
 local Game = import('Game')
 local Space = import('Space')
 local Engine = import('Engine')
+local Event = import("Event")
 
 local player
 local system
@@ -854,6 +855,10 @@ local function show_navball()
 end
 
 local radial_nav_target = nil
+
+Event.Register("onHyperspace", function (target)
+	radial_nav_target = nil
+end)
 
 local selected_combat = nil
 local function show_contacts()
