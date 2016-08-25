@@ -1448,7 +1448,7 @@ local deliverCrew = function (mission)
 	-- Transfer a single crew member to the target ship.
 	-- Called during timer loop within "interactWithTarget".
 	local todo = mission.deliver_crew_orig
-	local maxcrew = shipdefFromName(mission.shipdef_name).maxCrew
+	local maxcrew = ShipDef[mission.target.shipId].maxCrew
 
 	-- error messages if not all parameters met
 	if not passengersPresent(Game.player) then
