@@ -649,7 +649,7 @@
    },
    "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: %percent%%"
+      "message" : "Saut complété à %percent% %"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
