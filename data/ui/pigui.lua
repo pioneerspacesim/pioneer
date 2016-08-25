@@ -1425,39 +1425,59 @@ end
 
 local function show_stuff()
 	 pigui.Begin("Stuff",{})
-	 local rd = player:GetRotationDamping()
-	 if pigui.Checkbox("Rotation Damping", rd) then
-			player:ToggleRotationDamping()
-	 end
-	 pigui.Text(player:GetFlightState())
-	 local takeoff=false
-	 if player:IsLanded() then
-			takeoff=true
-			if pigui.Button("Blastoff") then
-				 player:Blastoff()
-			end
-	 elseif player:IsDocked() then
-			takeoff=true
-			if pigui.Button("Undock") then
-				 player:Undock()
+	 do -- rotation damping 
+			local rd = player:GetRotationDamping()
+			if pigui.Checkbox("Rotation Damping", rd) then
+				 player:ToggleRotationDamping()
 			end
 	 end
-	 if takeoff then
-			if pigui.Button("Take Off") then
-				 player:TakeOff()
+	 do -- take off
+			pigui.Text(player:GetFlightState())
+			local takeoff=false
+			if player:IsLanded() then
+				 takeoff=true
+				 if pigui.Button("Blastoff") then
+						player:Blastoff()
+				 end
+			elseif player:IsDocked() then
+				 takeoff=true
+				 if pigui.Button("Undock") then
+						player:Undock()
+				 end
+			end
+			if takeoff then
+				 if pigui.Button("Take Off") then
+						player:TakeOff()
+				 end
 			end
 	 end
- 	 local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
-	 if wheelstate == 0.0 then
-			if pigui.Button("Wheels down") then
-				 player:SetWheelState(true)
+	 do -- wheelstate
+			local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
+			if wheelstate == 0.0 then
+				 if pigui.Button("Wheels down") then
+						player:SetWheelState(true)
+				 end
+			elseif wheelstate == 1.0 then
+				 if pigui.Button("Wheels up") then
+						player:SetWheelState(false)
+				 end
+			else	 
+				 pigui.Text("Wheelstate: " .. wheelstate)
 			end
-	 elseif wheelstate == 1.0 then
-			if pigui.Button("Wheels up") then
-				 player:SetWheelState(false)
+	 end
+	 do -- hyperspace
+			if player:IsDocked() or player:IsLanded() then
+				 pigui.Text("Cannot hyperspace")
+			elseif player:IsHyperspaceActive() then
+				 if pigui.Button("Abort hyperjump") then
+						player:AbortHyperjump()
+				 end
+			else
+				 -- TODO: check whether a valid target is set
+				 if pigui.Button("Initiate Hyperjump") then
+						player:HyperjumpTo(player:GetHyperspaceTarget())
+				 end
 			end
-	 else	 
-			pigui.Text("Wheelstate: " .. wheelstate)
 	 end
 	 pigui.End()
 end
