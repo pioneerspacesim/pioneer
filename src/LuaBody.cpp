@@ -487,6 +487,13 @@ static int l_body_is_ship(lua_State *l)
 	return 1;
 }
 
+static int l_body_is_dead(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	lua_pushboolean(l, b->IsDead());
+	return 1;
+}
+													
 static int l_body_get_mass(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -564,6 +571,7 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetSystemBody",       l_body_get_system_body },
 		{ "GetAtmosphericState", l_body_get_atmospheric_state },
 		{ "IsShip",              l_body_is_ship },
+		{ "IsDead",              l_body_is_dead },
 		{ "GetVelocityRelTo",    l_body_get_velocity_rel_to },
 		{ "GetPositionRelTo",    l_body_get_position_rel_to },
 		{ 0, 0 }

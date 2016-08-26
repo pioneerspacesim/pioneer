@@ -51,6 +51,7 @@ local two_pi = pi * 2
 local standard_gravity = 9.80665
 
 local keys = {
+	 escape = 27,
 	 f1 = 58,
 	 f2 = 59,
 	 f3 = 60,
@@ -90,9 +91,9 @@ local colors = {
 	 noz_mediumblue = { r=3, g=63, b=113 },
 	 noz_lightblue = { r=49, g=102, b=144 },
 	 shield_gauge = { r=0, g=255, b=255 },
-	 hull_gauge = { r=200, g=200, b=200 },
+	 hull_gauge = { r=200, g=100, b=0 },
 	 tmp_gauge = { r=255, g=0, b=0 },
-	 gun_tmp_gauge = { r=200, g=200, b=200 },
+	 gun_tmp_gauge = { r=200, g=100, b=0 },
 	 gauge_darkergrey = {r=20,g=20,b=20},
 	 gauge_darkgrey = {r=35,g=35,b=35},
 	 paused_background = {r=0, b=0, g=0, a=150},
@@ -844,7 +845,7 @@ local function show_navball()
 	 -- circular stats, lower left
 	 local position = Vector(navball_center.x - 180,pigui.screen_height - 40)
 	 show_circular_gauge(position, player:GetHullTemperature(), colors.tmp_gauge, "Temp", "Hull")
-	 show_circular_gauge(position + Vector(-90, 0), player:GetHullPercent() / 100, colors.hull_gauge, "Hull", "Integrity")
+	 show_circular_gauge(position + Vector(-90, 0), 1 - player:GetHullPercent() / 100, colors.hull_gauge, "Damage", "Hull")
 	 if player:GetShieldsPercent() then
 			show_circular_gauge(position + Vector(-180, 0), player:GetShieldsPercent() / 100, colors.shield_gauge, "Shield")
 	 end
@@ -1287,6 +1288,18 @@ local function handle_global_keys()
 	 end
 	 if pigui.IsKeyReleased(keys.f6) then
 			player:ToggleWheelState()
+	 end
+	 if pigui.IsKeyReleased(keys.escape) then
+			if Game.GetTimeAcceleration() ~= "paused" then
+				 Game.SetTimeAcceleration("paused", true)
+			else
+				 if Game.GetView() == "settings" then
+						Game.SetTimeAcceleration("1x", true)
+						Game.SetView(player:IsDead() and "death" or "world")
+				 else
+						Game.SetView("settings")
+				 end
+			end
 	 end
 end
 
@@ -1750,14 +1763,16 @@ local function show_hud()
 end
 
 local function show_pause_screen()
-	 pigui.SetNextWindowPos(Vector(0, 0), "Always")
-	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
-	 pigui.PushStyleColor("WindowBg", colors.paused_background)
-	 pigui.Begin("Pause", {"NoTitleBar","NoMove","NoResize","NoSavedSettings"})
-	 local center = Vector(pigui.screen_width / 2, pigui.screen_height / 4)
-	 show_text(center, "Paused", colors.paused_text, anchor.center, anchor.center, pionillium.large)
-	 pigui.End()
-	 pigui.PopStyleColor(1)
+	 if Game.GetView() == "world" then
+			pigui.SetNextWindowPos(Vector(0, 0), "Always")
+			pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
+			pigui.PushStyleColor("WindowBg", colors.paused_background)
+			pigui.Begin("Pause", {"NoTitleBar","NoMove","NoResize","NoSavedSettings"})
+			local center = Vector(pigui.screen_width / 2, pigui.screen_height / 4)
+			show_text(center, "Paused", colors.paused_text, anchor.center, anchor.center, pionillium.large)
+			pigui.End()
+			pigui.PopStyleColor(1)
+	 end
 end
 
 local function show_hyperspace()
@@ -1772,7 +1787,32 @@ local function show_hyperspace()
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 end
+local function show_time_accel_buttons()
+	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
+	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
 
+	 -- the following doesn't work, seems like a bug in imgui? just call SetWindowFocus after showing the window
+	 -- if Game.GetTimeAcceleration == "paused" then
+	 -- 		pigui.SetNextWindowFocus() -- bring time accel buttons above pause window
+	 -- end
+
+	 pigui.SetNextWindowPos(Vector(0, pigui.screen_height - 40), "Always")
+	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
+	 pigui.Begin("TimeAccel", {"NoTitleBar", "NoMove","NoResize","NoSavedSettings"})
+	 if pigui.Button("||") then
+			Game.SetTimeAcceleration("paused")
+	 end
+	 pigui.SameLine()
+	 for k,v in pairs({"1x", "10x", "100x", "1000x", "10000x"}) do
+			if pigui.Button(v) then
+				 Game.SetTimeAcceleration(v)
+			end
+			pigui.SameLine()
+	 end
+	 pigui.End()
+	 pigui.SetWindowFocus("TimeAccel")
+	 pigui.PopStyleColor(1)
+end
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
@@ -1789,5 +1829,6 @@ pigui.handlers.HUD = function(delta)
 	 if Game.GetTimeAcceleration() == "paused" then
 			show_pause_screen()
 	 end
+	 show_time_accel_buttons()
 	 pigui.PopStyleVar(1)
 end

@@ -340,6 +340,10 @@ static int l_game_set_view(lua_State *l)
 		Pi::SetView(Pi::game->GetSpaceStationView());
 	} else if(!target.compare("info")) {
 		Pi::SetView(Pi::game->GetInfoView());
+	} else if(!target.compare("settings")) {
+		Pi::SetView(Pi::game->GetSettingsView());
+	} else if(!target.compare("death")) {
+		Pi::SetView(Pi::game->GetDeathView());
 	} else if(!target.compare("sector")) {
 		// Pi::SetView(Pi::game->GetSectorView());
 		Pi::game->GetCpan()->OnChangeToMapView(nullptr);
@@ -359,8 +363,12 @@ static int l_game_get_view(lua_State *l)
 		lua_pushstring(l, "sector");
 	else if(Pi::GetView() == Pi::game->GetSystemView())
 		lua_pushstring(l, "system");
+	else if(Pi::GetView() == Pi::game->GetDeathView())
+		lua_pushstring(l, "death");
 	else if(Pi::GetView() == Pi::game->GetGalacticView())
 		lua_pushstring(l, "galaxy");
+	else if(Pi::GetView() == Pi::game->GetSettingsView())
+		lua_pushstring(l, "settings");
 	else
 		lua_pushnil(l);
 	return 1;
@@ -413,9 +421,7 @@ static int l_game_get_hyperspace_travelled_percentage(lua_State *l) {
 	return 1;
 }
 
-static int l_game_get_time_acceleration(lua_State *l)
-{
-	Game::TimeAccel accel = Pi::game->GetTimeAccel();
+static void pushTimeAccel(lua_State *l, Game::TimeAccel accel) {
 	switch(accel) {
 	case Game::TIMEACCEL_PAUSED: lua_pushstring(l,"paused"); break;
 	case Game::TIMEACCEL_1X: lua_pushstring(l,"1x"); break;
@@ -426,6 +432,19 @@ static int l_game_get_time_acceleration(lua_State *l)
 	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l,"hyperspace"); break;
 	default: break; // TODO error
 	}
+}
+
+static int l_game_get_requested_time_acceleration(lua_State *l)
+{
+	Game::TimeAccel accel = Pi::game->GetRequestedTimeAccel();
+	pushTimeAccel(l, accel);
+	return 1;
+}
+
+static int l_game_get_time_acceleration(lua_State *l)
+{
+	Game::TimeAccel accel = Pi::game->GetTimeAccel();
+	pushTimeAccel(l, accel);
 	return 1;
 }
 
@@ -464,6 +483,7 @@ void LuaGame::Register()
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "SetTimeAcceleration", l_game_set_time_acceleration },
 		{ "GetTimeAcceleration", l_game_get_time_acceleration },
+		{ "GetRequestedTimeAcceleration", l_game_get_requested_time_acceleration },
 		{ "InHyperspace",        l_game_in_hyperspace },
 		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
 		{ 0, 0 }

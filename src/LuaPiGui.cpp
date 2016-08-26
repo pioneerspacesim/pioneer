@@ -467,6 +467,17 @@ static int l_pigui_set_next_window_pos(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_set_next_window_focus(lua_State *l) {
+	ImGui::SetNextWindowFocus();
+	return 0;
+}
+
+static int l_pigui_set_window_focus(lua_State *l) {
+	std::string name = luaL_checkstring(l, 1);
+	ImGui::SetWindowFocus(name.c_str());
+	return 0;
+}
+
 static int l_pigui_set_next_window_size(lua_State *l) {
 	ImVec2 size = luaL_checkImVec2(l, 1);
 	int cond = luaL_checkImGuiSetCond(l, 2);
@@ -992,6 +1003,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "AddQuad",                l_pigui_add_quad },
 		{ "SetNextWindowPos",       l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize",      l_pigui_set_next_window_size },
+		{ "SetNextWindowFocus",     l_pigui_set_next_window_focus },
+		{ "SetWindowFocus",         l_pigui_set_window_focus },
 		{ "GetHUDMarker",           l_pigui_get_hud_marker },
 		{ "GetVelocity",            l_pigui_get_velocity },
 		{ "PushStyleColor",         l_pigui_push_style_color },

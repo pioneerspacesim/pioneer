@@ -56,7 +56,6 @@ private:
 	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
 
 	void OnChangeMapView(enum MapView);
-	void OnClickTimeaccel(Game::TimeAccel val);
 	// Handler for scanner view / equipment view toggle button
 	void OnClickScannerEquip(Gui::MultiStateImageButton *b);
 
@@ -75,7 +74,6 @@ private:
 	UseEquipWidget *m_useEquipWidget;
 	Gui::MultiStateImageButton *m_scannerEquipButton;
 	Gui::RadioGroup *m_rightButtonGroup;
-	Gui::ImageRadioButton *m_timeAccelButtons[6];
 	Gui::Widget *m_mapViewButtons[4];
 	Gui::Image *m_alertLights[3];
 

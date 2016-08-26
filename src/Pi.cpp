@@ -1050,26 +1050,12 @@ void Pi::HandleEvents()
 
 void Pi::HandleEscKey() {
 	if (currentView != 0) {
-		if (currentView == Pi::game->GetWorldView()) {
-			if (!Pi::game->IsPaused()) {
-				Pi::game->SetTimeAccel(Game::TIMEACCEL_PAUSED);
-			}
-			else {
-				SetView(Pi::game->GetSettingsView());
-			}
-		}
-		else if (currentView == Pi::game->GetSectorView()) {
+		if (currentView == Pi::game->GetSectorView()) {
 			SetView(Pi::game->GetWorldView());
 		}
 		else if ((currentView == Pi::game->GetSystemView()) || (currentView == Pi::game->GetSystemInfoView())) {
 			Pi::game->GetCpan()->SelectGroupButton(1, 0);
 			SetView(Pi::game->GetSectorView());
-		}
-		else if (currentView == Pi::game->GetSettingsView()){
-			Pi::game->RequestTimeAccel(Game::TIMEACCEL_1X);
-			SetView(Pi::player->IsDead()
-							? static_cast<View*>(Pi::game->GetDeathView())
-							: static_cast<View*>(Pi::game->GetWorldView()));
 		}
 		else {
 			UIView* view = dynamic_cast<UIView*>(currentView);
