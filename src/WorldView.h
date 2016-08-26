@@ -109,6 +109,9 @@ public:
 	const vector3d GetFrameProgradeVelocity() const;
 
 	const vector3d GetProjectedScreenPos(Body *body) const { if(m_projectedPos.find(body) != m_projectedPos.end()) return m_projectedPos.at(body); else return vector3d(0,0,0); }
+
+	std::pair<double, double> CalculateHeadingPitch(enum PlaneType);
+
 protected:
 	virtual void BuildUI(UI::Single *container);
 	virtual void OnSwitchTo();
@@ -139,9 +142,7 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseWheel(bool up);
-	bool OnClickHeadingLabel(void);
-	void RefreshHeadingPitch(void);
-
+	
 	Game* m_game;
 
 	PlaneType m_curPlane;
@@ -166,7 +167,6 @@ private:
 	RefCountedPtr<UI::Single> m_hudDockBottom;
 	RefCountedPtr<UI::Single> m_hudDockCentre;
 	// new-ui HUD components
-	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
 
 	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure, *m_hudTargetInfo;
 	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;

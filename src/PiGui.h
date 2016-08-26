@@ -3,6 +3,7 @@
 #include "Lua.h"
 #include "LuaRef.h"
 #include "LuaTable.h"
+#include "FileSystem.h"
 #include "imgui.h"
 #include "imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h"
 
@@ -32,14 +33,14 @@ public:
  		ImGui_ImplSdlGL3_Init(window);
 		ImGuiIO &io = ImGui::GetIO();
 		static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
-		pionillium12 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 12.0f, nullptr, glyph_ranges);
-		pionillium15 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 15.0f, nullptr, glyph_ranges);
-		pionillium18 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 18.0f, nullptr, glyph_ranges);
-		pionillium30 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 30.0f, nullptr, glyph_ranges);
-	  pionillium36 = io.Fonts->AddFontFromFileTTF("data/fonts/PionilliumText22L-Medium.ttf", 36.0f, nullptr, glyph_ranges);
-		pionicons12 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 12.0f, nullptr, glyph_ranges);
+		pionillium12 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
+		pionillium15 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 15.0f, nullptr, glyph_ranges);
+		pionillium18 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 18.0f, nullptr, glyph_ranges);
+		pionillium30 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
+		pionillium36 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 36.0f, nullptr, glyph_ranges);
+		pionicons12 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/Pionicons.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
 		//		pionicons18 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 18.0f, nullptr, glyph_ranges);
-		pionicons30 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 30.0f, nullptr, glyph_ranges);
+		pionicons30 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/Pionicons.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
  	}
  	static void NewFrame(SDL_Window *window) {
  		ImGui_ImplSdlGL3_NewFrame(window);

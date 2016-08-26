@@ -42,7 +42,7 @@ local navball_center
 local navball_radius = 80
 local navball_text_radius = navball_radius * 1.4
 local reticule_radius = 80
-local reticule_text_radius = reticule_radius * 1.2
+local reticule_text_radius = reticule_radius * 1.1
 
 local pi = 3.14159264
 local pi_2 = pi / 2
@@ -1423,6 +1423,8 @@ local function show_marker(name, painter, color, show_in_reticule, direction, si
 	 end
 end
 
+local planeType = "system-wide"
+
 local function show_stuff()
 	 pigui.Begin("Stuff",{})
 	 do -- rotation damping 
@@ -1452,17 +1454,19 @@ local function show_stuff()
 			end
 	 end
 	 do -- wheelstate
-			local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
-			if wheelstate == 0.0 then
-				 if pigui.Button("Wheels down") then
-						player:SetWheelState(true)
+			if not player:IsDocked() and not player:IsLanded() then
+				 local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
+				 if wheelstate == 0.0 then
+						if pigui.Button("Wheels down") then
+							 player:SetWheelState(true)
+						end
+				 elseif wheelstate == 1.0 then
+						if pigui.Button("Wheels up") then
+							 player:SetWheelState(false)
+						end
+				 else	 
+						pigui.Text("Wheelstate: " .. wheelstate)
 				 end
-			elseif wheelstate == 1.0 then
-				 if pigui.Button("Wheels up") then
-						player:SetWheelState(false)
-				 end
-			else	 
-				 pigui.Text("Wheelstate: " .. wheelstate)
 			end
 	 end
 	 do -- hyperspace
@@ -1478,6 +1482,17 @@ local function show_stuff()
 						player:HyperjumpTo(player:GetHyperspaceTarget())
 				 end
 			end
+	 end
+	 do -- pitch/heading
+			if pigui.Button("Plane type: " .. planeType) then
+				 if planeType == "system-wide" then
+						planeType = "planet"
+				 else
+						planeType = "system-wide"
+				 end
+			end
+			local heading, pitch = player:GetHeadingPitch(planeType)
+			pigui.Text("Heading: " .. math.ceil(heading / two_pi * 360) .. "°, Pitch: " .. math.ceil(pitch / two_pi * 360) .. "°")
 	 end
 	 pigui.End()
 end

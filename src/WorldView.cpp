@@ -145,11 +145,6 @@ void WorldView::InitObject()
 
 	m_hudRoot.Reset(hud_root);
 
-	m_headingInfo.Reset(Pi::ui->Label("heading")->SetColor(s_hudTextColor));
-	m_pitchInfo.Reset(Pi::ui->Label("pitch")->SetColor(s_hudTextColor));
-	m_headingInfo->onClick.connect(sigc::mem_fun(*this, &WorldView::OnClickHeadingLabel));
-	m_curPlane = NONE;
-
 	// --
 
 	m_hudSensorGaugeStack = new Gui::VBox();
@@ -447,29 +442,6 @@ void WorldView::RefreshHyperspaceButton() {
 		m_hyperspaceButton->Hide();
 }
 
-static std::pair<double, double> calculateHeadingPitch(enum PlaneType);
-
-void WorldView::RefreshHeadingPitch(void) {
-	if(m_curPlane == NONE) {
-		m_hudDockTop->SetInnerWidget(m_headingInfo.Get());
-		m_hudDockRight->SetInnerWidget(m_pitchInfo.Get());
-		m_curPlane = ROTATIONAL;
-	}
-	// heading and pitch
-	auto headingPitch = calculateHeadingPitch(m_curPlane);
-	char buf[6];
-	const double heading_deg = RAD2DEG(headingPitch.first);
-	const double pitch_deg = RAD2DEG(headingPitch.second);
-	// \xC2\xB0 is the UTF-8 degree symbol
-	// normal rounding (as performed by printf) is incorrect for the heading
-	// because it rounds x >= 359.5 *up* to 360 without wrapping back to zero.
-	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0",
-					 (heading_deg < 359.5 ? heading_deg : 0.0));
-	m_headingInfo->SetText(buf);
-	snprintf(buf, sizeof(buf), "%3.0f\xC2\xB0", pitch_deg);
-	m_pitchInfo->SetText(buf);
-}
-
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	assert(m_game);
@@ -565,9 +537,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_flightControlButton->Show();
 	}
 
-	// Direction indicator
-	vector3d vel = Pi::player->GetVelocity();
-
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
 		std::ostringstream ss;
@@ -606,41 +575,8 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_debugInfo->Hide();
 	}
 #endif
-	if (Pi::player->GetFlightState() == Ship::HYPERSPACE) {
-		const SystemPath dest = Pi::player->GetHyperspaceDest();
-		RefCountedPtr<StarSystem> s = m_game->GetGalaxy()->GetStarSystem(dest);
 
-		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, stringf(Lang::IN_TRANSIT_TO_N_X_X_X,
-																																						formatarg("system", dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()),
-																																						formatarg("x", dest.sectorX),
-																																						formatarg("y", dest.sectorY),
-																																						formatarg("z", dest.sectorZ)));
-
-		m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_RIGHT, stringf(Lang::JUMP_COMPLETE,
-			formatarg("percent", m_game->GetHyperspaceArrivalProbability()*100.0, "f3.1")));
-	}
-
-	else {
-		{
-			std::string str;
-			double _vel = 0;
-			const char *rel_to = 0;
-			const Body *set_speed_target = Pi::player->GetSetSpeedTarget();
-			if (set_speed_target) {
-				rel_to = set_speed_target->GetLabel().c_str();
-				_vel = Pi::player->GetVelocityRelTo(set_speed_target).Length();
-			} else {
-				rel_to = Pi::player->GetFrame()->GetLabel().c_str();
-				_vel = vel.Length();
-			}
-			if (_vel > 1000) {
-				str = stringf(Lang::KM_S_RELATIVE_TO, formatarg("speed", _vel*0.001), formatarg("frame", rel_to));
-			} else {
-				str = stringf(Lang::M_S_RELATIVE_TO, formatarg("speed", _vel), formatarg("frame", rel_to));
-			}
-			// m_game->GetCpan()->SetOverlayText(ShipCpanel::OVERLAY_TOP_LEFT, str);
-		}
-
+ {
 		int hasSensors = 0;
 		Pi::player->Properties().Get("sensor_cap", hasSensors);
 		if (hasSensors) {
@@ -774,12 +710,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_hudTargetInfo->Hide();
 	}
 
-}
-
-bool WorldView::OnClickHeadingLabel(void) {
-	m_curPlane = m_curPlane == ROTATIONAL ? PARENT : ROTATIONAL;
-	m_game->log->Add(m_curPlane == ROTATIONAL ? Lang::SWITCHED_TO_ROTATIONAL : Lang::SWITCHED_TO_PARENT);
-	return true;
 }
 
 void WorldView::Update()
@@ -1448,7 +1378,7 @@ static double wrapAngleToPositive(const double theta) {
   pitch  0 - level with surface
   pitch 90 - up
 */
-static std::pair<double, double> calculateHeadingPitch(PlaneType pt) {
+std::pair<double, double> WorldView::CalculateHeadingPitch(enum PlaneType pt) {
 	auto frame  = Pi::player->GetFrame();
 
 	if(pt == ROTATIONAL)

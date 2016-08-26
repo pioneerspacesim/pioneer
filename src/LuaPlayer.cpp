@@ -363,6 +363,23 @@ static int l_set_low_thrust_power(lua_State *l)
 	return 0;
 }
 
+static int l_get_heading_pitch(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string type = luaL_checkstring(l, 2);
+	PlaneType pt;
+	if(!type.compare("system-wide")) {
+		pt = PlaneType::PARENT;
+	} else if(!type.compare("planet")) {
+		pt = PlaneType::ROTATIONAL;
+	} // TODO: else error
+	
+	std::pair<double,double> res = Pi::game->GetWorldView()->CalculateHeadingPitch(pt);
+	lua_pushnumber(l, res.first);
+	lua_pushnumber(l, res.second);
+	return 2;
+}
+
 static int l_get_maneuver_speed(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -447,6 +464,7 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetRotationDamping",  l_get_rotation_damping },
 		{ "SetRotationDamping",  l_set_rotation_damping },
 		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
+		{ "GetHeadingPitch",     l_get_heading_pitch },
 		{ 0, 0 }
 	};
 
