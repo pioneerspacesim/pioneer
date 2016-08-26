@@ -90,16 +90,6 @@ void WorldView::InitObject()
 	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
-	m_hyperspaceButton = new Gui::MultiStateImageButton();
-	m_hyperspaceButton->SetShortcut(SDLK_F7, KMOD_NONE);
-	m_hyperspaceButton->AddState(0, "icons/hyperspace_disabled_f8.png", Lang::HYPERSPACE_JUMP_DISABLED);
-	m_hyperspaceButton->AddState(1, "icons/hyperspace_forbidden_f8.png", Lang::HYPERSPACE_JUMP_FORBIDDEN);
-	m_hyperspaceButton->AddState(2, "icons/hyperspace_forbidden_abort_f8.png", Lang::HYPERSPACE_JUMP_ABORT);
-	m_hyperspaceButton->AddState(3, "icons/hyperspace_engage_f8.png", Lang::HYPERSPACE_JUMP_ENGAGE);
-	m_hyperspaceButton->AddState(4, "icons/hyperspace_abort_f8.png", Lang::HYPERSPACE_JUMP_ABORT);
-	m_hyperspaceButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
-
 	m_flightControlButton = new Gui::MultiStateImageButton();
 	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
 	// these states must match Player::FlightControlState (so that the enum values match)
@@ -182,9 +172,6 @@ void WorldView::InitObject()
 	m_siderealCameraController.reset(new SiderealCameraController(m_cameraContext, Pi::player));
 	SetCamType(m_camType); //set the active camera
 
-	m_onHyperspaceTargetChangedCon =
-		m_game->GetSectorView()->onHyperspaceTargetChanged.connect(sigc::mem_fun(this, &WorldView::OnHyperspaceTargetChanged));
-
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
 	m_onChangeFlightControlStateCon =
@@ -200,7 +187,6 @@ void WorldView::InitObject()
 
 WorldView::~WorldView()
 {
-	m_onHyperspaceTargetChangedCon.disconnect();
 	m_onPlayerChangeTargetCon.disconnect();
 	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseWheelCon.disconnect();
@@ -300,12 +286,6 @@ void WorldView::OnRequestTimeAccelDec()
 	Pi::game->RequestTimeAccelDec();
 }
 
-void WorldView::ResetHyperspaceButton()
-{
-	// After a jump:
-	m_hyperspaceButton->SetActiveState(0);
-}
-
 void WorldView::Draw3D()
 {
 	PROFILE_SCOPED()
@@ -371,53 +351,6 @@ static Color get_color_for_warning_meter_bar(float v) {
 	return c;
 }
 
-void WorldView::RefreshHyperspaceButton() {
-
-	// 0 = "disabled" - if target selected but landed
-	// 1 = "forbidden" - if flying below allowed jump altitude
-	// 2 = "forbidden_abort" - if countdown below allowed jump altitude
-	// 3 = "engage" - above allowed jump distance
-	// 4 = "engage_abort" - abort current countdown, above allowed altitude
-	//
-	// (Note: when pressing a button in state 1..4, state is auto-incremented by one).
-
-	SystemPath target = m_game->GetSectorView()->GetHyperspaceTarget();
-	if (LuaObject<Ship>::CallMethod<bool>(Pi::player, "CanHyperjumpTo", &target)){
-//		std::cout << "ONE" << std::endl;
-		if(Pi::player->GetFlightState() == Ship::FLYING || Pi::player->GetFlightState() == Ship::JUMPING)
-		{
-//			std::cout << "TWO" << std::endl;
-			// leave the "disabled" state if not landed:
-			if(m_hyperspaceButton->GetState() == 0)
-				m_hyperspaceButton->StateNext();
-
-			if(!LuaObject<Ship>::CallMethod<bool>(Pi::player, "IsHyperjumpAllowed")) {
-				// If crossing boundary from above
-				if(3 <= m_hyperspaceButton->GetState()){
-					m_hyperspaceButton->StatePrev();
-					m_hyperspaceButton->StatePrev();
-				}
-			}
-			else{
-				// If crossing the boundary from below
-				if(2 >= m_hyperspaceButton->GetState()){
-					m_hyperspaceButton->StateNext();
-					m_hyperspaceButton->StateNext();
-				}
-			}
-		}
-		else{
-			//grayed out disabled button, if target set while LANDED/DOCKED/(UN)DOCKING
-			m_hyperspaceButton->SetActiveState(0);
-		}
-
-		m_hyperspaceButton->Show();
-	}
-	else
-		//If no target selected, then no button at all:
-		m_hyperspaceButton->Hide();
-}
-
 void WorldView::RefreshButtonStateAndVisibility()
 {
 	assert(m_game);
@@ -432,8 +365,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
 	}
-
-	RefreshHyperspaceButton();
 
 	switch(Pi::player->GetFlightState()) {
 	case Ship::LANDED:

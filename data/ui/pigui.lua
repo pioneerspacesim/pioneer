@@ -601,7 +601,8 @@ end
 
 local function show_settings()
 	 pigui.Begin("Settings", {})
-	 local _,show_retrograde_indicators = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
+	 local _,sri = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
+	 show_retrograde_indicators = sri
 	 for k,v in pairs(colors) do
 
 			local changed, r, g, b, a = pigui.DragInt4(k, v.r or 0, v.g or 0, v.b or 0, v.a or 255, 1.0, 0, 255)

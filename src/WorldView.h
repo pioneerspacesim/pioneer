@@ -80,8 +80,6 @@ public:
 	CameraController *GetCameraController() const { return m_activeCameraController; }
 	int GetActiveWeapon() const;
 
-	void ResetHyperspaceButton();
-
 	sigc::signal<void> onChangeCamType;
 
 	const Indicator *GetNavIndicator() const { return &m_navTargetIndicator; }
@@ -119,7 +117,6 @@ protected:
 private:
 	void InitObject();
 
-	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
 
 	void ChangeInternalCameraMode(InternalCameraController::Mode m);
@@ -130,7 +127,6 @@ private:
 
 	void OnToggleLabels();
 
-	void OnClickHyperspace(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
 	void OnPlayerChangeTarget();
@@ -151,7 +147,6 @@ private:
 
 	Gui::Label *m_flightStatus, *m_debugText;
 	Gui::MultiStateImageButton *m_flightControlButton;
-	Gui::MultiStateImageButton *m_hyperspaceButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
 
@@ -174,7 +169,6 @@ private:
 	Gui::MeterBar *m_hudFuelGauge;
 	Gui::VBox *m_hudSensorGaugeStack;
 
-	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseWheelCon;
