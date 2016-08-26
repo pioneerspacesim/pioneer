@@ -599,7 +599,7 @@ local function show_settings()
 	 pigui.Begin("Settings", {})
 	 local _,show_retrograde_indicators = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
 	 for k,v in pairs(colors) do
-			
+
 			local changed, r, g, b, a = pigui.DragInt4(k, v.r or 0, v.g or 0, v.b or 0, v.a or 255, 1.0, 0, 255)
 			if changed then
 				 v.r = r
@@ -857,7 +857,7 @@ end
 local radial_nav_target = nil
 
 Event.Register("onHyperspace", function (target)
-	radial_nav_target = nil
+									radial_nav_target = nil
 end)
 
 local selected_combat = nil
@@ -1014,7 +1014,7 @@ local function get_hierarchical_bodies()
 				 table.insert(suns, body)
 			end
 	 end
-	 
+
 	 return suns, count
 end
 
@@ -1427,7 +1427,7 @@ local planeType = "system-wide"
 
 local function show_stuff()
 	 pigui.Begin("Stuff",{})
-	 do -- rotation damping 
+	 do -- rotation damping
 			local rd = player:GetRotationDamping()
 			if pigui.Checkbox("Rotation Damping", rd) then
 				 player:ToggleRotationDamping()
@@ -1464,7 +1464,7 @@ local function show_stuff()
 						if pigui.Button("Wheels up") then
 							 player:SetWheelState(false)
 						end
-				 else	 
+				 else
 						pigui.Text("Wheelstate: " .. wheelstate)
 				 end
 			end
@@ -1671,8 +1671,17 @@ local function show_hud()
 				 pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
 			end
 			-- ******************** Combat target ********************
-			show_marker("combat_target", symbol.circle, colors.combat_target, true)
-			show_marker("combat_target_lead", symbol.empty_bullseye, colors.combat_target, false)
+			if player:GetCombatTarget() then
+				 show_marker("combat_target", symbol.circle, colors.combat_target, true)
+				 show_marker("combat_target_lead", symbol.empty_bullseye, colors.combat_target, false)
+				 do -- line between lead and target TODO: dashed
+						local c_pos,c_dir,c_point,c_side = markerPos("combat_target", reticule_radius - 10)
+						local cl_pos,cl_dir,cl_point,cl_side = markerPos("combat_target_lead", reticule_radius - 10)
+						if c_point and cl_point and (c_side ~= "hidden" or cl_side ~= "hidden") then
+							 pigui.AddLine(c_point, cl_point, colors.combat_target, 1.0)
+						end
+				 end
+			end
 	 end
 	 -- ******************** NavTarget markers ********************
 	 show_marker("nav_prograde", symbol.diamond, colors.lightgreen, true)
@@ -1726,10 +1735,10 @@ local function show_hud()
 
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
 	 show_nav_window()
-	 -- show_contacts()
+	 show_contacts()
 	 show_stuff()
 	 show_settings()
-	 
+
 	 -- show_debug_orbit()
 	 --	show_debug_thrust()
 	 -- show_debug_temp()
