@@ -1832,7 +1832,7 @@ local function show_time_accel_buttons()
 			local color = (current == v and colors.time_accel_current or (requested == v and colors.time_accel_requested or colors.time_accel))
 			pigui.PushStyleColor("Button", color)
 			if pigui.Button(v) then
-				 Game.SetTimeAcceleration(v, false)
+				 Game.SetTimeAcceleration(v, pigui.key_ctrl)
 			end
 			pigui.PopStyleColor(1)
 			pigui.SameLine()
