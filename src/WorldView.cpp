@@ -97,7 +97,6 @@ void WorldView::InitObject()
 	m_hyperspaceButton->AddState(2, "icons/hyperspace_forbidden_abort_f8.png", Lang::HYPERSPACE_JUMP_ABORT);
 	m_hyperspaceButton->AddState(3, "icons/hyperspace_engage_f8.png", Lang::HYPERSPACE_JUMP_ENGAGE);
 	m_hyperspaceButton->AddState(4, "icons/hyperspace_abort_f8.png", Lang::HYPERSPACE_JUMP_ABORT);
-	m_hyperspaceButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnClickHyperspace));
 	m_hyperspaceButton->SetRenderDimensions(30.0f, 22.0f);
 	m_rightButtonBar->Add(m_hyperspaceButton, 66, 2);
 
@@ -289,29 +288,6 @@ void WorldView::OnPlayerChangeFlightControlState()
 	m_flightControlButton->SetActiveState(Pi::player->GetPlayerController()->GetFlightControlState());
 }
 
-void WorldView::OnClickHyperspace(Gui::MultiStateImageButton *b)
-{
-	if(Pi::player->GetFlightState() == Ship::DOCKED || Pi::player->GetFlightState() == Ship::LANDED){
-		// Maybe not the best, but flip state back (from disabled to disabled, I assume?)
-		m_hyperspaceButton->StatePrev();
-	}
-
-	if (Pi::player->IsHyperspaceActive()) {
-		// Hyperspace countdown in effect.. abort!
-		Pi::player->AbortHyperjump();
-		m_game->log->Add(Lang::HYPERSPACE_JUMP_ABORTED);
-
-		// State backs once from original state
-		m_hyperspaceButton->StatePrev(); // reset to original state...
-		m_hyperspaceButton->StatePrev(); // ... -1 from original state
-	}
-	else{
-		// Initiate hyperspace drive
-		SystemPath path = m_game->GetSectorView()->GetHyperspaceTarget();
-		LuaObject<Player>::CallMethod(Pi::player, "HyperjumpTo", &path);
-	}
-}
-
 void WorldView::OnRequestTimeAccelInc()
 {
 	// requests an increase in time acceleration
@@ -415,7 +391,7 @@ void WorldView::RefreshHyperspaceButton() {
 			if(m_hyperspaceButton->GetState() == 0)
 				m_hyperspaceButton->StateNext();
 
-			if(!LuaObject<Ship>::CallMethod<bool>(Pi::player, "IsHyperjumpAllowed")){
+			if(!LuaObject<Ship>::CallMethod<bool>(Pi::player, "IsHyperjumpAllowed")) {
 				// If crossing boundary from above
 				if(3 <= m_hyperspaceButton->GetState()){
 					m_hyperspaceButton->StatePrev();

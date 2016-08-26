@@ -77,6 +77,9 @@ local colors = {
 	 darkergrey = {r=50,g=50,b=50},
 	 orbital_marker = {r=150,g=150,b=150},
 	 lightgrey = {r=200,g=200,b=200},
+	 time_accel = {r = 100, g = 100, b = 150 },
+	 time_accel_current = {r = 150, g = 150, b = 100 },
+	 time_accel_requested = {r = 150, g = 100, b = 100 },
 	 windowbg = {r=0,g=0,b=50,a=200},
 	 transparent = {r=0,g=0,b=0,a=0},
 	 lightred = { r=255, g=150, b=150},
@@ -1483,16 +1486,24 @@ local function show_stuff()
 			end
 	 end
 	 do -- hyperspace
-			if player:IsDocked() or player:IsLanded() then
-				 pigui.Text("Cannot hyperspace")
-			elseif player:IsHyperspaceActive() then
-				 if pigui.Button("Abort hyperjump") then
-						player:AbortHyperjump()
-				 end
-			else
-				 -- TODO: check whether a valid target is set
-				 if pigui.Button("Initiate Hyperjump") then
-						player:HyperjumpTo(player:GetHyperspaceTarget())
+			if player:CanHyperjumpTo(player:GetHyperspaceTarget()) then
+				 if player:IsDocked() or player:IsLanded() then
+						pigui.Text("Cannot hyperspace while landed")
+				 elseif player:IsHyperspaceActive() then
+						if pigui.Button("Abort hyperjump") then
+							 player:AbortHyperjump()
+						end
+				 else
+						if player:IsHyperjumpAllowed() then
+							 if pigui.Button("Initiate Hyperjump") then
+									player:HyperjumpTo(player:GetHyperspaceTarget())
+							 end
+						else
+							 if pigui.Button("Initiate Hyperjump (ILLEGAL)") then
+									player:HyperjumpTo(player:GetHyperspaceTarget())
+							 end
+
+						end
 				 end
 			end
 	 end
@@ -1795,18 +1806,25 @@ local function show_time_accel_buttons()
 	 -- if Game.GetTimeAcceleration == "paused" then
 	 -- 		pigui.SetNextWindowFocus() -- bring time accel buttons above pause window
 	 -- end
-
+	 local requested = Game.GetRequestedTimeAcceleration()
+	 local current = Game.GetTimeAcceleration()
 	 pigui.SetNextWindowPos(Vector(0, pigui.screen_height - 40), "Always")
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
 	 pigui.Begin("TimeAccel", {"NoTitleBar", "NoMove","NoResize","NoSavedSettings"})
+	 local color = (current == "paused" and colors.time_accel_current or (requested == "paused" and colors.time_accel_requested or colors.time_accel))
+	 pigui.PushStyleColor("Button", color)
 	 if pigui.Button("||") then
-			Game.SetTimeAcceleration("paused")
+			Game.SetTimeAcceleration("paused", true)
 	 end
+	 pigui.PopStyleColor(1)
 	 pigui.SameLine()
 	 for k,v in pairs({"1x", "10x", "100x", "1000x", "10000x"}) do
+			local color = (current == v and colors.time_accel_current or (requested == v and colors.time_accel_requested or colors.time_accel))
+			pigui.PushStyleColor("Button", color)
 			if pigui.Button(v) then
-				 Game.SetTimeAcceleration(v)
+				 Game.SetTimeAcceleration(v, false)
 			end
+			pigui.PopStyleColor(1)
 			pigui.SameLine()
 	 end
 	 pigui.End()

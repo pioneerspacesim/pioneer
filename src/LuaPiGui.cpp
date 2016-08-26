@@ -65,6 +65,8 @@ static ImGuiCol luaL_checkImGuiCol(lua_State *l, int index) {
 	std::string stylestr = luaL_checkstring(l, index);
 	if(!stylestr.compare("WindowBg"))
 		return ImGuiCol_WindowBg;
+	else if(!stylestr.compare("Button"))
+		return ImGuiCol_Button;
 	// TODO: else error
 	return -1;
 }
