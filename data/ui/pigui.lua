@@ -832,22 +832,22 @@ local function show_navball()
 			local apoapsis = aa > 0 and clamp((aa - min_height) / range, ends, 1 - ends/2) or nil
 			local periapsis = clamp((pa - min_height) / range, ends, 1 - ends/2)
 			local atmosphere_ratio = frame_sb.hasAtmosphere and math.max(ends, (atmosphere_height - min_height) / range - 2 * ends) or 0
-			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_space, thickness * 0.99, 0.0, 1.0)
-			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_ground, thickness, 0, ends)
-			orbit_gauge(navball_center, navball_radius + 5 + thickness, colors.orbit_gauge_atmosphere, thickness, ends, ends + atmosphere_ratio)
+			orbit_gauge(navball_center, navball_radius + 5, colors.orbit_gauge_space, thickness * 0.99, 0.0, 1.0)
+			orbit_gauge(navball_center, navball_radius + 5, colors.orbit_gauge_ground, thickness, 0, ends)
+			orbit_gauge(navball_center, navball_radius + 5, colors.orbit_gauge_atmosphere, thickness, ends, ends + atmosphere_ratio)
 
-			symbol.circle(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, my_height), thickness / 2.3, colors.lightgrey, 2)
+			symbol.circle(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, my_height), thickness / 2.3, colors.lightgrey, 2)
 			if apoapsis then
-				 local self_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, apoapsis)
-				 local close_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, apoapsis * 1.05)
+				 local self_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, apoapsis)
+				 local close_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, apoapsis * 1.05)
 				 local dir = (close_position - self_position):normalized()
-				 symbol.chevron(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, apoapsis), thickness / 2.3, colors.lightgrey, 2, dir)
+				 symbol.chevron(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, apoapsis), thickness / 2.3, colors.lightgrey, 2, dir)
 			end
 			do
-				 local self_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, periapsis)
-				 local close_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, periapsis * 0.95)
+				 local self_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis)
+				 local close_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis * 0.95)
 				 local dir = (close_position - self_position):normalized()
-				 symbol.chevron(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*1.5, periapsis), thickness / 2.3, colors.lightgrey, 2, dir)
+				 symbol.chevron(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis), thickness / 2.3, colors.lightgrey, 2, dir)
 			end
 	 end
 	 -- circular stats, lower left
