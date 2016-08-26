@@ -1286,7 +1286,6 @@ void Pi::MainLoop()
 		PROFILE_SCOPED()
 
 			Pi::serverAgent->ProcessResponses();
-		PiGui::NewFrame(Pi::renderer->GetWindow()->GetSDLWindow());
 
 		const Uint32 newTicks = SDL_GetTicks();
 		double newTime = 0.001 * double(newTicks);
@@ -1421,8 +1420,10 @@ void Pi::MainLoop()
 		Pi::DrawRenderTarget();
 
 
-		if(Pi::game && !Pi::player->IsDead())
+		if(Pi::game && !Pi::player->IsDead()) {
+			PiGui::NewFrame(Pi::renderer->GetWindow()->GetSDLWindow());
 			PiGuiUI(Pi::frameTime);
+		}
 
 		Pi::renderer->SwapBuffers();
 
