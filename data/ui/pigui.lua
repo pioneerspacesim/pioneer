@@ -1528,6 +1528,21 @@ local function show_stuff()
 			local heading, pitch = player:GetHeadingPitch(planeType)
 			pigui.Text("Heading: " .. math.ceil(heading / two_pi * 360) .. "°, Pitch: " .. math.ceil(pitch / two_pi * 360) .. "°")
 	 end
+	 do -- flight control state
+			local state = player:GetFlightControlState()
+			pigui.Text(state)
+			local states = { "manual", "fix-speed", "fix-heading-forward", "fix-heading-backward", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-kill-rot" }
+			if state == "fix-speed" then
+				 pigui.Text(" speed: " .. player:GetFlightControlSpeed())
+			end
+			for k,v in pairs(states) do
+				 if state ~= v then
+						if pigui.Button(v) then
+							 player:SetFlightControlState(v)
+						end
+				 end
+			end
+	 end
 	 pigui.End()
 end
 

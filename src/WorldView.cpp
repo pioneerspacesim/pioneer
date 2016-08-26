@@ -90,21 +90,6 @@ void WorldView::InitObject()
 	m_navTunnel = new NavTunnelWidget(this, m_blendState);
 	Add(m_navTunnel, 0, 0);
 
-	m_flightControlButton = new Gui::MultiStateImageButton();
-	m_flightControlButton->SetShortcut(SDLK_F5, KMOD_NONE);
-	// these states must match Player::FlightControlState (so that the enum values match)
-	m_flightControlButton->AddState(CONTROL_MANUAL, "icons/manual_control.png", Lang::MANUAL_CONTROL);
-	m_flightControlButton->AddState(CONTROL_FIXSPEED, "icons/manual_control.png", Lang::COMPUTER_SPEED_CONTROL);
-	m_flightControlButton->AddState(CONTROL_FIXHEADING_FORWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
-	m_flightControlButton->AddState(CONTROL_FIXHEADING_BACKWARD, "icons/manual_control.png", Lang::COMPUTER_HEADING_CONTROL);
-	m_flightControlButton->AddState(CONTROL_AUTOPILOT, "icons/autopilot.png", Lang::AUTOPILOT_ON);
-	m_flightControlButton->onClick.connect(sigc::mem_fun(this, &WorldView::OnChangeFlightState));
-	m_flightControlButton->SetRenderDimensions(30.0f, 22.0f);
-	m_rightButtonBar->Add(m_flightControlButton, 2, 2);
-
-	m_flightStatus = (new Gui::Label(""))->Color(255, 178, 0);
-	m_rightRegion2->Add(m_flightStatus, 2, 0);
-
 #if WITH_DEVKEYS
 	Gui::Screen::PushFont("ConsoleFont");
 	m_debugInfo = (new Gui::Label(""))->Color(204, 204, 204);
@@ -174,8 +159,6 @@ void WorldView::InitObject()
 
 	m_onPlayerChangeTargetCon =
 		Pi::onPlayerChangeTarget.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeTarget));
-	m_onChangeFlightControlStateCon =
-		Pi::onPlayerChangeFlightControlState.connect(sigc::mem_fun(this, &WorldView::OnPlayerChangeFlightControlState));
 	m_onMouseWheelCon =
 		Pi::onMouseWheel.connect(sigc::mem_fun(this, &WorldView::MouseWheel));
 
@@ -188,7 +171,6 @@ void WorldView::InitObject()
 WorldView::~WorldView()
 {
 	m_onPlayerChangeTargetCon.disconnect();
-	m_onChangeFlightControlStateCon.disconnect();
 	m_onMouseWheelCon.disconnect();
 }
 
@@ -241,37 +223,6 @@ void WorldView::ChangeInternalCameraMode(InternalCameraController::Mode m)
 		Pi::BoinkNoise();
 	m_internalCameraController->SetMode(m);
 	Pi::player->GetPlayerController()->SetMouseForRearView(m_camType == CAM_INTERNAL && m_internalCameraController->GetMode() == InternalCameraController::MODE_REAR);
-}
-
-/* This is UI click to change flight control state (manual, speed ctrl) */
-void WorldView::OnChangeFlightState(Gui::MultiStateImageButton *b)
-{
-	Pi::BoinkNoise();
-	int newState = b->GetState();
-	if (Pi::KeyState(SDLK_LCTRL) || Pi::KeyState(SDLK_RCTRL)) {
-		// skip certain states
-		switch (newState) {
-		case CONTROL_FIXSPEED: newState = CONTROL_FIXHEADING_FORWARD; break;
-		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
-		default: break;
-		}
-	} else {
-		// skip certain states
-		switch (newState) {
-		case CONTROL_FIXHEADING_FORWARD: // fallthrough
-		case CONTROL_FIXHEADING_BACKWARD: newState = CONTROL_MANUAL; break;
-		case CONTROL_AUTOPILOT: newState = CONTROL_MANUAL; break;
-		default: break;
-		}
-	}
-	b->SetActiveState(newState);
-	Pi::player->GetPlayerController()->SetFlightControlState(static_cast<FlightControlState>(newState));
-}
-
-/* This is when the flight control state actually changes... */
-void WorldView::OnPlayerChangeFlightControlState()
-{
-	m_flightControlButton->SetActiveState(Pi::player->GetPlayerController()->GetFlightControlState());
 }
 
 void WorldView::OnRequestTimeAccelInc()
@@ -366,83 +317,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
 	}
 
-	switch(Pi::player->GetFlightState()) {
-	case Ship::LANDED:
-		m_flightStatus->SetText(Lang::LANDED);
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::DOCKING:
-		m_flightStatus->SetText(Lang::DOCKING);
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::UNDOCKING:
-		m_flightStatus->SetText(Lang::UNDOCKING);
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::DOCKED:
-		m_flightStatus->SetText(Lang::DOCKED);
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::JUMPING:
-	case Ship::HYPERSPACE:
-		m_flightStatus->SetText(Lang::HYPERSPACE);
-		m_flightControlButton->Hide();
-		break;
-
-	case Ship::FLYING:
-	default:
-		const FlightControlState fstate = Pi::player->GetPlayerController()->GetFlightControlState();
-		switch (fstate) {
-		case CONTROL_MANUAL:
-			m_flightStatus->SetText(Lang::MANUAL_CONTROL); break;
-
-		case CONTROL_FIXSPEED: {
-			std::string msg;
-			const double setspeed = Pi::player->GetPlayerController()->GetSetSpeed();
-			if (setspeed > 1000) {
-				msg = stringf(Lang::SET_SPEED_KM_S, formatarg("speed", setspeed*0.001));
-			} else {
-				msg = stringf(Lang::SET_SPEED_M_S, formatarg("speed", setspeed));
-			}
-			m_flightStatus->SetText(msg);
-			break;
-		}
-
-		case CONTROL_FIXHEADING_FORWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_FORWARD);
-			break;
-		case CONTROL_FIXHEADING_BACKWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_BACKWARD);
-			break;
-		case CONTROL_FIXHEADING_NORMAL:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_NORMAL);
-			break;
-		case CONTROL_FIXHEADING_ANTINORMAL:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_ANTINORMAL);
-			break;
-		case CONTROL_FIXHEADING_RADIALLY_INWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_INWARD);
-			break;
-		case CONTROL_FIXHEADING_RADIALLY_OUTWARD:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_RADIALLY_OUTWARD);
-			break;
-		case CONTROL_FIXHEADING_KILLROT:
-			m_flightStatus->SetText(Lang::HEADING_LOCK_KILLROT);
-			break;
-
-		case CONTROL_AUTOPILOT:
-			m_flightStatus->SetText(Lang::AUTOPILOT_CONTROL);
-			break;
-
-		default: assert(0); break;
-		}
-
-		m_flightControlButton->Show();
-	}
 
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {

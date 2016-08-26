@@ -363,11 +363,57 @@ static int l_set_low_thrust_power(lua_State *l)
 	return 0;
 }
 
+static int l_get_flight_control_state(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::vector<std::string> states = { "manual", "fix-speed", "fix-heading-forward", "fix-heading-backward", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-killrot", "autopilot" };
+	lua_pushstring(l, states[player->GetPlayerController()->GetFlightControlState()].c_str());
+	return 1;
+}
+static int l_set_flight_control_state(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string state = luaL_checkstring(l, 2);
+	FlightControlState newState = FlightControlState::CONTROL_MANUAL;
+	if(!state.compare("manual")) {
+		newState = FlightControlState::CONTROL_MANUAL;
+	} else if(!state.compare("fix-speed")) {
+		newState = FlightControlState::CONTROL_FIXSPEED;
+	} else if(!state.compare("fix-heading-forward")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_FORWARD;
+	} else if(!state.compare("fix-heading-backward")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_BACKWARD;
+	} else if(!state.compare("fix-heading-normal")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_NORMAL;
+	} else if(!state.compare("fix-heading-antinormal")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_ANTINORMAL;
+	} else if(!state.compare("fix-heading-radial-in")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_RADIALLY_INWARD;
+	} else if(!state.compare("fix-heading-radial-out")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_RADIALLY_OUTWARD;
+	} else if(!state.compare("fix-heading-kill-rot")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_KILLROT;
+	}// else if(!state.compare("autopilot")) {
+	//		newState = FlightControlState::CONTROL_AUTOPILOT;
+	//	}
+	//   TODO: else error
+	player->GetPlayerController()->SetFlightControlState(newState);
+	return 0;
+}
+
+static int l_get_flight_control_speed(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetPlayerController()->GetSetSpeed());
+	return 1;
+}
+
 static int l_get_heading_pitch(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
+	// player is unused
 	std::string type = luaL_checkstring(l, 2);
-	PlaneType pt;
+	PlaneType pt = PlaneType::PARENT;
 	if(!type.compare("system-wide")) {
 		pt = PlaneType::PARENT;
 	} else if(!type.compare("planet")) {
@@ -465,6 +511,9 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetRotationDamping",  l_set_rotation_damping },
 		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
 		{ "GetHeadingPitch",     l_get_heading_pitch },
+		{ "GetFlightControlState", l_get_flight_control_state },
+		{ "SetFlightControlState", l_set_flight_control_state },
+		{ "GetFlightControlSpeed", l_get_flight_control_speed },
 		{ 0, 0 }
 	};
 
