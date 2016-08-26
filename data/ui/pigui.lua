@@ -1068,7 +1068,11 @@ local function show_nav_window()
 			pigui.PopFont()
 			pigui.SameLine()
 			if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
-				 player:SetNavTarget(data.body)
+				 if nav_target == data.body then
+						player:SetNavTarget(nil)
+				 else
+						player:SetNavTarget(data.body)
+				 end
 			end
 			pigui.NextColumn()
 			pigui.Text(Format.Distance(data.distance))
@@ -1444,7 +1448,11 @@ local function show_bodies_on_screen()
 				 end
 				 if pigui.IsMouseReleased(0) then
 						if #labels == 1 then
-							 player:SetNavTarget(labels[1])
+							 if player:GetNavTarget() == labels[1] then
+									player:SetNavTarget(nil)
+							 else
+									player:SetNavTarget(labels[1])
+							 end
 						else
 							 pigui.OpenPopup("navtarget" .. label)
 						end
@@ -1459,7 +1467,11 @@ local function show_bodies_on_screen()
 			if pigui.BeginPopup("navtarget" .. label) then
 				 for _,body in pairs(labels) do
 						if pigui.Selectable(body.label, false, {}) then
-							 player:SetNavTarget(body)
+							 if player:GetNavTarget() == body then
+									player:SetNavTarget(nil)
+							 else
+									player:SetNavTarget(body)
+							 end
 						end
 				 end
 				 pigui.EndPopup()
