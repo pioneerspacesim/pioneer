@@ -1838,7 +1838,9 @@ local function show_time_accel_buttons()
 			pigui.SameLine()
 	 end
 	 pigui.End()
-	 pigui.SetWindowFocus("TimeAccel")
+	 if Game.GetTimeAcceleration() == "paused" then
+			pigui.SetWindowFocus("TimeAccel")
+	 end
 	 pigui.PopStyleColor(1)
 end
 pigui.handlers.HUD = function(delta)
