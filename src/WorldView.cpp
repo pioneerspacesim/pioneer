@@ -310,13 +310,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 
 	m_game->GetCpan()->ClearOverlay();
 
-	if (Pi::player->GetFlightState() != Ship::HYPERSPACE) {
-		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_LEFT,     Lang::SHIP_VELOCITY_BY_REFERENCE_OBJECT);
-		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_TOP_RIGHT,    Lang::DISTANCE_FROM_SHIP_TO_NAV_TARGET);
-		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_LEFT,  Lang::EXTERNAL_ATMOSPHERIC_PRESSURE);
-		m_game->GetCpan()->SetOverlayToolTip(ShipCpanel::OVERLAY_BOTTOM_RIGHT, Lang::SHIP_ALTITUDE_ABOVE_TERRAIN);
-	}
-
 
 #if WITH_DEVKEYS
 	if (Pi::showDebugInfo) {
@@ -508,15 +501,7 @@ void WorldView::Update()
 
 	// XXX ugly hack checking for console here
 	if (!Pi::IsConsoleActive()) {
-		if (GetCamType() == CAM_INTERNAL) {
-			if      (KeyBindings::frontCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_FRONT);
-			else if (KeyBindings::rearCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_REAR);
-			else if (KeyBindings::leftCamera.IsActive())   ChangeInternalCameraMode(InternalCameraController::MODE_LEFT);
-			else if (KeyBindings::rightCamera.IsActive())  ChangeInternalCameraMode(InternalCameraController::MODE_RIGHT);
-			else if (KeyBindings::topCamera.IsActive())    ChangeInternalCameraMode(InternalCameraController::MODE_TOP);
-			else if (KeyBindings::bottomCamera.IsActive()) ChangeInternalCameraMode(InternalCameraController::MODE_BOTTOM);
-		}
-		else {
+		if (GetCamType() != CAM_INTERNAL) {
 			MoveableCameraController *cam = static_cast<MoveableCameraController*>(m_activeCameraController);
 			if (KeyBindings::cameraRotateUp.IsActive()) cam->RotateUp(frameTime);
 			if (KeyBindings::cameraRotateDown.IsActive()) cam->RotateDown(frameTime);

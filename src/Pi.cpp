@@ -1377,8 +1377,6 @@ void Pi::MainLoop()
 		Pi::renderer->ClearDepthBuffer();
 		if( DrawGUI ) {
 			Gui::Draw();
-			if (game)
-				game->log->DrawHudMessages(renderer);
 		} else if (game && game->IsNormalSpace()) {
 			if (config->Int("DisableScreenshotInfo")==0) {
 				const RefCountedPtr<StarSystem> sys = game->GetSpace()->GetStarSystem();

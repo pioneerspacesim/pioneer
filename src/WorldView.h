@@ -109,6 +109,7 @@ public:
 	const vector3d GetProjectedScreenPos(Body *body) const { if(m_projectedPos.find(body) != m_projectedPos.end()) return m_projectedPos.at(body); else return vector3d(0,0,0); }
 
 	std::pair<double, double> CalculateHeadingPitch(enum PlaneType);
+	void ChangeInternalCameraMode(InternalCameraController::Mode m);
 
 protected:
 	virtual void BuildUI(UI::Single *container);
@@ -118,8 +119,6 @@ private:
 	void InitObject();
 
 	void RefreshButtonStateAndVisibility();
-
-	void ChangeInternalCameraMode(InternalCameraController::Mode m);
 
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);

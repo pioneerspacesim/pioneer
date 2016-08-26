@@ -441,6 +441,28 @@ static int l_game_get_requested_time_acceleration(lua_State *l)
 	return 1;
 }
 
+static int l_game_change_internal_camera_direction(lua_State *l)
+{
+	std::string mode = luaL_checkstring(l, 1);
+	InternalCameraController::Mode m = InternalCameraController::Mode::MODE_FRONT;
+	if(!mode.compare("front")) {
+		m = InternalCameraController::Mode::MODE_FRONT;
+	} else if(!mode.compare("rear")) {
+		m = InternalCameraController::Mode::MODE_REAR;
+	} else if(!mode.compare("left")) {
+		m = InternalCameraController::Mode::MODE_LEFT;
+	} else if(!mode.compare("right")) {
+		m = InternalCameraController::Mode::MODE_RIGHT;
+	} else if(!mode.compare("top")) {
+		m = InternalCameraController::Mode::MODE_TOP;
+	} else if(!mode.compare("bottom")) {
+		m = InternalCameraController::Mode::MODE_BOTTOM;
+	}
+	// TODO else error
+	Pi::game->GetWorldView()->ChangeInternalCameraMode(m);
+	return 0;
+}
+
 static int l_game_get_time_acceleration(lua_State *l)
 {
 	Game::TimeAccel accel = Pi::game->GetTimeAccel();
@@ -483,9 +505,10 @@ void LuaGame::Register()
 		{ "SetWorldCamType", l_game_set_world_cam_type },
 		{ "SetTimeAcceleration", l_game_set_time_acceleration },
 		{ "GetTimeAcceleration", l_game_get_time_acceleration },
-		{ "GetRequestedTimeAcceleration", l_game_get_requested_time_acceleration },
-		{ "InHyperspace",        l_game_in_hyperspace },
+		{ "GetRequestedTimeAcceleration",     l_game_get_requested_time_acceleration },
+		{ "InHyperspace",                     l_game_in_hyperspace },
 		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
+		{ "ChangeInternalCameraDirection",    l_game_change_internal_camera_direction },
 		{ 0, 0 }
 	};
 

@@ -51,6 +51,10 @@ local two_pi = pi * 2
 local standard_gravity = 9.80665
 
 local keys = {
+	 left = 80,
+	 right = 79,
+	 up = 82,
+	 down = 81,
 	 escape = 27,
 	 f1 = 58,
 	 f2 = 59,
@@ -886,13 +890,23 @@ local function show_contacts()
 	 pigui.End()
 end
 
+local comm_log = {}
+
+local function show_comm_log()
+	 pigui.Begin("CommLog", {})
+	 for k,v in pairs(Game.comms_log_lines) do
+			pigui.Text(Format.Duration(Game.time - v.time) .. " " .. (v.sender and (v.sender .. ": ") or "") .. v.text)
+	 end
+	 pigui.End()
+end
+
 local radial_actions = {
 	 dock = function(body) player:AIDockWith(body); player:SetNavTarget(body) end, -- TODO check for autopilot
 	 fly_to = function(body) player:AIFlyTo(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
 	 low_orbit = function(body) player:AIEnterLowOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
 	 medium_orbit = function(body) player:AIEnterMediumOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
 	 high_orbit = function(body) player:AIEnterHighOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
-	 clearance = function(body) player:RequestDockingClearance(body); player:SetNavTarget(body)  end, -- TODO check for room for docking, or make it so you can be denied
+	 clearance = function(body) local msg = player:RequestDockingClearance(body); Game.AddCommsLogLine(msg, body.label); player:SetNavTarget(body)  end, -- TODO check for room for docking, or make it so you can be denied
 	 radial_in = function(body) print("implement radial_in") end, -- 	Pi::player->GetPlayerController()->SetFlightControlState(s); CONTROL_FIXHEADING_FORWARD
 	 radial_out = function(body) print("implement radial_out") end,
 	 normal = function(body) print("implement normal") end,
@@ -1299,6 +1313,28 @@ local function handle_global_keys()
 	 if pigui.IsKeyReleased(keys.f6) then
 			player:ToggleWheelState()
 	 end
+	 if pigui.IsKeyReleased(keys.f7) then
+			if player:IsHyperspaceActive() then
+				 player:AbortHyperjump()
+				 Game.AddCommsLogLine("Hyperspace jump aborted", nil)
+			else
+				 player:HyperjumpTo(player:GetHyperspaceTarget())
+				 Game.AddCommsLogLine("Hyperjump started" , nil)
+			end
+	 end
+	 if pigui.IsKeyReleased(keys.right) then
+			Game.ChangeInternalCameraDirection("right")
+	 end
+	 if pigui.IsKeyReleased(keys.up) then
+			Game.ChangeInternalCameraDirection("front")
+	 end
+	 if pigui.IsKeyReleased(keys.left) then
+			Game.ChangeInternalCameraDirection("left")
+	 end
+	 if pigui.IsKeyReleased(keys.down) then
+			Game.ChangeInternalCameraDirection("rear")
+	 end
+
 	 if pigui.IsKeyReleased(keys.escape) then
 			if Game.GetTimeAcceleration() ~= "paused" then
 				 Game.SetTimeAcceleration("paused", true)
@@ -1502,6 +1538,7 @@ local function show_stuff()
 				 elseif player:IsHyperspaceActive() then
 						if pigui.Button("Abort hyperjump") then
 							 player:AbortHyperjump()
+							 Game.AddCommsLogLine("Hyperspace jump aborted", nil)
 						end
 				 else
 						if player:IsHyperjumpAllowed() then
@@ -1521,8 +1558,10 @@ local function show_stuff()
 			if pigui.Button("Plane type: " .. planeType) then
 				 if planeType == "system-wide" then
 						planeType = "planet"
+						Game.AddCommsLogLine("Switched to planet", nil)
 				 else
 						planeType = "system-wide"
+						Game.AddCommsLogLine("Switched to system-wide", nil)
 				 end
 			end
 			local heading, pitch = player:GetHeadingPitch(planeType)
@@ -1787,7 +1826,8 @@ local function show_hud()
 	 show_nav_window()
 	 show_contacts()
 	 show_stuff()
-	 show_settings()
+	 show_comm_log()
+--	 show_settings()
 
 	 -- show_debug_orbit()
 	 --	show_debug_thrust()
