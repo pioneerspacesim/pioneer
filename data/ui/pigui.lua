@@ -901,6 +901,8 @@ local radial_actions = {
 	 -- hypercloud_analyzer: 	Pi::game->GetSectorView()->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
+local should_show_radial_menu = false
+
 local function show_radial_menu()
 	 local radial_menu_center = pigui.GetMouseClickedPos(1)
 	 local radial_menu_size = 100
@@ -948,6 +950,7 @@ local function show_radial_menu()
 	 if n >= 0 then
 			local action = actions[n + 1]
 			radial_actions[action](radial_nav_target)
+			should_show_radial_menu = false
 	 end
 end
 local function get_body_icon_letter(body)
@@ -1059,6 +1062,7 @@ local function show_nav_window()
 			if pigui.IsItemClicked(1) then
 				 pigui.OpenPopup("##piepopup")
 				 radial_nav_target = data.body
+				 should_show_radial_menu = true
 			end
 			for _,data in pairs(data.children or {}) do
 				 AddLine(data, indent + 1)
@@ -1074,7 +1078,9 @@ local function show_nav_window()
 			print_r(data)
 			error("nok: " .. count .. " count vs. lines " .. lines)
 	 end
-	 show_radial_menu()
+	 if should_show_radial_menu then
+			show_radial_menu()
+	 end
 	 pigui.End()
 end
 
@@ -1397,6 +1403,7 @@ local function show_bodies_on_screen()
 				 if pigui.IsMouseClicked(1) and #labels == 1 then
 						pigui.OpenPopup("##piepopup")
 						radial_nav_target = labels[1]
+						should_show_radial_menu = true
 				 end
 				 if pigui.IsMouseReleased(0) then
 						if #labels == 1 then
@@ -1408,7 +1415,9 @@ local function show_bodies_on_screen()
 						show_tooltip = true
 				 end
 			end
-			show_radial_menu()
+			if should_show_radial_menu then
+				 show_radial_menu()
+			end
 
 			if pigui.BeginPopup("navtarget" .. label) then
 				 for _,body in pairs(labels) do
@@ -1534,6 +1543,7 @@ local function show_hud()
 	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
+
 
 	 -- symbol.disk(Vector(100,100), 2, colors.red, 1.0)
 	 -- show_text_fancy(Vector(100,100), { "bot", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.right, anchor.bottom)
@@ -1835,7 +1845,6 @@ pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
 	 pigui.PushStyleVar("WindowRounding", 0)
-
 	 if Game.GetView() == "world" then
 			if Game.InHyperspace() then
 				 show_hyperspace()
@@ -1844,6 +1853,7 @@ pigui.handlers.HUD = function(delta)
 			end
 	 end
 	 handle_global_keys()
+
 	 if Game.GetTimeAcceleration() == "paused" then
 			show_pause_screen()
 	 end

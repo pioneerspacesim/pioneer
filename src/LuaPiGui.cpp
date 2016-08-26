@@ -923,7 +923,6 @@ static int l_pigui_radial_menu(lua_State *l) {
 	for(LuaTable::VecIter<std::string> iter = tts.Begin<std::string>(); iter != tts.End<std::string>(); ++iter) {
 		tooltips.push_back(*iter);
 	}
-
 	int n = PiGui::RadialPopupSelectMenu(center, id, items, font, tooltips);
 	lua_pushinteger(l, n);
 	return 1;
