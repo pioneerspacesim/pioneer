@@ -1864,7 +1864,7 @@ end
 local onShipDocked = function (ship, station)
 	if ship:IsPlayer() then
 		for _,mission in pairs(missions) do
-			if Space.GetBody(mission.station_local.bodyIndex) == station then
+			if Game.time > mission.due or mission.station_local:IsSameSystem(Game.system.path) and Space.GetBody(mission.station_local.bodyIndex) == station then
 				closeMission(mission)
 			end
 		end
