@@ -14,11 +14,13 @@ August 2016
      * prefix std:: to isnan so it builds on Linux (#3775)
      * Use ImageMagick to fix the iCCP profile problem (#3778)
      * Fix crash when jumping into empty system (#3791)
+     * Fix risk of game crash from SAR when landing on wrong planet (#3797)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
      * Restore Starfield colourisation (#3774)
      * Animated city buildings, instancing improvement (#3777)
+     * Small code cleanup in SAR (#3798)
 
 July 2016
    * New Features
