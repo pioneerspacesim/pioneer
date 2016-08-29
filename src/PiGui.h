@@ -19,9 +19,6 @@ public:
 	static ImFont *pionicons30;
 	
 	PiGui() {
-		lua_State *l = Lua::manager->GetLuaState();
-		lua_newtable(l);
-		m_handlers = LuaRef(l, -1);
 	}
 	// PiGui(const PiGui &other) {
 	// }
@@ -29,7 +26,13 @@ public:
 	void RenderHUD(double delta) {
 		ScopedTable(m_handlers).Call<bool>("HUD", delta);
 	}
-	static void Init(SDL_Window *window) {
+	void Init(SDL_Window *window) {
+		m_handlers.Unref();
+		
+		lua_State *l = Lua::manager->GetLuaState();
+		lua_newtable(l);
+		m_handlers = LuaRef(l, -1);
+		
  		ImGui_ImplSdlGL3_Init(window);
 		ImGuiIO &io = ImGui::GetIO();
 		static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
@@ -42,6 +45,9 @@ public:
 		//		pionicons18 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 18.0f, nullptr, glyph_ranges);
 		pionicons30 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/Pionicons.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
  	}
+	void Uninit() {
+		m_handlers.Unref();
+	}
  	static void NewFrame(SDL_Window *window) {
  		ImGui_ImplSdlGL3_NewFrame(window);
 		ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);

@@ -519,6 +519,9 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		ui_scale = float(Graphics::GetScreenHeight()) / 768.0f;
 	}
 	Pi::pigui.Reset(new PiGui);
+	
+	Pi::pigui->Init(Pi::renderer->GetWindow()->GetSDLWindow());
+	
 	Pi::ui.Reset(new UI::Context(
 															 Lua::manager,
 															 Pi::renderer,
@@ -773,6 +776,7 @@ void Pi::Quit()
 	FaceParts::Uninit();
 	Graphics::Uninit();
 	Pi::ui.Reset(0);
+	Pi::pigui->Uninit();
 	LuaUninit();
 	Gui::Uninit();
 	delete Pi::modelCache;
@@ -1132,6 +1136,7 @@ static void OnPlayerDockOrUndock()
 
 void Pi::StartGame()
 {
+	
 	Pi::player->onDock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onUndock.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
 	Pi::player->onLanded.connect(sigc::ptr_fun(&OnPlayerDockOrUndock));
@@ -1276,7 +1281,6 @@ void Pi::MainLoop()
 	double accumulator = Pi::game->GetTimeStep();
 	Pi::gameTickAlpha = 0;
 
-	PiGui::Init(Pi::renderer->GetWindow()->GetSDLWindow());
 
 #ifdef PIONEER_PROFILER
 	Profiler::reset();

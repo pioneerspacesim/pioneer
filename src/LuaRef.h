@@ -27,7 +27,7 @@ public:
 
 	void SaveToJson(Json::Value &jsonObj);
 	void LoadFromJson(const Json::Value &jsonObj);
-
+	void Unref();
 private:
 	lua_State * m_lua;
 	int m_id;

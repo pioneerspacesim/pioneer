@@ -11,6 +11,13 @@ LuaRef::LuaRef(const LuaRef & ref): m_lua(ref.m_lua), m_id(ref.m_id), m_copycoun
 		++(*m_copycount);
 }
 
+void LuaRef::Unref() {
+	if (m_id != LUA_NOREF && m_lua) {
+		--(*m_copycount);
+		CheckCopyCount();
+	}
+}
+
 const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 	if (&ref == this)
 		return ref;
@@ -54,6 +61,7 @@ void LuaRef::CheckCopyCount() {
 		PushGlobalToStack();
 		luaL_unref(m_lua, -1, m_id);
 		lua_pop(m_lua, 1);
+		m_id = LUA_NOREF;
 	}
 }
 
