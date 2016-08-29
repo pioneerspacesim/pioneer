@@ -1682,9 +1682,8 @@ function searchForTarget (mission)
 
 	Timer:CallEvery(1, function ()
 
-		                -- abort if player is about to leave system, player leaves target frame
-		                -- or target ship is destroyed
-		                if leaving_system == true or Game.player.frameBody ~= mission.target.frameBody or not mission.target then
+		                -- abort if player is about to leave system, target ship is destroyed, or player leaves target frame
+		                if leaving_system or not mission.target or Game.player.frameBody ~= mission.target.frameBody then
 			                mission.searching = false
 			                return true
 
