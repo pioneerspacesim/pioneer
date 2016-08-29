@@ -779,16 +779,25 @@ local onChat = function (form, ref, option)
 		form:SetMessage(locationtext)
 
 	elseif option == 2 then  -- type of help needed
-		local unit
-		if ad.flavour.id == 2 or ad.flavour.id == 4 or ad.flavour.id == 5 then
-			unit = ad.deliver_comm[Equipment.cargo.hydrogen]
+
+		-- pick cargo/units to be delivered
+		-- TODO: currently, this only works if only one cargo type is delivered (not multiple types or cargo pickup)
+		local unit, cargo
+		if ad.deliver_comm ~= {} then
+			for cargo_obj,cargo_unit in pairs(ad.deliver_comm) do
+				cargo = cargo_obj:GetName()
+				unit = cargo_unit
+				break
+			end
 		end
+
 		local typeofhelptext = string.interp(ad.flavour.typeofhelptext, {
 			                                     starport     = ad.station_local:GetSystemBody().name,
 			                                     crew         = ad.crew_num,
 			                                     pass         = ad.pickup_pass,
 			                                     deliver_crew = ad.deliver_crew,
-			                                     unit = unit
+			                                     unit         = unit,
+			                                     cargo        = cargo
 		})
 		form:SetMessage(typeofhelptext)
 
@@ -1873,13 +1882,13 @@ local onCreateBB = function (station)
 	-- force ad creation for debugging
 	-- local num = 3
 	-- for _ = 1,num do
-	-- 	makeAdvert(station, 1, closestplanets)
-	-- 	makeAdvert(station, 2, closestplanets)
-	-- 	makeAdvert(station, 3, closestplanets)
-	-- 	makeAdvert(station, 4, closestplanets)
-	-- 	makeAdvert(station, 5, closestplanets)
-	-- 	makeAdvert(station, 6, closestplanets)
-	-- 	makeAdvert(station, 7, closestplanets)
+	--	makeAdvert(station, 1, closestplanets)
+	--	makeAdvert(station, 2, closestplanets)
+	--	makeAdvert(station, 3, closestplanets)
+	--	makeAdvert(station, 4, closestplanets)
+	--	makeAdvert(station, 5, closestplanets)
+	--	makeAdvert(station, 6, closestplanets)
+	--	makeAdvert(station, 7, closestplanets)
 	-- end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
