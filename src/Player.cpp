@@ -160,7 +160,7 @@ void Player::NotifyRemoved(const Body* const removedBody)
 	if (GetNavTarget() == removedBody)
 		SetNavTarget(0);
 
-	else if (GetCombatTarget() == removedBody) {
+	if (GetCombatTarget() == removedBody) {
 		SetCombatTarget(0);
 
 		if (!GetNavTarget() && removedBody->IsType(Object::SHIP))
