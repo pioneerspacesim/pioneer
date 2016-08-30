@@ -46,7 +46,6 @@ void ShipCpanel::InitObject()
 	img->SetRenderDimensions(800, 80);
 	Add(img, 0, 0);
 
-	m_currentMapView = MAP_SECTOR;
 	m_useEquipWidget = new UseEquipWidget();
 
 	m_userSelectedMfuncWidget = MFUNC_SCANNER;
@@ -67,37 +66,6 @@ void ShipCpanel::InitObject()
 	Add(m_scannerEquipButton, 675, 35);
 	ChangeMultiFunctionDisplay(MFUNC_SCANNER);
 
-	m_rightButtonGroup = new Gui::RadioGroup();
-	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_sector_view.png", "icons/map_sector_view_on.png");
-	m_rightButtonGroup->SetSelected(0);
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SECTOR));
-	b->SetShortcut(SDLK_F5, KMOD_NONE);
-	b->SetToolTip(Lang::GALAXY_SECTOR_VIEW);
-	b->SetRenderDimensions(30, 22);
-	Add(b, 674, 56);
-	m_mapViewButtons[0] = b;
-	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_system_view.png", "icons/map_system_view_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_SYSTEM));
-	b->SetShortcut(SDLK_F6, KMOD_NONE);
-	b->SetToolTip(Lang::SYSTEM_ORBIT_VIEW);
-	b->SetRenderDimensions(30, 22);
-	Add(b, 706, 56);
-	m_mapViewButtons[1] = b;
-	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_sysinfo_view.png", "icons/map_sysinfo_view_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_INFO));
-	b->SetShortcut(SDLK_F7, KMOD_NONE);
-	b->SetToolTip(Lang::STAR_SYSTEM_INFORMATION);
-	b->SetRenderDimensions(30, 22);
-	Add(b, 738, 56);
-	m_mapViewButtons[2] = b;
-	b = new Gui::ImageRadioButton(m_rightButtonGroup, "icons/map_galactic_view.png", "icons/map_galactic_view_on.png");
-	b->onSelect.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnChangeMapView), MAP_GALACTIC));
-	b->SetShortcut(SDLK_F8, KMOD_NONE);
-	b->SetToolTip(Lang::GALACTIC_VIEW);
-	b->SetRenderDimensions(30, 22);
-	Add(b, 770, 56);
-	m_mapViewButtons[3] = b;
-
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_BOTTOM_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -113,7 +81,6 @@ void ShipCpanel::InitObject()
 ShipCpanel::~ShipCpanel()
 {
 	View::SetCpanel(nullptr);
-	delete m_rightButtonGroup;
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
 	Remove(m_scannerEquipButton);
@@ -158,46 +125,11 @@ void ShipCpanel::Update()
 
 	m_scanner->Update();
 	m_useEquipWidget->Update();
-
-	View *cur = Pi::GetView();
-	if ((cur != m_game->GetSectorView()) && (cur != m_game->GetSystemView()) &&
-		(cur != m_game->GetSystemInfoView()) && (cur != m_game->GetGalacticView())) {
-		HideMapviewButtons();
-	}
 }
 
 void ShipCpanel::Draw()
 {
 	Gui::Fixed::Draw();
-}
-
-void ShipCpanel::OnChangeToMapView(Gui::MultiStateImageButton *b)
-{
-	Pi::BoinkNoise();
-	OnChangeMapView(m_currentMapView);
-}
-
-void ShipCpanel::OnChangeMapView(enum MapView view)
-{
-	m_currentMapView = view;
-	switch (m_currentMapView) {
-		case MAP_SECTOR: Pi::SetView(m_game->GetSectorView()); break;
-		case MAP_SYSTEM: Pi::SetView(m_game->GetSystemView()); break;
-		case MAP_INFO:
-			if (Pi::GetView() == m_game->GetSystemInfoView()) {
-				m_game->GetSystemInfoView()->NextPage();
-			} else {
-				Pi::SetView(m_game->GetSystemInfoView());
-			}
-			break;
-		case MAP_GALACTIC: Pi::SetView(m_game->GetGalacticView()); break;
-	}
-	for (int i=0; i<4; i++) m_mapViewButtons[i]->Show();
-}
-
-void ShipCpanel::HideMapviewButtons()
-{
-	for (int i=0; i<4; i++) m_mapViewButtons[i]->Hide();
 }
 
 void ShipCpanel::OnClickScannerEquip(Gui::MultiStateImageButton *b)
@@ -256,11 +188,4 @@ void ShipCpanel::ClearOverlay()
 		m_overlay[i]->SetText("");
 		m_overlay[i]->SetToolTip("");
 	}
-}
-
-void ShipCpanel::SelectGroupButton(int gid, int idx)
-{
-	Pi::BoinkNoise();
-	Gui::RadioGroup* group = m_rightButtonGroup;
-	group->SetSelected(idx);
 }

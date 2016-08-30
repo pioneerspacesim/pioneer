@@ -480,6 +480,14 @@ static int l_body_get_atmospheric_state(lua_State *l) {
 	}
 }
 
+static int l_body_is_hyperspace_cloud(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	lua_pushboolean(l, b->GetType() == Object::HYPERSPACECLOUD);
+	return 1;
+}
+
+
 static int l_body_is_ship(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -493,7 +501,38 @@ static int l_body_is_dead(lua_State *l)
 	lua_pushboolean(l, b->IsDead());
 	return 1;
 }
-													
+
+static int l_body_get_hyperspace_cloud_info(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if(b->GetType() == Object::HYPERSPACECLOUD) {
+		HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
+		bool arrival = cloud->IsArrival();
+		Ship *ship = cloud->GetShip();
+
+		lua_newtable(l);
+		lua_pushboolean(l, arrival);
+		lua_setfield(l, -2, "is_arrival");
+		if(ship) {
+			LuaObject<Ship>::PushToLua(ship);
+			lua_setfield(l, -2, "ship");
+			const SystemPath& dest = ship->GetHyperspaceDest();
+			LuaObject<SystemPath>::PushToLua(dest);
+			lua_setfield(l, -2, "destination");
+		} else {
+			lua_pushnil(l);
+			lua_setfield(l, -2, "ship");
+			lua_pushnil(l);
+			lua_setfield(l, -2, "destination");
+		}
+		lua_pushnumber(l, cloud->GetDueDate());
+		lua_setfield(l, -2, "due_date");
+	} else {
+		lua_pushnil(l);
+	}
+	return 1;
+}
+
 static int l_body_get_mass(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -572,6 +611,8 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetAtmosphericState", l_body_get_atmospheric_state },
 		{ "IsShip",              l_body_is_ship },
 		{ "IsDead",              l_body_is_dead },
+		{ "IsHyperspaceCloud",   l_body_is_hyperspace_cloud },
+		{ "GetHyperspaceCloudInfo", l_body_get_hyperspace_cloud_info },
 		{ "GetVelocityRelTo",    l_body_get_velocity_rel_to },
 		{ "GetPositionRelTo",    l_body_get_position_rel_to },
 		{ 0, 0 }

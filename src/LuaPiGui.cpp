@@ -926,12 +926,22 @@ static int l_attr_screen_height(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_get_window_pos(lua_State *l) {
+	ImVec2 pos = ImGui::GetWindowPos();
+	LuaTable v(l);
+	v.Set("x", pos.x);
+	v.Set("y", pos.y);
+	v.Set("z", 0);
+	return 1;
+}
+
 static int l_pigui_get_mouse_clicked_pos(lua_State *l) {
 	int n = luaL_checkinteger(l, 1);
 	ImVec2 pos = ImGui::GetIO().MouseClickedPos[n];
 	LuaTable v(l);
 	v.Set("x", pos.x);
 	v.Set("y", pos.y);
+	v.Set("z", 0);
 	return 1;
 }
 
@@ -1088,6 +1098,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "AddConvexPolyFilled",    l_pigui_add_convex_poly_filled },
 		{ "IsKeyReleased",          l_pigui_is_key_released },
 		{ "DragInt4",               l_pigui_drag_int_4 },
+		{ "GetWindowPos",           l_pigui_get_window_pos },
 		{ 0, 0 }
 	};
 

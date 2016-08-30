@@ -46,16 +46,9 @@ public:
 	// Selects the specified button
 	// @param int gid the buttons group (0 = left, 1 = right)
 	// @param int idx the 0-based button index within the specified group
-	void SelectGroupButton(int gid, int idx);
-	
-	void OnChangeToMapView(Gui::MultiStateImageButton *b);
-
 private:
 	void InitObject();
 
-	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
-
-	void OnChangeMapView(enum MapView);
 	// Handler for scanner view / equipment view toggle button
 	void OnClickScannerEquip(Gui::MultiStateImageButton *b);
 
@@ -63,18 +56,14 @@ private:
 	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
 	void OnMultiFuncGrabFocus(multifuncfunc_t);
 	void OnMultiFuncUngrabFocus(multifuncfunc_t);
-	void HideMapviewButtons();
 
 	Game* m_game;
 
-	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;
 
 	ScannerWidget *m_scanner;
 	UseEquipWidget *m_useEquipWidget;
 	Gui::MultiStateImageButton *m_scannerEquipButton;
-	Gui::RadioGroup *m_rightButtonGroup;
-	Gui::Widget *m_mapViewButtons[4];
 
 	Gui::Label *m_overlay[OVERLAY_MAX];
 };

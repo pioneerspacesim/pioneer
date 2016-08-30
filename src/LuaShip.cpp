@@ -1193,6 +1193,23 @@ static int l_ship_get_hull_percent(lua_State *l) {
 	return 1;
 }
 
+static int l_ship_get_stats(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaTable t(l);
+	auto stats = s->GetStats();
+	t.Set("used_capacity", stats.used_capacity);
+	t.Set("used_cargo", stats.used_cargo);
+	t.Set("free_capacity", stats.free_capacity);
+	t.Set("static_mass", stats.static_mass);
+	t.Set("hull_mass_left", stats.hull_mass_left);
+	t.Set("hyperspace_range", stats.hyperspace_range);
+	t.Set("hyperspace_range_max", stats.hyperspace_range_max);
+	t.Set("shield_mass", stats.shield_mass);
+	t.Set("shield_mass_left", stats.shield_mass_left);
+	t.Set("fuel_tank_mass_left", stats.fuel_tank_mass_left);
+	return 1;
+}
+
 static int l_ship_get_shields_percent(lua_State *l) {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	double shields = s->GetPercentShields();
@@ -1286,6 +1303,7 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "GetThrusterState", l_ship_get_thruster_state },
 		{ "GetAccel", l_ship_get_accel },
 		{ "GetFlightState", l_ship_get_flight_state },
+		{ "GetStats", l_ship_get_stats },
 		{ "IsDocked", l_ship_is_docked },
 		{ "IsLanded", l_ship_is_landed },
 		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },

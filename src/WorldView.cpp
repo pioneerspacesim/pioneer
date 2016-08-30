@@ -125,14 +125,6 @@ void WorldView::InitObject()
 	m_hudSensorGaugeStack->SetSpacing(2.0f);
 	Add(m_hudSensorGaugeStack, 5.0f, 5.0f);
 
-	m_hudTargetHullIntegrity = new Gui::MeterBar(100.0f, Lang::HULL_INTEGRITY, Color(255,255,0,204));
-	m_hudTargetShieldIntegrity = new Gui::MeterBar(100.0f, Lang::SHIELD_INTEGRITY, Color(255,255,0,204));
-	Add(m_hudTargetHullIntegrity, Gui::Screen::GetWidth() - 105.0f, 5.0f);
-	Add(m_hudTargetShieldIntegrity, Gui::Screen::GetWidth() - 105.0f, 45.0f);
-
-	m_hudTargetInfo = (new Gui::Label(""))->Color(s_hudTextColor);
-	Add(m_hudTargetInfo, 0, 85.0f);
-
 	// XXX m_renderer not set yet
 	Graphics::TextureBuilder b1 = Graphics::TextureBuilder::UI("icons/indicator_mousedir.png");
 	m_indicatorMousedir.reset(new Gui::TexturedQuad(b1.GetOrCreateTexture(Gui::Screen::GetRenderer(), "ui")));
@@ -378,112 +370,6 @@ void WorldView::RefreshButtonStateAndVisibility()
 			lua_settop(l, clean_stack);
 		}
 	}
-
-	Body *b = Pi::player->GetCombatTarget() ? Pi::player->GetCombatTarget() : Pi::player->GetNavTarget();
-	if (b) {
-		if (b->IsType(Object::SHIP)) {
-			int prop_var = 0;
-			Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
-			if (prop_var > 0) {
-				assert(b->IsType(Object::SHIP));
-				Ship *s = static_cast<Ship*>(b);
-
-				const shipstats_t &stats = s->GetStats();
-
-				float sShields = 0;
-				float sHull = s->GetPercentHull();
-				m_hudTargetHullIntegrity->SetColor(get_color_for_warning_meter_bar(sHull));
-				m_hudTargetHullIntegrity->SetValue(sHull*0.01f);
-				m_hudTargetHullIntegrity->Show();
-
-				prop_var = 0;
-				s->Properties().Get("shield_cap", prop_var);
-				if (prop_var > 0) {
-					sShields = s->GetPercentShields();
-				}
-				m_hudTargetShieldIntegrity->SetColor(get_color_for_warning_meter_bar(sShields));
-				m_hudTargetShieldIntegrity->SetValue(sShields*0.01f);
-				m_hudTargetShieldIntegrity->Show();
-
-				std::string text;
-				text += s->GetShipType()->name;
-				text += "\n";
-				text += s->GetLabel();
-				text += "\n";
-
-				lua_State * l = Lua::manager->GetLuaState();
-				int clean_stack = lua_gettop(l);
-
-				LuaObject<Ship>::CallMethod<LuaRef>(s, "GetEquip", "engine").PushCopyToStack();
-				lua_rawgeti(l, -1, 1);
-				if (lua_isnil(l, -1)) {
-					text += Lang::NO_HYPERDRIVE;
-				} else {
-					text += LuaTable(l, -1).CallMethod<std::string>("GetName");
-				}
-				lua_settop(l, clean_stack);
-
-				text += "\n";
-				text += stringf(Lang::MASS_N_TONNES, formatarg("mass", stats.static_mass));
-				text += "\n";
-				text += stringf(Lang::SHIELD_STRENGTH_N, formatarg("shields",
-																													 (sShields*0.01f) * float(prop_var))); // At that point, it still holds the property for the shields
-				text += "\n";
-				text += stringf(Lang::CARGO_N, formatarg("mass", stats.used_cargo));
-				text += "\n";
-
-				m_hudTargetInfo->SetText(text);
-				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 150.0f, 85.0f);
-				m_hudTargetInfo->Show();
-			}
-		}
-
-		else if (b->IsType(Object::HYPERSPACECLOUD)) {
-			int cap = 0;
-			Pi::player->Properties().Get("hypercloud_analyzer_cap", cap);
-			if(cap) {
-				HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
-
-				m_hudTargetHullIntegrity->Hide();
-				m_hudTargetShieldIntegrity->Hide();
-
-				std::string text;
-
-				Ship *ship = cloud->GetShip();
-				if (!ship) {
-					text += Lang::HYPERSPACE_ARRIVAL_CLOUD_REMNANT;
-				}
-				else {
-					const SystemPath& dest = ship->GetHyperspaceDest();
-					RefCountedPtr<const Sector> s = m_game->GetGalaxy()->GetSector(dest);
-					text += (cloud->IsArrival() ? Lang::HYPERSPACE_ARRIVAL_CLOUD : Lang::HYPERSPACE_DEPARTURE_CLOUD);
-					text += "\n";
-					text += stringf(Lang::SHIP_MASS_N_TONNES, formatarg("mass", ship->GetStats().static_mass));
-					text += "\n";
-					text += (cloud->IsArrival() ? Lang::SOURCE : Lang::DESTINATION);
-					text += ": ";
-					text += s->m_systems[dest.systemIndex].GetName();
-					text += "\n";
-					text += stringf(Lang::DATE_DUE_N, formatarg("date", format_date(cloud->GetDueDate())));
-					text += "\n";
-				}
-
-				m_hudTargetInfo->SetText(text);
-				MoveChild(m_hudTargetInfo, Gui::Screen::GetWidth() - 180.0f, 5.0f);
-				m_hudTargetInfo->Show();
-			}
-		}
-
-		else {
-			b = 0;
-		}
-	}
-	if (!b) {
-		m_hudTargetHullIntegrity->Hide();
-		m_hudTargetShieldIntegrity->Hide();
-		m_hudTargetInfo->Hide();
-	}
-
 }
 
 void WorldView::Update()

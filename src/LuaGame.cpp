@@ -449,6 +449,12 @@ static int l_game_get_requested_time_acceleration(lua_State *l)
 	return 1;
 }
 
+static int l_game_boink_noise(lua_State *l)
+{
+	Pi::BoinkNoise();
+	return 0;
+}
+
 static int l_game_change_internal_camera_direction(lua_State *l)
 {
 	std::string mode = luaL_checkstring(l, 1);
@@ -517,6 +523,7 @@ void LuaGame::Register()
 		{ "InHyperspace",                     l_game_in_hyperspace },
 		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
 		{ "ChangeInternalCameraDirection",    l_game_change_internal_camera_direction },
+		{ "BoinkNoise",                       l_game_boink_noise },
 		{ 0, 0 }
 	};
 

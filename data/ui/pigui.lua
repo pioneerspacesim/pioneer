@@ -29,6 +29,7 @@ local Game = import('Game')
 local Space = import('Space')
 local Engine = import('Engine')
 local Event = import("Event")
+local ShipDef = import("ShipDef")
 
 local player
 local system
@@ -1388,8 +1389,12 @@ local function show_ships_on_screen()
 			local pos = body:GetProjectedScreenPosition()
 			local size = 8
 			if pos then
-				 pigui.AddCircleFilled(pos, size, colors.lightgreen, 8)
+				 pigui.AddCircleFilled(pos, size, colors.lightgreen, size)
 				 pigui.AddText(pos + Vector(size*1.5, -size/2), colors.lightgreen, body.label)
+				 local mp = pigui.GetMousePos()
+				 if (Vector(mp.x,mp.y) - Vector(pos)):magnitude() < size and pigui.IsMouseReleased(0) then
+						player:SetCombatTarget(body)
+				 end
 			end
 	 end
 end
@@ -1684,6 +1689,42 @@ local function show_weapons()
 
 end
 
+local function show_radar_mapper()
+	 -- TODO: check whether the relevant equipment is actually on ship
+	 local t = player:GetCombatTarget()
+	 if t and t:IsShip() then
+			pigui.Begin("Radar mapper", {})
+			local shipdef = ShipDef[t.shipId]
+			pigui.Text("Ship type: " .. shipdef.name)
+			pigui.Text("Label: " .. t.label)
+			pigui.Text("Hyperdrive class: " .. shipdef.hyperdriveClass)
+			pigui.Text("Mass: " .. t:GetStats().static_mass)
+			pigui.Text("Cargo: " .. t:GetStats().used_cargo)
+			local position = Vector(pigui.GetWindowPos()) + Vector(50, 150)
+			show_circular_gauge(position + Vector(0, 0), 1 - t:GetHullPercent() / 100, colors.hull_gauge, "Damage", "Hull")
+			if t:GetShieldsPercent() then
+				 show_circular_gauge(position + Vector(100, 0), t:GetShieldsPercent() / 100, colors.shield_gauge, "Shield")
+			end
+			pigui.End()
+	 end
+end
+
+local function show_hyperspace_analyzer()
+	 -- TODO: check whether the relevant equipment is actually on ship
+	 local t = player:GetNavTarget()
+	 if t and t:IsHyperspaceCloud() then
+			-- departure, mass, destination, due date
+			pigui.Begin("Hyperspace analyzer", {})
+			local cloud = t:GetHyperspaceCloudInfo()
+			pigui.Text("Arrival: " .. (cloud.is_arrival and "yes" or "no"));
+			pigui.Text("Ship Mass: " .. cloud.ship:GetStats().static_mass)
+			pigui.Text("Destination: " .. cloud.destination:GetStarSystem().name)
+			pigui.Text("Due Date: " .. Format.Date(cloud.due_date))
+			pigui.End()
+	 end
+
+end
+
 local function show_hud()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
@@ -1924,6 +1965,8 @@ local function show_hud()
 	 show_contacts()
 	 show_stuff()
 	 show_comm_log()
+	 show_radar_mapper()
+	 show_hyperspace_analyzer()
 --	 show_settings()
 
 	 -- show_debug_orbit()
