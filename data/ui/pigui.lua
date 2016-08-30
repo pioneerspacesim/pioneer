@@ -105,6 +105,8 @@ local colors = {
 	 gauge_darkgrey = {r=35,g=35,b=35},
 	 paused_background = {r=0, b=0, g=0, a=150},
 	 paused_text = {r=200, b=150, g=50, a=150},
+	 white = { r=255, g=255, b=255 },
+	 black = { r=0, g=0, b=0 },
 }
 
 local pionicons = {
@@ -857,10 +859,6 @@ local function show_navball()
 	 if player:GetShieldsPercent() then
 			show_circular_gauge(position + Vector(-180, 0), player:GetShieldsPercent() / 100, colors.shield_gauge, "Shield")
 	 end
-	 -- gun stats, left side
-	 local position = Vector(45, pigui.screen_height - 290)
-	 show_circular_gauge(position, player:GetGunTemperature(0), colors.gun_tmp_gauge, "Blaster", "Front")
-	 show_circular_gauge(position + Vector(0, 90), player:GetGunTemperature(1), colors.gun_tmp_gauge, "Blaster", "Rear")
 end
 
 local radial_nav_target = nil
@@ -1600,6 +1598,61 @@ end
 local function show_hyperspace_countdown()
 	 show_text(Vector(pigui.screen_width/2, pigui.screen_height/3), "Hyperspace in " .. math.ceil(player:GetHyperspaceCountdown()) .. " seconds", colors.green, anchor.center, anchor.center, pionillium.large)
 end
+local function draw_missile(position, typ, amount, missile_object)
+	 local width = 60
+	 local height = 16
+	 local lower_right = position + Vector(width, height)
+	 local names = { ["missile_naval"] = "Naval", ["missile_guided"] = "Guided", ["missile_smart"] = "Smart", ["missile_unguided"] = "Dumb" }
+	 pigui.AddRectFilled(position, lower_right, colors.white, 0.0, 0)
+	 show_text(position + Vector(10, height / 2), names[typ], colors.black, anchor.left, anchor.center, pionillium.small)
+	 show_text(position + Vector(1, height / 2), amount, colors.darkergrey, anchor.left, anchor.center, pionillium.small)
+	 local stripes = 15
+	 local function stripe(start, stop, count)
+			local w = width / count
+			pigui.AddRectFilled(position + Vector(start * w + 1, 1), position + Vector(stop * w - 1, height - 1), colors.black, 0.0, 0)
+	 end
+	 if typ == "missile_naval" then
+			stripe(12,14,stripes)
+			stripe(14,15,stripes)
+	 elseif typ == "missile_unguided" then
+			stripe(14,15,stripes)
+	 elseif typ == "missile_smart" then
+			stripe(13,15,stripes)
+	 elseif typ == "missile_guided" then
+			stripe(13,14,stripes)
+			stripe(14,15,stripes)
+	 end
+	 if pigui.IsMouseHoveringRect(position, lower_right, true) then
+			if pigui.IsMouseReleased(0) and Game.player:GetCombatTarget() then
+				 Game.player:FireMissileAt(missile_object, Game.player:GetCombatTarget())
+			end
+			pigui.SetTooltip("Fire " .. typ)
+	 end
+end
+
+local function show_weapons()
+	 local position = Vector(20, pigui.screen_height / 2)
+	 -- missiles
+	 local equipped = player:GetEquip("missile")
+	 local missiles = {}
+	 local idx = {} -- arbitrary index containing that missile type
+	 for k,v in pairs(equipped) do
+			assert(v.missile_type)
+			missiles[v.missile_type] = (missiles[v.missile_type] or 0) + 1
+			idx[v.missile_type] = v
+	 end
+	 local i = 0
+	 for k,v in pairs(missiles) do
+			local pos = position + Vector(0, i * 20)
+			draw_missile(pos, k, v, idx[k])
+			i = i+1
+	 end
+	 -- gun stats, left side
+	 local pos = position + Vector(25, i * 20 + 50)
+	 show_circular_gauge(pos, player:GetGunTemperature(0), colors.gun_tmp_gauge, "Blaster", "Front")
+	 show_circular_gauge(pos + Vector(0, 80), player:GetGunTemperature(1), colors.gun_tmp_gauge, "Blaster", "Rear")
+
+end
 
 local function show_hud()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
@@ -1828,6 +1881,8 @@ local function show_hud()
 
 	 show_navball()
 	 show_thrust()
+	 show_weapons()
+	 
 	 if player:IsHyperspaceActive() then
 			show_hyperspace_countdown()
 	 end

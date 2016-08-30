@@ -695,6 +695,29 @@ static int l_pigui_add_triangle(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_add_rect(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 a = luaL_checkImVec2(l, 1);
+	ImVec2 b = luaL_checkImVec2(l, 2);
+	ImColor col = luaL_checkImColor(l, 3);
+	float rounding = luaL_checknumber(l, 4);
+	int round_corners = luaL_checkinteger(l, 5);
+	float thickness = luaL_checknumber(l, 6);
+	draw_list->AddRect(a, b, col, rounding, round_corners, thickness);
+	return 0;
+}
+
+static int l_pigui_add_rect_filled(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 a = luaL_checkImVec2(l, 1);
+	ImVec2 b = luaL_checkImVec2(l, 2);
+	ImColor col = luaL_checkImColor(l, 3);
+	float rounding = luaL_checknumber(l, 4);
+	int round_corners = luaL_checkinteger(l, 5);
+	draw_list->AddRectFilled(a, b, col, rounding, round_corners);
+	return 0;
+}
+
 static int l_pigui_add_quad(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = luaL_checkImVec2(l, 1);
@@ -933,6 +956,14 @@ static int l_pigui_radial_menu(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_is_mouse_hovering_rect(lua_State *l) {
+	ImVec2 r_min = luaL_checkImVec2(l, 1);
+	ImVec2 r_max = luaL_checkImVec2(l, 2);
+	bool clip = luaL_checkbool(l, 3);
+	lua_pushboolean(l, ImGui::IsMouseHoveringRect(r_min, r_max, clip));
+	return 1;
+}
+
 static int l_pigui_circular_slider(lua_State *l) {
 	ImVec2 center = luaL_checkImVec2(l, 1);
 	float v = luaL_checknumber(l, 2);
@@ -1007,6 +1038,8 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "AddTriangle",            l_pigui_add_triangle },
 		{ "AddTriangleFilled",      l_pigui_add_triangle_filled },
 		{ "AddQuad",                l_pigui_add_quad },
+		{ "AddRect",                l_pigui_add_rect },
+		{ "AddRectFilled",          l_pigui_add_rect_filled },
 		{ "SetNextWindowPos",       l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize",      l_pigui_set_next_window_size },
 		{ "SetNextWindowFocus",     l_pigui_set_next_window_focus },
@@ -1048,6 +1081,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "OpenPopup",              l_pigui_open_popup },
 		{ "IsMouseReleased",        l_pigui_is_mouse_released },
 		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
+		{ "IsMouseHoveringRect",    l_pigui_is_mouse_hovering_rect },
 		{ "RadialMenu",             l_pigui_radial_menu },
 		{ "CircularSlider",         l_pigui_circular_slider },
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
