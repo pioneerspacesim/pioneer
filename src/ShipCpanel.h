@@ -75,7 +75,6 @@ private:
 	Gui::MultiStateImageButton *m_scannerEquipButton;
 	Gui::RadioGroup *m_rightButtonGroup;
 	Gui::Widget *m_mapViewButtons[4];
-	Gui::Image *m_alertLights[3];
 
 	Gui::Label *m_overlay[OVERLAY_MAX];
 };

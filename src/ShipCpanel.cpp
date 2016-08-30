@@ -98,22 +98,6 @@ void ShipCpanel::InitObject()
 	Add(b, 770, 56);
 	m_mapViewButtons[3] = b;
 
-	img = new Gui::Image("icons/alert_green.png");
-	img->SetToolTip(Lang::NO_ALERT);
-	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 39);
-	m_alertLights[0] = img;
-	img = new Gui::Image("icons/alert_yellow.png");
-	img->SetToolTip(Lang::SHIP_NEARBY);
-	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 39);
-	m_alertLights[1] = img;
-	img = new Gui::Image("icons/alert_red.png");
-	img->SetToolTip(Lang::LASER_FIRE_DETECTED);
-	img->SetRenderDimensions(20, 13);
-	Add(img, 780, 39);
-	m_alertLights[2] = img;
-
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_TOP_RIGHT]    = (new Gui::Label(""))->Color(s_hudTextColor);
 	m_overlay[OVERLAY_BOTTOM_LEFT]  = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -224,23 +208,19 @@ void ShipCpanel::OnClickScannerEquip(Gui::MultiStateImageButton *b)
 
 void ShipCpanel::SetAlertState(Ship::AlertState as)
 {
-	switch (as) {
-		case Ship::ALERT_NONE:
-			m_alertLights[0]->Show();
-			m_alertLights[1]->Hide();
-			m_alertLights[2]->Hide();
-			break;
-		case Ship::ALERT_SHIP_NEARBY:
-			m_alertLights[0]->Hide();
-			m_alertLights[1]->Show();
-			m_alertLights[2]->Hide();
-			break;
-		case Ship::ALERT_SHIP_FIRING:
-			m_alertLights[0]->Hide();
-			m_alertLights[1]->Hide();
-			m_alertLights[2]->Show();
-			break;
-	}
+	// NOTE: The alerts are already shown in the comms log, maybe there should be another way of showing them?
+	
+	// std::vector<std::string> alerts = { "None", "Ship nearby", "Ship firing" };
+	// 	// call lua Game.AddCommsLogLine(msg, from)
+	// lua_State *l = Lua::manager->GetLuaState();
+	// lua_getfield(l, LUA_REGISTRYINDEX, "CoreImports");
+	// lua_getfield(l, -1, "Game");
+	// lua_getfield(l, -1, "AddCommsLogLine");
+	// lua_remove(l, -2);
+	// lua_remove(l, -2);
+	// lua_pushstring(l, alerts[as].c_str());
+	// lua_pushstring(l, "Alert");
+	// lua_call(l, 2, 0);
 }
 
 void ShipCpanel::TimeStepUpdate(float step)
