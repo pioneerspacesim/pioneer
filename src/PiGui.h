@@ -36,14 +36,14 @@ public:
  		ImGui_ImplSdlGL3_Init(window);
 		ImGuiIO &io = ImGui::GetIO();
 		static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
-		pionillium12 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
-		pionillium15 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 15.0f, nullptr, glyph_ranges);
-		pionillium18 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 18.0f, nullptr, glyph_ranges);
-		pionillium30 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
-		pionillium36 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/PionilliumText22L-Medium.ttf").c_str(), 36.0f, nullptr, glyph_ranges);
-		pionicons12 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/Pionicons.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
+		pionillium12 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
+		pionillium15 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 15.0f, nullptr, glyph_ranges);
+		pionillium18 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 18.0f, nullptr, glyph_ranges);
+		pionillium30 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
+		pionillium36 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 36.0f, nullptr, glyph_ranges);
+		pionicons12 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "Pionicons.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
 		//		pionicons18 = io.Fonts->AddFontFromFileTTF("data/fonts/Pionicons.ttf", 18.0f, nullptr, glyph_ranges);
-		pionicons30 = io.Fonts->AddFontFromFileTTF((FileSystem::GetDataDir() + "fonts/Pionicons.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
+		pionicons30 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "Pionicons.ttf").c_str(), 30.0f, nullptr, glyph_ranges);
  	}
 	void Uninit() {
 		m_handlers.Unref();
