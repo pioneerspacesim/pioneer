@@ -6,6 +6,7 @@ August 2016
      * Low altitude hyperjumps are illegal (#3753)
      * Add button to Settings menus so user can open their Pioneer folder (#3790)
      * Navigation button update to allow for dynamicBodies as nav targets (SAR and general) (#3789)
+     * Loads of SAR improvements ! (#3795)
 
    * Fixes
      * Fix crash in by Search & Rescue missions (#3770)
