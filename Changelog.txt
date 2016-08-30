@@ -23,6 +23,7 @@ August 2016
      * Restore Starfield colourisation (#3774)
      * Animated city buildings, instancing improvement (#3777)
      * Small code cleanup in SAR (#3798)
+     * Make colour range of stars more narrow (#3793)
 
 July 2016
    * New Features
