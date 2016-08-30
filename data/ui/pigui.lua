@@ -1301,7 +1301,17 @@ local function handle_global_keys()
 			end
 	 end
 	 if pigui.IsKeyReleased(keys.f2) then
-			Game.SetView("sector")
+			if Game.GetView() == "sector" then
+				 Game.SetView("system")
+			elseif Game.GetView() == "system" then
+				 Game.SetView("system_info")
+			elseif Game.GetView() == "system_info" then
+				 Game.SetView("galaxy")
+			elseif Game.GetView() == "galaxy" then
+				 Game.SetView("sector")
+			else
+				 Game.SetView("sector")
+			end
 	 end
 	 if pigui.IsKeyReleased(keys.f3) then
 			Game.SetView("info")
@@ -1309,19 +1319,39 @@ local function handle_global_keys()
 	 if pigui.IsKeyReleased(keys.f4) and player:IsDocked() then
 			Game.SetView("space_station")
 	 end
-	 if pigui.IsKeyReleased(keys.f5) and (player:IsDocked() or player:IsLanded()) then
-			player:TakeOff()
+	 local view = Game.GetView()
+	 local is_map_view = view == "system" or view == "sector" or view == "system_info" or view == "galaxy"
+	 if pigui.IsKeyReleased(keys.f5) then
+			if is_map_view then
+				 Game.SetView("sector")
+			elseif (player:IsDocked() or player:IsLanded()) then
+				 player:TakeOff()
+			end
 	 end
 	 if pigui.IsKeyReleased(keys.f6) then
-			player:ToggleWheelState()
+			if is_map_view then
+				 Game.SetView("system")
+			else
+				 player:ToggleWheelState()
+			end
 	 end
 	 if pigui.IsKeyReleased(keys.f7) then
+			if is_map_view then
+				 Game.SetView("system_info")
+			else
+
 			if player:IsHyperspaceActive() then
 				 player:AbortHyperjump()
 				 Game.AddCommsLogLine("Hyperspace jump aborted", nil)
 			else
 				 player:HyperjumpTo(player:GetHyperspaceTarget())
 				 Game.AddCommsLogLine("Hyperjump started" , nil)
+			end
+			end
+	 end
+	 if pigui.IsKeyReleased(keys.f8) then
+			if is_map_view then
+				 Game.SetView("galaxy")
 			end
 	 end
 	 if pigui.IsKeyReleased(keys.right) then

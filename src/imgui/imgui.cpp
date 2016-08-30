@@ -3105,8 +3105,6 @@ bool ImGui::IsKeyReleased(int key_index)
     if (key_index < 0) return false;
     IM_ASSERT(key_index >= 0 && key_index < IM_ARRAYSIZE(g.IO.KeysDown));
     if (g.IO.KeysDownDurationPrev[key_index] >= 0.0f && !g.IO.KeysDown[key_index]) {
-			printf("key released: %d\n", key_index);
-			printf("delta time: %f\n", g.IO.DeltaTime);
 			return true;
 		}
     return false;

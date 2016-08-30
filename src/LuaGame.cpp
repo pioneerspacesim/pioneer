@@ -16,6 +16,7 @@
 #include "DateTime.h"
 #include "SectorView.h"
 #include "SystemView.h"
+#include "SystemInfoView.h"
 #include "ShipCpanel.h"
 #include "LuaPiGui.h" // for luaL_checkbool
 /*
@@ -345,8 +346,13 @@ static int l_game_set_view(lua_State *l)
 	} else if(!target.compare("death")) {
 		Pi::SetView(Pi::game->GetDeathView());
 	} else if(!target.compare("sector")) {
-		// Pi::SetView(Pi::game->GetSectorView());
-		Pi::game->GetCpan()->OnChangeToMapView(nullptr);
+		Pi::SetView(Pi::game->GetSectorView());
+	} else if(!target.compare("galaxy")) {
+		Pi::SetView(Pi::game->GetGalacticView());
+	} else if(!target.compare("system")) {
+		Pi::SetView(Pi::game->GetSystemView());
+	} else if(!target.compare("system_info")) {
+		Pi::SetView(Pi::game->GetSystemInfoView());
 	} // TODO else error
 	return 0;
 }
@@ -363,6 +369,8 @@ static int l_game_get_view(lua_State *l)
 		lua_pushstring(l, "sector");
 	else if(Pi::GetView() == Pi::game->GetSystemView())
 		lua_pushstring(l, "system");
+	else if(Pi::GetView() == Pi::game->GetSystemInfoView())
+		lua_pushstring(l, "system_info");
 	else if(Pi::GetView() == Pi::game->GetDeathView())
 		lua_pushstring(l, "death");
 	else if(Pi::GetView() == Pi::game->GetGalacticView())
