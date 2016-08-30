@@ -469,6 +469,7 @@ Ship.HyperjumpTo = function (self, path, is_legal)
 
 	-- only jump from safe distance
 	local is_allowed, distance = self:IsHyperjumpAllowed()
+
 	if is_legal and self.frameBody and not is_allowed then
 		print("---> Engage AI for safe distance of hyperjump")
 		self:AIEnterLowOrbit(self.frameBody)
