@@ -16,6 +16,7 @@ August 2016
      * Use ImageMagick to fix the iCCP profile problem (#3778)
      * Fix crash when jumping into empty system (#3791)
      * Fix risk of game crash from SAR when landing on wrong planet (#3797)
+     * Fix potential instability in SAR (#3802)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
