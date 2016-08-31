@@ -221,7 +221,7 @@
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting {unit} tons of {cargo}."
+      "message" : "Der Pilot fordert {unit} Tonnen {cargo} an."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for {unit} tons of {cargo}."
+      "message" : "Der Pilot bittet um {unit} Tonnen {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
+      "message" : "Wir erbitten die Lieferung von {unit} Tonnen {cargo} auf das Schiff."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Mein Name ist {name} von {entity}. Unser einziges Schiff, {ship} {shiplabel}, schwebt ziellos im Weltraum mit einer Crew von {crew} umher, aufgrund von {problem}. Ich bin bereit, {cash} für sofortige Hilfe zu bezahlen."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",

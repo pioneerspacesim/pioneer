@@ -221,7 +221,7 @@
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is requesting {unit} tons of {cargo}."
+      "message" : "Tha am paidhleat ag iarraidh {unit} tunna(ichean) dhe {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "The pilot is asking for {unit} tons of {cargo}."
+      "message" : "Dh'fhaighnich am paidhleat am faigh e {unit} tunna(ichean) dhe {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -317,7 +317,7 @@
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
+      "message" : "An lìbhrig sibh {unit} tunna(ichean) dhe {cargo} dhan t-soitheach?"
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "Is mise {name} aig {entity}. Chaill an t-aon soitheach againn, {ship} {shiplabel}, an comas stiùiridh ri linn {problem} agus criutha dhe {crew} air. Phàighinn {cash} nam faigheadh iad cobhair sa bhad."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "D-fhad:"
    },
    "LY" : {
       "description" : "",
