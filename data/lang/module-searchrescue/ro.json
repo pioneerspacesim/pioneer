@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "Servicii Funerare S.A. {locality}"
+      "message" : "{locality} Burial-Services Corp"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "Pentru a primi plata integrală sunteți rugat să faceți livrarea până pe {due}."
+      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,11 +213,11 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Mulțumesc foarte mult! Am transferat recompensa în întregime."
+      "message" : "Thank you so much! I have transferred the full reward."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonă de combustibil a fost transferată."
+      "message" : "{unit} ton of fuel has been transferred."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonă de combustibil a fost transferată."
+      "message" : "{unit} ton of fuel has been transferred."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} tonă de combustibil a fost transferată."
+      "message" : "{unit} ton of fuel has been transferred."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} a fost transferat pe nava destinată."
+      "message" : "{unit} has transferred to the target ship."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
