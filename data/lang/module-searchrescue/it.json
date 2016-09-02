@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burial-Services Corp"
+      "message" : "Servizio Pompe Funebri di {locality}"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
+      "message" : "Per la paga intera è richiesto che consegni il carburante entro il {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,11 +213,11 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transferred the full reward."
+      "message" : "Molte grazie! Ho trasferito l'intera ricompensa."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} ton. di carburante trasferite."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} ton. di carburante trasferite."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} ton. di carburante trasferite."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transferred to the target ship."
+      "message" : "{unit} sono stati trasferiti sulla nave destinataria."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
