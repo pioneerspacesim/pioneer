@@ -111,8 +111,8 @@ local colors = {
 }
 
 local pionicons = {
-	 small = { name = "pionicons", size = 12, offset = nil },
-	 large = { name = "pionicons", size = 30, offset = nil }
+	 small = { name = "pionicons", size = 12, offset = 14 },
+	 large = { name = "pionicons", size = 30, offset = 14 }
 }
 local pionillium = {
 	 large = { name = "pionillium", size = 30, offset = 24 },
@@ -316,7 +316,7 @@ local function calc_alignment(pos, size, anchor_horizontal, anchor_vertical)
 	 return position
 end
 
-local function show_text(pos, text, color, anchor_horizontal, anchor_vertical, font)
+local function show_text(pos, text, color, font, anchor_horizontal, anchor_vertical, tooltip)
 	 local position = Vector(pos.x, pos.y)
 	 -- AddText aligns to upper left
 	 pigui.PushFont(font.name, font.size)
@@ -334,10 +334,15 @@ local function show_text(pos, text, color, anchor_horizontal, anchor_vertical, f
 	 pigui.AddText(position, color, text)
 	 -- pigui.AddQuad(position, position + Vector(size.x, 0), position + Vector(size.x, size.y), position + Vector(0, size.y), colors.red, 1.0)
 	 pigui.PopFont()
+	 if tooltip and not pigui.IsMouseHoveringAnyWindow() and tooltip ~= "" then
+			if pigui.IsMouseHoveringRect(position, position + size, true) then
+				 pigui.SetTooltip(tooltip)
+			end
+	 end
 	 return Vector(size.x, size.y)
 end
 
-local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal, anchor_vertical)
+local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal, anchor_vertical, tooltips)
 	 -- always align texts at baseline
 	 local spacing = 2
 	 local size = Vector(0, 0)
@@ -361,7 +366,7 @@ local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal
 	 end
 	 for i=1,#texts do
 			pigui.PushFont(fonts[i].name, fonts[i].size)
-			local s = show_text(position, texts[i], colors[i], anchor.left, anchor.baseline, fonts[i])
+			local s = show_text(position, texts[i], colors[i], fonts[i], anchor.left, anchor.baseline, tooltips and tooltips[i] or nil)
 			position.x = position.x + s.x + spacing
 			pigui.PopFont()
 	 end
@@ -675,10 +680,10 @@ local function show_circular_gauge(center, ratio, color, main_text, small_text)
 
 	 pigui.PathArcTo(center, radius, arc_start, ratio_end, segments)
 	 pigui.PathStroke(color, false, thickness)
-	 show_text(center, math.ceil(ratio * 100), colors.lightgrey, anchor.center, anchor.center, center_text_font)
-	 show_text(center + Vector(4, radius), main_text, colors.lightgrey, anchor.left, anchor.center, main_text_font)
+	 show_text(center, math.ceil(ratio * 100), colors.lightgrey, center_text_font, anchor.center, anchor.center)
+	 show_text(center + Vector(4, radius), main_text, colors.lightgrey, main_text_font, anchor.left, anchor.center)
 	 if small_text then
-			show_text(center + Vector(radius, radius):normalized()*radius, small_text, colors.lightgrey, anchor.left, anchor.bottom, small_text_font)
+			show_text(center + Vector(radius, radius):normalized()*radius, small_text, colors.lightgrey, small_text_font, anchor.left, anchor.bottom)
 	 end
 end
 
@@ -738,7 +743,7 @@ local function show_navball()
 			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
 			if aa_d > 0 then
 				 local textsize = show_text_fancy(position, { "a", dist_apo, unit_apo }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, {pionillium.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline)
-				 show_text(position + Vector(textsize.x * 1.2), "t-" .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), anchor.left, anchor.baseline, pionillium.small)
+				 show_text(position + Vector(textsize.x * 1.2), "t-" .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, "Time until apoapsis")
 			end
 	 end
 	 -- altitude
@@ -759,7 +764,7 @@ local function show_navball()
 				 local textsize = show_text_fancy(position,
 																					{ "p", dist_per, unit_per, "     t-" .. Format.Duration(o_time_at_periapsis) },
 																					{ colors.darkgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
-																					{pionillium.small, pionillium.medium, pionillium.small, pionillium.small },
+																					{ pionillium.small, pionillium.medium, pionillium.small, pionillium.small },
 																					anchor.left,
 																					anchor.baseline)
 			end
@@ -786,21 +791,26 @@ local function show_navball()
 			local txts = {}
 			local cols = {}
 			local fnts = {}
+			local tooltips = {}
 			if pressure and pressure > 0.001 then
-				 table.insert(txts, "pr")
+				 table.insert(txts, "r")
 				 table.insert(txts, math.floor(pressure*100)/100)
 				 table.insert(txts, "atm")
-				 table.insert(cols, colors.darkgrey)
+				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.darkgrey)
-				 table.insert(fnts, pionillium.small)
+				 table.insert(fnts, pionicons.small)
 				 table.insert(fnts, pionillium.medium)
 				 table.insert(fnts, pionillium.small)
+				 table.insert(tooltips, "Current pressure")
+				 table.insert(tooltips, "Current pressure")
+				 table.insert(tooltips, "Current pressure")
 			end
 			if pressure and pressure > 0.001 and gravity then
 				 table.insert(txts, "    ")
 				 table.insert(cols, colors.darkgrey)
 				 table.insert(fnts, pionillium.small)
+				 table.insert(tooltips, "")
 			end
 			if gravity then
 				 table.insert(txts, "grav")
@@ -812,13 +822,16 @@ local function show_navball()
 				 table.insert(fnts, pionillium.small)
 				 table.insert(fnts, pionillium.medium)
 				 table.insert(fnts, pionillium.small)
+				 table.insert(tooltips, "Current gravity")
+				 table.insert(tooltips, "Current gravity")
+				 table.insert(tooltips, "Current gravity")
 			end
-			show_text_fancy(position, txts, cols, fnts, anchor.left, anchor,baseline)
+			show_text_fancy(position, txts, cols, fnts, anchor.left, anchor.baseline, tooltips)
 			-- latitude, longitude
 			position = point_on_circle_radius(navball_center, navball_text_radius, 4.5)
 			if lat and lon then
-				 local textsize = show_text_fancy(position, { "Lat:", lat }, { colors.darkgrey, colors.lightgrey }, { pionillium.small, pionillium.medium }, anchor.left, anchor.baseline)
-				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "Lon:", lon }, { colors.darkgrey, colors.lightgrey }, { pionillium.small, pionillium.medium }, anchor.left, anchor.baseline)
+				 local textsize = show_text_fancy(position, { "l", lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Current latitude", "Current latitude" })
+				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "L", lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Current longitude", "Current longitude" })
 			end
 	 end
 	 -- ******************** orbit display ********************
@@ -1462,8 +1475,8 @@ local function show_bodies_on_screen()
 	 for pos,group in pairs(body_groups) do
 			do
 				 local best_body, count = get_body_group_max_body(group)
-				 local textsize = show_text(pos, get_body_icon_letter(best_body), colors.lightgrey, anchor.center, anchor.center, pionicons.small)
-				 show_text(pos + Vector(textsize.x * 1.1), best_body.label .. (count > 1 and " +" or ""), colors.lightgrey, anchor.left, anchor.center, pionillium.small)
+				 local textsize = show_text(pos, get_body_icon_letter(best_body), colors.lightgrey, pionicons.small, anchor.center, anchor.center)
+				 show_text(pos + Vector(textsize.x * 1.1), best_body.label .. (count > 1 and " +" or ""), colors.lightgrey, pionillium.small, anchor.left, anchor.center)
 			end
 			local mp = pigui.GetMousePos()
 			labels = {}
@@ -1517,16 +1530,23 @@ local function show_bodies_on_screen()
 end
 
 
-local function show_marker(name, painter, color, show_in_reticule, direction, size)
+local function show_marker(name, painter, color, show_in_reticule, direction, size, tooltip)
 	 local siz = size and size or 12
 	 local pos,dir,point,side = markerPos(name, reticule_radius - 10)
+	 local mp = pigui.GetMousePos()
 	 if pos and show_in_reticule then
 			local thesize = siz / 3
 			painter(pos, thesize, color, 1.0, direction)
+			if tooltip and tooltip ~= "" and (Vector(mp.x,mp.y) - pos):magnitude() <= thesize and not pigui.IsMouseHoveringAnyWindow() then
+				 pigui.SetTooltip(tooltip)
+			end
 	 end
 	 if side == "onscreen" and point then
 			local thesize = siz
 			painter(point, thesize, color, 3.0, direction)
+			if tooltip and tooltip ~= "" and (Vector(mp.x,mp.y) - point):magnitude() <= thesize and not pigui.IsMouseHoveringAnyWindow() then
+				 pigui.SetTooltip(tooltip)
+			end
 	 end
 end
 
@@ -1631,16 +1651,17 @@ local function show_stuff()
 end
 
 local function show_hyperspace_countdown()
-	 show_text(Vector(pigui.screen_width/2, pigui.screen_height/3), "Hyperspace in " .. math.ceil(player:GetHyperspaceCountdown()) .. " seconds", colors.green, anchor.center, anchor.center, pionillium.large)
+	 show_text(Vector(pigui.screen_width/2, pigui.screen_height/3), "Hyperspace in " .. math.ceil(player:GetHyperspaceCountdown()) .. " seconds", colors.green, pionillium.large, anchor.center, anchor.center)
 end
+
 local function draw_missile(position, typ, amount, missile_object)
 	 local width = 60
 	 local height = 16
 	 local lower_right = position + Vector(width, height)
 	 local names = { ["missile_naval"] = "Naval", ["missile_guided"] = "Guided", ["missile_smart"] = "Smart", ["missile_unguided"] = "Dumb" }
 	 pigui.AddRectFilled(position, lower_right, colors.white, 0.0, 0)
-	 show_text(position + Vector(10, height / 2), names[typ], colors.black, anchor.left, anchor.center, pionillium.small)
-	 show_text(position + Vector(1, height / 2), amount, colors.darkergrey, anchor.left, anchor.center, pionillium.small)
+	 show_text(position + Vector(10, height / 2), names[typ], colors.black, pionillium.small, anchor.left, anchor.center)
+	 show_text(position + Vector(1, height / 2), amount, colors.darkergrey, pionillium.small, anchor.left, anchor.center)
 	 local stripes = 15
 	 local function stripe(start, stop, count)
 			local w = width / count
@@ -1803,9 +1824,9 @@ local function show_hud()
 	 if navTarget then
 			-- target name
 			local position = point_on_circle_radius(center, reticule_text_radius, 1.35)
-			show_text(position, "Nav Target", colors.darkgreen, anchor.left, anchor.bottom, pionillium.small)
+			show_text(position, "Nav Target", colors.darkgreen, pionillium.small, anchor.left, anchor.bottom)
 			position = point_on_circle_radius(center, reticule_text_radius, 2)
-			show_text(position, navTarget.label, colors.lightgreen, anchor.left, anchor.bottom, pionillium.medium)
+			show_text(position, navTarget.label, colors.lightgreen, pionillium.medium, anchor.left, anchor.bottom, "The current navigational target")
 
 			local speed = Vector(pigui.GetVelocity("nav_prograde"))
 			local spd,unit = MyFormat.Distance(speed:magnitude())
@@ -1826,7 +1847,7 @@ local function show_hud()
 			local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top )
 			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
 			position.y = position.y + textsize.y * 1.1
-			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, anchor.left, anchor.top, pionillium.medium)
+			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top, "Time to brake with main thrusters")
 	 end
 
 	 -- ******************** Maneuver speed ********************
@@ -1842,7 +1863,7 @@ local function show_hud()
 			-- target name
 
 			local position = point_on_circle_radius(center, reticule_text_radius, 6)
-			local textsize = show_text(position, combatTarget.label, colors.lightred, anchor.center, anchor.top, pionillium.medium)
+			local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top, "Current combat target")
 
 			position.y = position.y + textsize.y * 1.1
 			local speed = combatTarget:GetVelocityRelTo(player)
@@ -1861,9 +1882,9 @@ local function show_hud()
 	 local frame = player:GetFrame()
 	 if frame then
 			local position = point_on_circle_radius(center, reticule_text_radius, -1.35)
-			show_text(position, "Frame", colors.darkgrey, anchor.right, anchor.bottom, pionillium.small)
+			show_text(position, "Frame", colors.darkgrey, pionillium.small, anchor.right, anchor.bottom)
 			position = point_on_circle_radius(center, reticule_text_radius, -2)
-			show_text(position, frame.label, colors.lightgrey, anchor.right, anchor.bottom, pionillium.medium)
+			show_text(position, frame.label, colors.lightgrey, pionillium.medium, anchor.right, anchor.bottom)
 
 			local speed = Vector(pigui.GetVelocity("frame_prograde"))
 			local spd,unit = MyFormat.Distance(speed:magnitude())
@@ -1877,16 +1898,16 @@ local function show_hud()
 
 			local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
 			position.y = position.y + textsize.y * 1.1
-			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, anchor.right, anchor.top, pionillium.medium)
+			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, pionillium.medium, anchor.right, anchor.top)
 
 			-- ******************** Frame markers ********************
-			show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true)
-			show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators)
+			show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true, nil, 12, "Prograde direction relative to frame")
+			show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators, nil, 12, "Retrograde direction relative to frame")
 			show_marker("normal", symbol.normal, colors.orbital_marker, false, nil, 8)
 			show_marker("anti_normal", symbol.anti_normal, colors.orbital_marker, false, nil, 8)
 			show_marker("radial_out", symbol.radial_out, colors.orbital_marker, false, nil, 8)
 			show_marker("radial_in", symbol.radial_in, colors.orbital_marker, false, nil, 8)
-			show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true)
+			show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true, nil, 12, "Direction away from frame")
 			local pos,dir = markerPos("frame", reticule_radius + 5)
 			if pos then
 				 local size = 6
@@ -1986,7 +2007,7 @@ local function show_pause_screen()
 			pigui.PushStyleColor("WindowBg", colors.paused_background)
 			pigui.Begin("Pause", {"NoTitleBar","NoMove","NoResize","NoSavedSettings"})
 			local center = Vector(pigui.screen_width / 2, pigui.screen_height / 4)
-			show_text(center, "Paused", colors.paused_text, anchor.center, anchor.center, pionillium.large)
+			show_text(center, "Paused", colors.paused_text, pionillium.large, anchor.center, anchor.center)
 			pigui.End()
 			pigui.PopStyleColor(1)
 	 end
@@ -1995,12 +2016,12 @@ end
 local function show_hyperspace()
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 2), "In Hyperspace", colors.red, anchor.center, anchor.center, pionillium.large)
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 2), "In Hyperspace", colors.red, pionillium.large, anchor.center, anchor.center)
 	 local systempath_target = player:GetHyperspaceTarget()
 	 local starsystem = systempath_target:GetStarSystem()
 	 local sector = starsystem.sector
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2), "Going to " .. starsystem.name .. " (" .. sector.x .. "/" .. sector.y .. "/" .. sector.z ..")", colors.green, anchor.center, anchor.center, pionillium.large)
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2.3), "Complete " .. math.ceil(100 * Game.GetHyperspaceTravelledPercentage()) .. " %", colors.green, anchor.center, anchor.center, pionillium.large)
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2), "Going to " .. starsystem.name .. " (" .. sector.x .. "/" .. sector.y .. "/" .. sector.z ..")", colors.green, pionillium.large, anchor.center, anchor.center)
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2.3), "Complete " .. math.ceil(100 * Game.GetHyperspaceTravelledPercentage()) .. " %", colors.green, pionillium.large, anchor.center, anchor.center)
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 end

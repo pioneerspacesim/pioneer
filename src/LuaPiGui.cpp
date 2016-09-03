@@ -974,6 +974,11 @@ static int l_pigui_is_mouse_hovering_rect(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_is_mouse_hovering_any_window(lua_State *l) {
+	lua_pushboolean(l, ImGui::IsMouseHoveringAnyWindow());
+	return 1;
+}
+
 static int l_pigui_circular_slider(lua_State *l) {
 	ImVec2 center = luaL_checkImVec2(l, 1);
 	float v = luaL_checknumber(l, 2);
@@ -1092,6 +1097,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "IsMouseReleased",        l_pigui_is_mouse_released },
 		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
 		{ "IsMouseHoveringRect",    l_pigui_is_mouse_hovering_rect },
+		{ "IsMouseHoveringAnyWindow",    l_pigui_is_mouse_hovering_any_window },
 		{ "RadialMenu",             l_pigui_radial_menu },
 		{ "CircularSlider",         l_pigui_circular_slider },
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
