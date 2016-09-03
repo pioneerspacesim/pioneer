@@ -112,7 +112,7 @@ local colors = {
 
 local pionicons = {
 	 small = { name = "pionicons", size = 12, offset = 14 },
-	 large = { name = "pionicons", size = 30, offset = 14 }
+	 large = { name = "pionicons", size = 30, offset = 28 }
 }
 local pionillium = {
 	 large = { name = "pionillium", size = 30, offset = 24 },
@@ -742,7 +742,7 @@ local function show_navball()
 			local aa_d = aa - frame_radius
 			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
 			if aa_d > 0 then
-				 local textsize = show_text_fancy(position, { "a", dist_apo, unit_apo }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, {pionillium.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline)
+				 local textsize = show_text_fancy(position, { "A", dist_apo, unit_apo }, { colors.lightgrey, colors.lightgrey, colors.darkgrey }, {pionicons.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { "Apoapsis distance", "Apoapsis distance", "Apoapsis distance" })
 				 show_text(position + Vector(textsize.x * 1.2), "t-" .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, "Time until apoapsis")
 			end
 	 end
@@ -751,9 +751,9 @@ local function show_navball()
 	 if alt then
 			local altitude,unit = MyFormat.Distance(alt)
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 2.6)
-			local textsize = show_text_fancy(position, { "alt", altitude, unit }, {colors.darkgrey, colors.lightgrey, colors.darkgrey }, {pionillium.medium, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline)
+			local textsize = show_text_fancy(position, { "a", altitude, unit }, {colors.lightgrey, colors.lightgrey, colors.darkgrey }, { pionicons.large, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline, { "Altitude", "Altitude", "Altitude" } )
 			local vspeed, unit = MyFormat.Distance(vspd)
-			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit .. "/s" }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline)
+			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit .. "/s" }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { "Change in altitude", "Change in altitude" })
 	 end
 	 -- periapsis
 	 if not player:IsDocked() then
@@ -762,21 +762,23 @@ local function show_navball()
 			local dist_per, unit_per = MyFormat.Distance(pa_d)
 			if pa and pa_d ~= 0 then
 				 local textsize = show_text_fancy(position,
-																					{ "p", dist_per, unit_per, "     t-" .. Format.Duration(o_time_at_periapsis) },
-																					{ colors.darkgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
-																					{ pionillium.small, pionillium.medium, pionillium.small, pionillium.small },
+																					{ "E", dist_per, unit_per, "     t-" .. Format.Duration(o_time_at_periapsis) },
+																					{ colors.lightgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
+																					{ pionicons.small, pionillium.medium, pionillium.small, pionillium.small },
 																					anchor.left,
-																					anchor.baseline)
+																					anchor.baseline,
+																					{ "Periapsis distance", "Periapsis distance", "Periapsis distance", "Time until periapsis" })
 			end
 	 end
 	 -- inclination, eccentricity
 	 if not player:IsDocked() then
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 3.4)
 			show_text_fancy(position,
-											{ "inc", math.floor(o_inclination / two_pi * 360) .. "°", "    ecc", math.floor(o_eccentricity * 100) / 100},
-											{ colors.darkgrey, colors.lightgrey, colors.darkgrey, colors.lightgrey },
-											{ pionillium.small, pionillium.medium, pionillium.small, pionillium.medium },
-											anchor.left, anchor.baseline)
+											{ "i", math.floor(o_inclination / two_pi * 360) .. "°", "    e", string.format("%.02f", o_eccentricity)},
+											{ colors.lightgrey, colors.lightgrey, colors.lightgrey, colors.lightgrey },
+											{ pionicons.small, pionillium.medium, pionicons.small, pionillium.medium },
+											anchor.left, anchor.baseline,
+											{"Inclination", "Inclination", "Eccentricity", "Eccentricity"})
 	 end
 	 -- pressure, gravity
 	 if frame then
@@ -794,7 +796,7 @@ local function show_navball()
 			local tooltips = {}
 			if pressure and pressure > 0.001 then
 				 table.insert(txts, "r")
-				 table.insert(txts, math.floor(pressure*100)/100)
+				 table.insert(txts, string.format("%.02f", pressure))
 				 table.insert(txts, "atm")
 				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.lightgrey)
@@ -802,9 +804,9 @@ local function show_navball()
 				 table.insert(fnts, pionicons.small)
 				 table.insert(fnts, pionillium.medium)
 				 table.insert(fnts, pionillium.small)
-				 table.insert(tooltips, "Current pressure")
-				 table.insert(tooltips, "Current pressure")
-				 table.insert(tooltips, "Current pressure")
+				 table.insert(tooltips, "Pressure")
+				 table.insert(tooltips, "Pressure")
+				 table.insert(tooltips, "Pressure")
 			end
 			if pressure and pressure > 0.001 and gravity then
 				 table.insert(txts, "    ")
@@ -813,25 +815,25 @@ local function show_navball()
 				 table.insert(tooltips, "")
 			end
 			if gravity then
-				 table.insert(txts, "grav")
+				 table.insert(txts, "g")
 				 table.insert(txts, gravity)
 				 table.insert(txts, "g")
-				 table.insert(cols, colors.darkgrey)
+				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.darkgrey)
-				 table.insert(fnts, pionillium.small)
+				 table.insert(fnts, pionicons.small)
 				 table.insert(fnts, pionillium.medium)
 				 table.insert(fnts, pionillium.small)
-				 table.insert(tooltips, "Current gravity")
-				 table.insert(tooltips, "Current gravity")
-				 table.insert(tooltips, "Current gravity")
+				 table.insert(tooltips, "Gravity")
+				 table.insert(tooltips, "Gravity")
+				 table.insert(tooltips, "Gravity")
 			end
 			show_text_fancy(position, txts, cols, fnts, anchor.left, anchor.baseline, tooltips)
 			-- latitude, longitude
 			position = point_on_circle_radius(navball_center, navball_text_radius, 4.5)
 			if lat and lon then
-				 local textsize = show_text_fancy(position, { "l", lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Current latitude", "Current latitude" })
-				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "L", lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Current longitude", "Current longitude" })
+				 local textsize = show_text_fancy(position, { "l", lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Latitude", "Latitude" })
+				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "L", lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Longitude", "Longitude" })
 			end
 	 end
 	 -- ******************** orbit display ********************
@@ -1863,7 +1865,7 @@ local function show_hud()
 			-- target name
 
 			local position = point_on_circle_radius(center, reticule_text_radius, 6)
-			local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top, "Current combat target")
+			local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top, "Combat target")
 
 			position.y = position.y + textsize.y * 1.1
 			local speed = combatTarget:GetVelocityRelTo(player)
