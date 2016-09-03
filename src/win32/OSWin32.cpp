@@ -251,7 +251,7 @@ void OpenUserFolderBrowser()
 {
 	std::wstring dumps_path;
 	dumps_path = transcode_utf8_to_utf16(FileSystem::userFiles.GetRoot());
-	ShellExecute(NULL, L"open", dumps_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	ShellExecuteW(NULL, L"open", dumps_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 
 } // namespace OS
