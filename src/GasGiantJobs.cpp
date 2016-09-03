@@ -178,7 +178,7 @@ namespace GasGiantJobs
 		m_specialParams.time = 0.0f;
 			
 		for(Uint32 i=0; i<3; i++) {
-			m_specialParams.frequency[i] = (float)pTerrain->GetFracDef(i).frequency;
+			m_specialParams.frequency[i] = float(pTerrain->GetFracDef(i).frequency);
 		}
 
 		m_specialParams.hueAdjust = hueAdjust;

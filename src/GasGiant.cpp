@@ -294,7 +294,7 @@ void GasGiant::OnChangeDetailLevel()
 }
 
 GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_timeDelay(s_initialCPUDelayTime), m_hasGpuJobRequest(false)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_hasGpuJobRequest(false), m_timeDelay(s_initialCPUDelayTime)
 {
 	s_allGasGiants.push_back(this);
 	
