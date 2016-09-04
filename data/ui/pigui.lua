@@ -31,6 +31,8 @@ local Engine = import('Engine')
 local Event = import("Event")
 local ShipDef = import("ShipDef")
 local Vector = import("Vector")
+local Color = import("Color")
+local utils = import("utils")
 
 local player
 local system
@@ -53,42 +55,42 @@ local two_pi = pi * 2
 local standard_gravity = 9.80665
 
 local colors = {
-	 darkgreen = {r=0, g=150, b=0},
-	 lightgreen = {r=0, g=255, b=0},
-	 deltav_total = {r=100,g=100,b=100,a=200},
-	 deltav_remaining = {r=250,g=250,b=250},
-	 deltav_current = {r=150,g=150,b=150},
-	 deltav_maneuver = {r=168,g=168,b=255},
-	 darkgrey = {r=150,g=150,b=150},
-	 darkergrey = {r=50,g=50,b=50},
-	 orbital_marker = {r=150,g=150,b=150},
-	 lightgrey = {r=200,g=200,b=200},
-	 time_accel = {r = 100, g = 100, b = 150 },
-	 time_accel_current = {r = 150, g = 150, b = 100 },
-	 time_accel_requested = {r = 150, g = 100, b = 100 },
-	 windowbg = {r=0,g=0,b=50,a=200},
-	 transparent = {r=0,g=0,b=0,a=0},
-	 lightred = { r=255, g=150, b=150},
-	 red = { r=255, g=0, b=0 },
-	 green = { r=0, g=255, b=0 },
-	 combat_target = { r=200, g=100, b=100 },
-	 maneuver = { r=163, g=163, b=255 },
-	 orbit_gauge_ground = { r=95, g=95, b=0 },
-	 orbit_gauge_atmosphere = { r=97, g=97, b=241 },
-	 orbit_gauge_space = { r=84, g=84, b=84 },
-	 noz_darkblue = { r=6, g=7, b=38 , a=180 },
-	 noz_mediumblue = { r=3, g=63, b=113 },
-	 noz_lightblue = { r=49, g=102, b=144 },
-	 shield_gauge = { r=0, g=255, b=255 },
-	 hull_gauge = { r=200, g=100, b=0 },
-	 tmp_gauge = { r=255, g=0, b=0 },
-	 gun_tmp_gauge = { r=200, g=100, b=0 },
-	 gauge_darkergrey = {r=20,g=20,b=20},
-	 gauge_darkgrey = {r=35,g=35,b=35},
-	 paused_background = {r=0, b=0, g=0, a=150},
-	 paused_text = {r=200, b=150, g=50, a=150},
-	 white = { r=255, g=255, b=255 },
-	 black = { r=0, g=0, b=0 },
+	 lightgreen = Color(0, 255, 0),
+	 darkgreen = Color(0, 150, 0),
+	 deltav_total = Color(100, 100, 100, 200),
+	 deltav_remaining = Color(250, 250, 250),
+	 deltav_current = Color(150, 150, 150),
+	 deltav_maneuver = Color(168, 168, 255),
+	 darkgrey = Color(150, 150, 150),
+	 darkergrey = Color(50, 50, 50),
+	 orbital_marker = Color(150, 150, 150),
+	 lightgrey = Color(200, 200, 200),
+	 time_accel = Color( 100, 100, 150 ),
+	 time_accel_current = Color( 150, 150, 100 ),
+	 time_accel_requested = Color( 150, 100, 100 ),
+	 windowbg = Color(0, 0, 50, 200),
+	 transparent = Color(0, 0, 0, 0),
+	 lightred = Color(255, 150, 150),
+	 red = Color(255, 0, 0 ),
+	 green = Color(0, 255, 0 ),
+	 combat_target = Color(200, 100, 100 ),
+	 maneuver = Color(163, 163, 255 ),
+	 orbit_gauge_ground = Color(95, 95, 0 ),
+	 orbit_gauge_atmosphere = Color(97, 97, 241 ),
+	 orbit_gauge_space = Color(84, 84, 84 ),
+	 noz_darkblue = Color(6, 7, 38 , 180 ),
+	 noz_mediumblue = Color(3, 63, 113 ),
+	 noz_lightblue = Color(49, 102, 144 ),
+	 shield_gauge = Color(0, 255, 255 ),
+	 hull_gauge = Color(200, 100, 0 ),
+	 tmp_gauge = Color(255, 0, 0 ),
+	 gun_tmp_gauge = Color(200, 100, 0 ),
+	 gauge_darkergrey = Color(20, 20, 20),
+	 gauge_darkgrey = Color(35, 35, 35),
+	 paused_background = Color(0, 0, 0, 150),
+	 paused_text = Color(200, 150, 50, 150),
+	 white = Color(255, 255, 255 ),
+	 black = Color(0, 0, 0 ),
 }
 
 local pionicons = {
@@ -118,7 +120,6 @@ local MyFormat = {
 			return string.format("%0.1f", distance / 1.4960e11), "AU"
 	 end
 }
-
 
 function map(func, array)
 	 local new_array = {}
@@ -163,15 +164,6 @@ function print_r ( t )
 end
 
 -- ******************** Utils ********************
-local function clamp(value, min, max)
-	 if value < min then
-			return min
-	 elseif value > max then
-			return max
-	 else
-			return value
-	 end
-end
 
 local function count(tab)
 	 local i = 0
@@ -563,7 +555,7 @@ local function show_circular_gauge(center, ratio, color, main_text, small_text)
 	 local first_quarter = arc_start + range * 0.25
 	 local second_quarter = arc_start + range * 0.50
 	 local third_quarter = arc_start + range * 0.75
-	 local ratio_end = arc_start + range * clamp(ratio, 0, 1)
+	 local ratio_end = arc_start + range * utils.clamp(ratio, 0, 1)
 
 	 -- quarters
 	 pigui.PathArcTo(center, radius, arc_start, first_quarter, segments)
@@ -743,9 +735,9 @@ local function show_navball()
 			local range = max_height - min_height
 			local thickness = 10
 			local ends = 0.05
-			local my_height = clamp((my_position - min_height) / range, ends/2, 1 - ends/2)
-			local apoapsis = aa > 0 and clamp((aa - min_height) / range, ends, 1 - ends/2) or nil
-			local periapsis = clamp((pa - min_height) / range, ends, 1 - ends/2)
+			local my_height = utils.clamp((my_position - min_height) / range, ends/2, 1 - ends/2)
+			local apoapsis = aa > 0 and utils.clamp((aa - min_height) / range, ends, 1 - ends/2) or nil
+			local periapsis = utils.clamp((pa - min_height) / range, ends, 1 - ends/2)
 			local atmosphere_ratio = frame_sb.hasAtmosphere and math.max(ends, (atmosphere_height - min_height) / range - 2 * ends) or 0
 			orbit_gauge(navball_center, navball_radius + 5, colors.orbit_gauge_space, thickness * 0.99, 0.0, 1.0)
 			orbit_gauge(navball_center, navball_radius + 5, colors.orbit_gauge_ground, thickness, 0, ends)
@@ -1873,7 +1865,7 @@ local function show_hud()
 	 show_navball()
 	 show_thrust()
 	 show_weapons()
-	 
+
 	 if player:IsHyperspaceActive() then
 			show_hyperspace_countdown()
 	 end
@@ -1974,7 +1966,7 @@ local sector_search_result = nil
 pigui.handlers.sector = function(delta)
 	 pigui.Begin("Search", {})
 	 local search, return_pressed = pigui.InputText("", sector_search_string, { "EnterReturnsTrue" })
-	 sector_search_string = search 
+	 sector_search_string = search
 	 pigui.SameLine()
 	 if pigui.Button("Search") or return_pressed then
 			sector_search_result = Game.SectorViewSearch(sector_search_string)
