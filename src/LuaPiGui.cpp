@@ -936,6 +936,12 @@ static int l_attr_handlers(lua_State *l) {
 	return 1;
 }
 
+static int l_attr_keys(lua_State *l) {
+	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
+	pigui->GetKeys().PushCopyToStack();
+	return 1;
+}
+
 static int l_attr_screen_width(lua_State *l) {
 	//	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	lua_pushinteger(l,Graphics::GetScreenWidth());
@@ -1156,6 +1162,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "screen_width", l_attr_screen_width },
 		{ "screen_height", l_attr_screen_height },
 		{ "key_ctrl",      l_attr_key_ctrl },
+		{ "keys",          l_attr_keys },
 		{ 0, 0 }
 	};
 

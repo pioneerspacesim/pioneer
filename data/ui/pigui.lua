@@ -1,15 +1,7 @@
 -- TODO:
 -- time accel
--- map sub buttons
--- alerts
--- comms log
 -- multi-function-display / scanner?
 -- speed lines
--- hyperspace button
--- set speed / autopilot / manual
--- heading/pitch indicator
--- target hull/shield, general info
--- combat target / lead indicators + line
 -- contacts
 -- lua console?
 
@@ -23,6 +15,14 @@
 --  	RefCountedPtr<StarSystem> s = m_game->GetGalaxy()->GetStarSystem(dest);
 --    name: dest.IsBodyPath() ? s->GetBodyByPath(dest)->GetName() : s->GetName()
 --    m_game->GetHyperspaceArrivalProbability()*100.0
+-- map sub buttons
+-- alerts
+-- comms log
+-- hyperspace button
+-- set speed / autopilot / manual
+-- heading/pitch indicator
+-- target hull/shield, general info
+-- combat target / lead indicators + line
 
 local Format = import('Format')
 local Game = import('Game')
@@ -50,26 +50,6 @@ local pi_2 = pi / 2
 local pi_4 = pi / 4
 local two_pi = pi * 2
 local standard_gravity = 9.80665
-
-local keys = {
-	 left = 80,
-	 right = 79,
-	 up = 82,
-	 down = 81,
-	 escape = 27,
-	 f1 = 58,
-	 f2 = 59,
-	 f3 = 60,
-	 f4 = 61,
-	 f5 = 62,
-	 f6 = 63,
-	 f7 = 64,
-	 f8 = 65,
-	 f9 = 66,
-	 f10 = 67,
-	 f11 = 68,
-	 f12 = 69,
-}
 
 local colors = {
 	 darkgreen = {r=0, g=150, b=0},
@@ -1295,7 +1275,7 @@ end
 local cam_types = { "internal", "external", "sidereal" }
 local current_cam_type = 1
 local function handle_global_keys()
-	 if pigui.IsKeyReleased(keys.f12) then
+	 if pigui.IsKeyReleased(pigui.keys.f12) then
 			if Game.GetTimeAcceleration() == "paused" then
 				 Game.SetTimeAcceleration("1x", true)
 			else
@@ -1303,7 +1283,7 @@ local function handle_global_keys()
 				 return
 			end
 	 end
-	 if pigui.IsKeyReleased(keys.f1) then -- ShipCpanel.cpp:317
+	 if pigui.IsKeyReleased(pigui.keys.f1) then -- ShipCpanel.cpp:317
 			if Game.GetView() == "world" then
 				 current_cam_type = current_cam_type + 1
 				 if current_cam_type > #cam_types then
@@ -1316,7 +1296,7 @@ local function handle_global_keys()
 				 Game.SetWorldCamType(cam_types[current_cam_type])
 			end
 	 end
-	 if pigui.IsKeyReleased(keys.f2) then
+	 if pigui.IsKeyReleased(pigui.keys.f2) then
 			if Game.GetView() == "sector" then
 				 Game.SetView("system")
 			elseif Game.GetView() == "system" then
@@ -1329,29 +1309,29 @@ local function handle_global_keys()
 				 Game.SetView("sector")
 			end
 	 end
-	 if pigui.IsKeyReleased(keys.f3) then
+	 if pigui.IsKeyReleased(pigui.keys.f3) then
 			Game.SetView("info")
 	 end
-	 if pigui.IsKeyReleased(keys.f4) and player:IsDocked() then
+	 if pigui.IsKeyReleased(pigui.keys.f4) and player:IsDocked() then
 			Game.SetView("space_station")
 	 end
 	 local view = Game.GetView()
 	 local is_map_view = view == "system" or view == "sector" or view == "system_info" or view == "galaxy"
-	 if pigui.IsKeyReleased(keys.f5) then
+	 if pigui.IsKeyReleased(pigui.keys.f5) then
 			if is_map_view then
 				 Game.SetView("sector")
 			elseif (player:IsDocked() or player:IsLanded()) then
 				 player:TakeOff()
 			end
 	 end
-	 if pigui.IsKeyReleased(keys.f6) then
+	 if pigui.IsKeyReleased(pigui.keys.f6) then
 			if is_map_view then
 				 Game.SetView("system")
 			else
 				 player:ToggleWheelState()
 			end
 	 end
-	 if pigui.IsKeyReleased(keys.f7) then
+	 if pigui.IsKeyReleased(pigui.keys.f7) then
 			if is_map_view then
 				 Game.SetView("system_info")
 			else
@@ -1365,25 +1345,25 @@ local function handle_global_keys()
 			end
 			end
 	 end
-	 if pigui.IsKeyReleased(keys.f8) then
+	 if pigui.IsKeyReleased(pigui.keys.f8) then
 			if is_map_view then
 				 Game.SetView("galaxy")
 			end
 	 end
-	 if pigui.IsKeyReleased(keys.right) then
+	 if pigui.IsKeyReleased(pigui.keys.right) then
 			Game.ChangeInternalCameraDirection("right")
 	 end
-	 if pigui.IsKeyReleased(keys.up) then
+	 if pigui.IsKeyReleased(pigui.keys.up) then
 			Game.ChangeInternalCameraDirection("front")
 	 end
-	 if pigui.IsKeyReleased(keys.left) then
+	 if pigui.IsKeyReleased(pigui.keys.left) then
 			Game.ChangeInternalCameraDirection("left")
 	 end
-	 if pigui.IsKeyReleased(keys.down) then
+	 if pigui.IsKeyReleased(pigui.keys.down) then
 			Game.ChangeInternalCameraDirection("rear")
 	 end
 
-	 if pigui.IsKeyReleased(keys.escape) then
+	 if pigui.IsKeyReleased(pigui.keys.escape) then
 			if Game.GetTimeAcceleration() ~= "paused" then
 				 Game.SetTimeAcceleration("paused", true)
 			else
@@ -2027,6 +2007,7 @@ local function show_hyperspace()
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 end
+
 local function show_time_accel_buttons()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
