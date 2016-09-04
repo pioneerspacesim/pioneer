@@ -54,7 +54,18 @@ local pi_4 = pi / 4
 local two_pi = pi * 2
 local standard_gravity = 9.80665
 
+local icons = {
+	 ship = "h",
+	 star = "S",
+	 moon = "M",
+	 planet = "P",
+	 starport = "p",
+	 spacestation = "s",
+	 gasgiant = "G",
+}
+
 local colors = {
+	 nav_filter_active = Color(0, 100, 0);
 	 lightgreen = Color(0, 255, 0),
 	 darkgreen = Color(0, 150, 0),
 	 deltav_total = Color(100, 100, 100, 200),
@@ -888,54 +899,109 @@ local function get_body_icon_letter(body)
 	 else -- if superType == "STARPORT" then
 			if typ == "STARPORT_ORBITAL" then
 				 return "s"
-			else -- if typ == "STARPORT_SURFACE"
+			elseif typ == "STARPORT_SURFACE" then
 				 return "p"
+			else -- ship
+				 return "h"
 			end
 	 end
 end
 
-local function get_hierarchical_bodies()
+local function get_hierarchical_bodies(filter)
 	 local count = 0
 	 local body_paths = system:GetBodyPaths()
 	 -- create intermediate structure
-	 local data = {}
-	 local index = {}
-	 local lookup = {}
+	 local data = {} -- list of items systemBody, body, distance, name, parent, children
+	 local sb_children = {} -- map sb.index to list of children (sb.indices)
+	 local sb_lookup = {} -- map sb.index to item
 	 --	 local body_path_count = 0
+	 -- go through all bodies in system
 	 for _,system_path in pairs(body_paths) do
 			--			body_path_count = body_path_count + 1
 			local system_body = system_path:GetSystemBody()
 			if system_body then
 				 local parent = system_body.parent
 				 if parent then
-						local parent_children = index[parent.index] or {}
+						local parent_children = sb_children[parent.index] or {}
 						table.insert(parent_children, system_body)
-						index[parent.index] = parent_children
+						sb_children[parent.index] = parent_children
 				 end
 				 local body = Space.GetBody(system_body.index)
 				 if body then
 						local distance = player:DistanceTo(body)
-						local item = { systemBody = system_body, body = body, distance = distance, name = system_body.name, parent = parent, children = children }
+						local item = { systemBody = system_body, body = body, distance = distance, name = system_body.name, parent = parent, children = children, hidden = false }
 						count = count + 1
 						table.insert(data, item)
-						lookup[system_body.index] = item
+						sb_lookup[system_body.index] = item
 				 end
 			end
 	 end
-	 --	 print("body path count: " .. body_path_count)
+	 -- go through all bodies, set parent and children
 	 for _,body in pairs(data) do
-			local ch = index[body.systemBody.index]
+			local ch = sb_children[body.systemBody.index]
 			local children = {}
 			if ch then
 				 for _,sb in pairs(ch) do
-						table.insert(children, lookup[sb.index])
+						table.insert(children, sb_lookup[sb.index])
 				 end
 				 body.children = children
 			end
 	 end
+	 -- space ships
+	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
+	 for _,body in pairs(bodies) do
+			local parent = body:GetDockedWith()
+			if not parent then
+				 parent = body.frameBody
+			end
+			local parent_sb = parent:GetSystemBody()
+			if parent_sb then
+				 local ch = sb_lookup[parent_sb.index].children
+				 if ch == nil then
+						ch = {}
+						sb_lookup[parent_sb.index].children = ch
+				 end
+				 local this = { systemBody = nil, body = body, distance = player:DistanceTo(body), name = body.label, parent = parent_sb, children = nil, hidden = false }
+				 table.insert(ch, this)
+				 table.insert(data, this)
+				 count = count + 1
+			else
+				 error("systemBody is nil for " .. (parent.label or parent.name))
+			end
+	 end
+	 -- filter
+	 if filter then
+
+	 end
+	 if filter then
+			for _,body in pairs(data) do
+				 body.hidden = true
+			end
+			for _,body in pairs(data) do
+				 local visible = filter(body.body)
+				 if visible then
+						body.hidden = false
+				 end
+				 if not body.hidden and body.parent then
+						local parent = sb_lookup[body.parent.index]
+						if parent then
+							 repeat
+									parent.hidden = false
+									local pp = parent.parent
+									if pp then
+										 parent = sb_lookup[pp.index]
+									else
+										 parent = nil
+									end
+							 until parent == nil
+						end
+				 end
+			end
+	 end
+	 -- only return stars
 	 local suns = {}
 	 for _,body in pairs(data) do
-			if body.systemBody.superType == "STAR" then
+			if body.systemBody and body.systemBody.superType == "STAR" then
 				 table.insert(suns, body)
 			end
 	 end
@@ -950,44 +1016,150 @@ local function spaces(n)
 	 end
 	 return res
 end
+
+local filter_ship = false
+local filter_station = false
+local filter_planet = false
+local filter_moon = false
+
 local function show_nav_window()
 	 -- ******************** Navigation Window ********************
 	 --	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 --	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
 	 pigui.Begin("Navigation", {})
+	 do
+			pigui.PushFont("pionicons", 12)
+			do
+				 local fs = filter_ship
+				 if fs then
+						pigui.PushStyleColor("Button", colors.nav_filter_active)
+						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+				 end
+				 if pigui.Button(icons.ship) then
+						filter_ship = not filter_ship
+				 end
+				 if fs then
+						pigui.PopStyleColor(2)
+				 end
+			end
+			if pigui.IsItemHovered() then
+				 pigui.SetTooltip("Filter ships")
+			end
+			pigui.SameLine()
+			do
+				 local fs = filter_station
+				 if fs then
+						pigui.PushStyleColor("Button", colors.nav_filter_active)
+						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+				 end
+				 if pigui.Button(icons.spacestation .. icons.starport) then
+						filter_station = not filter_station
+				 end
+				 if fs then
+						pigui.PopStyleColor(2)
+				 end
+			end
+			if pigui.IsItemHovered() then
+				 pigui.SetTooltip("Filter Stations")
+			end
+			pigui.SameLine()
+			do
+				 local fs = filter_planet
+				 if fs then
+						pigui.PushStyleColor("Button", colors.nav_filter_active)
+						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+				 end
+				 if pigui.Button(icons.planet .. icons.gasgiant) then
+						filter_planet = not filter_planet
+				 end
+				 if fs then
+						pigui.PopStyleColor(2)
+				 end
+			end
+			if pigui.IsItemHovered() then
+				 pigui.SetTooltip("Filter Planets")
+			end
+			pigui.SameLine()
+			do
+				 local fs = filter_moon
+				 if fs then
+						pigui.PushStyleColor("Button", colors.nav_filter_active)
+						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+				 end
+				 if pigui.Button(icons.moon) then
+						filter_moon = not filter_moon
+				 end
+				 if fs then
+						pigui.PopStyleColor(2)
+				 end
+			end
+			if pigui.IsItemHovered() then
+				 pigui.SetTooltip("Filter Moons")
+			end
+			pigui.PopFont()
+	 end
 	 pigui.Columns(2, "navcolumns", false)
-	 local data,count = get_hierarchical_bodies()
+	 local filter = nil
+	 if filter_ship or filter_station or filter_planet or filter_moon then
+			filter = function(body)
+				 if filter_ship and body:IsShip() then
+						return true
+				 end
+				 if filter_station and (body:IsSpaceStation() or body:IsStarPort()) then
+						return true
+				 end
+				 if filter_planet and (body:IsGasGiant() or body:IsRockyPlanet()) and not body:IsMoon() then
+						return true
+				 end
+				 if filter_moon and body:IsMoon() then
+						return true
+				 end
+				 return false
+			end
+	 end
+	 local data,count = get_hierarchical_bodies(filter)
 	 local nav_target = player:GetNavTarget()
+	 local combat_target = player:GetCombatTarget()
 	 local lines = 0
 	 local function AddLine(data, indent)
 			--			print("AddLine " .. spaces(indent) .. data.body.label)
 			lines = lines + 1
-			pigui.BeginGroup()
-			pigui.PushFont("pionicons", 12)
-			pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
-			--			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
-			--				 player:SetNavTarget(data.body)
-			--			end
-			pigui.PopFont()
-			pigui.SameLine()
-			if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
-				 if nav_target == data.body then
-						player:SetNavTarget(nil)
-				 else
-						player:SetNavTarget(data.body)
+			if not data.hidden then
+				 pigui.BeginGroup()
+				 pigui.PushFont("pionicons", 12)
+				 pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
+				 --			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
+				 --				 player:SetNavTarget(data.body)
+				 --			end
+				 pigui.PopFont()
+				 pigui.SameLine()
+				 if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
+						if data.body:IsShip() then
+							 if combat_target == data.body then
+									player:SetCombatTarget(nil)
+							 else
+									player:SetCombatTarget(data.body)
+							 end
+						else
+							 if nav_target == data.body then
+									player:SetNavTarget(nil)
+							 else
+									player:SetNavTarget(data.body)
+							 end
+						end
 				 end
-			end
-			pigui.NextColumn()
-			pigui.Text(Format.Distance(data.distance))
-			pigui.NextColumn()
-			pigui.EndGroup()
-			if pigui.IsItemClicked(1) then
-				 pigui.OpenPopup("##piepopup")
-				 radial_nav_target = data.body
-				 should_show_radial_menu = true
-			end
-			for _,data in pairs(data.children or {}) do
-				 AddLine(data, indent + 1)
+				 pigui.NextColumn()
+				 pigui.Text(Format.Distance(data.distance))
+				 pigui.NextColumn()
+				 pigui.EndGroup()
+				 if pigui.IsItemClicked(1) then
+						pigui.OpenPopup("##piepopup")
+						radial_nav_target = data.body
+						should_show_radial_menu = true
+				 end
+				 for _,data in pairs(data.children or {}) do
+						AddLine(data, indent + 1)
+				 end
 			end
 	 end
 	 -- sort by distance
@@ -996,10 +1168,11 @@ local function show_nav_window()
 	 for key,data in pairs(data) do
 			AddLine(data, 0)
 	 end
-	 if lines ~= count then
-			print_r(data)
-			error("nok: " .. count .. " count vs. lines " .. lines)
-	 end
+	 -- how do we deal with filtering here :-/
+	 -- if lines ~= count then
+	 -- 		print_r(data)
+	 -- 		error("nok: " .. count .. " count vs. lines " .. lines)
+	 -- end
 	 if should_show_radial_menu then
 			show_radial_menu()
 	 end
@@ -1874,7 +2047,7 @@ local function show_hud()
 
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
 	 show_nav_window()
-	 show_contacts()
+--	 show_contacts()
 	 show_stuff()
 	 show_comm_log()
 	 show_radar_mapper()

@@ -94,6 +94,9 @@ static ImGuiCol luaL_checkImGuiCol(lua_State *l, int index) {
 		return ImGuiCol_WindowBg;
 	else if(!stylestr.compare("Button"))
 		return ImGuiCol_Button;
+	else if(!stylestr.compare("ButtonHovered"))
+		return ImGuiCol_ButtonHovered;
+
 	// TODO: else error
 	return -1;
 }

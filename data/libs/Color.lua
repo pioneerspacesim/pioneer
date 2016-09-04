@@ -22,7 +22,7 @@ do
 									 self.b * (1 - factor),
 									 self.a)
 	 end
-	 function meta:shade(factor)
+	 function meta:tint(factor)
 			return Color(self.r + (255 - self.r) * factor,
 									 self.g + (255 - self.g) * factor,
 									 self.b + (255 - self.b) * factor,

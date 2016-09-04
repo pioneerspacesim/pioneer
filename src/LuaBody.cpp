@@ -495,6 +495,78 @@ static int l_body_is_ship(lua_State *l)
 	return 1;
 }
 
+static int l_body_is_space_station(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL);
+	return 1;
+}
+
+static int l_body_is_star_port(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE);
+	return 1;
+}
+
+static int l_body_is_gas_giant(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT);
+	return 1;
+}
+
+static int l_body_is_rocky_planet(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET);
+	return 1;
+}
+
+static int l_body_is_moon(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+
+	if(sbody->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
+		if(sbody->GetParent()->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+			lua_pushboolean(l, false);
+		else
+			lua_pushboolean(l, true);
+	} else {
+		lua_pushboolean(l, false);
+	}
+	return 1;
+}
+
 static int l_body_is_dead(lua_State *l)
 {
 	Body *b = LuaObject<Body>::CheckFromLua(1);
@@ -610,6 +682,11 @@ template <> void LuaObject<Body>::RegisterClass()
 		{ "GetSystemBody",       l_body_get_system_body },
 		{ "GetAtmosphericState", l_body_get_atmospheric_state },
 		{ "IsShip",              l_body_is_ship },
+		{ "IsSpaceStation",      l_body_is_space_station },
+		{ "IsStarPort",          l_body_is_star_port },
+		{ "IsGasGiant",          l_body_is_gas_giant },
+		{ "IsRockyPlanet",       l_body_is_rocky_planet },
+		{ "IsMoon",              l_body_is_moon },
 		{ "IsDead",              l_body_is_dead },
 		{ "IsHyperspaceCloud",   l_body_is_hyperspace_cloud },
 		{ "GetHyperspaceCloudInfo", l_body_get_hyperspace_cloud_info },
