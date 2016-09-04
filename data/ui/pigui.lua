@@ -2062,16 +2062,40 @@ local function show_time_accel_buttons()
 	 end
 	 pigui.PopStyleColor(1)
 end
+
+pigui.handlers.world = function(delta)
+	 if Game.InHyperspace() then
+			show_hyperspace()
+	 else
+			show_hud()
+	 end
+end
+
+local sector_search_string = ""
+local sector_search_result = nil
+pigui.handlers.sector = function(delta)
+	 pigui.Begin("Search", {})
+	 local search, return_pressed = pigui.InputText("", sector_search_string, { "EnterReturnsTrue" })
+	 sector_search_string = search 
+	 pigui.SameLine()
+	 if pigui.Button("Search") or return_pressed then
+			sector_search_result = Game.SectorViewSearch(sector_search_string)
+			sector_search_string = ""
+	 end
+	 if sector_search_result then
+			pigui.Text(sector_search_result)
+	 end
+	 pigui.End()
+end
+
 pigui.handlers.HUD = function(delta)
 	 player = Game.player
 	 system = Game.system
 	 pigui.PushStyleVar("WindowRounding", 0)
-	 if Game.GetView() == "world" then
-			if Game.InHyperspace() then
-				 show_hyperspace()
-			else
-				 show_hud()
-			end
+	 local view = Game.GetView()
+	 local handler = pigui.handlers[view]
+	 if handler then
+			handler(delta)
 	 end
 	 handle_global_keys()
 

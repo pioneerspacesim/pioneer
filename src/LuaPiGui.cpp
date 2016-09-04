@@ -46,6 +46,33 @@ static ImGuiSelectableFlags luaL_checkImGuiSelectableFlags(lua_State *l, int ind
 	return theflags;
 }
 
+static ImGuiInputTextFlags luaL_checkImGuiInputTextFlags(lua_State *l, int index) {
+	// TODO: make this a dispatch table
+	LuaTable flags(l, index);
+	int theflags = 0;
+	for(LuaTable::VecIter<std::string> iter = flags.Begin<std::string>(); iter != flags.End<std::string>(); ++iter) {
+		std::string flag = *iter;
+		if(!flag.compare("CharsDecimal")) theflags |= ImGuiInputTextFlags_CharsDecimal;
+    else if(!flag.compare("CharsHexadecimal"))  theflags |= ImGuiInputTextFlags_CharsHexadecimal;
+		else if(!flag.compare("CharsUppercase"))  theflags |= ImGuiInputTextFlags_CharsUppercase;
+		else if(!flag.compare("CharsNoBlank"))  theflags |= ImGuiInputTextFlags_CharsNoBlank;
+		else if(!flag.compare("AutoSelectAll"))  theflags |= ImGuiInputTextFlags_AutoSelectAll;
+		else if(!flag.compare("EnterReturnsTrue"))  theflags |= ImGuiInputTextFlags_EnterReturnsTrue;
+		else if(!flag.compare("CallbackCompletion"))  theflags |= ImGuiInputTextFlags_CallbackCompletion;
+		else if(!flag.compare("CallbackHistory"))  theflags |= ImGuiInputTextFlags_CallbackHistory;
+		else if(!flag.compare("CallbackAlways"))  theflags |= ImGuiInputTextFlags_CallbackAlways;
+		else if(!flag.compare("CallbackCharFilter"))  theflags |= ImGuiInputTextFlags_CallbackCharFilter;
+		else if(!flag.compare("AllowTabInput"))  theflags |= ImGuiInputTextFlags_AllowTabInput;
+		else if(!flag.compare("CtrlEnterForNewLine"))  theflags |= ImGuiInputTextFlags_CtrlEnterForNewLine;
+		else if(!flag.compare("NoHorizontalScroll"))  theflags |= ImGuiInputTextFlags_NoHorizontalScroll;
+		else if(!flag.compare("AlwaysInsertMode"))  theflags |= ImGuiInputTextFlags_AlwaysInsertMode ;
+		else if(!flag.compare("ReadOnly"))  theflags |= ImGuiInputTextFlags_ReadOnly;
+		else if(!flag.compare("Password"))  theflags |= ImGuiInputTextFlags_Password;
+		// TODO: else error
+	}
+	return theflags;
+}
+
 static ImGuiSetCond luaL_checkImGuiSetCond(lua_State *l, int index) {
 	// TODO: make this a dispatch table
 	std::string condstr = luaL_checkstring(l, index);
@@ -979,6 +1006,21 @@ static int l_pigui_is_mouse_hovering_any_window(lua_State *l) {
 	return 1;
 }
 
+static int l_pigui_input_text(lua_State *l) {
+	std::string label = luaL_checkstring(l, 1);
+	std::string text = luaL_checkstring(l, 2);
+	int flags = luaL_checkImGuiInputTextFlags(l, 3);
+	// callback
+	// user_data
+	char buffer[1024];
+	memset(buffer, 0, 1024);
+	strncpy(buffer, text.c_str(), 1023);
+	bool result = ImGui::InputText(label.c_str(), buffer, 1024, flags);
+	lua_pushstring(l, buffer);
+	lua_pushboolean(l, result);
+	return 2;
+}
+
 static int l_pigui_circular_slider(lua_State *l) {
 	ImVec2 center = luaL_checkImVec2(l, 1);
 	float v = luaL_checknumber(l, 2);
@@ -1105,6 +1147,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "IsKeyReleased",          l_pigui_is_key_released },
 		{ "DragInt4",               l_pigui_drag_int_4 },
 		{ "GetWindowPos",           l_pigui_get_window_pos },
+		{ "InputText",              l_pigui_input_text },
 		{ 0, 0 }
 	};
 
