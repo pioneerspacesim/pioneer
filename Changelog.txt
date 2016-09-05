@@ -1,5 +1,5 @@
 September 2016
-   *Internal Changes
+   * Internal Changes
      * Update GasGiant config, detail and initialisation timing (#3792)
 
 August 2016
