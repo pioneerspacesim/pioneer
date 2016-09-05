@@ -1,3 +1,7 @@
+September 2016
+   *Internal Changes
+     * Update GasGiant config, detail and initialisation timing (#3792)
+
 August 2016
    * New Features
      * F3 and F4 Toggles between worldview and their thing (#3765)
