@@ -61,7 +61,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		STextureFaceRequest(const STextureFaceRequest &r);
+		STextureFaceRequest(const STextureFaceRequest &r) = delete;
 
 		inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
 
@@ -106,7 +106,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		STextureFaceResult(const STextureFaceResult &r);
+		STextureFaceResult(const STextureFaceResult &r) = delete;
 
 		const int32_t mFace;
 		STextureFaceData mData;
@@ -127,7 +127,7 @@ namespace GasGiantJobs
 
 	private:
 		// deliberately prevent copy constructor access
-		SingleTextureFaceJob(const SingleTextureFaceJob &r);
+		SingleTextureFaceJob(const SingleTextureFaceJob &r) = delete;
 
 		std::unique_ptr<STextureFaceRequest> mData;
 		STextureFaceResult *mpResults;
@@ -161,7 +161,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		SGPUGenRequest(const SGPUGenRequest &r);
+		SGPUGenRequest(const SGPUGenRequest &r) = delete;
 
 		inline Sint32 NumTexels() const { return uvDIMs*uvDIMs; }
 
@@ -198,7 +198,7 @@ namespace GasGiantJobs
 
 	protected:
 		// deliberately prevent copy constructor access
-		SGPUGenResult(const SGPUGenResult &r);
+		SGPUGenResult(const SGPUGenResult &r) = delete;
 
 		SGPUGenData mData;
 	};
@@ -219,7 +219,7 @@ namespace GasGiantJobs
 	private:
 		SingleGPUGenJob() {}
 		// deliberately prevent copy constructor access
-		SingleGPUGenJob(const SingleGPUGenJob &r);
+		SingleGPUGenJob(const SingleGPUGenJob &r) = delete;
 
 		std::unique_ptr<SGPUGenRequest> mData;
 		SGPUGenResult *mpResults;
