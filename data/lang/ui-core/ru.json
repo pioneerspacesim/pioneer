@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "С учетом вашего судна"
+      "message" : "С учётом вашего судна"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Тяжёлый пассажирский шаттл"
+      "message" : "Тяжёлый пассажирский челнок"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
