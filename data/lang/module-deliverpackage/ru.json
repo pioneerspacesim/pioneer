@@ -329,7 +329,7 @@
    },
    "SPACEPORT" : {
       "description" : "",
-      "message" : "Станция получателя:"
+      "message" : "Космопорт получателя:"
    },
    "SYSTEM" : {
       "description" : "",
