@@ -739,7 +739,7 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
 	EnableVertexAttributes(gvb);
 
-	gl::DrawElements(pt, ib->GetIndexCount(), gl::UNSIGNED_SHORT, 0);
+	gl::DrawElements(pt, ib->GetIndexCount(), gl::UNSIGNED_INT, 0);
 
 	DisableVertexAttributes(gvb);
 	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0);
@@ -782,7 +782,7 @@ bool RendererGL2::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 	vb->Bind();
 	ib->Bind();
 	instb->Bind();
-	gl::DrawElementsInstancedARB(pt, ib->GetIndexCount(), gl::UNSIGNED_SHORT, 0, instb->GetInstanceCount());
+	gl::DrawElementsInstancedARB(pt, ib->GetIndexCount(), gl::UNSIGNED_INT, 0, instb->GetInstanceCount());
 	instb->Release();
 	ib->Release();
 	vb->Release();
