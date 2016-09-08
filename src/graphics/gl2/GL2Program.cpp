@@ -16,7 +16,7 @@ namespace Graphics {
 
 namespace GL2 {
 
-static const char *s_glslVersion = "#version 110\n";
+static const char *s_glslVersion = "#version 120\n";
 GLuint Program::s_curProgram = 0;
 
 // Check and warn about compile & link errors

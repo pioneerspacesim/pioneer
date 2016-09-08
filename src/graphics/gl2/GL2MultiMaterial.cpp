@@ -15,9 +15,9 @@ using namespace gl21;
 namespace Graphics {
 namespace GL2 {
 
-MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
+MultiProgram::MultiProgram(const MaterialDescriptor &desc, int numLights)
 {
-	lights = Clamp(lights, 1, 4);
+	numLights = Clamp(numLights, 1, 4);
 
 	//build some defines
 	std::stringstream ss;
@@ -28,11 +28,12 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 	if (desc.alphaTest)
 		ss << "#define ALPHA_TEST\n";
 	//using only one light
-	if (desc.lighting && lights > 0)
-		ss << stringf("#define NUM_LIGHTS %0{d}\n", lights);
+	if (desc.lighting && numLights > 0)
+		ss << stringf("#define NUM_LIGHTS %0{d}\n", numLights);
 	else
 		ss << "#define NUM_LIGHTS 0\n";
-
+	if (desc.normalMap && desc.lighting && numLights > 0)
+		ss << "#define MAP_NORMAL\n";
 	if (desc.specularMap)
 		ss << "#define MAP_SPECULAR\n";
 	if (desc.glowMap)
@@ -43,6 +44,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int lights)
 		ss << "#define MAP_COLOR\n";
 	if (desc.quality & HAS_HEAT_GRADIENT)
 		ss << "#define HEAT_COLOURING\n";
+	if (desc.instanced) 
+		ss << "#define USE_INSTANCING\n";
 
 	m_name = "multi";
 	m_defines = ss.str();
@@ -76,9 +79,9 @@ void LitMultiMaterial::SetProgram(Program *p)
 
 void MultiMaterial::Apply()
 {
+	GL2::Material::Apply();
+
 	MultiProgram *p = static_cast<MultiProgram*>(m_program);
-	p->Use();
-	p->invLogZfarPlus1.Set(m_renderer->m_invLogZfarPlus1);
 
 	p->diffuse.Set(this->diffuse);
 
@@ -88,8 +91,9 @@ void MultiMaterial::Apply()
 	p->texture3.Set(this->texture3, 3);
 	p->texture4.Set(this->texture4, 4);
 	p->texture5.Set(this->texture5, 5);
+	p->texture6.Set(this->texture6, 6);
 
-	p->heatGradient.Set(this->heatGradient, 6);
+	p->heatGradient.Set(this->heatGradient, 7);
 	if(nullptr!=specialParameter0) {
 		HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t*>(specialParameter0);
 		p->heatingMatrix.Set(pMGP->heatingMatrix);
@@ -121,6 +125,16 @@ void LitMultiMaterial::Apply()
 	p->specular.Set(this->specular);
 	p->shininess.Set(float(this->shininess));
 	p->sceneAmbient.Set(m_renderer->GetAmbientColor());
+
+	//Light uniform parameters
+	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {
+		const Light& Light = m_renderer->GetLight(i);
+		p->lights[i].diffuse.Set( Light.GetDiffuse() );
+		p->lights[i].specular.Set( Light.GetSpecular() );
+		const vector3f pos = Light.GetPosition();
+		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
+	}
+	RENDERER_CHECK_ERRORS();
 }
 
 void MultiMaterial::Unapply()

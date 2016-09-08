@@ -16,14 +16,14 @@ namespace Graphics {
 	namespace GL2 {
 		class MultiProgram : public Program {
 		public:
-			MultiProgram(const MaterialDescriptor &, int lights=0);
+			MultiProgram(const MaterialDescriptor &, int numLights=0);
 		};
 
 		class MultiMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
-			virtual void Unapply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void Apply() override;
+			virtual void Unapply() override;
 		};
 
 		/*
@@ -33,13 +33,13 @@ namespace Graphics {
 		class LitMultiMaterial : public MultiMaterial {
 		public:
 			LitMultiMaterial();
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void SetProgram(Program *p);
-			virtual void Apply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override;
+			virtual void SetProgram(Program *p) override;
+			virtual void Apply() override;
 
 		private:
 			Program* m_programs[5];
-			int m_curNumLights;
+			Uint32 m_curNumLights;
 		};
 	}
 }
