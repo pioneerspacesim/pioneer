@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
+#include <shellapi.h>
 
 
 extern "C" {
@@ -172,7 +173,7 @@ const std::string GetOSInfoString()
 	OSVERSIONINFOA osv;
 	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
 	GetVersionExA(&osv);
-
+	
 	std::string name;
 	for (const OSVersion *scan = osVersions; scan->name; scan++) {
 		if (osv.dwMajorVersion == scan->major && osv.dwMinorVersion == scan->minor) {
@@ -238,6 +239,19 @@ void EnableBreakpad()
 		L"",														// Minidump server pipe name
 		&cci);														// Custom client information
 #endif
+}
+
+// Open the Explorer/Finder/etc
+bool SupportsFolderBrowser()
+{
+	return true;
+}
+
+void OpenUserFolderBrowser()
+{
+	std::wstring dumps_path;
+	dumps_path = transcode_utf8_to_utf16(FileSystem::userFiles.GetRoot());
+	ShellExecuteW(NULL, L"open", dumps_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 
 } // namespace OS

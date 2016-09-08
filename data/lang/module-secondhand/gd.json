@@ -25,7 +25,7 @@
    },
    "FLAVOUR_2_BODY" : {
       "description" : "",
-      "message" : "Fàilte ort! 'S mise {name} 's tha sàr-{equipment} agam agus 's ann leatsa a bhios e air {price} a-mhàin."
+      "message" : "Fàilte ort! 'S mise {name} 's tha {equipment} sgoinneil agam agus 's ann leatsa a bhios an t-uidheam seo air {price} a-mhàin."
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "Selling second hand ship equipment",

@@ -559,9 +559,17 @@
       "description" : "",
       "message" : "Salto hiperespacial abortado."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hiperimpulsor no funcional"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Conectar Hiperimpulsor"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Zona prohibida para hiperimpulsor"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -639,6 +647,10 @@
       "description" : "Regarding joystick",
       "message" : "Eje %{sign}%joyname %axis"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Salto completado: %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.2} km/s relativo a %frame"
@@ -649,7 +661,7 @@
    },
    "LANDED" : {
       "description" : "",
-      "message" : "Aterrizado"
+      "message" : "En tierra"
    },
    "LANG_NAME" : {
       "description" : "The name that native speakers use for this language. This will be used in the language selection screen.",
@@ -1170,10 +1182,6 @@
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
-   },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Probabilidad de llegada: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",

@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Hyperraum-Reichweite"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Grob fahrlässiger Hyperraumsprung erfasst"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Ich bin es leid, für nichts zu arbeiten. Wissen sie nicht, was ein Vertrag ist?"
@@ -791,6 +795,10 @@
       "description" : "",
       "message" : "OK"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Benutzerordner"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Optionen"
@@ -1001,7 +1009,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "Ziel als Navigationsziel setzen."
    },
    "SHIP" : {
       "description" : "",

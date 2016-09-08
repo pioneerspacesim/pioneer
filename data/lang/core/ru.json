@@ -559,9 +559,17 @@
       "description" : "",
       "message" : "Гиперпрыжок прерван."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Гипердвигатель выключен"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Активировать гипердвигатель"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Включение гипердвигателя запрещено"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -638,6 +646,10 @@
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Ось"
+   },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Гиперпрыжок завершён на %percent%%"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1170,10 +1182,6 @@
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
       "message" : "p: %pressure{f.2} атм"
-   },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Вероятность прибытия: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",

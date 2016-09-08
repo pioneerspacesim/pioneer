@@ -26,9 +26,10 @@ RefCountedPtr<GasPatchContext> GasGiant::s_patchContext;
 
 namespace
 {
-	static Uint32 TEXTURE_SIZE_SMALL = 16;
-	static Uint32 TEXTURE_SIZE_CPU = 512;
-	static Uint32 TEXTURE_SIZE_GPU = 1024;
+	static Uint32 s_texture_size_small = 16;
+	static Uint32 s_texture_size_cpu[5];
+	static Uint32 s_texture_size_gpu[5];
+	static Uint32 s_noiseOctaves[5];
 	static float s_initialCPUDelayTime = 60.0f; // (perhaps) 60 seconds seems like a reasonable default
 	static float s_initialGPUDelayTime = 5.0f; // (perhaps) 5 seconds seems like a reasonable default
 	static std::vector<GasGiant*> s_allGasGiants;
@@ -39,6 +40,50 @@ namespace
 	static const std::string GGSaturn("GGSaturn");
 	static const std::string GGSaturn2("GGSaturn2");
 	static const std::string GGUranus("GGUranus");
+
+	bool SplitData(const std::string &spec, Uint32 &cpuOut, Uint32 &gpuOut, Uint32 &octavesOut)
+	{
+		static const std::string delim(",");
+
+		enum dataEntries {
+			eCPU=0,
+			eGPU,
+			eOCTAVES
+		};
+
+		size_t i = 0, start = 0, end = 0;
+		while (end != std::string::npos) {
+			// get to the first non-delim char
+			start = spec.find_first_not_of(delim, end);
+
+			// read the end, no more to do
+			if (start == std::string::npos)
+				break;
+
+			// find the end - next delim or end of string
+			end = spec.find_first_of(delim, start);
+
+			// extract the fragment and remember it
+			switch(i)
+			{
+			case eCPU:
+				cpuOut = ceil_pow2(Clamp(atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str()), 64, 4096));
+				break;
+			case eGPU:
+				gpuOut = ceil_pow2(Clamp(atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str()), 64, 4096));
+				break;
+			case eOCTAVES:
+				octavesOut = Clamp(atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str()), 1, 16);
+				break;
+			default:
+				assert(false);
+				break;
+			}
+			i++;
+		}
+
+		return i==4;
+	}
 };
 
 
@@ -249,7 +294,7 @@ void GasGiant::OnChangeDetailLevel()
 }
 
 GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
-	m_hasTempCampos(false), m_tempCampos(0.0), m_timeDelay(s_initialCPUDelayTime), m_hasGpuJobRequest(false)
+	m_hasTempCampos(false), m_tempCampos(0.0), m_hasGpuJobRequest(false), m_timeDelay(s_initialCPUDelayTime)
 {
 	s_allGasGiants.push_back(this);
 	
@@ -257,9 +302,11 @@ GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 		m_hasJobRequest[i] = false;
 	}
 
+	Random rng(GetSystemBody()->GetSeed()+4609837);
+
 	const bool bEnableGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
 	if(bEnableGPUJobs)
-		m_timeDelay = s_initialGPUDelayTime;
+		m_timeDelay = s_initialGPUDelayTime + (rng.Double() * (s_initialGPUDelayTime * 0.5));
 
 	//SetUpMaterials is not called until first Render since light count is zero :)
 
@@ -476,7 +523,7 @@ void GasGiant::GenerateTexture()
 	// scope the small texture generation
 	{
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(TEXTURE_SIZE_SMALL, TEXTURE_SIZE_SMALL);
+		const vector2f dataSize(s_texture_size_small, s_texture_size_small);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
@@ -484,14 +531,14 @@ void GasGiant::GenerateTexture()
 		m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
 
 		const Terrain *pTerrain = GetTerrain();
-		const double fracStep = 1.0 / double(TEXTURE_SIZE_SMALL-1);
+		const double fracStep = 1.0 / double(s_texture_size_small-1);
 
 		Graphics::TextureCubeData tcd;
 		std::unique_ptr<Color> bufs[NUM_PATCHES];
 		for(int i=0; i<NUM_PATCHES; i++) {
-			Color *colors = new Color[ (TEXTURE_SIZE_SMALL*TEXTURE_SIZE_SMALL) ];
-			for( Uint32 v=0; v<TEXTURE_SIZE_SMALL; v++ ) {
-				for( Uint32 u=0; u<TEXTURE_SIZE_SMALL; u++ ) {
+			Color *colors = new Color[ (s_texture_size_small*s_texture_size_small) ];
+			for( Uint32 v=0; v<s_texture_size_small; v++ ) {
+				for( Uint32 u=0; u<s_texture_size_small; u++ ) {
 					// where in this row & colum are we now.
 					const double ustep = double(u) * fracStep;
 					const double vstep = double(v) * fracStep;
@@ -502,7 +549,7 @@ void GasGiant::GenerateTexture()
 					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
 
 					// convert to ubyte and store
-					Color* col = colors + (u + (v * TEXTURE_SIZE_SMALL));
+					Color* col = colors + (u + (v * s_texture_size_small));
 					col[0].r = Uint8(colour.x * 255.0);
 					col[0].g = Uint8(colour.y * 255.0);
 					col[0].b = Uint8(colour.z * 255.0);
@@ -530,7 +577,7 @@ void GasGiant::GenerateTexture()
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
 			m_hasJobRequest[i] = true;
-			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, TEXTURE_SIZE_CPU, GetTerrain());
+			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
 			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new GasGiantJobs::SingleTextureFaceJob(ssrd));
 		}
 	}
@@ -539,7 +586,7 @@ void GasGiant::GenerateTexture()
 		// use m_surfaceTexture texture?
 		// create texture
 		const vector2f texSize(1.0f, 1.0f);
-		const vector2f dataSize(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU);
+		const vector2f dataSize(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
 		const Graphics::TextureDescriptor texDesc(
 			Graphics::TEXTURE_RGBA_8888, 
 			dataSize, texSize, Graphics::LINEAR_CLAMP, 
@@ -561,6 +608,8 @@ void GasGiant::GenerateTexture()
 		} else if( ColorFracName == GGUranus ) {
 			GasGiantType = Graphics::OGL::GEN_URANUS_TEXTURE;
 		}
+		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? s_noiseOctaves[Pi::detail.planets] : std::min(5U, s_noiseOctaves[Pi::detail.planets]);
+		GasGiantType = (octaves << 16) | GasGiantType;
 
 		assert(!m_hasGpuJobRequest);
 		assert(!m_gpuJob.HasJob());
@@ -569,9 +618,9 @@ void GasGiant::GenerateTexture()
 		const std::string parentname = GetSystemBody()->GetParent()->GetName();
 		const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
 
-		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU), s_quadRenderState, GasGiantType );
+		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]), s_quadRenderState, GasGiantType );
 			
-		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), TEXTURE_SIZE_GPU, GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
+		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), s_texture_size_gpu[Pi::detail.planets], GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new GasGiantJobs::SingleGPUGenJob(pGPUReq));
 		m_hasGpuJobRequest = true;
 	}
@@ -745,16 +794,21 @@ void GasGiant::Init()
 	cfg.Read(FileSystem::gameDataFiles, "configs/GasGiants.ini");
 	// NB: limit the ranges of all values loaded from the file
 	// NB: round to the nearest power of 2 for all texture sizes
-	TEXTURE_SIZE_SMALL		= ceil_pow2(Clamp(cfg.Int("texture_size_small", 16), 16, 64));
-	TEXTURE_SIZE_CPU		= ceil_pow2(Clamp(cfg.Int("texture_size_cpu", 512), 128, 4096));
+	s_texture_size_small = ceil_pow2(Clamp(cfg.Int("texture_size_small", 16), 16, 64));
+	
+	SplitData(cfg.String("texture_size_0"), s_texture_size_cpu[0], s_texture_size_gpu[0], s_noiseOctaves[0]);
+	SplitData(cfg.String("texture_size_1"), s_texture_size_cpu[1], s_texture_size_gpu[1], s_noiseOctaves[1]);
+	SplitData(cfg.String("texture_size_2"), s_texture_size_cpu[2], s_texture_size_gpu[2], s_noiseOctaves[2]);
+	SplitData(cfg.String("texture_size_3"), s_texture_size_cpu[3], s_texture_size_gpu[3], s_noiseOctaves[3]);
+	SplitData(cfg.String("texture_size_4"), s_texture_size_cpu[4], s_texture_size_gpu[4], s_noiseOctaves[4]);
+
 	s_initialCPUDelayTime	= Clamp(cfg.Float("cpu_delay_time", 60.0f), 0.0f, 120.0f);
-	TEXTURE_SIZE_GPU		= ceil_pow2(Clamp(cfg.Int("texture_size_gpu", 1024), 128, 4096));
 	s_initialGPUDelayTime	= Clamp(cfg.Float("gpu_delay_time", 5.0f), 0.0f, 120.0f);
 
 	if( s_patchContext.Get() == nullptr ) {
 		s_patchContext.Reset(new GasPatchContext(127));
 	}
-	CreateRenderTarget(TEXTURE_SIZE_GPU, TEXTURE_SIZE_GPU);
+	CreateRenderTarget(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
 }
 
 void GasGiant::Uninit()

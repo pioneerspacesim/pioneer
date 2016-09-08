@@ -113,7 +113,7 @@
    },
    "ENTITY_GENERAL_9" : {
       "description" : "",
-      "message" : "{locality} Burrial-Services Corp"
+      "message" : "{locality} Burial-Services Corp"
    },
    "ENTITY_RESEARCH_1" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "För att erhålla full betalning måste bränslet vara levererat till {date}."
+      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -213,15 +213,15 @@
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Tack så mycket! Jag har överfört hela betalningen."
+      "message" : "Thank you so much! I have transferred the full reward."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "[unit] ton bränsle har överförts."
+      "message" : "{unit} ton of fuel has been transferred."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Piloten begär 1 ton väte-bränsle."
+      "message" : "Piloten begär {unit} ton {cargo}."
    },
    "FLAVOUR_3_ADTEXT" : {
       "description" : "",
@@ -281,11 +281,11 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "[unit] ton bränsle har överförts."
+      "message" : "{unit} ton of fuel has been transferred."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Piloten begär 1 ton väte till bränsle."
+      "message" : "The pilot is asking for {unit} tons of {cargo}."
    },
    "FLAVOUR_5_ADTEXT" : {
       "description" : "",
@@ -313,11 +313,11 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "[unit] ton bränsle har överförts."
+      "message" : "{unit} ton of fuel has been transferred."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "We request the delivery of 1 ton of hydrogen fuel to the ship."
+      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
    },
    "FLAVOUR_6_ADTEXT" : {
       "description" : "",
@@ -325,7 +325,7 @@
    },
    "FLAVOUR_6_FAILUREMSG" : {
       "description" : "",
-      "message" : "What a disaster! This is the death sentence to our poor colleagues!"
+      "message" : "Vilken katastrof! Detta är en dödsdom för våra arma kollegor."
    },
    "FLAVOUR_6_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -341,7 +341,7 @@
    },
    "FLAVOUR_6_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you! You can't imagine how relieved we are."
+      "message" : "Tack! Du kan inte ana hur lättade vi är."
    },
    "FLAVOUR_6_TRANSFERMSG" : {
       "description" : "",
@@ -365,7 +365,7 @@
    },
    "FLAVOUR_7_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with one crew member left on board the ship after {problem}. I am willing to pay {cash} for immediate help."
+      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
    },
    "FLAVOUR_7_LOCATIONTEXT" : {
       "description" : "",
@@ -377,7 +377,7 @@
    },
    "FLAVOUR_7_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has transfered to the target ship."
+      "message" : "{unit} has transferred to the target ship."
    },
    "FLAVOUR_7_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -489,7 +489,7 @@
    },
    "PROBLEM_CREW_10" : {
       "description" : "",
-      "message" : "a mutiny"
+      "message" : "ett myteri"
    },
    "PROBLEM_CREW_2" : {
       "description" : "",
@@ -525,7 +525,7 @@
    },
    "PROBLEM_GENERAL_1" : {
       "description" : "",
-      "message" : "a fire in the cargo hold"
+      "message" : "en brand i lastrummet"
    },
    "PROBLEM_GENERAL_10" : {
       "description" : "",
@@ -537,7 +537,7 @@
    },
    "PROBLEM_GENERAL_3" : {
       "description" : "",
-      "message" : "an air leak"
+      "message" : "en luftläcka"
    },
    "PROBLEM_GENERAL_4" : {
       "description" : "",
@@ -549,11 +549,11 @@
    },
    "PROBLEM_GENERAL_6" : {
       "description" : "",
-      "message" : "a fight among crew members"
+      "message" : "ett slagsmål inom besättningen"
    },
    "PROBLEM_GENERAL_7" : {
       "description" : "",
-      "message" : "contact with an unidentified flight object"
+      "message" : "kontakt med ett oidentifierbart flygande objekt"
    },
    "PROBLEM_GENERAL_8" : {
       "description" : "",
@@ -561,11 +561,11 @@
    },
    "PROBLEM_GENERAL_9" : {
       "description" : "",
-      "message" : "a reboot of the main computer"
+      "message" : "en omstart av huvuddatorn"
    },
    "PROBLEM_RESEARCH_1" : {
       "description" : "",
-      "message" : "an unexpected chemical reaction in one of the reaction chambers"
+      "message" : "en oväntad kemisk reaktion i en av reaktorhärdarna."
    },
    "PROBLEM_RESEARCH_10" : {
       "description" : "",
@@ -577,7 +577,7 @@
    },
    "PROBLEM_RESEARCH_3" : {
       "description" : "",
-      "message" : "a leak of experimental pathogens into the main air supply"
+      "message" : "en läcka av experimentella patogener in i ventilationssystemet"
    },
    "PROBLEM_RESEARCH_4" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "PROBLEM_RESEARCH_5" : {
       "description" : "",
-      "message" : "a chemical explosion in one of the on-board fume hoods"
+      "message" : "en kemisk explosion i en av våra dragskåp"
    },
    "PROBLEM_RESEARCH_6" : {
       "description" : "",
@@ -593,7 +593,7 @@
    },
    "PROBLEM_RESEARCH_7" : {
       "description" : "",
-      "message" : "a heated dispute between scientists on board the ship"
+      "message" : "en uphättad diskussion mellan två vetenskapskmän ombord"
    },
    "PROBLEM_RESEARCH_8" : {
       "description" : "",

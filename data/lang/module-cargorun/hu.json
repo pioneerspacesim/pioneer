@@ -445,11 +445,11 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set as navigation target"
+      "message" : "Navigációs célnak beállít."
    },
    "SET_RETURN_ROUTE" : {
       "description" : "",
-      "message" : "Set return route"
+      "message" : "Visszaút"
    },
    "SPACEPORT" : {
       "description" : "",
@@ -585,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "These goods are crucial for a construction project."
+      "message" : "Létfontosságú rakomány egy építkezéshez."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

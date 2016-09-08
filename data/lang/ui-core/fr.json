@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Portée Hyperspaciale"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Saut hyper-espace imprudent enregistré"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Je suis fatigué de bosser pour rien. Vous savez ce que c'est qu'un contrat de travail ? "
@@ -790,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "Ok"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Répertoire utilisateur"
    },
    "OPTIONS" : {
       "description" : "",

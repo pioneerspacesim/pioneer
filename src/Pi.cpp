@@ -1153,6 +1153,13 @@ void Pi::StartGame()
 	Pi::game->GetCpan()->SetAlertState(Ship::ALERT_NONE);
 	SetView(game->GetWorldView());
 
+#ifdef REMOTE_LUA_REPL
+	#ifndef REMOTE_LUA_REPL_PORT
+	#define REMOTE_LUA_REPL_PORT 12345
+	#endif
+	luaConsole->OpenTCPDebugConnection(REMOTE_LUA_REPL_PORT);
+#endif
+
 	// fire event before the first frame
 	LuaEvent::Queue("onGameStart");
 	LuaEvent::Emit();
@@ -1361,6 +1368,11 @@ void Pi::MainLoop()
 		// Gui::Draw so that labels drawn to screen can have mouse events correctly
 		// detected. Gui::Draw wipes memory of label positions.
 		Pi::HandleEvents();
+
+#ifdef REMOTE_LUA_REPL
+		Pi::luaConsole->HandleTCPDebugConnections();
+#endif
+
 		if( Pi::bRequestEndGame ) {
 			Pi::EndGame();
 		}

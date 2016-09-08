@@ -199,6 +199,12 @@ struct PosNormUVVert {
 	vector3f norm;
 	vector2f uv;
 };
+
+struct PosNormColVert {
+	vector3f pos;
+	vector3f norm;
+	Color4ub col;
+};
 #pragma pack(pop)
 
 static inline void CopyPosNorm(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
@@ -274,6 +280,19 @@ static inline void CopyPosNormUV0(Graphics::VertexBuffer *vb, const Graphics::Ve
 	vb->Unmap();
 }
 
+static inline void CopyPosNormCol(Graphics::VertexBuffer *vb, const Graphics::VertexArray &va)
+{
+	PosNormColVert* vtxPtr = vb->Map<PosNormColVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(vb->GetDesc().stride == sizeof(PosNormColVert));
+	for(Uint32 i=0 ; i<va.GetNumVerts() ; i++)
+	{
+		vtxPtr[i].pos	= va.position[i];
+		vtxPtr[i].norm	= va.normal[i];
+		vtxPtr[i].col	= va.diffuse[i];
+	}
+	vb->Unmap();
+}
+
 // copies the contents of the VertexArray into the buffer
 bool VertexBuffer::Populate(const VertexArray &va)
 {
@@ -289,6 +308,7 @@ bool VertexBuffer::Populate(const VertexArray &va)
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0:								CopyPosUV0(this, va);		result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_DIFFUSE | Graphics::ATTRIB_UV0:	CopyPosColUV0(this, va);	result = true;	break;
 	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_UV0:	CopyPosNormUV0(this, va);	result = true;	break;
+	case Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL | Graphics::ATTRIB_DIFFUSE:CopyPosNormCol(this, va);	result = true;	break;
 	}
 	return result;
 }

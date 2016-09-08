@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Üstuzay menzili"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Reckless hyperjump registered"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Bedava çalışmaktan bıktım. Sözleşmenin ne demek olduğunu bilmiyor musun?"
@@ -790,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "Tamam"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
    },
    "OPTIONS" : {
       "description" : "",

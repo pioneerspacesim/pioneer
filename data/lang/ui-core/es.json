@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Alcance hiperespacial"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Hipersalto temerario registrado"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Estoy cansado de trabajar por nada. ¿No sabe lo que es un contrato?"
@@ -791,6 +795,10 @@
       "description" : "",
       "message" : "Ok"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Carpeta de usuario"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Opciones"
@@ -1001,7 +1009,7 @@
    },
    "SET_AS_TARGET" : {
       "description" : "",
-      "message" : "Set destination as navigation target."
+      "message" : "Establecer destino como objetivo de navegación."
    },
    "SHIP" : {
       "description" : "",

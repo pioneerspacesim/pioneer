@@ -289,7 +289,7 @@
    },
    "DECREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Decrease Time Acceleration"
+      "message" : "Idő lassítása"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -433,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
+      "message" : "A '%filename' nevű mentés nem található (vagy a a játéknak nincs hozzáférése megnyitni)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -559,9 +559,17 @@
       "description" : "",
       "message" : "Hiperűr-ugrás megszakítva."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hiperhajtómű üzemen kívül"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Hipermotor indítása"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hiperhajtómű tiltó zóna"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -601,7 +609,7 @@
    },
    "INCREASE_TIME_ACCELERATION" : {
       "description" : "",
-      "message" : "Increase Time Acceleration"
+      "message" : "Idő gyorsítása"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -639,13 +647,17 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis tengely"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Ugrás állapota: %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "Relatív sebesség (%frame): %speed{f.2} km/s"
    },
    "L4L5_DISPLAY_MODE_TOGGLE" : {
       "description" : "Either show L4/L5 points or don't",
-      "message" : "Switch between Lagrange L4/L5 point display modes."
+      "message" : "L4/L5 Lagrange pont megjelenítése."
    },
    "LANDED" : {
       "description" : "",
@@ -669,7 +681,7 @@
    },
    "LATITUDE" : {
       "description" : "Short for latitude",
-      "message" : "Lat:"
+      "message" : "Szél:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -957,7 +969,7 @@
    },
    "NOW" : {
       "description" : "In System Orbit View",
-      "message" : "Now"
+      "message" : "Most"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1170,10 +1182,6 @@
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
       "message" : "LNy: %pressure{f.2} atm"
-   },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Az érkezés valószínűsége: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
@@ -1669,7 +1677,7 @@
    },
    "TOGGLE_EQUIPMENT_VIEW" : {
       "description" : "Tooltip for the Equipment View button",
-      "message" : "Equipment View"
+      "message" : "Eszköz nézet"
    },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
@@ -1685,7 +1693,7 @@
    },
    "TOGGLE_SCANNER_VIEW" : {
       "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
+      "message" : "Szkenner nézet"
    },
    "TOGGLE_SCAN_MODE" : {
       "description" : "",
@@ -1725,11 +1733,11 @@
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
+      "message" : "n"
    },
    "UNIT_HOURS" : {
       "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
+      "message" : "ó"
    },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
@@ -1737,15 +1745,15 @@
    },
    "UNIT_MINUTES" : {
       "description" : "Duration unit: one 60-second minute",
-      "message" : "m"
+      "message" : "p"
    },
    "UNIT_SECONDS" : {
       "description" : "Duration unit: one second",
-      "message" : "s"
+      "message" : "mp"
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "h"
    },
    "UNKNOWN" : {
       "description" : "",

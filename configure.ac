@@ -133,6 +133,7 @@ AC_SUBST([OPTIMISE])
 
 dnl Debug stuff
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
+AC_ARG_ENABLE([remote-lua-repl], AS_HELP_STRING([--enable-remote-lua-repl], [Enable remote lua repl (tcp port 12345 or -DREMOTE_LUA_REPL_PORT=54321]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DREMOTE_LUA_REPL"])
 AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_LDB" ; EXTRA_LIBS="$EXTRA_LIBS -lldbcore"])
 AC_ARG_ENABLE([profiler], AS_HELP_STRING([--enable-profiler], [Enable internal profiler]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_PROFILER"])
 

@@ -18,15 +18,17 @@ function NavButton.New (text, target)
 	self.widget = ui:HBox(10):PackEnd({ self.button, self.label })
 
 	self.widget.onClick:Connect(function ()
-		if self.target:IsSameSystem(Game.system.path) then
-			if self.target.bodyIndex then
-				Game.player:SetNavTarget(Space.GetBody(self.target.bodyIndex))
+			if self.target:isa("Body") and self.target:IsDynamic() then
+				Game.player:SetNavTarget(self.target)
+			elseif self.target:IsSameSystem(Game.system.path) then
+				if self.target.bodyIndex then
+					Game.player:SetNavTarget(Space.GetBody(self.target.bodyIndex))
+				end
+			else
+				Game.player:SetHyperspaceTarget(self.target:GetStarSystem().path)
+				-- XXX we should do something useful here
+				-- e.g. switch to the sector map or just beep
 			end
-		else
-			Game.player:SetHyperspaceTarget(self.target:GetStarSystem().path)
-			-- XXX we should do something useful here
-			-- e.g. switch to the sector map or just beep
-		end
 	end)
 
 	setmetatable(self, {

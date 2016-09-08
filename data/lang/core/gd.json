@@ -559,9 +559,17 @@
       "description" : "",
       "message" : "Chaidh sgur dhen leum os-fhànais."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Os-dhraibh à comas"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Cuir an draibh os-fhànais air"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Chan eil os-dhraibh ceadaichte an-seo"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -638,6 +646,10 @@
    "JOY_AXIS" : {
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname aiseal %axis"
+   },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Tha %percent%% dhen leum coileanta"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1170,10 +1182,6 @@
    "PRESSURE_N_ATMOSPHERES" : {
       "description" : "",
       "message" : "B: %pressure{f.2} atm"
-   },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Coltachd na ruigsinn: %probability%%"
    },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",

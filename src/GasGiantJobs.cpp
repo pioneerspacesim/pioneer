@@ -104,8 +104,7 @@ namespace GasGiantJobs
 
 		Graphics::MaterialDescriptor desc;
 		desc.effect = Graphics::EFFECT_GEN_GASGIANT_TEXTURE;
-		const Uint32 octaves = (Pi::config->Int("AMD_MESA_HACKS") == 0) ? 8 : 5;
-		desc.quality = (octaves << 16) | GGQuality;
+		desc.quality = GGQuality;
 		desc.textures = 3;
 		m_material.reset(r->CreateMaterial(desc));
 
@@ -114,7 +113,7 @@ namespace GasGiantJobs
 		m_material->texture1 = Graphics::TextureBuilder::Raw("textures/gradTexture.png").GetOrCreateTexture(Pi::renderer, "noise");
 
 		// pick the correct colour basis texture for the planet
-		switch (GGQuality) {
+		switch (0x0000FFFF & GGQuality) {
 		case Graphics::OGL::GEN_JUPITER_TEXTURE:
 			m_material->texture2 = Graphics::TextureBuilder::Billboard("textures/gasgiants/jupiterramp.png").GetOrCreateTexture(Pi::renderer, "gasgiant");
 			break;
@@ -179,7 +178,7 @@ namespace GasGiantJobs
 		m_specialParams.time = 0.0f;
 			
 		for(Uint32 i=0; i<3; i++) {
-			m_specialParams.frequency[i] = (float)pTerrain->GetFracDef(i).frequency;
+			m_specialParams.frequency[i] = float(pTerrain->GetFracDef(i).frequency);
 		}
 
 		m_specialParams.hueAdjust = hueAdjust;

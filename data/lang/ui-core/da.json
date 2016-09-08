@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Hyperrum rækkevidde"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Reckless hyperjump registered"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Jeg er træt af at arbejde for ingen ting. Ved du ikke hvad en kontrakt er?"
@@ -790,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "OK"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
    },
    "OPTIONS" : {
       "description" : "",

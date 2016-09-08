@@ -1,11 +1,33 @@
+September 2016
+   * Internal Changes
+     * Update GasGiant config, detail and initialisation timing (#3792)
+
 August 2016
    * New Features
      * F3 and F4 Toggles between worldview and their thing (#3765)
      * Navbutton added to mission screens (#3736)
+     * Add a TCP Lua console (#3768)
+     * Low altitude hyperjumps are illegal (#3753)
+     * Add button to Settings menus so user can open their Pioneer folder (#3790)
+     * Navigation button update to allow for dynamicBodies as nav targets (SAR and general) (#3789)
+     * Loads of SAR improvements ! (#3795)
+
+   * Fixes
      * Fix crash in by Search & Rescue missions (#3770)
+     * NaN in your numbers (#3772)
+     * Fix hyperspace star streaks (#3773)
+     * prefix std:: to isnan so it builds on Linux (#3775)
+     * Use ImageMagick to fix the iCCP profile problem (#3778)
+     * Fix crash when jumping into empty system (#3791)
+     * Fix risk of game crash from SAR when landing on wrong planet (#3797)
+     * Fix potential instability in SAR (#3802)
 
    * Internal Changes
      * Add a function for typesetting time intervals (#3764)
+     * Restore Starfield colourisation (#3774)
+     * Animated city buildings, instancing improvement (#3777)
+     * Small code cleanup in SAR (#3798)
+     * Make colour range of stars more narrow (#3793)
 
 July 2016
    * New Features

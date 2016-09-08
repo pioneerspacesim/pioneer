@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "超空间范围"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Reckless hyperjump registered"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "我受够了给别人白干活儿. 你难道不知道什么叫合同吗?"
@@ -790,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "OK"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
    },
    "OPTIONS" : {
       "description" : "",

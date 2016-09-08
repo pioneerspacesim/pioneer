@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "С учетом вашего судна"
+      "message" : "С учётом вашего судна"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -33,7 +33,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Попытка отремонтировать корпус"
+      "message" : "Попытаться отремонтировать корпус"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Тяжёлый пассажирский шаттл"
+      "message" : "Тяжёлый пассажирский челнок"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
@@ -466,6 +466,10 @@
    "HYPERSPACE_RANGE" : {
       "description" : "",
       "message" : "Дальность гиперпрыжка"
+   },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Совершение рискованного гиперпрыжка"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -791,6 +795,10 @@
       "description" : "",
       "message" : "Хорошо"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Папка пользователя"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Настройки"
@@ -909,7 +917,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Заправить"
+      "message" : "Закачать"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -1185,7 +1193,7 @@
    },
    "X_CANNOT_BE_TOLERATED_HERE" : {
       "description" : "Message to be sent over comms by police when crime is committed by player",
-      "message" : "Здесь не потерпят {crime}!"
+      "message" : "{crime} нельзя допускать здесь!"
    },
    "YES" : {
       "description" : "Positive answer to a question",

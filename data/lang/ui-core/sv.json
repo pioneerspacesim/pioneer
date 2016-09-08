@@ -467,6 +467,10 @@
       "description" : "",
       "message" : "Hyperrymdsräckvidd"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Vårdslös hyperhopp registrerat"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Jag är trött på att arbeta för ingenting. Vet du inte vad ett kontrakt är?"
@@ -790,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "Ok"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Användarkatalog"
    },
    "OPTIONS" : {
       "description" : "",
