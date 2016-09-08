@@ -493,10 +493,10 @@ void InstanceBuffer::Bind() {
 	gl::EnableVertexAttribArray(INSTOFFS_MAT3);
 	gl::VertexAttribPointer(INSTOFFS_MAT3, 4, gl::FLOAT, gl::FALSE_, 4 * sizeVec4, reinterpret_cast<const GLvoid*>(3 * sizeVec4));
 
-	//gl::VertexAttribDivisor(INSTOFFS_MAT0, 1);
-	//gl::VertexAttribDivisor(INSTOFFS_MAT1, 1);
-	//gl::VertexAttribDivisor(INSTOFFS_MAT2, 1);
-	//gl::VertexAttribDivisor(INSTOFFS_MAT3, 1);
+	gl::VertexAttribDivisorARB(INSTOFFS_MAT0, 1);
+	gl::VertexAttribDivisorARB(INSTOFFS_MAT1, 1);
+	gl::VertexAttribDivisorARB(INSTOFFS_MAT2, 1);
+	gl::VertexAttribDivisorARB(INSTOFFS_MAT3, 1);
 }
 
 void InstanceBuffer::Release() {
