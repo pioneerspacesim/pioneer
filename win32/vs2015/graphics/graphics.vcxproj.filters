@@ -62,9 +62,6 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
-      <Filter>opengl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp">
       <Filter>dummy</Filter>
     </ClCompile>
@@ -73,6 +70,9 @@
       <Filter>opengl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\opengl\BillboardMaterial.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.cpp">
       <Filter>opengl</Filter>
     </ClCompile>
   </ItemGroup>
@@ -147,9 +147,6 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\RendererGL.h">
       <Filter>opengl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.h">
-      <Filter>opengl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\dummy\MaterialDummy.h">
       <Filter>dummy</Filter>
     </ClInclude>
@@ -177,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\Types.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\BillboardMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.hpp">
       <Filter>opengl</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,7 +22,7 @@ namespace Graphics {
 
 			virtual void Apply() override {
 				OGL::Material::Apply();
-				glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+				gl::Enable(gl::VERTEX_PROGRAM_POINT_SIZE);
 				assert(this->texture0);
 				m_program->Use();
 				m_program->texture0.Set(this->texture0, 0);
@@ -31,7 +31,7 @@ namespace Graphics {
 
 			virtual void Unapply() override {
 				static_cast<TextureGL*>(texture0)->Unbind();
-				glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
+				gl::Disable(gl::VERTEX_PROGRAM_POINT_SIZE);
 			}
 		};
 	}

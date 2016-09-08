@@ -130,19 +130,19 @@ void GenGasGiantColourMaterial::Unapply()
 	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
 	if (texture4) {
 		static_cast<TextureGL*>(texture4)->Unbind();
-		glActiveTexture(GL_TEXTURE3);
+		gl::ActiveTexture(gl::TEXTURE3);
 	}
 	if (texture3) {
 		static_cast<TextureGL*>(texture3)->Unbind();
-		glActiveTexture(GL_TEXTURE2);
+		gl::ActiveTexture(gl::TEXTURE2);
 	}
 	if (texture2) {
 		static_cast<TextureGL*>(texture2)->Unbind();
-		glActiveTexture(GL_TEXTURE1);
+		gl::ActiveTexture(gl::TEXTURE1);
 	}
 	if (texture1) {
 		static_cast<TextureGL*>(texture1)->Unbind();
-		glActiveTexture(GL_TEXTURE0);
+		gl::ActiveTexture(gl::TEXTURE0);
 	}
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();

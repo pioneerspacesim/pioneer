@@ -72,13 +72,14 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	if (!initted) {
 		initted = true;
 
-		if (!ogl_LoadFunctions())
+		gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
+		if (!didLoad)
 			Error(
 				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.3\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly."
 			);
 
-		if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED)
+		if (!gl::exts::var_EXT_texture_compression_s3tc)
 			Error(
 				"OpenGL extension GL_EXT_texture_compression_s3tc not supported.\n"
 				"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures."
@@ -94,19 +95,19 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	m_useAnisotropicFiltering = useAnisotropicFiltering;
 
 	//XXX bunch of fixed function states here!
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	glDepthRange(0.0,1.0);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	glEnable(GL_PROGRAM_POINT_SIZE);
+	gl::CullFace(gl::BACK);
+	gl::FrontFace(gl::CCW);
+	gl::Enable(gl::CULL_FACE);
+	gl::Enable(gl::DEPTH_TEST);
+	gl::DepthFunc(gl::LESS);
+	gl::DepthRange(0.0,1.0);
+	gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+	gl::Hint(gl::LINE_SMOOTH_HINT, gl::NICEST);
+	gl::Enable(gl::TEXTURE_CUBE_MAP_SEAMLESS);
+	gl::Enable(gl::PROGRAM_POINT_SIZE);
 
-	glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
-	glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
+	gl::Hint(gl::TEXTURE_COMPRESSION_HINT, gl::NICEST);
+	gl::Hint(gl::FRAGMENT_SHADER_DERIVATIVE_HINT, gl::NICEST);
 
 	SetMatrixMode(MatrixMode::MODELVIEW);
 
@@ -120,13 +121,13 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 		GLDebug::Enable();
 
 	// check enum PrimitiveType matches OpenGL values
-	assert(POINTS == GL_POINTS);
-	assert(LINE_SINGLE == GL_LINES);
-	assert(LINE_LOOP == GL_LINE_LOOP);
-	assert(LINE_STRIP == GL_LINE_STRIP);
-	assert(TRIANGLES == GL_TRIANGLES);
-	assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
-	assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
+	assert(POINTS == gl::POINTS);
+	assert(LINE_SINGLE == gl::LINES);
+	assert(LINE_LOOP == gl::LINE_LOOP);
+	assert(LINE_STRIP == gl::LINE_STRIP);
+	assert(TRIANGLES == gl::TRIANGLES);
+	assert(TRIANGLE_STRIP == gl::TRIANGLE_STRIP);
+	assert(TRIANGLE_FAN == gl::TRIANGLE_FAN);
 }
 
 RendererOGL::~RendererOGL()
@@ -140,25 +141,25 @@ RendererOGL::~RendererOGL()
 static const char *gl_error_to_string(GLenum err)
 {
 	switch (err) {
-		case GL_NO_ERROR: return "(no error)";
-		case GL_INVALID_ENUM: return "invalid enum";
-		case GL_INVALID_VALUE: return "invalid value";
-		case GL_INVALID_OPERATION: return "invalid operation";
-		case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
-		case GL_OUT_OF_MEMORY: return "out of memory";
+	case gl::NO_ERROR_: return "(no error)";
+		case gl::INVALID_ENUM: return "invalid enum";
+		case gl::INVALID_VALUE: return "invalid value";
+		case gl::INVALID_OPERATION: return "invalid operation";
+		case gl::INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
+		case gl::OUT_OF_MEMORY: return "out of memory";
 		default: return "(unknown error)";
 	}
 }
 
-static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = GL_NO_ERROR)
+static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = gl::NO_ERROR_)
 {
-	GLenum err = ((first_error == GL_NO_ERROR) ? glGetError() : first_error);
-	if (err != GL_NO_ERROR) {
+	GLenum err = ((first_error == gl::NO_ERROR_) ? gl::GetError() : first_error);
+	if (err != gl::NO_ERROR_) {
 		out << "errors: ";
 		do {
 			out << gl_error_to_string(err) << " ";
-			err = glGetError();
-		} while (err != GL_NO_ERROR);
+			err = gl::GetError();
+		} while (err != gl::NO_ERROR_);
 		out << std::endl;
 	}
 }
@@ -169,36 +170,36 @@ static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, in
 	assert(name);
 
 	GLdouble e[4];
-	glGetDoublev(id, e);
+	gl::GetDoublev(id, e);
 
-	GLenum err = glGetError();
-	if (err == GL_NO_ERROR) {
+	GLenum err = gl::GetError();
+	if (err == gl::NO_ERROR_) {
 		out << name << " = " << e[0];
 		for (int i = 1; i < num_elems; ++i)
 			out << ", " << e[i];
 		out << "\n";
 	} else {
-		while (err != GL_NO_ERROR) {
-			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
+		while (err != gl::NO_ERROR_) {
+			if (err == gl::INVALID_ENUM) { out << name << " -- not supported\n"; }
 			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
-			err = glGetError();
+			err = gl::GetError();
 		}
 	}
 }
 
 void RendererOGL::WriteRendererInfo(std::ostream &out) const
 {
-	out << "OpenGL version " << glGetString(GL_VERSION);
-	out << ", running on " << glGetString(GL_VENDOR);
-	out << " " << glGetString(GL_RENDERER) << "\n";
+	out << "OpenGL version " << gl::GetString(gl::VERSION);
+	out << ", running on " << gl::GetString(gl::VENDOR);
+	out << " " << gl::GetString(gl::RENDERER) << "\n";
 
 	out << "Available extensions:" << "\n";
 	{
-		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+		out << "Shading language version: " <<  gl::GetString(gl::SHADING_LANGUAGE_VERSION) << "\n";
 		GLint numext = 0;
-		glGetIntegerv(GL_NUM_EXTENSIONS, &numext);
+		gl::GetIntegerv(gl::NUM_EXTENSIONS, &numext);
 		for (int i = 0; i < numext; ++i) {
-			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
+			out << "  " << gl::GetStringi(gl::EXTENSIONS, i) << "\n";
 		}
 	}
 
@@ -210,25 +211,25 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 #define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
 
-	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
-	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
-	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
-	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
-	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
-	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
-	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
-	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
-	DUMP_GL_VALUE(GL_SAMPLES);
-	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
-	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
-	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
-	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
+	DUMP_GL_VALUE(gl::MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(gl::MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(gl::MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(gl::MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(gl::MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(gl::MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(gl::MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(gl::MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(gl::MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(gl::MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(gl::MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(gl::MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(gl::NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(gl::SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(gl::SAMPLES);
+	DUMP_GL_VALUE2(gl::ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(gl::MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(gl::SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(gl::SMOOTH_POINT_SIZE_RANGE);
 
 #undef DUMP_GL_VALUE
 #undef DUMP_GL_VALUE2
@@ -241,16 +242,16 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 		GLint nformats;
 		GLint formats[128]; // XXX 128 should be enough, right?
 
-		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
-		GLenum err = glGetError();
-		if (err != GL_NO_ERROR) {
+		gl::GetIntegerv(gl::NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
+		GLenum err = gl::GetError();
+		if (err != gl::NO_ERROR_) {
 			out << "Get NUM_COMPRESSED_TEXTURE_FORMATS failed\n";
 			dump_and_clear_opengl_errors(out, err);
 		} else {
 			assert(nformats >= 0 && nformats < int(COUNTOF(formats)));
-			glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
-			err = glGetError();
-			if (err != GL_NO_ERROR) {
+			gl::GetIntegerv(gl::COMPRESSED_TEXTURE_FORMATS, formats);
+			err = gl::GetError();
+			if (err != gl::NO_ERROR_) {
 				out << "Get COMPRESSED_TEXTURE_FORMATS failed\n";
 				dump_and_clear_opengl_errors(out, err);
 			} else {
@@ -274,8 +275,8 @@ bool RendererOGL::GetNearFarRange(float &near_, float &far_) const
 bool RendererOGL::BeginFrame()
 {
 	PROFILE_SCOPED()
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	gl::ClearColor(0,0,0,0);
+	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	return true;
 }
 
@@ -288,13 +289,13 @@ static std::string glerr_to_string(GLenum err)
 {
 	switch (err)
 	{
-	case GL_INVALID_ENUM:
+	case gl::INVALID_ENUM:
 		return "GL_INVALID_ENUM";
-	case GL_INVALID_VALUE:
+	case gl::INVALID_VALUE:
 		return "GL_INVALID_VALUE";
-	case GL_INVALID_OPERATION:
+	case gl::INVALID_OPERATION:
 		return "GL_INVALID_OPERATION";
-	case GL_OUT_OF_MEMORY:
+	case gl::OUT_OF_MEMORY:
 		return "GL_OUT_OF_MEMORY";
 	default:
 		return stringf("Unknown error 0x0%0{x}", err);
@@ -305,10 +306,10 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 {
 	PROFILE_SCOPED()
 #ifndef PIONEER_PROFILER
-	GLenum err = glGetError();
+	GLenum err = gl::GetError();
 	if( err ) {
 		// static-cache current err that sparked this
-		static GLenum s_prevErr = GL_NO_ERROR;
+		static GLenum s_prevErr = gl::NO_ERROR_;
 		const bool showWarning = (s_prevErr != err);
 		s_prevErr = err;
 		// now build info string
@@ -317,16 +318,16 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 			ss << "In function " << std::string(func) << "\nOn line " << std::to_string(line) << "\n";
 		}
 		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
+		while (err != gl::NO_ERROR_) {
 			ss << glerr_to_string(err) << '\n';
-			err = glGetError();
-			if( err == GL_OUT_OF_MEMORY ) {
+			err = gl::GetError();
+			if( err == gl::OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
 			}
 #ifdef _WIN32
-			else if (err == GL_INVALID_OPERATION) {
+			else if (err == gl::INVALID_OPERATION) {
 				ss << "Invalid operations can occur if you are using overlay software." << std::endl
 					<< "Such as FRAPS, RivaTuner, MSI Afterburner etc." << std::endl
 					<< "Please try disabling this kind of software and testing again, thankyou." << std::endl;
@@ -348,16 +349,16 @@ bool RendererOGL::SwapBuffers()
 #ifndef NDEBUG
 	// Check if an error occurred during the frame. This is not very useful for
 	// determining *where* the error happened. For that purpose, try GDebugger or
-	// the GL_KHR_DEBUG extension
+	// the gl::KHR_DEBUG extension
 	GLenum err;
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
+	err = gl::GetError();
+	if (err != gl::NO_ERROR_) {
 		std::stringstream ss;
 		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
+		while (err != gl::NO_ERROR_) {
 			ss << glerr_to_string(err) << std::endl;
-			err = glGetError();
-			if( err == GL_OUT_OF_MEMORY ) {
+			err = gl::GetError();
+			if( err == gl::OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
@@ -398,16 +399,16 @@ bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 
 bool RendererOGL::SetDepthRange(double znear, double zfar)
 {
-	glDepthRange(znear, zfar);
+	gl::DepthRange(znear, zfar);
 	return true;
 }
 
 bool RendererOGL::ClearScreen()
 {
 	m_activeRenderState = nullptr;
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	gl::Enable(gl::DEPTH_TEST);
+	gl::DepthMask(gl::TRUE_);
+	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
@@ -416,9 +417,9 @@ bool RendererOGL::ClearScreen()
 bool RendererOGL::ClearDepthBuffer()
 {
 	m_activeRenderState = nullptr;
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	gl::Enable(gl::DEPTH_TEST);
+	gl::DepthMask(gl::TRUE_);
+	gl::Clear(gl::DEPTH_BUFFER_BIT);
 	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
@@ -426,7 +427,7 @@ bool RendererOGL::ClearDepthBuffer()
 
 bool RendererOGL::SetClearColor(const Color &c)
 {
-	glClearColor(c.r, c.g, c.b, c.a);
+	gl::ClearColor(c.r, c.g, c.b, c.a);
 	return true;
 }
 
@@ -438,7 +439,7 @@ bool RendererOGL::SetViewport(int x, int y, int width, int height)
 	currentViewport.y = y;
 	currentViewport.w = width;
 	currentViewport.h = height;
-	glViewport(x, y, width, height);
+	gl::Viewport(x, y, width, height);
 	return true;
 }
 
@@ -497,7 +498,7 @@ bool RendererOGL::SetProjection(const matrix4x4f &m)
 
 bool RendererOGL::SetWireFrameMode(bool enabled)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
+	gl::PolygonMode(gl::FRONT_AND_BACK, enabled ? gl::LINE : gl::FILL);
 	return true;
 }
 
@@ -537,10 +538,10 @@ bool RendererOGL::SetAmbientColor(const Color &c)
 bool RendererOGL::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
 {
 	if (enabled) {
-		glScissor(pos.x,pos.y,size.x,size.y);
-		glEnable(GL_SCISSOR_TEST);
+		gl::Scissor(pos.x,pos.y,size.x,size.y);
+		gl::Enable(gl::SCISSOR_TEST);
 	} else {
-		glDisable(GL_SCISSOR_TEST);
+		gl::Disable(gl::SCISSOR_TEST);
 	}
 	return true;
 }
@@ -741,7 +742,7 @@ bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	SetMaterialShaderTransforms(mat);
 
 	vb->Bind();
-	glDrawArrays(pt, 0, vb->GetVertexCount());
+	gl::DrawArrays(pt, 0, vb->GetVertexCount());
 	vb->Release();
 	CheckRenderErrors(__FUNCTION__,__LINE__);
 
@@ -760,7 +761,7 @@ bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 
 	vb->Bind();
 	ib->Bind();
-	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0);
+	gl::DrawElements(pt, ib->GetIndexCount(), gl::UNSIGNED_INT, 0);
 	ib->Release();
 	vb->Release();
 	CheckRenderErrors(__FUNCTION__,__LINE__);
@@ -780,7 +781,7 @@ bool RendererOGL::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 
 	vb->Bind();
 	instb->Bind();
-	glDrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
+	gl::DrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
 	CheckRenderErrors(__FUNCTION__,__LINE__);
@@ -801,7 +802,7 @@ bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 	vb->Bind();
 	ib->Bind();
 	instb->Bind();
-	glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0, instb->GetInstanceCount());
+	gl::DrawElementsInstanced(pt, ib->GetIndexCount(), gl::UNSIGNED_INT, 0, instb->GetInstanceCount());
 	instb->Release();
 	ib->Release();
 	vb->Release();
@@ -1123,11 +1124,11 @@ bool RendererOGL::Screendump(ScreendumpState &sd)
 
 	sd.pixels.reset(new Uint8[sd.stride * sd.height]);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT, 4); // never trust defaults
-	glReadBuffer(GL_FRONT);
-	glReadPixels(0, 0, sd.width, sd.height, GL_RGB, GL_UNSIGNED_BYTE, sd.pixels.get());
-	glFinish();
+	gl::BindFramebuffer(gl::FRAMEBUFFER, 0);
+	gl::PixelStorei(gl::PACK_ALIGNMENT, 4); // never trust defaults
+	gl::ReadBuffer(gl::FRONT);
+	gl::ReadPixels(0, 0, sd.width, sd.height, gl::RGB, gl::UNSIGNED_BYTE, sd.pixels.get());
+	gl::Finish();
 
 	return true;
 }

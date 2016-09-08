@@ -133,12 +133,7 @@
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='PreRelease|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">CompileAsCpp</CompileAs>
-    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\MaterialGL.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\MultiMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\Program.cpp" />
@@ -178,7 +173,7 @@
     <ClInclude Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GLDebug.h" />
-    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.hpp" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MaterialGL.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MultiMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\OpenGLLibs.h" />
