@@ -22,6 +22,8 @@ public:
 	virtual void SetSampleMode(TextureSampleMode);
 	GLuint GetTexture() const { return m_texture; }
 
+	void BuildMipmaps();
+
 private:
 	friend class RendererGL2;
 	GL2Texture(const TextureDescriptor &descriptor, const bool useCompressed);

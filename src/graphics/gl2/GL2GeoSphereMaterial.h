@@ -29,7 +29,6 @@ namespace Graphics {
 			Uniform detailScaleLo;
 
 			Uniform shadows;
-			Uniform occultedLight;
 			Uniform shadowCentreX;
 			Uniform shadowCentreY;
 			Uniform shadowCentreZ;

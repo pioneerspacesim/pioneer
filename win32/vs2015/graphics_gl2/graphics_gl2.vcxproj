@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DED0A0AD-E7B8-42EF-83DB-EDAE7E2443EE}</ProjectGuid>
+    <ProjectGuid>{A96E2907-8944-49D2-9650-47CCA81E62B7}</ProjectGuid>
     <RootNamespace>graphics</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -143,23 +143,6 @@
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
     <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2FresnelColourMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2GasGiantMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2GeoSphereMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Material.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2MultiMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Program.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Renderer.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderState.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RenderTarget.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2RingMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2ShieldMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Texture.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2UIMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2Uniform.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.cpp" />
-    <ClCompile Include="..\..\..\src\graphics\gl2\gl_core_2_1.c" />
     <ClCompile Include="..\..\..\src\graphics\Graphics.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Light.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Material.cpp" />
@@ -180,28 +163,6 @@
     <ClInclude Include="..\..\..\src\graphics\dummy\TextureDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Debug.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2FresnelColourMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2GasGiantMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2GeoSphereMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Material.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2MultiMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Program.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Renderer.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderState.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RenderTarget.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2RingMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2ShieldMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2SkyboxMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2SphereImpostorMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2StarfieldMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Texture.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2UIMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2Uniform.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2VertexBuffer.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\GL2VtxColorMaterial.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\gl_core_2_1.h" />
-    <ClInclude Include="..\..\..\src\graphics\gl2\OpenGLLibs.h" />
     <ClInclude Include="..\..\..\src\graphics\Graphics.h" />
     <ClInclude Include="..\..\..\src\graphics\Light.h" />
     <ClInclude Include="..\..\..\src\graphics\Material.h" />

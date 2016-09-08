@@ -32,7 +32,6 @@ void GasGiantProgram::InitUniforms()
 	geosphereRadius.Init("geosphereRadius", m_program);
 
 	shadows.Init("shadows", m_program);
-	occultedLight.Init("occultedLight", m_program);
 	shadowCentreX.Init("shadowCentreX", m_program);
 	shadowCentreY.Init("shadowCentreY", m_program);
 	shadowCentreZ.Init("shadowCentreZ", m_program);
@@ -108,7 +107,6 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 	std::vector<Camera::Shadow>::const_iterator it = params.shadows.begin(), itEnd = params.shadows.end();
 	int j = 0;
 	while (j<3 && it != itEnd) {
-		occultedLight[j] = it->occultedLight;
 		shadowCentreX[j] = it->centre[0];
 		shadowCentreY[j] = it->centre[1];
 		shadowCentreZ[j] = it->centre[2];
@@ -119,7 +117,6 @@ void GasGiantSurfaceMaterial::SetGSUniforms()
 		++j;
 	}
 	p->shadows.Set(j);
-	p->occultedLight.Set(occultedLight);
 	p->shadowCentreX.Set(shadowCentreX);
 	p->shadowCentreY.Set(shadowCentreY);
 	p->shadowCentreZ.Set(shadowCentreZ);

@@ -15,7 +15,7 @@ namespace GL2 {
 UIProgram::UIProgram(const MaterialDescriptor &desc)
 {
 	m_name = "ui";
-	RendererGL2::CheckErrors();
+	RENDERER_CHECK_ERRORS();
 
 	LoadShaders(m_name, m_defines);
 	InitUniforms();
@@ -44,7 +44,7 @@ void UIMaterial::Unapply()
 	
 	if (texture1) {
 		static_cast<GL2Texture*>(texture1)->Unbind();
-		glActiveTexture(GL_TEXTURE0);
+		gl21::gl::ActiveTexture(gl21::gl::TEXTURE0);
 	}
 	if (texture0) {
 		static_cast<GL2Texture*>(texture0)->Unbind();

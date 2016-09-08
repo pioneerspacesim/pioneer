@@ -32,6 +32,7 @@ namespace Graphics {
 			virtual void Apply();
 			virtual void Unapply();
 			virtual void SetProgram(Program *p) { m_program = p; }
+			virtual bool IsProgramLoaded() const override final { return true; }
 			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj);
 
 		protected:

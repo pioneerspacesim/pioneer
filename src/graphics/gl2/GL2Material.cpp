@@ -29,7 +29,7 @@ void Material::SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj)
 	m_program->uViewMatrixInverse.Set(mv.Inverse());
 	m_program->uViewProjectionMatrix.Set(ViewProjection);
 	m_program->uNormalMatrix.Set(NormalMatrix);
-	RendererGL2::CheckErrors();
+	RENDERER_CHECK_ERRORS();
 }
 
 }

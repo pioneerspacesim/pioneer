@@ -33,6 +33,8 @@
 #include <sstream>
 #include <iterator>
 
+using namespace gl21;
+
 namespace Graphics {
 
 static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
@@ -51,40 +53,65 @@ static std::string glerr_to_string(GLenum err)
 {
 	switch (err)
 	{
-	case GL_INVALID_ENUM:
+	case gl::INVALID_ENUM:
 		return "GL_INVALID_ENUM";
-	case GL_INVALID_VALUE:
+	case gl::INVALID_VALUE:
 		return "GL_INVALID_VALUE";
-	case GL_INVALID_OPERATION:
+	case gl::INVALID_OPERATION:
 		return "GL_INVALID_OPERATION";
-	case GL_OUT_OF_MEMORY:
+	case gl::OUT_OF_MEMORY:
 		return "GL_OUT_OF_MEMORY";
-	case GL_STACK_OVERFLOW: //deprecated in GL3
+	case gl::STACK_OVERFLOW: //deprecated in GL3
 		return "GL_STACK_OVERFLOW";
-	case GL_STACK_UNDERFLOW: //deprecated in GL3
+	case gl::STACK_UNDERFLOW: //deprecated in GL3
 		return "GL_STACK_UNDERFLOW";
 	default:
 		return stringf("Unknown error 0x0%0{x}", err);
 	}
 }
 
-void RendererGL2::CheckErrors()
+void RendererGL2::CheckErrors(const char *func /*= nullptr*/, const int line /*= nullptr*/)
 {
-	GLenum err = glGetError();
-	if (err) {
+	PROFILE_SCOPED()
+#ifndef PIONEER_PROFILER
+	GLenum err = gl::GetError();
+	if( err ) {
+		// static-cache current err that sparked this
+		static GLenum s_prevErr = gl::NO_ERROR_;
+		const bool showWarning = (s_prevErr != err);
+		s_prevErr = err;
+		// now build info string
 		std::stringstream ss;
+		if(func) {
+			ss << "In function " << std::string(func) << "\n";
+		}
+		if(line>=0) {
+			ss << "On line " << std::to_string(line) << "\n";
+		}
 		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
+		while (err != gl::NO_ERROR_) {
 			ss << glerr_to_string(err) << '\n';
-			err = glGetError();
-			if (err == GL_OUT_OF_MEMORY) {
+			if( err == gl::OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
 			}
+#ifdef _WIN32
+			else if (err == gl::INVALID_OPERATION) {
+				ss << "Invalid operations can occur if you are using overlay software." << std::endl
+					<< "Such as FRAPS, RivaTuner, MSI Afterburner etc." << std::endl
+					<< "Please try disabling this kind of software and testing again, thankyou." << std::endl;
+			}
+#endif
+			err = gl::GetError();
 		}
-		Warning("%s", ss.str().c_str());
+		// show warning dialog or just log to output
+		if(showWarning)
+			Warning("%s", ss.str().c_str());
+		else
+			Output("%s", ss.str().c_str());
 	}
+#endif
 }
 
 RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
@@ -104,7 +131,8 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	if (!initted) {
 		initted = true;
 
-		if (!ogl_LoadFunctions())
+		gl::exts::LoadTest didLoad = gl::sys::LoadFunctions();
+		if (!didLoad)
 			Error(
 				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 2.1\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly."
@@ -116,16 +144,16 @@ RendererGL2::RendererGL2(WindowSDL *window, const Graphics::Settings &vs)
 	m_useCompressedTextures = useDXTnTextures;
 
 	//XXX bunch of fixed function states here!
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHT0);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	gl::CullFace(gl::BACK);
+	gl::FrontFace(gl::CCW);
+	gl::Enable(gl::CULL_FACE);
+	gl::Enable(gl::DEPTH_TEST);
+	gl::Enable(gl::LIGHT0);
+	gl::BlendFunc(gl::SRC_ALPHA, gl::ONE_MINUS_SRC_ALPHA);
+	gl::Hint(gl::POINT_SMOOTH_HINT, gl::NICEST);
+	gl::Hint(gl::LINE_SMOOTH_HINT, gl::NICEST);
 
-	glMatrixMode(GL_MODELVIEW);
+	gl::MatrixMode(gl::MODELVIEW);
 	m_modelViewStack.push(matrix4x4f::Identity());
 	m_projectionStack.push(matrix4x4f::Identity());
 
@@ -146,25 +174,25 @@ RendererGL2::~RendererGL2()
 static const char *gl_error_to_string(GLenum err)
 {
 	switch (err) {
-	case GL_NO_ERROR: return "(no error)";
-	case GL_INVALID_ENUM: return "invalid enum";
-	case GL_INVALID_VALUE: return "invalid value";
-	case GL_INVALID_OPERATION: return "invalid operation";
-	//case GL_INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
-	case GL_OUT_OF_MEMORY: return "out of memory";
+	case gl::NO_ERROR_: return "(no error)";
+	case gl::INVALID_ENUM: return "invalid enum";
+	case gl::INVALID_VALUE: return "invalid value";
+	case gl::INVALID_OPERATION: return "invalid operation";
+	//case gl::INVALID_FRAMEBUFFER_OPERATION: return "invalid framebuffer operation";
+	case gl::OUT_OF_MEMORY: return "out of memory";
 	default: return "(unknown error)";
 	}
 }
 
-static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = GL_NO_ERROR)
+static void dump_and_clear_opengl_errors(std::ostream &out, GLenum first_error = gl::NO_ERROR_)
 {
-	GLenum err = ((first_error == GL_NO_ERROR) ? glGetError() : first_error);
-	if (err != GL_NO_ERROR) {
+	GLenum err = ((first_error == gl::NO_ERROR_) ? gl::GetError() : first_error);
+	if (err != gl::NO_ERROR_) {
 		out << "errors: ";
 		do {
 			out << gl_error_to_string(err) << " ";
-			err = glGetError();
-		} while (err != GL_NO_ERROR);
+			err = gl::GetError();
+		} while (err != gl::NO_ERROR_);
 		out << std::endl;
 	}
 }
@@ -175,31 +203,31 @@ static void dump_opengl_value(std::ostream &out, const char *name, GLenum id, in
 	assert(name);
 
 	GLdouble e[4];
-	glGetDoublev(id, e);
+	gl::GetDoublev(id, e);
 
-	GLenum err = glGetError();
-	if (err == GL_NO_ERROR) {
+	GLenum err = gl::GetError();
+	if (err == gl::NO_ERROR_) {
 		out << name << " = " << e[0];
 		for (int i = 1; i < num_elems; ++i)
 			out << ", " << e[i];
 		out << "\n";
 	}
 	else {
-		while (err != GL_NO_ERROR) {
-			if (err == GL_INVALID_ENUM) { out << name << " -- not supported\n"; }
+		while (err != gl::NO_ERROR_) {
+			if (err == gl::INVALID_ENUM) { out << name << " -- not supported\n"; }
 			else { out << name << " -- unexpected error (" << err << ") retrieving value\n"; }
-			err = glGetError();
+			err = gl::GetError();
 		}
 	}
 }
 
 void RendererGL2::WriteRendererInfo(std::ostream &out) const
 {
-	out << "OpenGL version " << glGetString(GL_VERSION);
-	out << ", running on " << glGetString(GL_VENDOR);
-	out << " " << glGetString(GL_RENDERER) << "\n";
+	out << "OpenGL version " << gl::GetString(gl::VERSION);
+	out << ", running on " << gl::GetString(gl::VENDOR);
+	out << " " << gl::GetString(gl::RENDERER) << "\n";
 
-	out << "Shading language version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+	out << "Shading language version: " << gl::GetString(gl::SHADING_LANGUAGE_VERSION) << "\n";
 
 	out << "\nImplementation Limits:\n";
 
@@ -209,25 +237,25 @@ void RendererGL2::WriteRendererInfo(std::ostream &out) const
 #define DUMP_GL_VALUE(name) dump_opengl_value(out, #name, name, 1)
 #define DUMP_GL_VALUE2(name) dump_opengl_value(out, #name, name, 2)
 
-	DUMP_GL_VALUE(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(GL_MAX_CUBE_MAP_TEXTURE_SIZE);
-	DUMP_GL_VALUE(GL_MAX_DRAW_BUFFERS);
-	DUMP_GL_VALUE(GL_MAX_ELEMENTS_INDICES);
-	DUMP_GL_VALUE(GL_MAX_ELEMENTS_VERTICES);
-	DUMP_GL_VALUE(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_LOD_BIAS);
-	DUMP_GL_VALUE(GL_MAX_TEXTURE_SIZE);
-	DUMP_GL_VALUE(GL_MAX_VERTEX_ATTRIBS);
-	DUMP_GL_VALUE(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS);
-	DUMP_GL_VALUE(GL_MAX_VERTEX_UNIFORM_COMPONENTS);
-	DUMP_GL_VALUE(GL_NUM_COMPRESSED_TEXTURE_FORMATS);
-	DUMP_GL_VALUE(GL_SAMPLE_BUFFERS);
-	DUMP_GL_VALUE(GL_SAMPLES);
-	DUMP_GL_VALUE2(GL_ALIASED_LINE_WIDTH_RANGE);
-	DUMP_GL_VALUE2(GL_MAX_VIEWPORT_DIMS);
-	DUMP_GL_VALUE2(GL_SMOOTH_LINE_WIDTH_RANGE);
-	DUMP_GL_VALUE2(GL_SMOOTH_POINT_SIZE_RANGE);
+	DUMP_GL_VALUE(gl::MAX_COMBINED_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(gl::MAX_CUBE_MAP_TEXTURE_SIZE);
+	DUMP_GL_VALUE(gl::MAX_DRAW_BUFFERS);
+	DUMP_GL_VALUE(gl::MAX_ELEMENTS_INDICES);
+	DUMP_GL_VALUE(gl::MAX_ELEMENTS_VERTICES);
+	DUMP_GL_VALUE(gl::MAX_FRAGMENT_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(gl::MAX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(gl::MAX_TEXTURE_LOD_BIAS);
+	DUMP_GL_VALUE(gl::MAX_TEXTURE_SIZE);
+	DUMP_GL_VALUE(gl::MAX_VERTEX_ATTRIBS);
+	DUMP_GL_VALUE(gl::MAX_VERTEX_TEXTURE_IMAGE_UNITS);
+	DUMP_GL_VALUE(gl::MAX_VERTEX_UNIFORM_COMPONENTS);
+	DUMP_GL_VALUE(gl::NUM_COMPRESSED_TEXTURE_FORMATS);
+	DUMP_GL_VALUE(gl::SAMPLE_BUFFERS);
+	DUMP_GL_VALUE(gl::SAMPLES);
+	DUMP_GL_VALUE2(gl::ALIASED_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(gl::MAX_VIEWPORT_DIMS);
+	DUMP_GL_VALUE2(gl::SMOOTH_LINE_WIDTH_RANGE);
+	DUMP_GL_VALUE2(gl::SMOOTH_POINT_SIZE_RANGE);
 
 #undef DUMP_GL_VALUE
 #undef DUMP_GL_VALUE2
@@ -240,17 +268,17 @@ void RendererGL2::WriteRendererInfo(std::ostream &out) const
 		GLint nformats;
 		GLint formats[128]; // XXX 128 should be enough, right?
 
-		glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
-		GLenum err = glGetError();
-		if (err != GL_NO_ERROR) {
+		gl::GetIntegerv(gl::NUM_COMPRESSED_TEXTURE_FORMATS, &nformats);
+		GLenum err = gl::GetError();
+		if (err != gl::NO_ERROR_) {
 			out << "Get NUM_COMPRESSED_TEXTURE_FORMATS failed\n";
 			dump_and_clear_opengl_errors(out, err);
 		}
 		else {
 			assert(nformats >= 0 && nformats < int(COUNTOF(formats)));
-			glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, formats);
-			err = glGetError();
-			if (err != GL_NO_ERROR) {
+			gl::GetIntegerv(gl::COMPRESSED_TEXTURE_FORMATS, formats);
+			err = gl::GetError();
+			if (err != gl::NO_ERROR_) {
 				out << "Get COMPRESSED_TEXTURE_FORMATS failed\n";
 				dump_and_clear_opengl_errors(out, err);
 			}
@@ -265,18 +293,18 @@ void RendererGL2::WriteRendererInfo(std::ostream &out) const
 	dump_and_clear_opengl_errors(out);
 }
 
-bool RendererGL2::GetNearFarRange(float &near, float &far) const
+bool RendererGL2::GetNearFarRange(float &near_, float &far_) const
 {
-	near = m_minZNear;
-	far = m_maxZFar;
+	near_ = m_minZNear;
+	far_ = m_maxZFar;
 	return true;
 }
 
 bool RendererGL2::BeginFrame()
 {
 	PROFILE_SCOPED()
-	glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	gl::ClearColor(0,0,0,0);
+	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 	return true;
 }
 
@@ -293,14 +321,14 @@ bool RendererGL2::SwapBuffers()
 	// determining *where* the error happened. For that purpose, try GDebugger or
 	// the KHR_DEBUG extension
 	GLenum err;
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
+	err = gl::GetError();
+	if (err != gl::NO_ERROR_) {
 		std::stringstream ss;
 		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
+		while (err != gl::NO_ERROR_) {
 			ss << glerr_to_string(err) << std::endl;
-			err = glGetError();
-			if( err == GL_OUT_OF_MEMORY ) {
+			err = gl::GetError();
+			if( err == gl::OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
@@ -338,15 +366,15 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 
 bool RendererGL2::SetDepthRange(double near_, double far_)
 {
-	glDepthRange(near_, far_);
+	gl::DepthRange(near_, far_);
 	return true;
 }
 
 bool RendererGL2::ClearScreen()
 {
 	m_activeRenderState = nullptr;
-	glDepthMask(GL_TRUE);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	gl::DepthMask(gl::TRUE_);
+	gl::Clear(gl::COLOR_BUFFER_BIT | gl::DEPTH_BUFFER_BIT);
 
 	return true;
 }
@@ -354,15 +382,15 @@ bool RendererGL2::ClearScreen()
 bool RendererGL2::ClearDepthBuffer()
 {
 	m_activeRenderState = nullptr;
-	glDepthMask(GL_TRUE);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	gl::DepthMask(gl::TRUE_);
+	gl::Clear(gl::DEPTH_BUFFER_BIT);
 
 	return true;
 }
 
 bool RendererGL2::SetClearColor(const Color &c)
 {
-	glClearColor(c.r, c.g, c.b, c.a);
+	gl::ClearColor(c.r, c.g, c.b, c.a);
 	return true;
 }
 
@@ -374,7 +402,7 @@ bool RendererGL2::SetViewport(int x, int y, int width, int height)
 	currentViewport.y = y;
 	currentViewport.w = width;
 	currentViewport.h = height;
-	glViewport(x, y, width, height);
+	gl::Viewport(x, y, width, height);
 	return true;
 }
 
@@ -396,21 +424,21 @@ bool RendererGL2::SetTransform(const matrix4x4f &m)
 	return true;
 }
 
-bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float near, float far)
+bool RendererGL2::SetPerspectiveProjection(float fov, float aspect, float znear, float zfar)
 {
 	PROFILE_SCOPED()
 
 	// update values for log-z hack
-	m_invLogZfarPlus1 = 1.0f / (log(far+1.0f)/log(2.0f));
+	m_invLogZfarPlus1 = 1.0f / (log(zfar+1.0f)/log(2.0f));
 
 	Graphics::SetFov(fov);
 
-	float ymax = near * tan(fov * M_PI / 360.0);
+	float ymax = znear * tan(fov * M_PI / 360.0);
 	float ymin = -ymax;
 	float xmin = ymin * aspect;
 	float xmax = ymax * aspect;
 
-	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, near, far);
+	const matrix4x4f frustrumMat = matrix4x4f::FrustumMatrix(xmin, xmax, ymin, ymax, znear, zfar);
 	SetProjection(frustrumMat);
 	return true;
 }
@@ -435,7 +463,7 @@ bool RendererGL2::SetProjection(const matrix4x4f &m)
 
 bool RendererGL2::SetWireFrameMode(bool enabled)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
+	gl::PolygonMode(gl::FRONT_AND_BACK, enabled ? gl::LINE : gl::FILL);
 	return true;
 }
 
@@ -475,18 +503,18 @@ bool RendererGL2::SetAmbientColor(const Color &c)
 bool RendererGL2::SetScissor(bool enabled, const vector2f &pos, const vector2f &size)
 {
 	if (enabled) {
-		glScissor(pos.x,pos.y,size.x,size.y);
-		glEnable(GL_SCISSOR_TEST);
+		gl::Scissor(pos.x,pos.y,size.x,size.y);
+		gl::Enable(gl::SCISSOR_TEST);
 	}
 	else
-		glDisable(GL_SCISSOR_TEST);
+		gl::Disable(gl::SCISSOR_TEST);
 	return true;
 }
 
 void RendererGL2::SetMaterialShaderTransforms(Material *m)
 {
 	m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 }
 
 bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
@@ -501,7 +529,7 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	m->Apply();
 	EnableVertexAttributes(v);
 
-	glDrawArrays(t, 0, v->GetNumVerts());
+	gl::DrawArrays(t, 0, v->GetNumVerts());
 
 	m->Unapply();
 	DisableVertexAttributes();
@@ -509,7 +537,7 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	return true;
 }
 
-bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
+bool RendererGL2::DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	PROFILE_SCOPED()
 	if (count < 1 || !material || !material->texture0) return false;
@@ -529,7 +557,7 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 	//do two-triangle quads. Could also do indexed surfaces.
 	//GL2 renderer should use actual point sprites
 	//(see history of Render.cpp for point code remnants)
-	for (int i=0; i<count; i++) {
+	for (Uint32 i=0; i<count; i++) {
 		const vector3f &pos = positions[i];
 
 		va.Add(pos+rotv4, vector2f(0.f, 0.f)); //top left
@@ -542,6 +570,63 @@ bool RendererGL2::DrawPointSprites(int count, const vector3f *positions, RenderS
 	}
 
 	DrawTriangles(&va, rs, material);
+
+	return true;
+}
+
+bool RendererGL2::DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material)
+{
+	PROFILE_SCOPED()
+	/*if (count == 0 || !material || !material->texture0) 
+		return false;
+
+	#pragma pack(push, 4)
+	struct PosNormVert {
+		vector3f pos;
+		vector3f norm;
+	};
+	#pragma pack(pop)
+	
+	RefCountedPtr<VertexBuffer> drawVB;
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
+	if (iter == s_AttribBufferMap.end()) 
+	{
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = count;
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
+
+		// add to map
+		s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
+		drawVB = vb;
+	}
+	else
+	{
+		drawVB = iter->second;
+	}
+
+	// got a buffer so use it and fill it with newest data
+	PosNormVert* vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
+	for(Uint32 i=0 ; i<count ; i++)
+	{
+		vtxPtr[i].pos	= positions[i];
+		vtxPtr[i].norm	= vector3f(offsets[i], Clamp(sizes[i], 0.1f, FLT_MAX));
+	}
+	drawVB->Unmap();
+
+	SetTransform(matrix4x4f::Identity());
+	DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
+	GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
+	CheckRenderErrors(__FUNCTION__,__LINE__);*/
 
 	return true;
 }
@@ -559,7 +644,7 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	gvb->Bind();
 	EnableVertexAttributes(gvb);
 
-	glDrawArrays(pt, 0, gvb->GetVertexCount());
+	gl::DrawArrays(pt, 0, gvb->GetVertexCount());
 
 	DisableVertexAttributes(gvb);
 	gvb->Release();
@@ -579,13 +664,13 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	auto gib = static_cast<GL2::IndexBuffer*>(ib);
 
 	gvb->Bind();
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
+	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, gib->GetBuffer());
 	EnableVertexAttributes(gvb);
 
-	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0);
+	gl::DrawElements(pt, ib->GetIndexCount(), gl::UNSIGNED_SHORT, 0);
 
 	DisableVertexAttributes(gvb);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0);
 	gvb->Release();
 	
 
@@ -602,10 +687,10 @@ bool RendererGL2::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 
 	vb->Bind();
 	instb->Bind();
-	glDrawArraysInstancedARB(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
+	gl::DrawArraysInstancedARB(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
@@ -623,11 +708,11 @@ bool RendererGL2::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 	vb->Bind();
 	ib->Bind();
 	instb->Bind();
-	glDrawElementsInstancedARB(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0, instb->GetInstanceCount());
+	gl::DrawElementsInstancedARB(pt, ib->GetIndexCount(), gl::UNSIGNED_SHORT, 0, instb->GetInstanceCount());
 	instb->Release();
 	ib->Release();
 	vb->Release();
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
@@ -642,10 +727,10 @@ void RendererGL2::EnableVertexAttributes(const VertexBuffer* gvb)
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
 		const auto& attr = desc.attrib[i];
 		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glEnableVertexAttribArray(0);		break;
-		case ATTRIB_NORMAL:			glEnableVertexAttribArray(1);		break;
-		case ATTRIB_DIFFUSE:		glEnableVertexAttribArray(2);		break;
-		case ATTRIB_UV0:			glEnableVertexAttribArray(3);		break;
+		case ATTRIB_POSITION:		gl::EnableVertexAttribArray(0);		break;
+		case ATTRIB_NORMAL:			gl::EnableVertexAttribArray(1);		break;
+		case ATTRIB_DIFFUSE:		gl::EnableVertexAttribArray(2);		break;
+		case ATTRIB_UV0:			gl::EnableVertexAttribArray(3);		break;
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -661,10 +746,10 @@ void RendererGL2::DisableVertexAttributes(const VertexBuffer* gvb)
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
 		const auto& attr = desc.attrib[i];
 		switch (attr.semantic) {
-		case ATTRIB_POSITION:		glDisableVertexAttribArray(0);			break;
-		case ATTRIB_NORMAL:			glDisableVertexAttribArray(1);			break;
-		case ATTRIB_DIFFUSE:		glDisableVertexAttribArray(2);			break;
-		case ATTRIB_UV0:			glDisableVertexAttribArray(3);			break;
+		case ATTRIB_POSITION:		gl::DisableVertexAttribArray(0);			break;
+		case ATTRIB_NORMAL:			gl::DisableVertexAttribArray(1);			break;
+		case ATTRIB_DIFFUSE:		gl::DisableVertexAttribArray(2);			break;
+		case ATTRIB_UV0:			gl::DisableVertexAttribArray(3);			break;
 		case ATTRIB_NONE:
 		default:
 			return;
@@ -682,26 +767,26 @@ void RendererGL2::EnableVertexAttributes(const VertexArray *v)
 
 	// XXX could be 3D or 2D
 	m_vertexAttribsSet.push_back(0);
-	glEnableVertexAttribArray(0);	// Enable the attribute at that location
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
+	gl::EnableVertexAttribArray(0);	// Enable the attribute at that location
+	gl::VertexAttribPointer(0, 3, gl::FLOAT, gl::FALSE_, 0, reinterpret_cast<const GLvoid *>(&v->position[0]));
 
 	if (v->HasAttrib(ATTRIB_NORMAL)) {
 		assert(! v->normal.empty());
 		m_vertexAttribsSet.push_back(1);
-		glEnableVertexAttribArray(1);	// Enable the attribute at that location
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
+		gl::EnableVertexAttribArray(1);	// Enable the attribute at that location
+		gl::VertexAttribPointer(1, 3, gl::FLOAT, gl::FALSE_, 0, reinterpret_cast<const GLvoid *>(&v->normal[0]));
 	}
 	if (v->HasAttrib(ATTRIB_DIFFUSE)) {
 		assert(! v->diffuse.empty());
 		m_vertexAttribsSet.push_back(2);
-		glEnableVertexAttribArray(2);	// Enable the attribute at that location
-		glVertexAttribPointer(2, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));	// only normalise the colours
+		gl::EnableVertexAttribArray(2);	// Enable the attribute at that location
+		gl::VertexAttribPointer(2, 4, gl::UNSIGNED_BYTE, gl::TRUE_, 0, reinterpret_cast<const GLvoid *>(&v->diffuse[0]));	// only normalise the colours
 	}
 	if (v->HasAttrib(ATTRIB_UV0)) {
 		assert(! v->uv0.empty());
 		m_vertexAttribsSet.push_back(3);
-		glEnableVertexAttribArray(3);	// Enable the attribute at that location
-		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
+		gl::EnableVertexAttribArray(3);	// Enable the attribute at that location
+		gl::VertexAttribPointer(3, 2, gl::FLOAT, gl::FALSE_, 0, reinterpret_cast<const GLvoid *>(&v->uv0[0]));
 	}
 }
 
@@ -710,7 +795,7 @@ void RendererGL2::DisableVertexAttributes()
 	PROFILE_SCOPED();
 
 	for (auto i : m_vertexAttribsSet) {
-		glDisableVertexAttribArray(i);
+		gl::DisableVertexAttribArray(i);
 	}
 	m_vertexAttribsSet.clear();
 }
@@ -846,7 +931,9 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 			vector2f(desc.width, desc.height),
 			LINEAR_CLAMP,
 			false,
-			false);
+			false,
+			false,
+			0,Graphics::TEXTURE_2D);
 		GL2Texture *colorTex = new GL2Texture(cdesc, false);
 		rt->SetColorTexture(colorTex);
 	}
@@ -858,7 +945,9 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 				vector2f(desc.width, desc.height),
 				LINEAR_CLAMP,
 				false,
-				false);
+				false,
+				false,
+				0,Graphics::TEXTURE_2D);
 			GL2Texture *depthTex = new GL2Texture(ddesc, false);
 			rt->SetDepthTexture(depthTex);
 		} else {
@@ -896,12 +985,12 @@ void RendererGL2::PushState()
 	SetMatrixMode(MatrixMode::MODELVIEW);
 	PushMatrix();
 	m_viewportStack.push( m_viewportStack.top() );
-	glPushAttrib(GL_ALL_ATTRIB_BITS & (~GL_POINT_BIT));
+	gl::PushAttrib(gl::ALL_ATTRIB_BITS & (~gl::POINT_BIT));
 }
 
 void RendererGL2::PopState()
 {
-	glPopAttrib();
+	gl::PopAttrib();
 	m_viewportStack.pop();
 	assert(!m_viewportStack.empty());
 	SetMatrixMode(MatrixMode::PROJECTION);
@@ -916,10 +1005,10 @@ void RendererGL2::SetMatrixMode(MatrixMode mm)
 	if( mm != m_matrixMode ) {
 		switch (mm) {
 			case MatrixMode::MODELVIEW:
-				glMatrixMode(GL_MODELVIEW);
+				gl::MatrixMode(gl::MODELVIEW);
 				break;
 			case MatrixMode::PROJECTION:
-				glMatrixMode(GL_PROJECTION);
+				gl::MatrixMode(gl::PROJECTION);
 				break;
 		}
 		m_matrixMode = mm;
@@ -930,7 +1019,7 @@ void RendererGL2::PushMatrix()
 {
 	PROFILE_SCOPED()
 
-	glPushMatrix();
+	gl::PushMatrix();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.push(m_modelViewStack.top());
@@ -944,7 +1033,7 @@ void RendererGL2::PushMatrix()
 void RendererGL2::PopMatrix()
 {
 	PROFILE_SCOPED()
-	glPopMatrix();
+	gl::PopMatrix();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.pop();
@@ -960,7 +1049,7 @@ void RendererGL2::PopMatrix()
 void RendererGL2::LoadIdentity()
 {
 	PROFILE_SCOPED()
-	glLoadIdentity();
+	gl::LoadIdentity();
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top() = matrix4x4f::Identity();
@@ -974,7 +1063,7 @@ void RendererGL2::LoadIdentity()
 void RendererGL2::LoadMatrix(const matrix4x4f &m)
 {
 	PROFILE_SCOPED()
-	glLoadMatrixf(&m[0]);
+	gl::LoadMatrixf(&m[0]);
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top() = m;
@@ -988,7 +1077,7 @@ void RendererGL2::LoadMatrix(const matrix4x4f &m)
 void RendererGL2::Translate( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
-	glTranslatef(x,y,z);
+	gl::Translatef(x,y,z);
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Translate(x,y,z);
@@ -1002,7 +1091,7 @@ void RendererGL2::Translate( const float x, const float y, const float z )
 void RendererGL2::Scale( const float x, const float y, const float z )
 {
 	PROFILE_SCOPED()
-	glScalef(x,y,z);
+	gl::Scalef(x,y,z);
 	switch(m_matrixMode) {
 		case MatrixMode::MODELVIEW:
 			m_modelViewStack.top().Scale(x,y,z);

@@ -315,12 +315,14 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 		// now build info string
 		std::stringstream ss;
 		if(func) {
-			ss << "In function " << std::string(func) << "\nOn line " << std::to_string(line) << "\n";
+			ss << "In function " << std::string(func) << "\n";
+		}
+		if(line>=0) {
+			ss << "On line " << std::to_string(line) << "\n";
 		}
 		ss << "OpenGL error(s) during frame:\n";
 		while (err != gl::NO_ERROR_) {
 			ss << glerr_to_string(err) << '\n';
-			err = gl::GetError();
 			if( err == gl::OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
@@ -333,6 +335,7 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 					<< "Please try disabling this kind of software and testing again, thankyou." << std::endl;
 			}
 #endif
+			err = gl::GetError();
 		}
 		// show warning dialog or just log to output
 		if(showWarning)

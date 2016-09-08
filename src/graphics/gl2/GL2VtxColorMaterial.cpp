@@ -15,7 +15,7 @@ namespace GL2 {
 VtxColorProgram::VtxColorProgram(const MaterialDescriptor &desc)
 {
 	m_name = "vtxColor";
-	RendererGL2::CheckErrors();
+	RENDERER_CHECK_ERRORS();
 
 	LoadShaders(m_name, m_defines);
 	InitUniforms();

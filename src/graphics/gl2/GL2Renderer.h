@@ -48,8 +48,8 @@ public:
 
 	virtual void WriteRendererInfo(std::ostream &out) const;
 
-	virtual void CheckRenderErrors() const { CheckErrors(); }
-	static void CheckErrors();
+	virtual void CheckRenderErrors(const char *func = nullptr, const int line = -1) const override final { CheckErrors(func, line); }
+	static void CheckErrors(const char *func = nullptr, const int line = -1);
 
 	virtual bool GetNearFarRange(float &near, float &far) const;
 
@@ -82,7 +82,8 @@ public:
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
 
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) override;
-	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
+	virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) override;
+	virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) override;
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType) override;
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType) override;
 	virtual bool DrawBufferInstanced(VertexBuffer*, RenderState*, Material*, InstanceBuffer*, PrimitiveType type = TRIANGLES) override;
@@ -165,6 +166,8 @@ protected:
 private:
 	static bool initted;
 };
+
+#define RENDERER_CHECK_ERRORS() RendererGL2::CheckErrors(__FUNCTION__, __LINE__)
 
 }
 

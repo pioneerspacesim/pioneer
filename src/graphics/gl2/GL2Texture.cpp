@@ -5,19 +5,21 @@
 #include <cassert>
 #include "utils.h"
 
+using namespace gl21;
+
 static const unsigned int MIN_COMPRESSED_TEXTURE_DIMENSION = 16;
 
 namespace Graphics {
 
 inline GLint GLInternalFormat(TextureFormat format) {
 	switch (format) {
-		case TEXTURE_RGB_888: return GL_RGB;
-		case TEXTURE_RGBA_8888: return GL_RGBA;
-		case TEXTURE_LUMINANCE_ALPHA_88: return GL_LUMINANCE_ALPHA;
-		case TEXTURE_INTENSITY_8:  return GL_INTENSITY;
-		case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		case TEXTURE_DXT1:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
-		case TEXTURE_DEPTH: return GL_DEPTH_COMPONENT;
+		case TEXTURE_RGB_888: return gl::RGB;
+		case TEXTURE_RGBA_8888: return gl::RGBA;
+		case TEXTURE_LUMINANCE_ALPHA_88: return gl::LUMINANCE_ALPHA;
+		case TEXTURE_INTENSITY_8:  return gl::INTENSITY;
+		case TEXTURE_DXT5: return gl::COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_DXT1:  return gl::COMPRESSED_RGB_S3TC_DXT1_EXT;
+		case TEXTURE_DEPTH: return gl::DEPTH_COMPONENT;
 		default: assert(0); return 0;
 	}
 }
@@ -26,39 +28,39 @@ inline GLint GLInternalFormat(TextureFormat format) {
 //luminance/intensity is used for fonts, so we prefer not to compress them
 inline GLint GLCompressedInternalFormat(TextureFormat format) {
 	switch (format) {
-		case TEXTURE_RGBA_8888: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		case TEXTURE_RGB_888:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
-		case TEXTURE_LUMINANCE_ALPHA_88: return GL_LUMINANCE_ALPHA;
-		case TEXTURE_INTENSITY_8:  return GL_INTENSITY;
-		case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		case TEXTURE_DXT1:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
+		case TEXTURE_RGBA_8888: return gl::COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_RGB_888:  return gl::COMPRESSED_RGB_S3TC_DXT1_EXT;
+		case TEXTURE_LUMINANCE_ALPHA_88: return gl::LUMINANCE_ALPHA;
+		case TEXTURE_INTENSITY_8:  return gl::INTENSITY;
+		case TEXTURE_DXT5: return gl::COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_DXT1:  return gl::COMPRESSED_RGB_S3TC_DXT1_EXT;
 		default: assert(0); return 0;
 	}
 }
 
 inline GLint GLImageFormat(TextureFormat format) {
 	switch (format) {
-		case TEXTURE_RGBA_8888: return GL_RGBA;
-		case TEXTURE_RGB_888:  return GL_RGB;
-		case TEXTURE_LUMINANCE_ALPHA_88: return GL_LUMINANCE_ALPHA;
-		case TEXTURE_INTENSITY_8:  return GL_LUMINANCE;
-		case TEXTURE_DXT5: return GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-		case TEXTURE_DXT1:  return GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
-		case TEXTURE_DEPTH: return GL_DEPTH_COMPONENT;
+		case TEXTURE_RGBA_8888: return gl::RGBA;
+		case TEXTURE_RGB_888:  return gl::RGB;
+		case TEXTURE_LUMINANCE_ALPHA_88: return gl::LUMINANCE_ALPHA;
+		case TEXTURE_INTENSITY_8:  return gl::LUMINANCE;
+		case TEXTURE_DXT5: return gl::COMPRESSED_RGBA_S3TC_DXT5_EXT;
+		case TEXTURE_DXT1:  return gl::COMPRESSED_RGB_S3TC_DXT1_EXT;
+		case TEXTURE_DEPTH: return gl::DEPTH_COMPONENT;
 		default: assert(0); return 0;
 	}
 }
 
 inline GLint GLTextureType(TextureType type) {
 	switch (type) {
-		case TEXTURE_2D: return GL_TEXTURE_2D;
-		case TEXTURE_CUBE_MAP: return GL_TEXTURE_CUBE_MAP;
+		case TEXTURE_2D: return gl::TEXTURE_2D;
+		case TEXTURE_CUBE_MAP: return gl::TEXTURE_CUBE_MAP;
 		default: assert(0); return 0;
 	}
 }
 
 inline GLint GLImageType(TextureFormat format) {
-	return GL_UNSIGNED_BYTE;
+	return gl::UNSIGNED_BYTE;
 }
 
 inline int GetMinSize(TextureFormat flag) {
@@ -78,8 +80,8 @@ GL2Texture::GL2Texture(const TextureDescriptor &descriptor, const bool useCompre
 {
 	m_target = GLTextureType(descriptor.type);
 
-	glGenTextures(1, &m_texture);
-	glBindTexture(m_target, m_texture);
+	gl::GenTextures(1, &m_texture);
+	gl::BindTexture(m_target, m_texture);
 
 
 	// useCompressed is the global scope flag whereas descriptor.allowCompression is the local texture mode flag
@@ -87,14 +89,14 @@ GL2Texture::GL2Texture(const TextureDescriptor &descriptor, const bool useCompre
 	const bool compressTexture = useCompressed && descriptor.allowCompression;
 
 	switch (m_target) {
-		case GL_TEXTURE_2D:
+		case gl::TEXTURE_2D:
 			if (!IsCompressed(descriptor.format)) {
 				if (descriptor.generateMipmaps)
-					glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
+					gl::TexParameteri(m_target, gl::GENERATE_MIPMAP, gl::TRUE_);
 				else
-					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
+					gl::TexParameteri(m_target, gl::TEXTURE_MAX_LEVEL, 0);
 
-				glTexImage2D(
+				gl::TexImage2D(
 					m_target, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
@@ -108,7 +110,7 @@ GL2Texture::GL2Texture(const TextureDescriptor &descriptor, const bool useCompre
 				GLint maxMip = 0;
 				for( unsigned int i=0; i < descriptor.numberOfMipMaps; ++i ) {
 					maxMip = i;
-					glCompressedTexImage2D(GL_TEXTURE_2D, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+					gl::CompressedTexImage2D(gl::TEXTURE_2D, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
 						break;
 					}
@@ -116,44 +118,44 @@ GL2Texture::GL2Texture(const TextureDescriptor &descriptor, const bool useCompre
 					Width /= 2;
 					Height /= 2;
 				}
-				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
+				gl::TexParameteri(m_target, gl::TEXTURE_MAX_LEVEL, maxMip);
 			}
 			break;
 
-		case GL_TEXTURE_CUBE_MAP:
+		case gl::TEXTURE_CUBE_MAP:
 			if(!IsCompressed(descriptor.format)) {
 				if(descriptor.generateMipmaps)
-					glTexParameteri(m_target, GL_GENERATE_MIPMAP, GL_TRUE);
+					gl::TexParameteri(m_target, gl::GENERATE_MIPMAP, gl::TRUE_);
 				else
-					glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, 0);
+					gl::TexParameteri(m_target, gl::TEXTURE_MAX_LEVEL, 0);
 
-				glTexImage2D(
-					GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
+				gl::TexImage2D(
+					gl::TEXTURE_CUBE_MAP_POSITIVE_X, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				glTexImage2D(
-					GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
+				gl::TexImage2D(
+					gl::TEXTURE_CUBE_MAP_NEGATIVE_X, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				glTexImage2D(
-					GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
+				gl::TexImage2D(
+					gl::TEXTURE_CUBE_MAP_POSITIVE_Y, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				glTexImage2D(
-					GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
+				gl::TexImage2D(
+					gl::TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				glTexImage2D(
-					GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
+				gl::TexImage2D(
+					gl::TEXTURE_CUBE_MAP_POSITIVE_Z, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
-				glTexImage2D(
-					GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
+				gl::TexImage2D(
+					gl::TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, compressTexture ? GLCompressedInternalFormat(descriptor.format) : GLInternalFormat(descriptor.format),
 					descriptor.dataSize.x, descriptor.dataSize.y, 0,
 					GLImageFormat(descriptor.format),
 					GLImageType(descriptor.format), 0);
@@ -166,12 +168,12 @@ GL2Texture::GL2Texture(const TextureDescriptor &descriptor, const bool useCompre
 				GLint maxMip = 0;
 				for( unsigned int i=0; i < descriptor.numberOfMipMaps; ++i ) {
 					maxMip = i;
-					glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-					glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-					glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-					glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-					glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
-					glCompressedTexImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+					gl::CompressedTexImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_X, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+					gl::CompressedTexImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_X, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+					gl::CompressedTexImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_Y, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+					gl::CompressedTexImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_Y, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+					gl::CompressedTexImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
+					gl::CompressedTexImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_Z, i, GLInternalFormat(descriptor.format), Width, Height, 0, bufSize, 0);
 					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
 						break;
 					}
@@ -179,7 +181,7 @@ GL2Texture::GL2Texture(const TextureDescriptor &descriptor, const bool useCompre
 					Width /= 2;
 					Height /= 2;
 				}
-				glTexParameteri(m_target, GL_TEXTURE_MAX_LEVEL, maxMip);
+				gl::TexParameteri(m_target, gl::TEXTURE_MAX_LEVEL, maxMip);
 			}
 			break;
 
@@ -192,51 +194,51 @@ GL2Texture::GL2Texture(const TextureDescriptor &descriptor, const bool useCompre
 		default:	// safe default will fall through to LINEAR_CLAMP when run in release builds without assert
 			assert(0);
 		case LINEAR_CLAMP:
-			magFilter = GL_LINEAR;
-			minFilter = descriptor.generateMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
-			wrapS = wrapT = GL_CLAMP_TO_EDGE;
+			magFilter = gl::LINEAR;
+			minFilter = descriptor.generateMipmaps ? gl::LINEAR_MIPMAP_LINEAR : gl::LINEAR;
+			wrapS = wrapT = gl::CLAMP_TO_EDGE;
 			break;
 
 		case NEAREST_CLAMP:
-			magFilter = GL_NEAREST;
-			minFilter = descriptor.generateMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
-			wrapS = wrapT = GL_CLAMP_TO_EDGE;
+			magFilter = gl::NEAREST;
+			minFilter = descriptor.generateMipmaps ? gl::NEAREST_MIPMAP_NEAREST : gl::NEAREST;
+			wrapS = wrapT = gl::CLAMP_TO_EDGE;
 			break;
 
 		case LINEAR_REPEAT:
-			magFilter = GL_LINEAR;
-			minFilter = descriptor.generateMipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
-			wrapS = wrapT = GL_REPEAT;
+			magFilter = gl::LINEAR;
+			minFilter = descriptor.generateMipmaps ? gl::LINEAR_MIPMAP_LINEAR : gl::LINEAR;
+			wrapS = wrapT = gl::REPEAT;
 			break;
 
 		case NEAREST_REPEAT:
-			magFilter = GL_NEAREST;
-			minFilter = descriptor.generateMipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
-			wrapS = wrapT = GL_REPEAT;
+			magFilter = gl::NEAREST;
+			minFilter = descriptor.generateMipmaps ? gl::NEAREST_MIPMAP_NEAREST : gl::NEAREST;
+			wrapS = wrapT = gl::REPEAT;
 			break;
 	}
 
-	glTexParameteri(m_target, GL_TEXTURE_WRAP_S, wrapS);
-	glTexParameteri(m_target, GL_TEXTURE_WRAP_T, wrapS);
-	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
-	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
+	gl::TexParameteri(m_target, gl::TEXTURE_WRAP_S, wrapS);
+	gl::TexParameteri(m_target, gl::TEXTURE_WRAP_T, wrapS);
+	gl::TexParameteri(m_target, gl::TEXTURE_MAG_FILTER, magFilter);
+	gl::TexParameteri(m_target, gl::TEXTURE_MIN_FILTER, minFilter);
 
 }
 
 GL2Texture::~GL2Texture()
 {
-	glDeleteTextures(1, &m_texture);
+	gl::DeleteTextures(1, &m_texture);
 }
 
 void GL2Texture::Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
 {
-	assert(m_target == GL_TEXTURE_2D);
-	glBindTexture(m_target, m_texture);
+	assert(m_target == gl::TEXTURE_2D);
+	gl::BindTexture(m_target, m_texture);
 
 	switch (m_target) {
-		case GL_TEXTURE_2D:
+		case gl::TEXTURE_2D:
 			if (!IsCompressed(format)) {
-				glTexSubImage2D(m_target, 0, pos.x, pos.y, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data);
+				gl::TexSubImage2D(m_target, 0, pos.x, pos.y, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data);
 			} else {
 				const GLint oglInternalFormat = GLImageFormat(format);
 				size_t Offset = 0;
@@ -246,7 +248,7 @@ void GL2Texture::Update(const void *data, const vector2f &pos, const vector2f &d
 
 				const unsigned char *pData = static_cast<const unsigned char*>(data);
 				for( unsigned int i = 0; i < numMips; ++i ) {
-					glCompressedTexSubImage2D(m_target, i, pos.x, pos.y, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
+					gl::CompressedTexSubImage2D(m_target, i, pos.x, pos.y, Width, Height, oglInternalFormat, bufSize, &pData[Offset]);
 					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
 						break;
 					}
@@ -262,24 +264,24 @@ void GL2Texture::Update(const void *data, const vector2f &pos, const vector2f &d
 			assert(0);
 	}
 
-	glBindTexture(m_target, 0);
+	gl::BindTexture(m_target, 0);
 }
 
 void GL2Texture::Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips)
 {
-	assert(m_target == GL_TEXTURE_CUBE_MAP);
+	assert(m_target == gl::TEXTURE_CUBE_MAP);
 
-	glBindTexture(m_target, m_texture);
+	gl::BindTexture(m_target, m_texture);
 
 	switch (m_target) {
-		case GL_TEXTURE_CUBE_MAP:
+		case gl::TEXTURE_CUBE_MAP:
 			if (!IsCompressed(format)) {
-				glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.posX);
-				glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.negX);
-				glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.posY);
-				glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.negY);
-				glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.posZ);
-				glTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.negZ);
+				gl::TexSubImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_X, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.posX);
+				gl::TexSubImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_X, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.negX);
+				gl::TexSubImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_Y, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.posY);
+				gl::TexSubImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.negY);
+				gl::TexSubImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_Z, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.posZ);
+				gl::TexSubImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, 0, 0, dataSize.x, dataSize.y, GLImageFormat(format), GLImageType(format), data.negZ);
 			} else {
 				const GLint oglInternalFormat = GLImageFormat(format);
 				size_t Offset = 0;
@@ -294,12 +296,12 @@ void GL2Texture::Update(const TextureCubeData &data, const vector2f &dataSize, T
 				const unsigned char *pData_pz = static_cast<const unsigned char*>(data.posZ);
 				const unsigned char *pData_nz = static_cast<const unsigned char*>(data.negZ);
 				for( unsigned int i = 0; i < numMips; ++i ) {
-					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_px[Offset]);
-					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_X, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_nx[Offset]);
-					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Y, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_py[Offset]);
-					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_ny[Offset]);
-					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_Z, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_pz[Offset]);
-					glCompressedTexSubImage2D(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_nz[Offset]);
+					gl::CompressedTexSubImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_X, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_px[Offset]);
+					gl::CompressedTexSubImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_X, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_nx[Offset]);
+					gl::CompressedTexSubImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_Y, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_py[Offset]);
+					gl::CompressedTexSubImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_Y, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_ny[Offset]);
+					gl::CompressedTexSubImage2D(gl::TEXTURE_CUBE_MAP_POSITIVE_Z, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_pz[Offset]);
+					gl::CompressedTexSubImage2D(gl::TEXTURE_CUBE_MAP_NEGATIVE_Z, i, 0, 0, Width, Height, oglInternalFormat, bufSize, &pData_nz[Offset]);
 					if( Width<=MIN_COMPRESSED_TEXTURE_DIMENSION || Height<=MIN_COMPRESSED_TEXTURE_DIMENSION ) {
 						break;
 					}
@@ -315,17 +317,17 @@ void GL2Texture::Update(const TextureCubeData &data, const vector2f &dataSize, T
 			assert(0);
 	}
 
-	glBindTexture(m_target, 0);
+	gl::BindTexture(m_target, 0);
 }
 
 void GL2Texture::Bind()
 {
-	glBindTexture(m_target, m_texture);
+	gl::BindTexture(m_target, m_texture);
 }
 
 void GL2Texture::Unbind()
 {
-	glBindTexture(m_target, 0);
+	gl::BindTexture(m_target, 0);
 }
 
 void GL2Texture::SetSampleMode(TextureSampleMode mode)
@@ -336,29 +338,41 @@ void GL2Texture::SetSampleMode(TextureSampleMode mode)
 		default:	// safe default will fall through to LINEAR_CLAMP when run in release builds without assert
 			assert(0);
 		case LINEAR_CLAMP:
-			magFilter = GL_LINEAR;
-			minFilter = mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+			magFilter = gl::LINEAR;
+			minFilter = mipmaps ? gl::LINEAR_MIPMAP_LINEAR : gl::LINEAR;
 			break;
 
 		case NEAREST_CLAMP:
-			magFilter = GL_NEAREST;
-			minFilter = mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+			magFilter = gl::NEAREST;
+			minFilter = mipmaps ? gl::NEAREST_MIPMAP_NEAREST : gl::NEAREST;
 			break;
 
 		case LINEAR_REPEAT:
-			magFilter = GL_LINEAR;
-			minFilter = mipmaps ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR;
+			magFilter = gl::LINEAR;
+			minFilter = mipmaps ? gl::LINEAR_MIPMAP_LINEAR : gl::LINEAR;
 			break;
 
 		case NEAREST_REPEAT:
-			magFilter = GL_NEAREST;
-			minFilter =mipmaps ? GL_NEAREST_MIPMAP_NEAREST : GL_NEAREST;
+			magFilter = gl::NEAREST;
+			minFilter =mipmaps ? gl::NEAREST_MIPMAP_NEAREST : gl::NEAREST;
 			break;
 	}
-	glBindTexture(m_target, m_texture);
-	glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, magFilter);
-	glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, minFilter);
-	glBindTexture(m_target, 0);
+	gl::BindTexture(m_target, m_texture);
+	gl::TexParameteri(m_target, gl::TEXTURE_MAG_FILTER, magFilter);
+	gl::TexParameteri(m_target, gl::TEXTURE_MIN_FILTER, minFilter);
+	gl::BindTexture(m_target, 0);
+}
+
+void GL2Texture::BuildMipmaps()
+{
+	const TextureDescriptor& descriptor = GetDescriptor();
+	const bool mipmaps = descriptor.generateMipmaps;
+	if (mipmaps)
+	{
+		gl::BindTexture(m_target, m_texture);
+		gl::TexParameteri(m_target, gl::GENERATE_MIPMAP, gl::TRUE_);
+		gl::BindTexture(m_target, 0);
+	}
 }
 
 }
