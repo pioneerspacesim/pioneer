@@ -165,6 +165,10 @@ protected:
 
 private:
 	static bool initted;
+
+	typedef std::map<std::pair<AttributeSet, size_t>, RefCountedPtr<VertexBuffer>> AttribBufferMap;
+	typedef AttribBufferMap::iterator AttribBufferIter;
+	static AttribBufferMap s_AttribBufferMap;
 };
 
 #define RENDERER_CHECK_ERRORS() RendererGL2::CheckErrors(__FUNCTION__, __LINE__)

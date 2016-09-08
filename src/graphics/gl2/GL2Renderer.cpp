@@ -48,6 +48,7 @@ void RendererGL2::RegisterRenderer() {
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;
 
 bool RendererGL2::initted = false;
+RendererGL2::AttribBufferMap RendererGL2::s_AttribBufferMap;
 
 static std::string glerr_to_string(GLenum err)
 {
@@ -348,6 +349,7 @@ bool RendererGL2::SetRenderState(RenderState *rs)
 		static_cast<GL2::RenderState*>(rs)->Apply();
 		m_activeRenderState = rs;
 	}
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	return true;
 }
 
@@ -360,7 +362,7 @@ bool RendererGL2::SetRenderTarget(RenderTarget *rt)
 		m_activeRenderTarget->Unbind();
 
 	m_activeRenderTarget = static_cast<GL2::RenderTarget*>(rt);
-
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	return true;
 }
 
@@ -522,54 +524,121 @@ bool RendererGL2::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
-	SetRenderState(rs);
+	const AttributeSet attribs = v->GetAttributeSet();
+	RefCountedPtr<VertexBuffer> drawVB;
 
-	SetMaterialShaderTransforms(m);
+	// see if we have a buffer to re-use
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(attribs, v->position.size()));
+	if (iter == s_AttribBufferMap.end()) {
+		// not found a buffer so create a new one
+		VertexBufferDesc vbd;
+		Uint32 attribIdx = 0;
+		assert(v->HasAttrib(ATTRIB_POSITION));
+		vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+		++attribIdx;
 
-	m->Apply();
-	EnableVertexAttributes(v);
+		if (v->HasAttrib(ATTRIB_NORMAL)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_DIFFUSE)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_UV0)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_TANGENT)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		vbd.numVertices = v->position.size();
+		vbd.usage = BUFFER_USAGE_DYNAMIC;	// dynamic since we'll be reusing these buffers if possible
 
-	gl::DrawArrays(t, 0, v->GetNumVerts());
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
+		vb->Populate(*v);
 
-	m->Unapply();
-	DisableVertexAttributes();
+		// add to map
+		s_AttribBufferMap[std::make_pair(attribs, v->position.size())] = vb;
+		drawVB = vb;
+	}
+	else {
+		// got a buffer so use it and fill it with newest data
+		drawVB = iter->second;
+		drawVB->Populate(*v);
+	}
 
-	return true;
+	const bool res = DrawBuffer(drawVB.Get(), rs, m, t);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
+	
+	m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
+
+	return res;
 }
 
 bool RendererGL2::DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	PROFILE_SCOPED()
-	if (count < 1 || !material || !material->texture0) return false;
+	if (count == 0 || !material || !material->texture0) 
+		return false;
 
-	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
+	size = Clamp(size, 0.1f, FLT_MAX);
 
-	matrix4x4f rot(GetCurrentModelView());
-	rot.ClearToRotOnly();
-	rot = rot.Inverse();
+	#pragma pack(push, 4)
+	struct PosNormVert {
+		vector3f pos;
+		vector3f norm;
+	};
+	#pragma pack(pop)
+	
+	RefCountedPtr<VertexBuffer> drawVB;
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
+	if (iter == s_AttribBufferMap.end()) 
+	{
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = count;
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
 
-	const float sz = 0.5f*size;
-	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
-	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
-	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
-	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
 
-	//do two-triangle quads. Could also do indexed surfaces.
-	//GL2 renderer should use actual point sprites
-	//(see history of Render.cpp for point code remnants)
-	for (Uint32 i=0; i<count; i++) {
-		const vector3f &pos = positions[i];
-
-		va.Add(pos+rotv4, vector2f(0.f, 0.f)); //top left
-		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
-		va.Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
-
-		va.Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
-		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
-		va.Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
+		// add to map
+		s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
+		drawVB = vb;
+	}
+	else
+	{
+		drawVB = iter->second;
 	}
 
-	DrawTriangles(&va, rs, material);
+	// got a buffer so use it and fill it with newest data
+	PosNormVert* vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
+	for(Uint32 i=0 ; i<count ; i++)
+	{
+		vtxPtr[i].pos	= positions[i];
+		vtxPtr[i].norm	= vector3f(0.0f, 0.0f, size);
+	}
+	drawVB->Unmap();
+
+	SetTransform(matrix4x4f::Identity());
+	DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
+	GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
 }
@@ -577,7 +646,7 @@ bool RendererGL2::DrawPointSprites(const Uint32 count, const vector3f *positions
 bool RendererGL2::DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material)
 {
 	PROFILE_SCOPED()
-	/*if (count == 0 || !material || !material->texture0) 
+	if (count == 0 || !material || !material->texture0) 
 		return false;
 
 	#pragma pack(push, 4)
@@ -626,7 +695,7 @@ bool RendererGL2::DrawPointSprites(const Uint32 count, const vector3f *positions
 	SetTransform(matrix4x4f::Identity());
 	DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
 	GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
-	CheckRenderErrors(__FUNCTION__,__LINE__);*/
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
 }
@@ -648,6 +717,9 @@ bool RendererGL2::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 
 	DisableVertexAttributes(gvb);
 	gvb->Release();
+
+	CheckRenderErrors(__FUNCTION__,__LINE__);
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
 }
@@ -673,6 +745,8 @@ bool RendererGL2::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 	gl::BindBuffer(gl::ELEMENT_ARRAY_BUFFER, 0);
 	gvb->Release();
 	
+	CheckRenderErrors(__FUNCTION__,__LINE__);
+	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
 }
@@ -690,8 +764,8 @@ bool RendererGL2::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 	gl::DrawArraysInstancedARB(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
+	
 	CheckRenderErrors(__FUNCTION__,__LINE__);
-
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
@@ -712,8 +786,8 @@ bool RendererGL2::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 	instb->Release();
 	ib->Release();
 	vb->Release();
-	CheckRenderErrors(__FUNCTION__,__LINE__);
 
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
 	return true;
