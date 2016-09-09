@@ -422,8 +422,8 @@ ui.templates.SettingsInGame = function ()
 				end
 			},
 			{ text = l.RETURN_TO_GAME, onClick = Game.SwitchView },
-			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame },
-			{ text = l.OPEN_USER_FOLDER, onClick = Engine.OpenBrowseUserFolder, toDisable = function () return Engine.CanBrowseUserFolder==false end }
+			{ text = l.OPEN_USER_FOLDER, onClick = Engine.OpenBrowseUserFolder, toDisable = function () return Engine.CanBrowseUserFolder==false end },
+			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame }
 		}
 	})
 end
