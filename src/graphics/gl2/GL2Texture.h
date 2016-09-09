@@ -9,6 +9,8 @@
 
 namespace Graphics {
 
+namespace GL2 {
+
 class GL2Texture : public Texture {
 public:
 	virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
@@ -31,6 +33,8 @@ private:
 	GLenum m_target;
 	GLuint m_texture;
 };
+
+}
 
 }
 

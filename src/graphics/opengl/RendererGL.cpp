@@ -107,9 +107,11 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	gl::Hint(gl::LINE_SMOOTH_HINT, gl::NICEST);
 	gl::Enable(gl::TEXTURE_CUBE_MAP_SEAMLESS);
 	gl::Enable(gl::PROGRAM_POINT_SIZE);
+	CHECKERRORS();
 
 	gl::Hint(gl::TEXTURE_COMPRESSION_HINT, gl::NICEST);
 	gl::Hint(gl::FRAGMENT_SHADER_DERIVATIVE_HINT, gl::NICEST);
+	CHECKERRORS();
 
 	SetMatrixMode(MatrixMode::MODELVIEW);
 
@@ -121,6 +123,7 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 
 	if (vs.enableDebugMessages)
 		GLDebug::Enable();
+	CHECKERRORS();
 
 	// check enum PrimitiveType matches OpenGL values
 	assert(POINTS == gl::POINTS);
@@ -933,7 +936,7 @@ OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
 {
 	PROFILE_SCOPED()
-	return new TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
+	return new OGL::TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 }
 
 RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
@@ -968,7 +971,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 			false, 
 			false,
 			0, Graphics::TEXTURE_2D);
-		TextureGL *colorTex = new TextureGL(cdesc, false, false);
+		OGL::TextureGL *colorTex = new OGL::TextureGL(cdesc, false, false);
 		rt->SetColorTexture(colorTex);
 	}
 	if (desc.depthFormat != TEXTURE_NONE) {
@@ -982,7 +985,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 				false,
 				false,
 				0, Graphics::TEXTURE_2D);
-			TextureGL *depthTex = new TextureGL(ddesc, false, false);
+			OGL::TextureGL *depthTex = new OGL::TextureGL(ddesc, false, false);
 			rt->SetDepthTexture(depthTex);
 		} else {
 			rt->CreateDepthRenderbuffer();

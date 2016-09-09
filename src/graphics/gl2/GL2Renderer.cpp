@@ -978,7 +978,7 @@ GL2::Program* RendererGL2::GetOrCreateProgram(GL2::Material *mat)
 
 Texture *RendererGL2::CreateTexture(const TextureDescriptor &descriptor)
 {
-	return new GL2Texture(descriptor, m_useCompressedTextures);
+	return new GL2::GL2Texture(descriptor, m_useCompressedTextures);
 }
 
 RenderState *RendererGL2::CreateRenderState(const RenderStateDesc &desc)
@@ -1008,7 +1008,7 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 			false,
 			false,
 			0,Graphics::TEXTURE_2D);
-		GL2Texture *colorTex = new GL2Texture(cdesc, false);
+		GL2::GL2Texture *colorTex = new GL2::GL2Texture(cdesc, false);
 		rt->SetColorTexture(colorTex);
 	}
 	if (desc.depthFormat != TEXTURE_NONE) {
@@ -1022,7 +1022,7 @@ RenderTarget *RendererGL2::CreateRenderTarget(const RenderTargetDesc &desc)
 				false,
 				false,
 				0,Graphics::TEXTURE_2D);
-			GL2Texture *depthTex = new GL2Texture(ddesc, false);
+			GL2::GL2Texture *depthTex = new GL2::GL2Texture(ddesc, false);
 			rt->SetDepthTexture(depthTex);
 		} else {
 			rt->CreateDepthRenderbuffer();

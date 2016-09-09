@@ -10,6 +10,7 @@ using namespace gl21;
 static const unsigned int MIN_COMPRESSED_TEXTURE_DIMENSION = 16;
 
 namespace Graphics {
+namespace GL2 {
 
 inline GLint GLInternalFormat(TextureFormat format) {
 	switch (format) {
@@ -375,4 +376,5 @@ void GL2Texture::BuildMipmaps()
 	}
 }
 
+}
 }
