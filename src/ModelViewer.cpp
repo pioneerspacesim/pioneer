@@ -3,11 +3,19 @@
 
 #include "ModelViewer.h"
 #include "FileSystem.h"
-#ifdef USE_GL2_RENDERER
+// ------------------------------------------------------------
 #include "graphics/gl2/GL2Renderer.h"
-#else
+// this looks bizarre but it's to prevent multiple inclusion even though we WANT that here
+#undef __glew_h__
+#undef __GLEW_H__
+#undef __gl_h_
+#undef __GL_H__
+#undef __glext_h_
+#undef __GLEXT_H_
+#undef __gltypes_h_
+#undef __gl_ATI_h_
 #include "graphics/opengl/RendererGL.h"
-#endif
+// ------------------------------------------------------------
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/TextureBuilder.h"
@@ -149,15 +157,12 @@ void ModelViewer::Run(const std::string &modelName)
 
 	ModManager::Init();
 
-#ifdef USE_GL2_RENDERER
 	Graphics::RendererGL2::RegisterRenderer();
-#else
 	Graphics::RendererOGL::RegisterRenderer();
-#endif
 
 	//video
 	Graphics::Settings videoSettings = {};
-	videoSettings.rendererType = Graphics::RENDERER_OPENGL;
+	videoSettings.rendererType = Graphics::RENDERER_OPENGL_3x;
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);

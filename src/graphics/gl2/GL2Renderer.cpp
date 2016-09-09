@@ -42,7 +42,7 @@ static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
 }
 
 void RendererGL2::RegisterRenderer() {
-	Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
+	Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL_21, CreateRenderer);
 }
 
 typedef std::vector<std::pair<MaterialDescriptor, GL2::Program*> >::const_iterator ProgramIterator;

@@ -4,6 +4,8 @@
 #include "Uniform.h"
 #include "TextureGL.h"
 
+using namespace gl3x;
+
 namespace Graphics {
 namespace OGL {
 

@@ -4,6 +4,8 @@
 #include "graphics/opengl/RenderStateGL.h"
 #include "OpenGLLibs.h"
 
+using namespace gl3x;
+
 namespace Graphics
 {
 namespace OGL

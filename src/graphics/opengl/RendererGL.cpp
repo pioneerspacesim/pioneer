@@ -35,6 +35,8 @@
 #include <sstream>
 #include <iterator>
 
+using namespace gl3x;
+
 namespace Graphics {
 
 static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
@@ -43,7 +45,7 @@ static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
 
 // static method instantiations
 void RendererOGL::RegisterRenderer() {
-    Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
+    Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL_3x, CreateRenderer);
 }
 
 // static member instantiations

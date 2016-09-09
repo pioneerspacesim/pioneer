@@ -7,6 +7,8 @@
 #include <cassert>
 #include "utils.h"
 
+using namespace gl3x;
+
 static const unsigned int MIN_COMPRESSED_TEXTURE_DIMENSION = 16;
 
 namespace Graphics {

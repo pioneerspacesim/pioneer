@@ -13,6 +13,8 @@
  */
 #include "OpenGLLibs.h"
 
+using namespace gl3x;
+
 #ifdef _WIN32
 #define STDCALL __stdcall
 #else

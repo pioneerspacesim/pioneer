@@ -15,7 +15,8 @@ namespace Graphics {
 
 	enum RendererType {
 		RENDERER_DUMMY,
-		RENDERER_OPENGL,
+		RENDERER_OPENGL_21,
+		RENDERER_OPENGL_3x,
 		MAX_RENDERER_TYPE
 	};
 
