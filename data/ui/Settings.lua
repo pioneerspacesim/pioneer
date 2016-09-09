@@ -50,6 +50,27 @@ end
 
 ui.templates.Settings = function (args)
 	local videoTemplate = function()
+		-- Renderers
+		local renderersAvailable = Engine.GetRendererList()
+		local rendererLabels = {}
+		local rendererValues = {}
+		for i = 1, #renderersAvailable do
+			local mode = renderersAvailable[i]
+			local token = mode.renderer
+			rendererLabels[i] = token
+			rendererValues[token] = mode
+		end
+		local GetRenderer = function ()
+			local r = Engine.GetRenderer()
+			return r -- return a string token (matches the tokens used as keys in rendererValues)
+		end
+		local SetRenderer = function (token)
+			local mode = rendererValues[token]
+			Engine.SetRenderer(mode.renderer)
+		end
+		local rendererDropDown = optionDropDown(GetRenderer, SetRenderer, l.RENDERER, rendererLabels, rendererLabels)
+	
+		-- Video Resolutions
 		local videoModes = Engine.GetVideoModeList()
 		local videoModeLabels = {}
 		local videoModeValues = {}
@@ -147,6 +168,7 @@ ui.templates.Settings = function (args)
 		return ui:Grid({1,1}, 1)
 			:SetCell(0,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				ui:Label(l.VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY),
+				rendererDropDown,
 				modeDropDown,
 				aaDropDown,
 				fullScreenCheckBox,
