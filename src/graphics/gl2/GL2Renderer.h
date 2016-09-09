@@ -77,6 +77,7 @@ public:
 	virtual bool SetWireFrameMode(bool enabled);
 
 	virtual bool SetLights(Uint32 numlights, const Light *l);
+	virtual Uint32 GetNumLights() const override final { return m_numLights; }
 	virtual bool SetAmbientColor(const Color &c);
 
 	virtual bool SetScissor(bool enabled, const vector2f &pos = vector2f(0.0f), const vector2f &size = vector2f(0.0f));
