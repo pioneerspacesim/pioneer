@@ -22,9 +22,4 @@
 #define WITH_DEVKEYS 1
 #endif
 
-// compile with the OpenGL 2.1 compatible renderer
-#ifndef USE_GL2_RENDERER
-//#define USE_GL2_RENDERER 1
-#endif
-
 #endif
