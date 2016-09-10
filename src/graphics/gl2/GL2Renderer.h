@@ -51,6 +51,8 @@ public:
 	virtual void CheckRenderErrors(const char *func = nullptr, const int line = -1) const override final { CheckErrors(func, line); }
 	static void CheckErrors(const char *func = nullptr, const int line = -1);
 
+	virtual bool SupportsInstancing() override final { return false; }
+
 	virtual bool GetNearFarRange(float &near, float &far) const;
 
 	virtual bool BeginFrame();
