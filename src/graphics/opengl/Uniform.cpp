@@ -4,6 +4,8 @@
 #include "Uniform.h"
 #include "TextureGL.h"
 
+using namespace gl3x;
+
 namespace Graphics {
 namespace OGL {
 
@@ -14,76 +16,76 @@ Uniform::Uniform()
 
 void Uniform::Init(const char *name, GLuint program)
 {
-	m_location = glGetUniformLocation(program, name);
+	m_location = gl::GetUniformLocation(program, name);
 }
 
 void Uniform::Set(int i)
 {
 	if (m_location != -1)
-		glUniform1i(m_location, i);
+		gl::Uniform1i(m_location, i);
 }
 
 void Uniform::Set(float f)
 {
 	if (m_location != -1)
-		glUniform1f(m_location, f);
+		gl::Uniform1f(m_location, f);
 }
 
 void Uniform::Set(const vector3f &v)
 {
 	if (m_location != -1)
-		glUniform3f(m_location, v.x, v.y, v.z);
+		gl::Uniform3f(m_location, v.x, v.y, v.z);
 }
 
 void Uniform::Set(const vector3d &v)
 {
 	if (m_location != -1)
-		glUniform3f(m_location, static_cast<float>(v.x), static_cast<float>(v.y), static_cast<float>(v.z)); //yes, 3f
+		gl::Uniform3f(m_location, static_cast<float>(v.x), static_cast<float>(v.y), static_cast<float>(v.z)); //yes, 3f
 }
 
 void Uniform::Set(const Color &c)
 {
 	Color4f c4f = c.ToColor4f();
 	if (m_location != -1)
-		glUniform4f(m_location, c4f.r, c4f.g, c4f.b, c4f.a);
+		gl::Uniform4f(m_location, c4f.r, c4f.g, c4f.b, c4f.a);
 }
 
 void Uniform::Set(const int v[3])
 {
 	if (m_location != -1)
-		glUniform3i(m_location, v[0],v[1],v[2]);
+		gl::Uniform3i(m_location, v[0],v[1],v[2]);
 }
 
 void Uniform::Set(const float x, const float y, const float z, const float w)
 {
 	if (m_location != -1)
-		glUniform4f(m_location, x, y, z, w);
+		gl::Uniform4f(m_location, x, y, z, w);
 }
 
 void Uniform::Set(const float m[9])
 {
 	if (m_location != -1)
-		glUniformMatrix3fv(m_location, 1, GL_FALSE, m);
+		gl::UniformMatrix3fv(m_location, 1, gl::FALSE_, m);
 }
 
 void Uniform::Set(const matrix3x3f &m)
 {
 	if (m_location != -1)
-		glUniformMatrix3fv(m_location, 1, GL_FALSE, &m[0]);
+		gl::UniformMatrix3fv(m_location, 1, gl::FALSE_, &m[0]);
 }
 
 void Uniform::Set(const matrix4x4f &m)
 {
 	if (m_location != -1)
-		glUniformMatrix4fv(m_location, 1, GL_FALSE, &m[0]);
+		gl::UniformMatrix4fv(m_location, 1, gl::FALSE_, &m[0]);
 }
 
 void Uniform::Set(Texture *tex, unsigned int unit)
 {
 	if (m_location != -1 && tex) {
-		glActiveTexture(GL_TEXTURE0 + unit);
+		gl::ActiveTexture(gl::TEXTURE0 + unit);
 		static_cast<TextureGL*>(tex)->Bind();
-		glUniform1i(m_location, unit);
+		gl::Uniform1i(m_location, unit);
 	}
 }
 

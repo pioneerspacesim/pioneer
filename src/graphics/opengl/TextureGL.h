@@ -5,9 +5,9 @@
 #define _TEXTUREGL_H
 
 #include "graphics/Texture.h"
-#include "gl_core_3_x.h"
 
 namespace Graphics {
+namespace OGL {
 
 class TextureGL : public Texture {
 public:
@@ -32,6 +32,7 @@ private:
 	const bool m_useAnisoFiltering;
 };
 
+}
 }
 
 #endif
