@@ -161,13 +161,13 @@ void ModelViewer::Run(const std::string &modelName)
 	Graphics::RendererOGL::RegisterRenderer();
 
 	// determine what renderer we should use, default to Opengl 3.x
-	const std::string rendererName = config->String("RendererName", Graphics::RendererTypeNames[Graphics::RENDERER_OPENGL_3x]);
+	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
 	Graphics::RendererType rType = Graphics::RENDERER_OPENGL_3x;
-	if(rendererName == Graphics::RendererTypeNames[Graphics::RENDERER_OPENGL_21]) 
+	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21)) 
 	{
 		rType = Graphics::RENDERER_OPENGL_21;
 	}
-	else if(rendererName == Graphics::RendererTypeNames[Graphics::RENDERER_OPENGL_3x]) 
+	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x)) 
 	{
 		rType = Graphics::RENDERER_OPENGL_3x;
 	}

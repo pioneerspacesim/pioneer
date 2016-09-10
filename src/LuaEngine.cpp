@@ -145,14 +145,14 @@ static int l_engine_get_renderer_list(lua_State *l)
 	int i = 0;
 	{
 		lua_createtable(l, 0, 1);
-		lua_pushstring(l, Graphics::RendererTypeNames[Graphics::RENDERER_OPENGL_21]);
+		lua_pushstring(l, Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21));
 		lua_setfield(l, -2, "renderer");
 		lua_rawseti(l, -2, i+1);
 		i++;
 	}
 	{
 		lua_createtable(l, 0, 1);
-		lua_pushstring(l, Graphics::RendererTypeNames[Graphics::RENDERER_OPENGL_3x]);
+		lua_pushstring(l, Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
 		lua_setfield(l, -2, "renderer");
 		lua_rawseti(l, -2, i+1);
 		i++;
@@ -164,7 +164,7 @@ static int l_engine_get_renderer_list(lua_State *l)
 
 static int l_engine_get_renderer(lua_State *l)
 {
-	lua_pushstring(l, Pi::config->String("RendererName", Graphics::RendererTypeNames[Graphics::RENDERER_OPENGL_3x]).c_str());
+	lua_pushstring(l, Pi::config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x)).c_str());
 	return 1;
 }
 

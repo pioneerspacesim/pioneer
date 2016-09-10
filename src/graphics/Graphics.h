@@ -20,11 +20,7 @@ namespace Graphics {
 		MAX_RENDERER_TYPE
 	};
 
-	static const char* RendererTypeNames [MAX_RENDERER_TYPE] {
-		"Dummy",
-		"Opengl 2.1",
-		"Opengl 3.x"
-	};
+	const char* RendererNameFromType(const RendererType rType);
 
 	// requested video settings
 	struct Settings {
