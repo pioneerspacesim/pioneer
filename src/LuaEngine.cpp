@@ -135,6 +135,48 @@ static int l_engine_quit(lua_State *l)
 	return 0;
 }
 
+
+// ------------------------------------------------------------
+static int l_engine_get_renderer_list(lua_State *l)
+{
+	LUA_DEBUG_START(l);
+
+	lua_createtable(l, 2, 0);
+	int i = 0;
+	{
+		lua_createtable(l, 0, 1);
+		lua_pushstring(l, Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21));
+		lua_setfield(l, -2, "renderer");
+		lua_rawseti(l, -2, i+1);
+		i++;
+	}
+	{
+		lua_createtable(l, 0, 1);
+		lua_pushstring(l, Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
+		lua_setfield(l, -2, "renderer");
+		lua_rawseti(l, -2, i+1);
+		i++;
+	}
+
+	LUA_DEBUG_END(l, 1);
+	return 1;
+}
+
+static int l_engine_get_renderer(lua_State *l)
+{
+	lua_pushstring(l, Pi::config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x)).c_str());
+	return 1;
+}
+
+static int l_engine_set_renderer(lua_State *l)
+{
+	const char* rendererName = luaL_checkstring(l, 1);
+	Pi::config->SetString("RendererName", rendererName);
+	Pi::config->Save();
+	return 0;
+}
+// ------------------------------------------------------------
+
 static int l_engine_get_video_mode_list(lua_State *l)
 {
 	LUA_DEBUG_START(l);
@@ -836,6 +878,10 @@ void LuaEngine::Register()
 
 	static const luaL_Reg l_methods[] = {
 		{ "Quit", l_engine_quit },
+
+		{ "GetRendererList", l_engine_get_renderer_list },
+		{ "GetRenderer", l_engine_get_renderer },
+		{ "SetRenderer", l_engine_set_renderer },
 
 		{ "GetVideoModeList", l_engine_get_video_mode_list },
 		{ "GetVideoResolution", l_engine_get_video_resolution },
