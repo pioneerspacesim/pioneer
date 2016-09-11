@@ -21,7 +21,8 @@ public:
 	void SwapBuffers();
 
 private:
-	bool CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits);
+	bool CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits, Graphics::RendererType rendererType);
+	bool AttemptCreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits, Graphics::RendererType rendererType);
 
 	SDL_Window *m_window;
 	SDL_GLContext m_glContext;

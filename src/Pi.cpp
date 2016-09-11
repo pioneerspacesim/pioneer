@@ -67,7 +67,19 @@
 #include "galaxy/GalaxyGenerator.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Lua.h"
+// ------------------------------------------------------------
+#include "graphics/gl2/GL2Renderer.h"
+// this looks bizarre but it's to prevent multiple inclusion even though we WANT that here
+#undef __glew_h__
+#undef __GLEW_H__
+#undef __gl_h_
+#undef __GL_H__
+#undef __glext_h_
+#undef __GLEXT_H_
+#undef __gltypes_h_
+#undef __gl_ATI_h_
 #include "graphics/opengl/RendererGL.h"
+// ------------------------------------------------------------
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
 #include "graphics/Renderer.h"
@@ -449,11 +461,24 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	SDL_GetVersion(&ver);
 	Output("SDL Version %d.%d.%d\n", ver.major, ver.minor, ver.patch);
 
+	Graphics::RendererGL2::RegisterRenderer();
 	Graphics::RendererOGL::RegisterRenderer();
+
+	// determine what renderer we should use, default to Opengl 3.x
+	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
+	Graphics::RendererType rType = Graphics::RENDERER_OPENGL_3x;
+	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21)) 
+	{
+		rType = Graphics::RENDERER_OPENGL_21;
+	}
+	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x)) 
+	{
+		rType = Graphics::RENDERER_OPENGL_3x;
+	}
 
 	// Do rest of SDL video initialization and create Renderer
 	Graphics::Settings videoSettings = {};
-	videoSettings.rendererType = Graphics::RENDERER_OPENGL;
+	videoSettings.rendererType = rType;
 	videoSettings.width = config->Int("ScrWidth");
 	videoSettings.height = config->Int("ScrHeight");
 	videoSettings.fullscreen = (config->Int("StartFullscreen") != 0);

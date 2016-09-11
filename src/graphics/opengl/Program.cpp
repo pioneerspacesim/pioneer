@@ -10,6 +10,8 @@
 
 #include <set>
 
+using namespace gl3x;
+
 namespace Graphics {
 
 namespace OGL {
@@ -24,38 +26,38 @@ GLuint Program::s_curProgram = 0;
 static bool check_glsl_errors(const char *filename, GLuint obj)
 {
 	//check if shader or program
-	bool isShader = (glIsShader(obj) == GL_TRUE);
+	bool isShader = (gl::glIsShader(obj) == gl::GL_TRUE);
 
 	int infologLength = 0;
 	char infoLog[1024];
 
 	if (isShader)
-		glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
+		gl::glGetShaderInfoLog(obj, 1024, &infologLength, infoLog);
 	else
-		glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
+		gl::glGetProgramInfoLog(obj, 1024, &infologLength, infoLog);
 
 	GLint status;
 	if (isShader)
-		glGetShaderiv(obj, GL_COMPILE_STATUS, &status);
+		gl::glGetShaderiv(obj, gl::GL_COMPILE_STATUS, &status);
 	else
-		glGetProgramiv(obj, GL_LINK_STATUS, &status);
+		gl::glGetProgramiv(obj, gl::GL_LINK_STATUS, &status);
 
-	if (status == GL_FALSE) {
+	if (status == gl::GL_FALSE) {
 		Error("Error compiling shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
-			filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+			filename, infoLog, gl::glGetString(gl::GL_VENDOR), gl::glGetString(gl::GL_RENDERER));
 		return false;
 	}
 
 #if 0
 	if (!isShader) {
 		// perform general validation that the program is usable
-		glValidateProgram(obj);
+		gl::ValidateProgram(obj);
  
-		glGetProgramiv(obj, GL_VALIDATE_STATUS, &status);
+		gl::glGetProgramiv(obj, gl::VALIDATE_STATUS, &status);
 		
-		if (status == GL_FALSE) {
+		if (status == gl::FALSE) {
 			Error("Error vaildating shader: %s:\n%sOpenGL vendor: %s\nOpenGL renderer string: %s",
-				filename, infoLog, glGetString(GL_VENDOR), glGetString(GL_RENDERER));
+				filename, infoLog, gl::glGetString(gl::GL_VENDOR), gl::glGetString(gl::GL_RENDERER));
 			return false;
 		}
 	}
@@ -123,7 +125,7 @@ struct Shader {
 		// Build the final shader text to be compiled
 		AppendSource(s_glslVersion);
 		AppendSource(defines.c_str());
-		if (type == GL_VERTEX_SHADER) {
+		if (type == gl::GL_VERTEX_SHADER) {
 			AppendSource("#define VERTEX_SHADER\n");
 		} else {
 			AppendSource("#define FRAGMENT_SHADER\n");
@@ -153,8 +155,8 @@ struct Shader {
 			}
 		}
 #endif
-		shader = glCreateShader(type);
-		if(glIsShader(shader)!=GL_TRUE)
+		shader = gl::glCreateShader(type);
+		if(gl::glIsShader(shader)!=gl::GL_TRUE)
 			throw ShaderException();
 
 		Compile(shader);
@@ -165,7 +167,7 @@ struct Shader {
 	};
 
 	~Shader() {
-		glDeleteShader(shader);
+		gl::glDeleteShader(shader);
 	}
 
 	GLuint shader;
@@ -186,8 +188,8 @@ private:
 	void Compile(GLuint shader_id)
 	{
 		assert(blocks.size() == block_sizes.size());
-		glShaderSource(shader_id, blocks.size(), &blocks[0], &block_sizes[0]);
-		glCompileShader(shader_id);
+		gl::glShaderSource(shader_id, blocks.size(), &blocks[0], &block_sizes[0]);
+		gl::glCompileShader(shader_id);
 	}
 
 	std::vector<const char*> blocks;
@@ -215,13 +217,13 @@ Program::Program(const std::string &name, const std::string &defines)
 
 Program::~Program()
 {
-	glDeleteProgram(m_program);
+	gl::glDeleteProgram(m_program);
 }
 
 void Program::Reload()
 {
 	Unuse();
-	glDeleteProgram(m_program);
+	gl::glDeleteProgram(m_program);
 	LoadShaders(m_name, m_defines);
 	InitUniforms();
 }
@@ -229,13 +231,13 @@ void Program::Reload()
 void Program::Use()
 {
 	if (s_curProgram != m_program)
-		glUseProgram(m_program);
+		gl::glUseProgram(m_program);
 	s_curProgram = m_program;
 }
 
 void Program::Unuse()
 {
-	glUseProgram(0);
+	gl::glUseProgram(0);
 	s_curProgram = 0;
 }
 
@@ -246,28 +248,28 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	const std::string filename = std::string("shaders/opengl/") + name;
 
 	//load, create and compile shaders
-	Shader vs(GL_VERTEX_SHADER, filename + ".vert", defines);
-	Shader fs(GL_FRAGMENT_SHADER, filename + ".frag", defines);
+	Shader vs(gl::GL_VERTEX_SHADER, filename + ".vert", defines);
+	Shader fs(gl::GL_FRAGMENT_SHADER, filename + ".frag", defines);
 
 	//create program, attach shaders and link
-	m_program = glCreateProgram();
-	if(glIsProgram(m_program)!=GL_TRUE)
+	m_program = gl::glCreateProgram();
+	if(gl::glIsProgram(m_program)!=gl::GL_TRUE)
 		throw ProgramException();
 
-	glAttachShader(m_program, vs.shader);
+	gl::glAttachShader(m_program, vs.shader);
 
-	glAttachShader(m_program, fs.shader);
+	gl::glAttachShader(m_program, fs.shader);
 
 	//extra attribs, if they exist
-	glBindAttribLocation(m_program, 0, "a_vertex");
-	glBindAttribLocation(m_program, 1, "a_normal");
-	glBindAttribLocation(m_program, 2, "a_color");
-	glBindAttribLocation(m_program, 3, "a_uv0");
-	glBindAttribLocation(m_program, 4, "a_transform");
+	gl::glBindAttribLocation(m_program, 0, "a_vertex");
+	gl::glBindAttribLocation(m_program, 1, "a_normal");
+	gl::glBindAttribLocation(m_program, 2, "a_color");
+	gl::glBindAttribLocation(m_program, 3, "a_uv0");
+	gl::glBindAttribLocation(m_program, 4, "a_transform");
 
-	glBindFragDataLocation(m_program, 0, "frag_color");
+	gl::glBindFragDataLocation(m_program, 0, "frag_color");
 
-	glLinkProgram(m_program);
+	gl::glLinkProgram(m_program);
 
 	success = check_glsl_errors(name.c_str(), m_program);
 

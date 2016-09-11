@@ -4,6 +4,8 @@
 #include "graphics/opengl/RenderStateGL.h"
 #include "OpenGLLibs.h"
 
+using namespace gl3x;
+
 namespace Graphics
 {
 namespace OGL
@@ -18,56 +20,56 @@ void RenderState::Apply()
 {
 	switch (m_desc.blendMode) {
 	case BLEND_SOLID:
-		glDisable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ZERO);
+		gl::glDisable(gl::GL_BLEND);
+		gl::glBlendFunc(gl::GL_ONE, gl::GL_ZERO);
 		break;
 	case BLEND_ADDITIVE:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE);
+		gl::glEnable(gl::GL_BLEND);
+		gl::glBlendFunc(gl::GL_ONE, gl::GL_ONE);
 		break;
 	case BLEND_ALPHA:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		gl::glEnable(gl::GL_BLEND);
+		gl::glBlendFunc(gl::GL_SRC_ALPHA, gl::GL_ONE_MINUS_SRC_ALPHA);
 		break;
 	case BLEND_ALPHA_ONE:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		gl::glEnable(gl::GL_BLEND);
+		gl::glBlendFunc(gl::GL_SRC_ALPHA, gl::GL_ONE);
 		break;
 	case BLEND_ALPHA_PREMULT:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		gl::glEnable(gl::GL_BLEND);
+		gl::glBlendFunc(gl::GL_ONE, gl::GL_ONE_MINUS_SRC_ALPHA);
 		break;
 	case BLEND_SET_ALPHA:
-		glEnable(GL_BLEND);
-		glBlendFuncSeparate(GL_ZERO, GL_ONE, GL_SRC_COLOR, GL_ZERO);
+		gl::glEnable(gl::GL_BLEND);
+		gl::glBlendFuncSeparate(gl::GL_ZERO, gl::GL_ONE, gl::GL_SRC_COLOR, gl::GL_ZERO);
 		break;
 	case BLEND_DEST_ALPHA:
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+		gl::glEnable(gl::GL_BLEND);
+		gl::glBlendFunc(gl::GL_DST_ALPHA, gl::GL_ONE_MINUS_DST_ALPHA);
 	default:
 		break;
 	}
 
 	if (m_desc.cullMode == CULL_BACK) {
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
+		gl::glEnable(gl::GL_CULL_FACE);
+		gl::glCullFace(gl::GL_BACK);
 	} else if (m_desc.cullMode == CULL_FRONT) {
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_FRONT);
+		gl::glEnable(gl::GL_CULL_FACE);
+		gl::glCullFace(gl::GL_FRONT);
 	} else {
-		glDisable(GL_CULL_FACE);
+		gl::glDisable(gl::GL_CULL_FACE);
 	}
 
 
 	if (m_desc.depthTest)
-		glEnable(GL_DEPTH_TEST);
+		gl::glEnable(gl::GL_DEPTH_TEST);
 	else
-		glDisable(GL_DEPTH_TEST);
+		gl::glDisable(gl::GL_DEPTH_TEST);
 
 	if (m_desc.depthWrite)
-		glDepthMask(GL_TRUE);
+		gl::glDepthMask(gl::GL_TRUE);
 	else
-		glDepthMask(GL_FALSE);
+		gl::glDepthMask(gl::GL_FALSE);
 }
 
 }

@@ -9,16 +9,32 @@
 
 namespace Graphics {
 
-bool WindowSDL::CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits) {
+bool WindowSDL::CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits, Graphics::RendererType rendererType) {
 	Uint32 winFlags = SDL_WINDOW_OPENGL | (hidden ? SDL_WINDOW_HIDDEN : SDL_WINDOW_SHOWN);
 	if (!hidden && fullscreen) winFlags |= SDL_WINDOW_FULLSCREEN;
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-	// cannot initialise 3.x content on OSX with anything but CORE profile
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	// OSX also forces us to use this for 3.2 onwards
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+	switch(rendererType) {
+	case Graphics::RendererType::RENDERER_OPENGL_21:
+		{
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		} 
+		break;
+	case Graphics::RendererType::RENDERER_OPENGL_3x:
+		{
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+			// cannot initialise 3.x content on OSX with anything but CORE profile
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+			// OSX also forces us to use this for 3.2 onwards
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+		}
+		break;
+	default:
+		assert(false);
+		Error("Passed DUMMY or unhandled type of renderer into WindowSDL::CreateWindowAndContext");
+		break;
+	}
 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, depth_bits);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -46,6 +62,37 @@ bool WindowSDL::CreateWindowAndContext(const char *name, int w, int h, bool full
 	return true;
 }
 
+bool WindowSDL::AttemptCreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits, Graphics::RendererType rendererType)
+{
+	bool ok;
+
+	// attempt sequence is:
+	// 1- requested mode
+	ok = CreateWindowAndContext(name, w, h, fullscreen, hidden, samples, 24, rendererType);
+
+	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
+	//    (skipped if no AA was requested anyway)
+	if (!ok && samples) {
+		Output("Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
+		ok = CreateWindowAndContext(name, w, h, fullscreen, hidden, 0, 24, rendererType);
+	}
+
+	// 3- requested mode with 16 bit depth buffer
+	if (!ok) {
+		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
+		ok = CreateWindowAndContext(name, w, h, fullscreen, hidden, samples, 16, rendererType);
+	}
+
+	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
+	//    (skipped if no AA was requested anyway)
+	if (!ok && samples) {
+		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
+		ok = CreateWindowAndContext(name, w, h, fullscreen, hidden, 0, 16, rendererType);
+	}
+
+	return ok;
+}
+
 WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name) {
 
 	// XXX horrible hack. if we don't want a renderer, we might be in an
@@ -59,33 +106,14 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name) {
 	if (vs.rendererType == Graphics::RENDERER_DUMMY)
 		return;
 
-	bool ok;
-
-	// attempt sequence is:
-	// 1- requested mode
-	ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.hidden, vs.requestedSamples, 24);
-
-	// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
-	//    (skipped if no AA was requested anyway)
-	if (!ok && vs.requestedSamples) {
-		Output("Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
-		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.hidden, 0, 24);
+	bool ok = AttemptCreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.hidden, vs.requestedSamples, 24, vs.rendererType);
+	if (!ok && vs.rendererType == Graphics::RENDERER_OPENGL_3x)
+	{
+		// try falling back to OpenGL 2.1
+		ok = AttemptCreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.hidden, vs.requestedSamples, 24, Graphics::RENDERER_OPENGL_21);
 	}
 
-	// 3- requested mode with 16 bit depth buffer
-	if (!ok) {
-		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
-		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.hidden, vs.requestedSamples, 16);
-	}
-
-	// 4- requested mode with 16-bit depth buffer and no anti-aliasing
-	//    (skipped if no AA was requested anyway)
-	if (!ok && vs.requestedSamples) {
-		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
-		ok = CreateWindowAndContext(name.c_str(), vs.width, vs.height, vs.fullscreen, vs.hidden, 0, 16);
-	}
-
-	// 5- abort!
+	// abort!
 	if (!ok) {
 		Error("Failed to set video mode: %s", SDL_GetError());
 	}
