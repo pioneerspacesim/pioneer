@@ -291,6 +291,7 @@ pioneer_LDADD = \
 	collider/libcollider.a \
 	gui/libgui.a \
 	graphics/libgraphics.a \
+	graphics/gl2/libgraphicsgl2.a \
 	graphics/opengl/libgraphicsopengl.a \
 	galaxy/libgalaxy.a \
 	scenegraph/libscenegraph.a \
@@ -376,6 +377,7 @@ uitest_LDADD = \
 	gui/libgui.a \
 	text/libtext.a \
 	graphics/libgraphics.a \
+	graphics/gl2/libgraphicsgl2.a \
 	graphics/opengl/libgraphicsopengl.a \
 	posix/libposix.a \
 	../contrib/jenkins/libjenkins.a \
