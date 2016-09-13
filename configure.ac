@@ -403,6 +403,7 @@ AC_CONFIG_FILES([
 	src/gui/Makefile
 	src/graphics/Makefile
 	src/graphics/opengl/Makefile
+	src/graphics/gl2/Makefile
 	src/graphics/dummy/Makefile
 	src/scenegraph/Makefile
 	src/galaxy/Makefile
