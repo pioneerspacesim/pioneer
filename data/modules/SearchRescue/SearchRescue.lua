@@ -525,7 +525,7 @@ end
 -- extended mission functions
 -- ==========================
 
-local calcReward = function (flavour)
+local calcReward = function (flavour, pickup_crew, pickup_pass, pickup_comm, deliver_crew, deliver_pass, deliver_comm)
 	-- Calculate the appropriate reward for this mission.
 	-- TODO: Extend for other mission types.
 	-- TODO: Adjust based on urgency + risk?
@@ -537,6 +537,29 @@ local calcReward = function (flavour)
 	elseif flavour.loctype == "FAR_SPACE" then
 		reward = reward_far + Engine.rand:Number(reward_far / 2 * -1, reward_far / 2)
 	end
+
+	-- factor in personnel to be delivered or picked up
+	local personnel = pickup_crew + pickup_pass + deliver_crew + deliver_pass
+	if personnel > 0 then
+		reward = reward + (personnel * (Equipment.misc.cabin.price * 0.5))
+	end
+
+	-- factor in commodities to be delivered or picked up
+	if pickup_comm ~= {} then
+		local extra = 0
+		for commodity,amount in pairs(pickup_comm) do
+			extra = extra + (commodity.price * amount * 10)
+		end
+		reward = reward + extra
+	end
+	if deliver_comm ~= {} then
+		local extra = 0
+		for commodity,amount in pairs(deliver_comm) do
+			extra = extra + (commodity.price * amount * 10)
+		end
+		reward = reward + extra
+	end
+
 	return reward
 end
 
@@ -1123,7 +1146,6 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	if flavour.loctype == "CLOSE_SPACE" and station.isGroundStation == true then return end
 
 	local urgency = flavour.urgency
-	local reward = calcReward(flavour)
 
 	-- TODO: this will have to be adjusted for missions outside of BBS announcements
 	local station_local = station.path
@@ -1251,6 +1273,9 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	else
 		client = getAircontrolChar(station)
 	end
+
+	-- calculate the reward
+	local reward = calcReward(flavour, pickup_crew, pickup_pass, pickup_comm, deliver_crew, deliver_pass, deliver_comm)
 
 	local ad = {
 		location       = location,
@@ -1877,13 +1902,13 @@ local onCreateBB = function (station)
 	-- force ad creation for debugging
 	-- local num = 3
 	-- for _ = 1,num do
-	--	makeAdvert(station, 1, closestplanets)
-	--	makeAdvert(station, 2, closestplanets)
-	--	makeAdvert(station, 3, closestplanets)
-	--	makeAdvert(station, 4, closestplanets)
-	--	makeAdvert(station, 5, closestplanets)
-	--	makeAdvert(station, 6, closestplanets)
-	--	makeAdvert(station, 7, closestplanets)
+	-- 	makeAdvert(station, 1, closestplanets)
+	-- 	makeAdvert(station, 2, closestplanets)
+	-- 	makeAdvert(station, 3, closestplanets)
+	-- 	makeAdvert(station, 4, closestplanets)
+	-- 	makeAdvert(station, 5, closestplanets)
+	-- 	makeAdvert(station, 6, closestplanets)
+	-- 	makeAdvert(station, 7, closestplanets)
 	-- end
 
 	if triggerAdCreation() then makeAdvert(station, nil, closestplanets) end
