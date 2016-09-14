@@ -620,6 +620,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 		m_adjacentCity->Render(r, camera->GetContext()->GetFrustum(), this, viewCoords, viewTransform);
 
 		RenderModel(r, camera, viewCoords, viewTransform, false);
+		m_navLights->Render(r);
 
 		ResetLighting(r, oldLights, oldAmbient);
 
