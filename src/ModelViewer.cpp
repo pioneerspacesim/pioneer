@@ -519,6 +519,7 @@ void ModelViewer::DrawModel(const matrix4x4f &mv)
 	);
 
 	m_model->Render(mv);
+	m_navLights->Render(m_renderer);
 }
 
 void ModelViewer::MainLoop()
