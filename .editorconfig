@@ -1,0 +1,9 @@
+# EditorConfig http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# all files, globally use these rules:
+[*]
+indent_style = tab
+indent_size = 4
