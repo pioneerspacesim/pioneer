@@ -4,6 +4,7 @@ September 2016
      * Change SAR mission rewards (#3806)
      * Made NavLights responsible for their billboard rendering (#3809)
      * Adding an editorconfig file to define coding style (#3810)
+     * Add annotations to ShipDef (#3812)
 
 August 2016
    * New Features
