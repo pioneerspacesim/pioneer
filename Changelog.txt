@@ -3,6 +3,7 @@ September 2016
      * Update GasGiant config, detail and initialisation timing (#3792)
      * Change SAR mission rewards (#3806)
      * Made NavLights responsible for their billboard rendering (#3809)
+     * Adding an editorconfig file to define coding style (#3810)
 
 August 2016
    * New Features
