@@ -190,6 +190,36 @@
  *   experimental
  */
 
+/*
+ * Attribute: shipClass
+ *
+ * Class of the ship (i.e. "medium_courier").
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
+ * Attribute: manufacturer
+ *
+ * Manufacturer of the ship (i.e. "kaluri").
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
+ * Attribute: modelName
+ *
+ * Name for the model of this ship. Important for looking up the actual ship model (Engine.GetModel(ShipDef.modelName)).
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
 void LuaShipDef::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
