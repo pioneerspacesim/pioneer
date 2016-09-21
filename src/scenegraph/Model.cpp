@@ -434,8 +434,8 @@ bool Model::SupportsDecals()
 
 bool Model::SupportsPatterns()
 {
-	for (MaterialContainer::const_iterator it = m_materials.begin();
-		it != m_materials.end();
+	for (MaterialContainer::const_iterator it = m_materials.begin(), itEnd = m_materials.end();
+		it != itEnd;
 		++it)
 	{
 		//Set pattern only on a material that supports it
