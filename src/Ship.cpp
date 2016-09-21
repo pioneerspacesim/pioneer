@@ -341,7 +341,8 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
-	GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
+	if(GetModel()->SupportsPatterns())
+		GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()-1));
 
 	Init();
 	SetController(new ShipController());

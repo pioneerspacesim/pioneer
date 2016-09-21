@@ -249,7 +249,8 @@ void CityOnPlanet::SetCityModelPatterns(const SystemPath &path)
 		if (!m->SupportsPatterns()) continue;
 		skin.SetRandomColors(rand);
 		skin.Apply(m);
-		m->SetPattern(rand.Int32(0, m->GetNumPatterns()));
+		if(m->SupportsPatterns())
+			m->SetPattern(rand.Int32(0, m->GetNumPatterns()-1));
 	}
 }
 
