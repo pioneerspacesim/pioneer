@@ -1,6 +1,9 @@
 September 2016
    * New Features
-     * Set ship texture patterns from lua #3811
+     * Set ship texture patterns from lua (#3811)
+
+   * Fixes
+     * Model pattern range and status checking (#3814)
 
    * Internal Changes
      * Update GasGiant config, detail and initialisation timing (#3792)
@@ -8,6 +11,7 @@ September 2016
      * Made NavLights responsible for their billboard rendering (#3809)
      * Adding an editorconfig file to define coding style (#3810)
      * Add annotations to ShipDef (#3812)
+     * Additional mesh optimisation (#3813)
 
 August 2016
    * New Features
