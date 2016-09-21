@@ -1458,6 +1458,11 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 	m_skin.Apply(GetModel());
 }
 
+void Ship::SetPattern(const unsigned int num)
+{
+	GetModel()->SetPattern(num);
+}
+
 Uint8 Ship::GetRelations(Body *other) const
 {
 	auto it = m_relationsMap.find(other);
