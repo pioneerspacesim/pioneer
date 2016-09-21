@@ -333,13 +333,18 @@ RefCountedPtr<Node> Loader::LoadMesh(const std::string &filename, const AnimList
 	//There are several optimizations assimp can do, intentionally skipping them now
 	const aiScene *scene = importer.ReadFile(
 		filename,
-		aiProcess_RemoveComponent	|
-		aiProcess_Triangulate		|
-		aiProcess_SortByPType		| //ignore point, line primitive types (collada dummy nodes seem to be fine)
-		aiProcess_GenUVCoords		|
-		aiProcess_FlipUVs			|
-		aiProcess_CalcTangentSpace	|
-		aiProcess_GenSmoothNormals);  //only if normals not specified
+		aiProcess_RemoveComponent			|
+		aiProcess_Triangulate				|
+		aiProcess_SortByPType				| //ignore point, line primitive types (collada dummy nodes seem to be fine)
+		aiProcess_GenUVCoords				|
+		aiProcess_FlipUVs					|
+		aiProcess_CalcTangentSpace			|
+		aiProcess_JoinIdenticalVertices		|
+		aiProcess_GenSmoothNormals			| //only if normals not specified
+		aiProcess_ImproveCacheLocality		|
+		aiProcess_LimitBoneWeights			|
+		aiProcess_FindDegenerates			|
+		aiProcess_FindInvalidData);
 
 	if(!scene)
 		throw LoadingError("Couldn't load file");
