@@ -1,4 +1,7 @@
 September 2016
+   * New Features
+     * Set ship texture patterns from lua #3811
+
    * Internal Changes
      * Update GasGiant config, detail and initialisation timing (#3792)
      * Change SAR mission rewards (#3806)
