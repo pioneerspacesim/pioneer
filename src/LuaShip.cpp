@@ -304,11 +304,13 @@ static int l_ship_set_pattern(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
 	unsigned int num = lua_tointeger(l, 2);
+	SceneGraph::Model *model = s->GetModel();
+	if(model && model->SupportsPatterns()) {
+		if (num > model->GetNumPatterns()-1)
+			return luaL_error(l, "This pattern does not exist for this ship");
 
-	if (num > s->GetModel()->GetNumPatterns()-1)
-		return luaL_error(l, "This pattern does not exist for this ship");
-
-	s->SetPattern(num);
+		s->SetPattern(num);
+	}
 	return 0;
 }
 
