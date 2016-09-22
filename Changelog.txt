@@ -12,6 +12,7 @@ September 2016
      * Adding an editorconfig file to define coding style (#3810)
      * Add annotations to ShipDef (#3812)
      * Additional mesh optimisation (#3813)
+     * Unused files from JobSwarm experiments 4 years ago! (#3816)
 
 August 2016
    * New Features
