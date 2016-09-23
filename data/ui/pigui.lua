@@ -36,6 +36,7 @@ local Lang = import("Lang")
 
 local lui = Lang.GetResource("ui-core");
 local lc = Lang.GetResource("core");
+local lec = Lang.GetResource("equipment-core");
 
 local utils = import("utils")
 
@@ -68,6 +69,21 @@ local icons = {
 	 starport = "p",
 	 spacestation = "s",
 	 gasgiant = "G",
+	 gravity = "g",
+	 apoapsis = "A",
+	 altitude = "a",
+	 periapsis = "E",
+	 inclination = "i",
+	 eccentricity = "e",
+	 pressure = "r",
+	 latitude = "l",
+	 longitude = "L",
+	 comms = "6",
+	 autodock = "4",
+	 fly_to = "5",
+	 low_orbit = "1",
+	 medium_orbit = "2",
+	 high_orbit = "3",
 }
 
 local colors = {
@@ -135,7 +151,19 @@ local MyFormat = {
 				 return string.format("%0.1f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS
 			end
 			return string.format("%0.1f", distance / 1.4960e11), lc.UNIT_AU
+	 end,
+	 Speed = function(distance)
+			local d = math.abs(distance)
+			if d < 1000 then
+				 return math.floor(distance), lc.UNIT_METERS_PER_SECOND
+			end
+			if d < 1000*1000 then
+				 return string.format("%0.1f", distance / 1000), lc.UNIT_KILOMETERS_PER_SECOND
+			end
+			return string.format("%0.1f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS_PER_SECOND
+			-- no need for au/s
 	 end
+
 }
 
 function map(func, array)
@@ -622,15 +650,15 @@ local function show_navball()
 	 end
 
 	 -- delta-v remaining
-	 local spd,unit = MyFormat.Distance(deltav_remaining)
+	 local spd,unit = MyFormat.Speed(deltav_remaining)
 	 local position = point_on_circle_radius(navball_center, navball_text_radius, -3)
-	 show_text_fancy(position, { "Δv", spd, unit .. "/" .. lc.UNIT_SECONDS }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+	 show_text_fancy(position, { lui.HUD_DELTA_V, spd, unit }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 	 local time_until_empty = deltav_remaining / player:GetAccel("forward")
 	 show_text_fancy(position, { math.floor(dvr*100) .. "%     " .. Format.Duration(time_until_empty) }, { colors.lightgrey }, { pionillium.small }, anchor.right, anchor.top)
 	 if deltav_maneuver > 0 then
-	 		local spd,unit = MyFormat.Distance(deltav_maneuver)
+	 		local spd,unit = MyFormat.Speed(deltav_maneuver)
 			position = point_on_circle_radius(navball_center, navball_text_radius, -4)
-			show_text_fancy(position, { "mΔv", spd, unit .. "/" .. lc.UNIT_SECONDS }, { colors.maneuver, colors.maneuver, colors.maneuver }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+			show_text_fancy(position, { lui.MANEUVER_DELTA_V, spd, unit }, { colors.maneuver, colors.maneuver, colors.maneuver }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 			local maneuver_time = deltav_maneuver / player:GetAccel("forward")
 			show_text_fancy(position, { math.floor(dvm/dvr*100) .. "%     " .. Format.Duration(maneuver_time) }, { colors.maneuver }, { pionillium.small }, anchor.right, anchor.top)
 	 end
@@ -648,7 +676,7 @@ local function show_navball()
 			local aa_d = aa - frame_radius
 			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
 			if aa_d > 0 then
-				 local textsize = show_text_fancy(position, { "A", dist_apo, unit_apo }, { colors.lightgrey, colors.lightgrey, colors.darkgrey }, {pionicons.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
+				 local textsize = show_text_fancy(position, { icons.apoapsis, dist_apo, unit_apo }, { colors.lightgrey, colors.lightgrey, colors.darkgrey }, {pionicons.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
 				 show_text(position + Vector(textsize.x * 1.2), lui.HUD_T_MINUS .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, lui.HUD_TOOLTIP_APOAPSIS_TIME)
 			end
 	 end
@@ -657,9 +685,9 @@ local function show_navball()
 	 if alt then
 			local altitude,unit = MyFormat.Distance(alt)
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 2.6)
-			local textsize = show_text_fancy(position, { "a", altitude, unit }, {colors.lightgrey, colors.lightgrey, colors.darkgrey }, { pionicons.large, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE } )
-			local vspeed, unit = MyFormat.Distance(vspd)
-			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit .. "/" .. lc.UNIT_SECONDS }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE, lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE })
+			local textsize = show_text_fancy(position, { icons.altitude, altitude, unit }, {colors.lightgrey, colors.lightgrey, colors.darkgrey }, { pionicons.large, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE } )
+			local vspeed, unit = MyFormat.Speed(vspd)
+			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE, lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE })
 	 end
 	 -- periapsis
 	 if not player:IsDocked() then
@@ -668,7 +696,7 @@ local function show_navball()
 			local dist_per, unit_per = MyFormat.Distance(pa_d)
 			if pa and pa_d ~= 0 then
 				 local textsize = show_text_fancy(position,
-																					{ "E", dist_per, unit_per, "     " .. lui.HUD_T_MINUS .. Format.Duration(o_time_at_periapsis) },
+																					{ icons.periapsis, dist_per, unit_per, "     " .. lui.HUD_T_MINUS .. Format.Duration(o_time_at_periapsis) },
 																					{ colors.lightgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
 																					{ pionicons.small, pionillium.medium, pionillium.small, pionillium.small },
 																					anchor.left,
@@ -680,7 +708,7 @@ local function show_navball()
 	 if not player:IsDocked() then
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 3.4)
 			show_text_fancy(position,
-											{ "i", math.floor(o_inclination / two_pi * 360) .. "°", "    e", string.format("%.02f", o_eccentricity)},
+											{ icons.inclination, math.floor(o_inclination / two_pi * 360) .. lc.UNIT_DEGREES, "    " .. icons.eccentricity, string.format("%.02f", o_eccentricity)},
 											{ colors.lightgrey, colors.lightgrey, colors.lightgrey, colors.lightgrey },
 											{ pionicons.small, pionillium.medium, pionicons.small, pionillium.medium },
 											anchor.left, anchor.baseline,
@@ -701,7 +729,7 @@ local function show_navball()
 			local fnts = {}
 			local tooltips = {}
 			if pressure and pressure > 0.001 then
-				 table.insert(txts, "r")
+				 table.insert(txts, icons.pressure)
 				 table.insert(txts, string.format("%.02f", pressure))
 				 table.insert(txts, lc.UNIT_ATM)
 				 table.insert(cols, colors.lightgrey)
@@ -721,7 +749,7 @@ local function show_navball()
 				 table.insert(tooltips, "")
 			end
 			if gravity then
-				 table.insert(txts, "g")
+				 table.insert(txts, icons.gravity)
 				 table.insert(txts, gravity)
 				 table.insert(txts, lc.UNIT_GRAVITY)
 				 table.insert(cols, colors.lightgrey)
@@ -738,8 +766,8 @@ local function show_navball()
 			-- latitude, longitude
 			position = point_on_circle_radius(navball_center, navball_text_radius, 4.5)
 			if lat and lon then
-				 local textsize = show_text_fancy(position, { "l", lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LATITUDE, lui.HUD_TOOLTIP_LATITUDE })
-				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "L", lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LONGITUDE, lui.HUD_TOOLTIP_LONGITUDE })
+				 local textsize = show_text_fancy(position, { icons.latitude, lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LATITUDE, lui.HUD_TOOLTIP_LATITUDE })
+				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { icons.longitude, lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LONGITUDE, lui.HUD_TOOLTIP_LONGITUDE })
 			end
 	 end
 	 -- ******************** orbit display ********************
@@ -776,10 +804,10 @@ local function show_navball()
 	 end
 	 -- circular stats, lower left
 	 local position = Vector(navball_center.x - 180,pigui.screen_height - 40)
-	 show_circular_gauge(position, player:GetHullTemperature(), colors.tmp_gauge, "Temp", "Hull")
-	 show_circular_gauge(position + Vector(-90, 0), 1 - player:GetHullPercent() / 100, colors.hull_gauge, "Damage", "Hull")
+	 show_circular_gauge(position, player:GetHullTemperature(), colors.tmp_gauge, lui.HUD_TEMPERATURE, lui.HUD_HULL)
+	 show_circular_gauge(position + Vector(-90, 0), 1 - player:GetHullPercent() / 100, colors.hull_gauge, lui.HUD_DAMAGE, lui.HUD_HULL)
 	 if player:GetShieldsPercent() then
-			show_circular_gauge(position + Vector(-180, 0), player:GetShieldsPercent() / 100, colors.shield_gauge, "Shield")
+			show_circular_gauge(position + Vector(-180, 0), player:GetShieldsPercent() / 100, colors.shield_gauge, lui.HUD_SHIELD)
 	 end
 end
 
@@ -789,26 +817,26 @@ Event.Register("onHyperspace", function (target)
 									radial_nav_target = nil
 end)
 
-local selected_combat = nil
-local function show_contacts()
-	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
-	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
-	 pigui.Begin("Contacts", {})
-	 pigui.Columns(2, "contactcolumns", false)
-	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
-	 table.sort(bodies, function(a,b) return player:DistanceTo(a) < player:DistanceTo(b) end)
-	 for _,body in pairs(bodies) do
-			if(pigui.Selectable(body.label, selected_combat == body, {"SpanAllColumns"})) then
-				 player:SetCombatTarget(body)
-				 selected_combat = body
-			end
-			pigui.NextColumn()
-			local distance = player:DistanceTo(body)
-			pigui.Text(Format.Distance(distance))
-			pigui.NextColumn()
-	 end
-	 pigui.End()
-end
+-- local selected_combat = nil
+-- local function show_contacts()
+-- 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
+-- 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
+-- 	 pigui.Begin(lui.HUD_WINDOW_CONTACTS, {})
+-- 	 pigui.Columns(2, "contactcolumns", false)
+-- 	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
+-- 	 table.sort(bodies, function(a,b) return player:DistanceTo(a) < player:DistanceTo(b) end)
+-- 	 for _,body in pairs(bodies) do
+-- 			if(pigui.Selectable(body.label, selected_combat == body, {"SpanAllColumns"})) then
+-- 				 player:SetCombatTarget(body)
+-- 				 selected_combat = body
+-- 			end
+-- 			pigui.NextColumn()
+-- 			local distance = player:DistanceTo(body)
+-- 			pigui.Text(Format.Distance(distance))
+-- 			pigui.NextColumn()
+-- 	 end
+-- 	 pigui.End()
+-- end
 
 local comm_log = {}
 
@@ -865,14 +893,14 @@ local function show_radial_menu()
 	 if radial_nav_target then
 			local typ = radial_nav_target.superType
 			if typ == "STARPORT" then
-				 addItem("6", "Docking Clearance", "clearance")
-				 addItem("4", "Auto-Dock", "dock")
+				 addItem(icons.comms, lui.HUD_RADIAL_TOOLTIP_COMMS, "clearance")
+				 addItem(icons.autodock, lui.HUD_RADIAL_TOOLTIP_AUTO_DOCK, "dock")
 			end
-			addItem("5", "Fly to", "fly_to")
+			addItem(icons.fly_to, lui.HUD_RADIAL_TOOLTIP_FLY_TO, "fly_to")
 			if typ == "STAR" or typ == "ROCKY_PLANET" or typ == "GAS_GIANT" then
-				 addItem("1", "Low Orbit", "low_orbit")
-				 addItem("2", "Medium Orbit", "medium_orbit")
-				 addItem("3", "High Orbit", "high_orbit")
+				 addItem(icons.low_orbit, lui.HUD_RADIAL_TOOLTIP_LOW_ORBIT, "low_orbit")
+				 addItem(icons.medium_orbit, lui.HUD_RADIAL_TOOLTIP_MEDIUM_ORBIT, "medium_orbit")
+				 addItem(icons.high_orbit, lui.HUD_RADIAL_TOOLTIP_HIGH_ORBIT, "high_orbit")
 			end
 			-- addItem("Hold Radial in", "radial_in")
 			-- addItem("Hold radial out", "radial_out")
@@ -1032,7 +1060,7 @@ local function show_nav_window()
 	 -- ******************** Navigation Window ********************
 	 --	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 --	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
-	 pigui.Begin("Navigation", {})
+	 pigui.Begin(lui.HUD_WINDOW_NAVIGATION, {})
 	 do
 			pigui.PushFont("pionicons", 12)
 			do
@@ -1264,7 +1292,7 @@ local function show_thrust()
 	 if pigui.BeginPopup("thrustsettings") then
 			local settings = { 1, 5, 10, 25, 50, 75 }
 			for _,setting in pairs(settings) do
-				 if pigui.Selectable("Set low thrust to " .. setting .. "%", false, {}) then
+				 if pigui.Selectable(string.interp(lui.HUD_SET_LOW_THRUST_TO, { percent = setting }), false, {}) then
 						player:SetLowThrustPower(setting / 100)
 				 end
 			end
@@ -1721,16 +1749,17 @@ local function show_stuff()
 end
 
 local function show_hyperspace_countdown()
-	 show_text(Vector(pigui.screen_width/2, pigui.screen_height/3), "Hyperspace in " .. math.ceil(player:GetHyperspaceCountdown()) .. " seconds", colors.green, pionillium.large, anchor.center, anchor.center)
+	 show_text(Vector(pigui.screen_width/2, pigui.screen_height/3), string.interp(lc.HYPERSPACE_IN_N_SECONDS, { seconds = math.ceil(player:GetHyperspaceCountdown()) }), colors.green, pionillium.large, anchor.center, anchor.center)
 end
 
 local function draw_missile(position, typ, amount, missile_object)
 	 local width = 60
 	 local height = 16
 	 local lower_right = position + Vector(width, height)
-	 local names = { ["missile_naval"] = "Naval", ["missile_guided"] = "Guided", ["missile_smart"] = "Smart", ["missile_unguided"] = "Dumb" }
+	 local name = lec[string.upper(typ)]
+	 local short = name:sub(0, name:find(" "))
 	 pigui.AddRectFilled(position, lower_right, colors.white, 0.0, 0)
-	 show_text(position + Vector(10, height / 2), names[typ], colors.black, pionillium.small, anchor.left, anchor.center)
+	 show_text(position + Vector(10, height / 2), short, colors.black, pionillium.small, anchor.left, anchor.center)
 	 show_text(position + Vector(1, height / 2), amount, colors.darkergrey, pionillium.small, anchor.left, anchor.center)
 	 local stripes = 15
 	 local function stripe(start, stop, count)
@@ -1747,12 +1776,14 @@ local function draw_missile(position, typ, amount, missile_object)
 	 elseif typ == "missile_guided" then
 			stripe(13,14,stripes)
 			stripe(14,15,stripes)
+	 else
+			error("unknown missile type " .. typ)
 	 end
 	 if pigui.IsMouseHoveringRect(position, lower_right, true) then
 			if pigui.IsMouseReleased(0) and Game.player:GetCombatTarget() then
 				 Game.player:FireMissileAt(missile_object, Game.player:GetCombatTarget())
 			end
-			pigui.SetTooltip("Fire " .. typ)
+			pigui.SetTooltip(string.interp(lui.HUD_TOOLTIP_FIRE_MISSILE, { missile = name}))
 	 end
 end
 
@@ -1775,8 +1806,8 @@ local function show_weapons()
 	 end
 	 -- gun stats, left side
 	 local pos = position + Vector(25, i * 20 + 50)
-	 show_circular_gauge(pos, player:GetGunTemperature(0), colors.gun_tmp_gauge, "Blaster", "Front")
-	 show_circular_gauge(pos + Vector(0, 80), player:GetGunTemperature(1), colors.gun_tmp_gauge, "Blaster", "Rear")
+	 show_circular_gauge(pos, player:GetGunTemperature(0), colors.gun_tmp_gauge, lui.HUD_GUN, lui.HUD_FRONT)
+	 show_circular_gauge(pos + Vector(0, 80), player:GetGunTemperature(1), colors.gun_tmp_gauge, lui.HUD_GUN, lui.HUD_REAR)
 
 end
 
@@ -1792,9 +1823,9 @@ local function show_radar_mapper()
 			pigui.Text("Mass: " .. t:GetStats().static_mass)
 			pigui.Text("Cargo: " .. t:GetStats().used_cargo)
 			local position = Vector(pigui.GetWindowPos()) + Vector(50, 150)
-			show_circular_gauge(position + Vector(0, 0), 1 - t:GetHullPercent() / 100, colors.hull_gauge, "Damage", "Hull")
+			show_circular_gauge(position + Vector(0, 0), 1 - t:GetHullPercent() / 100, colors.hull_gauge, lui.HUD_DAMAGE, lui.HUD_HULL)
 			if t:GetShieldsPercent() then
-				 show_circular_gauge(position + Vector(100, 0), t:GetShieldsPercent() / 100, colors.shield_gauge, "Shield")
+				 show_circular_gauge(position + Vector(100, 0), t:GetShieldsPercent() / 100, colors.shield_gauge, lui.HUD_SHIELD)
 			end
 			pigui.End()
 	 end
@@ -1896,18 +1927,18 @@ local function show_hud()
 			local position = point_on_circle_radius(center, reticule_text_radius, 1.35)
 			show_text(position, "Nav Target", colors.darkgreen, pionillium.small, anchor.left, anchor.bottom)
 			position = point_on_circle_radius(center, reticule_text_radius, 2)
-			show_text(position, navTarget.label, colors.lightgreen, pionillium.medium, anchor.left, anchor.bottom, "The current navigational target")
+			show_text(position, navTarget.label, colors.lightgreen, pionillium.medium, anchor.left, anchor.bottom) -- , "The current navigational target"
 
 			local speed = Vector(pigui.GetVelocity("nav_prograde"))
-			local spd,unit = MyFormat.Distance(speed:magnitude())
+			local spd,unit = MyFormat.Speed(speed:magnitude())
 			position = point_on_circle_radius(center, reticule_text_radius, 2.9)
-			local textsize = show_text_fancy(position, { spd, unit .. "/s" }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
+			local textsize = show_text_fancy(position, { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
 			do
 				 local pos = Vector(player:GetPositionRelTo(navTarget))
 				 local vel = Vector(player:GetVelocityRelTo(navTarget))
 				 local proj = pos:dot(vel) / pos:magnitude()
-				 local spd,unit = MyFormat.Distance(proj)
-				 show_text_fancy(position + Vector(textsize.x * 1.1, 0), { spd, unit .. "/s" }, { colors.lightgreen, colors.darkgreen }, { pionillium.medium, pionillium.small }, anchor.left, anchor.bottom)
+				 local spd,unit = MyFormat.Speed(proj)
+				 show_text_fancy(position + Vector(textsize.x * 1.1, 0), { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.medium, pionillium.small }, anchor.left, anchor.bottom)
 			end
 
 
@@ -1917,15 +1948,15 @@ local function show_hud()
 			local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top )
 			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
 			position.y = position.y + textsize.y * 1.1
-			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top, "Time to brake with main thrusters")
+			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top) -- , "Time to brake with main thrusters"
 	 end
 
 	 -- ******************** Maneuver speed ********************
 	 local spd = player:GetManeuverSpeed()
 	 if spd then
 			local position = point_on_circle_radius(center, reticule_text_radius, 0)
-			local speed,unit = MyFormat.Distance(spd)
-			show_text_fancy(position, { speed, unit .. "/s" }, { colors.maneuver, colors.maneuver }, { pionillium.large, pionillium.medium }, anchor.center, anchor.bottom)
+			local speed,unit = MyFormat.Speed(spd)
+			show_text_fancy(position, { speed, unit }, { colors.maneuver, colors.maneuver }, { pionillium.large, pionillium.medium }, anchor.center, anchor.bottom)
 	 end
 	 -- ******************** Combat Target speed / distance ********************
 	 local combatTarget = player:GetCombatTarget()
@@ -1933,12 +1964,12 @@ local function show_hud()
 			-- target name
 
 			local position = point_on_circle_radius(center, reticule_text_radius, 6)
-			local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top, "Combat target")
+			local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top) -- , "Combat target"
 
 			position.y = position.y + textsize.y * 1.1
 			local speed = combatTarget:GetVelocityRelTo(player)
-			local spd,unit = MyFormat.Distance(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			show_text_fancy(position + Vector(-5.0), { spd, unit .. "/s" }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top)
+			local spd,unit = MyFormat.Speed(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+			show_text_fancy(position + Vector(-5.0), { spd, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top)
 			local distance = player:DistanceTo(combatTarget)
 			local dist,unit = MyFormat.Distance(distance)
 			show_text_fancy(position + Vector(5,0), { dist, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top)
@@ -1957,9 +1988,9 @@ local function show_hud()
 			show_text(position, frame.label, colors.lightgrey, pionillium.medium, anchor.right, anchor.bottom)
 
 			local speed = Vector(pigui.GetVelocity("frame_prograde"))
-			local spd,unit = MyFormat.Distance(speed:magnitude())
+			local spd,unit = MyFormat.Speed(speed:magnitude())
 			position = point_on_circle_radius(center, reticule_text_radius, -2.9)
-			show_text_fancy(position, { spd, unit .. "/s" }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+			show_text_fancy(position, { spd, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 
 			local distance = player:DistanceTo(frame)
 			local dist,unit = MyFormat.Distance(distance)
@@ -1971,13 +2002,13 @@ local function show_hud()
 			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, pionillium.medium, anchor.right, anchor.top)
 
 			-- ******************** Frame markers ********************
-			show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true, nil, 12, "Prograde direction relative to frame")
-			show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators, nil, 12, "Retrograde direction relative to frame")
+			show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true, nil, 12) -- , "Prograde direction relative to frame"
+			show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators, nil, 12) -- , "Retrograde direction relative to frame"
 			show_marker("normal", symbol.normal, colors.orbital_marker, false, nil, 8)
 			show_marker("anti_normal", symbol.anti_normal, colors.orbital_marker, false, nil, 8)
 			show_marker("radial_out", symbol.radial_out, colors.orbital_marker, false, nil, 8)
 			show_marker("radial_in", symbol.radial_in, colors.orbital_marker, false, nil, 8)
-			show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true, nil, 12, "Direction away from frame")
+			show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true, nil, 12) -- , "Direction away from frame"
 			local pos,dir = markerPos("frame", reticule_radius + 5)
 			if pos then
 				 local size = 6
@@ -2077,7 +2108,7 @@ local function show_pause_screen()
 			pigui.PushStyleColor("WindowBg", colors.paused_background)
 			pigui.Begin("Pause", {"NoTitleBar","NoMove","NoResize","NoSavedSettings"})
 			local center = Vector(pigui.screen_width / 2, pigui.screen_height / 4)
-			show_text(center, "Paused", colors.paused_text, pionillium.large, anchor.center, anchor.center)
+			show_text(center, lc.PAUSED, colors.paused_text, pionillium.large, anchor.center, anchor.center)
 			pigui.End()
 			pigui.PopStyleColor(1)
 	 end

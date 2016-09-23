@@ -581,7 +581,7 @@
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing in %countdown{f.0} seconds"
+      "message" : "Hyperspacing in {seconds} seconds"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
@@ -1755,6 +1755,18 @@
 		  "description" : "Abbreviation for million meters / thousand kilometers",
 			"message" : "Mm" 
 	 },
+   "UNIT_METERS_PER_SECOND" : {
+		  "description" : "Abbreviation for meters per second, m/s",
+			"message" : "m/s" 
+	 },
+   "UNIT_KILOMETERS_PER_SECOND" : {
+		  "description" : "Abbreviation for kilometers per second, km/s",
+			"message" : "km/s" 
+	 },
+   "UNIT_MILLION_METERS_PER_SECOND" : {
+		  "description" : "Abbreviation for million meters / thousand kilometers per second, Mm/s",
+			"message" : "Mm/s" 
+	 },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
       "message" : "d"
@@ -1778,6 +1790,10 @@
    "UNIT_GRAVITY" : {
       "description" : "Gravity unit: one earth gravity",
       "message" : "g"
+   },
+   "UNIT_DEGREES" : {
+      "description" : "The symbol for degrees.",
+      "message" : "°"
    },
   "UNKNOWN" : {
       "description" : "",
