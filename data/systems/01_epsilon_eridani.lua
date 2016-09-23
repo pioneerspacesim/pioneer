@@ -56,7 +56,7 @@ local atlantica = CustomSystemBody:new('Atlantica', 'PLANET_TERRESTRIAL')
 
 
 local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
-	:seed(79853798543)
+	:seed(2147483643)
 	:radius(f(4,3))
 	:mass(f(5,4))
 	:temp(287)
@@ -75,16 +75,16 @@ local newhope = CustomSystemBody:new('New Hope', 'PLANET_TERRESTRIAL')
 	local newhope_starports = {
 	CustomSystemBody:new('Itzalean', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(0.0))
-		:longitude(math.deg2rad(35.864)),
+		:longitude(math.deg2rad(45.864)),
 	CustomSystemBody:new('New Hope', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(-43.427))
-		:longitude(math.deg2rad(175.864)),
+		:longitude(math.deg2rad(155.864)),
 	CustomSystemBody:new("Gandhi's Revenge", 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(19))
 		:longitude(math.deg2rad(99)),
 	CustomSystemBody:new('Epsilon Cove', 'STARPORT_SURFACE')
 		:latitude(math.deg2rad(51))
-		:longitude(0),
+		:longitude(math.deg2rad(10)),
 	CustomSystemBody:new('Eridani Commercial Center', 'STARPORT_ORBITAL')
 		:semi_major_axis(f(9068,100000000))
 		:rotation_period(f(11,24)),
