@@ -49,10 +49,12 @@ public:
 		if(m_filename.empty()) {
 			return CreateTexture(r);
 		}
+		SDL_LockMutex(m_textureLock);
 		Texture *t = r->GetCachedTexture(type, m_filename);
-		if (t) return t;
+		if (t) { SDL_UnlockMutex(m_textureLock); return t; }
 		t = CreateTexture(r);
 		r->AddCachedTexture(type, m_filename, t);
+		SDL_UnlockMutex(m_textureLock);
 		return t;
 	}
 
@@ -88,6 +90,8 @@ private:
 
 	void LoadSurface();
 	void LoadDDS();
+	
+	static SDL_mutex *m_textureLock;
 };
 
 }

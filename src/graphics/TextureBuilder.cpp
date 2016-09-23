@@ -12,6 +12,9 @@
 
 namespace Graphics {
 
+//static 
+SDL_mutex *TextureBuilder::m_textureLock = SDL_CreateMutex();
+
 TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, bool anisoFiltering) :
     m_surface(surface), m_sampleMode(sampleMode), m_generateMipmaps(generateMipmaps), m_potExtend(potExtend), m_forceRGBA(forceRGBA), m_compressTextures(compressTextures), m_anisotropicFiltering(anisoFiltering), m_textureType(TEXTURE_2D), m_prepared(false)
 {
