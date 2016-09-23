@@ -737,6 +737,18 @@ static int l_pigui_add_rect(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_add_image(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImTextureID id = (ImTextureID)luaL_checkinteger(l, 1);
+	ImVec2 a = luaL_checkImVec2(l, 2);
+	ImVec2 b = luaL_checkImVec2(l, 3);
+	ImVec2 uv0 = luaL_checkImVec2(l, 4);
+	ImVec2 uv1 = luaL_checkImVec2(l, 5);
+	ImColor col = luaL_checkImColor(l, 6);
+	draw_list->AddImage(id, a, b, uv0, uv1, col);
+	return 0;
+}
+
 static int l_pigui_add_rect_filled(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImVec2 a = luaL_checkImVec2(l, 1);
@@ -962,12 +974,51 @@ static int l_attr_screen_height(lua_State *l) {
 	return 1;
 }
 
+static int l_attr_icons_id(lua_State *l) {
+	lua_pushinteger(l, (long int)Pi::pigui->icons);
+	return 1;
+}
+
+static int l_pigui_push_id(lua_State *l) {
+	std::string id = luaL_checkstring(l, 1);
+	ImGui::PushID(id.c_str());
+	return 0;
+}
+
+static int l_pigui_pop_id(lua_State *l) {
+	ImGui::PopID();
+	return 0;
+}
+
 static int l_pigui_get_window_pos(lua_State *l) {
 	ImVec2 pos = ImGui::GetWindowPos();
 	LuaTable v(l);
 	v.Set("x", pos.x);
 	v.Set("y", pos.y);
 	v.Set("z", 0);
+	return 1;
+}
+
+static int l_pigui_image(lua_State *l) {
+	int id = luaL_checkinteger(l, 1);
+	ImVec2 size = luaL_checkImVec2(l, 2);
+	ImVec2 uv0 = luaL_checkImVec2(l, 3);
+	ImVec2 uv1 = luaL_checkImVec2(l, 4);
+	ImColor tint_col = luaL_checkImColor(l, 5);
+	ImGui::Image((ImTextureID)id, size, uv0, uv1, tint_col); //,  border_col
+	return 0;
+}
+
+static int l_pigui_image_button(lua_State *l) {
+	int id = luaL_checkinteger(l, 1);
+	ImVec2 size = luaL_checkImVec2(l, 2);
+	ImVec2 uv0 = luaL_checkImVec2(l, 3);
+	ImVec2 uv1 = luaL_checkImVec2(l, 4);
+	int frame_padding = luaL_checkinteger(l, 5);
+	ImColor bg_col = luaL_checkImColor(l, 6);
+	ImColor tint_col = luaL_checkImColor(l, 7);
+	bool res = ImGui::ImageButton((ImTextureID)id, size, uv0, uv1, frame_padding, bg_col, tint_col);
+	lua_pushboolean(l, res);
 	return 1;
 }
 
@@ -1106,6 +1157,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "AddQuad",                l_pigui_add_quad },
 		{ "AddRect",                l_pigui_add_rect },
 		{ "AddRectFilled",          l_pigui_add_rect_filled },
+		{ "AddImage",               l_pigui_add_image },
 		{ "SetNextWindowPos",       l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize",      l_pigui_set_next_window_size },
 		{ "SetNextWindowFocus",     l_pigui_set_next_window_focus },
@@ -1145,10 +1197,14 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "BeginPopup",             l_pigui_begin_popup },
 		{ "EndPopup",               l_pigui_end_popup },
 		{ "OpenPopup",              l_pigui_open_popup },
+		{ "PushID",                 l_pigui_push_id },
+		{ "PopID",                  l_pigui_pop_id },
 		{ "IsMouseReleased",        l_pigui_is_mouse_released },
 		{ "IsMouseClicked",         l_pigui_is_mouse_clicked },
 		{ "IsMouseHoveringRect",    l_pigui_is_mouse_hovering_rect },
 		{ "IsMouseHoveringAnyWindow",    l_pigui_is_mouse_hovering_any_window },
+		{ "Image",                  l_pigui_image },
+		{ "ImageButton",            l_pigui_image_button },
 		{ "RadialMenu",             l_pigui_radial_menu },
 		{ "CircularSlider",         l_pigui_circular_slider },
 		{ "GetMouseClickedPos",     l_pigui_get_mouse_clicked_pos },
@@ -1166,6 +1222,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "screen_height", l_attr_screen_height },
 		{ "key_ctrl",      l_attr_key_ctrl },
 		{ "keys",          l_attr_keys },
+		{ "icons_id",      l_attr_icons_id },
 		{ 0, 0 }
 	};
 

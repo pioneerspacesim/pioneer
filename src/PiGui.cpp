@@ -1,6 +1,14 @@
 #include "PiGui.h"
 #include "imgui/imgui_internal.h"
 
+#include <stdio.h>
+#include <string.h>
+#include <float.h>
+#define NANOSVG_IMPLEMENTATION
+#include "nanosvg.h"
+#define NANOSVGRAST_IMPLEMENTATION
+#include "nanosvgrast.h"
+
 ImFont *PiGui::pionillium12 = nullptr;
 ImFont *PiGui::pionillium15 = nullptr;
 ImFont *PiGui::pionillium18 = nullptr;
@@ -9,6 +17,8 @@ ImFont *PiGui::pionillium36 = nullptr;
 ImFont *PiGui::pionicons12 = nullptr;
 //ImFont *PiGui::pionicons18 = nullptr;
 ImFont *PiGui::pionicons30 = nullptr;
+
+ImTextureID PiGui::icons;
 
 static int to_keycode(int key) {
 	if(key & SDLK_SCANCODE_MASK) {
@@ -37,6 +47,49 @@ static std::vector<std::pair<std::string,int>> keycodes
 			{"f12", to_keycode(SDLK_F12)}
 };
 
+static void InitIcons(PiGui *pigui) {
+	NSVGimage *image = NULL;
+  NSVGrasterizer *rast = NULL;
+  unsigned char* img = NULL;
+  int w, h;
+  int size = 32;
+  int W = 16*size;
+  int H = 16*size;
+  img = (unsigned char*)malloc(W*H*4);
+	memset(img, 0, W * H * 4);
+	std::string filename = FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "icons"), "icons.svg");
+  printf("parsing %s\n", filename.c_str());
+  image = nsvgParseFromFile(filename.c_str(), "px", 96.0f);
+  if (image == NULL) {
+    printf("Could not open SVG image.\n");
+    goto error;
+  }
+  w = (int)image->width;
+  h = (int)image->height;
+
+  rast = nsvgCreateRasterizer();
+  if (rast == NULL) {
+    printf("Could not init rasterizer.\n");
+    goto error;
+  }
+
+  if (img == NULL) {
+    printf("Could not alloc image buffer.\n");
+    goto error;
+  }
+  {
+    float scale = double(W)/w;
+    float tx = 0;
+    float ty = 0;
+    nsvgRasterize(rast, image, tx, ty, scale, img, W, H, W*4);
+
+  }
+ error:
+  nsvgDeleteRasterizer(rast);
+  nsvgDelete(image);
+	pigui->icons = pigui->makeTexture(img, W, H);
+}
+
 void PiGui::Init(SDL_Window *window) {
 	m_handlers.Unref();
 
@@ -50,7 +103,7 @@ void PiGui::Init(SDL_Window *window) {
 	for(auto p : keycodes) {
 		keys.Set(p.first, p.second);
 	}
-
+	InitIcons(this);
 	ImGui_ImplSdlGL3_Init(window);
 	ImGuiIO &io = ImGui::GetIO();
 	static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };

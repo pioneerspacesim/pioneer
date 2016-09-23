@@ -17,7 +17,9 @@ public:
 	static ImFont *pionicons12;
 	//	static ImFont *pionicons18;
 	static ImFont *pionicons30;
-	
+
+	static ImTextureID icons;
+
 	PiGui() {
 	}
 	// PiGui(const PiGui &other) {
@@ -41,10 +43,27 @@ public:
 	static void Render() {
 		ImGui::Render();
 	}
+
 	static bool ProcessEvent(SDL_Event *event) {
 		return ImGui_ImplSdlGL3_ProcessEvent(event);
 	}
 
+	static void *makeTexture(unsigned char *pixels, int width, int height)
+	{
+			GLint last_texture;
+			GLuint result;
+			glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
+			glGenTextures(1, &result);
+			glBindTexture(GL_TEXTURE_2D, result);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			//				glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+			glBindTexture(GL_TEXTURE_2D, last_texture);
+			Output("texture id: %i\n", result);
+			return reinterpret_cast<void*>(result);
+	}
+	
 	static bool WantCaptureMouse() {
 		return ImGui::GetIO().WantCaptureMouse;
 	}
