@@ -26,7 +26,7 @@ private:
 	void *m_archive;
 
 	struct FileStat {
-		FileStat(Uint32 _index, Uint64 _size, FileInfo _info) : index(_index), size(_size), info(_info) {}
+		FileStat(Uint32 _index, Uint64 _size, const FileInfo &_info) : index(_index), size(_size), info(_info) {}
 		const Uint32 index;
 		const Uint64 size;
 		const FileInfo info;

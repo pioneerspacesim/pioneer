@@ -11,7 +11,7 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Missile::Missile(ShipType::Id shipId, Body *owner, int power): Ship(shipId)
+Missile::Missile(const ShipType::Id &shipId, Body *owner, int power): Ship(shipId)
 {
 	if (power < 0) {
 		m_power = 0;

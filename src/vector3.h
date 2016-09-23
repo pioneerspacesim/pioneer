@@ -129,9 +129,9 @@ public:
 		*this = t;
 	}
 
-	void xy(const vector2<T> v2) { x = v2.x; y = v2.y; }
-	void xz(const vector2<T> v2) { x = v2.x; z = v2.y; }
-	void yz(const vector2<T> v2) { y = v2.x; z = v2.y; }
+	void xy(const vector2<T> &v2) { x = v2.x; y = v2.y; }
+	void xz(const vector2<T> &v2) { x = v2.x; z = v2.y; }
+	void yz(const vector2<T> &v2) { y = v2.x; z = v2.y; }
 
 	vector2<T> xy() { return vector2<T>(x,y); }
 	vector2<T> xz() { return vector2<T>(x,z); }

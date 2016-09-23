@@ -33,7 +33,7 @@ CityOnPlanet::citybuildinglist_t CityOnPlanet::s_buildingList = {
 
 CityOnPlanet::cityflavourdef_t CityOnPlanet::cityflavour[CITYFLAVOURS];
 
-void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4)
+void CityOnPlanet::PutCityBit(Random &rand, const matrix4x4d &rot, const vector3d &p1, const vector3d &p2, const vector3d &p3, const vector3d &p4)
 {
 	double rad = (p1-p2).Length()*0.5;
 	Uint32 instIndex(0);

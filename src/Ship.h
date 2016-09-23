@@ -52,7 +52,7 @@ class Ship: public DynamicBody {
 	friend class PlayerShipController;
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
-	Ship(ShipType::Id shipId);
+	Ship(const ShipType::Id &shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 
