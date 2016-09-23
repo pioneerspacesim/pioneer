@@ -84,6 +84,13 @@ local icons = {
 	 low_orbit = "1",
 	 medium_orbit = "2",
 	 high_orbit = "3",
+	 mode_world = "7",
+	 mode_sector = "&",
+	 mode_status = "9",
+	 mode_comms = "0",
+	 mode_system = "*",
+	 mode_system_info = "(",
+	 mode_galaxy = ")",
 }
 
 local colors = {
@@ -124,6 +131,8 @@ local colors = {
 	 paused_text = Color(200, 150, 50, 150),
 	 white = Color(255, 255, 255 ),
 	 black = Color(0, 0, 0 ),
+	 mode_button = Color(49, 102, 144),
+	 mode_button_selected = Color(97, 102, 144),
 }
 
 local pionicons = {
@@ -1846,6 +1855,59 @@ local function show_hyperspace_analyzer()
 	 end
 
 end
+local function ColoredSelectedButton(text, is_selected, color, selected_color, tooltip)
+	 if is_selected then
+			pigui.PushStyleColor("Button", selected_color)
+			pigui.PushStyleColor("ButtonHovered", selected_color:tint(0.3))
+	 else
+			pigui.PushStyleColor("Button", color)
+			pigui.PushStyleColor("ButtonHovered", color:tint(0.3))
+	 end
+	 local res = pigui.Button(text)
+	 pigui.PopStyleColor(2)
+	 if pigui.IsItemHovered() then
+			pigui.SetTooltip(tooltip)
+	 end
+	 return res
+end
+
+local function show_modes()
+	 local mode = Game.GetView()
+	 pigui.Begin("Modes", {"NoTitleBar", "NoResize"})
+   pigui.SetNextWindowSize(Vector(0.0, 0.0), "Always")
+	 pigui.PushFont("pionicons", 30)
+	 if ColoredSelectedButton(icons.mode_world, mode == "world", colors.mode_button, colors.mode_button_selected, "World View") then
+			Game.SetView("world")
+	 end
+	 pigui.SameLine()
+	 if ColoredSelectedButton(icons.mode_sector, mode == "sector", colors.mode_button, colors.mode_button_selected, "Map View") then
+			Game.SetView("sector")
+	 end
+	 pigui.SameLine()
+	 if ColoredSelectedButton(icons.mode_system, mode == "system", colors.mode_button, colors.mode_button_selected, "System View") then
+			Game.SetView("system")
+	 end
+	 pigui.SameLine()
+	 if ColoredSelectedButton(icons.mode_system_info, mode == "system_info", colors.mode_button, colors.mode_button_selected, "System Info View") then
+			Game.SetView("system_info")
+	 end
+	 pigui.SameLine()
+	 if ColoredSelectedButton(icons.mode_galaxy, mode == "galaxy", colors.mode_button, colors.mode_button_selected, "Galaxy View") then
+			Game.SetView("galaxy")
+	 end
+	 pigui.SameLine()
+	 if ColoredSelectedButton(icons.mode_status, mode == "info", colors.mode_button, colors.mode_button_selected, "Ship Status View") then
+			Game.SetView("info")
+	 end
+	 if player:IsDocked() then
+			pigui.SameLine()
+			if ColoredSelectedButton(icons.mode_comms, mode == "space_station", colors.mode_button, colors.mode_button_selected, "Comms View") then
+				 Game.SetView("space_station")
+			end
+	 end
+	 pigui.PopFont()
+	 pigui.End()
+end
 
 local function show_hud()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
@@ -2163,12 +2225,34 @@ local function show_time_accel_buttons()
 	 pigui.PopStyleColor(1)
 end
 
+pigui.handlers.system_info = function(delta)
+	 show_modes()
+end
+
+pigui.handlers.system = function(delta)
+	 show_modes()
+end
+
+pigui.handlers.galaxy = function(delta)
+	 show_modes()
+end
+
+pigui.handlers.space_station = function(delta)
+	 show_modes()
+end
+
+pigui.handlers.info = function(delta)
+	 show_modes()
+end
+
 pigui.handlers.world = function(delta)
 	 if Game.InHyperspace() then
 			show_hyperspace()
 	 else
 			show_hud()
 	 end
+
+	 show_modes()
 end
 
 local sector_search_string = ""
@@ -2186,6 +2270,8 @@ pigui.handlers.sector = function(delta)
 			pigui.Text(sector_search_result)
 	 end
 	 pigui.End()
+
+	 show_modes()
 end
 
 pigui.handlers.HUD = function(delta)
