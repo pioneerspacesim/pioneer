@@ -13,6 +13,7 @@ September 2016
      * Add annotations to ShipDef (#3812)
      * Additional mesh optimisation (#3813)
      * Unused files from JobSwarm experiments 4 years ago! (#3816)
+     * Belt and braces approach to sanity checking for patterns (#3817)
 
 August 2016
    * New Features
