@@ -4,6 +4,7 @@ September 2016
 
    * Fixes
      * Model pattern range and status checking (#3814)
+     * New seed and new locations of star ports for New Hope in Epsilon Eridani (#3818)
 
    * Internal Changes
      * Update GasGiant config, detail and initialisation timing (#3792)
