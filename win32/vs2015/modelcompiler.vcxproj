@@ -27,6 +27,7 @@
     <ClCompile Include="..\..\src\FileSystem.cpp" />
     <ClCompile Include="..\..\src\GameConfig.cpp" />
     <ClCompile Include="..\..\src\IniConfig.cpp" />
+    <ClCompile Include="..\..\src\JobQueue.cpp" />
     <ClCompile Include="..\..\src\Lang.cpp" />
     <ClCompile Include="..\..\src\modelcompiler.cpp" />
     <ClCompile Include="..\..\src\ModManager.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\GameConfig.h" />
     <ClInclude Include="..\..\src\IniConfig.h" />
+    <ClInclude Include="..\..\src\JobQueue.h" />
     <ClInclude Include="..\..\src\Lang.h" />
     <ClInclude Include="..\..\src\LangStrings.inc.h" />
     <ClInclude Include="..\..\src\libs.h" />
