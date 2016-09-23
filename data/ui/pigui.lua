@@ -32,7 +32,13 @@ local Event = import("Event")
 local ShipDef = import("ShipDef")
 local Vector = import("Vector")
 local Color = import("Color")
+local Lang = import("Lang")
+
+local lui = Lang.GetResource("ui-core");
+local lc = Lang.GetResource("core");
+
 local utils = import("utils")
+
 
 local player
 local system
@@ -120,15 +126,15 @@ local MyFormat = {
 	 Distance = function(distance)
 			local d = math.abs(distance)
 			if d < 1000 then
-				 return math.floor(distance), "m"
+				 return math.floor(distance), lc.UNIT_METERS
 			end
 			if d < 1000*1000 then
-				 return string.format("%0.1f", distance / 1000), "km"
+				 return string.format("%0.1f", distance / 1000), lc.UNIT_KILOMETERS
 			end
 			if d < 1000*1000*1000 then
-				 return string.format("%0.1f", distance / 1000 / 1000), "Mm"
+				 return string.format("%0.1f", distance / 1000 / 1000), lc.UNIT_MILLION_METERS
 			end
-			return string.format("%0.1f", distance / 1.4960e11), "AU"
+			return string.format("%0.1f", distance / 1.4960e11), lc.UNIT_AU
 	 end
 }
 
@@ -413,103 +419,103 @@ local function markerPos(name, distance)
 	 end
 end
 
-function show_missions()
-	 local windowbg = colors.windowbg
-	 local SpaceStation = import("SpaceStation")
-	 local Game = import('Game')
-	 local Space = import('Space')
-	 local Format = import('Format')
-	 local station = player:GetDockedWith()
-	 if not station then
-			return
-	 end
-	 pigui.PushStyleColor("WindowBg", windowbg)
-	 pigui.SetNextWindowSize(Vector(pigui.screen_width / 2, pigui.screen_height / 1.5), "FirstUseEver")
-	 pigui.Begin("Missions", {})
-	 pigui.Columns(2, "missionscolumns", true)
-	 pigui.BeginChild("foo");
-	 --	 pigui.BeginGroup()
-	 for k,v in pairs(station.adverts[station]) do
-			pigui.BeginGroup()
-			pigui.Text(v.description)
-			pigui.Text(v.payout and Format.Money(v.payout) or "-")
-			pigui.SameLine()
-			if v.system
-			then
-				 if v.system.index == Game.system.index
-						and v.system.sector.x == Game.system.sector.x
-						and v.system.sector.y == Game.system.sector.y
-						and v.system.sector.z == Game.system.sector.z
-				 then
-						pigui.Text(Format.Distance(Space.GetBody(v.body.index):DistanceTo(player)))
-				 else
-						pigui.Text(v.system:DistanceTo(Game.system) .. "ly")
-				 end
-			else
-				 pigui.Text("-")
-			end
-			pigui.SameLine()
-			pigui.Text(v.deadline and Format.Duration(v.deadline - Game.time) or "-")
-			--			pigui.Separator()
-			pigui.EndGroup()
-			if pigui.IsItemClicked(0) then
-				 mission_selected = v
-			end
-			pigui.Dummy(Vector(0,20))
-	 end
-	 --	 pigui.EndGroup()
-	 pigui.EndChild()
-	 pigui.NextColumn()
-	 if mission_selected then
-			pigui.BeginChild("bar")
-			pigui.Columns(2, "desccolumns", false)
-			local m = mission_selected
-			pigui.PushFont("pionillium", 18)
-			pigui.Text(m.description)
-			pigui.PopFont()
-			pigui.Spacing()
-			if m.details then
-				 pigui.TextWrapped(m.details)
-			end
-			pigui.Spacing()
-			local distance
-			if m.system then
-				 if m.system.index == Game.system.index
-						and m.system.sector.x == Game.system.sector.x
-						and m.system.sector.y == Game.system.sector.y
-						and m.system.sector.z == Game.system.sector.z
-				 then
-						distance = Format.Distance(Space.GetBody(m.body.index):DistanceTo(player))
-				 else
-						distance = math.floor(m.system:DistanceTo(Game.system) * 10) / 10 .. "ly"
-				 end
-			end
+-- function show_missions()
+-- 	 local windowbg = colors.windowbg
+-- 	 local SpaceStation = import("SpaceStation")
+-- 	 local Game = import('Game')
+-- 	 local Space = import('Space')
+-- 	 local Format = import('Format')
+-- 	 local station = player:GetDockedWith()
+-- 	 if not station then
+-- 			return
+-- 	 end
+-- 	 pigui.PushStyleColor("WindowBg", windowbg)
+-- 	 pigui.SetNextWindowSize(Vector(pigui.screen_width / 2, pigui.screen_height / 1.5), "FirstUseEver")
+-- 	 pigui.Begin("Missions", {})
+-- 	 pigui.Columns(2, "missionscolumns", true)
+-- 	 pigui.BeginChild("foo");
+-- 	 --	 pigui.BeginGroup()
+-- 	 for k,v in pairs(station.adverts[station]) do
+-- 			pigui.BeginGroup()
+-- 			pigui.Text(v.description)
+-- 			pigui.Text(v.payout and Format.Money(v.payout) or "-")
+-- 			pigui.SameLine()
+-- 			if v.system
+-- 			then
+-- 				 if v.system.index == Game.system.index
+-- 						and v.system.sector.x == Game.system.sector.x
+-- 						and v.system.sector.y == Game.system.sector.y
+-- 						and v.system.sector.z == Game.system.sector.z
+-- 				 then
+-- 						pigui.Text(Format.Distance(Space.GetBody(v.body.index):DistanceTo(player)))
+-- 				 else
+-- 						pigui.Text(v.system:DistanceTo(Game.system) .. "ly")
+-- 				 end
+-- 			else
+-- 				 pigui.Text("-")
+-- 			end
+-- 			pigui.SameLine()
+-- 			pigui.Text(v.deadline and Format.Duration(v.deadline - Game.time) or "-")
+-- 			--			pigui.Separator()
+-- 			pigui.EndGroup()
+-- 			if pigui.IsItemClicked(0) then
+-- 				 mission_selected = v
+-- 			end
+-- 			pigui.Dummy(Vector(0,20))
+-- 	 end
+-- 	 --	 pigui.EndGroup()
+-- 	 pigui.EndChild()
+-- 	 pigui.NextColumn()
+-- 	 if mission_selected then
+-- 			pigui.BeginChild("bar")
+-- 			pigui.Columns(2, "desccolumns", false)
+-- 			local m = mission_selected
+-- 			pigui.PushFont("pionillium", 18)
+-- 			pigui.Text(m.description)
+-- 			pigui.PopFont()
+-- 			pigui.Spacing()
+-- 			if m.details then
+-- 				 pigui.TextWrapped(m.details)
+-- 			end
+-- 			pigui.Spacing()
+-- 			local distance
+-- 			if m.system then
+-- 				 if m.system.index == Game.system.index
+-- 						and m.system.sector.x == Game.system.sector.x
+-- 						and m.system.sector.y == Game.system.sector.y
+-- 						and m.system.sector.z == Game.system.sector.z
+-- 				 then
+-- 						distance = Format.Distance(Space.GetBody(m.body.index):DistanceTo(player))
+-- 				 else
+-- 						distance = math.floor(m.system:DistanceTo(Game.system) * 10) / 10 .. "ly"
+-- 				 end
+-- 			end
 
-			pigui.Text("Destination: " .. (m.system and m.system.name or "-") .. ", " .. (m.body and m.body.name or "-") .. " (" .. distance .. ")")
-			pigui.Text("Deadline: " .. Format.Date(m.deadline) .. " (" .. (m.deadline and Format.Duration(m.deadline - Game.time) or "-") .. ")")
-			pigui.Text("Wage: " .. (m.payout and Format.Money(m.payout) or "-"))
-			pigui.Spacing()
+-- 			pigui.Text("Destination: " .. (m.system and m.system.name or "-") .. ", " .. (m.body and m.body.name or "-") .. " (" .. distance .. ")")
+-- 			pigui.Text("Deadline: " .. Format.Date(m.deadline) .. " (" .. (m.deadline and Format.Duration(m.deadline - Game.time) or "-") .. ")")
+-- 			pigui.Text("Wage: " .. (m.payout and Format.Money(m.payout) or "-"))
+-- 			pigui.Spacing()
 
-			pigui.NextColumn()
-			pigui.Dummy(Vector(100,100))
-			pigui.Text("Image")
-			pigui.PushFont("pionillium", 18)
-			pigui.Text(m.client or "Anonymous")
-			pigui.PopFont()
-			pigui.PushItemWidth(-1)
-			if pigui.Button("OK, I'll do it.") then
-				 print("cool")
-			end
-			if pigui.Button("Hang up") then
-				 mission_selected = nil
-				 print("then not")
-			end
-		  pigui.PopItemWidth()
-			pigui.EndChild()
-	 end
-	 pigui.End()
-	 pigui.PopStyleColor(1)
-end
+-- 			pigui.NextColumn()
+-- 			pigui.Dummy(Vector(100,100))
+-- 			pigui.Text("Image")
+-- 			pigui.PushFont("pionillium", 18)
+-- 			pigui.Text(m.client or "Anonymous")
+-- 			pigui.PopFont()
+-- 			pigui.PushItemWidth(-1)
+-- 			if pigui.Button("OK, I'll do it.") then
+-- 				 print("cool")
+-- 			end
+-- 			if pigui.Button("Hang up") then
+-- 				 mission_selected = nil
+-- 				 print("then not")
+-- 			end
+-- 		  pigui.PopItemWidth()
+-- 			pigui.EndChild()
+-- 	 end
+-- 	 pigui.End()
+-- 	 pigui.PopStyleColor(1)
+-- end
 
 local function show_settings()
 	 pigui.Begin("Settings", {})
@@ -618,13 +624,13 @@ local function show_navball()
 	 -- delta-v remaining
 	 local spd,unit = MyFormat.Distance(deltav_remaining)
 	 local position = point_on_circle_radius(navball_center, navball_text_radius, -3)
-	 show_text_fancy(position, { "Δv", spd, unit .. "/s" }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+	 show_text_fancy(position, { "Δv", spd, unit .. "/" .. lc.UNIT_SECONDS }, { colors.darkgrey, colors.lightgrey, colors.darkgrey }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 	 local time_until_empty = deltav_remaining / player:GetAccel("forward")
 	 show_text_fancy(position, { math.floor(dvr*100) .. "%     " .. Format.Duration(time_until_empty) }, { colors.lightgrey }, { pionillium.small }, anchor.right, anchor.top)
 	 if deltav_maneuver > 0 then
 	 		local spd,unit = MyFormat.Distance(deltav_maneuver)
 			position = point_on_circle_radius(navball_center, navball_text_radius, -4)
-			show_text_fancy(position, { "mΔv", spd, unit .. "/s" }, { colors.maneuver, colors.maneuver, colors.maneuver }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+			show_text_fancy(position, { "mΔv", spd, unit .. "/" .. lc.UNIT_SECONDS }, { colors.maneuver, colors.maneuver, colors.maneuver }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 			local maneuver_time = deltav_maneuver / player:GetAccel("forward")
 			show_text_fancy(position, { math.floor(dvm/dvr*100) .. "%     " .. Format.Duration(maneuver_time) }, { colors.maneuver }, { pionillium.small }, anchor.right, anchor.top)
 	 end
@@ -642,8 +648,8 @@ local function show_navball()
 			local aa_d = aa - frame_radius
 			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
 			if aa_d > 0 then
-				 local textsize = show_text_fancy(position, { "A", dist_apo, unit_apo }, { colors.lightgrey, colors.lightgrey, colors.darkgrey }, {pionicons.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { "Apoapsis distance", "Apoapsis distance", "Apoapsis distance" })
-				 show_text(position + Vector(textsize.x * 1.2), "t-" .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, "Time until apoapsis")
+				 local textsize = show_text_fancy(position, { "A", dist_apo, unit_apo }, { colors.lightgrey, colors.lightgrey, colors.darkgrey }, {pionicons.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
+				 show_text(position + Vector(textsize.x * 1.2), lui.HUD_T_MINUS .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, lui.HUD_TOOLTIP_APOAPSIS_TIME)
 			end
 	 end
 	 -- altitude
@@ -651,9 +657,9 @@ local function show_navball()
 	 if alt then
 			local altitude,unit = MyFormat.Distance(alt)
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 2.6)
-			local textsize = show_text_fancy(position, { "a", altitude, unit }, {colors.lightgrey, colors.lightgrey, colors.darkgrey }, { pionicons.large, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline, { "Altitude", "Altitude", "Altitude" } )
+			local textsize = show_text_fancy(position, { "a", altitude, unit }, {colors.lightgrey, colors.lightgrey, colors.darkgrey }, { pionicons.large, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE } )
 			local vspeed, unit = MyFormat.Distance(vspd)
-			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit .. "/s" }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { "Change in altitude", "Change in altitude" })
+			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit .. "/" .. lc.UNIT_SECONDS }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE, lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE })
 	 end
 	 -- periapsis
 	 if not player:IsDocked() then
@@ -662,12 +668,12 @@ local function show_navball()
 			local dist_per, unit_per = MyFormat.Distance(pa_d)
 			if pa and pa_d ~= 0 then
 				 local textsize = show_text_fancy(position,
-																					{ "E", dist_per, unit_per, "     t-" .. Format.Duration(o_time_at_periapsis) },
+																					{ "E", dist_per, unit_per, "     " .. lui.HUD_T_MINUS .. Format.Duration(o_time_at_periapsis) },
 																					{ colors.lightgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
 																					{ pionicons.small, pionillium.medium, pionillium.small, pionillium.small },
 																					anchor.left,
 																					anchor.baseline,
-																					{ "Periapsis distance", "Periapsis distance", "Periapsis distance", "Time until periapsis" })
+																					{ lui.HUD_TOOLTIP_PERIAPSIS_DISTANCE, lui.HUD_TOOLTIP_PERIAPSIS_DISTANCE, lui.HUD_TOOLTIP_PERIAPSIS_DISTANCE, lui.HUD_TOOLTIP_PERIAPSIS_TIME })
 			end
 	 end
 	 -- inclination, eccentricity
@@ -678,7 +684,7 @@ local function show_navball()
 											{ colors.lightgrey, colors.lightgrey, colors.lightgrey, colors.lightgrey },
 											{ pionicons.small, pionillium.medium, pionicons.small, pionillium.medium },
 											anchor.left, anchor.baseline,
-											{"Inclination", "Inclination", "Eccentricity", "Eccentricity"})
+											{lui.HUD_TOOLTIP_INCLINATION, lui.HUD_TOOLTIP_INCLINATION, lui.HUD_TOOLTIP_ECCENTRICITY, lui.HUD_TOOLTIP_ECCENTRICITY})
 	 end
 	 -- pressure, gravity
 	 if frame then
@@ -697,16 +703,16 @@ local function show_navball()
 			if pressure and pressure > 0.001 then
 				 table.insert(txts, "r")
 				 table.insert(txts, string.format("%.02f", pressure))
-				 table.insert(txts, "atm")
+				 table.insert(txts, lc.UNIT_ATM)
 				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.darkgrey)
 				 table.insert(fnts, pionicons.small)
 				 table.insert(fnts, pionillium.medium)
 				 table.insert(fnts, pionillium.small)
-				 table.insert(tooltips, "Pressure")
-				 table.insert(tooltips, "Pressure")
-				 table.insert(tooltips, "Pressure")
+				 table.insert(tooltips, lui.HUD_TOOLTIP_PRESSURE)
+				 table.insert(tooltips, lui.HUD_TOOLTIP_PRESSURE)
+				 table.insert(tooltips, lui.HUD_TOOLTIP_PRESSURE)
 			end
 			if pressure and pressure > 0.001 and gravity then
 				 table.insert(txts, "    ")
@@ -717,23 +723,23 @@ local function show_navball()
 			if gravity then
 				 table.insert(txts, "g")
 				 table.insert(txts, gravity)
-				 table.insert(txts, "g")
+				 table.insert(txts, lc.UNIT_GRAVITY)
 				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.lightgrey)
 				 table.insert(cols, colors.darkgrey)
 				 table.insert(fnts, pionicons.small)
 				 table.insert(fnts, pionillium.medium)
 				 table.insert(fnts, pionillium.small)
-				 table.insert(tooltips, "Gravity")
-				 table.insert(tooltips, "Gravity")
-				 table.insert(tooltips, "Gravity")
+				 table.insert(tooltips, lui.HUD_TOOLTIP_GRAVITY)
+				 table.insert(tooltips, lui.HUD_TOOLTIP_GRAVITY)
+				 table.insert(tooltips, lui.HUD_TOOLTIP_GRAVITY)
 			end
 			show_text_fancy(position, txts, cols, fnts, anchor.left, anchor.baseline, tooltips)
 			-- latitude, longitude
 			position = point_on_circle_radius(navball_center, navball_text_radius, 4.5)
 			if lat and lon then
-				 local textsize = show_text_fancy(position, { "l", lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Latitude", "Latitude" })
-				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "L", lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { "Longitude", "Longitude" })
+				 local textsize = show_text_fancy(position, { "l", lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LATITUDE, lui.HUD_TOOLTIP_LATITUDE })
+				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { "L", lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LONGITUDE, lui.HUD_TOOLTIP_LONGITUDE })
 			end
 	 end
 	 -- ******************** orbit display ********************
@@ -2080,12 +2086,12 @@ end
 local function show_hyperspace()
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 2), "In Hyperspace", colors.red, pionillium.large, anchor.center, anchor.center)
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 2), lc.HYPERSPACE_IN_HYPERSPACE, colors.red, pionillium.large, anchor.center, anchor.center)
 	 local systempath_target = player:GetHyperspaceTarget()
 	 local starsystem = systempath_target:GetStarSystem()
 	 local sector = starsystem.sector
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2), "Going to " .. starsystem.name .. " (" .. sector.x .. "/" .. sector.y .. "/" .. sector.z ..")", colors.green, pionillium.large, anchor.center, anchor.center)
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2.3), "Complete " .. math.ceil(100 * Game.GetHyperspaceTravelledPercentage()) .. " %", colors.green, pionillium.large, anchor.center, anchor.center)
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2), string.interp(lc.IN_TRANSIT_TO_N_X_Y_Z, { system = starsystem.name, x = sector.x, y = sector.y, z = sector.z }), colors.green, pionillium.large, anchor.center, anchor.center)
+	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2.3), string.interp(lc.JUMP_COMPLETE, { percent = math.ceil(100 * Game.GetHyperspaceTravelledPercentage())}), colors.green, pionillium.large, anchor.center, anchor.center)
 	 pigui.End()
 	 pigui.PopStyleColor(1)
 end
@@ -2137,11 +2143,11 @@ end
 local sector_search_string = ""
 local sector_search_result = nil
 pigui.handlers.sector = function(delta)
-	 pigui.Begin("Search", {})
+	 pigui.Begin(lc.SEARCH, {})
 	 local search, return_pressed = pigui.InputText("", sector_search_string, { "EnterReturnsTrue" })
 	 sector_search_string = search
 	 pigui.SameLine()
-	 if pigui.Button("Search") or return_pressed then
+	 if pigui.Button(lc.SEARCH) or return_pressed then
 			sector_search_result = Game.SectorViewSearch(sector_search_string)
 			sector_search_string = ""
 	 end
