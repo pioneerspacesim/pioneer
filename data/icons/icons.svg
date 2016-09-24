@@ -36,9 +36,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994948"
-     inkscape:cx="360.38344"
-     inkscape:cy="2716.0213"
+     inkscape:zoom="0.69999999"
+     inkscape:cx="226.08261"
+     inkscape:cy="3259.5382"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -53,9 +53,10 @@
        type="xygrid"
        id="grid5304"
        units="mm"
-       spacingx="113.38583"
-       spacingy="113.38583"
-       empspacing="2" />
+       spacingx="75.589371"
+       spacingy="75.589369"
+       empspacing="3"
+       dotted="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata4451">
@@ -65,7 +66,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>

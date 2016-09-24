@@ -1589,8 +1589,8 @@ local function show_ships_on_screen()
 			local pos = body:GetProjectedScreenPosition()
 			local size = 8
 			if pos then
-				 local iconsize = show_icon(pos, get_body_icon(body), colors.lightgreen, 32, anchor.center, anchor.center)
-				 pigui.AddText(pos + Vector(iconsize.x/2, -iconsize.y/4), colors.lightgreen, body.label)
+				 local iconsize = show_icon(pos, get_body_icon(body), colors.lightgreen, 48, anchor.center, anchor.center)
+				 show_text(pos + Vector(iconsize.x/2), body.label, colors.lightgreen, pionillium.small, anchor.left, anchor.center)
 				 local mp = pigui.GetMousePos()
 				 if (Vector(mp.x,mp.y) - Vector(pos)):magnitude() < size and pigui.IsMouseReleased(0) then
 						player:SetCombatTarget(body)
