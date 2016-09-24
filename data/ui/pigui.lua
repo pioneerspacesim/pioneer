@@ -75,7 +75,25 @@ local icons = {
 	 moon = 18,
 	 spacestation = 19,
 	 starport = 20,
-	 spaceship = 22,
+	 unknown = 22,
+	 heavy_fighter = 32,
+	 medium_fighter = 33,
+	 light_fighter = 34,
+	 heavy_courier = 35,
+	 medium_courier = 36,
+	 light_courier = 37,
+	 heavy_passenger_shuttle = 38,
+	 medium_passenger_shuttle = 39,
+	 light_passenger_shuttle = 40,
+	 heavy_passenger_transport = 41,
+	 medium_passenger_transport = 42,
+	 light_passenger_transport = 43,
+	 heavy_cargo_shuttle = 44,
+	 medium_cargo_shuttle = 45,
+	 light_cargo_shuttle = 46,
+	 heavy_freighter = 47,
+	 medium_freighter = 48,
+	 light_freighter = 49,
 }
 
 local xicons = {
@@ -962,7 +980,10 @@ local function get_body_icon(body)
 			elseif typ == "STARPORT_SURFACE" then
 				 return icons.starport
 			else -- ship
-				 return icons.spaceship
+				 local shipdef = ShipDef[body.shipId]
+				 local class = shipdef.shipClass
+				 assert(class)
+				 return icons[class]
 			end
 	 end
 end
@@ -1093,6 +1114,13 @@ local function get_hierarchical_bodies(filter)
 	 return suns, count
 end
 
+local function get_icon_tex(icon)
+	 local count = 16.0 -- icons per row/column
+	 local rem = math.floor(icon % count)
+	 local quot = math.floor(icon / count)
+	 return Vector(rem / count, quot/count), Vector((rem+1) / count, (quot+1)/count)
+end
+
 local function spaces(n)
 	 local res = ""
 	 for i=1,n+1 do
@@ -1210,12 +1238,16 @@ local function show_nav_window()
 			lines = lines + 1
 			if not data.hidden then
 				 pigui.BeginGroup()
-				 pigui.PushFont("pionicons", 12)
-				 pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
-				 --			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
-				 --				 player:SetNavTarget(data.body)
-				 --			end
-				 pigui.PopFont()
+				 pigui.Dummy(Vector(indent * 10, 0))
+				 pigui.SameLine()
+				 local uv0, uv1 = get_icon_tex(get_body_icon(data.body))
+				 pigui.Image(pigui.icons_id, Vector(14,14), uv0, uv1, colors.lightgrey)
+				 -- pigui.PushFont("pionicons", 12)
+				 -- pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
+				 -- --			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
+				 -- --				 player:SetNavTarget(data.body)
+				 -- --			end
+				 -- pigui.PopFont()
 				 pigui.SameLine()
 				 if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
 						if data.body:IsShip() then
@@ -1441,14 +1473,14 @@ end
 local cam_types = { "internal", "external", "sidereal" }
 local current_cam_type = 1
 local function handle_global_keys()
-	 if pigui.IsKeyReleased(pigui.keys.f12) then
-			if Game.GetTimeAcceleration() == "paused" then
-				 Game.SetTimeAcceleration("1x", true)
-			else
-				 Game.SetTimeAcceleration("paused", false)
-				 return
-			end
-	 end
+	 -- if pigui.IsKeyReleased(pigui.keys.f12) then
+	 -- 		if Game.GetTimeAcceleration() == "paused" then
+	 -- 			 Game.SetTimeAcceleration("1x", true)
+	 -- 		else
+	 -- 			 Game.SetTimeAcceleration("paused", false)
+	 -- 			 return
+	 -- 		end
+	 -- end
 	 if pigui.IsKeyReleased(pigui.keys.f1) then -- ShipCpanel.cpp:317
 			if Game.GetView() == "world" then
 				 current_cam_type = current_cam_type + 1
@@ -1543,6 +1575,13 @@ local function handle_global_keys()
 	 end
 end
 
+local function show_icon(position, icon, color, size, anchor_horizontal, anchor_vertical)
+	 local pos = calc_alignment(position, Vector(size, size), anchor_horizontal, anchor_vertical)
+	 local uv0, uv1 = get_icon_tex(icon)
+	 pigui.AddImage(pigui.icons_id, pos, pos + Vector(size, size), uv0, uv1, color)
+	 return Vector(size, size)
+end
+
 
 local function show_ships_on_screen()
 	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
@@ -1550,8 +1589,8 @@ local function show_ships_on_screen()
 			local pos = body:GetProjectedScreenPosition()
 			local size = 8
 			if pos then
-				 pigui.AddCircleFilled(pos, size, colors.lightgreen, size)
-				 pigui.AddText(pos + Vector(size*1.5, -size/2), colors.lightgreen, body.label)
+				 local iconsize = show_icon(pos, get_body_icon(body), colors.lightgreen, 32, anchor.center, anchor.center)
+				 pigui.AddText(pos + Vector(iconsize.x/2, -iconsize.y/4), colors.lightgreen, body.label)
 				 local mp = pigui.GetMousePos()
 				 if (Vector(mp.x,mp.y) - Vector(pos)):magnitude() < size and pigui.IsMouseReleased(0) then
 						player:SetCombatTarget(body)
@@ -1588,21 +1627,6 @@ local function get_body_group_max_body(group)
 			i = i + 1
 	 end
 	 return best_body, i
-end
-
-local function get_icon_tex(icon)
-	 local count = 16 -- icons per row/column
-	 local rem = icon % count
-	 local quot = math.floor(icon / count)
-	 return Vector(rem / count, quot/count), Vector((rem+1) / count, (quot+1)/count)
-end
-
-
-local function show_icon(position, icon, color, size, anchor_horizontal, anchor_vertical)
-	 local position = calc_alignment(position, Vector(size, size), anchor_horizontal, anchor_vertical)
-	 local uv0, uv1 = get_icon_tex(icon)
-	 pigui.AddImage(pigui.icons_id, position, position + Vector(size, size), uv0, uv1, color)
-	 return Vector(size, size)
 end
 
 local function show_bodies_on_screen()
@@ -1891,7 +1915,7 @@ local function show_radar_mapper()
 			local position = Vector(pigui.GetWindowPos()) + Vector(50, 150)
 			show_circular_gauge(position + Vector(0, 0), 1 - t:GetHullPercent() / 100, colors.hull_gauge, lui.HUD_DAMAGE, lui.HUD_HULL)
 			if t:GetShieldsPercent() then
-				 show_circular_gauge(position + Vector(100, 0), t:GetShieldsPercent() / 100, colors.shield_gauge, lui.HUD_SHIELD)
+				 show_circular_gauge(position + Vector(100, 0), t:GetShieldsPercent() / 100, colors.shield_gauge, lui.HUD_SHIELDS)
 			end
 			pigui.End()
 	 end
@@ -1984,8 +2008,7 @@ local function show_modes()
 	 pigui.PopFont()
 	 pigui.End()
 end
-
-local function show_hud()
+local function show_hud(delta)
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
 	 local windowbg = colors.noz_darkblue
@@ -1995,7 +2018,7 @@ local function show_hud()
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
 	 
---	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
+	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
 	 -- symbol.disk(Vector(100,100), 2, colors.red, 1.0)
 	 -- show_text_fancy(Vector(100,100), { "bot", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.right, anchor.bottom)
 	 -- show_text_fancy(Vector(100,100), { "top", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.left, anchor.top)
@@ -2183,7 +2206,6 @@ local function show_hud()
 	 -- ******************** Maneuver Node ********************
 	 show_marker("maneuver", symbol.bullseye, colors.maneuver, true)
 
-	 show_ships_on_screen()
 	 show_bodies_on_screen()
 	 -- ******************** directional spaceship markers ********************
 	 do
@@ -2213,6 +2235,7 @@ local function show_hud()
 	 show_navball()
 	 show_thrust()
 	 show_weapons()
+	 show_ships_on_screen()
 
 	 if player:IsHyperspaceActive() then
 			show_hyperspace_countdown()
@@ -2325,7 +2348,7 @@ pigui.handlers.world = function(delta)
 	 if Game.InHyperspace() then
 			show_hyperspace()
 	 else
-			show_hud()
+			show_hud(delta)
 	 end
 
 	 show_modes()

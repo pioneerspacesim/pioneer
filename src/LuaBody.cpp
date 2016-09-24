@@ -406,7 +406,7 @@ static int l_body_get_projected_screen_position(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	WorldView *wv = Pi::game->GetWorldView();
 	vector3d p = wv->GetProjectedScreenPos(b);
-	if(vector3d(0,0,0) == p) {
+	if(vector3d(0,0,0) == p || p.x < 0 || p.y < 0 || p.x > 800 || p.y > 600) {
 		lua_pushnil(l);
 		return 1;
 	}

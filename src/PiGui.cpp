@@ -52,7 +52,7 @@ static void InitIcons(PiGui *pigui) {
   NSVGrasterizer *rast = NULL;
   unsigned char* img = NULL;
   int w, h;
-  int size = 32;
+  int size = 64;
   int W = 16*size;
   int H = 16*size;
   img = (unsigned char*)malloc(W*H*4);
