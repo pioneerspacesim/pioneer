@@ -57,10 +57,8 @@ void AICommand::SaveToJson(Json::Value &jsonObj)
 	jsonObj["common_ai_command"] = commonAiCommandObj; // Add common ai command object to supplied object.
 }
 
-AICommand::AICommand(const Json::Value &jsonObj, CmdName name)
+AICommand::AICommand(const Json::Value &jsonObj, CmdName name) : m_cmdName(name)
 {
-	m_cmdName = name;
-
 	if (!jsonObj.isMember("common_ai_command")) throw SavedGameCorruptException();
 	Json::Value commonAiCommandObj = jsonObj["common_ai_command"];
 
@@ -886,10 +884,9 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 }
 
 
-AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK)
+AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK), 
+	m_target(target), m_state(eDockGetDataStart)
 {
-	m_target = target;
-	m_state = eDockGetDataStart;
 	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
 	if (m_ship->GetAccelUp() < grav) {
 		m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH);

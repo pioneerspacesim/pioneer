@@ -17,7 +17,7 @@ namespace Graphics { class Renderer; }
 class Player: public Ship {
 public:
 	OBJDEF(Player, Ship, PLAYER);
-	Player(ShipType::Id shipId);
+	Player(const ShipType::Id &shipId);
 	Player() {}; //default constructor used before Load
 	virtual void SetDockedWith(SpaceStation *, int port);
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);

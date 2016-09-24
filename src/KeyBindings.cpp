@@ -365,16 +365,18 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	}
 }
 
-AxisBinding::AxisBinding() {
-	this->joystick = JOYSTICK_DISABLED;
-	this->axis = 0;
-	this->direction = POSITIVE;
+AxisBinding::AxisBinding() :
+	joystick(JOYSTICK_DISABLED),
+	axis(0),
+	direction(POSITIVE)
+{
 }
 
-AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) {
-	this->joystick = joystick_;
-	this->axis = axis_;
-	this->direction = direction_;
+AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) :
+	joystick(joystick_),
+	axis(axis_),
+	direction(direction_)
+{
 }
 
 float AxisBinding::GetValue() {

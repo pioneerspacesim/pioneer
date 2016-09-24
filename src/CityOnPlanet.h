@@ -31,7 +31,7 @@ public:
 	static void Uninit();
 	static void SetCityModelPatterns(const SystemPath &path);
 private:
-	void PutCityBit(Random &rand, const matrix4x4d &rot, vector3d p1, vector3d p2, vector3d p3, vector3d p4);
+	void PutCityBit(Random &rand, const matrix4x4d &rot, const vector3d &p1, const vector3d &p2, const vector3d &p3, const vector3d &p4);
 	void AddStaticGeomsToCollisionSpace();
 	void RemoveStaticGeomsFromCollisionSpace();
 
