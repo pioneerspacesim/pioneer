@@ -618,6 +618,24 @@ local charon = {
 		:volcanicity(f(0,1)),
 }
 
+local haumea = CustomSystemBody:new('Haumea', 'PLANET_TERRESTRIAL')
+	 :radius(f(99,1000)) -- 630km
+	 :mass(f(66,100000)) -- 4e21 kg
+	 :temp(48)
+	 :semi_major_axis(f(43218,1000)) -- 43.218 AU
+	 :eccentricity(f(19126,100000)) -- 0.19126
+	 :inclination(math.deg2rad(28.19)) -- 28.19°
+	 :rotation_period(f(163,1000)) -- 3.9155h
+
+local makemake = CustomSystemBody:new('Makemake', 'PLANET_TERRESTRIAL')
+	 :radius(f(113,1000))
+	 :mass(f(6667,1000000))
+   :temp(36)
+	 :semi_major_axis(f(45715,1000))
+	 :eccentricity(f(15586,100000))
+	 :inclination(math.deg2rad(29.1))
+	 :rotation_period(f(77,10))
+
 s:bodies(sol, {
 	mercury,
 	venus,
@@ -638,6 +656,8 @@ s:bodies(sol, {
 	pluto,
 		pluto_starports,
 		charon,
+  haumea,
+	makemake,
 })
 
 s:add_to_sector(0,0,0,v(0.001,0.001,0.001))
