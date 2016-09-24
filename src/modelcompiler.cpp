@@ -94,7 +94,8 @@ void SetupRenderer()
 	Uint32 numThreads = s_config->Int("WorkerThreads");
 	const int numCores = OS::GetNumCores();
 	assert(numCores > 0);
-	if (numThreads == 0) numThreads = std::max(Uint32(numCores) - 1, 1U);
+	if (numThreads == 0) 
+		numThreads = std::max(Uint32(numCores), 1U); // this is a tool, we can use all of the cores for processing unlike Pioneer
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
 }
