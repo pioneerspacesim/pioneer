@@ -62,38 +62,165 @@ local two_pi = pi * 2
 local standard_gravity = 9.80665
 
 local icons = {
-	 mode_world = 0,
-	 mode_status = 2,
-	 mode_comms = 3,
-	 mode_galaxy = 4,
-	 mode_sector = 5,
-	 mode_system = 6,
-	 mode_system_info = 7,
-	 star = 21,
-	 gas_giant = 16,
-	 rocky_planet = 17,
-	 moon = 18,
-	 spacestation = 19,
-	 starport = 20,
-	 unknown = 22,
+	 -- first row
+	 prograde = 0,
+	 retrograde = 1,
+	 radial_out = 2,
+	 radial_in = 3,
+	 antinormal = 4,
+	 normal = 5,
+	 frame = 6,
+	 maneuver = 7,
+	 forward = 8,
+	 backward = 9,
+	 down = 10,
+	 right = 11,
+	 up = 12,
+	 left = 13,
+	 -- second row
+	 prograde_thin = 16,
+	 retrograde_thin = 17,
+	 radial_out_thin = 18,
+	 radial_in_thin = 19,
+	 antinormal_thin = 20,
+	 normal_thin = 21,
+	 frame_away = 22,
+	 direction = 24,
+	 direction_hollow = 25,
+	 direction_frame = 26,
+	 direction_frame_hollow = 27,
+	 direction_forward = 28,
+	 apoapsis = 29,
+	 periapsis = 30,
+	 semi_major_axis = 31,
+	 -- third row
 	 heavy_fighter = 32,
 	 medium_fighter = 33,
 	 light_fighter = 34,
-	 heavy_courier = 35,
-	 medium_courier = 36,
-	 light_courier = 37,
-	 heavy_passenger_shuttle = 38,
-	 medium_passenger_shuttle = 39,
-	 light_passenger_shuttle = 40,
-	 heavy_passenger_transport = 41,
-	 medium_passenger_transport = 42,
-	 light_passenger_transport = 43,
-	 heavy_cargo_shuttle = 44,
-	 medium_cargo_shuttle = 45,
-	 light_cargo_shuttle = 46,
-	 heavy_freighter = 47,
-	 medium_freighter = 48,
-	 light_freighter = 49,
+	 sun = 35,	 
+	 asteroid_hollow = 36,
+	 current_height = 37,
+	 current_periapsis = 38,
+	 current_line = 39,
+	 current_apoapsis = 40,
+	 eta = 41,
+	 altitude = 42,
+	 gravity = 43,
+	 eccentricity = 44,
+	 inclination = 45,
+	 longitude = 46,
+	 latitude = 47,
+	 -- fourth row
+	 heavy_courier = 48,
+	 medium_courier = 49,
+	 light_courier = 50,
+	 rocky_planet = 51,
+	 ship = 52, -- useless?
+	 gears_up = 53,
+	 gears_down = 54,
+	 ecm = 55,
+	 rotation_damping_on = 56,
+	 rotation_damping_off = 57,
+	 hyperspace = 58,
+	 hyperspace_off = 59,
+	 scanner = 60,
+	 message_bubble = 61,
+	 fuel = 63,
+	 -- fifth row
+	 heavy_passenger_shuttle = 64,
+	 medium_passenger_shuttle = 65,
+	 light_passenger_shuttle = 66,
+	 moon = 67,
+	 autopilot_set_speed = 68,
+	 autopilot_manual = 69,
+	 autopilot_fly_to = 70,
+	 autopilot_dock = 71,
+	 autopilot_hold = 72,
+	 autopilot_undock = 73,
+	 autopilot_undock_illegal = 74,
+	 autopilot_blastoff = 75,
+	 autopilot_blastoff_illegal = 76,
+	 autopilot_low_orbit = 77,
+	 autopilot_medium_orbit = 78,
+	 autopilot_high_orbit = 79,
+	 -- sixth row
+	 heavy_passenger_transport = 80,
+	 medium_passenger_transport = 81,
+	 light_passenger_transport = 82,
+	 gas_giant = 83,	 
+	 time_accel_stop = 84,
+	 time_accel_paused = 85,
+	 time_accel_1x = 86,
+	 time_accel_10x = 87,
+	 time_accel_100x = 88,
+	 time_accel_1000x = 89,
+	 time_accel_10000x = 90,
+	 -- seventh row
+	 heavy_cargo_shuttle = 96,
+	 medium_cargo_shuttle = 97,
+	 light_cargo_shuttle = 98,
+	 spacestation = 99,
+	 time_backward_100x = 100,
+	 time_backward_10x = 101,
+	 time_backward_1x = 102,
+	 time_center = 103,
+	 time_forward_1x = 104,
+	 time_forward_10x = 105,
+	 time_forward_100x = 106,
+	 
+	 -- eighth row
+	 heavy_freighter = 112,
+	 medium_freighter = 113,
+	 light_freighter = 114,
+	 starport = 115,
+	 -- ninth row
+	 view_internal = 128,
+	 view_external = 129,
+	 view_sidereal = 130,
+	 comms = 131,
+	 market = 132,
+	 bbs = 133,
+	 equipment = 134,
+	 repairs = 135,
+	 info = 136,
+	 personal_info = 137,
+	 personal = 138,
+	 rooster = 139,
+	 map = 140,
+	 sector_map = 141,
+	 system_map = 142,
+	 system_overview = 143,
+	 -- tenth row
+	 galaxy_map = 144,
+	 settings = 145,
+	 language = 146,
+	 controls = 147,
+	 sound = 148,
+	 new = 149,
+	 skull = 150,
+	 mute = 151,
+	 unmute = 152,
+	 music = 153,
+	 zoom_in = 154,
+	 zoom_out = 155,
+	 search_lens = 156,
+	 message = 157,
+	 message_open = 158,
+	 search_binoculars = 159,
+	 -- eleventh row
+	 planet_grid = 160,
+	 bookmarks = 161,
+	 unlocked = 162,
+	 locked = 163,
+	 label = 165,
+	 broadcast = 166,
+	 shield = 167,
+	 hud = 168,
+	 factory = 169,
+	 star = 170,
+
+	 -- TODO
+	 pressure = 0,
 }
 
 local xicons = {
@@ -171,8 +298,8 @@ local colors = {
 }
 
 local pionicons = {
-	 small = { name = "pionicons", size = 12, offset = 14 },
-	 large = { name = "pionicons", size = 30, offset = 28 }
+	 small = { name = "icons", size = 16, offset = 14 },
+	 large = { name = "icons", size = 22, offset = 28 }
 }
 
 local pionillium = {
@@ -320,6 +447,20 @@ local function show_text(pos, text, color, font, anchor_horizontal, anchor_verti
 	 return Vector(size.x, size.y)
 end
 
+local function get_icon_tex(icon)
+	 local count = 16.0 -- icons per row/column
+	 local rem = math.floor(icon % count)
+	 local quot = math.floor(icon / count)
+	 return Vector(rem / count, quot/count), Vector((rem+1) / count, (quot+1)/count)
+end
+
+local function show_icon(position, icon, color, size, anchor_horizontal, anchor_vertical)
+	 local pos = calc_alignment(position, Vector(size, size), anchor_horizontal, anchor_vertical)
+	 local uv0, uv1 = get_icon_tex(icon)
+	 pigui.AddImage(pigui.icons_id, pos, pos + Vector(size, size), uv0, uv1, color)
+	 return Vector(size, size)
+end
+
 local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal, anchor_vertical, tooltips)
 	 -- always align texts at baseline
 	 local spacing = 2
@@ -327,13 +468,21 @@ local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal
 	 local max_offset = 0
 	 assert(#texts == #colors and #texts == #fonts)
 	 for i=1,#texts do
-			pigui.PushFont(fonts[i].name, fonts[i].size)
-			local s = pigui.CalcTextSize(texts[i])
+			local is_icon = fonts[i].name ~= "icons"
+			local s
+			if is_icon then
+				 pigui.PushFont(fonts[i].name, fonts[i].size)
+				 s = pigui.CalcTextSize(texts[i])
+			else
+				 s = Vector(fonts[i].size, fonts[i].size)
+			end
 			size.x = size.x + s.x
 			size.x = size.x + spacing -- spacing
 			size.y = math.max(size.y, s.y)
 			max_offset = math.max(max_offset, fonts[i].offset)
-			pigui.PopFont()
+			if is_icon then
+				 pigui.PopFont()
+			end
 	 end
 	 size.x = size.x - spacing -- remove last spacing
 	 position = calc_alignment(position, size, anchor_horizontal, nil)
@@ -343,10 +492,16 @@ local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal
 			position.y = position.y - (size.y - max_offset)
 	 end
 	 for i=1,#texts do
-			pigui.PushFont(fonts[i].name, fonts[i].size)
-			local s = show_text(position, texts[i], colors[i], fonts[i], anchor.left, anchor.baseline, tooltips and tooltips[i] or nil)
-			position.x = position.x + s.x + spacing
-			pigui.PopFont()
+			local is_icon = fonts[i].name ~= "icons"
+			if is_icon then
+				 pigui.PushFont(fonts[i].name, fonts[i].size)
+				 local s = show_text(position, texts[i], colors[i], fonts[i], anchor.left, anchor.baseline, tooltips and tooltips[i] or nil)
+				 position.x = position.x + s.x + spacing
+				 pigui.PopFont()
+			else
+				 local s = show_icon(position, texts[i], colors[i], fonts[i].size, anchor.left, anchor.bottom, tooltips[i])
+				 position.x = position.x + s.x + spacing
+			end
 	 end
 	 return size
 end
@@ -720,7 +875,13 @@ local function show_navball()
 			local aa_d = aa - frame_radius
 			local dist_apo, unit_apo = MyFormat.Distance(aa_d)
 			if aa_d > 0 then
-				 local textsize = show_text_fancy(position, { xicons.apoapsis, dist_apo, unit_apo }, { colors.lightgrey, colors.lightgrey, colors.darkgrey }, {pionicons.small, pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
+				 local textsize = show_text_fancy(position,
+																					{ icons.apoapsis, dist_apo, unit_apo },
+																					{ colors.lightgrey, colors.lightgrey, colors.darkgrey },
+																					{ pionicons.small, pionillium.medium, pionillium.small },
+																					anchor.left,
+																					anchor.baseline,
+																					{ lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
 				 show_text(position + Vector(textsize.x * 1.2), lui.HUD_T_MINUS .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, lui.HUD_TOOLTIP_APOAPSIS_TIME)
 			end
 	 end
@@ -729,9 +890,21 @@ local function show_navball()
 	 if alt then
 			local altitude,unit = MyFormat.Distance(alt)
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 2.6)
-			local textsize = show_text_fancy(position, { xicons.altitude, altitude, unit }, {colors.lightgrey, colors.lightgrey, colors.darkgrey }, { pionicons.large, pionillium.large, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE } )
+			local textsize = show_text_fancy(position,
+																			 { icons.altitude, altitude, unit },
+																			 {colors.lightgrey, colors.lightgrey, colors.darkgrey },
+																			 { pionicons.large, pionillium.large, pionillium.medium },
+																			 anchor.left,
+																			 anchor.baseline,
+																			 { lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE, lui.HUD_TOOLTIP_ALTITUDE } )
 			local vspeed, unit = MyFormat.Speed(vspd)
-			show_text_fancy(position + Vector(textsize.x * 1.1), { (vspd > 0 and "+" or "") .. vspeed, unit }, { (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey }, {pionillium.medium, pionillium.small }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE, lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE })
+			show_text_fancy(position + Vector(textsize.x * 1.1),
+											{ (vspd > 0 and "+" or "") .. vspeed, unit },
+											{ (vspd < 0 and colors.lightred or colors.lightgreen), colors.darkgrey },
+											{pionillium.medium, pionillium.small },
+											anchor.left,
+											anchor.baseline,
+											{ lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE, lui.HUD_TOOLTIP_CHANGE_IN_ALTITUDE })
 	 end
 	 -- periapsis
 	 if not player:IsDocked() then
@@ -740,7 +913,7 @@ local function show_navball()
 			local dist_per, unit_per = MyFormat.Distance(pa_d)
 			if pa and pa_d ~= 0 then
 				 local textsize = show_text_fancy(position,
-																					{ xicons.periapsis, dist_per, unit_per, "     " .. lui.HUD_T_MINUS .. Format.Duration(o_time_at_periapsis) },
+																					{ icons.periapsis, dist_per, unit_per, "     " .. lui.HUD_T_MINUS .. Format.Duration(o_time_at_periapsis) },
 																					{ colors.lightgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
 																					{ pionicons.small, pionillium.medium, pionillium.small, pionillium.small },
 																					anchor.left,
@@ -752,11 +925,11 @@ local function show_navball()
 	 if not player:IsDocked() then
 			local position = point_on_circle_radius(navball_center, navball_text_radius, 3.4)
 			show_text_fancy(position,
-											{ xicons.inclination, math.floor(o_inclination / two_pi * 360) .. lc.UNIT_DEGREES, "    " .. xicons.eccentricity, string.format("%.02f", o_eccentricity)},
-											{ colors.lightgrey, colors.lightgrey, colors.lightgrey, colors.lightgrey },
-											{ pionicons.small, pionillium.medium, pionicons.small, pionillium.medium },
+											{ icons.inclination, math.floor(o_inclination / two_pi * 360) .. lc.UNIT_DEGREES, "    ", icons.eccentricity, string.format("%.02f", o_eccentricity)},
+											{ colors.lightgrey, colors.lightgrey, colors.lightgrey, colors.lightgrey, colors.lightgrey },
+											{ pionicons.small, pionillium.medium, pionillium.medium, pionicons.small, pionillium.medium },
 											anchor.left, anchor.baseline,
-											{lui.HUD_TOOLTIP_INCLINATION, lui.HUD_TOOLTIP_INCLINATION, lui.HUD_TOOLTIP_ECCENTRICITY, lui.HUD_TOOLTIP_ECCENTRICITY})
+											{lui.HUD_TOOLTIP_INCLINATION, lui.HUD_TOOLTIP_INCLINATION, lui.HUD_TOOLTIP_INCLINATION, lui.HUD_TOOLTIP_ECCENTRICITY, lui.HUD_TOOLTIP_ECCENTRICITY})
 	 end
 	 -- pressure, gravity
 	 if frame then
@@ -773,7 +946,7 @@ local function show_navball()
 			local fnts = {}
 			local tooltips = {}
 			if pressure and pressure > 0.001 then
-				 table.insert(txts, xicons.pressure)
+				 table.insert(txts, icons.pressure)
 				 table.insert(txts, string.format("%.02f", pressure))
 				 table.insert(txts, lc.UNIT_ATM)
 				 table.insert(cols, colors.lightgrey)
@@ -793,7 +966,7 @@ local function show_navball()
 				 table.insert(tooltips, "")
 			end
 			if gravity then
-				 table.insert(txts, xicons.gravity)
+				 table.insert(txts, icons.gravity)
 				 table.insert(txts, gravity)
 				 table.insert(txts, lc.UNIT_GRAVITY)
 				 table.insert(cols, colors.lightgrey)
@@ -810,8 +983,20 @@ local function show_navball()
 			-- latitude, longitude
 			position = point_on_circle_radius(navball_center, navball_text_radius, 4.5)
 			if lat and lon then
-				 local textsize = show_text_fancy(position, { xicons.latitude, lat }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LATITUDE, lui.HUD_TOOLTIP_LATITUDE })
-				 show_text_fancy(position + Vector(0, textsize.y * 1.2), { xicons.longitude, lon }, { colors.lightgrey, colors.lightgrey }, { pionicons.small, pionillium.medium }, anchor.left, anchor.baseline, { lui.HUD_TOOLTIP_LONGITUDE, lui.HUD_TOOLTIP_LONGITUDE })
+				 local textsize = show_text_fancy(position,
+																					{ icons.latitude, lat },
+																					{ colors.lightgrey, colors.lightgrey },
+																					{ pionicons.small, pionillium.medium },
+																					anchor.left,
+																					anchor.baseline,
+																					{ lui.HUD_TOOLTIP_LATITUDE, lui.HUD_TOOLTIP_LATITUDE })
+				 show_text_fancy(position + Vector(0, textsize.y * 1.2),
+												 { icons.longitude, lon },
+												 { colors.lightgrey, colors.lightgrey },
+												 { pionicons.small, pionillium.medium },
+												 anchor.left,
+												 anchor.baseline,
+												 { lui.HUD_TOOLTIP_LONGITUDE, lui.HUD_TOOLTIP_LONGITUDE })
 			end
 	 end
 	 -- ******************** orbit display ********************
@@ -953,7 +1138,7 @@ local function show_radial_menu()
 			-- addItem("Hold prograde", "prograde")
 			-- addItem("Hold retrograde", "retrograde")
 	 end
-	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items, pionicons.large.name, pionicons.large.size, tooltips)
+	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items, "pionicons", 30, tooltips) -- pionicons.large.name, pionicons.large.size
 	 if n >= 0 then
 			local action = actions[n + 1]
 			radial_actions[action](radial_nav_target)
@@ -964,7 +1149,7 @@ local function get_body_icon(body)
 	 local typ = body.type
 	 local superType = body.superType
 	 if superType == "STAR" then
-			return icons.star
+			return icons.sun
 	 elseif superType == "GAS_GIANT" then
 			return icons.gas_giant
 	 elseif superType == "ROCKY_PLANET" then
@@ -1114,13 +1299,6 @@ local function get_hierarchical_bodies(filter)
 	 return suns, count
 end
 
-local function get_icon_tex(icon)
-	 local count = 16.0 -- icons per row/column
-	 local rem = math.floor(icon % count)
-	 local quot = math.floor(icon / count)
-	 return Vector(rem / count, quot/count), Vector((rem+1) / count, (quot+1)/count)
-end
-
 local function spaces(n)
 	 local res = ""
 	 for i=1,n+1 do
@@ -1140,14 +1318,14 @@ local function show_nav_window()
 	 --	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
 	 pigui.Begin(lui.HUD_WINDOW_NAVIGATION, {})
 	 do
-			pigui.PushFont("pionicons", 12)
+--			pigui.PushFont("pionicons", 12)
 			do
 				 local fs = filter_ship
 				 if fs then
 						pigui.PushStyleColor("Button", colors.nav_filter_active)
 						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				 end
-				 if pigui.Button(xicons.ship) then
+				 if pigui.Button("ships") then
 						filter_ship = not filter_ship
 				 end
 				 if fs then
@@ -1164,7 +1342,7 @@ local function show_nav_window()
 						pigui.PushStyleColor("Button", colors.nav_filter_active)
 						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				 end
-				 if pigui.Button(xicons.spacestation .. xicons.starport) then
+				 if pigui.Button("stations") then
 						filter_station = not filter_station
 				 end
 				 if fs then
@@ -1181,7 +1359,7 @@ local function show_nav_window()
 						pigui.PushStyleColor("Button", colors.nav_filter_active)
 						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				 end
-				 if pigui.Button(xicons.planet .. xicons.gasgiant) then
+				 if pigui.Button("planets") then
 						filter_planet = not filter_planet
 				 end
 				 if fs then
@@ -1198,7 +1376,7 @@ local function show_nav_window()
 						pigui.PushStyleColor("Button", colors.nav_filter_active)
 						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				 end
-				 if pigui.Button(xicons.moon) then
+				 if pigui.Button("moons") then
 						filter_moon = not filter_moon
 				 end
 				 if fs then
@@ -1208,7 +1386,7 @@ local function show_nav_window()
 			if pigui.IsItemHovered() then
 				 pigui.SetTooltip("Filter Moons")
 			end
-			pigui.PopFont()
+			-- pigui.PopFont()
 	 end
 	 pigui.Columns(2, "navcolumns", false)
 	 local filter = nil
@@ -1382,7 +1560,7 @@ local function show_thrust()
 	 end
 	 local size = pigui.CalcTextSize(math.floor(low_thrust_power * 100))
 	 pigui.AddText(position - Vector(size.x/2, size.y/2), colors.lightgrey, math.floor(low_thrust_power * 100))
-	 local time_position = Vector(30, pigui.screen_height - 70)
+	 local time_position = Vector(30, pigui.screen_height - 90)
 	 local year, month, day, hour, minute, second = Game.GetDateTime()
 	 pigui.PushFont("pionillium", 30)
 	 local months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
@@ -1469,9 +1647,18 @@ local function show_debug_gravity()
 	 pigui.End()
 end
 
+local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["sidereal"] = "internal" }
 
-local cam_types = { "internal", "external", "sidereal" }
-local current_cam_type = 1
+local function select_world_view()
+	 local current_cam_type = Game.GetWorldCamType()
+	 if Game.GetView() == "world" then
+			Game.SetWorldCamType(next_cam_type[current_cam_type])
+	 else
+			Game.SetView("world")
+			Game.SetWorldCamType("internal")
+	 end
+end
+
 local function handle_global_keys()
 	 -- if pigui.IsKeyReleased(pigui.keys.f12) then
 	 -- 		if Game.GetTimeAcceleration() == "paused" then
@@ -1482,17 +1669,7 @@ local function handle_global_keys()
 	 -- 		end
 	 -- end
 	 if pigui.IsKeyReleased(pigui.keys.f1) then -- ShipCpanel.cpp:317
-			if Game.GetView() == "world" then
-				 current_cam_type = current_cam_type + 1
-				 if current_cam_type > #cam_types then
-						current_cam_type = 1
-				 end
-				 Game.SetWorldCamType(cam_types[current_cam_type])
-			else
-				 Game.SetView("world")
-				 current_cam_type = 1
-				 Game.SetWorldCamType(cam_types[current_cam_type])
-			end
+			select_world_view()
 	 end
 	 if pigui.IsKeyReleased(pigui.keys.f2) then
 			if Game.GetView() == "sector" then
@@ -1575,14 +1752,6 @@ local function handle_global_keys()
 	 end
 end
 
-local function show_icon(position, icon, color, size, anchor_horizontal, anchor_vertical)
-	 local pos = calc_alignment(position, Vector(size, size), anchor_horizontal, anchor_vertical)
-	 local uv0, uv1 = get_icon_tex(icon)
-	 pigui.AddImage(pigui.icons_id, pos, pos + Vector(size, size), uv0, uv1, color)
-	 return Vector(size, size)
-end
-
-
 local function show_ships_on_screen()
 	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
 	 for _,body in pairs(bodies) do
@@ -1662,8 +1831,7 @@ local function show_bodies_on_screen()
 	 for pos,group in pairs(body_groups) do
 			do
 				 local best_body, count = get_body_group_max_body(group)
-				 -- local textsize = show_text(pos, get_body_icon_letter(best_body), colors.lightgrey, pionicons.small, anchor.center, anchor.center)
-				 local textsize = show_icon(pos, get_body_icon(best_body), colors.lightgrey, 16, anchor.center, anchor.center)
+				 local textsize = show_icon(pos, get_body_icon(best_body), colors.lightgrey, 24, anchor.center, anchor.center)
 				 show_text(pos + Vector(textsize.x * 1.1), best_body.label .. (count > 1 and " +" or ""), colors.lightgrey, pionillium.small, anchor.left, anchor.center)
 			end
 			local mp = pigui.GetMousePos()
@@ -1975,37 +2143,37 @@ local function show_modes()
 	 local mode = Game.GetView()
 	 pigui.Begin("Modes", {"NoTitleBar", "NoResize"})
 --   pigui.SetNextWindowSize(Vector(0.0, 0.0), "Always")
-	 pigui.PushFont("pionicons", 30)
-	 if ColoredSelectedIconButton(icons.mode_world, mode == "world", colors.mode_button, colors.mode_button_selected, "World View") then
-			Game.SetView("world")
+	 local view_icon = icons["view_" .. Game.GetWorldCamType()]
+	 
+	 if ColoredSelectedIconButton(view_icon, mode == "world", colors.mode_button, colors.mode_button_selected, "World View") then
+			select_world_view()
 	 end
 	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.mode_sector, mode == "sector", colors.mode_button, colors.mode_button_selected, "Map View") then
+	 if ColoredSelectedIconButton(icons.sector_map, mode == "sector", colors.mode_button, colors.mode_button_selected, "Map View") then
 			Game.SetView("sector")
 	 end
 	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.mode_system, mode == "system", colors.mode_button, colors.mode_button_selected, "System View") then
+	 if ColoredSelectedIconButton(icons.system_map, mode == "system", colors.mode_button, colors.mode_button_selected, "System View") then
 			Game.SetView("system")
 	 end
 	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.mode_system_info, mode == "system_info", colors.mode_button, colors.mode_button_selected, "System Info View") then
+	 if ColoredSelectedIconButton(icons.system_overview, mode == "system_info", colors.mode_button, colors.mode_button_selected, "System Info View") then
 			Game.SetView("system_info")
 	 end
 	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.mode_galaxy, mode == "galaxy", colors.mode_button, colors.mode_button_selected, "Galaxy View") then
+	 if ColoredSelectedIconButton(icons.galaxy_map, mode == "galaxy", colors.mode_button, colors.mode_button_selected, "Galaxy View") then
 			Game.SetView("galaxy")
 	 end
 	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.mode_status, mode == "info", colors.mode_button, colors.mode_button_selected, "Ship Status View") then
+	 if ColoredSelectedIconButton(icons.personal_info, mode == "info", colors.mode_button, colors.mode_button_selected, "Ship Status View") then
 			Game.SetView("info")
 	 end
 	 if player:IsDocked() then
 			pigui.SameLine()
-			if ColoredSelectedIconButton(icons.mode_comms, mode == "space_station", colors.mode_button, colors.mode_button_selected, "Comms View") then
+			if ColoredSelectedIconButton(icons.comms, mode == "space_station", colors.mode_button, colors.mode_button_selected, "Comms View") then
 				 Game.SetView("space_station")
 			end
 	 end
-	 pigui.PopFont()
 	 pigui.End()
 end
 local function show_hud(delta)
@@ -2018,7 +2186,8 @@ local function show_hud(delta)
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
 	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
 	 
-	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
+	 --	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
+	 
 	 -- symbol.disk(Vector(100,100), 2, colors.red, 1.0)
 	 -- show_text_fancy(Vector(100,100), { "bot", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.right, anchor.bottom)
 	 -- show_text_fancy(Vector(100,100), { "top", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.left, anchor.top)
@@ -2288,6 +2457,20 @@ local function show_hyperspace()
 	 pigui.PopStyleColor(1)
 end
 
+local function image_button(icon, size, bg_color, fg_color, tooltip)
+	 if not tooltip then
+			error("must supply tooltip for image buttons")
+	 end
+	 pigui.PushID(tooltip)
+	 local uv0, uv1 = get_icon_tex(icon)
+	 local res = pigui.ImageButton(pigui.icons_id, Vector(size, size), uv0, uv1, -1, bg_color, fg_color)
+	 if pigui.IsItemHovered() then
+			pigui.SetTooltip(tooltip)
+	 end
+	 pigui.PopID(tooltip)
+	 return res
+end
+
 local function show_time_accel_buttons()
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
@@ -2298,20 +2481,14 @@ local function show_time_accel_buttons()
 	 -- end
 	 local requested = Game.GetRequestedTimeAcceleration()
 	 local current = Game.GetTimeAcceleration()
-	 pigui.SetNextWindowPos(Vector(0, pigui.screen_height - 40), "Always")
+	 pigui.SetNextWindowPos(Vector(0, pigui.screen_height - 50), "Always")
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
 	 pigui.Begin("TimeAccel", {"NoTitleBar", "NoMove","NoResize","NoSavedSettings"})
-	 local color = (current == "paused" and colors.time_accel_current or (requested == "paused" and colors.time_accel_requested or colors.time_accel))
-	 pigui.PushStyleColor("Button", color)
-	 if pigui.Button("||") then
-			Game.SetTimeAcceleration("paused", true)
-	 end
-	 pigui.PopStyleColor(1)
-	 pigui.SameLine()
-	 for k,v in pairs({"1x", "10x", "100x", "1000x", "10000x"}) do
+	 local size = 32
+	 for k,v in pairs({"paused", "1x", "10x", "100x", "1000x", "10000x"}) do
 			local color = (current == v and colors.time_accel_current or (requested == v and colors.time_accel_requested or colors.time_accel))
 			pigui.PushStyleColor("Button", color)
-			if pigui.Button(v) then
+			if image_button(icons["time_accel_" .. v], size, colors.transparent, colors.lightgrey, v) then
 				 Game.SetTimeAcceleration(v, pigui.key_ctrl)
 			end
 			pigui.PopStyleColor(1)

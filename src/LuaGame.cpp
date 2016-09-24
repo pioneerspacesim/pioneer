@@ -382,6 +382,17 @@ static int l_game_get_view(lua_State *l)
 	return 1;
 }
 
+static int l_game_get_world_cam_type(lua_State *l)
+{
+	switch(Pi::game->GetWorldView()->GetCamType()) {
+	case WorldView::CAM_INTERNAL: lua_pushstring(l, "internal"); break;
+	case WorldView::CAM_EXTERNAL: lua_pushstring(l, "external"); break;
+	case WorldView::CAM_SIDEREAL: lua_pushstring(l, "sidereal"); break;
+	default: Output("Unknown world view cam type\n"); break;
+	}
+	return 1;
+}
+
 static int l_game_set_world_cam_type(lua_State *l)
 {
 	std::string cam = luaL_checkstring(l, 1);
@@ -525,6 +536,7 @@ void LuaGame::Register()
 		{ "GetView",    l_game_get_view },
 		{ "GetDateTime", l_game_get_date_time },
 		{ "SetWorldCamType", l_game_set_world_cam_type },
+		{ "GetWorldCamType", l_game_get_world_cam_type },
 		{ "SetTimeAcceleration", l_game_set_time_acceleration },
 		{ "GetTimeAcceleration", l_game_get_time_acceleration },
 		{ "GetRequestedTimeAcceleration",     l_game_get_requested_time_acceleration },
