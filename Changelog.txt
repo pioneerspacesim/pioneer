@@ -16,6 +16,7 @@ September 2016
      * Unused files from JobSwarm experiments 4 years ago! (#3816)
      * Belt and braces approach to sanity checking for patterns (#3817)
      * Brighter luminosity for random colours (#3815)
+     * Minor performance cleanup (#3820)
 
 August 2016
    * New Features
