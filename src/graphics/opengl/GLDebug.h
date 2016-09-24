@@ -13,7 +13,7 @@
  */
 #include "OpenGLLibs.h"
 
-using namespace gl3x;
+using namespace gl3x::gl;
 
 #ifdef _WIN32
 #define STDCALL __stdcall
@@ -30,17 +30,17 @@ namespace Graphics {
 	private:
 		static const char *type_to_string(GLenum type) {
 			switch(type) {
-				case gl::GL_DEBUG_TYPE_ERROR:
+				case GL_DEBUG_TYPE_ERROR:
 					return("Error");
-				case gl::GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+				case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
 					return("Deprecated Behaviour");
-				case gl::GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
+				case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
 					return("Undefined Behaviour");
-				case gl::GL_DEBUG_TYPE_PORTABILITY:
+				case GL_DEBUG_TYPE_PORTABILITY:
 					return("Portability");
-				case gl::GL_DEBUG_TYPE_PERFORMANCE:
+				case GL_DEBUG_TYPE_PERFORMANCE:
 					return("Performance");
-				case gl::GL_DEBUG_TYPE_OTHER:
+				case GL_DEBUG_TYPE_OTHER:
 					return("Other");
 				default:
 					return("");
@@ -49,17 +49,17 @@ namespace Graphics {
 
 		static const char *source_to_string(GLenum source) {
 			switch(source) {
-				case gl::GL_DEBUG_SOURCE_API:
+				case GL_DEBUG_SOURCE_API:
 					return("API");
-				case gl::GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+				case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
 					return("Window System");
-				case gl::GL_DEBUG_SOURCE_SHADER_COMPILER:
+				case GL_DEBUG_SOURCE_SHADER_COMPILER:
 					return("Shader Compiler");
-				case gl::GL_DEBUG_SOURCE_THIRD_PARTY:
+				case GL_DEBUG_SOURCE_THIRD_PARTY:
 					return("Third Party");
-				case gl::GL_DEBUG_SOURCE_APPLICATION:
+				case GL_DEBUG_SOURCE_APPLICATION:
 					return("Application");
-				case gl::GL_DEBUG_SOURCE_OTHER:
+				case GL_DEBUG_SOURCE_OTHER:
 					return("Other");
 				default:
 					return("");
@@ -68,11 +68,11 @@ namespace Graphics {
 
 		static const char *severity_to_string(GLenum severity) {
 			switch(severity) {
-				case gl::GL_DEBUG_SEVERITY_HIGH:
+				case GL_DEBUG_SEVERITY_HIGH:
 					return("High");
-				case gl::GL_DEBUG_SEVERITY_MEDIUM:
+				case GL_DEBUG_SEVERITY_MEDIUM:
 					return("Medium");
-				case gl::GL_DEBUG_SEVERITY_LOW:
+				case GL_DEBUG_SEVERITY_LOW:
 					return("Low");
 				default:
 					return("");
@@ -92,23 +92,23 @@ namespace Graphics {
 	public:
 		//register the callback function, if the extension is available
 		static void Enable() {
-			if (!gl::exts::var_KHR_debug) {
+			if (!exts::var_KHR_debug) {
 				Output("GL_KHR_debug is not supported; GLDebug will not work\n");
 				return;
 			}
 
-			gl::glEnable(gl::GL_DEBUG_OUTPUT);
-			gl::glEnable(gl::GL_DEBUG_OUTPUT_SYNCHRONOUS);
-			gl::glDebugMessageCallback(PrintMessage, 0);
+			glEnable(GL_DEBUG_OUTPUT);
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(PrintMessage, 0);
 
 			//Using the default message type and severity parameters.
 			//If you want to be drowned in performance warnings, use:
-			//gl::glDebugMessageControl(gl::GL_DONT_CARE, gl::GL_DONT_CARE, gl::GL_DEBUG_SEVERITY_LOW, 0, 0, true);
+			//glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW, 0, 0, true);
 		}
 
 		static void Disable() {
-			if (gl::exts::var_KHR_debug) {
-				gl::glDisable(gl::GL_DEBUG_OUTPUT);
+			if (exts::var_KHR_debug) {
+				glDisable(GL_DEBUG_OUTPUT);
 			}
 		}
 

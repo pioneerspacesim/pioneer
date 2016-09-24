@@ -4,45 +4,45 @@
 #include "GL2RenderTarget.h"
 #include "GL2Texture.h"
 
-using namespace gl21;
+using namespace gl21::gl;
 
 namespace Graphics { namespace GL2 {
 
 RenderBuffer::RenderBuffer()
 {
-	gl::glGenRenderbuffersEXT(1, &buffer);
+	glGenRenderbuffersEXT(1, &buffer);
 }
 
 RenderBuffer::~RenderBuffer()
 {
-	gl::glDeleteRenderbuffersEXT(1, &buffer);
+	glDeleteRenderbuffersEXT(1, &buffer);
 }
 
 void RenderBuffer::Bind()
 {
-	gl::glBindRenderbufferEXT(gl::GL_RENDERBUFFER_EXT, buffer);
+	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, buffer);
 }
 
 void RenderBuffer::Unbind()
 {
-	gl::glBindRenderbufferEXT(gl::GL_RENDERBUFFER_EXT, 0);
+	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 }
 
 void RenderBuffer::Attach(GLenum attachment)
 {
-	gl::glFramebufferRenderbufferEXT(gl::GL_FRAMEBUFFER_EXT, attachment, gl::GL_RENDERBUFFER_EXT, buffer);
+	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, attachment, GL_RENDERBUFFER_EXT, buffer);
 }
 
 RenderTarget::RenderTarget(const RenderTargetDesc &d)
 : Graphics::RenderTarget(d)
 , m_active(false)
 {
-	gl::glGenFramebuffersEXT(1, &m_fbo);
+	glGenFramebuffersEXT(1, &m_fbo);
 }
 
 RenderTarget::~RenderTarget()
 {
-	gl::glDeleteFramebuffersEXT(1, &m_fbo);
+	glDeleteFramebuffersEXT(1, &m_fbo);
 }
 
 Texture *RenderTarget::GetColorTexture() const
@@ -63,7 +63,7 @@ void RenderTarget::SetCubeFaceTexture(const Uint32 face, Texture* t)
 	//texture format should match the intended fbo format (aka. the one attached first)
 	GLuint texId = 0;
 	if (t) texId = static_cast<GL2Texture*>(t)->GetTexture();
-	gl::glFramebufferTexture2DEXT(gl::GL_FRAMEBUFFER_EXT, gl::GL_COLOR_ATTACHMENT0_EXT, gl::GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, texId, 0);
+	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_CUBE_MAP_POSITIVE_X + face, texId, 0);
 	m_colorTexture.Reset(t);
 	if (!bound) Unbind();
 }
@@ -75,7 +75,7 @@ void RenderTarget::SetColorTexture(Texture* t)
 	//texture format should match the intended fbo format (aka. the one attached first)
 	GLuint texId = 0;
 	if (t) texId = static_cast<GL2Texture*>(t)->GetTexture();
-	gl::glFramebufferTexture2DEXT(gl::GL_FRAMEBUFFER_EXT, gl::GL_COLOR_ATTACHMENT0_EXT, gl::GL_TEXTURE_2D, texId, 0);
+	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, texId, 0);
 	m_colorTexture.Reset(t);
 	if (!bound) Unbind();
 }
@@ -88,7 +88,7 @@ void RenderTarget::SetDepthTexture(Texture* t)
 	if (!GetDesc().allowDepthTexture) return;
 	GLuint texId = 0;
 	if (t) texId = static_cast<GL2Texture*>(t)->GetTexture();
-	gl::glFramebufferTexture2DEXT(gl::GL_FRAMEBUFFER_EXT, gl::GL_DEPTH_ATTACHMENT_EXT, gl::GL_TEXTURE_2D, texId, 0);
+	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, texId, 0);
 	m_depthTexture.Reset(t);
 	if (!bound) Unbind();
 }
@@ -96,20 +96,20 @@ void RenderTarget::SetDepthTexture(Texture* t)
 void RenderTarget::Bind()
 {
 	assert(!m_active);
-	gl::glBindFramebufferEXT(gl::GL_FRAMEBUFFER_EXT, m_fbo);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_fbo);
 	m_active = true;
 }
 
 void RenderTarget::Unbind()
 {
 	assert(m_active);
-	gl::glBindFramebufferEXT(gl::GL_FRAMEBUFFER_EXT, 0);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	m_active = false;
 }
 
 bool RenderTarget::CheckStatus()
 {
-	return gl::glCheckFramebufferStatusEXT(gl::GL_FRAMEBUFFER_EXT) == gl::GL_FRAMEBUFFER_COMPLETE_EXT;
+	return glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_COMPLETE_EXT;
 }
 
 void RenderTarget::CreateDepthRenderbuffer()
@@ -118,8 +118,8 @@ void RenderTarget::CreateDepthRenderbuffer()
 	assert(m_active);
 	m_depthRenderBuffer.Reset(new RenderBuffer());
 	m_depthRenderBuffer->Bind();
-	gl::glRenderbufferStorageEXT(gl::GL_RENDERBUFFER_EXT, gl::GL_DEPTH_COMPONENT24, GetDesc().width, GetDesc().height);
-	m_depthRenderBuffer->Attach(gl::GL_DEPTH_ATTACHMENT_EXT);
+	glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, GetDesc().width, GetDesc().height);
+	m_depthRenderBuffer->Attach(GL_DEPTH_ATTACHMENT_EXT);
 	m_depthRenderBuffer->Unbind();
 }
 

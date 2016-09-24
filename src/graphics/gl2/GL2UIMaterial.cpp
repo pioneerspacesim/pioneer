@@ -12,6 +12,8 @@
 namespace Graphics {
 namespace GL2 {
 
+using namespace gl21::gl;
+
 UIProgram::UIProgram(const MaterialDescriptor &desc)
 {
 	m_name = "ui";
@@ -44,7 +46,7 @@ void UIMaterial::Unapply()
 	
 	if (texture1) {
 		static_cast<GL2Texture*>(texture1)->Unbind();
-		gl21::gl::glActiveTexture(gl21::gl::GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0);
 	}
 	if (texture0) {
 		static_cast<GL2Texture*>(texture0)->Unbind();

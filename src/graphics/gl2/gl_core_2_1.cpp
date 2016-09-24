@@ -2615,7 +2615,7 @@ namespace gl21
 				glGetString = reinterpret_cast<PFNGLGETSTRING>(IntGetProcAddress("glGetString"));
 				if(!glGetString) return exts::LoadTest();
 				
-				ProcExtsFromExtString((const char *)gl21::gl::glGetString(gl21::gl::GL_EXTENSIONS), table);
+				ProcExtsFromExtString((const char *)glGetString(gl21::gl::GL_EXTENSIONS), table);
 				
 				int numFailed = LoadCoreFunctions();
 				return exts::LoadTest(true, numFailed);

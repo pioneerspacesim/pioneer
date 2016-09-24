@@ -9,7 +9,7 @@
 #include <sstream>
 #include "StringF.h"
 
-using namespace gl3x;
+using namespace gl3x::gl;
 
 namespace Graphics {
 namespace OGL {
@@ -46,7 +46,7 @@ void UIMaterial::Unapply()
 	
 	if (texture1) {
 		static_cast<TextureGL*>(texture1)->Unbind();
-		gl::glActiveTexture(gl::GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0);
 	}
 	if (texture0) {
 		static_cast<TextureGL*>(texture0)->Unbind();
