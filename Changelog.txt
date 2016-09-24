@@ -17,6 +17,7 @@ September 2016
      * Belt and braces approach to sanity checking for patterns (#3817)
      * Brighter luminosity for random colours (#3815)
      * Minor performance cleanup (#3820)
+     * Use a function to access the s_patchFaces to silence a gcc warning (#3822)
 
 August 2016
    * New Features
