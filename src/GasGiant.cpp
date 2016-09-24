@@ -544,7 +544,7 @@ void GasGiant::GenerateTexture()
 					const double vstep = double(v) * fracStep;
 
 					// get point on the surface of the sphere
-					const vector3d p = GetSpherePointFromCorners(ustep, vstep, &s_patchFaces[i][0]);
+					const vector3d p = GetSpherePointFromCorners(ustep, vstep, &GetPatchFaces(i,0));
 					// get colour using `p`
 					const vector3d colour = pTerrain->GetColor(p, 0.0, p);
 
@@ -577,7 +577,7 @@ void GasGiant::GenerateTexture()
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
 			m_hasJobRequest[i] = true;
-			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&s_patchFaces[i][0], GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
+			GasGiantJobs::STextureFaceRequest *ssrd = new GasGiantJobs::STextureFaceRequest(&GetPatchFaces(i,0), GetSystemBody()->GetPath(), i, s_texture_size_cpu[Pi::detail.planets], GetTerrain());
 			m_job[i] = Pi::GetAsyncJobQueue()->Queue(new GasGiantJobs::SingleTextureFaceJob(ssrd));
 		}
 	}
