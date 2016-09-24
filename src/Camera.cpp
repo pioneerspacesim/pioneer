@@ -107,7 +107,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol)));
+		Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol);
+		lights.push_back(Camera::LightSource(frame->GetBody(), light));
 	}
 
 	for (Frame* kid : frame->GetChildren()) {
@@ -200,7 +201,8 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
-		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), Color::WHITE, Color::WHITE)));
+		Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), Color::WHITE, Color::WHITE);
+		m_lightSources.push_back(LightSource(0, light));
 	}
 
 	//fade space background based on atmosphere thickness and light angle
