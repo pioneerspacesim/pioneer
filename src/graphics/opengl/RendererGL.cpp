@@ -8,6 +8,7 @@
 #include "OS.h"
 #include "StringF.h"
 #include "graphics/Texture.h"
+#include "graphics/TextureBuilder.h"
 #include "TextureGL.h"
 #include "graphics/VertexArray.h"
 #include "GLDebug.h"
@@ -84,6 +85,8 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 				"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures."
 			);
 	}
+
+	TextureBuilder::Init();
 
 	m_viewportStack.push(Viewport());
 
