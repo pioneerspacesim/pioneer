@@ -1114,7 +1114,8 @@ local function show_radial_menu()
 	 local actions = {}
 	 local tooltips = {}
 	 local function addItem(icon, item, action)
-			table.insert(items, icon)
+			local uv0, uv1 = get_icon_tex(icon)
+			table.insert(items, { id = pigui.icons_id, uv0 = uv0, uv1 = uv1 })
 			table.insert(actions, action)
 			table.insert(tooltips, item)
 	 end
@@ -1122,14 +1123,14 @@ local function show_radial_menu()
 	 if radial_nav_target then
 			local typ = radial_nav_target.superType
 			if typ == "STARPORT" then
-				 addItem(xicons.comms, lui.HUD_RADIAL_TOOLTIP_COMMS, "clearance")
-				 addItem(xicons.autodock, lui.HUD_RADIAL_TOOLTIP_AUTO_DOCK, "dock")
+				 addItem(icons.comms, lui.HUD_RADIAL_TOOLTIP_COMMS, "clearance")
+				 addItem(icons.autopilot_dock, lui.HUD_RADIAL_TOOLTIP_AUTO_DOCK, "dock")
 			end
-			addItem(xicons.fly_to, lui.HUD_RADIAL_TOOLTIP_FLY_TO, "fly_to")
+			addItem(icons.autopilot_fly_to, lui.HUD_RADIAL_TOOLTIP_FLY_TO, "fly_to")
 			if typ == "STAR" or typ == "ROCKY_PLANET" or typ == "GAS_GIANT" then
-				 addItem(xicons.low_orbit, lui.HUD_RADIAL_TOOLTIP_LOW_ORBIT, "low_orbit")
-				 addItem(xicons.medium_orbit, lui.HUD_RADIAL_TOOLTIP_MEDIUM_ORBIT, "medium_orbit")
-				 addItem(xicons.high_orbit, lui.HUD_RADIAL_TOOLTIP_HIGH_ORBIT, "high_orbit")
+				 addItem(icons.autopilot_low_orbit, lui.HUD_RADIAL_TOOLTIP_LOW_ORBIT, "low_orbit")
+				 addItem(icons.autopilot_medium_orbit, lui.HUD_RADIAL_TOOLTIP_MEDIUM_ORBIT, "medium_orbit")
+				 addItem(icons.autopilot_high_orbit, lui.HUD_RADIAL_TOOLTIP_HIGH_ORBIT, "high_orbit")
 			end
 			-- addItem("Hold Radial in", "radial_in")
 			-- addItem("Hold radial out", "radial_out")

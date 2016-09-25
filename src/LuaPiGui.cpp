@@ -1035,20 +1035,45 @@ static int l_pigui_get_mouse_clicked_pos(lua_State *l) {
 static int l_pigui_radial_menu(lua_State *l) {
 	ImVec2 center = luaL_checkImVec2(l, 1);
 	std::string id = luaL_checkstring(l, 2);
-	std::vector<std::string> items;
-	LuaTable strings(l, 3);
-	for(LuaTable::VecIter<std::string> iter = strings.Begin<std::string>(); iter != strings.End<std::string>(); ++iter) {
-		items.push_back(*iter);
+	std::vector<ImTextureID> tex_ids;
+	std::vector<std::pair<ImVec2,ImVec2>> uvs;
+	int i = 0;
+	while(true) {
+		lua_rawgeti(l, 3, ++i);
+		if(lua_isnil(l, -1)) {
+			lua_pop(l, 1);
+			break;
+		}
+		if(!lua_istable(l, -1)) {
+			Output("element of icons not a table %i\n", i);
+			break;
+		}
+		lua_getfield(l, -1, "id");
+		ImTextureID tid = (ImTextureID)luaL_checkinteger(l, -1);
+		lua_pop(l, 1);
+		lua_getfield(l, -1, "uv0");
+		LuaTable xuv0(l, -1);
+		ImVec2 uv0(xuv0.Get<double>("x"), xuv0.Get<double>("y"));
+		lua_pop(l, 1);
+		lua_getfield(l, -1, "uv1");
+		LuaTable xuv1(l, -1);
+		ImVec2 uv1(xuv1.Get<double>("x"), xuv1.Get<double>("y"));
+		lua_pop(l, 1);
+		lua_pop(l, 1);
+		tex_ids.push_back(tid);
+		uvs.push_back(std::pair<ImVec2,ImVec2>(uv0, uv1));
 	}
+	// TODO: extract id, uv0, uv1 from icons into tex_ids, uvs
+	
 	std::string fontname = luaL_checkstring(l, 4);
 	int size = luaL_checkinteger(l, 5);
-	ImFont *font = get_font(fontname, size);
+	//	ImFont *font = get_font(fontname, size);
 	std::vector<std::string> tooltips;
 	LuaTable tts(l, 6);
 	for(LuaTable::VecIter<std::string> iter = tts.Begin<std::string>(); iter != tts.End<std::string>(); ++iter) {
 		tooltips.push_back(*iter);
 	}
-	int n = PiGui::RadialPopupSelectMenu(center, id, items, font, tooltips);
+	int n = PiGui::RadialPopupSelectMenu(center, id, tex_ids, uvs, size, tooltips);
 	lua_pushinteger(l, n);
 	return 1;
 }

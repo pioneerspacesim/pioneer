@@ -118,7 +118,7 @@ void PiGui::Init(SDL_Window *window) {
 
 }
 
-int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<std::string> items, ImFont *itemfont, std::vector<std::string> tooltips)
+int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std::vector<ImTextureID> tex_ids, std::vector<std::pair<ImVec2,ImVec2>> uvs, unsigned int size, std::vector<std::string> tooltips)
 {
   int ret = -1;
 
@@ -144,7 +144,7 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
       draw_list->PathArcTo(center, (RADIUS_MIN + RADIUS_MAX)*0.5f, 0.0f, IM_PI*2.0f*0.99f, 64);   // FIXME: 0.99f look like full arc with closed thick stroke has a bug now
       draw_list->PathStroke(ImColor(18,44,67,210), true, RADIUS_MAX - RADIUS_MIN);
 
-      const float item_arc_span = 2*IM_PI / ImMax(ITEMS_MIN, items.size());
+      const float item_arc_span = 2*IM_PI / ImMax(ITEMS_MIN, tex_ids.size());
       float drag_angle = atan2f(drag_delta.y, drag_delta.x);
       if (drag_angle < -0.5f*item_arc_span)
         drag_angle += 2.0f*IM_PI;
@@ -152,9 +152,9 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 
       int item_hovered = -1;
 			int item_n = 0;
-			for(std::string item : items) {
-				const char* item_label = item.c_str();
+			for(ImTextureID tex_id : tex_ids) {
 				const char* tooltip = tooltips.at(item_n).c_str();
+				// const char* item_label = tooltip;
 				const float inner_spacing = style.ItemInnerSpacing.x / RADIUS_MIN / 2;
 				const float item_inner_ang_min = item_arc_span * (item_n - 0.5f + inner_spacing);
 				const float item_inner_ang_max = item_arc_span * (item_n + 0.5f - inner_spacing);
@@ -183,14 +183,15 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
 					draw_list->PathArcTo(center, RADIUS_MIN + border_thickness, item_outer_ang_min, item_outer_ang_max, arc_segments);
 					draw_list->PathStroke(ImColor(102,147,189), false, border_thickness);
 				}
-				ImGui::PushFont(itemfont);
-				ImVec2 text_size = ImGui::CalcTextSize(item_label);
+				// ImGui::PushFont(itemfont);
+				// ImVec2 text_size = ImGui::CalcTextSize(item_label);
+				ImVec2 text_size = ImVec2(size, size);
 				ImVec2 text_pos = ImVec2(
 																 center.x + cosf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.x * 0.5f,
 																 center.y + sinf((item_inner_ang_min + item_inner_ang_max) * 0.5f) * (RADIUS_MIN + RADIUS_MAX) * 0.5f - text_size.y * 0.5f);
-				//          draw_list->AddImage((void*)m_texture, text_pos, ImVec2(text_pos.x+x,text_pos.y+y)); ImGui::SameLine();
-				draw_list->AddText(text_pos, ImColor(255,255,255), item_label);
-				ImGui::PopFont();
+				draw_list->AddImage(tex_ids[item_n], text_pos, ImVec2(text_pos.x+size,text_pos.y+size), uvs[item_n].first, uvs[item_n].second); ImGui::SameLine();
+				// draw_list->AddText(text_pos, ImColor(255,255,255), item_label);
+				// ImGui::PopFont();
 				if (hovered) {
 					item_hovered = item_n;
 					ImGui::SetTooltip(tooltip);
