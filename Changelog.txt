@@ -18,6 +18,7 @@ September 2016
      * Brighter luminosity for random colours (#3815)
      * Minor performance cleanup (#3820)
      * Use a function to access the s_patchFaces to silence a gcc warning (#3822)
+	 * Multi-Threading modelcompiler (#3821)
 
 August 2016
    * New Features
