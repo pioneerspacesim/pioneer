@@ -7,6 +7,10 @@ do
 
 	 meta.__index = meta
 
+	 function meta:__unm( v )
+		return Vector(-self.x, -self.y, -self.z)
+	 end
+	 
 	 function meta:__add( v )
 			if(type(v) == "number") then
 				 return Vector(self.x + v, self.y + v, self.z + v)
@@ -70,6 +74,18 @@ do
 										self.x * other.y - self.y * other.x)
 	 end
 
+	 function meta:angle()
+		local n = self:normalized()
+		local x = math.atan2(n.x, n.y)
+		return math.pi * 2 - x
+	 end
+	 
+	 function meta:rotate2d(angle_rad)
+		local cs = math.cos(angle_rad)
+		local sn = math.sin(angle_rad)
+		return Vector(self.x * cs - self.y * sn, self.x * sn + self.y * cs, 0)
+	 end
+	 
 	 setmetatable( Vector, {
 										__call = function( V, x ,y ,z )
 											 local result

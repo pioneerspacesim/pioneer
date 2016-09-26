@@ -221,6 +221,7 @@ local icons = {
 
    -- TODO
    pressure = 0,
+   square = 0,
 }
 
 local colors = {
@@ -508,10 +509,20 @@ local function get_icon_tex(icon)
    return Vector(rem / count, quot/count), Vector((rem+1) / count, (quot+1)/count)
 end
 
-local function show_icon(position, icon, color, size, anchor_horizontal, anchor_vertical)
+local function show_icon(position, icon, color, size, anchor_horizontal, anchor_vertical, tooltip, angle_rad)
+   local angle = (angle_rad or 0.0) % (2 * math.pi)
    local pos = calc_alignment(position, Vector(size, size), anchor_horizontal, anchor_vertical)
    local uv0, uv1 = get_icon_tex(icon)
-   pigui.AddImage(pigui.icons_id, pos, pos + Vector(size, size), uv0, uv1, color)
+   if math.abs(angle) > 0.00001 then
+	  local center = (pos + pos + Vector(size,size)) / 2
+	  local up_left = Vector(-size/2, size/2):rotate2d(angle_rad)
+	  local up_right = up_left:right()
+	  local down_left = up_left:left()
+	  local down_right = -up_left
+	  pigui.AddImageQuad(pigui.icons_id, center + up_left, center + up_right, center + down_right, center + down_left, uv0, Vector(uv1.x, uv0.y), uv1, Vector(uv0.x, uv1.y), color)
+   else
+	  pigui.AddImage(pigui.icons_id, pos, pos + Vector(size, size), uv0, uv1, color)
+   end
    return Vector(size, size)
 end
 
@@ -1073,18 +1084,21 @@ local function show_navball()
 	  orbit_gauge(navball_center, navball_radius + 5, colors.orbit_gauge_ground, thickness, 0, ends)
 	  orbit_gauge(navball_center, navball_radius + 5, colors.orbit_gauge_atmosphere, thickness, ends, ends + atmosphere_ratio)
 
-	  symbol.circle(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, my_height), thickness / 2.3, colors.lightgrey, 2)
+	  local size = 12
+	  show_icon(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, my_height), icons.current_height, colors.lightgrey, size, anchor.center, anchor.center)
 	  if apoapsis then
 		 local self_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, apoapsis)
 		 local close_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, apoapsis * 1.05)
 		 local dir = (close_position - self_position):normalized()
-		 symbol.chevron(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, apoapsis), thickness / 2.3, colors.lightgrey, 2, dir)
+		 local angle = dir:angle() - math.pi
+		 show_icon(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, apoapsis), icons.current_apoapsis, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
 	  end
 	  do
 		 local self_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis)
 		 local close_position = orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis * 0.95)
 		 local dir = (close_position - self_position):normalized()
-		 symbol.chevron(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis), thickness / 2.3, colors.lightgrey, 2, dir)
+		 local angle = dir:angle()
+		 show_icon(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis), icons.current_periapsis, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
 	  end
    end
    -- circular stats, lower left
@@ -1959,7 +1973,7 @@ local function show_bodies_on_screen()
 end
 
 
-local function show_marker(name, painter, color, show_in_reticule, direction, size, tooltip)
+local function show_marker_old(name, painter, color, show_in_reticule, direction, size, tooltip)
    local siz = size and size or 12
    local pos,dir,point,side = markerPos(name, reticule_radius - 10)
    local mp = pigui.GetMousePos()
@@ -1973,6 +1987,26 @@ local function show_marker(name, painter, color, show_in_reticule, direction, si
    if side == "onscreen" and point then
 	  local thesize = siz
 	  painter(point, thesize, color, 3.0, direction)
+	  if tooltip and tooltip ~= "" and (Vector(mp.x,mp.y) - point):magnitude() <= thesize and not pigui.IsMouseHoveringAnyWindow() then
+		 pigui.SetTooltip(tooltip)
+	  end
+   end
+end
+
+local function show_marker(name, icon, color, show_in_reticule, direction, size, tooltip)
+   local siz = size or 24
+   local pos,dir,point,side = markerPos(name, reticule_radius - 10)
+   local mp = pigui.GetMousePos()
+   if pos and show_in_reticule then
+	  local thesize = siz / 2
+	  show_icon(pos, icon, color, thesize, anchor.center, anchor.center)
+	  if tooltip and tooltip ~= "" and (Vector(mp.x,mp.y) - pos):magnitude() <= thesize and not pigui.IsMouseHoveringAnyWindow() then
+		 pigui.SetTooltip(tooltip)
+	  end
+   end
+   if side == "onscreen" and point then
+	  local thesize = siz
+	  show_icon(point, icon, color, thesize, anchor.center, anchor.center)
 	  if tooltip and tooltip ~= "" and (Vector(mp.x,mp.y) - point):magnitude() <= thesize and not pigui.IsMouseHoveringAnyWindow() then
 		 pigui.SetTooltip(tooltip)
 	  end
@@ -2288,7 +2322,9 @@ local function show_hyperspace_button()
    end
 end
 
+local fooangle = 0
 local function show_hud(delta)
+   fooangle = fooangle + delta
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
 	 local windowbg = colors.noz_darkblue
@@ -2306,7 +2342,7 @@ local function show_hud(delta)
 									 -- show_text(Vector(100,100), "foo", colors.green, anchor.right, anchor.baseline, pionillium.large)
 									 -- show_text(Vector(100,100), "bar", colors.green, anchor.left, anchor.baseline, pionillium.small)
 									 -- ******************** Ship Directional Markers ********************
-									 local size=8
+									 local size=24
 									 local side, dir, pos = pigui.GetHUDMarker("forward")
 									 local dir_fwd = Vector(dir.x, dir.y)
 									 local show_forward_direction_in_reticule = true
@@ -2314,54 +2350,54 @@ local function show_hud(delta)
 											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
 												 show_forward_direction_in_reticule = false
 											end
-											symbol.plus(pos, size, colors.lightgrey, 3.0)
+											show_icon(pos, icons.forward, colors.lightgrey, size, anchor.center, anchor.center)
 									 end
 									 local side, dir, pos = pigui.GetHUDMarker("backward")
 									 if side == "onscreen" then
 											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
 												 show_forward_direction_in_reticule = false
 											end
-											symbol.cross(pos, size, colors.lightgrey, 3.0)
+											show_icon(pos, icons.backward, colors.lightgrey, size, anchor.center, anchor.center)
 									 end
 									 local side, dir, pos = pigui.GetHUDMarker("left")
 									 if side == "onscreen" then
 											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
 												 show_forward_direction_in_reticule = false
 											end
-											symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+											show_icon(pos, icons.left, colors.lightgrey, size, anchor.center, anchor.center)
 									 end
 									 local side, dir, pos = pigui.GetHUDMarker("right")
 									 if side == "onscreen" then
 											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
 												 show_forward_direction_in_reticule = false
 											end
-											symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+											show_icon(pos, icons.right, colors.lightgrey, size, anchor.center, anchor.center)
 									 end
 									 local side, dir, pos = pigui.GetHUDMarker("up")
 									 if side == "onscreen" then
 											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
 												 show_forward_direction_in_reticule = false
 											end
-											symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+											local angle = dir_fwd:angle() - math.pi -- icon is pointing the wrong way
+											show_icon(pos, icons.up, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
 									 end
 									 local side, dir, pos = pigui.GetHUDMarker("down")
 									 if side == "onscreen" then
 											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
 												 show_forward_direction_in_reticule = false
 											end
-											symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+											local angle = dir_fwd:angle()
+											show_icon(pos, icons.down, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
 									 end
 									 -- ******************** Reticule ********************
 									 if show_forward_direction_in_reticule then
-											-- center of screen marker, small circle
-											symbol.disk(center, 2, colors.lightgrey)
-											-- pointer to forward, small triangle
-											pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:left()):normalized() * size / 1.7, colors.lightgrey, 1.5)
-											pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:right()):normalized() * size / 1.7, colors.lightgrey, 1.5)
+										local size = 12
+										local angle = dir_fwd:angle()
+										show_icon(center, icons.direction_forward, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
 									 end
 									 -- navigation circle
-									 symbol.circle(center, reticule_radius, colors.lightgrey, 2.0)
-
+									 local segments = circle_segments(reticule_radius)
+									 pigui.AddCircle(center, reticule_radius, colors.lightgrey, segments, 2.0)
 									 -- ******************** Nav Target speed / distance ********************
 									 local navTarget = player:GetNavTarget()
 									 if navTarget then
@@ -2444,13 +2480,17 @@ local function show_hud(delta)
 											show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, pionillium.medium, anchor.right, anchor.top)
 
 											-- ******************** Frame markers ********************
-											show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true, nil, 12) -- , "Prograde direction relative to frame"
-											show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators, nil, 12) -- , "Retrograde direction relative to frame"
-											show_marker("normal", symbol.normal, colors.orbital_marker, false, nil, 8)
-											show_marker("anti_normal", symbol.anti_normal, colors.orbital_marker, false, nil, 8)
-											show_marker("radial_out", symbol.radial_out, colors.orbital_marker, false, nil, 8)
-											show_marker("radial_in", symbol.radial_in, colors.orbital_marker, false, nil, 8)
-											show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true, nil, 12) -- , "Direction away from frame"
+											do
+											   local size = 24
+											   local smallsize = 24
+											   show_marker("frame_prograde", icons.prograde, colors.orbital_marker, true, nil, size) -- , "Prograde direction relative to frame"
+											   show_marker("frame_retrograde", icons.retrograde, colors.orbital_marker, show_retrograde_indicators, nil, size) -- , "Retrograde direction relative to frame"
+											   show_marker("normal", icons.normal, colors.orbital_marker, false, nil, smallsize)
+											   show_marker("anti_normal", icons.antinormal, colors.orbital_marker, false, nil, smallsize)
+											   show_marker("radial_out", icons.radial_out, colors.orbital_marker, false, nil, smallsize)
+											   show_marker("radial_in", icons.radial_in, colors.orbital_marker, false, nil, smallsize)
+											   show_marker("away_from_frame", icons.frame_away, colors.orbital_marker, true, nil, size) -- , "Direction away from frame"
+											end
 											local pos,dir = markerPos("frame", reticule_radius + 5)
 											if pos then
 												 local size = 6
@@ -2461,8 +2501,8 @@ local function show_hud(delta)
 											end
 											-- ******************** Combat target ********************
 											if player:GetCombatTarget() then
-												 show_marker("combat_target", symbol.circle, colors.combat_target, true)
-												 show_marker("combat_target_lead", symbol.empty_bullseye, colors.combat_target, false)
+												 show_marker("combat_target", icons.current_height, colors.combat_target, true)
+												 show_marker("combat_target_lead", icons.bullseye, colors.combat_target, false)
 												 do -- line between lead and target TODO: dashed
 														local c_pos,c_dir,c_point,c_side = markerPos("combat_target", reticule_radius - 10)
 														local cl_pos,cl_dir,cl_point,cl_side = markerPos("combat_target_lead", reticule_radius - 10)
@@ -2473,9 +2513,9 @@ local function show_hud(delta)
 											end
 									 end
 									 -- ******************** NavTarget markers ********************
-									 show_marker("nav_prograde", symbol.diamond, colors.lightgreen, true)
-									 show_marker("nav_retrograde", symbol.cross, colors.lightgreen, show_retrograde_indicators)
-									 show_marker("nav", symbol.square, colors.lightgreen, false)
+									 show_marker("nav_prograde", icons.prograde, colors.lightgreen, true)
+									 show_marker("nav_retrograde", icons.retrograde, colors.lightgreen, show_retrograde_indicators)
+									 show_marker("nav", icons.square, colors.lightgreen, false)
 									 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
 									 if pos then
 											local size = 9
@@ -2485,7 +2525,7 @@ local function show_hud(delta)
 											pigui.AddTriangleFilled(left, right, top, colors.lightgrey)
 									 end
 									 -- ******************** Maneuver Node ********************
-									 show_marker("maneuver", symbol.bullseye, colors.maneuver, true)
+									 show_marker("maneuver", icons.bullseye, colors.maneuver, true)
 
 									 show_bodies_on_screen()
 									 -- ******************** directional spaceship markers ********************
