@@ -10,6 +10,7 @@
 
 #include "FileSystem.h"
 #include "GameConfig.h"
+#include "JobQueue.h"
 #include "graphics/dummy/RendererDummy.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
@@ -28,9 +29,36 @@
 
 std::unique_ptr<GameConfig> s_config;
 std::unique_ptr<Graphics::Renderer> s_renderer;
+std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 
 static const std::string s_dummyPath("");
 
+// fwd decl'
+void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace);
+
+// ********************************************************************************
+// Overloaded PureJob class to handle compiling each model
+// ********************************************************************************
+class CompileJob : public Job
+{
+public:
+	CompileJob() {};
+	CompileJob(const std::string &name, const std::string &path, const bool inPlace)
+		: m_name(name), m_path(path), m_inPlace(inPlace) {}
+
+	virtual void OnRun() override final { RunCompiler(m_name, m_path, m_inPlace); }    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish() override final {}
+	virtual void OnCancel() override final {}
+
+protected:
+	std::string	m_name;
+	std::string	m_path;
+	bool		m_inPlace;
+};
+
+// ********************************************************************************
+// functions
+// ********************************************************************************
 void SetupRenderer()
 {
 	PROFILE_SCOPED()
@@ -61,6 +89,15 @@ void SetupRenderer()
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Model Compiler";
 	s_renderer.reset(Graphics::Init(videoSettings));
+
+	// get threads up
+	Uint32 numThreads = s_config->Int("WorkerThreads");
+	const int numCores = OS::GetNumCores();
+	assert(numCores > 0);
+	if (numThreads == 0) 
+		numThreads = std::max(Uint32(numCores), 1U); // this is a tool, we can use all of the cores for processing unlike Pioneer
+	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
+	Output("started %d worker threads\n", numThreads);
 }
 
 void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
@@ -100,6 +137,9 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 }
 
 
+// ********************************************************************************
+// functions
+// ********************************************************************************
 enum RunMode {
 	MODE_MODELCOMPILER=0,
 	MODE_MODELBATCHEXPORT,
@@ -221,8 +261,19 @@ start:
 			}
 
 			SetupRenderer();
+			std::deque<Job::Handle> handles;
 			for (auto &modelName : list_model) {
-				RunCompiler(modelName.first, modelName.second, isInPlace);
+				handles.push_back( asyncJobQueue->Queue(new CompileJob(modelName.first, modelName.second, isInPlace)) );
+			}
+
+			while(true) {
+				asyncJobQueue->FinishJobs();
+				bool hasJobs = false;
+				for(auto &handle : handles) 
+					hasJobs |= handle.HasJob();
+
+				if(!hasJobs)
+					break;
 			}
 			break;
 		}

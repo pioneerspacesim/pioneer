@@ -428,6 +428,7 @@ modelcompiler_SOURCES = \
 	FontCache.cpp \
 	IniConfig.cpp \
 	GameConfig.cpp \
+	JobQueue.cpp \
 	Lang.cpp \
 	ModManager.cpp \
 	NavLights.cpp \
