@@ -77,6 +77,8 @@ local icons = {
    right = 11,
    up = 12,
    left = 13,
+   bullseye = 14,
+   square = 15,
    -- second row
    prograde_thin = 16,
    retrograde_thin = 17,
@@ -155,6 +157,10 @@ local icons = {
    time_accel_100x = 88,
    time_accel_1000x = 89,
    time_accel_10000x = 90,
+   pressure = 91,
+   shield = 92,
+   hull = 93,
+   temperature = 94,
    -- seventh row
    heavy_cargo_shuttle = 96,
    medium_cargo_shuttle = 97,
@@ -214,14 +220,10 @@ local icons = {
    locked = 163,
    label = 165,
    broadcast = 166,
-   shield = 167,
+   shield_other = 167,
    hud = 168,
    factory = 169,
    star = 170,
-
-   -- TODO
-   pressure = 0,
-   square = 0,
 }
 
 local colors = {
@@ -503,6 +505,7 @@ local function show_text(pos, text, color, font, anchor_horizontal, anchor_verti
 end
 
 local function get_icon_tex(icon)
+   assert(icon, "no icon given")
    local count = 16.0 -- icons per row/column
    local rem = math.floor(icon % count)
    local quot = math.floor(icon / count)
@@ -1044,12 +1047,12 @@ local radial_actions = {
    medium_orbit = function(body) player:AIEnterMediumOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
    high_orbit = function(body) player:AIEnterHighOrbit(body); player:SetNavTarget(body)  end, -- TODO check for autopilot
    clearance = function(body) local msg = player:RequestDockingClearance(body); Game.AddCommsLogLine(msg, body.label); player:SetNavTarget(body)  end, -- TODO check for room for docking, or make it so you can be denied
-   radial_in = function(body) print("implement radial_in") end, -- 	Pi::player->GetPlayerController()->SetFlightControlState(s); CONTROL_FIXHEADING_FORWARD
-   radial_out = function(body) print("implement radial_out") end,
-   normal = function(body) print("implement normal") end,
-   anti_normal = function(body) print("implement anti_normal") end,
-   prograde = function(body) print("implement prograde") end,
-   retrograde = function(body) print("implement retrograde") end,
+   radial_in = function(body) player:SetNavTarget(body); player:SetFlightControlState("fix-heading-radial-in") end,
+   radial_out = function(body) player:SetNavTarget(body); player:SetFlightControlState("fix-heading-radial-out") end,
+   normal = function(body) player:SetNavTarget(body); player:SetFlightControlState("fix-heading-normal") end,
+   anti_normal = function(body) player:SetNavTarget(body); player:SetFlightControlState("fix-heading-antinormal") end,
+   prograde = function(body) player:SetNavTarget(body); player:SetFlightControlState("fix-heading-prograde") end,
+   retrograde = function(body) player:SetNavTarget(body); player:SetFlightControlState("fix-heading-retrograde") end,
    -- hypercloud_analyzer: 	Pi::game->GetSectorView()->SetHyperspaceTarget(cloud->GetShip()->GetHyperspaceDest());
 }
 
@@ -1093,12 +1096,15 @@ local function show_radial_menu()
 		 addItem(icons.autopilot_medium_orbit, lui.HUD_RADIAL_TOOLTIP_MEDIUM_ORBIT, "medium_orbit")
 		 addItem(icons.autopilot_high_orbit, lui.HUD_RADIAL_TOOLTIP_HIGH_ORBIT, "high_orbit")
 	  end
-	  -- addItem("Hold Radial in", "radial_in")
-	  -- addItem("Hold radial out", "radial_out")
-	  -- addItem("Hold normal", "normal")
-	  -- addItem("Hold anti-normal", "anti_normal")
-	  -- addItem("Hold prograde", "prograde")
-	  -- addItem("Hold retrograde", "retrograde")
+	  local frame = player:GetFrame()
+	  if frame:GetSystemBody() and radial_nav_target:GetSystemBody() and frame:GetSystemBody().index == radial_nav_target:GetSystemBody().index then
+		 addItem(icons.radial_in, "Hold Radial in", "radial_in")
+		 addItem(icons.radial_out, "Hold radial out", "radial_out")
+		 addItem(icons.normal, "Hold normal", "normal")
+		 addItem(icons.antinormal, "Hold anti-normal", "anti_normal")
+		 addItem(icons.prograde, "Hold prograde", "prograde")
+		 addItem(icons.retrograde, "Hold retrograde", "retrograde")
+	  end
    end
    local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items, "pionicons", 30, tooltips) -- pionicons.large.name, pionicons.large.size
    if n == -2 then
@@ -1977,7 +1983,7 @@ local function show_stuff()
 			 do -- flight control state
 				local state = player:GetFlightControlState()
 				pigui.Text(state)
-				local states = { "manual", "fix-speed", "fix-heading-forward", "fix-heading-backward", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-kill-rot" }
+				local states = { "manual", "fix-speed", "fix-heading-prograde", "fix-heading-retrograde", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-kill-rot" }
 				if state == "fix-speed" then
 				   pigui.Text(" speed: " .. player:GetFlightControlSpeed())
 				end

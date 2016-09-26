@@ -366,7 +366,7 @@ static int l_set_low_thrust_power(lua_State *l)
 static int l_get_flight_control_state(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
-	std::vector<std::string> states = { "manual", "fix-speed", "fix-heading-forward", "fix-heading-backward", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-killrot", "autopilot" };
+	std::vector<std::string> states = { "manual", "fix-speed", "fix-heading-prograde", "fix-heading-retrograde", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-killrot", "autopilot" };
 	lua_pushstring(l, states[player->GetPlayerController()->GetFlightControlState()].c_str());
 	return 1;
 }
@@ -379,9 +379,9 @@ static int l_set_flight_control_state(lua_State *l)
 		newState = FlightControlState::CONTROL_MANUAL;
 	} else if(!state.compare("fix-speed")) {
 		newState = FlightControlState::CONTROL_FIXSPEED;
-	} else if(!state.compare("fix-heading-forward")) {
+	} else if(!state.compare("fix-heading-prograde")) {
 		newState = FlightControlState::CONTROL_FIXHEADING_FORWARD;
-	} else if(!state.compare("fix-heading-backward")) {
+	} else if(!state.compare("fix-heading-retrograde")) {
 		newState = FlightControlState::CONTROL_FIXHEADING_BACKWARD;
 	} else if(!state.compare("fix-heading-normal")) {
 		newState = FlightControlState::CONTROL_FIXHEADING_NORMAL;
@@ -393,7 +393,10 @@ static int l_set_flight_control_state(lua_State *l)
 		newState = FlightControlState::CONTROL_FIXHEADING_RADIALLY_OUTWARD;
 	} else if(!state.compare("fix-heading-kill-rot")) {
 		newState = FlightControlState::CONTROL_FIXHEADING_KILLROT;
-	}// else if(!state.compare("autopilot")) {
+	} else {
+		Output("Error: unknown flight control state: %s\n", state.c_str());
+	}
+	// else if(!state.compare("autopilot")) {
 	//		newState = FlightControlState::CONTROL_AUTOPILOT;
 	//	}
 	//   TODO: else error
