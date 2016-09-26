@@ -1279,8 +1279,13 @@ local function get_hierarchical_bodies(filter)
 		 error("systemBody is nil for " .. (parent.label or parent.name))
 	  end
    end
+   -- sort by distance
+   for _,body in pairs(data) do
+	  if body.children then
+		 table.sort(body.children, function(a,b) return a.distance < b.distance end)
+	  end
+   end
    -- filter
-
    if filter then
 	  for _,body in pairs(data) do
 		 body.hidden = true
@@ -1561,7 +1566,7 @@ local function show_thrust()
    end
    local size = pigui.CalcTextSize(math.floor(low_thrust_power * 100))
    pigui.AddText(position - Vector(size.x/2, size.y/2), colors.lightgrey, math.floor(low_thrust_power * 100))
-   local time_position = Vector(30, pigui.screen_height - 90)
+   local time_position = Vector(60, pigui.screen_height - 90)
    local year, month, day, hour, minute, second = Game.GetDateTime()
    withFont("pionillium", 18, function()
 			   local months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }

@@ -704,17 +704,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.25000001"
-     inkscape:cx="2720.952"
-     inkscape:cy="3236.29"
+     inkscape:zoom="0.3535534"
+     inkscape:cx="1933.2268"
+     inkscape:cy="3437.5389"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1857"
-     inkscape:window-height="1061"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
-     inkscape:window-maximized="1"
+     inkscape:window-width="1920"
+     inkscape:window-height="1200"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:snap-bbox="true"
@@ -4684,10 +4684,9 @@
        transform="translate(-8617.3228,-226.77163)"
        inkscape:label="Crosshair FWD">
       <path
-         sodipodi:nodetypes="cccccscccccccccccccccc"
-         inkscape:connector-curvature="0"
-         d="m 10554.846,-2330.9136 c -4.063,-4.0554 -10.175,-5.2477 -15.462,-3.0128 -5.287,2.2354 -8.691,7.4521 -8.611,13.1911 l 0,70.8022 -70.801,-10e-5 c -7.867,-0.1091 -14.303,6.2374 -14.303,14.1054 0,7.868 6.435,14.2158 14.302,14.1063 l 70.803,2e-4 0,64.3541 0,6.447 c -0.08,5.8173 3.417,11.0887 8.809,13.2734 5.393,2.1852 11.573,0.8348 15.564,-3.3997 2.514,-2.6678 3.891,-6.2099 3.839,-9.8751 l 0,-70.7998 70.801,2e-4 c 3.813,0.054 7.484,-1.4384 10.179,-4.1358 5.624,-5.6234 5.483,-14.7841 -0.304,-20.2379 -2.668,-2.5141 -6.21,-3.8901 -9.874,-3.8381 l -70.801,-2e-4 0,-70.8023 c 0.05,-3.8127 -1.44,-7.4837 -4.138,-10.1781 z"
          style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1, 2;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 1927.1719 14.177734 C 1925.4463 14.223981 1923.7127 14.588703 1922.0605 15.287109 C 1916.7735 17.522509 1913.3712 22.737562 1913.4512 28.476562 L 1913.4512 99.212891 L 1941.6641 99.212891 L 1941.6641 28.476562 C 1941.7141 24.663863 1940.2234 20.993228 1937.5254 18.298828 L 1937.5234 18.298828 C 1934.7301 15.510741 1930.9682 14.075993 1927.1719 14.177734 z M 1842.6484 99.279297 C 1834.7814 99.170197 1828.3457 105.51677 1828.3457 113.38477 C 1828.3457 121.25277 1834.7814 127.59973 1842.6484 127.49023 L 1913.3867 127.49219 L 1913.3867 99.279297 L 1842.6484 99.279297 z M 1941.7324 99.279297 L 1941.7324 127.49219 L 2012.4648 127.49219 C 2016.2778 127.54619 2019.9476 126.05287 2022.6426 123.35547 C 2028.2666 117.73207 2028.1268 108.57099 2022.3398 103.11719 C 2019.6718 100.60309 2016.1288 99.227297 2012.4648 99.279297 L 1941.7324 99.279297 z M 1913.4512 127.55859 L 1913.4512 191.8457 L 1913.4512 198.29297 C 1913.3712 204.11027 1916.8678 209.38171 1922.2598 211.56641 C 1927.6528 213.75161 1933.8332 212.40052 1937.8242 208.16602 C 1940.3382 205.49822 1941.7161 201.95622 1941.6641 198.29102 L 1941.6641 127.55859 L 1913.4512 127.55859 z "
+         transform="translate(8617.3228,-2349.2127)"
          id="rect7468" />
       <rect
          y="-2349.2126"
@@ -7239,6 +7238,43 @@
       </g>
     </g>
     <g
+       inkscape:label="Icon Ship Shield"
+       transform="translate(-4081.89,907.08663)"
+       id="g9559">
+      <path
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1, 2;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 2834.6465,1148.0312 c -29.851,0 -65.8573,4.7545 -90.9453,13.4356 -4.795,1.6949 -8.2676,6.3662 -8.2676,11.7402 l 0,0 0.039,0.9082 c 2.109,58.2049 11.4501,109.3821 16.4942,114.4668 11.5739,15.378 48.573,39.273 68.58,52.336 4.754,3.1004 9.3027,5.415 14.0977,5.539 4.795,-0.124 9.3436,-2.4386 14.0976,-5.539 20.007,-13.063 57.0061,-36.958 68.5801,-52.336 5.044,-5.0847 14.3852,-56.2619 16.4942,-114.4668 l 0.041,-0.9082 c 0,-5.374 -3.4746,-10.0453 -8.2696,-11.7402 -25.092,-8.6811 -61.0963,-13.4356 -90.9433,-13.4356 z m 0.01,20.67 c 23.605,0 52.7468,1.8175 72.5938,8.6797 3.803,1.3642 6.5742,5.0445 6.5742,9.3437 l -0.041,0.7031 c -1.691,46.0927 -9.6736,87.9273 -13.6836,91.9785 -9.181,12.1537 -38.4493,31.6654 -54.2773,42 -3.762,2.439 -7.3592,4.2982 -11.1622,4.3809 -3.8029,-0.083 -7.3981,-1.942 -11.1601,-4.3809 -15.833,-10.3346 -45.1023,-29.8463 -54.2793,-42 -4.01,-4.0511 -11.9865,-45.8858 -13.6856,-91.9785 l -0.041,-0.7031 -0.01,0 c 0,-4.2992 2.7692,-7.9795 6.5722,-9.3437 19.847,-6.8622 48.9917,-8.6797 72.5957,-8.6797 z"
+         transform="translate(4081.89,-3483.0709)"
+         id="path9561"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="sccccccccccccssccccccccccccs" />
+      <rect
+         style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:21.25984192;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.5151515"
+         id="rect9563"
+         width="226.77167"
+         height="226.77162"
+         x="6803.1499"
+         y="-2349.2126" />
+    </g>
+    <g
+       id="g9573"
+       transform="translate(-3855.1183,907.08665)"
+       inkscape:label="Icon Ship Hull">
+      <path
+         id="path9575"
+         d="m 6916.5818,-2155.6412 c -25.1464,0 -56.1301,-1.9661 -77.2368,-9.3195 -4.0465,-1.4594 -6.9617,-5.3879 -6.9617,-9.9347 l 0,0 0,-0.785 c 1.7964,-49.3967 11.0004,-93.5746 15.2098,-97.8967 9.7671,-13.0227 40.0245,-34.4645 57.0889,-45.242 4.2094,-2.6943 7.8031,-3.2002 11.8442,-3.3124 4.041,0.1127 7.6269,0.7865 11.8363,3.3124 17.4065,10.2723 48.0563,32.2193 57.7678,45.242 4.2665,4.3221 12.7926,48.5 14.5944,97.8967 l 0.053,0.785 c 0,4.5468 -2.9167,8.4753 -6.9591,9.9347 -21.161,7.3534 -52.1419,9.3195 -77.2394,9.3195 z m -14.2193,-107.933 28.3464,0 0,-28.9456 -28.3464,0 z"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1, 2;stroke-dashoffset:0;stroke-opacity:1"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccccccccc" />
+      <rect
+         y="-2349.2126"
+         x="6803.1499"
+         height="226.77162"
+         width="226.77167"
+         id="rect9577"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:21.25984192;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.5151515" />
+    </g>
+    <g
        inkscape:label="Filter Ships"
        transform="translate(1587.4017,1133.8582)"
        id="g9547">
@@ -7305,43 +7341,6 @@
          height="226.77171"
          x="1360.6299"
          y="-2349.2126" />
-    </g>
-    <g
-       inkscape:label="Icon Ship Shield"
-       transform="translate(-4081.89,907.08663)"
-       id="g9559">
-      <path
-         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1, 2;stroke-dashoffset:0;stroke-opacity:1"
-         d="m 2834.6465,1148.0312 c -29.851,0 -65.8573,4.7545 -90.9453,13.4356 -4.795,1.6949 -8.2676,6.3662 -8.2676,11.7402 l 0,0 0.039,0.9082 c 2.109,58.2049 11.4501,109.3821 16.4942,114.4668 11.5739,15.378 48.573,39.273 68.58,52.336 4.754,3.1004 9.3027,5.415 14.0977,5.539 4.795,-0.124 9.3436,-2.4386 14.0976,-5.539 20.007,-13.063 57.0061,-36.958 68.5801,-52.336 5.044,-5.0847 14.3852,-56.2619 16.4942,-114.4668 l 0.041,-0.9082 c 0,-5.374 -3.4746,-10.0453 -8.2696,-11.7402 -25.092,-8.6811 -61.0963,-13.4356 -90.9433,-13.4356 z m 0.01,20.67 c 23.605,0 52.7468,1.8175 72.5938,8.6797 3.803,1.3642 6.5742,5.0445 6.5742,9.3437 l -0.041,0.7031 c -1.691,46.0927 -9.6736,87.9273 -13.6836,91.9785 -9.181,12.1537 -38.4493,31.6654 -54.2773,42 -3.762,2.439 -7.3592,4.2982 -11.1622,4.3809 -3.8029,-0.083 -7.3981,-1.942 -11.1601,-4.3809 -15.833,-10.3346 -45.1023,-29.8463 -54.2793,-42 -4.01,-4.0511 -11.9865,-45.8858 -13.6856,-91.9785 l -0.041,-0.7031 -0.01,0 c 0,-4.2992 2.7692,-7.9795 6.5722,-9.3437 19.847,-6.8622 48.9917,-8.6797 72.5957,-8.6797 z"
-         transform="translate(4081.89,-3483.0709)"
-         id="path9561"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="sccccccccccccssccccccccccccs" />
-      <rect
-         style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:21.25984192;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.5151515"
-         id="rect9563"
-         width="226.77167"
-         height="226.77162"
-         x="6803.1499"
-         y="-2349.2126" />
-    </g>
-    <g
-       id="g9573"
-       transform="translate(-3855.1183,907.08665)"
-       inkscape:label="Icon Ship Hull">
-      <path
-         id="path9575"
-         d="m 6916.5818,-2155.6412 c -25.1464,0 -56.1301,-1.9661 -77.2368,-9.3195 -4.0465,-1.4594 -6.9617,-5.3879 -6.9617,-9.9347 l 0,0 0,-0.785 c 1.7964,-49.3967 11.0004,-93.5746 15.2098,-97.8967 9.7671,-13.0227 40.0245,-34.4645 57.0889,-45.242 4.2094,-2.6943 7.8031,-3.2002 11.8442,-3.3124 4.041,0.1127 7.6269,0.7865 11.8363,3.3124 17.4065,10.2723 48.0563,32.2193 57.7678,45.242 4.2665,4.3221 12.7926,48.5 14.5944,97.8967 l 0.053,0.785 c 0,4.5468 -2.9167,8.4753 -6.9591,9.9347 -21.161,7.3534 -52.1419,9.3195 -77.2394,9.3195 z m -14.2193,-107.933 28.3464,0 0,-28.9456 -28.3464,0 z"
-         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:1, 2;stroke-dashoffset:0;stroke-opacity:1"
-         inkscape:connector-curvature="0"
-         sodipodi:nodetypes="cccccccccccccccccccc" />
-      <rect
-         y="-2349.2126"
-         x="6803.1499"
-         height="226.77162"
-         width="226.77167"
-         id="rect9577"
-         style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:21.25984192;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.5151515" />
     </g>
     <g
        id="g9579"
