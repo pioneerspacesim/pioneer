@@ -841,7 +841,7 @@ local function show_navball()
 	  local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
 	  local aa_d = aa - frame_radius
 	  local dist_apo, unit_apo = MyFormat.Distance(aa_d)
-	  if aa_d > 0 then
+	  if aa_d > 0 and o_time_at_apoapsis > 0 then
 		 local textsize = show_text_fancy(position,
 										  { icons.apoapsis, dist_apo, unit_apo },
 										  { colors.lightgrey, colors.lightgrey, colors.darkgrey },
@@ -878,7 +878,7 @@ local function show_navball()
 	  local position = point_on_circle_radius(navball_center, navball_text_radius, 3)
 	  local pa_d = pa - frame_radius
 	  local dist_per, unit_per = MyFormat.Distance(pa_d)
-	  if pa and pa_d ~= 0 then
+	  if pa and pa_d ~= 0 and o_time_at_periapsis > 0 then
 		 local textsize = show_text_fancy(position,
 										  { icons.periapsis, dist_per, unit_per, "     " .. lui.HUD_T_MINUS .. Format.Duration(o_time_at_periapsis) },
 										  { colors.lightgrey, (pa - frame_radius < 0 and colors.lightred or colors.lightgrey), colors.darkgrey, (o_time_at_periapsis < 30 and colors.lightgreen or colors.lightgrey) },
@@ -1080,7 +1080,7 @@ end)
 local function show_comm_log()
    window("CommLog", {}, function ()
 			 for k,v in pairs(Game.comms_log_lines) do
-				pigui.Text(Format.Duration(Game.time - v.time) .. " " .. (v.sender and (v.sender .. ": ") or "") .. v.text)
+				pigui.Text(MyFormat.Duration(Game.time - v.time, 2) .. " " .. (v.sender and (v.sender .. ": ") or "") .. v.text)
 			 end
    end)
 end
@@ -1287,11 +1287,19 @@ local function get_hierarchical_bodies(filter)
    end
    -- filter
    if filter then
+	  local navtarget = player:GetNavTarget()
+	  local navindex
+	  if navtarget then
+		 navtarget = navtarget:GetSystemBody()
+		 if navtarget then
+			navindex = navtarget.index
+		 end
+	  end
 	  for _,body in pairs(data) do
 		 body.hidden = true
 	  end
 	  for _,body in pairs(data) do
-		 local visible = filter(body.body)
+		 local visible = filter(body.body) or (navindex and body.systemBody and navindex == body.systemBody.index)
 		 if visible then
 			body.hidden = false
 		 end
@@ -1332,7 +1340,7 @@ end
 
 local filter_ship = true
 local filter_station = true
-local filter_planet = true
+local filter_body = false
 
 local function image_button(icon, size, bg_color, fg_color, tooltip)
    if not tooltip then
@@ -1382,13 +1390,13 @@ local function show_nav_window()
 			 end
 			 pigui.SameLine()
 			 do
-				local fs = filter_planet
+				local fs = filter_body
 				if fs then
 				   pigui.PushStyleColor("Button", colors.nav_filter_active)
 				   pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				end
 				if image_button(icons.filter_bodies, 24, colors.transparent, colors.lightgrey, "Filter Bodies") then
-				   filter_planet = not filter_planet
+				   filter_body = not filter_body
 				end
 				if fs then
 				   pigui.PopStyleColor(2)
@@ -1397,7 +1405,7 @@ local function show_nav_window()
 			 -- pigui.PopFont()
 			 pigui.Columns(2, "navcolumns", false)
 			 local filter = nil
-			 if filter_ship or filter_station or filter_planet or filter_moon then
+			 if filter_ship or filter_station or filter_body then
 				filter = function(body)
 				   if filter_ship and body:IsShip() then
 					  return true
@@ -1405,7 +1413,7 @@ local function show_nav_window()
 				   if filter_station and (body:IsSpaceStation() or body:IsStarPort()) then
 					  return true
 				   end
-				   if filter_planet and (body:IsGasGiant() or body:IsRockyPlanet()) and not body:IsMoon() then
+				   if filter_body and (body:IsGasGiant() or body:IsRockyPlanet()) then
 					  return true
 				   end
 				   if filter_moon and body:IsMoon() then
