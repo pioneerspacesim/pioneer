@@ -9,6 +9,7 @@
 #include "Pi.h"
 #include "Game.h"
 #include "graphics/Graphics.h"
+#include "Player.h"
 // #include "FileSystem.h"
 // #include "Player.h"
 // #include "Pi.h"
@@ -945,6 +946,13 @@ static int l_pigui_pop_item_width(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_disable_mouse_facing(lua_State *l) {
+	bool b = luaL_checkbool(l, 1);
+	auto *p = Pi::player->GetPlayerController();
+	p->SetDisableMouseFacing(b);
+	return 0;
+}
+
 static int l_attr_handlers(lua_State *l) {
 	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	pigui->GetHandlers().PushCopyToStack();
@@ -961,6 +969,13 @@ static int l_attr_screen_width(lua_State *l) {
 	//	PiGui *pigui = LuaObject<PiGui>::CheckFromLua(1);
 	lua_pushinteger(l,Graphics::GetScreenWidth());
 	return 1;
+}
+
+static int l_pigui_set_mouse_button_state(lua_State *l) {
+	int button = luaL_checkinteger(l, 1);
+	bool state = luaL_checkbool(l, 2);
+	Pi::SetMouseButtonState(button, state);
+	return 0;
 }
 
 static int l_attr_key_ctrl(lua_State *l) {
@@ -1020,6 +1035,12 @@ static int l_pigui_image_button(lua_State *l) {
 	bool res = ImGui::ImageButton((ImTextureID)id, size, uv0, uv1, frame_padding, bg_col, tint_col);
 	lua_pushboolean(l, res);
 	return 1;
+}
+
+static int l_pigui_capture_mouse_from_app(lua_State *l) {
+	bool b = luaL_checkbool(l, 1);
+	ImGui::CaptureMouseFromApp(b);
+	return 0;
 }
 
 static int l_pigui_get_mouse_clicked_pos(lua_State *l) {
@@ -1238,6 +1259,9 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "DragInt4",               l_pigui_drag_int_4 },
 		{ "GetWindowPos",           l_pigui_get_window_pos },
 		{ "InputText",              l_pigui_input_text },
+		{ "CaptureMouseFromApp",    l_pigui_capture_mouse_from_app },
+		{ "DisableMouseFacing",     l_pigui_disable_mouse_facing },
+		{ "SetMouseButtonState",    l_pigui_set_mouse_button_state },
 		{ 0, 0 }
 	};
 

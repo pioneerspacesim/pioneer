@@ -27,6 +27,7 @@ PlayerShipController::PlayerShipController() :
 	m_controlsLocked(false),
 	m_invertMouse(false),
 	m_mouseActive(false),
+	m_disableMouseFacing(false),
 	m_rotationDamping(true),
 	m_mouseX(0.0),
 	m_mouseY(0.0),
@@ -320,7 +321,7 @@ void PlayerShipController::PollControls(const float timeStep, const bool force_r
 			m_ship->AIModelCoordsMatchAngVel(wantAngVel, angThrustSoftness);
 		}
 
-		if (m_mouseActive) m_ship->AIFaceDirection(m_mouseDir);
+		if (m_mouseActive && !m_disableMouseFacing) m_ship->AIFaceDirection(m_mouseDir);
 	}
 }
 

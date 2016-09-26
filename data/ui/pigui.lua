@@ -1131,6 +1131,7 @@ local radial_actions = {
 local should_show_radial_menu = false
 
 local function show_radial_menu()
+	 pigui.DisableMouseFacing(true)
 	 local radial_menu_center = pigui.GetMouseClickedPos(1)
 	 local radial_menu_size = 100
 	 if radial_menu_center.x < radial_menu_size then
@@ -1175,12 +1176,17 @@ local function show_radial_menu()
 			-- addItem("Hold retrograde", "retrograde")
 	 end
 	 local n = pigui.RadialMenu(radial_menu_center, "##piepopup", items, "pionicons", 30, tooltips) -- pionicons.large.name, pionicons.large.size
-	 if n >= 0 then
+	 if n == -2 then
+			should_show_radial_menu = false
+			pigui.DisableMouseFacing(false)
+			pigui.SetMouseButtonState(3, false);  -- hack, imgui lets the press go through, but eats the release, so Pi still thinks rmb is held
+	 elseif n >= 0 then
 			local action = actions[n + 1]
 			radial_actions[action](radial_nav_target)
 			should_show_radial_menu = false
 	 end
 end
+
 local function get_body_icon(body)
 	 local typ = body.type
 	 local superType = body.superType

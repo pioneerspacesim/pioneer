@@ -205,7 +205,10 @@ int PiGui::RadialPopupSelectMenu(const ImVec2& center, std::string popup_id, std
       if (ImGui::IsMouseReleased(1))
         {
           ImGui::CloseCurrentPopup();
-          ret = item_hovered;
+					if(item_hovered == -1)
+						ret = -2;
+					else
+						ret = item_hovered;
         }
       ImGui::EndPopup();
     }
