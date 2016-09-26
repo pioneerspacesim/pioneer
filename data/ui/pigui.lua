@@ -1,8 +1,6 @@
 -- TODO:
 -- time accel
 -- multi-function-display / scanner?
--- speed lines
--- contacts
 -- lua console?
 
 -- DONE?
@@ -528,6 +526,11 @@ local function show_icon(position, icon, color, size, anchor_horizontal, anchor_
    return Vector(size, size)
 end
 
+local function icon(icon, size, color)
+   local uv0, uv1 = get_icon_tex(icon)
+   pigui.Image(pigui.icons_id, Vector(size,size), uv0, uv1, color)
+end
+
 local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal, anchor_vertical, tooltips)
    -- always align texts at baseline
    local spacing = 2
@@ -1009,29 +1012,6 @@ Event.Register("onHyperspace", function (target)
 				  radial_nav_target = nil
 end)
 
--- local selected_combat = nil
--- local function show_contacts()
--- 	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
--- 	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
--- 	 pigui.Begin(lui.HUD_WINDOW_CONTACTS, {})
--- 	 pigui.Columns(2, "contactcolumns", false)
--- 	 local bodies = Space.GetBodies(function (body) return body:IsShip() and player:DistanceTo(body) < 100000000 end)
--- 	 table.sort(bodies, function(a,b) return player:DistanceTo(a) < player:DistanceTo(b) end)
--- 	 for _,body in pairs(bodies) do
--- 			if(pigui.Selectable(body.label, selected_combat == body, {"SpanAllColumns"})) then
--- 				 player:SetCombatTarget(body)
--- 				 selected_combat = body
--- 			end
--- 			pigui.NextColumn()
--- 			local distance = player:DistanceTo(body)
--- 			pigui.Text(Format.Distance(distance))
--- 			pigui.NextColumn()
--- 	 end
--- 	 pigui.End()
--- end
-
-local comm_log = {}
-
 local function show_comm_log()
    window("CommLog", {}, function ()
 			 for k,v in pairs(Game.comms_log_lines) do
@@ -1390,8 +1370,7 @@ local function show_nav_window()
 				   group(function()
 						 pigui.Dummy(Vector(indent * 10, 0))
 						 pigui.SameLine()
-						 local uv0, uv1 = get_icon_tex(get_body_icon(data.body))
-						 pigui.Image(pigui.icons_id, Vector(14,14), uv0, uv1, colors.lightgrey)
+						 icon(get_body_icon(data.body), 14, colors.lightgrey)
 						 -- pigui.PushFont("pionicons", 12)
 						 -- pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
 						 -- --			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
@@ -1853,6 +1832,8 @@ local function show_bodies_on_screen()
 
 	  if pigui.BeginPopup("navtarget" .. label) then
 		 for _,body in pairs(labels) do
+			icon(get_body_icon(body), 16, colors.lightgrey)
+			pigui.SameLine()
 			if pigui.Selectable(body.label, navtarget and body:GetSystemBody().index == navtarget.index or false, {}) then
 			   if player:GetNavTarget() == body then
 				  player:SetNavTarget(nil)
@@ -2455,9 +2436,8 @@ local function show_hud(delta)
 
    withStyleColors({ ["WindowBg"] = colors.noz_darkblue }, function()
 		 show_nav_window()
-		 --	 show_contacts()
 		 show_stuff()
-		 --	 show_comm_log()
+		 show_comm_log()
 		 show_radar_mapper()
 		 show_hyperspace_analyzer()
 		 show_hyperspace_button()
