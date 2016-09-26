@@ -171,7 +171,9 @@ local icons = {
    time_forward_1x = 104,
    time_forward_10x = 105,
    time_forward_100x = 106,
-
+   filter_bodies = 107,
+   filter_stations = 108,
+   filter_ships = 109,
    -- eighth row
    heavy_freighter = 112,
    medium_freighter = 113,
@@ -1276,9 +1278,7 @@ local function get_hierarchical_bodies(filter)
 	  end
    end
    -- filter
-   if filter then
 
-   end
    if filter then
 	  for _,body in pairs(data) do
 		 body.hidden = true
@@ -1323,10 +1323,23 @@ local function spaces(n)
    return res
 end
 
-local filter_ship = false
-local filter_station = false
-local filter_planet = false
-local filter_moon = false
+local filter_ship = true
+local filter_station = true
+local filter_planet = true
+
+local function image_button(icon, size, bg_color, fg_color, tooltip)
+   if not tooltip then
+	  error("must supply tooltip for image buttons")
+   end
+   pigui.PushID(tooltip)
+   local uv0, uv1 = get_icon_tex(icon)
+   local res = pigui.ImageButton(pigui.icons_id, Vector(size, size), uv0, uv1, -1, bg_color, fg_color)
+   if pigui.IsItemHovered() then
+	  pigui.SetTooltip(tooltip)
+   end
+   pigui.PopID(tooltip)
+   return res
+end
 
 local function show_nav_window()
    -- ******************** Navigation Window ********************
@@ -1339,15 +1352,12 @@ local function show_nav_window()
 				   pigui.PushStyleColor("Button", colors.nav_filter_active)
 				   pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				end
-				if pigui.Button("ships") then
+				if image_button(icons.filter_ships, 24, colors.transparent, colors.lightgrey, "Filter Ships") then --  pigui.Button("ships")
 				   filter_ship = not filter_ship
 				end
 				if fs then
 				   pigui.PopStyleColor(2)
 				end
-			 end
-			 if pigui.IsItemHovered() then
-				pigui.SetTooltip("Filter ships")
 			 end
 			 pigui.SameLine()
 			 do
@@ -1356,15 +1366,12 @@ local function show_nav_window()
 				   pigui.PushStyleColor("Button", colors.nav_filter_active)
 				   pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				end
-				if pigui.Button("stations") then
+				if image_button(icons.filter_stations, 24, colors.transparent, colors.lightgrey, "Filter Stations") then
 				   filter_station = not filter_station
 				end
 				if fs then
 				   pigui.PopStyleColor(2)
 				end
-			 end
-			 if pigui.IsItemHovered() then
-				pigui.SetTooltip("Filter Stations")
 			 end
 			 pigui.SameLine()
 			 do
@@ -1373,32 +1380,12 @@ local function show_nav_window()
 				   pigui.PushStyleColor("Button", colors.nav_filter_active)
 				   pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
 				end
-				if pigui.Button("planets") then
+				if image_button(icons.filter_bodies, 24, colors.transparent, colors.lightgrey, "Filter Bodies") then
 				   filter_planet = not filter_planet
 				end
 				if fs then
 				   pigui.PopStyleColor(2)
 				end
-			 end
-			 if pigui.IsItemHovered() then
-				pigui.SetTooltip("Filter Planets")
-			 end
-			 pigui.SameLine()
-			 do
-				local fs = filter_moon
-				if fs then
-				   pigui.PushStyleColor("Button", colors.nav_filter_active)
-				   pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
-				end
-				if pigui.Button("moons") then
-				   filter_moon = not filter_moon
-				end
-				if fs then
-				   pigui.PopStyleColor(2)
-				end
-			 end
-			 if pigui.IsItemHovered() then
-				pigui.SetTooltip("Filter Moons")
 			 end
 			 -- pigui.PopFont()
 			 pigui.Columns(2, "navcolumns", false)
@@ -1987,19 +1974,6 @@ end
 
 local planeType = "system-wide"
 
-local function image_button(icon, size, bg_color, fg_color, tooltip)
-   if not tooltip then
-	  error("must supply tooltip for image buttons")
-   end
-   pigui.PushID(tooltip)
-   local uv0, uv1 = get_icon_tex(icon)
-   local res = pigui.ImageButton(pigui.icons_id, Vector(size, size), uv0, uv1, -1, bg_color, fg_color)
-   if pigui.IsItemHovered() then
-	  pigui.SetTooltip(tooltip)
-   end
-   pigui.PopID(tooltip)
-   return res
-end
 
 local function show_ship_functions()
    window("Internal ship functions", { "NoTitleBar" }, function ()
@@ -2056,8 +2030,8 @@ local function show_stuff()
 					  Game.AddCommsLogLine("Switched to system-wide", nil)
 				   end
 				end
-				local heading, pitch = player:GetHeadingPitch(planeType)
-				pigui.Text("Heading: " .. math.ceil(heading / two_pi * 360) .. "°, Pitch: " .. math.ceil(pitch / two_pi * 360) .. "°")
+				-- local heading, pitch = player:GetHeadingPitch(planeType)
+				-- pigui.Text("Heading: " .. math.ceil(heading / two_pi * 360) .. "°, Pitch: " .. math.ceil(pitch / two_pi * 360) .. "°")
 			 end
 			 do -- flight control state
 				local state = player:GetFlightControlState()
