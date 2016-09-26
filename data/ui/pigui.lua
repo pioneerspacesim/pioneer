@@ -1001,11 +1001,19 @@ local function show_navball()
    do
 	  local heading, pitch = player:GetHeadingPitch("planet")
 	  do
+		 local function pitchline(hrs, radius, color, thickness)
+			local a = point_on_circle_radius(navball_center, navball_radius - 2 - radius, hrs)
+			local b = point_on_circle_radius(navball_center, navball_radius + radius, hrs)
+			pigui.AddLine(a, b, color, thickness)
+		 end
+		 pitchline(3, 1, colors.darkgrey, 2)
+		 pitchline(2.25, 1, colors.darkgrey, 2)
+		 pitchline(3.75, 1, colors.darkgrey, 2)
+		 pitchline(1.5, 2, colors.darkgrey, 2)
+		 pitchline(4.5, 2, colors.darkgrey, 2)
 		 local xpitch = ((pitch / two_pi * 360) + 90) / 180
 		 local xpitch_h = 4.5 - xpitch * 3
-		 local a = point_on_circle_radius(navball_center, navball_radius - 5, xpitch_h)
-		 local b = point_on_circle_radius(navball_center, navball_radius + 3, xpitch_h)
-		 pigui.AddLine(a, b, colors.lightgrey, 2)
+		 pitchline(xpitch_h, 3, colors.lightgrey, 2)
 	  end
 	  
 	  heading = heading / two_pi * 360
@@ -1130,7 +1138,7 @@ local function show_radial_menu()
 		 addItem(icons.autopilot_high_orbit, lui.HUD_RADIAL_TOOLTIP_HIGH_ORBIT, "high_orbit")
 	  end
 	  local frame = player:GetFrame()
-	  if frame:GetSystemBody() and radial_nav_target:GetSystemBody() and frame:GetSystemBody().index == radial_nav_target:GetSystemBody().index then
+	  if frame and frame:GetSystemBody() and radial_nav_target:GetSystemBody() and frame:GetSystemBody().index == radial_nav_target:GetSystemBody().index then
 		 addItem(icons.radial_in, "Hold Radial in", "radial_in")
 		 addItem(icons.radial_out, "Hold radial out", "radial_out")
 		 addItem(icons.normal, "Hold normal", "normal")
@@ -1577,12 +1585,44 @@ local function show_thrust()
    local position = Vector(100, pigui.screen_height - 150)
    local step = 12
    local distance = 2
-   draw_thrust_fwd(position + Vector(step * 5, distance), step, thrust.z < 0 and math.abs(thrust.z) or 0)
-   draw_thrust_bwd(position + Vector(step * 5,-distance), step, thrust.z > 0 and math.abs(thrust.z) or 0)
+
+   local thrust_fb_center = position + Vector(step * 5, 0)
+   draw_thrust_fwd(thrust_fb_center + Vector(0, distance), step, thrust.z < 0 and math.abs(thrust.z) or 0)
+   draw_thrust_bwd(thrust_fb_center + Vector(0,-distance), step, thrust.z > 0 and math.abs(thrust.z) or 0)
+
    draw_thrust_up(position + Vector(0, distance), step, thrust.y > 0 and math.abs(thrust.y) or 0)
    draw_thrust_down(position + Vector(0, -distance), step, thrust.y < 0 and math.abs(thrust.y) or 0)
    draw_thrust_left(position + Vector(-distance, 0), step, thrust.x > 0 and math.abs(thrust.x) or 0)
    draw_thrust_right(position + Vector(distance, 0), step, thrust.x < 0 and math.abs(thrust.x) or 0)
+
+   -- ******************** directional spaceship markers ********************
+   do
+	  local vel = player:GetOrientedVelocity()
+	  local max = math.max(math.abs(vel.x),(math.max(math.abs(vel.y), math.abs(vel.z))))
+	  local size = 2*step
+	  local thickness = 5
+	  local velocity_center = Vector(50,50)
+
+	  if max < size then
+		 max = size
+	  end
+
+	  local vx,vy,vz = vel.x/max, -vel.y/max, vel.z/max
+
+	  -- pigui.AddText(velocity_center + Vector(-13,-size*1.5-8), colors.darkgrey, "L")
+	  -- pigui.AddText(velocity_center + Vector(-13,size*1.5), colors.darkgrey, "R")
+	  pigui.AddLine(position + Vector(-size, step*3), position + Vector(size, step*3), colors.darkergrey, thickness)
+	  pigui.AddLine(position + Vector(0,step * 3), position + Vector(vx * size, step * 3), colors.lightgrey, thickness)
+	  -- pigui.AddText(velocity_center + Vector(-3,-size*1.5-8), colors.darkgrey, "U")
+	  -- pigui.AddText(velocity_center + Vector(-3,size*1.5), colors.darkgrey, "D")
+	  pigui.AddLine(position + Vector(-step*3, -size), position + Vector(-step*3, size), colors.darkergrey, thickness)
+	  pigui.AddLine(position + Vector(-step*3,0), position + Vector(-step*3, vy * size), colors.lightgrey, thickness)
+	  -- pigui.AddText(velocity_center + Vector(7,-size*1.5-8), colors.darkgrey, "F")
+	  -- pigui.AddText(velocity_center + Vector(7,size*1.5), colors.darkgrey, "B")
+	  pigui.AddLine(thrust_fb_center + Vector(-20, - size), thrust_fb_center + Vector(-20, size), colors.darkergrey, thickness)
+	  pigui.AddLine(thrust_fb_center + Vector(-20,0), thrust_fb_center + Vector(-20, vz * size), colors.lightgrey, thickness)
+   end
+
 end
 
 local function show_debug_orbit()
@@ -2456,30 +2496,6 @@ local function show_hud(delta)
 				   show_marker("maneuver", icons.bullseye, colors.maneuver, true)
 
 				   show_bodies_on_screen()
-				   -- ******************** directional spaceship markers ********************
-				   do
-					  local vel = player:GetOrientedVelocity()
-					  local max = math.max(math.abs(vel.x),(math.max(math.abs(vel.y), math.abs(vel.z))))
-					  local size = 15
-					  local thickness = 5
-					  local velocity_center = Vector(50,50)
-
-					  if max < size then
-						 max = size
-					  end
-
-					  local vx,vy,vz = vel.x/max, -vel.y/max, vel.z/max
-
-					  pigui.AddText(velocity_center + Vector(-13,-size*1.5-8), colors.darkgrey, "L")
-					  pigui.AddText(velocity_center + Vector(-13,size*1.5), colors.darkgrey, "R")
-					  pigui.AddLine(velocity_center + Vector(-10,0), velocity_center + Vector(-10, vx * size), colors.lightgrey, thickness)
-					  pigui.AddText(velocity_center + Vector(-3,-size*1.5-8), colors.darkgrey, "U")
-					  pigui.AddText(velocity_center + Vector(-3,size*1.5), colors.darkgrey, "D")
-					  pigui.AddLine(velocity_center + Vector(0,0), velocity_center + Vector(0, vy * size), colors.lightgrey, thickness)
-					  pigui.AddText(velocity_center + Vector(7,-size*1.5-8), colors.darkgrey, "F")
-					  pigui.AddText(velocity_center + Vector(7,size*1.5), colors.darkgrey, "B")
-					  pigui.AddLine(velocity_center + Vector(10,0), velocity_center + Vector(10, vz * size), colors.lightgrey, thickness)
-				   end
 
 				   show_navball()
 				   show_thrust()
