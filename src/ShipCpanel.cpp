@@ -57,13 +57,13 @@ void ShipCpanel::InitObject()
 	m_useEquipWidget->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_EQUIPMENT));
 
 	// Toggle Scanner / Equipment View
-	m_scannerEquipButton = new Gui::MultiStateImageButton();
-	m_scannerEquipButton->SetShortcut(SDLK_F9, KMOD_NONE);
-	m_scannerEquipButton->AddState(0, "icons/multifunc_scanner.png", Lang::TOGGLE_SCANNER_VIEW);
-	m_scannerEquipButton->AddState(1, "icons/multifunc_equip.png", Lang::TOGGLE_EQUIPMENT_VIEW);
-	m_scannerEquipButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickScannerEquip));
-	m_scannerEquipButton->SetRenderDimensions(34, 17);
-	Add(m_scannerEquipButton, 675, 35);
+	// m_scannerEquipButton = new Gui::MultiStateImageButton();
+	// m_scannerEquipButton->SetShortcut(SDLK_F9, KMOD_NONE);
+	// m_scannerEquipButton->AddState(0, "icons/multifunc_scanner.png", Lang::TOGGLE_SCANNER_VIEW);
+	// m_scannerEquipButton->AddState(1, "icons/multifunc_equip.png", Lang::TOGGLE_EQUIPMENT_VIEW);
+	// m_scannerEquipButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickScannerEquip));
+	// m_scannerEquipButton->SetRenderDimensions(34, 17);
+	// Add(m_scannerEquipButton, 675, 35);
 	ChangeMultiFunctionDisplay(MFUNC_SCANNER);
 
 	m_overlay[OVERLAY_TOP_LEFT]     = (new Gui::Label(""))->Color(s_hudTextColor);
@@ -83,10 +83,10 @@ ShipCpanel::~ShipCpanel()
 	View::SetCpanel(nullptr);
 	Remove(m_scanner);
 	Remove(m_useEquipWidget);
-	Remove(m_scannerEquipButton);
+	// Remove(m_scannerEquipButton);
 	delete m_scanner;
 	delete m_useEquipWidget;
-	delete m_scannerEquipButton;
+	// delete m_scannerEquipButton;
 }
 
 void ShipCpanel::OnUserChangeMultiFunctionDisplay(multifuncfunc_t f)
@@ -132,11 +132,11 @@ void ShipCpanel::Draw()
 	Gui::Fixed::Draw();
 }
 
-void ShipCpanel::OnClickScannerEquip(Gui::MultiStateImageButton *b)
-{
-	int state = m_scannerEquipButton->GetState();
-	ChangeMultiFunctionDisplay((0==state) ? MFUNC_SCANNER : MFUNC_EQUIPMENT);
-}
+// void ShipCpanel::OnClickScannerEquip(Gui::MultiStateImageButton *b)
+// {
+// 	// int state = m_scannerEquipButton->GetState();
+// 	// ChangeMultiFunctionDisplay((0==state) ? MFUNC_SCANNER : MFUNC_EQUIPMENT);
+// }
 
 void ShipCpanel::SetAlertState(Ship::AlertState as)
 {

@@ -50,7 +50,7 @@ private:
 	void InitObject();
 
 	// Handler for scanner view / equipment view toggle button
-	void OnClickScannerEquip(Gui::MultiStateImageButton *b);
+	// void OnClickScannerEquip(Gui::MultiStateImageButton *b);
 
 	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
 	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
@@ -63,7 +63,7 @@ private:
 
 	ScannerWidget *m_scanner;
 	UseEquipWidget *m_useEquipWidget;
-	Gui::MultiStateImageButton *m_scannerEquipButton;
+	// Gui::MultiStateImageButton *m_scannerEquipButton;
 
 	Gui::Label *m_overlay[OVERLAY_MAX];
 };

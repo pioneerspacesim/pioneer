@@ -97,7 +97,7 @@ local icons = {
 	 heavy_fighter = 32,
 	 medium_fighter = 33,
 	 light_fighter = 34,
-	 sun = 35,	 
+	 sun = 35,
 	 asteroid_hollow = 36,
 	 current_height = 37,
 	 current_periapsis = 38,
@@ -116,8 +116,8 @@ local icons = {
 	 light_courier = 50,
 	 rocky_planet = 51,
 	 ship = 52, -- useless?
-	 gears_up = 53,
-	 gears_down = 54,
+	 landing_gear_up = 53,
+	 landing_gear_down = 54,
 	 ecm = 55,
 	 rotation_damping_on = 56,
 	 rotation_damping_off = 57,
@@ -147,7 +147,7 @@ local icons = {
 	 heavy_passenger_transport = 80,
 	 medium_passenger_transport = 81,
 	 light_passenger_transport = 82,
-	 gas_giant = 83,	 
+	 gas_giant = 83,
 	 time_accel_stop = 84,
 	 time_accel_paused = 85,
 	 time_accel_1x = 86,
@@ -167,7 +167,7 @@ local icons = {
 	 time_forward_1x = 104,
 	 time_forward_10x = 105,
 	 time_forward_100x = 106,
-	 
+
 	 -- eighth row
 	 heavy_freighter = 112,
 	 medium_freighter = 113,
@@ -223,38 +223,6 @@ local icons = {
 	 pressure = 0,
 }
 
-local xicons = {
-	 ship = "h",
-	 star = "S",
-	 moon = "M",
-	 planet = "P",
-	 starport = "p",
-	 spacestation = "s",
-	 gasgiant = "G",
-	 gravity = "g",
-	 apoapsis = "A",
-	 altitude = "a",
-	 periapsis = "E",
-	 inclination = "i",
-	 eccentricity = "e",
-	 pressure = "r",
-	 latitude = "l",
-	 longitude = "L",
-	 comms = "6",
-	 autodock = "4",
-	 fly_to = "5",
-	 low_orbit = "1",
-	 medium_orbit = "2",
-	 high_orbit = "3",
-	 mode_world = "7",
-	 mode_sector = "&",
-	 mode_status = "9",
-	 mode_comms = "0",
-	 mode_system = "*",
-	 mode_system_info = "(",
-	 mode_galaxy = ")",
-}
-
 local colors = {
 	 nav_filter_active = Color(0, 100, 0);
 	 lightgreen = Color(0, 255, 0),
@@ -297,11 +265,13 @@ local colors = {
 	 mode_button_selected = Color(97, 102, 144),
 }
 
+-- dummy font, actually renders icons
 local pionicons = {
 	 small = { name = "icons", size = 16, offset = 14 },
 	 large = { name = "icons", size = 22, offset = 28 }
 }
 
+-- these need to be declared in c++ too!
 local pionillium = {
 	 large = { name = "pionillium", size = 30, offset = 24 },
 	 medium = { name = "pionillium", size = 18, offset = 14 },
@@ -310,6 +280,63 @@ local pionillium = {
 }
 
 local MyFormat = {
+	 Duration = function(duration, elements)
+			-- shown elements items (2 -> wd or dh, 3 -> dhm or hms)
+			local seconds = math.floor(duration % 60)
+			local minutes = math.floor(duration / 60 % 60) 
+			local hours = math.floor(duration / 60 / 60 % 24)
+			local days = math.floor(duration / 60 / 60 / 24 % 7) 
+			local weeks = math.floor(duration / 60 / 60 / 24 / 7) 
+			local i = elements or 5
+			local count = false
+			local result = ""
+			if i > 0 then
+				 if weeks ~= 0 then
+						result = result .. weeks .. "w"
+						count = true
+				 end
+				 if count then
+						i = i - 1
+				 end
+			end
+			if i > 0 then
+				 if days ~= 0 then
+						result = result .. days .. "d"
+						count = true
+				 end
+				 if count then
+						i = i - 1
+				 end
+			end
+			if i > 0 then
+				 if hours ~= 0 then
+						result = result .. hours .. "h"
+						count = true
+				 end
+				 if count then
+						i = i - 1
+				 end
+			end
+			if i > 0 then
+				 if minutes ~= 0 then
+						result = result .. minutes .. "m"
+						count = true
+				 end
+				 if count then
+						i = i - 1
+				 end
+			end
+			if i > 0 then
+				 if seconds ~= 0 then
+						result = result .. seconds .. "s"
+						count = true
+				 end
+				 if count then
+						i = i - 1
+				 end
+			end
+			return result
+	 end,
 	 Distance = function(distance)
 			local d = math.abs(distance)
 			if d < 1000 then
@@ -744,21 +771,29 @@ end
 -- 	 pigui.PopStyleColor(1)
 -- end
 
-local function show_settings()
-	 pigui.Begin("Settings", {})
-	 local _,sri = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
-	 show_retrograde_indicators = sri
-	 for k,v in pairs(colors) do
-
-			local changed, r, g, b, a = pigui.DragInt4(k, v.r or 0, v.g or 0, v.b or 0, v.a or 255, 1.0, 0, 255)
-			if changed then
-				 v.r = r
-				 v.g = g
-				 v.b = b
-				 v.a = a
-			end
-	 end
+local function window(name, params, fun)
+	 pigui.Begin(name, params)
+	 fun()
 	 pigui.End()
+end
+
+local function show_settings()
+	 window("Settings",
+					{},
+					function ()
+						 local _,sri = pigui.Checkbox("Show retrograde indicators", show_retrograde_indicators);
+						 show_retrograde_indicators = sri
+						 for k,v in pairs(colors) do
+
+								local changed, r, g, b, a = pigui.DragInt4(k, v.r or 0, v.g or 0, v.b or 0, v.a or 255, 1.0, 0, 255)
+								if changed then
+									 v.r = r
+									 v.g = g
+									 v.b = b
+									 v.a = a
+								end
+						 end
+	 end)
 end
 
 -- ratio is 1.0 for full, 0.0 for empty
@@ -1070,11 +1105,11 @@ end)
 local comm_log = {}
 
 local function show_comm_log()
-	 pigui.Begin("CommLog", {})
-	 for k,v in pairs(Game.comms_log_lines) do
-			pigui.Text(Format.Duration(Game.time - v.time) .. " " .. (v.sender and (v.sender .. ": ") or "") .. v.text)
-	 end
-	 pigui.End()
+	 window("CommLog", {}, function ()
+						 for k,v in pairs(Game.comms_log_lines) do
+								pigui.Text(Format.Duration(Game.time - v.time) .. " " .. (v.sender and (v.sender .. ": ") or "") .. v.text)
+						 end
+	 end)
 end
 
 local radial_actions = {
@@ -1317,161 +1352,158 @@ local function show_nav_window()
 	 -- ******************** Navigation Window ********************
 	 --	 pigui.SetNextWindowPos(Vector(0,0), "FirstUseEver")
 	 --	 pigui.SetNextWindowSize(Vector(200,800), "FirstUseEver")
-	 pigui.Begin(lui.HUD_WINDOW_NAVIGATION, {})
-	 do
---			pigui.PushFont("pionicons", 12)
-			do
-				 local fs = filter_ship
-				 if fs then
-						pigui.PushStyleColor("Button", colors.nav_filter_active)
-						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
-				 end
-				 if pigui.Button("ships") then
-						filter_ship = not filter_ship
-				 end
-				 if fs then
-						pigui.PopStyleColor(2)
-				 end
-			end
-			if pigui.IsItemHovered() then
-				 pigui.SetTooltip("Filter ships")
-			end
-			pigui.SameLine()
-			do
-				 local fs = filter_station
-				 if fs then
-						pigui.PushStyleColor("Button", colors.nav_filter_active)
-						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
-				 end
-				 if pigui.Button("stations") then
-						filter_station = not filter_station
-				 end
-				 if fs then
-						pigui.PopStyleColor(2)
-				 end
-			end
-			if pigui.IsItemHovered() then
-				 pigui.SetTooltip("Filter Stations")
-			end
-			pigui.SameLine()
-			do
-				 local fs = filter_planet
-				 if fs then
-						pigui.PushStyleColor("Button", colors.nav_filter_active)
-						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
-				 end
-				 if pigui.Button("planets") then
-						filter_planet = not filter_planet
-				 end
-				 if fs then
-						pigui.PopStyleColor(2)
-				 end
-			end
-			if pigui.IsItemHovered() then
-				 pigui.SetTooltip("Filter Planets")
-			end
-			pigui.SameLine()
-			do
-				 local fs = filter_moon
-				 if fs then
-						pigui.PushStyleColor("Button", colors.nav_filter_active)
-						pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
-				 end
-				 if pigui.Button("moons") then
-						filter_moon = not filter_moon
-				 end
-				 if fs then
-						pigui.PopStyleColor(2)
-				 end
-			end
-			if pigui.IsItemHovered() then
-				 pigui.SetTooltip("Filter Moons")
-			end
-			-- pigui.PopFont()
-	 end
-	 pigui.Columns(2, "navcolumns", false)
-	 local filter = nil
-	 if filter_ship or filter_station or filter_planet or filter_moon then
-			filter = function(body)
-				 if filter_ship and body:IsShip() then
-						return true
-				 end
-				 if filter_station and (body:IsSpaceStation() or body:IsStarPort()) then
-						return true
-				 end
-				 if filter_planet and (body:IsGasGiant() or body:IsRockyPlanet()) and not body:IsMoon() then
-						return true
-				 end
-				 if filter_moon and body:IsMoon() then
-						return true
-				 end
-				 return false
-			end
-	 end
-	 local data,count = get_hierarchical_bodies(filter)
-	 local nav_target = player:GetNavTarget()
-	 local combat_target = player:GetCombatTarget()
-	 local lines = 0
-	 local function AddLine(data, indent)
-			--			print("AddLine " .. spaces(indent) .. data.body.label)
-			lines = lines + 1
-			if not data.hidden then
-				 pigui.BeginGroup()
-				 pigui.Dummy(Vector(indent * 10, 0))
-				 pigui.SameLine()
-				 local uv0, uv1 = get_icon_tex(get_body_icon(data.body))
-				 pigui.Image(pigui.icons_id, Vector(14,14), uv0, uv1, colors.lightgrey)
-				 -- pigui.PushFont("pionicons", 12)
-				 -- pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
-				 -- --			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
-				 -- --				 player:SetNavTarget(data.body)
-				 -- --			end
-				 -- pigui.PopFont()
-				 pigui.SameLine()
-				 if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
-						if data.body:IsShip() then
-							 if combat_target == data.body then
-									player:SetCombatTarget(nil)
-							 else
-									player:SetCombatTarget(data.body)
-							 end
-						else
-							 if nav_target == data.body then
-									player:SetNavTarget(nil)
-							 else
-									player:SetNavTarget(data.body)
-							 end
-						end
-				 end
-				 pigui.NextColumn()
-				 pigui.Text(Format.Distance(data.distance))
-				 pigui.NextColumn()
-				 pigui.EndGroup()
-				 if pigui.IsItemClicked(1) then
-						pigui.OpenPopup("##piepopup")
-						radial_nav_target = data.body
-						should_show_radial_menu = true
-				 end
-				 for _,data in pairs(data.children or {}) do
-						AddLine(data, indent + 1)
-				 end
-			end
-	 end
-	 -- sort by distance
-	 table.sort(data, function(a,b) return a.distance < b.distance end)
-	 -- display
-	 for key,data in pairs(data) do
-			AddLine(data, 0)
-	 end
-	 -- how do we deal with filtering here :-/
-	 -- if lines ~= count then
-	 -- 		print_r(data)
-	 -- 		error("nok: " .. count .. " count vs. lines " .. lines)
-	 -- end
-	 if should_show_radial_menu then
-			show_radial_menu()
-	 end
-	 pigui.End()
+	 window(lui.HUD_WINDOW_NAVIGATION, {}, function ()
+						 do
+								local fs = filter_ship
+								if fs then
+									 pigui.PushStyleColor("Button", colors.nav_filter_active)
+									 pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+								end
+								if pigui.Button("ships") then
+									 filter_ship = not filter_ship
+								end
+								if fs then
+									 pigui.PopStyleColor(2)
+								end
+						 end
+						 if pigui.IsItemHovered() then
+								pigui.SetTooltip("Filter ships")
+						 end
+						 pigui.SameLine()
+						 do
+								local fs = filter_station
+								if fs then
+									 pigui.PushStyleColor("Button", colors.nav_filter_active)
+									 pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+								end
+								if pigui.Button("stations") then
+									 filter_station = not filter_station
+								end
+								if fs then
+									 pigui.PopStyleColor(2)
+								end
+						 end
+						 if pigui.IsItemHovered() then
+								pigui.SetTooltip("Filter Stations")
+						 end
+						 pigui.SameLine()
+						 do
+								local fs = filter_planet
+								if fs then
+									 pigui.PushStyleColor("Button", colors.nav_filter_active)
+									 pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+								end
+								if pigui.Button("planets") then
+									 filter_planet = not filter_planet
+								end
+								if fs then
+									 pigui.PopStyleColor(2)
+								end
+						 end
+						 if pigui.IsItemHovered() then
+								pigui.SetTooltip("Filter Planets")
+						 end
+						 pigui.SameLine()
+						 do
+								local fs = filter_moon
+								if fs then
+									 pigui.PushStyleColor("Button", colors.nav_filter_active)
+									 pigui.PushStyleColor("ButtonHovered", colors.nav_filter_active:tint(0.3))
+								end
+								if pigui.Button("moons") then
+									 filter_moon = not filter_moon
+								end
+								if fs then
+									 pigui.PopStyleColor(2)
+								end
+						 end
+						 if pigui.IsItemHovered() then
+								pigui.SetTooltip("Filter Moons")
+						 end
+						 -- pigui.PopFont()
+						 pigui.Columns(2, "navcolumns", false)
+						 local filter = nil
+						 if filter_ship or filter_station or filter_planet or filter_moon then
+								filter = function(body)
+									 if filter_ship and body:IsShip() then
+											return true
+									 end
+									 if filter_station and (body:IsSpaceStation() or body:IsStarPort()) then
+											return true
+									 end
+									 if filter_planet and (body:IsGasGiant() or body:IsRockyPlanet()) and not body:IsMoon() then
+											return true
+									 end
+									 if filter_moon and body:IsMoon() then
+											return true
+									 end
+									 return false
+								end
+						 end
+						 local data,count = get_hierarchical_bodies(filter)
+						 local nav_target = player:GetNavTarget()
+						 local combat_target = player:GetCombatTarget()
+						 local lines = 0
+						 local function AddLine(data, indent)
+								--			print("AddLine " .. spaces(indent) .. data.body.label)
+								lines = lines + 1
+								if not data.hidden then
+									 pigui.BeginGroup()
+									 pigui.Dummy(Vector(indent * 10, 0))
+									 pigui.SameLine()
+									 local uv0, uv1 = get_icon_tex(get_body_icon(data.body))
+									 pigui.Image(pigui.icons_id, Vector(14,14), uv0, uv1, colors.lightgrey)
+									 -- pigui.PushFont("pionicons", 12)
+									 -- pigui.Text(spaces(indent) .. get_body_icon_letter(data.body))
+									 -- --			if(pigui.Selectable(spaces(indent) .. get_body_icon_letter(data.body), nav_target == data.body, {"SpanAllColumns"})) then
+									 -- --				 player:SetNavTarget(data.body)
+									 -- --			end
+									 -- pigui.PopFont()
+									 pigui.SameLine()
+									 if(pigui.Selectable(data.name, nav_target == data.body, {"SpanAllColumns"})) then
+											if data.body:IsShip() then
+												 if combat_target == data.body then
+														player:SetCombatTarget(nil)
+												 else
+														player:SetCombatTarget(data.body)
+												 end
+											else
+												 if nav_target == data.body then
+														player:SetNavTarget(nil)
+												 else
+														player:SetNavTarget(data.body)
+												 end
+											end
+									 end
+									 pigui.NextColumn()
+									 pigui.Text(Format.Distance(data.distance))
+									 pigui.NextColumn()
+									 pigui.EndGroup()
+									 if pigui.IsItemClicked(1) then
+											pigui.OpenPopup("##piepopup")
+											radial_nav_target = data.body
+											should_show_radial_menu = true
+									 end
+									 for _,data in pairs(data.children or {}) do
+											AddLine(data, indent + 1)
+									 end
+								end
+						 end
+						 -- sort by distance
+						 table.sort(data, function(a,b) return a.distance < b.distance end)
+						 -- display
+						 for key,data in pairs(data) do
+								AddLine(data, 0)
+						 end
+						 -- how do we deal with filtering here :-/
+						 -- if lines ~= count then
+						 -- 		print_r(data)
+						 -- 		error("nok: " .. count .. " count vs. lines " .. lines)
+						 -- end
+						 if should_show_radial_menu then
+								show_radial_menu()
+						 end
+	 end)
 end
 
 local function draw_thrust_fwd(position, step, ratio)
@@ -1583,69 +1615,69 @@ local function show_thrust()
 end
 
 local function show_debug_orbit()
-	 pigui.Begin("Orbit", {})
-	 local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
-	 pigui.Text("o eccentricity: " .. o_eccentricity)
-	 pigui.Text("o semi-major axis: " .. Format.Distance(o_semimajoraxis))
-	 pigui.Text("O inclination: " .. math.floor(o_inclination / two_pi * 360))
-	 local frame = player:GetFrame():GetSystemBody()
-	 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
-	 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
-	 pigui.Text("O Periapsis: " .. Format.Distance(pa) .. " (" .. Format.Distance(pa - frame.radius) .. "), O Apoapsis: " .. Format.Distance(aa) .. " (" .. Format.Distance(aa - frame.radius) .. ")")
-	 pigui.Text("O Period: " .. (o_period and Format.Duration(o_period) or "none"))
-	 pigui.Text("Time to O periapsis: " .. Format.Duration(o_time_at_periapsis) .. ", O time to apoapsis: " .. Format.Duration(o_time_at_apoapsis))
-	 pigui.Text("Has Atmosphere: " .. (frame.hasAtmosphere and "yes" or "no"))
-	 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
-	 pigui.End()
+	 window("Orbit", {}, function ()
+						 local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
+						 pigui.Text("o eccentricity: " .. o_eccentricity)
+						 pigui.Text("o semi-major axis: " .. Format.Distance(o_semimajoraxis))
+						 pigui.Text("O inclination: " .. math.floor(o_inclination / two_pi * 360))
+						 local frame = player:GetFrame():GetSystemBody()
+						 local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
+						 local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
+						 pigui.Text("O Periapsis: " .. Format.Distance(pa) .. " (" .. Format.Distance(pa - frame.radius) .. "), O Apoapsis: " .. Format.Distance(aa) .. " (" .. Format.Distance(aa - frame.radius) .. ")")
+						 pigui.Text("O Period: " .. (o_period and Format.Duration(o_period) or "none"))
+						 pigui.Text("Time to O periapsis: " .. Format.Duration(o_time_at_periapsis) .. ", O time to apoapsis: " .. Format.Duration(o_time_at_apoapsis))
+						 pigui.Text("Has Atmosphere: " .. (frame.hasAtmosphere and "yes" or "no"))
+						 pigui.Text("Atmosphere radius: " .. frame.atmosphereRadius)
+	 end)
 end
 
 local function show_debug_thrust()
 	 -- thrusters
-	 pigui.Begin("Thrusters", {})
-	 local thrust = player:GetThrusterState()
-	 -- y = 1 -> up
-	 -- z = -1 -> fwd
-	 -- x = -1 -> left
-	 local thrust_forward = (thrust.z < 0) and math.abs(thrust.z) * math.abs(player:GetAccel("forward")) or 0
-	 local thrust_backward = (thrust.z > 0) and math.abs(thrust.z) * math.abs(player:GetAccel("backward")) or 0
-	 local thrust_left = (thrust.x < 0) and math.abs(thrust.x) * math.abs(player:GetAccel("left")) or 0
-	 local thrust_right = (thrust.x > 0) and math.abs(thrust.x) * math.abs(player:GetAccel("right")) or 0
-	 local thrust_up = (thrust.y > 0) and math.abs(thrust.y) * math.abs(player:GetAccel("up")) or 0
-	 local thrust_down = (thrust.y < 0) and math.abs(thrust.y) * math.abs(player:GetAccel("down")) or 0
-	 pigui.Text("Thrust: " .. thrust.x .. "/" .. thrust.y .. "/" .. thrust.z)
-	 pigui.Text("Accel Forward: " .. player:GetAccel("forward"))
-	 pigui.Text("Accel Backward: " .. player:GetAccel("backward"))
-	 pigui.Text("Accel Up: " .. player:GetAccel("up"))
-	 pigui.Text("Accel Down: " .. player:GetAccel("down"))
-	 pigui.Text("Accel Left: " .. player:GetAccel("left"))
-	 pigui.Text("Accel Right: " .. player:GetAccel("right"))
-	 pigui.Text("Thrust Forward: " .. thrust_forward)
-	 pigui.Text("Thrust Backward: " .. thrust_backward)
-	 pigui.Text("Thrust Up: " .. thrust_up)
-	 pigui.Text("Thrust Down: " .. thrust_down)
-	 pigui.Text("Thrust Left: " .. thrust_left)
-	 pigui.Text("Thrust Right: " .. thrust_right)
-	 local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
-	 pigui.Text("Total thrust: " .. total_thrust / standard_gravity .. "g")
-	 pigui.End()
+	 window("Thrusters", {}, function ()
+						 local thrust = player:GetThrusterState()
+						 -- y = 1 -> up
+						 -- z = -1 -> fwd
+						 -- x = -1 -> left
+						 local thrust_forward = (thrust.z < 0) and math.abs(thrust.z) * math.abs(player:GetAccel("forward")) or 0
+						 local thrust_backward = (thrust.z > 0) and math.abs(thrust.z) * math.abs(player:GetAccel("backward")) or 0
+						 local thrust_left = (thrust.x < 0) and math.abs(thrust.x) * math.abs(player:GetAccel("left")) or 0
+						 local thrust_right = (thrust.x > 0) and math.abs(thrust.x) * math.abs(player:GetAccel("right")) or 0
+						 local thrust_up = (thrust.y > 0) and math.abs(thrust.y) * math.abs(player:GetAccel("up")) or 0
+						 local thrust_down = (thrust.y < 0) and math.abs(thrust.y) * math.abs(player:GetAccel("down")) or 0
+						 pigui.Text("Thrust: " .. thrust.x .. "/" .. thrust.y .. "/" .. thrust.z)
+						 pigui.Text("Accel Forward: " .. player:GetAccel("forward"))
+						 pigui.Text("Accel Backward: " .. player:GetAccel("backward"))
+						 pigui.Text("Accel Up: " .. player:GetAccel("up"))
+						 pigui.Text("Accel Down: " .. player:GetAccel("down"))
+						 pigui.Text("Accel Left: " .. player:GetAccel("left"))
+						 pigui.Text("Accel Right: " .. player:GetAccel("right"))
+						 pigui.Text("Thrust Forward: " .. thrust_forward)
+						 pigui.Text("Thrust Backward: " .. thrust_backward)
+						 pigui.Text("Thrust Up: " .. thrust_up)
+						 pigui.Text("Thrust Down: " .. thrust_down)
+						 pigui.Text("Thrust Left: " .. thrust_left)
+						 pigui.Text("Thrust Right: " .. thrust_right)
+						 local total_thrust = Vector(thrust_forward - thrust_backward,thrust_up - thrust_down, thrust_left - thrust_right):magnitude()
+						 pigui.Text("Total thrust: " .. total_thrust / standard_gravity .. "g")
+	 end)
 end
 
 local function show_debug_temp()
-	 pigui.Begin("Temperatures", {})
-	 pigui.Text("Hull Temperature: " .. player:GetHullTemperature())
-	 pigui.Text("Gun 0 Temperature: " .. player:GetGunTemperature(0))
-	 pigui.Text("Gun 1 Temperature: " .. player:GetGunTemperature(1))
-	 pigui.Text("Hull percent: " .. player:GetHullPercent())
-	 pigui.Text("Shields percent: " .. player:GetShieldsPercent())
-	 pigui.End()
+	 window("Temperatures", {}, function ()
+						 pigui.Text("Hull Temperature: " .. player:GetHullTemperature())
+						 pigui.Text("Gun 0 Temperature: " .. player:GetGunTemperature(0))
+						 pigui.Text("Gun 1 Temperature: " .. player:GetGunTemperature(1))
+						 pigui.Text("Hull percent: " .. player:GetHullPercent())
+						 pigui.Text("Shields percent: " .. player:GetShieldsPercent())
+	 end)
 end
 
 local function show_debug_gravity()
-	 pigui.Begin("Gravity", {})
-	 local g = player:GetGravity()
-	 local gr = Vector(g.x, g.y, g.z)
-	 pigui.Text("Gravity: " .. string.format("%0.2f", gr:magnitude() / standard_gravity) .. ", " .. g.x .. "/" .. g.y .. "/" .. g.z)
-	 pigui.End()
+	 window("Gravity", {}, function ()
+						 local g = player:GetGravity()
+						 local gr = Vector(g.x, g.y, g.z)
+						 pigui.Text("Gravity: " .. string.format("%0.2f", gr:magnitude() / standard_gravity) .. ", " .. g.x .. "/" .. g.y .. "/" .. g.z)
+	 end)
 end
 
 local next_cam_type = { ["internal"] = "external", ["external"] = "sidereal", ["sidereal"] = "internal" }
@@ -1712,13 +1744,13 @@ local function handle_global_keys()
 				 Game.SetView("system_info")
 			else
 
-			if player:IsHyperspaceActive() then
-				 player:AbortHyperjump()
-				 Game.AddCommsLogLine("Hyperspace jump aborted", nil)
-			else
-				 player:HyperjumpTo(player:GetHyperspaceTarget())
-				 Game.AddCommsLogLine("Hyperjump started" , nil)
-			end
+				 if player:IsHyperspaceActive() then
+						player:AbortHyperjump()
+						Game.AddCommsLogLine("Hyperspace jump aborted", nil)
+				 else
+						player:HyperjumpTo(player:GetHyperspaceTarget())
+						Game.AddCommsLogLine("Hyperjump started" , nil)
+				 end
 			end
 	 end
 	 if pigui.IsKeyReleased(pigui.keys.f8) then
@@ -1909,102 +1941,89 @@ end
 
 local planeType = "system-wide"
 
-local function show_stuff()
-	 pigui.Begin("Stuff",{})
-	 do -- rotation damping
-			local rd = player:GetRotationDamping()
-			if pigui.Checkbox("Rotation Damping", rd) then
-				 player:ToggleRotationDamping()
-			end
+local function image_button(icon, size, bg_color, fg_color, tooltip)
+	 if not tooltip then
+			error("must supply tooltip for image buttons")
 	 end
-	 do -- take off
-			pigui.Text(player:GetFlightState())
-			local takeoff=false
-			if player:IsLanded() then
-				 takeoff=true
-				 if pigui.Button("Blastoff") then
-						player:Blastoff()
-				 end
-			elseif player:IsDocked() then
-				 takeoff=true
-				 if pigui.Button("Undock") then
-						player:Undock()
-				 end
-			end
-			if takeoff then
-				 if pigui.Button("Take Off") then
-						player:TakeOff()
-				 end
-			end
+	 pigui.PushID(tooltip)
+	 local uv0, uv1 = get_icon_tex(icon)
+	 local res = pigui.ImageButton(pigui.icons_id, Vector(size, size), uv0, uv1, -1, bg_color, fg_color)
+	 if pigui.IsItemHovered() then
+			pigui.SetTooltip(tooltip)
 	 end
-	 do -- wheelstate
-			if not player:IsDocked() and not player:IsLanded() then
-				 local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
-				 if wheelstate == 0.0 then
-						if pigui.Button("Wheels down") then
-							 player:SetWheelState(true)
-						end
-				 elseif wheelstate == 1.0 then
-						if pigui.Button("Wheels up") then
-							 player:SetWheelState(false)
-						end
-				 else
-						pigui.Text("Wheelstate: " .. wheelstate)
-				 end
-			end
-	 end
-	 do -- hyperspace
-			if player:CanHyperjumpTo(player:GetHyperspaceTarget()) then
-				 if player:IsDocked() or player:IsLanded() then
-						pigui.Text("Cannot hyperspace while landed")
-				 elseif player:IsHyperspaceActive() then
-						if pigui.Button("Abort hyperjump") then
-							 player:AbortHyperjump()
-							 Game.AddCommsLogLine("Hyperspace jump aborted", nil)
-						end
-				 else
-						if player:IsHyperjumpAllowed() then
-							 if pigui.Button("Initiate Hyperjump") then
-									player:HyperjumpTo(player:GetHyperspaceTarget())
-							 end
-						else
-							 if pigui.Button("Initiate Hyperjump (ILLEGAL)") then
-									player:HyperjumpTo(player:GetHyperspaceTarget())
-							 end
+	 pigui.PopID(tooltip)
+	 return res
+end
 
-						end
-				 end
-			end
-	 end
-	 do -- pitch/heading
-			if pigui.Button("Plane type: " .. planeType) then
-				 if planeType == "system-wide" then
-						planeType = "planet"
-						Game.AddCommsLogLine("Switched to planet", nil)
-				 else
-						planeType = "system-wide"
-						Game.AddCommsLogLine("Switched to system-wide", nil)
-				 end
-			end
-			local heading, pitch = player:GetHeadingPitch(planeType)
-			pigui.Text("Heading: " .. math.ceil(heading / two_pi * 360) .. "°, Pitch: " .. math.ceil(pitch / two_pi * 360) .. "°")
-	 end
-	 do -- flight control state
-			local state = player:GetFlightControlState()
-			pigui.Text(state)
-			local states = { "manual", "fix-speed", "fix-heading-forward", "fix-heading-backward", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-kill-rot" }
-			if state == "fix-speed" then
-				 pigui.Text(" speed: " .. player:GetFlightControlSpeed())
-			end
-			for k,v in pairs(states) do
-				 if state ~= v then
-						if pigui.Button(v) then
-							 player:SetFlightControlState(v)
-						end
-				 end
-			end
-	 end
-	 pigui.End()
+local function show_stuff()
+	 window("Stuff",{}, function()
+						 do -- rotation damping
+								local rd = player:GetRotationDamping()
+								if image_button(rd and icons.rotation_damping_on or icons.rotation_damping_off, 24, colors.darkgrey, colors.lightgrey, "Toggle rotation damping") then
+									 player:ToggleRotationDamping()
+								end
+						 end
+						 do -- take off
+								pigui.Text(player:GetFlightState())
+								local takeoff=false
+								if player:IsLanded() then
+									 takeoff=true
+									 if pigui.Button("Blastoff") then
+											player:Blastoff()
+									 end
+								elseif player:IsDocked() then
+									 takeoff=true
+									 if pigui.Button("Undock") then
+											player:Undock()
+									 end
+								end
+								if takeoff then
+									 if pigui.Button("Take Off") then
+											player:TakeOff()
+									 end
+								end
+						 end
+						 do -- wheelstate
+								if not player:IsDocked() and not player:IsLanded() then
+									 local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
+									 local icon = wheelstate == 0.0 and icons.landing_gear_down or (wheelstate == 1.0 and icons.landing_gear_up or nil)
+									 if icon then
+											if image_button(icon, 24, colors.darkgrey, colors.lightgrey, "Toggle landing gear") then
+												 player:ToggleWheelState()
+											end
+									 end
+									 pigui.Text("Wheelstate: " .. wheelstate)
+								end
+						 end
+						 do -- pitch/heading
+								if pigui.Button("Plane type: " .. planeType) then
+									 if planeType == "system-wide" then
+											planeType = "planet"
+											Game.AddCommsLogLine("Switched to planet", nil)
+									 else
+											planeType = "system-wide"
+											Game.AddCommsLogLine("Switched to system-wide", nil)
+									 end
+								end
+								local heading, pitch = player:GetHeadingPitch(planeType)
+								pigui.Text("Heading: " .. math.ceil(heading / two_pi * 360) .. "°, Pitch: " .. math.ceil(pitch / two_pi * 360) .. "°")
+						 end
+						 do -- flight control state
+								local state = player:GetFlightControlState()
+								pigui.Text(state)
+								local states = { "manual", "fix-speed", "fix-heading-forward", "fix-heading-backward", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-kill-rot" }
+								if state == "fix-speed" then
+									 pigui.Text(" speed: " .. player:GetFlightControlSpeed())
+								end
+								for k,v in pairs(states) do
+									 if state ~= v then
+											if pigui.Button(v) then
+												 player:SetFlightControlState(v)
+											end
+									 end
+								end
+						 end
+	 end)
 end
 
 local function show_hyperspace_countdown()
@@ -2074,19 +2093,19 @@ local function show_radar_mapper()
 	 -- TODO: check whether the relevant equipment is actually on ship
 	 local t = player:GetCombatTarget()
 	 if t and t:IsShip() then
-			pigui.Begin("Radar mapper", {})
-			local shipdef = ShipDef[t.shipId]
-			pigui.Text("Ship type: " .. shipdef.name)
-			pigui.Text("Label: " .. t.label)
-			pigui.Text("Hyperdrive class: " .. shipdef.hyperdriveClass)
-			pigui.Text("Mass: " .. t:GetStats().static_mass)
-			pigui.Text("Cargo: " .. t:GetStats().used_cargo)
-			local position = Vector(pigui.GetWindowPos()) + Vector(50, 150)
-			show_circular_gauge(position + Vector(0, 0), 1 - t:GetHullPercent() / 100, colors.hull_gauge, lui.HUD_DAMAGE, lui.HUD_HULL)
-			if t:GetShieldsPercent() then
-				 show_circular_gauge(position + Vector(100, 0), t:GetShieldsPercent() / 100, colors.shield_gauge, lui.HUD_SHIELDS)
-			end
-			pigui.End()
+			window("Radar mapper", {}, function()
+								local shipdef = ShipDef[t.shipId]
+								pigui.Text("Ship type: " .. shipdef.name)
+								pigui.Text("Label: " .. t.label)
+								pigui.Text("Hyperdrive class: " .. shipdef.hyperdriveClass)
+								pigui.Text("Mass: " .. t:GetStats().static_mass)
+								pigui.Text("Cargo: " .. t:GetStats().used_cargo)
+								local position = Vector(pigui.GetWindowPos()) + Vector(50, 150)
+								show_circular_gauge(position + Vector(0, 0), 1 - t:GetHullPercent() / 100, colors.hull_gauge, lui.HUD_DAMAGE, lui.HUD_HULL)
+								if t:GetShieldsPercent() then
+									 show_circular_gauge(position + Vector(100, 0), t:GetShieldsPercent() / 100, colors.shield_gauge, lui.HUD_SHIELDS)
+								end
+			end)
 	 end
 end
 
@@ -2095,13 +2114,13 @@ local function show_hyperspace_analyzer()
 	 local t = player:GetNavTarget()
 	 if t and t:IsHyperspaceCloud() then
 			-- departure, mass, destination, due date
-			pigui.Begin("Hyperspace analyzer", {})
-			local cloud = t:GetHyperspaceCloudInfo()
-			pigui.Text("Arrival: " .. (cloud.is_arrival and "yes" or "no"));
-			pigui.Text("Ship Mass: " .. cloud.ship:GetStats().static_mass)
-			pigui.Text("Destination: " .. cloud.destination:GetStarSystem().name)
-			pigui.Text("Due Date: " .. Format.Date(cloud.due_date))
-			pigui.End()
+			window("Hyperspace analyzer", {}, function()
+								local cloud = t:GetHyperspaceCloudInfo()
+								pigui.Text("Arrival: " .. (cloud.is_arrival and "yes" or "no"));
+								pigui.Text("Ship Mass: " .. cloud.ship:GetStats().static_mass)
+								pigui.Text("Destination: " .. cloud.destination:GetStarSystem().name)
+								pigui.Text("Due Date: " .. Format.Date(cloud.due_date))
+			end)
 	 end
 
 end
@@ -2142,41 +2161,93 @@ end
 
 local function show_modes()
 	 local mode = Game.GetView()
-	 pigui.Begin("Modes", {"NoTitleBar", "NoResize"})
---   pigui.SetNextWindowSize(Vector(0.0, 0.0), "Always")
-	 local view_icon = icons["view_" .. Game.GetWorldCamType()]
-	 
-	 if ColoredSelectedIconButton(view_icon, mode == "world", colors.mode_button, colors.mode_button_selected, "World View") then
-			select_world_view()
-	 end
-	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.sector_map, mode == "sector", colors.mode_button, colors.mode_button_selected, "Map View") then
-			Game.SetView("sector")
-	 end
-	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.system_map, mode == "system", colors.mode_button, colors.mode_button_selected, "System View") then
-			Game.SetView("system")
-	 end
-	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.system_overview, mode == "system_info", colors.mode_button, colors.mode_button_selected, "System Info View") then
-			Game.SetView("system_info")
-	 end
-	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.galaxy_map, mode == "galaxy", colors.mode_button, colors.mode_button_selected, "Galaxy View") then
-			Game.SetView("galaxy")
-	 end
-	 pigui.SameLine()
-	 if ColoredSelectedIconButton(icons.personal_info, mode == "info", colors.mode_button, colors.mode_button_selected, "Ship Status View") then
-			Game.SetView("info")
-	 end
-	 if player:IsDocked() then
-			pigui.SameLine()
-			if ColoredSelectedIconButton(icons.comms, mode == "space_station", colors.mode_button, colors.mode_button_selected, "Comms View") then
-				 Game.SetView("space_station")
-			end
-	 end
-	 pigui.End()
+	 window("Modes", {"NoTitleBar", "NoResize"}, function()
+						 --   pigui.SetNextWindowSize(Vector(0.0, 0.0), "Always")
+						 local view_icon = icons["view_" .. Game.GetWorldCamType()]
+
+						 if ColoredSelectedIconButton(view_icon, mode == "world", colors.mode_button, colors.mode_button_selected, "World View") then
+								select_world_view()
+						 end
+						 pigui.SameLine()
+						 if ColoredSelectedIconButton(icons.sector_map, mode == "sector", colors.mode_button, colors.mode_button_selected, "Map View") then
+								Game.SetView("sector")
+						 end
+						 pigui.SameLine()
+						 if ColoredSelectedIconButton(icons.system_map, mode == "system", colors.mode_button, colors.mode_button_selected, "System View") then
+								Game.SetView("system")
+						 end
+						 pigui.SameLine()
+						 if ColoredSelectedIconButton(icons.system_overview, mode == "system_info", colors.mode_button, colors.mode_button_selected, "System Info View") then
+								Game.SetView("system_info")
+						 end
+						 pigui.SameLine()
+						 if ColoredSelectedIconButton(icons.galaxy_map, mode == "galaxy", colors.mode_button, colors.mode_button_selected, "Galaxy View") then
+								Game.SetView("galaxy")
+						 end
+						 pigui.SameLine()
+						 if ColoredSelectedIconButton(icons.personal_info, mode == "info", colors.mode_button, colors.mode_button_selected, "Ship Status View") then
+								Game.SetView("info")
+						 end
+						 if player:IsDocked() then
+								pigui.SameLine()
+								if ColoredSelectedIconButton(icons.comms, mode == "space_station", colors.mode_button, colors.mode_button_selected, "Comms View") then
+									 Game.SetView("space_station")
+								end
+						 end
+	 end)
 end
+
+local function show_hyperspace_button()
+	 local disabled = false
+	 local shown = true
+	 local illegal = player:IsHyperjumpAllowed()
+	 local abort = false
+	 local targetpath = player:GetHyperspaceTarget()
+	 local target = targetpath and targetpath:GetStarSystem()
+	 if player:CanHyperjumpTo(targetpath) then
+			if player:IsDocked() or player:IsLanded() then
+				 disabled = true
+			elseif player:IsHyperspaceActive() then
+				 abort = true
+			end
+	 else
+			shown = false
+	 end
+	 if shown then
+			window("Hyperspace Button", {"NoTitleBar","NoResize"}, function ()
+								local position = Vector(pigui.GetWindowPos()) + Vector(0, 0)
+								local size = 24
+								if disabled then
+									 local uv0, uv1 = get_icon_tex(icons.hyperspace)
+									 pigui.Image(pigui.icons_id, Vector(size, size), uv0, uv1, colors.darkgrey, colors.lightgrey)
+								else
+									 if image_button(illegal and icons.hyperspace or icons.hyperspace_off, size, colors.transparent, colors.lightgrey, "Hyperjump") then
+											if player:IsHyperspaceActive() then
+												 player:AbortHyperjump()
+											else
+												 player:HyperjumpTo(player:GetHyperspaceTarget())
+											end
+									 end
+								end
+								pigui.SameLine()
+								pigui.BeginGroup()
+								-- local size = show_icon(position, illegal and icons.hyperspace or icons.hyperspace_off, colors.lightgrey, 24, anchor.left, anchor.top)
+								-- show_text(position + Vector(size,0), target.name or "unknown", colors.lightgrey, pionillium.small, anchor.left, anchor.top, "Hyperspace target")
+								pigui.Text(target.name or "unknown")
+								local engine = player:GetEquip("engine", 1)
+								if not engine then
+									 return
+								end
+								local distance, fuel, duration = engine:CheckJump(player, Game.system.path, targetpath)
+								local text = "" .. string.format("(%d,%d,%d)", targetpath.sectorX, targetpath.sectorY, targetpath.sectorZ) .. " " .. string.format("%.2f", distance) .. "ly " .. fuel .. "t " .. MyFormat.Duration(duration, 2)
+								-- show_text(position + Vector(size,textsize.y), text, colors.lightgrey, pionillium.small, anchor.left, anchor.top, "Stuff")
+								pigui.Text(text)
+								-- "(1,1,1) 4.34ly 3t 32hrs"
+								pigui.EndGroup()
+			end)
+	 end
+end
+
 local function show_hud(delta)
 	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
 	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
@@ -2185,242 +2256,243 @@ local function show_hud(delta)
 	 pigui.SetNextWindowPos(Vector(0, 0), "Always")
 	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
-	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
-	 
-	 --	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
-	 
-	 -- symbol.disk(Vector(100,100), 2, colors.red, 1.0)
-	 -- show_text_fancy(Vector(100,100), { "bot", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.right, anchor.bottom)
-	 -- show_text_fancy(Vector(100,100), { "top", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.left, anchor.top)
-	 -- show_text(Vector(100,100), "foo", colors.green, anchor.right, anchor.baseline, pionillium.large)
-	 -- show_text(Vector(100,100), "bar", colors.green, anchor.left, anchor.baseline, pionillium.small)
-	 -- ******************** Ship Directional Markers ********************
-	 local size=8
-	 local side, dir, pos = pigui.GetHUDMarker("forward")
-	 local dir_fwd = Vector(dir.x, dir.y)
-	 local show_forward_direction_in_reticule = true
-	 if side == "onscreen" then
-			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_forward_direction_in_reticule = false
-			end
-			symbol.plus(pos, size, colors.lightgrey, 3.0)
-	 end
-	 local side, dir, pos = pigui.GetHUDMarker("backward")
-	 if side == "onscreen" then
-			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_forward_direction_in_reticule = false
-			end
-			symbol.cross(pos, size, colors.lightgrey, 3.0)
-	 end
-	 local side, dir, pos = pigui.GetHUDMarker("left")
-	 if side == "onscreen" then
-			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_forward_direction_in_reticule = false
-			end
-			symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
-	 end
-	 local side, dir, pos = pigui.GetHUDMarker("right")
-	 if side == "onscreen" then
-			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_forward_direction_in_reticule = false
-			end
-			symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
-	 end
-	 local side, dir, pos = pigui.GetHUDMarker("up")
-	 if side == "onscreen" then
-			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_forward_direction_in_reticule = false
-			end
-			symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
-	 end
-	 local side, dir, pos = pigui.GetHUDMarker("down")
-	 if side == "onscreen" then
-			if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-				 show_forward_direction_in_reticule = false
-			end
-			symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
-	 end
-	 -- ******************** Reticule ********************
-	 if show_forward_direction_in_reticule then
-			-- center of screen marker, small circle
-			symbol.disk(center, 2, colors.lightgrey)
-			-- pointer to forward, small triangle
-			pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:left()):normalized() * size / 1.7, colors.lightgrey, 1.5)
-			pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:right()):normalized() * size / 1.7, colors.lightgrey, 1.5)
-	 end
-	 -- navigation circle
-	 symbol.circle(center, reticule_radius, colors.lightgrey, 2.0)
+	 window("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"}, function()
 
-	 -- ******************** Nav Target speed / distance ********************
-	 local navTarget = player:GetNavTarget()
-	 if navTarget then
-			-- target name
-			local position = point_on_circle_radius(center, reticule_text_radius, 1.35)
-			show_text(position, "Nav Target", colors.darkgreen, pionillium.small, anchor.left, anchor.bottom)
-			position = point_on_circle_radius(center, reticule_text_radius, 2)
-			show_text(position, navTarget.label, colors.lightgreen, pionillium.medium, anchor.left, anchor.bottom) -- , "The current navigational target"
+						 --	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
 
-			local speed = Vector(pigui.GetVelocity("nav_prograde"))
-			local spd,unit = MyFormat.Speed(speed:magnitude())
-			position = point_on_circle_radius(center, reticule_text_radius, 2.9)
-			local textsize = show_text_fancy(position, { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
-			do
-				 local pos = Vector(player:GetPositionRelTo(navTarget))
-				 local vel = Vector(player:GetVelocityRelTo(navTarget))
-				 local proj = pos:dot(vel) / pos:magnitude()
-				 local spd,unit = MyFormat.Speed(proj)
-				 show_text_fancy(position + Vector(textsize.x * 1.1, 0), { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.medium, pionillium.small }, anchor.left, anchor.bottom)
-			end
+						 -- symbol.disk(Vector(100,100), 2, colors.red, 1.0)
+						 -- show_text_fancy(Vector(100,100), { "bot", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.right, anchor.bottom)
+						 -- show_text_fancy(Vector(100,100), { "top", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.left, anchor.top)
+						 -- show_text(Vector(100,100), "foo", colors.green, anchor.right, anchor.baseline, pionillium.large)
+						 -- show_text(Vector(100,100), "bar", colors.green, anchor.left, anchor.baseline, pionillium.small)
+						 -- ******************** Ship Directional Markers ********************
+						 local size=8
+						 local side, dir, pos = pigui.GetHUDMarker("forward")
+						 local dir_fwd = Vector(dir.x, dir.y)
+						 local show_forward_direction_in_reticule = true
+						 if side == "onscreen" then
+								if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+									 show_forward_direction_in_reticule = false
+								end
+								symbol.plus(pos, size, colors.lightgrey, 3.0)
+						 end
+						 local side, dir, pos = pigui.GetHUDMarker("backward")
+						 if side == "onscreen" then
+								if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+									 show_forward_direction_in_reticule = false
+								end
+								symbol.cross(pos, size, colors.lightgrey, 3.0)
+						 end
+						 local side, dir, pos = pigui.GetHUDMarker("left")
+						 if side == "onscreen" then
+								if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+									 show_forward_direction_in_reticule = false
+								end
+								symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+						 end
+						 local side, dir, pos = pigui.GetHUDMarker("right")
+						 if side == "onscreen" then
+								if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+									 show_forward_direction_in_reticule = false
+								end
+								symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+						 end
+						 local side, dir, pos = pigui.GetHUDMarker("up")
+						 if side == "onscreen" then
+								if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+									 show_forward_direction_in_reticule = false
+								end
+								symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+						 end
+						 local side, dir, pos = pigui.GetHUDMarker("down")
+						 if side == "onscreen" then
+								if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+									 show_forward_direction_in_reticule = false
+								end
+								symbol.bottom(pos, size, colors.lightgrey, 3.0, dir_fwd)
+						 end
+						 -- ******************** Reticule ********************
+						 if show_forward_direction_in_reticule then
+								-- center of screen marker, small circle
+								symbol.disk(center, 2, colors.lightgrey)
+								-- pointer to forward, small triangle
+								pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:left()):normalized() * size / 1.7, colors.lightgrey, 1.5)
+								pigui.AddLine(center + dir_fwd * size, center + (dir_fwd + dir_fwd:right()):normalized() * size / 1.7, colors.lightgrey, 1.5)
+						 end
+						 -- navigation circle
+						 symbol.circle(center, reticule_radius, colors.lightgrey, 2.0)
+
+						 -- ******************** Nav Target speed / distance ********************
+						 local navTarget = player:GetNavTarget()
+						 if navTarget then
+								-- target name
+								local position = point_on_circle_radius(center, reticule_text_radius, 1.35)
+								show_text(position, "Nav Target", colors.darkgreen, pionillium.small, anchor.left, anchor.bottom)
+								position = point_on_circle_radius(center, reticule_text_radius, 2)
+								show_text(position, navTarget.label, colors.lightgreen, pionillium.medium, anchor.left, anchor.bottom) -- , "The current navigational target"
+
+								local speed = Vector(pigui.GetVelocity("nav_prograde"))
+								local spd,unit = MyFormat.Speed(speed:magnitude())
+								position = point_on_circle_radius(center, reticule_text_radius, 2.9)
+								local textsize = show_text_fancy(position, { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
+								do
+									 local pos = Vector(player:GetPositionRelTo(navTarget))
+									 local vel = Vector(player:GetVelocityRelTo(navTarget))
+									 local proj = pos:dot(vel) / pos:magnitude()
+									 local spd,unit = MyFormat.Speed(proj)
+									 show_text_fancy(position + Vector(textsize.x * 1.1, 0), { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.medium, pionillium.small }, anchor.left, anchor.bottom)
+								end
 
 
-			local distance = player:DistanceTo(navTarget)
-			local dist,unit = MyFormat.Distance(distance)
-			position = point_on_circle_radius(center, reticule_text_radius, 3.1)
-			local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top )
-			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-			position.y = position.y + textsize.y * 1.1
-			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top) -- , "Time to brake with main thrusters"
-	 end
+								local distance = player:DistanceTo(navTarget)
+								local dist,unit = MyFormat.Distance(distance)
+								position = point_on_circle_radius(center, reticule_text_radius, 3.1)
+								local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top )
+								local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+								position.y = position.y + textsize.y * 1.1
+								show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top) -- , "Time to brake with main thrusters"
+						 end
 
-	 -- ******************** Maneuver speed ********************
-	 local spd = player:GetManeuverSpeed()
-	 if spd then
-			local position = point_on_circle_radius(center, reticule_text_radius, 0)
-			local speed,unit = MyFormat.Speed(spd)
-			show_text_fancy(position, { speed, unit }, { colors.maneuver, colors.maneuver }, { pionillium.large, pionillium.medium }, anchor.center, anchor.bottom)
-	 end
-	 -- ******************** Combat Target speed / distance ********************
-	 local combatTarget = player:GetCombatTarget()
-	 if combatTarget then
-			-- target name
+						 -- ******************** Maneuver speed ********************
+						 local spd = player:GetManeuverSpeed()
+						 if spd then
+								local position = point_on_circle_radius(center, reticule_text_radius, 0)
+								local speed,unit = MyFormat.Speed(spd)
+								show_text_fancy(position, { speed, unit }, { colors.maneuver, colors.maneuver }, { pionillium.large, pionillium.medium }, anchor.center, anchor.bottom)
+						 end
+						 -- ******************** Combat Target speed / distance ********************
+						 local combatTarget = player:GetCombatTarget()
+						 if combatTarget then
+								-- target name
 
-			local position = point_on_circle_radius(center, reticule_text_radius, 6)
-			local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top) -- , "Combat target"
+								local position = point_on_circle_radius(center, reticule_text_radius, 6)
+								local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top) -- , "Combat target"
 
-			position.y = position.y + textsize.y * 1.1
-			local speed = combatTarget:GetVelocityRelTo(player)
-			local spd,unit = MyFormat.Speed(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-			show_text_fancy(position + Vector(-5.0), { spd, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top)
-			local distance = player:DistanceTo(combatTarget)
-			local dist,unit = MyFormat.Distance(distance)
-			show_text_fancy(position + Vector(5,0), { dist, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top)
-			--			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-			--			pigui.PushFont("pionillium", 18)
-			--			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
-			--			pigui.PopFont()
-	 end
+								position.y = position.y + textsize.y * 1.1
+								local speed = combatTarget:GetVelocityRelTo(player)
+								local spd,unit = MyFormat.Speed(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+								show_text_fancy(position + Vector(-5.0), { spd, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top)
+								local distance = player:DistanceTo(combatTarget)
+								local dist,unit = MyFormat.Distance(distance)
+								show_text_fancy(position + Vector(5,0), { dist, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top)
+								--			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+								--			pigui.PushFont("pionillium", 18)
+								--			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
+								--			pigui.PopFont()
+						 end
 
-	 -- ******************** Frame speed / distance ********************
-	 local frame = player:GetFrame()
-	 if frame then
-			local position = point_on_circle_radius(center, reticule_text_radius, -1.35)
-			show_text(position, "Frame", colors.darkgrey, pionillium.small, anchor.right, anchor.bottom)
-			position = point_on_circle_radius(center, reticule_text_radius, -2)
-			show_text(position, frame.label, colors.lightgrey, pionillium.medium, anchor.right, anchor.bottom)
+						 -- ******************** Frame speed / distance ********************
+						 local frame = player:GetFrame()
+						 if frame then
+								local position = point_on_circle_radius(center, reticule_text_radius, -1.35)
+								show_text(position, "Frame", colors.darkgrey, pionillium.small, anchor.right, anchor.bottom)
+								position = point_on_circle_radius(center, reticule_text_radius, -2)
+								show_text(position, frame.label, colors.lightgrey, pionillium.medium, anchor.right, anchor.bottom)
 
-			local speed = Vector(pigui.GetVelocity("frame_prograde"))
-			local spd,unit = MyFormat.Speed(speed:magnitude())
-			position = point_on_circle_radius(center, reticule_text_radius, -2.9)
-			show_text_fancy(position, { spd, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+								local speed = Vector(pigui.GetVelocity("frame_prograde"))
+								local spd,unit = MyFormat.Speed(speed:magnitude())
+								position = point_on_circle_radius(center, reticule_text_radius, -2.9)
+								show_text_fancy(position, { spd, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 
-			local distance = player:DistanceTo(frame)
-			local dist,unit = MyFormat.Distance(distance)
-			position = point_on_circle_radius(center, reticule_text_radius, -3.1)
-			local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top )
+								local distance = player:DistanceTo(frame)
+								local dist,unit = MyFormat.Distance(distance)
+								position = point_on_circle_radius(center, reticule_text_radius, -3.1)
+								local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top )
 
-			local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
-			position.y = position.y + textsize.y * 1.1
-			show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, pionillium.medium, anchor.right, anchor.top)
+								local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
+								position.y = position.y + textsize.y * 1.1
+								show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, pionillium.medium, anchor.right, anchor.top)
 
-			-- ******************** Frame markers ********************
-			show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true, nil, 12) -- , "Prograde direction relative to frame"
-			show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators, nil, 12) -- , "Retrograde direction relative to frame"
-			show_marker("normal", symbol.normal, colors.orbital_marker, false, nil, 8)
-			show_marker("anti_normal", symbol.anti_normal, colors.orbital_marker, false, nil, 8)
-			show_marker("radial_out", symbol.radial_out, colors.orbital_marker, false, nil, 8)
-			show_marker("radial_in", symbol.radial_in, colors.orbital_marker, false, nil, 8)
-			show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true, nil, 12) -- , "Direction away from frame"
-			local pos,dir = markerPos("frame", reticule_radius + 5)
-			if pos then
-				 local size = 6
-				 local left = dir:left() * 4 + pos
-				 local right = dir:right() * 4 + pos
-				 local top = dir * 8 + pos
-				 pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
-			end
-			-- ******************** Combat target ********************
-			if player:GetCombatTarget() then
-				 show_marker("combat_target", symbol.circle, colors.combat_target, true)
-				 show_marker("combat_target_lead", symbol.empty_bullseye, colors.combat_target, false)
-				 do -- line between lead and target TODO: dashed
-						local c_pos,c_dir,c_point,c_side = markerPos("combat_target", reticule_radius - 10)
-						local cl_pos,cl_dir,cl_point,cl_side = markerPos("combat_target_lead", reticule_radius - 10)
-						if c_point and cl_point and (c_side ~= "hidden" or cl_side ~= "hidden") then
-							 pigui.AddLine(c_point, cl_point, colors.combat_target, 1.0)
-						end
-				 end
-			end
-	 end
-	 -- ******************** NavTarget markers ********************
-	 show_marker("nav_prograde", symbol.diamond, colors.lightgreen, true)
-	 show_marker("nav_retrograde", symbol.cross, colors.lightgreen, show_retrograde_indicators)
-	 show_marker("nav", symbol.square, colors.lightgreen, false)
-	 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
-	 if pos then
-			local size = 9
-			local left = dir:left() * size + pos
-			local right = dir:right() * size + pos
-			local top = dir * size * 2 + pos
-			pigui.AddTriangleFilled(left, right, top, colors.lightgrey)
-	 end
-	 -- ******************** Maneuver Node ********************
-	 show_marker("maneuver", symbol.bullseye, colors.maneuver, true)
+								-- ******************** Frame markers ********************
+								show_marker("frame_prograde", symbol.diamond, colors.orbital_marker, true, nil, 12) -- , "Prograde direction relative to frame"
+								show_marker("frame_retrograde", symbol.cross, colors.orbital_marker, show_retrograde_indicators, nil, 12) -- , "Retrograde direction relative to frame"
+								show_marker("normal", symbol.normal, colors.orbital_marker, false, nil, 8)
+								show_marker("anti_normal", symbol.anti_normal, colors.orbital_marker, false, nil, 8)
+								show_marker("radial_out", symbol.radial_out, colors.orbital_marker, false, nil, 8)
+								show_marker("radial_in", symbol.radial_in, colors.orbital_marker, false, nil, 8)
+								show_marker("away_from_frame", symbol.circle, colors.orbital_marker, true, nil, 12) -- , "Direction away from frame"
+								local pos,dir = markerPos("frame", reticule_radius + 5)
+								if pos then
+									 local size = 6
+									 local left = dir:left() * 4 + pos
+									 local right = dir:right() * 4 + pos
+									 local top = dir * 8 + pos
+									 pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
+								end
+								-- ******************** Combat target ********************
+								if player:GetCombatTarget() then
+									 show_marker("combat_target", symbol.circle, colors.combat_target, true)
+									 show_marker("combat_target_lead", symbol.empty_bullseye, colors.combat_target, false)
+									 do -- line between lead and target TODO: dashed
+											local c_pos,c_dir,c_point,c_side = markerPos("combat_target", reticule_radius - 10)
+											local cl_pos,cl_dir,cl_point,cl_side = markerPos("combat_target_lead", reticule_radius - 10)
+											if c_point and cl_point and (c_side ~= "hidden" or cl_side ~= "hidden") then
+												 pigui.AddLine(c_point, cl_point, colors.combat_target, 1.0)
+											end
+									 end
+								end
+						 end
+						 -- ******************** NavTarget markers ********************
+						 show_marker("nav_prograde", symbol.diamond, colors.lightgreen, true)
+						 show_marker("nav_retrograde", symbol.cross, colors.lightgreen, show_retrograde_indicators)
+						 show_marker("nav", symbol.square, colors.lightgreen, false)
+						 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
+						 if pos then
+								local size = 9
+								local left = dir:left() * size + pos
+								local right = dir:right() * size + pos
+								local top = dir * size * 2 + pos
+								pigui.AddTriangleFilled(left, right, top, colors.lightgrey)
+						 end
+						 -- ******************** Maneuver Node ********************
+						 show_marker("maneuver", symbol.bullseye, colors.maneuver, true)
 
-	 show_bodies_on_screen()
-	 -- ******************** directional spaceship markers ********************
-	 do
-			local vel = player:GetOrientedVelocity()
-			local max = math.max(math.abs(vel.x),(math.max(math.abs(vel.y), math.abs(vel.z))))
-			local size = 15
-			local thickness = 5
-			local velocity_center = Vector(50,50)
+						 show_bodies_on_screen()
+						 -- ******************** directional spaceship markers ********************
+						 do
+								local vel = player:GetOrientedVelocity()
+								local max = math.max(math.abs(vel.x),(math.max(math.abs(vel.y), math.abs(vel.z))))
+								local size = 15
+								local thickness = 5
+								local velocity_center = Vector(50,50)
 
-			if max < size then
-				 max = size
-			end
+								if max < size then
+									 max = size
+								end
 
-			local vx,vy,vz = vel.x/max, -vel.y/max, vel.z/max
+								local vx,vy,vz = vel.x/max, -vel.y/max, vel.z/max
 
-			pigui.AddText(velocity_center + Vector(-13,-size*1.5-8), colors.darkgrey, "L")
-			pigui.AddText(velocity_center + Vector(-13,size*1.5), colors.darkgrey, "R")
-			pigui.AddLine(velocity_center + Vector(-10,0), velocity_center + Vector(-10, vx * size), colors.lightgrey, thickness)
-			pigui.AddText(velocity_center + Vector(-3,-size*1.5-8), colors.darkgrey, "U")
-			pigui.AddText(velocity_center + Vector(-3,size*1.5), colors.darkgrey, "D")
-			pigui.AddLine(velocity_center + Vector(0,0), velocity_center + Vector(0, vy * size), colors.lightgrey, thickness)
-			pigui.AddText(velocity_center + Vector(7,-size*1.5-8), colors.darkgrey, "F")
-			pigui.AddText(velocity_center + Vector(7,size*1.5), colors.darkgrey, "B")
-			pigui.AddLine(velocity_center + Vector(10,0), velocity_center + Vector(10, vz * size), colors.lightgrey, thickness)
-	 end
+								pigui.AddText(velocity_center + Vector(-13,-size*1.5-8), colors.darkgrey, "L")
+								pigui.AddText(velocity_center + Vector(-13,size*1.5), colors.darkgrey, "R")
+								pigui.AddLine(velocity_center + Vector(-10,0), velocity_center + Vector(-10, vx * size), colors.lightgrey, thickness)
+								pigui.AddText(velocity_center + Vector(-3,-size*1.5-8), colors.darkgrey, "U")
+								pigui.AddText(velocity_center + Vector(-3,size*1.5), colors.darkgrey, "D")
+								pigui.AddLine(velocity_center + Vector(0,0), velocity_center + Vector(0, vy * size), colors.lightgrey, thickness)
+								pigui.AddText(velocity_center + Vector(7,-size*1.5-8), colors.darkgrey, "F")
+								pigui.AddText(velocity_center + Vector(7,size*1.5), colors.darkgrey, "B")
+								pigui.AddLine(velocity_center + Vector(10,0), velocity_center + Vector(10, vz * size), colors.lightgrey, thickness)
+						 end
 
-	 show_navball()
-	 show_thrust()
-	 show_weapons()
-	 show_ships_on_screen()
+						 show_navball()
+						 show_thrust()
+						 show_weapons()
+						 show_ships_on_screen()
 
-	 if player:IsHyperspaceActive() then
-			show_hyperspace_countdown()
-	 end
-	 pigui.End()
+						 if player:IsHyperspaceActive() then
+								show_hyperspace_countdown()
+						 end
+	 end)
 	 pigui.PopStyleColor(1);
 
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
 	 show_nav_window()
---	 show_contacts()
+	 --	 show_contacts()
 	 show_stuff()
-	 show_comm_log()
+	 --	 show_comm_log()
 	 show_radar_mapper()
 	 show_hyperspace_analyzer()
---	 show_settings()
+	 show_hyperspace_button()
+	 --	 show_settings()
 
 	 -- show_debug_orbit()
 	 --	show_debug_thrust()
@@ -2437,39 +2509,25 @@ local function show_pause_screen()
 			pigui.SetNextWindowPos(Vector(0, 0), "Always")
 			pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
 			pigui.PushStyleColor("WindowBg", colors.paused_background)
-			pigui.Begin("Pause", {"NoTitleBar","NoMove","NoResize","NoSavedSettings"})
-			local center = Vector(pigui.screen_width / 2, pigui.screen_height / 4)
-			show_text(center, lc.PAUSED, colors.paused_text, pionillium.large, anchor.center, anchor.center)
-			pigui.End()
+			window("Pause", {"NoTitleBar","NoMove","NoResize","NoSavedSettings"}, function()
+								local center = Vector(pigui.screen_width / 2, pigui.screen_height / 4)
+								show_text(center, lc.PAUSED, colors.paused_text, pionillium.large, anchor.center, anchor.center)
+			end)
 			pigui.PopStyleColor(1)
 	 end
 end
 
 local function show_hyperspace()
 	 pigui.PushStyleColor("WindowBg", colors.transparent)
-	 pigui.Begin("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"})
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 2), lc.HYPERSPACE_IN_HYPERSPACE, colors.red, pionillium.large, anchor.center, anchor.center)
-	 local systempath_target = player:GetHyperspaceTarget()
-	 local starsystem = systempath_target:GetStarSystem()
-	 local sector = starsystem.sector
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2), string.interp(lc.IN_TRANSIT_TO_N_X_Y_Z, { system = starsystem.name, x = sector.x, y = sector.y, z = sector.z }), colors.green, pionillium.large, anchor.center, anchor.center)
-	 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2.3), string.interp(lc.JUMP_COMPLETE, { percent = math.ceil(100 * Game.GetHyperspaceTravelledPercentage())}), colors.green, pionillium.large, anchor.center, anchor.center)
-	 pigui.End()
+	 window("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"}, function()
+						 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 2), lc.HYPERSPACE_IN_HYPERSPACE, colors.red, pionillium.large, anchor.center, anchor.center)
+						 local systempath_target = player:GetHyperspaceTarget()
+						 local starsystem = systempath_target:GetStarSystem()
+						 local sector = starsystem.sector
+						 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2), string.interp(lc.IN_TRANSIT_TO_N_X_Y_Z, { system = starsystem.name, x = sector.x, y = sector.y, z = sector.z }), colors.green, pionillium.large, anchor.center, anchor.center)
+						 show_text(Vector(pigui.screen_width / 2, pigui.screen_height / 3 * 2.3), string.interp(lc.JUMP_COMPLETE, { percent = math.ceil(100 * Game.GetHyperspaceTravelledPercentage())}), colors.green, pionillium.large, anchor.center, anchor.center)
+	 end)
 	 pigui.PopStyleColor(1)
-end
-
-local function image_button(icon, size, bg_color, fg_color, tooltip)
-	 if not tooltip then
-			error("must supply tooltip for image buttons")
-	 end
-	 pigui.PushID(tooltip)
-	 local uv0, uv1 = get_icon_tex(icon)
-	 local res = pigui.ImageButton(pigui.icons_id, Vector(size, size), uv0, uv1, -1, bg_color, fg_color)
-	 if pigui.IsItemHovered() then
-			pigui.SetTooltip(tooltip)
-	 end
-	 pigui.PopID(tooltip)
-	 return res
 end
 
 local function show_time_accel_buttons()
@@ -2484,18 +2542,18 @@ local function show_time_accel_buttons()
 	 local current = Game.GetTimeAcceleration()
 	 pigui.SetNextWindowPos(Vector(0, pigui.screen_height - 50), "Always")
 	 pigui.PushStyleColor("WindowBg", colors.noz_darkblue)
-	 pigui.Begin("TimeAccel", {"NoTitleBar", "NoMove","NoResize","NoSavedSettings"})
-	 local size = 32
-	 for k,v in pairs({"paused", "1x", "10x", "100x", "1000x", "10000x"}) do
-			local color = (current == v and colors.time_accel_current or (requested == v and colors.time_accel_requested or colors.time_accel))
-			pigui.PushStyleColor("Button", color)
-			if image_button(icons["time_accel_" .. v], size, colors.transparent, colors.lightgrey, v) then
-				 Game.SetTimeAcceleration(v, pigui.key_ctrl)
-			end
-			pigui.PopStyleColor(1)
-			pigui.SameLine()
-	 end
-	 pigui.End()
+	 window("TimeAccel", {"NoTitleBar", "NoMove","NoResize","NoSavedSettings"}, function()
+						 local size = 32
+						 for k,v in pairs({"paused", "1x", "10x", "100x", "1000x", "10000x"}) do
+								local color = (current == v and colors.time_accel_current or (requested == v and colors.time_accel_requested or colors.time_accel))
+								pigui.PushStyleColor("Button", color)
+								if image_button(icons["time_accel_" .. v], size, colors.transparent, colors.lightgrey, v) then
+									 Game.SetTimeAcceleration(v, pigui.key_ctrl)
+								end
+								pigui.PopStyleColor(1)
+								pigui.SameLine()
+						 end
+	 end)
 	 if Game.GetTimeAcceleration() == "paused" then
 			pigui.SetWindowFocus("TimeAccel")
 	 end
@@ -2535,18 +2593,18 @@ end
 local sector_search_string = ""
 local sector_search_result = nil
 pigui.handlers.sector = function(delta)
-	 pigui.Begin(lc.SEARCH, {})
-	 local search, return_pressed = pigui.InputText("", sector_search_string, { "EnterReturnsTrue" })
-	 sector_search_string = search
-	 pigui.SameLine()
-	 if pigui.Button(lc.SEARCH) or return_pressed then
-			sector_search_result = Game.SectorViewSearch(sector_search_string)
-			sector_search_string = ""
-	 end
-	 if sector_search_result then
-			pigui.Text(sector_search_result)
-	 end
-	 pigui.End()
+	 window(lc.SEARCH, {}, function()
+						 local search, return_pressed = pigui.InputText("", sector_search_string, { "EnterReturnsTrue" })
+						 sector_search_string = search
+						 pigui.SameLine()
+						 if pigui.Button(lc.SEARCH) or return_pressed then
+								sector_search_result = Game.SectorViewSearch(sector_search_string)
+								sector_search_string = ""
+						 end
+						 if sector_search_result then
+								pigui.Text(sector_search_result)
+						 end
+	 end)
 
 	 show_modes()
 end
