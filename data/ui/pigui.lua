@@ -224,6 +224,8 @@ local icons = {
    hud = 168,
    factory = 169,
    star = 170,
+
+   -- TODO: manual / autopilot
 }
 
 local colors = {
@@ -822,7 +824,7 @@ local function show_navball()
    if deltav_maneuver > 0 then
 	  local spd,unit = MyFormat.Speed(deltav_maneuver)
 	  position = point_on_circle_radius(navball_center, navball_text_radius, -4)
-	  show_text_fancy(position, { lui.MANEUVER_DELTA_V, spd, unit }, { colors.maneuver, colors.maneuver, colors.maneuver }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+	  show_text_fancy(position, { lui.HUD_MANEUVER_DELTA_V, spd, unit }, { colors.maneuver, colors.maneuver, colors.maneuver }, { pionillium.medium, pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
 	  local maneuver_time = deltav_maneuver / player:GetAccel("forward")
 	  show_text_fancy(position, { math.floor(dvm/dvr*100) .. "%     " .. Format.Duration(maneuver_time) }, { colors.maneuver }, { pionillium.small }, anchor.right, anchor.top)
    end
@@ -1061,7 +1063,7 @@ local function show_navball()
 	  end
    end
    -- circular stats, lower left
-   local position = Vector(navball_center.x - 180,pigui.screen_height - 40)
+   local position = Vector(navball_center.x - 250,pigui.screen_height - 40)
    show_circular_gauge(position, player:GetHullTemperature(), colors.tmp_gauge, lui.HUD_TEMPERATURE, lui.HUD_HULL)
    show_circular_gauge(position + Vector(-90, 0), 1 - player:GetHullPercent() / 100, colors.hull_gauge, lui.HUD_DAMAGE, lui.HUD_HULL)
    if player:GetShieldsPercent() then
@@ -1992,7 +1994,7 @@ local function show_ship_functions()
 						 player:ToggleWheelState()
 					  end
 				   end
-				   pigui.Text("Wheelstate: " .. wheelstate)
+				   -- pigui.Text("Wheelstate: " .. wheelstate)
 				end
 			 end
    end)
