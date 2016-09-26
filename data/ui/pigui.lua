@@ -510,10 +510,9 @@ local function get_icon_tex(icon)
 end
 
 local function show_icon(position, icon, color, size, anchor_horizontal, anchor_vertical, tooltip, angle_rad)
-   local angle = (angle_rad or 0.0) % (2 * math.pi)
    local pos = calc_alignment(position, Vector(size, size), anchor_horizontal, anchor_vertical)
    local uv0, uv1 = get_icon_tex(icon)
-   if math.abs(angle) > 0.00001 then
+   if angle_rad then
 	  local center = (pos + pos + Vector(size,size)) / 2
 	  local up_left = Vector(-size/2, size/2):rotate2d(angle_rad)
 	  local up_right = up_left:right()
@@ -586,116 +585,7 @@ local function circle_segments(size)
    end
 end
 
-local symbol = {
-   cross = function(pos, size, col, thickness, direction)
-	  pigui.AddLine(pos - Vector(size,size), pos + Vector(size,size), col, thickness)
-	  pigui.AddLine(pos + Vector(size,-size), pos + Vector(-size,size), col, thickness)
-   end,
-   plus = function(pos, size, col, thickness, direction)
-	  pigui.AddLine(pos - Vector(size,0), pos + Vector(size,0), col, thickness)
-	  pigui.AddLine(pos - Vector(0,size), pos + Vector(0,size), col, thickness)
-   end,
-   chevron = function(pos, size, col, thickness, direction)
-	  local dir = direction or Vector(0, -1)
-	  local factor = 2
-	  local triCenter = pos + dir * size
-	  local triLeft = pos + dir:left() * size
-	  local triRight = pos + dir:right() * size
-	  pigui.AddLine(triLeft, triCenter , col, thickness)
-	  pigui.AddLine(triRight, triCenter , col, thickness)
-   end,
-   normal = function(pos, size, col, thickness, direction)
-	  local factor = 2
-	  local lineLeft = pos + Vector(-1,-1) * size
-	  local lineRight = pos + Vector(1,-1) * size
-	  local triCenter = pos + Vector(0,1) * (size / factor)
-	  local triLeft = lineLeft + Vector(0, 1) * (size / factor)
-	  local triRight = lineRight + Vector(0, 1) * (size / factor)
-	  pigui.AddLine(lineLeft, lineRight, col, thickness)
-	  pigui.AddLine(triLeft, triCenter , col, thickness)
-	  pigui.AddLine(triRight, triCenter , col, thickness)
-   end,
-   anti_normal = function(pos, size, col, thickness, direction)
-	  local factor = 2
-	  local lineLeft = pos + Vector(-1,1) * size
-	  local lineRight = pos + Vector(1,1) * size
-	  local triCenter = pos + Vector(0,-1) * (size / factor)
-	  local triLeft = lineLeft + Vector(0, -1) * (size / factor)
-	  local triRight = lineRight + Vector(0, -1) * (size / factor)
-	  pigui.AddLine(lineLeft, lineRight, col, thickness)
-	  pigui.AddLine(triLeft, triCenter , col, thickness)
-	  pigui.AddLine(triRight, triCenter , col, thickness)
-   end,
-   radial_out = function(pos, size, col, thickness, direction)
-	  local factor = 6
-	  local leftTop = pos + Vector(-1,1) * size
-	  local rightTop = pos + Vector(1,1) * size
-	  local leftBottom = pos + Vector(-1,-1) * size
-	  local rightBottom = pos + Vector(1,-1) * size
-	  local leftCenter = pos + Vector(-1, 0) * (size / factor)
-	  local rightCenter = pos + Vector(1, 0) * (size / factor)
-	  pigui.AddLine(leftTop, leftBottom, col, thickness)
-	  pigui.AddLine(leftBottom, leftCenter, col, thickness)
-	  pigui.AddLine(leftTop, leftCenter, col, thickness)
-	  pigui.AddLine(rightTop, rightBottom, col, thickness)
-	  pigui.AddLine(rightBottom, rightCenter, col, thickness)
-	  pigui.AddLine(rightTop, rightCenter, col, thickness)
-   end,
-   radial_in = function(pos, size, col, thickness, direction)
-	  local factor = 5
-	  local leftTop = pos + Vector(-1 * size / factor, 1 * size)
-	  local rightTop = pos + Vector(1 * size / factor, 1 * size)
-	  local leftBottom = pos + Vector(-1 * size / factor, -1 * size)
-	  local rightBottom = pos + Vector(1 * size / factor, -1 * size)
-	  local leftCenter = pos + Vector(-1, 0) * size
-	  local rightCenter = pos + Vector(1, 0) * size
-	  pigui.AddLine(leftTop, leftBottom, col, thickness)
-	  pigui.AddLine(leftBottom, leftCenter, col, thickness)
-	  pigui.AddLine(leftTop, leftCenter, col, thickness)
-	  pigui.AddLine(rightTop, rightBottom, col, thickness)
-	  pigui.AddLine(rightBottom, rightCenter, col, thickness)
-	  pigui.AddLine(rightTop, rightCenter, col, thickness)
-   end,
-   disk = function(pos, size, col, thickness, direction)
-	  local segments = circle_segments(size)
-	  pigui.AddCircleFilled(pos, size, col, segments)
-   end,
-   circle = function(pos, size, col, thickness, direction)
-	  local segments = circle_segments(size)
-	  pigui.AddCircle(pos, size, col, segments, thickness)
-   end,
-   diamond = function(pos, size, col, thickness, direction)
-	  local left = pos + Vector(-1,0) * size
-	  local right = pos + Vector(1,0) * size
-	  local top = pos + Vector(0,1) * size
-	  local bottom = pos + Vector(0,-1) * size
-	  pigui.AddQuad(left, top, right, bottom, col, thickness)
-   end,
-   square = function(pos, size, col, thickness, direction)
-	  local leftTop = pos + Vector(-1,1) * size
-	  local rightTop = pos + Vector(1,1) * size
-	  local leftBottom = pos + Vector(-1,-1) * size
-	  local rightBottom = pos + Vector(1,-1) * size
-	  pigui.AddQuad(leftTop, leftBottom, rightBottom, rightTop, col, thickness)
-   end,
-   bullseye = function(pos, size, col, thickness, direction)
-	  local segments = circle_segments(size)
-	  pigui.AddCircle(pos, size, col, segments, thickness)
-	  pigui.AddCircleFilled(pos, size / 2, col, segments)
-   end,
-   empty_bullseye = function(pos, size, col, thickness, direction)
-	  local segments = circle_segments(size)
-	  pigui.AddCircle(pos, size, col, segments, thickness)
-	  pigui.AddCircle(pos, size / 2, col, segments, thickness)
-   end,
-   bottom = function(pos, size, col, thickness, direction)
-	  pigui.AddLine(pos + Vector(0,0), pos + direction * size, col, thickness)
-	  pigui.AddLine(pos + direction:left() * size, pos + direction:right() * size, col, thickness)
-   end
-}
-
 -- ****************************** PIGUI *******************************
-
 
 local function markerPos(name, distance)
    local side, dir, pos = pigui.GetHUDMarker(name)
@@ -1219,6 +1109,8 @@ local function show_radial_menu()
 	  local action = actions[n + 1]
 	  radial_actions[action](radial_nav_target)
 	  should_show_radial_menu = false
+	  pigui.DisableMouseFacing(false)
+	  pigui.SetMouseButtonState(3, false);  -- hack, imgui lets the press go through, but eats the release, so Pi still thinks rmb is held
    end
 end
 
@@ -1965,7 +1857,7 @@ local function show_bodies_on_screen()
 		 end
 		 pigui.EndPopup()
 	  else
-		 if show_tooltip then
+		 if show_tooltip and not should_show_radial_menu then
 			pigui.SetTooltip(label)
 		 end
 	  end
@@ -2322,266 +2214,257 @@ local function show_hyperspace_button()
    end
 end
 
-local fooangle = 0
+local function show_frame_markers(frame)
+   local position = point_on_circle_radius(center, reticule_text_radius, -1.35)
+   show_text(position, "Frame", colors.darkgrey, pionillium.small, anchor.right, anchor.bottom)
+   position = point_on_circle_radius(center, reticule_text_radius, -2)
+   show_text(position, frame.label, colors.lightgrey, pionillium.medium, anchor.right, anchor.bottom)
+
+   local speed = Vector(pigui.GetVelocity("frame_prograde"))
+   local spd,unit = MyFormat.Speed(speed:magnitude())
+   position = point_on_circle_radius(center, reticule_text_radius, -2.9)
+   show_text_fancy(position, { spd, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+
+   local distance = player:DistanceTo(frame)
+   local dist,unit = MyFormat.Distance(distance)
+   position = point_on_circle_radius(center, reticule_text_radius, -3.1)
+   local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top )
+
+   local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
+   position.y = position.y + textsize.y * 1.1
+   show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, pionillium.medium, anchor.right, anchor.top)
+
+   -- ******************** Frame markers ********************
+   do
+	  local size = 24
+	  local smallsize = 24
+	  show_marker("frame_prograde", icons.prograde, colors.orbital_marker, true, nil, size) -- , "Prograde direction relative to frame"
+	  show_marker("frame_retrograde", icons.retrograde, colors.orbital_marker, show_retrograde_indicators, nil, size) -- , "Retrograde direction relative to frame"
+	  show_marker("normal", icons.normal, colors.orbital_marker, false, nil, smallsize)
+	  show_marker("anti_normal", icons.antinormal, colors.orbital_marker, false, nil, smallsize)
+	  show_marker("radial_out", icons.radial_out, colors.orbital_marker, false, nil, smallsize)
+	  show_marker("radial_in", icons.radial_in, colors.orbital_marker, false, nil, smallsize)
+	  show_marker("away_from_frame", icons.frame_away, colors.orbital_marker, true, nil, size) -- , "Direction away from frame"
+   end
+   local pos,dir = markerPos("frame", reticule_radius + 10)
+   if pos then
+	  local size = 16
+	  show_icon(pos, icons.direction_frame_hollow, colors.lightgrey, size, anchor.center, anchor.center, "", dir:angle())
+   end
+   -- ******************** Combat target ********************
+   if player:GetCombatTarget() then
+	  show_marker("combat_target", icons.current_height, colors.combat_target, true)
+	  show_marker("combat_target_lead", icons.bullseye, colors.combat_target, false)
+	  do -- line between lead and target TODO: dashed
+		 local c_pos,c_dir,c_point,c_side = markerPos("combat_target", reticule_radius - 10)
+		 local cl_pos,cl_dir,cl_point,cl_side = markerPos("combat_target_lead", reticule_radius - 10)
+		 if c_point and cl_point and (c_side ~= "hidden" or cl_side ~= "hidden") then
+			pigui.AddLine(c_point, cl_point, colors.combat_target, 1.0)
+		 end
+	  end
+   end
+end
+
 local function show_hud(delta)
-   fooangle = fooangle + delta
-	 center = Vector(pigui.screen_width/2, pigui.screen_height/2)
-	 navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
-	 local windowbg = colors.noz_darkblue
-	 -- transparent full-size window, no inputs
-	 pigui.SetNextWindowPos(Vector(0, 0), "Always")
-	 pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
-	 withStyleColors({ ["WindowBg"] = colors.transparent }, function()
-				 window("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"}, function()
+   center = Vector(pigui.screen_width/2, pigui.screen_height/2)
+   navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
+   local windowbg = colors.noz_darkblue
+   -- transparent full-size window, no inputs
+   pigui.SetNextWindowPos(Vector(0, 0), "Always")
+   pigui.SetNextWindowSize(Vector(pigui.screen_width, pigui.screen_height), "Always")
+   withStyleColors({ ["WindowBg"] = colors.transparent }, function()
+		 window("HUD", {"NoTitleBar","NoInputs","NoMove","NoResize","NoSavedSettings","NoFocusOnAppearing","NoBringToFrontOnFocus"}, function()
 
-									 --	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
+				   --	 pigui.Image(pigui.icons_id, Vector(512,512), Vector(0.0,0.0), Vector(1.0,1.0), colors.red);
 
-									 -- symbol.disk(Vector(100,100), 2, colors.red, 1.0)
-									 -- show_text_fancy(Vector(100,100), { "bot", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.right, anchor.bottom)
-									 -- show_text_fancy(Vector(100,100), { "top", "100.5", "atm" }, { colors.lightgrey, colors.red, colors.green }, { pionillium.large, pionillium.small, pionillium.medium }, anchor.left, anchor.top)
-									 -- show_text(Vector(100,100), "foo", colors.green, anchor.right, anchor.baseline, pionillium.large)
-									 -- show_text(Vector(100,100), "bar", colors.green, anchor.left, anchor.baseline, pionillium.small)
-									 -- ******************** Ship Directional Markers ********************
-									 local size=24
-									 local side, dir, pos = pigui.GetHUDMarker("forward")
-									 local dir_fwd = Vector(dir.x, dir.y)
-									 local show_forward_direction_in_reticule = true
-									 if side == "onscreen" then
-											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-												 show_forward_direction_in_reticule = false
-											end
-											show_icon(pos, icons.forward, colors.lightgrey, size, anchor.center, anchor.center)
-									 end
-									 local side, dir, pos = pigui.GetHUDMarker("backward")
-									 if side == "onscreen" then
-											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-												 show_forward_direction_in_reticule = false
-											end
-											show_icon(pos, icons.backward, colors.lightgrey, size, anchor.center, anchor.center)
-									 end
-									 local side, dir, pos = pigui.GetHUDMarker("left")
-									 if side == "onscreen" then
-											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-												 show_forward_direction_in_reticule = false
-											end
-											show_icon(pos, icons.left, colors.lightgrey, size, anchor.center, anchor.center)
-									 end
-									 local side, dir, pos = pigui.GetHUDMarker("right")
-									 if side == "onscreen" then
-											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-												 show_forward_direction_in_reticule = false
-											end
-											show_icon(pos, icons.right, colors.lightgrey, size, anchor.center, anchor.center)
-									 end
-									 local side, dir, pos = pigui.GetHUDMarker("up")
-									 if side == "onscreen" then
-											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-												 show_forward_direction_in_reticule = false
-											end
-											local angle = dir_fwd:angle() - math.pi -- icon is pointing the wrong way
-											show_icon(pos, icons.up, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
-									 end
-									 local side, dir, pos = pigui.GetHUDMarker("down")
-									 if side == "onscreen" then
-											if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
-												 show_forward_direction_in_reticule = false
-											end
-											local angle = dir_fwd:angle()
-											show_icon(pos, icons.down, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
-									 end
-									 -- ******************** Reticule ********************
-									 if show_forward_direction_in_reticule then
-										local size = 12
-										local angle = dir_fwd:angle()
-										show_icon(center, icons.direction_forward, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
-									 end
-									 -- navigation circle
-									 local segments = circle_segments(reticule_radius)
-									 pigui.AddCircle(center, reticule_radius, colors.lightgrey, segments, 2.0)
-									 -- ******************** Nav Target speed / distance ********************
-									 local navTarget = player:GetNavTarget()
-									 if navTarget then
-											-- target name
-											local position = point_on_circle_radius(center, reticule_text_radius, 1.35)
-											show_text(position, "Nav Target", colors.darkgreen, pionillium.small, anchor.left, anchor.bottom)
-											position = point_on_circle_radius(center, reticule_text_radius, 2)
-											show_text(position, navTarget.label, colors.lightgreen, pionillium.medium, anchor.left, anchor.bottom) -- , "The current navigational target"
+				   -- ******************** Ship Directional Markers ********************
+				   local size=24
+				   local side, dir, pos = pigui.GetHUDMarker("forward")
+				   local dir_fwd = Vector(dir.x, dir.y)
+				   local show_forward_direction_in_reticule = true
+				   if side == "onscreen" then
+					  if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+						 show_forward_direction_in_reticule = false
+					  end
+					  show_icon(pos, icons.forward, colors.lightgrey, size, anchor.center, anchor.center)
+				   end
+				   local side, dir, pos = pigui.GetHUDMarker("backward")
+				   if side == "onscreen" then
+					  if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+						 show_forward_direction_in_reticule = false
+					  end
+					  show_icon(pos, icons.backward, colors.lightgrey, size, anchor.center, anchor.center)
+				   end
+				   local side, dir, pos = pigui.GetHUDMarker("left")
+				   if side == "onscreen" then
+					  if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+						 show_forward_direction_in_reticule = false
+					  end
+					  show_icon(pos, icons.left, colors.lightgrey, size, anchor.center, anchor.center)
+				   end
+				   local side, dir, pos = pigui.GetHUDMarker("right")
+				   if side == "onscreen" then
+					  if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+						 show_forward_direction_in_reticule = false
+					  end
+					  show_icon(pos, icons.right, colors.lightgrey, size, anchor.center, anchor.center)
+				   end
+				   local side, dir, pos = pigui.GetHUDMarker("up")
+				   if side == "onscreen" then
+					  if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+						 show_forward_direction_in_reticule = false
+					  end
+					  local angle = dir_fwd:angle() - math.pi -- icon is pointing the wrong way
+					  show_icon(pos, icons.up, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
+				   end
+				   local side, dir, pos = pigui.GetHUDMarker("down")
+				   if side == "onscreen" then
+					  if Vector(pos.x - center.x, pos.y - center.y):magnitude() < reticule_radius then
+						 show_forward_direction_in_reticule = false
+					  end
+					  local angle = dir_fwd:angle()
+					  show_icon(pos, icons.down, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
+				   end
+				   -- ******************** Reticule ********************
+				   if show_forward_direction_in_reticule then
+					  local size = 16
+					  local angle = dir_fwd:angle()
+					  show_icon(center, icons.direction_forward, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
+				   end
+				   -- navigation circle
+				   local segments = circle_segments(reticule_radius)
+				   pigui.AddCircle(center, reticule_radius, colors.lightgrey, segments, 2.0)
+				   -- ******************** Nav Target speed / distance ********************
+				   local navTarget = player:GetNavTarget()
+				   if navTarget then
+					  -- target name
+					  local position = point_on_circle_radius(center, reticule_text_radius, 1.35)
+					  show_text(position, "Nav Target", colors.darkgreen, pionillium.small, anchor.left, anchor.bottom)
+					  position = point_on_circle_radius(center, reticule_text_radius, 2)
+					  show_text(position, navTarget.label, colors.lightgreen, pionillium.medium, anchor.left, anchor.bottom) -- , "The current navigational target"
 
-											local speed = Vector(pigui.GetVelocity("nav_prograde"))
-											local spd,unit = MyFormat.Speed(speed:magnitude())
-											position = point_on_circle_radius(center, reticule_text_radius, 2.9)
-											local textsize = show_text_fancy(position, { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
-											do
-												 local pos = Vector(player:GetPositionRelTo(navTarget))
-												 local vel = Vector(player:GetVelocityRelTo(navTarget))
-												 local proj = pos:dot(vel) / pos:magnitude()
-												 local spd,unit = MyFormat.Speed(proj)
-												 show_text_fancy(position + Vector(textsize.x * 1.1, 0), { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.medium, pionillium.small }, anchor.left, anchor.bottom)
-											end
+					  local speed = Vector(pigui.GetVelocity("nav_prograde"))
+					  local spd,unit = MyFormat.Speed(speed:magnitude())
+					  position = point_on_circle_radius(center, reticule_text_radius, 2.9)
+					  local textsize = show_text_fancy(position, { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.bottom)
+					  do
+						 local pos = Vector(player:GetPositionRelTo(navTarget))
+						 local vel = Vector(player:GetVelocityRelTo(navTarget))
+						 local proj = pos:dot(vel) / pos:magnitude()
+						 local spd,unit = MyFormat.Speed(proj)
+						 show_text_fancy(position + Vector(textsize.x * 1.1, 0), { spd, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.medium, pionillium.small }, anchor.left, anchor.bottom)
+					  end
 
 
-											local distance = player:DistanceTo(navTarget)
-											local dist,unit = MyFormat.Distance(distance)
-											position = point_on_circle_radius(center, reticule_text_radius, 3.1)
-											local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top )
-											local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-											position.y = position.y + textsize.y * 1.1
-											show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top) -- , "Time to brake with main thrusters"
-									 end
+					  local distance = player:DistanceTo(navTarget)
+					  local dist,unit = MyFormat.Distance(distance)
+					  position = point_on_circle_radius(center, reticule_text_radius, 3.1)
+					  local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgreen, colors.darkgreen }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top )
+					  local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+					  position.y = position.y + textsize.y * 1.1
+					  show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top) -- , "Time to brake with main thrusters"
+				   end
 
-									 -- ******************** Maneuver speed ********************
-									 local spd = player:GetManeuverSpeed()
-									 if spd then
-											local position = point_on_circle_radius(center, reticule_text_radius, 0)
-											local speed,unit = MyFormat.Speed(spd)
-											show_text_fancy(position, { speed, unit }, { colors.maneuver, colors.maneuver }, { pionillium.large, pionillium.medium }, anchor.center, anchor.bottom)
-									 end
-									 -- ******************** Combat Target speed / distance ********************
-									 local combatTarget = player:GetCombatTarget()
-									 if combatTarget then
-											-- target name
+				   -- ******************** Maneuver speed ********************
+				   local spd = player:GetManeuverSpeed()
+				   if spd then
+					  local position = point_on_circle_radius(center, reticule_text_radius, 0)
+					  local speed,unit = MyFormat.Speed(spd)
+					  show_text_fancy(position, { speed, unit }, { colors.maneuver, colors.maneuver }, { pionillium.large, pionillium.medium }, anchor.center, anchor.bottom)
+				   end
+				   -- ******************** Combat Target speed / distance ********************
+				   local combatTarget = player:GetCombatTarget()
+				   if combatTarget then
+					  -- target name
 
-											local position = point_on_circle_radius(center, reticule_text_radius, 6)
-											local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top) -- , "Combat target"
+					  local position = point_on_circle_radius(center, reticule_text_radius, 6)
+					  local textsize = show_text(position, combatTarget.label, colors.lightred, pionillium.medium, anchor.center, anchor.top) -- , "Combat target"
 
-											position.y = position.y + textsize.y * 1.1
-											local speed = combatTarget:GetVelocityRelTo(player)
-											local spd,unit = MyFormat.Speed(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
-											show_text_fancy(position + Vector(-5.0), { spd, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top)
-											local distance = player:DistanceTo(combatTarget)
-											local dist,unit = MyFormat.Distance(distance)
-											show_text_fancy(position + Vector(5,0), { dist, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top)
-											--			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
-											--			pigui.PushFont("pionillium", 18)
-											--			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
-											--			pigui.PopFont()
-									 end
+					  position.y = position.y + textsize.y * 1.1
+					  local speed = combatTarget:GetVelocityRelTo(player)
+					  local spd,unit = MyFormat.Speed(math.sqrt(speed.x*speed.x+speed.y*speed.y+speed.z*speed.z))
+					  show_text_fancy(position + Vector(-5.0), { spd, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top)
+					  local distance = player:DistanceTo(combatTarget)
+					  local dist,unit = MyFormat.Distance(distance)
+					  show_text_fancy(position + Vector(5,0), { dist, unit }, { colors.lightred, colors.lightred }, { pionillium.large, pionillium.medium }, anchor.left, anchor.top)
+					  --			local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
+					  --			pigui.PushFont("pionillium", 18)
+					  --			pigui.AddText(Vector(center.x + reticule_radius / 2 * 1.7 - 20, center.y + reticule_radius / 2 * 1.7 + 20), colors.darkgreen, "~" .. Format.Distance(brakeDist))
+					  --			pigui.PopFont()
+				   end
 
-									 -- ******************** Frame speed / distance ********************
-									 local frame = player:GetFrame()
-									 if frame then
-											local position = point_on_circle_radius(center, reticule_text_radius, -1.35)
-											show_text(position, "Frame", colors.darkgrey, pionillium.small, anchor.right, anchor.bottom)
-											position = point_on_circle_radius(center, reticule_text_radius, -2)
-											show_text(position, frame.label, colors.lightgrey, pionillium.medium, anchor.right, anchor.bottom)
+				   -- ******************** Frame speed / distance ********************
+				   local frame = player:GetFrame()
+				   if frame then
+					  show_frame_markers(frame)
+				   end
+				   -- ******************** Nav Target markers ********************
+				   show_marker("nav_prograde", icons.prograde, colors.lightgreen, true)
+				   show_marker("nav_retrograde", icons.retrograde, colors.lightgreen, show_retrograde_indicators)
+				   show_marker("nav", icons.square, colors.lightgreen, false)
+				   local pos,dir,point,side = markerPos("nav", reticule_radius + 15)
+				   if pos then
+					  local size = 16
+					  show_icon(pos, icons.direction, colors.lightgreen, size, anchor.center, anchor.center, "", dir:angle())
+				   end
+				   -- ******************** Maneuver Node ********************
+				   show_marker("maneuver", icons.bullseye, colors.maneuver, true)
 
-											local speed = Vector(pigui.GetVelocity("frame_prograde"))
-											local spd,unit = MyFormat.Speed(speed:magnitude())
-											position = point_on_circle_radius(center, reticule_text_radius, -2.9)
-											show_text_fancy(position, { spd, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.bottom)
+				   show_bodies_on_screen()
+				   -- ******************** directional spaceship markers ********************
+				   do
+					  local vel = player:GetOrientedVelocity()
+					  local max = math.max(math.abs(vel.x),(math.max(math.abs(vel.y), math.abs(vel.z))))
+					  local size = 15
+					  local thickness = 5
+					  local velocity_center = Vector(50,50)
 
-											local distance = player:DistanceTo(frame)
-											local dist,unit = MyFormat.Distance(distance)
-											position = point_on_circle_radius(center, reticule_text_radius, -3.1)
-											local textsize = show_text_fancy(position, { dist, unit }, { colors.lightgrey, colors.darkgrey }, { pionillium.large, pionillium.medium }, anchor.right, anchor.top )
+					  if max < size then
+						 max = size
+					  end
 
-											local brakeDist = player:GetDistanceToZeroV("frame", "retrograde")
-											position.y = position.y + textsize.y * 1.1
-											show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgrey, pionillium.medium, anchor.right, anchor.top)
+					  local vx,vy,vz = vel.x/max, -vel.y/max, vel.z/max
 
-											-- ******************** Frame markers ********************
-											do
-											   local size = 24
-											   local smallsize = 24
-											   show_marker("frame_prograde", icons.prograde, colors.orbital_marker, true, nil, size) -- , "Prograde direction relative to frame"
-											   show_marker("frame_retrograde", icons.retrograde, colors.orbital_marker, show_retrograde_indicators, nil, size) -- , "Retrograde direction relative to frame"
-											   show_marker("normal", icons.normal, colors.orbital_marker, false, nil, smallsize)
-											   show_marker("anti_normal", icons.antinormal, colors.orbital_marker, false, nil, smallsize)
-											   show_marker("radial_out", icons.radial_out, colors.orbital_marker, false, nil, smallsize)
-											   show_marker("radial_in", icons.radial_in, colors.orbital_marker, false, nil, smallsize)
-											   show_marker("away_from_frame", icons.frame_away, colors.orbital_marker, true, nil, size) -- , "Direction away from frame"
-											end
-											local pos,dir = markerPos("frame", reticule_radius + 5)
-											if pos then
-												 local size = 6
-												 local left = dir:left() * 4 + pos
-												 local right = dir:right() * 4 + pos
-												 local top = dir * 8 + pos
-												 pigui.AddTriangleFilled(left, right, top, colors.darkgrey)
-											end
-											-- ******************** Combat target ********************
-											if player:GetCombatTarget() then
-												 show_marker("combat_target", icons.current_height, colors.combat_target, true)
-												 show_marker("combat_target_lead", icons.bullseye, colors.combat_target, false)
-												 do -- line between lead and target TODO: dashed
-														local c_pos,c_dir,c_point,c_side = markerPos("combat_target", reticule_radius - 10)
-														local cl_pos,cl_dir,cl_point,cl_side = markerPos("combat_target_lead", reticule_radius - 10)
-														if c_point and cl_point and (c_side ~= "hidden" or cl_side ~= "hidden") then
-															 pigui.AddLine(c_point, cl_point, colors.combat_target, 1.0)
-														end
-												 end
-											end
-									 end
-									 -- ******************** NavTarget markers ********************
-									 show_marker("nav_prograde", icons.prograde, colors.lightgreen, true)
-									 show_marker("nav_retrograde", icons.retrograde, colors.lightgreen, show_retrograde_indicators)
-									 show_marker("nav", icons.square, colors.lightgreen, false)
-									 local pos,dir,point,side = markerPos("nav", reticule_radius + 5)
-									 if pos then
-											local size = 9
-											local left = dir:left() * size + pos
-											local right = dir:right() * size + pos
-											local top = dir * size * 2 + pos
-											pigui.AddTriangleFilled(left, right, top, colors.lightgrey)
-									 end
-									 -- ******************** Maneuver Node ********************
-									 show_marker("maneuver", icons.bullseye, colors.maneuver, true)
+					  pigui.AddText(velocity_center + Vector(-13,-size*1.5-8), colors.darkgrey, "L")
+					  pigui.AddText(velocity_center + Vector(-13,size*1.5), colors.darkgrey, "R")
+					  pigui.AddLine(velocity_center + Vector(-10,0), velocity_center + Vector(-10, vx * size), colors.lightgrey, thickness)
+					  pigui.AddText(velocity_center + Vector(-3,-size*1.5-8), colors.darkgrey, "U")
+					  pigui.AddText(velocity_center + Vector(-3,size*1.5), colors.darkgrey, "D")
+					  pigui.AddLine(velocity_center + Vector(0,0), velocity_center + Vector(0, vy * size), colors.lightgrey, thickness)
+					  pigui.AddText(velocity_center + Vector(7,-size*1.5-8), colors.darkgrey, "F")
+					  pigui.AddText(velocity_center + Vector(7,size*1.5), colors.darkgrey, "B")
+					  pigui.AddLine(velocity_center + Vector(10,0), velocity_center + Vector(10, vz * size), colors.lightgrey, thickness)
+				   end
 
-									 show_bodies_on_screen()
-									 -- ******************** directional spaceship markers ********************
-									 do
-											local vel = player:GetOrientedVelocity()
-											local max = math.max(math.abs(vel.x),(math.max(math.abs(vel.y), math.abs(vel.z))))
-											local size = 15
-											local thickness = 5
-											local velocity_center = Vector(50,50)
+				   show_navball()
+				   show_thrust()
+				   show_weapons()
+				   show_ships_on_screen()
 
-											if max < size then
-												 max = size
-											end
+				   if player:IsHyperspaceActive() then
+					  show_hyperspace_countdown()
+				   end
+		 end)
+   end)
 
-											local vx,vy,vz = vel.x/max, -vel.y/max, vel.z/max
+   withStyleColors({ ["WindowBg"] = colors.noz_darkblue }, function()
+		 show_nav_window()
+		 --	 show_contacts()
+		 show_stuff()
+		 --	 show_comm_log()
+		 show_radar_mapper()
+		 show_hyperspace_analyzer()
+		 show_hyperspace_button()
+		 --	 show_settings()
 
-											pigui.AddText(velocity_center + Vector(-13,-size*1.5-8), colors.darkgrey, "L")
-											pigui.AddText(velocity_center + Vector(-13,size*1.5), colors.darkgrey, "R")
-											pigui.AddLine(velocity_center + Vector(-10,0), velocity_center + Vector(-10, vx * size), colors.lightgrey, thickness)
-											pigui.AddText(velocity_center + Vector(-3,-size*1.5-8), colors.darkgrey, "U")
-											pigui.AddText(velocity_center + Vector(-3,size*1.5), colors.darkgrey, "D")
-											pigui.AddLine(velocity_center + Vector(0,0), velocity_center + Vector(0, vy * size), colors.lightgrey, thickness)
-											pigui.AddText(velocity_center + Vector(7,-size*1.5-8), colors.darkgrey, "F")
-											pigui.AddText(velocity_center + Vector(7,size*1.5), colors.darkgrey, "B")
-											pigui.AddLine(velocity_center + Vector(10,0), velocity_center + Vector(10, vz * size), colors.lightgrey, thickness)
-									 end
+		 -- show_debug_orbit()
+		 --	show_debug_thrust()
+		 -- show_debug_temp()
+		 -- show_debug_gravity()
 
-									 show_navball()
-									 show_thrust()
-									 show_weapons()
-									 show_ships_on_screen()
-
-									 if player:IsHyperspaceActive() then
-											show_hyperspace_countdown()
-									 end
-				 end)
-	 end)
-
-	 withStyleColors({ ["WindowBg"] = colors.noz_darkblue }, function()
-				 show_nav_window()
-				 --	 show_contacts()
-				 show_stuff()
-				 --	 show_comm_log()
-				 show_radar_mapper()
-				 show_hyperspace_analyzer()
-				 show_hyperspace_button()
-				 --	 show_settings()
-
-				 -- show_debug_orbit()
-				 --	show_debug_thrust()
-				 -- show_debug_temp()
-				 -- show_debug_gravity()
-
-				 -- Missions, these should *not* be part of the regular HUD
-				 --	show_missions()
-	 end)
+		 -- Missions, these should *not* be part of the regular HUD
+		 --	show_missions()
+   end)
 end
 
 local function show_pause_screen()
