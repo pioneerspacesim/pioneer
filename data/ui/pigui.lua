@@ -536,7 +536,7 @@ local function show_text_fancy(position, texts, colors, fonts, anchor_horizontal
    local spacing = 2
    local size = Vector(0, 0)
    local max_offset = 0
-   assert(#texts == #colors and #texts == #fonts)
+   assert(#texts == #colors and #texts == #fonts, "not the same number of texts, colors and fonts")
    for i=1,#texts do
 	  local is_icon = fonts[i].name ~= "icons"
 	  local s
@@ -995,6 +995,59 @@ local function show_navball()
 		 local dir = (close_position - self_position):normalized()
 		 local angle = dir:angle()
 		 show_icon(orbit_gauge_position(navball_center, navball_radius + 5 + thickness*0.5, periapsis), icons.current_periapsis, colors.lightgrey, size, anchor.center, anchor.center, "", angle)
+	  end
+   end
+   -- compass
+   do
+	  local heading, pitch = player:GetHeadingPitch("planet")
+	  do
+		 local xpitch = ((pitch / two_pi * 360) + 90) / 180
+		 local xpitch_h = 4.5 - xpitch * 3
+		 local a = point_on_circle_radius(navball_center, navball_radius - 5, xpitch_h)
+		 local b = point_on_circle_radius(navball_center, navball_radius + 3, xpitch_h)
+		 pigui.AddLine(a, b, colors.lightgrey, 2)
+	  end
+	  
+	  heading = heading / two_pi * 360
+	  local relevant = {}
+	  local directions = { [0] = "N", [45] = "NE", [90] = "E", [135] = "SE", [180] = "S", [225] = "SW", [270] = "W", [315] = "NW" }
+	  local function cl(x)
+		 if x < 0 then
+			return cl(x + 360)
+		 elseif x >= 360 then
+			return cl(x - 360)
+		 else
+			return x
+		 end
+	  end
+	  local left = math.floor(heading - 45)
+	  local right = left + 90
+	  local d = left
+
+	  pigui.PathArcTo(navball_center, navball_radius + 5, - pi_2 - pi_4 + 0.05, -pi_2 + pi_4 - 0.05, 64)
+	  pigui.PathStroke(colors.lightgrey, false, 3)
+	  local function stroke(d, p, n, height)
+		 if d % n == 0 then
+			local a = point_on_circle_radius(navball_center, navball_radius + 5, 2.8 * p - 1.4)
+			local b = point_on_circle_radius(navball_center, navball_radius + 5 + height, 2.8 * p - 1.4)
+			pigui.AddLine(a, b, colors.lightgrey, 2)
+		 end
+	  end
+	  while true do
+		 if d > right then
+			break
+		 end
+		 local p = (d - left) / 90
+		 stroke(d, p, 7.5, 5)
+		 stroke(d, p, 45, 8)
+		 stroke(d, p, 90, 10)
+		 for k,v in pairs(directions) do
+			if cl(k) == cl(d) then
+			   local a = point_on_circle_radius(navball_center, navball_radius + 5 + 8, 3 * p - 1.5)
+			   show_text(a, v, colors.lightgrey, pionillium.small, anchor.center, anchor.bottom, "")
+			end
+		 end
+		 d = d + 1
 	  end
    end
    -- circular stats, lower left
@@ -1513,7 +1566,7 @@ local function show_thrust()
    pigui.AddText(position - Vector(size.x/2, size.y/2), colors.lightgrey, math.floor(low_thrust_power * 100))
    local time_position = Vector(30, pigui.screen_height - 90)
    local year, month, day, hour, minute, second = Game.GetDateTime()
-   withFont("pionillium", 30, function()
+   withFont("pionillium", 18, function()
 			   local months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" }
 			   local ymd = string.format("%04d %s. %02d ", year, months[month], day)
 			   local hms = string.format("%02d:%02d:%02d", hour, minute, second)
@@ -1908,14 +1961,31 @@ local function image_button(icon, size, bg_color, fg_color, tooltip)
    return res
 end
 
-local function show_stuff()
-   window("Stuff",{}, function()
+local function show_ship_functions()
+   window("Internal ship functions", { "NoTitleBar" }, function ()
 			 do -- rotation damping
 				local rd = player:GetRotationDamping()
 				if image_button(rd and icons.rotation_damping_on or icons.rotation_damping_off, 24, colors.darkgrey, colors.lightgrey, "Toggle rotation damping") then
 				   player:ToggleRotationDamping()
 				end
 			 end
+			 do -- wheelstate
+				if not player:IsDocked() and not player:IsLanded() then
+				   local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
+				   local icon = wheelstate == 0.0 and icons.landing_gear_down or (wheelstate == 1.0 and icons.landing_gear_up or nil)
+				   if icon then
+					  if image_button(icon, 24, colors.darkgrey, colors.lightgrey, "Toggle landing gear") then
+						 player:ToggleWheelState()
+					  end
+				   end
+				   pigui.Text("Wheelstate: " .. wheelstate)
+				end
+			 end
+   end)
+end
+
+local function show_stuff()
+   window("Stuff",{}, function()
 			 do -- take off
 				pigui.Text(player:GetFlightState())
 				local takeoff=false
@@ -1934,18 +2004,6 @@ local function show_stuff()
 				   if pigui.Button("Take Off") then
 					  player:TakeOff()
 				   end
-				end
-			 end
-			 do -- wheelstate
-				if not player:IsDocked() and not player:IsLanded() then
-				   local wheelstate = player:GetWheelState() -- 0.0 is up, 1.0 is down
-				   local icon = wheelstate == 0.0 and icons.landing_gear_down or (wheelstate == 1.0 and icons.landing_gear_up or nil)
-				   if icon then
-					  if image_button(icon, 24, colors.darkgrey, colors.lightgrey, "Toggle landing gear") then
-						 player:ToggleWheelState()
-					  end
-				   end
-				   pigui.Text("Wheelstate: " .. wheelstate)
 				end
 			 end
 			 do -- pitch/heading
@@ -2441,6 +2499,7 @@ local function show_hud(delta)
 		 show_radar_mapper()
 		 show_hyperspace_analyzer()
 		 show_hyperspace_button()
+		 show_ship_functions()
 		 --	 show_settings()
 
 		 -- show_debug_orbit()
