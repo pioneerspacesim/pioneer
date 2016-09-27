@@ -690,8 +690,7 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 	else
 		// TODO: error
 		return 0;
-	// all ui calculations seem to use 800x600
-	vector2f position = marker->pos - vector2f(400,300);
+	vector2f position = marker->pos - vector2f(Graphics::GetScreenWidth()/2,Graphics::GetScreenHeight()/2);
 	vector2f direction = position.Normalized();
 	std::string side = marker->side == INDICATOR_HIDDEN ? "hidden" : (marker->side == INDICATOR_ONSCREEN ? "onscreen" : "other");
 	lua_pushstring(l, side.c_str());
@@ -700,9 +699,10 @@ static int l_pigui_get_hud_marker(lua_State *l) {
 	dir.Set("y", direction.y);
 	dir.Set("z", 0);
 	LuaTable pos(l);
-	pos.Set("x", marker->pos.x / 800 * Graphics::GetScreenWidth());
-	pos.Set("y", marker->pos.y / 600 * Graphics::GetScreenHeight());
+	pos.Set("x", marker->pos.x);
+	pos.Set("y", marker->pos.y);
 	pos.Set("z", 0);
+	//	  Output("forward: %f/%f %s\n", marker->pos.x, marker->pos.y, side.c_str());
 	return 3;
 }
 

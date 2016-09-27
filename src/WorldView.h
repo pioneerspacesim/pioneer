@@ -200,19 +200,7 @@ private:
 	Indicator m_radialOutIndicator;
 	Indicator m_awayFromFrameIndicator;
 
-	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
-	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;
-	std::unique_ptr<Gui::TexturedQuad> m_rearCrosshair;
-	std::unique_ptr<Gui::TexturedQuad> m_progradeIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_retrogradeIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_burnIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_targetIcon;
-	vector2f m_indicatorMousedirSize;
-
 	Graphics::RenderState *m_blendState;
-
-	Graphics::Drawables::Line3D m_edgeMarker;
-	Graphics::Drawables::Lines m_indicator;
 };
 
 class NavTunnelWidget: public Gui::Widget {

@@ -2354,6 +2354,7 @@ local function show_hud(delta)
 				   -- ******************** Ship Directional Markers ********************
 				   local size=24
 				   local side, dir, pos = pigui.GetHUDMarker("forward")
+				   -- print("forward: " .. pos.x .. "/" .. pos.y)
 				   local dir_fwd = Vector(dir.x, dir.y)
 				   local show_forward_direction_in_reticule = true
 				   if side == "onscreen" then

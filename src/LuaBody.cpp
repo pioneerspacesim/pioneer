@@ -406,14 +406,14 @@ static int l_body_get_projected_screen_position(lua_State *l)
 	Body *b = LuaObject<Body>::CheckFromLua(1);
 	WorldView *wv = Pi::game->GetWorldView();
 	vector3d p = wv->GetProjectedScreenPos(b);
-	if(vector3d(0,0,0) == p || p.x < 0 || p.y < 0 || p.x > 800 || p.y > 600) {
+	if(vector3d(0,0,0) == p || p.x < 0 || p.y < 0 || p.x > Graphics::GetScreenWidth() || p.y > Graphics::GetScreenHeight()) {
 		lua_pushnil(l);
 		return 1;
 	}
 		
 	LuaTable pos(l);
-	pos.Set("x", p.x / 800.0 * Graphics::GetScreenWidth());
-	pos.Set("y", p.y / 600.0 * Graphics::GetScreenHeight());
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
 	pos.Set("z", 0);
 	return 1;
 }
