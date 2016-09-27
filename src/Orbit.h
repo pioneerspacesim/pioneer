@@ -16,7 +16,8 @@ public:
 
 	// note: the resulting Orbit is at the given position at t=0
 	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
-
+    static Orbit FromBodyStateX(const vector3d &position, const vector3d &velocity, double central_mass);
+  
 	Orbit():
 		m_eccentricity(0.0),
 		m_semiMajorAxis(0.0),
