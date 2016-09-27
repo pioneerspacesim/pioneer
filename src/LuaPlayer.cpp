@@ -323,9 +323,10 @@ return 0;
 static int l_to_orbital_plane(lua_State *l)
 {
   Player *player = LuaObject<Player>::CheckFromLua(1);
-  auto orbit = player->ComputeOrbit();
   vector3d v = luaL_checkvector3d(l, 2);
-  vector3d x = v * orbit.GetPlane();
+  auto orbit = player->ComputeOrbit();
+  auto plane = orbit.GetPlane();
+  vector3d x = v * plane;
   LuaTable tab(l);
   tab.Set("x", x.x);
   tab.Set("y", x.y);

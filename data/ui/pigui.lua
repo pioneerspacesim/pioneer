@@ -833,24 +833,26 @@ local function show_navball()
    local frame_radius = frame and frame:GetSystemBody().radius or 0
 
    -- ******************** Orbital stats ********************
-   local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
-   local aa = Vector(o_apoapsis):magnitude()
-   local pa = Vector(o_periapsis):magnitude()
-   -- apoapsis
-   if not player:IsDocked() then
-	  local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
-	  local aa_d = aa - frame_radius
-	  local dist_apo, unit_apo = MyFormat.Distance(aa_d)
-	  if aa_d > 0 and o_time_at_apoapsis > 0 then
-		 local textsize = show_text_fancy(position,
-										  { icons.apoapsis, dist_apo, unit_apo },
-										  { colors.lightgrey, colors.lightgrey, colors.darkgrey },
-										  { pionicons.small, pionillium.medium, pionillium.small },
-										  anchor.left,
-										  anchor.baseline,
-										  { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
-		 show_text(position + Vector(textsize.x * 1.2), lui.HUD_T_MINUS .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, lui.HUD_TOOLTIP_APOAPSIS_TIME)
-	  end
+   do
+   	  local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
+   	  local aa = Vector(o_apoapsis):magnitude()
+   	  local pa = Vector(o_periapsis):magnitude()
+   	  -- apoapsis
+   	  if not player:IsDocked() then
+   		 local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
+   		 local aa_d = aa - frame_radius
+   		 local dist_apo, unit_apo = MyFormat.Distance(aa_d)
+   		 if aa_d > 0 and o_time_at_apoapsis > 0 then
+   			local textsize = show_text_fancy(position,
+   											 { icons.apoapsis, dist_apo, unit_apo },
+   											 { colors.lightgrey, colors.lightgrey, colors.darkgrey },
+   											 { pionicons.small, pionillium.medium, pionillium.small },
+   											 anchor.left,
+   											 anchor.baseline,
+   											 { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
+   			show_text(position + Vector(textsize.x * 1.2), lui.HUD_T_MINUS .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, lui.HUD_TOOLTIP_APOAPSIS_TIME)
+   		 end
+   	  end
    end
    -- altitude
    local alt, vspd, lat, lon = player:GetGPS()
@@ -1481,7 +1483,7 @@ local function show_nav_window()
 			 -- 		print_r(data)
 			 -- 		error("nok: " .. count .. " count vs. lines " .. lines)
 			 -- end
-			 if should_show_radial_menu then
+			 if shouldlshow_radial_menu then
 				show_radial_menu()
 			 end
    end)
@@ -2353,46 +2355,50 @@ local function ellipse(center, width, height, color, thickness)
 end
 
 local function show_orbit()
-   local frame = player:GetFrame()
-   if frame then
-	  local pos = Vector(pigui.GetWindowPos()) + Vector(20, 30)
-	  local size = 200
-	  local radius = frame:GetSystemBody().radius
-	  local eccentricity, semimajoraxis, inclination, period, time_at_apoapsis, apoapsis, time_at_periapsis, periapsis = player:GetOrbit()
-	  local semiminoraxis = semimajoraxis * math.sqrt(1 - eccentricity * eccentricity)
-	  local focus = math.sqrt(semimajoraxis*semimajoraxis - semiminoraxis*semiminoraxis)
-	  local longer = math.max(radius * 2, (semimajoraxis + focus) * 2)
+   window("Orbit", {}, function()
+			 local frame = player:GetFrame()
+			 if frame then
+				local pos = Vector(pigui.GetWindowPos()) + Vector(20, 30)
+				local size = 200
+				local radius = frame:GetSystemBody().radius
+				local eccentricity, semimajoraxis, inclination, period, time_at_apoapsis, apoapsis, time_at_periapsis, periapsis = player:GetOrbit()
+				local semiminoraxis = semimajoraxis * math.sqrt(1 - eccentricity * eccentricity)
+				local focus = math.sqrt(semimajoraxis*semimajoraxis - semiminoraxis*semiminoraxis)
+				local longer = math.max(radius * 2, (semimajoraxis + focus) * 2)
 
-	  local aa = Vector(player:ToOrbitalPlane(Vector(apoapsis)))
-	  local pa = Vector(player:ToOrbitalPlane(Vector(periapsis)))
-	  
-	  local scale = 200 / longer
-	  local center = pos + Vector(size,size)/2
-	  pigui.AddRectFilled(pos - Vector(10,10), pos + Vector(size, size) + Vector(10,10), colors.darkergrey, 0.0, 0)
-	  pigui.AddCircleFilled(center, radius * scale, colors.darkgrey, 64)
-	  -- ellipse(center + Vector(focus * scale, 0), semimajoraxis * scale, semiminoraxis * scale, colors.lightgreen, 2)
-	  local lastv = nil
-	  local framepos = Vector(frame:GetPosition())
-	  for i = 1, 361 do
-		 local t = i / 360
-		 local v = Vector(player:ToOrbitalPlane(player:GetEvenSpacedPosTrajectory(t))) - framepos
-		 if lastv then
-			pigui.AddLine(center + lastv * scale, center + v * scale, colors.lightgreen, 2)
---			print("v: " .. tostring(v * scale))
-		 end
-		 lastv = v
-	  end
-	  local mypos = Vector(player:ToOrbitalPlane(player:GetPositionRelTo(frame)))
-	  pigui.AddCircleFilled(center + aa * scale, 5, colors.red, 8)
-	  pigui.AddCircle(center + pa * scale, 5, colors.red, 8, 2.0)
-	  pigui.AddCircle(center + mypos * scale, 5, colors.green, 8, 2.0)
-	  pigui.Dummy(Vector(200,200))
-	  pigui.Text("semimajor: " .. Format.Distance(semimajoraxis))
-	  pigui.Text("semiminor: " .. Format.Distance(semiminoraxis))
-	  
-   else
-	  pigui.Text("no frame")
-   end
+				local aa = Vector(player:ToOrbitalPlane(Vector(apoapsis)))
+				local pa = Vector(player:ToOrbitalPlane(Vector(periapsis)))
+				
+				local scale = 200 / longer
+				local center = pos + Vector(size,size)/2
+				pigui.AddRectFilled(pos - Vector(10,10), pos + Vector(size, size) + Vector(10,10), colors.darkergrey, 0.0, 0)
+				pigui.AddCircleFilled(center, radius * scale, colors.darkgrey, 64)
+				-- ellipse(center + Vector(focus * scale, 0), semimajoraxis * scale, semiminoraxis * scale, colors.lightgreen, 2)
+				local lastv = nil
+				local framepos = Vector(frame:GetPosition())
+				for i = 1, 361 do
+				   local t = i / 360
+				   local v = Vector(player:ToOrbitalPlane(player:GetEvenSpacedPosTrajectory(t))) - framepos
+				   if lastv then
+					  pigui.AddLine(center + lastv * scale, center + v * scale, colors.lightgreen, 2)
+					  --			print("v: " .. tostring(v * scale))
+				   end
+				   lastv = v
+				end
+				local p = Vector(player:GetPositionRelTo(frame))
+				local mypos = Vector(player:ToOrbitalPlane(p))
+				print("pos: " .. tostring(p) ..  ", orbit pos: " .. tostring(mypos))
+				pigui.AddCircleFilled(center + aa * scale, 5, colors.red, 8)
+				pigui.AddCircle(center + pa * scale, 5, colors.red, 8, 2.0)
+				pigui.AddCircle(center + mypos * scale, 5, colors.green, 8, 2.0)
+				pigui.Dummy(Vector(200,200))
+				pigui.Text("semimajor: " .. Format.Distance(semimajoraxis))
+				pigui.Text("semiminor: " .. Format.Distance(semiminoraxis))
+				
+			 else
+				pigui.Text("no frame")
+			 end
+   end)
 end
 
 local function show_hud(delta)
