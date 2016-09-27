@@ -26,6 +26,11 @@ static ImVec2 luaL_checkImVec2(lua_State *l, int index) {
 	return ImVec2(vec.Get<double>("x"), vec.Get<double>("y"));
 }
 
+vector3d luaL_checkvector3d(lua_State *l, int index) {
+	ScopedTable vec = LuaTable(l, index);
+	return vector3d(vec.Get<double>("x"), vec.Get<double>("y"), vec.Get<double>("z"));
+}
+
 static ImColor luaL_checkImColor(lua_State *l, int index) {
 	ScopedTable c = LuaTable(l, index);
 	return ImColor(c.Get<int>("r"), c.Get<int>("g"), c.Get<int>("b"), c.Get<int>("a", 255));
@@ -738,6 +743,19 @@ static int l_pigui_add_rect(lua_State *l) {
 	return 0;
 }
 
+static int l_pigui_add_bezier_curve(lua_State *l) {
+	ImDrawList* draw_list = ImGui::GetWindowDrawList();
+	ImVec2 a = luaL_checkImVec2(l, 1);
+	ImVec2 c0 = luaL_checkImVec2(l, 2);
+	ImVec2 c1 = luaL_checkImVec2(l, 3);
+	ImVec2 b = luaL_checkImVec2(l, 4);
+	ImColor col = luaL_checkImColor(l, 5);
+	float thickness = luaL_checknumber(l, 6);
+	int num_segments = luaL_checkinteger(l, 7);
+	draw_list->AddBezierCurve(a, c0, c1, b, col, thickness, num_segments);
+	return 0;
+}
+
 static int l_pigui_add_image(lua_State *l) {
 	ImDrawList* draw_list = ImGui::GetWindowDrawList();
 	ImTextureID id = (ImTextureID)luaL_checkinteger(l, 1);
@@ -1221,6 +1239,7 @@ template <> void LuaObject<PiGui>::RegisterClass()
 		{ "AddRectFilled",          l_pigui_add_rect_filled },
 		{ "AddImage",               l_pigui_add_image },
 		{ "AddImageQuad",           l_pigui_add_image_quad },
+		{ "AddBezierCurve",         l_pigui_add_bezier_curve },
 		{ "SetNextWindowPos",       l_pigui_set_next_window_pos },
 		{ "SetNextWindowSize",      l_pigui_set_next_window_size },
 		{ "SetNextWindowFocus",     l_pigui_set_next_window_focus },

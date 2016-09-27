@@ -6,5 +6,5 @@
 #include "LuaObject.h"
 
 bool luaL_checkbool(lua_State *l, int index);
-
+vector3d luaL_checkvector3d(lua_State *l, int index);
 #endif

@@ -834,8 +834,8 @@ local function show_navball()
 
    -- ******************** Orbital stats ********************
    local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
-   local aa = Vector(o_apoapsis.x, o_apoapsis.y, o_apoapsis.z):magnitude()
-   local pa = Vector(o_periapsis.x, o_periapsis.y, o_periapsis.z):magnitude()
+   local aa = Vector(o_apoapsis):magnitude()
+   local pa = Vector(o_periapsis):magnitude()
    -- apoapsis
    if not player:IsDocked() then
 	  local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
@@ -2339,6 +2339,62 @@ local function show_frame_markers(frame)
    end
 end
 
+local function ellipse(center, width, height, color, thickness)
+   local x0 = center.x + math.cos(0) * width
+   local y0 = center.y + math.sin(0) * height
+   for i = 1, 360 do
+	  local x1 = center.x + math.cos(i / 360.0 * 2 * math.pi) * width
+	  local y1 = center.y + math.sin(i / 360.0 * 2 * math.pi) * height
+	  pigui.AddLine(Vector(x0,y0), Vector(x1,y1), color, thickness)
+--	  print("" .. x0 .. "/" .. y0 .. " " .. x1 .. "/" .. y1)
+	  x0 = x1
+	  y0 = y1
+   end
+end
+
+local function show_orbit()
+   local frame = player:GetFrame()
+   if frame then
+	  local pos = Vector(pigui.GetWindowPos()) + Vector(20, 30)
+	  local size = 200
+	  local radius = frame:GetSystemBody().radius
+	  local eccentricity, semimajoraxis, inclination, period, time_at_apoapsis, apoapsis, time_at_periapsis, periapsis = player:GetOrbit()
+	  local semiminoraxis = semimajoraxis * math.sqrt(1 - eccentricity * eccentricity)
+	  local focus = math.sqrt(semimajoraxis*semimajoraxis - semiminoraxis*semiminoraxis)
+	  local longer = math.max(radius * 2, (semimajoraxis + focus) * 2)
+
+	  local aa = Vector(player:ToOrbitalPlane(Vector(apoapsis)))
+	  local pa = Vector(player:ToOrbitalPlane(Vector(periapsis)))
+	  
+	  local scale = 200 / longer
+	  local center = pos + Vector(size,size)/2
+	  pigui.AddRectFilled(pos - Vector(10,10), pos + Vector(size, size) + Vector(10,10), colors.darkergrey, 0.0, 0)
+	  pigui.AddCircleFilled(center, radius * scale, colors.darkgrey, 64)
+	  -- ellipse(center + Vector(focus * scale, 0), semimajoraxis * scale, semiminoraxis * scale, colors.lightgreen, 2)
+	  local lastv = nil
+	  local framepos = Vector(frame:GetPosition())
+	  for i = 1, 361 do
+		 local t = i / 360
+		 local v = Vector(player:ToOrbitalPlane(player:GetEvenSpacedPosTrajectory(t))) - framepos
+		 if lastv then
+			pigui.AddLine(center + lastv * scale, center + v * scale, colors.lightgreen, 2)
+--			print("v: " .. tostring(v * scale))
+		 end
+		 lastv = v
+	  end
+	  local mypos = Vector(player:ToOrbitalPlane(player:GetPositionRelTo(frame)))
+	  pigui.AddCircleFilled(center + aa * scale, 5, colors.red, 8)
+	  pigui.AddCircle(center + pa * scale, 5, colors.red, 8, 2.0)
+	  pigui.AddCircle(center + mypos * scale, 5, colors.green, 8, 2.0)
+	  pigui.Dummy(Vector(200,200))
+	  pigui.Text("semimajor: " .. Format.Distance(semimajoraxis))
+	  pigui.Text("semiminor: " .. Format.Distance(semiminoraxis))
+	  
+   else
+	  pigui.Text("no frame")
+   end
+end
+
 local function show_hud(delta)
    center = Vector(pigui.screen_width/2, pigui.screen_height/2)
    navball_center = Vector(center.x, pigui.screen_height - 25 - navball_radius)
@@ -2438,6 +2494,14 @@ local function show_hud(delta)
 					  local brakeDist = player:GetDistanceToZeroV("nav", "retrograde")
 					  position.y = position.y + textsize.y * 1.1
 					  show_text(position, "~" .. Format.Distance(brakeDist), colors.darkgreen, pionillium.medium, anchor.left, anchor.top) -- , "Time to brake with main thrusters"
+					  -- ** altitude of target above its parent **
+					  local sb = navTarget:GetSystemBody()
+					  if sb.parent then
+						 local parent = Space.GetBody(sb.parent.index)
+						 local dist = parent:DistanceTo(navTarget)
+						 local radius = sb.parent.radius
+						 show_text(position + Vector(0, 20), Format.Distance(dist - radius), colors.lightgreen, pionillium.medium, anchor.left, anchor.top)
+					  end
 				   end
 
 				   -- ******************** Maneuver speed ********************
@@ -2506,6 +2570,7 @@ local function show_hud(delta)
 		 show_hyperspace_analyzer()
 		 show_hyperspace_button()
 		 show_ship_functions()
+		 show_orbit()
 		 --	 show_settings()
 
 		 -- show_debug_orbit()

@@ -594,8 +594,10 @@ void WorldView::UpdateProjectedObjects()
 		}
 	}
 	{
+	  matrix3x3d orient = Pi::player->GetOrient();
+	  // Output("*****\n%f/%f/%f\n%f/%f/%f\n%f/%f/%f\n", orient[0], orient[1], orient[2], orient[3], orient[4], orient[5], orient[6], orient[7], orient[8]);
 		// directional indicators, based on ship bearing
-		vector3d x = Pi::player->GetOrient() * vector3d(0,0,1) * cam_rot;
+		vector3d x = orient * vector3d(0,0,1) * cam_rot;
 		UpdateIndicator(m_backwardIndicator, x);
 		UpdateIndicator(m_forwardIndicator, -x);
 		// {

@@ -320,6 +320,32 @@ static int l_get_gps(lua_State *l)
 return 0;
 }
 
+static int l_to_orbital_plane(lua_State *l)
+{
+  Player *player = LuaObject<Player>::CheckFromLua(1);
+  auto orbit = player->ComputeOrbit();
+  vector3d v = luaL_checkvector3d(l, 2);
+  vector3d x = v * orbit.GetPlane();
+  LuaTable tab(l);
+  tab.Set("x", x.x);
+  tab.Set("y", x.y);
+  tab.Set("z", x.z);
+  return 1;
+}
+
+static int l_get_even_spaced_pos_trajectory(lua_State *l)
+{
+  	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto orbit = player->ComputeOrbit();
+	double t = luaL_checknumber(l, 2);
+	vector3d v = orbit.EvenSpacedPosTrajectory(t);
+	LuaTable tab(l);
+	tab.Set("x", v.x);
+	tab.Set("y", v.y);
+	tab.Set("z", v.z);
+	return 1;
+}
+
 static int l_get_orbit(lua_State *l)
 {
 	Player *player = LuaObject<Player>::CheckFromLua(1);
@@ -517,6 +543,8 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "GetFlightControlState", l_get_flight_control_state },
 		{ "SetFlightControlState", l_set_flight_control_state },
 		{ "GetFlightControlSpeed", l_get_flight_control_speed },
+		{ "GetEvenSpacedPosTrajectory", l_get_even_spaced_pos_trajectory },
+		{ "ToOrbitalPlane", l_to_orbital_plane },
 		{ 0, 0 }
 	};
 
