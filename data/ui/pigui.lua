@@ -833,26 +833,24 @@ local function show_navball()
    local frame_radius = frame and frame:GetSystemBody().radius or 0
 
    -- ******************** Orbital stats ********************
-   do
-   	  local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
-   	  local aa = Vector(o_apoapsis):magnitude()
-   	  local pa = Vector(o_periapsis):magnitude()
-   	  -- apoapsis
-   	  if not player:IsDocked() then
-   		 local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
-   		 local aa_d = aa - frame_radius
-   		 local dist_apo, unit_apo = MyFormat.Distance(aa_d)
-   		 if aa_d > 0 and o_time_at_apoapsis > 0 then
-   			local textsize = show_text_fancy(position,
-   											 { icons.apoapsis, dist_apo, unit_apo },
-   											 { colors.lightgrey, colors.lightgrey, colors.darkgrey },
-   											 { pionicons.small, pionillium.medium, pionillium.small },
-   											 anchor.left,
-   											 anchor.baseline,
-   											 { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
-   			show_text(position + Vector(textsize.x * 1.2), lui.HUD_T_MINUS .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, lui.HUD_TOOLTIP_APOAPSIS_TIME)
-   		 end
-   	  end
+   local o_eccentricity, o_semimajoraxis, o_inclination, o_period, o_time_at_apoapsis, o_apoapsis, o_time_at_periapsis, o_periapsis = player:GetOrbit()
+   local aa = Vector(o_apoapsis):magnitude()
+   local pa = Vector(o_periapsis):magnitude()
+   -- apoapsis
+   if not player:IsDocked() then
+	  local position = point_on_circle_radius(navball_center, navball_text_radius, 2)
+	  local aa_d = aa - frame_radius
+	  local dist_apo, unit_apo = MyFormat.Distance(aa_d)
+	  if aa_d > 0 and o_time_at_apoapsis > 0 then
+		 local textsize = show_text_fancy(position,
+										  { icons.apoapsis, dist_apo, unit_apo },
+										  { colors.lightgrey, colors.lightgrey, colors.darkgrey },
+										  { pionicons.small, pionillium.medium, pionillium.small },
+										  anchor.left,
+										  anchor.baseline,
+										  { lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE, lui.HUD_TOOLTIP_APOAPSIS_DISTANCE })
+		 show_text(position + Vector(textsize.x * 1.2), lui.HUD_T_MINUS .. Format.Duration(o_time_at_apoapsis), (o_time_at_apoapsis < 30 and colors.lightgreen or colors.lightgrey), pionillium.small, anchor.left, anchor.baseline, lui.HUD_TOOLTIP_APOAPSIS_TIME)
+	  end
    end
    -- altitude
    local alt, vspd, lat, lon = player:GetGPS()
@@ -2576,7 +2574,7 @@ local function show_hud(delta)
 		 show_hyperspace_analyzer()
 		 show_hyperspace_button()
 		 show_ship_functions()
-		 show_orbit()
+--		 show_orbit()
 		 --	 show_settings()
 
 		 -- show_debug_orbit()
