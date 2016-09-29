@@ -388,6 +388,8 @@ bool GeoSphere::ProcessCPUCloudResults()
 {
 	if (mCPUCloudResults.empty())
 		return false;
+
+	assert(SystemBody::SUPERTYPE_ROCKY_PLANET == GetSystemBody()->GetSuperType());
 	
 	bool result = false;
 
@@ -455,6 +457,8 @@ bool GeoSphere::ProcessGPUCloudResults()
 {
 	if (mGPUCloudResults.empty())
 		return false;
+
+	assert(SystemBody::SUPERTYPE_ROCKY_PLANET == GetSystemBody()->GetSuperType());
 
 	std::unique_ptr<CloudJobs::CloudGPUGenResult> res(mGPUCloudResults[0]);
 	mGPUCloudResults.pop_front();
