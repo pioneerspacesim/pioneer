@@ -467,7 +467,7 @@ end
 -- laser_cooler - laser cooling booster
 -- cargo_life_support - cargo bay life support
 -- autopilot - autopilot
--- trade_analyzer - commodity trade analyzer computer module
+-- trade_computer - commodity trade analyzer computer module
 
 cargo = {
 	hydrogen = EquipType.New({
@@ -773,9 +773,9 @@ misc.thrusters_best = EquipType.New({
 	capabilities={mass=0, thruster_power=3}, purchasable=true,
 	icon_name="thrusters_best"
 })
-misc.trade_analyzer = EquipType.New({
-	l10n_key="TRADE_COMPUTER", slots="trade_analyzer", price=400,
-	capabilities={mass=0, trade_analyzer=1}, purchasable=true, tech_level=9
+misc.trade_computer = EquipType.New({
+	l10n_key="TRADE_COMPUTER", slots="trade_compunter", price=400,
+	capabilities={mass=0, trade_computer=1}, purchasable=true, tech_level=9
 })
 misc.planetscanner = BodyScannerType.New({
 	l10n_key = 'PLANETSCANNER', slots="sensor", price=15000,
