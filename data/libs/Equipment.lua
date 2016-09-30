@@ -456,7 +456,7 @@ end
 -- missile - missile
 -- ecm - ecm system
 -- scanner - scanner
--- radarmapper - radar mapper
+-- target_scanner - target scanner
 -- hypercloud - hyperspace cloud analyser
 -- hull_autorepair - hull auto-repair system
 -- energy_booster - shield energy booster unit
@@ -723,13 +723,13 @@ misc.autopilot = EquipType.New({
 	l10n_key="AUTOPILOT", slots="autopilot", price=1400,
 	capabilities={mass=1, set_speed=1, autopilot=1}, purchasable=true, tech_level=1
 })
-misc.radar_mapper = EquipType.New({
-	l10n_key="TARGET_SCANNER", slots="radar", price=900,
-	capabilities={mass=1, radar_mapper_level=1}, purchasable=true, tech_level=9
+misc.target_scanner = EquipType.New({
+	l10n_key="TARGET_SCANNER", slots="target_scanner", price=900,
+	capabilities={mass=1, target_scanner_level=1}, purchasable=true, tech_level=9
 })
-misc.advanced_radar_mapper = EquipType.New({
-	l10n_key="ADVANCED_TARGET_SCANNER", slots="radar", price=1200,
-	capabilities={mass=1, radar_mapper_level=2}, purchasable=true, tech_level="MILITARY"
+misc.advanced_target_scanner = EquipType.New({
+	l10n_key="ADVANCED_TARGET_SCANNER", slots="target_scanner", price=1200,
+	capabilities={mass=1, target_scanner_level=2}, purchasable=true, tech_level="MILITARY"
 })
 misc.fuel_scoop = EquipType.New({
 	l10n_key="FUEL_SCOOP", slots="scoop", price=3500,

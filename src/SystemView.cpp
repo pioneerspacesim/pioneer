@@ -630,10 +630,10 @@ void SystemView::OnClickShip(Ship *s) {
 		text += s->GetLabel();
 		text += "\n";
 
-		// ...if we have adv. radar mapper, show some extra info on selected ship
+		// ...if we have advanced target scanner equipment, show some extra info on selected ship
 		int prop_var = 0;
-		Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
-		if (prop_var > 1) {  // advanced radar mapper
+		Pi::player->Properties().Get("target_scanner_level_cap", prop_var);
+		if (prop_var > 1) {  // advanced target scanner
 			const shipstats_t &stats = s->GetStats();
 
 			text += s->GetShipType()->name;

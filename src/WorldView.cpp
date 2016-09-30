@@ -1014,7 +1014,7 @@ void WorldView::RefreshButtonStateAndVisibility()
 	if (b) {
 		if (b->IsType(Object::SHIP)) {
 			int prop_var = 0;
-			Pi::player->Properties().Get("radar_mapper_level_cap", prop_var);
+			Pi::player->Properties().Get("target_scanner_level_cap", prop_var);
 			if (prop_var > 0) {
 				assert(b->IsType(Object::SHIP));
 				Ship *s = static_cast<Ship*>(b);
