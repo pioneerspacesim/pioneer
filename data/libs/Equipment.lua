@@ -694,7 +694,7 @@ misc.ecm_advanced = EquipType.New({
 	purchasable=true, tech_level="MILITARY"
 })
 misc.scanner = EquipType.New({
-	l10n_key="SCANNER", slots="scanner", price=680,
+	l10n_key="RADAR", slots="scanner", price=680,
 	capabilities={mass=1, scanner=1},
 	purchasable=true, tech_level=3
 })

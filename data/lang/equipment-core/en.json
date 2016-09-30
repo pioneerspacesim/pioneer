@@ -235,11 +235,11 @@
       "description" : "",
       "message" : "2MW rapid-fire pulse cannon"
    },
-   "SCANNER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Scanner"
+      "message" : "Radar"
    },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Provides a 3D map of nearby ships."
    },
