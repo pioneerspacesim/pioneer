@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,14 +235,6 @@
       "description" : "",
       "message" : "2MW rapid-fire pulse cannon"
    },
-   "RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar Mapper"
-   },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
-   },
    "SCANNER" : {
       "description" : "",
       "message" : "Scanner"
@@ -282,6 +274,14 @@
    "STARTING_SCAN" : {
       "description" : "",
       "message" : "Starting scan, target distance is"
+   },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Used to remotely inspect the equipment, cargo and state of other ships."
    },
    "THRUSTERS_BASIC" : {
       "description" : "",

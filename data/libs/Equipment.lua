@@ -724,11 +724,11 @@ misc.autopilot = EquipType.New({
 	capabilities={mass=1, set_speed=1, autopilot=1}, purchasable=true, tech_level=1
 })
 misc.radar_mapper = EquipType.New({
-	l10n_key="RADAR_MAPPER", slots="radar", price=900,
+	l10n_key="TARGET_SCANNER", slots="radar", price=900,
 	capabilities={mass=1, radar_mapper_level=1}, purchasable=true, tech_level=9
 })
 misc.advanced_radar_mapper = EquipType.New({
-	l10n_key="ADVANCED_RADAR_MAPPER", slots="radar", price=1200,
+	l10n_key="ADVANCED_TARGET_SCANNER", slots="radar", price=1200,
 	capabilities={mass=1, radar_mapper_level=2}, purchasable=true, tech_level="MILITARY"
 })
 misc.fuel_scoop = EquipType.New({
