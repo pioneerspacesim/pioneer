@@ -276,17 +276,6 @@ void WorldView::ShowAll()
   RefreshButtonStateAndVisibility();
 }
 
-static Color get_color_for_warning_meter_bar(float v) {
-  Color c;
-  if (v < 50.0f)
-	c = Color(255,0,0,HUD_ALPHA);
-  else if (v < 75.0f)
-	c = Color(255,128,0,HUD_ALPHA);
-  else
-	c = Color(255,255,0,HUD_ALPHA);
-  return c;
-}
-
 void WorldView::RefreshButtonStateAndVisibility()
 {
   assert(m_game);

@@ -230,6 +230,12 @@ vector3d Orbit::EvenSpacedPosTrajectory(double t, double timeOffset) const
 	return m_orient * vector3d(-cos(v)*r, sin(v)*r, 0);
 }
 
+vector3d Orbit::AscendingNode() const {
+  return (vector3d(-cos(m_rightAscensionAscendingNode) * m_semiMajorAxis,
+				   sin(m_rightAscensionAscendingNode) * m_semiMajorAxis * sqrt(1 - (m_eccentricity * m_eccentricity)),
+				   0));
+}
+
 double Orbit::Period() const {
 	if(m_eccentricity < 1 && m_eccentricity >= 0) {
 		return M_PI * m_semiMajorAxis * m_semiMajorAxis * sqrt(1 - m_eccentricity * m_eccentricity)/ m_velocityAreaPerSecond;
@@ -269,90 +275,9 @@ void Orbit::SetShapeAroundPrimary(double semiMajorAxis, double centralMass, doub
 	m_velocityAreaPerSecond = calc_velocity_area_per_sec(semiMajorAxis, centralMass, eccentricity);
 }
 
-static double specific_orbital_energy(const vector3d &r, const vector3d &v, double mu)
-{
-  double vn = v.Length();
-  double rn = r.Length();
-  return vn*vn / 2 - mu / rn;
-}
-
-static vector3d eccentricity_vector(const vector3d &r, const vector3d &v, double mu)
-{
-  double vn = v.Length();
-  double rn = r.Length();
-  return 1.0 / mu * ((vn * vn - mu / rn) * r - r.Dot(v) * v);
-}
-
-static vector3d node_vector(const vector3d &angular_momentum)
-{
-  return vector3d(0,0,1).Cross(angular_momentum);
-}
-
-static vector3d angular_momentum(const vector3d &position, const vector3d &velocity)
-{
-  return position.Cross(velocity);
-}
-
-Orbit Orbit::FromBodyStateX(const vector3d &pos, const vector3d &vel, double centralMass)
-{
-  // http://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto
-  // https://github.com/RazerM/orbital/blob/0.7.0/orbital/utilities.py#L252
-  const double mu = 6.67408e-11 * centralMass;
-  const vector3d &r = pos;
-  const vector3d &v = vel;
-  const vector3d h = angular_momentum(r, v);
-  const vector3d n = node_vector(h);
-  const vector3d ev = eccentricity_vector(r, v, mu);
-  const double E = specific_orbital_energy(r, v, mu);
-  const double a = -mu / (2 * E);
-  const double e = ev.Length();
-  const double SMALL_NUMBER = 1e-15;
-  // inclination
-  double i = acos(h.z / h.Length());
-  // right ascension ascending node
-  double raan = 0.0;
-  // argument periapsis
-  double arg_pe = 0.0;
-  // true anomaly
-  double f = 0.0;
-  if(abs(i) < SMALL_NUMBER) {
-	if(abs(e - 0) < SMALL_NUMBER) {
-	  // arg_pe = 0.0
-	} else {
-	  arg_pe = acos(ev.x / ev.Length());
-	}
-  } else {
-	raan = acos(n.Dot(ev) / (n.Length() * ev.Length()));
-	if(n.y < 0)
-	  raan = 2 * M_PI - raan;
-	arg_pe = acos(n.Dot(ev) / (n.Length() * ev.Length()));
-  }
-  if(abs(e-0) < SMALL_NUMBER) {
-	if(abs(i - 0) < SMALL_NUMBER) {
-	  f = acos(r.x / r.Length());
-	  if(v.x > 0)
-		f = 2 * M_PI - f;
-	} else {
-	  f = acos(n.Dot(r) / (n.Length() * r.Length()));
-	  if(n.Dot(v) > 0)
-		f = 2 * M_PI - f;
-	}
-  } else {
-	if(ev.z < 0) {
-	  arg_pe = 2 * M_PI - arg_pe;
-	}
-	f = acos(ev.Dot(r) / (ev.Length() * r.Length()));
-	if(r.Dot(v) < 0) {
-	  f = 2 * M_PI - f;
-	}
-  }
-  Output("a: %f, e: %f, i: %f, raan: %f, arg_pe: %f, f: %f\n", a, e, i, raan, arg_pe, f);
-}
-
 Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double centralMass)
 {
-  FromBodyStateX(pos, vel, centralMass);
-	Orbit ret;
+	Orbit ret = FromBodyStateX(pos, vel, centralMass);
 
 	const double r_now = pos.Length() + 1e-12;
 	const double v_now = vel.Length() + 1e-12;
@@ -401,7 +326,6 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	//  3. orbitalPhaseAtStart (=offset) is calculated from r = a ((e^2 - 1)/(1 + e cos(v) ))
 	const double angle1 = acos(Clamp(ang.z/LL ,-1 + 1e-6,1 - 1e-6)) * (ang.x > 0 ? -1 : 1);
 	const double angle2 = asin(Clamp(ang.y / (LL * sqrt(1.0 - ang.z*ang.z / LLSqr)), -1 + 1e-6, 1 - 1e-6) ) * (ang.x > 0 ? -1 : 1);
-	ret.m_inclination = -angle1;
 	//	Output(", angle1: %f, angle2: %f\n", angle1, angle2);
 	// There are two possible solutions of the equation and the only way how to find the correct one
 	// I know about is to try both and check if the position is transformed correctly. We minimize the difference
@@ -439,4 +363,95 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 	ret.m_orbitalPhaseAtStart = ret.MeanAnomalyFromTrueAnomaly(-offset);
 
 	return ret;
+}
+
+// *****************************************************************************
+
+static double specific_orbital_energy(const vector3d &r, const vector3d &v, double mu)
+{
+  double vn = v.Length();
+  double rn = r.Length(); // r.length();
+  return vn*vn / 2 - mu / rn;
+}
+
+static vector3d eccentricity_vector(const vector3d &r, const vector3d &v, double mu)
+{
+  double vn = v.Length();
+  double rn = r.Length();
+  double factor = 1.0 / mu;
+  double a = (vn * vn - mu / rn);
+  vector3d b = r.Dot(v) * v;
+  vector3d c = (a * r - b);
+  return factor * c;
+}
+
+static vector3d node_vector(const vector3d &angular_momentum)
+{
+  return vector3d(0,0,1).Cross(angular_momentum);
+}
+
+static vector3d angular_momentum(const vector3d &position, const vector3d &velocity)
+{
+  return position.Cross(velocity);
+}
+
+
+Orbit Orbit::FromBodyStateX(const vector3d &pos, const vector3d &vel, double centralMass)
+{
+  // http://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto
+  // https://github.com/RazerM/orbital/blob/0.7.0/orbital/utilities.py#L252
+  const double mu = G * centralMass;
+  //  printf("elements_from_state_vector(XyzVector.from_array([%f,%f,%f]), XyzVector.from_array([%f,%f,%f]), %f)\n", pos.x, pos.y, pos.z, vel.x, vel.y, vel.z, mu);
+  const vector3d r = pos;
+  const vector3d v = vel;
+  const vector3d h = angular_momentum(r, v);
+  const vector3d n = node_vector(h);
+  const vector3d ev = eccentricity_vector(r, v, mu);
+  const double E = specific_orbital_energy(r, v, mu);
+  const double a = -mu / (2 * E);
+  const double e = ev.Length();
+  const double SMALL_NUMBER = 1e-15;
+  // inclination
+  double i = acos(h.z / h.Length());
+  // right ascension ascending node
+  double raan = 0.0;
+  // argument periapsis
+  double arg_pe = 0.0;
+  // true anomaly
+  double f = 0.0;
+  if(abs(i) < SMALL_NUMBER) {
+    if(abs(e - 0) < SMALL_NUMBER) {
+      // arg_pe = 0.0
+    } else {
+      arg_pe = acos(ev.x / ev.Length());
+    }
+  } else {
+    raan = acos(n.x / n.Length());
+    if(n.y < 0)
+      raan = 2 * M_PI - raan;
+    arg_pe = acos(n.Dot(ev) / (n.Length() * ev.Length()));
+  }
+  if(abs(e-0) < SMALL_NUMBER) {
+    if(abs(i - 0) < SMALL_NUMBER) {
+      f = acos(r.x / r.Length());
+      if(v.x > 0)
+        f = 2 * M_PI - f;
+    } else {
+      f = acos(n.Dot(r) / (n.Length() * r.Length()));
+      if(n.Dot(v) > 0)
+        f = 2 * M_PI - f;
+    }
+  } else {
+    if(ev.z < 0) {
+      arg_pe = 2 * M_PI - arg_pe;
+    }
+    f = acos(ev.Dot(r) / (ev.Length() * r.Length()));
+    if(r.Dot(v) < 0) {
+      f = 2 * M_PI - f;
+    }
+  }
+  // double d_p = a * (1 - e);
+  // double d_a = a * (1 + e);
+  // double period = 2.0*M_PI*sqrt((a*a*a)/(G*centralMass));
+  return Orbit(a, e, i, raan, arg_pe, f);
 }

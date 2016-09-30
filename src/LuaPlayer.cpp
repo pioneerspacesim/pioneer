@@ -371,8 +371,17 @@ static int l_get_orbit(lua_State *l)
 	periapsis.Set("x", pa.x);
 	periapsis.Set("y", pa.y);
 	periapsis.Set("z", pa.z);
-
-	return 8;
+	auto op = orbit.OrbitalPosAtTime(0);
+	LuaTable orbitPos(l);
+	orbitPos.Set("x", op.x);
+	orbitPos.Set("y", op.y);
+	orbitPos.Set("z", op.z);
+	auto an = orbit.AscendingNode();
+	LuaTable ascNode(l);
+	ascNode.Set("x", an.x);
+	ascNode.Set("y", an.y);
+	ascNode.Set("z", an.z);
+	return 10;
 }
 
 static int l_get_low_thrust_power(lua_State *l)
@@ -440,7 +449,7 @@ static int l_get_flight_control_speed(lua_State *l)
 
 static int l_get_heading_pitch(lua_State *l)
 {
-	Player *player = LuaObject<Player>::CheckFromLua(1);
+  // 	Player *player = LuaObject<Player>::CheckFromLua(1);
 	// player is unused
 	std::string type = luaL_checkstring(l, 2);
 	PlaneType pt = PlaneType::PARENT;

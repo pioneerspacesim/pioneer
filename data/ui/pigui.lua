@@ -253,6 +253,7 @@ local colors = {
    orbit_gauge_ground = Color(95, 95, 0 ),
    orbit_gauge_atmosphere = Color(97, 97, 241 ),
    orbit_gauge_space = Color(84, 84, 84 ),
+   blue = Color(0,0,150),
    noz_darkblue = Color(6, 7, 38 , 180 ),
    noz_mediumblue = Color(3, 63, 113 ),
    noz_lightblue = Color(49, 102, 144 ),
@@ -1481,7 +1482,7 @@ local function show_nav_window()
 			 -- 		print_r(data)
 			 -- 		error("nok: " .. count .. " count vs. lines " .. lines)
 			 -- end
-			 if shouldlshow_radial_menu then
+			 if should_show_radial_menu then
 				show_radial_menu()
 			 end
    end)
@@ -2353,49 +2354,55 @@ local function ellipse(center, width, height, color, thickness)
 end
 
 local function show_orbit()
-   window("Orbit", {}, function()
-			 local frame = player:GetFrame()
-			 if frame then
-				local pos = Vector(pigui.GetWindowPos()) + Vector(20, 30)
-				local size = 200
-				local radius = frame:GetSystemBody().radius
-				local eccentricity, semimajoraxis, inclination, period, time_at_apoapsis, apoapsis, time_at_periapsis, periapsis = player:GetOrbit()
-				local semiminoraxis = semimajoraxis * math.sqrt(1 - eccentricity * eccentricity)
-				local focus = math.sqrt(semimajoraxis*semimajoraxis - semiminoraxis*semiminoraxis)
-				local longer = math.max(radius * 2, (semimajoraxis + focus) * 2)
+   withStyleColors({ ["WindowBg"] = colors.darkergrey }, function()
+		 window("Orbit", {"NoResize"}, function()
+				   local frame = player:GetFrame()
+				   if frame then
+					  local pos = Vector(pigui.GetWindowPos()) + Vector(15, 30)
+					  local size = 200
+					  local radius = frame:GetSystemBody().radius
+					  local eccentricity, semimajoraxis, inclination, period, time_at_apoapsis, apoapsis, time_at_periapsis, periapsis, orbital_pos, ascending_node = player:GetOrbit()
+					  local semiminoraxis = semimajoraxis * math.sqrt(1 - eccentricity * eccentricity)
+					  local focus = math.sqrt(semimajoraxis*semimajoraxis - semiminoraxis*semiminoraxis)
+					  local longer = math.max(radius * 2, (semimajoraxis + focus) * 2)
 
-				local aa = Vector(player:ToOrbitalPlane(Vector(apoapsis)))
-				local pa = Vector(player:ToOrbitalPlane(Vector(periapsis)))
-				
-				local scale = 200 / longer
-				local center = pos + Vector(size,size)/2
-				pigui.AddRectFilled(pos - Vector(10,10), pos + Vector(size, size) + Vector(10,10), colors.darkergrey, 0.0, 0)
-				pigui.AddCircleFilled(center, radius * scale, colors.darkgrey, 64)
-				-- ellipse(center + Vector(focus * scale, 0), semimajoraxis * scale, semiminoraxis * scale, colors.lightgreen, 2)
-				local lastv = nil
-				local framepos = Vector(frame:GetPosition())
-				for i = 1, 361 do
-				   local t = i / 360
-				   local v = Vector(player:ToOrbitalPlane(player:GetEvenSpacedPosTrajectory(t))) - framepos
-				   if lastv then
-					  pigui.AddLine(center + lastv * scale, center + v * scale, colors.lightgreen, 2)
-					  --			print("v: " .. tostring(v * scale))
+					  local aa = Vector(player:ToOrbitalPlane(Vector(apoapsis)))
+					  local pa = Vector(player:ToOrbitalPlane(Vector(periapsis)))
+
+					  local orbit_center = (aa + pa) / 2
+					  
+					  local scale = 200 / longer
+					  local center = pos + Vector(size,size)/2
+					  -- pigui.AddRectFilled(pos, pos + Vector(size, size) + Vector(50,50), colors.darkergrey, 0.0, 0)
+					  pigui.AddCircleFilled(center, radius * scale, colors.darkgrey, 64)
+					  -- ellipse(center + Vector(focus * scale, 0), semimajoraxis * scale, semiminoraxis * scale, colors.lightgreen, 2)
+					  local lastv = nil
+					  local framepos = Vector(frame:GetPosition())
+					  for i = 1, 361 do
+						 local t = i / 360
+						 local v = Vector(player:ToOrbitalPlane(player:GetEvenSpacedPosTrajectory(t))) - framepos
+						 if lastv then
+							pigui.AddLine(center + lastv * scale, center + v * scale, colors.lightgreen, 2)
+							--			print("v: " .. tostring(v * scale))
+						 end
+						 lastv = v
+					  end
+
+					  local mypos = Vector(player:ToOrbitalPlane(orbital_pos))
+
+					  local an = Vector(ascending_node)
+					  
+					  pigui.AddCircleFilled(center + aa * scale, 5, colors.red, 8)
+					  pigui.AddCircle(center + pa * scale, 5, colors.red, 8, 2.0)
+					  pigui.AddCircle(center + mypos * scale, 5, colors.green, 8, 2.0)
+					  pigui.AddLine(center + orbit_center * scale, center + an * scale, colors.blue, 2.0)
+
+					  pigui.Dummy(Vector(220,220))
+					  pigui.Text("Orbit center: " .. tostring(orbit_center))
+				   else
+					  pigui.Text("no frame")
 				   end
-				   lastv = v
-				end
-				local p = Vector(player:GetPositionRelTo(frame))
-				local mypos = Vector(player:ToOrbitalPlane(p))
-				print("pos: " .. tostring(p) ..  ", orbit pos: " .. tostring(mypos))
-				pigui.AddCircleFilled(center + aa * scale, 5, colors.red, 8)
-				pigui.AddCircle(center + pa * scale, 5, colors.red, 8, 2.0)
-				pigui.AddCircle(center + mypos * scale, 5, colors.green, 8, 2.0)
-				pigui.Dummy(Vector(200,200))
-				pigui.Text("semimajor: " .. Format.Distance(semimajoraxis))
-				pigui.Text("semiminor: " .. Format.Distance(semiminoraxis))
-				
-			 else
-				pigui.Text("no frame")
-			 end
+		 end)
    end)
 end
 
@@ -2574,7 +2581,7 @@ local function show_hud(delta)
 		 show_hyperspace_analyzer()
 		 show_hyperspace_button()
 		 show_ship_functions()
---		 show_orbit()
+		 show_orbit()
 		 --	 show_settings()
 
 		 -- show_debug_orbit()
