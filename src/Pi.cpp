@@ -833,10 +833,29 @@ void Pi::HandleEvents()
 
 		Pi::pigui->ProcessEvent(&event);
 
-		if(Pi::pigui->WantCaptureMouse() || Pi::pigui->WantCaptureKeyboard()) {
+		if(Pi::pigui->WantCaptureMouse()) {
+		  // don't process mouse event any further, imgui already handled it
+		  switch(event.type) {
+		  case SDL_MOUSEBUTTONDOWN:
+		  case SDL_MOUSEBUTTONUP:
+		  case SDL_MOUSEWHEEL:
+		  case SDL_MOUSEMOTION:
 			continue;
+		  default: break;
+		  }
 		}
 
+		if(Pi::pigui->WantCaptureKeyboard()) {
+		  // don't process keyboard event any further, imgui already handled it
+		  switch(event.type) {
+		  case SDL_KEYDOWN:
+		  case SDL_KEYUP:
+		  case SDL_TEXTINPUT:
+			continue;
+		  default: break;
+		  }
+		}
+		
 		if (skipTextInput && event.type == SDL_TEXTINPUT) {
 			skipTextInput = false;
 			continue;
