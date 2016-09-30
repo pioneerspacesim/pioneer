@@ -23,7 +23,7 @@ GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
 	map["InvertMouseY"] = "0";
 	map["FOVVertical"] = "65";
 	map["DisplayNavTunnel"] = "0";
-	map["CompactScanner"] = "1";
+	map["CompactRadar"] = "1";
 	map["ConfirmQuit"] = "1";
 	map["MasterVolume"] = "0.8";
 	map["MusicVolume"] = "0.8";

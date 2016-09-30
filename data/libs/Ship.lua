@@ -545,7 +545,7 @@ compat.equip.new2old = {
 	[misc.missile_unguided]="MISSILE_UNGUIDED", [misc.missile_guided]="MISSILE_GUIDED",
 	[misc.missile_smart]="MISSILE_SMART", [misc.missile_naval]="MISSILE_NAVAL",
 	[misc.atmospheric_shielding]="ATMOSPHERIC_SHIELDING", [misc.ecm_basic]="ECM_BASIC",
-	[misc.ecm_advanced]="ECM_ADVANCED", [misc.scanner]="SCANNER", [misc.cabin]="CABIN",
+	[misc.ecm_advanced]="ECM_ADVANCED", [misc.radar]="RADAR", [misc.cabin]="CABIN",
 	[misc.shield_generator]="SHIELD_GENERATOR", [misc.laser_cooling_booster]="LASER_COOLING_BOOSTER",
 	[misc.cargo_life_support]="CARGO_LIFE_SUPPORT", [misc.autopilot]="AUTOPILOT",
 	[misc.target_scanner]="TARGET_SCANNER", [misc.fuel_scoop]="FUEL_SCOOP",

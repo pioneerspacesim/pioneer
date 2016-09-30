@@ -455,7 +455,7 @@ end
 -- laser_rear - rear attachment point for lasers and plasma accelerators
 -- missile - missile
 -- ecm - ecm system
--- scanner - scanner
+-- radar - radar
 -- target_scanner - target scanner
 -- hypercloud - hyperspace cloud analyser
 -- hull_autorepair - hull auto-repair system
@@ -693,9 +693,9 @@ misc.ecm_advanced = EquipType.New({
 	capabilities={mass=2, ecm_power=3, ecm_recharge=5},
 	purchasable=true, tech_level="MILITARY"
 })
-misc.scanner = EquipType.New({
-	l10n_key="RADAR", slots="scanner", price=680,
-	capabilities={mass=1, scanner=1},
+misc.radar = EquipType.New({
+	l10n_key="RADAR", slots="radar", price=680,
+	capabilities={mass=1, radar=1},
 	purchasable=true, tech_level=3
 })
 misc.cabin = EquipType.New({

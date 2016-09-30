@@ -96,9 +96,9 @@ ui.templates.Settings = function (args)
 			Engine.GetDisplayNavTunnels, Engine.SetDisplayNavTunnels,
 			l.DISPLAY_NAV_TUNNELS)
 
-		local compactScannerCheckBox = optionCheckBox(
-			Engine.GetCompactScanner, Engine.SetCompactScanner,
-			l.COMPACT_SCANNER)
+		local compactRadarCheckBox = optionCheckBox(
+			Engine.GetCompactRadar, Engine.SetCompactRadar,
+			l.COMPACT_RADAR)
 
 		local confirmQuit = optionCheckBox(
 			Engine.GetConfirmQuit, Engine.SetConfirmQuit,
@@ -127,7 +127,7 @@ ui.templates.Settings = function (args)
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
-			
+
 		local anisoCheckBox = optionCheckBox(
 			Engine.GetAnisoFiltering, Engine.SetAnisoFiltering,
 			l.ENABLE_ANISOTROPIC_FILTERING)
@@ -163,7 +163,7 @@ ui.templates.Settings = function (args)
 				hudTrailsCheckBox,
 				cockpitCheckBox,
 				enableAutosave,
-				compactScannerCheckBox,
+				compactRadarCheckBox,
 				confirmQuit,
 				starDensity(l.STAR_FIELD_DENSITY, Engine.GetAmountStars, Engine.SetAmountStars),
 			})))
