@@ -295,7 +295,6 @@ Orbit Orbit::FromBodyState(const vector3d &pos, const vector3d &vel, double cent
 
 	//	Output("u: %f, ang: %f/%f/%f, LLSqr: %f, LL: %f, EE: %f\n", u, ang.x, ang.y, ang.z, LLSqr, LL, EE);
 	if (is_zero_general(centralMass) || is_zero_general(r_now) || is_zero_general(v_now) || is_zero_general(EE) || (ang.z*ang.z/LLSqr > 1.0)) {
-	  Output("is_zero");
 		ret.m_eccentricity = 0.0;
 		ret.m_semiMajorAxis = 0.0;
 		ret.m_velocityAreaPerSecond = 0.0;
