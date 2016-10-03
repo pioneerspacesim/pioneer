@@ -20,6 +20,9 @@ local ui = Engine.ui
 
 local l = Lang.GetResource("ui-core")
 
+local shipSellPriceReduction = 0.5
+local equipSellPriceReduction = 0.8
+
 local shipClassString = {
 	light_cargo_shuttle        = l.LIGHT_CARGO_SHUTTLE,
 	light_courier              = l.LIGHT_COURIER,
@@ -68,7 +71,20 @@ local function manufacturerIcon (manufacturer)
 end
 
 local function tradeInValue (def)
-	return math.ceil(def.basePrice * 0.5)
+	local value = def.basePrice * shipSellPriceReduction * Game.player.hullPercent/100
+
+	if def.hyperdriveClass > 0 then
+		value = value - Equipment.hyperspace["hyperdrive_" .. def.hyperdriveClass].price * equipSellPriceReduction
+	end
+
+	for _, t in pairs({Equipment.misc, Equipment.hyperspace, Equipment.laser}) do
+		for _, e in pairs(t) do
+			local n = Game.player:CountEquip(e)
+			value = value + n * e.price * equipSellPriceReduction
+		end
+	end
+
+	return math.ceil(value)
 end
 
 local function buyShip (sos)
