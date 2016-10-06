@@ -420,7 +420,8 @@ AC_CONFIG_FILES([
 	contrib/lua/Makefile
 	contrib/miniz/Makefile
 	contrib/jenkins/Makefile
-        contrib/imgui/Makefile
+	contrib/imgui/Makefile
+	contrib/nanosvg/Makefile
 	contrib/json/Makefile
 	contrib/PicoDDS/Makefile
 	contrib/vcacheopt/Makefile
