@@ -26,11 +26,11 @@ public:
 	};
 	StaticGeometry(Graphics::Renderer *r);
 	StaticGeometry(const StaticGeometry&, NodeCopyCache *cache = 0);
-	virtual Node *Clone(NodeCopyCache *cache = 0);
-	virtual const char *GetTypeName() const { return "StaticGeometry"; }
-	virtual void Accept(NodeVisitor &nv);
-	virtual void Render(const matrix4x4f &trans, const RenderData *rd);
-	virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd);
+	virtual Node *Clone(NodeCopyCache *cache = 0) override;
+	virtual const char *GetTypeName() const override { return "StaticGeometry"; }
+	virtual void Accept(NodeVisitor &nv) override;
+	virtual void Render(const matrix4x4f &trans, const RenderData *rd) override;
+	virtual void Render(const std::vector<matrix4x4f> &trans, const RenderData *rd) override;
 
 	virtual void Save(NodeDatabase&) override;
 	static StaticGeometry *Load(NodeDatabase&);

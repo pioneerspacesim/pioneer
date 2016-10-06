@@ -16,10 +16,10 @@ public:
 	Star();
 	virtual ~Star() {};
 
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 protected:
 	void InitStar();
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 	Graphics::RenderState *m_haloState;
 };

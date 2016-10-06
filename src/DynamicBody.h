@@ -15,20 +15,20 @@ public:
 	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);
 	DynamicBody();
 	virtual ~DynamicBody();
-	virtual vector3d GetVelocity() const;
-	virtual void SetVelocity(const vector3d &v);
-	virtual void SetFrame(Frame *f);
+	virtual vector3d GetVelocity() const override;
+	virtual void SetVelocity(const vector3d &v) override;
+	virtual void SetFrame(Frame *f) override;
 	vector3d GetAngVelocity() const;
 	void SetAngVelocity(const vector3d &v);
 	void SetMesh(ObjMesh *m);
-	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
+	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
 	vector3d GetAngularMomentum() const;
 	double GetAngularInertia() const { return m_angInertia; }
 	void SetMassDistributionFromModel();
 	void SetMoving(bool isMoving) { m_isMoving = isMoving; }
 	bool IsMoving() const { return m_isMoving; }
-	virtual double GetMass() const { return m_mass; }	// XXX don't override this
-	virtual void TimeStepUpdate(const float timeStep);
+	virtual double GetMass() const override { return m_mass; }	// XXX don't override this
+	virtual void TimeStepUpdate(const float timeStep) override;
 	double CalcAtmosphericForce(double dragCoeff) const;
 	void CalcExternalForce();
 	void UndoTimestep();
@@ -46,14 +46,14 @@ public:
 	vector3d GetExternalForce() const { return m_externalForce; }
 	vector3d GetAtmosForce() const { return m_atmosForce; }
 	vector3d GetGravityForce() const { return m_gravityForce; }
-	virtual void UpdateInterpTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha) override;
 
-	virtual void PostLoadFixup(Space *space);
+	virtual void PostLoadFixup(Space *space) override;
 
 	Orbit ComputeOrbit() const;
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 	static const double DEFAULT_DRAG_COEFF;
 	double m_dragCoeff;

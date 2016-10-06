@@ -23,18 +23,18 @@ public:
 
 	Projectile();
 	virtual ~Projectile();
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	void TimeStepUpdate(const float timeStep);
-	void StaticUpdate(const float timeStep);
-	virtual void NotifyRemoved(const Body* const removedBody);
-	virtual void UpdateInterpTransform(double alpha);
-	virtual void PostLoadFixup(Space *space);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	void TimeStepUpdate(const float timeStep) override;
+	void StaticUpdate(const float timeStep) override;
+	virtual void NotifyRemoved(const Body* const removedBody) override;
+	virtual void UpdateInterpTransform(double alpha) override;
+	virtual void PostLoadFixup(Space *space) override;
 
 	static void FreeModel();
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 private:
 	float GetDamage() const;
