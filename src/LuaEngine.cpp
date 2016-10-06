@@ -9,6 +9,7 @@
 #include "Random.h"
 #include "OS.h"
 #include "Pi.h"
+#include "PiGui.h"
 #include "utils.h"
 #include "FloatComparison.h"
 #include "FileSystem.h"
@@ -88,6 +89,25 @@ static int l_engine_attr_ticks(lua_State *l)
 static int l_engine_attr_ui(lua_State *l)
 {
 	LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
+	return 1;
+}
+
+/*
+ * Attribute: pigui
+ *
+ * The global PiGui object. It provides an interface to ImGui functions
+ *
+ * Availability:
+ *
+ *   2016-10-06
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_pigui(lua_State *l)
+{
+	LuaObject<PiGui>::PushToLua(Pi::pigui.Get());
 	return 1;
 }
 
@@ -920,6 +940,7 @@ void LuaEngine::Register()
 		{ "rand",    l_engine_attr_rand    },
 		{ "ticks",   l_engine_attr_ticks   },
 		{ "ui",      l_engine_attr_ui      },
+		{ "pigui",   l_engine_attr_pigui   },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }
 	};

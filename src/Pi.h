@@ -23,6 +23,7 @@ class Intro;
 class LuaConsole;
 class LuaNameGen;
 class ModelCache;
+class PiGui;
 class Player;
 class Ship;
 class SpaceStation;
@@ -129,11 +130,13 @@ public:
 	static ServerAgent *serverAgent;
 
 	static RefCountedPtr<UI::Context> ui;
+    static RefCountedPtr<PiGui> pigui;
 
 	static Random rng;
 	static int statSceneTris;
 	static int statNumPatches;
 
+	static void DrawPiGui(double delta, std::string handler = "GAME");
 	static void SetView(View *v);
 	static View *GetView() { return currentView; }
 
