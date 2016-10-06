@@ -12,7 +12,8 @@
 // SDL,GL3W
 #include <SDL.h>
 #include <SDL_syswm.h>
-#include <GL/gl3w.h>
+#include "../../src/graphics/opengl/OpenGLLibs.h"
+#define GL_FUNC_ADD 0x8006
 
 // Data
 static double       g_Time = 0.0f;
@@ -161,7 +162,9 @@ bool ImGui_ImplSdlGL3_ProcessEvent(SDL_Event* event)
     case SDL_KEYDOWN:
     case SDL_KEYUP:
         {
-            int key = event->key.keysym.sym & ~SDLK_SCANCODE_MASK;
+			int key = event->key.keysym.sym;
+			if(key & SDLK_SCANCODE_MASK)
+				key = (key & ~SDLK_SCANCODE_MASK) | 0x100;
             io.KeysDown[key] = (event->type == SDL_KEYDOWN);
             io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
             io.KeyCtrl = ((SDL_GetModState() & KMOD_CTRL) != 0);

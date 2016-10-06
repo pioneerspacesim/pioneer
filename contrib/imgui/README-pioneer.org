@@ -1,0 +1,7 @@
+* Vanilla imgui, except for the following changes
+** Mouse Pointer
+Add the new pioneer mouse pointer to imgui_draw.cpp, near line 1450
+** Don't use gl3w
+Edit examples/sdl_opengl3_example/imgui_impl_sdl_gl3.cpp, use src/graphics/opengl/OpenGLLibs.h from Pioneer
+** Change key codes
+By default, key codes are spread out over 32 bits. Make them be more contiguous, as imgui wants to create a bit vector. In imgui_impl_sdl_gl3.cpp, near line 160.
