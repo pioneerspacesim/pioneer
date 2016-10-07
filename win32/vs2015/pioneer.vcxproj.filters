@@ -10,6 +10,12 @@
     <Filter Include="src\posix">
       <UniqueIdentifier>{6d264ce7-1454-4144-a050-a665481a0a20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\imgui">
+      <UniqueIdentifier>{3c92be2e-998e-4817-8563-82402b4f3b91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\nanosvg">
+      <UniqueIdentifier>{a4f6a456-a451-445c-9017-dd2865551018}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\AmbientSounds.cpp">
@@ -430,6 +436,21 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\RandomColor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\imgui.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\imgui_draw.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\examples\sdl_opengl3_example\imgui_impl_sdl_gl3.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LuaPiGui.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\PiGui.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -870,6 +891,24 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\RandomColor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\imgui.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\examples\sdl_opengl3_example\imgui_impl_sdl_gl3.h">
+      <Filter>src\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\nanosvg\nanosvg.h">
+      <Filter>src\nanosvg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\nanosvg\nanosvgrast.h">
+      <Filter>src\nanosvg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LuaPiGui.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\PiGui.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
