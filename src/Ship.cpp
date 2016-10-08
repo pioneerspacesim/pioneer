@@ -536,10 +536,10 @@ void Ship::SetAngThrusterState(const vector3d &levels)
 
 vector3d Ship::GetMaxThrust(const vector3d &dir) const
 {
-	size_t thruster_power_cap = 0;
+	unsigned int thruster_power_cap = 0;
 	Properties().Get("thruster_power_cap", thruster_power_cap);
 	static const double power_bands[] = {1.0, 1.1, 1.2, 1.3};
-	const double power_mul = power_bands[Clamp(thruster_power_cap, 0U, COUNTOF(power_bands))];
+	const double power_mul = power_bands[Clamp(thruster_power_cap, 0U, (unsigned int)COUNTOF(power_bands))];
 
 	vector3d maxThrust;
 	maxThrust.x = ((dir.x > 0) ? m_type->linThrust[ShipType::THRUSTER_RIGHT]	: -m_type->linThrust[ShipType::THRUSTER_LEFT]	) * power_mul;
