@@ -78,6 +78,11 @@ WARN_CFLAGS=
 WARN_CXXFLAGS=
 WARN_CPPFLAGS=
 
+AC_SUBST(ARFLAGS)
+if test -z "$ARFLAGS"
+then
+	ARFLAGS="rcD"
+fi
 dnl Check for ccache if they want it
 AC_ARG_WITH([ccache], AS_HELP_STRING([--with-ccache], [Compile using ccache]), [AC_PATH_PROG([CCACHE], [ccache])])
 if test "x$with_ccache" = xyes; then
