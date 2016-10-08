@@ -42,6 +42,14 @@ modelviewer
 modelviewer.exe
 modelcompiler
 modelcompiler.exe
+modelcompiler-debug.lib
+modelcompiler-prerelease.lib
+modelcompiler-profile.lib
+modelcompiler.lib
+pioneer-debug.lib
+pioneer-prerelease.lib
+pioneer-profile.lib
+pioneer.lib
 aclocal.m4
 config.guess
 config.log
@@ -67,3 +75,5 @@ result
 *.sgm
 .vs/
 *.user
+*.exp
+*.VC.db
