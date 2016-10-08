@@ -820,6 +820,26 @@ hyperspace.hyperdrive_mil4 = HyperdriveType.New({
 	l10n_key="DRIVE_MIL4", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
 	price=214000, capabilities={mass=30, hyperclass=4}, purchasable=true, tech_level=12
 })
+hyperspace.hyperdrive_mil5 = HyperdriveType.New({
+	l10n_key="DRIVE_MIL5", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
+	price=540000, capabilities={mass=53, hyperclass=5}, purchasable=false, tech_level="MILITARY"
+})
+hyperspace.hyperdrive_mil6 = HyperdriveType.New({
+	l10n_key="DRIVE_MIL6", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
+	price=1350000, capabilities={mass=78, hyperclass=6}, purchasable=false, tech_level="MILITARY"
+})
+hyperspace.hyperdrive_mil7 = HyperdriveType.New({
+	l10n_key="DRIVE_MIL7", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
+	price=3500000, capabilities={mass=128, hyperclass=7}, purchasable=false, tech_level="MILITARY"
+})
+hyperspace.hyperdrive_mil8 = HyperdriveType.New({
+	l10n_key="DRIVE_MIL8", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
+	price=8500000, capabilities={mass=196, hyperclass=8}, purchasable=false, tech_level="MILITARY"
+})
+hyperspace.hyperdrive_mil9 = HyperdriveType.New({
+	l10n_key="DRIVE_MIL9", fuel=cargo.military_fuel, byproduct=cargo.radioactives, slots="engine",
+	price=22000000, capabilities={mass=285, hyperclass=9}, purchasable=false, tech_level="MILITARY"
+})
 
 laser = {}
 laser.pulsecannon_1mw = LaserType.New({
