@@ -14,11 +14,11 @@ public:
 	Missile(const ShipType::Id &type, Body *owner, int power=-1);
 	Missile() {}
 	virtual ~Missile() {}
-	void TimeStepUpdate(const float timeStep);
-	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
-	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);
-	virtual void NotifyRemoved(const Body* const removedBody);
-	virtual void PostLoadFixup(Space *space);
+	void TimeStepUpdate(const float timeStep) override;
+	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
+	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
+	virtual void NotifyRemoved(const Body* const removedBody) override;
+	virtual void PostLoadFixup(Space *space) override;
 	void ECMAttack(int power_val);
 	Body *GetOwner() const { return m_owner; }
 	bool IsArmed() const {return m_armed;}
@@ -26,8 +26,8 @@ public:
 	void Disarm();
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 private:
 	void Explode();
 

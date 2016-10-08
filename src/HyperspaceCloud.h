@@ -21,20 +21,20 @@ public:
 	HyperspaceCloud(Ship *, double dateDue, bool isArrival);
 	HyperspaceCloud();
 	virtual ~HyperspaceCloud();
-	virtual void SetVelocity(const vector3d &v) { m_vel = v; }
-	virtual vector3d GetVelocity() const { return m_vel; }
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	virtual void PostLoadFixup(Space *space);
-	virtual void TimeStepUpdate(const float timeStep);
+	virtual void SetVelocity(const vector3d &v) override { m_vel = v; }
+	virtual vector3d GetVelocity() const override { return m_vel; }
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	virtual void PostLoadFixup(Space *space) override;
+	virtual void TimeStepUpdate(const float timeStep) override;
 	Ship *GetShip() { return m_ship; }
 	Ship *EvictShip();
 	double GetDueDate() const { return m_due; }
 	void SetIsArrival(bool isArrival);
 	bool IsArrival() const { return m_isArrival; }
-	virtual void UpdateInterpTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha) override;
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 private:
 	void InitGraphics();

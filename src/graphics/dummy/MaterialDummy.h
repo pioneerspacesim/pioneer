@@ -20,11 +20,11 @@ namespace Graphics {
 			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) { return nullptr; }
 			// bind textures, set uniforms
-			virtual void Apply() {}
-			virtual void Unapply() {}
+			virtual void Apply() override {}
+			virtual void Unapply() override {}
 			virtual bool IsProgramLoaded() const override final { return false; }
 			virtual void SetProgram(Program *p) { }
-			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) {}
+			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) override {}
 		};
 	}
 }

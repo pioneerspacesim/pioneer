@@ -21,7 +21,7 @@ public:
 	Planet(SystemBody*);
 	Planet();
 
-	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos);
+	virtual void SubRender(Graphics::Renderer *r, const matrix4x4d &viewTran, const vector3d &camPos) override;
 
 	void GetAtmosphericState(double dist, double *outPressure, double *outDensity) const;
 	double GetAtmosphereRadius() const { return m_atmosphereRadius; }
@@ -31,7 +31,7 @@ public:
 #endif
 
 protected:
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 private:
 	void InitParams(const SystemBody*);

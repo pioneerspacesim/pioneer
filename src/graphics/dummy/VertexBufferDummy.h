@@ -19,13 +19,13 @@ public:
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) override { return true; }
 
-	virtual void Bind() {}
-	virtual void Release() {}
+	virtual void Bind() override {}
+	virtual void Release() override {}
 
 	virtual void Unmap() override {}
 
 protected:
-	virtual Uint8 *MapInternal(BufferMapMode) { return m_buffer.get(); }
+	virtual Uint8 *MapInternal(BufferMapMode) override { return m_buffer.get(); }
 
 private:
 	std::unique_ptr<Uint8[]> m_buffer;
@@ -41,8 +41,8 @@ public:
 
 	virtual void Unmap() override {}
 
-	virtual void Bind() {}
-	virtual void Release() {}
+	virtual void Bind() override {}
+	virtual void Release() override {}
 
 private:
     std::unique_ptr<Uint32[]> m_buffer;
@@ -61,8 +61,8 @@ public:
 	Uint32 GetSize() const { return m_size; }
 	BufferUsage GetUsage() const { return m_usage; }
 
-	virtual void Bind() {}
-	virtual void Release() {}
+	virtual void Bind() override {}
+	virtual void Release() override {}
 
 protected:
 	std::unique_ptr<matrix4x4f> m_data;
