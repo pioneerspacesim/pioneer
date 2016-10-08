@@ -1,4 +1,7 @@
 October 2016
+   * Fixes
+	 * Search&Rescue: set ship look and bugfix (#3823)
+
    * Internal Changes
 	 * Add "override" to silence warnings in clang (#3828)
 	 * Update the .gitignore file for more vs2015 files outputs (#3829)
