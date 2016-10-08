@@ -44,6 +44,8 @@ local utils = import("utils")
 local Timer = import("Timer")
 local InfoFace = import("ui/InfoFace")
 local NavButton = import("ui/NavButton")
+local Rand = import("Rand")
+local ModelSkin = import("SceneGraph.ModelSkin")
 local l = Lang.GetResource("module-searchrescue")
 
 -- Get the UI class
@@ -568,8 +570,11 @@ local createTargetShipParameters = function (flavour)
 	-- so certain info can be included in the ad text. The actual ship is created once the mission has
 	-- been accepted.
 
-	-- pick appropriate hull type
+	-- pick unique seed for ship and set rand
+	local seed = Engine.rand:Integer(1,1000000)
+	local rand = Rand.New(seed)
 
+	-- pick appropriate hull type
 	local shipdefs = utils.build_array(utils.filter(function (_,def) return def.tag == 'SHIP'
 	                                                end, pairs(ShipDef)))
 
@@ -620,27 +625,32 @@ local createTargetShipParameters = function (flavour)
 		print("Could not find appropriate ship type for this mission!")
 		return
 	end
+
+	-- 1. compress table keys to eliminate 'nil' entries
+	-- 2. sort shipdefs by name so the list has the same order every time
+	-- utils.build_array returns the list with random order
 	shipdefs = compressTableKeys(shipdefs)
-	local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
+	table.sort(shipdefs, function (a,b) return a.name < b.name end)
+	local shipdef = shipdefs[rand:Integer(1,#shipdefs)]
 
 	-- number of crew
 	local crew_num, pickup_crew, deliver_crew
 	if flavour.id == 1 or flavour.id == 6 then
-		crew_num = Engine.rand:Integer(shipdef.minCrew,shipdef.maxCrew)
+		crew_num = rand:Integer(shipdef.minCrew,shipdef.maxCrew)
 		pickup_crew = crew_num
 		deliver_crew = flavour.deliver_crew
 	elseif flavour.id == 7 then
 		if shipdef.maxCrew == 2 then
 			crew_num = 1
 		else
-			crew_num = Engine.rand:Integer(1,shipdef.minCrew-1)
+			crew_num = rand:Integer(1,shipdef.minCrew-1)
 		end
 		pickup_crew = flavour.pickup_crew
 		deliver_crew = shipdef.minCrew - crew_num
 	elseif flavour.pickup_crew > 0 then
 		crew_num = pickup_crew
 	else
-		crew_num = Engine.rand:Integer(shipdef.minCrew,shipdef.maxCrew)
+		crew_num = rand:Integer(shipdef.minCrew,shipdef.maxCrew)
 		crew_num = crew_num - flavour.deliver_crew
 		pickup_crew = flavour.pickup_crew
 		deliver_crew = flavour.deliver_crew
@@ -649,9 +659,9 @@ local createTargetShipParameters = function (flavour)
 	-- determine passengers
 	local pickup_pass
 	if flavour.id == 1 or flavour.id == 6 then
-		local any_pass = Engine.rand:Integer(0,1)
+		local any_pass = rand:Integer(0,1)
 		if any_pass > 0 then
-			pickup_pass = Engine.rand:Integer(1, math.min((shipdef.capacity / 10)+1, max_pass))
+			pickup_pass = rand:Integer(1, math.min((shipdef.capacity / 10)+1, max_pass))
 		else
 			pickup_pass = 0
 		end
@@ -662,13 +672,16 @@ local createTargetShipParameters = function (flavour)
 	-- label
 	local shiplabel = Ship.MakeRandomLabel()
 
-	return shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew
+	return shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, seed
 end
 
 local createTargetShip = function (mission)
 	-- Create the target ship to be search for.
 	local ship
 	local shipdef = shipdefFromName(mission.shipdef_name)
+
+	-- set rand with unique ship seed
+	local rand = Rand.New(mission.shipseed)
 
 	-- create ship
 	if mission.flavour.loctype == "CLOSE_PLANET" then
@@ -682,11 +695,18 @@ local createTargetShip = function (mission)
 		ship:AIEnterHighOrbit(Space.GetBody(mission.planet_target.bodyIndex))
 	end
 
-	-- misc ship settings (label, crew)
+	-- set ship looks (label, skin, pattern)
 	ship:SetLabel(mission.shiplabel)
-	for _ = 1, mission.crew_num do
-		ship:Enroll(Character.New())
+	local skin = ModelSkin.New():SetRandomColors(rand):SetDecal(shipdef.manufacturer)
+	ship:SetSkin(skin)
+	local model = Engine.GetModel(shipdef.modelName)
+	local pattern
+	if model.numPatterns == 1 then
+		pattern = 0
+	else
+		local pattern = rand:Integer(0,model.numPatterns-1)
 	end
+	ship:SetPattern(pattern)
 
 	-- load a hyperdrive
 	local default_drive = Equipment.hyperspace['hyperdrive_'..tostring(shipdef.hyperdriveClass)]
@@ -728,8 +748,13 @@ local createTargetShip = function (mission)
 	local laserdefs = utils.build_array(utils.filter(function (_,laser) return laser:IsValidSlot('laser_front')
 				                                    and laser.capabilities.mass <= max_laser_size
 			                                    and laser.l10n_key:find("PULSECANNON") end, pairs(Equipment.laser)))
-	local laserdef = laserdefs[Engine.rand:Integer(1,#laserdefs)]
+	local laserdef = laserdefs[rand:Integer(1,#laserdefs)]
 	ship:AddEquip(laserdef)
+
+	-- load crew
+	for _ = 1, mission.crew_num do
+		ship:Enroll(Character.New())
+	end
 
 	-- load passengers
 	if mission.pickup_pass > 0 then
@@ -869,6 +894,7 @@ local onChat = function (form, ref, option)
 			shipdef_name       = ad.shipdef_name,
 			shiplabel          = ad.shiplabel,
 			crew_num           = ad.crew_num,
+			shipseed           = ad.shipseed,
 
 			-- "..._orig" => original variables from ad
 			pickup_crew_orig   = ad.pickup_crew,
@@ -1209,7 +1235,7 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 	deliver_comm = copyTable(flavour.deliver_comm)
 
 	-- set target ship parameters and determine pickup and delivery of personnel based on mission flavour
-	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew = createTargetShipParameters(flavour, deliver_crew, pickup_crew, pickup_pass)
+	local shipdef, crew_num, shiplabel, pickup_crew, pickup_pass, deliver_crew, shipseed = createTargetShipParameters(flavour, deliver_crew, pickup_crew, pickup_pass)
 
 	-- adjust fuel to deliver based on selected ship and mission flavour
 	local needed_fuel
@@ -1303,7 +1329,8 @@ local makeAdvert = function (station, manualFlavour, closestplanets)
 		deliver_comm   = deliver_comm,
 		shiplabel      = shiplabel,
 		lat            = lat,
-		long           = long
+		long           = long,
+		shipseed       = shipseed
 	}
 
 	local starport_label, planet_label, system_label
@@ -1950,9 +1977,9 @@ local onEnterSystem = function (player)
 
 	local syspath = Game.system.path
 
-	-- spawn mission target ships in this system unless due time expired
+	-- spawn mission target ships in this system
 	for _,mission in pairs(missions) do
-		if mission.due > Game.time and mission.system_target:IsSameSystem(syspath) then
+		if mission.system_target:IsSameSystem(syspath) then
 			mission.target = createTargetShip(mission)
 		end
 	end
