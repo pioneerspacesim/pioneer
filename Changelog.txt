@@ -1,6 +1,7 @@
 October 2016
    * Internal Changes
 	 * add "override" to silence warnings in clang (#3828)
+	 * Update the .gitignore file for more vs2015 files outputs (#3829)
 
 September 2016
    * New Features
