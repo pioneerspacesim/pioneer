@@ -21,7 +21,7 @@ public:
 		SendSignal(k);
 	}
 
-	template <class Value> void Get(const std::string &k, Value &v) {
+	template <class Value> void Get(const std::string &k, Value &v) const {
 		v = ScopedTable(m_table).Get<Value>(k, v);
 	}
 
