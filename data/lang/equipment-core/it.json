@@ -93,23 +93,23 @@
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "Iperguida militare classe 5"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "Iperguida militare classe 6"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "Iperguida militare classe 7"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "Iperguida militare classe 8"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "Iperguida militare classe 9"
    },
    "ECM_ADVANCED" : {
       "description" : "",
