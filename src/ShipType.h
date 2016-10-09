@@ -52,6 +52,7 @@ struct ShipType {
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	std::map<std::string, int> slots;
+	double thrusterUpgrades[4];
 	int capacity; // tonnes
 	int hullMass;
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines

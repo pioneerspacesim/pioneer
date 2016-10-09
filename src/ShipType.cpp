@@ -103,6 +103,13 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		slots[slotname] = data["slots"].get(slotname, 0).asInt();
 	}
 
+	for(int it=0;it<4;it++) thrusterUpgrades[it] = 1.0 + (double(it)/10.0);
+	for( Json::Value::iterator slot = data["thrust_upgrades"].begin() ; slot != data["thrust_upgrades"].end() ; ++slot ) {
+		const std::string slotname = slot.key().asString();
+		const int index = Clamp(atoi(&slotname.c_str()[9]), 1, 3);
+		thrusterUpgrades[index] = data["thrust_upgrades"].get(slotname, 0).asDouble();
+	}
+
 	{
 		const auto it = slots.find("engine");
 		if (it != slots.end()) 

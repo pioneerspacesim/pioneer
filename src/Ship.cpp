@@ -529,17 +529,20 @@ void Ship::SetThrusterState(const vector3d &levels)
 
 void Ship::SetAngThrusterState(const vector3d &levels)
 {
-	m_angThrusters.x = Clamp(levels.x, -1.0, 1.0);
-	m_angThrusters.y = Clamp(levels.y, -1.0, 1.0);
-	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
+	unsigned int thruster_power_cap = 0;
+	Properties().Get("thruster_power_cap", thruster_power_cap);
+	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
+
+	m_angThrusters.x = Clamp(levels.x, -1.0, 1.0) * power_mul;
+	m_angThrusters.y = Clamp(levels.y, -1.0, 1.0) * power_mul;
+	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0) * power_mul;
 }
 
 vector3d Ship::GetMaxThrust(const vector3d &dir) const
 {
 	unsigned int thruster_power_cap = 0;
 	Properties().Get("thruster_power_cap", thruster_power_cap);
-	static const double power_bands[] = {1.0, 1.1, 1.2, 1.3};
-	const double power_mul = power_bands[Clamp(thruster_power_cap, 0U, (unsigned int)COUNTOF(power_bands))];
+	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
 
 	vector3d maxThrust;
 	maxThrust.x = ((dir.x > 0) ? m_type->linThrust[ShipType::THRUSTER_RIGHT]	: -m_type->linThrust[ShipType::THRUSTER_LEFT]	) * power_mul;
@@ -820,9 +823,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// If docked, station is responsible for updating position/orient of ship
 	// but we call this crap anyway and hope it doesn't do anything bad
 
-	vector3d maxThrust = GetMaxThrust(m_thrusters);
-	vector3d thrust = vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
-		maxThrust.z*m_thrusters.z);
+	const vector3d thrust(m_thrusters * GetMaxThrust(m_thrusters));
 	AddRelForce(thrust);
 	AddRelTorque(GetShipType()->angThrust * m_angThrusters);
 
