@@ -37,10 +37,10 @@ tex_diff LiftColumn.dds
 tex_glow LiftColumn_illum.dds
 
 lod 300
-mesh landPad6_mesh_lores.DAE
+mesh landPad6_mesh_lores.dae
 
 lod 2000
-mesh landPad6_docking.DAE
-mesh landPad6_mesh.DAE
+mesh landPad6_docking.dae
+mesh landPad6_mesh.dae
 
-collision landPad6_collision.DAE
+collision landPad6_collision.dae
