@@ -16,10 +16,21 @@ public:
 
 	// note: the resulting Orbit is at the given position at t=0
 	static Orbit FromBodyState(const vector3d &position, const vector3d &velocity, double central_mass);
+    static Orbit FromBodyStateX(const vector3d &position, const vector3d &velocity, double central_mass);
 
+  Orbit(double semiMajorAxis, double eccentricity, double inclination, double rightAscensionAscendingNode, double argumentPerigee, double trueAnomaly)
+  	  : m_semiMajorAxis(semiMajorAxis)
+      , m_eccentricity(eccentricity)
+	  , m_inclination(inclination)
+	  , m_rightAscensionAscendingNode(rightAscensionAscendingNode)
+	  , m_argumentPerigee(argumentPerigee)
+	  , m_trueAnomaly(trueAnomaly)
+    {}
+  
 	Orbit():
+	    m_semiMajorAxis(0.0),
 		m_eccentricity(0.0),
-		m_semiMajorAxis(0.0),
+		m_inclination(0.0),
 		m_orbitalPhaseAtStart(0.0),
 		m_velocityAreaPerSecond(0.0),
 		m_orient(matrix3x3d::Identity())
@@ -46,10 +57,13 @@ public:
 	vector3d Apogeum() const;
 	vector3d Perigeum() const;
 
+    vector3d AscendingNode() const;
+  
 	// basic accessors
 	double GetEccentricity() const { return m_eccentricity; }
 	double GetSemiMajorAxis() const { return m_semiMajorAxis; }
 	double GetOrbitalPhaseAtStart() const { return m_orbitalPhaseAtStart; }
+	double GetInclination() const { return m_inclination; }
 	const matrix3x3d &GetPlane() const { return m_orient; }
 
 private:
@@ -57,9 +71,15 @@ private:
 	double MeanAnomalyFromTrueAnomaly(double trueAnomaly) const;
 	double MeanAnomalyAtTime(double time) const;
 
-	double m_eccentricity;
 	double m_semiMajorAxis;
-	double m_orbitalPhaseAtStart; // 0 to 2 pi radians
+  	double m_eccentricity;
+  	double m_inclination;
+	double m_rightAscensionAscendingNode;
+	double m_argumentPerigee;
+	double m_trueAnomaly;
+    vector3d m_ascendingNode;
+  
+    double m_orbitalPhaseAtStart; // 0 to 2 pi radians
 	/* dup " " --------------------------------------- */
 	double m_velocityAreaPerSecond; // seconds
 	matrix3x3d m_orient;

@@ -215,8 +215,8 @@ static int l_space_spawn_ship_near(lua_State *l)
 	_unpack_hyperspace_args(l, 5, path, due);
 
 	vector3d newVelocity(nearbody->GetVelocity());
-    if (!lua_isnone(l, 6))
-        newVelocity = *LuaVector::CheckFromLua(l, 6); // If we have a 6th argument, it better be a vector, otherwise ERROR!!! Hence Check and not Get
+	if (!lua_isnone(l, 6))
+		newVelocity = *LuaVector::CheckFromLua(l, 6); // If we have a 6th argument, it better be a vector, otherwise ERROR!!! Hence Check and not Get
 
 	Ship *ship = new Ship(type);
 	assert(ship);

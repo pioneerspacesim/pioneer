@@ -10,6 +10,8 @@
 #include "SectorView.h"
 #include "EnumStrings.h"
 #include "galaxy/Galaxy.h"
+#include "SystemView.h" // for the transfer planner
+#include "LuaPiGui.h" // for luaL_checkbool
 
 /*
  * Class: Player
@@ -19,8 +21,8 @@
 
 static int l_player_is_player(lua_State *l)
 {
-    lua_pushboolean(l, true);
-    return 1;
+	lua_pushboolean(l, true);
+	return 1;
 }
 
 /*
@@ -74,8 +76,8 @@ static int l_set_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
 	Body *target = LuaObject<Body>::GetFromLua(2);
-    p->SetNavTarget(target);
-    return 0;
+	p->SetNavTarget(target);
+	return 0;
 }
 
 /*
@@ -129,8 +131,8 @@ static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
 	Body *target = LuaObject<Body>::GetFromLua(2);
-    p->SetCombatTarget(target);
-    return 0;
+	p->SetCombatTarget(target);
+	return 0;
 }
 
 /*
@@ -208,6 +210,316 @@ static int l_set_hyperspace_target(lua_State *l)
 		return luaL_error(l, "Player:SetHyperspaceTarget() cannot be used while in hyperspace");
 }
 
+static int l_get_current_delta_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetVelocityRelTo(player->GetFrame()).Length());
+	return 1;
+}
+
+static int l_get_remaining_delta_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	//	double remaining = player->GetSpeedReachedWithFuel();
+	const double fuelmass = 1000*player->GetShipType()->fuelTankMass * player->GetFuel();
+	double remaining = player->GetShipType()->effectiveExhaustVelocity * log(player->GetMass()/(player->GetMass()-fuelmass));
+
+	lua_pushnumber(l, remaining);
+	return 1;
+}
+
+static int l_get_max_delta_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	const ShipType *st = player->GetShipType();
+	// Output("hull Mass: %f, fuel tank mass: %f, exhaust velocity: %f\nmass: %f, static_mass: %f, used_capacity: %f, fuel: %f\n",
+	// 			 (float)st->hullMass, (float)st->fuelTankMass, (float)st->effectiveExhaustVelocity,
+	// 			 (float)player->GetMass(), (float)player->GetStats().static_mass, (float)player->GetStats().used_capacity, (float)player->GetFuel());
+	lua_pushnumber(l, st->effectiveExhaustVelocity * log((double(player->GetStats().static_mass + st->fuelTankMass)) / (player->GetStats().static_mass)));
+	return 1;
+}
+
+static int l_get_frame(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	LuaObject<Body>::PushToLua(player->GetFrame()->GetBody());
+	return 1;
+}
+
+static int l_set_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	bool rot = luaL_checkbool(l, 2);
+	player->GetPlayerController()->SetRotationDamping(rot);
+	return 0;
+}
+
+static int l_get_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushboolean(l, player->GetPlayerController()->GetRotationDamping());
+	return 1;
+}
+
+static int l_toggle_rotation_damping(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	Output("Toggling\n");
+	player->GetPlayerController()->ToggleRotationDamping();
+	return 0;
+}
+
+static int l_get_oriented_velocity(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto vel = player->GetVelocity() * player->GetOrient();
+	LuaTable v(l);
+	v.Set("x", vel.x);
+	v.Set("y", vel.y);
+	v.Set("z", vel.z);
+	return 1;
+}
+
+static int l_get_gps(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	vector3d pos = Pi::player->GetPosition();
+	double center_dist = pos.Length();
+	auto frame = player->GetFrame();
+	if(frame) {
+		Body *astro = frame->GetBody();
+		if(astro && astro->IsType(Object::TERRAINBODY)) {
+			TerrainBody* terrain = static_cast<TerrainBody*>(astro);
+			if (!frame->IsRotFrame())
+				frame = frame->GetRotFrame();
+			vector3d surface_pos = pos.Normalized();
+			double radius = 0.0;
+			if (center_dist <= 3.0 * terrain->GetMaxFeatureRadius()) {
+				radius = terrain->GetTerrainHeight(surface_pos);
+			}
+			double altitude = center_dist - radius;
+			vector3d velocity = player->GetVelocity();
+			double vspeed = velocity.Dot(surface_pos);
+			if (fabs(vspeed) < 0.05) vspeed = 0.0; // Avoid alternating between positive/negative zero
+
+			//			RefreshHeadingPitch();
+
+			if (altitude < 0) altitude = 0;
+			lua_pushnumber(l, altitude);
+			lua_pushnumber(l, vspeed);
+			const float lat = RAD2DEG(asin(surface_pos.y));
+			const float lon = RAD2DEG(atan2(surface_pos.x, surface_pos.z));
+			std::string lat_str = DecimalToDegMinSec(lat);
+			std::string lon_str = DecimalToDegMinSec(lon);
+			lua_pushstring(l, lat_str.c_str());
+			lua_pushstring(l, lon_str.c_str());
+			return 4;
+			//				}
+	}
+}
+return 0;
+}
+
+static int l_to_orbital_plane(lua_State *l)
+{
+  Player *player = LuaObject<Player>::CheckFromLua(1);
+  vector3d v = luaL_checkvector3d(l, 2);
+  auto orbit = player->ComputeOrbit();
+  auto plane = orbit.GetPlane();
+  vector3d x = v * plane;
+  LuaTable tab(l);
+  tab.Set("x", x.x);
+  tab.Set("y", x.y);
+  tab.Set("z", x.z);
+  return 1;
+}
+
+static int l_get_even_spaced_pos_trajectory(lua_State *l)
+{
+  	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto orbit = player->ComputeOrbit();
+	double t = luaL_checknumber(l, 2);
+	vector3d v = orbit.EvenSpacedPosTrajectory(t);
+	LuaTable tab(l);
+	tab.Set("x", v.x);
+	tab.Set("y", v.y);
+	tab.Set("z", v.z);
+	return 1;
+}
+
+static int l_get_orbit(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	auto orbit = player->ComputeOrbit();
+	double eccentricity = orbit.GetEccentricity();
+	lua_pushnumber(l, eccentricity);
+	lua_pushnumber(l, orbit.GetSemiMajorAxis());
+	lua_pushnumber(l, orbit.GetInclination());
+	if(eccentricity <= 1.0)
+		lua_pushnumber(l, orbit.Period());
+	else
+		lua_pushnil(l);
+	auto aa = orbit.Apogeum();
+	lua_pushnumber(l, orbit.OrbitalTimeAtPos(aa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
+	LuaTable apoapsis(l);
+	apoapsis.Set("x", aa.x);
+	apoapsis.Set("y", aa.y);
+	apoapsis.Set("z", aa.z);
+	auto pa = orbit.Perigeum();
+	lua_pushnumber(l, orbit.OrbitalTimeAtPos(pa, player->GetFrame()->GetNonRotFrame()->GetSystemBody()->GetMass()));
+	LuaTable periapsis(l);
+	periapsis.Set("x", pa.x);
+	periapsis.Set("y", pa.y);
+	periapsis.Set("z", pa.z);
+	auto op = orbit.OrbitalPosAtTime(0);
+	LuaTable orbitPos(l);
+	orbitPos.Set("x", op.x);
+	orbitPos.Set("y", op.y);
+	orbitPos.Set("z", op.z);
+	auto an = orbit.AscendingNode();
+	LuaTable ascNode(l);
+	ascNode.Set("x", an.x);
+	ascNode.Set("y", an.y);
+	ascNode.Set("z", an.z);
+	return 10;
+}
+
+static int l_get_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetPlayerController()->GetLowThrustPower());
+	return 1;
+}
+
+static int l_set_low_thrust_power(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	double thrust = luaL_checknumber(l, 2);
+	player->GetPlayerController()->SetLowThrustPower(thrust);
+	return 0;
+}
+
+static int l_get_flight_control_state(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::vector<std::string> states = { "manual", "fix-speed", "fix-heading-prograde", "fix-heading-retrograde", "fix-heading-normal", "fix-heading-antinormal", "fix-heading-radial-in", "fix-heading-radial-out", "fix-heading-killrot", "autopilot" };
+	lua_pushstring(l, states[player->GetPlayerController()->GetFlightControlState()].c_str());
+	return 1;
+}
+static int l_set_flight_control_state(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string state = luaL_checkstring(l, 2);
+	FlightControlState newState = FlightControlState::CONTROL_MANUAL;
+	if(!state.compare("manual")) {
+		newState = FlightControlState::CONTROL_MANUAL;
+	} else if(!state.compare("fix-speed")) {
+		newState = FlightControlState::CONTROL_FIXSPEED;
+	} else if(!state.compare("fix-heading-prograde")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_FORWARD;
+	} else if(!state.compare("fix-heading-retrograde")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_BACKWARD;
+	} else if(!state.compare("fix-heading-normal")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_NORMAL;
+	} else if(!state.compare("fix-heading-antinormal")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_ANTINORMAL;
+	} else if(!state.compare("fix-heading-radial-in")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_RADIALLY_INWARD;
+	} else if(!state.compare("fix-heading-radial-out")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_RADIALLY_OUTWARD;
+	} else if(!state.compare("fix-heading-kill-rot")) {
+		newState = FlightControlState::CONTROL_FIXHEADING_KILLROT;
+	} else {
+		Output("Error: unknown flight control state: %s\n", state.c_str());
+	}
+	// else if(!state.compare("autopilot")) {
+	//		newState = FlightControlState::CONTROL_AUTOPILOT;
+	//	}
+	//   TODO: else error
+	player->GetPlayerController()->SetFlightControlState(newState);
+	return 0;
+}
+
+static int l_get_flight_control_speed(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	lua_pushnumber(l, player->GetPlayerController()->GetSetSpeed());
+	return 1;
+}
+
+static int l_get_heading_pitch(lua_State *l)
+{
+  // 	Player *player = LuaObject<Player>::CheckFromLua(1);
+	// player is unused
+	std::string type = luaL_checkstring(l, 2);
+	PlaneType pt = PlaneType::PARENT;
+	if(!type.compare("system-wide")) {
+		pt = PlaneType::PARENT;
+	} else if(!type.compare("planet")) {
+		pt = PlaneType::ROTATIONAL;
+	} // TODO: else error
+	
+	std::pair<double,double> res = Pi::game->GetWorldView()->CalculateHeadingPitch(pt);
+	lua_pushnumber(l, res.first);
+	lua_pushnumber(l, res.second);
+	return 2;
+}
+
+static int l_get_maneuver_speed(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+
+	// see WorldView.cpp:1688
+	if(Pi::planner->GetOffsetVel().ExactlyEqual(vector3d(0,0,0))) {
+		return 0;
+	} else {
+		Orbit playerOrbit = player->ComputeOrbit();
+		const SystemBody* systemBody = player->GetFrame()->GetSystemBody();
+		if(!is_zero_exact(playerOrbit.GetSemiMajorAxis())) {
+			double mass = systemBody->GetMass();
+			// XXX The best solution would be to store the mass(es) on Orbit
+			const vector3d camSpacePlanSpeed = (Pi::planner->GetVel() - playerOrbit.OrbitalVelocityAtTime(mass, playerOrbit.OrbitalTimeAtPos(Pi::planner->GetPosition(), mass))); // * cam_rot
+			double relativeSpeed = camSpacePlanSpeed.Length();
+			lua_pushnumber(l, relativeSpeed);
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+}
+
+static int l_get_distance_to_zero_v(lua_State *l)
+{
+	Player *player = LuaObject<Player>::CheckFromLua(1);
+	std::string target = luaL_checkstring(l, 2); // "nav", "frame"
+	std::string direction = luaL_checkstring(l, 3); // "prograde", "retrograde"
+	double v, a;
+	if(!target.compare("nav")) {
+		if(!direction.compare("prograde")) {
+			v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
+			a = player->GetAccelRev();
+		} else if(!direction.compare("retrograde")) {
+			v = player->GetVelocityRelTo(player->GetNavTarget()).Length();
+			a = player->GetAccelFwd();
+		} else {
+			return 0;
+		}
+	} else if(!target.compare("frame")) {
+		if(!direction.compare("prograde")) {
+			v = player->GetVelocityRelTo(player->GetFrame()).Length();
+			a = player->GetAccelRev();
+		} else if(!direction.compare("retrograde")) {
+			v = player->GetVelocityRelTo(player->GetFrame()).Length();
+			a = player->GetAccelFwd();
+		} else {
+			return 0;
+		}
+	} else
+		return 0;
+	lua_pushnumber(l, v*v/(2*a));
+	return 1;
+}
+
 template <> const char *LuaObject<Player>::s_type = "Player";
 
 template <> void LuaObject<Player>::RegisterClass()
@@ -223,6 +535,26 @@ template <> void LuaObject<Player>::RegisterClass()
 		{ "SetCombatTarget", l_set_combat_target },
 		{ "GetHyperspaceTarget", l_get_hyperspace_target },
 		{ "SetHyperspaceTarget", l_set_hyperspace_target },
+		{ "GetMaxDeltaV",        l_get_max_delta_v },
+		{ "GetCurrentDeltaV",    l_get_current_delta_v },
+		{ "GetRemainingDeltaV",  l_get_remaining_delta_v },
+		{ "GetDistanceToZeroV",  l_get_distance_to_zero_v },
+		{ "GetFrame",            l_get_frame },
+		{ "GetOrientedVelocity", l_get_oriented_velocity },
+		{ "GetOrbit",            l_get_orbit },
+		{ "GetGPS",              l_get_gps },
+		{ "GetLowThrustPower",   l_get_low_thrust_power },
+		{ "SetLowThrustPower",   l_set_low_thrust_power },
+		{ "GetManeuverSpeed",    l_get_maneuver_speed },
+		{ "GetRotationDamping",  l_get_rotation_damping },
+		{ "SetRotationDamping",  l_set_rotation_damping },
+		{ "ToggleRotationDamping",  l_toggle_rotation_damping },
+		{ "GetHeadingPitch",     l_get_heading_pitch },
+		{ "GetFlightControlState", l_get_flight_control_state },
+		{ "SetFlightControlState", l_set_flight_control_state },
+		{ "GetFlightControlSpeed", l_get_flight_control_speed },
+		{ "GetEvenSpacedPosTrajectory", l_get_even_spaced_pos_trajectory },
+		{ "ToOrbitalPlane", l_to_orbital_plane },
 		{ 0, 0 }
 	};
 

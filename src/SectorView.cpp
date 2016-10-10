@@ -395,26 +395,12 @@ void SectorView::SaveToJson(Json::Value &jsonObj)
 	jsonObj["sector_view"] = sectorViewObj; // Add sector view object to supplied object.
 }
 
-void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
-{
-	//remember the last search text, hotkey: up
-	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
-		m_searchBox->SetText(m_previousSearch);
-
-	if (keysym->sym != SDLK_KP_ENTER && keysym->sym != SDLK_RETURN)
-		return;
-
-	std::string search = m_searchBox->GetText();
-	if (!search.size())
-		return;
-
-	m_previousSearch = search;
-
-	//Try to detect if user entered a sector address, comma or space separated, strip parentheses
+std::string SectorView::DoSearch(const std::string &search) {
+		//Try to detect if user entered a sector address, comma or space separated, strip parentheses
 	//system index is unreliable, so it is not supported
 	try {
 		GotoSector(SystemPath::Parse(search.c_str()));
-		return;
+		return "";
 	} catch (SystemPath::ParseFailure) {}
 
 	bool gotMatch = false, gotStartMatch = false;
@@ -435,9 +421,9 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 					// exact match, take it and go
 					SystemPath path = (*i).first;
 					path.systemIndex = systemIndex;
-					m_statusLabel->SetText(stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->GetName())));
+
 					GotoSystem(path);
-					return;
+					return stringf(Lang::EXACT_MATCH_X, formatarg("system", ss->GetName()));
 				}
 
 				// partial match at start of name
@@ -470,12 +456,29 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 		}
 
 	if (gotMatch) {
-		m_statusLabel->SetText(stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
-		GotoSystem(bestMatch);
-	}
 
+		GotoSystem(bestMatch);
+		return stringf(Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName));
+	}
 	else
-		m_statusLabel->SetText(Lang::NOT_FOUND);
+		return Lang::NOT_FOUND;
+}
+
+void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
+{
+	//remember the last search text, hotkey: up
+	if (m_searchBox->GetText().empty() && keysym->sym == SDLK_UP && !m_previousSearch.empty())
+		m_searchBox->SetText(m_previousSearch);
+
+	if (keysym->sym != SDLK_KP_ENTER && keysym->sym != SDLK_RETURN)
+		return;
+
+	std::string search = m_searchBox->GetText();
+	if (!search.size())
+		return;
+
+	m_previousSearch = search;
+	m_statusLabel->SetText(DoSearch(search));
 }
 
 #define FFRAC(_x)	((_x)-floor(_x))

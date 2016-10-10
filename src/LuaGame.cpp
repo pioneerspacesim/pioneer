@@ -13,7 +13,12 @@
 #include "WorldView.h"
 #include "DeathView.h"
 #include "galaxy/Galaxy.h"
-
+#include "DateTime.h"
+#include "SectorView.h"
+#include "SystemView.h"
+#include "SystemInfoView.h"
+#include "ShipCpanel.h"
+#include "LuaPiGui.h" // for luaL_checkbool
 /*
  * Interface: Game
  *
@@ -104,7 +109,7 @@ static int l_game_load_game(lua_State *l)
 	}
 	catch (CouldNotOpenFileException) {
 		const std::string msg = stringf(Lang::GAME_LOAD_CANNOT_OPEN,
-			formatarg("filename", filename));
+																		formatarg("filename", filename));
 		luaL_error(l, msg.c_str());
 	}
 
@@ -120,7 +125,7 @@ static int l_game_load_game(lua_State *l)
  *
  * Parameters:
  *
- *   filename - Filename to find. 
+ *   filename - Filename to find.
  *
  * Return:
  *
@@ -325,6 +330,194 @@ static int l_game_switch_view(lua_State *l)
 	return 0;
 }
 
+static int l_game_set_view(lua_State *l)
+{
+	if (!Pi::game)
+		return luaL_error(l, "can't set view when no game is running");
+	std::string target = luaL_checkstring(l, 1);
+	if(!target.compare("world")) {
+		Pi::SetView(Pi::game->GetWorldView());
+	} else if(!target.compare("space_station")) {
+		Pi::SetView(Pi::game->GetSpaceStationView());
+	} else if(!target.compare("info")) {
+		Pi::SetView(Pi::game->GetInfoView());
+	} else if(!target.compare("settings")) {
+		Pi::SetView(Pi::game->GetSettingsView());
+	} else if(!target.compare("death")) {
+		Pi::SetView(Pi::game->GetDeathView());
+	} else if(!target.compare("sector")) {
+		Pi::SetView(Pi::game->GetSectorView());
+	} else if(!target.compare("galaxy")) {
+		Pi::SetView(Pi::game->GetGalacticView());
+	} else if(!target.compare("system")) {
+		Pi::SetView(Pi::game->GetSystemView());
+	} else if(!target.compare("system_info")) {
+		Pi::SetView(Pi::game->GetSystemInfoView());
+	} // TODO else error
+	return 0;
+}
+
+static int l_game_get_view(lua_State *l)
+{
+	if(Pi::GetView() == Pi::game->GetWorldView())
+		lua_pushstring(l, "world");
+	else if(Pi::GetView() == Pi::game->GetSpaceStationView())
+		lua_pushstring(l, "space_station");
+	else if(Pi::GetView() == Pi::game->GetInfoView())
+		lua_pushstring(l, "info");
+	else if(Pi::GetView() == Pi::game->GetSectorView())
+		lua_pushstring(l, "sector");
+	else if(Pi::GetView() == Pi::game->GetSystemView())
+		lua_pushstring(l, "system");
+	else if(Pi::GetView() == Pi::game->GetSystemInfoView())
+		lua_pushstring(l, "system_info");
+	else if(Pi::GetView() == Pi::game->GetDeathView())
+		lua_pushstring(l, "death");
+	else if(Pi::GetView() == Pi::game->GetGalacticView())
+		lua_pushstring(l, "galaxy");
+	else if(Pi::GetView() == Pi::game->GetSettingsView())
+		lua_pushstring(l, "settings");
+	else
+		lua_pushnil(l);
+	return 1;
+}
+
+static int l_game_get_world_cam_type(lua_State *l)
+{
+	switch(Pi::game->GetWorldView()->GetCamType()) {
+	case WorldView::CAM_INTERNAL: lua_pushstring(l, "internal"); break;
+	case WorldView::CAM_EXTERNAL: lua_pushstring(l, "external"); break;
+	case WorldView::CAM_SIDEREAL: lua_pushstring(l, "sidereal"); break;
+	default: Output("Unknown world view cam type\n"); break;
+	}
+	return 1;
+}
+
+static int l_game_set_world_cam_type(lua_State *l)
+{
+	std::string cam = luaL_checkstring(l, 1);
+	if(!cam.compare("internal"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_INTERNAL);
+	else if(!cam.compare("external"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_EXTERNAL);
+	else if(!cam.compare("sidereal"))
+		Pi::game->GetWorldView()->SetCamType(WorldView::CAM_SIDEREAL);
+	// TODO else error
+	return 0;
+}
+
+static int l_game_set_time_acceleration(lua_State *l)
+{
+	std::string accel = luaL_checkstring(l, 1);
+	bool force = luaL_checkbool(l, 2);
+	Game::TimeAccel a = Game::TIMEACCEL_PAUSED;
+	if(!accel.compare("paused"))
+		a = Game::TIMEACCEL_PAUSED;
+	else if(!accel.compare("1x"))
+		a = Game::TIMEACCEL_1X;
+	else if(!accel.compare("10x"))
+		a = Game::TIMEACCEL_10X;
+	else if(!accel.compare("100x"))
+		a = Game::TIMEACCEL_100X;
+	else if(!accel.compare("1000x"))
+		a = Game::TIMEACCEL_1000X;
+	else if(!accel.compare("10000x"))
+		a = Game::TIMEACCEL_10000X;
+	else if(!accel.compare("hyperspace"))
+		a = Game::TIMEACCEL_HYPERSPACE;
+	// else TODO error
+	Pi::game->RequestTimeAccel(a, force);
+	return 0;
+}
+
+static int l_game_in_hyperspace(lua_State *l) {
+	lua_pushboolean(l, Pi::game->IsHyperspace() || Pi::player->GetFlightState() == Ship::HYPERSPACE);
+	return 1;
+}
+
+static int l_game_get_hyperspace_travelled_percentage(lua_State *l) {
+	lua_pushnumber(l, Pi::game->GetHyperspaceArrivalProbability());
+	return 1;
+}
+
+static void pushTimeAccel(lua_State *l, Game::TimeAccel accel) {
+	switch(accel) {
+	case Game::TIMEACCEL_PAUSED: lua_pushstring(l,"paused"); break;
+	case Game::TIMEACCEL_1X: lua_pushstring(l,"1x"); break;
+	case Game::TIMEACCEL_10X: lua_pushstring(l,"10x"); break;
+	case Game::TIMEACCEL_100X: lua_pushstring(l,"100x"); break;
+	case Game::TIMEACCEL_1000X: lua_pushstring(l,"1000x"); break;
+	case Game::TIMEACCEL_10000X: lua_pushstring(l,"10000x"); break;
+	case Game::TIMEACCEL_HYPERSPACE: lua_pushstring(l,"hyperspace"); break;
+	default: break; // TODO error
+	}
+}
+
+static int l_game_get_requested_time_acceleration(lua_State *l)
+{
+	Game::TimeAccel accel = Pi::game->GetRequestedTimeAccel();
+	pushTimeAccel(l, accel);
+	return 1;
+}
+
+static int l_game_boink_noise(lua_State *l)
+{
+	Pi::BoinkNoise();
+	return 0;
+}
+
+static int l_game_sector_view_search(lua_State *l)
+{
+	std::string search = luaL_checkstring(l, 1);
+	std::string result = Pi::game->GetSectorView()->DoSearch(search);
+	lua_pushstring(l, result.c_str());
+	return 1;
+}
+
+static int l_game_change_internal_camera_direction(lua_State *l)
+{
+	std::string mode = luaL_checkstring(l, 1);
+	InternalCameraController::Mode m = InternalCameraController::Mode::MODE_FRONT;
+	if(!mode.compare("front")) {
+		m = InternalCameraController::Mode::MODE_FRONT;
+	} else if(!mode.compare("rear")) {
+		m = InternalCameraController::Mode::MODE_REAR;
+	} else if(!mode.compare("left")) {
+		m = InternalCameraController::Mode::MODE_LEFT;
+	} else if(!mode.compare("right")) {
+		m = InternalCameraController::Mode::MODE_RIGHT;
+	} else if(!mode.compare("top")) {
+		m = InternalCameraController::Mode::MODE_TOP;
+	} else if(!mode.compare("bottom")) {
+		m = InternalCameraController::Mode::MODE_BOTTOM;
+	}
+	// TODO else error
+	Pi::game->GetWorldView()->ChangeInternalCameraMode(m);
+	return 0;
+}
+
+static int l_game_get_time_acceleration(lua_State *l)
+{
+	Game::TimeAccel accel = Pi::game->GetTimeAccel();
+	pushTimeAccel(l, accel);
+	return 1;
+}
+
+static int l_game_get_date_time(lua_State *l)
+{
+	Time::DateTime t(Pi::game->GetTime());
+	int year, month, day, hour, minute, second;
+	t.GetDateParts(&year, &month, &day);
+	t.GetTimeParts(&hour, &minute, &second);
+	lua_pushinteger(l, year);
+	lua_pushinteger(l, month);
+	lua_pushinteger(l, day);
+	lua_pushinteger(l, hour);
+	lua_pushinteger(l, minute);
+	lua_pushinteger(l, second);
+	return 6;
+}
+
 void LuaGame::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -339,7 +532,19 @@ void LuaGame::Register()
 		{ "EndGame",        l_game_end_game         },
 
 		{ "SwitchView", l_game_switch_view },
-
+		{ "SetView",    l_game_set_view },
+		{ "GetView",    l_game_get_view },
+		{ "GetDateTime", l_game_get_date_time },
+		{ "SetWorldCamType", l_game_set_world_cam_type },
+		{ "GetWorldCamType", l_game_get_world_cam_type },
+		{ "SetTimeAcceleration", l_game_set_time_acceleration },
+		{ "GetTimeAcceleration", l_game_get_time_acceleration },
+		{ "GetRequestedTimeAcceleration",     l_game_get_requested_time_acceleration },
+		{ "InHyperspace",                     l_game_in_hyperspace },
+		{ "GetHyperspaceTravelledPercentage", l_game_get_hyperspace_travelled_percentage },
+		{ "ChangeInternalCameraDirection",    l_game_change_internal_camera_direction },
+		{ "BoinkNoise",                       l_game_boink_noise },
+		{ "SectorViewSearch",                 l_game_sector_view_search },
 		{ 0, 0 }
 	};
 

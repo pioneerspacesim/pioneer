@@ -116,8 +116,7 @@ void ScannerWidget::Draw()
 	float size[2];
 	GetSize(size);
 	m_x = size[0] / (SCANNER_XSHRINK * 2);
-	m_y = size[1] * 0.5f;
-
+	m_y = size[1] * 0.2f; // * 0.5f;
 	SetScissor(true);
 
 	float rangediff = fabs(m_lastRange-m_currentRange);
@@ -160,8 +159,8 @@ void ScannerWidget::Draw()
 void ScannerWidget::InitScaling(void) {
 	isCompact = Pi::IsScannerCompact();
 	if(isCompact) {
-		SCANNER_XSHRINK = 4.0f;
-		SCANNER_YSHRINK = 0.95f;
+		SCANNER_XSHRINK = 6.0f; // = 4.0f;
+		SCANNER_YSHRINK = 1.0f; // = 0.95f;
 	} else {
 		// original values
 		SCANNER_XSHRINK = 1.0f;

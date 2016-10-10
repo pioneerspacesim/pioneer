@@ -59,7 +59,6 @@ std::string format_distance(double dist, int precision = 2);
 std::string format_money(double cents, bool showCents=true);
 std::string format_duration(double seconds);
 
-
 static inline Sint64 isqrt(Sint64 a)
 {
 	Sint64 ret=0;

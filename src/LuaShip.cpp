@@ -18,7 +18,7 @@
 #include "Player.h"
 #include "HyperspaceCloud.h"
 #include "Game.h"
-
+#include "LuaPiGui.h" // for luaL_checkbool
 /*
  * Class: Ship
  *
@@ -482,11 +482,32 @@ static int l_ship_get_docked_with(lua_State *l)
 static int l_ship_undock(lua_State *l)
 {
 	Ship *s = LuaObject<Ship>::CheckFromLua(1);
-	if (!s->GetDockedWith())
-		luaL_error(l, "Can't undock if not already docked");
+	if (!s->IsDocked())
+		luaL_error(l, "Can't undock if not docked");
 	bool undocking = s->Undock();
 	lua_pushboolean(l, undocking);
 	return 1;
+}
+
+static int l_ship_blastoff(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if(!s->IsLanded())
+		luaL_error(l, "Can't blast off if not landed");
+	s->Blastoff();
+	return 0;
+}
+
+static int l_ship_take_off(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	if(s->IsLanded())
+		s->Blastoff();
+	else if(s->IsDocked())
+		s->Undock();
+	else
+		luaL_error(l, "Cannot take off, not docked or landed");
+	return 0;
 }
 
 /* Method: SpawnMissile
@@ -830,6 +851,8 @@ static int l_ship_ai_fly_to(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIFlyTo() cannot be called on a ship in hyperspace");
 	Body *target = LuaObject<Body>::CheckFromLua(2);
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIFlyTo(target);
 	return 0;
 }
@@ -859,6 +882,8 @@ static int l_ship_ai_dock_with(lua_State *l)
 	if (s->GetFlightState() == Ship::HYPERSPACE)
 		return luaL_error(l, "Ship:AIDockWith() cannot be called on a ship in hyperspace");
 	SpaceStation *target = LuaObject<SpaceStation>::CheckFromLua(2);
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIDock(target);
 	return 0;
 }
@@ -890,6 +915,8 @@ static int l_ship_ai_enter_low_orbit(lua_State *l)
 	Body *target = LuaObject<Body>::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIOrbit(target, 1.2);
 	return 0;
 }
@@ -921,6 +948,8 @@ static int l_ship_ai_enter_medium_orbit(lua_State *l)
 	Body *target = LuaObject<Body>::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIOrbit(target, 1.6);
 	return 0;
 }
@@ -952,6 +981,8 @@ static int l_ship_ai_enter_high_orbit(lua_State *l)
 	Body *target = LuaObject<Body>::CheckFromLua(2);
 	if (!target->IsType(Object::PLANET) && !target->IsType(Object::STAR))
 		luaL_argerror(l, 2, "expected a Planet or a Star");
+	if (s == Pi::player) 
+		Pi::player->GetPlayerController()->SetFlightControlState(CONTROL_AUTOPILOT);
 	s->AIOrbit(target, 3.2);
 	return 0;
 }
@@ -1062,6 +1093,150 @@ static int l_ship_get_position(lua_State *l)
 	return 1;
 }
 
+static int l_ship_get_thruster_state(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	vector3d v = s->GetThrusterState();
+	lua_newtable(l);
+	pi_lua_settable(l, "x", v.x);
+	pi_lua_settable(l, "y", v.y);
+	pi_lua_settable(l, "z", v.z);
+	return 1;
+}
+
+static int l_ship_is_docked(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsDocked());
+	return 1;
+}
+
+static int l_ship_is_landed(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsLanded());
+	return 1;
+}
+
+static int l_ship_get_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetWheelState());
+	return 1;
+}
+
+static int l_ship_set_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	bool state = luaL_checkbool(l, 2);
+	bool ret = s->SetWheelState(state);
+	lua_pushboolean(l, ret);
+	return 1;
+}
+
+static int l_ship_toggle_wheel_state(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	s->SetWheelState(s->GetWheelState() == 0.0);
+	return 0;
+}
+
+static int l_ship_get_hyperspace_countdown(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetHyperspaceCountdown());
+	return 1;
+}
+
+static int l_ship_is_hyperspace_active(lua_State *l)
+{
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushboolean(l, s->IsHyperspaceActive());
+	return 1;
+}
+
+static int l_ship_get_accel(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	double accel = 0.0;
+	std::string type = luaL_checkstring(l, 2);
+	if(!type.compare("forward")) { accel = s->GetAccelFwd(); }
+	else if(!type.compare("backward")) { accel = s->GetAccelRev(); }
+	else if(!type.compare("up")) { accel = s->GetAccelUp(); }
+	else if(!type.compare("down")) { accel = s->GetAccelDown(); }
+	else if(!type.compare("left")) { accel = s->GetAccelLeft(); }
+	else if(!type.compare("right")) { accel = s->GetAccelRight(); }
+	// TODO else error
+	lua_pushnumber(l, accel);
+	return 1;
+}
+
+static int l_ship_get_hull_temperature(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetHullTemperature());
+	return 1;
+}
+
+static int l_ship_request_docking_clearance(lua_State *l) {
+	Ship *player = LuaObject<Ship>::CheckFromLua(1);
+	SpaceStation *s = static_cast<SpaceStation*>(LuaObject<Body>::CheckFromLua(2));
+	std::string msg;
+	s->GetDockingClearance(player, msg);
+	lua_pushstring(l, msg.c_str());
+	return 1;
+}
+
+static int l_ship_get_gun_temperature(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	int gun = luaL_checkinteger(l, 2);
+	lua_pushnumber(l, s->GetGunTemperature(gun));
+	return 1;
+}
+
+static int l_ship_get_hull_percent(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushnumber(l, s->GetPercentHull());
+	return 1;
+}
+
+static int l_ship_get_stats(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	LuaTable t(l);
+	auto stats = s->GetStats();
+	t.Set("used_capacity", stats.used_capacity);
+	t.Set("used_cargo", stats.used_cargo);
+	t.Set("free_capacity", stats.free_capacity);
+	t.Set("static_mass", stats.static_mass);
+	t.Set("hull_mass_left", stats.hull_mass_left);
+	t.Set("hyperspace_range", stats.hyperspace_range);
+	t.Set("hyperspace_range_max", stats.hyperspace_range_max);
+	t.Set("shield_mass", stats.shield_mass);
+	t.Set("shield_mass_left", stats.shield_mass_left);
+	t.Set("fuel_tank_mass_left", stats.fuel_tank_mass_left);
+	return 1;
+}
+
+static int l_ship_get_shields_percent(lua_State *l) {
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+	double shields = s->GetPercentShields();
+	if(s->GetStats().shield_mass <= 0)
+		lua_pushnil(l);
+	else
+		lua_pushnumber(l, shields);
+	return 1;
+}
+
+static int l_ship_get_flight_state(lua_State *l)
+{
+	Ship *b = LuaObject<Ship>::CheckFromLua(1);
+	lua_pushstring(l, EnumStrings::GetString("ShipFlightState", b->GetFlightState()));
+	return 1;
+}
+
+static int l_ship_get_gravity(lua_State *l)
+{
+	Ship *b = LuaObject<Ship>::CheckFromLua(1);
+	vector3d gravity = b->GetGravityForce() / b->GetMass();
+	LuaTable g(l);
+	g.Set("x", gravity.x);
+	g.Set("y", gravity.y);
+	g.Set("z", gravity.z);
+	return 1;
+}
 
 template <> const char *LuaObject<Ship>::s_type = "Ship";
 
@@ -1076,11 +1251,20 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "SetHullPercent", l_ship_set_hull_percent },
 		{ "SetFuelPercent", l_ship_set_fuel_percent },
 
+		{ "GetHullTemperature", l_ship_get_hull_temperature },
+		{ "GetGunTemperature",  l_ship_get_gun_temperature },
+		{ "GetHullPercent",     l_ship_get_hull_percent },
+		{ "GetShieldsPercent",  l_ship_get_shields_percent },
+		
 		{ "GetSkin",    l_ship_get_skin    },
 		{ "SetSkin",    l_ship_set_skin    },
 		{ "SetPattern", l_ship_set_pattern },
 		{ "SetLabel",   l_ship_set_label   },
 		{ "SetShipName",	l_ship_set_ship_name   },
+
+		{ "GetWheelState", l_ship_get_wheel_state },
+		{ "SetWheelState", l_ship_set_wheel_state },
+		{ "ToggleWheelState", l_ship_toggle_wheel_state },
 
 		{ "SpawnCargo", l_ship_spawn_cargo },
 
@@ -1089,7 +1273,10 @@ template <> void LuaObject<Ship>::RegisterClass()
 		{ "UseECM", l_ship_use_ecm },
 
 		{ "GetDockedWith", l_ship_get_docked_with },
+		{ "RequestDockingClearance", l_ship_request_docking_clearance },
 		{ "Undock",        l_ship_undock          },
+		{ "Blastoff",      l_ship_blastoff        },
+		{ "TakeOff",       l_ship_take_off        },
 
 		{ "Explode", l_ship_explode },
 
@@ -1110,9 +1297,17 @@ template <> void LuaObject<Ship>::RegisterClass()
 
 		{ "UpdateEquipStats", l_ship_update_equip_stats },
 
+		{ "GetGravity",     l_ship_get_gravity },
 		{ "GetVelocity", l_ship_get_velocity },
  		{ "GetPosition", l_ship_get_position },
-
+		{ "GetThrusterState", l_ship_get_thruster_state },
+		{ "GetAccel", l_ship_get_accel },
+		{ "GetFlightState", l_ship_get_flight_state },
+		{ "GetStats", l_ship_get_stats },
+		{ "IsDocked", l_ship_is_docked },
+		{ "IsLanded", l_ship_is_landed },
+		{ "GetHyperspaceCountdown", l_ship_get_hyperspace_countdown },
+		{ "IsHyperspaceActive", l_ship_is_hyperspace_active },
 		{ 0, 0 }
 	};
 

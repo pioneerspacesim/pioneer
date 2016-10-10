@@ -54,6 +54,7 @@ public:
 	virtual void CheckRenderErrors(const char *func = nullptr, const int line = -1) const {}
 
 	WindowSDL *GetWindow() const { return m_window.get(); }
+
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 
 	//get supported minimum for z near and maximum for z far values

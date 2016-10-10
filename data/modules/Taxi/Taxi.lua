@@ -283,6 +283,11 @@ local makeAdvert = function (station)
 
 	local ref = station:AddAdvert({
 		description = ad.desc,
+		payout      = reward,
+		deadline    = due,
+		location    = location.path,
+		body        = nil, -- no body, just the system
+		system      = location.path:GetStarSystem(),
 		icon        = ad.urgency >=  0.8 and "taxi_urgent" or "taxi",
 		onChat      = onChat,
 		onDelete    = onDelete,

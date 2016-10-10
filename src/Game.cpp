@@ -250,7 +250,6 @@ void Game::TimeStep(float step)
 	// XXX ui updates, not sure if they belong here
 	m_gameViews->m_cpan->TimeStepUpdate(step);
 	SfxManager::TimeStepAll(step, m_space->GetRootFrame());
-	log->Update(m_timeAccel == Game::TIMEACCEL_PAUSED);
 
 	if (m_state == STATE_HYPERSPACE) {
 		if (Pi::game->GetTime() >= m_hyperspaceEndTime) {
@@ -447,6 +446,7 @@ void Game::SwitchToHyperspace()
 	m_state = STATE_HYPERSPACE;
 	m_wantHyperspace = false;
 
+	LuaEvent::Queue("onHyperspace", Pi::game->GetGalaxy()->GetStarSystem(m_hyperspaceDest).Get());
 	Output("Started hyperspacing...\n");
 }
 
@@ -778,10 +778,7 @@ void Game::CreateViews()
 	m_gameViews.reset(new Views);
 	m_gameViews->Init(this);
 
-	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
-	log = new GameLog(
-		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_NORMAL),
-		vector2f(scrSize.x, scrSize.y));
+	log = new GameLog();
 }
 
 // XXX mostly a copy of CreateViews
@@ -796,10 +793,7 @@ void Game::LoadViewsFromJson(const Json::Value &jsonObj)
 	m_gameViews.reset(new Views);
 	m_gameViews->LoadFromJson(jsonObj, this);
 
-	UI::Point scrSize = Pi::ui->GetContext()->GetSize();
-	log = new GameLog(
-		Pi::ui->GetContext()->GetFont(UI::Widget::FONT_NORMAL),
-		vector2f(scrSize.x, scrSize.y));
+	log = new GameLog();
 }
 
 void Game::DestroyViews()

@@ -65,6 +65,9 @@ public:
 	virtual void SetDockedWith(SpaceStation *, int port);
 	/** Use GetDockedWith() to determine if docked */
 	SpaceStation *GetDockedWith() const { return m_dockedWith; }
+	bool IsDocked() const { return GetFlightState() == Ship::DOCKED; }
+	bool IsLanded() const { return GetFlightState() == Ship::LANDED; }
+	
 	int GetDockingPort() const { return m_dockedWithPort; }
 
 	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
@@ -86,6 +89,9 @@ public:
 	double GetAccelFwd() const { return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
 	double GetAccelRev() const { return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
 	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
+	double GetAccelDown() const { return m_type->linThrust[ShipType::THRUSTER_DOWN] / GetMass(); }
+	double GetAccelLeft() const { return m_type->linThrust[ShipType::THRUSTER_LEFT] / GetMass(); }
+	double GetAccelRight() const { return m_type->linThrust[ShipType::THRUSTER_RIGHT] / GetMass(); }
 	double GetAccelMin() const;
 
 	void UpdateLuaStats();

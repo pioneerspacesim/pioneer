@@ -46,47 +46,24 @@ public:
 	// Selects the specified button
 	// @param int gid the buttons group (0 = left, 1 = right)
 	// @param int idx the 0-based button index within the specified group
-	void SelectGroupButton(int gid, int idx);
-
 private:
 	void InitObject();
-	void OnRotationDampingChanged();
 
-	enum MapView { MAP_SECTOR, MAP_SYSTEM, MAP_INFO, MAP_GALACTIC };
-
-	void OnChangeCamView(Gui::MultiStateImageButton *b);
-	void OnChangeToMapView(Gui::MultiStateImageButton *b);
-	void OnChangeMapView(enum MapView);
-	void OnChangeInfoView(Gui::MultiStateImageButton *b);
-	void OnClickTimeaccel(Game::TimeAccel val);
-	void OnClickComms(Gui::MultiStateImageButton *b);
-	void OnClickRotationDamping(Gui::MultiStateImageButton *b);
 	// Handler for scanner view / equipment view toggle button
-	void OnClickScannerEquip(Gui::MultiStateImageButton *b);
+	// void OnClickScannerEquip(Gui::MultiStateImageButton *b);
 
 	void OnUserChangeMultiFunctionDisplay(multifuncfunc_t f);
 	void ChangeMultiFunctionDisplay(multifuncfunc_t selected);
 	void OnMultiFuncGrabFocus(multifuncfunc_t);
 	void OnMultiFuncUngrabFocus(multifuncfunc_t);
-	void HideMapviewButtons();
 
 	Game* m_game;
 
-	enum MapView m_currentMapView;
 	multifuncfunc_t m_userSelectedMfuncWidget;
-	Gui::Label *m_clock;
-
-	sigc::connection m_connOnRotationDampingChanged;
 
 	ScannerWidget *m_scanner;
 	UseEquipWidget *m_useEquipWidget;
-	Gui::MultiStateImageButton *m_camButton;
-	Gui::MultiStateImageButton *m_scannerEquipButton;
-	Gui::RadioGroup *m_leftButtonGroup, *m_rightButtonGroup;
-	Gui::ImageRadioButton *m_timeAccelButtons[6];
-	Gui::Widget *m_mapViewButtons[4];
-	Gui::MultiStateImageButton *m_rotationDampingButton;
-	Gui::Image *m_alertLights[3];
+	// Gui::MultiStateImageButton *m_scannerEquipButton;
 
 	Gui::Label *m_overlay[OVERLAY_MAX];
 };

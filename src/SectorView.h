@@ -43,6 +43,8 @@ public:
 	void GotoHyperspaceTarget() { GotoSystem(m_hyperspaceTarget); }
 	virtual void SaveToJson(Json::Value &jsonObj);
 
+	std::string DoSearch(const std::string &search);
+	
 	sigc::signal<void> onHyperspaceTargetChanged;
 
 protected:

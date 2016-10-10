@@ -20,6 +20,7 @@
 #include "Lang.h"
 #include "Player.h"
 #include "scenegraph/Model.h"
+#include "PiGui.h"
 
 /*
  * Interface: Engine
@@ -88,6 +89,12 @@ static int l_engine_attr_ticks(lua_State *l)
 static int l_engine_attr_ui(lua_State *l)
 {
 	LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
+	return 1;
+}
+
+static int l_engine_attr_pigui(lua_State *l)
+{
+	LuaObject<PiGui>::PushToLua(Pi::pigui.Get());
 	return 1;
 }
 
@@ -920,6 +927,7 @@ void LuaEngine::Register()
 		{ "rand",    l_engine_attr_rand    },
 		{ "ticks",   l_engine_attr_ticks   },
 		{ "ui",      l_engine_attr_ui      },
+		{ "pigui",   l_engine_attr_pigui   },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }
 	};

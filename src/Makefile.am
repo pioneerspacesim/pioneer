@@ -5,12 +5,12 @@ endif
 if BUILD_POSIX
     PLATFORM_SUBDIRS = posix
 endif
-SUBDIRS = collider gui graphics galaxy scenegraph terrain text ui gameui $(PLATFORM_SUBDIRS)
+SUBDIRS = collider gui graphics galaxy scenegraph terrain text ui gameui imgui $(PLATFORM_SUBDIRS)
 
 include $(top_srcdir)/Makefile.common
 
 AM_CFLAGS += $(WARN_CFLAGS)
-AM_CPPFLAGS += $(WARN_CPPFLAGS)
+AM_CPPFLAGS += $(WARN_CPPFLAGS) -I imgui/
 AM_CXXFLAGS += $(STD_CXXFLAGS) $(WARN_CXXFLAGS)
 
 bin_PROGRAMS = pioneer modelcompiler
@@ -84,6 +84,7 @@ noinst_HEADERS = \
 	LuaTimer.h \
 	LuaUtils.h \
 	LuaWrappable.h \
+  LuaPiGui.h \
 	MathUtil.h \
 	Missile.h \
 	ModelBody.h \
@@ -233,6 +234,7 @@ pioneer_SOURCES	= \
 	LuaStarSystem.cpp \
 	LuaTimer.cpp \
 	LuaUtils.cpp \
+  LuaPiGui.cpp \
 	MathUtil.cpp \
 	Missile.cpp \
 	ModelBody.cpp \
@@ -243,6 +245,7 @@ pioneer_SOURCES	= \
 	ObjectViewerView.cpp \
 	Orbit.cpp \
 	Pi.cpp \
+  PiGui.cpp \
 	Plane.cpp \
 	Planet.cpp \
 	Player.cpp \
@@ -296,6 +299,7 @@ pioneer_LDADD = \
 	scenegraph/libscenegraph.a \
 	text/libtext.a \
 	terrain/libterrain.a \
+  imgui/libimgui.a \
 	ui/libui.a \
 	gameui/libgameui.a \
 	../contrib/PicoDDS/libpicodds.a \

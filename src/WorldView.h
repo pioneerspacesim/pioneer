@@ -41,6 +41,23 @@ namespace UI {
 	class Label;
 }
 
+		enum IndicatorSide {
+		INDICATOR_HIDDEN,
+		INDICATOR_ONSCREEN,
+		INDICATOR_LEFT,
+		INDICATOR_RIGHT,
+		INDICATOR_TOP,
+		INDICATOR_BOTTOM
+	};
+
+ struct Indicator {
+		vector2f pos;
+		vector2f realpos;
+		IndicatorSide side;
+		Gui::Label *label;
+		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
+	};
+
 class WorldView: public UIView {
 public:
 	friend class NavTunnelWidget;
@@ -61,15 +78,38 @@ public:
 	void SetCamType(enum CamType);
 	enum CamType GetCamType() const { return m_camType; }
 	CameraController *GetCameraController() const { return m_activeCameraController; }
-	void ToggleTargetActions();
-	void ShowTargetActions();
-	void HideTargetActions();
 	int GetActiveWeapon() const;
-	void OnClickBlastoff();
-
-	void ResetHyperspaceButton();
 
 	sigc::signal<void> onChangeCamType;
+
+	const Indicator *GetNavIndicator() const { return &m_navTargetIndicator; }
+	const Indicator *GetNavProgradeIndicator() const { return &m_navVelIndicator; }
+	const Indicator *GetNavRetrogradeIndicator() const { return &m_retroNavVelIndicator; }
+	const Indicator *GetFrameIndicator() const { return &m_frameIndicator; }
+	const Indicator *GetFrameProgradeIndicator() const { return &m_velIndicator; }
+	const Indicator *GetFrameRetrogradeIndicator() const { return &m_retroVelIndicator; }
+	const Indicator *GetForwardIndicator() const { return &m_forwardIndicator; }
+	const Indicator *GetBackwardIndicator() const { return &m_backwardIndicator; }
+	const Indicator *GetLeftIndicator() const { return &m_leftIndicator; }
+	const Indicator *GetRightIndicator() const { return &m_rightIndicator; }
+	const Indicator *GetUpIndicator() const { return &m_upIndicator; }
+	const Indicator *GetDownIndicator() const { return &m_downIndicator; }
+	const Indicator *GetNormalIndicator() const { return &m_normalIndicator; }
+	const Indicator *GetAntiNormalIndicator() const { return &m_antiNormalIndicator; }
+	const Indicator *GetRadialInIndicator() const { return &m_radialInIndicator; }
+	const Indicator *GetRadialOutIndicator() const { return &m_radialOutIndicator; }
+	const Indicator *GetAwayFromFrameIndicator() const { return &m_awayFromFrameIndicator; }
+	const Indicator *GetCombatTargetIndicator() const { return &m_combatTargetIndicator; }
+	const Indicator *GetCombatTargetLeadIndicator() const { return &m_targetLeadIndicator; }
+	const Indicator *GetManeuverIndicator() const { return &m_burnIndicator; }
+	
+	const vector3d GetNavProgradeVelocity() const;
+	const vector3d GetFrameProgradeVelocity() const;
+
+	const vector3d GetProjectedScreenPos(Body *body) const { if(m_projectedPos.find(body) != m_projectedPos.end()) return m_projectedPos.at(body); else return vector3d(0,0,0); }
+
+	std::pair<double, double> CalculateHeadingPitch(enum PlaneType);
+	void ChangeInternalCameraMode(InternalCameraController::Mode m);
 
 protected:
 	virtual void BuildUI(UI::Single *container);
@@ -78,58 +118,16 @@ protected:
 private:
 	void InitObject();
 
-	void RefreshHyperspaceButton();
 	void RefreshButtonStateAndVisibility();
-	void UpdateCommsOptions();
-
-	void ChangeInternalCameraMode(InternalCameraController::Mode m);
-	void UpdateCameraName();
-
-	enum IndicatorSide {
-		INDICATOR_HIDDEN,
-		INDICATOR_ONSCREEN,
-		INDICATOR_LEFT,
-		INDICATOR_RIGHT,
-		INDICATOR_TOP,
-		INDICATOR_BOTTOM
-	};
-
-	struct Indicator {
-		vector2f pos;
-		vector2f realpos;
-		IndicatorSide side;
-		Gui::Label *label;
-		Indicator(): pos(0.0f, 0.0f), realpos(0.0f, 0.0f), side(INDICATOR_HIDDEN), label(0) {}
-	};
 
 	void UpdateProjectedObjects();
 	void UpdateIndicator(Indicator &indicator, const vector3d &direction);
 	void HideIndicator(Indicator &indicator);
-	void SeparateLabels(Gui::Label *a, Gui::Label *b);
 
 	void OnToggleLabels();
 
-	void DrawCombatTargetIndicator(const Indicator &target, const Indicator &lead, const Color &c);
-	void DrawTargetSquare(const Indicator &marker, const Color &c);
-	void DrawVelocityIndicator(const Indicator &marker, VelIconType d, const Color &c);
-	void DrawImageIndicator(const Indicator &marker, Gui::TexturedQuad *quad, const Color &c);
-	void DrawEdgeMarker(const Indicator &marker, const Color &c);
-
-	Gui::Button *AddCommsOption(const std::string &msg, int ypos, int xoffset, int optnum);
-	void AddCommsNavOption(const std::string &msg, Body *target);
-	void OnClickCommsNavOption(Body *target);
-	void BuildCommsNavOptions();
-
-	void HideLowThrustPowerOptions();
-	void ShowLowThrustPowerOptions();
-	void OnClickLowThrustPower();
-	void OnSelectLowThrustPower(float power);
-
-	void OnClickHyperspace(Gui::MultiStateImageButton *b);
-	void OnChangeWheelsState(Gui::MultiStateImageButton *b);
 	void OnChangeFlightState(Gui::MultiStateImageButton *b);
 	void OnHyperspaceTargetChanged();
-	void OnPlayerDockOrUndock();
 	void OnPlayerChangeTarget();
 	void OnPlayerChangeFlightControlState();
 	/// Handler for "requestTimeAccelerationInc" event
@@ -139,31 +137,17 @@ private:
 	void SelectBody(Body *, bool reselectIsDeselect);
 	Body* PickBody(const double screenX, const double screenY) const;
 	void MouseWheel(bool up);
-	bool OnClickHeadingLabel(void);
-	void RefreshHeadingPitch(void);
-
+	
 	Game* m_game;
 
 	PlaneType m_curPlane;
 	NavTunnelWidget *m_navTunnel;
 	std::unique_ptr<SpeedLines> m_speedLines;
 
-	Gui::Label *m_pauseText;
-	Gui::Label *m_showCameraName;
-	Gui::Fixed *m_commsOptions;
-	Gui::VBox *m_commsNavOptions;
-	Gui::HBox *m_commsNavOptionsContainer;
-	Gui::Fixed *m_lowThrustPowerOptions;
 	Gui::Label *m_flightStatus, *m_debugText;
-	Gui::ImageButton *m_launchButton;
-	Gui::MultiStateImageButton *m_wheelsButton;
 	Gui::MultiStateImageButton *m_flightControlButton;
-	Gui::MultiStateImageButton *m_hyperspaceButton;
 	bool m_labelsOn;
 	enum CamType m_camType;
-	Uint32 m_showTargetActionsTimeout;
-	Uint32 m_showLowThrustPowerTimeout;
-	Uint32 m_showCameraNameTimeout;
 
 #if WITH_DEVKEYS
 	Gui::Label *m_debugInfo;
@@ -177,16 +161,9 @@ private:
 	RefCountedPtr<UI::Single> m_hudDockBottom;
 	RefCountedPtr<UI::Single> m_hudDockCentre;
 	// new-ui HUD components
-	RefCountedPtr<UI::Label> m_headingInfo, m_pitchInfo;
 
-	Gui::Label *m_hudVelocity, *m_hudTargetDist, *m_hudAltitude, *m_hudPressure,
-		   *m_hudHyperspaceInfo, *m_hudTargetInfo;
-	Gui::MeterBar *m_hudHullTemp, *m_hudWeaponTemp, *m_hudHullIntegrity, *m_hudShieldIntegrity;
-	Gui::MeterBar *m_hudTargetHullIntegrity, *m_hudTargetShieldIntegrity;
-	Gui::MeterBar *m_hudFuelGauge;
 	Gui::VBox *m_hudSensorGaugeStack;
 
-	sigc::connection m_onHyperspaceTargetChangedCon;
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseWheelCon;
@@ -205,24 +182,25 @@ private:
 	Indicator m_navVelIndicator;
 	Indicator m_burnIndicator;
 	Indicator m_retroVelIndicator;
+	Indicator m_retroNavVelIndicator;
 	Indicator m_navTargetIndicator;
 	Indicator m_combatTargetIndicator;
 	Indicator m_targetLeadIndicator;
 	Indicator m_mouseDirIndicator;
-
-	std::unique_ptr<Gui::TexturedQuad> m_indicatorMousedir;
-	std::unique_ptr<Gui::TexturedQuad> m_frontCrosshair;
-	std::unique_ptr<Gui::TexturedQuad> m_rearCrosshair;
-	std::unique_ptr<Gui::TexturedQuad> m_progradeIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_retrogradeIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_burnIcon;
-	std::unique_ptr<Gui::TexturedQuad> m_targetIcon;
-	vector2f m_indicatorMousedirSize;
+	Indicator m_frameIndicator;
+	Indicator m_forwardIndicator;
+	Indicator m_backwardIndicator;
+	Indicator m_upIndicator;
+	Indicator m_downIndicator;
+	Indicator m_leftIndicator;
+	Indicator m_rightIndicator;
+	Indicator m_normalIndicator;
+	Indicator m_antiNormalIndicator;
+	Indicator m_radialInIndicator;
+	Indicator m_radialOutIndicator;
+	Indicator m_awayFromFrameIndicator;
 
 	Graphics::RenderState *m_blendState;
-
-	Graphics::Drawables::Line3D m_edgeMarker;
-	Graphics::Drawables::Lines m_indicator;
 };
 
 class NavTunnelWidget: public Gui::Widget {

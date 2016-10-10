@@ -244,7 +244,7 @@
       "message" : "Destroy enemy ship"
    },
    "DISMISS" : {
-      "description" : "Terminate crew memeber's contract",
+      "description" : "Terminate crew member's contract",
       "message" : "Dismiss"
    },
    "DISPLAY_HUD_TRAILS" : {
@@ -439,6 +439,130 @@
       "description" : "Game settings option: for graphics resolution",
       "message" : "High"
    },
+		"HUD_TOOLTIP_APOAPSIS_DISTANCE" : {
+				"description" : "Tooltip: Distance to Apoapsis (farthest point in orbit)",
+				"message" : "Distance to Apoapsis"
+		},
+		"HUD_TOOLTIP_APOAPSIS_TIME" : {
+				"description" : "Tooltip: Time to Apoapsis (farthest point in orbit)",
+				"message" : "Time until Apoapsis"
+		},
+		"HUD_TOOLTIP_PERIAPSIS_DISTANCE" : {
+				"description" : "Tooltip: Distance to Periapsis (closest point in orbit)",
+				"message" : "Distance to Periapsis"
+		},
+		"HUD_TOOLTIP_PERIAPSIS_TIME" : {
+				"description" : "Tooltip: Time to Periapsis (closest point in orbit)",
+				"message" : "Time until Periapsis"
+		},
+		"HUD_TOOLTIP_ALTITUDE" : {
+				"description" : "Tooltip: Altitude above surface",
+				"message" : "Altitude above surface"
+		},
+		"HUD_TOOLTIP_CHANGE_IN_ALTITUDE" : {
+				"description" : "Tooltip: Change in altitude above surface",
+				"message" : "Change in altitude above surface"
+		},
+		"HUD_T_MINUS" : {
+				"description" : "Prefix shown for 'time until' e.g. 't-5m10s'",
+				"message" : "t-"
+		},
+		"HUD_TOOLTIP_INCLINATION" : {
+				"description" : "Tooltip: Inclination of orbit in degrees",
+				"message" : "Inclination"
+		},
+		"HUD_TOOLTIP_ECCENTRICITY" : {
+				"description" : "Tooltip: Eccentricity of orbit",
+				"message" : "Eccentricity"
+		},
+		"HUD_TOOLTIP_PRESSURE" : {
+				"description" : "Tooltip: Pressure in atm",
+				"message" : "Pressure"
+		},
+		"HUD_TOOLTIP_GRAVITY" : {
+				"description" : "Tooltip: Gravity in g",
+				"message" : "Gravity"
+		},
+		"HUD_TOOLTIP_LATITUDE" : {
+				"description" : "Tooltip: Latitude on sphere",
+				"message" : "Latitude"
+		},
+		"HUD_TOOLTIP_LONGITUDE" : {
+				"description" : "Tooltip: Longitude on sphere",
+				"message" : "Longitude"
+		},
+		"HUD_HULL" : {
+				"description" : "The word for Ship Hull, as in Hull Damage or Hull Temperature",
+				"message" : "Hull"
+		},
+		"HUD_SHIELDS" : {
+				"description" : "The word for Ship Shields, as in Shield Status or Shield Percentage",
+				"message" : "Shield"
+		},
+		"HUD_DAMAGE" : {
+				"description" : "The word for Damage, as in Hull Damage",
+				"message" : "Damage"
+		},
+		"HUD_TEMPERATURE" : {
+				"description" : "The word for Temperature, as in Hull Temperature",
+				"message" : "Temp"
+		},
+		"HUD_GUN" : {
+				"description" : "The word for Blaster (Gun, Laser), as in Front Blaster",
+				"message" : "Blaster"
+		},
+		"HUD_FRONT" : {
+				"description" : "The word for Front, as in Front Blaster",
+				"message" : "Front"
+		},
+		"HUD_REAR" : {
+				"description" : "The word for Rear, as in Rear Blaster",
+				"message" : "Rear"
+		},
+		"HUD_TOOLTIP_FIRE_MISSILE" : {
+				"description" : "Tooltip: Fire {missile}.",
+				"message" : "Fire {missile}"
+		},
+		"HUD_DELTA_V" : {
+				"description" : "Abbreviation for Delta-V (Δv)",
+				"message" : "Δv"
+		},
+		"HUD_MANEUVER_DELTA_V" : {
+				"description" : "Abbreviation for Maneuver Delta-V (mΔv)",
+				"message" : "mΔv"
+		},
+		"HUD_WINDOW_NAVIGATION" : {
+				"description" : "Title of the Navigation window",
+				"message" : "Navigation"
+		},
+		"HUD_RADIAL_TOOLTIP_COMMS" : {
+				"description" : "Radial Menu: Ask for docking clearance",
+				"message" : "Docking Clearance"
+		},
+		"HUD_RADIAL_TOOLTIP_AUTO_DOCK" : {
+				"description" : "Radial Menu: Auto-Dock",
+				"message" : "Auto-Dock"
+		},
+		"HUD_RADIAL_TOOLTIP_FLY_TO" : {
+				"description" : "Radial Menu: Fly to",
+				"message" : "Fly to"
+		},
+		"HUD_RADIAL_TOOLTIP_LOW_ORBIT" : {
+				"description" : "Radial Menu: Low Orbit",
+				"message" : "Low Orbit"
+		},
+		"HUD_RADIAL_TOOLTIP_MEDIUM_ORBIT" : {
+				"description" : "Radial Menu: Medium Orbit",
+				"message" : "Medium Orbit"
+		},
+		"HUD_RADIAL_TOOLTIP_HIGH_ORBIT" : {
+				"description" : "Radial Menu: High Orbit",
+				"message" : "High Orbit"
+		},
+		"HUD_SET_LOW_THRUST_TO" : {
+				"description" : "Pop-Up Menu: Set low thrust to {percent}%",
+				"message" : "Set low thrust to {percent}%"
+		},
    "HULL_DOES_NOT_REQUIRE_REPAIR" : {
       "description" : "",
       "message" : "Hull does not require repair."

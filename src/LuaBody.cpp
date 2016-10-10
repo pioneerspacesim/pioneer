@@ -394,6 +394,225 @@ static int l_body_find_nearest_to(lua_State *l)
 	return 1;
 }
 
+static int l_body_get_system_body(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	LuaObject<SystemBody>::PushToLua(const_cast<SystemBody*>(b->GetSystemBody()));
+	return 1;
+}
+
+static int l_body_get_projected_screen_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	WorldView *wv = Pi::game->GetWorldView();
+	vector3d p = wv->GetProjectedScreenPos(b);
+	if(vector3d(0,0,0) == p || p.x < 0 || p.y < 0 || p.x > Graphics::GetScreenWidth() || p.y > Graphics::GetScreenHeight()) {
+		lua_pushnil(l);
+		return 1;
+	}
+		
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", 0);
+	return 1;
+}
+
+static int l_body_get_position(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	vector3d p = b->GetPosition();
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", p.z);
+	return 1;	
+}
+
+static int l_body_get_velocity(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	vector3d p = b->GetVelocity();
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", p.z);
+	return 1;	
+}
+
+static int l_body_get_velocity_rel_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	Body *target = LuaObject<Body>::CheckFromLua(2);
+	vector3d p = b->GetVelocityRelTo(target);
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", p.z);
+	return 1;	
+}
+
+static int l_body_get_position_rel_to(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	Body *target = LuaObject<Body>::CheckFromLua(2);
+	vector3d p = b->GetPositionRelTo(target);
+	LuaTable pos(l);
+	pos.Set("x", p.x);
+	pos.Set("y", p.y);
+	pos.Set("z", p.z);
+	return 1;	
+}
+
+static int l_body_get_atmospheric_state(lua_State *l) {
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	//	const SystemBody *sb = b->GetSystemBody();
+	vector3d pos = Pi::player->GetPosition();
+	double center_dist = pos.Length();
+	if (b->IsType(Object::PLANET)) {
+		double pressure, density;
+		static_cast<Planet*>(b)->GetAtmosphericState(center_dist, &pressure, &density);
+		lua_pushnumber(l, pressure);
+		lua_pushnumber(l, density);
+		return 2;
+	} else {
+		return 0;
+	}
+}
+
+static int l_body_is_hyperspace_cloud(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	lua_pushboolean(l, b->GetType() == Object::HYPERSPACECLOUD);
+	return 1;
+}
+
+
+static int l_body_is_ship(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	lua_pushboolean(l, b->GetType() == Object::SHIP);
+	return 1;
+}
+
+static int l_body_is_space_station(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetType() == SystemBody::TYPE_STARPORT_ORBITAL);
+	return 1;
+}
+
+static int l_body_is_star_port(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetType() == SystemBody::TYPE_STARPORT_SURFACE);
+	return 1;
+}
+
+static int l_body_is_gas_giant(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetSuperType() == SystemBody::SUPERTYPE_GAS_GIANT);
+	return 1;
+}
+
+static int l_body_is_rocky_planet(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+	
+	lua_pushboolean(l, sbody->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET);
+	return 1;
+}
+
+static int l_body_is_moon(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	const SystemBody *sbody = b->GetSystemBody();
+	if (!sbody) {
+		lua_pushboolean(l, false);
+		return 1;
+	}
+
+	if(sbody->GetSuperType() == SystemBody::SUPERTYPE_ROCKY_PLANET) {
+		if(sbody->GetParent()->GetSuperType() == SystemBody::SUPERTYPE_STAR)
+			lua_pushboolean(l, false);
+		else
+			lua_pushboolean(l, true);
+	} else {
+		lua_pushboolean(l, false);
+	}
+	return 1;
+}
+
+static int l_body_is_dead(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	lua_pushboolean(l, b->IsDead());
+	return 1;
+}
+
+static int l_body_get_hyperspace_cloud_info(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	if(b->GetType() == Object::HYPERSPACECLOUD) {
+		HyperspaceCloud *cloud = static_cast<HyperspaceCloud*>(b);
+		bool arrival = cloud->IsArrival();
+		Ship *ship = cloud->GetShip();
+
+		lua_newtable(l);
+		lua_pushboolean(l, arrival);
+		lua_setfield(l, -2, "is_arrival");
+		if(ship) {
+			LuaObject<Ship>::PushToLua(ship);
+			lua_setfield(l, -2, "ship");
+			const SystemPath& dest = ship->GetHyperspaceDest();
+			LuaObject<SystemPath>::PushToLua(dest);
+			lua_setfield(l, -2, "destination");
+		} else {
+			lua_pushnil(l);
+			lua_setfield(l, -2, "ship");
+			lua_pushnil(l);
+			lua_setfield(l, -2, "destination");
+		}
+		lua_pushnumber(l, cloud->GetDueDate());
+		lua_setfield(l, -2, "due_date");
+	} else {
+		lua_pushnil(l);
+	}
+	return 1;
+}
+
+static int l_body_get_mass(lua_State *l)
+{
+	Body *b = LuaObject<Body>::CheckFromLua(1);
+	double m = b->GetSystemBody()->GetMass();
+	lua_pushnumber(l, m);
+	return 1;	
+}
+
 static std::string _body_serializer(LuaWrappable *o)
 {
 	static char buf[256];
@@ -452,10 +671,27 @@ template <> void LuaObject<Body>::RegisterClass()
 	const char *l_parent = "PropertiedObject";
 
 	static luaL_Reg l_methods[] = {
-		{ "IsDynamic",  l_body_is_dynamic  },
-		{ "DistanceTo", l_body_distance_to },
-		{ "GetGroundPosition", l_body_get_ground_position },
-		{ "FindNearestTo", l_body_find_nearest_to },
+		{ "IsDynamic",           l_body_is_dynamic  },
+		{ "DistanceTo",          l_body_distance_to },
+		{ "GetGroundPosition",   l_body_get_ground_position },
+		{ "FindNearestTo",       l_body_find_nearest_to },
+		{ "GetProjectedScreenPosition", l_body_get_projected_screen_position },
+		{ "GetPosition",         l_body_get_position },
+		{ "GetVelocity",         l_body_get_velocity },
+		{ "GetMass",             l_body_get_mass },
+		{ "GetSystemBody",       l_body_get_system_body },
+		{ "GetAtmosphericState", l_body_get_atmospheric_state },
+		{ "IsShip",              l_body_is_ship },
+		{ "IsSpaceStation",      l_body_is_space_station },
+		{ "IsStarPort",          l_body_is_star_port },
+		{ "IsGasGiant",          l_body_is_gas_giant },
+		{ "IsRockyPlanet",       l_body_is_rocky_planet },
+		{ "IsMoon",              l_body_is_moon },
+		{ "IsDead",              l_body_is_dead },
+		{ "IsHyperspaceCloud",   l_body_is_hyperspace_cloud },
+		{ "GetHyperspaceCloudInfo", l_body_get_hyperspace_cloud_info },
+		{ "GetVelocityRelTo",    l_body_get_velocity_rel_to },
+		{ "GetPositionRelTo",    l_body_get_position_rel_to },
 		{ 0, 0 }
 	};
 

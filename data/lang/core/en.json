@@ -539,6 +539,10 @@
       "description" : "",
       "message" : "Hyperspace"
    },
+   "HYPERSPACE_IN_HYPERSPACE" : {
+      "description" : "Shown while hyperspacing",
+      "message" : "In Hyperspace"
+   },
    "HYPERSPACE_ARRIVAL_CLOUD" : {
       "description" : "",
       "message" : "Hyperspace arrival cloud"
@@ -577,7 +581,7 @@
    },
    "HYPERSPACING_IN_N_SECONDS" : {
       "description" : "",
-      "message" : "Hyperspacing in %countdown{f.0} seconds"
+      "message" : "Hyperspacing in {seconds} seconds"
    },
    "H_ATMOSPHERE" : {
       "description" : "",
@@ -631,9 +635,9 @@
       "description" : "",
       "message" : "In transit"
    },
-   "IN_TRANSIT_TO_N_X_X_X" : {
+   "IN_TRANSIT_TO_N_X_Y_Z" : {
       "description" : "",
-      "message" : "In transit to %system [%x,%y,%z]"
+      "message" : "In transit to {system} [{x},{y},{z}]"
    },
    "JOY" : {
       "description" : "Short for Joystick",
@@ -649,7 +653,7 @@
    },
    "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: %percent%%"
+      "message" : "Jump complete: {percent}%"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1739,6 +1743,30 @@
       "description" : "Duration unit: one 7-day week",
       "message" : "w"
    },
+   "UNIT_METERS" : {
+		  "description" : "Abbreviation for meters",
+			"message" : "m" 
+	 },
+   "UNIT_KILOMETERS" : {
+		  "description" : "Abbreviation for kilometers",
+			"message" : "km" 
+	 },
+   "UNIT_MILLION_METERS" : {
+		  "description" : "Abbreviation for million meters / thousand kilometers",
+			"message" : "Mm" 
+	 },
+   "UNIT_METERS_PER_SECOND" : {
+		  "description" : "Abbreviation for meters per second, m/s",
+			"message" : "m/s" 
+	 },
+   "UNIT_KILOMETERS_PER_SECOND" : {
+		  "description" : "Abbreviation for kilometers per second, km/s",
+			"message" : "km/s" 
+	 },
+   "UNIT_MILLION_METERS_PER_SECOND" : {
+		  "description" : "Abbreviation for million meters / thousand kilometers per second, Mm/s",
+			"message" : "Mm/s" 
+	 },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
       "message" : "d"
@@ -1755,7 +1783,19 @@
       "description" : "Duration unit: one second",
       "message" : "s"
    },
-   "UNKNOWN" : {
+   "UNIT_ATM" : {
+      "description" : "Pressure unit: one atmosphere",
+      "message" : "atm"
+   },
+   "UNIT_GRAVITY" : {
+      "description" : "Gravity unit: one earth gravity",
+      "message" : "g"
+   },
+   "UNIT_DEGREES" : {
+      "description" : "The symbol for degrees.",
+      "message" : "°"
+   },
+  "UNKNOWN" : {
       "description" : "",
       "message" : "<unknown>"
    },

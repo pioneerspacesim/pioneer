@@ -434,6 +434,14 @@ local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
 	:orbital_phase_at_start(fixed.deg2rad(f(217,1)))
 
 local saturn_moons = {
+  CustomSystemBody:new('Tethys', 'PLANET_TERRESTRIAL')
+		 :radius(f(083,1000))
+		 :mass(f(103,1000000))
+		 :temp(86)
+		 :semi_major_axis(f(002,1000))
+		 :eccentricity(f(0,1))
+		 :inclination(math.deg2rad(1.12))
+		 :rotation_period(f(1887,1000)),
 	CustomSystemBody:new('Dione', 'PLANET_TERRESTRIAL')
 		:seed(-562018355)
 		:radius(f(881,10000))
@@ -618,6 +626,63 @@ local charon = {
 		:volcanicity(f(0,1)),
 }
 
+local haumea = CustomSystemBody:new('Haumea', 'PLANET_TERRESTRIAL')
+	 :radius(f(99,1000)) -- 630km
+	 :mass(f(66,100000)) -- 4e21 kg
+	 :temp(48)
+	 :semi_major_axis(f(43218,1000)) -- 43.218 AU
+	 :eccentricity(f(19126,100000)) -- 0.19126
+	 :inclination(math.deg2rad(28.19)) -- 28.19°
+	 :rotation_period(f(163,1000)) -- 3.9155h
+
+local eris = CustomSystemBody:new('Eris', 'PLANET_TERRESTRIAL')
+	 :radius(f(183,1000)) -- 1163km
+	 :mass(f(28,10000)) -- 1.66e22 kg
+	 :temp(42)
+	 :semi_major_axis(f(67781,1000)) -- 67.781 AU
+	 :eccentricity(f(44068,100000)) -- 0.44068
+	 :inclination(math.deg2rad(44.04)) -- 44.0445°
+	 :rotation_period(f(1079,1000)) -- 25.9h
+
+local ceres = CustomSystemBody:new('Ceres', 'PLANET_TERRESTRIAL')
+	 :radius(f(074,1000)) -- 473km
+	 :mass(f(15,100000)) -- 9.393e20 kg
+	 :temp(168)
+	 :semi_major_axis(f(27675,10000)) -- 2.7675 AU
+	 :eccentricity(f(758,10000)) -- 0.075823
+	 :inclination(math.deg2rad(10.593)) -- 10.593°
+	 :rotation_period(f(3781,10000)) -- 9h
+   :axial_tilt(fixed.deg2rad(f(4,1))) -- 4°
+
+local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
+	 :radius(f(08,100)) -- 512km
+	 :mass(f(353,10000000)) -- 2.11e20 kg
+	 :temp(164)
+	 :semi_major_axis(f(27716,10000)) -- 2.7716 AU
+	 :eccentricity(f(23127,100000)) -- 0.23127
+	 :inclination(math.deg2rad(34.84)) -- 34.84°
+	 :rotation_period(f(78,10)) -- 7.8h
+   :axial_tilt(fixed.deg2rad(f(84,1))) -- 84°
+
+local vesta = CustomSystemBody:new('Vesta', 'PLANET_TERRESTRIAL')
+	 :radius(f(082,1000)) -- 525km
+	 :mass(f(4338,100000000)) -- 2.590e20 kg
+	 :temp(177) -- 85 - 270K
+	 :semi_major_axis(f(236179,100000)) -- 2.36179 AU
+	 :eccentricity(f(08874,100000)) -- 0.08874
+	 :inclination(math.deg2rad(7.14043)) -- 7.14043°
+	 :rotation_period(f(2226,10000)) -- 5.342h
+   :axial_tilt(fixed.deg2rad(f(29,1))) -- 29°
+
+local makemake = CustomSystemBody:new('Makemake', 'PLANET_TERRESTRIAL')
+	 :radius(f(113,1000))
+	 :mass(f(6667,1000000))
+   :temp(36)
+	 :semi_major_axis(f(45715,1000))
+	 :eccentricity(f(15586,100000))
+	 :inclination(math.deg2rad(29.1))
+	 :rotation_period(f(77,10))
+
 s:bodies(sol, {
 	mercury,
 	venus,
@@ -627,6 +692,9 @@ s:bodies(sol, {
 	mars,
 		mars_starports,
 		mars_moons,
+	pallas,	
+	vesta,
+  ceres,
 	jupiter,
 		jupiter_moons,
 	saturn,
@@ -638,6 +706,9 @@ s:bodies(sol, {
 	pluto,
 		pluto_starports,
 		charon,
+  haumea,
+	makemake,
+	eris,
 })
 
 s:add_to_sector(0,0,0,v(0.001,0.001,0.001))

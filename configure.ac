@@ -412,6 +412,7 @@ AC_CONFIG_FILES([
 	src/scenegraph/Makefile
 	src/galaxy/Makefile
 	src/terrain/Makefile
+	src/imgui/Makefile
 	src/text/Makefile
 	src/ui/Makefile
 	src/win32/Makefile

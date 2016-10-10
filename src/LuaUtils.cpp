@@ -385,6 +385,7 @@ void pi_lua_open_standard_base(lua_State *L)
 		lua_pop(L, 1);
 	}
 
+#ifndef REMOTE_LUA_REPL
 	// remove stuff that can load untrusted code
 	lua_pushnil(L);
 	lua_setglobal(L, "dofile");
@@ -394,6 +395,7 @@ void pi_lua_open_standard_base(lua_State *L)
 	lua_setglobal(L, "load");
 	lua_pushnil(L);
 	lua_setglobal(L, "loadstring");
+#endif
 
 
 	// import table and function
