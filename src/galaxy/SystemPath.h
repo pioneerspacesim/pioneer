@@ -58,6 +58,20 @@ public:
 		return (a.bodyIndex < b.bodyIndex);
 	}
 
+	static inline double SectorDistance(const SystemPath& a, const SystemPath& b) {
+		const Sint32 x = b.sectorX - a.sectorX;
+		const Sint32 y = b.sectorY - a.sectorY;
+		const Sint32 z = b.sectorZ - b.sectorZ;
+		return sqrt (x*x + y*y + z*z);	// sqrt is slow
+	}
+
+	static inline double SectorDistanceSqr(const SystemPath& a, const SystemPath& b) {
+		const Sint32 x = b.sectorX - a.sectorX;
+		const Sint32 y = b.sectorY - a.sectorY;
+		const Sint32 z = b.sectorZ - b.sectorZ;
+		return (x*x + y*y + z*z);	// return the square of the distance
+	}
+
 	class LessSectorOnly {
 	public:
 		bool operator()(const SystemPath& a, const SystemPath& b) const {
