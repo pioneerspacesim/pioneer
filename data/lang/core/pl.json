@@ -649,7 +649,7 @@
    },
    "JUMP_COMPLETE" : {
       "description" : "",
-      "message" : "Jump complete: %percent%%"
+      "message" : "Skok kompletny w:"
    },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
@@ -1145,19 +1145,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Tempo wzrostu wartości delta-v. Kliknij, aby przywrócić domyślne."
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Delta-v dla pozycji normalnej. Kliknij, aby wyzerować."
+      "message" : "Normal delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Delta-v dla pozycji przodem. Kliknij, aby wyzerować."
+      "message" : "Prograde delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Delta-v dla pozycji radialnej. Kliknij, aby wyzerować."
+      "message" : "Radial delta-v. Click to reset to zero."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
@@ -1729,7 +1729,7 @@
    },
    "UNIT_AU" : {
       "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
-      "message" : "AU"
+      "message" : "JA"
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",

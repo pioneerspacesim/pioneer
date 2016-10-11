@@ -93,23 +93,23 @@
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "Klasse-5-Militär-Hyperraumantrieb"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "Klasse-6-Militär-Hyperraumantrieb"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "Klasse-7-Militär-Hyperraumantrieb"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "Klasse-8-Militär-Hyperraumantrieb"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "Klasse-9-Militär-Hyperraumantrieb"
    },
    "ECM_ADVANCED" : {
       "description" : "",
