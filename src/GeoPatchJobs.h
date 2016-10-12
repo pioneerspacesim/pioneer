@@ -15,6 +15,8 @@
 
 class GeoSphere;
 
+#define BORDER_SIZE 1
+
 class SBaseRequest {
 public:
 	SBaseRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
@@ -51,7 +53,7 @@ public:
 		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
-		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
+		const int numBorderedVerts = NUMVERTICES(edgeLen_+(BORDER_SIZE*2));
 		for( int i=0 ; i<4 ; ++i )
 		{
 			heights[i] = new double[numVerts];
@@ -89,7 +91,7 @@ public:
 		normals = new vector3f[numVerts];
 		colors = new Color3ub[numVerts];
 		
-		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
+		const int numBorderedVerts = NUMVERTICES(edgeLen_+(BORDER_SIZE*2));
 		borderHeights.reset(new double[numBorderedVerts]);
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
