@@ -53,16 +53,15 @@ public:
 		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
-		const int numBorderedVerts = NUMVERTICES(edgeLen_+(BORDER_SIZE*2));
 		for( int i=0 ; i<4 ; ++i )
 		{
 			heights[i] = new double[numVerts];
 			normals[i] = new vector3f[numVerts];
 			colors[i] = new Color3ub[numVerts];
-
-			borderHeights[i].reset(new double[numBorderedVerts]);
-			borderVertexs[i].reset(new vector3d[numBorderedVerts]);
 		}
+		const int numBorderedVerts = NUMVERTICES((edgeLen_*2)+(BORDER_SIZE*2));
+		borderHeights.reset(new double[numBorderedVerts]);
+		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
 
 	// these are created with the request and are given to the resulting patches
@@ -71,8 +70,8 @@ public:
 	double *heights[4];
 
 	// these are created with the request but are destroyed when the request is finished
-	std::unique_ptr<double[]> borderHeights[4];
-	std::unique_ptr<vector3d[]> borderVertexs[4];
+	std::unique_ptr<double[]> borderHeights;
+	std::unique_ptr<vector3d[]> borderVertexs;
 
 protected:
 	// deliberately prevent copy constructor access
@@ -218,15 +217,20 @@ public:
 	virtual void OnCancel() {}
 
 protected:
-	// in patch surface coords, [0,1]
-	inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
-		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
-	}
 
 	// Generates full-detail vertices, and also non-edge normals and colors 
 	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+
+	// Generates full-detail vertices, and also non-edge normals and colors 
+	void GenerateBorderedData(double *borderHeights, vector3d *borderVertexs,
+		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
+		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+	
+	void GenerateSubPatchData(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
+		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
+		const int edgeLen, const int xoff, const int yoff, const int borderedEdgeLen, const double fracStep, const Terrain *pTerrain) const;
 };
 
 // ********************************************************************************
