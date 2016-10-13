@@ -1,6 +1,7 @@
 October 2016
    * New Features
 	 * Added military drives from 5 to 9 (#3830)
+	 * Thruster upgrades (#3831)
 	 
    * Fixes
 	 * Search&Rescue: set ship look and bugfix (#3823)
