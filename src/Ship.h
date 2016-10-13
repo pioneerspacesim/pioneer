@@ -181,7 +181,6 @@ public:
 	double AIFaceUpdir(const vector3d &updir, double av=0);
 	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
-	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel);
 
 	// old stuff, deprecated
 	void AIAccelToModelRelativeVelocity(const vector3d &v);
@@ -269,7 +268,6 @@ public:
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
-	void RenderLaserfire();
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
@@ -301,7 +299,6 @@ private:
 	void DoThrusterSounds() const;
 	void FireWeapon(int num);
 	void Init();
-	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);
