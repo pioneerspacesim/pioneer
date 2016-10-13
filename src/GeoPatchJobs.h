@@ -28,7 +28,6 @@ public:
 	{
 	}
 
-	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
 	inline int NUMVERTICES(const int el) const { return el*el; }
 
 	const vector3d v0, v1, v2, v3;
@@ -59,7 +58,7 @@ public:
 			normals[i] = new vector3f[numVerts];
 			colors[i] = new Color3ub[numVerts];
 		}
-		const int numBorderedVerts = NUMVERTICES((edgeLen_*2)+(BORDER_SIZE*2));
+		const int numBorderedVerts = NUMVERTICES((edgeLen_*2)+(BORDER_SIZE*2)-1);
 		borderHeights.reset(new double[numBorderedVerts]);
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}

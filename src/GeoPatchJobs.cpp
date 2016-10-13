@@ -98,7 +98,7 @@ void BasePatchJob::GenerateBorderedData(
 	const double fracStep,
 	const Terrain *pTerrain) const
 {
-	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2);
+	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2) - 1;
 	const int numBorderedVerts = borderedEdgeLen*borderedEdgeLen;
 
 	// generate heights plus a N=BORDER_SIZE unit border
@@ -139,35 +139,35 @@ void BasePatchJob::GenerateSubPatchData(
 	double *hts = heights;
 
 	// step over the small square
-	for (int y=0; y<edgeLen; y++) {
+	for ( int y = 0; y < edgeLen; y++ ) {
 		const int by = (y + BORDER_SIZE) + yoff;
-		for (int x=0; x<edgeLen; x++) {
+		for ( int x = 0; x < edgeLen; x++ ) {
 			const int bx = (x + BORDER_SIZE) + xoff;
 
 			// height
 			const double height = borderHeights[bx + (by * borderedEdgeLen)];
-			assert(hts!=&heights[edgeLen*edgeLen]);
+			assert(hts != &heights[edgeLen * edgeLen]);
 			*(hts++) = height;
 
 			// normal
-			const vector3d &x1 = vrts[(bx - 1) + (by*borderedEdgeLen)];
-			const vector3d &x2 = vrts[(bx + 1) + (by*borderedEdgeLen)];
-			const vector3d &y1 = vrts[bx + ((by - 1)*borderedEdgeLen)];
-			const vector3d &y2 = vrts[bx + ((by + 1)*borderedEdgeLen)];
+			const vector3d &x1 = vrts[(bx - 1) + (by * borderedEdgeLen)];
+			const vector3d &x2 = vrts[(bx + 1) + (by * borderedEdgeLen)];
+			const vector3d &y1 = vrts[bx + ((by - 1) * borderedEdgeLen)];
+			const vector3d &y2 = vrts[bx + ((by + 1) * borderedEdgeLen)];
 			const vector3d n = ((x2 - x1).Cross(y2 - y1)).Normalized();
-			assert(nrm!=&normals[edgeLen*edgeLen]);
+			assert(nrm != &normals[edgeLen * edgeLen]);
 			*(nrm++) = vector3f(n);
 
 			// color
-			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x*fracStep, y*fracStep);
+			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x * fracStep, y * fracStep);
 			setColour(*col, pTerrain->GetColor(p, height, n));
-			assert(col!=&colors[edgeLen*edgeLen]);
+			assert(col != &colors[edgeLen * edgeLen]);
 			++col;
 		}
 	}
-	assert(hts==&heights[edgeLen*edgeLen]);
-	assert(nrm==&normals[edgeLen*edgeLen]);
-	assert(col==&colors[edgeLen*edgeLen]);
+	assert(hts == &heights[edgeLen*edgeLen]);
+	assert(nrm == &normals[edgeLen*edgeLen]);
+	assert(col == &colors[edgeLen*edgeLen]);
 }
 
 // ********************************************************************************
@@ -233,7 +233,6 @@ void QuadPatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	const vector3d v23	= (srd.v2+srd.v3).Normalized();
 	const vector3d v30	= (srd.v3+srd.v0).Normalized();
 	const vector3d cn	= (srd.centroid).Normalized();
-
 	const vector3d vecs[4][4] = {
 		{srd.v0,	v01,		cn,			v30},
 		{v01,		srd.v1,		v12,		cn},
@@ -241,13 +240,12 @@ void QuadPatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 		{v30,		cn,			v23,		srd.v3}
 	};
 
-	const int borderedEdgeLen = (srd.edgeLen*2)+(BORDER_SIZE*2);
-	const int numBorderedVerts = borderedEdgeLen*borderedEdgeLen;
+	const int borderedEdgeLen = (srd.edgeLen*2)+(BORDER_SIZE*2)-1;
 	const int offxy[4][2] = {
 		{0,0},
-		{srd.edgeLen,0},
-		{srd.edgeLen,srd.edgeLen},
-		{0,srd.edgeLen}
+		{srd.edgeLen-1,0},
+		{srd.edgeLen-1,srd.edgeLen-1},
+		{0,srd.edgeLen-1}
 	};
 
 	SQuadSplitResult *sr = new SQuadSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
