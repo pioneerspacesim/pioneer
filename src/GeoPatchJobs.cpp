@@ -25,7 +25,7 @@ inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vec
 // ********************************************************************************
 
 // Generates full-detail vertices, and also non-edge normals and colors 
-void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, 
+void SinglePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, 
 								double *borderHeights, vector3d *borderVertexs,
 								const vector3d &v0,
 								const vector3d &v1,
@@ -85,89 +85,6 @@ void BasePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *co
 	assert(hts==&heights[edgeLen*edgeLen]);
 	assert(nrm==&normals[edgeLen*edgeLen]);
 	assert(col==&colors[edgeLen*edgeLen]);
-}
-
-// Generates full-detail vertices, and also non-edge normals and colors 
-void BasePatchJob::GenerateBorderedData(
-	double *borderHeights, vector3d *borderVertexs,
-	const vector3d &v0,
-	const vector3d &v1,
-	const vector3d &v2,
-	const vector3d &v3,
-	const int edgeLen,
-	const double fracStep,
-	const Terrain *pTerrain) const
-{
-	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2) - 1;
-	const int numBorderedVerts = borderedEdgeLen*borderedEdgeLen;
-
-	// generate heights plus a N=BORDER_SIZE unit border
-	double *bhts = borderHeights;
-	vector3d *vrts = borderVertexs;
-	for ( int y = -BORDER_SIZE; y < (borderedEdgeLen - BORDER_SIZE); y++ ) {
-		const double yfrac = double(y) * (fracStep*0.5);
-		for ( int x = -BORDER_SIZE; x < (borderedEdgeLen - BORDER_SIZE); x++ ) {
-			const double xfrac = double(x) * (fracStep*0.5);
-			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
-			const double height = pTerrain->GetHeight(p);
-			assert(height >= 0.0f && height <= 1.0f);
-			*(bhts++) = height;
-			*(vrts++) = p * (height + 1.0);
-		}
-	}
-	assert(bhts == &borderHeights[numBorderedVerts]);
-}
-
-void BasePatchJob::GenerateSubPatchData(
-	double *heights, vector3f *normals, Color3ub *colors, 
-	double *borderHeights, vector3d *borderVertexs,
-	const vector3d &v0,
-	const vector3d &v1,
-	const vector3d &v2,
-	const vector3d &v3,
-	const int edgeLen,
-	const int xoff, 
-	const int yoff,
-	const int borderedEdgeLen,
-	const double fracStep,
-	const Terrain *pTerrain) const
-{
-	// Generate normals & colors for vertices
-	vector3d *vrts = borderVertexs;
-	Color3ub *col = colors;
-	vector3f *nrm = normals;
-	double *hts = heights;
-
-	// step over the small square
-	for ( int y = 0; y < edgeLen; y++ ) {
-		const int by = (y + BORDER_SIZE) + yoff;
-		for ( int x = 0; x < edgeLen; x++ ) {
-			const int bx = (x + BORDER_SIZE) + xoff;
-
-			// height
-			const double height = borderHeights[bx + (by * borderedEdgeLen)];
-			assert(hts != &heights[edgeLen * edgeLen]);
-			*(hts++) = height;
-
-			// normal
-			const vector3d &x1 = vrts[(bx - 1) + (by * borderedEdgeLen)];
-			const vector3d &x2 = vrts[(bx + 1) + (by * borderedEdgeLen)];
-			const vector3d &y1 = vrts[bx + ((by - 1) * borderedEdgeLen)];
-			const vector3d &y2 = vrts[bx + ((by + 1) * borderedEdgeLen)];
-			const vector3d n = ((x2 - x1).Cross(y2 - y1)).Normalized();
-			assert(nrm != &normals[edgeLen * edgeLen]);
-			*(nrm++) = vector3f(n);
-
-			// color
-			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x * fracStep, y * fracStep);
-			setColour(*col, pTerrain->GetColor(p, height, n));
-			assert(col != &colors[edgeLen * edgeLen]);
-			++col;
-		}
-	}
-	assert(hts == &heights[edgeLen*edgeLen]);
-	assert(nrm == &normals[edgeLen*edgeLen]);
-	assert(col == &colors[edgeLen*edgeLen]);
 }
 
 // ********************************************************************************
@@ -272,4 +189,87 @@ QuadPatchJob::~QuadPatchJob()
 		delete mpResults;
 		mpResults = NULL;
 	}
+}
+
+// Generates full-detail vertices, and also non-edge normals and colors 
+void QuadPatchJob::GenerateBorderedData(
+	double *borderHeights, vector3d *borderVertexs,
+	const vector3d &v0,
+	const vector3d &v1,
+	const vector3d &v2,
+	const vector3d &v3,
+	const int edgeLen,
+	const double fracStep,
+	const Terrain *pTerrain) const
+{
+	const int borderedEdgeLen = (edgeLen * 2) + (BORDER_SIZE * 2) - 1;
+	const int numBorderedVerts = borderedEdgeLen*borderedEdgeLen;
+
+	// generate heights plus a N=BORDER_SIZE unit border
+	double *bhts = borderHeights;
+	vector3d *vrts = borderVertexs;
+	for ( int y = -BORDER_SIZE; y < (borderedEdgeLen - BORDER_SIZE); y++ ) {
+		const double yfrac = double(y) * (fracStep*0.5);
+		for ( int x = -BORDER_SIZE; x < (borderedEdgeLen - BORDER_SIZE); x++ ) {
+			const double xfrac = double(x) * (fracStep*0.5);
+			const vector3d p = GetSpherePoint(v0, v1, v2, v3, xfrac, yfrac);
+			const double height = pTerrain->GetHeight(p);
+			assert(height >= 0.0f && height <= 1.0f);
+			*(bhts++) = height;
+			*(vrts++) = p * (height + 1.0);
+		}
+	}
+	assert(bhts == &borderHeights[numBorderedVerts]);
+}
+
+void QuadPatchJob::GenerateSubPatchData(
+	double *heights, vector3f *normals, Color3ub *colors, 
+	double *borderHeights, vector3d *borderVertexs,
+	const vector3d &v0,
+	const vector3d &v1,
+	const vector3d &v2,
+	const vector3d &v3,
+	const int edgeLen,
+	const int xoff, 
+	const int yoff,
+	const int borderedEdgeLen,
+	const double fracStep,
+	const Terrain *pTerrain) const
+{
+	// Generate normals & colors for vertices
+	vector3d *vrts = borderVertexs;
+	Color3ub *col = colors;
+	vector3f *nrm = normals;
+	double *hts = heights;
+
+	// step over the small square
+	for ( int y = 0; y < edgeLen; y++ ) {
+		const int by = (y + BORDER_SIZE) + yoff;
+		for ( int x = 0; x < edgeLen; x++ ) {
+			const int bx = (x + BORDER_SIZE) + xoff;
+
+			// height
+			const double height = borderHeights[bx + (by * borderedEdgeLen)];
+			assert(hts != &heights[edgeLen * edgeLen]);
+			*(hts++) = height;
+
+			// normal
+			const vector3d &x1 = vrts[(bx - 1) + (by * borderedEdgeLen)];
+			const vector3d &x2 = vrts[(bx + 1) + (by * borderedEdgeLen)];
+			const vector3d &y1 = vrts[bx + ((by - 1) * borderedEdgeLen)];
+			const vector3d &y2 = vrts[bx + ((by + 1) * borderedEdgeLen)];
+			const vector3d n = ((x2 - x1).Cross(y2 - y1)).Normalized();
+			assert(nrm != &normals[edgeLen * edgeLen]);
+			*(nrm++) = vector3f(n);
+
+			// color
+			const vector3d p = GetSpherePoint(v0, v1, v2, v3, x * fracStep, y * fracStep);
+			setColour(*col, pTerrain->GetColor(p, height, n));
+			assert(col != &colors[edgeLen * edgeLen]);
+			++col;
+		}
+	}
+	assert(hts == &heights[edgeLen*edgeLen]);
+	assert(nrm == &normals[edgeLen*edgeLen]);
+	assert(col == &colors[edgeLen*edgeLen]);
 }
