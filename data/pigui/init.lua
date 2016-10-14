@@ -10,7 +10,8 @@ local lc = Lang.GetResource("core");
 local lui = Lang.GetResource("ui-core");
 local utils = import("utils")
 
-local blue = Color(0,0,128)
+local base = Color(0,1,33)
+local highlight = Color(0,63,112)
 
 ui.registerHandler(
 	'init',
@@ -30,7 +31,7 @@ ui.registerHandler(
 									  
 									  ui.dummy(Vector(ui.screenWidth/4,0))
 									  ui.sameLine()
-									  ui.withStyleColors({ ["PlotHistogram"] = blue:tint(0.2), ["FrameBg"] = blue }, function()
+									  ui.withStyleColors({ ["PlotHistogram"] = highlight, ["FrameBg"] = base }, function()
 											  ui.progressBar(progress, Vector(ui.screenWidth / 2, 25), "")
 									  end)
 						end)
