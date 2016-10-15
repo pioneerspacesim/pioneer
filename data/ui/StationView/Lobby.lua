@@ -7,9 +7,14 @@ local Rand = import("Rand")
 local Character = import("Character")
 local Lang = import("Lang")
 local Comms = import("Comms")
+local Format = import("Format")
+local Equipment = import("Equipment")
+local ShipDef = import("ShipDef")
 
 local InfoFace = import("ui/InfoFace")
 local MessageBox = import("ui/MessageBox")
+local InfoGauge = import("ui/InfoGauge")
+local SmallLabeledButton = import("ui/SmallLabeledButton")
 
 local l = Lang.GetResource("ui-core")
 
@@ -21,7 +26,7 @@ local lobby = function (tab)
 	local rand = Rand.New(station.seed)
 	local face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand))
 
-	local launchButton = ui:Button(l.REQUEST_LAUNCH):SetFont("HEADING_LARGE")
+	local launchButton = ui:Button(ui:Expand("HORIZONTAL", ui:Align("MIDDLE", l.REQUEST_LAUNCH))):SetFont("HEADING_LARGE")
 	launchButton.onClick:Connect(function ()
 		local crimes, fine = Game.player:GetCrimeOutstanding()
 
@@ -36,6 +41,81 @@ local lobby = function (tab)
 			Comms.ImportantMessage(l.LAUNCH_PERMISSION_DENIED_BUSY, station.label)
 		else
 			Game.SwitchView()
+		end
+	end)
+
+	local fuelGauge = InfoGauge.New({
+		label		= ui:NumberLabel("PERCENT"),
+		warningLevel	= 0.1,
+		criticalLevel	= 0.05,
+		levelAscending	= false,
+	})
+	fuelGauge.label:Bind("valuePercent", Game.player, "fuel")
+	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
+
+	local fuelSlider = ui:HSlider():SetRange(0, 100)
+	local fuelSliderLabel = ui:Label(string.format("%.2f", Game.player.fuel) .. "%")
+	local totalLabel = ui:Label("0")
+	fuelSlider:SetValue(Game.player.fuel)
+	fuelSlider.onValueChanged:Connect(function (fuel)
+		local total = Game.player:GetDockedWith():GetEquipmentPrice(Equipment.cargo.hydrogen) * ShipDef[Game.player.shipId].fuelTankMass/100 * (fuel - Game.player.fuel)
+		fuelSliderLabel:SetText(string.format("%.2f", fuel) .. "%")
+		totalLabel:SetText(string.format("%.2f", total))
+	end)
+
+	local applyButton = SmallLabeledButton.New("Apply")
+	applyButton.button.onClick:Connect(function ()
+		local stock = Game.player:GetDockedWith():GetEquipmentStock(Equipment.cargo.hydrogen)
+		local price = Game.player:GetDockedWith():GetEquipmentPrice(Equipment.cargo.hydrogen)
+		local fuel = fuelSlider:GetValue()
+		local mass = ShipDef[Game.player.shipId].fuelTankMass/100 * (fuel - Game.player.fuel)
+		local total = price * mass
+
+		if total > Game.player:GetMoney() then
+			total = Game.player:GetMoney()
+			mass = total / price
+			fuel = Game.player.fuel + mass * 100 / ShipDef[Game.player.shipId].fuelTankMass
+			fuelSlider:SetValue(fuel)
+		end
+
+		if stock < mass then
+			mass = stock
+			total = price * mass
+			fuel = Game.player.fuel + mass * 100 / ShipDef[Game.player.shipId].fuelTankMass
+			fuelSlider:SetValue(fuel)
+		end
+
+		Game.player:AddMoney(-total)
+		Game.player:GetDockedWith():AddEquipmentStock(Equipment.cargo.hydrogen, -math.ceil(mass))
+		Game.player:SetFuelPercent(fuel)
+	end)
+
+	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
+	hangupButton.button.onClick:Connect(function () ui:DropLayer() end)
+
+	local refuelButton = ui:Button(ui:Expand("HORIZONTAL", ui:Align("MIDDLE", l.REFUEL))):SetFont("HEADING_LARGE")
+	refuelButton.onClick:Connect(function ()
+		if Game.player:GetDockedWith():GetEquipmentStock(Equipment.cargo.hydrogen) ~= 0 then
+			ui:NewLayer(
+				ui:ColorBackground(0,0,0,0.5,
+					ui:Grid({25,50,25},{20,50,30}):SetCell(1,1,
+						ui:Background(
+							ui:VBox(10):PackEnd({
+								ui:MultiLineText("Hello Commander,\nwe have xt hydrogen in our stock for a price of x/t.\nHow can I serve you?"),
+								ui:Margin(10),
+								fuelGauge,
+								ui:HBox(10):PackEnd({ fuelSlider, fuelSliderLabel }),
+								ui:HBox(10):PackEnd({ ui:Label("Total:"), totalLabel }),
+								applyButton,
+								ui:Margin(10),
+								hangupButton,
+							})
+						)
+					)
+				)
+			)
+		else
+			MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK)
 		end
 	end)
 
@@ -54,7 +134,13 @@ local lobby = function (tab)
 					ui:Label(station.label):SetFont("HEADING_LARGE"),
 					ui:Align("LEFT", tech_certified),
 					ui:Expand(),
-					ui:Align("MIDDLE", launchButton),
+					ui:Grid({15,70,15},1)
+						:SetColumn(1, {
+							ui:VBox(10):PackEnd({
+								refuelButton,
+								launchButton,
+							})
+						})
 				})
 			})
 			:SetColumn(2, {
