@@ -20,6 +20,7 @@ public:
 
 	void SwapBuffers();
 
+    SDL_Window *GetSDLWindow() const { return m_window; }
 private:
 	bool CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits);
 

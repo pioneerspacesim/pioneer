@@ -96,7 +96,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -127,7 +127,7 @@
       <LargeAddressAware>true</LargeAddressAware>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -147,7 +147,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <SDLCheck>false</SDLCheck>
@@ -172,7 +172,7 @@
     </Link>
     <ClCompile />
     <ClCompile>
-      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../src;../../../pioneer-thirdparty/win32/include;../../../../pioneer-thirdparty/win32/include;../../win32/include;../../include;../../../contrib;../../contrib;../../contrib/imgui</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;HAVE_M_PI;PIONEER_PROFILER;WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Qpar-report:2 /Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
       <SDLCheck>false</SDLCheck>
@@ -186,6 +186,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\contrib\imgui\examples\sdl_opengl3_example\imgui_impl_sdl_gl3.cpp" />
+    <ClCompile Include="..\..\contrib\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\contrib\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\..\contrib\PicoDDS\PicoDDS.cpp" />
     <ClCompile Include="..\..\src\AmbientSounds.cpp" />
     <ClCompile Include="..\..\src\Background.cpp" />
@@ -248,6 +251,7 @@
     <ClCompile Include="..\..\src\LuaMusic.cpp" />
     <ClCompile Include="..\..\src\LuaNameGen.cpp" />
     <ClCompile Include="..\..\src\LuaObject.cpp" />
+    <ClCompile Include="..\..\src\LuaPiGui.cpp" />
     <ClCompile Include="..\..\src\LuaPlanet.cpp" />
     <ClCompile Include="..\..\src\LuaPlayer.cpp" />
     <ClCompile Include="..\..\src\LuaPropertiedObject.cpp" />
@@ -278,6 +282,7 @@
     <ClCompile Include="..\..\src\Orbit.cpp" />
     <ClCompile Include="..\..\src\perlin.cpp" />
     <ClCompile Include="..\..\src\Pi.cpp" />
+    <ClCompile Include="..\..\src\PiGui.cpp" />
     <ClCompile Include="..\..\src\Plane.cpp" />
     <ClCompile Include="..\..\src\Planet.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
@@ -336,6 +341,10 @@
     <ClCompile Include="..\..\src\WorldView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\contrib\imgui\examples\sdl_opengl3_example\imgui_impl_sdl_gl3.h" />
+    <ClInclude Include="..\..\contrib\imgui\imgui.h" />
+    <ClInclude Include="..\..\contrib\nanosvg\nanosvg.h" />
+    <ClInclude Include="..\..\contrib\nanosvg\nanosvgrast.h" />
     <ClInclude Include="..\..\contrib\PicoDDS\PicoDDS.h" />
     <ClInclude Include="..\..\src\Aabb.h" />
     <ClInclude Include="..\..\src\AmbientSounds.h" />
@@ -401,6 +410,7 @@
     <ClInclude Include="..\..\src\LuaMusic.h" />
     <ClInclude Include="..\..\src\LuaNameGen.h" />
     <ClInclude Include="..\..\src\LuaObject.h" />
+    <ClInclude Include="..\..\src\LuaPiGui.h" />
     <ClInclude Include="..\..\src\LuaPushPull.h" />
     <ClInclude Include="..\..\src\LuaRef.h" />
     <ClInclude Include="..\..\src\LuaSerializer.h" />
@@ -428,6 +438,7 @@
     <ClInclude Include="..\..\src\perlin.h" />
     <ClInclude Include="..\..\src\PersistSystemData.h" />
     <ClInclude Include="..\..\src\Pi.h" />
+    <ClInclude Include="..\..\src\PiGui.h" />
     <ClInclude Include="..\..\src\Plane.h" />
     <ClInclude Include="..\..\src\Planet.h" />
     <ClInclude Include="..\..\src\Player.h" />

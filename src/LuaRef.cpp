@@ -27,8 +27,13 @@ const LuaRef & LuaRef::operator=(const LuaRef & ref) {
 }
 
 LuaRef::~LuaRef() {
+  Unref();
+}
+
+void LuaRef::Unref() {
 	if (m_id != LUA_NOREF && m_lua) {
 		--(*m_copycount);
+		m_id = LUA_NOREF;
 		CheckCopyCount();
 	}
 }
