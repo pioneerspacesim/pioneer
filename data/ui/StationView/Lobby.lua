@@ -22,11 +22,15 @@ local ui = Engine.ui
 
 local lobby = function (tab)
 	local station = Game.player:GetDockedWith()
+	local shipDef = ShipDef[Game.player.shipId]
 
 	local rand = Rand.New(station.seed)
 	local face = InfoFace.New(Character.New({ title = l.STATION_MANAGER }, rand))
 
-	local launchButton = ui:Button(ui:Expand("HORIZONTAL", ui:Align("MIDDLE", l.REQUEST_LAUNCH))):SetFont("HEADING_LARGE")
+	local hyperdrive = table.unpack(Game.player:GetEquip("engine")) or nil
+	local hyperdrive_fuel = hyperdrive and hyperdrive.fuel or Equipment.cargo.hydrogen
+
+	local launchButton = ui:Button(l.REQUEST_LAUNCH):SetFont("HEADING_LARGE")
 	launchButton.onClick:Connect(function ()
 		local crimes, fine = Game.player:GetCrimeOutstanding()
 
@@ -44,80 +48,137 @@ local lobby = function (tab)
 		end
 	end)
 
+	local deltaV = ui:Label("")
+	local updateDeltaV = function ()
+		local dv = shipDef.effectiveExhaustVelocity * math.log((Game.player.staticMass + Game.player.fuelMassLeft) / Game.player.staticMass)
+		deltaV:SetText(string.format("%d km/s", dv/1000))
+	end
+	updateDeltaV()
+
 	local fuelGauge = InfoGauge.New({
 		label		= ui:NumberLabel("PERCENT"),
 		warningLevel	= 0.1,
 		criticalLevel	= 0.05,
 		levelAscending	= false,
 	})
+
+	local fuelGaugeTons = ui:Label("")
+	local updateFuelGaugeTons = function ()
+		fuelGaugeTons:SetText(string.format("%.2f", shipDef.fuelTankMass * Game.player.fuel/100) .. "t")
+	end
+	updateFuelGaugeTons()
+
+	local cargoGauge = ui:Gauge()
+	cargoGauge:SetUpperValue(Game.player.totalCargo - Game.player.usedCargo + Game.player:CountEquip(hyperdrive_fuel))
+	local cargoGaugeTons = ui:Label("")
+	local function updateCargo ()
+		local amount = Game.player:CountEquip(hyperdrive_fuel)
+		cargoGauge:SetValue(amount)
+		cargoGaugeTons:SetText(amount .. "t")
+	end
+	updateCargo()
+
+	local hyperspaceRange = ui:Label("")
+	local updateHyperspaceRange = function ()
+		hyperspaceRange:SetText(string.format("%.1f ", Game.player.hyperspaceRange) .. l.LY)
+	end
+	updateHyperspaceRange()
+
+	local totalFuel = ui:Label("")
+	local updateTotalFuel = function ()
+		totalFuel:SetText(Format.Money(station:GetEquipmentPrice(Equipment.cargo.hydrogen) * shipDef.fuelTankMass/100 * Game.player.fuel))
+	end
+	updateTotalFuel()
+
+	local totalHyperdriveFuel = ui:Label("")
+	local updateTotalHyperdriveFuel = function ()
+		totalHyperdriveFuel:SetText(Format.Money(station:GetEquipmentPrice(hyperdrive_fuel) * Game.player:CountEquip(hyperdrive_fuel)))
+	end
+	updateTotalHyperdriveFuel()
+
 	fuelGauge.label:Bind("valuePercent", Game.player, "fuel")
 	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
+	Game.player:Connect("fuel", updateDeltaV)
+	Game.player:Connect("fuel", updateFuelGaugeTons)
+	Game.player:Connect("fuel", updateHyperspaceRange)
+	Game.player:Connect("fuel", updateTotalFuel)
+	Game.player:Connect("usedCargo", updateDeltaV)
+	Game.player:Connect("usedCargo", updateCargo)
+	Game.player:Connect("usedCargo", updateHyperspaceRange)
+	Game.player:Connect("usedCargo", updateTotalHyperdriveFuel)
 
-	local fuelSlider = ui:HSlider():SetRange(0, 100)
-	local fuelSliderLabel = ui:Label(string.format("%.2f", Game.player.fuel) .. "%")
-	local totalLabel = ui:Label("0")
-	fuelSlider:SetValue(Game.player.fuel)
-	fuelSlider.onValueChanged:Connect(function (fuel)
-		local total = Game.player:GetDockedWith():GetEquipmentPrice(Equipment.cargo.hydrogen) * ShipDef[Game.player.shipId].fuelTankMass/100 * (fuel - Game.player.fuel)
-		fuelSliderLabel:SetText(string.format("%.2f", fuel) .. "%")
-		totalLabel:SetText(string.format("%.2f", total))
-	end)
-
-	local applyButton = SmallLabeledButton.New("Apply")
-	applyButton.button.onClick:Connect(function ()
-		local stock = Game.player:GetDockedWith():GetEquipmentStock(Equipment.cargo.hydrogen)
-		local price = Game.player:GetDockedWith():GetEquipmentPrice(Equipment.cargo.hydrogen)
-		local fuel = fuelSlider:GetValue()
-		local mass = ShipDef[Game.player.shipId].fuelTankMass/100 * (fuel - Game.player.fuel)
+	local refuelInternalTank = function (delta)
+		local stock = station:GetEquipmentStock(Equipment.cargo.hydrogen)
+		local price = station:GetEquipmentPrice(Equipment.cargo.hydrogen)
+		local fuel = Game.player.fuel + delta
+		local mass = shipDef.fuelTankMass/100 * delta
 		local total = price * mass
+
+		if stock == 0 then MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK) return end
 
 		if total > Game.player:GetMoney() then
 			total = Game.player:GetMoney()
 			mass = total / price
-			fuel = Game.player.fuel + mass * 100 / ShipDef[Game.player.shipId].fuelTankMass
-			fuelSlider:SetValue(fuel)
+			fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 		end
 
 		if stock < mass then
 			mass = stock
 			total = price * mass
-			fuel = Game.player.fuel + mass * 100 / ShipDef[Game.player.shipId].fuelTankMass
-			fuelSlider:SetValue(fuel)
+			fuel = Game.player.fuel + mass * 100 / shipDef.fuelTankMass
 		end
 
 		Game.player:AddMoney(-total)
-		Game.player:GetDockedWith():AddEquipmentStock(Equipment.cargo.hydrogen, -math.ceil(mass))
+		station:AddEquipmentStock(Equipment.cargo.hydrogen, -math.ceil(mass))
 		Game.player:SetFuelPercent(fuel)
-	end)
+	end
 
-	local hangupButton = SmallLabeledButton.New(l.HANG_UP)
-	hangupButton.button.onClick:Connect(function () ui:DropLayer() end)
+	local refuelHyperdrive = function (mass)
+		local stock = station:GetEquipmentStock(hyperdrive_fuel)
+		local price = station:GetEquipmentPrice(hyperdrive_fuel)
+		local total = price * mass
 
-	local refuelButton = ui:Button(ui:Expand("HORIZONTAL", ui:Align("MIDDLE", l.REFUEL))):SetFont("HEADING_LARGE")
-	refuelButton.onClick:Connect(function ()
-		if Game.player:GetDockedWith():GetEquipmentStock(Equipment.cargo.hydrogen) ~= 0 then
-			ui:NewLayer(
-				ui:ColorBackground(0,0,0,0.5,
-					ui:Grid({25,50,25},{20,50,30}):SetCell(1,1,
-						ui:Background(
-							ui:VBox(10):PackEnd({
-								ui:MultiLineText("Hello Commander,\nwe have xt hydrogen in our stock for a price of x/t.\nHow can I serve you?"),
-								ui:Margin(10),
-								fuelGauge,
-								ui:HBox(10):PackEnd({ fuelSlider, fuelSliderLabel }),
-								ui:HBox(10):PackEnd({ ui:Label("Total:"), totalLabel }),
-								applyButton,
-								ui:Margin(10),
-								hangupButton,
-							})
-						)
-					)
-				)
-			)
-		else
-			MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK)
+		if stock == 0 then MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK) return end
+
+		if total > Game.player:GetMoney() then
+			mass = math.floor(Game.player:GetMoney() / price)
+			total = price * mass
 		end
-	end)
+
+		if stock < mass then
+			mass = stock
+			total = price * mass
+		end
+
+		Game.player:AddMoney(-total)
+		if mass < 0 then
+			Game.player:RemoveEquip(hyperdrive_fuel, math.abs(mass), "cargo")
+		else
+			Game.player:AddEquip(hyperdrive_fuel, mass, "cargo")
+		end
+		station:AddEquipmentStock(hyperdrive_fuel, -mass)
+	end
+
+	local refuelFullButton = ui:Button(l.REFUEL_FULL):SetFont("XSMALL")
+	refuelFullButton.onClick:Connect(function () refuelInternalTank(100 - Game.player.fuel) end)
+
+	local add10Button = ui:Button("+10%"):SetFont("XSMALL")
+	add10Button.onClick:Connect(function () refuelInternalTank(math.clamp(10, 0, 100 - Game.player.fuel)) end)
+
+	local sub10Button = ui:Button("-10%"):SetFont("XSMALL")
+	sub10Button.onClick:Connect(function () refuelInternalTank(math.clamp(-10, -Game.player.fuel, 0)) end)
+
+	local addOneButton = ui:Button("+1t"):SetFont("XSMALL")
+	addOneButton.onClick:Connect(function () refuelHyperdrive(math.clamp(1, 0, Game.player.totalCargo - Game.player.usedCargo)) end)
+
+	local addTenButton = ui:Button("+10t"):SetFont("XSMALL")
+	addTenButton.onClick:Connect(function () refuelHyperdrive(math.clamp(10, 0, Game.player.totalCargo - Game.player.usedCargo)) end)
+
+	local subOneButton = ui:Button("-1t"):SetFont("XSMALL")
+	subOneButton.onClick:Connect(function () refuelHyperdrive(math.clamp(-1, -Game.player:CountEquip(hyperdrive_fuel), 0)) end)
+
+	local subTenButton = ui:Button("-10t"):SetFont("XSMALL")
+	subTenButton.onClick:Connect(function () refuelHyperdrive(math.clamp(-10, -Game.player:CountEquip(hyperdrive_fuel), 0)) end)
 
 	local tech_certified
 
@@ -128,19 +189,54 @@ local lobby = function (tab)
 	end
 
 	return
-		ui:Grid({48,4,48},1)
+		ui:Grid({60,1,39},1)
 			:SetColumn(0, {
 				ui:VBox(10):PackEnd({
 					ui:Label(station.label):SetFont("HEADING_LARGE"),
 					ui:Align("LEFT", tech_certified),
 					ui:Expand(),
-					ui:Grid({15,70,15},1)
-						:SetColumn(1, {
-							ui:VBox(10):PackEnd({
-								refuelButton,
-								launchButton,
-							})
-						})
+					ui:VBox(10):PackEnd({
+						ui:HBox(10):PackEnd({
+							ui:Image("icons/goods/Hydrogen.png", { "PRESERVE_ASPECT" }),
+							ui:VBox():PackEnd({
+								ui:Label(Format.Money(station:GetEquipmentPrice(Equipment.cargo.hydrogen)) .. "/t"):SetFont("XSMALL"),
+								totalFuel:SetFont("XSMALL"),
+							}),
+							refuelFullButton,
+							sub10Button,
+							add10Button,
+							ui:VBox():PackEnd({
+								fuelGauge,
+								ui:HBox(10):PackEnd({
+									ui:Label(l.DELTA_V .. ":"):SetFont("SMALL"),
+									deltaV:SetFont("SMALL"),
+									ui:Expand("HORIZONTAL", ui:Align("RIGHT", fuelGaugeTons:SetFont("SMALL"))),
+								}),
+							}),
+						}),
+						ui:HBox(10):PackEnd({
+							ui:Image("icons/goods/" .. hyperdrive_fuel.icon_name .. ".png", { "PRESERVE_ASPECT" }),
+							ui:VBox():PackEnd({
+								ui:Label(Format.Money(station:GetEquipmentPrice(hyperdrive_fuel)) .. "/t"):SetFont("XSMALL"),
+								totalHyperdriveFuel:SetFont("XSMALL"),
+							}),
+							subTenButton,
+							subOneButton,
+							addOneButton,
+							addTenButton,
+							ui:VBox():PackEnd({
+								ui:HBox(10):PackEnd({
+									cargoGauge,
+									cargoGaugeTons,
+								}),
+								ui:HBox(10):PackEnd({
+									ui:Label(l.HYPERSPACE_RANGE .. ":"):SetFont("SMALL"),
+									hyperspaceRange:SetFont("SMALL"),
+								}),
+							}),
+						}),
+					}),
+					ui:Align("MIDDLE", launchButton),
 				})
 			})
 			:SetColumn(2, {
