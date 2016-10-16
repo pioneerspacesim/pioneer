@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Zicht op de sterren"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Bezig met simuleren: evolutie van het universum - %age{f.1} miljard jaar ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Slaven"

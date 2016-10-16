@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Вид со стороны"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Моделируем эволюцию вселенной: %age{f.1} млрд. лет ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Рабы"

@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Sziderikus nézet"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Az univerzum evolúciószimulálása:  %age{f.1} milliárd év ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Rabszolgák"

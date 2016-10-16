@@ -1047,6 +1047,10 @@
       "description" : "",
       "message" : "Bakmakta oldunuz gemi satıldı."
    },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Ses"

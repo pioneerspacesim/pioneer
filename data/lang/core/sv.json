@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Sidovy"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulerar universumets evolution: %age{f.1} miljarder år ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Slavar"

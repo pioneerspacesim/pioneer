@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Žvaigždžių vaizdas"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simuliuojama visatos evoliucija: %age{f.1} milijardų metų ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Vergai"

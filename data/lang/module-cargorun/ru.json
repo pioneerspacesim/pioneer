@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Как жизнь? Я {name}. \nОдин из моих клиентов хочет вывезти {cargoname} из космопорта {starport} в системе {system} ({sectorx}, {sectory}, {sectorz}), которая находится в {dist} св.лет отсюда и разгрузиться здесь в космопорте {dom_starport} системы {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}). За перевозку груза клиент платит {cash}. "
+      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",

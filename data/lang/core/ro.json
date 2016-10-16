@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Vizionare siderală"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Se simulează evoluția universului: %age{f.1} mii de milioane de ani ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Sclavi"

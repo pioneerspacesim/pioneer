@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Sidelæns synspunkt"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulerer evolution af universet: %age{f.1} milliarder år"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Slaver"

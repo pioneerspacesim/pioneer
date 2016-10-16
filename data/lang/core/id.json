@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Sidereal view"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Menyimulasikan evolusi alam semesta: %age{f.1} milyar tahun ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Budak"

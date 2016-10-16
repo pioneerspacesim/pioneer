@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Sidereal view"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulacija evolucije svemira: %age{f.1} miljarda godina ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Robovi"

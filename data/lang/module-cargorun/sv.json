@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Hur är det med dig? Jag är {name}. En av mina klienter vill importera {cargoname} från {starport} i systemet {system} ({sectorx}, {sectory}, {sectorz}), på {dist} ly avstånd. Han betalar {cash} för den här lasten. Kom tillbaka hit till {dom_starport} i systemet {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) för att lasta av."
+      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",

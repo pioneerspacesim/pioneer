@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Pohled hvězdný"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simuluji evoluci vesmíru: %age{f.1} miliard let ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Otroci"

@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Visão sideral"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulando evolução do universo: %age{f.1} bilhões de anos ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Escravos"

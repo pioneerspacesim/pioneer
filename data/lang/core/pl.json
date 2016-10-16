@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Widok radialny"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Symulacja ewolucji wszechświata: %age{f.1} miliardów lat ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Niewolnicy"

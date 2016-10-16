@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "恒星视角"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "正在模拟宇宙进化过程: %age{f.1} 十亿年 ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "奴隶"

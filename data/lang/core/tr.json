@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Yıldızsal görünüm"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Evrenin gelişimi taklit ediliyor: %age{f.1} milyar yıl ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Köleler"

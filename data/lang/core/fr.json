@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Vue sidérale"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulation de l'évolution de l'univers : %age{f.1} milliards d'années ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Esclaves"

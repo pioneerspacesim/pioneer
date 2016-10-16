@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "Sealladh ùine nan reul"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "A' cruthachadh gnè an domhain: %age{f.1} billean bliadhna ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "Tràillean"

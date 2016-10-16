@@ -1391,10 +1391,6 @@
       "description" : "camera view setting",
       "message" : "رؤية جانبية"
    },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "محاكاة تطور الكون: %age{f.1} بليون سنة ;-)"
-   },
    "SLAVES" : {
       "description" : "",
       "message" : "عبيد"

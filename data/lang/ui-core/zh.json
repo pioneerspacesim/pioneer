@@ -1047,6 +1047,10 @@
       "description" : "",
       "message" : "你正在查看的飞船已经售出"
    },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "声音"
