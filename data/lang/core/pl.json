@@ -1145,19 +1145,19 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
+      "message" : "Tempo wzrostu wartości delta-v. Kliknij, aby przywrócić domyślne."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji normalnej. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji przodem. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Delta-v dla pozycji radialnej. Kliknij, aby wyzerować."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",

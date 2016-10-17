@@ -1049,7 +1049,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+      "message" : "Simuliere Evolution des Universums: {age} Milliarden Jahre ;-)"
    },
    "SOUND" : {
       "description" : "",

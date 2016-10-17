@@ -77,39 +77,39 @@
    },
    "DRIVE_MIL1" : {
       "description" : "",
-      "message" : "Klass 1 militär motor"
+      "message" : "Klass 1 militärmotor"
    },
    "DRIVE_MIL2" : {
       "description" : "",
-      "message" : "Klass 2 militär motor"
+      "message" : "Klass 2 militärmotor"
    },
    "DRIVE_MIL3" : {
       "description" : "",
-      "message" : "Klass 3 militär motor"
+      "message" : "Klass 3 militärmotor"
    },
    "DRIVE_MIL4" : {
       "description" : "",
-      "message" : "Klass 4 militär motor"
+      "message" : "Klass 4 militärmotor"
    },
    "DRIVE_MIL5" : {
       "description" : "",
-      "message" : "Class 5 Military drive"
+      "message" : "Klass 5 militärmotor"
    },
    "DRIVE_MIL6" : {
       "description" : "",
-      "message" : "Class 6 Military drive"
+      "message" : "Klass 6 militärmotor"
    },
    "DRIVE_MIL7" : {
       "description" : "",
-      "message" : "Class 7 Military drive"
+      "message" : "Klass 7 militärmotor"
    },
    "DRIVE_MIL8" : {
       "description" : "",
-      "message" : "Class 8 Military drive"
+      "message" : "Klass 8 millitärmotor"
    },
    "DRIVE_MIL9" : {
       "description" : "",
-      "message" : "Class 9 Military drive"
+      "message" : "Klass 9 militärmotor"
    },
    "ECM_ADVANCED" : {
       "description" : "",

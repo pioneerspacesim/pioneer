@@ -5,7 +5,7 @@
    },
    "BOARDED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has boarded the ship."
+      "message" : "{name} har bordat skeppet."
    },
    "COMMODITIES" : {
       "description" : "",
@@ -25,7 +25,7 @@
    },
    "DELIVERED_PASSENGER" : {
       "description" : "",
-      "message" : "{name} has left the ship."
+      "message" : "{name} har lämnat skeppet."
    },
    "DELIVERY" : {
       "description" : "",
@@ -201,7 +201,7 @@
    },
    "FLAVOUR_2_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
+      "message" : "För att fullfölja uppdraget måste du leverera drivmedlet före {due}."
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
@@ -217,7 +217,7 @@
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} ton bränsle har förflyttats."
    },
    "FLAVOUR_2_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "FLAVOUR_3_FAILUREMSG" : {
       "description" : "",
-      "message" : "Unacceptable performance! We will update our records accordingly."
+      "message" : "Uselt fulföljande! Vi uppdaterar våra register."
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -245,11 +245,11 @@
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you, commander! Your help has been duly noted."
+      "message" : "Tack kapten! Din hjälp har noterats."
    },
    "FLAVOUR_3_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} has left the ship."
+      "message" : "{unit} har lämnat skeppet."
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} ton bränsle har skickats."
    },
    "FLAVOUR_4_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -313,7 +313,7 @@
    },
    "FLAVOUR_5_TRANSFERMSG" : {
       "description" : "",
-      "message" : "{unit} ton of fuel has been transferred."
+      "message" : "{unit} ton bränsle har skickats."
    },
    "FLAVOUR_5_TYPEOFHELPTEXT" : {
       "description" : "",
@@ -385,7 +385,7 @@
    },
    "FULL_CARGO" : {
       "description" : "",
-      "message" : "Ship full. No more room for additional cargo."
+      "message" : "Skeppet är fullt. Inget utrymme för ytterligare last."
    },
    "FULL_CREW" : {
       "description" : "",
@@ -393,7 +393,7 @@
    },
    "FULL_PASSENGERS" : {
       "description" : "",
-      "message" : "All cabins full. No more space for more passengers."
+      "message" : "Alla hytter fulla. Ytterligare passagerare får inte plats."
    },
    "HOW_FAR" : {
       "description" : "",
@@ -413,7 +413,7 @@
    },
    "IT_MUST_BE_COMPLETED_BY" : {
       "description" : "",
-      "message" : "It must be completed by "
+      "message" : "Måste vara färdigt till"
    },
    "KM" : {
       "description" : "",
@@ -429,7 +429,7 @@
    },
    "LON" : {
       "description" : "",
-      "message" : "Lon:"
+      "message" : "Long:"
    },
    "LY" : {
       "description" : "",
@@ -437,7 +437,7 @@
    },
    "MISSING_COMM" : {
       "description" : "",
-      "message" : "Cannot complete transfer. {cargotype} missing."
+      "message" : "Kan inte slutföra transaktion. {cargotype} saknas."
    },
    "MISSING_CREW" : {
       "description" : "",
@@ -445,11 +445,11 @@
    },
    "MISSING_PASS" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passengers missing."
+      "message" : "Kan inte slutföra transaktion. Passagerare saknas."
    },
    "MISSING_PASSENGER" : {
       "description" : "",
-      "message" : "Cannot complete transfer. Passenger missing."
+      "message" : "Kan inte slutföra transaktion. Passagerare saknas."
    },
    "OK_AGREED" : {
       "description" : "",
@@ -481,7 +481,7 @@
    },
    "PLEASE_LAND" : {
       "description" : "",
-      "message" : "Please land ship to allow transfer."
+      "message" : "Vänligen landa skeppet för att möjliggöra transaktion."
    },
    "PROBLEM_CREW_1" : {
       "description" : "",
@@ -669,11 +669,11 @@
    },
    "TRANSFER_ABORTED" : {
       "description" : "",
-      "message" : "Transfer has been aborted!"
+      "message" : "Transaktion har avbrutits!"
    },
    "TRANSFER_COMPLETE" : {
       "description" : "",
-      "message" : "Transfer has been completed!"
+      "message" : "Transaktion har slutförts!"
    },
    "TRANSFER_PARTIAL" : {
       "description" : "",
@@ -681,7 +681,7 @@
    },
    "TRANSFER_TIME" : {
       "description" : "",
-      "message" : "Please allow {minutes} minutes for transfer."
+      "message" : "Vänligen vänta {minutes} för att fullborda transaktionen."
    },
    "TYPE_OF_HELP" : {
       "description" : "",
