@@ -227,6 +227,10 @@ void GeoPatch::UpdateVBOs(Graphics::Renderer *renderer)
 		// ----------------------------------------------------
 		// end of mapping
 		m_vertexBuffer->Unmap();
+		
+		// Don't need this anymore so throw it away
+		normals.reset();
+		colors.reset();
 
 #ifdef DEBUG_BOUNDING_SPHERES
 		RefCountedPtr<Graphics::Material> mat(Pi::renderer->CreateMaterial(Graphics::MaterialDescriptor()));
