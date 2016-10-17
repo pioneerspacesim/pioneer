@@ -13,7 +13,8 @@ October 2016
 	 * Fix ARFLAGS to remove warning (#3827)
 	 * Attempt to find the nearest matching exact name (#3832)
 	 * Terrain gen cleanup (#3834)
-         * Introduce imgui library, make load screen use it (#3826)
+     * Introduce imgui library, make load screen use it (#3826)
+	 * Simple reduction in memory usage (#3838)
 
 September 2016
    * New Features
