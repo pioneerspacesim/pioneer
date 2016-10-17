@@ -285,27 +285,27 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Модифицированные ускорители"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "Модифицированные ускорители, подходящие для вашего корабля."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Заказные ускорители"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "Сделанные под заказ ускорители максимально возможной мощности."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Оптимизированные ускорители"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
+      "message" : "Ускорители, которые оптимизированы для уменьшения неэффективности и увеличения мощности."
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
