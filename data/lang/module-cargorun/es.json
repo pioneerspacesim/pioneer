@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "¿Qué tal está? Soy {name}. Uno de mis clientes desea importar {cargoname} de {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} años luz de distancia. Paga {cash} por este envío. Regrese aquí a {dom_starport} en el sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) para la descarga."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",

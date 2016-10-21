@@ -285,27 +285,27 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Impulsores modificados"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "Un tipo de impulsores modificados aprobados para su nave."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Impulsores a medida"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "Impulsores personalizados que ofrecen la mejor salida de potencia posible."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Impulsores optimizados"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
+      "message" : "Impulsores que han sido optimizados a fin de reducir ineficiencias y mejorar la salida de potencia."
    },
    "TRADE_ANALYZER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
