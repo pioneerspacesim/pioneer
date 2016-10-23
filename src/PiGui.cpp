@@ -107,6 +107,13 @@ void PiGui::Init(SDL_Window *window) {
 	ImGui_ImplSdlGL3_Init(window);
 
 	ImGuiIO &io = ImGui::GetIO();
+
+	std::string imguiIni = FileSystem::JoinPath(FileSystem::GetUserDir(), "imgui.ini");
+	// this will be leaked, not sure how to deal with it properly in imgui...
+	char *ioIniFilename = new char[imguiIni.size() + 1];
+	std::strncpy(ioIniFilename, imguiIni.c_str(), imguiIni.size() + 1);
+	io.IniFilename = ioIniFilename;
+
 	static unsigned short glyph_ranges[] = { 0x1, 0x3c0, 0x0, 0x0 };
 	pionillium12 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 12.0f, nullptr, glyph_ranges);
 	pionillium15 = io.Fonts->AddFontFromFileTTF(FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "fonts"), "PionilliumText22L-Medium.ttf").c_str(), 15.0f, nullptr, glyph_ranges);
