@@ -12,6 +12,8 @@
 #include "graphics/Material.h"
 #include "Program.h"
 
+using namespace gl3x::gl;
+
 namespace Graphics {
 	namespace OGL {
 		class StarfieldMaterial : public Material {

@@ -927,6 +927,10 @@
       "description" : "For player reputation",
       "message" : "Reliable"
    },
+   "RENDERER" : {
+      "description" : "Renderer list",
+      "message" : "Renderer"
+   },
    "REPAIR_X_HULL_DAMAGE_FOR_X" : {
       "description" : "",
       "message" : "Repair {damage}% hull damage for {price}"

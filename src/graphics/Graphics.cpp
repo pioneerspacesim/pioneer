@@ -4,14 +4,22 @@
 #include "Graphics.h"
 #include "FileSystem.h"
 #include "Material.h"
-#include "opengl/RendererGL.h"
-#include "dummy/RendererDummy.h"
+#include "Renderer.h"
 #include "OS.h"
 #include "StringF.h"
 #include <sstream>
 #include <iterator>
 
 namespace Graphics {
+
+const char* RendererNameFromType(const RendererType rType) {
+	static const char* s_rendererTypeNames [MAX_RENDERER_TYPE] {
+		"Dummy",
+		"Opengl 2.1",
+		"Opengl 3.x"
+	};
+	return s_rendererTypeNames[rType];
+}
 
 static RendererCreateFunc rendererCreateFunc[MAX_RENDERER_TYPE] = {};
 

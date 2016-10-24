@@ -10,6 +10,8 @@
 #include "StringF.h"
 #include "Ship.h"
 
+using namespace gl3x::gl;
+
 namespace Graphics {
 namespace OGL {
 

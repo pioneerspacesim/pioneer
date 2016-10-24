@@ -13,6 +13,8 @@
  */
 #include "OpenGLLibs.h"
 
+using namespace gl3x::gl;
+
 #ifdef _WIN32
 #define STDCALL __stdcall
 #else
@@ -90,7 +92,7 @@ namespace Graphics {
 	public:
 		//register the callback function, if the extension is available
 		static void Enable() {
-			if (ogl_ext_KHR_debug == ogl_LOAD_FAILED) {
+			if (!exts::var_KHR_debug) {
 				Output("GL_KHR_debug is not supported; GLDebug will not work\n");
 				return;
 			}
@@ -105,7 +107,7 @@ namespace Graphics {
 		}
 
 		static void Disable() {
-			if (ogl_ext_KHR_debug == ogl_LOAD_SUCCEEDED) {
+			if (exts::var_KHR_debug) {
 				glDisable(GL_DEBUG_OUTPUT);
 			}
 		}

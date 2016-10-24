@@ -9,6 +9,8 @@
 #include <sstream>
 #include "StringF.h"
 
+using namespace gl3x::gl;
+
 namespace Graphics {
 namespace OGL {
 

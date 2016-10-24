@@ -10,6 +10,8 @@
 
 #include <set>
 
+using namespace gl3x::gl;
+
 namespace Graphics {
 
 namespace OGL {

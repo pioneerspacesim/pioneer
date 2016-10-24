@@ -36,6 +36,8 @@
 #include <sstream>
 #include <iterator>
 
+using namespace gl3x::gl;
+
 namespace Graphics {
 
 static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
@@ -44,7 +46,7 @@ static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
 
 // static method instantiations
 void RendererOGL::RegisterRenderer() {
-    Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
+    Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL_3x, CreateRenderer);
 }
 
 // static member instantiations
@@ -73,13 +75,14 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	if (!initted) {
 		initted = true;
 
-		if (!ogl_LoadFunctions())
+		exts::LoadTest didLoad = sys::LoadFunctions();
+		if (!didLoad)
 			Error(
 				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.3\n"
 				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly."
 			);
 
-		if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED)
+		if (!exts::var_EXT_texture_compression_s3tc)
 			Error(
 				"OpenGL extension GL_EXT_texture_compression_s3tc not supported.\n"
 				"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures."
@@ -107,9 +110,11 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glEnable(GL_PROGRAM_POINT_SIZE);
+	CHECKERRORS();
 
 	glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 	glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
+	CHECKERRORS();
 
 	SetMatrixMode(MatrixMode::MODELVIEW);
 
@@ -121,6 +126,7 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 
 	if (vs.enableDebugMessages)
 		GLDebug::Enable();
+	CHECKERRORS();
 
 	// check enum PrimitiveType matches OpenGL values
 	assert(POINTS == GL_POINTS);
@@ -143,7 +149,7 @@ RendererOGL::~RendererOGL()
 static const char *gl_error_to_string(GLenum err)
 {
 	switch (err) {
-		case GL_NO_ERROR: return "(no error)";
+	case GL_NO_ERROR: return "(no error)";
 		case GL_INVALID_ENUM: return "invalid enum";
 		case GL_INVALID_VALUE: return "invalid value";
 		case GL_INVALID_OPERATION: return "invalid operation";
@@ -317,12 +323,14 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 		// now build info string
 		std::stringstream ss;
 		if(func) {
-			ss << "In function " << std::string(func) << "\nOn line " << std::to_string(line) << "\n";
+			ss << "In function " << std::string(func) << "\n";
+		}
+		if(line>=0) {
+			ss << "On line " << std::to_string(line) << "\n";
 		}
 		ss << "OpenGL error(s) during frame:\n";
 		while (err != GL_NO_ERROR) {
 			ss << glerr_to_string(err) << '\n';
-			err = glGetError();
 			if( err == GL_OUT_OF_MEMORY ) {
 				ss << "Out-of-memory on graphics card." << std::endl
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
@@ -335,6 +343,7 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 					<< "Please try disabling this kind of software and testing again, thankyou." << std::endl;
 			}
 #endif
+			err = glGetError();
 		}
 		// show warning dialog or just log to output
 		if(showWarning)
@@ -930,7 +939,7 @@ OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
 {
 	PROFILE_SCOPED()
-	return new TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
+	return new OGL::TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 }
 
 RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
@@ -965,7 +974,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 			false, 
 			false,
 			0, Graphics::TEXTURE_2D);
-		TextureGL *colorTex = new TextureGL(cdesc, false, false);
+		OGL::TextureGL *colorTex = new OGL::TextureGL(cdesc, false, false);
 		rt->SetColorTexture(colorTex);
 	}
 	if (desc.depthFormat != TEXTURE_NONE) {
@@ -979,7 +988,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 				false,
 				false,
 				0, Graphics::TEXTURE_2D);
-			TextureGL *depthTex = new TextureGL(ddesc, false, false);
+			OGL::TextureGL *depthTex = new OGL::TextureGL(ddesc, false, false);
 			rt->SetDepthTexture(depthTex);
 		} else {
 			rt->CreateDepthRenderbuffer();

@@ -10,6 +10,8 @@
 #include "Ship.h"
 #include "galaxy/StarSystem.h"
 
+using namespace gl3x::gl;
+
 namespace Graphics {
 namespace OGL {
 

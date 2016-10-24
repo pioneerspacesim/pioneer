@@ -5,6 +5,8 @@
 #include "graphics/VertexArray.h"
 #include "utils.h"
 
+using namespace gl3x::gl;
+
 namespace Graphics { namespace OGL {
 
 GLint get_num_components(VertexAttribFormat fmt)

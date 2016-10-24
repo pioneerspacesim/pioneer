@@ -53,6 +53,8 @@ public:
 
 	virtual void CheckRenderErrors(const char *func = nullptr, const int line = -1) const {}
 
+	virtual bool SupportsInstancing() = 0;
+
 	WindowSDL *GetWindow() const { return m_window.get(); }
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
 
