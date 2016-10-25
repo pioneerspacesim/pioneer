@@ -24,6 +24,7 @@
 #include "Profiler.h"
 
 #if defined(USE_CHRONO)
+#undef __PROFILER_SMP__
 #include <atomic>
 #endif
 
