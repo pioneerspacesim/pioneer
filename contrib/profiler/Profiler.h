@@ -11,7 +11,7 @@
 #undef fastcall
 
 //#define USE_CHRONO
-#if !defined(USE_CHRONO) && defined(__arm__)
+#if !defined(USE_CHRONO) && (defined(__arm__) || defined(__aarch64__))
 // this isn't optional for __arm__ builds
 #define USE_CHRONO
 #endif

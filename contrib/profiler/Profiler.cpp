@@ -23,6 +23,11 @@
 
 #include "Profiler.h"
 
+#if defined(USE_CHRONO)
+#undef __PROFILER_SMP__
+#include <atomic>
+#endif
+
 #if defined(__ICC) || defined(__ICL)
 	#pragma warning( disable: 1684 ) // (size_t )name >> 5
 	#pragma warning( disable: 1011 ) // missing return statement at end of non-void function
@@ -59,38 +64,45 @@
 namespace Profiler {
 
 	#if defined(__PROFILER_SMP__)
-		#if defined(_MSC_VER)
+		#if !defined(USE_CHRONO)
+			#if defined(_MSC_VER)
 
-			template< class type >
-			inline bool CAS( volatile type &ptr_, const type old_, const type new_ ) {
-				__asm {
-					mov eax, [old_]
-					mov edx, [new_]
-					mov ecx, [ptr_]
-					lock cmpxchg dword ptr [ecx], edx
-					sete al
+				template< class type >
+				inline bool CAS( volatile type &ptr_, const type old_, const type new_ ) {
+					__asm {
+						mov eax, [old_]
+						mov edx, [new_]
+						mov ecx, [ptr_]
+						lock cmpxchg dword ptr [ecx], edx
+						sete al
+					}
 				}
+
+			#elif defined(__GNUC__) || defined(__ICC)
+
+				template< class type >
+				inline bool CAS( volatile type &ptr_, const type old_, const type new_ ) {
+					u8 ret;
+					__asm__ __volatile__ (
+						"  lock\n"
+						"  cmpxchgl %2,%1\n"
+						"  sete %0\n"
+							: "=q" (ret), "=m" (ptr_)
+							: "r" (new_), "m" (ptr_), "a" (old_)
+							: "memory"
+					);
+					return ret;
+				}
+
+			#else
+				#error Define a compare-and-swap / full memory barrier implementation!
+			#endif
+	#else
+
+			inline bool CAS( volatile std::atomic_uint32_t &ptr_, u32 old_, u32 new_ ) {
+				return std::atomic_compare_exchange_weak(&ptr_, &old_, new_);
 			}
-
-		#elif defined(__GNUC__) || defined(__ICC)
-
-			template< class type >
-			inline bool CAS( volatile type &ptr_, const type old_, const type new_ ) {
-				u8 ret;
-				__asm__ __volatile__ (
-					"  lock\n"
-					"  cmpxchgl %2,%1\n"
-					"  sete %0\n"
-						: "=q" (ret), "=m" (ptr_)
-						: "r" (new_), "m" (ptr_), "a" (old_)
-						: "memory"
-				);
-				return ret;
-			}
-
-		#else
-			#error Define a compare-and-swap / full memory barrier implementation!
-		#endif
+	#endif
 
 		struct CASLock {
 			void Acquire() { while ( !CAS( mLock, u32(0), u32(1) ) ) YIELD() }
@@ -99,7 +111,11 @@ namespace Profiler {
 			bool TryRelease() { return CAS( mLock, u32(1), u32(0) ); }
 			u32 Value() const { return mLock; }
 		//protected:
+			#if !defined(USE_CHRONO)
 			volatile u32 mLock;
+			#else
+			std::atomic_uint32_t mLock;
+			#endif
 		};
 	#else
 		struct CASLock {
