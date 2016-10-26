@@ -36,7 +36,6 @@ local onShipDocked = function (ship, station)
 	else
 		Comms.Message(l.WELCOME_ABOARD_STATION_FEE_DEDUCTED:interp({station = station.label,fee = Format.Money(fee)}))
 		ship:AddMoney(0 - fee)
-		ship:SetFuelPercent()
 	end
 end
 
