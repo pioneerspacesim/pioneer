@@ -20,6 +20,7 @@ October 2016
      * Simple reduction in memory usage (#3838)
 	 * Put imgui.ini into user config dir (#3843)
 	 * Arm asm fix (#3847)
+	 * Don't try to instance zero entries (#3849)
 
 September 2016
    * New Features
