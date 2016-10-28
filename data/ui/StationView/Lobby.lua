@@ -86,7 +86,11 @@ local lobby = function (tab)
 
 	local totalFuel = ui:Label("")
 	local updateTotalFuel = function ()
-		totalFuel:SetText(Format.Money(station:GetEquipmentPrice(Equipment.cargo.hydrogen) * shipDef.fuelTankMass/100 * Game.player.fuel))
+		local station = Game.player:GetDockedWith()
+		-- don't do anything if player has left the station
+		if station then
+			totalFuel:SetText(Format.Money(station:GetEquipmentPrice(Equipment.cargo.hydrogen) * shipDef.fuelTankMass/100 * Game.player.fuel))
+		end
 	end
 	updateTotalFuel()
 
