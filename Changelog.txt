@@ -9,6 +9,7 @@ October 2016
      * Search&Rescue: set ship look and bugfix (#3823)
      * Fixing the scaled down collision mesh of New Ground station (#3833)
 	 * Updating the Bluenose Medium LOD with the correct mesh (#3845)
+	 * Avoid crash if player jumps to next system (#3848)
 
    * Internal Changes
      * Add "override" to silence warnings in clang (#3828)
