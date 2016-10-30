@@ -5,7 +5,7 @@
 #include "KeyBindings.h"
 #include "FileSystem.h"
 
-GameConfig::GameConfig(const std::map<std::string,std::string> &override_)
+GameConfig::GameConfig(const map_string &override_)
 {
 	// set defaults
 	std::map<std::string, std::string> &map = m_map[""];
