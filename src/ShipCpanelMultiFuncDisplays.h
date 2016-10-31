@@ -13,7 +13,7 @@ class Body;
 namespace Graphics { class Renderer; }
 
 enum multifuncfunc_t {
-	MFUNC_SCANNER,
+	MFUNC_RADAR,
 	MFUNC_EQUIPMENT,
 	MFUNC_MAX
 };
@@ -25,11 +25,11 @@ public:
 	virtual void Update() = 0;
 };
 
-class ScannerWidget: public IMultiFunc, public Gui::Widget {
+class RadarWidget: public IMultiFunc, public Gui::Widget {
 public:
-	ScannerWidget(Graphics::Renderer *r);
-	ScannerWidget(Graphics::Renderer *r, const Json::Value &jsonObj);
-	virtual ~ScannerWidget();
+	RadarWidget(Graphics::Renderer *r);
+	RadarWidget(Graphics::Renderer *r, const Json::Value &jsonObj);
+	virtual ~RadarWidget();
 	void GetSizeRequested(float size[2]);
 	void ToggleMode();
 	void InitScaling(void);
@@ -59,8 +59,8 @@ private:
 	Graphics::Drawables::Lines m_contactLines;
 	Graphics::Drawables::Points m_contactBlobs;
 
-	enum ScannerMode { SCANNER_MODE_AUTO, SCANNER_MODE_MANUAL };
-	ScannerMode m_mode;
+	enum RadarMode { RADAR_MODE_AUTO, RADAR_MODE_MANUAL };
+	RadarMode m_mode;
 
 	float m_currentRange, m_manualRange, m_targetRange;
 	float m_scale;
@@ -70,8 +70,8 @@ private:
 
 	float m_lastRange;
 	bool isCompact;
-	float SCANNER_XSHRINK;
-	float SCANNER_YSHRINK;
+	float RADAR_XSHRINK;
+	float RADAR_YSHRINK;
 
 	std::vector<vector3f> m_circle;
 	std::vector<vector3f> m_spokes;

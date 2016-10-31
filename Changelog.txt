@@ -2,14 +2,15 @@ October 2016
    * New Features
      * Added military drives from 5 to 9 (#3830)
      * Thruster upgrades (#3831)
-	 * Calculate selling price including equipment (#3835)
-	 * Remove autorefuel (#3837)
+     * Calculate selling price including equipment (#3835)
+     * Remove autorefuel (#3837)
+     * Rename scanner -> radar; radar mapper -> target scanner (#3825)
 
    * Fixes
      * Search&Rescue: set ship look and bugfix (#3823)
      * Fixing the scaled down collision mesh of New Ground station (#3833)
-	 * Updating the Bluenose Medium LOD with the correct mesh (#3845)
-	 * Avoid crash if player jumps to next system (#3848)
+     * Updating the Bluenose Medium LOD with the correct mesh (#3845)
+     * Avoid crash if player jumps to next system (#3848)
 
    * Internal Changes
      * Add "override" to silence warnings in clang (#3828)
@@ -19,9 +20,9 @@ October 2016
      * Terrain gen cleanup (#3834)
      * Introduce imgui library, make load screen use it (#3826)
      * Simple reduction in memory usage (#3838)
-	 * Put imgui.ini into user config dir (#3843)
-	 * Arm asm fix (#3847)
-	 * Don't try to instance zero entries (#3849)
+     * Put imgui.ini into user config dir (#3843)
+     * Arm asm fix (#3847)
+     * Don't try to instance zero entries (#3849)
 
 September 2016
    * New Features
@@ -43,7 +44,7 @@ September 2016
      * Brighter luminosity for random colours (#3815)
      * Minor performance cleanup (#3820)
      * Use a function to access the s_patchFaces to silence a gcc warning (#3822)
-	 * Multi-Threading modelcompiler (#3821)
+     * Multi-Threading modelcompiler (#3821)
 
 August 2016
    * New Features

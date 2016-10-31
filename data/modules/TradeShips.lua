@@ -98,7 +98,7 @@ local addShipEquip = function (ship)
 		-- This ship cannot safely land on a planet with an atmosphere.
 		trader.ATMOSHIELD = false
 	end
-	ship:AddEquip(e.misc.scanner)
+	ship:AddEquip(e.misc.radar)
 	ship:AddEquip(e.misc.autopilot)
 	ship:AddEquip(e.misc.cargo_life_support)
 
@@ -758,7 +758,7 @@ Event.Register("onShipAlertChanged", onShipAlertChanged)
 
 local onShipHit = function (ship, attacker)
 	if attacker == nil then return end-- XX
-	
+
 	-- XXX this whole thing might be better if based on amount of damage sustained
 	if trade_ships[ship] == nil then return end
 	local trader = trade_ships[ship]

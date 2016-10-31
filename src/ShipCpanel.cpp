@@ -20,7 +20,7 @@ static const Color s_hudTextColor(0,255,0,204);
 
 ShipCpanel::ShipCpanel(Graphics::Renderer *r, Game* game): Gui::Fixed(float(Gui::Screen::GetWidth()), 80), m_game(game)
 {
-	m_scanner = new ScannerWidget(r);
+	m_radar = new RadarWidget(r);
 
 	InitObject();
 }
@@ -31,7 +31,7 @@ m_game(game)
 	if (!jsonObj.isMember("ship_c_panel")) throw SavedGameCorruptException();
 	Json::Value shipCPanelObj = jsonObj["ship_c_panel"];
 
-	m_scanner = new ScannerWidget(r, shipCPanelObj);
+	m_radar = new RadarWidget(r, shipCPanelObj);
 
 	InitObject();
 
@@ -50,23 +50,23 @@ void ShipCpanel::InitObject()
 	m_currentMapView = MAP_SECTOR;
 	m_useEquipWidget = new UseEquipWidget();
 
-	m_userSelectedMfuncWidget = MFUNC_SCANNER;
+	m_userSelectedMfuncWidget = MFUNC_RADAR;
 
-	m_scanner->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_SCANNER));
+	m_radar->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_RADAR));
 	m_useEquipWidget->onGrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncGrabFocus), MFUNC_EQUIPMENT));
 
-	m_scanner->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_SCANNER));
+	m_radar->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_RADAR));
 	m_useEquipWidget->onUngrabFocus.connect(sigc::bind(sigc::mem_fun(this, &ShipCpanel::OnMultiFuncUngrabFocus), MFUNC_EQUIPMENT));
 
-	// Toggle Scanner / Equipment View
-	m_scannerEquipButton = new Gui::MultiStateImageButton();
-	m_scannerEquipButton->SetShortcut(SDLK_F9, KMOD_NONE);
-	m_scannerEquipButton->AddState(0, "icons/multifunc_scanner.png", Lang::TOGGLE_SCANNER_VIEW);
-	m_scannerEquipButton->AddState(1, "icons/multifunc_equip.png", Lang::TOGGLE_EQUIPMENT_VIEW);
-	m_scannerEquipButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickScannerEquip));
-	m_scannerEquipButton->SetRenderDimensions(34, 17);
-	Add(m_scannerEquipButton, 675, 35);
-	ChangeMultiFunctionDisplay(MFUNC_SCANNER);
+	// Toggle Radar / Equipment View
+	m_radarEquipButton = new Gui::MultiStateImageButton();
+	m_radarEquipButton->SetShortcut(SDLK_F9, KMOD_NONE);
+	m_radarEquipButton->AddState(0, "icons/multifunc_scanner.png", Lang::TOGGLE_RADAR_VIEW);
+	m_radarEquipButton->AddState(1, "icons/multifunc_equip.png", Lang::TOGGLE_EQUIPMENT_VIEW);
+	m_radarEquipButton->onClick.connect(sigc::mem_fun(this, &ShipCpanel::OnClickRadarEquip));
+	m_radarEquipButton->SetRenderDimensions(34, 17);
+	Add(m_radarEquipButton, 675, 35);
+	ChangeMultiFunctionDisplay(MFUNC_RADAR);
 
 //	Gui::RadioGroup *g = new Gui::RadioGroup();
 	Gui::ImageRadioButton *b = new Gui::ImageRadioButton(0, "icons/timeaccel0.png", "icons/timeaccel0_on.png");
@@ -237,12 +237,12 @@ ShipCpanel::~ShipCpanel()
 	View::SetCpanel(nullptr);
 	delete m_leftButtonGroup;
 	delete m_rightButtonGroup;
-	Remove(m_scanner);
+	Remove(m_radar);
 	Remove(m_useEquipWidget);
-	Remove(m_scannerEquipButton);
-	delete m_scanner;
+	Remove(m_radarEquipButton);
+	delete m_radar;
 	delete m_useEquipWidget;
-	delete m_scannerEquipButton;
+	delete m_radarEquipButton;
 	m_connOnRotationDampingChanged.disconnect();
 }
 
@@ -255,10 +255,10 @@ void ShipCpanel::OnUserChangeMultiFunctionDisplay(multifuncfunc_t f)
 void ShipCpanel::ChangeMultiFunctionDisplay(multifuncfunc_t f)
 {
 	Gui::Widget *selected = 0;
-	if (f == MFUNC_SCANNER) selected = m_scanner;
+	if (f == MFUNC_RADAR) selected = m_radar;
 	if (f == MFUNC_EQUIPMENT) selected = m_useEquipWidget;
 
-	Remove(m_scanner);
+	Remove(m_radar);
 	Remove(m_useEquipWidget);
 	if (selected) {
 		Add(selected, 200, 18);
@@ -290,7 +290,7 @@ void ShipCpanel::Update()
 		m_timeAccelButtons[Clamp(requested,0,5)]->SetSelected((SDL_GetTicks() & 0x200) != 0);
 	}
 
-	m_scanner->Update();
+	m_radar->Update();
 	m_useEquipWidget->Update();
 
 	View *cur = Pi::GetView();
@@ -395,10 +395,10 @@ void ShipCpanel::OnClickRotationDamping(Gui::MultiStateImageButton *b)
 	Pi::player->GetPlayerController()->ToggleRotationDamping();
 }
 
-void ShipCpanel::OnClickScannerEquip(Gui::MultiStateImageButton *b)
+void ShipCpanel::OnClickRadarEquip(Gui::MultiStateImageButton *b)
 {
-	int state = m_scannerEquipButton->GetState();
-	ChangeMultiFunctionDisplay((0==state) ? MFUNC_SCANNER : MFUNC_EQUIPMENT);
+	int state = m_radarEquipButton->GetState();
+	ChangeMultiFunctionDisplay((0==state) ? MFUNC_RADAR : MFUNC_EQUIPMENT);
 }
 
 void ShipCpanel::OnRotationDampingChanged()
@@ -430,13 +430,13 @@ void ShipCpanel::SetAlertState(Ship::AlertState as)
 void ShipCpanel::TimeStepUpdate(float step)
 {
 	PROFILE_SCOPED()
-	m_scanner->TimeStepUpdate(step);
+	m_radar->TimeStepUpdate(step);
 }
 
 void ShipCpanel::SaveToJson(Json::Value &jsonObj)
 {
 	Json::Value shipCPanelObj(Json::objectValue); // Create JSON object to contain ship control panel data.
-	m_scanner->SaveToJson(shipCPanelObj);
+	m_radar->SaveToJson(shipCPanelObj);
 	shipCPanelObj["cam_button_state"] = m_camButton->GetState();
 	jsonObj["ship_c_panel"] = shipCPanelObj; // Add ship control panel object to supplied object.
 }

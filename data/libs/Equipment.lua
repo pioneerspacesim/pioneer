@@ -455,8 +455,8 @@ end
 -- laser_rear - rear attachment point for lasers and plasma accelerators
 -- missile - missile
 -- ecm - ecm system
--- scanner - scanner
--- radarmapper - radar mapper
+-- radar - radar
+-- target_scanner - target scanner
 -- hypercloud - hyperspace cloud analyser
 -- hull_autorepair - hull auto-repair system
 -- energy_booster - shield energy booster unit
@@ -467,7 +467,7 @@ end
 -- laser_cooler - laser cooling booster
 -- cargo_life_support - cargo bay life support
 -- autopilot - autopilot
--- trade_analyzer - commodity trade analyzer computer module
+-- trade_computer - commodity trade analyzer computer module
 
 cargo = {
 	hydrogen = EquipType.New({
@@ -693,9 +693,9 @@ misc.ecm_advanced = EquipType.New({
 	capabilities={mass=2, ecm_power=3, ecm_recharge=5},
 	purchasable=true, tech_level="MILITARY"
 })
-misc.scanner = EquipType.New({
-	l10n_key="SCANNER", slots="scanner", price=680,
-	capabilities={mass=1, scanner=1},
+misc.radar = EquipType.New({
+	l10n_key="RADAR", slots="radar", price=680,
+	capabilities={mass=1, radar=1},
 	purchasable=true, tech_level=3
 })
 misc.cabin = EquipType.New({
@@ -723,13 +723,13 @@ misc.autopilot = EquipType.New({
 	l10n_key="AUTOPILOT", slots="autopilot", price=1400,
 	capabilities={mass=1, set_speed=1, autopilot=1}, purchasable=true, tech_level=1
 })
-misc.radar_mapper = EquipType.New({
-	l10n_key="RADAR_MAPPER", slots="radar", price=900,
-	capabilities={mass=1, radar_mapper_level=1}, purchasable=true, tech_level=9
+misc.target_scanner = EquipType.New({
+	l10n_key="TARGET_SCANNER", slots="target_scanner", price=900,
+	capabilities={mass=1, target_scanner_level=1}, purchasable=true, tech_level=9
 })
-misc.advanced_radar_mapper = EquipType.New({
-	l10n_key="ADVANCED_RADAR_MAPPER", slots="radar", price=1200,
-	capabilities={mass=1, radar_mapper_level=2}, purchasable=true, tech_level="MILITARY"
+misc.advanced_target_scanner = EquipType.New({
+	l10n_key="ADVANCED_TARGET_SCANNER", slots="target_scanner", price=1200,
+	capabilities={mass=1, target_scanner_level=2}, purchasable=true, tech_level="MILITARY"
 })
 misc.fuel_scoop = EquipType.New({
 	l10n_key="FUEL_SCOOP", slots="scoop", price=3500,
@@ -773,9 +773,9 @@ misc.thrusters_best = EquipType.New({
 	capabilities={mass=0, thruster_power=3}, purchasable=true,
 	icon_name="thrusters_best"
 })
-misc.trade_analyzer = EquipType.New({
-	l10n_key="TRADE_ANALYZER", slots="trade_analyzer", price=400,
-	capabilities={mass=0, trade_analyzer=1}, purchasable=true, tech_level=9
+misc.trade_computer = EquipType.New({
+	l10n_key="TRADE_COMPUTER", slots="trade_compunter", price=400,
+	capabilities={mass=0, trade_computer=1}, purchasable=true, tech_level=9
 })
 misc.planetscanner = BodyScannerType.New({
 	l10n_key = 'PLANETSCANNER', slots="sensor", price=15000,

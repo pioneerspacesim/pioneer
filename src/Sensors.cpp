@@ -98,7 +98,7 @@ void Sensors::Update(float time)
 
 	PopulateStaticContacts(); //no need to do all the time
 
-	//Find nearby contacts, same range as scanner. Scanner should use these
+	//Find nearby contacts, same range as radar scanner. It should use these
 	//contacts, worldview labels too.
 	Space::BodyNearList nearby;
 	Pi::game->GetSpace()->GetBodiesMaybeNear(m_owner, 100000.0f, nearby);
