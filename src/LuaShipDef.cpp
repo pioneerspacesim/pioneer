@@ -193,7 +193,7 @@
 /*
  * Attribute: shipClass
  *
- * Class of the ship (i.e. "medium_courier").
+ * Class of the ship (e.g. "medium_courier").
  *
  * Status:
  *
@@ -203,7 +203,7 @@
 /*
  * Attribute: manufacturer
  *
- * Manufacturer of the ship (i.e. "kaluri").
+ * Manufacturer of the ship (e.g. "kaluri").
  *
  * Status:
  *
