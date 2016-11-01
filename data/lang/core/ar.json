@@ -279,9 +279,9 @@
       "description" : "",
       "message" : "مدة اليوم"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "خفض مستوى الرادار"
+      "message" : "Decrease radar range"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -599,9 +599,9 @@
       "description" : "",
       "message" : "قانون امبراطوري"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "رفع اداء الردار"
+      "message" : "Increase radar range"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -1187,6 +1187,10 @@
       "description" : "",
       "message" : "نظام رباعي"
    },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Radar control"
+   },
    "RADIOACTIVES" : {
       "description" : "",
       "message" : "نفايات نووية"
@@ -1266,10 +1270,6 @@
    "RUBBISH" : {
       "description" : "",
       "message" : "قمامة"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "تحكم الماسح"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1683,17 +1683,17 @@
       "description" : "",
       "message" : "اظهار/اخفاء وحدة تحكم Lua"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Toggle radar mode"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radar View"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "تفعيل/تعطيل الدوران"
-   },
-   "TOGGLE_SCANNER_VIEW" : {
-      "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "تشغيل/تعطيل وضع الردار"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",

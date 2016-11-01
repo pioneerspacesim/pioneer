@@ -279,9 +279,9 @@
       "description" : "",
       "message" : "Duració del dia"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrementar l'abast de l'escànner"
+      "message" : "Decrease radar range"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -599,9 +599,9 @@
       "description" : "",
       "message" : "Govern Imperial"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Incrementar l'abast de l'escànner"
+      "message" : "Increase radar range"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -1187,6 +1187,10 @@
       "description" : "",
       "message" : "Sistema quadruple"
    },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Radar control"
+   },
    "RADIOACTIVES" : {
       "description" : "",
       "message" : "Deixalla radioactiva"
@@ -1266,10 +1270,6 @@
    "RUBBISH" : {
       "description" : "",
       "message" : "Deixalles"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "Mode d'escaneig"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1683,17 +1683,17 @@
       "description" : "",
       "message" : "Visualitza o amaga la consola Lua"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Toggle radar mode"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radar View"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Toggle rotation damping"
-   },
-   "TOGGLE_SCANNER_VIEW" : {
-      "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner View"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "Canviar el mode d'escanneig"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",

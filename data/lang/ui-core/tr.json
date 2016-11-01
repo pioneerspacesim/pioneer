@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Ticari Mal Pazarı"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Yoğun tarayıcı"
+      "message" : "Compact radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",

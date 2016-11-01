@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "高级雷达绘图仪"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "远距离雷达绘图仪可以覆盖星系的大部分区域."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "2MW 速射脉冲加农炮"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "雷达绘图仪"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "用于远距离探测其他飞船的装备,货仓和状态信息."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "扫描仪"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "提供附近飞船的3D地图"
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "Starting scan, target distance is"
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "用于远距离探测其他飞船的装备,货仓和状态信息."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Modified Thrusters"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "贸易分析器"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "显示当前星系与已选星系间有贸易价值的商品"
    },

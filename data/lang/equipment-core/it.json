@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Identificatore Radar Avanzato"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Identificatore radar a lungo raggio che copre l'intero sistema."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "Laser a impulsi rapidi da 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Identificatore Radar"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Fornisce dettagli circa l'equipaggiamento, il carico e lo stato dell'astronave bersaglio."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scanner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Sensore a corto raggio che identifica la posizione in tre dimensioni di astronavi e stazioni spaziali vicine."
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "Inizio analisi, distanza dal bersaglio"
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Fornisce dettagli circa l'equipaggiamento, il carico e lo stato dell'astronave bersaglio."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Propulsori modificati"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Propulsori ottimizzati per ridurre le inefficienze e migliorare la potenza di spinta."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analizzatore commerciale"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Evidenzia gli scambi commerciali redditizi tra il sistema selezionato e quello corrente."
    },

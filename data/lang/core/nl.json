@@ -279,9 +279,9 @@
       "description" : "",
       "message" : "Daglengte"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Verklein scanner bereik"
+      "message" : "Decrease radar range"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -599,9 +599,9 @@
       "description" : "",
       "message" : "Imperiaal regime"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Vergroot scanner bereik"
+      "message" : "Increase radar range"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -1187,6 +1187,10 @@
       "description" : "",
       "message" : "Viervoudig stelsel"
    },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Radar control"
+   },
    "RADIOACTIVES" : {
       "description" : "",
       "message" : "Radioactief afval"
@@ -1266,10 +1270,6 @@
    "RUBBISH" : {
       "description" : "",
       "message" : "Afval"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "Scanner"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1683,17 +1683,17 @@
       "description" : "",
       "message" : "Schakel Lua console"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Toggle radar mode"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radar View"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Schakel rotatie demping"
-   },
-   "TOGGLE_SCANNER_VIEW" : {
-      "description" : "Tooltip for the Scanner View button",
-      "message" : "Scanner"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "Schakel tussen scanner modus"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",

@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar Trazador Avanzado"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Radar trazador de largo alcance con cobertura completa del sistema."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "Cañón rápido de pulsos 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Radar Trazador"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Se utiliza para la inspección remota del equipo, carga y estado de otras naves."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Escáner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Proporciona una vista 3D de las naves próximas."
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "Escaneo iniciado, la distancia al objetivo es"
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Se utiliza para la inspección remota del equipo, carga y estado de otras naves."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Impulsores modificados"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Impulsores que han sido optimizados a fin de reducir ineficiencias y mejorar la salida de potencia."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analizador de comercio"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Muestra las mercancías rentables con las que comerciar entre el sistema seleccionado y el actual"
    },

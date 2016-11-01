@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "商品市场"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "小型扫描仪"
+      "message" : "Compact radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",

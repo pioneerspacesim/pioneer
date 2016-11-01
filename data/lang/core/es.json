@@ -279,9 +279,9 @@
       "description" : "",
       "message" : "Duración del día"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Reducir alcance del escáner"
+      "message" : "Decrease radar range"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -599,9 +599,9 @@
       "description" : "",
       "message" : "Gobierno Imperial"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Aumentar alcance del escáner"
+      "message" : "Increase radar range"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -1187,6 +1187,10 @@
       "description" : "",
       "message" : "Sistema cuádruple"
    },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Radar control"
+   },
    "RADIOACTIVES" : {
       "description" : "",
       "message" : "Residuos radioactivos"
@@ -1266,10 +1270,6 @@
    "RUBBISH" : {
       "description" : "",
       "message" : "Basura"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "Escáner"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
@@ -1683,17 +1683,17 @@
       "description" : "",
       "message" : "Consola Lua"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Toggle radar mode"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radar View"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Amortiguar Rotación"
-   },
-   "TOGGLE_SCANNER_VIEW" : {
-      "description" : "Tooltip for the Scanner View button",
-      "message" : "Vista de Escáner"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "Alternar modo de escáner"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",

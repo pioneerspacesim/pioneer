@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Cartograf Radar Avansat"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Cartograf radar cu rază mare de acțiune, cu acoperire la nivel de sistem."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "Tun intermitent cu foc rapid 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Cartograf Radar"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Folosit pentru a inspecta de la distanță echipamentul, încărcătura și starea altor nave."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scaner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Oferă o hartă 3D a navelor apropiate."
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "Incepe scanarea, distanta la tinta e"
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Folosit pentru a inspecta de la distanță echipamentul, încărcătura și starea altor nave."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Modified Thrusters"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analizator comercial"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Indică mărfurile profitabile de comercializat între sistemul selectat și cel curent"
    },

@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Mercado de Utilidades"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Escaneador compacto"
+      "message" : "Compact radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",

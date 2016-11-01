@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Radar cartographique avancé"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Radar cartographique avancé, avec couverture large du système"
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "Canon laser rapide 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Cartographe Radar"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Permet d'inspecter l'équipement, le cargo et l'état des autres vaisseaux."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Senseurs"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Donne une représentation 3D des vaisseaux environnants."
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "Démarrage du scannage, la distance de cible est "
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Permet d'inspecter l'équipement, le cargo et l'état des autres vaisseaux."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Propulseurs modifiés"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Propulseurs qui ont été optimisé afin d'augmenter leur efficacité et d'améliorer leur puissance."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Analyseur de profit commercial"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Montre les profits générés par les échanges commerciaux entre le système actuel et le système sélectionné"
    },

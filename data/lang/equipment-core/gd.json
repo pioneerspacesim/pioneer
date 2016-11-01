@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Rèidear-mapachaidh adhartadh"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Rèidear-mapachaidh aig astar mòr le còmhdachadh an t-siostaim gu lèir."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "Canan cuisle luath 2MW"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Rèidear-mapachaidh"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Cleachdaidh tu e gus uidheamachd, carago is cor shoithichean eile a sgrùdadh aig astar."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Sganair"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Bheir seo mapa 3D dhut dhe na soithichean am fagas."
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "A' tòiseachadh air an sganadh, astar amais:"
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Cleachdaidh tu e gus uidheamachd, carago is cor shoithichean eile a sgrùdadh aig astar."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Putairean atharraichte"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Putairean a chaidh a phiseachadh ach am bi iad nas èifeachdaiche agus a' putadh le barrachd cumhachd."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Sgrùdaiche na malairt"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Seallaidh e bathar-amh dhut a bhios prothaideach airson malart eadar an siostam a thagh thu is am fear làithreach"
    },

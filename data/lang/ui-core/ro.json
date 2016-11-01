@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Piață de Produse"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Scaner compact"
+      "message" : "Compact radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",

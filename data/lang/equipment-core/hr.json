@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "2MW brzo-paljbeni impulsni top"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
       "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Pruža detalje o drugim brodovima."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Skener"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Pruža 3D mapu brodova u blizini."
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "Starting scan, target distance is"
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Pruža detalje o drugim brodovima."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Modified Thrusters"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Shows profitable commodities to trade between selected and current system"
    },

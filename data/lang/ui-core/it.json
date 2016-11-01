@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Mercato dei beni di scambio"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Scanner compatto"
+      "message" : "Compact radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",

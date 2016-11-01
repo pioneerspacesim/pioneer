@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Улучшенный радарный топограф"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : " Радарный топограф дальнего действия с системой широкой зоны покрытия."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -235,19 +235,11 @@
       "description" : "",
       "message" : "2MW скоростное имп.орудие"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Радарный топограф"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Используется для дистанционного сканирования чужих кораблей - собирает информацию о грузе, оборудовании и общем состоянии. Также используется для получения информации о других объектах."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Сканер"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Формирует на дисплее объемную схему расположения значимых объектов в околокорабельном пространстве."
    },
@@ -283,6 +275,14 @@
       "description" : "",
       "message" : "Начинаю сканирование, расстояние до цели"
    },
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
+   },
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Используется для дистанционного сканирования чужих кораблей - собирает информацию о грузе, оборудовании и общем состоянии. Также используется для получения информации о других объектах."
+   },
    "THRUSTERS_BASIC" : {
       "description" : "",
       "message" : "Модифицированные ускорители"
@@ -307,11 +307,11 @@
       "description" : "",
       "message" : "Ускорители, которые оптимизированы для уменьшения неэффективности и увеличения мощности."
    },
-   "TRADE_ANALYZER" : {
+   "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Анализатор торговли"
+      "message" : "Trade Computer"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Показать товары, выгодные для торговли между выбранной и текущей системами"
    },

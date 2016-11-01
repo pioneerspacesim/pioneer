@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Giełda towarów"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Skaner kompaktowy"
+      "message" : "Compact radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
