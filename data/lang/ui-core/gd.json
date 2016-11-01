@@ -153,7 +153,7 @@
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Compact radar"
+      "message" : "Rèidear teannta"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -189,7 +189,7 @@
    },
    "CONTROL_OPTIONS" : {
       "description" : "",
-      "message" : "Roghainnean nan uidheaman-smachd"
+      "message" : "Roghainnean an stiùiridh"
    },
    "COULD_NOT_LOAD_GAME" : {
       "description" : "",

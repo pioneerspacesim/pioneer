@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Détecteur de cible avancé"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Détecteur de cible longue portée avec couverture complète du système."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Détecteur de cible"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Détecteur de profits"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",

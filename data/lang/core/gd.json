@@ -57,7 +57,7 @@
    },
    "AUTOPILOT_CONTROL" : {
       "description" : "Indicating that ship is flying under autopilot control",
-      "message" : "Smachd fèin-stiùiridh"
+      "message" : "Stiùireadh fèin-obrachail"
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
@@ -281,7 +281,7 @@
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease radar range"
+      "message" : "Lùghdaich rainse an rèideir"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "Meudaich rainse an rèideir"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -733,11 +733,11 @@
    },
    "MANUAL_CONTROL" : {
       "description" : "",
-      "message" : "Smachd a làimh"
+      "message" : "Stiùireadh a làimh"
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Modh smachd a làimh"
+      "message" : "Modh stiùireadh a làimh"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
@@ -1189,7 +1189,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "Stiùireadh an rèideir"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1429,7 +1429,7 @@
    },
    "SPEED_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Modh smachd air an luaths"
+      "message" : "Modh stiùireadh an luaiths"
    },
    "STABLE_SYSTEM_WITH_N_MAJOR_BODIES_STARPORTS" : {
       "description" : "",
@@ -1685,11 +1685,11 @@
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle radar mode"
+      "message" : "Toglaich modh  an rèideir"
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "Sealladh an rèideir"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",

@@ -281,7 +281,7 @@
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease radar range"
+      "message" : "Diminuer la portée du radar"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "Augmenter la portée du radar"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -1189,7 +1189,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "Contrôle Radar"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1689,7 +1689,7 @@
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "Vue Radar"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",

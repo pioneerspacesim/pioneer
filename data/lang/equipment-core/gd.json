@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Sganair-amais adhartach"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Sganair le amas fada a ruigeas an siostam gu lèir."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "RADAR" : {
       "description" : "",
-      "message" : "Radar"
+      "message" : "Rèidear"
    },
    "RADAR_DESCRIPTION" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Sganair-amais"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Coimpiutair malairt"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
