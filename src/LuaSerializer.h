@@ -29,7 +29,7 @@ private:
 	static int l_register(lua_State *l);
 	static int l_register_class(lua_State *l);
 
-	static void pickle(lua_State *l, int idx, std::string &out, const char *key = 0);
+	static void pickle(lua_State *l, int idx, std::string &out, std::string key = "");
 	static const char *unpickle(lua_State *l, const char *pos);
 };
 
