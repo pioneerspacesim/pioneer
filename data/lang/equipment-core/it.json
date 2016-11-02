@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Scanner bersaglio avanzato"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Scanner bersaglio a lungo raggio con copertura dell'intero sistema."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Scanner bersaglio"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Computer assist. commerciale"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",

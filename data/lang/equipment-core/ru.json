@@ -1,11 +1,11 @@
 {
    "ADVANCED_TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Advanced target scanner"
+      "message" : "Продвинутый сканер цели"
    },
    "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range target scanner with system wide coverage."
+      "message" : "Сканер цели дальнего действия с покрытием всей системы."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -237,7 +237,7 @@
    },
    "RADAR" : {
       "description" : "",
-      "message" : "Radar"
+      "message" : "Радар"
    },
    "RADAR_DESCRIPTION" : {
       "description" : "",
@@ -277,7 +277,7 @@
    },
    "TARGET_SCANNER" : {
       "description" : "ship equipment showing target information/stats",
-      "message" : "Target Scanner"
+      "message" : "Сканер цели"
    },
    "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
@@ -309,7 +309,7 @@
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Торговый компьютер"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
