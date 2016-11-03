@@ -368,6 +368,14 @@ void ImGui_ImplSdlGL3_NewFrame(SDL_Window* window)
     Uint32	time = SDL_GetTicks();
     double current_time = time / 1000.0;
     io.DeltaTime = g_Time > 0.0 ? (float)(current_time - g_Time) : (float)(1.0f / 60.0f);
+
+    if (io.DeltaTime <= 0.0) {
+      // Delta-T should *never* be negative, but there seem to be bugs in SDL_GetTicks
+      // (or the underlying platform implementation) which can lead to this happening.
+      // In that case, just assume 60 FPS.
+      io.DeltaTime = 1.0/60.0;
+    }
+
     g_Time = current_time;
 
     // Setup inputs
