@@ -48,12 +48,21 @@ local lobby = function (tab)
 		end
 	end)
 
+	local connections = {}
+
 	local deltaV = ui:Label("")
 	local updateDeltaV = function ()
+		if Game.player:GetDockedWith() ~= station then
+			connections.updateDeltaVFuel:Disconnect()
+			connections.updateDeltaVCargo:Disconnect()
+			return
+		end
 		local dv = shipDef.effectiveExhaustVelocity * math.log((Game.player.staticMass + Game.player.fuelMassLeft) / Game.player.staticMass)
 		deltaV:SetText(string.format("%d km/s", dv/1000))
 	end
 	updateDeltaV()
+	connections.updateDeltaVFuel = Game.player:Connect("fuel", updateDeltaV)
+	connections.updateDeltaVCargo = Game.player:Connect("usedCargo", updateDeltaV)
 
 	local fuelGauge = InfoGauge.New({
 		label		= ui:NumberLabel("PERCENT"),
@@ -64,52 +73,66 @@ local lobby = function (tab)
 
 	local fuelGaugeTons = ui:Label("")
 	local updateFuelGaugeTons = function ()
+		if Game.player:GetDockedWith() ~= station then
+			connections.updateFuelGaugeTons:Disconnect()
+			return
+		end
 		fuelGaugeTons:SetText(string.format("%.2f", shipDef.fuelTankMass * Game.player.fuel/100) .. "t")
 	end
 	updateFuelGaugeTons()
+	connections.updateFuelGaugeTons = Game.player:Connect("fuel", updateFuelGaugeTons)
 
 	local cargoGauge = ui:Gauge()
 	cargoGauge:SetUpperValue(Game.player.totalCargo - Game.player.usedCargo + Game.player:CountEquip(hyperdrive_fuel))
 	local cargoGaugeTons = ui:Label("")
 	local function updateCargo ()
+		if Game.player:GetDockedWith() ~= station then
+			connections.updateCargo:Disconnect()
+			return
+		end
 		local amount = Game.player:CountEquip(hyperdrive_fuel)
 		cargoGauge:SetValue(amount)
 		cargoGaugeTons:SetText(amount .. "t")
 	end
 	updateCargo()
+	connections.updateCargo = Game.player:Connect("usedCargo", updateCargo)
 
 	local hyperspaceRange = ui:Label("")
 	local updateHyperspaceRange = function ()
+		if Game.player:GetDockedWith() ~= station then
+			connections.updateHyperspaceRangeFuel:Disconnect()
+			connections.updateHyperspaceRangeCargo:Disconnect()
+			return
+		end
 		hyperspaceRange:SetText(string.format("%.1f ", Game.player.hyperspaceRange) .. l.LY)
 	end
 	updateHyperspaceRange()
+	connections.updateHyperspaceRangeFuel = Game.player:Connect("fuel", updateHyperspaceRange)
+	connections.updateHyperspaceRangeCargo = Game.player:Connect("usedCargo", updateHyperspaceRange)
 
 	local totalFuel = ui:Label("")
 	local updateTotalFuel = function ()
-		local station = Game.player:GetDockedWith()
-		-- don't do anything if player has left the station
-		if station then
-			totalFuel:SetText(Format.Money(station:GetEquipmentPrice(Equipment.cargo.hydrogen) * shipDef.fuelTankMass/100 * Game.player.fuel))
+		if Game.player:GetDockedWith() ~= station then
+			connections.updateTotalFuel:Disconnect()
+			return
 		end
+		totalFuel:SetText(Format.Money(station:GetEquipmentPrice(Equipment.cargo.hydrogen) * shipDef.fuelTankMass/100 * Game.player.fuel))
 	end
 	updateTotalFuel()
+	connections.updateTotalFuel = Game.player:Connect("fuel", updateTotalFuel)
 
 	local totalHyperdriveFuel = ui:Label("")
 	local updateTotalHyperdriveFuel = function ()
+		if Game.player:GetDockedWith() ~= station then
+			connections.updateTotalHyperdriveFuel:Disconnect()
+		end
 		totalHyperdriveFuel:SetText(Format.Money(station:GetEquipmentPrice(hyperdrive_fuel) * Game.player:CountEquip(hyperdrive_fuel)))
 	end
 	updateTotalHyperdriveFuel()
+	connections.updateTotalHyperdriveFuel = Game.player:Connect("usedCargo", updateTotalHyperdriveFuel)
 
 	fuelGauge.label:Bind("valuePercent", Game.player, "fuel")
 	fuelGauge.gauge:Bind("valuePercent", Game.player, "fuel")
-	Game.player:Connect("fuel", updateDeltaV)
-	Game.player:Connect("fuel", updateFuelGaugeTons)
-	Game.player:Connect("fuel", updateHyperspaceRange)
-	Game.player:Connect("fuel", updateTotalFuel)
-	Game.player:Connect("usedCargo", updateDeltaV)
-	Game.player:Connect("usedCargo", updateCargo)
-	Game.player:Connect("usedCargo", updateHyperspaceRange)
-	Game.player:Connect("usedCargo", updateTotalHyperdriveFuel)
 
 	local refuelInternalTank = function (delta)
 		local stock = station:GetEquipmentStock(Equipment.cargo.hydrogen)
