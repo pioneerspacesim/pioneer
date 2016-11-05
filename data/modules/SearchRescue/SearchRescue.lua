@@ -701,7 +701,7 @@ local createTargetShip = function (mission)
 	ship:SetSkin(skin)
 	local model = Engine.GetModel(shipdef.modelName)
 	local pattern
-	if model.numPatterns == 1 then
+	if model.numPatterns <= 1 then
 		pattern = 0
 	else
 		local pattern = rand:Integer(0,model.numPatterns-1)
