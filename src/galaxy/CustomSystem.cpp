@@ -56,19 +56,33 @@ static int l_csb_new(lua_State *L)
 	return 1;
 }
 
+// Used when the value MUST not be NEGATIVE but can be Zero, for life, etc
 #define CSB_FIELD_SETTER_FIXED(luaname, fieldname)         \
 	static int l_csb_ ## luaname (lua_State *L) {          \
 		CustomSystemBody *csb = l_csb_check(L, 1);         \
 		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
-		csb->fieldname = *value;                         \
+		if (value->ToDouble() < 0.0)                      \
+			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
+		csb->fieldname = *value;                           \
 		lua_settop(L, 1); return 1;                        \
 	}
 
-#define CSB_FIELD_SETTER_FLOAT(luaname, fieldname)         \
+// Used when the value MUST be greater than Zero, for Mass or Radius for example
+#define CSB_FIELD_SETTER_FIXED_POSITIVE(luaname, fieldname)\
+	static int l_csb_ ## luaname (lua_State *L) {          \
+		CustomSystemBody *csb = l_csb_check(L, 1);         \
+		const fixed *value = LuaFixed::CheckFromLua(L, 2); \
+		if (value->ToDouble() <= 0.0)                      \
+			Output("Error: Custom system definition: Value cannot be negative/zero (%lf) for %s : %s\n", value->ToDouble(), csb->name.c_str(), #luaname);\
+		csb->fieldname = *value;						   \
+		lua_settop(L, 1); return 1;                        \
+	}
+
+#define CSB_FIELD_SETTER_REAL(luaname, fieldname)         \
 	static int l_csb_ ## luaname (lua_State *L) {          \
 		CustomSystemBody *csb = l_csb_check(L, 1);         \
 		double value = luaL_checknumber(L, 2);             \
-		csb->fieldname = value;                          \
+		csb->fieldname = value;                            \
 		lua_settop(L, 1); return 1;                        \
 	}
 
@@ -76,17 +90,17 @@ static int l_csb_new(lua_State *L)
 	static int l_csb_ ## luaname (lua_State *L) {          \
 		CustomSystemBody *csb = l_csb_check(L, 1);         \
 		int value = luaL_checkinteger(L, 2);               \
-		csb->fieldname = value;                          \
+		csb->fieldname = value;                            \
 		lua_settop(L, 1); return 1;                        \
 	}
 
-CSB_FIELD_SETTER_FIXED(radius, radius)
-CSB_FIELD_SETTER_FIXED(mass, mass)
+CSB_FIELD_SETTER_FIXED_POSITIVE(radius, radius)
+CSB_FIELD_SETTER_FIXED_POSITIVE(mass, mass)
 CSB_FIELD_SETTER_INT(temp, averageTemp)
 CSB_FIELD_SETTER_FIXED(semi_major_axis, semiMajorAxis)
 CSB_FIELD_SETTER_FIXED(eccentricity, eccentricity)
-CSB_FIELD_SETTER_FLOAT(latitude, latitude)
-CSB_FIELD_SETTER_FLOAT(longitude, longitude)
+CSB_FIELD_SETTER_REAL(latitude, latitude)
+CSB_FIELD_SETTER_REAL(longitude, longitude)
 CSB_FIELD_SETTER_FIXED(rotation_period, rotationPeriod)
 CSB_FIELD_SETTER_FIXED(axial_tilt, axialTilt)
 CSB_FIELD_SETTER_FIXED(metallicity, metallicity)
