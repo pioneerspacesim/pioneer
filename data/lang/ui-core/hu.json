@@ -153,7 +153,7 @@
    },
    "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Compact radar"
+      "message" : "Kompakt radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -1049,7 +1049,7 @@
    },
    "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
       "description" : "",
-      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+      "message" : "Univerzum evolúciójának szimulálása: {age} milliárd év ;-)"
    },
    "SOUND" : {
       "description" : "",
