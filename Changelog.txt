@@ -1,3 +1,14 @@
+November 2016
+   * Fixes
+	 * Set delta-t to 1/60 if it is <= 0 (#3854)
+	 * fix pattern selection if no pattern present (#3855)
+	 * Lobby: Disconnect the property listeners when the docked station changes (#3857)
+	 
+   * Internal Changes
+     * Freebsd patches (#3851)
+	 * Enhance serializer crash output (#3853)
+	 * Custom system checking (#3856)
+
 October 2016
    * New Features
      * Added military drives from 5 to 9 (#3830)
