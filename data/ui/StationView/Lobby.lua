@@ -142,7 +142,7 @@ local lobby = function (tab)
 		local mass = shipDef.fuelTankMass/100 * delta
 		local total = price * mass
 
-		if stock == 0 then MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK) return end
+		if delta > 0 and stock == 0 then MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK) return end
 
 		if total > Game.player:GetMoney() then
 			total = Game.player:GetMoney()
@@ -166,7 +166,7 @@ local lobby = function (tab)
 		local price = station:GetEquipmentPrice(hyperdrive_fuel)
 		local total = price * mass
 
-		if stock == 0 then MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK) return end
+		if mass > 0 and stock == 0 then MessageBox.Message(l.ITEM_IS_OUT_OF_STOCK) return end
 
 		if total > Game.player:GetMoney() then
 			mass = math.floor(Game.player:GetMoney() / price)
