@@ -125,6 +125,7 @@ local lobby = function (tab)
 	local updateTotalHyperdriveFuel = function ()
 		if Game.player:GetDockedWith() ~= station then
 			connections.updateTotalHyperdriveFuel:Disconnect()
+			return
 		end
 		totalHyperdriveFuel:SetText(Format.Money(station:GetEquipmentPrice(hyperdrive_fuel) * Game.player:CountEquip(hyperdrive_fuel)))
 	end
