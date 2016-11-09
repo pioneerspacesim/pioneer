@@ -2119,7 +2119,7 @@ local onClick = function (mission)
 
 	-- navbutton target (system if out-of-system jump, target ship if in system)
 	local navbutton_target
-	if mission.planet_target:IsSameSystem(Game.system.path) then
+	if not Game.system or mission.planet_target:IsSameSystem(Game.system.path) then
 		navbutton_target = mission.target
 	else
 		navbutton_target = mission.planet_target
