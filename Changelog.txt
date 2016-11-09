@@ -3,11 +3,14 @@ November 2016
      * Set delta-t to 1/60 if it is <= 0 (#3854)
      * fix pattern selection if no pattern present (#3855)
      * Lobby: Disconnect the property listeners when the docked station changes (#3857)
+     * Docking message should not mention auto refuel (#3863)
+     * Player shouldn't sell fuel they don't have (#3864)
 
    * Internal Changes
      * Freebsd patches (#3851)
      * Enhance serializer crash output (#3853)
      * Custom system checking (#3856)
+     * Sprinkle SpaceStation with asserts to find naughty bug (#3861)
 
 October 2016
    * New Features
@@ -34,7 +37,7 @@ October 2016
      * Put imgui.ini into user config dir (#3843)
      * Arm asm fix (#3847)
      * Don't try to instance zero entries (#3849)
-	 * Update attrib binding locations (#3850)
+     * Update attrib binding locations (#3850)
 
 September 2016
    * New Features
