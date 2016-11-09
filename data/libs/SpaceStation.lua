@@ -35,6 +35,7 @@ end
 local equipmentStock = {}
 
 local function updateEquipmentStock (station)
+	assert(station and station:exists())
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
 	local hydrogen = Equipment.cargo.hydrogen
@@ -77,6 +78,7 @@ local equipmentPrice = {}
 --
 
 function SpaceStation:GetEquipmentPrice (e)
+	assert(self:exists())
 	if not equipmentPrice[self] then equipmentPrice[self] = {} end
 	if equipmentPrice[self][e] then
 		return equipmentPrice[self][e]
@@ -86,6 +88,7 @@ function SpaceStation:GetEquipmentPrice (e)
 end
 
 function SpaceStation:SetEquipmentPrice (e, v)
+	assert(self:exists())
 	if not equipmentPrice[self] then equipmentPrice[self] = {} end
 	equipmentPrice[self][e] = v
 end
@@ -114,6 +117,7 @@ end
 --   experimental
 --
 function SpaceStation:GetEquipmentStock (e)
+	assert(self:exists())
 	return equipmentStock[self][e] or 0
 end
 
@@ -139,6 +143,7 @@ end
 --   experimental
 --
 function SpaceStation:AddEquipmentStock (e, stock)
+	assert(self:exists())
 	equipmentStock[self][e] = (equipmentStock[self][e] or 0) + stock
 end
 
@@ -147,6 +152,7 @@ end
 local shipsOnSale = {}
 
 function SpaceStation:GetShipsOnSale ()
+	assert(self:exists())
 	if not shipsOnSale[self] then shipsOnSale[self] = {} end
 	return shipsOnSale[self]
 end
@@ -157,6 +163,7 @@ local function addShipOnSale (station, entry)
 end
 
 function SpaceStation:AddShipOnSale (entry)
+	assert(self:exists())
 	assert(entry.def)
 	assert(entry.skin)
 	assert(entry.label)
@@ -187,6 +194,7 @@ local function findShipOnSale (station, entry)
 end
 
 function SpaceStation:RemoveShipOnSale (entry)
+	assert(self:exists())
 	local num = findShipOnSale(self, entry)
 	if num > 0 then
 		removeShipOnSale(self, num)
@@ -195,6 +203,7 @@ function SpaceStation:RemoveShipOnSale (entry)
 end
 
 function SpaceStation:ReplaceShipOnSale (old, new)
+	assert(self:exists())
 	assert(new.def)
 	assert(new.skin)
 	assert(new.label)
@@ -478,6 +487,7 @@ SpaceStation.adverts = {}
 --
 local nextRef = 0
 function SpaceStation:AddAdvert (description, onChat, onDelete)
+	assert(self:exists())
 	-- XXX legacy arg unpacking
 	local args
 	if (type(description) == "table") then
@@ -527,6 +537,7 @@ end
 --  stable
 --
 function SpaceStation:RemoveAdvert (ref)
+	assert(self:exists())
 	if not SpaceStation.adverts[self] then return end
 	if SpaceStation.lockedAdvert == ref then
 		SpaceStation.removeOnReleased = true
@@ -561,6 +572,7 @@ end
 --  experimental
 --
 function SpaceStation:LockAdvert (ref)
+	assert(self:exists())
 	if (SpaceStation.advertLockCount > 0) then
 		assert(SpaceStation.lockedAdvert == ref, "Attempt to lock ref "..ref
 		.."disallowed."
