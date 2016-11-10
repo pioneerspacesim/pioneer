@@ -11,6 +11,7 @@ November 2016
      * Enhance serializer crash output (#3853)
      * Custom system checking (#3856)
      * Sprinkle SpaceStation with asserts to find naughty bug (#3861)
+     * isnan is std, MXE build complained (#3867)
 
 October 2016
    * New Features

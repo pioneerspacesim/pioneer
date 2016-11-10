@@ -1032,8 +1032,8 @@ bool AICmdHoldPosition::TimeStepUpdate()
 
 void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 {
-	assert(!isnan(alt));
-	assert(!isnan(vel));
+	assert(!std::isnan(alt));
+	assert(!std::isnan(vel));
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel; m_targmode = mode;
 
 	// generate suitable velocity if none provided
@@ -1051,16 +1051,16 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, int mode)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	assert(!isnan(relalt));
+	assert(!std::isnan(relalt));
 	double alt = relalt*MaxEffectRad(obstructor, ship);
-	assert(!isnan(alt));
+	assert(!std::isnan(alt));
 	Setup(obstructor, alt, 0.0, mode);
 }
 
 AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, int mode)
 	: AICommand (ship, CMD_FLYAROUND)
 {
-	assert(!isnan(alt));
+	assert(!std::isnan(alt));
 	Setup(obstructor, alt, vel, mode);
 }
 
