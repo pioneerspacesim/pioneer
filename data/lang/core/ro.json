@@ -1729,11 +1729,11 @@
    },
    "UNIT_DAYS" : {
       "description" : "Duration unit: one 24-hour day",
-      "message" : "d"
+      "message" : "z"
    },
    "UNIT_HOURS" : {
       "description" : "Duration unit: one 60-minute hour",
-      "message" : "h"
+      "message" : "o"
    },
    "UNIT_LY" : {
       "description" : "Distance unit: a light year",
@@ -1749,7 +1749,7 @@
    },
    "UNIT_WEEKS" : {
       "description" : "Duration unit: one 7-day week",
-      "message" : "w"
+      "message" : "să"
    },
    "UNKNOWN" : {
       "description" : "",
