@@ -5,6 +5,6 @@
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Bienvenue  à bord de la station {station}. Le coût d'arrimage ({fee}) a été déduit."
+      "message" : "Welcome aboard {station}. Your docking fee of {fee} has been deducted."
    }
 }

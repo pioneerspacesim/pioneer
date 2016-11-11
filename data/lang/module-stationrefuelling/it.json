@@ -5,6 +5,6 @@
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Benvenuti su {station}. Vi è stata dedotta una tassa d'attracco di {fee}."
+      "message" : "Welcome aboard {station}. Your docking fee of {fee} has been deducted."
    }
 }
