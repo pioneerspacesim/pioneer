@@ -14,6 +14,7 @@ local Timer = import("Timer")
 -- on stations, and handles periodic events such as their wages.
 
 local l = Lang.GetResource("module-crewcontracts")
+local lui = Lang.GetResource("ui-core")
 
 local wage_period = 604800 -- a week of seconds
 
@@ -397,10 +398,10 @@ local onCreateBB = function (station)
 									hopefulCrew.navigation,
 									hopefulCrew.sensors)
 		if maxScore > 45 then
-			if hopefulCrew.engineering == maxScore then hopefulCrew.title = l.SHIPS_ENGINEER end
-			if hopefulCrew.piloting == maxScore then hopefulCrew.title = l.PILOT end
-			if hopefulCrew.navigation == maxScore then hopefulCrew.title = l.NAVIGATOR end
-			if hopefulCrew.sensors == maxScore then hopefulCrew.title = l.SENSORS_AND_DEFENCE end
+			if hopefulCrew.engineering == maxScore then hopefulCrew.title = lui.SHIPS_ENGINEER end
+			if hopefulCrew.piloting == maxScore then hopefulCrew.title = lui.PILOT end
+			if hopefulCrew.navigation == maxScore then hopefulCrew.title = lui.NAVIGATOR end
+			if hopefulCrew.sensors == maxScore then hopefulCrew.title = lui.SENSORS_AND_DEFENCE end
 		end
 		table.insert(nonPersistentCharactersForCrew[station],hopefulCrew)
 	end

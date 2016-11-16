@@ -46,7 +46,7 @@ function EquipType.New (specs)
 	end
 	local l = Lang.GetResource(obj.l10n_resource)
 	obj.volatile = {
-		description = l[obj.l10n_key.."_DESCRIPTION"] or "",
+		description = l:get(obj.l10n_key.."_DESCRIPTION") or "",
 		name = l[obj.l10n_key] or ""
 	}
 	setmetatable(obj, EquipType.meta)

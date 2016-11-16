@@ -272,7 +272,7 @@ end
 local getNumberOfFlavours = function (str)
 	local num = 1
 
-	while l[str .. "_" .. num] do
+	while l:get(str .. "_" .. num) do
 		num = num + 1
 	end
 	return num - 1

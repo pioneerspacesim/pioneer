@@ -328,7 +328,7 @@ local getNumberOfFlavours = function (str)
 	-- Returns the number of flavours of the given string (assuming first flavour has suffix '_1').
 	-- Taken from CargoRun.lua.
 	local num = 1
-	while l[str .. "_" .. num] do
+	while l:get(str .. "_" .. num) do
 		num = num + 1
 	end
 	return num - 1
