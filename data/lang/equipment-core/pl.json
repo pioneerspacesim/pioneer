@@ -309,7 +309,7 @@
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade Computer"
+      "message" : "Komputer handlowy"
    },
    "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",

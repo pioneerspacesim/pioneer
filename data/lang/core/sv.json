@@ -281,7 +281,7 @@
    },
    "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease radar range"
+      "message" : "Minska radar-avstånd"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
@@ -601,7 +601,7 @@
    },
    "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase radar range"
+      "message" : "Öka radar-avstånd"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
@@ -1189,7 +1189,7 @@
    },
    "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Radar control"
+      "message" : "Radarkontroll"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1685,11 +1685,11 @@
    },
    "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle radar mode"
+      "message" : "Växla radar-läge"
    },
    "TOGGLE_RADAR_VIEW" : {
       "description" : "Tooltip for the Radar View button",
-      "message" : "Radar View"
+      "message" : "Radarvy"
    },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",

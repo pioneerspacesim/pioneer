@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "这里是 {station}. 你没有足够的钱付清 {fee} 的停靠费用. 你的燃料已经保留."
+      "message" : "This is {station}. You do not have enough money for your docking fee of {fee}."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "欢迎您登上 {station}. 您的对接和加油费 {fee} 已经扣除."
+      "message" : "Welcome aboard {station}. Your docking fee of {fee} has been deducted."
    }
 }

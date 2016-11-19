@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "Ceci est un message de {station}. Vous ne disposez pas de la somme requise pour vous acquiter de vos frais d'arrimage s'élevant à {fee}. Votre carburant a été retenu."
+      "message" : "Ici la station {station}. Vous n'avez pas assez d'argent pour payer les frais d'arrimage ({fee})."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Bienvenue à {station}. Vos frais d'arrimage et de carburant de {fee} ont été débités."
+      "message" : "Bienvenue à bord de la station {station}. Vos frais d'arrimages s'élevant à {fee} ont été déduits de votre compte."
    }
 }
