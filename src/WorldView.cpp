@@ -1652,6 +1652,7 @@ void WorldView::UpdateProjectedObjects()
 			continue;
 
 		vector3d pos = b->GetInterpPositionRelTo(cam_frame);
+		if (b->IsType(Object::PLAYER)) pos += vector3d(0.1, 0.1, 0);		// otherwise exactly between four pixels => jitter
 		if ((pos.z < -1.0) && project_to_screen(pos, pos, frustum, guiSize)) {
 
 			// only show labels on large or nearby bodies
