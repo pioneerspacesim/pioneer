@@ -13,7 +13,7 @@
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Kan du upprepa den ursprungliga önskan?"
+      "message" : "Kan du upprepa den ursprungliga begäran?"
    },
    "CREW" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "FLAVOUR_1_FAILUREMSG" : {
       "description" : "",
-      "message" : "jag kan inte tro att du bara återvänder nu! Vilket slöseri med tid!"
+      "message" : "jag kan inte tro att du återvänder först nu! Vilket slöseri med tid!"
    },
    "FLAVOUR_1_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -173,7 +173,7 @@
    },
    "FLAVOUR_1_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control needs your IMMEDIATE help responding to a crash landing of a {ship} type starship on {planet}. Status of life support systems is unknown. The ship has been insured by {starport} starport insurance and is covered for {cash} in emergency response reimbursement."
+      "message" : "{starport}s flygledning behöver din OMEDELBARA hjälp att undsätta ett skepp av typ {ship} på {planet}. Status för livsuppehållande system är okänt. Skeppet har varit försäkrat hos {starport} starport försäkring som täcker {cash} i ersättning vid nödsituationer."
    },
    "FLAVOUR_1_LOCATIONTEXT" : {
       "description" : "",
@@ -189,7 +189,7 @@
    },
    "FLAVOUR_1_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "A crew of {crew} and {pass} passengers are reported to be on board the ship. We need someone to locate the ship, pick up any survivors from the site and bring them here immediately."
+      "message" : "En besättning på {crew} och {pass} passagerare uppges befinna sig ombord. Vi behöver någon som kan lokalisera fartyget, plocka upp eventuella överlevande från platsen och föra dem hit omedelbart."
    },
    "FLAVOUR_2_ADTEXT" : {
       "description" : "",
@@ -205,15 +205,15 @@
    },
    "FLAVOUR_2_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control just received notice that incoming flight {shiplabel} has run out of fuel and had to emergency land. The pilot is willing to pay {cash} for refueling services."
+      "message" : "{starport}s trafikkontroll har just fått meddelande om att inkommande flyg {shiplabel} har slut på bränsle och varit tvunget att landa akut. Piloten är villig att betala {cash} för tankning."
    },
    "FLAVOUR_2_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is presently waiting at latitude {lat} / longitude {long} on planet {planet}."
+      "message" : "Fartyget väntar för närvarande vid latitud {lat} / longitud {long} på planeten {planet}."
    },
    "FLAVOUR_2_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Thank you so much! I have transferred the full reward."
+      "message" : "Tack så mycket! Jag har fört över hela belöningen."
    },
    "FLAVOUR_2_TRANSFERMSG" : {
       "description" : "",
@@ -233,15 +233,15 @@
    },
    "FLAVOUR_3_HOWMUCHTIMETEXT" : {
       "description" : "",
-      "message" : "The substitute pilot will need to reach the ship by {due}."
+      "message" : "Den nya piloten måste vara vid skeppet innan {due}."
    },
    "FLAVOUR_3_INTROTEXT" : {
       "description" : "",
-      "message" : "My name is {name} from {starport} air traffic control. I am requesting help in response to a medical emergency involving the pilot of flight {shiplabel} headed for {starport}."
+      "message" : "Det här är {name} från trafikkontrollen vid {starport}. Jag begär hjälp att svara på en medicinsk nödsituation som gäller piloten av {shiplabel} på väg till {starport}."
    },
    "FLAVOUR_3_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship had to emergency land at the coordinates: {lat} / {long}. "
+      "message" : "Skeppet var tvunget att nödlanda vid koordinaterna: {lat} / {long}. "
    },
    "FLAVOUR_3_SUCCESSMSG" : {
       "description" : "",
@@ -253,7 +253,7 @@
    },
    "FLAVOUR_3_TYPEOFHELPTEXT" : {
       "description" : "",
-      "message" : "Please transport a substitute pilot from {starport} to the ship so they can fly the ship back to {starport}."
+      "message" : "Vänligen transportera en ny pilot från {starport} till skeppet så de kan flyga det tillbaka till {starport}."
    },
    "FLAVOUR_4_ADTEXT" : {
       "description" : "",
@@ -261,7 +261,7 @@
    },
    "FLAVOUR_4_FAILUREMSG" : {
       "description" : "",
-      "message" : "I will send someone else. Don't bother anymore."
+      "message" : "Jag skickar någon annan. Du behöver inte oroa dig mer."
    },
    "FLAVOUR_4_HOWMUCHTIMETEXT" : {
       "description" : "",
@@ -269,15 +269,15 @@
    },
    "FLAVOUR_4_INTROTEXT" : {
       "description" : "",
-      "message" : "{starport} air traffic control has been contacted by the pilot of flight {shiplabel}. They are stranded with an empty fuel tank and have promised to pay {cash} to anyone that will refuel the ship."
+      "message" : "Flygledningen vid {starport} har kontaktats av piloten för {shiplabel}. De är strandsatta med en tom bränsletank och har lovat att betala {cash} till den som kan hjälpa till att tanka skeppet."
    },
    "FLAVOUR_4_LOCATIONTEXT" : {
       "description" : "",
-      "message" : "The ship is stranded on {planet} at coordinates {lat} / {long}."
+      "message" : "Skeppet är strandsatt på {planet} på koordinaterna {lat} / {long}."
    },
    "FLAVOUR_4_SUCCESSMSG" : {
       "description" : "",
-      "message" : "Very good. We will recommend you for future assignments."
+      "message" : "Väldigt bra. Vi kommer att rekommendera dig för framtida uppdrag."
    },
    "FLAVOUR_4_TRANSFERMSG" : {
       "description" : "",
@@ -661,7 +661,7 @@
    },
    "THANK_YOU_ACCEPTANCE_TXT" : {
       "description" : "",
-      "message" : "Tak så hjärtligt. Din hjälp uppskattas."
+      "message" : "Tack så mycket. Din hjälp uppskattas verkligen."
    },
    "TONS_OF_FREE_CARGO_SPACE" : {
       "description" : "",
