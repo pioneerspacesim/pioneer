@@ -128,7 +128,9 @@ void Camera::Update()
 		attrs.billboard = false; // false by default
 
 		// determine position and transform for draw
-		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);
+//		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);		// doesn't use interp coords, so breaks in some cases
+		attrs.viewTransform = b->GetFrame()->GetInterpOrientRelTo(camFrame);
+		attrs.viewTransform.SetTranslate(b->GetFrame()->GetInterpPositionRelTo(camFrame));
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
 
 		// cull off-screen objects
