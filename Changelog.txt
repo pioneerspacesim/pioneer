@@ -5,6 +5,7 @@ November 2016
      * Lobby: Disconnect the property listeners when the docked station changes (#3857)
      * Docking message should not mention auto refuel (#3863)
      * Player shouldn't sell fuel they don't have (#3864)
+     * Render the navlights for orbital stations (#3874)
 
    * Internal Changes
      * Freebsd patches (#3851)
