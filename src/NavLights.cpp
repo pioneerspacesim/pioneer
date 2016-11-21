@@ -92,7 +92,8 @@ NavLights::NavLights(SceneGraph::Model *model, float period)
 	const std::vector<Node*> &results = lightFinder.GetResults();
 
 	//attach light billboards
-	for (unsigned int i=0; i < results.size(); i++) {
+	for (unsigned int i=0; i < results.size(); i++) 
+	{
 		MatrixTransform *mt = dynamic_cast<MatrixTransform*>(results.at(i));
 		assert(mt);
 		Billboard *bblight = new Billboard(m_billboardTris, renderer, BILLBOARD_SIZE);

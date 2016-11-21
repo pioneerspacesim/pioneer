@@ -602,6 +602,7 @@ void SpaceStation::Render(Graphics::Renderer *r, const Camera *camera, const vec
 	if (!b->IsType(Object::PLANET)) {
 		// orbital spaceport -- don't make city turds or change lighting based on atmosphere
 		RenderModel(r, camera, viewCoords, viewTransform);
+		m_navLights->Render(r);
 		r->GetStats().AddToStatCount(Graphics::Stats::STAT_SPACESTATIONS, 1);
 	} else {
 		// don't render city if too far away
