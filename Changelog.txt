@@ -6,6 +6,7 @@ November 2016
      * Docking message should not mention auto refuel (#3863)
      * Player shouldn't sell fuel they don't have (#3864)
      * Render the navlights for orbital stations (#3874)
+     * Jitter fix (#3872)
 
    * Internal Changes
      * Freebsd patches (#3851)
