@@ -7,6 +7,7 @@ November 2016
      * Player shouldn't sell fuel they don't have (#3864)
      * Render the navlights for orbital stations (#3874)
      * Jitter fix (#3872)
+     * fix navbutton crash without target (#3865)
 
    * Internal Changes
      * Freebsd patches (#3851)
@@ -14,6 +15,7 @@ November 2016
      * Custom system checking (#3856)
      * Sprinkle SpaceStation with asserts to find naughty bug (#3861)
      * isnan is std, MXE build complained (#3867)
+     * Add GL_CFLAGS value to AM_CFLAGS (#3870)
 
 October 2016
    * New Features
