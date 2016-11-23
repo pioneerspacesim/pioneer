@@ -190,7 +190,10 @@ private:
 	sigc::connection m_onPlayerChangeTargetCon;
 	sigc::connection m_onChangeFlightControlStateCon;
 	sigc::connection m_onMouseWheelCon;
-
+	sigc::connection m_onToggleHudModeCon;
+	sigc::connection m_onIncTimeAccelCon;
+	sigc::connection m_onDecTimeAccelCon;
+	
 	Gui::LabelSet *m_bodyLabels;
 	std::map<Body*,vector3d> m_projectedPos;
 
