@@ -68,14 +68,12 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
 
 	glGenBuffers(1, &m_buffer);
 
-	//Allocate initial data store
-	//Using zeroed m_data is not mandatory, but otherwise contents are undefined
+	//Allocate GL buffer with undefined contents
+	//Critical optimisation for some architectures in cases where buffer is created and written in the same frame
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 	const Uint32 dataSize = m_desc.numVertices * m_desc.stride;
-	m_data = new Uint8[dataSize];
-	memset(m_data, 0, dataSize);
 	const GLenum usage = (m_desc.usage == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
-	glBufferData(GL_ARRAY_BUFFER, dataSize, m_data, usage);
+	glBufferData(GL_ARRAY_BUFFER, dataSize, 0, usage);
 
 	//Setup the VAO pointers
 	for (Uint8 i = 0; i < MAX_ATTRIBS; i++) {
@@ -115,11 +113,12 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	//Don't keep client data around for static buffers
-	if (GetDesc().usage == BUFFER_USAGE_STATIC) {
-		delete[] m_data;
-		m_data = nullptr;
+	// Allocate client data store for dynamic buffers
+	if (GetDesc().usage != BUFFER_USAGE_STATIC) {
+		m_data = new Uint8[dataSize];
+		memset(m_data, 0, dataSize);
 	}
+	else m_data = nullptr;
 }
 
 VertexBuffer::~VertexBuffer()
@@ -166,6 +165,7 @@ void VertexBuffer::Unmap()
 	glBindVertexArray(0);
 
 	m_mapMode = BUFFER_MAP_NONE;
+	m_written = true;
 }
 
 #pragma pack(push, 4)
@@ -314,6 +314,7 @@ bool VertexBuffer::Populate(const VertexArray &va)
 }
 
 void VertexBuffer::Bind() {
+	assert(m_written);
 	glBindVertexArray(m_vao);
 
 	// Enable the Vertex attributes
@@ -360,16 +361,14 @@ IndexBuffer::IndexBuffer(Uint32 size, BufferUsage hint)
 	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
-	m_data = new Uint32[size];
-	memset(m_data, 0, sizeof(Uint32) * size);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint32) * m_size, m_data, usage);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Uint32) * m_size, 0, usage);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	//Don't keep client data around for static buffers
-	if (GetUsage() == BUFFER_USAGE_STATIC) {
-		delete[] m_data;
-		m_data = nullptr;
+	if (GetUsage() != BUFFER_USAGE_STATIC) {
+		m_data = new Uint32[size];
+		memset(m_data, 0, sizeof(Uint32) * size);
 	}
+	else m_data = nullptr;
 }
 
 IndexBuffer::~IndexBuffer()
@@ -410,9 +409,11 @@ void IndexBuffer::Unmap()
 	}
 
 	m_mapMode = BUFFER_MAP_NONE;
+	m_written = true;
 }
 
 void IndexBuffer::Bind() {
+	assert(m_written);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
 }
 
@@ -429,14 +430,12 @@ InstanceBuffer::InstanceBuffer(Uint32 size, BufferUsage hint)
 	const GLenum usage = (hint == BUFFER_USAGE_STATIC) ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW;
 	glGenBuffers(1, &m_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-	m_data.reset( new matrix4x4f[size] );
-	memset(m_data.get(), 0, sizeof(matrix4x4f) * size);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(matrix4x4f) * m_size, m_data.get(), usage);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(matrix4x4f) * m_size, 0, usage);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	//Don't keep client data around for static buffers
-	if (GetUsage() == BUFFER_USAGE_STATIC) {
-		m_data.reset();
+	if (GetUsage() != BUFFER_USAGE_STATIC) {
+		m_data.reset(new matrix4x4f[size]);
+		memset(m_data.get(), 0, sizeof(matrix4x4f) * size);
 	}
 }
 
@@ -477,9 +476,11 @@ void InstanceBuffer::Unmap()
 	}
 
 	m_mapMode = BUFFER_MAP_NONE;
+	m_written = true;
 }
 
 void InstanceBuffer::Bind() {
+	assert(m_written);
 	glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
 
 	// used to pass a matrix4x4f in, however each attrib array is max size of (GLSL) vec4 so must enable 4 arrays

@@ -10,10 +10,12 @@ namespace Graphics { namespace OGL {
 
 class GLBufferBase {
 public:
+	GLBufferBase() : m_written(false) {}
 	GLuint GetBuffer() const { return m_buffer; }
 
 protected:
 	GLuint m_buffer;
+	bool m_written;			// to check for invalid data rendering
 };
 
 class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
