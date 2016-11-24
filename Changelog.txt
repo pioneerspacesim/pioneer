@@ -8,6 +8,7 @@ November 2016
      * Render the navlights for orbital stations (#3874)
      * Jitter fix (#3872)
      * fix navbutton crash without target (#3865)
+     * Fix orphaned connections in WorldView (#3876)
 
    * Internal Changes
      * Freebsd patches (#3851)
