@@ -158,6 +158,7 @@ void VertexBuffer::Unmap()
 		if (m_mapMode == BUFFER_MAP_WRITE) {
 			const GLsizei dataSize = m_desc.numVertices * m_desc.stride;
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferData(GL_ARRAY_BUFFER, dataSize, 0, GL_DYNAMIC_DRAW);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, dataSize, m_data);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
@@ -403,6 +404,7 @@ void IndexBuffer::Unmap()
 	} else {
 		if (m_mapMode == BUFFER_MAP_WRITE) {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(Uint32) * m_size, 0, GL_DYNAMIC_DRAW);
 			glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Uint32) * m_size, m_data);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		}
@@ -470,6 +472,7 @@ void InstanceBuffer::Unmap()
 	} else {
 		if (m_mapMode == BUFFER_MAP_WRITE) {
 			glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(matrix4x4f) * m_size, 0, GL_DYNAMIC_DRAW);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(matrix4x4f) * m_size, m_data.get());
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 		}
