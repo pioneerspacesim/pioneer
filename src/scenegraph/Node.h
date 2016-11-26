@@ -59,7 +59,7 @@ struct RenderData
 struct NodeDatabase {
 	Serializer::Writer *wr;
 	Serializer::Reader *rd;
-	Graphics::Renderer *renderer;
+//	Graphics::Renderer *renderer;
 	Model *model;
 	std::vector<std::pair<std::string, RefCountedPtr<Graphics::Material> > > *materials;
 	BaseLoader *loader;
