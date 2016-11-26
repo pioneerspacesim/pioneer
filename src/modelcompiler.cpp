@@ -261,6 +261,11 @@ start:
 			}
 
 			SetupRenderer();
+#if 1
+			for (auto &modelName : list_model) {
+				RunCompiler(modelName.first, modelName.second, isInPlace);
+			}
+#else
 			std::deque<Job::Handle> handles;
 			for (auto &modelName : list_model) {
 				handles.push_back( asyncJobQueue->Queue(new CompileJob(modelName.first, modelName.second, isInPlace)) );
@@ -275,6 +280,7 @@ start:
 				if(!hasJobs)
 					break;
 			}
+#endif
 			break;
 		}
 
