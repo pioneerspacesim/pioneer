@@ -129,8 +129,19 @@ void TextLayout::Update(const float width, const Color &color)
 
 		Color c = color;
 
+		// vertex array pre-assignment, because TextureFont botches it
+		// over-reserves for markup, but we don't care
+		int numChars = 0;
 		std::list<word_t>::const_iterator wpos = this->words.begin();
+		for (; wpos != this->words.end(); ++wpos)
+			if ((*wpos).word) numChars += strlen((*wpos).word);
+
+		va.position.reserve(6 * numChars);
+		va.diffuse.reserve(6 * numChars);
+		va.uv0.reserve(6 * numChars);
+
 		// build lines of text
+		wpos = this->words.begin();
 		while (wpos != this->words.end()) {
 			float len = 0;
 			int num = 0;
