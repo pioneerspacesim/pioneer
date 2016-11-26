@@ -17,6 +17,8 @@ November 2016
      * Sprinkle SpaceStation with asserts to find naughty bug (#3861)
      * isnan is std, MXE build complained (#3867)
      * Add GL_CFLAGS value to AM_CFLAGS (#3870)
+     * Remove GL buffer init fills, add init checks (#3877)
+     * Optimisation: Reserve VA capacity correctly for Gui::TextLayout (#3878)
 
 October 2016
    * New Features
