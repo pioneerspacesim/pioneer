@@ -9,6 +9,8 @@ November 2016
      * Jitter fix (#3872)
      * fix navbutton crash without target (#3865)
      * Fix orphaned connections in WorldView (#3876)
+     * Disable the modelcompiler multithreading (#3879)
+     * Fix undefined renderer bug in SGM LOD loader (#3880)
 
    * Internal Changes
      * Freebsd patches (#3851)
