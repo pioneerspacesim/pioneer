@@ -25,7 +25,7 @@ void ModelSkin::Apply(Model *model) const
 		if (m_decals[i].empty())
 			model->ClearDecal(i);
 		else
-			model->SetDecalTexture(Graphics::TextureBuilder::Decal(stringf("textures/decals/%0.png", m_decals[i])).GetOrCreateTexture(model->GetRenderer(), "decal"), i);
+			model->SetDecalTexture(Graphics::TextureBuilder::Decal(stringf("textures/decals/%0.dds", m_decals[i])).GetOrCreateTexture(model->GetRenderer(), "decal"), i);
 	}
 	model->SetLabel(m_label);
 }

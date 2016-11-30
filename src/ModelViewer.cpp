@@ -73,7 +73,7 @@ namespace {
 			const std::string &fpath = info.GetPath();
 
 			//check it's the expected type
-			if (info.IsFile() && ends_with_ci(fpath, ".png")) {
+			if (info.IsFile() && ends_with_ci(fpath, ".dds")) {
 				list.push_back(info.GetName().substr(0, info.GetName().size()-4));
 			}
 		}
@@ -635,7 +635,7 @@ void ModelViewer::OnDecalChanged(unsigned int index, const std::string &texname)
 {
 	if (!m_model) return;
 
-	m_decalTexture = Graphics::TextureBuilder::Decal(stringf("textures/decals/%0.png", texname)).GetOrCreateTexture(m_renderer, "decal");
+	m_decalTexture = Graphics::TextureBuilder::Decal(stringf("textures/decals/%0.dds", texname)).GetOrCreateTexture(m_renderer, "decal");
 
 	m_model->SetDecalTexture(m_decalTexture, 0);
 	m_model->SetDecalTexture(m_decalTexture, 1);
