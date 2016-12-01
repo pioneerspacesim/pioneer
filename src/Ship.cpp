@@ -239,7 +239,7 @@ void Ship::InitMaterials()
 	const Uint32 numMats = pModel->GetNumMaterials();
 	for( Uint32 m=0; m<numMats; m++ ) {
 		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
-		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.png").GetOrCreateTexture(Pi::renderer, "model");
+		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
 		mat->specialParameter0 = &s_heatGradientParams;
 	}
 	s_heatGradientParams.heatingAmount = 0.0f;
