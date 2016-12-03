@@ -262,6 +262,7 @@ void *PiGui::makeTexture(const std::string &filename, unsigned char *pixels, int
 
 void PiGui::NewFrame(SDL_Window *window) {
 	ImGui_ImplSdlGL3_NewFrame(window);
+	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	ImGui::GetIO().MouseDrawCursor = true;
 }
@@ -276,5 +277,6 @@ void PiGui::Render(double delta, std::string handler) {
 	ScopedTable t(m_handlers);
 	if(t.Get<bool>(handler)) {
 		t.Call<bool>(handler, delta);
+		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	}
 }
