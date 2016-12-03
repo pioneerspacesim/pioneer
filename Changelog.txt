@@ -1,3 +1,7 @@
+December 2016
+   * Internal Changes
+     * Convert more PNG files to DDS (#3883)
+
 November 2016
    * Fixes
      * Set delta-t to 1/60 if it is <= 0 (#3854)
