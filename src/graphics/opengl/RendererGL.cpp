@@ -348,27 +348,7 @@ void RendererOGL::CheckErrors(const char *func /*= nullptr*/, const int line /*=
 bool RendererOGL::SwapBuffers()
 {
 	PROFILE_SCOPED()
-#ifndef NDEBUG
-	// Check if an error occurred during the frame. This is not very useful for
-	// determining *where* the error happened. For that purpose, try GDebugger or
-	// the GL_KHR_DEBUG extension
-	GLenum err;
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
-		std::stringstream ss;
-		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
-			ss << glerr_to_string(err) << std::endl;
-			err = glGetError();
-			if( err == GL_OUT_OF_MEMORY ) {
-				ss << "Out-of-memory on graphics card." << std::endl
-					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
-					<< "Also try reducing City and Planet detail settings." << std::endl;
-			}
-		}
-		Error("%s", ss.str().c_str());
-	}
-#endif
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	GetWindow()->SwapBuffers();
 	m_stats.NextFrame();
