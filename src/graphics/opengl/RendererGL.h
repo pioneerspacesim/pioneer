@@ -54,8 +54,8 @@ public:
 
 	virtual void WriteRendererInfo(std::ostream &out) const override final;
 
-	virtual void CheckRenderErrors(const char *func = nullptr, const int line = -1) const override final { CheckErrors(func, line); }
-	static void CheckErrors(const char *func = nullptr, const int line = -1);
+	virtual void CheckRenderErrors(const char *func, const int line) const override final { CheckErrors(func, line); }
+	static void CheckErrors(const char *func, const int line);
 
 	virtual bool GetNearFarRange(float &near_, float &far_) const override final;
 
