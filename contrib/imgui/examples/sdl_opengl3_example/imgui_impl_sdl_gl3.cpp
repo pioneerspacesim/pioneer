@@ -209,8 +209,9 @@ bool ImGui_ImplSdlGL3_CreateDeviceObjects()
     glGetIntegerv(GL_ARRAY_BUFFER_BINDING, &last_array_buffer);
     glGetIntegerv(GL_VERTEX_ARRAY_BINDING, &last_vertex_array);
 
+	// Specify version 140 shaders because some trash drivers fail otherwise
     const GLchar *vertex_shader =
-        "#version 330\n"
+        "#version 140\n"
         "uniform mat4 ProjMtx;\n"
         "in vec2 Position;\n"
         "in vec2 UV;\n"
@@ -225,7 +226,7 @@ bool ImGui_ImplSdlGL3_CreateDeviceObjects()
         "}\n";
 
     const GLchar* fragment_shader =
-        "#version 330\n"
+        "#version 140\n"
         "uniform sampler2D Texture;\n"
         "in vec2 Frag_UV;\n"
         "in vec4 Frag_Color;\n"
