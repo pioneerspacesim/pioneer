@@ -1,6 +1,8 @@
 // Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "Pi.h"
+#include "graphics/opengl/TextureGL.h" // nasty, usage of GL is implementation specific
 #include "PiGui.h"
 #include "imgui/imgui_internal.h"
 
@@ -11,6 +13,8 @@
 #include "nanosvg/nanosvg.h"
 #define NANOSVGRAST_IMPLEMENTATION
 #include "nanosvg/nanosvgrast.h"
+
+std::vector<std::pair<std::string,Graphics::Texture*>> PiGui::m_svg_textures;
 
 ImFont *PiGui::pionillium12 = nullptr;
 ImFont *PiGui::pionillium15 = nullptr;
@@ -49,6 +53,18 @@ static std::vector<std::pair<std::string,int>> keycodes
 
 ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	Output("nanosvg: %s %dx%d\n", svgFilename.c_str(), width, height);
+
+	// re-use existing texture if already loaded
+	for(auto strTex : m_svg_textures) {
+		if(strTex.first == svgFilename) {
+			// nasty bit as I invoke the TextureGL
+			Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(strTex.second);
+			Uint32 result = pGLTex->GetTexture();
+ 			Output("Re-used existing texture with id: %i\n", result);
+			return reinterpret_cast<void*>(result);
+		}
+	}
+
 	NSVGimage *image = NULL;
 	NSVGrasterizer *rast = NULL;
 	unsigned char* img = NULL;
@@ -63,8 +79,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	int H = height;
 	img = static_cast<unsigned char*>(malloc(W*H*4));
 	memset(img, 0, W * H * 4);
-	std::string filename = svgFilename; // FileSystem::JoinPath(FileSystem::JoinPath(FileSystem::GetDataDir(), "icons"), "icons.svg");
-	image = nsvgParseFromFile(filename.c_str(), "px", 96.0f);
+	image = nsvgParseFromFile(svgFilename.c_str(), "px", 96.0f);
 	if (image == NULL) {
 		Error("Could not open SVG image.\n");
 	}
@@ -87,7 +102,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	}
 	nsvgDeleteRasterizer(rast);
 	nsvgDelete(image);
-	return makeTexture(img, W, H);
+	return makeTexture(svgFilename, img, W, H);
 }
 
 void PiGui::Init(SDL_Window *window) {
@@ -220,30 +235,48 @@ bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_
 	return ImGui::SliderBehavior(ImRect(center.x - 17, center.y - 17, center.x + 17, center.y + 17), id, v, v_min, v_max, 1.0, 4);
 }
 
-void *PiGui::makeTexture(unsigned char *pixels, int width, int height) {
-	GLint last_texture;
-	GLuint result;
-	glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
-	glGenTextures(1, &result);
-	glBindTexture(GL_TEXTURE_2D, result);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-	glBindTexture(GL_TEXTURE_2D, last_texture);
-	Output("texture id: %i\n", result);
-	return reinterpret_cast<void*>(result);
+void *PiGui::makeTexture(const std::string &filename, unsigned char *pixels, int width, int height)
+{
+	// this is not very pretty code and uses the Graphics::TextureGL class directly
+	// Texture descriptor defines the size, type.
+	// Gone for LINEAR_CLAMP here and RGBA like the original code
+	const vector2f texSize(1.0f, 1.0f);
+	const vector2f dataSize(width, height);
+	const Graphics::TextureDescriptor texDesc(
+		Graphics::TEXTURE_RGBA_8888,
+		dataSize, texSize, Graphics::LINEAR_CLAMP,
+		false, false, false, 0, Graphics::TEXTURE_2D);
+	// Create the texture, calling it via renderer directly avoids the caching call of TextureBuilder
+	// However interestingly this gets called twice which would have been a WIN for the TextureBuilder :/
+	Graphics::Texture *pTex = Pi::renderer->CreateTexture(texDesc);
+	// Update it with the actual pixels, this is a two step process due to legacy code
+	pTex->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
+	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
+	// nasty bit as I invoke the TextureGL
+	Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(pTex);
+	Uint32 result = pGLTex->GetTexture();
+ 	Output("texture id: %i\n", result);
+	m_svg_textures.push_back( std::make_pair(filename,pTex) );	// store for cleanup later
+ 	return reinterpret_cast<void*>(result);
 }
 
 void PiGui::NewFrame(SDL_Window *window) {
 	ImGui_ImplSdlGL3_NewFrame(window);
+	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	ImGui::GetIO().MouseDrawCursor = true;
+}
+
+void PiGui::Cleanup() {
+	for(auto strTex : m_svg_textures) {
+		delete strTex.second;
+	}
 }
 
 void PiGui::Render(double delta, std::string handler) {
 	ScopedTable t(m_handlers);
 	if(t.Get<bool>(handler)) {
 		t.Call<bool>(handler, delta);
+		Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	}
 }
