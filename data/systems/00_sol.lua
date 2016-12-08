@@ -195,6 +195,36 @@ local mars_moons = {
 	},
 }
 
+local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
+	:radius(f(08,100)) -- 512km
+	:mass(f(353,10000000)) -- 2.11e20 kg
+	:temp(164)
+	:semi_major_axis(f(27716,10000)) -- 2.7716 AU
+	:eccentricity(f(23127,100000)) -- 0.23127
+	:inclination(math.deg2rad(34.84)) -- 34.84°
+	:rotation_period(f(78,10)) -- 7.8h
+	:axial_tilt(fixed.deg2rad(f(84,1))) -- 84°
+
+local vesta = CustomSystemBody:new('Vesta', 'PLANET_TERRESTRIAL')
+	:radius(f(082,1000)) -- 525km
+	:mass(f(4338,100000000)) -- 2.590e20 kg
+	:temp(177) -- 85 - 270K
+	:semi_major_axis(f(236179,100000)) -- 2.36179 AU
+	:eccentricity(f(08874,100000)) -- 0.08874
+	:inclination(math.deg2rad(7.14043)) -- 7.14043°
+	:rotation_period(f(2226,10000)) -- 5.342h
+	:axial_tilt(fixed.deg2rad(f(29,1))) -- 29°
+
+local ceres = CustomSystemBody:new('Ceres', 'PLANET_TERRESTRIAL')
+	:radius(f(074,1000)) -- 473km
+	:mass(f(15,100000)) -- 9.393e20 kg
+	:temp(168)
+	:semi_major_axis(f(27675,10000)) -- 2.7675 AU
+	:eccentricity(f(758,10000)) -- 0.075823
+	:inclination(math.deg2rad(10.593)) -- 10.593°
+	:rotation_period(f(3781,10000)) -- 9h
+	:axial_tilt(fixed.deg2rad(f(4,1))) -- 4°
+
 local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
 	:seed(786424632)
 	:radius(f(11,1))
@@ -627,6 +657,9 @@ s:bodies(sol, {
 	mars,
 		mars_starports,
 		mars_moons,
+	pallas,
+	vesta,
+	ceres,
 	jupiter,
 		jupiter_moons,
 	saturn,
