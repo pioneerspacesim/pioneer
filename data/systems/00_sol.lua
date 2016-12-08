@@ -166,12 +166,12 @@ local mars_moons = {
 	CustomSystemBody:new('Phobos', 'PLANET_ASTEROID')
 		:seed(439771126)
 		:radius(f(21,10000))
-		:mass(f(18,100000))
+		:mass(f(1875,100000000000000))
+		:semi_major_axis(f(627,10000000))
+		:rotation_period(f(319,1000))
 		:temp(233)
-		:semi_major_axis(f(6268,100000000))
 		:eccentricity(f(151,10000))
 		:inclination(math.deg2rad(1.093))
-		:rotation_period(f(11,24))
 		:metallicity(f(4,5))
 		:volcanicity(f(3,4)),
 	{
@@ -182,12 +182,12 @@ local mars_moons = {
 	CustomSystemBody:new('Deimos', 'PLANET_ASTEROID')
 		:seed(439771126)
 		:radius(f(12,10000))
-		:mass(f(25,1000000))
-		:temp(233)
+		:mass(f(25,10000000000000))
 		:semi_major_axis(f(1568,10000000))
+		:rotation_period(f(1263,1000))
+		:temp(233)
 		:eccentricity(f(2,10000))
 		:inclination(math.deg2rad(0.93))
-		:rotation_period(f(30,24))
 		:metallicity(f(7,10))
 		:volcanicity(f(1,1)),
 	{
