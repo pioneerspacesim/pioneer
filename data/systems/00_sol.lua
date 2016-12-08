@@ -464,6 +464,14 @@ local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
 	:orbital_phase_at_start(fixed.deg2rad(f(217,1)))
 
 local saturn_moons = {
+     CustomSystemBody:new('Tethys', 'PLANET_TERRESTRIAL')
+		:radius(f(083,1000))
+		:mass(f(103,1000000))
+		:temp(86)
+		:semi_major_axis(f(002,1000))
+		:eccentricity(f(0,1))
+		:inclination(math.deg2rad(1.12))
+		:rotation_period(f(1887,1000)),
 	CustomSystemBody:new('Dione', 'PLANET_TERRESTRIAL')
 		:seed(-562018355)
 		:radius(f(881,10000))
