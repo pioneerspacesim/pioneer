@@ -2,6 +2,7 @@ December 2016
    * Fixes
      * Set ImgUI shaders to version 140 to work around junk Intel drivers (#3885)
      * Fix translations (#3890)
+     * Use dynamic vertex buffers for UI labels (#3887)
 
    * Internal Changes
      * Convert more PNG files to DDS (#3883)
