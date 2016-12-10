@@ -201,7 +201,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "Cèibinn thaistealach"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
