@@ -199,6 +199,10 @@
       "description" : "",
       "message" : "Превышена дальность сканирования:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Сканер небесных тел"

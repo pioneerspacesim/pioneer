@@ -199,6 +199,10 @@
       "description" : "",
       "message" : "Max scanbereik overschreden:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Hemellichaamscan"

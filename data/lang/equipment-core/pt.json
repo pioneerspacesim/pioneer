@@ -199,6 +199,10 @@
       "description" : "",
       "message" : "Distância máxima de pesquisa excedida:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Pesquisador de planeta"

@@ -199,6 +199,10 @@
       "description" : "",
       "message" : "Tha e nas fhaide air falbh na ghabhas sganadh:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Sganair bodhaige"

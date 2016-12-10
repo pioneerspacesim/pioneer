@@ -199,6 +199,10 @@
       "description" : "",
       "message" : "Portata massima dell'analizzatore superata:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Analizzatore Ogg. Celesti"
