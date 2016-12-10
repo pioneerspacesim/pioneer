@@ -387,7 +387,7 @@ local onChat = function (form, ref, option)
 		return
 
 	elseif option == 4 then
-		form:SetMessage(string.interp(l["URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY_" .. ad.branch) - 1)) + 1]
+		form:SetMessage(string.interp(l:get("URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY_" .. ad.branch) - 1)) + 1)
 			or l["URGENCY_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY") - 1)) + 1], { date = Format.Date(ad.due) }))
 
 	elseif option == 5 then
@@ -396,7 +396,7 @@ local onChat = function (form, ref, option)
 		else
 			local branch
 			if ad.wholesaler then branch = "WHOLESALER" else branch = ad.branch end
-			form:SetMessage(l["RISK_" .. branch .. "_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1] or l["RISK_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
+			form:SetMessage(l:get("RISK_" .. branch .. "_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1) or l["RISK_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
 		end
 	end
 
@@ -878,7 +878,7 @@ local onClick = function (mission)
 	else
 		local branch
 		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
-		danger = (l["RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1]
+		danger = (l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
 			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
 	end
 
