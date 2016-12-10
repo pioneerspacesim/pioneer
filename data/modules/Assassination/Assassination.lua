@@ -238,6 +238,9 @@ local onShipDestroyed = function (ship, body)
 		if mission.status == 'ACTIVE' and
 		   mission.ship == ship and
 		   mission.due < Game.time then
+			if body:isa("Missile") then
+				return
+			end
 			if not body:isa("Ship") or
 			   not body:IsPlayer() then
 				mission.status = 'FAILED'
