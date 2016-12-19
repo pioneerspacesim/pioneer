@@ -35,6 +35,10 @@
       "description" : "WIMP could mean Weakly Interacting Massive Particle, good luck translating that! Just go with the other meaning of the word, or make something else up, e.g.\"Magellan didn't quit\".",
       "message" : "De aicea nu plecăm!"
    },
+   "MSG_18" : {
+      "description" : "Catch phrase of 2016?",
+      "message" : "Make Pioneer great again! Only losers quit, sure about this?"
+   },
    "MSG_2" : {
       "description" : "",
       "message" : "Nu pleca încă, e un pirat care te așteaptă în celălalt program."
