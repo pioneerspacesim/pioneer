@@ -8,6 +8,7 @@ December 2016
    * Internal Changes
      * Convert more PNG files to DDS (#3883)
      * Render error check (#3884)
+     * Keep quit confirmation messages modern and stylish (#3896)
 
 November 2016
    * Fixes
