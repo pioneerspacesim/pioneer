@@ -467,6 +467,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	videoSettings.useTextureCompression = (config->Int("UseTextureCompression") != 0);
 	videoSettings.useAnisotropicFiltering = (config->Int("UseAnisotropicFiltering") != 0);
 	videoSettings.enableDebugMessages = (config->Int("EnableGLDebug") != 0);
+	videoSettings.gl3ForwardCompatible = (config->Int("GL3ForwardCompatible") != 0);
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Pioneer";
 

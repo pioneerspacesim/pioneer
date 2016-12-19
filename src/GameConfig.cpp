@@ -54,6 +54,7 @@ GameConfig::GameConfig(const map_string &override_)
 #endif
 	map["EnableGLDebug"] = "0";
 	map["EnableGPUJobs"] = "1";
+	map["GL3ForwardCompatible"] = "1";
 
 	Load();
 

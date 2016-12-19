@@ -86,6 +86,11 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 			);
 	}
 
+	const char *ver = (const char *)glGetString(GL_VERSION);
+	if (vs.gl3ForwardCompatible && strstr(ver, "9.17.10.4229")) {
+		Warning("Driver needs GL3ForwardCompatible=0 in config.ini to display billboards (stars, navlights etc.)");
+	}
+
 	TextureBuilder::Init();
 
 	m_viewportStack.push(Viewport());
@@ -107,6 +112,7 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glEnable(GL_PROGRAM_POINT_SIZE);
+	if (!vs.gl3ForwardCompatible) glEnable(0x8861);				// GL_POINT_SPRITE hack for compatibility contexts
 
 	glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
 	glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);

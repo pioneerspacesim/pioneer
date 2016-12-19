@@ -22,7 +22,7 @@ public:
 
     SDL_Window *GetSDLWindow() const { return m_window; }
 private:
-	bool CreateWindowAndContext(const char *name, int w, int h, bool fullscreen, bool hidden, int samples, int depth_bits);
+	bool CreateWindowAndContext(const char *name, const Graphics::Settings &settings, int samples, int depth_bits);
 
 	SDL_Window *m_window;
 	SDL_GLContext m_glContext;

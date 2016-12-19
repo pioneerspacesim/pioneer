@@ -27,6 +27,7 @@ namespace Graphics {
 		bool useTextureCompression;
 		bool useAnisotropicFiltering;
 		bool enableDebugMessages;
+		bool gl3ForwardCompatible;
 		int vsync;
 		int requestedSamples;
 		int height;
