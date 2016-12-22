@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Uniform.h"
@@ -38,7 +38,7 @@ void Uniform::Set(const vector3f &v)
 void Uniform::Set(const vector3d &v)
 {
 	if (m_location != -1)
-		glUniform3f(m_location, v.x, v.y, v.z); //yes, 3f
+		glUniform3f(m_location, static_cast<float>(v.x), static_cast<float>(v.y), static_cast<float>(v.z)); //yes, 3f
 }
 
 void Uniform::Set(const Color &c)

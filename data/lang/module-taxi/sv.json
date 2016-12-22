@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "Du kommer inte att docka idag!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Använd destination som navigationsmål"
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Taxi"
@@ -582,6 +586,10 @@
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
       "message" : "Kommer jag att hamna i någon fara?"
+   },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "Stjärnsystemsnamnet synes mig vara bekant, men koordinaterna ser inte rätt ut."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- Create a news event on the BBS (to do: place it on
@@ -144,7 +144,7 @@ local onChat = function (form, ref, option)
 	local faction = ad.n.syspath:GetStarSystem().faction.name
 
 	local newspaper
-	if faction == "Federation" then
+	if faction == "Solar Federation" then
 		newspaper = l.NEWSPAPER_FED
 	elseif faction == "Commonwealth of Independent Worlds" then
 		newspaper = l.NEWSPAPER_CIW

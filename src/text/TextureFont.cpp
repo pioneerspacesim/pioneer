@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "TextureFont.h"
@@ -72,7 +72,8 @@ void TextureFont::MeasureString(const std::string &str, float &w, float &h)
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if (n == 0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
@@ -199,9 +200,9 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 	float py = y;
 
 	// we know how many we're adding so reserve space ahead of time
-	va.position.reserve(str.size() * 6);
-	va.diffuse.reserve(str.size() * 6);
-	va.uv0.reserve(str.size() * 6);
+	va.position.reserve(va.position.size() + str.size() * 6);
+	va.diffuse.reserve(va.diffuse.size() + str.size() * 6);
+	va.uv0.reserve(va.uv0.size() + str.size() * 6);
 
 	// add all of the glyphs individually
 	int i = 0;
@@ -213,7 +214,8 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if(n<=0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
@@ -222,7 +224,8 @@ void TextureFont::PopulateString(Graphics::VertexArray &va, const std::string &s
 			if (str[i]) {
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
-				assert(n);
+				if(n<=0)
+					break;
 
 				px += GetKern(glyph, GetGlyph(chr2));
 			}
@@ -239,9 +242,9 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 	if(str.empty()) return Color::BLACK;
 
 	// we know how many we're adding so reserve space ahead of time
-	va.position.reserve(str.size() * 6);
-	va.diffuse.reserve(str.size() * 6);
-	va.uv0.reserve(str.size() * 6);
+	va.position.reserve(va.position.size() + str.size() * 6);
+	va.diffuse.reserve(va.diffuse.size() + str.size() * 6);
+	va.uv0.reserve(va.uv0.size() + str.size() * 6);
 
 	float px = x;
 	float py = y;
@@ -274,7 +277,8 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 		} else {
 			Uint32 chr;
 			int n = utf8_decode_char(&chr, &str[i]);
-			assert(n);
+			if(n<=0)
+				break;
 			i += n;
 
 			const Glyph &glyph = GetGlyph(chr);
@@ -284,7 +288,8 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 			if (str[i]) {
 				Uint32 chr2;
 				n = utf8_decode_char(&chr2, &str[i]);
-				assert(n);
+				if(n<=0)
+					break;
 
 				px += GetKern(glyph, GetGlyph(chr2));
 			}
@@ -296,7 +301,7 @@ Color TextureFont::PopulateMarkup(Graphics::VertexArray &va, const std::string &
 	return c;
 }
 
-Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va) const
+Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va, const bool bIsStatic) const
 {
 	if (va.GetNumVerts() > 0)
 	{
@@ -309,7 +314,7 @@ Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexAr
 		vbd.attrib[2].semantic = Graphics::ATTRIB_UV0;
 		vbd.attrib[2].format = Graphics::ATTRIB_FORMAT_FLOAT2;
 		vbd.numVertices = va.GetNumVerts();
-		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+		vbd.usage = bIsStatic ? Graphics::BUFFER_USAGE_STATIC : Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
 		Graphics::VertexBuffer *vbuffer = m_renderer->CreateVertexBuffer(vbd);
 		vbuffer->Populate(va);
 
@@ -318,7 +323,7 @@ Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexAr
 	return nullptr;
 }
 
-Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str)
+Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str, const bool bIsStatic)
 {
 	if( va.GetNumVerts() > 0 )
 	{
@@ -327,7 +332,7 @@ Graphics::VertexBuffer* TextureFont::CreateVertexBuffer(const Graphics::VertexAr
 			return pVB;
 
 		//create buffer and upload data
-		Graphics::VertexBuffer *vbuffer = CreateVertexBuffer(va);
+		Graphics::VertexBuffer *vbuffer = CreateVertexBuffer(va, bIsStatic);
 		AddCachedVertexBuffer(vbuffer, str);
 
 		return vbuffer;
@@ -580,7 +585,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	, m_atlasVIncrement(0)
 	, m_lfLastCacheCleanTime(0.0)
 {
-	renderer->CheckRenderErrors();
+	renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	FT_Error err; // used to store freetype error return codes
 
@@ -600,12 +605,12 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 		FT_Stroker_Set(m_stroker, 1*64, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
 	}
 
-	renderer->CheckRenderErrors();
+	renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_texFormat = m_config.IsOutline() ? Graphics::TEXTURE_LUMINANCE_ALPHA_88 : Graphics::TEXTURE_INTENSITY_8;
 	m_bpp = m_config.IsOutline() ? 2 : 1;
 
-	renderer->CheckRenderErrors();
+	renderer->CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	Graphics::RenderStateDesc rsd;
 	rsd.blendMode = Graphics::BLEND_ALPHA_PREMULT;
@@ -617,7 +622,7 @@ TextureFont::TextureFont(const FontConfig &config, Graphics::Renderer *renderer,
 	desc.vertexColors = true; //to allow per-character colors
 	desc.textures = 1;
 	m_mat.reset(m_renderer->CreateMaterial(desc));
-	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false);
+	Graphics::TextureDescriptor textureDescriptor(m_texFormat, vector2f(ATLAS_SIZE), Graphics::NEAREST_CLAMP, false, false, false, 0, Graphics::TEXTURE_2D);
 	m_texture.Reset(m_renderer->CreateTexture(textureDescriptor));
 	m_mat->texture0 = m_texture.Get();
 

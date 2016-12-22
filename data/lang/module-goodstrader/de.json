@@ -9,7 +9,7 @@
    },
    "GOODS_TRADER_2" : {
       "description" : "",
-      "message" : "{name}s Makazin"
+      "message" : "{name}s Depot"
    },
    "GOODS_TRADER_3" : {
       "description" : "",
@@ -22,6 +22,34 @@
    "GOODS_TRADER_5" : {
       "description" : "",
       "message" : "{name} & Söhne"
+   },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Wir haben, was andere nicht haben."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "Ein wirklich freier Markt."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Wir bringen Ihnen die besten unkonventionellen Güter!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Wir glauben an einen grenzenlosen Markt."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "Der unregulierte Markt, für Ihre Freiheit."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "Der verstrauenswürdige Händler."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Immer einen besonderen Preis nur für Sie."
    },
    "WELCOME_TO" : {
       "description" : "",

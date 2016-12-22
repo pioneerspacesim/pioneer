@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "Nowa fabryka koncernu Amissionox w systemie {system}({sectorx},{sectory},{sectorz}) została uruchomiona i pracuje. Będzie produkować wysokiej jakości noże, zdolne do przecięcia buta od skafandra kosmicznego. Jednak nie rozwinęła jeszcze pełnego potencjału produkcyjnego z powodu słabego zaopatrzenia w surowce potrzebne do produkcji ostrzy."
+      "message" : "Nowa fabryka koncernu Amissionox w systemie {system}({sectorx}, {sectory}, {sectorz}) została uruchomiona i pracuje. Będzie produkować wysokiej jakości noże, zdolne do przecięcia buta w skafandrze kosmicznym. Jednak nie rozwinęła jeszcze pełnego potencjału produkcyjnego z powodu słabego zaopatrzenia w surowce potrzebne do produkcji ostrzy."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",

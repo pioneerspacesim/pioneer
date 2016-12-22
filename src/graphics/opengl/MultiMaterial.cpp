@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "MultiMaterial.h"
@@ -30,7 +30,8 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int numLights)
 		ss << stringf("#define NUM_LIGHTS %0{d}\n", numLights);
 	else
 		ss << "#define NUM_LIGHTS 0\n";
-
+	if (desc.normalMap && desc.lighting && numLights > 0)
+		ss << "#define MAP_NORMAL\n";
 	if (desc.specularMap)
 		ss << "#define MAP_SPECULAR\n";
 	if (desc.glowMap)
@@ -41,7 +42,6 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int numLights)
 		ss << "#define MAP_COLOR\n";
 	if (desc.quality & HAS_HEAT_GRADIENT)
 		ss << "#define HEAT_COLOURING\n";
-	
 	if (desc.instanced) 
 		ss << "#define USE_INSTANCING\n";
 
@@ -89,8 +89,9 @@ void MultiMaterial::Apply()
 	p->texture3.Set(this->texture3, 3);
 	p->texture4.Set(this->texture4, 4);
 	p->texture5.Set(this->texture5, 5);
+	p->texture6.Set(this->texture6, 6);
 
-	p->heatGradient.Set(this->heatGradient, 6);
+	p->heatGradient.Set(this->heatGradient, 7);
 	if(nullptr!=specialParameter0) {
 		HeatGradientParameters_t *pMGP = static_cast<HeatGradientParameters_t*>(specialParameter0);
 		p->heatingMatrix.Set(pMGP->heatingMatrix);
@@ -131,7 +132,7 @@ void LitMultiMaterial::Apply()
 		const vector3f pos = Light.GetPosition();
 		p->lights[i].position.Set( pos.x, pos.y, pos.z, (Light.GetType() == Light::LIGHT_DIRECTIONAL ? 0.f : 1.f));
 	}
-	RendererOGL::CheckErrors();
+	CHECKERRORS();
 }
 
 void MultiMaterial::Unapply()
@@ -139,6 +140,10 @@ void MultiMaterial::Unapply()
 	// Might not be necessary to unbind textures, but let's not old graphics code (eg, old-UI)
 	if (heatGradient) {
 		static_cast<TextureGL*>(heatGradient)->Unbind();
+		glActiveTexture(GL_TEXTURE6);
+	}
+	if (texture6) {
+		static_cast<TextureGL*>(texture6)->Unbind();
 		glActiveTexture(GL_TEXTURE5);
 	}
 	if (texture5) {

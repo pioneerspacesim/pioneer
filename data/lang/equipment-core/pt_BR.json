@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Advanced Radar Mapper"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Long range radar mapper with system wide coverage."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -91,6 +91,26 @@
       "description" : "",
       "message" : "Estrada Militar de Classe 4"
    },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Class 5 Military drive"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Class 6 Military drive"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Class 7 Military drive"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Class 8 Military drive"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Class 9 Military drive"
+   },
    "ECM_ADVANCED" : {
       "description" : "",
       "message" : "Sistema ECM Avançado"
@@ -129,7 +149,7 @@
    },
    "HYPERCLOUD_ANALYZER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Analisa nuvens do hiper espaço para determinar destinos e tempo de chegada e partida."
+      "message" : "Analisa nuvens do hiperespaço para determinar destinos e tempo de chegada e partida."
    },
    "LARGE_PLASMA_ACCEL" : {
       "description" : "",
@@ -169,23 +189,27 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
+      "message" : "Multi-Coletor"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
+      "message" : "Apesar de menos efetivo que um coletor de combustível, permite coletar tanto carga como combustível."
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
-      "message" : "Max scan range exceeded:"
+      "message" : "Alcance máximo de escaneamento ultrapassado:"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
-      "message" : "Body scan"
+      "message" : "Escanear corpo"
    },
    "PLANETSCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Scan nearest body for resources."
+      "message" : "Escanear o corpo mais próximo por recursos."
    },
    "PULSECANNON_10MW" : {
       "description" : "",
@@ -215,29 +239,21 @@
       "description" : "",
       "message" : "2MW vibração de canhão de fogo rápido"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Mapeador de Radar"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Usado para inspecionar remotamente equipamentos, cargas e estado de outras naves."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scanner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Fornecer um mapa 3D de naves próximas."
    },
    "SCAN_COMPLETED" : {
       "description" : "",
-      "message" : "Scanning completed"
+      "message" : "Escaneamento completado"
    },
    "SCAN_RESUMED" : {
       "description" : "",
-      "message" : "Scanning resumed"
+      "message" : "Escaneamento resumido"
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
@@ -261,15 +277,47 @@
    },
    "STARTING_SCAN" : {
       "description" : "",
-      "message" : "Starting scan, target distance is"
+      "message" : "Começando escaneamento, a distância para o alvo é de"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Trade analyzer"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Shows profitable commodities to trade between selected and current system"
+      "message" : "Usado para inspecionar remotamente equipamentos, cargas e estado de outras naves."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Modified Thrusters"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A modified type of thrusters approved for your ship."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Bespoke Thrusters"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Custom made thrusters that provide the best possible output."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Optimised Thrusters"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade Computer"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Mostra mercadorias lucrativas para se comercializar entre o sistema selecionado e o atual"
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",

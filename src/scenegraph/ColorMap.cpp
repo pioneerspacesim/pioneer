@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ColorMap.h"
@@ -42,7 +42,7 @@ void ColorMap::Generate(Graphics::Renderer *r, const Color &a, const Color &b, c
 
 	if (!m_texture.Valid()) {
 		const Graphics::TextureSampleMode sampleMode = m_smooth ? Graphics::LINEAR_CLAMP : Graphics::NEAREST_CLAMP;
-		m_texture.Reset(r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB_888, size, sampleMode)));
+		m_texture.Reset(r->CreateTexture(Graphics::TextureDescriptor(Graphics::TEXTURE_RGB_888, size, sampleMode, true, true, true, 0, Graphics::TEXTURE_2D)));
 	}
 
 	m_texture->Update(&colors[0], size, format);

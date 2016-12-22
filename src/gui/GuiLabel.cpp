@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -22,18 +22,22 @@ Label::~Label()
 
 void Label::Init(const std::string &text, TextLayout::ColourMarkupMode colourMarkupMode)
 {
+	m_needsUpdate = true;
 	m_colourMarkupMode = colourMarkupMode;
 	m_shadow = false;
 	m_layout = 0;
 	m_dlist = 0;
 	m_font = Gui::Screen::GetFont();
-	m_color = ::Color(255);
+	m_color = ::Color::WHITE;
 	SetText(text);
 }
 
 void Label::UpdateLayout()
 {
-	m_layout.reset(new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode));
+	if (!m_layout.get() || m_needsUpdate) {
+		m_needsUpdate = false;
+		m_layout.reset(new TextLayout(m_text.c_str(), m_font, m_colourMarkupMode));
+	}
 }
 
 void Label::RecalcSize()
@@ -43,13 +47,20 @@ void Label::RecalcSize()
 
 Label *Label::Color(Uint8 r, Uint8 g, Uint8 b)
 {
-	m_color = ::Color(r, g, b);
+	::Color c(r, g, b);
+	if (m_color != c) {
+		m_color = c;
+		m_needsUpdate = true;
+	}
 	return this;
 }
 
 Label *Label::Color(const ::Color &c)
 {
-	m_color = c;
+	if (m_color != c) {
+		m_color = c;
+		m_needsUpdate = true;
+	}
 	return this;
 }
 
@@ -60,17 +71,26 @@ void Label::SetText(const char *text)
 
 void Label::SetText(const std::string &text)
 {
-	m_text = text;
-	UpdateLayout();
-	RecalcSize();
+	if (m_text != text || m_needsUpdate) {
+		m_text = text;
+		m_needsUpdate = true;
+		UpdateLayout();
+		RecalcSize();
+	}
 }
 
 void Label::Draw()
 {
 	PROFILE_SCOPED()
-	if (!m_layout) UpdateLayout();
+	if (!m_layout || m_needsUpdate)
+		UpdateLayout();
+
+	// the size might not have bene updated, poke it until it is
 	float size[2]; GetSize(size);
+	if (is_equal_exact(size[0], 0.0f)) 
+		RecalcSize();
 	m_layout->Update(size[0], m_color);
+
 	if (m_shadow) {
 		Graphics::Renderer *r = Gui::Screen::GetRenderer();
 		r->Translate(1,1,0);

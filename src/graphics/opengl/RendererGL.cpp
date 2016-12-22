@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RendererGL.h"
@@ -8,11 +8,13 @@
 #include "OS.h"
 #include "StringF.h"
 #include "graphics/Texture.h"
+#include "graphics/TextureBuilder.h"
 #include "TextureGL.h"
 #include "graphics/VertexArray.h"
 #include "GLDebug.h"
 #include "GasGiantMaterial.h"
 #include "GeoSphereMaterial.h"
+#include "GenGasGiantColourMaterial.h"
 #include "MaterialGL.h"
 #include "RenderStateGL.h"
 #include "RenderTargetGL.h"
@@ -27,6 +29,7 @@
 #include "SphereImpostorMaterial.h"
 #include "UIMaterial.h"
 #include "VtxColorMaterial.h"
+#include "BillboardMaterial.h"
 
 #include <stddef.h> //for offsetof
 #include <ostream>
@@ -39,15 +42,19 @@ static Renderer *CreateRenderer(WindowSDL *win, const Settings &vs) {
     return new RendererOGL(win, vs);
 }
 
+// static method instantiations
 void RendererOGL::RegisterRenderer() {
     Graphics::RegisterRenderer(Graphics::RENDERER_OPENGL, CreateRenderer);
 }
 
-
+// static member instantiations
 bool RendererOGL::initted = false;
+RendererOGL::AttribBufferMap RendererOGL::s_AttribBufferMap;
 
+// typedefs
 typedef std::vector<std::pair<MaterialDescriptor, OGL::Program*> >::const_iterator ProgramIterator;
 
+// ----------------------------------------------------------------------------
 RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 : Renderer(window, window->GetWidth(), window->GetHeight())
 , m_numLights(0)
@@ -67,7 +74,10 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 		initted = true;
 
 		if (!ogl_LoadFunctions())
-			Error("glLoadGen failed to load functions.\n");
+			Error(
+				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.3\n"
+				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly."
+			);
 
 		if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED)
 			Error(
@@ -76,19 +86,36 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 			);
 	}
 
+	const char *ver = (const char *)glGetString(GL_VERSION);
+	if (vs.gl3ForwardCompatible && strstr(ver, "9.17.10.4229")) {
+		Warning("Driver needs GL3ForwardCompatible=0 in config.ini to display billboards (stars, navlights etc.)");
+	}
+
+	TextureBuilder::Init();
+
 	m_viewportStack.push(Viewport());
 
 	const bool useDXTnTextures = vs.useTextureCompression;
 	m_useCompressedTextures = useDXTnTextures;
+
+	const bool useAnisotropicFiltering = vs.useAnisotropicFiltering;
+	m_useAnisotropicFiltering = useAnisotropicFiltering;
 
 	//XXX bunch of fixed function states here!
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	glDepthRange(0.0,1.0);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	glEnable(GL_PROGRAM_POINT_SIZE);
+	if (!vs.gl3ForwardCompatible) glEnable(0x8861);				// GL_POINT_SPRITE hack for compatibility contexts
+
+	glHint(GL_TEXTURE_COMPRESSION_HINT, GL_NICEST);
+	glHint(GL_FRAGMENT_SHADER_DERIVATIVE_HINT, GL_NICEST);
 
 	SetMatrixMode(MatrixMode::MODELVIEW);
 
@@ -100,6 +127,15 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 
 	if (vs.enableDebugMessages)
 		GLDebug::Enable();
+
+	// check enum PrimitiveType matches OpenGL values
+	assert(POINTS == GL_POINTS);
+	assert(LINE_SINGLE == GL_LINES);
+	assert(LINE_LOOP == GL_LINE_LOOP);
+	assert(LINE_STRIP == GL_LINE_STRIP);
+	assert(TRIANGLES == GL_TRIANGLES);
+	assert(TRIANGLE_STRIP == GL_TRIANGLE_STRIP);
+	assert(TRIANGLE_FAN == GL_TRIANGLE_FAN);
 }
 
 RendererOGL::~RendererOGL()
@@ -274,12 +310,21 @@ static std::string glerr_to_string(GLenum err)
 	}
 }
 
-void RendererOGL::CheckErrors()
+void RendererOGL::CheckErrors(const char *func, const int line)
 {
+	PROFILE_SCOPED()
+#ifndef PIONEER_PROFILER
 	GLenum err = glGetError();
 	if( err ) {
+		// static-cache current err that sparked this
+		static GLenum s_prevErr = GL_NO_ERROR;
+		const bool showWarning = (s_prevErr != err);
+		s_prevErr = err;
+		// now build info string
 		std::stringstream ss;
+		assert(func!=nullptr && line>=0);
 		ss << "OpenGL error(s) during frame:\n";
+		ss << "In function " << std::string(func) << "\nOn line " << std::to_string(line) << "\n";
 		while (err != GL_NO_ERROR) {
 			ss << glerr_to_string(err) << '\n';
 			err = glGetError();
@@ -288,35 +333,27 @@ void RendererOGL::CheckErrors()
 					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
 					<< "Also try reducing City and Planet detail settings." << std::endl;
 			}
+#ifdef _WIN32
+			else if (err == GL_INVALID_OPERATION) {
+				ss << "Invalid operations can occur if you are using overlay software." << std::endl
+					<< "Such as FRAPS, RivaTuner, MSI Afterburner etc." << std::endl
+					<< "Please try disabling this kind of software and testing again, thankyou." << std::endl;
+			}
+#endif
 		}
-		Warning("%s", ss.str().c_str());
+		// show warning dialog or just log to output
+		if(showWarning)
+			Warning("%s", ss.str().c_str());
+		else
+			Output("%s", ss.str().c_str());
 	}
+#endif
 }
 
 bool RendererOGL::SwapBuffers()
 {
 	PROFILE_SCOPED()
-#ifndef NDEBUG
-	// Check if an error occurred during the frame. This is not very useful for
-	// determining *where* the error happened. For that purpose, try GDebugger or
-	// the GL_KHR_DEBUG extension
-	GLenum err;
-	err = glGetError();
-	if (err != GL_NO_ERROR) {
-		std::stringstream ss;
-		ss << "OpenGL error(s) during frame:\n";
-		while (err != GL_NO_ERROR) {
-			ss << glerr_to_string(err) << std::endl;
-			err = glGetError();
-			if( err == GL_OUT_OF_MEMORY ) {
-				ss << "Out-of-memory on graphics card." << std::endl
-					<< "Recommend enabling \"Compress Textures\" in game options." << std::endl
-					<< "Also try reducing City and Planet detail settings." << std::endl;
-			}
-		}
-		Error("%s", ss.str().c_str());
-	}
-#endif
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	GetWindow()->SwapBuffers();
 	m_stats.NextFrame();
@@ -329,7 +366,7 @@ bool RendererOGL::SetRenderState(RenderState *rs)
 		static_cast<OGL::RenderState*>(rs)->Apply();
 		m_activeRenderState = rs;
 	}
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	return true;
 }
 
@@ -342,23 +379,24 @@ bool RendererOGL::SetRenderTarget(RenderTarget *rt)
 		m_activeRenderTarget->Unbind();
 
 	m_activeRenderTarget = static_cast<OGL::RenderTarget*>(rt);
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
 }
 
-bool RendererOGL::SetDepthRange(double near, double far)
+bool RendererOGL::SetDepthRange(double znear, double zfar)
 {
-	glDepthRange(near, far);
+	glDepthRange(znear, zfar);
 	return true;
 }
 
 bool RendererOGL::ClearScreen()
 {
 	m_activeRenderState = nullptr;
+	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
 }
@@ -366,9 +404,10 @@ bool RendererOGL::ClearScreen()
 bool RendererOGL::ClearDepthBuffer()
 {
 	m_activeRenderState = nullptr;
+	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
 }
@@ -497,7 +536,7 @@ bool RendererOGL::SetScissor(bool enabled, const vector2f &pos, const vector2f &
 void RendererOGL::SetMaterialShaderTransforms(Material *m)
 {
 	m->SetCommonUniforms(m_modelViewStack.top(), m_projectionStack.top());
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 }
 
 bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material *m, PrimitiveType t)
@@ -505,80 +544,178 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 	PROFILE_SCOPED()
 	if (!v || v->position.size() < 3) return false;
 
-	VertexBufferDesc vbd;
-	Uint32 attribIdx = 0;
-	assert(v->HasAttrib(ATTRIB_POSITION));
-	vbd.attrib[attribIdx].semantic	= ATTRIB_POSITION;
-	vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
-	++attribIdx;
+	const AttributeSet attribs = v->GetAttributeSet();
+	RefCountedPtr<VertexBuffer> drawVB;
 
-	if( v->HasAttrib(ATTRIB_NORMAL) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_NORMAL;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT3;
+	// see if we have a buffer to re-use
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(attribs, v->position.size()));
+	if (iter == s_AttribBufferMap.end()) {
+		// not found a buffer so create a new one
+		VertexBufferDesc vbd;
+		Uint32 attribIdx = 0;
+		assert(v->HasAttrib(ATTRIB_POSITION));
+		vbd.attrib[attribIdx].semantic = ATTRIB_POSITION;
+		vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
 		++attribIdx;
-	}
-	if( v->HasAttrib(ATTRIB_DIFFUSE) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_DIFFUSE;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_UBYTE4;
-		++attribIdx;
-	}
-	if( v->HasAttrib(ATTRIB_UV0) ) {
-		vbd.attrib[attribIdx].semantic	= ATTRIB_UV0;
-		vbd.attrib[attribIdx].format	= ATTRIB_FORMAT_FLOAT2;
-		++attribIdx;
-	}
-	vbd.numVertices = v->position.size();
-	vbd.usage = BUFFER_USAGE_STATIC;
-	
-	// VertexBuffer
-	std::unique_ptr<VertexBuffer> vb;
-	vb.reset(CreateVertexBuffer(vbd));
-	vb->Populate(*v);
 
-	const bool res = DrawBuffer(vb.get(), rs, m, t);
-	CheckRenderErrors();
+		if (v->HasAttrib(ATTRIB_NORMAL)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_NORMAL;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_DIFFUSE)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_DIFFUSE;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_UBYTE4;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_UV0)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_UV0;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT2;
+			++attribIdx;
+		}
+		if (v->HasAttrib(ATTRIB_TANGENT)) {
+			vbd.attrib[attribIdx].semantic = ATTRIB_TANGENT;
+			vbd.attrib[attribIdx].format = ATTRIB_FORMAT_FLOAT3;
+			++attribIdx;
+		}
+		vbd.numVertices = v->position.size();
+		vbd.usage = BUFFER_USAGE_DYNAMIC;	// dynamic since we'll be reusing these buffers if possible
+
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
+		vb->Populate(*v);
+
+		// add to map
+		s_AttribBufferMap[std::make_pair(attribs, v->position.size())] = vb;
+		drawVB = vb;
+	}
+	else {
+		// got a buffer so use it and fill it with newest data
+		drawVB = iter->second;
+		drawVB->Populate(*v);
+	}
+
+	const bool res = DrawBuffer(drawVB.Get(), rs, m, t);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	
 	m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
 
 	return res;
 }
 
-bool RendererOGL::DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size)
+bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	PROFILE_SCOPED()
-	if (count < 1 || !material || !material->texture0) return false;
+	if (count == 0 || !material || !material->texture0) 
+		return false;
 
-	VertexArray va(ATTRIB_POSITION | ATTRIB_UV0, count * 6);
+	size = Clamp(size, 0.1f, FLT_MAX);
 
-	matrix4x4f rot(GetCurrentModelView());
-	rot.ClearToRotOnly();
-	rot = rot.Inverse();
+	#pragma pack(push, 4)
+	struct PosNormVert {
+		vector3f pos;
+		vector3f norm;
+	};
+	#pragma pack(pop)
+	
+	RefCountedPtr<VertexBuffer> drawVB;
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
+	if (iter == s_AttribBufferMap.end()) 
+	{
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = count;
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
 
-	const float sz = 0.5f*size;
-	const vector3f rotv1 = rot * vector3f(sz, sz, 0.0f);
-	const vector3f rotv2 = rot * vector3f(sz, -sz, 0.0f);
-	const vector3f rotv3 = rot * vector3f(-sz, -sz, 0.0f);
-	const vector3f rotv4 = rot * vector3f(-sz, sz, 0.0f);
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
 
-	//do two-triangle quads. Could also do indexed surfaces.
-	//OGL renderer should use actual point sprites
-	//(see history of Render.cpp for point code remnants)
-	for (int i=0; i<count; i++) {
-		const vector3f &pos = positions[i];
-
-		va.Add(pos+rotv4, vector2f(0.f, 0.f)); //top left
-		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
-		va.Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
-
-		va.Add(pos+rotv1, vector2f(1.f, 0.f)); //top right
-		va.Add(pos+rotv3, vector2f(0.f, 1.f)); //bottom left
-		va.Add(pos+rotv2, vector2f(1.f, 1.f)); //bottom right
+		// add to map
+		s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
+		drawVB = vb;
+	}
+	else
+	{
+		drawVB = iter->second;
 	}
 
-	DrawTriangles(&va, rs, material);
-	CheckRenderErrors();
+	// got a buffer so use it and fill it with newest data
+	PosNormVert* vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
+	for(Uint32 i=0 ; i<count ; i++)
+	{
+		vtxPtr[i].pos	= positions[i];
+		vtxPtr[i].norm	= vector3f(0.0f, 0.0f, size);
+	}
+	drawVB->Unmap();
+
+	SetTransform(matrix4x4f::Identity());
+	DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
+	GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
+
+	return true;
+}
+
+bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material)
+{
+	PROFILE_SCOPED()
+	if (count == 0 || !material || !material->texture0) 
+		return false;
+
+	#pragma pack(push, 4)
+	struct PosNormVert {
+		vector3f pos;
+		vector3f norm;
+	};
+	#pragma pack(pop)
 	
-	m_stats.AddToStatCount(Stats::STAT_DRAWPOINTSPRITES, count);
+	RefCountedPtr<VertexBuffer> drawVB;
+	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
+	if (iter == s_AttribBufferMap.end()) 
+	{
+		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
+		Graphics::VertexBufferDesc vbd;
+		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
+		vbd.attrib[0].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.attrib[1].semantic = Graphics::ATTRIB_NORMAL;
+		vbd.attrib[1].format   = Graphics::ATTRIB_FORMAT_FLOAT3;
+		vbd.numVertices = count;
+		vbd.usage = Graphics::BUFFER_USAGE_DYNAMIC;	// we could be updating this per-frame
+
+		// VertexBuffer
+		RefCountedPtr<VertexBuffer> vb;
+		vb.Reset(CreateVertexBuffer(vbd));
+
+		// add to map
+		s_AttribBufferMap[std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count)] = vb;
+		drawVB = vb;
+	}
+	else
+	{
+		drawVB = iter->second;
+	}
+
+	// got a buffer so use it and fill it with newest data
+	PosNormVert* vtxPtr = drawVB->Map<PosNormVert>(Graphics::BUFFER_MAP_WRITE);
+	assert(drawVB->GetDesc().stride == sizeof(PosNormVert));
+	for(Uint32 i=0 ; i<count ; i++)
+	{
+		vtxPtr[i].pos	= positions[i];
+		vtxPtr[i].norm	= vector3f(offsets[i], Clamp(sizes[i], 0.1f, FLT_MAX));
+	}
+	drawVB->Unmap();
+
+	SetTransform(matrix4x4f::Identity());
+	DrawBuffer(drawVB.Get(), rs, material, Graphics::POINTS);
+	GetStats().AddToStatCount(Graphics::Stats::STAT_DRAWPOINTSPRITES, 1);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return true;
 }
@@ -594,7 +731,7 @@ bool RendererOGL::DrawBuffer(VertexBuffer* vb, RenderState* state, Material* mat
 	vb->Bind();
 	glDrawArrays(pt, 0, vb->GetVertexCount());
 	vb->Release();
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
@@ -611,10 +748,10 @@ bool RendererOGL::DrawBufferIndexed(VertexBuffer *vb, IndexBuffer *ib, RenderSta
 
 	vb->Bind();
 	ib->Bind();
-	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0);
+	glDrawElements(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0);
 	ib->Release();
 	vb->Release();
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
@@ -634,7 +771,7 @@ bool RendererOGL::DrawBufferInstanced(VertexBuffer* vb, RenderState* state, Mate
 	glDrawArraysInstanced(pt, 0, vb->GetVertexCount(), instb->GetInstanceCount());
 	instb->Release();
 	vb->Release();
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
@@ -652,11 +789,11 @@ bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 	vb->Bind();
 	ib->Bind();
 	instb->Bind();
-	glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_SHORT, 0, instb->GetInstanceCount());
+	glDrawElementsInstanced(pt, ib->GetIndexCount(), GL_UNSIGNED_INT, 0, instb->GetInstanceCount());
 	instb->Release();
 	ib->Release();
 	vb->Release();
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	m_stats.AddToStatCount(Stats::STAT_DRAWCALL, 1);
 
@@ -666,7 +803,6 @@ bool RendererOGL::DrawBufferIndexedInstanced(VertexBuffer *vb, IndexBuffer *ib, 
 Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 {
 	PROFILE_SCOPED()
-	CheckRenderErrors();
 	MaterialDescriptor desc = d;
 
 	OGL::Material *mat = 0;
@@ -717,6 +853,13 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 	case EFFECT_GASSPHERE_TERRAIN:
 		mat = new OGL::GasGiantSurfaceMaterial();
 		break;
+	case EFFECT_GEN_GASGIANT_TEXTURE:
+		mat = new OGL::GenGasGiantColourMaterial();
+		break;
+	case EFFECT_BILLBOARD_ATLAS:
+	case EFFECT_BILLBOARD:
+		mat = new OGL::BillboardMaterial();
+		break;
 	default:
 		if (desc.lighting)
 			mat = new OGL::LitMultiMaterial();
@@ -730,7 +873,7 @@ Material *RendererOGL::CreateMaterial(const MaterialDescriptor &d)
 	p = GetOrCreateProgram(mat); // XXX throws ShaderException on compile/link failure
 
 	mat->SetProgram(p);
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	return mat;
 }
 
@@ -747,7 +890,7 @@ bool RendererOGL::ReloadShaders()
 
 OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 {
-	CheckRenderErrors();
+	PROFILE_SCOPED()
 	const MaterialDescriptor &desc = mat->GetDescriptor();
 	OGL::Program *p = 0;
 
@@ -764,37 +907,38 @@ OGL::Program* RendererOGL::GetOrCreateProgram(OGL::Material *mat)
 		p = mat->CreateProgram(desc);
 		m_programs.push_back(std::make_pair(desc, p));
 	}
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 
 	return p;
 }
 
 Texture *RendererOGL::CreateTexture(const TextureDescriptor &descriptor)
 {
-	CheckRenderErrors();
-	return new TextureGL(descriptor, m_useCompressedTextures);
+	PROFILE_SCOPED()
+	return new TextureGL(descriptor, m_useCompressedTextures, m_useAnisotropicFiltering);
 }
 
 RenderState *RendererOGL::CreateRenderState(const RenderStateDesc &desc)
 {
-	CheckRenderErrors();
+	PROFILE_SCOPED()
 	const uint32_t hash = lookup3_hashlittle(&desc, sizeof(RenderStateDesc), 0);
 	auto it = m_renderStates.find(hash);
 	if (it != m_renderStates.end()) {
-		CheckRenderErrors();
+		CheckRenderErrors(__FUNCTION__,__LINE__);
 		return it->second;
 	} else {
 		auto *rs = new OGL::RenderState(desc);
 		m_renderStates[hash] = rs;
-		CheckRenderErrors();
+		CheckRenderErrors(__FUNCTION__,__LINE__);
 		return rs;
 	}
 }
 
 RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 {
-	CheckRenderErrors();
+	PROFILE_SCOPED()
 	OGL::RenderTarget* rt = new OGL::RenderTarget(desc);
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	rt->Bind();
 	if (desc.colorFormat != TEXTURE_NONE) {
 		Graphics::TextureDescriptor cdesc(
@@ -803,8 +947,10 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 			vector2f(desc.width, desc.height),
 			LINEAR_CLAMP,
 			false,
-			false);
-		TextureGL *colorTex = new TextureGL(cdesc, false);
+			false, 
+			false,
+			0, Graphics::TEXTURE_2D);
+		TextureGL *colorTex = new TextureGL(cdesc, false, false);
 		rt->SetColorTexture(colorTex);
 	}
 	if (desc.depthFormat != TEXTURE_NONE) {
@@ -815,8 +961,10 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 				vector2f(desc.width, desc.height),
 				LINEAR_CLAMP,
 				false,
-				false);
-			TextureGL *depthTex = new TextureGL(ddesc, false);
+				false,
+				false,
+				0, Graphics::TEXTURE_2D);
+			TextureGL *depthTex = new TextureGL(ddesc, false, false);
 			rt->SetDepthTexture(depthTex);
 		} else {
 			rt->CreateDepthRenderbuffer();
@@ -824,7 +972,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 	}
 	rt->CheckStatus();
 	rt->Unbind();
-	CheckRenderErrors();
+	CheckRenderErrors(__FUNCTION__,__LINE__);
 	return rt;
 }
 

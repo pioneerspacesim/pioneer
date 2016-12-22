@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SCENEGRAPH_COLLISIONGEOMETRY_H
@@ -19,16 +19,16 @@ class Geom;
 namespace SceneGraph {
 class CollisionGeometry : public Node {
 public:
-	CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f>&, const std::vector<unsigned short>&, unsigned int flag);
+	CollisionGeometry(Graphics::Renderer *r, const std::vector<vector3f>&, const std::vector<Uint32>&, unsigned int flag);
 	CollisionGeometry(const CollisionGeometry&, NodeCopyCache *cache = 0);
-	virtual Node *Clone(NodeCopyCache *cache = 0);
-	virtual const char *GetTypeName() const { return "CollisionGeometry"; }
-	virtual void Accept(NodeVisitor &nv);
+	virtual Node *Clone(NodeCopyCache *cache = 0) override;
+	virtual const char *GetTypeName() const override { return "CollisionGeometry"; }
+	virtual void Accept(NodeVisitor &nv) override;
 	virtual void Save(NodeDatabase&) override;
 	static CollisionGeometry *Load(NodeDatabase&);
 
 	const std::vector<vector3f> &GetVertices() const { return m_vertices; }
-	const std::vector<Uint16> &GetIndices() const { return m_indices; }
+	const std::vector<Uint32> &GetIndices() const { return m_indices; }
 	unsigned int GetTriFlag() const { return m_triFlag; }
 
 	bool IsDynamic() const { return m_dynamic; }
@@ -45,9 +45,9 @@ protected:
 	~CollisionGeometry();
 
 private:
-	void CopyData(const std::vector<vector3f>&, const std::vector<unsigned short>&);
+	void CopyData(const std::vector<vector3f>&, const std::vector<Uint32>&);
 	std::vector<vector3f> m_vertices;
-	std::vector<Uint16> m_indices;
+	std::vector<Uint32> m_indices;
 	unsigned int m_triFlag; //only one per node
 	bool m_dynamic;
 

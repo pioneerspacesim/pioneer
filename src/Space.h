@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACE_H
@@ -84,7 +84,7 @@ public:
 private:
 	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here);
 	void UpdateStarSystemCache(const SystemPath* here);
-	void GenBody(double at_time, SystemBody *b, Frame *f);
+	void GenBody(const double at_time, SystemBody *b, Frame *f, std::vector<vector3d> &posAccum);
 	// make sure SystemBody* is in Pi::currentSystem
 	Frame *GetFrameWithSystemBody(const SystemBody *b) const;
 

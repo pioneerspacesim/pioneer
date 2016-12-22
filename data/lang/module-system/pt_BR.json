@@ -17,11 +17,11 @@
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
-      "message" : "You have discovered {portcount} hidden {bases}!"
+      "message" : "Você descobriu {portcount} {bases} escondidas!"
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "Explorando sistema com {bodycount} {bodies} principais."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",

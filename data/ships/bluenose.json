@@ -1,0 +1,30 @@
+{
+   "cockpit" : "",
+   "forward_thrust" : 6900000.0,
+   "reverse_thrust" : 4500000.0,
+   "left_thrust" : 1005000.0,
+   "right_thrust" : 1005000.0,
+   "up_thrust" : 4500000.0,
+   "down_thrust" : 1005000.0,
+   "angular_thrust" : 15500000.0,
+   "effective_exhaust_velocity" : 20000000.0,
+   "thruster_fuel_use" : -1.0,
+   "fuel_tank_mass" : 400,
+   "hull_mass" : 100,
+   "hyperdrive_class" : 3,
+   "manufacturer" : "kaluri",
+   "max_crew" : 3,
+   "min_crew" : 2,
+   "model" : "bluenose",
+   "name" : "Bluenose",
+   "price" : 308000.0,
+   "ship_class" : "light_freighter",
+   "capacity" : 600,
+   "slots" : {
+      "atmo_shield" : 0,
+      "cargo" : 200,
+      "scoop" : 1,
+      "laser_front" : 1,
+      "missile" : 2
+   }
+}

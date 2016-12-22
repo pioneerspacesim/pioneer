@@ -279,13 +279,17 @@
       "description" : "",
       "message" : "مدة اليوم"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "خفض مستوى الرادار"
+      "message" : "Decrease radar range"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
       "message" : "خفض تثبيت السرعة"
+   },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "لا يمكن فتح ملف اللعبة هذا المحفوظة بسبب الصلاحيات أو شيء من هذا..."
+      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -555,9 +559,17 @@
       "description" : "",
       "message" : "تم احباط القذف"
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hyperdrive disabled"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "تركيب جهاز القذف"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hyperdrive forbidden zone"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -587,13 +599,17 @@
       "description" : "",
       "message" : "قانون امبراطوري"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "رفع اداء الردار"
+      "message" : "Increase radar range"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "رفع ضبط السرعة"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -610,10 +626,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "روئية داخلية"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale سنة ضوئية"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -635,9 +647,17 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis المحور"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Jump complete: %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : " %speed{f.2} كم/ث الى %frame"
+   },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Switch between Lagrange L4/L5 point display modes."
    },
    "LANDED" : {
       "description" : "",
@@ -658,6 +678,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "تم كشف نار الليزر "
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +707,13 @@
       "description" : "",
       "message" : "حيوانات حية"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "الذراع المحلي"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "مقفل"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -907,18 +931,6 @@
       "description" : "",
       "message" : "سبتمبر"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "مغرفة بضائع متعددة"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "على الرغم من ضعف مغرفة الوقودة الى انها تغرف الوقود و البضاعة"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "قتل"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} م/ث الى %frame"
@@ -947,10 +959,6 @@
       "description" : "",
       "message" : "غاز عصب"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "ذراع نورما"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "لم يتم العثور"
@@ -958,6 +966,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "لم يتم العثور, افضل مطابقة: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Now"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1075,10 +1087,6 @@
       "description" : "",
       "message" : "العالم الزراعي الخارجي"
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "الذراع الخارجي"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "اكثر من %population بليون"
@@ -1103,17 +1111,9 @@
       "description" : "",
       "message" : "Periapsis distance"
    },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "ذرع الغول"
-   },
    "PIONEER" : {
       "description" : "",
       "message" : "PIONEER"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "قرصنة"
    },
    "PITCH" : {
       "description" : "",
@@ -1171,10 +1171,6 @@
       "description" : "",
       "message" : "دكتاتورية"
    },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "شرطة"
-   },
    "POPULATION" : {
       "description" : "",
       "message" : "الشعبية:"
@@ -1187,13 +1183,13 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "احتمال الوصول: %probability%%"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "نظام رباعي"
+   },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Radar control"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1275,14 +1271,6 @@
       "description" : "",
       "message" : "قمامة"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "ذراع القوس"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "تحكم الماسح"
-   },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "مغرفة بضائع"
@@ -1290,10 +1278,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : " Scutum-Centaurus arm"
    },
    "SEARCH" : {
       "description" : "",
@@ -1406,10 +1390,6 @@
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
       "message" : "رؤية جانبية"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "محاكاة تطور الكون: %age{f.1} بليون سنة ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1655,10 +1635,6 @@
       "description" : "",
       "message" : "رقيق"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "ذراع 3pkc"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "عالم خارجي مزدهر."
@@ -1695,6 +1671,10 @@
       "description" : "",
       "message" : "صغير"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Equipment View"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "تبديل وضع HUD"
@@ -1703,13 +1683,17 @@
       "description" : "",
       "message" : "اظهار/اخفاء وحدة تحكم Lua"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Toggle radar mode"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radar View"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "تفعيل/تعطيل الدوران"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "تشغيل/تعطيل وضع الردار"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1739,13 +1723,37 @@
       "description" : "",
       "message" : "النظام غير مستكشفة. وقد تم جمع المعلومات من خلال تلسكوب نجم بعيد، ولكن لا توجد معلومات الكواكب متاحة."
    },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "d"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "w"
+   },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<unknown>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "تفريغ الأسلحة غير المشروعة"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1810,10 +1818,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "لا يمكن التسامح مع %crime"
    },
    "Y" : {
       "description" : "keybinding: y axis",

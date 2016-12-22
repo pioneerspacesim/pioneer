@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Lua.h"
@@ -184,6 +184,36 @@
  * Availability:
  *
  *   alpha 32
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
+ * Attribute: shipClass
+ *
+ * Class of the ship (e.g. "medium_courier").
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
+ * Attribute: manufacturer
+ *
+ * Manufacturer of the ship (e.g. "kaluri").
+ *
+ * Status:
+ *
+ *   experimental
+ */
+
+/*
+ * Attribute: modelName
+ *
+ * Name for the model of this ship. Important for looking up the actual ship model (Engine.GetModel(ShipDef.modelName)).
  *
  * Status:
  *

@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Sie können hier Treibstoffe kaufen und {radioactives} entsorgen."
+      "message" : "Sie dürfen hier Treibstoff kaufen und {radioactives} entsorgen."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -22,6 +22,38 @@
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
       "message" : "Wilkommen bei der {clubname}"
+   },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "Die Treibstoff-Stiftung der Förderation"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "{clubname} ist der führende Anbieter für vergünstigten Treibstoff für die Raumschiffe seiner Mitglieder in der SolFed. Eine Mitgliedschaft heißt für Sie: "
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "Die Konföderierte Treibstoffunion"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "In den Weiten des freien Commonwealth of Independent Worlds ist {clubname} als der beste Anbieter für günstigen Treibstoff und Abfallentsorgungs-Services. Für unsere Mitglieder bieten wir folgendes:"
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "Wir grüßen Sie! Wir hoffen, dass Sie mit unseren Diensten zufrieden sind."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Haber Treibmittel-und Abfallstoffdivision"
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Wir grüßen Sie, Pilot. Ihre Privilegien für Auftankung und Seitenproduktentsorgung wurden erteilt."
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Die Haber Treibmittel-und Abfallstoffdivision grüßt Sie, Pilot. Uns wurde die wichtige Aufgabe anvertraut, die Treibstoffverteilung in den Haber-Systemen sicherzustellen."
    },
    "GO_BACK" : {
       "description" : "",

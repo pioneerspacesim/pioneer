@@ -1,4 +1,4 @@
-// Copyright � 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright � 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "graphics/VertexBuffer.h"
@@ -72,10 +72,13 @@ Uint32 VertexBuffer::GetVertexCount() const
 	return m_numVertices;
 }
 
-void VertexBuffer::SetVertexCount(Uint32 v)
+bool VertexBuffer::SetVertexCount(Uint32 v)
 {
-	assert(v <= m_desc.numVertices);
-	m_numVertices = v;
+	if (v <= m_desc.numVertices) {
+		m_numVertices = v;
+		return true;
+	}
+	return false;
 }
 
 // ------------------------------------------------------------

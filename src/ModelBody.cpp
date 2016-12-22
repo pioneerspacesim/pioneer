@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -412,8 +412,13 @@ void ModelBody::SetLighting(Graphics::Renderer *r, const Camera *camera, std::ve
 		newLights.push_back(light);
 	}
 
+	if (newLights.empty()) {
+		// no lights means we're somewhere weird (eg hyperspace, ObjectViewer). fake one
+		newLights.push_back(Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), Color::WHITE, Color::WHITE));
+	}
+
 	oldAmbient = r->GetAmbientColor();
-	r->SetAmbientColor(Color(ambient*255));
+	r->SetAmbientColor(Color(ambient*255, ambient * 255, ambient * 255));
 	r->SetLights(newLights.size(), &newLights[0]);
 }
 

@@ -1,4 +1,4 @@
--- Copyright © 2008-2014 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -17,6 +17,7 @@ local Ship = import("Ship")
 local utils = import("utils")
 
 local InfoFace = import("ui/InfoFace")
+local NavButton = import("ui/NavButton")
 
 local l = Lang.GetResource("module-cargorun")
 
@@ -271,7 +272,7 @@ end
 local getNumberOfFlavours = function (str)
 	local num = 1
 
-	while l[str .. "_" .. num] do
+	while l:get(str .. "_" .. num) do
 		num = num + 1
 	end
 	return num - 1
@@ -295,6 +296,8 @@ local onChat = function (form, ref, option)
 		form:SetMessage(l["DENY_" .. Engine.rand:Integer(1, getNumberOfFlavours("DENY"))])
 		return
 	end
+
+	form:AddNavButton(ad.location)
 
 	if option == 0 then
 		local introtext  = string.interp(ad.introtext, {
@@ -343,8 +346,10 @@ local onChat = function (form, ref, option)
 		form:SetMessage(howmuch)
 
 	elseif option == 3 then
-		if Game.player.freeCapacity < ad.amount then
+		if (not ad.pickup and Game.player.freeCapacity < ad.amount) or
+			(ad.pickup and Game.player.totalCargo < ad.amount) then
 			form:SetMessage(l.YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP)
+			form:RemoveNavButton()
 			return
 		end
 		local cargo_picked_up
@@ -382,7 +387,7 @@ local onChat = function (form, ref, option)
 		return
 
 	elseif option == 4 then
-		form:SetMessage(string.interp(l["URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY_" .. ad.branch) - 1)) + 1]
+		form:SetMessage(string.interp(l:get("URGENCY_" .. ad.branch .. "_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY_" .. ad.branch) - 1)) + 1)
 			or l["URGENCY_" .. math.floor(ad.urgency * (getNumberOfFlavours("URGENCY") - 1)) + 1], { date = Format.Date(ad.due) }))
 
 	elseif option == 5 then
@@ -391,7 +396,7 @@ local onChat = function (form, ref, option)
 		else
 			local branch
 			if ad.wholesaler then branch = "WHOLESALER" else branch = ad.branch end
-			form:SetMessage(l["RISK_" .. branch .. "_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1] or l["RISK_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
+			form:SetMessage(l:get("RISK_" .. branch .. "_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1) or l["RISK_" .. math.floor(ad.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
 		end
 	end
 
@@ -768,8 +773,10 @@ end
 local onShipDocked = function (player, station)
 	if not player:IsPlayer() then return end
 
+	-- First drop off cargo (if any such missions)
 	for ref,mission in pairs(missions) do
-		if (mission.location == station.path and not mission.pickup) or (mission.domicile == station.path and mission.pickup and mission.cargo_picked_up) then
+		if (mission.location == station.path and not mission.pickup) or
+			(mission.domicile == station.path and mission.pickup and mission.cargo_picked_up) then
 			local reputation = mission.localdelivery and 1 or 1.5
 			local oldReputation = Character.persistent.player.reputation
 			local amount = Game.player:RemoveEquip(mission.cargotype, mission.amount, "cargo")
@@ -804,7 +811,14 @@ local onShipDocked = function (player, station)
 			mission:Remove()
 			missions[ref] = nil
 
-		elseif mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
+		elseif mission.status == "ACTIVE" and Game.time > mission.due then
+			mission.status = 'FAILED'
+		end
+	end
+
+	-- Now we have space pick up cargo as well
+	for ref,mission in pairs(missions) do
+		if mission.location == station.path and mission.pickup and not mission.cargo_picked_up then
 			if Game.player.freeCapacity < mission.amount then
 				Comms.ImportantMessage(l.YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE, mission.client.name)
 			else
@@ -812,9 +826,6 @@ local onShipDocked = function (player, station)
 				mission.cargo_picked_up = true
 				Comms.ImportantMessage(l.WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP, mission.client.name)
 			end
-
-		elseif mission.status == "ACTIVE" and Game.time > mission.due then
-			mission.status = 'FAILED'
 		end
 	end
 end
@@ -867,7 +878,7 @@ local onClick = function (mission)
 	else
 		local branch
 		if mission.wholesaler then branch = "WHOLESALER" else branch = mission.branch end
-		danger = (l["RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1]
+		danger = (l:get("RISK_" .. branch .. "_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK_" .. branch) - 1)) + 1)
 			or l["RISK_" .. math.floor(mission.risk * (getNumberOfFlavours("RISK") - 1)) + 1])
 	end
 
@@ -916,6 +927,7 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 										ui:Margin(5),
 										ui:Grid(2,1)
 											:SetColumn(0, {
@@ -966,7 +978,7 @@ local onClick = function (mission)
 			ui:VBox(10):PackEnd(InfoFace.New(mission.client))
 		})
 	else return ui:Grid(2,1)
-		:SetColumn(0,{ui:VBox(10):PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
+		:SetColumn(0,{ui:VBox():PackEnd({ui:MultiLineText((mission.introtext):interp({name = mission.client.name,
 											cargoname = mission.cargotype:GetName(),
 											starport = mission.location:GetSystemBody().name,
 											system = mission.location:GetStarSystem().name,
@@ -982,12 +994,9 @@ local onClick = function (mission)
 											dist = dist})
 										),
 										ui:Margin(10),
-										ui:Grid(1,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.PICKUP_FROM)
-												})
-											}),
+										ui:VBox():PackEnd({
+											ui:Label(l.PICKUP_FROM)
+										}),
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
@@ -1021,13 +1030,11 @@ local onClick = function (mission)
 													ui:Label(dist.." "..l.LY)
 												})
 											}),
+										NavButton.New(l.SET_AS_TARGET, mission.location),
 										ui:Margin(5),
-										ui:Grid(1,1)
-											:SetColumn(0, {
-												ui:VBox():PackEnd({
-													ui:Label(l.DELIVER_TO)
-												})
-											}),
+										ui:VBox():PackEnd({
+											ui:Label(l.DELIVER_TO)
+										}),
 										ui:Grid(2,1)
 											:SetColumn(0, {
 												ui:VBox():PackEnd({
@@ -1061,6 +1068,7 @@ local onClick = function (mission)
 													ui:Label((string.format("%.2f", Game.system:DistanceTo(mission.domicile)) or "???") .. " " .. l.LY)
 												})
 											}),
+										NavButton.New(l.SET_RETURN_ROUTE, mission.domicile),
 										ui:Margin(5),
 										ui:Grid(2,1)
 											:SetColumn(0, {

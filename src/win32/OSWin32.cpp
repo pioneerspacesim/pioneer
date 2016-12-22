@@ -1,6 +1,8 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#define WIN32_LEAN_AND_MEAN 
+#define NOMINMAX
 #include "Win32Setup.h"
 
 #include "OS.h"
@@ -13,6 +15,22 @@
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
+#include <shellapi.h>
+
+
+extern "C" {
+	// This is the quickest and easiest way to enable using the nVidia GPU on a Windows laptop with a dedicated nVidia GPU and Optimus tech.
+	// enable optimus!
+    __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+
+	// AMD have one too!!!
+	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+
+
+#ifdef RegisterClass
+#undef RegisterClass
+#endif
 
 #ifdef WITH_BREAKPAD
 using namespace google_breakpad;
@@ -155,7 +173,7 @@ const std::string GetOSInfoString()
 	OSVERSIONINFOA osv;
 	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
 	GetVersionExA(&osv);
-
+	
 	std::string name;
 	for (const OSVersion *scan = osVersions; scan->name; scan++) {
 		if (osv.dwMajorVersion == scan->major && osv.dwMinorVersion == scan->minor) {
@@ -221,6 +239,19 @@ void EnableBreakpad()
 		L"",														// Minidump server pipe name
 		&cci);														// Custom client information
 #endif
+}
+
+// Open the Explorer/Finder/etc
+bool SupportsFolderBrowser()
+{
+	return true;
+}
+
+void OpenUserFolderBrowser()
+{
+	std::wstring dumps_path;
+	dumps_path = transcode_utf8_to_utf16(FileSystem::userFiles.GetRoot());
+	ShellExecuteW(NULL, L"open", dumps_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 }
 
 } // namespace OS

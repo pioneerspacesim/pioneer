@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _FACTIONS_H
@@ -46,7 +46,7 @@ public:
 	std::string        military_name;       // "Space Defense Force", "Imperial Will Enforcement Division"...
 	//military logo
 	std::string        police_name;         // "Police", "Polizia Locale"...
-
+	std::string        police_ship;         // "kanara", "varada"...
 	//police logo
 	//goods/equipment availability (1-per-economy-type: aka agricultural, industrial, tourist, etc)
 

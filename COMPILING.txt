@@ -16,6 +16,8 @@ Table of Contents
 3 Building documentation
   3.1 Lua API - Natural Docs
   3.2 C++ source - Doxygen
+4 Faster startup
+  4.1 precompile models
 
 
 1 How to compile Pioneer
@@ -24,7 +26,7 @@ Table of Contents
 Pioneer is known to build on the following platforms and build systems:
 
 Linux: GNU Autotools with GCC or Clang
-Windows: Microsoft Visual C++ 2013 (Express Edition or Pro)
+Windows: Microsoft Visual C++ 2015 (Community or Pro)
 Windows: GNU Autotools with MXE (MinGW GCC) (cross-compile on Linux)
 OS X: XCode 4 or Homebrew or GNU Autotools
 
@@ -82,7 +84,7 @@ irc.freenode.net.
    in a directory side by side. Don't rename pioneer-thirdparty because the
    relative path to it is included in the project files.
 
-2. Open the pioneer solution from win32/vc2013Express.
+2. Open the pioneer solution from /win32/vc2015/pioneer.sln
 
 3. Build and run the project or solution.
 
@@ -150,11 +152,23 @@ Note: Compiling from source this way isn't recommended as it doesn't allow you
       bundle). It also isn't the 'Apple way', To do that you need to use XCode.
 
 
-1.5 OS X - XCode 4
+1.5 OS X - XCode 6
 ------------------
 
-* The XCode project isn't as up to date as the 'autotools' method and may
-  be broken.
+You will need the following libraries installed. The best method I found was to install macports (http://www.macports.org/) and install the following ports (sudo port install xxxx):
+
+     autoconf
+     automake
+     pkgconfig
+     assimp
+     freetype
+     libsigcxx2
+     libsdl2
+     libsdl2_image
+     libvorbis
+     libvorbisfile
+
+Alternatively you can also run the script in the ./osx folder install_ports.sh
 
 The latest XCode project files are located in ./osx. Simply build the
 aplication bundle. The XCode project uses the mac port libraries that you
@@ -280,3 +294,17 @@ visualizing inheritance as graphs. To enable LaTeX output, set GENERATE_LATEX
 1. Run doxygen from the doxygen/ folder.
 
 2. The html documentation will be available from doxygen/html/index.html
+
+
+
+4 Faster startup
+================
+
+4.1 Precompile model files
+--------------------------
+
+Long startup times for pioneer this can be alleviated by precompiling all
+models into *.sgm files. This uses the modelcompiler located in src/. From the
+pioneer root directory the following will batch compile all models
+
+1. ./src/modelcompiler -b inplace

@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "Aici stațiunea {station}. Nu aveți bani suficienți pentru taxa de andocare. Nu putem să vă alimentăm nava."
+      "message" : "This is {station}. You do not have enough money for your docking fee of {fee}."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Bine ați venit în {station}. Taxa de andocare și alimentare de {fee} a fost aplicată."
+      "message" : "Welcome aboard {station}. Your docking fee of {fee} has been deducted."
    }
 }

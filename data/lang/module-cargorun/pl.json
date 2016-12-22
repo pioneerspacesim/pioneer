@@ -1,23 +1,23 @@
 {
    "ACCEPTED_1" : {
       "description" : "",
-      "message" : "Excellent. I'll load the goods on to your ship."
+      "message" : "Wyśmienicie. Załaduje towary na twój statek."
    },
    "ACCEPTED_2" : {
       "description" : "",
-      "message" : "Very good."
+      "message" : "Bardzo dobrze."
    },
    "ACCEPTED_3" : {
       "description" : "",
-      "message" : "Ok, good. I hope I can trust you."
+      "message" : "Ok, dobrze. Mam nadzieję że mogę Ci zaufać."
    },
    "ACCEPTED_4" : {
       "description" : "",
-      "message" : "It's a deal!"
+      "message" : "Umowa!"
    },
    "ACCEPTED_PICKUP_1" : {
       "description" : "",
-      "message" : "Ok, I will make sure that the goods are ready for collection."
+      "message" : "Ok, sprawdzę czy ładunek jest gotowy do odbioru."
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
@@ -25,27 +25,27 @@
    },
    "ADTEXT_1" : {
       "description" : "",
-      "message" : "CARGO RUN. Delivery of cargo to the {system} system."
+      "message" : "TRANSPORT TOWARÓW. Dostarcz ładunek do systemu {system}"
    },
    "ADTEXT_2" : {
       "description" : "",
-      "message" : "NEED TRANSPORTATION. Transport of goods to the {system} system needed. Pay {cash}."
+      "message" : "POTRZEBNY TRANSPORT. Transport do systemu {system}. Płacę {cash}"
    },
    "ADTEXT_EXPENSIVE_1" : {
       "description" : "",
-      "message" : "DELIVERY. Valuable cargo to the {system} system. {cash} to an experienced pilot."
+      "message" : "DOSTAWA. Cenny ładunek do sytemu {system}. {cash} dla doświadczonego pilota."
    },
    "ADTEXT_LOCAL_1" : {
       "description" : "",
-      "message" : "LOCAL DELIVERY. Move of goods to {starport}."
+      "message" : "LOKALNA DOSTAWA. Przewieź towary do {starport}"
    },
    "ADTEXT_LOCAL_2" : {
       "description" : "",
-      "message" : "TRANSPORT NEEDED. Delivery of local cargo to {starport}."
+      "message" : "POTRZEBNY TRANSPORT. Dostarcz lokalny ładunek do {starport}"
    },
    "ADTEXT_LOCAL_3" : {
       "description" : "",
-      "message" : "LOCAL CARGO RUN. Delivery of goods to {starport}."
+      "message" : "LOKALNA DOSTAWA TOWARÓW. Dostarcz ładunek do {starport}"
    },
    "ADTEXT_PICKUP_1" : {
       "description" : "",
@@ -61,23 +61,23 @@
    },
    "ALUMINIUM_TUBES" : {
       "description" : "custom cargo",
-      "message" : "Aluminium tubes"
+      "message" : "Rury aluminiowe"
    },
    "AMOUNT" : {
       "description" : "Shown in mission summary. The amount of cargo",
-      "message" : "Amount:"
+      "message" : "Ilość:"
    },
    "ART_OBJECTS" : {
       "description" : "custom cargo",
-      "message" : "Art objects"
+      "message" : "Dzieła sztuki"
    },
    "CARGO" : {
       "description" : "",
-      "message" : "Cargo:"
+      "message" : "Ładunek:"
    },
    "CARGORUN" : {
       "description" : "Name of mission type",
-      "message" : "Cargo run"
+      "message" : "Transport towarów"
    },
    "CEASE_FIRE" : {
       "description" : "",
@@ -85,11 +85,11 @@
    },
    "CLUS" : {
       "description" : "custom cargo",
-      "message" : "Containerized living units"
+      "message" : "Kontenerowe jednostki mieszkalne"
    },
    "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
       "description" : "",
-      "message" : "Could you please repeat the original request?"
+      "message" : "Czy możesz powtórzyć ofertę?"
    },
    "DANGER" : {
       "description" : "the risk level",
@@ -101,7 +101,7 @@
    },
    "DELIVER_TO" : {
       "description" : "Deliver to this location",
-      "message" : "Deliver to:"
+      "message" : "Dostarczyć do:"
    },
    "DENY_1" : {
       "description" : "",
@@ -129,11 +129,11 @@
    },
    "DIAMONDS" : {
       "description" : "custom cargo",
-      "message" : "Diamonds"
+      "message" : "Diamenty"
    },
    "DIGESTERS" : {
       "description" : "custom cargo",
-      "message" : "Digesters"
+      "message" : "Komory fermentacyjne"
    },
    "DISTANCE" : {
       "description" : "distance in space, between two locations",
@@ -141,19 +141,19 @@
    },
    "ELECTRICAL_APPLIANCES" : {
       "description" : "custom cargo",
-      "message" : "Electrical appliances"
+      "message" : "Urządzenia elektryczne"
    },
    "ESCORT_CHATTER_1" : {
       "description" : "",
-      "message" : "Hostile craft detected. Let us attack it together."
+      "message" : "Wykryto wrogą flotę. Zaatakujmy razem."
    },
    "ESCORT_CHATTER_2" : {
       "description" : "",
-      "message" : "Great. This pirate will be my first kill."
+      "message" : "Wspaniale. Ten pirat będzie pierwszy na mojej liście."
    },
    "ESCORT_CHATTER_3" : {
       "description" : "",
-      "message" : "Enemy spotted. Commencing attack."
+      "message" : "Napotkano wroga. Rozpoczynam atak."
    },
    "ESCORT_CHATTER_4" : {
       "description" : "",
@@ -165,7 +165,7 @@
    },
    "EXPLOSIVES" : {
       "description" : "custom cargo",
-      "message" : "Explosives"
+      "message" : "Materiały wybuchowe"
    },
    "FAILUREMSG_1" : {
       "description" : "",
@@ -189,23 +189,23 @@
    },
    "FURNITURE" : {
       "description" : "custom cargo",
-      "message" : "Furniture"
+      "message" : "Wyposarzenie"
    },
    "GREENHOUSES" : {
       "description" : "custom cargo",
-      "message" : "Greenhouses"
+      "message" : "Szklarnie"
    },
    "GUNS_GUNS_GUNS" : {
       "description" : "Military radio call to avoid friendly fire. It indicates that the cannon has been activated and should ensure that other friendly pilots do not maneuver into the path of harm.",
-      "message" : "Guns, guns, guns."
+      "message" : "Broń, broń, broń."
    },
    "HAZARDOUS_SUBSTANCES" : {
       "description" : "custom cargo",
-      "message" : "Hazardous substances"
+      "message" : "Substancje niebezpieczne"
    },
    "HOWMUCH_1" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "{amount} metric tons."
+      "message" : "{amount} ton metrycznych."
    },
    "HOWMUCH_2" : {
       "description" : "regarding mass, always more than 1t",
@@ -213,15 +213,15 @@
    },
    "HOWMUCH_3" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "The mass is {amount}t."
+      "message" : "Waga wynosi {amount}t."
    },
    "HOWMUCH_4" : {
       "description" : "regarding mass, always more than 1t",
-      "message" : "There are {amount}t."
+      "message" : "Jest tego {amount}t."
    },
    "HOWMUCH_SINGULAR_1" : {
       "description" : "This string is only used for 1 metric tons (singular)",
-      "message" : "It's only {amount}t."
+      "message" : " To tylko {amount}t."
    },
    "HOWMUCH_WHOLESALER_1" : {
       "description" : "",
@@ -233,7 +233,7 @@
    },
    "HOW_MUCH_MASS" : {
       "description" : "",
-      "message" : "How much mass?"
+      "message" : "Ile waży?"
    },
    "HOW_SOON_MUST_IT_BE_DELIVERED" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from the {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
+      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -329,59 +329,59 @@
    },
    "NEPTUNIUM" : {
       "description" : "custom cargo",
-      "message" : "Neptunium"
+      "message" : "Neptun"
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "OK, agreed."
+      "message" : "Ok, zgoda."
    },
    "PICKUP_FROM" : {
       "description" : "from a location",
-      "message" : "Pickup cargo from:"
+      "message" : "Odebrać ładunek z:"
    },
    "PIRATE_GRIPES_1" : {
       "description" : "",
-      "message" : "Damn! You will pay for this!"
+      "message" : "Cholera, zapłacisz za to!"
    },
    "PIRATE_GRIPES_2" : {
       "description" : "",
-      "message" : "Oh no. My poor ship!"
+      "message" : "O nie! Mój biedny statek!"
    },
    "PIRATE_GRIPES_3" : {
       "description" : "said with vengeance",
-      "message" : "Wait, I'll show you."
+      "message" : "Poczekaj, pokarzę Ci."
    },
    "PIRATE_TAUNTS_1" : {
       "description" : "",
-      "message" : "This will be your last run!"
+      "message" : "To będzie twoja ostatnia przejażdżka!"
    },
    "PIRATE_TAUNTS_2" : {
       "description" : "",
-      "message" : "You work for {client}? This will be the end of you!"
+      "message" : "Pracujesz dla {client}? To będzie twój koniec!"
    },
    "PIRATE_TAUNTS_3" : {
       "description" : "",
-      "message" : "Hey buddy, hand over the goods. Now!"
+      "message" : "Hej kolego, oddawaj towar i to już!"
    },
    "PIRATE_TAUNTS_4" : {
       "description" : "",
-      "message" : "Pal, you'll never reach your destination."
+      "message" : "Przyjacielu, nigdy nie dotrzesz do celu."
    },
    "PIRATE_TAUNTS_5" : {
       "description" : "",
-      "message" : "Ah, another fat goose en route to {location}."
+      "message" : "Eh, kolejny tłuścioch na drodze do {location}."
    },
    "PIRATE_TAUNTS_6" : {
       "description" : "",
-      "message" : "Looks like you're carrying more than you can handle. Let me help you with that."
+      "message" : "Wygląda na to że przewozisz więcej niż jesteś w stanie, pozwól że Ci z tym pomogę."
    },
    "PIRATE_TAUNTS_7" : {
       "description" : "",
-      "message" : "Your luck has run out!"
+      "message" : "Twoje szczęście właśnie się skończyło."
    },
    "PLUTONIUM" : {
       "description" : "custom cargo",
-      "message" : "Plutonium"
+      "message" : "Pluton"
    },
    "QUIBBLES" : {
       "description" : "custom cargo, also used in the NewsEventCommodity module, a nod to Star Trek's Tribble (check wikipedia)",
@@ -441,7 +441,15 @@
    },
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
-      "message" : "Semi-finished products"
+      "message" : "Półprodukty"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Ustaw jako cel nawigacyjny."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Ustaw drogę powrotną."
    },
    "SPACEPORT" : {
       "description" : "",
@@ -449,7 +457,7 @@
    },
    "SPACESHIP_PARTS" : {
       "description" : "custom cargo",
-      "message" : "Spaceship parts"
+      "message" : "Części statku kosmicznego"
    },
    "SUCCESSMSG_1" : {
       "description" : "",
@@ -477,19 +485,19 @@
    },
    "TARGET_DESTROYED" : {
       "description" : "",
-      "message" : "Target destroyed."
+      "message" : "Cel zniszczony."
    },
    "TITANIUM" : {
       "description" : "custom cargo",
-      "message" : "Titanium"
+      "message" : "Tytan"
    },
    "TUNGSTEN" : {
       "description" : "custom cargo",
-      "message" : "Tungsten"
+      "message" : "Wolfram"
    },
    "URANIUM" : {
       "description" : "custom cargo",
-      "message" : "Uranium"
+      "message" : "Uran"
    },
    "URGENCY_1" : {
       "description" : "",
@@ -521,11 +529,11 @@
    },
    "WEDDING_DRESSES" : {
       "description" : "custom cargo",
-      "message" : "Wedding dresses"
+      "message" : "Suknie ślubne"
    },
    "WE_HAVE_LOADED_UP_THE_CARGO_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "We have loaded up the cargo on your ship."
+      "message" : "Załadowaliśmy towar na twój statek."
    },
    "WHAT_IS_THIS" : {
       "description" : "",
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "These goods crucial for a construction project."
+      "message" : "These goods are crucial for a construction project."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",
@@ -609,10 +617,10 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CARGO_SPACE_ON_YOUR_SHIP" : {
       "description" : "",
-      "message" : "You do not have enough cargo space on your ship."
+      "message" : "Nie masz wystarczająco miejsca w ładowni."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_EMPTY_CARGO_SPACE" : {
       "description" : "",
-      "message" : "Please come back when you have sufficient cargo space."
+      "message" : "Wróć kiedy będziesz miał wystarczająco miejsca w ładowni."
    }
 }

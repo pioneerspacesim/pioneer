@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GAME_H
@@ -26,7 +26,6 @@ struct InvalidGameStartLocation {
 };
 
 class SectorView;
-class GalacticView;
 class UIView;
 class SystemInfoView;
 class SystemView;
@@ -43,6 +42,7 @@ class Game {
 public:
 	// LoadGame and SaveGame throw exceptions on failure
 	static Game *LoadGame(const std::string &filename);
+	static bool CanLoadGame(const std::string &filename);
 	// XXX game arg should be const, and this should probably be a member function
 	// (or LoadGame/SaveGame should be somewhere else entirely)
 	static void SaveGame(const std::string &filename, Game *game);
@@ -99,6 +99,13 @@ public:
 	void SetTimeAccel(TimeAccel t);
 	void RequestTimeAccel(TimeAccel t, bool force = false);
 
+	/// Requests an increase in time acceleration
+	/// @param force if set to false the system can reject the request under certain conditions
+	void RequestTimeAccelInc(bool force = false);
+	/// Requests a decrease in time acceleration
+	/// @param force if set to false the system can reject the request under certain conditions
+	void RequestTimeAccelDec(bool force = false);
+
 	TimeAccel GetTimeAccel() const { return m_timeAccel; }
 	TimeAccel GetRequestedTimeAccel() const { return m_requestedTimeAccel; }
 	bool IsPaused() const { return m_timeAccel == TIMEACCEL_PAUSED; }
@@ -109,7 +116,7 @@ public:
 	float GetTimeStep() const { return s_timeAccelRates[m_timeAccel]*(1.0f/PHYSICS_HZ); }
 
 	SectorView* GetSectorView() const { return m_gameViews->m_sectorView; }
-	GalacticView* GetGalacticView() const { return m_gameViews->m_galacticView; }
+	UIView* GetGalacticView() const { return m_gameViews->m_galacticView; }
 	UIView* GetSettingsView() const { return m_gameViews->m_settingsView; }
 	SystemInfoView* GetSystemInfoView() const { return m_gameViews->m_systemInfoView; }
 	SystemView* GetSystemView() const { return m_gameViews->m_systemView; }
@@ -135,7 +142,7 @@ private:
 		void SetRenderer(Graphics::Renderer *r);
 
 		SectorView* m_sectorView;
-		GalacticView* m_galacticView;
+		UIView* m_galacticView;
 		UIView* m_settingsView;
 		SystemInfoView* m_systemInfoView;
 		SystemView* m_systemView;

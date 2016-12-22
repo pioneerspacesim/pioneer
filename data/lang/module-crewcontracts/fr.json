@@ -39,13 +39,9 @@
       "description" : "",
       "message" : "Temps minimal servi à bord"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigateur"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+      "message" : "Désolé, personne n'est actuellement en recherche d'emploi à {station}."
    },
    "NO_EXPERIENCE" : {
       "description" : "",
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "Ok, je suppose que c'est correct."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilote"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Membres d'équipage potentiels enregistrés comme demandeurs d'emploi à {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Senseurs et défense"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Ingénieur de vaisseau"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

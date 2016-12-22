@@ -77,7 +77,7 @@
    },
    "FLAVOUR_18_NEWSBODY" : {
       "description" : "Imply vast demand of CONSUMER_GOODS.",
-      "message" : "Las ruedas estan girando cada vez mas rápido en el sistema {system} ({sectorx}, {sectory}, {sectorz}) ya que los consumidores disponen de mas dinero para gastar."
+      "message" : "Las ruletas estan girando cada vez más rápido en el sistema {system} ({sectorx}, {sectory}, {sectorz}) ya que los consumidores disponen de más dinero para gastar."
    },
    "FLAVOUR_19_HEADLINE" : {
       "description" : "",
@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "La nueva fábrica Amissionox del sistema {system} ({sectorx}, {sectory}, {sectorz}) está lista y en funcionamiento. Producirá cuchillos de alta calidad capaces de cortar el casco de una nave; sin embargo, debido a la poca cantidad de recursos necesarios para las hojas, no han alcanzado aun el pleno potencial en la producción."
+      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",

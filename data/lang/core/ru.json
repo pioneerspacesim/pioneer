@@ -61,23 +61,23 @@
    },
    "AUTOPILOT_DOCK_WITH_STATION" : {
       "description" : "",
-      "message" : "Автопилот: Состыковаться со станцией"
+      "message" : "Автопилот: состыковаться со станцией"
    },
    "AUTOPILOT_ENTER_HIGH_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: встать на высокую орбиту %target"
+      "message" : "Автопилот: выйти на высокую орбиту вокруг %target"
    },
    "AUTOPILOT_ENTER_LOW_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: встать на низкую орбиту %target"
+      "message" : "Автопилот: выйти на низкую орбиту вокруг %target"
    },
    "AUTOPILOT_ENTER_MEDIUM_ORBIT_AROUND" : {
       "description" : "",
-      "message" : "Автопилот: встать на среднюю орбиту %target"
+      "message" : "Автопилот: выйти на среднюю орбиту вокруг %target"
    },
    "AUTOPILOT_FLY_TO_VICINITY_OF" : {
       "description" : "",
-      "message" : "Автопилот: Подлететь ближе к %target"
+      "message" : "Автопилот: подлететь к %target"
    },
    "AUTOPILOT_ON" : {
       "description" : "",
@@ -113,7 +113,7 @@
    },
    "BUTTON" : {
       "description" : "",
-      "message" : "\" Button \""
+      "message" : "\" Кнопка \""
    },
    "CAMERA_BOTTOM_VIEW" : {
       "description" : "",
@@ -157,7 +157,7 @@
    },
    "CARBON_ORE_DESCRIPTION" : {
       "description" : "",
-      "message" : "Углеродные руды (уголь и нефть) необходимы для для синтеза многих полезных химических продуктов, включая пластмассы, синтетические продукты питания, медикаменты и текстильные изделия."
+      "message" : "Углеродные ископаемые (уголь и нефть) необходимы для для синтеза многих полезных химических продуктов, включая пластмассы, синтетические продукты питания, медикаменты и ткани."
    },
    "CARGO" : {
       "description" : "",
@@ -229,7 +229,7 @@
    },
    "COMPUTER_HEADING_CONTROL" : {
       "description" : "",
-      "message" : "Автоматическое управление положением"
+      "message" : "Автоматическое управление направлением"
    },
    "COMPUTER_SPEED_CONTROL" : {
       "description" : "",
@@ -279,13 +279,17 @@
       "description" : "",
       "message" : "Длина дня"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Уменьш.дальность сканера"
+      "message" : "Уменьшить дальность радара"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Уменьш.заданную скорость"
+   },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Замедлить время"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -297,7 +301,7 @@
    },
    "DIRECTION" : {
       "description" : "Direction",
-      "message" : "\" Dir \""
+      "message" : "\" Напр. \""
    },
    "DISTANCE_FROM_SHIP_TO_NAV_TARGET" : {
       "description" : "",
@@ -325,7 +329,7 @@
    },
    "DRAW_OUT_RANGE_LABELS" : {
       "description" : "",
-      "message" : "Маркеры далёких систем"
+      "message" : "Маркеры систем вне досягаемости"
    },
    "DRAW_UNINHABITED_LABELS" : {
       "description" : "",
@@ -361,7 +365,7 @@
    },
    "EQUATORIAL_RADIUS_TO_POLAR_RADIUS_RATIO" : {
       "description" : "",
-      "message" : "Соотн. экваториального к полярному радиусу"
+      "message" : "Соотн. экваториального радиуса к полярному"
    },
    "EXACT_MATCH_X" : {
       "description" : "",
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Это сохранение не может быть загружено из-за проблем с правами доступа или по другой причине..."
+      "message" : "Сохранение '%filename' не найдено или у игры нет доступа к файлу."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -449,7 +453,7 @@
    },
    "GENERAL_VIEW_CONTROLS" : {
       "description" : "",
-      "message" : "Общий вид управления"
+      "message" : "Управление камерой"
    },
    "GOVERNMENT_TYPE" : {
       "description" : "",
@@ -549,15 +553,23 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Деактивировать гипердвигатель"
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Гиперпрыжок прерван."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Гипердвигатель выключен"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Активировать гипердвигатель"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Включение гипердвигателя запрещено"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -587,13 +599,17 @@
       "description" : "",
       "message" : "Имперское правление"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Увелич.дальность сканера"
+      "message" : "Увеличить дальность радара"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Увелич.заданную скорость"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Ускорить время"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -611,10 +627,6 @@
       "description" : "",
       "message" : "Обзор"
    },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale СвЛ"
-   },
    "IN_TRANSIT" : {
       "description" : "",
       "message" : "Проход через гипертоннель"
@@ -625,7 +637,7 @@
    },
    "JOY" : {
       "description" : "Short for Joystick",
-      "message" : "Joy"
+      "message" : "Джойстик"
    },
    "JOYSTICK_INPUT" : {
       "description" : "",
@@ -635,9 +647,17 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Ось"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Гиперпрыжок завершён на %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.2} км/с относительно %frame"
+   },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Переключение между режимами отображения точек Лагранжа L4/L5."
    },
    "LANDED" : {
       "description" : "",
@@ -658,6 +678,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Внимание! Ваш корабль под атакой!"
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Шир:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +707,13 @@
       "description" : "",
       "message" : "Животные"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Ориона"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "закрыто"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Дол:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -713,7 +737,7 @@
    },
    "MANUAL_CONTROL_MODE" : {
       "description" : "",
-      "message" : "Управление двигателем:"
+      "message" : "Ручное управление"
    },
    "MAP_LOCK_HYPERSPACE_TARGET" : {
       "description" : "",
@@ -907,18 +931,6 @@
       "description" : "",
       "message" : "Сен"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Мультисборник"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Позволяет собирать как топливо, так и груз, но с меньшей эффективностью"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Убийство"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} м/с относительно %frame"
@@ -947,17 +959,17 @@
       "description" : "",
       "message" : "Парализующий газ"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Лебедя"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Не обнаружено"
    },
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
-      "message" : "Не найдено, макс.совпадение: %system"
+      "message" : "Не найдено, лучшее совпадение: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Сейчас"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1075,10 +1087,6 @@
       "description" : "",
       "message" : "Открытый сельскохозяйственный мир."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Внешний рукав"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Свыше %population млрд."
@@ -1103,17 +1111,9 @@
       "description" : "",
       "message" : "Расстояние периапсида"
    },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Персея"
-   },
    "PIONEER" : {
       "description" : "",
       "message" : "PIONEER"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Пиратство"
    },
    "PITCH" : {
       "description" : "",
@@ -1145,23 +1145,23 @@
    },
    "PLANNER_RESET_FACTOR" : {
       "description" : "For system orbit view",
-      "message" : "Скорость изменения величины Дельта-V. Нажмите на кнопку, чтобы вернуть скорость по умолчанию."
+      "message" : "Скорость изменения значений дельта-v. Нажмите, чтобы cбрость на значение по умолчанию."
    },
    "PLANNER_RESET_NORMAL" : {
       "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
+      "message" : "Нормальная дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_PROGRADE" : {
       "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
+      "message" : "Прямая дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_RADIAL" : {
       "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
+      "message" : "Радиальная дельта-v. Нажмите, чтобы сбросить до нуля."
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Начало манёвра. Нажмите, чтобы сбросить настройки."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1170,10 +1170,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Плутократическая диктатура"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "ПОЛИЦИЯ"
    },
    "POPULATION" : {
       "description" : "",
@@ -1187,13 +1183,13 @@
       "description" : "",
       "message" : "p: %pressure{f.2} атм"
    },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Пройдено: %probability%%"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Четверная система"
+   },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Управление радаром"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1275,14 +1271,6 @@
       "description" : "",
       "message" : "Мусор"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Стрельца"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "Управление сканером:"
-   },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Сборник"
@@ -1290,10 +1278,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "screenshot%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав Центавра"
    },
    "SEARCH" : {
       "description" : "",
@@ -1309,7 +1293,7 @@
    },
    "SECTOR_MAP_VIEW" : {
       "description" : "",
-      "message" : "Просмотр карты"
+      "message" : "Карта сектора"
    },
    "SECTOR_X_Y_Z" : {
       "description" : "",
@@ -1345,7 +1329,7 @@
    },
    "SET_NAVTARGET_TO" : {
       "description" : "",
-      "message" : "Выбрана цель для навигации:"
+      "message" : "Установить цель для навигации:"
    },
    "SET_SPEED_KM_S" : {
       "description" : "",
@@ -1406,10 +1390,6 @@
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
       "message" : "Вид со стороны"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Моделируем развитие вселенной: %age{f.1} млрд. лет ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1501,7 +1481,7 @@
    },
    "STAR_F" : {
       "description" : "",
-      "message" : "Белая звезда класса \"F\""
+      "message" : "Белая звезда спектрального класса \"F\""
    },
    "STAR_G" : {
       "description" : "",
@@ -1605,11 +1585,11 @@
    },
    "SWITCHED_TO_PARENT" : {
       "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
+      "message" : "Направление показано в сетке координат системы."
    },
    "SWITCHED_TO_ROTATIONAL" : {
       "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
+      "message" : "Направление показано в сетке планетарных координат."
    },
    "SYSTEM" : {
       "description" : "star system",
@@ -1655,10 +1635,6 @@
       "description" : "",
       "message" : "тонкой"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Рукав в 3 кпк от центра"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "Процветающий открытый мир."
@@ -1695,6 +1671,10 @@
       "description" : "",
       "message" : "Крохотная"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Оборудование"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "Переключение режима ИЛС"
@@ -1703,13 +1683,17 @@
       "description" : "",
       "message" : "Включить Lua-консоль"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Переключение режима радара"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Радар"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Включить плавное вращение"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "Изменить режим сканера"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1717,7 +1701,7 @@
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
-      "message" : "Торговая нелегальными товарами"
+      "message" : "Торговля нелегальными товарами"
    },
    "TRIPLE_SYSTEM" : {
       "description" : "",
@@ -1725,7 +1709,7 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "Отстыковка"
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
@@ -1739,13 +1723,37 @@
       "description" : "",
       "message" : "Неизведанная система. Информация о звезде была собрана с удалённого телескопа, по этому информация о планетах не доступна."
    },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "АЕ"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "дн"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "ч"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "св.лет"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "м"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "с"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "нед"
+   },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<неизвестно>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Стрельба в зоне станции"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1811,10 +1819,6 @@
       "description" : "keybinding: x axis",
       "message" : "X"
    },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime - вы объявлены в розыск!"
-   },
    "Y" : {
       "description" : "keybinding: y axis",
       "message" : "Y"
@@ -1833,7 +1837,7 @@
    },
    "YOUNG_FARMING_COLONY" : {
       "description" : "",
-      "message" : "Молодая сельскохозяйственная колония"
+      "message" : "Молодая сельскохозяйственная колония."
    },
    "YOU_NO_MONEY" : {
       "description" : "",

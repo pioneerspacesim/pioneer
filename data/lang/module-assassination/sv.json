@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Kom tillbaka hit efter slutfört uppdrag för betalning."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Använd destination som navigationsmål"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Sätt som returmål"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Skepp:"

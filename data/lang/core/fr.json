@@ -279,13 +279,17 @@
       "description" : "",
       "message" : "Durée du jour"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Diminuer rayon senseurs"
+      "message" : "Diminuer la portée du radar"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Diminue vitesse auto"
+   },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Diminuer l'accélération du temps"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Cette sauvegarde ne peut être chargée - problème de permissions ou autre…"
+      "message" : "Sauvegarde '%filename' introuvable (ou le jeu n'a pas les droits nécessaires)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -549,15 +553,23 @@
    },
    "HYPERSPACE_JUMP_ABORT" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Disengage Hyperdrive"
+      "message" : "Désactiver l'hyper-propulsion."
    },
    "HYPERSPACE_JUMP_ABORTED" : {
       "description" : "",
       "message" : "Saut hyperspatial avorté."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hyperpropulsion desactivée"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
-      "message" : "Engage Hyperdrive"
+      "message" : "Activer l'hyper-propulsion."
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Zone interdite à l'hyperpropulsion"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -587,13 +599,17 @@
       "description" : "",
       "message" : "Loi Impériale"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Augmenter rayon senseurs"
+      "message" : "Augmenter la portée du radar"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Augmenter vitesse auto"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Augmenter l'accélération du temps"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -610,10 +626,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "Vue cockpit"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale al"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -635,9 +647,17 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname Axe %axis"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Saut complété à %percent% %"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.2} km/s rel-à %frame"
+   },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Afficher/Cacher les points Lagrange L4/L5."
    },
    "LANDED" : {
       "description" : "",
@@ -658,6 +678,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Détection de tirs laser."
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +707,13 @@
       "description" : "",
       "message" : "Animaux vivants"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la voie lactée local"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "verrouillé"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -907,18 +931,6 @@
       "description" : "",
       "message" : "Sept"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Malgré une efficacité moindre que celle d'une écope à carubrant, cela permet d'écoper et la cargaison, et le carburant."
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Meurtre"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s rel-à %frame"
@@ -947,10 +959,6 @@
       "description" : "",
       "message" : "Gaz neurotox."
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la Règle"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Non trouvé"
@@ -958,6 +966,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "Non trouvé, meilleur choix: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Maintenant"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1075,10 +1087,6 @@
       "description" : "",
       "message" : "Monde agricole à l'air libre."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras externe"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Plus de %population milliards"
@@ -1103,17 +1111,9 @@
       "description" : "",
       "message" : "Distance de périhélie"
    },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de Persée"
-   },
    "PIONEER" : {
       "description" : "",
       "message" : "PIONEER"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Piraterie"
    },
    "PITCH" : {
       "description" : "",
@@ -1161,7 +1161,7 @@
    },
    "PLANNER_RESET_START" : {
       "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
+      "message" : "Démarrage de la manœuvre. Cliquez pour réinitialisez aux valeurs par défaut."
    },
    "PLASTICS" : {
       "description" : "",
@@ -1170,10 +1170,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Dictature ploutocratique"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLICE"
    },
    "POPULATION" : {
       "description" : "",
@@ -1187,13 +1183,13 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Probabilité d'arrivée: %probability%%"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Système quadruple"
+   },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Contrôle Radar"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1275,14 +1271,6 @@
       "description" : "",
       "message" : "Détritus"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras du Sagittaire"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "Senseurs"
-   },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Scoop"
@@ -1290,10 +1278,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "capture_d_ecran%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras Écu-Croix"
    },
    "SEARCH" : {
       "description" : "",
@@ -1406,10 +1390,6 @@
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
       "message" : "Vue sidérale"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulation de l'évolution de l'univers : %age{f.1} milliards d'années ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1655,10 +1635,6 @@
       "description" : "",
       "message" : "fine"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Bras de la voie lactée 3kpc"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "Monde avec une faune impressionnante."
@@ -1695,6 +1671,10 @@
       "description" : "",
       "message" : "Minuscule"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Vue équipement"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "regl mode HUD"
@@ -1703,13 +1683,17 @@
       "description" : "",
       "message" : "Console LUA on/off"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Activer/désactiver le mode Radar"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Vue Radar"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Réglage de l'amortisseur de rotation"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "Réglage des senseurs"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1725,7 +1709,7 @@
    },
    "UNDOCKING" : {
       "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+      "message" : "Désammarrage."
    },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
@@ -1739,13 +1723,37 @@
       "description" : "",
       "message" : "Système non-exploré. Les informations ont été réunies par un téléscope distant, mais aucune information planétaire n'est disponible."
    },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "UA"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "j"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "al"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "sec."
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "sem."
+   },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<inconnu>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Utilisation illégale d'armes"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1810,10 +1818,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime ne pourra être toléré ici."
    },
    "Y" : {
       "description" : "keybinding: y axis",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Camera.h"
@@ -88,7 +88,7 @@ Camera::Camera(RefCountedPtr<CameraContext> context, Graphics::Renderer *rendere
 	desc.textures = 1;
 
 	m_billboardMaterial.reset(m_renderer->CreateMaterial(desc));
-	m_billboardMaterial->texture0 = Graphics::TextureBuilder::Billboard("textures/planet_billboard.png").GetOrCreateTexture(m_renderer, "billboard");
+	m_billboardMaterial->texture0 = Graphics::TextureBuilder::Billboard("textures/planet_billboard.dds").GetOrCreateTexture(m_renderer, "billboard");
 }
 
 static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Camera::LightSource> &lights)
@@ -107,7 +107,8 @@ static void position_system_lights(Frame *camFrame, Frame *frame, std::vector<Ca
 
 		const Color lightCol(col[0], col[1], col[2], 0);
 		vector3f lightpos(lpos.x, lpos.y, lpos.z);
-		lights.push_back(Camera::LightSource(frame->GetBody(), Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol)));
+		Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, lightpos, lightCol, lightCol);
+		lights.push_back(Camera::LightSource(frame->GetBody(), light));
 	}
 
 	for (Frame* kid : frame->GetChildren()) {
@@ -127,7 +128,9 @@ void Camera::Update()
 		attrs.billboard = false; // false by default
 
 		// determine position and transform for draw
-		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);
+//		Frame::GetFrameTransform(b->GetFrame(), camFrame, attrs.viewTransform);		// doesn't use interp coords, so breaks in some cases
+		attrs.viewTransform = b->GetFrame()->GetInterpOrientRelTo(camFrame);
+		attrs.viewTransform.SetTranslate(b->GetFrame()->GetInterpPositionRelTo(camFrame));
 		attrs.viewCoords = attrs.viewTransform * b->GetInterpPosition();
 
 		// cull off-screen objects
@@ -200,8 +203,8 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 
 	if (m_lightSources.empty()) {
 		// no lights means we're somewhere weird (eg hyperspace). fake one
-		const Color col(255);
-		m_lightSources.push_back(LightSource(0, Graphics::Light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), col, col)));
+		Graphics::Light light(Graphics::Light::LIGHT_DIRECTIONAL, vector3f(0.f), Color::WHITE, Color::WHITE);
+		m_lightSources.push_back(LightSource(0, light));
 	}
 
 	//fade space background based on atmosphere thickness and light angle
@@ -258,13 +261,13 @@ void Camera::Draw(const Body *excludeBody, ShipCockpit* cockpit)
 			Graphics::Renderer::MatrixTicket mt(m_renderer, Graphics::MatrixMode::MODELVIEW);
 			m_renderer->SetTransform(matrix4x4d::Identity());
 			m_billboardMaterial->diffuse = attrs->billboardColor;
-			m_renderer->DrawPointSprites(1, &attrs->billboardPos, Sfx::additiveAlphaState, m_billboardMaterial.get(), attrs->billboardSize);
+			m_renderer->DrawPointSprites(1, &attrs->billboardPos, SfxManager::additiveAlphaState, m_billboardMaterial.get(), attrs->billboardSize);
 		}
 		else
 			attrs->body->Render(m_renderer, this, attrs->viewCoords, attrs->viewTransform);
 	}
 
-	Sfx::RenderAll(m_renderer, Pi::game->GetSpace()->GetRootFrame(), camFrame);
+	SfxManager::RenderAll(m_renderer, Pi::game->GetSpace()->GetRootFrame(), camFrame);
 
 	// NB: Do any screen space rendering after here:
 	// Things like the cockpit and AR features like hudtrails, space dust etc.
@@ -321,7 +324,7 @@ void Camera::CalcShadows(const int lightNum, const Body *b, std::vector<Shadow> 
 		const vector3d projectedCentre = ( b2pos - perpDist*lightDir ) / bRadius;
 		if (projectedCentre.Length() < 1 + srad + lrad) {
 			// some part of b is (partially) eclipsed
-			Camera::Shadow shadow = { lightNum, projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
+			Camera::Shadow shadow = { projectedCentre, static_cast<float>(srad), static_cast<float>(lrad) };
 			shadowsOut.push_back(shadow);
 		}
 	}

@@ -1,15 +1,13 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _VERTEXARRAY_H
 #define _VERTEXARRAY_H
 
 #include "libs.h"
-#include "graphics/Types.h"
+#include "Types.h"
 
 namespace Graphics {
-
-typedef unsigned int AttributeSet;
 
 /*
  * VertexArray is a multi-purpose vertex container. Users specify
@@ -25,11 +23,11 @@ public:
 	~VertexArray();
 
 	//check presence of an attribute
-	bool HasAttrib(VertexAttrib v) const;
-	unsigned int GetNumVerts() const;
-	AttributeSet GetAttributeSet() const { return m_attribs; }
+	__inline bool HasAttrib(const VertexAttrib v) const	{ return (m_attribs & v) != 0; }
+	__inline size_t GetNumVerts() const { return position.size(); }
+	__inline AttributeSet GetAttributeSet() const { return m_attribs; }
 
-	bool IsEmpty() const { return position.empty(); }
+	__inline bool IsEmpty() const { return position.empty(); }
 
 	//removes vertices, does not deallocate space
 	void Clear();
@@ -37,10 +35,12 @@ public:
 	// don't mix these
 	void Add(const vector3f &v);
 	void Add(const vector3f &v, const Color &c);
-	void Add(const vector3f &v, const Color &c, const vector3f &normal);
+	void Add(const vector3f &v, const Color &c, const vector3f &n);
 	void Add(const vector3f &v, const Color &c, const vector2f &uv);
 	void Add(const vector3f &v, const vector2f &uv);
-	void Add(const vector3f &v, const vector3f &normal, const vector2f &uv);
+	void Add(const vector3f &v, const vector3f &n);
+	void Add(const vector3f &v, const vector3f &n, const vector2f &uv);
+	void Add(const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang);
 	//virtual void Reserve(unsigned int howmuch)
 
 	// don't mix these
@@ -49,14 +49,17 @@ public:
 	void Set(const Uint32 idx, const vector3f &v, const Color &c, const vector3f &normal);
 	void Set(const Uint32 idx, const vector3f &v, const Color &c, const vector2f &uv);
 	void Set(const Uint32 idx, const vector3f &v, const vector2f &uv);
+	void Set(const Uint32 idx, const vector3f &v, const vector3f &n);
 	void Set(const Uint32 idx, const vector3f &v, const vector3f &normal, const vector2f &uv);
+	void Set(const Uint32 idx, const vector3f &v, const vector3f &n, const vector2f &uv, const vector3f &tang);
 
 	//could make these private, but it is nice to be able to
 	//add attributes separately...
-	std::vector<vector3f> position;
-	std::vector<vector3f> normal;
-	std::vector<Color> diffuse;
-	std::vector<vector2f> uv0;
+	std::vector<vector3f>	position;
+	std::vector<vector3f>	normal;
+	std::vector<Color>		diffuse;
+	std::vector<vector2f>	uv0;
+	std::vector<vector3f>	tangent;
 
 private:
 	AttributeSet m_attribs;

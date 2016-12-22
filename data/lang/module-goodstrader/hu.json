@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "{name} & fiai-nál"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Nem sokan kereskednekk azzal amivel mi."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "Tényleg szabad piac."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Elhozzuk a legkevésbé megszokott árúkat önnek!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Hiszünk a korlátozások nélküli piacban."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "Szabályozatlan piac, a szabadságáért."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "Megbízható kereskedő."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Mindig a legjobb árak, csak önnek."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Üdvözöllek"

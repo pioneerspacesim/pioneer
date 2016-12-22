@@ -69,6 +69,12 @@
       <Filter>dummy</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\graphics\Stats.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\graphics\opengl\BillboardMaterial.cpp">
+      <Filter>opengl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\graphics\Drawables.h" />
@@ -163,6 +169,16 @@
       <Filter>dummy</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\graphics\Stats.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\opengl\OpenGLLibs.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\graphics\Types.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\BillboardMaterial.h">
+      <Filter>opengl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="win32">

@@ -1,0 +1,30 @@
+{
+   "model" : "sinonatrix_police",
+   "name" : "Police Sinonatrix",
+   "cockpit" : "",
+   "manufacturer" : "opli",
+   "ship_class" : "light_fighter",
+   "min_crew" : 1,
+   "max_crew" : 2,
+   "price" : 0.0,
+   "hull_mass" : 22,
+   "capacity" : 35,
+   "slots" : {
+      "cargo" : 35,
+      "scoop" : 0,
+      "laser_front" : 1,
+      "missile" : 4,
+      "sensor"  : 8
+   },
+   "effective_exhaust_velocity" : 10000000.0,
+   "thruster_fuel_use" : -1.0,
+   "fuel_tank_mass" : 30,
+   "hyperdrive_class" : 0,
+   "forward_thrust" : 6150000.0,
+   "reverse_thrust" : 1250000.0,
+   "up_thrust" : 1600000.0,
+   "down_thrust" : 1200000.0,
+   "left_thrust" : 1200000.0,
+   "right_thrust" : 1200000.0,
+   "angular_thrust" : 27000000.0
+}

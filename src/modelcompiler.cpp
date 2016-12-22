@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -10,6 +10,7 @@
 
 #include "FileSystem.h"
 #include "GameConfig.h"
+#include "JobQueue.h"
 #include "graphics/dummy/RendererDummy.h"
 #include "graphics/Graphics.h"
 #include "graphics/Light.h"
@@ -28,11 +29,39 @@
 
 std::unique_ptr<GameConfig> s_config;
 std::unique_ptr<Graphics::Renderer> s_renderer;
+std::unique_ptr<AsyncJobQueue> asyncJobQueue;
 
 static const std::string s_dummyPath("");
 
+// fwd decl'
+void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace);
+
+// ********************************************************************************
+// Overloaded PureJob class to handle compiling each model
+// ********************************************************************************
+class CompileJob : public Job
+{
+public:
+	CompileJob() {};
+	CompileJob(const std::string &name, const std::string &path, const bool inPlace)
+		: m_name(name), m_path(path), m_inPlace(inPlace) {}
+
+	virtual void OnRun() override final { RunCompiler(m_name, m_path, m_inPlace); }    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
+	virtual void OnFinish() override final {}
+	virtual void OnCancel() override final {}
+
+protected:
+	std::string	m_name;
+	std::string	m_path;
+	bool		m_inPlace;
+};
+
+// ********************************************************************************
+// functions
+// ********************************************************************************
 void SetupRenderer()
 {
+	PROFILE_SCOPED()
 	s_config.reset(new GameConfig);
 
 	OS::RedirectStdio();
@@ -56,13 +85,24 @@ void SetupRenderer()
 	videoSettings.requestedSamples = s_config->Int("AntiAliasingMode");
 	videoSettings.vsync = false;
 	videoSettings.useTextureCompression = true;
+	videoSettings.useAnisotropicFiltering = true;
 	videoSettings.iconFile = OS::GetIconFilename();
 	videoSettings.title = "Model Compiler";
 	s_renderer.reset(Graphics::Init(videoSettings));
+
+	// get threads up
+	Uint32 numThreads = s_config->Int("WorkerThreads");
+	const int numCores = OS::GetNumCores();
+	assert(numCores > 0);
+	if (numThreads == 0) 
+		numThreads = std::max(Uint32(numCores), 1U); // this is a tool, we can use all of the cores for processing unlike Pioneer
+	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
+	Output("started %d worker threads\n", numThreads);
 }
 
 void RunCompiler(const std::string &modelName, const std::string &filepath, const bool bInPlace)
 {
+	PROFILE_SCOPED()
 	Profiler::Timer timer;
 	timer.Start();
 	Output("\n---\nStarting compiler for (%s)\n", modelName.c_str());
@@ -71,8 +111,14 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 	//and then save it into binary
 	std::unique_ptr<SceneGraph::Model> model;
 	try {
-		SceneGraph::Loader ld(s_renderer.get(), false, false);
+		SceneGraph::Loader ld(s_renderer.get(), true, false);
 		model.reset(ld.LoadModel(modelName));
+		//dump warnings
+		for (std::vector<std::string>::const_iterator it = ld.GetLogMessages().begin();
+			it != ld.GetLogMessages().end(); ++it)
+		{
+			Output("%s\n", (*it).c_str());
+		}
 	} catch (...) {
 		//minimal error handling, this is not expected to happen since we got this far.
 		return;
@@ -91,6 +137,9 @@ void RunCompiler(const std::string &modelName, const std::string &filepath, cons
 }
 
 
+// ********************************************************************************
+// functions
+// ********************************************************************************
 enum RunMode {
 	MODE_MODELCOMPILER=0,
 	MODE_MODELBATCHEXPORT,
@@ -143,6 +192,11 @@ start:
 	
 	// Init here since we'll need it for both batch and RunCompiler modes.
 	FileSystem::Init();
+	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
+#ifdef PIONEER_PROFILER
+	FileSystem::userFiles.MakeDirectory("profiler");
+	const std::string profilerPath = FileSystem::JoinPathBelow(FileSystem::userFiles.GetRoot(), "profiler");
+#endif
 
 	// what mode are we in?
 	switch (mode) {
@@ -207,9 +261,26 @@ start:
 			}
 
 			SetupRenderer();
+#if 1
 			for (auto &modelName : list_model) {
 				RunCompiler(modelName.first, modelName.second, isInPlace);
 			}
+#else
+			std::deque<Job::Handle> handles;
+			for (auto &modelName : list_model) {
+				handles.push_back( asyncJobQueue->Queue(new CompileJob(modelName.first, modelName.second, isInPlace)) );
+			}
+
+			while(true) {
+				asyncJobQueue->FinishJobs();
+				bool hasJobs = false;
+				for(auto &handle : handles) 
+					hasJobs |= handle.HasJob();
+
+				if(!hasJobs)
+					break;
+			}
+#endif
 			break;
 		}
 
@@ -237,6 +308,10 @@ start:
 			);
 			break;
 	}
+
+#ifdef PIONEER_PROFILER
+	Profiler::dumphtml(profilerPath.c_str());
+#endif
 
 	return 0;
 }

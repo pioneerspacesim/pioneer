@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local utils
@@ -204,6 +204,50 @@ utils.inherits = function (baseClass, name)
 	end
 
 	return new_class
+end
+
+utils.print_r = function(t)
+	local print_r_cache={}
+	local function sub_print_r(t,indent,rec_guard)
+		if (print_r_cache[tostring(t)]) then
+			print(indent.."*"..tostring(t))
+		else
+			print_r_cache[tostring(t)]=true
+			if (type(t)=="table") then
+				for pos,val in pairs(t) do
+					local string_pos = tostring(pos)
+					if (type(val)=="table") then
+						print(indent.."["..string_pos.."] => "..tostring(t).." {")
+						sub_print_r(val,indent..string.rep(" ",string.len(string_pos)+8))
+						print(indent..string.rep(" ",string.len(string_pos)+6).."}")
+					elseif (type(val)=="string") then
+						print(indent.."["..string_pos..'] => "'..val..'"')
+					else
+						print(indent.."["..string_pos.."] => "..tostring(val))
+					end
+				end
+			else
+				print(indent..tostring(t))
+			end
+		end
+	end
+	if (type(t)=="table") then
+		print(tostring(t).." {")
+		sub_print_r(t,"  ")
+		print("}")
+	else
+		sub_print_r(t,"  ")
+	end
+	print()
+end
+
+-- Count the number of entries in a table
+utils.count = function(t)
+   local i = 0
+   for _,v in pairs(t) do
+	  i = i + 1
+   end
+   return i
 end
 
 return utils

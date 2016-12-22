@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -73,13 +73,14 @@ bool TextEntry::OnKeyDown(const SDL_Keysym *sym)
 		accepted = true;
 	}
 
-	// XXX deleting characters is not UTF-8 safe
 	if (sym->sym == SDLK_BACKSPACE) {
 		if (m_cursPos > 0) {
 			if (m_text[m_cursPos-1] == '\n')
 				--m_newlineCount;
-			m_text = m_text.substr(0, m_cursPos-1) + m_text.substr(m_cursPos);
-			SetCursorPos(m_cursPos-1);
+			const char *cstr = m_text.c_str();
+			const int len = Text::utf8_prev_char_offset(cstr + m_cursPos, cstr);
+			m_text = m_text.substr(0, m_cursPos-len) + m_text.substr(m_cursPos);
+			SetCursorPos(m_cursPos-len);
 			changed = true;
 		}
 		accepted = true;
@@ -88,7 +89,9 @@ bool TextEntry::OnKeyDown(const SDL_Keysym *sym)
 		if (m_cursPos < signed(m_text.size())) {
 			if (m_text[m_cursPos] == '\n')
 				--m_newlineCount;
-			m_text = m_text.substr(0, m_cursPos) + m_text.substr(m_cursPos+1);
+			const char *cstr = m_text.c_str();
+			const int len = Text::utf8_next_char_offset(cstr + m_cursPos);
+			m_text = m_text.substr(0, m_cursPos) + m_text.substr(m_cursPos+len);
 			changed = true;
 		}
 		accepted = true;
@@ -249,7 +252,7 @@ void TextEntry::Draw()
 		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()) - Gui::Screen::GetFontHeight(m_font.Get()), 0.f),
 		vector3f(curs_x + 1.0f - m_scroll, curs_y + Gui::Screen::GetFontDescender(m_font.Get()), 0.f),
 	};
-	m_cursorLines.SetData(2, &cursorVts[0], Color(128));
+	m_cursorLines.SetData(2, &cursorVts[0], Color(128, 128, 128));
 	m_cursorLines.Draw(pRenderer, Screen::alphaBlendState);
 }
 

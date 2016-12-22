@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Timp minim servit pe navă"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navigator"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Ne pare rău, nu există candidați care să caute de muncă în stația {station}"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "OK, bănuiesc că e în regulă."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Pilot"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Potențialii membrii de echipaj sunt înregistrați ca și forță de muncă la {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Senzori și apărare"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Inginer de Navă"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

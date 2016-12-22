@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIP_H
@@ -52,11 +52,11 @@ class Ship: public DynamicBody {
 	friend class PlayerShipController;
 public:
 	OBJDEF(Ship, DynamicBody, SHIP);
-	Ship(ShipType::Id shipId);
+	Ship(const ShipType::Id &shipId);
 	Ship() {} //default constructor used before Load
 	virtual ~Ship();
 
-	virtual void SetFrame(Frame *f);
+	virtual void SetFrame(Frame *f) override;
 
 	void SetController(ShipController *c); //deletes existing
 	ShipController *GetController() const { return m_controller; }
@@ -69,7 +69,7 @@ public:
 
 	virtual void SetLandedOn(Planet *p, float latitude, float longitude);
 
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
 	void SetThrusterState(int axis, double level) {
 		if (m_thrusterFuel <= 0.f) level = 0.0;
@@ -99,16 +99,16 @@ public:
 	virtual bool SetWheelState(bool down); // returns success of state change, NOT state itself
 	void Blastoff();
 	bool Undock();
-	virtual void TimeStepUpdate(const float timeStep);
-	virtual void StaticUpdate(const float timeStep);
+	virtual void TimeStepUpdate(const float timeStep) override;
+	virtual void StaticUpdate(const float timeStep) override;
 
 	void TimeAccelAdjust(const float timeStep);
 	void SetDecelerating(bool decel) { m_decelerating = decel; }
 	bool IsDecelerating() const { return m_decelerating; }
 
-	virtual void NotifyRemoved(const Body* const removedBody);
-	virtual bool OnCollision(Object *o, Uint32 flags, double relVel);
-	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData);
+	virtual void NotifyRemoved(const Body* const removedBody) override;
+	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
+	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
 
 	enum FlightState { // <enum scope='Ship' name=ShipFlightState public>
 		FLYING,     // open flight (includes autopilot)
@@ -128,7 +128,7 @@ public:
 
 	LuaRef GetEquipSet() const { return m_equipSet; }
 
-	virtual bool IsInSpace() const { return (m_flightState != HYPERSPACE); }
+	virtual bool IsInSpace() const override { return (m_flightState != HYPERSPACE); }
 
 	void SetHyperspaceDest(const SystemPath &dest) { m_hyperspace.dest = dest; }
 	const SystemPath &GetHyperspaceDest() const { return m_hyperspace.dest; }
@@ -181,7 +181,6 @@ public:
 	double AIFaceUpdir(const vector3d &updir, double av=0);
 	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
-	double AITravelTime(const vector3d &reldir, double targdist, const vector3d &relvel, double endspeed, double maxdecel);
 
 	// old stuff, deprecated
 	void AIAccelToModelRelativeVelocity(const vector3d &v);
@@ -210,7 +209,7 @@ public:
 
 	void AIBodyDeleted(const Body* const body) {};		// todo: signals
 
-	virtual void PostLoadFixup(Space *space);
+	virtual void PostLoadFixup(Space *space) override;
 
 	const ShipType *GetShipType() const { return m_type; }
 	virtual void SetShipType(const ShipType::Id &shipId);
@@ -218,7 +217,9 @@ public:
 	const SceneGraph::ModelSkin &GetSkin() const { return m_skin; }
 	void SetSkin(const SceneGraph::ModelSkin &skin);
 
-	void SetLabel(const std::string &label);
+	void SetPattern(unsigned int num);
+
+	void SetLabel(const std::string &label) override;
 	void SetShipName(const std::string &shipName);
 
 	float GetPercentShields() const;
@@ -248,6 +249,7 @@ public:
 
 	sigc::signal<void> onDock;				// JJ: check what these are for
 	sigc::signal<void> onUndock;
+	sigc::signal<void> onLanded;
 
 	// mutable because asking to know when state changes is not the same as
 	// actually changing state
@@ -264,9 +266,8 @@ public:
 	double GetLandingPosOffset() const { return m_landingMinOffset; }
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
-	void RenderLaserfire();
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 	bool AITimeStep(float timeStep); // Called by controller. Returns true if complete
 
@@ -298,7 +299,6 @@ private:
 	void DoThrusterSounds() const;
 	void FireWeapon(int num);
 	void Init();
-	bool IsFiringLasers();
 	void TestLanded();
 	void UpdateAlertState();
 	void UpdateFuel(float timeStep, const vector3d &thrust);

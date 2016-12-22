@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -31,7 +31,6 @@
 #include <algorithm>
 
 static const float TONS_HULL_PER_SHIELD = 10.f;
-static const double KINETIC_ENERGY_MULT	= 0.01;
 HeatGradientParameters_t Ship::s_heatGradientParams;
 const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
@@ -240,7 +239,7 @@ void Ship::InitMaterials()
 	const Uint32 numMats = pModel->GetNumMaterials();
 	for( Uint32 m=0; m<numMats; m++ ) {
 		RefCountedPtr<Graphics::Material> mat = pModel->GetMaterialByIndex(m);
-		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.png").GetOrCreateTexture(Pi::renderer, "model");
+		mat->heatGradient = Graphics::TextureBuilder::Decal("textures/heat_gradient.dds").GetOrCreateTexture(Pi::renderer, "model");
 		mat->specialParameter0 = &s_heatGradientParams;
 	}
 	s_heatGradientParams.heatingAmount = 0.0f;
@@ -296,14 +295,14 @@ void Ship::PostLoadFixup(Space *space)
 	m_controller->PostLoadFixup(space);
 }
 
-Ship::Ship(ShipType::Id shipId): DynamicBody(),
+Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
+	m_flightState(FLYING),
+	m_alertState(ALERT_NONE),
 	m_controller(0),
 	m_thrusterFuel(1.0),
 	m_reserveFuel(0.0),
 	m_landingGearAnimation(nullptr)
 {
-	m_flightState = FLYING;
-	m_alertState = ALERT_NONE;
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
@@ -316,7 +315,7 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_launchLockTimeout = 0;
 	m_wheelTransition = 0;
 	m_wheelState = 0;
-	m_dockedWith = 0;
+	m_dockedWith = nullptr;
 	m_dockedWithPort = 0;
 	SetShipId(shipId);
 	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
@@ -342,7 +341,8 @@ Ship::Ship(ShipType::Id shipId): DynamicBody(),
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetDecal(m_type->manufacturer);
 	m_skin.Apply(GetModel());
-	GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()));
+	if(GetModel()->SupportsPatterns())
+		GetModel()->SetPattern(Pi::rng.Int32(0, GetModel()->GetNumPatterns()-1));
 
 	Init();
 	SetController(new ShipController());
@@ -434,18 +434,12 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 			if (attacker) {
 				if (attacker->IsType(Object::BODY))
 					LuaEvent::Queue("onShipDestroyed", this, dynamic_cast<Body*>(attacker));
-
-				if (attacker->IsType(Object::SHIP))
-					Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_MURDER);
 			}
 
 			Explode();
 		} else {
-			if (attacker && attacker->IsType(Object::SHIP))
-				Polit::NotifyOfCrime(static_cast<Ship*>(attacker), Polit::CRIME_PIRACY);
-
 			if (Pi::rng.Double() < kgDamage)
-				Sfx::Add(this, Sfx::TYPE_DAMAGE);
+				SfxManager::Add(this, TYPE_DAMAGE);
 
 			if (dam < 0.01 * float(GetShipType()->hullMass))
 				Sound::BodyMakeNoise(this, "Hull_hit_Small", 1.0f);
@@ -474,7 +468,7 @@ bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 			Pi::game->GetSpace()->KillBody(dynamic_cast<Body*>(b));
 			if (this->IsType(Object::PLAYER))
 				Pi::game->log->Add(stringf(Lang::CARGO_SCOOP_ACTIVE_1_TONNE_X_COLLECTED, formatarg("item", ScopedTable(item).CallMethod<std::string>("GetName"))));
-			// XXX Sfx::Add(this, Sfx::TYPE_SCOOP);
+			// XXX SfxManager::Add(this, TYPE_SCOOP);
 			UpdateEquipStats();
 			return true;
 		}
@@ -516,7 +510,7 @@ void Ship::Explode()
 
 	Pi::game->GetSpace()->KillBody(this);
 	if (this->GetFrame() == Pi::player->GetFrame()) {
-		Sfx::AddExplosion(this, Sfx::TYPE_EXPLOSION);
+		SfxManager::AddExplosion(this);
 		Sound::BodyMakeNoise(this, "Explosion_1", 1.0f);
 	}
 	ClearThrusterState();
@@ -535,20 +529,25 @@ void Ship::SetThrusterState(const vector3d &levels)
 
 void Ship::SetAngThrusterState(const vector3d &levels)
 {
-	m_angThrusters.x = Clamp(levels.x, -1.0, 1.0);
-	m_angThrusters.y = Clamp(levels.y, -1.0, 1.0);
-	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
+	unsigned int thruster_power_cap = 0;
+	Properties().Get("thruster_power_cap", thruster_power_cap);
+	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
+
+	m_angThrusters.x = Clamp(levels.x, -1.0, 1.0) * power_mul;
+	m_angThrusters.y = Clamp(levels.y, -1.0, 1.0) * power_mul;
+	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0) * power_mul;
 }
 
 vector3d Ship::GetMaxThrust(const vector3d &dir) const
 {
+	unsigned int thruster_power_cap = 0;
+	Properties().Get("thruster_power_cap", thruster_power_cap);
+	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
+
 	vector3d maxThrust;
-	maxThrust.x = (dir.x > 0) ? m_type->linThrust[ShipType::THRUSTER_RIGHT]
-		: -m_type->linThrust[ShipType::THRUSTER_LEFT];
-	maxThrust.y = (dir.y > 0) ? m_type->linThrust[ShipType::THRUSTER_UP]
-		: -m_type->linThrust[ShipType::THRUSTER_DOWN];
-	maxThrust.z = (dir.z > 0) ? m_type->linThrust[ShipType::THRUSTER_REVERSE]
-		: -m_type->linThrust[ShipType::THRUSTER_FORWARD];
+	maxThrust.x = ((dir.x > 0) ? m_type->linThrust[ShipType::THRUSTER_RIGHT]	: -m_type->linThrust[ShipType::THRUSTER_LEFT]	) * power_mul;
+	maxThrust.y = ((dir.y > 0) ? m_type->linThrust[ShipType::THRUSTER_UP]		: -m_type->linThrust[ShipType::THRUSTER_DOWN]	) * power_mul;
+	maxThrust.z = ((dir.z > 0) ? m_type->linThrust[ShipType::THRUSTER_REVERSE]	: -m_type->linThrust[ShipType::THRUSTER_FORWARD]) * power_mul;
 	return maxThrust;
 }
 
@@ -788,6 +787,7 @@ void Ship::TestLanded()
 				SetFlightState(LANDED);
 				Sound::BodyMakeNoise(this, "Rough_Landing", 1.0f);
 				LuaEvent::Queue("onShipLanded", this, GetFrame()->GetBody());
+				onLanded.emit();
 			}
 		}
 	}
@@ -809,6 +809,7 @@ void Ship::SetLandedOn(Planet *p, float latitude, float longitude)
 	ClearThrusterState();
 	SetFlightState(LANDED);
 	LuaEvent::Queue("onShipLanded", this, p);
+	onLanded.emit();
 }
 
 void Ship::SetFrame(Frame *f)
@@ -822,9 +823,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// If docked, station is responsible for updating position/orient of ship
 	// but we call this crap anyway and hope it doesn't do anything bad
 
-	vector3d maxThrust = GetMaxThrust(m_thrusters);
-	vector3d thrust = vector3d(maxThrust.x*m_thrusters.x, maxThrust.y*m_thrusters.y,
-		maxThrust.z*m_thrusters.z);
+	const vector3d thrust(m_thrusters * GetMaxThrust(m_thrusters));
 	AddRelForce(thrust);
 	AddRelTorque(GetShipType()->angThrust * m_angThrusters);
 
@@ -931,7 +930,6 @@ void Ship::FireWeapon(int num)
 		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos, baseVel, dirVel);
 	}
 
-	Polit::NotifyOfCrime(this, Polit::CRIME_WEAPON_DISCHARGE);
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 	lua_pop(prop.GetLua(), 1);
 	LuaEvent::Queue("onShipFiring", this);
@@ -964,10 +962,10 @@ void Ship::SetAlertState(AlertState as)
 
 void Ship::UpdateAlertState()
 {
-	// no alerts if no scanner
-	int scanner_cap = 0;
-	Properties().Get("scanner_cap", scanner_cap);
-	if (scanner_cap <= 0) {
+	// no alerts if no radar
+	int radar_cap = 0;
+	Properties().Get("radar_cap", radar_cap);
+	if (radar_cap <= 0) {
 		// clear existing alert state if there was one
 		if (GetAlertState() != ALERT_NONE) {
 			SetAlertState(ALERT_NONE);
@@ -1246,15 +1244,23 @@ void Ship::StaticUpdate(const float timeStep)
 				m_hyperspace.countdown = 0;
 				m_hyperspace.now = true;
 				SetFlightState(JUMPING);
+
+				// We have to fire it here, because the event isn't actually fired until
+				// after the whole physics update, which means the flight state on next
+				// step would be HYPERSPACE, thus breaking quite a few things.
+				LuaEvent::Queue("onLeaveSystem", this);
 			}
 		}
 	}
 
 	//Add smoke trails for missiles on thruster state
-	if (m_type->tag == ShipType::TAG_MISSILE && m_thrusters.z < 0.0 && 0.1*Pi::rng.Double() < timeStep) {
+	static double s_timeAccum = 0.0;
+	s_timeAccum += timeStep;
+	if (m_type->tag == ShipType::TAG_MISSILE && !is_equal_exact(m_thrusters.LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
+		s_timeAccum = 0.0;
 		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		const float speed = std::min(10.0*GetVelocity().Length()*abs(m_thrusters.z),100.0);
-		Sfx::AddThrustSmoke(this, Sfx::TYPE_SMOKE, speed, pos);
+		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(m_thrusters.z)),100.0);
+		SfxManager::AddThrustSmoke(this, speed, pos);
 	}
 }
 
@@ -1321,7 +1327,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	RenderModel(renderer, camera, viewCoords, viewTransform);
-
+	m_navLights->Render(renderer);
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 
 	if (m_ecmRecharge > 0.0f) {
@@ -1339,7 +1345,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 			c.a = (m_ecmRecharge / totalRechargeTime) * 255;
 		}
 
-		Sfx::ecmParticle->diffuse = c;
+		SfxManager::ecmParticle->diffuse = c;
 
 		matrix4x4f t;
 		for (int i=0; i<12; i++) t[i] = float(viewTransform[i]);
@@ -1349,7 +1355,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 		t[15] = 1.0f;
 
 		renderer->SetTransform(t);
-		renderer->DrawPointSprites(100, v, Sfx::additiveAlphaState, Sfx::ecmParticle.get(), 50.f);
+		renderer->DrawPointSprites(100, v, SfxManager::additiveAlphaState, SfxManager::ecmParticle.get(), 50.f);
 	}
 }
 
@@ -1367,6 +1373,7 @@ bool Ship::SpawnCargo(CargoBody * c_body) const
 void Ship::EnterHyperspace() {
 	assert(GetFlightState() != Ship::HYPERSPACE);
 
+	// Is it still a good idea, with the onLeaveSystem moved elsewhere?
 	Ship::HyperjumpStatus status = CheckHyperjumpCapability();
 	if (status != HYPERJUMP_OK && status != HYPERJUMP_INITIATED) {
 		if (m_flightState == JUMPING)
@@ -1376,8 +1383,6 @@ void Ship::EnterHyperspace() {
 
 	// Clear ships cached list of nearby bodies so we don't try to access them.
 	m_nearbyBodies.clear();
-
-	LuaEvent::Queue("onLeaveSystem", this);
 
 	SetFlightState(Ship::HYPERSPACE);
 
@@ -1455,6 +1460,11 @@ void Ship::SetSkin(const SceneGraph::ModelSkin &skin)
 {
 	m_skin = skin;
 	m_skin.Apply(GetModel());
+}
+
+void Ship::SetPattern(const unsigned int num)
+{
+	GetModel()->SetPattern(num);
 }
 
 Uint8 Ship::GetRelations(Body *other) const

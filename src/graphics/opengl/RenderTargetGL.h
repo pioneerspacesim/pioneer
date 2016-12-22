@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _OGL_RENDERTARGET_H
@@ -8,6 +8,7 @@
  * In theory you should use one texture format and size per FBO
  * 2013-May-05 left out stencil buffer because we don't need it now
  */
+#include "OpenGLLibs.h"
 #include "graphics/RenderTarget.h"
 
 namespace Graphics {
@@ -36,8 +37,9 @@ public:
 	~RenderTarget();
 	virtual Texture *GetColorTexture() const;
 	virtual Texture *GetDepthTexture() const;
-	virtual void SetColorTexture(Texture*);
-	virtual void SetDepthTexture(Texture*);
+	virtual void SetCubeFaceTexture(const Uint32 face, Texture* t) final;
+	virtual void SetColorTexture(Texture*) final;
+	virtual void SetDepthTexture(Texture*) final;
 
 protected:
 	friend class Graphics::RendererOGL;

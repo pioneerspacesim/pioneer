@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _GEOPATCHJOBS_H
@@ -15,6 +15,8 @@
 
 class GeoSphere;
 
+#define BORDER_SIZE 1
+
 class SBaseRequest {
 public:
 	SBaseRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
@@ -26,7 +28,6 @@ public:
 	{
 	}
 
-	inline int NUMVERTICES() const { return edgeLen*edgeLen; }
 	inline int NUMVERTICES(const int el) const { return el*el; }
 
 	const vector3d v0, v1, v2, v3;
@@ -40,8 +41,7 @@ public:
 
 protected:
 	// deliberately prevent copy constructor access
-	SBaseRequest(const SBaseRequest &r) : v0(0.0), v1(0.0), v2(0.0), v3(0.0), centroid(0.0), depth(0), 
-		patchID(0), edgeLen(0), fracStep(0.0), pTerrain(NULL) { assert(false); }
+	SBaseRequest(const SBaseRequest &r) = delete;
 };
 
 class SQuadSplitRequest : public SBaseRequest {
@@ -52,16 +52,15 @@ public:
 		: SBaseRequest(v0_, v1_, v2_, v3_, cn, depth_, sysPath_, patchID_, edgeLen_, fracStep_, pTerrain_)
 	{
 		const int numVerts = NUMVERTICES(edgeLen_);
-		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
 		for( int i=0 ; i<4 ; ++i )
 		{
 			heights[i] = new double[numVerts];
 			normals[i] = new vector3f[numVerts];
 			colors[i] = new Color3ub[numVerts];
-
-			borderHeights[i].reset(new double[numBorderedVerts]);
-			borderVertexs[i].reset(new vector3d[numBorderedVerts]);
 		}
+		const int numBorderedVerts = NUMVERTICES((edgeLen_*2)+(BORDER_SIZE*2)-1);
+		borderHeights.reset(new double[numBorderedVerts]);
+		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
 
 	// these are created with the request and are given to the resulting patches
@@ -70,12 +69,12 @@ public:
 	double *heights[4];
 
 	// these are created with the request but are destroyed when the request is finished
-	std::unique_ptr<double[]> borderHeights[4];
-	std::unique_ptr<vector3d[]> borderVertexs[4];
+	std::unique_ptr<double[]> borderHeights;
+	std::unique_ptr<vector3d[]> borderVertexs;
 
 protected:
 	// deliberately prevent copy constructor access
-	SQuadSplitRequest(const SQuadSplitRequest &r) : SBaseRequest(r)	{ assert(false); }
+	SQuadSplitRequest(const SQuadSplitRequest &r) = delete;
 };
 
 class SSingleSplitRequest : public SBaseRequest {
@@ -90,7 +89,7 @@ public:
 		normals = new vector3f[numVerts];
 		colors = new Color3ub[numVerts];
 		
-		const int numBorderedVerts = NUMVERTICES(edgeLen_+2);
+		const int numBorderedVerts = NUMVERTICES(edgeLen_+(BORDER_SIZE*2));
 		borderHeights.reset(new double[numBorderedVerts]);
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
 	}
@@ -106,7 +105,7 @@ public:
 
 protected:
 	// deliberately prevent copy constructor access
-	SSingleSplitRequest(const SSingleSplitRequest &r) : SBaseRequest(r)	{ assert(false); }
+	SSingleSplitRequest(const SSingleSplitRequest &r) = delete;
 };
 
 class SBaseSplitResult {
@@ -215,17 +214,6 @@ public:
 	virtual void OnRun() {}    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	virtual void OnFinish() {}
 	virtual void OnCancel() {}
-
-protected:
-	// in patch surface coords, [0,1]
-	inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3, const double x, const double y) const {
-		return (v0 + x*(1.0-y)*(v1-v0) + x*y*(v2-v0) + (1.0-x)*y*(v3-v0)).Normalized();
-	}
-
-	// Generates full-detail vertices, and also non-edge normals and colors 
-	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
-		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
-		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
 };
 
 // ********************************************************************************
@@ -241,6 +229,11 @@ public:
 	virtual void OnFinish();   // runs in primary thread of the context
 
 private:
+	// Generates full-detail vertices, and also non-edge normals and colors 
+	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
+		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
+		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+
 	std::unique_ptr<SSingleSplitRequest> mData;
 	SSingleSplitResult *mpResults;
 };
@@ -258,6 +251,15 @@ public:
 	virtual void OnFinish();   // runs in primary thread of the context
 
 private:
+	// Generates full-detail vertices, and also non-edge normals and colors 
+	void GenerateBorderedData(double *borderHeights, vector3d *borderVertexs,
+		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
+		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
+	
+	void GenerateSubPatchData(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
+		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
+		const int edgeLen, const int xoff, const int yoff, const int borderedEdgeLen, const double fracStep, const Terrain *pTerrain) const;
+
 	std::unique_ptr<SQuadSplitRequest> mData;
 	SQuadSplitResult *mpResults;
 };

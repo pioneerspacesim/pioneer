@@ -9,7 +9,7 @@
    },
    "BODIES" : {
       "description" : "",
-      "message" : "lichamen"
+      "message" : "hemellichamen"
    },
    "BODY" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "EXPLORING_SYSTEM" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "Verken stelsel met {bodycount} {bodies}."
    },
    "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
       "description" : "",

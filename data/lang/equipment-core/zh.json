@@ -1,11 +1,11 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "高级雷达绘图仪"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Advanced target scanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "远距离雷达绘图仪可以覆盖星系的大部分区域."
+      "message" : "Long range target scanner with system wide coverage."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
@@ -17,7 +17,7 @@
    },
    "AUTOPILOT" : {
       "description" : "",
-      "message" : "自动飞行仪"
+      "message" : "自动驾驶"
    },
    "AUTOPILOT_DESCRIPTION" : {
       "description" : "",
@@ -90,6 +90,26 @@
    "DRIVE_MIL4" : {
       "description" : "",
       "message" : "等级 4 军用推进器"
+   },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Class 5 Military drive"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Class 6 Military drive"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Class 7 Military drive"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Class 8 Military drive"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Class 9 Military drive"
    },
    "ECM_ADVANCED" : {
       "description" : "",
@@ -179,6 +199,10 @@
       "description" : "",
       "message" : "Max scan range exceeded:"
    },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passenger cabin"
+   },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
       "message" : "Body scan"
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "2MW 速射脉冲加农炮"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "雷达绘图仪"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "用于远距离探测其他飞船的装备,货仓和状态信息."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "扫描仪"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "提供附近飞船的3D地图"
    },
@@ -263,11 +279,43 @@
       "description" : "",
       "message" : "Starting scan, target distance is"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "贸易分析器"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Target Scanner"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "用于远距离探测其他飞船的装备,货仓和状态信息."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Modified Thrusters"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "A modified type of thrusters approved for your ship."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Bespoke Thrusters"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Custom made thrusters that provide the best possible output."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Optimised Thrusters"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Trade Computer"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "显示当前星系与已选星系间有贸易价值的商品"
    },

@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "Nu vei andoca azi!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Taxi"
@@ -582,6 +586,10 @@
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
       "message" : "Voi fi în pericol?"
+   },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "Numele sistemului este corect, dar nu și coordonatele."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

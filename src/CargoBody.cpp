@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Ship.h"
@@ -93,7 +93,7 @@ void CargoBody::TimeStepUpdate(const float timeStep)
 		m_selfdestructTimer -= timeStep;
 		if (m_selfdestructTimer <= 0){
 			Pi::game->GetSpace()->KillBody(this);
-			Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+			SfxManager::Add(this, TYPE_EXPLOSION);
 		}
 	}
 	DynamicBody::TimeStepUpdate(timeStep);
@@ -104,7 +104,7 @@ bool CargoBody::OnDamage(Object *attacker, float kgDamage, const CollisionContac
 	m_hitpoints -= kgDamage*0.001f;
 	if (m_hitpoints < 0) {
 		Pi::game->GetSpace()->KillBody(this);
-		Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+		SfxManager::Add(this, TYPE_EXPLOSION);
 	}
 	return true;
 }

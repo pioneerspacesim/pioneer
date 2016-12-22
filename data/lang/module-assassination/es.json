@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Regrese aquí cuando el contrato se cumpla y se le efectuará el pago."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Establecer como objetivo de navegación"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Establecer ruta de retorno"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Nave:"

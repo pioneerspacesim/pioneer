@@ -9,7 +9,7 @@
    },
    "AFTER_TRADE_IN" : {
       "description" : "",
-      "message" : "+ цена вашего корпуса"
+      "message" : "С учётом вашего судна"
    },
    "ALLEGIANCE" : {
       "description" : "",
@@ -65,11 +65,11 @@
    },
    "CABIN_FREE" : {
       "description" : "Free capacity for passengers",
-      "message" : "свободно"
+      "message" : "{amount} свободно"
    },
    "CABIN_USED" : {
       "description" : "Passengers using cabins",
-      "message" : "используется"
+      "message" : "{amount} используется"
    },
    "CANCEL" : {
       "description" : "",
@@ -121,7 +121,7 @@
    },
    "CIRCULAR_ORBIT_SPEED" : {
       "description" : "",
-      "message" : "Скорость круговой орбиты"
+      "message" : "Круговая скорость орбиты"
    },
    "CITY_DETAIL_LEVEL" : {
       "description" : "Game graphics option",
@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Торговый центр"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Компактный сканер"
+      "message" : "Компактный радар"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -165,7 +165,15 @@
    },
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
-      "message" : "Сжатие текстур"
+      "message" : "Сжимать текстуры"
+   },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Подтвердить покупку"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Подтвердить продажу"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -189,7 +197,7 @@
    },
    "CREDIBLE" : {
       "description" : "For player reputation",
-      "message" : "Значимый"
+      "message" : "Заслуживающий доверия"
    },
    "CREW_CABINS" : {
       "description" : "",
@@ -200,7 +208,7 @@
       "message" : "Список экипажа"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Досье"
    },
    "DANGEROUS" : {
@@ -241,7 +249,7 @@
    },
    "DISPLAY_HUD_TRAILS" : {
       "description" : "",
-      "message" : "Отображать тоннель в HUD"
+      "message" : "Отображать HUD-тоннель"
    },
    "DISPLAY_NAV_TUNNELS" : {
       "description" : "Settings option: hyperspace tunnel effect",
@@ -258,6 +266,10 @@
    "DUE" : {
       "description" : "mission deadline date",
       "message" : "Сроки"
+   },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Сбрасывание"
    },
    "D_DAYS_LEFT" : {
       "description" : "",
@@ -278,6 +290,14 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Занятость"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Анизотропная фильтрация"
+   },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Включить автосохранение"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -309,7 +329,7 @@
    },
    "ESCAPE_SPEED" : {
       "description" : "",
-      "message" : "Скорость отдаления:"
+      "message" : "Параболическая скорость:"
    },
    "EXIT_THIS_GAME" : {
       "description" : "",
@@ -345,7 +365,7 @@
    },
    "FRACTAL_DETAIL" : {
       "description" : "",
-      "message" : "Детализация частиц"
+      "message" : "Фрактальная детализация"
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
@@ -365,7 +385,7 @@
    },
    "FUEL_WEIGHT" : {
       "description" : "",
-      "message" : "Количество топлива"
+      "message" : "Масса топлива"
    },
    "FULL_SCREEN" : {
       "description" : "",
@@ -409,7 +429,7 @@
    },
    "HEAVY_PASSENGER_SHUTTLE" : {
       "description" : "",
-      "message" : "Тяжёлый пассажирский шаттл"
+      "message" : "Тяжёлый пассажирский челнок"
    },
    "HEAVY_PASSENGER_TRANSPORT" : {
       "description" : "",
@@ -445,7 +465,11 @@
    },
    "HYPERSPACE_RANGE" : {
       "description" : "",
-      "message" : "Возможный радиус прыжка"
+      "message" : "Дальность гиперпрыжка"
+   },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Совершение рискованного гиперпрыжка"
    },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
@@ -462,6 +486,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Неопытный"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Недостаточно финансов."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -481,11 +509,11 @@
    },
    "ITS_BEEN_GREAT_WORKING_FOR_YOU_IF_YOU_NEED_ME_AGAIN_ILL_BE_HERE_A_WHILE" : {
       "description" : "",
-      "message" : "Работать на вас было одним удовольствием. Если вновь захотите меня нанять - некоторое время я буду здесь."
+      "message" : "Было приятно поработать на вас. Если я вам понадоблюсь снова, то я еще побуду здесь."
    },
    "JETTISON" : {
       "description" : "",
-      "message" : "Выбросить груз"
+      "message" : "Сброс груза"
    },
    "KILLS" : {
       "description" : "",
@@ -551,6 +579,10 @@
       "description" : "",
       "message" : "Информационный центр"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Ориона"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Положение: {distance}км от центра {name}:"
@@ -577,11 +609,11 @@
    },
    "MARKET_BUYLINE" : {
       "description" : "",
-      "message" : "Buy {amount} units for {price}"
+      "message" : "Купить {amount} ед. за {price}"
    },
    "MARKET_SELLINE" : {
       "description" : "",
-      "message" : "Sell {amount} units for {price}"
+      "message" : "Продать {amount} ед. за {price}"
    },
    "MASS" : {
       "description" : "",
@@ -641,7 +673,7 @@
    },
    "MINIMUM_CREW" : {
       "description" : "",
-      "message" : "Минимум экипажа"
+      "message" : "Минимальный экипаж"
    },
    "MISSILE_MOUNTS" : {
       "description" : "",
@@ -653,7 +685,7 @@
    },
    "MISSION_DETAILS" : {
       "description" : "",
-      "message" : "Детали миссии"
+      "message" : "Подробности миссии"
    },
    "MORE_INFO" : {
       "description" : "",
@@ -677,7 +709,7 @@
    },
    "MUTE" : {
       "description" : "",
-      "message" : "Отключить"
+      "message" : "Заглушить"
    },
    "NAME_OBJECT" : {
       "description" : "For an item or object",
@@ -691,9 +723,13 @@
       "description" : "",
       "message" : "Навигация:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Навигатор"
+   },
    "NEGOTIATE" : {
       "description" : "",
-      "message" : "Условия"
+      "message" : "Обсудить условия"
    },
    "NEXT_PAID" : {
       "description" : "",
@@ -711,6 +747,14 @@
       "description" : "",
       "message" : "<отсутствует>"
    },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Не подлежит продаже на этой станции."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Лебедя"
+   },
    "NOTES" : {
       "description" : "",
       "message" : "Примечание:"
@@ -721,7 +765,7 @@
    },
    "NOT_SUPPORTED_ON_THIS_SHIP" : {
       "description" : "",
-      "message" : "{equipment} невозможно установить на данной модели корабля"
+      "message" : "{equipment} неподдерживается на данной модели корабля"
    },
    "NO_MISSIONS" : {
       "description" : "",
@@ -733,7 +777,7 @@
    },
    "N_OCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "Занятых пассажирских кают {quantity}"
+      "message" : "{quantity} пассажирских кают занято"
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
@@ -741,7 +785,7 @@
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
-      "message" : "Свободных пассажирских кают {quantity}"
+      "message" : "{quantity} Свободных Пассажирских Кают"
    },
    "OFF" : {
       "description" : "",
@@ -750,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "Хорошо"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Папка пользователя"
    },
    "OPTIONS" : {
       "description" : "",
@@ -765,7 +813,15 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Круговая орбитальная скорость дана для тангенциальной скорости. Корабль должен двигаться под 90В° к оси корабля/{name}.\n\nСкорость снижения - минимальная и тангенциальная. Наиболее низка скорость или минимальный угол, которые приведут к пересечению с поверхностью {name}.\n\nСкорость отдаления - теоретическая для любого направления, на котором корабль не пересечется с поверхностью {name}.\n\t\t"
+      "message" : "Круговая скорость орбиты выражает тангенциальную скорость. Корабль должен двигаться в направлении 90° к оси корабля-{name}.\n\nСкорость снижения это абсолютный минимум скорости, так-же являющейся тангенциальной. Меньшая скорость или меньший угол приведут к пересечению с поверхностью {name}.\n\nПараболическая скорость теоретически будет справедлива для любого направления, до тех пор пока корабль не пересекается с поверхностью {name}."
+   },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Внешний рукав"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Неоплаченные штрафы"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -775,9 +831,17 @@
       "description" : "",
       "message" : "Оплатить штраф в размере {amount}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Персея"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Персональная информация"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Пилот"
    },
    "PILOTING" : {
       "description" : "",
@@ -793,7 +857,7 @@
    },
    "PLANET_DETAIL_DISTANCE" : {
       "description" : "",
-      "message" : "Детализация планет на расстоянии"
+      "message" : "Расстояние детализации планет"
    },
    "PLANET_TEXTURES" : {
       "description" : "",
@@ -823,6 +887,10 @@
       "description" : "For player reputation",
       "message" : "Профессионал"
    },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Откачать"
+   },
    "QUALIFICATION_SCORES" : {
       "description" : "",
       "message" : "Оценка квалификации"
@@ -849,7 +917,7 @@
    },
    "REFUEL" : {
       "description" : "",
-      "message" : "Дозаправить"
+      "message" : "Закачать"
    },
    "REFUEL_FULL" : {
       "description" : "",
@@ -871,6 +939,10 @@
       "description" : "",
       "message" : "Запрос на взлёт"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Сброс"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Вернуться к игре"
@@ -891,6 +963,10 @@
       "description" : "",
       "message" : "Награда"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Стрельца"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Сохранить игру"
@@ -898,6 +974,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Крепления для заборника"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав Центавра"
    },
    "SELECT" : {
       "description" : "",
@@ -923,9 +1003,21 @@
       "description" : "",
       "message" : "Сенсоры:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Сенсоры и защита"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Установить пункт назначения как цель для навигации."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Корабль"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Корабельный инженер"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -955,6 +1047,10 @@
       "description" : "",
       "message" : "Корабль, который вы смотрели, был продан"
    },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Моделируем эволюцию вселенной: {age} млрд. лет ;-)"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Звук"
@@ -973,7 +1069,7 @@
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
-      "message" : "Density of Star field"
+      "message" : "Плотность звёздного поля"
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -983,17 +1079,29 @@
       "description" : "",
       "message" : "Статус"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "Эта станция имеет сертификацию {tech_level} технологического уровня."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "This installation holds a military technology clearance."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
-      "message" : "Спасибо за покупку! Перед взлётом не забудьте заправить баки и отремонтировать повреждённое оборудование."
+      "message" : "Спасибо за покупку! Перед взлётом не забудьте оборудовать корабль и заправиться топливом."
    },
    "THERE_IS_NOBODY_ELSE_ON_BOARD_ABLE_TO_FLY_THIS_SHIP" : {
       "description" : "",
-      "message" : "Больше никто на борту не умеет управлять этим кораблем."
+      "message" : "На борту никого нет способного летать на этом корабле."
    },
    "THE_SHIP_IS_UNDER_STATION_CONTROL_COMMANDER" : {
       "description" : "",
       "message" : "Корабль под контролем станции, Командир."
+   },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Рукав в 3 кпк от центра"
    },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
@@ -1003,13 +1111,17 @@
       "description" : "",
       "message" : "Корабль слишком мал для вашей команды."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Корабль слишком мал для погрузки вашего груза."
+   },
    "TOTAL" : {
       "description" : "",
       "message" : "Всего: "
    },
    "TOTAL_MASS" : {
       "description" : "",
-      "message" : "Общая"
+      "message" : "Общая масса"
    },
    "TRADING_ILLEGAL_GOODS" : {
       "description" : "",
@@ -1025,7 +1137,7 @@
    },
    "UNLAWFUL_WEAPONS_DISCHARGE" : {
       "description" : "",
-      "message" : "Стрельба в зоне станции"
+      "message" : "Незаконное применение орудия"
    },
    "UNRELIABLE" : {
       "description" : "",
@@ -1083,6 +1195,10 @@
       "description" : "Said by the police to law abiding player",
       "message" : "Ваш правовой статус чист. Всего доброго, Командир!"
    },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} нельзя допускать здесь!"
+   },
    "YES" : {
       "description" : "Positive answer to a question",
       "message" : "Да"
@@ -1099,24 +1215,32 @@
       "description" : "",
       "message" : "У вас недостаточно средств для совершения этой операции."
    },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "В грузовом отсеке имеется {units} единиц "
+   },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала вы должны указать боевую цель."
+      "message" : "Сначала вы должны указать боевую цель, Командир."
    },
    "YOU_MUST_FIRST_SELECT_A_SUITABLE_NAVIGATION_TARGET_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала вы должны указать цель навигации."
+      "message" : "Сначала вы должны указать навигационную цель, Командир."
    },
    "YOU_MUST_LAUNCH_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала мы должны взлететь."
+      "message" : "Сначала вы должны взлететь, Командир."
    },
    "YOU_MUST_REQUEST_LAUNCH_CLEARANCE_FIRST_COMMANDER" : {
       "description" : "",
-      "message" : "Командир, сначала вы должны запросить разрешение на взлёт."
+      "message" : "Сначала вы должны запросить разрешение на взлет, Командир."
    },
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "У вас недостаточно средств"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Масштаб"
    }
 }

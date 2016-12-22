@@ -9,6 +9,7 @@ AM_CPPFLAGS += -I$(srcdir)/../.. -isystem $(top_srcdir)/contrib
 noinst_LIBRARIES = libgraphicsopengl.a
 noinst_HEADERS = \
 	gl_core_3_x.h \
+	OpenGLLibs.h \
 	GLDebug.h \
 	MaterialGL.h \
 	RenderStateGL.h \
@@ -16,6 +17,7 @@ noinst_HEADERS = \
 	VertexBufferGL.h \
 	FresnelColourMaterial.h \
 	GasGiantMaterial.h \
+	GenGasGiantColourMaterial.h \
 	GeoSphereMaterial.h \
 	MultiMaterial.h \
 	Program.h \
@@ -27,7 +29,8 @@ noinst_HEADERS = \
 	TextureGL.h \
 	UIMaterial.h \
 	Uniform.h \
-	VtxColorMaterial.h
+	VtxColorMaterial.h \
+	BillboardMaterial.h
 
 libgraphicsopengl_a_SOURCES = \
 	gl_core_3_x.c \
@@ -37,6 +40,7 @@ libgraphicsopengl_a_SOURCES = \
 	VertexBufferGL.cpp \
 	FresnelColourMaterial.cpp \
 	GasGiantMaterial.cpp \
+	GenGasGiantColourMaterial.cpp \
 	GeoSphereMaterial.cpp \
 	MultiMaterial.cpp \
 	Program.cpp \
@@ -46,4 +50,5 @@ libgraphicsopengl_a_SOURCES = \
 	TextureGL.cpp \
 	UIMaterial.cpp \
 	Uniform.cpp \
-	VtxColorMaterial.cpp
+	VtxColorMaterial.cpp \
+	BillboardMaterial.cpp

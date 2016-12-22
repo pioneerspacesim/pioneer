@@ -1,4 +1,4 @@
-/* Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details */
+/* Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details */
 /* Licensed under the terms of the GPL v3. See licenses/GPL-3.txt        */
 
 /* THIS FILE IS AUTO-GENERATED, CHANGES WILL BE OVERWRITTEN */
@@ -14,6 +14,7 @@
 #include "galaxy/Economy.h"
 #include "galaxy/StarSystem.h"
 #include "gameui/Face.h"
+#include "gameui/LabelOverlay.h"
 #include "scenegraph/Model.h"
 #include "ui/Align.h"
 #include "ui/Animation.h"
@@ -50,14 +51,6 @@ const struct EnumItem ENUM_PhysicsObjectType[] = {
 	{ "STAR", int(Object::STAR) },
 	{ "CARGOBODY", int(Object::CARGOBODY) },
 	{ "MISSILE", int(Object::MISSILE) },
-	{ 0, 0 },
-};
-
-const struct EnumItem ENUM_PolitCrime[] = {
-	{ "TRADING_ILLEGAL_GOODS", int(Polit::CRIME_TRADING_ILLEGAL_GOODS) },
-	{ "WEAPON_DISCHARGE", int(Polit::CRIME_WEAPON_DISCHARGE) },
-	{ "PIRACY", int(Polit::CRIME_PIRACY) },
-	{ "MURDER", int(Polit::CRIME_MURDER) },
 	{ 0, 0 },
 };
 
@@ -264,6 +257,12 @@ const struct EnumItem ENUM_GameUIFaceFlags[] = {
 	{ 0, 0 },
 };
 
+const struct EnumItem ENUM_GameUIMarkerStyle[] = {
+	{ "NONE", int(GameUI::LabelOverlay::MARKER_NONE) },
+	{ "DOT", int(GameUI::LabelOverlay::MARKER_DOT) },
+	{ 0, 0 },
+};
+
 const struct EnumItem ENUM_ModelDebugFlags[] = {
 	{ "NONE", int(SceneGraph::Model::DEBUG_NONE) },
 	{ "BBOX", int(SceneGraph::Model::DEBUG_BBOX) },
@@ -406,6 +405,8 @@ const struct EnumItem ENUM_UINumberLabelFormat[] = {
 	{ "PERCENT_INTEGER", int(UI::NumberLabel::FORMAT_PERCENT_INTEGER) },
 	{ "MONEY", int(UI::NumberLabel::FORMAT_MONEY) },
 	{ "MASS_TONNES", int(UI::NumberLabel::FORMAT_MASS_TONNES) },
+	{ "DISTANCE_M", int(UI::NumberLabel::FORMAT_DISTANCE_M) },
+	{ "DISTANCE_LY", int(UI::NumberLabel::FORMAT_DISTANCE_LY) },
 	{ 0, 0 },
 };
 
@@ -457,7 +458,6 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
-	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
 	{ "ShipFlightState", ENUM_ShipFlightState },
@@ -473,6 +473,7 @@ const struct EnumTable ENUM_TABLES[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "GameUIMarkerStyle", ENUM_GameUIMarkerStyle },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIAnimationType", ENUM_UIAnimationType },
@@ -500,7 +501,6 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "DetailLevel", ENUM_DetailLevel },
 	{ "FileSystemRoot", ENUM_FileSystemRoot },
 	{ "PhysicsObjectType", ENUM_PhysicsObjectType },
-	{ "PolitCrime", ENUM_PolitCrime },
 	{ "PolitEcon", ENUM_PolitEcon },
 	{ "PolitGovType", ENUM_PolitGovType },
 	{ "ShipFlightState", ENUM_ShipFlightState },
@@ -516,6 +516,7 @@ const struct EnumTable ENUM_TABLES_PUBLIC[] = {
 	{ "BodyType", ENUM_BodyType },
 	{ "BodySuperType", ENUM_BodySuperType },
 	{ "GameUIFaceFlags", ENUM_GameUIFaceFlags },
+	{ "GameUIMarkerStyle", ENUM_GameUIMarkerStyle },
 	{ "ModelDebugFlags", ENUM_ModelDebugFlags },
 	{ "UIAlignDirection", ENUM_UIAlignDirection },
 	{ "UIAnimationType", ENUM_UIAnimationType },

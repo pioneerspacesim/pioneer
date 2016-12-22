@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "{name} & Zonen"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "We deal in what others don't."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "A truly free market."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Bringing the best unconventional goods to you!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "We believe in a market without restrictions."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "The unregulated market, for your freedom."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "The trustworthy dealer."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Allways a special price just for you."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Welkom bij"

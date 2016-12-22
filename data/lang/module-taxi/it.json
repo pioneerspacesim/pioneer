@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "Oggi non attraccherai!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Imposta come destinazione di navigazione"
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Taxi"
@@ -582,6 +586,10 @@
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
       "message" : "Sarò in pericolo?"
+   },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "Il nome del sistema è giusto, ma non le coordinate."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Table.h"
@@ -392,7 +392,7 @@ void Table::ClearRows()
 
 Table *Table::SetRowSpacing(int spacing)
 {
-	m_body->SetRowSpacing(spacing);
+	m_body->SetRowSpacing(GetContext()->GetScale() * spacing);
 	m_dirty = true;
 	GetContext()->RequestLayout();
 	return this;
@@ -400,7 +400,7 @@ Table *Table::SetRowSpacing(int spacing)
 
 Table *Table::SetColumnSpacing(int spacing)
 {
-	m_layout.SetColumnSpacing(spacing);
+	m_layout.SetColumnSpacing(GetContext()->GetScale() * spacing);
 	m_dirty = true;
 	GetContext()->RequestLayout();
 	return this;

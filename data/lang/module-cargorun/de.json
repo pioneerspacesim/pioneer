@@ -21,7 +21,7 @@
    },
    "ACCEPTED_PICKUP_2" : {
       "description" : "",
-      "message" : "Abgemacht! Ich werde meine Kollegen wissen lassen, dass du auf dem Weg bist."
+      "message" : "Abgemacht! Ich werde meine Kollegen wissen lassen, dass Sie auf dem Weg sind."
    },
    "ADTEXT_1" : {
       "description" : "",
@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Wie geht's? Mein Name ist {name}. Einer meiner Kunden möchte {cargoname} aus {starport} ({sectorx}, {sectory}, {sectorz}), {dist} Lj entfernt, importieren. Er bezahlt {cash} für diese Expresslieferung. Kehren Sie anschließend zu {dom_starport} im System {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) zurück, um die Fracht zu entladen."
+      "message" : "Wie geht's? Ich bin {name}. Einer meiner Klienten würde gerne {cargoname} von {starport} im {system} ({sectorx}{sectory}{sectorz}) System, {dist} Lj entfernt importieren. Kehre dann zurück nach {dom_starport} im {dom_system} ({dom_sectorx}{dom_sectory}{dom_sectorz}) System und lade die Fracht aus."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Halbfertige Produkte"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Als Navigationsziel setzen"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Rückkehrroute setzen"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Raumhafen:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Diese Güter sind wichtig für ein Bauvorhaben."
+      "message" : "Diese Güter sind wichtig für ein Bauprojekt."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

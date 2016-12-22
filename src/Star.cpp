@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Star.h"
@@ -73,7 +73,7 @@ void Star::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	//render star halo
 	VertexArray va(ATTRIB_POSITION | ATTRIB_DIFFUSE);
 	const Color bright(StarSystem::starRealColors[GetSystemBody()->GetType()]);
-	const Color dark(0);
+	const Color dark(Color::BLANK);
 
 	va.Add(vector3f(0.f), bright);
 	for (float ang=0; ang<2*M_PI; ang+=0.26183+rand.Double(0,0.4)) {

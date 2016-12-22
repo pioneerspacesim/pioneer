@@ -1,7 +1,7 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#define ALLOW_LUA_SHIP_DEF 1
+#define ALLOW_LUA_SHIP_DEF 0
 
 #include "ShipType.h"
 #if ALLOW_LUA_SHIP_DEF
@@ -77,7 +77,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	shipClass = data.get("ship_class", "").asString();
 	manufacturer = data.get("manufacturer", "").asString();
 	modelName = data.get("model", "").asString();
-	cockpitName = data.get("cockpit_model", "").asString();
+	cockpitName = data.get("cockpit", "").asString();
 
 	linThrust[THRUSTER_REVERSE] = data.get("reverse_thrust", 0.0f).asFloat();
 	linThrust[THRUSTER_FORWARD] = data.get("forward_thrust", 0.0f).asFloat();
@@ -101,6 +101,13 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	for( Json::Value::iterator slot = data["slots"].begin() ; slot != data["slots"].end() ; ++slot ) {
 		const std::string slotname = slot.key().asString();
 		slots[slotname] = data["slots"].get(slotname, 0).asInt();
+	}
+
+	for(int it=0;it<4;it++) thrusterUpgrades[it] = 1.0 + (double(it)/10.0);
+	for( Json::Value::iterator slot = data["thrust_upgrades"].begin() ; slot != data["thrust_upgrades"].end() ; ++slot ) {
+		const std::string slotname = slot.key().asString();
+		const int index = Clamp(atoi(&slotname.c_str()[9]), 1, 3);
+		thrusterUpgrades[index] = data["thrust_upgrades"].get(slotname, 0).asDouble();
 	}
 
 	{

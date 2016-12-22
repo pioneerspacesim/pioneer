@@ -9,11 +9,11 @@
    },
    "FLAVOUR_1_MESSAGE" : {
       "description" : "",
-      "message" : "La paz sea contigo, hermano. Por favor, elija una cantidad para donar a los Guardianes del Espíritu Libre."
+      "message" : "La paz sea contigo, hermano. Por favor, elije una cantidad para donar a los Guardianes del Espíritu Libre."
    },
    "FLAVOUR_1_TITLE" : {
       "description" : "",
-      "message" : "HAGA UNA DONACION. Los Guardianes del Espíritu Libre humildemente apelamos a su caridad para el mantenimiento de nuestros monasterios."
+      "message" : "HAZ UNA DONACION. Los Guardianes del Espíritu Libre humildemente apelamos a su caridad para el mantenimiento de nuestros monasterios."
    },
    "FLAVOUR_2_MESSAGE" : {
       "description" : "",
@@ -21,7 +21,7 @@
    },
    "FLAVOUR_2_TITLE" : {
       "description" : "",
-      "message" : "¿SE SIENTE GENEROSO? Apoyo a los Huérfanos de Guerra necesita su ayuda para mantener su trabajo esencial."
+      "message" : "¿TE SIENTES GENEROSO? Apoyo a los Huérfanos de Guerra necesita tu ayuda para mantener su trabajo esencial."
    },
    "FLAVOUR_3_MESSAGE" : {
       "description" : "",
@@ -57,6 +57,6 @@
    },
    "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
       "description" : "",
-      "message" : "No dispone de suficientes fondos."
+      "message" : "No tienes suficiente dinero."
    }
 }

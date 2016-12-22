@@ -24,6 +24,8 @@ The Pioneer Developers are:
 * Chip Richards
 * Chris Collins
 * Chris Dennett
+* Christian Koch
+* Claudius Mueller
 * Connor Findlay
 * Craig Thomson
 * Dan Bennett
@@ -46,6 +48,7 @@ The Pioneer Developers are:
 * jmf
 * John Bartholomew
 * John Jordan
+* Joshua Mathews
 * Karl Fogelmark
 * Kimmo Kotajärvi
 * Konrad Mruk
@@ -61,11 +64,13 @@ The Pioneer Developers are:
 * Marcus de Roos
 * Michele Botticelli
 * Miha Vitorovič
+* Nathan Jones
 * Nic
 * Nick Wanstall
 * Oleg Ovcharenko
 * Paul Mahol
 * Paul Roberts
+* Peter Feigl
 * Pedro Gimeno
 * Peter Kurucz
 * Phil Howlett
@@ -78,6 +83,7 @@ The Pioneer Developers are:
 * Robert Norris
 * Robert Pallier
 * Roland Mas
+* Sal Borrelli
 * Sean Bailey
 * Simon Chopin
 * SolCommand
@@ -100,7 +106,7 @@ The Pioneer Developers are:
 Licensing
 =========
 
-Copyright © 2008-2015 Pioneer Developers
+Copyright © 2008-2016 Pioneer Developers
 Portions copyright © 2013-2014 Meteoric Games Ltd.
 
 Pioneer's core code and extension modules are licensed under the terms of the
@@ -196,5 +202,8 @@ and services, without which Pioneer would not be possible:
   assimp        http://assimp.sourceforge.net/
   MXE           http://mxe.cc/
 
-  GitHub        https://github.com/
-  SourceForge   https://sourceforge.net/
+  GitHub                        https://github.com/
+  SourceForge                   https://sourceforge.net/
+  randomColorSharped	https://github.com/nathanpjones/randomColorSharped
+
+  OpenGameArt	http://opengameart.org (specifically http://opengameart.org/content/smoke-aura)

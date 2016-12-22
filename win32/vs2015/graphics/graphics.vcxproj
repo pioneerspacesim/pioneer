@@ -128,8 +128,10 @@
     <ClCompile Include="..\..\..\src\graphics\Drawables.cpp" />
     <ClCompile Include="..\..\..\src\graphics\dummy\RendererDummy.cpp" />
     <ClCompile Include="..\..\..\src\graphics\Frustum.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\BillboardMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GasGiantMaterial.cpp" />
+    <ClCompile Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.cpp" />
     <ClCompile Include="..\..\..\src\graphics\opengl\gl_core_3_x.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
@@ -170,13 +172,16 @@
     <ClInclude Include="..\..\..\src\graphics\dummy\TextureDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\dummy\VertexBufferDummy.h" />
     <ClInclude Include="..\..\..\src\graphics\Frustum.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\BillboardMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\FresnelColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GasGiantMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\GenGasGiantColourMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GeoSphereMaterial.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\GLDebug.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\gl_core_3_x.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MaterialGL.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\MultiMaterial.h" />
+    <ClInclude Include="..\..\..\src\graphics\opengl\OpenGLLibs.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\Program.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\RendererGL.h" />
     <ClInclude Include="..\..\..\src\graphics\opengl\RenderStateGL.h" />
@@ -199,6 +204,7 @@
     <ClInclude Include="..\..\..\src\graphics\Stats.h" />
     <ClInclude Include="..\..\..\src\graphics\Texture.h" />
     <ClInclude Include="..\..\..\src\graphics\TextureBuilder.h" />
+    <ClInclude Include="..\..\..\src\graphics\Types.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexArray.h" />
     <ClInclude Include="..\..\..\src\graphics\VertexBuffer.h" />
     <ClInclude Include="..\..\..\src\graphics\WindowSDL.h" />

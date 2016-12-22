@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "KeyBindings.h"
@@ -365,16 +365,18 @@ void KeyAction::CheckSDLEventAndDispatch(const SDL_Event *event) {
 	}
 }
 
-AxisBinding::AxisBinding() {
-	this->joystick = JOYSTICK_DISABLED;
-	this->axis = 0;
-	this->direction = POSITIVE;
+AxisBinding::AxisBinding() :
+	joystick(JOYSTICK_DISABLED),
+	axis(0),
+	direction(POSITIVE)
+{
 }
 
-AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) {
-	this->joystick = joystick_;
-	this->axis = axis_;
-	this->direction = direction_;
+AxisBinding::AxisBinding(Uint8 joystick_, Uint8 axis_, AxisDirection direction_) :
+	joystick(joystick_),
+	axis(axis_),
+	direction(direction_)
+{
 }
 
 float AxisBinding::GetValue() {
@@ -433,10 +435,13 @@ bool AxisBinding::FromString(const char *str, AxisBinding &ab) {
 	// force terminate
 	joyUUIDBuf[JoyUUIDLength-1] = '\0';
 	// now, map the GUID to a joystick number
-	ab.joystick = Pi::JoystickFromGUIDString(joyUUIDBuf);
-	if (ab.joystick == -1) {
+	const int joystick = Pi::JoystickFromGUIDString(joyUUIDBuf);
+	if (joystick == -1) {
 		return false;
 	}
+	// found a joystick
+	assert(joystick < 256);
+	ab.joystick = Uint8(joystick);
 
 	if (strncmp(p, "Axis", 4) != 0)
 		return false;

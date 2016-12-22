@@ -1,8 +1,9 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local SpaceStation = import_core("SpaceStation")
 local Event = import("Event")
+local Rand = import("Rand")
 local Space = import("Space")
 local utils = import("utils")
 local ShipDef = import("ShipDef")
@@ -14,14 +15,27 @@ local Model = import("SceneGraph.Model")
 local ModelSkin = import("SceneGraph.ModelSkin")
 local Serializer = import("Serializer")
 local Equipment = import("Equipment")
+local Faction = import("Faction")
+local Lang = import("Lang")
+local l = Lang.GetResource("ui-core")
 
 --
 -- Class: SpaceStation
 --
 
+
+function SpaceStation:Constructor()
+	-- Use a variation of the space station seed itself to ensure consistency
+	local rand = Rand.New(util.hash_random(self.seed .. '-techLevel', 2^31)-1)
+	local techLevel = rand:Integer(1, 6) + rand:Integer(0,6)
+	self:setprop("techLevel", techLevel)
+end
+
+
 local equipmentStock = {}
 
 local function updateEquipmentStock (station)
+	assert(station and station:exists())
 	if equipmentStock[station] then return end
 	equipmentStock[station] = {}
 	local hydrogen = Equipment.cargo.hydrogen
@@ -64,6 +78,7 @@ local equipmentPrice = {}
 --
 
 function SpaceStation:GetEquipmentPrice (e)
+	assert(self:exists())
 	if not equipmentPrice[self] then equipmentPrice[self] = {} end
 	if equipmentPrice[self][e] then
 		return equipmentPrice[self][e]
@@ -73,6 +88,7 @@ function SpaceStation:GetEquipmentPrice (e)
 end
 
 function SpaceStation:SetEquipmentPrice (e, v)
+	assert(self:exists())
 	if not equipmentPrice[self] then equipmentPrice[self] = {} end
 	equipmentPrice[self][e] = v
 end
@@ -101,6 +117,7 @@ end
 --   experimental
 --
 function SpaceStation:GetEquipmentStock (e)
+	assert(self:exists())
 	return equipmentStock[self][e] or 0
 end
 
@@ -126,6 +143,7 @@ end
 --   experimental
 --
 function SpaceStation:AddEquipmentStock (e, stock)
+	assert(self:exists())
 	equipmentStock[self][e] = (equipmentStock[self][e] or 0) + stock
 end
 
@@ -134,6 +152,7 @@ end
 local shipsOnSale = {}
 
 function SpaceStation:GetShipsOnSale ()
+	assert(self:exists())
 	if not shipsOnSale[self] then shipsOnSale[self] = {} end
 	return shipsOnSale[self]
 end
@@ -144,6 +163,7 @@ local function addShipOnSale (station, entry)
 end
 
 function SpaceStation:AddShipOnSale (entry)
+	assert(self:exists())
 	assert(entry.def)
 	assert(entry.skin)
 	assert(entry.label)
@@ -174,6 +194,7 @@ local function findShipOnSale (station, entry)
 end
 
 function SpaceStation:RemoveShipOnSale (entry)
+	assert(self:exists())
 	local num = findShipOnSale(self, entry)
 	if num > 0 then
 		removeShipOnSale(self, num)
@@ -182,6 +203,7 @@ function SpaceStation:RemoveShipOnSale (entry)
 end
 
 function SpaceStation:ReplaceShipOnSale (old, new)
+	assert(self:exists())
 	assert(new.def)
 	assert(new.skin)
 	assert(new.label)
@@ -280,6 +302,117 @@ end
 
 
 --
+-- Attribute: lawEnforcedRange
+--
+--   The distance, in meters, at which a station upholds the law,
+--   (is 100 km for all at the moment)
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+SpaceStation.lawEnforcedRange = 100000
+
+
+local police = {}
+
+--
+-- Method: LaunchPolice
+--
+-- Launch station police
+--
+-- > station:LaunchPolice(targetShip)
+--
+-- Parameters:
+--
+--   targetShip - the ship to intercept
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+function SpaceStation:LaunchPolice(targetShip)
+	if not targetShip then error("Ship targeted invalid") end
+
+	-- if no police created for this station yet:
+	if not police[self] then
+		police[self] = {}
+		-- decide how many to create
+		local lawlessness = Game.system.lawlessness
+		local maxPolice = math.min(9, self.numDocks)
+		local numberPolice = math.ceil(Engine.rand:Integer(1,maxPolice)*(1-lawlessness))
+		local shiptype = ShipDef[Game.system.faction.policeShip]
+
+		-- create and equip them
+		while numberPolice > 0 do
+			local policeShip = Space.SpawnShipDocked(shiptype.id, self)
+			if policeShip == nil then
+				return
+			else
+				numberPolice = numberPolice - 1
+				--policeShip:SetLabel(Game.system.faction.policeName) -- this is cool, but not translatable right now
+				policeShip:SetLabel(l.POLICE)
+				policeShip:AddEquip(Equipment.laser.pulsecannon_dual_1mw)
+				policeShip:AddEquip(Equipment.misc.atmospheric_shielding)
+				policeShip:AddEquip(Equipment.misc.laser_cooling_booster)
+				policeShip:AddEquip(Equipment.cargo.hydrogen, 1)
+
+				table.insert(police[self], policeShip)
+			end
+		end
+	end
+
+	for _, policeShip in pairs(police[self]) do
+		-- if docked
+		if policeShip.flightState == "DOCKED" then
+			policeShip:Undock()
+		end
+		-- if not shot down
+		if policeShip:exists() then
+			policeShip:AIKill(targetShip)
+		end
+	end
+end
+
+
+--
+-- Method: LandPolice
+--
+-- Clear any target assigned and land flying station police.
+--
+-- > station:LandPolice()
+--
+--
+-- Availability:
+--
+--   2015 September
+--
+-- Status:
+--
+--   experimental
+--
+function SpaceStation:LandPolice()
+	-- land command issued before creation of police
+	if not police[self] then return end
+
+	for _, policeShip in pairs(police[self]) do
+		if not (policeShip.flightState == "DOCKED") and policeShip:exists() then
+			policeShip:CancelAI()
+			policeShip:AIDockWith(self)
+		end
+	end
+end
+
+
+--
 -- Group: Methods
 --
 
@@ -354,6 +487,7 @@ SpaceStation.adverts = {}
 --
 local nextRef = 0
 function SpaceStation:AddAdvert (description, onChat, onDelete)
+	assert(self:exists())
 	-- XXX legacy arg unpacking
 	local args
 	if (type(description) == "table") then
@@ -403,6 +537,7 @@ end
 --  stable
 --
 function SpaceStation:RemoveAdvert (ref)
+	assert(self:exists())
 	if not SpaceStation.adverts[self] then return end
 	if SpaceStation.lockedAdvert == ref then
 		SpaceStation.removeOnReleased = true
@@ -437,6 +572,7 @@ end
 --  experimental
 --
 function SpaceStation:LockAdvert (ref)
+	assert(self:exists())
 	if (SpaceStation.advertLockCount > 0) then
 		assert(SpaceStation.lockedAdvert == ref, "Attempt to lock ref "..ref
 		.."disallowed."
@@ -522,6 +658,8 @@ local function destroySystem ()
 	equipmentStock = {}
 	equipmentPrice = {}
 
+	police = {}
+
 	shipsOnSale = {}
 
 	for station,ads in pairs(SpaceStation.adverts) do
@@ -539,6 +677,7 @@ Event.Register("onGameStart", function ()
 	if (loaded_data) then
 		equipmentStock = loaded_data.equipmentStock
 		equipmentPrice = loaded_data.equipmentPrice or {} -- handle missing in old saves
+		police = loaded_data.police
 		for station,list in pairs(loaded_data.shipsOnSale) do
 			shipsOnSale[station] = {}
 			for i,entry in pairs(loaded_data.shipsOnSale[station]) do
@@ -570,6 +709,17 @@ Event.Register("onLeaveSystem", function (ship)
 	if ship ~= Game.player then return end
 	destroySystem()
 end)
+
+Event.Register("onShipDestroyed", function (ship, _)
+	for _,local_police in pairs(police) do
+		for k,police_ship in pairs(local_police) do
+			if (ship == police_ship) then
+				table.remove(local_police, k)
+			end
+		end
+	end
+end)
+
 Event.Register("onGameEnd", function ()
 	destroySystem()
 
@@ -577,6 +727,7 @@ Event.Register("onGameEnd", function ()
 	nextRef = 0
 	equipmentStock = {}
 	equipmentPrice = {}
+	police = {}
 	shipsOnSale = {}
 end)
 
@@ -586,6 +737,7 @@ Serializer:Register("SpaceStation",
 		local data = {
 			equipmentStock = equipmentStock,
 			equipmentPrice = equipmentPrice,
+			police = police,  --todo fails if a police ship is killed
 			shipsOnSale = {},
 		}
 		for station,list in pairs(shipsOnSale) do

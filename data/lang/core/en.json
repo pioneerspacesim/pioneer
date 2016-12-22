@@ -139,13 +139,13 @@
       "description" : "",
       "message" : "Top camera"
    },
-   "CANT_SAVE_IN_HYPERSPACE" : {
-      "description" : "",
-      "message" : "Can't save game while in hyperspace"
-   },
    "CANT_SAVE_DEAD_PLAYER" : {
       "description" : "",
       "message" : "Can't save game after the player has died"
+   },
+   "CANT_SAVE_IN_HYPERSPACE" : {
+      "description" : "",
+      "message" : "Can't save game while in hyperspace"
    },
    "CAPITALIST" : {
       "description" : "",
@@ -203,6 +203,18 @@
       "description" : "",
       "message" : ", highly volcanic"
    },
+   "COMMODITY_NONE" : {
+      "description" : "When no commodities exist",
+      "message" : "None"
+   },
+   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
+   },
+   "COMMODITY_TRADE_ANALYSIS_SELF" : {
+      "description" : "",
+      "message" : "Commodity trade analysis of #fff%system#fff"
+   },
    "COMMS" : {
       "description" : "",
       "message" : "Comms"
@@ -210,18 +222,6 @@
    "COMMUNIST" : {
       "description" : "",
       "message" : "Communist"
-   },
-   "COMMODITY_NONE" : {
-      "description" : "When no commodities exist",
-      "message" : "None"
-   },
-   "COMMODITY_TRADE_ANALYSIS_SELF" : {
-      "description" : "",
-      "message" : "Commodity trade analysis of #fff%system#fff"
-   },
-   "COMMODITY_TRADE_ANALYSIS_COMPARE" : {
-      "description" : "",
-      "message" : "Commodity trade analysis of #ff0%selected_system#fff (selected) against #ff0%current_system#fff (current):"
    },
    "COMPUTERS" : {
       "description" : "",
@@ -279,13 +279,17 @@
       "description" : "",
       "message" : "Day length"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Decrease scanner range"
+      "message" : "Decrease radar range"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Decrease set speed"
+   },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Decrease Time Acceleration"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "This saved game file could not be opened due to permissions or something..."
+      "message" : "Save file '%filename' could not be found (or the game does not have access to open it)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -471,21 +475,25 @@
       "description" : "Hat switch: Is the top button on a joystick",
       "message" : "\" Hat\""
    },
-   "HEADING_LOCK_FORWARD" : {
-      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
-      "message" : "Hold prograde"
+   "HEADING_LOCK_ANTINORMAL" : {
+      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
+      "message" : "Hold anti-normal"
    },
    "HEADING_LOCK_BACKWARD" : {
       "description" : "Autopilot points/holds/faces you retrograde (backwards rel. orbital direction)",
       "message" : "Hold retrograde"
    },
+   "HEADING_LOCK_FORWARD" : {
+      "description" : "Autopilot points/holds/faces you prograde (tangent to the orbit, i.e. forward), http://wiki.kerbalspaceprogram.com/wiki/Maneuver_node",
+      "message" : "Hold prograde"
+   },
+   "HEADING_LOCK_KILLROT" : {
+      "description" : "",
+      "message" : "Kill rotation"
+   },
    "HEADING_LOCK_NORMAL" : {
       "description" : "Autopilot direction (perpendicular, up), relative to plane of orbit. ",
       "message" : "Hold normal"
-   },
-   "HEADING_LOCK_ANTINORMAL" : {
-      "description" : "Autopilot direction (perpendicular, down), relative to plane of orbit",
-      "message" : "Hold anti-normal"
    },
    "HEADING_LOCK_RADIALLY_INWARD" : {
       "description" : "Autopilot direction, relative to orbit (face towards planet)",
@@ -494,10 +502,6 @@
    "HEADING_LOCK_RADIALLY_OUTWARD" : {
       "description" : "Autopilot direction, relative to orbit (face away from palent)",
       "message" : "Hold radially out"
-   },
-   "HEADING_LOCK_KILLROT" : {
-      "description" : "",
-      "message" : "Kill rotation"
    },
    "HEAVY_INDUSTRY" : {
       "description" : "",
@@ -551,13 +555,21 @@
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Disengage Hyperdrive"
    },
+   "HYPERSPACE_JUMP_ABORTED" : {
+      "description" : "",
+      "message" : "Hyperspace jump aborted."
+   },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hyperdrive disabled"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Engage Hyperdrive"
    },
-   "HYPERSPACE_JUMP_ABORTED" : {
-      "description" : "",
-      "message" : "Hyperspace jump aborted."
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Hyperdrive forbidden zone"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -587,13 +599,17 @@
       "description" : "",
       "message" : "Imperial Rule"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Increase scanner range"
+      "message" : "Increase radar range"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Increase set speed"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Increase Time Acceleration"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -610,10 +626,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "Internal view"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale ly"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -635,9 +647,17 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname %axis Axis"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Jump complete: %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.2} km/s rel-to %frame"
+   },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Switch between Lagrange L4/L5 point display modes."
    },
    "LANDED" : {
       "description" : "",
@@ -658,6 +678,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Laser fire detected."
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +707,13 @@
       "description" : "",
       "message" : "Live Animals"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Local arm"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "locked"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Long:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -907,18 +931,6 @@
       "description" : "",
       "message" : "Sep"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Scoop"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Although less effective than a fuel scoop it permits scooping of both cargo and fuel"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Murder"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s rel-to %frame"
@@ -947,10 +959,6 @@
       "description" : "",
       "message" : "Nerve Gas"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Norma arm"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Not found"
@@ -958,6 +966,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "Not found, best match: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Now"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -995,10 +1007,6 @@
       "description" : "",
       "message" : "%acceleration{f.1} G"
    },
-   "NUMBER_GROUP_SEP" : {
-      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
-      "message" : ","
-   },
    "NUMBER_GROUP_MIN" : {
       "description" : "Smallest number to start grouping of digits for. (E.g. if \"10000\" start grouping thousands with 10,000, and not 1,000).",
       "message" : "1000"
@@ -1006,6 +1014,10 @@
    "NUMBER_GROUP_NUM" : {
       "description" : "For large number, group digits by this many. European languages use 3 (group thousands). 0 means no grouping.",
       "message" : "3"
+   },
+   "NUMBER_GROUP_SEP" : {
+      "description" : "For large number, separator used when grouping digits. E.g. 1,000 or 1 000 or 1'000.",
+      "message" : ","
    },
    "NUMBER_HOURS" : {
       "description" : "",
@@ -1075,10 +1087,6 @@
       "description" : "",
       "message" : "Outdoor agricultural world."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Outer arm"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Over %population billion"
@@ -1103,17 +1111,9 @@
       "description" : "",
       "message" : "Periapsis distance"
    },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Perseus arm"
-   },
    "PIONEER" : {
       "description" : "",
       "message" : "PIONEER"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Piracy"
    },
    "PITCH" : {
       "description" : "",
@@ -1143,6 +1143,26 @@
       "description" : "",
       "message" : "Centrally planned economy"
    },
+   "PLANNER_RESET_FACTOR" : {
+      "description" : "For system orbit view",
+      "message" : "Rate of increase of delta-v values. Click to reset to default."
+   },
+   "PLANNER_RESET_NORMAL" : {
+      "description" : "For system orbit view",
+      "message" : "Normal delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_PROGRADE" : {
+      "description" : "For system orbit view",
+      "message" : "Prograde delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_RADIAL" : {
+      "description" : "For system orbit view",
+      "message" : "Radial delta-v. Click to reset to zero."
+   },
+   "PLANNER_RESET_START" : {
+      "description" : "For system orbit view",
+      "message" : "Maneuver start. Click to reset to default."
+   },
    "PLASTICS" : {
       "description" : "",
       "message" : "Plastics"
@@ -1150,10 +1170,6 @@
    "PLUTOCRATIC_DICTATORSHIP" : {
       "description" : "",
       "message" : "Plutocratic dictatorship"
-   },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLICE"
    },
    "POPULATION" : {
       "description" : "",
@@ -1167,10 +1183,6 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Probability of arrival: %probability%%"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Quadruple system"
@@ -1182,6 +1194,10 @@
    "RADIUS" : {
       "description" : "",
       "message" : "Radius"
+   },
+   "RECENTLY_EXPLORED_SYSTEM" : {
+      "description" : "",
+      "message" : "This system was explored on %date."
    },
    "REQUEST_DOCKING_CLEARANCE" : {
       "description" : "",
@@ -1251,25 +1267,17 @@
       "description" : "",
       "message" : "Rubbish"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Sagittarius arm"
-   },
-   "SCANNER_CONTROL" : {
+   "RADAR_CONTROL" : {
       "description" : "",
-      "message" : "Scanner control"
-   },
-   "SCREENSHOT_FILENAME_TEMPLATE" : {
-      "description" : "",
-      "message" : "screenshot%index{d08}.png"
+      "message" : "Radar control"
    },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Scoop"
    },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Scutum-Centaurus arm"
+   "SCREENSHOT_FILENAME_TEMPLATE" : {
+      "description" : "",
+      "message" : "screenshot%index{d08}.png"
    },
    "SEARCH" : {
       "description" : "",
@@ -1319,6 +1327,10 @@
       "description" : "",
       "message" : "Set low thrust power level to %power%%"
    },
+   "SET_NAVTARGET_TO" : {
+      "description" : "",
+      "message" : "Set navigation target to: "
+   },
    "SET_SPEED_KM_S" : {
       "description" : "",
       "message" : "Set speed: %speed{f.2} km/s"
@@ -1342,6 +1354,10 @@
    "SHIP" : {
       "description" : "",
       "message" : "Ship"
+   },
+   "SHIPS_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show no ships, show ships, or show ships + their orbits",
+      "message" : "Switch between ship display modes."
    },
    "SHIP_ALTITUDE_ABOVE_TERRAIN" : {
       "description" : "",
@@ -1374,10 +1390,6 @@
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
       "message" : "Sidereal view"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Simulating evolution of the universe: %age{f.1} billion years ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1571,6 +1583,14 @@
       "description" : "",
       "message" : "Surface temperature"
    },
+   "SWITCHED_TO_PARENT" : {
+      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
+      "message" : "Switched heading display to system-wide coordinates."
+   },
+   "SWITCHED_TO_ROTATIONAL" : {
+      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
+      "message" : "Switched heading display to planetary coordinates."
+   },
    "SYSTEM" : {
       "description" : "star system",
       "message" : "System"
@@ -1615,10 +1635,6 @@
       "description" : "",
       "message" : "thin"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "3kpc arm"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "Thriving outdoor world."
@@ -1655,6 +1671,10 @@
       "description" : "",
       "message" : "Tiny"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Equipment View"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "Toggle HUD mode"
@@ -1667,9 +1687,13 @@
       "description" : "",
       "message" : "Toggle rotation damping"
    },
-   "TOGGLE_SCAN_MODE" : {
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Radar View"
+   },
+   "TOGGLE_RADAR_MODE" : {
       "description" : "",
-      "message" : "Toggle scanner mode"
+      "message" : "Toggle radar mode"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1683,6 +1707,10 @@
       "description" : "",
       "message" : "Triple system"
    },
+   "UNDOCKING" : {
+      "description" : "Flight state of ship when leaving station",
+      "message" : "Undocking"
+   },
    "UNEXPLORED_SYSTEM_NO_DATA" : {
       "description" : "",
       "message" : "Unexplored system. No more data available."
@@ -1695,21 +1723,41 @@
       "description" : "",
       "message" : "Unexplored System. Star information has been gathered by remote telescope, but no planetary information is available."
    },
-   "RECENTLY_EXPLORED_SYSTEM" : {
-      "description" : "",
-      "message" : "This system was explored on %date."
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "AU"
    },
-   "UNDOCKING" : {
-      "description" : "Flight state of ship when leaving station",
-      "message" : "Undocking"
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "ly"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "w"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "d"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "h"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
    },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<unknown>"
    },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
+   "UNSET_NAVTARGET" : {
       "description" : "",
-      "message" : "Unlawful weapons discharge"
+      "message" : "Unset navigation target."
    },
    "USE_LOW_THRUST" : {
       "description" : "",
@@ -1771,10 +1819,6 @@
       "description" : "keybinding: x axis",
       "message" : "X"
    },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime cannot be tolerated here."
-   },
    "Y" : {
       "description" : "keybinding: y axis",
       "message" : "Y"
@@ -1810,45 +1854,5 @@
    "ZOOM_OUT" : {
       "description" : "",
       "message" : "Zoom out"
-   },
-   "PLANNER_RESET_FACTOR" : {
-      "description" : "For system orbit view",
-      "message" : "Rate of increase of delta-v values. Click to reset to default."
-   },
-   "PLANNER_RESET_START" : {
-      "description" : "For system orbit view",
-      "message" : "Maneuver start. Click to reset to default."
-   },
-   "PLANNER_RESET_PROGRADE" : {
-      "description" : "For system orbit view",
-      "message" : "Prograde delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_NORMAL" : {
-      "description" : "For system orbit view",
-      "message" : "Normal delta-v. Click to reset to zero."
-   },
-   "PLANNER_RESET_RADIAL" : {
-      "description" : "For system orbit view",
-      "message" : "Radial delta-v. Click to reset to zero."
-   },
-   "UNSET_NAVTARGET" : {
-      "description" : "",
-      "message" : "Unset navigation target."
-   },
-   "SET_NAVTARGET_TO" : {
-      "description" : "",
-      "message" : "Set navigation target to: "
-   },
-   "SHIPS_DISPLAY_MODE_TOGGLE" : {
-      "description" : "Either show no ships, show ships, or show ships + their orbits",
-      "message" : "Switch between ship display modes."
-   },
-   "SWITCHED_TO_ROTATIONAL" : {
-      "description" : "Show ship's heading in planetary coordinates. heading 0 = north, 90 = east, 180 = south, 270 = west.",
-      "message" : "Switched heading display to planetary coordinates."
-   },
-   "SWITCHED_TO_PARENT" : {
-      "description" : "Show ship's heading, coordinates are on the celestial sphere (defined by the ecliptic).",
-      "message" : "Switched heading display to system-wide coordinates."
    }
 }

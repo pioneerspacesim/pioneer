@@ -85,7 +85,7 @@
    },
    "DENY_6" : {
       "description" : "",
-      "message" : "Я никогда не слышал о вас. Мне нужен более опытный человек для этого путешествия.."
+      "message" : "Я никогда не слышал о вас. Мне нужен более опытный человек для этого путешествия."
    },
    "DENY_7" : {
       "description" : "",
@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "В этот раз ты не долетишь до станции!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Установить как цель для навигации"
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Пассажиры"
@@ -582,6 +586,10 @@
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
       "message" : "Предвидятся какие-либо проблемы?"
+   },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "Название системы верное, но не координаты."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

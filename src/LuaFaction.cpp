@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
@@ -240,6 +240,30 @@ static int l_faction_attr_police_name(lua_State *l)
 }
 
 /*
+ * Attribute: policeShip
+ *
+ * The ships used by the police
+ *
+ * Availability:
+ *
+ *  2015 September
+ *
+ * Status:
+ *
+ *  experimental
+ */
+static int l_faction_attr_police_ship(lua_State *l)
+{
+	Faction *faction = LuaObject<Faction>::CheckFromLua(1);
+
+	if(faction->police_ship.empty())
+		faction->police_ship = "sinonatrix_police";   // set default ship
+
+	lua_pushlstring(l, faction->police_ship.c_str(), faction->police_ship.size());
+	return 1;
+}
+
+/*
  * Attribute: colour
  *
  * The colour used to represent the faction in the SectorView screen
@@ -283,6 +307,7 @@ template <> void LuaObject<Faction>::RegisterClass()
 		{ "radius",             l_faction_attr_radius             },
 		{ "militaryName",       l_faction_attr_military_name      },
 		{ "policeName",         l_faction_attr_police_name        },
+		{ "policeShip",         l_faction_attr_police_ship        },
 		{ "colour",             l_faction_attr_colour             },
 		{ 0, 0 }
 	};

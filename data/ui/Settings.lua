@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Game = import("Game")
@@ -96,9 +96,9 @@ ui.templates.Settings = function (args)
 			Engine.GetDisplayNavTunnels, Engine.SetDisplayNavTunnels,
 			l.DISPLAY_NAV_TUNNELS)
 
-		local compactScannerCheckBox = optionCheckBox(
-			Engine.GetCompactScanner, Engine.SetCompactScanner,
-			l.COMPACT_SCANNER)
+		local compactRadarCheckBox = optionCheckBox(
+			Engine.GetCompactRadar, Engine.SetCompactRadar,
+			l.COMPACT_RADAR)
 
 		local confirmQuit = optionCheckBox(
 			Engine.GetConfirmQuit, Engine.SetConfirmQuit,
@@ -120,10 +120,18 @@ ui.templates.Settings = function (args)
 			Engine.GetCockpitEnabled, Engine.SetCockpitEnabled,
 			l.ENABLE_COCKPIT)
 
+		local enableAutosave = optionCheckBox(
+			Engine.GetAutosaveEnabled, Engine.SetAutosaveEnabled,
+			l.ENABLE_AUTOSAVE)
+
 		local fullScreenCheckBox = optionCheckBox(
 			Engine.GetFullscreen, Engine.SetFullscreen,
 			l.FULL_SCREEN)
-			
+
+		local anisoCheckBox = optionCheckBox(
+			Engine.GetAnisoFiltering, Engine.SetAnisoFiltering,
+			l.ENABLE_ANISOTROPIC_FILTERING)
+
 		local starDensity = function (caption, getter, setter)
 			local initial_value = getter()
 			local slider = ui:HSlider()
@@ -143,6 +151,7 @@ ui.templates.Settings = function (args)
 				aaDropDown,
 				fullScreenCheckBox,
 				vsyncCheckBox,
+				anisoCheckBox,
 			})))
 			:SetCell(1,0, ui:Margin(5, 'ALL', ui:VBox(5):PackEnd({
 				planetDetailDropDown,
@@ -153,7 +162,8 @@ ui.templates.Settings = function (args)
 				speedLinesCheckBox,
 				hudTrailsCheckBox,
 				cockpitCheckBox,
-				compactScannerCheckBox,
+				enableAutosave,
+				compactRadarCheckBox,
 				confirmQuit,
 				starDensity(l.STAR_FIELD_DENSITY, Engine.GetAmountStars, Engine.SetAmountStars),
 			})))
@@ -377,13 +387,7 @@ ui.templates.Settings = function (args)
 		end
 	end
 
-	if #close_buttons > 1 then
-		close_buttons = ui:HBox(5):PackEnd(close_buttons)
-	else
-		close_buttons = close_buttons[1]
-	end
-
-	return ui:VBox():PackEnd({setTabs, ui:Margin(10, "ALL", close_buttons)})
+	return ui:VBox():PackEnd({setTabs, ui:Margin(10, "ALL", ui:HBox(5):PackEnd(close_buttons))})
 end
 
 ui.templates.SettingsInGame = function ()
@@ -418,6 +422,7 @@ ui.templates.SettingsInGame = function ()
 				end
 			},
 			{ text = l.RETURN_TO_GAME, onClick = Game.SwitchView },
+			{ text = l.OPEN_USER_FOLDER, onClick = Engine.OpenBrowseUserFolder, toDisable = function () return Engine.CanBrowseUserFolder==false end },
 			{ text = l.EXIT_THIS_GAME, onClick = Game.EndGame }
 		}
 	})

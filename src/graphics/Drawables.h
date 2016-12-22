@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _DRAWABLES_H
@@ -24,7 +24,7 @@ public:
 	Circle(Renderer *renderer, const float radius, const Color &c, RenderState *state);
 	Circle(Renderer *renderer, const float radius, const float x, const float y, const float z, const Color &c, RenderState *state);
 	Circle(Renderer *renderer, const float radius, const vector3f &center, const Color &c, RenderState *state);
-	virtual void Draw(Renderer *renderer);
+	void Draw(Renderer *renderer);
 
 private:
 	void SetupVertexBuffer(const Graphics::VertexArray&, Graphics::Renderer *);
@@ -40,7 +40,7 @@ class Disk {
 public:
 	Disk(Graphics::Renderer *r, Graphics::RenderState*, const Color &c, float radius);
 	Disk(Graphics::Renderer *r, RefCountedPtr<Material>, Graphics::RenderState*, const int edges=72, const float radius=1.0f);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 
 	void SetColor(const Color&);
 
@@ -57,11 +57,11 @@ class Line3D {
 public:
 	Line3D();
 	Line3D(const Line3D& b); // this needs an explicit copy constructor due to the std::unique_ptr below
-	virtual ~Line3D() {}
+	~Line3D() {}
 	void SetStart(const vector3f &);
 	void SetEnd(const vector3f &);
 	void SetColor(const Color &);
-	virtual void Draw(Renderer*, RenderState*);
+	void Draw(Renderer*, RenderState*);
 private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 	void Dirty();
@@ -85,7 +85,6 @@ private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 
 	bool m_refreshVertexBuffer;
-	float m_width;
 	RefCountedPtr<Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<VertexArray> m_va;
@@ -96,12 +95,13 @@ private:
 class PointSprites {
 public:
 	PointSprites();
-	void SetData(const int count, const vector3f *positions, const matrix4x4f &trans, const float size);
-	void Draw(Renderer*, RenderState*, Material*);
+	void SetData(const int count, const vector3f *positions, const Color *colours, const float *sizes, Graphics::Material *pMaterial);
+	void Draw(Renderer*, RenderState*);
 private:
-	void CreateVertexBuffer(Graphics::Renderer *r, Material *mat, const Uint32 size);
+	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
 
 	bool m_refreshVertexBuffer;
+	RefCountedPtr<Graphics::Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	std::unique_ptr<VertexArray> m_va;
 };
@@ -129,8 +129,8 @@ private:
 class Sphere3D {
 public:
 	//subdivisions must be 0-4
-	Sphere3D(Renderer*, RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f);
-	virtual void Draw(Renderer *r);
+	Sphere3D(Renderer*, RefCountedPtr<Material> material, Graphics::RenderState*, int subdivisions=0, float scale=1.f, const Uint32 attribs=(ATTRIB_POSITION | ATTRIB_NORMAL | ATTRIB_UV0));
+	void Draw(Renderer *r);
 
 	RefCountedPtr<Material> GetMaterial() const { return m_material; }
 
@@ -144,8 +144,8 @@ private:
 	//add a new vertex, return the index
 	int AddVertex(VertexArray&, const vector3f &v, const vector3f &n);
 	//add three vertex indices to form a triangle
-	void AddTriangle(std::vector<Uint16>&, int i1, int i2, int i3);
-	void Subdivide(VertexArray&, std::vector<Uint16>&,
+	void AddTriangle(std::vector<Uint32>&, int i1, int i2, int i3);
+	void Subdivide(VertexArray&, std::vector<Uint32>&,
 		const matrix4x4f &trans, const vector3f &v1, const vector3f &v2, const vector3f &v3,
 		int i1, int i2, int i3, int depth);
 };
@@ -154,13 +154,25 @@ private:
 // a textured quad with reversed winding
 class TexturedQuad {
 public:
+	// Simple constructor to build a textured quad from an image.
+	// Note: this is intended for UI icons and similar things, and it builds the
+	// texture with that in mind (e.g., no texture compression because compression
+	// tends to create visible artefacts when used on UI-style textures that have
+	// edges/lines, etc)
+	// XXX: This is totally the wrong place for this helper function.
+	TexturedQuad(Graphics::Renderer *r, const std::string &filename);
+
+	// Build a textured quad to display an arbitrary texture.
 	TexturedQuad(Graphics::Renderer *r, Graphics::Texture *texture, const vector2f &pos, const vector2f &size, RenderState *state);
-	virtual void Draw(Graphics::Renderer *r);
+	TexturedQuad(Graphics::Renderer *r, RefCountedPtr<Graphics::Material> &material, const Graphics::VertexArray &va, RenderState *state);
+
+	void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r, const Color4ub &tint);
 	const Graphics::Texture* GetTexture() const { return m_texture.Get(); }
 private:
 	RefCountedPtr<Graphics::Texture> m_texture;
-	std::unique_ptr<Graphics::Material> m_material;
-	std::unique_ptr<VertexBuffer> m_vertexBuffer;
+	RefCountedPtr<Graphics::Material> m_material;
+	RefCountedPtr<VertexBuffer> m_vertexBuffer;
 	Graphics::RenderState *m_renderState;
 };
 //------------------------------------------------------------
@@ -170,7 +182,7 @@ class Rect {
 public:
 	Rect(Graphics::Renderer *r, const vector2f &pos, const vector2f &size, const Color &c, RenderState *state, const bool bIsStatic = true);
 	void Update(const vector2f &pos, const vector2f &size, const Color &c);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 private:
 	RefCountedPtr<Graphics::Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;
@@ -183,7 +195,7 @@ class RoundEdgedRect {
 public:
 	RoundEdgedRect(Graphics::Renderer *r, const vector2f &size, const float rad, const Color &c, RenderState *state, const bool bIsStatic = true);
 	void Update(const vector2f &size, float rad, const Color &c);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 private:
 	static const int STEPS = 6;
 	RefCountedPtr<Graphics::Material> m_material;
@@ -196,7 +208,7 @@ private:
 class Axes3D {
 public:
 	Axes3D(Graphics::Renderer *r, Graphics::RenderState *state = nullptr);
-	virtual void Draw(Graphics::Renderer *r);
+	void Draw(Graphics::Renderer *r);
 private:
 	RefCountedPtr<Graphics::Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;

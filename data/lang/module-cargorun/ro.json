@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Bună ziua. Sunt {name}. Unul din clienți dorește să importe produsul {cargoname} de la {starport} din sistemul {system} ({sectorx}, {sectory}, {sectorz}) care e la {dist} a.l. Plătește {cash} pentru această livrare. Întorceți-vă aici în {dom_starport} din sistemul {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) pentru a descărca marfa."
+      "message" : "How are you? I'm {name}. One of my clients wants to import {cargoname} from {starport} in the {system} ({sectorx}, {sectory}, {sectorz}) system, {dist} ly distant. He pays {cash} for this cargo run. Return here to {dom_starport} in the {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) system to unload the cargo."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Produse semi-fabricate"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Port spațial:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Bunurile acestea sunt cruciale pentru un proiect de construcție."
+      "message" : "These goods are crucial for a construction project."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

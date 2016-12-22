@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "SmallButton.h"
@@ -21,6 +21,8 @@ void SmallButton::Draw()
 {
 	if (IsDisabled())
 		GetContext()->GetSkin().DrawSmallButtonDisabled(GetActiveOffset(), GetActiveArea());
+	else if (IsHidden())
+		GetContext()->GetSkin().DrawSmallButtonHidden(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseActive())
 		GetContext()->GetSkin().DrawSmallButtonActive(GetActiveOffset(), GetActiveArea());
 	else if (IsMouseOver())

@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Puede adquirir combustible y disponer de {radioactives} aquí."
+      "message" : "You may purchase fuel and dispose of {radioactives} here."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -22,6 +22,38 @@
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
       "message" : "Bienvenido a {clubname}"
+   },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "La Fundación Federal de Fuel"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "{clubname} es el proveedor líder de combustibles con descuento para las naves de sus miembros en la Federación Solar. La condición de miembro le autorizará para lo siguiente:"
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "La Unión Confederada de Fuel"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "De punta a punta del vasto territorio de la libre Mancomunidad de Mundos Independientes encontrará a {clubname} como el mejor proveedor de fuel con descuento y de gestión de servicios de residuos. Para nuestros miembros ofrecemos:"
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "¡Saludos! Esperamos que disfrute de nuestros servicios."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Propelentes Haber y División de Perecederos"
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Saludos piloto. Su repostaje y privilegios condicionales de expulsión de residuos están garantizados. "
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Saludos piloto. Esto es Propelentes Haber y División de Perecederos, encargados de gestionar la distribución de combustible en el espacio propiedad de Haber."
    },
    "GO_BACK" : {
       "description" : "",

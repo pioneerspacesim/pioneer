@@ -1,8 +1,9 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LOD.h"
 #include "NodeVisitor.h"
+#include "BaseLoader.h"
 #include "NodeCopyCache.h"
 #include "StringF.h"
 #include "graphics/Graphics.h"
@@ -113,7 +114,7 @@ void LOD::Save(NodeDatabase &db)
 
 LOD* LOD::Load(NodeDatabase &db)
 {
-    LOD* lod = new LOD(db.renderer);
+	LOD* lod = new LOD(db.loader->GetRenderer());
 	const Uint32 numLevels = db.rd->Int32();
 	for (Uint32 i = 0; i < numLevels; i++)
 		lod->m_pixelSizes.push_back(db.rd->Int32());

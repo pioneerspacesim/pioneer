@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Vous pouvez acheter le carburant et deposer vos {radioactives} ici."
+      "message" : "Vous pouvez acheter du carburant et déposer des {radioactives} ici."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -22,6 +22,38 @@
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
       "message" : "Bienvenue chez {clubname}"
+   },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "La Fondation du Carburant Fédéral"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "{clubname} est le premier fournisseur de carburant à bas prix à tous ses vaisseaux membres dans la Fédération Solaire. Être membre vous donne le droit à ce qui suit:"
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "L'Union Confédérée du Carburant"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "À travers les vastes contrées de la communauté des mondes indépendants vous constaterez que {clubname} est le meilleur fournisseur de carburant discount et de gestion des déchets. À nos membres nous fournissons:"
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "Salutions! Nous espérons que vous appréciez nos services."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Division Haber des combustibles et périssables."
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Salutations pilote. Vos privilèges de ravitaillement de carburant et d'évacuation des rejets potentiels est accordée."
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Salutations pilote. Ici la division Haber des combustibles et périssables, responsable de la gestion de la distribution du carburant à travers le secteur spatial Haber."
    },
    "GO_BACK" : {
       "description" : "",

@@ -5,7 +5,7 @@
    },
    "CREWDETAILSHEETBB" : {
       "description" : "",
-      "message" : "Nome: {nome}\nExperiênçia: {experiênçia}\nPerguntar o peso: {peso} por semana\n\n{resposta}\n"
+      "message" : "Nome: {name}\nExperiênçia: {experience}\nSalário pretendido: {wage} por semana\n\n{response}\n"
    },
    "CREWMEMBER_WAGE_PER_WEEK" : {
       "description" : "",
@@ -39,13 +39,9 @@
       "description" : "",
       "message" : "Tempo mínimo servido abordo da nave"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Navegador"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
-      "message" : "Sorry, no candidates are currently seeking employment at {station}"
+      "message" : "Desculpe, mas não há candidatos a procurar emprego na estação {station}"
    },
    "NO_EXPERIENCE" : {
       "description" : "",
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "OK, suponho que está tudo bem."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Piloto"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Há potenciais membros da tripulação registados no fundo de desemprego em {station}"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Sensores e defesa"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Engenheiro da nave"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

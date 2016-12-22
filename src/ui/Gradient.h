@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_GRADIENT_H
@@ -6,6 +6,7 @@
 
 #include "Single.h"
 #include "Color.h"
+#include "graphics/Drawables.h"
 #include "graphics/Material.h"
 
 namespace UI {
@@ -29,7 +30,8 @@ private:
 	Color m_endColor;
 	Direction m_direction;
 
-	std::unique_ptr<Graphics::Material> m_material;
+	RefCountedPtr<Graphics::Material> m_material;
+	std::unique_ptr<Graphics::Drawables::TexturedQuad> m_quad;
 };
 
 }

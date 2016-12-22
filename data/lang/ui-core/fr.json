@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Bourse d'échange"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Scanner compact"
+      "message" : "Radar compact"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -166,6 +166,14 @@
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
       "message" : "Compresser les textures"
+   },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirmer l'achat"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirmer la vente"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -200,7 +208,7 @@
       "message" : "Liste d'équipage"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Casier judiciaire"
    },
    "DANGEROUS" : {
@@ -259,6 +267,10 @@
       "description" : "mission deadline date",
       "message" : "Dois"
    },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dépôt d'ordure"
+   },
    "D_DAYS_LEFT" : {
       "description" : "",
       "message" : "Jours restants: %d"
@@ -278,6 +290,14 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Fonction"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Filtrage Anisotropique"
+   },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Activer la sauvegarde automatique"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -447,6 +467,10 @@
       "description" : "",
       "message" : "Portée Hyperspaciale"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Saut hyper-espace imprudent enregistré"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Je suis fatigué de bosser pour rien. Vous savez ce que c'est qu'un contrat de travail ? "
@@ -462,6 +486,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Inexpérimenté"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Fonds insuffisants"
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -551,6 +579,10 @@
       "description" : "",
       "message" : "Hall"
    },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la voie lactée local"
+   },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
       "message" : "Localisation {distance}km du centre de {name}:"
@@ -577,11 +609,11 @@
    },
    "MARKET_BUYLINE" : {
       "description" : "",
-      "message" : "Buy {amount} units for {price}"
+      "message" : "Acheter {amount} unités pour {price}"
    },
    "MARKET_SELLINE" : {
       "description" : "",
-      "message" : "Sell {amount} units for {price}"
+      "message" : "Vendre {amount} unités pour {price}"
    },
    "MASS" : {
       "description" : "",
@@ -691,6 +723,10 @@
       "description" : "",
       "message" : "Navigation:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigateur"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Négocier"
@@ -710,6 +746,14 @@
    "NONE" : {
       "description" : "",
       "message" : "Aucun"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Aucun à vendre dans cette station"
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la Règle"
    },
    "NOTES" : {
       "description" : "",
@@ -751,6 +795,10 @@
       "description" : "",
       "message" : "Ok"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Répertoire utilisateur"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Options"
@@ -767,6 +815,14 @@
       "description" : "",
       "message" : "La vitesse orbitale est donnée pour un vecteur tangenciel : La trajectoire doit etre de 90° par rapport a l'axe  vaisseau/{name}.\n\nLa vitesse de descente est un minimum absolu, et c'est aussi la vitesse tangencielle : Une vitesse plus base ou un angle plus bas donneront a coup sur une collision avec {name}.\n\nLa vitesse de libération fonctionne en théorie dans toute les directions, tant que le vaisseau n'entre pas en collision avec {name}."
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras externe"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Amendes impayées"
+   },
    "OWED" : {
       "description" : "Player owing money to crew members",
       "message" : "Dû"
@@ -775,9 +831,17 @@
       "description" : "",
       "message" : "Payer l'amende de {amount}"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de Persée"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Info. Perso."
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilote"
    },
    "PILOTING" : {
       "description" : "",
@@ -822,6 +886,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Professionel"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Vidange"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -871,6 +939,10 @@
       "description" : "",
       "message" : "Requête de lancement"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Reset"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Reprendre la partie"
@@ -891,6 +963,10 @@
       "description" : "",
       "message" : "Récompense"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras du Sagittaire"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Sauvegarder"
@@ -898,6 +974,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Scoop mounts"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras Écu-Croix"
    },
    "SELECT" : {
       "description" : "",
@@ -923,9 +1003,21 @@
       "description" : "",
       "message" : "Senseurs:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Senseurs et défense"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Régler la destination comme cible de navigation."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Vaisseau"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Ingénieur de vaisseau"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -955,6 +1047,10 @@
       "description" : "",
       "message" : "Le vaisseau que vous observiez a été vendu"
    },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simulation de l'évolution de l'univers : {age} milliards d'années ;-)"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Son"
@@ -973,7 +1069,7 @@
    },
    "STAR_FIELD_DENSITY" : {
       "description" : "",
-      "message" : "Density of Star field"
+      "message" : "Densité du champ d'étoile."
    },
    "STATION_MANAGER" : {
       "description" : "",
@@ -982,6 +1078,14 @@
    "STATUS" : {
       "description" : "",
       "message" : "Status"
+   },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "Cette station possède un certificat technologique de niveau {tech_level}"
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "Cette installation possède un accès aux technologies militaires."
    },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
@@ -995,6 +1099,10 @@
       "description" : "",
       "message" : "Le vaisseau est sous le contrôle de la station, Commandant."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Bras de la voie lactée 3kpc"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "basculer mâle/femelle"
@@ -1002,6 +1110,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "Ce vaisseau est trop petit pour votre équipage."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Le vaisseau est trop petit pour transférer votre cargaison."
    },
    "TOTAL" : {
       "description" : "",
@@ -1083,6 +1195,10 @@
       "description" : "Said by the police to law abiding player",
       "message" : "Nous n'avons rien à vous reprocher pour le moment."
    },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} ne peut être toléré ici !"
+   },
    "YES" : {
       "description" : "Positive answer to a question",
       "message" : "Oui"
@@ -1098,6 +1214,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Vous n'avez pas assez d'argent pour cette option"
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Vous avez {units} unités dans votre soute"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -1118,5 +1238,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Vous n'avez pas assez d'argent"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

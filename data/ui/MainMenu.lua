@@ -1,4 +1,4 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 local Engine = import("Engine")
@@ -25,7 +25,7 @@ local setupPlayerSol = function ()
 	Game.player:AddEquip(laser.pulsecannon_1mw)
 	Game.player:AddEquip(misc.atmospheric_shielding)
 	Game.player:AddEquip(misc.autopilot)
-	Game.player:AddEquip(misc.scanner)
+	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
@@ -37,7 +37,7 @@ local setupPlayerEridani = function ()
 	Game.player:AddEquip(laser.pulsecannon_1mw)
 	Game.player:AddEquip(misc.atmospheric_shielding)
 	Game.player:AddEquip(misc.autopilot)
-	Game.player:AddEquip(misc.scanner)
+	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
@@ -48,7 +48,7 @@ local setupPlayerBarnard = function ()
 	--Game.player:AddEquip(equipment.laser.pulsecannon_1mw)
 	Game.player:AddEquip(misc.atmospheric_shielding)
 	Game.player:AddEquip(misc.autopilot)
-	Game.player:AddEquip(misc.scanner)
+	Game.player:AddEquip(misc.radar)
 	Game.player:AddEquip(cargo.hydrogen, 2)
 	Game.player:SetMoney(100)
 end
@@ -77,7 +77,8 @@ local doSettingsScreen = function()
 	ui.layer:SetInnerWidget(
 		ui.templates.Settings({
 			closeButtons = {
-				{ text = l.RETURN_TO_MENU, onClick = function () ui.layer:SetInnerWidget(ui.templates.MainMenu()) end }
+				{ text = l.RETURN_TO_MENU, onClick = function () ui.layer:SetInnerWidget(ui.templates.MainMenu()) end },
+				{ text = l.OPEN_USER_FOLDER, onClick = Engine.OpenBrowseUserFolder, toDisable = function () return Engine.CanBrowseUserFolder==false end }
 			}
 		})
 	)
@@ -98,9 +99,9 @@ end
 
 local buttonDefs = {
 	{ l.CONTINUE_GAME,          function () loadGame("_exit") end },
-	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,6),48600)   setupPlayerSol() end },
+	{ l.START_AT_EARTH,         function () Game.StartGame(SystemPath.New(0,0,0,0,9),48600)   setupPlayerSol() end },
 	{ l.START_AT_NEW_HOPE,      function () Game.StartGame(SystemPath.New(1,-1,-1,0,4)) setupPlayerEridani() end },
-	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,1))  setupPlayerBarnard() end },
+	{ l.START_AT_BARNARDS_STAR, function () Game.StartGame(SystemPath.New(-1,0,0,0,16))  setupPlayerBarnard() end },
 	{ l.LOAD_GAME,              doLoadDialog },
 	{ l.OPTIONS,                doSettingsScreen },
 	{ l.QUIT,                   doQuitConfirmation },
@@ -115,6 +116,11 @@ for i = 1,#buttonDefs do
 	button.onClick:Connect(def[2])
 	if i < 10 then button:AddShortcut(i) end
 	if i == 10 then button:AddShortcut("0") end
+	if 1 == i then
+		if not Game.CanLoadGame("_exit") then
+			button:Disable()
+		end
+	end
 	buttonSet[i] = button
 	table.insert(anims, {
 		widget = button,

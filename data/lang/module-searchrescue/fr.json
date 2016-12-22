@@ -1,0 +1,698 @@
+{
+   "AU" : {
+      "description" : "",
+      "message" : "UA"
+   },
+   "BOARDED_PASSENGER" : {
+      "description" : "",
+      "message" : "{name} est monté à bord du vaisseau."
+   },
+   "COMMODITIES" : {
+      "description" : "",
+      "message" : "Matières premières"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Pouvez-vous répéter la demande initiale?"
+   },
+   "CREW" : {
+      "description" : "",
+      "message" : "Membre d'équipage"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Délai:"
+   },
+   "DELIVERED_PASSENGER" : {
+      "description" : "",
+      "message" : "{name} est descendu du vaisseau."
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "LIVRAISON"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distance:"
+   },
+   "ENTITY_FAMILY_BUSINESS_1" : {
+      "description" : "",
+      "message" : "{name} et Fils"
+   },
+   "ENTITY_FAMILY_BUSINESS_10" : {
+      "description" : "",
+      "message" : "Services de Taxi {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_2" : {
+      "description" : "",
+      "message" : "{name} et Filles"
+   },
+   "ENTITY_FAMILY_BUSINESS_3" : {
+      "description" : "",
+      "message" : "Fleurs {name} de {locality}"
+   },
+   "ENTITY_FAMILY_BUSINESS_4" : {
+      "description" : "",
+      "message" : "Missiles Peints Personnalisés {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_5" : {
+      "description" : "",
+      "message" : "Services Courrier {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_6" : {
+      "description" : "",
+      "message" : "Animaux de Compagnie de l'Espace {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_7" : {
+      "description" : "",
+      "message" : "{name} & {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_8" : {
+      "description" : "",
+      "message" : "Cuisine {locality} Authentique {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_9" : {
+      "description" : "",
+      "message" : "Transports {name}"
+   },
+   "ENTITY_GENERAL_1" : {
+      "description" : "",
+      "message" : "la Société Générale des Prospecteurs de {locality}"
+   },
+   "ENTITY_GENERAL_10" : {
+      "description" : "",
+      "message" : "Infinity Energy One de {locality}"
+   },
+   "ENTITY_GENERAL_2" : {
+      "description" : "",
+      "message" : "la Société pour la Préservation Écologique"
+   },
+   "ENTITY_GENERAL_3" : {
+      "description" : "",
+      "message" : "les Groupements d'Intérêts de {locality}"
+   },
+   "ENTITY_GENERAL_4" : {
+      "description" : "",
+      "message" : "le Bureau des Droits Minier de {locality}"
+   },
+   "ENTITY_GENERAL_5" : {
+      "description" : "",
+      "message" : "l'Association des Propriétaires Terriens de {locality}"
+   },
+   "ENTITY_GENERAL_6" : {
+      "description" : "",
+      "message" : "l'Institut de Statistique de {locality}"
+   },
+   "ENTITY_GENERAL_7" : {
+      "description" : "",
+      "message" : "le bureau de branche de SpaceCruise Inc de {locality}"
+   },
+   "ENTITY_GENERAL_8" : {
+      "description" : "",
+      "message" : "iSatellite Ltd de {locality}"
+   },
+   "ENTITY_GENERAL_9" : {
+      "description" : "",
+      "message" : "Corporation des Services d'enterrement de {locality}"
+   },
+   "ENTITY_RESEARCH_1" : {
+      "description" : "",
+      "message" : "la Société Biologique de {locality}"
+   },
+   "ENTITY_RESEARCH_10" : {
+      "description" : "",
+      "message" : "le Centre de Recherche Zoologique de {locality}"
+   },
+   "ENTITY_RESEARCH_2" : {
+      "description" : "",
+      "message" : "la Société Microbiologique de {locality}"
+   },
+   "ENTITY_RESEARCH_3" : {
+      "description" : "",
+      "message" : "la Société Chimique de {locality}"
+   },
+   "ENTITY_RESEARCH_4" : {
+      "description" : "",
+      "message" : "la Société Astrobiologique de {locality}"
+   },
+   "ENTITY_RESEARCH_5" : {
+      "description" : "",
+      "message" : "la Société Geologique de {locality}"
+   },
+   "ENTITY_RESEARCH_6" : {
+      "description" : "",
+      "message" : "la Société Astropaléontologique de {locality}"
+   },
+   "ENTITY_RESEARCH_7" : {
+      "description" : "",
+      "message" : "le Centre de Recherche d'Astrophysique de {locality}"
+   },
+   "ENTITY_RESEARCH_8" : {
+      "description" : "",
+      "message" : "le Centre de Recherche d'Astrochimie de {locality}"
+   },
+   "ENTITY_RESEARCH_9" : {
+      "description" : "",
+      "message" : "le Centre de Botanique de {locality}"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Vous n'êtes pas équipé pour entreprendre cette mission. {unit} {equipment} requis."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "LE VAISSEAU A FAIT UN ATTERRISSAGE FORCÉ sur {planet}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Je n'arrive pas à croire que tu viennes à peine de rentrer! Que de temps perdu!"
+   },
+   "FLAVOUR_1_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Pour un remboursement complet des dépenses vous devez être de retour pour {due}."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Le contrôle aérien de {starport} requiert votre aide immédiate à la suite d'un atterrissage forcé d'un vaisseau stellaire de type {ship} sur {planet}. L'état des systèmes de survie est inconnue. Le vaisseau a été assuré par l'assurance du port stellaire {starport} et est couvert à hauteur de {cash} pour les remboursements d'opérations d'urgences."
+   },
+   "FLAVOUR_1_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Le dernier emplacement connu pour ce vaisseau est la planète {planet}, à {lat} de latitude et {long} de longitude. Le nom du vaisseau est {shiplabel}."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci, vous avez été d'une grande aide! Nous transmettrons l'argent dans un instant."
+   },
+   "FLAVOUR_1_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} est monté(e) à bord du vaisseau."
+   },
+   "FLAVOUR_1_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Un équipage de {crew} et de passagers {pass} sont à bord du vaisseau. Nous avons besoin de quelqu'un pour localiser le vaisseau, récupérer les survivants et les ramener ici immédiatement. "
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU EN PANNE DE CARBURANT en route vers {starport}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Je n'arrive pas à croire que vous m'ayez fait attendre ici aussi longtemps! Vous pouvez oublier votre paiement."
+   },
+   "FLAVOUR_2_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Afin de recevoir le paiement complet, nous vous demandons de livrer le carburant d'ici {due}."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Le contrôle aérien de {starport} viens juste de recevoir un message d'alerte l'informant que le vol {shiplabel} a épuisé tout son carburant et a du faire un atterrissage forcé. Le pilote est prêt à payer {cash} pour faire le plein."
+   },
+   "FLAVOUR_2_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Le vaisseau est actuellement en attente à la latitude {lat} / longitude {long} sur la planète {planet}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci beaucoup! Je vous ai transféré la totalité de la récompense."
+   },
+   "FLAVOUR_2_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} tonnes de carburant ont été transféré."
+   },
+   "FLAVOUR_2_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Le pilote demande {unit} tonnes de {cargo}."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "URGENCE MÉDICALE sur le vaisseau à proximité de {starport}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Performance inacceptable! Nous allons mettre à jour nos fichiers en conséquence. "
+   },
+   "FLAVOUR_3_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Le pilote de remplacement a besoin d'atteindre le vaisseau pour {due}."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name} du contrôle aérien de {starport}. Je demande de l'aide en réponse à une urgence médicale impliquant le pilote du vol {shiplabel} se dirigeant vers {starport}."
+   },
+   "FLAVOUR_3_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Le vaisseau a dû atterrir en urgence aux coordonnées: {lat} / {long}."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci commandant! Votre aide a été dûment notée."
+   },
+   "FLAVOUR_3_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} a quitté le vaisseau."
+   },
+   "FLAVOUR_3_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "SVP transportez le pilote de remplacement depuis {starport} vers le vaisseau afin qu'ils puissent le ramener à {starport}."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU EN PANNE DE CARBURANT sur {planet}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "J'enverrai quelqu'un d'autre. Plus besoin de vous occuper."
+   },
+   "FLAVOUR_4_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Pour une paye complète, le pilote s'attend à ce que vous délivriez le carburant pour {due}."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Le contrôle aérien de {starport} a été contacté par le pilote du vol {shiplabel}. Ils sont échoués avec un réservoir de carburant vide et ont promis de payer {cash} quiconque leur fournira un plein de carburant pour le vaisseau."
+   },
+   "FLAVOUR_4_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Le vaisseau s'est échoué sur {planet} aux coordonnées {lat} / {long}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Très bien. Nous vous recommanderons pour de futures missions."
+   },
+   "FLAVOUR_4_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} tonnes de carburant ont été transféré."
+   },
+   "FLAVOUR_4_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Le pilote demande {unit} tonnes de {cargo}."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU EN PANNE DE CARBURANT près de {starport}."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "On ne peut plus faire confiance à personne."
+   },
+   "FLAVOUR_5_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "SVP complétez le plein de carburant pour {due}."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Le contrôle aérien de {starport} a identifié un vaisseau identifié en tant que {shiplabel} dérivant sans carburant à proximité. Nous paierons {cash} toute personne leur fournissant le carburant nécessaire pour refaire le plein, afin qu'ils puissent quitter les environs de {starport}."
+   },
+   "FLAVOUR_5_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Le vaisseau ciblé est dérive actuellement à {dist} km d'ici. Vous aurez à trouver sa position exacte vous-même."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Nous prenons bonne note de l'accomplissement de votre tâche en temps et en heure."
+   },
+   "FLAVOUR_5_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} tonnes de carburant ont été transféré."
+   },
+   "FLAVOUR_5_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Nous demandons la livraison sur le vaisseau de {unit} tonnes de {cargo}."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "VAISSEAU NE RÉPONDANT PAS dans le système {system}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Quel désastre! Vos pauvres collègues sont condamnés à une mort certaine!"
+   },
+   "FLAVOUR_6_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Vous devez être revenu pour {due}."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name} de {entity}. Nous avons perdu le contact avec notre vaisseau {ship} {shiplabel} à la suite de {problem}. Nous sommes prêt à payer {cash} pour une aide immédiate."
+   },
+   "FLAVOUR_6_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "La dernière position connue était dans la proximité de {planet} dans le système {system} [{sectorx},{sectory},{sectorz}], {dist} al d'ici."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci ! Vous ne pouvez pas imaginer à quel point nous sommes soulagés."
+   },
+   "FLAVOUR_6_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} est monté(e) à bord du vaisseau."
+   },
+   "FLAVOUR_6_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "J'ai besoin de quelqu'un acceptant de partir immédiatement afin de ramener nos collègues à {starport}, s'il sont toujours en vie. Le vaisseau avait {crew} membres d'équipages et {pass} passagers à bord. "
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "TRANSPORT DE MEMBRE D'ÉQUIPAGE IMMÉDIAT vers les système {system} requis."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Merci beaucoup, mais c'est trop tard."
+   },
+   "FLAVOUR_7_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "L'équipage de remplacement doit atteindre le vaisseau pour {due}."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Mon nom est {name} de {entity}. Notre unique vaisseau, {ship} {shiplabel}, dérive actuellement avec un équipage de {crew} à la suite d'une avarie ({problem}). Je suis prêt à payer {cash} pour une aide immédiate."
+   },
+   "FLAVOUR_7_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Vous trouverez le vaisseau dans le système {system} [{sectorx},{sectory},{sectorz}], à {dist} al d'ici. Il est gardé en orbite autour de {planet}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Merci! Le paiement complet a été accepté."
+   },
+   "FLAVOUR_7_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} a été transféré à bord du vaisseau."
+   },
+   "FLAVOUR_7_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Nous ne pouvons ramener le vaisseau sans un minimum de personnel à bord. Je suis à la recherche de quelqu'un acceptant de transporter un équipage de remplacement de {deliver_crew} vers notre vaisseau immédiatement."
+   },
+   "FULL_CARGO" : {
+      "description" : "",
+      "message" : "Vaisseau plein. Plus de place pour un chargement supplémentaire."
+   },
+   "FULL_CREW" : {
+      "description" : "",
+      "message" : "Cabines d'équipages remplies. Aucun membre d'équipage supplémentaire possible."
+   },
+   "FULL_PASSENGERS" : {
+      "description" : "",
+      "message" : "Cabines remplies. Aucun passager supplémentaire possible."
+   },
+   "HOW_FAR" : {
+      "description" : "",
+      "message" : "À quelle distance est la cible ?"
+   },
+   "HOW_MUCH_TIME" : {
+      "description" : "",
+      "message" : "Combien de temps ai-je ?"
+   },
+   "INTERACTION_ABORTED" : {
+      "description" : "",
+      "message" : "Interaction annulée. Revenez plus tard SVP."
+   },
+   "INTERACTION_DISTANCE_REACHED" : {
+      "description" : "",
+      "message" : "Distance d'interaction atteinte."
+   },
+   "IT_MUST_BE_COMPLETED_BY" : {
+      "description" : "",
+      "message" : "Cela doit être terminé pour "
+   },
+   "KM" : {
+      "description" : "",
+      "message" : "km"
+   },
+   "LAST_KNOWN_LOCATION" : {
+      "description" : "",
+      "message" : "Dernière position connue:"
+   },
+   "LAT" : {
+      "description" : "",
+      "message" : "Lat:"
+   },
+   "LON" : {
+      "description" : "",
+      "message" : "Lon:"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "al"
+   },
+   "MISSING_COMM" : {
+      "description" : "",
+      "message" : "Impossible de finir le transfert. {cargotype} manquant."
+   },
+   "MISSING_CREW" : {
+      "description" : "",
+      "message" : "Impossible de finir le transfert. Membre d'équipage manquant."
+   },
+   "MISSING_PASS" : {
+      "description" : "",
+      "message" : "Impossible de finir le transfert. Passagers manquants."
+   },
+   "MISSING_PASSENGER" : {
+      "description" : "",
+      "message" : "Impossible de finir le transfert. Passager manquant."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Oui, d'accord."
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Orbite"
+   },
+   "PARTIAL" : {
+      "description" : "",
+      "message" : "Merci pour vos efforts. J'espère que vous reviendrez finir le travail !"
+   },
+   "PASSENGERS" : {
+      "description" : "",
+      "message" : "Passagers"
+   },
+   "PAYMENT_LOCATION" : {
+      "description" : "",
+      "message" : "Lieu de paiement:"
+   },
+   "PICKUP" : {
+      "description" : "",
+      "message" : "RAMASSAGE"
+   },
+   "PLACE_OF_ASSISTANCE" : {
+      "description" : "",
+      "message" : "À l'endroit où ont eu lieu les secours"
+   },
+   "PLEASE_LAND" : {
+      "description" : "",
+      "message" : "Faites atterrir le vaisseau pour autoriser le transfert SVP."
+   },
+   "PROBLEM_CREW_1" : {
+      "description" : "",
+      "message" : "un combat mortel entre des membres d'équipages"
+   },
+   "PROBLEM_CREW_10" : {
+      "description" : "",
+      "message" : "une mutinerie"
+   },
+   "PROBLEM_CREW_2" : {
+      "description" : "",
+      "message" : "les membres d'équipages ont eu à pourchasser un serpent venimeux retrouvé à bord du vaisseau et provenant de {locality} "
+   },
+   "PROBLEM_CREW_3" : {
+      "description" : "",
+      "message" : "une araignée de {locality} a tué tous les autres"
+   },
+   "PROBLEM_CREW_4" : {
+      "description" : "",
+      "message" : "ce qu'il semblerait être un scorpion de {locality} s'est immiscé dans le quartier d'équipage pendant la nuit"
+   },
+   "PROBLEM_CREW_5" : {
+      "description" : "",
+      "message" : "une forme sévère de fièvre de {locality} a tué tous les autres"
+   },
+   "PROBLEM_CREW_6" : {
+      "description" : "",
+      "message" : "les autre membres d'équipages ne sont pas revenus de leur sortie spatiale"
+   },
+   "PROBLEM_CREW_7" : {
+      "description" : "",
+      "message" : "une forme sévère d'intoxication alimentaire sur le vaisseau"
+   },
+   "PROBLEM_CREW_8" : {
+      "description" : "",
+      "message" : "un accident terrible qui a conduit à l'éjection des autres dans l'espace"
+   },
+   "PROBLEM_CREW_9" : {
+      "description" : "",
+      "message" : "une circonstance que je ne peux pas commenter publiquement"
+   },
+   "PROBLEM_GENERAL_1" : {
+      "description" : "",
+      "message" : "un feu dans la soute"
+   },
+   "PROBLEM_GENERAL_10" : {
+      "description" : "",
+      "message" : "la réception d'un signal de détresse depuis {locality}"
+   },
+   "PROBLEM_GENERAL_2" : {
+      "description" : "",
+      "message" : "une panne de courant dans le coeur du moteur"
+   },
+   "PROBLEM_GENERAL_3" : {
+      "description" : "",
+      "message" : "une fuite d'air"
+   },
+   "PROBLEM_GENERAL_4" : {
+      "description" : "",
+      "message" : "une forme sévère d'empoisonnement par la nourriture impliquant tous le personnel à bord du vaisseau"
+   },
+   "PROBLEM_GENERAL_5" : {
+      "description" : "",
+      "message" : "un petit impact de météore"
+   },
+   "PROBLEM_GENERAL_6" : {
+      "description" : "",
+      "message" : "une bagarre parmi les membres d'équipages"
+   },
+   "PROBLEM_GENERAL_7" : {
+      "description" : "",
+      "message" : "contact avec un objet volant non-identifié"
+   },
+   "PROBLEM_GENERAL_8" : {
+      "description" : "",
+      "message" : "une dispute avec un vaisseau concurrent"
+   },
+   "PROBLEM_GENERAL_9" : {
+      "description" : "",
+      "message" : "le redémarrage de l'ordinateur principal"
+   },
+   "PROBLEM_RESEARCH_1" : {
+      "description" : "",
+      "message" : "une réaction chimique inattendue dans une des chambres de réaction"
+   },
+   "PROBLEM_RESEARCH_10" : {
+      "description" : "",
+      "message" : "une découverte majeure à {locality} dont je ne peux révéler la nature pour l'instant"
+   },
+   "PROBLEM_RESEARCH_2" : {
+      "description" : "",
+      "message" : "une infection des membres d'équipages par un pathogène local à {locality}"
+   },
+   "PROBLEM_RESEARCH_3" : {
+      "description" : "",
+      "message" : "une fuite de pathogène expérimental dans le système d'aération principal"
+   },
+   "PROBLEM_RESEARCH_4" : {
+      "description" : "",
+      "message" : "exposition de l'équipage à un spécimen récolté à {locality}"
+   },
+   "PROBLEM_RESEARCH_5" : {
+      "description" : "",
+      "message" : "une explosion chimique dans une des hottes à bord du vaisseau"
+   },
+   "PROBLEM_RESEARCH_6" : {
+      "description" : "",
+      "message" : "une reproduction expérimentale des gaz atmosphériques de {locality}"
+   },
+   "PROBLEM_RESEARCH_7" : {
+      "description" : "",
+      "message" : "un débat houleux entre scientifiques à bord du vaisseau"
+   },
+   "PROBLEM_RESEARCH_8" : {
+      "description" : "",
+      "message" : "la disparition soudaine de l'investigateur principal à bord du vaisseau"
+   },
+   "PROBLEM_RESEARCH_9" : {
+      "description" : "",
+      "message" : "le mélange expérimental de spécimens incompatibles provenant de {locality}"
+   },
+   "RESULT_DELIVERY_COMM" : {
+      "description" : "",
+      "message" : "Transféré {done} des {todo} tonnes de {cargotype} du vaisseau cible."
+   },
+   "RESULT_DELIVERY_CREW" : {
+      "description" : "",
+      "message" : "Transféré {done} des {todo} membres d'équipages du vaisseau cible."
+   },
+   "RESULT_DELIVERY_PASS" : {
+      "description" : "",
+      "message" : "Transféré {done} des {todo} passagers du vaisseau cible."
+   },
+   "RESULT_PICKUP_COMM" : {
+      "description" : "",
+      "message" : "Récupéré {done} des {todo} tonnes de {cargotype} du vaisseau cible."
+   },
+   "RESULT_PICKUP_CREW" : {
+      "description" : "",
+      "message" : "Récupéré {done} des {todo} membres d'équipages du vaisseau cible."
+   },
+   "RESULT_PICKUP_PASS" : {
+      "description" : "",
+      "message" : "Récupéré {done} des {todo} passagers du vaisseau cible."
+   },
+   "RETURN_TO" : {
+      "description" : "",
+      "message" : "Retournez à:"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Récompense:"
+   },
+   "SEARCH_RESCUE" : {
+      "description" : "",
+      "message" : "Recherche et sauvetage"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Définir comme cible de navigation."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Définir le trajet de retour."
+   },
+   "SHIP_UNRESPONSIVE" : {
+      "description" : "",
+      "message" : "Le vaisseau cible ne répond pas."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Systeme:"
+   },
+   "TARGET_SHIP_ID" : {
+      "description" : "",
+      "message" : "Numéro vaisseau cible:"
+   },
+   "THANK_YOU_ACCEPTANCE_TXT" : {
+      "description" : "",
+      "message" : "Merci beaucoup. Votre aide est grandement appréciée."
+   },
+   "TONS_OF_FREE_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "tonnes d'espace en soute libre"
+   },
+   "TRANSFER_ABORTED" : {
+      "description" : "",
+      "message" : "Le transfert a été annulé !"
+   },
+   "TRANSFER_COMPLETE" : {
+      "description" : "",
+      "message" : "Le transfert est terminé !"
+   },
+   "TRANSFER_PARTIAL" : {
+      "description" : "",
+      "message" : "Le transfert est partiellement terminé. Revenez terminer le transfert SVP."
+   },
+   "TRANSFER_TIME" : {
+      "description" : "",
+      "message" : "Attendez {minutes} minutes avant le transfert SVP."
+   },
+   "TYPE_OF_HELP" : {
+      "description" : "",
+      "message" : "De quoi avez-vous besoin ?"
+   },
+   "UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "cabines passagers inoccupées"
+   },
+   "WHERE_IS_THE_TARGET" : {
+      "description" : "",
+      "message" : "Où puis-je trouver la cible ?"
+   }
+}

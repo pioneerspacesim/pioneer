@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "¿Cómo le va? Soy {name}. Uno de mis clientes quiere importar {cargoname} desde {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a una distancia de {dist} año/s luz."
+      "message" : "¿Qué tal está? Soy {name}. Uno de mis clientes desea importar {cargoname} de {starport} en el sistema {system} ({sectorx}, {sectory}, {sectorz}), a {dist} años luz de distancia. Paga {cash} por este envío. Regrese aquí a {dom_starport} en el sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) para la descarga."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -442,6 +442,14 @@
    "SEMI_FINISHED_PRODUCTS" : {
       "description" : "custom cargo",
       "message" : "Artículos semi-acabados"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Establecer como objetivo de navegación"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Establecer ruta de retorno"
    },
    "SPACEPORT" : {
       "description" : "",

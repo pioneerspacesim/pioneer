@@ -279,13 +279,17 @@
       "description" : "",
       "message" : "Durata giorno"
    },
-   "DECREASE_SCAN_RANGE" : {
+   "DECREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Riduce raggio scanner"
+      "message" : "Riduci portata radar"
    },
    "DECREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Riduci velocità impostata"
+   },
+   "DECREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Riduci Accelerazione Temporale"
    },
    "DEMOGRAPHICS" : {
       "description" : "",
@@ -429,7 +433,7 @@
    },
    "GAME_LOAD_CANNOT_OPEN" : {
       "description" : "",
-      "message" : "Questa partita salvata non può essere caricata per problemi di autorizzazioni o altro ..."
+      "message" : "Il file di salvataggio '%filename' non è stato trovato (oppure il gioco non ha i permessi d'accesso per aprirlo)."
    },
    "GAME_LOAD_CORRUPT" : {
       "description" : "",
@@ -555,9 +559,17 @@
       "description" : "",
       "message" : "Balzo annullato."
    },
+   "HYPERSPACE_JUMP_DISABLED" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Iperguida disabilitata"
+   },
    "HYPERSPACE_JUMP_ENGAGE" : {
       "description" : "Mouse over text for hyperdrive button on ship control panel",
       "message" : "Attiva Iperguida"
+   },
+   "HYPERSPACE_JUMP_FORBIDDEN" : {
+      "description" : "Mouse over text for hyperdrive button on ship control panel",
+      "message" : "Iperguida: Zona vietata"
    },
    "HYPERSPACE_TARGET" : {
       "description" : "",
@@ -587,13 +599,17 @@
       "description" : "",
       "message" : "Governo Imperiale"
    },
-   "INCREASE_SCAN_RANGE" : {
+   "INCREASE_RADAR_RANGE" : {
       "description" : "",
-      "message" : "Aumenta raggio scanner"
+      "message" : "Aumenta portata radar"
    },
    "INCREASE_SET_SPEED" : {
       "description" : "",
       "message" : "Aumenta velocità impostata"
+   },
+   "INCREASE_TIME_ACCELERATION" : {
+      "description" : "",
+      "message" : "Aumenta Accelerazione Temporale"
    },
    "INDUSTRIAL_COLONY" : {
       "description" : "",
@@ -610,10 +626,6 @@
    "INTERNAL_VIEW" : {
       "description" : "",
       "message" : "Vista interna"
-   },
-   "INT_LY" : {
-      "description" : "integer number of light years",
-      "message" : "%scale AL"
    },
    "IN_TRANSIT" : {
       "description" : "",
@@ -635,9 +647,17 @@
       "description" : "Regarding joystick",
       "message" : "%{sign}%joyname Asse %axis"
    },
+   "JUMP_COMPLETE" : {
+      "description" : "",
+      "message" : "Completamento salto: %percent%%"
+   },
    "KM_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.2} km/s relativa a %frame"
+   },
+   "L4L5_DISPLAY_MODE_TOGGLE" : {
+      "description" : "Either show L4/L5 points or don't",
+      "message" : "Commuta frai modi di visualizzazione dei punti di Lagrange L4/L5."
    },
    "LANDED" : {
       "description" : "",
@@ -658,6 +678,10 @@
    "LASER_FIRE_DETECTED" : {
       "description" : "",
       "message" : "Rilevata attività ostile."
+   },
+   "LATITUDE" : {
+      "description" : "Short for latitude",
+      "message" : "Lat:"
    },
    "LEGAL_CURRENT_SYSTEM" : {
       "description" : "Short (tooltip) description of commodity (singular) status in the system the player is currently in",
@@ -683,13 +707,13 @@
       "description" : "",
       "message" : "Animali vivi"
    },
-   "LOCAL_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio locale"
-   },
    "LOCKED" : {
       "description" : "to lock a hyperspace target",
       "message" : "acquisito"
+   },
+   "LONGITUDE" : {
+      "description" : "Short for longitude",
+      "message" : "Lon:"
    },
    "MAJOR_EXPORTS" : {
       "description" : "",
@@ -907,18 +931,6 @@
       "description" : "",
       "message" : "Set"
    },
-   "MULTI_SCOOP" : {
-      "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Multi Raccoglitore"
-   },
-   "MULTI_SCOOP_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Seppur meno efficace di un raccoglitore di carburante, permette di raccogliere sia cargo che carburante"
-   },
-   "MURDER" : {
-      "description" : "",
-      "message" : "Omicidio"
-   },
    "M_S_RELATIVE_TO" : {
       "description" : "",
       "message" : "%speed{f.0} m/s relativa a %frame"
@@ -947,10 +959,6 @@
       "description" : "",
       "message" : "Gas nervini"
    },
-   "NORMA_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Regolo-Cigno"
-   },
    "NOT_FOUND" : {
       "description" : "searching star system in sector view",
       "message" : "Non trovato"
@@ -958,6 +966,10 @@
    "NOT_FOUND_BEST_MATCH_X" : {
       "description" : "",
       "message" : "Non trovato, miglior corrispondenza: %system"
+   },
+   "NOW" : {
+      "description" : "In System Orbit View",
+      "message" : "Ora"
    },
    "NO_ALERT" : {
       "description" : "",
@@ -1075,10 +1087,6 @@
       "description" : "",
       "message" : "Mondo esterno agricolo."
    },
-   "OUTER_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Esterno"
-   },
    "OVER_N_BILLION" : {
       "description" : "",
       "message" : "Oltre %population miliardi"
@@ -1103,17 +1111,9 @@
       "description" : "",
       "message" : "Distanza dal periapside"
    },
-   "PERSEUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio di Perseo"
-   },
    "PIONEER" : {
       "description" : "",
       "message" : "PIONEER"
-   },
-   "PIRACY" : {
-      "description" : "",
-      "message" : "Pirateria"
    },
    "PITCH" : {
       "description" : "",
@@ -1171,10 +1171,6 @@
       "description" : "",
       "message" : "Plutocrazia autoritaria"
    },
-   "POLICE_SHIP_REGISTRATION" : {
-      "description" : "",
-      "message" : "POLIZIA"
-   },
    "POPULATION" : {
       "description" : "",
       "message" : "Popolazione:"
@@ -1187,13 +1183,13 @@
       "description" : "",
       "message" : "P: %pressure{f.2} atm"
    },
-   "PROBABILITY_OF_ARRIVAL_X_PERCENT" : {
-      "description" : "",
-      "message" : "Probabilità di arrivo: %probability%%"
-   },
    "QUADRUPLE_SYSTEM" : {
       "description" : "",
       "message" : "Sistema quaternario"
+   },
+   "RADAR_CONTROL" : {
+      "description" : "",
+      "message" : "Controllo radar"
    },
    "RADIOACTIVES" : {
       "description" : "",
@@ -1275,14 +1271,6 @@
       "description" : "",
       "message" : "Rifiuti"
    },
-   "SAGITTARIUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Carena-Sagittario"
-   },
-   "SCANNER_CONTROL" : {
-      "description" : "",
-      "message" : "Controllo scanner"
-   },
    "SCOOP" : {
       "description" : "Is followed by a number, repersenting scoop mounts/slots available to fit cargo scoop and/or fuel scoop",
       "message" : "Raccogli"
@@ -1290,10 +1278,6 @@
    "SCREENSHOT_FILENAME_TEMPLATE" : {
       "description" : "",
       "message" : "schermata%index{d08}.png"
-   },
-   "SCUTUM_CENTAURUS_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio Scudo-Croce"
    },
    "SEARCH" : {
       "description" : "",
@@ -1406,10 +1390,6 @@
    "SIDEREAL_VIEW" : {
       "description" : "camera view setting",
       "message" : "Visuale siderale"
-   },
-   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
-      "description" : "",
-      "message" : "Sto simulando l'evoluzione dell'Universo: %age{f.1} miliardi di anni ;-)"
    },
    "SLAVES" : {
       "description" : "",
@@ -1655,10 +1635,6 @@
       "description" : "",
       "message" : "sottile"
    },
-   "THREE_KPC_ARM" : {
-      "description" : "Arm of the Milky Way galaxy",
-      "message" : "Braccio dei 3-kpc"
-   },
    "THRIVING_OUTDOOR_WORLD" : {
       "description" : "",
       "message" : "Fiorente mondo esterno."
@@ -1695,6 +1671,10 @@
       "description" : "",
       "message" : "Minuscolo"
    },
+   "TOGGLE_EQUIPMENT_VIEW" : {
+      "description" : "Tooltip for the Equipment View button",
+      "message" : "Vista Equipaggiamento"
+   },
    "TOGGLE_HUD_MODE" : {
       "description" : "",
       "message" : "Modalità HUD"
@@ -1703,13 +1683,17 @@
       "description" : "",
       "message" : "(Dis)Attiva Console LUA"
    },
+   "TOGGLE_RADAR_MODE" : {
+      "description" : "",
+      "message" : "Cambia modalità radar"
+   },
+   "TOGGLE_RADAR_VIEW" : {
+      "description" : "Tooltip for the Radar View button",
+      "message" : "Vista radar"
+   },
    "TOGGLE_ROTATION_DAMPING" : {
       "description" : "",
       "message" : "Smorzatore di rotazione"
-   },
-   "TOGGLE_SCAN_MODE" : {
-      "description" : "",
-      "message" : "Cambia modalità scanner"
    },
    "TOMBSTONE_EPITAPH" : {
       "description" : "shown on tombstone when player dies",
@@ -1739,13 +1723,37 @@
       "description" : "",
       "message" : "Sistema inesplorato. Le informazioni sulla stella sono state raccolte per mezzo di osservazioni telescopiche, ma non sono disponibili informazioni sul sistema planetario."
    },
+   "UNIT_AU" : {
+      "description" : "Distance unit: an astronomical unit, radius of Earth's orbit",
+      "message" : "UA"
+   },
+   "UNIT_DAYS" : {
+      "description" : "Duration unit: one 24-hour day",
+      "message" : "g"
+   },
+   "UNIT_HOURS" : {
+      "description" : "Duration unit: one 60-minute hour",
+      "message" : "o"
+   },
+   "UNIT_LY" : {
+      "description" : "Distance unit: a light year",
+      "message" : "AL"
+   },
+   "UNIT_MINUTES" : {
+      "description" : "Duration unit: one 60-second minute",
+      "message" : "m"
+   },
+   "UNIT_SECONDS" : {
+      "description" : "Duration unit: one second",
+      "message" : "s"
+   },
+   "UNIT_WEEKS" : {
+      "description" : "Duration unit: one 7-day week",
+      "message" : "sett."
+   },
    "UNKNOWN" : {
       "description" : "",
       "message" : "<sconosciuto>"
-   },
-   "UNLAWFUL_WEAPONS_DISCHARGE" : {
-      "description" : "",
-      "message" : "Scaricare illecitamente le proprie armi"
    },
    "UNSET_NAVTARGET" : {
       "description" : "",
@@ -1810,10 +1818,6 @@
    "X" : {
       "description" : "keybinding: x axis",
       "message" : "X"
-   },
-   "X_CANNOT_BE_TOLERATED_HERE" : {
-      "description" : "",
-      "message" : "%crime non è tollerato qui."
    },
    "Y" : {
       "description" : "keybinding: y axis",

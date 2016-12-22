@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "RingMaterial.h"
@@ -24,8 +24,7 @@ void RingMaterial::Apply()
 	OGL::Material::Apply();
 
 	assert(this->texture0);
-	static_cast<TextureGL*>(texture0)->Bind();
-	m_program->texture0.Set(0);
+	m_program->texture0.Set(this->texture0, 0);
 
 	//Light uniform parameters
 	for( Uint32 i=0 ; i<m_renderer->GetNumLights() ; i++ ) {

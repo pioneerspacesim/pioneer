@@ -214,12 +214,9 @@ namespace PicoDDS
 
 		int GetMinDXTSize() const;
 
-		inline int GetMipLevelSize( const unsigned int width, const unsigned int height, unsigned int depth, const ImgFormat format) const
+		static int GetMipLevelSize( const unsigned int width, const unsigned int height, const ImgFormat format)
 		{
-			if (!depth)
-				depth=1;
-
-			const int numPixels=width*height*depth;
+			const int numPixels=width*height;
 			
 			switch( format)
 			{
@@ -234,11 +231,15 @@ namespace PicoDDS
 			case FORMAT_A8L8:
 			case FORMAT_L16:
 			case FORMAT_V8U8:
+			case FORMAT_A16:
 				return numPixels*2;
 
 			case FORMAT_RGB:
 			case FORMAT_BGR:
 				return numPixels*3;
+
+			case FORMAT_RGB16:
+				return numPixels*6;
 
 			case FORMAT_RGBA:
 			case FORMAT_BGRA:
@@ -248,8 +249,10 @@ namespace PicoDDS
 			case FORMAT_V16U16:
 			case FORMAT_G16R16:
 			case FORMAT_Q8W8V8U8:
+			case FORMAT_A16L16:
 				return numPixels*4;
 
+			case FORMAT_RGBA16:
 			case FORMAT_R16G16B16A16F:
 			case FORMAT_G32R32F:
 				return numPixels*8;
@@ -258,18 +261,21 @@ namespace PicoDDS
 				return numPixels*16;
 			
 			case FORMAT_DXT1:
-				return ((width+3)/4) * ((height+3)/4) * depth * 8;
+				return ((width+3)/4) * ((height+3)/4) * 8;
 			case FORMAT_DXT2:
 			case FORMAT_DXT3:
 			case FORMAT_DXT4:
 			case FORMAT_DXT5:
 			case FORMAT_3DC:
-				return ((width+3)/4) * ((height+3)/4) * depth * 16;
+				return ((width+3)/4) * ((height+3)/4) * 16;
+
+			case FORMAT_NONE:
+				return 0;
 			}
-			return -1;
+			return 0;
 		}
 
-		int CalculateStoreageSize() const;
+		int CalculateStorageSize() const;
 
 		ImgFormat GetTextureFormat() const;
 

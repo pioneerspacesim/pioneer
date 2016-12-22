@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "{name} & Synowie"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Handlujemy tym czym inni nie mogą."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "Naprawdę wolny rynek."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Sprowadzamy najlepsze produkty dla Ciebie!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Wierzymy w handel bez ograniczeń."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "Wolny rynek, dla twojej wolności."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "Dystrybutor godny zaufania."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Zawsze ze specjalnymi cenami dla Ciebie."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Witamy! "

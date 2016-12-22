@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Skin.h"
@@ -6,6 +6,7 @@
 #include "graphics/TextureBuilder.h"
 #include "graphics/VertexArray.h"
 #include "FileSystem.h"
+#include "utils.h"
 
 namespace UI {
 
@@ -55,6 +56,9 @@ Skin::Skin(const std::string &filename, Graphics::Renderer *renderer, float scal
 	m_buttonNormal            = LoadBorderedRectElement(cfg.String("ButtonNormal"));
 	m_buttonHover             = LoadBorderedRectElement(cfg.String("ButtonHover"));
 	m_buttonActive            = LoadBorderedRectElement(cfg.String("ButtonActive"));
+
+	m_buttonHidden         = LoadSkinColor(cfg.String("NormalColorRGBA"));
+	m_smallButtonHidden    = LoadSkinColor(cfg.String("NormalColorRGBA"));
 
 	m_smallButtonDisabled     = LoadRectElement(cfg.String("SmallButtonDisabled"));
 	m_smallButtonNormal       = LoadRectElement(cfg.String("SmallButtonNormal"));
@@ -215,29 +219,6 @@ void Skin::DrawRectColor(const Color &col, const Point &pos, const Point &size) 
 
 	m_colorMaterial->diffuse = Color(col.r, col.g, col.b, m_opacity*col.a);
 	m_renderer->DrawTriangles(&va, GetAlphaBlendState(), m_colorMaterial.Get(), Graphics::TRIANGLE_STRIP);
-}
-
-static size_t SplitSpec(const std::string &spec, std::vector<int> &output)
-{
-	static const std::string delim(",");
-
-	size_t i = 0, start = 0, end = 0;
-	while (end != std::string::npos) {
-		// get to the first non-delim char
-		start = spec.find_first_not_of(delim, end);
-
-		// read the end, no more to do
-		if (start == std::string::npos)
-			break;
-
-		// find the end - next delim or end of string
-		end = spec.find_first_of(delim, start);
-
-		// extract the fragment and remember it
-		output[i++] = atoi(spec.substr(start, (end == std::string::npos) ? std::string::npos : end - start).c_str());
-	}
-
-	return i;
 }
 
 Skin::RectElement Skin::LoadRectElement(const std::string &spec)

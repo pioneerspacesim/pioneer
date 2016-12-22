@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaConstants.h"
@@ -44,12 +44,33 @@ int LuaConstants::GetConstantFromArg(lua_State *l, const char *ns, int idx)
 	return GetConstant(l, ns, lua_tostring(l, idx));
 }
 
+bool LuaConstants::CheckConstantFromArg(lua_State *l, const char *ns, int idx, int *out)
+{
+	if (lua_type(l, idx) != LUA_TSTRING) {
+		// heuristic assumption that positive (absolute) stack indexes refer to function args
+		if (idx > 0) {
+			const char *emsg = lua_pushfstring(l, "argument #%d is invalid (expected a constant in namespace '%s')", idx, ns);
+			return luaL_argerror(l, idx, emsg);
+		} else {
+			return luaL_error(l, "value (stack #%d) is invalid (expected a constant in namespace '%s')", idx, ns);
+		}
+	}
+
+	return CheckConstant(l, ns, lua_tostring(l, idx), out);
+}
+
 int LuaConstants::GetConstant(lua_State *l, const char *ns, const char *name)
 {
 	int value = EnumStrings::GetValue(ns, name);
 	if (value < 0)
 		luaL_error(l, "couldn't find constant with name '%s' in namespace '%s\n", name, ns);
 	return value;
+}
+
+bool LuaConstants::CheckConstant(lua_State *l, const char *ns, const char *name, int *out)
+{
+	*out = EnumStrings::GetValue(ns, name);
+	return *out >= 0;
 }
 
 static void _create_constant_table(lua_State *l, const char *ns, const EnumItem *c)
@@ -198,25 +219,6 @@ void LuaConstants::Register(lua_State *l)
 	 * Availability:
 	 *
 	 *   2014 April
-	 *
-	 * Status:
-	 *
-	 *   experimental
-	 */
-
-	/*
-	 * Constants: PolitCrime
-	 *
-	 * Crimes
-	 *
-	 * TRADING_ILLEGAL_GOODS - .
-	 * WEAPON_DISCHARGE - .
-	 * PIRACY - .
-	 * MURDER - .
-	 *
-	 * Availability:
-	 *
-	 *   alpha 10
 	 *
 	 * Status:
 	 *

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLLISION_SPACE
@@ -30,7 +30,7 @@ public:
 	void RemoveGeom(Geom*);
 	void AddStaticGeom(Geom*);
 	void RemoveStaticGeom(Geom*);
-	void TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c, Geom *ignore = 0);
+	void TraceRay(const vector3d &start, const vector3d &dir, double len, CollisionContact *c);
 	void Collide(void (*callback)(CollisionContact*));
 	void SetSphere(const vector3d &pos, double radius, void *user_data) {
 		sphere.pos = pos; sphere.radius = radius; sphere.userData = user_data;

@@ -33,7 +33,7 @@
    },
    "ATTEMPT_TO_REPAIR_HULL" : {
       "description" : "",
-      "message" : "Versuch, den Rumpf zu reparieren"
+      "message" : "Versuchen, den Rumpf zu reparieren"
    },
    "AVAILABLE_FOR_PURCHASE" : {
       "description" : "",
@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Warenbörse"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Kompakter Scanner"
+      "message" : "Kompaktes Radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -166,6 +166,14 @@
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
       "message" : "Texturen komprimieren"
+   },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Kauf bestätigen"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Verkauf bestätigen"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -200,7 +208,7 @@
       "message" : "Liste der Crew"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Strafregister"
    },
    "DANGEROUS" : {
@@ -259,6 +267,10 @@
       "description" : "mission deadline date",
       "message" : "Fällig"
    },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Illegale Abfallentsorgung"
+   },
    "D_DAYS_LEFT" : {
       "description" : "",
       "message" : "Verbleibende Tage: %d"
@@ -278,6 +290,14 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "Anstellung"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Anisotropische Filterung"
+   },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Autospeichern aktivieren"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -349,7 +369,7 @@
    },
    "FREE" : {
       "description" : "Used in Ship Information view as in Capacity: 10t (5t free)",
-      "message" : "Verfügbar"
+      "message" : "verfügbar"
    },
    "FRONT_WEAPON" : {
       "description" : "",
@@ -447,6 +467,10 @@
       "description" : "",
       "message" : "Hyperraum-Reichweite"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Grob fahrlässiger Hyperraumsprung erfasst"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Ich bin es leid, für nichts zu arbeiten. Wissen sie nicht, was ein Vertrag ist?"
@@ -462,6 +486,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Unerfahren"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Unzureichendes Kapital."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -505,7 +533,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Starterlaubnis verweigert: Das Schiff ist unterbesetzt."
+      "message" : "Landeerlaubnis nicht erteilt: nicht genügend Crewmitglieder, um das Schiff zu handhaben."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -550,6 +578,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Empfangshalle"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Lokaler Arm"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -597,7 +629,7 @@
    },
    "MAX" : {
       "description" : "",
-      "message" : "Maximum"
+      "message" : "maximum"
    },
    "MAXIMUM_CREW" : {
       "description" : "",
@@ -691,6 +723,10 @@
       "description" : "",
       "message" : "Navigation:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Navigator"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Verhandeln"
@@ -710,6 +746,14 @@
    "NONE" : {
       "description" : "",
       "message" : "keine"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "Keine Einheiten stehen zum Verkauf in dieser Station."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Norma-Arm"
    },
    "NOTES" : {
       "description" : "",
@@ -737,7 +781,7 @@
    },
    "N_SHIELD_GENERATORS" : {
       "description" : "",
-      "message" : "{quantity} Schild-Generatoren"
+      "message" : "{quantity} Schildgeneratoren"
    },
    "N_UNOCCUPIED_PASSENGER_CABINS" : {
       "description" : "",
@@ -750,6 +794,10 @@
    "OK" : {
       "description" : "",
       "message" : "OK"
+   },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "Benutzerordner"
    },
    "OPTIONS" : {
       "description" : "",
@@ -765,7 +813,15 @@
    },
    "ORBITAL_ANALYSIS_NOTES" : {
       "description" : "",
-      "message" : "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs, der die Oberfläche von {name} schneidet, resultieren.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t"
+      "message" : "Die Kreisbahn-Geschwindigkeit wird für eine tangentiale Geschwindigkeit angegeben. Das Schiff sollte in einem 90°-Winkel zur Schiff/{name}-Achse stehen.\n\nDie Landegeschwindigkeit ist ein absolutes Minimum und ist auch tangential. Eine geringere Geschwindigkeit und ein kleinerer Winkel wird in einem Kurs, der die Oberfläche von {name} schneidet, resultieren.\n\nDie Fluchtgeschwindigkeit funktioniert theoretisch gesehen in alle Richtungen, solange das Schiff auf dem Weg mit {name} kollidiert.\n\t\t"
+   },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Cygnus-Arm"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Unbezahlte Strafen"
    },
    "OWED" : {
       "description" : "Player owing money to crew members",
@@ -775,9 +831,17 @@
       "description" : "",
       "message" : "Strafgeld von {amount} bezahlen"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Perseus-Arm"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Persönliche Informationen"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
    },
    "PILOTING" : {
       "description" : "",
@@ -822,6 +886,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Profi"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Abpumpen"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -871,6 +939,10 @@
       "description" : "",
       "message" : "Starterlaubnis anfordern"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Zurücksetzen"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Zurück zum Spiel"
@@ -891,13 +963,21 @@
       "description" : "",
       "message" : "Belohnung"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Sagittarius-Arm"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Speichern"
    },
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
-      "message" : "Schaufel-Slots"
+      "message" : "Schöpferslots"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Scutum-Crux-Arm"
    },
    "SELECT" : {
       "description" : "",
@@ -923,9 +1003,21 @@
       "description" : "",
       "message" : "Sensoren:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Sensoren und Abwehr"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Ziel als Navigationsziel setzen."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Schiff"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Schiffsingenieur"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -955,6 +1047,10 @@
       "description" : "",
       "message" : "Das betrachtete Schiff wurde soeben verkauft"
    },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simuliere Evolution des Universums: {age} Milliarden Jahre ;-)"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Ton"
@@ -983,6 +1079,14 @@
       "description" : "",
       "message" : "Status"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "Diese Station hat ein Technologie-Zertifikat der Stufe {tech_level}."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "Diese Station hat eine Freigabe für Militärtechnologie."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
       "message" : "Vielen Dank für Ihren Einkauf. Bitte denken Sie an die notwendige Ausrüstung für Ihr Schiff und ausreichend Treibstoff, bevor Sie abdocken."
@@ -995,6 +1099,10 @@
       "description" : "",
       "message" : "Das Schiff ist unter Kontrolle der Station, Kommandant."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc-Arm"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "Zwischen männlich/weiblich umschalten"
@@ -1003,9 +1111,13 @@
       "description" : "",
       "message" : "Das Schiff ist zu klein für die aktuelle Anzahl an Crewmitgliedern."
    },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Das Schiff ist zu klein, um die Ladung umzuladen."
+   },
    "TOTAL" : {
       "description" : "",
-      "message" : "Komplett: "
+      "message" : "Gesamt: "
    },
    "TOTAL_MASS" : {
       "description" : "",
@@ -1049,7 +1161,7 @@
    },
    "VIDEO" : {
       "description" : "",
-      "message" : "Video"
+      "message" : "Grafik"
    },
    "VIDEO_CONFIGURATION_RESTART_GAME_TO_APPLY" : {
       "description" : "",
@@ -1083,6 +1195,10 @@
       "description" : "Said by the police to law abiding player",
       "message" : "Im Moment haben wir mit Ihnen keine offenen Angelegenheiten."
    },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} wird hier nicht toleriert."
+   },
    "YES" : {
       "description" : "Positive answer to a question",
       "message" : "Ja"
@@ -1098,6 +1214,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Sie haben dafür nicht genug Geld."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "Du hast {units} Einheiten in deinem Frachtraum"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -1118,5 +1238,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Sie haben nicht genügend Geld."
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

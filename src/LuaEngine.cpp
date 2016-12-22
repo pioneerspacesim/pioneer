@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaEngine.h"
@@ -7,7 +7,9 @@
 #include "LuaConstants.h"
 #include "EnumStrings.h"
 #include "Random.h"
+#include "OS.h"
 #include "Pi.h"
+#include "PiGui.h"
 #include "utils.h"
 #include "FloatComparison.h"
 #include "FileSystem.h"
@@ -87,6 +89,25 @@ static int l_engine_attr_ticks(lua_State *l)
 static int l_engine_attr_ui(lua_State *l)
 {
 	LuaObject<UI::Context>::PushToLua(Pi::ui.Get());
+	return 1;
+}
+
+/*
+ * Attribute: pigui
+ *
+ * The global PiGui object. It provides an interface to ImGui functions
+ *
+ * Availability:
+ *
+ *   2016-10-06
+ *
+ * Status:
+ *
+ *   experimental
+ */
+static int l_engine_attr_pigui(lua_State *l)
+{
+	LuaObject<PiGui>::PushToLua(Pi::pigui.Get());
 	return 1;
 }
 
@@ -362,6 +383,38 @@ static int l_engine_set_cockpit_enabled(lua_State *l)
 	return 0;
 }
 
+static int l_engine_get_aniso_enabled(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("UseAnisotropicFiltering") != 0);
+	return 1;
+}
+
+static int l_engine_set_aniso_enabled(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetAnisoEnabled takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("UseAnisotropicFiltering", (enabled ? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
+
+static int l_engine_get_autosave_enabled(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("EnableAutosave") != 0);
+	return 1;
+}
+
+static int l_engine_set_autosave_enabled(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetAutopilotEnabled takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("EnableAutosave", (enabled ? 1 : 0));
+	Pi::config->Save();
+	return 0;
+}
+
 static int l_engine_get_display_hud_trails(lua_State *l)
 {
 	lua_pushboolean(l, Pi::config->Int("HudTrails") != 0);
@@ -501,6 +554,22 @@ static int l_engine_set_music_volume(lua_State *l)
 {
 	const float volume = Clamp(luaL_checknumber(l, 1), 0.0, 1.0);
 	set_music_volume(Pi::config->Int("MusicMuted") != 0, volume);
+	return 0;
+}
+
+static int l_engine_get_gpu_jobs_enabled(lua_State *l)
+{
+	lua_pushboolean(l, Pi::config->Int("EnableGPUJobs") != 0);
+	return 1;
+}
+
+static int l_engine_set_gpu_jobs_enabled(lua_State *l)
+{
+	if (lua_isnone(l, 1))
+		return luaL_error(l, "SetGpuJobsEnabled takes one boolean argument");
+	const bool enabled = lua_toboolean(l, 1);
+	Pi::config->SetInt("EnableGPUJobs", (enabled ? 1 : 0));
+	Pi::config->Save();
 	return 0;
 }
 
@@ -709,20 +778,20 @@ static int l_engine_set_mouse_y_inverted(lua_State *l)
 	return 0;
 }
 
-static int l_engine_get_compact_scanner(lua_State *l)
+static int l_engine_get_compact_radar(lua_State *l)
 {
-	lua_pushboolean(l, Pi::config->Int("CompactScanner") != 0);
+	lua_pushboolean(l, Pi::config->Int("CompactRadar") != 0);
 	return 1;
 }
 
-static int l_engine_set_compact_scanner(lua_State *l)
+static int l_engine_set_compact_radar(lua_State *l)
 {
 	if (lua_isnone(l, 1))
-		return luaL_error(l, "SetCompactScanner takes one boolean argument");
+		return luaL_error(l, "SetCompactRadar takes one boolean argument");
 	const bool shrunk = lua_toboolean(l, 1);
-	Pi::config->SetInt("CompactScanner", (shrunk ? 1 : 0));
+	Pi::config->SetInt("CompactRadar", (shrunk ? 1 : 0));
 	Pi::config->Save();
-	Pi::SetCompactScanner(shrunk);
+	Pi::SetCompactRadar(shrunk);
 	return 0;
 }
 
@@ -767,6 +836,18 @@ static int l_engine_get_model(lua_State *l)
 	return 1;
 }
 
+static int l_get_can_browse_user_folders(lua_State *l)
+{
+	lua_pushboolean(l, OS::SupportsFolderBrowser());
+	return 1;
+}
+
+static int l_browse_user_folders(lua_State *l)
+{
+	OS::OpenUserFolderBrowser();
+	return 0;
+}
+
 void LuaEngine::Register()
 {
 	lua_State *l = Lua::manager->GetLuaState();
@@ -788,6 +869,9 @@ void LuaEngine::Register()
 		{ "GetMultisampling", l_engine_get_multisampling },
 		{ "SetMultisampling", l_engine_set_multisampling },
 
+		{ "GetGpuJobsEnabled", l_engine_get_gpu_jobs_enabled },
+		{ "SetGpuJobsEnabled", l_engine_set_gpu_jobs_enabled },
+
 		{ "GetPlanetDetailLevel", l_engine_get_planet_detail_level },
 		{ "SetPlanetDetailLevel", l_engine_set_planet_detail_level },
 		{ "GetCityDetailLevel", l_engine_get_city_detail_level },
@@ -806,11 +890,17 @@ void LuaEngine::Register()
 		{ "GetCockpitEnabled", l_engine_get_cockpit_enabled },
 		{ "SetCockpitEnabled", l_engine_set_cockpit_enabled },
 
+		{ "GetAnisoFiltering", l_engine_get_aniso_enabled },
+		{ "SetAnisoFiltering", l_engine_set_aniso_enabled },
+
+		{ "GetAutosaveEnabled", l_engine_get_autosave_enabled },
+		{ "SetAutosaveEnabled", l_engine_set_autosave_enabled },
+
 		{ "GetDisplayHudTrails", l_engine_get_display_hud_trails },
 		{ "SetDisplayHudTrails", l_engine_set_display_hud_trails },
 
-		{ "GetCompactScanner", l_engine_get_compact_scanner },
-		{ "SetCompactScanner", l_engine_set_compact_scanner },
+		{ "GetCompactRadar", l_engine_get_compact_radar },
+		{ "SetCompactRadar", l_engine_set_compact_radar },
 
 		{ "GetConfirmQuit", l_engine_get_confirm_quit },
 		{ "SetConfirmQuit", l_engine_set_confirm_quit },
@@ -837,6 +927,9 @@ void LuaEngine::Register()
 		{ "SetMouseYInverted", l_engine_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
+		
+		{ "CanBrowseUserFolder", l_get_can_browse_user_folders },
+		{ "OpenBrowseUserFolder", l_browse_user_folders },
 
 		{ "GetModel", l_engine_get_model },
 
@@ -847,6 +940,7 @@ void LuaEngine::Register()
 		{ "rand",    l_engine_attr_rand    },
 		{ "ticks",   l_engine_attr_ticks   },
 		{ "ui",      l_engine_attr_ui      },
+		{ "pigui",   l_engine_attr_pigui   },
 		{ "version", l_engine_attr_version },
 		{ 0, 0 }
 	};

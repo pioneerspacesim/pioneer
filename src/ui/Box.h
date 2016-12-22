@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef UI_BOX_H
@@ -15,7 +15,7 @@ protected:
 		BOX_VERTICAL
 	};
 
-	Box(Context *context, BoxOrientation orient, int spacing) : Container(context), m_orient(orient), m_spacing(spacing) {}
+	Box(Context *context, BoxOrientation orient, int spacing);
 
 public:
 	virtual Point PreferredSize();
@@ -47,7 +47,6 @@ private:
 	std::list<Child> m_children;
 
 	Point m_preferredSize;
-	Uint32 m_minAllocation;
 	Uint32 m_numVariable;
 };
 

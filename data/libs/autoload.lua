@@ -1,8 +1,10 @@
--- Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+-- Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 -- Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 -- this is the only library automatically loaded at startup
 -- its the right place to extend core Lua tables
+
+import("SpaceStation")
 
 math.clamp = function(v, min, max)
 	return math.min(max, math.max(v,min))

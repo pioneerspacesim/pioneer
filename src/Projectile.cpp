@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "libs.h"
@@ -37,8 +37,8 @@ void Projectile::BuildModel()
 	desc.textures = 1;
 	s_sideMat.reset(Pi::renderer->CreateMaterial(desc));
 	s_glowMat.reset(Pi::renderer->CreateMaterial(desc));
-	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.png").GetOrCreateTexture(Pi::renderer, "billboard");
-	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.png").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_sideMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_l.dds").GetOrCreateTexture(Pi::renderer, "billboard");
+	s_glowMat->texture0 = Graphics::TextureBuilder::Billboard("textures/projectile_w.dds").GetOrCreateTexture(Pi::renderer, "billboard");
 
 	//zero at projectile position
 	//+x down
@@ -243,9 +243,10 @@ static void MiningLaserSpawnTastyStuff(Frame *f, const SystemBody *asteroid, con
 
 void Projectile::StaticUpdate(const float timeStep)
 {
+	PROFILE_SCOPED()
 	CollisionContact c;
 	vector3d vel = (m_baseVel+m_dirVel) * timeStep;
-	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c, 0);
+	GetFrame()->GetCollisionSpace()->TraceRay(GetPosition(), vel.Normalized(), vel.Length(), &c);
 
 	if (c.userData1) {
 		Object *o = static_cast<Object*>(c.userData1);
@@ -275,7 +276,7 @@ void Projectile::StaticUpdate(const float timeStep)
 				if (b->GetType() == SystemBody::TYPE_PLANET_ASTEROID) {
 					vector3d n = GetPosition().Normalized();
 					MiningLaserSpawnTastyStuff(planet->GetFrame(), b, n*terrainHeight + 5.0*n);
-					Sfx::Add(this, Sfx::TYPE_EXPLOSION);
+					SfxManager::Add(this, TYPE_EXPLOSION);
 				}
 				Pi::game->GetSpace()->KillBody(this);
 			}
@@ -285,6 +286,7 @@ void Projectile::StaticUpdate(const float timeStep)
 
 void Projectile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	PROFILE_SCOPED()
 	vector3d _from = viewTransform * GetInterpPosition();
 	vector3d _to = viewTransform * (GetInterpPosition() + m_dirVel);
 	vector3d _dir = _to - _from;

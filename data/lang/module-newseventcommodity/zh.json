@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "在 {system} 星系 ({sectorx}, {sectory}, {sectorz}) 新建的瑞士军刀工厂已经开始生产. 共产将会产出大量优质的瑞士军刀, 其锋利程度甚至可以戳穿太空服. 然而由于生产原材料的紧缺, 工厂的生产力仍没有完全发挥出来."
+      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SPACESTATION_H
@@ -34,16 +34,16 @@ public:
 	SpaceStation() {}
 	virtual ~SpaceStation();
 	virtual vector3d GetAngVelocity() const { return vector3d(0,m_type->AngVel(),0); }
-	virtual bool OnCollision(Object *b, Uint32 flags, double relVel);
-	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
-	virtual void StaticUpdate(const float timeStep);
-	virtual void TimeStepUpdate(const float timeStep);
+	virtual bool OnCollision(Object *b, Uint32 flags, double relVel) override;
+	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
+	virtual void StaticUpdate(const float timeStep) override;
+	virtual void TimeStepUpdate(const float timeStep) override;
 
-	virtual const SystemBody *GetSystemBody() const { return m_sbody; }
-	virtual void PostLoadFixup(Space *space);
-	virtual void NotifyRemoved(const Body* const removedBody);
+	virtual const SystemBody *GetSystemBody() const override { return m_sbody; }
+	virtual void PostLoadFixup(Space *space) override;
+	virtual void NotifyRemoved(const Body* const removedBody) override;
 
-	virtual void SetLabel(const std::string &label);
+	virtual void SetLabel(const std::string &label) override;
 
 	// should call Ship::Undock and Ship::SetDockedWith instead
 	// Returns true on success, false if permission denied
@@ -63,14 +63,14 @@ public:
 	bool AllocateStaticSlot(int& slot);
 
 	// use docking bay position, if player has been granted permission
-	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const;
+	virtual vector3d GetTargetIndicatorPosition(const Frame *relTo) const override;
 
 	// need this now because stations rotate in their frame
-	virtual void UpdateInterpTransform(double alpha);
+	virtual void UpdateInterpTransform(double alpha) override;
 
 protected:
-	virtual void SaveToJson(Json::Value &jsonObj, Space *space);
-	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
+	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
 
 private:
 	void DockingUpdate(const double timeStep);
@@ -110,7 +110,6 @@ private:
 	const SpaceStationType *m_type;
 	const SystemBody *m_sbody;
 	CityOnPlanet *m_adjacentCity;
-	int m_numPoliceDocked;
 	enum { NUM_STATIC_SLOTS = 4 };
 	bool m_staticSlot[NUM_STATIC_SLOTS];
 

@@ -151,9 +151,9 @@
       "description" : "",
       "message" : "Ticari Mal Pazarı"
    },
-   "COMPACT_SCANNER" : {
+   "COMPACT_RADAR" : {
       "description" : "Game settings option",
-      "message" : "Yoğun tarayıcı"
+      "message" : "Compact radar"
    },
    "COMPETENT" : {
       "description" : "Combat rating",
@@ -166,6 +166,14 @@
    "COMPRESS_TEXTURES" : {
       "description" : "graphics option in game settings menu ",
       "message" : "Dokuları Sıkıştır"
+   },
+   "CONFIRM_PURCHASE" : {
+      "description" : "",
+      "message" : "Confirm purchase"
+   },
+   "CONFIRM_SALE" : {
+      "description" : "",
+      "message" : "Confirm sale"
    },
    "CONSTABLE" : {
       "description" : "",
@@ -200,7 +208,7 @@
       "message" : "Mürettebat Listesi"
    },
    "CRIMINAL_RECORD" : {
-      "description" : "",
+      "description" : "Past crimes / crime history of character",
       "message" : "Suç kaydı"
    },
    "DANGEROUS" : {
@@ -259,6 +267,10 @@
       "description" : "mission deadline date",
       "message" : "Süresi gelen"
    },
+   "DUMPING" : {
+      "description" : "The illegal act of dumping waste",
+      "message" : "Dumping"
+   },
    "D_DAYS_LEFT" : {
       "description" : "",
       "message" : "Kalan gün: %d"
@@ -278,6 +290,14 @@
    "EMPLOYMENT" : {
       "description" : "",
       "message" : "İş"
+   },
+   "ENABLE_ANISOTROPIC_FILTERING" : {
+      "description" : "Use Anisotropic Filtering",
+      "message" : "Anisotropic Filtering"
+   },
+   "ENABLE_AUTOSAVE" : {
+      "description" : "Allow the game to autosave when docking",
+      "message" : "Enable Autosave"
    },
    "ENABLE_COCKPIT" : {
       "description" : "Game settings option: to use a cockpit 3D model",
@@ -447,6 +467,10 @@
       "description" : "",
       "message" : "Üstuzay menzili"
    },
+   "ILLEGAL_JUMP" : {
+      "description" : "A finable crime",
+      "message" : "Reckless hyperjump registered"
+   },
    "IM_TIRED_OF_WORKING_FOR_NOTHING_DONT_YOU_KNOW_WHAT_A_CONTRACT_IS" : {
       "description" : "",
       "message" : "Bedava çalışmaktan bıktım. Sözleşmenin ne demek olduğunu bilmiyor musun?"
@@ -462,6 +486,10 @@
    "INEXPERIENCED" : {
       "description" : "For player reputation",
       "message" : "Deneyimsiz"
+   },
+   "INSUFFICIENT_FUNDS" : {
+      "description" : "",
+      "message" : "Insufficient funds."
    },
    "INVERT_MOUSE_Y" : {
       "description" : "",
@@ -505,7 +533,7 @@
    },
    "LAUNCH_PERMISSION_DENIED_CREW" : {
       "description" : "",
-      "message" : "Denize iniş izni reddedildi: bu gemiyi idare edecek yeterli mürettebata sahip değil."
+      "message" : "Permission to launch denied: not enough crew to handle this ship."
    },
    "LAUNCH_PERMISSION_DENIED_FINED" : {
       "description" : "",
@@ -550,6 +578,10 @@
    "LOBBY" : {
       "description" : "",
       "message" : "Lobi"
+   },
+   "LOCAL_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Yerel kol"
    },
    "LOCATED_N_KM_FROM_THE_CENTRE_OF_NAME" : {
       "description" : "",
@@ -691,6 +723,10 @@
       "description" : "",
       "message" : "Navigasyon:"
    },
+   "NAVIGATOR" : {
+      "description" : "",
+      "message" : "Dümenci"
+   },
    "NEGOTIATE" : {
       "description" : "",
       "message" : "Uzlaş"
@@ -710,6 +746,14 @@
    "NONE" : {
       "description" : "",
       "message" : "Yok"
+   },
+   "NONE_FOR_SALE_IN_THIS_STATION" : {
+      "description" : "",
+      "message" : "None for sale in this station."
+   },
+   "NORMA_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Norma kolu"
    },
    "NOTES" : {
       "description" : "",
@@ -751,6 +795,10 @@
       "description" : "",
       "message" : "Tamam"
    },
+   "OPEN_USER_FOLDER" : {
+      "description" : "",
+      "message" : "User Folder"
+   },
    "OPTIONS" : {
       "description" : "",
       "message" : "Seçenekler"
@@ -767,6 +815,14 @@
       "description" : "",
       "message" : "Dairesel yörünge hızı teğet hız için verilmiştir. Gemi {name} eksenine 90° yönünde hareket ediyor olmalıdır.\n\nAlçalma hızı mutlak en az ve yine teğettir. Daha düşük bir hız veya açı {name} yüzeyiyle kesişen bir rotaya neden olacaktır.\n\nKaçış hızı , gemi {name} ile yol üstünde çarpışmadığı sürece, teorik olarak her hangi bir yönde işleyecektir.\n "
    },
+   "OUTER_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Dış kol"
+   },
+   "OUTSTANDING_FINES" : {
+      "description" : "Unpaid fines for crimes committed",
+      "message" : "Outstanding fines"
+   },
    "OWED" : {
       "description" : "Player owing money to crew members",
       "message" : "Borç"
@@ -775,9 +831,17 @@
       "description" : "",
       "message" : "{amount} ceza öde"
    },
+   "PERSEUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Perseus kolu"
+   },
    "PERSONAL_INFORMATION" : {
       "description" : "",
       "message" : "Kişisel Bilgi"
+   },
+   "PILOT" : {
+      "description" : "",
+      "message" : "Pilot"
    },
    "PILOTING" : {
       "description" : "",
@@ -822,6 +886,10 @@
    "PROFESSIONAL" : {
       "description" : "For player reputation",
       "message" : "Profesyonel"
+   },
+   "PUMP_DOWN" : {
+      "description" : "Drain the fuel tank",
+      "message" : "Pump down"
    },
    "QUALIFICATION_SCORES" : {
       "description" : "",
@@ -871,6 +939,10 @@
       "description" : "",
       "message" : "Kalkış Talep Et"
    },
+   "RESET" : {
+      "description" : "",
+      "message" : "Yeniden başlat"
+   },
    "RETURN_TO_GAME" : {
       "description" : "",
       "message" : "Oyuna dön"
@@ -891,6 +963,10 @@
       "description" : "",
       "message" : "Ödül"
    },
+   "SAGITTARIUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Sagittarius kolu"
+   },
    "SAVE" : {
       "description" : "",
       "message" : "Kaydet"
@@ -898,6 +974,10 @@
    "SCOOP_MOUNTS" : {
       "description" : "How many slots or mounts exist on the ship for fitting SCOOPS (e.g. cargo scoop, fuel scoop, multi-scoop) ",
       "message" : "Toplayıcı bağlantıları"
+   },
+   "SCUTUM_CENTAURUS_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "Scutum-Centaurus kolu"
    },
    "SELECT" : {
       "description" : "",
@@ -923,9 +1003,21 @@
       "description" : "",
       "message" : "Algılayıcılar:"
    },
+   "SENSORS_AND_DEFENCE" : {
+      "description" : "",
+      "message" : "Algılayıcılar ve savunma"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set destination as navigation target."
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Gemi"
+   },
+   "SHIPS_ENGINEER" : {
+      "description" : "",
+      "message" : "Gemi Mühendisi"
    },
    "SHIP_INFORMATION" : {
       "description" : "",
@@ -955,6 +1047,10 @@
       "description" : "",
       "message" : "Bakmakta oldunuz gemi satıldı."
    },
+   "SIMULATING_UNIVERSE_EVOLUTION_N_BYEARS" : {
+      "description" : "",
+      "message" : "Simulating evolution of the universe: {age} billion years ;-)"
+   },
    "SOUND" : {
       "description" : "",
       "message" : "Ses"
@@ -983,6 +1079,14 @@
       "description" : "",
       "message" : "Durum"
    },
+   "TECH_CERTIFIED" : {
+      "description" : "Lobby screen shows the tech level (an integer number) of the station",
+      "message" : "This station holds a level {tech_level} technology certificate."
+   },
+   "TECH_CERTIFIED_MILITARY" : {
+      "description" : "Lobby screen shows the tech level of the station",
+      "message" : "This installation holds a military technology clearance."
+   },
    "THANKS_AND_REMEMBER_TO_BUY_FUEL" : {
       "description" : "",
       "message" : "Satın aldığınız için teşekkürler. Ayrılmadan önce ekipmanlarınızı ekleyip yakıt almayı unutmayınız."
@@ -995,6 +1099,10 @@
       "description" : "",
       "message" : "Komutanım, gemi istasyon kontrolünde."
    },
+   "THREE_KPC_ARM" : {
+      "description" : "Arm of the Milky Way galaxy",
+      "message" : "3kpc kolu"
+   },
    "TOGGLE_MALE_FEMALE" : {
       "description" : "player gender",
       "message" : "Erkek/kadın"
@@ -1002,6 +1110,10 @@
    "TOO_SMALL_FOR_CURRENT_CREW" : {
       "description" : "",
       "message" : "Gemi mevcut mürettebat için çok küçük."
+   },
+   "TOO_SMALL_TO_TRANSSHIP" : {
+      "description" : "",
+      "message" : "Ship is too small to transship your cargo."
    },
    "TOTAL" : {
       "description" : "",
@@ -1083,6 +1195,10 @@
       "description" : "Said by the police to law abiding player",
       "message" : "Şu anda sizinle bir işimiz yok."
    },
+   "X_CANNOT_BE_TOLERATED_HERE" : {
+      "description" : "Message to be sent over comms by police when crime is committed by player",
+      "message" : "{crime} cannot be tolerated here!"
+   },
    "YES" : {
       "description" : "Positive answer to a question",
       "message" : "Evet"
@@ -1098,6 +1214,10 @@
    "YOU_DONT_HAVE_ENOUGH_MONEY_FOR_THAT_OPTION" : {
       "description" : "",
       "message" : "Bu seçenek için yeterince paranız yok."
+   },
+   "YOU_HAVE_X_UNITS_IN_YOUR_CARGOHOLD" : {
+      "description" : "",
+      "message" : "You have {units} units in your cargohold"
    },
    "YOU_MUST_FIRST_SELECT_A_COMBAT_TARGET_COMMANDER" : {
       "description" : "",
@@ -1118,5 +1238,9 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "Yeterince paranız yok"
+   },
+   "ZOOM" : {
+      "description" : "Label for a zoom (magnification) control bar.",
+      "message" : "Zoom"
    }
 }

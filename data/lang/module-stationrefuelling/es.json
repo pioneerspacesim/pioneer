@@ -1,10 +1,10 @@
 {
    "THIS_IS_STATION_YOU_DO_NOT_HAVE_ENOUGH" : {
       "description" : "",
-      "message" : "Necesita {fee} para servicios completos de {station}.\\nLa recarga de propelente no se realizará."
+      "message" : "Esto es {station}. No dispone de dinero suficiente para su cuota de atraque de {fee}."
    },
    "WELCOME_ABOARD_STATION_FEE_DEDUCTED" : {
       "description" : "",
-      "message" : "Bienvenido a {station}\\nSe han deducido {fee} por tasa de puerto y recarga de propelente."
+      "message" : "Bienvenido a bordo de {station}. Le ha sido deducida su cuota de atraque de {fee}."
    }
 }

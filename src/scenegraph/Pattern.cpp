@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Pattern.h"
@@ -22,8 +22,8 @@ Pattern::Pattern(const std::string &name_, const std::string& path, Graphics::Re
 {
 	//load as a pattern, allowed:
 	//patternNN.png
-	//patternNN_f.png
-	//patternNN_f_f.png
+	//patternNN_n.png
+	//patternNN_n_s.png
 	//s = smooth (default for pattern)
 	//n = nearest (default for color)
 	if (name.length() >= 11 && name.compare(10,1, "n") == 0) smoothPattern = false;
@@ -32,7 +32,7 @@ Pattern::Pattern(const std::string &name_, const std::string& path, Graphics::Re
 	const std::string patternPath = FileSystem::JoinPathBelow(path, name);
 
 	Graphics::TextureSampleMode sampleMode = smoothPattern ? Graphics::LINEAR_CLAMP : Graphics::NEAREST_CLAMP;
-	texture.Reset(Graphics::TextureBuilder(patternPath, sampleMode, true, true, false).CreateTexture(r));
+	texture.Reset(Graphics::TextureBuilder(patternPath, sampleMode, true, true, false).GetOrCreateTexture(r,std::string("pattern")));
 }
 
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _RENDERER_H
@@ -6,8 +6,8 @@
 
 #include "WindowSDL.h"
 #include "libs.h"
-#include "graphics/Types.h"
-#include "graphics/Light.h"
+#include "Types.h"
+#include "Light.h"
 #include "Stats.h"
 #include <map>
 #include <memory>
@@ -51,7 +51,7 @@ public:
 
 	virtual void WriteRendererInfo(std::ostream &out) const {}
 
-	virtual void CheckRenderErrors() const {}
+	virtual void CheckRenderErrors(const char *func, const int line) const {}
 
 	WindowSDL *GetWindow() const { return m_window.get(); }
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }
@@ -86,7 +86,7 @@ public:
 	virtual bool SetRenderState(RenderState*) = 0;
 
 	// XXX maybe GL-specific. maybe should be part of the render state
-	virtual bool SetDepthRange(double near, double far) = 0;
+	virtual bool SetDepthRange(double znear, double zfar) = 0;
 
 	virtual bool SetWireFrameMode(bool enabled) = 0;
 
@@ -103,7 +103,8 @@ public:
 	//unindexed triangle draw
 	virtual bool DrawTriangles(const VertexArray *vertices, RenderState *state, Material *material, PrimitiveType type=TRIANGLES) = 0;
 	//high amount of textured quads for particles etc
-	virtual bool DrawPointSprites(int count, const vector3f *positions, RenderState *rs, Material *material, float size) = 0;
+	virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size) = 0;
+	virtual bool DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material) = 0;
 	//complex unchanging geometry that is worthwhile to store in VBOs etc.
 	virtual bool DrawBuffer(VertexBuffer*, RenderState*, Material*, PrimitiveType type=TRIANGLES) = 0;
 	virtual bool DrawBufferIndexed(VertexBuffer*, IndexBuffer*, RenderState*, Material*, PrimitiveType=TRIANGLES) = 0;
@@ -116,7 +117,7 @@ public:
 	virtual Texture *CreateTexture(const TextureDescriptor &descriptor) = 0;
 	virtual RenderState *CreateRenderState(const RenderStateDesc &) = 0;
 	//returns 0 if unsupported
-	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) { return 0; }
+	virtual RenderTarget *CreateRenderTarget(const RenderTargetDesc &) = 0;
 	virtual VertexBuffer *CreateVertexBuffer(const VertexBufferDesc&) = 0;
 	virtual IndexBuffer *CreateIndexBuffer(Uint32 size, BufferUsage) = 0;
 	virtual InstanceBuffer *CreateInstanceBuffer(Uint32 size, BufferUsage) = 0;

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTUREDUMMY_H
@@ -17,7 +17,8 @@ public:
 	void Unbind() {}
 
 	virtual void SetSampleMode(TextureSampleMode) {}
-	GLuint GetTexture() const { return 0; }
+	virtual void BuildMipmaps() {}
+	Uint32 GetTexture() const { return 0U; }
 
 private:
 	friend class RendererDummy;

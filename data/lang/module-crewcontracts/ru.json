@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "Недолго служил на корабле"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "Навигатор"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Сожалеем, но на станции {station} нет подходящих кандидатов, которые ищут работу."
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "Ладно, я полагаю, что всё в порядке."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "Пилот"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "Потенциальные члены экипажа, зарегистрированные в качестве ищущих работу на {station}:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "Сенсоры и защита"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "Корабельный инженер"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

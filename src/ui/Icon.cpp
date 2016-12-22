@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Icon.h"
@@ -74,25 +74,26 @@ Point Icon::PreferredSize()
 
 void Icon::Draw()
 {
-	const Point &offset = GetActiveOffset();
-	const Point &area = GetActiveArea();
-
-	const float x = offset.x;
-	const float y = offset.y;
-	const float sx = area.x;
-	const float sy = area.y;
-
-	Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
-	va.Add(vector3f(x,    y,    0.0f), vector2f(s_texScale.x*(m_texPos.x),    s_texScale.y*(m_texPos.y)));
-	va.Add(vector3f(x,    y+sy, 0.0f), vector2f(s_texScale.x*(m_texPos.x),    s_texScale.y*(m_texPos.y+48)));
-	va.Add(vector3f(x+sx, y,    0.0f), vector2f(s_texScale.x*(m_texPos.x+48), s_texScale.y*(m_texPos.y)));
-	va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(s_texScale.x*(m_texPos.x+48), s_texScale.y*(m_texPos.y+48)));
-
 	Graphics::Renderer *r = GetContext()->GetRenderer();
-	s_material->diffuse = m_color;
-	s_material->diffuse = Color(m_color.r, m_color.g, m_color.b, GetContext()->GetOpacity()*m_color.a);
-	auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
-	r->DrawTriangles(&va, renderState, s_material.Get(), Graphics::TRIANGLE_STRIP);
+	if (!m_quad) {
+		const Point &offset = GetActiveOffset();
+		const Point &area = GetActiveArea();
+
+		const float x = offset.x;
+		const float y = offset.y;
+		const float sx = area.x;
+		const float sy = area.y;
+
+		Graphics::VertexArray va(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_UV0);
+		va.Add(vector3f(x,    y,    0.0f), vector2f(s_texScale.x*(m_texPos.x),    s_texScale.y*(m_texPos.y)));
+		va.Add(vector3f(x,    y+sy, 0.0f), vector2f(s_texScale.x*(m_texPos.x),    s_texScale.y*(m_texPos.y+48)));
+		va.Add(vector3f(x+sx, y,    0.0f), vector2f(s_texScale.x*(m_texPos.x+48), s_texScale.y*(m_texPos.y)));
+		va.Add(vector3f(x+sx, y+sy, 0.0f), vector2f(s_texScale.x*(m_texPos.x+48), s_texScale.y*(m_texPos.y+48)));
+
+		auto renderState = GetContext()->GetSkin().GetAlphaBlendState();
+		m_quad.reset(new Graphics::Drawables::TexturedQuad(r, s_material, va, renderState));
+	}
+	m_quad->Draw(r, Color(m_color.r, m_color.g, m_color.b, GetContext()->GetOpacity()*m_color.a));
 }
 
 }

@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _COLOR_H
@@ -32,6 +32,7 @@ struct Color4f {
 	static const Color4f YELLOW;
 	static const Color4f GRAY;
 	static const Color4f STEELBLUE;
+	static const Color4f BLANK;
 };
 
 namespace {
@@ -43,10 +44,10 @@ struct Color4ub {
 
 	Uint8 r, g, b, a;
 	Color4ub(): r(0), g(0), b(0), a(255) {}
-	Color4ub(Uint8 v_): r(v_), g(v_), b(v_), a(v_) {}
 	Color4ub(Uint8 r_, Uint8 g_, Uint8 b_): r(r_), g(g_), b(b_), a(255) {}
 	Color4ub(Uint8 r_, Uint8 g_, Uint8 b_, Uint8 a_): r(r_), g(g_), b(b_), a(a_) {}
 	Color4ub(const Color4f &c): r(Uint8(c.r*255.f)), g(Uint8(c.g*255.f)), b(Uint8(c.b*255.f)), a(Uint8(c.a*255.f)) {}
+	Color4ub(const Uint32 rgba): r((rgba >> 24) & 0xff), g((rgba >> 16) & 0xff), b((rgba >> 8) & 0xff), a(rgba & 0xff) {}
 
 	operator unsigned char*() { return &r; }
 	operator const unsigned char*() const { return &r; }
@@ -58,6 +59,7 @@ struct Color4ub {
 	Color4ub operator/(const float f) const		{ return Color4ub(Uint8(r/f), Uint8(g/f), Uint8(b/f), Uint8(a/f)); }
 
 	friend bool operator==(const Color4ub& aIn, const Color4ub& bIn) { return ((aIn.r == bIn.r) && (aIn.g == bIn.g) && (aIn.b == bIn.b) && (aIn.a == bIn.a)); }
+	friend bool operator!=(const Color4ub& aIn, const Color4ub& bIn) { return ((aIn.r != bIn.r) || (aIn.g != bIn.g) || (aIn.b != bIn.b) || (aIn.a != bIn.a)); }
 
 	Color4f ToColor4f() const { return Color4f(r/255.0f, g/255.0f, b/255.0f, a/255.0f); }
 
@@ -74,6 +76,7 @@ struct Color4ub {
 	static const Color4ub YELLOW;
 	static const Color4ub GRAY;
 	static const Color4ub STEELBLUE;
+	static const Color4ub BLANK;
 };
 
 struct Color3ub {
@@ -100,6 +103,7 @@ struct Color3ub {
 	static const Color3ub BLUE;
 	static const Color3ub YELLOW;
 	static const Color3ub STEELBLUE;
+	static const Color3ub BLANK;
 };
 
 typedef Color4ub Color;

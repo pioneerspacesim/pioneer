@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _LUAUTILS_H
@@ -77,6 +77,8 @@ void pi_lua_dofile_recursive(lua_State *l, const std::string &basepath);
 void pi_lua_warn(lua_State *l, const char *format, ...) __attribute((format(printf,2,3)));
 
 bool pi_lua_split_table_path(lua_State *l, const std::string &path);
+
+int secure_trampoline(lua_State *l);
 
 #ifdef DEBUG
 # define LUA_DEBUG_START(luaptr) const int __luaStartStackDepth = lua_gettop(luaptr)

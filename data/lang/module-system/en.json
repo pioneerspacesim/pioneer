@@ -1,20 +1,4 @@
 {
-   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
-      "description" : "",
-      "message" : "Your fuel tank is almost empty."
-   },
-   "YOUR_FUEL_TANK_IS_EMPTY" : {
-      "description" : "",
-      "message" : "Your fuel tank is empty."
-   },
-   "BODY" : {
-      "description" : "",
-      "message" : "body"
-   },
-   "BODIES" : {
-      "description" : "",
-      "message" : "bodies"
-   },
    "BASE" : {
       "description" : "",
       "message" : "base"
@@ -23,12 +7,28 @@
       "description" : "",
       "message" : "bases"
    },
-   "EXPLORING_SYSTEM" : {
+   "BODIES" : {
       "description" : "",
-      "message" : "Exploring system with {bodycount} major {bodies}."
+      "message" : "bodies"
+   },
+   "BODY" : {
+      "description" : "",
+      "message" : "body"
    },
    "DISCOVERED_HIDDEN_BASES" : {
       "description" : "",
       "message" : "You have discovered {portcount} hidden {bases}!"
+   },
+   "EXPLORING_SYSTEM" : {
+      "description" : "",
+      "message" : "Exploring system with {bodycount} major {bodies}."
+   },
+   "YOUR_FUEL_TANK_IS_ALMOST_EMPTY" : {
+      "description" : "",
+      "message" : "Your fuel tank is almost empty."
+   },
+   "YOUR_FUEL_TANK_IS_EMPTY" : {
+      "description" : "",
+      "message" : "Your fuel tank is empty."
    }
 }

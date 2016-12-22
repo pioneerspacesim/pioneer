@@ -37,6 +37,7 @@ ShipCockpit::~ShipCockpit()
 
 void ShipCockpit::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	PROFILE_SCOPED()
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 
@@ -67,15 +68,15 @@ void ShipCockpit::Update(float timeStep)
 
 	//---------------------------------------- Acceleration
 	float cur_vel = CalculateSignedForwardVelocity(-cur_dir, Pi::player->GetVelocity()); // Forward is -Z
-	float gforce = Clamp(floorf(((abs(cur_vel) - m_shipVel) / timeStep) / 9.8f), -COCKPIT_MAX_GFORCE, COCKPIT_MAX_GFORCE);
-	if (abs(cur_vel) > 500000.0f ||      // Limit gforce measurement so we don't get astronomical fluctuations
-		abs(gforce - m_gForce) > 100.0) { // Smooth out gforce one frame spikes, sometimes happens when hitting max speed due to the thrust limiters
+	float gforce = Clamp(floorf(((fabs(cur_vel) - m_shipVel) / timeStep) / 9.8f), -COCKPIT_MAX_GFORCE, COCKPIT_MAX_GFORCE);
+	if (fabs(cur_vel) > 500000.0f ||      // Limit gforce measurement so we don't get astronomical fluctuations
+		fabs(gforce - m_gForce) > 100.0) { // Smooth out gforce one frame spikes, sometimes happens when hitting max speed due to the thrust limiters
 		gforce = 0.0f;
 	}
-	if (abs(gforce - m_gForce) > 100.0) {
+	if (fabs(gforce - m_gForce) > 100.0) {
 		gforce = 0.0f;
 	}
-	if (abs(m_translate.z - m_offset) < 0.001f) {
+	if (fabs(m_translate.z - m_offset) < 0.001f) {
 		m_transInterp = 0.0f;
 	}
 	float offset = (gforce > 14.0f ? -1.0f : (gforce < -14.0f ? 1.0f : 0.0f)) * COCKPIT_ACCEL_OFFSET;
@@ -184,6 +185,7 @@ void ShipCockpit::Update(float timeStep)
 
 void ShipCockpit::RenderCockpit(Graphics::Renderer* renderer, const Camera* camera, Frame* frame)
 {
+	PROFILE_SCOPED()
 	renderer->ClearDepthBuffer();
 	SetFrame(frame);
 	Render(renderer, camera, m_translate, m_transform);
@@ -200,7 +202,7 @@ void ShipCockpit::OnActivated()
 	m_shipVel = CalculateSignedForwardVelocity(-m_shipDir, Pi::player->GetVelocity());
 }
 
-float ShipCockpit::CalculateSignedForwardVelocity(vector3d normalized_forward, vector3d velocity) {
+float ShipCockpit::CalculateSignedForwardVelocity(const vector3d &normalized_forward, const vector3d &velocity) {
 	float velz_cos = velocity.Dot(normalized_forward);
 	return (velz_cos * normalized_forward).Length() * (velz_cos < 0.0 ? -1.0 : 1.0);
 }

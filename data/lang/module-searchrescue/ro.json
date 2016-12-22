@@ -1,0 +1,698 @@
+{
+   "AU" : {
+      "description" : "",
+      "message" : "AU"
+   },
+   "BOARDED_PASSENGER" : {
+      "description" : "",
+      "message" : "{name} has boarded the ship."
+   },
+   "COMMODITIES" : {
+      "description" : "",
+      "message" : "Commodities"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Puteți repeta solicitarea inițială?"
+   },
+   "CREW" : {
+      "description" : "",
+      "message" : "Crew"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Termen limită:"
+   },
+   "DELIVERED_PASSENGER" : {
+      "description" : "",
+      "message" : "{name} has left the ship."
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "DELIVERY"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Distanța:"
+   },
+   "ENTITY_FAMILY_BUSINESS_1" : {
+      "description" : "",
+      "message" : "{name} și Fii"
+   },
+   "ENTITY_FAMILY_BUSINESS_10" : {
+      "description" : "",
+      "message" : "Servicii de Taximetrie {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_2" : {
+      "description" : "",
+      "message" : "{name} și Fiicele"
+   },
+   "ENTITY_FAMILY_BUSINESS_3" : {
+      "description" : "",
+      "message" : "{name} Flori din {locality}"
+   },
+   "ENTITY_FAMILY_BUSINESS_4" : {
+      "description" : "",
+      "message" : "Rachete Pictate Personalizate {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_5" : {
+      "description" : "",
+      "message" : "Servicii de Curierat {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_6" : {
+      "description" : "",
+      "message" : "Animale de Companie Spațiale {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_7" : {
+      "description" : "",
+      "message" : "{name} & {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_8" : {
+      "description" : "",
+      "message" : "Specialități Culinare Autentice {name} {locality}"
+   },
+   "ENTITY_FAMILY_BUSINESS_9" : {
+      "description" : "",
+      "message" : "Transporturi {name}"
+   },
+   "ENTITY_GENERAL_1" : {
+      "description" : "",
+      "message" : "Prospector General S.R.L. {locality} "
+   },
+   "ENTITY_GENERAL_10" : {
+      "description" : "",
+      "message" : "Energie Infinită {locality}"
+   },
+   "ENTITY_GENERAL_2" : {
+      "description" : "",
+      "message" : "Societatea de Prezervare Ecologică {locality}"
+   },
+   "ENTITY_GENERAL_3" : {
+      "description" : "",
+      "message" : "Grupurile Drepturilor Acționarilor pentru {locality}"
+   },
+   "ENTITY_GENERAL_4" : {
+      "description" : "",
+      "message" : "Agenția de Drepturi Miniere {locality}"
+   },
+   "ENTITY_GENERAL_5" : {
+      "description" : "",
+      "message" : "Asociația Proprietarilor Funciari {locality}"
+   },
+   "ENTITY_GENERAL_6" : {
+      "description" : "",
+      "message" : "Institutul Statistic din {locality}"
+   },
+   "ENTITY_GENERAL_7" : {
+      "description" : "",
+      "message" : "agenția filială SpaceCruise S.R.L. {locality}"
+   },
+   "ENTITY_GENERAL_8" : {
+      "description" : "",
+      "message" : "iSateliți S.A. {locality}"
+   },
+   "ENTITY_GENERAL_9" : {
+      "description" : "",
+      "message" : "{locality} Burial-Services Corp"
+   },
+   "ENTITY_RESEARCH_1" : {
+      "description" : "",
+      "message" : "Societatea Biologică {locality}"
+   },
+   "ENTITY_RESEARCH_10" : {
+      "description" : "",
+      "message" : "Centrul de Cercetări Zoologice {locality}"
+   },
+   "ENTITY_RESEARCH_2" : {
+      "description" : "",
+      "message" : "Societatea Microbiologică {locality}"
+   },
+   "ENTITY_RESEARCH_3" : {
+      "description" : "",
+      "message" : "Societatea Chimică {locality}"
+   },
+   "ENTITY_RESEARCH_4" : {
+      "description" : "",
+      "message" : "Societatea Astrobiologică {locality}"
+   },
+   "ENTITY_RESEARCH_5" : {
+      "description" : "",
+      "message" : "Societatea Geologică {locality}"
+   },
+   "ENTITY_RESEARCH_6" : {
+      "description" : "",
+      "message" : "Societatea de Astropaleontologie {locality}"
+   },
+   "ENTITY_RESEARCH_7" : {
+      "description" : "",
+      "message" : "Centrul de Cercetări Astrofizice {locality}"
+   },
+   "ENTITY_RESEARCH_8" : {
+      "description" : "",
+      "message" : "Centrul de Cercetări de Astrochimie {locality}"
+   },
+   "ENTITY_RESEARCH_9" : {
+      "description" : "",
+      "message" : "Centrul Botanic {locality}"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Nu sunteți echipat corespunzător pentru a vă ocupa de această misiune. Aveți nevoie de {unit} {equipment}."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "O NAVĂ S-A PRĂBUȘIT pe {planet}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nu pot să cred că abia acum vă întoarceți! Cât timp a fost irosit!"
+   },
+   "FLAVOUR_1_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Pentru rambursarea completă a cheltuielilor trebuie să vă întoarceți până pe {due}."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Controlul aerian al portului stelar {starport} are nevoie de ajutorul dvs. URGENT pentru a salva o navă de tip {ship} care a aterizat forţat pe {planet}. Condiția sistemelor de susţinere a vieţii e necunoscută. Nava a fost asigurată de către portul stelar {starport} și este acoperită cu suma {cash} privind acţiunile de răspuns în situaţii de urgenţă."
+   },
+   "FLAVOUR_1_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Ultima locație cunoscută a navei a fost pe {planet} la coordonatele latitudine/longitudine: {lat} / {long}. ID-ul navei este {shiplabel}."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mulțumim, ne-ați luat o piatră de pe inimă! Vă vom trece banii imediat în cont."
+   },
+   "FLAVOUR_1_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} s-a îmbarcat pe navă."
+   },
+   "FLAVOUR_1_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "S-a raportat a fi la bordul navei un echipaj de {crew} și {pass} pasageri. Avem nevoie de cineva să localizeze nava, să salveze orice supraviețuitori și să-i aducă aici cât mai repede."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "NAVĂ RĂMASĂ FĂRĂ COMBUSTIBIL în drum spre {starport}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nu-mi vine să cred că m-ați lăsat să aștept atât de mult în mijlocul pustietății! Puteți uita de plată."
+   },
+   "FLAVOUR_2_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "To receive full payment you are asked to deliver the fuel by {due}."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Controlul aerian al portului stelar {starport} a primit de veste că nava așteptată {shiplabel} a rămas fără combustibil și a trebuit să aterizeze de urgență. Pilotul oferă {cash} pentru cine îl poate realimenta."
+   },
+   "FLAVOUR_2_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Nava așteaptă la latitudine {lat} / longitudine {long} pe planeta {planet}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Thank you so much! I have transferred the full reward."
+   },
+   "FLAVOUR_2_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} ton of fuel has been transferred."
+   },
+   "FLAVOUR_2_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "The pilot is requesting {unit} tons of {cargo}."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "URGENȚĂ MEDICALĂ pe o navă aproape de {starport}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Performanță inacceptabilă! Vom actualiza înregistrările noastre în mod corespunzător."
+   },
+   "FLAVOUR_3_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Pilotul înlocuitor va trebui să ajungă la navă pana la {due}."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Numele meu este {name}, de la controlul aerian din {starport}. Cer ajutor în numele unui pilot al zborului {shiplabel} către portul stelar {starport}, care ne-a anunțat că are o urgență medicală."
+   },
+   "FLAVOUR_3_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Nava a trebuit să aterizeze de urgență la coordonatele: {lat} / {long}."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mulțumim, comandante! Ajutorul dvs. a fost apreciat corespunzător."
+   },
+   "FLAVOUR_3_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} a părăsit nava."
+   },
+   "FLAVOUR_3_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Vă rog să aduceți un pilot înlocuitor de la {starport} la navă ca să poată duce nava înapoi la {starport}."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "NAVĂ FĂRĂ COMBUSTIBIL pe {planet}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "O să trimit pe altcineva. Nu vă mai deranjați."
+   },
+   "FLAVOUR_4_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Pentru plata completă, pilotul așteaptă livrarea combustibilului până la {due}."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Controlul aerian {starport} a fost contactat de un pilot al zborului {shiplabel}. Sunt sinistrați cu un rezervor gol și au promis să plătească {cash} oricui poate să le realimenteze nava."
+   },
+   "FLAVOUR_4_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Nava este sinistrată pe {planet} la coordonatele {lat} / {long}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Foarte bine. Vă vom recomanda pe viitor pentru misiuni viitoare."
+   },
+   "FLAVOUR_4_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} ton of fuel has been transferred."
+   },
+   "FLAVOUR_4_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "The pilot is asking for {unit} tons of {cargo}."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "NAVĂ FĂRĂ COMBUSTIBIL aproape de {starport}."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nu te mai poți baza pe oameni în ziua de azi."
+   },
+   "FLAVOUR_5_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Vă rog să realimentați până la {due}."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Controlul aerian {starport} a identificat o navă cu ID-ul {shiplabel} în derivă fără combustibil în apropiere. Vom plăti {cash} oricui va realimenta nava ca să poată elibera spațiul aerian de lângă {starport}."
+   },
+   "FLAVOUR_5_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Nava în pricină plutește acum în derivă la {dist} km de aici. Va trebui să cautați locația exactă dvs."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Vom reține rapiditatea cu care aţi rezolvat misiunea."
+   },
+   "FLAVOUR_5_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} ton of fuel has been transferred."
+   },
+   "FLAVOUR_5_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "We request the delivery of {unit} tons of {cargo} to the ship."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "NAVĂ NU RĂSPUNDE în sistemul {system}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ce dezastru! Colegii noștri sunt sortiți pieirii."
+   },
+   "FLAVOUR_6_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Trebuie să vă întoarceți înainte de {due}."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Numele meu este {name} de pe {entity}. Am pierdut contactul cu nava noastră {ship} {shiplabel} în urma unei probleme ({problem}). Suntem dispuși să plătim {cash} pentru cine ne ajută imediat."
+   },
+   "FLAVOUR_6_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Ultima poziție cunoscută a fost în apropierea planetei {planet} din sistemul {system} [{sectorx},{sectory},{sectorz}], la {dist} a.l. de aici."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mulțumim! Nu vă puteți imagina ce mare povară ne-ați luat de pe suflet."
+   },
+   "FLAVOUR_6_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} s-a îmbarcat pe navă."
+   },
+   "FLAVOUR_6_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Am nevoie de cineva dispus să plece imediat și să ne aducă colegii înapoi la {starport} dacă mai trăiesc. Nava avea un echipaj de {crew} oameni și {pass} pasageri la bord."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "CER TRANSFER ECHIPAJ IMEDIAT către sistemul {system}."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Mulțumesc foarte mult, dar e prea târziu!"
+   },
+   "FLAVOUR_7_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Echipajul înlocuitor trebuie să ajungă la navă până la {due}."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "My name is {name} of {entity}. Our only ship, {ship} {shiplabel}, is drifting with a crew of {crew} after {problem}. I am willing to pay {cash} for immediate help."
+   },
+   "FLAVOUR_7_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Veți găsi nava în sistemul {system} [{sectorx},{sectory},{sectorz}], la {dist} a.l. de aici. Orbitează în jurul planetei {planet}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mulțumesc! Am fost autorizat să vă transfer plata completă."
+   },
+   "FLAVOUR_7_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} has transferred to the target ship."
+   },
+   "FLAVOUR_7_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Nu putem returna nava fără un echipaj minim pe ea. Caut pe cineva dispus să transporte un echipaj înlocuitor de {deliver_crew} persoane pe nava noastră imediat."
+   },
+   "FULL_CARGO" : {
+      "description" : "",
+      "message" : "Ship full. No more room for additional cargo."
+   },
+   "FULL_CREW" : {
+      "description" : "",
+      "message" : "Crew roster full. No more space for more crew."
+   },
+   "FULL_PASSENGERS" : {
+      "description" : "",
+      "message" : "All cabins full. No more space for more passengers."
+   },
+   "HOW_FAR" : {
+      "description" : "",
+      "message" : "How far away is the target?"
+   },
+   "HOW_MUCH_TIME" : {
+      "description" : "",
+      "message" : "How much time do I have?"
+   },
+   "INTERACTION_ABORTED" : {
+      "description" : "",
+      "message" : "Interaction aborted. Please come closer and try again."
+   },
+   "INTERACTION_DISTANCE_REACHED" : {
+      "description" : "",
+      "message" : "Interaction distance reached."
+   },
+   "IT_MUST_BE_COMPLETED_BY" : {
+      "description" : "",
+      "message" : "It must be completed by "
+   },
+   "KM" : {
+      "description" : "",
+      "message" : "km"
+   },
+   "LAST_KNOWN_LOCATION" : {
+      "description" : "",
+      "message" : "Last known location:"
+   },
+   "LAT" : {
+      "description" : "",
+      "message" : "Lat:"
+   },
+   "LON" : {
+      "description" : "",
+      "message" : "Lon:"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "a.l."
+   },
+   "MISSING_COMM" : {
+      "description" : "",
+      "message" : "Cannot complete transfer. {cargotype} missing."
+   },
+   "MISSING_CREW" : {
+      "description" : "",
+      "message" : "Transferul nu poate fi finalizat. Lipsește echipaj."
+   },
+   "MISSING_PASS" : {
+      "description" : "",
+      "message" : "Cannot complete transfer. Passengers missing."
+   },
+   "MISSING_PASSENGER" : {
+      "description" : "",
+      "message" : "Transferul nu poate fi finalizat. Lipsește un pasager."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Ok, de acord."
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Orbită"
+   },
+   "PARTIAL" : {
+      "description" : "",
+      "message" : "Mulțumim pentru efort. Sper să vă întoarceți ca să terminați treaba!"
+   },
+   "PASSENGERS" : {
+      "description" : "",
+      "message" : "Passengers"
+   },
+   "PAYMENT_LOCATION" : {
+      "description" : "",
+      "message" : "Payment location:"
+   },
+   "PICKUP" : {
+      "description" : "",
+      "message" : "PICKUP"
+   },
+   "PLACE_OF_ASSISTANCE" : {
+      "description" : "",
+      "message" : "At the place of assistance"
+   },
+   "PLEASE_LAND" : {
+      "description" : "",
+      "message" : "Please land ship to allow transfer."
+   },
+   "PROBLEM_CREW_1" : {
+      "description" : "",
+      "message" : "o luptă mortală între membrii echipajului"
+   },
+   "PROBLEM_CREW_10" : {
+      "description" : "",
+      "message" : "o răscoală"
+   },
+   "PROBLEM_CREW_2" : {
+      "description" : "",
+      "message" : "echipajul a trebuit să vâneze un șarpe veninos din {locality} care a scăpat liber pe navă"
+   },
+   "PROBLEM_CREW_3" : {
+      "description" : "",
+      "message" : "un păianjen din {locality} a omorât pe ceilalţi"
+   },
+   "PROBLEM_CREW_4" : {
+      "description" : "",
+      "message" : "ce pare a fi un scorpion din {locality} a ajuns în cabinele echipajului noaptea"
+   },
+   "PROBLEM_CREW_5" : {
+      "description" : "",
+      "message" : "o formă severă a febrei din {locality} a omorât pe ceilalţi"
+   },
+   "PROBLEM_CREW_6" : {
+      "description" : "",
+      "message" : "ceilalți membri ai echipajului nu s-au întors dintro ieșire în spațiu"
+   },
+   "PROBLEM_CREW_7" : {
+      "description" : "",
+      "message" : "o formă severă de intoxicație alimentară pe navă"
+   },
+   "PROBLEM_CREW_8" : {
+      "description" : "",
+      "message" : "un accident teribil care a dus la aruncarea celorlalți în spațiu"
+   },
+   "PROBLEM_CREW_9" : {
+      "description" : "",
+      "message" : "o circumstanță pe care nu o pot spune în public"
+   },
+   "PROBLEM_GENERAL_1" : {
+      "description" : "",
+      "message" : "un incendiu în depozitul navei"
+   },
+   "PROBLEM_GENERAL_10" : {
+      "description" : "",
+      "message" : "primirea unui apel de urgență din {locality}"
+   },
+   "PROBLEM_GENERAL_2" : {
+      "description" : "",
+      "message" : "o pană de curent în nucleul motorului"
+   },
+   "PROBLEM_GENERAL_3" : {
+      "description" : "",
+      "message" : "o scurgere de aer"
+   },
+   "PROBLEM_GENERAL_4" : {
+      "description" : "",
+      "message" : "o formă gravă de intoxicație alimentară care a afectat tot personalul de la bordul navei"
+   },
+   "PROBLEM_GENERAL_5" : {
+      "description" : "",
+      "message" : "un impact cu un meteorit mic"
+   },
+   "PROBLEM_GENERAL_6" : {
+      "description" : "",
+      "message" : "o bătaie între membrii echipajului"
+   },
+   "PROBLEM_GENERAL_7" : {
+      "description" : "",
+      "message" : "contactul cu un obiect zburător neidentificat"
+   },
+   "PROBLEM_GENERAL_8" : {
+      "description" : "",
+      "message" : "o dispută cu o navă a unui competitor"
+   },
+   "PROBLEM_GENERAL_9" : {
+      "description" : "",
+      "message" : "o repornire a calculatorului principal"
+   },
+   "PROBLEM_RESEARCH_1" : {
+      "description" : "",
+      "message" : "o reacție chimicală neașteptată în una din camerele de reacție"
+   },
+   "PROBLEM_RESEARCH_10" : {
+      "description" : "",
+      "message" : "o descoperire majoră la {locality} pe care nu am libertatea să o divulg acum"
+   },
+   "PROBLEM_RESEARCH_2" : {
+      "description" : "",
+      "message" : "o infecție a unui membru al echipajului cu un patogen local din {locality}"
+   },
+   "PROBLEM_RESEARCH_3" : {
+      "description" : "",
+      "message" : "o scurgere de patogeni experimentali în sursa principală de aer"
+   },
+   "PROBLEM_RESEARCH_4" : {
+      "description" : "",
+      "message" : "expunerea echipajului la un specimen colectat din {locality}"
+   },
+   "PROBLEM_RESEARCH_5" : {
+      "description" : "",
+      "message" : "o explozie chimică în una din nișele chimice de la bord"
+   },
+   "PROBLEM_RESEARCH_6" : {
+      "description" : "",
+      "message" : "o recreere experimentală a gazelor atmosferice din {locality}"
+   },
+   "PROBLEM_RESEARCH_7" : {
+      "description" : "",
+      "message" : "o dispută aprinsă între oamenii de știință de la bordul navei"
+   },
+   "PROBLEM_RESEARCH_8" : {
+      "description" : "",
+      "message" : "dispariția subită a anchetatorului șef de la bordul navei"
+   },
+   "PROBLEM_RESEARCH_9" : {
+      "description" : "",
+      "message" : "combinarea accidentala de specimene incompatibile din {locality}"
+   },
+   "RESULT_DELIVERY_COMM" : {
+      "description" : "",
+      "message" : "Transferred {done} of {todo} tons of {cargotype} to target ship."
+   },
+   "RESULT_DELIVERY_CREW" : {
+      "description" : "",
+      "message" : "Transferred {done} of {todo} crew members to target ship."
+   },
+   "RESULT_DELIVERY_PASS" : {
+      "description" : "",
+      "message" : "Transferred {done} of {todo} passengers to target ship."
+   },
+   "RESULT_PICKUP_COMM" : {
+      "description" : "",
+      "message" : "Picked up {done} of {todo} tons of {cargotype} from target ship."
+   },
+   "RESULT_PICKUP_CREW" : {
+      "description" : "",
+      "message" : "Picked up {done} of {todo} crew members from target ship."
+   },
+   "RESULT_PICKUP_PASS" : {
+      "description" : "",
+      "message" : "Picked up {done} of {todo} passengers from target ship."
+   },
+   "RETURN_TO" : {
+      "description" : "",
+      "message" : "Return To:"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Reward:"
+   },
+   "SEARCH_RESCUE" : {
+      "description" : "",
+      "message" : "Căutare & Salvare"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
+   "SHIP_UNRESPONSIVE" : {
+      "description" : "",
+      "message" : "Target ship unresponsive."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Sistem:"
+   },
+   "TARGET_SHIP_ID" : {
+      "description" : "",
+      "message" : "Target ship ID:"
+   },
+   "THANK_YOU_ACCEPTANCE_TXT" : {
+      "description" : "",
+      "message" : "Mulțumesc foarte mult. Ajutorul dvs. este foarte apreciat."
+   },
+   "TONS_OF_FREE_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "tone de spațiu liber de depozitare"
+   },
+   "TRANSFER_ABORTED" : {
+      "description" : "",
+      "message" : "Transfer has been aborted!"
+   },
+   "TRANSFER_COMPLETE" : {
+      "description" : "",
+      "message" : "Transfer has been completed!"
+   },
+   "TRANSFER_PARTIAL" : {
+      "description" : "",
+      "message" : "Transfer has been partially completed. Please return to finish transfer."
+   },
+   "TRANSFER_TIME" : {
+      "description" : "",
+      "message" : "Please allow {minutes} minutes for transfer."
+   },
+   "TYPE_OF_HELP" : {
+      "description" : "",
+      "message" : "What type of help is needed?"
+   },
+   "UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "cabine de pasageri neocupate"
+   },
+   "WHERE_IS_THE_TARGET" : {
+      "description" : "",
+      "message" : "Where do I find the target?"
+   }
+}

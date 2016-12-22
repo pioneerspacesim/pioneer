@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Sözleşme tamamlandığında buraya dönün ve paranızı alacaksınız."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Gemi:"

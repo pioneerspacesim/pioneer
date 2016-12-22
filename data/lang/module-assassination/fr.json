@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Revenez ici a l'accomplissement du contrat et vous serez payé."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Définir comme cible de navigation"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Définir le trajet de retour"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Vaisseau:"

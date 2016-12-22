@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "компания {name} и Сыновья"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Мы совершаем сделки, за которые другие не берутся."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "По-настоящему свободный рынок."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "Только лучшие экзотические товары для вас!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Мы верим в рынок без каких-либо ограничений."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "Нерегулируемый рынок, все для вашей свободы."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "Достойный доверия торговец."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Всегда особая цена только для вас."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Добро пожаловать! Вас приветствует "

@@ -1,11 +1,10 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "LuaObject.h"
 #include "LuaUtils.h"
 #include "LuaConstants.h"
 #include "Player.h"
-#include "Polit.h"
 #include "Pi.h"
 #include "Game.h"
 #include "SectorView.h"
@@ -25,66 +24,6 @@ static int l_player_is_player(lua_State *l)
 }
 
 /*
- * Method: AddCrime
- *
- * Add a crime to the player's criminal record
- *
- * > player:AddCrime(crime, fine)
- *
- * Parameters:
- *
- *   crime - a <Constants.PolitCrime> string describing the crime
- *
- *   fine - an amount to add to the player's fine
- *
- * Availability:
- *
- *   alpha 10
- *
- * Status:
- *
- *   stable
- */
-static int l_player_add_crime(lua_State *l)
-{
-	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
-	Sint64 crimeBitset = LuaConstants::GetConstantFromArg(l, "PolitCrime", 2);
-	Sint64 fine = Sint64(luaL_checknumber(l, 3) * 100.0);
-	Polit::AddCrime(crimeBitset, fine);
-	return 0;
-}
-
-// XXX temporary until crime is moved out to Lua properly
-static int l_player_get_crime(lua_State *l)
-{
-	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
-
-	Sint64 crimeBitset, fine;
-	Polit::GetCrime(&crimeBitset, &fine);
-
-	lua_newtable(l);
-	for (Sint64 i = 0; i < 4; i++) { // hardcoding 4 possible Polit::Crime flags
-		if (crimeBitset & (Sint64(1)<<i)) {
-			lua_pushstring(l, EnumStrings::GetString("PolitCrime", 1<<i));
-			lua_rawseti(l, -2, lua_rawlen(l, -2)+1);
-		}
-	}
-
-	lua_pushnumber(l, double(fine) * 0.01);
-
-	return 2;
-}
-
-static int l_player_clear_crime_fine(lua_State *l)
-{
-	LuaObject<Player>::CheckFromLua(1); // check that the method is being called on a Player object
-	Sint64 crimeBitset, fine;
-	Polit::GetCrime(&crimeBitset, &fine);
-	Polit::AddCrime(0, -fine);
-	return 0;
-}
-
-/*
  * Method: GetNavTarget
  *
  * Get the player's navigation target
@@ -101,7 +40,7 @@ static int l_player_clear_crime_fine(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_get_nav_target(lua_State *l)
@@ -120,7 +59,7 @@ static int l_get_nav_target(lua_State *l)
  *
  * Parameters:
  *
- *   target - a <Body> to which to set the navigation target
+ *   target - a <Body> to which to set the navigation target, or nil
  *
  * Availability:
  *
@@ -128,13 +67,13 @@ static int l_get_nav_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_set_nav_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
-	Body *target = LuaObject<Body>::CheckFromLua(2);
+	Body *target = LuaObject<Body>::GetFromLua(2);
     p->SetNavTarget(target);
     return 0;
 }
@@ -156,7 +95,7 @@ static int l_set_nav_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_get_combat_target(lua_State *l)
@@ -175,7 +114,7 @@ static int l_get_combat_target(lua_State *l)
  *
  * Parameters:
  *
- *   target - a <Body> to which to set the combat target
+ *   target - a <Body> to which to set the combat target, or nil
  *
  * Availability:
  *
@@ -183,13 +122,13 @@ static int l_get_combat_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_set_combat_target(lua_State *l)
 {
 	Player *p = LuaObject<Player>::CheckFromLua(1);
-	Body *target = LuaObject<Body>::CheckFromLua(2);
+	Body *target = LuaObject<Body>::GetFromLua(2);
     p->SetCombatTarget(target);
     return 0;
 }
@@ -211,7 +150,7 @@ static int l_set_combat_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_get_hyperspace_target(lua_State *l)
@@ -243,7 +182,7 @@ static int l_get_hyperspace_target(lua_State *l)
  *
  * Status:
  *
- *   experimental
+ *   stable
  */
 
 static int l_set_hyperspace_target(lua_State *l)
@@ -277,10 +216,6 @@ template <> void LuaObject<Player>::RegisterClass()
 
 	static const luaL_Reg l_methods[] = {
 		{ "IsPlayer", l_player_is_player },
-
-		{ "AddCrime",       l_player_add_crime },
-		{ "GetCrime",       l_player_get_crime },
-		{ "ClearCrimeFine", l_player_clear_crime_fine },
 
 		{ "GetNavTarget",    l_get_nav_target    },
 		{ "SetNavTarget",    l_set_nav_target    },

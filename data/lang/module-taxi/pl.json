@@ -563,6 +563,10 @@
       "description" : "",
       "message" : "Tym razem nie dotrzesz do doku!"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Ustaw jako cel nawigacyjny."
+   },
    "TAXI" : {
       "description" : "",
       "message" : "Taxi"
@@ -582,6 +586,10 @@
    "WILL_I_BE_IN_ANY_DANGER" : {
       "description" : "",
       "message" : "Będą jakieś problemy?"
+   },
+   "WRONG_SYSTEM" : {
+      "description" : "Shown if system name is right, but coordinates are wrong",
+      "message" : "Nazwa systemu jest właściwa, ale to nie są poprawne koordynaty."
    },
    "YOU_DO_NOT_HAVE_ENOUGH_CABIN_SPACE_ON_YOUR_SHIP" : {
       "description" : "",

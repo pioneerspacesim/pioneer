@@ -13,7 +13,7 @@
    },
    "FLAVOUR_0_MEMBER_INTRO" : {
       "description" : "",
-      "message" : "Qua è possibile acquistare carburante e smaltire {radioactives}."
+      "message" : "Qua potrai acquistare carburante e smaltire {radioactives}."
    },
    "FLAVOUR_0_NONMEMBER_INTRO" : {
       "description" : "",
@@ -22,6 +22,38 @@
    "FLAVOUR_0_WELCOME" : {
       "description" : "",
       "message" : "Benvenuto alla {clubname}"
+   },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "La Fondazione Federale Carburanti"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "{clubname} è il fornitore principale di carburanti per le astronavi dei propri membri nella Federazione Solare. L'iscrizione le darà diritto a:"
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "L'Unione Confederata Carburanti"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "Nella vastità de della libera Comunità dei Mondi Indipendenti, troverà {clubname} come miglior fornitore di carburanti e servizi di gestione residui. Per i nostri membri:"
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "I nostri saluti e migliori auguri! Speriamo che abbia gradito i nostri servizi."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Divisione Propellenti e Deteriorabili Haber"
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Ossequi pilota. I suoi privilegi per rifornimenti e smaltimento prodotti di scarto sono qui garantiti."
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Saluti pilota. Questa è la Divisione Propellenti e Deteriorabili Haber, incaricata della gestione e della distribuzione dei carburanti in tutto lo spazio di proprietà della Haber."
    },
    "GO_BACK" : {
       "description" : "",

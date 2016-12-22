@@ -23,6 +23,38 @@
       "description" : "",
       "message" : "Witamy w Spółdzielni Paliwowej Pilotów Międzygwiezdnych"
    },
+   "FLAVOUR_1_CLUBNAME" : {
+      "description" : "Fuel club for the Federation faction",
+      "message" : "Federalna Fundacja Paliwowa"
+   },
+   "FLAVOUR_1_NONMEMBER_INTRO" : {
+      "description" : "For the Solar Federation faction",
+      "message" : "{clubname} jest wiodącym dostawcą zmagazynowanego paliwa dla statków kosmicznych swoich członków w Federacji Słonecznej. Członkostwo zapewnia ci wiele korzyści:"
+   },
+   "FLAVOUR_2_CLUBNAME" : {
+      "description" : "Fuel club for the CIW (Commonwealth of Independent Worlds) faction",
+      "message" : "Konfederacja Związków Paliwowych"
+   },
+   "FLAVOUR_2_NONMEMBER_INTRO" : {
+      "description" : "Commonwealth of Independent Worlds is the name of the CIW faction",
+      "message" : "{clubname}, to na wielkim i wolnym obszarze Wspólnoty Niepodległych Światów najlepszy dostawca usług paliwowych i zarządzania odpadami. Naszym członkom oferujemy:"
+   },
+   "FLAVOUR_2_WELCOME" : {
+      "description" : "",
+      "message" : "Pozdrawiamy. Mamy nadzieję że wyrażasz zadowolenie z naszych usług."
+   },
+   "FLAVOUR_3_CLUBNAME" : {
+      "description" : "Fuel club for the Haber faction",
+      "message" : "Wydział Paliw i Towarów Nietrwałych - Haber"
+   },
+   "FLAVOUR_3_MEMBER_INTRO" : {
+      "description" : "For the greedy Haber faction, very corporate formulated",
+      "message" : "Pozdrowienia pilocie. Przyznano ci przywileje na tankowanie i warunkowe usuwanie odpadów."
+   },
+   "FLAVOUR_3_NONMEMBER_INTRO" : {
+      "description" : "for the Haber faction",
+      "message" : "Pozdrowienia pilocie. Tu Wydział Paliw i Towarów Nietrwałych - Haber, któremu powierzono zarządzanie dystrybucję paliwa w całej przestrzeni należącej do Haber."
+   },
    "GO_BACK" : {
       "description" : "",
       "message" : "Powrót"

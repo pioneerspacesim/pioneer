@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Model.h"
@@ -23,7 +23,7 @@ public:
 			return luaL_error(l, "model '%s' does not support patterns", model->GetName().c_str());
 		unsigned int pattern = luaL_checkinteger(l, 2);
 		pattern--; // Lua counts from 1
-		if (pattern < 0 || pattern >= model->GetNumPatterns())
+		if (pattern >= model->GetNumPatterns())
 			return luaL_error(l, "invalid pattern number '%d'; model '%s' has patterns 1-%d", pattern+1, model->GetName().c_str(), model->GetNumPatterns());
 		model->SetPattern(pattern);
 		return 0;

@@ -1,15 +1,15 @@
 {
-   "ADVANCED_RADAR_MAPPER" : {
-      "description" : "",
-      "message" : "Verbesserter Radarscanner"
+   "ADVANCED_TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Fortgeschrittener Zielscanner"
    },
-   "ADVANCED_RADAR_MAPPER_DESCRIPTION" : {
+   "ADVANCED_TARGET_SCANNER_DESCRIPTION" : {
       "description" : "",
-      "message" : "Langstrecken-Radarscanner mit systemweiter Abdeckung"
+      "message" : "Langstrecken-Zielscanner mit systemweiter Abdeckung."
    },
    "ATMOSPHERIC_SHIELDING" : {
       "description" : "",
-      "message" : "Atmosphären-Hitzeschild"
+      "message" : "Atmosphärenhitzeschild"
    },
    "ATMOSPHERIC_SHIELDING_DESCRIPTION" : {
       "description" : "",
@@ -33,11 +33,11 @@
    },
    "CARGO_SCOOP" : {
       "description" : "",
-      "message" : "Frachtschaufel"
+      "message" : "Frachtschöpfer"
    },
    "CARGO_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Erlaubt es, abgeworfene Fracht im Weltraum aufzusammeln"
+      "message" : "Ermöglicht es, abgeworfene Fracht im Weltraum aufzusammeln."
    },
    "DRIVE_CLASS1" : {
       "description" : "",
@@ -91,13 +91,33 @@
       "description" : "",
       "message" : "Klasse-4-Militär-Hyperraumantrieb"
    },
+   "DRIVE_MIL5" : {
+      "description" : "",
+      "message" : "Klasse-5-Militär-Hyperraumantrieb"
+   },
+   "DRIVE_MIL6" : {
+      "description" : "",
+      "message" : "Klasse-6-Militär-Hyperraumantrieb"
+   },
+   "DRIVE_MIL7" : {
+      "description" : "",
+      "message" : "Klasse-7-Militär-Hyperraumantrieb"
+   },
+   "DRIVE_MIL8" : {
+      "description" : "",
+      "message" : "Klasse-8-Militär-Hyperraumantrieb"
+   },
+   "DRIVE_MIL9" : {
+      "description" : "",
+      "message" : "Klasse-9-Militär-Hyperraumantrieb"
+   },
    "ECM_ADVANCED" : {
       "description" : "",
       "message" : "Erweitertes EGM-System"
    },
    "ECM_ADVANCED_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Raketen zerstören."
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann auch modernere Arten von Lenkraketen zerstören."
    },
    "ECM_BASIC" : {
       "description" : "",
@@ -105,19 +125,19 @@
    },
    "ECM_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann gelenkte Raketen zerstören."
+      "message" : "Ein elektronisches Gegenmaßnahmesystem zur Raketenabwehr; kann einige Lenkraketen zerstören."
    },
    "FUEL_SCOOP" : {
       "description" : "",
-      "message" : "Treibstoffschaufel"
+      "message" : "Treibstoffschöpfer"
    },
    "FUEL_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Erlaubt es, Wasserstofftreibstoff von Gasriesen zu sammeln."
+      "message" : "Ermöglicht es, Wasserstofftreibstoff von Gasriesen zu sammeln."
    },
    "HULL_AUTOREPAIR" : {
       "description" : "",
-      "message" : "Rumpf-Auto-Reparatur"
+      "message" : "Rumpf-Autoreparatursystem"
    },
    "HULL_AUTOREPAIR_DESCRIPTION" : {
       "description" : "",
@@ -149,7 +169,7 @@
    },
    "MININGCANNON_17MW_DESCRIPTION" : {
       "description" : "",
-      "message" : "Dient zum Abbau mineralienreicher Asteroiden."
+      "message" : "Dient zum Abbau mineralienreicher Asteroiden mittels Sprengung."
    },
    "MISSILE_GUIDED" : {
       "description" : "",
@@ -169,15 +189,19 @@
    },
    "MULTI_SCOOP" : {
       "description" : "A ship equipment: a cargo scoop and fuel scoop combined to one",
-      "message" : "Mehrzweckschaufel"
+      "message" : "Mehrzweckschöpfer"
    },
    "MULTI_SCOOP_DESCRIPTION" : {
       "description" : "",
-      "message" : "Ist zwar weniger effizient als die Treibstoffschaufel, kann aber sowohl Fracht als auch Treibstoff aufnehmen"
+      "message" : "Ist zwar weniger effizient als der Treibstoffschöpfer, kann aber sowohl Fracht als auch Treibstoff aufnehmen"
    },
    "OUT_OF_SCANRANGE" : {
       "description" : "",
       "message" : "Max. Scan-Reichweite überschritten:"
+   },
+   "PASSENGER_CABIN" : {
+      "description" : "",
+      "message" : "Passagierkabine"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
@@ -215,19 +239,11 @@
       "description" : "",
       "message" : "2MW-Doppel-Pulslaser"
    },
-   "RADAR_MAPPER" : {
+   "RADAR" : {
       "description" : "",
-      "message" : "Radar-Scanner"
+      "message" : "Radar"
    },
-   "RADAR_MAPPER_DESCRIPTION" : {
-      "description" : "",
-      "message" : "Kann aus der Ferne die Ausrüstung, Fracht und den Status anderer Schiffe ermitteln."
-   },
-   "SCANNER" : {
-      "description" : "",
-      "message" : "Scanner"
-   },
-   "SCANNER_DESCRIPTION" : {
+   "RADAR_DESCRIPTION" : {
       "description" : "",
       "message" : "Erstellt eine 3D-Kartenansicht von Schiffen in der Nähe."
    },
@@ -241,7 +257,7 @@
    },
    "SHIELD_ENERGY_BOOSTER" : {
       "description" : "",
-      "message" : "Schildenergie-Booster"
+      "message" : "Schildenergiebooster"
    },
    "SHIELD_ENERGY_BOOSTER_DESCRIPTION" : {
       "description" : "",
@@ -249,7 +265,7 @@
    },
    "SHIELD_GENERATOR" : {
       "description" : "",
-      "message" : "Schild-Generator"
+      "message" : "Schildgenerator"
    },
    "SHIELD_GENERATOR_DESCRIPTION" : {
       "description" : "",
@@ -263,20 +279,52 @@
       "description" : "",
       "message" : "Scan starten, Zieldistanz ist"
    },
-   "TRADE_ANALYZER" : {
-      "description" : "Ship equipment computing profitable commodities to trade between two systems",
-      "message" : "Handels-Analyseeinheit"
+   "TARGET_SCANNER" : {
+      "description" : "ship equipment showing target information/stats",
+      "message" : "Zielscanner"
    },
-   "TRADE_ANALYZER_DESCRIPTION" : {
+   "TARGET_SCANNER_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Kann aus der Ferne die Ausrüstung, Fracht und den Status anderer Schiffe ermitteln."
+   },
+   "THRUSTERS_BASIC" : {
+      "description" : "",
+      "message" : "Modifizierte Schubdüsen"
+   },
+   "THRUSTERS_BASIC_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Ein modifizierter Typ der Standard-Schubdüsen."
+   },
+   "THRUSTERS_BEST" : {
+      "description" : "",
+      "message" : "Maßgeschneiderte Schubdüsen"
+   },
+   "THRUSTERS_BEST_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Schubdüsen, die exakt auf das Schiff angepasst wurden um bestmögliche Leistungen zu erbringen."
+   },
+   "THRUSTERS_MEDIUM" : {
+      "description" : "",
+      "message" : "Optimisierte Schubdüsen"
+   },
+   "THRUSTERS_MEDIUM_DESCRIPTION" : {
+      "description" : "",
+      "message" : "Schubdüsen die in Hinblick auf Effizienz und Schubkraft optimisiert wurden."
+   },
+   "TRADE_COMPUTER" : {
+      "description" : "Ship equipment computing profitable commodities to trade between two systems",
+      "message" : "Handelscomputer"
+   },
+   "TRADE_COMPUTER_DESCRIPTION" : {
       "description" : "",
       "message" : "Zeigt Handelsgüter an, die zwischen dem ausgewählten und dem momentanen System profitabel gehandelt werden können."
    },
    "UNOCCUPIED_CABIN" : {
       "description" : "",
-      "message" : "Zusätzliche Passagier-Kabinen"
+      "message" : "Zusätzliche Passagierkabine"
    },
    "UNOCCUPIED_CABIN_DESCRIPTION" : {
       "description" : "",
-      "message" : "Benötigt für den Transport von einem Passagier"
+      "message" : "Benötigt für den Transport eines einzelnen Passagiers"
    }
 }

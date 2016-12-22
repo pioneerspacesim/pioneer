@@ -30,11 +30,11 @@ public:
        void resetInternalCameraController(void);
 
 protected:
-	float CalculateSignedForwardVelocity(vector3d forward, vector3d velocity);
+	float CalculateSignedForwardVelocity(const vector3d &forward, const vector3d &velocity);
 
 private:
-	ShipCockpit(const ShipCockpit&);
-	ShipCockpit& operator=(const ShipCockpit&);
+	ShipCockpit(const ShipCockpit&) = delete;
+	ShipCockpit& operator=(const ShipCockpit&) = delete;
 
 	vector3d m_shipDir;        // current ship direction
 	vector3d m_shipYaw;        // current ship yaw vector

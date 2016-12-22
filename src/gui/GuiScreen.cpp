@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Gui.h"
@@ -20,7 +20,7 @@ Gui::Fixed *Screen::baseContainer;
 Gui::Widget *Screen::focusedWidget;
 matrix4x4f Screen::modelMatrix;
 matrix4x4f Screen::projMatrix;
-GLint Screen::viewport[4];
+Sint32 Screen::viewport[4];
 
 FontCache Screen::s_fontCache;
 std::stack< RefCountedPtr<Text::TextureFont> > Screen::s_fontStack;
@@ -320,7 +320,7 @@ void Screen::RenderStringBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const 
 
 		if (va.GetNumVerts() > 0) {
 			if (!vb.Valid() || vb->GetVertexCount() != va.GetNumVerts()) {
-				vb.Reset(font->CreateVertexBuffer(va, s));
+				vb.Reset(font->CreateVertexBuffer(va, s, true));
 			}
 
 			vb->Populate(va);
@@ -360,7 +360,7 @@ void Screen::RenderMarkupBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const 
 
 		if (va.GetNumVerts() > 0) {
 			if (!vb.Valid() || vb->GetVertexCount() != va.GetNumVerts()) {
-				vb.Reset(font->CreateVertexBuffer(va, s));
+				vb.Reset(font->CreateVertexBuffer(va, s, true));
 			}
 
 			vb->Populate(va);

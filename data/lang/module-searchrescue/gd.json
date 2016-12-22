@@ -1,0 +1,698 @@
+{
+   "AU" : {
+      "description" : "",
+      "message" : "AU"
+   },
+   "BOARDED_PASSENGER" : {
+      "description" : "",
+      "message" : "Tha {name} air tighinn air bòrd an t-soithich."
+   },
+   "COMMODITIES" : {
+      "description" : "",
+      "message" : "Bathar-àmh"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Dè an t-iarrtas a bh' agaibh a-rithist?"
+   },
+   "CREW" : {
+      "description" : "",
+      "message" : "Criutha"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Ceann-là:"
+   },
+   "DELIVERED_PASSENGER" : {
+      "description" : "",
+      "message" : "Tha {name} air an soitheach fhàgail."
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "LÌBHRIGEADH"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Astar:"
+   },
+   "ENTITY_FAMILY_BUSINESS_1" : {
+      "description" : "",
+      "message" : "{name} 's a Mhic"
+   },
+   "ENTITY_FAMILY_BUSINESS_10" : {
+      "description" : "",
+      "message" : "Seirbheisean Tagsaidh {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_2" : {
+      "description" : "",
+      "message" : "{name} 's a Nigheannan"
+   },
+   "ENTITY_FAMILY_BUSINESS_3" : {
+      "description" : "",
+      "message" : "Flùraichean {name} aig {locality}"
+   },
+   "ENTITY_FAMILY_BUSINESS_4" : {
+      "description" : "",
+      "message" : "Astasan Gnàthaichte Dathte {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_5" : {
+      "description" : "",
+      "message" : "Seirbheisean Teachdaire {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_6" : {
+      "description" : "",
+      "message" : "Peataichean-fànais {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_7" : {
+      "description" : "",
+      "message" : "{name} ⁊ {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_8" : {
+      "description" : "",
+      "message" : "Biadh Dualchasach {locality} {name}"
+   },
+   "ENTITY_FAMILY_BUSINESS_9" : {
+      "description" : "",
+      "message" : "Giùlan {name}"
+   },
+   "ENTITY_GENERAL_1" : {
+      "description" : "",
+      "message" : "Tochladh Coitcheann {locality} corpaichte"
+   },
+   "ENTITY_GENERAL_10" : {
+      "description" : "",
+      "message" : "Cuibheas Cumhachd {locality}"
+   },
+   "ENTITY_GENERAL_2" : {
+      "description" : "",
+      "message" : "Comann airson Glèidheadh Àrainneachd {locality}"
+   },
+   "ENTITY_GENERAL_3" : {
+      "description" : "",
+      "message" : "Buidhnean nan Còraichean-uidhe airson {locality}"
+   },
+   "ENTITY_GENERAL_4" : {
+      "description" : "",
+      "message" : "Oifis Còraichean-tochlaidh {locality}"
+   },
+   "ENTITY_GENERAL_5" : {
+      "description" : "",
+      "message" : "Comann Luchd-fearainn {locality}"
+   },
+   "ENTITY_GENERAL_6" : {
+      "description" : "",
+      "message" : "Institiud Stadastaireachd {locality}"
+   },
+   "ENTITY_GENERAL_7" : {
+      "description" : "",
+      "message" : "Oifis meur {locality} aig CùrsaFànais corpaichte"
+   },
+   "ENTITY_GENERAL_8" : {
+      "description" : "",
+      "message" : "iSaideal {locality} earr"
+   },
+   "ENTITY_GENERAL_9" : {
+      "description" : "",
+      "message" : "Seirbheisean Tìodhlacaidh {locality} Corp"
+   },
+   "ENTITY_RESEARCH_1" : {
+      "description" : "",
+      "message" : "Comann Bith-eòlas {locality}"
+   },
+   "ENTITY_RESEARCH_10" : {
+      "description" : "",
+      "message" : "Ionad Rannsachadh Ainmh-eòlas {locality}"
+   },
+   "ENTITY_RESEARCH_2" : {
+      "description" : "",
+      "message" : "Comann Meanbh Bhith-eòlas {locality}"
+   },
+   "ENTITY_RESEARCH_3" : {
+      "description" : "",
+      "message" : "Comann Ceimigeachd {locality}"
+   },
+   "ENTITY_RESEARCH_4" : {
+      "description" : "",
+      "message" : "Comann Reul Bhith-eòlas {locality}"
+   },
+   "ENTITY_RESEARCH_5" : {
+      "description" : "",
+      "message" : "Comann Geòlas {locality}"
+   },
+   "ENTITY_RESEARCH_6" : {
+      "description" : "",
+      "message" : "Comann Reul Pailleon-eòlas {locality}"
+   },
+   "ENTITY_RESEARCH_7" : {
+      "description" : "",
+      "message" : "Ionad Rannsachadh Reul-fhiosaigs {locality}"
+   },
+   "ENTITY_RESEARCH_8" : {
+      "description" : "",
+      "message" : "Ionad Rannsachadh Reul-cheimigeachd {locality}"
+   },
+   "ENTITY_RESEARCH_9" : {
+      "description" : "",
+      "message" : "Ionad Luibh-eòlas {locality}"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Chan eil an uidheamachd agad gus am misean seo a choileanadh. Tha feum air {unit} {equipment}."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "TUBAIST SOITHICH air {planet}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Cha chreid mi nach do thill thu na bu tràithe! Abair caitheamh ùine!"
+   },
+   "FLAVOUR_1_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Feumaidh tu bhith air ais gu ruige {due} gus ath-phàigheadh slàn na coisgaise fhaighinn."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "Tha stiùireadh trafaige aig {starport} feumach air do thaic SA BHAD gus cobhair a thoirt dha shoitheach-fànais dhen t-seòrsa {ship} a dh'fhulaing tubaist air {planet}. Chan eil fios againn an obraich na siostaman taice-beatha fhathast. Tha àrachas aig an t-soitheach le àrachas reul-phort {starport} agus còmhdachadh dhe {cash} aige airson ath-phàigheadh cobharach èiginnich."
+   },
+   "FLAVOUR_1_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "'S e {planet} aig co-chomharran domhan-leud/domhan-fhaid: {lat} / {long} a tha san t-ionad mu dheireadh aig an t-soitheach seo air a bheil tinn eòlach. 'S e {shiplabel} a th' ann an ID an t-soithich."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mòran taing, seo faochadh mòr dhuinn! Cuiridh sinn an t-airgead thugad an ceartuair."
+   },
+   "FLAVOUR_1_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chaidh {unit} air bòrd an t-soithich."
+   },
+   "FLAVOUR_1_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Chaidh aithris gu bheil sgioba dhe {crew} agus {pass} luchd-taisteil air bòrd an t-soithich. Tha sinn feumach air cuideigin a lorgas an soitheach 's a thogas an luchd-tarrsainn on làrach 's a bheir an-seo iad sa bhad."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "DH'FHALBH AN CONNADH AIR SOITHEACH air slighe {starport}."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Cha chreid mi gun dug thu feitheamh orm cho fada sin thall an-seo! Chan fhaigh thu pàigheadh idir!"
+   },
+   "FLAVOUR_2_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Feumaidh tu an connadh a lìbhrigeadh ro {due} ach am faigh thu pàigheadh slàn."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "Fhuair stiùireadh trafaige aig {starport} brath gun do dh'fhalbh an connadh air iteal a-steach {shiplabel} agus gun robh aca ri tìr a bhualadh gu h-èiginneach. Tha am paidhleat deònach {cash} a phàigheadh airson seirbheis connachaidh."
+   },
+   "FLAVOUR_2_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Tha an soitheach a' feitheamh aig domhan-leud {lat} / domhan-fhad {long} air planaid {planet}."
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Tha sinn fada 'nad chomain! Chuir sinn pàigheadh slàn thugad."
+   },
+   "FLAVOUR_2_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chaidh {unit} tunna(ichean) de chonnadh aiseag."
+   },
+   "FLAVOUR_2_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Tha am paidhleat ag iarraidh {unit} tunna(ichean) dhe {cargo}."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "ÈIGINN MHEADAIGEACH air soitheach faisg air {starport}."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "'S ann sgriosail a bha seo! Ùraichidh sinn na clàran agad mar as iomchaidh."
+   },
+   "FLAVOUR_3_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Feumaidh am paidhleat ionaid an soitheach a ruigsinn gu ruige {due}."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} o stiùireadh trafaige aig {starport}. Tha mi ag iarraidh cobhair a thaobh èiginn mheadaigeach a' gabhail a-steach paidhleat iteil {shiplabel} air slighe {starport}."
+   },
+   "FLAVOUR_3_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Bha aig soitheach ri tìr a bhualadh gu h-èiginneach air na co-chomharran seo: {lat} / {long}. "
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mòran taing, a chomandair! Thug sinn aire air an taic a fhuair sinn uaibh."
+   },
+   "FLAVOUR_3_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Dh'fhàg {unit} an soitheach."
+   },
+   "FLAVOUR_3_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Thoir paidhleat ionaid o {starport} dhan t-soitheach ach an toir e an soitheach air ais gu {starport}."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "DH'FHALBH AN CONNADH AIR SOITHEACH air {planet}."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Cuiridh mi cuideigin eile. Na bodraig tuilleadh."
+   },
+   "FLAVOUR_4_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Tha am paidhleat an dùil gum bi thu air a' chonnadh a lìbhrigeadh {due} air neo chan fhaigh thu pàigheadh slàn."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Bhruidhinn am paidhleat aig iteal {shiplabel} ri stiùireadh trafaige aig {starport}. Chan urrainn dhaibh gluasad ri linn tanca connaidh falaimh agus gheall iad {cash} a phàigheadh dha dhuine sam bith a bheir connadh dhan t-soitheach aca."
+   },
+   "FLAVOUR_4_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Thàinig ruith-chladaich air an t-soitheach air {planet} aig na co-chomharran {lat} / {long}."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Glè mhath. Molaidh sinn thu airson obair ri teachd."
+   },
+   "FLAVOUR_4_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chaidh {unit} tunna(ichean) de chonnadh aiseag."
+   },
+   "FLAVOUR_4_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Dh'fhaighnich am paidhleat am faigh e {unit} tunna(ichean) dhe {cargo}."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "DH'FHALBH AN CONNADH AIR SOITHEACH faisg air {starport}."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Chan urrainn dhut earbsa a chur ann an duine sam bith tuilleadh."
+   },
+   "FLAVOUR_5_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "An lìon thu an connadh ro {due}?"
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "Dh'aithnich stiùireadh trafaige {starport} soitheach-fànais air a bheil an t-aithnichear {shiplabel} am fagas 's an connadh air a ruith air. Pàighidh sinn {cash} do dhuine sam bith a bheir connadh dhan t-soitheach ud ach an urrainn dhaibh fochair {starport} fhàgail."
+   },
+   "FLAVOUR_5_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Tha an soitheach-amais am badeigin mu {dist} km on a sheo. Feumaidh tu fhèin a lorg far a bheil i gu pongail."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Clàraichidh sinn gun do choilean thu an t-saothair."
+   },
+   "FLAVOUR_5_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chaidh {unit} tunna(ichean) de chonnadh aiseag."
+   },
+   "FLAVOUR_5_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "An lìbhrig sibh {unit} tunna(ichean) dhe {cargo} dhan t-soitheach?"
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "SOITHEACH GUN FHREAGAIRT ann an siostam {system}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Tha mòr-thubaist air tighinn oirnn! Cha mhair na co-obraichean bochda againn beò!"
+   },
+   "FLAVOUR_6_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Feumaidh tu tilleadh ro {due}."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} aig {entity}. Chaill sinn an conaltradh leis an t-soitheach {ship} {shiplabel} againn às dèidh {problem} a thighinn air. Bidh sinn deònach {cash} a phàigheadh dhut ma chuidicheas tu sa bhad."
+   },
+   "FLAVOUR_6_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "'S ann faisg air {planet} ann an siotam {system} [{sectorx},{sectory},{sectorz}] a bha iad an turas mu dheireadh a bhruidhinn sinn riutha, {dist} ly air falbh on a sheo."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mòran taing! Abair faochadh!"
+   },
+   "FLAVOUR_6_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chaidh {unit} air bòrd an t-soithich."
+   },
+   "FLAVOUR_6_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Tha mi feumach air cuideigin a dh'fhalbhas sa bhad agus a thilleas na co-obraichean agad gu {starport} ma tha iad fhathast beò. Bha {crew} san sgioba agus {pass} dhe thaistealaich air bhòrd."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "GIÙLAN SGIOBA DA BHAD dhan t-siostam {system} 'ga iarraidh."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Gun robh math agad ach tha thu ro anmoch!"
+   },
+   "FLAVOUR_7_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Feumaidh an sgioba ionaid an soitheach a ruigsinn {due}."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "Is mise {name} aig {entity}. Chaill an t-aon soitheach againn, {ship} {shiplabel}, an comas stiùiridh ri linn {problem} agus criutha dhe {crew} air. Phàighinn {cash} nam faigheadh iad cobhair sa bhad."
+   },
+   "FLAVOUR_7_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Lorgaidh tu an soitheach ann an siostam {system} [{sectorx},{sectory},{sectorz}], {dist} ly air falbh uainn. Tha e a' cuairteachadh timcheall air {planet}."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Mòran taing! Chaidh m' ùghdarrachadh gus am pàigheadh slàn a thoirt dhut."
+   },
+   "FLAVOUR_7_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "Chaidh {unit} air bòrd an t-soithich-amais."
+   },
+   "FLAVOUR_7_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Chan urrainn dhuinn an soitheach a thilleadh gun an sgioba riatanach a bhith ann. Tha mi a' lorg cuideigin a bhios deònach sgioba ionaid dhe {deliver_crew} a thoirt a-null dhan t-soitheach-fhànais againn sa bhad."
+   },
+   "FULL_CARGO" : {
+      "description" : "",
+      "message" : "Tha an soitheach làn. Chan eil rum ann airson barrachd carago."
+   },
+   "FULL_CREW" : {
+      "description" : "",
+      "message" : "Tha clàr an sgioba làn. Chan eil barrachd rum airson buill dhen sgioba ann."
+   },
+   "FULL_PASSENGERS" : {
+      "description" : "",
+      "message" : "Tha a h-uile cèibinn làn. Chan eil barrachd rum airson taistealaich ann."
+   },
+   "HOW_FAR" : {
+      "description" : "",
+      "message" : "Dè cho fad air falbh 's a tha an t-amas?"
+   },
+   "HOW_MUCH_TIME" : {
+      "description" : "",
+      "message" : "Co mheud ùine a bhios agam?"
+   },
+   "INTERACTION_ABORTED" : {
+      "description" : "",
+      "message" : "Chaidh sgur dhen eadar-ghnìomh. Thig nas fhaisge is feuch ris a-rithist."
+   },
+   "INTERACTION_DISTANCE_REACHED" : {
+      "description" : "",
+      "message" : "Ràinig sinn astar an eadar-ghnìomha."
+   },
+   "IT_MUST_BE_COMPLETED_BY" : {
+      "description" : "",
+      "message" : "Feumaidh e bhith deiseil"
+   },
+   "KM" : {
+      "description" : "",
+      "message" : "km"
+   },
+   "LAST_KNOWN_LOCATION" : {
+      "description" : "",
+      "message" : "An t-ionad mu dheireadh as aithne dhuinn:"
+   },
+   "LAT" : {
+      "description" : "",
+      "message" : "D-leud:"
+   },
+   "LON" : {
+      "description" : "",
+      "message" : "D-fhad:"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "bl-shol"
+   },
+   "MISSING_COMM" : {
+      "description" : "",
+      "message" : "Cha ghabh an t-aiseag a choileanadh. Tha {cargotype} a dhìth."
+   },
+   "MISSING_CREW" : {
+      "description" : "",
+      "message" : "Cha ghabh an t-aiseag a choileanadh. Tha ball dhen sgioba a dhìth."
+   },
+   "MISSING_PASS" : {
+      "description" : "",
+      "message" : "Cha ghabh an t-aiseag a choileanadh. Tha taistealaich a dhìth."
+   },
+   "MISSING_PASSENGER" : {
+      "description" : "",
+      "message" : "Cha ghabh an t-aiseag a choileanadh. Tha taistealach a dhìth."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Seadh, nì sinn seo."
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Reul-chuairt"
+   },
+   "PARTIAL" : {
+      "description" : "",
+      "message" : "Mòran taing airson d' oidhirp. Tha mi 'n dòchas gun till thu gus an t-saothair a choileanadh!"
+   },
+   "PASSENGERS" : {
+      "description" : "",
+      "message" : "Taistealaich"
+   },
+   "PAYMENT_LOCATION" : {
+      "description" : "",
+      "message" : "Ionad a' phàighidh:"
+   },
+   "PICKUP" : {
+      "description" : "",
+      "message" : "TOGAIL"
+   },
+   "PLACE_OF_ASSISTANCE" : {
+      "description" : "",
+      "message" : "Aig ionad na cobharach"
+   },
+   "PLEASE_LAND" : {
+      "description" : "",
+      "message" : "Feumaidh tu dol air tìr gus an t-aiseag a dhèanamh."
+   },
+   "PROBLEM_CREW_1" : {
+      "description" : "",
+      "message" : "sabaid mharbhtach am measg buill dhen sgioba"
+   },
+   "PROBLEM_CREW_10" : {
+      "description" : "",
+      "message" : "aramach"
+   },
+   "PROBLEM_CREW_2" : {
+      "description" : "",
+      "message" : "an sgioba a' dol an toir air nathair {locality} mharbhtach mu sgaoil san t-soitheach"
+   },
+   "PROBLEM_CREW_3" : {
+      "description" : "",
+      "message" : "damhan-allaidh {locality} a mharbh càch"
+   },
+   "PROBLEM_CREW_4" : {
+      "description" : "",
+      "message" : "beathach le coltas sgairp {locality} a thighinn a-steach dha dh'fhàrdach an sgioba rè an oidhche"
+   },
+   "PROBLEM_CREW_5" : {
+      "description" : "",
+      "message" : "droch-fhiabhras {locality} càch a mharbhadh"
+   },
+   "PROBLEM_CREW_6" : {
+      "description" : "",
+      "message" : "buill eile an sgioba gun a bhith a thilleadh o choiseachd-fhànais"
+   },
+   "PROBLEM_CREW_7" : {
+      "description" : "",
+      "message" : "droch-phuinnseanachadh bìdh air an t-soitheach"
+   },
+   "PROBLEM_CREW_8" : {
+      "description" : "",
+      "message" : "droch-thubaist a thilg càch a-mach dhan fhànas"
+   },
+   "PROBLEM_CREW_9" : {
+      "description" : "",
+      "message" : "tachartas nach bruidhinn mi air gu poblach"
+   },
+   "PROBLEM_GENERAL_1" : {
+      "description" : "",
+      "message" : "teine san roinn carago"
+   },
+   "PROBLEM_GENERAL_10" : {
+      "description" : "",
+      "message" : "gairm-èiginn fhaighinn à {locality}"
+   },
+   "PROBLEM_GENERAL_2" : {
+      "description" : "",
+      "message" : "a' chumhachd fhàilligeadh ann an eitean an einnsein"
+   },
+   "PROBLEM_GENERAL_3" : {
+      "description" : "",
+      "message" : "adhar 'ga leigeil air èalaidh"
+   },
+   "PROBLEM_GENERAL_4" : {
+      "description" : "",
+      "message" : "droch-phuinnseanachadh bìdh air sgioba an t-soithich gu lèir"
+   },
+   "PROBLEM_GENERAL_5" : {
+      "description" : "",
+      "message" : "bualadh ri dreag beag"
+   },
+   "PROBLEM_GENERAL_6" : {
+      "description" : "",
+      "message" : "còmhstri am measg an sgioba"
+   },
+   "PROBLEM_GENERAL_7" : {
+      "description" : "",
+      "message" : "tighinn faisg air oibseact itealaidh nach b' aithne dhuinn"
+   },
+   "PROBLEM_GENERAL_8" : {
+      "description" : "",
+      "message" : "connspaid le soitheach farpaisich"
+   },
+   "PROBLEM_GENERAL_9" : {
+      "description" : "",
+      "message" : "am prìomh-choimpiutair ath-thòiseacadh"
+   },
+   "PROBLEM_RESEARCH_1" : {
+      "description" : "",
+      "message" : "iom-obrachadh ceimigeach gun dùil ann an seòmair iom-obrachaidh"
+   },
+   "PROBLEM_RESEARCH_10" : {
+      "description" : "",
+      "message" : "nua-lorg cudromach aig {locality} nach fhaod mi foillseachadh aig an àm seo"
+   },
+   "PROBLEM_RESEARCH_2" : {
+      "description" : "",
+      "message" : "ball an sgioba galar a ghabhail le adhbhar-galair ionadail o {locality}"
+   },
+   "PROBLEM_RESEARCH_3" : {
+      "description" : "",
+      "message" : "leigeil air èalaidh adhbharan-galair deuchainneach dhan phrìomh sholarachadh-adhair"
+   },
+   "PROBLEM_RESEARCH_4" : {
+      "description" : "",
+      "message" : "deisearas an criutha ri ball-sampaill a chaidh a chruinneachadh aig {locality}"
+   },
+   "PROBLEM_RESEARCH_5" : {
+      "description" : "",
+      "message" : "spreidheadh ceimigeach fo bhonaid toite"
+   },
+   "PROBLEM_RESEARCH_6" : {
+      "description" : "",
+      "message" : "ath-chruthachadh deuchainneach air gasan àile {locality}"
+   },
+   "PROBLEM_RESEARCH_7" : {
+      "description" : "",
+      "message" : "dian-chonnspaid am measg nan eòlaichean air bhòrd an t-soithich"
+   },
+   "PROBLEM_RESEARCH_8" : {
+      "description" : "",
+      "message" : "prìomh-sgrùdaiche a dhol a-mach à sealladh gu h-obann air bòrd an t-soithich"
+   },
+   "PROBLEM_RESEARCH_9" : {
+      "description" : "",
+      "message" : "buill-shampaill neo-chòrdail à {locality} a chur ri chèile le mearachd"
+   },
+   "RESULT_DELIVERY_COMM" : {
+      "description" : "",
+      "message" : "Chaidh {done} à {todo} tunna(ichean) dhe {cargotype} aiseag dhan t-soitheach-amais."
+   },
+   "RESULT_DELIVERY_CREW" : {
+      "description" : "",
+      "message" : "Chaidh {done} à {todo} dhen sgioba aiseag dhan t-soitheach-amais."
+   },
+   "RESULT_DELIVERY_PASS" : {
+      "description" : "",
+      "message" : "Chaidh {done} à {todo} dhe na taistealaich aiseag dhan t-soitheach-amais."
+   },
+   "RESULT_PICKUP_COMM" : {
+      "description" : "",
+      "message" : "Chaidh {done} à {todo} tunna(ichean) dhe {cargotype} a thogail on t-soitheach-amais."
+   },
+   "RESULT_PICKUP_CREW" : {
+      "description" : "",
+      "message" : "Chaidh {done} à {todo} dhen sgioba a thogail on t-soitheach-amais."
+   },
+   "RESULT_PICKUP_PASS" : {
+      "description" : "",
+      "message" : "Chaidh {done} à {todo} dhe na taistealaich a thogail on t-soitheach-amais."
+   },
+   "RETURN_TO" : {
+      "description" : "",
+      "message" : "Till gu:"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Duais:"
+   },
+   "SEARCH_RESCUE" : {
+      "description" : "",
+      "message" : "Lorg ⁊ teasairginn"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Cuir ceann-uidhe na seòladaireachd air"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Suidhich cùrsa tillidh"
+   },
+   "SHIP_UNRESPONSIVE" : {
+      "description" : "",
+      "message" : "Chan eil an soitheach-amais a' freagairt."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Siostam:"
+   },
+   "TARGET_SHIP_ID" : {
+      "description" : "",
+      "message" : "Aithnichear an t-soithich-amais:"
+   },
+   "THANK_YOU_ACCEPTANCE_TXT" : {
+      "description" : "",
+      "message" : "Mòran taing! Tha sinn fada 'nad chomain."
+   },
+   "TONS_OF_FREE_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "tunna(ichean) a rum airson carago"
+   },
+   "TRANSFER_ABORTED" : {
+      "description" : "",
+      "message" : "Chaidh sgur dhen aiseag!"
+   },
+   "TRANSFER_COMPLETE" : {
+      "description" : "",
+      "message" : "Chaidh an t-aiseag a choileanadh!"
+   },
+   "TRANSFER_PARTIAL" : {
+      "description" : "",
+      "message" : "Cha deach ach cuid dheth aiseag. Till gus an t-aiseag a choileanadh."
+   },
+   "TRANSFER_TIME" : {
+      "description" : "",
+      "message" : "Bheir an t-aiseag {minutes} mionaid(ean)."
+   },
+   "TYPE_OF_HELP" : {
+      "description" : "",
+      "message" : "Dè an seòrsa cuideachaidh a tha a dhìth?"
+   },
+   "UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "cèibinn(ean) taistealaich gun chòmhnadh"
+   },
+   "WHERE_IS_THE_TARGET" : {
+      "description" : "",
+      "message" : "Càit an lorg mi an t-amas?"
+   }
+}

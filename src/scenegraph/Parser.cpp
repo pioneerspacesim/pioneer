@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Parser.h"
@@ -27,6 +27,7 @@ Parser::Parser(FileSystem::FileSource &fs, const std::string &filename, const st
 
 void Parser::Parse(ModelDefinition *m)
 {
+	PROFILE_SCOPED()
 	StringRange buffer = m_file->AsStringRange();
 	buffer = buffer.StripUTF8BOM();
 
@@ -108,6 +109,7 @@ bool Parser::checkColor(std::stringstream &ss, Color &color)
 
 bool Parser::parseLine(const std::string &line)
 {
+	PROFILE_SCOPED()
 	using std::stringstream;
 	using std::string;
 	stringstream ss(stringstream::in | stringstream::out);
@@ -185,6 +187,8 @@ bool Parser::parseLine(const std::string &line)
 					return checkTexture(ss, m_curMat->tex_glow);
 				else if (match(token, "tex_ambi"))
 					return checkTexture(ss, m_curMat->tex_ambi);
+				else if (match(token, "tex_norm"))
+					return checkTexture(ss, m_curMat->tex_norm);
 				else if (match(token, "diffuse"))
 					return checkColor(ss, m_curMat->diffuse);
 				else if (match(token, "specular"))

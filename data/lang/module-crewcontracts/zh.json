@@ -39,10 +39,6 @@
       "description" : "",
       "message" : "最低在岗工作时长"
    },
-   "NAVIGATOR" : {
-      "description" : "",
-      "message" : "导航员"
-   },
    "NO_CREW_AVAILABLE" : {
       "description" : "",
       "message" : "Sorry, no candidates are currently seeking employment at {station}"
@@ -55,21 +51,9 @@
       "description" : "",
       "message" : "好吧,我觉得这样没问题."
    },
-   "PILOT" : {
-      "description" : "",
-      "message" : "飞行员"
-   },
    "POTENTIAL_CREW_MEMBERS" : {
       "description" : "",
       "message" : "在 {station} 内正在找工作的有潜力船员:"
-   },
-   "SENSORS_AND_DEFENCE" : {
-      "description" : "",
-      "message" : "传感器与防御"
-   },
-   "SHIPS_ENGINEER" : {
-      "description" : "",
-      "message" : "飞船工程师"
    },
    "SIMULATOR_TRAINING_ONLY" : {
       "description" : "",

@@ -41,11 +41,11 @@
    },
    "DISTANCE" : {
       "description" : "",
-      "message" : "Distance:"
+      "message" : "Atstumas:"
    },
    "EXCELLENT" : {
       "description" : "",
-      "message" : "Excellent."
+      "message" : "Puiku."
    },
    "FLAVOUR_0_ADTEXT" : {
       "description" : "",
@@ -185,11 +185,19 @@
    },
    "OK_AGREED" : {
       "description" : "",
-      "message" : "Ok, agreed."
+      "message" : "Ok, sutinku."
    },
    "RETURN_HERE_ON_THE_COMPLETION_OF_THE_CONTRACT_AND_YOU_WILL_BE_PAID" : {
       "description" : "",
       "message" : "Return here on the completion of the contract and you will be paid."
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Set as navigation target"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Set return route"
    },
    "SHIP" : {
       "description" : "",

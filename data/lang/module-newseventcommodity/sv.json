@@ -125,7 +125,7 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "Den nya Arnissionox fabriken i {system} systemet ({sectorx}, {sectory}, {sectorz}) har satts igång. Den kommer att producera högkvalitativa knivar som klarar av att skära genom en rymdstövel; men, på grund av låg tillgång på resurser som krävs för bladen så har den inte nått sin fulla produktionspotential."
+      "message" : "Den nya Amissionox fabriken i {system} systemet  ({sectorx}, {sectory}, {sectorz}) har nu startat. Den kommer producera högkvalitativa knivar vassa nog att skära genom en rymdstövel; på grund av dock, låg tillgänglighet av resurser för bladen har de ännu inte nått full produktion."
    },
    "FLAVOUR_2_HEADLINE" : {
       "description" : "",

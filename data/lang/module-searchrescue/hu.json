@@ -1,0 +1,698 @@
+{
+   "AU" : {
+      "description" : "",
+      "message" : "AU"
+   },
+   "BOARDED_PASSENGER" : {
+      "description" : "",
+      "message" : "{name} átszállt a fedélzetre."
+   },
+   "COMMODITIES" : {
+      "description" : "",
+      "message" : "Rakomány"
+   },
+   "COULD_YOU_REPEAT_THE_ORIGINAL_REQUEST" : {
+      "description" : "",
+      "message" : "Megismételnéd az eredeti kérést?"
+   },
+   "CREW" : {
+      "description" : "",
+      "message" : "Legénység"
+   },
+   "DEADLINE" : {
+      "description" : "",
+      "message" : "Határidő:"
+   },
+   "DELIVERED_PASSENGER" : {
+      "description" : "",
+      "message" : "{name} elhagyta a hajót."
+   },
+   "DELIVERY" : {
+      "description" : "",
+      "message" : "LESZÁLLÍTÁS"
+   },
+   "DISTANCE" : {
+      "description" : "",
+      "message" : "Távolság:"
+   },
+   "ENTITY_FAMILY_BUSINESS_1" : {
+      "description" : "",
+      "message" : "{name} és Fiai"
+   },
+   "ENTITY_FAMILY_BUSINESS_10" : {
+      "description" : "",
+      "message" : "{name} Taxi szolgálat"
+   },
+   "ENTITY_FAMILY_BUSINESS_2" : {
+      "description" : "",
+      "message" : "{name} és Lányai"
+   },
+   "ENTITY_FAMILY_BUSINESS_3" : {
+      "description" : "",
+      "message" : "{locality}-i {name}  Virágkertészet"
+   },
+   "ENTITY_FAMILY_BUSINESS_4" : {
+      "description" : "",
+      "message" : "{name}  Rakétafényezés"
+   },
+   "ENTITY_FAMILY_BUSINESS_5" : {
+      "description" : "",
+      "message" : "{name}  Futárszolgálat"
+   },
+   "ENTITY_FAMILY_BUSINESS_6" : {
+      "description" : "",
+      "message" : "{name} Kisállatüzlet"
+   },
+   "ENTITY_FAMILY_BUSINESS_7" : {
+      "description" : "",
+      "message" : "{name} és {name} "
+   },
+   "ENTITY_FAMILY_BUSINESS_8" : {
+      "description" : "",
+      "message" : "{name} Eredeti {locality}-i Ételek"
+   },
+   "ENTITY_FAMILY_BUSINESS_9" : {
+      "description" : "",
+      "message" : "{name}sped"
+   },
+   "ENTITY_GENERAL_1" : {
+      "description" : "",
+      "message" : "{locality} Általános Talajkutató Vállalat"
+   },
+   "ENTITY_GENERAL_10" : {
+      "description" : "",
+      "message" : "{locality} Infinty Energy One"
+   },
+   "ENTITY_GENERAL_2" : {
+      "description" : "",
+      "message" : "{locality} Természetvédelmi Egyesület"
+   },
+   "ENTITY_GENERAL_3" : {
+      "description" : "",
+      "message" : "{locality} Érdekvédő Csoport"
+   },
+   "ENTITY_GENERAL_4" : {
+      "description" : "",
+      "message" : "{locality} Bányászati Hivatal"
+   },
+   "ENTITY_GENERAL_5" : {
+      "description" : "",
+      "message" : "{locality} Földtulajdonosok Egyesülete"
+   },
+   "ENTITY_GENERAL_6" : {
+      "description" : "",
+      "message" : "{locality} Statisztikai Hivatal"
+   },
+   "ENTITY_GENERAL_7" : {
+      "description" : "",
+      "message" : "ŰrCirkáló vállalat {locality}-i irodája"
+   },
+   "ENTITY_GENERAL_8" : {
+      "description" : "",
+      "message" : "{locality} iMűhold Kft."
+   },
+   "ENTITY_GENERAL_9" : {
+      "description" : "",
+      "message" : "{locality} Temetkezési Vállalat"
+   },
+   "ENTITY_RESEARCH_1" : {
+      "description" : "",
+      "message" : "{locality} Biológiai Intézet"
+   },
+   "ENTITY_RESEARCH_10" : {
+      "description" : "",
+      "message" : "{locality} Zoológiai Kutatóközpont"
+   },
+   "ENTITY_RESEARCH_2" : {
+      "description" : "",
+      "message" : "{locality} Mikrobiológiai Intézet"
+   },
+   "ENTITY_RESEARCH_3" : {
+      "description" : "",
+      "message" : "{locality} Vegyészkamara"
+   },
+   "ENTITY_RESEARCH_4" : {
+      "description" : "",
+      "message" : "{locality} Asztrobiológiai Szövetség"
+   },
+   "ENTITY_RESEARCH_5" : {
+      "description" : "",
+      "message" : "{locality} Földrajzi Társaság"
+   },
+   "ENTITY_RESEARCH_6" : {
+      "description" : "",
+      "message" : "{locality} Asztropaleontológiai Egyesület"
+   },
+   "ENTITY_RESEARCH_7" : {
+      "description" : "",
+      "message" : "{locality} Asztrofizikai Kutatóközpont"
+   },
+   "ENTITY_RESEARCH_8" : {
+      "description" : "",
+      "message" : "{locality} Asztokémiai Kutatóintézet"
+   },
+   "ENTITY_RESEARCH_9" : {
+      "description" : "",
+      "message" : "{locality} Botanikai Központ"
+   },
+   "EQUIPMENT" : {
+      "description" : "",
+      "message" : "Alkalmatlan a hajója a feladat végrehajtására. {unit} {equipment} szükséges."
+   },
+   "FLAVOUR_1_ADTEXT" : {
+      "description" : "",
+      "message" : "HAJÓ LEZUHANT - {planet}."
+   },
+   "FLAVOUR_1_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nem hiszem el, hogy csak most ért vissza! Elvesztegetett idő!"
+   },
+   "FLAVOUR_1_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "A költségek teljes megtérítéséhez {due}-ig vissza kell érnie."
+   },
+   "FLAVOUR_1_INTROTEXT" : {
+      "description" : "",
+      "message" : "{starport} repülésirányítása AZONNALI segítséget kér. {planet}-n lezuhant egy hajó. A létfenntartó rendszerek állapota ismeretlen. A hajó a {starport} kikötői biztosítással rendelkezik, {cash} mentési fedezettel vészhelyzet esetére."
+   },
+   "FLAVOUR_1_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "A hajó utolsó ismert helyzete: {lat} szélesség, {long} hosszúság. Lajstromjele a következő: {shiplabel}."
+   },
+   "FLAVOUR_1_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Micsoda megkönnyebbülés! Hálás köszönet! Azonnal utaljuk a pénzt."
+   },
+   "FLAVOUR_1_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} fő a fedélzeten."
+   },
+   "FLAVOUR_1_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "A hajón a jelentések szerint {crew} tagú legénység, és {pass} utas tartózkodik. Szükségünk van valakire, aki sürgősen megtalálja a hajót, és elszállítja ide a túlélőket."
+   },
+   "FLAVOUR_2_ADTEXT" : {
+      "description" : "",
+      "message" : "HAJÓ HAJTÓANYAG NÉLKÜL útban {startport} felé."
+   },
+   "FLAVOUR_2_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Nem hiszem el, hogy ennyi ideig kellett várnunk magára. Felejtse el a fizetséget."
+   },
+   "FLAVOUR_2_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "A teljes jutalom kifizetéséhez kérjük szállítsa le az üzemanyagot {due}-ig."
+   },
+   "FLAVOUR_2_INTROTEXT" : {
+      "description" : "",
+      "message" : "{starport} torony információi szerint a bejövő {shiplabel} űrhajó hajtóanyagkészletei kifogytak, és kényszerleszállást kellett végrehajtania. A pilóta {cash} fizetséget ajánl sürgősségi hajtóanyagutántöltésért."
+   },
+   "FLAVOUR_2_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "A hajó jelenleg a {lat} szélesség, {long} hosszúság koordinátákon vesztegel, {planet} bolygón. "
+   },
+   "FLAVOUR_2_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Köszönöm szépen! Átutaltam a teljes jutalmat."
+   },
+   "FLAVOUR_2_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} tonna üzemanyag áttöltve."
+   },
+   "FLAVOUR_2_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "A pilóta {unit} tonna {cargo} leszállítását kéri."
+   },
+   "FLAVOUR_3_ADTEXT" : {
+      "description" : "",
+      "message" : "EGÉSZSÉGÜGYI VÉSZHELYZET egy űrhajón {starport} közelében."
+   },
+   "FLAVOUR_3_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Elfogadhatatlan teljesítmény! Ennek megfelelően iktatjuk az adatbázisunkba."
+   },
+   "FLAVOUR_3_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "A csere pilótának {due} előtt el kell jutnia a hajóra."
+   },
+   "FLAVOUR_3_INTROTEXT" : {
+      "description" : "",
+      "message" : "A nevem {name}, {starport} repülésirányításától. Segítségre van szükségem. {shiplabel} lajstromjelű hajó pilótája egészségügyi vészhejzetett jelentett útban {starport} felé."
+   },
+   "FLAVOUR_3_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "A hajó kényszerleszállást hajtott végre a következő koordinátákon: {lat} szélesség, {long} hosszúság."
+   },
+   "FLAVOUR_3_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Köszönöm kapitány! Nem felejtjük el amit értünk tett!"
+   },
+   "FLAVOUR_3_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} elhagyta a fedélzetet."
+   },
+   "FLAVOUR_3_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Kérem juttasson egy csere pilótát {starport} állomásról a hajóra, hogy vissza tudjanak térni az állomásra."
+   },
+   "FLAVOUR_4_ADTEXT" : {
+      "description" : "",
+      "message" : "HAJÓ HAJTÓANYAG NÉLKÜL {planet} bolygón."
+   },
+   "FLAVOUR_4_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Ne is fáradj tovább. Inkább küldök valaki mást."
+   },
+   "FLAVOUR_4_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "A teljes fizetségért a pilot {due} előtt számít a hajtóanyagra."
+   },
+   "FLAVOUR_4_INTROTEXT" : {
+      "description" : "",
+      "message" : "Kapcsolatba lépett {starport} repülésirányításával kapcsolatba lépett {shiplabel} lajstromjelű űrhajó pilótája, . Földre kényszerült, mert kifogyott a hajtóanyag, és {cash}-t ajánl annak, aki megtankolja a hajóját."
+   },
+   "FLAVOUR_4_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "A hajó a {planet} bolygón, a {lat}, {long} koordinátákon tartózkodik."
+   },
+   "FLAVOUR_4_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Nagyon jó! Javasolni fogjuk újabb megbízásokra."
+   },
+   "FLAVOUR_4_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} tonna üzemanyag áttöltve."
+   },
+   "FLAVOUR_4_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "A kapitánynak {unit} tonna {cargo}-t kér."
+   },
+   "FLAVOUR_5_ADTEXT" : {
+      "description" : "",
+      "message" : "HAJÓ ÜRES TANKKAL {starport} közelében."
+   },
+   "FLAVOUR_5_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Hiába, manapság senkire sem lehet számítani."
+   },
+   "FLAVOUR_5_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "Kérem {due}-ig juttassa el az üzemanyagot."
+   },
+   "FLAVOUR_5_INTROTEXT" : {
+      "description" : "",
+      "message" : "{starport} forgalomirányítás jelzést kapott a {shiplabel} lajstromjelű hajótól, ami üres üzemanyagtartályokkal sodródik a közelben. {cash} jutalmat fizetünk annak, aki azonnal üzemanyagot juttat el hozzá, hogy elhagyhassák a körzetet."
+   },
+   "FLAVOUR_5_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "A hajó {dist} km-re innen vesztegel. A pontos tartózkodási helyét magának kell megtalálnia."
+   },
+   "FLAVOUR_5_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Feljegyeztük a feladat gyors végrehajtását."
+   },
+   "FLAVOUR_5_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} tonna üzemanyag átpumpálva."
+   },
+   "FLAVOUR_5_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "{unit} tonna {cargo} hajóhoz szállítását kérjük."
+   },
+   "FLAVOUR_6_ADTEXT" : {
+      "description" : "",
+      "message" : "HAJÓ NEM VÁLASZOL, utolsó ismert tartózkodási helye: {system}."
+   },
+   "FLAVOUR_6_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Micsoda katasztrófa! Halálos ítélet szerencsétlen kollégáink számára!"
+   },
+   "FLAVOUR_6_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "{due}-ig vissza kell érnie."
+   },
+   "FLAVOUR_6_INTROTEXT" : {
+      "description" : "",
+      "message" : "A nevem {name}, {entity} képviseletében. Elvesztettük a kapcsolatot {shiplabel} jelű, {ship} típusú, hajónkkal. Hajlandóak vagyunk {cash} fizettséget felajánlani az azonnali segítéségért."
+   },
+   "FLAVOUR_6_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "Az utolsó ismert tartózkodási helye: {planet} bolygó körzete, {system} rendszer: [{sectorx},{sectory},{sectorz}], {dist} fényévre innen."
+   },
+   "FLAVOUR_6_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Köszönjük! El sem tudja képzelni, mekkora megkönnyebbülés."
+   },
+   "FLAVOUR_6_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} fő átszállt a fedélzetre."
+   },
+   "FLAVOUR_6_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Szükségem van valakire, aki azonnal kollégaink segítségére siet, és ha még léetben vannak, elhozza őket {starport} kikötőjébe. A hajón {crew} fő legénység és {pass} utas tartózkodott induláskor."
+   },
+   "FLAVOUR_7_ADTEXT" : {
+      "description" : "",
+      "message" : "AZONNALI LEGÉNYSÉG SZÁLLÍTÁST KÉRÜNK {system} rendszerbe."
+   },
+   "FLAVOUR_7_FAILUREMSG" : {
+      "description" : "",
+      "message" : "Köszönjük, de későn érkezett."
+   },
+   "FLAVOUR_7_HOWMUCHTIMETEXT" : {
+      "description" : "",
+      "message" : "A legénységnek {due}-ig a hajóra kell érnie."
+   },
+   "FLAVOUR_7_INTROTEXT" : {
+      "description" : "",
+      "message" : "{entity} képviseletében {name} vagyok. Egyetlen hajónk, {shiplabel} lajstromjelű {ship} {crew} fő legénységgel sodródik. {problem} Felajánlok {cash} jutalmat az azonnali segítségéért."
+   },
+   "FLAVOUR_7_LOCATIONTEXT" : {
+      "description" : "",
+      "message" : "{system} rendszerben találja meg a hajót ([{sectorx},{sectory},{sectorz}] dist} fényévre. {planet} körül kering."
+   },
+   "FLAVOUR_7_SUCCESSMSG" : {
+      "description" : "",
+      "message" : "Köszönöm! Engedélyeztem a jutalma átutalását."
+   },
+   "FLAVOUR_7_TRANSFERMSG" : {
+      "description" : "",
+      "message" : "{unit} fő átszállt a fedélzetre."
+   },
+   "FLAVOUR_7_TYPEOFHELPTEXT" : {
+      "description" : "",
+      "message" : "Nem tudnak visszajutni a szükséges legénység nélkül. Keresek valakit, aki hajlandó sürgősen eljuttatni {deliver_crew} csere legénységet a hajónkra."
+   },
+   "FULL_CARGO" : {
+      "description" : "",
+      "message" : "Tele a raktér. Nincs hely további rakománynak."
+   },
+   "FULL_CREW" : {
+      "description" : "",
+      "message" : "A legénység teljesen feltöltve, nincs több hely."
+   },
+   "FULL_PASSENGERS" : {
+      "description" : "",
+      "message" : "Minden kabin foglalt, nincs több hely az utasoknak."
+   },
+   "HOW_FAR" : {
+      "description" : "",
+      "message" : "Milyen távol van a célpont?"
+   },
+   "HOW_MUCH_TIME" : {
+      "description" : "",
+      "message" : "Mennyi időm van?"
+   },
+   "INTERACTION_ABORTED" : {
+      "description" : "",
+      "message" : "Túl távol került, jöjjön közelebb, hogy folytatni tudjuk a műveletet."
+   },
+   "INTERACTION_DISTANCE_REACHED" : {
+      "description" : "",
+      "message" : "Megfelelő távolság."
+   },
+   "IT_MUST_BE_COMPLETED_BY" : {
+      "description" : "",
+      "message" : "Határidő:"
+   },
+   "KM" : {
+      "description" : "",
+      "message" : "km"
+   },
+   "LAST_KNOWN_LOCATION" : {
+      "description" : "",
+      "message" : "Utolsó ismert tartózkodási hely:"
+   },
+   "LAT" : {
+      "description" : "",
+      "message" : "Szél:"
+   },
+   "LON" : {
+      "description" : "",
+      "message" : "Hossz:"
+   },
+   "LY" : {
+      "description" : "",
+      "message" : "fé"
+   },
+   "MISSING_COMM" : {
+      "description" : "",
+      "message" : "Nem lehet átrakodni. {cargotype} hiányzik."
+   },
+   "MISSING_CREW" : {
+      "description" : "",
+      "message" : "Nem lehet befejezni az átszállást. Nincs ki a létszám."
+   },
+   "MISSING_PASS" : {
+      "description" : "",
+      "message" : "Nem lehet befejezni az átszállást. Utas hiányzik."
+   },
+   "MISSING_PASSENGER" : {
+      "description" : "",
+      "message" : "Nem lehet befejezni az átszállást. Hiányzik valaki az utaslistáról."
+   },
+   "OK_AGREED" : {
+      "description" : "",
+      "message" : "Rendben, vállalom."
+   },
+   "ORBIT" : {
+      "description" : "",
+      "message" : "Pálya"
+   },
+   "PARTIAL" : {
+      "description" : "",
+      "message" : "Köszönjük az erőfeszítéseit. Reméljük visszatér és befejezi a feladatot."
+   },
+   "PASSENGERS" : {
+      "description" : "",
+      "message" : "Utas"
+   },
+   "PAYMENT_LOCATION" : {
+      "description" : "",
+      "message" : "Fizetés átvehető:"
+   },
+   "PICKUP" : {
+      "description" : "",
+      "message" : "FELSZEDÉS"
+   },
+   "PLACE_OF_ASSISTANCE" : {
+      "description" : "",
+      "message" : "a helyszínen"
+   },
+   "PLEASE_LAND" : {
+      "description" : "",
+      "message" : "Kérem száljon le, hogy megkezdhessük az átszállást."
+   },
+   "PROBLEM_CREW_1" : {
+      "description" : "",
+      "message" : "Halálos kimenetelű összetűzés a legénység tagjai között."
+   },
+   "PROBLEM_CREW_10" : {
+      "description" : "",
+      "message" : "Zendülés."
+   },
+   "PROBLEM_CREW_2" : {
+      "description" : "",
+      "message" : "A legénység egy elszabadult {locality}-i veszélyes mérges kígyót keres a hajón."
+   },
+   "PROBLEM_CREW_3" : {
+      "description" : "",
+      "message" : "Egy {locality}-i pók halálra csípte a többieket."
+   },
+   "PROBLEM_CREW_4" : {
+      "description" : "",
+      "message" : "Úgy tűnik, az éjszaka folyamán egy {locality}-n honos skorpió tévedt a legénységi kabinokba."
+   },
+   "PROBLEM_CREW_5" : {
+      "description" : "",
+      "message" : "Súlyos {locality}-i láz vitte el a többieket."
+   },
+   "PROBLEM_CREW_6" : {
+      "description" : "",
+      "message" : "A legénység több tagja nem tért vissza az űrsétáról."
+   },
+   "PROBLEM_CREW_7" : {
+      "description" : "",
+      "message" : "Súlyos ételmérgezés a hajón."
+   },
+   "PROBLEM_CREW_8" : {
+      "description" : "",
+      "message" : "Egy szörnyű baleset során a többiek kizuhantak az űrbe."
+   },
+   "PROBLEM_CREW_9" : {
+      "description" : "",
+      "message" : "Bizonyos kürölmények, amiket nem hozhatok nyilvánosságra."
+   },
+   "PROBLEM_GENERAL_1" : {
+      "description" : "",
+      "message" : "Tűz ütött ki a raktérben."
+   },
+   "PROBLEM_GENERAL_10" : {
+      "description" : "",
+      "message" : "Vészjelzést fogtunk {locality} környéről."
+   },
+   "PROBLEM_GENERAL_2" : {
+      "description" : "",
+      "message" : "Hajtóműhiba történt."
+   },
+   "PROBLEM_GENERAL_3" : {
+      "description" : "",
+      "message" : "Léket kapott."
+   },
+   "PROBLEM_GENERAL_4" : {
+      "description" : "",
+      "message" : "A hajón tartózkodók súlyos ételmérgezést kaptak."
+   },
+   "PROBLEM_GENERAL_5" : {
+      "description" : "",
+      "message" : "Mikrometeorit becsapódás."
+   },
+   "PROBLEM_GENERAL_6" : {
+      "description" : "",
+      "message" : "Összeverekedtek a legénység tagjai."
+   },
+   "PROBLEM_GENERAL_7" : {
+      "description" : "",
+      "message" : "Azonosítatlan repülő objektummal találkoztak."
+   },
+   "PROBLEM_GENERAL_8" : {
+      "description" : "",
+      "message" : "Összezördülés a konkurencia hajójával."
+   },
+   "PROBLEM_GENERAL_9" : {
+      "description" : "",
+      "message" : "A központi számítógépet újra kellett indítani."
+   },
+   "PROBLEM_RESEARCH_1" : {
+      "description" : "",
+      "message" : "Nem várt reakció történt az egyik reaktorkamrában."
+   },
+   "PROBLEM_RESEARCH_10" : {
+      "description" : "",
+      "message" : "Nagy felfedezés {locality}-n, aminek a részleteit nem oszthatom meg önnel."
+   },
+   "PROBLEM_RESEARCH_2" : {
+      "description" : "",
+      "message" : "A legénység egy tagját megtámadta egy {locality}-i fertőzés."
+   },
+   "PROBLEM_RESEARCH_3" : {
+      "description" : "",
+      "message" : "Kísérleti kórokozó került a légcserélő rendszerbe."
+   },
+   "PROBLEM_RESEARCH_4" : {
+      "description" : "",
+      "message" : "A legénység ki volt téve a {locality}-n begyűjtött mintának."
+   },
+   "PROBLEM_RESEARCH_5" : {
+      "description" : "",
+      "message" : "Vegyi robbanás történt az egyik izolációs kamrában."
+   },
+   "PROBLEM_RESEARCH_6" : {
+      "description" : "",
+      "message" : "Balul sült el  a kísérlet amit {locality} légköréből vett mintákkal végeztünk."
+   },
+   "PROBLEM_RESEARCH_7" : {
+      "description" : "",
+      "message" : "Elharapódzott a vita a fedélzeten tartózkodó tudósok között."
+   },
+   "PROBLEM_RESEARCH_8" : {
+      "description" : "",
+      "message" : "Eltűnt a vizsgálatvezető a hajóról."
+   },
+   "PROBLEM_RESEARCH_9" : {
+      "description" : "",
+      "message" : "Véletlenül összekeveredtek az inkompatibilis minták amiket {locality}-n gyűjtöttünk."
+   },
+   "RESULT_DELIVERY_COMM" : {
+      "description" : "",
+      "message" : "{done} tonna {cargotype} átrakodva, maradt {todo}."
+   },
+   "RESULT_DELIVERY_CREW" : {
+      "description" : "",
+      "message" : "{done} fő átszállt, maradt {todo}."
+   },
+   "RESULT_DELIVERY_PASS" : {
+      "description" : "",
+      "message" : "{done} utas a átszállt, maradt {todo}."
+   },
+   "RESULT_PICKUP_COMM" : {
+      "description" : "",
+      "message" : "{done} tonna {cargotype} átrakodva, maradt {todo}."
+   },
+   "RESULT_PICKUP_CREW" : {
+      "description" : "",
+      "message" : "{done} fő a fedélzeten, maradt {todo}."
+   },
+   "RESULT_PICKUP_PASS" : {
+      "description" : "",
+      "message" : "{done} utas a fedélzeten, maradt {todo}."
+   },
+   "RETURN_TO" : {
+      "description" : "",
+      "message" : "Visszatérés ide:"
+   },
+   "REWARD" : {
+      "description" : "",
+      "message" : "Jutalom:"
+   },
+   "SEARCH_RESCUE" : {
+      "description" : "",
+      "message" : "Kutatás és mentés"
+   },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Navigációs célnak beállít."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Visszaút"
+   },
+   "SHIP_UNRESPONSIVE" : {
+      "description" : "",
+      "message" : "A céljármű nem válaszol."
+   },
+   "SYSTEM" : {
+      "description" : "",
+      "message" : "Rendszer:"
+   },
+   "TARGET_SHIP_ID" : {
+      "description" : "",
+      "message" : "Célpont lajstromjele:"
+   },
+   "THANK_YOU_ACCEPTANCE_TXT" : {
+      "description" : "",
+      "message" : "Hálás köszönet a segítségért."
+   },
+   "TONS_OF_FREE_CARGO_SPACE" : {
+      "description" : "",
+      "message" : "tonnányi üres raktér"
+   },
+   "TRANSFER_ABORTED" : {
+      "description" : "",
+      "message" : "Az átszállás megszakadt!"
+   },
+   "TRANSFER_COMPLETE" : {
+      "description" : "",
+      "message" : "Az átszállás befejeződött!"
+   },
+   "TRANSFER_PARTIAL" : {
+      "description" : "",
+      "message" : "Nem tudott mindenki átszállni. Kérem térjen vissza a többiekért."
+   },
+   "TRANSFER_TIME" : {
+      "description" : "",
+      "message" : "Szükségünk van {minutes} precre az átszálláshoz."
+   },
+   "TYPE_OF_HELP" : {
+      "description" : "",
+      "message" : "Milyen jellegű segítségre van szükség?"
+   },
+   "UNOCCUPIED_PASSENGER_CABINS" : {
+      "description" : "",
+      "message" : "szabad utaskabin"
+   },
+   "WHERE_IS_THE_TARGET" : {
+      "description" : "",
+      "message" : "Hol találom a célpontot?"
+   }
+}

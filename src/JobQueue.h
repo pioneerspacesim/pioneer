@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef JOBQUEUE_H
@@ -247,7 +247,7 @@ public:
 	JobSet& operator=(const JobSet& other) = delete;
 
 	virtual void Order(Job* job) {
-		auto x = m_jobs.insert(std::move(m_queue->Queue(job, this)));
+		auto x = m_jobs.insert(m_queue->Queue(job, this));
 		assert(x.second);
 	}
 	virtual void RemoveJob(Job::Handle* handle) { m_jobs.erase(*handle); }

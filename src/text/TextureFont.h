@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXT_TEXTUREFONT_H
@@ -39,8 +39,8 @@ public:
 
 	void PopulateString(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
 	Color PopulateMarkup(Graphics::VertexArray &va, const std::string &str, const float x, const float y, const Color &color = Color::WHITE);
-	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va) const;
-	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str);
+	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va, const bool bIsStatic) const;
+	Graphics::VertexBuffer* CreateVertexBuffer(const Graphics::VertexArray &va, const std::string &str, const bool bIsStatic);
 	Graphics::VertexBuffer* GetCachedVertexBuffer(const std::string &str);
 
 	// general baseline-to-baseline height

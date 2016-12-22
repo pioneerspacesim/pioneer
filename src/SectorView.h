@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SECTORVIEW_H
@@ -93,7 +93,6 @@ private:
 	void OnKeyPressed(SDL_Keysym *keysym);
 	void OnSearchBoxKeyPress(const SDL_Keysym *keysym);
 
-	Game* m_game;
 	RefCountedPtr<Galaxy> m_galaxy;
 
 	bool m_inSystem;
@@ -122,7 +121,6 @@ private:
 	Gui::Label *m_zoomLevelLabel;
 	Gui::ImageButton *m_zoomInButton;
 	Gui::ImageButton *m_zoomOutButton;
-	Gui::ImageButton *m_galaxyButton;
 	Gui::TextEntry *m_searchBox;
 	Gui::Label *m_statusLabel;
 	Gui::ToggleButton *m_drawOutRangeLabelButton;

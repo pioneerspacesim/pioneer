@@ -191,6 +191,14 @@
       "description" : "",
       "message" : "Térj vissza ide a megbízás teljesítése után, hogy megkapd a fizetséged."
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Navigációs célnak beállít."
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Visszaút"
+   },
    "SHIP" : {
       "description" : "",
       "message" : "Hajó:"

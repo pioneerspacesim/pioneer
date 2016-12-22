@@ -1,18 +1,21 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#ifndef GL2_VERTEXBUFFER_H
-#define GL2_VERTEXBUFFER_H
+#ifndef OGL_VERTEXBUFFER_H
+#define OGL_VERTEXBUFFER_H
+#include "OpenGLLibs.h"
 #include "graphics/VertexBuffer.h"
 
 namespace Graphics { namespace OGL {
 
 class GLBufferBase {
 public:
+	GLBufferBase() : m_written(false) {}
 	GLuint GetBuffer() const { return m_buffer; }
 
 protected:
 	GLuint m_buffer;
+	bool m_written;			// to check for invalid data rendering
 };
 
 class VertexBuffer : public Graphics::VertexBuffer, public GLBufferBase {
@@ -41,14 +44,14 @@ public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	~IndexBuffer();
 
-	virtual Uint16 *Map(BufferMapMode) override;
+	virtual Uint32 *Map(BufferMapMode) override;
 	virtual void Unmap() override;
 	
 	virtual void Bind() override;
 	virtual void Release() override;
 
 private:
-	Uint16 *m_data;
+	Uint32 *m_data;
 };
 
 // Instance buffer
@@ -63,9 +66,15 @@ public:
 	virtual void Release() override;
 
 protected:
+	enum InstOffs {
+		INSTOFFS_MAT0 = 5, // these value must match those of a_transform within data/shaders/opengl/attributes.glsl
+		INSTOFFS_MAT1 = 6,
+		INSTOFFS_MAT2 = 7,
+		INSTOFFS_MAT3 = 8
+	};
 	std::unique_ptr<matrix4x4f> m_data;
 };
 
 } }
 
-#endif // GL2_VERTEXBUFFER_H
+#endif // OGL_VERTEXBUFFER_H

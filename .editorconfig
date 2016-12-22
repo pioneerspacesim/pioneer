@@ -1,0 +1,21 @@
+# EditorConfig http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# all files, globally use these rules:
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+
+# but definitly tabs for:
+[*.{cpp,h,lua,am}]
+indent_style = tab
+
+# we apparently use spaces for:
+[*.{json,txt,md,yml}]
+indent_style = space

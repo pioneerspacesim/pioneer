@@ -23,6 +23,34 @@
       "description" : "",
       "message" : "{name} ⁊ a mhac"
    },
+   "SLOGAN_0" : {
+      "description" : "",
+      "message" : "Tha bathar againn nach fhaigh thu tric."
+   },
+   "SLOGAN_1" : {
+      "description" : "",
+      "message" : "Seo margadh a tha saor dha-rìribh."
+   },
+   "SLOGAN_2" : {
+      "description" : "",
+      "message" : "A' toirt brod a' bhathair neo-ghràthaich dhut!"
+   },
+   "SLOGAN_3" : {
+      "description" : "",
+      "message" : "Is miann leinn margadh gun chuingeachadh."
+   },
+   "SLOGAN_4" : {
+      "description" : "",
+      "message" : "Am margadh neo-riaghlaichte a chum do shaorsa."
+   },
+   "SLOGAN_5" : {
+      "description" : "",
+      "message" : "An reiceadair earbsach."
+   },
+   "SLOGAN_6" : {
+      "description" : "",
+      "message" : "Gheibh thu prìs shònraichte dhut an-còmhnaidh."
+   },
    "WELCOME_TO" : {
       "description" : "",
       "message" : "Fàilte"

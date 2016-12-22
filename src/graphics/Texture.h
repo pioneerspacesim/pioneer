@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _TEXTURE_H
@@ -50,16 +50,18 @@ struct TextureCubeData {
 class TextureDescriptor {
 public:
 	TextureDescriptor() :
-		format(TEXTURE_RGBA_8888), dataSize(1.0f), texSize(1.0f), sampleMode(LINEAR_CLAMP), generateMipmaps(false), allowCompression(true), numberOfMipMaps(0), type(TEXTURE_2D)
+		format(TEXTURE_RGBA_8888), dataSize(1.0f), texSize(1.0f), sampleMode(LINEAR_CLAMP), generateMipmaps(false), allowCompression(true), useAnisotropicFiltering(true), numberOfMipMaps(0), type(TEXTURE_2D)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
-		format(_format), dataSize(_dataSize), texSize(1.0f), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
+		format(_format), dataSize(_dataSize), texSize(1.0f), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), useAnisotropicFiltering(_useAnisotropicFiltering), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
 	{}
 
-	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode = LINEAR_CLAMP, bool _generateMipmaps = false, bool _allowCompression = true, unsigned int _numberOfMipMaps = 0, TextureType _textureType = TEXTURE_2D) :
-		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
+	TextureDescriptor(TextureFormat _format, const vector2f &_dataSize, const vector2f &_texSize, TextureSampleMode _sampleMode, bool _generateMipmaps, bool _allowCompression, bool _useAnisotropicFiltering, unsigned int _numberOfMipMaps, TextureType _textureType) :
+		format(_format), dataSize(_dataSize), texSize(_texSize), sampleMode(_sampleMode), generateMipmaps(_generateMipmaps), allowCompression(_allowCompression), useAnisotropicFiltering(_useAnisotropicFiltering), numberOfMipMaps(_numberOfMipMaps), type(_textureType)
 	{}
+
+	vector2f GetOriginalSize() const { return vector2f(dataSize.x * texSize.x, dataSize.y * texSize.y); }
 
 	const TextureFormat format;
 	const vector2f dataSize;
@@ -67,6 +69,7 @@ public:
 	const TextureSampleMode sampleMode;
 	const bool generateMipmaps;
 	const bool allowCompression;
+	const bool useAnisotropicFiltering;
 	const unsigned int numberOfMipMaps;
 	const TextureType type;
 
@@ -77,6 +80,7 @@ public:
 		const_cast<TextureSampleMode&>(sampleMode) = o.sampleMode;
 		const_cast<bool&>(generateMipmaps) = o.generateMipmaps;
 		const_cast<bool&>(allowCompression) = o.allowCompression;
+		const_cast<bool&>(useAnisotropicFiltering) = o.useAnisotropicFiltering;
 		const_cast<unsigned int&>(numberOfMipMaps) = o.numberOfMipMaps;
 		const_cast<TextureType&>(type) = o.type;
 		return *this;
@@ -93,6 +97,7 @@ public:
     }
 	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
 	virtual void SetSampleMode(TextureSampleMode) = 0;
+	virtual void BuildMipmaps() = 0;
 
 	virtual ~Texture() {}
 

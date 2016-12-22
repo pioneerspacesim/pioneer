@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "BaseLoader.h"
@@ -11,7 +11,7 @@ BaseLoader::BaseLoader(Graphics::Renderer *r)
 : m_renderer(r)
 , m_model(nullptr)
 {
-	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.png",
+	Graphics::Texture *sdfTex = Graphics::TextureBuilder("fonts/label3d.dds",
 		Graphics::LINEAR_CLAMP, true, true, true).GetOrCreateTexture(r, "model");
 	m_labelFont.Reset(new Text::DistanceFieldFont("fonts/sdf_definition.txt", sdfTex));
 }
@@ -23,6 +23,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	const std::string &specTex = mdef.tex_spec;
 	const std::string &glowTex = mdef.tex_glow;
 	const std::string &ambiTex = mdef.tex_ambi;
+	const std::string &normTex = mdef.tex_norm;
 
 	Graphics::MaterialDescriptor matDesc;
 	matDesc.lighting = !mdef.unlit;
@@ -35,6 +36,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	matDesc.specularMap = !specTex.empty();
 	matDesc.glowMap = !glowTex.empty();
 	matDesc.ambientMap = !ambiTex.empty();
+	matDesc.normalMap = !normTex.empty();
 	matDesc.quality = Graphics::HAS_HEAT_GRADIENT;
 
 	//Create material and set parameters
@@ -60,9 +62,11 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 		mat->texture2 = Graphics::TextureBuilder::Model(glowTex).GetOrCreateTexture(m_renderer, "model");
 	if (!ambiTex.empty())
 		mat->texture3 = Graphics::TextureBuilder::Model(ambiTex).GetOrCreateTexture(m_renderer, "model");
-	
 	//texture4 is reserved for pattern
 	//texture5 is reserved for color gradient
+	if (!normTex.empty())
+		mat->texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
+	
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }

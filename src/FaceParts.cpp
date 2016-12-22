@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "FaceParts.h"
@@ -98,8 +98,15 @@ namespace {
 		assert(target);
 		if (!source) return;
 		SDL_Rect destrec = { 0, 0, 0, 0 };
-		destrec.x = ((FaceParts::FACE_WIDTH - source->w) / 2) + xoff;
-		destrec.y = yoff;
+		// if the source is the full size, then ignore the offset
+		if ((source->w == FaceParts::FACE_WIDTH) &&
+		    (source->h == FaceParts::FACE_HEIGHT)) {
+			destrec.x = 0;
+			destrec.y = 0;
+		} else {
+			destrec.x = ((FaceParts::FACE_WIDTH - source->w) / 2) + xoff;
+			destrec.y = yoff;
+		}
 		SDL_BlitSurface(source, 0, target, &destrec);
 	}
 
@@ -196,9 +203,19 @@ void PartDb::ScanGenderedParts(std::vector<Part> &output, const int species_idx,
 	for (fs::FileEnumerator files(fs::gameDataFiles, path); !files.Finished(); files.Next()) {
 		const std::string &name = files.Current().GetName();
 		if (starts_with(name, prefix)) {
-			int gender_idx = (name[prefix_len] - '0');
-			assert(gender_idx == 0 || gender_idx == 1); // currently we enforce two genders
-			const Uint32 sel = _make_selector(species_idx, race_idx, gender_idx);
+			char *end = nullptr;
+			int gender_idx = strtol(name.c_str() + prefix_len, &end, 10);
+			Uint32 sel;
+			// HACK -- attempt to recognise `foo_3.png' style names
+			if (strcmp(end, ".png") == 0) {
+				sel = _make_selector(species_idx, race_idx, -1);
+			} else {
+				if (gender_idx < 0 || gender_idx >= MAX_GENDERS) {
+					Output("Gender out of range: %s\n", files.Current().GetPath().c_str());
+					continue;
+				}
+				sel = _make_selector(species_idx, race_idx, gender_idx);
+			}
 
 			SDLSurfacePtr im = LoadSurfaceFromFile(files.Current().GetPath());
 			if (im) {

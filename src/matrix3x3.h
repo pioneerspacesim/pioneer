@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _MATRIX3X3_H
@@ -10,15 +10,23 @@
 
 template <typename T>
 class matrix3x3 {
-	private:
+private:
 	T cell[9];
-	public:
+public:
 	matrix3x3 () {}
+	matrix3x3 (T val) {
+		cell[0] = cell[1] = cell[2] = cell[3] = cell[4] = cell[5] = cell[6] =
+		cell[7] = cell[8] = val;
+	}
 	matrix3x3 (const T *vals) {
 		memcpy(cell, vals, sizeof(T)*9);
 	}
+
 	T& operator [] (const size_t i) { return cell[i]; }			// used for serializing
 	const T& operator[] (const size_t i) const { return cell[i]; }
+
+	const T* Data() const { return cell; }
+	T* Data() { return cell; }
 
 	vector3<T> VectorX() const { return vector3<T>(cell[0], cell[3], cell[6]); }
 	vector3<T> VectorY() const { return vector3<T>(cell[1], cell[4], cell[7]); }

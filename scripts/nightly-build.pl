@@ -177,7 +177,8 @@ sub copy {
     system "cp -v src/modelcompiler$suffix $copy_dir";
     system "cp -v src/pioneer.map $copy_dir" if $platform eq 'win32';
     system "cp -v src/modelcompiler.map $copy_dir" if $platform eq 'win32';
-    system "cp -v *.txt $copy_dir";
+    system "ls *.txt | /usr/bin/grep -v -E '(COMPILING\.txt|SAVEBUMP\.txt)' | xargs cp -v -t $copy_dir";
+    system "cp -v README.md $copy_dir"
     system "cp -rv licenses $copy_dir/licenses";
     system "cp -rv data $copy_dir/data";
 

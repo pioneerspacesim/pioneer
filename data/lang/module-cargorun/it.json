@@ -285,7 +285,7 @@
    },
    "INTROTEXT_PICKUP_2" : {
       "description" : "",
-      "message" : "Come sta? Sono {name}. Un mio cliente desidera importare {cargoname} da {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), lontano {dist} AL. Pagherà {cash} per questa consegna. Dovrà riportare la merce qua a {dom_starport} nel sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) per poterla scaricare."
+      "message" : "Come va? Mi chiamo {name}. Un mio cliente desidera importare {cargoname} da {starport} nel sistema {system} ({sectorx}, {sectory}, {sectorz}), distante {dist} anni luce. Pagherebbe {cash} per il trasporto. Tornate qua a {dom_starport} nel sistema {dom_system} ({dom_sectorx}, {dom_sectory}, {dom_sectorz}) per scaricare la merce."
    },
    "INTROTEXT_PICKUP_LOCAL_1" : {
       "description" : "",
@@ -443,6 +443,14 @@
       "description" : "custom cargo",
       "message" : "Prodotti semilavorati"
    },
+   "SET_AS_TARGET" : {
+      "description" : "",
+      "message" : "Imposta come destinazione di navigazione"
+   },
+   "SET_RETURN_ROUTE" : {
+      "description" : "",
+      "message" : "Imposta rotta di ritorno"
+   },
    "SPACEPORT" : {
       "description" : "",
       "message" : "Astroporto:"
@@ -577,7 +585,7 @@
    },
    "WHYSOMUCH_INFRASTRUCTURE_1" : {
       "description" : "",
-      "message" : "Questa merce è cruciale per un progetto in costruzione."
+      "message" : "Questa merce è criciale per un progetto di costruzione."
    },
    "WHYSOMUCH_MINING_1" : {
       "description" : "",

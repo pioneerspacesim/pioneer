@@ -1,4 +1,4 @@
-// Copyright © 2008-2015 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #ifndef _SHIPTYPE_H
@@ -52,6 +52,7 @@ struct ShipType {
 	float linThrust[THRUSTER_MAX];
 	float angThrust;
 	std::map<std::string, int> slots;
+	double thrusterUpgrades[4];
 	int capacity; // tonnes
 	int hullMass;
 	float effectiveExhaustVelocity; // velocity at which the propellant escapes the engines

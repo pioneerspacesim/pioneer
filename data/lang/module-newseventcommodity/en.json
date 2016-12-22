@@ -7,78 +7,6 @@
       "description" : "Imply high demand for MEDICINE commodity.",
       "message" : "Plague harvests lives in the {system} system ({sectorx}, {sectory}, {sectorz}). Officials urge for medical aid."
    },
-   "FLAVOUR_1_HEADLINE" : {
-      "description" : "",
-      "message" : "NEWS {date}: Conflict escalates in {system} system."
-   },
-   "FLAVOUR_1_NEWSBODY" : {
-      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
-      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
-   },
-   "FLAVOUR_2_HEADLINE" : {
-      "description" : "",
-      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
-   },
-   "FLAVOUR_2_NEWSBODY" : {
-      "description" : "Hint there will be high demand of GRAIN.",
-      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
-   },
-   "FLAVOUR_3_HEADLINE" : {
-      "description" : "",
-      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
-   },
-   "FLAVOUR_3_NEWSBODY" : {
-      "description" : "Imply high demand of FRUIT_AND_VEG.",
-      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
-   },
-   "FLAVOUR_4_HEADLINE" : {
-      "description" : "About mob rivals competing for selling drugs",
-      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
-   },
-   "FLAVOUR_4_NEWSBODY" : {
-      "description" : "Imply high abundance of NARCOTICS.",
-      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
-   },
-   "FLAVOUR_5_HEADLINE" : {
-      "description" : "",
-      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
-   },
-   "FLAVOUR_5_NEWSBODY" : {
-      "description" : "Imply high demand of SLAVES.",
-      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
-   },
-   "FLAVOUR_6_HEADLINE" : {
-      "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
-      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
-   },
-   "FLAVOUR_6_NEWSBODY" : {
-      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
-      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
-   },
-   "FLAVOUR_7_HEADLINE" : {
-      "description" : "",
-      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
-   },
-   "FLAVOUR_7_NEWSBODY" : {
-      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
-      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
-   },
-   "FLAVOUR_8_HEADLINE" : {
-      "description" : "",
-      "message" : "NEWS {date}: Mining accident reported from the {system} system."
-   },
-   "FLAVOUR_8_NEWSBODY" : {
-      "description" : "Imply high demand of MINING_MACHINERY.",
-      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
-   },
-   "FLAVOUR_9_HEADLINE" : {
-      "description" : "",
-      "message" : "NEWS {date}: Fashion craze in the {system} system."
-   },
-   "FLAVOUR_9_NEWSBODY" : {
-      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
-      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
-   },
    "FLAVOUR_10_HEADLINE" : {
       "description" : "",
       "message" : "NEWS {date}: Company threatening continual survival of {system} system."
@@ -159,6 +87,14 @@
       "description" : "Imply vast abundance of PRECIOUS_METALS.",
       "message" : "A man in the {system} system ({sectorx}, {sectory}, {sectorz}) has inherited an invention from his late uncle, allowing him to transmute any solid into gold and platinum. Economists expect a destabilization of the economy in the system, unless the machine breaks down soon."
    },
+   "FLAVOUR_1_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Conflict escalates in {system} system."
+   },
+   "FLAVOUR_1_NEWSBODY" : {
+      "description" : "Imply high demand of BATTLE_WEAPONS. I.e. the word combat is important.",
+      "message" : "The long standing conflict in the {system} system ({sectorx}, {sectory}, {sectorz}) escalates as the armies engage in full open combat."
+   },
    "FLAVOUR_20_HEADLINE" : {
       "description" : "",
       "message" : "NEWS {date}: The harvest of the gas giant algae in the {system} system sets new record."
@@ -189,7 +125,71 @@
    },
    "FLAVOUR_23_NEWSBODY" : {
       "description" : "Imply high demand of METAL_ALLOYS. Amissionox is a play on words for Victorinox.",
-      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knifes capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+      "message" : "The new Amissionox factory in the {system} system ({sectorx}, {sectory}, {sectorz}) is now up and running. It will produce high quality knives capable of cutting through a space boot; however, due to low supply of resources needed for the blades, they have not yet reached full production potential."
+   },
+   "FLAVOUR_2_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Drought in {system}. Crop ruined."
+   },
+   "FLAVOUR_2_NEWSBODY" : {
+      "description" : "Hint there will be high demand of GRAIN.",
+      "message" : "Severe drought has ruined the crop in the {system} system ({sectorx}, {sectory}, {sectorz}). System wide famine is feared."
+   },
+   "FLAVOUR_3_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Vegan lifestyle gains followers in the {system} system."
+   },
+   "FLAVOUR_3_NEWSBODY" : {
+      "description" : "Imply high demand of FRUIT_AND_VEG.",
+      "message" : "Administration in the {system} system ({sectorx}, {sectory}, {sectorz}) seek to increase import to meet the surging demand of all things green ."
+   },
+   "FLAVOUR_4_HEADLINE" : {
+      "description" : "About mob rivals competing for selling drugs",
+      "message" : "NEWS {date}: Drug war in the {system} system. Law enforcers struggle to regain control."
+   },
+   "FLAVOUR_4_NEWSBODY" : {
+      "description" : "Imply high abundance of NARCOTICS.",
+      "message" : "The market has been flooded by cheap drugs in the {system} system ({sectorx}, {sectory}, {sectorz}), as rivalling drug lords compete to increase their power."
+   },
+   "FLAVOUR_5_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Slaves rebel in the {system} system. Agricultural industry comes to a halt."
+   },
+   "FLAVOUR_5_NEWSBODY" : {
+      "description" : "Imply high demand of SLAVES.",
+      "message" : "Workers in the {system} system ({sectorx}, {sectory}, {sectorz}) have cast off their chains in rebellion as they refuse to work the Lotus fields. Economy comes to a stand still as no cheap workers can be found."
+   },
+   "FLAVOUR_6_HEADLINE" : {
+      "description" : "(Quibble as a derivative of Tribble from Star Trek TOS)",
+      "message" : "NEWS {date}: Joyous Festival of the Quibble in the {system} system."
+   },
+   "FLAVOUR_6_NEWSBODY" : {
+      "description" : "Stress drunken or intoxicated by alcohol, as this will imply high demand of LIQUOR.",
+      "message" : "The drunken celebrations in the {system} system ({sectorx}, {sectory}, {sectorz}) will be ongoing, as they honour the furry little creature."
+   },
+   "FLAVOUR_7_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Industry screeches to a halt in the {system} system."
+   },
+   "FLAVOUR_7_NEWSBODY" : {
+      "description" : "Imply demand of INDUSTRIAL_MACHINERY.",
+      "message" : "Long time neglect of machine maintenance causes industrial standstill in the {system} system ({sectorx}, {sectory}, {sectorz})."
+   },
+   "FLAVOUR_8_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Mining accident reported from the {system} system."
+   },
+   "FLAVOUR_8_NEWSBODY" : {
+      "description" : "Imply high demand of MINING_MACHINERY.",
+      "message" : "A mine collapsed in the {system} system ({sectorx}, {sectory}, {sectorz}), killing hundreds of workers and destroying important machinery vital for the economy."
+   },
+   "FLAVOUR_9_HEADLINE" : {
+      "description" : "",
+      "message" : "NEWS {date}: Fashion craze in the {system} system."
+   },
+   "FLAVOUR_9_NEWSBODY" : {
+      "description" : "live pets is important, since it implies high demand of LIVE_ANIMALS commodity.",
+      "message" : "The latest trend in the {system} system ({sectorx}, {sectory}, {sectorz}) has it real live pets are the next big thing."
    },
    "GRATEFUL_GREETING_0" : {
       "description" : "",
@@ -215,33 +215,13 @@
       "description" : "",
       "message" : "Welcome! Your shipment of {cargo} will sell out fast here."
    },
-   "TITLE_0" : {
+   "NEWSPAPER_CIW" : {
       "description" : "",
-      "message" : "Fresh report from {newspaper}"
-   },
-   "TITLE_1" : {
-      "description" : "",
-      "message" : "News from {newspaper}"
-   },
-   "TITLE_2" : {
-      "description" : "",
-      "message" : "Report from {newspaper}"
-   },
-   "TITLE_3" : {
-      "description" : "",
-      "message" : "The latest from {newspaper}"
-   },
-   "TITLE_4" : {
-      "description" : "",
-      "message" : "Notes from {newspaper}"
+      "message" : "The Confederate Chronicle"
    },
    "NEWSPAPER_FED" : {
       "description" : "",
       "message" : "The Federal Times"
-   },
-   "NEWSPAPER_CIW" : {
-      "description" : "",
-      "message" : "The Confederate Chronicle"
    },
    "NEWSPAPER_IMP" : {
       "description" : "",
@@ -251,13 +231,13 @@
       "description" : "",
       "message" : "The Pioneer Courier"
    },
-   "NEWSPAPER_IND_10" : {
-      "description" : "",
-      "message" : "The Orbital Observer"
-   },
    "NEWSPAPER_IND_1" : {
       "description" : "",
       "message" : "The Independent Tribune"
+   },
+   "NEWSPAPER_IND_10" : {
+      "description" : "",
+      "message" : "The Orbital Observer"
    },
    "NEWSPAPER_IND_2" : {
       "description" : "",
@@ -290,5 +270,25 @@
    "NEWSPAPER_IND_9" : {
       "description" : "",
       "message" : "The Satellite Journal"
+   },
+   "TITLE_0" : {
+      "description" : "",
+      "message" : "Fresh report from {newspaper}"
+   },
+   "TITLE_1" : {
+      "description" : "",
+      "message" : "News from {newspaper}"
+   },
+   "TITLE_2" : {
+      "description" : "",
+      "message" : "Report from {newspaper}"
+   },
+   "TITLE_3" : {
+      "description" : "",
+      "message" : "The latest from {newspaper}"
+   },
+   "TITLE_4" : {
+      "description" : "",
+      "message" : "Notes from {newspaper}"
    }
 }

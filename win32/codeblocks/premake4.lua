@@ -29,14 +29,13 @@ solution "Pioneer"
 		includedirs {
 			path.join(TP_DIR, "include"),
 			path.join(TP_DIR, "include/SDL2"),
-			path.join(TP_DIR, "include/freetype2") }
+			path.join(TP_DIR, "include/freetype2")}
 		libdirs { path.join(TP_DIR, "lib") }
 	end
 	includedirs { ".", SRCDIR, BASEDIR .. "contrib" }
 	vpaths (VPATHS)
 	--std=c++11 causes errors with miniz
 	buildoptions  { "-std=gnu++11" }
-
 	configuration "Debug"
 		targetdir "build/bin/Debug"
 		flags { "Symbols" }
@@ -68,8 +67,9 @@ solution "Pioneer"
 	project "graphics"
 		kind "StaticLib"
 		LIBDIR = SRCDIR .. "graphics/"
-		files { LIBDIR .. "**.h", LIBDIR .. "**.cpp" }
+		files { LIBDIR .. "**.h", LIBDIR .. "**.cpp", LIBDIR .. "**.c" }
 		includedirs { LIBDIR }
+		excludes { LIBDIR .. "opengl/LineMaterial.h", LIBDIR .. "opengl/LineMaterial.cpp" }
 
 	project "gui" --old gui
 		LIBDIR = SRCDIR .. "gui/"
@@ -107,8 +107,9 @@ solution "Pioneer"
 		files { BASEDIR .. "contrib/jenkins/lookup3.*" }
 
 	project "json"
+		LIBDIR = BASEDIR .. "contrib/json/"
 		kind "StaticLib"
-		files { BASEDIR .. "contrib/json/json*" }
+		files { LIBDIR .. "*.h", LIBDIR .. "*.cpp" }
 
 	project "lua"
 		LIBDIR = BASEDIR .. "contrib/lua/"
@@ -132,7 +133,8 @@ solution "Pioneer"
 		excludes {
 			SRCDIR .. "test*",
 			SRCDIR .. "uitest.cpp",
-			SRCDIR .. "textstress.cpp"
+			SRCDIR .. "textstress.cpp",
+			SRCDIR .. "modelcompiler.cpp"
 		}
 		if _OPTIONS["noconsole"] ~= nil then
 			linkoptions "-mwindows"
@@ -141,9 +143,9 @@ solution "Pioneer"
 			"scenegraph", "text", "ui", "graphics", "win32",
 			"jenkins", "json", "lua", "picodds"
 		}
-		links { "mingw32", "SDL2main", "SDL2", "SDL2_Image", "png",
+		links { "mingw32", "SDL2main" , "SDL2", "SDL2_Image", "png", "libcurl",
 			"sigc-2.0.dll", "freetype", "assimp", "vorbisfile",
-			"vorbis", "ogg", "opengl32", "shlwapi"
+			"vorbis", "ogg", "opengl32", "shlwapi", "z"
 		}
 		targetdir (BASEDIR)
 		configuration "Debug"

@@ -1,4 +1,5 @@
 local Game = import("Game")
+local Engine = import("Engine")
 local Event = import("Event")
 local FileSystem = import("FileSystem")
 
@@ -33,6 +34,10 @@ local function PickNextAutosave()
 end
 
 local function CheckedSave(filename)
+	if not Engine.GetAutosaveEnabled() then
+		return
+	end
+
 	local ok, err = pcall(Game.SaveGame, filename)
 	if not ok then
 		print('Error making autosave:')
