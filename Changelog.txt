@@ -1,6 +1,7 @@
 January 2017
    * Internal Changes
      * Correct and clarify a misleading comment (#3898)
+     * Use the gas giant textures RAW instead of Billboard (#3897)
      
 December 2016
    * Fixes
