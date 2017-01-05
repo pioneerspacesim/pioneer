@@ -47,6 +47,9 @@ public:
 	virtual void StaticUpdate(const float timeStep) override;
 	sigc::signal<void> onChangeEquipment;
 
+    // XXX: isPlayerShip must be redefined
+    virtual bool IsPlayerShip() const override { return true; };
+
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
