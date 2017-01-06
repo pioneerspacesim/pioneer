@@ -3,6 +3,7 @@
 
 #include "libs.h"
 #include "Ship.h"
+#include "Propulsion.h"
 #include "ShipAICmd.h"
 #include "Pi.h"
 #include "Player.h"
@@ -305,7 +306,7 @@ double Ship::AIFaceDirection(const vector3d &dir, double av)
 	// would be constructed from user input. that adjustment could then be
 	// considered by this method when computing the required change
 	if (IsType(Object::PLAYER) && (KeyBindings::rollLeft.IsActive() || KeyBindings::rollRight.IsActive()))
-		diff.z = m_angThrusters.z;
+		diff.z = GetAngThrusterState().z;
 	SetAngThrusterState(diff);
 	return ang;
 }

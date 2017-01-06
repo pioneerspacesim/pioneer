@@ -41,8 +41,8 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	Json::Value shipObj(Json::objectValue); // Create JSON object to contain ship data.
 
 	m_skin.SaveToJson(shipObj);
-	VectorToJson(shipObj, m_angThrusters, "ang_thrusters");
-	VectorToJson(shipObj, m_thrusters, "thrusters");
+	VectorToJson(shipObj, GetAngThrusterState(), "ang_thrusters");
+	VectorToJson(shipObj, GetThrusterState(), "thrusters");
 	shipObj["wheel_transition"] = m_wheelTransition;
 	shipObj["wheel_state"] = FloatToStr(m_wheelState);
 	shipObj["launch_lock_timeout"] = FloatToStr(m_launchLockTimeout);
@@ -76,8 +76,8 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	shipObj["shield_cooldown"] = FloatToStr(m_shieldCooldown);
 	if (m_curAICmd) m_curAICmd->SaveToJson(shipObj);
 	shipObj["ai_message"] = int(m_aiMessage);
-	shipObj["thruster_fuel"] = DoubleToStr(m_thrusterFuel);
-	shipObj["reserve_fuel"] = DoubleToStr(m_reserveFuel);
+	shipObj["thruster_fuel"] = DoubleToStr( GetFuel() );
+	shipObj["reserve_fuel"] = DoubleToStr( GetFuelReserve() );
 
 	shipObj["controller_type"] = static_cast<int>(m_controller->GetType());
 	m_controller->SaveToJson(shipObj, space);
@@ -124,8 +124,11 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_skin.LoadFromJson(shipObj);
 	m_skin.Apply(GetModel());
 	// needs fixups
-	JsonToVector(&m_angThrusters, shipObj, "ang_thrusters");
-	JsonToVector(&m_thrusters, shipObj, "thrusters");
+	vector3d temp_vector;
+	JsonToVector(&temp_vector, shipObj, "ang_thrusters");
+	SetAngThrusterState( temp_vector );
+	JsonToVector(&temp_vector, shipObj, "thrusters");
+	SetThrusterState( temp_vector );
 	m_wheelTransition = shipObj["wheel_transition"].asInt();
 	m_wheelState = StrToFloat(shipObj["wheel_state"].asString());
 	m_launchLockTimeout = StrToFloat(shipObj["launch_lock_timeout"].asString());
@@ -168,7 +171,7 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_aiMessage = AIError(shipObj["ai_message"].asInt());
 	SetFuel(StrToDouble(shipObj["thruster_fuel"].asString()));
 	m_stats.fuel_tank_mass_left = GetShipType()->fuelTankMass * GetFuel();
-	m_reserveFuel = StrToDouble(shipObj["reserve_fuel"].asString());
+	SetFuelReserve( StrToDouble(shipObj["reserve_fuel"].asString()) );
 
 	PropertyMap &p = Properties();
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
@@ -299,13 +302,13 @@ Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 	m_flightState(FLYING),
 	m_alertState(ALERT_NONE),
 	m_controller(0),
-	m_thrusterFuel(1.0),
-	m_reserveFuel(0.0),
 	m_landingGearAnimation(nullptr)
 {
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 	Properties().Set("alertStatus", EnumStrings::GetString("ShipAlertStatus", m_alertState));
 
+	SetFuel(1.0);
+	SetFuelReserve(0.0);
 	m_lastAlertUpdate = 0.0;
 	m_lastFiringAlert = 0.0;
 	m_shipNear = false;
@@ -318,8 +321,8 @@ Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 	m_dockedWith = nullptr;
 	m_dockedWithPort = 0;
 	SetShipId(shipId);
-	m_thrusters.x = m_thrusters.y = m_thrusters.z = 0;
-	m_angThrusters.x = m_angThrusters.y = m_angThrusters.z = 0;
+	ClearAngThrusterState();
+	ClearLinThrusterState();
 
 	InitEquipSet();
 
@@ -387,14 +390,15 @@ void Ship::UpdateMass()
 
 void Ship::SetFuel(const double f)
 {
-	m_thrusterFuel = Clamp(f, 0.0, 1.0);
-	Properties().Set("fuel", m_thrusterFuel*100); // XXX to match SetFuelPercent
+	double thrusterFuel = Clamp(f, 0.0, 1.0);
+	Properties().Set("fuel", thrusterFuel*100); // XXX to match SetFuelPercent
+	Propulsion::SetFuel( thrusterFuel );
 }
 
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
 double Ship::GetSpeedReachedWithFuel() const
 {
-	const double fuelmass = 1000*GetShipType()->fuelTankMass * (m_thrusterFuel - m_reserveFuel);
+	const double fuelmass = 1000*GetShipType()->fuelTankMass * ( GetFuel() - GetFuelReserve() );
 	if (fuelmass < 0) return 0.0;
 	return GetShipType()->effectiveExhaustVelocity * log(GetMass()/(GetMass()-fuelmass));
 }
@@ -515,29 +519,20 @@ void Ship::Explode()
 	}
 	ClearThrusterState();
 }
-
-void Ship::SetThrusterState(const vector3d &levels)
-{
-	if (m_thrusterFuel <= 0.f) {
-		m_thrusters = vector3d(0.0);
-	} else {
-		m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
-		m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
-		m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
-	}
-}
-
+/*
 void Ship::SetAngThrusterState(const vector3d &levels)
 {
+	vector3d angThrust;
 	unsigned int thruster_power_cap = 0;
 	Properties().Get("thruster_power_cap", thruster_power_cap);
 	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
 
-	m_angThrusters.x = Clamp(levels.x, -1.0, 1.0) * power_mul;
-	m_angThrusters.y = Clamp(levels.y, -1.0, 1.0) * power_mul;
-	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0) * power_mul;
+	angThrust.x = Clamp(levels.x, -1.0, 1.0) * power_mul;
+	angThrust.y = Clamp(levels.y, -1.0, 1.0) * power_mul;
+	angThrust.z = Clamp(levels.z, -1.0, 1.0) * power_mul;
+	Propulsion::SetAngThrusterState( angThrust );
 }
-
+*/
 vector3d Ship::GetMaxThrust(const vector3d &dir) const
 {
 	unsigned int thruster_power_cap = 0;
@@ -557,12 +552,6 @@ double Ship::GetAccelMin() const
 	val = std::min(val, m_type->linThrust[ShipType::THRUSTER_RIGHT]);
 	val = std::min(val, -m_type->linThrust[ShipType::THRUSTER_LEFT]);
 	return val / GetMass();
-}
-
-void Ship::ClearThrusterState()
-{
-	m_angThrusters = vector3d(0,0,0);
-	if (m_launchLockTimeout <= 0.0f) m_thrusters = vector3d(0,0,0);
 }
 
 void Ship::UpdateEquipStats()
@@ -823,9 +812,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// If docked, station is responsible for updating position/orient of ship
 	// but we call this crap anyway and hope it doesn't do anything bad
 
-	const vector3d thrust(m_thrusters * GetMaxThrust(m_thrusters));
+	const vector3d thrust(GetThrusterState() * GetMaxThrust( GetThrusterState() ));
 	AddRelForce(thrust);
-	AddRelTorque(GetShipType()->angThrust * m_angThrusters);
+	AddRelTorque(GetShipType()->angThrust * GetAngThrusterState() );
 
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
@@ -1256,10 +1245,10 @@ void Ship::StaticUpdate(const float timeStep)
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;
-	if (m_type->tag == ShipType::TAG_MISSILE && !is_equal_exact(m_thrusters.LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
+	if (m_type->tag == ShipType::TAG_MISSILE && !is_equal_exact(GetThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
 		s_timeAccum = 0.0;
 		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(m_thrusters.z)),100.0);
+		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(GetThrusterState().z)),100.0);
 		SfxManager::AddThrustSmoke(this, speed, pos);
 	}
 }
@@ -1312,7 +1301,7 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	if (IsDead()) return;
 
 	//angthrust negated, for some reason
-	GetModel()->SetThrust(vector3f(m_thrusters), -vector3f(m_angThrusters));
+	GetModel()->SetThrust(vector3f( GetThrusterState() ), -vector3f( GetAngThrusterState() ));
 
 	matrix3x3f mt;
 	matrix3x3dtof(viewTransform.Inverse().GetOrient(), mt);

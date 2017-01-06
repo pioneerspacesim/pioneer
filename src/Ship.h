@@ -20,6 +20,8 @@
 #include <list>
 #include <unordered_map>
 
+#include "Propulsion.h"
+
 class SpaceStation;
 class HyperspaceCloud;
 class AICommand;
@@ -47,7 +49,7 @@ struct shipstats_t {
 	float fuel_tank_mass_left;
 };
 
-class Ship: public DynamicBody {
+class Ship: public DynamicBody, public Propulsion {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
 public:
@@ -71,23 +73,20 @@ public:
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
-	void SetThrusterState(int axis, double level) {
-		if (m_thrusterFuel <= 0.f) level = 0.0;
-		m_thrusters[axis] = Clamp(level, -1.0, 1.0);
-	}
-	void SetThrusterState(const vector3d &levels);
-	vector3d GetThrusterState() const { return m_thrusters; }
-	void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
-	void SetAngThrusterState(const vector3d &levels);
-	vector3d GetAngThrusterState() const { return m_angThrusters; }
-	void ClearThrusterState();
-
 	vector3d GetMaxThrust(const vector3d &dir) const;
 	double GetAccelFwd() const { return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
 	double GetAccelRev() const { return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
 	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
 	double GetAccelMin() const;
 
+	void ClearThrusterState()
+		{
+			ClearAngThrusterState();
+			if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
+		}
+	void SetFuel(const double f);
+	// TODO: This MUST remains because of upgrades, but for now I erase it (...for now )
+	// void SetAngThrusterState(const vector3d &levels);
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
@@ -227,19 +226,6 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
 
-	enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
-		FUEL_OK,
-		FUEL_WARNING,
-		FUEL_EMPTY,
-	};
-	FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
-
-	// fuel left, 0.0-1.0
-	double GetFuel() const { return m_thrusterFuel;	}
-	void SetFuel(const double f);
-	double GetFuelReserve() const { return m_reserveFuel; }
-	void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, 1.0); }
-
 	// available delta-V given the ship's current fuel state
 	double GetSpeedReachedWithFuel() const;
 
@@ -322,9 +308,6 @@ private:
 	float m_wheelState;
 	int m_wheelTransition;
 
-	vector3d m_thrusters;
-	vector3d m_angThrusters;
-
 	AlertState m_alertState;
 	double m_lastAlertUpdate;
 	double m_lastFiringAlert;
@@ -346,8 +329,6 @@ private:
 	AIError m_aiMessage;
 	bool m_decelerating;
 
-	double m_thrusterFuel;	// remaining fuel 0.0-1.0
-	double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 
 	double m_landingMinOffset;	// offset from the centre of the ship used during docking
 
