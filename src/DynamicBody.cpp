@@ -32,6 +32,9 @@ DynamicBody::DynamicBody(): ModelBody()
 	m_externalForce = vector3d(0.0);		// do external forces calc instead?
 	m_lastForce = vector3d(0.0);
 	m_lastTorque = vector3d(0.0);
+	m_aiMessage = AIError::AIERROR_NONE;
+	m_decelerating = false;
+	for ( int i=0; i < Feature::MAX_FEATURE; i++ ) m_features[i] = false;
 }
 
 void DynamicBody::SetForce(const vector3d &f)
@@ -101,6 +104,10 @@ void DynamicBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_massRadius = StrToDouble(dynamicBodyObj["mass_radius"].asString());
 	m_angInertia = StrToDouble(dynamicBodyObj["ang_inertia"].asString());
 	m_isMoving = dynamicBodyObj["is_moving"].asBool();
+
+	m_aiMessage = AIError::AIERROR_NONE;
+	m_decelerating = false;
+	for ( int i=0; i < Feature::MAX_FEATURE; i++ ) m_features[i] = false;
 }
 
 void DynamicBody::PostLoadFixup(Space *space)
