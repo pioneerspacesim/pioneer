@@ -7,6 +7,10 @@
 class Propulsion
 {
 	public:
+		Propulsion()
+		{ power_mul = 0; };
+		virtual ~Propulsion();
+
 		void SetThrusterState(int axis, double level) {
 			if (m_thrusterFuel <= 0.f) level = 0.0;
 			m_thrusters[axis] = Clamp(level, -1.0, 1.0);
@@ -28,12 +32,10 @@ class Propulsion
 
 		// fuel left, 0.0-1.0
 		double GetFuel() const { return m_thrusterFuel;	}
-		void SetFuel(const double f);
+		void SetFuel(const double f) { m_thrusterFuel = f; };
 		double GetFuelReserve() const { return m_reserveFuel; }
 		void SetFuelReserve(const double f) { m_reserveFuel = Clamp(f, 0.0, 1.0); }
 
-		Propulsion();
-		virtual ~Propulsion();
 	protected:
 	private:
 
@@ -43,6 +45,7 @@ class Propulsion
 		vector3d m_thrusters;
 		vector3d m_angThrusters;
 
+		double power_mul;
 };
 
 #endif // PROPULSION_H
