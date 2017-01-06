@@ -56,8 +56,17 @@
  */
 static int l_ship_is_player(lua_State *l)
 {
-    lua_pushboolean(l, false);
-    return 1;
+	LUA_DEBUG_START(l);
+
+	Ship *s = LuaObject<Ship>::CheckFromLua(1);
+
+	bool player_ship = s->IsPlayerShip();
+
+    lua_pushboolean(l, player_ship);
+
+	LUA_DEBUG_END(l, 0);
+
+    return player_ship;
 }
 
 /* Method: SetShipType
