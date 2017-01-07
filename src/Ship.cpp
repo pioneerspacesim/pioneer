@@ -269,6 +269,12 @@ void Ship::Init()
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
+	// Init of Propulsion:
+	Propulsion::SetEffectiveExhaustVelocity( m_type->effectiveExhaustVelocity );
+	Propulsion::SetFuelTankMass( m_type->fuelTankMass );
+	for (int i=0; i<ShipType::THRUSTER_MAX; i++) Propulsion::SetLinThrust( i, m_type->linThrust[i] );
+	Propulsion::SetAngThrust( m_type->angThrust );
+
 	p.Set("shipName", m_shipName);
 
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
@@ -519,40 +525,6 @@ void Ship::Explode()
 	}
 	ClearThrusterState();
 }
-/*
-void Ship::SetAngThrusterState(const vector3d &levels)
-{
-	vector3d angThrust;
-	unsigned int thruster_power_cap = 0;
-	Properties().Get("thruster_power_cap", thruster_power_cap);
-	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
-
-	angThrust.x = Clamp(levels.x, -1.0, 1.0) * power_mul;
-	angThrust.y = Clamp(levels.y, -1.0, 1.0) * power_mul;
-	angThrust.z = Clamp(levels.z, -1.0, 1.0) * power_mul;
-	Propulsion::SetAngThrusterState( angThrust );
-}
-*/
-vector3d Ship::GetMaxThrust(const vector3d &dir) const
-{
-	unsigned int thruster_power_cap = 0;
-	Properties().Get("thruster_power_cap", thruster_power_cap);
-	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
-
-	vector3d maxThrust;
-	maxThrust.x = ((dir.x > 0) ? m_type->linThrust[ShipType::THRUSTER_RIGHT]	: -m_type->linThrust[ShipType::THRUSTER_LEFT]	) * power_mul;
-	maxThrust.y = ((dir.y > 0) ? m_type->linThrust[ShipType::THRUSTER_UP]		: -m_type->linThrust[ShipType::THRUSTER_DOWN]	) * power_mul;
-	maxThrust.z = ((dir.z > 0) ? m_type->linThrust[ShipType::THRUSTER_REVERSE]	: -m_type->linThrust[ShipType::THRUSTER_FORWARD]) * power_mul;
-	return maxThrust;
-}
-
-double Ship::GetAccelMin() const
-{
-	float val = m_type->linThrust[ShipType::THRUSTER_UP];
-	val = std::min(val, m_type->linThrust[ShipType::THRUSTER_RIGHT]);
-	val = std::min(val, -m_type->linThrust[ShipType::THRUSTER_LEFT]);
-	return val / GetMass();
-}
 
 void Ship::UpdateEquipStats()
 {
@@ -602,9 +574,10 @@ void Ship::UpdateLuaStats() {
 	p.Set("hyperspaceRange", m_stats.hyperspace_range);
 	p.Set("maxHyperspaceRange", m_stats.hyperspace_range_max);
 }
+
 void Ship::UpdateFuelStats()
 {
-	m_stats.fuel_tank_mass_left = m_type->fuelTankMass * GetFuel();
+	m_stats.fuel_tank_mass_left = FuelTankMassLeft();
 	Properties().Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
 	UpdateMass();
@@ -812,17 +785,27 @@ void Ship::TimeStepUpdate(const float timeStep)
 	// If docked, station is responsible for updating position/orient of ship
 	// but we call this crap anyway and hope it doesn't do anything bad
 
-	const vector3d thrust(GetThrusterState() * GetMaxThrust( GetThrusterState() ));
-	AddRelForce(thrust);
-	AddRelTorque(GetShipType()->angThrust * GetAngThrusterState() );
+	const vector3d thrust=GetActualLinThrust();
+	AddRelForce( thrust );
+	AddRelTorque( GetActualAngThrust() );
 
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
 	DynamicBody::TimeStepUpdate(timeStep);
 
+	// Apply upgrade every timestep:
+	// TODO: better if you do this "on change"...
+	unsigned int thruster_power_cap = 0;
+	Properties().Get("thruster_power_cap", thruster_power_cap);
+	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
+	SetThrustPowerMult( power_mul );
+
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel(timeStep, thrust);
+
+	if ( IsFuelStateChanged() )
+		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetFuelState() ));
 
 	m_navLights->SetEnabled(m_wheelState > 0.01f);
 	m_navLights->Update(timeStep);

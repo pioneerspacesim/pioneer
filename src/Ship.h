@@ -73,11 +73,10 @@ public:
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
-	vector3d GetMaxThrust(const vector3d &dir) const;
-	double GetAccelFwd() const { return -m_type->linThrust[ShipType::THRUSTER_FORWARD] / GetMass(); }
-	double GetAccelRev() const { return m_type->linThrust[ShipType::THRUSTER_REVERSE] / GetMass(); }
-	double GetAccelUp() const { return m_type->linThrust[ShipType::THRUSTER_UP] / GetMass(); }
-	double GetAccelMin() const;
+	double GetAccelFwd() const { return GetThrustFwd() / GetMass(); }
+	double GetAccelRev() const { return GetThrustRev() / GetMass(); }
+	double GetAccelUp() const { return GetThrustUp() / GetMass(); }
+	double GetAccelMin() const { return GetThrustMin() / GetMass(); };
 
 	void ClearThrusterState()
 		{
@@ -85,8 +84,6 @@ public:
 			if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
 		}
 	void SetFuel(const double f);
-	// TODO: This MUST remains because of upgrades, but for now I erase it (...for now )
-	// void SetAngThrusterState(const vector3d &levels);
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();

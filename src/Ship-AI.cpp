@@ -49,7 +49,7 @@ void Ship::AIModelCoordsMatchSpeedRelTo(const vector3d &v, const Ship *other)
 void Ship::AIAccelToModelRelativeVelocity(const vector3d &v)
 {
 	vector3d difVel = v - GetVelocity() * GetOrient();		// required change in velocity
-	vector3d maxThrust = GetMaxThrust(difVel);
+	vector3d maxThrust = GetThrustMax(difVel);
 	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / GetMass());
 
 	SetThrusterState(0, is_zero_exact(maxFrameAccel.x) ? 0.0 : difVel.x / maxFrameAccel.x);
@@ -207,7 +207,7 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 	vector3d extf = GetExternalForce() * (Pi::game->GetTimeStep() / GetMass());
 	vector3d diffvel2 = diffvel - extf * GetOrient();
 
-	vector3d maxThrust = GetMaxThrust(diffvel2);
+	vector3d maxThrust = GetThrustMax(diffvel2);
 	vector3d maxFrameAccel = maxThrust * (Pi::game->GetTimeStep() / GetMass());
 	vector3d thrust(diffvel2.x / maxFrameAccel.x,
 					diffvel2.y / maxFrameAccel.y,
@@ -221,7 +221,7 @@ bool Ship::AIChangeVelBy(const vector3d &diffvel)
 vector3d Ship::AIChangeVelDir(const vector3d &reqdiffvel)
 {
 	// get max thrust in desired direction after external force compensation
-	vector3d maxthrust = GetMaxThrust(reqdiffvel);
+	vector3d maxthrust = GetThrustMax(reqdiffvel);
 	maxthrust += GetExternalForce() * GetOrient();
 	vector3d maxFA = maxthrust * (Pi::game->GetTimeStep() / GetMass());
 	maxFA.x = fabs(maxFA.x); maxFA.y = fabs(maxFA.y); maxFA.z = fabs(maxFA.z);
@@ -267,7 +267,7 @@ double Ship::AIFaceUpdir(const vector3d &updir, double av)
 	double cav = (GetAngVelocity() * GetOrient()).z;	// current obj-rel angvel
 	double diff = (dav - cav) / frameAccel;				// find diff between current & desired angvel
 
-	SetAngThrusterState(2, diff);
+	Propulsion::SetAngThrusterState(2, diff);
 	return ang;
 }
 
