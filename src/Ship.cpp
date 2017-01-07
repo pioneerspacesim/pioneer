@@ -1039,18 +1039,11 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
 {
-	const double fuelUseRate = GetShipType()->GetFuelUseRate() * 0.01;
-	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
-		/ -GetShipType()->linThrust[ShipType::THRUSTER_FORWARD];
-
-	FuelState lastState = GetFuelState();
-	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
-	FuelState currentState = GetFuelState();
-
+	Propulsion::UpdateFuel( timeStep, thrust );
 	UpdateFuelStats();
 
-	if (currentState != lastState)
-		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", currentState));
+	if ( IsFuelStateChanged() )
+		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetFuelState()));
 }
 
 void Ship::StaticUpdate(const float timeStep)
