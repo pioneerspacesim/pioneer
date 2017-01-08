@@ -270,10 +270,9 @@ void Ship::Init()
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
 	// Init of Propulsion:
-	Propulsion::SetEffectiveExhaustVelocity( m_type->effectiveExhaustVelocity );
-	Propulsion::SetFuelTankMass( m_type->fuelTankMass );
+	// TODO: Separe the enum used in ShipType and use it both on Propulsion and ShipType
+	Propulsion::Init( m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->angThrust );
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) Propulsion::SetLinThrust( i, m_type->linThrust[i] );
-	Propulsion::SetAngThrust( m_type->angThrust );
 
 	p.Set("shipName", m_shipName);
 
@@ -391,14 +390,7 @@ void Ship::SetPercentHull(float p)
 
 void Ship::UpdateMass()
 {
-	SetMass((m_stats.static_mass + GetFuel()*GetShipType()->fuelTankMass)*1000);
-}
-
-void Ship::SetFuel(const double f)
-{
-	double thrusterFuel = Clamp(f, 0.0, 1.0);
-	Properties().Set("fuel", thrusterFuel*100); // XXX to match SetFuelPercent
-	Propulsion::SetFuel( thrusterFuel );
+	SetMass((m_stats.static_mass + FuelTankMassLeft() )*1000);
 }
 
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
@@ -623,7 +615,6 @@ float Ship::GetECMRechargeTime()
 	return ecm_recharge_cap;
 }
 
-
 Ship::ECMResult Ship::UseECM()
 {
 	int ecm_power_cap = 0;
@@ -802,7 +793,7 @@ void Ship::TimeStepUpdate(const float timeStep)
 	SetThrustPowerMult( power_mul );
 
 	// fuel use decreases mass, so do this as the last thing in the frame
-	UpdateFuel(timeStep, thrust);
+	UpdateFuel( timeStep );
 
 	if ( IsFuelStateChanged() )
 		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetFuelState() ));
@@ -1037,10 +1028,11 @@ void Ship::UpdateAlertState()
 		LuaEvent::Queue("onShipAlertChanged", this, EnumStrings::GetString("ShipAlertStatus", GetAlertState()));
 }
 
-void Ship::UpdateFuel(const float timeStep, const vector3d &thrust)
+void Ship::UpdateFuel(const float timeStep )
 {
-	Propulsion::UpdateFuel( timeStep, thrust );
+	Propulsion::UpdateFuel( timeStep );
 	UpdateFuelStats();
+	Properties().Set("fuel", GetFuel()*100); // XXX to match SetFuelPercent
 
 	if ( IsFuelStateChanged() )
 		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetFuelState()));

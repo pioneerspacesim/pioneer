@@ -83,7 +83,6 @@ public:
 			ClearAngThrusterState();
 			if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
 		}
-	void SetFuel(const double f);
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
@@ -284,7 +283,7 @@ private:
 	void Init();
 	void TestLanded();
 	void UpdateAlertState();
-	void UpdateFuel(float timeStep, const vector3d &thrust);
+	void UpdateFuel(float timeStep);
 	void SetShipId(const ShipType::Id &shipId);
 	void EnterHyperspace();
 	void InitGun(const char *tag, int num);

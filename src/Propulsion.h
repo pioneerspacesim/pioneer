@@ -8,12 +8,10 @@ class Propulsion
 {
 	public:
 		Propulsion();
-		virtual ~Propulsion();
-
-		void SetEffectiveExhaustVelocity( double eev ) { m_effectiveExhaustVelocity = eev; }
-		void SetFuelTankMass( double ftm ) { m_fuelTankMass = ftm; }
+		virtual ~Propulsion() {};
+		void Init( int tank_mass, double effectiveExVel, float ang_Thrust );
 		void SetLinThrust( int i, float t ) { m_linThrust[i] = t; }
-		void SetAngThrust( float ant ) { m_ang_thrust = ant; }
+
 		double GetThrustFwd() const { return -m_linThrust[THRUSTER_FORWARD]; }
 		double GetThrustRev() const { return m_linThrust[THRUSTER_REVERSE]; }
 		double GetThrustUp() const { return m_linThrust[THRUSTER_UP]; }
@@ -29,28 +27,28 @@ class Propulsion
 		void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
 		void SetAngThrusterState(const vector3d &levels);
 		vector3d GetAngThrusterState() const { return m_angThrusters; }
-		void ClearLinThrusterState();
-		void ClearAngThrusterState();
+		void ClearLinThrusterState() { m_thrusters = vector3d(0,0,0); }
+		void ClearAngThrusterState() { m_angThrusters = vector3d(0,0,0); }
 
-		vector3d GetActualLinThrust() { return m_thrusters * GetThrustMax( m_thrusters ); }
-		vector3d GetActualAngThrust() { return m_ang_thrust * GetAngThrusterState(); }
+		vector3d GetActualLinThrust() const { return m_thrusters * GetThrustMax( m_thrusters ); }
+		vector3d GetActualAngThrust() const { return m_ang_thrust * m_angThrusters; }
 		enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
 			FUEL_OK,
 			FUEL_WARNING,
 			FUEL_EMPTY,
 		};
-		inline FuelState GetFuelState() { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
+		inline FuelState GetFuelState() const { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
 
 		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 ); }
 		// fuel left, 0.0-1.0
 		inline double GetFuel() const { return m_thrusterFuel;	}
-		inline void SetFuel(const double f) { m_thrusterFuel = f; }
+		inline void SetFuel(const double f) { m_thrusterFuel = Clamp( f, 0.0, 1.0 ); }
 		inline double GetFuelReserve() const { return m_reserveFuel; }
 		inline void SetFuelReserve(const double f) { m_reserveFuel = Clamp( f, 0.0, 1.0 ); }
 		float GetFuelUseRate();
 
-		inline float FuelTankMassLeft() { return m_fuelTankMass * GetFuel(); }
-		void UpdateFuel(const float timeStep, const vector3d &thrust);
+		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
+		void UpdateFuel(const float timeStep);
 		inline bool IsFuelStateChanged() { return m_FuelStateChange; }
 	protected:
 	private:

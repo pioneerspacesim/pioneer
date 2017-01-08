@@ -1,10 +1,11 @@
 #include "Propulsion.h"
+#include "libs.h"
 
 Propulsion::Propulsion()
 {
 	m_power_mul = 1.0;
 	m_fuelTankMass = 1;
-	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=1.0;
+	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
 	m_effectiveExhaustVelocity = 1000.0;
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
 	m_reserveFuel= 0.0;	// 0-1, fuel not to touch for the current AI program
@@ -13,26 +14,33 @@ Propulsion::Propulsion()
 	m_angThrusters = vector3d(0,0,0);
 }
 
-Propulsion::~Propulsion()
+void Propulsion::Init( int tank_mass, double effExVel, float ang_Thrust )
 {
-    //dtor
-}
-
-void Propulsion::ClearLinThrusterState()
-{
-	m_thrusters = vector3d(0,0,0);
-}
-
-void Propulsion::ClearAngThrusterState()
-{
-	m_angThrusters = vector3d(0,0,0);
+		m_fuelTankMass = tank_mass;
+		m_effectiveExhaustVelocity = effExVel;
+		m_ang_thrust = ang_Thrust;
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)
 {
-	m_angThrusters.x = Clamp(levels.x, -1.0, 1.0) * m_power_mul;
-	m_angThrusters.y = Clamp(levels.y, -1.0, 1.0) * m_power_mul;
-	m_angThrusters.z = Clamp(levels.z, -1.0, 1.0) * m_power_mul;
+	if (m_thrusterFuel <= 0.f) {
+		m_angThrusters = vector3d(0.0);
+	} else {
+		m_angThrusters.x = Clamp(levels.x, -1.0, 1.0) * m_power_mul;
+		m_angThrusters.y = Clamp(levels.y, -1.0, 1.0) * m_power_mul;
+		m_angThrusters.z = Clamp(levels.z, -1.0, 1.0) * m_power_mul;
+	}
+}
+
+void Propulsion::SetThrusterState(const vector3d &levels)
+{
+	if (m_thrusterFuel <= 0.f) {
+		m_thrusters = vector3d(0.0);
+	} else {
+		m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
+		m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
+		m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+	}
 }
 
 vector3d Propulsion::GetThrustMax(const vector3d &dir) const
@@ -52,31 +60,18 @@ double Propulsion::GetThrustMin() const
 	return val;
 }
 
-void Propulsion::SetThrusterState(const vector3d &levels)
-{
-	if (m_thrusterFuel <= 0.f) {
-		m_thrusters = vector3d(0.0);
-	} else {
-		m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
-		m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
-		m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
-	}
-}
-
 float Propulsion::GetFuelUseRate()
 {
 	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
 	return denominator > 0 ? -m_linThrust[THRUSTER_FORWARD]/denominator : 1e9;
 }
 
-void Propulsion::UpdateFuel(const float timeStep, const vector3d &thrust)
+void Propulsion::UpdateFuel(const float timeStep)
 {
 	const double fuelUseRate = GetFuelUseRate() * 0.01;
-	double totalThrust = (fabs(thrust.x) + fabs(thrust.y) + fabs(thrust.z))
-		/ -m_linThrust[THRUSTER_FORWARD];
-
+	double totalThrust = (fabs( m_thrusters.x) + fabs(m_thrusters.y) + fabs(m_thrusters.z));
 	FuelState lastState = GetFuelState();
-	SetFuel(GetFuel() - timeStep * (totalThrust * fuelUseRate));
+	m_thrusterFuel -= timeStep * (totalThrust * fuelUseRate);
 	FuelState currentState = GetFuelState();
 
 	if (currentState != lastState) m_FuelStateChange = true;
