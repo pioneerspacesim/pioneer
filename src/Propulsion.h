@@ -3,6 +3,8 @@
 
 #include "vector3.h"
 #include "libs.h"
+#include "Space.h"
+#include "json/JsonUtils.h"
 
 class Propulsion
 {
@@ -57,6 +59,8 @@ class Propulsion
 		void UpdateFuel(const float timeStep);
 		inline bool IsFuelStateChanged() { return m_FuelStateChange; }
 	protected:
+		virtual void SaveToJson(Json::Value &jsonObj, Space *space);
+		virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	private:
 		enum Thruster {
 			THRUSTER_REVERSE,

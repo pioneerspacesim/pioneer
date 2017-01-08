@@ -1,5 +1,35 @@
 #include "Propulsion.h"
-#include "libs.h"
+
+void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
+{
+	//Json::Value PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
+	VectorToJson(jsonObj, m_angThrusters, "ang_thrusters");
+	VectorToJson(jsonObj, m_thrusters, "thrusters");
+	jsonObj["thruster_fuel"] = DoubleToStr( m_thrusterFuel );
+	jsonObj["reserve_fuel"] = DoubleToStr( m_reserveFuel );
+	jsonObj["tank_mass"] = m_fuelTankMass;
+	//jsonObj["propulsion"] = PropulsionObj;
+};
+
+void Propulsion::LoadFromJson(const Json::Value &jsonObj, Space *space)
+{
+
+	if (!jsonObj.isMember("ang_thrusters")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("thrusters")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("thruster_fuel")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("reserve_fuel")) throw SavedGameCorruptException();
+	if (!jsonObj.isMember("tank_mass")) throw SavedGameCorruptException();
+
+	vector3d temp_vector;
+	JsonToVector(&temp_vector, jsonObj, "ang_thrusters");
+	SetAngThrusterState( temp_vector );
+	JsonToVector(&temp_vector, jsonObj, "thrusters");
+	SetThrusterState( temp_vector );
+	m_thrusterFuel = StrToDouble(jsonObj["thruster_fuel"].asString());
+	m_reserveFuel = StrToDouble(jsonObj["reserve_fuel"].asString());
+	m_fuelTankMass = jsonObj["tank_mass"].asInt();
+
+};
 
 Propulsion::Propulsion()
 {

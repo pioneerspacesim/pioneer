@@ -38,11 +38,11 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
 
+	Propulsion::SaveToJson(jsonObj, space);
+
 	Json::Value shipObj(Json::objectValue); // Create JSON object to contain ship data.
 
 	m_skin.SaveToJson(shipObj);
-	VectorToJson(shipObj, GetAngThrusterState(), "ang_thrusters");
-	VectorToJson(shipObj, GetThrusterState(), "thrusters");
 	shipObj["wheel_transition"] = m_wheelTransition;
 	shipObj["wheel_state"] = FloatToStr(m_wheelState);
 	shipObj["launch_lock_timeout"] = FloatToStr(m_launchLockTimeout);
@@ -76,8 +76,6 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	shipObj["shield_cooldown"] = FloatToStr(m_shieldCooldown);
 	if (m_curAICmd) m_curAICmd->SaveToJson(shipObj);
 	shipObj["ai_message"] = int(m_aiMessage);
-	shipObj["thruster_fuel"] = DoubleToStr( GetFuel() );
-	shipObj["reserve_fuel"] = DoubleToStr( GetFuelReserve() );
 
 	shipObj["controller_type"] = static_cast<int>(m_controller->GetType());
 	m_controller->SaveToJson(shipObj, space);
@@ -93,11 +91,11 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::LoadFromJson(jsonObj, space);
 
+	Propulsion::LoadFromJson(jsonObj, space);
+
 	if (!jsonObj.isMember("ship")) throw SavedGameCorruptException();
 	Json::Value shipObj = jsonObj["ship"];
 
-	if (!shipObj.isMember("ang_thrusters")) throw SavedGameCorruptException();
-	if (!shipObj.isMember("thrusters")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("wheel_transition")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("wheel_state")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("launch_lock_timeout")) throw SavedGameCorruptException();
@@ -116,19 +114,12 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!shipObj.isMember("shield_mass_left")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("shield_cooldown")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("ai_message")) throw SavedGameCorruptException();
-	if (!shipObj.isMember("thruster_fuel")) throw SavedGameCorruptException();
-	if (!shipObj.isMember("reserve_fuel")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("controller_type")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("name")) throw SavedGameCorruptException();
 
 	m_skin.LoadFromJson(shipObj);
 	m_skin.Apply(GetModel());
 	// needs fixups
-	vector3d temp_vector;
-	JsonToVector(&temp_vector, shipObj, "ang_thrusters");
-	SetAngThrusterState( temp_vector );
-	JsonToVector(&temp_vector, shipObj, "thrusters");
-	SetThrusterState( temp_vector );
 	m_wheelTransition = shipObj["wheel_transition"].asInt();
 	m_wheelState = StrToFloat(shipObj["wheel_state"].asString());
 	m_launchLockTimeout = StrToFloat(shipObj["launch_lock_timeout"].asString());
@@ -169,11 +160,10 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_curAICmd = 0;
 	m_curAICmd = AICommand::LoadFromJson(shipObj);
 	m_aiMessage = AIError(shipObj["ai_message"].asInt());
-	SetFuel(StrToDouble(shipObj["thruster_fuel"].asString()));
-	m_stats.fuel_tank_mass_left = GetShipType()->fuelTankMass * GetFuel();
-	SetFuelReserve( StrToDouble(shipObj["reserve_fuel"].asString()) );
 
 	PropertyMap &p = Properties();
+	m_stats.fuel_tank_mass_left = FuelTankMassLeft();
+
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
 	p.Set("shieldMassLeft", m_stats.shield_mass_left);
