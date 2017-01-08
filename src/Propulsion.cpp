@@ -77,3 +77,11 @@ void Propulsion::UpdateFuel(const float timeStep)
 	if (currentState != lastState) m_FuelStateChange = true;
 	else m_FuelStateChange = false;
 }
+
+// returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
+double Propulsion::GetSpeedReachedWithFuel( double mass ) const
+{
+	const double fuelmass = 1000*m_fuelTankMass * ( m_thrusterFuel - m_reserveFuel );
+	if (fuelmass < 0) return 0.0;
+	return m_effectiveExhaustVelocity * log( mass/( mass-fuelmass ));
+}

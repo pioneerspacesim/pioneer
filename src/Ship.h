@@ -222,8 +222,8 @@ public:
 	void SetPercentHull(float);
 	float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
 
-	// available delta-V given the ship's current fuel state
-	double GetSpeedReachedWithFuel() const;
+	// available delta-V given the ship's current fuel minus reserve according to the Tsiolkovsky equation
+	inline double GetSpeedReachedWithFuel() const { return Propulsion::GetSpeedReachedWithFuel( GetMass() ); };
 
 	void EnterSystem();
 

@@ -393,14 +393,6 @@ void Ship::UpdateMass()
 	SetMass((m_stats.static_mass + FuelTankMassLeft() )*1000);
 }
 
-// returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
-double Ship::GetSpeedReachedWithFuel() const
-{
-	const double fuelmass = 1000*GetShipType()->fuelTankMass * ( GetFuel() - GetFuelReserve() );
-	if (fuelmass < 0) return 0.0;
-	return GetShipType()->effectiveExhaustVelocity * log(GetMass()/(GetMass()-fuelmass));
-}
-
 bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData)
 {
 	if (m_invulnerable) {
