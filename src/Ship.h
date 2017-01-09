@@ -221,7 +221,6 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
-	float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
 
 	// available delta-V given the ship's current fuel minus reserve according to the Tsiolkovsky equation
 	inline double GetSpeedReachedWithFuel() const { return Propulsion::GetSpeedReachedWithFuel( GetMass() ); };
@@ -261,15 +260,6 @@ protected:
 
 	SpaceStation *m_dockedWith;
 	int m_dockedWithPort;
-
-	struct Gun {
-		vector3f pos;
-		vector3f dir;
-		Uint32 state;
-		float recharge;
-		float temperature;
-	};
-	Gun m_gun[ShipType::GUNMOUNT_MAX];
 
 	float m_ecmRecharge;
 

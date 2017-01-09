@@ -61,9 +61,7 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	for (int i = 0; i<ShipType::GUNMOUNT_MAX; i++)
 	{
 		Json::Value gunArrayEl(Json::objectValue); // Create JSON object to contain gun.
-		gunArrayEl["state"] = m_gun[i].state;
-		gunArrayEl["recharge"] = FloatToStr(m_gun[i].recharge);
-		gunArrayEl["temperature"] = FloatToStr(m_gun[i].temperature);
+		FixedGuns::SaveToJson( i, gunArrayEl );
 		gunArray.append(gunArrayEl); // Append gun object to array.
 	}
 	shipObj["guns"] = gunArray; // Add gun array to ship object.
@@ -145,9 +143,7 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 		if (!gunArrayEl.isMember("recharge")) throw SavedGameCorruptException();
 		if (!gunArrayEl.isMember("temperature")) throw SavedGameCorruptException();
 
-		m_gun[i].state = gunArrayEl["state"].asUInt();
-		m_gun[i].recharge = StrToFloat(gunArrayEl["recharge"].asString());
-		m_gun[i].temperature = StrToFloat(gunArrayEl["temperature"].asString());
+		FixedGuns::LoadFromJson( i, gunArrayEl );
 	}
 	m_ecmRecharge = StrToFloat(shipObj["ecm_recharge"].asString());
 	SetShipId(shipObj["ship_type_id"].asString()); // XXX handle missing thirdparty ship
@@ -309,11 +305,7 @@ Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_gun[i].state = 0;
-		m_gun[i].recharge = 0;
-		m_gun[i].temperature = 0;
-	}
+	FixedGuns::Init();
 	m_ecmRecharge = 0;
 	m_shieldCooldown = 0.0f;
 	m_curAICmd = 0;
@@ -825,6 +817,9 @@ void Ship::FireWeapon(int num)
 	if (m_flightState != FLYING)
 		return;
 
+	if ( !IsGunReady( num ) )
+		return;
+
 	std::string prefix(num?"laser_rear_":"laser_front_");
 	int damage = 0;
 	Properties().Get(prefix+"damage", damage);
@@ -834,32 +829,21 @@ void Ship::FireWeapon(int num)
 	Properties().PushLuaTable();
 	LuaTable prop(Lua::manager->GetLuaState(), -1);
 
-	const matrix3x3d &m = GetOrient();
-	const vector3d dir = m * vector3d(m_gun[num].dir);
-	const vector3d pos = m * vector3d(m_gun[num].pos) + GetPosition();
-
-	m_gun[num].temperature += 0.01f;
-
-	m_gun[num].recharge = prop.Get<float>(prefix+"rechargeTime");
-	const vector3d baseVel = GetVelocity();
-	const vector3d dirVel = prop.Get<float>(prefix+"speed") * dir.Normalized();
-
 	const Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
 			prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
 	const float lifespan = prop.Get<float>(prefix+"lifespan");
 	const float width = prop.Get<float>(prefix+"width");
 	const float length = prop.Get<float>(prefix+"length");
 	const bool mining = prop.Get<int>(prefix+"mining");
-	if (prop.Get<int>(prefix+"dual"))
-	{
-		const vector3d orient_norm = m.VectorY();
-		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
+	const float speed = prop.Get<float>(prefix+"speed");
+	const float recharge = prop.Get<float>(prefix+"rechargeTime");
 
-		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos + sep, baseVel, dirVel);
-		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos - sep, baseVel, dirVel);
-	} else {
-		Projectile::Add(this, lifespan, damage, length, width, mining, c, pos, baseVel, dirVel);
-	}
+	FixedGuns::DefineGun( num, recharge, lifespan, damage, length, width, mining, c, speed );
+
+	if (prop.Get<int>(prefix+"dual")) FixedGuns::IsDual( num, true );
+	else FixedGuns::IsDual( num, false );
+
+	FixedGuns::Fire( num, this, GetOrient(), GetVelocity(), GetPosition() );
 
 	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
 	lua_pop(prop.GetLua(), 1);
@@ -922,7 +906,9 @@ void Ship::UpdateAlertState()
 			if ((i) == this) continue;
 			if (!(i)->IsType(Object::SHIP) || (i)->IsType(Object::MISSILE)) continue;
 
-			const Ship *ship = static_cast<const Ship*>(i);
+			// TODO: Here there were a const on Ship*, now it cannot remain because of ship->firing and so, this open a breach...
+			// A solution is to put a member on ship: true if is firing, false if is not
+			Ship *ship = static_cast< Ship*>(i);
 
 			if (ship->GetShipType()->tag == ShipType::TAG_STATIC_SHIP) continue;
 			if (ship->GetFlightState() == LANDED || ship->GetFlightState() == DOCKED) continue;
@@ -930,10 +916,7 @@ void Ship::UpdateAlertState()
 			if (GetPositionRelTo(ship).LengthSqr() < ALERT_DISTANCE*ALERT_DISTANCE) {
 				ship_is_near = true;
 
-				Uint32 gunstate = 0;
-				for (int j = 0; j < ShipType::GUNMOUNT_MAX; j++)
-					gunstate |= ship->m_gun[j].state;
-
+				Uint32 gunstate = ship->IsFiring();
 				if (gunstate) {
 					ship_is_firing = true;
 					break;
@@ -1088,22 +1071,11 @@ void Ship::StaticUpdate(const float timeStep)
 		m_launchLockTimeout = 0;
 
 	// lasers
-	for (int i=0; i<ShipType::GUNMOUNT_MAX; i++) {
-		m_gun[i].recharge -= timeStep;
-		float rateCooling = 0.01f;
-		float cooler = 1.0f;
-		Properties().Get("laser_cooler_cap", cooler);
-		rateCooling *= cooler;
-		m_gun[i].temperature -= rateCooling*timeStep;
-		if (m_gun[i].temperature < 0.0f) m_gun[i].temperature = 0;
-		if (m_gun[i].recharge < 0.0f) m_gun[i].recharge = 0;
-
-		if (!m_gun[i].state) continue;
-		if (m_gun[i].recharge > 0.0f) continue;
-		if (m_gun[i].temperature > 1.0) continue;
-
-		FireWeapon(i);
-	}
+	float cooler = 1.0f;
+	Properties().Get("laser_cooler_cap", cooler);
+	FixedGuns::SetCoolingBoost( cooler );
+	FixedGuns::UpdateGuns( timeStep );
+	for ( int i=0; i<ShipType::GUNMOUNT_MAX; i++ ) FireWeapon( i );
 
 	if (m_ecmRecharge > 0.0f) {
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
@@ -1218,7 +1190,7 @@ void Ship::SetGunState(int idx, int state)
 {
 	std::string slot(idx?"laser_rear":"laser_front");
 	if (ScopedTable(m_equipSet).CallMethod<int>("OccupiedSpace", slot)) {
-		m_gun[idx].state = state;
+		FixedGuns::SetState( idx, state );
 	}
 }
 
