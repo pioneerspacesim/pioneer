@@ -21,6 +21,7 @@
 #include <unordered_map>
 
 #include "Propulsion.h"
+#include "FixedGuns.h"
 
 class SpaceStation;
 class HyperspaceCloud;
@@ -49,7 +50,7 @@ struct shipstats_t {
 	float fuel_tank_mass_left;
 };
 
-class Ship: public DynamicBody, public Propulsion {
+class Ship: public DynamicBody, public Propulsion, public FixedGuns {
 	friend class ShipController; //only controllers need access to AITimeStep
 	friend class PlayerShipController;
 public:

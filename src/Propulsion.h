@@ -4,7 +4,9 @@
 #include "vector3.h"
 #include "libs.h"
 #include "Space.h"
+#include "Camera.h"
 #include "json/JsonUtils.h"
+#include "scenegraph/Model.h"
 
 class Propulsion
 {
@@ -12,7 +14,7 @@ class Propulsion
 		// Inits:
 		Propulsion();
 		virtual ~Propulsion() {};
-		void Init( int tank_mass, double effectiveExVel, float ang_Thrust );
+		void Init( SceneGraph::Model *m, int tank_mass, double effectiveExVel, float ang_Thrust );
 		// TODO: This is here because of lack of shared enum btw ShipType and this
 		void SetLinThrust( int i, float t ) { m_linThrust[i] = t; }
 
@@ -58,6 +60,8 @@ class Propulsion
 		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
 		void UpdateFuel(const float timeStep);
 		inline bool IsFuelStateChanged() { return m_FuelStateChange; }
+		void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+
 	protected:
 		virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 		virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
@@ -83,6 +87,7 @@ class Propulsion
 		vector3d m_angThrusters;
 
 		double m_power_mul;
+		SceneGraph::Model *m_smodel;
 };
 
 #endif // PROPULSION_H

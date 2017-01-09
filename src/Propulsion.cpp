@@ -42,13 +42,15 @@ Propulsion::Propulsion()
 	m_FuelStateChange = false;
 	m_thrusters = vector3d(0,0,0);
 	m_angThrusters = vector3d(0,0,0);
+	m_smodel = nullptr;
 }
 
-void Propulsion::Init( int tank_mass, double effExVel, float ang_Thrust )
+void Propulsion::Init( SceneGraph::Model *m, int tank_mass, double effExVel, float ang_Thrust )
 {
 		m_fuelTankMass = tank_mass;
 		m_effectiveExhaustVelocity = effExVel;
 		m_ang_thrust = ang_Thrust;
+		m_smodel = m;
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)
@@ -114,4 +116,10 @@ double Propulsion::GetSpeedReachedWithFuel( double mass ) const
 	const double fuelmass = 1000*m_fuelTankMass * ( m_thrusterFuel - m_reserveFuel );
 	if (fuelmass < 0) return 0.0;
 	return m_effectiveExhaustVelocity * log( mass/( mass-fuelmass ));
+}
+
+void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+{
+	//angthrust negated, for some reason
+	if (m_smodel != nullptr ) m_smodel->SetThrust(vector3f( GetThrusterState() ), -vector3f( GetAngThrusterState() ));
 }
