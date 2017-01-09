@@ -16,6 +16,9 @@
       "missile" : 4,
       "sensor"  : 8
    },
+   "roles" : {
+      "police" : true
+   },
    "effective_exhaust_velocity" : 10000000.0,
    "thruster_fuel_use" : -1.0,
    "fuel_tank_mass" : 30,

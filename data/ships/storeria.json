@@ -18,6 +18,9 @@
       "missile" : 0,
       "sensor"  : 4
    },
+   "roles" : {
+      "merchant" : true
+   },
    "effective_exhaust_velocity" : 25000000.0,
    "thruster_fuel_use" : -1.0,
    "fuel_tank_mass" : 1000,
