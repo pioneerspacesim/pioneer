@@ -103,6 +103,11 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		slots[slotname] = data["slots"].get(slotname, 0).asInt();
 	}
 
+	for( Json::Value::iterator role = data["roles"].begin(); role != data["roles"].end(); ++role ) {
+		const std::string rolename = role.key().asString();
+		roles[rolename] = data["roles"].get(rolename, 0).asBool();
+	}
+
 	for(int it=0;it<4;it++) thrusterUpgrades[it] = 1.0 + (double(it)/10.0);
 	for( Json::Value::iterator slot = data["thrust_upgrades"].begin() ; slot != data["thrust_upgrades"].end() ; ++slot ) {
 		const std::string slotname = slot.key().asString();
