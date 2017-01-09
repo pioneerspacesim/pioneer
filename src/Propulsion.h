@@ -60,6 +60,7 @@ class Propulsion
 		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
 		void UpdateFuel(const float timeStep);
 		inline bool IsFuelStateChanged() { return m_FuelStateChange; }
+
 		void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
 	protected:

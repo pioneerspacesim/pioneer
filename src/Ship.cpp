@@ -211,20 +211,6 @@ void Ship::InitEquipSet() {
 	LUA_DEBUG_END(l, 0);
 }
 
-void Ship::InitGun(const char *tag, int num)
-{
-	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName(tag);
-	if (mt) {
-		const matrix4x4f &trans = mt->GetTransform();
-		m_gun[num].pos = trans.GetTranslate();
-		m_gun[num].dir = trans.GetOrient().VectorZ();
-	} else {
-		// XXX deprecated
-		m_gun[num].pos = (num==ShipType::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
-		m_gun[num].dir = (num==ShipType::GUN_FRONT) ? vector3f(0,0,-1) : vector3f(0,0,1);
-	}
-}
-
 void Ship::InitMaterials()
 {
 	SceneGraph::Model *pModel = GetModel();
@@ -271,8 +257,8 @@ void Ship::Init()
 
 	m_landingGearAnimation = GetModel()->FindAnimation("gear_down");
 
-	InitGun("tag_gunmount_0", 0);
-	InitGun("tag_gunmount_1", 1);
+	InitGun( GetModel(), "tag_gunmount_0", 0);
+	InitGun( GetModel(), "tag_gunmount_1", 1);
 
 	// If we've got the tag_landing set then use it for an offset otherwise grab the AABB
 	const SceneGraph::MatrixTransform *mt = GetModel()->FindTagByName("tag_landing");

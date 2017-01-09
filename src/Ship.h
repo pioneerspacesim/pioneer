@@ -287,7 +287,6 @@ private:
 	void UpdateFuel(float timeStep);
 	void SetShipId(const ShipType::Id &shipId);
 	void EnterHyperspace();
-	void InitGun(const char *tag, int num);
 	void InitMaterials();
 	void InitEquipSet();
 
