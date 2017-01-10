@@ -15,7 +15,7 @@ class Propulsion
 		Propulsion();
 		virtual ~Propulsion() {};
 		void Init( SceneGraph::Model *m, int tank_mass, double effectiveExVel, float ang_Thrust );
-		// TODO: This is here because of lack of shared enum btw ShipType and this
+		// TODO: This is here because of lack of shared enum between ShipType and this
 		void SetLinThrust( int i, float t ) { m_linThrust[i] = t; }
 
 		// Bonus:
@@ -58,6 +58,8 @@ class Propulsion
 		float GetFuelUseRate();
 		double GetSpeedReachedWithFuel( double mass ) const;
 		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
+		// This is necessary to avoid savegamebumps:
+		inline void SetFuelTankMass( int fTank ) { m_fuelTankMass = fTank; }
 		void UpdateFuel(const float timeStep);
 		inline bool IsFuelStateChanged() { return m_FuelStateChange; }
 

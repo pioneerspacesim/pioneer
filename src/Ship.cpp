@@ -89,8 +89,6 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::LoadFromJson(jsonObj, space);
 
-	Propulsion::LoadFromJson(jsonObj, space);
-
 	if (!jsonObj.isMember("ship")) throw SavedGameCorruptException();
 	Json::Value shipObj = jsonObj["ship"];
 
@@ -114,6 +112,12 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!shipObj.isMember("ai_message")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("controller_type")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("name")) throw SavedGameCorruptException();
+
+	Propulsion::LoadFromJson(jsonObj, space);
+	// !!! This is here to avoid savegame bumps:
+	SetFuelTankMass( GetShipType()->fuelTankMass );
+	m_stats.fuel_tank_mass_left = FuelTankMassLeft();
+
 
 	m_skin.LoadFromJson(shipObj);
 	m_skin.Apply(GetModel());
@@ -158,7 +162,6 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_aiMessage = AIError(shipObj["ai_message"].asInt());
 
 	PropertyMap &p = Properties();
-	m_stats.fuel_tank_mass_left = FuelTankMassLeft();
 
 	p.Set("hullMassLeft", m_stats.hull_mass_left);
 	p.Set("hullPercent", 100.0f * (m_stats.hull_mass_left / float(m_type->hullMass)));
@@ -814,6 +817,10 @@ void Ship::TimeAccelAdjust(const float timeStep)
 
 void Ship::FireWeapon(int num)
 {
+	// TODO: Things should be easier if there's a way to
+	// save properties when equipment change and not when
+	// FireWeapon is called by StaticUpdate (every timeStep...)
+	// If this way is find, you could call FireWeapon IN StaticUpdate
 	if (m_flightState != FLYING)
 		return;
 
@@ -1076,6 +1083,7 @@ void Ship::StaticUpdate(const float timeStep)
 	FixedGuns::SetCoolingBoost( cooler );
 	FixedGuns::UpdateGuns( timeStep );
 	for ( int i=0; i<ShipType::GUNMOUNT_MAX; i++ ) FireWeapon( i );
+
 
 	if (m_ecmRecharge > 0.0f) {
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
