@@ -3,7 +3,10 @@ January 2017
      * Correct and clarify a misleading comment (#3898)
      * Use the gas giant textures RAW instead of Billboard (#3897)
      * MERRY HAPPY 2017 (#3899)
-     
+
+   * Fixes
+     * Never spawn toothless pirates (#3903)
+
 December 2016
    * Fixes
      * Set ImgUI shaders to version 140 to work around junk Intel drivers (#3885)
