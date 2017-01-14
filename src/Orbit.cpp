@@ -1,4 +1,4 @@
-// Copyright © 2008-2016 Pioneer Developers. See AUTHORS.txt for details
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Orbit.h"
@@ -64,7 +64,7 @@ static void calc_position_from_mean_anomaly(const double M, const double e, cons
 
 	if (e < 1.0) { // elliptic orbit
 		// eccentric anomaly
-		// NR method to solve for E: M = E-sin(E)
+		// NR method to solve for E: M = E-e*sin(E)  {Kepler's equation}
 		double E = M;
 		for (int iter=5; iter > 0; --iter) {
 			E = E - (E-e*(sin(E))-M) / (1.0 - e*cos(E));
