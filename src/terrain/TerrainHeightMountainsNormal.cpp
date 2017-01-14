@@ -58,7 +58,7 @@ double TerrainHeightFractal<TerrainHeightMountainsNormal>::GetHeight(const vecto
 			n += n*15.0*river_octavenoise(GetFracDef(6),
 				Clamp(h*0.00002, 0.5, 0.7), p);
 		} else {
-			n += 3.0*river_octavenoise(GetFracDef(6),
+			n += n*3.0*river_octavenoise(GetFracDef(6),
 				Clamp(h*0.00002, 0.5, 0.7), p);
 		}
 
