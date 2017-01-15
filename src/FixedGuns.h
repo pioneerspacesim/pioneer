@@ -22,8 +22,8 @@ class FixedGuns
 		inline void IsDual( int idx, bool dual ) { m_gun[idx].dual = dual; };
 		/* TODO: Define a Struct here (or in Projectile) that every object
 		 * that would fire something must share: you then could pass it to
-		 * DefineGun and Finally to Projectile ( AFAIK there's nothing that
-		 * can call Projectile class until now...)
+		 * DefineGun and Finally to Projectile (AFAIK there's nothing except this class that
+		 * this class that can call Projectile class until now...)
 		*/
 		void DefineGun( int num, float recharge, float lifespan, float dam, float length, float width, bool mining, const Color& color, float speed );
 

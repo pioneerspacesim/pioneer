@@ -31,7 +31,6 @@ void Propulsion::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_reserveFuel = StrToDouble(jsonObj["reserve_fuel"].asString());
 	// !!! This is commented to avoid savegame bumps:
 	//m_fuelTankMass = jsonObj["tank_mass"].asInt();
-	Output("Propulsion Load exit without problems...\n");
 };
 
 Propulsion::Propulsion()
