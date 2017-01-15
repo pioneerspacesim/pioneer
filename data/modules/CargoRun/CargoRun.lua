@@ -643,21 +643,17 @@ local onEnterSystem = function (player)
 				Comms.ImportantMessage(pirate_greeting, pirate.label)
 				pirate_gripes_time = Game.time
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
-					shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
-						and def.roles.police end, pairs(ShipDef)))
-					if #shipdefs ~= 0 then
-						local shipdef = shipdefs[Engine.rand:Integer(1,#shipdefs)]
-						local escort = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100) -- Local wholesaler or random police ship
-						escort:AddEquip(Equipment.laser.pulsecannon_1mw)
-						escort:AddEquip(Equipment.misc.shield_generator)
-						escort:SetLabel(Ship.MakeRandomLabel())
-						escort:AIKill(pirate)
-						table.insert(escort_ships, escort)
-						Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, getNumberOfFlavours("ESCORT_CHATTER"))], escort.label)
-						escort_chatter_time = Game.time
-						escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
-						pirate_switch_target = Game.time + Engine.rand:Integer(90, 120)
-					end
+					local shipdef = ShipDef[Game.system.faction.policeShip]
+					local escort = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+					escort:SetLabel(l.POLICE)
+					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
+					escort:AddEquip(Equipment.misc.shield_generator)
+					escort:AIKill(pirate)
+					table.insert(escort_ships, escort)
+					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, getNumberOfFlavours("ESCORT_CHATTER"))], escort.label)
+					escort_chatter_time = Game.time
+					escort_switch_target = Game.time + Engine.rand:Integer(90, 120)
+					pirate_switch_target = Game.time + Engine.rand:Integer(90, 120)
 				end
 			end
 		end
