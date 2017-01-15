@@ -115,9 +115,9 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 
 	Propulsion::LoadFromJson(jsonObj, space);
 	// !!! This is here to avoid savegame bumps:
+	SetShipId(shipObj["ship_type_id"].asString()); // XXX handle missing thirdparty ship
 	SetFuelTankMass( GetShipType()->fuelTankMass );
 	m_stats.fuel_tank_mass_left = FuelTankMassLeft();
-
 
 	m_skin.LoadFromJson(shipObj);
 	m_skin.Apply(GetModel());

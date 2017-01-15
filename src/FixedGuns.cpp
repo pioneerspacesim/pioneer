@@ -38,9 +38,12 @@ void FixedGuns::SaveToJson(int i, Json::Value &jsonObj )
 
 void FixedGuns::LoadFromJson(int i, const Json::Value &jsonObj )
 {
+	Output("FixedGuns Load enter...\n");
 	m_gun[i].state = jsonObj["state"].asUInt();
 	m_gun[i].recharge = StrToFloat(jsonObj["recharge"].asString());
 	m_gun[i].temperature = StrToFloat(jsonObj["temperature"].asString());
+	Output("FixedGuns Load exit without problems...\n");
+
 };
 
 void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
