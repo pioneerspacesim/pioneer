@@ -264,7 +264,14 @@ void PiGui::NewFrame(SDL_Window *window) {
 	ImGui_ImplSdlGL3_NewFrame(window);
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-	ImGui::GetIO().MouseDrawCursor = true;
+	if(Pi::DoingMouseGrab())
+	{
+		ImGui::GetIO().MouseDrawCursor = false;
+	}
+	else
+	{
+		ImGui::GetIO().MouseDrawCursor = true;
+	}
 }
 
 void PiGui::Cleanup() {
