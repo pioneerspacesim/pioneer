@@ -103,6 +103,7 @@ public:
 		memcpy(motion, mouseMotion, sizeof(int)*2);
 	}
 	static void SetMouseGrab(bool on);
+	static bool DoingMouseGrab() { return doingMouseGrab; }
 	static void BoinkNoise();
 	static std::string GetSaveDir();
 	static SceneGraph::Model *FindModel(const std::string&, bool allowPlaceholder = true);
