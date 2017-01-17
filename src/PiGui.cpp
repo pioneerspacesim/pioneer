@@ -266,7 +266,6 @@ void PiGui::NewFrame(SDL_Window *window) {
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	if(Pi::DoingMouseGrab())
 	{
-		ImGui::SetCursorScreenPos(ImVec2(0.5f, 0.5f));
 		ImGui::GetIO().MouseDrawCursor = false;
 	}
 	else
