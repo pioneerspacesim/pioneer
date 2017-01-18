@@ -26,9 +26,6 @@
       "missile" : 4,
       "sensor"  : 8
    },
-   "roles" : {
-      "police" : true
-   },
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 550000.0
 }
