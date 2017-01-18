@@ -1,4 +1,7 @@
 January 2017
+   * New Features
+     * Toggle cursor position when flying (#3909)
+
    * Internal Changes
      * Correct and clarify a misleading comment (#3898)
      * Use the gas giant textures RAW instead of Billboard (#3897)
