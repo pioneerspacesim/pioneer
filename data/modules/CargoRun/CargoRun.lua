@@ -20,6 +20,7 @@ local InfoFace = import("ui/InfoFace")
 local NavButton = import("ui/NavButton")
 
 local l = Lang.GetResource("module-cargorun")
+local l_ui_core = Lang.GetResource("ui-core")
 
 -- Get the UI class
 local ui = Engine.ui
@@ -645,7 +646,7 @@ local onEnterSystem = function (player)
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
 					local shipdef = ShipDef[Game.system.faction.policeShip]
 					local escort = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
-					escort:SetLabel(l.POLICE)
+					escort:SetLabel(l_ui_core.POLICE)
 					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
 					escort:AddEquip(Equipment.misc.shield_generator)
 					escort:AIKill(pirate)
