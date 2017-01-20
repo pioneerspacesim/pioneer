@@ -122,6 +122,10 @@ double Propulsion::GetSpeedReachedWithFuel( double mass ) const
 
 void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
 {
+	/* TODO: is to allow Propulsion to know SceneGraph::Thruster
+	 * and to work directly with it (this could lead to movable
+	 * thruster)
+	*/
 	//angthrust negated, for some reason
 	if (m_smodel != nullptr ) m_smodel->SetThrust(vector3f( GetThrusterState() ), -vector3f( GetAngThrusterState() ));
 }

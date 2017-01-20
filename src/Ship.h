@@ -78,11 +78,10 @@ public:
 	double GetAccelUp() const { return GetThrustUp() / GetMass(); }
 	double GetAccelMin() const { return GetThrustMin() / GetMass(); };
 
-	void ClearThrusterState()
-		{
-			ClearAngThrusterState();
-			if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
-		}
+	inline void ClearThrusterState() {
+		ClearAngThrusterState();
+		if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
+	}
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();

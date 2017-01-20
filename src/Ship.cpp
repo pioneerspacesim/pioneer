@@ -38,9 +38,9 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
 
-	Propulsion::SaveToJson(jsonObj, space);
-
 	Json::Value shipObj(Json::objectValue); // Create JSON object to contain ship data.
+
+	Propulsion::SaveToJson(shipObj, space);
 
 	m_skin.SaveToJson(shipObj);
 	shipObj["wheel_transition"] = m_wheelTransition;
@@ -92,6 +92,7 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!jsonObj.isMember("ship")) throw SavedGameCorruptException();
 	Json::Value shipObj = jsonObj["ship"];
 
+	printf("\nHere LoadShip checks:");
 	if (!shipObj.isMember("wheel_transition")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("wheel_state")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("launch_lock_timeout")) throw SavedGameCorruptException();
@@ -113,8 +114,9 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!shipObj.isMember("controller_type")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("name")) throw SavedGameCorruptException();
 
-	Propulsion::LoadFromJson(jsonObj, space);
 	// !!! This is here to avoid savegame bumps:
+	Propulsion::LoadFromJson(shipObj, space);
+
 	SetShipId(shipObj["ship_type_id"].asString()); // XXX handle missing thirdparty ship
 	SetFuelTankMass( GetShipType()->fuelTankMass );
 	m_stats.fuel_tank_mass_left = FuelTankMassLeft();
