@@ -114,7 +114,6 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!shipObj.isMember("controller_type")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("name")) throw SavedGameCorruptException();
 
-	// !!! This is here to avoid savegame bumps:
 	Propulsion::LoadFromJson(shipObj, space);
 
 	SetShipId(shipObj["ship_type_id"].asString()); // XXX handle missing thirdparty ship
@@ -248,7 +247,7 @@ void Ship::Init()
 
 	// Init of Propulsion:
 	// TODO: Separe the enum used in ShipType and use it both on Propulsion and ShipType
-	Propulsion::Init( GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->angThrust );
+	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->angThrust );
 	for (int i=0; i<ShipType::THRUSTER_MAX; i++) Propulsion::SetLinThrust( i, m_type->linThrust[i] );
 
 	p.Set("shipName", m_shipName);

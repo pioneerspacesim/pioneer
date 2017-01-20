@@ -73,11 +73,6 @@ public:
 
 	virtual void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform) override;
 
-	double GetAccelFwd() const { return GetThrustFwd() / GetMass(); }
-	double GetAccelRev() const { return GetThrustRev() / GetMass(); }
-	double GetAccelUp() const { return GetThrustUp() / GetMass(); }
-	double GetAccelMin() const { return GetThrustMin() / GetMass(); };
-
 	inline void ClearThrusterState() {
 		ClearAngThrusterState();
 		if (m_launchLockTimeout <= 0.0f) ClearLinThrusterState();
@@ -168,18 +163,7 @@ public:
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
-	bool AIMatchVel(const vector3d &vel);
-	bool AIChangeVelBy(const vector3d &diffvel);		// acts in obj space
-	vector3d AIChangeVelDir(const vector3d &diffvel);	// world space, maintain direction
-	void AIMatchAngVelObjSpace(const vector3d &angvel);
-	double AIFaceUpdir(const vector3d &updir, double av=0);
-	double AIFaceDirection(const vector3d &dir, double av=0);
 	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
-
-	// old stuff, deprecated
-	void AIAccelToModelRelativeVelocity(const vector3d &v);
-	void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness);
-	void AIModelCoordsMatchSpeedRelTo(const vector3d &v, const Ship *);
 
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
@@ -219,9 +203,6 @@ public:
 	float GetPercentShields() const;
 	float GetPercentHull() const;
 	void SetPercentHull(float);
-
-	// available delta-V given the ship's current fuel minus reserve according to the Tsiolkovsky equation
-	inline double GetSpeedReachedWithFuel() const { return Propulsion::GetSpeedReachedWithFuel( GetMass() ); };
 
 	void EnterSystem();
 
@@ -312,7 +293,6 @@ private:
 	AICommand *m_curAICmd;
 	AIError m_aiMessage;
 	bool m_decelerating;
-
 
 	double m_landingMinOffset;	// offset from the centre of the ship used during docking
 
