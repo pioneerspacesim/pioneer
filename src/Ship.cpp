@@ -309,7 +309,7 @@ Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 
 	m_hyperspace.countdown = 0;
 	m_hyperspace.now = false;
-	FixedGuns::Init();
+	FixedGuns::Init(this);
 	m_ecmRecharge = 0;
 	m_shieldCooldown = 0.0f;
 	m_curAICmd = 0;

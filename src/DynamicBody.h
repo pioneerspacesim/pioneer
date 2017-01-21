@@ -51,6 +51,16 @@ public:
 	virtual void PostLoadFixup(Space *space) override;
 
 	Orbit ComputeOrbit() const;
+
+	enum Feature {
+		PROPULSION = 0,
+		FIXED_GUNS = 1,
+		MAX_FEATURE = 2,
+	};
+
+	void AddFeature( Feature f ) { m_features[f] = true; };
+	bool Have( Feature f ) const { return m_features[f]; };
+
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
@@ -77,6 +87,9 @@ private:
 	// for time accel reduction fudge
 	vector3d m_lastForce;
 	vector3d m_lastTorque;
+
+	bool m_features[MAX_FEATURE];
+
 };
 
 #endif /* _DYNAMICBODY_H */

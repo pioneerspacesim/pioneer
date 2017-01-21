@@ -2,13 +2,10 @@
 
 FixedGuns::FixedGuns()
 {
-	Init();
-	//ctor
 }
 
 FixedGuns::~FixedGuns()
 {
-	//dtor
 }
 
 bool FixedGuns::IsFiring()
@@ -20,13 +17,14 @@ bool FixedGuns::IsFiring()
 	return gunstate;
 }
 
-void FixedGuns::Init()
+void FixedGuns::Init(DynamicBody *b)
 {
 	for (int i=0; i<FixedGuns::GUNMOUNT_MAX; i++) {
 		m_gun[i].state = 0;
 		m_gun[i].recharge = 0;
 		m_gun[i].temperature = 0;
 	}
+	b->AddFeature( DynamicBody::FIXED_GUNS );
 }
 
 void FixedGuns::SaveToJson(int i, Json::Value &jsonObj )

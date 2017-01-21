@@ -106,12 +106,12 @@ private:
 
 	void IncrementState() {
 		switch(m_state) {
-		case eDockGetDataStart:		m_state = eDockFlyToStart;		break;	
-		case eDockFlyToStart:		m_state = eDockGetDataEnd;		break;	
-		case eDockGetDataEnd:		m_state = eDockFlyToEnd;		break;	
-		case eDockFlyToEnd:			m_state = eDockingComplete;		break;		
-		case eDockingComplete:		m_state = eInvalidDockingStage;	break;	
-		case eInvalidDockingStage:	break;	
+		case eDockGetDataStart:		m_state = eDockFlyToStart;		break;
+		case eDockFlyToStart:		m_state = eDockGetDataEnd;		break;
+		case eDockGetDataEnd:		m_state = eDockFlyToEnd;		break;
+		case eDockFlyToEnd:			m_state = eDockingComplete;		break;
+		case eDockingComplete:		m_state = eInvalidDockingStage;	break;
+		case eInvalidDockingStage:	break;
 		}
 	}
 };
@@ -176,7 +176,7 @@ private:
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
 	bool m_tangent;		// true if path is to a tangent of the target frame's body
-	int m_state;		
+	int m_state;
 
 	bool m_lockhead;
 	int m_targetIndex, m_targframeIndex;	// used during deserialisation

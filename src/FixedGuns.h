@@ -8,13 +8,14 @@
 #include "json/JsonUtils.h"
 #include "scenegraph/Model.h"
 #include "Projectile.h"
+#include "DynamicBody.h"
 
 class FixedGuns
 {
 	public:
 		FixedGuns();
 		~FixedGuns();
-		void Init();
+		void Init(DynamicBody *b);
 		void InitGun( SceneGraph::Model *m, const char *tag, int num);
 		void UpdateGuns( float timeStep );
 		bool IsFiring();
