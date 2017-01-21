@@ -17,9 +17,9 @@ public:
 	// This enum is solely to make the serialization work
 	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
 
-	AICommand(Ship *ship, CmdName name):
-		m_ship(ship), m_cmdName(name) {
-		m_ship->AIMessage(Ship::AIERROR_NONE);
+	AICommand(DynamicBody *dBody, CmdName name):
+		m_dBody(dBody), m_cmdName(name) {
+		m_dBody->AIMessage(DynamicBody::AIERROR_NONE);
 	}
 	virtual ~AICommand() {}
 
@@ -40,17 +40,17 @@ public:
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
 protected:
-	Ship *m_ship;
+	DynamicBody *m_dBody;
 	std::unique_ptr<AICommand> m_child;
 	CmdName m_cmdName;
 
-	int m_shipIndex; // deserialisation
+	int m_dBodyIndex; // deserialisation
 };
 
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target);
+	AICmdDock(DynamicBody *dBody, SpaceStation *target);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -119,8 +119,8 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
-	AICmdFlyTo(Ship *ship, Body *target);
+	AICmdFlyTo(DynamicBody *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
+	AICmdFlyTo(DynamicBody *ship, Body *target);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -188,8 +188,8 @@ private:
 class AICmdFlyAround : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, int mode=2);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, int mode=1);
+	AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode=2);
+	AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt, double vel, int mode=1);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -281,7 +281,7 @@ private:
 class AICmdKamikaze : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdKamikaze(Ship *ship, Body *target) : AICommand (ship, CMD_KAMIKAZE) {
+	AICmdKamikaze(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_KAMIKAZE) {
 		m_target = target;
 	}
 
@@ -321,7 +321,7 @@ public:
 class AICmdFormation : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff);
+	AICmdFormation(DynamicBody *ship, DynamicBody *target, const vector3d &posoff);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -352,7 +352,7 @@ public:
 	}
 
 private:
-	Ship *m_target;		// target frame for waypoint
+	DynamicBody *m_target;	// target frame for waypoint
 	vector3d m_posoff;	// offset in target frame
 
 	int m_targetIndex;	// used during deserialisation

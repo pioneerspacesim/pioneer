@@ -52,6 +52,19 @@ public:
 
 	Orbit ComputeOrbit() const;
 
+	/* TODO: This is an hack, check if there's a way
+	 * to do something better because AI on dynamic is
+	 * a "loose" check (also see AIError m_aiMessage
+	 * in line 83
+	*/
+	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
+		AIERROR_NONE=0,
+		AIERROR_GRAV_TOO_HIGH,
+		AIERROR_REFUSED_PERM,
+		AIERROR_ORBIT_IMPOSSIBLE
+	};
+	AIError AIMessage(AIError msg=AIERROR_NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
+
 	enum Feature {
 		PROPULSION = 0,
 		FIXED_GUNS = 1,
@@ -68,6 +81,7 @@ protected:
 	static const double DEFAULT_DRAG_COEFF;
 	double m_dragCoeff;
 
+	AIError m_aiMessage;
 private:
 	vector3d m_oldPos;
 	vector3d m_oldAngDisplacement;

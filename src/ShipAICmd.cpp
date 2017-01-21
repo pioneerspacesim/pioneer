@@ -25,16 +25,15 @@ AICommand *AICommand::LoadFromJson(const Json::Value &jsonObj)
 		Json::Value commonAiCommandObj = aiCommandObj["common_ai_command"];
 		if (!commonAiCommandObj.isMember("command_name")) throw SavedGameCorruptException();
 		CmdName name = CmdName(commonAiCommandObj["command_name"].asInt());
-		switch (name)
-		{
-		case CMD_NONE: default: return 0; // No longer need CMD_NONE (see AICommand::SaveToJson notes).
-		case CMD_DOCK: return new AICmdDock(aiCommandObj);
-		case CMD_FLYTO: return new AICmdFlyTo(aiCommandObj);
-		case CMD_FLYAROUND: return new AICmdFlyAround(aiCommandObj);
-		case CMD_KILL: return new AICmdKill(aiCommandObj);
-		case CMD_KAMIKAZE: return new AICmdKamikaze(aiCommandObj);
-		case CMD_HOLDPOSITION: return new AICmdHoldPosition(aiCommandObj);
-		case CMD_FORMATION: return new AICmdFormation(aiCommandObj);
+		switch (name) {
+			case CMD_NONE: default: return 0; // No longer need CMD_NONE (see AICommand::SaveToJson notes).
+			case CMD_DOCK: return new AICmdDock(aiCommandObj);
+			case CMD_FLYTO: return new AICmdFlyTo(aiCommandObj);
+			case CMD_FLYAROUND: return new AICmdFlyAround(aiCommandObj);
+			case CMD_KILL: return new AICmdKill(aiCommandObj);
+			case CMD_KAMIKAZE: return new AICmdKamikaze(aiCommandObj);
+			case CMD_HOLDPOSITION: return new AICmdHoldPosition(aiCommandObj);
+			case CMD_FORMATION: return new AICmdFormation(aiCommandObj);
 		}
 	}
 	return 0; // Return 0 if supplied object doesn't contain an "ai_command" object.
@@ -52,7 +51,7 @@ void AICommand::SaveToJson(Json::Value &jsonObj)
 	Space *space = Pi::game->GetSpace();
 	Json::Value commonAiCommandObj(Json::objectValue); // Create JSON object to contain common ai command data.
 	commonAiCommandObj["command_name"] = m_cmdName;
-	commonAiCommandObj["index_for_body"] = space->GetIndexForBody(m_ship);
+	commonAiCommandObj["index_for_body"] = space->GetIndexForBody(m_dBody);
 	if (m_child) m_child->SaveToJson(commonAiCommandObj);
 	jsonObj["common_ai_command"] = commonAiCommandObj; // Add common ai command object to supplied object.
 }
@@ -63,14 +62,14 @@ AICommand::AICommand(const Json::Value &jsonObj, CmdName name) : m_cmdName(name)
 	Json::Value commonAiCommandObj = jsonObj["common_ai_command"];
 
 	if (!commonAiCommandObj.isMember("index_for_body")) throw SavedGameCorruptException();
-	m_shipIndex = commonAiCommandObj["index_for_body"].asInt();
+	m_dBodyIndex = commonAiCommandObj["index_for_body"].asInt();
 
 	m_child.reset(LoadFromJson(commonAiCommandObj));
 }
 
 void AICommand::PostLoadFixup(Space *space)
 {
-	m_ship = static_cast<DynamicBody *>(space->GetBodyByIndex(m_shipIndex));
+	m_dBody = static_cast<DynamicBody *>(space->GetBodyByIndex(m_dBodyIndex));
 	if (m_child) m_child->PostLoadFixup(space);
 }
 
@@ -218,15 +217,26 @@ static void LaunchShip(Ship *ship)
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
-	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
+	if (m_dBody->IsType(Object::SHIP)) {
+		// "Standard" checks for a ship...
+		Ship *m_ship = static_cast<Ship*>(m_dBody);
+		assert(m_ship!=nullptr);
+		if (m_ship->GetFlightState() == Ship::JUMPING) return false;
+		if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+		else { LaunchShip(m_ship); return false; }
+
+		m_ship->SetGunState(0,0);
+
+	} else {
+		// Missile, for now ;-)
+	}
+	if (!m_dBody->Have(DynamicBody::PROPULSION)) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
-	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
-	else { LaunchShip(m_ship); return false; }
+	Propulsion *prop = dynamic_cast<Propulsion*>(m_dBody);
+	assert(prop!=nullptr);
 
-	m_ship->SetGunState(0,0);
-
-	const vector3d targetPos = m_target->GetPositionRelTo(m_ship);
+	const vector3d targetPos = m_target->GetPositionRelTo(m_dBody);
 	const vector3d targetDir = targetPos.NormalizedSafe();
 	const double dist = targetPos.Length();
 
@@ -234,34 +244,45 @@ bool AICmdKamikaze::TimeStepUpdate()
 	// too much if we miss the target.
 
 	// Aim to collide at a speed which would take us 4s to reverse.
-	const double aimCollisionSpeed = m_ship->GetAccelFwd()*2;
+	const double aimCollisionSpeed = prop->GetAccelFwd()*2;
 
 	// Aim to use 1/4 of our acceleration for braking while closing
 	// distance, leaving the rest for course adjustment.
-	const double brake = m_ship->GetAccelFwd()/4;
+	const double brake = prop->GetAccelFwd()/4;
 
 	const double aimRelSpeed =
 		sqrt(aimCollisionSpeed*aimCollisionSpeed + 2*dist*brake);
 
-	const vector3d aimVel = aimRelSpeed*targetDir + m_target->GetVelocityRelTo(m_ship->GetFrame());
-	const vector3d accelDir = (aimVel - m_ship->GetVelocity()).NormalizedSafe();
+	const vector3d aimVel = aimRelSpeed*targetDir + m_target->GetVelocityRelTo(m_dBody->GetFrame());
+	const vector3d accelDir = (aimVel - m_dBody->GetVelocity()).NormalizedSafe();
 
-	m_ship->ClearThrusterState();
-	m_ship->AIFaceDirection(accelDir);
+	prop->ClearLinThrusterState();
+	prop->ClearAngThrusterState();
+	prop->AIFaceDirection(accelDir);
 
-	m_ship->AIAccelToModelRelativeVelocity(aimVel * m_ship->GetOrient());
+	prop->AIAccelToModelRelativeVelocity(aimVel * m_dBody->GetOrient());
 
 	return false;
 }
 
 bool AICmdKill::TimeStepUpdate()
 {
-	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
+	Ship *m_ship = nullptr;
+	if (m_dBody->IsType(Object::SHIP)) {
+		m_ship = static_cast<Ship*>(m_dBody);
+		assert(m_ship!=nullptr);
+		if (m_ship->GetFlightState() == Ship::JUMPING) return false;
+		if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
+		else { LaunchShip(m_ship); return false; }
+	} else {
+		// Maybe be a drone ;-)
+		return false;
+	}
+	assert(m_ship!=nullptr);
+
 	if (!ProcessChild()) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
-	if (m_ship->GetFlightState() == Ship::FLYING) m_ship->SetWheelState(false);
-	else { LaunchShip(m_ship); return false; }
 
 	const matrix3x3d &rot = m_ship->GetOrient();
 	vector3d targpos = m_target->GetPositionRelTo(m_ship);
@@ -537,14 +558,17 @@ static double MaxFeatureRad(Body *body)
 	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 1000.0;		// + building height
 }
 
-static double MaxEffectRad(Body *body, Ship *ship)
+static double MaxEffectRad(Body *body, DynamicBody *dBody)
 {
 	if(!body) return 0.0;
 	if(!body->IsType(Object::TERRAINBODY)) {
 		if (!body->IsType(Object::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
 		return static_cast<SpaceStation*>(body)->GetStationType()->ParkingDistance() + 1000.0;
 	}
-	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / ship->GetAccelUp()));
+	if(dBody->Have(DynamicBody::PROPULSION)) return 0.0;
+	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
+	assert(prop!=nullptr);
+	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / prop->GetAccelUp()));
 }
 
 // returns acceleration due to gravity at that point
@@ -579,10 +603,10 @@ static vector3d GetVelInFrame(Frame *frame, Frame *target, const vector3d &offse
 // formula uses similar triangles
 // shiptarg in ship's frame
 // output in targframe
-static vector3d GenerateTangent(Ship *ship, Frame *targframe, const vector3d &shiptarg, double alt)
+static vector3d GenerateTangent(DynamicBody *dBody, Frame *targframe, const vector3d &shiptarg, double alt)
 {
-	vector3d spos = ship->GetPositionRelTo(targframe);
-	vector3d targ = GetPosInFrame(targframe, ship->GetFrame(), shiptarg);
+	vector3d spos = dBody->GetPositionRelTo(targframe);
+	vector3d targ = GetPosInFrame(targframe, dBody->GetFrame(), shiptarg);
 	double a = spos.Length(), b = alt;
 	if (b*1.02 > a) { spos *= b*1.02/a; a = b*1.02; }		// fudge if ship gets under radius
 	double c = sqrt(a*a - b*b);
@@ -596,13 +620,16 @@ static vector3d GenerateTangent(Ship *ship, Frame *targframe, const vector3d &sh
 //2 - unsafe escape from effect radius
 //3 - unsafe entry to effect radius
 //4 - probable path intercept
-static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
+static int CheckCollision(DynamicBody *dBody, const vector3d &pathdir, double pathdist, const vector3d &tpos, double endvel, double r)
 {
+	if (!dBody->Have(DynamicBody::PROPULSION)) return 0;
+	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
+	assert(prop!=nullptr);
 	// ship is in obstructor's frame anyway, so is tpos
 	if (pathdist < 100.0) return 0;
-	Body *body = ship->GetFrame()->GetBody();
+	Body *body = dBody->GetFrame()->GetBody();
 	if (!body) return 0;
-	vector3d spos = ship->GetPosition();
+	vector3d spos = dBody->GetPosition();
 	double tlen = tpos.Length(), slen = spos.Length();
 	double fr = MaxFeatureRad(body);
 
@@ -627,15 +654,15 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 	if (tanlen < 0 || tanlen > pathdist) return 0;		// closest point outside path
 
 	vector3d perpdir = (tanlen*pathdir + spos).Normalized();
-	double perpspeed = ship->GetVelocity().Dot(perpdir);
-	double parspeed = ship->GetVelocity().Dot(pathdir);
+	double perpspeed = dBody->GetVelocity().Dot(perpdir);
+	double parspeed = dBody->GetVelocity().Dot(pathdir);
 	if (parspeed < 0) parspeed = 0;			// shouldn't break any important case
 	if (perpspeed > 0) perpspeed = 0;		// prevent attempts to speculatively fly through planets
 
-	// find time that ship will pass through that point
+	// find time that dBody will pass through that point
 	// get velocity as if accelerating from start or end, pick smallest
-	double ivelsqr = endvel*endvel + 2*ship->GetAccelFwd()*(pathdist-tanlen);		// could put endvel in here
-	double fvelsqr = parspeed*parspeed + 2*ship->GetAccelFwd()*tanlen;
+	double ivelsqr = endvel*endvel + 2*prop->GetAccelFwd()*(pathdist-tanlen);		// could put endvel in here
+	double fvelsqr = parspeed*parspeed + 2*prop->GetAccelFwd()*tanlen;
 	double tanspeed = sqrt(ivelsqr < fvelsqr ? ivelsqr : fvelsqr);
 	double time = tanlen / (0.5 * (parspeed + tanspeed));		// actually correct?
 
@@ -646,16 +673,16 @@ static int CheckCollision(Ship *ship, const vector3d &pathdir, double pathdist, 
 
 // ok, need thing to step down through bodies and find closest approach
 // modify targpos directly to aim short of dangerous bodies
-static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &targpos, vector3d &targvel)
+static bool ParentSafetyAdjust(DynamicBody *dBody, Frame *targframe, vector3d &targpos, vector3d &targvel)
 {
 	Body *body = 0;
 	Frame *frame = targframe->GetNonRotFrame();
 	while (frame)
 	{
-		if (ship->GetFrame()->GetNonRotFrame() == frame) break;		// ship in frame, stop
+		if (dBody->GetFrame()->GetNonRotFrame() == frame) break;		// ship in frame, stop
 		if (frame->GetBody()) body = frame->GetBody();			// ignore grav points?
 
-		double sdist = ship->GetPositionRelTo(frame).Length();
+		double sdist = dBody->GetPositionRelTo(frame).Length();
 		if (sdist < frame->GetRadius()) break;					// ship inside frame, stop
 
 		// we should always be inside the root frame, so if we're not inside 'frame'
@@ -669,25 +696,28 @@ static bool ParentSafetyAdjust(Ship *ship, Frame *targframe, vector3d &targpos, 
 	// aim for zero velocity at surface of that body
 	// still along path to target
 
-	vector3d targpos2 = targpos - ship->GetPosition();
+	vector3d targpos2 = targpos - dBody->GetPosition();
 	double targdist = targpos2.Length();
-	double bodydist = body->GetPositionRelTo(ship).Length() - MaxEffectRad(body, ship)*1.5;
+	double bodydist = body->GetPositionRelTo(dBody).Length() - MaxEffectRad(body, dBody)*1.5;
 	if (targdist < bodydist) return false;
 	targpos -= (targdist - bodydist) * targpos2 / targdist;
-	targvel = body->GetVelocityRelTo(ship->GetFrame());
+	targvel = body->GetVelocityRelTo(dBody->GetFrame());
 	return true;
 }
 
 // check for collision course with frame body
 // tandir is normal vector from planet to target pos or dir
-static bool CheckSuicide(Ship *ship, const vector3d &tandir)
+static bool CheckSuicide(DynamicBody *dBody, const vector3d &tandir)
 {
-	Body *body = ship->GetFrame()->GetBody();
+	Body *body = dBody->GetFrame()->GetBody();
+	if (dBody->Have(DynamicBody::PROPULSION)) return false;
+	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
+	assert(prop!=nullptr);
 	if (!body || !body->IsType(Object::TERRAINBODY)) return false;
 
-	double vel = ship->GetVelocity().Dot(tandir);		// vel towards is negative
-	double dist = ship->GetPosition().Length() - MaxFeatureRad(body);
-	if (vel < -1.0 && vel*vel > 2.0*ship->GetAccelMin()*dist)
+	double vel = dBody->GetVelocity().Dot(tandir);		// vel towards is negative
+	double dist = dBody->GetPosition().Length() - MaxFeatureRad(body);
+	if (vel < -1.0 && vel*vel > 2.0*prop->GetAccelMin()*dist)
 		return true;
 	return false;
 }
@@ -696,11 +726,11 @@ static bool CheckSuicide(Ship *ship, const vector3d &tandir)
 extern double calc_ivel(double dist, double vel, double acc);
 
 // Fly to vicinity of body
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
+AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_FLYTO)
 {
 	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
 	if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
-	else m_dist = VICINITY_MUL*MaxEffectRad(target, ship);
+	else m_dist = VICINITY_MUL*MaxEffectRad(target, dBody);
 
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
@@ -709,12 +739,12 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Body *target) : AICommand(ship, CMD_FLYTO)
 	}
 	else { m_target = target; m_targframe = 0; }
 
-	if (ship->GetPositionRelTo(target).Length() <= 15000.0) m_targframe = 0;
+	if (dBody->GetPositionRelTo(target).Length() <= 15000.0) m_targframe = 0;
 }
 
 // Specified pos, endvel should be > 0
-AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent) :
-	AICommand(ship, CMD_FLYTO),
+AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Frame *targframe, const vector3d &posoff, double endvel, bool tangent) :
+	AICommand(dBody, CMD_FLYTO),
 	m_target(nullptr),
 	m_targframe(targframe),
 	m_posoff(posoff),
@@ -728,6 +758,18 @@ AICmdFlyTo::AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, dou
 
 bool AICmdFlyTo::TimeStepUpdate()
 {
+	/* TODO: Added a check due to re----*assesment*,
+	 * can be deeply checked (eg: checking capability
+	 * instead of asking for GetFlightState )
+	*/
+	Ship *m_ship = nullptr;
+	if (!m_dBody->IsType(Object::SHIP)) {
+			// may be an exploration probe ;-)
+			return false;
+	} else {
+		m_ship = static_cast<Ship*>(m_dBody);
+		assert(m_ship!=nullptr);
+	}
 	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target && !m_targframe) return true;			// deleted object
 
@@ -883,9 +925,14 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 }
 
 
-AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOCK),
+AICmdDock::AICmdDock(DynamicBody *dBody, SpaceStation *target) : AICommand(dBody, CMD_DOCK),
 	m_target(target), m_state(eDockGetDataStart)
 {
+	Ship *m_ship = nullptr;
+	if (!dBody->IsType(Object::SHIP)) return;
+	m_ship = static_cast<Ship*>(dBody);
+	assert(m_ship!=nullptr);
+
 	double grav = GetGravityAtPos(m_target->GetFrame(), m_target->GetPosition());
 	if (m_ship->GetAccelUp() < grav) {
 		m_ship->AIMessage(Ship::AIERROR_GRAV_TOO_HIGH);
@@ -901,8 +948,13 @@ AICmdDock::AICmdDock(Ship *ship, SpaceStation *target) : AICommand(ship, CMD_DOC
 
 bool AICmdDock::TimeStepUpdate()
 {
+	Ship *m_ship = nullptr;
 	if (!ProcessChild()) return false;
 	if (!m_target) return true;
+
+	if (!m_dBody->IsType(Object::SHIP)) return false;
+	m_ship = static_cast<Ship*>(m_dBody);
+	assert(m_ship!=nullptr);
 
 	// finished moving into dock start pos (done by child FlyTo command)
 	if (m_state == eDockFlyToStart) IncrementState();
@@ -1024,7 +1076,9 @@ Output("AICmdDock dist = %.1f, speed = %.1f, ythrust = %.2f, state = %i\n",
 bool AICmdHoldPosition::TimeStepUpdate()
 {
 	// XXX perhaps try harder to move back to the original position
-	m_ship->AIMatchVel(vector3d(0,0,0));
+	Propulsion *prop = dynamic_cast<Propulsion*>(m_dBody);
+	assert(prop!=0);
+	prop->AIMatchVel(vector3d(0,0,0));
 	return false;
 }
 
@@ -1035,29 +1089,31 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 	assert(!std::isnan(vel));
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel; m_targmode = mode;
 
+	Propulsion *prop = dynamic_cast<Propulsion*>(m_dBody);
+	assert(prop!=0);
 	// generate suitable velocity if none provided
-	double minacc = (mode == 2) ? 0 : m_ship->GetAccelMin();
+	double minacc = (mode == 2) ? 0 : prop->GetAccelMin();
 	double mass = obstructor->IsType(Object::TERRAINBODY) ? obstructor->GetMass() : 0;
 	if (vel < 1e-30) m_vel = sqrt(m_alt*0.8*minacc + mass*G/m_alt);
 
 	// check if altitude is within obstructor frame
 	if (alt > 0.9 * obstructor->GetFrame()->GetNonRotFrame()->GetRadius()) {
-		m_ship->AIMessage(Ship::AIERROR_ORBIT_IMPOSSIBLE);
+		m_dBody->AIMessage(Ship::AIERROR_ORBIT_IMPOSSIBLE);
 		m_targmode = 6;			// force an exit
 	}
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, int mode)
-	: AICommand (ship, CMD_FLYAROUND)
+AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode)
+	: AICommand (dBody, CMD_FLYAROUND)
 {
 	assert(!std::isnan(relalt));
-	double alt = relalt*MaxEffectRad(obstructor, ship);
+	double alt = relalt*MaxEffectRad(obstructor, dBody);
 	assert(!std::isnan(alt));
 	Setup(obstructor, alt, 0.0, mode);
 }
 
-AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, int mode)
-	: AICommand (ship, CMD_FLYAROUND)
+AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt, double vel, int mode)
+	: AICommand (dBody, CMD_FLYAROUND)
 {
 	assert(!std::isnan(alt));
 	Setup(obstructor, alt, vel, mode);
@@ -1065,9 +1121,12 @@ AICmdFlyAround::AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double 
 
 double AICmdFlyAround::MaxVel(double targdist, double targalt)
 {
+	Propulsion *prop = dynamic_cast<Propulsion*>(m_dBody);
+	assert(prop!=0);
+
 	if (targalt > m_alt) return m_vel;
-	double t = sqrt(2.0 * targdist / m_ship->GetAccelFwd());
-	double vmaxprox = m_ship->GetAccelMin()*t;			// limit by target proximity
+	double t = sqrt(2.0 * targdist / prop->GetAccelFwd());
+	double vmaxprox = prop->GetAccelMin()*t;			// limit by target proximity
 	double vmaxstep = std::max(m_alt*0.05, m_alt-targalt);
 	vmaxstep /= Pi::game->GetTimeStep();			// limit by distance covered per timestep
 	return std::min(m_vel, std::min(vmaxprox, vmaxstep));
@@ -1075,6 +1134,11 @@ double AICmdFlyAround::MaxVel(double targdist, double targalt)
 
 bool AICmdFlyAround::TimeStepUpdate()
 {
+	Ship *m_ship = nullptr;
+	if (m_dBody->IsType(Object::SHIP)) return false;
+	m_ship = static_cast<Ship*>(m_dBody);
+	assert(m_ship!=0);
+
 	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!ProcessChild()) return false;
 
@@ -1144,8 +1208,8 @@ bool AICmdFlyAround::TimeStepUpdate()
 	return false;
 }
 
-AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff) :
-	AICommand(ship, CMD_FORMATION),
+AICmdFormation::AICmdFormation(DynamicBody *dBody, DynamicBody *target, const vector3d &posoff) :
+	AICommand(dBody, CMD_FORMATION),
 	m_target(target),
 	m_posoff(posoff)
 {
@@ -1153,6 +1217,11 @@ AICmdFormation::AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff)
 
 bool AICmdFormation::TimeStepUpdate()
 {
+	Ship *m_ship = nullptr;
+	if (m_dBody->IsType(Object::SHIP)) return false;
+	m_ship = static_cast<Ship*>(m_dBody);
+	assert(m_ship!=0);
+
 	if (m_ship->GetFlightState() == Ship::JUMPING) return false;
 	if (!m_target) return true;
 	if (!ProcessChild()) return false;		// In case we're doing an intercept
@@ -1184,7 +1253,12 @@ bool AICmdFormation::TimeStepUpdate()
 	double ispeed = calc_ivel(targdist, 0.0, maxdecel);
 	vector3d vdiff = ispeed*reldir - relvel;
 	m_ship->AIChangeVelDir(vdiff * m_ship->GetOrient());
-	if (m_target->IsDecelerating()) m_ship->SetDecelerating(true);
+	if (m_target->IsType(Object::SHIP)) {
+		Ship *target_ship = static_cast<Ship*>(m_target);
+		if (target_ship->IsDecelerating()) m_ship->SetDecelerating(true);
+	} else {
+		m_ship->SetDecelerating(false);
+	}
 
 	m_ship->AIFaceDirection(-torient.VectorZ());
 	return false;					// never self-terminates

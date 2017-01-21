@@ -169,14 +169,6 @@ public:
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);
 
-	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
-		AIERROR_NONE=0,
-		AIERROR_GRAV_TOO_HIGH,
-		AIERROR_REFUSED_PERM,
-		AIERROR_ORBIT_IMPOSSIBLE
-	};
-	AIError AIMessage(AIError msg=AIERROR_NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
-
 	void AIKamikaze(Body *target);
 	void AIKill(Ship *target);
 	//void AIJourney(SystemBodyPath &dest);
@@ -291,7 +283,7 @@ private:
 	HyperspaceCloud *m_hyperspaceCloud;
 
 	AICommand *m_curAICmd;
-	AIError m_aiMessage;
+
 	bool m_decelerating;
 
 	double m_landingMinOffset;	// offset from the centre of the ship used during docking
