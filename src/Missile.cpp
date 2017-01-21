@@ -11,7 +11,7 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Missile::Missile(const ShipType::Id &shipId, Body *owner, int power): Ship(shipId)
+Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shipId)
 {
 	if (power < 0) {
 		m_power = 0;
@@ -36,13 +36,13 @@ void Missile::ECMAttack(int power_val)
 
 void Missile::PostLoadFixup(Space *space)
 {
-	Ship::PostLoadFixup(space);
+	DynamicBody::PostLoadFixup(space);
 	m_owner = space->GetBodyByIndex(m_ownerIndex);
 }
 
 void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Ship::SaveToJson(jsonObj, space);
+	DynamicBody::SaveToJson(jsonObj, space);
 
 	Json::Value missileObj(Json::objectValue); // Create JSON object to contain missile data.
 
@@ -55,7 +55,7 @@ void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 
 void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	Ship::LoadFromJson(jsonObj, space);
+	DynamicBody::LoadFromJson(jsonObj, space);
 
 	if (!jsonObj.isMember("missile")) throw SavedGameCorruptException();
 	Json::Value missileObj = jsonObj["missile"];
@@ -71,7 +71,7 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 
 void Missile::TimeStepUpdate(const float timeStep)
 {
-	Ship::TimeStepUpdate(timeStep);
+	DynamicBody::TimeStepUpdate(timeStep);
 
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
 	if (!m_owner) {
@@ -135,7 +135,7 @@ void Missile::NotifyRemoved(const Body* const removedBody)
 	if (m_owner == removedBody) {
 		m_owner = 0;
 	}
-	Ship::NotifyRemoved(removedBody);
+	DynamicBody::NotifyRemoved(removedBody);
 }
 
 void Missile::Arm()
@@ -148,4 +148,23 @@ void Missile::Disarm()
 {
 	m_armed = false;
 	Properties().Set("isArmed", false);
+}
+
+void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+{
+	if (IsDead()) return;
+
+	Propulsion::Render( renderer, camera, viewCoords, viewTransform );
+
+	matrix3x3f mt;
+	matrix3x3dtof(viewTransform.Inverse().GetOrient(), mt);
+
+	RenderModel(renderer, camera, viewCoords, viewTransform);
+
+}
+
+void Missile::AIKamikaze(Body *target)
+{
+	//AIClearInstructions();
+	m_curAICmd = new AICmdKamikaze(this, target);
 }
