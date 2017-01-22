@@ -92,7 +92,7 @@ public:
 	virtual void StaticUpdate(const float timeStep) override;
 
 	void TimeAccelAdjust(const float timeStep);
-	void SetDecelerating(bool decel) { m_decelerating = decel; }
+
 	bool IsDecelerating() const { return m_decelerating; }
 
 	virtual void NotifyRemoved(const Body* const removedBody) override;
@@ -283,8 +283,6 @@ private:
 	HyperspaceCloud *m_hyperspaceCloud;
 
 	AICommand *m_curAICmd;
-
-	bool m_decelerating;
 
 	double m_landingMinOffset;	// offset from the centre of the ship used during docking
 

@@ -92,7 +92,6 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!jsonObj.isMember("ship")) throw SavedGameCorruptException();
 	Json::Value shipObj = jsonObj["ship"];
 
-	printf("\nHere LoadShip checks:");
 	if (!shipObj.isMember("wheel_transition")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("wheel_state")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("launch_lock_timeout")) throw SavedGameCorruptException();
@@ -1199,7 +1198,7 @@ void Ship::SetGunState(int idx, int state)
 {
 	std::string slot(idx?"laser_rear":"laser_front");
 	if (ScopedTable(m_equipSet).CallMethod<int>("OccupiedSpace", slot)) {
-		FixedGuns::SetState( idx, state );
+		FixedGuns::SetGunState( idx, state );
 	}
 }
 

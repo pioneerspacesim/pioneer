@@ -75,6 +75,7 @@ public:
 	};
 
 	bool Have( Feature f ) const { return m_features[f]; };
+	void SetDecelerating(bool decel) { m_decelerating = decel; }
 
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
@@ -83,6 +84,7 @@ protected:
 	static const double DEFAULT_DRAG_COEFF;
 	double m_dragCoeff;
 
+	bool m_decelerating;
 	AIError m_aiMessage;
 private:
 	vector3d m_oldPos;
