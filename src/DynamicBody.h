@@ -11,6 +11,9 @@
 #include "Orbit.h"
 
 class DynamicBody: public ModelBody {
+private:
+	friend class Propulsion;
+	friend class FixedGuns;
 public:
 	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);
 	DynamicBody();
@@ -52,10 +55,10 @@ public:
 
 	Orbit ComputeOrbit() const;
 
-	/* TODO: This is an hack, check if there's a way
-	 * to do something better because AI on dynamic is
-	 * a "loose" check (also see AIError m_aiMessage
-	 * in line 83
+	/* TODO: This is a big simplification...
+	 * something better because AI on dynamic is
+	 * a "loose" thing (also see AIError m_aiMessage
+	 * in line 83)
 	*/
 	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
 		AIERROR_NONE=0,
@@ -71,7 +74,6 @@ public:
 		MAX_FEATURE = 2,
 	};
 
-	void AddFeature( Feature f ) { m_features[f] = true; };
 	bool Have( Feature f ) const { return m_features[f]; };
 
 protected:
@@ -102,6 +104,7 @@ private:
 	vector3d m_lastForce;
 	vector3d m_lastTorque;
 
+	void AddFeature( Feature f ) { m_features[f] = true; };
 	bool m_features[MAX_FEATURE];
 
 };
