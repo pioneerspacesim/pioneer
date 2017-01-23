@@ -2,11 +2,11 @@
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
   <asset>
     <contributor>
-      <author>Blender User</author>
-      <authoring_tool>Blender 2.78.0 commit date:2016-10-24, commit time:12:20, hash:e8299c8</authoring_tool>
+      <author>Nozmajner</author>
+      <authoring_tool>Blender 2.70.0 commit date:2014-04-10, commit time:11:49, hash:f93bc76</authoring_tool>
     </contributor>
-    <created>2017-01-15T19:59:28</created>
-    <modified>2017-01-15T19:59:28</modified>
+    <created>2014-06-16T15:52:43</created>
+    <modified>2014-06-16T15:52:43</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -26,7 +26,7 @@
               <color sid="diffuse">0.64 0.64 0.64 1</color>
             </diffuse>
             <specular>
-              <color sid="specular">0.125 0.125 0.125 1</color>
+              <color sid="specular">0.25 0.25 0.25 1</color>
             </specular>
             <shininess>
               <float sid="shininess">32</float>
@@ -87,7 +87,7 @@
           </technique_common>
         </source>
         <source id="DummyGeomToExportMesh-mesh-normals">
-          <float_array id="DummyGeomToExportMesh-mesh-normals-array" count="3">-0.9271577 0 0.3746716</float_array>
+          <float_array id="DummyGeomToExportMesh-mesh-normals-array" count="3">-0.9271573 0 0.3746724</float_array>
           <technique_common>
             <accessor source="#DummyGeomToExportMesh-mesh-normals-array" count="1" stride="3">
               <param name="X" type="float"/>
@@ -120,9 +120,9 @@
     <geometry id="meshId0_name_001-mesh" name="meshId0_name.001">
       <mesh>
         <source id="meshId0_name_001-mesh-positions">
-          <float_array id="meshId0_name_001-mesh-positions-array" count="24">29.84339 40.19733 0.3834086 29.8231 -40.1699 0 29.84339 -40.19733 0.3834086 29.8231 40.1699 0 -29.8231 -40.1699 0 -29.8231 40.1699 0 -29.84339 40.19733 0.3834086 -29.84339 -40.19733 0.3834086</float_array>
+          <float_array id="meshId0_name_001-mesh-positions-array" count="108">29.8231 40.1699 0 -29.8231 40.1699 0 -29.8231 -40.1699 0 -29.8231 -40.1699 0 29.8231 -40.1699 0 29.8231 40.1699 0 10.8404 14.6014 10.95543 10.8404 -14.6014 10.95543 -10.8404 -14.6014 10.95543 -10.8404 -14.6014 10.95543 -10.8404 14.6014 10.95543 10.8404 14.6014 10.95543 10.8404 -14.6014 10.95543 29.8231 -40.1699 0 -29.8231 -40.1699 0 -29.8231 -40.1699 0 -10.8404 -14.6014 10.95543 10.8404 -14.6014 10.95543 10.8404 14.6014 10.95543 29.8231 40.1699 0 29.8231 -40.1699 0 29.8231 -40.1699 0 10.8404 -14.6014 10.95543 10.8404 14.6014 10.95543 -10.8404 14.6014 10.95543 -29.8231 40.1699 0 29.8231 40.1699 0 29.8231 40.1699 0 10.8404 14.6014 10.95543 -10.8404 14.6014 10.95543 -10.8404 -14.6014 10.95543 -29.8231 -40.1699 0 -29.8231 40.1699 0 -29.8231 40.1699 0 -10.8404 14.6014 10.95543 -10.8404 -14.6014 10.95543</float_array>
           <technique_common>
-            <accessor source="#meshId0_name_001-mesh-positions-array" count="8" stride="3">
+            <accessor source="#meshId0_name_001-mesh-positions-array" count="36" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
@@ -130,9 +130,9 @@
           </technique_common>
         </source>
         <source id="meshId0_name_001-mesh-normals">
-          <float_array id="meshId0_name_001-mesh-normals-array" count="30">0 0 -1 0 0 1 0 -0.9974492 -0.07138031 0 -0.9974497 -0.07137441 0.9986029 0 -0.05284208 0.9986029 0 -0.05284208 0 0.9974492 -0.07138031 0 0.9974497 -0.07137441 -0.9986029 0 -0.05284208 -0.9986029 0 -0.05284208</float_array>
+          <float_array id="meshId0_name_001-mesh-normals-array" count="36">0 0 -1 0 0 -1 0 0 1 0 0 1 0 -0.3938434 0.9191777 0 -0.3938434 0.9191776 0.499855 0 0.8661091 0.499855 0 0.8661091 0 0.3938434 0.9191777 0 0.3938434 0.9191776 -0.499855 0 0.8661091 -0.499855 0 0.8661091</float_array>
           <technique_common>
-            <accessor source="#meshId0_name_001-mesh-normals-array" count="10" stride="3">
+            <accessor source="#meshId0_name_001-mesh-normals-array" count="12" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
@@ -156,17 +156,16 @@
           <input semantic="NORMAL" source="#meshId0_name_001-mesh-normals" offset="1"/>
           <input semantic="TEXCOORD" source="#meshId0_name_001-mesh-map-0" offset="2" set="0"/>
           <vcount>3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
-          <p>4 0 0 5 0 1 3 0 2 3 0 3 1 0 4 4 0 5 7 1 6 2 1 7 0 1 8 0 1 9 6 1 10 7 1 11 4 2 12 1 2 13 2 2 14 2 3 15 7 3 16 4 3 17 1 4 18 3 4 19 0 4 20 0 5 21 2 5 22 1 5 23 3 6 24 5 6 25 6 6 26 6 7 27 0 7 28 3 7 29 5 8 30 4 8 31 7 8 32 7 9 33 6 9 34 5 9 35</p>
+          <p>2 0 0 1 0 1 0 0 2 5 1 3 4 1 4 3 1 5 8 2 6 7 2 7 6 2 8 11 3 9 10 3 10 9 3 11 14 4 12 13 4 13 12 4 14 17 5 15 16 5 16 15 5 17 20 6 18 19 6 19 18 6 20 23 7 21 22 7 22 21 7 23 26 8 24 25 8 25 24 8 26 29 9 27 28 9 28 27 9 29 32 10 30 31 10 31 30 10 32 35 11 33 34 11 34 33 11 35</p>
         </polylist>
       </mesh>
     </geometry>
   </library_geometries>
-  <library_controllers/>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="DummyGeomToExport" name="DummyGeomToExport" type="NODE">
         <matrix sid="transform">0.021278 0 0 150 0 0.021278 -1.11027e-9 300 0 9.30091e-10 0.0254 1.31134e-5 0 0 0 1</matrix>
-        <instance_geometry url="#DummyGeomToExportMesh-mesh" name="DummyGeomToExport">
+        <instance_geometry url="#DummyGeomToExportMesh-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="Pad_material-material" target="#Pad_material-material"/>
@@ -174,37 +173,37 @@
           </bind_material>
         </instance_geometry>
       </node>
-      <node id="loc_A001_p01_s0_100_b01" name="loc_A001_p01_s0_100_b01" type="NODE">
+      <node id="loc_A001_p01_s0_500_b01" name="loc_A001_p01_s0_500_b01" type="NODE">
         <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 72.99976 0 -1.81675e-7 0.254 -300.0001 0 0 0 1</matrix>
       </node>
       <node id="entrance_port01" name="entrance_port01" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 72.99976 2.22045e-16 -7.15256e-7 1 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="loc_B001_p02_s0_100_b02" name="loc_B001_p02_s0_100_b02" type="NODE">
+      <node id="loc_B001_p02_s0_500_b02" name="loc_B001_p02_s0_500_b02" type="NODE">
         <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 72.99976 0 -1.81675e-7 0.254 -300.0001 0 0 0 1</matrix>
       </node>
       <node id="entrance_port02" name="entrance_port02" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 72.99976 2.22045e-16 -7.15256e-7 1 -300.0001 0 0 0 1</matrix>
       </node>
-      <node id="loc_C001_p03_s0_100_b03" name="loc_C001_p03_s0_100_b03" type="NODE">
+      <node id="loc_C001_p03_s0_500_b03" name="loc_C001_p03_s0_500_b03" type="NODE">
         <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 73 0 -1.81675e-7 0.254 -6.86646e-5 0 0 0 1</matrix>
       </node>
       <node id="entrance_port03" name="entrance_port03" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 73 2.22045e-16 -7.15256e-7 1 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="loc_D001_p04_s0_100_b04" name="loc_D001_p04_s0_100_b04" type="NODE">
+      <node id="loc_D001_p04_s0_500_b04" name="loc_D001_p04_s0_500_b04" type="NODE">
         <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 73 0 -1.81675e-7 0.254 -6.86646e-5 0 0 0 1</matrix>
       </node>
       <node id="entrance_port04" name="entrance_port04" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 -150 2.22045e-16 1 7.15256e-7 73 2.22045e-16 -7.15256e-7 1 -6.86646e-5 0 0 0 1</matrix>
       </node>
-      <node id="loc_E001_p05_s0_100_b05" name="loc_E001_p05_s0_100_b05" type="NODE">
+      <node id="loc_E001_p05_s0_500_b05" name="loc_E001_p05_s0_500_b05" type="NODE">
         <matrix sid="transform">0.254 0 0 150 0 0.254 1.81675e-7 73.00024 0 -1.81675e-7 0.254 299.9999 0 0 0 1</matrix>
       </node>
       <node id="entrance_port05" name="entrance_port05" type="NODE">
         <matrix sid="transform">1 -2.22045e-16 -2.22045e-16 150 2.22045e-16 1 7.15256e-7 73.00024 2.22045e-16 -7.15256e-7 1 299.9999 0 0 0 1</matrix>
       </node>
-      <node id="loc_F001_p06_s0_100_b06" name="loc_F001_p06_s0_100_b06" type="NODE">
+      <node id="loc_F001_p06_s0_500_b06" name="loc_F001_p06_s0_500_b06" type="NODE">
         <matrix sid="transform">0.254 0 0 -150 0 0.254 1.81675e-7 73.00024 0 -1.81675e-7 0.254 299.9999 0 0 0 1</matrix>
       </node>
       <node id="entrance_port06" name="entrance_port06" type="NODE">
@@ -212,7 +211,7 @@
       </node>
       <node id="collision_pad1" name="collision_pad1" type="NODE">
         <matrix sid="transform">1 0 0 150 0 1 0 300 0 0 1 72.83775 0 0 0 1</matrix>
-        <instance_geometry url="#meshId0_name_001-mesh" name="collision_pad1">
+        <instance_geometry url="#meshId0_name_001-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
@@ -222,7 +221,7 @@
       </node>
       <node id="collision_pad02" name="collision_pad02" type="NODE">
         <matrix sid="transform">1 0 0 -150 0 1 0 300 0 0 1 72.83775 0 0 0 1</matrix>
-        <instance_geometry url="#meshId0_name_001-mesh" name="collision_pad02">
+        <instance_geometry url="#meshId0_name_001-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
@@ -232,7 +231,7 @@
       </node>
       <node id="collision_pad03" name="collision_pad03" type="NODE">
         <matrix sid="transform">1 0 0 150 0 1 0 -3.86677e-6 0 0 1 72.8377 0 0 0 1</matrix>
-        <instance_geometry url="#meshId0_name_001-mesh" name="collision_pad03">
+        <instance_geometry url="#meshId0_name_001-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
@@ -242,7 +241,7 @@
       </node>
       <node id="collision_pad04" name="collision_pad04" type="NODE">
         <matrix sid="transform">1 0 0 -150 0 1 0 -3.86677e-6 0 0 1 72.8377 0 0 0 1</matrix>
-        <instance_geometry url="#meshId0_name_001-mesh" name="collision_pad04">
+        <instance_geometry url="#meshId0_name_001-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
@@ -252,7 +251,7 @@
       </node>
       <node id="collision_pad05" name="collision_pad05" type="NODE">
         <matrix sid="transform">1 0 0 150 0 1 0 -300 0 0 1 72.83765 0 0 0 1</matrix>
-        <instance_geometry url="#meshId0_name_001-mesh" name="collision_pad05">
+        <instance_geometry url="#meshId0_name_001-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
@@ -262,7 +261,7 @@
       </node>
       <node id="collision_pad06" name="collision_pad06" type="NODE">
         <matrix sid="transform">1 0 0 -150 0 1 0 -300 0 0 1 72.83765 0 0 0 1</matrix>
-        <instance_geometry url="#meshId0_name_001-mesh" name="collision_pad06">
+        <instance_geometry url="#meshId0_name_001-mesh">
           <bind_material>
             <technique_common>
               <instance_material symbol="m0c_b_metall1_001-material" target="#m0c_b_metall1_001-material"/>
