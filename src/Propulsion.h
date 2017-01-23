@@ -9,6 +9,16 @@
 #include "scenegraph/Model.h"
 #include "DynamicBody.h"
 
+enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_ public>
+	THRUSTER_REVERSE,
+	THRUSTER_FORWARD,
+	THRUSTER_UP,
+	THRUSTER_DOWN,
+	THRUSTER_LEFT,
+	THRUSTER_RIGHT,
+	THRUSTER_MAX // <enum skip>
+};
+
 class Propulsion
 {
 	public:
@@ -92,15 +102,6 @@ class Propulsion
 		virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 		virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	private:
-		enum Thruster {
-			THRUSTER_REVERSE,
-			THRUSTER_FORWARD,
-			THRUSTER_UP,
-			THRUSTER_DOWN,
-			THRUSTER_LEFT,
-			THRUSTER_RIGHT,
-			THRUSTER_MAX // <enum skip>
-		};
 
 		int m_fuelTankMass;
 		float m_linThrust[ THRUSTER_MAX ]; // It was THRUSTER_MAX

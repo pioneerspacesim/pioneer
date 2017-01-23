@@ -9,17 +9,9 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "Propulsion.h"
 
 struct ShipType {
-	enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_ public>
-		THRUSTER_REVERSE,
-		THRUSTER_FORWARD,
-		THRUSTER_UP,
-		THRUSTER_DOWN,
-		THRUSTER_LEFT,
-		THRUSTER_RIGHT,
-		THRUSTER_MAX // <enum skip>
-	};
 	enum {
 		GUN_FRONT,
 		GUN_REAR,

@@ -506,7 +506,8 @@ void Game::SwitchToNormalSpace()
 				Body *target_body = m_space->FindBodyForPath(&sdest);
 				double dist_to_target = cloud->GetPositionRelTo(target_body).Length();
 				double half_dist_to_target = dist_to_target / 2.0;
-				double accel = -(ship->GetShipType()->linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
+				//double accel = -(ship->GetShipType()->linThrust[ShipType::THRUSTER_FORWARD] / ship->GetMass());
+				double accel = -ship->GetAccelFwd();
 				double travel_time = Pi::game->GetTime() - cloud->GetDueDate();
 
 				// I can't help but feel some actual math would do better here
@@ -849,7 +850,7 @@ bool Game::CanLoadGame(const std::string &filename)
 {
 	Output("Game::CanLoadGame('%s')\n", filename.c_str());
 	auto file = FileSystem::userFiles.ReadFile(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
-	if (!file) 
+	if (!file)
 		return false;
 
 	return true;
@@ -887,10 +888,10 @@ void Game::SaveGame(const std::string &filename, Game *game)
 	FILE *f = FileSystem::userFiles.OpenWriteStream(FileSystem::JoinPathBelow(Pi::SAVE_DIR_NAME, filename));
 	if (!f) throw CouldNotOpenFileException();
 
-	// compress in memory, write to open file 
+	// compress in memory, write to open file
 	size_t outSize = 0;
 	void *pCompressedData = tdefl_compress_mem_to_heap(jsonDataStr.data(), jsonDataStr.length(), &outSize, 128);
-	if (pCompressedData) 
+	if (pCompressedData)
 	{
 		size_t nwritten = fwrite(pCompressedData, outSize, 1, f);
 		mz_free(pCompressedData);
@@ -902,7 +903,7 @@ void Game::SaveGame(const std::string &filename, Game *game)
 		fclose(f);
 		throw CouldNotWriteToFileException();
 	}
-	
+
 #ifdef PIONEER_PROFILER
 	Profiler::dumphtml(profilerPath.c_str());
 #endif
