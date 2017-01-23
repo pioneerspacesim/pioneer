@@ -13,6 +13,7 @@
 
 Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shipId)
 {
+	printf("Missile::Missile\n");
 	if (power < 0) {
 		m_power = 0;
 		if (shipId == ShipType::MISSILE_GUIDED) m_power = 1;
@@ -22,8 +23,27 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 		m_power = power;
 
 	m_owner = owner;
+	m_type = &ShipType::types[shipId];
+	SetModel(m_type->modelName.c_str());
 	SetLabel(Lang::MISSILE);
+
+	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->angThrust );
+	for (int i=0; i<ShipType::THRUSTER_MAX; i++) Propulsion::SetLinThrust( i, m_type->linThrust[i] );
+
 	Disarm();
+
+	SetFuel(1.0);
+	SetFuelReserve(0.0);
+
+	m_curAICmd = 0;
+	m_aiMessage = AIERROR_NONE;
+	m_decelerating = false;
+
+}
+
+Missile::~Missile()
+{
+	if (m_curAICmd) delete m_curAICmd;
 }
 
 void Missile::ECMAttack(int power_val)

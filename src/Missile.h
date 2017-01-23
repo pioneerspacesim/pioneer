@@ -14,7 +14,7 @@ public:
 	OBJDEF(Missile, DynamicBody, MISSILE);
 	Missile(const ShipType::Id &type, Body *owner, int power=-1);
 	Missile() {}
-	virtual ~Missile() {}
+	virtual ~Missile();
 	void TimeStepUpdate(const float timeStep) override;
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
@@ -37,6 +37,7 @@ private:
 	int m_power;
 	Body *m_owner;
 	bool m_armed;
+	const ShipType *m_type;
 
 	int m_ownerIndex; // deserialisation
 };
