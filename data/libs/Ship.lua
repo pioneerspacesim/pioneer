@@ -629,7 +629,7 @@ function Ship:FireMissileAt(which_missile, target)
 --			if missile_object:DistanceTo(self) < 300 then
 --				return false
 --			else
---				missile_object:Arm()
+				missile_object:Arm()
 --				return true
 --			end
 		end)

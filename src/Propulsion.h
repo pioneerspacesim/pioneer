@@ -29,10 +29,10 @@ class Propulsion
 		double GetThrustMin() const;
 		vector3d GetThrustMax(const vector3d &dir) const;
 
-		double GetAccelFwd() const { return GetThrustFwd() / m_dBody->GetMass(); }
-		double GetAccelRev() const { return GetThrustRev() / m_dBody->GetMass(); }
-		double GetAccelUp() const { return GetThrustUp() / m_dBody->GetMass(); }
-		double GetAccelMin() const { return GetThrustMin() / m_dBody->GetMass(); };
+		inline double GetAccelFwd() const { return GetThrustFwd() / m_dBody->GetMass(); }
+		inline double GetAccelRev() const { return GetThrustRev() / m_dBody->GetMass(); }
+		inline double GetAccelUp() const { return GetThrustUp() / m_dBody->GetMass(); }
+		inline double GetAccelMin() const { return GetThrustMin() / m_dBody->GetMass(); };
 
 		inline void SetThrusterState(int axis, double level) {
 			if (m_thrusterFuel <= 0.f) level = 0.0;
@@ -55,6 +55,7 @@ class Propulsion
 			FUEL_WARNING,
 			FUEL_EMPTY,
 		};
+
 		inline FuelState GetFuelState() const { return m_thrusterFuel > 0.05f ? FUEL_OK : m_thrusterFuel > 0.0f ? FUEL_WARNING : FUEL_EMPTY; }
 		// fuel left, 0.0-1.0
 		inline double GetFuel() const { return m_thrusterFuel;	}

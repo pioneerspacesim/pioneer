@@ -24,8 +24,7 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 	m_owner = owner;
 	m_type = &ShipType::types[shipId];
 
-	SetMass(m_type->hullMass);
-
+	SetMass(m_type->hullMass*1000);
 
 	SetModel(m_type->modelName.c_str());
 	SetMassDistributionFromModel();
@@ -105,7 +104,8 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 
 void Missile::StaticUpdate(const float timeStep)
 {
-	// Note: direct call to TimeStepUpdate
+
+	// Note: direct call to AI->TimeStepUpdate
 	if (m_curAICmd!=nullptr)
 		m_curAICmd->TimeStepUpdate();
 	//Add smoke trails for missiles on thruster state
@@ -121,6 +121,11 @@ void Missile::StaticUpdate(const float timeStep)
 
 void Missile::TimeStepUpdate(const float timeStep)
 {
+
+	const vector3d thrust=GetActualLinThrust();
+	AddRelForce( thrust );
+	AddRelTorque( GetActualAngThrust() );
+
 	DynamicBody::TimeStepUpdate(timeStep);
 	Propulsion::UpdateFuel(timeStep);
 
@@ -206,10 +211,6 @@ void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const v
 	if (IsDead()) return;
 
 	Propulsion::Render( renderer, camera, viewCoords, viewTransform );
-
-	matrix3x3f mt;
-	matrix3x3dtof(viewTransform.Inverse().GetOrient(), mt);
-
 	RenderModel(renderer, camera, viewCoords, viewTransform);
 }
 

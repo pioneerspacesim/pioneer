@@ -42,9 +42,9 @@ Propulsion::Propulsion()
 	m_power_mul = 1.0;
 	m_fuelTankMass = 1;
 	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
-	m_effectiveExhaustVelocity = 1000.0;
+	m_effectiveExhaustVelocity = 100000.0;
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
-	m_reserveFuel= 0.0;	// 0-1, fuel not to touch for the current AI program
+	m_reserveFuel= 0.0;
 	m_FuelStateChange = false;
 	m_thrusters = vector3d(0,0,0);
 	m_angThrusters = vector3d(0,0,0);
