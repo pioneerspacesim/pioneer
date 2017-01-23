@@ -1158,15 +1158,6 @@ void Ship::StaticUpdate(const float timeStep)
 		}
 	}
 
-	//Add smoke trails for missiles on thruster state
-	static double s_timeAccum = 0.0;
-	s_timeAccum += timeStep;
-	if (m_type->tag == ShipType::TAG_MISSILE && !is_equal_exact(GetThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
-		s_timeAccum = 0.0;
-		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
-		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(GetThrusterState().z)),100.0);
-		SfxManager::AddThrustSmoke(this, speed, pos);
-	}
 }
 
 void Ship::NotifyRemoved(const Body* const removedBody)

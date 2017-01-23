@@ -15,6 +15,7 @@ public:
 	Missile(const ShipType::Id &type, Body *owner, int power=-1);
 	Missile() {}
 	virtual ~Missile();
+	void StaticUpdate(const float timeStep) override;
 	void TimeStepUpdate(const float timeStep) override;
 	virtual bool OnCollision(Object *o, Uint32 flags, double relVel) override;
 	virtual bool OnDamage(Object *attacker, float kgDamage, const CollisionContact& contactData) override;
