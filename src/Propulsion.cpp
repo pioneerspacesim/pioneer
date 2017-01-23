@@ -52,10 +52,11 @@ Propulsion::Propulsion()
 	m_dBody = nullptr;
 }
 
-void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, int tank_mass, double effExVel, float ang_Thrust )
+void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust )
 {
 		m_fuelTankMass = tank_mass;
 		m_effectiveExhaustVelocity = effExVel;
+		for (int i=0; i<Thruster::THRUSTER_MAX; i++ ) m_linThrust[i] = lin_Thrust[i];
 		m_angThrust = ang_Thrust;
 		m_smodel = m;
 		m_dBody = b;

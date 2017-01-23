@@ -31,8 +31,7 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 
 	SetLabel(Lang::MISSILE);
 
-	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->angThrust );
-	for (int i=0; i<Thruster::THRUSTER_MAX; i++) Propulsion::SetLinThrust( i, m_type->linThrust[i] );
+	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 
 	Disarm();
 

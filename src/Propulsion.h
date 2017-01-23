@@ -25,9 +25,7 @@ class Propulsion
 		// Inits:
 		Propulsion();
 		virtual ~Propulsion() {};
-		void Init( DynamicBody *b, SceneGraph::Model *m, int tank_mass, double effectiveExVel, float ang_Thrust );
-		// TODO: This is here because of lack of shared enum between ShipType and this
-		void SetLinThrust( int i, float t ) { m_linThrust[i] = t; }
+		void Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust );
 
 		// Bonus:
 		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 ); }
