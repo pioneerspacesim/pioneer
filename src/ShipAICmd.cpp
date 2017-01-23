@@ -319,7 +319,6 @@ bool AICmdKill::TimeStepUpdate()
 		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
 		if (vissize > headdiff) m_fguns->SetGunState(0,1);
 		else m_fguns->SetGunState(0,0);
-		// 4000*4000 = 16000000 = gunRangeSqr
 		if (targpos.LengthSqr() > m_fguns->GetGunRange(0)*m_fguns->GetGunRange(0)) m_fguns->SetGunState(0,0);		// temp
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();

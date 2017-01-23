@@ -23,6 +23,10 @@ void FixedGuns::Init(DynamicBody *b)
 		m_gun[i].state = 0;
 		m_gun[i].recharge = 0;
 		m_gun[i].temperature = 0;
+		// XXX Here a "hack" to allow use of
+		// guns be AI ships
+		m_gun[i].projData.lifespan = 10;
+		m_gun[i].projData.speed = 2000;
 	}
 	b->AddFeature( DynamicBody::FIXED_GUNS );
 }
