@@ -126,7 +126,7 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		effectiveExhaustVelocity = 55000000;
 	} else if(effectiveExhaustVelocity < 0 && thruster_fuel_use >= 0) {
 		// v_c undefined and thruster fuel use defined -- use it!
-		effectiveExhaustVelocity = GetEffectiveExhaustVelocity(fuelTankMass, thruster_fuel_use, linThrust[ShipType::THRUSTER_FORWARD]);
+		effectiveExhaustVelocity = GetEffectiveExhaustVelocity(fuelTankMass, thruster_fuel_use, linThrust[Thruster::THRUSTER_FORWARD]);
 	} else {
 		if(thruster_fuel_use >= 0) {
 			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", modelName.c_str());

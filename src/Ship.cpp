@@ -247,7 +247,7 @@ void Ship::Init()
 	// Init of Propulsion:
 	// TODO: Separe the enum used in ShipType and use it both on Propulsion and ShipType
 	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->angThrust );
-	for (int i=0; i<ShipType::THRUSTER_MAX; i++) Propulsion::SetLinThrust( i, m_type->linThrust[i] );
+	for (int i=0; i<Thruster::THRUSTER_MAX; i++) Propulsion::SetLinThrust( i, m_type->linThrust[i] );
 
 	p.Set("shipName", m_shipName);
 
