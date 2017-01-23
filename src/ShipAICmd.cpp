@@ -555,16 +555,13 @@ static double MaxFeatureRad(Body *body)
 	return static_cast<TerrainBody *>(body)->GetMaxFeatureRadius() + 1000.0;		// + building height
 }
 
-static double MaxEffectRad(Body *body, DynamicBody *dBody)
+static double MaxEffectRad(Body *body, Propulsion *prop)
 {
 	if(!body) return 0.0;
 	if(!body->IsType(Object::TERRAINBODY)) {
 		if (!body->IsType(Object::SPACESTATION)) return body->GetPhysRadius() + 1000.0;
 		return static_cast<SpaceStation*>(body)->GetStationType()->ParkingDistance() + 1000.0;
 	}
-	if(dBody->Have(DynamicBody::PROPULSION)) return 0.0;
-	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
-	assert(prop!=nullptr);
 	return std::max(body->GetPhysRadius(), sqrt(G * body->GetMass() / prop->GetAccelUp()));
 }
 
@@ -692,10 +689,11 @@ static bool ParentSafetyAdjust(DynamicBody *dBody, Frame *targframe, vector3d &t
 
 	// aim for zero velocity at surface of that body
 	// still along path to target
-
+	Propulsion *prop = dynamic_cast<Propulsion*>(dBody);
+	if (prop==nullptr) return false;
 	vector3d targpos2 = targpos - dBody->GetPosition();
 	double targdist = targpos2.Length();
-	double bodydist = body->GetPositionRelTo(dBody).Length() - MaxEffectRad(body, dBody)*1.5;
+	double bodydist = body->GetPositionRelTo(dBody).Length() - MaxEffectRad(body, prop)*1.5;
 	if (targdist < bodydist) return false;
 	targpos -= (targdist - bodydist) * targpos2 / targdist;
 	targvel = body->GetVelocityRelTo(dBody->GetFrame());
@@ -725,9 +723,11 @@ extern double calc_ivel(double dist, double vel, double acc);
 // Fly to vicinity of body
 AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_FLYTO)
 {
+	m_prop = dynamic_cast<Propulsion*>(dBody);
+	assert(m_prop!=nullptr);
 	m_frame = 0; m_state = -6; m_lockhead = true; m_endvel = 0; m_tangent = false;
 	if (!target->IsType(Object::TERRAINBODY)) m_dist = VICINITY_MIN;
-	else m_dist = VICINITY_MUL*MaxEffectRad(target, dBody);
+	else m_dist = VICINITY_MUL*MaxEffectRad(target, m_prop);
 
 	if (target->IsType(Object::SPACESTATION) && static_cast<SpaceStation*>(target)->IsGroundStation()) {
 		m_posoff = target->GetPosition() + 15000.0 * target->GetOrient().VectorY();
@@ -737,8 +737,6 @@ AICmdFlyTo::AICmdFlyTo(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_
 	else { m_target = target; m_targframe = 0; }
 
 	if (dBody->GetPositionRelTo(target).Length() <= 15000.0) m_targframe = 0;
-	m_prop = dynamic_cast<Propulsion*>(dBody);
-	assert(m_prop!=nullptr);
 }
 
 // Specified pos, endvel should be > 0
@@ -811,7 +809,7 @@ Output("Autopilot dist = %.1f, speed = %.1f, zthrust = %.2f, state = %i\n",
 // TODO: collision needs to be processed according to vdiff, not reldir?
 
 	Body *body = m_frame->GetBody();
-	double erad = MaxEffectRad(body, m_dBody);
+	double erad = MaxEffectRad(body, m_prop);
 	if ((m_target && body != m_target)
 		|| (m_targframe && (!m_tangent || body != m_targframe->GetBody())))
 	{
@@ -1089,9 +1087,6 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 	assert(!std::isnan(vel));
 	m_obstructor = obstructor; m_alt = alt; m_vel = vel; m_targmode = mode;
 
-	m_prop = dynamic_cast<Propulsion*>(m_dBody);
-	assert(m_prop!=0);
-
 	// generate suitable velocity if none provided
 	double minacc = (mode == 2) ? 0 : m_prop->GetAccelMin();
 	double mass = obstructor->IsType(Object::TERRAINBODY) ? obstructor->GetMass() : 0;
@@ -1107,8 +1102,11 @@ void AICmdFlyAround::Setup(Body *obstructor, double alt, double vel, int mode)
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode)
 	: AICommand (dBody, CMD_FLYAROUND)
 {
+	m_prop = dynamic_cast<Propulsion*>(dBody);
+	assert(m_prop!=nullptr);
+
 	assert(!std::isnan(relalt));
-	double alt = relalt*MaxEffectRad(obstructor, dBody);
+	double alt = relalt*MaxEffectRad(obstructor, m_prop);
 	assert(!std::isnan(alt));
 	Setup(obstructor, alt, 0.0, mode);
 }
@@ -1116,6 +1114,9 @@ AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double rela
 AICmdFlyAround::AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt, double vel, int mode)
 	: AICommand (dBody, CMD_FLYAROUND)
 {
+	m_prop = dynamic_cast<Propulsion*>(dBody);
+	assert(m_prop!=nullptr);
+
 	assert(!std::isnan(alt));
 	Setup(obstructor, alt, vel, mode);
 }
@@ -1147,7 +1148,7 @@ bool AICmdFlyAround::TimeStepUpdate()
 		if (ship->GetFlightState() == Ship::FLYING) ship->SetWheelState(false);
 		else { LaunchShip(ship); return false; }
 
-	} else return false;
+	} else;// return false;
 
 	double timestep = Pi::game->GetTimeStep();
 	vector3d targpos = (!m_targmode) ? m_targpos :
