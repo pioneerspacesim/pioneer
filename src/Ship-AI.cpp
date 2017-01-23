@@ -21,7 +21,7 @@ vector3d Ship::AIGetLeadDir(const Body *target, const vector3d& targaccel, int g
 	assert(target);
 	if (ScopedTable(m_equipSet).CallMethod<int>("OccupiedSpace", "laser_front") == 0)
 		return target->GetPositionRelTo(this).Normalized();
-		double projspeed = 0;
+	double projspeed = 0;
 	Properties().Get(gunindex?"laser_rear_speed":"laser_front_speed", projspeed);
 	return Propulsion::AIGetLeadDir( target, targaccel, projspeed );
 }

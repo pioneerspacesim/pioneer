@@ -105,8 +105,7 @@ void Missile::StaticUpdate(const float timeStep)
 {
 
 	// Note: direct call to AI->TimeStepUpdate
-	if (m_curAICmd!=nullptr)
-		m_curAICmd->TimeStepUpdate();
+	if (m_curAICmd!=nullptr) m_curAICmd->TimeStepUpdate();
 	//Add smoke trails for missiles on thruster state
 	static double s_timeAccum = 0.0;
 	s_timeAccum += timeStep;

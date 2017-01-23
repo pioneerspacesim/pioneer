@@ -102,7 +102,7 @@ class Propulsion
 	private:
 
 		int m_fuelTankMass;
-		float m_linThrust[ THRUSTER_MAX ]; // It was THRUSTER_MAX
+		float m_linThrust[THRUSTER_MAX];
 		float m_angThrust;
 		double m_effectiveExhaustVelocity;
 		double m_thrusterFuel;	// remaining fuel 0.0-1.0

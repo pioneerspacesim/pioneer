@@ -133,7 +133,7 @@ void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vecto
 {
 	/* TODO: allow Propulsion to know SceneGraph::Thruster and
 	 * to work directly with it (this could lead to movable
-	 * thruster)... actual solution is :-/
+	 * thruster and so on)... this code is :-/
 	*/
 	//angthrust negated, for some reason
 	if (m_smodel != nullptr ) m_smodel->SetThrust(vector3f( GetThrusterState() ), -vector3f( GetAngThrusterState() ));
