@@ -57,12 +57,6 @@ void Missile::ECMAttack(int power_val)
 	}
 }
 
-void Missile::PostLoadFixup(Space *space)
-{
-	DynamicBody::PostLoadFixup(space);
-	m_owner = space->GetBodyByIndex(m_ownerIndex);
-}
-
 void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	DynamicBody::SaveToJson(jsonObj, space);
@@ -75,6 +69,7 @@ void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 	missileObj["index_for_body"] = space->GetIndexForBody(m_owner);
 	missileObj["power"] = m_power;
 	missileObj["armed"] = m_armed;
+	missileObj["ship_type_id"] = m_type->id;
 
 	jsonObj["missile"] = missileObj; // Add missile object to supplied object.
 }
@@ -91,6 +86,10 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!missileObj.isMember("power")) throw SavedGameCorruptException();
 	if (!missileObj.isMember("armed")) throw SavedGameCorruptException();
 	if (!missileObj.isMember("ai_message")) throw SavedGameCorruptException();
+	if (!missileObj.isMember("ship_type_id")) throw SavedGameCorruptException();
+
+	m_type = &ShipType::types[missileObj["ship_type_id"].asString()];
+	SetModel(m_type->modelName.c_str());
 
 	m_curAICmd = 0;
 	m_curAICmd = AICommand::LoadFromJson(missileObj);
@@ -99,6 +98,14 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_ownerIndex = missileObj["index_for_body"].asUInt();
 	m_power = missileObj["power"].asInt();
 	m_armed = missileObj["armed"].asBool();
+
+}
+
+void Missile::PostLoadFixup(Space *space)
+{
+	DynamicBody::PostLoadFixup(space);
+	m_owner = space->GetBodyByIndex(m_ownerIndex);
+	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
 }
 
 void Missile::StaticUpdate(const float timeStep)

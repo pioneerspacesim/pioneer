@@ -26,9 +26,14 @@ class FixedGuns
 		 * DefineGun and Finally to Projectile (AFAIK there's nothing except
 		 * this class that can call Projectile class until now...)
 		 * TODO 2: InitGun needs to DefineGun, else you cannot return range
+		 * or a projectile speed
+		 * TODO 3: FixedGuns needs a way to tell "others" there aren't guns,
+		 * for example a ship could have guns, but they can not be installed
+		 * TODO 4: FixedGuns save&load method are crap :-/
 		*/
 		void DefineGun( int num, float recharge, float lifespan, float dam, float length, float width, bool mining, const Color& color, float speed );
 		float GetGunRange( int idx ) { return m_gun[idx].projData.speed*m_gun[idx].projData.lifespan; };
+		float GetProjSpeed(int idx ) { return m_gun[idx].projData.speed; };
 		void Fire( int num, Body* b, const matrix3x3d& shipOrient, const vector3d& shipVel, const vector3d& shipPos );
 		inline void SetCoolingBoost( float cooler ) { m_cooler_boost = cooler; };
 		inline void SetGunState( int idx, float state ) { m_gun[idx].state = state; };

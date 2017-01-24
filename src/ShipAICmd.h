@@ -258,10 +258,6 @@ public:
 		m_target = target;
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
-		m_prop = dynamic_cast<Propulsion*>(dBody);
-		m_fguns = dynamic_cast<FixedGuns*>(dBody);
-		assert(m_prop!=nullptr);
-		assert(m_fguns!=nullptr);
 	}
 
 	// don't actually need to save all this crap
@@ -275,17 +271,18 @@ public:
 	AICmdKill(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_KILL) {
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
 		m_targetIndex = jsonObj["index_for_target"].asInt();
-		// Ensure needed sub-system:
-		m_prop = dynamic_cast<Propulsion*>(m_dBody);
-		assert(m_prop!=nullptr);
-		m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
-		assert(m_fguns!=nullptr);
 	}
+
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<Ship *>(space->GetBodyByIndex(m_targetIndex));
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
+		assert(m_prop!=nullptr);
+		assert(m_fguns!=nullptr);
 	}
 
 	virtual void OnDeleted(const Body *body) {

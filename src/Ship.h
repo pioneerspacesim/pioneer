@@ -163,8 +163,6 @@ public:
 	};
 	AlertState GetAlertState() { return m_alertState; }
 
-	vector3d AIGetLeadDir(const Body *target, const vector3d& targaccel, int gunindex=0);
-
 	void AIClearInstructions();
 	bool AIIsActive() { return m_curAICmd ? true : false; }
 	void AIGetStatusText(char *str);

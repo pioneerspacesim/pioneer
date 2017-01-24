@@ -69,7 +69,7 @@ AICommand::AICommand(const Json::Value &jsonObj, CmdName name) : m_cmdName(name)
 
 void AICommand::PostLoadFixup(Space *space)
 {
-	// check subsystem are the same
+	// subsystem should be initializated on each inherited AICommand
 	m_dBody = static_cast<DynamicBody *>(space->GetBodyByIndex(m_dBodyIndex));
 	if (m_child) m_child->PostLoadFixup(space);
 }
@@ -218,6 +218,8 @@ static void LaunchShip(Ship *ship)
 
 bool AICmdKamikaze::TimeStepUpdate()
 {
+	if (!m_target || m_target->IsDead()) return true;
+
 	if (m_dBody->IsType(Object::SHIP)) {
 		// "Standard" checks for a ship...
 		Ship *ship = static_cast<Ship*>(m_dBody);
@@ -231,7 +233,6 @@ bool AICmdKamikaze::TimeStepUpdate()
 	} else {
 		// Missile, for now ;-)
 	}
-	if (!m_target || m_target->IsDead()) return true;
 
 	const vector3d targetPos = m_target->GetPositionRelTo(m_dBody);
 	const vector3d targetDir = targetPos.NormalizedSafe();
@@ -278,7 +279,6 @@ bool AICmdKill::TimeStepUpdate()
 	if (!ProcessChild()) return false;
 	if (!m_target || m_target->IsDead()) return true;
 
-
 	const matrix3x3d &rot = m_dBody->GetOrient();
 	vector3d targpos = m_target->GetPositionRelTo(m_dBody);
 	vector3d targvel = m_target->GetVelocityRelTo(m_dBody);
@@ -287,7 +287,7 @@ bool AICmdKill::TimeStepUpdate()
 	// Accel will be wrong for a frame on timestep changes, but it doesn't matter
 	vector3d targaccel = (m_target->GetVelocity() - m_lastVel) / Pi::game->GetTimeStep();
 	m_lastVel = m_target->GetVelocity();		// may need next frame
-	vector3d leaddir = m_prop->AIGetLeadDir(m_target, targaccel, 0);
+	vector3d leaddir = m_prop->AIGetLeadDir(m_target, targaccel, m_fguns->GetProjSpeed(0));
 
 	if (targpos.Length() >= VICINITY_MIN+1000.0) {	// if really far from target, intercept
 //		Output("%s started AUTOPILOT\n", m_ship->GetLabel().c_str());
@@ -313,13 +313,15 @@ bool AICmdKill::TimeStepUpdate()
 		m_leadDrift = (newoffset - m_leadOffset) / (m_leadTime - Pi::game->GetTime());
 
 		// Shoot only when close to target
-		// TODO: better if ask for guns range
 
 		double vissize = 1.3 * m_dBody->GetPhysRadius() / targpos.Length();
 		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
 		if (vissize > headdiff) m_fguns->SetGunState(0,1);
 		else m_fguns->SetGunState(0,0);
-		if (targpos.LengthSqr() > m_fguns->GetGunRange(0)*m_fguns->GetGunRange(0)) m_fguns->SetGunState(0,0);		// temp
+		float max_fire_dist = m_fguns->GetGunRange(0);
+		if (max_fire_dist > 4000) max_fire_dist = 4000;
+		max_fire_dist *= max_fire_dist;
+		if (targpos.LengthSqr() > max_fire_dist) m_fguns->SetGunState(0,0);		// temp
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir-targdir).Dot((leaddir-heading).NormalizedSafe());	// leaddir angvel
