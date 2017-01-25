@@ -1,3 +1,6 @@
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #include "Propulsion.h"
 #include "Pi.h"
 #include "Game.h"
@@ -42,6 +45,7 @@ Propulsion::Propulsion()
 	m_power_mul = 1.0;
 	m_fuelTankMass = 1;
 	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
+	m_angThrust = 0.0;
 	m_effectiveExhaustVelocity = 100000.0;
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
 	m_reserveFuel= 0.0;
@@ -104,8 +108,8 @@ double Propulsion::GetThrustMin() const
 
 float Propulsion::GetFuelUseRate()
 {
-	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10 * m_power_mul;
-	return denominator > 0 ? -m_linThrust[THRUSTER_FORWARD]/denominator : 1e9;
+	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
+	return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD] * m_power_mul)/denominator : 1e9;
 }
 
 void Propulsion::UpdateFuel(const float timeStep)
@@ -175,6 +179,12 @@ void Propulsion::AIAccelToModelRelativeVelocity(const vector3d &v)
 	SetThrusterState(1, is_zero_exact(maxFrameAccel.y) ? 0.0 : difVel.y / maxFrameAccel.y);
 	SetThrusterState(2, is_zero_exact(maxFrameAccel.z) ? 0.0 : difVel.z / maxFrameAccel.z);	// use clamping
 }
+
+/* NOTE: following code were in Ship-AI.cpp file,
+ * no changes were made, except those needed
+ * to make it compatible with actual Propulsion
+ * class.
+*/
 
 // Because of issues when reducing timestep, must do parts of this as if 1x accel
 // final frame has too high velocity to correct if timestep is reduced

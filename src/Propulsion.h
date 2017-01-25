@@ -1,3 +1,6 @@
+// Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
+// Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
+
 #ifndef PROPULSION_H
 #define PROPULSION_H
 
@@ -73,10 +76,11 @@ class Propulsion
 		float GetFuelUseRate();
 		// available delta-V given the ship's current fuel minus reserve according to the Tsiolkovsky equation
 		double GetSpeedReachedWithFuel() const;
-		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
-		/* TODO: This is necessary to avoid savegamebumps:
-		 * better if avoid it on ship
+		/* TODO: This is needed to avoid savegamebumps:
+		 * is used to pass things to/from shipStats;
+		 * better if you not expose these fields
 		*/
+		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
 		inline void SetFuelTankMass( int fTank ) { m_fuelTankMass = fTank; }
 		void UpdateFuel(const float timeStep);
 		inline bool IsFuelStateChanged() { return m_FuelStateChange; }
