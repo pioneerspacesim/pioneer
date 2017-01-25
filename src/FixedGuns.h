@@ -30,6 +30,8 @@ class FixedGuns
 		 * that would fire something must share: then you could pass it to
 		 * DefineGun and Finally to Projectile (AFAIK there's nothing except
 		 * this class that can call Projectile class until now...)
+		 * TODO 2: Save/Load needs to know about array, then you could
+		 * made gun dynamic
 		*/
 		void MountGun( int num, float recharge, float lifespan, float dam, float length, float width, bool mining, const Color& color, float speed );
 		void UnMountGun( int num );
