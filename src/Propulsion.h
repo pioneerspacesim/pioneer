@@ -31,9 +31,9 @@ class Propulsion
 		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 ); }
 
 		// Thruster functions
-		inline double GetThrustFwd() const { return -m_linThrust[THRUSTER_FORWARD]; }
-		inline double GetThrustRev() const { return m_linThrust[THRUSTER_REVERSE]; }
-		inline double GetThrustUp() const { return m_linThrust[THRUSTER_UP]; }
+		inline double GetThrustFwd() const { return -m_linThrust[THRUSTER_FORWARD] * m_power_mul; }
+		inline double GetThrustRev() const { return m_linThrust[THRUSTER_REVERSE] * m_power_mul; }
+		inline double GetThrustUp() const { return m_linThrust[THRUSTER_UP] * m_power_mul; }
 		double GetThrustMin() const;
 		vector3d GetThrustMax(const vector3d &dir) const;
 
@@ -54,8 +54,8 @@ class Propulsion
 		inline void ClearLinThrusterState() { m_thrusters = vector3d(0,0,0); }
 		inline void ClearAngThrusterState() { m_angThrusters = vector3d(0,0,0); }
 
-		inline vector3d GetActualLinThrust() const { return m_thrusters * GetThrustMax( m_thrusters ); }
-		inline vector3d GetActualAngThrust() const { return m_angThrust * m_angThrusters; }
+		inline vector3d GetActualLinThrust() const { return m_thrusters * GetThrustMax( m_thrusters ) * m_power_mul; }
+		inline vector3d GetActualAngThrust() const { return m_angThrust * m_angThrusters * m_power_mul; }
 
 		// Fuel
 		enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>

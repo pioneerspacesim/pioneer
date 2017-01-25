@@ -503,6 +503,12 @@ void Ship::UpdateEquipStats()
 	p.Set("shieldMass", m_stats.shield_mass);
 
 	UpdateFuelStats();
+	UpdateGunsStats();
+
+	unsigned int thruster_power_cap = 0;
+	Properties().Get("thruster_power_cap", thruster_power_cap);
+	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
+	SetThrustPowerMult( power_mul );
 
 	m_stats.hyperspace_range = m_stats.hyperspace_range_max = 0;
 	p.Set("hyperspaceRange", m_stats.hyperspace_range);
@@ -527,6 +533,41 @@ void Ship::UpdateLuaStats() {
 
 	p.Set("hyperspaceRange", m_stats.hyperspace_range);
 	p.Set("maxHyperspaceRange", m_stats.hyperspace_range_max);
+}
+
+void Ship::UpdateGunsStats() {
+
+	float cooler = 1.0f;
+	Properties().Get("laser_cooler_cap", cooler);
+	FixedGuns::SetCoolingBoost( cooler );
+
+	for (int num=0; num < 2; num++) {
+		std::string prefix(num?"laser_rear_":"laser_front_");
+		int damage = 0;
+		Properties().Get(prefix+"damage", damage);
+		if (!damage) {
+			FixedGuns::UnMountGun(num);
+			return;
+		} else {
+			Properties().PushLuaTable();
+			LuaTable prop(Lua::manager->GetLuaState(), -1);
+
+			const Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
+					prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
+			const float lifespan = prop.Get<float>(prefix+"lifespan");
+			const float width = prop.Get<float>(prefix+"width");
+			const float length = prop.Get<float>(prefix+"length");
+			const bool mining = prop.Get<int>(prefix+"mining");
+			const float speed = prop.Get<float>(prefix+"speed");
+			const float recharge = prop.Get<float>(prefix+"rechargeTime");
+
+			FixedGuns::MountGun( num, recharge, lifespan, damage, length, width, mining, c, speed );
+
+			if (prop.Get<int>(prefix+"dual")) FixedGuns::IsDual( num, true );
+			else FixedGuns::IsDual( num, false );
+			lua_pop(prop.GetLua(), 1);
+		}
+	}
 }
 
 void Ship::UpdateFuelStats()
@@ -747,13 +788,6 @@ void Ship::TimeStepUpdate(const float timeStep)
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
 	DynamicBody::TimeStepUpdate(timeStep);
 
-	// Apply upgrade every timestep:
-	// TODO: better if you do this "on change"...
-	unsigned int thruster_power_cap = 0;
-	Properties().Get("thruster_power_cap", thruster_power_cap);
-	const double power_mul = m_type->thrusterUpgrades[Clamp(thruster_power_cap, 0U, 3U)];
-	SetThrustPowerMult( power_mul );
-
 	// fuel use decreases mass, so do this as the last thing in the frame
 	UpdateFuel( timeStep );
 
@@ -812,48 +846,6 @@ void Ship::TimeAccelAdjust(const float timeStep)
 	vector3d vdiff = double(timeStep) * GetLastForce() * (1.0 / GetMass());
 	if (!m_decelerating) vdiff = -2.0 * vdiff;
 	SetVelocity(GetVelocity() + vdiff);
-}
-
-void Ship::FireWeapon(int num)
-{
-	// TODO: Things should be easier if there's a way to
-	// save properties when equipment change and not when
-	// FireWeapon is called by StaticUpdate (every timeStep...)
-	// If this way is find, you could call FireWeapon IN StaticUpdate
-	if (m_flightState != FLYING)
-		return;
-
-	if ( !IsGunReady( num ) )
-		return;
-
-	std::string prefix(num?"laser_rear_":"laser_front_");
-	int damage = 0;
-	Properties().Get(prefix+"damage", damage);
-	if (!damage)
-		return;
-
-	Properties().PushLuaTable();
-	LuaTable prop(Lua::manager->GetLuaState(), -1);
-
-	const Color c(prop.Get<float>(prefix+"rgba_r"), prop.Get<float>(prefix+"rgba_g"),
-			prop.Get<float>(prefix+"rgba_b"), prop.Get<float>(prefix+"rgba_a"));
-	const float lifespan = prop.Get<float>(prefix+"lifespan");
-	const float width = prop.Get<float>(prefix+"width");
-	const float length = prop.Get<float>(prefix+"length");
-	const bool mining = prop.Get<int>(prefix+"mining");
-	const float speed = prop.Get<float>(prefix+"speed");
-	const float recharge = prop.Get<float>(prefix+"rechargeTime");
-
-	FixedGuns::DefineGun( num, recharge, lifespan, damage, length, width, mining, c, speed );
-
-	if (prop.Get<int>(prefix+"dual")) FixedGuns::IsDual( num, true );
-	else FixedGuns::IsDual( num, false );
-
-	FixedGuns::Fire( num, this, GetOrient(), GetVelocity(), GetPosition() );
-
-	Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
-	lua_pop(prop.GetLua(), 1);
-	LuaEvent::Queue("onShipFiring", this);
 }
 
 double Ship::ExtrapolateHullTemperature() const
@@ -1077,12 +1069,12 @@ void Ship::StaticUpdate(const float timeStep)
 		m_launchLockTimeout = 0;
 
 	// lasers
-	float cooler = 1.0f;
-	Properties().Get("laser_cooler_cap", cooler);
-	FixedGuns::SetCoolingBoost( cooler );
 	FixedGuns::UpdateGuns( timeStep );
-	for ( int i=0; i<ShipType::GUNMOUNT_MAX; i++ ) FireWeapon( i );
-
+	for (int i=0; i<2; i++)
+		if (FixedGuns::Fire(i, this)) {
+			Sound::BodyMakeNoise(this, "Pulse_Laser", 1.0f);
+			LuaEvent::Queue("onShipFiring", this);
+		};
 
 	if (m_ecmRecharge > 0.0f) {
 		m_ecmRecharge = std::max(0.0f, m_ecmRecharge - timeStep);
@@ -1186,10 +1178,10 @@ void Ship::SetDockedWith(SpaceStation *s, int port)
 
 void Ship::SetGunState(int idx, int state)
 {
-	std::string slot(idx?"laser_rear":"laser_front");
-	if (ScopedTable(m_equipSet).CallMethod<int>("OccupiedSpace", slot)) {
-		FixedGuns::SetGunState( idx, state );
-	}
+	if (m_flightState != FLYING)
+		return;
+
+	FixedGuns::SetGunFiringState( idx, state );
 }
 
 bool Ship::SetWheelState(bool down)

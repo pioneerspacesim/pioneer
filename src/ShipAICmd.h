@@ -258,6 +258,10 @@ public:
 		m_target = target;
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
+		assert(m_prop!=nullptr);
+		assert(m_fguns!=nullptr);
 	}
 
 	// don't actually need to save all this crap
@@ -302,7 +306,6 @@ public:
 	virtual bool TimeStepUpdate();
 	AICmdKamikaze(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_KAMIKAZE) {
 		m_target = target;
-		if (!m_dBody->Have(DynamicBody::PROPULSION)) return;
 		m_prop = dynamic_cast<Propulsion*>(m_dBody);
 		assert(m_prop!=nullptr);
 	}

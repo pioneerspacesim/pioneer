@@ -316,12 +316,12 @@ bool AICmdKill::TimeStepUpdate()
 
 		double vissize = 1.3 * m_dBody->GetPhysRadius() / targpos.Length();
 		vissize += (0.05 + 0.5*leaddiff)*Pi::rng.Double()*skillShoot;
-		if (vissize > headdiff) m_fguns->SetGunState(0,1);
-		else m_fguns->SetGunState(0,0);
+		if (vissize > headdiff) m_fguns->SetGunFiringState(0,1);
+		else m_fguns->SetGunFiringState(0,0);
 		float max_fire_dist = m_fguns->GetGunRange(0);
 		if (max_fire_dist > 4000) max_fire_dist = 4000;
 		max_fire_dist *= max_fire_dist;
-		if (targpos.LengthSqr() > max_fire_dist) m_fguns->SetGunState(0,0);		// temp
+		if (targpos.LengthSqr() > max_fire_dist) m_fguns->SetGunFiringState(0,0);		// temp
 	}
 	m_leadOffset += m_leadDrift * Pi::game->GetTimeStep();
 	double leadAV = (leaddir-targdir).Dot((leaddir-heading).NormalizedSafe());	// leaddir angvel

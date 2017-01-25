@@ -10,41 +10,46 @@ FixedGuns::~FixedGuns()
 
 bool FixedGuns::IsFiring()
 {
-	// TODO: Faster way to know if ship is firing?
 	bool gunstate = false;
 	for (int j = 0; j < FixedGuns::GUNMOUNT_MAX; j++)
-		gunstate |= m_gun[j].state;
+		gunstate |= m_state[j];
 	return gunstate;
 }
 
 void FixedGuns::Init(DynamicBody *b)
 {
 	for (int i=0; i<FixedGuns::GUNMOUNT_MAX; i++) {
-		m_gun[i].state = 0;
+		// Initialize structs
+		m_state[i] = 0;
 		m_gun[i].recharge = 0;
-		m_gun[i].temperature = 0;
-		/* XXX Here a "hack" due AI ships now use firing
-		 * range of guns, but because initialization is
-		 * called after, then we need to *initialize*
-		*/
-		m_gun[i].projData.lifespan = 10;
-		m_gun[i].projData.speed = 2000;
-	}
+		m_gun[i].temp_slope = 0;
+		m_gun[i].projData.lifespan = 0;
+		m_gun[i].projData.damage = 0;
+		m_gun[i].projData.length = 0;
+		m_gun[i].projData.width = 0;
+		m_gun[i].projData.mining = false;
+		m_gun[i].projData.speed = 0;
+		m_gun[i].projData.color = Color::BLACK;
+		// Set there's no guns:
+		m_gun_present[i] = false;
+		m_recharge_stat[i] = 0.0;
+		m_temperature_stat[i] = 0.0;
+	};
 	b->AddFeature( DynamicBody::FIXED_GUNS );
 }
 
 void FixedGuns::SaveToJson(int i, Json::Value &jsonObj )
 {
-	jsonObj["state"] = m_gun[i].state;
-	jsonObj["recharge"] = FloatToStr(m_gun[i].recharge);
-	jsonObj["temperature"] = FloatToStr(m_gun[i].temperature);
+	jsonObj["state"] = m_state[i];
+	jsonObj["recharge"] = FloatToStr(m_recharge_stat[i]);
+	jsonObj["temperature"] = FloatToStr(m_temperature_stat[i]);
 };
 
 void FixedGuns::LoadFromJson(int i, const Json::Value &jsonObj )
 {
-	m_gun[i].state = jsonObj["state"].asUInt();
-	m_gun[i].recharge = StrToFloat(jsonObj["recharge"].asString());
-	m_gun[i].temperature = StrToFloat(jsonObj["temperature"].asString());
+	m_state[i] = jsonObj["state"].asUInt();
+	m_recharge_stat[i] = StrToFloat(jsonObj["recharge"].asString());
+	m_temperature_stat[i] = StrToFloat(jsonObj["temperature"].asString());
 };
 
 void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
@@ -61,11 +66,13 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 	}
 }
 
-void FixedGuns::DefineGun(int num, float recharge, float lifespan, float damage, float length, float width, bool mining, const Color& color, float speed )
+void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, float length, float width, bool mining, const Color& color, float speed )
 {
 	if ( num >= FixedGuns::GUNMOUNT_MAX ) return;
-	// Here we have projectile data MORE recharde time, this is a gun property
+	// Here we have projectile data MORE recharge time
+	m_state[num] = 0;
 	m_gun[num].recharge = recharge;
+	m_gun[num].temp_slope = 0.01; // TODO: More fun if you have a variable "speed" for temperature
 	m_gun[num].projData.lifespan = lifespan;
 	m_gun[num].projData.damage = damage;
 	m_gun[num].projData.length = length;
@@ -73,53 +80,60 @@ void FixedGuns::DefineGun(int num, float recharge, float lifespan, float damage,
 	m_gun[num].projData.mining = mining;
 	m_gun[num].projData.color = color;
 	m_gun[num].projData.speed = speed;
+	m_gun_present[num] = true;
 };
 
-bool FixedGuns::IsGunReady( int num )
+void FixedGuns::UnMountGun( int num )
 {
-	if ( !m_gun[num].state ) return false;
-	if (m_gun[num].recharge > 0.0f) return false;
-	if (m_gun[num].temperature > 1.0) return false;
-	return true;
-};
+		m_state[num] = 0;
+		m_gun[num].recharge = 0;
+		m_gun[num].temp_slope = 0;
+		m_gun[num].projData.lifespan = 0;
+		m_gun[num].projData.damage = 0;
+		m_gun[num].projData.length = 0;
+		m_gun[num].projData.width = 0;
+		m_gun[num].projData.mining = false;
+		m_gun[num].projData.speed = 0;
+		m_gun[num].projData.color = Color::BLACK;
+		m_gun_present[num] = false;
+}
 
-void FixedGuns::Fire( int num, Body* b, const matrix3x3d& shipOrient, const vector3d& shipVel, const vector3d& shipPos )
+bool FixedGuns::Fire( int num, Body* b )
 {
-
-	const vector3d dir = shipOrient * vector3d(m_gun[num].dir);
-	const vector3d pos = shipOrient * vector3d(m_gun[num].pos) + shipPos;
+	if (!m_gun_present[num]) return false;
+	if (!m_state[num]) return false;
+	if (m_recharge_stat[num]>0) return false;
+	if (m_temperature_stat[num] > 1.0) return false;
+	const vector3d dir = b->GetOrient() * vector3d(m_gun[num].dir);
+	const vector3d pos = b->GetOrient() * vector3d(m_gun[num].pos) + b->GetPosition();
 	const vector3d dirVel = m_gun[num].projData.speed * dir.Normalized();
 
-	m_gun[num].temperature += 0.01f;
+	m_temperature_stat[num] += m_gun[num].temp_slope;
+	m_recharge_stat[num] = m_gun[num].recharge;
 
 	if ( m_gun[num].dual )
 	{
-		const vector3d orient_norm = shipOrient.VectorY();
+		const vector3d orient_norm = b->GetOrient().VectorY();
 		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
 
-		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width, m_gun[num].projData.mining, m_gun[num].projData.color, pos + sep, shipVel, dirVel);
-		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width,m_gun[num].projData.mining, m_gun[num].projData.color, pos - sep, shipVel, dirVel);
+		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width, m_gun[num].projData.mining, m_gun[num].projData.color, pos + sep, b->GetVelocity(), dirVel);
+		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width,m_gun[num].projData.mining, m_gun[num].projData.color, pos - sep, b->GetVelocity(), dirVel);
 	} else {
-		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width, m_gun[num].projData.mining, m_gun[num].projData.color, pos, shipVel, dirVel);
+		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width, m_gun[num].projData.mining, m_gun[num].projData.color, pos, b->GetVelocity(), dirVel);
 	}
-
+	return true;
 };
 
 void FixedGuns::UpdateGuns( float timeStep )
 {
 	for (int i=0; i<FixedGuns::GUNMOUNT_MAX; i++) {
-		m_gun[i].recharge -= timeStep;
-		float rateCooling = 0.01f;
+		if ( !m_gun_present[i] ) continue;
+		m_recharge_stat[i] -= timeStep;
+		float rateCooling = m_gun[i].temp_slope;
 		rateCooling *= m_cooler_boost;
-		m_gun[i].temperature -= rateCooling*timeStep;
-		if (m_gun[i].temperature < 0.0f) m_gun[i].temperature = 0;
-		if (m_gun[i].recharge < 0.0f) m_gun[i].recharge = 0;
-
-		// Want fire gun?
-		if (!m_gun[i].state) continue;
-		// Ready to fire?
-		if (m_gun[i].recharge > 0.0f) continue;
-		// Too hot to fire?
-		if (m_gun[i].temperature > 1.0) continue;
+		m_temperature_stat[i] -= rateCooling*timeStep;
+		if (m_temperature_stat[i] < 0.0f) m_temperature_stat[i] = 0;
+		if (m_recharge_stat[i] < 0.0f) m_recharge_stat[i] = 0;
 	}
+
 }

@@ -80,6 +80,7 @@ public:
 	void UpdateLuaStats();
 	void UpdateEquipStats();
 	void UpdateFuelStats();
+	void UpdateGunsStats();
 	const shipstats_t &GetStats() const { return m_stats; }
 
 	void Explode();
@@ -239,7 +240,6 @@ protected:
 private:
 	float GetECMRechargeTime();
 	void DoThrusterSounds() const;
-	void FireWeapon(int num);
 	void Init();
 	void TestLanded();
 	void UpdateAlertState();

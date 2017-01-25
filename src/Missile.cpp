@@ -31,8 +31,6 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 
 	SetLabel(Lang::MISSILE);
 
-	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
-
 	Disarm();
 
 	SetFuel(1.0);
@@ -41,6 +39,8 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shi
 	m_curAICmd = 0;
 	m_aiMessage = AIERROR_NONE;
 	m_decelerating = false;
+
+	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 
 }
 
@@ -98,6 +98,8 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_ownerIndex = missileObj["index_for_body"].asUInt();
 	m_power = missileObj["power"].asInt();
 	m_armed = missileObj["armed"].asBool();
+
+	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 
 }
 

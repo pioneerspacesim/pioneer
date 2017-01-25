@@ -18,26 +18,22 @@ class FixedGuns
 		void Init(DynamicBody *b);
 		void InitGun( SceneGraph::Model *m, const char *tag, int num);
 		void UpdateGuns( float timeStep );
+		bool Fire( int num, Body* b );
 		bool IsFiring();
-		inline float GetGunTemperature(int idx) const { return m_gun[idx].temperature; }
+		bool HaveGuns();
+		inline float GetGunTemperature(int idx) const { return m_temperature_stat[idx]; }
 		inline void IsDual( int idx, bool dual ) { m_gun[idx].dual = dual; };
 		/* TODO: Define a Struct here (or in Projectile) that every object
 		 * that would fire something must share: then you could pass it to
 		 * DefineGun and Finally to Projectile (AFAIK there's nothing except
 		 * this class that can call Projectile class until now...)
-		 * TODO 2: InitGun needs to DefineGun, else you cannot return range
-		 * or a projectile speed
-		 * TODO 3: FixedGuns needs a way to tell "others" there aren't guns,
-		 * for example a ship could have guns, but they can not be installed
-		 * TODO 4: FixedGuns save&load method are crap :-/
 		*/
-		void DefineGun( int num, float recharge, float lifespan, float dam, float length, float width, bool mining, const Color& color, float speed );
-		float GetGunRange( int idx ) { return m_gun[idx].projData.speed*m_gun[idx].projData.lifespan; };
-		float GetProjSpeed(int idx ) { return m_gun[idx].projData.speed; };
-		void Fire( int num, Body* b, const matrix3x3d& shipOrient, const vector3d& shipVel, const vector3d& shipPos );
+		void MountGun( int num, float recharge, float lifespan, float dam, float length, float width, bool mining, const Color& color, float speed );
+		void UnMountGun( int num );
+		inline float GetGunRange( int idx ) { return m_gun[idx].projData.speed*m_gun[idx].projData.lifespan; };
+		inline float GetProjSpeed(int idx ) { return m_gun[idx].projData.speed; };
 		inline void SetCoolingBoost( float cooler ) { m_cooler_boost = cooler; };
-		inline void SetGunState( int idx, float state ) { m_gun[idx].state = state; };
-		bool IsGunReady( int num );
+		inline void SetGunFiringState( int idx, int s ) { if (m_gun_present[idx]) m_state[idx] = s; };
 	protected:
 		virtual void SaveToJson(int i, Json::Value &jsonObj );
 		virtual void LoadFromJson(int i, const Json::Value &jsonObj );
@@ -58,18 +54,22 @@ class FixedGuns
 			Color color;
 		};
 
-		struct Gun {
+		struct GunData {
 			vector3f pos;
 			vector3f dir;
-			Uint32 state;
 			float recharge;
-			float temperature;
+			float temp_slope;
 			bool dual;
 			// Better if the one below is a pointer...
 			ProjectileData projData;
 		};
+
+		Uint32 m_state[GUNMOUNT_MAX];
+		float m_recharge_stat[GUNMOUNT_MAX];
+		float m_temperature_stat[GUNMOUNT_MAX];
 		//TODO: Make it a vector and rework struct Gun to have bool dir={Forward,Backward}
-		Gun m_gun[GUNMOUNT_MAX];
+		bool m_gun_present[GUNMOUNT_MAX];
+		GunData m_gun[GUNMOUNT_MAX];
 		float m_cooler_boost;
 };
 
