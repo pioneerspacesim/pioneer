@@ -141,10 +141,10 @@ bool FixedGuns::Fire( int num, Body* b )
 		const vector3d orient_norm = b->GetOrient().VectorY();
 		const vector3d sep = 5.0 * dir.Cross(orient_norm).NormalizedSafe();
 
-		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width, m_gun[num].projData.mining, m_gun[num].projData.color, pos + sep, b->GetVelocity(), dirVel);
-		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width,m_gun[num].projData.mining, m_gun[num].projData.color, pos - sep, b->GetVelocity(), dirVel);
+		Projectile::Add( b, m_gun[num].projData, pos + sep, b->GetVelocity(), dirVel);
+		Projectile::Add( b, m_gun[num].projData, pos - sep, b->GetVelocity(), dirVel);
 	} else {
-		Projectile::Add( b, m_gun[num].projData.lifespan, m_gun[num].projData.damage, m_gun[num].projData.length, m_gun[num].projData.width, m_gun[num].projData.mining, m_gun[num].projData.color, pos, b->GetVelocity(), dirVel);
+		Projectile::Add( b, m_gun[num].projData, pos, b->GetVelocity(), dirVel);
 	}
 	return true;
 };

@@ -37,7 +37,8 @@ class FixedGuns
 		 * DefineGun and Finally to Projectile (AFAIK there's nothing except
 		 * this class that can call Projectile class until now...)
 		*/
-		void MountGun( int num, float recharge, float lifespan, float dam, float length, float width, bool mining, const Color& color, float speed );
+		void MountGun( int num, const float recharge, const float lifespan, const float dam, const float length,
+						 const float width, const bool mining, const Color& color, const float speed );
 		void UnMountGun( int num );
 		inline float GetGunRange( int idx ) { return m_gun[idx].projData.speed*m_gun[idx].projData.lifespan; };
 		inline float GetProjSpeed(int idx ) { return m_gun[idx].projData.speed; };
@@ -47,16 +48,6 @@ class FixedGuns
 		virtual void SaveToJson( Json::Value &jsonObj );
 		virtual void LoadFromJson( const Json::Value &jsonObj );
 	private:
-
-		struct ProjectileData {
-			float lifespan;
-			float damage;
-			float length;
-			float width;
-			bool mining;
-			float speed;
-			Color color;
-		};
 
 		struct GunData {
 			vector3f pos;
