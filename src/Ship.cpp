@@ -57,14 +57,8 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 	shipObj["hyperspace_destination"] = hyperspaceDestObj; // Add hyperspace destination object to ship object.
 	shipObj["hyperspace_countdown"] = FloatToStr(m_hyperspace.countdown);
 
-	Json::Value gunArray(Json::arrayValue); // Create JSON array to contain gun data.
-	for (int i = 0; i<ShipType::GUNMOUNT_MAX; i++)
-	{
-		Json::Value gunArrayEl(Json::objectValue); // Create JSON object to contain gun.
-		FixedGuns::SaveToJson( i, gunArrayEl );
-		gunArray.append(gunArrayEl); // Append gun object to array.
-	}
-	shipObj["guns"] = gunArray; // Add gun array to ship object.
+	FixedGuns::SaveToJson( shipObj );
+
 	shipObj["ecm_recharge"] = FloatToStr(m_ecmRecharge);
 	shipObj["ship_type_id"] = m_type->id;
 	shipObj["docked_with_port"] = m_dockedWithPort;
@@ -137,18 +131,8 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_hyperspace.countdown = StrToFloat(shipObj["hyperspace_countdown"].asString());
 	m_hyperspace.duration = 0;
 
-	Json::Value gunArray = shipObj["guns"];
-	if (!gunArray.isArray()) throw SavedGameCorruptException();
-	assert(ShipType::GUNMOUNT_MAX == gunArray.size());
-	for (unsigned int i = 0; i < ShipType::GUNMOUNT_MAX; i++)
-	{
-		Json::Value gunArrayEl = gunArray[i];
-		if (!gunArrayEl.isMember("state")) throw SavedGameCorruptException();
-		if (!gunArrayEl.isMember("recharge")) throw SavedGameCorruptException();
-		if (!gunArrayEl.isMember("temperature")) throw SavedGameCorruptException();
+	FixedGuns::LoadFromJson( shipObj );
 
-		FixedGuns::LoadFromJson( i, gunArrayEl );
-	}
 	m_ecmRecharge = StrToFloat(shipObj["ecm_recharge"].asString());
 	SetShipId(shipObj["ship_type_id"].asString()); // XXX handle missing thirdparty ship
 	m_dockedWithPort = shipObj["docked_with_port"].asInt();

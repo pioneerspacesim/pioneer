@@ -10,13 +10,9 @@
 #include <map>
 #include <string>
 #include "Propulsion.h"
+#include "FixedGuns.h"
 
 struct ShipType {
-	enum {
-		GUN_FRONT,
-		GUN_REAR,
-		GUNMOUNT_MAX = 2
-	};
 	enum DualLaserOrientation { // <enum scope='ShipType' name='DualLaserOrientation' prefix='DUAL_LASERS_' public>
 		DUAL_LASERS_HORIZONTAL,
 		DUAL_LASERS_VERTICAL

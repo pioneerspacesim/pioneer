@@ -13,6 +13,12 @@
 #include "Projectile.h"
 #include "DynamicBody.h"
 
+enum Guns {
+	GUN_FRONT,
+	GUN_REAR,
+	GUNMOUNT_MAX = 2
+};
+
 class FixedGuns
 {
 	public:
@@ -30,8 +36,6 @@ class FixedGuns
 		 * that would fire something must share: then you could pass it to
 		 * DefineGun and Finally to Projectile (AFAIK there's nothing except
 		 * this class that can call Projectile class until now...)
-		 * TODO 2: Save/Load needs to know about array, then you could
-		 * made gun dynamic
 		*/
 		void MountGun( int num, float recharge, float lifespan, float dam, float length, float width, bool mining, const Color& color, float speed );
 		void UnMountGun( int num );
@@ -40,14 +44,9 @@ class FixedGuns
 		inline void SetCoolingBoost( float cooler ) { m_cooler_boost = cooler; };
 		inline void SetGunFiringState( int idx, int s ) { if (m_gun_present[idx]) m_state[idx] = s; };
 	protected:
-		virtual void SaveToJson(int i, Json::Value &jsonObj );
-		virtual void LoadFromJson(int i, const Json::Value &jsonObj );
+		virtual void SaveToJson( Json::Value &jsonObj );
+		virtual void LoadFromJson( const Json::Value &jsonObj );
 	private:
-		enum {
-			GUN_FRONT,
-			GUN_REAR,
-			GUNMOUNT_MAX = 2
-		};
 
 		struct ProjectileData {
 			float lifespan;
@@ -69,12 +68,12 @@ class FixedGuns
 			ProjectileData projData;
 		};
 
-		Uint32 m_state[GUNMOUNT_MAX];
-		float m_recharge_stat[GUNMOUNT_MAX];
-		float m_temperature_stat[GUNMOUNT_MAX];
+		Uint32 m_state[Guns::GUNMOUNT_MAX];
+		float m_recharge_stat[Guns::GUNMOUNT_MAX];
+		float m_temperature_stat[Guns::GUNMOUNT_MAX];
 		//TODO: Make it a vector and rework struct Gun to have bool dir={Forward,Backward}
-		bool m_gun_present[GUNMOUNT_MAX];
-		GunData m_gun[GUNMOUNT_MAX];
+		bool m_gun_present[Guns::GUNMOUNT_MAX];
+		GunData m_gun[Guns::GUNMOUNT_MAX];
 		float m_cooler_boost;
 };
 

@@ -76,9 +76,9 @@ class Propulsion
 		float GetFuelUseRate();
 		// available delta-V given the ship's current fuel minus reserve according to the Tsiolkovsky equation
 		double GetSpeedReachedWithFuel() const;
-		/* TODO: This is needed to avoid savegamebumps:
-		 * is used to pass things to/from shipStats;
-		 * better if you not expose these fields
+		/* TODO: These are needed to avoid savegamebumps:
+		 * are used to pass things to/from shipStats;
+		 * may be better if you not expose these fields
 		*/
 		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
 		inline void SetFuelTankMass( int fTank ) { m_fuelTankMass = fTank; }
@@ -87,7 +87,7 @@ class Propulsion
 
 		void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
 
-		// AI Propulsion
+		// AI on Propulsion
 		void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness);
 		void AIModelCoordsMatchSpeedRelTo(const vector3d &v, const DynamicBody *other);
 		void AIAccelToModelRelativeVelocity(const vector3d &v);
@@ -104,7 +104,6 @@ class Propulsion
 		virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 		virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	private:
-
 		int m_fuelTankMass;
 		float m_linThrust[THRUSTER_MAX];
 		float m_angThrust;

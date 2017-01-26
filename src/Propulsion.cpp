@@ -183,7 +183,8 @@ void Propulsion::AIAccelToModelRelativeVelocity(const vector3d &v)
 /* NOTE: following code were in Ship-AI.cpp file,
  * no changes were made, except those needed
  * to make it compatible with actual Propulsion
- * class.
+ * class (and yes: it's only a copy-paste,
+ * including comments :) )
 */
 
 // Because of issues when reducing timestep, must do parts of this as if 1x accel

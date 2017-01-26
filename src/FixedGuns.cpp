@@ -14,14 +14,14 @@ FixedGuns::~FixedGuns()
 bool FixedGuns::IsFiring()
 {
 	bool gunstate = false;
-	for (int j = 0; j < FixedGuns::GUNMOUNT_MAX; j++)
+	for (int j = 0; j < Guns::GUNMOUNT_MAX; j++)
 		gunstate |= m_state[j];
 	return gunstate;
 }
 
 void FixedGuns::Init(DynamicBody *b)
 {
-	for (int i=0; i<FixedGuns::GUNMOUNT_MAX; i++) {
+	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
 		// Initialize structs
 		m_state[i] = 0;
 		m_gun[i].recharge = 0;
@@ -41,18 +41,40 @@ void FixedGuns::Init(DynamicBody *b)
 	b->AddFeature( DynamicBody::FIXED_GUNS );
 }
 
-void FixedGuns::SaveToJson(int i, Json::Value &jsonObj )
+void FixedGuns::SaveToJson( Json::Value &jsonObj )
 {
-	jsonObj["state"] = m_state[i];
-	jsonObj["recharge"] = FloatToStr(m_recharge_stat[i]);
-	jsonObj["temperature"] = FloatToStr(m_temperature_stat[i]);
+
+	Json::Value gunArray(Json::arrayValue); // Create JSON array to contain gun data.
+
+	for (int i = 0; i<Guns::GUNMOUNT_MAX; i++)
+	{
+		Json::Value gunArrayEl(Json::objectValue); // Create JSON object to contain gun.
+		gunArrayEl["state"] = m_state[i];
+		gunArrayEl["recharge"] = FloatToStr(m_recharge_stat[i]);
+		gunArrayEl["temperature"] = FloatToStr(m_temperature_stat[i]);
+		gunArray.append(gunArrayEl); // Append gun object to array.
+	}
+	jsonObj["guns"] = gunArray; // Add gun array to ship object.
 };
 
-void FixedGuns::LoadFromJson(int i, const Json::Value &jsonObj )
+void FixedGuns::LoadFromJson(const Json::Value &jsonObj )
 {
-	m_state[i] = jsonObj["state"].asUInt();
-	m_recharge_stat[i] = StrToFloat(jsonObj["recharge"].asString());
-	m_temperature_stat[i] = StrToFloat(jsonObj["temperature"].asString());
+	Json::Value gunArray = jsonObj["guns"];
+
+	if (!gunArray.isArray()) throw SavedGameCorruptException();
+	assert(Guns::GUNMOUNT_MAX == gunArray.size());
+
+	for (unsigned int i = 0; i < Guns::GUNMOUNT_MAX; i++)
+	{
+		Json::Value gunArrayEl = gunArray[i];
+		if (!gunArrayEl.isMember("state")) throw SavedGameCorruptException();
+		if (!gunArrayEl.isMember("recharge")) throw SavedGameCorruptException();
+		if (!gunArrayEl.isMember("temperature")) throw SavedGameCorruptException();
+
+		m_state[i] = gunArrayEl["state"].asUInt();
+		m_recharge_stat[i] = StrToFloat(gunArrayEl["recharge"].asString());
+		m_temperature_stat[i] = StrToFloat(gunArrayEl["temperature"].asString());
+	}
 };
 
 void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
@@ -64,14 +86,14 @@ void FixedGuns::InitGun( SceneGraph::Model *m, const char *tag, int num)
 		m_gun[num].dir = trans.GetOrient().VectorZ();
 	} else {
 		// XXX deprecated
-		m_gun[num].pos = (num==FixedGuns::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
-		m_gun[num].dir = (num==FixedGuns::GUN_REAR) ? vector3f(0,0,-1) : vector3f(0,0,1);
+		m_gun[num].pos = (num==Guns::GUN_FRONT) ? vector3f(0,0,0) : vector3f(0,0,0);
+		m_gun[num].dir = (num==Guns::GUN_REAR) ? vector3f(0,0,-1) : vector3f(0,0,1);
 	}
 }
 
 void FixedGuns::MountGun(int num, float recharge, float lifespan, float damage, float length, float width, bool mining, const Color& color, float speed )
 {
-	if ( num >= FixedGuns::GUNMOUNT_MAX ) return;
+	if ( num >= Guns::GUNMOUNT_MAX ) return;
 	// Here we have projectile data MORE recharge time
 	m_state[num] = 0;
 	m_gun[num].recharge = recharge;
@@ -129,7 +151,7 @@ bool FixedGuns::Fire( int num, Body* b )
 
 void FixedGuns::UpdateGuns( float timeStep )
 {
-	for (int i=0; i<FixedGuns::GUNMOUNT_MAX; i++) {
+	for (int i=0; i<Guns::GUNMOUNT_MAX; i++) {
 		if ( !m_gun_present[i] ) continue;
 		m_recharge_stat[i] -= timeStep;
 		float rateCooling = m_gun[i].temp_slope;
