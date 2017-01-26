@@ -32,11 +32,6 @@ class FixedGuns
 		bool HaveGuns();
 		inline float GetGunTemperature(int idx) const { return m_temperature_stat[idx]; }
 		inline void IsDual( int idx, bool dual ) { m_gun[idx].dual = dual; };
-		/* TODO: Define a Struct here (or in Projectile) that every object
-		 * that would fire something must share: then you could pass it to
-		 * DefineGun and Finally to Projectile (AFAIK there's nothing except
-		 * this class that can call Projectile class until now...)
-		*/
 		void MountGun( int num, const float recharge, const float lifespan, const float dam, const float length,
 						 const float width, const bool mining, const Color& color, const float speed );
 		void UnMountGun( int num );
@@ -55,7 +50,6 @@ class FixedGuns
 			float recharge;
 			float temp_slope;
 			bool dual;
-			// Better if the one below is a pointer...
 			ProjectileData projData;
 		};
 
