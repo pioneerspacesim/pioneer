@@ -963,7 +963,7 @@ bool AICmdDock::TimeStepUpdate()
 		if (type->IsOrbitalStation()) {
 			m_dockupdir = -m_dockupdir;
 		} else if (m_state == eDockingComplete) {
-			m_dockpos -= m_dockupdir * (m_ship->GetAabb().min.y + 1.0);
+			m_dockpos -= m_dockupdir * (m_ship->GetLandingPosOffset() + 0.1);
 		}
 
 		if (m_state != eDockGetDataEnd) {
