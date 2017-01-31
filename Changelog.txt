@@ -6,12 +6,10 @@ January 2017
      * Correct and clarify a misleading comment (#3898)
      * Use the gas giant textures RAW instead of Billboard (#3897)
      * MERRY HAPPY 2017 (#3899)
+     * Remove IsPlayerShip from Ship (#3904)
 
    * Fixes
      * Never spawn toothless pirates (#3903)
-
-   * Internal Changes
-     * Remove IsPlayerShip from Ship (#3904)
 
 December 2016
    * Fixes
