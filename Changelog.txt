@@ -1,6 +1,7 @@
 January 2017
    * New Features
      * Toggle cursor position when flying (#3909)
+     * Can no longer set speed above lightspeed (#3908)
 
    * Internal Changes
      * Correct and clarify a misleading comment (#3898)
