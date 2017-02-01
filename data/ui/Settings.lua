@@ -164,7 +164,7 @@ ui.templates.Settings = function (args)
 				cockpitCheckBox,
 				enableAutosave,
 				compactRadarCheckBox,
-				confirmQuit,
+				-- confirmQuit,
 				starDensity(l.STAR_FIELD_DENSITY, Engine.GetAmountStars, Engine.SetAmountStars),
 			})))
 	end

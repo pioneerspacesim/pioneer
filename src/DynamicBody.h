@@ -11,6 +11,9 @@
 #include "Orbit.h"
 
 class DynamicBody: public ModelBody {
+private:
+	friend class Propulsion;
+	friend class FixedGuns;
 public:
 	OBJDEF(DynamicBody, ModelBody, DYNAMICBODY);
 	DynamicBody();
@@ -51,6 +54,29 @@ public:
 	virtual void PostLoadFixup(Space *space) override;
 
 	Orbit ComputeOrbit() const;
+
+	/* TODO: This is a big simplification...
+	 * something better because AI on dynamic is
+	 * a "loose" thing (also see AIError m_aiMessage
+	 * in line 83)
+	*/
+	enum AIError { // <enum scope='Ship' name=ShipAIError prefix=AIERROR_ public>
+		AIERROR_NONE=0,
+		AIERROR_GRAV_TOO_HIGH,
+		AIERROR_REFUSED_PERM,
+		AIERROR_ORBIT_IMPOSSIBLE
+	};
+	AIError AIMessage(AIError msg=AIERROR_NONE) { AIError tmp = m_aiMessage; m_aiMessage = msg; return tmp; }
+
+	enum Feature {
+		PROPULSION = 0,
+		FIXED_GUNS = 1,
+		MAX_FEATURE = 2,
+	};
+
+	bool Have( Feature f ) const { return m_features[f]; };
+	void SetDecelerating(bool decel) { m_decelerating = decel; }
+
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
@@ -58,6 +84,8 @@ protected:
 	static const double DEFAULT_DRAG_COEFF;
 	double m_dragCoeff;
 
+	bool m_decelerating;
+	AIError m_aiMessage;
 private:
 	vector3d m_oldPos;
 	vector3d m_oldAngDisplacement;
@@ -77,6 +105,10 @@ private:
 	// for time accel reduction fudge
 	vector3d m_lastForce;
 	vector3d m_lastTorque;
+
+	void AddFeature( Feature f ) { m_features[f] = true; };
+	bool m_features[MAX_FEATURE];
+
 };
 
 #endif /* _DYNAMICBODY_H */

@@ -11,7 +11,7 @@
 #include "Game.h"
 #include "LuaEvent.h"
 
-Missile::Missile(const ShipType::Id &shipId, Body *owner, int power): Ship(shipId)
+Missile::Missile(const ShipType::Id &shipId, Body *owner, int power)//: Ship(shipId)
 {
 	if (power < 0) {
 		m_power = 0;
@@ -22,8 +22,31 @@ Missile::Missile(const ShipType::Id &shipId, Body *owner, int power): Ship(shipI
 		m_power = power;
 
 	m_owner = owner;
+	m_type = &ShipType::types[shipId];
+
+	SetMass(m_type->hullMass*1000);
+
+	SetModel(m_type->modelName.c_str());
+	SetMassDistributionFromModel();
+
 	SetLabel(Lang::MISSILE);
+
 	Disarm();
+
+	SetFuel(1.0);
+	SetFuelReserve(0.0);
+
+	m_curAICmd = 0;
+	m_aiMessage = AIERROR_NONE;
+	m_decelerating = false;
+
+	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
+
+}
+
+Missile::~Missile()
+{
+	if (m_curAICmd) delete m_curAICmd;
 }
 
 void Missile::ECMAttack(int power_val)
@@ -34,28 +57,27 @@ void Missile::ECMAttack(int power_val)
 	}
 }
 
-void Missile::PostLoadFixup(Space *space)
-{
-	Ship::PostLoadFixup(space);
-	m_owner = space->GetBodyByIndex(m_ownerIndex);
-}
-
 void Missile::SaveToJson(Json::Value &jsonObj, Space *space)
 {
-	Ship::SaveToJson(jsonObj, space);
-
+	DynamicBody::SaveToJson(jsonObj, space);
+	Propulsion::SaveToJson(jsonObj, space);
 	Json::Value missileObj(Json::objectValue); // Create JSON object to contain missile data.
 
+	if (m_curAICmd) m_curAICmd->SaveToJson(missileObj);
+
+	missileObj["ai_message"] = int(m_aiMessage);
 	missileObj["index_for_body"] = space->GetIndexForBody(m_owner);
 	missileObj["power"] = m_power;
 	missileObj["armed"] = m_armed;
+	missileObj["ship_type_id"] = m_type->id;
 
 	jsonObj["missile"] = missileObj; // Add missile object to supplied object.
 }
 
 void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-	Ship::LoadFromJson(jsonObj, space);
+	DynamicBody::LoadFromJson(jsonObj, space);
+	Propulsion::LoadFromJson(jsonObj, space);
 
 	if (!jsonObj.isMember("missile")) throw SavedGameCorruptException();
 	Json::Value missileObj = jsonObj["missile"];
@@ -63,15 +85,56 @@ void Missile::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!missileObj.isMember("index_for_body")) throw SavedGameCorruptException();
 	if (!missileObj.isMember("power")) throw SavedGameCorruptException();
 	if (!missileObj.isMember("armed")) throw SavedGameCorruptException();
+	if (!missileObj.isMember("ai_message")) throw SavedGameCorruptException();
+	if (!missileObj.isMember("ship_type_id")) throw SavedGameCorruptException();
+
+	m_type = &ShipType::types[missileObj["ship_type_id"].asString()];
+	SetModel(m_type->modelName.c_str());
+
+	m_curAICmd = 0;
+	m_curAICmd = AICommand::LoadFromJson(missileObj);
+	m_aiMessage = AIError(missileObj["ai_message"].asInt());
 
 	m_ownerIndex = missileObj["index_for_body"].asUInt();
 	m_power = missileObj["power"].asInt();
 	m_armed = missileObj["armed"].asBool();
+
+	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
+
+}
+
+void Missile::PostLoadFixup(Space *space)
+{
+	DynamicBody::PostLoadFixup(space);
+	m_owner = space->GetBodyByIndex(m_ownerIndex);
+	if (m_curAICmd) m_curAICmd->PostLoadFixup(space);
+}
+
+void Missile::StaticUpdate(const float timeStep)
+{
+
+	// Note: direct call to AI->TimeStepUpdate
+	if (m_curAICmd!=nullptr) m_curAICmd->TimeStepUpdate();
+	//Add smoke trails for missiles on thruster state
+	static double s_timeAccum = 0.0;
+	s_timeAccum += timeStep;
+	if (!is_equal_exact(GetThrusterState().LengthSqr(), 0.0) && (s_timeAccum > 4 || 0.1*Pi::rng.Double() < timeStep)) {
+		s_timeAccum = 0.0;
+		const vector3d pos = GetOrient() * vector3d(0, 0 , 5);
+		const float speed = std::min(10.0*GetVelocity().Length()*std::max(1.0,fabs(GetThrusterState().z)),100.0);
+		SfxManager::AddThrustSmoke(this, speed, pos);
+	}
 }
 
 void Missile::TimeStepUpdate(const float timeStep)
 {
-	Ship::TimeStepUpdate(timeStep);
+
+	const vector3d thrust=GetActualLinThrust();
+	AddRelForce( thrust );
+	AddRelTorque( GetActualAngThrust() );
+
+	DynamicBody::TimeStepUpdate(timeStep);
+	Propulsion::UpdateFuel(timeStep);
 
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
 	if (!m_owner) {
@@ -135,7 +198,7 @@ void Missile::NotifyRemoved(const Body* const removedBody)
 	if (m_owner == removedBody) {
 		m_owner = 0;
 	}
-	Ship::NotifyRemoved(removedBody);
+	DynamicBody::NotifyRemoved(removedBody);
 }
 
 void Missile::Arm()
@@ -148,4 +211,20 @@ void Missile::Disarm()
 {
 	m_armed = false;
 	Properties().Set("isArmed", false);
+}
+
+void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+{
+	if (IsDead()) return;
+
+	Propulsion::Render( renderer, camera, viewCoords, viewTransform );
+	RenderModel(renderer, camera, viewCoords, viewTransform);
+}
+
+void Missile::AIKamikaze(Body *target)
+{
+	//AIClearInstructions();
+	if (m_curAICmd!=0)
+		delete m_curAICmd;
+	m_curAICmd = new AICmdKamikaze(this, target);
 }

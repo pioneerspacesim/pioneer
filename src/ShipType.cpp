@@ -46,7 +46,7 @@ static bool ShipIsUnbuyable(const std::string &id)
 	return is_zero_exact(t.baseprice);
 }
 
-ShipType::ShipType(const Id &_id, const std::string &path) 
+ShipType::ShipType(const Id &_id, const std::string &path)
 {
 	Json::Reader reader;
 	Json::Value data;
@@ -112,9 +112,9 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 
 	{
 		const auto it = slots.find("engine");
-		if (it != slots.end()) 
-		{ 
-			it->second = Clamp(it->second, 0, 1); 
+		if (it != slots.end())
+		{
+			it->second = Clamp(it->second, 0, 1);
 		}
 	}
 
@@ -126,13 +126,13 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		effectiveExhaustVelocity = 55000000;
 	} else if(effectiveExhaustVelocity < 0 && thruster_fuel_use >= 0) {
 		// v_c undefined and thruster fuel use defined -- use it!
-		effectiveExhaustVelocity = GetEffectiveExhaustVelocity(fuelTankMass, thruster_fuel_use, linThrust[ShipType::THRUSTER_FORWARD]);
+		effectiveExhaustVelocity = GetEffectiveExhaustVelocity(fuelTankMass, thruster_fuel_use, linThrust[Thruster::THRUSTER_FORWARD]);
 	} else {
 		if(thruster_fuel_use >= 0) {
 			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", modelName.c_str());
 		}
 	}
-	
+
 	baseprice = data.get("price", 0.0).asDouble();
 	minCrew = data.get("min_crew", 1).asInt();
 	maxCrew = data.get("max_crew", 1).asInt();
@@ -238,7 +238,7 @@ int _define_ship(lua_State *L, ShipType::Tag tag, std::vector<ShipType::Id> *lis
 	s.maxCrew = t.Get("max_crew", 1);
 
 	s.hyperdriveClass = t.Get("hyperdrive_class", 1);
-	
+
 	data["price"] = s.baseprice;
 	data["min_crew"] = s.minCrew;
 	data["max_crew"] = s.maxCrew;
@@ -301,7 +301,7 @@ int define_missile(lua_State *L)
 void ShipType::Init()
 {
 	static bool isInitted = false;
-	if (isInitted) 
+	if (isInitted)
 		return;
 	isInitted = true;
 
