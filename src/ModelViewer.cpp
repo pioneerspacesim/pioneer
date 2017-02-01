@@ -107,7 +107,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_SMALLEST);
-	
+
 	m_logScroller.Reset(m_ui->Scroller());
 	m_logScroller->SetInnerWidget(m_ui->ColorBackground(Color(0x0,0x0,0x0,0x40))->SetInnerWidget(m_log));
 
@@ -248,9 +248,9 @@ bool ModelViewer::OnToggleGuns(UI::CheckBox *w)
 
 	m_options.attachGuns = !m_options.attachGuns;
 	SceneGraph::Model::TVecMT tags;
-	m_model->FindTagsByStartOfName("tag_gun_", tags);
+	m_model->FindTagsByStartOfName("tag_gunmount_", tags);
 	if (tags.empty()) {
-		AddLog("Missing tags \"tag_gun_XXX\" in model");
+		AddLog("Missing tags \"tag_gunmount_XXX\" in model");
 		return false;
 	}
 	if (m_options.attachGuns) {
@@ -457,12 +457,12 @@ void ModelViewer::DrawBackground()
 		vbd.attrib[1].format	= Graphics::ATTRIB_FORMAT_UBYTE4;
 		vbd.numVertices = 6;
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-	
+
 		// VertexBuffer
 		m_bgBuffer.Reset( m_renderer->CreateVertexBuffer(vbd) );
 		m_bgBuffer->Populate(bgArr);
 	}
-	
+
 	m_renderer->DrawBuffer(m_bgBuffer.Get(), m_bgState, Graphics::vtxColorMaterial, Graphics::TRIANGLES);
 }
 
@@ -554,7 +554,7 @@ void ModelViewer::MainLoop()
 			const float dif = dif2 / (dif1 * 1.0f);
 
 			m_shields->Update(m_options.showShields ? 1.0f : (1.0f - dif), 1.0f);
-			
+
 			// setup rendering
 			m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
 			m_renderer->SetTransform(matrix4x4f::Identity());
@@ -1050,10 +1050,10 @@ void ModelViewer::SetupUI()
 		hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
 	}
 
-	
+
 	add_pair(c, mainBox, randomColours = c->SmallButton(), "Random Colours");
 	randomColours->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnRandomColor), randomColours));
-	
+
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {
