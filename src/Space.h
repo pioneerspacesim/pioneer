@@ -80,7 +80,6 @@ public:
 		m_bodyNearFinder.GetBodiesMaybeNear(pos, dist, bodies);
 	}
 
-
 private:
 	void GenSectorCache(RefCountedPtr<Galaxy> galaxy, const SystemPath* here);
 	void UpdateStarSystemCache(const SystemPath* here);

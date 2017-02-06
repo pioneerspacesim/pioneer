@@ -116,14 +116,24 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 					if (g2->GetMailboxIndex() < minMailboxValue) continue;
 					if (g2 == g) continue;
 					if (g->GetGroup() && g2->GetGroup() == g->GetGroup()) continue;
-					double radius2 = g2->GetGeomTree()->GetRadius();
+					if (g->IsAChild(g2)) continue;
+					if (g2->IsAChild(g)) continue;
+					if (g->GetParent()!=nullptr&&(g->GetParent()==g2->GetParent())) continue;
 					vector3d pos2 = g2->GetPosition();
-					if ((pos-pos2).Length() <= (radius + radius2)) {
+					if (g->HaveHole()) {
+						// Check if the whole g2 (so with its radius)
+						// is inside a cylindrical volume centered
+						// on Geom
+						// PS: this is specific for orbitals
+						if (g->CheckInsideHole(g2, callback)) continue;
+					}
+					float dist_sqr = (pos-pos2).LengthSqr();
+					double radius2 = g2->GetGeomTree()->GetRadius();
+					if (dist_sqr <= ((radius + radius2)*(radius + radius2))) {
 						g->Collide(g2, callback);
 					}
 				}
-			}
-			else if (node->kids[0]) {
+			} else if (node->kids[0]) {
 				stack[++stackPos] = node->kids[0];
 				node = node->kids[1];
 				continue;

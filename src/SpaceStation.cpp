@@ -24,6 +24,7 @@
 #include "scenegraph/ModelSkin.h"
 #include "json/JsonUtils.h"
 #include <algorithm>
+#include <tuple>
 
 void SpaceStation::Init()
 {
@@ -165,9 +166,9 @@ void SpaceStation::LoadFromJson(const Json::Value &jsonObj, Space *space)
 
 void SpaceStation::PostLoadFixup(Space *space)
 {
-	ModelBody::PostLoadFixup(space);
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
+		if (m_shipDocking[i].ship!=nullptr) AddNotCollidingChild(m_shipDocking[i].ship);
 	}
 }
 
@@ -212,6 +213,15 @@ void SpaceStation::InitStation()
 
 	SceneGraph::Model *model = GetModel();
 
+	// this model have "an hole" must be ignored
+	// for collision detection stuffs
+	{
+		float dia=0, min=0, max=0;
+		bool dock=false;
+		std::tie(dia,min,max,dock) = m_type->GetCentralHoleData();
+		ModelBody::SetCentralHole(dia, min, max, dock);
+	}
+
 	m_navLights.reset(new NavLights(model, 2.2f));
 	m_navLights->SetEnabled(true);
 
@@ -238,6 +248,7 @@ void SpaceStation::NotifyRemoved(const Body* const removedBody)
 {
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		if (m_shipDocking[i].ship == removedBody) {
+			RemoveNotCollidingChild(m_shipDocking[i].ship);
 			m_shipDocking[i].ship = 0;
 		}
 	}
@@ -287,6 +298,7 @@ void SpaceStation::SetDocked(Ship *ship, const int port)
 	m_shipDocking[port].ship = ship;
 	m_shipDocking[port].stage = m_type->NumDockingStages()+3;
 
+	AddNotCollidingChild(ship);
 	// have to do this crap again in case it was called directly (Ship::SetDockWith())
 	ship->SetFlightState(Ship::DOCKED);
 	ship->SetVelocity(vector3d(0.0));
@@ -315,13 +327,16 @@ bool SpaceStation::LaunchShip(Ship *ship, const int port)
 	if (IsPortLocked(port)) return false;	// another ship docking
 	LockPort(port, true);
 
+	RemoveNotCollidingChild(ship);
+
 	sd.ship = ship;
 	sd.stage = -1;
 	sd.stagePos = 0.0;
 
 	m_doorAnimationStep = 0.3; // open door
 
-	const vector3d up = ship->GetOrient().VectorY().Normalized() * ship->GetLandingPosOffset();
+	const matrix3x3d& mt = ship->GetOrient();
+	const vector3d up = mt.VectorY().Normalized() * ship->GetLandingPosOffset();
 
 	sd.fromPos = (ship->GetPosition() - GetPosition() + up) * GetOrient();	// station space
 	sd.fromRot = Quaterniond::FromMatrix3x3(GetOrient().Transpose() * ship->GetOrient());
@@ -385,7 +400,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		if (IsPortLocked(port)) {
 			return DoShipDamage(s, flags, relVel);
 		}
-		if (m_shipDocking[port].stage != 1) return false;	// already docking?
+		if (m_shipDocking[port].stage != 1) return true;	// already docking?
 
 		SpaceStationType::positionOrient_t dport;
 
@@ -426,7 +441,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			s->SetDockedWith(this, port);				// bounces back to SS::SetDocked()
 			LuaEvent::Queue("onShipDocked", s, this);
 		}
-		return false;
+		return true;
 	} else {
 		return true;
 	}
@@ -672,6 +687,7 @@ void SpaceStation::TimeStepUpdate(const float timeStep)
 			m_navLights->SetColor(i+1, NavLights::NAVLIGHT_YELLOW);
 			continue;
 		}
+		// TODO: Navlight when load are blue...
 		if (dt.ship->GetFlightState() == Ship::DOCKED) {
 			PositionDockedShip(dt.ship, i);
 			continue;

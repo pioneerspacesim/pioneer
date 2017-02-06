@@ -38,10 +38,17 @@ public:
 	void FlagRebuildObjectTrees() { m_needStaticGeomRebuild = true; }
 	void RebuildObjectTrees();
 
-	// Geoms with the same handle will not be collision tested against each other
-	// should be used for geoms that are part of the same body
-	// could also be used for autopiloted groups and LRCs near stations
-	// zero means ungrouped. assumes that wraparound => no old crap left
+	/* Geoms with the same handle will not be collision tested against each other
+	 * should be used for geoms that are part of the same body
+	 * could also be used for autopiloted groups and LRCs near stations
+	 * zero means ungrouped. assumes that wraparound => no old crap left
+	 *
+	 * Another way to avoid collision check is provided:
+	 * for each Geoms you could specify a list of children
+	 * that will not be collision tested againt each other
+	 * Possible uses are on SpaceStation for Ships docked,
+	 * and for Ships and tags. See Geom for code
+	*/
 	static int GetGroupHandle() { if(!s_nextHandle) s_nextHandle++; return s_nextHandle++; }
 private:
 	void CollideGeoms(Geom *a, int minMailboxValue, void (*callback)(CollisionContact*));

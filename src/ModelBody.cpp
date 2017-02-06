@@ -281,6 +281,20 @@ void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 	}
 }
 
+void ModelBody::AddNotCollidingChild(ModelBody* mb) {
+	assert(mb!=nullptr);
+    m_geom->AddChild(mb->m_geom);
+}
+
+void ModelBody::RemoveNotCollidingChild(ModelBody* mb) {
+	assert(mb!=nullptr);
+	m_geom->RemoveChild(mb->m_geom);
+}
+
+void ModelBody::SetCentralHole(float diameter, float min, float max, bool dock) {
+	m_geom->SetCentralHole(diameter,min,max,dock);
+}
+
 // Calculates the ambiently and directly lit portions of the lighting model taking into account the atmosphere and sun positions at a given location
 // 1. Calculates the amount of direct illumination available taking into account
 //    * multiple suns

@@ -39,6 +39,10 @@ public:
 
 	virtual void TimeStepUpdate(const float timeStep) override;
 
+	void AddNotCollidingChild(ModelBody* mb);
+	void RemoveNotCollidingChild(ModelBody* mb);
+	void SetCentralHole(float diameter, float min, float max, bool dock);
+
 protected:
 	virtual void SaveToJson(Json::Value &jsonObj, Space *space) override;
 	virtual void LoadFromJson(const Json::Value &jsonObj, Space *space) override;
