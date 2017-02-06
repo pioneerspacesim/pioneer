@@ -455,7 +455,9 @@ bool Ship::OnDamage(Object *attacker, float kgDamage, const CollisionContact& co
 
 bool Ship::OnCollision(Object *b, Uint32 flags, double relVel)
 {
-	// hitting space station docking surfaces shouldn't do damage
+	// Collision with SpaceStation docking surface is
+	// completely handled by SpaceStations, you only
+	// need to return a "true" value for Space.cpp bounce
 	if (b->IsType(Object::SPACESTATION) && (flags & 0x10)) {
 		return true;
 	}
