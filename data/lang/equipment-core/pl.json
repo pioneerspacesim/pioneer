@@ -201,7 +201,7 @@
    },
    "PASSENGER_CABIN" : {
       "description" : "",
-      "message" : "Passenger cabin"
+      "message" : "Kabina pasażerska"
    },
    "PLANETSCANNER" : {
       "description" : "Scans the nearest body for resources",
@@ -289,27 +289,27 @@
    },
    "THRUSTERS_BASIC" : {
       "description" : "",
-      "message" : "Modified Thrusters"
+      "message" : "Zmodyfikowane silniki odrzutowe"
    },
    "THRUSTERS_BASIC_DESCRIPTION" : {
       "description" : "",
-      "message" : "A modified type of thrusters approved for your ship."
+      "message" : "Zmodyfikowany typ silników odrzutowych dostępnych dla twojego statku."
    },
    "THRUSTERS_BEST" : {
       "description" : "",
-      "message" : "Bespoke Thrusters"
+      "message" : "Ręcznie wykonane silniki odrzutowe"
    },
    "THRUSTERS_BEST_DESCRIPTION" : {
       "description" : "",
-      "message" : "Custom made thrusters that provide the best possible output."
+      "message" : "Ręcznie wykonane silniki odrzutowe które zapewniają najlepszą możliwą wydajność."
    },
    "THRUSTERS_MEDIUM" : {
       "description" : "",
-      "message" : "Optimised Thrusters"
+      "message" : "Zoptymalizowane silniki odrzutowe"
    },
    "THRUSTERS_MEDIUM_DESCRIPTION" : {
       "description" : "",
-      "message" : "Thrusters that have been optimised to reduce inneficienies and improve power output."
+      "message" : "Silniki które poddano optymalizacji mającej na celu redukcję niewydolności oraz poprawę mocy."
    },
    "TRADE_COMPUTER" : {
       "description" : "Ship equipment computing profitable commodities to trade between two systems",
