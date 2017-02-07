@@ -29,7 +29,6 @@ class FixedGuns
 		void UpdateGuns( float timeStep );
 		bool Fire( int num, Body* b );
 		bool IsFiring();
-		bool HaveGuns();
 		inline float GetGunTemperature(int idx) const { return m_temperature_stat[idx]; }
 		inline void IsDual( int idx, bool dual ) { m_gun[idx].dual = dual; };
 		void MountGun( int num, const float recharge, const float lifespan, const float dam, const float length,
@@ -53,7 +52,7 @@ class FixedGuns
 			ProjectileData projData;
 		};
 
-		Uint32 m_state[Guns::GUNMOUNT_MAX];
+		bool m_state[Guns::GUNMOUNT_MAX];
 		float m_recharge_stat[Guns::GUNMOUNT_MAX];
 		float m_temperature_stat[Guns::GUNMOUNT_MAX];
 		//TODO: Make it a vector and rework struct Gun to have bool dir={Forward,Backward}

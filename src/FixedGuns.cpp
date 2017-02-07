@@ -71,7 +71,7 @@ void FixedGuns::LoadFromJson(const Json::Value &jsonObj )
 		if (!gunArrayEl.isMember("recharge")) throw SavedGameCorruptException();
 		if (!gunArrayEl.isMember("temperature")) throw SavedGameCorruptException();
 
-		m_state[i] = gunArrayEl["state"].asUInt();
+		m_state[i] = gunArrayEl["state"].asBool();
 		m_recharge_stat[i] = StrToFloat(gunArrayEl["recharge"].asString());
 		m_temperature_stat[i] = StrToFloat(gunArrayEl["temperature"].asString());
 	}
