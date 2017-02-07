@@ -210,6 +210,7 @@
     <ClCompile Include="..\..\src\Factions.cpp" />
     <ClCompile Include="..\..\src\FileSourceZip.cpp" />
     <ClCompile Include="..\..\src\FileSystem.cpp" />
+    <ClCompile Include="..\..\src\FixedGuns.cpp" />
     <ClCompile Include="..\..\src\FontCache.cpp" />
     <ClCompile Include="..\..\src\Frame.cpp" />
     <ClCompile Include="..\..\src\Game.cpp" />
@@ -302,6 +303,7 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\PropertyMap.cpp" />
+    <ClCompile Include="..\..\src\Propulsion.cpp" />
     <ClCompile Include="..\..\src\RandomColor.cpp" />
     <ClCompile Include="..\..\src\SDLWrappers.cpp" />
     <ClCompile Include="..\..\src\SectorView.cpp" />
@@ -372,6 +374,7 @@
     <ClInclude Include="..\..\src\FileSourceZip.h" />
     <ClInclude Include="..\..\src\FileSystem.h" />
     <ClInclude Include="..\..\src\fixed.h" />
+    <ClInclude Include="..\..\src\FixedGuns.h" />
     <ClInclude Include="..\..\src\FontCache.h" />
     <ClInclude Include="..\..\src\Frame.h" />
     <ClInclude Include="..\..\src\Game.h" />
@@ -447,6 +450,7 @@
     <ClInclude Include="..\..\src\Projectile.h" />
     <ClInclude Include="..\..\src\PropertiedObject.h" />
     <ClInclude Include="..\..\src\PropertyMap.h" />
+    <ClInclude Include="..\..\src\Propulsion.h" />
     <ClInclude Include="..\..\src\Quaternion.h" />
     <ClInclude Include="..\..\src\Random.h" />
     <ClInclude Include="..\..\src\RandomColor.h" />
