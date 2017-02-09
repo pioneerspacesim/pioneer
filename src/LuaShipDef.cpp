@@ -252,7 +252,7 @@ void LuaShipDef::Register()
 		pi_lua_settable(l, "thrusterFuelUse",   st.GetFuelUseRate());
 
 		lua_newtable(l);
-		for (int t = ShipType::THRUSTER_REVERSE; t < ShipType::THRUSTER_MAX; t++)
+		for (int t = Thruster::THRUSTER_REVERSE; t < Thruster::THRUSTER_MAX; t++)
 			pi_lua_settable(l, EnumStrings::GetString("ShipTypeThruster", t), st.linThrust[t]);
 		pi_lua_readonly_table_proxy(l, -1);
 		lua_setfield(l, -3, "linearThrust");

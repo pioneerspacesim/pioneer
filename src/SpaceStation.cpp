@@ -291,7 +291,6 @@ void SpaceStation::SetDocked(Ship *ship, const int port)
 	ship->SetFlightState(Ship::DOCKED);
 	ship->SetVelocity(vector3d(0.0));
 	ship->SetAngVelocity(vector3d(0.0));
-	ship->ClearThrusterState();
 	PositionDockedShip(ship, port);
 }
 
@@ -343,7 +342,7 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 	}
 
 	const Aabb &bbox = s->GetAabb();
-	const double bboxRad = bbox.GetRadius();
+	const float bboxRad = vector2f( float(bbox.max.x), float(bbox.max.z)).Length();
 
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		// initial unoccupied check
@@ -358,7 +357,9 @@ bool SpaceStation::GetDockingClearance(Ship *s, std::string &outMsg)
 			sd.ship = s;
 			sd.stage = 1;
 			sd.stagePos = 0;
-			sd.maxOffset = (pPort->maxShipSize/2 - bboxRad)*(pPort->maxShipSize/2 - bboxRad);
+			// Note: maxOffset is squared
+			sd.maxOffset = std::max((pPort->maxShipSize/2 - bboxRad), float(pPort->maxShipSize/5.0) );
+			sd.maxOffset *= sd.maxOffset;
 			outMsg = stringf(Lang::CLEARANCE_GRANTED_BAY_N, formatarg("bay", i+1));
 			return true;
 		}
@@ -394,8 +395,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			if (s->GetVelocity().Length() > MAX_LANDING_SPEED) return false;
 			// check if you're near your pad
 			float dist = (s->GetPosition() - GetPosition() - GetOrient()*dport.pos).LengthSqr();
-			float maxShipSize = static_cast<float>(m_type->FindPortByBay(port)->maxShipSize);
-			if (dist > (maxShipSize*maxShipSize)) return false;
+			// docking allowed only if inside a circle 70% greater than pad itself (*1.7)
+			float maxDist = static_cast<float>(m_type->FindPortByBay(port)->maxShipSize/2)*1.7;
+			if (dist > (maxDist*maxDist)) return false;
 		}
 
 		// why stage 2? Because stage 1 is permission to dock

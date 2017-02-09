@@ -38,6 +38,7 @@ noinst_HEADERS = \
 	FaceParts.h \
 	Factions.h \
 	FileSystem.h \
+	FixedGuns.h \
 	FontCache.h \
 	Frame.h \
 	Game.h \
@@ -107,6 +108,7 @@ noinst_HEADERS = \
 	Projectile.h \
 	PropertiedObject.h \
 	PropertyMap.h \
+	Propulsion.h \
 	Quaternion.h \
 	Random.h \
 	RandomColor.h \
@@ -176,6 +178,7 @@ pioneer_SOURCES	= \
 	Factions.cpp \
 	FileSourceZip.cpp \
 	FileSystem.cpp \
+	FixedGuns.cpp \
 	FontCache.cpp \
 	Frame.cpp \
 	Game.cpp \
@@ -254,6 +257,7 @@ pioneer_SOURCES	= \
 	Polit.cpp \
 	Projectile.cpp \
 	PropertyMap.cpp \
+	Propulsion.cpp \
 	RandomColor.cpp \
 	SDLWrappers.cpp \
 	SectorView.cpp \

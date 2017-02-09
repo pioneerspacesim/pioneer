@@ -626,12 +626,13 @@ function Ship:FireMissileAt(which_missile, target)
 			if not missile_object:exists() then -- Usually means it has already exploded
 				return true
 			end
-			if missile_object:DistanceTo(self) < 300 then
-				return false
-			else
+-- TODO: Due to the changes in missile, DistanceTo cause an error
+--			if missile_object:DistanceTo(self) < 300 then
+--				return false
+--			else
 				missile_object:Arm()
-				return true
-			end
+--				return true
+--			end
 		end)
 	end
 

@@ -17,9 +17,11 @@ public:
 	// This enum is solely to make the serialization work
 	enum CmdName { CMD_NONE, CMD_DOCK, CMD_FLYTO, CMD_FLYAROUND, CMD_KILL, CMD_KAMIKAZE, CMD_HOLDPOSITION, CMD_FORMATION };
 
-	AICommand(Ship *ship, CmdName name):
-		m_ship(ship), m_cmdName(name) {
-		m_ship->AIMessage(Ship::AIERROR_NONE);
+	AICommand(DynamicBody *dBody, CmdName name):
+		m_dBody(dBody), m_cmdName(name) {
+		m_dBody->AIMessage(DynamicBody::AIERROR_NONE);
+		m_prop = nullptr;
+		m_fguns = nullptr;
 	}
 	virtual ~AICommand() {}
 
@@ -40,17 +42,20 @@ public:
 	virtual void OnDeleted(const Body *body) { if (m_child) m_child->OnDeleted(body); }
 
 protected:
-	Ship *m_ship;
+	DynamicBody *m_dBody;
+	Propulsion *m_prop;
+	FixedGuns *m_fguns;
+
 	std::unique_ptr<AICommand> m_child;
 	CmdName m_cmdName;
 
-	int m_shipIndex; // deserialisation
+	int m_dBodyIndex; // deserialisation
 };
 
 class AICmdDock : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdDock(Ship *ship, SpaceStation *target);
+	AICmdDock(DynamicBody *dBody, SpaceStation *target);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -82,6 +87,9 @@ public:
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<SpaceStation *>(space->GetBodyByIndex(m_targetIndex));
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
@@ -106,12 +114,12 @@ private:
 
 	void IncrementState() {
 		switch(m_state) {
-		case eDockGetDataStart:		m_state = eDockFlyToStart;		break;	
-		case eDockFlyToStart:		m_state = eDockGetDataEnd;		break;	
-		case eDockGetDataEnd:		m_state = eDockFlyToEnd;		break;	
-		case eDockFlyToEnd:			m_state = eDockingComplete;		break;		
-		case eDockingComplete:		m_state = eInvalidDockingStage;	break;	
-		case eInvalidDockingStage:	break;	
+		case eDockGetDataStart:		m_state = eDockFlyToStart;		break;
+		case eDockFlyToStart:		m_state = eDockGetDataEnd;		break;
+		case eDockGetDataEnd:		m_state = eDockFlyToEnd;		break;
+		case eDockFlyToEnd:			m_state = eDockingComplete;		break;
+		case eDockingComplete:		m_state = eInvalidDockingStage;	break;
+		case eInvalidDockingStage:	break;
 		}
 	}
 };
@@ -119,8 +127,8 @@ private:
 class AICmdFlyTo : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyTo(Ship *ship, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
-	AICmdFlyTo(Ship *ship, Body *target);
+	AICmdFlyTo(DynamicBody *dBody, Frame *targframe, const vector3d &posoff, double endvel, bool tangent);
+	AICmdFlyTo(DynamicBody *dBody, Body *target);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -163,6 +171,9 @@ public:
 		m_target = space->GetBodyByIndex(m_targetIndex);
 		m_targframe = space->GetFrameByIndex(m_targframeIndex);
 		m_lockhead = true;
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
@@ -176,7 +187,7 @@ private:
 	vector3d m_posoff;	// offset in target frame
 	double m_endvel;	// target speed in direction of motion at end of path, positive only
 	bool m_tangent;		// true if path is to a tangent of the target frame's body
-	int m_state;		
+	int m_state;
 
 	bool m_lockhead;
 	int m_targetIndex, m_targframeIndex;	// used during deserialisation
@@ -184,12 +195,11 @@ private:
 	Frame *m_frame;		// last frame of ship
 };
 
-
 class AICmdFlyAround : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFlyAround(Ship *ship, Body *obstructor, double relalt, int mode=2);
-	AICmdFlyAround(Ship *ship, Body *obstructor, double alt, double vel, int mode=1);
+	AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double relalt, int mode=2);
+	AICmdFlyAround(DynamicBody *dBody, Body *obstructor, double alt, double vel, int mode=1);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -219,6 +229,9 @@ public:
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_obstructor = space->GetBodyByIndex(m_obstructorIndex);
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {
 		AICommand::OnDeleted(body);
@@ -241,10 +254,14 @@ private:
 class AICmdKill : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdKill(Ship *ship, Ship *target) : AICommand (ship, CMD_KILL) {
+	AICmdKill(DynamicBody *dBody, Ship *target) : AICommand (dBody, CMD_KILL) {
 		m_target = target;
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
+		assert(m_prop!=nullptr);
+		assert(m_fguns!=nullptr);
 	}
 
 	// don't actually need to save all this crap
@@ -259,11 +276,17 @@ public:
 		if (!jsonObj.isMember("index_for_target")) throw SavedGameCorruptException();
 		m_targetIndex = jsonObj["index_for_target"].asInt();
 	}
+
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<Ship *>(space->GetBodyByIndex(m_targetIndex));
 		m_leadTime = m_evadeTime = m_closeTime = 0.0;
 		m_lastVel = m_target->GetVelocity();
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		m_fguns = dynamic_cast<FixedGuns*>(m_dBody);
+		assert(m_prop!=nullptr);
+		assert(m_fguns!=nullptr);
 	}
 
 	virtual void OnDeleted(const Body *body) {
@@ -281,8 +304,10 @@ private:
 class AICmdKamikaze : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdKamikaze(Ship *ship, Body *target) : AICommand (ship, CMD_KAMIKAZE) {
+	AICmdKamikaze(DynamicBody *dBody, Body *target) : AICommand(dBody, CMD_KAMIKAZE) {
 		m_target = target;
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(m_prop!=nullptr);
 	}
 
 	virtual void SaveToJson(Json::Value &jsonObj) {
@@ -299,6 +324,9 @@ public:
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = space->GetBodyByIndex(m_targetIndex);
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(m_prop!=nullptr);
 	}
 
 	virtual void OnDeleted(const Body *body) {
@@ -314,14 +342,21 @@ private:
 class AICmdHoldPosition : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdHoldPosition(Ship *ship) : AICommand(ship, CMD_HOLDPOSITION) { }
-	AICmdHoldPosition(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_HOLDPOSITION) { }
+	AICmdHoldPosition(DynamicBody *dBody) : AICommand(dBody, CMD_HOLDPOSITION) {
+		Propulsion *prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(prop!=0);
+	}
+	AICmdHoldPosition(const Json::Value &jsonObj) : AICommand(jsonObj, CMD_HOLDPOSITION) {
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(m_prop!=nullptr);
+	}
 };
 
 class AICmdFormation : public AICommand {
 public:
 	virtual bool TimeStepUpdate();
-	AICmdFormation(Ship *ship, Ship *target, const vector3d &posoff);
+	AICmdFormation(DynamicBody *dBody, DynamicBody *target, const vector3d &posoff);
 
 	virtual void GetStatusText(char *str) {
 		if (m_child) m_child->GetStatusText(str);
@@ -345,6 +380,9 @@ public:
 	virtual void PostLoadFixup(Space *space) {
 		AICommand::PostLoadFixup(space);
 		m_target = static_cast<Ship*>(space->GetBodyByIndex(m_targetIndex));
+		// Ensure needed sub-system:
+		m_prop = dynamic_cast<Propulsion*>(m_dBody);
+		assert(m_prop!=nullptr);
 	}
 	virtual void OnDeleted(const Body *body) {
 		if (static_cast<Body *>(m_target) == body) m_target = 0;
@@ -352,7 +390,7 @@ public:
 	}
 
 private:
-	Ship *m_target;		// target frame for waypoint
+	DynamicBody *m_target;	// target frame for waypoint
 	vector3d m_posoff;	// offset in target frame
 
 	int m_targetIndex;	// used during deserialisation
