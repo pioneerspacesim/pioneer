@@ -121,6 +121,12 @@ Pioneer includes the following third-party software:
   Lua 5.2.1 by R. Ierusalimschy, L. H. de Figueiredo & W. Celes,
   Copyright (C) 1994-2012 Lua.org, PUC-Rio
   Licensed under the MIT licence (see contrib/lua/lua.h)
+  
+  GLEW: The OpenGL Extension Wrangler
+  Copyright (C) 2002-2008, Milan Ikits <milan ikits[]ieee org>
+  Copyright (C) 2002-2008, Marcelo E. Magallon <mmagallo[]debian org>
+  Copyright (C) 2002, Lev Povalahev
+  Licensed under the Modified BSD licence (see licenses/GLEW.txt)
 
   miniz by Rich Geldreich, April 2012
   Public domain (see contrib/miniz/miniz.h)

@@ -7,7 +7,7 @@ before_install:
      - cd pioneer-thirdparty/ && autoconf && ./configure && make assimp && make sdl2 && make sdl2_image && cd ../
      - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
      - sudo apt-get update -qq
-     - sudo apt-get install -qq mesa-common-dev libfreetype6-dev libfreeimage-dev libsigc++-2.0-dev libvorbis-dev gcc-4.8 g++-4.8
+     - sudo apt-get install -qq mesa-common-dev libfreetype6-dev libfreeimage-dev libglew-dev libsigc++-2.0-dev libvorbis-dev gcc-4.8 g++-4.8
      - sudo rm /usr/bin/gcc /usr/bin/g++
      - sudo ln -s /usr/bin/gcc-4.8 /usr/bin/gcc
      - sudo ln -s /usr/bin/g++-4.8 /usr/bin/g++

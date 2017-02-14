@@ -70,20 +70,36 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 , m_activeRenderState(nullptr)
 , m_matrixMode(MatrixMode::MODELVIEW)
 {
-	if (!initted) {
-		initted = true;
+	glewExperimental = true;
+	GLenum glew_err;
+	if ((glew_err = glewInit()) != GLEW_OK)
+		Error("GLEW initialisation failed: %s", glewGetErrorString(glew_err));
 
-		if (!ogl_LoadFunctions())
-			Error(
-				"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.3\n"
-				"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly."
-			);
+	// pump this once as glewExperimental is necessary but spews a single error
+	GLenum err = glGetError();
+	
+	if (!glewIsSupported("GL_VERSION_3_1") )
+	{
+		Error(
+			"Pioneer can not run on your graphics card as it does not appear to support OpenGL 3.1\n"
+			"Please check to see if your GPU driver vendor has an updated driver - or that drivers are installed correctly."
+		);
+	}
 
-		if (ogl_ext_EXT_texture_compression_s3tc == ogl_LOAD_FAILED)
+	if (!glewIsSupported("GL_EXT_texture_compression_s3tc"))
+	{
+		if (glewIsSupported("GL_ARB_texture_compression")) {
+			GLint intv[4];
+			glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &intv[0]);
+			if( intv[0] == 0 ) {
+				Error("GL_NUM_COMPRESSED_TEXTURE_FORMATS is zero.\nPioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures.");
+			}
+		} else {
 			Error(
 				"OpenGL extension GL_EXT_texture_compression_s3tc not supported.\n"
 				"Pioneer can not run on your graphics card as it does not support compressed (DXTn/S3TC) format textures."
 			);
+		}
 	}
 
 	const char *ver = (const char *)glGetString(GL_VERSION);
@@ -202,6 +218,7 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 	out << " " << glGetString(GL_RENDERER) << "\n";
 
 	out << "Available extensions:" << "\n";
+	if (glewIsSupported("GL_VERSION_3_1"))
 	{
 		out << "Shading language version: " <<  glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
 		GLint numext = 0;
@@ -209,6 +226,15 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 		for (int i = 0; i < numext; ++i) {
 			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
 		}
+	}
+	else 
+	{
+		out << "  ";
+		std::istringstream ext(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
+		std::copy(
+			std::istream_iterator<std::string>(ext),
+			std::istream_iterator<std::string>(),
+			std::ostream_iterator<std::string>(out, "\n  "));
 	}
 
 	out << "\nImplementation Limits:\n";
