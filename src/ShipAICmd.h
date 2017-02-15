@@ -265,7 +265,7 @@ public:
 	}
 
 	~AICmdKill() {
-		m_ship->SetGunState(0,0);
+		if(m_fguns) m_fguns->SetGunFiringState(0,0);
 	}
 
 	// don't actually need to save all this crap
