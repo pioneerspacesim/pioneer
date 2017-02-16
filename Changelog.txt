@@ -9,6 +9,7 @@ January 2017
      * MERRY HAPPY 2017 (#3899)
      * Remove IsPlayerShip from Ship (#3904)
      * Handle collision/docking better (#3915), (#3912)
+     * Remove the LineMaterial as it is unused (#3929)
 
    * Fixes
      * Never spawn toothless pirates (#3903)
