@@ -24,10 +24,8 @@
 		3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
 		37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; };
-		37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 		37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 378563511B19769A0039F2BC /* OpenGL.framework */; };
 		3785635D1B197CF90039F2BC /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
 		3785635F1B197CF90039F2BC /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
@@ -604,6 +602,21 @@
 		52F404FA1C9498F90082B1F3 /* liblibscenegraph.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404631C9496AA0082B1F3 /* liblibscenegraph.a */; };
 		52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404431C9495FD0082B1F3 /* liblibtext.a */; };
 		52F404FC1C9499BA0082B1F3 /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */; };
+		61980CB51E4B5400009480D3 /* imgui.h in Headers */ = {isa = PBXBuildFile; fileRef = 61980CB21E4B5400009480D3 /* imgui.h */; };
+		61980CB91E4B5414009480D3 /* imgui_impl_sdl_gl3.h in Headers */ = {isa = PBXBuildFile; fileRef = 61980CB71E4B5414009480D3 /* imgui_impl_sdl_gl3.h */; };
+		61980CBB1E4B5609009480D3 /* OpenGLLibs.h in Headers */ = {isa = PBXBuildFile; fileRef = 61980CBA1E4B5609009480D3 /* OpenGLLibs.h */; };
+		61980CBC1E4B56B1009480D3 /* LuaPiGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A924341E4B41020017E06D /* LuaPiGui.cpp */; };
+		61980CBD1E4B56BC009480D3 /* PiGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A924371E4B414B0017E06D /* PiGui.cpp */; };
+		61980CBE1E4B56E7009480D3 /* imgui_impl_sdl_gl3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61980CB61E4B5414009480D3 /* imgui_impl_sdl_gl3.cpp */; };
+		61980CBF1E4B56E7009480D3 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61980CB01E4B5400009480D3 /* imgui_draw.cpp */; };
+		61980CC01E4B56E7009480D3 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61980CB11E4B5400009480D3 /* imgui.cpp */; };
+		61A924351E4B41020017E06D /* LuaPiGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A924341E4B41020017E06D /* LuaPiGui.cpp */; };
+		61A9243A1E4B414C0017E06D /* LuaPiGui.h in Headers */ = {isa = PBXBuildFile; fileRef = 61A924361E4B414B0017E06D /* LuaPiGui.h */; };
+		61A9243B1E4B414C0017E06D /* PiGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A924371E4B414B0017E06D /* PiGui.cpp */; };
+		61A9243C1E4B414C0017E06D /* PiGui.h in Headers */ = {isa = PBXBuildFile; fileRef = 61A924381E4B414B0017E06D /* PiGui.h */; };
+		61A9243D1E4B414C0017E06D /* Range.h in Headers */ = {isa = PBXBuildFile; fileRef = 61A924391E4B414C0017E06D /* Range.h */; };
+		61A9243E1E4B41E60017E06D /* JobQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563751B197D740039F2BC /* JobQueue.cpp */; };
+		61A924401E4B46600017E06D /* libz.1.2.11.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A9243F1E4B46600017E06D /* libz.1.2.11.dylib */; };
 		F87E479A1D35E63A0008F233 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47981D35E63A0008F233 /* SDL2_image.framework */; };
 		F87E479B1D35E63A0008F233 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47991D35E63A0008F233 /* SDL2.framework */; };
 		F87E479C1D35E7480008F233 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47981D35E63A0008F233 /* SDL2_image.framework */; };
@@ -639,7 +652,6 @@
 				525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */,
 				37074B941B1C6DDC00AFE2CE /* libbz2.1.0.6.dylib in Copy SubLibraries */,
 				37074B951B1C6DDC00AFE2CE /* libpng16.16.dylib in Copy SubLibraries */,
-				37074B961B1C6DDC00AFE2CE /* libz.1.2.8.dylib in Copy SubLibraries */,
 				44B75A981B1C259500EC500F /* libassimp.3.0.0.dylib in Copy SubLibraries */,
 				44B75A991B1C259600EC500F /* libsigc-2.0.0.dylib in Copy SubLibraries */,
 				44B75A971B1C259200EC500F /* libfreetype.6.dylib in Copy SubLibraries */,
@@ -699,7 +711,6 @@
 		3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfreetype.6.dylib; path = /opt/local/lib/libfreetype.6.dylib; sourceTree = "<absolute>"; };
 		37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.1.0.6.dylib; path = /opt/local/lib/libbz2.1.0.6.dylib; sourceTree = "<absolute>"; };
 		37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpng16.16.dylib; path = /opt/local/lib/libpng16.16.dylib; sourceTree = "<absolute>"; };
-		37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.8.dylib; path = /opt/local/lib/libz.1.2.8.dylib; sourceTree = "<absolute>"; };
 		378563511B19769A0039F2BC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		378563581B197CF90039F2BC /* JsonUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JsonUtils.cpp; sourceTree = "<group>"; };
 		378563591B197CF90039F2BC /* JsonUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonUtils.h; sourceTree = "<group>"; };
@@ -1494,12 +1505,24 @@
 		52F4049F1C9497440082B1F3 /* liblibgraphicsdummy.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphicsdummy.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404A91C9497820082B1F3 /* liblibgraphics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgraphics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404DA1C94985F0082B1F3 /* liblibgui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibgui.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		61980CB01E4B5400009480D3 /* imgui_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_draw.cpp; path = imgui/imgui_draw.cpp; sourceTree = "<group>"; };
+		61980CB11E4B5400009480D3 /* imgui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui.cpp; path = imgui/imgui.cpp; sourceTree = "<group>"; };
+		61980CB21E4B5400009480D3 /* imgui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui.h; path = imgui/imgui.h; sourceTree = "<group>"; };
+		61980CB61E4B5414009480D3 /* imgui_impl_sdl_gl3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = imgui_impl_sdl_gl3.cpp; path = imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.cpp; sourceTree = "<group>"; };
+		61980CB71E4B5414009480D3 /* imgui_impl_sdl_gl3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = imgui_impl_sdl_gl3.h; path = imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h; sourceTree = "<group>"; };
+		61980CBA1E4B5609009480D3 /* OpenGLLibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLLibs.h; sourceTree = "<group>"; };
+		61A924341E4B41020017E06D /* LuaPiGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaPiGui.cpp; sourceTree = "<group>"; };
+		61A924361E4B414B0017E06D /* LuaPiGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaPiGui.h; sourceTree = "<group>"; };
+		61A924371E4B414B0017E06D /* PiGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PiGui.cpp; sourceTree = "<group>"; };
+		61A924381E4B414B0017E06D /* PiGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiGui.h; sourceTree = "<group>"; };
+		61A924391E4B414C0017E06D /* Range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
+		61A9243F1E4B46600017E06D /* libz.1.2.11.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.11.dylib; path = /opt/local/lib/libz.1.2.11.dylib; sourceTree = "<absolute>"; };
 		F87E47981D35E63A0008F233 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../Desktop/SDL2_image.framework; sourceTree = "<group>"; };
 		F87E47991D35E63A0008F233 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../Desktop/SDL2.framework; sourceTree = "<group>"; };
 		F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GasGiantJobs.cpp; sourceTree = "<group>"; };
 		F87E479F1D36A46F0008F233 /* GasGiantJobs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GasGiantJobs.h; sourceTree = "<group>"; };
-		F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GenGasGiantColourMaterial.cpp; path = opengl/GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
-		F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenGasGiantColourMaterial.h; path = opengl/GenGasGiantColourMaterial.h; sourceTree = "<group>"; };
+		F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
+		F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenGasGiantColourMaterial.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1510,11 +1533,11 @@
 				F87E479C1D35E7480008F233 /* SDL2_image.framework in Frameworks */,
 				F87E479D1D35E7480008F233 /* SDL2.framework in Frameworks */,
 				52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */,
+				61A924401E4B46600017E06D /* libz.1.2.11.dylib in Frameworks */,
 				37074B911B1C653D00AFE2CE /* libbz2.1.0.6.dylib in Frameworks */,
 				523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */,
 				37074B921B1C653D00AFE2CE /* libpng16.16.dylib in Frameworks */,
 				522B22CB1C06323C00109BB0 /* libcurl.4.dylib in Frameworks */,
-				37074B931B1C653D00AFE2CE /* libz.1.2.8.dylib in Frameworks */,
 				52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */,
 				3701C5861B1ABDA2000F4A72 /* libfreetype.6.dylib in Frameworks */,
 				378563521B19769A0039F2BC /* OpenGL.framework in Frameworks */,
@@ -1658,6 +1681,9 @@
 		378563DE1B197E600039F2BC /* opengl */ = {
 			isa = PBXGroup;
 			children = (
+				F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */,
+				F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */,
+				61980CBA1E4B5609009480D3 /* OpenGLLibs.h */,
 				5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */,
 				528422901CC0E80700A9BFA8 /* BillboardMaterial.h */,
 				378563DF1B197E600039F2BC /* FresnelColourMaterial.cpp */,
@@ -1783,6 +1809,7 @@
 		4A1903C1138AA39C00E0229C /* contrib */ = {
 			isa = PBXGroup;
 			children = (
+				61980CAF1E4B53BF009480D3 /* imgui */,
 				378564411B197EB50039F2BC /* PicoDDS */,
 				378564451B197EB60039F2BC /* profiler */,
 				378563571B197CF90039F2BC /* json */,
@@ -1990,8 +2017,6 @@
 				4A4F25BB14F524D400FD14A6 /* Frustum.cpp */,
 				4A4F25BC14F524D400FD14A6 /* Frustum.h */,
 				4A4F25BD14F524D400FD14A6 /* Graphics.cpp */,
-				F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */,
-				F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */,
 				4A4F25BE14F524D400FD14A6 /* Graphics.h */,
 				4AEC8A1815C7886A00B281C3 /* Light.cpp */,
 				4AEC8A1915C7886A00B281C3 /* Light.h */,
@@ -2016,7 +2041,7 @@
 				525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */,
 				37074B8E1B1C653D00AFE2CE /* libbz2.1.0.6.dylib */,
 				37074B8F1B1C653D00AFE2CE /* libpng16.16.dylib */,
-				37074B901B1C653D00AFE2CE /* libz.1.2.8.dylib */,
+				61A9243F1E4B46600017E06D /* libz.1.2.11.dylib */,
 				3701C5851B1ABDA2000F4A72 /* libfreetype.6.dylib */,
 				4ACDB6D316787A6A0069FA03 /* libassimp.3.0.0.dylib */,
 				4A6C4EA1135452FF00FDD53F /* libsigc-2.0.0.dylib */,
@@ -2038,8 +2063,6 @@
 				4A6C4C0213532FC300FDD53F /* Body.cpp */,
 				4A6C4C0313532FC300FDD53F /* Body.h */,
 				4A6392C4136BD51E008352F1 /* buildopts.h */,
-				F87E479F1D36A46F0008F233 /* GasGiantJobs.h */,
-				F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */,
 				4A305FCB151341170076D414 /* ByteRange.h */,
 				4A84CB82146027DC0051C848 /* Camera.cpp */,
 				4A84CB83146027DC0051C848 /* Camera.h */,
@@ -2094,6 +2117,8 @@
 				4A24FD601650F4D100DE7B0F /* gameui */,
 				378563681B197D740039F2BC /* GasGiant.cpp */,
 				378563691B197D740039F2BC /* GasGiant.h */,
+				F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */,
+				F87E479F1D36A46F0008F233 /* GasGiantJobs.h */,
 				3785636A1B197D740039F2BC /* GeoPatch.cpp */,
 				3785636B1B197D740039F2BC /* GeoPatch.h */,
 				3785636C1B197D740039F2BC /* GeoPatchContext.cpp */,
@@ -2164,6 +2189,8 @@
 				4A99372E1368355500EA0EE5 /* LuaNameGen.h */,
 				4A99372F1368355500EA0EE5 /* LuaObject.cpp */,
 				4A82AA7F1386969B0028CCED /* LuaObject.h */,
+				61A924341E4B41020017E06D /* LuaPiGui.cpp */,
+				61A924361E4B414B0017E06D /* LuaPiGui.h */,
 				4A9937301368355500EA0EE5 /* LuaPlanet.cpp */,
 				4A9937321368355500EA0EE5 /* LuaPlayer.cpp */,
 				4A8AE19217208CE40005C2D9 /* LuaPropertiedObject.cpp */,
@@ -2198,13 +2225,13 @@
 				4AF999A21496D51F009821AF /* MathUtil.h */,
 				4ACE132E16B4B19D00CAE524 /* matrix3x3.h */,
 				4A6C4CD913532FC300FDD53F /* matrix4x4.h */,
-				52F3101A1C907E2800F8A082 /* modelcompiler.cpp */,
 				4A6C4CDA13532FC300FDD53F /* Missile.cpp */,
 				4A6C4CDB13532FC300FDD53F /* Missile.h */,
 				4A6C4CDE13532FC300FDD53F /* ModelBody.cpp */,
 				4A6C4CDF13532FC300FDD53F /* ModelBody.h */,
 				4ACDB6CA167878CE0069FA03 /* ModelCache.cpp */,
 				4ACDB6CB167878CE0069FA03 /* ModelCache.h */,
+				52F3101A1C907E2800F8A082 /* modelcompiler.cpp */,
 				4ACDB6CC167878CE0069FA03 /* ModelViewer.cpp */,
 				4ACDB6CD167878CE0069FA03 /* ModelViewer.h */,
 				4AAC9FE71545901D00116131 /* ModManager.cpp */,
@@ -2222,6 +2249,8 @@
 				4A6C4D2E13532FC300FDD53F /* PersistSystemData.h */,
 				4A6C4D2F13532FC300FDD53F /* Pi.cpp */,
 				4A6C4D3013532FC300FDD53F /* Pi.h */,
+				61A924371E4B414B0017E06D /* PiGui.cpp */,
+				61A924381E4B414B0017E06D /* PiGui.h */,
 				3785637B1B197D740039F2BC /* Plane.cpp */,
 				3785637C1B197D740039F2BC /* Plane.h */,
 				4A6C4D3913532FC300FDD53F /* Planet.cpp */,
@@ -2242,6 +2271,7 @@
 				4AA84A2616D0E18700220311 /* Random.h */,
 				525515711CA6EE1C0055DAB8 /* RandomColor.cpp */,
 				525515721CA6EE1C0055DAB8 /* RandomColor.h */,
+				61A924391E4B414C0017E06D /* Range.h */,
 				4A99374E1368355500EA0EE5 /* RefCounted.h */,
 				4ACDB683167878610069FA03 /* scenegraph */,
 				4ADC7B7F152C703200E359B5 /* SDLWrappers.cpp */,
@@ -2658,6 +2688,18 @@
 			path = vcacheopt;
 			sourceTree = "<group>";
 		};
+		61980CAF1E4B53BF009480D3 /* imgui */ = {
+			isa = PBXGroup;
+			children = (
+				61980CB61E4B5414009480D3 /* imgui_impl_sdl_gl3.cpp */,
+				61980CB71E4B5414009480D3 /* imgui_impl_sdl_gl3.h */,
+				61980CB01E4B5400009480D3 /* imgui_draw.cpp */,
+				61980CB11E4B5400009480D3 /* imgui.cpp */,
+				61980CB21E4B5400009480D3 /* imgui.h */,
+			);
+			name = imgui;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2679,10 +2721,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61980CB51E4B5400009480D3 /* imgui.h in Headers */,
 				F8FD8D781D3C13920075FEA1 /* GenGasGiantColourMaterial.h in Headers */,
 				525515741CA6EE1C0055DAB8 /* RandomColor.h in Headers */,
+				61A9243D1E4B414C0017E06D /* Range.h in Headers */,
+				61980CB91E4B5414009480D3 /* imgui_impl_sdl_gl3.h in Headers */,
 				F87E47A11D36A46F0008F233 /* GasGiantJobs.h in Headers */,
+				61A9243C1E4B414C0017E06D /* PiGui.h in Headers */,
+				61A9243A1E4B414C0017E06D /* LuaPiGui.h in Headers */,
 				528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */,
+				61980CBB1E4B5609009480D3 /* OpenGLLibs.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3073,6 +3121,7 @@
 			files = (
 				F8FD8D7B1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */,
 				F8FD8D7C1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.h in Sources */,
+				61980CBE1E4B56E7009480D3 /* imgui_impl_sdl_gl3.cpp in Sources */,
 				F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */,
 				528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */,
 				528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */,
@@ -3114,6 +3163,7 @@
 				378564521B197FAE0039F2BC /* LuaServerAgent.cpp in Sources */,
 				378563C11B197DBB0039F2BC /* Animation.cpp in Sources */,
 				4A6C4E8213532FC300FDD53F /* Ship.cpp in Sources */,
+				61980CBC1E4B56B1009480D3 /* LuaPiGui.cpp in Sources */,
 				4A6C4E8313532FC300FDD53F /* ShipAICmd.cpp in Sources */,
 				4A6C4E8413532FC300FDD53F /* ShipCpanel.cpp in Sources */,
 				4A6C4E8513532FC300FDD53F /* ShipCpanelMultiFuncDisplays.cpp in Sources */,
@@ -3146,6 +3196,7 @@
 				4A9937611368355500EA0EE5 /* LuaSerializer.cpp in Sources */,
 				4A9937621368355500EA0EE5 /* LuaShip.cpp in Sources */,
 				4A9937641368355500EA0EE5 /* LuaSpace.cpp in Sources */,
+				61980CBF1E4B56E7009480D3 /* imgui_draw.cpp in Sources */,
 				4A9937651368355500EA0EE5 /* LuaSpaceStation.cpp in Sources */,
 				4A9937661368355500EA0EE5 /* LuaStar.cpp in Sources */,
 				4A9937671368355500EA0EE5 /* LuaStarSystem.cpp in Sources */,
@@ -3207,6 +3258,7 @@
 				4A1904CD138AA39C00E0229C /* loslib.c in Sources */,
 				4A1904CF138AA39C00E0229C /* lparser.c in Sources */,
 				4A1904D1138AA39C00E0229C /* lstate.c in Sources */,
+				61980CC01E4B56E7009480D3 /* imgui.cpp in Sources */,
 				378564391B197E8B0039F2BC /* GalaxyCache.cpp in Sources */,
 				4A1904D3138AA39C00E0229C /* lstring.c in Sources */,
 				4A1904D5138AA39C00E0229C /* lstrlib.c in Sources */,
@@ -3291,6 +3343,7 @@
 				4AB7D6301472A83E00158DE4 /* TerrainHeightWaterSolidCanyons.cpp in Sources */,
 				4AF999A41496D51F009821AF /* Game.cpp in Sources */,
 				4AF999A61496D51F009821AF /* MathUtil.cpp in Sources */,
+				61980CBD1E4B56BC009480D3 /* PiGui.cpp in Sources */,
 				4AED721D14E1501D004D171E /* TerrainHeightMapped2.cpp in Sources */,
 				4A94CA4514F26875002CA792 /* FontCache.cpp in Sources */,
 				4A4F25D214F524D400FD14A6 /* Drawables.cpp in Sources */,
@@ -3536,6 +3589,7 @@
 				52F310271C90810E00F8A082 /* modelcompiler.cpp in Sources */,
 				5221A6E41C9584F1002F4CD1 /* CollMesh.cpp in Sources */,
 				52F3102B1C90937400F8A082 /* Color.cpp in Sources */,
+				61A9243E1E4B41E60017E06D /* JobQueue.cpp in Sources */,
 				52F403AD1C9481950082B1F3 /* DateTime.cpp in Sources */,
 				52F3102C1C90937400F8A082 /* FileSourceZip.cpp in Sources */,
 				52F3102D1C90937400F8A082 /* FileSystem.cpp in Sources */,
@@ -3557,7 +3611,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61A9243B1E4B414C0017E06D /* PiGui.cpp in Sources */,
 				528422911CC0E80700A9BFA8 /* BillboardMaterial.cpp in Sources */,
+				61A924351E4B41020017E06D /* LuaPiGui.cpp in Sources */,
 				F87E47A01D36A46F0008F233 /* GasGiantJobs.cpp in Sources */,
 				525515731CA6EE1C0055DAB8 /* RandomColor.cpp in Sources */,
 				52F4041D1C9490C70082B1F3 /* JsonUtils.cpp in Sources */,
