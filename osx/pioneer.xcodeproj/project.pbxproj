@@ -435,6 +435,11 @@
 		52025F791C05BA7100254BB5 /* CollMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52025F781C05BA7100254BB5 /* CollMesh.cpp */; };
 		52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */; };
 		52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; };
+		5206392A1E561B5D00818943 /* OpenGLLibs.h in Headers */ = {isa = PBXBuildFile; fileRef = 520639271E561B5D00818943 /* OpenGLLibs.h */; };
+		5206392B1E561CF800818943 /* imgui_impl_sdl_gl3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C37C1E52263D00302D5A /* imgui_impl_sdl_gl3.cpp */; };
+		5206392C1E561CF800818943 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C3811E52263D00302D5A /* imgui.cpp */; };
+		5206392D1E561CF800818943 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C3831E52263D00302D5A /* imgui_demo.cpp */; };
+		5206392E1E561CF800818943 /* imgui_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C3841E52263D00302D5A /* imgui_draw.cpp */; };
 		52161F521C343532005D3B25 /* libogg.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52161F511C343532005D3B25 /* libogg.0.dylib */; };
 		52161F531C34354B005D3B25 /* libogg.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 52161F511C343532005D3B25 /* libogg.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5221A6DE1C9582BD002F4CD1 /* FileSystemPosix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4ADB0D1315C50DF000AE2123 /* FileSystemPosix.cpp */; };
@@ -494,6 +499,7 @@
 		525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
 		525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		5280FA921E52238A00FCBA44 /* JobQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563751B197D740039F2BC /* JobQueue.cpp */; };
 		528422911CC0E80700A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
 		528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
 		528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
@@ -503,6 +509,17 @@
 		52B054A81C184D0800BAAE57 /* GalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */; };
 		52B054A91C184D0800BAAE57 /* LabelOverlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */; };
 		52B054AA1C184D0800BAAE57 /* LuaGalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */; };
+		52F08A741E5740B100D4AAE6 /* FixedGuns.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F08A721E5740B100D4AAE6 /* FixedGuns.cpp */; };
+		52F08A791E5740EA00D4AAE6 /* LuaPiGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F08A751E5740EA00D4AAE6 /* LuaPiGui.cpp */; };
+		52F08A7A1E5740EA00D4AAE6 /* PiGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F08A771E5740EA00D4AAE6 /* PiGui.cpp */; };
+		52F08A7E1E57411000D4AAE6 /* Propulsion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F08A7B1E57411000D4AAE6 /* Propulsion.cpp */; };
+		52F08A7F1E5744FE00D4AAE6 /* GenGasGiantColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */; };
+		52F1C3961E52266500302D5A /* nanosvg.h in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C38F1E52266500302D5A /* nanosvg.h */; };
+		52F1C3971E52266500302D5A /* nanosvgrast.h in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3901E52266500302D5A /* nanosvgrast.h */; };
+		52F1C3981E52266500302D5A /* pcg_extras.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3921E52266500302D5A /* pcg_extras.hpp */; };
+		52F1C3991E52266500302D5A /* pcg_random.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3931E52266500302D5A /* pcg_random.hpp */; };
+		52F1C39A1E52266500302D5A /* pcg_static_arbitrary_seed.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3941E52266500302D5A /* pcg_static_arbitrary_seed.hpp */; };
+		52F1C39B1E52266500302D5A /* pcg_uint128.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3951E52266500302D5A /* pcg_uint128.hpp */; };
 		52F310271C90810E00F8A082 /* modelcompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F3101A1C907E2800F8A082 /* modelcompiler.cpp */; };
 		52F3102B1C90937400F8A082 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174FD15187C17006A15A9 /* Color.cpp */; };
 		52F3102C1C90937400F8A082 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
@@ -611,10 +628,6 @@
 		F87E47A01D36A46F0008F233 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
 		F87E47A11D36A46F0008F233 /* GasGiantJobs.h in Headers */ = {isa = PBXBuildFile; fileRef = F87E479F1D36A46F0008F233 /* GasGiantJobs.h */; };
 		F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
-		F8FD8D771D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */; };
-		F8FD8D781D3C13920075FEA1 /* GenGasGiantColourMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */; };
-		F8FD8D7B1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */; };
-		F8FD8D7C1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D741D3C13920075FEA1 /* GenGasGiantColourMaterial.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1463,6 +1476,9 @@
 		52025F781C05BA7100254BB5 /* CollMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CollMesh.cpp; sourceTree = "<group>"; };
 		52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbis.0.dylib; path = ../../../../../opt/local/lib/libvorbis.0.dylib; sourceTree = "<group>"; };
 		52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libvorbisfile.3.dylib; path = ../../../../../opt/local/lib/libvorbisfile.3.dylib; sourceTree = "<group>"; };
+		520639271E561B5D00818943 /* OpenGLLibs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLLibs.h; sourceTree = "<group>"; };
+		5206392F1E561DE200818943 /* GenGasGiantColourMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenGasGiantColourMaterial.cpp; sourceTree = "<group>"; };
+		520639301E561DE200818943 /* GenGasGiantColourMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenGasGiantColourMaterial.h; sourceTree = "<group>"; };
 		52161F511C343532005D3B25 /* libogg.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libogg.0.dylib; path = ../../../../../opt/local/lib/libogg.0.dylib; sourceTree = "<group>"; };
 		5221A6DD1C958273002F4CD1 /* liblibposix.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibposix.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5221A7301C9588D8002F4CD1 /* libliblua.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libliblua.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1483,6 +1499,46 @@
 		52B054A51C184D0800BAAE57 /* LabelOverlay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LabelOverlay.cpp; sourceTree = "<group>"; };
 		52B054A61C184D0800BAAE57 /* LabelOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabelOverlay.h; sourceTree = "<group>"; };
 		52B054A71C184D0800BAAE57 /* LuaGalaxyMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaGalaxyMap.cpp; sourceTree = "<group>"; };
+		52F08A721E5740B100D4AAE6 /* FixedGuns.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedGuns.cpp; sourceTree = "<group>"; };
+		52F08A731E5740B100D4AAE6 /* FixedGuns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedGuns.h; sourceTree = "<group>"; };
+		52F08A751E5740EA00D4AAE6 /* LuaPiGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaPiGui.cpp; sourceTree = "<group>"; };
+		52F08A761E5740EA00D4AAE6 /* LuaPiGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaPiGui.h; sourceTree = "<group>"; };
+		52F08A771E5740EA00D4AAE6 /* PiGui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PiGui.cpp; sourceTree = "<group>"; };
+		52F08A781E5740EA00D4AAE6 /* PiGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PiGui.h; sourceTree = "<group>"; };
+		52F08A7B1E57411000D4AAE6 /* Propulsion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Propulsion.cpp; sourceTree = "<group>"; };
+		52F08A7C1E57411000D4AAE6 /* Propulsion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Propulsion.h; sourceTree = "<group>"; };
+		52F08A7D1E57411000D4AAE6 /* Range.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
+		52F1C3721E52263D00302D5A /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		52F1C3741E52263D00302D5A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		52F1C3751E52263D00302D5A /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		52F1C3771E52263D00302D5A /* imgui_impl_sdl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_impl_sdl.cpp; sourceTree = "<group>"; };
+		52F1C3781E52263D00302D5A /* imgui_impl_sdl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_impl_sdl.h; sourceTree = "<group>"; };
+		52F1C3791E52263D00302D5A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		52F1C37A1E52263D00302D5A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		52F1C37C1E52263D00302D5A /* imgui_impl_sdl_gl3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_impl_sdl_gl3.cpp; sourceTree = "<group>"; };
+		52F1C37D1E52263D00302D5A /* imgui_impl_sdl_gl3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_impl_sdl_gl3.h; sourceTree = "<group>"; };
+		52F1C37E1E52263D00302D5A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		52F1C37F1E52263D00302D5A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		52F1C3801E52263D00302D5A /* imconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imconfig.h; sourceTree = "<group>"; };
+		52F1C3811E52263D00302D5A /* imgui.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui.cpp; sourceTree = "<group>"; };
+		52F1C3821E52263D00302D5A /* imgui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui.h; sourceTree = "<group>"; };
+		52F1C3831E52263D00302D5A /* imgui_demo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_demo.cpp; sourceTree = "<group>"; };
+		52F1C3841E52263D00302D5A /* imgui_draw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = imgui_draw.cpp; sourceTree = "<group>"; };
+		52F1C3851E52263D00302D5A /* imgui_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imgui_internal.h; sourceTree = "<group>"; };
+		52F1C3861E52263D00302D5A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		52F1C3871E52263D00302D5A /* Makefile.am */ = {isa = PBXFileReference; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		52F1C3881E52263D00302D5A /* README-pioneer.org */ = {isa = PBXFileReference; lastKnownFileType = text; path = "README-pioneer.org"; sourceTree = "<group>"; };
+		52F1C3891E52263D00302D5A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		52F1C38A1E52263D00302D5A /* stb_rect_pack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_rect_pack.h; sourceTree = "<group>"; };
+		52F1C38B1E52263D00302D5A /* stb_textedit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_textedit.h; sourceTree = "<group>"; };
+		52F1C38C1E52263D00302D5A /* stb_truetype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stb_truetype.h; sourceTree = "<group>"; };
+		52F1C38E1E52266500302D5A /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		52F1C38F1E52266500302D5A /* nanosvg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nanosvg.h; sourceTree = "<group>"; };
+		52F1C3901E52266500302D5A /* nanosvgrast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nanosvgrast.h; sourceTree = "<group>"; };
+		52F1C3921E52266500302D5A /* pcg_extras.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_extras.hpp; sourceTree = "<group>"; };
+		52F1C3931E52266500302D5A /* pcg_random.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_random.hpp; sourceTree = "<group>"; };
+		52F1C3941E52266500302D5A /* pcg_static_arbitrary_seed.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_static_arbitrary_seed.hpp; sourceTree = "<group>"; };
+		52F1C3951E52266500302D5A /* pcg_uint128.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_uint128.hpp; sourceTree = "<group>"; };
 		52F3101A1C907E2800F8A082 /* modelcompiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = modelcompiler.cpp; sourceTree = "<group>"; };
 		52F310201C907FDA00F8A082 /* modelcompiler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = modelcompiler; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404121C9490A50082B1F3 /* liblibjson.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibjson.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1658,6 +1714,7 @@
 		378563DE1B197E600039F2BC /* opengl */ = {
 			isa = PBXGroup;
 			children = (
+				520639271E561B5D00818943 /* OpenGLLibs.h */,
 				5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */,
 				528422901CC0E80700A9BFA8 /* BillboardMaterial.h */,
 				378563DF1B197E600039F2BC /* FresnelColourMaterial.cpp */,
@@ -1665,6 +1722,8 @@
 				378563E11B197E600039F2BC /* GLDebug.h */,
 				378563E21B197E600039F2BC /* GasGiantMaterial.cpp */,
 				378563E31B197E600039F2BC /* GasGiantMaterial.h */,
+				5206392F1E561DE200818943 /* GenGasGiantColourMaterial.cpp */,
+				520639301E561DE200818943 /* GenGasGiantColourMaterial.h */,
 				378563E41B197E600039F2BC /* GeoSphereMaterial.cpp */,
 				378563E51B197E600039F2BC /* GeoSphereMaterial.h */,
 				378563E91B197E600039F2BC /* MaterialGL.cpp */,
@@ -1783,6 +1842,9 @@
 		4A1903C1138AA39C00E0229C /* contrib */ = {
 			isa = PBXGroup;
 			children = (
+				52F1C38D1E52266500302D5A /* nanosvg */,
+				52F1C3911E52266500302D5A /* pcg-cpp */,
+				52F1C3711E52263D00302D5A /* imgui */,
 				378564411B197EB50039F2BC /* PicoDDS */,
 				378564451B197EB60039F2BC /* profiler */,
 				378563571B197CF90039F2BC /* json */,
@@ -2027,6 +2089,15 @@
 		4A6C4B9F13532FC300FDD53F /* src */ = {
 			isa = PBXGroup;
 			children = (
+				52F08A7B1E57411000D4AAE6 /* Propulsion.cpp */,
+				52F08A7C1E57411000D4AAE6 /* Propulsion.h */,
+				52F08A7D1E57411000D4AAE6 /* Range.h */,
+				52F08A751E5740EA00D4AAE6 /* LuaPiGui.cpp */,
+				52F08A761E5740EA00D4AAE6 /* LuaPiGui.h */,
+				52F08A771E5740EA00D4AAE6 /* PiGui.cpp */,
+				52F08A781E5740EA00D4AAE6 /* PiGui.h */,
+				52F08A721E5740B100D4AAE6 /* FixedGuns.cpp */,
+				52F08A731E5740B100D4AAE6 /* FixedGuns.h */,
 				4A6C4BFE13532FC300FDD53F /* Aabb.h */,
 				4A6C4BFF13532FC300FDD53F /* AmbientSounds.cpp */,
 				4A6C4C0013532FC300FDD53F /* AmbientSounds.h */,
@@ -2658,6 +2729,82 @@
 			path = vcacheopt;
 			sourceTree = "<group>";
 		};
+		52F1C3711E52263D00302D5A /* imgui */ = {
+			isa = PBXGroup;
+			children = (
+				52F1C3721E52263D00302D5A /* .travis.yml */,
+				52F1C3731E52263D00302D5A /* examples */,
+				52F1C3801E52263D00302D5A /* imconfig.h */,
+				52F1C3811E52263D00302D5A /* imgui.cpp */,
+				52F1C3821E52263D00302D5A /* imgui.h */,
+				52F1C3831E52263D00302D5A /* imgui_demo.cpp */,
+				52F1C3841E52263D00302D5A /* imgui_draw.cpp */,
+				52F1C3851E52263D00302D5A /* imgui_internal.h */,
+				52F1C3861E52263D00302D5A /* LICENSE */,
+				52F1C3871E52263D00302D5A /* Makefile.am */,
+				52F1C3881E52263D00302D5A /* README-pioneer.org */,
+				52F1C3891E52263D00302D5A /* README.md */,
+				52F1C38A1E52263D00302D5A /* stb_rect_pack.h */,
+				52F1C38B1E52263D00302D5A /* stb_textedit.h */,
+				52F1C38C1E52263D00302D5A /* stb_truetype.h */,
+			);
+			path = imgui;
+			sourceTree = "<group>";
+		};
+		52F1C3731E52263D00302D5A /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				52F1C3741E52263D00302D5A /* .gitignore */,
+				52F1C3751E52263D00302D5A /* README.txt */,
+				52F1C3761E52263D00302D5A /* sdl_opengl2_example */,
+				52F1C37B1E52263D00302D5A /* sdl_opengl3_example */,
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+		52F1C3761E52263D00302D5A /* sdl_opengl2_example */ = {
+			isa = PBXGroup;
+			children = (
+				52F1C3771E52263D00302D5A /* imgui_impl_sdl.cpp */,
+				52F1C3781E52263D00302D5A /* imgui_impl_sdl.h */,
+				52F1C3791E52263D00302D5A /* main.cpp */,
+				52F1C37A1E52263D00302D5A /* README.md */,
+			);
+			path = sdl_opengl2_example;
+			sourceTree = "<group>";
+		};
+		52F1C37B1E52263D00302D5A /* sdl_opengl3_example */ = {
+			isa = PBXGroup;
+			children = (
+				52F1C37C1E52263D00302D5A /* imgui_impl_sdl_gl3.cpp */,
+				52F1C37D1E52263D00302D5A /* imgui_impl_sdl_gl3.h */,
+				52F1C37E1E52263D00302D5A /* main.cpp */,
+				52F1C37F1E52263D00302D5A /* README.md */,
+			);
+			path = sdl_opengl3_example;
+			sourceTree = "<group>";
+		};
+		52F1C38D1E52266500302D5A /* nanosvg */ = {
+			isa = PBXGroup;
+			children = (
+				52F1C38E1E52266500302D5A /* Makefile.am */,
+				52F1C38F1E52266500302D5A /* nanosvg.h */,
+				52F1C3901E52266500302D5A /* nanosvgrast.h */,
+			);
+			path = nanosvg;
+			sourceTree = "<group>";
+		};
+		52F1C3911E52266500302D5A /* pcg-cpp */ = {
+			isa = PBXGroup;
+			children = (
+				52F1C3921E52266500302D5A /* pcg_extras.hpp */,
+				52F1C3931E52266500302D5A /* pcg_random.hpp */,
+				52F1C3941E52266500302D5A /* pcg_static_arbitrary_seed.hpp */,
+				52F1C3951E52266500302D5A /* pcg_uint128.hpp */,
+			);
+			path = "pcg-cpp";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2679,10 +2826,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8FD8D781D3C13920075FEA1 /* GenGasGiantColourMaterial.h in Headers */,
+				5206392A1E561B5D00818943 /* OpenGLLibs.h in Headers */,
+				52F1C39B1E52266500302D5A /* pcg_uint128.hpp in Headers */,
+				52F1C39A1E52266500302D5A /* pcg_static_arbitrary_seed.hpp in Headers */,
 				525515741CA6EE1C0055DAB8 /* RandomColor.h in Headers */,
 				F87E47A11D36A46F0008F233 /* GasGiantJobs.h in Headers */,
+				52F1C3971E52266500302D5A /* nanosvgrast.h in Headers */,
 				528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */,
+				52F1C3981E52266500302D5A /* pcg_extras.hpp in Headers */,
+				52F1C3991E52266500302D5A /* pcg_random.hpp in Headers */,
+				52F1C3961E52266500302D5A /* nanosvg.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2991,7 +3144,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */;
+			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -3071,8 +3224,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8FD8D7B1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */,
-				F8FD8D7C1D3C13FA0075FEA1 /* GenGasGiantColourMaterial.h in Sources */,
+				52F08A7F1E5744FE00D4AAE6 /* GenGasGiantColourMaterial.cpp in Sources */,
+				5206392B1E561CF800818943 /* imgui_impl_sdl_gl3.cpp in Sources */,
+				5206392C1E561CF800818943 /* imgui.cpp in Sources */,
+				5206392D1E561CF800818943 /* imgui_demo.cpp in Sources */,
+				5206392E1E561CF800818943 /* imgui_draw.cpp in Sources */,
 				F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */,
 				528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */,
 				528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */,
@@ -3283,6 +3439,7 @@
 				4AB7D62A1472A83E00158DE4 /* TerrainHeightMountainsRivers.cpp in Sources */,
 				4AB7D62B1472A83E00158DE4 /* TerrainHeightMountainsRiversVolcano.cpp in Sources */,
 				4AB7D62C1472A83E00158DE4 /* TerrainHeightMountainsVolcano.cpp in Sources */,
+				52F08A7E1E57411000D4AAE6 /* Propulsion.cpp in Sources */,
 				378563A31B197D740039F2BC /* ShipCockpit.cpp in Sources */,
 				4AB7D62D1472A83E00158DE4 /* TerrainHeightRuggedDesert.cpp in Sources */,
 				3785641D1B197E600039F2BC /* RendererGL.cpp in Sources */,
@@ -3324,6 +3481,7 @@
 				378563C61B197DBB0039F2BC /* LuaLayer.cpp in Sources */,
 				4ADF51981557477400ACF5A0 /* LuaMatrix.cpp in Sources */,
 				4ADF51991557477400ACF5A0 /* LuaSystemBody.cpp in Sources */,
+				52F08A741E5740B100D4AAE6 /* FixedGuns.cpp in Sources */,
 				4ADF519A1557477400ACF5A0 /* LuaVector.cpp in Sources */,
 				4A59B4DA1557EAF5009926E5 /* lbitlib.c in Sources */,
 				4A59B4DB1557EAF5009926E5 /* lcorolib.c in Sources */,
@@ -3375,6 +3533,7 @@
 				4ABF308916335A1100664653 /* List.cpp in Sources */,
 				4ABF308A16335A1100664653 /* Lua.cpp in Sources */,
 				378564231B197E600039F2BC /* VertexBufferGL.cpp in Sources */,
+				52F08A791E5740EA00D4AAE6 /* LuaPiGui.cpp in Sources */,
 				4ABF308B16335A1100664653 /* LuaAlign.cpp in Sources */,
 				378563A01B197D740039F2BC /* Sensors.cpp in Sources */,
 				4ABF308C16335A1100664653 /* LuaBackground.cpp in Sources */,
@@ -3454,6 +3613,7 @@
 				4ACDB6C3167878620069FA03 /* Pattern.cpp in Sources */,
 				4ACDB6C4167878620069FA03 /* StaticGeometry.cpp in Sources */,
 				4ACDB6C5167878620069FA03 /* Thruster.cpp in Sources */,
+				52F08A7A1E5740EA00D4AAE6 /* PiGui.cpp in Sources */,
 				4ACDB6CE167878CE0069FA03 /* ModelCache.cpp in Sources */,
 				4ACDB6CF167878CE0069FA03 /* ModelViewer.cpp in Sources */,
 				4ACDB6D2167879AF0069FA03 /* DistanceFieldFont.cpp in Sources */,
@@ -3533,6 +3693,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5280FA921E52238A00FCBA44 /* JobQueue.cpp in Sources */,
 				52F310271C90810E00F8A082 /* modelcompiler.cpp in Sources */,
 				5221A6E41C9584F1002F4CD1 /* CollMesh.cpp in Sources */,
 				52F3102B1C90937400F8A082 /* Color.cpp in Sources */,
@@ -3562,7 +3723,6 @@
 				525515731CA6EE1C0055DAB8 /* RandomColor.cpp in Sources */,
 				52F4041D1C9490C70082B1F3 /* JsonUtils.cpp in Sources */,
 				52F4041E1C9490C70082B1F3 /* jsoncpp.cpp in Sources */,
-				F8FD8D771D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5197,7 +5357,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "pioneer" */ = {
+		4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4A20B0D51353194B0020F43E /* Debug */,
