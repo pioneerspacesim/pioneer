@@ -221,7 +221,7 @@ void SpaceStation::InitStation()
 
 	SceneGraph::ModelSkin skin;
 	skin.SetDecal("pioneer");
-	
+
 	skin.SetRandomColors(rand);
 	skin.Apply(model);
 	if (model->SupportsPatterns()) {
@@ -377,9 +377,13 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 			if (m_shipDocking[i].ship == s) { port = i; break; }
 		}
-		if (port == -1) return false;					// no permission
+		if (port == -1) {
+			if (IsGroundStation())
+				return DoShipDamage(s, flags, relVel);					// no permission
+			else return false;
+		}
 		if (IsPortLocked(port)) {
-			return false;
+			return DoShipDamage(s, flags, relVel);
 		}
 		if (m_shipDocking[port].stage != 1) return false;	// already docking?
 
@@ -392,8 +396,8 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		if (IsGroundStation()) {
 			vector3d dockingNormal = GetOrient()*dport.yaxis;
 			const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
-			if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return false;	// <0.99 harsh?
-			if (s->GetVelocity().Length() > MAX_LANDING_SPEED) return false;
+			if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return DoShipDamage(s, flags, relVel);	// <0.99 harsh?
+			if (s->GetVelocity().Length() > MAX_LANDING_SPEED) return DoShipDamage(s, flags, relVel);
 		}
 
 		// if there is more docking port anim to do, don't set docked yet
@@ -418,6 +422,12 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 	} else {
 		return true;
 	}
+}
+
+bool SpaceStation::DoShipDamage(Ship* s, Uint32 flags, double relVel) {
+	if (s==nullptr) return false;
+	s->DynamicBody::OnCollision(this, flags, relVel);
+	return true;
 }
 
 // XXX SGModel door animation. We have one station (hoop_spacestation) with a
