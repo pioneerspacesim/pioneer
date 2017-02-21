@@ -786,7 +786,7 @@ local onShipHit = function (ship, attacker)
 	if trader.no_jump ~= true then
 		if #starports == 0 then
 			trader['no_jump'] = true -- it already tried in onEnterSystem
-		elseif Engine.rand:Number(1) < trader.chance then
+		elseif trader.starport and Engine.rand:Number(1) < trader.chance then
 			local distance = ship:DistanceTo(trader.starport)
 			if distance > 149598000 * (2 - trader.chance) then -- 149,598,000km = 1AU
 				if getSystemAndJump(ship) then
