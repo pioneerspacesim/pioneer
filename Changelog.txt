@@ -15,6 +15,7 @@ January 2017
    * Fixes
      * Never spawn toothless pirates (#3903)
      * Destructor on AICmdKill ensure no gun fire (#3926)
+     * Avoid CTD when trade ship try to decide hyperjump (#3919)
 
 December 2016
    * Fixes
