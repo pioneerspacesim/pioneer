@@ -11,6 +11,7 @@ January 2017
      * Handle collision/docking better (#3915), (#3912)
      * Remove the LineMaterial as it is unused (#3929)
      * Collision with docking surface entirely moved on SpaceStation (#3920)
+     * Choose enemy ships by role, not hull mass (#3906)
 
    * Fixes
      * Never spawn toothless pirates (#3903)
