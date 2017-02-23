@@ -20,6 +20,7 @@ local InfoFace = import("ui/InfoFace")
 local NavButton = import("ui/NavButton")
 
 local l = Lang.GetResource("module-cargorun")
+local l_ui_core = Lang.GetResource("ui-core")
 
 -- Get the UI class
 local ui = Engine.ui
@@ -608,9 +609,8 @@ local onEnterSystem = function (player)
 			-- if there is some risk and still no pirates, flip a tricoin
 			if pirates < 1 and risk >= 0.2 and Engine.rand:Integer(2) == 1 then pirates = 1 end
 
-			-- XXX hull mass is a bad way to determine suitability for role
 			local shipdefs = utils.build_array(utils.filter(function (k,def) return def.tag == 'SHIP'
-				and def.hyperdriveClass > 0 and def.equipSlotCapacity.laser_front > 0 and def.hullMass <= 400 end, pairs(ShipDef)))
+				and def.hyperdriveClass > 0 and (def.roles.pirate or def.roles.mercenary) end, pairs(ShipDef)))
 			if #shipdefs == 0 then return end
 
 			local pirate
@@ -644,11 +644,11 @@ local onEnterSystem = function (player)
 				Comms.ImportantMessage(pirate_greeting, pirate.label)
 				pirate_gripes_time = Game.time
 				if mission.wholesaler or Engine.rand:Number(0, 1) >= 0.75 then
-					local escort
-					escort = Space.SpawnShipNear("kanara", Game.player, 50, 100) -- Local wholesaler or random police ship
+					local shipdef = ShipDef[Game.system.faction.policeShip]
+					local escort = Space.SpawnShipNear(shipdef.id, Game.player, 50, 100)
+					escort:SetLabel(l_ui_core.POLICE)
 					escort:AddEquip(Equipment.laser.pulsecannon_1mw)
 					escort:AddEquip(Equipment.misc.shield_generator)
-					escort:SetLabel(Ship.MakeRandomLabel())
 					escort:AIKill(pirate)
 					table.insert(escort_ships, escort)
 					Comms.ImportantMessage(l["ESCORT_CHATTER_" .. Engine.rand:Integer(1, getNumberOfFlavours("ESCORT_CHATTER"))], escort.label)

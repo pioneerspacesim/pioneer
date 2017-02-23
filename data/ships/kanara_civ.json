@@ -18,6 +18,10 @@
 		"missile" : 4,
 		"atmo_shield" : 1
 	},
+	"roles" : {
+		"pirate" : true,
+		"mercenary" : true
+	},
 	"effective_exhaust_velocity" : 8840000,
 	"thruster_fuel_use" : -1.0,
 	"fuel_tank_mass" : 4,

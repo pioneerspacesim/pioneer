@@ -26,6 +26,10 @@
       "missile" : 4,
       "sensor"  : 4
    },
+   "roles" : {
+      "merchant" : true,
+      "mercenary" : true
+   },
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 50000000.0
 }

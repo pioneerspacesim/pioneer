@@ -19,6 +19,10 @@
 		"cargo_life_support" : 0,
 		"atmo_shield" : 1
 	},
+	"roles" : {
+		"mercenary" : true,
+		"pirate" : true
+	},
 	"effective_exhaust_velocity" : 8540000,
 	"thruster_fuel_use" : -1.0,
 	"fuel_tank_mass" : 26,
