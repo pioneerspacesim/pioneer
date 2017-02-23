@@ -30,17 +30,17 @@
 ** THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <GL/glew.h>
+#include "glew.h"
 
 #if defined(GLEW_OSMESA)
 #  define GLAPI extern
-#  include <GL/osmesa.h>
+#  include "osmesa.h"
 #elif defined(GLEW_EGL)
-#  include <GL/eglew.h>
+#  include "eglew.h"
 #elif defined(_WIN32)
-#  include <GL/wglew.h>
+#  include "wglew.h"
 #elif !defined(__ANDROID__) && !defined(__native_client__) && !defined(__HAIKU__) && (!defined(__APPLE__) || defined(GLEW_APPLE_GLX))
-#  include <GL/glxew.h>
+#  include "glxew.h"
 #endif
 
 #include <stddef.h>  /* For size_t */
