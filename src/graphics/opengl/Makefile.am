@@ -8,7 +8,6 @@ AM_CPPFLAGS += -I$(srcdir)/../.. -isystem $(top_srcdir)/contrib
 
 noinst_LIBRARIES = libgraphicsopengl.a
 noinst_HEADERS = \
-	gl_core_3_x.h \
 	OpenGLLibs.h \
 	GLDebug.h \
 	MaterialGL.h \
@@ -33,7 +32,6 @@ noinst_HEADERS = \
 	BillboardMaterial.h
 
 libgraphicsopengl_a_SOURCES = \
-	gl_core_3_x.c \
 	MaterialGL.cpp \
 	RenderStateGL.cpp \
 	RenderTargetGL.cpp \
