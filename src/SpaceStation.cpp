@@ -377,9 +377,13 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 			if (m_shipDocking[i].ship == s) { port = i; break; }
 		}
-		if (port == -1) return false;					// no permission
+		if (port == -1) {
+			if (IsGroundStation())
+				return DoShipDamage(s, flags, relVel);					// no permission
+			else return false;
+		}
 		if (IsPortLocked(port)) {
-			return false;
+			return DoShipDamage(s, flags, relVel);
 		}
 		if (m_shipDocking[port].stage != 1) return false;	// already docking?
 
@@ -390,9 +394,9 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			PiVerify(m_type->GetDockAnimPositionOrient(port, m_type->NumDockingStages(), 1.0f, vector3d(0.0), dport, s));
 			vector3d dockingNormal = GetOrient()*dport.yaxis;
 			const double dot = s->GetOrient().VectorY().Dot(dockingNormal);
-			if ((dot < 0.90) || (s->GetWheelState() < 1.0)) return false;	// <0.99 harsh? => level ship
+			if ((dot < 0.99) || (s->GetWheelState() < 1.0)) return DoShipDamage(s, flags, relVel);	// <0.99 harsh?
 			// check speed
-			if (s->GetVelocity().Length() > MAX_LANDING_SPEED) return false;
+			if (s->GetVelocity().Length() > MAX_LANDING_SPEED) return DoShipDamage(s, flags, relVel);
 			// check if you're near your pad
 			float dist = (s->GetPosition() - GetPosition() - GetOrient()*dport.pos).LengthSqr();
 			// docking allowed only if inside a circle 70% greater than pad itself (*1.7)
@@ -426,6 +430,12 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 	} else {
 		return true;
 	}
+}
+
+bool SpaceStation::DoShipDamage(Ship* s, Uint32 flags, double relVel) {
+	if (s==nullptr) return false;
+	s->DynamicBody::OnCollision(this, flags, relVel);
+	return true;
 }
 
 // XXX SGModel door animation. We have one station (hoop_spacestation) with a

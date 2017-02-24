@@ -26,6 +26,10 @@
       "missile" : 4,
       "sensor"  : 8
    },
+   "roles" : {
+      "merchant" : true,
+      "pirate" : true
+   },
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 500000.0
 }

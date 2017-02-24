@@ -9,9 +9,14 @@ January 2017
      * MERRY HAPPY 2017 (#3899)
      * Remove IsPlayerShip from Ship (#3904)
      * Handle collision/docking better (#3915), (#3912)
+     * Remove the LineMaterial as it is unused (#3929)
+     * Collision with docking surface entirely moved on SpaceStation (#3920)
+     * Choose enemy ships by role, not hull mass (#3906)
 
    * Fixes
      * Never spawn toothless pirates (#3903)
+     * Destructor on AICmdKill ensure no gun fire (#3926)
+     * Avoid CTD when trade ship try to decide hyperjump (#3919)
 
 December 2016
    * Fixes

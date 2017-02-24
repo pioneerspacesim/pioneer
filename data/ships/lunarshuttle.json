@@ -26,6 +26,9 @@
       "missile" : 0,
       "sensor"  : 0
    },
+   "roles" : {
+      "merchant" : true
+   },
    "thruster_fuel_use" : -1.0,
    "up_thrust" : 1100000.0
 }

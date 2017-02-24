@@ -264,6 +264,10 @@ public:
 		assert(m_fguns!=nullptr);
 	}
 
+	~AICmdKill() {
+		if(m_fguns) m_fguns->SetGunFiringState(0,0);
+	}
+
 	// don't actually need to save all this crap
 	virtual void SaveToJson(Json::Value &jsonObj) {
 		Space *space = Pi::game->GetSpace();
