@@ -12,11 +12,15 @@ January 2017
      * Remove the LineMaterial as it is unused (#3929)
      * Collision with docking surface entirely moved on SpaceStation (#3920)
      * Choose enemy ships by role, not hull mass (#3906)
+     * Generous Minimum PhysRadius (#3491)
+     * Slowly position ship to landing tag when landing on planetary bases (#3901)
+     * GLEW resurrection, initial code and project changes (#3925)
 
    * Fixes
      * Never spawn toothless pirates (#3903)
      * Destructor on AICmdKill ensure no gun fire (#3926)
      * Avoid CTD when trade ship try to decide hyperjump (#3919)
+     * Fix some orbital data in Sol system (#3889)
 
 December 2016
    * Fixes
