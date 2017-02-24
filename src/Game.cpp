@@ -30,7 +30,7 @@ extern "C" {
 #include "miniz/miniz.h"
 }
 
-static const int  s_saveVersion   = 83;
+static const int  s_saveVersion   = 84;
 static const char s_saveStart[]   = "PIONEER";
 static const char s_saveEnd[]     = "END";
 
