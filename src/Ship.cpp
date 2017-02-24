@@ -671,6 +671,12 @@ void Ship::SetFlightState(Ship::FlightState newState)
 		m_launchLockTimeout = std::min(std::max(2.0, 2.0 * (GetMass() / MASS_LOCK_REFERENCE)), 20.0);
 	}
 
+	if (newState == DOCKED) {
+		m_launchLockTimeout = 0.0;
+		ClearLinThrusterState();
+		ClearAngThrusterState();
+	}
+
 	m_flightState = newState;
 	Properties().Set("flightState", EnumStrings::GetString("ShipFlightState", m_flightState));
 
