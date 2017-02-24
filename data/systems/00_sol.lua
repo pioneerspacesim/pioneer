@@ -166,12 +166,12 @@ local mars_moons = {
 	CustomSystemBody:new('Phobos', 'PLANET_ASTEROID')
 		:seed(439771126)
 		:radius(f(21,10000))
-		:mass(f(18,100000))
+		:mass(f(1875,100000000000000))
+		:semi_major_axis(f(627,10000000))
+		:rotation_period(f(319,1000))
 		:temp(233)
-		:semi_major_axis(f(6268,100000000))
 		:eccentricity(f(151,10000))
 		:inclination(math.deg2rad(1.093))
-		:rotation_period(f(11,24))
 		:metallicity(f(4,5))
 		:volcanicity(f(3,4)),
 	{
@@ -182,18 +182,48 @@ local mars_moons = {
 	CustomSystemBody:new('Deimos', 'PLANET_ASTEROID')
 		:seed(439771126)
 		:radius(f(12,10000))
-		:mass(f(25,1000000))
-		:temp(233)
+		:mass(f(25,10000000000000))
 		:semi_major_axis(f(1568,10000000))
+		:rotation_period(f(1263,1000))
+		:temp(233)
 		:eccentricity(f(2,10000))
 		:inclination(math.deg2rad(0.93))
-		:rotation_period(f(30,24))
 		:metallicity(f(7,10))
 		:volcanicity(f(1,1)),
 	{
 		CustomSystemBody:new('Tomm\'s Sanctuary', 'STARPORT_SURFACE'),
 	},
 }
+
+local pallas = CustomSystemBody:new('Pallas', 'PLANET_TERRESTRIAL')
+	:radius(f(08,100)) -- 512km
+	:mass(f(353,10000000)) -- 2.11e20 kg
+	:temp(164)
+	:semi_major_axis(f(27716,10000)) -- 2.7716 AU
+	:eccentricity(f(23127,100000)) -- 0.23127
+	:inclination(math.deg2rad(34.84)) -- 34.84°
+	:rotation_period(f(78,10)) -- 7.8h
+	:axial_tilt(fixed.deg2rad(f(84,1))) -- 84°
+
+local vesta = CustomSystemBody:new('Vesta', 'PLANET_TERRESTRIAL')
+	:radius(f(082,1000)) -- 525km
+	:mass(f(4338,100000000)) -- 2.590e20 kg
+	:temp(177) -- 85 - 270K
+	:semi_major_axis(f(236179,100000)) -- 2.36179 AU
+	:eccentricity(f(08874,100000)) -- 0.08874
+	:inclination(math.deg2rad(7.14043)) -- 7.14043°
+	:rotation_period(f(2226,10000)) -- 5.342h
+	:axial_tilt(fixed.deg2rad(f(29,1))) -- 29°
+
+local ceres = CustomSystemBody:new('Ceres', 'PLANET_TERRESTRIAL')
+	:radius(f(074,1000)) -- 473km
+	:mass(f(15,100000)) -- 9.393e20 kg
+	:temp(168)
+	:semi_major_axis(f(27675,10000)) -- 2.7675 AU
+	:eccentricity(f(758,10000)) -- 0.075823
+	:inclination(math.deg2rad(10.593)) -- 10.593°
+	:rotation_period(f(3781,10000)) -- 9h
+	:axial_tilt(fixed.deg2rad(f(4,1))) -- 4°
 
 local jupiter = CustomSystemBody:new('Jupiter', 'PLANET_GAS_GIANT')
 	:seed(786424632)
@@ -215,12 +245,12 @@ local jupiter_moons = {
 	CustomSystemBody:new('Metis', 'PLANET_ASTEROID')
 		:seed(-98)
 		:radius(f(337,100000))
-		:mass(f(6,1000000000))
+		:mass(f(633,10000000000000))
+		:semi_major_axis(f(856,1000000))
+		:rotation_period(f(2948,10000))
 		:temp(123)
-		:semi_major_axis(f(855,1000000))
 		:eccentricity(f(2,10000))
 		:inclination(math.deg2rad(1.57))
-		:rotation_period(f(977,1000))
 		:metallicity(f(2,1000))
 		:volcanicity(f(0,1))
 		:ice_cover(f(100,1)),
@@ -228,12 +258,12 @@ local jupiter_moons = {
 	CustomSystemBody:new('Adrastea', 'PLANET_ASTEROID')
 		:seed(-3981)
 		:radius(f(338,100000))
-		:mass(f(6,1000000000))
-		:temp(122)
+		:mass(f(352,100000000000000))
 		:semi_major_axis(f(862,1000000))
+		:rotation_period(f(2983,10000))
+		:temp(122)
 		:eccentricity(f(15,10000))
 		:inclination(math.deg2rad(0.03))
-		:rotation_period(f(977,1000))
 		:metallicity(f(7,10))
 		:volcanicity(f(1,1)),
 
@@ -434,6 +464,14 @@ local saturn = CustomSystemBody:new('Saturn', 'PLANET_GAS_GIANT')
 	:orbital_phase_at_start(fixed.deg2rad(f(217,1)))
 
 local saturn_moons = {
+     CustomSystemBody:new('Tethys', 'PLANET_TERRESTRIAL')
+		:radius(f(083,1000))
+		:mass(f(103,1000000))
+		:temp(86)
+		:semi_major_axis(f(002,1000))
+		:eccentricity(f(0,1))
+		:inclination(math.deg2rad(1.12))
+		:rotation_period(f(1887,1000)),
 	CustomSystemBody:new('Dione', 'PLANET_TERRESTRIAL')
 		:seed(-562018355)
 		:radius(f(881,10000))
@@ -446,12 +484,12 @@ local saturn_moons = {
 		:rotation_period(f(2737,1000)),
 	CustomSystemBody:new('Rhea', 'PLANET_TERRESTRIAL')
 		:radius(f(12,100))
-		:mass(f(39,10000))
+		:mass(f(406,100000000))
+		:semi_major_axis(f(352,100000))
+		:rotation_period(f(452,100))
 		:temp(81)
-		:semi_major_axis(f(441,100000))
 		:eccentricity(f(126,100000))
 		:inclination(math.deg2rad(0.345))
-		:rotation_period(f(452,100))
 		:atmos_density(f(82,1000)),
 	CustomSystemBody:new('Titan', 'PLANET_TERRESTRIAL')
 		:seed(0)
@@ -627,6 +665,9 @@ s:bodies(sol, {
 	mars,
 		mars_starports,
 		mars_moons,
+	pallas,
+	vesta,
+	ceres,
 	jupiter,
 		jupiter_moons,
 	saturn,
