@@ -464,6 +464,14 @@ void SpaceStation::DockingUpdate(const double timeStep)
 			float dist = 0.0;
 			switch ( extraStage ) {
 				case 1: // Level ship & Reposition eval
+					// PS: This is to avoid to float around if dock
+					// at high time steps on an orbital
+					if (!IsGroundStation()) {
+						dt.fromPos = vector3d(0.0); //No offset
+						dt.fromRot = Quaterniond(1.0,0.0,0.0,0.0); //Identity (no rotation)
+						dt.stage += 2;
+						continue;
+					}
 					if ( !LevelShip(dt.ship, i, timeStep) ) continue;
 					PiVerify(m_type->GetDockAnimPositionOrient(i, m_type->NumDockingStages(), 1.0f, dt.fromPos, dport, dt.ship));
 					dist = (dt.ship->GetPosition() - GetPosition() - GetOrient()*dport.pos).LengthSqr();
