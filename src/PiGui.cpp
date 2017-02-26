@@ -58,7 +58,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	for(auto strTex : m_svg_textures) {
 		if(strTex.first == svgFilename) {
 			// nasty bit as I invoke the TextureGL
-			Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(strTex.second);
+			Graphics::OGL::TextureGL *pGLTex = reinterpret_cast<Graphics::OGL::TextureGL*>(strTex.second);
 			Uint32 result = pGLTex->GetTexture();
  			Output("Re-used existing texture with id: %i\n", result);
 			return reinterpret_cast<void*>(result);
@@ -253,7 +253,7 @@ void *PiGui::makeTexture(const std::string &filename, unsigned char *pixels, int
 	pTex->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	// nasty bit as I invoke the TextureGL
-	Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(pTex);
+	Graphics::OGL::TextureGL *pGLTex = reinterpret_cast<Graphics::OGL::TextureGL*>(pTex);
 	Uint32 result = pGLTex->GetTexture();
  	Output("texture id: %i\n", result);
 	m_svg_textures.push_back( std::make_pair(filename,pTex) );	// store for cleanup later

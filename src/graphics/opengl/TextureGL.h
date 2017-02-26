@@ -8,6 +8,7 @@
 #include "OpenGLLibs.h"
 
 namespace Graphics {
+namespace OGL {
 
 class TextureGL : public Texture {
 public:
@@ -32,6 +33,7 @@ private:
 	const bool m_useAnisoFiltering;
 };
 
+}
 }
 
 #endif

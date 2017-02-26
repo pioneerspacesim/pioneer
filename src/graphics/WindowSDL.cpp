@@ -13,12 +13,29 @@ bool WindowSDL::CreateWindowAndContext(const char *name, const Graphics::Setting
 	Uint32 winFlags = SDL_WINDOW_OPENGL | (vs.hidden ? SDL_WINDOW_HIDDEN : SDL_WINDOW_SHOWN);
 	if (!vs.hidden && vs.fullscreen) winFlags |= SDL_WINDOW_FULLSCREEN;
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-	// cannot initialise 3.x content on OSX with anything but CORE profile
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-	// OSX also forces us to use this for 3.2 onwards
-	if (vs.gl3ForwardCompatible) SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+	switch(vs.rendererType) {
+	case Graphics::RendererType::RENDERER_OPENGL_21:
+		{
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+		} 
+		break;
+	case Graphics::RendererType::RENDERER_OPENGL_3x:
+		{
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+			// cannot initialise 3.x content on OSX with anything but CORE profile
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+			// OSX also forces us to use this for 3.2 onwards
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+			if (vs.gl3ForwardCompatible) SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+		}
+		break;
+	default:
+		assert(false);
+		Error("Passed DUMMY or unhandled type of renderer into WindowSDL::CreateWindowAndContext");
+		break;
+	}
 
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, depth_bits);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
