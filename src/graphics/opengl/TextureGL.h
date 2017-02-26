@@ -9,7 +9,6 @@
 
 namespace Graphics 
 {
-	class RendererOGL;
 	namespace OGL 
 	{
 		class TextureGL : public Texture {
@@ -17,6 +16,7 @@ namespace Graphics
 			virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
 			virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
 
+			TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering);
 			virtual ~TextureGL();
 
 			void Bind();
@@ -27,9 +27,6 @@ namespace Graphics
 			GLuint GetTexture() const { return m_texture; }
 
 		private:
-			friend class RendererOGL;
-			TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering);
-
 			GLenum m_target;
 			GLuint m_texture;
 			const bool m_useAnisoFiltering;
