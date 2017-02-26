@@ -45,6 +45,7 @@ public:
 	virtual ~RendererGL2();
 
 	virtual const char* GetName() const { return "OpenGL 2.1, with extensions, renderer"; }
+	virtual RendererType GetRendererType() const  override final { return RENDERER_OPENGL_21; }
 
 	virtual void WriteRendererInfo(std::ostream &out) const;
 

@@ -43,6 +43,7 @@ void *pi_lua_checklightuserdata(lua_State *l, int index) {
 		return lua_touserdata(l, index);
 	else
 		Error("Expected light user data at %d", index);
+	return nullptr;
 }
 
 void pi_lua_generic_pull(lua_State *l, int index, ImVec2 &vector) {

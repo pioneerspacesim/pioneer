@@ -51,6 +51,7 @@ public:
 	virtual ~RendererOGL() override final;
 
 	virtual const char* GetName() const override final { return "OpenGL 3.1, with extensions, renderer"; }
+	virtual RendererType GetRendererType() const  override final { return RENDERER_OPENGL_3x; }
 
 	virtual void WriteRendererInfo(std::ostream &out) const override final;
 

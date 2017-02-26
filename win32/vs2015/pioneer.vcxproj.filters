@@ -459,6 +459,9 @@
     <ClCompile Include="..\..\src\Propulsion.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.cpp">
+      <Filter>src\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Aabb.h">
@@ -922,6 +925,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\Propulsion.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\contrib\imgui\examples\sdl_opengl2_example\imgui_impl_sdl.h">
+      <Filter>src\imgui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

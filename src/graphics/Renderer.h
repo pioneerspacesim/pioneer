@@ -48,6 +48,7 @@ public:
 	virtual ~Renderer();
 
 	virtual const char* GetName() const = 0;
+	virtual RendererType GetRendererType() const = 0;
 
 	virtual void WriteRendererInfo(std::ostream &out) const {}
 
