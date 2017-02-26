@@ -28,8 +28,7 @@ noinst_HEADERS = \
 	GL2Debug.h \
 	GL2VtxColorMaterial.h \
 	GL2RenderState.h \
-	OpenGLLibs.h \
-	gl_core_2_1.hpp
+	OpenGLLibs.h
 
 libgraphicsgl2_a_SOURCES = \
 	GL2VtxColorMaterial.cpp \
@@ -47,5 +46,4 @@ libgraphicsgl2_a_SOURCES = \
 	GL2RingMaterial.cpp \
 	GL2Renderer.cpp \
 	GL2RenderTarget.cpp \
-	GL2RenderState.cpp \
-	gl_core_2_1.cpp
+	GL2RenderState.cpp
