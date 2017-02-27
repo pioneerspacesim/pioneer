@@ -8,7 +8,7 @@
 
 #include <SDL.h>
 #include <SDL_syswm.h>
-#include <SDL_opengl.h>
+#include "../../src/graphics/gl2/OpenGLLibs.h"
 #include <imgui.h>
 #include "imgui_impl_sdl.h"
 
@@ -33,6 +33,7 @@ void ImGui_ImplSdl_RenderDrawLists(ImDrawData* draw_data)
 
     // We are using the OpenGL fixed pipeline to make the example code simpler to read!
     // Setup render state: alpha-blending enabled, no face culling, no depth testing, scissor enabled, vertex/texcoord/color pointers.
+	glUseProgram(0);
     GLint last_texture; glGetIntegerv(GL_TEXTURE_BINDING_2D, &last_texture);
     GLint last_viewport[4]; glGetIntegerv(GL_VIEWPORT, last_viewport);
     GLint last_scissor_box[4]; glGetIntegerv(GL_SCISSOR_BOX, last_scissor_box); 
