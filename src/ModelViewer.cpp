@@ -34,6 +34,7 @@ ModelViewer::Options::Options()
 , mouselookEnabled(false)
 , gridInterval(10.f)
 , lightPreset(0)
+, orthoView(false)
 {
 }
 
@@ -556,11 +557,26 @@ void ModelViewer::MainLoop()
 			m_shields->Update(m_options.showShields ? 1.0f : (1.0f - dif), 1.0f);
 			
 			// setup rendering
-			m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
+			if (!m_options.orthoView) {
+                m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
+			} else {
+                /* TODO: Zoom in ortho mode seems don't work as in perspective mode,
+                 / I change "screen dimensions" to avoid the problem.
+                 / However the zoom needs more care
+                */
+                if (m_zoom<=0.0) m_zoom = 0.01;
+                float screenW = Graphics::GetScreenWidth()*m_zoom/10;
+                float screenH = Graphics::GetScreenHeight()*m_zoom/10;
+                matrix4x4f orthoMat = matrix4x4f::OrthoFrustum(-screenW,screenW, -screenH, screenH, 0.1f, 100000.0f);
+                orthoMat.ClearToRotOnly();
+                m_renderer->SetProjection(orthoMat);
+			}
+
 			m_renderer->SetTransform(matrix4x4f::Identity());
 
 			// calc camera info
 			matrix4x4f mv;
+			float zd=0;
 			if (m_options.mouselookEnabled) {
 				mv = m_viewRot.Transpose() * matrix4x4f::Translation(-m_viewPos);
 			} else {
@@ -568,7 +584,9 @@ void ModelViewer::MainLoop()
 				matrix4x4f rot = matrix4x4f::Identity();
 				rot.RotateX(DEG2RAD(-m_rotX));
 				rot.RotateY(DEG2RAD(-m_rotY));
-				mv = matrix4x4f::Translation(0.0f, 0.0f, -zoom_distance(m_baseDistance, m_zoom)) * rot;
+				if (m_options.orthoView) zd = -m_baseDistance;
+				else zd = -zoom_distance(m_baseDistance, m_zoom);
+				mv = matrix4x4f::Translation(0.0f, 0.0f, zd) * rot;
 			}
 
 			// draw the model itself
@@ -696,6 +714,7 @@ void ModelViewer::PollEvents()
 	 * printscr - screenshots
 	 * tab - toggle ui (always invisible on screenshots)
 	 * g - grid
+	 * o - switch orthographic<->perspective
 	 *
 	 */
 	m_mouseMotion[0] = m_mouseMotion[1] = 0;
@@ -754,6 +773,9 @@ void ModelViewer::PollEvents()
 			case SDLK_g:
 				OnToggleGrid(0);
 				break;
+            case SDLK_o:
+                m_options.orthoView = !m_options.orthoView;
+                break;
 			case SDLK_z:
 				m_options.wireframe = !m_options.wireframe;
 				break;
