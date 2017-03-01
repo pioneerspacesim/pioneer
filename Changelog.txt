@@ -2,6 +2,9 @@ March 2017
    * New Features
      * Orthographic view in modelviewer #3936
 
+   * Internal Changes
+     * Upgrade of Xcode project for Mac OSX build #3937
+
 February 2017
    * New Features
      * Slowly position ship to landing tag when landing on planetary bases (#3901)
