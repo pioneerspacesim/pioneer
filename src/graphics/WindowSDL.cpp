@@ -18,6 +18,10 @@ bool WindowSDL::CreateWindowAndContext(const char *name, const Graphics::Setting
 		{
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+			// cannot initialise 3.x content on OSX with anything but CORE profile
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, 0);
+			// OSX also forces us to use this for 3.2 onwards
+			SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
 		} 
 		break;
 	case Graphics::RendererType::RENDERER_OPENGL_3x:
@@ -27,7 +31,6 @@ bool WindowSDL::CreateWindowAndContext(const char *name, const Graphics::Setting
 			// cannot initialise 3.x content on OSX with anything but CORE profile
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 			// OSX also forces us to use this for 3.2 onwards
-			SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
 			if (vs.gl3ForwardCompatible) SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
 		}
 		break;
@@ -63,7 +66,7 @@ bool WindowSDL::CreateWindowAndContext(const char *name, const Graphics::Setting
 	return true;
 }
 
-WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name) {
+WindowSDL::WindowSDL(Graphics::Settings &vs, const std::string &name) {
 
 	// XXX horrible hack. if we don't want a renderer, we might be in an
 	// environment that doesn't actually have graphics available. since we're
@@ -100,6 +103,36 @@ WindowSDL::WindowSDL(const Graphics::Settings &vs, const std::string &name) {
 	if (!ok && vs.requestedSamples) {
 		Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
 		ok = CreateWindowAndContext(name.c_str(), vs, 0, 16);
+	}
+
+	if (!ok && vs.rendererType != Graphics::RENDERER_OPENGL_21)
+	{
+		Output("Retrying all previous modes using an OpenGL 2.1 context\n", SDL_GetError());
+		vs.rendererType = Graphics::RENDERER_OPENGL_21;
+
+		// attempt sequence is:
+		// 1- requested mode
+		ok = CreateWindowAndContext(name.c_str(), vs, vs.requestedSamples, 24);
+
+		// 2- requested mode with no anti-aliasing (skipped if no AA was requested anyway)
+		//    (skipped if no AA was requested anyway)
+		if (!ok && vs.requestedSamples) {
+			Output("Failed to set video mode. (%s). Re-trying without multisampling.\n", SDL_GetError());
+			ok = CreateWindowAndContext(name.c_str(), vs, 0, 24);
+		}
+
+		// 3- requested mode with 16 bit depth buffer
+		if (!ok) {
+			Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer\n", SDL_GetError());
+			ok = CreateWindowAndContext(name.c_str(), vs, vs.requestedSamples, 16);
+		}
+
+		// 4- requested mode with 16-bit depth buffer and no anti-aliasing
+		//    (skipped if no AA was requested anyway)
+		if (!ok && vs.requestedSamples) {
+			Output("Failed to set video mode. (%s). Re-trying with 16-bit depth buffer and no multisampling\n", SDL_GetError());
+			ok = CreateWindowAndContext(name.c_str(), vs, 0, 16);
+		}
 	}
 
 	// 5- abort!
