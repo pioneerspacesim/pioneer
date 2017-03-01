@@ -81,7 +81,6 @@
 		378564221B197E600039F2BC /* Uniform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564001B197E600039F2BC /* Uniform.cpp */; };
 		378564231B197E600039F2BC /* VertexBufferGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564021B197E600039F2BC /* VertexBufferGL.cpp */; };
 		378564241B197E600039F2BC /* VtxColorMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564041B197E600039F2BC /* VtxColorMaterial.cpp */; };
-		378564251B197E600039F2BC /* gl_core_3_x.c in Sources */ = {isa = PBXBuildFile; fileRef = 378564061B197E600039F2BC /* gl_core_3_x.c */; };
 		378564261B197E600039F2BC /* Stats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640A1B197E600039F2BC /* Stats.cpp */; };
 		378564271B197E600039F2BC /* VertexBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640D1B197E600039F2BC /* VertexBuffer.cpp */; };
 		378564281B197E600039F2BC /* WindowSDL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785640F1B197E600039F2BC /* WindowSDL.cpp */; };
@@ -435,7 +434,6 @@
 		52025F791C05BA7100254BB5 /* CollMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52025F781C05BA7100254BB5 /* CollMesh.cpp */; };
 		52025F7C1C05BBAC00254BB5 /* libvorbis.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7A1C05BBAC00254BB5 /* libvorbis.0.dylib */; };
 		52025F7F1C05BD3400254BB5 /* libvorbisfile.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 52025F7E1C05BD3400254BB5 /* libvorbisfile.3.dylib */; };
-		5206392A1E561B5D00818943 /* OpenGLLibs.h in Headers */ = {isa = PBXBuildFile; fileRef = 520639271E561B5D00818943 /* OpenGLLibs.h */; };
 		5206392B1E561CF800818943 /* imgui_impl_sdl_gl3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C37C1E52263D00302D5A /* imgui_impl_sdl_gl3.cpp */; };
 		5206392C1E561CF800818943 /* imgui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C3811E52263D00302D5A /* imgui.cpp */; };
 		5206392D1E561CF800818943 /* imgui_demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F1C3831E52263D00302D5A /* imgui_demo.cpp */; };
@@ -493,17 +491,16 @@
 		523C0C5E1C33F90800802DC7 /* libcrypto.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */; };
 		523C0C5F1C33F92000802DC7 /* libcrypto.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 523C0C5D1C33F90800802DC7 /* libcrypto.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		525515701CA6EBC30055DAB8 /* modelcompiler in Copy Model Compiler */ = {isa = PBXBuildFile; fileRef = 52F310201C907FDA00F8A082 /* modelcompiler */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		525515731CA6EE1C0055DAB8 /* RandomColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 525515711CA6EE1C0055DAB8 /* RandomColor.cpp */; };
-		525515741CA6EE1C0055DAB8 /* RandomColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525515751CA6EEE30055DAB8 /* RandomColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 525515711CA6EE1C0055DAB8 /* RandomColor.cpp */; };
 		525515761CA6EEE30055DAB8 /* RandomColor.h in Sources */ = {isa = PBXBuildFile; fileRef = 525515721CA6EE1C0055DAB8 /* RandomColor.h */; };
 		525E07921C318AD1009BD2DD /* libssl.1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; };
 		525E07931C318AE4009BD2DD /* libssl.1.0.0.dylib in Copy SubLibraries */ = {isa = PBXBuildFile; fileRef = 525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5280FA921E52238A00FCBA44 /* JobQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563751B197D740039F2BC /* JobQueue.cpp */; };
-		528422911CC0E80700A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
-		528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
 		528422931CC0E81900A9BFA8 /* BillboardMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */; };
 		528422941CC0E81A00A9BFA8 /* BillboardMaterial.h in Sources */ = {isa = PBXBuildFile; fileRef = 528422901CC0E80700A9BFA8 /* BillboardMaterial.h */; };
+		52875E081E66DE8000BA28A4 /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
+		52875E091E66DE8000BA28A4 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
+		52875E0A1E66DF9400BA28A4 /* glew.c in Sources */ = {isa = PBXBuildFile; fileRef = 52875DFE1E66D68C00BA28A4 /* glew.c */; };
 		52B054A11C184CAE00BAAE57 /* LuaOverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */; };
 		52B054A21C184CAE00BAAE57 /* OverlayStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */; };
 		52B054A81C184D0800BAAE57 /* GalaxyMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52B054A31C184D0800BAAE57 /* GalaxyMap.cpp */; };
@@ -514,12 +511,6 @@
 		52F08A7A1E5740EA00D4AAE6 /* PiGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F08A771E5740EA00D4AAE6 /* PiGui.cpp */; };
 		52F08A7E1E57411000D4AAE6 /* Propulsion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F08A7B1E57411000D4AAE6 /* Propulsion.cpp */; };
 		52F08A7F1E5744FE00D4AAE6 /* GenGasGiantColourMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8FD8D731D3C13920075FEA1 /* GenGasGiantColourMaterial.cpp */; };
-		52F1C3961E52266500302D5A /* nanosvg.h in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C38F1E52266500302D5A /* nanosvg.h */; };
-		52F1C3971E52266500302D5A /* nanosvgrast.h in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3901E52266500302D5A /* nanosvgrast.h */; };
-		52F1C3981E52266500302D5A /* pcg_extras.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3921E52266500302D5A /* pcg_extras.hpp */; };
-		52F1C3991E52266500302D5A /* pcg_random.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3931E52266500302D5A /* pcg_random.hpp */; };
-		52F1C39A1E52266500302D5A /* pcg_static_arbitrary_seed.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3941E52266500302D5A /* pcg_static_arbitrary_seed.hpp */; };
-		52F1C39B1E52266500302D5A /* pcg_uint128.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 52F1C3951E52266500302D5A /* pcg_uint128.hpp */; };
 		52F310271C90810E00F8A082 /* modelcompiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52F3101A1C907E2800F8A082 /* modelcompiler.cpp */; };
 		52F3102B1C90937400F8A082 /* Color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A9174FD15187C17006A15A9 /* Color.cpp */; };
 		52F3102C1C90937400F8A082 /* FileSourceZip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4AAC9FE51545901D00116131 /* FileSourceZip.cpp */; };
@@ -536,9 +527,6 @@
 		52F310371C90937400F8A082 /* StringF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6B59CA1429F14500ADC7C8 /* StringF.cpp */; };
 		52F310381C90937400F8A082 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4A6C4D6E13532FC300FDD53F /* utils.cpp */; };
 		52F403AD1C9481950082B1F3 /* DateTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563621B197D740039F2BC /* DateTime.cpp */; };
-		52F4041D1C9490C70082B1F3 /* JsonUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563581B197CF90039F2BC /* JsonUtils.cpp */; };
-		52F4041E1C9490C70082B1F3 /* jsoncpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3785635C1B197CF90039F2BC /* jsoncpp.cpp */; };
-		52F404211C94926C0082B1F3 /* liblibjson.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 52F404121C9490A50082B1F3 /* liblibjson.a */; };
 		52F404301C9495320082B1F3 /* Profiler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564471B197EB60039F2BC /* Profiler.cpp */; };
 		52F4043A1C9495CE0082B1F3 /* PicoDDS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378564431B197EB60039F2BC /* PicoDDS.cpp */; };
 		52F404441C9496300082B1F3 /* FontConfig.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 378563AE1B197D9C0039F2BC /* FontConfig.cpp */; };
@@ -625,8 +613,6 @@
 		F87E479B1D35E63A0008F233 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47991D35E63A0008F233 /* SDL2.framework */; };
 		F87E479C1D35E7480008F233 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47981D35E63A0008F233 /* SDL2_image.framework */; };
 		F87E479D1D35E7480008F233 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F87E47991D35E63A0008F233 /* SDL2.framework */; };
-		F87E47A01D36A46F0008F233 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
-		F87E47A11D36A46F0008F233 /* GasGiantJobs.h in Headers */ = {isa = PBXBuildFile; fileRef = F87E479F1D36A46F0008F233 /* GasGiantJobs.h */; };
 		F8FD8D721D3C0CA20075FEA1 /* GasGiantJobs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F87E479E1D36A46F0008F233 /* GasGiantJobs.cpp */; };
 /* End PBXBuildFile section */
 
@@ -821,8 +807,6 @@
 		378564031B197E600039F2BC /* VertexBufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexBufferGL.h; sourceTree = "<group>"; };
 		378564041B197E600039F2BC /* VtxColorMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VtxColorMaterial.cpp; sourceTree = "<group>"; };
 		378564051B197E600039F2BC /* VtxColorMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VtxColorMaterial.h; sourceTree = "<group>"; };
-		378564061B197E600039F2BC /* gl_core_3_x.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gl_core_3_x.c; sourceTree = "<group>"; };
-		378564071B197E600039F2BC /* gl_core_3_x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gl_core_3_x.h; sourceTree = "<group>"; };
 		378564081B197E600039F2BC /* RenderState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderState.h; sourceTree = "<group>"; };
 		378564091B197E600039F2BC /* RenderTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderTarget.h; sourceTree = "<group>"; };
 		3785640A1B197E600039F2BC /* Stats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stats.cpp; sourceTree = "<group>"; };
@@ -1491,6 +1475,12 @@
 		525E07901C318AA5009BD2DD /* libssl.1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.1.0.0.dylib; path = ../../../../../opt/local/lib/libssl.1.0.0.dylib; sourceTree = "<group>"; };
 		5284228F1CC0E80700A9BFA8 /* BillboardMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BillboardMaterial.cpp; sourceTree = "<group>"; };
 		528422901CC0E80700A9BFA8 /* BillboardMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillboardMaterial.h; sourceTree = "<group>"; };
+		52875DFD1E66D68C00BA28A4 /* eglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eglew.h; sourceTree = "<group>"; };
+		52875DFE1E66D68C00BA28A4 /* glew.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glew.c; sourceTree = "<group>"; };
+		52875DFF1E66D68C00BA28A4 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
+		52875E001E66D68C00BA28A4 /* glxew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glxew.h; sourceTree = "<group>"; };
+		52875E011E66D68C00BA28A4 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		52875E021E66D68C00BA28A4 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
 		52B0549E1C184CAE00BAAE57 /* LuaOverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaOverlayStack.cpp; sourceTree = "<group>"; };
 		52B0549F1C184CAE00BAAE57 /* OverlayStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OverlayStack.cpp; sourceTree = "<group>"; };
 		52B054A01C184CAE00BAAE57 /* OverlayStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlayStack.h; sourceTree = "<group>"; };
@@ -1541,7 +1531,6 @@
 		52F1C3951E52266500302D5A /* pcg_uint128.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pcg_uint128.hpp; sourceTree = "<group>"; };
 		52F3101A1C907E2800F8A082 /* modelcompiler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = modelcompiler.cpp; sourceTree = "<group>"; };
 		52F310201C907FDA00F8A082 /* modelcompiler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = modelcompiler; sourceTree = BUILT_PRODUCTS_DIR; };
-		52F404121C9490A50082B1F3 /* liblibjson.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibjson.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F4042F1C94951F0082B1F3 /* liblibprofiler.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibprofiler.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404391C9495C00082B1F3 /* liblibpicodds.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibpicodds.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		52F404431C9495FD0082B1F3 /* liblibtext.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibtext.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1614,16 +1603,8 @@
 				52F404F41C9498F90082B1F3 /* liblibcollider.a in Frameworks */,
 				52F404FB1C9498F90082B1F3 /* liblibtext.a in Frameworks */,
 				52F404F81C9498F90082B1F3 /* liblibpicodds.a in Frameworks */,
-				52F404211C94926C0082B1F3 /* liblibjson.a in Frameworks */,
 				52F404F91C9498F90082B1F3 /* liblibprofiler.a in Frameworks */,
 				5221A75B1C958949002F4CD1 /* libliblua.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		52F4040F1C9490A50082B1F3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1755,8 +1736,6 @@
 				378564031B197E600039F2BC /* VertexBufferGL.h */,
 				378564041B197E600039F2BC /* VtxColorMaterial.cpp */,
 				378564051B197E600039F2BC /* VtxColorMaterial.h */,
-				378564061B197E600039F2BC /* gl_core_3_x.c */,
-				378564071B197E600039F2BC /* gl_core_3_x.h */,
 			);
 			path = opengl;
 			sourceTree = "<group>";
@@ -1842,6 +1821,7 @@
 		4A1903C1138AA39C00E0229C /* contrib */ = {
 			isa = PBXGroup;
 			children = (
+				52875DFC1E66D68C00BA28A4 /* glew */,
 				52F1C38D1E52266500302D5A /* nanosvg */,
 				52F1C3911E52266500302D5A /* pcg-cpp */,
 				52F1C3711E52263D00302D5A /* imgui */,
@@ -1941,7 +1921,6 @@
 			children = (
 				4A20B0DE135319770020F43E /* pioneer.app */,
 				52F310201C907FDA00F8A082 /* modelcompiler */,
-				52F404121C9490A50082B1F3 /* liblibjson.a */,
 				52F4042F1C94951F0082B1F3 /* liblibprofiler.a */,
 				52F404391C9495C00082B1F3 /* liblibpicodds.a */,
 				52F404431C9495FD0082B1F3 /* liblibtext.a */,
@@ -2729,6 +2708,19 @@
 			path = vcacheopt;
 			sourceTree = "<group>";
 		};
+		52875DFC1E66D68C00BA28A4 /* glew */ = {
+			isa = PBXGroup;
+			children = (
+				52875DFD1E66D68C00BA28A4 /* eglew.h */,
+				52875DFE1E66D68C00BA28A4 /* glew.c */,
+				52875DFF1E66D68C00BA28A4 /* glew.h */,
+				52875E001E66D68C00BA28A4 /* glxew.h */,
+				52875E011E66D68C00BA28A4 /* Makefile.am */,
+				52875E021E66D68C00BA28A4 /* wglew.h */,
+			);
+			path = glew;
+			sourceTree = "<group>";
+		};
 		52F1C3711E52263D00302D5A /* imgui */ = {
 			isa = PBXGroup;
 			children = (
@@ -2819,23 +2811,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		52F404101C9490A50082B1F3 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5206392A1E561B5D00818943 /* OpenGLLibs.h in Headers */,
-				52F1C39B1E52266500302D5A /* pcg_uint128.hpp in Headers */,
-				52F1C39A1E52266500302D5A /* pcg_static_arbitrary_seed.hpp in Headers */,
-				525515741CA6EE1C0055DAB8 /* RandomColor.h in Headers */,
-				F87E47A11D36A46F0008F233 /* GasGiantJobs.h in Headers */,
-				52F1C3971E52266500302D5A /* nanosvgrast.h in Headers */,
-				528422921CC0E80700A9BFA8 /* BillboardMaterial.h in Headers */,
-				52F1C3981E52266500302D5A /* pcg_extras.hpp in Headers */,
-				52F1C3991E52266500302D5A /* pcg_random.hpp in Headers */,
-				52F1C3961E52266500302D5A /* nanosvg.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2971,23 +2946,6 @@
 			productName = modelcompiler;
 			productReference = 52F310201C907FDA00F8A082 /* modelcompiler */;
 			productType = "com.apple.product-type.tool";
-		};
-		52F404111C9490A50082B1F3 /* libjson */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 52F4041A1C9490A50082B1F3 /* Build configuration list for PBXNativeTarget "libjson" */;
-			buildPhases = (
-				52F4040E1C9490A50082B1F3 /* Sources */,
-				52F4040F1C9490A50082B1F3 /* Frameworks */,
-				52F404101C9490A50082B1F3 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = libjson;
-			productName = libjson;
-			productReference = 52F404121C9490A50082B1F3 /* liblibjson.a */;
-			productType = "com.apple.product-type.library.static";
 		};
 		52F404221C94951F0082B1F3 /* libprofiler */ = {
 			isa = PBXNativeTarget;
@@ -3139,9 +3097,6 @@
 					52F3101F1C907FDA00F8A082 = {
 						CreatedOnToolsVersion = 7.2;
 					};
-					52F404111C9490A50082B1F3 = {
-						CreatedOnToolsVersion = 7.2;
-					};
 				};
 			};
 			buildConfigurationList = 4A20B0D31353194B0020F43E /* Build configuration list for PBXProject "Pioneer" */;
@@ -3156,7 +3111,6 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				52F404111C9490A50082B1F3 /* libjson */,
 				52F404221C94951F0082B1F3 /* libprofiler */,
 				52F404311C9495C00082B1F3 /* libpicodds */,
 				5221A72F1C9588D8002F4CD1 /* liblua */,
@@ -3224,6 +3178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52875E0A1E66DF9400BA28A4 /* glew.c in Sources */,
 				52F08A7F1E5744FE00D4AAE6 /* GenGasGiantColourMaterial.cpp in Sources */,
 				5206392B1E561CF800818943 /* imgui_impl_sdl_gl3.cpp in Sources */,
 				5206392C1E561CF800818943 /* imgui.cpp in Sources */,
@@ -3467,7 +3422,6 @@
 				4A107C301525AB0D00EF9FAC /* ShipController.cpp in Sources */,
 				4ADC7B82152C703200E359B5 /* SDLWrappers.cpp in Sources */,
 				4ADC7B83152C703200E359B5 /* View.cpp in Sources */,
-				378564251B197E600039F2BC /* gl_core_3_x.c in Sources */,
 				4ACC6D1E15401E7000C59914 /* TextSupport.cpp in Sources */,
 				4ACC6D1F15401E7000C59914 /* TextureFont.cpp in Sources */,
 				4AAC9FE91545901D00116131 /* FileSourceZip.cpp in Sources */,
@@ -3693,6 +3647,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52875E081E66DE8000BA28A4 /* JsonUtils.cpp in Sources */,
+				52875E091E66DE8000BA28A4 /* jsoncpp.cpp in Sources */,
 				5280FA921E52238A00FCBA44 /* JobQueue.cpp in Sources */,
 				52F310271C90810E00F8A082 /* modelcompiler.cpp in Sources */,
 				5221A6E41C9584F1002F4CD1 /* CollMesh.cpp in Sources */,
@@ -3711,18 +3667,6 @@
 				52F310361C90937400F8A082 /* Serializer.cpp in Sources */,
 				52F310371C90937400F8A082 /* StringF.cpp in Sources */,
 				52F310381C90937400F8A082 /* utils.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		52F4040E1C9490A50082B1F3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				528422911CC0E80700A9BFA8 /* BillboardMaterial.cpp in Sources */,
-				F87E47A01D36A46F0008F233 /* GasGiantJobs.cpp in Sources */,
-				525515731CA6EE1C0055DAB8 /* RandomColor.cpp in Sources */,
-				52F4041D1C9490C70082B1F3 /* JsonUtils.cpp in Sources */,
-				52F4041E1C9490C70082B1F3 /* jsoncpp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4293,7 +4237,7 @@
 					"$(SRCROOT)/../contrib/lua",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4349,118 +4293,7 @@
 					"$(SRCROOT)/../contrib/lua",
 					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		52F4041B1C9490A50082B1F3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_CPP_EXCEPTIONS = YES;
-				GCC_ENABLE_CPP_RTTI = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		52F4041C1C9490A50082B1F3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				EXECUTABLE_PREFIX = lib;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LOCAL_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_CPP_EXCEPTIONS = YES;
-				GCC_ENABLE_CPP_RTTI = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					../contrib,
-					../src,
-					"/opt/local/lib/sigc++-2.0/include",
-					"/opt/local/include/sigc++-2.0",
-					/opt/local/include/freetype2,
-					/opt/local/include,
-					/opt/local/include/SDL2,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -5407,15 +5240,6 @@
 			buildConfigurations = (
 				52F310251C907FDB00F8A082 /* Debug */,
 				52F310261C907FDB00F8A082 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		52F4041A1C9490A50082B1F3 /* Build configuration list for PBXNativeTarget "libjson" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				52F4041B1C9490A50082B1F3 /* Debug */,
-				52F4041C1C9490A50082B1F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
