@@ -1,3 +1,7 @@
+March 2017
+   * New Features
+     * Orthographic view in modelviewer #3936
+
 February 2017
    * New Features
      * Slowly position ship to landing tag when landing on planetary bases (#3901)
