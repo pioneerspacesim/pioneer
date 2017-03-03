@@ -46,6 +46,7 @@ GameConfig::GameConfig(const map_string &override_)
 	map["EnableServerAgent"] = "0";
 	map["AmountOfBackgroundStars"] = "1.0";
 	map["UseAnisotropicFiltering"] = "0";
+	map["RendererName"] = "Opengl 3.x"; // default to our best renderer
 
 #ifdef _WIN32
 	map["RedirectStdio"] = "1";

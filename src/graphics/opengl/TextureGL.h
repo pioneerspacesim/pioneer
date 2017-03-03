@@ -4,34 +4,34 @@
 #ifndef _TEXTUREGL_H
 #define _TEXTUREGL_H
 
-#include "graphics/Texture.h"
 #include "OpenGLLibs.h"
+#include "graphics/Texture.h"
 
-namespace Graphics {
+namespace Graphics 
+{
+	namespace OGL 
+	{
+		class TextureGL : public Texture {
+		public:
+			virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
+			virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
 
-class TextureGL : public Texture {
-public:
-	virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
-	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
+			TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering);
+			virtual ~TextureGL();
 
-	virtual ~TextureGL();
+			void Bind();
+			void Unbind();
 
-	void Bind();
-	void Unbind();
+			virtual void SetSampleMode(TextureSampleMode);
+			virtual void BuildMipmaps();
+			GLuint GetTexture() const { return m_texture; }
 
-	virtual void SetSampleMode(TextureSampleMode);
-	virtual void BuildMipmaps();
-	GLuint GetTexture() const { return m_texture; }
-
-private:
-	friend class RendererOGL;
-	TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering);
-
-	GLenum m_target;
-	GLuint m_texture;
-	const bool m_useAnisoFiltering;
-};
-
+		private:
+			GLenum m_target;
+			GLuint m_texture;
+			const bool m_useAnisoFiltering;
+		};
+	}
 }
 
 #endif

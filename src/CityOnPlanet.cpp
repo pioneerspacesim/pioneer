@@ -417,10 +417,22 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 		++uCount;
 	}
 	
-	// render the building models using instancing
-	for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
-		if(!transform[i].empty())
-			s_buildingList.buildings[i].resolvedModel->Render(transform[i]);
+	if(r->SupportsInstancing()) 
+	{
+		// render the building models using instancing
+		for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
+			if(!transform[i].empty())
+				s_buildingList.buildings[i].resolvedModel->Render(transform[i]);
+		}
+	}
+	else
+	{
+		// render the buildings individually
+		for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {
+			for(auto t : transform[i]) {
+				s_buildingList.buildings[i].resolvedModel->Render(t);
+			}
+		}
 	}
 
 	r->GetStats().AddToStatCount(Graphics::Stats::STAT_BUILDINGS, uCount);

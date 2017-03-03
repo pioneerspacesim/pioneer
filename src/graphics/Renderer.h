@@ -48,10 +48,13 @@ public:
 	virtual ~Renderer();
 
 	virtual const char* GetName() const = 0;
+	virtual RendererType GetRendererType() const = 0;
 
 	virtual void WriteRendererInfo(std::ostream &out) const {}
 
-	virtual void CheckRenderErrors(const char *func, const int line) const {}
+	virtual void CheckRenderErrors(const char *func = nullptr, const int line = -1) const {}
+
+	virtual bool SupportsInstancing() = 0;
 
 	WindowSDL *GetWindow() const { return m_window.get(); }
 	float GetDisplayAspect() const { return static_cast<float>(m_width) / static_cast<float>(m_height); }

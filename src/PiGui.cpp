@@ -58,7 +58,7 @@ ImTextureID PiGui::RenderSVG(std::string svgFilename, int width, int height) {
 	for(auto strTex : m_svg_textures) {
 		if(strTex.first == svgFilename) {
 			// nasty bit as I invoke the TextureGL
-			Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(strTex.second);
+			Graphics::OGL::TextureGL *pGLTex = reinterpret_cast<Graphics::OGL::TextureGL*>(strTex.second);
 			Uint32 result = pGLTex->GetTexture();
  			Output("Re-used existing texture with id: %i\n", result);
 			return reinterpret_cast<void*>(result);
@@ -119,7 +119,19 @@ void PiGui::Init(SDL_Window *window) {
 		keys.Set(p.first, p.second);
 	}
 
-	ImGui_ImplSdlGL3_Init(window);
+	switch(Pi::renderer->GetRendererType())
+	{
+	default:
+	case Graphics::RENDERER_DUMMY:
+		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+		return;
+	case Graphics::RENDERER_OPENGL_21:
+		ImGui_ImplSdl_Init(window);
+		break;
+	case Graphics::RENDERER_OPENGL_3x:
+		ImGui_ImplSdlGL3_Init(window);
+		break;
+	}
 
 	ImGuiIO &io = ImGui::GetIO();
 
@@ -235,6 +247,24 @@ bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_
 	return ImGui::SliderBehavior(ImRect(center.x - 17, center.y - 17, center.x + 17, center.y + 17), id, v, v_min, v_max, 1.0, 4);
 }
 
+bool PiGui::ProcessEvent(SDL_Event *event) 
+{
+	switch(Pi::renderer->GetRendererType())
+	{
+	default:
+	case Graphics::RENDERER_DUMMY:
+		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+		break;
+	case Graphics::RENDERER_OPENGL_21:
+		ImGui_ImplSdl_ProcessEvent(event);
+		break;
+	case Graphics::RENDERER_OPENGL_3x:
+		ImGui_ImplSdlGL3_ProcessEvent(event);
+		break;
+	}
+	return false;
+}
+
 void *PiGui::makeTexture(const std::string &filename, unsigned char *pixels, int width, int height)
 {
 	// this is not very pretty code and uses the Graphics::TextureGL class directly
@@ -253,7 +283,7 @@ void *PiGui::makeTexture(const std::string &filename, unsigned char *pixels, int
 	pTex->Update(pixels, dataSize, Graphics::TEXTURE_RGBA_8888);
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	// nasty bit as I invoke the TextureGL
-	Graphics::TextureGL *pGLTex = reinterpret_cast<Graphics::TextureGL*>(pTex);
+	Graphics::OGL::TextureGL *pGLTex = reinterpret_cast<Graphics::OGL::TextureGL*>(pTex);
 	Uint32 result = pGLTex->GetTexture();
  	Output("texture id: %i\n", result);
 	m_svg_textures.push_back( std::make_pair(filename,pTex) );	// store for cleanup later
@@ -261,7 +291,19 @@ void *PiGui::makeTexture(const std::string &filename, unsigned char *pixels, int
 }
 
 void PiGui::NewFrame(SDL_Window *window) {
-	ImGui_ImplSdlGL3_NewFrame(window);
+	switch(Pi::renderer->GetRendererType())
+	{
+	default:
+	case Graphics::RENDERER_DUMMY:
+		Error("RENDERER_DUMMY is not a valid renderer, aborting.");
+		return;
+	case Graphics::RENDERER_OPENGL_21:
+		ImGui_ImplSdl_NewFrame(window);
+		break;
+	case Graphics::RENDERER_OPENGL_3x:
+		ImGui_ImplSdlGL3_NewFrame(window);
+		break;
+	}
 	Pi::renderer->CheckRenderErrors(__FUNCTION__, __LINE__);
 	ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	if(Pi::DoingMouseGrab())

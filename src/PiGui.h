@@ -9,6 +9,7 @@
 #include "FileSystem.h"
 #include "imgui/imgui.h"
 #include "imgui/examples/sdl_opengl3_example/imgui_impl_sdl_gl3.h"
+#include "imgui/examples/sdl_opengl2_example/imgui_impl_sdl.h"
 
 /* Class to wrap ImGui. */
 class PiGui : public RefCounted {
@@ -43,9 +44,7 @@ public:
 
 	static void RenderImGui() { ImGui::Render(); }
 
-	static bool ProcessEvent(SDL_Event *event) {
-		return ImGui_ImplSdlGL3_ProcessEvent(event);
-	}
+	static bool ProcessEvent(SDL_Event *event);
 
 	static void *makeTexture(const std::string &filename, unsigned char *pixels, int width, int height);
 

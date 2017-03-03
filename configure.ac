@@ -407,6 +407,7 @@ AC_CONFIG_FILES([
 	src/gameui/Makefile
 	src/gui/Makefile
 	src/graphics/Makefile
+	src/graphics/gl2/Makefile
 	src/graphics/opengl/Makefile
 	src/graphics/dummy/Makefile
 	src/scenegraph/Makefile

@@ -25,6 +25,8 @@ public:
 	{}
 
 	virtual const char *GetName() const override final { return "Dummy"; }
+	virtual RendererType GetRendererType() const  override final { return RENDERER_DUMMY; }
+	virtual bool SupportsInstancing() override final { return false; }
 	virtual bool GetNearFarRange(float &near_, float &far_) const override final { return true; }
 
 	virtual bool BeginFrame() override final { return true; }

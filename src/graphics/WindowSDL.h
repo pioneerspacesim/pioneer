@@ -10,7 +10,7 @@ namespace Graphics {
 
 class WindowSDL {
 public:
-	WindowSDL(const Graphics::Settings &settings, const std::string &name);
+	WindowSDL(Graphics::Settings &settings, const std::string &name);
 	~WindowSDL();
 
 	int GetWidth() const;

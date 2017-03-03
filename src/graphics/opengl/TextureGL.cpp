@@ -10,6 +10,7 @@
 static const unsigned int MIN_COMPRESSED_TEXTURE_DIMENSION = 16;
 
 namespace Graphics {
+namespace OGL {
 
 inline GLint GLInternalFormat(TextureFormat format) {
 	switch (format) {
@@ -407,4 +408,5 @@ void TextureGL::BuildMipmaps()
 	}
 }
 
+}
 }
