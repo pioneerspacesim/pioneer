@@ -266,6 +266,8 @@ void Program::LoadShaders(const std::string &name, const std::string &defines)
 	glBindAttribLocation(m_program, 4, "a_uv1");
 	glBindAttribLocation(m_program, 5, "a_tangent");
 	glBindAttribLocation(m_program, 6, "a_transform");
+	// a_transform @ 6 shadows (uses) 7, 8, and 9
+	// next available is layout (location = 10) 
 
 	glBindFragDataLocation(m_program, 0, "frag_color");
 

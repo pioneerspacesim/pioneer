@@ -31,9 +31,10 @@ layout (location = 0) in vec4 a_vertex;
 layout (location = 1) in vec3 a_normal;
 layout (location = 2) in vec4 a_color;
 layout (location = 3) in vec4 a_uv0;
-layout (location = 4) in vec3 a_tangent;
-layout (location = 5) in mat4 a_transform;
-// shadows 6, 7, and 8
-// next available is layout (location = 9) 
+layout (location = 4) in vec4 a_uv1;
+layout (location = 5) in vec3 a_tangent;
+layout (location = 6) in mat4 a_transform;
+// a_transform @ 6 shadows (uses) 7, 8, and 9
+// next available is layout (location = 10) 
 
 #endif // VERTEX_SHADER
