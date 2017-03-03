@@ -4,6 +4,7 @@ March 2017
 
    * Internal Changes
      * Upgrade of Xcode project for Mac OSX build #3937
+     * Resolve the mismatched attribute numbering (#3938)
 
 February 2017
    * New Features
