@@ -116,7 +116,7 @@ public:
 	void Draw(Renderer*, RenderState*);
 private:
 	void CreateVertexBuffer(Graphics::Renderer *r, const Uint32 size);
-	
+
 	bool m_refreshVertexBuffer;
 	RefCountedPtr<Material> m_material;
 	RefCountedPtr<VertexBuffer> m_vertexBuffer;

@@ -247,7 +247,7 @@ bool PiGui::CircularSlider(const ImVec2 &center, float *v, float v_min, float v_
 	return ImGui::SliderBehavior(ImRect(center.x - 17, center.y - 17, center.x + 17, center.y + 17), id, v, v_min, v_max, 1.0, 4);
 }
 
-bool PiGui::ProcessEvent(SDL_Event *event) 
+bool PiGui::ProcessEvent(SDL_Event *event)
 {
 	switch(Pi::renderer->GetRendererType())
 	{

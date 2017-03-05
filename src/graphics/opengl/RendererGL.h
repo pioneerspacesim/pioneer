@@ -27,7 +27,7 @@ namespace OGL {
 	class GasGiantSurfaceMaterial;
 	class GeoSphereSkyMaterial;
 	class GeoSphereStarMaterial;
-	class GeoSphereSurfaceMaterial; 
+	class GeoSphereSurfaceMaterial;
 	class GenGasGiantColourMaterial;
 	class Material;
 	class MultiMaterial;
@@ -137,7 +137,7 @@ protected:
 	float m_maxZFar;
 	bool m_useCompressedTextures;
 	bool m_useAnisotropicFiltering;
-	
+
 	void SetMaterialShaderTransforms(Material *);
 
 	matrix4x4f& GetCurrentTransform() { return m_currentTransform; }

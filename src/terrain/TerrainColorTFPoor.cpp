@@ -42,7 +42,7 @@ vector3d TerrainColorFractal<TerrainColorTFPoor>::GetColor(const vector3d &p, do
 	}
 	// This is for fake ocean depth by the coast.
 	continents = ridged_octavenoise(GetFracDef(3-m_fracnum), 0.55, p) * (1.0-m_sealevel) - ((m_sealevel*0.1)-0.1);
-	
+
 	// water
 	if (n <= 0) {
 		// Oooh, pretty coastal regions with shading based on underwater depth.

@@ -31,7 +31,7 @@ void GeoSphereProgram::InitUniforms()
 	geosphereCenter.Init("geosphereCenter", m_program);
 	geosphereRadius.Init("geosphereRadius", m_program);
 	geosphereInvRadius.Init("geosphereInvRadius", m_program);
-	
+
 	detailScaleHi.Init("detailScaleHi", m_program);
 	detailScaleLo.Init("detailScaleLo", m_program);
 
@@ -51,7 +51,7 @@ GeoSphereSurfaceMaterial::GeoSphereSurfaceMaterial() : m_curNumShadows(0)
 
 Program *GeoSphereSurfaceMaterial::CreateProgram(const MaterialDescriptor &desc)
 {
-	assert((desc.effect == EFFECT_GEOSPHERE_TERRAIN) || 
+	assert((desc.effect == EFFECT_GEOSPHERE_TERRAIN) ||
 		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_LAVA) ||
 		(desc.effect == EFFECT_GEOSPHERE_TERRAIN_WITH_WATER));
 	assert(desc.dirLights < 5);
@@ -197,7 +197,7 @@ Program *GeoSphereSkyMaterial::CreateProgram(const MaterialDescriptor &desc)
 		ss << "#define ECLIPSE\n";
 
 	ss << stringf("#define NUM_SHADOWS %0{u}\n", m_curNumShadows);
-	
+
 	return new Graphics::OGL::GeoSphereProgram("geosphere_sky", ss.str());
 }
 

@@ -649,7 +649,7 @@ SystemInfoView::BodyIcon::BodyIcon(const char *img, Graphics::Renderer *r)
 		vector3f(0.f, size[1], 0.f),
 	};
 	m_selectBox.SetData(COUNTOF(vts), vts, m_selectColor);
-	
+
 	static const Color portColor = Color(64, 128, 128, 255);
 	// The -0.1f offset seems to be the best compromise to make the circles closed (e.g. around Mars), symmetric, fitting with selection
 	// and not overlapping to much with asteroids

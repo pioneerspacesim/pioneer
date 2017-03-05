@@ -80,7 +80,7 @@ private:
 	TextureType m_textureType;
 
 	TextureDescriptor m_descriptor;
-	
+
 	Texture *CreateTexture(Renderer *r) {
 		Texture *t = r->CreateTexture(GetDescriptor());
 		UpdateTexture(t);
@@ -92,7 +92,7 @@ private:
 
 	void LoadSurface();
 	void LoadDDS();
-	
+
 	static SDL_mutex *m_textureLock;
 };
 

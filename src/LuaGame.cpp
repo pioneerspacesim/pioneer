@@ -120,7 +120,7 @@ static int l_game_load_game(lua_State *l)
  *
  * Parameters:
  *
- *   filename - Filename to find. 
+ *   filename - Filename to find.
  *
  * Return:
  *

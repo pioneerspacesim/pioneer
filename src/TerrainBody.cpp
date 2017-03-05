@@ -129,7 +129,7 @@ bool TerrainBody::IsSuperType(SystemBody::BodySuperType t) const
 	else return m_sbody->GetSuperType() == t;
 }
 
-//static 
+//static
 void TerrainBody::OnChangeDetailLevel()
 {
 	GeoSphere::OnChangeDetailLevel();

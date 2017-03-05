@@ -59,7 +59,7 @@ void LOD::Render(const matrix4x4f &trans, const RenderData *rd)
 void LOD::Render(const std::vector<matrix4x4f> &trans, const RenderData *rd)
 {
 	// anything to draw?
-	if (m_pixelSizes.empty()) 
+	if (m_pixelSizes.empty())
 		return;
 
 	// got something to draw with

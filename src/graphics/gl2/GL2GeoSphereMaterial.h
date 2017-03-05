@@ -25,7 +25,7 @@ namespace Graphics {
 			Uniform geosphereCenter;
 			Uniform geosphereRadius; // (planet radius)
 			Uniform geosphereInvRadius; // 1.0 / (planet radius)
-			
+
 			Uniform detailScaleHi;
 			Uniform detailScaleLo;
 
@@ -74,7 +74,7 @@ namespace Graphics {
 		protected:
 			void SetGSUniforms();
 		};
-		
+
 	}
 }
 #endif

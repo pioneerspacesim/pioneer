@@ -7,7 +7,7 @@
 
 namespace RandomColorGenerator
 {
-	//static 
+	//static
 	std::map<ColorScheme, RandomColor::DefinedColor> RandomColor::ColorDictionary;
 	static Random *pRNG = nullptr;
 
@@ -20,7 +20,7 @@ namespace RandomColorGenerator
 	/// Gets a new random color.
 	/// <param name="scheme">Which color schemed to use when generating the color.</param>
 	/// <param name="luminosity">The desired luminosity of the color.</param>
-	//static 
+	//static
 	Color RandomColor::GetColor(ColorScheme scheme, Luminosity luminosity)
 	{
 		int H, S, B;
@@ -42,7 +42,7 @@ namespace RandomColorGenerator
 	/// <param name="scheme">Which color scheme to use when generating the color.</param>
 	/// <param name="luminosity">The desired luminosity of the color.</param>
 	/// <param name="count">How many colors to generate</param>
-	//static 
+	//static
 	std::vector<Color> RandomColor::GetColors(Random &rand, ColorScheme scheme, Luminosity luminosity, int count)
 	{
 		pRNG = &rand;
@@ -56,7 +56,7 @@ namespace RandomColorGenerator
 		return ret;
 	}
 
-	//static 
+	//static
 	int RandomColor::PickHue(ColorScheme scheme)
 	{
 		Range hueRange(GetHueRange(scheme));
@@ -69,7 +69,7 @@ namespace RandomColorGenerator
 		return hue;
 	}
 
-	//static 
+	//static
 	int RandomColor::PickSaturation(int hue, Luminosity luminosity, ColorScheme scheme)
 	{
 		if ( luminosity == Luminosity::LUMINOSITY_RANDOM )
@@ -105,7 +105,7 @@ namespace RandomColorGenerator
 		return RandomWithin(sMin, sMax);
 	}
 
-	//static 
+	//static
 	int RandomColor::PickBrightness(int H, int S, Luminosity luminosity)
 	{
 		auto bMin = GetMinimumBrightness(H, S);
@@ -130,7 +130,7 @@ namespace RandomColorGenerator
 		return RandomWithin(bMin, bMax);
 	}
 
-	//static 
+	//static
 	int RandomColor::GetMinimumBrightness(int H, int S)
 	{
 		auto lowerBounds = GetColorInfo(H).LowerBounds;
@@ -155,7 +155,7 @@ namespace RandomColorGenerator
 		return 0;
 	}
 
-	//static 
+	//static
 	Range RandomColor::GetHueRange(ColorScheme colorInput)
 	{
 		std::map<ColorScheme, DefinedColor>::iterator out = ColorDictionary.find(colorInput);
@@ -167,7 +167,7 @@ namespace RandomColorGenerator
 		return Range(0, 360);
 	}
 
-	//static 
+	//static
 	RandomColor::DefinedColor RandomColor::GetColorInfo(int hue)
 	{
 		// Maps red colors to make picking hue easier
@@ -185,19 +185,19 @@ namespace RandomColorGenerator
 		return DefinedColor();
 	}
 
-	//static 
+	//static
 	int RandomColor::RandomWithin(Range range)
 	{
 		return RandomWithin(range.Lower, range.Upper);
 	}
-	//static 
+	//static
 	int RandomColor::RandomWithin(int lower, int upper)
 	{
 		assert(pRNG);
 		return pRNG->Int32(lower, upper + 1);
 	}
 
-	//static 
+	//static
 	void RandomColor::DefineColor(ColorScheme scheme, Point hueRange, const Point *lowerBounds, const size_t lbCount)
 	{
 		auto sMin = lowerBounds[0].x;
@@ -216,7 +216,7 @@ namespace RandomColorGenerator
 		ColorDictionary[scheme] = defCol;
 	}
 
-	//static 
+	//static
 	void RandomColor::LoadColorBounds()
 	{
 		const Point mono[] = { { 0, 0 }, { 100, 0 } };
@@ -285,7 +285,7 @@ namespace RandomColorGenerator
 	}
 
 	/// Converts hue, saturation, and lightness to a color.
-	//static 
+	//static
 	Color RandomColor::HsvToColor(int hue, int saturation, double value)
 	{
 		// this doesn't work for the values of 0 and 360

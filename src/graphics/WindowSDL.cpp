@@ -22,7 +22,7 @@ bool WindowSDL::CreateWindowAndContext(const char *name, const Graphics::Setting
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, 0);
 			// OSX also forces us to use this for 3.2 onwards
 			SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
-		} 
+		}
 		break;
 	case Graphics::RendererType::RENDERER_OPENGL_3x:
 		{

@@ -41,7 +41,7 @@ public:
 
 		MAX_STAT
 	};
-	
+
 	struct TFrameData {
 		Uint32 m_stats[MAX_STAT];
 	};

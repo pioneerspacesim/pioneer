@@ -180,7 +180,7 @@ namespace GasGiantJobs
 		PROFILE_SCOPED()
 		assert(m_texture.Valid());
 	}
-	
+
 	void SGPUGenRequest::SetupMaterialParams(const int face)
 	{
 		PROFILE_SCOPED()
@@ -188,7 +188,7 @@ namespace GasGiantJobs
 		m_specialParams.fracStep = 1.0f / float(uvDIMs);
 		m_specialParams.planetRadius = planetRadius;
 		m_specialParams.time = 0.0f;
-			
+
 		for(Uint32 i=0; i<3; i++) {
 			m_specialParams.frequency[i] = float(pTerrain->GetFracDef(i).frequency);
 		}

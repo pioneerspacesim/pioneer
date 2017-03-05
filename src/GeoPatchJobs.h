@@ -22,8 +22,8 @@ public:
 	SBaseRequest(const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const vector3d &cn,
 		const uint32_t depth_, const SystemPath &sysPath_, const GeoPatchID &patchID_, const int edgeLen_, const double fracStep_,
 		Terrain *pTerrain_)
-		: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_), 
-		sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_), 
+		: v0(v0_), v1(v1_), v2(v2_), v3(v3_), centroid(cn), depth(depth_),
+		sysPath(sysPath_), patchID(patchID_), edgeLen(edgeLen_), fracStep(fracStep_),
 		pTerrain(pTerrain_)
 	{
 	}
@@ -88,7 +88,7 @@ public:
 		heights = new double[numVerts];
 		normals = new vector3f[numVerts];
 		colors = new Color3ub[numVerts];
-		
+
 		const int numBorderedVerts = NUMVERTICES(edgeLen_+(BORDER_SIZE*2));
 		borderHeights.reset(new double[numBorderedVerts]);
 		borderVertexs.reset(new vector3d[numBorderedVerts]);
@@ -115,7 +115,7 @@ public:
 		SSplitResultData(double *heights_, vector3f *n_, Color3ub *c_, const vector3d &v0_, const vector3d &v1_, const vector3d &v2_, const vector3d &v3_, const GeoPatchID &patchID_) :
 			heights(heights_), normals(n_), colors(c_), v0(v0_), v1(v1_), v2(v2_), v3(v3_), patchID(patchID_)
 		{}
-		SSplitResultData(const SSplitResultData &r) : 
+		SSplitResultData(const SSplitResultData &r) :
 			normals(r.normals), colors(r.colors), v0(r.v0), v1(r.v1), v2(r.v2), v3(r.v3), patchID(r.patchID)
 		{}
 
@@ -229,7 +229,7 @@ public:
 	virtual void OnFinish();   // runs in primary thread of the context
 
 private:
-	// Generates full-detail vertices, and also non-edge normals and colors 
+	// Generates full-detail vertices, and also non-edge normals and colors
 	void GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
@@ -251,11 +251,11 @@ public:
 	virtual void OnFinish();   // runs in primary thread of the context
 
 private:
-	// Generates full-detail vertices, and also non-edge normals and colors 
+	// Generates full-detail vertices, and also non-edge normals and colors
 	void GenerateBorderedData(double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const double fracStep, const Terrain *pTerrain) const;
-	
+
 	void GenerateSubPatchData(double *heights, vector3f *normals, Color3ub *colors, double *borderHeights, vector3d *borderVertexs,
 		const vector3d &v0, const vector3d &v1, const vector3d &v2, const vector3d &v3,
 		const int edgeLen, const int xoff, const int yoff, const int borderedEdgeLen, const double fracStep, const Terrain *pTerrain) const;

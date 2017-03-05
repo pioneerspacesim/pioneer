@@ -21,7 +21,7 @@ template <class T> struct Equal
 /// Null index. @@ Move this somewhere else... This could have collisions with other definitions!
 #define NIL Uint32(~0)
 
-template <typename Key> struct hash 
+template <typename Key> struct hash
 {
 	inline Uint32 sdbm_hash(const void * data_in, Uint32 size, Uint32 h = 5381)
 	{
@@ -32,7 +32,7 @@ template <typename Key> struct hash
 		}
 		return h;
 	}
-		
+
 	Uint32 operator()(const Key & k) {
 		return sdbm_hash(&k, sizeof(Key));
 	}
@@ -46,7 +46,7 @@ template <> struct hash<Uint32>
 	Uint32 operator()(Uint32 x) const { return x; }
 };
 
-/** Return the next power of two. 
+/** Return the next power of two.
 * @see http://graphics.stanford.edu/~seander/bithacks.html
 * @warning Behaviour for 0 is undefined.
 * @note isPowerOfTwo(x) == true -> nextPowerOfTwo(x) == x
@@ -62,7 +62,7 @@ inline Uint32 nextPowerOfTwo( Uint32 x )
 	x |= x >> 4;
 	x |= x >> 8;
 	x |= x >> 16;
-	return x+1;	
+	return x+1;
 #else
 	Uint32 p = 1;
 	while( x > p ) {
@@ -82,7 +82,7 @@ inline bool isPowerOfTwo( Uint32 n )
 /// Generic welding routine. This function welds the elements of the array p
 /// and returns the cross references in the xrefs array. To compare the elements
 /// it uses the given hash and equal functors.
-/// 
+///
 /// This code is based on the ideas of Ville Miettinen and Pierre Terdiman.
 template <class T, class H=hash<T>, class E=Equal<T> >
 struct Weld
@@ -137,7 +137,7 @@ struct Weld
 		delete [] hashTable;
 
 		p.resize(outputCount);
-		
+
 		// number of output vertices
 		return outputCount;
 	}

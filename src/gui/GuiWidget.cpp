@@ -22,7 +22,7 @@ Widget::Widget()
 bool Widget::IsVisible() const
 {
 	PROFILE_SCOPED()
-	if (!m_visible || !m_parent) 
+	if (!m_visible || !m_parent)
 		return false;
 
 	Container *parent = m_parent;

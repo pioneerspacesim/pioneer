@@ -1,7 +1,7 @@
 // Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
-#define WIN32_LEAN_AND_MEAN 
+#define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 #include "Win32Setup.h"
 
@@ -125,13 +125,13 @@ int GetNumCores()
 const std::string GetHardwareInfo()
 {
 	SYSTEM_INFO siSysInfo;
- 
-	// Copy the hardware information to the SYSTEM_INFO structure. 
-	GetSystemInfo(&siSysInfo); 
 
-	// Display the contents of the SYSTEM_INFO structure. 
+	// Copy the hardware information to the SYSTEM_INFO structure.
+	GetSystemInfo(&siSysInfo);
+
+	// Display the contents of the SYSTEM_INFO structure.
 	char infoString[2048];
-	snprintf(infoString, 2048, 
+	snprintf(infoString, 2048,
 		"Hardware information: \n  \
 		OEM ID: %u\n  \
 		Number of processors: %u\n  \
@@ -139,14 +139,14 @@ const std::string GetHardwareInfo()
 		Processor type: %u\n  \
 		Minimum application address: %p\n  \
 		Maximum application address: %p\n  \
-		Active processor mask: %u\n\n", 
-		siSysInfo.dwOemId, 
-		siSysInfo.dwNumberOfProcessors, 
-		siSysInfo.dwPageSize, 
-		siSysInfo.dwProcessorType, 
-		siSysInfo.lpMinimumApplicationAddress, 
-		siSysInfo.lpMaximumApplicationAddress, 
-		siSysInfo.dwActiveProcessorMask); 
+		Active processor mask: %u\n\n",
+		siSysInfo.dwOemId,
+		siSysInfo.dwNumberOfProcessors,
+		siSysInfo.dwPageSize,
+		siSysInfo.dwProcessorType,
+		siSysInfo.lpMinimumApplicationAddress,
+		siSysInfo.lpMaximumApplicationAddress,
+		siSysInfo.dwActiveProcessorMask);
 
 	return std::string(infoString);
 }
@@ -173,7 +173,7 @@ const std::string GetOSInfoString()
 	OSVERSIONINFOA osv;
 	osv.dwOSVersionInfoSize = sizeof(OSVERSIONINFOA);
 	GetVersionExA(&osv);
-	
+
 	std::string name;
 	for (const OSVersion *scan = osVersions; scan->name; scan++) {
 		if (osv.dwMajorVersion == scan->major && osv.dwMinorVersion == scan->minor) {
@@ -195,8 +195,8 @@ const std::string GetOSInfoString()
 #ifdef WITH_BREAKPAD
 /////////////////////////////////////////////////////// Google Breakpad
 bool FilterCallback(void* context, EXCEPTION_POINTERS* exinfo,
-	MDRawAssertionInfo* assertion) 
-{	
+	MDRawAssertionInfo* assertion)
+{
 	return true;
 }
 

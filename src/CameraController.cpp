@@ -50,7 +50,7 @@ static bool FillCameraPosOrient(const SceneGraph::Model *m, const char *tag, vec
 	matrix3x3d fixOrient(matrix3x3d::Identity());
 
 	const SceneGraph::MatrixTransform *mt = m->FindTagByName(tag);
-	if (!mt) 
+	if (!mt)
 	{
 		fixOrient = fallbackOrient;
 	}

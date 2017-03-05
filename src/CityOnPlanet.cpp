@@ -151,7 +151,7 @@ void CityOnPlanet::RemoveStaticGeomsFromCollisionSpace()
 
 // Get all model file names under buildings/
 // This is temporary. Buildings should be defined in BuildingSet data files, or something.
-//static 
+//static
 void CityOnPlanet::EnumerateNewBuildings(std::set<std::string> &filenames)
 {
 	const std::string fullpath = FileSystem::JoinPathBelow("models", "buildings");
@@ -165,7 +165,7 @@ void CityOnPlanet::EnumerateNewBuildings(std::set<std::string> &filenames)
 	}
 }
 
-//static 
+//static
 void CityOnPlanet::LookupBuildingListModels(citybuildinglist_t *list)
 {
 	std::vector<Model*> models;
@@ -309,7 +309,7 @@ CityOnPlanet::CityOnPlanet(Planet *planet, SpaceStation *station, const Uint32 s
 		cityflavour[i].center = p + a*mx + b*mz;
 		cityflavour[i].size = rand.Int32(int(blist->minRadius), int(blist->maxRadius));
 	}
-	
+
 	vector3d p1, p2, p3, p4;
 	for (int side=0; side<4; side++) {
 		/* put buildings on all sides of spaceport */
@@ -416,8 +416,8 @@ void CityOnPlanet::Render(Graphics::Renderer *r, const Graphics::Frustum &frustu
 
 		++uCount;
 	}
-	
-	if(r->SupportsInstancing()) 
+
+	if(r->SupportsInstancing())
 	{
 		// render the building models using instancing
 		for(Uint32 i=0; i<s_buildingList.numBuildings; i++) {

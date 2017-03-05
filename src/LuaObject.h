@@ -90,7 +90,7 @@ struct SerializerPair {
 
 
 // wrapper baseclass, and extra bits for getting at certain parts of the
-// LuaObject layer 
+// LuaObject layer
 class LuaObjectBase {
 	friend class LuaSerializer;
 

@@ -12,7 +12,7 @@
 
 namespace Graphics {
 
-//static 
+//static
 SDL_mutex *TextureBuilder::m_textureLock = nullptr;
 
 TextureBuilder::TextureBuilder(const SDLSurfacePtr &surface, TextureSampleMode sampleMode, bool generateMipmaps, bool potExtend, bool forceRGBA, bool compressTextures, bool anisoFiltering) :
@@ -214,8 +214,8 @@ void TextureBuilder::LoadSurface()
 	SDLSurfacePtr s;
 	if(m_textureType == TEXTURE_2D) {
 		s = LoadSurfaceFromFile(m_filename);
-		if (! s) { 
-			s = LoadSurfaceFromFile("textures/unknown.png"); 
+		if (! s) {
+			s = LoadSurfaceFromFile("textures/unknown.png");
 		}
 	} else if(m_textureType == TEXTURE_CUBE_MAP) {
 		Output("LoadSurface: %s: cannot load non-DDS cubemaps\n", m_filename.c_str());

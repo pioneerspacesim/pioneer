@@ -65,7 +65,7 @@ protected:
 	public:
 		GroupMatch(const Uint32 g): group(g) {}
 		bool operator() (const TGroupLights& myValue)
-		{ 
+		{
 			return (group == myValue.m_group);
 		}
 	};
@@ -76,7 +76,7 @@ protected:
 	float m_time;
 	float m_period;
 	bool m_enabled;
-	
+
 	Graphics::VertexArray m_billboardTris;
 	RefCountedPtr<Graphics::VertexBuffer> m_billboardVB;
 	Graphics::RenderState *m_billboardRS;

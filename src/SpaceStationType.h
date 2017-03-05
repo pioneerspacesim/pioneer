@@ -39,7 +39,7 @@ public:
 		vector3d yaxis;
 		vector3d zaxis;
 	};
-	
+
 private:
 	std::string id;
 	SceneGraph::Model *model;

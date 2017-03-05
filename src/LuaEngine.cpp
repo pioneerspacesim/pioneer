@@ -927,7 +927,7 @@ void LuaEngine::Register()
 		{ "SetMouseYInverted", l_engine_set_mouse_y_inverted },
 		{ "GetJoystickEnabled", l_engine_get_joystick_enabled },
 		{ "SetJoystickEnabled", l_engine_set_joystick_enabled },
-		
+
 		{ "CanBrowseUserFolder", l_get_can_browse_user_folders },
 		{ "OpenBrowseUserFolder", l_browse_user_folders },
 
