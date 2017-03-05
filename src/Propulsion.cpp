@@ -58,13 +58,67 @@ Propulsion::Propulsion()
 
 void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust )
 {
-		m_fuelTankMass = tank_mass;
-		m_effectiveExhaustVelocity = effExVel;
-		for (int i=0; i<Thruster::THRUSTER_MAX; i++ ) m_linThrust[i] = lin_Thrust[i];
-		m_angThrust = ang_Thrust;
-		m_smodel = m;
-		m_dBody = b;
-		b->AddFeature( DynamicBody::PROPULSION );
+	m_fuelTankMass = tank_mass;
+	m_effectiveExhaustVelocity = effExVel;
+	for (int i=0; i<Thruster::THRUSTER_MAX; i++ ) m_linThrust[i] = lin_Thrust[i];
+	m_angThrust = ang_Thrust;
+	m_smodel = m;
+	for (unsigned int i=0; i<m->GetRoot()->GetNumChildren(); i++) {
+		// Find thruster group...
+		SceneGraph::Node* n = m->GetRoot()->GetChildAt(i);
+		if (n->GetName().find("thruster")!=std::string::npos) {
+			// Found
+			SceneGraph::Group* g = dynamic_cast<SceneGraph::Group*>(m->GetRoot()->GetChildAt(i));
+			m_gThrusters = static_cast<SceneGraph::Group*>(g->Clone());
+			assert(m_gThrusters);
+			m->GetRoot()->RemoveChildAt(i);
+			break;
+		};
+	}
+	m_dBody = b;
+	b->AddFeature( DynamicBody::PROPULSION );
+}
+
+void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
+{
+	assert(m_smodel!=nullptr);
+	m_mtNacelles.reserve(vThrusters.size());
+	m_vThruster.reserve(vThrusters.size());
+	for (vecThrustersMap_t::const_iterator it=vThrusters.begin(); it!=vThrusters.end(); ++it) {
+		const VectThruster_t* vThruster = &(it->second);
+		// Search geometry for vectorial thruster in model tree
+		SceneGraph::FindNodeVisitor thFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_FULL, vThruster->model_tag);
+		m_smodel->GetRoot()->Accept(thFinder);
+		const std::vector<SceneGraph::Node*> &results = thFinder.GetResults();
+		if (results.size()==0) {
+			Output("Strange: cannot find \"%s\" geometry in model \"%s\"...\n", vThruster->model_tag.c_str(), m_smodel->GetName().c_str());
+			throw;
+		} else {
+			m_mtNacelles.push_back(static_cast<SceneGraph::MatrixTransform*>(results[0]));
+		}
+		// Search (local) thrusters looking for the correct one:
+		for (unsigned int i=0; i<m_gThrusters->GetNumChildren(); i++) {
+			SceneGraph::MatrixTransform* g = static_cast<SceneGraph::MatrixTransform*>(m_gThrusters->GetChildAt(i));
+			SceneGraph::Node* node = g->GetChildAt(0);
+			if (node->GetName().find(vThruster->thruster_tag)!=std::string::npos) {
+				// Detach matrix of thruster from thrusters and attach a new vectorial thrusters to list
+				SceneGraph::Thruster* new_th = new SceneGraph::Thruster(m_smodel->GetRenderer(), true, vector3f(0.0), vector3f(0.0,-1.0,0.0));
+				matrix4x4f m = g->GetTransform();
+				vector3f th_pos = m.GetTranslate();
+				vector3f pos_nacelle = m_mtNacelles.back()->GetTransform().GetTranslate();
+				m.SetTranslate(pos_nacelle-th_pos);
+				// Some math to ease rotation
+				// TODO: Add a level to matrix to ease rotation
+				SceneGraph::MatrixTransform* mt = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), m);
+				mt->AddChild(new_th);
+				SceneGraph::MatrixTransform* mt2 = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), m);
+				m_mtThruster.push_back(mt);
+				m_gThrusters->RemoveChildAt(i);
+				break;
+			}
+		}
+		m_vThruster.push_back(vThruster);
+	}
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)
@@ -133,7 +187,44 @@ double Propulsion::GetSpeedReachedWithFuel() const
 	return m_effectiveExhaustVelocity * log( mass/( mass-fuelmass ));
 }
 
-void Propulsion::Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform)
+void Propulsion::Update( const float timeStep )
+{
+	// Update fuel stuffs
+	UpdateFuel(timeStep);
+	// Update nacelle pos
+	float rot, dot, rotAmount;
+	vector3f wantPos(0.0, 1.0, 0.0);
+	if (m_linThrusters.Length()>0.01) wantPos = vector3f(m_linThrusters);
+	for (unsigned int i=0; i < m_vThruster.size(); i++) {
+		// set nacelle rotation to be as requested
+		rotAmount = m_vThruster[i]->rot_speed*timeStep;
+		const matrix4x4f& m = m_mtNacelles[i]->GetTransform();
+		matrix3x3f orient = m.GetOrient();
+		dot = orient.VectorZ().Dot(wantPos);
+		if (dot<-rotAmount) rot = rotAmount;
+		else if (dot>rotAmount) rot = -rotAmount;
+		else rot = -asin(dot);
+		// Avoid nacelle not rotating if they are exactly opposite
+		if (orient.VectorY().Dot(wantPos)<-0.999) rot = rotAmount;
+		orient = matrix3x3f::RotateX(rot)*orient;
+/*		if (m_dBody->IsType(Object::PLAYER)&&i==0) {
+			printf("Dot = %.2f ;VTH Orient: %.2f, %.2f, %.2f\n", dot_stuck, orient.VectorY().x, orient.VectorY().y, orient.VectorY().z);
+		}
+*/		matrix4x4f new_m(orient);
+		new_m.SetTranslate(m.GetTranslate());
+		m_mtNacelles[i]->SetTransform(new_m);
+		// Place thruster exhaust
+		matrix4x4f mth = m_mtThruster[i]->GetTransform();
+		orient = mth.GetOrient();
+		orient = matrix3x3f::RotateX(rot)*orient;
+		matrix4x4f new_th(orient);
+		new_th.SetTranslate(mth.GetTranslate());
+		m_mtThruster[i]->SetTransform(new_th);
+	}
+	// Update nacelle thrust pos
+}
+
+void Propulsion::Render(const matrix4x4f &trans)
 {
 	/* TODO: allow Propulsion to know SceneGraph::Thruster and
 	 * to work directly with it (this could lead to movable
