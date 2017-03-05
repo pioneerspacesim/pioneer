@@ -13,17 +13,17 @@ namespace GL2 {
 
 class GL2Texture : public Texture {
 public:
-	virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
-	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
-	
+	virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips) override final;
+	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips) override final;
+
 	GL2Texture(const TextureDescriptor &descriptor, const bool useCompressed);
 	virtual ~GL2Texture();
 
-	void Bind();
-	void Unbind();
+	virtual void Bind() override final;
+	virtual void Unbind() override final;
 
-	virtual void SetSampleMode(TextureSampleMode);
-	GLuint GetTexture() const { return m_texture; }
+	virtual void SetSampleMode(TextureSampleMode) override final;
+	virtual uint32_t GetTextureID() const override final { assert(sizeof(uint32_t)==sizeof(GLuint)); return m_texture; }
 
 	void BuildMipmaps();
 

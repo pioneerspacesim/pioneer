@@ -29,11 +29,11 @@ namespace Graphics {
 			// Create an appropriate program for this material.
 			virtual Program *CreateProgram(const MaterialDescriptor &) = 0;
 			// bind textures, set uniforms
-			virtual void Apply();
-			virtual void Unapply();
+			virtual void Apply() override;
+			virtual void Unapply() override;
 			virtual void SetProgram(Program *p) { m_program = p; }
 			virtual bool IsProgramLoaded() const override final { return true; }
-			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj);
+			virtual void SetCommonUniforms(const matrix4x4f& mv, const matrix4x4f& proj) override final;
 
 		protected:
 			friend class Graphics::RendererGL2;

@@ -7,24 +7,24 @@
 #include "OpenGLLibs.h"
 #include "graphics/Texture.h"
 
-namespace Graphics 
+namespace Graphics
 {
-	namespace OGL 
+	namespace OGL
 	{
 		class TextureGL : public Texture {
 		public:
-			virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
-			virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips);
+			virtual void Update(const void *data, const vector2f &pos, const vector2f &dataSize, TextureFormat format, const unsigned int numMips) override final;
+			virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips) override final;
 
 			TextureGL(const TextureDescriptor &descriptor, const bool useCompressed, const bool useAnisoFiltering);
 			virtual ~TextureGL();
 
-			void Bind();
-			void Unbind();
+			virtual void Bind() override final;
+			virtual void Unbind() override final;
 
-			virtual void SetSampleMode(TextureSampleMode);
-			virtual void BuildMipmaps();
-			GLuint GetTexture() const { return m_texture; }
+			virtual void SetSampleMode(TextureSampleMode) override final;
+			virtual void BuildMipmaps() override final;
+			virtual uint32_t GetTextureID() const override final { assert(sizeof(uint32_t)==sizeof(GLuint)); return m_texture; }
 
 		private:
 			GLenum m_target;

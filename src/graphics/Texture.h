@@ -98,6 +98,10 @@ public:
 	virtual void Update(const TextureCubeData &data, const vector2f &dataSize, TextureFormat format, const unsigned int numMips = 0) = 0;
 	virtual void SetSampleMode(TextureSampleMode) = 0;
 	virtual void BuildMipmaps() = 0;
+	virtual uint32_t GetTextureID() const = 0;
+
+	virtual void Bind() = 0;
+	virtual void Unbind() = 0;
 
 	virtual ~Texture() {}
 

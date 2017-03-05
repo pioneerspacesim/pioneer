@@ -86,7 +86,7 @@ VertexBuffer::VertexBuffer(const VertexBufferDesc &desc) :
 		switch (attr.semantic) {
 		case ATTRIB_POSITION:
 			glEnableVertexAttribArray(0);	// Enable the attribute at that location
-			glVertexAttribPointer(0, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);	
+			glVertexAttribPointer(0, get_num_components(attr.format), get_component_type(attr.format), GL_FALSE, m_desc.stride, offset);
 			break;
 		case ATTRIB_NORMAL:
 			glEnableVertexAttribArray(1);	// Enable the attribute at that location
@@ -314,6 +314,17 @@ bool VertexBuffer::Populate(const VertexArray &va)
 	return result;
 }
 
+void VertexBuffer::BufferData(const size_t size, void *data)
+{
+	PROFILE_SCOPED()
+	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
+	if (GetDesc().usage == BUFFER_USAGE_DYNAMIC) {
+		glBindVertexArray(m_vao);
+		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+		glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)size, (GLvoid*)data, GL_DYNAMIC_DRAW);
+	}
+}
+
 void VertexBuffer::Bind() {
 	assert(m_written);
 	glBindVertexArray(m_vao);
@@ -412,6 +423,16 @@ void IndexBuffer::Unmap()
 
 	m_mapMode = BUFFER_MAP_NONE;
 	m_written = true;
+}
+
+void IndexBuffer::BufferData(const size_t size, void *data)
+{
+	PROFILE_SCOPED()
+	assert(m_mapMode == BUFFER_MAP_NONE); //must not be currently mapped
+	if (GetUsage() == BUFFER_USAGE_DYNAMIC) {
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)size, (GLvoid*)data, GL_DYNAMIC_DRAW);
+	}
 }
 
 void IndexBuffer::Bind() {

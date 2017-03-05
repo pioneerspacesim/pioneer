@@ -77,7 +77,7 @@ RendererOGL::RendererOGL(WindowSDL *window, const Graphics::Settings &vs)
 
 	// pump this once as glewExperimental is necessary but spews a single error
 	GLenum err = glGetError();
-	
+
 	if (!glewIsSupported("GL_VERSION_3_1") )
 	{
 		Error(
@@ -227,7 +227,7 @@ void RendererOGL::WriteRendererInfo(std::ostream &out) const
 			out << "  " << glGetStringi(GL_EXTENSIONS, i) << "\n";
 		}
 	}
-	else 
+	else
 	{
 		out << "  ";
 		std::istringstream ext(reinterpret_cast<const char *>(glGetString(GL_EXTENSIONS)));
@@ -624,7 +624,7 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 
 	const bool res = DrawBuffer(drawVB.Get(), rs, m, t);
 	CheckRenderErrors(__FUNCTION__,__LINE__);
-	
+
 	m_stats.AddToStatCount(Stats::STAT_DRAWTRIS, 1);
 
 	return res;
@@ -633,7 +633,7 @@ bool RendererOGL::DrawTriangles(const VertexArray *v, RenderState *rs, Material 
 bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, RenderState *rs, Material *material, float size)
 {
 	PROFILE_SCOPED()
-	if (count == 0 || !material || !material->texture0) 
+	if (count == 0 || !material || !material->texture0)
 		return false;
 
 	size = Clamp(size, 0.1f, FLT_MAX);
@@ -644,10 +644,10 @@ bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions
 		vector3f norm;
 	};
 	#pragma pack(pop)
-	
+
 	RefCountedPtr<VertexBuffer> drawVB;
 	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
-	if (iter == s_AttribBufferMap.end()) 
+	if (iter == s_AttribBufferMap.end())
 	{
 		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
 		Graphics::VertexBufferDesc vbd;
@@ -692,7 +692,7 @@ bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions
 bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions, const vector2f *offsets, const float *sizes, RenderState *rs, Material *material)
 {
 	PROFILE_SCOPED()
-	if (count == 0 || !material || !material->texture0) 
+	if (count == 0 || !material || !material->texture0)
 		return false;
 
 	#pragma pack(push, 4)
@@ -701,10 +701,10 @@ bool RendererOGL::DrawPointSprites(const Uint32 count, const vector3f *positions
 		vector3f norm;
 	};
 	#pragma pack(pop)
-	
+
 	RefCountedPtr<VertexBuffer> drawVB;
 	AttribBufferIter iter = s_AttribBufferMap.find(std::make_pair(Graphics::ATTRIB_POSITION | Graphics::ATTRIB_NORMAL, count));
-	if (iter == s_AttribBufferMap.end()) 
+	if (iter == s_AttribBufferMap.end())
 	{
 		// NB - we're (ab)using the normal type to hold (uv coordinate offset value + point size)
 		Graphics::VertexBufferDesc vbd;
@@ -973,7 +973,7 @@ RenderTarget *RendererOGL::CreateRenderTarget(const RenderTargetDesc &desc)
 			vector2f(desc.width, desc.height),
 			LINEAR_CLAMP,
 			false,
-			false, 
+			false,
 			false,
 			0, Graphics::TEXTURE_2D);
 		OGL::TextureGL *colorTex = new OGL::TextureGL(cdesc, false, false);

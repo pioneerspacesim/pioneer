@@ -18,7 +18,7 @@ public:
 
 	virtual void SetSampleMode(TextureSampleMode) {}
 	virtual void BuildMipmaps() {}
-	Uint32 GetTexture() const { return 0U; }
+	virtual uint32_t GetTextureID() const override final { return 0U; }
 
 private:
 	friend class RendererDummy;
