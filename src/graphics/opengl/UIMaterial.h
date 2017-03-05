@@ -14,6 +14,7 @@
 namespace Graphics {
 
 	namespace OGL {
+		///////////////////////////////////////////////////////////////////////
 		class UIProgram : public Program {
 		public:
 			UIProgram(const MaterialDescriptor &);
@@ -21,9 +22,9 @@ namespace Graphics {
 
 		class UIMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
-			virtual void Unapply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
+			virtual void Apply() override final;
+			virtual void Unapply() override final;
 		};
 	}
 }

@@ -21,16 +21,19 @@ public:
 	VertexBuffer(const VertexBufferDesc&);
 	~VertexBuffer();
 
-	virtual void Unmap() override;
+	virtual void Unmap() override final;
 
 	// copies the contents of the VertexArray into the buffer
-	virtual bool Populate(const VertexArray &) override;
-	
-	virtual void Bind() override;
-	virtual void Release() override;
+	virtual bool Populate(const VertexArray &) override final;
+
+	// change the buffer data without mapping
+	virtual void BufferData(const size_t, void*) override final;
+
+	virtual void Bind() override final;
+	virtual void Release() override final;
 
 protected:
-	virtual Uint8 *MapInternal(BufferMapMode) override;
+	virtual Uint8 *MapInternal(BufferMapMode) override final;
 
 private:
 	GLuint m_vao;
@@ -42,11 +45,14 @@ public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	~IndexBuffer();
 
-	virtual Uint32 *Map(BufferMapMode) override;
-	virtual void Unmap() override;
-	
-	virtual void Bind() override;
-	virtual void Release() override;
+	virtual Uint32 *Map(BufferMapMode) override final;
+	virtual void Unmap() override final;
+
+	// change the buffer data without mapping
+	virtual void BufferData(const size_t, void*) override final;
+
+	virtual void Bind() override final;
+	virtual void Release() override final;
 
 private:
 	Uint32 *m_data;
@@ -56,12 +62,12 @@ private:
 class InstanceBuffer : public Graphics::InstanceBuffer, public GLBufferBase {
 public:
 	InstanceBuffer(Uint32 size, BufferUsage);
-	virtual ~InstanceBuffer() override;
-	virtual matrix4x4f* Map(BufferMapMode) override;
-	virtual void Unmap() override;
+	virtual ~InstanceBuffer() override final;
+	virtual matrix4x4f* Map(BufferMapMode) override final;
+	virtual void Unmap() override final;
 
-	virtual void Bind() override;
-	virtual void Release() override;
+	virtual void Bind() override final;
+	virtual void Release() override final;
 
 protected:
 	enum InstOffs {

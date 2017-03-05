@@ -21,7 +21,7 @@ namespace Graphics {
 
 		class VtxColorMaterial : public Material {
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
+			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
 		};
 	}
 }

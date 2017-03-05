@@ -6,7 +6,7 @@
 #ifndef _OGL_GENGASGIANTCOLOURMATERIAL_H
 #define _OGL_GENGASGIANTCOLOURMATERIAL_H
 /*
- * Material(s) used to generate 
+ * Material(s) used to generate
  *
  */
 #include "MaterialGL.h"
@@ -48,14 +48,14 @@ namespace Graphics {
 			Uniform hueAdjust;
 
 		protected:
-			virtual void InitUniforms();
+			virtual void InitUniforms() override final;
 		};
 
 		class GenGasGiantColourMaterial : public Material { //unlit
 		public:
-			virtual Program *CreateProgram(const MaterialDescriptor &);
-			virtual void Apply();
-			virtual void Unapply();
+			virtual Program *CreateProgram(const MaterialDescriptor &) override final;
+			virtual void Apply() override final;
+			virtual void Unapply() override final;
 		};
 	}
 }

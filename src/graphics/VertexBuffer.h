@@ -85,6 +85,9 @@ public:
 	// copies the contents of the VertexArray into the buffer
 	virtual bool Populate(const VertexArray &) = 0;
 
+	// change the buffer data without mapping
+	virtual void BufferData(const size_t, void*) = 0;
+
 	virtual void Bind() = 0;
 	virtual void Release() = 0;
 
@@ -100,6 +103,9 @@ public:
 	IndexBuffer(Uint32 size, BufferUsage);
 	virtual ~IndexBuffer();
 	virtual Uint32 *Map(BufferMapMode) = 0;
+
+	// change the buffer data without mapping
+	virtual void BufferData(const size_t, void*) = 0;
 
 	Uint32 GetSize() const { return m_size; }
 	Uint32 GetIndexCount() const { return m_indexCount; }

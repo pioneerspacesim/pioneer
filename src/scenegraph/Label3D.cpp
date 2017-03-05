@@ -54,7 +54,7 @@ void Label3D::SetText(const std::string &text)
 		// Most noticeably, this means text consisting of entirely Cyrillic
 		// or Chinese characters will vanish when rendered on a Label3D.
 		if (m_geometry->IsEmpty()) { return; }
-		
+
 		//create buffer and upload data
 		Graphics::VertexBufferDesc vbd;
 		vbd.attrib[0].semantic = Graphics::ATTRIB_POSITION;
