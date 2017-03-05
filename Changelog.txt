@@ -7,6 +7,7 @@ March 2017
      * Upgrade of Xcode project for Mac OSX build #3937
      * Resolve the mismatched attribute numbering (#3938)
      * Refactor the Vertex, Index, etc buffers (#3941)
+     * Eliminate the evil trailing whitespace (#3942)
 
 February 2017
    * New Features
