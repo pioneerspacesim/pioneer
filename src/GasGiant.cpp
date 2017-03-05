@@ -140,12 +140,12 @@ public:
 
 		return tri_count;
 	}
-	
+
 	void Init() {
 		PROFILE_SCOPED()
 		frac = 1.0 / double(edgeLen-1);
 
-		// also want vtx indices for tris not touching edge of patch 
+		// also want vtx indices for tris not touching edge of patch
 		indices.reset(new Uint32[IDX_VBO_COUNT_ALL_IDX()]);
 		Uint32 *idx = indices.get();
 		for (int x=0; x<edgeLen-1; x++) {
@@ -196,7 +196,7 @@ public:
 	vector3d clipCentroid;
 	double clipRadius;
 
-	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasGiant *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3) 
+	GasPatch(const RefCountedPtr<GasPatchContext> &_ctx, GasGiant *gs, vector3d v0, vector3d v1, vector3d v2, vector3d v3)
 		: ctx(_ctx), gasSphere(gs), clipCentroid(((v0+v1+v2+v3) * 0.25).Normalized()), clipRadius(0.0)
 	{
 		PROFILE_SCOPED()
@@ -229,7 +229,7 @@ public:
 
 		GasPatchContext::VBOVertex* vtxPtr = m_vertexBuffer->Map<GasPatchContext::VBOVertex>(Graphics::BUFFER_MAP_WRITE);
 		assert(m_vertexBuffer->GetDesc().stride == sizeof(GasPatchContext::VBOVertex));
-		
+
 		const Sint32 edgeLen = ctx->edgeLen;
 		const double frac = ctx->frac;
 		for (Sint32 y=0; y<edgeLen; y++) {
@@ -297,7 +297,7 @@ GasGiant::GasGiant(const SystemBody *body) : BaseSphere(body),
 	m_hasTempCampos(false), m_tempCampos(0.0), m_hasGpuJobRequest(false), m_timeDelay(s_initialCPUDelayTime)
 {
 	s_allGasGiants.push_back(this);
-	
+
 	for(int i=0; i<NUM_PATCHES; i++) {
 		m_hasJobRequest[i] = false;
 	}
@@ -423,8 +423,8 @@ bool GasGiant::AddTextureFaceResult(GasGiantJobs::STextureFaceResult *res)
 		const vector2f texSize(1.0f, 1.0f);
 		const vector2f dataSize(uvDims, uvDims);
 		const Graphics::TextureDescriptor texDesc(
-			Graphics::TEXTURE_RGBA_8888, 
-			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			Graphics::TEXTURE_RGBA_8888,
+			dataSize, texSize, Graphics::LINEAR_CLAMP,
 			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_surfaceTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 
@@ -525,8 +525,8 @@ void GasGiant::GenerateTexture()
 		const vector2f texSize(1.0f, 1.0f);
 		const vector2f dataSize(s_texture_size_small, s_texture_size_small);
 		const Graphics::TextureDescriptor texDesc(
-			Graphics::TEXTURE_RGBA_8888, 
-			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			Graphics::TEXTURE_RGBA_8888,
+			dataSize, texSize, Graphics::LINEAR_CLAMP,
 			false, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_surfaceTextureSmall.Reset(Pi::renderer->CreateTexture(texDesc));
 
@@ -572,7 +572,7 @@ void GasGiant::GenerateTexture()
 	// create small texture
 	if( !bEnableGPUJobs )
 	{
-		for(int i=0; i<NUM_PATCHES; i++) 
+		for(int i=0; i<NUM_PATCHES; i++)
 		{
 			assert(!m_hasJobRequest[i]);
 			assert(!m_job[i].HasJob());
@@ -588,8 +588,8 @@ void GasGiant::GenerateTexture()
 		const vector2f texSize(1.0f, 1.0f);
 		const vector2f dataSize(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]);
 		const Graphics::TextureDescriptor texDesc(
-			Graphics::TEXTURE_RGBA_8888, 
-			dataSize, texSize, Graphics::LINEAR_CLAMP, 
+			Graphics::TEXTURE_RGBA_8888,
+			dataSize, texSize, Graphics::LINEAR_CLAMP,
 			true, false, false, 0, Graphics::TEXTURE_CUBE_MAP);
 		m_builtTexture.Reset(Pi::renderer->CreateTexture(texDesc));
 
@@ -619,7 +619,7 @@ void GasGiant::GenerateTexture()
 		const float hueShift = (parentname == "Sol") ? 0.0f : float(((rng.Double() * 2.0) - 1.0) * 0.9);
 
 		GasGiantJobs::GenFaceQuad *pQuad = new GasGiantJobs::GenFaceQuad(Pi::renderer, vector2f(s_texture_size_gpu[Pi::detail.planets], s_texture_size_gpu[Pi::detail.planets]), s_quadRenderState, GasGiantType );
-			
+
 		GasGiantJobs::SGPUGenRequest *pGPUReq = new GasGiantJobs::SGPUGenRequest(GetSystemBody()->GetPath(), s_texture_size_gpu[Pi::detail.planets], GetTerrain(), GetSystemBody()->GetRadius(), hueShift, pQuad, m_builtTexture.Get());
 		m_gpuJob = Pi::GetSyncJobQueue()->Queue(new GasGiantJobs::SingleGPUGenJob(pGPUReq));
 		m_hasGpuJobRequest = true;
@@ -741,7 +741,7 @@ void GasGiant::SetUpMaterials()
 	rsd.depthWrite = false;
 	m_atmosRenderState = Pi::renderer->CreateRenderState(rsd);
 
-	// Request material for this planet, with atmosphere. 
+	// Request material for this planet, with atmosphere.
 	// Separate materials for surface and sky.
 	Graphics::MaterialDescriptor surfDesc;
 	surfDesc.effect = Graphics::EFFECT_GASSPHERE_TERRAIN;
@@ -752,11 +752,11 @@ void GasGiant::SetUpMaterials()
 	assert(ap.atmosDensity > 0.0);
 	{
 		surfDesc.quality |= Graphics::HAS_ATMOSPHERE;
-	} 
+	}
 
 	surfDesc.quality |= Graphics::HAS_ECLIPSES;
 	surfDesc.textures = 1;
-	
+
 	assert(m_surfaceTextureSmall.Valid() || m_surfaceTexture.Valid());
 	m_surfaceMaterial.Reset(Pi::renderer->CreateMaterial(surfDesc));
 	m_surfaceMaterial->texture0 = m_surfaceTexture.Valid() ? m_surfaceTexture.Get() : m_surfaceTextureSmall.Get();
@@ -795,7 +795,7 @@ void GasGiant::Init()
 	// NB: limit the ranges of all values loaded from the file
 	// NB: round to the nearest power of 2 for all texture sizes
 	s_texture_size_small = ceil_pow2(Clamp(cfg.Int("texture_size_small", 16), 16, 64));
-	
+
 	SplitData(cfg.String("texture_size_0"), s_texture_size_cpu[0], s_texture_size_gpu[0], s_noiseOctaves[0]);
 	SplitData(cfg.String("texture_size_1"), s_texture_size_cpu[1], s_texture_size_gpu[1], s_noiseOctaves[1]);
 	SplitData(cfg.String("texture_size_2"), s_texture_size_cpu[2], s_texture_size_gpu[2], s_noiseOctaves[2]);
@@ -844,7 +844,7 @@ void GasGiant::CreateRenderTarget(const Uint16 width, const Uint16 height) {
 	s_renderTarget = Pi::renderer->CreateRenderTarget(rtDesc);
 }
 
-//static 
+//static
 void GasGiant::SetRenderTargetCubemap(const Uint32 face, Graphics::Texture *pTexture, const bool unBind /*= true*/)
 {
 	s_renderTarget->SetCubeFaceTexture(face, pTexture);

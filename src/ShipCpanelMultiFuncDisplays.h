@@ -81,7 +81,7 @@ private:
 
 	Graphics::Renderer *m_renderer;
 	Graphics::RenderState *m_renderState;
-	
+
 	Graphics::Drawables::Lines m_scanLines;
 	Graphics::Drawables::Lines m_edgeLines;
 };

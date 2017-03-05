@@ -278,8 +278,8 @@ static void ExportFactionToLua(const Faction *fac, const size_t index)
 
 	FILE *f = nullptr;
 	FileSystem::FileSourceFS newFS(FileSystem::GetDataDir());
-	
-	//if (!bInPlace) 
+
+	//if (!bInPlace)
 	{
 		if (!FileSystem::userFiles.MakeDirectory(SAVE_TARGET_DIR))
 			throw CouldNotOpenFileException();

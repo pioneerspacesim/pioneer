@@ -264,7 +264,7 @@ void Model::DrawAabb()
 	}
 
 	m_renderer->DrawBuffer( m_aabbVB.Get(), m_state, m_aabbMat.Get(), Graphics::LINE_SINGLE);
-	
+
 }
 
 // Draw collision mesh as a wireframe overlay
@@ -329,7 +329,7 @@ RefCountedPtr<Graphics::Material> Model::GetMaterialByName(const std::string &na
 {
 	for (auto it : m_materials)
 	{
-		if (it.first == name) 
+		if (it.first == name)
 			return it.second;
 	}
 	return RefCountedPtr<Graphics::Material>(); //return invalid

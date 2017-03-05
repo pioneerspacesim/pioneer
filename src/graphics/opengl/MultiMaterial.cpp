@@ -42,7 +42,7 @@ MultiProgram::MultiProgram(const MaterialDescriptor &desc, int numLights)
 		ss << "#define MAP_COLOR\n";
 	if (desc.quality & HAS_HEAT_GRADIENT)
 		ss << "#define HEAT_COLOURING\n";
-	if (desc.instanced) 
+	if (desc.instanced)
 		ss << "#define USE_INSTANCING\n";
 
 	m_name = "multi";

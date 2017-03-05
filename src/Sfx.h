@@ -18,7 +18,7 @@ enum SFX_TYPE { TYPE_EXPLOSION=1, TYPE_DAMAGE, TYPE_SMOKE, TYPE_NONE };
 
 class Sfx {
 public:
-	
+
 	friend class SfxManager;
 	Sfx();
 	Sfx(const vector3d &pos, const vector3d &vel, const float speed, const SFX_TYPE type);

@@ -29,7 +29,7 @@ public:
 	vector2 &operator*=(const T &a) { x*=a; y*=a; return *this; }
 	vector2 operator-() const { return vector2(-x,-y); }
 
-	bool operator==(const vector2 &a) const { 
+	bool operator==(const vector2 &a) const {
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y);
 	}
 	bool ExactlyEqual(const vector2 &a) const {

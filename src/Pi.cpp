@@ -354,10 +354,10 @@ std::string Pi::GetSaveDir()
 void TestGPUJobsSupport()
 {
 	bool supportsGPUJobs = (Pi::config->Int("EnableGPUJobs") == 1);
-	if (supportsGPUJobs) 
+	if (supportsGPUJobs)
 	{
 		Uint32 octaves = 8;
-		for (Uint32 i = 0; i<6; i++) 
+		for (Uint32 i = 0; i<6; i++)
 		{
 			std::unique_ptr<Graphics::Material> material;
 			Graphics::MaterialDescriptor desc;
@@ -367,7 +367,7 @@ void TestGPUJobsSupport()
 			material.reset(Pi::renderer->CreateMaterial(desc));
 			supportsGPUJobs &= material->IsProgramLoaded();
 		}
-		if (!supportsGPUJobs) 
+		if (!supportsGPUJobs)
 		{
 			// failed - retry
 
@@ -386,7 +386,7 @@ void TestGPUJobsSupport()
 				material.reset(Pi::renderer->CreateMaterial(desc));
 				supportsGPUJobs &= material->IsProgramLoaded();
 			}
-			
+
 			if (!supportsGPUJobs)
 			{
 				// failed
@@ -462,11 +462,11 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	// determine what renderer we should use, default to Opengl 3.x
 	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
 	Graphics::RendererType rType = Graphics::RENDERER_OPENGL_3x;
-	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21)) 
+	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21))
 	{
 		rType = Graphics::RENDERER_OPENGL_21;
 	}
-	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x)) 
+	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x))
 	{
 		rType = Graphics::RENDERER_OPENGL_3x;
 	}
@@ -519,7 +519,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
 	syncJobQueue.reset(new SyncJobQueue);
-	
+
 	Output("ShipType::Init()\n");
 	// XXX early, Lua init needs it
 	ShipType::Init();
@@ -560,7 +560,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 	LuaInit();
 
 	Gui::Init(renderer, Graphics::GetScreenWidth(), Graphics::GetScreenHeight(), 800, 600);
-	
+
 	draw_progress(0.0f);
 
 	Output("GalaxyGenerator::Init()\n");

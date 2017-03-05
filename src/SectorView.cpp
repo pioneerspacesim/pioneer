@@ -422,17 +422,17 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 	std::vector<std::pair<SystemPath,std::string>> exactMatches;
 	const std::string *bestMatchName = 0;
 
-	for (auto i = m_sectorCache->Begin(); i != m_sectorCache->End(); ++i) 
+	for (auto i = m_sectorCache->Begin(); i != m_sectorCache->End(); ++i)
 	{
-		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++) 
+		for (unsigned int systemIndex = 0; systemIndex < (*i).second->m_systems.size(); systemIndex++)
 		{
 			const Sector::System *ss = &((*i).second->m_systems[systemIndex]);
 
 			// compare with the start of the current system
-			if (strncasecmp(search.c_str(), ss->GetName().c_str(), search.size()) == 0) 
+			if (strncasecmp(search.c_str(), ss->GetName().c_str(), search.size()) == 0)
 			{
 				// matched, see if they're the same size
-				if (search.size() == ss->GetName().size()) 
+				if (search.size() == ss->GetName().size())
 				{
 					// exact match, take it and go
 					SystemPath path = (*i).first;
@@ -443,7 +443,7 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 				}
 
 				// partial match at start of name
-				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->GetName().size()) 
+				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->GetName().size())
 				{
 					// don't already have one or its shorter than the previous
 					// one, take it
@@ -457,10 +457,10 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 			}
 
 			// look for the search term somewhere within the current system
-			if (pi_strcasestr(ss->GetName().c_str(), search.c_str())) 
+			if (pi_strcasestr(ss->GetName().c_str(), search.c_str()))
 			{
 				// found it
-				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->GetName().size()) 
+				if (!gotMatch || !gotStartMatch || bestMatchName->size() > ss->GetName().size())
 				{
 					// best we've found so far, take it
 					bestMatch = (*i).first;
@@ -472,15 +472,15 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 		}
 	}
 
-	if(gotExactMatch) 
+	if(gotExactMatch)
 	{
 		// We have some exact matches, sort them by distance and choose the closest to the players current system
 		const SystemPath currentSector = m_current.SectorOnly();
 		double nearest = DBL_MAX;
-		for(auto eM : exactMatches) 
+		for(auto eM : exactMatches)
 		{
 			const double dist = SystemPath::SectorDistanceSqr(currentSector, eM.first);
-			if(dist<nearest) 
+			if(dist<nearest)
 			{
 				// this one's closer, store it's details
 				bestMatch = eM.first;
@@ -490,11 +490,11 @@ void SectorView::OnSearchBoxKeyPress(const SDL_Keysym *keysym)
 		}
 	}
 
-	if (gotMatch) 
+	if (gotMatch)
 	{
 		m_statusLabel->SetText(stringf(gotExactMatch ? Lang::EXACT_MATCH_X : Lang::NOT_FOUND_BEST_MATCH_X, formatarg("system", *bestMatchName)));
 		GotoSystem(bestMatch);
-	} 
+	}
 	else
 	{
 		m_statusLabel->SetText(Lang::NOT_FOUND);
@@ -745,7 +745,7 @@ void SectorView::PutFactionLabels(const vector3f &origin)
 
 				Gui::Screen::MeasureString(labelText, labelWidth, labelHeight);
 
-				
+
 				{
 					Graphics::VertexArray va(Graphics::ATTRIB_POSITION);
 					va.Add(vector3f(pos.x - 5.f,              pos.y - 5.f,               0));

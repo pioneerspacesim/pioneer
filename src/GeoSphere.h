@@ -50,7 +50,7 @@ public:
 #endif /* DEBUG */
 		return h;
 	}
-	
+
 	static void Init();
 	static void Uninit();
 	static void UpdateAllGeoSpheres();

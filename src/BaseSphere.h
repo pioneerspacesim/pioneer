@@ -13,8 +13,8 @@
 
 #include <deque>
 
-namespace Graphics { 
-	class Renderer; 
+namespace Graphics {
+	class Renderer;
 	class RenderState;
 	class Material;
 }

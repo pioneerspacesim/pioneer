@@ -26,7 +26,7 @@ private:
 		RefCountedPtr<Graphics::VertexBuffer> m_vb;
 	};
 	std::list<Message> m_messages;
-	
+
 	RefCountedPtr<Text::TextureFont> m_font;
 	vector2f m_screenSize;
 	vector2f m_offset;

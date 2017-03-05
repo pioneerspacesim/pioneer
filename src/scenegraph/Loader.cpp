@@ -458,9 +458,9 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 
 		const bool hasUVs = mesh->HasTextureCoords(0);
 		const bool hasTangents = mesh->HasTangentsAndBitangents();
-		if (!hasUVs) 
+		if (!hasUVs)
 			AddLog(stringf("%0: missing UV coordinates", m_curMeshDef));
-		if (!hasTangents) 
+		if (!hasTangents)
 			AddLog(stringf("%0: missing Tangents and Bitangents coordinates", m_curMeshDef));
 		//sadly, aimesh name is usually empty so no help for logging
 
@@ -571,7 +571,7 @@ void Loader::ConvertAiMeshes(std::vector<RefCountedPtr<StaticGeometry> > &geoms,
 				vtxPtr[v].nrm = vector3f(norm.x, norm.y, norm.z);
 				vtxPtr[v].uv0 = vector2f(uv0.x, uv0.y);
 				vtxPtr[v].tangent = vector3f(tangents.x, tangents.y, tangents.z);
-				
+
 				//update bounding box
 				//untransformed points, collision visitor will transform
 				geom->m_boundingBox.Update(vtx.x, vtx.y, vtx.z);

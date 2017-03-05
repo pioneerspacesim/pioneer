@@ -23,8 +23,8 @@ class SystemBody;
 class GasGiant;
 class GasPatch;
 class GasPatchContext;
-namespace { 
-	class STextureFaceResult; 
+namespace {
+	class STextureFaceResult;
 	class SGPUGenResult;
 }
 
@@ -77,7 +77,7 @@ private:
 	RefCountedPtr<Graphics::Texture> m_surfaceTextureSmall;
 	RefCountedPtr<Graphics::Texture> m_surfaceTexture;
 	RefCountedPtr<Graphics::Texture> m_builtTexture;
-	
+
 	std::unique_ptr<Color[]> m_jobColorBuffers[NUM_PATCHES];
 	Job::Handle m_job[NUM_PATCHES];
 	bool m_hasJobRequest[NUM_PATCHES];

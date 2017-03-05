@@ -131,7 +131,7 @@ void BinaryConverter::Save(const std::string& filename, const std::string& savep
 	for (unsigned int i = 0; i < m->GetNumTags(); i++)
 		wr.String(m->GetTagByIndex(i)->GetName().c_str());
 
-	// compress in memory, write to open file 
+	// compress in memory, write to open file
 	size_t outSize = 0;
 	size_t nwritten = 0;
 	const std::string& data = wr.GetData();

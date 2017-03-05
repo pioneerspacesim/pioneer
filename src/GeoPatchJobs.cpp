@@ -9,9 +9,9 @@
 #include "Pi.h"
 #include "RefCounted.h"
 
-inline void setColour(Color3ub &r, const vector3d &v) { 
-	r.r=static_cast<unsigned char>(Clamp(v.x*255.0, 0.0, 255.0)); 
-	r.g=static_cast<unsigned char>(Clamp(v.y*255.0, 0.0, 255.0)); 
+inline void setColour(Color3ub &r, const vector3d &v) {
+	r.r=static_cast<unsigned char>(Clamp(v.x*255.0, 0.0, 255.0));
+	r.g=static_cast<unsigned char>(Clamp(v.y*255.0, 0.0, 255.0));
 	r.b=static_cast<unsigned char>(Clamp(v.z*255.0, 0.0, 255.0));
 }
 
@@ -24,8 +24,8 @@ inline vector3d GetSpherePoint(const vector3d &v0, const vector3d &v1, const vec
 // Overloaded PureJob class to handle generating the mesh for each patch
 // ********************************************************************************
 
-// Generates full-detail vertices, and also non-edge normals and colors 
-void SinglePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *colors, 
+// Generates full-detail vertices, and also non-edge normals and colors
+void SinglePatchJob::GenerateMesh(double *heights, vector3f *normals, Color3ub *colors,
 								double *borderHeights, vector3d *borderVertexs,
 								const vector3d &v0,
 								const vector3d &v1,
@@ -105,12 +105,12 @@ void SinglePatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 
 	// fill out the data
 	GenerateMesh(srd.heights, srd.normals, srd.colors, srd.borderHeights.get(), srd.borderVertexs.get(),
-		srd.v0, srd.v1, srd.v2, srd.v3, 
+		srd.v0, srd.v1, srd.v2, srd.v3,
 		srd.edgeLen, srd.fracStep, srd.pTerrain.Get());
 	// add this patches data
 	SSingleSplitResult *sr = new SSingleSplitResult(srd.patchID.GetPatchFaceIdx(), srd.depth);
-	sr->addResult(srd.heights, srd.normals, srd.colors, 
-		srd.v0, srd.v1, srd.v2, srd.v3, 
+	sr->addResult(srd.heights, srd.normals, srd.colors,
+		srd.v0, srd.v1, srd.v2, srd.v3,
 		srd.patchID.NextPatchID(srd.depth+1, 0));
 	// store the result
 	mpResults = sr;
@@ -170,13 +170,13 @@ void QuadPatchJob::OnRun()    // RUNS IN ANOTHER THREAD!! MUST BE THREAD SAFE!
 	{
 		// fill out the data
 		GenerateSubPatchData(srd.heights[i], srd.normals[i], srd.colors[i], srd.borderHeights.get(), srd.borderVertexs.get(),
-			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
-			srd.edgeLen, offxy[i][0], offxy[i][1], 
+			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3],
+			srd.edgeLen, offxy[i][0], offxy[i][1],
 			borderedEdgeLen, srd.fracStep, srd.pTerrain.Get());
 
 		// add this patches data
-		sr->addResult(i, srd.heights[i], srd.normals[i], srd.colors[i], 
-			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], 
+		sr->addResult(i, srd.heights[i], srd.normals[i], srd.colors[i],
+			vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3],
 			srd.patchID.NextPatchID(srd.depth+1, i));
 	}
 	mpResults = sr;
@@ -191,7 +191,7 @@ QuadPatchJob::~QuadPatchJob()
 	}
 }
 
-// Generates full-detail vertices, and also non-edge normals and colors 
+// Generates full-detail vertices, and also non-edge normals and colors
 void QuadPatchJob::GenerateBorderedData(
 	double *borderHeights, vector3d *borderVertexs,
 	const vector3d &v0,
@@ -223,14 +223,14 @@ void QuadPatchJob::GenerateBorderedData(
 }
 
 void QuadPatchJob::GenerateSubPatchData(
-	double *heights, vector3f *normals, Color3ub *colors, 
+	double *heights, vector3f *normals, Color3ub *colors,
 	double *borderHeights, vector3d *borderVertexs,
 	const vector3d &v0,
 	const vector3d &v1,
 	const vector3d &v2,
 	const vector3d &v3,
 	const int edgeLen,
-	const int xoff, 
+	const int xoff,
 	const int yoff,
 	const int borderedEdgeLen,
 	const double fracStep,

@@ -29,14 +29,14 @@ private:
 	Ship *m_ship;
 
 	std::vector<vector3f> m_points;
-	
+
 	Graphics::RenderState *m_renderState;
 	RefCountedPtr<Graphics::Material> m_material;
 	std::unique_ptr<Graphics::VertexArray> m_varray;
 	std::unique_ptr<Graphics::VertexBuffer> m_vbuffer;
 
 	matrix4x4d m_transform;
-	
+
 	bool m_visible;
 	float m_lineLength;
 	vector3f m_dir;

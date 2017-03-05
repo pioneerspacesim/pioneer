@@ -354,12 +354,12 @@ void Matrix3x3fToStr(const matrix3x3f &val, char *out, size_t size)
 	fu32 fuvals[9];
 	for(int i=0; i<9; i++)
 		fuvals[i].f = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu32",%" PRIu32",%" PRIu32
 		",%" PRIu32",%" PRIu32",%" PRIu32
-		",%" PRIu32",%" PRIu32",%" PRIu32")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, 
-		fuvals[3].u, fuvals[4].u, fuvals[5].u, 
+		",%" PRIu32",%" PRIu32",%" PRIu32")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u,
+		fuvals[3].u, fuvals[4].u, fuvals[5].u,
 		fuvals[6].u, fuvals[7].u, fuvals[8].u);
 	assert(static_cast<size_t>(amt)<=size);
 #endif
@@ -376,12 +376,12 @@ void Matrix3x3dToStr(const matrix3x3d &val, char *out, size_t size)
 	fu64 fuvals[9];
 	for(int i=0; i<9; i++)
 		fuvals[i].d = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu64",%" PRIu64",%" PRIu64
 		",%" PRIu64",%" PRIu64",%" PRIu64
-		",%" PRIu64",%" PRIu64",%" PRIu64")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, 
-		fuvals[3].u, fuvals[4].u, fuvals[5].u, 
+		",%" PRIu64",%" PRIu64",%" PRIu64")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u,
+		fuvals[3].u, fuvals[4].u, fuvals[5].u,
 		fuvals[6].u, fuvals[7].u, fuvals[8].u);
 	assert(static_cast<size_t>(amt)<=size);
 #endif
@@ -398,14 +398,14 @@ void Matrix4x4fToStr(const matrix4x4f &val, char *out, size_t size)
 	fu32 fuvals[16];
 	for(int i=0; i<16; i++)
 		fuvals[i].f = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32
 		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32
 		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32
-		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u, 
-		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u, 
-		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u, 
+		",%" PRIu32",%" PRIu32",%" PRIu32",%" PRIu32")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u,
+		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u,
+		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u,
 		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
 	assert(static_cast<size_t>(amt)<=size);
 #endif
@@ -422,14 +422,14 @@ void Matrix4x4dToStr(const matrix4x4d &val, char *out, size_t size)
 	fu64 fuvals[16];
 	for(int i=0; i<16; i++)
 		fuvals[i].d = val[i];
-	const int amt = sprintf(out, 
+	const int amt = sprintf(out,
 		"(%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64
 		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64
 		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64
-		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64")", 
-		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u, 
-		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u, 
-		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u, 
+		",%" PRIu64",%" PRIu64",%" PRIu64",%" PRIu64")",
+		fuvals[0].u, fuvals[1].u, fuvals[2].u, fuvals[3].u,
+		fuvals[4].u, fuvals[5].u, fuvals[6].u, fuvals[7].u,
+		fuvals[8].u, fuvals[9].u, fuvals[10].u, fuvals[11].u,
 		fuvals[12].u, fuvals[13].u, fuvals[14].u, fuvals[15].u);
 	assert(static_cast<size_t>(amt)<=size);
 #endif
@@ -568,9 +568,9 @@ void StrToMatrix3x3f(const char *str, matrix3x3f &val)
 	assert(amt==9);
 #else
 	fu32 fu[9];
-	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, 
-		&fu[3].u, &fu[4].u, &fu[5].u, 
+	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")",
+		&fu[0].u, &fu[1].u, &fu[2].u,
+		&fu[3].u, &fu[4].u, &fu[5].u,
 		&fu[6].u, &fu[7].u, &fu[8].u);
 	assert(amt==9);
 	for(int i=0; i<9; i++)
@@ -586,9 +586,9 @@ void StrToMatrix3x3d(const char *str, matrix3x3d &val)
 	assert(amt==9);
 #else
 	fu64 fu[9];
-	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, 
-		&fu[3].u, &fu[4].u, &fu[5].u, 
+	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")",
+		&fu[0].u, &fu[1].u, &fu[2].u,
+		&fu[3].u, &fu[4].u, &fu[5].u,
 		&fu[6].u, &fu[7].u, &fu[8].u);
 	assert(amt==9);
 	for(int i=0; i<9; i++)
@@ -604,10 +604,10 @@ void StrToMatrix4x4f(const char *str, matrix4x4f &val)
 	assert(amt==16);
 #else
 	fu32 fu[16];
-	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u, 
-		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u, 
-		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u, 
+	const int amt = std::sscanf(str, "(%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32",%" SCNu32")",
+		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u,
+		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u,
+		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u,
 		&fu[12].u, &fu[13].u, &fu[14].u, &fu[15].u);
 	assert(amt==16);
 	for(int i=0; i<16; i++)
@@ -623,10 +623,10 @@ void StrToMatrix4x4d(const char *str, matrix4x4d &val)
 	assert(amt==16);
 #else
 	fu64 fu[16];
-	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")", 
-		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u, 
-		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u, 
-		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u, 
+	const int amt = std::sscanf(str, "(%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64",%" SCNu64")",
+		&fu[0].u, &fu[1].u, &fu[2].u, &fu[3].u,
+		&fu[4].u, &fu[5].u, &fu[6].u, &fu[7].u,
+		&fu[8].u, &fu[9].u, &fu[10].u, &fu[11].u,
 		&fu[12].u, &fu[13].u, &fu[14].u, &fu[15].u);
 	assert(amt==16);
 	for(int i=0; i<16; i++)

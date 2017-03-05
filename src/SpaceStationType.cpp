@@ -59,7 +59,7 @@ SpaceStationType::SpaceStationType(const std::string &id_, const std::string &pa
 
 	parkingDistance = data.get("parking_distance", 0.0f).asFloat();
 	parkingGapSize = data.get("parking_gap_size", 0.0f).asFloat();
-	
+
 	padOffset = data.get("pad_offset", 150.f).asFloat();
 
 	model = Pi::FindModel(modelName);
@@ -162,19 +162,19 @@ void SpaceStationType::OnSetupComplete()
 				static bool ClosestPointOnLine( const vector3f &Point, const vector3f &LineStart, const vector3f &LineEnd, vector3f &Intersection )
 				{
 					const float LineMag = ( LineStart - LineEnd ).Length();
- 
+
 					const float U = ( ( ( Point.x - LineStart.x ) * ( LineEnd.x - LineStart.x ) ) +
 									(   ( Point.y - LineStart.y ) * ( LineEnd.y - LineStart.y ) ) +
 									(   ( Point.z - LineStart.z ) * ( LineEnd.z - LineStart.z ) ) ) /
 									( LineMag * LineMag );
- 
+
 					if( U < 0.0f || U > 1.0f )
 						return false;   // closest point does not fall within the line segment
- 
+
 					Intersection.x = LineStart.x + U * ( LineEnd.x - LineStart.x );
 					Intersection.y = LineStart.y + U * ( LineEnd.y - LineStart.y );
 					Intersection.z = LineStart.z + U * ( LineEnd.z - LineStart.z );
- 
+
 					return true;
 				}
 			};
@@ -194,7 +194,7 @@ void SpaceStationType::OnSetupComplete()
 
 				if(!TPointLine::ClosestPointOnLine(p0, approach1Pos, l0, intersectionPos)) {
 					Output("No point found on line segment");
-				} 
+				}
 			}
 			m_portPaths[bay].m_docking[3] = locTransform;
 			m_portPaths[bay].m_docking[3].SetTranslate( intersectionPos );
@@ -240,7 +240,7 @@ void SpaceStationType::OnSetupComplete()
 			numUndockStages = 3;
 		}
 	}
-	
+
 	numDockingPorts = m_portPaths.size();
 
 	// sanity
@@ -398,7 +398,7 @@ bool SpaceStationType::GetDockAnimPositionOrient(const unsigned int port, int st
 void SpaceStationType::Init()
 {
 	static bool isInitted = false;
-	if (isInitted) 
+	if (isInitted)
 		return;
 	isInitted = true;
 
@@ -422,7 +422,7 @@ const SpaceStationType* SpaceStationType::RandomStationType(Random &random, cons
 {
 	if (bIsGround) {
 		return &surfaceTypes[ random.Int32(SpaceStationType::surfaceTypes.size()) ];
-	} 
+	}
 
 	return &orbitalTypes[ random.Int32(SpaceStationType::orbitalTypes.size()) ];
 }

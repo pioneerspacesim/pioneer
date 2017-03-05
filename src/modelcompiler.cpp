@@ -94,7 +94,7 @@ void SetupRenderer()
 	Uint32 numThreads = s_config->Int("WorkerThreads");
 	const int numCores = OS::GetNumCores();
 	assert(numCores > 0);
-	if (numThreads == 0) 
+	if (numThreads == 0)
 		numThreads = std::max(Uint32(numCores), 1U); // this is a tool, we can use all of the cores for processing unlike Pioneer
 	asyncJobQueue.reset(new AsyncJobQueue(numThreads));
 	Output("started %d worker threads\n", numThreads);
@@ -189,7 +189,7 @@ int main(int argc, char** argv)
 	}
 
 start:
-	
+
 	// Init here since we'll need it for both batch and RunCompiler modes.
 	FileSystem::Init();
 	FileSystem::userFiles.MakeDirectory(""); // ensure the config directory exists
@@ -274,7 +274,7 @@ start:
 			while(true) {
 				asyncJobQueue->FinishJobs();
 				bool hasJobs = false;
-				for(auto &handle : handles) 
+				for(auto &handle : handles)
 					hasJobs |= handle.HasJob();
 
 				if(!hasJobs)

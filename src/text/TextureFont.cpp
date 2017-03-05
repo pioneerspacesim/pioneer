@@ -529,7 +529,7 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 
 		FT_Done_Glyph(strokeGlyph);
 	}
-	else 
+	else
 	{
 		//don't run off atlas borders
 		m_atlasVIncrement = std::max(m_atlasVIncrement, static_cast<unsigned int>(bmGlyph->bitmap.rows));
@@ -651,7 +651,7 @@ FT_Face TextureFont::GetFTFace(const FontConfig::Face &face)
 	}
 
 	RefCountedPtr<FileSystem::FileData> fd;
-	
+
 	fd = FileSystem::gameDataFiles.ReadFile("fonts/" + face.fontFile);
 	if (!fd) {
 		Output("Terrible error! Couldn't load '%s'.\n", face.fontFile.c_str());

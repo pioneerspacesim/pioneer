@@ -109,7 +109,7 @@ ModelViewer::ModelViewer(Graphics::Renderer *r, LuaManager *lm)
 
 	m_log = m_ui->MultiLineText("");
 	m_log->SetFont(UI::Widget::FONT_SMALLEST);
-	
+
 	m_logScroller.Reset(m_ui->Scroller());
 	m_logScroller->SetInnerWidget(m_ui->ColorBackground(Color(0x0,0x0,0x0,0x40))->SetInnerWidget(m_log));
 
@@ -153,11 +153,11 @@ void ModelViewer::Run(const std::string &modelName)
 	// determine what renderer we should use, default to Opengl 3.x
 	const std::string rendererName = config->String("RendererName", Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x));
 	Graphics::RendererType rType = Graphics::RENDERER_OPENGL_3x;
-	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21)) 
+	if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_21))
 	{
 		rType = Graphics::RENDERER_OPENGL_21;
 	}
-	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x)) 
+	else if(rendererName == Graphics::RendererNameFromType(Graphics::RENDERER_OPENGL_3x))
 	{
 		rType = Graphics::RENDERER_OPENGL_3x;
 	}
@@ -472,12 +472,12 @@ void ModelViewer::DrawBackground()
 		vbd.attrib[1].format	= Graphics::ATTRIB_FORMAT_UBYTE4;
 		vbd.numVertices = 6;
 		vbd.usage = Graphics::BUFFER_USAGE_STATIC;
-	
+
 		// VertexBuffer
 		m_bgBuffer.Reset( m_renderer->CreateVertexBuffer(vbd) );
 		m_bgBuffer->Populate(bgArr);
 	}
-	
+
 	m_renderer->DrawBuffer(m_bgBuffer.Get(), m_bgState, Graphics::vtxColorMaterial, Graphics::TRIANGLES);
 }
 
@@ -569,7 +569,7 @@ void ModelViewer::MainLoop()
 			const float dif = dif2 / (dif1 * 1.0f);
 
 			m_shields->Update(m_options.showShields ? 1.0f : (1.0f - dif), 1.0f);
-			
+
 			// setup rendering
 			if (!m_options.orthoView) {
                 m_renderer->SetPerspectiveProjection(85, Graphics::GetScreenWidth()/float(Graphics::GetScreenHeight()), 0.1f, 100000.f);
@@ -1086,10 +1086,10 @@ void ModelViewer::SetupUI()
 		hitItButton->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnHitIt), hitItButton));
 	}
 
-	
+
 	add_pair(c, mainBox, randomColours = c->SmallButton(), "Random Colours");
 	randomColours->onClick.connect(sigc::bind(sigc::mem_fun(*this, &ModelViewer::OnRandomColor), randomColours));
-	
+
 
 	//pattern selector
 	if (m_model->SupportsPatterns()) {

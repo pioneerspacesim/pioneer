@@ -128,7 +128,7 @@ static bool ReadToTok(char tok, const char **p, char *bufOut, size_t buflen) {
 		}
 		bufOut[idx] = *((*p)++);
 	}
-	// if, after that, we're not pointing at the tok, we must have hit 
+	// if, after that, we're not pointing at the tok, we must have hit
 	// the terminal or run out of buffer.
 	if (**p != tok) {
 		return false;
@@ -180,7 +180,7 @@ bool KeyBinding::FromString(const char *str, KeyBinding &kb)
 		}
 		// force terminate
 		joyUUIDBuf[JoyUUIDLength-1] = '\0';
-		// now, locate the internal ID.		
+		// now, locate the internal ID.
 		int joy = Pi::JoystickFromGUIDString(joyUUIDBuf);
 		if (joy == -1) {
 			return false;
@@ -229,7 +229,7 @@ std::ostream &operator<<(std::ostream &oss, const KeyBinding &kb)
 		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick);
 		oss << "/Button" << int(kb.u.joystickButton.button);
 	} else if (kb.type == JOYSTICK_HAT) {
-		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick); 
+		oss << "Joy" << Pi::JoystickGUIDString(kb.u.joystickButton.joystick);
 		oss << "/Hat" << int(kb.u.joystickHat.hat);
 		oss << "Dir" << int(kb.u.joystickHat.direction);
 	} else {

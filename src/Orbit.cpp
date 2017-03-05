@@ -164,7 +164,7 @@ double Orbit::OrbitalTimeAtPos(const vector3d& pos, double centralMass) const
 			E *= -1.;
 		meanAnomaly = E - m_eccentricity * std::sinh(E);
 	}
-	
+
 	if(m_eccentricity <= 1.)
 	{
 		meanAnomaly -= m_orbitalPhaseAtStart;

@@ -27,7 +27,7 @@ namespace Graphics {
 		memset(&m_frameStats[m_currentFrame], 0, sizeof(TFrameData));
 	}
 
-	const Stats::TFrameData& Stats::FrameStatsPrevious() const { 
-		return m_frameStats[Clamp(m_currentFrame-1, 0U, MAX_FRAMES_STORE-1)]; 
+	const Stats::TFrameData& Stats::FrameStatsPrevious() const {
+		return m_frameStats[Clamp(m_currentFrame-1, 0U, MAX_FRAMES_STORE-1)];
 	}
 }

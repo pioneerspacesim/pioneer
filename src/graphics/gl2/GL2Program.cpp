@@ -59,13 +59,13 @@ static bool check_glsl_errors(const char *filename, GLuint obj)
 }
 
 struct Shader {
-	Shader(GLenum type, const std::string &filename, const std::string &defines) 
+	Shader(GLenum type, const std::string &filename, const std::string &defines)
 	{
 		RefCountedPtr<FileSystem::FileData> filecode = FileSystem::gameDataFiles.ReadFile(filename);
 
 		if (!filecode)
-			Error("Could not load %s", filename.c_str()); 
-		
+			Error("Could not load %s", filename.c_str());
+
 		std::string strCode(filecode->AsStringRange().ToString());
 		size_t found = strCode.find("#include");
 		while (found != std::string::npos)

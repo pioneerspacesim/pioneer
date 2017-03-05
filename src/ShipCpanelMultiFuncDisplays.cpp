@@ -558,9 +558,9 @@ void UseEquipWidget::UpdateEquip()
 		Pi::player->Properties().Get("ecm_power_cap", ecm_power_cap);
 		if (ecm_power_cap > 0) {
 			Gui::ImageButton *b = 0;
-			if (ecm_power_cap == 3) 
+			if (ecm_power_cap == 3)
 				b = new Gui::ImageButton("icons/ecm_basic.png");
-			else 
+			else
 				b = new Gui::ImageButton("icons/ecm_advanced.png");
 
 			// Note, FireECM() is a wrapper around Ship::UseECM() and is only used here

@@ -20,7 +20,7 @@ public:
 			text(text_), hasOwnColor(false), onClick(onClick_), screenx(screenx_), screeny(screeny_)
 		{
 		}
-		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) : 
+		LabelSetItem(std::string text_, sigc::slot<void> onClick_, float screenx_, float screeny_, const Color &c) :
 			text(text_), color(c), hasOwnColor(true), onClick(onClick_), screenx(screenx_), screeny(screeny_)
 		{
 		}

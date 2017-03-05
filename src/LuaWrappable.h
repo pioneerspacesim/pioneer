@@ -6,7 +6,7 @@
 
 // all classes that can be passed through to Lua must inherit from
 // LuaWrappable. this is mostly to ensure that dynamic_cast will always work
-// 
+//
 // this is in a separate file so that it can be included without including all
 // of LuaObject
 

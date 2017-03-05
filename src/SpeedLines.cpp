@@ -109,7 +109,7 @@ void SpeedLines::Render(Graphics::Renderer *r)
 	//distance fade
 	Color col(Color::GRAY);
 	for (auto it = m_points.begin(); it != m_points.end(); ++it) {
-		col.a = Clamp((1.f - it->Length() / BOUNDS),0.f,1.f) * 255;	
+		col.a = Clamp((1.f - it->Length() / BOUNDS),0.f,1.f) * 255;
 
 		m_varray->Set(vtx, *it - dir, col);
 		m_varray->Set(vtx+1,*it + dir, col);

@@ -54,7 +54,7 @@ namespace Gui {
 
 		static float GetFontHeight(Text::TextureFont *font = 0);
 		static float GetFontDescender(Text::TextureFont *font = 0);
-		
+
 		static void RenderStringBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const std::string &s, float xoff, float yoff, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 		static void RenderMarkupBuffer(RefCountedPtr<Graphics::VertexBuffer> vb, const std::string &s, const Color &color = Color::WHITE, Text::TextureFont *font = 0);
 		static void MeasureString(const std::string &s, float &w, float &h, Text::TextureFont *font = 0);

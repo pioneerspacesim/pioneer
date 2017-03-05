@@ -66,7 +66,7 @@ void BaseLoader::ConvertMaterialDefinition(const MaterialDefinition &mdef)
 	//texture5 is reserved for color gradient
 	if (!normTex.empty())
 		mat->texture6 = Graphics::TextureBuilder::Normal(normTex).GetOrCreateTexture(m_renderer, "model");
-	
+
 
 	m_model->m_materials.push_back(std::make_pair(mdef.name, mat));
 }

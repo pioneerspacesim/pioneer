@@ -336,7 +336,7 @@ void TextureGL::Update(const TextureCubeData &data, const vector2f &dataSize, Te
 		default:
 			assert(0);
 	}
-	
+
 	if (GetDescriptor().generateMipmaps && !IsCompressed(format))
 		glGenerateMipmap(m_target);
 

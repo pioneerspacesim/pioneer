@@ -160,7 +160,7 @@ void Tabbed::Draw()
 	}
 	m_rectBGShadow->Draw(Screen::GetRenderer());
 
-	for (pagecontainer_t::iterator i = m_pages.begin(), iEnd = m_pages.end(); i!=iEnd; ++i, index++) 
+	for (pagecontainer_t::iterator i = m_pages.begin(), iEnd = m_pages.end(); i!=iEnd; ++i, index++)
 	{
 		float csize[2];
 		(*i).first->GetSize(csize);

@@ -47,7 +47,7 @@ public:
 	vector3 operator-(const vector3 &a) const { return vector3(x-a.x, y-a.y, z-a.z); }
 	vector3 operator-() const { return vector3(-x, -y, -z); }
 
-	bool operator==(const vector3 &a) const { 
+	bool operator==(const vector3 &a) const {
 		return is_equal_exact(a.x, x) && is_equal_exact(a.y, y) && is_equal_exact(a.z, z);
 	}
 	bool ExactlyEqual(const vector3 &a) const {

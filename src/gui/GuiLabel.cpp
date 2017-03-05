@@ -87,7 +87,7 @@ void Label::Draw()
 
 	// the size might not have bene updated, poke it until it is
 	float size[2]; GetSize(size);
-	if (is_equal_exact(size[0], 0.0f)) 
+	if (is_equal_exact(size[0], 0.0f))
 		RecalcSize();
 	m_layout->Update(size[0], m_color);
 

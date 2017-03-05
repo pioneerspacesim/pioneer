@@ -268,7 +268,7 @@ void Frame::UpdateOrbitRails(double time, double timestep)
 	}
 	// temporary test thing
 	else m_pos = m_pos + m_vel * timestep;
-	
+
 	// update frame rotation
 	double ang = fmod(m_angSpeed * time, 2.0 * M_PI);
 	if (!is_zero_exact(ang)) {			// frequently used with e^-10 etc

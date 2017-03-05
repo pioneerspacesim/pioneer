@@ -49,7 +49,7 @@ GenGasGiantColourProgram::GenGasGiantColourProgram(const MaterialDescriptor &des
 	// extract the top 16-bits to get how many octaves we can use
 	const Uint32 octaves = (desc.quality & 0xFFFF0000) >> 16;
 	ss << "#define FBM_OCTAVES " << std::to_string(octaves) << std::endl;
-	
+
 	// No lights
 	ss << "#define NUM_LIGHTS 0\n";
 
@@ -73,7 +73,7 @@ void GenGasGiantColourProgram::InitUniforms()
 	permTexture.Init("permTexture", m_program);
 	gradTexture.Init("gradTexture", m_program);
 	time.Init("time", m_program);
-	
+
 	frequency.Init("frequency", m_program);
 	hueAdjust.Init("hueAdjust", m_program);
 }
