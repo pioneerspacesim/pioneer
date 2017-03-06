@@ -226,12 +226,19 @@ void Propulsion::Update( const float timeStep )
 
 void Propulsion::Render(const matrix4x4f &trans)
 {
-	/* TODO: allow Propulsion to know SceneGraph::Thruster and
-	 * to work directly with it (this could lead to movable
-	 * thruster and so on)... this code is :-/
-	*/
-	//angthrust negated, for some reason
-	if (m_smodel != nullptr ) m_smodel->SetThrust(vector3f( GetThrusterState() ), -vector3f( GetAngThrusterState() ));
+	if (m_gThrusters == nullptr ) return;
+	SceneGraph::RenderData rd;
+	rd.angthrust[0] = m_angThrusters.x;
+	rd.angthrust[1] = m_angThrusters.y;
+	rd.angthrust[2] = m_angThrusters.z;
+	rd.linthrust[0] = m_linThrusters.x;
+	rd.linthrust[1] = m_linThrusters.y;
+	rd.linthrust[2] = m_linThrusters.z;
+	rd.boundingRadius = m_dBody->GetAabb().GetRadius();
+	rd.nodemask = SceneGraph::NodeMask::NODE_TRANSPARENT;
+	m_gThrusters->Render(trans, &rd );
+	rd.linthrust[1] = 1.0; // <- Power of vectorial thrusters
+	for (unsigned int i=0; i< m_mtThruster.size(); i++ ) m_mtThruster[i]->Render(trans, &rd);
 }
 
 void Propulsion::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
