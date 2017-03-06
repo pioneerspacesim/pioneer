@@ -134,7 +134,7 @@ void Missile::TimeStepUpdate(const float timeStep)
 	AddRelTorque( GetActualAngThrust() );
 
 	DynamicBody::TimeStepUpdate(timeStep);
-	Propulsion::UpdateFuel(timeStep);
+	Propulsion::Update(timeStep);
 
 	const float MISSILE_DETECTION_RADIUS = 100.0f;
 	if (!m_owner) {
@@ -217,8 +217,8 @@ void Missile::Render(Graphics::Renderer *renderer, const Camera *camera, const v
 {
 	if (IsDead()) return;
 
-	Propulsion::Render( renderer, camera, viewCoords, viewTransform );
-	RenderModel(renderer, camera, viewCoords, viewTransform);
+	matrix4x4f trans = RenderModel(renderer, camera, viewCoords, viewTransform);
+	Propulsion::Render( trans );
 }
 
 void Missile::AIKamikaze(Body *target)

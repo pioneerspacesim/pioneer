@@ -231,7 +231,7 @@ void Ship::Init()
 	// Init of Propulsion:
 	// TODO: Separe the enum used in ShipType and use it both on Propulsion and ShipType
 	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
-
+	Propulsion::AddNacelles(m_type->vec_thrusters);
 	p.Set("shipName", m_shipName);
 
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
@@ -782,8 +782,9 @@ void Ship::TimeStepUpdate(const float timeStep)
 	DynamicBody::TimeStepUpdate(timeStep);
 
 	// fuel use decreases mass, so do this as the last thing in the frame
-	UpdateFuel( timeStep );
-
+	Propulsion::Update(timeStep);
+	// Ship fuel should be updated after propulsion update
+	Ship::UpdateFuel(timeStep);
 	if ( IsFuelStateChanged() )
 		LuaEvent::Queue("onShipFuelChanged", this, EnumStrings::GetString("ShipFuelStatus", GetFuelState() ));
 
@@ -972,7 +973,6 @@ void Ship::UpdateAlertState()
 
 void Ship::UpdateFuel(const float timeStep )
 {
-	Propulsion::UpdateFuel( timeStep );
 	UpdateFuelStats();
 	Properties().Set("fuel", GetFuel()*100); // XXX to match SetFuelPercent
 
@@ -1191,8 +1191,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 {
 	if (IsDead()) return;
 
-	Propulsion::Render( renderer, camera, viewCoords, viewTransform );
-
 	matrix3x3f mt;
 	matrix3x3dtof(viewTransform.Inverse().GetOrient(), mt);
 	s_heatGradientParams.heatingMatrix = mt;
@@ -1205,7 +1203,10 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	GetShields()->Update(m_shieldCooldown, 0.01f*GetPercentShields());
 
 	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
-	RenderModel(renderer, camera, viewCoords, viewTransform);
+	matrix4x4f trans = RenderModel(renderer, camera, viewCoords, viewTransform);
+
+	Propulsion::Render(trans);
+
 	m_navLights->Render(renderer);
 	renderer->GetStats().AddToStatCount(Graphics::Stats::STAT_SHIPS, 1);
 

@@ -6,11 +6,21 @@
 
 #include "vector3.h"
 #include "libs.h"
+#include "Pi.h"
+#include "Game.h"
 #include "Space.h"
 #include "Camera.h"
 #include "json/JsonUtils.h"
 #include "scenegraph/Model.h"
+#include "scenegraph/Thruster.h"
 #include "DynamicBody.h"
+
+struct VectThruster_t {
+	std::string model_tag, thruster_tag;
+	float thrust, eev, rot_speed;
+};
+
+typedef std::map<std::string,VectThruster_t> vecThrustersMap_t;
 
 enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_ public>
 	THRUSTER_REVERSE,
@@ -29,7 +39,7 @@ class Propulsion
 		Propulsion();
 		virtual ~Propulsion() {};
 		void Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust );
-
+		void AddNacelles(const vecThrustersMap_t& vThrusters);
 		// Bonus:
 		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 ); }
 
@@ -47,17 +57,17 @@ class Propulsion
 
 		inline void SetThrusterState(int axis, double level) {
 			if (m_thrusterFuel <= 0.f) level = 0.0;
-			m_thrusters[axis] = Clamp(level, -1.0, 1.0);
+			m_linThrusters[axis] = Clamp(level, -1.0, 1.0);
 		}
 		void SetThrusterState(const vector3d &levels);
 		void SetAngThrusterState(const vector3d &levels);
 		inline void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
-		inline vector3d GetThrusterState() const { return m_thrusters; };
+		inline vector3d GetThrusterState() const { return m_linThrusters; };
 		inline vector3d GetAngThrusterState() const { return m_angThrusters; }
-		inline void ClearLinThrusterState() { m_thrusters = vector3d(0,0,0); }
+		inline void ClearLinThrusterState() { m_linThrusters = vector3d(0,0,0); }
 		inline void ClearAngThrusterState() { m_angThrusters = vector3d(0,0,0); }
 
-		inline vector3d GetActualLinThrust() const { return m_thrusters * GetThrustMax( m_thrusters ) * m_power_mul; }
+		inline vector3d GetActualLinThrust() const { return m_linThrusters * GetThrustMax( m_linThrusters ) * m_power_mul; }
 		inline vector3d GetActualAngThrust() const { return m_angThrust * m_angThrusters * m_power_mul; }
 
 		// Fuel
@@ -82,10 +92,10 @@ class Propulsion
 		*/
 		inline float FuelTankMassLeft() { return m_fuelTankMass * m_thrusterFuel; }
 		inline void SetFuelTankMass( int fTank ) { m_fuelTankMass = fTank; }
-		void UpdateFuel(const float timeStep);
+		void Update(const float timeStep);
 		inline bool IsFuelStateChanged() { return m_FuelStateChange; }
 
-		void Render(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform);
+		void Render(const matrix4x4f &trans);
 
 		// AI on Propulsion
 		void AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness);
@@ -104,6 +114,8 @@ class Propulsion
 		virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 		virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
 	private:
+		void UpdateFuel(const float timeStep);
+
 		int m_fuelTankMass;
 		float m_linThrust[THRUSTER_MAX];
 		float m_angThrust;
@@ -111,12 +123,17 @@ class Propulsion
 		double m_thrusterFuel;	// remaining fuel 0.0-1.0
 		double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 		bool m_FuelStateChange;
-		vector3d m_thrusters;
+		vector3d m_linThrusters;
 		vector3d m_angThrusters;
 
 		double m_power_mul;
 		const DynamicBody *m_dBody;
 		SceneGraph::Model *m_smodel;
+		SceneGraph::Group *m_gThrusters;
+
+		std::vector<SceneGraph::MatrixTransform*> m_mtNacelles;
+		std::vector<SceneGraph::MatrixTransform*> m_mtThruster;
+		std::vector<const VectThruster_t*> m_vThruster;
 };
 
 #endif // PROPULSION_H

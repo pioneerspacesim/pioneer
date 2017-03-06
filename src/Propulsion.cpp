@@ -2,16 +2,15 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "Propulsion.h"
-#include "Pi.h"
-#include "Game.h"
 #include "Object.h" // <- here only for comment in AIFaceDirection (line 320)
 #include "KeyBindings.h" // <- same here
+#include "scenegraph/FindNodeVisitor.h"
 
 void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	//Json::Value PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
 	VectorToJson(jsonObj, m_angThrusters, "ang_thrusters");
-	VectorToJson(jsonObj, m_thrusters, "thrusters");
+	VectorToJson(jsonObj, m_linThrusters, "thrusters");
 	jsonObj["thruster_fuel"] = DoubleToStr( m_thrusterFuel );
 	jsonObj["reserve_fuel"] = DoubleToStr( m_reserveFuel );
 	// !!! These are commented to avoid savegame bumps:
@@ -50,7 +49,7 @@ Propulsion::Propulsion()
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
 	m_reserveFuel= 0.0;
 	m_FuelStateChange = false;
-	m_thrusters = vector3d(0,0,0);
+	m_linThrusters = vector3d(0,0,0);
 	m_angThrusters = vector3d(0,0,0);
 	m_smodel = nullptr;
 	m_dBody = nullptr;
@@ -135,11 +134,11 @@ void Propulsion::SetAngThrusterState(const vector3d &levels)
 void Propulsion::SetThrusterState(const vector3d &levels)
 {
 	if (m_thrusterFuel <= 0.f) {
-		m_thrusters = vector3d(0.0);
+		m_linThrusters = vector3d(0.0);
 	} else {
-		m_thrusters.x = Clamp(levels.x, -1.0, 1.0);
-		m_thrusters.y = Clamp(levels.y, -1.0, 1.0);
-		m_thrusters.z = Clamp(levels.z, -1.0, 1.0);
+		m_linThrusters.x = Clamp(levels.x, -1.0, 1.0);
+		m_linThrusters.y = Clamp(levels.y, -1.0, 1.0);
+		m_linThrusters.z = Clamp(levels.z, -1.0, 1.0);
 	}
 }
 
@@ -169,7 +168,7 @@ float Propulsion::GetFuelUseRate()
 void Propulsion::UpdateFuel(const float timeStep)
 {
 	const double fuelUseRate = GetFuelUseRate() * 0.01;
-	double totalThrust = (fabs( m_thrusters.x) + fabs(m_thrusters.y) + fabs(m_thrusters.z));
+	double totalThrust = (fabs( m_linThrusters.x) + fabs(m_linThrusters.y) + fabs(m_linThrusters.z));
 	FuelState lastState = GetFuelState();
 	m_thrusterFuel -= timeStep * (totalThrust * fuelUseRate);
 	FuelState currentState = GetFuelState();

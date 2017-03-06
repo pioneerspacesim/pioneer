@@ -14,6 +14,7 @@
 #include "utils.h"
 #include "Lang.h"
 #include "json/json.h"
+#include <sstream>
 #include <algorithm>
 
 
@@ -98,16 +99,19 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 	capacity = data.get("capacity", 0).asInt();
 	fuelTankMass = data.get("fuel_tank_mass", 5).asInt();
 
+	// Parse slots
 	for( Json::Value::iterator slot = data["slots"].begin() ; slot != data["slots"].end() ; ++slot ) {
 		const std::string slotname = slot.key().asString();
 		slots[slotname] = data["slots"].get(slotname, 0).asInt();
 	}
 
+	// Parse roles
 	for( Json::Value::iterator role = data["roles"].begin(); role != data["roles"].end(); ++role ) {
 		const std::string rolename = role.key().asString();
 		roles[rolename] = data["roles"].get(rolename, 0).asBool();
 	}
 
+	// Parse thruster upgrades values
 	for(int it=0;it<4;it++) thrusterUpgrades[it] = 1.0 + (double(it)/10.0);
 	for( Json::Value::iterator slot = data["thrust_upgrades"].begin() ; slot != data["thrust_upgrades"].end() ; ++slot ) {
 		const std::string slotname = slot.key().asString();
@@ -136,6 +140,30 @@ ShipType::ShipType(const Id &_id, const std::string &path)
 		if(thruster_fuel_use >= 0) {
 			Output("Warning: Both thruster_fuel_use and effective_exhaust_velocity defined for %s, using effective_exhaust_velocity.\n", modelName.c_str());
 		}
+	}
+
+	// Parse vectorial thrusters
+	for( Json::Value::iterator vec_thruster = data["vect_thrusters"].begin() ; vec_thruster != data["vect_thrusters"].end() ; ++vec_thruster ) {
+		const std::string thruster_name = vec_thruster.key().asString();
+		Json::Value vth = data["vect_thrusters"].get(thruster_name, 0);
+		VectThruster_t vec_t;
+		if (!vth.isMember("tag")||!vth.isMember("tag_th")||!vth.isMember("thrust")) {
+			std::stringstream ss;
+			ss << "Error parsing " << modelName << ".json!\n";
+			Output("%s", ss.str().c_str());
+			throw;
+		} else {
+			vec_t.model_tag = vth["tag"].asString();
+			vec_t.thrust = vth["thrust"].asFloat();
+			vec_t.thruster_tag = vth["tag_th"].asString();
+		}
+		if (!vth.isMember("rot_speed")) vec_t.rot_speed = 1.0f;
+		else vec_t.rot_speed = vth["rot_speed"].asFloat();
+
+		if (!vth.isMember("eev")) vec_t.eev = effectiveExhaustVelocity;
+		else vec_t.eev = vth["eev"].asFloat();
+		// Store data
+		vec_thrusters[thruster_name] = vec_t;
 	}
 
 	baseprice = data.get("price", 0.0).asDouble();

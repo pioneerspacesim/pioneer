@@ -429,7 +429,7 @@ void ModelBody::ResetLighting(Graphics::Renderer *r, const std::vector<Graphics:
 	r->SetAmbientColor(oldAmbient);
 }
 
-void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting)
+matrix4x4f ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const vector3d &viewCoords, const matrix4x4d &viewTransform, const bool setLighting)
 {
 	std::vector<Graphics::Light> oldLights;
 	Color oldAmbient;
@@ -452,6 +452,7 @@ void ModelBody::RenderModel(Graphics::Renderer *r, const Camera *camera, const v
 
 	if (setLighting)
 		ResetLighting(r, oldLights, oldAmbient);
+	return trans;
 }
 
 void ModelBody::TimeStepUpdate(const float timestep)
