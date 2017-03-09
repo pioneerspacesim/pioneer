@@ -129,10 +129,14 @@ class Propulsion
 		double m_power_mul;
 		const DynamicBody *m_dBody;
 		SceneGraph::Model *m_smodel;
+		// Detached tree of thrusters:
 		SceneGraph::Group *m_gThrusters;
 
+		// Pointers to the transform node of model containing the nacelles:
 		std::vector<SceneGraph::MatrixTransform*> m_mtNacelles;
+		// Pointers to the transform node of detached tree containing the thrusters:
 		std::vector<SceneGraph::MatrixTransform*> m_mtThruster;
+		// Data coming from JSon file:
 		std::vector<const VectThruster_t*> m_vThruster;
 };
 

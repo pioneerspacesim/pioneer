@@ -100,17 +100,20 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 			SceneGraph::MatrixTransform* g = static_cast<SceneGraph::MatrixTransform*>(m_gThrusters->GetChildAt(i));
 			SceneGraph::Node* node = g->GetChildAt(0);
 			if (node->GetName().find(vThruster->thruster_tag)!=std::string::npos) {
-				// Detach matrix of thruster from thrusters and attach a new vectorial thrusters to list
+				vector3f nacelle_pos = m_mtNacelles.back()->GetTransform().GetTranslate();
+				// Detach matrix of thruster from thrusters and attach it to a list for vectorial thrusters
 				SceneGraph::Thruster* new_th = new SceneGraph::Thruster(m_smodel->GetRenderer(), true, vector3f(0.0), vector3f(0.0,-1.0,0.0));
-				matrix4x4f m = g->GetTransform();
-				vector3f th_pos = m.GetTranslate();
-				vector3f pos_nacelle = m_mtNacelles.back()->GetTransform().GetTranslate();
-				m.SetTranslate(pos_nacelle-th_pos);
-				// Some math to ease rotation
-				// TODO: Add a level to matrix to ease rotation
-				SceneGraph::MatrixTransform* mt = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), m);
-				mt->AddChild(new_th);
-				SceneGraph::MatrixTransform* mt2 = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), m);
+				// Scaling matrix for vectorial thruster (with difference btw nacelle and thruster position)
+				matrix4x4f new_thTrans_matrix = g->GetTransform();
+				new_thTrans_matrix.SetTranslate(g->GetTransform().GetTranslate()-nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
+				SceneGraph::MatrixTransform* new_thTrans = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), new_thTrans_matrix);
+				new_thTrans->AddChild(new_th);
+				// Rotation matrix for vectorial thruster (used for rotating and placing vect thruster)
+				matrix4x4f mtrans_vthruster = matrix4x4f::Identity();//RotateXMatrix(-3.14159/2);
+				mtrans_vthruster.SetTranslate(nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
+				SceneGraph::MatrixTransform* mt = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), mtrans_vthruster);
+				mt->AddChild(new_thTrans);
+				// Save the new vectorial thruster
 				m_mtThruster.push_back(mt);
 				m_gThrusters->RemoveChildAt(i);
 				break;
@@ -206,21 +209,14 @@ void Propulsion::Update( const float timeStep )
 		// Avoid nacelle not rotating if they are exactly opposite
 		if (orient.VectorY().Dot(wantPos)<-0.999) rot = rotAmount;
 		orient = matrix3x3f::RotateX(rot)*orient;
-/*		if (m_dBody->IsType(Object::PLAYER)&&i==0) {
-			printf("Dot = %.2f ;VTH Orient: %.2f, %.2f, %.2f\n", dot_stuck, orient.VectorY().x, orient.VectorY().y, orient.VectorY().z);
-		}
-*/		matrix4x4f new_m(orient);
+		matrix4x4f new_m(orient);
 		new_m.SetTranslate(m.GetTranslate());
 		m_mtNacelles[i]->SetTransform(new_m);
 		// Place thruster exhaust
 		matrix4x4f mth = m_mtThruster[i]->GetTransform();
-		orient = mth.GetOrient();
-		orient = matrix3x3f::RotateX(rot)*orient;
-		matrix4x4f new_th(orient);
-		new_th.SetTranslate(mth.GetTranslate());
-		m_mtThruster[i]->SetTransform(new_th);
+		mth = mth*matrix4x4f::RotateXMatrix(rot);
+		m_mtThruster[i]->SetTransform(mth);
 	}
-	// Update nacelle thrust pos
 }
 
 void Propulsion::Render(const matrix4x4f &trans)
