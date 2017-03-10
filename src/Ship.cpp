@@ -779,10 +779,11 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
-	DynamicBody::TimeStepUpdate(timeStep);
-
 	// fuel use decreases mass, so do this as the last thing in the frame
 	Propulsion::Update(timeStep);
+
+	DynamicBody::TimeStepUpdate(timeStep);
+
 	// Ship fuel should be updated after propulsion update
 	Ship::UpdateFuel(timeStep);
 	if ( IsFuelStateChanged() )

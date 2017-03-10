@@ -129,7 +129,7 @@ class Propulsion
 		vector3d m_angThrusters;
 
 		double m_power_mul;
-		const DynamicBody *m_dBody;
+		DynamicBody *m_dBody;
 		SceneGraph::Model *m_smodel;
 		// Detached tree of normal thrusters:
 		SceneGraph::Group *m_gThrusters;
