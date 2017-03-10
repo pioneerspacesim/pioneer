@@ -81,9 +81,9 @@ void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass,
 void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 {
 	assert(m_smodel!=nullptr);
-	m_mtNacelles.reserve(vThrusters.size());
-	m_vThruster.reserve(vThrusters.size());
+	m_vectThVector.reserve(vThrusters.size());
 	for (vecThrustersMap_t::const_iterator it=vThrusters.begin(); it!=vThrusters.end(); ++it) {
+		vectThruster_t vectTh;
 		const VectThruster_t* vThruster = &(it->second);
 		// Search geometry for vectorial thruster in model tree
 		SceneGraph::FindNodeVisitor thFinder(SceneGraph::FindNodeVisitor::MATCH_NAME_FULL, vThruster->model_tag);
@@ -93,14 +93,14 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 			Output("Strange: cannot find \"%s\" geometry in model \"%s\"...\n", vThruster->model_tag.c_str(), m_smodel->GetName().c_str());
 			throw;
 		} else {
-			m_mtNacelles.push_back(static_cast<SceneGraph::MatrixTransform*>(results[0]));
+			vectTh.mtNacelle = static_cast<SceneGraph::MatrixTransform*>(results[0]);
 		}
 		// Search (local) thrusters looking for the correct one:
 		for (unsigned int i=0; i<m_gThrusters->GetNumChildren(); i++) {
 			SceneGraph::MatrixTransform* g = static_cast<SceneGraph::MatrixTransform*>(m_gThrusters->GetChildAt(i));
 			SceneGraph::Node* node = g->GetChildAt(0);
 			if (node->GetName().find(vThruster->thruster_tag)!=std::string::npos) {
-				vector3f nacelle_pos = m_mtNacelles.back()->GetTransform().GetTranslate();
+				vector3f nacelle_pos = vectTh.mtNacelle->GetTransform().GetTranslate();
 				// Detach matrix of thruster from thrusters and attach it to a list for vectorial thrusters
 				SceneGraph::Thruster* new_th = new SceneGraph::Thruster(m_smodel->GetRenderer(), true, vector3f(0.0), vector3f(0.0,-1.0,0.0));
 				// Scaling matrix for vectorial thruster (with difference btw nacelle and thruster position)
@@ -114,12 +114,13 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 				SceneGraph::MatrixTransform* mt = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), mtrans_vthruster);
 				mt->AddChild(new_thTrans);
 				// Save the new vectorial thruster
-				m_mtThruster.push_back(mt);
+				vectTh.mtThruster = mt;
 				m_gThrusters->RemoveChildAt(i);
 				break;
 			}
 		}
-		m_vThruster.push_back(vThruster);
+		vectTh.vThruster = vThruster;
+		m_vectThVector.push_back(vectTh);
 	}
 }
 
@@ -196,26 +197,29 @@ void Propulsion::Update( const float timeStep )
 	// Update nacelle pos
 	float rot, dot, rotAmount;
 	vector3f wantPos(0.0, 1.0, 0.0);
-	if (m_linThrusters.Length()>0.01) wantPos = vector3f(m_linThrusters);
-	for (unsigned int i=0; i < m_vThruster.size(); i++) {
+	float power = m_linThrusters.Length();
+	if (power>0.01) wantPos = vector3f(m_linThrusters);
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		// set nacelle rotation to be as requested
-		rotAmount = m_vThruster[i]->rot_speed*timeStep;
-		const matrix4x4f& m = m_mtNacelles[i]->GetTransform();
+		rotAmount = m_vectThVector[i].vThruster->rot_speed*timeStep;
+		const matrix4x4f& m = m_vectThVector[i].mtNacelle->GetTransform();
 		matrix3x3f orient = m.GetOrient();
 		dot = orient.VectorZ().Dot(wantPos);
 		if (dot<-rotAmount) rot = rotAmount;
 		else if (dot>rotAmount) rot = -rotAmount;
 		else rot = -asin(dot);
-		// Avoid nacelle not rotating if they are exactly opposite
+		// Avoid nacelle not rotating if it's exactly opposite
 		if (orient.VectorY().Dot(wantPos)<-0.999) rot = rotAmount;
 		orient = matrix3x3f::RotateX(rot)*orient;
 		matrix4x4f new_m(orient);
 		new_m.SetTranslate(m.GetTranslate());
-		m_mtNacelles[i]->SetTransform(new_m);
+		m_vectThVector[i].mtNacelle->SetTransform(new_m);
 		// Place thruster exhaust
-		matrix4x4f mth = m_mtThruster[i]->GetTransform();
+		matrix4x4f mth = m_vectThVector[i].mtThruster->GetTransform();
 		mth = mth*matrix4x4f::RotateXMatrix(rot);
-		m_mtThruster[i]->SetTransform(mth);
+		m_vectThVector[i].mtThruster->SetTransform(mth);
+		if (dot<0.01&&dot>-0.01) m_vectThVector[i].power = power;
+		else m_vectThVector[i].power = 0.0;
 	}
 }
 
@@ -232,8 +236,12 @@ void Propulsion::Render(const matrix4x4f &trans)
 	rd.boundingRadius = m_dBody->GetAabb().GetRadius();
 	rd.nodemask = SceneGraph::NodeMask::NODE_TRANSPARENT;
 	m_gThrusters->Render(trans, &rd );
-	rd.linthrust[1] = 1.0; // <- Power of vectorial thrusters
-	for (unsigned int i=0; i< m_mtThruster.size(); i++ ) m_mtThruster[i]->Render(trans, &rd);
+	rd.linthrust[0] = 0.0;
+	rd.linthrust[2] = 0.0;
+	for (unsigned int i=0; i< m_vectThVector.size(); i++ ) {
+		rd.linthrust[1] = m_vectThVector[i].power; // <- Power of vectorial thrusters
+		m_vectThVector[i].mtThruster->Render(trans, &rd);
+	}
 }
 
 void Propulsion::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
