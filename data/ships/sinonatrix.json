@@ -3,12 +3,12 @@
    "capacity" : 35,
    "cockpit" : "sinonatrix_cockpit",
    "effective_exhaust_velocity" : 19500000.0,
-   "forward_thrust" : 5500000.0,
-   "reverse_thrust" : 1200000.0,
-   "right_thrust" : 1000000.0,
-   "left_thrust" : 1000000.0,
-   "up_thrust" : 1500000.0,
-   "down_thrust" : 1000000.0,
+   "forward_thrust" : 5500.0,
+   "reverse_thrust" : 1200.0,
+   "right_thrust" : 1000.0,
+   "left_thrust" : 1000.0,
+   "up_thrust" : 1500.0,
+   "down_thrust" : 1000.0,
    "fuel_tank_mass" : 30,
    "hull_mass" : 20,
    "hyperdrive_class" : 3,
@@ -33,14 +33,14 @@
    "vect_thrusters" : {
       "left" : {
           "tag" : "nacelle_lx",
-          "thrust" : 3500000.0,
+          "thrust" : 1500000.0,
           "eev" : 19500000.0,
           "rot_speed" : 6.28,
           "tag_th" : "nacelle_lx"
       },
       "right" : {
           "tag" : "nacelle_lx2",
-          "thrust" : 3500000.0,
+          "thrust" : 1500000.0,
           "eev" : 19500000.0,
           "rot_speed" : 6.28,
           "tag_th" : "nacelle_lx2"

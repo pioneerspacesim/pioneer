@@ -109,7 +109,7 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 				SceneGraph::MatrixTransform* new_thTrans = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), new_thTrans_matrix);
 				new_thTrans->AddChild(new_th);
 				// Rotation matrix for vectorial thruster (used for rotating and placing vect thruster)
-				matrix4x4f mtrans_vthruster = matrix4x4f::Identity();//RotateXMatrix(-3.14159/2);
+				matrix4x4f mtrans_vthruster = matrix4x4f::Identity();
 				mtrans_vthruster.SetTranslate(nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
 				SceneGraph::MatrixTransform* mt = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), mtrans_vthruster);
 				mt->AddChild(new_thTrans);
@@ -152,6 +152,10 @@ vector3d Propulsion::GetThrustMax(const vector3d &dir) const
 	maxThrust.x = ((dir.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : -m_linThrust[THRUSTER_LEFT] * m_power_mul );
 	maxThrust.y = ((dir.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : -m_linThrust[THRUSTER_DOWN] * m_power_mul );
 	maxThrust.z = ((dir.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : -m_linThrust[THRUSTER_FORWARD] * m_power_mul );
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		maxThrust.y += m_vectThVector[i].vThruster->thrust * m_power_mul;
+		maxThrust.z += m_vectThVector[i].vThruster->thrust * m_power_mul;
+	}
 	return maxThrust;
 }
 
@@ -196,23 +200,26 @@ void Propulsion::Update( const float timeStep )
 	UpdateFuel(timeStep);
 	// Update nacelle pos
 	float rot, dot, rotAmount;
-	vector3f wantPos(0.0, 1.0, 0.0);
+	vector3f wantRot(0.0, 1.0, 0.0);
 	float power = m_linThrusters.Length();
-	if (power>0.001) wantPos = vector3f(m_linThrusters);
+	if (power>0.001) {
+		vector3f dir(GetActualLinThrust());
+		wantRot = vector3f(dir.Normalized());
+	}
 
-	if (m_dBody->IsType(Object::PLAYER)) wantPos.Print();
+	//DEBUG:: if (m_dBody->IsType(Object::PLAYER)) wantRot.Print();
 
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		// set nacelle rotation to be as requested
 		rotAmount = m_vectThVector[i].vThruster->rot_speed*timeStep;
 		const matrix4x4f& m = m_vectThVector[i].mtNacelle->GetTransform();
 		matrix3x3f orient = m.GetOrient();
-		dot = orient.VectorZ().Dot(wantPos);
+		dot = orient.VectorZ().Dot(wantRot);
 		if (dot<-rotAmount) rot = rotAmount;
 		else if (dot>rotAmount) rot = -rotAmount;
 		else rot = -asin(dot);
 		// Avoid nacelle not rotating if it's exactly opposite
-		if (orient.VectorY().Dot(wantPos)<-0.999) rot = rotAmount;
+		if (orient.VectorY().Dot(wantRot)<-0.999) rot = rotAmount;
 		orient = matrix3x3f::RotateX(rot)*orient;
 		matrix4x4f new_m(orient);
 		new_m.SetTranslate(m.GetTranslate());
@@ -222,11 +229,11 @@ void Propulsion::Update( const float timeStep )
 		mth = mth*matrix4x4f::RotateXMatrix(rot);
 		m_vectThVector[i].mtThruster->SetTransform(mth);
 		// Set vectorial thrusters power level
-		if (dot<0.01&&dot>-0.01) m_vectThVector[i].power = Clamp(power,0.0f,1.0f);
+		if (dot<0.05&&dot>-0.05) m_vectThVector[i].power = Clamp(power,0.0f,1.0f);
 		else m_vectThVector[i].power = 0.0;
 		// Add forces due to vectorial thrusters
-		//const vector3d thrust(orient.VectorY()*m_vectThVector[i].vThruster->thrust*power);
-		//m_dBody->AddRelForce(thrust);
+		const vector3d thrust(orient.VectorY()*m_vectThVector[i].vThruster->thrust*power);
+		m_dBody->AddRelForce(thrust*Pi::game->GetTimeStep());
 	}
 }
 
@@ -250,6 +257,13 @@ void Propulsion::Render(const matrix4x4f &trans)
 		m_vectThVector[i].mtThruster->Render(trans, &rd);
 	}
 }
+
+/* NOTE: following code was in Ship-AI.cpp file,
+ * no changes were made, except those needed
+ * to make it compatible with actual Propulsion
+ * class (and yes: it's only a copy-paste,
+ * including comments :) )
+*/
 
 void Propulsion::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
 {
@@ -287,13 +301,6 @@ void Propulsion::AIAccelToModelRelativeVelocity(const vector3d &v)
 	SetThrusterState(1, is_zero_exact(maxFrameAccel.y) ? 0.0 : difVel.y / maxFrameAccel.y);
 	SetThrusterState(2, is_zero_exact(maxFrameAccel.z) ? 0.0 : difVel.z / maxFrameAccel.z);	// use clamping
 }
-
-/* NOTE: following code were in Ship-AI.cpp file,
- * no changes were made, except those needed
- * to make it compatible with actual Propulsion
- * class (and yes: it's only a copy-paste,
- * including comments :) )
-*/
 
 // Because of issues when reducing timestep, must do parts of this as if 1x accel
 // final frame has too high velocity to correct if timestep is reduced
