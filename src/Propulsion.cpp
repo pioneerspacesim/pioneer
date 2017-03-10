@@ -198,7 +198,7 @@ void Propulsion::Update( const float timeStep )
 	float rot, dot, rotAmount;
 	vector3f wantPos(0.0, 1.0, 0.0);
 	float power = m_linThrusters.Length();
-	if (power>0.01) wantPos = vector3f(m_linThrusters);
+	if (power>0.001) wantPos = vector3f(m_linThrusters);
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		// set nacelle rotation to be as requested
 		rotAmount = m_vectThVector[i].vThruster->rot_speed*timeStep;
@@ -218,7 +218,8 @@ void Propulsion::Update( const float timeStep )
 		matrix4x4f mth = m_vectThVector[i].mtThruster->GetTransform();
 		mth = mth*matrix4x4f::RotateXMatrix(rot);
 		m_vectThVector[i].mtThruster->SetTransform(mth);
-		if (dot<0.01&&dot>-0.01) m_vectThVector[i].power = power;
+		// Set vectorial thrusters power level
+		if (dot<0.01&&dot>-0.01) m_vectThVector[i].power = Clamp(power,0.0f,1.0f);
 		else m_vectThVector[i].power = 0.0;
 	}
 }
