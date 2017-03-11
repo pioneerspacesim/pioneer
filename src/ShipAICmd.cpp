@@ -789,7 +789,9 @@ bool AICmdFlyTo::TimeStepUpdate()
 	Frame *targframe = m_target ? m_target->GetFrame() : m_targframe;
 	ParentSafetyAdjust(m_dBody, targframe, targpos, targvel);
 	vector3d relpos = targpos - m_dBody->GetPosition();
+	printf("RelPos: %.2f, %.2f, %.2f ", relpos.x, relpos.y, relpos.z);
 	vector3d reldir = relpos.NormalizedSafe();
+	printf("RelDir: %.2f, %.2f, %.2f\n", reldir.x, reldir.y, reldir.z);
 	vector3d relvel = targvel - m_dBody->GetVelocity();
 	double targdist = relpos.Length();
 
