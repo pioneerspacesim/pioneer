@@ -8,6 +8,7 @@ March 2017
      * Resolve the mismatched attribute numbering (#3938)
      * Refactor the Vertex, Index, etc buffers (#3941)
      * Eliminate the evil trailing whitespace (#3942)
+     * All white spaces be gone! (#3943)
 
 February 2017
    * New Features
