@@ -779,19 +779,22 @@ bool AICmdFlyTo::TimeStepUpdate()
 	double timestep = Pi::game->GetTimeStep();
 	vector3d targpos, targvel;
 	if (m_target) {
+		if(m_dBody->IsType(Object::PLAYER)) printf("m_target == null\n");
 		targpos = m_target->GetPositionRelTo(m_dBody->GetFrame());
 		targpos -= (targpos - m_dBody->GetPosition()).NormalizedSafe() * m_dist;
 		targvel = m_target->GetVelocityRelTo(m_dBody->GetFrame());
 	} else {
+		if(m_dBody->IsType(Object::PLAYER)) printf("m_target != null\n");
 		targpos = GetPosInFrame(m_dBody->GetFrame(), m_targframe, m_posoff);
 		targvel = GetVelInFrame(m_dBody->GetFrame(), m_targframe, m_posoff);
 	}
 	Frame *targframe = m_target ? m_target->GetFrame() : m_targframe;
 	ParentSafetyAdjust(m_dBody, targframe, targpos, targvel);
+	if(m_dBody->IsType(Object::PLAYER)) printf("targpos: %.2f, %.2f, %.2f; targpos: %.2f, %.2f, %.2f\n", targpos.x, targpos.y, targpos.z, m_dBody->GetPosition().x, m_dBody->GetPosition().y, m_dBody->GetPosition().z );
 	vector3d relpos = targpos - m_dBody->GetPosition();
-	printf("RelPos: %.2f, %.2f, %.2f ", relpos.x, relpos.y, relpos.z);
+	if(m_dBody->IsType(Object::PLAYER)) printf("RelPos: %.2f, %.2f, %.2f; ", relpos.x, relpos.y, relpos.z);
 	vector3d reldir = relpos.NormalizedSafe();
-	printf("RelDir: %.2f, %.2f, %.2f\n", reldir.x, reldir.y, reldir.z);
+	if(m_dBody->IsType(Object::PLAYER)) printf("RelDir: %.2f, %.2f, %.2f\n", reldir.x, reldir.y, reldir.z);
 	vector3d relvel = targvel - m_dBody->GetVelocity();
 	double targdist = relpos.Length();
 

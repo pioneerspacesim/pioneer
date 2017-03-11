@@ -231,9 +231,10 @@ void Propulsion::Update( const float timeStep )
 		// Set vectorial thrusters power level
 		if (dot<0.05&&dot>-0.05) m_vectThVector[i].power = Clamp(power,0.0f,1.0f);
 		else m_vectThVector[i].power = 0.0;
-		// Add forces due to vectorial thrusters
-		const vector3d thrust(orient.VectorY()*m_vectThVector[i].vThruster->thrust*power);
-		m_dBody->AddRelForce(thrust*Pi::game->GetTimeStep());
+		// Add forces due to vectorial thrusters <= NO: forces needs to be
+		// passed outside Propulsion...
+		//const vector3d thrust(orient.VectorY()*m_vectThVector[i].vThruster->thrust*power);
+		//m_dBody->AddRelForce(thrust*Pi::game->GetTimeStep());
 	}
 }
 
