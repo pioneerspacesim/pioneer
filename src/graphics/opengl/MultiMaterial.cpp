@@ -8,7 +8,6 @@
 #include "TextureGL.h"
 #include <sstream>
 #include "StringF.h"
-#include "Ship.h"
 
 namespace Graphics {
 namespace OGL {

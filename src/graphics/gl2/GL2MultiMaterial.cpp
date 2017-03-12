@@ -8,9 +8,8 @@
 #include "GL2Renderer.h"
 #include <sstream>
 #include "StringF.h"
-#include "Ship.h"
 
-
+#include "graphics/opengl/MultiMaterial.h"
 
 namespace Graphics {
 namespace GL2 {

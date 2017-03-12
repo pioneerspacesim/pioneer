@@ -7,7 +7,6 @@
 #include "RendererGL.h"
 #include <sstream>
 #include "StringF.h"
-#include "Ship.h"
 #include "galaxy/StarSystem.h"
 
 namespace Graphics {

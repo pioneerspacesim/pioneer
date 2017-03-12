@@ -3,7 +3,6 @@
 
 #include "ModelSpinner.h"
 #include "Shields.h"
-#include "Ship.h"
 #include "Pi.h"
 #include "Game.h"
 #include "scenegraph/Model.h"
