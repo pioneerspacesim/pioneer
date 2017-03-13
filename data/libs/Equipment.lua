@@ -774,7 +774,7 @@ misc.thrusters_best = EquipType.New({
 	icon_name="thrusters_best"
 })
 misc.trade_computer = EquipType.New({
-	l10n_key="TRADE_COMPUTER", slots="trade_compunter", price=400,
+	l10n_key="TRADE_COMPUTER", slots="trade_computer", price=400,
 	capabilities={mass=0, trade_computer=1}, purchasable=true, tech_level=9
 })
 misc.planetscanner = BodyScannerType.New({
