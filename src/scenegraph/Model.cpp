@@ -9,6 +9,8 @@
 #include "graphics/VertexArray.h"
 #include "StringF.h"
 #include "json/JsonUtils.h"
+#include "FindNodeVisitor.h"
+#include "Thruster.h"
 
 namespace SceneGraph {
 
@@ -470,6 +472,54 @@ void Model::SetThrust(const vector3f &lin, const vector3f &ang)
 	m_renderData.angthrust[0] = ang.x;
 	m_renderData.angthrust[1] = ang.y;
 	m_renderData.angthrust[2] = ang.z;
+}
+
+void Model::SetThrusterColor(const vector3f &dir, const Color &color)
+{
+	assert(m_root!=nullptr);
+
+	FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, "thrusters");
+	m_root->Accept(thrusterFinder);
+	const std::vector<Node*> &results = thrusterFinder.GetResults();
+	Group* thrusters = static_cast<Group*>(results.at(0));
+
+	for (unsigned int i=0; i<thrusters->GetNumChildren(); i++) {
+		MatrixTransform *mt = static_cast<MatrixTransform*>(thrusters->GetChildAt(i));
+		Thruster* my_thruster = static_cast<Thruster*>(mt->GetChildAt(0));
+		if (my_thruster==nullptr) continue;
+		float dot = my_thruster->GetDirection().Dot(dir);
+		if (dot>0.99) my_thruster->SetColor(color);
+	}
+}
+
+void Model::SetThrusterColor(const std::string &name, const Color &color)
+{
+    assert(m_root!=nullptr);
+
+	FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, name);
+	m_root->Accept(thrusterFinder);
+	const std::vector<Node*> &results = thrusterFinder.GetResults();
+
+	//Hope there's only 1 result...
+	Thruster* my_thruster = static_cast<Thruster*>(results.at(0));
+	if (my_thruster!=nullptr) my_thruster->SetColor(color);
+}
+
+void Model::SetThrusterColor(const Color &color)
+{
+    assert(m_root!=nullptr);
+
+	FindNodeVisitor thrusterFinder(FindNodeVisitor::MATCH_NAME_FULL, "thrusters");
+	m_root->Accept(thrusterFinder);
+	const std::vector<Node*> &results = thrusterFinder.GetResults();
+	Group* thrusters = static_cast<Group*>(results.at(0));
+
+	for (unsigned int i=0; i<thrusters->GetNumChildren(); i++) {
+		MatrixTransform *mt = static_cast<MatrixTransform*>(thrusters->GetChildAt(i));
+		Thruster* my_thruster = static_cast<Thruster*>(mt->GetChildAt(0));
+		assert(my_thruster!=nullptr);
+		my_thruster->SetColor(color);
+	}
 }
 
 class SaveVisitorJson : public NodeVisitor {
