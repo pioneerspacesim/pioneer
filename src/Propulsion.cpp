@@ -146,6 +146,30 @@ void Propulsion::SetThrusterState(const vector3d &levels)
 	}
 }
 
+double Propulsion::GetThrustFwd() const {
+	double th = -m_linThrust[THRUSTER_FORWARD] * m_power_mul;
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		th += m_vectThVector[i].vThruster->thrust * m_power_mul;
+	}
+	return th;
+}
+
+double Propulsion::GetThrustRev() const {
+	double th = m_linThrust[THRUSTER_REVERSE] * m_power_mul;
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		th += m_vectThVector[i].vThruster->thrust * m_power_mul;
+	}
+	return th;
+}
+
+double Propulsion::GetThrustUp() const {
+	double th = m_linThrust[THRUSTER_UP] * m_power_mul;
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		th += m_vectThVector[i].vThruster->thrust * m_power_mul;
+	}
+	return th;
+}
+
 vector3d Propulsion::GetThrustMax(const vector3d &dir) const
 {
 	vector3d maxThrust;
@@ -231,10 +255,7 @@ void Propulsion::Update( const float timeStep )
 		// Set vectorial thrusters power level
 		if (dot<0.05&&dot>-0.05) m_vectThVector[i].power = Clamp(power,0.0f,1.0f);
 		else m_vectThVector[i].power = 0.0;
-		// Add forces due to vectorial thrusters <= NO: forces needs to be
-		// passed outside Propulsion...
-		//const vector3d thrust(orient.VectorY()*m_vectThVector[i].vThruster->thrust*power);
-		//m_dBody->AddRelForce(thrust*Pi::game->GetTimeStep());
+		// Rememeber: forces needs to be applied outside Propulsion...
 	}
 }
 

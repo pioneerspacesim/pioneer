@@ -46,9 +46,9 @@ class Propulsion
 		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 ); }
 
 		// Thruster functions
-		inline double GetThrustFwd() const { return -m_linThrust[THRUSTER_FORWARD] * m_power_mul; }
-		inline double GetThrustRev() const { return m_linThrust[THRUSTER_REVERSE] * m_power_mul; }
-		inline double GetThrustUp() const { return m_linThrust[THRUSTER_UP] * m_power_mul; }
+		double GetThrustFwd() const;
+		double GetThrustRev() const;
+		double GetThrustUp() const;
 		double GetThrustMin() const;
 		vector3d GetThrustMax(const vector3d &dir) const;
 
