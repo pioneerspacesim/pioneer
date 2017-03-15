@@ -54,6 +54,7 @@ Propulsion::Propulsion()
 	m_smodel = nullptr;
 	m_dBody = nullptr;
 	m_nacellesTotalThrust = 0;
+	m_totalMassFlow = 0;
 }
 
 void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust )
@@ -75,6 +76,7 @@ void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass,
 			break;
 		};
 	}
+	RecalculateFuelUseRate();
 	m_dBody = b;
 	b->AddFeature( DynamicBody::PROPULSION );
 }
@@ -128,6 +130,7 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 		m_nacellesTotalThrust += vThruster->thrust;
 		m_vectThVector.push_back(vectTh);
 	}
+	RecalculateFuelUseRate();
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)
@@ -190,27 +193,41 @@ double Propulsion::GetThrustMin() const
 	return val;
 }
 
-float Propulsion::GetFuelUseRate()
+void Propulsion::GetFuelUseRate()
 {
-	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
-	float numerator = m_linThrust[THRUSTER_FORWARD] * m_power_mul;
-	/* TODO: Different effectiveExhaustVelocity between
-	 * thrusters are not considered...
+	/* TODO: Seems there was an error: m_fuelTankMass
+	 * seems wrong... But *I* could be wrong (15 Mar 2017)
+	 * so I leave it here hoping someone smarter than
+	 * me will solve everything
 	*/
-	numerator -= m_nacellesTotalThrust * m_power_mul;
-	float fur = (denominator > 0 ? -numerator/denominator : 1e9);
-	return fur;
+	//const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
+	//return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD] * m_power_mul)/denominator : 1e9;
+	m_maxMassFlow = 0;
+	assert(m_effectiveExhaustVelocity>0.0);
+	m_maxMassFlow -= (m_linThrust[THRUSTER_FORWARD] * m_power_mul);
+	m_maxMassFlow += (m_linThrust[THRUSTER_UP] * m_power_mul);
+	m_maxMassFlow += (m_linThrust[THRUSTER_RIGHT] * m_power_mul);
+	m_maxMassFlow /= m_effectiveExhaustVelocity;
+	for (int i=0; i<m_vectThVector.size();i++)
+		m_maxMassFlow += m_vectThVector[i].vThruster->thrust * m_power_mul)/m_vectThVector[i].vThruster->eev;
+	return m_maxMassFlow;
 }
 
 void Propulsion::UpdateFuel(const float timeStep)
 {
-	const double fuelUseRate = GetFuelUseRate() * 0.01;
-	double totalThrust = (fabs( m_linLevels.x) + fabs(m_linLevels.y) + fabs(m_linLevels.z));
+	const double fuelUseRate = GetFuelUseRate();
+	double totalThrust = (fabs( m_linLevels.x*m_linThrust) + fabs(m_linLevels.y) + fabs(m_linLevels.z));
+	totalThrust += m_linLevels*((m_linLevels.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : -m_linThrust[THRUSTER_LEFT] * m_power_mul );
+	totalThrust += m_linLevels*((m_linLevels.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : -m_linThrust[THRUSTER_DOWN] * m_power_mul );
+	totalThrust += m_linLevels*((m_linLevels.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : -m_linThrust[THRUSTER_FORWARD] * m_power_mul );
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		totalThrust += m_vectThVector[i].powLevel;
 	}
+	****************************************************
+	HOW TO HAVE THE EXACT AMOUNT OF FUEL CONSUMED?
+	WHAT THE FASTEST WAY TO REACH THIS RESULT?
 	FuelState lastState = GetFuelState();
-	m_thrusterFuel -= timeStep * (totalThrust * fuelUseRate);
+	m_thrusterFuel -= timeStep * (fuelUseRate/totalThrust);
 	FuelState currentState = GetFuelState();
 
 	if (currentState != lastState) m_FuelStateChange = true;

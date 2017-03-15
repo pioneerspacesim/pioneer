@@ -43,7 +43,7 @@ class Propulsion
 		void Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust );
 		void AddNacelles(const vecThrustersMap_t& vThrusters);
 		// Bonus:
-		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 ); }
+		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 );RecalculateFuelUseRate(); }
 
 		// Thruster functions
 		double GetThrustFwd() const;
@@ -85,7 +85,8 @@ class Propulsion
 		inline void SetFuel(const double f) { m_thrusterFuel = Clamp( f, 0.0, 1.0 ); }
 		inline double GetFuelReserve() const { return m_reserveFuel; }
 		inline void SetFuelReserve(const double f) { m_reserveFuel = Clamp( f, 0.0, 1.0 ); }
-		float GetFuelUseRate();
+		float GetFuelUseRate() { return m_totalMassFlow; }
+		void RecalculateFuelUseRate();
 		// available delta-V given the ship's current fuel minus reserve according to the Tsiolkovsky equation
 		double GetSpeedReachedWithFuel() const;
 		/* TODO: These are needed to avoid savegamebumps:
@@ -152,6 +153,7 @@ class Propulsion
 		};
 		std::vector<vectThruster_t> m_vectThVector;
 		float m_nacellesTotalThrust;
+		float m_totalMassFlow;
 };
 
 #endif // PROPULSION_H
