@@ -53,6 +53,7 @@ Propulsion::Propulsion()
 	m_angThrusters = vector3d(0,0,0);
 	m_smodel = nullptr;
 	m_dBody = nullptr;
+	m_nacellesTotalThrust = 0;
 }
 
 void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust )
@@ -82,6 +83,7 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 {
 	assert(m_smodel!=nullptr);
 	m_vectThVector.reserve(vThrusters.size());
+	m_nacellesTotalThrust = 0;
 	for (vecThrustersMap_t::const_iterator it=vThrusters.begin(); it!=vThrusters.end(); ++it) {
 		vectThruster_t vectTh;
 		const VectThruster_t* vThruster = &(it->second);
@@ -122,6 +124,8 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 			}
 		}
 		vectTh.vThruster = vThruster;
+		// Precompute total nacelle thrust
+		m_nacellesTotalThrust += vThruster->thrust;
 		m_vectThVector.push_back(vectTh);
 	}
 }
@@ -150,25 +154,19 @@ void Propulsion::SetThrusterState(const vector3d &levels)
 
 double Propulsion::GetThrustFwd() const {
 	double th = -m_linThrust[THRUSTER_FORWARD] * m_power_mul;
-	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
-		th += m_vectThVector[i].vThruster->thrust * m_power_mul;
-	}
+	th += m_nacellesTotalThrust * m_power_mul;
 	return th;
 }
 
 double Propulsion::GetThrustRev() const {
 	double th = m_linThrust[THRUSTER_REVERSE] * m_power_mul;
-	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
-		th -= m_vectThVector[i].vThruster->thrust * m_power_mul;
-	}
+	th += m_nacellesTotalThrust * m_power_mul;
 	return th;
 }
 
 double Propulsion::GetThrustUp() const {
 	double th = m_linThrust[THRUSTER_UP] * m_power_mul;
-	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
-		th += m_vectThVector[i].vThruster->thrust * m_power_mul;
-	}
+	th += m_nacellesTotalThrust * m_power_mul;
 	return th;
 }
 
@@ -178,10 +176,9 @@ vector3d Propulsion::GetThrustMax(const vector3d &dir) const
 	maxThrust.x = ((dir.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : -m_linThrust[THRUSTER_LEFT] * m_power_mul );
 	maxThrust.y = ((dir.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : -m_linThrust[THRUSTER_DOWN] * m_power_mul );
 	maxThrust.z = ((dir.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : -m_linThrust[THRUSTER_FORWARD] * m_power_mul );
-	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
-		maxThrust.y += m_vectThVector[i].vThruster->thrust * m_power_mul;
-		maxThrust.z += m_vectThVector[i].vThruster->thrust * m_power_mul;
-	}
+	maxThrust.y += m_nacellesTotalThrust * m_power_mul;
+	maxThrust.z += m_nacellesTotalThrust * m_power_mul;
+
 	return maxThrust;
 }
 
@@ -200,8 +197,7 @@ float Propulsion::GetFuelUseRate()
 	/* TODO: Different effectiveExhaustVelocity between
 	 * thrusters are not considered...
 	*/
-	for (unsigned int i=0; i < m_vectThVector.size(); i++)
-		numerator -= m_vectThVector[i].vThruster->thrust * m_power_mul;
+	numerator -= m_nacellesTotalThrust * m_power_mul;
 	float fur = (denominator > 0 ? -numerator/denominator : 1e9);
 	return fur;
 }
@@ -265,7 +261,7 @@ void Propulsion::Update( const float timeStep )
 		// Set vectorial thrusters power level
 		if (dot<0.05&&dot>-0.05) m_vectThVector[i].powLevel = Clamp(power,0.0f,1.0f);
 		else m_vectThVector[i].powLevel = 0.0;
-		// Remember: forces needs to be applied outside Propulsion...
+		// NOTE: forces needs to be applied outside Propulsion...
 /*		if (m_dBody->IsType(Object::PLAYER)) {
 			vector3f p = m.GetTranslate();
 			printf("Pos: %.2f, %.2f, %.2f\n", p.x, p.y, p.z);
@@ -286,11 +282,15 @@ void Propulsion::Render(const matrix4x4f &trans)
 	rd.boundingRadius = m_dBody->GetAabb().GetRadius();
 	rd.nodemask = SceneGraph::NodeMask::NODE_TRANSPARENT;
 	m_gThrusters->Render(trans, &rd );
+	// Reset unused values
+	rd.angthrust[0] = 0.0;
+	rd.angthrust[1] = 0.0;
+	rd.angthrust[2] = 0.0;
 	rd.linthrust[0] = 0.0;
 	rd.linthrust[2] = 0.0;
 	for (unsigned int i=0; i< m_vectThVector.size(); i++ ) {
 		rd.linthrust[1] = m_vectThVector[i].powLevel; // <- Power of vectorial thrusters
-//		if (m_dBody->IsType(Object::PLAYER)) puts("Call Render for vect thrusters");
+		//if (m_dBody->IsType(Object::PLAYER)) printf("Render %i vect thruster, power=%f\n", i, rd.linthrust[1]);
 		m_vectThVector[i].mtThruster->Render(trans, &rd);
 	}
 }

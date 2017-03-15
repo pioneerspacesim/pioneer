@@ -64,8 +64,8 @@ class Propulsion
 		void SetThrusterState(const vector3d &levels);
 		void SetAngThrusterState(const vector3d &levels);
 		inline void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
-		inline vector3d GetThrusterState() const { return m_linLevels; };
-		inline vector3d GetAngThrusterState() const { return m_angThrusters; }
+		inline const vector3d& GetThrusterState() const { return m_linLevels; };
+		inline const vector3d& GetAngThrusterState() const { return m_angThrusters; }
 		inline void ClearLinThrusterState() { m_linLevels = vector3d(0,0,0); }
 		inline void ClearAngThrusterState() { m_angThrusters = vector3d(0,0,0); }
 
@@ -151,6 +151,7 @@ class Propulsion
 			float powLevel;
 		};
 		std::vector<vectThruster_t> m_vectThVector;
+		float m_nacellesTotalThrust;
 };
 
 #endif // PROPULSION_H
