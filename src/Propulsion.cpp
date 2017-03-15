@@ -241,13 +241,19 @@ void Propulsion::Update( const float timeStep )
 
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		// set nacelle rotation to be as requested
+		if (m_dBody->IsType(Object::PLAYER)&&i==0) puts("*****************************************");
 		rotAmount = m_vectThVector[i].vThruster->rot_speed*timeStep;
 		const matrix4x4f& m = m_vectThVector[i].mtNacelle->GetTransform();
 		matrix3x3f orient = m.GetOrient();
 		dot = orient.VectorZ().Dot(wantRot);
 		if (dot<-rotAmount) rot = rotAmount;
 		else if (dot>rotAmount) rot = -rotAmount;
+		// Avoid nan in asin...
+		else if (dot>0.999995) rot = 1;
+		else if (dot<-0.999995) rot = -1;
 		else rot = -asin(dot);
+		if (m_dBody->IsType(Object::PLAYER)&&i==0) printf("rotAmount=%.3f; dot=%.3f; rot=%.3f\n", rotAmount, dot, rot);
+
 		// Avoid nacelle not rotating if it's exactly opposite
 		if (orient.VectorY().Dot(wantRot)<-0.999) rot = rotAmount;
 		orient = matrix3x3f::RotateX(rot)*orient;
@@ -262,11 +268,7 @@ void Propulsion::Update( const float timeStep )
 		if (dot<0.05&&dot>-0.05) m_vectThVector[i].powLevel = Clamp(power,0.0f,1.0f);
 		else m_vectThVector[i].powLevel = 0.0;
 		// NOTE: forces needs to be applied outside Propulsion...
-/*		if (m_dBody->IsType(Object::PLAYER)) {
-			vector3f p = m.GetTranslate();
-			printf("Pos: %.2f, %.2f, %.2f\n", p.x, p.y, p.z);
-		}
-*/	}
+	}
 }
 
 void Propulsion::Render(const matrix4x4f &trans)
@@ -287,10 +289,10 @@ void Propulsion::Render(const matrix4x4f &trans)
 	rd.angthrust[1] = 0.0;
 	rd.angthrust[2] = 0.0;
 	rd.linthrust[0] = 0.0;
+	// thruster check this direction
 	rd.linthrust[2] = 0.0;
 	for (unsigned int i=0; i< m_vectThVector.size(); i++ ) {
-		rd.linthrust[1] = m_vectThVector[i].powLevel; // <- Power of vectorial thrusters
-		//if (m_dBody->IsType(Object::PLAYER)) printf("Render %i vect thruster, power=%f\n", i, rd.linthrust[1]);
+		rd.linthrust[1] = m_vectThVector[i].powLevel; // <- Power level of vectorial thrusters
 		m_vectThVector[i].mtThruster->Render(trans, &rd);
 	}
 }
