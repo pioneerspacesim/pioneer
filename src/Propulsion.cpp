@@ -9,7 +9,7 @@
 void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	//Json::Value PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
-	VectorToJson(jsonObj, m_angThrusters, "ang_thrusters");
+	VectorToJson(jsonObj, m_angLevels, "ang_thrusters");
 	VectorToJson(jsonObj, m_linLevels, "thrusters");
 	jsonObj["thruster_fuel"] = DoubleToStr( m_thrusterFuel );
 	jsonObj["reserve_fuel"] = DoubleToStr( m_reserveFuel );
@@ -44,13 +44,13 @@ Propulsion::Propulsion()
 	m_power_mul = 1.0;
 	m_fuelTankMass = 1;
 	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
-	m_angLevels = 0.0;
+	m_angThrust = 0.0;
 	m_effectiveExhaustVelocity = 100000.0;
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
 	m_reserveFuel= 0.0;
 	m_FuelStateChange = false;
 	m_linLevels = vector3d(0,0,0);
-	m_angThrusters = vector3d(0,0,0);
+	m_angLevels = vector3d(0,0,0);
 	m_smodel = nullptr;
 	m_dBody = nullptr;
 	m_nacellesTotalThrust = 0;
@@ -61,7 +61,7 @@ void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass,
 	m_fuelTankMass = tank_mass;
 	m_effectiveExhaustVelocity = effExVel;
 	for (int i=0; i<Thruster::THRUSTER_MAX; i++ ) m_linThrust[i] = lin_Thrust[i];
-	m_angLevels = ang_Thrust;
+	m_angThrust = ang_Thrust;
 	m_smodel = m;
 	for (unsigned int i=0; i<m->GetRoot()->GetNumChildren(); i++) {
 		// Find thruster group...
@@ -133,11 +133,11 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 void Propulsion::SetAngThrusterState(const vector3d &levels)
 {
 	if (m_thrusterFuel <= 0.f) {
-		m_angThrusters = vector3d(0.0);
+		m_angLevels = vector3d(0.0);
 	} else {
-		m_angThrusters.x = Clamp(levels.x, -1.0, 1.0);
-		m_angThrusters.y = Clamp(levels.y, -1.0, 1.0);
-		m_angThrusters.z = Clamp(levels.z, -1.0, 1.0);
+		m_angLevels.x = Clamp(levels.x, -1.0, 1.0);
+		m_angLevels.y = Clamp(levels.y, -1.0, 1.0);
+		m_angLevels.z = Clamp(levels.z, -1.0, 1.0);
 	}
 }
 
@@ -275,9 +275,9 @@ void Propulsion::Render(const matrix4x4f &trans)
 {
 	if (m_gThrusters == nullptr ) return;
 	SceneGraph::RenderData rd;
-	rd.angthrust[0] = m_angThrusters.x;
-	rd.angthrust[1] = m_angThrusters.y;
-	rd.angthrust[2] = m_angThrusters.z;
+	rd.angthrust[0] = m_angLevels.x;
+	rd.angthrust[1] = m_angLevels.y;
+	rd.angthrust[2] = m_angLevels.z;
 	rd.linthrust[0] = m_linLevels.x;
 	rd.linthrust[1] = m_linLevels.y;
 	rd.linthrust[2] = m_linLevels.z;
@@ -306,7 +306,7 @@ void Propulsion::Render(const matrix4x4f &trans)
 
 void Propulsion::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
 {
-	double angAccel = m_angLevels / m_dBody->GetAngularInertia();
+	double angAccel = m_angThrust / m_dBody->GetAngularInertia();
 	const double softTimeStep = Pi::game->GetTimeStep() * softness;
 
 	vector3d angVel = desiredAngVel - m_dBody->GetAngVelocity() * m_dBody->GetOrient();
@@ -425,7 +425,7 @@ vector3d Propulsion::AIChangeVelDir(const vector3d &reqdiffvel)
 // Input in object space
 void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel)
 {
-	double maxAccel = m_angLevels / m_dBody->GetAngularInertia();
+	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();
 	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep());
 
 	vector3d diff = angvel - m_dBody->GetAngVelocity() * m_dBody->GetOrient();		// find diff between current & desired angvel
@@ -435,7 +435,7 @@ void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel)
 // get updir as close as possible just using roll thrusters
 double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 {
-	double maxAccel = m_angLevels / m_dBody->GetAngularInertia();		// should probably be in stats anyway
+	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();		// should probably be in stats anyway
 	double frameAccel = maxAccel * Pi::game->GetTimeStep();
 
 	vector3d uphead = updir * m_dBody->GetOrient();			// create desired object-space updir
@@ -464,7 +464,7 @@ double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 // returns angle to target
 double Propulsion::AIFaceDirection(const vector3d &dir, double av)
 {
-	double maxAccel = m_angLevels / m_dBody->GetAngularInertia();		// should probably be in stats anyway
+	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();		// should probably be in stats anyway
 
 	vector3d head = (dir * m_dBody->GetOrient()).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
