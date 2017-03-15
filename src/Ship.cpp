@@ -229,9 +229,9 @@ void Ship::Init()
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
 	// Init of Propulsion:
-	// TODO: Separe the enum used in ShipType and use it both on Propulsion and ShipType
 	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 	Propulsion::AddNacelles(m_type->vec_thrusters);
+
 	p.Set("shipName", m_shipName);
 
 	m_hyperspace.now = false;			// TODO: move this on next savegame change, maybe
@@ -1203,7 +1203,6 @@ void Ship::Render(Graphics::Renderer *renderer, const Camera *camera, const vect
 	GetShields()->SetEnabled(shieldsVisible);
 	GetShields()->Update(m_shieldCooldown, 0.01f*GetPercentShields());
 
-	//strncpy(params.pText[0], GetLabel().c_str(), sizeof(params.pText));
 	matrix4x4f trans = RenderModel(renderer, camera, viewCoords, viewTransform);
 
 	Propulsion::Render(trans);

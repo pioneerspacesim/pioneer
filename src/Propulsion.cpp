@@ -103,7 +103,9 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 				vector3f nacelle_pos = vectTh.mtNacelle->GetTransform().GetTranslate();
 				// Detach matrix of thruster from thrusters and attach it to a list for vectorial thrusters
 				SceneGraph::Thruster* new_th = new SceneGraph::Thruster(m_smodel->GetRenderer(), true, vector3f(0.0), vector3f(0.0,-1.0,0.0));
-				// Scaling matrix for vectorial thruster (with difference btw nacelle and thruster position)
+				// Scaling matrix for vectorial thruster
+				// Note: position is the difference btw nacelle and thruster position, this allow to easy
+				// placement of thruster exhausts
 				matrix4x4f new_thTrans_matrix = g->GetTransform();
 				new_thTrans_matrix.SetTranslate(g->GetTransform().GetTranslate()-nacelle_pos*matrix4x4f::RotateXMatrix(-3.14159/2));
 				SceneGraph::MatrixTransform* new_thTrans = new SceneGraph::MatrixTransform(m_smodel->GetRenderer(), new_thTrans_matrix);
@@ -157,7 +159,7 @@ double Propulsion::GetThrustFwd() const {
 double Propulsion::GetThrustRev() const {
 	double th = m_linThrust[THRUSTER_REVERSE] * m_power_mul;
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
-		th += m_vectThVector[i].vThruster->thrust * m_power_mul;
+		th -= m_vectThVector[i].vThruster->thrust * m_power_mul;
 	}
 	return th;
 }
@@ -194,13 +196,23 @@ double Propulsion::GetThrustMin() const
 float Propulsion::GetFuelUseRate()
 {
 	const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
-	return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD] * m_power_mul)/denominator : 1e9;
+	float numerator = m_linThrust[THRUSTER_FORWARD] * m_power_mul;
+	/* TODO: Different effectiveExhaustVelocity between
+	 * thrusters are not considered...
+	*/
+	for (unsigned int i=0; i < m_vectThVector.size(); i++)
+		numerator -= m_vectThVector[i].vThruster->thrust * m_power_mul;
+	float fur = (denominator > 0 ? -numerator/denominator : 1e9);
+	return fur;
 }
 
 void Propulsion::UpdateFuel(const float timeStep)
 {
 	const double fuelUseRate = GetFuelUseRate() * 0.01;
 	double totalThrust = (fabs( m_linThrusters.x) + fabs(m_linThrusters.y) + fabs(m_linThrusters.z));
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		totalThrust += m_vectThVector[i].powLevel;
+	}
 	FuelState lastState = GetFuelState();
 	m_thrusterFuel -= timeStep * (totalThrust * fuelUseRate);
 	FuelState currentState = GetFuelState();
@@ -231,8 +243,6 @@ void Propulsion::Update( const float timeStep )
 		wantRot = vector3f(dir.Normalized());
 	}
 
-	//DEBUG:: if (m_dBody->IsType(Object::PLAYER)) wantRot.Print();
-
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		// set nacelle rotation to be as requested
 		rotAmount = m_vectThVector[i].vThruster->rot_speed*timeStep;
@@ -253,10 +263,14 @@ void Propulsion::Update( const float timeStep )
 		mth = mth*matrix4x4f::RotateXMatrix(rot);
 		m_vectThVector[i].mtThruster->SetTransform(mth);
 		// Set vectorial thrusters power level
-		if (dot<0.05&&dot>-0.05) m_vectThVector[i].power = Clamp(power,0.0f,1.0f);
-		else m_vectThVector[i].power = 0.0;
-		// Rememeber: forces needs to be applied outside Propulsion...
-	}
+		if (dot<0.05&&dot>-0.05) m_vectThVector[i].powLevel = Clamp(power,0.0f,1.0f);
+		else m_vectThVector[i].powLevel = 0.0;
+		// Remember: forces needs to be applied outside Propulsion...
+/*		if (m_dBody->IsType(Object::PLAYER)) {
+			vector3f p = m.GetTranslate();
+			printf("Pos: %.2f, %.2f, %.2f\n", p.x, p.y, p.z);
+		}
+*/	}
 }
 
 void Propulsion::Render(const matrix4x4f &trans)
@@ -275,7 +289,8 @@ void Propulsion::Render(const matrix4x4f &trans)
 	rd.linthrust[0] = 0.0;
 	rd.linthrust[2] = 0.0;
 	for (unsigned int i=0; i< m_vectThVector.size(); i++ ) {
-		rd.linthrust[1] = m_vectThVector[i].power; // <- Power of vectorial thrusters
+		rd.linthrust[1] = m_vectThVector[i].powLevel; // <- Power of vectorial thrusters
+//		if (m_dBody->IsType(Object::PLAYER)) puts("Call Render for vect thrusters");
 		m_vectThVector[i].mtThruster->Render(trans, &rd);
 	}
 }

@@ -1801,8 +1801,7 @@ void WorldView::UpdateProjectedObjects()
 			// want to calculate closing velocity that you couldn't counter with retros
 
 			double vel = targvel.Dot(targpos.NormalizedSafe()); // position should be towards
-			double raccel =
-				Pi::player->GetShipType()->linThrust[Thruster::THRUSTER_REVERSE] / Pi::player->GetMass();
+			double raccel = -Pi::player->GetAccelRev();
 
 			double c = Clamp(vel / sqrt(2.0 * raccel * dist), -1.0, 1.0);
 			float r = float(0.2+(c+1.0)*0.4);

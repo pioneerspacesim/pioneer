@@ -139,7 +139,7 @@ class Propulsion
 				mtNacelle(0),
 				mtThruster(0),
 				vThruster(0),
-				power(0)
+				powLevel(0)
 			{}
 			// Pointer to the transform node of model containing the nacelles:
 			SceneGraph::MatrixTransform* mtNacelle;
@@ -148,7 +148,7 @@ class Propulsion
 			// Data coming from JSon file:
 			const VectThruster_t* vThruster;
 			// Store power level:
-			float power;
+			float powLevel;
 		};
 		std::vector<vectThruster_t> m_vectThVector;
 };
