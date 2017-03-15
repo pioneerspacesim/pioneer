@@ -59,18 +59,18 @@ class Propulsion
 
 		inline void SetThrusterState(int axis, double level) {
 			if (m_thrusterFuel <= 0.f) level = 0.0;
-			m_linThrusters[axis] = Clamp(level, -1.0, 1.0);
+			m_linLevels[axis] = Clamp(level, -1.0, 1.0);
 		}
 		void SetThrusterState(const vector3d &levels);
 		void SetAngThrusterState(const vector3d &levels);
 		inline void SetAngThrusterState(int axis, double level) { m_angThrusters[axis] = Clamp(level, -1.0, 1.0); }
-		inline vector3d GetThrusterState() const { return m_linThrusters; };
+		inline vector3d GetThrusterState() const { return m_linLevels; };
 		inline vector3d GetAngThrusterState() const { return m_angThrusters; }
-		inline void ClearLinThrusterState() { m_linThrusters = vector3d(0,0,0); }
+		inline void ClearLinThrusterState() { m_linLevels = vector3d(0,0,0); }
 		inline void ClearAngThrusterState() { m_angThrusters = vector3d(0,0,0); }
 
-		inline vector3d GetActualLinThrust() const { return m_linThrusters * GetThrustMax( m_linThrusters ) * m_power_mul; }
-		inline vector3d GetActualAngThrust() const { return m_angThrust * m_angThrusters * m_power_mul; }
+		inline vector3d GetActualLinThrust() const { return m_linLevels * GetThrustMax( m_linLevels ) * m_power_mul; }
+		inline vector3d GetActualAngThrust() const { return m_angLevels * m_angThrusters * m_power_mul; }
 
 		// Fuel
 		enum FuelState { // <enum scope='Ship' name=ShipFuelStatus prefix=FUEL_ public>
@@ -120,12 +120,12 @@ class Propulsion
 
 		int m_fuelTankMass;
 		float m_linThrust[THRUSTER_MAX];
-		float m_angThrust;
+		float m_angLevels;
 		double m_effectiveExhaustVelocity;
 		double m_thrusterFuel;	// remaining fuel 0.0-1.0
 		double m_reserveFuel;	// 0-1, fuel not to touch for the current AI program
 		bool m_FuelStateChange;
-		vector3d m_linThrusters;
+		vector3d m_linLevels;
 		vector3d m_angThrusters;
 
 		double m_power_mul;

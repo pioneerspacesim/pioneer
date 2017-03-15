@@ -10,7 +10,7 @@ void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 {
 	//Json::Value PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
 	VectorToJson(jsonObj, m_angThrusters, "ang_thrusters");
-	VectorToJson(jsonObj, m_linThrusters, "thrusters");
+	VectorToJson(jsonObj, m_linLevels, "thrusters");
 	jsonObj["thruster_fuel"] = DoubleToStr( m_thrusterFuel );
 	jsonObj["reserve_fuel"] = DoubleToStr( m_reserveFuel );
 	// !!! These are commented to avoid savegame bumps:
@@ -44,12 +44,12 @@ Propulsion::Propulsion()
 	m_power_mul = 1.0;
 	m_fuelTankMass = 1;
 	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
-	m_angThrust = 0.0;
+	m_angLevels = 0.0;
 	m_effectiveExhaustVelocity = 100000.0;
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
 	m_reserveFuel= 0.0;
 	m_FuelStateChange = false;
-	m_linThrusters = vector3d(0,0,0);
+	m_linLevels = vector3d(0,0,0);
 	m_angThrusters = vector3d(0,0,0);
 	m_smodel = nullptr;
 	m_dBody = nullptr;
@@ -60,12 +60,12 @@ void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass,
 	m_fuelTankMass = tank_mass;
 	m_effectiveExhaustVelocity = effExVel;
 	for (int i=0; i<Thruster::THRUSTER_MAX; i++ ) m_linThrust[i] = lin_Thrust[i];
-	m_angThrust = ang_Thrust;
+	m_angLevels = ang_Thrust;
 	m_smodel = m;
 	for (unsigned int i=0; i<m->GetRoot()->GetNumChildren(); i++) {
 		// Find thruster group...
 		SceneGraph::Node* n = m->GetRoot()->GetChildAt(i);
-		if (n->GetName().find("thruster")!=std::string::npos) {
+		if (n->GetName().find("thrusters")!=std::string::npos) {
 			// Found
 			SceneGraph::Group* g = dynamic_cast<SceneGraph::Group*>(m->GetRoot()->GetChildAt(i));
 			m_gThrusters = static_cast<SceneGraph::Group*>(g->Clone());
@@ -140,11 +140,11 @@ void Propulsion::SetAngThrusterState(const vector3d &levels)
 void Propulsion::SetThrusterState(const vector3d &levels)
 {
 	if (m_thrusterFuel <= 0.f) {
-		m_linThrusters = vector3d(0.0);
+		m_linLevels = vector3d(0.0);
 	} else {
-		m_linThrusters.x = Clamp(levels.x, -1.0, 1.0);
-		m_linThrusters.y = Clamp(levels.y, -1.0, 1.0);
-		m_linThrusters.z = Clamp(levels.z, -1.0, 1.0);
+		m_linLevels.x = Clamp(levels.x, -1.0, 1.0);
+		m_linLevels.y = Clamp(levels.y, -1.0, 1.0);
+		m_linLevels.z = Clamp(levels.z, -1.0, 1.0);
 	}
 }
 
@@ -209,7 +209,7 @@ float Propulsion::GetFuelUseRate()
 void Propulsion::UpdateFuel(const float timeStep)
 {
 	const double fuelUseRate = GetFuelUseRate() * 0.01;
-	double totalThrust = (fabs( m_linThrusters.x) + fabs(m_linThrusters.y) + fabs(m_linThrusters.z));
+	double totalThrust = (fabs( m_linLevels.x) + fabs(m_linLevels.y) + fabs(m_linLevels.z));
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		totalThrust += m_vectThVector[i].powLevel;
 	}
@@ -237,7 +237,7 @@ void Propulsion::Update( const float timeStep )
 	// Update nacelle pos
 	float rot, dot, rotAmount;
 	vector3f wantRot(0.0, 1.0, 0.0);
-	float power = m_linThrusters.Length();
+	float power = m_linLevels.Length();
 	if (power>0.001) {
 		vector3f dir(GetActualLinThrust());
 		wantRot = vector3f(dir.Normalized());
@@ -280,9 +280,9 @@ void Propulsion::Render(const matrix4x4f &trans)
 	rd.angthrust[0] = m_angThrusters.x;
 	rd.angthrust[1] = m_angThrusters.y;
 	rd.angthrust[2] = m_angThrusters.z;
-	rd.linthrust[0] = m_linThrusters.x;
-	rd.linthrust[1] = m_linThrusters.y;
-	rd.linthrust[2] = m_linThrusters.z;
+	rd.linthrust[0] = m_linLevels.x;
+	rd.linthrust[1] = m_linLevels.y;
+	rd.linthrust[2] = m_linLevels.z;
 	rd.boundingRadius = m_dBody->GetAabb().GetRadius();
 	rd.nodemask = SceneGraph::NodeMask::NODE_TRANSPARENT;
 	m_gThrusters->Render(trans, &rd );
@@ -304,7 +304,7 @@ void Propulsion::Render(const matrix4x4f &trans)
 
 void Propulsion::AIModelCoordsMatchAngVel(const vector3d &desiredAngVel, double softness)
 {
-	double angAccel = m_angThrust / m_dBody->GetAngularInertia();
+	double angAccel = m_angLevels / m_dBody->GetAngularInertia();
 	const double softTimeStep = Pi::game->GetTimeStep() * softness;
 
 	vector3d angVel = desiredAngVel - m_dBody->GetAngVelocity() * m_dBody->GetOrient();
@@ -423,7 +423,7 @@ vector3d Propulsion::AIChangeVelDir(const vector3d &reqdiffvel)
 // Input in object space
 void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel)
 {
-	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();
+	double maxAccel = m_angLevels / m_dBody->GetAngularInertia();
 	double invFrameAccel = 1.0 / (maxAccel * Pi::game->GetTimeStep());
 
 	vector3d diff = angvel - m_dBody->GetAngVelocity() * m_dBody->GetOrient();		// find diff between current & desired angvel
@@ -433,7 +433,7 @@ void Propulsion::AIMatchAngVelObjSpace(const vector3d &angvel)
 // get updir as close as possible just using roll thrusters
 double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 {
-	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();		// should probably be in stats anyway
+	double maxAccel = m_angLevels / m_dBody->GetAngularInertia();		// should probably be in stats anyway
 	double frameAccel = maxAccel * Pi::game->GetTimeStep();
 
 	vector3d uphead = updir * m_dBody->GetOrient();			// create desired object-space updir
@@ -462,7 +462,7 @@ double Propulsion::AIFaceUpdir(const vector3d &updir, double av)
 // returns angle to target
 double Propulsion::AIFaceDirection(const vector3d &dir, double av)
 {
-	double maxAccel = m_angThrust / m_dBody->GetAngularInertia();		// should probably be in stats anyway
+	double maxAccel = m_angLevels / m_dBody->GetAngularInertia();		// should probably be in stats anyway
 
 	vector3d head = (dir * m_dBody->GetOrient()).Normalized();		// create desired object-space heading
 	vector3d dav(0.0, 0.0, 0.0);	// desired angular velocity
