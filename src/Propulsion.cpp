@@ -233,7 +233,7 @@ void Propulsion::Update( const float timeStep )
 	// Update nacelle pos
 	float rot, dot, rotAmount;
 	vector3f wantRot(0.0, 1.0, 0.0);
-	float power = m_linLevels.Length();
+	float power = vector2f(m_linLevels.y,m_linLevels.z).Length();
 	if (power>0.001) {
 		vector3f dir(GetActualLinThrust());
 		wantRot = vector3f(dir.Normalized());
