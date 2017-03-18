@@ -54,7 +54,8 @@ Propulsion::Propulsion()
 	m_smodel = nullptr;
 	m_dBody = nullptr;
 	m_nacellesTotalThrust = 0;
-	m_totalMassFlow = 0;
+	m_maxMassFlow = 0;
+	m_nacRest = vector3f(0.0,1.0,0.0);
 }
 
 void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust )
@@ -76,7 +77,7 @@ void Propulsion::Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass,
 			break;
 		};
 	}
-	RecalculateFuelUseRate();
+	RecalculateMaxMassFlow();
 	m_dBody = b;
 	b->AddFeature( DynamicBody::PROPULSION );
 }
@@ -130,7 +131,7 @@ void Propulsion::AddNacelles(const vecThrustersMap_t& vThrusters)
 		m_nacellesTotalThrust += vThruster->thrust;
 		m_vectThVector.push_back(vectTh);
 	}
-	RecalculateFuelUseRate();
+	RecalculateMaxMassFlow();
 }
 
 void Propulsion::SetAngThrusterState(const vector3d &levels)
@@ -193,13 +194,8 @@ double Propulsion::GetThrustMin() const
 	return val;
 }
 
-void Propulsion::GetFuelUseRate()
+void Propulsion::RecalculateMaxMassFlow()
 {
-	/* TODO: Seems there was an error: m_fuelTankMass
-	 * seems wrong... But *I* could be wrong (15 Mar 2017)
-	 * so I leave it here hoping someone smarter than
-	 * me will solve everything
-	*/
 	//const float denominator = m_fuelTankMass * m_effectiveExhaustVelocity * 10;
 	//return denominator > 0 ? -(m_linThrust[THRUSTER_FORWARD] * m_power_mul)/denominator : 1e9;
 	m_maxMassFlow = 0;
@@ -208,28 +204,33 @@ void Propulsion::GetFuelUseRate()
 	m_maxMassFlow += (m_linThrust[THRUSTER_UP] * m_power_mul);
 	m_maxMassFlow += (m_linThrust[THRUSTER_RIGHT] * m_power_mul);
 	m_maxMassFlow /= m_effectiveExhaustVelocity;
-	for (int i=0; i<m_vectThVector.size();i++)
-		m_maxMassFlow += m_vectThVector[i].vThruster->thrust * m_power_mul)/m_vectThVector[i].vThruster->eev;
-	return m_maxMassFlow;
+	for (unsigned int i=0; i<m_vectThVector.size();i++) {
+		assert(m_vectThVector[i].vThruster->eev>0.0);
+		m_maxMassFlow += (m_vectThVector[i].vThruster->thrust * m_power_mul)/ m_vectThVector[i].vThruster->eev;
+	}
+	// Factor of 1000 because eev is m/s and fuel is t (1000Kg)
+	m_maxMassFlow/=1000.0; // [t/sec]
+}
+
+double Propulsion::GetActualMassFlow()
+{
+	double massFlow = 0;
+	massFlow += m_linLevels.x*((m_linLevels.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : m_linThrust[THRUSTER_LEFT] * m_power_mul );
+	massFlow += m_linLevels.y*((m_linLevels.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : m_linThrust[THRUSTER_DOWN] * m_power_mul );
+	massFlow += m_linLevels.z*((m_linLevels.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : m_linThrust[THRUSTER_FORWARD] * m_power_mul );
+	massFlow /= m_effectiveExhaustVelocity;
+	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
+		massFlow += (m_vectThVector[i].powLevel * m_vectThVector[i].vThruster->thrust * m_power_mul) / m_vectThVector[i].vThruster->eev;
+	}
+	// Factor of 1000 because eev is m/s and fuel is t (1000Kg)
+	return massFlow/1000.0;
 }
 
 void Propulsion::UpdateFuel(const float timeStep)
 {
-	const double fuelUseRate = GetFuelUseRate();
-	double totalThrust = (fabs( m_linLevels.x*m_linThrust) + fabs(m_linLevels.y) + fabs(m_linLevels.z));
-	totalThrust += m_linLevels*((m_linLevels.x > 0) ? m_linThrust[THRUSTER_RIGHT] * m_power_mul : -m_linThrust[THRUSTER_LEFT] * m_power_mul );
-	totalThrust += m_linLevels*((m_linLevels.y > 0) ? m_linThrust[THRUSTER_UP] * m_power_mul : -m_linThrust[THRUSTER_DOWN] * m_power_mul );
-	totalThrust += m_linLevels*((m_linLevels.z > 0) ? m_linThrust[THRUSTER_REVERSE] * m_power_mul : -m_linThrust[THRUSTER_FORWARD] * m_power_mul );
-	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
-		totalThrust += m_vectThVector[i].powLevel;
-	}
-	****************************************************
-	HOW TO HAVE THE EXACT AMOUNT OF FUEL CONSUMED?
-	WHAT THE FASTEST WAY TO REACH THIS RESULT?
 	FuelState lastState = GetFuelState();
-	m_thrusterFuel -= timeStep * (fuelUseRate/totalThrust);
+	m_thrusterFuel -= (timeStep * GetActualMassFlow())/m_fuelTankMass;
 	FuelState currentState = GetFuelState();
-
 	if (currentState != lastState) m_FuelStateChange = true;
 	else m_FuelStateChange = false;
 }
@@ -237,6 +238,10 @@ void Propulsion::UpdateFuel(const float timeStep)
 // returns speed that can be reached using fuel minus reserve according to the Tsiolkovsky equation
 double Propulsion::GetSpeedReachedWithFuel() const
 {
+	/* TODO: Find how to use Tsiolkovsky equation
+	 * in case we have different exhaust velocity
+	 * for each thruster
+	*/
 	const double mass = m_dBody->GetMass();
 	const double fuelmass = 1000 * m_fuelTankMass * ( m_thrusterFuel - m_reserveFuel );
 	if (fuelmass < 0) return 0.0;
@@ -249,7 +254,8 @@ void Propulsion::Update( const float timeStep )
 	UpdateFuel(timeStep);
 	// Update nacelle pos
 	float rot, dot, rotAmount;
-	vector3f wantRot(0.0, 1.0, 0.0);
+
+	vector3f wantRot=m_nacRest;
 	float power = vector2f(m_linLevels.y,m_linLevels.z).Length();
 	if (power>0.001) {
 		vector3f dir(GetActualLinThrust());
@@ -258,7 +264,6 @@ void Propulsion::Update( const float timeStep )
 
 	for (unsigned int i=0; i < m_vectThVector.size(); i++) {
 		// set nacelle rotation to be as requested
-		if (m_dBody->IsType(Object::PLAYER)&&i==0) puts("*****************************************");
 		rotAmount = m_vectThVector[i].vThruster->rot_speed*timeStep;
 		const matrix4x4f& m = m_vectThVector[i].mtNacelle->GetTransform();
 		matrix3x3f orient = m.GetOrient();
@@ -269,8 +274,6 @@ void Propulsion::Update( const float timeStep )
 		else if (dot>0.999995) rot = 1;
 		else if (dot<-0.999995) rot = -1;
 		else rot = -asin(dot);
-		if (m_dBody->IsType(Object::PLAYER)&&i==0) printf("rotAmount=%.3f; dot=%.3f; rot=%.3f\n", rotAmount, dot, rot);
-
 		// Avoid nacelle not rotating if it's exactly opposite
 		if (orient.VectorY().Dot(wantRot)<-0.999) rot = rotAmount;
 		orient = matrix3x3f::RotateX(rot)*orient;
@@ -306,7 +309,6 @@ void Propulsion::Render(const matrix4x4f &trans)
 	rd.angthrust[1] = 0.0;
 	rd.angthrust[2] = 0.0;
 	rd.linthrust[0] = 0.0;
-	// thruster check this direction
 	rd.linthrust[2] = 0.0;
 	for (unsigned int i=0; i< m_vectThVector.size(); i++ ) {
 		rd.linthrust[1] = m_vectThVector[i].powLevel; // <- Power level of vectorial thrusters

@@ -34,6 +34,11 @@ enum Thruster { // <enum scope='ShipType' name=ShipTypeThruster prefix=THRUSTER_
 	THRUSTER_MAX // <enum skip>
 };
 
+enum NacelleRest {
+	NACELLE_HOR,
+	NACELLE_VERT
+};
+
 class Propulsion
 {
 	public:
@@ -41,9 +46,19 @@ class Propulsion
 		Propulsion();
 		virtual ~Propulsion() {};
 		void Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust );
+		/* TODO:
+		 * 1- Nacelle needs a way to be initialized with Init
+		 * 2- Probably something (if not all) should be moved in Model.cpp
+		 * 3- There're some problems keeping all together, and so something
+		      should change in class hierarchy
+		*/
 		void AddNacelles(const vecThrustersMap_t& vThrusters);
+		void SetNacelleRest(NacelleRest nr) {
+			if (nr==NACELLE_VERT) m_nacRest = vector3f(0.0, 1.0, 0.0);
+			if (nr==NACELLE_HOR) m_nacRest = vector3f(0.0,0.0, -1.0);
+		};
 		// Bonus:
-		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 );RecalculateFuelUseRate(); }
+		inline void SetThrustPowerMult( double p ) { m_power_mul = Clamp( p, 1.0, 3.0 );RecalculateMaxMassFlow(); }
 
 		// Thruster functions
 		double GetThrustFwd() const;
@@ -85,8 +100,9 @@ class Propulsion
 		inline void SetFuel(const double f) { m_thrusterFuel = Clamp( f, 0.0, 1.0 ); }
 		inline double GetFuelReserve() const { return m_reserveFuel; }
 		inline void SetFuelReserve(const double f) { m_reserveFuel = Clamp( f, 0.0, 1.0 ); }
-		float GetFuelUseRate() { return m_totalMassFlow; }
-		void RecalculateFuelUseRate();
+		float GetFuelUseRate() { return m_maxMassFlow; }
+		void RecalculateMaxMassFlow();
+		double GetActualMassFlow();
 		// available delta-V given the ship's current fuel minus reserve according to the Tsiolkovsky equation
 		double GetSpeedReachedWithFuel() const;
 		/* TODO: These are needed to avoid savegamebumps:
@@ -153,7 +169,8 @@ class Propulsion
 		};
 		std::vector<vectThruster_t> m_vectThVector;
 		float m_nacellesTotalThrust;
-		float m_totalMassFlow;
+		float m_maxMassFlow;
+		vector3f m_nacRest;
 };
 
 #endif // PROPULSION_H

@@ -779,6 +779,10 @@ void Ship::TimeStepUpdate(const float timeStep)
 	if (m_landingGearAnimation)
 		m_landingGearAnimation->SetProgress(m_wheelState);
 	m_dragCoeff = DynamicBody::DEFAULT_DRAG_COEFF * (1.0 + 0.25 * m_wheelState);
+
+	if (m_wheelState<0.5) Propulsion::SetNacelleRest(NacelleRest::NACELLE_HOR);
+	else Propulsion::SetNacelleRest(NacelleRest::NACELLE_VERT);
+
 	// fuel use decreases mass, so do this as the last thing in the frame
 	Propulsion::Update(timeStep);
 
