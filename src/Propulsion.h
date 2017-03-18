@@ -47,10 +47,12 @@ class Propulsion
 		virtual ~Propulsion() {};
 		void Init(DynamicBody *b, SceneGraph::Model *m, const int tank_mass, const double effExVel, const float lin_Thrust[], const float ang_Thrust );
 		/* TODO:
+		 * 5- Need to save/load nacelle data :-/
+		 * 4- Needs to have limits on nacelle rotation
 		 * 1- Nacelle needs a way to be initialized with Init
 		 * 2- Probably something (if not all) should be moved in Model.cpp
 		 * 3- There're some problems keeping all together, and so something
-		      should change in class hierarchy
+		 *    should change in class hierarchy
 		*/
 		void AddNacelles(const vecThrustersMap_t& vThrusters);
 		void SetNacelleRest(NacelleRest nr) {

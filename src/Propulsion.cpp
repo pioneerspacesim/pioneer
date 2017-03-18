@@ -45,7 +45,7 @@ Propulsion::Propulsion()
 	m_fuelTankMass = 1;
 	for ( int i=0; i< Thruster::THRUSTER_MAX; i++) m_linThrust[i]=0.0;
 	m_angThrust = 0.0;
-	m_effectiveExhaustVelocity = 100000.0;
+	m_effectiveExhaustVelocity = 1000.0; // This should have an impact on game...
 	m_thrusterFuel= 0.0;	// remaining fuel 0.0-1.0
 	m_reserveFuel= 0.0;
 	m_FuelStateChange = false;
