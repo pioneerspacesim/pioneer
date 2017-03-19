@@ -429,6 +429,8 @@ TextureFont::Glyph TextureFont::BakeGlyph(Uint32 chr)
 	}
 
 	const FT_BitmapGlyph bmGlyph = FT_BitmapGlyph(ftGlyph);
+	if( 0 == bmGlyph->bitmap.rows )
+		return Glyph();
 
 	glyph.advX = float(glyph.ftFace->glyph->advance.x) / 64.f + face.advanceXAdjustment;
 	glyph.advY = float(glyph.ftFace->glyph->advance.y) / 64.f;
