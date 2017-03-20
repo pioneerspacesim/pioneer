@@ -36,11 +36,13 @@ const float Ship::DEFAULT_SHIELD_COOLDOWN_TIME = 1.0f;
 
 void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 {
+	printf("Ship::Save\n");
 	DynamicBody::SaveToJson(jsonObj, space);
 
 	Json::Value shipObj(Json::objectValue); // Create JSON object to contain ship data.
 
 	Propulsion::SaveToJson(shipObj, space);
+	//Propulsion::SaveNacelleToJson(shipObj);
 
 	m_skin.SaveToJson(shipObj);
 	shipObj["wheel_transition"] = m_wheelTransition;
@@ -81,11 +83,15 @@ void Ship::SaveToJson(Json::Value &jsonObj, Space *space)
 
 void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
+	printf("Ship::Load\n");
+
 	DynamicBody::LoadFromJson(jsonObj, space);
 
+	printf("DynBody::Loaded\n");
 	if (!jsonObj.isMember("ship")) throw SavedGameCorruptException();
 	Json::Value shipObj = jsonObj["ship"];
 
+	try {
 	if (!shipObj.isMember("wheel_transition")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("wheel_state")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("launch_lock_timeout")) throw SavedGameCorruptException();
@@ -106,6 +112,10 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	if (!shipObj.isMember("ai_message")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("controller_type")) throw SavedGameCorruptException();
 	if (!shipObj.isMember("name")) throw SavedGameCorruptException();
+	} catch (SavedGameCorruptException ex) {
+		printf("Exception!!!\n");
+		throw SavedGameCorruptException();
+	}
 
 	Propulsion::LoadFromJson(shipObj, space);
 
@@ -138,6 +148,7 @@ void Ship::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	m_dockedWithPort = shipObj["docked_with_port"].asInt();
 	m_dockedWithIndex = shipObj["index_for_body_docked_with"].asUInt();
 	Init();
+	Propulsion::LoadNacelleFromJson(shipObj);
 	m_stats.hull_mass_left = StrToFloat(shipObj["hull_mass_left"].asString()); // must be after Init()...
 	m_stats.shield_mass_left = StrToFloat(shipObj["shield_mass_left"].asString());
 	m_shieldCooldown = StrToFloat(shipObj["shield_cooldown"].asString());

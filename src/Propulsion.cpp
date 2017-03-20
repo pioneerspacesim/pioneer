@@ -8,6 +8,7 @@
 
 void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 {
+	printf("Propulsion Save...\n");
 	//Json::Value PropulsionObj(Json::objectValue); // Create JSON object to contain propulsion data.
 	VectorToJson(jsonObj, m_angLevels, "ang_thrusters");
 	VectorToJson(jsonObj, m_linLevels, "thrusters");
@@ -20,11 +21,12 @@ void Propulsion::SaveToJson(Json::Value &jsonObj, Space *space)
 
 void Propulsion::LoadFromJson(const Json::Value &jsonObj, Space *space)
 {
-
+	printf("Propulsion load...\n");
 	if (!jsonObj.isMember("ang_thrusters")) throw SavedGameCorruptException();
 	if (!jsonObj.isMember("thrusters")) throw SavedGameCorruptException();
 	if (!jsonObj.isMember("thruster_fuel")) throw SavedGameCorruptException();
 	if (!jsonObj.isMember("reserve_fuel")) throw SavedGameCorruptException();
+
 	// !!! This is commented to avoid savegame bumps:
 	//if (!jsonObj.isMember("tank_mass")) throw SavedGameCorruptException();
 
@@ -38,6 +40,32 @@ void Propulsion::LoadFromJson(const Json::Value &jsonObj, Space *space)
 	// !!! This is commented to avoid savegame bumps:
 	//m_fuelTankMass = jsonObj["tank_mass"].asInt();
 };
+
+void Propulsion::SaveNacelleToJson(Json::Value &jsonObj)
+{
+	printf("Propulsion nacelle save\n");
+	Json::Value nacellePropArray(Json::arrayValue);
+	for (unsigned int i=0; i<m_vectThVector.size(); i++) {
+		Json::Value nacellePropArrayEl(Json::objectValue); // Create JSON object to contain nacelle.
+		nacellePropArrayEl["nacelle_power"]=m_vectThVector[i].powLevel;
+		nacellePropArray.append(nacellePropArrayEl);
+	}
+	jsonObj["nacelle_data"] = nacellePropArray;
+}
+
+void Propulsion::LoadNacelleFromJson(const Json::Value &jsonObj)
+{
+	printf("Propulsion nacelle load\n");
+	Json::Value nacellePropArray = jsonObj["nacelle_data"];
+	if (!nacellePropArray.isArray()) throw SavedGameCorruptException();
+	assert(nacellePropArray.size()==m_vectThVector.size());
+	for (unsigned int i=0; i<m_vectThVector.size(); i++) {
+		Json::Value nacellePropArrayEl = nacellePropArray[i];
+		if (!nacellePropArrayEl.isMember("nacelle_power")) throw SavedGameCorruptException();
+
+		m_vectThVector[i].powLevel = nacellePropArrayEl["nacelle_power"].asFloat();
+	}
+}
 
 Propulsion::Propulsion()
 {

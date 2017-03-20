@@ -134,6 +134,9 @@ class Propulsion
 	protected:
 		virtual void SaveToJson(Json::Value &jsonObj, Space *space);
 		virtual void LoadFromJson(const Json::Value &jsonObj, Space *space);
+
+		virtual void LoadNacelleFromJson(const Json::Value &jsonObj);
+		virtual void SaveNacelleToJson(Json::Value &jsonObj);
 	private:
 		void UpdateFuel(const float timeStep);
 

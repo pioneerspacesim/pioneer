@@ -4,7 +4,7 @@
    "cockpit" : "sinonatrix_cockpit",
    "effective_exhaust_velocity" : 19500000.0,
    "forward_thrust" : 5500.0,
-   "reverse_thrust" : 1200.0,
+   "reverse_thrust" : 1500000.0,
    "right_thrust" : 1000000.0,
    "left_thrust" : 1000000.0,
    "up_thrust" : 1500.0,
@@ -36,7 +36,11 @@
           "thrust" : 1500000.0,
           "eev" : 19500000.0,
           "rot_speed" : 6.28,
-          "tag_th" : "nacelle_lx"
+          "tag_th" : "nacelle_lx",
+          "no_rot" : {
+               "min" : 3.14,
+               "max" : 6.28
+          }
       },
       "right" : {
           "tag" : "nacelle_lx2",
