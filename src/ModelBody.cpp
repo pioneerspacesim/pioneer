@@ -130,8 +130,16 @@ void ModelBody::LoadFromJson(const Json::Value &jsonObj, Space *space)
 void ModelBody::SetColliding(bool colliding)
 {
 	m_colliding = colliding;
-	if(colliding) m_geom->Enable();
-	else m_geom->Disable();
+	if(colliding) {
+		m_geom->Enable();
+		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+			(*it)->Enable();
+	}
+	else {
+		m_geom->Disable();
+		for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it)
+			(*it)->Enable();
+	}
 }
 
 void ModelBody::RebuildCollisionMesh()

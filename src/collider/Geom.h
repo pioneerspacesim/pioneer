@@ -8,7 +8,6 @@
 #include "../vector3.h"
 #include "CollisionContact.h"
 #include <assert.h>
-#include <algorithm>
 
 class GeomTree;
 struct isect_t;

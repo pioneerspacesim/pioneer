@@ -2,7 +2,6 @@
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
 #include "ModelNode.h"
-#include "Model.h"
 
 namespace SceneGraph {
 
