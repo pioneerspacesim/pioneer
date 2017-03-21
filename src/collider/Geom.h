@@ -53,7 +53,9 @@ public:
 	void AddChild(Geom* child) {
 		// Check if is already a child
 		// PS: assert is needed because if called, it means
-		// you call this twice...
+		// you are calling this twice: if you get here trying to
+		// understand why this assert fail, then: the problem
+		// is NOT here
 		assert(child->m_old_group==0);
 		// Store old group on child itself
 		child->StoreOldGroup(child->GetGroup());
@@ -72,7 +74,7 @@ public:
 
 	/* If a Geom have a central hole (Aka: orbital
 	 * SpaceStation) then you could skip deep collision
-	 * test if objects are inside a cylinder and
+	 * test if objects are inside a cylinder;
 	 * you could also specify to trigger docking
 	 * sequence if dock is true.
 	 * Simple math (also because orbitals are Frame, so

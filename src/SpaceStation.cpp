@@ -169,7 +169,6 @@ void SpaceStation::PostLoadFixup(Space *space)
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
 		if (m_shipDocking[i].ship!=nullptr) {
-			printf("Set docked in PostLoadFixup... (sp=%i, ship=%i)\n", ReturnGeom()->GetGroup(), m_shipDocking[i].ship->ReturnGeom()->GetGroup());
 			AddNotCollidingChild(m_shipDocking[i].ship);
 		}
 	}
@@ -440,7 +439,6 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			s->SetAngVelocity(vector3d(0.0));
 			s->ClearThrusterState();
 		} else {
-			printf("Set docked in DockingUpdate (sp=%i, ship=%i)\n", ReturnGeom()->GetGroup(), s->ReturnGeom()->GetGroup());
 			s->SetDockedWith(this, port);				// bounces back to SS::SetDocked()
 			AddNotCollidingChild(s);
 			LuaEvent::Queue("onShipDocked", s, this);
@@ -518,7 +516,6 @@ void SpaceStation::DockingUpdate(const double timeStep)
 					}
 					continue;
 				case 3: // Just docked
-					printf("Set docked in DockingUpdate (sp=%i, ship=%i)\n", ReturnGeom()->GetGroup(), dt.ship->ReturnGeom()->GetGroup());
 					dt.ship->SetDockedWith(this, i);
 					// Placed here to avoid conflict when start a new game
 					AddNotCollidingChild(dt.ship);

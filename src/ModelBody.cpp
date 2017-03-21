@@ -284,11 +284,17 @@ void ModelBody::MoveGeoms(const matrix4x4d &m, const vector3d &p)
 void ModelBody::AddNotCollidingChild(ModelBody* mb) {
 	assert(mb!=nullptr);
     m_geom->AddChild(mb->m_geom);
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
+		(*it)->AddChild(mb->m_geom);
+	}
 }
 
 void ModelBody::RemoveNotCollidingChild(ModelBody* mb) {
 	assert(mb!=nullptr);
 	m_geom->RemoveChild(mb->m_geom);
+	for (auto it = m_dynGeoms.begin(); it != m_dynGeoms.end(); ++it) {
+		(*it)->RemoveChild(mb->m_geom);
+	}
 }
 
 void ModelBody::SetCentralHole(float diameter, float min, float max, bool dock) {
