@@ -44,7 +44,7 @@ public:
 	 * zero means ungrouped. assumes that wraparound => no old crap left
 	 *
 	 * Another way to avoid collision check is provided:
-	 * for each Geoms you could specify a list of children
+	 * for each Geoms you could specify its a children
 	 * that will not be collision tested againt each other
 	 * Possible uses are on SpaceStation for Ships docked,
 	 * and for Ships and tags. See Geom for code

@@ -1,6 +1,7 @@
 // Copyright © 2008-2017 Pioneer Developers. See AUTHORS.txt for details
 // Licensed under the terms of the GPL v3. See licenses/GPL-3.txt
 
+#include "collider/Geom.h"
 #include "LuaObject.h"
 #include "LuaSpace.h"
 #include "LuaManager.h"
@@ -295,8 +296,10 @@ static int l_space_spawn_ship_docked(lua_State *l)
 		return 0;
 	}
 
+
 	ship->SetFrame(station->GetFrame());
 	Pi::game->GetSpace()->AddBody(ship);
+	printf("LuaShip set docked with... (sp:%i, ship %i)\n", station->ReturnGeom()->GetGroup(), ship->ReturnGeom()->GetGroup());
 	ship->SetDockedWith(station, port);
 
 	LuaObject<Ship>::PushToLua(ship);

@@ -17,7 +17,7 @@ Geom::Geom(const GeomTree *geomtree) :
 	m_geomtree(geomtree),
 	m_data(nullptr),
 	m_group(0),
-	m_parent(0),
+	m_old_group(0),
 	m_central_hole_diameter(0),
 	m_have_central_hole(false),
 	m_central_hole_dock(false)

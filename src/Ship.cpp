@@ -1319,12 +1319,11 @@ void Ship::SetShipType(const ShipType::Id &shipId)
 		Pi::game->GetWorldView()->SetCamType(Pi::game->GetWorldView()->GetCamType());
 	InitEquipSet();
 
-	/* if ship is just spawned, then you need
-	 * this to call "RemoveNotCollidingChild"
-	 * TODO: if a new ship change its size, you
+	/* TODO: if a new ship change its size, you
 	 * would change pad to match new dimension
+	 * (this comment is here because when a new
+	 * game begin, player ship is changed)
 	*/
-	if (m_dockedWith!=nullptr) m_dockedWith->SetDocked(this, m_dockedWith->GetMyDockingPort(this));
 
 	LuaEvent::Queue("onShipTypeChanged", this);
 }

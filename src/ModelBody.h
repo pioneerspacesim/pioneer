@@ -39,6 +39,13 @@ public:
 
 	virtual void TimeStepUpdate(const float timeStep) override;
 
+
+	// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+	Geom* ReturnGeom() { return m_geom;}
+
+
+
+
 	void AddNotCollidingChild(ModelBody* mb);
 	void RemoveNotCollidingChild(ModelBody* mb);
 	void SetCentralHole(float diameter, float min, float max, bool dock);

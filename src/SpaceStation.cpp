@@ -168,7 +168,10 @@ void SpaceStation::PostLoadFixup(Space *space)
 {
 	for (Uint32 i=0; i<m_shipDocking.size(); i++) {
 		m_shipDocking[i].ship = static_cast<Ship*>(space->GetBodyByIndex(m_shipDocking[i].shipIndex));
-		if (m_shipDocking[i].ship!=nullptr) AddNotCollidingChild(m_shipDocking[i].ship);
+		if (m_shipDocking[i].ship!=nullptr) {
+			printf("Set docked in PostLoadFixup... (sp=%i, ship=%i)\n", ReturnGeom()->GetGroup(), m_shipDocking[i].ship->ReturnGeom()->GetGroup());
+			AddNotCollidingChild(m_shipDocking[i].ship);
+		}
 	}
 }
 
@@ -298,7 +301,6 @@ void SpaceStation::SetDocked(Ship *ship, const int port)
 	m_shipDocking[port].ship = ship;
 	m_shipDocking[port].stage = m_type->NumDockingStages()+3;
 
-	AddNotCollidingChild(ship);
 	// have to do this crap again in case it was called directly (Ship::SetDockWith())
 	ship->SetFlightState(Ship::DOCKED);
 	ship->SetVelocity(vector3d(0.0));
@@ -400,7 +402,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 		if (IsPortLocked(port)) {
 			return DoShipDamage(s, flags, relVel);
 		}
-		if (m_shipDocking[port].stage != 1) return true;	// already docking?
+		if (m_shipDocking[port].stage != 1) return DoShipDamage(s, flags, relVel);	// already docking?
 
 		SpaceStationType::positionOrient_t dport;
 
@@ -416,7 +418,7 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			float dist = (s->GetPosition() - GetPosition() - GetOrient()*dport.pos).LengthSqr();
 			// docking allowed only if inside a circle 70% greater than pad itself (*1.7)
 			float maxDist = static_cast<float>(m_type->FindPortByBay(port)->maxShipSize/2)*1.7;
-			if (dist > (maxDist*maxDist)) return false;
+			if (dist > (maxDist*maxDist)) return DoShipDamage(s, flags, relVel);
 		}
 
 		// why stage 2? Because stage 1 is permission to dock
@@ -438,10 +440,12 @@ bool SpaceStation::OnCollision(Object *b, Uint32 flags, double relVel)
 			s->SetAngVelocity(vector3d(0.0));
 			s->ClearThrusterState();
 		} else {
+			printf("Set docked in DockingUpdate (sp=%i, ship=%i)\n", ReturnGeom()->GetGroup(), s->ReturnGeom()->GetGroup());
 			s->SetDockedWith(this, port);				// bounces back to SS::SetDocked()
+			AddNotCollidingChild(s);
 			LuaEvent::Queue("onShipDocked", s, this);
 		}
-		return true;
+		return DoShipDamage(s, flags, relVel);
 	} else {
 		return true;
 	}
@@ -514,7 +518,10 @@ void SpaceStation::DockingUpdate(const double timeStep)
 					}
 					continue;
 				case 3: // Just docked
+					printf("Set docked in DockingUpdate (sp=%i, ship=%i)\n", ReturnGeom()->GetGroup(), dt.ship->ReturnGeom()->GetGroup());
 					dt.ship->SetDockedWith(this, i);
+					// Placed here to avoid conflict when start a new game
+					AddNotCollidingChild(dt.ship);
 					LuaEvent::Queue("onShipDocked", dt.ship, this);
 					if (dt.fromPos.LengthSqr()>0.5) LuaEvent::Queue("onShipBadDocked", dt.ship, this);
 					LockPort(i, false);

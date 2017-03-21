@@ -245,6 +245,7 @@ void Game::TimeStep(float step)
 	if (m_state == STATE_HYPERSPACE && Pi::game->GetTime() >= m_hyperspaceEndTime)
 		m_time = m_hyperspaceEndTime;
 
+	printf("************ TIME STEP\n");
 	m_space->TimeStep(step);
 
 	// XXX ui updates, not sure if they belong here

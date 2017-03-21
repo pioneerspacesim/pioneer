@@ -7,7 +7,7 @@
 #include "../matrix4x4.h"
 #include "../vector3.h"
 #include "CollisionContact.h"
-#include <list>
+#include <assert.h>
 #include <algorithm>
 
 class GeomTree;
@@ -42,19 +42,33 @@ public:
 	/* If a Geom is child of another Geom, then
 	 * you must skip this collision (eg: ships docked
 	 * with their starport or "subsystem" (eg guns) with
-	 * their owning ship)
+	 * their owning ship), so handle of child should be
+	 * stored until you not tell this geom is no longer
+	 * a child
 	*/
-	bool IsAChild(Geom* child) {
-		return (std::find(m_children.begin(), m_children.end(), child) != m_children.end());
+	bool IsAChildOf(Geom* child) {
+		return child->GetGroup()==GetGroup();
 	}
-	void AddChild(Geom* child) { if (!IsAChild(child)) {m_children.push_back(child); child->m_parent = this;} }
-	void RemoveChild(Geom* child) { child->m_parent = nullptr; m_children.remove(child); }
-	void RemoveAllChildren() {
-		for (std::list<Geom*>::iterator it=m_children.begin(); it!=m_children.end(); ++it)
-			(*it)->m_parent = nullptr;
-		m_children.clear();
+
+	void AddChild(Geom* child) {
+		// Check if is already a child
+		// PS: assert is needed because if called, it means
+		// you call this twice...
+		assert(child->m_old_group==0);
+		// Store old group on child itself
+		child->StoreOldGroup(child->GetGroup());
+		// Use the group of parent (...this)
+		child->SetGroup(GetGroup());
 	}
-	Geom* GetParent() { return m_parent; }
+
+	void RemoveChild(Geom* child) {
+		// Check if is already a child
+		assert(child->GetGroup()==GetGroup());
+		// Restore olg group
+		child->SetGroup(child->m_old_group);
+		// Zero old group
+		child->m_old_group=0;
+	}
 
 	/* If a Geom have a central hole (Aka: orbital
 	 * SpaceStation) then you could skip deep collision
@@ -73,6 +87,7 @@ public:
 	bool CheckInsideHole(Geom* b, void (*callback)(CollisionContact*));
 
 private:
+	void StoreOldGroup(int old_g) { m_old_group=old_g; }
 	void CollideEdgesWithTrisOf(int &maxContacts, Geom *b, const matrix4x4d &transTo, void (*callback)(CollisionContact*));
 	void CollideEdgesTris(int &maxContacts, const BVHNode *edgeNode, const matrix4x4d &transToB,
 		Geom *b, const BVHNode *btriNode, void (*callback)(CollisionContact*));
@@ -82,10 +97,8 @@ private:
 	bool m_active;
 	const GeomTree *m_geomtree;
 	void *m_data;
-	int m_group;
+	int m_group, m_old_group;
 
-	Geom* m_parent;
-	std::list<Geom*> m_children;
 	float m_central_hole_diameter;
 	float m_central_hole_minz, m_central_hole_maxz;
 	bool m_have_central_hole, m_central_hole_dock;

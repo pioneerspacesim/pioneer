@@ -116,9 +116,6 @@ void BvhTree::CollideGeom(Geom *g, const Aabb &geomAabb, int minMailboxValue, vo
 					if (g2->GetMailboxIndex() < minMailboxValue) continue;
 					if (g2 == g) continue;
 					if (g->GetGroup() && g2->GetGroup() == g->GetGroup()) continue;
-					if (g->IsAChild(g2)) continue;
-					if (g2->IsAChild(g)) continue;
-					if (g->GetParent()!=nullptr&&(g->GetParent()==g2->GetParent())) continue;
 					vector3d pos2 = g2->GetPosition();
 					if (g->HaveHole()) {
 						// Check if the whole g2 (so with its radius)
