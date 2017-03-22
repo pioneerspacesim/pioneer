@@ -229,7 +229,6 @@ void Ship::Init()
 	p.Set("fuelMassLeft", m_stats.fuel_tank_mass_left);
 
 	// Init of Propulsion:
-	// TODO: Separe the enum used in ShipType and use it both on Propulsion and ShipType
 	Propulsion::Init( this, GetModel(), m_type->fuelTankMass, m_type->effectiveExhaustVelocity, m_type->linThrust, m_type->angThrust );
 
 	p.Set("shipName", m_shipName);
@@ -300,6 +299,21 @@ Ship::Ship(const ShipType::Id &shipId): DynamicBody(),
 	m_decelerating = false;
 
 	SetModel(m_type->modelName.c_str());
+	// Setting thrusters colors
+	if (m_type->isGlobalColorDefined) GetModel()->SetThrusterColor(m_type->globalThrusterColor);
+	for (int i=0; i<THRUSTER_MAX; i++) {
+		if (!m_type->isDirectionColorDefined[i]) continue;
+		vector3f dir;
+		switch (i) {
+			case THRUSTER_FORWARD: dir = vector3f(0.0, 0.0, 1.0); break;
+			case THRUSTER_REVERSE: dir = vector3f(0.0, 0.0, -1.0); break;
+			case THRUSTER_LEFT: dir = vector3f(1.0, 0.0, 0.0); break;
+			case THRUSTER_RIGHT: dir = vector3f(-1.0, 0.0, 0.0); break;
+			case THRUSTER_UP: dir = vector3f(1.0, 0.0, 0.0); break;
+			case THRUSTER_DOWN: dir = vector3f(-1.0, 0.0, 0.0); break;
+		}
+		GetModel()->SetThrusterColor(dir, m_type->directionThrusterColor[i]);
+	}
 	SetLabel("UNLABELED_SHIP");
 	m_skin.SetRandomColors(Pi::rng);
 	m_skin.SetDecal(m_type->manufacturer);

@@ -41,6 +41,7 @@ struct RenderData
 {
 	float linthrust[3];		// 1.0 to -1.0
 	float angthrust[3];		// 1.0 to -1.0
+	Color customColor;
 
 	float boundingRadius;	//updated by model and passed to submodels
 	unsigned int nodemask;

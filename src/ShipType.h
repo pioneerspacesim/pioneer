@@ -41,6 +41,10 @@ struct ShipType {
 	float angThrust;
 	std::map<std::string, int> slots;
 	std::map<std::string, bool> roles;
+	Color globalThrusterColor; // Override default color for thrusters
+	bool isGlobalColorDefined; // If globalThrusterColor is filled with... a color :)
+	Color directionThrusterColor[THRUSTER_MAX];
+	bool isDirectionColorDefined[THRUSTER_MAX];
 	double thrusterUpgrades[4];
 	int capacity; // tonnes
 	int hullMass;

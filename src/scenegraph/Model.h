@@ -153,6 +153,10 @@ public:
 	//special for ship model use
 	void SetThrust(const vector3f &linear, const vector3f &angular);
 
+	void SetThrusterColor(const vector3f &dir, const Color &color);
+	void SetThrusterColor(const std::string &name, const Color &color);
+	void SetThrusterColor(const Color &color);
+
 	void SaveToJson(Json::Value &jsonObj) const;
 	void LoadFromJson(const Json::Value &jsonObj);
 

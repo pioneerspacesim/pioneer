@@ -22,6 +22,7 @@ Thruster::Thruster(Graphics::Renderer *r, bool _linear, const vector3f &_pos, co
 , linearOnly(_linear)
 , dir(_dir)
 , pos(_pos)
+, currentColor(baseColor)
 {
 	//set up materials
 	Graphics::MaterialDescriptor desc;
@@ -49,6 +50,7 @@ Thruster::Thruster(const Thruster &thruster, NodeCopyCache *cache)
 , linearOnly(thruster.linearOnly)
 , dir(thruster.dir)
 , pos(thruster.pos)
+, currentColor(thruster.currentColor)
 {
 }
 
@@ -87,7 +89,7 @@ void Thruster::Render(const matrix4x4f &trans, const RenderData *rd)
 	}
 	if (power < 0.001f) return;
 
-	m_tMat->diffuse = m_glowMat->diffuse = baseColor * power;
+	m_tMat->diffuse = m_glowMat->diffuse = currentColor * power;
 
 	//directional fade
 	vector3f cdir = vector3f(trans * -dir).Normalized();

@@ -37,6 +37,20 @@ Intro::Intro(Graphics::Renderer *r, int width, int height)
 	for (auto i : ShipType::player_ships) {
 		SceneGraph::Model *model = Pi::FindModel(ShipType::types[i].modelName)->MakeInstance();
 		model->SetThrust(vector3f(0.f, 0.f, -0.6f), vector3f(0.f));
+		if (ShipType::types[i].isGlobalColorDefined) model->SetThrusterColor(ShipType::types[i].globalThrusterColor);
+		for (int j=0; j<THRUSTER_MAX; j++) {
+			if (!ShipType::types[i].isDirectionColorDefined[j]) continue;
+			vector3f dir;
+			switch (j) {
+				case THRUSTER_FORWARD: dir = vector3f(0.0, 0.0, 1.0); break;
+				case THRUSTER_REVERSE: dir = vector3f(0.0, 0.0, -1.0); break;
+				case THRUSTER_LEFT: dir = vector3f(1.0, 0.0, 0.0); break;
+				case THRUSTER_RIGHT: dir = vector3f(-1.0, 0.0, 0.0); break;
+				case THRUSTER_UP: dir = vector3f(1.0, 0.0, 0.0); break;
+				case THRUSTER_DOWN: dir = vector3f(-1.0, 0.0, 0.0); break;
+			}
+			model->SetThrusterColor(dir, ShipType::types[i].directionThrusterColor[j]);
+		}
 		const Uint32 numMats = model->GetNumMaterials();
 		for( Uint32 m=0; m<numMats; m++ ) {
 			RefCountedPtr<Graphics::Material> mat = model->GetMaterialByIndex(m);
