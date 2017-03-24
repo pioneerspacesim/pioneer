@@ -10,6 +10,7 @@ March 2017
      * Refactor the Vertex, Index, etc buffers (#3941)
      * Eliminate the evil trailing whitespace (#3942)
      * All white spaces be gone! (#3943)
+     * Configure cleanup (#3955)
 
    * Fixes
      * Fix bug making trade computer un-installable (#3947)
