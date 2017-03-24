@@ -139,7 +139,6 @@ AC_SUBST([OPTIMISE])
 dnl Debug stuff
 AC_ARG_ENABLE([debug], AS_HELP_STRING([--enable-debug], [Enable debugging code (stack checks, debug tools features, etc)]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DDEBUG"])
 AC_ARG_ENABLE([remote-lua-repl], AS_HELP_STRING([--enable-remote-lua-repl], [Enable remote lua repl (tcp port 12345 or -DREMOTE_LUA_REPL_PORT=54321]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DREMOTE_LUA_REPL"])
-AC_ARG_ENABLE([ldb], AS_HELP_STRING([--enable-ldb], [Enable ldb support.]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_LDB" ; EXTRA_LIBS="$EXTRA_LIBS -lldbcore"])
 AC_ARG_ENABLE([profiler], AS_HELP_STRING([--enable-profiler], [Enable internal profiler]), [EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DPIONEER_PROFILER"])
 
 AC_ARG_WITH([fno-inline],  AS_HELP_STRING([--with-fno-inline], [Compile without inlining. Helps debugging segaults that occur in STL code]), [PIONEER_C_CXX_FLAG([-fno-inline])])
@@ -313,7 +312,11 @@ if test "x$cross_compiling" = "xno" ; then
 fi
 
 dnl Check for libcurl
-PKG_CHECK_MODULES([CURL], [libcurl])
+AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-serveragent], [Compile in our server agent, adding libcurl as a dependency]), [], [with_server_agent=no; WITH_SERVER_AGENT=no])
+if test "$with_server_agent" = yes; then
+  EXTRA_CPPFLAGS="$EXTRA_CPPFLAGS -DENABLE_SERVER_AGENT"
+  PKG_CHECK_MODULES([CURL], [libcurl])
+fi
 
 dnl Optionally use external liblua
 AC_ARG_WITH([external-liblua], AS_HELP_STRING([--with-external-liblua], [Use external liblua in place of our internal copy]), [], [with_external_liblua=no; HAVE_LUA=no])

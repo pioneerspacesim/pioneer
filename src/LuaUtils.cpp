@@ -6,9 +6,6 @@
 #include "FileSystem.h"
 
 extern "C" {
-#ifdef ENABLE_LDB
-#include <ldbcore.h>
-#endif //ENABLE_LDB
 #include "jenkins/lookup3.h"
 }
 
@@ -353,9 +350,6 @@ static const luaL_Reg STANDARD_LIBS[] = {
 	{ LUA_BITLIBNAME, luaopen_bit32 },
 	{ LUA_MATHLIBNAME, luaopen_math },
 	{ LUA_DBLIBNAME, luaopen_debug },
-#ifdef ENABLE_LDB
-	{ LUA_LDBCORELIBNAME, luaopen_ldbcore},
-#endif //ENABLE_LDB
 	{ "util", luaopen_utils },
 	{ 0, 0 }
 };

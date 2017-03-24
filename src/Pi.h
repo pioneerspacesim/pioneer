@@ -32,7 +32,9 @@ class TransferPlanner;
 class UIView;
 class View;
 class SDLGraphics;
+#if ENABLE_SERVER_AGENT
 class ServerAgent;
+#endif
 namespace Graphics { class Renderer; }
 namespace SceneGraph { class Model; }
 namespace Sound { class MusicPlayer; }
@@ -128,7 +130,9 @@ public:
 
 	static LuaNameGen *luaNameGen;
 
+#if ENABLE_SERVER_AGENT
 	static ServerAgent *serverAgent;
+#endif
 
 	static RefCountedPtr<UI::Context> ui;
     static RefCountedPtr<PiGui> pigui;

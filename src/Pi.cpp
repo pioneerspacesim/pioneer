@@ -103,7 +103,9 @@ sigc::signal<void> Pi::onPlayerChangeFlightControlState;
 LuaSerializer *Pi::luaSerializer;
 LuaTimer *Pi::luaTimer;
 LuaNameGen *Pi::luaNameGen;
+#ifdef ENABLE_SERVER_AGENT
 ServerAgent *Pi::serverAgent;
+#endif
 int Pi::keyModState;
 std::map<SDL_Keycode,bool> Pi::keyState; // XXX SDL2 SDLK_LAST
 char Pi::mouseButton[6];
@@ -285,7 +287,9 @@ static void LuaInit()
 	LuaLang::Register();
 	LuaEngine::Register();
 	LuaFileSystem::Register();
+#ifdef ENABLE_SERVER_AGENT
 	LuaServerAgent::Register();
+#endif
 	LuaGame::Register();
 	LuaComms::Register();
 	LuaFormat::Register();
@@ -544,6 +548,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		Graphics::GetScreenHeight(),
 		ui_scale));
 
+#ifdef ENABLE_SERVER_AGENT
 	Pi::serverAgent = 0;
 	if (config->Int("EnableServerAgent")) {
 		const std::string endpoint(config->String("ServerEndpoint"));
@@ -556,6 +561,7 @@ void Pi::Init(const std::map<std::string,std::string> &options, bool no_gui)
 		Output("Server agent disabled\n");
 		Pi::serverAgent = new NullServerAgent();
 	}
+#endif
 
 	LuaInit();
 
@@ -1260,7 +1266,9 @@ void Pi::Start()
 		_time += Pi::frameTime;
 		last_time = SDL_GetTicks();
 
+#ifdef ENABLE_SERVER_AGENT
 		Pi::serverAgent->ProcessResponses();
+#endif
 	}
 
 	ui->DropAllLayers();
@@ -1337,7 +1345,9 @@ void Pi::MainLoop()
 	while (Pi::game) {
 		PROFILE_SCOPED()
 
+#ifdef ENABLE_SERVER_AGENT
 		Pi::serverAgent->ProcessResponses();
+#endif
 
 		const Uint32 newTicks = SDL_GetTicks();
 		double newTime = 0.001 * double(newTicks);
