@@ -86,7 +86,9 @@ void Planet::InitParams(const SystemBody *sbody)
 	}
 	m_atmosphereRadius = h + sbody->GetRadius();
 
-	SetPhysRadius(std::max(m_atmosphereRadius, std::max(GetMaxFeatureRadius() * 2.0 + 2000, sbody->GetRadius() * 1.05)));
+	SetPhysRadius(std::max(m_atmosphereRadius, GetMaxFeatureRadius()+1000));
+	// NB: Below abandoned due to docking problems with low altitude orbiting space stations
+	// SetPhysRadius(std::max(m_atmosphereRadius, std::max(GetMaxFeatureRadius() * 2.0 + 2000, sbody->GetRadius() * 1.05)));
 	if (sbody->HasRings()) {
 		SetClipRadius(sbody->GetRadius() * sbody->GetRings().maxRadius.ToDouble());
 	} else {
