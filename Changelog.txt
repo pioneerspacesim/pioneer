@@ -3,6 +3,7 @@ March 2017
      * Orthographic view in modelviewer #3936
      * OpenGL 2.1 support (#3934)
      * Thruster colors can be modified globally or per direction (#3948)
+     * Police patrol (#3954)
 
    * Internal Changes
      * Upgrade of Xcode project for Mac OSX build #3937
@@ -14,6 +15,7 @@ March 2017
 
    * Fixes
      * Fix bug making trade computer un-installable (#3947)
+     * Fix PhysRadius calculation for low orbiting bodies (#3957)
 
 February 2017
    * New Features
