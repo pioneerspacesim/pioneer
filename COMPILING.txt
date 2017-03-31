@@ -66,7 +66,7 @@ irc.freenode.net.
     mesa-common-dev
 
    If your platform doesn't have assimp 3.2, you'll need to build it from
-   source. Its available in pioneer-thirdparty, see below.
+   source. It's available in pioneer-thirdparty, see below.
 
 2. Run ./bootstrap to generate your 'configure' file
 
